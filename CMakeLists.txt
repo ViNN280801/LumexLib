@@ -140,4 +140,15 @@ if(LUMEX_BUILD_TESTS)
     message(STATUS "Building with tests enabled")
     enable_testing()
     add_subdirectory(lumex/tests)
+
+    add_custom_target(run_all_tests ALL
+        COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure
+        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+        DEPENDS
+        LumexTimeTests
+        LumexOptionalTests
+        LumexNumberGeneratorTests
+        LumexStringifyTests
+        COMMENT "Running all tests..."
+    )
 endif()

@@ -5,6 +5,7 @@ FetchContent_Declare(
 
     # Using a known-stable release of googletest
     URL https://github.com/google/googletest/archive/release-1.11.0.zip
+    DOWNLOAD_EXTRACT_TIMESTAMP TRUE
 )
 
 # For Windows: Prevent overriding the parent project's compiler/linker settings

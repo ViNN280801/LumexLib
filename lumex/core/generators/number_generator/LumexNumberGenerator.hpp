@@ -33,8 +33,7 @@ enum class DistributionType : std::uint8_t
  */
 template <typename T> class NumberGenerator final
 {
-  static_assert(std::is_arithmetic<T>::value && !std::is_same<T, bool>::value
-                  && !std::is_same<T, char>::value
+  static_assert(std::is_arithmetic<T>::value && !std::is_same<T, bool>::value && !std::is_same<T, char>::value
                   && !std::is_same<T, wchar_t>::value,
                 "Template parameter T must be a numeric type (integral or "
                 "floating-point), "
@@ -47,8 +46,7 @@ private:
   mutable std::random_device m_rdm_dev; ///< Hardware random device
   mutable std::mt19937 m_engine;        ///< Mersenne Twister engine
 
-  constexpr static std::size_t m_default_count
-    = 100UL; ///< Default count of elements in sequence to generate
+  constexpr static std::size_t m_default_count = 100UL; ///< Default count of elements in sequence to generate
 
   // Default bounds based on type
   static constexpr T
@@ -70,32 +68,26 @@ private:
   generate_number(T from_val, T to_val, DistributionType dist_type) const
   {
     switch(dist_type)
-      {
-      case DistributionType::UNIFORM:
-        return generate_uniform(from_val, to_val);
+    {
+    case DistributionType::UNIFORM: return generate_uniform(from_val, to_val);
 
-      case DistributionType::NORMAL: return generate_normal(from_val, to_val);
+    case DistributionType::NORMAL: return generate_normal_safe(from_val, to_val);
 
-      case DistributionType::EXPONENTIAL:
-        return generate_exponential(from_val);
+    case DistributionType::EXPONENTIAL: return generate_exponential_safe(from_val);
 
-      case DistributionType::GAMMA: return generate_gamma(from_val, to_val);
+    case DistributionType::GAMMA: return generate_gamma_safe(from_val, to_val);
 
-      case DistributionType::BERNOULLI:
-        return generate_bernoulli(static_cast<double>(from_val));
+    case DistributionType::BERNOULLI: return generate_bernoulli_safe(static_cast<double>(from_val));
 
-      case DistributionType::BINOMIAL:
-        return generate_binomial(static_cast<int>(to_val),
-                                 static_cast<double>(from_val));
+    case DistributionType::BINOMIAL:
+      return generate_binomial_safe(static_cast<int>(to_val), static_cast<double>(from_val));
 
-      case DistributionType::GEOMETRIC:
-        return generate_geometric(static_cast<double>(from_val));
+    case DistributionType::GEOMETRIC: return generate_geometric_safe(static_cast<double>(from_val));
 
-      case DistributionType::POISSON:
-        return generate_poisson(static_cast<double>(from_val));
+    case DistributionType::POISSON: return generate_poisson_safe(static_cast<double>(from_val));
 
-      default: return generate_uniform(from_val, to_val);
-      }
+    default: return generate_uniform(from_val, to_val);
+    }
   }
 
   /**
@@ -116,15 +108,142 @@ private:
   }
 
   /**
+   * @brief Generate normal distribution (mean, stddev) - safe version with SFINAE.
+   */
+  template <typename U = T>
+  typename std::enable_if<std::is_floating_point<U>::value, U>::type
+  generate_normal_safe(U mean, U stddev) const
+  {
+    return static_cast<U>(
+      std::normal_distribution<double>(static_cast<double>(mean), static_cast<double>(stddev))(m_engine));
+  }
+
+  template <typename U = T>
+  typename std::enable_if<std::is_integral<U>::value, U>::type
+  generate_normal_safe(U mean, U stddev) const
+  {
+    // For integral types, fall back to uniform distribution
+    return generate_uniform(mean, stddev);
+  }
+
+  /**
+   * @brief Generate exponential distribution - safe version with SFINAE.
+   */
+  template <typename U = T>
+  typename std::enable_if<std::is_floating_point<U>::value, U>::type
+  generate_exponential_safe(U lambda) const
+  {
+    return static_cast<U>(std::exponential_distribution<double>(static_cast<double>(lambda))(m_engine));
+  }
+
+  template <typename U = T>
+  typename std::enable_if<std::is_integral<U>::value, U>::type
+  generate_exponential_safe(U lambda) const
+  {
+    // For integral types, fall back to uniform distribution
+    return generate_uniform(static_cast<U>(0), lambda);
+  }
+
+  /**
+   * @brief Generate gamma distribution (alpha, beta) - safe version with SFINAE.
+   */
+  template <typename U = T>
+  typename std::enable_if<std::is_floating_point<U>::value, U>::type
+  generate_gamma_safe(U alpha, U beta) const
+  {
+    return static_cast<U>(
+      std::gamma_distribution<double>(static_cast<double>(alpha), static_cast<double>(beta))(m_engine));
+  }
+
+  template <typename U = T>
+  typename std::enable_if<std::is_integral<U>::value, U>::type
+  generate_gamma_safe(U alpha, U beta) const
+  {
+    // For integral types, fall back to uniform distribution
+    return generate_uniform(alpha, beta);
+  }
+
+  /**
+   * @brief Generate Bernoulli distribution - safe version with SFINAE.
+   */
+  template <typename U = T>
+  typename std::enable_if<std::is_integral<U>::value, U>::type
+  generate_bernoulli_safe(double p_val) const
+  {
+    return static_cast<U>(std::bernoulli_distribution(p_val)(m_engine));
+  }
+
+  template <typename U = T>
+  typename std::enable_if<std::is_floating_point<U>::value, U>::type
+  generate_bernoulli_safe(double p_val) const
+  {
+    // For floating-point types, return 0.0 or 1.0
+    return static_cast<U>(std::bernoulli_distribution(p_val)(m_engine));
+  }
+
+  /**
+   * @brief Generate binomial distribution - safe version with SFINAE.
+   */
+  template <typename U = T>
+  typename std::enable_if<std::is_integral<U>::value, U>::type
+  generate_binomial_safe(int trials, double p_val) const
+  {
+    return static_cast<U>(std::binomial_distribution<int>(trials, p_val)(m_engine));
+  }
+
+  template <typename U = T>
+  typename std::enable_if<std::is_floating_point<U>::value, U>::type
+  generate_binomial_safe(int trials, double p_val) const
+  {
+    // For floating-point types, cast result to floating-point
+    return static_cast<U>(std::binomial_distribution<int>(trials, p_val)(m_engine));
+  }
+
+  /**
+   * @brief Generate geometric distribution - safe version with SFINAE.
+   */
+  template <typename U = T>
+  typename std::enable_if<std::is_integral<U>::value, U>::type
+  generate_geometric_safe(double p_val) const
+  {
+    return static_cast<U>(std::geometric_distribution<int>(p_val)(m_engine));
+  }
+
+  template <typename U = T>
+  typename std::enable_if<std::is_floating_point<U>::value, U>::type
+  generate_geometric_safe(double p_val) const
+  {
+    // For floating-point types, cast result to floating-point
+    return static_cast<U>(std::geometric_distribution<int>(p_val)(m_engine));
+  }
+
+  /**
+   * @brief Generate Poisson distribution - safe version with SFINAE.
+   */
+  template <typename U = T>
+  typename std::enable_if<std::is_integral<U>::value, U>::type
+  generate_poisson_safe(double mean) const
+  {
+    return static_cast<U>(std::poisson_distribution<int>(mean)(m_engine));
+  }
+
+  template <typename U = T>
+  typename std::enable_if<std::is_floating_point<U>::value, U>::type
+  generate_poisson_safe(double mean) const
+  {
+    // For floating-point types, cast result to floating-point
+    return static_cast<U>(std::poisson_distribution<int>(mean)(m_engine));
+  }
+
+  /**
    * @brief Generate normal distribution (mean, stddev).
    */
   T
   generate_normal(T mean, T stddev) const
   {
-    static_assert(std::is_floating_point<T>::value,
-                  "Normal distribution requires floating-point type");
-    return static_cast<T>(std::normal_distribution<double>(
-      static_cast<double>(mean), static_cast<double>(stddev))(m_engine));
+    static_assert(std::is_floating_point<T>::value, "Normal distribution requires floating-point type");
+    return static_cast<T>(
+      std::normal_distribution<double>(static_cast<double>(mean), static_cast<double>(stddev))(m_engine));
   }
 
   /**
@@ -133,10 +252,8 @@ private:
   T
   generate_exponential(T lambda) const
   {
-    static_assert(std::is_floating_point<T>::value,
-                  "Exponential distribution requires floating-point type");
-    return static_cast<T>(std::exponential_distribution<double>(
-      static_cast<double>(lambda))(m_engine));
+    static_assert(std::is_floating_point<T>::value, "Exponential distribution requires floating-point type");
+    return static_cast<T>(std::exponential_distribution<double>(static_cast<double>(lambda))(m_engine));
   }
 
   /**
@@ -145,10 +262,9 @@ private:
   T
   generate_gamma(T alpha, T beta) const
   {
-    static_assert(std::is_floating_point<T>::value,
-                  "Gamma distribution requires floating-point type");
-    return static_cast<T>(std::gamma_distribution<double>(
-      static_cast<double>(alpha), static_cast<double>(beta))(m_engine));
+    static_assert(std::is_floating_point<T>::value, "Gamma distribution requires floating-point type");
+    return static_cast<T>(
+      std::gamma_distribution<double>(static_cast<double>(alpha), static_cast<double>(beta))(m_engine));
   }
 
   /**
@@ -157,8 +273,7 @@ private:
   T
   generate_bernoulli(double p_val) const
   {
-    static_assert(std::is_integral<T>::value,
-                  "Bernoulli distribution requires integral type");
+    static_assert(std::is_integral<T>::value, "Bernoulli distribution requires integral type");
     return static_cast<T>(std::bernoulli_distribution(p_val)(m_engine));
   }
 
@@ -168,10 +283,8 @@ private:
   T
   generate_binomial(int trials, double p_val) const
   {
-    static_assert(std::is_integral<T>::value,
-                  "Binomial distribution requires integral type");
-    return static_cast<T>(
-      std::binomial_distribution<int>(trials, p_val)(m_engine));
+    static_assert(std::is_integral<T>::value, "Binomial distribution requires integral type");
+    return static_cast<T>(std::binomial_distribution<int>(trials, p_val)(m_engine));
   }
 
   /**
@@ -180,8 +293,7 @@ private:
   T
   generate_geometric(double p_val) const
   {
-    static_assert(std::is_integral<T>::value,
-                  "Geometric distribution requires integral type");
+    static_assert(std::is_integral<T>::value, "Geometric distribution requires integral type");
     return static_cast<T>(std::geometric_distribution<int>(p_val)(m_engine));
   }
 
@@ -191,8 +303,7 @@ private:
   T
   generate_poisson(double mean) const
   {
-    static_assert(std::is_integral<T>::value,
-                  "Poisson distribution requires integral type");
+    static_assert(std::is_integral<T>::value, "Poisson distribution requires integral type");
     return static_cast<T>(std::poisson_distribution<int>(mean)(m_engine));
   }
 
@@ -204,22 +315,23 @@ public:
       : m_from(get_default_min()),
         m_to(get_default_max()),
         m_distribution_type(DistributionType::UNIFORM),
-        m_engine(m_rdm_dev.entropy() > 0.0
-                   ? m_rdm_dev()
-                   : static_cast<std::mt19937::result_type>(time(nullptr)))
+        m_engine(m_rdm_dev.entropy() > 0.0 ? m_rdm_dev() : static_cast<std::mt19937::result_type>(time(nullptr)))
   {}
 
   /**
    * @brief Constructs NumberGenerator with specified bounds.
+   *
+   * @param from_val For UNIFORM: lower bound; For BERNOULLI: probability; For NORMAL: mean; For EXPONENTIAL: lambda
+   * @param to_val For UNIFORM: upper bound; For NORMAL: std deviation; For BINOMIAL: number of trials
+   * @param dist_type Distribution type to use
+   *
+   * @note For non-uniform distributions, parameter meanings differ. Use get_number() for explicit control.
    */
-  NumberGenerator(T from_val, T to_val,
-                  DistributionType dist_type = DistributionType::UNIFORM)
-      : m_from(from_val),
-        m_to(to_val),
+  NumberGenerator(T from_val, T to_val, DistributionType dist_type = DistributionType::UNIFORM)
+      : m_from(from_val > to_val ? to_val : from_val),
+        m_to(from_val > to_val ? from_val : to_val),
         m_distribution_type(dist_type),
-        m_engine(m_rdm_dev.entropy() > 0.0
-                   ? m_rdm_dev()
-                   : static_cast<std::mt19937::result_type>(time(nullptr)))
+        m_engine(m_rdm_dev.entropy() > 0.0 ? m_rdm_dev() : static_cast<std::mt19937::result_type>(time(nullptr)))
   {}
 
   /**
@@ -292,6 +404,7 @@ public:
   void
   set_bounds(T from_val, T to_val) noexcept
   {
+    if(from_val > to_val) std::swap(from_val, to_val);
     m_from = from_val;
     m_to   = to_val;
   }
@@ -309,38 +422,36 @@ public:
    * @brief Generates a sequence of random numbers.
    */
   std::vector<T>
-  get_sequence(std::size_t count, T from_val = get_default_min(),
-               T to_val                   = get_default_max(),
+  get_sequence(std::size_t count, T from_val = get_default_min(), T to_val = get_default_max(),
                DistributionType dist_type = DistributionType::UNIFORM) const
   {
     if(count == 0)
-      {
-        std::cerr
-          << "Warning: Generating 0 elements. Returning empty sequence.\n";
-        return {};
-      }
+    {
+      // Note: Returning empty sequence for zero count request
+      return {};
+    }
 
     try
-      {
-        std::vector<T> sequence;
-        sequence.reserve(count);
+    {
+      std::vector<T> sequence;
+      sequence.reserve(count);
 
-        for(std::size_t i = 0; i < count; ++i)
-          sequence.push_back(generate_number(from_val, to_val, dist_type));
+      for(std::size_t i = 0; i < count; ++i) sequence.push_back(generate_number(from_val, to_val, dist_type));
 
-        return sequence;
-    } catch(std::exception const &e)
-      {
-        std::cerr << "Error generating sequence: " << e.what()
-                  << ". Parameters: count=" << count << ", from=" << from_val
-                  << ", to=" << to_val << ". Returning empty sequence.\n";
-        return {};
-    } catch(...)
-      {
-        std::cerr << "Unknown exception during sequence generation. "
-                  << "Parameters: count=" << count << ", from=" << from_val
-                  << ", to=" << to_val << ". Returning empty sequence.\n";
-        return {};
+      return sequence;
+    }
+    catch(std::exception const &e)
+    {
+      std::cerr << "Error generating sequence: " << e.what() << ". Parameters: count=" << count << ", from=" << from_val
+                << ", to=" << to_val << ". Returning empty sequence.\n";
+      return {};
+    }
+    catch(...)
+    {
+      std::cerr << "Unknown exception during sequence generation. "
+                << "Parameters: count=" << count << ", from=" << from_val << ", to=" << to_val
+                << ". Returning empty sequence.\n";
+      return {};
     }
   }
 
