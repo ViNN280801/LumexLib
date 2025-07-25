@@ -1,3 +1,5 @@
+# lumex/applied/logging/CMakeLists.txt
+
 set(LUMEX_LOGGING_NAME LumexApplied_logging)
 set(EXPORT_TO LumexAppliedTargets)
 

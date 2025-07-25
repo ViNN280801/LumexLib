@@ -1,8 +1,10 @@
+# lumex/tests/core/time/CMakeLists.txt
+
 set(TEST_EXECUTABLE_NAME LumexTimeTests)
 
 add_executable(
     ${TEST_EXECUTABLE_NAME}
-    LumexTime.test.cpp
+    LumexTime.tests.cpp
 )
 
 set_target_properties(${TEST_EXECUTABLE_NAME} PROPERTIES

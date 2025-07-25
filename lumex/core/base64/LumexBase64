@@ -1,0 +1,4 @@
+#include "Base64.hpp"
+#include "Decoder.hpp"
+#include "Encoder.hpp"
+#include "Validator.hpp"

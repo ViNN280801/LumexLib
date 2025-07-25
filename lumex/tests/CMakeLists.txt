@@ -1,3 +1,5 @@
+# lumex/tests/CMakeLists.txt
+
 # Fetch GoogleTest
 include(FetchContent)
 FetchContent_Declare(

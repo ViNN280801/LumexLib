@@ -1,9 +1,15 @@
+# Root CMakeLists.txt
+
 cmake_minimum_required(VERSION 3.10)
 
 project(LumexLib
     VERSION 1.0.0
     LANGUAGES CXX
 )
+
+if(ARCHITECTURE)
+    message(STATUS "Building for target architecture: ${ARCHITECTURE}")
+endif()
 
 # --- C++ Standard ---
 # Set C++11 as the default, but allow overriding it.
@@ -134,7 +140,7 @@ install(
 # ==============================================================================
 # TESTING
 # ==============================================================================
-option(LUMEX_BUILD_TESTS "Build the tests for LumexCore" ON)
+option(LUMEX_BUILD_TESTS "Build the tests for LumexCore" OFF)
 
 if(LUMEX_BUILD_TESTS)
     message(STATUS "Building with tests enabled")
@@ -145,10 +151,16 @@ if(LUMEX_BUILD_TESTS)
         COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure
         WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
         DEPENDS
-        LumexTimeTests
-        LumexOptionalTests
+
+        # Lumex Applied tests
+
+        # Lumex Core tests
+        LumexBase64Tests
         LumexNumberGeneratorTests
+        LumexOptionalTests
         LumexStringifyTests
+        LumexStringViewTests
+        LumexTimeTests
         COMMENT "Running all tests..."
     )
 endif()

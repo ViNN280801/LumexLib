@@ -1,3 +1,5 @@
+# lumex/applied/settings/CMakeLists.txt
+
 set(LUMEX_SETTINGS_NAME LumexApplied_settings)
 set(EXPORT_TO LumexAppliedTargets)
 

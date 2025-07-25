@@ -1,3 +1,5 @@
+# lumex/applied/hardware/CMakeLists.txt
+
 set(LUMEX_HARDWARE_NAME LumexApplied_hardware)
 set(EXPORT_TO LumexAppliedTargets)
 

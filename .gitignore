@@ -44,9 +44,20 @@
 out/
 output/
 build/
+build-*/
 
 # IDE dirs and files
 .vs/
 .vscode/
 .cursor/
 .idea/
+
+# CodeQL dirs and files (also, build dirs)
+codeql-build/
+results*/
+
+# Conan files
+CMakeUserPresets.json
+
+# Any Python environment
+*venv*/

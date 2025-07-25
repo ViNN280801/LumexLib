@@ -1,4 +1,4 @@
-# This component is header-only, so we make it an INTERFACE library
+# lumex/core/math/CMakeLists.txt
 
 set(LUMEX_MATH_NAME LumexCore_math)
 set(EXPORT_TO LumexCoreTargets)

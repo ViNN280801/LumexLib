@@ -1,0 +1,120 @@
+name: "LumexLib CodeQL Configuration"
+
+# Disable default queries and use security-focused ones
+disable-default-queries: false
+
+# Additional query packs for enhanced security analysis
+queries:
+- uses: security-and-quality
+- uses: security-extended
+
+# Exclude test directories and files from analysis
+paths-ignore:
+- "lumex/tests/**"
+- "**/test/**"
+- "**/tests/**"
+- "**/*test*.cpp"
+- "**/*test*.hpp"
+- "**/*Test*.cpp"
+- "**/*Test*.hpp"
+- "**/gtest/**"
+- "**/googletest/**"
+- "**/catch2/**"
+- "**/doctest/**"
+- "**/*_test.cpp"
+- "**/*_test.hpp"
+- "**/CMakeFiles/**"
+- "**/build/**"
+- "**/cmake-build-*/**"
+- "**/codeql-build/**"
+- "docker/**"
+
+# Include only source code paths
+paths:
+- "lumex/**/*.cpp"
+- "lumex/**/*.hpp"
+- "lumex/**/*.h"
+- "lumex/**/*.cc"
+- "lumex/**/*.cxx"
+- "lumex/**/*.c++"
+- "lumex/**/*.hxx"
+- "lumex/**/*.h++"
+
+# Configure specific queries for C++ security vulnerabilities
+query-filters:
+- include:
+    id:
+    - cpp/sql-injection
+    - cpp/buffer-overflow
+    - cpp/uncontrolled-allocation-size
+    - cpp/use-after-free
+    - cpp/double-free
+    - cpp/memory-leak
+    - cpp/null-pointer-dereference
+    - cpp/overflow-calculated
+    - cpp/integer-overflow
+    - cpp/uninitialized-local
+    - cpp/stack-buffer-overflow
+    - cpp/heap-buffer-overflow
+    - cpp/format-string-injection
+    - cpp/command-injection
+    - cpp/path-injection
+    - cpp/cleartext-storage-file
+    - cpp/cleartext-transmission
+    - cpp/weak-cryptographic-algorithm
+    - cpp/insufficient-key-size
+    - cpp/use-of-goto
+    - cpp/dangerous-function-overflow
+    - cpp/potentially-dangerous-function
+    - cpp/signed-overflow-check
+    - cpp/unsigned-comparison-zero
+    - cpp/comparison-with-wider-type
+    - cpp/lossy-function-result-cast
+    - cpp/multiplication-result-converted-to-larger-type
+
+# Exclude some noisy queries that are not security-relevant
+- exclude:
+    id:
+    - cpp/fixme-comment
+    - cpp/commented-out-code
+    - cpp/long-switch-case
+    - cpp/short-global-name
+
+# Build configuration
+build:
+  # Ensure CodeQL analyzes the correct build output
+  working-directory: .
+
+# Analysis configuration  
+analysis:
+  # Configure for C++ specific settings
+  cpp:
+    # Include system headers for better analysis
+    include-system-headers: false
+    # Configure for the specific C++ standard
+    standard: "c++11"
+    # Enable aggressive optimizations detection
+    detect-optimizations: true
+
+# Additional configuration for enhanced security analysis
+security:
+  # Enable all security-related queries
+  enable-all-security-queries: true
+
+  # Configure severity levels
+  severity-levels:
+    error:
+    - "critical"
+    - "high"
+    warning:
+    - "medium"
+    - "low"
+    - "info"
+
+# Performance configuration
+performance:
+  # Timeout for individual queries (in seconds)
+  query-timeout: 1800
+
+  # Memory limit for analysis (in MB)
+  memory-limit: 4096

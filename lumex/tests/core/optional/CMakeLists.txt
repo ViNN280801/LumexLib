@@ -1,8 +1,10 @@
+# lumex/tests/core/optional/CMakeLists.txt
+
 set(TEST_EXECUTABLE_NAME LumexOptionalTests)
 
 add_executable(
     ${TEST_EXECUTABLE_NAME}
-    LumexOptional.test.cpp
+    LumexOptional.tests.cpp
 )
 
 target_link_libraries(

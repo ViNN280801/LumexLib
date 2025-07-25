@@ -34,8 +34,7 @@
 #endif
 
 #ifdef LUMEX_IMPLEMENTATION
-  #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__)                 \
-    || defined(__NT__) && defined(_MSC_VER)
+  #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__) && defined(_MSC_VER)
     #define LUMEX_PUBLIC_API __declspec(dllexport)
   #elif _WIN32
     #define LUMEX_PUBLIC_API __attribute__((dllexport))

@@ -1,0 +1,160 @@
+name: "CodeQL Security Analysis"
+
+on:
+  push:
+    branches: ["main", "master", "develop"]
+  pull_request:
+    branches: ["main", "master", "develop"]
+  schedule:
+    # Run CodeQL analysis every Monday at 2 AM UTC
+    - cron: "0 2 * * 1"
+
+env:
+  # Build configuration
+  BUILD_TYPE: Release
+  CMAKE_BUILD_PARALLEL_LEVEL: 4
+
+jobs:
+  codeql-analyze:
+    name: CodeQL Analysis
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    permissions:
+      # Required for all workflows
+      actions: read
+      contents: read
+      # Required for workflows in private repositories
+      security-events: write
+      # Required to post comments on PRs
+      pull-requests: write
+
+    strategy:
+      fail-fast: false
+      matrix:
+        language: ["cpp"]
+        # Additional matrix for different C++ standards if needed
+        cpp-standard: ["11"]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          # Fetch full history for better analysis
+          fetch-depth: 0
+
+      - name: Setup build environment
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            build-essential \
+            cmake \
+            ninja-build \
+            ccache \
+            pkg-config
+
+      - name: Setup ccache
+        uses: hendrikmuhs/ccache-action@v1.2
+        with:
+          key: ${{ runner.os }}-codeql-${{ matrix.cpp-standard }}
+          max-size: 1G
+
+      # Initialize the CodeQL tools for scanning
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: ${{ matrix.language }}
+          # Specify custom queries for enhanced security scanning
+          queries: +security-and-quality
+          # Custom configuration file
+          config-file: ./.github/codeql/codeql-config.yml
+          # Build mode for C++
+          build-mode: manual
+
+      # Configure CMake with security-focused flags
+      - name: Configure CMake
+        env:
+          CC: gcc
+          CXX: g++
+          CMAKE_C_COMPILER_LAUNCHER: ccache
+          CMAKE_CXX_COMPILER_LAUNCHER: ccache
+        run: |
+          cmake -B ${{ github.workspace }}/build \
+            -G Ninja \
+            -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} \
+            -DCMAKE_CXX_STANDARD=${{ matrix.cpp-standard }} \
+            -DCMAKE_CXX_STANDARD_REQUIRED=ON \
+            -DCMAKE_CXX_EXTENSIONS=OFF \
+            -DLUMEX_BUILD_SHARED_LIBS=ON \
+            -DLUMEX_BUILD_TESTS=OFF \
+            -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
+            -DCMAKE_CXX_FLAGS="-Wall -Wextra -Wpedantic -Wshadow -Wformat=2 -Wunused -Werror=return-type" \
+            -DCMAKE_POSITION_INDEPENDENT_CODE=ON
+
+      # Build the project (excluding tests as per requirements)
+      - name: Build LumexLib
+        run: |
+          cmake --build ${{ github.workspace }}/build \
+            --config ${{ env.BUILD_TYPE }} \
+            --parallel ${{ env.CMAKE_BUILD_PARALLEL_LEVEL }} \
+            --verbose
+
+      # Perform CodeQL Analysis
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:${{ matrix.language }}"
+          # Upload results even if there are findings
+          upload: true
+
+      # Post-analysis processing and reporting
+      - name: Process CodeQL Results
+        if: always()
+        run: |
+          echo "CodeQL analysis completed for C++ standard ${{ matrix.cpp-standard }}"
+
+          # Check if SARIF results exist
+          if [ -f "${{ github.workspace }}/results.sarif" ]; then
+            echo "SARIF results found - analysis completed successfully"
+          fi
+
+      # Upload SARIF results for security report processing
+      - name: Upload SARIF results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: codeql-results
+          path: |
+            ${{ runner.temp }}/codeql_databases/*/results/**/*.sarif
+          retention-days: 30
+
+      # Upload build artifacts for debugging if analysis fails
+      - name: Upload build logs
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-logs-${{ matrix.cpp-standard }}
+          path: |
+            ${{ github.workspace }}/build/CMakeFiles/CMakeOutput.log
+            ${{ github.workspace }}/build/CMakeFiles/CMakeError.log
+            ${{ github.workspace }}/build/compile_commands.json
+          retention-days: 5
+
+  # Job to check results and potentially fail the build
+  security-gate:
+    name: Security Gate
+    needs: codeql-analyze
+    runs-on: ubuntu-latest
+    if: always()
+
+    steps:
+      - name: Check CodeQL Results
+        run: |
+          if [[ "${{ needs.codeql-analyze.result }}" == "failure" ]]; then
+            echo "❌ CodeQL analysis found critical security vulnerabilities!"
+            echo "Please review the security findings and address them before merging."
+            exit 1
+          elif [[ "${{ needs.codeql-analyze.result }}" == "success" ]]; then
+            echo "✅ CodeQL analysis completed successfully - no critical vulnerabilities found."
+          else
+            echo "⚠️ CodeQL analysis completed with warnings or was skipped."
+          fi

@@ -1,0 +1,185 @@
+name: "Security Report Generator"
+
+on:
+  workflow_run:
+    workflows: ["CodeQL Security Analysis"]
+    types:
+      - completed
+  # Manual trigger for generating reports
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  security-events: read
+  actions: read
+  issues: write
+  pull-requests: write
+
+jobs:
+  process-security-results:
+    name: Process Security Results
+    runs-on: ubuntu-latest
+    if: github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download SARIF results
+        uses: actions/download-artifact@v4
+        with:
+          name: codeql-results
+          path: ./sarif-results
+        continue-on-error: true
+
+      - name: Process SARIF Results
+        id: process-sarif
+        run: |
+          #!/bin/bash
+          set -e
+
+          echo "Processing SARIF results..."
+
+          # Initialize counters
+          CRITICAL_COUNT=0
+          HIGH_COUNT=0
+          MEDIUM_COUNT=0
+          LOW_COUNT=0
+          INFO_COUNT=0
+
+          # Check if SARIF files exist
+          if [ -d "./sarif-results" ] && [ "$(ls -A ./sarif-results/*.sarif 2>/dev/null)" ]; then
+            echo "SARIF files found, processing..."
+            
+            # Process each SARIF file
+            for sarif_file in ./sarif-results/*.sarif; do
+              if [ -f "$sarif_file" ]; then
+                echo "Processing: $sarif_file"
+                
+                # Extract vulnerability counts by severity
+                CRITICAL_COUNT=$((CRITICAL_COUNT + $(jq -r '.runs[].results[] | select(.level == "error" and (.properties.securitySeverity // 0) >= 9.0) | .ruleId' "$sarif_file" 2>/dev/null | wc -l || echo 0)))
+                HIGH_COUNT=$((HIGH_COUNT + $(jq -r '.runs[].results[] | select(.level == "error" and (.properties.securitySeverity // 0) >= 7.0 and (.properties.securitySeverity // 0) < 9.0) | .ruleId' "$sarif_file" 2>/dev/null | wc -l || echo 0)))
+                MEDIUM_COUNT=$((MEDIUM_COUNT + $(jq -r '.runs[].results[] | select(.level == "warning" and (.properties.securitySeverity // 0) >= 4.0) | .ruleId' "$sarif_file" 2>/dev/null | wc -l || echo 0)))
+                LOW_COUNT=$((LOW_COUNT + $(jq -r '.runs[].results[] | select(.level == "warning" and (.properties.securitySeverity // 0) < 4.0) | .ruleId' "$sarif_file" 2>/dev/null | wc -l || echo 0)))
+                INFO_COUNT=$((INFO_COUNT + $(jq -r '.runs[].results[] | select(.level == "note") | .ruleId' "$sarif_file" 2>/dev/null | wc -l || echo 0)))
+              fi
+            done
+          else
+            echo "No SARIF files found or directory doesn't exist"
+          fi
+
+          # Calculate total vulnerabilities
+          TOTAL_VULNERABILITIES=$((CRITICAL_COUNT + HIGH_COUNT + MEDIUM_COUNT + LOW_COUNT + INFO_COUNT))
+
+          # Output results
+          echo "CRITICAL_COUNT=$CRITICAL_COUNT" >> $GITHUB_OUTPUT
+          echo "HIGH_COUNT=$HIGH_COUNT" >> $GITHUB_OUTPUT
+          echo "MEDIUM_COUNT=$MEDIUM_COUNT" >> $GITHUB_OUTPUT
+          echo "LOW_COUNT=$LOW_COUNT" >> $GITHUB_OUTPUT
+          echo "INFO_COUNT=$INFO_COUNT" >> $GITHUB_OUTPUT
+          echo "TOTAL_VULNERABILITIES=$TOTAL_VULNERABILITIES" >> $GITHUB_OUTPUT
+
+          # Determine if build should fail
+          if [ $CRITICAL_COUNT -gt 0 ] || [ $HIGH_COUNT -gt 0 ]; then
+            echo "SHOULD_FAIL=true" >> $GITHUB_OUTPUT
+            echo "❌ Critical or High severity vulnerabilities found!"
+          else
+            echo "SHOULD_FAIL=false" >> $GITHUB_OUTPUT
+            echo "✅ No critical or high severity vulnerabilities found"
+          fi
+
+          # Output summary
+          echo "## Security Analysis Summary" >> $GITHUB_STEP_SUMMARY
+          echo "| Severity | Count |" >> $GITHUB_STEP_SUMMARY
+          echo "|----------|-------|" >> $GITHUB_STEP_SUMMARY
+          echo "| 🔴 Critical | $CRITICAL_COUNT |" >> $GITHUB_STEP_SUMMARY
+          echo "| 🟠 High | $HIGH_COUNT |" >> $GITHUB_STEP_SUMMARY
+          echo "| 🟡 Medium | $MEDIUM_COUNT |" >> $GITHUB_STEP_SUMMARY
+          echo "| 🟢 Low | $LOW_COUNT |" >> $GITHUB_STEP_SUMMARY
+          echo "| ℹ️ Info | $INFO_COUNT |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Total** | **$TOTAL_VULNERABILITIES** |" >> $GITHUB_STEP_SUMMARY
+
+      - name: Generate Security Badge
+        run: |
+          #!/bin/bash
+
+          CRITICAL=${{ steps.process-sarif.outputs.CRITICAL_COUNT }}
+          HIGH=${{ steps.process-sarif.outputs.HIGH_COUNT }}
+          TOTAL=${{ steps.process-sarif.outputs.TOTAL_VULNERABILITIES }}
+
+          # Determine badge color and message
+          if [ $CRITICAL -gt 0 ]; then
+            BADGE_COLOR="red"
+            BADGE_MESSAGE="$CRITICAL critical"
+          elif [ $HIGH -gt 0 ]; then
+            BADGE_COLOR="orange"  
+            BADGE_MESSAGE="$HIGH high"
+          elif [ $TOTAL -gt 0 ]; then
+            BADGE_COLOR="yellow"
+            BADGE_MESSAGE="$TOTAL issues"
+          else
+            BADGE_COLOR="green"
+            BADGE_MESSAGE="secure"
+          fi
+
+          echo "Security Status: $BADGE_MESSAGE" > security-status.txt
+          echo "Badge Color: $BADGE_COLOR" >> security-status.txt
+
+      - name: Comment on PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const critical = ${{ steps.process-sarif.outputs.CRITICAL_COUNT }};
+            const high = ${{ steps.process-sarif.outputs.HIGH_COUNT }};
+            const medium = ${{ steps.process-sarif.outputs.MEDIUM_COUNT }};
+            const low = ${{ steps.process-sarif.outputs.LOW_COUNT }};
+            const info = ${{ steps.process-sarif.outputs.INFO_COUNT }};
+            const total = ${{ steps.process-sarif.outputs.TOTAL_VULNERABILITIES }};
+
+            let emoji = '✅';
+            let status = 'PASSED';
+
+            if (critical > 0 || high > 0) {
+              emoji = '❌';
+              status = 'FAILED';
+            } else if (medium > 0) {
+              emoji = '⚠️';
+              status = 'WARNING';
+            }
+
+            const comment = `## ${emoji} CodeQL Security Analysis ${status}
+
+            | Severity | Count |
+            |----------|-------|
+            | 🔴 Critical | ${critical} |
+            | 🟠 High | ${high} |
+            | 🟡 Medium | ${medium} |
+            | 🟢 Low | ${low} |
+            | ℹ️ Info | ${info} |
+            | **Total** | **${total}** |
+
+            ${critical > 0 || high > 0 ? 
+              '⚠️ **This PR introduces critical or high severity security vulnerabilities that must be addressed before merging.**' : 
+              '✅ No critical or high severity vulnerabilities detected.'
+            }
+
+            View detailed results in the [Security tab](${context.payload.repository.html_url}/security/code-scanning).`;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
+
+      - name: Fail build if critical vulnerabilities found
+        if: steps.process-sarif.outputs.SHOULD_FAIL == 'true'
+        run: |
+          echo "❌ Build failed due to critical or high severity security vulnerabilities!"
+          echo "Critical vulnerabilities: ${{ steps.process-sarif.outputs.CRITICAL_COUNT }}"
+          echo "High severity vulnerabilities: ${{ steps.process-sarif.outputs.HIGH_COUNT }}"
+          echo ""
+          echo "Please review and fix these security issues before merging."
+          echo "View detailed results in the Security tab of your repository."
+          exit 1

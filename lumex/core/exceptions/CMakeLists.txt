@@ -1,3 +1,5 @@
+# lumex/core/exceptions/CMakeLists.txt
+
 set(LUMEX_EXCEPTIONS_NAME LumexCore_exceptions)
 set(EXPORT_TO LumexCoreTargets)
 

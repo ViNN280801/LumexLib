@@ -1,0 +1,100 @@
+# Docker ignore file for CodeQL container build
+
+# Version control
+.git
+.gitignore
+.gitattributes
+
+# Documentation
+*.md
+docs/
+README*
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Build artifacts and cache
+build/
+cmake-build-*/
+Debug/
+Release/
+x64/
+x86/
+*.o
+*.obj
+*.exe
+*.dll
+*.so
+*.dylib
+*.a
+*.lib
+
+# Package manager files
+node_modules/
+npm-debug.log*
+
+# Test results and coverage
+tests/
+test/
+coverage/
+*.gcov
+*.gcda
+*.gcno
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.temp
+temp/
+tmp/
+
+# Docker files (except what we need)
+Dockerfile.*
+docker-compose.override.yml
+docker-compose.*.yml
+
+# Results from previous runs
+results/
+*.sarif
+*.csv
+
+# Cache directories
+.cache/
+.npm/
+.yarn/
+
+# IDE project files
+*.user
+*.userosscache
+*.sln.docstates
+*.suo
+*.user
+*.tmp_proj
+*.log
+*.vspscc
+*.vssscc
+.builds
+*.pidb
+*.svclog
+*.scc
+
+# Backup files
+*.bak
+*.backup
+*~

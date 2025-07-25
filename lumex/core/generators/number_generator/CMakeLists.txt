@@ -1,4 +1,4 @@
-# This component is header-only, so we make it an INTERFACE library
+# lumex/core/generators/number_generator/CMakeLists.txt
 
 set(LUMEX_NUMBER_GENERATOR_NAME LumexCore_number_generator)
 set(EXPORT_TO LumexCoreTargets)

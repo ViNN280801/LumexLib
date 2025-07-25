@@ -3,19 +3,19 @@
 
 // @link https://en.cppreference.com/w/cpp/language/attributes.html
 
+// [[nodiscard]] and [[nodiscard("reason")]]
 #if __cplusplus < 201703L
   #if defined(__GNUC__) || defined(__clang__)
-    #define LUMEX_ATTRIBUTE_NODISCARD __attribute__((warn_unused_result)) // https://stackoverflow.com/questions/53169938/attribute-warn-unused-result-vs-attribute-warn-unused-result
+    #define LUMEX_ATTRIBUTE_NODISCARD(msg) __attribute__((warn_unused_result)) // https://stackoverflow.com/questions/53169938/attribute-warn-unused-result-vs-attribute-warn-unused-result
   #elif defined(_MSC_VER)
-    #define LUMEX_ATTRIBUTE_NODISCARD _Check_return_ // https://learn.microsoft.com/en-us/cpp/code-quality/annotating-function-behavior?view=msvc-170
+    #define LUMEX_ATTRIBUTE_NODISCARD(msg) _Check_return_ // https://learn.microsoft.com/en-us/cpp/code-quality/annotating-function-behavior?view=msvc-170
   #else
-    #define LUMEX_ATTRIBUTE_NODISCARD
+    #define LUMEX_ATTRIBUTE_NODISCARD(msg)
   #endif
-#else
-  #define LUMEX_ATTRIBUTE_MAYBE_UNUSED [[maybe_unused]] // __cplusplus >= 201703L: https://en.cppreference.com/w/cpp/language/attributes/maybe_unused
-  #define LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR
-
-  #define LUMEX_ATTRIBUTE_NODISCARD [[nodiscard]] // __cplusplus >= 201703L: https://en.cppreference.com/w/cpp/language/attributes/nodiscard
+#elif __cplusplus == 201703L
+  #define LUMEX_ATTRIBUTE_NODISCARD(msg) [[nodiscard]] // __cplusplus >= 201703L: https://en.cppreference.com/w/cpp/language/attributes/nodiscard
+#else // __cplusplus >= 202002UL
+  #define LUMEX_ATTRIBUTE_NODISCARD(msg) [[nodiscard(msg)]]
 #endif
 
 // --- Lumex Standard Attribute Macros ---
@@ -60,8 +60,7 @@
 // [[fallthrough]]
 #if __cplusplus >= 201703L
   #define LUMEX_ATTRIBUTE_FALLTHROUGH [[fallthrough]]
-#elif (defined(__clang__) && __has_cpp_attribute(fallthrough))                \
-  || (defined(__GNUC__) && (__GNUC__ >= 7))
+#elif (defined(__clang__) && __has_cpp_attribute(fallthrough)) || (defined(__GNUC__) && (__GNUC__ >= 7))
   #define LUMEX_ATTRIBUTE_FALLTHROUGH __attribute__((fallthrough))
 #else
   #define LUMEX_ATTRIBUTE_FALLTHROUGH
@@ -77,32 +76,11 @@
   #define LUMEX_ATTRIBUTE_MAYBE_UNUSED
 #endif
 
-// [[nodiscard]] and [[nodiscard("reason")]] (already present, unify style)
-#if __cplusplus >= 201703L
-  #undef LUMEX_ATTRIBUTE_NODISCARD
-  #define LUMEX_ATTRIBUTE_NODISCARD [[nodiscard]]
-  #if __cplusplus >= 202002L
-    #define LUMEX_ATTRIBUTE_NODISCARD_MSG(msg) [[nodiscard(msg)]]
-  #else
-    #define LUMEX_ATTRIBUTE_NODISCARD_MSG(msg) [[nodiscard]]
-  #endif
-#elif defined(__GNUC__) || defined(__clang__)
-  #define LUMEX_ATTRIBUTE_NODISCARD __attribute__((warn_unused_result))
-  #define LUMEX_ATTRIBUTE_NODISCARD_MSG(msg) __attribute__((warn_unused_result))
-#elif defined(_MSC_VER)
-  #define LUMEX_ATTRIBUTE_NODISCARD _Check_return_
-  #define LUMEX_ATTRIBUTE_NODISCARD_MSG(msg) _Check_return_
-#else
-  #define LUMEX_ATTRIBUTE_NODISCARD
-  #define LUMEX_ATTRIBUTE_NODISCARD_MSG(msg)
-#endif
-
 // [[likely]] / [[unlikely]]
 #if __cplusplus >= 202002L
   #define LUMEX_ATTRIBUTE_LIKELY [[likely]]
   #define LUMEX_ATTRIBUTE_UNLIKELY [[unlikely]]
-#elif (defined(__GNUC__) && (__GNUC__ >= 9))                                  \
-  || (defined(__clang__) && __has_cpp_attribute(likely))
+#elif (defined(__GNUC__) && (__GNUC__ >= 9)) || (defined(__clang__) && __has_cpp_attribute(likely))
   #define LUMEX_ATTRIBUTE_LIKELY __attribute__((likely))
   #define LUMEX_ATTRIBUTE_UNLIKELY __attribute__((unlikely))
 #else

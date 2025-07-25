@@ -1,4 +1,4 @@
-# This component is header-only, so we make it an INTERFACE library
+# lumex/core/utility/CMakeLists.txt
 
 set(LUMEX_UTILITY_NAME LumexCore_utility)
 set(EXPORT_TO LumexCoreTargets)

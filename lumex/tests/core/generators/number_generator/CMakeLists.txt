@@ -1,8 +1,10 @@
+# lumex/tests/core/generators/number_generator/CMakeLists.txt
+
 set(TEST_EXECUTABLE_NAME LumexNumberGeneratorTests)
 
 add_executable(
     ${TEST_EXECUTABLE_NAME}
-    LumexNumberGenerator.test.cpp
+    LumexNumberGenerator.tests.cpp
 )
 
 target_link_libraries(

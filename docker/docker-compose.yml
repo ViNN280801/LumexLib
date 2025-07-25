@@ -1,0 +1,47 @@
+services:
+  codeql:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        CODEQL_VERSION: "2.16.1"
+        CODEQL_CLI_VERSION: "2.16.1"
+    image: lumexlib/codeql:latest
+    container_name: lumexlib-codeql
+
+    # Volume mounts
+    volumes:
+      # Mount source code (read-write for CodeQL build)
+      - "../:/workspace/lumexlib"
+      # Results output
+      - "./results:/tmp/results"
+      # Use original GitHub CodeQL config
+      - "./../.github/codeql:/opt/codeql-config:ro"
+      # Persistent database and cache
+      - "codeql-databases:/tmp/codeql-db"
+      - "codeql-cache:/home/codeql/.codeql"
+
+    # Environment variables
+    environment:
+      - CODEQL_THREADS=4
+      - CODEQL_RAM=4096
+      - PROJECT_NAME=LumexLib
+      - CPP_STANDARD=11
+      - BUILD_MODE=autobuild
+      - EXCLUDE_TESTS=true
+
+    # Keep container running
+    tty: true
+    stdin_open: true
+
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          memory: 6G
+          cpus: "4.0"
+
+# Persistent volumes
+volumes:
+  codeql-databases:
+  codeql-cache:

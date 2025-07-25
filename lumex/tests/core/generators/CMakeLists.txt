@@ -1,1 +1,3 @@
-add_subdirectory(number_generator) 
+# lumex/tests/core/generators/CMakeLists.txt
+
+add_subdirectory(number_generator)

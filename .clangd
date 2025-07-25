@@ -4,10 +4,22 @@ CompileFlags:
   Compiler: clang-cl
   Add:
   # C++ Standard and Warning Flags
-  - /std:c++11
+  - /std:c++17
   - /W4
-  - /permissive-
-  - /EHsc
+  - /WX # Treat warnings as errors
+  - /permissive- # Enable C++11 standard compliance
+  - /Zc:twoPhase # Enable two-phase name lookup (more aggressive standard compliance)
+  - /EHsc # Enable exception handling
+
+  # Optimizations and security
+  - /O2 # Aggressive optimizations
+  - /sdl # Enable SDL checks (security checks for Windows)
+  - /guard:cf # Enable control flow guard (for buffer overflow detection)
+  - /Zc:inline # Remove unused inline functions
+  - /Zc:strictStrings # Enable strict string checking
+  - /Zi # Enable PDB generation
+  - /DEBUG # Enable debug information
+  - /analyze # Enable static analysis (if it's available)
 
   # Preprocessor Defines
   - -D_WIN32
@@ -15,7 +27,6 @@ CompileFlags:
 
   # Project include path (relative to .clangd location)
   - -ID:/Develop/LumexCore
-  - -ID:/local/msys64/mingw64/include/gtest
 
 # Indexing configuration
 Index:
