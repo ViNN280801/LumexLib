@@ -27,19 +27,51 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
       class LUMEX_API LumexBaseException : public std::exception
       {
       public:
+        /**
+         * @brief Constructs a `LumexBaseException` with a message.
+         * @param message The error message.
+         */
         LumexBaseException(char const *message);
+
+        /**
+         * @brief Constructs a `LumexBaseException` with a message.
+         * @param message The error message.
+         */
         LumexBaseException(std::string const &message);
+
+        /**
+         * @brief Constructs a `LumexBaseException` with a message.
+         * @param message The error message.
+         */
         LumexBaseException(std::string &&message);
 
 #if __cplusplus >= 201703L
+        /**
+         * @brief Constructs a `LumexBaseException` with a message.
+         * @param message The error message.
+         */
         LumexBaseException(std::string_view message);
 #endif
 
+        /**
+         * @brief Returns the error message as a C-string.
+         * @details This method overrides the `std::exception::what` method to return
+         *          the error message as a C-string.
+         * @return A pointer to the error message as a C-string.
+         * @note This method is `noexcept` because it only returns a pointer to a member variable.
+         */
         char const *
         what() const noexcept override
         {
           return m_message.c_str();
         }
+
+        /**
+         * @brief Returns the stack trace of the error.
+         * @details This method returns the stack trace of the error.
+         * @return The stack trace of the error.
+         * @note This method is `noexcept` because it only returns a member variable.
+         */
         LumexStacktrace
         getStackTrace() const noexcept
         {
