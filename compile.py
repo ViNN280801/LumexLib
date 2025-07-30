@@ -366,11 +366,23 @@ class CMakeBuilder:
             self.build_dir,
         ]
 
+        # Add architecture/platform specific flags for Visual Studio generators
+        if platform_system() == "Windows":
+            if self.architecture == "x86":
+                cmake_configure_cmd.extend(["-A", "Win32"])
+                self.logger.info("🔍 Setting Visual Studio Platform: Win32 (for x86)")
+            elif self.architecture == "x64":
+                cmake_configure_cmd.extend(["-A", "x64"])
+                self.logger.info("🔍 Setting Visual Studio Platform: x64")
+
         if self.cmake_args:
             filtered_cmake_args = [
                 arg
                 for arg in self.cmake_args
                 if not arg.startswith("-DCMAKE_BUILD_TYPE")
+                and not arg.startswith(
+                    "-A"
+                )  # Avoid duplicating -A if it was manually added
             ]
             cmake_configure_cmd.extend(filtered_cmake_args)
 
