@@ -26,7 +26,7 @@ else()
 endif()
 
 # Set position-independent code for shared libs or static libs that will be linked into shared
-if(BUILD_SHARED_LIBS OR (CMAKE_POSITION_INDEPENDENT_CODE AND NOT WIN32))
+if(BUILD_SHARED_LIBS OR(CMAKE_POSITION_INDEPENDENT_CODE AND NOT WIN32))
     set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 endif()
 
@@ -407,7 +407,7 @@ if(CMAKE_CONFIGURATION_TYPES)
         set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_${CONF_UPPER} ${LUMEX_LIB_DIR}/${CONF})
     endforeach()
 
-    # Single-config generators (Make, Ninja)
+# Single-config generators (Make, Ninja)
 else()
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${LUMEX_BIN_DIR})
     set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${LUMEX_BIN_DIR})
@@ -465,6 +465,48 @@ install(
     DESTINATION
     ${CMAKE_INSTALL_LIBDIR}/cmake/LumexLib
 )
+
+# ==============================================================================
+# DOCUMENTATION
+# ==============================================================================
+option(LUMEX_BUILD_DOCUMENTATION "Build Doxygen documentation" OFF)
+
+if(LUMEX_BUILD_DOCUMENTATION)
+    message(STATUS "Building with documentation enabled")
+    find_program(DOXYGEN_EXECUTABLE NAMES doxygen)
+
+    if(NOT DOXYGEN_EXECUTABLE)
+        message(FATAL_ERROR "Doxygen executable not found! Please install Doxygen or ensure it's in your PATH.")
+    endif()
+
+    set(DOXYFILE_PATH "${CMAKE_SOURCE_DIR}/Doxyfile")
+    set(DOXYGEN_OUTPUT_DIR "${CMAKE_SOURCE_DIR}/docs")
+
+    add_custom_command(
+        OUTPUT "${DOXYGEN_OUTPUT_DIR}/html/index.html" # Track a known output file for dependency
+        COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYFILE_PATH}
+        WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}" # Run Doxygen in the project root
+        COMMENT "Generating Doxygen documentation"
+        VERBATIM # Ensure arguments are passed literally
+    )
+
+    # Marking it ALL ensures it gets built with the default build target.
+    add_custom_target(generate_documentation ALL
+        DEPENDS "${DOXYGEN_OUTPUT_DIR}/html/index.html"
+        COMMENT "Doxygen documentation generated"
+    )
+
+    # Install the generated documentation
+    install(DIRECTORY "${DOXYGEN_OUTPUT_DIR}/" # Trailing slash copies directory contents
+        DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/docs"
+
+        # Exclude common Doxygen internal files or backups from installation
+        PATTERN "*.map" EXCLUDE
+        PATTERN "*.md5" EXCLUDE
+        PATTERN "*.tag" EXCLUDE
+        PATTERN "*.bak" EXCLUDE
+    )
+endif()
 
 # ==============================================================================
 # TESTING

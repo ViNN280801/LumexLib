@@ -12,93 +12,93 @@ std::string
 LumexTime::get_current_datetime(char const *format)
 {
   try
+  {
+    // Reject unsupported/invalid strftime conversion specifiers early to
+    // avoid undefined‐behaviour crashes (e.g. "%Q" on MSVC).
+    auto is_supported = [](char chr)
     {
-      // Reject unsupported/invalid strftime conversion specifiers early to
-      // avoid undefined‐behaviour crashes (e.g. "%Q" on MSVC).
-      auto is_supported = [](char chr)
+      switch(chr)
       {
-        switch(chr)
-          {
-          case 'a':
-          case 'A':
-          case 'b':
-          case 'B':
-          case 'c':
-          case 'd':
-          case 'H':
-          case 'I':
-          case 'j':
-          case 'm':
-          case 'M':
-          case 'p':
-          case 'S':
-          case 'U':
-          case 'w':
-          case 'W':
-          case 'x':
-          case 'X':
-          case 'y':
-          case 'Y':
-          case 'Z':
-          case '%': return true;
-          default: return false;
-          }
-      };
+      case 'a':
+      case 'A':
+      case 'b':
+      case 'B':
+      case 'c':
+      case 'd':
+      case 'H':
+      case 'I':
+      case 'j':
+      case 'm':
+      case 'M':
+      case 'p':
+      case 'S':
+      case 'U':
+      case 'w':
+      case 'W':
+      case 'x':
+      case 'X':
+      case 'y':
+      case 'Y':
+      case 'Z':
+      case '%': return true;
+      default: return false;
+      }
+    };
 
-      for(char const *pChar = format; static_cast<bool>(*pChar); ++pChar)
-        {
-          if(*pChar == '%')
-            {
-              ++pChar;                  // look at specifier char
-              if(*pChar == '\0') break; // dangling '%'
-              if(!is_supported(*pChar)) return {};
-            }
-        }
+    for(char const *pChar = format; static_cast<bool>(*pChar);
+        ++pChar) // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
+    {
+      if(*pChar == '%')
+      {
+        ++pChar;                  // look at specifier char // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
+        if(*pChar == '\0') break; // dangling '%'
+        if(!is_supported(*pChar)) return {};
+      }
+    }
 
-      auto now  = std::chrono::system_clock::now();
-      auto secs = std::chrono::system_clock::to_time_t(now);
-      std::tm tmStruct;
+    auto now  = std::chrono::system_clock::now();
+    auto secs = std::chrono::system_clock::to_time_t(now);
+    std::tm tmStruct{};
 
 #if LUMEX_OS_WINDOWS
-      if(localtime_s(std::addressof(tmStruct), std::addressof(secs)) != 0)
-        {
-          std::cerr << "localtime_s failed, using 0 time\n";
-          tmStruct = {};
-        }
-#elif LUMEX_OS_UNIX
-      if(localtime_r(std::addressof(secs), std::addressof(tmStruct))
-         == nullptr)
-        {
-          std::cerr << "localtime_r failed, using 0 time\n";
-          tmStruct = {};
-        }
-#else
-      std::cerr << "Detected unsupported OS while using " << LUMEX_FUNC_NAME
-                << ", can't show current date and time, falling back on empty "
-                   "tmStruct\n";
+    if(localtime_s(std::addressof(tmStruct), std::addressof(secs)) != 0)
+    {
+      std::cerr << "localtime_s failed, using 0 time\n";
       tmStruct = {};
+    }
+#elif LUMEX_OS_UNIX
+    if(localtime_r(std::addressof(secs), std::addressof(tmStruct)) == nullptr)
+    {
+      std::cerr << "localtime_r failed, using 0 time\n";
+      tmStruct = {};
+    }
+#else
+    std::cerr << "Detected unsupported OS while using " << LUMEX_FUNC_NAME
+              << ", can't show current date and time, falling back on empty "
+                 "tmStruct\n";
+    tmStruct = {};
 #endif
-      /*  Date-time formatting  -------------------------------------------------
-       * 1) Use a reasonably-sized buffer so even weird format strings
-       *    don't overflow (the old 20-byte array caused #4 to crash).
-       * 2) Treat "0 chars written" as error/invalid-format and return an
-       *    empty string – exactly what the tests expect for the
-       *    "InvalidFormat_Dirty" case. */
-      std::array<char, Constants::KDEFAULT_DATETIME_BUF_SIZE>
-        buf{}; // zero-initialised
-      std::size_t written = std::strftime(buf.data(), buf.size(), format,
-                                          std::addressof(tmStruct));
-      return written == 0 ? std::string{} : std::string(buf.data());
-  } catch(std::exception const &exc)
-    {
-      std::cerr << "Exception while getting current datetime\nReason: "
-                << exc.what() << ", falling back on empty string\n";
-      return {};
-  } catch(...)
-    {
-      std::cerr << "Unknown exception while getting current datetime, falling "
-                   "back on empty string\n";
-      return {};
+    /*  Date-time formatting  -------------------------------------------------
+     * 1) Use a reasonably-sized buffer so even weird format strings
+     *    don't overflow (the old 20-byte array caused #4 to crash).
+     * 2) Treat "0 chars written" as error/invalid-format and return an
+     *    empty string – exactly what the tests expect for the
+     *    "InvalidFormat_Dirty" case. */
+    std::array<char, Constants::KDEFAULT_DATETIME_BUF_SIZE> buf{}; // zero-initialised
+    std::size_t written = std::strftime(buf.data(), buf.size(), format, std::addressof(tmStruct));
+    return written == 0 ? std::string{} : std::string(buf.data());
+  }
+  catch(std::exception const &exc)
+  {
+    std::cerr << "Exception while getting current datetime\nReason: " << exc.what()
+              << ", falling back on empty string\n";
+    return {};
+  }
+  catch(...)
+  {
+    std::cerr << "Unknown exception while getting current datetime, falling "
+                 "back on empty string\n";
+    return {};
   }
 }
 
@@ -182,29 +182,27 @@ LumexTime::_get_timestamp(long long divisor)
       it if the freshly-computed one hasn't changed yet. */
 
   try
+  {
+    static std::mutex mtx;
+    static std::unordered_map<long long, long long> last_val; // keyed by divisor
+
+    auto now            = std::chrono::system_clock::now();
+    auto epoch          = now.time_since_epoch();
+    auto ns_since_epoch = std::chrono::duration_cast<std::chrono::nanoseconds>(epoch).count();
+
+    long long value     = ns_since_epoch / divisor;
+
     {
-      static std::mutex mtx;
-      static std::unordered_map<long long, long long>
-        last_val; // keyed by divisor
-
-      auto now   = std::chrono::system_clock::now();
-      auto epoch = now.time_since_epoch();
-      auto ns_since_epoch
-        = std::chrono::duration_cast<std::chrono::nanoseconds>(epoch).count();
-
-      long long value = ns_since_epoch / divisor;
-
-      {
-        std::lock_guard<std::mutex> lock(mtx);
-        auto &prev = last_val[divisor];
-        if(value <= prev) value = prev + 1; // bump to keep it growing
-        prev = value;
-      }
-      return std::to_string(value);
-  } catch(std::exception const &exc)
-    {
-      std::cerr << "Exception while getting timestamp\nReason: " << exc.what()
-                << ", falling back on empty string\n";
-      return {};
+      std::lock_guard<std::mutex> lock(mtx);
+      auto &prev = last_val[divisor];
+      if(value <= prev) value = prev + 1; // bump to keep it growing
+      prev = value;
+    }
+    return std::to_string(value);
+  }
+  catch(std::exception const &exc)
+  {
+    std::cerr << "Exception while getting timestamp\nReason: " << exc.what() << ", falling back on empty string\n";
+    return {};
   }
 }
