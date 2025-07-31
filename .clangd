@@ -36,10 +36,12 @@ Index:
 # Diagnostics configuration  
 Diagnostics:
   Suppress:
-  - "readability-convert-member-functions-to-static"
-  - "modernize-use-trailing-return-type"
-  - "readability-braces-around-statements"
-  - "readability-container-data-pointer"
+  - readability-convert-member-functions-to-static
+  - modernize-use-trailing-return-type
+  - readability-braces-around-statements
+  - readability-container-data-pointer
+  - cppcoreguidelines-pro-bounds-pointer-arithmetic
+  - cppcoreguidelines-pro-type-reinterpret-cast
   # Enable clang-tidy checks
   ClangTidy:
     Add:
