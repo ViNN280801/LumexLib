@@ -1,0 +1,66 @@
+# Prerequisites
+*.d
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Linker files
+*.ilk
+
+# Debugger Files
+*.pdb
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+# debug information files
+*.dwo
+
+# Build dirs
+out/
+output/
+build/
+build-*/
+
+# IDE dirs and files
+.vs/
+.vscode/
+.cursor/
+.idea/
+
+# CodeQL dirs and files (also, build dirs)
+codeql-build/
+results*/
+
+# Conan files
+CMakeUserPresets.json
+
+# Any Python environment
+*venv*/
+
+# Documentation
+docs/
