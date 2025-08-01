@@ -1332,6 +1332,35 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
 
         return result;
       }
+
+      inline std::string
+      as_utf8(wchar_t const *str)
+      {
+        LUMEX_ASSERT(str);
+
+        return as_utf8_impl(str, strlength_wide(str));
+      }
+
+      inline std::string
+      as_utf8(std::basic_string<wchar_t> const &str)
+      {
+        return as_utf8_impl(str.c_str(), str.size());
+      }
+
+      inline std::basic_string<wchar_t>
+      as_wide(char const *str)
+      {
+        LUMEX_ASSERT(str);
+
+        return as_wide_impl(str, strlen(str));
+      }
+
+      inline std::basic_string<wchar_t>
+      as_wide(std::string const &str)
+      {
+        return as_wide_impl(str.c_str(), str.size());
+      }
+
       template <typename D, typename T>
       inline size_t
       convert_buffer_output_generic(typename T::value_type dest, char_t const *data, size_t length, D /* unused */,
