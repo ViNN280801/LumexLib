@@ -4,8 +4,6 @@
 #include <array>
 #include <cstdint>
 
-#include "lumex/LumexExport.hpp"
-
 #include "lumex/core/utility/LumexAttributes.hpp"
 
 #include "lumex/xml/xpath/memory/XPathAllocator.hpp"

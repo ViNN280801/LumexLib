@@ -1,4 +1,4 @@
-#define LUMEX_IMPLEMENTATION
+#include <algorithm>
 
 #include "lumex/xml/utility/XmlUtils.hpp"
 #include "lumex/xml/xpath/utility/XPathUtils.hpp"
@@ -9,7 +9,6 @@ using namespace Lumex::Xml::XPath::Node;
 using namespace Lumex::Xml::XPath::Utility;
 using namespace Lumex::Xml::Utility;
 
-LUMEX_PUBLIC_API
 inline void
 XPathNodeSet::_assign(const_iterator begin_, const_iterator end_, type_t type_)
 {
@@ -18,11 +17,11 @@ XPathNodeSet::_assign(const_iterator begin_, const_iterator end_, type_t type_)
   auto size_ = static_cast<size_t>(end_ - begin_);
 
   // use internal buffer for 0 or 1 elements, heap buffer otherwise
-  XPathNode *storage = (size_ <= 1)
-                                 ? m_storage.data()
-                                 : static_cast<XPathNode *>(
-                                     malloc( // NOLINT(cppcoreguidelines-owning-memory, cppcoreguidelines-no-malloc)
-                                       size_ * sizeof(XPathNode)));
+  XPathNode *storage
+    = (size_ <= 1)
+        ? m_storage.data()
+        : static_cast<XPathNode *>(malloc( // NOLINT(cppcoreguidelines-owning-memory, cppcoreguidelines-no-malloc)
+            size_ * sizeof(XPathNode)));
 
   if(storage == nullptr) throw std::bad_alloc();
 
@@ -37,7 +36,6 @@ XPathNodeSet::_assign(const_iterator begin_, const_iterator end_, type_t type_)
   m_type  = type_;
 }
 
-LUMEX_PUBLIC_API
 inline void
 XPathNodeSet::_move(XPathNodeSet &rhs) noexcept
 {
@@ -51,32 +49,25 @@ XPathNodeSet::_move(XPathNodeSet &rhs) noexcept
   rhs.m_end         = rhs.m_storage.data();
 }
 
-LUMEX_PUBLIC_API
-inline XPathNodeSet::XPathNodeSet()
-    : m_type(type_unsorted), m_begin(m_storage.data()), m_end(m_storage.data())
-{}
+inline XPathNodeSet::XPathNodeSet() : m_type(type_unsorted), m_begin(m_storage.data()), m_end(m_storage.data()) {}
 
-LUMEX_PUBLIC_API
 inline XPathNodeSet::XPathNodeSet(const_iterator begin_, const_iterator end_, type_t type_)
     : m_type(type_unsorted), m_begin(m_storage.data()), m_end(m_storage.data())
 {
   _assign(begin_, end_, type_);
 }
 
-LUMEX_PUBLIC_API
 inline XPathNodeSet::~XPathNodeSet()
 {
   if(m_begin != m_storage.data()) free(m_begin); // NOLINT(cppcoreguidelines-owning-memory, cppcoreguidelines-no-malloc)
 }
 
-LUMEX_PUBLIC_API
 inline XPathNodeSet::XPathNodeSet(XPathNodeSet const &rhs)
     : m_type(type_unsorted), m_begin(m_storage.data()), m_end(m_storage.data())
 {
   _assign(rhs.m_begin, rhs.m_end, rhs.m_type);
 }
 
-LUMEX_PUBLIC_API
 inline XPathNodeSet &
 XPathNodeSet::operator=(XPathNodeSet const &rhs)
 {
@@ -87,14 +78,12 @@ XPathNodeSet::operator=(XPathNodeSet const &rhs)
   return *this;
 }
 
-LUMEX_PUBLIC_API
 inline XPathNodeSet::XPathNodeSet(XPathNodeSet &&rhs) noexcept
     : m_type(type_unsorted), m_begin(m_storage.data()), m_end(m_storage.data())
 {
   _move(rhs);
 }
 
-LUMEX_PUBLIC_API
 inline XPathNodeSet &
 XPathNodeSet::operator=(XPathNodeSet &&rhs) noexcept
 {
@@ -107,28 +96,24 @@ XPathNodeSet::operator=(XPathNodeSet &&rhs) noexcept
   return *this;
 }
 
-LUMEX_PUBLIC_API
 inline XPathNodeSet::type_t
 XPathNodeSet::type() const
 {
   return m_type;
 }
 
-LUMEX_PUBLIC_API
 inline size_t
 XPathNodeSet::size() const
 {
   return m_end - m_begin;
 }
 
-LUMEX_PUBLIC_API
 inline bool
 XPathNodeSet::empty() const
 {
   return m_begin == m_end;
 }
 
-LUMEX_PUBLIC_API
 inline XPathNode const &
 XPathNodeSet::operator[](size_t index) const
 {
@@ -136,28 +121,24 @@ XPathNodeSet::operator[](size_t index) const
   return m_begin[index];
 }
 
-LUMEX_PUBLIC_API
 inline XPathNodeSet::const_iterator
 XPathNodeSet::begin() const
 {
   return m_begin;
 }
 
-LUMEX_PUBLIC_API
 inline XPathNodeSet::const_iterator
 XPathNodeSet::end() const
 {
   return m_end;
 }
 
-LUMEX_PUBLIC_API
 inline void
 XPathNodeSet::sort(bool reverse)
 {
   m_type = Utility::xpath_sort(m_begin, m_end, m_type, reverse);
 }
 
-LUMEX_PUBLIC_API
 inline XPathNode
 XPathNodeSet::first() const
 {
@@ -226,8 +207,7 @@ XPathNodeSetRaw::push_back(XPathNode const &node, XPathAllocator *alloc)
 }
 
 void
-XPathNodeSetRaw::append(XPathNode const *begin_, XPathNode const *end_,
-                                XPathAllocator *alloc)
+XPathNodeSetRaw::append(XPathNode const *begin_, XPathNode const *end_, XPathAllocator *alloc)
 {
   if(begin_ == end_) return;
 
