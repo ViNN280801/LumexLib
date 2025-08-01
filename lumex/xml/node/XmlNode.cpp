@@ -1,14 +1,20 @@
 #include "lumex/xml/attribute/XmlAttributeIterator.hpp"
-#include "lumex/xml/document/LumexXmlDocument.hpp"
+#include "lumex/xml/document/XmlDocument.hpp"
 #include "lumex/xml/memory/XmlAllocator.hpp"
 #include "lumex/xml/text/XmlParseResult.hpp"
 #include "lumex/xml/text/XmlText.hpp"
+#include "lumex/xml/tree/XmlTreeWalker.hpp"
 #include "lumex/xml/types/XmlTypes.hpp"
 #include "lumex/xml/utility/XmlUtils.hpp"
+#include "lumex/xml/writer/IXmlWriter.hpp"
+#include "lumex/xml/writer/XmlBufferedWriter.hpp"
+#include "lumex/xml/writer/XmlWriterStream.hpp"
 
 #include "XmlNode.hpp"
 #include "XmlNodeIterator.hpp"
 
+using namespace Lumex::Xml::Writer;
+using namespace Lumex::Xml::Tree;
 using namespace Lumex::Xml::Memory;
 using namespace Lumex::Xml::Attribute;
 using namespace Lumex::Xml::Node;
@@ -1147,9 +1153,9 @@ XmlNode::append_buffer(void const *contents, size_t size, unsigned int options, 
 
   // name of the root has to be nullptr before parsing - otherwise closing node mismatches will not be detected at the
   // top level
-  impl::name_null_sentry sentry(m_root);
+  Node::name_null_sentry sentry(m_root);
 
-  return impl::load_buffer_impl(doc, m_root, const_cast<void *>(contents), size, options, encoding, false, false,
+  return Text::load_buffer_impl(doc, m_root, const_cast<void *>(contents), size, options, encoding, false, false,
                                 &extra->buffer);
 }
 
@@ -1208,7 +1214,7 @@ XmlNode::path(char_t delimiter) const
   {
     char_t const *iname = i->name;
     offset += (i != m_root);
-    offset += iname ? impl::strlength(iname) : 0;
+    offset += iname ? Utility::strlength(iname) : 0;
   }
 
   string_t result;
@@ -1221,7 +1227,7 @@ XmlNode::path(char_t delimiter) const
     char_t const *jname = j->name;
     if(jname)
     {
-      size_t length = impl::strlength(jname);
+      size_t length = Utility::strlength(jname);
 
       offset -= length;
       memcpy(&result[offset], jname, length * sizeof(char_t));
@@ -1263,7 +1269,7 @@ XmlNode::first_element_by_path(char_t const *path_, char_t delimiter) const
     for(XmlNodeBase *j = context.m_root->first_child; j; j = j->next_sibling)
     {
       char_t const *jname = j->name;
-      if(jname && impl::strequalrange(jname, path_segment, static_cast<size_t>(path_segment_end - path_segment)))
+      if(jname && Utility::strequalrange(jname, path_segment, static_cast<size_t>(path_segment_end - path_segment)))
       {
         XmlNode subsearch = XmlNode(j).first_element_by_path(next_segment, delimiter);
 
@@ -1276,9 +1282,9 @@ XmlNode::first_element_by_path(char_t const *path_, char_t delimiter) const
 }
 
 inline bool
-XmlNode::traverse(xml_tree_walker &walker)
+XmlNode::traverse(XmlTreeWalker &walker)
 {
-  walker._depth = -1;
+  walker.m_depth = -1;
 
   XmlNode arg_begin(m_root);
   if(!walker.begin(arg_begin)) return false;
@@ -1287,7 +1293,7 @@ XmlNode::traverse(xml_tree_walker &walker)
 
   if(cur)
   {
-    ++walker._depth;
+    ++walker.m_depth;
 
     do {
       XmlNode arg_for_each(cur);
@@ -1295,7 +1301,7 @@ XmlNode::traverse(xml_tree_walker &walker)
 
       if(cur->first_child)
       {
-        ++walker._depth;
+        ++walker.m_depth;
         cur = cur->first_child;
       }
       else if(cur->next_sibling)
@@ -1304,7 +1310,7 @@ XmlNode::traverse(xml_tree_walker &walker)
       {
         while(!cur->next_sibling && cur != m_root && cur->parent)
         {
-          --walker._depth;
+          --walker.m_depth;
           cur = cur->parent;
         }
 
@@ -1313,7 +1319,7 @@ XmlNode::traverse(xml_tree_walker &walker)
     } while(cur && cur != m_root);
   }
 
-  LUMEX_ASSERT(walker._depth == -1);
+  LUMEX_ASSERT(walker.m_depth == -1);
 
   XmlNode arg_end(m_root);
   return walker.end(arg_end);
@@ -1332,14 +1338,416 @@ XmlNode::get() const
 }
 
 inline void
-XmlNode::print(xml_writer &writer, char_t const *indent, unsigned int flags, xml_encoding encoding,
+text_output_escaped(XmlBufferedWriter &writer, char_t const *str, chartypex_t type, unsigned int flags)
+{
+  while(*str)
+  {
+    char_t const *prev = str;
+
+    // While *s is a usual symbol
+    LUMEX_XML_SCANWHILE_UNROLL(!LUMEX_XML_IS_CHARTYPEX(*str, type));
+
+    writer.write_buffer(prev, static_cast<size_t>(str - prev));
+
+    switch(*str)
+    {
+    case 0: break;
+    case '&':
+      writer.write('&', 'a', 'm', 'p', ';');
+      ++str;
+      break;
+    case '<':
+      writer.write('&', 'l', 't', ';');
+      ++str;
+      break;
+    case '>':
+      writer.write('&', 'g', 't', ';');
+      ++str;
+      break;
+    case '"':
+      if(flags & Constants::kformat_attribute_single_quote)
+        writer.write('"');
+      else
+        writer.write('&', 'q', 'u', 'o', 't', ';');
+      ++str;
+      break;
+    case '\'':
+      if(flags & Constants::kformat_attribute_single_quote)
+        writer.write('&', 'a', 'p', 'o', 's', ';');
+      else
+        writer.write('\'');
+      ++str;
+      break;
+    default: // s is not a usual symbol
+    {
+      unsigned int ch = static_cast<unsigned int>(*str++);
+      LUMEX_ASSERT(ch < 32);
+
+      if(!(flags & Constants::kformat_skip_control_chars))
+        writer.write('&', '#', static_cast<char_t>((ch / 10) + '0'), static_cast<char_t>((ch % 10) + '0'), ';');
+    }
+    }
+  }
+}
+
+inline void
+text_output(XmlBufferedWriter &writer, char_t const *s, chartypex_t type, unsigned int flags)
+{
+  if(flags & Constants::kformat_no_escapes)
+    writer.write_string(s);
+  else
+    text_output_escaped(writer, s, type, flags);
+}
+
+inline void
+text_output_cdata(XmlBufferedWriter &writer, char_t const *s)
+{
+  do {
+    writer.write('<', '!', '[', 'C', 'D');
+    writer.write('A', 'T', 'A', '[');
+
+    char_t const *prev = s;
+
+    // look for ]]> sequence - we can't output it as is since it terminates CDATA
+    while(*s && !(s[0] == ']' && s[1] == ']' && s[2] == '>')) ++s;
+
+    // skip ]] if we stopped at ]]>, > will go to the next CDATA section
+    if(*s) s += 2;
+
+    writer.write_buffer(prev, static_cast<size_t>(s - prev));
+
+    writer.write(']', ']', '>');
+  } while(*s);
+}
+
+inline void
+text_output_indent(XmlBufferedWriter &writer, char_t const *indent, size_t indent_length, unsigned int depth)
+{
+  switch(indent_length)
+  {
+  case 1: {
+    for(unsigned int i = 0; i < depth; ++i) writer.write(indent[0]);
+    break;
+  }
+
+  case 2: {
+    for(unsigned int i = 0; i < depth; ++i) writer.write(indent[0], indent[1]);
+    break;
+  }
+
+  case 3: {
+    for(unsigned int i = 0; i < depth; ++i) writer.write(indent[0], indent[1], indent[2]);
+    break;
+  }
+
+  case 4: {
+    for(unsigned int i = 0; i < depth; ++i) writer.write(indent[0], indent[1], indent[2], indent[3]);
+    break;
+  }
+
+  default: {
+    for(unsigned int i = 0; i < depth; ++i) writer.write_buffer(indent, indent_length);
+  }
+  }
+}
+
+inline void
+node_output_comment(XmlBufferedWriter &writer, char_t const *s)
+{
+  writer.write('<', '!', '-', '-');
+
+  while(*s)
+  {
+    char_t const *prev = s;
+
+    // look for -\0 or -- sequence - we can't output it since -- is illegal in comment body
+    while(*s && !(s[0] == '-' && (s[1] == '-' || s[1] == 0))) ++s;
+
+    writer.write_buffer(prev, static_cast<size_t>(s - prev));
+
+    if(*s)
+    {
+      LUMEX_ASSERT(*s == '-');
+
+      writer.write('-', ' ');
+      ++s;
+    }
+  }
+
+  writer.write('-', '-', '>');
+}
+
+inline void
+node_output_pi_value(XmlBufferedWriter &writer, char_t const *s)
+{
+  while(*s)
+  {
+    char_t const *prev = s;
+
+    // look for ?> sequence - we can't output it since ?> terminates PI
+    while(*s && !(s[0] == '?' && s[1] == '>')) ++s;
+
+    writer.write_buffer(prev, static_cast<size_t>(s - prev));
+
+    if(*s)
+    {
+      LUMEX_ASSERT(s[0] == '?' && s[1] == '>');
+
+      writer.write('?', ' ', '>');
+      s += 2;
+    }
+  }
+}
+
+inline void
+node_output_attributes(XmlBufferedWriter &writer, XmlNodeBase *node, char_t const *indent, size_t indent_length,
+                       unsigned int flags, unsigned int depth)
+{
+  char_t const *default_name    = LUMEX_XML_TEXT(":anonymous");
+  char_t const enquotation_char = (flags & Constants::kformat_attribute_single_quote) ? '\'' : '"';
+
+  for(XmlAttributeBase *a = node->first_attribute; a; a = a->next_attribute)
+  {
+    if((flags & (Constants::kformat_indent_attributes | Constants::kformat_raw))
+       == Constants::kformat_indent_attributes)
+    {
+      writer.write('\n');
+
+      text_output_indent(writer, indent, indent_length, depth + 1);
+    }
+    else { writer.write(' '); }
+
+    writer.write_string(a->name ? a->name + 0 : default_name);
+    writer.write('=', enquotation_char);
+
+    if(a->value) text_output(writer, a->value, ctx_special_attr, flags);
+
+    writer.write(enquotation_char);
+  }
+}
+
+inline bool
+node_output_start(XmlBufferedWriter &writer, XmlNodeBase *node, char_t const *indent, size_t indent_length,
+                  unsigned int flags, unsigned int depth)
+{
+  char_t const *default_name = LUMEX_XML_TEXT(":anonymous");
+  char_t const *name         = node->name ? node->name + 0 : default_name;
+
+  writer.write('<');
+  writer.write_string(name);
+
+  if(node->first_attribute) node_output_attributes(writer, node, indent, indent_length, flags, depth);
+
+  // element nodes can have value if parse_embed_pcdata was used
+  if(!node->value)
+  {
+    if(!node->first_child)
+    {
+      if(flags & Constants::kformat_no_empty_element_tags)
+      {
+        writer.write('>', '<', '/');
+        writer.write_string(name);
+        writer.write('>');
+
+        return false;
+      }
+      else
+      {
+        if((flags & Constants::kformat_raw) == 0) writer.write(' ');
+
+        writer.write('/', '>');
+
+        return false;
+      }
+    }
+    else
+    {
+      writer.write('>');
+
+      return true;
+    }
+  }
+  else
+  {
+    writer.write('>');
+
+    text_output(writer, node->value, ctx_special_pcdata, flags);
+
+    if(!node->first_child)
+    {
+      writer.write('<', '/');
+      writer.write_string(name);
+      writer.write('>');
+
+      return false;
+    }
+    else { return true; }
+  }
+}
+
+inline void
+node_output_end(XmlBufferedWriter &writer, XmlNodeBase *node)
+{
+  char_t const *default_name = LUMEX_XML_TEXT(":anonymous");
+  char_t const *name         = node->name ? node->name + 0 : default_name;
+
+  writer.write('<', '/');
+  writer.write_string(name);
+  writer.write('>');
+}
+
+inline void
+node_output_simple(XmlBufferedWriter &writer, XmlNodeBase *node, unsigned int flags)
+{
+  char_t const *default_name = LUMEX_XML_TEXT(":anonymous");
+
+  switch(LUMEX_XML_NODETYPE(node))
+  {
+  case node_pcdata:
+    text_output(writer, node->value ? node->value + 0 : LUMEX_XML_TEXT(""), ctx_special_pcdata, flags);
+    break;
+
+  case node_cdata: text_output_cdata(writer, node->value ? node->value + 0 : LUMEX_XML_TEXT("")); break;
+
+  case node_comment: node_output_comment(writer, node->value ? node->value + 0 : LUMEX_XML_TEXT("")); break;
+
+  case node_pi:
+    writer.write('<', '?');
+    writer.write_string(node->name ? node->name + 0 : default_name);
+
+    if(node->value)
+    {
+      writer.write(' ');
+      node_output_pi_value(writer, node->value);
+    }
+
+    writer.write('?', '>');
+    break;
+
+  case node_declaration:
+    writer.write('<', '?');
+    writer.write_string(node->name ? node->name + 0 : default_name);
+    node_output_attributes(writer, node, LUMEX_XML_TEXT(""), 0, flags | Constants::kformat_raw, 0);
+    writer.write('?', '>');
+    break;
+
+  case node_doctype:
+    writer.write('<', '!', 'D', 'O', 'C');
+    writer.write('T', 'Y', 'P', 'E');
+
+    if(node->value)
+    {
+      writer.write(' ');
+      writer.write_string(node->value);
+    }
+
+    writer.write('>');
+    break;
+
+  default: LUMEX_ASSERT(false && "Invalid node type"); // unreachable
+  }
+}
+
+inline void
+node_output(XmlBufferedWriter &writer, XmlNodeBase *root, char_t const *indent, unsigned int flags, unsigned int depth)
+{
+  size_t indent_length      = ((flags & (Constants::kformat_indent | Constants::kformat_indent_attributes))
+                          && (flags & Constants::kformat_raw) == 0)
+                                ? strlength(indent)
+                                : 0;
+  unsigned int indent_flags = indent_indent;
+
+  XmlNodeBase *node         = root;
+
+  do {
+    LUMEX_ASSERT(node);
+
+    // begin writing current node
+    if(LUMEX_XML_NODETYPE(node) == node_pcdata || LUMEX_XML_NODETYPE(node) == node_cdata)
+    {
+      node_output_simple(writer, node, flags);
+
+      indent_flags = 0;
+    }
+    else
+    {
+      if(((indent_flags & indent_newline) != 0) && (flags & Constants::kformat_raw) == 0) writer.write('\n');
+
+      if(((indent_flags & indent_indent) != 0) && (indent_length != 0))
+        text_output_indent(writer, indent, indent_length, depth);
+
+      if(LUMEX_XML_NODETYPE(node) == node_element)
+      {
+        indent_flags = indent_newline | indent_indent;
+
+        if(node_output_start(writer, node, indent, indent_length, flags, depth))
+        {
+          // element nodes can have value if parse_embed_pcdata was used
+          if(node->value != nullptr) indent_flags = 0;
+
+          node = node->first_child;
+          depth++;
+          continue;
+        }
+      }
+      else if(LUMEX_XML_NODETYPE(node) == node_document)
+      {
+        indent_flags = indent_indent;
+
+        if(node->first_child != nullptr)
+        {
+          node = node->first_child;
+          continue;
+        }
+      }
+      else
+      {
+        node_output_simple(writer, node, flags);
+
+        indent_flags = indent_newline | indent_indent;
+      }
+    }
+
+    // continue to the next node
+    while(node != root)
+    {
+      if(node->next_sibling != nullptr)
+      {
+        node = node->next_sibling;
+        break;
+      }
+
+      node = node->parent;
+
+      // write closing node
+      if(LUMEX_XML_NODETYPE(node) == node_element)
+      {
+        depth--;
+
+        if(((indent_flags & indent_newline) != 0) && (flags & Constants::kformat_raw) == 0) writer.write('\n');
+
+        if(((indent_flags & indent_indent) != 0) && (indent_length != 0))
+          text_output_indent(writer, indent, indent_length, depth);
+
+        node_output_end(writer, node);
+
+        indent_flags = indent_newline | indent_indent;
+      }
+    }
+  } while(node != root);
+
+  if((indent_flags & indent_newline) && (flags & Constants::kformat_raw) == 0) writer.write('\n');
+}
+
+inline void
+XmlNode::print(IXmlWriter &writer, char_t const *indent, unsigned int flags, xml_encoding encoding,
                unsigned int depth) const
 {
-  if(!m_root) return;
+  if(m_root == nullptr) return;
 
-  impl::xml_buffered_writer buffered_writer(writer, encoding);
+  XmlBufferedWriter buffered_writer(writer, encoding);
 
-  impl::node_output(buffered_writer, m_root, indent, flags, depth);
+  node_output(buffered_writer, m_root, indent, flags, depth);
 
   buffered_writer.flush();
 }
@@ -1348,7 +1756,7 @@ inline void
 XmlNode::print(std::basic_ostream<char> &stream, char_t const *indent, unsigned int flags, xml_encoding encoding,
                unsigned int depth) const
 {
-  xml_writer_stream writer(stream);
+  XmlWriterStream writer(stream);
 
   print(writer, indent, flags, encoding, depth);
 }
@@ -1356,7 +1764,7 @@ XmlNode::print(std::basic_ostream<char> &stream, char_t const *indent, unsigned 
 inline void
 XmlNode::print(std::basic_ostream<wchar_t> &stream, char_t const *indent, unsigned int flags, unsigned int depth) const
 {
-  xml_writer_stream writer(stream);
+  XmlWriterStream writer(stream);
 
   print(writer, indent, flags, encoding_wchar, depth);
 }
@@ -1364,21 +1772,22 @@ XmlNode::print(std::basic_ostream<wchar_t> &stream, char_t const *indent, unsign
 inline ptrdiff_t
 XmlNode::offset_debug() const
 {
-  if(!m_root) return -1;
+  if(m_root == nullptr) return -1;
 
-  impl::xml_document_struct &doc = Document::get_document(m_root);
+  XmlDocumentBase &doc = Document::get_document(m_root);
 
   // we can determine the offset reliably only if there is exactly once parse buffer
-  if(!doc.buffer || doc.extra_buffers) return -1;
+  if((doc.buffer == nullptr) || (doc.extra_buffers != nullptr)) return -1;
 
   switch(type())
   {
   case node_document: return 0;
 
-  case node_element:
+  case node_element: // NOLINT(bugprone-branch-clone)
   case node_declaration:
   case node_pi:
-    return m_root->name && (m_root->header & impl::xml_memory_page_name_allocated_or_shared_mask) == 0
+    return (m_root->name != nullptr)
+               && (m_root->header & Constants::kxml_memory_page_name_allocated_or_shared_mask) == 0
              ? m_root->name - doc.buffer
              : -1;
 
@@ -1386,7 +1795,8 @@ XmlNode::offset_debug() const
   case node_cdata:
   case node_comment:
   case node_doctype:
-    return m_root->value && (m_root->header & impl::xml_memory_page_value_allocated_or_shared_mask) == 0
+    return (m_root->value != nullptr)
+               && (m_root->header & Constants::kxml_memory_page_value_allocated_or_shared_mask) == 0
              ? m_root->value - doc.buffer
              : -1;
 
