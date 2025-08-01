@@ -5,6 +5,7 @@
 #include "lumex/xml/constants/XmlConstants.hpp"
 #include "lumex/xml/text/XmlParseResult.hpp"
 #include "lumex/xml/writer/IXmlWriter.hpp"
+#include "lumex/xml/writer/XmlBufferedWriter.hpp"
 
 #include "XmlNodeBase.hpp"
 
@@ -12,6 +13,7 @@ using namespace Lumex::Xml::Attribute;
 using namespace Lumex::Xml::Writer;
 using namespace Lumex::Xml::Text;
 using namespace Lumex::Xml::Constants;
+using namespace Lumex::Xml::Writer;
 
 namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
 {
@@ -501,6 +503,9 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
       }
 
       bool allow_move(XmlNode parent, XmlNode child);
+
+      void node_output(XmlBufferedWriter &writer, XmlNodeBase *root, char_t const *indent, unsigned int flags,
+                       unsigned int depth);
     } // namespace Node
   } // namespace Xml
 } // namespace Lumex
