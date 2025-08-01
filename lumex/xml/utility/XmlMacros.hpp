@@ -16,7 +16,7 @@
 #endif
 
 /* ===== For these 4 macros, we need to use the constants from:
- LumexXmlMemoryPage.hpp, LumexXmlTypes.hpp, LumexXmlConstants.hpp ===== */
+LumexXmlMemoryPage.hpp, LumexXmlTypes.hpp, LumexXmlConstants.hpp ===== */
 #define LUMEX_XML_GETHEADER_IMPL(object, page, flags) (((reinterpret_cast<char *>(object) - reinterpret_cast<char *>(page)) << 8) | (flags))
 #define LUMEX_XML_GETPAGE_IMPL(header) static_cast<XmlMemoryPage *>(const_cast<void *>(static_cast<const void *>(reinterpret_cast<const char *>(&header) - (header >> 8))))
 
@@ -34,5 +34,8 @@
 #define LUMEX_XML_IS_CHARTYPE(c, ct) LUMEX_XML_IS_CHARTYPE_IMPL(c, ct, kchartype_table)
 #define LUMEX_XML_IS_CHARTYPEX(c, ct) LUMEX_XML_IS_CHARTYPE_IMPL(c, ct, kchartypex_table)
 /* ======================================================================================= */
+
+#define LUMEX_XML_SCANCHAR(ch) { if (offset >= size || data[offset] != ch) return false; offset++; }
+#define LUMEX_XML_SCANCHARTYPE(ct) { while (offset < size && LUMEX_XML_IS_CHARTYPE(data[offset], ct)) offset++; }
 
 #endif // !LUMEX_XML_MACRO_HPP
