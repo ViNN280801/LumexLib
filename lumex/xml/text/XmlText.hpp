@@ -134,6 +134,10 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
           "The returned internal pointer should be used; discarding it negates the purpose of the getter.")
         XmlNodeBase *_data() const;
       };
+
+      bool operator&&(XmlText const &lhs, bool rhs);
+
+      bool operator||(XmlText const &lhs, bool rhs);
     } // namespace Text
   } // namespace Xml
 } // namespace Lumex

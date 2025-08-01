@@ -7,7 +7,7 @@ using namespace Lumex::Xml::XPath::Node;
 inline XPathNode::XPathNode(Lumex::Xml::Node::XmlNode const &node_) : m_node(node_) {}
 
 inline XPathNode::XPathNode(Lumex::Xml::Attribute::XmlAttribute const &attribute_,
-                                            Lumex::Xml::Node::XmlNode const &parent_)
+                            Lumex::Xml::Node::XmlNode const &parent_)
     : m_node((attribute_ != nullptr) ? parent_ : Lumex::Xml::Node::XmlNode()), m_attribute(attribute_)
 {}
 
@@ -55,4 +55,16 @@ inline bool
 XPathNode::operator!=(XPathNode const &n) const
 {
   return m_node != n.m_node || m_attribute != n.m_attribute;
+}
+
+inline bool
+operator&&(XPathNode const &lhs, bool rhs) // NOLINT(misc-use-internal-linkage)
+{
+  return (bool)lhs && rhs;
+}
+
+inline bool
+operator||(XPathNode const &lhs, bool rhs) // NOLINT(misc-use-internal-linkage)
+{
+  return (bool)lhs || rhs;
 }

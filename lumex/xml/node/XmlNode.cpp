@@ -1858,3 +1858,15 @@ XmlNode::select_single_node(XPathQuery const &query) const
 {
   return query.evaluate_node(*this);
 }
+
+inline bool
+operator&&(XmlNode const &lhs, bool rhs) // NOLINT(misc-use-internal-linkage)
+{
+  return (bool)lhs && rhs;
+}
+
+inline bool
+operator||(XmlNode const &lhs, bool rhs) // NOLINT(misc-use-internal-linkage)
+{
+  return (bool)lhs || rhs;
+}

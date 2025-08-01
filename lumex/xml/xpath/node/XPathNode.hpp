@@ -27,8 +27,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
 
           // Construct XPath node from XML node/attribute
           XPathNode(Lumex::Xml::Node::XmlNode const &node);
-          XPathNode(Lumex::Xml::Attribute::XmlAttribute const &attribute,
-                            Lumex::Xml::Node::XmlNode const &parent);
+          XPathNode(Lumex::Xml::Attribute::XmlAttribute const &attribute, Lumex::Xml::Node::XmlNode const &parent);
 
           // Get node/attribute, if any
           LUMEX_ATTRIBUTE_NODISCARD("The returned XML node from the XPath evaluation should be used; discarding it "
@@ -58,6 +57,10 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
           Lumex::Xml::Node::XmlNode m_node;
           Lumex::Xml::Attribute::XmlAttribute m_attribute;
         };
+
+        bool operator&&(XPathNode const &lhs, bool rhs);
+
+        bool operator||(XPathNode const &lhs, bool rhs);
       } // namespace Node
     } // namespace XPath
   } // namespace Xml

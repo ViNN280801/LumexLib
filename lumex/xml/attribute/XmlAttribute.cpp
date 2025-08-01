@@ -418,3 +418,15 @@ Lumex::Xml::Utility::is_attribute_of(Attribute::XmlAttributeBase *attr, XmlNodeB
 
   return false;
 }
+
+inline bool
+operator&&(XmlAttribute const &lhs, bool rhs) // NOLINT(misc-use-internal-linkage)
+{
+  return (bool)lhs && rhs;
+}
+
+inline bool
+operator||(XmlAttribute const &lhs, bool rhs) // NOLINT(misc-use-internal-linkage)
+{
+  return (bool)lhs || rhs;
+}

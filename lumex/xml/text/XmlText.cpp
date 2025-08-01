@@ -4,7 +4,6 @@
 #include "lumex/xml/utility/XmlMacros.hpp"
 #include "lumex/xml/utility/XmlUtils.hpp"
 
-
 #include "XmlText.hpp"
 
 using namespace Lumex::Xml::Text;
@@ -370,4 +369,16 @@ inline XmlNode
 XmlText::data() const
 {
   return XmlNode(_data());
+}
+
+inline bool
+operator&&(XmlText const &lhs, bool rhs) // NOLINT(misc-use-internal-linkage)
+{
+  return (bool)lhs && rhs;
+}
+
+inline bool
+operator||(XmlText const &lhs, bool rhs) // NOLINT(misc-use-internal-linkage)
+{
+  return (bool)lhs || rhs;
 }

@@ -506,6 +506,10 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
 
       void node_output(XmlBufferedWriter &writer, XmlNodeBase *root, char_t const *indent, unsigned int flags,
                        unsigned int depth);
+
+      bool operator&&(XmlNode const &lhs, bool rhs);
+
+      bool operator||(XmlNode const &lhs, bool rhs);
     } // namespace Node
   } // namespace Xml
 } // namespace Lumex

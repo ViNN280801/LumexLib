@@ -188,6 +188,10 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
       private:
         XmlAttributeBase *m_attr;
       };
+
+      bool operator&&(XmlAttribute const &lhs, bool rhs);
+
+      bool operator||(XmlAttribute const &lhs, bool rhs);
     } // namespace Attribute
     namespace Utility
     {
