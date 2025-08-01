@@ -42,6 +42,8 @@ Diagnostics:
   - readability-container-data-pointer
   - cppcoreguidelines-pro-bounds-pointer-arithmetic
   - cppcoreguidelines-pro-type-reinterpret-cast
+  - cppcoreguidelines-avoid-magic-numbers
+  - readability-magic-numbers
   # Enable clang-tidy checks
   ClangTidy:
     Add:
