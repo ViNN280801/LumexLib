@@ -1,5 +1,5 @@
-#ifndef ILUMEX_XML_WRITER_HPP
-#define ILUMEX_XML_WRITER_HPP
+#ifndef ILUMEX_XML_IWRITER_HPP
+#define ILUMEX_XML_IWRITER_HPP
 
 namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
 {
@@ -18,4 +18,4 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
   } // namespace Xml
 } // namespace Lumex
 
-#endif // !ILUMEX_XML_WRITER_HPP
+#endif // !ILUMEX_XML_IWRITER_HPP

@@ -1,9 +1,7 @@
-#ifndef LUMEXXML_WRITER_HPP
-#define LUMEXXML_WRITER_HPP
+#ifndef LUMEXXML_WRITER_STREAM_HPP
+#define LUMEXXML_WRITER_STREAM_HPP
 
 #include <iostream>
-
-#include "lumex/LumexExport.hpp"
 
 #include "IXmlWriter.hpp"
 
@@ -13,7 +11,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
   {
     namespace Writer
     {
-      class LUMEX_API XmlWriterStream : public IXmlWriter
+      class XmlWriterStream : public IXmlWriter
       {
       public:
         XmlWriterStream(std::basic_ostream<char> &stream);
@@ -29,4 +27,4 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
   } // namespace Xml
 } // namespace Lumex
 
-#endif // !LUMEXXML_WRITER_HPP
+#endif // !LUMEXXML_WRITER_STREAM_HPP

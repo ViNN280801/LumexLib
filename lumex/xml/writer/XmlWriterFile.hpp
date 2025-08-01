@@ -1,5 +1,5 @@
-#ifndef LUMEXXML_WRITER_HPP
-#define LUMEXXML_WRITER_HPP
+#ifndef LUMEXXML_WRITER_FILE_HPP
+#define LUMEXXML_WRITER_FILE_HPP
 
 #include "IXmlWriter.hpp"
 
@@ -28,4 +28,4 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
   } // namespace Xml
 } // namespace Lumex
 
-#endif // !LUMEXXML_WRITER_HPP
+#endif // !LUMEXXML_WRITER_FILE_HPP
