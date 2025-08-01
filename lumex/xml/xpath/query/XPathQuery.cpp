@@ -1,13 +1,40 @@
-#include "lumex/xml/text/XmlParseResult.hpp"
 #include "lumex/xml/utility/XmlCleaner.hpp"
+#include "lumex/xml/xpath/exception/XPathException.hpp"
+
+#include "lumex/xml/xpath/parser/XPathParser.hpp"
 #include "lumex/xml/xpath/variable/XPathVariableSet.hpp"
 
 #include "XPathQuery.hpp"
 
-using namespace Lumex::Xml::XPath::Variable;
 using namespace Lumex::Xml::Utility;
 using namespace Lumex::Xml::XPath;
-using namespace Lumex::Xml::Text;
+
+using namespace Lumex::Xml::XPath::Exception;
+using namespace Lumex::Xml::XPath::Parser;
+using namespace Lumex::Xml::XPath::Variable;
+
+namespace
+{
+  inline void
+  unspecified_bool_xpath_query(XPathQuery *** /* unused */)
+  {}
+
+  inline XPathAstNode *
+  evaluate_node_set_prepare(XPathQueryImpl *impl)
+  {
+    if(impl == nullptr) return nullptr;
+
+    if(impl->root->rettype() != xpath_type_node_set)
+    {
+      XPathParseResult res;
+      res.error = "Expression does not evaluate to node set";
+
+      throw XPathException(res);
+    }
+
+    return impl->root;
+  }
+}
 
 XPathQueryImpl *
 XPathQueryImpl::create()
@@ -29,35 +56,31 @@ XPathQueryImpl::destroy(XPathQueryImpl *impl)
   free(impl); // NOLINT(cppcoreguidelines-owning-memory, cppcoreguidelines-no-malloc)
 }
 
-XPathQueryImpl::XPathQueryImpl() : root(nullptr), alloc(&block, &oom), oom(false)
+XPathQueryImpl::XPathQueryImpl() : alloc(&block, &oom)
 {
   block.next     = nullptr;
-  block.capacity = sizeof(block.data);
+  block.capacity = sizeof(block.data); // NOLINT(cppcoreguidelines-pro-type-union-access)
 }
 
 inline XPathQuery::XPathQuery(char_t const *query, XPathVariableSet *variables) : m_impl(nullptr)
 {
   XPathQueryImpl *qimpl = XPathQueryImpl::create();
+  if(qimpl == nullptr) throw std::bad_alloc();
 
-  if(!qimpl) { throw std::bad_alloc(); }
+  XmlCleaner<XPathQueryImpl> impl(qimpl, XPathQueryImpl::destroy);
+
+  qimpl->root = XPathParser::parse(query, variables, &qimpl->alloc, &m_result);
+  if(qimpl->root != nullptr)
+  {
+    qimpl->root->optimize(&qimpl->alloc);
+
+    m_impl         = impl.release();
+    m_result.error = nullptr;
+  }
   else
   {
-    XmlCleaner<XPathQueryImpl> impl(qimpl, XPathQueryImpl::destroy);
-
-    qimpl->root = impl::xpath_parser::parse(query, variables, &qimpl->alloc, &m_result);
-
-    if(qimpl->root)
-    {
-      qimpl->root->optimize(&qimpl->alloc);
-
-      m_impl         = impl.release();
-      m_result.error = nullptr;
-    }
-    else
-    {
-      if(qimpl->oom) throw std::bad_alloc();
-      throw xpath_exception(m_result);
-    }
+    if(qimpl->oom) throw std::bad_alloc();
+    throw XPathException(m_result);
   }
 }
 
@@ -65,15 +88,13 @@ inline XPathQuery::XPathQuery() : m_impl(nullptr) {}
 
 inline XPathQuery::~XPathQuery()
 {
-  if(m_impl) XPathQueryImpl::destroy(static_cast<XPathQueryImpl *>(m_impl));
+  if(m_impl != nullptr) XPathQueryImpl::destroy(static_cast<XPathQueryImpl *>(m_impl));
 }
 
-inline XPathQuery::XPathQuery(XPathQuery &&rhs) noexcept
+inline XPathQuery::XPathQuery(XPathQuery &&rhs) noexcept : m_impl(rhs.m_impl), m_result(rhs.m_result)
 {
-  m_impl       = rhs.m_impl;
-  m_result     = rhs.m_result;
   rhs.m_impl   = nullptr;
-  rhs.m_result = XmlParseResult();
+  rhs.m_result = XPathParseResult();
 }
 
 inline XPathQuery &
@@ -81,12 +102,12 @@ XPathQuery::operator=(XPathQuery &&rhs) noexcept
 {
   if(this == &rhs) return *this;
 
-  if(m_impl) XPathQueryImpl::destroy(static_cast<XPathQueryImpl *>(m_impl));
+  if(m_impl != nullptr) XPathQueryImpl::destroy(static_cast<XPathQueryImpl *>(m_impl));
 
   m_impl       = rhs.m_impl;
   m_result     = rhs.m_result;
   rhs.m_impl   = nullptr;
-  rhs.m_result = XmlParseResult();
+  rhs.m_result = XPathParseResult();
 
   return *this;
 }
@@ -94,7 +115,7 @@ XPathQuery::operator=(XPathQuery &&rhs) noexcept
 inline xpath_value_type
 XPathQuery::return_type() const
 {
-  if(!m_impl) return xpath_type_none;
+  if(m_impl == nullptr) return xpath_type_none;
 
   return static_cast<XPathQueryImpl *>(m_impl)->root->rettype();
 }
@@ -102,123 +123,120 @@ XPathQuery::return_type() const
 inline bool
 XPathQuery::evaluate_boolean(XPathNode const &n) const
 {
-  if(!m_impl) return false;
+  if(m_impl == nullptr) return false;
 
-  impl::xpath_context c(n, 1, 1);
-  impl::xpath_stack_data sd;
+  XPathContext ctx(n, 1, 1);
+  XPathStackData stack_data;
 
-  bool r = static_cast<XPathQueryImpl *>(m_impl)->root->eval_boolean(c, sd.stack);
+  bool tmp = static_cast<XPathQueryImpl *>(m_impl)->root->eval_boolean(ctx, stack_data.stack);
 
-  if(sd.oom) throw std::bad_alloc();
+  if(stack_data.oom) throw std::bad_alloc();
 
-  return r;
+  return tmp;
 }
 
 inline double
 XPathQuery::evaluate_number(XPathNode const &n) const
 {
-  if(!m_impl) return impl::gen_nan();
+  if(m_impl == nullptr) return gen_nan();
 
-  impl::xpath_context c(n, 1, 1);
-  impl::xpath_stack_data sd;
+  XPathContext ctx(n, 1, 1);
+  XPathStackData stack_data;
 
-  double r = static_cast<XPathQueryImpl *>(m_impl)->root->eval_number(c, sd.stack);
+  double tmp = static_cast<XPathQueryImpl *>(m_impl)->root->eval_number(ctx, stack_data.stack);
 
-  if(sd.oom) throw std::bad_alloc();
+  if(stack_data.oom) throw std::bad_alloc();
 
-  return r;
+  return tmp;
 }
 
 inline string_t
 XPathQuery::evaluate_string(XPathNode const &n) const
 {
-  if(!m_impl) return string_t();
+  if(m_impl == nullptr) return {};
 
-  impl::xpath_context c(n, 1, 1);
-  impl::xpath_stack_data sd;
+  XPathContext ctx(n, 1, 1);
+  XPathStackData stack_data;
 
-  impl::xpath_string r = static_cast<XPathQueryImpl *>(m_impl)->root->eval_string(c, sd.stack);
+  XPathString tmp = static_cast<XPathQueryImpl *>(m_impl)->root->eval_string(ctx, stack_data.stack);
 
-  if(sd.oom) throw std::bad_alloc();
+  if(stack_data.oom) throw std::bad_alloc();
 
-  return string_t(r.c_str(), r.length());
+  return {tmp.c_str(), tmp.length()};
 }
 
 inline size_t
 XPathQuery::evaluate_string(char_t *buffer, size_t capacity, XPathNode const &n) const
 {
-  impl::xpath_context c(n, 1, 1);
-  impl::xpath_stack_data sd;
+  XPathContext ctx(n, 1, 1);
+  XPathStackData stack_data;
 
-  impl::xpath_string r
-    = m_impl ? static_cast<XPathQueryImpl *>(m_impl)->root->eval_string(c, sd.stack) : impl::xpath_string();
+  XPathString tmp = (m_impl != nullptr)
+                      ? static_cast<XPathQueryImpl *>(m_impl)->root->eval_string(ctx, stack_data.stack)
+                      : XPathString();
 
-  if(sd.oom) throw std::bad_alloc();
+  if(stack_data.oom) throw std::bad_alloc();
 
-  size_t full_size = r.length() + 1;
+  size_t full_size = tmp.length() + 1;
 
   if(capacity > 0)
   {
     size_t size = (full_size < capacity) ? full_size : capacity;
     LUMEX_ASSERT(size > 0);
 
-    memcpy(buffer, r.c_str(), (size - 1) * sizeof(char_t));
+    std::memcpy(buffer, tmp.c_str(), (size - 1) * sizeof(char_t));
     buffer[size - 1] = 0;
   }
 
   return full_size;
 }
 
-inline xpath_node_set
+inline XPathNodeSet
 XPathQuery::evaluate_node_set(XPathNode const &n) const
 {
-  impl::xpath_ast_node *root = impl::evaluate_node_set_prepare(static_cast<XPathQueryImpl *>(m_impl));
-  if(!root) return xpath_node_set();
+  XPathAstNode *root = evaluate_node_set_prepare(static_cast<XPathQueryImpl *>(m_impl));
+  if(root == nullptr) return {};
 
-  impl::xpath_context c(n, 1, 1);
-  impl::xpath_stack_data sd;
+  XPathContext ctx(n, 1, 1);
+  XPathStackData stack_data;
 
-  impl::xpath_node_set_raw r = root->eval_node_set(c, sd.stack, impl::nodeset_eval_all);
+  XPathNodeSetRaw node_set_raw = root->eval_node_set(ctx, stack_data.stack, nodeset_eval_all);
 
-  if(sd.oom) throw std::bad_alloc();
+  if(stack_data.oom) throw std::bad_alloc();
 
-  return xpath_node_set(r.begin(), r.end(), r.type());
+  return {node_set_raw.begin(), node_set_raw.end(), node_set_raw.type()};
 }
 
 inline XPathNode
 XPathQuery::evaluate_node(XPathNode const &n) const
 {
-  impl::xpath_ast_node *root = impl::evaluate_node_set_prepare(static_cast<XPathQueryImpl *>(m_impl));
-  if(!root) return XPathNode();
+  XPathAstNode *root = evaluate_node_set_prepare(static_cast<XPathQueryImpl *>(m_impl));
+  if(root == nullptr) return {};
 
-  impl::xpath_context c(n, 1, 1);
-  impl::xpath_stack_data sd;
+  XPathContext ctx(n, 1, 1);
+  XPathStackData stack_data;
 
-  impl::xpath_node_set_raw r = root->eval_node_set(c, sd.stack, impl::nodeset_eval_first);
+  XPathNodeSetRaw node_set_raw = root->eval_node_set(ctx, stack_data.stack, nodeset_eval_first);
 
-  if(sd.oom) throw std::bad_alloc();
+  if(stack_data.oom) throw std::bad_alloc();
 
-  return r.first();
+  return node_set_raw.first();
 }
 
-inline XmlParseResult const &
+inline XPathParseResult const &
 XPathQuery::result() const
 {
   return m_result;
 }
 
-inline static void
-unspecified_bool_xpath_query(XPathQuery ***)
-{}
-
 inline XPathQuery::
 operator XPathQuery::unspecified_bool_type() const
 {
-  return m_impl ? unspecified_bool_xpath_query : nullptr;
+  return (m_impl != nullptr) ? unspecified_bool_xpath_query : nullptr;
 }
 
 inline bool
 XPathQuery::operator!() const
 {
-  return !m_impl;
+  return m_impl == nullptr;
 }

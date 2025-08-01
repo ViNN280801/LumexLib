@@ -3,14 +3,14 @@
 
 #include "lumex/core/utility/LumexAttributes.hpp"
 
-#include "lumex/xml/text/XmlParseResult.hpp"
 #include "lumex/xml/types/XmlTypes.hpp"
 #include "lumex/xml/xpath/memory/XPathAllocator.hpp"
 #include "lumex/xml/xpath/memory/XPathMemoryBlock.hpp"
+#include "lumex/xml/xpath/parser/XPathParseResult.hpp"
 
 using namespace Lumex::Xml::Types;
-using namespace Lumex::Xml::Text;
 using namespace Lumex::Xml::XPath::Memory;
+using namespace Lumex::Xml::XPath::Parser;
 
 namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
 {
@@ -31,10 +31,6 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
       {
         class XPathVariableSet;
       }
-      namespace Parser
-      {
-        class XPathParseResult;
-      }
 
       namespace Query
       {
@@ -42,7 +38,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
         {
         private:
           void *m_impl;
-          XmlParseResult m_result;
+          XPathParseResult m_result;
 
           XPathQuery(XPathQuery const &);
           XPathQuery &operator=(XPathQuery const &);
@@ -95,9 +91,9 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
         XPathQueryImpl();
 
         Ast::XPathAstNode *root{}; // NOLINT(misc-non-private-member-variables-in-classes)
-        XPathAllocator alloc;         // NOLINT(misc-non-private-member-variables-in-classes)
-        XPathMemoryBlock block{};     // NOLINT(misc-non-private-member-variables-in-classes)
-        bool oom{};                   // NOLINT(misc-non-private-member-variables-in-classes)
+        XPathAllocator alloc;      // NOLINT(misc-non-private-member-variables-in-classes)
+        XPathMemoryBlock block{};  // NOLINT(misc-non-private-member-variables-in-classes)
+        bool oom{};                // NOLINT(misc-non-private-member-variables-in-classes)
       };
     } // namespace XPath
   } // namespace Xml
