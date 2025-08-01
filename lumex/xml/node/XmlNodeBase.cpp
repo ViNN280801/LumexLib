@@ -241,3 +241,11 @@ node_copy_tree(XmlNodeBase *dn_, XmlNodeBase *sn_) // NOLINT(misc-use-internal-l
 
   LUMEX_ASSERT((sit == nullptr) || (dit == dn_->parent));
 }
+
+inline bool
+node_is_ancestor(XmlNodeBase *parent, XmlNodeBase *node) // NOLINT(misc-use-internal-linkage)
+{
+  while((node != nullptr) && node != parent) node = node->parent;
+
+  return (parent != nullptr) && (node == parent);
+}

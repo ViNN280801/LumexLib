@@ -22,16 +22,21 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
     {
       namespace Node
       {
-        class XmlXPathNode;
-        class XmlXPathNodeSet;
+        class XPathNode;
+        class XPathNodeSet;
       }
       namespace Variable
       {
-        class XmlXPathVariableSet;
+        class XPathVariableSet;
       }
       namespace Query
       {
-        class XmlPathQuery;
+        class XPathQuery;
+      }
+      namespace Node
+      {
+        class XPathNode;
+        class XPathNodeSet;
       }
     }
     namespace Attribute
@@ -46,6 +51,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
     {
       class XmlTreeWalker;
     }
+
     using namespace XPath::Node;
     using namespace XPath::Variable;
     using namespace XPath::Query;
@@ -393,32 +399,29 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
         // Select single node by evaluating XPath query. Returns first node from the resulting node set.
         LUMEX_ATTRIBUTE_NODISCARD(
           "The returned XPath node should be used; discarding it negates the purpose of the getter.")
-        XPath::Node::XmlXPathNode
-        select_node(char_t const *query, XPath::Variable::XmlXPathVariableSet *variables = nullptr) const;
+        XPathNode select_node(char_t const *query, XPathVariableSet *variables = nullptr) const;
 
         LUMEX_ATTRIBUTE_NODISCARD(
           "The returned XPath node should be used; discarding it negates the purpose of the getter.")
-        XPath::Node::XmlXPathNode select_node(XmlPathQuery const &query) const;
+        XPathNode select_node(XPathQuery const &query) const;
 
         // Select node set by evaluating XPath query
         LUMEX_ATTRIBUTE_NODISCARD(
           "The returned XPath node set should be used; discarding it negates the purpose of the getter.")
-        XPath::Node::XmlXPathNodeSet
-        select_nodes(char_t const *query, XPath::Variable::XmlXPathVariableSet *variables = nullptr) const;
+        XPathNodeSet select_nodes(char_t const *query, XPathVariableSet *variables = nullptr) const;
 
         LUMEX_ATTRIBUTE_NODISCARD(
           "The returned XPath node set should be used; discarding it negates the purpose of the getter.")
-        XPath::Node::XmlXPathNodeSet select_nodes(XmlPathQuery const &query) const;
+        XPathNodeSet select_nodes(XPathQuery const &query) const;
 
         // (deprecated: use select_node instead) Select single node by evaluating XPath query.
         LUMEX_ATTRIBUTE_DEPRECATED LUMEX_ATTRIBUTE_NODISCARD(
-          "The returned XPath node should be used; discarding it negates the purpose of the getter.")
-          XPath::Node::XmlXPathNode
-          select_single_node(char_t const *query, XmlXPathVariableSet *variables = nullptr) const;
+          "The returned XPath node should be used; discarding it negates the purpose of the getter.") XPathNode
+          select_single_node(char_t const *query, XPathVariableSet *variables = nullptr) const;
 
         LUMEX_ATTRIBUTE_DEPRECATED LUMEX_ATTRIBUTE_NODISCARD(
-          "The returned XPath node should be used; discarding it negates the purpose of the getter.")
-          XPath::Node::XmlXPathNode select_single_node(XmlPathQuery const &query) const;
+          "The returned XPath node should be used; discarding it negates the purpose of the getter.") XPathNode
+          select_single_node(XPathQuery const &query) const;
 
         // Print subtree using a writer object
         void
@@ -495,8 +498,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
         return type == node_pcdata || type == node_cdata;
       }
 
-      bool
-      allow_move(XmlNode parent, XmlNode child);
+      bool allow_move(XmlNode parent, XmlNode child);
     } // namespace Node
   } // namespace Xml
 } // namespace Lumex

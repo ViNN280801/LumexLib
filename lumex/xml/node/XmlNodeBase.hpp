@@ -63,6 +63,8 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
       void node_copy_contents(XmlNodeBase *dn_, XmlNodeBase *sn_, XmlAllocator *shared_alloc);
 
       void node_copy_tree(XmlNodeBase *dn_, XmlNodeBase *sn_);
+
+      bool node_is_ancestor(XmlNodeBase *parent, XmlNodeBase *node);
     } // namespace Node
   } // namespace Xml
 } // namespace Lumex

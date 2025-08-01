@@ -10,6 +10,11 @@
 #include "lumex/xml/writer/XmlBufferedWriter.hpp"
 #include "lumex/xml/writer/XmlWriterStream.hpp"
 
+#include "lumex/xml/xpath/node/XPathNode.hpp"
+#include "lumex/xml/xpath/node/XPathNodeSet.hpp"
+#include "lumex/xml/xpath/query/XPathQuery.hpp"
+#include "lumex/xml/xpath/variable/XPathVariableSet.hpp"
+
 #include "XmlNode.hpp"
 #include "XmlNodeIterator.hpp"
 
@@ -21,6 +26,10 @@ using namespace Lumex::Xml::Node;
 using namespace Lumex::Xml::Utility;
 using namespace Lumex::Xml::Document;
 using namespace Lumex::Xml::Text;
+
+using namespace Lumex::Xml::XPath::Node;
+using namespace Lumex::Xml::XPath::Query;
+using namespace Lumex::Xml::XPath::Variable;
 
 inline bool
 allow_move(XmlNode parent, XmlNode child) // NOLINT(misc-use-internal-linkage)
@@ -1811,41 +1820,41 @@ XmlNode::offset_debug() const
   }
 }
 
-inline xpath_node
-XmlNode::select_node(char_t const *query, xpath_variable_set *variables) const
+inline XPathNode
+XmlNode::select_node(char_t const *query, XPathVariableSet *variables) const
 {
-  xpath_query q(query, variables);
-  return q.evaluate_node(*this);
+  XPathQuery query_obj(query, variables);
+  return query_obj.evaluate_node(*this);
 }
 
-inline xpath_node
-XmlNode::select_node(xpath_query const &query) const
+inline XPathNode
+XmlNode::select_node(XPathQuery const &query) const
 {
   return query.evaluate_node(*this);
 }
 
-inline xpath_node_set
-XmlNode::select_nodes(char_t const *query, xpath_variable_set *variables) const
+inline XPathNodeSet
+XmlNode::select_nodes(char_t const *query, XPathVariableSet *variables) const
 {
-  xpath_query q(query, variables);
-  return q.evaluate_node_set(*this);
+  XPathQuery query_obj(query, variables);
+  return query_obj.evaluate_node_set(*this);
 }
 
-inline xpath_node_set
-XmlNode::select_nodes(xpath_query const &query) const
+inline XPathNodeSet
+XmlNode::select_nodes(XPathQuery const &query) const
 {
   return query.evaluate_node_set(*this);
 }
 
-inline xpath_node
-XmlNode::select_single_node(char_t const *query, xpath_variable_set *variables) const
+inline XPathNode
+XmlNode::select_single_node(char_t const *query, XPathVariableSet *variables) const
 {
-  xpath_query q(query, variables);
-  return q.evaluate_node(*this);
+  XPathQuery query_obj(query, variables);
+  return query_obj.evaluate_node(*this);
 }
 
-inline xpath_node
-XmlNode::select_single_node(xpath_query const &query) const
+inline XPathNode
+XmlNode::select_single_node(XPathQuery const &query) const
 {
   return query.evaluate_node(*this);
 }
