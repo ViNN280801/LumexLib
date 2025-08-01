@@ -1,6 +1,8 @@
 #ifndef LUMEX_XML_MACRO_HPP
 #define LUMEX_XML_MACRO_HPP
 
+#include "lumex/core/utility/LumexAttributes.hpp"
+
 #ifdef LUMEX_XML_WCHAR_MODE
   #define LUMEX_XML_TEXT(t) L ## t
   #define LUMEX_XML_CHAR wchar_t
@@ -37,5 +39,19 @@ LumexXmlMemoryPage.hpp, LumexXmlTypes.hpp, LumexXmlConstants.hpp ===== */
 
 #define LUMEX_XML_SCANCHAR(ch) { if (offset >= size || data[offset] != ch) return false; offset++; }
 #define LUMEX_XML_SCANCHARTYPE(ct) { while (offset < size && LUMEX_XML_IS_CHARTYPE(data[offset], ct)) offset++; }
+
+/* ================== Parser macros ================== */
+#define LUMEX_XML_ENDSWITH(c, e)        ((c) == (e) || ((c) == 0 && endch == (e)))
+#define LUMEX_XML_SKIPWS()              { while (LUMEX_XML_IS_CHARTYPE(*str, ct_space)) ++str; }
+#define LUMEX_XML_OPTSET(OPT)           ( optmsk & (OPT) )
+#define LUMEX_XML_PUSHNODE(TYPE)        { cursor = append_new_node(cursor, *alloc, TYPE); if (!cursor) LUMEX_XML_THROW_ERROR(status_out_of_memory, str); }
+#define LUMEX_XML_POPNODE()             { cursor = cursor->parent; }
+#define LUMEX_XML_SCANFOR(X)            { while (*str != 0 && !(X)) ++str; }
+#define LUMEX_XML_SCANWHILE(X)          { while (X) ++str; }
+#define LUMEX_XML_SCANWHILE_UNROLL(X)   { for (;;) { LUMEX_ATTRIBUTE_MAYBE_UNUSED char_t ss = str[0]; if (LUMEX_XML_UNLIKELY(!(X))) { break; } ss = str[1]; if (LUMEX_XML_UNLIKELY(!(X))) { str += 1; break; } ss = str[2]; if (LUMEX_XML_UNLIKELY(!(X))) { str += 2; break; } ss = str[3]; if (LUMEX_XML_UNLIKELY(!(X))) { str += 3; break; } str += 4; } }
+#define LUMEX_XML_ENDSEG()              { ch = *str; *str = 0; ++str; }
+#define LUMEX_XML_THROW_ERROR(err, m)   return error_offset = m, error_status = err, static_cast<char_t*>(nullptr)
+#define LUMEX_XML_CHECK_ERROR(err, m)   { if (*str == 0) LUMEX_XML_THROW_ERROR(err, m); }
+/* ==================================================== */
 
 #endif // !LUMEX_XML_MACRO_HPP
