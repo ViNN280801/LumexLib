@@ -7,15 +7,15 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
   {
     namespace Utility
     {
-      template <typename T> struct LumexXmlCleaner { // NOLINT(cppcoreguidelines-special-member-functions)
+      template <typename T> struct XmlCleaner { // NOLINT(cppcoreguidelines-special-member-functions)
         using D = void (*)(T *);
 
         T *data{};   // NOLINT(misc-non-private-member-variables-in-classes)
         D deleter{}; // NOLINT(misc-non-private-member-variables-in-classes)
 
-        LumexXmlCleaner(T *data_, D deleter_) : data(data_), deleter(deleter_) {}
+        XmlCleaner(T *data_, D deleter_) : data(data_), deleter(deleter_) {}
 
-        ~LumexXmlCleaner()
+        ~XmlCleaner()
         {
           if(data) deleter(data);
         }

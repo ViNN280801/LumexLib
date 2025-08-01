@@ -1,22 +1,18 @@
 #ifndef LUMEX_XML_ATTRIBUTE_HPP
 #define LUMEX_XML_ATTRIBUTE_HPP
 
-#include <cstdint>
-
 #if __cplusplus >= 201703L
   #include <string_view>
 #endif
 
-#include "lumex/LumexExport.hpp"
-
 #include "lumex/core/utility/LumexAttributes.hpp"
 
-#include "lumex/xml/memory/LumexXmlMemoryPage.hpp"
-#include "lumex/xml/types/LumexXmlTypes.hpp"
-#include "lumex/xml/utility/LumexXmlMacros.hpp"
+#include "lumex/xml/types/XmlTypes.hpp"
+#include "lumex/xml/utility/XmlMacros.hpp"
+
+#include "XmlAttributeBase.hpp"
 
 using namespace Lumex::Xml::Types;
-using namespace Lumex::Xml::Memory;
 
 namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
 {
@@ -24,34 +20,19 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
   {
     namespace Attribute
     {
-      struct LUMEX_API xml_attr_t {
-        xml_attr_t(xml_mem_page_t *page)
-        {
-          header = LUMEX_XML_GETHEADER_IMPL(this, page, 0); // NOLINT(cppcoreguidelines-prefer-member-initializer)
-        }
-
-        uintptr_t header; // NOLINT(misc-non-private-member-variables-in-classes)
-
-        char_t *name{};  // NOLINT(misc-non-private-member-variables-in-classes)
-        char_t *value{}; // NOLINT(misc-non-private-member-variables-in-classes)
-
-        xml_attr_t *prev_attribute_c{}; // NOLINT(misc-non-private-member-variables-in-classes)
-        xml_attr_t *next_attribute{};   // NOLINT(misc-non-private-member-variables-in-classes)
-      };
-
-      class LUMEX_API LumexXmlAttribute
+      class XmlAttribute
       {
-        friend class LumexXmlAttributeIterator;
-        // friend class LumexXmlNode;
+        friend class XmlAttributeIterator;
+        friend class LumexXmlNode;
 
       public:
-        using unspecified_bool_type = void (*)(LumexXmlAttribute ***);
+        using unspecified_bool_type = void (*)(XmlAttribute ***);
 
         // Default constructor. Constructs an empty attribute.
-        LumexXmlAttribute();
+        XmlAttribute();
 
         // Constructs attribute from internal pointer
-        explicit LumexXmlAttribute(xml_attr_t *attr);
+        explicit XmlAttribute(XmlAttributeBase *attr);
 
         // Safe bool conversion operator
         operator unspecified_bool_type() const;
@@ -59,17 +40,17 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
         bool operator!() const;
 
         // Comparison operators (compares wrapped attribute pointers)
-        bool operator==(LumexXmlAttribute const &other) const;
+        bool operator==(XmlAttribute const &other) const;
 
-        bool operator!=(LumexXmlAttribute const &other) const;
+        bool operator!=(XmlAttribute const &other) const;
 
-        bool operator<(LumexXmlAttribute const &other) const;
+        bool operator<(XmlAttribute const &other) const;
 
-        bool operator>(LumexXmlAttribute const &other) const;
+        bool operator>(XmlAttribute const &other) const;
 
-        bool operator<=(LumexXmlAttribute const &other) const;
+        bool operator<=(XmlAttribute const &other) const;
 
-        bool operator>=(LumexXmlAttribute const &other) const;
+        bool operator>=(XmlAttribute const &other) const;
 
         // Check if attribute is empty (null)
         LUMEX_ATTRIBUTE_NODISCARD("The returned boolean indicates whether the attribute is empty; discarding it "
@@ -160,38 +141,38 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
         bool set_value(unsigned long long rhs);
 
         // Set attribute value (equivalent to set_value without error checking)
-        LumexXmlAttribute &operator=(char_t const *rhs);
+        XmlAttribute &operator=(char_t const *rhs);
 
-        LumexXmlAttribute &operator=(int rhs);
+        XmlAttribute &operator=(int rhs);
 
-        LumexXmlAttribute &operator=(unsigned int rhs);
+        XmlAttribute &operator=(unsigned int rhs);
 
-        LumexXmlAttribute &operator=(long rhs);
+        XmlAttribute &operator=(long rhs);
 
-        LumexXmlAttribute &operator=(unsigned long rhs);
+        XmlAttribute &operator=(unsigned long rhs);
 
-        LumexXmlAttribute &operator=(double rhs);
+        XmlAttribute &operator=(double rhs);
 
-        LumexXmlAttribute &operator=(float rhs);
+        XmlAttribute &operator=(float rhs);
 
-        LumexXmlAttribute &operator=(bool rhs);
+        XmlAttribute &operator=(bool rhs);
 
 #if __cplusplus >= 201703L
-        LumexXmlAttribute &operator=(std::string_view rhs);
+        XmlAttribute &operator=(std::string_view rhs);
 #endif
 
-        LumexXmlAttribute &operator=(long long rhs);
+        XmlAttribute &operator=(long long rhs);
 
-        LumexXmlAttribute &operator=(unsigned long long rhs);
+        XmlAttribute &operator=(unsigned long long rhs);
 
         // Get next/previous attribute in the attribute list of the parent node
         LUMEX_ATTRIBUTE_NODISCARD(
           "The returned attribute should be used; discarding it negates the purpose of the getter")
-        LumexXmlAttribute next_attribute() const;
+        XmlAttribute next_attribute() const;
 
         LUMEX_ATTRIBUTE_NODISCARD(
           "The returned attribute should be used; discarding it negates the purpose of the getter")
-        LumexXmlAttribute previous_attribute() const;
+        XmlAttribute previous_attribute() const;
 
         // Get hash value (unique for handles to the same object)
         LUMEX_ATTRIBUTE_NODISCARD(
@@ -201,10 +182,10 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
         // Get internal pointer
         LUMEX_ATTRIBUTE_NODISCARD(
           "The returned pointer should be used; discarding it negates the purpose of the getter")
-        xml_attr_t *get() const;
+        XmlAttributeBase *get() const;
 
       private:
-        xml_attr_t *m_attr;
+        XmlAttributeBase *m_attr;
       };
     } // namespace Attribute
   } // namespace Xml

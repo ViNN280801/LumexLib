@@ -1,21 +1,21 @@
 #define LUMEX_IMPLEMENTATION
 
-#include "LumexXmlParseResult.hpp"
+#include "XmlParseResult.hpp"
 
 using namespace Lumex::Xml::Text;
 
-inline LumexXmlParseResult::LumexXmlParseResult()
+inline XmlParseResult::XmlParseResult()
     : status(Types::xml_parse_status::status_internal_error), offset(0), encoding(Types::xml_encoding::encoding_auto)
 {}
 
-inline LumexXmlParseResult::
+inline XmlParseResult::
 operator bool() const
 {
   return status == Types::xml_parse_status::status_ok;
 }
 
 inline char const *
-LumexXmlParseResult::description() const
+XmlParseResult::description() const
 {
   switch(status)
   {

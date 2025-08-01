@@ -6,10 +6,10 @@
 
 #include "lumex/core/utility/LumexMacros.hpp"
 
-#include "lumex/xml/constants/LumexXmlConstants.hpp"
-#include "lumex/xml/memory/LumexXmlAllocator.hpp"
-#include "lumex/xml/types/LumexXmlTypes.hpp"
-#include "lumex/xml/utility/LumexXmlMacros.hpp"
+#include "lumex/xml/constants/XmlConstants.hpp"
+#include "lumex/xml/memory/XmlAllocator.hpp"
+#include "lumex/xml/types/XmlTypes.hpp"
+#include "lumex/xml/utility/XmlMacros.hpp"
 
 using namespace Lumex::Xml::Memory;
 using namespace Lumex::Xml::Constants;
@@ -182,9 +182,9 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
         LUMEX_ASSERT((header & header_mask) == 0 || dest);
         if(source_length == 0)
         {
-          xml_allocator_t *alloc = LUMEX_XML_GETPAGE_IMPL( // NOLINT(cppcoreguidelines-pro-type-const-cast)
-                                     header)
-                                     ->allocator;
+          XmlAllocator *alloc = LUMEX_XML_GETPAGE_IMPL( // NOLINT(cppcoreguidelines-pro-type-const-cast)
+                                  header)
+                                  ->allocator;
 
           if(header & header_mask) alloc->deallocate_string(dest);
 
@@ -202,9 +202,9 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
           return true;
         }
 
-        xml_allocator_t *alloc = LUMEX_XML_GETPAGE_IMPL( // NOLINT(cppcoreguidelines-pro-type-const-cast)
-                                   header)
-                                   ->allocator;
+        XmlAllocator *alloc = LUMEX_XML_GETPAGE_IMPL( // NOLINT(cppcoreguidelines-pro-type-const-cast)
+                                header)
+                                ->allocator;
         char_t *buf = alloc->allocate_string(source_length + 1);
         if(!buf) return false;
 
@@ -387,6 +387,32 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
 
         LUMEX_ASSERT(false && "Hash table is full"); // unreachable
         return false;
+      }
+
+      inline unsigned int
+      hash_string(char_t const *str)
+      {
+        // Jenkins one-at-a-time hash (http://en.wikipedia.org/wiki/Jenkins_hash_function#one-at-a-time)
+        unsigned int result                   = 0;
+
+        constexpr unsigned int const kShift3  = 3;
+        constexpr unsigned int const kShift6  = 6;
+        constexpr unsigned int const kShift10 = 10;
+        constexpr unsigned int const kShift11 = 11;
+        constexpr unsigned int const kShift15 = 15;
+
+        while(*str != 0)
+        {
+          result += static_cast<unsigned int>(*str++);
+          result += result << kShift10;
+          result ^= result >> kShift6;
+        }
+
+        result += result << kShift3;
+        result ^= result >> kShift11;
+        result += result << kShift15;
+
+        return result;
       }
     } // namespace Utility
   } // namespace Xml

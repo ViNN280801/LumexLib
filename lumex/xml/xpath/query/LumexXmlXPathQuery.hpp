@@ -20,12 +20,15 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
   {
     namespace XPath
     {
-      // Forward declarations
-      class LumexXmlXPathNode;
-      class LumexXmlXPathNodeSet;
-      class LumexXmlXPathVariableSet;
-      class LumexXmlXPathParseResult;
-      class LumexXmlXPathAstNode;
+      namespace detail
+      {
+        // Forward declarations
+        class LumexXmlXPathNode;
+        class LumexXmlXPathNodeSet;
+        class LumexXmlXPathVariableSet;
+        class LumexXmlXPathParseResult;
+        class LumexXmlXPathAstNode;
+      }
 
       namespace Query
       {
@@ -41,7 +44,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
         public:
           using unspecified_bool_type = void (*)(LumexXmlXPathQuery ***);
 
-          explicit LumexXmlXPathQuery(char_t const *query, LumexXmlXPathVariableSet *variables = nullptr);
+          explicit LumexXmlXPathQuery(char_t const *query, detail::LumexXmlXPathVariableSet *variables = nullptr);
 
           LumexXmlXPathQuery();
 
@@ -54,24 +57,24 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
           xpath_value_type return_type() const;
 
           LUMEX_ATTRIBUTE_NODISCARD("Boolean evaluation result should not be discarded.")
-          bool evaluate_boolean(LumexXmlXPathNode const &n) const;
+          bool evaluate_boolean(detail::LumexXmlXPathNode const &n) const;
 
           LUMEX_ATTRIBUTE_NODISCARD("Numerical evaluation result should not be discarded.")
-          double evaluate_number(LumexXmlXPathNode const &n) const;
+          double evaluate_number(detail::LumexXmlXPathNode const &n) const;
 
           LUMEX_ATTRIBUTE_NODISCARD("String evaluation result should not be discarded.")
-          string_t evaluate_string(LumexXmlXPathNode const &n) const;
+          string_t evaluate_string(detail::LumexXmlXPathNode const &n) const;
 
-          size_t evaluate_string(char_t *buffer, size_t capacity, LumexXmlXPathNode const &n) const;
+          size_t evaluate_string(char_t *buffer, size_t capacity, detail::LumexXmlXPathNode const &n) const;
 
           LUMEX_ATTRIBUTE_NODISCARD("Node set evaluation result should not be discarded.")
-          LumexXmlXPathNodeSet evaluate_node_set(LumexXmlXPathNode const &n) const;
+          detail::LumexXmlXPathNodeSet evaluate_node_set(detail::LumexXmlXPathNode const &n) const;
 
           LUMEX_ATTRIBUTE_NODISCARD("Single node evaluation result should not be discarded.")
-          LumexXmlXPathNode evaluate_node(LumexXmlXPathNode const &n) const;
+          detail::LumexXmlXPathNode evaluate_node(detail::LumexXmlXPathNode const &n) const;
 
           LUMEX_ATTRIBUTE_NODISCARD("Query result set should not be discarded.")
-          LumexXmlXPathParseResult const &result() const;
+          detail::LumexXmlXPathParseResult const &result() const;
 
           operator unspecified_bool_type() const;
 
@@ -85,10 +88,10 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
 
         LumexXmlXPathQueryImpl();
 
-        LumexXmlXPathAstNode *root{};     // NOLINT(misc-non-private-member-variables-in-classes)
-        LumexXmlXPathAllocator alloc;     // NOLINT(misc-non-private-member-variables-in-classes)
-        LumexXmlXPathMemoryBlock block{}; // NOLINT(misc-non-private-member-variables-in-classes)
-        bool oom{};                       // NOLINT(misc-non-private-member-variables-in-classes)
+        detail::LumexXmlXPathAstNode *root{}; // NOLINT(misc-non-private-member-variables-in-classes)
+        LumexXmlXPathAllocator alloc;         // NOLINT(misc-non-private-member-variables-in-classes)
+        LumexXmlXPathMemoryBlock block{};     // NOLINT(misc-non-private-member-variables-in-classes)
+        bool oom{};                           // NOLINT(misc-non-private-member-variables-in-classes)
       };
     } // namespace XPath
   } // namespace Xml

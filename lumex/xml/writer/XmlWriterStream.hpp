@@ -5,7 +5,7 @@
 
 #include "lumex/LumexExport.hpp"
 
-#include "ILumexXmlWriter.hpp"
+#include "IXmlWriter.hpp"
 
 namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
 {
@@ -13,11 +13,11 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
   {
     namespace Writer
     {
-      class LUMEX_API LumexXmlWriterStream : public ILumexXmlWriter
+      class LUMEX_API XmlWriterStream : public IXmlWriter
       {
       public:
-        LumexXmlWriterStream(std::basic_ostream<char> &stream);
-        LumexXmlWriterStream(std::basic_ostream<wchar_t> &stream);
+        XmlWriterStream(std::basic_ostream<char> &stream);
+        XmlWriterStream(std::basic_ostream<wchar_t> &stream);
 
         void write(void const *data, size_t size) override;
 

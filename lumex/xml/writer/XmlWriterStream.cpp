@@ -2,22 +2,18 @@
 
 #include "lumex/core/utility/LumexMacros.hpp"
 
-#include "LumexXmlWriterStream.hpp"
+#include "XmlWriterStream.hpp"
 
 using namespace Lumex::Xml::Writer;
 
 LUMEX_PUBLIC_API
-LumexXmlWriterStream::LumexXmlWriterStream(std::basic_ostream<char> &stream)
-    : narrow_stream(&stream), wide_stream(nullptr)
-{}
+XmlWriterStream::XmlWriterStream(std::basic_ostream<char> &stream) : narrow_stream(&stream), wide_stream(nullptr) {}
 
 LUMEX_PUBLIC_API
-LumexXmlWriterStream::LumexXmlWriterStream(std::basic_ostream<wchar_t> &stream)
-    : narrow_stream(nullptr), wide_stream(&stream)
-{}
+XmlWriterStream::XmlWriterStream(std::basic_ostream<wchar_t> &stream) : narrow_stream(nullptr), wide_stream(&stream) {}
 
 LUMEX_PUBLIC_API void
-LumexXmlWriterStream::write(void const *data, size_t size)
+XmlWriterStream::write(void const *data, size_t size)
 {
   if(narrow_stream != nullptr)
   {

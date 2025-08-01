@@ -7,10 +7,10 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
   {
     namespace Writer
     {
-      class ILumexXmlWriter // NOLINT(cppcoreguidelines-special-member-functions)
+      class IXmlWriter // NOLINT(cppcoreguidelines-special-member-functions)
       {
       public:
-        virtual ~ILumexXmlWriter();
+        virtual ~IXmlWriter();
 
         virtual void write(void const *data, size_t size) = 0;
       };

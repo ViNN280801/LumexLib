@@ -5,7 +5,7 @@
 
 #include "lumex/core/utility/LumexAttributes.hpp"
 
-#include "lumex/xml/types/LumexXmlTypes.hpp"
+#include "lumex/xml/types/XmlTypes.hpp"
 
 using namespace Lumex::Xml;
 
@@ -15,7 +15,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
   {
     namespace Text
     {
-      struct LUMEX_API LumexXmlParseResult {
+      struct LUMEX_API XmlParseResult {
         // Parsing status (see xml_parse_status)
         Types::xml_parse_status status; // NOLINT(misc-non-private-member-variables-in-classes)
 
@@ -26,7 +26,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
         Types::xml_encoding encoding; // NOLINT(misc-non-private-member-variables-in-classes)
 
         // Default constructor, initializes object to failed state
-        LumexXmlParseResult();
+        XmlParseResult();
 
         // Cast to bool operator
         operator bool() const;

@@ -1,8 +1,6 @@
 #ifndef LUMEX_XML_TREE_WALKER_HPP
 #define LUMEX_XML_TREE_WALKER_HPP
 
-#include "lumex/LumexExport.hpp"
-
 #include "lumex/core/utility/LumexAttributes.hpp"
 
 namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
@@ -11,22 +9,22 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
   {
     namespace Tree
     {
-      class LUMEX_API LumexXmlTreeWalker // NOLINT(cppcoreguidelines-special-member-functions)
+      class XmlTreeWalker // NOLINT(cppcoreguidelines-special-member-functions)
       {
-        friend class LumexXmlNode;
+        friend class XmlNode;
 
       public:
-        LumexXmlTreeWalker();
-        virtual ~LumexXmlTreeWalker();
+        XmlTreeWalker();
+        virtual ~XmlTreeWalker();
 
         // Callback that is called when traversal begins
-        virtual bool begin(LumexXmlNode &node);
+        virtual bool begin(XmlNode &node);
 
         // Callback that is called for each node traversed
-        virtual bool for_each(LumexXmlNode &node) = 0;
+        virtual bool for_each(XmlNode &node) = 0;
 
         // Callback that is called when traversal ends
-        virtual bool end(LumexXmlNode &node);
+        virtual bool end(XmlNode &node);
 
       protected:
         // Get current traversal depth

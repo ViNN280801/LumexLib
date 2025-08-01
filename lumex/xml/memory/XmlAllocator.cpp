@@ -1,32 +1,28 @@
-#define LUMEX_IMPLEMENTATION
-
 #include <cstdlib>
 
-#include "LumexXmlAllocator.hpp"
-#include "LumexXmlMemoryPage.hpp"
+#include "XmlAllocator.hpp"
+#include "XmlMemoryPage.hpp"
 
 #include "lumex/core/utility/LumexAttributes.hpp"
 #include "lumex/core/utility/LumexMacros.hpp"
 
-#include "lumex/xml/constants/LumexXmlConstants.hpp"
-#include "lumex/xml/types/LumexXmlTypes.hpp"
+#include "lumex/xml/constants/XmlConstants.hpp"
+#include "lumex/xml/types/XmlTypes.hpp"
 
 using namespace Lumex::Xml::Memory;
 using namespace Lumex::Xml::Constants;
 using namespace Lumex::Xml::Types;
 
-LUMEX_PUBLIC_API
-xml_allocator_t::xml_allocator_t(xml_mem_page_t *root) : m_root(root), m_busy_size(root->busy_size) {}
+XmlAllocator::XmlAllocator(XmlMemoryPage *root) : m_root(root), m_busy_size(root->busy_size) {}
 
-LUMEX_PUBLIC_API
-xml_mem_page_t *
-xml_allocator_t::allocate_page(size_t data_size)
+XmlMemoryPage *
+XmlAllocator::allocate_page(size_t data_size)
 {
-  size_t size  = sizeof(xml_mem_page_t) + data_size;
+  size_t size  = sizeof(XmlMemoryPage) + data_size;
   void *memory = malloc(size); // NOLINT(cppcoreguidelines-owning-memory, cppcoreguidelines-no-malloc)
   if(memory == nullptr) return nullptr;
 
-  xml_mem_page_t *page = xml_mem_page_t::construct(memory);
+  XmlMemoryPage *page = XmlMemoryPage::construct(memory);
   LUMEX_ASSERT(page);
 
   LUMEX_ASSERT(this == m_root->allocator);
@@ -35,21 +31,19 @@ xml_allocator_t::allocate_page(size_t data_size)
   return page;
 }
 
-LUMEX_PUBLIC_API
 void
-xml_allocator_t::deallocate_page(xml_mem_page_t *page)
+XmlAllocator::deallocate_page(XmlMemoryPage *page)
 {
   free(page); // NOLINT(cppcoreguidelines-owning-memory, cppcoreguidelines-no-malloc)
 }
 
-LUMEX_PUBLIC_API
 LUMEX_ATTRIBUTE_NOINLINE void *
-xml_allocator_t::allocate_memory_oob(size_t size, xml_mem_page_t *&out_page)
+XmlAllocator::allocate_memory_oob(size_t size, XmlMemoryPage *&out_page)
 {
   size_t const large_allocation_threshold = kdefault_xml_memory_page_size / 4;
 
-  xml_mem_page_t *page = allocate_page(size <= large_allocation_threshold ? kdefault_xml_memory_page_size : size);
-  out_page             = page;
+  XmlMemoryPage *page = allocate_page(size <= large_allocation_threshold ? kdefault_xml_memory_page_size : size);
+  out_page            = page;
 
   if(page == nullptr) return nullptr;
 
@@ -76,17 +70,16 @@ xml_allocator_t::allocate_memory_oob(size_t size, xml_mem_page_t *&out_page)
     page->busy_size    = size;
   }
 
-  return reinterpret_cast<char *>(page) + sizeof(xml_mem_page_t);
+  return reinterpret_cast<char *>(page) + sizeof(XmlMemoryPage);
 }
 
-LUMEX_PUBLIC_API
 void *
-xml_allocator_t::allocate_memory(size_t size, xml_mem_page_t *&out_page)
+XmlAllocator::allocate_memory(size_t size, XmlMemoryPage *&out_page)
 {
   if(LUMEX_ATTRIBUTE_UNLIKELY_COND(m_busy_size + size > kdefault_xml_memory_page_size))
     return allocate_memory_oob(size, out_page);
 
-  void *buf = reinterpret_cast<char *>(m_root) + sizeof(xml_mem_page_t) + m_busy_size;
+  void *buf = reinterpret_cast<char *>(m_root) + sizeof(XmlMemoryPage) + m_busy_size;
 
   m_busy_size += size;
   out_page = m_root;
@@ -94,21 +87,19 @@ xml_allocator_t::allocate_memory(size_t size, xml_mem_page_t *&out_page)
   return buf;
 }
 
-LUMEX_PUBLIC_API
 void *
-xml_allocator_t::allocate_object(size_t size, xml_mem_page_t *&out_page)
+XmlAllocator::allocate_object(size_t size, XmlMemoryPage *&out_page)
 {
   return allocate_memory(size, out_page);
 }
 
-LUMEX_PUBLIC_API
 void
-xml_allocator_t::deallocate_memory(void *ptr, size_t size, xml_mem_page_t *page)
+XmlAllocator::deallocate_memory(void *ptr, size_t size, XmlMemoryPage *page)
 {
   if(page == m_root) page->busy_size = m_busy_size;
 
-  LUMEX_ASSERT(ptr >= reinterpret_cast<char *>(page) + sizeof(xml_mem_page_t)
-               && ptr < reinterpret_cast<char *>(page) + sizeof(xml_mem_page_t) + page->busy_size);
+  LUMEX_ASSERT(ptr >= reinterpret_cast<char *>(page) + sizeof(XmlMemoryPage)
+               && ptr < reinterpret_cast<char *>(page) + sizeof(XmlMemoryPage) + page->busy_size);
   (void)(ptr == nullptr);
 
   page->freed_size += size;
@@ -138,9 +129,8 @@ xml_allocator_t::deallocate_memory(void *ptr, size_t size, xml_mem_page_t *page)
   }
 }
 
-LUMEX_PUBLIC_API
 char_t *
-xml_allocator_t::allocate_string(size_t length)
+XmlAllocator::allocate_string(size_t length)
 {
   static size_t const max_encoded_offset = (1 << 16) * kxml_memory_block_alignment;
   static_assert(kdefault_xml_memory_page_size <= max_encoded_offset);
@@ -148,12 +138,12 @@ xml_allocator_t::allocate_string(size_t length)
   size_t size      = sizeof(xml_mem_str_header_t) + (length * sizeof(char_t));
   size_t full_size = (size + (kxml_memory_block_alignment - 1)) & ~(kxml_memory_block_alignment - 1);
 
-  xml_mem_page_t *page{};
+  XmlMemoryPage *page{};
   auto *header = static_cast<xml_mem_str_header_t *>(allocate_memory(full_size, page));
 
   if(header == nullptr) return nullptr;
-  ptrdiff_t page_offset = reinterpret_cast<char *>(header) - reinterpret_cast<char *>(page)
-                          - static_cast<ptrdiff_t>(sizeof(xml_mem_page_t));
+  ptrdiff_t page_offset
+    = reinterpret_cast<char *>(header) - reinterpret_cast<char *>(page) - static_cast<ptrdiff_t>(sizeof(XmlMemoryPage));
 
   LUMEX_ASSERT(page_offset % kxml_memory_block_alignment == 0);
   LUMEX_ASSERT(page_offset >= 0 && static_cast<size_t>(page_offset) < max_encoded_offset);
@@ -167,15 +157,14 @@ xml_allocator_t::allocate_string(size_t length)
   return reinterpret_cast<char_t *>(header + 1);
 }
 
-LUMEX_PUBLIC_API
 void
-xml_allocator_t::deallocate_string(char_t *string)
+XmlAllocator::deallocate_string(char_t *string)
 {
   xml_mem_str_header_t *header = reinterpret_cast<xml_mem_str_header_t *>(string) - 1;
   LUMEX_ASSERT(header);
 
-  size_t page_offset = sizeof(xml_mem_page_t) + (header->page_offset * kxml_memory_block_alignment);
-  auto *page         = reinterpret_cast<xml_mem_page_t *>(reinterpret_cast<char *>(header) - page_offset);
+  size_t page_offset = sizeof(XmlMemoryPage) + (header->page_offset * kxml_memory_block_alignment);
+  auto *page         = reinterpret_cast<XmlMemoryPage *>(reinterpret_cast<char *>(header) - page_offset);
 
   size_t full_size   = header->full_size == 0 ? page->busy_size : header->full_size * kxml_memory_block_alignment;
 

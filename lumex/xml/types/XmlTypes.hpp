@@ -6,7 +6,7 @@
 
 #include "lumex/LumexExport.hpp"
 
-#include "lumex/xml/utility/LumexXmlMacros.hpp"
+#include "lumex/xml/utility/XmlMacros.hpp"
 
 namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
 {

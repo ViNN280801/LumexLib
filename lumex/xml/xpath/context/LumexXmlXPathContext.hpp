@@ -14,11 +14,11 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
       namespace Context
       {
         struct LumexXmlXPathContext {
-          LumexXmlXPathNode node; // NOLINT(misc-non-private-member-variables-in-classes)
-          size_t position{};      // NOLINT(misc-non-private-member-variables-in-classes)
-          size_t size{};          // NOLINT(misc-non-private-member-variables-in-classes)
+          Xml::XPath::Node::LumexXmlXPathNode node; // NOLINT(misc-non-private-member-variables-in-classes)
+          size_t position{};                        // NOLINT(misc-non-private-member-variables-in-classes)
+          size_t size{};                            // NOLINT(misc-non-private-member-variables-in-classes)
 
-          LumexXmlXPathContext(LumexXmlXPathNode const &node_,
+          LumexXmlXPathContext(Xml::XPath::Node::LumexXmlXPathNode const &node_,
                                size_t position_, // NOLINT(bugprone-easily-swappable-parameters)
                                size_t size_)
               : node(node_), position(position_), size(size_)

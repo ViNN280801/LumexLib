@@ -1,85 +1,84 @@
-#define LUMEX_IMPLEMENTATION
+#include "lumex/xml/utility/XmlUtils.hpp"
 
-#include "lumex/xml/utility/LumexXmlUtils.hpp"
+#include "XmlAttribute.hpp"
 
-#include "LumexXmlAttribute.hpp"
-
+using namespace Lumex::Xml::Types;
 using namespace Lumex::Xml::Utility;
 using namespace Lumex::Xml::Attribute;
 
-inline LumexXmlAttribute::LumexXmlAttribute() : m_attr(nullptr) {}
+inline XmlAttribute::XmlAttribute() : m_attr(nullptr) {}
 
-inline LumexXmlAttribute::LumexXmlAttribute(xml_attr_t *attr) : m_attr(attr) {}
+inline XmlAttribute::XmlAttribute(XmlAttributeBase *attr) : m_attr(attr) {}
 
 inline static void
-unspecified_bool_xml_attribute(LumexXmlAttribute *** /*unused*/) // NOLINT(misc-use-anonymous-namespace)
+unspecified_bool_xml_attribute(XmlAttribute *** /*unused*/) // NOLINT(misc-use-anonymous-namespace)
 {}
 
-inline LumexXmlAttribute::
-operator LumexXmlAttribute::unspecified_bool_type() const
+inline XmlAttribute::
+operator XmlAttribute::unspecified_bool_type() const
 {
   return (m_attr != nullptr) ? unspecified_bool_xml_attribute : nullptr;
 }
 
 inline bool
-LumexXmlAttribute::operator!() const
+XmlAttribute::operator!() const
 {
   return m_attr == nullptr;
 }
 
 inline bool
-LumexXmlAttribute::operator==(LumexXmlAttribute const &other) const
+XmlAttribute::operator==(XmlAttribute const &other) const
 {
   return (m_attr == other.m_attr);
 }
 
 inline bool
-LumexXmlAttribute::operator!=(LumexXmlAttribute const &other) const
+XmlAttribute::operator!=(XmlAttribute const &other) const
 {
   return (m_attr != other.m_attr);
 }
 
 inline bool
-LumexXmlAttribute::operator<(LumexXmlAttribute const &other) const
+XmlAttribute::operator<(XmlAttribute const &other) const
 {
   return (m_attr < other.m_attr);
 }
 
 inline bool
-LumexXmlAttribute::operator>(LumexXmlAttribute const &other) const
+XmlAttribute::operator>(XmlAttribute const &other) const
 {
   return (m_attr > other.m_attr);
 }
 
 inline bool
-LumexXmlAttribute::operator<=(LumexXmlAttribute const &other) const
+XmlAttribute::operator<=(XmlAttribute const &other) const
 {
   return (m_attr <= other.m_attr);
 }
 
 inline bool
-LumexXmlAttribute::operator>=(LumexXmlAttribute const &other) const
+XmlAttribute::operator>=(XmlAttribute const &other) const
 {
   return (m_attr >= other.m_attr);
 }
 
-inline LumexXmlAttribute
-LumexXmlAttribute::next_attribute() const
+inline XmlAttribute
+XmlAttribute::next_attribute() const
 {
-  if(m_attr == nullptr) return LumexXmlAttribute();
-  return LumexXmlAttribute(m_attr->next_attribute);
+  if(m_attr == nullptr) return XmlAttribute();
+  return XmlAttribute(m_attr->next_attribute);
 }
 
-inline LumexXmlAttribute
-LumexXmlAttribute::previous_attribute() const
+inline XmlAttribute
+XmlAttribute::previous_attribute() const
 {
-  if(m_attr == nullptr) return LumexXmlAttribute();
-  xml_attr_t *prev = m_attr->prev_attribute_c;
-  return (prev->next_attribute != nullptr) ? LumexXmlAttribute(prev) : LumexXmlAttribute();
+  if(m_attr == nullptr) return XmlAttribute();
+  XmlAttributeBase *prev = m_attr->prev_attribute_c;
+  return (prev->next_attribute != nullptr) ? XmlAttribute(prev) : XmlAttribute();
 }
 
 inline char_t const *
-LumexXmlAttribute::as_string(char_t const *def) const
+XmlAttribute::as_string(char_t const *def) const
 {
   if(m_attr == nullptr) return def;
   char_t const *value = m_attr->value;
@@ -87,7 +86,7 @@ LumexXmlAttribute::as_string(char_t const *def) const
 }
 
 inline int
-LumexXmlAttribute::as_int(int def) const
+XmlAttribute::as_int(int def) const
 {
   if(m_attr == nullptr) return def;
   char_t const *value = m_attr->value;
@@ -95,7 +94,7 @@ LumexXmlAttribute::as_int(int def) const
 }
 
 inline unsigned int
-LumexXmlAttribute::as_uint(unsigned int def) const
+XmlAttribute::as_uint(unsigned int def) const
 {
   if(m_attr == nullptr) return def;
   char_t const *value = m_attr->value;
@@ -103,7 +102,7 @@ LumexXmlAttribute::as_uint(unsigned int def) const
 }
 
 inline double
-LumexXmlAttribute::as_double(double def) const
+XmlAttribute::as_double(double def) const
 {
   if(m_attr == nullptr) return def;
   char_t const *value = m_attr->value;
@@ -111,7 +110,7 @@ LumexXmlAttribute::as_double(double def) const
 }
 
 inline float
-LumexXmlAttribute::as_float(float def) const
+XmlAttribute::as_float(float def) const
 {
   if(m_attr == nullptr) return def;
   char_t const *value = m_attr->value;
@@ -119,7 +118,7 @@ LumexXmlAttribute::as_float(float def) const
 }
 
 inline bool
-LumexXmlAttribute::as_bool(bool def) const
+XmlAttribute::as_bool(bool def) const
 {
   if(m_attr == nullptr) return def;
   char_t const *value = m_attr->value;
@@ -127,7 +126,7 @@ LumexXmlAttribute::as_bool(bool def) const
 }
 
 inline long long
-LumexXmlAttribute::as_llong(long long def) const
+XmlAttribute::as_llong(long long def) const
 {
   if(m_attr == nullptr) return def;
   char_t const *value = m_attr->value;
@@ -135,7 +134,7 @@ LumexXmlAttribute::as_llong(long long def) const
 }
 
 inline unsigned long long
-LumexXmlAttribute::as_ullong(unsigned long long def) const
+XmlAttribute::as_ullong(unsigned long long def) const
 {
   if(m_attr == nullptr) return def;
   char_t const *value = m_attr->value;
@@ -143,13 +142,13 @@ LumexXmlAttribute::as_ullong(unsigned long long def) const
 }
 
 inline bool
-LumexXmlAttribute::empty() const
+XmlAttribute::empty() const
 {
   return m_attr == nullptr;
 }
 
 inline char_t const *
-LumexXmlAttribute::name() const
+XmlAttribute::name() const
 {
   if(m_attr == nullptr) return LUMEX_XML_TEXT("");
   char_t const *name = m_attr->name;
@@ -157,7 +156,7 @@ LumexXmlAttribute::name() const
 }
 
 inline char_t const *
-LumexXmlAttribute::value() const
+XmlAttribute::value() const
 {
   if(m_attr == nullptr) return LUMEX_XML_TEXT("");
   char_t const *value = m_attr->value;
@@ -165,98 +164,98 @@ LumexXmlAttribute::value() const
 }
 
 inline size_t
-LumexXmlAttribute::hash_value() const
+XmlAttribute::hash_value() const
 {
-  return reinterpret_cast<uintptr_t>(m_attr) / sizeof(xml_attr_t);
+  return reinterpret_cast<uintptr_t>(m_attr) / sizeof(XmlAttributeBase);
 }
 
-inline xml_attr_t *
-LumexXmlAttribute::get() const
+inline XmlAttributeBase *
+XmlAttribute::get() const
 {
   return m_attr;
 }
 
-inline LumexXmlAttribute &
-LumexXmlAttribute::operator=(char_t const *rhs)
+inline XmlAttribute &
+XmlAttribute::operator=(char_t const *rhs)
 {
   set_value(rhs);
   return *this;
 }
 
-inline LumexXmlAttribute &
-LumexXmlAttribute::operator=(int rhs)
+inline XmlAttribute &
+XmlAttribute::operator=(int rhs)
 {
   set_value(rhs);
   return *this;
 }
 
-inline LumexXmlAttribute &
-LumexXmlAttribute::operator=(unsigned int rhs)
+inline XmlAttribute &
+XmlAttribute::operator=(unsigned int rhs)
 {
   set_value(rhs);
   return *this;
 }
 
-inline LumexXmlAttribute &
-LumexXmlAttribute::operator=(long rhs)
+inline XmlAttribute &
+XmlAttribute::operator=(long rhs)
 {
   set_value(rhs);
   return *this;
 }
 
-inline LumexXmlAttribute &
-LumexXmlAttribute::operator=(unsigned long rhs)
+inline XmlAttribute &
+XmlAttribute::operator=(unsigned long rhs)
 {
   set_value(rhs);
   return *this;
 }
 
-inline LumexXmlAttribute &
-LumexXmlAttribute::operator=(double rhs)
+inline XmlAttribute &
+XmlAttribute::operator=(double rhs)
 {
   set_value(rhs);
   return *this;
 }
 
-inline LumexXmlAttribute &
-LumexXmlAttribute::operator=(float rhs)
+inline XmlAttribute &
+XmlAttribute::operator=(float rhs)
 {
   set_value(rhs);
   return *this;
 }
 
-inline LumexXmlAttribute &
-LumexXmlAttribute::operator=(bool rhs)
+inline XmlAttribute &
+XmlAttribute::operator=(bool rhs)
 {
   set_value(rhs);
   return *this;
 }
 
 #if __cplusplus >= 201703L
-inline LumexXmlAttribute &
-LumexXmlAttribute::operator=(string_view_t rhs)
+inline XmlAttribute &
+XmlAttribute::operator=(string_view_t rhs)
 {
   set_value(rhs);
   return *this;
 }
 #endif
 
-inline LumexXmlAttribute &
-LumexXmlAttribute::operator=(long long rhs)
+inline XmlAttribute &
+XmlAttribute::operator=(long long rhs)
 {
   set_value(rhs);
   return *this;
 }
 
-inline LumexXmlAttribute &
-LumexXmlAttribute::operator=(unsigned long long rhs)
+inline XmlAttribute &
+XmlAttribute::operator=(unsigned long long rhs)
 {
   set_value(rhs);
   return *this;
 }
 
 inline bool
-LumexXmlAttribute::set_name(char_t const *rhs)
+XmlAttribute::set_name(char_t const *rhs)
 {
   if(m_attr == nullptr) return false;
 
@@ -264,7 +263,7 @@ LumexXmlAttribute::set_name(char_t const *rhs)
 }
 
 inline bool
-LumexXmlAttribute::set_name(char_t const *rhs, size_t size)
+XmlAttribute::set_name(char_t const *rhs, size_t size)
 {
   if(m_attr == nullptr) return false;
 
@@ -273,7 +272,7 @@ LumexXmlAttribute::set_name(char_t const *rhs, size_t size)
 
 #if __cplusplus >= 201703L
 inline bool
-LumexXmlAttribute::set_name(string_view_t rhs)
+XmlAttribute::set_name(string_view_t rhs)
 {
   if(m_attr == nullptr) return false;
 
@@ -282,7 +281,7 @@ LumexXmlAttribute::set_name(string_view_t rhs)
 #endif
 
 inline bool
-LumexXmlAttribute::set_value(const char_t *rhs)
+XmlAttribute::set_value(const char_t *rhs)
 {
   if(m_attr == nullptr) return false;
 
@@ -290,7 +289,7 @@ LumexXmlAttribute::set_value(const char_t *rhs)
 }
 
 inline bool
-LumexXmlAttribute::set_value(char_t const *rhs, size_t size)
+XmlAttribute::set_value(char_t const *rhs, size_t size)
 {
   if(m_attr == nullptr) return false;
 
@@ -299,7 +298,7 @@ LumexXmlAttribute::set_value(char_t const *rhs, size_t size)
 
 #if __cplusplus >= 201703L
 inline bool
-LumexXmlAttribute::set_value(string_view_t rhs)
+XmlAttribute::set_value(string_view_t rhs)
 {
   if(m_attr == nullptr) return false;
 
@@ -308,7 +307,7 @@ LumexXmlAttribute::set_value(string_view_t rhs)
 #endif
 
 inline bool
-LumexXmlAttribute::set_value(int rhs)
+XmlAttribute::set_value(int rhs)
 {
   if(m_attr == nullptr) return false;
 
@@ -317,7 +316,7 @@ LumexXmlAttribute::set_value(int rhs)
 }
 
 inline bool
-LumexXmlAttribute::set_value(unsigned int rhs)
+XmlAttribute::set_value(unsigned int rhs)
 {
   if(m_attr == nullptr) return false;
 
@@ -326,7 +325,7 @@ LumexXmlAttribute::set_value(unsigned int rhs)
 }
 
 inline bool
-LumexXmlAttribute::set_value(long rhs)
+XmlAttribute::set_value(long rhs)
 {
   if(m_attr == nullptr) return false;
 
@@ -335,7 +334,7 @@ LumexXmlAttribute::set_value(long rhs)
 }
 
 inline bool
-LumexXmlAttribute::set_value(unsigned long rhs)
+XmlAttribute::set_value(unsigned long rhs)
 {
   if(m_attr == nullptr) return false;
 
@@ -344,7 +343,7 @@ LumexXmlAttribute::set_value(unsigned long rhs)
 }
 
 inline bool
-LumexXmlAttribute::set_value(double rhs)
+XmlAttribute::set_value(double rhs)
 {
   if(m_attr == nullptr) return false;
 
@@ -353,7 +352,7 @@ LumexXmlAttribute::set_value(double rhs)
 }
 
 inline bool
-LumexXmlAttribute::set_value(double rhs, int precision)
+XmlAttribute::set_value(double rhs, int precision)
 {
   if(m_attr == nullptr) return false;
 
@@ -361,7 +360,7 @@ LumexXmlAttribute::set_value(double rhs, int precision)
 }
 
 inline bool
-LumexXmlAttribute::set_value(float rhs)
+XmlAttribute::set_value(float rhs)
 {
   if(m_attr == nullptr) return false;
 
@@ -370,7 +369,7 @@ LumexXmlAttribute::set_value(float rhs)
 }
 
 inline bool
-LumexXmlAttribute::set_value(float rhs, int precision)
+XmlAttribute::set_value(float rhs, int precision)
 {
   if(m_attr == nullptr) return false;
 
@@ -378,7 +377,7 @@ LumexXmlAttribute::set_value(float rhs, int precision)
 }
 
 inline bool
-LumexXmlAttribute::set_value(bool rhs)
+XmlAttribute::set_value(bool rhs)
 {
   if(m_attr == nullptr) return false;
 
@@ -386,7 +385,7 @@ LumexXmlAttribute::set_value(bool rhs)
 }
 
 inline bool
-LumexXmlAttribute::set_value(long long rhs)
+XmlAttribute::set_value(long long rhs)
 {
   if(m_attr == nullptr) return false;
 
@@ -395,7 +394,7 @@ LumexXmlAttribute::set_value(long long rhs)
 }
 
 inline bool
-LumexXmlAttribute::set_value(unsigned long long rhs)
+XmlAttribute::set_value(unsigned long long rhs)
 {
   if(m_attr == nullptr) return false;
 

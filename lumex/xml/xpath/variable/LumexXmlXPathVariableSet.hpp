@@ -15,32 +15,20 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
     {
       namespace Variable
       {
-        class xpath_variable_set
+        class LumexXmlXPathVariableSet // NOLINT(cppcoreguidelines-special-member-functions)
         {
-        private:
-          constexpr static size_t _max_variables = 64;
-          std::array<LumexXmlXPathVariable *, _max_variables> _data;
-
-          void _assign(xpath_variable_set const &rhs);
-          void _swap(xpath_variable_set &rhs);
-
-          LumexXmlXPathVariable *_find(char_t const *name) const;
-
-          static bool _clone(LumexXmlXPathVariable *var, LumexXmlXPathVariable **out_result);
-          static void _destroy(LumexXmlXPathVariable *var);
-
         public:
           // Default constructor/destructor
-          xpath_variable_set();
-          ~xpath_variable_set();
+          LumexXmlXPathVariableSet();
+          ~LumexXmlXPathVariableSet();
 
           // Copy constructor/assignment operator
-          xpath_variable_set(xpath_variable_set const &rhs);
-          xpath_variable_set &operator=(xpath_variable_set const &rhs);
+          LumexXmlXPathVariableSet(LumexXmlXPathVariableSet const &rhs);
+          LumexXmlXPathVariableSet &operator=(LumexXmlXPathVariableSet const &rhs);
 
           // Move semantics support
-          xpath_variable_set(xpath_variable_set &&rhs) noexcept;
-          xpath_variable_set &operator=(xpath_variable_set &&rhs) noexcept;
+          LumexXmlXPathVariableSet(LumexXmlXPathVariableSet &&rhs) noexcept;
+          LumexXmlXPathVariableSet &operator=(LumexXmlXPathVariableSet &&rhs) noexcept;
 
           // Add a new variable or get the existing one, if the types match
           LumexXmlXPathVariable *add(char_t const *name, xpath_value_type type);
@@ -50,11 +38,23 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
           bool set(char_t const *name, bool value);
           bool set(char_t const *name, double value);
           bool set(char_t const *name, char_t const *value);
-          bool set(char_t const *name, xpath_node_set const &value);
+          bool set(char_t const *name, LumexXmlXPathNodeSet const &value);
 
           // Get existing variable by name
           LumexXmlXPathVariable *get(char_t const *name);
           LumexXmlXPathVariable const *get(char_t const *name) const;
+
+        private:
+          constexpr static size_t _max_variables = 64;
+          std::array<LumexXmlXPathVariable *, _max_variables> _data{};
+
+          void _assign(LumexXmlXPathVariableSet const &rhs);
+          void _swap(LumexXmlXPathVariableSet &rhs);
+
+          LumexXmlXPathVariable *_find(char_t const *name) const;
+
+          static bool _clone(LumexXmlXPathVariable *var, LumexXmlXPathVariable **out_result);
+          static void _destroy(LumexXmlXPathVariable *var);
         };
       } // namespace Variable
     } // namespace XPath

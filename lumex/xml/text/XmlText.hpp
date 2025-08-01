@@ -1,11 +1,9 @@
 #ifndef LUMEX_XML_TEXT_HPP
 #define LUMEX_XML_TEXT_HPP
 
-#include "lumex/LumexExport.hpp"
-
 #include "lumex/core/utility/LumexAttributes.hpp"
 
-#include "lumex/xml/types/LumexXmlTypes.hpp"
+#include "lumex/xml/types/XmlTypes.hpp"
 
 using namespace Lumex::Xml::Types;
 
@@ -16,22 +14,22 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
     // Forward declaration
     namespace Node
     {
-      class LumexXmlNode;
-      struct xml_node_t;
+      class XmlNode;
+      struct XmlNodeBase;
     }
+    using namespace Node;
 
     namespace Text
     {
-
-      class LUMEX_API LumexXmlText
+      class XmlText
       {
-        friend class LumexXmlNode;
+        // friend class XmlNode;
 
       public:
-        using unspecified_bool_type = void (*)(LumexXmlText ***);
+        using unspecified_bool_type = void (*)(XmlText ***);
 
         // Default constructor. Constructs an empty object.
-        LumexXmlText();
+        XmlText();
 
         // Safe bool conversion operator
         operator unspecified_bool_type() const;
@@ -104,37 +102,37 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
         bool set(unsigned long long rhs);
 
         // Set text (equivalent to set without error checking)
-        LumexXmlText &operator=(char_t const *rhs);
-        LumexXmlText &operator=(int rhs);
-        LumexXmlText &operator=(unsigned int rhs);
-        LumexXmlText &operator=(long rhs);
-        LumexXmlText &operator=(unsigned long rhs);
-        LumexXmlText &operator=(double rhs);
-        LumexXmlText &operator=(float rhs);
-        LumexXmlText &operator=(bool rhs);
+        XmlText &operator=(char_t const *rhs);
+        XmlText &operator=(int rhs);
+        XmlText &operator=(unsigned int rhs);
+        XmlText &operator=(long rhs);
+        XmlText &operator=(unsigned long rhs);
+        XmlText &operator=(double rhs);
+        XmlText &operator=(float rhs);
+        XmlText &operator=(bool rhs);
 
 #if __cplusplus >= 201703L
-        LumexXmlText &operator=(string_view_t rhs);
+        XmlText &operator=(string_view_t rhs);
 #endif
 
-        LumexXmlText &operator=(long long rhs);
-        LumexXmlText &operator=(unsigned long long rhs);
+        XmlText &operator=(long long rhs);
+        XmlText &operator=(unsigned long long rhs);
 
         // Get the data node (node_pcdata or node_cdata) for this object
         LUMEX_ATTRIBUTE_NODISCARD(
           "The returned data node should be used; discarding it negates the purpose of the getter.")
-        Node::LumexXmlNode data() const;
+        XmlNode data() const;
 
       private:
-        explicit LumexXmlText(Node::xml_node_t *root);
+        explicit XmlText(XmlNodeBase *root);
 
-        Node::xml_node_t *m_root;
+        XmlNodeBase *m_root;
 
-        Node::xml_node_t *_data_new();
+        XmlNodeBase *_data_new();
 
         LUMEX_ATTRIBUTE_NODISCARD(
           "The returned internal pointer should be used; discarding it negates the purpose of the getter.")
-        Node::xml_node_t *_data() const;
+        XmlNodeBase *_data() const;
       };
     } // namespace Text
   } // namespace Xml

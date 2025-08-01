@@ -1,74 +1,74 @@
 #ifndef LUMEX_XML_NODE_HPP
 #define LUMEX_XML_NODE_HPP
 
-#include "lumex/LumexExport.hpp"
+#include "lumex/xml/constants/XmlConstants.hpp"
 
-#include "lumex/xml/attribute/LumexXmlAttribute.hpp"
-#include "lumex/xml/constants/LumexXmlConstants.hpp"
-#include "lumex/xml/memory/LumexXmlMemoryPage.hpp"
-#include "lumex/xml/range/LumexXmlObjectRange.hpp"
-#include "lumex/xml/text/LumexXmlParseResult.hpp"
-#include "lumex/xml/text/LumexXmlText.hpp"
-#include "lumex/xml/tree/LumexXmlTreeWalker.hpp"
-#include "lumex/xml/types/LumexXmlTypes.hpp"
-#include "lumex/xml/utility/LumexXmlMacros.hpp"
-#include "lumex/xml/writer/ILumexXmlWriter.hpp"
-#include "lumex/xml/xpath/node/LumexXmlXPathNode.hpp"
-#include "lumex/xml/xpath/node/LumexXmlXPathNodeSet.hpp"
-#include "lumex/xml/xpath/query/LumexXmlXPathQuery.hpp"
+#include "lumex/xml/text/XmlParseResult.hpp"
+#include "lumex/xml/writer/IXmlWriter.hpp"
 
+#include "XmlNodeBase.hpp"
+
+using namespace Lumex::Xml::Writer;
 using namespace Lumex::Xml::Text;
 using namespace Lumex::Xml::Constants;
-using namespace Lumex::Xml::Writer;
-using namespace Lumex::Xml::Tree;
-using namespace Lumex::Xml::Attribute;
-using namespace Lumex::Xml::Memory;
-using namespace Lumex::Xml::Types;
-using namespace Lumex::Xml::Range;
-using namespace Lumex::Xml::XPath::Node;
-using namespace Lumex::Xml::XPath::Query;
 
 namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
 {
   namespace Xml
   {
+    // Forward declarations
+    namespace XPath // NOLINT(modernize-concat-nested-namespaces)
+    {
+      namespace Node
+      {
+        class XmlXPathNode;
+        class XmlXPathNodeSet;
+      }
+      namespace Variable
+      {
+        class XmlXPathVariableSet;
+      }
+      namespace Query
+      {
+        class XmlPathQuery;
+      }
+    }
+    namespace Attribute
+    {
+      class XmlAttributeIterator;
+    }
+    namespace Text
+    {
+      class XmlText;
+    }
+    namespace Tree
+    {
+      class XmlTreeWalker;
+    }
+    using namespace XPath::Node;
+    using namespace XPath::Variable;
+    using namespace XPath::Query;
+    using namespace Attribute;
+    using namespace Text;
+    using namespace Tree;
+    // End of forward declarations
+
     namespace Node
     {
-      struct LUMEX_API xml_node_t {
-        xml_node_t(xml_mem_page_t *page, xml_node_type type) : header(LUMEX_XML_GETHEADER_IMPL(this, page, type)) {}
-
-        uintptr_t header; // NOLINT(misc-non-private-member-variables-in-classes)
-
-        char_t *name{};  // NOLINT(misc-non-private-member-variables-in-classes)
-        char_t *value{}; // NOLINT(misc-non-private-member-variables-in-classes)
-
-        xml_node_t *parent{}; // NOLINT(misc-non-private-member-variables-in-classes)
-
-        xml_node_t *first_child{}; // NOLINT(misc-non-private-member-variables-in-classes)
-
-        xml_node_t *prev_sibling_c{}; // NOLINT(misc-non-private-member-variables-in-classes)
-        xml_node_t *next_sibling{};   // NOLINT(misc-non-private-member-variables-in-classes)
-
-        xml_attr_t *first_attribute{}; // NOLINT(misc-non-private-member-variables-in-classes)
-      };
-
-      class LUMEX_API LumexXmlNode
+      class XmlNode
       {
-        friend class Lumex::Xml::Attribute::LumexXmlAttributeIterator;
-        friend class LumexXmlNodeIterator;
-        friend class LumexXmlNamedNodeIterator;
+        friend class Attribute::XmlAttributeIterator;
+        friend class XmlNodeIterator;
+        friend class XmlNamedNodeIterator;
 
       public:
-        using unspecified_bool_type = void (*)(LumexXmlNode ***);
-
-        using iterator              = LumexXmlNodeIterator;
-        using attribute_iterator    = LumexXmlAttributeIterator;
+        using unspecified_bool_type = void (*)(XmlNode ***);
 
         // Default constructor. Constructs an empty node.
-        LumexXmlNode();
+        XmlNode();
 
         // Constructs node from internal pointer
-        explicit LumexXmlNode(xml_node_t *ptr);
+        explicit XmlNode(XmlNodeBase *ptr);
 
         // Safe bool conversion operator
         operator unspecified_bool_type() const;
@@ -77,12 +77,12 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
         bool operator!() const;
 
         // Comparison operators (compares wrapped node pointers)
-        bool operator==(LumexXmlNode const &other) const;
-        bool operator!=(LumexXmlNode const &other) const;
-        bool operator<(LumexXmlNode const &other) const;
-        bool operator>(LumexXmlNode const &other) const;
-        bool operator<=(LumexXmlNode const &other) const;
-        bool operator>=(LumexXmlNode const &other) const;
+        bool operator==(XmlNode const &other) const;
+        bool operator!=(XmlNode const &other) const;
+        bool operator<(XmlNode const &other) const;
+        bool operator>(XmlNode const &other) const;
+        bool operator<=(XmlNode const &other) const;
+        bool operator>=(XmlNode const &other) const;
 
         // Check if node is empty (null)
         LUMEX_ATTRIBUTE_NODISCARD(
@@ -111,79 +111,79 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
         // Get attribute list
         LUMEX_ATTRIBUTE_NODISCARD(
           "The returned attribute should be used; discarding it negates the purpose of the getter.")
-        LumexXmlAttribute first_attribute() const;
+        XmlAttribute first_attribute() const;
 
         LUMEX_ATTRIBUTE_NODISCARD(
           "The returned attribute should be used; discarding it negates the purpose of the getter.")
-        LumexXmlAttribute last_attribute() const;
+        XmlAttribute last_attribute() const;
 
         // Get children list
         LUMEX_ATTRIBUTE_NODISCARD("The returned node should be used; discarding it negates the purpose of the getter.")
-        LumexXmlNode first_child() const;
+        XmlNode first_child() const;
 
         LUMEX_ATTRIBUTE_NODISCARD("The returned node should be used; discarding it negates the purpose of the getter.")
-        LumexXmlNode last_child() const;
+        XmlNode last_child() const;
 
         // Get next/previous sibling in the children list of the parent node
         LUMEX_ATTRIBUTE_NODISCARD("The returned node should be used; discarding it negates the purpose of the getter.")
-        LumexXmlNode next_sibling() const;
+        XmlNode next_sibling() const;
 
         LUMEX_ATTRIBUTE_NODISCARD("The returned node should be used; discarding it negates the purpose of the getter.")
-        LumexXmlNode previous_sibling() const;
+        XmlNode previous_sibling() const;
 
         // Get parent node
         LUMEX_ATTRIBUTE_NODISCARD("The returned node should be used; discarding it negates the purpose of the getter.")
-        LumexXmlNode parent() const;
+        XmlNode parent() const;
 
         // Get root of DOM tree this node belongs to
         LUMEX_ATTRIBUTE_NODISCARD("The returned node should be used; discarding it negates the purpose of the getter.")
-        LumexXmlNode root() const;
+        XmlNode root() const;
 
         // Get text object for the current node
         LUMEX_ATTRIBUTE_NODISCARD(
           "The returned text object should be used; discarding it negates the purpose of the getter.")
-        LumexXmlText text() const;
+        XmlText text() const;
 
         // Get child, attribute or next/previous sibling with the specified name
         LUMEX_ATTRIBUTE_NODISCARD(
           "The returned child node should be used; discarding it negates the purpose of the getter.")
-        LumexXmlNode child(char_t const *name) const;
+        XmlNode child(char_t const *name) const;
 
         LUMEX_ATTRIBUTE_NODISCARD(
           "The returned attribute should be used; discarding it negates the purpose of the getter.")
-        LumexXmlAttribute attribute(char_t const *name) const;
+        XmlAttribute attribute(char_t const *name) const;
 
         LUMEX_ATTRIBUTE_NODISCARD(
           "The returned next sibling node should be used; discarding it negates the purpose of the getter.")
-        LumexXmlNode next_sibling(char_t const *name) const;
+        XmlNode next_sibling(char_t const *name) const;
 
         LUMEX_ATTRIBUTE_NODISCARD(
           "The returned previous sibling node should be used; discarding it negates the purpose of the getter.")
-        LumexXmlNode previous_sibling(char_t const *name) const;
+        XmlNode previous_sibling(char_t const *name) const;
 
 #if __cplusplus >= 201703L
         LUMEX_ATTRIBUTE_NODISCARD(
           "The returned child node should be used; discarding it negates the purpose of the getter.")
-        LumexXmlNode child(string_view_t name) const;
+        XmlNode child(string_view_t name) const;
 
         LUMEX_ATTRIBUTE_NODISCARD(
           "The returned attribute should be used; discarding it negates the purpose of the getter.")
-        LumexXmlAttribute attribute(string_view_t name) const;
+        XmlAttribute attribute(string_view_t name) const;
 
         LUMEX_ATTRIBUTE_NODISCARD(
           "The returned next sibling node should be used; discarding it negates the purpose of the getter.")
-        LumexXmlNode next_sibling(string_view_t name) const;
+        XmlNode next_sibling(string_view_t name) const;
 
         LUMEX_ATTRIBUTE_NODISCARD(
           "The returned previous sibling node should be used; discarding it negates the purpose of the getter.")
-        LumexXmlNode previous_sibling(string_view_t name) const;
+        XmlNode previous_sibling(string_view_t name) const;
 #endif
 
         // Get attribute, starting the search from a hint (and updating hint so that searching for a sequence of
         // attributes is fast)
-        LumexXmlAttribute attribute(char_t const *name, LumexXmlAttribute &hint) const;
+        XmlAttribute attribute(char_t const *name, XmlAttribute &hint) const;
 #if __cplusplus >= 201703L
-        LumexXmlAttribute attribute(string_view_t name, LumexXmlAttribute &hint) const;
+        XmlAttribute attribute(string_view_t name, XmlAttribute &hint) const;
 #endif
 
         // Get child value of current node; that is, value of the first child node of type PCDATA/CDATA
@@ -215,81 +215,81 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
 #endif
 
         // Add attribute with specified name. Returns added attribute, or empty attribute on errors.
-        LumexXmlAttribute append_attribute(char_t const *name);
+        XmlAttribute append_attribute(char_t const *name);
 
-        LumexXmlAttribute prepend_attribute(char_t const *name);
+        XmlAttribute prepend_attribute(char_t const *name);
 
-        LumexXmlAttribute insert_attribute_after(char_t const *name, LumexXmlAttribute const &attr);
+        XmlAttribute insert_attribute_after(char_t const *name, XmlAttribute const &attr);
 
-        LumexXmlAttribute insert_attribute_before(char_t const *name, LumexXmlAttribute const &attr);
+        XmlAttribute insert_attribute_before(char_t const *name, XmlAttribute const &attr);
 
 #if __cplusplus >= 201703L
-        LumexXmlAttribute append_attribute(string_view_t name);
+        XmlAttribute append_attribute(string_view_t name);
 
-        LumexXmlAttribute prepend_attribute(string_view_t name);
+        XmlAttribute prepend_attribute(string_view_t name);
 
-        LumexXmlAttribute insert_attribute_after(string_view_t name, LumexXmlAttribute const &attr);
+        XmlAttribute insert_attribute_after(string_view_t name, XmlAttribute const &attr);
 
-        LumexXmlAttribute insert_attribute_before(string_view_t name, LumexXmlAttribute const &attr);
+        XmlAttribute insert_attribute_before(string_view_t name, XmlAttribute const &attr);
 #endif
 
         // Add a copy of the specified attribute. Returns added attribute, or empty attribute on errors.
-        LumexXmlAttribute append_copy(LumexXmlAttribute const &proto);
+        XmlAttribute append_copy(XmlAttribute const &proto);
 
-        LumexXmlAttribute prepend_copy(LumexXmlAttribute const &proto);
+        XmlAttribute prepend_copy(XmlAttribute const &proto);
 
-        LumexXmlAttribute insert_copy_after(LumexXmlAttribute const &proto, LumexXmlAttribute const &attr);
+        XmlAttribute insert_copy_after(XmlAttribute const &proto, XmlAttribute const &attr);
 
-        LumexXmlAttribute insert_copy_before(LumexXmlAttribute const &proto, LumexXmlAttribute const &attr);
+        XmlAttribute insert_copy_before(XmlAttribute const &proto, XmlAttribute const &attr);
 
         // Add child node with specified type. Returns added node, or empty node on errors.
-        LumexXmlNode append_child(xml_node_type type = node_element);
+        XmlNode append_child(xml_node_type type = node_element);
 
-        LumexXmlNode prepend_child(xml_node_type type = node_element);
+        XmlNode prepend_child(xml_node_type type = node_element);
 
-        LumexXmlNode insert_child_after(xml_node_type type, LumexXmlNode const &node);
+        XmlNode insert_child_after(xml_node_type type, XmlNode const &node);
 
-        LumexXmlNode insert_child_before(xml_node_type type, LumexXmlNode const &node);
+        XmlNode insert_child_before(xml_node_type type, XmlNode const &node);
 
         // Add child element with specified name. Returns added node, or empty node on errors.
-        LumexXmlNode append_child(char_t const *name);
+        XmlNode append_child(char_t const *name);
 
-        LumexXmlNode prepend_child(char_t const *name);
+        XmlNode prepend_child(char_t const *name);
 
-        LumexXmlNode insert_child_after(char_t const *name, LumexXmlNode const &node);
+        XmlNode insert_child_after(char_t const *name, XmlNode const &node);
 
-        LumexXmlNode insert_child_before(char_t const *name, LumexXmlNode const &node);
+        XmlNode insert_child_before(char_t const *name, XmlNode const &node);
 
 #if __cplusplus >= 201703L
-        LumexXmlNode append_child(string_view_t name);
+        XmlNode append_child(string_view_t name);
 
-        LumexXmlNode prepend_child(string_view_t name);
+        XmlNode prepend_child(string_view_t name);
 
-        LumexXmlNode insert_child_after(string_view_t, LumexXmlNode const &node);
+        XmlNode insert_child_after(string_view_t, XmlNode const &node);
 
-        LumexXmlNode insert_child_before(string_view_t name, LumexXmlNode const &node);
+        XmlNode insert_child_before(string_view_t name, XmlNode const &node);
 #endif
 
         // Add a copy of the specified node as a child. Returns added node, or empty node on errors.
-        LumexXmlNode append_copy(LumexXmlNode const &proto);
+        XmlNode append_copy(XmlNode const &proto);
 
-        LumexXmlNode prepend_copy(LumexXmlNode const &proto);
+        XmlNode prepend_copy(XmlNode const &proto);
 
-        LumexXmlNode insert_copy_after(LumexXmlNode const &proto, LumexXmlNode const &node);
+        XmlNode insert_copy_after(XmlNode const &proto, XmlNode const &node);
 
-        LumexXmlNode insert_copy_before(LumexXmlNode const &proto, LumexXmlNode const &node);
+        XmlNode insert_copy_before(XmlNode const &proto, XmlNode const &node);
 
         // Move the specified node to become a child of this node. Returns moved node, or empty node on errors.
-        LumexXmlNode append_move(LumexXmlNode const &moved);
+        XmlNode append_move(XmlNode const &moved);
 
-        LumexXmlNode prepend_move(LumexXmlNode const &moved);
+        XmlNode prepend_move(XmlNode const &moved);
 
-        LumexXmlNode insert_move_after(LumexXmlNode const &moved, LumexXmlNode const &node);
+        XmlNode insert_move_after(XmlNode const &moved, XmlNode const &node);
 
-        LumexXmlNode insert_move_before(LumexXmlNode const &moved, LumexXmlNode const &node);
+        XmlNode insert_move_before(XmlNode const &moved, XmlNode const &node);
 
         // Remove specified attribute
-        bool remove_attribute(LumexXmlAttribute const &attr);
+        bool remove_attribute(XmlAttribute const &attr);
 
         bool remove_attribute(char_t const *name);
 
@@ -301,7 +301,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
         bool remove_attributes();
 
         // Remove specified child
-        bool remove_child(LumexXmlNode const &n);
+        bool remove_child(XmlNode const &n);
 
         bool remove_child(char_t const *name);
 
@@ -316,17 +316,17 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
         // Copies/converts the buffer, so it may be deleted or changed after the function returns.
         // Note: append_buffer allocates memory that has the lifetime of the owning document; removing the appended
         // nodes does not immediately reclaim that memory.
-        LumexXmlParseResult append_buffer(void const *contents, size_t size, unsigned int options = kparse_default,
-                                          xml_encoding encoding = encoding_auto);
+        XmlParseResult append_buffer(void const *contents, size_t size, unsigned int options = kparse_default,
+                                     xml_encoding encoding = encoding_auto);
 
         // Find attribute using predicate. Returns first attribute for which predicate returned true.
         template <typename Predicate>
-        LumexXmlAttribute
+        XmlAttribute
         find_attribute(Predicate pred) const
         {
           if(!m_root) return {};
 
-          for(LumexXmlAttribute attrib = first_attribute(); attrib; attrib = attrib.next_attribute())
+          for(XmlAttribute attrib = first_attribute(); attrib; attrib = attrib.next_attribute())
             if(pred(attrib)) return attrib;
 
           return {};
@@ -334,12 +334,12 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
 
         // Find child node using predicate. Returns first child for which predicate returned true.
         template <typename Predicate>
-        LumexXmlNode
+        XmlNode
         find_child(Predicate pred) const
         {
           if(!m_root) return {};
 
-          for(LumexXmlNode node = first_child(); node; node = node.next_sibling())
+          for(XmlNode node = first_child(); node; node = node.next_sibling())
             if(pred(node)) return node;
 
           return {};
@@ -348,12 +348,12 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
         // Find node from subtree using predicate. Returns first node from subtree (depth-first), for which predicate
         // returned true.
         template <typename Predicate>
-        LumexXmlNode
+        XmlNode
         find_node(Predicate pred) const
         {
           if(!m_root) return {};
 
-          LumexXmlNode cur = first_child();
+          XmlNode cur = first_child();
 
           while(cur.m_root && cur.m_root != m_root)
           {
@@ -375,51 +375,53 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
         }
 
         // Find child node by attribute name/value
-        LumexXmlNode
-        find_child_by_attribute(char_t const *name, char_t const *attr_name, char_t const *attr_value) const;
+        XmlNode find_child_by_attribute(char_t const *name, char_t const *attr_name, char_t const *attr_value) const;
 
-        LumexXmlNode find_child_by_attribute(char_t const *attr_name, char_t const *attr_value) const;
+        XmlNode find_child_by_attribute(char_t const *attr_name, char_t const *attr_value) const;
 
         // Get the absolute node path from root as a text string.
         string_t path(char_t delimiter = '/') const;
 
         // Search for a node by path consisting of node names and . or .. elements.
-        LumexXmlNode first_element_by_path(char_t const *path, char_t delimiter = '/') const;
+        XmlNode first_element_by_path(char_t const *path, char_t delimiter = '/') const;
 
-        // Recursively traverse subtree with LumexXmlTreeWalker
-        bool traverse(LumexXmlTreeWalker &walker);
+        // Recursively traverse subtree with XmlTreeWalker
+        bool traverse(XmlTreeWalker &walker);
 
         // Select single node by evaluating XPath query. Returns first node from the resulting node set.
         LUMEX_ATTRIBUTE_NODISCARD(
           "The returned XPath node should be used; discarding it negates the purpose of the getter.")
-        LumexXmlXPathNode select_node(char_t const *query, LumexXmlXPathVariableSet *variables = nullptr) const;
+        XPath::Node::XmlXPathNode
+        select_node(char_t const *query, XPath::Variable::XmlXPathVariableSet *variables = nullptr) const;
 
         LUMEX_ATTRIBUTE_NODISCARD(
           "The returned XPath node should be used; discarding it negates the purpose of the getter.")
-        LumexXmlXPathNode select_node(LumexXmlXPathQuery const &query) const;
+        XPath::Node::XmlXPathNode select_node(XmlPathQuery const &query) const;
 
         // Select node set by evaluating XPath query
         LUMEX_ATTRIBUTE_NODISCARD(
           "The returned XPath node set should be used; discarding it negates the purpose of the getter.")
-        LumexXmlXPathNodeSet select_nodes(char_t const *query, xpath_variable_set *variables = nullptr) const;
+        XPath::Node::XmlXPathNodeSet
+        select_nodes(char_t const *query, XPath::Variable::XmlXPathVariableSet *variables = nullptr) const;
 
         LUMEX_ATTRIBUTE_NODISCARD(
           "The returned XPath node set should be used; discarding it negates the purpose of the getter.")
-        LumexXmlXPathNodeSet select_nodes(LumexXmlXPathQuery const &query) const;
+        XPath::Node::XmlXPathNodeSet select_nodes(XmlPathQuery const &query) const;
 
         // (deprecated: use select_node instead) Select single node by evaluating XPath query.
         LUMEX_ATTRIBUTE_DEPRECATED LUMEX_ATTRIBUTE_NODISCARD(
-          "The returned XPath node should be used; discarding it negates the purpose of the getter.") LumexXmlXPathNode
-          select_single_node(char_t const *query, xpath_variable_set *variables = nullptr) const;
+          "The returned XPath node should be used; discarding it negates the purpose of the getter.")
+          XPath::Node::XmlXPathNode
+          select_single_node(char_t const *query, XmlXPathVariableSet *variables = nullptr) const;
 
         LUMEX_ATTRIBUTE_DEPRECATED LUMEX_ATTRIBUTE_NODISCARD(
-          "The returned XPath node should be used; discarding it negates the purpose of the getter.") LumexXmlXPathNode
-          select_single_node(LumexXmlXPathQuery const &query) const;
+          "The returned XPath node should be used; discarding it negates the purpose of the getter.")
+          XPath::Node::XmlXPathNode select_single_node(XmlPathQuery const &query) const;
 
         // Print subtree using a writer object
-        void print(ILumexXmlWriter &writer, char_t const *indent = LUMEX_XML_TEXT("\t"),
-                   unsigned int flags = kformat_default, xml_encoding encoding = encoding_auto,
-                   unsigned int depth = 0) const;
+        void
+        print(IXmlWriter &writer, char_t const *indent = LUMEX_XML_TEXT("\t"), unsigned int flags = kformat_default,
+              xml_encoding encoding = encoding_auto, unsigned int depth = 0) const;
 
         // Print subtree to stream
         void print(std::basic_ostream<char> &ostream, char_t const *indent = LUMEX_XML_TEXT("\t"),
@@ -431,36 +433,39 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
         // Child nodes iterators
         LUMEX_ATTRIBUTE_NODISCARD("The returned iterator should be used for traversing children; discarding it negates "
                                   "the purpose of iteration.")
-        iterator begin() const;
+        XmlNodeIterator begin() const;
 
         LUMEX_ATTRIBUTE_NODISCARD("The returned iterator should be used for delimiting children iteration; discarding "
                                   "it negates the purpose of iteration.")
-        iterator end() const;
+        XmlNodeIterator end() const;
 
         // Attribute iterators
         LUMEX_ATTRIBUTE_NODISCARD("The returned attribute iterator should be used for traversing attributes; "
                                   "discarding it negates the purpose of iteration.")
-        attribute_iterator attributes_begin() const;
+        XmlAttributeIterator attributes_begin() const;
 
         LUMEX_ATTRIBUTE_NODISCARD("The returned attribute iterator should be used for delimiting attribute iteration; "
                                   "discarding it negates the purpose of iteration.")
-        attribute_iterator attributes_end() const;
+        XmlAttributeIterator attributes_end() const;
 
-        // Range-based for support
-        LUMEX_ATTRIBUTE_NODISCARD("The returned range object should be used for iterating over children; discarding it "
-                                  "negates the purpose of iteration.")
-        LumexXmlObjectRange<LumexXmlNodeIterator> children() const;
+        // TODO: Resolve circular dependency for these methods
+        // // Range-based for support
+        // LUMEX_ATTRIBUTE_NODISCARD("The returned range object should be used for iterating over children; discarding
+        // it "
+        //                           "negates the purpose of iteration.")
+        // XmlObjectRange<XmlNodeIterator> children() const;
 
-        LUMEX_ATTRIBUTE_NODISCARD("The returned range object should be used for iterating over attributes; discarding "
-                                  "it negates the purpose of iteration.")
-        LumexXmlObjectRange<LumexXmlAttributeIterator> attributes() const;
+        // LUMEX_ATTRIBUTE_NODISCARD("The returned range object should be used for iterating over attributes; discarding
+        // "
+        //                           "it negates the purpose of iteration.")
+        // XmlObjectRange<XmlAttributeIterator> attributes() const;
 
-        // Range-based for support for all children with the specified name
-        // Note: name pointer must have a longer lifetime than the returned object; be careful with passing
-        // temporaries!
-        LUMEX_ATTRIBUTE_NODISCARD("The returned range object should be used for iterating over named children; "
-                                  "discarding it negates the purpose of iteration.")
-        LumexXmlObjectRange<LumexXmlNamedNodeIterator> children(char_t const *name) const;
+        // // Range-based for support for all children with the specified name
+        // // Note: name pointer must have a longer lifetime than the returned object; be careful with passing
+        // // temporaries!
+        // LUMEX_ATTRIBUTE_NODISCARD("The returned range object should be used for iterating over named children; "
+        //                           "discarding it negates the purpose of iteration.")
+        // XmlObjectRange<XmlNamedNodeIterator> children(char_t const *name) const;
 
         // Get node offset in parsed file/string (in char_t units) for debugging purposes
         LUMEX_ATTRIBUTE_NODISCARD(
@@ -475,14 +480,14 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
         // Get internal pointer
         LUMEX_ATTRIBUTE_NODISCARD("The returned internal pointer should be used for low-level access; discarding it "
                                   "negates the purpose of the getter.")
-        xml_node_t *get() const;
+        XmlNodeBase *get() const;
 
       private:
-        xml_node_t *m_root{};
+        XmlNodeBase *m_root{};
       };
 
       inline bool
-      is_text_node(xml_node_t *node)
+      is_text_node(XmlNodeBase *node)
       {
         auto type = LUMEX_XML_NODETYPE(node);
         return type == node_pcdata || type == node_cdata;

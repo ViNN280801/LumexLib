@@ -1,151 +1,152 @@
 #define LUMEX_IMPLEMENTATION
 
-#include "LumexXmlText.hpp"
+#include "XmlText.hpp"
 
-#include "lumex/xml/constants/LumexXmlConstants.hpp"
-#include "lumex/xml/node/LumexXmlNode.hpp"
-#include "lumex/xml/utility/LumexXmlMacros.hpp"
-#include "lumex/xml/utility/LumexXmlUtils.hpp"
+#include "lumex/xml/constants/XmlConstants.hpp"
+#include "lumex/xml/node/XmlNode.hpp"
+#include "lumex/xml/node/XmlNodeBase.hpp"
+#include "lumex/xml/utility/XmlMacros.hpp"
+#include "lumex/xml/utility/XmlUtils.hpp"
 
 using namespace Lumex::Xml::Text;
 using namespace Lumex::Xml::Node;
 using namespace Lumex::Xml::Utility;
 using namespace Lumex::Xml::Constants;
 
-inline LumexXmlText::LumexXmlText(xml_node_t *root) : m_root(root) {}
+inline XmlText::XmlText(XmlNodeBase *root) : m_root(root) {}
 
-inline Lumex::Xml::Node::xml_node_t *
-LumexXmlText::_data() const
+inline XmlNodeBase *
+XmlText::_data() const
 {
   if((m_root == nullptr) || Node::is_text_node(m_root)) return m_root;
 
   // element nodes can have value if parse_embed_pcdata was used
   if(LUMEX_XML_NODETYPE(m_root) == node_element && (m_root->value != nullptr)) return m_root;
 
-  for(xml_node_t *node = m_root->first_child; node != nullptr; node = node->next_sibling)
+  for(XmlNodeBase *node = m_root->first_child; node != nullptr; node = node->next_sibling)
     if(Node::is_text_node(node)) return node;
 
   return nullptr;
 }
 
-inline Lumex::Xml::Node::xml_node_t *
-LumexXmlText::_data_new()
+inline XmlNodeBase *
+XmlText::_data_new()
 {
-  xml_node_t *data = _data();
+  XmlNodeBase *data = _data();
   if(data != nullptr) return data;
 
-  return Lumex::Xml::Node::LumexXmlNode(m_root).append_child(node_pcdata).internal_object();
+  return XmlNode(m_root).append_child(node_pcdata).get();
 }
 
-inline LumexXmlText::LumexXmlText() : m_root(nullptr) {}
+inline XmlText::XmlText() : m_root(nullptr) {}
 
 inline static void
-unspecified_bool_xml_text(LumexXmlText *** /*unused*/) // NOLINT(misc-use-anonymous-namespace)
+unspecified_bool_xml_text(XmlText *** /*unused*/) // NOLINT(misc-use-anonymous-namespace)
 {}
 
-inline LumexXmlText::
-operator LumexXmlText::unspecified_bool_type() const
+inline XmlText::
+operator XmlText::unspecified_bool_type() const
 {
   return (_data() != nullptr) ? unspecified_bool_xml_text : nullptr;
 }
 
 inline bool
-LumexXmlText::operator!() const
+XmlText::operator!() const
 {
   return _data() == nullptr;
 }
 
 inline bool
-LumexXmlText::empty() const
+XmlText::empty() const
 {
   return _data() == nullptr;
 }
 
 inline char_t const *
-LumexXmlText::get() const
+XmlText::get() const
 {
-  xml_node_t *data = _data();
+  XmlNodeBase *data = _data();
   if(data == nullptr) return LUMEX_XML_TEXT("");
   char_t const *value = data->value;
   return (value != nullptr) ? value : LUMEX_XML_TEXT("");
 }
 
 inline char_t const *
-LumexXmlText::as_string(char_t const *def) const
+XmlText::as_string(char_t const *def) const
 {
-  xml_node_t *data = _data();
+  XmlNodeBase *data = _data();
   if(data == nullptr) return def;
   char_t const *value = data->value;
   return (value != nullptr) ? value : def;
 }
 
 inline int
-LumexXmlText::as_int(int def) const
+XmlText::as_int(int def) const
 {
-  xml_node_t *data = _data();
+  XmlNodeBase *data = _data();
   if(data == nullptr) return def;
   char_t const *value = data->value;
   return (value != nullptr) ? Utility::get_value_int(value) : def;
 }
 
 inline unsigned int
-LumexXmlText::as_uint(unsigned int def) const
+XmlText::as_uint(unsigned int def) const
 {
-  xml_node_t *data = _data();
+  XmlNodeBase *data = _data();
   if(data == nullptr) return def;
   char_t const *value = data->value;
   return (value != nullptr) ? Utility::get_value_uint(value) : def;
 }
 
 inline double
-LumexXmlText::as_double(double def) const
+XmlText::as_double(double def) const
 {
-  xml_node_t *data = _data();
+  XmlNodeBase *data = _data();
   if(data == nullptr) return def;
   char_t const *value = data->value;
   return (value != nullptr) ? Utility::get_value_double(value) : def;
 }
 
 inline float
-LumexXmlText::as_float(float def) const
+XmlText::as_float(float def) const
 {
-  xml_node_t *data = _data();
+  XmlNodeBase *data = _data();
   if(data == nullptr) return def;
   char_t const *value = data->value;
   return (value != nullptr) ? Utility::get_value_float(value) : def;
 }
 
 inline bool
-LumexXmlText::as_bool(bool def) const
+XmlText::as_bool(bool def) const
 {
-  xml_node_t *data = _data();
+  XmlNodeBase *data = _data();
   if(data == nullptr) return def;
   char_t const *value = data->value;
   return (value != nullptr) ? Utility::get_value_bool(value) : def;
 }
 
 inline long long
-LumexXmlText::as_llong(long long def) const
+XmlText::as_llong(long long def) const
 {
-  xml_node_t *data = _data();
+  XmlNodeBase *data = _data();
   if(data == nullptr) return def;
   char_t const *value = data->value;
   return (value != nullptr) ? Utility::get_value_llong(value) : def;
 }
 
 inline unsigned long long
-LumexXmlText::as_ullong(unsigned long long def) const
+XmlText::as_ullong(unsigned long long def) const
 {
-  xml_node_t *data = _data();
+  XmlNodeBase *data = _data();
   if(data == nullptr) return def;
   char_t const *value = data->value;
   return (value != nullptr) ? Utility::get_value_ullong(value) : def;
 }
 
 inline bool
-LumexXmlText::set(char_t const *rhs)
+XmlText::set(char_t const *rhs)
 {
-  xml_node_t *newdata = _data_new();
+  XmlNodeBase *newdata = _data_new();
 
   return (newdata != nullptr)
            ? Utility::strcpy_insitu(newdata->value, newdata->header, kxml_memory_page_value_allocated_mask, rhs,
@@ -154,9 +155,9 @@ LumexXmlText::set(char_t const *rhs)
 }
 
 inline bool
-LumexXmlText::set(char_t const *rhs, size_t size)
+XmlText::set(char_t const *rhs, size_t size)
 {
-  xml_node_t *newdata = _data_new();
+  XmlNodeBase *newdata = _data_new();
 
   return (newdata != nullptr)
            ? Utility::strcpy_insitu(newdata->value, newdata->header, kxml_memory_page_value_allocated_mask, rhs, size)
@@ -165,9 +166,9 @@ LumexXmlText::set(char_t const *rhs, size_t size)
 
 #if __cplusplus >= 201703L
 inline bool
-LumexXmlText::set(string_view_t rhs)
+XmlText::set(string_view_t rhs)
 {
-  xml_node_t *newdata = _data_new();
+  XmlNodeBase *newdata = _data_new();
 
   return (newdata != nullptr) ? Utility::strcpy_insitu(newdata->value, newdata->header,
                                                        kxml_memory_page_value_allocated_mask, rhs.data(), rhs.size())
@@ -176,9 +177,9 @@ LumexXmlText::set(string_view_t rhs)
 #endif
 
 inline bool
-LumexXmlText::set(int rhs)
+XmlText::set(int rhs)
 {
-  xml_node_t *newdata = _data_new();
+  XmlNodeBase *newdata = _data_new();
 
   return (newdata != nullptr) ? Utility::set_value_integer<unsigned int>(
                                   newdata->value, newdata->header, kxml_memory_page_value_allocated_mask, rhs, rhs < 0)
@@ -186,9 +187,9 @@ LumexXmlText::set(int rhs)
 }
 
 inline bool
-LumexXmlText::set(unsigned int rhs)
+XmlText::set(unsigned int rhs)
 {
-  xml_node_t *newdata = _data_new();
+  XmlNodeBase *newdata = _data_new();
 
   return (newdata != nullptr) ? Utility::set_value_integer<unsigned int>(
                                   newdata->value, newdata->header, kxml_memory_page_value_allocated_mask, rhs, false)
@@ -196,9 +197,9 @@ LumexXmlText::set(unsigned int rhs)
 }
 
 inline bool
-LumexXmlText::set(long rhs)
+XmlText::set(long rhs)
 {
-  xml_node_t *newdata = _data_new();
+  XmlNodeBase *newdata = _data_new();
 
   return (newdata != nullptr) ? Utility::set_value_integer<unsigned long>(
                                   newdata->value, newdata->header, kxml_memory_page_value_allocated_mask, rhs, rhs < 0)
@@ -206,9 +207,9 @@ LumexXmlText::set(long rhs)
 }
 
 inline bool
-LumexXmlText::set(unsigned long rhs)
+XmlText::set(unsigned long rhs)
 {
-  xml_node_t *newdata = _data_new();
+  XmlNodeBase *newdata = _data_new();
 
   return (newdata != nullptr) ? Utility::set_value_integer<unsigned long>(
                                   newdata->value, newdata->header, kxml_memory_page_value_allocated_mask, rhs, false)
@@ -216,9 +217,9 @@ LumexXmlText::set(unsigned long rhs)
 }
 
 inline bool
-LumexXmlText::set(float rhs)
+XmlText::set(float rhs)
 {
-  xml_node_t *newdata = _data_new();
+  XmlNodeBase *newdata = _data_new();
 
   return (newdata != nullptr)
            ? Utility::set_value_convert(newdata->value, newdata->header, kxml_memory_page_value_allocated_mask, rhs,
@@ -227,9 +228,9 @@ LumexXmlText::set(float rhs)
 }
 
 inline bool
-LumexXmlText::set(float rhs, int precision)
+XmlText::set(float rhs, int precision)
 {
-  xml_node_t *newdata = _data_new();
+  XmlNodeBase *newdata = _data_new();
 
   return (newdata != nullptr) ? Utility::set_value_convert(newdata->value, newdata->header,
                                                            kxml_memory_page_value_allocated_mask, rhs, precision)
@@ -237,9 +238,9 @@ LumexXmlText::set(float rhs, int precision)
 }
 
 inline bool
-LumexXmlText::set(double rhs)
+XmlText::set(double rhs)
 {
-  xml_node_t *newdata = _data_new();
+  XmlNodeBase *newdata = _data_new();
 
   return (newdata != nullptr)
            ? Utility::set_value_convert(newdata->value, newdata->header, kxml_memory_page_value_allocated_mask, rhs,
@@ -248,9 +249,9 @@ LumexXmlText::set(double rhs)
 }
 
 inline bool
-LumexXmlText::set(double rhs, int precision)
+XmlText::set(double rhs, int precision)
 {
-  xml_node_t *newdata = _data_new();
+  XmlNodeBase *newdata = _data_new();
 
   return (newdata != nullptr) ? Utility::set_value_convert(newdata->value, newdata->header,
                                                            kxml_memory_page_value_allocated_mask, rhs, precision)
@@ -258,9 +259,9 @@ LumexXmlText::set(double rhs, int precision)
 }
 
 inline bool
-LumexXmlText::set(bool rhs)
+XmlText::set(bool rhs)
 {
-  xml_node_t *newdata = _data_new();
+  XmlNodeBase *newdata = _data_new();
 
   return (newdata != nullptr)
            ? Utility::set_value_bool(newdata->value, newdata->header, kxml_memory_page_value_allocated_mask, rhs)
@@ -268,9 +269,9 @@ LumexXmlText::set(bool rhs)
 }
 
 inline bool
-LumexXmlText::set(long long rhs)
+XmlText::set(long long rhs)
 {
-  xml_node_t *newdata = _data_new();
+  XmlNodeBase *newdata = _data_new();
 
   return (newdata != nullptr) ? Utility::set_value_integer<unsigned long long>(
                                   newdata->value, newdata->header, kxml_memory_page_value_allocated_mask, rhs, rhs < 0)
@@ -278,96 +279,96 @@ LumexXmlText::set(long long rhs)
 }
 
 inline bool
-LumexXmlText::set(unsigned long long rhs)
+XmlText::set(unsigned long long rhs)
 {
-  xml_node_t *newdata = _data_new();
+  XmlNodeBase *newdata = _data_new();
 
   return (newdata != nullptr) ? Utility::set_value_integer<unsigned long long>(
                                   newdata->value, newdata->header, kxml_memory_page_value_allocated_mask, rhs, false)
                               : false;
 }
 
-inline LumexXmlText &
-LumexXmlText::operator=(char_t const *rhs)
+inline XmlText &
+XmlText::operator=(char_t const *rhs)
 {
   set(rhs);
   return *this;
 }
 
-inline LumexXmlText &
-LumexXmlText::operator=(int rhs)
+inline XmlText &
+XmlText::operator=(int rhs)
 {
   set(rhs);
   return *this;
 }
 
-inline LumexXmlText &
-LumexXmlText::operator=(unsigned int rhs)
+inline XmlText &
+XmlText::operator=(unsigned int rhs)
 {
   set(rhs);
   return *this;
 }
 
-inline LumexXmlText &
-LumexXmlText::operator=(long rhs)
+inline XmlText &
+XmlText::operator=(long rhs)
 {
   set(rhs);
   return *this;
 }
 
-inline LumexXmlText &
-LumexXmlText::operator=(unsigned long rhs)
+inline XmlText &
+XmlText::operator=(unsigned long rhs)
 {
   set(rhs);
   return *this;
 }
 
-inline LumexXmlText &
-LumexXmlText::operator=(double rhs)
+inline XmlText &
+XmlText::operator=(double rhs)
 {
   set(rhs);
   return *this;
 }
 
-inline LumexXmlText &
-LumexXmlText::operator=(float rhs)
+inline XmlText &
+XmlText::operator=(float rhs)
 {
   set(rhs);
   return *this;
 }
 
-inline LumexXmlText &
-LumexXmlText::operator=(bool rhs)
+inline XmlText &
+XmlText::operator=(bool rhs)
 {
   set(rhs);
   return *this;
 }
 
 #if __cplusplus >= 201703L
-inline LumexXmlText &
-LumexXmlText::operator=(string_view_t rhs)
+inline XmlText &
+XmlText::operator=(string_view_t rhs)
 {
   set(rhs);
   return *this;
 }
 #endif
 
-inline LumexXmlText &
-LumexXmlText::operator=(long long rhs)
+inline XmlText &
+XmlText::operator=(long long rhs)
 {
   set(rhs);
   return *this;
 }
 
-inline LumexXmlText &
-LumexXmlText::operator=(unsigned long long rhs)
+inline XmlText &
+XmlText::operator=(unsigned long long rhs)
 {
   set(rhs);
   return *this;
 }
 
-inline Lumex::Xml::Node::LumexXmlNode
-LumexXmlText::data() const
+inline XmlNode
+XmlText::data() const
 {
-  return Lumex::Xml::Node::LumexXmlNode(_data());
+  return XmlNode(_data());
 }

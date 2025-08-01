@@ -42,7 +42,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
                   requires std::forward_iterator<Iterator>
 #endif
                 >
-      class LumexXmlObjectRange
+      class XmlObjectRange
       {
       public:
         /**
@@ -69,7 +69,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
          * @param begin Iterator pointing to the first element of the range.
          * @param end Iterator pointing to the position after the last element of the range.
          */
-        LumexXmlObjectRange(Iterator begin, Iterator end) : m_begin(begin), m_end(end) {}
+        XmlObjectRange(Iterator begin, Iterator end) : m_begin(begin), m_end(end) {}
 
         /**
          * @brief Returns the iterator to the beginning of the range.
