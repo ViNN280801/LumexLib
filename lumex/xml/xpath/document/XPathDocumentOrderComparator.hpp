@@ -1,7 +1,7 @@
 #ifndef LUMEX_XML_XPATH_DOCUMENT_ORDER_COMPARATOR_HPP
 #define LUMEX_XML_XPATH_DOCUMENT_ORDER_COMPARATOR_HPP
 
-#include "lumex/xml/node/XmlNode.hpp"
+#include "lumex/xml/node/XmlNodeBase.hpp"
 #include "lumex/xml/xpath/node/XPathNode.hpp"
 
 using namespace Lumex::Xml::XPath::Node;
@@ -15,9 +15,9 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
     {
       namespace Document
       {
-        bool node_is_before_sibling(XmlNode *ln_node, XmlNode *rn_node);
+        bool node_is_before_sibling(XmlNodeBase *ln_node, XmlNodeBase *rn_node);
 
-        bool node_is_before(XmlNode *ln_node, XmlNode *rn_node);
+        bool node_is_before(XmlNodeBase *ln_node, XmlNodeBase *rn_node);
 
         void const *document_buffer_order(XPathNode const &xnode);
 

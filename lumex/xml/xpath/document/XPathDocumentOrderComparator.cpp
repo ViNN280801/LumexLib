@@ -1,15 +1,15 @@
-#define LUMEX_IMPLEMENTATION
-
 #include "lumex/core/utility/LumexMacros.hpp"
 
 #include "lumex/xml/constants/XmlConstants.hpp"
+#include "lumex/xml/document/XmlDocument.hpp"
 
 #include "XPathDocumentOrderComparator.hpp"
 
+using namespace Lumex::Xml::Document;
 using namespace Lumex::Xml::XPath::Document;
 
 inline bool
-node_is_before_sibling(XmlNode *ln_node, XmlNode *rn_node) // NOLINT(misc-use-internal-linkage)
+node_is_before_sibling(XmlNodeBase *ln_node, XmlNodeBase *rn_node) // NOLINT(misc-use-internal-linkage)
 {
   LUMEX_ASSERT(ln_node->parent == rn_node->parent);
 
@@ -17,8 +17,8 @@ node_is_before_sibling(XmlNode *ln_node, XmlNode *rn_node) // NOLINT(misc-use-in
   if(ln_node->parent == nullptr) return ln_node < rn_node;
 
   // determine sibling order
-  XmlNode *ls_node = ln_node;
-  XmlNode *rs_node = rn_node;
+  XmlNodeBase *ls_node = ln_node;
+  XmlNodeBase *rs_node = rn_node;
 
   while(ls_node != nullptr && rs_node != nullptr)
   {
@@ -34,11 +34,11 @@ node_is_before_sibling(XmlNode *ln_node, XmlNode *rn_node) // NOLINT(misc-use-in
 }
 
 inline bool
-node_is_before(XmlNode *ln_node, XmlNode *rn_node) // NOLINT(misc-use-internal-linkage)
+node_is_before(XmlNodeBase *ln_node, XmlNodeBase *rn_node) // NOLINT(misc-use-internal-linkage)
 {
   // find common ancestor at the same depth, if any
-  XmlNode *lp_node = ln_node;
-  XmlNode *rp_node = rn_node;
+  XmlNodeBase *lp_node = ln_node;
+  XmlNodeBase *rp_node = rn_node;
 
   while(lp_node != nullptr && rp_node != nullptr && lp_node->parent != rp_node->parent)
   {
@@ -47,7 +47,7 @@ node_is_before(XmlNode *ln_node, XmlNode *rn_node) // NOLINT(misc-use-internal-l
   }
 
   // parents are the same!
-  if(lp_node != nullptr && rp_node != nullptr) return XPath::node_is_before_sibling(lp_node, rp_node);
+  if(lp_node != nullptr && rp_node != nullptr) return XPath::Document::node_is_before_sibling(lp_node, rp_node);
 
   // nodes are at different depths, need to normalize heights
   bool left_higher = lp_node == nullptr;
@@ -74,17 +74,17 @@ node_is_before(XmlNode *ln_node, XmlNode *rn_node) // NOLINT(misc-use-internal-l
     rn_node = rn_node->parent;
   }
 
-  return XPath::node_is_before_sibling(ln_node, rn_node);
+  return XPath::Document::node_is_before_sibling(ln_node, rn_node);
 }
 
 inline void const *
 document_buffer_order(XPathNode const &xnode) // NOLINT(misc-use-internal-linkage)
 {
-  XmlNode *node = xnode.node().get();
+  XmlNodeBase *node = xnode.node().get();
 
   if(node != nullptr)
   {
-    if((get_document(node).header & kxml_memory_page_contents_shared_mask) == 0)
+    if((Document::get_document(node).header & kxml_memory_page_contents_shared_mask) == 0)
     {
       if((node->name != nullptr) && (node->header & kxml_memory_page_name_allocated_or_shared_mask) == 0)
         return node->name;
@@ -95,11 +95,11 @@ document_buffer_order(XPathNode const &xnode) // NOLINT(misc-use-internal-linkag
     return nullptr;
   }
 
-  xml_attr_t *attr = xnode.attribute().get();
+  XmlAttributeBase *attr = xnode.attribute().get();
 
   if(attr != nullptr)
   {
-    if((get_document(attr).header & kxml_memory_page_contents_shared_mask) == 0)
+    if((Document::get_document(attr).header & kxml_memory_page_contents_shared_mask) == 0)
     {
       if((attr->header & kxml_memory_page_name_allocated_or_shared_mask) == 0) return attr->name;
       if((attr->header & kxml_memory_page_value_allocated_or_shared_mask) == 0) return attr->value;
@@ -115,8 +115,8 @@ inline bool
 document_order_comparator::operator()(XPathNode const &lhs, XPathNode const &rhs) const
 {
   // optimized document order based check
-  void const *lo_doc = XPath::document_buffer_order(lhs);
-  void const *ro_doc = XPath::document_buffer_order(rhs);
+  void const *lo_doc = XPath::Document::document_buffer_order(lhs);
+  void const *ro_doc = XPath::Document::document_buffer_order(rhs);
 
   if(lo_doc != nullptr && ro_doc != nullptr) return lo_doc < ro_doc;
 
@@ -160,5 +160,5 @@ document_order_comparator::operator()(XPathNode const &lhs, XPathNode const &rhs
 
   if(!ln_node || !rn_node) return ln_node < rn_node;
 
-  return XPath::node_is_before(ln_node.get(), rn_node.get());
+  return XPath::Document::node_is_before(ln_node.get(), rn_node.get());
 }
