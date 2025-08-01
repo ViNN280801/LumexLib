@@ -1,5 +1,5 @@
 #include "lumex/xml/attribute/XmlAttributeIterator.hpp"
-#include "lumex/xml/document/XmlDocument.hpp"
+#include "lumex/xml/document/XmlDocumentBase.hpp"
 #include "lumex/xml/memory/XmlAllocator.hpp"
 #include "lumex/xml/text/XmlParseResult.hpp"
 #include "lumex/xml/text/XmlText.hpp"

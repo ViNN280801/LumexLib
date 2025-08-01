@@ -1,4 +1,4 @@
-#include "lumex/xml/document/XmlDocument.hpp"
+#include "lumex/xml/document/XmlDocumentBase.hpp"
 #include "lumex/xml/text/XmlParser.hpp"
 #include "lumex/xml/utility/XmlCleaner.hpp"
 #include "lumex/xml/utility/XmlUtils.hpp"

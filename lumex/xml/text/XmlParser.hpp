@@ -1,7 +1,7 @@
 #ifndef LUMEX_XML_PARSER_HPP
 #define LUMEX_XML_PARSER_HPP
 
-#include "lumex/xml/document/XmlDocument.hpp"
+#include "lumex/xml/document/XmlDocumentBase.hpp"
 #include "lumex/xml/memory/XmlAllocator.hpp"
 #include "lumex/xml/node/XmlNodeBase.hpp"
 #include "lumex/xml/text/XmlParseResult.hpp"

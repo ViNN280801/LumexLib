@@ -1,7 +1,7 @@
 #include "lumex/core/utility/LumexAssert.hpp"
 
 #include "lumex/xml/constants/XmlConstants.hpp"
-#include "lumex/xml/document/XmlDocument.hpp"
+#include "lumex/xml/document/XmlDocumentBase.hpp"
 
 #include "XPathDocumentOrderComparator.hpp"
 

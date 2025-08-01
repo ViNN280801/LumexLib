@@ -1,7 +1,7 @@
 #include "lumex/xml/memory/XmlMemoryPage.hpp"
 #include "lumex/xml/node/XmlNodeBase.hpp"
 
-#include "XmlDocument.hpp"
+#include "XmlDocumentBase.hpp"
 
 using namespace Lumex::Xml::Document;
 using namespace Lumex::Xml::Memory;
