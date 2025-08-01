@@ -15,7 +15,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
     namespace Document
     {
       struct XmlDocumentBase : public XmlNodeBase, public XmlAllocator {
-        XmlDocumentBase(XmlMemoryPage *page) : XmlNodeBase(page, node_document), XmlAllocator(page) {}
+        XmlDocumentBase(XmlMemoryPage *page);
 
         char_t const *buffer{}; // NOLINT(misc-non-private-member-variables-in-classes)
 
