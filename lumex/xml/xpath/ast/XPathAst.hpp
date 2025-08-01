@@ -1,11 +1,11 @@
 #ifndef LUMEX_XML_XPATH_AST_HPP
 #define LUMEX_XML_XPATH_AST_HPP
 
-#include "lumex/xml/types/LumexXmlTypes.hpp"
-#include "lumex/xml/xpath/context/LumexXmlXPathContext.hpp"
-#include "lumex/xml/xpath/memory/LumexXmlXPathStack.hpp"
-#include "lumex/xml/xpath/node/LumexXmlXPathNodeSet.hpp"
-#include "lumex/xml/xpath/variable/LumexXmlXPathVariable.hpp"
+#include "lumex/xml/types/XmlTypes.hpp"
+#include "lumex/xml/xpath/context/XPathContext.hpp"
+#include "lumex/xml/xpath/memory/XPathStack.hpp"
+#include "lumex/xml/xpath/node/XPathNodeSet.hpp"
+#include "lumex/xml/xpath/variable/XPathVariable.hpp"
 
 using namespace Lumex::Xml::Types;
 using namespace Lumex::Xml::XPath::Node;
@@ -21,7 +21,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
     {
       namespace Ast
       {
-        class LumexXmlXPathAstNode
+        class XPathAstNode
         {
         private:
           // node type
@@ -35,25 +35,25 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
           char _test;
 
           // tree node structure
-          LumexXmlXPathAstNode *_left;
-          LumexXmlXPathAstNode *_right;
-          LumexXmlXPathAstNode *_next;
+          XPathAstNode *_left;
+          XPathAstNode *_right;
+          XPathAstNode *_next;
 
           union {
             char_t const *string;
             double number;
-            LumexXmlXPathVariable *variable;
+            XPathVariable *variable;
             char_t const *nodetest;
             unsigned char const *table;
           } _data;
 
-          LumexXmlXPathAstNode(LumexXmlXPathAstNode const &);
-          LumexXmlXPathAstNode &operator=(LumexXmlXPathAstNode const &);
+          XPathAstNode(XPathAstNode const &);
+          XPathAstNode &operator=(XPathAstNode const &);
 
           template <class Comp>
           static bool
-          compare_eq(LumexXmlXPathAstNode *lhs, LumexXmlXPathAstNode *rhs, LumexXmlXPathContext const &c,
-                     LumexXmlXPathStack const &stack, Comp const &comp)
+          compare_eq(XPathAstNode *lhs, XPathAstNode *rhs, XPathContext const &c,
+                     XPathStack const &stack, Comp const &comp)
           {
             xpath_value_type lt = lhs->rettype(), rt = rhs->rettype();
 
@@ -139,15 +139,15 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
           }
 
           static bool
-          eval_once(LumexXmlXPathNodeSet::type_t type, Types::nodeset_eval_t eval)
+          eval_once(XPathNodeSet::type_t type, Types::nodeset_eval_t eval)
           {
-            return type == LumexXmlXPathNodeSet::type_sorted ? eval != nodeset_eval_all : eval == nodeset_eval_any;
+            return type == XPathNodeSet::type_sorted ? eval != nodeset_eval_all : eval == nodeset_eval_any;
           }
 
           template <class Comp>
           static bool
-          compare_rel(LumexXmlXPathAstNode *lhs, LumexXmlXPathAstNode *rhs, LumexXmlXPathContext const &c,
-                      LumexXmlXPathStack const &stack, Comp const &comp)
+          compare_rel(XPathAstNode *lhs, XPathAstNode *rhs, XPathContext const &c,
+                      XPathStack const &stack, Comp const &comp)
           {
             xpath_value_type lt = lhs->rettype(), rt = rhs->rettype();
 
@@ -216,8 +216,8 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
           }
 
           static void
-          apply_predicate_boolean(xpath_node_set_raw &ns, size_t first, LumexXmlXPathAstNode *expr,
-                                  LumexXmlXPathStack const &stack, bool once)
+          apply_predicate_boolean(xpath_node_set_raw &ns, size_t first, XPathAstNode *expr,
+                                  XPathStack const &stack, bool once)
           {
             LUMEX_ASSERT(ns.size() >= first);
             LUMEX_ASSERT(expr->rettype() != xpath_type_number);
@@ -230,7 +230,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
             // remove_if... or well, sort of
             for(xpath_node *it = last; it != ns.end(); ++it, ++i)
             {
-              LumexXmlXPathContext c(*it, i, size);
+              XPathContext c(*it, i, size);
 
               if(expr->eval_boolean(c, stack))
               {
@@ -244,8 +244,8 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
           }
 
           static void
-          apply_predicate_number(xpath_node_set_raw &ns, size_t first, LumexXmlXPathAstNode *expr,
-                                 LumexXmlXPathStack const &stack, bool once)
+          apply_predicate_number(xpath_node_set_raw &ns, size_t first, XPathAstNode *expr,
+                                 XPathStack const &stack, bool once)
           {
             LUMEX_ASSERT(ns.size() >= first);
             LUMEX_ASSERT(expr->rettype() == xpath_type_number);
@@ -258,7 +258,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
             // remove_if... or well, sort of
             for(xpath_node *it = last; it != ns.end(); ++it, ++i)
             {
-              LumexXmlXPathContext c(*it, i, size);
+              XPathContext c(*it, i, size);
 
               if(expr->eval_number(c, stack) == static_cast<double>(i))
               {
@@ -272,8 +272,8 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
           }
 
           static void
-          apply_predicate_number_const(xpath_node_set_raw &ns, size_t first, LumexXmlXPathAstNode *expr,
-                                       LumexXmlXPathStack const &stack)
+          apply_predicate_number_const(xpath_node_set_raw &ns, size_t first, XPathAstNode *expr,
+                                       XPathStack const &stack)
           {
             LUMEX_ASSERT(ns.size() >= first);
             LUMEX_ASSERT(expr->rettype() == xpath_type_number);
@@ -283,7 +283,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
             xpath_node *last = ns.begin() + first;
 
             xpath_node cn;
-            LumexXmlXPathContext c(cn, 1, size);
+            XPathContext c(cn, 1, size);
 
             double er = expr->eval_number(c, stack);
 
@@ -303,7 +303,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
           }
 
           void
-          apply_predicate(xpath_node_set_raw &ns, size_t first, LumexXmlXPathStack const &stack, bool once)
+          apply_predicate(xpath_node_set_raw &ns, size_t first, XPathStack const &stack, bool once)
           {
             if(ns.size() == first) return;
 
@@ -318,14 +318,14 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
           }
 
           void
-          apply_predicates(xpath_node_set_raw &ns, size_t first, LumexXmlXPathStack const &stack,
+          apply_predicates(xpath_node_set_raw &ns, size_t first, XPathStack const &stack,
                            Types::nodeset_eval_t eval)
           {
             if(ns.size() == first) return;
 
             bool last_once = eval_once(ns.type(), eval);
 
-            for(LumexXmlXPathAstNode *pred = _right; pred; pred = pred->_next)
+            for(XPathAstNode *pred = _right; pred; pred = pred->_next)
               pred->apply_predicate(ns, first, stack, !pred->_next && last_once);
           }
 
@@ -708,13 +708,13 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
 
           template <class T>
           xpath_node_set_raw
-          step_do(LumexXmlXPathContext const &c, LumexXmlXPathStack const &stack, Types::nodeset_eval_t eval, T v)
+          step_do(XPathContext const &c, XPathStack const &stack, Types::nodeset_eval_t eval, T v)
           {
             axis_t const axis       = T::axis;
             bool const axis_reverse = (axis == axis_ancestor || axis == axis_ancestor_or_self || axis == axis_preceding
                                        || axis == axis_preceding_sibling);
-            LumexXmlXPathNodeSet::type_t const axis_type
-              = axis_reverse ? LumexXmlXPathNodeSet::type_sorted_reverse : LumexXmlXPathNodeSet::type_sorted;
+            XPathNodeSet::type_t const axis_type
+              = axis_reverse ? XPathNodeSet::type_sorted_reverse : XPathNodeSet::type_sorted;
 
             bool once = (axis == axis_attribute && _test == nodetest_name) || (!_right && eval_once(axis_type, eval)) ||
                         // coverity[mixed_enums]
@@ -736,7 +736,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
 
                 // in general, all axes generate elements in a particular order, but there is no order guarantee if axis
                 // is applied to two nodes
-                if(axis != axis_self && size != 0) ns.set_type(LumexXmlXPathNodeSet::type_unsorted);
+                if(axis != axis_self && size != 0) ns.set_type(XPathNodeSet::type_unsorted);
 
                 step_fill(ns, *it, stack.result, once, v);
                 if(_right) apply_predicates(ns, size, stack, eval);
@@ -752,14 +752,14 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
             // for other axis, if the set stayed sorted, it stayed unique because the traversal algorithms do not visit
             // the same node twice
             if(axis != axis_child && axis != axis_attribute && axis != axis_self
-               && ns.type() == LumexXmlXPathNodeSet::type_unsorted)
+               && ns.type() == XPathNodeSet::type_unsorted)
               ns.remove_duplicates(stack.temp);
 
             return ns;
           }
 
         public:
-          LumexXmlXPathAstNode(ast_type_t type, xpath_value_type rettype_, char_t const *value)
+          XPathAstNode(ast_type_t type, xpath_value_type rettype_, char_t const *value)
               : m_type(static_cast<char>(type)),
                 _rettype(static_cast<char>(rettype_)),
                 _axis(0),
@@ -772,7 +772,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
             _data.string = value;
           }
 
-          LumexXmlXPathAstNode(ast_type_t type, xpath_value_type rettype_, double value)
+          XPathAstNode(ast_type_t type, xpath_value_type rettype_, double value)
               : m_type(static_cast<char>(type)),
                 _rettype(static_cast<char>(rettype_)),
                 _axis(0),
@@ -785,7 +785,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
             _data.number = value;
           }
 
-          LumexXmlXPathAstNode(ast_type_t type, xpath_value_type rettype_, LumexXmlXPathVariable *value)
+          XPathAstNode(ast_type_t type, xpath_value_type rettype_, XPathVariable *value)
               : m_type(static_cast<char>(type)),
                 _rettype(static_cast<char>(rettype_)),
                 _axis(0),
@@ -798,8 +798,8 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
             _data.variable = value;
           }
 
-          LumexXmlXPathAstNode(ast_type_t type, xpath_value_type rettype_, LumexXmlXPathAstNode *left = nullptr,
-                               LumexXmlXPathAstNode *right = nullptr)
+          XPathAstNode(ast_type_t type, xpath_value_type rettype_, XPathAstNode *left = nullptr,
+                               XPathAstNode *right = nullptr)
               : m_type(static_cast<char>(type)),
                 _rettype(static_cast<char>(rettype_)),
                 _axis(0),
@@ -809,7 +809,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
                 _next(nullptr)
           {}
 
-          LumexXmlXPathAstNode(ast_type_t type, LumexXmlXPathAstNode *left, axis_t axis, nodetest_t test,
+          XPathAstNode(ast_type_t type, XPathAstNode *left, axis_t axis, nodetest_t test,
                                char_t const *contents)
               : m_type(static_cast<char>(type)),
                 _rettype(xpath_type_node_set),
@@ -823,7 +823,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
             _data.nodetest = contents;
           }
 
-          LumexXmlXPathAstNode(ast_type_t type, LumexXmlXPathAstNode *left, LumexXmlXPathAstNode *right,
+          XPathAstNode(ast_type_t type, XPathAstNode *left, XPathAstNode *right,
                                predicate_t test)
               : m_type(static_cast<char>(type)),
                 _rettype(xpath_type_node_set),
@@ -837,19 +837,19 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
           }
 
           void
-          set_next(LumexXmlXPathAstNode *value)
+          set_next(XPathAstNode *value)
           {
             _next = value;
           }
 
           void
-          set_right(LumexXmlXPathAstNode *value)
+          set_right(XPathAstNode *value)
           {
             _right = value;
           }
 
           bool
-          eval_boolean(LumexXmlXPathContext const &c, LumexXmlXPathStack const &stack)
+          eval_boolean(XPathContext const &c, XPathStack const &stack)
           {
             switch(m_type)
             {
@@ -969,7 +969,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
           }
 
           double
-          eval_number(LumexXmlXPathContext const &c, LumexXmlXPathStack const &stack)
+          eval_number(XPathContext const &c, XPathStack const &stack)
           {
             switch(m_type)
             {
@@ -1080,7 +1080,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
           }
 
           xpath_string
-          eval_string_concat(LumexXmlXPathContext const &c, LumexXmlXPathStack const &stack)
+          eval_string_concat(XPathContext const &c, XPathStack const &stack)
           {
             LUMEX_ASSERT(m_type == ast_func_concat);
 
@@ -1088,19 +1088,19 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
 
             // count the string number
             size_t count = 1;
-            for(LumexXmlXPathAstNode *nc = _right; nc; nc = nc->_next) count++;
+            for(XPathAstNode *nc = _right; nc; nc = nc->_next) count++;
 
             // allocate a buffer for temporary string objects
             xpath_string *buffer = static_cast<xpath_string *>(stack.temp->allocate(count * sizeof(xpath_string)));
             if(!buffer) return xpath_string();
 
             // evaluate all strings to temporary stack
-            LumexXmlXPathStack swapped_stack = {stack.temp, stack.result};
+            XPathStack swapped_stack = {stack.temp, stack.result};
 
             buffer[0]                        = _left->eval_string(c, swapped_stack);
 
             size_t pos                       = 1;
-            for(LumexXmlXPathAstNode *n = _right; n; n = n->_next, ++pos)
+            for(XPathAstNode *n = _right; n; n = n->_next, ++pos)
               buffer[pos] = n->eval_string(c, swapped_stack);
             LUMEX_ASSERT(pos == count);
 
@@ -1123,7 +1123,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
           }
 
           xpath_string
-          eval_string(LumexXmlXPathContext const &c, LumexXmlXPathStack const &stack)
+          eval_string(XPathContext const &c, XPathStack const &stack)
           {
             switch(m_type)
             {
@@ -1183,7 +1183,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
             case ast_func_substring_before: {
               xpath_allocator_capture cr(stack.temp);
 
-              LumexXmlXPathStack swapped_stack = {stack.temp, stack.result};
+              XPathStack swapped_stack = {stack.temp, stack.result};
 
               xpath_string s                   = _left->eval_string(c, swapped_stack);
               xpath_string p                   = _right->eval_string(c, swapped_stack);
@@ -1196,7 +1196,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
             case ast_func_substring_after: {
               xpath_allocator_capture cr(stack.temp);
 
-              LumexXmlXPathStack swapped_stack = {stack.temp, stack.result};
+              XPathStack swapped_stack = {stack.temp, stack.result};
 
               xpath_string s                   = _left->eval_string(c, swapped_stack);
               xpath_string p                   = _right->eval_string(c, swapped_stack);
@@ -1214,7 +1214,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
             case ast_func_substring_2: {
               xpath_allocator_capture cr(stack.temp);
 
-              LumexXmlXPathStack swapped_stack = {stack.temp, stack.result};
+              XPathStack swapped_stack = {stack.temp, stack.result};
 
               xpath_string s                   = _left->eval_string(c, swapped_stack);
               size_t s_length                  = s.length();
@@ -1239,7 +1239,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
             case ast_func_substring_3: {
               xpath_allocator_capture cr(stack.temp);
 
-              LumexXmlXPathStack swapped_stack = {stack.temp, stack.result};
+              XPathStack swapped_stack = {stack.temp, stack.result};
 
               xpath_string s                   = _left->eval_string(c, swapped_stack);
               size_t s_length                  = s.length();
@@ -1292,7 +1292,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
             case ast_func_translate: {
               xpath_allocator_capture cr(stack.temp);
 
-              LumexXmlXPathStack swapped_stack = {stack.temp, stack.result};
+              XPathStack swapped_stack = {stack.temp, stack.result};
 
               xpath_string s                   = _left->eval_string(c, stack);
               xpath_string from                = _right->eval_string(c, swapped_stack);
@@ -1341,7 +1341,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
             case xpath_type_node_set: {
               xpath_allocator_capture cr(stack.temp);
 
-              LumexXmlXPathStack swapped_stack = {stack.temp, stack.result};
+              XPathStack swapped_stack = {stack.temp, stack.result};
 
               xpath_node_set_raw ns            = eval_node_set(c, swapped_stack, nodeset_eval_first);
               return ns.empty() ? xpath_string() : string_value(ns.first(), stack.result);
@@ -1354,20 +1354,20 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
           }
 
           xpath_node_set_raw
-          eval_node_set(LumexXmlXPathContext const &c, LumexXmlXPathStack const &stack, Types::nodeset_eval_t eval)
+          eval_node_set(XPathContext const &c, XPathStack const &stack, Types::nodeset_eval_t eval)
           {
             switch(m_type)
             {
             case ast_op_union: {
               xpath_allocator_capture cr(stack.temp);
 
-              LumexXmlXPathStack swapped_stack = {stack.temp, stack.result};
+              XPathStack swapped_stack = {stack.temp, stack.result};
 
               xpath_node_set_raw ls            = _left->eval_node_set(c, stack, eval);
               xpath_node_set_raw rs            = _right->eval_node_set(c, swapped_stack, eval);
 
               // we can optimize merging two sorted sets, but this is a very rare operation, so don't bother
-              ls.set_type(LumexXmlXPathNodeSet::type_unsorted);
+              ls.set_type(XPathNodeSet::type_unsorted);
 
               ls.append(rs.begin(), rs.end(), stack.result);
               ls.remove_duplicates(stack.temp);
@@ -1433,7 +1433,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
 
               xpath_node_set_raw ns;
 
-              ns.set_type(LumexXmlXPathNodeSet::type_sorted);
+              ns.set_type(XPathNodeSet::type_sorted);
 
               if(c.n.node())
                 ns.push_back(c.n.node().root(), stack.result);
@@ -1448,7 +1448,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
 
               if(_rettype == xpath_type_node_set)
               {
-                LumexXmlXPathNodeSet const &s = _data.variable->get_node_set();
+                XPathNodeSet const &s = _data.variable->get_node_set();
 
                 xpath_node_set_raw ns;
 
@@ -1578,7 +1578,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
             default:
               if(_left && !_left->is_posinv_expr()) return false;
 
-              for(LumexXmlXPathAstNode *n = _right; n; n = n->_next)
+              for(XPathAstNode *n = _right; n; n = n->_next)
                 if(!n->is_posinv_expr()) return false;
 
               return true;
@@ -1590,7 +1590,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
           {
             LUMEX_ASSERT(m_type == ast_step);
 
-            for(LumexXmlXPathAstNode *n = _right; n; n = n->_next)
+            for(XPathAstNode *n = _right; n; n = n->_next)
             {
               LUMEX_ASSERT(n->m_type == ast_predicate);
 

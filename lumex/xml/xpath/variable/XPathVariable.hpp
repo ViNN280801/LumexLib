@@ -5,9 +5,9 @@
 
 #include "lumex/core/utility/LumexAttributes.hpp"
 
-#include "lumex/xml/types/LumexXmlTypes.hpp"
+#include "lumex/xml/types/XmlTypes.hpp"
 
-#include "lumex/xml/xpath/node/LumexXmlXPathNodeSet.hpp"
+#include "lumex/xml/xpath/node/XPathNodeSet.hpp"
 
 using namespace Lumex::Xml::Types;
 using namespace Lumex::Xml::XPath::Node;
@@ -20,7 +20,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
     {
       namespace Variable
       {
-        class LUMEX_API LumexXmlXPathVariable // NOLINT(cppcoreguidelines-special-member-functions)
+        class LUMEX_API XPathVariable // NOLINT(cppcoreguidelines-special-member-functions)
         {
           friend class xpath_variable_set;
           friend struct xpath_variable_boolean;
@@ -55,7 +55,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
 
           LUMEX_ATTRIBUTE_NODISCARD("The returned value is the same as the one returned by the get_node_set() method; "
                                     "discarding it negates the purpose of the getter.")
-          LumexXmlXPathNodeSet const &get_node_set() const;
+          XPathNodeSet const &get_node_set() const;
 
           // Set variable value; no type conversion is performed, false is returned on type mismatch error
           bool set(bool value);
@@ -64,38 +64,38 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
 
           bool set(char_t const *value);
 
-          bool set(LumexXmlXPathNodeSet const &value);
+          bool set(XPathNodeSet const &value);
 
         private:
           Types::xpath_value_type m_type;
-          LumexXmlXPathVariable *m_next;
+          XPathVariable *m_next;
 
-          LumexXmlXPathVariable(xpath_value_type type);
+          XPathVariable(xpath_value_type type);
 
           // Non-copyable semantics
-          LumexXmlXPathVariable(LumexXmlXPathVariable const &);
+          XPathVariable(XPathVariable const &);
 
-          LumexXmlXPathVariable &operator=(LumexXmlXPathVariable const &);
+          XPathVariable &operator=(XPathVariable const &);
         };
 
-        struct xpath_variable_boolean : LumexXmlXPathVariable {
-          xpath_variable_boolean() : LumexXmlXPathVariable(xpath_type_boolean) {}
+        struct xpath_variable_boolean : XPathVariable {
+          xpath_variable_boolean() : XPathVariable(xpath_type_boolean) {}
 
           bool value{};     // NOLINT(misc-non-private-member-variables-in-classes)
           char_t name[1]{}; // NOLINT(misc-non-private-member-variables-in-classes, cppcoreguidelines-avoid-c-arrays,
                             // modernize-avoid-c-arrays)
         };
 
-        struct xpath_variable_number : LumexXmlXPathVariable {
-          xpath_variable_number() : LumexXmlXPathVariable(xpath_type_number) {}
+        struct xpath_variable_number : XPathVariable {
+          xpath_variable_number() : XPathVariable(xpath_type_number) {}
 
           double value{};   // NOLINT(misc-non-private-member-variables-in-classes)
           char_t name[1]{}; // NOLINT(misc-non-private-member-variables-in-classes, cppcoreguidelines-avoid-c-arrays,
           // modernize-avoid-c-arrays)
         };
 
-        struct xpath_variable_string : LumexXmlXPathVariable { // NOLINT(cppcoreguidelines-special-member-functions)
-          xpath_variable_string() : LumexXmlXPathVariable(xpath_type_string) {}
+        struct xpath_variable_string : XPathVariable { // NOLINT(cppcoreguidelines-special-member-functions)
+          xpath_variable_string() : XPathVariable(xpath_type_string) {}
 
           ~xpath_variable_string()
           {
@@ -107,10 +107,10 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
           // modernize-avoid-c-arrays)
         };
 
-        struct xpath_variable_node_set : LumexXmlXPathVariable {
-          xpath_variable_node_set() : LumexXmlXPathVariable(xpath_type_node_set) {}
+        struct xpath_variable_node_set : XPathVariable {
+          xpath_variable_node_set() : XPathVariable(xpath_type_node_set) {}
 
-          LumexXmlXPathNodeSet value; // NOLINT(misc-non-private-member-variables-in-classes)
+          XPathNodeSet value; // NOLINT(misc-non-private-member-variables-in-classes)
           char_t name[1]{}; // NOLINT(misc-non-private-member-variables-in-classes, cppcoreguidelines-avoid-c-arrays,
           // modernize-avoid-c-arrays)
         };

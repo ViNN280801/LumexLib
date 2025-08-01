@@ -1,29 +1,29 @@
-#include "lumex/xml/utility/LumexXmlUtils.hpp"
+#include "lumex/xml/utility/XmlUtils.hpp"
 
-#include "LumexXmlXPathVariableSet.hpp"
+#include "XPathVariableSet.hpp"
 
 using namespace Lumex::Xml::Utility;
 using namespace Lumex::Xml::XPath::Variable;
 
-inline LumexXmlXPathVariableSet::LumexXmlXPathVariableSet()
+inline XPathVariableSet::XPathVariableSet()
 {
   for(size_t i = 0; i < sizeof(_data) / sizeof(_data[0]); ++i) _data[i] = nullptr;
 }
 
-inline LumexXmlXPathVariableSet::~LumexXmlXPathVariableSet()
+inline XPathVariableSet::~XPathVariableSet()
 {
   for(size_t i = 0; i < sizeof(_data) / sizeof(_data[0]); ++i) _destroy(_data[i]);
 }
 
-inline LumexXmlXPathVariableSet::LumexXmlXPathVariableSet(LumexXmlXPathVariableSet const &rhs)
+inline XPathVariableSet::XPathVariableSet(XPathVariableSet const &rhs)
 {
   for(size_t i = 0; i < sizeof(_data) / sizeof(_data[0]); ++i) _data[i] = nullptr;
 
   _assign(rhs);
 }
 
-inline LumexXmlXPathVariableSet &
-LumexXmlXPathVariableSet::operator=(LumexXmlXPathVariableSet const &rhs)
+inline XPathVariableSet &
+XPathVariableSet::operator=(XPathVariableSet const &rhs)
 {
   if(this == &rhs) return *this;
 
@@ -32,7 +32,7 @@ LumexXmlXPathVariableSet::operator=(LumexXmlXPathVariableSet const &rhs)
   return *this;
 }
 
-inline LumexXmlXPathVariableSet::LumexXmlXPathVariableSet(LumexXmlXPathVariableSet &&rhs) noexcept
+inline XPathVariableSet::XPathVariableSet(XPathVariableSet &&rhs) noexcept
 {
   for(size_t i = 0; i < sizeof(_data) / sizeof(_data[0]); ++i)
   {
@@ -41,8 +41,8 @@ inline LumexXmlXPathVariableSet::LumexXmlXPathVariableSet(LumexXmlXPathVariableS
   }
 }
 
-inline LumexXmlXPathVariableSet &
-LumexXmlXPathVariableSet::operator=(LumexXmlXPathVariableSet &&rhs) noexcept
+inline XPathVariableSet &
+XPathVariableSet::operator=(XPathVariableSet &&rhs) noexcept
 {
   for(size_t i = 0; i < sizeof(_data) / sizeof(_data[0]); ++i)
   {
@@ -56,9 +56,9 @@ LumexXmlXPathVariableSet::operator=(LumexXmlXPathVariableSet &&rhs) noexcept
 }
 
 inline void
-LumexXmlXPathVariableSet::_assign(LumexXmlXPathVariableSet const &rhs)
+XPathVariableSet::_assign(XPathVariableSet const &rhs)
 {
-  LumexXmlXPathVariableSet temp;
+  XPathVariableSet temp;
 
   for(size_t i = 0; i < sizeof(_data) / sizeof(_data[0]); ++i)
     if(rhs._data[i] && !_clone(rhs._data[i], &temp._data[i])) return;
@@ -67,25 +67,25 @@ LumexXmlXPathVariableSet::_assign(LumexXmlXPathVariableSet const &rhs)
 }
 
 inline void
-LumexXmlXPathVariableSet::_swap(LumexXmlXPathVariableSet &rhs)
+XPathVariableSet::_swap(XPathVariableSet &rhs)
 {
   for(size_t i = 0; i < sizeof(_data) / sizeof(_data[0]); ++i)
   {
-    LumexXmlXPathVariable *chain = _data[i];
+    XPathVariable *chain = _data[i];
 
     _data[i]                     = rhs._data[i];
     rhs._data[i]                 = chain;
   }
 }
 
-inline LumexXmlXPathVariable *
-LumexXmlXPathVariableSet::_find(char_t const *name) const
+inline XPathVariable *
+XPathVariableSet::_find(char_t const *name) const
 {
   size_t const hash_size = sizeof(_data) / sizeof(_data[0]);
   size_t hash            = Utility::hash_string(name) % hash_size;
 
   // look for existing variable
-  for(LumexXmlXPathVariable *var = _data[hash]; var; var = var->_next)
+  for(XPathVariable *var = _data[hash]; var; var = var->_next)
   {
     char_t const *vn = var->name();
     if(vn && impl::strequal(vn, name)) return var;
@@ -95,14 +95,14 @@ LumexXmlXPathVariableSet::_find(char_t const *name) const
 }
 
 inline bool
-LumexXmlXPathVariableSet::_clone(LumexXmlXPathVariable *var, LumexXmlXPathVariable **out_result)
+XPathVariableSet::_clone(XPathVariable *var, XPathVariable **out_result)
 {
-  LumexXmlXPathVariable *last = nullptr;
+  XPathVariable *last = nullptr;
 
   while(var)
   {
     // allocate storage for new variable
-    LumexXmlXPathVariable *nvar = impl::new_xpath_variable(var->m_type, var->name());
+    XPathVariable *nvar = impl::new_xpath_variable(var->m_type, var->name());
     if(!nvar) return false;
 
     // link the variable to the result immediately to handle failures gracefully
@@ -123,11 +123,11 @@ LumexXmlXPathVariableSet::_clone(LumexXmlXPathVariable *var, LumexXmlXPathVariab
 }
 
 inline void
-LumexXmlXPathVariableSet::_destroy(LumexXmlXPathVariable *var)
+XPathVariableSet::_destroy(XPathVariable *var)
 {
   while(var)
   {
-    LumexXmlXPathVariable *next = var->_next;
+    XPathVariable *next = var->_next;
 
     impl::delete_xpath_variable(var->m_type, var);
 
@@ -135,21 +135,21 @@ LumexXmlXPathVariableSet::_destroy(LumexXmlXPathVariable *var)
   }
 }
 
-inline LumexXmlXPathVariable *
-LumexXmlXPathVariableSet::add(char_t const *name, xpath_value_type type)
+inline XPathVariable *
+XPathVariableSet::add(char_t const *name, xpath_value_type type)
 {
   size_t const hash_size = sizeof(_data) / sizeof(_data[0]);
   size_t hash            = impl::hash_string(name) % hash_size;
 
   // look for existing variable
-  for(LumexXmlXPathVariable *var = _data[hash]; var; var = var->_next)
+  for(XPathVariable *var = _data[hash]; var; var = var->_next)
   {
     char_t const *vn = var->name();
     if(vn && impl::strequal(vn, name)) return var->type() == type ? var : nullptr;
   }
 
   // add new variable
-  LumexXmlXPathVariable *result = impl::new_xpath_variable(type, name);
+  XPathVariable *result = impl::new_xpath_variable(type, name);
 
   if(result)
   {
@@ -162,41 +162,41 @@ LumexXmlXPathVariableSet::add(char_t const *name, xpath_value_type type)
 }
 
 inline bool
-LumexXmlXPathVariableSet::set(char_t const *name, bool value)
+XPathVariableSet::set(char_t const *name, bool value)
 {
-  LumexXmlXPathVariable *var = add(name, xpath_type_boolean);
+  XPathVariable *var = add(name, xpath_type_boolean);
   return var ? var->set(value) : false;
 }
 
 inline bool
-LumexXmlXPathVariableSet::set(char_t const *name, double value)
+XPathVariableSet::set(char_t const *name, double value)
 {
-  LumexXmlXPathVariable *var = add(name, xpath_type_number);
+  XPathVariable *var = add(name, xpath_type_number);
   return var ? var->set(value) : false;
 }
 
 inline bool
-LumexXmlXPathVariableSet::set(char_t const *name, char_t const *value)
+XPathVariableSet::set(char_t const *name, char_t const *value)
 {
-  LumexXmlXPathVariable *var = add(name, xpath_type_string);
+  XPathVariable *var = add(name, xpath_type_string);
   return var ? var->set(value) : false;
 }
 
 inline bool
-LumexXmlXPathVariableSet::set(char_t const *name, xpath_node_set const &value)
+XPathVariableSet::set(char_t const *name, xpath_node_set const &value)
 {
-  LumexXmlXPathVariable *var = add(name, xpath_type_node_set);
+  XPathVariable *var = add(name, xpath_type_node_set);
   return var ? var->set(value) : false;
 }
 
-inline LumexXmlXPathVariable *
-LumexXmlXPathVariableSet::get(char_t const *name)
+inline XPathVariable *
+XPathVariableSet::get(char_t const *name)
 {
   return _find(name);
 }
 
-inline LumexXmlXPathVariable const *
-LumexXmlXPathVariableSet::get(char_t const *name) const
+inline XPathVariable const *
+XPathVariableSet::get(char_t const *name) const
 {
   return _find(name);
 }

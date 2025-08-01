@@ -1,10 +1,10 @@
 #ifndef LUMEX_XML_XPATH_PARSER_HPP
 #define LUMEX_XML_XPATH_PARSER_HPP
 
-#include "lumex/xml/types/LumexXmlTypes.hpp"
-#include "lumex/xml/xpath/LumexXmlXPathVariable.hpp"
-#include "lumex/xml/xpath/ast/LumexXmlXPathAst.hpp"
-#include "lumex/xml/xpath/memory/LumexXmlXPathAllocator.hpp"
+#include "lumex/xml/types/XmlTypes.hpp"
+#include "lumex/xml/xpath/XPathVariable.hpp"
+#include "lumex/xml/xpath/ast/XPathAst.hpp"
+#include "lumex/xml/xpath/memory/XPathAllocator.hpp"
 
 using namespace Lumex::Xml::Types;
 using namespace Lumex::Xml::XPath::Memory;
@@ -19,7 +19,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
       namespace Parser
       {
         struct xpath_parser {
-          LumexXmlXPathAllocator *_alloc;
+          XPathAllocator *_alloc;
           xpath_lexer _lexer;
 
           char_t const *_query;
@@ -31,7 +31,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
 
           size_t _depth;
 
-          LumexXmlXPathAstNode *
+          XPathAstNode *
           error(char const *message)
           {
             _result->error  = message;
@@ -40,7 +40,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
             return nullptr;
           }
 
-          LumexXmlXPathAstNode *
+          XPathAstNode *
           error_oom()
           {
             LUMEX_ASSERT(_alloc->_error);
@@ -49,7 +49,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
             return nullptr;
           }
 
-          LumexXmlXPathAstNode *
+          XPathAstNode *
           error_rec()
           {
             return error("Exceeded maximum allowed query depth");
@@ -58,50 +58,50 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
           void *
           alloc_node()
           {
-            return _alloc->allocate(sizeof(LumexXmlXPathAstNode));
+            return _alloc->allocate(sizeof(XPathAstNode));
           }
 
-          LumexXmlXPathAstNode *
+          XPathAstNode *
           alloc_node(ast_type_t type, xpath_value_type rettype, char_t const *value)
           {
             void *memory = alloc_node();
-            return memory ? new(memory) LumexXmlXPathAstNode(type, rettype, value) : nullptr;
+            return memory ? new(memory) XPathAstNode(type, rettype, value) : nullptr;
           }
 
-          LumexXmlXPathAstNode *
+          XPathAstNode *
           alloc_node(ast_type_t type, xpath_value_type rettype, double value)
           {
             void *memory = alloc_node();
-            return memory ? new(memory) LumexXmlXPathAstNode(type, rettype, value) : nullptr;
+            return memory ? new(memory) XPathAstNode(type, rettype, value) : nullptr;
           }
 
-          LumexXmlXPathAstNode *
+          XPathAstNode *
           alloc_node(ast_type_t type, xpath_value_type rettype, xpath_variable *value)
           {
             void *memory = alloc_node();
-            return memory ? new(memory) LumexXmlXPathAstNode(type, rettype, value) : nullptr;
+            return memory ? new(memory) XPathAstNode(type, rettype, value) : nullptr;
           }
 
-          LumexXmlXPathAstNode *
-          alloc_node(ast_type_t type, xpath_value_type rettype, LumexXmlXPathAstNode *left = nullptr,
-                     LumexXmlXPathAstNode *right = nullptr)
+          XPathAstNode *
+          alloc_node(ast_type_t type, xpath_value_type rettype, XPathAstNode *left = nullptr,
+                     XPathAstNode *right = nullptr)
           {
             void *memory = alloc_node();
-            return memory ? new(memory) LumexXmlXPathAstNode(type, rettype, left, right) : nullptr;
+            return memory ? new(memory) XPathAstNode(type, rettype, left, right) : nullptr;
           }
 
-          LumexXmlXPathAstNode *
-          alloc_node(ast_type_t type, LumexXmlXPathAstNode *left, axis_t axis, nodetest_t test, char_t const *contents)
+          XPathAstNode *
+          alloc_node(ast_type_t type, XPathAstNode *left, axis_t axis, nodetest_t test, char_t const *contents)
           {
             void *memory = alloc_node();
-            return memory ? new(memory) LumexXmlXPathAstNode(type, left, axis, test, contents) : nullptr;
+            return memory ? new(memory) XPathAstNode(type, left, axis, test, contents) : nullptr;
           }
 
-          LumexXmlXPathAstNode *
-          alloc_node(ast_type_t type, LumexXmlXPathAstNode *left, LumexXmlXPathAstNode *right, predicate_t test)
+          XPathAstNode *
+          alloc_node(ast_type_t type, XPathAstNode *left, XPathAstNode *right, predicate_t test)
           {
             void *memory = alloc_node();
-            return memory ? new(memory) LumexXmlXPathAstNode(type, left, right, test) : nullptr;
+            return memory ? new(memory) XPathAstNode(type, left, right, test) : nullptr;
           }
 
           char_t const *
@@ -120,8 +120,8 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
             return c;
           }
 
-          LumexXmlXPathAstNode *
-          parse_function(xpath_lexer_string const &name, size_t argc, LumexXmlXPathAstNode *args[2])
+          XPathAstNode *
+          parse_function(xpath_lexer_string const &name, size_t argc, XPathAstNode *args[2])
           {
             switch(name.begin[0])
             {
@@ -345,7 +345,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
           }
 
           // PrimaryExpr ::= VariableReference | '(' Expr ')' | Literal | Number | FunctionCall
-          LumexXmlXPathAstNode *
+          XPathAstNode *
           parse_primary_expression()
           {
             switch(_lexer.current())
@@ -368,7 +368,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
             case lex_open_brace: {
               _lexer.next();
 
-              LumexXmlXPathAstNode *n = parse_expression();
+              XPathAstNode *n = parse_expression();
               if(!n) return nullptr;
 
               if(_lexer.current() != lex_close_brace) return error("Expected ')' to match an opening '('");
@@ -399,13 +399,13 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
             }
 
             case lex_string: {
-              LumexXmlXPathAstNode *args[2] = {nullptr};
+              XPathAstNode *args[2] = {nullptr};
               size_t argc                   = 0;
 
               xpath_lexer_string function   = _lexer.contents();
               _lexer.next();
 
-              LumexXmlXPathAstNode *last_arg = nullptr;
+              XPathAstNode *last_arg = nullptr;
 
               if(_lexer.current() != lex_open_brace) return error("Unrecognized function call");
               _lexer.next();
@@ -422,7 +422,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
 
                 if(++_depth > xpath_ast_depth_limit) return error_rec();
 
-                LumexXmlXPathAstNode *n = parse_expression();
+                XPathAstNode *n = parse_expression();
                 if(!n) return nullptr;
 
                 if(argc < 2)
@@ -448,10 +448,10 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
           // FilterExpr ::= PrimaryExpr | FilterExpr Predicate
           // Predicate ::= '[' PredicateExpr ']'
           // PredicateExpr ::= Expr
-          LumexXmlXPathAstNode *
+          XPathAstNode *
           parse_filter_expression()
           {
-            LumexXmlXPathAstNode *n = parse_primary_expression();
+            XPathAstNode *n = parse_primary_expression();
             if(!n) return nullptr;
 
             size_t old_depth = _depth;
@@ -464,7 +464,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
 
               if(n->rettype() != xpath_type_node_set) return error("Predicate has to be applied to node set");
 
-              LumexXmlXPathAstNode *expr = parse_expression();
+              XPathAstNode *expr = parse_expression();
               if(!expr) return nullptr;
 
               n = alloc_node(ast_filter, n, expr, predicate_default);
@@ -485,8 +485,8 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
           // NodeTest ::= NameTest | NodeType '(' ')' | 'processing-instruction' '(' Literal ')'
           // NameTest ::= '*' | NCName ':' '*' | QName
           // AbbreviatedStep ::= '.' | '..'
-          LumexXmlXPathAstNode *
-          parse_step(LumexXmlXPathAstNode *set)
+          XPathAstNode *
+          parse_step(XPathAstNode *set)
           {
             if(set && set->rettype() != xpath_type_node_set) return error("Step has to be applied to node set");
 
@@ -607,12 +607,12 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
             char_t const *nt_name_copy = alloc_string(nt_name);
             if(!nt_name_copy) return nullptr;
 
-            LumexXmlXPathAstNode *n = alloc_node(ast_step, set, axis, nt_type, nt_name_copy);
+            XPathAstNode *n = alloc_node(ast_step, set, axis, nt_type, nt_name_copy);
             if(!n) return nullptr;
 
             size_t old_depth           = _depth;
 
-            LumexXmlXPathAstNode *last = nullptr;
+            XPathAstNode *last = nullptr;
 
             while(_lexer.current() == lex_open_square_brace)
             {
@@ -620,10 +620,10 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
 
               if(++_depth > xpath_ast_depth_limit) return error_rec();
 
-              LumexXmlXPathAstNode *expr = parse_expression();
+              XPathAstNode *expr = parse_expression();
               if(!expr) return nullptr;
 
-              LumexXmlXPathAstNode *pred = alloc_node(ast_predicate, nullptr, expr, predicate_default);
+              XPathAstNode *pred = alloc_node(ast_predicate, nullptr, expr, predicate_default);
               if(!pred) return nullptr;
 
               if(_lexer.current() != lex_close_square_brace) return error("Expected ']' to match an opening '['");
@@ -643,10 +643,10 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
           }
 
           // RelativeLocationPath ::= Step | RelativeLocationPath '/' Step | RelativeLocationPath '//' Step
-          LumexXmlXPathAstNode *
-          parse_relative_location_path(LumexXmlXPathAstNode *set)
+          XPathAstNode *
+          parse_relative_location_path(XPathAstNode *set)
           {
-            LumexXmlXPathAstNode *n = parse_step(set);
+            XPathAstNode *n = parse_step(set);
             if(!n) return nullptr;
 
             size_t old_depth = _depth;
@@ -677,14 +677,14 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
 
           // LocationPath ::= RelativeLocationPath | AbsoluteLocationPath
           // AbsoluteLocationPath ::= '/' RelativeLocationPath? | '//' RelativeLocationPath
-          LumexXmlXPathAstNode *
+          XPathAstNode *
           parse_location_path()
           {
             if(_lexer.current() == lex_slash)
             {
               _lexer.next();
 
-              LumexXmlXPathAstNode *n = alloc_node(ast_step_root, xpath_type_node_set);
+              XPathAstNode *n = alloc_node(ast_step_root, xpath_type_node_set);
               if(!n) return nullptr;
 
               // relative location path can start from axis_attribute, dot, double_dot, multiply and string lexemes; any
@@ -700,7 +700,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
             {
               _lexer.next();
 
-              LumexXmlXPathAstNode *n = alloc_node(ast_step_root, xpath_type_node_set);
+              XPathAstNode *n = alloc_node(ast_step_root, xpath_type_node_set);
               if(!n) return nullptr;
 
               n = alloc_node(ast_step, n, axis_descendant_or_self, nodetest_type_node, nullptr);
@@ -720,7 +720,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
           //				| FilterExpr '//' RelativeLocationPath
           // UnionExpr ::= PathExpr | UnionExpr '|' PathExpr
           // UnaryExpr ::= UnionExpr | '-' UnaryExpr
-          LumexXmlXPathAstNode *
+          XPathAstNode *
           parse_path_or_unary_expression()
           {
             // Clarification.
@@ -746,7 +746,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
                 if(parse_node_test_type(_lexer.contents()) != nodetest_none) return parse_location_path();
               }
 
-              LumexXmlXPathAstNode *n = parse_filter_expression();
+              XPathAstNode *n = parse_filter_expression();
               if(!n) return nullptr;
 
               if(_lexer.current() == lex_slash || _lexer.current() == lex_double_slash)
@@ -773,7 +773,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
               _lexer.next();
 
               // precedence 7+ - only parses union expressions
-              LumexXmlXPathAstNode *n = parse_expression(7);
+              XPathAstNode *n = parse_expression(7);
               if(!n) return nullptr;
 
               return alloc_node(ast_op_negate, xpath_type_number, n);
@@ -834,8 +834,8 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
             }
           };
 
-          LumexXmlXPathAstNode *
-          parse_expression_rec(LumexXmlXPathAstNode *lhs, int limit)
+          XPathAstNode *
+          parse_expression_rec(XPathAstNode *lhs, int limit)
           {
             binary_op_t op = binary_op_t::parse(_lexer);
 
@@ -845,7 +845,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
 
               if(++_depth > xpath_ast_depth_limit) return error_rec();
 
-              LumexXmlXPathAstNode *rhs = parse_path_or_unary_expression();
+              XPathAstNode *rhs = parse_path_or_unary_expression();
               if(!rhs) return nullptr;
 
               binary_op_t nextop = binary_op_t::parse(_lexer);
@@ -889,14 +889,14 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
           //						  | MultiplicativeExpr '*' UnaryExpr
           //						  | MultiplicativeExpr 'div' UnaryExpr
           //						  | MultiplicativeExpr 'mod' UnaryExpr
-          LumexXmlXPathAstNode *
+          XPathAstNode *
           parse_expression(int limit = 0)
           {
             size_t old_depth = _depth;
 
             if(++_depth > xpath_ast_depth_limit) return error_rec();
 
-            LumexXmlXPathAstNode *n = parse_path_or_unary_expression();
+            XPathAstNode *n = parse_path_or_unary_expression();
             if(!n) return nullptr;
 
             n      = parse_expression_rec(n, limit);
@@ -906,15 +906,15 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
             return n;
           }
 
-          xpath_parser(char_t const *query, xpath_variable_set *variables, LumexXmlXPathAllocator *alloc,
+          xpath_parser(char_t const *query, xpath_variable_set *variables, XPathAllocator *alloc,
                        xpath_parse_result *result)
               : _alloc(alloc), _lexer(query), _query(query), _variables(variables), _result(result), _depth(0)
           {}
 
-          LumexXmlXPathAstNode *
+          XPathAstNode *
           parse()
           {
-            LumexXmlXPathAstNode *n = parse_expression();
+            XPathAstNode *n = parse_expression();
             if(!n) return nullptr;
 
             LUMEX_ASSERT(_depth == 0);
@@ -925,8 +925,8 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
             return n;
           }
 
-          static LumexXmlXPathAstNode *
-          parse(char_t const *query, xpath_variable_set *variables, LumexXmlXPathAllocator *alloc,
+          static XPathAstNode *
+          parse(char_t const *query, xpath_variable_set *variables, XPathAllocator *alloc,
                 xpath_parse_result *result)
           {
             xpath_parser parser(query, variables, alloc, result);

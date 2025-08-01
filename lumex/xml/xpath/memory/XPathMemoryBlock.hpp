@@ -3,7 +3,7 @@
 
 #include <array>
 
-#include "lumex/xml/xpath/constants/LumexXmlXPathConstants.hpp"
+#include "lumex/xml/xpath/constants/XPathConstants.hpp"
 
 using namespace Lumex::Xml::XPath::Constants;
 
@@ -15,8 +15,8 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
     {
       namespace Memory
       {
-        struct LumexXmlXPathMemoryBlock {
-          LumexXmlXPathMemoryBlock *next;
+        struct XPathMemoryBlock {
+          XPathMemoryBlock *next;
           size_t capacity;
 
           union {

@@ -1,8 +1,8 @@
-#include "LumexXmlXPathStack.hpp"
+#include "XPathStack.hpp"
 
 using namespace Lumex::Xml::XPath::Memory;
 
-LumexXmlXPathStackData::LumexXmlXPathStackData()
+XPathStackData::XPathStackData()
     : result(blocks.data() + 0, std::addressof(oom)), temp(blocks.data() + 1, std::addressof(oom))
 {
   blocks[0].next = blocks[1].next = nullptr;
@@ -12,7 +12,7 @@ LumexXmlXPathStackData::LumexXmlXPathStackData()
   stack.temp                              = std::addressof(temp);
 }
 
-LumexXmlXPathStackData::~LumexXmlXPathStackData()
+XPathStackData::~XPathStackData()
 {
   result.release();
   temp.release();

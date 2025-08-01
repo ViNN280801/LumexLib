@@ -1,26 +1,26 @@
 #define LUMEX_IMPLEMENTATION
 
-#include "lumex/xml/text/LumexXmlParseResult.hpp"
-#include "lumex/xml/utility/LumexXmlCleaner.hpp"
+#include "lumex/xml/text/XmlParseResult.hpp"
+#include "lumex/xml/utility/XmlCleaner.hpp"
 
-#include "LumexXmlXPathQuery.hpp"
+#include "XPathQuery.hpp"
 
 using namespace Lumex::Xml::Utility;
 using namespace Lumex::Xml::XPath;
 using namespace Lumex::Xml::Text;
 
-LumexXmlXPathQueryImpl *
-LumexXmlXPathQueryImpl::create()
+XPathQueryImpl *
+XPathQueryImpl::create()
 {
   void *memory = malloc( // NOLINT(cppcoreguidelines-owning-memory, cppcoreguidelines-no-malloc)
-    sizeof(LumexXmlXPathQueryImpl));
+    sizeof(XPathQueryImpl));
   if(memory == nullptr) return nullptr;
 
-  return new(memory) LumexXmlXPathQueryImpl(); // NOLINT(cppcoreguidelines-owning-memory)
+  return new(memory) XPathQueryImpl(); // NOLINT(cppcoreguidelines-owning-memory)
 }
 
 void
-LumexXmlXPathQueryImpl::destroy(LumexXmlXPathQueryImpl *impl)
+XPathQueryImpl::destroy(XPathQueryImpl *impl)
 {
   // free all allocated pages
   impl->alloc.release();
@@ -29,22 +29,22 @@ LumexXmlXPathQueryImpl::destroy(LumexXmlXPathQueryImpl *impl)
   free(impl); // NOLINT(cppcoreguidelines-owning-memory, cppcoreguidelines-no-malloc)
 }
 
-LumexXmlXPathQueryImpl::LumexXmlXPathQueryImpl() : root(nullptr), alloc(&block, &oom), oom(false)
+XPathQueryImpl::XPathQueryImpl() : root(nullptr), alloc(&block, &oom), oom(false)
 {
   block.next     = nullptr;
   block.capacity = sizeof(block.data);
 }
 
 LUMEX_PUBLIC_API
-inline LumexXmlXPathQuery::LumexXmlXPathQuery(char_t const *query, LumexXmlXPathVariableSet *variables)
+inline XPathQuery::XPathQuery(char_t const *query, XPathVariableSet *variables)
     : m_impl(nullptr)
 {
-  LumexXmlXPathQueryImpl *qimpl = LumexXmlXPathQueryImpl::create();
+  XPathQueryImpl *qimpl = XPathQueryImpl::create();
 
   if(!qimpl) { throw std::bad_alloc(); }
   else
   {
-    LumexXmlCleaner<LumexXmlXPathQueryImpl> impl(qimpl, LumexXmlXPathQueryImpl::destroy);
+    XmlCleaner<XPathQueryImpl> impl(qimpl, XPathQueryImpl::destroy);
 
     qimpl->root = impl::xpath_parser::parse(query, variables, &qimpl->alloc, &m_result);
 
@@ -64,58 +64,58 @@ inline LumexXmlXPathQuery::LumexXmlXPathQuery(char_t const *query, LumexXmlXPath
 }
 
 LUMEX_PUBLIC_API
-inline LumexXmlXPathQuery::LumexXmlXPathQuery() : m_impl(nullptr) {}
+inline XPathQuery::XPathQuery() : m_impl(nullptr) {}
 
 LUMEX_PUBLIC_API
-inline LumexXmlXPathQuery::~LumexXmlXPathQuery()
+inline XPathQuery::~XPathQuery()
 {
-  if(m_impl) LumexXmlXPathQueryImpl::destroy(static_cast<LumexXmlXPathQueryImpl *>(m_impl));
+  if(m_impl) XPathQueryImpl::destroy(static_cast<XPathQueryImpl *>(m_impl));
 }
 
 LUMEX_PUBLIC_API
-inline LumexXmlXPathQuery::LumexXmlXPathQuery(LumexXmlXPathQuery &&rhs) noexcept
+inline XPathQuery::XPathQuery(XPathQuery &&rhs) noexcept
 {
   m_impl       = rhs.m_impl;
   m_result     = rhs.m_result;
   rhs.m_impl   = nullptr;
-  rhs.m_result = LumexXmlParseResult();
+  rhs.m_result = XmlParseResult();
 }
 
 LUMEX_PUBLIC_API
-inline LumexXmlXPathQuery &
-LumexXmlXPathQuery::operator=(LumexXmlXPathQuery &&rhs) noexcept
+inline XPathQuery &
+XPathQuery::operator=(XPathQuery &&rhs) noexcept
 {
   if(this == &rhs) return *this;
 
-  if(m_impl) LumexXmlXPathQueryImpl::destroy(static_cast<LumexXmlXPathQueryImpl *>(m_impl));
+  if(m_impl) XPathQueryImpl::destroy(static_cast<XPathQueryImpl *>(m_impl));
 
   m_impl       = rhs.m_impl;
   m_result     = rhs.m_result;
   rhs.m_impl   = nullptr;
-  rhs.m_result = LumexXmlParseResult();
+  rhs.m_result = XmlParseResult();
 
   return *this;
 }
 
 LUMEX_PUBLIC_API
 inline xpath_value_type
-LumexXmlXPathQuery::return_type() const
+XPathQuery::return_type() const
 {
   if(!m_impl) return xpath_type_none;
 
-  return static_cast<LumexXmlXPathQueryImpl *>(m_impl)->root->rettype();
+  return static_cast<XPathQueryImpl *>(m_impl)->root->rettype();
 }
 
 LUMEX_PUBLIC_API
 inline bool
-LumexXmlXPathQuery::evaluate_boolean(LumexXmlXPathNode const &n) const
+XPathQuery::evaluate_boolean(XPathNode const &n) const
 {
   if(!m_impl) return false;
 
   impl::xpath_context c(n, 1, 1);
   impl::xpath_stack_data sd;
 
-  bool r = static_cast<LumexXmlXPathQueryImpl *>(m_impl)->root->eval_boolean(c, sd.stack);
+  bool r = static_cast<XPathQueryImpl *>(m_impl)->root->eval_boolean(c, sd.stack);
 
   if(sd.oom) throw std::bad_alloc();
 
@@ -124,14 +124,14 @@ LumexXmlXPathQuery::evaluate_boolean(LumexXmlXPathNode const &n) const
 
 LUMEX_PUBLIC_API
 inline double
-LumexXmlXPathQuery::evaluate_number(LumexXmlXPathNode const &n) const
+XPathQuery::evaluate_number(XPathNode const &n) const
 {
   if(!m_impl) return impl::gen_nan();
 
   impl::xpath_context c(n, 1, 1);
   impl::xpath_stack_data sd;
 
-  double r = static_cast<LumexXmlXPathQueryImpl *>(m_impl)->root->eval_number(c, sd.stack);
+  double r = static_cast<XPathQueryImpl *>(m_impl)->root->eval_number(c, sd.stack);
 
   if(sd.oom) throw std::bad_alloc();
 
@@ -140,14 +140,14 @@ LumexXmlXPathQuery::evaluate_number(LumexXmlXPathNode const &n) const
 
 LUMEX_PUBLIC_API
 inline string_t
-LumexXmlXPathQuery::evaluate_string(LumexXmlXPathNode const &n) const
+XPathQuery::evaluate_string(XPathNode const &n) const
 {
   if(!m_impl) return string_t();
 
   impl::xpath_context c(n, 1, 1);
   impl::xpath_stack_data sd;
 
-  impl::xpath_string r = static_cast<LumexXmlXPathQueryImpl *>(m_impl)->root->eval_string(c, sd.stack);
+  impl::xpath_string r = static_cast<XPathQueryImpl *>(m_impl)->root->eval_string(c, sd.stack);
 
   if(sd.oom) throw std::bad_alloc();
 
@@ -156,13 +156,13 @@ LumexXmlXPathQuery::evaluate_string(LumexXmlXPathNode const &n) const
 
 LUMEX_PUBLIC_API
 inline size_t
-LumexXmlXPathQuery::evaluate_string(char_t *buffer, size_t capacity, LumexXmlXPathNode const &n) const
+XPathQuery::evaluate_string(char_t *buffer, size_t capacity, XPathNode const &n) const
 {
   impl::xpath_context c(n, 1, 1);
   impl::xpath_stack_data sd;
 
   impl::xpath_string r
-    = m_impl ? static_cast<LumexXmlXPathQueryImpl *>(m_impl)->root->eval_string(c, sd.stack) : impl::xpath_string();
+    = m_impl ? static_cast<XPathQueryImpl *>(m_impl)->root->eval_string(c, sd.stack) : impl::xpath_string();
 
   if(sd.oom) throw std::bad_alloc();
 
@@ -182,9 +182,9 @@ LumexXmlXPathQuery::evaluate_string(char_t *buffer, size_t capacity, LumexXmlXPa
 
 LUMEX_PUBLIC_API
 inline xpath_node_set
-LumexXmlXPathQuery::evaluate_node_set(LumexXmlXPathNode const &n) const
+XPathQuery::evaluate_node_set(XPathNode const &n) const
 {
-  impl::xpath_ast_node *root = impl::evaluate_node_set_prepare(static_cast<LumexXmlXPathQueryImpl *>(m_impl));
+  impl::xpath_ast_node *root = impl::evaluate_node_set_prepare(static_cast<XPathQueryImpl *>(m_impl));
   if(!root) return xpath_node_set();
 
   impl::xpath_context c(n, 1, 1);
@@ -198,11 +198,11 @@ LumexXmlXPathQuery::evaluate_node_set(LumexXmlXPathNode const &n) const
 }
 
 LUMEX_PUBLIC_API
-inline LumexXmlXPathNode
-LumexXmlXPathQuery::evaluate_node(LumexXmlXPathNode const &n) const
+inline XPathNode
+XPathQuery::evaluate_node(XPathNode const &n) const
 {
-  impl::xpath_ast_node *root = impl::evaluate_node_set_prepare(static_cast<LumexXmlXPathQueryImpl *>(m_impl));
-  if(!root) return LumexXmlXPathNode();
+  impl::xpath_ast_node *root = impl::evaluate_node_set_prepare(static_cast<XPathQueryImpl *>(m_impl));
+  if(!root) return XPathNode();
 
   impl::xpath_context c(n, 1, 1);
   impl::xpath_stack_data sd;
@@ -215,27 +215,27 @@ LumexXmlXPathQuery::evaluate_node(LumexXmlXPathNode const &n) const
 }
 
 LUMEX_PUBLIC_API
-inline LumexXmlParseResult const &
-LumexXmlXPathQuery::result() const
+inline XmlParseResult const &
+XPathQuery::result() const
 {
   return m_result;
 }
 
 LUMEX_PUBLIC_API
 inline static void
-unspecified_bool_xpath_query(LumexXmlXPathQuery ***)
+unspecified_bool_xpath_query(XPathQuery ***)
 {}
 
 LUMEX_PUBLIC_API
-inline LumexXmlXPathQuery::
-operator LumexXmlXPathQuery::unspecified_bool_type() const
+inline XPathQuery::
+operator XPathQuery::unspecified_bool_type() const
 {
   return m_impl ? unspecified_bool_xpath_query : nullptr;
 }
 
 LUMEX_PUBLIC_API
 inline bool
-LumexXmlXPathQuery::operator!() const
+XPathQuery::operator!() const
 {
   return !m_impl;
 }

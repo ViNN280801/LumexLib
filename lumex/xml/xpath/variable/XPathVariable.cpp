@@ -2,17 +2,17 @@
 
 #include "lumex/core/utility/LumexMacros.hpp"
 
-#include "lumex/xml/utility/LumexXmlUtils.hpp"
+#include "lumex/xml/utility/XmlUtils.hpp"
 
-#include "LumexXmlXPathVariable.hpp"
+#include "XPathVariable.hpp"
 
 using namespace Lumex::Xml::Utility;
 using namespace Lumex::Xml::XPath::Variable;
 
-inline LumexXmlXPathVariable::LumexXmlXPathVariable(xpath_value_type type_) : m_type(type_), m_next(nullptr) {}
+inline XPathVariable::XPathVariable(xpath_value_type type_) : m_type(type_), m_next(nullptr) {}
 
 inline char_t const *
-LumexXmlXPathVariable::name() const
+XPathVariable::name() const
 {
   switch(m_type)
   {
@@ -44,13 +44,13 @@ LumexXmlXPathVariable::name() const
 }
 
 inline xpath_value_type
-LumexXmlXPathVariable::type() const
+XPathVariable::type() const
 {
   return m_type;
 }
 
 inline bool
-LumexXmlXPathVariable::get_boolean() const
+XPathVariable::get_boolean() const
 {
   return (m_type == xpath_type_boolean) ? static_cast< // NOLINT(cppcoreguidelines-pro-type-static-cast-downcast)
                                             xpath_variable_boolean const *>(this)
@@ -59,7 +59,7 @@ LumexXmlXPathVariable::get_boolean() const
 }
 
 inline double
-LumexXmlXPathVariable::get_number() const
+XPathVariable::get_number() const
 {
   return (m_type == xpath_type_number) ? static_cast< // NOLINT(cppcoreguidelines-pro-type-static-cast-downcast)
                                            xpath_variable_number const *>(this)
@@ -68,7 +68,7 @@ LumexXmlXPathVariable::get_number() const
 }
 
 inline char_t const *
-LumexXmlXPathVariable::get_string() const
+XPathVariable::get_string() const
 {
   char_t const *value = (m_type == xpath_type_string)
                           ? static_cast< // NOLINT(cppcoreguidelines-pro-type-static-cast-downcast)
@@ -78,8 +78,8 @@ LumexXmlXPathVariable::get_string() const
   return value != nullptr ? value : LUMEX_XML_TEXT("");
 }
 
-inline LumexXmlXPathNodeSet const &
-LumexXmlXPathVariable::get_node_set() const
+inline XPathNodeSet const &
+XPathVariable::get_node_set() const
 {
   return (m_type == xpath_type_node_set) ? static_cast< // NOLINT(cppcoreguidelines-pro-type-static-cast-downcast)
                                              xpath_variable_node_set const *>(this)
@@ -88,7 +88,7 @@ LumexXmlXPathVariable::get_node_set() const
 }
 
 inline bool
-LumexXmlXPathVariable::set(bool value)
+XPathVariable::set(bool value)
 {
   if(m_type != xpath_type_boolean) return false;
 
@@ -97,7 +97,7 @@ LumexXmlXPathVariable::set(bool value)
 }
 
 inline bool
-LumexXmlXPathVariable::set(double value)
+XPathVariable::set(double value)
 {
   if(m_type != xpath_type_number) return false;
 
@@ -106,7 +106,7 @@ LumexXmlXPathVariable::set(double value)
 }
 
 inline bool
-LumexXmlXPathVariable::set(char_t const *value)
+XPathVariable::set(char_t const *value)
 {
   if(m_type != xpath_type_string) return false;
 
@@ -128,7 +128,7 @@ LumexXmlXPathVariable::set(char_t const *value)
 }
 
 inline bool
-LumexXmlXPathVariable::set(LumexXmlXPathNodeSet const &value)
+XPathVariable::set(XPathNodeSet const &value)
 {
   if(m_type != xpath_type_node_set) return false;
 

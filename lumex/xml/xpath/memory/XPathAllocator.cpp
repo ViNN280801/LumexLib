@@ -2,18 +2,18 @@
 
 #include "lumex/core/utility/LumexMacros.hpp"
 
-#include "LumexXmlXPathAllocator.hpp"
+#include "XPathAllocator.hpp"
 
 using namespace Lumex::Xml::XPath::Memory;
 
 LUMEX_PUBLIC_API
-LumexXmlXPathAllocator::LumexXmlXPathAllocator(LumexXmlXPathMemoryBlock *root, bool *error)
+XPathAllocator::XPathAllocator(XPathMemoryBlock *root, bool *error)
     : m_root(root), m_error(error)
 {}
 
 LUMEX_PUBLIC_API
 void *
-LumexXmlXPathAllocator::allocate(size_t size)
+XPathAllocator::allocate(size_t size)
 {
   // round size up to block alignment boundary
   size = (size + kxpath_memory_block_alignment - 1) & ~(kxpath_memory_block_alignment - 1);
@@ -31,10 +31,10 @@ LumexXmlXPathAllocator::allocate(size_t size)
   size_t block_capacity_req  = size + (block_capacity_base / 4);
   size_t block_capacity      = (block_capacity_base > block_capacity_req) ? block_capacity_base : block_capacity_req;
 
-  size_t block_size          = block_capacity + offsetof(LumexXmlXPathMemoryBlock, data);
+  size_t block_size          = block_capacity + offsetof(XPathMemoryBlock, data);
 
   auto *block                                                      // NOLINT(cppcoreguidelines-owning-memory)
-    = static_cast<LumexXmlXPathMemoryBlock *>(malloc(block_size)); // NOLINT(cppcoreguidelines-no-malloc)
+    = static_cast<XPathMemoryBlock *>(malloc(block_size)); // NOLINT(cppcoreguidelines-no-malloc)
   if(block == nullptr)
   {
     if(m_error != nullptr) *m_error = true;
@@ -52,7 +52,7 @@ LumexXmlXPathAllocator::allocate(size_t size)
 
 LUMEX_PUBLIC_API
 void *
-LumexXmlXPathAllocator::reallocate(void *ptr, size_t old_size, size_t new_size)
+XPathAllocator::reallocate(void *ptr, size_t old_size, size_t new_size)
 {
   // round size up to block alignment boundary
   old_size = (old_size + kxpath_memory_block_alignment - 1) & ~(kxpath_memory_block_alignment - 1);
@@ -88,7 +88,7 @@ LumexXmlXPathAllocator::reallocate(void *ptr, size_t old_size, size_t new_size)
     if(m_root->next->data.data() == ptr) // NOLINT(cppcoreguidelines-pro-type-union-access)
     {
       // deallocate the whole page, unless it was the first one
-      LumexXmlXPathMemoryBlock *next = m_root->next->next;
+      XPathMemoryBlock *next = m_root->next->next;
 
       if(next != nullptr)
       {
@@ -103,14 +103,14 @@ LumexXmlXPathAllocator::reallocate(void *ptr, size_t old_size, size_t new_size)
 
 LUMEX_PUBLIC_API
 void
-LumexXmlXPathAllocator::revert(LumexXmlXPathAllocator const &state)
+XPathAllocator::revert(XPathAllocator const &state)
 {
   // free all new pages
-  LumexXmlXPathMemoryBlock *cur = m_root;
+  XPathMemoryBlock *cur = m_root;
 
   while(cur != state.m_root)
   {
-    LumexXmlXPathMemoryBlock *next = cur->next;
+    XPathMemoryBlock *next = cur->next;
 
     free(cur); // NOLINT(cppcoreguidelines-owning-memory, cppcoreguidelines-no-malloc)
 
@@ -124,14 +124,14 @@ LumexXmlXPathAllocator::revert(LumexXmlXPathAllocator const &state)
 
 LUMEX_PUBLIC_API
 void
-LumexXmlXPathAllocator::release() const noexcept
+XPathAllocator::release() const noexcept
 {
-  LumexXmlXPathMemoryBlock *cur = m_root;
+  XPathMemoryBlock *cur = m_root;
   LUMEX_ASSERT(cur);
 
   while(cur->next != nullptr)
   {
-    LumexXmlXPathMemoryBlock *next = cur->next;
+    XPathMemoryBlock *next = cur->next;
 
     free(cur); // NOLINT(cppcoreguidelines-owning-memory, cppcoreguidelines-no-malloc)
 
@@ -139,8 +139,8 @@ LumexXmlXPathAllocator::release() const noexcept
   }
 }
 
-LumexXmlXPathAllocatorCapture::LumexXmlXPathAllocatorCapture(LumexXmlXPathAllocator *alloc)
+XPathAllocatorCapture::XPathAllocatorCapture(XPathAllocator *alloc)
     : _target(alloc), _state(*alloc)
 {}
 
-LumexXmlXPathAllocatorCapture::~LumexXmlXPathAllocatorCapture() { _target->revert(_state); }
+XPathAllocatorCapture::~XPathAllocatorCapture() { _target->revert(_state); }

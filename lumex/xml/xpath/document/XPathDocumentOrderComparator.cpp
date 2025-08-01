@@ -1,12 +1,15 @@
 #define LUMEX_IMPLEMENTATION
 
-#include "LumexXmlXPathDocumentOrderComparator.hpp"
-#include "lumex/xml/constants/LumexXmlConstants.hpp"
+#include "lumex/core/utility/LumexMacros.hpp"
 
-using namespace Lumex::Xml::XPath;
+#include "lumex/xml/constants/XmlConstants.hpp"
+
+#include "XPathDocumentOrderComparator.hpp"
+
+using namespace Lumex::Xml::XPath::Document;
 
 inline bool
-node_is_before_sibling(xml_node_t *ln_node, xml_node_t *rn_node) // NOLINT(misc-use-internal-linkage)
+node_is_before_sibling(XmlNode *ln_node, XmlNode *rn_node) // NOLINT(misc-use-internal-linkage)
 {
   LUMEX_ASSERT(ln_node->parent == rn_node->parent);
 
@@ -14,8 +17,8 @@ node_is_before_sibling(xml_node_t *ln_node, xml_node_t *rn_node) // NOLINT(misc-
   if(ln_node->parent == nullptr) return ln_node < rn_node;
 
   // determine sibling order
-  xml_node_t *ls_node = ln_node;
-  xml_node_t *rs_node = rn_node;
+  XmlNode *ls_node = ln_node;
+  XmlNode *rs_node = rn_node;
 
   while(ls_node != nullptr && rs_node != nullptr)
   {
@@ -31,11 +34,11 @@ node_is_before_sibling(xml_node_t *ln_node, xml_node_t *rn_node) // NOLINT(misc-
 }
 
 inline bool
-node_is_before(xml_node_t *ln_node, xml_node_t *rn_node) // NOLINT(misc-use-internal-linkage)
+node_is_before(XmlNode *ln_node, XmlNode *rn_node) // NOLINT(misc-use-internal-linkage)
 {
   // find common ancestor at the same depth, if any
-  xml_node_t *lp_node = ln_node;
-  xml_node_t *rp_node = rn_node;
+  XmlNode *lp_node = ln_node;
+  XmlNode *rp_node = rn_node;
 
   while(lp_node != nullptr && rp_node != nullptr && lp_node->parent != rp_node->parent)
   {
@@ -75,9 +78,9 @@ node_is_before(xml_node_t *ln_node, xml_node_t *rn_node) // NOLINT(misc-use-inte
 }
 
 inline void const *
-document_buffer_order(LumexXmlXPathNode const &xnode) // NOLINT(misc-use-internal-linkage)
+document_buffer_order(XPathNode const &xnode) // NOLINT(misc-use-internal-linkage)
 {
-  xml_node_t *node = xnode.node().get();
+  XmlNode *node = xnode.node().get();
 
   if(node != nullptr)
   {
@@ -109,7 +112,7 @@ document_buffer_order(LumexXmlXPathNode const &xnode) // NOLINT(misc-use-interna
 }
 
 inline bool
-document_order_comparator::operator()(LumexXmlXPathNode const &lhs, LumexXmlXPathNode const &rhs) const
+document_order_comparator::operator()(XPathNode const &lhs, XPathNode const &rhs) const
 {
   // optimized document order based check
   void const *lo_doc = XPath::document_buffer_order(lhs);
@@ -118,8 +121,8 @@ document_order_comparator::operator()(LumexXmlXPathNode const &lhs, LumexXmlXPat
   if(lo_doc != nullptr && ro_doc != nullptr) return lo_doc < ro_doc;
 
   // slow comparison
-  Lumex::Xml::Node::LumexXmlNode ln_node = lhs.node();
-  Lumex::Xml::Node::LumexXmlNode rn_node = rhs.node();
+  Lumex::Xml::Node::XmlNode ln_node = lhs.node();
+  Lumex::Xml::Node::XmlNode rn_node = rhs.node();
 
   // compare attributes
   if(lhs.attribute() != nullptr && rhs.attribute() != nullptr)
@@ -128,8 +131,7 @@ document_order_comparator::operator()(LumexXmlXPathNode const &lhs, LumexXmlXPat
     if(lhs.parent() == rhs.parent())
     {
       // determine sibling order
-      for(Lumex::Xml::Attribute::LumexXmlAttribute attr = lhs.attribute(); attr != nullptr;
-          attr                                          = attr.next_attribute())
+      for(Lumex::Xml::Attribute::XmlAttribute attr = lhs.attribute(); attr != nullptr; attr = attr.next_attribute())
         if(attr == rhs.attribute()) return true;
 
       return false;
