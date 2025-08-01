@@ -228,6 +228,37 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
         indent_newline = 1,
         indent_indent  = 2
       };
+
+      enum lexeme_t : std::uint8_t
+      {
+        lex_none = 0,
+        lex_equal,
+        lex_not_equal,
+        lex_less,
+        lex_greater,
+        lex_less_or_equal,
+        lex_greater_or_equal,
+        lex_plus,
+        lex_minus,
+        lex_multiply,
+        lex_union,
+        lex_var_ref,
+        lex_open_brace,
+        lex_close_brace,
+        lex_quoted_string,
+        lex_number,
+        lex_slash,
+        lex_double_slash,
+        lex_open_square_brace,
+        lex_close_square_brace,
+        lex_string,
+        lex_comma,
+        lex_axis_attribute,
+        lex_dot,
+        lex_double_dot,
+        lex_double_colon,
+        lex_eof
+      };
     } // namespace Types
   } // namespace Xml
 } // namespace Lumex
