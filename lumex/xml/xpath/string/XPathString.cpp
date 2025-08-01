@@ -1,10 +1,12 @@
 #include "lumex/core/utility/LumexAssert.hpp"
 
 #include "lumex/xml/utility/XmlUtils.hpp"
+#include "lumex/xml/xpath/node/XPathNode.hpp"
 
 #include "XPathString.hpp"
 
 using namespace Lumex::Xml::Utility;
+using namespace Lumex::Xml::XPath::Node;
 using namespace Lumex::Xml::XPath::String;
 
 XPathString
@@ -143,3 +145,114 @@ XPathString::duplicate_string(char_t const *string, size_t length, XPathAllocato
 XPathString::XPathString(char_t const *buffer, bool uses_heap_, size_t length_heap)
     : m_buffer(buffer), m_uses_heap(uses_heap_), m_length_heap(length_heap)
 {}
+
+XPathString
+string_value(XPathNode const &node, XPathAllocator *alloc) // NOLINT(misc-use-internal-linkage)
+{
+  if(node.attribute() != nullptr) return XPathString::from_const(node.attribute().value());
+
+  XmlNode tmp = node.node();
+
+  switch(tmp.type())
+  {
+  case node_pcdata:
+  case node_cdata:
+  case node_comment:
+  case node_pi: return XPathString::from_const(tmp.value());
+
+  case node_document:
+  case node_element: {
+    XPathString result;
+
+    // element nodes can have value if parse_embed_pcdata was used
+    if(tmp.value()[0] != 0) result.append(XPathString::from_const(tmp.value()), alloc);
+
+    XmlNode cur = tmp.first_child();
+
+    while((cur != nullptr) && cur != tmp)
+    {
+      if(cur.type() == node_pcdata || cur.type() == node_cdata)
+        result.append(XPathString::from_const(cur.value()), alloc);
+
+      if(cur.first_child() != nullptr)
+        cur = cur.first_child();
+      else if(cur.next_sibling() != nullptr)
+        cur = cur.next_sibling();
+      else
+      {
+        while(!cur.next_sibling() && cur != tmp) cur = cur.parent();
+        if(cur != tmp) cur = cur.next_sibling();
+      }
+    }
+    return result;
+  }
+  default: return {};
+  }
+}
+
+inline XPathString
+convert_number_to_string(double value, XPathAllocator *alloc) // NOLINT(misc-use-internal-linkage)
+{
+  // try special number conversion
+  char_t const *special = convert_number_to_string_special(value);
+  if(special != nullptr) return XPathString::from_const(special);
+
+  // get mantissa + exponent form
+  char mantissa_buffer[32]; // NOLINT(cppcoreguidelines-avoid-c-arrays, modernize-avoid-c-arrays)
+
+  char *mantissa{};
+  int exponent = 0;
+  Utility::convert_number_to_mantissa_exponent(value, mantissa_buffer, &mantissa, &exponent);
+
+  // allocate a buffer of suitable length for the number
+  size_t result_size = strlen(mantissa_buffer // NOLINT(cppcoreguidelines-pro-bounds-array-to-pointer-decay)
+                              )
+                       + (exponent > 0 ? exponent : -exponent) + 4;
+  auto *result = static_cast<char_t *>(alloc->allocate(sizeof(char_t) * result_size));
+  if(result == nullptr) return {};
+
+  // make the number!
+  char_t *str = result;
+
+  // sign
+  if(value < 0) *str++ = '-';
+
+  // integer part
+  if(exponent <= 0) { *str++ = '0'; }
+  else
+  {
+    while(exponent > 0)
+    {
+      LUMEX_ASSERT(*mantissa == 0 || static_cast<unsigned int>(*mantissa - '0') <= 9);
+      *str++ = (*mantissa != 0) ? *mantissa++ : '0';
+      exponent--;
+    }
+  }
+
+  // fractional part
+  if(*mantissa != 0)
+  {
+    // decimal point
+    *str++ = '.';
+
+    // extra zeroes from negative exponent
+    while(exponent < 0)
+    {
+      *str++ = '0';
+      exponent++;
+    }
+
+    // extra mantissa digits
+    while(*mantissa != 0)
+    {
+      LUMEX_ASSERT(static_cast<unsigned int>(*mantissa - '0') <= 9);
+      *str++ = *mantissa++;
+    }
+  }
+
+  // zero-terminate
+  LUMEX_ASSERT(str < result + result_size);
+  *str = 0;
+
+  return XPathString::from_heap_preallocated(result, str);
+}

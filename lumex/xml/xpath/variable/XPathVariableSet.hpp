@@ -56,6 +56,34 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
           static bool _clone(XPathVariable *var, XPathVariable **out_result);
           static void _destroy(XPathVariable *var);
         };
+
+        inline bool
+        get_variable_scratch(char_t (&buffer)[32], // NOLINT(cppcoreguidelines-avoid-c-arrays, modernize-avoid-c-arrays)
+                             XPathVariableSet *set, char_t const *begin, char_t const *end, XPathVariable **out_result)
+        {
+          auto length     = static_cast<size_t>(end - begin);
+          char_t *scratch = buffer; // NOLINT(cppcoreguidelines-pro-bounds-array-to-pointer-decay)
+
+          if(length >= sizeof(buffer) / sizeof(buffer[0]))
+          {
+            // need to make dummy on-heap copy
+            scratch = static_cast<char_t *>(          // NOLINT(cppcoreguidelines-owning-memory)
+              malloc((length + 1) * sizeof(char_t))); // NOLINT(cppcoreguidelines-no-malloc)
+            if(scratch == nullptr) return false;
+          }
+
+          // copy string to zero-terminated buffer and perform lookup
+          memcpy(scratch, begin, length * sizeof(char_t));
+          scratch[length] = 0;
+
+          *out_result     = set->get(scratch);
+
+          // free dummy buffer
+          if(scratch != buffer) // NOLINT(cppcoreguidelines-pro-bounds-array-to-pointer-decay)
+            free(scratch);      // NOLINT(cppcoreguidelines-owning-memory, cppcoreguidelines-no-malloc)
+
+          return true;
+        }
       } // namespace Variable
     } // namespace XPath
   } // namespace Xml

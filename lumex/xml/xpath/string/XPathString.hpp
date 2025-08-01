@@ -15,6 +15,10 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
   {
     namespace XPath
     {
+      namespace Node
+      {
+        class XPathNode;
+      }
       namespace String
       {
         class XPathString
@@ -65,6 +69,10 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
 
           XPathString(char_t const *buffer, bool uses_heap_, size_t length_heap);
         };
+
+        XPathString string_value(Node::XPathNode const &node, XPathAllocator *alloc);
+
+        XPathString convert_number_to_string(double value, XPathAllocator *alloc);
       } // namespace String
     } // namespace XPath
   } // namespace Xml
