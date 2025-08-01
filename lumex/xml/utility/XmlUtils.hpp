@@ -3,6 +3,7 @@
 
 #include <array>
 #include <cstdlib>
+#include <cwchar>
 
 #include "lumex/core/utility/LumexMacros.hpp"
 
@@ -21,6 +22,412 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
   {
     namespace Utility
     {
+      struct opt_false {
+        enum : std::uint8_t
+        {
+          value = 0
+        };
+      };
+      struct opt_true {
+        enum : std::uint8_t
+        {
+          value = 1
+        };
+      };
+      struct utf16_counter {
+        using value_type = size_t;
+
+        static value_type
+        low(value_type result, uint32_t /* unused */)
+        {
+          return result + 1;
+        }
+
+        static value_type
+        high(value_type result, uint32_t /* unused */)
+        {
+          return result + 2;
+        }
+      };
+      inline uint16_t
+      endian_swap(uint16_t value)
+      {
+        return static_cast<uint16_t>(((value & 0xff) << 8) | (value >> 8));
+      }
+
+      inline uint32_t
+      endian_swap(uint32_t value)
+      {
+        return ((value & 0xff) << 24) | ((value & 0xff00) << 8) | ((value & 0xff0000) >> 8) | (value >> 24);
+      }
+      template <typename opt_swap> struct utf16_decoder {
+        using type = uint16_t;
+
+        template <typename Traits>
+        static typename Traits::value_type
+        process(uint16_t const *data, size_t size, typename Traits::value_type result, Traits /*unused*/)
+        {
+          while(size)
+          {
+            uint16_t lead = opt_swap::value ? endian_swap(*data) : *data;
+
+            // U+0000..U+D7FF
+            if(lead < 0xD800)
+            { // NOLINT(bugprone-branch-clone)
+              result = Traits::low(result, lead);
+              data += 1;
+              size -= 1;
+            }
+            // U+E000..U+FFFF
+            else if(static_cast<unsigned int>(lead - 0xE000) < 0x2000)
+            {
+              result = Traits::low(result, lead);
+              data += 1;
+              size -= 1;
+            }
+            // surrogate pair lead
+            else if(static_cast<unsigned int>(lead - 0xD800) < 0x400 && size >= 2)
+            {
+              uint16_t next = opt_swap::value ? endian_swap(data[1]) : data[1];
+
+              if(static_cast<unsigned int>(next - 0xDC00) < 0x400)
+              {
+                result = Traits::high(result, 0x10000 + ((lead & 0x3ff) << 10) + (next & 0x3ff));
+                data += 2;
+                size -= 2;
+              }
+              else
+              {
+                data += 1;
+                size -= 1;
+              }
+            }
+            else
+            {
+              data += 1;
+              size -= 1;
+            }
+          }
+
+          return result;
+        }
+      };
+
+      template <typename opt_swap> struct utf32_decoder {
+        using type = uint32_t;
+
+        template <typename Traits>
+        static typename Traits::value_type
+        process(uint32_t const *data, size_t size, typename Traits::value_type result, Traits /* unused */)
+        {
+          while(size)
+          {
+            uint32_t lead = opt_swap::value ? endian_swap(*data) : *data;
+
+            // U+0000..U+FFFF
+            if(lead < 0x10000)
+            {
+              result = Traits::low(result, lead);
+              data += 1;
+              size -= 1;
+            }
+            // U+10000..U+10FFFF
+            else
+            {
+              result = Traits::high(result, lead);
+              data += 1;
+              size -= 1;
+            }
+          }
+
+          return result;
+        }
+      };
+
+      struct latin1_decoder {
+        using type = uint8_t;
+
+        template <typename Traits>
+        static typename Traits::value_type
+        process(uint8_t const *data, size_t size, typename Traits::value_type result, Traits /* unused */)
+        {
+          while(size)
+          {
+            result = Traits::low(result, *data);
+            data += 1;
+            size -= 1;
+          }
+
+          return result;
+        }
+      };
+      struct utf8_counter {
+        using value_type = size_t;
+
+        static value_type
+        low(value_type result, uint32_t chr) // NOLINT(bugprone-easily-swappable-parameters)
+        {
+          // U+0000..U+007F
+          if(chr < 0x80) return result + 1;
+
+          // U+0080..U+07FF
+          if(chr < 0x800) return result + 2;
+
+          // U+0800..U+FFFF
+          return result + 3;
+        }
+
+        static value_type
+        high(value_type result, uint32_t /* unused */)
+        {
+          // U+10000..U+10FFFF
+          return result + 4;
+        }
+      };
+
+      struct utf8_writer {
+        using value_type = uint8_t *;
+
+        static value_type
+        low(value_type result, uint32_t chr) // NOLINT(bugprone-easily-swappable-parameters)
+        {
+          // U+0000..U+007F
+          if(chr < 0x80)
+          {
+            *result = static_cast<uint8_t>(chr);
+            return result + 1;
+          }
+          // U+0080..U+07FF
+          if(chr < 0x800)
+          {
+            result[0] = static_cast<uint8_t>(0xC0 | (chr >> 6));
+            result[1] = static_cast<uint8_t>(0x80 | (chr & 0x3F));
+            return result + 2;
+          }
+          // U+0800..U+FFFF
+          result[0] = static_cast<uint8_t>(0xE0 | (chr >> 12));
+          result[1] = static_cast<uint8_t>(0x80 | ((chr >> 6) & 0x3F));
+          result[2] = static_cast<uint8_t>(0x80 | (chr & 0x3F));
+          return result + 3;
+        }
+
+        static value_type
+        high(value_type result, uint32_t chr)
+        {
+          // U+10000..U+10FFFF
+          result[0] = static_cast<uint8_t>(0xF0 | (chr >> 18));
+          result[1] = static_cast<uint8_t>(0x80 | ((chr >> 12) & 0x3F));
+          result[2] = static_cast<uint8_t>(0x80 | ((chr >> 6) & 0x3F));
+          result[3] = static_cast<uint8_t>(0x80 | (chr & 0x3F));
+          return result + 4;
+        }
+
+        static value_type
+        any(value_type result, uint32_t chr)
+        {
+          return (chr < 0x10000) ? low(result, chr) : high(result, chr);
+        }
+      };
+      struct utf16_writer {
+        using value_type = uint16_t *;
+
+        static value_type
+        low(value_type result, uint32_t chr) // NOLINT(bugprone-easily-swappable-parameters)
+        {
+          *result = static_cast<uint16_t>(chr);
+
+          return result + 1;
+        }
+
+        static value_type
+        high(value_type result, uint32_t chr) // NOLINT(bugprone-easily-swappable-parameters)
+        {
+          uint32_t msh = (chr - 0x10000U) >> 10;
+          uint32_t lsh = (chr - 0x10000U) & 0x3ff;
+
+          result[0]    = static_cast<uint16_t>(0xD800 + msh);
+          result[1]    = static_cast<uint16_t>(0xDC00 + lsh);
+
+          return result + 2;
+        }
+
+        static value_type
+        any(value_type result, uint32_t chr) // NOLINT(bugprone-easily-swappable-parameters)
+        {
+          return (chr < 0x10000) ? low(result, chr) : high(result, chr);
+        }
+      };
+
+      struct utf32_counter {
+        using value_type = size_t;
+
+        static value_type
+        low(value_type result, uint32_t /* unused */)
+        {
+          return result + 1;
+        }
+
+        static value_type
+        high(value_type result, uint32_t /* unused */)
+        {
+          return result + 1;
+        }
+      };
+
+      struct utf32_writer {
+        using value_type = uint32_t *;
+
+        static value_type
+        low(value_type result, uint32_t chr)
+        {
+          *result = chr;
+
+          return result + 1;
+        }
+
+        static value_type
+        high(value_type result, uint32_t chr)
+        {
+          *result = chr;
+
+          return result + 1;
+        }
+
+        static value_type
+        any(value_type result, uint32_t chr)
+        {
+          *result = chr;
+
+          return result + 1;
+        }
+      };
+
+      struct latin1_writer {
+        using value_type = uint8_t *;
+
+        static value_type
+        low(value_type result, uint32_t chr)
+        {
+          *result = static_cast<uint8_t>(chr > 255 ? '?' : chr);
+
+          return result + 1;
+        }
+
+        static value_type
+        high(value_type result, uint32_t chr)
+        {
+          (void)chr;
+
+          *result = '?';
+
+          return result + 1;
+        }
+      };
+      template <size_t size> struct wchar_selector;
+      template <> struct wchar_selector<2> {
+        using type    = uint16_t;
+        using counter = utf16_counter;
+        using writer  = utf16_writer;
+        using decoder = utf16_decoder<opt_false>;
+      };
+
+      template <> struct wchar_selector<4> {
+        using type    = uint32_t;
+        using counter = utf32_counter;
+        using writer  = utf32_writer;
+        using decoder = utf32_decoder<opt_false>;
+      };
+
+      using wchar_counter = wchar_selector<sizeof(wchar_t)>::counter;
+      using wchar_writer  = wchar_selector<sizeof(wchar_t)>::writer;
+
+      struct wchar_decoder {
+        using type = wchar_t;
+
+        template <typename Traits>
+        static typename Traits::value_type
+        process(wchar_t const *data, size_t size, typename Traits::value_type result, Traits traits)
+        {
+          using decoder = wchar_selector<sizeof(wchar_t)>::decoder;
+
+          return decoder::process(reinterpret_cast<typename decoder::type const *>(data), size, result, traits);
+        }
+      };
+      struct utf8_decoder {
+        using type = uint8_t;
+
+        template <typename Traits>
+        static typename Traits::value_type
+        process(uint8_t const *data, size_t size, typename Traits::value_type result, Traits /* unused */)
+        {
+          uint8_t const utf8_byte_mask = 0x3f;
+
+          while(size)
+          {
+            uint8_t lead = *data;
+
+            // 0xxxxxxx -> U+0000..U+007F
+            if(lead < 0x80)
+            {
+              result = Traits::low(result, lead);
+              data += 1;
+              size -= 1;
+
+              // process aligned single-byte (ascii) blocks
+              if((reinterpret_cast<uintptr_t>(data) & 3) == 0)
+              {
+                // round-trip through void* to silence 'cast increases required alignment of target type' warnings
+                while(size >= 4
+                      && (*static_cast<uint32_t const *>(static_cast< // NOLINT(bugprone-casting-through-void)
+                                                         void const *>(data))
+                          & 0x80808080)
+                           == 0)
+                {
+                  result = Traits::low(result, data[0]);
+                  result = Traits::low(result, data[1]);
+                  result = Traits::low(result, data[2]);
+                  result = Traits::low(result, data[3]);
+                  data += 4;
+                  size -= 4;
+                }
+              }
+            }
+            // 110xxxxx -> U+0080..U+07FF
+            else if(static_cast<unsigned int>(lead - 0xC0) < 0x20 && size >= 2 && (data[1] & 0xc0) == 0x80)
+            {
+              result = Traits::low(result, ((lead & ~0xC0) << 6) | (data[1] & utf8_byte_mask));
+              data += 2;
+              size -= 2;
+            }
+            // 1110xxxx -> U+0800-U+FFFF
+            else if(static_cast<unsigned int>(lead - 0xE0) < 0x10 && size >= 3 && (data[1] & 0xc0) == 0x80
+                    && (data[2] & 0xc0) == 0x80)
+            {
+              result = Traits::low(result, ((lead & ~0xE0) << 12) | ((data[1] & utf8_byte_mask) << 6)
+                                             | (data[2] & utf8_byte_mask));
+              data += 3;
+              size -= 3;
+            }
+            // 11110xxx -> U+10000..U+10FFFF
+            else if(static_cast<unsigned int>(lead - 0xF0) < 0x08 && size >= 4 && (data[1] & 0xc0) == 0x80
+                    && (data[2] & 0xc0) == 0x80 && (data[3] & 0xc0) == 0x80)
+            {
+              result = Traits::high(result, ((lead & ~0xF0) << 18) | ((data[1] & utf8_byte_mask) << 12)
+                                              | ((data[2] & utf8_byte_mask) << 6) | (data[3] & utf8_byte_mask));
+              data += 4;
+              size -= 4;
+            }
+            // 10xxxxxx or 11111xxx -> invalid
+            else
+            {
+              data += 1;
+              size -= 1;
+            }
+          }
+
+          return result;
+        }
+      };
       template <typename U>
       inline U
       string_to_integer(char_t const *value, // NOLINT(readability-function-cognitive-complexity)
@@ -121,19 +528,28 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
       get_value_double(char_t const *value)
       {
 #ifdef LUMEX_XML_WCHAR_MODE
-        return wcstod(value, NULL);
+        return wcstod(value, nullptr);
 #else
-        return strtod(value, NULL);
+        return strtod(value, nullptr);
 #endif
       }
+
+#ifdef LUMEX_XML_WCHAR_MODE
+      inline void
+      convert_wchar_endian_swap(wchar_t *result, wchar_t const *data, size_t length)
+      {
+        for(size_t i = 0; i < length; ++i)
+          result[i] = static_cast<wchar_t>(endian_swap(static_cast<wchar_selector<sizeof(wchar_t)>::type>(data[i])));
+      }
+#endif
 
       inline float
       get_value_float(char_t const *value)
       {
 #ifdef LUMEX_XML_WCHAR_MODE
-        return static_cast<float>(wcstod(value, NULL));
+        return static_cast<float>(wcstod(value, nullptr));
 #else
-        return static_cast<float>(strtod(value, NULL));
+        return static_cast<float>(strtod(value, nullptr));
 #endif
       }
 
@@ -188,7 +604,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
 
           if(header & header_mask) alloc->deallocate_string(dest);
 
-          dest = NULL;
+          dest = nullptr;
           header &= ~header_mask;
 
           return true;
@@ -414,6 +830,633 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
 
         return result;
       }
+
+      inline bool
+      is_little_endian()
+      {
+        unsigned int chr = 1;
+
+        return *reinterpret_cast<unsigned char *>(std::addressof(chr)) == 1;
+      }
+
+      inline xml_encoding
+      get_wchar_encoding()
+      {
+        static_assert(sizeof(wchar_t) == 2 || sizeof(wchar_t) == 4);
+
+        if(sizeof(wchar_t) == 2) return is_little_endian() ? encoding_utf16_le : encoding_utf16_be;
+        return is_little_endian() ? encoding_utf32_le : encoding_utf32_be;
+      }
+
+      inline bool
+      parse_declaration_encoding(uint8_t const *data, // NOLINT(readability-function-cognitive-complexity)
+                                 size_t size, uint8_t const *&out_encoding, size_t &out_length)
+      {
+        // check if we have a non-empty XML declaration
+        if(size < 6 // NOLINT(cppcoreguidelines-avoid-magic-numbers, readability-magic-numbers)
+           || !(
+             (data[0] == '<') &                            // NOLINT(readability-implicit-bool-conversion)
+               (data[1] == '?') &                          // NOLINT(readability-implicit-bool-conversion)
+               (data[2] == 'x') &                          // NOLINT(readability-implicit-bool-conversion)
+               (data[3] == 'm') &                          // NOLINT(readability-implicit-bool-conversion)
+               (data[4] == 'l')                            // NOLINT(readability-implicit-bool-conversion)
+             && LUMEX_XML_IS_CHARTYPE(data[5], ct_space))) // NOLINT(cppcoreguidelines-pro-bounds-constant-array-index)
+          return false;
+
+        // scan XML declaration until the encoding field
+        for(size_t i = 6; i + 1 < size; ++i) // NOLINT(cppcoreguidelines-avoid-magic-numbers, readability-magic-numbers)
+        {
+          // declaration can not contain ? in quoted values
+          if(data[i] == '?') return false;
+
+          if(data[i] == 'e' && data[i + 1] == 'n')
+          {
+            size_t offset = i;
+
+            // encoding follows the version field which can't contain 'en' so this has to be the encoding if XML is well
+            // formed
+            LUMEX_XML_SCANCHAR('e');
+            LUMEX_XML_SCANCHAR('n');
+            LUMEX_XML_SCANCHAR('c');
+            LUMEX_XML_SCANCHAR('o');
+            LUMEX_XML_SCANCHAR('d');
+            LUMEX_XML_SCANCHAR('i');
+            LUMEX_XML_SCANCHAR('n');
+            LUMEX_XML_SCANCHAR('g');
+
+            // S? = S?
+            LUMEX_XML_SCANCHARTYPE(ct_space); // NOLINT(cppcoreguidelines-pro-bounds-constant-array-index)
+            LUMEX_XML_SCANCHAR('=');
+            LUMEX_XML_SCANCHARTYPE(ct_space); // NOLINT(cppcoreguidelines-pro-bounds-constant-array-index)
+
+            // the only two valid delimiters are ' and "
+            uint8_t delimiter = (offset < size && data[offset] == '"') ? '"' : '\'';
+
+            LUMEX_XML_SCANCHAR(delimiter);
+
+            size_t start = offset;
+
+            out_encoding = data + offset;
+
+            LUMEX_XML_SCANCHARTYPE(ct_symbol); // NOLINT(cppcoreguidelines-pro-bounds-constant-array-index)
+
+            out_length = offset - start;
+
+            LUMEX_XML_SCANCHAR(delimiter);
+
+            return true;
+          }
+        }
+
+        return false;
+      }
+
+      inline xml_encoding
+      guess_buffer_encoding(uint8_t const *data, size_t size) // NOLINT(readability-function-cognitive-complexity)
+      {
+        // skip encoding autodetection if input buffer is too small
+        if(size < 4) return encoding_utf8;
+
+        uint8_t d0_ = data[0];
+        uint8_t d1_ = data[1];
+        uint8_t d2_ = data[2];
+        uint8_t d3_ = data[3];
+
+        // look for BOM in first few bytes
+        if(d0_ == 0 && d1_ == 0 && d2_ == 0xfe && d3_ == 0xff) return encoding_utf32_be;
+        if(d0_ == 0xff && d1_ == 0xfe && d2_ == 0 && d3_ == 0) return encoding_utf32_le;
+        if(d0_ == 0xfe && d1_ == 0xff) return encoding_utf16_be;
+        if(d0_ == 0xff && d1_ == 0xfe) return encoding_utf16_le;
+        if(d0_ == 0xef && d1_ == 0xbb && d2_ == 0xbf) return encoding_utf8;
+
+        // look for <, <? or <?xm in various encodings
+        if(d0_ == 0 && d1_ == 0 && d2_ == 0 && d3_ == 0x3c) return encoding_utf32_be;
+        if(d0_ == 0x3c && d1_ == 0 && d2_ == 0 && d3_ == 0) return encoding_utf32_le;
+        if(d0_ == 0 && d1_ == 0x3c && d2_ == 0 && d3_ == 0x3f) return encoding_utf16_be;
+        if(d0_ == 0x3c && d1_ == 0 && d2_ == 0x3f && d3_ == 0) return encoding_utf16_le;
+
+        // look for utf16 < followed by node name (this may fail, but is better than utf8 since it's zero terminated so
+        // early)
+        if(d0_ == 0 && d1_ == 0x3c) return encoding_utf16_be;
+        if(d0_ == 0x3c && d1_ == 0) return encoding_utf16_le;
+
+        // no known BOM detected; parse declaration
+        uint8_t const *enc = nullptr;
+        size_t enc_length  = 0;
+
+        if(d0_ == 0x3c && d1_ == 0x3f && d2_ == 0x78 && d3_ == 0x6d
+           && parse_declaration_encoding(data, size, enc, enc_length))
+        {
+          // iso-8859-1 (case-insensitive)
+          if(enc_length == 10 && (enc[0] | ' ') == 'i' && (enc[1] | ' ') == 's' && (enc[2] | ' ') == 'o'
+             && enc[3] == '-' && enc[4] == '8' && enc[5] == '8' && enc[6] == '5' && enc[7] == '9' && enc[8] == '-'
+             && enc[9] == '1')
+            return encoding_latin1;
+
+          // latin1 (case-insensitive)
+          if(enc_length == 6 && (enc[0] | ' ') == 'l' && (enc[1] | ' ') == 'a' && (enc[2] | ' ') == 't'
+             && (enc[3] | ' ') == 'i' && (enc[4] | ' ') == 'n' && enc[5] == '1')
+            return encoding_latin1;
+        }
+
+        return encoding_utf8;
+      }
+
+      inline xml_encoding
+      get_buffer_encoding(xml_encoding encoding, void const *contents, size_t size)
+      {
+        // replace wchar encoding with utf implementation
+        if(encoding == encoding_wchar) return get_wchar_encoding();
+
+        // replace utf16 encoding with utf16 with specific endianness
+        if(encoding == encoding_utf16) return is_little_endian() ? encoding_utf16_le : encoding_utf16_be;
+
+        // replace utf32 encoding with utf32 with specific endianness
+        if(encoding == encoding_utf32) return is_little_endian() ? encoding_utf32_le : encoding_utf32_be;
+
+        // only do autodetection if no explicit encoding is requested
+        if(encoding != encoding_auto) return encoding;
+
+        // try to guess encoding (based on XML specification, Appendix F.1)
+        uint8_t const *data = static_cast<uint8_t const *>(contents);
+
+        return guess_buffer_encoding(data, size);
+      }
+
+      inline bool
+      get_mutable_buffer(char_t *&out_buffer, size_t &out_length, void const *contents, size_t size, bool is_mutable)
+      {
+        size_t length = size / sizeof(char_t);
+
+        if(is_mutable)
+        {
+          out_buffer
+            = static_cast<char_t *>(const_cast<void *>(contents)); // NOLINT(cppcoreguidelines-pro-type-const-cast)
+          out_length = length;
+        }
+        else
+        {
+          auto *buffer                                                      // NOLINT(cppcoreguidelines-owning-memory)
+            = static_cast<char_t *>(malloc((length + 1) * sizeof(char_t))); // NOLINT(cppcoreguidelines-no-malloc)
+          if(buffer == nullptr) return false;
+
+          if(contents != nullptr)
+            std::memcpy(buffer, contents, length * sizeof(char_t));
+          else
+            LUMEX_ASSERT(length == 0);
+
+          buffer[length] = 0;
+
+          out_buffer     = buffer;
+          out_length     = length + 1;
+        }
+
+        return true;
+      }
+
+      inline xml_encoding
+      get_write_native_encoding()
+      {
+#ifdef LUMEX_XML_WCHAR_MODE
+        return get_wchar_encoding();
+#else
+        return encoding_utf8;
+#endif
+      }
+
+      inline xml_encoding
+      get_write_encoding(xml_encoding encoding)
+      {
+        // replace wchar encoding with utf implementation
+        if(encoding == encoding_wchar) return get_wchar_encoding();
+
+        // replace utf16 encoding with utf16 with specific endianness
+        if(encoding == encoding_utf16) return is_little_endian() ? encoding_utf16_le : encoding_utf16_be;
+
+        // replace utf32 encoding with utf32 with specific endianness
+        if(encoding == encoding_utf32) return is_little_endian() ? encoding_utf32_le : encoding_utf32_be;
+
+        // only do autodetection if no explicit encoding is requested
+        if(encoding != encoding_auto) return encoding;
+
+        // assume utf8 encoding
+        return encoding_utf8;
+      }
+
+#ifdef LUMEX_XML_WCHAR_MODE
+      inline bool
+      need_endian_swap_utf(xml_encoding le_, xml_encoding re_) // NOLINT(bugprone-easily-swappable-parameters)
+      {
+        return (le_ == encoding_utf16_be && re_ == encoding_utf16_le)
+               || (le_ == encoding_utf16_le && re_ == encoding_utf16_be)
+               || (le_ == encoding_utf32_be && re_ == encoding_utf32_le)
+               || (le_ == encoding_utf32_le && re_ == encoding_utf32_be);
+      }
+
+      inline bool
+      convert_buffer_endian_swap(char_t *&out_buffer, size_t &out_length, void const *contents, size_t size,
+                                 bool is_mutable)
+      {
+        auto const *data = static_cast<char_t const *>(contents);
+        size_t length    = size / sizeof(char_t);
+
+        if(is_mutable)
+        {
+          auto *buffer = const_cast<char_t *>(data); // NOLINT(cppcoreguidelines-pro-type-const-cast)
+
+          convert_wchar_endian_swap(buffer, data, length);
+
+          out_buffer = buffer;
+          out_length = length;
+        }
+        else
+        {
+          auto *buffer = static_cast<char_t *>(     // NOLINT(cppcoreguidelines-owning-memory)
+            malloc((length + 1) * sizeof(char_t))); // NOLINT(cppcoreguidelines-no-malloc)
+          if(buffer == nullptr) return false;
+
+          convert_wchar_endian_swap(buffer, data, length);
+          buffer[length] = 0;
+
+          out_buffer     = buffer;
+          out_length     = length + 1;
+        }
+
+        return true;
+      }
+
+      template <typename D>
+      inline bool
+      convert_buffer_generic(char_t *&out_buffer, size_t &out_length, void const *contents, size_t size, D)
+      {
+        typename D::type const *data = static_cast<typename D::type const *>(contents);
+        size_t data_length           = size / sizeof(typename D::type);
+
+        // first pass: get length in wchar_t units
+        size_t length = D::process(data, data_length, 0, wchar_counter());
+
+        // allocate buffer of suitable length
+        auto *buffer = static_cast<char_t *>(     // NOLINT(cppcoreguidelines-owning-memory)
+          malloc((length + 1) * sizeof(char_t))); // NOLINT(cppcoreguidelines-no-malloc)
+        if(buffer == nullptr) return false;
+
+        // second pass: convert utf16 input to wchar_t
+        wchar_writer::value_type obegin = reinterpret_cast<wchar_writer::value_type>(buffer);
+        wchar_writer::value_type oend   = D::process(data, data_length, obegin, wchar_writer());
+
+        LUMEX_ASSERT(oend == obegin + length);
+        *oend      = 0;
+
+        out_buffer = buffer;
+        out_length = length + 1;
+
+        return true;
+      }
+
+      inline bool
+      convert_buffer(char_t *&out_buffer, size_t &out_length, xml_encoding encoding, void const *contents, size_t size,
+                     bool is_mutable)
+      {
+        // get native encoding
+        xml_encoding wchar_encoding = get_wchar_encoding();
+
+        // fast path: no conversion required
+        if(encoding == wchar_encoding) return get_mutable_buffer(out_buffer, out_length, contents, size, is_mutable);
+
+        // only endian-swapping is required
+        if(need_endian_swap_utf(encoding, wchar_encoding))
+          return convert_buffer_endian_swap(out_buffer, out_length, contents, size, is_mutable);
+
+        // source encoding is utf8
+        if(encoding == encoding_utf8)
+          return convert_buffer_generic(out_buffer, out_length, contents, size, utf8_decoder());
+
+        // source encoding is utf16
+        if(encoding == encoding_utf16_be || encoding == encoding_utf16_le)
+        {
+          xml_encoding native_encoding = is_little_endian() ? encoding_utf16_le : encoding_utf16_be;
+
+          return (native_encoding == encoding)
+                   ? convert_buffer_generic(out_buffer, out_length, contents, size, utf16_decoder<opt_false>())
+                   : convert_buffer_generic(out_buffer, out_length, contents, size, utf16_decoder<opt_true>());
+        }
+
+        // source encoding is utf32
+        if(encoding == encoding_utf32_be || encoding == encoding_utf32_le)
+        {
+          xml_encoding native_encoding = is_little_endian() ? encoding_utf32_le : encoding_utf32_be;
+
+          return (native_encoding == encoding)
+                   ? convert_buffer_generic(out_buffer, out_length, contents, size, utf32_decoder<opt_false>())
+                   : convert_buffer_generic(out_buffer, out_length, contents, size, utf32_decoder<opt_true>());
+        }
+
+        // source encoding is latin1
+        if(encoding == encoding_latin1)
+          return convert_buffer_generic(out_buffer, out_length, contents, size, latin1_decoder());
+
+        LUMEX_ASSERT(false && "Invalid encoding"); // unreachable
+        return false;
+      }
+#else
+      template <typename D>
+      inline bool
+      convert_buffer_generic(char_t *&out_buffer, size_t &out_length, void const *contents, size_t size, D /* unused */)
+      {
+        typename D::type const *data = static_cast<typename D::type const *>(contents);
+        size_t data_length           = size / sizeof(typename D::type);
+
+        // first pass: get length in utf8 units
+        size_t length = D::process(data, data_length, 0, utf8_counter());
+
+        // allocate buffer of suitable length
+        auto *buffer = static_cast<char_t *>(     // NOLINT(cppcoreguidelines-owning-memory)
+          malloc((length + 1) * sizeof(char_t))); // NOLINT(cppcoreguidelines-no-malloc)
+        if(buffer == nullptr) return false;
+
+        // second pass: convert utf16 input to utf8
+        uint8_t *obegin = reinterpret_cast<uint8_t *>(buffer);
+        uint8_t *oend   = D::process(data, data_length, obegin, utf8_writer());
+
+        LUMEX_ASSERT(oend == obegin + length);
+        *oend      = 0;
+
+        out_buffer = buffer;
+        out_length = length + 1;
+
+        return true;
+      }
+
+      inline size_t
+      get_latin1_7bit_prefix_length(uint8_t const *data, size_t size)
+      {
+        for(size_t i = 0; i < size; ++i)
+          if(data[i] > 127) return i;
+
+        return size;
+      }
+
+      inline bool
+      convert_buffer_latin1(char_t *&out_buffer, size_t &out_length, void const *contents, size_t size, bool is_mutable)
+      {
+        uint8_t const *data = static_cast<uint8_t const *>(contents);
+        size_t data_length  = size;
+
+        // get size of prefix that does not need utf8 conversion
+        size_t prefix_length = get_latin1_7bit_prefix_length(data, data_length);
+        LUMEX_ASSERT(prefix_length <= data_length);
+
+        uint8_t const *postfix = data + prefix_length;
+        size_t postfix_length  = data_length - prefix_length;
+
+        // if no conversion is needed, just return the original buffer
+        if(postfix_length == 0) return get_mutable_buffer(out_buffer, out_length, contents, size, is_mutable);
+
+        // first pass: get length in utf8 units
+        size_t length = prefix_length + latin1_decoder::process(postfix, postfix_length, 0, utf8_counter());
+
+        // allocate buffer of suitable length
+        auto *buffer =                                                  // NOLINT(cppcoreguidelines-owning-memory)
+          static_cast<char_t *>(malloc((length + 1) * sizeof(char_t))); // NOLINT(cppcoreguidelines-no-malloc)
+        if(buffer == nullptr) return false;
+
+        // second pass: convert latin1 input to utf8
+        memcpy(buffer, data, prefix_length);
+
+        uint8_t *obegin = reinterpret_cast<uint8_t *>(buffer);
+        uint8_t *oend   = latin1_decoder::process(postfix, postfix_length, obegin + prefix_length, utf8_writer());
+
+        LUMEX_ASSERT(oend == obegin + length);
+        *oend      = 0;
+
+        out_buffer = buffer;
+        out_length = length + 1;
+
+        return true;
+      }
+
+      inline bool
+      convert_buffer(char_t *&out_buffer, size_t &out_length, xml_encoding encoding, void const *contents, size_t size,
+                     bool is_mutable)
+      {
+        // fast path: no conversion required
+        if(encoding == encoding_utf8) return get_mutable_buffer(out_buffer, out_length, contents, size, is_mutable);
+
+        // source encoding is utf16
+        if(encoding == encoding_utf16_be || encoding == encoding_utf16_le)
+        {
+          xml_encoding native_encoding = is_little_endian() ? encoding_utf16_le : encoding_utf16_be;
+
+          return (native_encoding == encoding)
+                   ? convert_buffer_generic(out_buffer, out_length, contents, size, utf16_decoder<opt_false>())
+                   : convert_buffer_generic(out_buffer, out_length, contents, size, utf16_decoder<opt_true>());
+        }
+
+        // source encoding is utf32
+        if(encoding == encoding_utf32_be || encoding == encoding_utf32_le)
+        {
+          xml_encoding native_encoding = is_little_endian() ? encoding_utf32_le : encoding_utf32_be;
+
+          return (native_encoding == encoding)
+                   ? convert_buffer_generic(out_buffer, out_length, contents, size, utf32_decoder<opt_false>())
+                   : convert_buffer_generic(out_buffer, out_length, contents, size, utf32_decoder<opt_true>());
+        }
+
+        // source encoding is latin1
+        if(encoding == encoding_latin1)
+          return convert_buffer_latin1(out_buffer, out_length, contents, size, is_mutable);
+
+        LUMEX_ASSERT(false && "Invalid encoding"); // unreachable
+        return false;
+      }
+#endif
+
+      inline size_t
+      as_utf8_begin(const wchar_t *str, size_t length)
+      {
+        // get length in utf8 characters
+        return wchar_decoder::process(str, length, 0, utf8_counter());
+      }
+
+      inline void
+      as_utf8_end(char *buffer, size_t size, wchar_t const *str, size_t length)
+      {
+        // convert to utf8
+        uint8_t *begin = reinterpret_cast<uint8_t *>(buffer);
+        uint8_t *end   = wchar_decoder::process(str, length, begin, utf8_writer());
+
+        LUMEX_ASSERT(begin + size == end);
+        (void)(end == nullptr);
+        (void)(size == 0U);
+      }
+
+      inline std::string
+      as_utf8_impl(wchar_t const *str, size_t length)
+      {
+        // first pass: get length in utf8 characters
+        size_t size = as_utf8_begin(str, length);
+
+        // allocate resulting string
+        std::string result;
+        result.resize(size);
+
+        // second pass: convert to utf8
+        if(size > 0) as_utf8_end(&result[0], size, str, length);
+
+        return result;
+      }
+
+      inline std::basic_string<wchar_t>
+      as_wide_impl(char const *str, size_t size)
+      {
+        uint8_t const *data = reinterpret_cast<uint8_t const *>(str);
+
+        // first pass: get length in wchar_t units
+        size_t length = utf8_decoder::process(data, size, 0, wchar_counter());
+
+        // allocate resulting string
+        std::basic_string<wchar_t> result;
+        result.resize(length);
+
+        // second pass: convert to wchar_t
+        if(length > 0)
+        {
+          wchar_writer::value_type begin = reinterpret_cast<wchar_writer::value_type>(&result[0]);
+          wchar_writer::value_type end   = utf8_decoder::process(data, size, begin, wchar_writer());
+
+          LUMEX_ASSERT(begin + length == end);
+          (void)(end == nullptr);
+        }
+
+        return result;
+      }
+      template <typename D, typename T>
+      inline size_t
+      convert_buffer_output_generic(typename T::value_type dest, char_t const *data, size_t length, D /* unused */,
+                                    T /* unused */)
+      {
+        static_assert(sizeof(char_t) == sizeof(typename D::type));
+
+        typename T::value_type end = D::process(reinterpret_cast<typename D::type const *>(data), length, dest, T());
+
+        return static_cast<size_t>(end - dest) * sizeof(*dest);
+      }
+
+      template <typename D, typename T>
+      inline size_t
+      convert_buffer_output_generic(typename T::value_type dest, char_t const *data, size_t length, D /* unused */,
+                                    T /* unused */, bool opt_swap)
+      {
+        static_assert(sizeof(char_t) == sizeof(typename D::type));
+
+        typename T::value_type end = D::process(reinterpret_cast<typename D::type const *>(data), length, dest, T());
+
+        if(opt_swap)
+          for(typename T::value_type i = dest; i != end; ++i) *i = endian_swap(*i);
+
+        return static_cast<size_t>(end - dest) * sizeof(*dest);
+      }
+
+#ifdef LUMEX_XML_WCHAR_MODE
+      inline size_t
+      get_valid_length(char_t const *data, size_t length)
+      {
+        if(length < 1) return 0;
+
+        // discard last character if it's the lead of a surrogate pair
+        return (sizeof(wchar_t) == 2
+                && static_cast<unsigned int>(static_cast<uint16_t>(data[length - 1]) - 0xD800) < 0x400)
+                 ? length - 1
+                 : length;
+      }
+
+      inline size_t
+      convert_buffer_output(char_t const *r_char, uint8_t *r_u8, uint16_t *r_u16, uint32_t *r_u32, char_t const *data,
+                            size_t length, xml_encoding encoding)
+      {
+        // only endian-swapping is required
+        if(need_endian_swap_utf(encoding, get_wchar_encoding()))
+        {
+          convert_wchar_endian_swap(r_char, data, length);
+
+          return length * sizeof(char_t);
+        }
+
+        // convert to utf8
+        if(encoding == encoding_utf8)
+          return convert_buffer_output_generic(r_u8, data, length, wchar_decoder(), utf8_writer());
+
+        // convert to utf16
+        if(encoding == encoding_utf16_be || encoding == encoding_utf16_le)
+        {
+          xml_encoding native_encoding = is_little_endian() ? encoding_utf16_le : encoding_utf16_be;
+
+          return convert_buffer_output_generic(r_u16, data, length, wchar_decoder(), utf16_writer(),
+                                               native_encoding != encoding);
+        }
+
+        // convert to utf32
+        if(encoding == encoding_utf32_be || encoding == encoding_utf32_le)
+        {
+          xml_encoding native_encoding = is_little_endian() ? encoding_utf32_le : encoding_utf32_be;
+
+          return convert_buffer_output_generic(r_u32, data, length, wchar_decoder(), utf32_writer(),
+                                               native_encoding != encoding);
+        }
+
+        // convert to latin1
+        if(encoding == encoding_latin1)
+          return convert_buffer_output_generic(r_u8, data, length, wchar_decoder(), latin1_writer());
+
+        LUMEX_ASSERT(false && "Invalid encoding"); // unreachable
+        return 0;
+      }
+#else
+      inline size_t
+      get_valid_length(char_t const *data, size_t length)
+      {
+        if(length < 5) return 0;
+
+        for(size_t i = 1; i <= 4; ++i)
+        {
+          auto chr = static_cast<uint8_t>(data[length - i]);
+
+          // either a standalone character or a leading one
+          if((chr & 0xc0) != 0x80) return length - i;
+        }
+
+        // there are four non-leading characters at the end, sequence tail is broken so might as well process the whole
+        // chunk
+        return length;
+      }
+
+      inline size_t
+      convert_buffer_output(char_t * /* r_char */, uint8_t *r_u8, uint16_t *r_u16, uint32_t *r_u32, char_t const *data,
+                            size_t length, xml_encoding encoding)
+      {
+        if(encoding == encoding_utf16_be || encoding == encoding_utf16_le)
+        {
+          xml_encoding native_encoding = is_little_endian() ? encoding_utf16_le : encoding_utf16_be;
+
+          return convert_buffer_output_generic(r_u16, data, length, utf8_decoder(), utf16_writer(),
+                                               native_encoding != encoding);
+        }
+
+        if(encoding == encoding_utf32_be || encoding == encoding_utf32_le)
+        {
+          xml_encoding native_encoding = is_little_endian() ? encoding_utf32_le : encoding_utf32_be;
+
+          return convert_buffer_output_generic(r_u32, data, length, utf8_decoder(), utf32_writer(),
+                                               native_encoding != encoding);
+        }
+
+        if(encoding == encoding_latin1)
+          return convert_buffer_output_generic(r_u8, data, length, utf8_decoder(), latin1_writer());
+
+        LUMEX_ASSERT(false && "Invalid encoding"); // unreachable
+        return 0;
+      }
+#endif
     } // namespace Utility
   } // namespace Xml
 } // namespace Lumex
