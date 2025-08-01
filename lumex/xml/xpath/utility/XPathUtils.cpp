@@ -1,6 +1,6 @@
 #include <algorithm>
 
-#include "lumex/core/utility/LumexMacros.hpp"
+#include "lumex/core/utility/LumexAssert.hpp"
 
 #include "lumex/xml/xpath/document/XPathDocumentOrderComparator.hpp"
 #include "lumex/xml/xpath/variable/XPathVariable.hpp"

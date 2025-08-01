@@ -1,6 +1,6 @@
 #include "XmlNodeIterator.hpp"
 
-#include "lumex/core/utility/LumexMacros.hpp"
+#include "lumex/core/utility/LumexAssert.hpp"
 
 using namespace Lumex::Xml::Node;
 

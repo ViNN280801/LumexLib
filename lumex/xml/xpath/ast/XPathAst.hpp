@@ -52,8 +52,8 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
 
           template <class Comp>
           static bool
-          compare_eq(XPathAstNode *lhs, XPathAstNode *rhs, XPathContext const &c,
-                     XPathStack const &stack, Comp const &comp)
+          compare_eq(XPathAstNode *lhs, XPathAstNode *rhs, XPathContext const &c, XPathStack const &stack,
+                     Comp const &comp)
           {
             xpath_value_type lt = lhs->rettype(), rt = rhs->rettype();
 
@@ -65,7 +65,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
                 return comp(lhs->eval_number(c, stack), rhs->eval_number(c, stack));
               else if(lt == xpath_type_string || rt == xpath_type_string)
               {
-                xpath_allocator_capture cr(stack.result);
+                XPathAllocatorCapture cr(stack.result);
 
                 xpath_string ls = lhs->eval_string(c, stack);
                 xpath_string rs = rhs->eval_string(c, stack);
@@ -75,15 +75,15 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
             }
             else if(lt == xpath_type_node_set && rt == xpath_type_node_set)
             {
-              xpath_allocator_capture cr(stack.result);
+              XPathAllocatorCapture cr(stack.result);
 
-              xpath_node_set_raw ls = lhs->eval_node_set(c, stack, nodeset_eval_all);
-              xpath_node_set_raw rs = rhs->eval_node_set(c, stack, nodeset_eval_all);
+              XPathNodeSetRaw ls = lhs->eval_node_set(c, stack, nodeset_eval_all);
+              XPathNodeSetRaw rs = rhs->eval_node_set(c, stack, nodeset_eval_all);
 
-              for(xpath_node const *li = ls.begin(); li != ls.end(); ++li)
-                for(xpath_node const *ri = rs.begin(); ri != rs.end(); ++ri)
+              for(XPathNode const *li = ls.begin(); li != ls.end(); ++li)
+                for(XPathNode const *ri = rs.begin(); ri != rs.end(); ++ri)
                 {
-                  xpath_allocator_capture cri(stack.result);
+                  XPathAllocatorCapture cri(stack.result);
 
                   if(comp(string_value(*li, stack.result), string_value(*ri, stack.result))) return true;
                 }
@@ -102,14 +102,14 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
                 return comp(lhs->eval_boolean(c, stack), rhs->eval_boolean(c, stack));
               else if(lt == xpath_type_number)
               {
-                xpath_allocator_capture cr(stack.result);
+                XPathAllocatorCapture cr(stack.result);
 
-                double l              = lhs->eval_number(c, stack);
-                xpath_node_set_raw rs = rhs->eval_node_set(c, stack, nodeset_eval_all);
+                double l           = lhs->eval_number(c, stack);
+                XPathNodeSetRaw rs = rhs->eval_node_set(c, stack, nodeset_eval_all);
 
-                for(xpath_node const *ri = rs.begin(); ri != rs.end(); ++ri)
+                for(XPathNode const *ri = rs.begin(); ri != rs.end(); ++ri)
                 {
-                  xpath_allocator_capture cri(stack.result);
+                  XPathAllocatorCapture cri(stack.result);
 
                   if(comp(l, convert_string_to_number(string_value(*ri, stack.result).c_str()))) return true;
                 }
@@ -118,14 +118,14 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
               }
               else if(lt == xpath_type_string)
               {
-                xpath_allocator_capture cr(stack.result);
+                XPathAllocatorCapture cr(stack.result);
 
-                xpath_string l        = lhs->eval_string(c, stack);
-                xpath_node_set_raw rs = rhs->eval_node_set(c, stack, nodeset_eval_all);
+                xpath_string l     = lhs->eval_string(c, stack);
+                XPathNodeSetRaw rs = rhs->eval_node_set(c, stack, nodeset_eval_all);
 
-                for(xpath_node const *ri = rs.begin(); ri != rs.end(); ++ri)
+                for(XPathNode const *ri = rs.begin(); ri != rs.end(); ++ri)
                 {
-                  xpath_allocator_capture cri(stack.result);
+                  XPathAllocatorCapture cri(stack.result);
 
                   if(comp(l, string_value(*ri, stack.result))) return true;
                 }
@@ -146,8 +146,8 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
 
           template <class Comp>
           static bool
-          compare_rel(XPathAstNode *lhs, XPathAstNode *rhs, XPathContext const &c,
-                      XPathStack const &stack, Comp const &comp)
+          compare_rel(XPathAstNode *lhs, XPathAstNode *rhs, XPathContext const &c, XPathStack const &stack,
+                      Comp const &comp)
           {
             xpath_value_type lt = lhs->rettype(), rt = rhs->rettype();
 
@@ -155,20 +155,20 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
               return comp(lhs->eval_number(c, stack), rhs->eval_number(c, stack));
             else if(lt == xpath_type_node_set && rt == xpath_type_node_set)
             {
-              xpath_allocator_capture cr(stack.result);
+              XPathAllocatorCapture cr(stack.result);
 
-              xpath_node_set_raw ls = lhs->eval_node_set(c, stack, nodeset_eval_all);
-              xpath_node_set_raw rs = rhs->eval_node_set(c, stack, nodeset_eval_all);
+              XPathNodeSetRaw ls = lhs->eval_node_set(c, stack, nodeset_eval_all);
+              XPathNodeSetRaw rs = rhs->eval_node_set(c, stack, nodeset_eval_all);
 
-              for(xpath_node const *li = ls.begin(); li != ls.end(); ++li)
+              for(XPathNode const *li = ls.begin(); li != ls.end(); ++li)
               {
-                xpath_allocator_capture cri(stack.result);
+                XPathAllocatorCapture cri(stack.result);
 
                 double l = convert_string_to_number(string_value(*li, stack.result).c_str());
 
-                for(xpath_node const *ri = rs.begin(); ri != rs.end(); ++ri)
+                for(XPathNode const *ri = rs.begin(); ri != rs.end(); ++ri)
                 {
-                  xpath_allocator_capture crii(stack.result);
+                  XPathAllocatorCapture crii(stack.result);
 
                   if(comp(l, convert_string_to_number(string_value(*ri, stack.result).c_str()))) return true;
                 }
@@ -178,14 +178,14 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
             }
             else if(lt != xpath_type_node_set && rt == xpath_type_node_set)
             {
-              xpath_allocator_capture cr(stack.result);
+              XPathAllocatorCapture cr(stack.result);
 
-              double l              = lhs->eval_number(c, stack);
-              xpath_node_set_raw rs = rhs->eval_node_set(c, stack, nodeset_eval_all);
+              double l           = lhs->eval_number(c, stack);
+              XPathNodeSetRaw rs = rhs->eval_node_set(c, stack, nodeset_eval_all);
 
-              for(xpath_node const *ri = rs.begin(); ri != rs.end(); ++ri)
+              for(XPathNode const *ri = rs.begin(); ri != rs.end(); ++ri)
               {
-                xpath_allocator_capture cri(stack.result);
+                XPathAllocatorCapture cri(stack.result);
 
                 if(comp(l, convert_string_to_number(string_value(*ri, stack.result).c_str()))) return true;
               }
@@ -194,14 +194,14 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
             }
             else if(lt == xpath_type_node_set && rt != xpath_type_node_set)
             {
-              xpath_allocator_capture cr(stack.result);
+              XPathAllocatorCapture cr(stack.result);
 
-              xpath_node_set_raw ls = lhs->eval_node_set(c, stack, nodeset_eval_all);
-              double r              = rhs->eval_number(c, stack);
+              XPathNodeSetRaw ls = lhs->eval_node_set(c, stack, nodeset_eval_all);
+              double r           = rhs->eval_number(c, stack);
 
-              for(xpath_node const *li = ls.begin(); li != ls.end(); ++li)
+              for(XPathNode const *li = ls.begin(); li != ls.end(); ++li)
               {
-                xpath_allocator_capture cri(stack.result);
+                XPathAllocatorCapture cri(stack.result);
 
                 if(comp(convert_string_to_number(string_value(*li, stack.result).c_str()), r)) return true;
               }
@@ -216,8 +216,8 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
           }
 
           static void
-          apply_predicate_boolean(xpath_node_set_raw &ns, size_t first, XPathAstNode *expr,
-                                  XPathStack const &stack, bool once)
+          apply_predicate_boolean(XPathNodeSetRaw &ns, size_t first, XPathAstNode *expr, XPathStack const &stack,
+                                  bool once)
           {
             LUMEX_ASSERT(ns.size() >= first);
             LUMEX_ASSERT(expr->rettype() != xpath_type_number);
@@ -225,10 +225,10 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
             size_t i         = 1;
             size_t size      = ns.size() - first;
 
-            xpath_node *last = ns.begin() + first;
+            XPathNode *last = ns.begin() + first;
 
             // remove_if... or well, sort of
-            for(xpath_node *it = last; it != ns.end(); ++it, ++i)
+            for(XPathNode *it = last; it != ns.end(); ++it, ++i)
             {
               XPathContext c(*it, i, size);
 
@@ -244,8 +244,8 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
           }
 
           static void
-          apply_predicate_number(xpath_node_set_raw &ns, size_t first, XPathAstNode *expr,
-                                 XPathStack const &stack, bool once)
+          apply_predicate_number(XPathNodeSetRaw &ns, size_t first, XPathAstNode *expr, XPathStack const &stack,
+                                 bool once)
           {
             LUMEX_ASSERT(ns.size() >= first);
             LUMEX_ASSERT(expr->rettype() == xpath_type_number);
@@ -253,10 +253,10 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
             size_t i         = 1;
             size_t size      = ns.size() - first;
 
-            xpath_node *last = ns.begin() + first;
+            XPathNode *last = ns.begin() + first;
 
             // remove_if... or well, sort of
-            for(xpath_node *it = last; it != ns.end(); ++it, ++i)
+            for(XPathNode *it = last; it != ns.end(); ++it, ++i)
             {
               XPathContext c(*it, i, size);
 
@@ -272,17 +272,16 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
           }
 
           static void
-          apply_predicate_number_const(xpath_node_set_raw &ns, size_t first, XPathAstNode *expr,
-                                       XPathStack const &stack)
+          apply_predicate_number_const(XPathNodeSetRaw &ns, size_t first, XPathAstNode *expr, XPathStack const &stack)
           {
             LUMEX_ASSERT(ns.size() >= first);
             LUMEX_ASSERT(expr->rettype() == xpath_type_number);
 
             size_t size      = ns.size() - first;
 
-            xpath_node *last = ns.begin() + first;
+            XPathNode *last = ns.begin() + first;
 
-            xpath_node cn;
+            XPathNode cn;
             XPathContext c(cn, 1, size);
 
             double er = expr->eval_number(c, stack);
@@ -293,7 +292,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
 
               if(er == static_cast<double>(eri))
               {
-                xpath_node r = last[eri - 1];
+                XPathNode r = last[eri - 1];
 
                 *last++      = r;
               }
@@ -303,7 +302,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
           }
 
           void
-          apply_predicate(xpath_node_set_raw &ns, size_t first, XPathStack const &stack, bool once)
+          apply_predicate(XPathNodeSetRaw &ns, size_t first, XPathStack const &stack, bool once)
           {
             if(ns.size() == first) return;
 
@@ -318,8 +317,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
           }
 
           void
-          apply_predicates(xpath_node_set_raw &ns, size_t first, XPathStack const &stack,
-                           Types::nodeset_eval_t eval)
+          apply_predicates(XPathNodeSetRaw &ns, size_t first, XPathStack const &stack, Types::nodeset_eval_t eval)
           {
             if(ns.size() == first) return;
 
@@ -330,7 +328,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
           }
 
           bool
-          step_push(xpath_node_set_raw &ns, xml_attribute_struct *a, xml_node_struct *parent, xpath_allocator *alloc)
+          step_push(XPathNodeSetRaw &ns, xml_attribute_struct *a, xml_node_struct *parent, xpath_allocator *alloc)
           {
             LUMEX_ASSERT(a);
 
@@ -341,7 +339,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
             case nodetest_name:
               if(strequal(name, _data.nodetest) && is_xpath_attribute(name))
               {
-                ns.push_back(xpath_node(xml_attribute(a), xml_node(parent)), alloc);
+                ns.push_back(XPathNode(xml_attribute(a), xml_node(parent)), alloc);
                 return true;
               }
               break;
@@ -350,7 +348,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
             case nodetest_all:
               if(is_xpath_attribute(name))
               {
-                ns.push_back(xpath_node(xml_attribute(a), xml_node(parent)), alloc);
+                ns.push_back(XPathNode(xml_attribute(a), xml_node(parent)), alloc);
                 return true;
               }
               break;
@@ -358,7 +356,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
             case nodetest_all_in_namespace:
               if(starts_with(name, _data.nodetest) && is_xpath_attribute(name))
               {
-                ns.push_back(xpath_node(xml_attribute(a), xml_node(parent)), alloc);
+                ns.push_back(XPathNode(xml_attribute(a), xml_node(parent)), alloc);
                 return true;
               }
               break;
@@ -370,7 +368,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
           }
 
           bool
-          step_push(xpath_node_set_raw &ns, xml_node_struct *n, xpath_allocator *alloc)
+          step_push(XPathNodeSetRaw &ns, xml_node_struct *n, xpath_allocator *alloc)
           {
             LUMEX_ASSERT(n);
 
@@ -444,7 +442,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
 
           template <class T>
           void
-          step_fill(xpath_node_set_raw &ns, xml_node_struct *n, xpath_allocator *alloc, bool once, T)
+          step_fill(XPathNodeSetRaw &ns, xml_node_struct *n, xpath_allocator *alloc, bool once, T)
           {
             axis_t const axis = T::axis;
 
@@ -616,8 +614,8 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
 
           template <class T>
           void
-          step_fill(xpath_node_set_raw &ns, xml_attribute_struct *a, xml_node_struct *p, xpath_allocator *alloc,
-                    bool once, T v)
+          step_fill(XPathNodeSetRaw &ns, xml_attribute_struct *a, xml_node_struct *p, xpath_allocator *alloc, bool once,
+                    T v)
           {
             axis_t const axis = T::axis;
 
@@ -693,7 +691,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
 
           template <class T>
           void
-          step_fill(xpath_node_set_raw &ns, xpath_node const &xn, xpath_allocator *alloc, bool once, T v)
+          step_fill(XPathNodeSetRaw &ns, XPathNode const &xn, xpath_allocator *alloc, bool once, T v)
           {
             axis_t const axis = T::axis;
             bool const axis_has_attributes
@@ -707,7 +705,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
           }
 
           template <class T>
-          xpath_node_set_raw
+          XPathNodeSetRaw
           step_do(XPathContext const &c, XPathStack const &stack, Types::nodeset_eval_t eval, T v)
           {
             axis_t const axis       = T::axis;
@@ -720,17 +718,17 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
                         // coverity[mixed_enums]
                         (_right && !_right->_next && _right->_test == predicate_constant_one);
 
-            xpath_node_set_raw ns;
+            XPathNodeSetRaw ns;
             ns.set_type(axis_type);
 
             if(_left)
             {
-              xpath_node_set_raw s = _left->eval_node_set(c, stack, nodeset_eval_all);
+              XPathNodeSetRaw s = _left->eval_node_set(c, stack, nodeset_eval_all);
 
               // self axis preserves the original order
               if(axis == axis_self) ns.set_type(s.type());
 
-              for(xpath_node const *it = s.begin(); it != s.end(); ++it)
+              for(XPathNode const *it = s.begin(); it != s.end(); ++it)
               {
                 size_t size = ns.size();
 
@@ -799,7 +797,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
           }
 
           XPathAstNode(ast_type_t type, xpath_value_type rettype_, XPathAstNode *left = nullptr,
-                               XPathAstNode *right = nullptr)
+                       XPathAstNode *right = nullptr)
               : m_type(static_cast<char>(type)),
                 _rettype(static_cast<char>(rettype_)),
                 _axis(0),
@@ -809,8 +807,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
                 _next(nullptr)
           {}
 
-          XPathAstNode(ast_type_t type, XPathAstNode *left, axis_t axis, nodetest_t test,
-                               char_t const *contents)
+          XPathAstNode(ast_type_t type, XPathAstNode *left, axis_t axis, nodetest_t test, char_t const *contents)
               : m_type(static_cast<char>(type)),
                 _rettype(xpath_type_node_set),
                 _axis(static_cast<char>(axis)),
@@ -823,8 +820,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
             _data.nodetest = contents;
           }
 
-          XPathAstNode(ast_type_t type, XPathAstNode *left, XPathAstNode *right,
-                               predicate_t test)
+          XPathAstNode(ast_type_t type, XPathAstNode *left, XPathAstNode *right, predicate_t test)
               : m_type(static_cast<char>(type)),
                 _rettype(xpath_type_node_set),
                 _axis(0),
@@ -870,7 +866,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
             case ast_op_greater_or_equal: return compare_rel(_right, _left, c, stack, less_equal());
 
             case ast_func_starts_with: {
-              xpath_allocator_capture cr(stack.result);
+              XPathAllocatorCapture cr(stack.result);
 
               xpath_string lr = _left->eval_string(c, stack);
               xpath_string rr = _right->eval_string(c, stack);
@@ -879,7 +875,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
             }
 
             case ast_func_contains: {
-              xpath_allocator_capture cr(stack.result);
+              XPathAllocatorCapture cr(stack.result);
 
               xpath_string lr = _left->eval_string(c, stack);
               xpath_string rr = _right->eval_string(c, stack);
@@ -898,7 +894,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
             case ast_func_lang: {
               if(c.n.attribute()) return false;
 
-              xpath_allocator_capture cr(stack.result);
+              XPathAllocatorCapture cr(stack.result);
 
               xpath_string lang = _left->eval_string(c, stack);
 
@@ -951,13 +947,13 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
             case xpath_type_number: return convert_number_to_boolean(eval_number(c, stack));
 
             case xpath_type_string: {
-              xpath_allocator_capture cr(stack.result);
+              XPathAllocatorCapture cr(stack.result);
 
               return !eval_string(c, stack).empty();
             }
 
             case xpath_type_node_set: {
-              xpath_allocator_capture cr(stack.result);
+              XPathAllocatorCapture cr(stack.result);
 
               return !eval_node_set(c, stack, nodeset_eval_any).empty();
             }
@@ -992,25 +988,25 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
             case ast_func_position: return static_cast<double>(c.position);
 
             case ast_func_count: {
-              xpath_allocator_capture cr(stack.result);
+              XPathAllocatorCapture cr(stack.result);
 
               return static_cast<double>(_left->eval_node_set(c, stack, nodeset_eval_all).size());
             }
 
             case ast_func_string_length_0: {
-              xpath_allocator_capture cr(stack.result);
+              XPathAllocatorCapture cr(stack.result);
 
               return static_cast<double>(string_value(c.n, stack.result).length());
             }
 
             case ast_func_string_length_1: {
-              xpath_allocator_capture cr(stack.result);
+              XPathAllocatorCapture cr(stack.result);
 
               return static_cast<double>(_left->eval_string(c, stack).length());
             }
 
             case ast_func_number_0: {
-              xpath_allocator_capture cr(stack.result);
+              XPathAllocatorCapture cr(stack.result);
 
               return convert_string_to_number(string_value(c.n, stack.result).c_str());
             }
@@ -1018,15 +1014,15 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
             case ast_func_number_1: return _left->eval_number(c, stack);
 
             case ast_func_sum: {
-              xpath_allocator_capture cr(stack.result);
+              XPathAllocatorCapture cr(stack.result);
 
-              double r              = 0;
+              double r           = 0;
 
-              xpath_node_set_raw ns = _left->eval_node_set(c, stack, nodeset_eval_all);
+              XPathNodeSetRaw ns = _left->eval_node_set(c, stack, nodeset_eval_all);
 
-              for(xpath_node const *it = ns.begin(); it != ns.end(); ++it)
+              for(XPathNode const *it = ns.begin(); it != ns.end(); ++it)
               {
-                xpath_allocator_capture cri(stack.result);
+                XPathAllocatorCapture cri(stack.result);
 
                 r += convert_string_to_number(string_value(*it, stack.result).c_str());
               }
@@ -1068,7 +1064,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
             case xpath_type_string:
             case xpath_type_node_set: // implicit conversion to string
             {
-              xpath_allocator_capture cr(stack.result);
+              XPathAllocatorCapture cr(stack.result);
 
               return convert_string_to_number(eval_string(c, stack).c_str());
             }
@@ -1084,7 +1080,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
           {
             LUMEX_ASSERT(m_type == ast_func_concat);
 
-            xpath_allocator_capture ct(stack.temp);
+            XPathAllocatorCapture ct(stack.temp);
 
             // count the string number
             size_t count = 1;
@@ -1097,11 +1093,10 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
             // evaluate all strings to temporary stack
             XPathStack swapped_stack = {stack.temp, stack.result};
 
-            buffer[0]                        = _left->eval_string(c, swapped_stack);
+            buffer[0]                = _left->eval_string(c, swapped_stack);
 
-            size_t pos                       = 1;
-            for(XPathAstNode *n = _right; n; n = n->_next, ++pos)
-              buffer[pos] = n->eval_string(c, swapped_stack);
+            size_t pos               = 1;
+            for(XPathAstNode *n = _right; n; n = n->_next, ++pos) buffer[pos] = n->eval_string(c, swapped_stack);
             LUMEX_ASSERT(pos == count);
 
             // get total length
@@ -1130,46 +1125,46 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
             case ast_string_constant: return xpath_string::from_const(_data.string);
 
             case ast_func_local_name_0: {
-              xpath_node na = c.n;
+              XPathNode na = c.n;
 
               return xpath_string::from_const(local_name(na));
             }
 
             case ast_func_local_name_1: {
-              xpath_allocator_capture cr(stack.result);
+              XPathAllocatorCapture cr(stack.result);
 
-              xpath_node_set_raw ns = _left->eval_node_set(c, stack, nodeset_eval_first);
-              xpath_node na         = ns.first();
+              XPathNodeSetRaw ns = _left->eval_node_set(c, stack, nodeset_eval_first);
+              XPathNode na      = ns.first();
 
               return xpath_string::from_const(local_name(na));
             }
 
             case ast_func_name_0: {
-              xpath_node na = c.n;
+              XPathNode na = c.n;
 
               return xpath_string::from_const(qualified_name(na));
             }
 
             case ast_func_name_1: {
-              xpath_allocator_capture cr(stack.result);
+              XPathAllocatorCapture cr(stack.result);
 
-              xpath_node_set_raw ns = _left->eval_node_set(c, stack, nodeset_eval_first);
-              xpath_node na         = ns.first();
+              XPathNodeSetRaw ns = _left->eval_node_set(c, stack, nodeset_eval_first);
+              XPathNode na      = ns.first();
 
               return xpath_string::from_const(qualified_name(na));
             }
 
             case ast_func_namespace_uri_0: {
-              xpath_node na = c.n;
+              XPathNode na = c.n;
 
               return xpath_string::from_const(namespace_uri(na));
             }
 
             case ast_func_namespace_uri_1: {
-              xpath_allocator_capture cr(stack.result);
+              XPathAllocatorCapture cr(stack.result);
 
-              xpath_node_set_raw ns = _left->eval_node_set(c, stack, nodeset_eval_first);
-              xpath_node na         = ns.first();
+              XPathNodeSetRaw ns = _left->eval_node_set(c, stack, nodeset_eval_first);
+              XPathNode na      = ns.first();
 
               return xpath_string::from_const(namespace_uri(na));
             }
@@ -1181,27 +1176,27 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
             case ast_func_concat: return eval_string_concat(c, stack);
 
             case ast_func_substring_before: {
-              xpath_allocator_capture cr(stack.temp);
+              XPathAllocatorCapture cr(stack.temp);
 
               XPathStack swapped_stack = {stack.temp, stack.result};
 
-              xpath_string s                   = _left->eval_string(c, swapped_stack);
-              xpath_string p                   = _right->eval_string(c, swapped_stack);
+              xpath_string s           = _left->eval_string(c, swapped_stack);
+              xpath_string p           = _right->eval_string(c, swapped_stack);
 
-              char_t const *pos                = find_substring(s.c_str(), p.c_str());
+              char_t const *pos        = find_substring(s.c_str(), p.c_str());
 
               return pos ? xpath_string::from_heap(s.c_str(), pos, stack.result) : xpath_string();
             }
 
             case ast_func_substring_after: {
-              xpath_allocator_capture cr(stack.temp);
+              XPathAllocatorCapture cr(stack.temp);
 
               XPathStack swapped_stack = {stack.temp, stack.result};
 
-              xpath_string s                   = _left->eval_string(c, swapped_stack);
-              xpath_string p                   = _right->eval_string(c, swapped_stack);
+              xpath_string s           = _left->eval_string(c, swapped_stack);
+              xpath_string p           = _right->eval_string(c, swapped_stack);
 
-              char_t const *pos                = find_substring(s.c_str(), p.c_str());
+              char_t const *pos        = find_substring(s.c_str(), p.c_str());
               if(!pos) return xpath_string();
 
               char_t const *rbegin = pos + p.length();
@@ -1212,14 +1207,14 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
             }
 
             case ast_func_substring_2: {
-              xpath_allocator_capture cr(stack.temp);
+              XPathAllocatorCapture cr(stack.temp);
 
               XPathStack swapped_stack = {stack.temp, stack.result};
 
-              xpath_string s                   = _left->eval_string(c, swapped_stack);
-              size_t s_length                  = s.length();
+              xpath_string s           = _left->eval_string(c, swapped_stack);
+              size_t s_length          = s.length();
 
-              double first                     = round_nearest(_right->eval_number(c, stack));
+              double first             = round_nearest(_right->eval_number(c, stack));
 
               if(is_nan(first))
                 return xpath_string(); // NaN
@@ -1237,15 +1232,15 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
             }
 
             case ast_func_substring_3: {
-              xpath_allocator_capture cr(stack.temp);
+              XPathAllocatorCapture cr(stack.temp);
 
               XPathStack swapped_stack = {stack.temp, stack.result};
 
-              xpath_string s                   = _left->eval_string(c, swapped_stack);
-              size_t s_length                  = s.length();
+              xpath_string s           = _left->eval_string(c, swapped_stack);
+              size_t s_length          = s.length();
 
-              double first                     = round_nearest(_right->eval_number(c, stack));
-              double last                      = first + round_nearest(_right->_next->eval_number(c, stack));
+              double first             = round_nearest(_right->eval_number(c, stack));
+              double last              = first + round_nearest(_right->_next->eval_number(c, stack));
 
               if(is_nan(first) || is_nan(last))
                 return xpath_string();
@@ -1290,15 +1285,15 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
             }
 
             case ast_func_translate: {
-              xpath_allocator_capture cr(stack.temp);
+              XPathAllocatorCapture cr(stack.temp);
 
               XPathStack swapped_stack = {stack.temp, stack.result};
 
-              xpath_string s                   = _left->eval_string(c, stack);
-              xpath_string from                = _right->eval_string(c, swapped_stack);
-              xpath_string to                  = _right->_next->eval_string(c, swapped_stack);
+              xpath_string s           = _left->eval_string(c, stack);
+              xpath_string from        = _right->eval_string(c, swapped_stack);
+              xpath_string to          = _right->_next->eval_string(c, swapped_stack);
 
-              char_t *begin                    = s.data(stack.result);
+              char_t *begin            = s.data(stack.result);
               if(!begin) return xpath_string();
 
               char_t *end = translate(begin, from.c_str(), to.c_str(), to.length());
@@ -1339,11 +1334,11 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
             case xpath_type_number: return convert_number_to_string(eval_number(c, stack), stack.result);
 
             case xpath_type_node_set: {
-              xpath_allocator_capture cr(stack.temp);
+              XPathAllocatorCapture cr(stack.temp);
 
               XPathStack swapped_stack = {stack.temp, stack.result};
 
-              xpath_node_set_raw ns            = eval_node_set(c, swapped_stack, nodeset_eval_first);
+              XPathNodeSetRaw ns       = eval_node_set(c, swapped_stack, nodeset_eval_first);
               return ns.empty() ? xpath_string() : string_value(ns.first(), stack.result);
             }
 
@@ -1353,18 +1348,18 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
             }
           }
 
-          xpath_node_set_raw
+          XPathNodeSetRaw
           eval_node_set(XPathContext const &c, XPathStack const &stack, Types::nodeset_eval_t eval)
           {
             switch(m_type)
             {
             case ast_op_union: {
-              xpath_allocator_capture cr(stack.temp);
+              XPathAllocatorCapture cr(stack.temp);
 
               XPathStack swapped_stack = {stack.temp, stack.result};
 
-              xpath_node_set_raw ls            = _left->eval_node_set(c, stack, eval);
-              xpath_node_set_raw rs            = _right->eval_node_set(c, swapped_stack, eval);
+              XPathNodeSetRaw ls       = _left->eval_node_set(c, stack, eval);
+              XPathNodeSetRaw rs       = _right->eval_node_set(c, swapped_stack, eval);
 
               // we can optimize merging two sorted sets, but this is a very rare operation, so don't bother
               ls.set_type(XPathNodeSet::type_unsorted);
@@ -1376,7 +1371,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
             }
 
             case ast_filter: {
-              xpath_node_set_raw set = _left->eval_node_set(
+              XPathNodeSetRaw set = _left->eval_node_set(
                 c, stack, _test == predicate_constant_one ? nodeset_eval_first : nodeset_eval_all);
 
               // either expression is a number or it contains position() call; sort by document order
@@ -1389,7 +1384,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
               return set;
             }
 
-            case ast_func_id: return xpath_node_set_raw();
+            case ast_func_id: return XPathNodeSetRaw();
 
             case ast_step: {
               switch(_axis)
@@ -1412,7 +1407,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
 
               case axis_namespace:
                 // namespaced axis is not supported
-                return xpath_node_set_raw();
+                return XPathNodeSetRaw();
 
               case axis_parent: return step_do(c, stack, eval, axis_to_type<axis_parent>());
 
@@ -1424,14 +1419,14 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
 
               default:
                 LUMEX_ASSERT(false && "Unknown axis"); // unreachable
-                return xpath_node_set_raw();
+                return XPathNodeSetRaw();
               }
             }
 
             case ast_step_root: {
               LUMEX_ASSERT(!_right); // root step can't have any predicates
 
-              xpath_node_set_raw ns;
+              XPathNodeSetRaw ns;
 
               ns.set_type(XPathNodeSet::type_sorted);
 
@@ -1450,7 +1445,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
               {
                 XPathNodeSet const &s = _data.variable->get_node_set();
 
-                xpath_node_set_raw ns;
+                XPathNodeSetRaw ns;
 
                 ns.set_type(s.type());
                 ns.append(s.begin(), s.end(), stack.result);
@@ -1467,7 +1462,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
 
             // none of the ast types that return the value directly matched, but conversions to node set are invalid
             LUMEX_ASSERT(false && "Wrong expression for return type node set"); // unreachable
-            return xpath_node_set_raw();
+            return XPathNodeSetRaw();
           }
 
           void

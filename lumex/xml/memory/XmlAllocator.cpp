@@ -4,7 +4,6 @@
 #include "XmlMemoryPage.hpp"
 
 #include "lumex/core/utility/LumexAttributes.hpp"
-#include "lumex/core/utility/LumexMacros.hpp"
 
 #include "lumex/xml/constants/XmlConstants.hpp"
 #include "lumex/xml/types/XmlTypes.hpp"

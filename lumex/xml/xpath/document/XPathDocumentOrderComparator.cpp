@@ -1,4 +1,4 @@
-#include "lumex/core/utility/LumexMacros.hpp"
+#include "lumex/core/utility/LumexAssert.hpp"
 
 #include "lumex/xml/constants/XmlConstants.hpp"
 #include "lumex/xml/document/XmlDocument.hpp"

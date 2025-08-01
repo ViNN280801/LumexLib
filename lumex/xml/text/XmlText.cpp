@@ -1,10 +1,11 @@
-#include "XmlText.hpp"
-
 #include "lumex/xml/constants/XmlConstants.hpp"
 #include "lumex/xml/node/XmlNode.hpp"
 #include "lumex/xml/node/XmlNodeBase.hpp"
 #include "lumex/xml/utility/XmlMacros.hpp"
 #include "lumex/xml/utility/XmlUtils.hpp"
+
+
+#include "XmlText.hpp"
 
 using namespace Lumex::Xml::Text;
 using namespace Lumex::Xml::Node;

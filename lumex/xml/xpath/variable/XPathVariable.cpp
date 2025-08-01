@@ -1,6 +1,6 @@
 #define LUMEX_IMPLEMENTATION
 
-#include "lumex/core/utility/LumexMacros.hpp"
+#include "lumex/core/utility/LumexAssert.hpp"
 
 #include "lumex/xml/utility/XmlUtils.hpp"
 

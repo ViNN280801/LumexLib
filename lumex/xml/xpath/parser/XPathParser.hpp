@@ -2,10 +2,11 @@
 #define LUMEX_XML_XPATH_PARSER_HPP
 
 #include "lumex/xml/types/XmlTypes.hpp"
-#include "lumex/xml/xpath/XPathVariable.hpp"
 #include "lumex/xml/xpath/ast/XPathAst.hpp"
 #include "lumex/xml/xpath/memory/XPathAllocator.hpp"
+#include "lumex/xml/xpath/variable/XPathVariable.hpp"
 
+using namespace Lumex::Xml::XPath::Variable;
 using namespace Lumex::Xml::Types;
 using namespace Lumex::Xml::XPath::Memory;
 using namespace Lumex::Xml::XPath::Ast;
@@ -399,10 +400,10 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
             }
 
             case lex_string: {
-              XPathAstNode *args[2] = {nullptr};
-              size_t argc                   = 0;
+              XPathAstNode *args[2]       = {nullptr};
+              size_t argc                 = 0;
 
-              xpath_lexer_string function   = _lexer.contents();
+              xpath_lexer_string function = _lexer.contents();
               _lexer.next();
 
               XPathAstNode *last_arg = nullptr;
@@ -610,7 +611,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
             XPathAstNode *n = alloc_node(ast_step, set, axis, nt_type, nt_name_copy);
             if(!n) return nullptr;
 
-            size_t old_depth           = _depth;
+            size_t old_depth   = _depth;
 
             XPathAstNode *last = nullptr;
 
@@ -926,8 +927,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
           }
 
           static XPathAstNode *
-          parse(char_t const *query, xpath_variable_set *variables, XPathAllocator *alloc,
-                xpath_parse_result *result)
+          parse(char_t const *query, xpath_variable_set *variables, XPathAllocator *alloc, xpath_parse_result *result)
           {
             xpath_parser parser(query, variables, alloc, result);
 

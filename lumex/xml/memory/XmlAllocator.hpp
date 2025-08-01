@@ -1,9 +1,11 @@
 #ifndef LUMEX_XML_ALLOCATOR_HPP
 #define LUMEX_XML_ALLOCATOR_HPP
 
-#include "XmlMemoryPage.hpp"
+#include "lumex/core/utility/LumexAssert.hpp"
 
 #include "lumex/xml/types/XmlTypes.hpp"
+
+#include "XmlMemoryPage.hpp"
 
 using Lumex::Xml::Types::char_t;
 
