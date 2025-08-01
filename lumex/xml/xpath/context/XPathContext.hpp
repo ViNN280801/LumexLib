@@ -15,12 +15,12 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
       {
         struct XPathContext {
           Xml::XPath::Node::XPathNode node; // NOLINT(misc-non-private-member-variables-in-classes)
-          size_t position{};                        // NOLINT(misc-non-private-member-variables-in-classes)
-          size_t size{};                            // NOLINT(misc-non-private-member-variables-in-classes)
+          size_t position{};                // NOLINT(misc-non-private-member-variables-in-classes)
+          size_t size{};                    // NOLINT(misc-non-private-member-variables-in-classes)
 
           XPathContext(Xml::XPath::Node::XPathNode const &node_,
-                               size_t position_, // NOLINT(bugprone-easily-swappable-parameters)
-                               size_t size_)
+                       size_t position_, // NOLINT(bugprone-easily-swappable-parameters)
+                       size_t size_)
               : node(node_), position(position_), size(size_)
           {}
         };
