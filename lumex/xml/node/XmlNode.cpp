@@ -1347,7 +1347,8 @@ text_output_escaped( // NOLINT(misc-use-internal-linkage, readability-function-c
     char_t const *prev = str;
 
     // While *s is a usual symbol
-    LUMEX_XML_SCANWHILE_UNROLL( // NOLINT(cppcoreguidelines-pro-bounds-constant-array-index)
+    LUMEX_XML_SCANWHILE_UNROLL( // NOLINT(cppcoreguidelines-pro-bounds-constant-array-index,
+                                // readability-identifier-length)
       !LUMEX_XML_IS_CHARTYPEX(*str, type));
 
     writer.write_buffer(prev, static_cast<size_t>(str - prev));
