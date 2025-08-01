@@ -21,16 +21,13 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
       {
         using namespace Variable;
 
-        inline XPathNodeSet::type_t
-        xpath_get_order(XPathNode const *begin, XPathNode const *end);
+        XPathNodeSet::type_t xpath_get_order(XPathNode const *begin, XPathNode const *end);
 
-        inline XPathNodeSet::type_t
-        xpath_sort(XPathNode *begin, XPathNode *end, XPathNodeSet::type_t type, bool rev);
+        XPathNodeSet::type_t xpath_sort(XPathNode *begin, XPathNode *end, XPathNodeSet::type_t type, bool rev);
 
-        inline XPathNode
-        xpath_first(XPathNode const *begin, XPathNode const *end, XPathNodeSet::type_t type);
+        XPathNode xpath_first(XPathNode const *begin, XPathNode const *end, XPathNodeSet::type_t type);
 
-        inline bool copy_xpath_variable(XPathVariable *lhs, XPathVariable const *rhs);
+        bool copy_xpath_variable(XPathVariable *lhs, XPathVariable const *rhs);
       } // namespace Utility
     } // namespace XPath
   } // namespace Xml
