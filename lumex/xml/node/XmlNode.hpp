@@ -487,8 +487,10 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
                                   "negates the purpose of the getter.")
         XmlNodeBase *get() const;
 
-      private:
-        XmlNodeBase *m_root{};
+      protected:
+        XmlNodeBase
+          *m_root{}; // NOLINT(misc-non-private-member-variables-in-classes,
+                     // cppcoreguidelines-non-private-member-variables-in-classes) => need to use in XmlDocument
       };
 
       inline bool
