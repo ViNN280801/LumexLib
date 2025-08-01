@@ -1,6 +1,8 @@
 #ifndef LUMEX_XML_DOCUMENT_HPP
 #define LUMEX_XML_DOCUMENT_HPP
 
+#include "lumex/core/utility/LumexMacros.hpp"
+
 #include "lumex/xml/memory/XmlAllocator.hpp"
 #include "lumex/xml/memory/XmlMemoryPage.hpp"
 #include "lumex/xml/node/XmlNodeBase.hpp"
