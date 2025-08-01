@@ -23,7 +23,6 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
       };
 
       static size_t const kdefault_xml_memory_page_size = 32768 - sizeof(XmlMemoryPage); ///< Size of the memory page
-
     } // namespace Memory
   } // namespace Xml
 } // namespace Lumex

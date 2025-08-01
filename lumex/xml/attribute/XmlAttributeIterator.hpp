@@ -19,8 +19,6 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
         mutable XmlAttribute m_wrap;
         XmlNode m_parent;
 
-        XmlAttributeIterator(XmlAttributeBase *ref, XmlNodeBase *parent);
-
       public:
         // Iterator traits
         using difference_type   = ptrdiff_t;
@@ -32,6 +30,8 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
 
         // Default constructor
         XmlAttributeIterator() = default;
+
+        XmlAttributeIterator(XmlAttributeBase *ref, XmlNodeBase *parent);
 
         // Construct an iterator which points to the specified attribute
         XmlAttributeIterator(XmlAttribute const &attr, XmlNode const &parent);

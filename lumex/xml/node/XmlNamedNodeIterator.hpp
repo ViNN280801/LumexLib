@@ -4,7 +4,6 @@
 #include <iterator>
 
 #include "lumex/xml/node/XmlNode.hpp"
-#include "lumex/xml/types/XmlTypes.hpp"
 
 using namespace Lumex::Xml::Types;
 using namespace Lumex::Xml::Node;

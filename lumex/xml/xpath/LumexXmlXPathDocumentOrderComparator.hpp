@@ -20,16 +20,6 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
 
       bool node_is_before(xml_node_t *ln_node, xml_node_t *rn_node);
 
-      template <typename Object>
-      inline xml_document_t &
-      get_document(Object const *object)
-      {
-        LUMEX_ASSERT(object);
-
-        return *static_cast<xml_document_t *>(   // NOLINT(cppcoreguidelines-pro-type-static-cast-downcast)
-          LUMEX_XML_GETPAGE(object)->allocator); // NOLINT(cppcoreguidelines-pro-type-const-cast)
-      }
-
       void const *document_buffer_order(LumexXmlXPathNode const &xnode);
 
       struct document_order_comparator {

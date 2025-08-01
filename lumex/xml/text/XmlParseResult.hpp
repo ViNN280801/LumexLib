@@ -1,8 +1,6 @@
 #ifndef LUMEX_XML_PARSE_RESULT_HPP
 #define LUMEX_XML_PARSE_RESULT_HPP
 
-#include "lumex/LumexExport.hpp"
-
 #include "lumex/core/utility/LumexAttributes.hpp"
 
 #include "lumex/xml/types/XmlTypes.hpp"
@@ -13,9 +11,19 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
 {
   namespace Xml
   {
+    namespace Document
+    {
+      class XmlDocumentBase;
+    }
+
+    namespace Node
+    {
+      class XmlNodeBase;
+    }
+
     namespace Text
     {
-      struct LUMEX_API XmlParseResult {
+      struct XmlParseResult {
         // Parsing status (see xml_parse_status)
         Types::xml_parse_status status; // NOLINT(misc-non-private-member-variables-in-classes)
 
@@ -28,6 +36,8 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
         // Default constructor, initializes object to failed state
         XmlParseResult();
 
+        XmlParseResult(Types::xml_parse_status status);
+
         // Cast to bool operator
         operator bool() const;
 
@@ -36,6 +46,22 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
                                   "discarding it negates the purpose of the getter.")
         char const *description() const;
       };
+
+      inline XmlParseResult
+      make_parse_result(Types::xml_parse_status status, ptrdiff_t offset = 0)
+      {
+        XmlParseResult result;
+        result.status = status;
+        result.offset = offset;
+
+        return result;
+      }
+
+      XmlParseResult
+      load_buffer_impl(Document::XmlDocumentBase *doc, Node::XmlNodeBase *root, void *contents,
+                       size_t size, // NOLINT(bugprone-easily-swappable-parameters)
+                       unsigned int options, Types::xml_encoding encoding, bool is_mutable, bool own,
+                       Types::char_t **out_buffer);
     } // namespace Text
   } // namespace Xml
 } // namespace Lumex

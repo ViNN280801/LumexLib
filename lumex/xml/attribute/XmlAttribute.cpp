@@ -1,7 +1,9 @@
+#include "lumex/xml/node/XmlNodeBase.hpp"
 #include "lumex/xml/utility/XmlUtils.hpp"
 
 #include "XmlAttribute.hpp"
 
+using namespace Lumex::Xml::Node;
 using namespace Lumex::Xml::Types;
 using namespace Lumex::Xml::Utility;
 using namespace Lumex::Xml::Attribute;
@@ -173,6 +175,12 @@ inline XmlAttributeBase *
 XmlAttribute::get() const
 {
   return m_attr;
+}
+
+inline void
+XmlAttribute::set(XmlAttributeBase *attr)
+{
+  m_attr = attr;
 }
 
 inline XmlAttribute &
@@ -400,4 +408,13 @@ XmlAttribute::set_value(unsigned long long rhs)
 
   return set_value_integer<unsigned long long>(m_attr->value, m_attr->header, kxml_memory_page_value_allocated_mask,
                                                rhs, false);
+}
+
+inline bool
+Lumex::Xml::Utility::is_attribute_of(Attribute::XmlAttributeBase *attr, XmlNodeBase *node)
+{
+  for(XmlAttributeBase *attribute = node->first_attribute; attribute != nullptr; attribute = attribute->next_attribute)
+    if(attribute == attr) return true;
+
+  return false;
 }

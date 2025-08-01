@@ -35,6 +35,15 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
         XmlMemoryPage *m_root; // NOLINT(misc-non-private-member-variables-in-classes)
         size_t m_busy_size;    // NOLINT(misc-non-private-member-variables-in-classes)
       };
+
+      template <typename Object>
+      inline XmlAllocator &
+      get_allocator(Object const *object)
+      {
+        LUMEX_ASSERT(object);
+
+        return *LUMEX_XML_GETPAGE(object)->allocator; // NOLINT(cppcoreguidelines-pro-type-const-cast)
+      }
     } // namespace Memory
   } // namespace Xml
 } // namespace Lumex

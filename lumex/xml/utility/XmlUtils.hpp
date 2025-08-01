@@ -1457,6 +1457,47 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
         return 0;
       }
 #endif
+
+      inline bool
+      allow_insert_attribute(xml_node_type parent)
+      {
+        return parent == node_element || parent == node_declaration;
+      }
+
+      inline bool
+      allow_insert_child(xml_node_type parent, xml_node_type child)
+      {
+        if(parent != node_document && parent != node_element) return false;
+        if(child == node_document || child == node_null) return false;
+        if(parent != node_document && (child == node_declaration || child == node_doctype)) return false;
+
+        return true;
+      }
+
+      template <typename String, typename Header>
+      inline void
+      node_copy_string(String &dest, Header &header, uintptr_t header_mask, char_t *source, Header &source_header,
+                       XmlAllocator *alloc)
+      {
+        LUMEX_ASSERT(!dest && (header & header_mask) == 0); // copies are performed into fresh nodes
+
+        if(source)
+        {
+          if(alloc && (source_header & header_mask) == 0)
+          {
+            dest = source;
+
+            // since strcpy_insitu can reuse document buffer memory we need to mark both source and dest as shared
+            header |= kxml_memory_page_contents_shared_mask;
+            source_header |= kxml_memory_page_contents_shared_mask;
+          }
+          else
+          {
+            // if strcpy_insitu fails (out of memory) we just leave the destination name/value empty
+            (void)strcpy_insitu(dest, header, header_mask, source, strlength(source));
+          }
+        }
+      }
     } // namespace Utility
   } // namespace Xml
 } // namespace Lumex

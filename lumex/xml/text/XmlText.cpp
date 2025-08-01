@@ -1,5 +1,3 @@
-#define LUMEX_IMPLEMENTATION
-
 #include "XmlText.hpp"
 
 #include "lumex/xml/constants/XmlConstants.hpp"

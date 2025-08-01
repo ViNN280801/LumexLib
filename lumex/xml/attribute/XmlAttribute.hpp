@@ -7,7 +7,6 @@
 
 #include "lumex/core/utility/LumexAttributes.hpp"
 
-#include "lumex/xml/types/XmlTypes.hpp"
 #include "lumex/xml/utility/XmlMacros.hpp"
 
 #include "XmlAttributeBase.hpp"
@@ -184,10 +183,16 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
           "The returned pointer should be used; discarding it negates the purpose of the getter")
         XmlAttributeBase *get() const;
 
+        void set(XmlAttributeBase *attr);
+
       private:
         XmlAttributeBase *m_attr;
       };
     } // namespace Attribute
+    namespace Utility
+    {
+      bool is_attribute_of(Attribute::XmlAttributeBase *attr, Node::XmlNodeBase *node);
+    } // namespace Utility
   } // namespace Xml
 } // namespace Lumex
 

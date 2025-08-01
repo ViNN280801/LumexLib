@@ -23,7 +23,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
     {
       class XmlText
       {
-        // friend class XmlNode;
+        friend class XmlNode;
 
       public:
         using unspecified_bool_type = void (*)(XmlText ***);

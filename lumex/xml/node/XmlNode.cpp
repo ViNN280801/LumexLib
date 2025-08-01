@@ -1,12 +1,42 @@
 #include "lumex/xml/attribute/XmlAttributeIterator.hpp"
+#include "lumex/xml/document/LumexXmlDocument.hpp"
+#include "lumex/xml/memory/XmlAllocator.hpp"
+#include "lumex/xml/text/XmlParseResult.hpp"
+#include "lumex/xml/text/XmlText.hpp"
+#include "lumex/xml/types/XmlTypes.hpp"
 #include "lumex/xml/utility/XmlUtils.hpp"
 
 #include "XmlNode.hpp"
 #include "XmlNodeIterator.hpp"
 
+using namespace Lumex::Xml::Memory;
 using namespace Lumex::Xml::Attribute;
 using namespace Lumex::Xml::Node;
 using namespace Lumex::Xml::Utility;
+using namespace Lumex::Xml::Document;
+using namespace Lumex::Xml::Text;
+
+inline bool
+allow_move(XmlNode parent, XmlNode child)
+{
+  // check that child can be a child of parent
+  if(!allow_insert_child(parent.type(), child.type())) return false;
+
+  // check that node is not moved between documents
+  if(parent.root() != child.root()) return false;
+
+  // check that new parent is not in the child subtree
+  XmlNode cur = parent;
+
+  while(cur != nullptr)
+  {
+    if(cur == child) return false;
+
+    cur = cur.parent();
+  }
+
+  return true;
+}
 
 inline XmlNode::XmlNode() : m_root(nullptr) {}
 
@@ -258,10 +288,10 @@ XmlNode::previous_sibling(string_view_t name_) const
 inline XmlAttribute
 XmlNode::attribute(const char_t *name_, XmlAttribute &hint_) const
 {
-  XmlAttributeBase *hint = hint_._attr;
+  XmlAttributeBase *hint = hint_.get();
 
   // if hint is not an attribute of node, behavior is not defined
-  LUMEX_ASSERT(!hint || (m_root && impl::is_attribute_of(hint, m_root)));
+  LUMEX_ASSERT(!hint || (m_root && Utility::is_attribute_of(hint, m_root)));
 
   if(m_root == nullptr) return {};
 
@@ -272,7 +302,7 @@ XmlNode::attribute(const char_t *name_, XmlAttribute &hint_) const
     if(iname && Utility::strequal(name_, iname))
     {
       // update hint to maximize efficiency of searching for consecutive attributes
-      hint_._attr = i->next_attribute;
+      hint_.set(i->next_attribute);
 
       return XmlAttribute(i);
     }
@@ -286,7 +316,7 @@ XmlNode::attribute(const char_t *name_, XmlAttribute &hint_) const
     if(jname && Utility::strequal(name_, jname))
     {
       // update hint to maximize efficiency of searching for consecutive attributes
-      hint_._attr = j->next_attribute;
+      hint_.set(j->next_attribute);
 
       return XmlAttribute(j);
     }
@@ -299,10 +329,10 @@ XmlNode::attribute(const char_t *name_, XmlAttribute &hint_) const
 inline XmlAttribute
 XmlNode::attribute(string_view_t name_, XmlAttribute &hint_) const
 {
-  XmlAttributeBase *hint = hint_._attr;
+  XmlAttributeBase *hint = hint_.get();
 
   // if hint is not an attribute of node, behavior is not defined
-  LUMEX_ASSERT(!hint || (m_root && impl::is_attribute_of(hint, m_root)));
+  LUMEX_ASSERT(!hint || (m_root && Utility::is_attribute_of(hint, m_root)));
 
   if(m_root == nullptr) return {};
 
@@ -310,10 +340,10 @@ XmlNode::attribute(string_view_t name_, XmlAttribute &hint_) const
   for(XmlAttributeBase *i = hint; i; i = i->next_attribute)
   {
     char_t const *iname = i->name;
-    if(iname && impl::stringview_equal(name_, iname))
+    if(iname && Utility::stringview_equal(name_, iname))
     {
       // update hint to maximize efficiency of searching for consecutive attributes
-      hint_._attr = i->next_attribute;
+      hint_.set(i->next_attribute);
 
       return XmlAttribute(i);
     }
@@ -324,10 +354,10 @@ XmlNode::attribute(string_view_t name_, XmlAttribute &hint_) const
   for(XmlAttributeBase *j = m_root->first_attribute; j && j != hint; j = j->next_attribute)
   {
     char_t const *jname = j->name;
-    if(jname && impl::stringview_equal(name_, jname))
+    if(jname && Utility::stringview_equal(name_, jname))
     {
       // update hint to maximize efficiency of searching for consecutive attributes
-      hint_._attr = j->next_attribute;
+      hint_.set(j->next_attribute);
 
       return XmlAttribute(j);
     }
@@ -354,13 +384,13 @@ XmlNode::parent() const
 inline XmlNode
 XmlNode::root() const
 {
-  return m_root ? XmlNode(&impl::get_document(m_root)) : XmlNode();
+  return m_root ? XmlNode(&Document::get_document(m_root)) : XmlNode();
 }
 
-inline xml_text
+inline XmlText
 XmlNode::text() const
 {
-  return xml_text(m_root);
+  return XmlText(m_root);
 }
 
 inline char_t const *
@@ -369,12 +399,12 @@ XmlNode::child_value() const
   if(!m_root) return LUMEX_XML_TEXT("");
 
   // element nodes can have value if parse_embed_pcdata was used
-  if(PUGI_IMPL_NODETYPE(m_root) == node_element && m_root->value) return m_root->value;
+  if(LUMEX_XML_NODETYPE(m_root) == node_element && m_root->value) return m_root->value;
 
   for(XmlNodeBase *i = m_root->first_child; i; i = i->next_sibling)
   {
     char_t const *ivalue = i->value;
-    if(impl::is_text_node(i) && ivalue) return ivalue;
+    if(Node::is_text_node(i) && ivalue) return ivalue;
   }
 
   return LUMEX_XML_TEXT("");
@@ -419,86 +449,87 @@ XmlNode::last_child() const
 inline bool
 XmlNode::set_name(char_t const *rhs)
 {
-  xml_node_type type_ = m_root ? PUGI_IMPL_NODETYPE(m_root) : node_null;
+  xml_node_type type_ = m_root ? LUMEX_XML_NODETYPE(m_root) : node_null;
 
   if(type_ != node_element && type_ != node_pi && type_ != node_declaration) return false;
 
-  return impl::strcpy_insitu(m_root->name, m_root->header, impl::xml_memory_page_name_allocated_mask, rhs,
-                             impl::strlength(rhs));
+  return Utility::strcpy_insitu(m_root->name, m_root->header, Constants::kxml_memory_page_name_allocated_mask, rhs,
+                                Utility::strlength(rhs));
 }
 
 inline bool
 XmlNode::set_name(char_t const *rhs, size_t size)
 {
-  xml_node_type type_ = m_root ? PUGI_IMPL_NODETYPE(m_root) : node_null;
+  xml_node_type type_ = m_root ? LUMEX_XML_NODETYPE(m_root) : node_null;
 
   if(type_ != node_element && type_ != node_pi && type_ != node_declaration) return false;
 
-  return impl::strcpy_insitu(m_root->name, m_root->header, impl::xml_memory_page_name_allocated_mask, rhs, size);
+  return Utility::strcpy_insitu(m_root->name, m_root->header, Constants::kxml_memory_page_name_allocated_mask, rhs,
+                                size);
 }
 
 #if __cplusplus >= 201703L
 inline bool
 XmlNode::set_name(string_view_t rhs)
 {
-  xml_node_type type_ = m_root ? PUGI_IMPL_NODETYPE(m_root) : node_null;
+  xml_node_type type_ = m_root ? LUMEX_XML_NODETYPE(m_root) : node_null;
 
   if(type_ != node_element && type_ != node_pi && type_ != node_declaration) return false;
 
-  return impl::strcpy_insitu(m_root->name, m_root->header, impl::xml_memory_page_name_allocated_mask, rhs.data(),
-                             rhs.size());
+  return Utility::strcpy_insitu(m_root->name, m_root->header, Constants::kxml_memory_page_name_allocated_mask,
+                                rhs.data(), rhs.size());
 }
 #endif
 
 inline bool
 XmlNode::set_value(const char_t *rhs)
 {
-  xml_node_type type_ = m_root ? PUGI_IMPL_NODETYPE(m_root) : node_null;
+  xml_node_type type_ = m_root ? LUMEX_XML_NODETYPE(m_root) : node_null;
 
   if(type_ != node_pcdata && type_ != node_cdata && type_ != node_comment && type_ != node_pi && type_ != node_doctype)
     return false;
 
-  return impl::strcpy_insitu(m_root->value, m_root->header, impl::xml_memory_page_value_allocated_mask, rhs,
-                             impl::strlength(rhs));
+  return Utility::strcpy_insitu(m_root->value, m_root->header, Constants::kxml_memory_page_value_allocated_mask, rhs,
+                                Utility::strlength(rhs));
 }
 
 inline bool
 XmlNode::set_value(char_t const *rhs, size_t size)
 {
-  xml_node_type type_ = m_root ? PUGI_IMPL_NODETYPE(m_root) : node_null;
+  xml_node_type type_ = m_root ? LUMEX_XML_NODETYPE(m_root) : node_null;
 
   if(type_ != node_pcdata && type_ != node_cdata && type_ != node_comment && type_ != node_pi && type_ != node_doctype)
     return false;
 
-  return impl::strcpy_insitu(m_root->value, m_root->header, impl::xml_memory_page_value_allocated_mask, rhs, size);
+  return Utility::strcpy_insitu(m_root->value, m_root->header, Constants::kxml_memory_page_value_allocated_mask, rhs,
+                                size);
 }
 
 #if __cplusplus >= 201703L
 inline bool
 XmlNode::set_value(string_view_t rhs)
 {
-  xml_node_type type_ = m_root ? PUGI_IMPL_NODETYPE(m_root) : node_null;
+  xml_node_type type_ = m_root ? LUMEX_XML_NODETYPE(m_root) : node_null;
 
   if(type_ != node_pcdata && type_ != node_cdata && type_ != node_comment && type_ != node_pi && type_ != node_doctype)
     return false;
 
-  return impl::strcpy_insitu(m_root->value, m_root->header, impl::xml_memory_page_value_allocated_mask, rhs.data(),
-                             rhs.size());
+  return Utility::strcpy_insitu(m_root->value, m_root->header, Constants::kxml_memory_page_value_allocated_mask,
+                                rhs.data(), rhs.size());
 }
 #endif
 
 inline XmlAttribute
 XmlNode::append_attribute(const char_t *name_)
 {
-  if(!impl::allow_insert_attribute(type())) return {};
+  if(!Utility::allow_insert_attribute(type())) return {};
 
-  impl::xml_allocator &alloc = impl::get_allocator(m_root);
-  if(!alloc.reserve()) return {};
+  XmlAllocator &alloc = Memory::get_allocator(m_root);
 
-  XmlAttribute a(impl::allocate_attribute(alloc));
+  XmlAttribute a(Lumex::Xml::Attribute::allocate_attribute(alloc));
   if(!a) return {};
 
-  impl::append_attribute(a._attr, m_root);
+  Lumex::Xml::Attribute::append_attribute(a.get(), m_root);
 
   a.set_name(name_);
 
@@ -508,15 +539,14 @@ XmlNode::append_attribute(const char_t *name_)
 inline XmlAttribute
 XmlNode::prepend_attribute(char_t const *name_)
 {
-  if(!impl::allow_insert_attribute(type())) return {};
+  if(!Utility::allow_insert_attribute(type())) return {};
 
-  impl::xml_allocator &alloc = impl::get_allocator(m_root);
-  if(!alloc.reserve()) return {};
+  XmlAllocator &alloc = Memory::get_allocator(m_root);
 
-  XmlAttribute a(impl::allocate_attribute(alloc));
+  XmlAttribute a(Lumex::Xml::Attribute::allocate_attribute(alloc));
   if(!a) return {};
 
-  impl::prepend_attribute(a._attr, m_root);
+  Lumex::Xml::Attribute::prepend_attribute(a.get(), m_root);
 
   a.set_name(name_);
 
@@ -526,16 +556,15 @@ XmlNode::prepend_attribute(char_t const *name_)
 inline XmlAttribute
 XmlNode::insert_attribute_after(char_t const *name_, XmlAttribute const &attr)
 {
-  if(!impl::allow_insert_attribute(type())) return {};
-  if(!attr || !impl::is_attribute_of(attr._attr, m_root)) return {};
+  if(!Utility::allow_insert_attribute(type())) return {};
+  if(!attr || !Utility::is_attribute_of(attr.get(), m_root)) return {};
 
-  impl::xml_allocator &alloc = impl::get_allocator(m_root);
-  if(!alloc.reserve()) return {};
+  XmlAllocator &alloc = Memory::get_allocator(m_root);
 
-  XmlAttribute a(impl::allocate_attribute(alloc));
+  XmlAttribute a(Lumex::Xml::Attribute::allocate_attribute(alloc));
   if(!a) return {};
 
-  impl::insert_attribute_after(a._attr, attr._attr, m_root);
+  Lumex::Xml::Attribute::insert_attribute_after(a.get(), attr.get(), m_root);
 
   a.set_name(name_);
 
@@ -545,16 +574,15 @@ XmlNode::insert_attribute_after(char_t const *name_, XmlAttribute const &attr)
 inline XmlAttribute
 XmlNode::insert_attribute_before(char_t const *name_, XmlAttribute const &attr)
 {
-  if(!impl::allow_insert_attribute(type())) return {};
-  if(!attr || !impl::is_attribute_of(attr._attr, m_root)) return {};
+  if(!Utility::allow_insert_attribute(type())) return {};
+  if(!attr || !Utility::is_attribute_of(attr.get(), m_root)) return {};
 
-  impl::xml_allocator &alloc = impl::get_allocator(m_root);
-  if(!alloc.reserve()) return {};
+  XmlAllocator &alloc = Memory::get_allocator(m_root);
 
-  XmlAttribute a(impl::allocate_attribute(alloc));
+  XmlAttribute a(Lumex::Xml::Attribute::allocate_attribute(alloc));
   if(!a) return {};
 
-  impl::insert_attribute_before(a._attr, attr._attr, m_root);
+  Lumex::Xml::Attribute::insert_attribute_before(a.get(), attr.get(), m_root);
 
   a.set_name(name_);
 
@@ -565,15 +593,14 @@ XmlNode::insert_attribute_before(char_t const *name_, XmlAttribute const &attr)
 inline XmlAttribute
 XmlNode::append_attribute(string_view_t name_)
 {
-  if(!impl::allow_insert_attribute(type())) return {};
+  if(!Utility::allow_insert_attribute(type())) return {};
 
-  impl::xml_allocator &alloc = impl::get_allocator(m_root);
-  if(!alloc.reserve()) return {};
+  XmlAllocator &alloc = Memory::get_allocator(m_root);
 
-  XmlAttribute a(impl::allocate_attribute(alloc));
+  XmlAttribute a(Lumex::Xml::Attribute::allocate_attribute(alloc));
   if(!a) return {};
 
-  impl::append_attribute(a._attr, m_root);
+  Lumex::Xml::Attribute::append_attribute(a.get(), m_root);
 
   a.set_name(name_);
 
@@ -583,15 +610,14 @@ XmlNode::append_attribute(string_view_t name_)
 inline XmlAttribute
 XmlNode::prepend_attribute(string_view_t name_)
 {
-  if(!impl::allow_insert_attribute(type())) return {};
+  if(!Utility::allow_insert_attribute(type())) return {};
 
-  impl::xml_allocator &alloc = impl::get_allocator(m_root);
-  if(!alloc.reserve()) return {};
+  XmlAllocator &alloc = Memory::get_allocator(m_root);
 
-  XmlAttribute a(impl::allocate_attribute(alloc));
+  XmlAttribute a(Lumex::Xml::Attribute::allocate_attribute(alloc));
   if(!a) return {};
 
-  impl::prepend_attribute(a._attr, m_root);
+  Lumex::Xml::Attribute::prepend_attribute(a.get(), m_root);
 
   a.set_name(name_);
 
@@ -601,16 +627,15 @@ XmlNode::prepend_attribute(string_view_t name_)
 inline XmlAttribute
 XmlNode::insert_attribute_after(string_view_t name_, XmlAttribute const &attr)
 {
-  if(!impl::allow_insert_attribute(type())) return {};
-  if(!attr || !impl::is_attribute_of(attr._attr, m_root)) return {};
+  if(!Utility::allow_insert_attribute(type())) return {};
+  if(!attr || !Utility::is_attribute_of(attr.get(), m_root)) return {};
 
-  impl::xml_allocator &alloc = impl::get_allocator(m_root);
-  if(!alloc.reserve()) return {};
+  XmlAllocator &alloc = Memory::get_allocator(m_root);
 
-  XmlAttribute a(impl::allocate_attribute(alloc));
+  XmlAttribute a(Lumex::Xml::Attribute::allocate_attribute(alloc));
   if(!a) return {};
 
-  impl::insert_attribute_after(a._attr, attr._attr, m_root);
+  Lumex::Xml::Attribute::insert_attribute_after(a.get(), attr.get(), m_root);
 
   a.set_name(name_);
 
@@ -620,16 +645,15 @@ XmlNode::insert_attribute_after(string_view_t name_, XmlAttribute const &attr)
 inline XmlAttribute
 XmlNode::insert_attribute_before(string_view_t name_, XmlAttribute const &attr)
 {
-  if(!impl::allow_insert_attribute(type())) return {};
-  if(!attr || !impl::is_attribute_of(attr._attr, m_root)) return {};
+  if(!Utility::allow_insert_attribute(type())) return {};
+  if(!attr || !Utility::is_attribute_of(attr.get(), m_root)) return {};
 
-  impl::xml_allocator &alloc = impl::get_allocator(m_root);
-  if(!alloc.reserve()) return {};
+  XmlAllocator &alloc = Memory::get_allocator(m_root);
 
-  XmlAttribute a(impl::allocate_attribute(alloc));
+  XmlAttribute a(Lumex::Xml::Attribute::allocate_attribute(alloc));
   if(!a) return {};
 
-  impl::insert_attribute_before(a._attr, attr._attr, m_root);
+  Lumex::Xml::Attribute::insert_attribute_before(a.get(), attr.get(), m_root);
 
   a.set_name(name_);
 
@@ -641,16 +665,15 @@ inline XmlAttribute
 XmlNode::append_copy(const XmlAttribute &proto)
 {
   if(!proto) return {};
-  if(!impl::allow_insert_attribute(type())) return {};
+  if(!Utility::allow_insert_attribute(type())) return {};
 
-  impl::xml_allocator &alloc = impl::get_allocator(m_root);
-  if(!alloc.reserve()) return {};
+  XmlAllocator &alloc = Memory::get_allocator(m_root);
 
-  XmlAttribute a(impl::allocate_attribute(alloc));
+  XmlAttribute a(Lumex::Xml::Attribute::allocate_attribute(alloc));
   if(!a) return {};
 
-  impl::append_attribute(a._attr, m_root);
-  impl::node_copy_attribute(a._attr, proto._attr);
+  Lumex::Xml::Attribute::append_attribute(a.get(), m_root);
+  Lumex::Xml::Attribute::node_copy_attribute(a.get(), proto.get());
 
   return a;
 }
@@ -659,16 +682,15 @@ inline XmlAttribute
 XmlNode::prepend_copy(XmlAttribute const &proto)
 {
   if(!proto) return {};
-  if(!impl::allow_insert_attribute(type())) return {};
+  if(!Utility::allow_insert_attribute(type())) return {};
 
-  impl::xml_allocator &alloc = impl::get_allocator(m_root);
-  if(!alloc.reserve()) return {};
+  XmlAllocator &alloc = Memory::get_allocator(m_root);
 
-  XmlAttribute a(impl::allocate_attribute(alloc));
+  XmlAttribute a(Lumex::Xml::Attribute::allocate_attribute(alloc));
   if(!a) return {};
 
-  impl::prepend_attribute(a._attr, m_root);
-  impl::node_copy_attribute(a._attr, proto._attr);
+  Lumex::Xml::Attribute::prepend_attribute(a.get(), m_root);
+  Lumex::Xml::Attribute::node_copy_attribute(a.get(), proto.get());
 
   return a;
 }
@@ -677,17 +699,16 @@ inline XmlAttribute
 XmlNode::insert_copy_after(XmlAttribute const &proto, XmlAttribute const &attr)
 {
   if(!proto) return {};
-  if(!impl::allow_insert_attribute(type())) return {};
-  if(!attr || !impl::is_attribute_of(attr._attr, m_root)) return {};
+  if(!Utility::allow_insert_attribute(type())) return {};
+  if(!attr || !Utility::is_attribute_of(attr.get(), m_root)) return {};
 
-  impl::xml_allocator &alloc = impl::get_allocator(m_root);
-  if(!alloc.reserve()) return {};
+  XmlAllocator &alloc = Memory::get_allocator(m_root);
 
-  XmlAttribute a(impl::allocate_attribute(alloc));
+  XmlAttribute a(Lumex::Xml::Attribute::allocate_attribute(alloc));
   if(!a) return {};
 
-  impl::insert_attribute_after(a._attr, attr._attr, m_root);
-  impl::node_copy_attribute(a._attr, proto._attr);
+  Lumex::Xml::Attribute::insert_attribute_after(a.get(), attr.get(), m_root);
+  Lumex::Xml::Attribute::node_copy_attribute(a.get(), proto.get());
 
   return a;
 }
@@ -696,17 +717,16 @@ inline XmlAttribute
 XmlNode::insert_copy_before(XmlAttribute const &proto, XmlAttribute const &attr)
 {
   if(!proto) return {};
-  if(!impl::allow_insert_attribute(type())) return {};
-  if(!attr || !impl::is_attribute_of(attr._attr, m_root)) return {};
+  if(!Utility::allow_insert_attribute(type())) return {};
+  if(!attr || !Utility::is_attribute_of(attr.get(), m_root)) return {};
 
-  impl::xml_allocator &alloc = impl::get_allocator(m_root);
-  if(!alloc.reserve()) return {};
+  XmlAllocator &alloc = Memory::get_allocator(m_root);
 
-  XmlAttribute a(impl::allocate_attribute(alloc));
+  XmlAttribute a(Lumex::Xml::Attribute::allocate_attribute(alloc));
   if(!a) return {};
 
-  impl::insert_attribute_before(a._attr, attr._attr, m_root);
-  impl::node_copy_attribute(a._attr, proto._attr);
+  Lumex::Xml::Attribute::insert_attribute_before(a.get(), attr.get(), m_root);
+  Lumex::Xml::Attribute::node_copy_attribute(a.get(), proto.get());
 
   return a;
 }
@@ -714,15 +734,14 @@ XmlNode::insert_copy_before(XmlAttribute const &proto, XmlAttribute const &attr)
 inline XmlNode
 XmlNode::append_child(xml_node_type type_)
 {
-  if(!impl::allow_insert_child(type(), type_)) return XmlNode();
+  if(!Utility::allow_insert_child(type(), type_)) return XmlNode();
 
-  impl::xml_allocator &alloc = impl::get_allocator(m_root);
-  if(!alloc.reserve()) return XmlNode();
+  XmlAllocator &alloc = Memory::get_allocator(m_root);
 
-  XmlNode n(impl::allocate_node(alloc, type_));
+  XmlNode n(Lumex::Xml::Node::allocate_node(alloc, type_));
   if(!n) return XmlNode();
 
-  impl::append_node(n.m_root, m_root);
+  Lumex::Xml::Node::append_node(n.m_root, m_root);
 
   if(type_ == node_declaration) n.set_name(LUMEX_XML_TEXT("xml"));
 
@@ -732,15 +751,14 @@ XmlNode::append_child(xml_node_type type_)
 inline XmlNode
 XmlNode::prepend_child(xml_node_type type_)
 {
-  if(!impl::allow_insert_child(type(), type_)) return XmlNode();
+  if(!Utility::allow_insert_child(type(), type_)) return XmlNode();
 
-  impl::xml_allocator &alloc = impl::get_allocator(m_root);
-  if(!alloc.reserve()) return XmlNode();
+  XmlAllocator &alloc = Memory::get_allocator(m_root);
 
-  XmlNode n(impl::allocate_node(alloc, type_));
+  XmlNode n(Lumex::Xml::Node::allocate_node(alloc, type_));
   if(!n) return XmlNode();
 
-  impl::prepend_node(n.m_root, m_root);
+  Lumex::Xml::Node::prepend_node(n.m_root, m_root);
 
   if(type_ == node_declaration) n.set_name(LUMEX_XML_TEXT("xml"));
 
@@ -750,16 +768,15 @@ XmlNode::prepend_child(xml_node_type type_)
 inline XmlNode
 XmlNode::insert_child_before(xml_node_type type_, XmlNode const &node)
 {
-  if(!impl::allow_insert_child(type(), type_)) return XmlNode();
+  if(!Utility::allow_insert_child(type(), type_)) return XmlNode();
   if(!node.m_root || node.m_root->parent != m_root) return XmlNode();
 
-  impl::xml_allocator &alloc = impl::get_allocator(m_root);
-  if(!alloc.reserve()) return XmlNode();
+  XmlAllocator &alloc = Memory::get_allocator(m_root);
 
-  XmlNode n(impl::allocate_node(alloc, type_));
+  XmlNode n(Lumex::Xml::Node::allocate_node(alloc, type_));
   if(!n) return XmlNode();
 
-  impl::insert_node_before(n.m_root, node.m_root);
+  Lumex::Xml::Node::insert_node_before(n.m_root, node.m_root);
 
   if(type_ == node_declaration) n.set_name(LUMEX_XML_TEXT("xml"));
 
@@ -769,16 +786,15 @@ XmlNode::insert_child_before(xml_node_type type_, XmlNode const &node)
 inline XmlNode
 XmlNode::insert_child_after(xml_node_type type_, XmlNode const &node)
 {
-  if(!impl::allow_insert_child(type(), type_)) return XmlNode();
+  if(!Utility::allow_insert_child(type(), type_)) return XmlNode();
   if(!node.m_root || node.m_root->parent != m_root) return XmlNode();
 
-  impl::xml_allocator &alloc = impl::get_allocator(m_root);
-  if(!alloc.reserve()) return XmlNode();
+  XmlAllocator &alloc = Memory::get_allocator(m_root);
 
-  XmlNode n(impl::allocate_node(alloc, type_));
+  XmlNode n(Lumex::Xml::Node::allocate_node(alloc, type_));
   if(!n) return XmlNode();
 
-  impl::insert_node_after(n.m_root, node.m_root);
+  Lumex::Xml::Node::insert_node_after(n.m_root, node.m_root);
 
   if(type_ == node_declaration) n.set_name(LUMEX_XML_TEXT("xml"));
 
@@ -871,16 +887,15 @@ inline XmlNode
 XmlNode::append_copy(const XmlNode &proto)
 {
   xml_node_type type_ = proto.type();
-  if(!impl::allow_insert_child(type(), type_)) return XmlNode();
+  if(!Utility::allow_insert_child(type(), type_)) return XmlNode();
 
-  impl::xml_allocator &alloc = impl::get_allocator(m_root);
-  if(!alloc.reserve()) return XmlNode();
+  XmlAllocator &alloc = Memory::get_allocator(m_root);
 
-  XmlNode n(impl::allocate_node(alloc, type_));
+  XmlNode n(Lumex::Xml::Node::allocate_node(alloc, type_));
   if(!n) return XmlNode();
 
-  impl::append_node(n.m_root, m_root);
-  impl::node_copy_tree(n.m_root, proto.m_root);
+  Lumex::Xml::Node::append_node(n.m_root, m_root);
+  Lumex::Xml::Node::node_copy_tree(n.m_root, proto.m_root);
 
   return n;
 }
@@ -889,16 +904,15 @@ inline XmlNode
 XmlNode::prepend_copy(XmlNode const &proto)
 {
   xml_node_type type_ = proto.type();
-  if(!impl::allow_insert_child(type(), type_)) return XmlNode();
+  if(!Utility::allow_insert_child(type(), type_)) return XmlNode();
 
-  impl::xml_allocator &alloc = impl::get_allocator(m_root);
-  if(!alloc.reserve()) return XmlNode();
+  XmlAllocator &alloc = Memory::get_allocator(m_root);
 
-  XmlNode n(impl::allocate_node(alloc, type_));
+  XmlNode n(Lumex::Xml::Node::allocate_node(alloc, type_));
   if(!n) return XmlNode();
 
-  impl::prepend_node(n.m_root, m_root);
-  impl::node_copy_tree(n.m_root, proto.m_root);
+  Lumex::Xml::Node::prepend_node(n.m_root, m_root);
+  Lumex::Xml::Node::node_copy_tree(n.m_root, proto.m_root);
 
   return n;
 }
@@ -907,17 +921,16 @@ inline XmlNode
 XmlNode::insert_copy_after(XmlNode const &proto, XmlNode const &node)
 {
   xml_node_type type_ = proto.type();
-  if(!impl::allow_insert_child(type(), type_)) return XmlNode();
+  if(!Utility::allow_insert_child(type(), type_)) return XmlNode();
   if(!node.m_root || node.m_root->parent != m_root) return XmlNode();
 
-  impl::xml_allocator &alloc = impl::get_allocator(m_root);
-  if(!alloc.reserve()) return XmlNode();
+  XmlAllocator &alloc = Memory::get_allocator(m_root);
 
-  XmlNode n(impl::allocate_node(alloc, type_));
+  XmlNode n(Lumex::Xml::Node::allocate_node(alloc, type_));
   if(!n) return XmlNode();
 
-  impl::insert_node_after(n.m_root, node.m_root);
-  impl::node_copy_tree(n.m_root, proto.m_root);
+  Lumex::Xml::Node::insert_node_after(n.m_root, node.m_root);
+  Lumex::Xml::Node::node_copy_tree(n.m_root, proto.m_root);
 
   return n;
 }
@@ -926,17 +939,16 @@ inline XmlNode
 XmlNode::insert_copy_before(XmlNode const &proto, XmlNode const &node)
 {
   xml_node_type type_ = proto.type();
-  if(!impl::allow_insert_child(type(), type_)) return XmlNode();
+  if(!Utility::allow_insert_child(type(), type_)) return XmlNode();
   if(!node.m_root || node.m_root->parent != m_root) return XmlNode();
 
-  impl::xml_allocator &alloc = impl::get_allocator(m_root);
-  if(!alloc.reserve()) return XmlNode();
+  XmlAllocator &alloc = Memory::get_allocator(m_root);
 
-  XmlNode n(impl::allocate_node(alloc, type_));
+  XmlNode n(Lumex::Xml::Node::allocate_node(alloc, type_));
   if(!n) return XmlNode();
 
-  impl::insert_node_before(n.m_root, node.m_root);
-  impl::node_copy_tree(n.m_root, proto.m_root);
+  Lumex::Xml::Node::insert_node_before(n.m_root, node.m_root);
+  Lumex::Xml::Node::node_copy_tree(n.m_root, proto.m_root);
 
   return n;
 }
@@ -944,17 +956,14 @@ XmlNode::insert_copy_before(XmlNode const &proto, XmlNode const &node)
 inline XmlNode
 XmlNode::append_move(XmlNode const &moved)
 {
-  if(!impl::allow_move(*this, moved)) return XmlNode();
-
-  impl::xml_allocator &alloc = impl::get_allocator(m_root);
-  if(!alloc.reserve()) return XmlNode();
+  if(!allow_move(*this, moved)) return XmlNode();
 
   // disable document_buffer_order optimization since moving nodes around changes document order without changing
   // buffer pointers
-  impl::get_document(m_root).header |= impl::xml_memory_page_contents_shared_mask;
+  Document::get_document(m_root).header |= Lumex::Xml::Constants::kxml_memory_page_contents_shared_mask;
 
-  impl::remove_node(moved.m_root);
-  impl::append_node(moved.m_root, m_root);
+  Lumex::Xml::Node::remove_node(moved.m_root);
+  Lumex::Xml::Node::append_node(moved.m_root, m_root);
 
   return moved;
 }
@@ -962,17 +971,14 @@ XmlNode::append_move(XmlNode const &moved)
 inline XmlNode
 XmlNode::prepend_move(XmlNode const &moved)
 {
-  if(!impl::allow_move(*this, moved)) return XmlNode();
-
-  impl::xml_allocator &alloc = impl::get_allocator(m_root);
-  if(!alloc.reserve()) return XmlNode();
+  if(!allow_move(*this, moved)) return XmlNode();
 
   // disable document_buffer_order optimization since moving nodes around changes document order without changing
   // buffer pointers
-  impl::get_document(m_root).header |= impl::xml_memory_page_contents_shared_mask;
+  Document::get_document(m_root).header |= Lumex::Xml::Constants::kxml_memory_page_contents_shared_mask;
 
-  impl::remove_node(moved.m_root);
-  impl::prepend_node(moved.m_root, m_root);
+  Lumex::Xml::Node::remove_node(moved.m_root);
+  Lumex::Xml::Node::prepend_node(moved.m_root, m_root);
 
   return moved;
 }
@@ -980,19 +986,16 @@ XmlNode::prepend_move(XmlNode const &moved)
 inline XmlNode
 XmlNode::insert_move_after(XmlNode const &moved, XmlNode const &node)
 {
-  if(!impl::allow_move(*this, moved)) return XmlNode();
+  if(!allow_move(*this, moved)) return XmlNode();
   if(!node.m_root || node.m_root->parent != m_root) return XmlNode();
   if(moved.m_root == node.m_root) return XmlNode();
 
-  impl::xml_allocator &alloc = impl::get_allocator(m_root);
-  if(!alloc.reserve()) return XmlNode();
-
   // disable document_buffer_order optimization since moving nodes around changes document order without changing
   // buffer pointers
-  impl::get_document(m_root).header |= impl::xml_memory_page_contents_shared_mask;
+  Document::get_document(m_root).header |= Lumex::Xml::Constants::kxml_memory_page_contents_shared_mask;
 
-  impl::remove_node(moved.m_root);
-  impl::insert_node_after(moved.m_root, node.m_root);
+  Lumex::Xml::Node::remove_node(moved.m_root);
+  Lumex::Xml::Node::insert_node_after(moved.m_root, node.m_root);
 
   return moved;
 }
@@ -1000,19 +1003,16 @@ XmlNode::insert_move_after(XmlNode const &moved, XmlNode const &node)
 inline XmlNode
 XmlNode::insert_move_before(XmlNode const &moved, XmlNode const &node)
 {
-  if(!impl::allow_move(*this, moved)) return XmlNode();
+  if(!allow_move(*this, moved)) return XmlNode();
   if(!node.m_root || node.m_root->parent != m_root) return XmlNode();
   if(moved.m_root == node.m_root) return XmlNode();
 
-  impl::xml_allocator &alloc = impl::get_allocator(m_root);
-  if(!alloc.reserve()) return XmlNode();
-
   // disable document_buffer_order optimization since moving nodes around changes document order without changing
   // buffer pointers
-  impl::get_document(m_root).header |= impl::xml_memory_page_contents_shared_mask;
+  Document::get_document(m_root).header |= Lumex::Xml::Constants::kxml_memory_page_contents_shared_mask;
 
-  impl::remove_node(moved.m_root);
-  impl::insert_node_before(moved.m_root, node.m_root);
+  Lumex::Xml::Node::remove_node(moved.m_root);
+  Lumex::Xml::Node::insert_node_before(moved.m_root, node.m_root);
 
   return moved;
 }
@@ -1034,14 +1034,13 @@ XmlNode::remove_attribute(string_view_t name_)
 inline bool
 XmlNode::remove_attribute(const XmlAttribute &attr)
 {
-  if(!m_root || !a._attr) return false;
-  if(!impl::is_attribute_of(a._attr, m_root)) return false;
+  if(!m_root || !attr.get()) return false;
+  if(!Utility::is_attribute_of(attr.get(), m_root)) return false;
 
-  impl::xml_allocator &alloc = impl::get_allocator(m_root);
-  if(!alloc.reserve()) return false;
+  XmlAllocator &alloc = Memory::get_allocator(m_root);
 
-  impl::remove_attribute(a._attr, m_root);
-  impl::destroy_attribute(a._attr, alloc);
+  Lumex::Xml::Attribute::remove_attribute(attr.get(), m_root);
+  Lumex::Xml::Attribute::destroy_attribute(attr.get(), alloc);
 
   return true;
 }
@@ -1051,14 +1050,13 @@ XmlNode::remove_attributes()
 {
   if(!m_root) return false;
 
-  impl::xml_allocator &alloc = impl::get_allocator(m_root);
-  if(!alloc.reserve()) return false;
+  XmlAllocator &alloc = Memory::get_allocator(m_root);
 
   for(XmlAttributeBase *attr = m_root->first_attribute; attr;)
   {
     XmlAttributeBase *next = attr->next_attribute;
 
-    impl::destroy_attribute(attr, alloc);
+    Lumex::Xml::Attribute::destroy_attribute(attr, alloc);
 
     attr = next;
   }
@@ -1087,11 +1085,10 @@ XmlNode::remove_child(const XmlNode &n)
 {
   if(!m_root || !n.m_root || n.m_root->parent != m_root) return false;
 
-  impl::xml_allocator &alloc = impl::get_allocator(m_root);
-  if(!alloc.reserve()) return false;
+  XmlAllocator &alloc = Memory::get_allocator(m_root);
 
-  impl::remove_node(n.m_root);
-  impl::destroy_node(n.m_root, alloc);
+  Lumex::Xml::Node::remove_node(n.m_root);
+  Lumex::Xml::Node::destroy_node(n.m_root, alloc);
 
   return true;
 }
@@ -1101,14 +1098,13 @@ XmlNode::remove_children()
 {
   if(!m_root) return false;
 
-  impl::xml_allocator &alloc = impl::get_allocator(m_root);
-  if(!alloc.reserve()) return false;
+  XmlAllocator &alloc = Memory::get_allocator(m_root);
 
   for(XmlNodeBase *cur = m_root->first_child; cur;)
   {
     XmlNodeBase *next = cur->next_sibling;
 
-    impl::destroy_node(cur, alloc);
+    Lumex::Xml::Node::destroy_node(cur, alloc);
 
     cur = next;
   }
@@ -1118,30 +1114,31 @@ XmlNode::remove_children()
   return true;
 }
 
-inline xml_parse_result
+inline XmlParseResult
 XmlNode::append_buffer(void const *contents, size_t size, unsigned int options, xml_encoding encoding)
 {
   // append_buffer is only valid for elements/documents
-  if(!impl::allow_insert_child(type(), node_element)) return impl::make_parse_result(status_append_invalid_root);
+  if(!Utility::allow_insert_child(type(), node_element))
+    return XmlParseResult(Types::xml_parse_status::status_append_invalid_root);
 
   // append buffer can not merge PCDATA into existing PCDATA nodes
-  if((options & parse_merge_pcdata) != 0 && last_child().type() == node_pcdata)
-    return impl::make_parse_result(status_append_invalid_root);
+  if((options & kparse_merge_pcdata) != 0 && last_child().type() == node_pcdata)
+    return XmlParseResult(Types::xml_parse_status::status_append_invalid_root);
 
   // get document node
-  impl::xml_document_struct *doc = &impl::get_document(m_root);
+  Lumex::Xml::Document::XmlDocumentBase *doc = &Document::get_document(m_root);
 
   // disable document_buffer_order optimization since in a document with multiple buffers comparing buffer pointers
   // does not make sense
-  doc->header |= impl::xml_memory_page_contents_shared_mask;
+  doc->header |= Lumex::Xml::Constants::kxml_memory_page_contents_shared_mask;
 
   // get extra buffer element (we'll store the document fragment buffer there so that we can deallocate it later)
-  impl::xml_memory_page *page   = nullptr;
-  impl::xml_extra_buffer *extra = static_cast<impl::xml_extra_buffer *>(
-    doc->allocate_memory(sizeof(impl::xml_extra_buffer) + sizeof(void *), page));
+  XmlMemoryPage *page            = nullptr;
+  Types::xml_extra_buffer *extra = static_cast<Types::xml_extra_buffer *>(
+    doc->allocate_memory(sizeof(Types::xml_extra_buffer) + sizeof(void *), page));
   (void)page;
 
-  if(!extra) return impl::make_parse_result(status_out_of_memory);
+  if(!extra) return Text::make_parse_result(Types::xml_parse_status::status_out_of_memory);
 
   // add extra buffer to the list
   extra->buffer      = nullptr;
@@ -1369,7 +1366,7 @@ XmlNode::offset_debug() const
 {
   if(!m_root) return -1;
 
-  impl::xml_document_struct &doc = impl::get_document(m_root);
+  impl::xml_document_struct &doc = Document::get_document(m_root);
 
   // we can determine the offset reliably only if there is exactly once parse buffer
   if(!doc.buffer || doc.extra_buffers) return -1;

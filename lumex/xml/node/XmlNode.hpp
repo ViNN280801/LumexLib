@@ -1,13 +1,14 @@
 #ifndef LUMEX_XML_NODE_HPP
 #define LUMEX_XML_NODE_HPP
 
+#include "lumex/xml/attribute/XmlAttribute.hpp"
 #include "lumex/xml/constants/XmlConstants.hpp"
-
 #include "lumex/xml/text/XmlParseResult.hpp"
 #include "lumex/xml/writer/IXmlWriter.hpp"
 
 #include "XmlNodeBase.hpp"
 
+using namespace Lumex::Xml::Attribute;
 using namespace Lumex::Xml::Writer;
 using namespace Lumex::Xml::Text;
 using namespace Lumex::Xml::Constants;
@@ -57,6 +58,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
     {
       class XmlNode
       {
+        friend class Attribute::XmlAttribute;
         friend class Attribute::XmlAttributeIterator;
         friend class XmlNodeIterator;
         friend class XmlNamedNodeIterator;
@@ -492,6 +494,9 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
         auto type = LUMEX_XML_NODETYPE(node);
         return type == node_pcdata || type == node_cdata;
       }
+
+      bool
+      allow_move(XmlNode parent, XmlNode child);
     } // namespace Node
   } // namespace Xml
 } // namespace Lumex
