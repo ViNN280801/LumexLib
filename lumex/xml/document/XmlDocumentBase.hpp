@@ -1,5 +1,5 @@
-#ifndef LUMEX_XML_DOCUMENT_HPP
-#define LUMEX_XML_DOCUMENT_HPP
+#ifndef LUMEX_XML_DOCUMENT_BASE_HPP
+#define LUMEX_XML_DOCUMENT_BASE_HPP
 
 #include "lumex/core/utility/LumexAssert.hpp"
 
@@ -37,4 +37,4 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
   } // namespace Xml
 } // namespace Lumex
 
-#endif // !LUMEX_XML_DOCUMENT_HPP
+#endif // !LUMEX_XML_DOCUMENT_BASE_HPP
