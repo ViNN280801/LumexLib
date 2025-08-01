@@ -2,19 +2,21 @@
 #define LUMEX_XML_UTILS_HPP
 
 #include <array>
+#include <cfloat> // For DBL_DIG
+#include <cstdio>
 #include <cstdlib>
 #include <cwchar>
-
-#include "lumex/core/utility/LumexMacros.hpp"
 
 #include "lumex/xml/constants/XmlConstants.hpp"
 #include "lumex/xml/memory/XmlAllocator.hpp"
 #include "lumex/xml/types/XmlTypes.hpp"
 #include "lumex/xml/utility/XmlMacros.hpp"
+#include "lumex/xml/xpath/memory/XPathAllocator.hpp"
 
 using namespace Lumex::Xml::Memory;
 using namespace Lumex::Xml::Constants;
 using namespace Lumex::Xml::Types;
+using namespace Lumex::Xml::XPath::Memory;
 
 namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
 {
@@ -1497,6 +1499,335 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
             (void)strcpy_insitu(dest, header, header_mask, source, strlength(source));
           }
         }
+      }
+
+      inline bool
+      check_string_to_number_format(char_t const *string)
+      {
+        // parse leading whitespace
+        while(LUMEX_XML_IS_CHARTYPE( // NOLINT(cppcoreguidelines-pro-bounds-constant-array-index)
+          *string, ct_space))
+          ++string;
+
+        // parse sign
+        if(*string == '-') ++string;
+
+        if(*string == 0) return false;
+
+        // if there is no integer part, there should be a decimal part with at least one digit
+        if(!LUMEX_XML_IS_CHARTYPEX( // NOLINT(cppcoreguidelines-pro-bounds-constant-array-index)
+             string[0], ctx_digit)
+           && (string[0] != '.'
+               || !LUMEX_XML_IS_CHARTYPEX( // NOLINT(cppcoreguidelines-pro-bounds-constant-array-index)
+                 string[1], ctx_digit)))
+          return false;
+
+        // parse integer part
+        while(LUMEX_XML_IS_CHARTYPEX( // NOLINT(cppcoreguidelines-pro-bounds-constant-array-index)
+          *string, ctx_digit))
+          ++string;
+
+        // parse decimal part
+        if(*string == '.')
+        {
+          ++string;
+
+          while(LUMEX_XML_IS_CHARTYPEX( // NOLINT(cppcoreguidelines-pro-bounds-constant-array-index)
+            *string, ctx_digit))
+            ++string;
+        }
+
+        // parse trailing whitespace
+        while(LUMEX_XML_IS_CHARTYPE( // NOLINT(cppcoreguidelines-pro-bounds-constant-array-index)
+          *string, ct_space))
+          ++string;
+
+        return *string == 0;
+      }
+
+      inline double
+      convert_string_to_number(char_t const *string)
+      {
+        // check string format
+        if(!check_string_to_number_format(string)) return gen_nan();
+
+// parse string
+#ifdef LUMEX_XML_WCHAR_MODE
+        return wcstod(string, nullptr);
+#else
+        return strtod(string, nullptr);
+#endif
+      }
+
+      inline bool
+      convert_string_to_number_scratch(char_t // NOLINT(cppcoreguidelines-avoid-c-arrays, modernize-avoid-c-arrays)
+                                       (&buffer)[32],
+                                       char_t const *begin, char_t const *end, double *out_result)
+      {
+        auto length     = static_cast<size_t>(end - begin);
+        char_t *scratch = buffer; // NOLINT(cppcoreguidelines-pro-bounds-array-to-pointer-decay)
+
+        if(length >= sizeof(buffer) / sizeof(buffer[0]))
+        {
+          // need to make dummy on-heap copy
+          scratch = static_cast<char_t *>(          // NOLINT(cppcoreguidelines-owning-memory)
+            malloc((length + 1) * sizeof(char_t))); // NOLINT(cppcoreguidelines-no-malloc)
+          if(scratch == nullptr) return false;
+        }
+
+        // copy string to zero-terminated buffer and perform conversion
+        memcpy(scratch, begin, length * sizeof(char_t));
+        scratch[length] = 0;
+
+        *out_result     = convert_string_to_number(scratch);
+
+        // free dummy buffer
+        if(scratch != buffer) // NOLINT(cppcoreguidelines-pro-bounds-array-to-pointer-decay)
+          free(scratch);      // NOLINT(cppcoreguidelines-owning-memory, cppcoreguidelines-no-malloc)
+
+        return true;
+      }
+
+      inline double
+      round_nearest(double value)
+      {
+        return floor(value + 0.5);
+      }
+
+      inline double
+      round_nearest_nzero(double value)
+      {
+        // same as round_nearest, but returns -0 for [-0.5, -0]
+        // ceil is used to differentiate between +0 and -0 (we return -0 for [-0.5, -0] and +0 for +0)
+        return (value >= -0.5 && value <= 0) ? ceil(value) : floor(value + 0.5);
+      }
+
+      inline bool
+      starts_with(char_t const *str, char_t const *pattern)
+      {
+        while((*pattern != 0) && *str == *pattern)
+        {
+          str++;
+          pattern++;
+        }
+
+        return *pattern == 0;
+      }
+
+      inline char_t const *
+      find_char(char_t const *str, char_t chr)
+      {
+#ifdef LUMEX_XML_WCHAR_MODE
+        return wcschr(str, chr);
+#else
+        return strchr(str, chr);
+#endif
+      }
+
+      inline char_t const *
+      find_substring(char_t const *str, char_t const *pattern)
+      {
+#ifdef LUMEX_XML_WCHAR_MODE
+        // MSVC6 wcsstr bug workaround (if s is empty it always returns 0)
+        return (*pattern == 0) ? str : wcsstr(str, pattern);
+#else
+        return strstr(str, pattern);
+#endif
+      }
+
+      // Converts symbol to lower case, if it is an ASCII one
+      inline char_t
+      tolower_ascii(char_t chr)
+      {
+        return static_cast<unsigned int>(chr - 'A') < 26 ? static_cast<char_t>(chr | ' ') : chr;
+      }
+
+      inline bool
+      is_xpath_attribute(char_t const *name)
+      {
+        return !starts_with(name, LUMEX_XML_TEXT("xmlns")) || (name[5] != 0 && name[5] != ':');
+      }
+
+      inline bool
+      convert_number_to_boolean(double value)
+      {
+        return (value != 0 && !is_nan(value));
+      }
+
+      inline void
+      truncate_zeros(char const *begin, char *end)
+      {
+        while(begin != end && end[-1] == '0') end--;
+
+        *end = 0;
+      }
+
+      inline char_t *
+      normalize_space(char_t *buffer)
+      {
+        char_t *write = buffer;
+
+        for(char_t *it = buffer; *it != 0;)
+        {
+          char_t chr = *it++;
+
+          if(LUMEX_XML_IS_CHARTYPE(chr, ct_space)) // NOLINT(cppcoreguidelines-pro-bounds-constant-array-index)
+          {
+            // replace whitespace sequence with single space
+            while(LUMEX_XML_IS_CHARTYPE(*it, ct_space)) // NOLINT(cppcoreguidelines-pro-bounds-constant-array-index)
+              it++;
+
+            // avoid leading spaces
+            if(write != buffer) *write++ = ' ';
+          }
+          else
+            *write++ = chr;
+        }
+
+        // remove trailing space
+        if(write != buffer
+           && LUMEX_XML_IS_CHARTYPE( // NOLINT(cppcoreguidelines-pro-bounds-constant-array-index)
+             write[-1], ct_space))
+          write--;
+
+        // zero-terminate
+        *write = 0;
+
+        return write;
+      }
+
+      inline char_t *
+      translate(char_t *buffer, char_t const *from, char_t const *to_, size_t to_length)
+      {
+        char_t *write = buffer;
+
+        while(*buffer != 0)
+        {
+          char_t volatile chr = *buffer++;
+
+          char_t const *pos   = find_char(from, chr);
+
+          if(pos == nullptr)
+            *write++ = chr; // do not process
+          else if(static_cast<size_t>(pos - from) < to_length)
+            *write++ = to_[pos - from]; // replace
+        }
+
+        // zero-terminate
+        *write = 0;
+
+        return write;
+      }
+
+      inline unsigned char *
+      translate_table_generate(XPathAllocator *alloc,
+                               char_t const *from, // NOLINT(bugprone-easily-swappable-parameters)
+                               char_t const *to_)
+      {
+        std::array<unsigned char, 128> table = {0};
+
+        while(*from != 0)
+        {
+          auto fc_ = static_cast<unsigned int>(*from); // NOLINT(bugprone-signed-char-misuse)
+          auto tc_ = static_cast<unsigned int>(*to_);  // NOLINT(bugprone-signed-char-misuse)
+
+          if(fc_ >= 128 || tc_ >= 128) return nullptr;
+
+          // code=128 means "skip character"
+          if(table.at(fc_) == 0) table.at(fc_) = static_cast<unsigned char>((tc_ != 0) ? tc_ : 128);
+
+          from++;
+          if(tc_ != 0) to_++;
+        }
+
+        for(size_t i = 0; i < table.size(); ++i)
+          if(table.at(i) == 0) table.at(i) = static_cast<unsigned char>(i);
+
+        void *result = alloc->allocate(sizeof(table));
+        if(result == nullptr) return nullptr;
+
+        std::memcpy(result, table.data(), table.size());
+
+        return static_cast<unsigned char *>(result);
+      }
+
+      inline char_t *
+      translate_table(char_t *buffer, unsigned char const *table)
+      {
+        char_t *write = buffer;
+
+        while(*buffer != 0)
+        {
+          char_t chr = *buffer++;
+          auto index = static_cast<unsigned int>(chr); // NOLINT(bugprone-signed-char-misuse)
+
+          if(index < 128)
+          {
+            unsigned char code = table[index];
+
+            // code=128 means "skip character" (table size is 128 so 128 can be a special value)
+            // this code skips these characters without extra branches
+            *write = static_cast<char_t>(code);
+            write += 1 - (code >> 7);
+          }
+          else { *write++ = chr; }
+        }
+
+        // zero-terminate
+        *write = 0;
+
+        return write;
+      }
+
+      inline char_t const *
+      convert_number_to_string_special(double value)
+      {
+        double const volatile val = value;
+
+        if(val == 0) return LUMEX_XML_TEXT("0");
+        if(val != val) return LUMEX_XML_TEXT("NaN");
+        if(val * 2 == val) return value > 0 ? LUMEX_XML_TEXT("Infinity") : LUMEX_XML_TEXT("-Infinity");
+        return nullptr;
+      }
+
+      inline void
+      convert_number_to_mantissa_exponent(double value,
+                                          char // NOLINT(cppcoreguidelines-avoid-c-arrays, modernize-avoid-c-arrays)
+                                          (&buffer)[32],
+                                          char **out_mantissa, int *out_exponent)
+      {
+        // get a scientific notation value with IEEE DBL_DIG decimals
+#ifdef LUMEX_XML_WCHAR_MODE
+        swprintf( // NOLINT(cppcoreguidelines-pro-type-vararg)
+          reinterpret_cast<wchar_t *>(buffer), 32, L"%.*e", DBL_DIG, value);
+#else
+        snprintf( // NOLINT(cppcoreguidelines-pro-type-vararg)
+          buffer, // NOLINT(cppcoreguidelines-pro-bounds-array-to-pointer-decay)
+          32, "%.*e", DBL_DIG, value);
+#endif
+
+        // get the exponent (possibly negative)
+        char *exponent_string = strchr(buffer, 'e'); // NOLINT(cppcoreguidelines-pro-bounds-array-to-pointer-decay)
+        LUMEX_ASSERT(exponent_string);
+
+        int exponent = atoi(exponent_string + 1);
+
+        // extract mantissa string: skip sign
+        char *mantissa
+          = buffer[0] == '-' ? buffer + 1 : buffer; // NOLINT(cppcoreguidelines-pro-bounds-array-to-pointer-decay)
+        LUMEX_ASSERT(mantissa[0] != '0' && (mantissa[1] == '.' || mantissa[1] == ','));
+
+        // divide mantissa by 10 to eliminate integer part
+        mantissa[1] = mantissa[0];
+        mantissa++;
+        exponent++;
+
+        // remove extra mantissa digits and zero-terminate mantissa
+        truncate_zeros(mantissa, exponent_string);
+
+        // fill results
+        *out_mantissa = mantissa;
+        *out_exponent = exponent;
       }
     } // namespace Utility
   } // namespace Xml
