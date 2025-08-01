@@ -1,4 +1,5 @@
-#include "lumex/xml/document/LumexXmlDocument.hpp"
+#include "lumex/xml/document/XmlDocument.hpp"
+#include "lumex/xml/text/XmlParser.hpp"
 #include "lumex/xml/utility/XmlCleaner.hpp"
 #include "lumex/xml/utility/XmlUtils.hpp"
 
@@ -72,8 +73,8 @@ load_buffer_impl( // NOLINT(misc-use-internal-linkage)
 
   // early-out for empty documents to avoid buffer allocation overhead
   if(size == 0)
-    return make_parse_result((options & kparse_fragment) ? Types::xml_parse_status::status_ok
-                                                         : Types::xml_parse_status::status_no_document_element);
+    return make_parse_result(((options & kparse_fragment) != 0) ? Types::xml_parse_status::status_ok
+                                                                : Types::xml_parse_status::status_no_document_element);
 
   // get private buffer
   char_t *buffer = nullptr;
@@ -97,7 +98,7 @@ load_buffer_impl( // NOLINT(misc-use-internal-linkage)
   doc->buffer = buffer;
 
   // parse
-  XmlParseResult res = impl::xml_parser::parse(buffer, length, doc, root, options);
+  XmlParseResult res = XmlParser::parse(buffer, length, doc, root, options);
 
   // remember encoding
   res.encoding = buffer_encoding;
