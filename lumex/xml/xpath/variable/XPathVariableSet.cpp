@@ -7,17 +7,20 @@ using namespace Lumex::Xml::XPath::Variable;
 
 inline XPathVariableSet::XPathVariableSet()
 {
-  for(size_t i = 0; i < sizeof(_data) / sizeof(_data[0]); ++i) _data[i] = nullptr;
+  for(size_t i = 0; i < sizeof(_data) / sizeof(_data.at(0)); ++i) // NOLINT(bugprone-sizeof-expression)
+    _data.at(i) = nullptr;
 }
 
 inline XPathVariableSet::~XPathVariableSet()
 {
-  for(size_t i = 0; i < sizeof(_data) / sizeof(_data[0]); ++i) _destroy(_data[i]);
+  for(size_t i = 0; i < sizeof(_data) / sizeof(_data.at(0)); ++i) // NOLINT(bugprone-sizeof-expression)
+    _destroy(_data.at(i));
 }
 
 inline XPathVariableSet::XPathVariableSet(XPathVariableSet const &rhs)
 {
-  for(size_t i = 0; i < sizeof(_data) / sizeof(_data[0]); ++i) _data[i] = nullptr;
+  for(size_t i = 0; i < sizeof(_data) / sizeof(_data.at(0)); ++i) // NOLINT(bugprone-sizeof-expression)
+    _data.at(i) = nullptr;
 
   _assign(rhs);
 }
@@ -34,22 +37,22 @@ XPathVariableSet::operator=(XPathVariableSet const &rhs)
 
 inline XPathVariableSet::XPathVariableSet(XPathVariableSet &&rhs) noexcept
 {
-  for(size_t i = 0; i < sizeof(_data) / sizeof(_data[0]); ++i)
+  for(size_t i = 0; i < sizeof(_data) / sizeof(_data.at(0)); ++i) // NOLINT(bugprone-sizeof-expression)
   {
-    _data[i]     = rhs._data[i];
-    rhs._data[i] = nullptr;
+    _data.at(i)     = rhs._data.at(i);
+    rhs._data.at(i) = nullptr;
   }
 }
 
 inline XPathVariableSet &
 XPathVariableSet::operator=(XPathVariableSet &&rhs) noexcept
 {
-  for(size_t i = 0; i < sizeof(_data) / sizeof(_data[0]); ++i)
+  for(size_t i = 0; i < sizeof(_data) / sizeof(_data.at(0)); ++i) // NOLINT(bugprone-sizeof-expression)
   {
-    _destroy(_data[i]);
+    _destroy(_data.at(i));
 
-    _data[i]     = rhs._data[i];
-    rhs._data[i] = nullptr;
+    _data.at(i)     = rhs._data.at(i);
+    rhs._data.at(i) = nullptr;
   }
 
   return *this;
@@ -60,8 +63,8 @@ XPathVariableSet::_assign(XPathVariableSet const &rhs)
 {
   XPathVariableSet temp;
 
-  for(size_t i = 0; i < sizeof(_data) / sizeof(_data[0]); ++i)
-    if(rhs._data[i] && !_clone(rhs._data[i], &temp._data[i])) return;
+  for(size_t i = 0; i < sizeof(_data) / sizeof(_data.at(0)); ++i) // NOLINT(bugprone-sizeof-expression)
+    if((rhs._data.at(i) != nullptr) && !_clone(rhs._data.at(i), &temp._data.at(i))) return;
 
   _swap(temp);
 }
@@ -69,26 +72,26 @@ XPathVariableSet::_assign(XPathVariableSet const &rhs)
 inline void
 XPathVariableSet::_swap(XPathVariableSet &rhs)
 {
-  for(size_t i = 0; i < sizeof(_data) / sizeof(_data[0]); ++i)
+  for(size_t i = 0; i < sizeof(_data) / sizeof(_data.at(0)); ++i) // NOLINT(bugprone-sizeof-expression)
   {
-    XPathVariable *chain = _data[i];
+    XPathVariable *chain = _data.at(i);
 
-    _data[i]                     = rhs._data[i];
-    rhs._data[i]                 = chain;
+    _data.at(i)          = rhs._data.at(i);
+    rhs._data.at(i)      = chain;
   }
 }
 
 inline XPathVariable *
 XPathVariableSet::_find(char_t const *name) const
 {
-  size_t const hash_size = sizeof(_data) / sizeof(_data[0]);
+  size_t const hash_size = sizeof(_data) / sizeof(_data.at(0)); // NOLINT(bugprone-sizeof-expression)
   size_t hash            = Utility::hash_string(name) % hash_size;
 
   // look for existing variable
-  for(XPathVariable *var = _data[hash]; var; var = var->_next)
+  for(XPathVariable *var = _data.at(hash); var != nullptr; var = var->next())
   {
-    char_t const *vn = var->name();
-    if(vn && impl::strequal(vn, name)) return var;
+    char_t const *tmp = var->name();
+    if((tmp != nullptr) && Utility::strequal(tmp, name)) return var;
   }
 
   return nullptr;
@@ -99,24 +102,24 @@ XPathVariableSet::_clone(XPathVariable *var, XPathVariable **out_result)
 {
   XPathVariable *last = nullptr;
 
-  while(var)
+  while(var != nullptr)
   {
     // allocate storage for new variable
-    XPathVariable *nvar = impl::new_xpath_variable(var->m_type, var->name());
-    if(!nvar) return false;
+    XPathVariable *nvar = new_xpath_variable(var->type(), var->name());
+    if(nvar == nullptr) return false;
 
     // link the variable to the result immediately to handle failures gracefully
-    if(last)
-      last->_next = nvar;
+    if(last != nullptr)
+      last->set_next(nvar);
     else
       *out_result = nvar;
 
     last = nvar;
 
     // copy the value; this can fail due to out-of-memory conditions
-    if(!impl::copy_xpath_variable(nvar, var)) return false;
+    if(!copy_xpath_variable(nvar, var)) return false;
 
-    var = var->_next;
+    var = var->next();
   }
 
   return true;
@@ -125,11 +128,11 @@ XPathVariableSet::_clone(XPathVariable *var, XPathVariable **out_result)
 inline void
 XPathVariableSet::_destroy(XPathVariable *var)
 {
-  while(var)
+  while(var != nullptr)
   {
-    XPathVariable *next = var->_next;
+    XPathVariable *next = var->next();
 
-    impl::delete_xpath_variable(var->m_type, var);
+    delete_xpath_variable(var->type(), var);
 
     var = next;
   }
@@ -138,24 +141,24 @@ XPathVariableSet::_destroy(XPathVariable *var)
 inline XPathVariable *
 XPathVariableSet::add(char_t const *name, xpath_value_type type)
 {
-  size_t const hash_size = sizeof(_data) / sizeof(_data[0]);
-  size_t hash            = impl::hash_string(name) % hash_size;
+  size_t const hash_size = sizeof(_data) / sizeof(_data.at(0)); // NOLINT(bugprone-sizeof-expression)
+  size_t hash            = Utility::hash_string(name) % hash_size;
 
   // look for existing variable
-  for(XPathVariable *var = _data[hash]; var; var = var->_next)
+  for(XPathVariable *var = _data.at(hash); var != nullptr; var = var->next())
   {
-    char_t const *vn = var->name();
-    if(vn && impl::strequal(vn, name)) return var->type() == type ? var : nullptr;
+    char_t const *tmp = var->name();
+    if((tmp != nullptr) && Utility::strequal(tmp, name)) return var->type() == type ? var : nullptr;
   }
 
   // add new variable
-  XPathVariable *result = impl::new_xpath_variable(type, name);
+  XPathVariable *result = new_xpath_variable(type, name);
 
-  if(result)
+  if(result != nullptr)
   {
-    result->_next = _data[hash];
+    result->set_next(_data.at(hash));
 
-    _data[hash]   = result;
+    _data.at(hash) = result;
   }
 
   return result;
@@ -165,28 +168,28 @@ inline bool
 XPathVariableSet::set(char_t const *name, bool value)
 {
   XPathVariable *var = add(name, xpath_type_boolean);
-  return var ? var->set(value) : false;
+  return (var != nullptr) ? var->set(value) : false;
 }
 
 inline bool
 XPathVariableSet::set(char_t const *name, double value)
 {
   XPathVariable *var = add(name, xpath_type_number);
-  return var ? var->set(value) : false;
+  return (var != nullptr) ? var->set(value) : false;
 }
 
 inline bool
-XPathVariableSet::set(char_t const *name, char_t const *value)
+XPathVariableSet::set(char_t const *name, char_t const *value) // NOLINT(bugprone-easily-swappable-parameters)
 {
   XPathVariable *var = add(name, xpath_type_string);
-  return var ? var->set(value) : false;
+  return (var != nullptr) ? var->set(value) : false;
 }
 
 inline bool
-XPathVariableSet::set(char_t const *name, xpath_node_set const &value)
+XPathVariableSet::set(char_t const *name, XPathNodeSet const &value)
 {
   XPathVariable *var = add(name, xpath_type_node_set);
-  return var ? var->set(value) : false;
+  return (var != nullptr) ? var->set(value) : false;
 }
 
 inline XPathVariable *
