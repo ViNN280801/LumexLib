@@ -4,8 +4,6 @@
 #include <cstdint>
 #include <string>
 
-#include "lumex/LumexExport.hpp"
-
 #include "lumex/xml/utility/XmlMacros.hpp"
 
 namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
@@ -32,7 +30,16 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
         ct_start_symbol  = 128 // Any symbol > 127, a-z, A-Z, _, :
       };
 
-      struct LUMEX_API xml_mem_str_header_t {
+      enum chartypex_t : std::uint8_t
+      {
+        ctx_special_pcdata = 1, // Any symbol >= 0 and < 32 (except \t, \r, \n), &, <, >
+        ctx_special_attr   = 2, // Any symbol >= 0 and < 32, &, <, ", '
+        ctx_start_symbol   = 4, // Any symbol > 127, a-z, A-Z, _
+        ctx_digit          = 8, // 0-9
+        ctx_symbol         = 16 // Any symbol > 127, a-z, A-Z, 0-9, _, -, .
+      };
+
+      struct xml_mem_str_header_t {
         uint16_t page_offset; ///< Offset from page->data
         uint16_t full_size;   ///< 0 if string occupies whole page
       };
@@ -214,6 +221,12 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
         nodeset_eval_all,
         nodeset_eval_any,
         nodeset_eval_first
+      };
+
+      enum indent_flags_t : std::uint8_t
+      {
+        indent_newline = 1,
+        indent_indent  = 2
       };
     } // namespace Types
   } // namespace Xml
