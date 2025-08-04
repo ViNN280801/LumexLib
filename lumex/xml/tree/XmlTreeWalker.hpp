@@ -21,7 +21,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
 
         // Callback that is called when traversal begins
         virtual bool
-        begin(LUMEX_ATTRIBUTE_MAYBE_UNUSED XmlNode &node)
+        begin(XmlNode & /* unused */)
         {
           return true;
         }
@@ -31,7 +31,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
 
         // Callback that is called when traversal ends
         virtual bool
-        end(LUMEX_ATTRIBUTE_MAYBE_UNUSED XmlNode &node)
+        end(XmlNode & /* unused */)
         {
           return true;
         }
