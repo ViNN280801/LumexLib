@@ -62,8 +62,9 @@ XmlParseResult::description() const
   }
 }
 
+LUMEX_PUBLIC_API
 inline XmlParseResult
-load_buffer_impl( // NOLINT(misc-use-internal-linkage)
+Lumex::Xml::Text::load_buffer_impl( // NOLINT(misc-use-internal-linkage)
   Document::XmlDocumentBase *doc, Node::XmlNodeBase *root, void *contents,
   size_t size, // NOLINT(bugprone-easily-swappable-parameters)
   unsigned int options, Types::xml_encoding encoding, bool is_mutable, bool own, Types::char_t **out_buffer)

@@ -490,7 +490,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
 
           auto digits = static_cast<size_t>(str - start);
 
-          static_assert(sizeof(U) == kSizeOfU8Bytes || sizeof(U) == 4 || sizeof(U) == 2);
+          LUMEX_STATIC_ASSERT(sizeof(U) == kSizeOfU8Bytes || sizeof(U) == 4 || sizeof(U) == 2);
 
           size_t const max_digits10 = sizeof(U) == 8 ? 20
                                       : sizeof(U) // NOLINT(readability-avoid-nested-conditional-operator)
@@ -883,7 +883,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
       inline xml_encoding
       get_wchar_encoding()
       {
-        static_assert(sizeof(wchar_t) == 2 || sizeof(wchar_t) == 4);
+        LUMEX_STATIC_ASSERT(sizeof(wchar_t) == 2 || sizeof(wchar_t) == 4);
 
         if(sizeof(wchar_t) == 2) return is_little_endian() ? encoding_utf16_le : encoding_utf16_be;
         return is_little_endian() ? encoding_utf32_le : encoding_utf32_be;
@@ -1405,7 +1405,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
       convert_buffer_output_generic(typename T::value_type dest, char_t const *data, size_t length, D /* unused */,
                                     T /* unused */)
       {
-        static_assert(sizeof(char_t) == sizeof(typename D::type));
+        LUMEX_STATIC_ASSERT(sizeof(char_t) == sizeof(typename D::type));
 
         typename T::value_type end = D::process(reinterpret_cast<typename D::type const *>(data), length, dest, T());
 
@@ -1417,7 +1417,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
       convert_buffer_output_generic(typename T::value_type dest, char_t const *data, size_t length, D /* unused */,
                                     T /* unused */, bool opt_swap)
       {
-        static_assert(sizeof(char_t) == sizeof(typename D::type));
+        LUMEX_STATIC_ASSERT(sizeof(char_t) == sizeof(typename D::type));
 
         typename T::value_type end = D::process(reinterpret_cast<typename D::type const *>(data), length, dest, T());
 

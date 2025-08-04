@@ -12,7 +12,7 @@ XmlBufferedWriter::XmlBufferedWriter(IXmlWriter &writer_, // NOLINT(cppcoreguide
                                      xml_encoding user_encoding)
     : buffer(), scratch(), writer(writer_), encoding(Utility::get_write_encoding(user_encoding))
 {
-  static_assert(bufcapacity >= kBufCapacity8);
+  LUMEX_STATIC_ASSERT(bufcapacity >= kBufCapacity8);
 }
 
 LUMEX_PUBLIC_API

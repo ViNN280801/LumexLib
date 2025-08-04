@@ -142,7 +142,7 @@ char_t *
 XmlAllocator::allocate_string(size_t length)
 {
   static size_t const max_encoded_offset = (1 << 16) * kxml_memory_block_alignment;
-  static_assert(kdefault_xml_memory_page_size <= max_encoded_offset);
+  LUMEX_STATIC_ASSERT(kdefault_xml_memory_page_size <= max_encoded_offset);
 
   size_t size      = sizeof(xml_mem_str_header_t) + (length * sizeof(char_t));
   size_t full_size = (size + (kxml_memory_block_alignment - 1)) & ~(kxml_memory_block_alignment - 1);

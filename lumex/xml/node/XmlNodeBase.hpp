@@ -45,53 +45,44 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
         ~name_null_sentry() { node->name = name; }
       };
 
-      LUMEX_API XmlNodeBase *allocate_node(XmlAllocator &alloc, xml_node_type type);
+      LUMEX_API
+      XmlNodeBase *allocate_node(XmlAllocator &alloc, xml_node_type type);
 
       LUMEX_API void destroy_node(XmlNodeBase *n, XmlAllocator &alloc);
 
-      LUMEX_API void append_node(XmlNodeBase *child, XmlNodeBase *node);
-
-      LUMEX_API void prepend_node(XmlNodeBase *child, XmlNodeBase *node);
-
-      LUMEX_API void insert_node_after(XmlNodeBase *child, XmlNodeBase *node);
-
-      LUMEX_API void insert_node_before(XmlNodeBase *child, XmlNodeBase *node);
-
-      LUMEX_API void remove_node(XmlNodeBase *node);
+      LUMEX_API
+      void append_node(XmlNodeBase *child, XmlNodeBase *node);
 
       LUMEX_API
-      LUMEX_ATTRIBUTE_NOINLINE XmlNodeBase *
-      append_new_node(XmlNodeBase *node, XmlAllocator &alloc, xml_node_type type = node_element);
+      void prepend_node(XmlNodeBase *child, XmlNodeBase *node);
 
       LUMEX_API
-      void node_copy_contents(XmlNodeBase *dn_, XmlNodeBase *sn_, XmlAllocator *shared_alloc);
+      void insert_node_after(XmlNodeBase *child, XmlNodeBase *node);
+
+      LUMEX_API
+      void insert_node_before(XmlNodeBase *child, XmlNodeBase *node);
+
+      LUMEX_API
+      void remove_node(XmlNodeBase *node);
+
+      LUMEX_API
+      XmlNodeBase *append_new_node(XmlNodeBase *node, XmlAllocator &alloc, xml_node_type type = node_element);
+
+      LUMEX_PUBLIC_API
+      void append_attribute(XmlAttributeBase *attr, XmlNodeBase *node);
+
+      LUMEX_API
+      XmlAttributeBase *append_new_attribute(XmlNodeBase *node, XmlAllocator &alloc);
+
+      LUMEX_API
+      void node_copy_contents(XmlNodeBase *dn_, XmlNodeBase *sn_, // NOLINT(misc-use-internal-linkage)
+                              XmlAllocator *shared_alloc);
 
       LUMEX_API
       void node_copy_tree(XmlNodeBase *dn_, XmlNodeBase *sn_);
 
       LUMEX_API
       bool node_is_ancestor(XmlNodeBase *parent, XmlNodeBase *node);
-
-      LUMEX_PUBLIC_API
-      inline void
-      append_attribute(XmlAttributeBase *attr, XmlNodeBase *node) // NOLINT(misc-use-internal-linkage)
-      {
-        XmlAttributeBase *head = node->first_attribute;
-
-        if(head != nullptr)
-        {
-          XmlAttributeBase *tail = head->prev_attribute_c;
-
-          tail->next_attribute   = attr;
-          attr->prev_attribute_c = tail;
-          head->prev_attribute_c = attr;
-        }
-        else
-        {
-          node->first_attribute  = attr;
-          attr->prev_attribute_c = attr;
-        }
-      }
     } // namespace Node
   } // namespace Xml
 } // namespace Lumex

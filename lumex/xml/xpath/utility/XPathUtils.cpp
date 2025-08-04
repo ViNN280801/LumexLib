@@ -17,7 +17,8 @@ using namespace Lumex::Xml::XPath::Utility;
 
 LUMEX_PUBLIC_API
 inline XPathNodeSet::type_t
-xpath_get_order(XPathNode const *begin, XPathNode const *end) // NOLINT(misc-use-internal-linkage)
+Lumex::Xml::XPath::Utility::xpath_get_order(XPathNode const *begin,
+                                            XPathNode const *end) // NOLINT(misc-use-internal-linkage)
 {
   if(end - begin < 2) return XPathNodeSet::type_sorted;
 
@@ -33,7 +34,8 @@ xpath_get_order(XPathNode const *begin, XPathNode const *end) // NOLINT(misc-use
 
 LUMEX_PUBLIC_API
 inline XPathNodeSet::type_t
-xpath_sort(XPathNode *begin, XPathNode *end, XPathNodeSet::type_t type, bool rev) // NOLINT(misc-use-internal-linkage)
+Lumex::Xml::XPath::Utility::xpath_sort(XPathNode *begin, XPathNode *end, XPathNodeSet::type_t type,
+                                       bool rev) // NOLINT(misc-use-internal-linkage)
 {
   XPathNodeSet::type_t order = rev ? XPathNodeSet::type_sorted_reverse : XPathNodeSet::type_sorted;
 
@@ -58,8 +60,9 @@ xpath_sort(XPathNode *begin, XPathNode *end, XPathNodeSet::type_t type, bool rev
 
 LUMEX_PUBLIC_API
 inline XPathNode
-xpath_first(XPathNode const *begin, XPathNode const *end, // NOLINT(misc-use-internal-linkage)
-            XPathNodeSet::type_t type)
+Lumex::Xml::XPath::Utility::xpath_first(XPathNode const *begin,
+                                        XPathNode const *end, // NOLINT(misc-use-internal-linkage)
+                                        XPathNodeSet::type_t type)
 {
   if(begin == end) return {};
 
@@ -79,7 +82,8 @@ xpath_first(XPathNode const *begin, XPathNode const *end, // NOLINT(misc-use-int
 
 LUMEX_PUBLIC_API
 inline bool
-copy_xpath_variable(XPathVariable *lhs, XPathVariable const *rhs) // NOLINT(misc-use-internal-linkage)
+Lumex::Xml::XPath::Utility::copy_xpath_variable(XPathVariable *lhs,
+                                                XPathVariable const *rhs) // NOLINT(misc-use-internal-linkage)
 {
   switch(rhs->type())
   {

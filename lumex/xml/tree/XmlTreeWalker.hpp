@@ -16,27 +16,39 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
         friend class XmlNode;
 
       public:
-        XmlTreeWalker();
-        virtual ~XmlTreeWalker();
+        XmlTreeWalker()          = default;
+        virtual ~XmlTreeWalker() = default;
 
         // Callback that is called when traversal begins
-        virtual bool begin(XmlNode &node);
+        virtual bool
+        begin(LUMEX_ATTRIBUTE_MAYBE_UNUSED XmlNode &node)
+        {
+          return true;
+        }
 
         // Callback that is called for each node traversed
         virtual bool for_each(XmlNode &node) = 0;
 
         // Callback that is called when traversal ends
-        virtual bool end(XmlNode &node);
+        virtual bool
+        end(LUMEX_ATTRIBUTE_MAYBE_UNUSED XmlNode &node)
+        {
+          return true;
+        }
 
       protected:
         // Get current traversal depth
         LUMEX_ATTRIBUTE_NODISCARD(
           "The returned integer indicates the current traversal depth; discarding it negates the "
           "purpose of the getter")
-        int depth() const;
+        int
+        depth() const
+        {
+          return m_depth;
+        }
 
       private:
-        int m_depth;
+        int m_depth{};
       };
     } // namespace Tree
   } // namespace Xml

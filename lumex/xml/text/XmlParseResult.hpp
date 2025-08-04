@@ -49,6 +49,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
         char const *description() const;
       };
 
+      LUMEX_API
       inline XmlParseResult
       make_parse_result(Types::xml_parse_status status, ptrdiff_t offset = 0)
       {
@@ -59,6 +60,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
         return result;
       }
 
+      LUMEX_API
       XmlParseResult load_buffer_impl(Document::XmlDocumentBase *doc, Node::XmlNodeBase *root, void *contents,
                                       size_t size, // NOLINT(bugprone-easily-swappable-parameters)
                                       unsigned int options, Types::xml_encoding encoding, bool is_mutable, bool own,

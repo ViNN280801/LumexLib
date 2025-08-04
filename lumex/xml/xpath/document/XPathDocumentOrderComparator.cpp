@@ -12,7 +12,8 @@ using namespace Lumex::Xml::XPath::Document;
 
 LUMEX_PUBLIC_API
 inline bool
-node_is_before_sibling(XmlNodeBase *ln_node, XmlNodeBase *rn_node) // NOLINT(misc-use-internal-linkage)
+Lumex::Xml::XPath::Document::node_is_before_sibling(XmlNodeBase *ln_node,
+                                                    XmlNodeBase *rn_node) // NOLINT(misc-use-internal-linkage)
 {
   LUMEX_ASSERT(ln_node->parent == rn_node->parent);
 
@@ -38,7 +39,8 @@ node_is_before_sibling(XmlNodeBase *ln_node, XmlNodeBase *rn_node) // NOLINT(mis
 
 LUMEX_PUBLIC_API
 inline bool
-node_is_before(XmlNodeBase *ln_node, XmlNodeBase *rn_node) // NOLINT(misc-use-internal-linkage)
+Lumex::Xml::XPath::Document::node_is_before(XmlNodeBase *ln_node,
+                                            XmlNodeBase *rn_node) // NOLINT(misc-use-internal-linkage)
 {
   // find common ancestor at the same depth, if any
   XmlNodeBase *lp_node = ln_node;
@@ -83,13 +85,13 @@ node_is_before(XmlNodeBase *ln_node, XmlNodeBase *rn_node) // NOLINT(misc-use-in
 
 LUMEX_PUBLIC_API
 inline void const *
-document_buffer_order(XPathNode const &xnode) // NOLINT(misc-use-internal-linkage)
+Lumex::Xml::XPath::Document::document_buffer_order(XPathNode const &xnode) // NOLINT(misc-use-internal-linkage)
 {
   XmlNodeBase *node = xnode.node().get();
 
   if(node != nullptr)
   {
-    if((Document::get_document(node).header & kxml_memory_page_contents_shared_mask) == 0)
+    if((Xml::Document::get_document(node).header & kxml_memory_page_contents_shared_mask) == 0)
     {
       if((node->name != nullptr) && (node->header & kxml_memory_page_name_allocated_or_shared_mask) == 0)
         return node->name;
@@ -104,7 +106,7 @@ document_buffer_order(XPathNode const &xnode) // NOLINT(misc-use-internal-linkag
 
   if(attr != nullptr)
   {
-    if((Document::get_document(attr).header & kxml_memory_page_contents_shared_mask) == 0)
+    if((Xml::Document::get_document(attr).header & kxml_memory_page_contents_shared_mask) == 0)
     {
       if((attr->header & kxml_memory_page_name_allocated_or_shared_mask) == 0) return attr->name;
       if((attr->header & kxml_memory_page_value_allocated_or_shared_mask) == 0) return attr->value;
@@ -118,7 +120,7 @@ document_buffer_order(XPathNode const &xnode) // NOLINT(misc-use-internal-linkag
 
 LUMEX_PUBLIC_API
 inline bool
-document_order_comparator::operator()(XPathNode const &lhs, XPathNode const &rhs) const
+Lumex::Xml::XPath::Document::document_order_comparator::operator()(XPathNode const &lhs, XPathNode const &rhs) const
 {
   // optimized document order based check
   void const *lo_doc = XPath::Document::document_buffer_order(lhs);

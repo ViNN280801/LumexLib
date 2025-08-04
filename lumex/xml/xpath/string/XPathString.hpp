@@ -72,8 +72,10 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
           XPathString(char_t const *buffer, bool uses_heap_, size_t length_heap);
         };
 
+        LUMEX_API
         XPathString string_value(Node::XPathNode const &node, XPathAllocator *alloc);
 
+        LUMEX_API
         XPathString convert_number_to_string(double value, XPathAllocator *alloc);
       } // namespace String
     } // namespace XPath

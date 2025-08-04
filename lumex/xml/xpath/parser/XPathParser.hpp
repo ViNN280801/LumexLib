@@ -114,18 +114,6 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
           // UnaryExpr ::= UnionExpr | '-' UnaryExpr
           XPathAstNode *parse_path_or_unary_expression();
 
-          struct binary_op_t {
-            ast_type_t asttype;       // NOLINT(misc-non-private-member-variables-in-classes)
-            xpath_value_type rettype; // NOLINT(misc-non-private-member-variables-in-classes)
-            int precedence;           // NOLINT(misc-non-private-member-variables-in-classes)
-
-            binary_op_t();
-
-            binary_op_t(ast_type_t asttype_, xpath_value_type rettype_, int precedence_);
-
-            static binary_op_t parse(XPathLexer &lexer);
-          };
-
           XPathAstNode *parse_expression_rec(XPathAstNode *lhs, int limit);
 
           // Expr ::= OrExpr

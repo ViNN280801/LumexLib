@@ -417,14 +417,14 @@ XmlText::data() const
 
 LUMEX_PUBLIC_API
 inline bool
-operator&&(XmlText const &lhs, bool rhs) // NOLINT(misc-use-internal-linkage)
+Lumex::Xml::Text::operator&&(XmlText const &lhs, bool rhs) // NOLINT(misc-use-internal-linkage)
 {
   return (bool)lhs && rhs;
 }
 
 LUMEX_PUBLIC_API
 inline bool
-operator||(XmlText const &lhs, bool rhs) // NOLINT(misc-use-internal-linkage)
+Lumex::Xml::Text::operator||(XmlText const &lhs, bool rhs) // NOLINT(misc-use-internal-linkage)
 {
   return (bool)lhs || rhs;
 }

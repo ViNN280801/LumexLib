@@ -333,8 +333,8 @@ template <typename opt_escape> struct strconv_attribute_impl {
 inline strconv_attribute_t
 get_strconv_attribute(unsigned int optmask)
 {
-  static_assert(kparse_escapes == 0x10 && kparse_eol == 0x20 && kparse_wconv_attribute == 0x40
-                && kparse_wnorm_attribute == 0x80);
+  LUMEX_STATIC_ASSERT(kparse_escapes == 0x10 && kparse_eol == 0x20 && kparse_wconv_attribute == 0x40
+                      && kparse_wnorm_attribute == 0x80);
 
   switch((optmask >> 4) & 15) // get bitmask for flags (wnorm wconv eol escapes); this simultaneously checks 4 options
                               // from LUMEX_ASSERTion above
@@ -468,8 +468,8 @@ template <typename opt_trim, typename opt_eol, typename opt_escape> struct strco
 inline strconv_pcdata_t
 get_strconv_pcdata(unsigned int optmask)
 {
-  static_assert(Constants::kparse_escapes == 0x10 && Constants::kparse_eol == 0x20
-                && Constants::kparse_trim_pcdata == 0x0800);
+  LUMEX_STATIC_ASSERT(Constants::kparse_escapes == 0x10 && Constants::kparse_eol == 0x20
+                      && Constants::kparse_trim_pcdata == 0x0800);
 
   switch(((optmask >> 4) & 3) | ((optmask >> 9) & 4)) // get bitmask for flags (trim eol escapes); this simultaneously
                                                       // checks 3 options from LUMEX_ASSERTion above

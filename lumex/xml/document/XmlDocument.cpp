@@ -261,7 +261,7 @@ XmlDocument::_create()
   size_t const page_offset = 0;
 
   // initialize sentinel page
-  static_assert(sizeof(XmlMemoryPage) + sizeof(XmlDocumentBase) + page_offset <= sizeof(m_memory));
+  LUMEX_STATIC_ASSERT(sizeof(XmlMemoryPage) + sizeof(XmlDocumentBase) + page_offset <= sizeof(m_memory));
 
   // prepare page structure
   XmlMemoryPage *page

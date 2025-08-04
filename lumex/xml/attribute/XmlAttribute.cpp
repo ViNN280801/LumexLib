@@ -478,14 +478,14 @@ Lumex::Xml::Utility::is_attribute_of(Attribute::XmlAttributeBase *attr, XmlNodeB
 
 LUMEX_PUBLIC_API
 inline bool
-operator&&(XmlAttribute const &lhs, bool rhs) // NOLINT(misc-use-internal-linkage)
+Lumex::Xml::Attribute::operator&&(XmlAttribute const &lhs, bool rhs) // NOLINT(misc-use-internal-linkage)
 {
   return (bool)lhs && rhs;
 }
 
 LUMEX_PUBLIC_API
 inline bool
-operator||(XmlAttribute const &lhs, bool rhs) // NOLINT(misc-use-internal-linkage)
+Lumex::Xml::Attribute::operator||(XmlAttribute const &lhs, bool rhs) // NOLINT(misc-use-internal-linkage)
 {
   return (bool)lhs || rhs;
 }

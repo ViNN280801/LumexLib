@@ -25,8 +25,6 @@ add_library(${LUMEX_XML_LIB_NAME} SHARED
     text/XmlParseResult.cpp
     text/XmlText.cpp
 
-    tree/XmlTreeWalker.cpp
-
     writer/XmlBufferedWriter.cpp
     writer/XmlWriterFile.cpp
     writer/XmlWriterStream.cpp
@@ -123,9 +121,9 @@ install(DIRECTORY
     DESTINATION include/lumex/xml
     FILES_MATCHING
     PATTERN "*.hpp"
-    PATTERN "LumexXml"
 )
 
-install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/LumexXml.hpp
+install(FILES
+    ${CMAKE_CURRENT_SOURCE_DIR}/LumexXml
     DESTINATION include/lumex/xml
 )

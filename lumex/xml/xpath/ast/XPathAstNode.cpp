@@ -6,6 +6,41 @@ using namespace Lumex::Xml::XPath::Ast;
 
 namespace
 {
+  struct equal_to {
+    template <typename T>
+    bool
+    operator()(T const &lhs, T const &rhs) const
+    {
+      return lhs == rhs;
+    }
+  };
+
+  struct not_equal_to {
+    template <typename T>
+    bool
+    operator()(T const &lhs, T const &rhs) const
+    {
+      return lhs != rhs;
+    }
+  };
+
+  struct less {
+    template <typename T>
+    bool
+    operator()(T const &lhs, T const &rhs) const
+    {
+      return lhs < rhs;
+    }
+  };
+
+  struct less_equal {
+    template <typename T>
+    bool
+    operator()(T const &lhs, T const &rhs) const
+    {
+      return lhs <= rhs;
+    }
+  };
   struct namespace_uri_predicate {
     char_t const *prefix{}; // NOLINT(misc-non-private-member-variables-in-classes)
     size_t prefix_length{}; // NOLINT(misc-non-private-member-variables-in-classes)
@@ -451,12 +486,12 @@ XPathAstNode::eval_boolean( // NOLINT(misc-no-recursion, readability-function-co
   {
   case ast_op_or: return m_left->eval_boolean(ctx, stack) || m_right->eval_boolean(ctx, stack);
   case ast_op_and: return m_left->eval_boolean(ctx, stack) && m_right->eval_boolean(ctx, stack);
-  case ast_op_equal: return compare_eq(m_left, m_right, ctx, stack, std::equal_to());
-  case ast_op_not_equal: return compare_eq(m_left, m_right, ctx, stack, std::not_equal_to());
-  case ast_op_less: return compare_rel(m_left, m_right, ctx, stack, std::less());
-  case ast_op_greater: return compare_rel(m_right, m_left, ctx, stack, std::less());
-  case ast_op_less_or_equal: return compare_rel(m_left, m_right, ctx, stack, std::less_equal());
-  case ast_op_greater_or_equal: return compare_rel(m_right, m_left, ctx, stack, std::less_equal());
+  case ast_op_equal: return compare_eq(m_left, m_right, ctx, stack, equal_to());
+  case ast_op_not_equal: return compare_eq(m_left, m_right, ctx, stack, not_equal_to());
+  case ast_op_less: return compare_rel(m_left, m_right, ctx, stack, less());
+  case ast_op_greater: return compare_rel(m_right, m_left, ctx, stack, less());
+  case ast_op_less_or_equal: return compare_rel(m_left, m_right, ctx, stack, less_equal());
+  case ast_op_greater_or_equal: return compare_rel(m_right, m_left, ctx, stack, less_equal());
 
   case ast_func_starts_with: {
     XPathAllocatorCapture capture(stack.result);

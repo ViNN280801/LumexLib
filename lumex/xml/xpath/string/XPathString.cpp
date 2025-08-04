@@ -1,3 +1,4 @@
+#include "lumex/LumexExport.hpp"
 #define LUMEX_IMPLEMENTATION
 
 #include "lumex/core/utility/LumexAssert.hpp"
@@ -12,14 +13,14 @@ using namespace Lumex::Xml::XPath::Node;
 using namespace Lumex::Xml::XPath::String;
 
 LUMEX_PUBLIC_API
-XPathString
+inline XPathString
 XPathString::from_const(char_t const *str)
 {
   return {str, false, 0};
 }
 
 LUMEX_PUBLIC_API
-XPathString
+inline XPathString
 XPathString::from_heap_preallocated(char_t const *begin, char_t const *end)
 {
   LUMEX_ASSERT(begin <= end && *end == 0);
@@ -28,7 +29,7 @@ XPathString::from_heap_preallocated(char_t const *begin, char_t const *end)
 }
 
 LUMEX_PUBLIC_API
-XPathString
+inline XPathString
 XPathString::from_heap(char_t const *begin, char_t const *end, XPathAllocator *alloc)
 {
   LUMEX_ASSERT(begin <= end);
@@ -42,10 +43,10 @@ XPathString::from_heap(char_t const *begin, char_t const *end, XPathAllocator *a
 }
 
 LUMEX_PUBLIC_API
-XPathString::XPathString() : m_buffer(LUMEX_XML_TEXT("")), m_uses_heap(false), m_length_heap(0) {}
+inline XPathString::XPathString() : m_buffer(LUMEX_XML_TEXT("")), m_uses_heap(false), m_length_heap(0) {}
 
 LUMEX_PUBLIC_API
-void
+inline void
 XPathString::append(XPathString const &other, XPathAllocator *alloc)
 {
   // skip empty sources
@@ -83,21 +84,21 @@ XPathString::append(XPathString const &other, XPathAllocator *alloc)
 }
 
 LUMEX_PUBLIC_API
-char_t const *
+inline char_t const *
 XPathString::c_str() const
 {
   return m_buffer;
 }
 
 LUMEX_PUBLIC_API
-size_t
+inline size_t
 XPathString::length() const
 {
   return m_uses_heap ? m_length_heap : Utility::strlength(m_buffer);
 }
 
 LUMEX_PUBLIC_API
-char_t *
+inline char_t *
 XPathString::data(XPathAllocator *alloc)
 {
   // make private heap copy
@@ -117,35 +118,35 @@ XPathString::data(XPathAllocator *alloc)
 }
 
 LUMEX_PUBLIC_API
-bool
+inline bool
 XPathString::empty() const
 {
   return *m_buffer == 0;
 }
 
 LUMEX_PUBLIC_API
-bool
+inline bool
 XPathString::operator==(XPathString const &other) const
 {
   return Utility::strequal(m_buffer, other.m_buffer);
 }
 
 LUMEX_PUBLIC_API
-bool
+inline bool
 XPathString::operator!=(XPathString const &other) const
 {
   return !Utility::strequal(m_buffer, other.m_buffer);
 }
 
 LUMEX_PUBLIC_API
-bool
+inline bool
 XPathString::uses_heap() const
 {
   return m_uses_heap;
 }
 
 LUMEX_PUBLIC_API
-char_t *
+inline char_t *
 XPathString::duplicate_string(char_t const *string, size_t length, XPathAllocator *alloc)
 {
   auto *result = static_cast<char_t *>(alloc->allocate((length + 1) * sizeof(char_t)));
@@ -158,12 +159,14 @@ XPathString::duplicate_string(char_t const *string, size_t length, XPathAllocato
 }
 
 LUMEX_PUBLIC_API
-XPathString::XPathString(char_t const *buffer, bool uses_heap_, size_t length_heap)
+inline XPathString::XPathString(char_t const *buffer, bool uses_heap_, size_t length_heap)
     : m_buffer(buffer), m_uses_heap(uses_heap_), m_length_heap(length_heap)
 {}
 
-XPathString
-string_value(XPathNode const &node, XPathAllocator *alloc) // NOLINT(misc-use-internal-linkage)
+LUMEX_PUBLIC_API
+inline XPathString
+Lumex::Xml::XPath::String::string_value(XPathNode const &node,
+                                        XPathAllocator *alloc) // NOLINT(misc-use-internal-linkage)
 {
   if(node.attribute() != nullptr) return XPathString::from_const(node.attribute().value());
 
@@ -206,8 +209,10 @@ string_value(XPathNode const &node, XPathAllocator *alloc) // NOLINT(misc-use-in
   }
 }
 
+LUMEX_PUBLIC_API
 inline XPathString
-convert_number_to_string(double value, XPathAllocator *alloc) // NOLINT(misc-use-internal-linkage)
+Lumex::Xml::XPath::String::convert_number_to_string(double value,
+                                                    XPathAllocator *alloc) // NOLINT(misc-use-internal-linkage)
 {
   // try special number conversion
   char_t const *special = convert_number_to_string_special(value);

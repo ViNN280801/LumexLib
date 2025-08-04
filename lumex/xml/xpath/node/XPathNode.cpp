@@ -68,14 +68,14 @@ XPathNode::operator!=(XPathNode const &n) const
 
 LUMEX_PUBLIC_API
 inline bool
-operator&&(XPathNode const &lhs, bool rhs) // NOLINT(misc-use-internal-linkage)
+Lumex::Xml::XPath::Node::operator&&(XPathNode const &lhs, bool rhs) // NOLINT(misc-use-internal-linkage)
 {
   return (bool)lhs && rhs;
 }
 
 LUMEX_PUBLIC_API
 inline bool
-operator||(XPathNode const &lhs, bool rhs) // NOLINT(misc-use-internal-linkage)
+Lumex::Xml::XPath::Node::operator||(XPathNode const &lhs, bool rhs) // NOLINT(misc-use-internal-linkage)
 {
   return (bool)lhs || rhs;
 }
