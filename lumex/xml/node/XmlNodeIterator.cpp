@@ -1,8 +1,8 @@
 #define LUMEX_IMPLEMENTATION
 
-#include "lumex/core/utility/LumexAssert.hpp"
+#include "XmlNode.hpp"
 
-#include "XmlNodeIterator.hpp"
+#include "lumex/core/utility/LumexAssert.hpp"
 
 using namespace Lumex::Xml::Node;
 

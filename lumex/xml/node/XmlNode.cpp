@@ -1,10 +1,7 @@
 #define LUMEX_IMPLEMENTATION
 
-#include "lumex/xml/attribute/XmlAttributeIterator.hpp"
 #include "lumex/xml/document/XmlDocumentBase.hpp"
 #include "lumex/xml/memory/XmlAllocator.hpp"
-#include "lumex/xml/node/XmlNamedNodeIterator.hpp"
-#include "lumex/xml/node/XmlNodeIterator.hpp"
 #include "lumex/xml/text/XmlParseResult.hpp"
 #include "lumex/xml/text/XmlText.hpp"
 #include "lumex/xml/tree/XmlTreeWalker.hpp"
@@ -20,7 +17,6 @@
 #include "lumex/xml/xpath/variable/XPathVariableSet.hpp"
 
 #include "XmlNode.hpp"
-#include "XmlNodeIterator.hpp"
 
 using namespace Lumex::Xml::Writer;
 using namespace Lumex::Xml::Tree;
@@ -117,28 +113,6 @@ inline XmlAttributeIterator
 XmlNode::attributes_end() const
 {
   return {nullptr, m_root};
-}
-
-LUMEX_PUBLIC_API
-inline XmlObjectRange<XmlNodeIterator>
-XmlNode::children() const
-{
-  return XmlObjectRange<XmlNodeIterator>(begin(), end());
-}
-
-LUMEX_PUBLIC_API
-inline XmlObjectRange<XmlNamedNodeIterator>
-XmlNode::children(char_t const *name_) const
-{
-  return XmlObjectRange<XmlNamedNodeIterator>(XmlNamedNodeIterator(child(name_).m_root, m_root, name_),
-                                              XmlNamedNodeIterator(nullptr, m_root, name_));
-}
-
-LUMEX_PUBLIC_API
-inline XmlObjectRange<XmlAttributeIterator>
-XmlNode::attributes() const
-{
-  return XmlObjectRange<XmlAttributeIterator>(attributes_begin(), attributes_end());
 }
 
 LUMEX_PUBLIC_API

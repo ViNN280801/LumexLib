@@ -1,9 +1,6 @@
 #ifndef LUMEXXML_OBJECT_RANGE_HPP
 #define LUMEXXML_OBJECT_RANGE_HPP
 
-#include <iterator>
-#include <type_traits>
-
 #include "lumex/LumexExport.hpp"
 
 #include "lumex/core/utility/LumexUtility"
@@ -35,16 +32,8 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
        * @warning The class does not own the data pointed to by the iterators. The lifecycle
        *          of the underlying collection must be managed by the calling code.
        */
-      template <typename Iterator
-#if __cplusplus < 202002L
-                ,
-                typename = typename std::enable_if<std::is_base_of<
-                  std::input_iterator_tag, typename std::iterator_traits<Iterator>::iterator_category>::value>::type
-#else
-                  requires std::forward_iterator<Iterator>
-#endif
-                >
-      class LUMEX_API XmlObjectRange
+      template <typename Iterator>
+      class XmlObjectRange
       {
       public:
         /**

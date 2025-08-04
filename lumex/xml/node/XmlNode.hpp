@@ -3,13 +3,35 @@
 
 #include "lumex/LumexExport.hpp"
 
+#include <iterator>
+
+#include "lumex/core/utility/LumexUtility"
+
 #include "lumex/xml/attribute/XmlAttribute.hpp"
 #include "lumex/xml/constants/XmlConstants.hpp"
+#include "lumex/xml/range/XmlObjectRange.hpp"
 #include "lumex/xml/text/XmlParseResult.hpp"
 #include "lumex/xml/writer/IXmlWriter.hpp"
 #include "lumex/xml/writer/XmlBufferedWriter.hpp"
 
 #include "XmlNodeBase.hpp"
+
+// Forward declarations for iterators - definitions after XmlNode class
+namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
+{
+  namespace Xml
+  {
+    namespace Node
+    {
+      class XmlNodeIterator;
+      class XmlNamedNodeIterator;
+    }
+    namespace Attribute
+    {
+      class XmlAttributeIterator;
+    }
+  }
+}
 
 using namespace Lumex::Xml::Attribute;
 using namespace Lumex::Xml::Writer;
@@ -457,24 +479,21 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
                                   "discarding it negates the purpose of iteration.")
         XmlAttributeIterator attributes_end() const;
 
-        // TODO: Resolve circular dependency for these methods
-        // // Range-based for support
-        // LUMEX_ATTRIBUTE_NODISCARD("The returned range object should be used for iterating over children; discarding
-        // it "
-        //                           "negates the purpose of iteration.")
-        // XmlObjectRange<XmlNodeIterator> children() const;
+        // Range-based for support - declarations only, definitions in XmlNodeImpl.hpp
+        LUMEX_ATTRIBUTE_NODISCARD("The returned range object should be used for iterating over children; discarding it "
+                                  "negates the purpose of iteration.")
+        Range::XmlObjectRange<XmlNodeIterator> children() const;
 
-        // LUMEX_ATTRIBUTE_NODISCARD("The returned range object should be used for iterating over attributes; discarding
-        // "
-        //                           "it negates the purpose of iteration.")
-        // XmlObjectRange<XmlAttributeIterator> attributes() const;
+        LUMEX_ATTRIBUTE_NODISCARD("The returned range object should be used for iterating over attributes; discarding "
+                                  "it negates the purpose of iteration.")
+        Range::XmlObjectRange<XmlAttributeIterator> attributes() const;
 
-        // // Range-based for support for all children with the specified name
-        // // Note: name pointer must have a longer lifetime than the returned object; be careful with passing
-        // // temporaries!
-        // LUMEX_ATTRIBUTE_NODISCARD("The returned range object should be used for iterating over named children; "
-        //                           "discarding it negates the purpose of iteration.")
-        // XmlObjectRange<XmlNamedNodeIterator> children(char_t const *name) const;
+        // Range-based for support for all children with the specified name
+        // Note: name pointer must have a longer lifetime than the returned object; be careful with passing
+        // temporaries!
+        LUMEX_ATTRIBUTE_NODISCARD("The returned range object should be used for iterating over named children; "
+                                  "discarding it negates the purpose of iteration.")
+        Range::XmlObjectRange<XmlNamedNodeIterator> children(char_t const *name) const;
 
         // Get node offset in parsed file/string (in char_t units) for debugging purposes
         LUMEX_ATTRIBUTE_NODISCARD(
@@ -512,6 +531,153 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
 
       LUMEX_API
       bool operator||(XmlNode const &lhs, bool rhs);
+
+      // Iterator definitions - now that XmlNode is fully defined
+
+      // Node iterator (bidirectional iterator over child nodes)
+      class LUMEX_API XmlNodeIterator
+      {
+        friend class XmlNode;
+
+      public:
+        // Iterator traits
+        using difference_type   = ptrdiff_t;
+        using value_type        = XmlNode;
+        using pointer           = XmlNode *;
+        using reference         = XmlNode &;
+        using iterator_category = std::bidirectional_iterator_tag;
+
+        // Default constructor
+        XmlNodeIterator() = default;
+
+        // Construct an iterator which points to the specified node
+        XmlNodeIterator(XmlNode const &node);
+
+        // Iterator operators
+        bool operator==(XmlNodeIterator const &rhs) const;
+        bool operator!=(XmlNodeIterator const &rhs) const;
+
+        XmlNode &operator*() const;
+        XmlNode *operator->() const;
+
+        XmlNodeIterator &operator++();
+        XmlNodeIterator operator++(int);
+
+        XmlNodeIterator &operator--();
+        XmlNodeIterator operator--(int);
+
+      private:
+        mutable XmlNode m_wrap;
+        XmlNode m_parent;
+
+        XmlNodeIterator(XmlNodeBase *ref, XmlNodeBase *parent);
+      };
+
+      // Named node iterator (bidirectional iterator over child nodes with specific name)
+      class LUMEX_API XmlNamedNodeIterator
+      {
+        friend class XmlNode;
+
+      public:
+        // Iterator traits
+        using difference_type   = ptrdiff_t;
+        using value_type        = XmlNode;
+        using pointer           = XmlNode *;
+        using reference         = XmlNode &;
+        using iterator_category = std::bidirectional_iterator_tag;
+
+        // Default constructor
+        XmlNamedNodeIterator();
+
+        // Construct an iterator which points to the specified node
+        // Note: name pointer is stored in the iterator and must have a longer lifetime than iterator itself
+        XmlNamedNodeIterator(XmlNode const &node, char_t const *name);
+
+        // Iterator operators
+        bool operator==(XmlNamedNodeIterator const &rhs) const;
+        bool operator!=(XmlNamedNodeIterator const &rhs) const;
+
+        XmlNode &operator*() const;
+        XmlNode *operator->() const;
+
+        XmlNamedNodeIterator &operator++();
+        XmlNamedNodeIterator operator++(int);
+
+        XmlNamedNodeIterator &operator--();
+        XmlNamedNodeIterator operator--(int);
+
+      private:
+        mutable XmlNode m_wrap;
+        XmlNode m_parent;
+        char_t const *m_name;
+
+        XmlNamedNodeIterator(XmlNodeBase *ref, XmlNodeBase *parent, char_t const *name);
+      };
+    } // namespace Node
+
+    namespace Attribute
+    {
+      // Attribute iterator (bidirectional iterator over attributes)
+      class LUMEX_API XmlAttributeIterator
+      {
+        friend class Node::XmlNode;
+
+      private:
+        mutable XmlAttribute m_wrap;
+        Node::XmlNode m_parent;
+
+      public:
+        // Iterator traits
+        using difference_type   = ptrdiff_t;
+        using value_type        = XmlAttribute;
+        using pointer           = XmlAttribute *;
+        using reference         = XmlAttribute &;
+        using iterator_category = std::bidirectional_iterator_tag;
+
+        // Default constructor
+        XmlAttributeIterator() = default;
+
+        XmlAttributeIterator(XmlAttributeBase *ref, Node::XmlNodeBase *parent);
+
+        // Construct an iterator which points to the specified attribute
+        XmlAttributeIterator(XmlAttribute const &attr, Node::XmlNode const &parent);
+
+        // Iterator operators
+        bool operator==(XmlAttributeIterator const &rhs) const;
+        bool operator!=(XmlAttributeIterator const &rhs) const;
+
+        XmlAttribute &operator*() const;
+        XmlAttribute *operator->() const;
+
+        XmlAttributeIterator &operator++();
+        XmlAttributeIterator operator++(int);
+
+        XmlAttributeIterator &operator--();
+        XmlAttributeIterator operator--(int);
+      };
+    } // namespace Attribute
+
+    // Inline implementations of template methods - now that all types are defined
+    namespace Node
+    {
+      inline Range::XmlObjectRange<XmlNodeIterator>
+      XmlNode::children() const
+      {
+        return Range::XmlObjectRange<XmlNodeIterator>(begin(), end());
+      }
+
+      inline Range::XmlObjectRange<XmlNamedNodeIterator>
+      XmlNode::children(char_t const *name_) const
+      {
+        return Range::XmlObjectRange<XmlNamedNodeIterator>(XmlNamedNodeIterator(child(name_).m_root, m_root, name_),
+                                                           XmlNamedNodeIterator(nullptr, m_root, name_));
+      }
+
+      inline Range::XmlObjectRange<Attribute::XmlAttributeIterator>
+      XmlNode::attributes() const
+      {
+        return Range::XmlObjectRange<Attribute::XmlAttributeIterator>(attributes_begin(), attributes_end());
+      }
     } // namespace Node
   } // namespace Xml
 } // namespace Lumex

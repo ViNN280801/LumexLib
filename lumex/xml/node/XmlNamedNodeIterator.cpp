@@ -1,10 +1,10 @@
 #define LUMEX_IMPLEMENTATION
 
+#include "XmlNode.hpp"
+
 #include "lumex/core/utility/LumexAssert.hpp"
 
 #include "lumex/xml/utility/XmlUtils.hpp"
-
-#include "XmlNamedNodeIterator.hpp"
 
 using namespace Lumex::Xml::Node;
 using namespace Lumex::Xml::Utility;

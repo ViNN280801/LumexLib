@@ -1,8 +1,10 @@
 #define LUMEX_IMPLEMENTATION
+
 #include "lumex/core/utility/LumexAssert.hpp"
+#include "lumex/xml/attribute/XmlAttribute.hpp"
+#include "lumex/xml/node/XmlNode.hpp"
 
-#include "XmlAttributeIterator.hpp"
-
+using namespace Lumex::Xml::Node;
 using namespace Lumex::Xml::Attribute;
 
 LUMEX_PUBLIC_API
