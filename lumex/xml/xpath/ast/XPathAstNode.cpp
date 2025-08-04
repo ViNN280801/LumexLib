@@ -489,8 +489,8 @@ XPathAstNode::eval_boolean( // NOLINT(misc-no-recursion, readability-function-co
   case ast_op_not_equal: return compare_eq(m_left, m_right, ctx, stack, not_equal_to());
   case ast_op_less: return compare_rel(m_left, m_right, ctx, stack, less());
   case ast_op_greater: return compare_rel(m_right, m_left, ctx, stack, less());
-  case ast_op_less_or_equal: return compare_rel(m_left, m_right, ctx, stack, std::less_equal());
-  case ast_op_greater_or_equal: return compare_rel(m_right, m_left, ctx, stack, std::less_equal());
+  case ast_op_less_or_equal: return compare_rel(m_left, m_right, ctx, stack, less_equal());
+  case ast_op_greater_or_equal: return compare_rel(m_right, m_left, ctx, stack, less_equal());
 
   case ast_func_starts_with: {
     XPathAllocatorCapture capture(stack.result);
