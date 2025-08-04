@@ -537,6 +537,16 @@ if(LUMEX_BUILD_DOCUMENTATION)
 endif()
 
 # ==============================================================================
+# EXAMPLES
+# ==============================================================================
+option(LUMEX_BUILD_EXAMPLES "Build the examples for the LumexLib" OFF)
+
+if(LUMEX_BUILD_EXAMPLES)
+    message(STATUS "Building with examples enabled")
+    add_subdirectory(examples)
+endif()
+
+# ==============================================================================
 # TESTING
 # ==============================================================================
 option(LUMEX_BUILD_TESTS "Build the tests for LumexCore" OFF)
