@@ -1,9 +1,9 @@
 # lumex/xml/CMakeLists.txt
 
-set(LUMEX_XML_LIB_NAME LumexXml)
+set(LUMEX_XML_NAME LumexXml)
 set(EXPORT_TO LumexXmlTargets)
 
-add_library(${LUMEX_XML_LIB_NAME} SHARED
+add_library(${LUMEX_XML_NAME} SHARED
 
     # ======= Core XML files =======
     attribute/XmlAttribute.cpp
@@ -34,8 +34,6 @@ add_library(${LUMEX_XML_LIB_NAME} SHARED
 
     xpath/document/XPathDocumentOrderComparator.cpp
 
-    xpath/exception/XPathException.cpp
-
     xpath/memory/XPathAllocator.cpp
     xpath/memory/XPathStack.cpp
 
@@ -58,13 +56,20 @@ add_library(${LUMEX_XML_LIB_NAME} SHARED
     xpath/variable/XPathVariableSet.cpp
 )
 
-add_library(Lumex::xml ALIAS ${LUMEX_XML_LIB_NAME})
+add_library(Lumex::xml ALIAS ${LUMEX_XML_NAME})
 
 if(BUILD_SHARED_LIBS AND WIN32)
-    target_compile_definitions(${LUMEX_XML_LIB_NAME} PRIVATE LUMEX_EXPORTS)
+    target_compile_definitions(${LUMEX_XML_NAME} PRIVATE LUMEX_EXPORTS)
 endif()
 
-target_include_directories(${LUMEX_XML_LIB_NAME} PUBLIC
+if(MSVC)
+    target_compile_options(${LUMEX_XML_NAME} PRIVATE
+        /wd4099
+        /wd4127
+    )
+endif()
+
+target_include_directories(${LUMEX_XML_NAME} PUBLIC
     $<INSTALL_INTERFACE:include/lumex/xml>
 
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
@@ -97,9 +102,9 @@ target_include_directories(${LUMEX_XML_LIB_NAME} PUBLIC
     $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/lumex/core/utility>
 )
 
-target_link_libraries(${LUMEX_XML_LIB_NAME} PUBLIC Lumex::utility)
+target_link_libraries(${LUMEX_XML_NAME} PUBLIC Lumex::utility)
 
-install(TARGETS ${LUMEX_XML_LIB_NAME} EXPORT ${EXPORT_TO}
+install(TARGETS ${LUMEX_XML_NAME} EXPORT ${EXPORT_TO}
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
