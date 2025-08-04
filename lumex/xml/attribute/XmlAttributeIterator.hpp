@@ -1,6 +1,8 @@
 #ifndef LUMEX_XML_ATTRIBUTE_ITERATOR_HPP
 #define LUMEX_XML_ATTRIBUTE_ITERATOR_HPP
 
+#include "lumex/LumexExport.hpp"
+
 #include "lumex/xml/attribute/XmlAttribute.hpp"
 #include "lumex/xml/node/XmlNode.hpp"
 
@@ -13,7 +15,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
   {
     namespace Attribute
     {
-      class XmlAttributeIterator
+      class LUMEX_API XmlAttributeIterator
       {
       private:
         mutable XmlAttribute m_wrap;

@@ -9,8 +9,10 @@
 using namespace Lumex::Xml::Utility;
 using namespace Lumex::Xml::XPath::Variable;
 
+LUMEX_PUBLIC_API
 inline XPathVariable::XPathVariable(xpath_value_type type_) : m_type(type_), m_next(nullptr) {}
 
+LUMEX_PUBLIC_API
 inline char_t const *
 XPathVariable::name() const
 {
@@ -43,12 +45,14 @@ XPathVariable::name() const
   }
 }
 
+LUMEX_PUBLIC_API
 inline xpath_value_type
 XPathVariable::type() const
 {
   return m_type;
 }
 
+LUMEX_PUBLIC_API
 inline bool
 XPathVariable::get_boolean() const
 {
@@ -58,6 +62,7 @@ XPathVariable::get_boolean() const
                                         : false;
 }
 
+LUMEX_PUBLIC_API
 inline double
 XPathVariable::get_number() const
 {
@@ -67,6 +72,7 @@ XPathVariable::get_number() const
                                        : Utility::gen_nan();
 }
 
+LUMEX_PUBLIC_API
 inline char_t const *
 XPathVariable::get_string() const
 {
@@ -78,6 +84,7 @@ XPathVariable::get_string() const
   return value != nullptr ? value : LUMEX_XML_TEXT("");
 }
 
+LUMEX_PUBLIC_API
 inline XPathNodeSet const &
 XPathVariable::get_node_set() const
 {
@@ -87,6 +94,7 @@ XPathVariable::get_node_set() const
                                          : XPath::Node::dummy_node_set;
 }
 
+LUMEX_PUBLIC_API
 inline bool
 XPathVariable::set(bool value)
 {
@@ -96,6 +104,7 @@ XPathVariable::set(bool value)
   return true;
 }
 
+LUMEX_PUBLIC_API
 inline bool
 XPathVariable::set(double value)
 {
@@ -105,6 +114,7 @@ XPathVariable::set(double value)
   return true;
 }
 
+LUMEX_PUBLIC_API
 inline bool
 XPathVariable::set(char_t const *value)
 {
@@ -127,6 +137,7 @@ XPathVariable::set(char_t const *value)
   return true;
 }
 
+LUMEX_PUBLIC_API
 inline bool
 XPathVariable::set(XPathNodeSet const &value)
 {

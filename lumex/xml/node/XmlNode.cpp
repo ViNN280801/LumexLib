@@ -1,3 +1,5 @@
+#define LUMEX_IMPLEMENTATION
+
 #include "lumex/xml/attribute/XmlAttributeIterator.hpp"
 #include "lumex/xml/document/XmlDocumentBase.hpp"
 #include "lumex/xml/memory/XmlAllocator.hpp"
@@ -31,6 +33,7 @@ using namespace Lumex::Xml::XPath::Node;
 using namespace Lumex::Xml::XPath::Query;
 using namespace Lumex::Xml::XPath::Variable;
 
+LUMEX_PUBLIC_API
 inline bool
 allow_move(XmlNode parent, XmlNode child) // NOLINT(misc-use-internal-linkage)
 {
@@ -53,44 +56,53 @@ allow_move(XmlNode parent, XmlNode child) // NOLINT(misc-use-internal-linkage)
   return true;
 }
 
+LUMEX_PUBLIC_API
 XmlNode::XmlNode() = default;
 
+LUMEX_PUBLIC_API
 inline XmlNode::XmlNode(XmlNodeBase *ptr) : m_root(ptr) {}
 
+LUMEX_PUBLIC_API
 inline void
 unspecified_bool_xml_node(XmlNode *** /* unused */) // NOLINT(misc-use-internal-linkage)
 {}
 
+LUMEX_PUBLIC_API
 inline XmlNode::
 operator XmlNode::unspecified_bool_type() const
 {
   return (m_root != nullptr) ? unspecified_bool_xml_node : nullptr;
 }
 
+LUMEX_PUBLIC_API
 inline bool
 XmlNode::operator!() const
 {
   return m_root == nullptr;
 }
 
+LUMEX_PUBLIC_API
 inline XmlNodeIterator
 XmlNode::begin() const
 {
   return {(m_root != nullptr) ? m_root->first_child + 0 : nullptr, m_root};
 }
 
+LUMEX_PUBLIC_API
 inline XmlNodeIterator
 XmlNode::end() const
 {
   return {nullptr, m_root};
 }
 
+LUMEX_PUBLIC_API
 inline XmlAttributeIterator
 XmlNode::attributes_begin() const
 {
   return {m_root != nullptr ? m_root->first_attribute + 0 : nullptr, m_root};
 }
 
+LUMEX_PUBLIC_API
 inline XmlAttributeIterator
 XmlNode::attributes_end() const
 {
@@ -116,48 +128,56 @@ XmlNode::attributes_end() const
 //   return XmlObjectRange<xml_XmlAttributeIterator>(attributes_begin(), attributes_end());
 // }
 
+LUMEX_PUBLIC_API
 inline bool
 XmlNode::operator==(XmlNode const &other) const
 {
   return (m_root == other.m_root);
 }
 
+LUMEX_PUBLIC_API
 inline bool
 XmlNode::operator!=(XmlNode const &other) const
 {
   return (m_root != other.m_root);
 }
 
+LUMEX_PUBLIC_API
 inline bool
 XmlNode::operator<(XmlNode const &other) const
 {
   return (m_root < other.m_root);
 }
 
+LUMEX_PUBLIC_API
 inline bool
 XmlNode::operator>(XmlNode const &other) const
 {
   return (m_root > other.m_root);
 }
 
+LUMEX_PUBLIC_API
 inline bool
 XmlNode::operator<=(XmlNode const &other) const
 {
   return (m_root <= other.m_root);
 }
 
+LUMEX_PUBLIC_API
 inline bool
 XmlNode::operator>=(XmlNode const &other) const
 {
   return (m_root >= other.m_root);
 }
 
+LUMEX_PUBLIC_API
 inline bool
 XmlNode::empty() const
 {
   return m_root == nullptr;
 }
 
+LUMEX_PUBLIC_API
 inline char_t const *
 XmlNode::name() const
 {
@@ -166,12 +186,14 @@ XmlNode::name() const
   return (name != nullptr) ? name : LUMEX_XML_TEXT("");
 }
 
+LUMEX_PUBLIC_API
 inline xml_node_type
 XmlNode::type() const
 {
   return (m_root != nullptr) ? LUMEX_XML_NODETYPE(m_root) : node_null;
 }
 
+LUMEX_PUBLIC_API
 inline char_t const *
 XmlNode::value() const
 {
@@ -180,6 +202,7 @@ XmlNode::value() const
   return (value != nullptr) ? value : LUMEX_XML_TEXT("");
 }
 
+LUMEX_PUBLIC_API
 inline XmlNode
 XmlNode::child(char_t const *name_) const
 {
@@ -194,6 +217,7 @@ XmlNode::child(char_t const *name_) const
   return {};
 }
 
+LUMEX_PUBLIC_API
 inline XmlAttribute
 XmlNode::attribute(char_t const *name_) const
 {
@@ -208,6 +232,7 @@ XmlNode::attribute(char_t const *name_) const
   return {};
 }
 
+LUMEX_PUBLIC_API
 inline XmlNode
 XmlNode::next_sibling(char_t const *name_) const
 {
@@ -222,12 +247,14 @@ XmlNode::next_sibling(char_t const *name_) const
   return {};
 }
 
+LUMEX_PUBLIC_API
 inline XmlNode
 XmlNode::next_sibling() const
 {
   return (m_root != nullptr) ? XmlNode(m_root->next_sibling) : XmlNode();
 }
 
+LUMEX_PUBLIC_API
 inline XmlNode
 XmlNode::previous_sibling(char_t const *name_) const
 {
@@ -243,6 +270,7 @@ XmlNode::previous_sibling(char_t const *name_) const
 }
 
 #if __cplusplus >= 201703L
+LUMEX_PUBLIC_API
 inline XmlNode
 XmlNode::child(string_view_t name_) const
 {
@@ -257,6 +285,7 @@ XmlNode::child(string_view_t name_) const
   return {};
 }
 
+LUMEX_PUBLIC_API
 inline XmlAttribute
 XmlNode::attribute(string_view_t name_) const
 {
@@ -271,6 +300,7 @@ XmlNode::attribute(string_view_t name_) const
   return {};
 }
 
+LUMEX_PUBLIC_API
 inline XmlNode
 XmlNode::next_sibling(string_view_t name_) const
 {
@@ -285,6 +315,7 @@ XmlNode::next_sibling(string_view_t name_) const
   return {};
 }
 
+LUMEX_PUBLIC_API
 inline XmlNode
 XmlNode::previous_sibling(string_view_t name_) const
 {
@@ -300,8 +331,9 @@ XmlNode::previous_sibling(string_view_t name_) const
 }
 #endif
 
+LUMEX_PUBLIC_API
 inline XmlAttribute
-XmlNode::attribute(const char_t *name_, XmlAttribute &hint_) const
+XmlNode::attribute(char_t const *name_, XmlAttribute &hint_) const
 {
   XmlAttributeBase *hint = hint_.get();
 
@@ -341,6 +373,7 @@ XmlNode::attribute(const char_t *name_, XmlAttribute &hint_) const
 }
 
 #if __cplusplus >= 201703L
+LUMEX_PUBLIC_API
 inline XmlAttribute
 XmlNode::attribute(string_view_t name_, XmlAttribute &hint_) const
 {
@@ -382,6 +415,7 @@ XmlNode::attribute(string_view_t name_, XmlAttribute &hint_) const
 }
 #endif
 
+LUMEX_PUBLIC_API
 inline XmlNode
 XmlNode::previous_sibling() const
 {
@@ -390,24 +424,28 @@ XmlNode::previous_sibling() const
   return (prev->next_sibling != nullptr) ? XmlNode(prev) : XmlNode();
 }
 
+LUMEX_PUBLIC_API
 inline XmlNode
 XmlNode::parent() const
 {
   return (m_root != nullptr) ? XmlNode(m_root->parent) : XmlNode();
 }
 
+LUMEX_PUBLIC_API
 inline XmlNode
 XmlNode::root() const
 {
   return (m_root != nullptr) ? XmlNode(&Document::get_document(m_root)) : XmlNode();
 }
 
+LUMEX_PUBLIC_API
 inline XmlText
 XmlNode::text() const
 {
   return XmlText(m_root);
 }
 
+LUMEX_PUBLIC_API
 inline char_t const *
 XmlNode::child_value() const
 {
@@ -425,12 +463,14 @@ XmlNode::child_value() const
   return LUMEX_XML_TEXT("");
 }
 
+LUMEX_PUBLIC_API
 inline char_t const *
 XmlNode::child_value(char_t const *name_) const
 {
   return child(name_).child_value();
 }
 
+LUMEX_PUBLIC_API
 inline XmlAttribute
 XmlNode::first_attribute() const
 {
@@ -438,6 +478,7 @@ XmlNode::first_attribute() const
   return XmlAttribute(m_root->first_attribute);
 }
 
+LUMEX_PUBLIC_API
 inline XmlAttribute
 XmlNode::last_attribute() const
 {
@@ -446,6 +487,7 @@ XmlNode::last_attribute() const
   return (first != nullptr) ? XmlAttribute(first->prev_attribute_c) : XmlAttribute();
 }
 
+LUMEX_PUBLIC_API
 inline XmlNode
 XmlNode::first_child() const
 {
@@ -453,6 +495,7 @@ XmlNode::first_child() const
   return XmlNode(m_root->first_child);
 }
 
+LUMEX_PUBLIC_API
 inline XmlNode
 XmlNode::last_child() const
 {
@@ -461,6 +504,7 @@ XmlNode::last_child() const
   return (first != nullptr) ? XmlNode(first->prev_sibling_c) : XmlNode();
 }
 
+LUMEX_PUBLIC_API
 inline bool
 XmlNode::set_name(char_t const *rhs)
 {
@@ -472,6 +516,7 @@ XmlNode::set_name(char_t const *rhs)
                                 Utility::strlength(rhs));
 }
 
+LUMEX_PUBLIC_API
 inline bool
 XmlNode::set_name(char_t const *rhs, size_t size)
 {
@@ -484,6 +529,7 @@ XmlNode::set_name(char_t const *rhs, size_t size)
 }
 
 #if __cplusplus >= 201703L
+LUMEX_PUBLIC_API
 inline bool
 XmlNode::set_name(string_view_t rhs)
 {
@@ -496,8 +542,9 @@ XmlNode::set_name(string_view_t rhs)
 }
 #endif
 
+LUMEX_PUBLIC_API
 inline bool
-XmlNode::set_value(const char_t *rhs)
+XmlNode::set_value(char_t const *rhs)
 {
   xml_node_type type_ = (m_root != nullptr) ? LUMEX_XML_NODETYPE(m_root) : node_null;
 
@@ -508,6 +555,7 @@ XmlNode::set_value(const char_t *rhs)
                                 Utility::strlength(rhs));
 }
 
+LUMEX_PUBLIC_API
 inline bool
 XmlNode::set_value(char_t const *rhs, size_t size)
 {
@@ -521,6 +569,7 @@ XmlNode::set_value(char_t const *rhs, size_t size)
 }
 
 #if __cplusplus >= 201703L
+LUMEX_PUBLIC_API
 inline bool
 XmlNode::set_value(string_view_t rhs)
 {
@@ -534,8 +583,9 @@ XmlNode::set_value(string_view_t rhs)
 }
 #endif
 
+LUMEX_PUBLIC_API
 inline XmlAttribute
-XmlNode::append_attribute(const char_t *name_)
+XmlNode::append_attribute(char_t const *name_)
 {
   if(!Utility::allow_insert_attribute(type())) return {};
 
@@ -544,13 +594,14 @@ XmlNode::append_attribute(const char_t *name_)
   XmlAttribute newAttr(Lumex::Xml::Attribute::allocate_attribute(alloc));
   if(!newAttr) return {};
 
-  Lumex::Xml::Attribute::append_attribute(newAttr.get(), m_root);
+  Lumex::Xml::Node::append_attribute(newAttr.get(), m_root);
 
   newAttr.set_name(name_);
 
   return newAttr;
 }
 
+LUMEX_PUBLIC_API
 inline XmlAttribute
 XmlNode::prepend_attribute(char_t const *name_)
 {
@@ -568,6 +619,7 @@ XmlNode::prepend_attribute(char_t const *name_)
   return attr;
 }
 
+LUMEX_PUBLIC_API
 inline XmlAttribute
 XmlNode::insert_attribute_after(char_t const *name_, XmlAttribute const &attr)
 {
@@ -586,6 +638,7 @@ XmlNode::insert_attribute_after(char_t const *name_, XmlAttribute const &attr)
   return newAttr;
 }
 
+LUMEX_PUBLIC_API
 inline XmlAttribute
 XmlNode::insert_attribute_before(char_t const *name_, XmlAttribute const &attr)
 {
@@ -605,6 +658,7 @@ XmlNode::insert_attribute_before(char_t const *name_, XmlAttribute const &attr)
 }
 
 #if __cplusplus >= 201703L
+LUMEX_PUBLIC_API
 inline XmlAttribute
 XmlNode::append_attribute(string_view_t name_)
 {
@@ -615,13 +669,14 @@ XmlNode::append_attribute(string_view_t name_)
   XmlAttribute newAttr(Lumex::Xml::Attribute::allocate_attribute(alloc));
   if(!newAttr) return {};
 
-  Lumex::Xml::Attribute::append_attribute(newAttr.get(), m_root);
+  Lumex::Xml::Node::append_attribute(newAttr.get(), m_root);
 
   newAttr.set_name(name_);
 
   return newAttr;
 }
 
+LUMEX_PUBLIC_API
 inline XmlAttribute
 XmlNode::prepend_attribute(string_view_t name_)
 {
@@ -639,6 +694,7 @@ XmlNode::prepend_attribute(string_view_t name_)
   return newAttr;
 }
 
+LUMEX_PUBLIC_API
 inline XmlAttribute
 XmlNode::insert_attribute_after(string_view_t name_, XmlAttribute const &attr)
 {
@@ -657,6 +713,7 @@ XmlNode::insert_attribute_after(string_view_t name_, XmlAttribute const &attr)
   return newAttr;
 }
 
+LUMEX_PUBLIC_API
 inline XmlAttribute
 XmlNode::insert_attribute_before(string_view_t name_, XmlAttribute const &attr)
 {
@@ -676,8 +733,9 @@ XmlNode::insert_attribute_before(string_view_t name_, XmlAttribute const &attr)
 }
 #endif
 
+LUMEX_PUBLIC_API
 inline XmlAttribute
-XmlNode::append_copy(const XmlAttribute &proto)
+XmlNode::append_copy(XmlAttribute const &proto)
 {
   if(!proto) return {};
   if(!Utility::allow_insert_attribute(type())) return {};
@@ -687,12 +745,13 @@ XmlNode::append_copy(const XmlAttribute &proto)
   XmlAttribute newAttr(Lumex::Xml::Attribute::allocate_attribute(alloc));
   if(!newAttr) return {};
 
-  Lumex::Xml::Attribute::append_attribute(newAttr.get(), m_root);
+  Lumex::Xml::Node::append_attribute(newAttr.get(), m_root);
   Lumex::Xml::Attribute::node_copy_attribute(newAttr.get(), proto.get());
 
   return newAttr;
 }
 
+LUMEX_PUBLIC_API
 inline XmlAttribute
 XmlNode::prepend_copy(XmlAttribute const &proto)
 {
@@ -710,6 +769,7 @@ XmlNode::prepend_copy(XmlAttribute const &proto)
   return newAttr;
 }
 
+LUMEX_PUBLIC_API
 inline XmlAttribute
 XmlNode::insert_copy_after(XmlAttribute const &proto, XmlAttribute const &attr)
 {
@@ -728,6 +788,7 @@ XmlNode::insert_copy_after(XmlAttribute const &proto, XmlAttribute const &attr)
   return newAttr;
 }
 
+LUMEX_PUBLIC_API
 inline XmlAttribute
 XmlNode::insert_copy_before(XmlAttribute const &proto, XmlAttribute const &attr)
 {
@@ -746,6 +807,7 @@ XmlNode::insert_copy_before(XmlAttribute const &proto, XmlAttribute const &attr)
   return newAttr;
 }
 
+LUMEX_PUBLIC_API
 inline XmlNode
 XmlNode::append_child(xml_node_type type_)
 {
@@ -763,6 +825,7 @@ XmlNode::append_child(xml_node_type type_)
   return newNode;
 }
 
+LUMEX_PUBLIC_API
 inline XmlNode
 XmlNode::prepend_child(xml_node_type type_)
 {
@@ -780,6 +843,7 @@ XmlNode::prepend_child(xml_node_type type_)
   return newNode;
 }
 
+LUMEX_PUBLIC_API
 inline XmlNode
 XmlNode::insert_child_before(xml_node_type type_, XmlNode const &node)
 {
@@ -798,6 +862,7 @@ XmlNode::insert_child_before(xml_node_type type_, XmlNode const &node)
   return newNode;
 }
 
+LUMEX_PUBLIC_API
 inline XmlNode
 XmlNode::insert_child_after(xml_node_type type_, XmlNode const &node)
 {
@@ -816,6 +881,7 @@ XmlNode::insert_child_after(xml_node_type type_, XmlNode const &node)
   return newNode;
 }
 
+LUMEX_PUBLIC_API
 inline XmlNode
 XmlNode::append_child(char_t const *name_)
 {
@@ -826,6 +892,7 @@ XmlNode::append_child(char_t const *name_)
   return result;
 }
 
+LUMEX_PUBLIC_API
 inline XmlNode
 XmlNode::prepend_child(char_t const *name_)
 {
@@ -836,6 +903,7 @@ XmlNode::prepend_child(char_t const *name_)
   return result;
 }
 
+LUMEX_PUBLIC_API
 inline XmlNode
 XmlNode::insert_child_after(char_t const *name_, XmlNode const &node)
 {
@@ -846,6 +914,7 @@ XmlNode::insert_child_after(char_t const *name_, XmlNode const &node)
   return result;
 }
 
+LUMEX_PUBLIC_API
 inline XmlNode
 XmlNode::insert_child_before(char_t const *name_, XmlNode const &node)
 {
@@ -857,6 +926,7 @@ XmlNode::insert_child_before(char_t const *name_, XmlNode const &node)
 }
 
 #if __cplusplus >= 201703L
+LUMEX_PUBLIC_API
 inline XmlNode
 XmlNode::append_child(string_view_t name_)
 {
@@ -867,6 +937,7 @@ XmlNode::append_child(string_view_t name_)
   return result;
 }
 
+LUMEX_PUBLIC_API
 inline XmlNode
 XmlNode::prepend_child(string_view_t name_)
 {
@@ -877,6 +948,7 @@ XmlNode::prepend_child(string_view_t name_)
   return result;
 }
 
+LUMEX_PUBLIC_API
 inline XmlNode
 XmlNode::insert_child_after(string_view_t name_, XmlNode const &node)
 {
@@ -887,6 +959,7 @@ XmlNode::insert_child_after(string_view_t name_, XmlNode const &node)
   return result;
 }
 
+LUMEX_PUBLIC_API
 inline XmlNode
 XmlNode::insert_child_before(string_view_t name_, XmlNode const &node)
 {
@@ -898,6 +971,7 @@ XmlNode::insert_child_before(string_view_t name_, XmlNode const &node)
 }
 #endif
 
+LUMEX_PUBLIC_API
 inline XmlNode
 XmlNode::append_copy(XmlNode const &proto)
 {
@@ -915,6 +989,7 @@ XmlNode::append_copy(XmlNode const &proto)
   return newNode;
 }
 
+LUMEX_PUBLIC_API
 inline XmlNode
 XmlNode::prepend_copy(XmlNode const &proto)
 {
@@ -932,6 +1007,7 @@ XmlNode::prepend_copy(XmlNode const &proto)
   return newNode;
 }
 
+LUMEX_PUBLIC_API
 inline XmlNode
 XmlNode::insert_copy_after(XmlNode const &proto, XmlNode const &node)
 {
@@ -950,6 +1026,7 @@ XmlNode::insert_copy_after(XmlNode const &proto, XmlNode const &node)
   return newNode;
 }
 
+LUMEX_PUBLIC_API
 inline XmlNode
 XmlNode::insert_copy_before(XmlNode const &proto, XmlNode const &node)
 {
@@ -968,6 +1045,7 @@ XmlNode::insert_copy_before(XmlNode const &proto, XmlNode const &node)
   return newNode;
 }
 
+LUMEX_PUBLIC_API
 inline XmlNode
 XmlNode::append_move(XmlNode const &moved)
 {
@@ -983,6 +1061,7 @@ XmlNode::append_move(XmlNode const &moved)
   return moved;
 }
 
+LUMEX_PUBLIC_API
 inline XmlNode
 XmlNode::prepend_move(XmlNode const &moved)
 {
@@ -998,6 +1077,7 @@ XmlNode::prepend_move(XmlNode const &moved)
   return moved;
 }
 
+LUMEX_PUBLIC_API
 inline XmlNode
 XmlNode::insert_move_after(XmlNode const &moved, XmlNode const &node)
 {
@@ -1015,6 +1095,7 @@ XmlNode::insert_move_after(XmlNode const &moved, XmlNode const &node)
   return moved;
 }
 
+LUMEX_PUBLIC_API
 inline XmlNode
 XmlNode::insert_move_before(XmlNode const &moved, XmlNode const &node)
 {
@@ -1032,6 +1113,7 @@ XmlNode::insert_move_before(XmlNode const &moved, XmlNode const &node)
   return moved;
 }
 
+LUMEX_PUBLIC_API
 inline bool
 XmlNode::remove_attribute(char_t const *name_)
 {
@@ -1039,6 +1121,7 @@ XmlNode::remove_attribute(char_t const *name_)
 }
 
 #if __cplusplus >= 201703L
+LUMEX_PUBLIC_API
 inline bool
 XmlNode::remove_attribute(string_view_t name_)
 {
@@ -1046,8 +1129,9 @@ XmlNode::remove_attribute(string_view_t name_)
 }
 #endif
 
+LUMEX_PUBLIC_API
 inline bool
-XmlNode::remove_attribute(const XmlAttribute &attr)
+XmlNode::remove_attribute(XmlAttribute const &attr)
 {
   if((m_root == nullptr) || (attr.get() == nullptr)) return false;
   if(!Utility::is_attribute_of(attr.get(), m_root)) return false;
@@ -1060,6 +1144,7 @@ XmlNode::remove_attribute(const XmlAttribute &attr)
   return true;
 }
 
+LUMEX_PUBLIC_API
 inline bool
 XmlNode::remove_attributes()
 {
@@ -1081,6 +1166,7 @@ XmlNode::remove_attributes()
   return true;
 }
 
+LUMEX_PUBLIC_API
 inline bool
 XmlNode::remove_child(char_t const *name_)
 {
@@ -1088,6 +1174,7 @@ XmlNode::remove_child(char_t const *name_)
 }
 
 #if __cplusplus >= 201703L
+LUMEX_PUBLIC_API
 inline bool
 XmlNode::remove_child(string_view_t name_)
 {
@@ -1095,6 +1182,7 @@ XmlNode::remove_child(string_view_t name_)
 }
 #endif
 
+LUMEX_PUBLIC_API
 inline bool
 XmlNode::remove_child(XmlNode const &n)
 {
@@ -1108,6 +1196,7 @@ XmlNode::remove_child(XmlNode const &n)
   return true;
 }
 
+LUMEX_PUBLIC_API
 inline bool
 XmlNode::remove_children()
 {
@@ -1129,6 +1218,7 @@ XmlNode::remove_children()
   return true;
 }
 
+LUMEX_PUBLIC_API
 inline XmlParseResult
 XmlNode::append_buffer(void const *contents, size_t size, unsigned int options, xml_encoding encoding)
 {
@@ -1169,6 +1259,7 @@ XmlNode::append_buffer(void const *contents, size_t size, unsigned int options, 
                                 size, options, encoding, false, false, &extra->buffer);
 }
 
+LUMEX_PUBLIC_API
 inline XmlNode
 XmlNode::find_child_by_attribute(char_t const *name_, char_t const *attr_name, char_t const *attr_value) const
 {
@@ -1194,6 +1285,7 @@ XmlNode::find_child_by_attribute(char_t const *name_, char_t const *attr_name, c
   return {};
 }
 
+LUMEX_PUBLIC_API
 inline XmlNode
 XmlNode::find_child_by_attribute(char_t const *attr_name, char_t const *attr_value) const
 {
@@ -1213,6 +1305,7 @@ XmlNode::find_child_by_attribute(char_t const *attr_name, char_t const *attr_val
   return {};
 }
 
+LUMEX_PUBLIC_API
 inline string_t
 XmlNode::path(char_t delimiter) const
 {
@@ -1249,6 +1342,7 @@ XmlNode::path(char_t delimiter) const
   return result;
 }
 
+LUMEX_PUBLIC_API
 inline XmlNode
 XmlNode::first_element_by_path(char_t const *path_, char_t delimiter) const // NOLINT(misc-no-recursion)
 {
@@ -1291,6 +1385,7 @@ XmlNode::first_element_by_path(char_t const *path_, char_t delimiter) const // N
   return {};
 }
 
+LUMEX_PUBLIC_API
 inline bool
 XmlNode::traverse(XmlTreeWalker &walker)
 {
@@ -1335,424 +1430,21 @@ XmlNode::traverse(XmlTreeWalker &walker)
   return walker.end(arg_end);
 }
 
+LUMEX_PUBLIC_API
 inline size_t
 XmlNode::hash_value() const
 {
   return reinterpret_cast<uintptr_t>(m_root) / sizeof(XmlNodeBase);
 }
 
+LUMEX_PUBLIC_API
 inline XmlNodeBase *
 XmlNode::get() const
 {
   return m_root;
 }
 
-inline void
-text_output_escaped( // NOLINT(misc-use-internal-linkage, readability-function-cognitive-complexity)
-  XmlBufferedWriter &writer, char_t const *str, chartypex_t type, unsigned int flags)
-{
-  while(*str != 0)
-  {
-    char_t const *prev = str;
-
-    // While *s is a usual symbol
-    LUMEX_XML_SCANWHILE_UNROLL( // NOLINT(cppcoreguidelines-pro-bounds-constant-array-index,
-                                // readability-identifier-length)
-      !LUMEX_XML_IS_CHARTYPEX(*str, type));
-
-    writer.write_buffer(prev, static_cast<size_t>(str - prev));
-
-    switch(*str)
-    {
-    case 0: break;
-    case '&':
-      writer.write('&', 'a', 'm', 'p', ';');
-      ++str;
-      break;
-    case '<':
-      writer.write('&', 'l', 't', ';');
-      ++str;
-      break;
-    case '>':
-      writer.write('&', 'g', 't', ';');
-      ++str;
-      break;
-    case '"':
-      if((flags & Constants::kformat_attribute_single_quote) != 0)
-        writer.write('"');
-      else
-        writer.write('&', 'q', 'u', 'o', 't', ';');
-      ++str;
-      break;
-    case '\'':
-      if((flags & Constants::kformat_attribute_single_quote) != 0)
-        writer.write('&', 'a', 'p', 'o', 's', ';');
-      else
-        writer.write('\'');
-      ++str;
-      break;
-    default: // s is not a usual symbol
-    {
-      auto chr = static_cast<unsigned int>(*str++); // NOLINT(bugprone-signed-char-misuse)
-      LUMEX_ASSERT(chr < 32);
-
-      if((flags & Constants::kformat_skip_control_chars) == 0)
-        writer.write('&', '#', static_cast<char_t>((chr / 10) + '0'), static_cast<char_t>((chr % 10) + '0'), ';');
-    }
-    }
-  }
-}
-
-inline void
-text_output(XmlBufferedWriter &writer, char_t const *str, // NOLINT(misc-use-internal-linkage)
-            chartypex_t type, unsigned int flags)
-{
-  if((flags & Constants::kformat_no_escapes) != 0)
-    writer.write_string(str);
-  else
-    text_output_escaped(writer, str, type, flags);
-}
-
-inline void
-text_output_cdata(XmlBufferedWriter &writer, char_t const *str) // NOLINT(misc-use-internal-linkage)
-{
-  do { // NOLINT(cppcoreguidelines-avoid-do-while)
-    writer.write('<', '!', '[', 'C', 'D');
-    writer.write('A', 'T', 'A', '[');
-
-    char_t const *prev = str;
-
-    // look for ]]> sequence - we can't output it as is since it terminates CDATA
-    while((*str != 0) && (str[0] != ']' || str[1] != ']' || str[2] != '>')) ++str;
-
-    // skip ]] if we stopped at ]]>, > will go to the next CDATA section
-    if(*str != 0) str += 2;
-
-    writer.write_buffer(prev, static_cast<size_t>(str - prev));
-
-    writer.write(']', ']', '>');
-  } while(*str != 0);
-}
-
-inline void
-text_output_indent(XmlBufferedWriter &writer,                  // NOLINT(misc-use-internal-linkage)
-                   char_t const *indent, size_t indent_length, // NOLINT(bugprone-easily-swappable-parameters)
-                   unsigned int depth)
-{
-  switch(indent_length)
-  {
-  case 1: {
-    for(unsigned int i = 0; i < depth; ++i) writer.write(indent[0]);
-    break;
-  }
-
-  case 2: {
-    for(unsigned int i = 0; i < depth; ++i) writer.write(indent[0], indent[1]);
-    break;
-  }
-
-  case 3: {
-    for(unsigned int i = 0; i < depth; ++i) writer.write(indent[0], indent[1], indent[2]);
-    break;
-  }
-
-  case 4: {
-    for(unsigned int i = 0; i < depth; ++i) writer.write(indent[0], indent[1], indent[2], indent[3]);
-    break;
-  }
-
-  default: {
-    for(unsigned int i = 0; i < depth; ++i) writer.write_buffer(indent, indent_length);
-  }
-  }
-}
-
-inline void
-node_output_comment(XmlBufferedWriter &writer, char_t const *str) // NOLINT(misc-use-internal-linkage)
-{
-  writer.write('<', '!', '-', '-');
-
-  while(*str != 0)
-  {
-    char_t const *prev = str;
-
-    // look for -\0 or -- sequence - we can't output it since -- is illegal in comment body
-    while((*str != 0) && (str[0] != '-' || (str[1] != '-' && str[1] != 0))) ++str;
-
-    writer.write_buffer(prev, static_cast<size_t>(str - prev));
-
-    if(*str != 0)
-    {
-      LUMEX_ASSERT(*str == '-');
-
-      writer.write('-', ' ');
-      ++str;
-    }
-  }
-
-  writer.write('-', '-', '>');
-}
-
-inline void
-node_output_pi_value(XmlBufferedWriter &writer, char_t const *str) // NOLINT(misc-use-internal-linkage)
-{
-  while(*str != 0)
-  {
-    char_t const *prev = str;
-
-    // look for ?> sequence - we can't output it since ?> terminates PI
-    while((*str != 0) && (str[0] != '?' || str[1] != '>')) ++str;
-
-    writer.write_buffer(prev, static_cast<size_t>(str - prev));
-
-    if(*str != 0)
-    {
-      LUMEX_ASSERT(str[0] == '?' && str[1] == '>');
-
-      writer.write('?', ' ', '>');
-      str += 2;
-    }
-  }
-}
-
-inline void
-node_output_attributes(XmlBufferedWriter &writer, // NOLINT(misc-use-internal-linkage)
-                       XmlNodeBase *node, char_t const *indent,
-                       size_t indent_length, // NOLINT(bugprone-easily-swappable-parameters)
-                       unsigned int flags, unsigned int depth)
-{
-  char_t const *default_name    = LUMEX_XML_TEXT(":anonymous");
-  char_t const enquotation_char = ((flags & Constants::kformat_attribute_single_quote) != 0) ? '\'' : '"';
-
-  for(XmlAttributeBase *attr = node->first_attribute; attr != nullptr; attr = attr->next_attribute)
-  {
-    if((flags & (Constants::kformat_indent_attributes | Constants::kformat_raw))
-       == Constants::kformat_indent_attributes)
-    {
-      writer.write('\n');
-
-      text_output_indent(writer, indent, indent_length, depth + 1);
-    }
-    else { writer.write(' '); }
-
-    writer.write_string((attr->name != nullptr) ? attr->name + 0 : default_name);
-    writer.write('=', enquotation_char);
-
-    if(attr->value != nullptr) text_output(writer, attr->value, ctx_special_attr, flags);
-
-    writer.write(enquotation_char);
-  }
-}
-
-inline bool
-node_output_start(XmlBufferedWriter &writer, // NOLINT(misc-use-internal-linkage)
-                  XmlNodeBase *node, char_t const *indent, size_t indent_length, unsigned int flags, unsigned int depth)
-{
-  char_t const *default_name = LUMEX_XML_TEXT(":anonymous");
-  char_t const *name         = (node->name != nullptr) ? node->name + 0 : default_name;
-
-  writer.write('<');
-  writer.write_string(name);
-
-  if(node->first_attribute != nullptr) node_output_attributes(writer, node, indent, indent_length, flags, depth);
-
-  // element nodes can have value if parse_embed_pcdata was used
-  if(node->value == nullptr)
-  {
-    if(node->first_child == nullptr)
-    {
-      if((flags & Constants::kformat_no_empty_element_tags) != 0)
-      {
-        writer.write('>', '<', '/');
-        writer.write_string(name);
-        writer.write('>');
-
-        return false;
-      }
-
-      if((flags & Constants::kformat_raw) == 0) writer.write(' ');
-
-      writer.write('/', '>');
-
-      return false;
-    }
-    writer.write('>');
-    return true;
-  }
-
-  writer.write('>');
-
-  text_output(writer, node->value, ctx_special_pcdata, flags);
-
-  if(node->first_child == nullptr)
-  {
-    writer.write('<', '/');
-    writer.write_string(name);
-    writer.write('>');
-
-    return false;
-  }
-  return true;
-}
-
-inline void
-node_output_end(XmlBufferedWriter &writer, XmlNodeBase *node) // NOLINT(misc-use-internal-linkage)
-{
-  char_t const *default_name = LUMEX_XML_TEXT(":anonymous");
-  char_t const *name         = (node->name != nullptr) ? node->name + 0 : default_name;
-
-  writer.write('<', '/');
-  writer.write_string(name);
-  writer.write('>');
-}
-
-inline void
-node_output_simple(XmlBufferedWriter &writer, // NOLINT(misc-use-internal-linkage)
-                   XmlNodeBase *node, unsigned int flags)
-{
-  char_t const *default_name = LUMEX_XML_TEXT(":anonymous");
-
-  switch(LUMEX_XML_NODETYPE(node))
-  {
-  case node_pcdata:
-    text_output(writer, (node->value != nullptr) ? node->value + 0 : LUMEX_XML_TEXT(""), ctx_special_pcdata, flags);
-    break;
-
-  case node_cdata: text_output_cdata(writer, (node->value != nullptr) ? node->value + 0 : LUMEX_XML_TEXT("")); break;
-
-  case node_comment:
-    node_output_comment(writer, (node->value != nullptr) ? node->value + 0 : LUMEX_XML_TEXT(""));
-    break;
-
-  case node_pi:
-    writer.write('<', '?');
-    writer.write_string((node->name != nullptr) ? node->name + 0 : default_name);
-
-    if(node->value != nullptr)
-    {
-      writer.write(' ');
-      node_output_pi_value(writer, node->value);
-    }
-
-    writer.write('?', '>');
-    break;
-
-  case node_declaration:
-    writer.write('<', '?');
-    writer.write_string((node->name != nullptr) ? node->name + 0 : default_name);
-    node_output_attributes(writer, node, LUMEX_XML_TEXT(""), 0, flags | Constants::kformat_raw, 0);
-    writer.write('?', '>');
-    break;
-
-  case node_doctype:
-    writer.write('<', '!', 'D', 'O', 'C');
-    writer.write('T', 'Y', 'P', 'E');
-
-    if(node->value != nullptr)
-    {
-      writer.write(' ');
-      writer.write_string(node->value);
-    }
-
-    writer.write('>');
-    break;
-
-  default: LUMEX_ASSERT(false && "Invalid node type"); // unreachable
-  }
-}
-
-inline void
-node_output(XmlBufferedWriter &writer, // NOLINT(misc-use-internal-linkage, readability-function-cognitive-complexity)
-            XmlNodeBase *root, char_t const *indent, unsigned int flags, unsigned int depth)
-{
-  size_t indent_length      = (((flags & (Constants::kformat_indent | Constants::kformat_indent_attributes)) != 0)
-                          && (flags & Constants::kformat_raw) == 0)
-                                ? strlength(indent)
-                                : 0;
-  unsigned int indent_flags = indent_indent;
-
-  XmlNodeBase *node         = root;
-
-  do { // NOLINT(cppcoreguidelines-avoid-do-while)
-    LUMEX_ASSERT(node);
-
-    // begin writing current node
-    if(LUMEX_XML_NODETYPE(node) == node_pcdata || LUMEX_XML_NODETYPE(node) == node_cdata)
-    {
-      node_output_simple(writer, node, flags);
-
-      indent_flags = 0;
-    }
-    else
-    {
-      if(((indent_flags & indent_newline) != 0) && (flags & Constants::kformat_raw) == 0) writer.write('\n');
-
-      if(((indent_flags & indent_indent) != 0) && (indent_length != 0))
-        text_output_indent(writer, indent, indent_length, depth);
-
-      if(LUMEX_XML_NODETYPE(node) == node_element)
-      {
-        indent_flags = indent_newline | indent_indent;
-
-        if(node_output_start(writer, node, indent, indent_length, flags, depth))
-        {
-          // element nodes can have value if parse_embed_pcdata was used
-          if(node->value != nullptr) indent_flags = 0;
-
-          node = node->first_child;
-          depth++;
-          continue;
-        }
-      }
-      else if(LUMEX_XML_NODETYPE(node) == node_document)
-      {
-        indent_flags = indent_indent;
-
-        if(node->first_child != nullptr)
-        {
-          node = node->first_child;
-          continue;
-        }
-      }
-      else
-      {
-        node_output_simple(writer, node, flags);
-
-        indent_flags = indent_newline | indent_indent;
-      }
-    }
-
-    // continue to the next node
-    while(node != root)
-    {
-      if(node->next_sibling != nullptr)
-      {
-        node = node->next_sibling;
-        break;
-      }
-
-      node = node->parent;
-
-      // write closing node
-      if(LUMEX_XML_NODETYPE(node) == node_element)
-      {
-        depth--;
-
-        if(((indent_flags & indent_newline) != 0) && (flags & Constants::kformat_raw) == 0) writer.write('\n');
-
-        if(((indent_flags & indent_indent) != 0) && (indent_length != 0))
-          text_output_indent(writer, indent, indent_length, depth);
-
-        node_output_end(writer, node);
-
-        indent_flags = indent_newline | indent_indent;
-      }
-    }
-  } while(node != root);
-
-  if(((indent_flags & indent_newline) != 0) && (flags & Constants::kformat_raw) == 0) writer.write('\n');
-}
-
+LUMEX_PUBLIC_API
 inline void
 XmlNode::print(IXmlWriter &writer, char_t const *indent, unsigned int flags, xml_encoding encoding,
                unsigned int depth) const
@@ -1766,6 +1458,7 @@ XmlNode::print(IXmlWriter &writer, char_t const *indent, unsigned int flags, xml
   buffered_writer.flush();
 }
 
+LUMEX_PUBLIC_API
 inline void
 XmlNode::print(std::basic_ostream<char> &stream, char_t const *indent, unsigned int flags, xml_encoding encoding,
                unsigned int depth) const
@@ -1775,6 +1468,7 @@ XmlNode::print(std::basic_ostream<char> &stream, char_t const *indent, unsigned 
   print(writer, indent, flags, encoding, depth);
 }
 
+LUMEX_PUBLIC_API
 inline void
 XmlNode::print(std::basic_ostream<wchar_t> &stream, char_t const *indent, unsigned int flags, unsigned int depth) const
 {
@@ -1783,6 +1477,7 @@ XmlNode::print(std::basic_ostream<wchar_t> &stream, char_t const *indent, unsign
   print(writer, indent, flags, encoding_wchar, depth);
 }
 
+LUMEX_PUBLIC_API
 inline ptrdiff_t
 XmlNode::offset_debug() const
 {
@@ -1820,6 +1515,7 @@ XmlNode::offset_debug() const
   }
 }
 
+LUMEX_PUBLIC_API
 inline XPathNode
 XmlNode::select_node(char_t const *query, XPathVariableSet *variables) const
 {
@@ -1827,12 +1523,14 @@ XmlNode::select_node(char_t const *query, XPathVariableSet *variables) const
   return query_obj.evaluate_node(*this);
 }
 
+LUMEX_PUBLIC_API
 inline XPathNode
 XmlNode::select_node(XPathQuery const &query) const
 {
   return query.evaluate_node(*this);
 }
 
+LUMEX_PUBLIC_API
 inline XPathNodeSet
 XmlNode::select_nodes(char_t const *query, XPathVariableSet *variables) const
 {
@@ -1840,12 +1538,14 @@ XmlNode::select_nodes(char_t const *query, XPathVariableSet *variables) const
   return query_obj.evaluate_node_set(*this);
 }
 
+LUMEX_PUBLIC_API
 inline XPathNodeSet
 XmlNode::select_nodes(XPathQuery const &query) const
 {
   return query.evaluate_node_set(*this);
 }
 
+LUMEX_PUBLIC_API
 inline XPathNode
 XmlNode::select_single_node(char_t const *query, XPathVariableSet *variables) const
 {
@@ -1853,18 +1553,21 @@ XmlNode::select_single_node(char_t const *query, XPathVariableSet *variables) co
   return query_obj.evaluate_node(*this);
 }
 
+LUMEX_PUBLIC_API
 inline XPathNode
 XmlNode::select_single_node(XPathQuery const &query) const
 {
   return query.evaluate_node(*this);
 }
 
+LUMEX_PUBLIC_API
 inline bool
 operator&&(XmlNode const &lhs, bool rhs) // NOLINT(misc-use-internal-linkage)
 {
   return (bool)lhs && rhs;
 }
 
+LUMEX_PUBLIC_API
 inline bool
 operator||(XmlNode const &lhs, bool rhs) // NOLINT(misc-use-internal-linkage)
 {

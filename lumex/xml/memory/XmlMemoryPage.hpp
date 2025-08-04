@@ -1,6 +1,8 @@
 #ifndef LUMEX_XML_MEMORY_PAGE_HPP
 #define LUMEX_XML_MEMORY_PAGE_HPP
 
+#include "lumex/LumexExport.hpp"
+
 namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
 {
   namespace Xml
@@ -10,7 +12,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
       // Forward declarations (do not touch this fwd decl !!!)
       struct XmlAllocator;
 
-      struct XmlMemoryPage {
+      struct LUMEX_API XmlMemoryPage {
         static XmlMemoryPage *construct(void *memory);
 
         XmlAllocator *allocator;

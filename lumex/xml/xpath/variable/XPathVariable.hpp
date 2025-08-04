@@ -132,7 +132,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
         };
 
         template <typename T>
-        inline T *
+        LUMEX_API inline T *
         new_xpath_variable(char_t const *name)
         {
           size_t length = Utility::strlength(name);
@@ -152,6 +152,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
           return result;
         }
 
+        LUMEX_API
         inline XPathVariable *
         new_xpath_variable(xpath_value_type type, char_t const *name)
         {
@@ -166,13 +167,14 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
         }
 
         template <typename T>
-        inline void
+        LUMEX_API inline void
         delete_xpath_variable(T *var)
         {
           var->~T();
           free(var); // NOLINT(cppcoreguidelines-owning-memory, cppcoreguidelines-no-malloc)
         }
 
+        LUMEX_API
         inline void
         delete_xpath_variable(xpath_value_type type, XPathVariable *var)
         {
@@ -199,6 +201,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
           }
         }
 
+        LUMEX_API
         inline bool
         copy_xpath_variable(XPathVariable *lhs, XPathVariable const *rhs)
         {

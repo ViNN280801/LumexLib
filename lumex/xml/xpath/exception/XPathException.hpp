@@ -1,6 +1,8 @@
 #ifndef LUMEX_XML_XPATH_EXCEPTION_HPP
 #define LUMEX_XML_XPATH_EXCEPTION_HPP
 
+#include "lumex/LumexExport.hpp"
+
 #include <exception>
 
 #include "lumex/core/utility/LumexAttributes.hpp"
@@ -17,7 +19,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
     {
       namespace Exception
       {
-        class XPathException : public std::exception
+        class LUMEX_API XPathException : public std::exception
         {
         public:
           // Construct exception from parse result

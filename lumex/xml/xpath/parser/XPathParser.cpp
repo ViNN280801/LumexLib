@@ -1,3 +1,5 @@
+#define LUMEX_IMPLEMENTATION
+
 #include "lumex/xml/utility/XmlUtils.hpp"
 #include "lumex/xml/xpath/variable/XPathVariableSet.hpp"
 
@@ -6,6 +8,7 @@
 using namespace Lumex::Xml::Utility;
 using namespace Lumex::Xml::XPath::Parser;
 
+LUMEX_PUBLIC_API
 XPathAstNode *
 XPathParser::error(char const *message) const
 {
@@ -15,6 +18,7 @@ XPathParser::error(char const *message) const
   return nullptr;
 }
 
+LUMEX_PUBLIC_API
 XPathAstNode *
 XPathParser::error_oom() const
 {
@@ -24,18 +28,21 @@ XPathParser::error_oom() const
   return nullptr;
 }
 
+LUMEX_PUBLIC_API
 XPathAstNode *
 XPathParser::error_rec() const
 {
   return error("Exceeded maximum allowed query depth");
 }
 
+LUMEX_PUBLIC_API
 void *
 XPathParser::alloc_node() const
 {
   return m_alloc->allocate(sizeof(XPathAstNode));
 }
 
+LUMEX_PUBLIC_API
 XPathAstNode *
 XPathParser::alloc_node(ast_type_t type, xpath_value_type rettype, char_t const *value) const
 {
@@ -43,6 +50,7 @@ XPathParser::alloc_node(ast_type_t type, xpath_value_type rettype, char_t const 
   return (memory != nullptr) ? new(memory) XPathAstNode(type, rettype, value) : nullptr;
 }
 
+LUMEX_PUBLIC_API
 XPathAstNode *
 XPathParser::alloc_node(ast_type_t type, xpath_value_type rettype, double value) const
 {
@@ -50,6 +58,7 @@ XPathParser::alloc_node(ast_type_t type, xpath_value_type rettype, double value)
   return (memory != nullptr) ? new(memory) XPathAstNode(type, rettype, value) : nullptr;
 }
 
+LUMEX_PUBLIC_API
 XPathAstNode *
 XPathParser::alloc_node(ast_type_t type, xpath_value_type rettype, XPathVariable *value) const
 {
@@ -57,6 +66,7 @@ XPathParser::alloc_node(ast_type_t type, xpath_value_type rettype, XPathVariable
   return (memory != nullptr) ? new(memory) XPathAstNode(type, rettype, value) : nullptr;
 }
 
+LUMEX_PUBLIC_API
 XPathAstNode *
 XPathParser::alloc_node(ast_type_t type, xpath_value_type rettype, XPathAstNode *left, XPathAstNode *right) const
 {
@@ -64,6 +74,7 @@ XPathParser::alloc_node(ast_type_t type, xpath_value_type rettype, XPathAstNode 
   return (memory != nullptr) ? new(memory) XPathAstNode(type, rettype, left, right) : nullptr;
 }
 
+LUMEX_PUBLIC_API
 XPathAstNode *
 XPathParser::alloc_node(ast_type_t type, XPathAstNode *left, axis_t axis, nodetest_t test, char_t const *contents) const
 {
@@ -71,6 +82,7 @@ XPathParser::alloc_node(ast_type_t type, XPathAstNode *left, axis_t axis, nodete
   return (memory != nullptr) ? new(memory) XPathAstNode(type, left, axis, test, contents) : nullptr;
 }
 
+LUMEX_PUBLIC_API
 XPathAstNode *
 XPathParser::alloc_node(ast_type_t type, XPathAstNode *left, XPathAstNode *right, predicate_t test) const
 {
@@ -78,6 +90,7 @@ XPathParser::alloc_node(ast_type_t type, XPathAstNode *left, XPathAstNode *right
   return (memory != nullptr) ? new(memory) XPathAstNode(type, left, right, test) : nullptr;
 }
 
+LUMEX_PUBLIC_API
 char_t const *
 XPathParser::alloc_string(XPathLexerString const &value) const
 {
@@ -93,6 +106,7 @@ XPathParser::alloc_string(XPathLexerString const &value) const
   return chr;
 }
 
+LUMEX_PUBLIC_API
 XPathAstNode *
 XPathParser::parse_function( // NOLINT(readability-function-cognitive-complexity)
   XPathLexerString const &name, size_t argc,
@@ -212,6 +226,7 @@ XPathParser::parse_function( // NOLINT(readability-function-cognitive-complexity
   return error("Unrecognized function or wrong parameter count");
 }
 
+LUMEX_PUBLIC_API
 axis_t
 XPathParser::parse_axis_name(XPathLexerString const &name, bool &specified)
 {
@@ -277,6 +292,7 @@ XPathParser::parse_axis_name(XPathLexerString const &name, bool &specified)
   return axis_child;
 }
 
+LUMEX_PUBLIC_API
 nodetest_t
 XPathParser::parse_node_test_type(XPathLexerString const &name)
 {
@@ -309,6 +325,7 @@ XPathParser::parse_node_test_type(XPathLexerString const &name)
 }
 
 // PrimaryExpr ::= VariableReference | '(' Expr ')' | Literal | Number | FunctionCall
+LUMEX_PUBLIC_API
 XPathAstNode *
 XPathParser::parse_primary_expression() // NOLINT(misc-no-recursion, readability-function-cognitive-complexity)
 {
@@ -415,6 +432,7 @@ XPathParser::parse_primary_expression() // NOLINT(misc-no-recursion, readability
 // FilterExpr ::= PrimaryExpr | FilterExpr Predicate
 // Predicate ::= '[' PredicateExpr ']'
 // PredicateExpr ::= Expr
+LUMEX_PUBLIC_API
 XPathAstNode *
 XPathParser::parse_filter_expression() // NOLINT(misc-no-recursion)
 {
@@ -452,6 +470,7 @@ XPathParser::parse_filter_expression() // NOLINT(misc-no-recursion)
 // NodeTest ::= NameTest | NodeType '(' ')' | 'processing-instruction' '(' Literal ')'
 // NameTest ::= '*' | NCName ':' '*' | QName
 // AbbreviatedStep ::= '.' | '..'
+LUMEX_PUBLIC_API
 XPathAstNode *
 XPathParser::parse_step(XPathAstNode *set) // NOLINT(misc-no-recursion, readability-function-cognitive-complexity)
 {
@@ -607,6 +626,7 @@ XPathParser::parse_step(XPathAstNode *set) // NOLINT(misc-no-recursion, readabil
 }
 
 // RelativeLocationPath ::= Step | RelativeLocationPath '/' Step | RelativeLocationPath '//' Step
+LUMEX_PUBLIC_API
 XPathAstNode *
 XPathParser::parse_relative_location_path(XPathAstNode *set) // NOLINT(misc-no-recursion)
 {
@@ -641,6 +661,7 @@ XPathParser::parse_relative_location_path(XPathAstNode *set) // NOLINT(misc-no-r
 
 // LocationPath ::= RelativeLocationPath | AbsoluteLocationPath
 // AbsoluteLocationPath ::= '/' RelativeLocationPath? | '//' RelativeLocationPath
+LUMEX_PUBLIC_API
 XPathAstNode *
 XPathParser::parse_location_path() // NOLINT(misc-no-recursion)
 {
@@ -685,6 +706,7 @@ XPathParser::parse_location_path() // NOLINT(misc-no-recursion)
 //				| FilterExpr '//' RelativeLocationPath
 // UnionExpr ::= PathExpr | UnionExpr '|' PathExpr
 // UnaryExpr ::= UnionExpr | '-' UnaryExpr
+LUMEX_PUBLIC_API
 XPathAstNode *
 XPathParser::parse_path_or_unary_expression() // NOLINT(misc-no-recursion, readability-function-cognitive-complexity)
 {
@@ -791,6 +813,7 @@ struct binary_op_t {
   }
 };
 
+LUMEX_PUBLIC_API
 XPathAstNode *
 XPathParser::parse_expression_rec(XPathAstNode *lhs, int limit) // NOLINT(misc-no-recursion)
 {
@@ -846,6 +869,7 @@ XPathParser::parse_expression_rec(XPathAstNode *lhs, int limit) // NOLINT(misc-n
 //						  | MultiplicativeExpr '*' UnaryExpr
 //						  | MultiplicativeExpr 'div' UnaryExpr
 //						  | MultiplicativeExpr 'mod' UnaryExpr
+LUMEX_PUBLIC_API
 XPathAstNode *
 XPathParser::parse_expression(int limit) // NOLINT(misc-no-recursion)
 {
@@ -862,11 +886,13 @@ XPathParser::parse_expression(int limit) // NOLINT(misc-no-recursion)
   return astNode;
 }
 
+LUMEX_PUBLIC_API
 XPathParser::XPathParser(char_t const *query, // NOLINT(cppcoreguidelines-pro-type-member-init)
                          XPathVariableSet *variables, XPathAllocator *alloc, XPathParseResult *result)
     : m_alloc(alloc), m_lexer(query), m_query(query), m_variables(variables), m_result(result)
 {}
 
+LUMEX_PUBLIC_API
 XPathAstNode *
 XPathParser::parse()
 {
@@ -881,6 +907,7 @@ XPathParser::parse()
   return astNode;
 }
 
+LUMEX_PUBLIC_API
 XPathAstNode *
 XPathParser::parse(char_t const *query, XPathVariableSet *variables, XPathAllocator *alloc, XPathParseResult *result)
 {

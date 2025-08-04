@@ -1,4 +1,6 @@
 // NOLINTBEGIN
+#define LUMEX_IMPLEMENTATION
+
 #include "lumex/core/utility/LumexAssert.hpp"
 
 #include "lumex/xml/constants/XmlConstants.hpp"
@@ -484,8 +486,10 @@ get_strconv_pcdata(unsigned int optmask)
   }
 }
 
+LUMEX_PUBLIC_API
 inline XmlParser::XmlParser(XmlAllocator *alloc_) : alloc(alloc_), error_status(status_ok) {}
 
+LUMEX_PUBLIC_API
 char_t *
 XmlParser::parse_doctype_primitive(char_t *str)
 {
@@ -522,6 +526,7 @@ XmlParser::parse_doctype_primitive(char_t *str)
   return str;
 }
 
+LUMEX_PUBLIC_API
 char_t *
 XmlParser::parse_doctype_ignore(char_t *str)
 {
@@ -554,6 +559,7 @@ XmlParser::parse_doctype_ignore(char_t *str)
   LUMEX_XML_THROW_ERROR(status_bad_doctype, str);
 }
 
+LUMEX_PUBLIC_API
 char_t *
 XmlParser::parse_doctype_group(char_t *str, char_t endch)
 {
@@ -601,6 +607,7 @@ XmlParser::parse_doctype_group(char_t *str, char_t endch)
   return str;
 }
 
+LUMEX_PUBLIC_API
 char_t *
 XmlParser::parse_exclamation(char_t *str, XmlNodeBase *cursor, unsigned int optmsk, char_t endch)
 {
@@ -717,6 +724,7 @@ XmlParser::parse_exclamation(char_t *str, XmlNodeBase *cursor, unsigned int optm
   return str;
 }
 
+LUMEX_PUBLIC_API
 char_t *
 XmlParser::parse_question(char_t *str, XmlNodeBase *&ref_cursor, unsigned int optmsk, char_t endch)
 {
@@ -812,6 +820,7 @@ XmlParser::parse_question(char_t *str, XmlNodeBase *&ref_cursor, unsigned int op
   return str;
 }
 
+LUMEX_PUBLIC_API
 char_t *
 XmlParser::parse_tree(char_t *str, XmlNodeBase *root, unsigned int optmsk, char_t endch)
 {
@@ -1075,6 +1084,7 @@ XmlParser::parse_tree(char_t *str, XmlNodeBase *root, unsigned int optmsk, char_
   return str;
 }
 
+LUMEX_PUBLIC_API
 #ifdef LUMEX_XML_WCHAR_MODE
 char_t *
 XmlParser::parse_skip_bom(char_t *str)
@@ -1090,6 +1100,7 @@ XmlParser::parse_skip_bom(char_t *str)
 }
 #endif
 
+LUMEX_PUBLIC_API
 bool
 XmlParser::has_element_node_siblings(XmlNodeBase *node)
 {
@@ -1103,6 +1114,7 @@ XmlParser::has_element_node_siblings(XmlNodeBase *node)
   return false;
 }
 
+LUMEX_PUBLIC_API
 XmlParseResult
 XmlParser::parse(char_t *buffer, size_t length, Document::XmlDocumentBase *xmldoc, XmlNodeBase *root,
                  unsigned int optmsk)

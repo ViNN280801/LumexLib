@@ -1,6 +1,8 @@
 #ifndef LUMEX_XML_XPATH_VARIABLE_SET_HPP
 #define LUMEX_XML_XPATH_VARIABLE_SET_HPP
 
+#include "lumex/LumexExport.hpp"
+
 #include "lumex/xml/xpath/node/XPathNodeSet.hpp"
 
 #include "XPathVariable.hpp"
@@ -15,7 +17,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
     {
       namespace Variable
       {
-        class XPathVariableSet // NOLINT(cppcoreguidelines-special-member-functions)
+        class LUMEX_API XPathVariableSet // NOLINT(cppcoreguidelines-special-member-functions)
         {
         public:
           // Default constructor/destructor

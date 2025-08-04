@@ -3,6 +3,20 @@
 
 #include "lumex/core/utility/LumexAttributes.hpp"
 
+#if __cplusplus >= 202002L
+  #define LUMEX_XML_CONSTANTS_CONSTINIT constinit
+#else
+  #define LUMEX_XML_CONSTANTS_CONSTINIT constexpr
+#endif
+
+#if __cplusplus >= 201703L
+  #define LUMEX_XML_CONSTANTS_INLINE inline
+#else
+  #define LUMEX_XML_CONSTANTS_INLINE
+#endif
+
+#define LUMEX_XML_CONSTANT static LUMEX_XML_CONSTANTS_CONSTINIT LUMEX_XML_CONSTANTS_INLINE const
+
 #ifdef LUMEX_XML_WCHAR_MODE
   #define LUMEX_XML_TEXT(t) L ## t
   #define LUMEX_XML_CHAR wchar_t
@@ -21,6 +35,17 @@
   #define LUMEX_XML_MSVC_CRT_VERSION _MSC_VER
 #elif defined(_WIN32_WCE)
   #define LUMEX_XML_MSVC_CRT_VERSION 1310 // MSVC7.1
+#endif
+
+#if __cplusplus >= 201103
+  #define LUMEX_XML_SNPRINTF(buf, ...) snprintf(buf, sizeof(buf), __VA_ARGS__)
+#elif defined(LUMEX_XML_MSVC_CRT_VERSION) && LUMEX_XML_MSVC_CRT_VERSION >= 1400
+  #define LUMEX_XML_SNPRINTF(buf, ...) _snprintf_s(buf, _countof(buf), _TRUNCATE, __VA_ARGS__)
+#elif defined(__APPLE__)                                                                                               \
+  && __clang_major__ >= 14 // Xcode 14 marks sprintf as deprecated while still using C++98 by default
+  #define LUMEX_XML_SNPRINTF(buf, fmt, arg1, arg2) snprintf(buf, sizeof(buf), fmt, arg1, arg2)
+#else
+  #define LUMEX_XML_SNPRINTF sprintf
 #endif
 
 /* ===== For these 4 macros, we need to use the constants from:

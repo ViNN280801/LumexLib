@@ -1,3 +1,5 @@
+#define LUMEX_IMPLEMENTATION
+
 #include "XPathAstNode.hpp"
 
 using namespace Lumex::Xml::XPath::Ast;
@@ -88,12 +90,14 @@ namespace
   }
 }
 
+LUMEX_PUBLIC_API
 bool
 XPathAstNode::eval_once(XPathNodeSet::type_t type, Types::nodeset_eval_t eval) // NOLINT(misc-use-anonymous-namespace)
 {
   return type == XPathNodeSet::type_sorted ? eval != nodeset_eval_all : eval == nodeset_eval_any;
 }
 
+LUMEX_PUBLIC_API
 void
 XPathAstNode::apply_predicate_boolean(XPathNodeSetRaw &nsr, // NOLINT(misc-no-recursion)
                                       size_t first, XPathAstNode *expr, XPathStack const &stack, bool once)
@@ -122,6 +126,7 @@ XPathAstNode::apply_predicate_boolean(XPathNodeSetRaw &nsr, // NOLINT(misc-no-re
   nsr.truncate(last);
 }
 
+LUMEX_PUBLIC_API
 void
 XPathAstNode::apply_predicate_number(XPathNodeSetRaw &nsr, // NOLINT(misc-no-recursion)
                                      size_t first, XPathAstNode *expr, XPathStack const &stack, bool once)
@@ -150,6 +155,7 @@ XPathAstNode::apply_predicate_number(XPathNodeSetRaw &nsr, // NOLINT(misc-no-rec
   nsr.truncate(last);
 }
 
+LUMEX_PUBLIC_API
 void
 XPathAstNode::apply_predicate_number_const(XPathNodeSetRaw &nsr, // NOLINT(misc-no-recursion)
                                            size_t first, XPathAstNode *expr, XPathStack const &stack)
@@ -180,6 +186,7 @@ XPathAstNode::apply_predicate_number_const(XPathNodeSetRaw &nsr, // NOLINT(misc-
   nsr.truncate(last);
 }
 
+LUMEX_PUBLIC_API
 void
 XPathAstNode::apply_predicate(XPathNodeSetRaw &nsr, size_t first, XPathStack const &stack, // NOLINT(misc-no-recursion)
                               bool once)
@@ -196,6 +203,7 @@ XPathAstNode::apply_predicate(XPathNodeSetRaw &nsr, size_t first, XPathStack con
     apply_predicate_boolean(nsr, first, m_right, stack, once);
 }
 
+LUMEX_PUBLIC_API
 void
 XPathAstNode::apply_predicates(XPathNodeSetRaw &nsr, size_t first, XPathStack const &stack, Types::nodeset_eval_t eval)
 {
@@ -207,6 +215,7 @@ XPathAstNode::apply_predicates(XPathNodeSetRaw &nsr, size_t first, XPathStack co
     pred->apply_predicate(nsr, first, stack, (pred->m_next == nullptr) && last_once);
 }
 
+LUMEX_PUBLIC_API
 bool
 XPathAstNode::step_push(XPathNodeSetRaw &nsr, // NOLINT(readability-make-member-function-const)
                         XmlAttributeBase *attr, XmlNodeBase *parent, XPathAllocator *alloc) const
@@ -250,6 +259,7 @@ XPathAstNode::step_push(XPathNodeSetRaw &nsr, // NOLINT(readability-make-member-
   return false;
 }
 
+LUMEX_PUBLIC_API
 bool
 XPathAstNode::step_push(XPathNodeSetRaw &nsr, XmlNodeBase *node, XPathAllocator *alloc) const
 {
@@ -329,6 +339,7 @@ XPathAstNode::step_push(XPathNodeSetRaw &nsr, XmlNodeBase *node, XPathAllocator 
   return false;
 }
 
+LUMEX_PUBLIC_API
 XPathAstNode::XPathAstNode(ast_type_t type, xpath_value_type rettype_, char_t const *value)
     : m_type(static_cast<char>(type)),
       m_rettype(static_cast<char>(rettype_)),
@@ -343,6 +354,7 @@ XPathAstNode::XPathAstNode(ast_type_t type, xpath_value_type rettype_, char_t co
   m_data.string = value; // NOLINT(cppcoreguidelines-pro-type-union-access)
 }
 
+LUMEX_PUBLIC_API
 XPathAstNode::XPathAstNode(ast_type_t type, xpath_value_type rettype_, double value)
     : m_type(static_cast<char>(type)),
       m_rettype(static_cast<char>(rettype_)),
@@ -357,6 +369,7 @@ XPathAstNode::XPathAstNode(ast_type_t type, xpath_value_type rettype_, double va
   m_data.number = value; // NOLINT(cppcoreguidelines-pro-type-union-access)
 }
 
+LUMEX_PUBLIC_API
 XPathAstNode::XPathAstNode(ast_type_t type, xpath_value_type rettype_, XPathVariable *value)
     : m_type(static_cast<char>(type)),
       m_rettype(static_cast<char>(rettype_)),
@@ -371,6 +384,7 @@ XPathAstNode::XPathAstNode(ast_type_t type, xpath_value_type rettype_, XPathVari
   m_data.variable = value; // NOLINT(cppcoreguidelines-pro-type-union-access)
 }
 
+LUMEX_PUBLIC_API
 XPathAstNode::XPathAstNode(ast_type_t type, xpath_value_type rettype_,
                            XPathAstNode *left, // NOLINT(bugprone-easily-swappable-parameters)
                            XPathAstNode *right)
@@ -384,6 +398,7 @@ XPathAstNode::XPathAstNode(ast_type_t type, xpath_value_type rettype_,
       m_data{}
 {}
 
+LUMEX_PUBLIC_API
 XPathAstNode::XPathAstNode(ast_type_t type, XPathAstNode *left, axis_t axis, nodetest_t test, char_t const *contents)
     : m_type(static_cast<char>(type)),
       m_rettype(xpath_type_node_set),
@@ -398,6 +413,7 @@ XPathAstNode::XPathAstNode(ast_type_t type, XPathAstNode *left, axis_t axis, nod
   m_data.nodetest = contents; // NOLINT(cppcoreguidelines-pro-type-union-access)
 }
 
+LUMEX_PUBLIC_API
 XPathAstNode::XPathAstNode(ast_type_t type, XPathAstNode *left, // NOLINT(bugprone-easily-swappable-parameters)
                            XPathAstNode *right, predicate_t test)
     : m_type(static_cast<char>(type)),
@@ -412,18 +428,21 @@ XPathAstNode::XPathAstNode(ast_type_t type, XPathAstNode *left, // NOLINT(bugpro
   LUMEX_ASSERT(type == ast_filter || type == ast_predicate);
 }
 
+LUMEX_PUBLIC_API
 void
 XPathAstNode::set_next(XPathAstNode *value)
 {
   m_next = value;
 }
 
+LUMEX_PUBLIC_API
 void
 XPathAstNode::set_right(XPathAstNode *value)
 {
   m_right = value;
 }
 
+LUMEX_PUBLIC_API
 bool
 XPathAstNode::eval_boolean( // NOLINT(misc-no-recursion, readability-function-cognitive-complexity)
   XPathContext const &ctx, XPathStack const &stack)
@@ -541,6 +560,7 @@ XPathAstNode::eval_boolean( // NOLINT(misc-no-recursion, readability-function-co
   }
 }
 
+LUMEX_PUBLIC_API
 double
 XPathAstNode::eval_number(XPathContext const &ctx, XPathStack const &stack) // NOLINT(misc-no-recursion)
 {
@@ -641,6 +661,7 @@ XPathAstNode::eval_number(XPathContext const &ctx, XPathStack const &stack) // N
   }
 }
 
+LUMEX_PUBLIC_API
 XPathString
 XPathAstNode::eval_string_concat(XPathContext const &ctx, XPathStack const &stack) // NOLINT(misc-no-recursion)
 {
@@ -684,6 +705,7 @@ XPathAstNode::eval_string_concat(XPathContext const &ctx, XPathStack const &stac
   return XPathString::from_heap_preallocated(result, ri_chr);
 }
 
+LUMEX_PUBLIC_API
 XPathString
 XPathAstNode::eval_string( // NOLINT(misc-no-recursion, readability-function-cognitive-complexity)
   XPathContext const &ctx, XPathStack const &stack)
@@ -909,6 +931,7 @@ XPathAstNode::eval_string( // NOLINT(misc-no-recursion, readability-function-cog
   }
 }
 
+LUMEX_PUBLIC_API
 XPathNodeSetRaw
 XPathAstNode::eval_node_set( // NOLINT(misc-no-recursion)
   XPathContext const &ctx, XPathStack const &stack, Types::nodeset_eval_t eval)
@@ -1016,6 +1039,7 @@ XPathAstNode::eval_node_set( // NOLINT(misc-no-recursion)
   return {};
 }
 
+LUMEX_PUBLIC_API
 void
 XPathAstNode::optimize(XPathAllocator *alloc) // NOLINT(misc-no-recursion)
 {
@@ -1027,6 +1051,7 @@ XPathAstNode::optimize(XPathAllocator *alloc) // NOLINT(misc-no-recursion)
   optimize_self(alloc);
 }
 
+LUMEX_PUBLIC_API
 void
 XPathAstNode::optimize_self(XPathAllocator *alloc) // NOLINT(readability-function-cognitive-complexity)
 {
@@ -1105,6 +1130,7 @@ XPathAstNode::optimize_self(XPathAllocator *alloc) // NOLINT(readability-functio
   }
 }
 
+LUMEX_PUBLIC_API
 bool
 XPathAstNode::is_posinv_expr() const // NOLINT(misc-no-recursion)
 {
@@ -1133,6 +1159,7 @@ XPathAstNode::is_posinv_expr() const // NOLINT(misc-no-recursion)
   }
 }
 
+LUMEX_PUBLIC_API
 bool
 XPathAstNode::is_posinv_step() const
 {
@@ -1148,6 +1175,7 @@ XPathAstNode::is_posinv_step() const
   return true;
 }
 
+LUMEX_PUBLIC_API
 xpath_value_type
 XPathAstNode::rettype() const
 {

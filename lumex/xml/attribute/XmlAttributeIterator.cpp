@@ -1,29 +1,35 @@
+#define LUMEX_IMPLEMENTATION
 #include "lumex/core/utility/LumexAssert.hpp"
 
 #include "XmlAttributeIterator.hpp"
 
 using namespace Lumex::Xml::Attribute;
 
+LUMEX_PUBLIC_API
 inline XmlAttributeIterator::XmlAttributeIterator(XmlAttribute const &attr, XmlNode const &parent)
     : m_wrap(attr), m_parent(parent)
 {}
 
+LUMEX_PUBLIC_API
 inline XmlAttributeIterator::XmlAttributeIterator(XmlAttributeBase *ref, XmlNodeBase *parent)
     : m_wrap(ref), m_parent(parent)
 {}
 
+LUMEX_PUBLIC_API
 inline bool
 XmlAttributeIterator::operator==(XmlAttributeIterator const &rhs) const
 {
   return m_wrap.m_attr == rhs.m_wrap.m_attr && m_parent.root() == rhs.m_parent.root();
 }
 
+LUMEX_PUBLIC_API
 inline bool
 XmlAttributeIterator::operator!=(XmlAttributeIterator const &rhs) const
 {
   return m_wrap.m_attr != rhs.m_wrap.m_attr || m_parent.root() != rhs.m_parent.root();
 }
 
+LUMEX_PUBLIC_API
 inline XmlAttribute &
 XmlAttributeIterator::operator*() const
 {
@@ -31,6 +37,7 @@ XmlAttributeIterator::operator*() const
   return m_wrap;
 }
 
+LUMEX_PUBLIC_API
 inline XmlAttribute *
 XmlAttributeIterator::operator->() const
 {
@@ -38,6 +45,7 @@ XmlAttributeIterator::operator->() const
   return &m_wrap;
 }
 
+LUMEX_PUBLIC_API
 inline XmlAttributeIterator &
 XmlAttributeIterator::operator++()
 {
@@ -46,6 +54,7 @@ XmlAttributeIterator::operator++()
   return *this;
 }
 
+LUMEX_PUBLIC_API
 inline XmlAttributeIterator
 XmlAttributeIterator::operator++(int)
 {
@@ -54,6 +63,7 @@ XmlAttributeIterator::operator++(int)
   return temp;
 }
 
+LUMEX_PUBLIC_API
 inline XmlAttributeIterator &
 XmlAttributeIterator::operator--()
 {
@@ -61,6 +71,7 @@ XmlAttributeIterator::operator--()
   return *this;
 }
 
+LUMEX_PUBLIC_API
 inline XmlAttributeIterator
 XmlAttributeIterator::operator--(int)
 {

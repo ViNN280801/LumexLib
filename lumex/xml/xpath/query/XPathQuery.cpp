@@ -1,3 +1,5 @@
+#define LUMEX_IMPLEMENTATION
+
 #include "lumex/xml/utility/XmlCleaner.hpp"
 #include "lumex/xml/xpath/exception/XPathException.hpp"
 
@@ -62,6 +64,7 @@ XPathQueryImpl::XPathQueryImpl() : alloc(&block, &oom)
   block.capacity = sizeof(block.data); // NOLINT(cppcoreguidelines-pro-type-union-access)
 }
 
+LUMEX_PUBLIC_API
 inline XPathQuery::XPathQuery(char_t const *query, XPathVariableSet *variables) : m_impl(nullptr)
 {
   XPathQueryImpl *qimpl = XPathQueryImpl::create();
@@ -84,19 +87,23 @@ inline XPathQuery::XPathQuery(char_t const *query, XPathVariableSet *variables) 
   }
 }
 
+LUMEX_PUBLIC_API
 inline XPathQuery::XPathQuery() : m_impl(nullptr) {}
 
+LUMEX_PUBLIC_API
 inline XPathQuery::~XPathQuery()
 {
   if(m_impl != nullptr) XPathQueryImpl::destroy(static_cast<XPathQueryImpl *>(m_impl));
 }
 
+LUMEX_PUBLIC_API
 inline XPathQuery::XPathQuery(XPathQuery &&rhs) noexcept : m_impl(rhs.m_impl), m_result(rhs.m_result)
 {
   rhs.m_impl   = nullptr;
   rhs.m_result = XPathParseResult();
 }
 
+LUMEX_PUBLIC_API
 inline XPathQuery &
 XPathQuery::operator=(XPathQuery &&rhs) noexcept
 {
@@ -112,6 +119,7 @@ XPathQuery::operator=(XPathQuery &&rhs) noexcept
   return *this;
 }
 
+LUMEX_PUBLIC_API
 inline xpath_value_type
 XPathQuery::return_type() const
 {
@@ -120,6 +128,7 @@ XPathQuery::return_type() const
   return static_cast<XPathQueryImpl *>(m_impl)->root->rettype();
 }
 
+LUMEX_PUBLIC_API
 inline bool
 XPathQuery::evaluate_boolean(XPathNode const &n) const
 {
@@ -135,6 +144,7 @@ XPathQuery::evaluate_boolean(XPathNode const &n) const
   return tmp;
 }
 
+LUMEX_PUBLIC_API
 inline double
 XPathQuery::evaluate_number(XPathNode const &n) const
 {
@@ -150,6 +160,7 @@ XPathQuery::evaluate_number(XPathNode const &n) const
   return tmp;
 }
 
+LUMEX_PUBLIC_API
 inline string_t
 XPathQuery::evaluate_string(XPathNode const &n) const
 {
@@ -165,6 +176,7 @@ XPathQuery::evaluate_string(XPathNode const &n) const
   return {tmp.c_str(), tmp.length()};
 }
 
+LUMEX_PUBLIC_API
 inline size_t
 XPathQuery::evaluate_string(char_t *buffer, size_t capacity, XPathNode const &n) const
 {
@@ -191,6 +203,7 @@ XPathQuery::evaluate_string(char_t *buffer, size_t capacity, XPathNode const &n)
   return full_size;
 }
 
+LUMEX_PUBLIC_API
 inline XPathNodeSet
 XPathQuery::evaluate_node_set(XPathNode const &n) const
 {
@@ -207,6 +220,7 @@ XPathQuery::evaluate_node_set(XPathNode const &n) const
   return {node_set_raw.begin(), node_set_raw.end(), node_set_raw.type()};
 }
 
+LUMEX_PUBLIC_API
 inline XPathNode
 XPathQuery::evaluate_node(XPathNode const &n) const
 {
@@ -223,18 +237,21 @@ XPathQuery::evaluate_node(XPathNode const &n) const
   return node_set_raw.first();
 }
 
+LUMEX_PUBLIC_API
 inline XPathParseResult const &
 XPathQuery::result() const
 {
   return m_result;
 }
 
+LUMEX_PUBLIC_API
 inline XPathQuery::
 operator XPathQuery::unspecified_bool_type() const
 {
   return (m_impl != nullptr) ? unspecified_bool_xpath_query : nullptr;
 }
 
+LUMEX_PUBLIC_API
 inline bool
 XPathQuery::operator!() const
 {

@@ -1,6 +1,8 @@
 #ifndef LUMEX_XML_WRITER_XML_BUFFERED_WRITER_HPP
 #define LUMEX_XML_WRITER_XML_BUFFERED_WRITER_HPP
 
+#include "lumex/LumexExport.hpp"
+
 #include <array>
 #include <cstddef>
 
@@ -17,7 +19,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
     namespace Writer
     {
 
-      class XmlBufferedWriter // NOLINT(cppcoreguidelines-special-member-functions)
+      class LUMEX_API XmlBufferedWriter // NOLINT(cppcoreguidelines-special-member-functions)
       {
       public:
         static constexpr short const kBufCapacity8 = 8;

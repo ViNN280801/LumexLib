@@ -1,6 +1,8 @@
 #ifndef LUMEX_XML_TREE_WALKER_HPP
 #define LUMEX_XML_TREE_WALKER_HPP
 
+#include "lumex/LumexExport.hpp"
+
 #include "lumex/core/utility/LumexAttributes.hpp"
 
 namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
@@ -9,7 +11,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
   {
     namespace Tree
     {
-      class XmlTreeWalker // NOLINT(cppcoreguidelines-special-member-functions)
+      class LUMEX_API XmlTreeWalker // NOLINT(cppcoreguidelines-special-member-functions)
       {
         friend class XmlNode;
 

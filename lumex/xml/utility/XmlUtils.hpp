@@ -579,6 +579,18 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
         return string_to_integer<unsigned long long>(value, 0, ULLONG_MAX);
       }
 
+      inline size_t
+      strlength(char_t const *str)
+      {
+        LUMEX_ASSERT(str);
+
+#ifdef LUMEX_XML_WCHAR_MODE
+        return wcslen(str);
+#else
+        return strlen(str);
+#endif
+      }
+
       template <typename Header>
       inline bool
       strcpy_insitu_allow(size_t length, Header const &header, uintptr_t header_mask, char_t *target)
@@ -635,18 +647,6 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
         header |= header_mask;
 
         return true;
-      }
-
-      inline size_t
-      strlength(char_t const *str)
-      {
-        LUMEX_ASSERT(str);
-
-#ifdef LUMEX_XML_WCHAR_MODE
-        return wcslen(str);
-#else
-        return strlen(str);
-#endif
       }
 
       // Compare two strings
@@ -708,16 +708,53 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
 #endif
       }
 
+      template <typename U>
+      inline char_t *
+      integer_to_string(char_t const *begin, char_t *end, U value, bool negative)
+      {
+        char_t *result = end - 1;
+        U rest         = negative ? 0 - value : value;
+
+        do {
+          *result-- = static_cast<char_t>('0' + (rest % 10));
+          rest /= 10;
+        } while(rest);
+
+        LUMEX_ASSERT(result >= begin);
+        (void)begin;
+
+        *result = '-';
+
+        return result + !negative;
+      }
+
       template <typename U, typename String, typename Header>
       inline bool
       set_value_integer(String &dest, Header &header, uintptr_t header_mask, U value, bool negative)
       {
         static constexpr size_t const kBufSize = 64UL;
-        std::array<char_t, kBufSize> buf{};
-        char_t *end   = buf.data() + buf.size();
+        char_t buf[kBufSize]; // NOLINT(cppcoreguidelines-avoid-c-arrays, modernize-avoid-c-arrays)
+        char_t *end   = buf + kBufSize;
         char_t *begin = integer_to_string(buf, end, value, negative);
 
         return strcpy_insitu(dest, header, header_mask, begin, end - begin);
+      }
+
+      template <typename String, typename Header>
+      inline bool
+      set_value_ascii(String &dest, Header &header, uintptr_t header_mask, char *buf)
+      {
+#ifdef LUMEX_XML_WCHAR_MODE
+        char_t wbuf[128];
+        LUMEX_ASSERT(strlen(buf) < sizeof(wbuf) / sizeof(wbuf[0]));
+
+        size_t offset = 0;
+        for(; buf[offset]; ++offset) wbuf[offset] = buf[offset];
+
+        return strcpy_insitu(dest, header, header_mask, wbuf, offset);
+#else
+        return strcpy_insitu(dest, header, header_mask, buf, strlen(buf));
+#endif
       }
 
       template <typename String, typename Header>
@@ -727,8 +764,10 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
                         float value, int precision)
       {
         static constexpr size_t const kBufSize = 128U;
-        std::array<char_t, kBufSize> buf{};
-        snprintf(buf, "%.*g", precision, double(value));
+        char_t buf[kBufSize]; // NOLINT(cppcoreguidelines-avoid-c-arrays, modernize-avoid-c-arrays)
+        LUMEX_XML_SNPRINTF(   // NOLINT (cppcoreguidelines-pro-type-vararg)
+          buf,                // NOLINT(cppcoreguidelines-pro-bounds-array-to-pointer-decay)
+          "%.*g", precision, double(value));
 
         return set_value_ascii(dest, header, header_mask, buf);
       }
@@ -740,8 +779,8 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
                         double value, int precision)
       {
         static constexpr size_t const kBufSize = 128U;
-        std::array<char_t, kBufSize> buf{};
-        snprintf(buf, "%.*g", precision, value);
+        char_t buf[kBufSize]; // NOLINT(cppcoreguidelines-avoid-c-arrays, modernize-avoid-c-arrays)
+        LUMEX_XML_SNPRINTF(buf, "%.*g", precision, value);
         return set_value_ascii(dest, header, header_mask, buf);
       }
 

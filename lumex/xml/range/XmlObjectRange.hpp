@@ -4,6 +4,8 @@
 #include <iterator>
 #include <type_traits>
 
+#include "lumex/LumexExport.hpp"
+
 #include "lumex/core/utility/LumexUtility"
 
 namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
@@ -42,7 +44,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
                   requires std::forward_iterator<Iterator>
 #endif
                 >
-      class XmlObjectRange
+      class LUMEX_API XmlObjectRange
       {
       public:
         /**

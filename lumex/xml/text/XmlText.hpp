@@ -1,6 +1,8 @@
 #ifndef LUMEX_XML_TEXT_HPP
 #define LUMEX_XML_TEXT_HPP
 
+#include "lumex/LumexExport.hpp"
+
 #include "lumex/core/utility/LumexAttributes.hpp"
 
 #include "lumex/xml/types/XmlTypes.hpp"
@@ -21,7 +23,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
 
     namespace Text
     {
-      class XmlText
+      class LUMEX_API XmlText
       {
         friend class Node::XmlNode;
 
@@ -135,8 +137,10 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
         XmlNodeBase *_data() const;
       };
 
+      LUMEX_API
       bool operator&&(XmlText const &lhs, bool rhs);
 
+      LUMEX_API
       bool operator||(XmlText const &lhs, bool rhs);
     } // namespace Text
   } // namespace Xml

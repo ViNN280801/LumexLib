@@ -1,3 +1,5 @@
+#define LUMEX_IMPLEMENTATION
+
 #include "lumex/core/utility/LumexAssert.hpp"
 
 #include "lumex/xml/constants/XmlConstants.hpp"
@@ -8,6 +10,7 @@
 using namespace Lumex::Xml::Document;
 using namespace Lumex::Xml::XPath::Document;
 
+LUMEX_PUBLIC_API
 inline bool
 node_is_before_sibling(XmlNodeBase *ln_node, XmlNodeBase *rn_node) // NOLINT(misc-use-internal-linkage)
 {
@@ -33,6 +36,7 @@ node_is_before_sibling(XmlNodeBase *ln_node, XmlNodeBase *rn_node) // NOLINT(mis
   return rs_node == nullptr;
 }
 
+LUMEX_PUBLIC_API
 inline bool
 node_is_before(XmlNodeBase *ln_node, XmlNodeBase *rn_node) // NOLINT(misc-use-internal-linkage)
 {
@@ -77,6 +81,7 @@ node_is_before(XmlNodeBase *ln_node, XmlNodeBase *rn_node) // NOLINT(misc-use-in
   return XPath::Document::node_is_before_sibling(ln_node, rn_node);
 }
 
+LUMEX_PUBLIC_API
 inline void const *
 document_buffer_order(XPathNode const &xnode) // NOLINT(misc-use-internal-linkage)
 {
@@ -111,6 +116,7 @@ document_buffer_order(XPathNode const &xnode) // NOLINT(misc-use-internal-linkag
   return nullptr;
 }
 
+LUMEX_PUBLIC_API
 inline bool
 document_order_comparator::operator()(XPathNode const &lhs, XPathNode const &rhs) const
 {

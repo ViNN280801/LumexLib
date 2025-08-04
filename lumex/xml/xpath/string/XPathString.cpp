@@ -1,3 +1,5 @@
+#define LUMEX_IMPLEMENTATION
+
 #include "lumex/core/utility/LumexAssert.hpp"
 
 #include "lumex/xml/utility/XmlUtils.hpp"
@@ -9,12 +11,14 @@ using namespace Lumex::Xml::Utility;
 using namespace Lumex::Xml::XPath::Node;
 using namespace Lumex::Xml::XPath::String;
 
+LUMEX_PUBLIC_API
 XPathString
 XPathString::from_const(char_t const *str)
 {
   return {str, false, 0};
 }
 
+LUMEX_PUBLIC_API
 XPathString
 XPathString::from_heap_preallocated(char_t const *begin, char_t const *end)
 {
@@ -23,6 +27,7 @@ XPathString::from_heap_preallocated(char_t const *begin, char_t const *end)
   return {begin, true, static_cast<size_t>(end - begin)};
 }
 
+LUMEX_PUBLIC_API
 XPathString
 XPathString::from_heap(char_t const *begin, char_t const *end, XPathAllocator *alloc)
 {
@@ -36,8 +41,10 @@ XPathString::from_heap(char_t const *begin, char_t const *end, XPathAllocator *a
   return (data != nullptr) ? XPathString(data, true, length) : XPathString();
 }
 
+LUMEX_PUBLIC_API
 XPathString::XPathString() : m_buffer(LUMEX_XML_TEXT("")), m_uses_heap(false), m_length_heap(0) {}
 
+LUMEX_PUBLIC_API
 void
 XPathString::append(XPathString const &other, XPathAllocator *alloc)
 {
@@ -75,18 +82,21 @@ XPathString::append(XPathString const &other, XPathAllocator *alloc)
   }
 }
 
+LUMEX_PUBLIC_API
 char_t const *
 XPathString::c_str() const
 {
   return m_buffer;
 }
 
+LUMEX_PUBLIC_API
 size_t
 XPathString::length() const
 {
   return m_uses_heap ? m_length_heap : Utility::strlength(m_buffer);
 }
 
+LUMEX_PUBLIC_API
 char_t *
 XPathString::data(XPathAllocator *alloc)
 {
@@ -106,30 +116,35 @@ XPathString::data(XPathAllocator *alloc)
   return const_cast<char_t *>(m_buffer); // NOLINT(cppcoreguidelines-pro-type-const-cast)
 }
 
+LUMEX_PUBLIC_API
 bool
 XPathString::empty() const
 {
   return *m_buffer == 0;
 }
 
+LUMEX_PUBLIC_API
 bool
 XPathString::operator==(XPathString const &other) const
 {
   return Utility::strequal(m_buffer, other.m_buffer);
 }
 
+LUMEX_PUBLIC_API
 bool
 XPathString::operator!=(XPathString const &other) const
 {
   return !Utility::strequal(m_buffer, other.m_buffer);
 }
 
+LUMEX_PUBLIC_API
 bool
 XPathString::uses_heap() const
 {
   return m_uses_heap;
 }
 
+LUMEX_PUBLIC_API
 char_t *
 XPathString::duplicate_string(char_t const *string, size_t length, XPathAllocator *alloc)
 {
@@ -142,6 +157,7 @@ XPathString::duplicate_string(char_t const *string, size_t length, XPathAllocato
   return result;
 }
 
+LUMEX_PUBLIC_API
 XPathString::XPathString(char_t const *buffer, bool uses_heap_, size_t length_heap)
     : m_buffer(buffer), m_uses_heap(uses_heap_), m_length_heap(length_heap)
 {}

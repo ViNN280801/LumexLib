@@ -1,6 +1,8 @@
 #ifndef LUMEX_XML_ALLOCATOR_HPP
 #define LUMEX_XML_ALLOCATOR_HPP
 
+#include "lumex/LumexExport.hpp"
+
 #include "lumex/core/utility/LumexAssert.hpp"
 
 #include "lumex/xml/types/XmlTypes.hpp"
@@ -15,7 +17,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
   {
     namespace Memory
     {
-      struct XmlAllocator {
+      struct LUMEX_API XmlAllocator {
         XmlAllocator(XmlMemoryPage *root);
 
         XmlMemoryPage *allocate_page(size_t data_size);
@@ -39,7 +41,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
       };
 
       template <typename Object>
-      inline XmlAllocator &
+      LUMEX_API inline XmlAllocator &
       get_allocator(Object const *object)
       {
         LUMEX_ASSERT(object);

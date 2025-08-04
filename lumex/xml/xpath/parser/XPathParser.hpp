@@ -1,6 +1,8 @@
 #ifndef LUMEX_XML_XPATH_PARSER_HPP
 #define LUMEX_XML_XPATH_PARSER_HPP
 
+#include "lumex/LumexExport.hpp"
+
 #include "lumex/xml/types/XmlTypes.hpp"
 
 #include "lumex/xml/xpath/ast/XPathAstNode.hpp"
@@ -24,7 +26,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
     {
       namespace Parser
       {
-        struct XPathParser {
+        struct LUMEX_API XPathParser {
           XPathAllocator *m_alloc;       // NOLINT(misc-non-private-member-variables-in-classes)
           XPathLexer m_lexer;            // NOLINT(misc-non-private-member-variables-in-classes)
           char_t const *m_query;         // NOLINT(misc-non-private-member-variables-in-classes)

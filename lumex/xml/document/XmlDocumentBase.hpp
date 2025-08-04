@@ -1,6 +1,8 @@
 #ifndef LUMEX_XML_DOCUMENT_BASE_HPP
 #define LUMEX_XML_DOCUMENT_BASE_HPP
 
+#include "lumex/LumexExport.hpp"
+
 #include "lumex/core/utility/LumexAssert.hpp"
 
 #include "lumex/xml/memory/XmlAllocator.hpp"
@@ -16,7 +18,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
   {
     namespace Document
     {
-      struct XmlDocumentBase : public XmlNodeBase, public XmlAllocator {
+      struct LUMEX_API XmlDocumentBase : public XmlNodeBase, public XmlAllocator {
         XmlDocumentBase(XmlMemoryPage *page);
 
         char_t const *buffer{}; // NOLINT(misc-non-private-member-variables-in-classes)
@@ -25,6 +27,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
       };
 
       template <typename Object>
+      LUMEX_API
       inline XmlDocumentBase &
       get_document(Object const *object)
       {

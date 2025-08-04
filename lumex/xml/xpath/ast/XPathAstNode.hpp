@@ -1,6 +1,8 @@
 #ifndef LUMEX_XML_XPATH_AST_HPP
 #define LUMEX_XML_XPATH_AST_HPP
 
+#include "lumex/LumexExport.hpp"
+
 #include "lumex/xml/types/XmlTypes.hpp"
 
 #include "lumex/xml/xpath/context/XPathContext.hpp"
@@ -30,7 +32,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
 
         template <axis_t N> axis_t const axis_to_type<N>::axis = N;
 
-        class XPathAstNode
+        class LUMEX_API XPathAstNode
         {
         public:
           XPathAstNode(ast_type_t type, xpath_value_type rettype_, char_t const *value);
@@ -145,8 +147,8 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
             {
               if(lt_ == xpath_type_node_set)
               {
-                swap(lhs, rhs);
-                swap(lt_, rt_);
+                std::swap(lhs, rhs);
+                std::swap(lt_, rt_);
               }
 
               if(lt_ == xpath_type_boolean) return comp(lhs->eval_boolean(ctx, stack), rhs->eval_boolean(ctx, stack));

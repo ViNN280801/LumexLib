@@ -1,6 +1,8 @@
 #ifndef LUMEX_XML_XPATH_PARSE_RESULT_HPP
 #define LUMEX_XML_XPATH_PARSE_RESULT_HPP
 
+#include "lumex/LumexExport.hpp"
+
 #include <cstddef>
 
 #include "lumex/core/utility/LumexAttributes.hpp"
@@ -13,7 +15,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
     {
       namespace Parser
       {
-        struct XPathParseResult {
+        struct LUMEX_API XPathParseResult {
           // Error message (0 if no error)
           char const *error; // NOLINT(misc-non-private-member-variables-in-classes)
 

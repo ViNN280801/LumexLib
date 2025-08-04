@@ -1,6 +1,8 @@
 #ifndef LUMEX_XML_XPATH_QUERY_HPP
 #define LUMEX_XML_XPATH_QUERY_HPP
 
+#include "lumex/LumexExport.hpp"
+
 #include "lumex/core/utility/LumexAttributes.hpp"
 
 #include "lumex/xml/types/XmlTypes.hpp"
@@ -34,7 +36,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
 
       namespace Query
       {
-        class XPathQuery
+        class LUMEX_API XPathQuery
         {
         private:
           void *m_impl;

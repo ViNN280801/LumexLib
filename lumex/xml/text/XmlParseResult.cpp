@@ -1,3 +1,5 @@
+#define LUMEX_IMPLEMENTATION
+
 #include "lumex/xml/document/XmlDocumentBase.hpp"
 #include "lumex/xml/text/XmlParser.hpp"
 #include "lumex/xml/utility/XmlCleaner.hpp"
@@ -9,20 +11,24 @@ using namespace Lumex::Xml::Utility;
 using namespace Lumex::Xml::Document;
 using namespace Lumex::Xml::Text;
 
+LUMEX_PUBLIC_API
 inline XmlParseResult::XmlParseResult()
     : status(Types::xml_parse_status::status_internal_error), offset(0), encoding(Types::xml_encoding::encoding_auto)
 {}
 
+LUMEX_PUBLIC_API
 inline XmlParseResult::XmlParseResult(Types::xml_parse_status status)
     : status(status), offset(0), encoding(Types::xml_encoding::encoding_auto)
 {}
 
+LUMEX_PUBLIC_API
 inline XmlParseResult::
 operator bool() const
 {
   return status == Types::xml_parse_status::status_ok;
 }
 
+LUMEX_PUBLIC_API
 inline char const *
 XmlParseResult::description() const
 {

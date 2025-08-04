@@ -1,6 +1,8 @@
 #ifndef LUMEXXML_WRITER_FILE_HPP
 #define LUMEXXML_WRITER_FILE_HPP
 
+#include "lumex/LumexExport.hpp"
+
 #include "IXmlWriter.hpp"
 
 namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
@@ -9,7 +11,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
   {
     namespace Writer
     {
-      class XmlWriterFile : public IXmlWriter
+      class LUMEX_API XmlWriterFile : public IXmlWriter
       {
       public:
         XmlWriterFile(void *file) : file(file) {}

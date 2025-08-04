@@ -1,4 +1,4 @@
-#include "lumex/core/utility/LumexMacros.hpp"
+#define LUMEX_IMPLEMENTATION
 
 #include "lumex/xml/utility/XmlUtils.hpp"
 
@@ -7,13 +7,15 @@
 using namespace Lumex::Xml::Writer;
 using namespace Lumex::Xml::Utility;
 
+LUMEX_PUBLIC_API
 XmlBufferedWriter::XmlBufferedWriter(IXmlWriter &writer_, // NOLINT(cppcoreguidelines-pro-type-member-init)
                                      xml_encoding user_encoding)
-    : writer(writer_), encoding(Utility::get_write_encoding(user_encoding))
+    : buffer(), scratch(), writer(writer_), encoding(Utility::get_write_encoding(user_encoding))
 {
   static_assert(bufcapacity >= kBufCapacity8);
 }
 
+LUMEX_PUBLIC_API
 size_t
 XmlBufferedWriter::flush()
 {
@@ -22,6 +24,7 @@ XmlBufferedWriter::flush()
   return 0;
 }
 
+LUMEX_PUBLIC_API
 void
 XmlBufferedWriter::flush(char_t const *data, size_t size)
 {
@@ -46,6 +49,7 @@ XmlBufferedWriter::flush(char_t const *data, size_t size)
   }
 }
 
+LUMEX_PUBLIC_API
 void
 XmlBufferedWriter::write_direct(char_t const *data, size_t length)
 {
@@ -86,6 +90,7 @@ XmlBufferedWriter::write_direct(char_t const *data, size_t length)
   bufsize += length;
 }
 
+LUMEX_PUBLIC_API
 void
 XmlBufferedWriter::write_buffer(char_t const *data, size_t length)
 {
@@ -99,6 +104,7 @@ XmlBufferedWriter::write_buffer(char_t const *data, size_t length)
   else { write_direct(data, length); }
 }
 
+LUMEX_PUBLIC_API
 void
 XmlBufferedWriter::write_string(char_t const *data)
 {
@@ -121,6 +127,7 @@ XmlBufferedWriter::write_string(char_t const *data)
   }
 }
 
+LUMEX_PUBLIC_API
 void
 XmlBufferedWriter::write(char_t d0_)
 {
@@ -131,6 +138,7 @@ XmlBufferedWriter::write(char_t d0_)
   bufsize               = offset + 1;
 }
 
+LUMEX_PUBLIC_API
 void
 XmlBufferedWriter::write(char_t d0_, char_t d1_) // NOLINT(bugprone-easily-swappable-parameters)
 {
@@ -142,6 +150,7 @@ XmlBufferedWriter::write(char_t d0_, char_t d1_) // NOLINT(bugprone-easily-swapp
   bufsize               = offset + 2;
 }
 
+LUMEX_PUBLIC_API
 void
 XmlBufferedWriter::write(char_t d0_, char_t d1_, char_t d2_) // NOLINT(bugprone-easily-swappable-parameters)
 {
@@ -154,6 +163,7 @@ XmlBufferedWriter::write(char_t d0_, char_t d1_, char_t d2_) // NOLINT(bugprone-
   bufsize               = offset + 3;
 }
 
+LUMEX_PUBLIC_API
 void
 XmlBufferedWriter::write(char_t d0_, char_t d1_, // NOLINT(bugprone-easily-swappable-parameters)
                          char_t d2_, char_t d3_)
@@ -168,6 +178,7 @@ XmlBufferedWriter::write(char_t d0_, char_t d1_, // NOLINT(bugprone-easily-swapp
   bufsize               = offset + 4;
 }
 
+LUMEX_PUBLIC_API
 void
 XmlBufferedWriter::write(char_t d0_, char_t d1_, // NOLINT(bugprone-easily-swappable-parameters)
                          char_t d2_, char_t d3_, char_t d4_)
@@ -183,6 +194,7 @@ XmlBufferedWriter::write(char_t d0_, char_t d1_, // NOLINT(bugprone-easily-swapp
   bufsize               = offset + kShift5;
 }
 
+LUMEX_PUBLIC_API
 void
 XmlBufferedWriter::write(char_t d0_, char_t d1_, char_t d2_, // NOLINT(bugprone-easily-swappable-parameters)
                          char_t d3_, char_t d4_, char_t d5_)

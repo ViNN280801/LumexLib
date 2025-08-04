@@ -1,6 +1,8 @@
 #ifndef LUMEX_XML_PARSE_RESULT_HPP
 #define LUMEX_XML_PARSE_RESULT_HPP
 
+#include "lumex/LumexExport.hpp"
+
 #include "lumex/core/utility/LumexAttributes.hpp"
 
 #include "lumex/xml/types/XmlTypes.hpp"
@@ -23,7 +25,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
 
     namespace Text
     {
-      struct XmlParseResult {
+      struct LUMEX_API XmlParseResult {
         // Parsing status (see xml_parse_status)
         Types::xml_parse_status status; // NOLINT(misc-non-private-member-variables-in-classes)
 
@@ -57,11 +59,10 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
         return result;
       }
 
-      XmlParseResult
-      load_buffer_impl(Document::XmlDocumentBase *doc, Node::XmlNodeBase *root, void *contents,
-                       size_t size, // NOLINT(bugprone-easily-swappable-parameters)
-                       unsigned int options, Types::xml_encoding encoding, bool is_mutable, bool own,
-                       Types::char_t **out_buffer);
+      XmlParseResult load_buffer_impl(Document::XmlDocumentBase *doc, Node::XmlNodeBase *root, void *contents,
+                                      size_t size, // NOLINT(bugprone-easily-swappable-parameters)
+                                      unsigned int options, Types::xml_encoding encoding, bool is_mutable, bool own,
+                                      Types::char_t **out_buffer);
     } // namespace Text
   } // namespace Xml
 } // namespace Lumex

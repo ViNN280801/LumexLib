@@ -6,12 +6,12 @@
 
 using namespace Lumex::Xml::XPath::Memory;
 
-LUMEX_PUBLIC_API
+// LUMEX_PUBLIC_API
 XPathAllocator::XPathAllocator(XPathMemoryBlock *root, bool *error)
     : m_root(root), m_error(error)
 {}
 
-LUMEX_PUBLIC_API
+// LUMEX_PUBLIC_API
 void *
 XPathAllocator::allocate(size_t size)
 {
@@ -50,7 +50,7 @@ XPathAllocator::allocate(size_t size)
   return block->data.data(); // NOLINT(cppcoreguidelines-pro-type-union-access)
 }
 
-LUMEX_PUBLIC_API
+// LUMEX_PUBLIC_API
 void *
 XPathAllocator::reallocate(void *ptr, size_t old_size, size_t new_size)
 {
@@ -101,7 +101,7 @@ XPathAllocator::reallocate(void *ptr, size_t old_size, size_t new_size)
   return result;
 }
 
-LUMEX_PUBLIC_API
+// LUMEX_PUBLIC_API
 void
 XPathAllocator::revert(XPathAllocator const &state)
 {
@@ -122,7 +122,7 @@ XPathAllocator::revert(XPathAllocator const &state)
   m_root_size = state.m_root_size;
 }
 
-LUMEX_PUBLIC_API
+// LUMEX_PUBLIC_API
 void
 XPathAllocator::release() const noexcept
 {

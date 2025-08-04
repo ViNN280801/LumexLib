@@ -1,6 +1,8 @@
 #ifndef LUMEX_XML_XPATH_NODE_SET_HPP
 #define LUMEX_XML_XPATH_NODE_SET_HPP
 
+#include "lumex/LumexExport.hpp"
+
 #include <array>
 #include <cstdint>
 
@@ -102,7 +104,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
           void _move(XPathNodeSet &rhs) noexcept;
         };
 
-        class XPathNodeSetRaw
+        class LUMEX_API XPathNodeSetRaw
         {
         public:
           XPathNodeSetRaw() = default;

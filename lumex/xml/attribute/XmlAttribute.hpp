@@ -5,6 +5,8 @@
   #include <string_view>
 #endif
 
+#include "lumex/LumexExport.hpp"
+
 #include "lumex/core/utility/LumexAttributes.hpp"
 
 #include "lumex/xml/utility/XmlMacros.hpp"
@@ -19,7 +21,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
   {
     namespace Attribute
     {
-      class XmlAttribute
+      class LUMEX_API XmlAttribute
       {
         friend class XmlAttributeIterator;
         friend class LumexXmlNode;
@@ -189,12 +191,15 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
         XmlAttributeBase *m_attr;
       };
 
+      LUMEX_API
       bool operator&&(XmlAttribute const &lhs, bool rhs);
 
+      LUMEX_API
       bool operator||(XmlAttribute const &lhs, bool rhs);
     } // namespace Attribute
     namespace Utility
     {
+      LUMEX_API
       bool is_attribute_of(Attribute::XmlAttributeBase *attr, Node::XmlNodeBase *node);
     } // namespace Utility
   } // namespace Xml

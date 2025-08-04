@@ -1,3 +1,4 @@
+#define LUMEX_IMPLEMENTATION
 #include "lumex/core/utility/LumexAssert.hpp"
 #include "lumex/xml/utility/XmlUtils.hpp"
 
@@ -12,6 +13,7 @@ using namespace Lumex::Xml::Memory;
 using namespace Lumex::Xml::Types;
 using namespace Lumex::Xml::Utility;
 
+LUMEX_PUBLIC_API
 inline XmlNodeBase *
 allocate_node(XmlAllocator &alloc, xml_node_type type) // NOLINT(misc-use-internal-linkage)
 {
@@ -22,6 +24,7 @@ allocate_node(XmlAllocator &alloc, xml_node_type type) // NOLINT(misc-use-intern
   return new(memory) XmlNodeBase(page, type); // NOLINT(cppcoreguidelines-owning-memory)
 }
 
+LUMEX_PUBLIC_API
 inline void
 destroy_node(XmlNodeBase *n, XmlAllocator &alloc) // NOLINT(misc-use-internal-linkage)
 {
@@ -51,6 +54,7 @@ destroy_node(XmlNodeBase *n, XmlAllocator &alloc) // NOLINT(misc-use-internal-li
                           LUMEX_XML_GETPAGE(n)); // NOLINT(cppcoreguidelines-pro-type-const-cast)
 }
 
+LUMEX_PUBLIC_API
 inline void
 append_node(XmlNodeBase *child, XmlNodeBase *node) // NOLINT(misc-use-internal-linkage)
 {
@@ -73,6 +77,7 @@ append_node(XmlNodeBase *child, XmlNodeBase *node) // NOLINT(misc-use-internal-l
   }
 }
 
+LUMEX_PUBLIC_API
 inline void
 prepend_node(XmlNodeBase *child, XmlNodeBase *node) // NOLINT(misc-use-internal-linkage)
 {
@@ -92,6 +97,7 @@ prepend_node(XmlNodeBase *child, XmlNodeBase *node) // NOLINT(misc-use-internal-
   node->first_child   = child;
 }
 
+LUMEX_PUBLIC_API
 inline void
 insert_node_after(XmlNodeBase *child, XmlNodeBase *node) // NOLINT(misc-use-internal-linkage)
 {
@@ -112,6 +118,7 @@ insert_node_after(XmlNodeBase *child, XmlNodeBase *node) // NOLINT(misc-use-inte
   node->next_sibling    = child;
 }
 
+LUMEX_PUBLIC_API
 inline void
 insert_node_before(XmlNodeBase *child, XmlNodeBase *node) // NOLINT(misc-use-internal-linkage)
 {
@@ -132,6 +139,7 @@ insert_node_before(XmlNodeBase *child, XmlNodeBase *node) // NOLINT(misc-use-int
   node->prev_sibling_c  = child;
 }
 
+LUMEX_PUBLIC_API
 inline void
 remove_node(XmlNodeBase *node) // NOLINT(misc-use-internal-linkage)
 {
@@ -155,6 +163,7 @@ remove_node(XmlNodeBase *node) // NOLINT(misc-use-internal-linkage)
   node->next_sibling   = nullptr;
 }
 
+LUMEX_PUBLIC_API
 LUMEX_ATTRIBUTE_NOINLINE XmlNodeBase *
 append_new_node(XmlNodeBase *node, XmlAllocator &alloc, xml_node_type type) // NOLINT(misc-use-internal-linkage)
 {
@@ -166,6 +175,7 @@ append_new_node(XmlNodeBase *node, XmlAllocator &alloc, xml_node_type type) // N
   return child;
 }
 
+LUMEX_PUBLIC_API
 inline void
 node_copy_contents(XmlNodeBase *dn_, XmlNodeBase *sn_, // NOLINT(misc-use-internal-linkage)
                    XmlAllocator *shared_alloc)
@@ -189,6 +199,7 @@ node_copy_contents(XmlNodeBase *dn_, XmlNodeBase *sn_, // NOLINT(misc-use-intern
   }
 }
 
+LUMEX_PUBLIC_API
 inline void
 node_copy_tree(XmlNodeBase *dn_, XmlNodeBase *sn_) // NOLINT(misc-use-internal-linkage)
 {
@@ -242,6 +253,7 @@ node_copy_tree(XmlNodeBase *dn_, XmlNodeBase *sn_) // NOLINT(misc-use-internal-l
   LUMEX_ASSERT((sit == nullptr) || (dit == dn_->parent));
 }
 
+LUMEX_PUBLIC_API
 inline bool
 node_is_ancestor(XmlNodeBase *parent, XmlNodeBase *node) // NOLINT(misc-use-internal-linkage)
 {

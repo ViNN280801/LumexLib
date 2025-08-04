@@ -15,8 +15,8 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
       {
         struct LUMEX_API XPathAllocator {
           XPathMemoryBlock *m_root{}; // NOLINT(misc-non-private-member-variables-in-classes)
-          size_t m_root_size{};               // NOLINT(misc-non-private-member-variables-in-classes)
-          bool *m_error{};                    // NOLINT(misc-non-private-member-variables-in-classes)
+          size_t m_root_size{};       // NOLINT(misc-non-private-member-variables-in-classes)
+          bool *m_error{};            // NOLINT(misc-non-private-member-variables-in-classes)
 
           XPathAllocator(XPathMemoryBlock *root, bool *error = nullptr);
 
@@ -29,7 +29,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
           void release() const noexcept;
         };
 
-        struct XPathAllocatorCapture { // NOLINT(cppcoreguidelines-special-member-functions)
+        struct LUMEX_API XPathAllocatorCapture { // NOLINT(cppcoreguidelines-special-member-functions)
           XPathAllocatorCapture(XPathAllocator *alloc);
           ~XPathAllocatorCapture();
 

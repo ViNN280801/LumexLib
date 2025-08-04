@@ -1,3 +1,5 @@
+#define LUMEX_IMPLEMENTATION
+
 #include <algorithm>
 
 #include "lumex/core/utility/LumexAssert.hpp"
@@ -13,6 +15,7 @@ using namespace Lumex::Xml::XPath::Document;
 using namespace Lumex::Xml::XPath::Node;
 using namespace Lumex::Xml::XPath::Utility;
 
+LUMEX_PUBLIC_API
 inline XPathNodeSet::type_t
 xpath_get_order(XPathNode const *begin, XPathNode const *end) // NOLINT(misc-use-internal-linkage)
 {
@@ -28,6 +31,7 @@ xpath_get_order(XPathNode const *begin, XPathNode const *end) // NOLINT(misc-use
   return first ? XPathNodeSet::type_sorted : XPathNodeSet::type_sorted_reverse;
 }
 
+LUMEX_PUBLIC_API
 inline XPathNodeSet::type_t
 xpath_sort(XPathNode *begin, XPathNode *end, XPathNodeSet::type_t type, bool rev) // NOLINT(misc-use-internal-linkage)
 {
@@ -52,6 +56,7 @@ xpath_sort(XPathNode *begin, XPathNode *end, XPathNodeSet::type_t type, bool rev
   return order;
 }
 
+LUMEX_PUBLIC_API
 inline XPathNode
 xpath_first(XPathNode const *begin, XPathNode const *end, // NOLINT(misc-use-internal-linkage)
             XPathNodeSet::type_t type)
@@ -72,6 +77,7 @@ xpath_first(XPathNode const *begin, XPathNode const *end, // NOLINT(misc-use-int
   }
 }
 
+LUMEX_PUBLIC_API
 inline bool
 copy_xpath_variable(XPathVariable *lhs, XPathVariable const *rhs) // NOLINT(misc-use-internal-linkage)
 {

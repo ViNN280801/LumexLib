@@ -1,13 +1,15 @@
 #ifndef LUMEX_XML_CLEANER_HPP
 #define LUMEX_XML_CLEANER_HPP
 
+#include "lumex/LumexExport.hpp"
+
 namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
 {
   namespace Xml
   {
     namespace Utility
     {
-      template <typename T> struct XmlCleaner { // NOLINT(cppcoreguidelines-special-member-functions)
+      template <typename T> struct LUMEX_API XmlCleaner { // NOLINT(cppcoreguidelines-special-member-functions)
         using D = void (*)(T *);
 
         T *data{};   // NOLINT(misc-non-private-member-variables-in-classes)

@@ -3,6 +3,8 @@
 
 #include <iterator>
 
+#include "lumex/LumexExport.hpp"
+
 #include "lumex/xml/node/XmlNode.hpp"
 
 namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
@@ -11,7 +13,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
   {
     namespace Node
     {
-      class XmlNodeIterator
+      class LUMEX_API XmlNodeIterator
       {
         friend class XmlNode;
 

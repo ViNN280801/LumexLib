@@ -1,6 +1,8 @@
 #ifndef LUMEX_XML_XPATH_PARSER_XPATHLEXER_HPP
 #define LUMEX_XML_XPATH_PARSER_XPATHLEXER_HPP
 
+#include "lumex/LumexExport.hpp"
+
 #include "lumex/core/utility/LumexAttributes.hpp"
 
 #include "lumex/xml/xpath/parser/lexer/XPathLexerString.hpp"
@@ -15,7 +17,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
       {
         namespace Lexer
         {
-          class XPathLexer
+          class LUMEX_API XPathLexer
           {
             char_t const *_cur{};
             char_t const *_cur_lexeme_pos{};

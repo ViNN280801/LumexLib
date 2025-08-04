@@ -1,6 +1,8 @@
 #ifndef LUMEX_XML_DOCUMENT_HPP
 #define LUMEX_XML_DOCUMENT_HPP
 
+#include "lumex/LumexExport.hpp"
+
 #include "lumex/core/utility/LumexAttributes.hpp"
 #include "lumex/xml/node/XmlNode.hpp"
 #include "lumex/xml/writer/IXmlWriter.hpp"
@@ -13,7 +15,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
   {
     namespace Document
     {
-      class XmlDocument : public XmlNode
+      class LUMEX_API XmlDocument : public XmlNode
       {
       public:
         // Default constructor, makes empty document
@@ -56,21 +58,21 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
 
         // Load document from buffer. Copies/converts the buffer, so it may be deleted or changed after the function
         // returns.
-        XmlParseResult loadm_buffer(void const *contents, size_t size, unsigned int options = Constants::kparse_default,
+        XmlParseResult load_buffer(void const *contents, size_t size, unsigned int options = Constants::kparse_default,
                                     xml_encoding encoding = encoding_auto);
 
         // Load document from buffer, using the buffer for in-place parsing (the buffer is modified and used for storage
         // of document data). You should ensure that buffer data will persist throughout the document's lifetime, and
         // free the buffer memory manually once document is destroyed.
         XmlParseResult
-        loadm_buffer_inplace(void *contents, size_t size, unsigned int options = Constants::kparse_default,
+        load_buffer_inplace(void *contents, size_t size, unsigned int options = Constants::kparse_default,
                              xml_encoding encoding = encoding_auto);
 
         // Load document from buffer, using the buffer for in-place parsing (the buffer is modified and used for storage
         // of document data). You should allocate the buffer with pugixml allocation function; document will free the
         // buffer when it is no longer needed (you can't use it anymore).
         XmlParseResult
-        loadm_buffer_inplace_own(void *contents, size_t size, unsigned int options = Constants::kparse_default,
+        load_buffer_inplace_own(void *contents, size_t size, unsigned int options = Constants::kparse_default,
                                  xml_encoding encoding = encoding_auto);
 
         // Save XML document to writer (semantics is slightly different from XmlNode::print, see documentation for
@@ -103,7 +105,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
         constexpr static size_t const kDefaultMemorySize = 192;
 
         char_t *m_buffer{};
-        std::array<char, kDefaultMemorySize> m_memory{};
+        char_t m_memory[kDefaultMemorySize]; // NOLINT(cppcoreguidelines-avoid-c-arrays, modernize-avoid-c-arrays)
 
         // Non-copyable semantics
         XmlDocument(XmlDocument const &);

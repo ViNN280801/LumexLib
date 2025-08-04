@@ -1,6 +1,8 @@
 #ifndef LUMEX_XML_XPATH_MEMORY_BLOCK_HPP
 #define LUMEX_XML_XPATH_MEMORY_BLOCK_HPP
 
+#include "lumex/LumexExport.hpp"
+
 #include <array>
 
 #include "lumex/xml/xpath/constants/XPathConstants.hpp"
@@ -15,7 +17,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
     {
       namespace Memory
       {
-        struct XPathMemoryBlock {
+        struct LUMEX_API XPathMemoryBlock {
           XPathMemoryBlock *next;
           size_t capacity;
 

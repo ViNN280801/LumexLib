@@ -1,7 +1,10 @@
+#define LUMEX_IMPLEMENTATION
+
 #include "XmlMemoryPage.hpp"
 
 using namespace Lumex::Xml::Memory;
 
+LUMEX_PUBLIC_API
 XmlMemoryPage *
 XmlMemoryPage::construct(void *memory)
 {

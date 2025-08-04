@@ -1,6 +1,8 @@
 #ifndef LUMEX_XML_XPATH_CONTEXT_HPP
 #define LUMEX_XML_XPATH_CONTEXT_HPP
 
+#include "lumex/LumexExport.hpp"
+
 #include "lumex/xml/xpath/node/XPathNode.hpp"
 
 using namespace Lumex::Xml::XPath::Node;
@@ -13,7 +15,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
     {
       namespace Context
       {
-        struct XPathContext {
+        struct LUMEX_API XPathContext {
           Xml::XPath::Node::XPathNode node; // NOLINT(misc-non-private-member-variables-in-classes)
           size_t position{};                // NOLINT(misc-non-private-member-variables-in-classes)
           size_t size{};                    // NOLINT(misc-non-private-member-variables-in-classes)

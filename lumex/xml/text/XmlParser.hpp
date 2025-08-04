@@ -1,6 +1,8 @@
 #ifndef LUMEX_XML_PARSER_HPP
 #define LUMEX_XML_PARSER_HPP
 
+#include "lumex/LumexExport.hpp"
+
 #include "lumex/xml/document/XmlDocumentBase.hpp"
 #include "lumex/xml/memory/XmlAllocator.hpp"
 #include "lumex/xml/node/XmlNodeBase.hpp"
@@ -19,7 +21,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
   {
     namespace Text
     {
-      struct XmlParser {
+      struct LUMEX_API XmlParser {
         XmlAllocator *alloc;             // NOLINT(misc-non-private-member-variables-in-classes)
         char_t *error_offset{};          // NOLINT(misc-non-private-member-variables-in-classes)
         xml_parse_status error_status{}; // NOLINT(misc-non-private-member-variables-in-classes)

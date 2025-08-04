@@ -1,0 +1,36 @@
+#ifndef LUMEX_XML_HPP
+#define LUMEX_XML_HPP
+
+// Core XML classes
+#include "attribute/XmlAttribute.hpp"
+#include "document/XmlDocument.hpp"
+#include "node/XmlNode.hpp"
+#include "text/XmlText.hpp"
+
+// XML Writer interface and implementations
+#include "writer/IXmlWriter.hpp"
+#include "writer/XmlWriterFile.hpp"
+#include "writer/XmlWriterStream.hpp"
+
+// Parsing results
+#include "text/XmlParseResult.hpp"
+
+// XPath related classes
+#include "xpath/exception/XPathException.hpp"
+#include "xpath/node/XPathNode.hpp"
+#include "xpath/node/XPathNodeSet.hpp"
+#include "xpath/query/XPathQuery.hpp"
+#include "xpath/variable/XPathVariable.hpp"
+#include "xpath/variable/XPathVariableSet.hpp"
+
+// Common types and constants
+#include "constants/XmlConstants.hpp"
+#include "types/XmlTypes.hpp"
+#include "xpath/constants/XPathConstants.hpp"
+
+// While not strictly necessary for every public function, these provide
+// fundamental utilities that might be exposed or used by exported classes.
+#include "utility/XmlCleaner.hpp"
+#include "utility/XmlUtils.hpp"
+
+#endif // !LUMEX_XML_HPP

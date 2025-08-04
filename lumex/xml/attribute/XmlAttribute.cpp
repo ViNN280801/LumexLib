@@ -1,3 +1,5 @@
+#define LUMEX_IMPLEMENTATION
+
 #include "lumex/xml/node/XmlNodeBase.hpp"
 #include "lumex/xml/utility/XmlUtils.hpp"
 
@@ -8,77 +10,90 @@ using namespace Lumex::Xml::Types;
 using namespace Lumex::Xml::Utility;
 using namespace Lumex::Xml::Attribute;
 
+LUMEX_PUBLIC_API
 inline XmlAttribute::XmlAttribute() : m_attr(nullptr) {}
 
+LUMEX_PUBLIC_API
 inline XmlAttribute::XmlAttribute(XmlAttributeBase *attr) : m_attr(attr) {}
 
 inline static void
 unspecified_bool_xml_attribute(XmlAttribute *** /*unused*/) // NOLINT(misc-use-anonymous-namespace)
 {}
 
+LUMEX_PUBLIC_API
 inline XmlAttribute::
 operator XmlAttribute::unspecified_bool_type() const
 {
   return (m_attr != nullptr) ? unspecified_bool_xml_attribute : nullptr;
 }
 
+LUMEX_PUBLIC_API
 inline bool
 XmlAttribute::operator!() const
 {
   return m_attr == nullptr;
 }
 
+LUMEX_PUBLIC_API
 inline bool
 XmlAttribute::operator==(XmlAttribute const &other) const
 {
   return (m_attr == other.m_attr);
 }
 
+LUMEX_PUBLIC_API
 inline bool
 XmlAttribute::operator!=(XmlAttribute const &other) const
 {
   return (m_attr != other.m_attr);
 }
 
+LUMEX_PUBLIC_API
 inline bool
 XmlAttribute::operator<(XmlAttribute const &other) const
 {
   return (m_attr < other.m_attr);
 }
 
+LUMEX_PUBLIC_API
 inline bool
 XmlAttribute::operator>(XmlAttribute const &other) const
 {
   return (m_attr > other.m_attr);
 }
 
+LUMEX_PUBLIC_API
 inline bool
 XmlAttribute::operator<=(XmlAttribute const &other) const
 {
   return (m_attr <= other.m_attr);
 }
 
+LUMEX_PUBLIC_API
 inline bool
 XmlAttribute::operator>=(XmlAttribute const &other) const
 {
   return (m_attr >= other.m_attr);
 }
 
+LUMEX_PUBLIC_API
 inline XmlAttribute
 XmlAttribute::next_attribute() const
 {
-  if(m_attr == nullptr) return XmlAttribute();
+  if(m_attr == nullptr) return {};
   return XmlAttribute(m_attr->next_attribute);
 }
 
+LUMEX_PUBLIC_API
 inline XmlAttribute
 XmlAttribute::previous_attribute() const
 {
-  if(m_attr == nullptr) return XmlAttribute();
+  if(m_attr == nullptr) return {};
   XmlAttributeBase *prev = m_attr->prev_attribute_c;
   return (prev->next_attribute != nullptr) ? XmlAttribute(prev) : XmlAttribute();
 }
 
+LUMEX_PUBLIC_API
 inline char_t const *
 XmlAttribute::as_string(char_t const *def) const
 {
@@ -87,6 +102,7 @@ XmlAttribute::as_string(char_t const *def) const
   return (value != nullptr) ? value : def;
 }
 
+LUMEX_PUBLIC_API
 inline int
 XmlAttribute::as_int(int def) const
 {
@@ -95,6 +111,7 @@ XmlAttribute::as_int(int def) const
   return (value != nullptr) ? get_value_int(value) : def;
 }
 
+LUMEX_PUBLIC_API
 inline unsigned int
 XmlAttribute::as_uint(unsigned int def) const
 {
@@ -103,6 +120,7 @@ XmlAttribute::as_uint(unsigned int def) const
   return (value != nullptr) ? get_value_uint(value) : def;
 }
 
+LUMEX_PUBLIC_API
 inline double
 XmlAttribute::as_double(double def) const
 {
@@ -111,6 +129,7 @@ XmlAttribute::as_double(double def) const
   return (value != nullptr) ? get_value_double(value) : def;
 }
 
+LUMEX_PUBLIC_API
 inline float
 XmlAttribute::as_float(float def) const
 {
@@ -119,6 +138,7 @@ XmlAttribute::as_float(float def) const
   return (value != nullptr) ? get_value_float(value) : def;
 }
 
+LUMEX_PUBLIC_API
 inline bool
 XmlAttribute::as_bool(bool def) const
 {
@@ -127,6 +147,7 @@ XmlAttribute::as_bool(bool def) const
   return (value != nullptr) ? get_value_bool(value) : def;
 }
 
+LUMEX_PUBLIC_API
 inline long long
 XmlAttribute::as_llong(long long def) const
 {
@@ -135,6 +156,7 @@ XmlAttribute::as_llong(long long def) const
   return (value != nullptr) ? get_value_llong(value) : def;
 }
 
+LUMEX_PUBLIC_API
 inline unsigned long long
 XmlAttribute::as_ullong(unsigned long long def) const
 {
@@ -143,12 +165,14 @@ XmlAttribute::as_ullong(unsigned long long def) const
   return (value != nullptr) ? get_value_ullong(value) : def;
 }
 
+LUMEX_PUBLIC_API
 inline bool
 XmlAttribute::empty() const
 {
   return m_attr == nullptr;
 }
 
+LUMEX_PUBLIC_API
 inline char_t const *
 XmlAttribute::name() const
 {
@@ -157,6 +181,7 @@ XmlAttribute::name() const
   return (name != nullptr) ? name : LUMEX_XML_TEXT("");
 }
 
+LUMEX_PUBLIC_API
 inline char_t const *
 XmlAttribute::value() const
 {
@@ -165,24 +190,28 @@ XmlAttribute::value() const
   return (value != nullptr) ? value : LUMEX_XML_TEXT("");
 }
 
+LUMEX_PUBLIC_API
 inline size_t
 XmlAttribute::hash_value() const
 {
   return reinterpret_cast<uintptr_t>(m_attr) / sizeof(XmlAttributeBase);
 }
 
+LUMEX_PUBLIC_API
 inline XmlAttributeBase *
 XmlAttribute::get() const
 {
   return m_attr;
 }
 
+LUMEX_PUBLIC_API
 inline void
 XmlAttribute::set(XmlAttributeBase *attr)
 {
   m_attr = attr;
 }
 
+LUMEX_PUBLIC_API
 inline XmlAttribute &
 XmlAttribute::operator=(char_t const *rhs)
 {
@@ -190,6 +219,7 @@ XmlAttribute::operator=(char_t const *rhs)
   return *this;
 }
 
+LUMEX_PUBLIC_API
 inline XmlAttribute &
 XmlAttribute::operator=(int rhs)
 {
@@ -197,6 +227,7 @@ XmlAttribute::operator=(int rhs)
   return *this;
 }
 
+LUMEX_PUBLIC_API
 inline XmlAttribute &
 XmlAttribute::operator=(unsigned int rhs)
 {
@@ -204,6 +235,7 @@ XmlAttribute::operator=(unsigned int rhs)
   return *this;
 }
 
+LUMEX_PUBLIC_API
 inline XmlAttribute &
 XmlAttribute::operator=(long rhs)
 {
@@ -211,6 +243,7 @@ XmlAttribute::operator=(long rhs)
   return *this;
 }
 
+LUMEX_PUBLIC_API
 inline XmlAttribute &
 XmlAttribute::operator=(unsigned long rhs)
 {
@@ -218,6 +251,7 @@ XmlAttribute::operator=(unsigned long rhs)
   return *this;
 }
 
+LUMEX_PUBLIC_API
 inline XmlAttribute &
 XmlAttribute::operator=(double rhs)
 {
@@ -225,6 +259,7 @@ XmlAttribute::operator=(double rhs)
   return *this;
 }
 
+LUMEX_PUBLIC_API
 inline XmlAttribute &
 XmlAttribute::operator=(float rhs)
 {
@@ -232,6 +267,7 @@ XmlAttribute::operator=(float rhs)
   return *this;
 }
 
+LUMEX_PUBLIC_API
 inline XmlAttribute &
 XmlAttribute::operator=(bool rhs)
 {
@@ -240,6 +276,7 @@ XmlAttribute::operator=(bool rhs)
 }
 
 #if __cplusplus >= 201703L
+LUMEX_PUBLIC_API
 inline XmlAttribute &
 XmlAttribute::operator=(string_view_t rhs)
 {
@@ -248,6 +285,7 @@ XmlAttribute::operator=(string_view_t rhs)
 }
 #endif
 
+LUMEX_PUBLIC_API
 inline XmlAttribute &
 XmlAttribute::operator=(long long rhs)
 {
@@ -255,6 +293,7 @@ XmlAttribute::operator=(long long rhs)
   return *this;
 }
 
+LUMEX_PUBLIC_API
 inline XmlAttribute &
 XmlAttribute::operator=(unsigned long long rhs)
 {
@@ -262,6 +301,7 @@ XmlAttribute::operator=(unsigned long long rhs)
   return *this;
 }
 
+LUMEX_PUBLIC_API
 inline bool
 XmlAttribute::set_name(char_t const *rhs)
 {
@@ -270,6 +310,7 @@ XmlAttribute::set_name(char_t const *rhs)
   return strcpy_insitu(m_attr->name, m_attr->header, kxml_memory_page_name_allocated_mask, rhs, strlength(rhs));
 }
 
+LUMEX_PUBLIC_API
 inline bool
 XmlAttribute::set_name(char_t const *rhs, size_t size)
 {
@@ -279,6 +320,7 @@ XmlAttribute::set_name(char_t const *rhs, size_t size)
 }
 
 #if __cplusplus >= 201703L
+LUMEX_PUBLIC_API
 inline bool
 XmlAttribute::set_name(string_view_t rhs)
 {
@@ -288,14 +330,16 @@ XmlAttribute::set_name(string_view_t rhs)
 }
 #endif
 
+LUMEX_PUBLIC_API
 inline bool
-XmlAttribute::set_value(const char_t *rhs)
+XmlAttribute::set_value(char_t const *rhs)
 {
   if(m_attr == nullptr) return false;
 
   return strcpy_insitu(m_attr->value, m_attr->header, kxml_memory_page_value_allocated_mask, rhs, strlength(rhs));
 }
 
+LUMEX_PUBLIC_API
 inline bool
 XmlAttribute::set_value(char_t const *rhs, size_t size)
 {
@@ -305,6 +349,7 @@ XmlAttribute::set_value(char_t const *rhs, size_t size)
 }
 
 #if __cplusplus >= 201703L
+LUMEX_PUBLIC_API
 inline bool
 XmlAttribute::set_value(string_view_t rhs)
 {
@@ -314,6 +359,7 @@ XmlAttribute::set_value(string_view_t rhs)
 }
 #endif
 
+LUMEX_PUBLIC_API
 inline bool
 XmlAttribute::set_value(int rhs)
 {
@@ -323,6 +369,7 @@ XmlAttribute::set_value(int rhs)
                                          rhs < 0);
 }
 
+LUMEX_PUBLIC_API
 inline bool
 XmlAttribute::set_value(unsigned int rhs)
 {
@@ -332,6 +379,7 @@ XmlAttribute::set_value(unsigned int rhs)
                                          false);
 }
 
+LUMEX_PUBLIC_API
 inline bool
 XmlAttribute::set_value(long rhs)
 {
@@ -341,6 +389,7 @@ XmlAttribute::set_value(long rhs)
                                           rhs < 0);
 }
 
+LUMEX_PUBLIC_API
 inline bool
 XmlAttribute::set_value(unsigned long rhs)
 {
@@ -350,6 +399,7 @@ XmlAttribute::set_value(unsigned long rhs)
                                           false);
 }
 
+LUMEX_PUBLIC_API
 inline bool
 XmlAttribute::set_value(double rhs)
 {
@@ -359,6 +409,7 @@ XmlAttribute::set_value(double rhs)
                            kdefault_double_precision);
 }
 
+LUMEX_PUBLIC_API
 inline bool
 XmlAttribute::set_value(double rhs, int precision)
 {
@@ -367,6 +418,7 @@ XmlAttribute::set_value(double rhs, int precision)
   return set_value_convert(m_attr->value, m_attr->header, kxml_memory_page_value_allocated_mask, rhs, precision);
 }
 
+LUMEX_PUBLIC_API
 inline bool
 XmlAttribute::set_value(float rhs)
 {
@@ -376,6 +428,7 @@ XmlAttribute::set_value(float rhs)
                            kdefault_float_precision);
 }
 
+LUMEX_PUBLIC_API
 inline bool
 XmlAttribute::set_value(float rhs, int precision)
 {
@@ -384,6 +437,7 @@ XmlAttribute::set_value(float rhs, int precision)
   return set_value_convert(m_attr->value, m_attr->header, kxml_memory_page_value_allocated_mask, rhs, precision);
 }
 
+LUMEX_PUBLIC_API
 inline bool
 XmlAttribute::set_value(bool rhs)
 {
@@ -392,6 +446,7 @@ XmlAttribute::set_value(bool rhs)
   return set_value_bool(m_attr->value, m_attr->header, kxml_memory_page_value_allocated_mask, rhs);
 }
 
+LUMEX_PUBLIC_API
 inline bool
 XmlAttribute::set_value(long long rhs)
 {
@@ -401,6 +456,7 @@ XmlAttribute::set_value(long long rhs)
                                                rhs, rhs < 0);
 }
 
+LUMEX_PUBLIC_API
 inline bool
 XmlAttribute::set_value(unsigned long long rhs)
 {
@@ -410,6 +466,7 @@ XmlAttribute::set_value(unsigned long long rhs)
                                                rhs, false);
 }
 
+LUMEX_PUBLIC_API
 inline bool
 Lumex::Xml::Utility::is_attribute_of(Attribute::XmlAttributeBase *attr, XmlNodeBase *node)
 {
@@ -419,12 +476,14 @@ Lumex::Xml::Utility::is_attribute_of(Attribute::XmlAttributeBase *attr, XmlNodeB
   return false;
 }
 
+LUMEX_PUBLIC_API
 inline bool
 operator&&(XmlAttribute const &lhs, bool rhs) // NOLINT(misc-use-internal-linkage)
 {
   return (bool)lhs && rhs;
 }
 
+LUMEX_PUBLIC_API
 inline bool
 operator||(XmlAttribute const &lhs, bool rhs) // NOLINT(misc-use-internal-linkage)
 {

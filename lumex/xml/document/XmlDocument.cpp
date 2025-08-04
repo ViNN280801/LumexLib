@@ -1,3 +1,5 @@
+#define LUMEX_IMPLEMENTATION
+
 #include <iostream>
 
 #include "lumex/xml/node/XmlNode.hpp"
@@ -208,16 +210,20 @@ namespace
   }
 }
 
-inline XmlDocument::XmlDocument() { _create(); }
+LUMEX_PUBLIC_API
+inline XmlDocument::XmlDocument() : m_memory{0} { _create(); }
 
+LUMEX_PUBLIC_API
 inline XmlDocument::~XmlDocument() { _destroy(); }
 
-inline XmlDocument::XmlDocument(XmlDocument &&rhs) noexcept
+LUMEX_PUBLIC_API
+inline XmlDocument::XmlDocument(XmlDocument &&rhs) noexcept // NOLINT(cppcoreguidelines-pro-type-member-init)
 {
   _create();
   _move(rhs);
 }
 
+LUMEX_PUBLIC_API
 inline XmlDocument &
 XmlDocument::operator=(XmlDocument &&rhs) noexcept
 {
@@ -230,6 +236,7 @@ XmlDocument::operator=(XmlDocument &&rhs) noexcept
   return *this;
 }
 
+LUMEX_PUBLIC_API
 inline void
 XmlDocument::reset()
 {
@@ -237,6 +244,7 @@ XmlDocument::reset()
   _create();
 }
 
+LUMEX_PUBLIC_API
 inline void
 XmlDocument::reset(XmlDocument const &proto)
 {
@@ -244,6 +252,7 @@ XmlDocument::reset(XmlDocument const &proto)
   node_copy_tree(m_root, proto.m_root);
 }
 
+LUMEX_PUBLIC_API
 inline void
 XmlDocument::_create()
 {
@@ -255,7 +264,8 @@ XmlDocument::_create()
   static_assert(sizeof(XmlMemoryPage) + sizeof(XmlDocumentBase) + page_offset <= sizeof(m_memory));
 
   // prepare page structure
-  XmlMemoryPage *page = XmlMemoryPage::construct(m_memory.data());
+  XmlMemoryPage *page
+    = XmlMemoryPage::construct(m_memory); // NOLINT(cppcoreguidelines-pro-bounds-array-to-pointer-decay)
   LUMEX_ASSERT(page);
 
   page->busy_size = Memory::kdefault_xml_memory_page_size;
@@ -269,9 +279,11 @@ XmlDocument::_create()
   page->allocator = static_cast<XmlDocumentBase *>(m_root); // NOLINT(cppcoreguidelines-pro-type-static-cast-downcast)
 
   // verify the document allocation
-  LUMEX_ASSERT(reinterpret_cast<char *>(m_root) + sizeof(XmlDocumentBase) <= m_memory.data() + sizeof(m_memory));
+  LUMEX_ASSERT(reinterpret_cast<char *>(m_root) + sizeof(XmlDocumentBase)
+               <= m_memory + sizeof(m_memory)); // NOLINT(cppcoreguidelines-pro-bounds-array-to-pointer-decay)
 }
 
+LUMEX_PUBLIC_API
 inline void
 XmlDocument::_destroy()
 {
@@ -295,8 +307,10 @@ XmlDocument::_destroy()
   // destroy dynamic storage, leave sentinel page (it's in static memory)
   XmlMemoryPage *root_page = LUMEX_XML_GETPAGE(m_root); // NOLINT(cppcoreguidelines-pro-type-const-cast)
   LUMEX_ASSERT(root_page && !root_page->prev);
-  LUMEX_ASSERT(reinterpret_cast<char *>(root_page) >= m_memory.data()
-               && reinterpret_cast<char *>(root_page) < m_memory.data() + sizeof(m_memory));
+  LUMEX_ASSERT(reinterpret_cast<char *>(root_page)
+                 >= m_memory // NOLINT(cppcoreguidelines-pro-bounds-array-to-pointer-decay)
+               && reinterpret_cast<char *>(root_page)
+                    < m_memory + sizeof(m_memory)); // NOLINT(cppcoreguidelines-pro-bounds-array-to-pointer-decay)
 
   for(XmlMemoryPage *page = root_page->next; page != nullptr;)
   {
@@ -309,6 +323,7 @@ XmlDocument::_destroy()
   m_root = nullptr;
 }
 
+LUMEX_PUBLIC_API
 inline void
 XmlDocument::_move(XmlDocument &rhs) noexcept
 {
@@ -374,6 +389,7 @@ XmlDocument::_move(XmlDocument &rhs) noexcept
   rhs.m_buffer = nullptr;
 }
 
+LUMEX_PUBLIC_API
 inline XmlParseResult
 XmlDocument::load(std::basic_istream<char> &stream, unsigned int options, xml_encoding encoding)
 {
@@ -384,6 +400,7 @@ XmlDocument::load(std::basic_istream<char> &stream, unsigned int options, xml_en
                           stream, options, encoding, &m_buffer);
 }
 
+LUMEX_PUBLIC_API
 inline XmlParseResult
 XmlDocument::load(std::basic_istream<wchar_t> &stream, unsigned int options)
 {
@@ -394,6 +411,7 @@ XmlDocument::load(std::basic_istream<wchar_t> &stream, unsigned int options)
                           stream, options, encoding_wchar, &m_buffer);
 }
 
+LUMEX_PUBLIC_API
 inline XmlParseResult
 XmlDocument::load_string(char_t const *contents, unsigned int options)
 {
@@ -404,9 +422,10 @@ XmlDocument::load_string(char_t const *contents, unsigned int options)
   xml_encoding encoding = encoding_utf8;
 #endif
 
-  return loadm_buffer(contents, Utility::strlength(contents) * sizeof(char_t), options, encoding);
+  return load_buffer(contents, Utility::strlength(contents) * sizeof(char_t), options, encoding);
 }
 
+LUMEX_PUBLIC_API
 inline XmlParseResult
 XmlDocument::load(char_t const *contents, unsigned int options)
 {
@@ -552,14 +571,18 @@ namespace
     if(!path_utf8) return nullptr;
 
     // convert mode to ASCII (we mirror _wfopen interface)
-    std::array<char, 4> mode_ascii = {0};
-    for(size_t i = 0; mode[i] != 0; ++i) mode_ascii.at(i) = static_cast<char>(mode[i]);
+    char mode_ascii[4] = {0}; // NOLINT(cppcoreguidelines-avoid-c-arrays, modernize-avoid-c-arrays)
+    for(size_t i = 0; mode[i] != 0; ++i)
+      mode_ascii[i] = static_cast<char>(mode[i]); // NOLINT(cppcoreguidelines-pro-bounds-constant-array-index)
 
     FILE *result = nullptr;
 
   #ifdef _WIN32
     // Use fopen_s on Windows for secure file opening
-    if(fopen_s(&result, path_utf8.get(), mode_ascii.data()) != 0) result = nullptr; // Ensure result is null on error
+    if(fopen_s(&result, path_utf8.get(),
+               mode_ascii) // NOLINT(cppcoreguidelines-pro-bounds-array-to-pointer-decay)
+       != 0)
+      result = nullptr; // Ensure result is null on error
   #else
     // Use standard fopen on other platforms
     result = std::fopen(path_utf8.get(), mode_ascii);
@@ -592,6 +615,7 @@ namespace
   }
 }
 
+LUMEX_PUBLIC_API
 inline XmlParseResult
 XmlDocument::load_file(char const *path_, unsigned int options, xml_encoding encoding)
 {
@@ -604,6 +628,7 @@ XmlDocument::load_file(char const *path_, unsigned int options, xml_encoding enc
                         file.data, options, encoding, &m_buffer);
 }
 
+LUMEX_PUBLIC_API
 inline XmlParseResult
 XmlDocument::load_file(wchar_t const *path_, unsigned int options, xml_encoding encoding)
 {
@@ -616,8 +641,9 @@ XmlDocument::load_file(wchar_t const *path_, unsigned int options, xml_encoding 
                         file.data, options, encoding, &m_buffer);
 }
 
+LUMEX_PUBLIC_API
 inline XmlParseResult
-XmlDocument::loadm_buffer(void const *contents, size_t size, unsigned int options, xml_encoding encoding)
+XmlDocument::load_buffer(void const *contents, size_t size, unsigned int options, xml_encoding encoding)
 {
   reset();
 
@@ -629,8 +655,9 @@ XmlDocument::loadm_buffer(void const *contents, size_t size, unsigned int option
                           size, options, encoding, false, false, &m_buffer);
 }
 
+LUMEX_PUBLIC_API
 inline XmlParseResult
-XmlDocument::loadm_buffer_inplace(void *contents, size_t size, unsigned int options, xml_encoding encoding)
+XmlDocument::load_buffer_inplace(void *contents, size_t size, unsigned int options, xml_encoding encoding)
 {
   reset();
 
@@ -639,8 +666,9 @@ XmlDocument::loadm_buffer_inplace(void *contents, size_t size, unsigned int opti
                           m_root, contents, size, options, encoding, true, false, &m_buffer);
 }
 
+LUMEX_PUBLIC_API
 inline XmlParseResult
-XmlDocument::loadm_buffer_inplace_own(void *contents, size_t size, unsigned int options, xml_encoding encoding)
+XmlDocument::load_buffer_inplace_own(void *contents, size_t size, unsigned int options, xml_encoding encoding)
 {
   reset();
 
@@ -665,6 +693,7 @@ namespace
   }
 }
 
+LUMEX_PUBLIC_API
 inline void
 XmlDocument::save(IXmlWriter &writer, char_t const *indent, unsigned int flags, xml_encoding encoding) const
 {
@@ -695,6 +724,7 @@ XmlDocument::save(IXmlWriter &writer, char_t const *indent, unsigned int flags, 
   buffered_writer.flush();
 }
 
+LUMEX_PUBLIC_API
 inline void
 XmlDocument::save(std::basic_ostream<char> &stream, char_t const *indent, unsigned int flags,
                   xml_encoding encoding) const
@@ -704,6 +734,7 @@ XmlDocument::save(std::basic_ostream<char> &stream, char_t const *indent, unsign
   save(writer, indent, flags, encoding);
 }
 
+LUMEX_PUBLIC_API
 inline void
 XmlDocument::save(std::basic_ostream<wchar_t> &stream, char_t const *indent, unsigned int flags) const
 {
@@ -712,6 +743,7 @@ XmlDocument::save(std::basic_ostream<wchar_t> &stream, char_t const *indent, uns
   save(writer, indent, flags, encoding_wchar);
 }
 
+LUMEX_PUBLIC_API
 inline bool
 XmlDocument::save_file(char const *path_, char_t const *indent, // NOLINT(bugprone-easily-swappable-parameters)
                        unsigned int flags, xml_encoding encoding) const
@@ -721,6 +753,7 @@ XmlDocument::save_file(char const *path_, char_t const *indent, // NOLINT(bugpro
          && fclose(file.release()) == 0; // NOLINT(cppcoreguidelines-owning-memory)
 }
 
+LUMEX_PUBLIC_API
 inline bool
 XmlDocument::save_file(wchar_t const *path_, char_t const *indent, unsigned int flags, xml_encoding encoding) const
 {
@@ -730,6 +763,7 @@ XmlDocument::save_file(wchar_t const *path_, char_t const *indent, unsigned int 
          && fclose(file.release()) == 0; // NOLINT(cppcoreguidelines-owning-memory)
 }
 
+LUMEX_PUBLIC_API
 inline XmlNode
 XmlDocument::document_element() const
 {

@@ -1,3 +1,5 @@
+#define LUMEX_IMPLEMENTATION
+
 #include "lumex/core/utility/LumexAssert.hpp"
 
 #include "lumex/xml/constants/XmlConstants.hpp" // NOLINT(used in LUMEX_XML_IS_CHARTYPE)
@@ -7,14 +9,17 @@
 using namespace Lumex::Xml::Constants;
 using namespace Lumex::Xml::XPath::Parser::Lexer;
 
+LUMEX_PUBLIC_API
 XPathLexer::XPathLexer(char_t const *query) : _cur(query) { next(); }
 
+LUMEX_PUBLIC_API
 char_t const *
 XPathLexer::state() const
 {
   return _cur;
 }
 
+LUMEX_PUBLIC_API
 void
 XPathLexer::next() // NOLINT(readability-function-cognitive-complexity)
 {
@@ -292,18 +297,21 @@ XPathLexer::next() // NOLINT(readability-function-cognitive-complexity)
   _cur = cur;
 }
 
+LUMEX_PUBLIC_API
 lexeme_t
 XPathLexer::current() const
 {
   return _cur_lexeme;
 }
 
+LUMEX_PUBLIC_API
 char_t const *
 XPathLexer::current_pos() const
 {
   return _cur_lexeme_pos;
 }
 
+LUMEX_PUBLIC_API
 XPathLexerString const &
 XPathLexer::contents() const
 {

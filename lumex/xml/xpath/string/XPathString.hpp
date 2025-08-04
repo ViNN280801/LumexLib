@@ -1,6 +1,8 @@
 #ifndef LUMEX_XML_XPATH_STRING_HPP
 #define LUMEX_XML_XPATH_STRING_HPP
 
+#include "lumex/LumexExport.hpp"
+
 #include "lumex/core/utility/LumexAttributes.hpp"
 
 #include "lumex/xml/types/XmlTypes.hpp"
@@ -21,7 +23,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
       }
       namespace String
       {
-        class XPathString
+        class LUMEX_API XPathString
         {
         public:
           static XPathString from_const(char_t const *str);

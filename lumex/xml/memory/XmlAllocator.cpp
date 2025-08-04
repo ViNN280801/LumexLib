@@ -1,19 +1,23 @@
-#include <cstdlib>
+#define LUMEX_IMPLEMENTATION
 
-#include "XmlAllocator.hpp"
-#include "XmlMemoryPage.hpp"
+#include <cstdlib>
 
 #include "lumex/core/utility/LumexAttributes.hpp"
 
 #include "lumex/xml/constants/XmlConstants.hpp"
 #include "lumex/xml/types/XmlTypes.hpp"
 
+#include "XmlAllocator.hpp"
+#include "XmlMemoryPage.hpp"
+
 using namespace Lumex::Xml::Memory;
 using namespace Lumex::Xml::Constants;
 using namespace Lumex::Xml::Types;
 
+LUMEX_PUBLIC_API
 XmlAllocator::XmlAllocator(XmlMemoryPage *root) : m_root(root), m_busy_size(root->busy_size) {}
 
+LUMEX_PUBLIC_API
 XmlMemoryPage *
 XmlAllocator::allocate_page(size_t data_size)
 {
@@ -30,12 +34,14 @@ XmlAllocator::allocate_page(size_t data_size)
   return page;
 }
 
+LUMEX_PUBLIC_API
 void
 XmlAllocator::deallocate_page(XmlMemoryPage *page)
 {
   free(page); // NOLINT(cppcoreguidelines-owning-memory, cppcoreguidelines-no-malloc)
 }
 
+LUMEX_PUBLIC_API
 LUMEX_ATTRIBUTE_NOINLINE void *
 XmlAllocator::allocate_memory_oob(size_t size, XmlMemoryPage *&out_page)
 {
@@ -72,6 +78,7 @@ XmlAllocator::allocate_memory_oob(size_t size, XmlMemoryPage *&out_page)
   return reinterpret_cast<char *>(page) + sizeof(XmlMemoryPage);
 }
 
+LUMEX_PUBLIC_API
 void *
 XmlAllocator::allocate_memory(size_t size, XmlMemoryPage *&out_page)
 {
@@ -86,12 +93,14 @@ XmlAllocator::allocate_memory(size_t size, XmlMemoryPage *&out_page)
   return buf;
 }
 
+LUMEX_PUBLIC_API
 void *
 XmlAllocator::allocate_object(size_t size, XmlMemoryPage *&out_page)
 {
   return allocate_memory(size, out_page);
 }
 
+LUMEX_PUBLIC_API
 void
 XmlAllocator::deallocate_memory(void *ptr, size_t size, XmlMemoryPage *page)
 {
@@ -128,6 +137,7 @@ XmlAllocator::deallocate_memory(void *ptr, size_t size, XmlMemoryPage *page)
   }
 }
 
+LUMEX_PUBLIC_API
 char_t *
 XmlAllocator::allocate_string(size_t length)
 {
@@ -156,6 +166,7 @@ XmlAllocator::allocate_string(size_t length)
   return reinterpret_cast<char_t *>(header + 1);
 }
 
+LUMEX_PUBLIC_API
 void
 XmlAllocator::deallocate_string(char_t *string)
 {

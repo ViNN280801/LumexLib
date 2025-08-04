@@ -1,3 +1,5 @@
+#define LUMEX_IMPLEMENTATION
+
 #include <algorithm>
 
 #include "lumex/xml/utility/XmlUtils.hpp"
@@ -9,6 +11,7 @@ using namespace Lumex::Xml::XPath::Node;
 using namespace Lumex::Xml::XPath::Utility;
 using namespace Lumex::Xml::Utility;
 
+LUMEX_PUBLIC_API
 inline void
 XPathNodeSet::_assign(const_iterator begin_, const_iterator end_, type_t type_)
 {
@@ -36,6 +39,7 @@ XPathNodeSet::_assign(const_iterator begin_, const_iterator end_, type_t type_)
   m_type  = type_;
 }
 
+LUMEX_PUBLIC_API
 inline void
 XPathNodeSet::_move(XPathNodeSet &rhs) noexcept
 {
@@ -49,25 +53,30 @@ XPathNodeSet::_move(XPathNodeSet &rhs) noexcept
   rhs.m_end         = rhs.m_storage.data();
 }
 
+LUMEX_PUBLIC_API
 inline XPathNodeSet::XPathNodeSet() : m_type(type_unsorted), m_begin(m_storage.data()), m_end(m_storage.data()) {}
 
+LUMEX_PUBLIC_API
 inline XPathNodeSet::XPathNodeSet(const_iterator begin_, const_iterator end_, type_t type_)
     : m_type(type_unsorted), m_begin(m_storage.data()), m_end(m_storage.data())
 {
   _assign(begin_, end_, type_);
 }
 
+LUMEX_PUBLIC_API
 inline XPathNodeSet::~XPathNodeSet()
 {
   if(m_begin != m_storage.data()) free(m_begin); // NOLINT(cppcoreguidelines-owning-memory, cppcoreguidelines-no-malloc)
 }
 
+LUMEX_PUBLIC_API
 inline XPathNodeSet::XPathNodeSet(XPathNodeSet const &rhs)
     : m_type(type_unsorted), m_begin(m_storage.data()), m_end(m_storage.data())
 {
   _assign(rhs.m_begin, rhs.m_end, rhs.m_type);
 }
 
+LUMEX_PUBLIC_API
 inline XPathNodeSet &
 XPathNodeSet::operator=(XPathNodeSet const &rhs)
 {
@@ -78,12 +87,14 @@ XPathNodeSet::operator=(XPathNodeSet const &rhs)
   return *this;
 }
 
+LUMEX_PUBLIC_API
 inline XPathNodeSet::XPathNodeSet(XPathNodeSet &&rhs) noexcept
     : m_type(type_unsorted), m_begin(m_storage.data()), m_end(m_storage.data())
 {
   _move(rhs);
 }
 
+LUMEX_PUBLIC_API
 inline XPathNodeSet &
 XPathNodeSet::operator=(XPathNodeSet &&rhs) noexcept
 {
@@ -96,24 +107,28 @@ XPathNodeSet::operator=(XPathNodeSet &&rhs) noexcept
   return *this;
 }
 
+LUMEX_PUBLIC_API
 inline XPathNodeSet::type_t
 XPathNodeSet::type() const
 {
   return m_type;
 }
 
+LUMEX_PUBLIC_API
 inline size_t
 XPathNodeSet::size() const
 {
   return m_end - m_begin;
 }
 
+LUMEX_PUBLIC_API
 inline bool
 XPathNodeSet::empty() const
 {
   return m_begin == m_end;
 }
 
+LUMEX_PUBLIC_API
 inline XPathNode const &
 XPathNodeSet::operator[](size_t index) const
 {
@@ -121,60 +136,70 @@ XPathNodeSet::operator[](size_t index) const
   return m_begin[index];
 }
 
+LUMEX_PUBLIC_API
 inline XPathNodeSet::const_iterator
 XPathNodeSet::begin() const
 {
   return m_begin;
 }
 
+LUMEX_PUBLIC_API
 inline XPathNodeSet::const_iterator
 XPathNodeSet::end() const
 {
   return m_end;
 }
 
+LUMEX_PUBLIC_API
 inline void
 XPathNodeSet::sort(bool reverse)
 {
   m_type = Utility::xpath_sort(m_begin, m_end, m_type, reverse);
 }
 
+LUMEX_PUBLIC_API
 inline XPathNode
 XPathNodeSet::first() const
 {
   return Utility::xpath_first(m_begin, m_end, m_type);
 }
 
+LUMEX_PUBLIC_API
 XPathNode *
 XPathNodeSetRaw::begin() const
 {
   return m_begin;
 }
 
+LUMEX_PUBLIC_API
 XPathNode *
 XPathNodeSetRaw::end() const
 {
   return m_end;
 }
 
+LUMEX_PUBLIC_API
 bool
 XPathNodeSetRaw::empty() const
 {
   return m_begin == m_end;
 }
 
+LUMEX_PUBLIC_API
 size_t
 XPathNodeSetRaw::size() const
 {
   return static_cast<size_t>(m_end - m_begin);
 }
 
+LUMEX_PUBLIC_API
 XPathNode
 XPathNodeSetRaw::first() const
 {
   return Xml::XPath::Utility::xpath_first(m_begin, m_end, m_type);
 }
 
+LUMEX_PUBLIC_API
 LUMEX_ATTRIBUTE_NOINLINE void
 XPathNodeSetRaw::push_back_grow(XPathNode const &node, XPathAllocator *alloc)
 {
@@ -197,6 +222,7 @@ XPathNodeSetRaw::push_back_grow(XPathNode const &node, XPathAllocator *alloc)
   *m_end++ = node;
 }
 
+LUMEX_PUBLIC_API
 void
 XPathNodeSetRaw::push_back(XPathNode const &node, XPathAllocator *alloc)
 {
@@ -206,6 +232,7 @@ XPathNodeSetRaw::push_back(XPathNode const &node, XPathAllocator *alloc)
     push_back_grow(node, alloc);
 }
 
+LUMEX_PUBLIC_API
 void
 XPathNodeSetRaw::append(XPathNode const *begin_, XPathNode const *end_, XPathAllocator *alloc)
 {
@@ -232,12 +259,14 @@ XPathNodeSetRaw::append(XPathNode const *begin_, XPathNode const *end_, XPathAll
   m_end += count;
 }
 
+LUMEX_PUBLIC_API
 void
 XPathNodeSetRaw::sort_do()
 {
   m_type = Xml::XPath::Utility::xpath_sort(m_begin, m_end, m_type, false);
 }
 
+LUMEX_PUBLIC_API
 void
 XPathNodeSetRaw::truncate(XPathNode *pos)
 {
@@ -246,6 +275,7 @@ XPathNodeSetRaw::truncate(XPathNode *pos)
   m_end = pos;
 }
 
+LUMEX_PUBLIC_API
 void
 XPathNodeSetRaw::remove_duplicates(XPathAllocator *alloc)
 {
@@ -279,12 +309,14 @@ XPathNodeSetRaw::remove_duplicates(XPathAllocator *alloc)
   else { m_end = std::unique(m_begin, m_end); }
 }
 
+LUMEX_PUBLIC_API
 XPathNodeSet::type_t
 XPathNodeSetRaw::type() const
 {
   return m_type;
 }
 
+LUMEX_PUBLIC_API
 void
 XPathNodeSetRaw::set_type(XPathNodeSet::type_t value)
 {

@@ -1,6 +1,8 @@
 #ifndef LUMEX_XML_XPATH_NODE_HPP
 #define LUMEX_XML_XPATH_NODE_HPP
 
+#include "lumex/LumexExport.hpp"
+
 #include "lumex/core/utility/LumexAttributes.hpp"
 
 #include "lumex/xml/attribute/XmlAttribute.hpp"
@@ -17,7 +19,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
     {
       namespace Node
       {
-        class XPathNode
+        class LUMEX_API XPathNode
         {
         public:
           using unspecified_bool_type = void (*)(XPathNode ***);
@@ -58,8 +60,10 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
           Lumex::Xml::Attribute::XmlAttribute m_attribute;
         };
 
+        LUMEX_API
         bool operator&&(XPathNode const &lhs, bool rhs);
 
+        LUMEX_API
         bool operator||(XPathNode const &lhs, bool rhs);
       } // namespace Node
     } // namespace XPath
