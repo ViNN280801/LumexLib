@@ -36,12 +36,19 @@ Index:
 # Diagnostics configuration  
 Diagnostics:
   Suppress:
-  - readability-convert-member-functions-to-static
-  - modernize-use-trailing-return-type
-  - readability-braces-around-statements
-  - readability-container-data-pointer
-  - cppcoreguidelines-pro-bounds-pointer-arithmetic
+  - cppcoreguidelines-avoid-do-while
+  - cppcoreguidelines-avoid-c-arrays
+  - cppcoreguidelines-pro-type-vararg
+  - cppcoreguidelines-avoid-magic-numbers
   - cppcoreguidelines-pro-type-reinterpret-cast
+  - cppcoreguidelines-pro-bounds-pointer-arithmetic
+  - cppcoreguidelines-pro-bounds-array-to-pointer-decay
+  - modernize-avoid-c-arrays
+  - modernize-use-trailing-return-type
+  - readability-magic-numbers
+  - readability-container-data-pointer
+  - readability-braces-around-statements
+  - readability-convert-member-functions-to-static
   # Enable clang-tidy checks
   ClangTidy:
     Add:

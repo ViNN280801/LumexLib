@@ -34,4 +34,12 @@ LUMEX_PUBLIC_API
 void lumex_assert_handler(char const *assertion, char const *file, int line) noexcept;
 LUMEX_EXTERN_C_END
 
+#define LUMEX_ASSERT(cond) ((cond) ? static_cast<void>(0) : lumex_assert_handler(#cond, __FILE__, __LINE__))
+
+#if __cplusplus >= 201703L
+  #define LUMEX_STATIC_ASSERT(cond) static_assert(cond)
+#else
+  #define LUMEX_STATIC_ASSERT(cond) static_assert(cond, #cond)
+#endif
+
 #endif // !LUMEX_ASSERT_HPP

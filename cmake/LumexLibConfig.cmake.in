@@ -59,6 +59,13 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/LumexAppliedTargets.cmake")
     endif()
 endif()
 
+if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/LumexXmlTargets.cmake")
+    include("${CMAKE_CURRENT_LIST_DIR}/LumexXmlTargets.cmake")
+    if(TARGET Lumex::LumexXml AND NOT TARGET Lumex::xml)
+        add_library(Lumex::xml ALIAS Lumex::LumexXml)
+    endif()
+endif()
+
 # Provide umbrella INTERFACE target `Lumex::Lumex` if missing
 if(NOT TARGET Lumex::Lumex)
     add_library(Lumex::Lumex INTERFACE IMPORTED)
@@ -80,6 +87,8 @@ if(NOT TARGET Lumex::Lumex)
             Lumex::temporary;
             Lumex::time;
             Lumex::utility;
+            
+            Lumex::xml;
             "
     )
 endif()

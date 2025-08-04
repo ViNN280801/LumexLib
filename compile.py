@@ -739,6 +739,14 @@ class CMakeBuilderCLI:
             ),
         )
         self.parser.add_argument(
+            "--cmake-args",
+            help=(
+                "Add additional CMake arguments. Multiple arguments should be "
+                "separated by the platform-specific path separator (e.g., ';' on Windows, ':' on Unix). "
+                'Example: --cmake-args="-DVAR1=VALUE1;-DVAR2=VALUE2;-DVAR3_CONSTANT"'
+            ),
+        )
+        self.parser.add_argument(
             "--tests",
             nargs="?",  # Allows 0 or 1 argument
             help="Enable building tests. Optionally provide a custom CMake variable name",
@@ -836,6 +844,9 @@ class CMakeBuilderCLI:
             # Split the string of paths by the platform-specific separator
             prefix_paths = self.args.cmake_prefix_path.split(os_pathsep)
             self.builder.add_cmake_prefix_path(prefix_paths)
+
+        if self.args.cmake_args:
+            self.builder.add_cmake_args(self.args.cmake_args.split(os_pathsep))
 
         if not self.builder.configure(self.args.build_type):
             self.logger.error("ERROR: CMake configuration failed")

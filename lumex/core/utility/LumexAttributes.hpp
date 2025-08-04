@@ -101,6 +101,7 @@
 #else
   #define LUMEX_ATTRIBUTE_LIKELY
   #define LUMEX_ATTRIBUTE_UNLIKELY
+  #define LUMEX_ATTRIBUTE_UNLIKELY_COND(cond) (cond)
 #endif
 
 // [[no_unique_address]] -> C++20
