@@ -132,7 +132,11 @@ void
 XmlBufferedWriter::write(char_t d0_)
 {
   size_t offset = bufsize;
-  if(offset > bufcapacity - 1) offset = flush();
+  if(offset > bufcapacity - 1) 
+  {
+    flush();
+    offset = 0;
+  }
 
   buffer.at(offset + 0) = d0_;
   bufsize               = offset + 1;
@@ -143,7 +147,11 @@ void
 XmlBufferedWriter::write(char_t d0_, char_t d1_) // NOLINT(bugprone-easily-swappable-parameters)
 {
   size_t offset = bufsize;
-  if(offset > bufcapacity - 2) offset = flush();
+  if(offset > bufcapacity - 2) 
+  {
+    flush();
+    offset = 0;
+  }
 
   buffer.at(offset + 0) = d0_;
   buffer.at(offset + 1) = d1_;
@@ -155,7 +163,11 @@ void
 XmlBufferedWriter::write(char_t d0_, char_t d1_, char_t d2_) // NOLINT(bugprone-easily-swappable-parameters)
 {
   size_t offset = bufsize;
-  if(offset > bufcapacity - 3) offset = flush();
+  if(offset > bufcapacity - 3) 
+  {
+    flush();
+    offset = 0;
+  }
 
   buffer.at(offset + 0) = d0_;
   buffer.at(offset + 1) = d1_;
@@ -169,7 +181,11 @@ XmlBufferedWriter::write(char_t d0_, char_t d1_, // NOLINT(bugprone-easily-swapp
                          char_t d2_, char_t d3_)
 {
   size_t offset = bufsize;
-  if(offset > bufcapacity - 4) offset = flush();
+  if(offset > bufcapacity - 4) 
+  {
+    flush();
+    offset = 0;
+  }
 
   buffer.at(offset + 0) = d0_;
   buffer.at(offset + 1) = d1_;
@@ -184,7 +200,11 @@ XmlBufferedWriter::write(char_t d0_, char_t d1_, // NOLINT(bugprone-easily-swapp
                          char_t d2_, char_t d3_, char_t d4_)
 {
   size_t offset = bufsize;
-  if(offset > bufcapacity - kShift5) offset = flush();
+  if(offset > bufcapacity - kShift5) 
+  {
+    flush();
+    offset = 0;
+  }
 
   buffer.at(offset + 0) = d0_;
   buffer.at(offset + 1) = d1_;
@@ -200,7 +220,11 @@ XmlBufferedWriter::write(char_t d0_, char_t d1_, char_t d2_, // NOLINT(bugprone-
                          char_t d3_, char_t d4_, char_t d5_)
 {
   size_t offset = bufsize;
-  if(offset > bufcapacity - kShift6) offset = flush();
+  if(offset > bufcapacity - kShift6) 
+  {
+    flush();
+    offset = 0;
+  }
 
   buffer.at(offset + 0)       = d0_;
   buffer.at(offset + 1)       = d1_;
