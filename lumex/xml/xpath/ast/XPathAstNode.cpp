@@ -87,17 +87,16 @@ namespace
   {
     namespace_uri_predicate pred = attr.name();
 
-    // Default namespace does not apply to_ attributes
-    if(pred.prefix == nullptr) return LUMEX_XML_TEXT("");
-    XmlNode p_node = parent;
+    // Default namespace does not apply to attributes
+    if(!pred.prefix) return LUMEX_XML_TEXT("");
 
-    while(p_node != nullptr)
+    XmlNode pNode = parent;
+
+    while(pNode)
     {
-      XmlAttribute attr = p_node.find_attribute(pred);
-
-      if(attr != nullptr) return attr.value();
-
-      p_node = p_node.parent();
+      XmlAttribute attrToFind = pNode.find_attribute(pred);
+      if(attrToFind) return attrToFind.value();
+      pNode = pNode.parent();
     }
 
     return LUMEX_XML_TEXT("");
@@ -490,8 +489,8 @@ XPathAstNode::eval_boolean( // NOLINT(misc-no-recursion, readability-function-co
   case ast_op_not_equal: return compare_eq(m_left, m_right, ctx, stack, not_equal_to());
   case ast_op_less: return compare_rel(m_left, m_right, ctx, stack, less());
   case ast_op_greater: return compare_rel(m_right, m_left, ctx, stack, less());
-  case ast_op_less_or_equal: return compare_rel(m_left, m_right, ctx, stack, less_equal());
-  case ast_op_greater_or_equal: return compare_rel(m_right, m_left, ctx, stack, less_equal());
+  case ast_op_less_or_equal: return compare_rel(m_left, m_right, ctx, stack, std::less_equal());
+  case ast_op_greater_or_equal: return compare_rel(m_right, m_left, ctx, stack, std::less_equal());
 
   case ast_func_starts_with: {
     XPathAllocatorCapture capture(stack.result);
