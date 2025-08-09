@@ -89,6 +89,8 @@
 #if __cplusplus >= 202002L
   #define LUMEX_ATTRIBUTE_LIKELY [[likely]]
   #define LUMEX_ATTRIBUTE_UNLIKELY [[unlikely]]
+  #define LUMEX_ATTRIBUTE_LIKELY_COND(cond) (cond)
+  #define LUMEX_ATTRIBUTE_UNLIKELY_COND(cond) (cond)
 #elif (defined(__GNUC__) && (__GNUC__ >= 9)) || (defined(__clang__) && __has_cpp_attribute(likely))
   #define LUMEX_ATTRIBUTE_LIKELY __attribute__((likely))
   #define LUMEX_ATTRIBUTE_UNLIKELY __attribute__((unlikely))
