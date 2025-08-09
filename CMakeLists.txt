@@ -3,7 +3,7 @@
 cmake_minimum_required(VERSION 3.10)
 
 project(LumexLib
-    VERSION 1.0.1
+    VERSION 1.1.0
     LANGUAGES CXX
 )
 
@@ -418,6 +418,23 @@ endif()
 add_subdirectory(lumex)
 
 # ==============================================================================
+# OWN COMPONENTS
+# ==============================================================================
+option(LUMEX_BUILD_XML "Build Xml" OFF)
+
+if(LUMEX_BUILD_XML)
+    option(LUMEX_XML_WCHAR_MODE "Build Xml with wchar_t mode" OFF)
+
+    if(LUMEX_XML_WCHAR_MODE)
+        add_compile_definitions(LUMEX_XML_WCHAR_MODE)
+        message(STATUS "Building with Xml wchar_t mode enabled")
+    endif()
+
+    add_subdirectory(lumex/xml)
+    message(STATUS "Building with Xml enabled")
+endif()
+
+# ==============================================================================
 # INSTALLATION
 # ==============================================================================
 include(GNUInstallDirs)
@@ -442,6 +459,17 @@ install(EXPORT LumexAppliedTargets
     DESTINATION
     ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
 )
+
+if(LUMEX_BUILD_XML)
+    install(EXPORT LumexXmlTargets
+        FILE
+        LumexXmlTargets.cmake
+        NAMESPACE
+        Lumex::
+        DESTINATION
+        ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
+    )
+endif()
 
 # Generate and install the config version file
 write_basic_package_version_file(
@@ -509,6 +537,16 @@ if(LUMEX_BUILD_DOCUMENTATION)
 endif()
 
 # ==============================================================================
+# EXAMPLES
+# ==============================================================================
+option(LUMEX_BUILD_EXAMPLES "Build the examples for the LumexLib" OFF)
+
+if(LUMEX_BUILD_EXAMPLES)
+    message(STATUS "Building with examples enabled")
+    add_subdirectory(examples)
+endif()
+
+# ==============================================================================
 # TESTING
 # ==============================================================================
 option(LUMEX_BUILD_TESTS "Build the tests for LumexCore" OFF)
@@ -539,6 +577,10 @@ if(LUMEX_BUILD_TESTS)
         LumexStringViewTests
         LumexTemporaryTests
         LumexTimeTests
+
+        # Lumex Xml tests
+        LumexXmlTests
+
         COMMENT "Running all the tests..."
     )
 endif()

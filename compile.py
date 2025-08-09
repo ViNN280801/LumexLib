@@ -366,11 +366,23 @@ class CMakeBuilder:
             self.build_dir,
         ]
 
+        # Add architecture/platform specific flags for Visual Studio generators
+        if platform_system() == "Windows":
+            if self.architecture == "x86":
+                cmake_configure_cmd.extend(["-A", "Win32"])
+                self.logger.info("🔍 Setting Visual Studio Platform: Win32 (for x86)")
+            elif self.architecture == "x64":
+                cmake_configure_cmd.extend(["-A", "x64"])
+                self.logger.info("🔍 Setting Visual Studio Platform: x64")
+
         if self.cmake_args:
             filtered_cmake_args = [
                 arg
                 for arg in self.cmake_args
                 if not arg.startswith("-DCMAKE_BUILD_TYPE")
+                and not arg.startswith(
+                    "-A"
+                )  # Avoid duplicating -A if it was manually added
             ]
             cmake_configure_cmd.extend(filtered_cmake_args)
 
@@ -727,6 +739,14 @@ class CMakeBuilderCLI:
             ),
         )
         self.parser.add_argument(
+            "--cmake-args",
+            help=(
+                "Add additional CMake arguments. Multiple arguments should be "
+                "separated by the platform-specific path separator (e.g., ';' on Windows, ':' on Unix). "
+                'Example: --cmake-args="-DVAR1=VALUE1;-DVAR2=VALUE2;-DVAR3_CONSTANT"'
+            ),
+        )
+        self.parser.add_argument(
             "--tests",
             nargs="?",  # Allows 0 or 1 argument
             help="Enable building tests. Optionally provide a custom CMake variable name",
@@ -824,6 +844,12 @@ class CMakeBuilderCLI:
             # Split the string of paths by the platform-specific separator
             prefix_paths = self.args.cmake_prefix_path.split(os_pathsep)
             self.builder.add_cmake_prefix_path(prefix_paths)
+
+        if self.args.cmake_args:
+            # Windows uses ; as separator, Unix uses :
+            raw = self.args.cmake_args.replace(";", os_pathsep)
+            raw = raw.replace(":", os_pathsep)
+            self.builder.add_cmake_args(raw.split(os_pathsep))
 
         if not self.builder.configure(self.args.build_type):
             self.logger.error("ERROR: CMake configuration failed")
