@@ -15,5 +15,9 @@ FetchContent_Declare(
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
-add_subdirectory(applied)
-add_subdirectory(core)
+# add_subdirectory(applied)
+# add_subdirectory(core)
+
+if(LUMEX_BUILD_XML)
+    add_subdirectory(xml)
+endif()
