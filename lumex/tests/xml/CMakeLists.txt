@@ -31,3 +31,5 @@ endif()
 
 include(GoogleTest)
 gtest_discover_tests(${TEST_EXECUTABLE_NAME})
+
+target_link_options(${TEST_EXECUTABLE_NAME} PRIVATE -Wl,--no-as-needed)
