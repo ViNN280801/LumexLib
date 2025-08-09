@@ -577,6 +577,10 @@ if(LUMEX_BUILD_TESTS)
         LumexStringViewTests
         LumexTemporaryTests
         LumexTimeTests
+
+        # Lumex Xml tests
+        LumexXmlTests
+
         COMMENT "Running all the tests..."
     )
 endif()
