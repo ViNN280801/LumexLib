@@ -90,6 +90,7 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
     {
       class LUMEX_API XmlNode
       {
+        friend class Tree::XmlTreeWalker;
         friend class Attribute::XmlAttribute;
         friend class Attribute::XmlAttributeIterator;
         friend class XmlNodeIterator;

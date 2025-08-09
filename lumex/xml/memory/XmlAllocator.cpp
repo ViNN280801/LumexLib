@@ -1,5 +1,6 @@
 #define LUMEX_IMPLEMENTATION
 
+#include <cstddef>
 #include <cstdlib>
 
 #include "lumex/core/utility/LumexAttributes.hpp"

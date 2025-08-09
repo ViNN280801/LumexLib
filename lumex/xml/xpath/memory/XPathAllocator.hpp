@@ -1,6 +1,9 @@
 #ifndef LUMEX_XML_XPATH_ALLOCATOR_HPP
 #define LUMEX_XML_XPATH_ALLOCATOR_HPP
 
+#include <cstdlib>
+#include <cstring>
+
 #include "lumex/LumexExport.hpp"
 
 #include "XPathMemoryBlock.hpp"

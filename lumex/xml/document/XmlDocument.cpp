@@ -1,6 +1,13 @@
 #define LUMEX_IMPLEMENTATION
 
+#include <cstdio>
 #include <iostream>
+#include <memory>
+
+#if defined(__linux__) || defined(__APPLE__)
+  #include <sys/stat.h> // struct stat, S_ISREG
+  #include <unistd.h>   // fstat
+#endif
 
 #include "lumex/xml/node/XmlNode.hpp"
 #include "lumex/xml/utility/XmlCleaner.hpp"

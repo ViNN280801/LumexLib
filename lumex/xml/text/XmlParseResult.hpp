@@ -1,6 +1,8 @@
 #ifndef LUMEX_XML_PARSE_RESULT_HPP
 #define LUMEX_XML_PARSE_RESULT_HPP
 
+#include <cstddef>
+
 #include "lumex/LumexExport.hpp"
 
 #include "lumex/core/utility/LumexAttributes.hpp"
