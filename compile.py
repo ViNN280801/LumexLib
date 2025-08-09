@@ -846,7 +846,10 @@ class CMakeBuilderCLI:
             self.builder.add_cmake_prefix_path(prefix_paths)
 
         if self.args.cmake_args:
-            self.builder.add_cmake_args(self.args.cmake_args.split(os_pathsep))
+            # Windows uses ; as separator, Unix uses :
+            raw = self.args.cmake_args.replace(";", os_pathsep)
+            raw = raw.replace(":", os_pathsep)
+            self.builder.add_cmake_args(raw.split(os_pathsep))
 
         if not self.builder.configure(self.args.build_type):
             self.logger.error("ERROR: CMake configuration failed")

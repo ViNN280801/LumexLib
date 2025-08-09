@@ -3,8 +3,12 @@
 
 #include <array>
 #include <cfloat> // For DBL_DIG
+#include <climits>
+#include <cmath>
+#include <cstddef>
 #include <cstdio>
 #include <cstdlib>
+#include <cstring>
 #include <cwchar>
 
 #include "lumex/xml/constants/XmlConstants.hpp"

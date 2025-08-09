@@ -58,7 +58,7 @@ add_library(${LUMEX_XML_NAME} SHARED
 
 add_library(Lumex::xml ALIAS ${LUMEX_XML_NAME})
 
-if(BUILD_SHARED_LIBS AND WIN32)
+if(BUILD_SHARED_LIBS)
     target_compile_definitions(${LUMEX_XML_NAME} PRIVATE LUMEX_EXPORTS)
 endif()
 
@@ -103,6 +103,31 @@ target_include_directories(${LUMEX_XML_NAME} PUBLIC
 )
 
 target_link_libraries(${LUMEX_XML_NAME} PUBLIC Lumex::utility)
+
+if(NOT WIN32)
+    set_target_properties(${LUMEX_XML_NAME} PROPERTIES
+        INTERPROCEDURAL_OPTIMIZATION OFF
+    )
+
+    target_compile_options(${LUMEX_XML_NAME} PRIVATE
+        $<$<CONFIG:Release>:-fno-lto>
+        $<$<CONFIG:RelWithDebInfo>:-fno-lto>
+    )
+
+    target_link_options(${LUMEX_XML_NAME} PRIVATE
+        $<$<CONFIG:Release>:-fno-lto>
+        $<$<CONFIG:RelWithDebInfo>:-fno-lto>
+        -Wl,--no-gc-sections
+        -Wl,--no-undefined
+    )
+
+    if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+        target_compile_options(${LUMEX_XML_NAME} PRIVATE
+            -fkeep-inline-functions
+            -fkeep-static-functions
+        )
+    endif()
+endif()
 
 install(TARGETS ${LUMEX_XML_NAME} EXPORT ${EXPORT_TO}
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}

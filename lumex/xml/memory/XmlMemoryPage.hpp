@@ -1,6 +1,8 @@
 #ifndef LUMEX_XML_MEMORY_PAGE_HPP
 #define LUMEX_XML_MEMORY_PAGE_HPP
 
+#include <cstddef>
+
 #include "lumex/LumexExport.hpp"
 
 namespace Lumex // NOLINT(modernize-concat-nested-namespaces)

@@ -1376,7 +1376,7 @@ LUMEX_PUBLIC_API
 inline bool
 XmlNode::traverse(XmlTreeWalker &walker)
 {
-  walker.m_depth = -1;
+  walker.set_depth(-1);
 
   XmlNode arg_begin(m_root);
   if(!walker.begin(arg_begin)) return false;
@@ -1385,7 +1385,7 @@ XmlNode::traverse(XmlTreeWalker &walker)
 
   if(cur != nullptr)
   {
-    ++walker.m_depth;
+    walker.increment_depth();
 
     do { // NOLINT(cppcoreguidelines-avoid-do-while)
       XmlNode arg_for_each(cur);
@@ -1393,7 +1393,7 @@ XmlNode::traverse(XmlTreeWalker &walker)
 
       if(cur->first_child != nullptr)
       {
-        ++walker.m_depth;
+        walker.increment_depth();
         cur = cur->first_child;
       }
       else if(cur->next_sibling != nullptr)
@@ -1402,7 +1402,7 @@ XmlNode::traverse(XmlTreeWalker &walker)
       {
         while((cur->next_sibling == nullptr) && cur != m_root && (cur->parent != nullptr))
         {
-          --walker.m_depth;
+          walker.decrement_depth();
           cur = cur->parent;
         }
 
@@ -1411,7 +1411,7 @@ XmlNode::traverse(XmlTreeWalker &walker)
     } while((cur != nullptr) && cur != m_root);
   }
 
-  LUMEX_ASSERT(walker.m_depth == -1);
+  LUMEX_ASSERT(walker.depth() == -1);
 
   XmlNode arg_end(m_root);
   return walker.end(arg_end);

@@ -36,7 +36,6 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
           return true;
         }
 
-      protected:
         // Get current traversal depth
         LUMEX_ATTRIBUTE_NODISCARD(
           "The returned integer indicates the current traversal depth; discarding it negates the "
@@ -45,6 +44,24 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
         depth() const
         {
           return m_depth;
+        }
+
+        void
+        set_depth(int depth)
+        {
+          m_depth = depth;
+        }
+
+        void
+        increment_depth()
+        {
+          ++m_depth;
+        }
+
+        void
+        decrement_depth()
+        {
+          --m_depth;
         }
 
       private:

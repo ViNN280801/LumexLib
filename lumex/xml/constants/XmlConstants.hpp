@@ -2,6 +2,7 @@
 #define LUMEX_XML_CONSTANTS_HPP
 
 #include <array>
+#include <cstddef>
 #include <cstdint>
 
 #include "lumex/xml/utility/XmlMacros.hpp"

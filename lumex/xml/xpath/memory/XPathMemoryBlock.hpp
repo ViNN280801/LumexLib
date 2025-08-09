@@ -4,6 +4,7 @@
 #include "lumex/LumexExport.hpp"
 
 #include <array>
+#include <cstddef>
 
 #include "lumex/xml/xpath/constants/XPathConstants.hpp"
 
