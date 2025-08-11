@@ -1,4 +1,6 @@
 #include "LumexAttributes.hpp"
 #include "LumexCheckOS.hpp"
+#include "LumexConstantMacros.hpp"
 #include "LumexDemangle.hpp"
+#include "LumexKeywords.hpp"
 #include "LumexMacros.hpp"
