@@ -16,8 +16,8 @@
  * layer of logic that should not be part of the Base64 library itself. Base64 is a low-level utility for bytes.
  */
 
-#ifndef LUMREPORTGEN_BASE64_HPP
-#define LUMREPORTGEN_BASE64_HPP
+#ifndef LUMEX_BASE64_HPP
+#define LUMEX_BASE64_HPP
 
 #include <array>
 #include <string>
@@ -274,4 +274,4 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
   } // namespace Core
 } // namespace Lumex
 
-#endif // !LUMREPORTGEN_BASE64_HPP
+#endif // !LUMEX_BASE64_HPP
