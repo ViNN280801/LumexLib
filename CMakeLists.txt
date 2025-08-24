@@ -568,6 +568,7 @@ if(LUMEX_BUILD_TESTS)
 
         # Lumex Core tests
         LumexBase64Tests
+        LumexCircularBufferTests
         LumexEnvironmentTests
         LumexExceptionsTests
         LumexFilesystemTests

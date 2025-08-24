@@ -1,6 +1,7 @@
 # lumex/tests/core/CMakeLists.txt
 
 add_subdirectory(base64)
+add_subdirectory(circular_buffer)
 add_subdirectory(environment)
 add_subdirectory(exceptions)
 add_subdirectory(filesystem)
