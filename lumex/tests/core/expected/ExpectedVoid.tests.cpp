@@ -2,7 +2,6 @@
 
 #include "lumex/core/expected/ExpectedTypes.hpp"
 #include "lumex/core/expected/ExpectedVoid.hpp"
-using namespace Lumex::Core::Expected;
 
 #include <chrono>
 #include <memory>

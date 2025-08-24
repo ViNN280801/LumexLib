@@ -3,7 +3,6 @@
 #include "lumex/core/expected/BadExpectedAccess.hpp"
 #include "lumex/core/expected/Expected.hpp"
 #include "lumex/core/expected/Unexpected.hpp"
-using namespace Lumex::Core::Expected;
 
 #include <chrono>
 #include <memory>
@@ -522,6 +521,7 @@ TYPED_TEST(ExpectedTest, ValueLValueRef_ReturnsValueOrThrows)
 #if _WIN32
   #pragma warning(push)
   #pragma warning(disable : 4834)
+  #pragma warning(disable : 4858)
 #endif
   // Act & Assert (ошибочный путь)
   EXPECT_THROW(
@@ -552,6 +552,7 @@ TYPED_TEST(ExpectedTest, ValueConstLValueRef_ReturnsConstValueOrThrows)
 #if _WIN32
   #pragma warning(push)
   #pragma warning(disable : 4834)
+  #pragma warning(disable : 4858)
 #endif
   // Arrange: Expected с ошибкой
   Expected<SuccessType, ErrorType> const error_uut(Unexpected<ErrorType>(this->e_val1));

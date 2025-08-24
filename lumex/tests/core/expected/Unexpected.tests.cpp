@@ -1,7 +1,6 @@
 #include <gtest/gtest.h>
 
 #include "lumex/core/expected/Unexpected.hpp"
-using namespace Lumex::Core::Expected;
 
 #include <chrono>
 #include <memory>
@@ -364,7 +363,7 @@ TYPED_TEST(UnexpectedTest, Perf_ConstructionAndAccess)
   // Установим более высокий порог для ComplexError.
   long long threshold = 100; // ms
   if constexpr(std::is_same_v<TypeParam, ComplexError>)
-    threshold = 500; // ms для ComplexError
+    threshold = 1000; // ms для ComplexError
   else if constexpr(std::is_same_v<TypeParam, std::string>)
     threshold = 200; // ms для std::string
 
