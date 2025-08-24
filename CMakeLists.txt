@@ -571,6 +571,7 @@ if(LUMEX_BUILD_TESTS)
         LumexCircularBufferTests
         LumexEnvironmentTests
         LumexExceptionsTests
+        LumexExpectedTests
         LumexFilesystemTests
         LumexNumberGeneratorTests
         LumexOptionalTests

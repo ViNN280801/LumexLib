@@ -11,7 +11,6 @@
 #include <type_traits>
 #include <utility>
 
-#include "lumex/LumexExport.hpp"
 #include "lumex/core/utility/LumexKeywords.hpp"
 
 #if __cplusplus >= 202002L
