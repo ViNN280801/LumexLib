@@ -17,8 +17,10 @@
 
 #if __cplusplus >= 201103L
   #define LUMEX_NOEXCEPT_FUNCTION noexcept
+  #define LUMEX_NOEXCEPT_FUNCTION_CONDITIONAL(cond) noexcept(cond)
 #else
   #define LUMEX_NOEXCEPT_FUNCTION
+  #define LUMEX_NOEXCEPT_FUNCTION_CONDITIONAL(cond)
 #endif
 
 #if defined(_MSC_VER)
