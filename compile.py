@@ -272,29 +272,37 @@ class CMakeBuilder:
         detected_version_tag = ""
 
         # 1. Try to get CMAKE_CXX_COMPILER_ID directly
-        match_id = re_search(r"CMAKE_CXX_COMPILER_ID:STATIC=(.*?)\n", cache_content)
+        match_id = re_search(r"CMAKE_CXX_COMPILER_ID:[^\n=]*=(.*?)\n", cache_content)
         if match_id:
-            detected_compiler = match_id.group(1).lower()
+            detected_compiler = match_id.group(1).strip().lower()
+            self.logger.debug(
+                f"DEBUG: Found CMAKE_CXX_COMPILER_ID: {detected_compiler}"
+            )
+        else:
+            self.logger.debug("DEBUG: CMAKE_CXX_COMPILER_ID not found or regex failed.")
 
         # 2. Try to infer from CMAKE_GENERATOR (especially for MSVC)
         match_generator = re_search(r"CMAKE_GENERATOR:INTERNAL=(.*?)\n", cache_content)
         if match_generator:
-            generator_name = match_generator.group(1)  # Получаем полное имя генератора
+            generator_name = match_generator.group(1)
+            self.logger.debug(f"DEBUG: Found CMAKE_GENERATOR: {generator_name}")
             if "Visual Studio" in generator_name:
                 detected_compiler = "msvc"
-
-                # Try to extract year from generator name, e.g. "Visual Studio 17 2022"
                 version_match = re_search(r"Visual Studio \d+ (\d{4})", generator_name)
                 if version_match:
                     detected_version_tag = version_match.group(1)
                 else:
-                    # If year not found in generator name, try from CMAKE_GENERATOR_INSTANCE
                     match_instance = re_search(
                         r"CMAKE_GENERATOR_INSTANCE:INTERNAL=.*?\\(\d{4})\\",
                         cache_content,
                     )
                     if match_instance:
                         detected_version_tag = match_instance.group(1)
+                self.logger.debug(
+                    f"DEBUG: Inferred MSVC compiler: {detected_compiler}, version: {detected_version_tag}"
+                )
+        else:
+            self.logger.debug("DEBUG: CMAKE_GENERATOR not found.")
 
         # 3. If still 'unknown' or 'msvc' without a specific version, try to infer from CMAKE_CXX_COMPILER path
         if detected_compiler == "unknown" or (
@@ -305,44 +313,48 @@ class CMakeBuilder:
             )
             if match_path:
                 compiler_path = match_path.group(1)
+                self.logger.debug(
+                    f"DEBUG: Found CMAKE_CXX_COMPILER path: {compiler_path}"
+                )
                 compiler_exe = os_path_basename(compiler_path).lower()
 
                 if "cl.exe" in compiler_exe:
                     detected_compiler = "msvc"
-                    # For MSVC, also try to extract version from compiler path,
-                    # e.g. C:/.../MSVC/14.29.30133/...
                     msvc_version_path_match = re_search(
                         r"MSVC\\(\d+\.\d+)\.\d+\\", compiler_path
                     )
                     if msvc_version_path_match:
-                        # Example: 14.29 -> v142
                         major_minor = msvc_version_path_match.group(1).split(".")
                         if major_minor[0] == "14":
                             if (
                                 major_minor[1] == "29"
                                 or major_minor[1] == "30"
                                 or major_minor[1] == "31"
-                            ):  # VS 2019 / 2022 might both use v142/v143
-                                detected_version_tag = (
-                                    "2022"  # Assuming latest for v143-ish toolsets
-                                )
-                            elif major_minor[1] == "16":  # Older VS 2017
+                            ):
+                                detected_version_tag = "2022"
+                            elif major_minor[1] == "16":
                                 detected_version_tag = "2017"
-                            elif major_minor[1] == "14":  # Older VS 2015
+                            elif major_minor[1] == "14":
                                 detected_version_tag = "2015"
-                            # This part is a bit heuristic, a direct generator year is better.
-
-                elif "g++" in compiler_exe:
+                elif (
+                    "g++" in compiler_exe
+                    or "gcc.exe" in compiler_exe
+                    or compiler_exe == "c++"
+                ):
                     detected_compiler = "gcc"
-                elif "gcc.exe" in compiler_exe:
-                    detected_compiler = "gcc"
-                elif "clang++" in compiler_exe:
+                elif "clang++" in compiler_exe or "clang.exe" in compiler_exe:
                     detected_compiler = "clang"
-                elif "clang.exe" in compiler_exe:
-                    detected_compiler = "clang"
+                self.logger.debug(
+                    f"DEBUG: Inferred compiler from path: {detected_compiler}, version: {detected_version_tag}"
+                )
+            else:
+                self.logger.debug("DEBUG: CMAKE_CXX_COMPILER path not found.")
 
         # Save found version to self.compiler_version_tag
         self.compiler_version_tag = detected_version_tag
+        self.logger.debug(
+            f"DEBUG: Final detected compiler: {detected_compiler}, version tag: {self.compiler_version_tag}"
+        )
 
         return detected_compiler
 
