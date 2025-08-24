@@ -23,6 +23,20 @@
   #define LUMEX_NOEXCEPT_FUNCTION_CONDITIONAL(cond)
 #endif
 
+#if __cplusplus >= 202002L
+  #define LUMEX_CONSTEXPR_FUNCTION constexpr
+  #define LUMEX_CONSTEXPR_CTOR constexpr
+  #define LUMEX_CONSTEXPR_DTOR constexpr
+#elif __cplusplus >= 201103L
+  #define LUMEX_CONSTEXPR_FUNCTION constexpr
+  #define LUMEX_CONSTEXPR_CTOR constexpr
+  #define LUMEX_CONSTEXPR_DTOR
+#else
+  #define LUMEX_CONSTEXPR_FUNCTION
+  #define LUMEX_CONSTEXPR_CTOR
+  #define LUMEX_CONSTEXPR_DTOR
+#endif
+
 #if defined(_MSC_VER)
   #define LUMEX_RESTRICT __restrict
 #elif defined(__GNUC__) || defined(__clang__)
