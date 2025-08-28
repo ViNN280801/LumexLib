@@ -75,9 +75,9 @@
   #define LUMEX_ATTRIBUTE_FALLTHROUGH
 #endif
 
-// [[maybe_unused]] (already present, unify style)
+// [[maybe_unused]]
+#define LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR(var) (void)(var)
 #if __cplusplus >= 201703L
-  #undef LUMEX_ATTRIBUTE_MAYBE_UNUSED
   #define LUMEX_ATTRIBUTE_MAYBE_UNUSED [[maybe_unused]]
 #elif defined(__GNUC__) || defined(__clang__)
   #define LUMEX_ATTRIBUTE_MAYBE_UNUSED __attribute__((unused))
