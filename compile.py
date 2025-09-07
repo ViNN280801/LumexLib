@@ -85,6 +85,7 @@ class CMakeBuilder:
         self.cmake_args = []
         self.compiler_id = "unknown"
         self.compiler_version_tag = ""
+        self.build_type = "Release"  # Default build type
 
         # Configure colorlog
         self.logger = colorlog_getLogger("CMakeBuilder")
@@ -368,6 +369,7 @@ class CMakeBuilder:
         Returns:
             bool: True if configuration succeeded
         """
+        self.build_type = build_type  # Store build type for later use
         os_makedirs(self.build_dir, exist_ok=True)
 
         cmake_configure_cmd = [
@@ -570,6 +572,8 @@ class CMakeBuilder:
             self.build_dir,
             "--prefix",
             install_prefix + "/" + lib_prefix,
+            "--config",
+            self.build_type,
         ]
         return self.run_command(install_cmd)
 
