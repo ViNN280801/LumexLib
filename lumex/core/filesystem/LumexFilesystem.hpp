@@ -1735,6 +1735,30 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
       {
         return Path(lhs) / rhs;
       }
+
+      /**
+       * @brief Checks if a file exists at the specified path
+       * @param path Path to the file
+       * @return True if the file exists, false otherwise
+       */
+      LUMEX_PUBLIC_API
+      bool isFileExists(std::string const &path);
+
+      /**
+       * @brief Checks if a file or directory name is valid
+       * @param name Name to check
+       * @throws std::invalid_argument if the name contains invalid characters or is reserved
+       */
+      LUMEX_PUBLIC_API void checkName(std::string const &name);
+
+      /**
+       * @brief Filters name, replacing invalid characters with '_' (noexcept wrapper)
+       * @param name Original name
+       * @param defaultValue Returned if name is empty or completely invalid
+       * @return Sanitized name or defaultValue
+       */
+      LUMEX_PUBLIC_API std::string sanitizeName(std::string const &name, // NOLINT(bugprone-easily-swappable-parameters)
+                                                std::string const &defaultValue = "unnamed") noexcept;
     } // namespace Filesystem
   } // namespace Core
 } // namespace Lumex

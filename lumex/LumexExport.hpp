@@ -35,14 +35,20 @@
 
 #ifdef LUMEX_IMPLEMENTATION
   #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__) && defined(_MSC_VER)
+    // Force C linkage for compatibility with legacy applications
+    #define LUMEX_PUBLIC_C_API extern "C" __declspec(dllexport)
     #define LUMEX_PUBLIC_API __declspec(dllexport)
   #elif _WIN32
+    #define LUMEX_PUBLIC_C_API extern "C" __attribute__((dllexport))
     #define LUMEX_PUBLIC_API __attribute__((dllexport))
   #else
+    #define LUMEX_PUBLIC_C_API extern "C" __attribute__((visibility("default")))
     #define LUMEX_PUBLIC_API __attribute__((visibility("default")))
   #endif
 #else
-  #define LUMEX_PUBLIC_API LUMEX_API ///< Macro for marking functions that should be available from outside.
+  /// Macros for marking functions that should be available from outside.
+  #define LUMEX_PUBLIC_C_API extern "C" LUMEX_API
+  #define LUMEX_PUBLIC_API LUMEX_API
 #endif
 
 #endif // !LUMEX_EXPORT_HPP
