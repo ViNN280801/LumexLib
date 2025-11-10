@@ -1647,41 +1647,41 @@ private:
 // cppcoreguidelines-pro-bounds-array-to-pointer-decay)
 
 // Static member definitions
-std::unique_ptr<CoreDumpGenerator> CoreDumpGenerator::s_instance = nullptr;
-std::mutex CoreDumpGenerator::s_mutex;
-std::condition_variable CoreDumpGenerator::s_operationCondition;
-std::mutex CoreDumpGenerator::s_operationMutex;
-std::atomic<size_t> CoreDumpGenerator::s_activeOperations{};
+inline std::unique_ptr<CoreDumpGenerator> CoreDumpGenerator::s_instance = nullptr;
+inline std::mutex CoreDumpGenerator::s_mutex;
+inline std::condition_variable CoreDumpGenerator::s_operationCondition;
+inline std::mutex CoreDumpGenerator::s_operationMutex;
+inline std::atomic<size_t> CoreDumpGenerator::s_activeOperations{};
 #if CPP11_OR_GREATER
-std::once_flag CoreDumpGenerator::s_initFlag;
+inline std::once_flag CoreDumpGenerator::s_initFlag;
 #endif
-std::string CoreDumpGenerator::s_dumpDirectory = "DumpCreatorCrashDump";
+inline std::string CoreDumpGenerator::s_dumpDirectory = "DumpCreatorCrashDump";
 #if CPP11_OR_GREATER
-std::atomic_bool CoreDumpGenerator::s_initialized{};
+inline std::atomic_bool CoreDumpGenerator::s_initialized{};
 #else
-bool CoreDumpGenerator::s_initialized = false;
+inline bool CoreDumpGenerator::s_initialized = false;
 #endif
-std::string CoreDumpGenerator::s_originalCorePattern;
-DumpConfiguration CoreDumpGenerator::s_currentConfig;
+inline std::string CoreDumpGenerator::s_originalCorePattern;
+inline DumpConfiguration CoreDumpGenerator::s_currentConfig;
 
 // Custom signal handlers initialization
-std::map<int, void (*)(int)> CoreDumpGenerator::s_customSignalHandlers;
-std::mutex CoreDumpGenerator::s_customHandlersMutex;
+inline std::map<int, void (*)(int)> CoreDumpGenerator::s_customSignalHandlers;
+inline std::mutex CoreDumpGenerator::s_customHandlersMutex;
 
 #if DUMP_CREATOR_UNIX
 // Instant systemd monitor thread (for IMMEDIATE core dump extraction)
-std::atomic_bool CoreDumpGenerator::s_monitorThreadShouldStop{false};
-std::thread CoreDumpGenerator::s_monitorThread;
-pid_t CoreDumpGenerator::s_applicationPid = getpid(); // Store PID at initialization
+inline std::atomic_bool CoreDumpGenerator::s_monitorThreadShouldStop{false};
+inline std::thread CoreDumpGenerator::s_monitorThread;
+inline pid_t CoreDumpGenerator::s_applicationPid = getpid(); // Store PID at initialization
 #endif
 #if DUMP_CREATOR_WINDOWS
-BOOL(WINAPI *CoreDumpGenerator::s_customConsoleHandler)(DWORD) = nullptr;
+inline BOOL(WINAPI *CoreDumpGenerator::s_customConsoleHandler)(DWORD) = nullptr;
 #endif
 #if DUMP_CREATOR_UNIX
-void (*CoreDumpGenerator::s_unixConsoleHandler)() = nullptr;
-std::atomic_bool CoreDumpGenerator::s_posixSigThreadStarted{};
+inline void (*CoreDumpGenerator::s_unixConsoleHandler)() = nullptr;
+inline std::atomic_bool CoreDumpGenerator::s_posixSigThreadStarted{};
 
-bool
+inline bool
 CoreDumpGenerator::registerCustomConsoleHandler(void (*handler)()) noexcept
 {
   try
@@ -1700,7 +1700,7 @@ CoreDumpGenerator::registerCustomConsoleHandler(void (*handler)()) noexcept
   }
 }
 
-void
+inline void
 CoreDumpGenerator::_blockDefaultShutdownSignals()
 {
   sigset_t set;
@@ -1711,7 +1711,7 @@ CoreDumpGenerator::_blockDefaultShutdownSignals()
   pthread_sigmask(SIG_BLOCK, &set, nullptr);
 }
 
-void
+inline void
 CoreDumpGenerator::_posixSigwaitThread()
 {
   sigset_t set;
@@ -1729,7 +1729,7 @@ CoreDumpGenerator::_posixSigwaitThread()
 #endif
 
 // DumpFactory static member definitions
-std::map<DumpType, std::string> const DumpFactory::s_descriptions = {
+inline std::map<DumpType, std::string> const DumpFactory::s_descriptions = {
   // Windows mini-dump types
   {DumpType::MINI_DUMP_NORMAL, "Basic mini-dump (64KB)"},
   {DumpType::MINI_DUMP_WITH_DATA_SEGS, "Mini-dump with data segments"},
@@ -1767,7 +1767,7 @@ std::map<DumpType, std::string> const DumpFactory::s_descriptions = {
   {DumpType::DEFAULT_UNIX, "Default UNIX dump type"},
   {DumpType::DEFAULT_AUTO, "Auto-detect based on platform"}};
 
-std::map<DumpType, bool> const DumpFactory::s_platformSupport = {
+inline std::map<DumpType, bool> const DumpFactory::s_platformSupport = {
   // Windows mini-dump types
   {DumpType::MINI_DUMP_NORMAL, DUMP_CREATOR_WINDOWS},
   {DumpType::MINI_DUMP_WITH_DATA_SEGS, DUMP_CREATOR_WINDOWS},
@@ -1805,7 +1805,7 @@ std::map<DumpType, bool> const DumpFactory::s_platformSupport = {
   {DumpType::DEFAULT_UNIX, !DUMP_CREATOR_WINDOWS},
   {DumpType::DEFAULT_AUTO, true}};
 
-std::map<DumpType, size_t> const DumpFactory::s_estimatedSizes = {
+inline std::map<DumpType, size_t> const DumpFactory::s_estimatedSizes = {
   // Windows mini-dump types (estimated sizes)
   {DumpType::MINI_DUMP_NORMAL, CoreDumpGenerator::KB_64},                     // 64KB
   {DumpType::MINI_DUMP_WITH_DATA_SEGS, CoreDumpGenerator::KB_128},            // 128KB
@@ -1920,7 +1920,7 @@ namespace
   }
 } // namespace
 
-void
+inline void
 CoreDumpGenerator::initialize(std::string const &dumpDirectory, DumpType dumpType, bool handleExceptions)
 {
   DumpConfiguration config = DumpFactory::createConfiguration(dumpType);
@@ -1928,7 +1928,7 @@ CoreDumpGenerator::initialize(std::string const &dumpDirectory, DumpType dumpTyp
   initialize(config, handleExceptions);
 }
 
-void
+inline void
 CoreDumpGenerator::initialize(DumpConfiguration const &config, bool handleExceptions)
 {
   std::lock_guard<std::mutex> lock(s_mutex);
@@ -1997,7 +1997,7 @@ CoreDumpGenerator::initialize(DumpConfiguration const &config, bool handleExcept
   }
 }
 
-CoreDumpGenerator &
+inline CoreDumpGenerator &
 CoreDumpGenerator::instance()
 {
 #if CPP11_OR_GREATER
@@ -2024,7 +2024,7 @@ CoreDumpGenerator::instance()
   return *s_instance;
 }
 
-bool
+inline bool
 CoreDumpGenerator::isInitialized() noexcept
 {
 #if CPP11_OR_GREATER
@@ -2034,7 +2034,7 @@ CoreDumpGenerator::isInitialized() noexcept
 #endif
 }
 
-bool
+inline bool
 CoreDumpGenerator::generateDump(std::string const &reason, DumpType dumpType)
 {
 #if CPP11_OR_GREATER
@@ -2072,7 +2072,7 @@ CoreDumpGenerator::generateDump(std::string const &reason, DumpType dumpType)
   }
 }
 
-bool
+inline bool
 CoreDumpGenerator::generateDump(DumpConfiguration const &config, std::string const &reason)
 {
 #if CPP11_OR_GREATER
@@ -2103,7 +2103,7 @@ CoreDumpGenerator::generateDump(DumpConfiguration const &config, std::string con
   }
 }
 
-bool
+inline bool
 CoreDumpGenerator::generateDump(std::string const &reason, DumpType dumpType, std::error_code &errorCode) noexcept
 {
   try
@@ -2171,21 +2171,21 @@ CoreDumpGenerator::generateDump(std::string const &reason, DumpType dumpType, st
   }
 }
 
-std::string
+inline std::string
 CoreDumpGenerator::getDumpDirectory() noexcept
 {
   return s_dumpDirectory; // s_dumpDirectory is only modified during
                           // initialization, which is single-threaded
 }
 
-DumpConfiguration
+inline DumpConfiguration
 CoreDumpGenerator::getCurrentConfiguration() noexcept
 {
   return s_currentConfig; // s_currentConfig is only modified during
                           // initialization, which is single-threaded
 }
 
-bool
+inline bool
 CoreDumpGenerator::setDumpType(DumpType dumpType)
 {
   std::lock_guard<std::mutex> lock(s_mutex);
@@ -2208,20 +2208,20 @@ CoreDumpGenerator::setDumpType(DumpType dumpType)
   return true;
 }
 
-DumpType
+inline DumpType
 CoreDumpGenerator::getCurrentDumpType() noexcept
 {
   return s_currentConfig.getType(); // s_currentConfig is only modified during
                                     // initialization, which is single-threaded
 }
 
-void
+inline void
 CoreDumpGenerator::setCorePatternForCrash()
 {
   // Core pattern is set in _generateCoreDump now
 }
 
-bool
+inline bool
 CoreDumpGenerator::isAdminPrivileges() noexcept
 {
 #if DUMP_CREATOR_WINDOWS
@@ -2233,7 +2233,7 @@ CoreDumpGenerator::isAdminPrivileges() noexcept
 #endif
 }
 
-bool
+inline bool
 CoreDumpGenerator::registerCustomSignalHandler(int signum, void (*handler)(int)) noexcept
 {
 #if DUMP_CREATOR_UNIX
@@ -2272,7 +2272,7 @@ CoreDumpGenerator::registerCustomSignalHandler(int signum, void (*handler)(int))
 }
 
 #if DUMP_CREATOR_WINDOWS
-bool
+inline bool
 CoreDumpGenerator::registerCustomConsoleHandler(BOOL(WINAPI *handler)(DWORD)) noexcept
 {
   try
@@ -2289,28 +2289,28 @@ CoreDumpGenerator::registerCustomConsoleHandler(BOOL(WINAPI *handler)(DWORD)) no
 #endif
 
 // Instance methods implementation
-std::string const &
+inline std::string const &
 CoreDumpGenerator::getInstanceDumpDirectory() const noexcept
 {
   std::lock_guard<std::mutex> lock(m_instanceMutex);
   return m_dumpDirectory;
 }
 
-DumpConfiguration const &
+inline DumpConfiguration const &
 CoreDumpGenerator::getInstanceConfiguration() const noexcept
 {
   std::lock_guard<std::mutex> lock(m_instanceMutex);
   return m_currentConfig;
 }
 
-bool
+inline bool
 CoreDumpGenerator::isInstanceInitialized() const noexcept
 {
   std::lock_guard<std::mutex> lock(m_instanceMutex);
   return m_isInitialized;
 }
 
-bool
+inline bool
 CoreDumpGenerator::generateInstanceDump(std::string const &reason)
 {
   std::lock_guard<std::mutex> lock(m_instanceMutex);
@@ -2327,7 +2327,7 @@ CoreDumpGenerator::generateInstanceDump(std::string const &reason)
   }
 }
 
-bool
+inline bool
 CoreDumpGenerator::generateInstanceDump(std::string const &reason, std::error_code &errorCode) noexcept
 {
   std::lock_guard<std::mutex> lock(m_instanceMutex);
@@ -2456,7 +2456,7 @@ CoreDumpGenerator::_logPerformanceMetrics(PerformanceMetrics const &metrics) noe
 }
 
 // Private implementation
-void
+inline void
 CoreDumpGenerator::_platformInitialize()
 {
 #if DUMP_CREATOR_WINDOWS
@@ -2544,7 +2544,7 @@ CoreDumpGenerator::_platformInitialize()
 // Windows-specific implementation
 #if DUMP_CREATOR_WINDOWS
 
-void
+inline void
 CoreDumpGenerator::_setupWindowsHandlers()
 {
   try
@@ -2576,7 +2576,7 @@ CoreDumpGenerator::_setupWindowsHandlers()
   }
 }
 
-LONG WINAPI
+inline LONG WINAPI
 CoreDumpGenerator::_windowsExceptionHandler(EXCEPTION_POINTERS *pExInfo) noexcept
 {
   HANDLE hFile = INVALID_HANDLE_VALUE; // Initialize to invalid handle for
@@ -2749,7 +2749,7 @@ CoreDumpGenerator::_windowsExceptionHandler(EXCEPTION_POINTERS *pExInfo) noexcep
   return EXCEPTION_EXECUTE_HANDLER;
 }
 
-LONG WINAPI
+inline LONG WINAPI
 CoreDumpGenerator::_redirectedSetUnhandledExceptionFilter(EXCEPTION_POINTERS * /*ExceptionInfo*/) noexcept
 {
   // When the CRT calls SetUnhandledExceptionFilter with NULL parameter
@@ -2757,7 +2757,7 @@ CoreDumpGenerator::_redirectedSetUnhandledExceptionFilter(EXCEPTION_POINTERS * /
   return 0;
 }
 
-BOOL WINAPI
+inline BOOL WINAPI
 CoreDumpGenerator::_windowsConsoleHandler(DWORD ctrlType) noexcept
 {
   // Call custom console handler if registered
@@ -2767,7 +2767,7 @@ CoreDumpGenerator::_windowsConsoleHandler(DWORD ctrlType) noexcept
   return FALSE;
 }
 
-bool
+inline bool
 CoreDumpGenerator::_createWindowsDump(std::string const &filename, DumpConfiguration const &config)
 {
   try
@@ -2882,7 +2882,7 @@ CoreDumpGenerator::_createWindowsDump(std::string const &filename, DumpConfigura
 }
 
 // Windows-specific utility functions
-MINIDUMP_TYPE
+inline MINIDUMP_TYPE
 CoreDumpGenerator::_getMinidumpType(DumpType type) noexcept
 {
   switch(type)
@@ -2931,7 +2931,7 @@ CoreDumpGenerator::_getMinidumpType(DumpType type) noexcept
   }
 }
 
-bool
+inline bool
 CoreDumpGenerator::_isValidMinidumpType(MINIDUMP_TYPE flags) noexcept
 {
   // Check if flags contain only valid combinations
@@ -2962,7 +2962,7 @@ CoreDumpGenerator::_isValidMinidumpType(MINIDUMP_TYPE flags) noexcept
 // UNIX-specific implementation
 #if DUMP_CREATOR_UNIX
 
-void
+inline void
 CoreDumpGenerator::_setupSignalHandlers()
 {
   struct sigaction sa;
@@ -2978,7 +2978,7 @@ CoreDumpGenerator::_setupSignalHandlers()
   _logMessage("UNIX signal handlers installed successfully", false);
 }
 
-void
+inline void
 CoreDumpGenerator::_setupCoreDumpSettings()
 {
   prctl(PR_SET_DUMPABLE, 1, 0, 0, 0);
@@ -2991,7 +2991,7 @@ CoreDumpGenerator::_setupCoreDumpSettings()
   _logMessage("UNIX core dump settings configured", false);
 }
 
-void
+inline void
 CoreDumpGenerator::_setupCorePattern()
 {
   // Store original pattern for restoration
@@ -3000,7 +3000,7 @@ CoreDumpGenerator::_setupCorePattern()
     _logMessage("Current core pattern: " + s_originalCorePattern, false);
 }
 
-void
+inline void
 CoreDumpGenerator::_createManualCoreDump()
 {
   try
@@ -3069,7 +3069,7 @@ CoreDumpGenerator::_createManualCoreDump()
   }
 }
 
-void
+inline void
 CoreDumpGenerator::_restoreCorePattern()
 {
   try
@@ -3094,7 +3094,7 @@ CoreDumpGenerator::_restoreCorePattern()
   }
 }
 
-void
+inline void
 CoreDumpGenerator::_instantSystemdMonitor() noexcept
 {
   // INSTANT core dump extraction using Linux inotify API
@@ -3275,7 +3275,7 @@ CoreDumpGenerator::_instantSystemdMonitor() noexcept
   }
 }
 
-void
+inline void
 CoreDumpGenerator::_monitorAndCopyCoreDumps()
 {
   try
@@ -3337,7 +3337,7 @@ CoreDumpGenerator::_monitorAndCopyCoreDumps()
   }
 }
 
-void
+inline void
 CoreDumpGenerator::_unixSignalHandler(int signum) noexcept
 {
   // Only async-signal-safe operations in signal handler
@@ -3349,7 +3349,7 @@ CoreDumpGenerator::_unixSignalHandler(int signum) noexcept
   raise(signum);
 }
 
-void
+inline void
 CoreDumpGenerator::_customSignalHandlerWrapper(int signum) noexcept
 {
   // Check if we have a custom handler for this signal
@@ -3369,7 +3369,7 @@ CoreDumpGenerator::_customSignalHandlerWrapper(int signum) noexcept
 }
 
 // Helper function to check and log core dump file size
-void
+inline void
 CoreDumpGenerator::_logCoreDumpSize(std::string const &filename) noexcept
 {
   try
@@ -3403,7 +3403,7 @@ CoreDumpGenerator::_logCoreDumpSize(std::string const &filename) noexcept
   }
 }
 
-void
+inline void
 CoreDumpGenerator::_generateCoreDump()
 {
   try
@@ -3472,7 +3472,7 @@ CoreDumpGenerator::_generateCoreDump()
 
 // Helper functions to reduce code duplication
 #if DUMP_CREATOR_WINDOWS
-std::string
+inline std::string
 CoreDumpGenerator::_convertWideStringToNarrow(std::wstring const &wideStr) noexcept
 {
   try
@@ -3493,7 +3493,7 @@ CoreDumpGenerator::_convertWideStringToNarrow(std::wstring const &wideStr) noexc
 }
 #endif
 
-void
+inline void
 CoreDumpGenerator::_logDumpCreationSuccess(std::string const &filename, size_t size, DumpType dumpType) noexcept
 {
   try
@@ -3517,7 +3517,7 @@ CoreDumpGenerator::_logDumpCreationSuccess(std::string const &filename, size_t s
 }
 
 // Atomic file operations to prevent TOCTOU race conditions
-bool
+inline bool
 CoreDumpGenerator::_createFileAtomically(std::string const &filename, std::string const &content) noexcept
 {
   try
@@ -3574,7 +3574,7 @@ CoreDumpGenerator::_createFileAtomically(std::string const &filename, std::strin
   }
 }
 
-bool
+inline bool
 CoreDumpGenerator::_createDirectoryAtomically(std::string const &path) noexcept
 {
   try
@@ -3606,7 +3606,7 @@ CoreDumpGenerator::_createDirectoryAtomically(std::string const &path) noexcept
 }
 
 // Utility functions
-std::string
+inline std::string
 CoreDumpGenerator::_generateDumpFilename(std::string const &prefix)
 {
   // Generate cryptographically secure random component to prevent enumeration
@@ -3649,14 +3649,14 @@ CoreDumpGenerator::_generateDumpFilename(std::string const &prefix)
   return filename;
 }
 
-std::string
+inline std::string
 CoreDumpGenerator::_generateDumpFilename(DumpType dumpType)
 {
   std::string prefix = dumpTypeToString(dumpType);
   return _generateDumpFilename(prefix);
 }
 
-std::string
+inline std::string
 CoreDumpGenerator::_getExecutableDirectory() noexcept
 {
   try
@@ -3706,7 +3706,7 @@ CoreDumpGenerator::_getExecutableDirectory() noexcept
 }
 
 // DumpFactory implementation
-DumpConfiguration
+inline DumpConfiguration
 DumpFactory::createConfiguration(DumpType type)
 {
   if(type == DumpType::DEFAULT_AUTO) type = getDefaultDumpType();
@@ -3720,7 +3720,7 @@ DumpFactory::createConfiguration(DumpType type)
 #endif
 }
 
-DumpType
+inline DumpType
 DumpFactory::getDefaultDumpType() noexcept
 {
 #if DUMP_CREATOR_WINDOWS
@@ -3732,7 +3732,7 @@ DumpFactory::getDefaultDumpType() noexcept
 #endif
 }
 
-bool
+inline bool
 DumpFactory::isSupported(DumpType type) noexcept
 {
   if(type == DumpType::DEFAULT_AUTO) return true; // Always supported
@@ -3752,7 +3752,7 @@ DumpFactory::isSupported(DumpType type) noexcept
 #endif
 }
 
-std::string
+inline std::string
 DumpFactory::getDescription(DumpType type) noexcept
 {
   auto iter = s_descriptions.find(type);
@@ -3760,7 +3760,7 @@ DumpFactory::getDescription(DumpType type) noexcept
   return "Unknown dump type";
 }
 
-size_t
+inline size_t
 DumpFactory::getEstimatedSize(DumpType type) noexcept
 {
   auto iter = s_estimatedSizes.find(type);
@@ -3768,7 +3768,7 @@ DumpFactory::getEstimatedSize(DumpType type) noexcept
   return 0; // Unknown size
 }
 
-std::vector<DumpType>
+inline std::vector<DumpType>
 DumpFactory::getSupportedTypes() noexcept
 {
   std::vector<DumpType> supportedTypes;
@@ -3779,13 +3779,13 @@ DumpFactory::getSupportedTypes() noexcept
   return supportedTypes;
 }
 
-bool
+inline bool
 DumpFactory::validateConfiguration(DumpConfiguration const &config) noexcept
 {
   return config.isValid();
 }
 
-DumpConfiguration
+inline DumpConfiguration
 DumpFactory::createConfiguration(DumpType type, std::error_code &errorCode) noexcept
 {
   errorCode.clear();
@@ -3807,7 +3807,7 @@ DumpFactory::createConfiguration(DumpType type, std::error_code &errorCode) noex
   }
 }
 
-DumpConfiguration
+inline DumpConfiguration
 DumpFactory::createWindowsConfiguration(DumpType type)
 {
   DumpConfiguration config;
@@ -3844,7 +3844,7 @@ DumpFactory::createWindowsConfiguration(DumpType type)
   return config;
 }
 
-DumpConfiguration
+inline DumpConfiguration
 DumpFactory::createUnixConfiguration(DumpType type)
 {
   DumpConfiguration config;
@@ -3867,7 +3867,7 @@ DumpFactory::createUnixConfiguration(DumpType type)
   return config;
 }
 
-void
+inline void
 CoreDumpGenerator::_logMessage(std::string const &message, bool isError)
 {
   try
@@ -3913,7 +3913,7 @@ CoreDumpGenerator::_logMessage(std::string const &message, bool isError)
 }
 
 // Exception handling implementation
-void
+inline void
 CoreDumpGenerator::_setupExceptionHandling()
 {
   // Set the unhandled exception handler
@@ -3921,7 +3921,7 @@ CoreDumpGenerator::_setupExceptionHandling()
   _logMessage("Exception handling enabled", false);
 }
 
-void
+inline void
 CoreDumpGenerator::_unhandledExceptionHandler()
 {
   try
@@ -3972,10 +3972,10 @@ CoreDumpGenerator::_unhandledExceptionHandler()
 
 // Security and validation functions
 #if HAS_STRING_VIEW
-bool
+inline bool
 CoreDumpGenerator::_validateDirectory(std::string_view path) noexcept
 #else
-bool
+inline bool
 CoreDumpGenerator::_validateDirectory(std::string const &path) noexcept
 #endif
 {
@@ -4073,10 +4073,10 @@ CoreDumpGenerator::_validateDirectory(std::string const &path) noexcept
 }
 
 #if HAS_STRING_VIEW
-bool
+inline bool
 CoreDumpGenerator::_validateFilename(std::string_view filename) noexcept
 #else
-bool
+inline bool
 CoreDumpGenerator::_validateFilename(std::string const &filename) noexcept
 #endif
 {
@@ -4153,10 +4153,10 @@ CoreDumpGenerator::_validateFilename(std::string const &filename) noexcept
 }
 
 #if HAS_STRING_VIEW
-std::string
+inline std::string
 CoreDumpGenerator::_sanitizePath(std::string_view path) noexcept
 #else
-std::string
+inline std::string
 CoreDumpGenerator::_sanitizePath(std::string const &path) noexcept
 #endif
 {
@@ -4196,7 +4196,7 @@ CoreDumpGenerator::_sanitizePath(std::string const &path) noexcept
 }
 
 // Security helper functions implementation
-std::string
+inline std::string
 CoreDumpGenerator::_generateSecureRandomComponent() noexcept
 {
   try
@@ -4283,7 +4283,7 @@ CoreDumpGenerator::_generateSecureRandomComponent() noexcept
 
 // Fallback random component generation (insecure - only for system
 // compatibility)
-std::string
+inline std::string
 CoreDumpGenerator::_generateFallbackRandomComponent() noexcept
 {
   try
@@ -4330,7 +4330,7 @@ CoreDumpGenerator::_generateFallbackRandomComponent() noexcept
   }
 }
 
-std::string
+inline std::string
 CoreDumpGenerator::_sanitizeFilenameComponent(std::string const &component) noexcept
 {
   try
@@ -4386,7 +4386,7 @@ CoreDumpGenerator::_sanitizeFilenameComponent(std::string const &component) noex
   }
 }
 
-std::string
+inline std::string
 CoreDumpGenerator::_sanitizeLogMessage(std::string const &message) noexcept
 {
   try
@@ -4506,7 +4506,7 @@ CoreDumpGenerator::_sanitizeLogMessage(std::string const &message) noexcept
   }
 }
 
-std::string
+inline std::string
 CoreDumpGenerator::_sanitizeLogMessageForAdmin(std::string const &message) noexcept
 {
   try
@@ -4565,7 +4565,7 @@ CoreDumpGenerator::_sanitizeLogMessageForAdmin(std::string const &message) noexc
 
 // Windows privilege checking implementation
 #if DUMP_CREATOR_WINDOWS
-bool
+inline bool
 CoreDumpGenerator::_isAdminPrivileges() noexcept
 {
   try
@@ -4627,7 +4627,7 @@ CoreDumpGenerator::_isAdminPrivileges() noexcept
   }
 }
 
-bool
+inline bool
 CoreDumpGenerator::_isElevatedProcess() noexcept
 {
   try
@@ -4664,8 +4664,8 @@ CoreDumpGenerator::_isElevatedProcess() noexcept
 #endif // DUMP_CREATOR_WINDOWS
 
 // Platform-specific filesystem utilities implementation
-bool
-CoreDumpGenerator::_createDirectoryRecursive(std::string const &path) noexcept // NOLINT(misc-no-recursion)
+inline bool
+CoreDumpGenerator::_createDirectoryRecursive(std::string const &path) noexcept
 {
   try
   {

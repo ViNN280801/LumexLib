@@ -1937,12 +1937,12 @@ Lumex::Filesystem::is_writable(Lumex::Path const &path)
 
 LUMEX_PUBLIC_API
 bool
-Lumex::Core::Filesystem::is_accessible(Lumex::Path const &path)
+Lumex::Filesystem::is_accessible(Lumex::Path const &path)
 {
   std::clog << "Checking if path '" << path
             << "' is accessible by the current "
                "process\n";
-  return is_readable(path) && is_writable(path);
+  return Lumex::Filesystem::is_readable(path) && Lumex::Filesystem::is_writable(path);
 }
 
 LUMEX_PUBLIC_API
@@ -1975,7 +1975,7 @@ Lumex::Core::Filesystem::checkName(std::string const &name)
 
 LUMEX_PUBLIC_API std::string
 Lumex::Core::Filesystem::sanitizeName(std::string const &name, // NOLINT(bugprone-easily-swappable-parameters)
-                                      std::string const &defaultValue = "unnamed") noexcept
+                                      std::string const &defaultValue) noexcept
 {
   using namespace Detail;
 
