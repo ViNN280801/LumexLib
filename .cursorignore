@@ -64,3 +64,10 @@ CMakeUserPresets.json
 
 # Documentation
 docs/
+
+# Compile commands
+compile_commands.json
+
+# Any cache files
+cache*/
+.cache*/
