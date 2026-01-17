@@ -22,6 +22,7 @@ from re import DOTALL as re_DOTALL
 
 from sys import exit as sys_exit
 from shutil import rmtree as shutil_rmtree
+from shutil import copy2 as shutil_copy2
 from psutil import cpu_count as psutil_cpu_count
 from psutil import virtual_memory as psutil_virtual_memory
 
@@ -156,8 +157,12 @@ class CMakeBuilder:
             self.logger.info("   winget install Ninja-build.Ninja")
             self.logger.info("")
             self.logger.info("4. Manual Installation:")
-            self.logger.info("   a) Download from: https://github.com/ninja-build/ninja/releases")
-            self.logger.info("   b) Extract ninja.exe to a directory (e.g., C:\\Tools\\ninja)")
+            self.logger.info(
+                "   a) Download from: https://github.com/ninja-build/ninja/releases"
+            )
+            self.logger.info(
+                "   b) Extract ninja.exe to a directory (e.g., C:\\Tools\\ninja)"
+            )
             self.logger.info("   c) Add directory to PATH:")
             self.logger.info("      - Open System Properties -> Environment Variables")
             self.logger.info("      - Edit PATH and add C:\\Tools\\ninja")
@@ -224,6 +229,634 @@ class CMakeBuilder:
         self.logger.info("After installation, verify with: ninja --version")
         self.logger.info("Then retry your build command with --use-ninja flag")
         self.logger.info("")
+
+    def _find_clang_compiler(self) -> Optional[str]:
+        """
+        Find Clang compiler (clang/clang++) on the system.
+
+        Returns:
+            Optional[str]: Path to clang++ if found, None otherwise
+        """
+        # Try to find clang++ in PATH
+        clang_path = shutil_which("clang++")
+        if clang_path:
+            return clang_path
+
+        # Try clang as fallback
+        clang_path = shutil_which("clang")
+        if clang_path:
+            return clang_path
+
+        return None
+
+    def _find_clang_cl_compiler(self) -> Optional[str]:
+        """
+        Find Clang-CL compiler (clang-cl.exe) on Windows.
+
+        Returns:
+            Optional[str]: Path to clang-cl.exe if found, None otherwise
+        """
+        if platform_system() != "Windows":
+            return None
+
+        # Try to find clang-cl.exe in PATH
+        clang_cl_path = shutil_which("clang-cl")
+        if clang_cl_path:
+            return clang_cl_path
+
+        # Search in common LLVM installation paths
+        import os
+
+        program_files = os.environ.get("ProgramFiles", "C:\\Program Files")
+        program_files_x86 = os.environ.get(
+            "ProgramFiles(x86)", "C:\\Program Files (x86)"
+        )
+
+        llvm_paths = [
+            os_path_join(program_files, "LLVM", "bin", "clang-cl.exe"),
+            os_path_join(program_files_x86, "LLVM", "bin", "clang-cl.exe"),
+            os_path_join(
+                program_files,
+                "Microsoft Visual Studio",
+                "2022",
+                "Community",
+                "VC",
+                "Tools",
+                "Llvm",
+                "bin",
+                "clang-cl.exe",
+            ),
+            os_path_join(
+                program_files,
+                "Microsoft Visual Studio",
+                "2022",
+                "Professional",
+                "VC",
+                "Tools",
+                "Llvm",
+                "bin",
+                "clang-cl.exe",
+            ),
+            os_path_join(
+                program_files,
+                "Microsoft Visual Studio",
+                "2022",
+                "Enterprise",
+                "VC",
+                "Tools",
+                "Llvm",
+                "bin",
+                "clang-cl.exe",
+            ),
+        ]
+
+        for llvm_path in llvm_paths:
+            if os_path_exists(llvm_path):
+                return llvm_path
+
+        return None
+
+    def _find_gcc_compiler(self) -> Optional[str]:
+        """
+        Find GCC compiler (gcc/g++) on the system.
+
+        Returns:
+            Optional[str]: Path to g++ if found, None otherwise
+        """
+        # Try to find g++ in PATH
+        gpp_path = shutil_which("g++")
+        if gpp_path:
+            return gpp_path
+
+        # Try gcc as fallback
+        gcc_path = shutil_which("gcc")
+        if gcc_path:
+            return gcc_path
+
+        # On Windows, try MinGW paths
+        if platform_system() == "Windows":
+            import os
+
+            program_files = os.environ.get("ProgramFiles", "C:\\Program Files")
+            program_files_x86 = os.environ.get(
+                "ProgramFiles(x86)", "C:\\Program Files (x86)"
+            )
+
+            mingw_paths = [
+                os_path_join(program_files, "mingw64", "bin", "g++.exe"),
+                os_path_join(program_files, "mingw-w64", "bin", "g++.exe"),
+                os_path_join(program_files_x86, "mingw64", "bin", "g++.exe"),
+                os_path_join(program_files_x86, "mingw-w64", "bin", "g++.exe"),
+            ]
+
+            for mingw_path in mingw_paths:
+                if os_path_exists(mingw_path):
+                    return mingw_path
+
+        return None
+
+    def _find_msvc_compiler(self, architecture: Optional[str] = None) -> Optional[str]:
+        """
+        Find MSVC compiler (cl.exe) on Windows.
+        Searches in standard Visual Studio installation paths.
+
+        Args:
+            architecture: Target architecture ('x64' or 'x86'). If None, defaults to x64.
+
+        Returns:
+            Optional[str]: Path to cl.exe if found, None otherwise
+        """
+        if platform_system() != "Windows":
+            return None
+
+        # Default to x64 if architecture not specified
+        if architecture is None:
+            architecture = "x64"
+
+        # CRITICAL: Do NOT use cl.exe from PATH for x64 architecture
+        # PATH typically contains x86 compiler by default (from Developer Command Prompt)
+        # This causes architecture mismatch: x86 compiler cannot link x64 libraries
+        # Only search PATH if architecture is x86 (which matches default PATH)
+        if architecture == "x86":
+            # For x86, PATH might have correct compiler
+            cl_path = shutil_which("cl")
+            if cl_path:
+                # Verify it's actually x86 (basic check: path contains x86 or no x64)
+                if "x64" not in cl_path.lower() and (
+                    "x86" in cl_path.lower() or "x64" not in cl_path
+                ):
+                    return cl_path
+                # If PATH has x64 compiler but we need x86, continue searching
+        # For x64 architecture: skip PATH entirely, search explicit paths only
+
+        # Search in standard Visual Studio installation paths
+        import os
+
+        program_files = os.environ.get("ProgramFiles", "C:\\Program Files")
+        program_files_x86 = os.environ.get(
+            "ProgramFiles(x86)", "C:\\Program Files (x86)"
+        )
+
+        # Common Visual Studio installation paths
+        vs_paths = [
+            os_path_join(
+                program_files,
+                "Microsoft Visual Studio",
+                "2022",
+                "Community",
+                "VC",
+                "Tools",
+                "MSVC",
+            ),
+            os_path_join(
+                program_files,
+                "Microsoft Visual Studio",
+                "2022",
+                "Professional",
+                "VC",
+                "Tools",
+                "MSVC",
+            ),
+            os_path_join(
+                program_files,
+                "Microsoft Visual Studio",
+                "2022",
+                "Enterprise",
+                "VC",
+                "Tools",
+                "MSVC",
+            ),
+            os_path_join(
+                program_files,
+                "Microsoft Visual Studio",
+                "2019",
+                "Community",
+                "VC",
+                "Tools",
+                "MSVC",
+            ),
+            os_path_join(
+                program_files,
+                "Microsoft Visual Studio",
+                "2019",
+                "Professional",
+                "VC",
+                "Tools",
+                "MSVC",
+            ),
+            os_path_join(
+                program_files,
+                "Microsoft Visual Studio",
+                "2019",
+                "Enterprise",
+                "VC",
+                "Tools",
+                "MSVC",
+            ),
+            os_path_join(
+                program_files_x86,
+                "Microsoft Visual Studio",
+                "2019",
+                "Community",
+                "VC",
+                "Tools",
+                "MSVC",
+            ),
+            os_path_join(
+                program_files_x86,
+                "Microsoft Visual Studio",
+                "2019",
+                "Professional",
+                "VC",
+                "Tools",
+                "MSVC",
+            ),
+            os_path_join(
+                program_files_x86,
+                "Microsoft Visual Studio",
+                "2019",
+                "Enterprise",
+                "VC",
+                "Tools",
+                "MSVC",
+            ),
+            os_path_join(
+                program_files_x86,
+                "Microsoft Visual Studio",
+                "2017",
+                "Community",
+                "VC",
+                "Tools",
+                "MSVC",
+            ),
+            os_path_join(
+                program_files_x86,
+                "Microsoft Visual Studio",
+                "2017",
+                "Professional",
+                "VC",
+                "Tools",
+                "MSVC",
+            ),
+            os_path_join(
+                program_files_x86,
+                "Microsoft Visual Studio",
+                "2017",
+                "Enterprise",
+                "VC",
+                "Tools",
+                "MSVC",
+            ),
+        ]
+
+        # Determine target architecture directory
+        target_arch = architecture.lower()
+        if target_arch not in ["x64", "x86"]:
+            target_arch = "x64"  # Default to x64
+
+        # Search for cl.exe in MSVC toolset directories
+        for vs_base_path in vs_paths:
+            if not os_path_exists(vs_base_path):
+                continue
+
+            # List all MSVC version directories (e.g., 14.29.30133)
+            try:
+                import glob
+
+                version_dirs = glob.glob(os_path_join(vs_base_path, "*"))
+                # Sort by version (newest first)
+                version_dirs.sort(reverse=True)
+
+                for version_dir in version_dirs:
+                    if not os_path_isdir(version_dir):
+                        continue
+
+                    # Try different host/target combinations
+                    # Priority: Hostx64 for x64 target, Hostx86 for x86 target
+                    # NOTE: Hostx86 cannot compile x64 code (only Hostx64 can compile x64)
+                    if target_arch == "x64":
+                        # For x64 target: only use Hostx64 (x86 host cannot compile x64)
+                        host_targets = [
+                            ("Hostx64", "x64"),  # Preferred: x64 host for x64 target
+                            ("HostX64", "x64"),  # Case variation
+                        ]
+                    elif target_arch == "x86":
+                        # For x86 target: prefer Hostx86, but Hostx64 can cross-compile
+                        host_targets = [
+                            ("Hostx86", "x86"),  # Preferred: x86 host for x86 target
+                            ("HostX86", "x86"),  # Case variation
+                            (
+                                "Hostx64",
+                                "x86",
+                            ),  # Fallback: x64 host cross-compiling x86
+                            ("HostX64", "x86"),  # Case variation
+                        ]
+                    else:
+                        # Default fallback (shouldn't happen)
+                        host_targets = [
+                            ("Hostx64", target_arch),
+                            ("HostX64", target_arch),
+                        ]
+
+                    for host, target in host_targets:
+                        cl_exe_path = os_path_join(
+                            version_dir, "bin", host, target, "cl.exe"
+                        )
+                        if os_path_exists(cl_exe_path):
+                            # Architecture is already verified by host_targets list
+                            # For x64: only Hostx64\x64 paths are searched
+                            # For x86: Hostx86\x86 and Hostx64\x86 paths are searched
+                            return cl_exe_path
+
+                        # Also try with .EXE extension (case-insensitive filesystem)
+                        cl_exe_path_upper = os_path_join(
+                            version_dir, "bin", host, target, "cl.EXE"
+                        )
+                        if os_path_exists(cl_exe_path_upper):
+                            # Architecture is already verified by host_targets list
+                            return cl_exe_path_upper
+            except Exception:
+                continue
+
+        return None
+
+    def _find_vcvarsall(self) -> Optional[str]:
+        """
+        Find vcvarsall.bat script for setting up MSVC environment.
+
+        Returns:
+            Optional[str]: Path to vcvarsall.bat if found, None otherwise
+        """
+        if platform_system() != "Windows":
+            return None
+
+        import os
+
+        program_files = os.environ.get("ProgramFiles", "C:\\Program Files")
+        program_files_x86 = os.environ.get(
+            "ProgramFiles(x86)", "C:\\Program Files (x86)"
+        )
+
+        # Common Visual Studio installation paths for vcvarsall.bat
+        vs_paths = [
+            os_path_join(
+                program_files,
+                "Microsoft Visual Studio",
+                "2022",
+                "Community",
+                "VC",
+                "Auxiliary",
+                "Build",
+                "vcvarsall.bat",
+            ),
+            os_path_join(
+                program_files,
+                "Microsoft Visual Studio",
+                "2022",
+                "Professional",
+                "VC",
+                "Auxiliary",
+                "Build",
+                "vcvarsall.bat",
+            ),
+            os_path_join(
+                program_files,
+                "Microsoft Visual Studio",
+                "2022",
+                "Enterprise",
+                "VC",
+                "Auxiliary",
+                "Build",
+                "vcvarsall.bat",
+            ),
+            os_path_join(
+                program_files,
+                "Microsoft Visual Studio",
+                "2019",
+                "Community",
+                "VC",
+                "Auxiliary",
+                "Build",
+                "vcvarsall.bat",
+            ),
+            os_path_join(
+                program_files,
+                "Microsoft Visual Studio",
+                "2019",
+                "Professional",
+                "VC",
+                "Auxiliary",
+                "Build",
+                "vcvarsall.bat",
+            ),
+            os_path_join(
+                program_files,
+                "Microsoft Visual Studio",
+                "2019",
+                "Enterprise",
+                "VC",
+                "Auxiliary",
+                "Build",
+                "vcvarsall.bat",
+            ),
+            os_path_join(
+                program_files_x86,
+                "Microsoft Visual Studio",
+                "2019",
+                "Community",
+                "VC",
+                "Auxiliary",
+                "Build",
+                "vcvarsall.bat",
+            ),
+            os_path_join(
+                program_files_x86,
+                "Microsoft Visual Studio",
+                "2019",
+                "Professional",
+                "VC",
+                "Auxiliary",
+                "Build",
+                "vcvarsall.bat",
+            ),
+            os_path_join(
+                program_files_x86,
+                "Microsoft Visual Studio",
+                "2019",
+                "Enterprise",
+                "VC",
+                "Auxiliary",
+                "Build",
+                "vcvarsall.bat",
+            ),
+            os_path_join(
+                program_files_x86,
+                "Microsoft Visual Studio",
+                "2017",
+                "Community",
+                "VC",
+                "Auxiliary",
+                "Build",
+                "vcvarsall.bat",
+            ),
+            os_path_join(
+                program_files_x86,
+                "Microsoft Visual Studio",
+                "2017",
+                "Professional",
+                "VC",
+                "Auxiliary",
+                "Build",
+                "vcvarsall.bat",
+            ),
+            os_path_join(
+                program_files_x86,
+                "Microsoft Visual Studio",
+                "2017",
+                "Enterprise",
+                "VC",
+                "Auxiliary",
+                "Build",
+                "vcvarsall.bat",
+            ),
+        ]
+
+        for vcvarsall_path in vs_paths:
+            if os_path_exists(vcvarsall_path):
+                return vcvarsall_path
+
+        return None
+
+    def _setup_msvc_environment(self) -> bool:
+        """
+        Set up MSVC environment by finding and using vcvarsall.bat.
+        This is required for MSVC to work with Ninja generator.
+
+        Returns:
+            bool: True if environment was set up successfully, False otherwise
+        """
+        if platform_system() != "Windows":
+            return False
+
+        # Check if we're using MSVC compiler
+        if not self.custom_cpp_compiler:
+            return False
+
+        compiler_name = os_path_basename(self.custom_cpp_compiler).lower()
+        if "cl.exe" not in compiler_name and "cl" not in compiler_name:
+            return False
+
+        # Find vcvarsall.bat
+        vcvarsall_path = self._find_vcvarsall()
+        if not vcvarsall_path:
+            self.logger.warning(
+                "⚠️  vcvarsall.bat not found. MSVC environment may not be properly configured."
+            )
+            return False
+
+        # Determine architecture for vcvarsall
+        arch_arg = "x64" if self.architecture == "x64" else "x86"
+
+        # Use vcvarsall.bat to set up environment
+        # We'll use CMAKE_MSVC_DEVELOPER_COMMAND to tell CMake where to find vcvarsall
+        self.cmake_args.append(
+            "-DCMAKE_MSVC_DEVELOPER_COMMAND={}".format(vcvarsall_path)
+        )
+
+        # Also set up environment variables by running vcvarsall and capturing env vars
+        try:
+            import os
+            import tempfile
+
+            # Create a temporary batch file to run vcvarsall and capture environment variables
+            # This avoids complex quote escaping issues with cmd.exe
+            with tempfile.NamedTemporaryFile(
+                mode="w", suffix=".bat", delete=False, encoding="utf-8"
+            ) as temp_bat:
+                temp_bat.write("@echo off\n")
+                temp_bat.write(
+                    'call "{}" {} >nul 2>&1\n'.format(vcvarsall_path, arch_arg)
+                )
+                temp_bat.write("set\n")
+                temp_bat_path = temp_bat.name
+
+            try:
+                result = subprocess_run(
+                    [temp_bat_path],
+                    shell=True,
+                    capture_output=True,
+                    text=True,
+                    encoding="utf-8",
+                    errors="ignore",
+                )
+            finally:
+                # Clean up temporary batch file
+                try:
+                    os.remove(temp_bat_path)
+                except OSError:
+                    pass
+
+            if result.returncode == 0:
+                # Parse environment variables from output
+                env_vars = {}
+                for line in result.stdout.splitlines():
+                    if "=" in line and not line.strip().startswith("_"):
+                        key, value = line.split("=", 1)
+                        key = key.strip()
+                        value = value.strip()
+                        if key:
+                            env_vars[key.upper()] = value
+
+                # Update environment variables that are important for MSVC
+                for key in [
+                    "PATH",
+                    "INCLUDE",
+                    "LIB",
+                    "LIBPATH",
+                    "VCINSTALLDIR",
+                    "VCTOOLSINSTALLDIR",
+                    "WINDOWSSDKDIR",
+                ]:
+                    if key in env_vars:
+                        # For PATH, prepend MSVC paths to ensure they're found first
+                        if key == "PATH":
+                            existing = os.environ.get("PATH", "")
+                            if existing:
+                                os.environ["PATH"] = (
+                                    env_vars[key] + os_pathsep + existing
+                                )
+                            else:
+                                os.environ["PATH"] = env_vars[key]
+                        else:
+                            # For other variables, replace or append based on what makes sense
+                            existing = os.environ.get(key, "")
+                            if existing and key in ["INCLUDE", "LIB", "LIBPATH"]:
+                                # Append for these variables
+                                os.environ[key] = env_vars[key] + os_pathsep + existing
+                            else:
+                                # Replace for directory variables
+                                os.environ[key] = env_vars[key]
+
+                self.logger.info(
+                    "🔧 Configured MSVC environment using: {}".format(vcvarsall_path)
+                )
+                return True
+            else:
+                self.logger.warning(
+                    "⚠️  Failed to set up MSVC environment. Error: {}".format(
+                        result.stderr[:200] if result.stderr else "Unknown error"
+                    )
+                )
+                # Still return True because CMAKE_MSVC_DEVELOPER_COMMAND might be enough
+                return True
+        except Exception as e:
+            self.logger.warning(
+                "⚠️  Error setting up MSVC environment: {}. Continuing anyway...".format(
+                    e
+                )
+            )
+            # Still return True because CMAKE_MSVC_DEVELOPER_COMMAND might be enough
+            return True
 
     def _get_project_version(self) -> str:
         default_version = "0.0.0"  # Default version if not found
@@ -1181,9 +1814,14 @@ class CMakeBuilder:
         self.cmake_args.append("-DBUILD_SHARED_LIBS=ON")
         self.logger.info("Activated shared libraries by adding -DBUILD_SHARED_LIBS=ON.")
 
-    def enable_ninja(self) -> bool:
+    def enable_ninja(self, compiler_type: Optional[str] = None) -> bool:
         """
         Enable Ninja build system for CMake.
+        Optionally auto-detect and use a specific compiler type.
+
+        Args:
+            compiler_type: Type of compiler to auto-detect and use.
+                          Options: 'msvc', 'clang', 'clang-cl', 'gcc', or None (auto-detect MSVC on Windows).
 
         Returns:
             bool: True if Ninja is available and enabled, False if not available
@@ -1194,6 +1832,129 @@ class CMakeBuilder:
 
         self.use_ninja = True
         self.logger.info("Ninja build system enabled")
+
+        # If custom compiler is already set, don't auto-detect
+        if self.custom_cpp_compiler:
+            return True
+
+        # Auto-detect compiler based on type or default behavior
+        compiler_path = None
+        compiler_name = None
+
+        if compiler_type:
+            compiler_type_lower = compiler_type.lower()
+            if compiler_type_lower == "msvc":
+                # Use current architecture to find the correct compiler
+                compiler_path = self._find_msvc_compiler(self.architecture)
+                compiler_name = "MSVC"
+            elif compiler_type_lower == "clang":
+                compiler_path = self._find_clang_compiler()
+                compiler_name = "Clang"
+            elif compiler_type_lower == "clang-cl":
+                compiler_path = self._find_clang_cl_compiler()
+                compiler_name = "Clang-CL"
+            elif compiler_type_lower == "gcc":
+                compiler_path = self._find_gcc_compiler()
+                compiler_name = "GCC"
+            else:
+                self.logger.warning(
+                    "⚠️  Unknown compiler type: {}. Available: msvc, clang, clang-cl, gcc".format(
+                        compiler_type
+                    )
+                )
+        elif platform_system() == "Windows":
+            # Default behavior: try MSVC on Windows
+            # Use current architecture to find the correct compiler
+            compiler_path = self._find_msvc_compiler(self.architecture)
+            compiler_name = "MSVC"
+
+        if compiler_path:
+            # Verify architecture matches for x64 (critical for correct linking)
+            if compiler_name == "MSVC" and self.architecture == "x64":
+                path_lower = compiler_path.lower()
+                # For x64, path must contain x64 and should NOT use Hostx86\x86
+                if "hostx86" in path_lower and "x86" in path_lower:
+                    self.logger.warning(
+                        "⚠️  WARNING: Found x86 compiler ({}) for x64 architecture! "
+                        "This will cause linking errors. Searching for correct x64 compiler...".format(
+                            compiler_path
+                        )
+                    )
+                    # Continue searching - don't use this compiler
+                    compiler_path = None
+                elif "x64" not in path_lower or (
+                    "hostx86" in path_lower
+                    and "x64" not in path_lower.replace("hostx64", "")
+                ):
+                    self.logger.warning(
+                        "⚠️  WARNING: Compiler path ({}) may not match x64 architecture. "
+                        "Expected path should contain Hostx64\\x64\\cl.exe".format(
+                            compiler_path
+                        )
+                    )
+
+        if compiler_path:
+            # Set compiler for both C and C++
+            self.set_custom_cpp_compiler(compiler_path)
+
+            # Determine compiler type for C compiler detection
+            detected_type = (
+                compiler_type.lower()
+                if compiler_type
+                else "msvc" if compiler_name == "MSVC" else None
+            )
+
+            # For MSVC and Clang-CL, try to find C compiler in the same directory
+            if detected_type in ["msvc", "clang-cl"]:
+                compiler_dir = os_path_dirname(compiler_path)
+                if detected_type == "msvc":
+                    cl_c_path = os_path_join(compiler_dir, "cl.exe")
+                else:  # clang-cl
+                    cl_c_path = os_path_join(compiler_dir, "clang-cl.exe")
+
+                if os_path_exists(cl_c_path):
+                    self.set_custom_c_compiler(cl_c_path)
+            elif detected_type in ["clang", "gcc"]:
+                # For Clang and GCC, try to find C compiler (clang/gcc instead of clang++/g++)
+                compiler_dir = os_path_dirname(compiler_path)
+                compiler_exe = os_path_basename(compiler_path)
+                if "++" in compiler_exe:
+                    c_compiler_exe = compiler_exe.replace("++", "")
+                    c_compiler_path = os_path_join(compiler_dir, c_compiler_exe)
+                    if os_path_exists(c_compiler_path):
+                        self.set_custom_c_compiler(c_compiler_path)
+            elif not compiler_type and compiler_name == "MSVC":
+                # Default MSVC case (when compiler_type is None but we found MSVC)
+                compiler_dir = os_path_dirname(compiler_path)
+                cl_c_path = os_path_join(compiler_dir, "cl.exe")
+                if os_path_exists(cl_c_path):
+                    self.set_custom_c_compiler(cl_c_path)
+
+            self.logger.info(
+                "🔧 Automatically using {} compiler with Ninja: {}".format(
+                    compiler_name, compiler_path
+                )
+            )
+        elif compiler_type:
+            self.logger.warning(
+                "⚠️  {} compiler not found. CMake will use default compiler.".format(
+                    compiler_name
+                )
+            )
+            self.logger.warning(
+                "   To use a specific compiler, specify it explicitly: --compiler-cpp <path>"
+            )
+        elif platform_system() == "Windows":
+            self.logger.warning(
+                "⚠️  MSVC compiler not found. CMake will use default compiler (may be MinGW)."
+            )
+            self.logger.warning(
+                "   To use a specific compiler, use: --use-ninja <compiler_type>"
+            )
+            self.logger.warning(
+                "   Available compiler types: msvc, clang, clang-cl, gcc"
+            )
+
         return True
 
     def build(self, build_type: str) -> bool:
@@ -1209,7 +1970,7 @@ class CMakeBuilder:
         # Get available CPU cores and free memory
         cpu_cores = psutil_cpu_count(logical=False)  # Physical cores
         free_memory = psutil_virtual_memory().available / (1024**3)  # Free memory in GB
-        
+
         if not cpu_cores:
             self.logger.warning("No CPU cores detected, using 1 parallel job.")
             cpu_cores = 1
@@ -1844,8 +2605,23 @@ class CMakeBuilderCLI:
         )
         self.parser.add_argument(
             "--use-ninja",
+            nargs="?",
+            const="auto",
+            choices=["auto", "msvc", "clang", "clang-cl", "gcc"],
+            help=(
+                "Use Ninja build system instead of default generator (Make/MSBuild). "
+                "Optionally specify compiler type to auto-detect: msvc, clang, clang-cl, gcc. "
+                "If not specified, defaults to 'auto' (MSVC on Windows, system default on Unix). "
+                "Examples: --use-ninja, --use-ninja msvc, --use-ninja clang"
+            ),
+        )
+        self.parser.add_argument(
+            "--compile-commands",
             action="store_true",
-            help="Use Ninja build system instead of default generator (Make/MSBuild). Provides faster builds with better parallelism.",
+            help=(
+                "Generate compile_commands.json file and copy it to project root. "
+                "Requires --use-ninja flag. Only performs CMake configuration, does not build the project."
+            ),
         )
 
         # MSVC toolset selection (Windows only)
@@ -1863,6 +2639,17 @@ class CMakeBuilderCLI:
 
         self.args = self.parser.parse_args()
 
+        # Handle compile_commands.json generation early (requires --use-ninja)
+        if self.args.compile_commands:
+            if self.args.use_ninja is None:
+                self.logger.error(
+                    "ERROR: --compile-commands requires --use-ninja flag to be specified"
+                )
+                self.logger.error(
+                    "Usage: python compile.py --compile-commands --use-ninja [build_type]"
+                )
+                sys_exit(1)
+
         # Handle documentation generation early (no build type required)
         if self.args.documentation is not None:
             self.builder = CMakeBuilder(self.project_root)
@@ -1877,10 +2664,15 @@ class CMakeBuilderCLI:
             self.args.show_standards
             or self.args.show_compilers
             or self.args.show_constants
+            or self.args.compile_commands
         ):
             self.logger.error("ERROR: build_type is required for build operations")
             self.logger.error("Use --help for usage information")
             sys_exit(1)
+
+        # For compile_commands generation, use Release as default build_type if not specified
+        if self.args.compile_commands and self.args.build_type is None:
+            self.args.build_type = "Release"
 
         if self.args.setup_installer:
             self.args.build_type = "Release"
@@ -1914,18 +2706,28 @@ class CMakeBuilderCLI:
             self.logger.error("ERROR: Failed to clean build directory")
             sys_exit(1)
 
-        # Enable Ninja build system if requested
-        if self.args.use_ninja:
-            if not self.builder.enable_ninja():
-                self.logger.error("ERROR: Cannot enable Ninja build system")
-                sys_exit(1)
+        # Apply architecture FIRST (before enabling Ninja, so compiler selection uses correct architecture)
+        if self.args.arch:
+            self.builder.add_architecture(self.args.arch)
+        else:
+            self.builder.add_architecture(self.auto_detected_arch)
 
-        # Apply custom compilers if specified
+        # Apply custom compilers if specified (before enabling Ninja, so Ninja knows not to auto-detect)
         if self.args.compiler_c:
             self.builder.set_custom_c_compiler(self.args.compiler_c)
 
         if self.args.compiler_cpp:
             self.builder.set_custom_cpp_compiler(self.args.compiler_cpp)
+
+        # Enable Ninja build system if requested (after architecture and custom compilers)
+        if self.args.use_ninja is not None:
+            # Determine compiler type: None means auto-detect, "auto" means default behavior
+            compiler_type = (
+                None if self.args.use_ninja == "auto" else self.args.use_ninja
+            )
+            if not self.builder.enable_ninja(compiler_type):
+                self.logger.error("ERROR: Cannot enable Ninja build system")
+                sys_exit(1)
 
         # Apply C standard
         self.builder.add_c_standard(self.args.stdc, override=True)
@@ -1938,12 +2740,6 @@ class CMakeBuilderCLI:
         # Validate standard compatibility
         if not self.builder.validate_standard_compatibility():
             self.logger.warning("Standard compatibility warning issued")
-
-        # Apply architecture
-        if self.args.arch:
-            self.builder.add_architecture(self.args.arch)
-        else:
-            self.builder.add_architecture(self.auto_detected_arch)
 
         # Apply MSVC toolset if requested
         if (
@@ -1976,9 +2772,49 @@ class CMakeBuilderCLI:
             raw = raw.replace(":", os_pathsep)
             self.builder.add_cmake_args(raw.split(os_pathsep))
 
+        # Set up MSVC environment if using MSVC with Ninja
+        if self.builder.use_ninja and self.builder.custom_cpp_compiler:
+            self.builder._setup_msvc_environment()
+
         if not self.builder.configure(self.args.build_type):
             self.logger.error("ERROR: CMake configuration failed")
             sys_exit(1)
+
+        # Handle compile_commands.json generation
+        if self.args.compile_commands:
+            compile_commands_src = os_path_join(
+                self.builder.build_dir, "compile_commands.json"
+            )
+            compile_commands_dst = os_path_join(
+                self.project_root, "compile_commands.json"
+            )
+
+            if not os_path_exists(compile_commands_src):
+                self.logger.error(
+                    "ERROR: compile_commands.json not found in build directory: {}".format(
+                        compile_commands_src
+                    )
+                )
+                self.logger.error(
+                    "Make sure CMAKE_EXPORT_COMPILE_COMMANDS is enabled in CMakeLists.txt"
+                )
+                sys_exit(1)
+
+            try:
+                shutil_copy2(compile_commands_src, compile_commands_dst)
+                self.logger.info(
+                    "✅ Successfully copied compile_commands.json to project root: {}".format(
+                        compile_commands_dst
+                    )
+                )
+            except Exception as e:
+                self.logger.error(
+                    "ERROR: Failed to copy compile_commands.json: {}".format(e)
+                )
+                sys_exit(1)
+
+            # Exit after generating compile_commands.json (no need to build)
+            sys_exit(0)
 
         if not self.builder.build(self.args.build_type):
             self.logger.error("ERROR: Build failed")
