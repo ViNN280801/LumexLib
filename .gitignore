@@ -61,3 +61,10 @@ CMakeUserPresets.json
 
 # Any Python environment
 *venv*/
+
+# Compile commands
+compile_commands.json
+
+# Any cache files
+cache*/
+.cache*/
