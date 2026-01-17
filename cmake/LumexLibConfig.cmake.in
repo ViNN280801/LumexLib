@@ -10,11 +10,20 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/LumexCoreTargets.cmake")
     if(TARGET Lumex::LumexCore_base64 AND NOT TARGET Lumex::base64)
         add_library(Lumex::base64 ALIAS Lumex::LumexCore_base64)
     endif()
+    if(TARGET Lumex::LumexCore_circular_buffer AND NOT TARGET Lumex::circular_buffer)
+        add_library(Lumex::circular_buffer ALIAS Lumex::LumexCore_circular_buffer)
+    endif()
+    if(TARGET Lumex::LumexCore_crc AND NOT TARGET Lumex::crc)
+        add_library(Lumex::crc ALIAS Lumex::LumexCore_crc)
+    endif()
     if(TARGET Lumex::LumexCore_environment AND NOT TARGET Lumex::environment)
         add_library(Lumex::environment ALIAS Lumex::LumexCore_environment)
     endif()
     if(TARGET Lumex::LumexCore_exceptions AND NOT TARGET Lumex::exceptions)
         add_library(Lumex::exceptions ALIAS Lumex::LumexCore_exceptions)
+    endif()
+    if(TARGET Lumex::LumexCore_expected AND NOT TARGET Lumex::expected)
+        add_library(Lumex::expected ALIAS Lumex::LumexCore_expected)
     endif()
     if(TARGET Lumex::LumexCore_filesystem AND NOT TARGET Lumex::filesystem)
         add_library(Lumex::filesystem ALIAS Lumex::LumexCore_filesystem)
@@ -51,6 +60,9 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/LumexAppliedTargets.cmake")
     if(TARGET Lumex::LumexApplied_hardware AND NOT TARGET Lumex::hardware)
         add_library(Lumex::hardware ALIAS Lumex::LumexApplied_hardware)
     endif()
+    if(TARGET Lumex::LumexApplied_logger AND NOT TARGET Lumex::logger)
+        add_library(Lumex::logger ALIAS Lumex::LumexApplied_logger)
+    endif()
     if(TARGET Lumex::LumexApplied_logging AND NOT TARGET Lumex::logging)
         add_library(Lumex::logging ALIAS Lumex::LumexApplied_logging)
     endif()
@@ -72,6 +84,7 @@ if(NOT TARGET Lumex::Lumex)
     set_target_properties(Lumex::Lumex PROPERTIES
         INTERFACE_LINK_LIBRARIES "
             Lumex::hardware;
+            Lumex::logger;
             Lumex::logging;
             Lumex::settings
             

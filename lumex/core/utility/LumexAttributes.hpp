@@ -40,6 +40,52 @@
   #define LUMEX_ATTRIBUTE_NOINLINE
 #endif
 
+// @link https://stackoverflow.com/questions/11770451/what-is-the-meaning-of-attribute-packed-aligned4
+// @note For MSVC, use LUMEX_PACK_BEGIN/LUMEX_PACK_END around struct definitions instead of LUMEX_ATTRIBUTE_PACKED
+#if defined(__GNUC__) || defined(__clang__)
+  #define LUMEX_ATTRIBUTE_PACKED __attribute__((packed))
+#elif defined(_MSC_VER)
+  // MSVC uses pragma pack instead of attribute-packed
+  // Use LUMEX_PACK_BEGIN/LUMEX_PACK_END macros around struct definitions
+  #define LUMEX_ATTRIBUTE_PACKED
+#else
+  #define LUMEX_ATTRIBUTE_PACKED
+#endif
+
+// Packing control macros for MSVC compatibility
+// @details These macros provide portable packing control across GCC/Clang and MSVC
+// @note GCC/Clang support #pragma pack for MSVC compatibility, so these macros work on all platforms
+// @usage:
+//   LUMEX_PACK_BEGIN(1)
+//   struct MyStruct {
+//     char c;
+//     int i;
+//   };
+//   LUMEX_PACK_END
+#if defined(_MSC_VER)
+  #define LUMEX_PACK_BEGIN(alignment) __pragma(pack(push, alignment))
+  #define LUMEX_PACK_END __pragma(pack(pop))
+#elif defined(__GNUC__) || defined(__clang__)
+  // GCC/Clang support MSVC-style #pragma pack for compatibility
+  // GCC 4.9+ and Clang support __pragma (same as MSVC)
+  #if (defined(__GNUC__) && (__GNUC__ >= 5 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 9))) || defined(__clang__)
+    #define LUMEX_PACK_BEGIN(alignment) __pragma(pack(push, alignment))
+    #define LUMEX_PACK_END __pragma(pack(pop))
+  #else
+    // Fallback to _Pragma for older GCC versions
+    // Define common alignment values directly
+    #define LUMEX_PACK_BEGIN_1 _Pragma("pack(push, 1)")
+    #define LUMEX_PACK_BEGIN_2 _Pragma("pack(push, 2)")
+    #define LUMEX_PACK_BEGIN_4 _Pragma("pack(push, 4)")
+    #define LUMEX_PACK_BEGIN_8 _Pragma("pack(push, 8)")
+    #define LUMEX_PACK_BEGIN(alignment) LUMEX_PACK_BEGIN_##alignment
+    #define LUMEX_PACK_END _Pragma("pack(pop)")
+  #endif
+#else
+  #define LUMEX_PACK_BEGIN(alignment)
+  #define LUMEX_PACK_END
+#endif
+
 // [[carries_dependency]]
 #if __cplusplus >= 201103L
   #define LUMEX_ATTRIBUTE_CARRIES_DEPENDENCY [[carries_dependency]]
@@ -75,9 +121,9 @@
   #define LUMEX_ATTRIBUTE_FALLTHROUGH
 #endif
 
-// [[maybe_unused]] (already present, unify style)
+// [[maybe_unused]]
+#define LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR(var) (void)(var)
 #if __cplusplus >= 201703L
-  #undef LUMEX_ATTRIBUTE_MAYBE_UNUSED
   #define LUMEX_ATTRIBUTE_MAYBE_UNUSED [[maybe_unused]]
 #elif defined(__GNUC__) || defined(__clang__)
   #define LUMEX_ATTRIBUTE_MAYBE_UNUSED __attribute__((unused))
@@ -89,6 +135,8 @@
 #if __cplusplus >= 202002L
   #define LUMEX_ATTRIBUTE_LIKELY [[likely]]
   #define LUMEX_ATTRIBUTE_UNLIKELY [[unlikely]]
+  #define LUMEX_ATTRIBUTE_LIKELY_COND(cond) (cond)
+  #define LUMEX_ATTRIBUTE_UNLIKELY_COND(cond) (cond)
 #elif (defined(__GNUC__) && (__GNUC__ >= 9)) || (defined(__clang__) && __has_cpp_attribute(likely))
   #define LUMEX_ATTRIBUTE_LIKELY __attribute__((likely))
   #define LUMEX_ATTRIBUTE_UNLIKELY __attribute__((unlikely))

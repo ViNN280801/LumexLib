@@ -26,6 +26,116 @@
 
 #endif
 
+namespace Detail
+{
+#if LUMEX_OS_WINDOWS
+  static constexpr char const *kForbiddenChars = "<>:\"/\\|*?";
+  static std::array<std::string, 22> const kReservedNames
+    = {"CON",  "PRN",  "AUX",  "NUL",  "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7",
+       "COM8", "COM9", "LPT1", "LPT2", "LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9"};
+  static constexpr size_t kReservedNamesCount = kReservedNames.size();
+
+  static inline bool
+  isForbidden(char chr) noexcept
+  {
+    return std::string(kForbiddenChars).find(chr) != std::string::npos;
+  }
+
+  static inline bool
+  isReservedName(std::string const &name) noexcept
+  {
+    std::string upperName = name;
+    std::transform(upperName.begin(), upperName.end(), upperName.begin(), ::toupper);
+
+    for(size_t i = 0; i < kReservedNamesCount; ++i)
+      if(upperName == kReservedNames.at(i)) return true;
+    return false;
+  }
+
+  static inline bool
+  hasInvalidEnding(std::string const &name) noexcept
+  {
+    return !name.empty() && (name.back() == '.' || name.back() == ' ');
+  }
+
+#elif LUMEX_OS_APPLE
+  static constexpr char const *kForbiddenChars   = ":/";
+  static constexpr char const *kProblematicChars = "*?|\"'";
+
+  static inline bool
+  isForbidden(char chr) noexcept
+  {
+    return std::string(kForbiddenChars).find(chr) != std::string::npos
+           || std::string(kProblematicChars).find(chr) != std::string::npos;
+  }
+
+  static inline bool
+  isReservedName(std::string const &name) noexcept
+  {
+    std::string upperName = name;
+    std::transform(upperName.begin(), upperName.end(), upperName.begin(), ::toupper);
+
+    static std::array<std::string, 22> const reservedNames
+      = {"CON",  "PRN",  "AUX",  "NUL",  "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7",
+         "COM8", "COM9", "LPT1", "LPT2", "LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9"};
+    static constexpr size_t count = reservedNames.size();
+
+    for(size_t i = 0; i < count; ++i)
+      if(upperName == reservedNames.at(i)) return true;
+    return false;
+  }
+
+  static inline bool
+  hasInvalidEnding(std::string const &) noexcept
+  {
+    return false;
+  }
+
+#elif LUMEX_OS_LINUX
+  static constexpr char const *kForbiddenChars   = "/";
+  static constexpr char const *kProblematicChars = "&;|*?'\"`[]()$<>{}^#\\%!";
+
+  static inline bool
+  isForbidden(char chr) noexcept
+  {
+    return std::string(kForbiddenChars).find(chr) != std::string::npos
+           || std::string(kProblematicChars).find(chr) != std::string::npos;
+  }
+
+  static inline bool
+  isReservedName(std::string const & /*name*/) noexcept
+  {
+    return false;
+  }
+
+  static inline bool
+  hasInvalidEnding(std::string const &name) noexcept
+  {
+    return !name.empty() && name.front() == '-';
+  }
+
+#else
+  static constexpr char const *kForbiddenChars = "/<>:\"\\|*?";
+
+  static inline bool
+  isForbidden(char chr) noexcept
+  {
+    return std::string(kForbiddenChars).find(chr) != std::string::npos;
+  }
+
+  static inline bool
+  isReservedName(std::string const &) noexcept
+  {
+    return false;
+  }
+  static inline bool
+  hasInvalidEnding(std::string const &) noexcept
+  {
+    return false;
+  }
+#endif
+} // namespace Detail
+
 LUMEX_PUBLIC_API
 Lumex::Path::Path(string_type source) : m_path(std::move(source)) {}
 
@@ -1832,5 +1942,83 @@ Lumex::Filesystem::is_accessible(Lumex::Path const &path)
   std::clog << "Checking if path '" << path
             << "' is accessible by the current "
                "process\n";
-  return is_readable(path) && is_writable(path);
+  return Lumex::Filesystem::is_readable(path) && Lumex::Filesystem::is_writable(path);
+}
+
+LUMEX_PUBLIC_API
+inline bool
+Lumex::Core::Filesystem::isFileExists(std::string const &path)
+{
+  std::ifstream ifs(path.c_str());
+  return ifs.good();
+}
+
+LUMEX_PUBLIC_API
+void
+Lumex::Core::Filesystem::checkName(std::string const &name)
+{
+  using namespace Detail;
+
+  if(name.empty()) throw std::invalid_argument("Name of the file or directory cannot be empty");
+
+  // Checking forbidden characters (predicate)
+  for(char chr : name)
+    if(Detail::isForbidden(chr))
+      throw std::invalid_argument("Name of the file contains forbidden character: " + std::string(1, chr));
+
+  // Checking reserved names
+  if(Detail::isReservedName(name)) throw std::invalid_argument("Name of the file is reserved by the system: " + name);
+
+  // Checking invalid endings/beginnings
+  if(Detail::hasInvalidEnding(name)) throw std::invalid_argument("Name of the file has invalid ending/beginning");
+}
+
+LUMEX_PUBLIC_API std::string
+Lumex::Core::Filesystem::sanitizeName(std::string const &name, // NOLINT(bugprone-easily-swappable-parameters)
+                                      std::string const &defaultValue) noexcept
+{
+  using namespace Detail;
+
+  if(name.empty()) return defaultValue;
+
+  try
+  {
+    checkName(name);
+    return name; // Already valid
+  }
+  catch(...)
+  {
+    std::string sanitized = name;
+
+    // Replacing invalid characters through predicate
+    for(char &chr : sanitized)
+      if(Detail::isForbidden(chr)) chr = '_';
+
+    // Handling reserved names
+    if(Detail::isReservedName(sanitized)) return defaultValue + "_file";
+
+    // Cleaning invalid endings/beginnings
+#if LUMEX_OS_WINDOWS
+    while(!sanitized.empty() && (sanitized.back() == '.' || sanitized.back() == ' ')) sanitized.pop_back();
+#elif LUMEX_OS_LINUX
+    if(!sanitized.empty() && sanitized.front() == '-') sanitized.erase(0, 1);
+#endif
+
+    // Removing consecutive underscores
+    sanitized.erase(
+#if __cplusplus >= 202002L
+      std::ranges::unique(sanitized, [](char chr1, char chr2) { return chr1 == '_' && chr2 == '_'; }).begin(),
+      sanitized.end()
+#else
+      std::unique(sanitized.begin(), sanitized.end(), [](char chr1, char chr2) { return chr1 == '_' && chr2 == '_'; }),
+      sanitized.end()
+#endif
+    );
+
+    // Removing leading/trailing underscores
+    if(!sanitized.empty() && sanitized.front() == '_') sanitized.erase(0, 1);
+    if(!sanitized.empty() && sanitized.back() == '_') sanitized.pop_back();
+
+    return sanitized.empty() ? defaultValue : sanitized;
+  }
 }

@@ -4,7 +4,31 @@
 #include "lumex/LumexExport.hpp"
 
 #include <cstdint>
+#include <iomanip>
+#include <random>
+#include <sstream>
 #include <string>
+
+#if defined(_WIN32) || defined(WIN32)
+  #include <windows.h>
+
+  #include <iphlpapi.h>
+  #include <wincrypt.h>
+
+  #include <vector>
+
+  #pragma comment(lib, "iphlpapi.lib")
+#else
+  #include <arpa/inet.h>
+  #include <fstream>
+  #include <ifaddrs.h>
+  #include <net/if.h>
+  #include <netinet/in.h>
+  #include <netpacket/packet.h>
+  #include <sys/random.h>
+  #include <sys/socket.h>
+  #include <unistd.h>
+#endif
 
 namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
 {
@@ -475,6 +499,31 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
          */
         static bool isOldCPU(std::string const &cpuName);
       };
+
+      /**
+       * @brief Get the MAC address of the first active network interface.
+       * @details Cross-platform function to get the MAC address of the main network interface. On Windows, it uses
+       * GetAdaptersInfo, on Unix systems - getifaddrs.
+       * @return String with the MAC address in the format "XX:XX:XX:XX:XX:XX" or empty string on error.
+       * @note The function returns the first found active interface.
+       *       If there are no network interfaces, it returns an empty string.
+       * @threadsafe The function is thread-safe, but may be slow due to system calls.
+       */
+      LUMEX_PUBLIC_API
+      std::string getMacAddress();
+
+      /**
+       * @brief Генерирует криптографически стойкий seed для уникальной идентификации.
+       * @details Использует аппаратные генераторы случайных чисел где возможно.
+       *          На Windows использует CryptGenRandom, на POSIX - getentropy() или /dev/urandom.
+       *          В качестве fallback использует std::random_device.
+       * @return 64-битное случайное число, подходящее для использования в качестве seed.
+       * @note Функция предназначена для генерации уникальных идентификаторов
+       *       и должна использоваться только один раз за сессию.
+       * @threadsafe Функция потокобезопасна.
+       */
+      LUMEX_PUBLIC_API
+      std::uint64_t generateCryptographicSeed();
     } // namespace Hardware
   } // namespace Applied
 } // namespace Lumex

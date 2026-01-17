@@ -30,10 +30,26 @@ add_custom_command(
     COMMENT "Copying ${EX3_XML_FILE} to build directory"
 )
 
+set(EX4_NAME LumexHardwareExampleCPUVectorizationCapabilities)
+add_executable(${EX4_NAME} hardware/example_cpu_vectorization_capabilities.cpp)
+target_link_libraries(${EX4_NAME}
+    PRIVATE
+    Lumex::hardware
+)
+
+set(EX5_NAME LumexHardwareExampleHardwareCapabilities)
+add_executable(${EX5_NAME} hardware/example_hardware_capabilities.cpp)
+target_link_libraries(${EX5_NAME}
+    PRIVATE
+    Lumex::hardware
+)
+
 install(TARGETS
     ${EX1_NAME}
     ${EX2_NAME}
     ${EX3_NAME}
+    ${EX4_NAME}
+    ${EX5_NAME}
     DESTINATION bin
 )
 install(FILES xml/${EX3_XML_FILE} DESTINATION bin)

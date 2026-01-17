@@ -1,4 +1,5 @@
 #define LUMEX_IMPLEMENTATION
+#define NOMINMAX
 #include "LumexHardwareCapabilities.hpp"
 #include "lumex/applied/logging/LumexLogging"
 #include "lumex/core/utility/LumexUtility"
@@ -9,8 +10,9 @@
 #include <vector>
 
 #if LUMEX_OS_WINDOWS
-  #include <intrin.h>
   #include <windows.h>
+
+  #include <intrin.h>
 
   #include <d3d11.h>
   #include <dxgi.h>
@@ -203,60 +205,15 @@ HardwareCapabilities::estimateCPUGeneration(std::string const &cpuName)
   if(cpuName.find(Constants::KINTEL_PENTIUM_G_IDENTIFIER) != std::string::npos)
     return Constants::KCPU_IVY_BRIDGE_GENERATION;
 
-  // Intel 2nd Gen (Sandy Bridge) (e.g., i3-2xxx, i5-2xxx, i7-2xxx)
-  if(cpuName.find(Constants::KINTEL_I3_2_IDENTIFIER) != std::string::npos
-     || cpuName.find(Constants::KINTEL_I5_2_IDENTIFIER) != std::string::npos
-     || cpuName.find(Constants::KINTEL_I7_2_IDENTIFIER) != std::string::npos)
-    return Constants::KCPU_SANDY_BRIDGE_GENERATION;
+  // IMPORTANT: Check longer identifiers FIRST to avoid false matches
+  // (e.g., "i3-12" must be checked before "i3-2" to avoid matching "i3-2" inside "i3-12")
 
-  // Intel 3rd Gen (Ivy Bridge) (e.g., i3-3xxx, i5-3xxx, i7-3xxx)
-  if(cpuName.find(Constants::KINTEL_I3_3_IDENTIFIER) != std::string::npos
-     || cpuName.find(Constants::KINTEL_I5_3_IDENTIFIER) != std::string::npos
-     || cpuName.find(Constants::KINTEL_I7_3_IDENTIFIER) != std::string::npos)
-    return Constants::KCPU_IVY_BRIDGE_GENERATION;
-
-  // Intel 4th Gen (Haswell) (e.g., i3-4xxx, i5-4xxx, i7-4xxx)
-  if(cpuName.find(Constants::KINTEL_I3_4_IDENTIFIER) != std::string::npos
-     || cpuName.find(Constants::KINTEL_I5_4_IDENTIFIER) != std::string::npos
-     || cpuName.find(Constants::KINTEL_I7_4_IDENTIFIER) != std::string::npos)
-    return Constants::KCPU_HASWELL_GENERATION;
-
-  // Intel 6th Gen (Skylake) (e.g., i3-6xxx, i5-6xxx, i7-6xxx)
-  if(cpuName.find(Constants::KINTEL_I3_6_IDENTIFIER) != std::string::npos
-     || cpuName.find(Constants::KINTEL_I5_6_IDENTIFIER) != std::string::npos
-     || cpuName.find(Constants::KINTEL_I7_6_IDENTIFIER) != std::string::npos)
-    return Constants::KCPU_SKYLAKE_GENERATION;
-
-  // Intel 7th Gen (Kaby Lake) (e.g., i3-7xxx, i5-7xxx, i7-7xxx)
-  if(cpuName.find(Constants::KINTEL_I3_7_IDENTIFIER) != std::string::npos
-     || cpuName.find(Constants::KINTEL_I5_7_IDENTIFIER) != std::string::npos
-     || cpuName.find(Constants::KINTEL_I7_7_IDENTIFIER) != std::string::npos)
-    return Constants::KCPU_KABY_LAKE_GENERATION;
-
-  // Intel 8th Gen (Coffee Lake) (e.g., i3-8xxx, i5-8xxx, i7-8xxx)
-  if(cpuName.find(Constants::KINTEL_I3_8_IDENTIFIER) != std::string::npos
-     || cpuName.find(Constants::KINTEL_I5_8_IDENTIFIER) != std::string::npos
-     || cpuName.find(Constants::KINTEL_I7_8_IDENTIFIER) != std::string::npos)
-    return Constants::KCPU_COFFEE_LAKE_GENERATION;
-
-  // Intel 10th Gen (Comet Lake) (e.g., i3-10xxx, i5-10xxx, i7-10xxx)
-  if(cpuName.find(Constants::KINTEL_I3_10_IDENTIFIER) != std::string::npos
-     || cpuName.find(Constants::KINTEL_I5_10_IDENTIFIER) != std::string::npos
-     || cpuName.find(Constants::KINTEL_I7_10_IDENTIFIER) != std::string::npos)
-    return Constants::KCPU_COMET_LAKE_GENERATION;
-
-  // Intel 11th Gen (Rocket Lake) (e.g., i3-11xxx, i5-11xxx, i7-11xxx)
-  if(cpuName.find(Constants::KINTEL_I3_11_IDENTIFIER) != std::string::npos
-     || cpuName.find(Constants::KINTEL_I5_11_IDENTIFIER) != std::string::npos
-     || cpuName.find(Constants::KINTEL_I7_11_IDENTIFIER) != std::string::npos)
-    return Constants::KCPU_ROCKET_LAKE_GENERATION;
-
-  // Intel 12th Gen (Alder Lake) (e.g., i3-12xxx, i5-12xxx, i7-12xxx, i9-12xxx)
-  if(cpuName.find(Constants::KINTEL_I3_12_IDENTIFIER) != std::string::npos
-     || cpuName.find(Constants::KINTEL_I5_12_IDENTIFIER) != std::string::npos
-     || cpuName.find(Constants::KINTEL_I7_12_IDENTIFIER) != std::string::npos
-     || cpuName.find(Constants::KINTEL_I9_12_IDENTIFIER) != std::string::npos)
-    return Constants::KCPU_ALDER_LAKE_GENERATION;
+  // Intel 14th Gen (Meteor Lake) (e.g., i3-14xxx, i5-14xxx, i7-14xxx, i9-14xxx)
+  if(cpuName.find(Constants::KINTEL_I3_14_IDENTIFIER) != std::string::npos
+     || cpuName.find(Constants::KINTEL_I5_14_IDENTIFIER) != std::string::npos
+     || cpuName.find(Constants::KINTEL_I7_14_IDENTIFIER) != std::string::npos
+     || cpuName.find(Constants::KINTEL_I9_14_IDENTIFIER) != std::string::npos)
+    return Constants::KCPU_METEOR_LAKE_GENERATION;
 
   // Intel 13th Gen (Raptor Lake) (e.g., i3-13xxx, i5-13xxx, i7-13xxx, i9-13xxx)
   if(cpuName.find(Constants::KINTEL_I3_13_IDENTIFIER) != std::string::npos
@@ -265,12 +222,60 @@ HardwareCapabilities::estimateCPUGeneration(std::string const &cpuName)
      || cpuName.find(Constants::KINTEL_I9_13_IDENTIFIER) != std::string::npos)
     return Constants::KCPU_RAPTOR_LAKE_GENERATION;
 
-  // Intel 14th Gen (Meteor Lake) (e.g., i3-14xxx, i5-14xxx, i7-14xxx, i9-14xxx)
-  if(cpuName.find(Constants::KINTEL_I3_14_IDENTIFIER) != std::string::npos
-     || cpuName.find(Constants::KINTEL_I5_14_IDENTIFIER) != std::string::npos
-     || cpuName.find(Constants::KINTEL_I7_14_IDENTIFIER) != std::string::npos
-     || cpuName.find(Constants::KINTEL_I9_14_IDENTIFIER) != std::string::npos)
-    return Constants::KCPU_METEOR_LAKE_GENERATION;
+  // Intel 12th Gen (Alder Lake) (e.g., i3-12xxx, i5-12xxx, i7-12xxx, i9-12xxx)
+  if(cpuName.find(Constants::KINTEL_I3_12_IDENTIFIER) != std::string::npos
+     || cpuName.find(Constants::KINTEL_I5_12_IDENTIFIER) != std::string::npos
+     || cpuName.find(Constants::KINTEL_I7_12_IDENTIFIER) != std::string::npos
+     || cpuName.find(Constants::KINTEL_I9_12_IDENTIFIER) != std::string::npos)
+    return Constants::KCPU_ALDER_LAKE_GENERATION;
+
+  // Intel 11th Gen (Rocket Lake) (e.g., i3-11xxx, i5-11xxx, i7-11xxx)
+  if(cpuName.find(Constants::KINTEL_I3_11_IDENTIFIER) != std::string::npos
+     || cpuName.find(Constants::KINTEL_I5_11_IDENTIFIER) != std::string::npos
+     || cpuName.find(Constants::KINTEL_I7_11_IDENTIFIER) != std::string::npos)
+    return Constants::KCPU_ROCKET_LAKE_GENERATION;
+
+  // Intel 10th Gen (Comet Lake) (e.g., i3-10xxx, i5-10xxx, i7-10xxx)
+  if(cpuName.find(Constants::KINTEL_I3_10_IDENTIFIER) != std::string::npos
+     || cpuName.find(Constants::KINTEL_I5_10_IDENTIFIER) != std::string::npos
+     || cpuName.find(Constants::KINTEL_I7_10_IDENTIFIER) != std::string::npos)
+    return Constants::KCPU_COMET_LAKE_GENERATION;
+
+  // Intel 8th Gen (Coffee Lake) (e.g., i3-8xxx, i5-8xxx, i7-8xxx)
+  if(cpuName.find(Constants::KINTEL_I3_8_IDENTIFIER) != std::string::npos
+     || cpuName.find(Constants::KINTEL_I5_8_IDENTIFIER) != std::string::npos
+     || cpuName.find(Constants::KINTEL_I7_8_IDENTIFIER) != std::string::npos)
+    return Constants::KCPU_COFFEE_LAKE_GENERATION;
+
+  // Intel 7th Gen (Kaby Lake) (e.g., i3-7xxx, i5-7xxx, i7-7xxx)
+  if(cpuName.find(Constants::KINTEL_I3_7_IDENTIFIER) != std::string::npos
+     || cpuName.find(Constants::KINTEL_I5_7_IDENTIFIER) != std::string::npos
+     || cpuName.find(Constants::KINTEL_I7_7_IDENTIFIER) != std::string::npos)
+    return Constants::KCPU_KABY_LAKE_GENERATION;
+
+  // Intel 6th Gen (Skylake) (e.g., i3-6xxx, i5-6xxx, i7-6xxx)
+  if(cpuName.find(Constants::KINTEL_I3_6_IDENTIFIER) != std::string::npos
+     || cpuName.find(Constants::KINTEL_I5_6_IDENTIFIER) != std::string::npos
+     || cpuName.find(Constants::KINTEL_I7_6_IDENTIFIER) != std::string::npos)
+    return Constants::KCPU_SKYLAKE_GENERATION;
+
+  // Intel 4th Gen (Haswell) (e.g., i3-4xxx, i5-4xxx, i7-4xxx)
+  if(cpuName.find(Constants::KINTEL_I3_4_IDENTIFIER) != std::string::npos
+     || cpuName.find(Constants::KINTEL_I5_4_IDENTIFIER) != std::string::npos
+     || cpuName.find(Constants::KINTEL_I7_4_IDENTIFIER) != std::string::npos)
+    return Constants::KCPU_HASWELL_GENERATION;
+
+  // Intel 3rd Gen (Ivy Bridge) (e.g., i3-3xxx, i5-3xxx, i7-3xxx)
+  if(cpuName.find(Constants::KINTEL_I3_3_IDENTIFIER) != std::string::npos
+     || cpuName.find(Constants::KINTEL_I5_3_IDENTIFIER) != std::string::npos
+     || cpuName.find(Constants::KINTEL_I7_3_IDENTIFIER) != std::string::npos)
+    return Constants::KCPU_IVY_BRIDGE_GENERATION;
+
+  // Intel 2nd Gen (Sandy Bridge) (e.g., i3-2xxx, i5-2xxx, i7-2xxx)
+  if(cpuName.find(Constants::KINTEL_I3_2_IDENTIFIER) != std::string::npos
+     || cpuName.find(Constants::KINTEL_I5_2_IDENTIFIER) != std::string::npos
+     || cpuName.find(Constants::KINTEL_I7_2_IDENTIFIER) != std::string::npos)
+    return Constants::KCPU_SANDY_BRIDGE_GENERATION;
 
   // AMD CPU detection (order matters here too, specific Ryzen series first)
   if(cpuName.find(Constants::KAMD_RYZEN_IDENTIFIER) != std::string::npos)
@@ -410,4 +415,115 @@ HardwareCapabilities::applyOptimalRenderingSettings()
     LumexLogging::success(KMODULE_NAME, "Software rendering settings applied successfully");
   }
   else { LumexLogging::info(KMODULE_NAME, "Hardware rendering will be used (default Qt settings)"); }
+}
+
+LUMEX_PUBLIC_API
+std::string
+Lumex::Applied::Hardware::getMacAddress()
+{
+#if LUMEX_OS_WINDOWS
+  // Windows implementation using GetAdaptersInfo
+  ULONG buffer_size = 0;
+  DWORD result      = GetAdaptersInfo(nullptr, std::addressof(buffer_size));
+  if(result != ERROR_BUFFER_OVERFLOW) return {};
+
+  std::vector<BYTE> buffer(buffer_size);
+  PIP_ADAPTER_INFO adapter_info
+    = reinterpret_cast<PIP_ADAPTER_INFO>(buffer.data()); // NOLINT(cppcoreguidelines-pro-type-reinterpret-cast)
+  result = GetAdaptersInfo(adapter_info, std::addressof(buffer_size));
+  if(result != NO_ERROR) return {};
+
+  // Find first active adapter
+  constexpr DWORD ETHERNET_MAC_LENGTH = 6;
+  for(PIP_ADAPTER_INFO adapter = adapter_info; adapter != nullptr; adapter = adapter->Next)
+  {
+    if(adapter->Type == MIB_IF_TYPE_ETHERNET && adapter->AddressLength == ETHERNET_MAC_LENGTH)
+    {
+      std::ostringstream mac_stream;
+      for(DWORD i = 0; i < adapter->AddressLength; ++i)
+      {
+        if(i > 0) mac_stream << ":";
+        mac_stream << std::hex << std::setw(2) << std::setfill('0')
+                   << static_cast<int>(
+                        adapter->Address[i]); // NOLINT(cppcoreguidelines-pro-bounds-constant-array-index)
+      }
+      return mac_stream.str();
+    }
+  }
+  return {};
+#else
+  // Linux implementation using getifaddrs
+  struct ifaddrs *ifaddrs_ptr = nullptr;
+  if(getifaddrs(&ifaddrs_ptr) != 0) return {};
+
+  std::string mac_address;
+  for(struct ifaddrs *ifa = ifaddrs_ptr; ifa != nullptr; ifa = ifa->ifa_next)
+  {
+    if(ifa->ifa_addr == nullptr) continue;
+
+    // Для Linux используем AF_PACKET вместо AF_LINK
+    if(ifa->ifa_addr->sa_family != AF_PACKET) continue;
+
+    auto *sll                         = reinterpret_cast<struct sockaddr_ll *>(ifa->ifa_addr);
+    constexpr int ETHERNET_MAC_LENGTH = 6;
+
+    if(sll->sll_halen == ETHERNET_MAC_LENGTH)
+    {
+      std::ostringstream mac_stream;
+      unsigned char *mac = sll->sll_addr; // NOLINT(cppcoreguidelines-pro-bounds-array-to-pointer-decay)
+      for(int i = 0; i < ETHERNET_MAC_LENGTH; ++i)
+      {
+        if(i > 0) mac_stream << ":";
+        mac_stream << std::hex << std::setw(2) << std::setfill('0')
+                   << static_cast<int>(mac[i]); // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
+      }
+      mac_address = mac_stream.str();
+      break;
+    }
+  }
+  freeifaddrs(ifaddrs_ptr);
+  return mac_address;
+#endif
+}
+
+LUMEX_PUBLIC_API
+std::uint64_t
+Lumex::Applied::Hardware::generateCryptographicSeed()
+{
+#if LUMEX_OS_WINDOWS
+  // Windows: Try CryptGenRandom first
+  HCRYPTPROV h_prov = 0;
+  if(CryptAcquireContext(&h_prov, nullptr, nullptr, PROV_RSA_FULL, CRYPT_VERIFYCONTEXT))
+  {
+    std::uint64_t seed = 0;
+    if(CryptGenRandom(h_prov, sizeof(seed),
+                      reinterpret_cast< // NOLINT(cppcoreguidelines-pro-type-reinterpret-cast)
+                        BYTE *>(std::addressof(seed)))
+       != 0)
+    {
+      CryptReleaseContext(h_prov, 0);
+      return seed;
+    }
+    CryptReleaseContext(h_prov, 0);
+  }
+#else
+  // POSIX: Try getentropy() first (POSIX.1-2024, Issue 8)
+  std::uint64_t seed = 0;
+  if(getentropy(std::addressof(seed), sizeof(seed)) == 0) return seed;
+
+  // Fallback: Try /dev/urandom
+  std::ifstream urandom("/dev/urandom", std::ios::binary);
+  if(urandom.is_open())
+  {
+    urandom.read(reinterpret_cast< // NOLINT(cppcoreguidelines-pro-type-reinterpret-cast)
+                   char *>(std::addressof(seed)),
+                 sizeof(seed));
+    if(urandom.good()) return seed;
+  }
+#endif
+
+  // Final fallback: Use std::random_device (uses hardware RNG where available)
+  std::random_device random_device;
+  std::uniform_int_distribution<std::uint64_t> distribution;
+  return distribution(random_device);
 }
