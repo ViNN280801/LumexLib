@@ -60,6 +60,9 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/LumexAppliedTargets.cmake")
     if(TARGET Lumex::LumexApplied_hardware AND NOT TARGET Lumex::hardware)
         add_library(Lumex::hardware ALIAS Lumex::LumexApplied_hardware)
     endif()
+    if(TARGET Lumex::LumexApplied_logger AND NOT TARGET Lumex::logger)
+        add_library(Lumex::logger ALIAS Lumex::LumexApplied_logger)
+    endif()
     if(TARGET Lumex::LumexApplied_logging AND NOT TARGET Lumex::logging)
         add_library(Lumex::logging ALIAS Lumex::LumexApplied_logging)
     endif()
@@ -81,6 +84,7 @@ if(NOT TARGET Lumex::Lumex)
     set_target_properties(Lumex::Lumex PROPERTIES
         INTERFACE_LINK_LIBRARIES "
             Lumex::hardware;
+            Lumex::logger;
             Lumex::logging;
             Lumex::settings
             
