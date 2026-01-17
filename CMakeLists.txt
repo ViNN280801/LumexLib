@@ -420,7 +420,7 @@ add_subdirectory(lumex)
 # ==============================================================================
 # OWN COMPONENTS
 # ==============================================================================
-option(LUMEX_BUILD_XML "Build Xml" OFF)
+option(LUMEX_BUILD_XML "Build Xml" ON)
 
 if(LUMEX_BUILD_XML)
     option(LUMEX_XML_WCHAR_MODE "Build Xml with wchar_t mode" OFF)
