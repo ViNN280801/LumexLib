@@ -1,1 +1,2 @@
+#include "LumexCPUVectorizationCapabilities.hpp"
 #include "LumexHardwareCapabilities.hpp"

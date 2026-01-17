@@ -205,60 +205,15 @@ HardwareCapabilities::estimateCPUGeneration(std::string const &cpuName)
   if(cpuName.find(Constants::KINTEL_PENTIUM_G_IDENTIFIER) != std::string::npos)
     return Constants::KCPU_IVY_BRIDGE_GENERATION;
 
-  // Intel 2nd Gen (Sandy Bridge) (e.g., i3-2xxx, i5-2xxx, i7-2xxx)
-  if(cpuName.find(Constants::KINTEL_I3_2_IDENTIFIER) != std::string::npos
-     || cpuName.find(Constants::KINTEL_I5_2_IDENTIFIER) != std::string::npos
-     || cpuName.find(Constants::KINTEL_I7_2_IDENTIFIER) != std::string::npos)
-    return Constants::KCPU_SANDY_BRIDGE_GENERATION;
+  // IMPORTANT: Check longer identifiers FIRST to avoid false matches
+  // (e.g., "i3-12" must be checked before "i3-2" to avoid matching "i3-2" inside "i3-12")
 
-  // Intel 3rd Gen (Ivy Bridge) (e.g., i3-3xxx, i5-3xxx, i7-3xxx)
-  if(cpuName.find(Constants::KINTEL_I3_3_IDENTIFIER) != std::string::npos
-     || cpuName.find(Constants::KINTEL_I5_3_IDENTIFIER) != std::string::npos
-     || cpuName.find(Constants::KINTEL_I7_3_IDENTIFIER) != std::string::npos)
-    return Constants::KCPU_IVY_BRIDGE_GENERATION;
-
-  // Intel 4th Gen (Haswell) (e.g., i3-4xxx, i5-4xxx, i7-4xxx)
-  if(cpuName.find(Constants::KINTEL_I3_4_IDENTIFIER) != std::string::npos
-     || cpuName.find(Constants::KINTEL_I5_4_IDENTIFIER) != std::string::npos
-     || cpuName.find(Constants::KINTEL_I7_4_IDENTIFIER) != std::string::npos)
-    return Constants::KCPU_HASWELL_GENERATION;
-
-  // Intel 6th Gen (Skylake) (e.g., i3-6xxx, i5-6xxx, i7-6xxx)
-  if(cpuName.find(Constants::KINTEL_I3_6_IDENTIFIER) != std::string::npos
-     || cpuName.find(Constants::KINTEL_I5_6_IDENTIFIER) != std::string::npos
-     || cpuName.find(Constants::KINTEL_I7_6_IDENTIFIER) != std::string::npos)
-    return Constants::KCPU_SKYLAKE_GENERATION;
-
-  // Intel 7th Gen (Kaby Lake) (e.g., i3-7xxx, i5-7xxx, i7-7xxx)
-  if(cpuName.find(Constants::KINTEL_I3_7_IDENTIFIER) != std::string::npos
-     || cpuName.find(Constants::KINTEL_I5_7_IDENTIFIER) != std::string::npos
-     || cpuName.find(Constants::KINTEL_I7_7_IDENTIFIER) != std::string::npos)
-    return Constants::KCPU_KABY_LAKE_GENERATION;
-
-  // Intel 8th Gen (Coffee Lake) (e.g., i3-8xxx, i5-8xxx, i7-8xxx)
-  if(cpuName.find(Constants::KINTEL_I3_8_IDENTIFIER) != std::string::npos
-     || cpuName.find(Constants::KINTEL_I5_8_IDENTIFIER) != std::string::npos
-     || cpuName.find(Constants::KINTEL_I7_8_IDENTIFIER) != std::string::npos)
-    return Constants::KCPU_COFFEE_LAKE_GENERATION;
-
-  // Intel 10th Gen (Comet Lake) (e.g., i3-10xxx, i5-10xxx, i7-10xxx)
-  if(cpuName.find(Constants::KINTEL_I3_10_IDENTIFIER) != std::string::npos
-     || cpuName.find(Constants::KINTEL_I5_10_IDENTIFIER) != std::string::npos
-     || cpuName.find(Constants::KINTEL_I7_10_IDENTIFIER) != std::string::npos)
-    return Constants::KCPU_COMET_LAKE_GENERATION;
-
-  // Intel 11th Gen (Rocket Lake) (e.g., i3-11xxx, i5-11xxx, i7-11xxx)
-  if(cpuName.find(Constants::KINTEL_I3_11_IDENTIFIER) != std::string::npos
-     || cpuName.find(Constants::KINTEL_I5_11_IDENTIFIER) != std::string::npos
-     || cpuName.find(Constants::KINTEL_I7_11_IDENTIFIER) != std::string::npos)
-    return Constants::KCPU_ROCKET_LAKE_GENERATION;
-
-  // Intel 12th Gen (Alder Lake) (e.g., i3-12xxx, i5-12xxx, i7-12xxx, i9-12xxx)
-  if(cpuName.find(Constants::KINTEL_I3_12_IDENTIFIER) != std::string::npos
-     || cpuName.find(Constants::KINTEL_I5_12_IDENTIFIER) != std::string::npos
-     || cpuName.find(Constants::KINTEL_I7_12_IDENTIFIER) != std::string::npos
-     || cpuName.find(Constants::KINTEL_I9_12_IDENTIFIER) != std::string::npos)
-    return Constants::KCPU_ALDER_LAKE_GENERATION;
+  // Intel 14th Gen (Meteor Lake) (e.g., i3-14xxx, i5-14xxx, i7-14xxx, i9-14xxx)
+  if(cpuName.find(Constants::KINTEL_I3_14_IDENTIFIER) != std::string::npos
+     || cpuName.find(Constants::KINTEL_I5_14_IDENTIFIER) != std::string::npos
+     || cpuName.find(Constants::KINTEL_I7_14_IDENTIFIER) != std::string::npos
+     || cpuName.find(Constants::KINTEL_I9_14_IDENTIFIER) != std::string::npos)
+    return Constants::KCPU_METEOR_LAKE_GENERATION;
 
   // Intel 13th Gen (Raptor Lake) (e.g., i3-13xxx, i5-13xxx, i7-13xxx, i9-13xxx)
   if(cpuName.find(Constants::KINTEL_I3_13_IDENTIFIER) != std::string::npos
@@ -267,12 +222,60 @@ HardwareCapabilities::estimateCPUGeneration(std::string const &cpuName)
      || cpuName.find(Constants::KINTEL_I9_13_IDENTIFIER) != std::string::npos)
     return Constants::KCPU_RAPTOR_LAKE_GENERATION;
 
-  // Intel 14th Gen (Meteor Lake) (e.g., i3-14xxx, i5-14xxx, i7-14xxx, i9-14xxx)
-  if(cpuName.find(Constants::KINTEL_I3_14_IDENTIFIER) != std::string::npos
-     || cpuName.find(Constants::KINTEL_I5_14_IDENTIFIER) != std::string::npos
-     || cpuName.find(Constants::KINTEL_I7_14_IDENTIFIER) != std::string::npos
-     || cpuName.find(Constants::KINTEL_I9_14_IDENTIFIER) != std::string::npos)
-    return Constants::KCPU_METEOR_LAKE_GENERATION;
+  // Intel 12th Gen (Alder Lake) (e.g., i3-12xxx, i5-12xxx, i7-12xxx, i9-12xxx)
+  if(cpuName.find(Constants::KINTEL_I3_12_IDENTIFIER) != std::string::npos
+     || cpuName.find(Constants::KINTEL_I5_12_IDENTIFIER) != std::string::npos
+     || cpuName.find(Constants::KINTEL_I7_12_IDENTIFIER) != std::string::npos
+     || cpuName.find(Constants::KINTEL_I9_12_IDENTIFIER) != std::string::npos)
+    return Constants::KCPU_ALDER_LAKE_GENERATION;
+
+  // Intel 11th Gen (Rocket Lake) (e.g., i3-11xxx, i5-11xxx, i7-11xxx)
+  if(cpuName.find(Constants::KINTEL_I3_11_IDENTIFIER) != std::string::npos
+     || cpuName.find(Constants::KINTEL_I5_11_IDENTIFIER) != std::string::npos
+     || cpuName.find(Constants::KINTEL_I7_11_IDENTIFIER) != std::string::npos)
+    return Constants::KCPU_ROCKET_LAKE_GENERATION;
+
+  // Intel 10th Gen (Comet Lake) (e.g., i3-10xxx, i5-10xxx, i7-10xxx)
+  if(cpuName.find(Constants::KINTEL_I3_10_IDENTIFIER) != std::string::npos
+     || cpuName.find(Constants::KINTEL_I5_10_IDENTIFIER) != std::string::npos
+     || cpuName.find(Constants::KINTEL_I7_10_IDENTIFIER) != std::string::npos)
+    return Constants::KCPU_COMET_LAKE_GENERATION;
+
+  // Intel 8th Gen (Coffee Lake) (e.g., i3-8xxx, i5-8xxx, i7-8xxx)
+  if(cpuName.find(Constants::KINTEL_I3_8_IDENTIFIER) != std::string::npos
+     || cpuName.find(Constants::KINTEL_I5_8_IDENTIFIER) != std::string::npos
+     || cpuName.find(Constants::KINTEL_I7_8_IDENTIFIER) != std::string::npos)
+    return Constants::KCPU_COFFEE_LAKE_GENERATION;
+
+  // Intel 7th Gen (Kaby Lake) (e.g., i3-7xxx, i5-7xxx, i7-7xxx)
+  if(cpuName.find(Constants::KINTEL_I3_7_IDENTIFIER) != std::string::npos
+     || cpuName.find(Constants::KINTEL_I5_7_IDENTIFIER) != std::string::npos
+     || cpuName.find(Constants::KINTEL_I7_7_IDENTIFIER) != std::string::npos)
+    return Constants::KCPU_KABY_LAKE_GENERATION;
+
+  // Intel 6th Gen (Skylake) (e.g., i3-6xxx, i5-6xxx, i7-6xxx)
+  if(cpuName.find(Constants::KINTEL_I3_6_IDENTIFIER) != std::string::npos
+     || cpuName.find(Constants::KINTEL_I5_6_IDENTIFIER) != std::string::npos
+     || cpuName.find(Constants::KINTEL_I7_6_IDENTIFIER) != std::string::npos)
+    return Constants::KCPU_SKYLAKE_GENERATION;
+
+  // Intel 4th Gen (Haswell) (e.g., i3-4xxx, i5-4xxx, i7-4xxx)
+  if(cpuName.find(Constants::KINTEL_I3_4_IDENTIFIER) != std::string::npos
+     || cpuName.find(Constants::KINTEL_I5_4_IDENTIFIER) != std::string::npos
+     || cpuName.find(Constants::KINTEL_I7_4_IDENTIFIER) != std::string::npos)
+    return Constants::KCPU_HASWELL_GENERATION;
+
+  // Intel 3rd Gen (Ivy Bridge) (e.g., i3-3xxx, i5-3xxx, i7-3xxx)
+  if(cpuName.find(Constants::KINTEL_I3_3_IDENTIFIER) != std::string::npos
+     || cpuName.find(Constants::KINTEL_I5_3_IDENTIFIER) != std::string::npos
+     || cpuName.find(Constants::KINTEL_I7_3_IDENTIFIER) != std::string::npos)
+    return Constants::KCPU_IVY_BRIDGE_GENERATION;
+
+  // Intel 2nd Gen (Sandy Bridge) (e.g., i3-2xxx, i5-2xxx, i7-2xxx)
+  if(cpuName.find(Constants::KINTEL_I3_2_IDENTIFIER) != std::string::npos
+     || cpuName.find(Constants::KINTEL_I5_2_IDENTIFIER) != std::string::npos
+     || cpuName.find(Constants::KINTEL_I7_2_IDENTIFIER) != std::string::npos)
+    return Constants::KCPU_SANDY_BRIDGE_GENERATION;
 
   // AMD CPU detection (order matters here too, specific Ryzen series first)
   if(cpuName.find(Constants::KAMD_RYZEN_IDENTIFIER) != std::string::npos)
