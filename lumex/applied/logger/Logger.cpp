@@ -14,7 +14,7 @@
 
 #include "Logger.hpp"
 
-#if LOGGER_OS_IS_WINDOWS()
+#ifdef LOGGER_OS_WINDOWS
   #include <windows.h>
   #ifdef _MSC_VER
     #include <dbghelp.h>
@@ -79,7 +79,7 @@ namespace
     {
       if(filePath.empty()) return -1;
 
-#if LOGGER_OS_IS_WINDOWS()
+#ifdef LOGGER_OS_WINDOWS
       WIN32_FILE_ATTRIBUTE_DATA fileData{};
       if(GetFileAttributesExA(filePath.c_str(), GetFileExInfoStandard, &fileData) == 0) return -1;
 
@@ -114,7 +114,7 @@ namespace
     {
       if(path.empty()) return -1;
 
-#if LOGGER_OS_IS_WINDOWS()
+#ifdef LOGGER_OS_WINDOWS
       ULARGE_INTEGER freeBytesAvailable{};
       ULARGE_INTEGER totalNumberOfBytes{};
       ULARGE_INTEGER totalNumberOfFreeBytes{};
@@ -159,7 +159,7 @@ namespace
 
       int64_t totalSize = 0;
 
-#if LOGGER_OS_IS_WINDOWS()
+#ifdef LOGGER_OS_WINDOWS
       std::string searchPath = directoryPath + "\\*";
 
       WIN32_FIND_DATAA findData{};
@@ -242,7 +242,7 @@ namespace
 
     try
     {
-#if LOGGER_OS_IS_WINDOWS() && defined(_MSC_VER)
+#ifdef LOGGER_OS_WINDOWS &&defined(_MSC_VER)
       void *stack[kMaxStackFrames];
       HANDLE process = GetCurrentProcess();
 

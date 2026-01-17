@@ -18,6 +18,11 @@ target_include_directories(${LUMEX_LOGGER_NAME} PUBLIC
     $<INSTALL_INTERFACE:include>
 )
 
+# Link with dbghelp.lib on Windows for symbol resolution (SymGetLineFromAddr64, SymInitialize, etc.)
+if(WIN32)
+    target_link_libraries(${LUMEX_LOGGER_NAME} PRIVATE dbghelp)
+endif()
+
 install(TARGETS ${LUMEX_LOGGER_NAME} EXPORT ${EXPORT_TO}
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
@@ -28,6 +33,6 @@ install(
     DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/
     DESTINATION include/lumex/applied/logger
     FILES_MATCHING
-    PATTERN "*.hpp"
-    PATTERN "Logger"
+        PATTERN "*.hpp"
+        PATTERN "Logger"
 )
