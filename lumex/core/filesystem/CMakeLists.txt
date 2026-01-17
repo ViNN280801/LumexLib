@@ -21,6 +21,8 @@ if(WIN32)
     target_link_libraries(${LUMEX_FILESYSTEM_NAME} PRIVATE shlwapi)
 endif()
 
+lumex_apply_library_versioning(${LUMEX_FILESYSTEM_NAME} "Lumex Filesystem Library")
+
 install(TARGETS ${LUMEX_FILESYSTEM_NAME} EXPORT ${EXPORT_TO}
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}

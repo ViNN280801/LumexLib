@@ -22,6 +22,8 @@ target_link_libraries(${LUMEX_STRING_VIEW_NAME} PUBLIC
     Lumex::utility
 )
 
+lumex_apply_library_versioning(${LUMEX_STRING_VIEW_NAME} "Lumex String View Library")
+
 install(TARGETS ${LUMEX_STRING_VIEW_NAME} EXPORT ${EXPORT_TO}
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}

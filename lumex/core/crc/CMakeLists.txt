@@ -19,6 +19,8 @@ target_link_libraries(${LUMEX_CRC_NAME} PUBLIC
     Lumex::utility
 )
 
+lumex_apply_library_versioning(${LUMEX_CRC_NAME} "Lumex CRC Library")
+
 install(TARGETS ${LUMEX_CRC_NAME} EXPORT ${EXPORT_TO}
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}

@@ -40,6 +40,8 @@ elseif(UNIX AND NOT APPLE)
     endif()
 endif()
 
+lumex_apply_library_versioning(${LUMEX_EXCEPTIONS_NAME} "Lumex Exceptions Library")
+
 install(TARGETS ${LUMEX_EXCEPTIONS_NAME} EXPORT ${EXPORT_TO}
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}

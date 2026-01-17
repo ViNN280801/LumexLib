@@ -15,6 +15,8 @@ target_include_directories(${LUMEX_UTILITY_NAME} PUBLIC
     $<INSTALL_INTERFACE:include>
 )
 
+lumex_apply_library_versioning(${LUMEX_UTILITY_NAME} "Lumex Utility Library")
+
 install(TARGETS ${LUMEX_UTILITY_NAME} EXPORT ${EXPORT_TO}
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}

@@ -68,3 +68,6 @@ compile_commands.json
 # Any cache files
 cache*/
 .cache*/
+
+# Doxygen files
+Doxyfile

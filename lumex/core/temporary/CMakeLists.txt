@@ -20,6 +20,8 @@ target_link_libraries(${LUMEX_TEMPORARY_NAME} PUBLIC
     Lumex::filesystem
 )
 
+lumex_apply_library_versioning(${LUMEX_TEMPORARY_NAME} "Lumex Temporary Library")
+
 install(TARGETS ${LUMEX_TEMPORARY_NAME} EXPORT ${EXPORT_TO}
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
