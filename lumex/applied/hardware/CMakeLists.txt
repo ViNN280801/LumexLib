@@ -23,6 +23,8 @@ target_link_libraries(${LUMEX_HARDWARE_NAME} PUBLIC
     Lumex::utility
 )
 
+lumex_apply_library_versioning(${LUMEX_HARDWARE_NAME} "Lumex Hardware Capabilities Library")
+
 install(TARGETS ${LUMEX_HARDWARE_NAME} EXPORT ${EXPORT_TO}
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}

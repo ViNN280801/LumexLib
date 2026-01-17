@@ -23,6 +23,8 @@ if(WIN32)
     target_link_libraries(${LUMEX_LOGGER_NAME} PRIVATE dbghelp)
 endif()
 
+lumex_apply_library_versioning(${LUMEX_LOGGER_NAME} "Lumex Logger Library")
+
 install(TARGETS ${LUMEX_LOGGER_NAME} EXPORT ${EXPORT_TO}
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}

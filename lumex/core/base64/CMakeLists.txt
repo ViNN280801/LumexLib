@@ -23,6 +23,8 @@ target_link_libraries(${LUMEX_BASE64_NAME} PUBLIC
     Lumex::utility
 )
 
+lumex_apply_library_versioning(${LUMEX_BASE64_NAME} "Lumex Base64 Library")
+
 install(TARGETS ${LUMEX_BASE64_NAME} EXPORT ${EXPORT_TO}
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}

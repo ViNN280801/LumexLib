@@ -22,6 +22,8 @@ target_link_libraries(${LUMEX_SETTINGS_NAME} PUBLIC
     Lumex::filesystem
 )
 
+lumex_apply_library_versioning(${LUMEX_SETTINGS_NAME} "Lumex Settings Library")
+
 install(TARGETS ${LUMEX_SETTINGS_NAME} EXPORT ${EXPORT_TO}
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}

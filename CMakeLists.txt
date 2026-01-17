@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.10)
 
 project(LumexLib
     VERSION 1.1.0
-    LANGUAGES CXX
+    LANGUAGES CXX RC
 )
 
 if(ARCHITECTURE)
@@ -414,6 +414,13 @@ else()
     set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${LUMEX_LIB_DIR})
 endif()
 
+# ==============================================================================
+# LIBRARY VERSIONING
+# ==============================================================================
+# Include library versioning function BEFORE subdirectories
+# This function is used in CMakeLists.txt files of subdirectories
+include(cmake/LumexLibraryVersioning.cmake)
+
 # --- Includes & Subdirectories ---
 add_subdirectory(lumex)
 
@@ -507,14 +514,25 @@ if(LUMEX_BUILD_DOCUMENTATION)
         message(FATAL_ERROR "Doxygen executable not found! Please install Doxygen or ensure it's in your PATH.")
     endif()
 
-    set(DOXYFILE_PATH "${CMAKE_SOURCE_DIR}/Doxyfile")
+    # Configure Doxyfile from template with project version
+    set(DOXYFILE_IN "${CMAKE_SOURCE_DIR}/Doxyfile")
+    set(DOXYFILE_OUT "${CMAKE_BINARY_DIR}/Doxyfile")
+
+    configure_file(
+        ${DOXYFILE_IN}
+        ${DOXYFILE_OUT}
+        @ONLY
+    )
+
+    set(DOXYFILE_PATH "${DOXYFILE_OUT}")
     set(DOXYGEN_OUTPUT_DIR "${CMAKE_SOURCE_DIR}/docs")
 
     add_custom_command(
         OUTPUT "${DOXYGEN_OUTPUT_DIR}/html/index.html" # Track a known output file for dependency
         COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYFILE_PATH}
         WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}" # Run Doxygen in the project root
-        COMMENT "Generating Doxygen documentation"
+        DEPENDS ${DOXYFILE_OUT} # Regenerate if Doxyfile changes
+        COMMENT "Generating Doxygen documentation (version: ${PROJECT_VERSION})"
         VERBATIM # Ensure arguments are passed literally
     )
 

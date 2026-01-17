@@ -19,6 +19,8 @@ target_link_libraries(${LUMEX_ENVIRONMENT_NAME} PUBLIC
     Lumex::utility
 )
 
+lumex_apply_library_versioning(${LUMEX_ENVIRONMENT_NAME} "Lumex Environment Library")
+
 install(TARGETS ${LUMEX_ENVIRONMENT_NAME} EXPORT ${EXPORT_TO}
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}

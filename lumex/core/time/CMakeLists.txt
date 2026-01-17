@@ -15,6 +15,8 @@ target_include_directories(${LUMEX_TIME_NAME} PUBLIC
     $<INSTALL_INTERFACE:include>
 )
 
+lumex_apply_library_versioning(${LUMEX_TIME_NAME} "Lumex Time Library")
+
 install(TARGETS ${LUMEX_TIME_NAME} EXPORT ${EXPORT_TO}
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}

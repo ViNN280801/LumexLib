@@ -129,6 +129,8 @@ if(NOT WIN32)
     endif()
 endif()
 
+lumex_apply_library_versioning(${LUMEX_XML_NAME} "Lumex XML Library")
+
 install(TARGETS ${LUMEX_XML_NAME} EXPORT ${EXPORT_TO}
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}

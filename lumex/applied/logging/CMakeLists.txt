@@ -22,6 +22,8 @@ target_link_libraries(${LUMEX_LOGGING_NAME} PUBLIC
     Lumex::time
 )
 
+lumex_apply_library_versioning(${LUMEX_LOGGING_NAME} "Lumex Logging Library")
+
 install(TARGETS ${LUMEX_LOGGING_NAME} EXPORT ${EXPORT_TO}
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
