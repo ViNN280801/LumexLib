@@ -1,5 +1,5 @@
-#ifndef LUMREPORTGEN_BASE64_ENCODER_HPP
-#define LUMREPORTGEN_BASE64_ENCODER_HPP
+#ifndef LUMEX_BASE64_ENCODER_HPP
+#define LUMEX_BASE64_ENCODER_HPP
 
 #include <vector>
 
@@ -90,4 +90,4 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
   } // namespace Core
 } // namespace Lumex
 
-#endif // !LUMREPORTGEN_BASE64_ENCODER_HPP
+#endif // !LUMEX_BASE64_ENCODER_HPP

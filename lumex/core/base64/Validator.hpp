@@ -1,5 +1,5 @@
-#ifndef LUMREPORTGEN_BASE64_VALIDATOR_HPP
-#define LUMREPORTGEN_BASE64_VALIDATOR_HPP
+#ifndef LUMEX_BASE64_VALIDATOR_HPP
+#define LUMEX_BASE64_VALIDATOR_HPP
 
 #include "lumex/LumexExport.hpp"
 #include "lumex/core/base64/Base64.hpp"
@@ -32,4 +32,4 @@ namespace Lumex // NOLINT(modernize-concat-nested-namespaces)
   } // namespace Utility
 } // namespace Lumex
 
-#endif // !LUMREPORTGEN_BASE64_VALIDATOR_HPP
+#endif // !LUMEX_BASE64_VALIDATOR_HPP

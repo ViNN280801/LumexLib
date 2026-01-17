@@ -75,9 +75,9 @@
   #define LUMEX_ATTRIBUTE_FALLTHROUGH
 #endif
 
-// [[maybe_unused]] (already present, unify style)
+// [[maybe_unused]]
+#define LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR(var) (void)(var)
 #if __cplusplus >= 201703L
-  #undef LUMEX_ATTRIBUTE_MAYBE_UNUSED
   #define LUMEX_ATTRIBUTE_MAYBE_UNUSED [[maybe_unused]]
 #elif defined(__GNUC__) || defined(__clang__)
   #define LUMEX_ATTRIBUTE_MAYBE_UNUSED __attribute__((unused))
@@ -89,12 +89,21 @@
 #if __cplusplus >= 202002L
   #define LUMEX_ATTRIBUTE_LIKELY [[likely]]
   #define LUMEX_ATTRIBUTE_UNLIKELY [[unlikely]]
+  #define LUMEX_ATTRIBUTE_LIKELY_COND(cond) (cond)
+  #define LUMEX_ATTRIBUTE_UNLIKELY_COND(cond) (cond)
 #elif (defined(__GNUC__) && (__GNUC__ >= 9)) || (defined(__clang__) && __has_cpp_attribute(likely))
   #define LUMEX_ATTRIBUTE_LIKELY __attribute__((likely))
   #define LUMEX_ATTRIBUTE_UNLIKELY __attribute__((unlikely))
+
+  #if (defined(__GNUC__))
+    #define LUMEX_ATTRIBUTE_UNLIKELY_COND(cond) __builtin_expect(cond, 0)
+  #else
+    #define LUMEX_ATTRIBUTE_UNLIKELY_COND(cond) (cond)
+  #endif
 #else
   #define LUMEX_ATTRIBUTE_LIKELY
   #define LUMEX_ATTRIBUTE_UNLIKELY
+  #define LUMEX_ATTRIBUTE_UNLIKELY_COND(cond) (cond)
 #endif
 
 // [[no_unique_address]] -> C++20

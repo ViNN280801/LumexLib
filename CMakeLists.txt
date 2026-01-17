@@ -3,7 +3,7 @@
 cmake_minimum_required(VERSION 3.10)
 
 project(LumexLib
-    VERSION 1.0.1
+    VERSION 1.1.0
     LANGUAGES CXX
 )
 
@@ -26,7 +26,7 @@ else()
 endif()
 
 # Set position-independent code for shared libs or static libs that will be linked into shared
-if(BUILD_SHARED_LIBS OR (CMAKE_POSITION_INDEPENDENT_CODE AND NOT WIN32))
+if(BUILD_SHARED_LIBS OR(CMAKE_POSITION_INDEPENDENT_CODE AND NOT WIN32))
     set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 endif()
 
@@ -407,7 +407,7 @@ if(CMAKE_CONFIGURATION_TYPES)
         set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_${CONF_UPPER} ${LUMEX_LIB_DIR}/${CONF})
     endforeach()
 
-    # Single-config generators (Make, Ninja)
+# Single-config generators (Make, Ninja)
 else()
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${LUMEX_BIN_DIR})
     set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${LUMEX_BIN_DIR})
@@ -416,6 +416,23 @@ endif()
 
 # --- Includes & Subdirectories ---
 add_subdirectory(lumex)
+
+# ==============================================================================
+# OWN COMPONENTS
+# ==============================================================================
+option(LUMEX_BUILD_XML "Build Xml" OFF)
+
+if(LUMEX_BUILD_XML)
+    option(LUMEX_XML_WCHAR_MODE "Build Xml with wchar_t mode" OFF)
+
+    if(LUMEX_XML_WCHAR_MODE)
+        add_compile_definitions(LUMEX_XML_WCHAR_MODE)
+        message(STATUS "Building with Xml wchar_t mode enabled")
+    endif()
+
+    add_subdirectory(lumex/xml)
+    message(STATUS "Building with Xml enabled")
+endif()
 
 # ==============================================================================
 # INSTALLATION
@@ -443,6 +460,17 @@ install(EXPORT LumexAppliedTargets
     ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
 )
 
+if(LUMEX_BUILD_XML)
+    install(EXPORT LumexXmlTargets
+        FILE
+        LumexXmlTargets.cmake
+        NAMESPACE
+        Lumex::
+        DESTINATION
+        ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
+    )
+endif()
+
 # Generate and install the config version file
 write_basic_package_version_file(
     "${CMAKE_CURRENT_BINARY_DIR}/LumexLibConfigVersion.cmake"
@@ -467,6 +495,58 @@ install(
 )
 
 # ==============================================================================
+# DOCUMENTATION
+# ==============================================================================
+option(LUMEX_BUILD_DOCUMENTATION "Build Doxygen documentation" OFF)
+
+if(LUMEX_BUILD_DOCUMENTATION)
+    message(STATUS "Building with documentation enabled")
+    find_program(DOXYGEN_EXECUTABLE NAMES doxygen)
+
+    if(NOT DOXYGEN_EXECUTABLE)
+        message(FATAL_ERROR "Doxygen executable not found! Please install Doxygen or ensure it's in your PATH.")
+    endif()
+
+    set(DOXYFILE_PATH "${CMAKE_SOURCE_DIR}/Doxyfile")
+    set(DOXYGEN_OUTPUT_DIR "${CMAKE_SOURCE_DIR}/docs")
+
+    add_custom_command(
+        OUTPUT "${DOXYGEN_OUTPUT_DIR}/html/index.html" # Track a known output file for dependency
+        COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYFILE_PATH}
+        WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}" # Run Doxygen in the project root
+        COMMENT "Generating Doxygen documentation"
+        VERBATIM # Ensure arguments are passed literally
+    )
+
+    # Marking it ALL ensures it gets built with the default build target.
+    add_custom_target(generate_documentation ALL
+        DEPENDS "${DOXYGEN_OUTPUT_DIR}/html/index.html"
+        COMMENT "Doxygen documentation generated"
+    )
+
+    # Install the generated documentation
+    install(DIRECTORY "${DOXYGEN_OUTPUT_DIR}/" # Trailing slash copies directory contents
+        DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/docs"
+
+        # Exclude common Doxygen internal files or backups from installation
+        PATTERN "*.map" EXCLUDE
+        PATTERN "*.md5" EXCLUDE
+        PATTERN "*.tag" EXCLUDE
+        PATTERN "*.bak" EXCLUDE
+    )
+endif()
+
+# ==============================================================================
+# EXAMPLES
+# ==============================================================================
+option(LUMEX_BUILD_EXAMPLES "Build the examples for the LumexLib" OFF)
+
+if(LUMEX_BUILD_EXAMPLES)
+    message(STATUS "Building with examples enabled")
+    add_subdirectory(examples)
+endif()
+
+# ==============================================================================
 # TESTING
 # ==============================================================================
 option(LUMEX_BUILD_TESTS "Build the tests for LumexCore" OFF)
@@ -488,8 +568,10 @@ if(LUMEX_BUILD_TESTS)
 
         # Lumex Core tests
         LumexBase64Tests
+        LumexCircularBufferTests
         LumexEnvironmentTests
         LumexExceptionsTests
+        LumexExpectedTests
         LumexFilesystemTests
         LumexNumberGeneratorTests
         LumexOptionalTests
@@ -497,6 +579,10 @@ if(LUMEX_BUILD_TESTS)
         LumexStringViewTests
         LumexTemporaryTests
         LumexTimeTests
+
+        # Lumex Xml tests
+        LumexXmlTests
+
         COMMENT "Running all the tests..."
     )
 endif()

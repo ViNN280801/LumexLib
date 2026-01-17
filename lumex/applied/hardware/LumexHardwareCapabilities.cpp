@@ -1,4 +1,5 @@
 #define LUMEX_IMPLEMENTATION
+#define NOMINMAX
 #include "LumexHardwareCapabilities.hpp"
 #include "lumex/applied/logging/LumexLogging"
 #include "lumex/core/utility/LumexUtility"
@@ -9,8 +10,9 @@
 #include <vector>
 
 #if LUMEX_OS_WINDOWS
-  #include <intrin.h>
   #include <windows.h>
+
+  #include <intrin.h>
 
   #include <d3d11.h>
   #include <dxgi.h>
@@ -410,4 +412,115 @@ HardwareCapabilities::applyOptimalRenderingSettings()
     LumexLogging::success(KMODULE_NAME, "Software rendering settings applied successfully");
   }
   else { LumexLogging::info(KMODULE_NAME, "Hardware rendering will be used (default Qt settings)"); }
+}
+
+LUMEX_PUBLIC_API
+std::string
+Lumex::Applied::Hardware::getMacAddress()
+{
+#if LUMEX_OS_WINDOWS
+  // Windows implementation using GetAdaptersInfo
+  ULONG buffer_size = 0;
+  DWORD result      = GetAdaptersInfo(nullptr, std::addressof(buffer_size));
+  if(result != ERROR_BUFFER_OVERFLOW) return {};
+
+  std::vector<BYTE> buffer(buffer_size);
+  PIP_ADAPTER_INFO adapter_info
+    = reinterpret_cast<PIP_ADAPTER_INFO>(buffer.data()); // NOLINT(cppcoreguidelines-pro-type-reinterpret-cast)
+  result = GetAdaptersInfo(adapter_info, std::addressof(buffer_size));
+  if(result != NO_ERROR) return {};
+
+  // Find first active adapter
+  constexpr DWORD ETHERNET_MAC_LENGTH = 6;
+  for(PIP_ADAPTER_INFO adapter = adapter_info; adapter != nullptr; adapter = adapter->Next)
+  {
+    if(adapter->Type == MIB_IF_TYPE_ETHERNET && adapter->AddressLength == ETHERNET_MAC_LENGTH)
+    {
+      std::ostringstream mac_stream;
+      for(DWORD i = 0; i < adapter->AddressLength; ++i)
+      {
+        if(i > 0) mac_stream << ":";
+        mac_stream << std::hex << std::setw(2) << std::setfill('0')
+                   << static_cast<int>(
+                        adapter->Address[i]); // NOLINT(cppcoreguidelines-pro-bounds-constant-array-index)
+      }
+      return mac_stream.str();
+    }
+  }
+  return {};
+#else
+  // Linux implementation using getifaddrs
+  struct ifaddrs *ifaddrs_ptr = nullptr;
+  if(getifaddrs(&ifaddrs_ptr) != 0) return {};
+
+  std::string mac_address;
+  for(struct ifaddrs *ifa = ifaddrs_ptr; ifa != nullptr; ifa = ifa->ifa_next)
+  {
+    if(ifa->ifa_addr == nullptr) continue;
+
+    // Для Linux используем AF_PACKET вместо AF_LINK
+    if(ifa->ifa_addr->sa_family != AF_PACKET) continue;
+
+    auto *sll                         = reinterpret_cast<struct sockaddr_ll *>(ifa->ifa_addr);
+    constexpr int ETHERNET_MAC_LENGTH = 6;
+
+    if(sll->sll_halen == ETHERNET_MAC_LENGTH)
+    {
+      std::ostringstream mac_stream;
+      unsigned char *mac = sll->sll_addr; // NOLINT(cppcoreguidelines-pro-bounds-array-to-pointer-decay)
+      for(int i = 0; i < ETHERNET_MAC_LENGTH; ++i)
+      {
+        if(i > 0) mac_stream << ":";
+        mac_stream << std::hex << std::setw(2) << std::setfill('0')
+                   << static_cast<int>(mac[i]); // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
+      }
+      mac_address = mac_stream.str();
+      break;
+    }
+  }
+  freeifaddrs(ifaddrs_ptr);
+  return mac_address;
+#endif
+}
+
+LUMEX_PUBLIC_API
+std::uint64_t
+Lumex::Applied::Hardware::generateCryptographicSeed()
+{
+#if LUMEX_OS_WINDOWS
+  // Windows: Try CryptGenRandom first
+  HCRYPTPROV h_prov = 0;
+  if(CryptAcquireContext(&h_prov, nullptr, nullptr, PROV_RSA_FULL, CRYPT_VERIFYCONTEXT))
+  {
+    std::uint64_t seed = 0;
+    if(CryptGenRandom(h_prov, sizeof(seed),
+                      reinterpret_cast< // NOLINT(cppcoreguidelines-pro-type-reinterpret-cast)
+                        BYTE *>(std::addressof(seed)))
+       != 0)
+    {
+      CryptReleaseContext(h_prov, 0);
+      return seed;
+    }
+    CryptReleaseContext(h_prov, 0);
+  }
+#else
+  // POSIX: Try getentropy() first (POSIX.1-2024, Issue 8)
+  std::uint64_t seed = 0;
+  if(getentropy(std::addressof(seed), sizeof(seed)) == 0) return seed;
+
+  // Fallback: Try /dev/urandom
+  std::ifstream urandom("/dev/urandom", std::ios::binary);
+  if(urandom.is_open())
+  {
+    urandom.read(reinterpret_cast< // NOLINT(cppcoreguidelines-pro-type-reinterpret-cast)
+                   char *>(std::addressof(seed)),
+                 sizeof(seed));
+    if(urandom.good()) return seed;
+  }
+#endif
+
+  // Final fallback: Use std::random_device (uses hardware RNG where available)
+  std::random_device random_device;
+  std::uniform_int_distribution<std::uint64_t> distribution;
+  return distribution(random_device);
 }
