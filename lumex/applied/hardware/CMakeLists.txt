@@ -3,7 +3,10 @@
 set(LUMEX_HARDWARE_NAME LumexApplied_hardware)
 set(EXPORT_TO LumexAppliedTargets)
 
-add_library(${LUMEX_HARDWARE_NAME} LumexHardwareCapabilities.cpp)
+add_library(${LUMEX_HARDWARE_NAME} 
+    LumexHardwareCapabilities.cpp
+    LumexCPUVectorizationCapabilities.cpp
+)
 add_library(Lumex::hardware ALIAS ${LUMEX_HARDWARE_NAME})
 
 if(BUILD_SHARED_LIBS AND WIN32)
