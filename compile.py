@@ -7,8 +7,10 @@ configuration options while handling errors gracefully.
 """
 
 from os import chdir as os_chdir
+from os import environ as os_environ
 from os import remove as os_remove
 from os import makedirs as os_makedirs
+from os import walk as os_walk
 from os.path import join as os_path_join
 from os.path import pathsep as os_pathsep
 from os.path import isdir as os_path_isdir
@@ -17,8 +19,13 @@ from os.path import abspath as os_path_abspath
 from os.path import dirname as os_path_dirname
 from os.path import basename as os_path_basename
 
+from json import load as json_load
+from json import dump as json_dump
+
+from re import sub as re_sub
 from re import search as re_search
 from re import DOTALL as re_DOTALL
+from re import MULTILINE as re_MULTILINE
 
 from sys import exit as sys_exit
 from shutil import rmtree as shutil_rmtree
@@ -2772,6 +2779,12 @@ class CMakeBuilderCLI:
             raw = raw.replace(":", os_pathsep)
             self.builder.add_cmake_args(raw.split(os_pathsep))
 
+        # Enable compile_commands.json generation if requested
+        # CRITICAL: Must be set BEFORE configure() call
+        if self.args.compile_commands:
+            self.builder.add_cmake_args(["-DCMAKE_EXPORT_COMPILE_COMMANDS=ON"])
+            self.logger.info("📋 Enabled compile_commands.json generation")
+
         # Set up MSVC environment if using MSVC with Ninja
         if self.builder.use_ninja and self.builder.custom_cpp_compiler:
             self.builder._setup_msvc_environment()
@@ -2795,8 +2808,18 @@ class CMakeBuilderCLI:
                         compile_commands_src
                     )
                 )
+                self.logger.error("Possible causes:")
                 self.logger.error(
-                    "Make sure CMAKE_EXPORT_COMPILE_COMMANDS is enabled in CMakeLists.txt"
+                    "  1. No compilable (.cpp) files in project (only headers)"
+                )
+                self.logger.error(
+                    "  2. CMake configuration failed before Ninja could generate compile_commands.json"
+                )
+                self.logger.error(
+                    "  3. Generator does not support compile_commands.json (use --use-ninja)"
+                )
+                self.logger.error(
+                    "Solution: Ensure at least one .cpp file exists in src/ for CMake to process"
                 )
                 sys_exit(1)
 
@@ -2806,6 +2829,20 @@ class CMakeBuilderCLI:
                     "✅ Successfully copied compile_commands.json to project root: {}".format(
                         compile_commands_dst
                     )
+                )
+
+                # Fix MSVC external include flags for clangd/clang-cl:
+                # CMake (esp. Ninja+MSVC) may emit `-external:*` spellings into compile_commands.json.
+                # MSVC understands `/external:*`, but clangd treats `-external:*` as an unknown argument.
+                _normalize_compile_commands_for_clangd(
+                    compile_commands_dst, self.logger
+                )
+
+                # If there are local (gitignored) headers, clangd often falls back to `.clangd` flags for them
+                # (because they are not part of the compilation database and may not be reachable from any TU).
+                # We add explicit entries for such headers so clangd uses the same flags as the project.
+                _add_compile_commands_entries_for_local_headers(
+                    compile_commands_dst, self.project_root, self.logger
                 )
             except Exception as e:
                 self.logger.error(
@@ -2844,6 +2881,258 @@ class CMakeBuilderCLI:
             if not self.builder.install(self.args.install_prefix):
                 self.logger.error("ERROR: Installation failed")
                 sys_exit(1)
+
+
+def _normalize_compile_commands_for_clangd(compile_commands_path: str, logger) -> bool:
+    """
+    Normalize compile_commands.json to be parseable by clangd on Windows.
+
+    Specifically, rewrite MSVC external include spellings:
+    - `-external:I...` -> `/external:I...`
+    - `-external:W0`   -> `/external:W0`
+    (and same for `/external:*` already correct; GCC/Clang builds are untouched).
+    """
+    try:
+        if platform_system() != "Windows":
+            return True
+
+        if not os_path_exists(compile_commands_path):
+            return False
+
+        with open(compile_commands_path, "r", encoding="utf-8") as f:
+            database = json_load(f)
+
+        if not isinstance(database, list):
+            return False
+
+        updated_entries = 0
+
+        for entry in database:
+            if not isinstance(entry, dict):
+                continue
+
+            changed = False
+
+            # Newer generators sometimes emit structured arguments.
+            if "arguments" in entry and isinstance(entry["arguments"], list):
+                new_args = []
+                for arg in entry["arguments"]:
+                    if isinstance(arg, str) and arg.startswith("-external:"):
+                        new_args.append("/" + arg[1:])
+                        changed = True
+                    else:
+                        new_args.append(arg)
+
+                if changed:
+                    entry["arguments"] = new_args
+
+            # Common case: single `command` string (what you have now).
+            elif "command" in entry and isinstance(entry["command"], str):
+                original = entry["command"]
+                # Replace only token-start occurrences (beginning or whitespace).
+                fixed = re_sub(r"(^|\s)-external:", r"\1/external:", original)
+                if fixed != original:
+                    entry["command"] = fixed
+                    changed = True
+
+            if changed:
+                updated_entries += 1
+
+        if updated_entries > 0:
+            with open(compile_commands_path, "w", encoding="utf-8", newline="\n") as f:
+                json_dump(database, f, indent=2, ensure_ascii=False)
+                f.write("\n")
+
+            logger.info(
+                "🛠️ Normalized compile_commands.json for clangd (MSVC -external:* -> /external:*), updated_entries={}".format(
+                    updated_entries
+                )
+            )
+
+        return True
+    except Exception as e:
+        logger.error(
+            "ERROR: Failed to normalize compile_commands.json for clangd: {}".format(e)
+        )
+        return False
+
+
+def _add_compile_commands_entries_for_local_headers(
+    compile_commands_path: str, project_root: str, logger
+) -> bool:
+    """
+    Add compile_commands.json entries for local (gitignored) headers.
+
+    Problem this solves:
+    - clangd applies flags from compile_commands.json only for files that have an entry,
+      or for headers it can "associate" with some translation unit.
+    - For local headers (e.g. `src/not_to_distr/**`) that are NOT part of the build and may not be included
+      by any compiled .cpp, clangd falls back to `.clangd` defaults, which often misses external includes
+      like Boost.
+
+    Approach:
+    - If `src/not_to_distr` exists, enumerate headers there and append "synthetic" entries
+      based on the first real compile command in the database (same flags, only `-c <file>` replaced).
+    """
+    try:
+        not_to_distr_dir = os_path_join(project_root, "src", "not_to_distr")
+        if not os_path_exists(not_to_distr_dir) or not os_path_isdir(not_to_distr_dir):
+            return True
+
+        if not os_path_exists(compile_commands_path):
+            return False
+
+        with open(compile_commands_path, "r", encoding="utf-8") as f:
+            database = json_load(f)
+
+        if not isinstance(database, list) or not database:
+            return False
+
+        # Pick a template command (first entry with a string `command`).
+        template_entry = None
+        for entry in database:
+            if isinstance(entry, dict) and isinstance(entry.get("command"), str):
+                template_entry = entry
+                break
+
+        if template_entry is None:
+            return True
+
+        template_command = template_entry["command"]
+        template_directory = template_entry.get("directory", "")
+
+        existing_files = set()
+        for entry in database:
+            if isinstance(entry, dict) and isinstance(entry.get("file"), str):
+                existing_files.add(entry["file"].replace("\\", "/"))
+
+        header_extensions = {".h", ".hpp", ".hh", ".hxx", ".ipp", ".inl"}
+        added_entries = 0
+
+        boost_root = os_environ.get("BOOST_ROOT", "")
+        if not boost_root:
+            boost_root = _try_get_boost_include_root_from_cmake_cache(project_root)
+
+        boost_root_norm = boost_root.replace("\\", "/") if boost_root else ""
+
+        for root, _, files in os_walk(not_to_distr_dir):
+            for name in files:
+                lower = name.lower()
+                dot = lower.rfind(".")
+                ext = lower[dot:] if dot >= 0 else ""
+                if ext not in header_extensions:
+                    continue
+
+                header_path = os_path_join(root, name)
+                header_file_json = header_path.replace("\\", "/")
+                if header_file_json in existing_files:
+                    continue
+
+                new_entry = dict(template_entry)
+                new_entry["directory"] = template_directory
+                new_entry["file"] = header_file_json
+
+                # Replace the last `-c <file>` in the command (common for both MSVC and GCC/Clang).
+                replacement = header_path
+                if " " in replacement:
+                    replacement = '"' + replacement + '"'
+                new_command = re_sub(
+                    r"(\s-c\s+)(\"[^\"]+\"|\S+)\s*$",
+                    lambda match: match.group(1) + replacement,
+                    template_command,
+                )
+
+                # Ensure Boost headers are discoverable for local headers.
+                # This is needed when the compilation database has no TU that carries Boost include dirs
+                # (e.g. the main project is currently header-only and only dependencies are compiled).
+                if (
+                    boost_root
+                    and (boost_root not in new_command)
+                    and (boost_root_norm not in new_command)
+                ):
+                    include_flag = "-I{}".format(boost_root)
+                    new_command = re_sub(
+                        r"(\s)-c(\s+)",
+                        lambda match: match.group(1)
+                        + include_flag
+                        + " -c"
+                        + match.group(2),
+                        new_command,
+                        1,
+                    )
+
+                # If we couldn't match `-c <file>` (unexpected), keep the original command;
+                # clangd still uses `file` for mapping, and most toolchains accept the command line anyway.
+                new_entry["command"] = new_command
+
+                database.append(new_entry)
+                existing_files.add(header_file_json)
+                added_entries += 1
+
+        if added_entries > 0:
+            with open(compile_commands_path, "w", encoding="utf-8", newline="\n") as f:
+                json_dump(database, f, indent=2, ensure_ascii=False)
+                f.write("\n")
+
+            logger.info(
+                "🧩 Added compile_commands.json entries for local headers in src/not_to_distr: {}".format(
+                    added_entries
+                )
+            )
+
+        return True
+    except Exception as e:
+        logger.error(
+            "ERROR: Failed to extend compile_commands.json for local headers: {}".format(
+                e
+            )
+        )
+        return False
+
+
+def _try_get_boost_include_root_from_cmake_cache(project_root: str) -> str:
+    """
+    Best-effort extraction of Boost include root from CMakeCache.txt.
+
+    This is a fallback for environments where BOOST_ROOT is not present for the python process,
+    but CMake still discovered Boost (e.g. via cache/presets/toolchain).
+    """
+    try:
+        cache_path = os_path_join(project_root, "build", "CMakeCache.txt")
+        if not os_path_exists(cache_path):
+            return ""
+
+        with open(cache_path, "r", encoding="utf-8", errors="ignore") as f:
+            content = f.read()
+
+        # Prefer explicit BOOST_ROOT (matches the folder containing `boost/`).
+        match = re_search(r"^BOOST_ROOT:PATH=(.+)$", content, re_DOTALL | re_MULTILINE)
+        if match:
+            return match.group(1).strip()
+
+        # Common FindBoost variables.
+        match = re_search(
+            r"^Boost_INCLUDE_DIR:PATH=(.+)$", content, re_DOTALL | re_MULTILINE
+        )
+        if match:
+            return match.group(1).strip()
+
+        match = re_search(
+            r"^Boost_INCLUDE_DIRS:PATH=(.+)$", content, re_DOTALL | re_MULTILINE
+        )
+        if match:
+            return match.group(1).strip()
+
+        match = re_search(
+            r"^Boost_INCLUDE_DIRS:STRING=(.+)$", content, re_DOTALL | re_MULTILINE
+        )
+        if match:
+            # May contain a list separated by ';' - pick the first entry.
+            return match.group(1).split(";")[0].strip()
+
+        return ""
+    except Exception:
+        return ""
 
 
 def main():
