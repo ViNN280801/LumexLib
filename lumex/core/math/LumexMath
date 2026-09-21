@@ -1,1 +1,2 @@
-#include "LumexMathConstants.hpp"
+#include "constants/LumexMathConstants.hpp"
+#include "ops/LumexMath.hpp"

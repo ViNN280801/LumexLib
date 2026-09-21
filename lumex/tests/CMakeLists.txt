@@ -1,23 +1,14 @@
 # lumex/tests/CMakeLists.txt
 
-# Fetch GoogleTest
-include(FetchContent)
-FetchContent_Declare(
-    googletest
+# CMake-file tests do not need GoogleTest. Register them even when every
+# library group is OFF so -DLUMEX_BUILD_TESTS=ON still has a suite.
+add_subdirectory(cmake)
 
-    # Using a known-stable release of googletest
-    URL https://github.com/google/googletest/archive/refs/tags/v1.14.0.zip
-    DOWNLOAD_EXTRACT_TIMESTAMP TRUE
-    CMAKE_ARGS -DCMAKE_POLICY_VERSION_MINIMUM=3.5 # Set policy version for googletest
-)
+# Two vendored GoogleTest trees (not FetchContent):
+#   1.12.1 for C++11/14 tests, 1.18.0 for C++17+ tests.
+include("${CMAKE_CURRENT_LIST_DIR}/../../cmake/LumexGoogleTest.cmake")
+include(GoogleTest)
 
-# For Windows: Prevent overriding the parent project's compiler/linker settings
-set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
-FetchContent_MakeAvailable(googletest)
-
-add_subdirectory(applied)
-add_subdirectory(core)
-
-if(LUMEX_BUILD_XML)
-    add_subdirectory(xml)
-endif()
+lumex_add_subdirectory_if(LUMEX_BUILD_APPLIED applied)
+lumex_add_subdirectory_if(LUMEX_BUILD_CORE core)
+lumex_add_subdirectory_if(LUMEX_BUILD_XML xml)

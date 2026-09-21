@@ -3,8 +3,9 @@
 set(LUMEX_ENVIRONMENT_NAME LumexCore_environment)
 set(EXPORT_TO LumexCoreTargets)
 
-add_library(${LUMEX_ENVIRONMENT_NAME} LumexEnvironment.cpp)
-add_library(Lumex::environment ALIAS ${LUMEX_ENVIRONMENT_NAME})
+file(GLOB_RECURSE SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
+add_library(${LUMEX_ENVIRONMENT_NAME} ${SOURCES})
+add_library(lumex::environment ALIAS ${LUMEX_ENVIRONMENT_NAME})
 
 if(BUILD_SHARED_LIBS AND WIN32)
     target_compile_definitions(${LUMEX_ENVIRONMENT_NAME} PRIVATE LUMEX_EXPORTS)
@@ -16,7 +17,7 @@ target_include_directories(${LUMEX_ENVIRONMENT_NAME} PUBLIC
 )
 
 target_link_libraries(${LUMEX_ENVIRONMENT_NAME} PUBLIC
-    Lumex::utility
+    lumex::utility
 )
 
 lumex_apply_library_versioning(${LUMEX_ENVIRONMENT_NAME} "Lumex Environment Library")

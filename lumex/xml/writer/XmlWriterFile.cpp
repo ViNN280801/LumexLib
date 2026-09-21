@@ -6,11 +6,11 @@
 
 #include "XmlWriterFile.hpp"
 
-using namespace Lumex::Xml::Writer;
+using namespace lumex::xml::writer;
 
 LUMEX_PUBLIC_API
 void
-XmlWriterFile::write(void const *data, size_t size)
+XmlWriterFile::write (void const *data, std::size_t size)
 {
-  std::fwrite(data, 1, size, static_cast<FILE *>(file));
+  std::fwrite (data, 1, size, static_cast<FILE *> (file));
 }

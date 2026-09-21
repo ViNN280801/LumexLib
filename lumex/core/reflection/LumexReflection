@@ -1,0 +1,11 @@
+#ifndef LUMEX_CORE_REFLECTION_HPP
+#define LUMEX_CORE_REFLECTION_HPP
+
+#include "var_info/LumexVarInfo.hpp"
+#include "reflected_enum/LumexReflectedEnum.hpp"
+
+#if defined(LUMEX_WITH_FIELD_REFLECTION)
+#include "field_reflection/LumexFieldReflection.hpp"
+#endif
+
+#endif // !LUMEX_CORE_REFLECTION_HPP

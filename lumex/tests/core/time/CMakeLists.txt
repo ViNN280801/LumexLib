@@ -14,9 +14,8 @@ set_target_properties(${TEST_EXECUTABLE_NAME} PROPERTIES
 target_link_libraries(
     ${TEST_EXECUTABLE_NAME}
     PRIVATE
-    GTest::gtest_main
-    Lumex::time
+    lumex::time
 )
 
-include(GoogleTest)
+lumex_test_use_gtest(${TEST_EXECUTABLE_NAME} CXX_STANDARD 11)
 gtest_discover_tests(${TEST_EXECUTABLE_NAME})

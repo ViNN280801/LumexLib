@@ -43,8 +43,15 @@
 # Build dirs
 out/
 output/
-build/
-build-*/
+build*
+build-*
+build_*
+
+# Distr publish folders (<platform>/Distr<Config>)
+**/DistrDebug/
+**/DistrRelease/
+**/DistrRelWithDebInfo/
+**/DistrMinSizeRel/
 
 # IDE dirs and files
 .vs/
@@ -68,6 +75,13 @@ compile_commands.json
 # Any cache files
 cache*/
 .cache*/
+
+# Cwd leftovers from aborted test processes. Fixtures TearDown these
+# directories; ignore them if a run is killed before cleanup.
+test_settings_guard*/
+test_ini_settings*/
+test_filesystem_*/
+lumex_xml_test_*.xml
 
 # Doxygen files
 Doxyfile

@@ -4,7 +4,7 @@ set(LUMEX_MATH_NAME LumexCore_math)
 set(EXPORT_TO LumexCoreTargets)
 
 add_library(${LUMEX_MATH_NAME} INTERFACE)
-add_library(Lumex::math ALIAS ${LUMEX_MATH_NAME})
+add_library(lumex::math ALIAS ${LUMEX_MATH_NAME})
 
 target_include_directories(${LUMEX_MATH_NAME} INTERFACE
     $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}>

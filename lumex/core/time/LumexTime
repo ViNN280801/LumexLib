@@ -1,1 +1,2 @@
-#include "LumexTime.hpp"
+#include "clock/LumexTime.hpp"
+#include "timer/LumexTimer.hpp"

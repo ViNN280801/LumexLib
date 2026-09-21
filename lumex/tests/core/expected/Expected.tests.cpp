@@ -1,9 +1,3 @@
-#include <gtest/gtest.h>
-
-#include "lumex/core/expected/BadExpectedAccess.hpp"
-#include "lumex/core/expected/Expected.hpp"
-#include "lumex/core/expected/Unexpected.hpp"
-
 #include <chrono>
 #include <memory>
 #include <stdexcept>
@@ -12,79 +6,121 @@
 #include <tuple>
 #include <vector>
 
-// === Типы успешных значений для тестирования ==============================
+#include <gtest/gtest.h>
 
-struct SimpleSuccess {
+#include "lumex/core/expected/Expected"
+
+#if defined(__clang__)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpadded"
+#pragma clang diagnostic ignored "-Wunsafe-buffer-usage"
+#pragma clang diagnostic ignored "-Wunsafe-buffer-usage-in-libc-call"
+#pragma clang diagnostic ignored "-Wcovered-switch-default"
+#pragma clang diagnostic ignored "-Wswitch-enum"
+#pragma clang diagnostic ignored "-Wnrvo"
+#pragma clang diagnostic ignored "-Wheader-hygiene"
+#pragma clang diagnostic ignored "-Wused-but-marked-unused"
+#pragma clang diagnostic ignored "-Wundefined-var-template"
+#pragma clang diagnostic ignored "-Wdeprecated-redundant-constexpr-static-def"
+#pragma clang diagnostic ignored "-Wvariadic-macro-arguments-omitted"
+#pragma clang diagnostic ignored "-Wunused-result"
+#pragma clang diagnostic ignored "-Wextra-semi-stmt"
+#pragma clang diagnostic ignored "-Wexpansion-to-defined"
+#pragma clang diagnostic ignored "-Wexit-time-destructors"
+#pragma clang diagnostic ignored "-Wundefined-func-template"
+#pragma clang diagnostic ignored "-Wfloat-equal"
+#pragma clang diagnostic ignored "-Wglobal-constructors"
+#endif
+
+#if defined(__clang__)
+#endif
+
+using namespace lumex::core::expected::result;
+using namespace lumex::core::expected::error;
+
+// === Success types for tests ==============================
+
+struct SimpleSuccess
+{
   int value;
-  explicit SimpleSuccess(int v = 0) : value(v) {}
+  explicit SimpleSuccess (int v = 0) : value (v) {}
   bool
-  operator==(SimpleSuccess const &other) const
+  operator== (SimpleSuccess const &other) const
   {
     return value == other.value;
   }
   bool
-  operator!=(SimpleSuccess const &other) const
+  operator!= (SimpleSuccess const &other) const
   {
     return !(*this == other);
   }
 };
 
-struct ComplexSuccess {
+struct ComplexSuccess
+{
   std::string name;
   std::unique_ptr<int> data;
 
-  explicit ComplexSuccess(std::string n = "Default Success", int d = 0)
-      : name(std::move(n)), data(std::make_unique<int>(d))
-  {}
+  explicit ComplexSuccess (std::string n = "Default Success", int d = 0)
+      : name (std::move (n)), data (std::make_unique<int> (d))
+  {
+  }
 
-  ComplexSuccess(ComplexSuccess const &other)
-      : name(other.name), data(other.data ? std::make_unique<int>(*other.data) : nullptr)
-  {}
+  ComplexSuccess (ComplexSuccess const &other)
+      : name (other.name),
+        data (other.data ? std::make_unique<int> (*other.data) : nullptr)
+  {
+  }
 
   ComplexSuccess &
-  operator=(ComplexSuccess const &other)
+  operator= (ComplexSuccess const &other)
   {
-    if(this != &other)
-    {
-      name = other.name;
-      data = other.data ? std::make_unique<int>(*other.data) : nullptr;
-    }
+    if (this != &other)
+      {
+        name = other.name;
+        data = other.data ? std::make_unique<int> (*other.data) : nullptr;
+      }
     return *this;
   }
 
-  ComplexSuccess(ComplexSuccess &&other) noexcept : name(std::move(other.name)), data(std::move(other.data)) {}
+  ComplexSuccess (ComplexSuccess &&other) noexcept
+      : name (std::move (other.name)), data (std::move (other.data))
+  {
+  }
 
   ComplexSuccess &
-  operator=(ComplexSuccess &&other) noexcept
+  operator= (ComplexSuccess &&other) noexcept
   {
-    if(this != &other)
-    {
-      name = std::move(other.name);
-      data = std::move(other.data);
-    }
+    if (this != &other)
+      {
+        name = std::move (other.name);
+        data = std::move (other.data);
+      }
     return *this;
   }
 
   bool
-  operator==(ComplexSuccess const &other) const
+  operator== (ComplexSuccess const &other) const
   {
-    return name == other.name && ((!data && !other.data) || (data && other.data && *data == *other.data));
+    return name == other.name
+           && ((!data && !other.data)
+               || (data && other.data && *data == *other.data));
   }
 
   bool
-  operator!=(ComplexSuccess const &other) const
+  operator!= (ComplexSuccess const &other) const
   {
     return !(*this == other);
   }
 
   int
-  convertToInt() const
+  convertToInt () const
   {
     return *data;
   }
 };
 
-// === Типы ошибок для тестирования ========================================
+// === Error types for tests ========================================
 
 enum class SimpleError
 {
@@ -93,71 +129,79 @@ enum class SimpleError
   NetworkFailure
 };
 
-struct ComplexError {
+struct ComplexError
+{
   std::string message;
   int code;
   std::unique_ptr<int> resource;
 
-  explicit ComplexError(std::string msg = "Default Error", int c = 100)
-      : message(std::move(msg)), code(c), resource(std::make_unique<int>(c))
-  {}
+  explicit ComplexError (std::string msg = "Default Error", int c = 100)
+      : message (std::move (msg)), code (c),
+        resource (std::make_unique<int> (c))
+  {
+  }
 
-  ComplexError(ComplexError const &other)
-      : message(other.message),
-        code(other.code),
-        resource(other.resource ? std::make_unique<int>(*other.resource) : nullptr)
-  {}
+  ComplexError (ComplexError const &other)
+      : message (other.message), code (other.code),
+        resource (other.resource ? std::make_unique<int> (*other.resource)
+                                 : nullptr)
+  {
+  }
 
   ComplexError &
-  operator=(ComplexError const &other)
+  operator= (ComplexError const &other)
   {
-    if(this != &other)
-    {
-      message  = other.message;
-      code     = other.code;
-      resource = other.resource ? std::make_unique<int>(*other.resource) : nullptr;
-    }
+    if (this != &other)
+      {
+        message = other.message;
+        code = other.code;
+        resource = other.resource ? std::make_unique<int> (*other.resource)
+                                  : nullptr;
+      }
     return *this;
   }
 
-  ComplexError(ComplexError &&other) noexcept
-      : message(std::move(other.message)), code(other.code), resource(std::move(other.resource))
+  ComplexError (ComplexError &&other) noexcept
+      : message (std::move (other.message)), code (other.code),
+        resource (std::move (other.resource))
   {
-    other.code = 0; // Очистить исходный ресурс
+    other.code = 0; // Clear the source resource
   }
 
   ComplexError &
-  operator=(ComplexError &&other) noexcept
+  operator= (ComplexError &&other) noexcept
   {
-    if(this != &other)
-    {
-      message    = std::move(other.message);
-      code       = other.code;
-      resource   = std::move(other.resource);
-      other.code = 0; // Очистить исходный ресурс
-    }
+    if (this != &other)
+      {
+        message = std::move (other.message);
+        code = other.code;
+        resource = std::move (other.resource);
+        other.code = 0; // Clear the source resource
+      }
     return *this;
   }
 
   bool
-  operator==(ComplexError const &other) const
+  operator== (ComplexError const &other) const
   {
     return message == other.message && code == other.code
-           && ((!resource && !other.resource) || (resource && other.resource && *resource == *other.resource));
+           && ((!resource && !other.resource)
+               || (resource && other.resource
+                   && *resource == *other.resource));
   }
 
   bool
-  operator!=(ComplexError const &other) const
+  operator!= (ComplexError const &other) const
   {
     return !(*this == other);
   }
 };
 
-// === Фикстура для Expected ==================================================
+// === Fixture for Expected ==================================================
 template <typename T> class ExpectedTest : public ::testing::Test
 {
 protected:
-  // Определяем SuccessType и ErrorType из TypeParam (std::tuple<SType, EType>)
+  // Define SuccessType and ErrorType from TypeParam (std::tuple<SType, EType>)
   typedef typename std::tuple_element<0, T>::type SuccessType;
   typedef typename std::tuple_element<1, T>::type ErrorType;
 
@@ -169,13 +213,13 @@ protected:
   ErrorType e_val1{};
   ErrorType e_val2{};
 
-  // Preconditions: Инициализируем стандартные значения успешных результатов и ошибок для использования в тестах.
-  // Создание известных объектов для повторяемого тестирования.
-  // Убеждаемся, что инициализация объектов не вызывает исключений.
+  // Preconditions: initialize standard success and error values for the tests.
+  // Create known objects for repeatable tests.
+  // Assert that object initialization does not throw.
   void
-  SetUp() override
+  SetUp () override
   {
-    // Инициализация стандартными значениями - просто используем конструкторы по умолчанию
+    // Initialize with defaults via default constructors
     s_val1 = SuccessType{};
     s_val2 = SuccessType{};
     e_val1 = ErrorType{};
@@ -183,997 +227,1131 @@ protected:
   }
 };
 
-// Определяем комбинации типов для Typed Tests
+// Define type combinations for typed tests
 using ExpectedTestTypes
-  = ::testing::Types<std::tuple<int, int>, std::tuple<std::string, std::string>, std::tuple<SimpleSuccess, SimpleError>,
-                     std::tuple<ComplexSuccess, ComplexError>>;
-TYPED_TEST_SUITE(ExpectedTest, ExpectedTestTypes);
+    = ::testing::Types<std::tuple<int, int>,
+                       std::tuple<std::string, std::string>,
+                       std::tuple<SimpleSuccess, SimpleError>,
+                       std::tuple<ComplexSuccess, ComplexError>>;
+TYPED_TEST_SUITE (ExpectedTest, ExpectedTestTypes);
 
-// === Конструкторы и операторы присваивания =========================
+// === Constructors and assignment operators =========================
 
-// Проверяем конструктор по умолчанию. Должен создать Expected в успешном состоянии
-// с дефолтно-сконструированным значением.
-// Убеждаемся, что has_value() возвращает true, а значение соответствует дефолтному.
-TYPED_TEST(ExpectedTest, DefaultConstructor_CreatesExpectedWithValue)
+// Check the default constructor. It must create Expected in the success state
+// with a default-constructed value.
+// Assert that has_value() is true and the value is the default.
+TYPED_TEST (ExpectedTest, DefaultConstructor_CreatesExpectedWithValue)
 {
   using SuccessType = typename TestFixture::SuccessType;
-  using ErrorType   = typename TestFixture::ErrorType;
+  using ErrorType = typename TestFixture::ErrorType;
 
   // Arrange, Act
   Expected<SuccessType, ErrorType> uut;
 
   // Assert
-  EXPECT_TRUE(uut.has_value());
+  EXPECT_TRUE (uut.has_value ());
   SuccessType default_success{};
-  EXPECT_EQ(uut.value(), default_success);
+  EXPECT_EQ (uut.value (), default_success);
 }
 
-// Проверяем конструктор копирования. Должен создать новый Expected,
-// копируя состояние и содержимое другого Expected.
-// Убеждаемся, что состояние и значения идентичны, а объекты независимы.
-TYPED_TEST(ExpectedTest, CopyConstructor_CopiesStateAndContent)
+// Check the copy constructor. It must create a new Expected,
+// copying the state and contents of another Expected.
+// Assert that state and values match and the objects are independent.
+TYPED_TEST (ExpectedTest, CopyConstructor_CopiesStateAndContent)
 {
   using SuccessType = typename TestFixture::SuccessType;
-  using ErrorType   = typename TestFixture::ErrorType;
+  using ErrorType = typename TestFixture::ErrorType;
 
-  // Arrange: Успешный Expected
-  Expected<SuccessType, ErrorType> original_success(this->s_val1);
+  // Arrange: successful Expected
+  Expected<SuccessType, ErrorType> original_success (this->s_val1);
   // Act
   Expected<SuccessType, ErrorType> copied_success = original_success;
   // Assert
-  EXPECT_TRUE(copied_success.has_value());
-  EXPECT_EQ(copied_success.value(), this->s_val1);
-  EXPECT_EQ(copied_success, original_success); // Используем non-member operator==
+  EXPECT_TRUE (copied_success.has_value ());
+  EXPECT_EQ (copied_success.value (), this->s_val1);
+  EXPECT_EQ (copied_success,
+             original_success); // Use the non-member operator==
 
-  // Arrange: Expected с ошибкой
-  Expected<SuccessType, ErrorType> original_error(Unexpected<ErrorType>(this->e_val1));
+  // Arrange: Expected holding an error
+  Expected<SuccessType, ErrorType> original_error (
+      Unexpected<ErrorType> (this->e_val1));
   // Act
   Expected<SuccessType, ErrorType> copied_error = original_error;
   // Assert
-  EXPECT_FALSE(copied_error.has_value());
-  EXPECT_EQ(copied_error.error(), this->e_val1);
-  EXPECT_EQ(copied_error, original_error); // Используем non-member operator==
+  EXPECT_FALSE (copied_error.has_value ());
+  EXPECT_EQ (copied_error.error (), this->e_val1);
+  EXPECT_EQ (copied_error, original_error); // Use the non-member operator==
 }
 
-// Проверяем конструктор перемещения. Должен создать новый Expected,
-// перемещая состояние и содержимое другого Expected. Оригинал должен быть
-// в валидном, но неопределенном состоянии.
-// Убеждаемся, что новый объект имеет правильное состояние и значение,
-// а исходный объект "обнулен" (если применимо для Complex типов).
-TYPED_TEST(ExpectedTest, MoveConstructor_MovesStateAndContent)
+// Check the move constructor. It must create a new Expected,
+// moving the state and contents of another Expected. The source must be
+// in a valid but unspecified state.
+// Assert that the new object has the correct state and value,
+// and the source is emptied (when applicable for Complex types).
+TYPED_TEST (ExpectedTest, MoveConstructor_MovesStateAndContent)
 {
   using SuccessType = typename TestFixture::SuccessType;
-  using ErrorType   = typename TestFixture::ErrorType;
+  using ErrorType = typename TestFixture::ErrorType;
 
-  // Arrange: Успешный Expected
+  // Arrange: successful Expected
   SuccessType original_s_val = this->s_val1;
-  Expected<SuccessType, ErrorType> original_success(std::move(original_s_val));
-  SuccessType expected_s_val = this->s_val1; // Значение до перемещения
+  Expected<SuccessType, ErrorType> original_success (
+      std::move (original_s_val));
+  SuccessType expected_s_val = this->s_val1; // Value before the move
   // Act
-  Expected<SuccessType, ErrorType> moved_success = std::move(original_success);
+  Expected<SuccessType, ErrorType> moved_success
+      = std::move (original_success);
   // Assert
-  EXPECT_TRUE(moved_success.has_value());
-  EXPECT_EQ(moved_success.value(), expected_s_val);
-  // Проверяем состояние исходного объекта
-  if(std::is_same<SuccessType, ComplexSuccess>::value)
-  {
-    // Для ComplexSuccess, после перемещения, оригинальный объект мог потерять ресурсы
-    // Но сам объект Expected находится в валидном, но неопределенном состоянии
-    // Мы не можем здесь надежно проверить original_success.value()
-  }
+  EXPECT_TRUE (moved_success.has_value ());
+  EXPECT_EQ (moved_success.value (), expected_s_val);
+  // Check the source object state
+  if (std::is_same<SuccessType, ComplexSuccess>::value)
+    {
+      // For ComplexSuccess, after the move the original may have released
+      // resources The Expected object itself remains valid but unspecified
+      // original_success.value() cannot be checked reliably here
+    }
 
-  // Arrange: Expected с ошибкой
+  // Arrange: Expected holding an error
   ErrorType original_e_val = this->e_val1;
-  Expected<SuccessType, ErrorType> original_error(Unexpected<ErrorType>(std::move(original_e_val)));
-  ErrorType expected_e_val = this->e_val1; // Значение до перемещения
+  Expected<SuccessType, ErrorType> original_error (
+      Unexpected<ErrorType> (std::move (original_e_val)));
+  ErrorType expected_e_val = this->e_val1; // Value before the move
   // Act
-  Expected<SuccessType, ErrorType> moved_error = std::move(original_error);
+  Expected<SuccessType, ErrorType> moved_error = std::move (original_error);
   // Assert
-  EXPECT_FALSE(moved_error.has_value());
-  EXPECT_EQ(moved_error.error(), expected_e_val);
-  // Проверяем состояние исходного объекта
-  // Для ComplexError могли бы проверить обнуление после перемещения
+  EXPECT_FALSE (moved_error.has_value ());
+  EXPECT_EQ (moved_error.error (), expected_e_val);
+  // Check the source object state
+  // For ComplexError, emptiness after the move could be checked
 }
 
-// Проверяем конструктор из Unexpected (копирование). Должен создать Expected
-// в состоянии ошибки, копируя содержимое Unexpected.
-// Убеждаемся, что has_value() возвращает false, а error() соответствует исходной ошибке.
-TYPED_TEST(ExpectedTest, Constructor_FromUnexpectedLValue_CopiesError)
+// Check the constructor from Unexpected (copy). It must create Expected
+// in the error state by copying Unexpected.
+// Assert that has_value() is false and error() matches the source error.
+TYPED_TEST (ExpectedTest, Constructor_FromUnexpectedLValue_CopiesError)
 {
   using SuccessType = typename TestFixture::SuccessType;
-  using ErrorType   = typename TestFixture::ErrorType;
+  using ErrorType = typename TestFixture::ErrorType;
 
   // Arrange
-  Unexpected<ErrorType> unexp(this->e_val1);
+  Unexpected<ErrorType> unexp (this->e_val1);
   // Act
-  Expected<SuccessType, ErrorType> uut(unexp); // Вызов explicit Expected(Unexpected<ErrorType> const &unexp)
+  Expected<SuccessType, ErrorType> uut (
+      unexp); // Call explicit Expected(Unexpected<ErrorType> const &unexp)
   // Assert
-  EXPECT_FALSE(uut.has_value());
-  EXPECT_EQ(uut.error(), this->e_val1);
+  EXPECT_FALSE (uut.has_value ());
+  EXPECT_EQ (uut.error (), this->e_val1);
 
-  // Проверяем независимость копий (только для ComplexError)
-  // Для других типов эта проверка неприменима, поэтому пропускаем
+  // Check that copies are independent (ComplexError only)
+  // Skip for other types; the check does not apply
 }
 
-// Проверяем конструктор из Unexpected (перемещение). Должен создать Expected
-// в состоянии ошибки, перемещая содержимое Unexpected.
-// Убеждаемся, что has_value() возвращает false, error() соответствует исходной ошибке,
-// а исходный Unexpected "обнулен".
-TYPED_TEST(ExpectedTest, Constructor_FromUnexpectedRValue_MovesError)
+// Check the constructor from Unexpected (move). It must create Expected
+// in the error state by moving Unexpected.
+// Assert that has_value() is false, error() matches the source error,
+// and the source Unexpected is emptied.
+TYPED_TEST (ExpectedTest, Constructor_FromUnexpectedRValue_MovesError)
 {
   using SuccessType = typename TestFixture::SuccessType;
-  using ErrorType   = typename TestFixture::ErrorType;
+  using ErrorType = typename TestFixture::ErrorType;
 
   // Arrange
   ErrorType original_e_val = this->e_val1;
-  Unexpected<ErrorType> unexp(std::move(original_e_val));
-  ErrorType expected_e_val = this->e_val1; // Значение до перемещения unexp
+  Unexpected<ErrorType> unexp (std::move (original_e_val));
+  ErrorType expected_e_val = this->e_val1; // unexp value before the move
   // Act
-  Expected<SuccessType, ErrorType> uut(std::move(unexp)); // Вызов explicit Expected(Unexpected<ErrorType> &&unexp)
+  Expected<SuccessType, ErrorType> uut (std::move (
+      unexp)); // Call explicit Expected(Unexpected<ErrorType> &&unexp)
   // Assert
-  EXPECT_FALSE(uut.has_value());
-  EXPECT_EQ(uut.error(), expected_e_val);
+  EXPECT_FALSE (uut.has_value ());
+  EXPECT_EQ (uut.error (), expected_e_val);
 
-  // Проверяем обнуление для ComplexError (только если тип соответствует)
-  // Для других типов эта проверка не применима
+  // Check emptiness for ComplexError (only when the type matches)
+  // The check does not apply to other types
 }
 
-// Проверяем конструктор из успешного значения. Должен создать Expected
-// в успешном состоянии с переданным значением.
-// Убеждаемся, что has_value() возвращает true, а value() соответствует исходному значению.
-TYPED_TEST(ExpectedTest, Constructor_FromValue_CreatesExpectedWithValue)
+// Check the constructor from a success value. It must create Expected
+// in the success state with the given value.
+// Assert that has_value() is true and value() matches the source.
+TYPED_TEST (ExpectedTest, Constructor_FromValue_CreatesExpectedWithValue)
 {
   using SuccessType = typename TestFixture::SuccessType;
-  using ErrorType   = typename TestFixture::ErrorType;
+  using ErrorType = typename TestFixture::ErrorType;
 
   // Arrange, Act
-  Expected<SuccessType, ErrorType> uut(this->s_val1);
+  Expected<SuccessType, ErrorType> uut (this->s_val1);
   // Assert
-  EXPECT_TRUE(uut.has_value());
-  EXPECT_EQ(uut.value(), this->s_val1);
+  EXPECT_TRUE (uut.has_value ());
+  EXPECT_EQ (uut.value (), this->s_val1);
 
-  // Должно быть возможно создать Expected из rvalue тоже.
+  // Constructing Expected from an rvalue must also work.
   SuccessType temp_s_val = this->s_val2;
-  Expected<SuccessType, ErrorType> uut_rvalue(std::move(temp_s_val));
-  EXPECT_TRUE(uut_rvalue.has_value());
-  EXPECT_EQ(uut_rvalue.value(), this->s_val2);
+  Expected<SuccessType, ErrorType> uut_rvalue (std::move (temp_s_val));
+  EXPECT_TRUE (uut_rvalue.has_value ());
+  EXPECT_EQ (uut_rvalue.value (), this->s_val2);
 }
 
-// Проверяем in-place конструктор для успешного значения. Должен создать Expected
-// в успешном состоянии, конструируя значение на месте.
-// Убеждаемся, что has_value() возвращает true, а value() соответствует сконструированному значению.
-TYPED_TEST(ExpectedTest, InPlaceConstructor_ForValue_CreatesExpectedWithValue)
+// Check the in-place success constructor. It must create Expected
+// in the success state, constructing the value in place.
+// Assert that has_value() is true and value() matches the constructed value.
+TYPED_TEST (ExpectedTest, InPlaceConstructor_ForValue_CreatesExpectedWithValue)
 {
   using SuccessType = typename TestFixture::SuccessType;
-  using ErrorType   = typename TestFixture::ErrorType;
+  using ErrorType = typename TestFixture::ErrorType;
 
   // Arrange, Act
-  Expected<SuccessType, ErrorType> uut(in_place, this->s_val1);
+  Expected<SuccessType, ErrorType> uut (in_place, this->s_val1);
   // Assert
-  EXPECT_TRUE(uut.has_value());
-  EXPECT_EQ(uut.value(), this->s_val1);
+  EXPECT_TRUE (uut.has_value ());
+  EXPECT_EQ (uut.value (), this->s_val1);
 
-  // Проверяем с другим значением
-  Expected<SuccessType, ErrorType> uut2(in_place, this->s_val2);
-  EXPECT_TRUE(uut2.has_value());
-  EXPECT_EQ(uut2.value(), this->s_val2);
+  // Check with another value
+  Expected<SuccessType, ErrorType> uut2 (in_place, this->s_val2);
+  EXPECT_TRUE (uut2.has_value ());
+  EXPECT_EQ (uut2.value (), this->s_val2);
 }
 
-// Проверяем in-place конструктор для ошибки. Должен создать Expected
-// в состоянии ошибки, конструируя ошибку на месте.
-// Убеждаемся, что has_value() возвращает false, а error() соответствует сконструированной ошибке.
-TYPED_TEST(ExpectedTest, InPlaceConstructor_ForError_CreatesExpectedWithError)
+// Check the in-place error constructor. It must create Expected
+// in the error state, constructing the error in place.
+// Assert that has_value() is false and error() matches the constructed error.
+TYPED_TEST (ExpectedTest, InPlaceConstructor_ForError_CreatesExpectedWithError)
 {
   using SuccessType = typename TestFixture::SuccessType;
-  using ErrorType   = typename TestFixture::ErrorType;
+  using ErrorType = typename TestFixture::ErrorType;
 
   // Arrange, Act
-  Expected<SuccessType, ErrorType> uut(unexpect_t(), this->e_val1);
+  Expected<SuccessType, ErrorType> uut (unexpect_t (), this->e_val1);
   // Assert
-  EXPECT_FALSE(uut.has_value());
-  EXPECT_EQ(uut.error(), this->e_val1);
+  EXPECT_FALSE (uut.has_value ());
+  EXPECT_EQ (uut.error (), this->e_val1);
 
-  // Проверяем с другой ошибкой
-  Expected<SuccessType, ErrorType> uut2(unexpect_t(), this->e_val2);
-  EXPECT_FALSE(uut2.has_value());
-  EXPECT_EQ(uut2.error(), this->e_val2);
+  // Check with another error
+  Expected<SuccessType, ErrorType> uut2 (unexpect_t (), this->e_val2);
+  EXPECT_FALSE (uut2.has_value ());
+  EXPECT_EQ (uut2.error (), this->e_val2);
 }
 
-// Проверяем оператор присваивания копированием. Должен корректно присваивать
-// содержимое другого Expected, меняя состояние при необходимости.
-// Убеждаемся, что состояние и значения целевого объекта обновлены,
-// а исходный объект остался неизменным.
-TYPED_TEST(ExpectedTest, CopyAssignment_CopiesStateAndContent)
+// Check copy assignment. It must assign
+// another Expected, changing state when needed.
+// Assert that the target state and values are updated,
+// and the source is unchanged.
+TYPED_TEST (ExpectedTest, CopyAssignment_CopiesStateAndContent)
 {
   using SuccessType = typename TestFixture::SuccessType;
-  using ErrorType   = typename TestFixture::ErrorType;
+  using ErrorType = typename TestFixture::ErrorType;
 
-  // Сценарий 1: Успех -> Успех
-  Expected<SuccessType, ErrorType> src_s(this->s_val1);
-  Expected<SuccessType, ErrorType> dst_s(this->s_val2);
+  // Case 1: success -> success
+  Expected<SuccessType, ErrorType> src_s (this->s_val1);
+  Expected<SuccessType, ErrorType> dst_s (this->s_val2);
   dst_s = src_s;
-  EXPECT_TRUE(dst_s.has_value());
-  EXPECT_EQ(dst_s.value(), this->s_val1);
-  EXPECT_EQ(src_s.value(), this->s_val1); // Source remains unchanged
+  EXPECT_TRUE (dst_s.has_value ());
+  EXPECT_EQ (dst_s.value (), this->s_val1);
+  EXPECT_EQ (src_s.value (), this->s_val1); // Source remains unchanged
 
-  // Сценарий 2: Ошибка -> Ошибка
-  Expected<SuccessType, ErrorType> src_e(Unexpected<ErrorType>(this->e_val1));
-  Expected<SuccessType, ErrorType> dst_e(Unexpected<ErrorType>(this->e_val2));
+  // Case 2: error -> error
+  Expected<SuccessType, ErrorType> src_e (
+      Unexpected<ErrorType> (this->e_val1));
+  Expected<SuccessType, ErrorType> dst_e (
+      Unexpected<ErrorType> (this->e_val2));
   dst_e = src_e;
-  EXPECT_FALSE(dst_e.has_value());
-  EXPECT_EQ(dst_e.error(), this->e_val1);
-  EXPECT_EQ(src_e.error(), this->e_val1); // Source remains unchanged
+  EXPECT_FALSE (dst_e.has_value ());
+  EXPECT_EQ (dst_e.error (), this->e_val1);
+  EXPECT_EQ (src_e.error (), this->e_val1); // Source remains unchanged
 
-  // Сценарий 3: Успех -> Ошибка
-  Expected<SuccessType, ErrorType> src_s2(this->s_val1);
-  Expected<SuccessType, ErrorType> dst_e2(Unexpected<ErrorType>(this->e_val2));
+  // Case 3: success -> error
+  Expected<SuccessType, ErrorType> src_s2 (this->s_val1);
+  Expected<SuccessType, ErrorType> dst_e2 (
+      Unexpected<ErrorType> (this->e_val2));
   dst_e2 = src_s2;
-  EXPECT_TRUE(dst_e2.has_value());
-  EXPECT_EQ(dst_e2.value(), this->s_val1);
-  EXPECT_EQ(src_s2.value(), this->s_val1); // Source remains unchanged
+  EXPECT_TRUE (dst_e2.has_value ());
+  EXPECT_EQ (dst_e2.value (), this->s_val1);
+  EXPECT_EQ (src_s2.value (), this->s_val1); // Source remains unchanged
 
-  // Сценарий 4: Ошибка -> Успех
-  Expected<SuccessType, ErrorType> src_e3(Unexpected<ErrorType>(this->e_val1));
-  Expected<SuccessType, ErrorType> dst_s3(this->s_val2);
+  // Case 4: error -> success
+  Expected<SuccessType, ErrorType> src_e3 (
+      Unexpected<ErrorType> (this->e_val1));
+  Expected<SuccessType, ErrorType> dst_s3 (this->s_val2);
   dst_s3 = src_e3;
-  EXPECT_FALSE(dst_s3.has_value());
-  EXPECT_EQ(dst_s3.error(), this->e_val1);
-  EXPECT_EQ(src_e3.error(), this->e_val1); // Source remains unchanged
+  EXPECT_FALSE (dst_s3.has_value ());
+  EXPECT_EQ (dst_s3.error (), this->e_val1);
+  EXPECT_EQ (src_e3.error (), this->e_val1); // Source remains unchanged
 
-  // Самоприсваивание
-  Expected<SuccessType, ErrorType> self_assign(this->s_val1);
+  // Self-assignment
+  Expected<SuccessType, ErrorType> self_assign (this->s_val1);
   self_assign = self_assign;
-  EXPECT_TRUE(self_assign.has_value());
-  EXPECT_EQ(self_assign.value(), this->s_val1);
+  EXPECT_TRUE (self_assign.has_value ());
+  EXPECT_EQ (self_assign.value (), this->s_val1);
 }
 
-// Проверяем оператор присваивания перемещением. Должен корректно присваивать
-// содержимое другого Expected путем перемещения, меняя состояние при необходимости.
-// Убеждаемся, что состояние и значения целевого объекта обновлены,
-// а исходный объект "обнулен" (если применимо).
-TYPED_TEST(ExpectedTest, MoveAssignment_MovesStateAndContent)
+// Check move assignment. It must assign
+// another Expected by move, changing state when needed.
+// Assert that the target state and values are updated,
+// and the source is emptied (when applicable).
+TYPED_TEST (ExpectedTest, MoveAssignment_MovesStateAndContent)
 {
   using SuccessType = typename TestFixture::SuccessType;
-  using ErrorType   = typename TestFixture::ErrorType;
+  using ErrorType = typename TestFixture::ErrorType;
 
-  // Сценарий 1: Успех -> Успех
+  // Case 1: success -> success
   SuccessType s1_val = this->s_val1;
-  Expected<SuccessType, ErrorType> src_s(s1_val);
-  Expected<SuccessType, ErrorType> dst_s(this->s_val2);
-  dst_s = std::move(src_s);
-  EXPECT_TRUE(dst_s.has_value());
-  EXPECT_EQ(dst_s.value(), s1_val); // Значение перемещено
+  Expected<SuccessType, ErrorType> src_s (s1_val);
+  Expected<SuccessType, ErrorType> dst_s (this->s_val2);
+  dst_s = std::move (src_s);
+  EXPECT_TRUE (dst_s.has_value ());
+  EXPECT_EQ (dst_s.value (), s1_val); // Value was moved
 
-  // Сценарий 2: Ошибка -> Ошибка
+  // Case 2: error -> error
   ErrorType e1_val = this->e_val1;
-  Expected<SuccessType, ErrorType> src_e{Unexpected<ErrorType>(e1_val)};
-  Expected<SuccessType, ErrorType> dst_e(Unexpected<ErrorType>(this->e_val2));
-  dst_e = std::move(src_e);
-  EXPECT_FALSE(dst_e.has_value());
-  EXPECT_EQ(dst_e.error(), e1_val); // Ошибка перемещена
+  Expected<SuccessType, ErrorType> src_e{ Unexpected<ErrorType> (e1_val) };
+  Expected<SuccessType, ErrorType> dst_e (
+      Unexpected<ErrorType> (this->e_val2));
+  dst_e = std::move (src_e);
+  EXPECT_FALSE (dst_e.has_value ());
+  EXPECT_EQ (dst_e.error (), e1_val); // Error was moved
 
-  // Сценарий 3: Успех -> Ошибка
+  // Case 3: success -> error
   SuccessType s2_val = this->s_val1;
-  Expected<SuccessType, ErrorType> src_s2(s2_val);
-  Expected<SuccessType, ErrorType> dst_e2(Unexpected<ErrorType>(this->e_val2));
-  dst_e2 = std::move(src_s2);
-  EXPECT_TRUE(dst_e2.has_value());
-  EXPECT_EQ(dst_e2.value(), s2_val); // Значение перемещено
+  Expected<SuccessType, ErrorType> src_s2 (s2_val);
+  Expected<SuccessType, ErrorType> dst_e2 (
+      Unexpected<ErrorType> (this->e_val2));
+  dst_e2 = std::move (src_s2);
+  EXPECT_TRUE (dst_e2.has_value ());
+  EXPECT_EQ (dst_e2.value (), s2_val); // Value was moved
 
-  // Сценарий 4: Ошибка -> Успех
+  // Case 4: error -> success
   ErrorType e2_val = this->e_val2;
-  Expected<SuccessType, ErrorType> src_e3{Unexpected<ErrorType>(e2_val)};
-  Expected<SuccessType, ErrorType> dst_s3(this->s_val2);
-  dst_s3 = std::move(src_e3);
-  EXPECT_FALSE(dst_s3.has_value());
-  EXPECT_EQ(dst_s3.error(), e2_val); // Ошибка перемещена
+  Expected<SuccessType, ErrorType> src_e3{ Unexpected<ErrorType> (e2_val) };
+  Expected<SuccessType, ErrorType> dst_s3 (this->s_val2);
+  dst_s3 = std::move (src_e3);
+  EXPECT_FALSE (dst_s3.has_value ());
+  EXPECT_EQ (dst_s3.error (), e2_val); // Error was moved
 
-  // Самоприсваивание
-  Expected<SuccessType, ErrorType> self_assign(this->s_val1);
-  self_assign = std::move(self_assign);
-  // После move-присваивания самому себе, состояние остается тем же,
-  // но внутренние механизмы могут быть вызваны.
-  EXPECT_TRUE(self_assign.has_value());
-  EXPECT_EQ(self_assign.value(), this->s_val1);
+  // Self-assignment
+  Expected<SuccessType, ErrorType> self_assign (this->s_val1);
+  self_assign = std::move (self_assign);
+  // After move-assigning to self, the state stays the same,
+  // though internal machinery may run.
+  EXPECT_TRUE (self_assign.has_value ());
+  EXPECT_EQ (self_assign.value (), this->s_val1);
 }
 
-// === Наблюдатели ==================================================
+// === Observers ==================================================
 
-// Проверяем методы has_value() и operator bool().
-// Убеждаемся, что они корректно отражают состояние (успех/ошибка) Expected.
-TYPED_TEST(ExpectedTest, HasValueAndOperatorBool_ReflectsState)
+// Check has_value() and operator bool().
+// Assert that they reflect the Expected state (success/error).
+TYPED_TEST (ExpectedTest, HasValueAndOperatorBool_ReflectsState)
 {
   using SuccessType = typename TestFixture::SuccessType;
-  using ErrorType   = typename TestFixture::ErrorType;
+  using ErrorType = typename TestFixture::ErrorType;
 
-  // Arrange: Успешный Expected
-  Expected<SuccessType, ErrorType> success_uut(this->s_val1);
+  // Arrange: successful Expected
+  Expected<SuccessType, ErrorType> success_uut (this->s_val1);
   // Assert
-  EXPECT_TRUE(success_uut.has_value());
-  EXPECT_TRUE(static_cast<bool>(success_uut)); // operator bool()
+  EXPECT_TRUE (success_uut.has_value ());
+  EXPECT_TRUE (static_cast<bool> (success_uut)); // operator bool()
 
-  // Arrange: Expected с ошибкой
-  Expected<SuccessType, ErrorType> error_uut(Unexpected<ErrorType>(this->e_val1));
+  // Arrange: Expected holding an error
+  Expected<SuccessType, ErrorType> error_uut (
+      Unexpected<ErrorType> (this->e_val1));
   // Assert
-  EXPECT_FALSE(error_uut.has_value());
-  EXPECT_FALSE(static_cast<bool>(error_uut)); // operator bool()
+  EXPECT_FALSE (error_uut.has_value ());
+  EXPECT_FALSE (static_cast<bool> (error_uut)); // operator bool()
 }
 
-// Проверяем value() & (lvalue-ссылка).
-// Убеждаемся, что возвращается корректное значение, если оно есть, и бросается исключение, если нет.
-TYPED_TEST(ExpectedTest, ValueLValueRef_ReturnsValueOrThrows)
+TYPED_TEST (ExpectedTest, HasValue_WhenFound_ThenTrue)
 {
   using SuccessType = typename TestFixture::SuccessType;
-  using ErrorType   = typename TestFixture::ErrorType;
+  using ErrorType = typename TestFixture::ErrorType;
 
-  // Arrange: Успешный Expected
-  Expected<SuccessType, ErrorType> success_uut(this->s_val1);
-  // Act & Assert (успешный путь)
-  EXPECT_EQ(success_uut.value(), this->s_val1);
-  // Изменение через value() должно работать
+  Expected<SuccessType, ErrorType> const success_uut (this->s_val1);
+  EXPECT_TRUE (success_uut.has_value ());
+}
+
+TYPED_TEST (ExpectedTest, HasValue_WhenUnfound_ThenFalse)
+{
+  using SuccessType = typename TestFixture::SuccessType;
+  using ErrorType = typename TestFixture::ErrorType;
+
+  Expected<SuccessType, ErrorType> const error_uut (
+      Unexpected<ErrorType> (this->e_val1));
+  EXPECT_FALSE (error_uut.has_value ());
+}
+
+// Check value() & (lvalue reference).
+// Assert that the value is returned when present and an exception is thrown
+// otherwise.
+TYPED_TEST (ExpectedTest, ValueLValueRef_ReturnsValueOrThrows)
+{
+  using SuccessType = typename TestFixture::SuccessType;
+  using ErrorType = typename TestFixture::ErrorType;
+
+  // Arrange: successful Expected
+  Expected<SuccessType, ErrorType> success_uut (this->s_val1);
+  // Act and assert (success path)
+  EXPECT_EQ (success_uut.value (), this->s_val1);
+  // Mutation through value() must work
   // Assign a value of SuccessType to ensure type safety across all test types.
-  success_uut.value() = this->s_val2;
-  EXPECT_EQ(success_uut.value(), this->s_val2);
+  success_uut.value () = this->s_val2;
+  EXPECT_EQ (success_uut.value (), this->s_val2);
 
-  // Arrange: Expected с ошибкой
-  Expected<SuccessType, ErrorType> error_uut(Unexpected<ErrorType>(this->e_val1));
+  // Arrange: Expected holding an error
+  Expected<SuccessType, ErrorType> error_uut (
+      Unexpected<ErrorType> (this->e_val1));
 
 #if _WIN32
-  #pragma warning(push)
-  #pragma warning(disable : 4834)
-  #pragma warning(disable : 4858)
+#pragma warning(push)
+#pragma warning(disable : 4834)
+#pragma warning(disable : 4858)
 #endif
-  // Act & Assert (ошибочный путь)
-  EXPECT_THROW(
-    try { error_uut.value(); } catch(BadExpectedAccess<ErrorType> const &e) {
-      EXPECT_EQ(e.error(), this->e_val1);
-      throw;
-    },
-    BadExpectedAccess<ErrorType>);
+  // Act and assert (error path)
+  EXPECT_THROW (
+      try {
+        error_uut.value ();
+      } catch (BadExpectedAccess<ErrorType> const &e) {
+        EXPECT_EQ (e.error (), this->e_val1);
+        throw;
+      },
+      BadExpectedAccess<ErrorType>);
 #if _WIN32
-  #pragma warning(pop)
-#endif
-}
-
-// Проверяем value() const & (const lvalue-ссылка).
-// Убеждаемся, что возвращается корректное значение (константное), если оно есть, и бросается исключение, если нет.
-TYPED_TEST(ExpectedTest, ValueConstLValueRef_ReturnsConstValueOrThrows)
-{
-  using SuccessType = typename TestFixture::SuccessType;
-  using ErrorType   = typename TestFixture::ErrorType;
-
-  // Arrange: Успешный Expected
-  Expected<SuccessType, ErrorType> const success_uut(this->s_val1);
-  // Act & Assert (успешный путь)
-  EXPECT_EQ(success_uut.value(), this->s_val1);
-  // Попытка изменить через const ссылку должна быть ошибкой компиляции
-  // success_uut.value() = some_val; // Это не скомпилируется
-
-#if _WIN32
-  #pragma warning(push)
-  #pragma warning(disable : 4834)
-  #pragma warning(disable : 4858)
-#endif
-  // Arrange: Expected с ошибкой
-  Expected<SuccessType, ErrorType> const error_uut(Unexpected<ErrorType>(this->e_val1));
-  // Act & Assert (ошибочный путь)
-  EXPECT_THROW(
-    try { error_uut.value(); } catch(BadExpectedAccess<ErrorType> const &e) {
-      EXPECT_EQ(e.error(), this->e_val1);
-      throw;
-    },
-    BadExpectedAccess<ErrorType>);
-#if _WIN32
-  #pragma warning(pop)
+#pragma warning(pop)
 #endif
 }
 
-// Проверяем value() && (rvalue-ссылка).
-// Убеждаемся, что значение перемещается, если оно есть, и бросается исключение с перемещенной ошибкой, если нет.
-TYPED_TEST(ExpectedTest, ValueRValueRef_MovesValueOrThrowsWithMovedError)
+// Check value() const & (const lvalue reference).
+// Assert that a const value is returned when present and an exception is
+// thrown otherwise.
+TYPED_TEST (ExpectedTest, ValueConstLValueRef_ReturnsConstValueOrThrows)
 {
   using SuccessType = typename TestFixture::SuccessType;
-  using ErrorType   = typename TestFixture::ErrorType;
+  using ErrorType = typename TestFixture::ErrorType;
 
-  // Arrange: Успешный Expected
+  // Arrange: successful Expected
+  Expected<SuccessType, ErrorType> const success_uut (this->s_val1);
+  // Act and assert (success path)
+  EXPECT_EQ (success_uut.value (), this->s_val1);
+  // Mutating through a const reference must be a compile error
+  // success_uut.value() = some_val; // This will not compile
+
+#if _WIN32
+#pragma warning(push)
+#pragma warning(disable : 4834)
+#pragma warning(disable : 4858)
+#endif
+  // Arrange: Expected holding an error
+  Expected<SuccessType, ErrorType> const error_uut (
+      Unexpected<ErrorType> (this->e_val1));
+  // Act and assert (error path)
+  EXPECT_THROW (
+      try {
+        error_uut.value ();
+      } catch (BadExpectedAccess<ErrorType> const &e) {
+        EXPECT_EQ (e.error (), this->e_val1);
+        throw;
+      },
+      BadExpectedAccess<ErrorType>);
+#if _WIN32
+#pragma warning(pop)
+#endif
+}
+
+// Check value() && (rvalue reference).
+// Assert that the value is moved when present and an exception with a moved
+// error is thrown otherwise.
+TYPED_TEST (ExpectedTest, ValueRValueRef_MovesValueOrThrowsWithMovedError)
+{
+  using SuccessType = typename TestFixture::SuccessType;
+  using ErrorType = typename TestFixture::ErrorType;
+
+  // Arrange: successful Expected
   SuccessType original_s_val = this->s_val1;
-  Expected<SuccessType, ErrorType> success_uut(original_s_val);
+  Expected<SuccessType, ErrorType> success_uut (original_s_val);
   // Act
-  SuccessType moved_val = std::move(success_uut).value();
+  SuccessType moved_val = std::move (success_uut).value ();
   // Assert
-  EXPECT_EQ(moved_val, original_s_val);
+  EXPECT_EQ (moved_val, original_s_val);
 }
 
-// Проверяем value() const && (const rvalue-ссылка).
-// Убеждаемся, что значение копируется (не перемещается), если оно есть, и бросается исключение с копированной
-// ошибкой, если нет.
-TYPED_TEST(ExpectedTest, ValueConstRValueRef_CopiesValueOrThrowsWithCopiedError)
+// Check value() const && (const rvalue reference).
+// Assert that the value is copied (not moved) when present and an exception
+// with a copied error is thrown otherwise.
+TYPED_TEST (ExpectedTest,
+            ValueConstRValueRef_CopiesValueOrThrowsWithCopiedError)
 {
   using SuccessType = typename TestFixture::SuccessType;
-  using ErrorType   = typename TestFixture::ErrorType;
+  using ErrorType = typename TestFixture::ErrorType;
 
-  // Arrange: Успешный Expected
+  // Arrange: successful Expected
   SuccessType original_s_val = this->s_val1;
-  Expected<SuccessType, ErrorType> const success_uut(original_s_val);
+  Expected<SuccessType, ErrorType> const success_uut (original_s_val);
   // Act
-  SuccessType copied_val = std::move(success_uut).value();
+  SuccessType copied_val = std::move (success_uut).value ();
   // Assert
-  EXPECT_EQ(copied_val, original_s_val);
-  // Для ComplexSuccess, исходный Expected должен остаться неизменным
-  if(std::is_same<SuccessType, ComplexSuccess>::value)
-    EXPECT_EQ(success_uut.value(), original_s_val); // Original remains unchanged
+  EXPECT_EQ (copied_val, original_s_val);
+  // For ComplexSuccess, the source Expected must stay unchanged
+  if (std::is_same<SuccessType, ComplexSuccess>::value)
+    EXPECT_EQ (success_uut.value (),
+               original_s_val); // Original remains unchanged
 }
 
-// Проверяем error() & (lvalue-ссылка).
-// Убеждаемся, что возвращается корректная ошибка, если она есть.
-//      При наличии значения, assert должен сработать (в debug). В release это UB.
-TYPED_TEST(ExpectedTest, ErrorLValueRef_ReturnsErrorWhenPresent)
+// Check error() & (lvalue reference).
+// Assert that the error is returned when present.
+//      If a value is present, assert fires in debug. In release this is UB.
+TYPED_TEST (ExpectedTest, ErrorLValueRef_ReturnsErrorWhenPresent)
 {
   using SuccessType = typename TestFixture::SuccessType;
-  using ErrorType   = typename TestFixture::ErrorType;
+  using ErrorType = typename TestFixture::ErrorType;
 
-  // Arrange: Expected с ошибкой
-  Expected<SuccessType, ErrorType> error_uut(Unexpected<ErrorType>(this->e_val1));
-  // Act & Assert (ошибочный путь)
-  EXPECT_EQ(error_uut.error(), this->e_val1);
-  // Изменение через error() должно работать
+  // Arrange: Expected holding an error
+  Expected<SuccessType, ErrorType> error_uut (
+      Unexpected<ErrorType> (this->e_val1));
+  // Act and assert (error path)
+  EXPECT_EQ (error_uut.error (), this->e_val1);
+  // Mutation through error() must work
   ErrorType new_error_val = this->e_val2;
-  error_uut.error()       = new_error_val;
-  EXPECT_EQ(error_uut.error(), new_error_val);
+  error_uut.error () = new_error_val;
+  EXPECT_EQ (error_uut.error (), new_error_val);
 
-  // Arrange: Успешный Expected
-  Expected<SuccessType, ErrorType> success_uut(this->s_val1);
-  // Act & Assert (успешный путь - assert в debug)
-  // Мы не можем напрямую "ожидать" assert. В релизе это UB.
-  // Просто убедимся, что вызов не приводит к фатальной ошибке, если assert отключен.
-  // Для тестирования мы знаем предусловие и должны избегать вызова error() на success_uut.
-  // Здесь мы просто комментируем, чтобы показать, что знаем об этом.
-  // EXPECT_DEATH(success_uut.error(), "Calling error\\(\\) while value is present is undefined behavior.");
+  // Arrange: successful Expected
+  Expected<SuccessType, ErrorType> success_uut (this->s_val1);
+  // Act and assert (success path - assert in debug)
+  // An assert cannot be EXPECT-ed directly. In release this is UB.
+  // Just confirm the call is not fatal when assert is disabled.
+  // Tests know the precondition and must not call error() on success_uut.
+  // Commented here to record that we know this.
+  // EXPECT_DEATH(success_uut.error(), "Calling error\\(\\) while value is
+  // present is undefined behavior.");
 }
 
-// Проверяем error() const & (const lvalue-ссылка).
-// Убеждаемся, что возвращается корректная константная ошибка, если она есть.
-TYPED_TEST(ExpectedTest, ErrorConstLValueRef_ReturnsConstErrorWhenPresent)
+// Check error() const & (const lvalue reference).
+// Assert that a const error is returned when present.
+TYPED_TEST (ExpectedTest, ErrorConstLValueRef_ReturnsConstErrorWhenPresent)
 {
   using SuccessType = typename TestFixture::SuccessType;
-  using ErrorType   = typename TestFixture::ErrorType;
+  using ErrorType = typename TestFixture::ErrorType;
 
-  // Arrange: Expected с ошибкой
-  Expected<SuccessType, ErrorType> const error_uut(Unexpected<ErrorType>(this->e_val1));
-  // Act & Assert (ошибочный путь)
-  EXPECT_EQ(error_uut.error(), this->e_val1);
-  // Попытка изменить через const ссылку должна быть ошибкой компиляции
-  // error_uut.error() = some_val; // Это не скомпилируется
+  // Arrange: Expected holding an error
+  Expected<SuccessType, ErrorType> const error_uut (
+      Unexpected<ErrorType> (this->e_val1));
+  // Act and assert (error path)
+  EXPECT_EQ (error_uut.error (), this->e_val1);
+  // Mutating through a const reference must be a compile error
+  // error_uut.error() = some_val; // This will not compile
 }
 
-// Проверяем value_or() const & перегрузку.
-// Убеждаемся, что возвращается значение или дефолтное значение при отсутствии значения.
-TYPED_TEST(ExpectedTest, ValueOrConstLValue_ReturnsValueOrDefault)
+// Check the value_or() const & overload.
+// Assert that the value or the default is returned when no value is present.
+TYPED_TEST (ExpectedTest, ValueOrConstLValue_ReturnsValueOrDefault)
 {
   using SuccessType = typename TestFixture::SuccessType;
-  using ErrorType   = typename TestFixture::ErrorType;
+  using ErrorType = typename TestFixture::ErrorType;
 
-  // Arrange: Успешный Expected
-  Expected<SuccessType, ErrorType> success_uut(this->s_val1);
+  // Arrange: successful Expected
+  Expected<SuccessType, ErrorType> success_uut (this->s_val1);
   // Act & Assert
-  EXPECT_EQ(success_uut.value_or(this->s_val2), this->s_val1);
+  EXPECT_EQ (success_uut.value_or (this->s_val2), this->s_val1);
 
-  // Arrange: Expected с ошибкой
-  Expected<SuccessType, ErrorType> error_uut(Unexpected<ErrorType>(this->e_val1));
+  // Arrange: Expected holding an error
+  Expected<SuccessType, ErrorType> error_uut (
+      Unexpected<ErrorType> (this->e_val1));
   // Act & Assert
-  EXPECT_EQ(error_uut.value_or(this->s_val2), this->s_val2);
+  EXPECT_EQ (error_uut.value_or (this->s_val2), this->s_val2);
 
-  // Проверка с временным объектом в качестве default_value
+  // Check with a temporary as default_value
   SuccessType default_success_value{};
-  EXPECT_EQ(error_uut.value_or(default_success_value), default_success_value);
+  EXPECT_EQ (error_uut.value_or (default_success_value),
+             default_success_value);
 }
 
-// Проверяем value_or() && перегрузку.
-// Убеждаемся, что возвращается перемещенное значение или дефолтное значение при отсутствии значения.
-TYPED_TEST(ExpectedTest, ValueOrRValue_MovesValueOrDefault)
+// Check the value_or() && overload.
+// Assert that a moved value or the default is returned when no value is
+// present.
+TYPED_TEST (ExpectedTest, ValueOrRValue_MovesValueOrDefault)
 {
   using SuccessType = typename TestFixture::SuccessType;
-  using ErrorType   = typename TestFixture::ErrorType;
+  using ErrorType = typename TestFixture::ErrorType;
 
-  // Arrange: Успешный Expected
+  // Arrange: successful Expected
   SuccessType original_s_val = this->s_val1;
-  Expected<SuccessType, ErrorType> success_uut(original_s_val);
+  Expected<SuccessType, ErrorType> success_uut (original_s_val);
   // Act & Assert
-  EXPECT_EQ(std::move(success_uut).value_or(this->s_val2), original_s_val);
+  EXPECT_EQ (std::move (success_uut).value_or (this->s_val2), original_s_val);
 
-  // Arrange: Expected с ошибкой
-  Expected<SuccessType, ErrorType> error_uut(Unexpected<ErrorType>(this->e_val1));
+  // Arrange: Expected holding an error
+  Expected<SuccessType, ErrorType> error_uut (
+      Unexpected<ErrorType> (this->e_val1));
   // Act & Assert
-  EXPECT_EQ(std::move(error_uut).value_or(this->s_val2), this->s_val2);
+  EXPECT_EQ (std::move (error_uut).value_or (this->s_val2), this->s_val2);
 }
 
-// Проверяем error_or() const & перегрузку.
-// Убеждаемся, что возвращается ошибка или дефолтное значение ошибки при отсутствии ошибки.
-TYPED_TEST(ExpectedTest, ErrorOrConstLValue_ReturnsErrorOrDefaultError)
+// Check the error_or() const & overload.
+// Assert that the error or the default error is returned when no error is
+// present.
+TYPED_TEST (ExpectedTest, ErrorOrConstLValue_ReturnsErrorOrDefaultError)
 {
   using SuccessType = typename TestFixture::SuccessType;
-  using ErrorType   = typename TestFixture::ErrorType;
+  using ErrorType = typename TestFixture::ErrorType;
 
-  // Arrange: Expected с ошибкой
-  Expected<SuccessType, ErrorType> error_uut(Unexpected<ErrorType>(this->e_val1));
+  // Arrange: Expected holding an error
+  Expected<SuccessType, ErrorType> error_uut (
+      Unexpected<ErrorType> (this->e_val1));
   // Act & Assert
-  EXPECT_EQ(error_uut.error_or(this->e_val2), this->e_val1);
+  EXPECT_EQ (error_uut.error_or (this->e_val2), this->e_val1);
 
-  // Arrange: Успешный Expected
-  Expected<SuccessType, ErrorType> success_uut(this->s_val1);
+  // Arrange: successful Expected
+  Expected<SuccessType, ErrorType> success_uut (this->s_val1);
   // Act & Assert
-  EXPECT_EQ(success_uut.error_or(this->e_val2), this->e_val2);
+  EXPECT_EQ (success_uut.error_or (this->e_val2), this->e_val2);
 
-  // Проверка с временным объектом в качестве default_error
+  // Check with a temporary as default_error
   ErrorType default_error{};
-  EXPECT_EQ(success_uut.error_or(default_error), default_error);
+  EXPECT_EQ (success_uut.error_or (default_error), default_error);
 }
 
-// Проверяем operator*() & (lvalue-ссылка).
-// Убеждаемся, что возвращается корректная ссылка на значение, если оно есть.
-//      При отсутствии значения, assert должен сработать (в debug).
-TYPED_TEST(ExpectedTest, DereferenceOperatorLValueRef_ReturnsValueWhenPresent)
+// Check operator*() & (lvalue reference).
+// Assert that a reference to the value is returned when present.
+//      If no value is present, assert fires in debug.
+TYPED_TEST (ExpectedTest, DereferenceOperatorLValueRef_ReturnsValueWhenPresent)
 {
   using SuccessType = typename TestFixture::SuccessType;
-  using ErrorType   = typename TestFixture::ErrorType;
+  using ErrorType = typename TestFixture::ErrorType;
 
-  // Arrange: Успешный Expected
-  Expected<SuccessType, ErrorType> success_uut(this->s_val1);
+  // Arrange: successful Expected
+  Expected<SuccessType, ErrorType> success_uut (this->s_val1);
   // Act & Assert
-  EXPECT_EQ(*success_uut, this->s_val1);
-  // Изменение через * должно работать для всех SuccessType
+  EXPECT_EQ (*success_uut, this->s_val1);
+  // Mutation through * must work for every SuccessType
   SuccessType new_val = this->s_val2;
-  *success_uut        = new_val;
-  EXPECT_EQ(*success_uut, new_val);
+  *success_uut = new_val;
+  EXPECT_EQ (*success_uut, new_val);
 
-  // Arrange: Expected с ошибкой
-  Expected<SuccessType, ErrorType> error_uut(Unexpected<ErrorType>(this->e_val1));
-  // Act & Assert (assert в debug, UB в release)
+  // Arrange: Expected holding an error
+  Expected<SuccessType, ErrorType> error_uut (
+      Unexpected<ErrorType> (this->e_val1));
+  // Act and assert (assert in debug, UB in release)
   // EXPECT_DEATH(*error_uut, "Dereferencing Expected without a value.");
 }
 
-// Проверяем operator*() const & (const lvalue-ссылка).
-// Убеждаемся, что возвращается корректная константная ссылка на значение, если оно есть.
-TYPED_TEST(ExpectedTest, DereferenceOperatorConstLValueRef_ReturnsConstValueWhenPresent)
+// Check operator*() const & (const lvalue reference).
+// Assert that a const reference to the value is returned when present.
+TYPED_TEST (ExpectedTest,
+            DereferenceOperatorConstLValueRef_ReturnsConstValueWhenPresent)
 {
   using SuccessType = typename TestFixture::SuccessType;
-  using ErrorType   = typename TestFixture::ErrorType;
+  using ErrorType = typename TestFixture::ErrorType;
 
-  // Arrange: Успешный Expected
-  Expected<SuccessType, ErrorType> const success_uut(this->s_val1);
+  // Arrange: successful Expected
+  Expected<SuccessType, ErrorType> const success_uut (this->s_val1);
   // Act & Assert
-  EXPECT_EQ(*success_uut, this->s_val1);
+  EXPECT_EQ (*success_uut, this->s_val1);
 }
 
-// Проверяем operator*() && (rvalue-ссылка).
-// Убеждаемся, что значение перемещается, если оно есть.
-TYPED_TEST(ExpectedTest, DereferenceOperatorRValueRef_MovesValueWhenPresent)
+// Check operator*() && (rvalue reference).
+// Assert that the value is moved when present.
+TYPED_TEST (ExpectedTest, DereferenceOperatorRValueRef_MovesValueWhenPresent)
 {
   using SuccessType = typename TestFixture::SuccessType;
-  using ErrorType   = typename TestFixture::ErrorType;
+  using ErrorType = typename TestFixture::ErrorType;
 
-  // Arrange: Успешный Expected
+  // Arrange: successful Expected
   SuccessType original_s_val = this->s_val1;
-  Expected<SuccessType, ErrorType> success_uut(original_s_val);
+  Expected<SuccessType, ErrorType> success_uut (original_s_val);
   // Act
-  SuccessType moved_val = *std::move(success_uut);
+  SuccessType moved_val = *std::move (success_uut);
   // Assert
-  EXPECT_EQ(moved_val, original_s_val);
-  // Для ComplexSuccess, исходный Expected должен быть "обнулен"
-  // Note: Template instantiation prevents us from checking ComplexSuccess.data directly
-  // This would require SFINAE or specialized tests to properly validate move semantics
+  EXPECT_EQ (moved_val, original_s_val);
+  // For ComplexSuccess, the source Expected must be emptied
+  // Note: Template instantiation prevents us from checking ComplexSuccess.data
+  // directly This would require SFINAE or specialized tests to properly
+  // validate move semantics
 }
 
-// Проверяем operator*() const && (const rvalue-ссылка).
-// Убеждаемся, что значение копируется (не перемещается), если оно есть.
-TYPED_TEST(ExpectedTest, DereferenceOperatorConstRValueRef_CopiesValueWhenPresent)
+// Check operator*() const && (const rvalue reference).
+// Assert that the value is copied (not moved) when present.
+TYPED_TEST (ExpectedTest,
+            DereferenceOperatorConstRValueRef_CopiesValueWhenPresent)
 {
   using SuccessType = typename TestFixture::SuccessType;
-  using ErrorType   = typename TestFixture::ErrorType;
+  using ErrorType = typename TestFixture::ErrorType;
 
-  // Arrange: Успешный Expected
+  // Arrange: successful Expected
   SuccessType original_s_val = this->s_val1;
-  Expected<SuccessType, ErrorType> const success_uut(original_s_val);
+  Expected<SuccessType, ErrorType> const success_uut (original_s_val);
   // Act
-  SuccessType copied_val = *std::move(success_uut);
+  SuccessType copied_val = *std::move (success_uut);
   // Assert
-  EXPECT_EQ(copied_val, original_s_val);
-  // Для ComplexSuccess, исходный Expected должен остаться неизменным
-  if(std::is_same<SuccessType, ComplexSuccess>::value) EXPECT_EQ(success_uut.value(), original_s_val);
+  EXPECT_EQ (copied_val, original_s_val);
+  // For ComplexSuccess, the source Expected must stay unchanged
+  if (std::is_same<SuccessType, ComplexSuccess>::value)
+    EXPECT_EQ (success_uut.value (), original_s_val);
 }
 
-// === Модификаторы и Монадические операции ==========================
+// === Modifiers and monadic operations ==========================
 
-// Проверяем emplace() для успешного значения. Должен сконструировать новое значение на месте.
-// Убеждаемся, что has_value() остается true, а значение обновлено.
-TYPED_TEST(ExpectedTest, Emplace_ConstructsNewValueInPlace)
+// Check emplace() for a success value. It must construct a new value in place.
+// Assert that has_value() stays true and the value is updated.
+TYPED_TEST (ExpectedTest, Emplace_ConstructsNewValueInPlace)
 {
   using SuccessType = typename TestFixture::SuccessType;
-  using ErrorType   = typename TestFixture::ErrorType;
+  using ErrorType = typename TestFixture::ErrorType;
 
-  // Arrange: Expected с ошибкой
-  Expected<SuccessType, ErrorType> uut(Unexpected<ErrorType>(this->e_val1));
-  EXPECT_FALSE(uut.has_value());
+  // Arrange: Expected holding an error
+  Expected<SuccessType, ErrorType> uut (Unexpected<ErrorType> (this->e_val1));
+  EXPECT_FALSE (uut.has_value ());
 
-  // Act: emplace новое значение
+  // Act: emplace a new value
   SuccessType new_s_val = this->s_val2;
-  uut.emplace(new_s_val);
+  uut.emplace (new_s_val);
   // Assert
-  EXPECT_TRUE(uut.has_value());
-  EXPECT_EQ(uut.value(), new_s_val);
+  EXPECT_TRUE (uut.has_value ());
+  EXPECT_EQ (uut.value (), new_s_val);
 
-  // Arrange: Expected с значением
-  Expected<SuccessType, ErrorType> uut2(this->s_val1);
-  EXPECT_TRUE(uut2.has_value());
+  // Arrange: Expected holding a value
+  Expected<SuccessType, ErrorType> uut2 (this->s_val1);
+  EXPECT_TRUE (uut2.has_value ());
 
-  // Act: emplace другое значение
-  uut2.emplace(new_s_val);
+  // Act: emplace another value
+  uut2.emplace (new_s_val);
   // Assert
-  EXPECT_TRUE(uut2.has_value());
-  EXPECT_EQ(uut2.value(), new_s_val);
+  EXPECT_TRUE (uut2.has_value ());
+  EXPECT_EQ (uut2.value (), new_s_val);
 
-  // Note: ComplexSuccess-specific testing is handled in specialized test suites
-  // to avoid template instantiation issues with different ErrorType combinations
+  // Note: ComplexSuccess-specific testing is handled in specialized test
+  // suites to avoid template instantiation issues with different ErrorType
+  // combinations
 }
 
-// Проверяем emplace_error() для ошибки. Должен сконструировать новую ошибку на месте.
-// Убеждаемся, что has_value() становится false, а ошибка обновлена.
-TYPED_TEST(ExpectedTest, EmplaceError_ConstructsNewErrorInPlace)
+// Check emplace_error(). It must construct a new error in place.
+// Assert that has_value() becomes false and the error is updated.
+TYPED_TEST (ExpectedTest, EmplaceError_ConstructsNewErrorInPlace)
 {
   using SuccessType = typename TestFixture::SuccessType;
-  using ErrorType   = typename TestFixture::ErrorType;
+  using ErrorType = typename TestFixture::ErrorType;
 
-  // Arrange: Expected с значением
-  Expected<SuccessType, ErrorType> uut(this->s_val1);
-  EXPECT_TRUE(uut.has_value());
+  // Arrange: Expected holding a value
+  Expected<SuccessType, ErrorType> uut (this->s_val1);
+  EXPECT_TRUE (uut.has_value ());
 
-  // Act: emplace новую ошибку
+  // Act: emplace a new error
   ErrorType new_e_val = this->e_val2;
-  uut.emplace_error(new_e_val);
+  uut.emplace_error (new_e_val);
   // Assert
-  EXPECT_FALSE(uut.has_value());
-  EXPECT_EQ(uut.error(), new_e_val);
+  EXPECT_FALSE (uut.has_value ());
+  EXPECT_EQ (uut.error (), new_e_val);
 
-  // Arrange: Expected с ошибкой
-  Expected<SuccessType, ErrorType> uut2(Unexpected<ErrorType>(this->e_val1));
-  EXPECT_FALSE(uut2.has_value());
+  // Arrange: Expected holding an error
+  Expected<SuccessType, ErrorType> uut2 (Unexpected<ErrorType> (this->e_val1));
+  EXPECT_FALSE (uut2.has_value ());
 
-  // Act: emplace другую ошибку
-  uut2.emplace_error(new_e_val);
+  // Act: emplace another error
+  uut2.emplace_error (new_e_val);
   // Assert
-  EXPECT_FALSE(uut2.has_value());
-  EXPECT_EQ(uut2.error(), new_e_val);
+  EXPECT_FALSE (uut2.has_value ());
+  EXPECT_EQ (uut2.error (), new_e_val);
 
   // Note: ComplexError-specific testing is handled in specialized test suites
-  // to avoid template instantiation issues with different SuccessType combinations
+  // to avoid template instantiation issues with different SuccessType
+  // combinations
 }
 
-// Проверяем swap(). Должен корректно обмениваться содержимым между двумя Expected.
-// Убеждаемся, что состояния и значения обоих Expected объектов меняются местами.
-TYPED_TEST(ExpectedTest, Swap_ExchangesContentsCorrectly)
+// Check swap(). It must exchange the contents of two Expected objects.
+// Assert that both Expected objects swap state and values.
+TYPED_TEST (ExpectedTest, Swap_ExchangesContentsCorrectly)
 {
   using SuccessType = typename TestFixture::SuccessType;
-  using ErrorType   = typename TestFixture::ErrorType;
+  using ErrorType = typename TestFixture::ErrorType;
 
-  // Сценарий 1: Успех <-> Успех
-  Expected<SuccessType, ErrorType> exp1_s(this->s_val1);
-  Expected<SuccessType, ErrorType> exp2_s(this->s_val2);
-  exp1_s.swap(exp2_s);
-  EXPECT_TRUE(exp1_s.has_value());
-  EXPECT_EQ(exp1_s.value(), this->s_val2);
-  EXPECT_TRUE(exp2_s.has_value());
-  EXPECT_EQ(exp2_s.value(), this->s_val1);
+  // Case 1: success <-> success
+  Expected<SuccessType, ErrorType> exp1_s (this->s_val1);
+  Expected<SuccessType, ErrorType> exp2_s (this->s_val2);
+  exp1_s.swap (exp2_s);
+  EXPECT_TRUE (exp1_s.has_value ());
+  EXPECT_EQ (exp1_s.value (), this->s_val2);
+  EXPECT_TRUE (exp2_s.has_value ());
+  EXPECT_EQ (exp2_s.value (), this->s_val1);
 
-  // Сценарий 2: Ошибка <-> Ошибка
-  Expected<SuccessType, ErrorType> exp1_e(Unexpected<ErrorType>(this->e_val1));
-  Expected<SuccessType, ErrorType> exp2_e(Unexpected<ErrorType>(this->e_val2));
-  exp1_e.swap(exp2_e);
-  EXPECT_FALSE(exp1_e.has_value());
-  EXPECT_EQ(exp1_e.error(), this->e_val2);
-  EXPECT_FALSE(exp2_e.has_value());
-  EXPECT_EQ(exp2_e.error(), this->e_val1);
+  // Case 2: error <-> error
+  Expected<SuccessType, ErrorType> exp1_e (
+      Unexpected<ErrorType> (this->e_val1));
+  Expected<SuccessType, ErrorType> exp2_e (
+      Unexpected<ErrorType> (this->e_val2));
+  exp1_e.swap (exp2_e);
+  EXPECT_FALSE (exp1_e.has_value ());
+  EXPECT_EQ (exp1_e.error (), this->e_val2);
+  EXPECT_FALSE (exp2_e.has_value ());
+  EXPECT_EQ (exp2_e.error (), this->e_val1);
 
-  // Сценарий 3: Успех <-> Ошибка
-  Expected<SuccessType, ErrorType> exp_s_to_e(this->s_val1);
-  Expected<SuccessType, ErrorType> exp_e_to_s(Unexpected<ErrorType>(this->e_val1));
-  exp_s_to_e.swap(exp_e_to_s);
-  EXPECT_FALSE(exp_s_to_e.has_value());
-  EXPECT_EQ(exp_s_to_e.error(), this->e_val1);
-  EXPECT_TRUE(exp_e_to_s.has_value());
-  EXPECT_EQ(exp_e_to_s.value(), this->s_val1);
+  // Case 3: success <-> error
+  Expected<SuccessType, ErrorType> exp_s_to_e (this->s_val1);
+  Expected<SuccessType, ErrorType> exp_e_to_s (
+      Unexpected<ErrorType> (this->e_val1));
+  exp_s_to_e.swap (exp_e_to_s);
+  EXPECT_FALSE (exp_s_to_e.has_value ());
+  EXPECT_EQ (exp_s_to_e.error (), this->e_val1);
+  EXPECT_TRUE (exp_e_to_s.has_value ());
+  EXPECT_EQ (exp_e_to_s.value (), this->s_val1);
 
-  // Самообмен не должен менять состояние
-  Expected<SuccessType, ErrorType> self_swap(this->s_val1);
-  self_swap.swap(self_swap);
-  EXPECT_TRUE(self_swap.has_value());
-  EXPECT_EQ(self_swap.value(), this->s_val1);
+  // Self-swap must not change state
+  Expected<SuccessType, ErrorType> self_swap (this->s_val1);
+  self_swap.swap (self_swap);
+  EXPECT_TRUE (self_swap.has_value ());
+  EXPECT_EQ (self_swap.value (), this->s_val1);
 }
 
-// Проверяем and_then() & (lvalue-ссылка).
-// Убеждаемся, что функция применяется к значению, если оно есть, или ошибка распространяется.
-TYPED_TEST(ExpectedTest, AndThenLValue_AppliesFunctionToValueOrPropagatesError)
+// Check and_then() & (lvalue reference).
+// Assert that the function is applied to the value when present, otherwise the
+// error is forwarded.
+TYPED_TEST (ExpectedTest,
+            AndThenLValue_AppliesFunctionToValueOrPropagatesError)
 {
   using SuccessType = typename TestFixture::SuccessType;
-  using ErrorType   = typename TestFixture::ErrorType;
+  using ErrorType = typename TestFixture::ErrorType;
 
-  // Arrange: Успешный Expected
-  Expected<SuccessType, ErrorType> success_uut(this->s_val1);
-  // Act: применяем функцию, которая преобразует SuccessType в Expected<SuccessType, ErrorType>
-  auto func = [&](SuccessType &) { return Expected<SuccessType, ErrorType>(this->s_val2); };
-  Expected<SuccessType, ErrorType> result_s = success_uut.and_then(func);
+  // Arrange: successful Expected
+  Expected<SuccessType, ErrorType> success_uut (this->s_val1);
+  // Act: apply a function that maps SuccessType to Expected<SuccessType,
+  // ErrorType>
+  auto func = [&] (SuccessType &) {
+    return Expected<SuccessType, ErrorType> (this->s_val2);
+  };
+  Expected<SuccessType, ErrorType> result_s = success_uut.and_then (func);
   // Assert
-  EXPECT_TRUE(result_s.has_value());
-  EXPECT_EQ(result_s.value(), this->s_val2);
+  EXPECT_TRUE (result_s.has_value ());
+  EXPECT_EQ (result_s.value (), this->s_val2);
 
-  // Arrange: Expected с ошибкой
-  Expected<SuccessType, ErrorType> error_uut(Unexpected<ErrorType>(this->e_val1));
+  // Arrange: Expected holding an error
+  Expected<SuccessType, ErrorType> error_uut (
+      Unexpected<ErrorType> (this->e_val1));
   // Act
-  Expected<SuccessType, ErrorType> result_e = error_uut.and_then(func);
+  Expected<SuccessType, ErrorType> result_e = error_uut.and_then (func);
   // Assert
-  EXPECT_FALSE(result_e.has_value());
-  EXPECT_EQ(result_e.error(), this->e_val1);
+  EXPECT_FALSE (result_e.has_value ());
+  EXPECT_EQ (result_e.error (), this->e_val1);
 }
 
-// Проверяем and_then() const & (const lvalue-ссылка).
-// Убеждаемся, что функция применяется к константному значению, или ошибка распространяется.
-TYPED_TEST(ExpectedTest, AndThenConstLValue_AppliesFunctionToConstValueOrPropagatesError)
+// Check and_then() const & (const lvalue reference).
+// Assert that the function is applied to the const value, otherwise the error
+// is forwarded.
+TYPED_TEST (ExpectedTest,
+            AndThenConstLValue_AppliesFunctionToConstValueOrPropagatesError)
 {
   using SuccessType = typename TestFixture::SuccessType;
-  using ErrorType   = typename TestFixture::ErrorType;
+  using ErrorType = typename TestFixture::ErrorType;
 
-  // Arrange: Успешный Expected
-  Expected<SuccessType, ErrorType> const success_uut(this->s_val1);
-  // Act: применяем функцию, которая преобразует const SuccessType & в Expected<SuccessType, ErrorType>
-  auto func = [&](SuccessType const &) { return Expected<SuccessType, ErrorType>(this->s_val2); };
-  Expected<SuccessType, ErrorType> result_s = success_uut.and_then(func);
+  // Arrange: successful Expected
+  Expected<SuccessType, ErrorType> const success_uut (this->s_val1);
+  // Act: apply a function that maps const SuccessType & to
+  // Expected<SuccessType, ErrorType>
+  auto func = [&] (SuccessType const &) {
+    return Expected<SuccessType, ErrorType> (this->s_val2);
+  };
+  Expected<SuccessType, ErrorType> result_s = success_uut.and_then (func);
   // Assert
-  EXPECT_TRUE(result_s.has_value());
-  EXPECT_EQ(result_s.value(), this->s_val2);
+  EXPECT_TRUE (result_s.has_value ());
+  EXPECT_EQ (result_s.value (), this->s_val2);
 
-  // Arrange: Expected с ошибкой
-  Expected<SuccessType, ErrorType> const error_uut(Unexpected<ErrorType>(this->e_val1));
+  // Arrange: Expected holding an error
+  Expected<SuccessType, ErrorType> const error_uut (
+      Unexpected<ErrorType> (this->e_val1));
   // Act
-  Expected<SuccessType, ErrorType> result_e = error_uut.and_then(func);
+  Expected<SuccessType, ErrorType> result_e = error_uut.and_then (func);
   // Assert
-  EXPECT_FALSE(result_e.has_value());
-  EXPECT_EQ(result_e.error(), this->e_val1);
+  EXPECT_FALSE (result_e.has_value ());
+  EXPECT_EQ (result_e.error (), this->e_val1);
 }
 
-// Проверяем and_then() && (rvalue-ссылка).
-// Убеждаемся, что функция применяется к перемещенному значению, или перемещенная ошибка распространяется.
-TYPED_TEST(ExpectedTest, AndThenRValue_AppliesFunctionToMovedValueOrPropagatesMovedError)
+// Check and_then() && (rvalue reference).
+// Assert that the function is applied to the moved value, otherwise the moved
+// error is forwarded.
+TYPED_TEST (ExpectedTest,
+            AndThenRValue_AppliesFunctionToMovedValueOrPropagatesMovedError)
 {
   using SuccessType = typename TestFixture::SuccessType;
-  using ErrorType   = typename TestFixture::ErrorType;
+  using ErrorType = typename TestFixture::ErrorType;
 
-  // Arrange: Успешный Expected
+  // Arrange: successful Expected
   SuccessType original_s_val = this->s_val1;
-  Expected<SuccessType, ErrorType> success_uut(original_s_val);
+  Expected<SuccessType, ErrorType> success_uut (original_s_val);
   // Act
-  auto func = [&](SuccessType &&) { return Expected<SuccessType, ErrorType>(this->s_val2); };
-  Expected<SuccessType, ErrorType> result_s = std::move(success_uut).and_then(func);
+  auto func = [&] (SuccessType &&) {
+    return Expected<SuccessType, ErrorType> (this->s_val2);
+  };
+  Expected<SuccessType, ErrorType> result_s
+      = std::move (success_uut).and_then (func);
   // Assert
-  EXPECT_TRUE(result_s.has_value());
-  EXPECT_EQ(result_s.value(), this->s_val2);
-  // Для ComplexSuccess, исходный SuccessType из uut должен быть перемещен.
-  if(std::is_same<SuccessType, ComplexSuccess>::value)
-    EXPECT_TRUE(success_uut.has_value()); // Expected все еще содержит SuccessType, но оно перемещено
+  EXPECT_TRUE (result_s.has_value ());
+  EXPECT_EQ (result_s.value (), this->s_val2);
+  // For ComplexSuccess, the source SuccessType in uut must be moved.
+  if (std::is_same<SuccessType, ComplexSuccess>::value)
+    EXPECT_TRUE (
+        success_uut.has_value ()); // Expected still holds SuccessType, but it
+                                   // has been moved from
 
-  // TODO: Fix this part of the test - SFINAE issue with and_then on moved error Expected
-  // // Arrange: Expected с ошибкой
+  // TODO: Fix this part of the test - SFINAE issue with and_then on moved
+  // error Expected
+  // // Arrange: Expected holding an error
   // ErrorType original_e_val = this->e_val1;
-  // Expected<SuccessType, ErrorType> error_uut(Unexpected<ErrorType>(original_e_val));
+  // Expected<SuccessType, ErrorType>
+  // error_uut(Unexpected<ErrorType>(original_e_val));
   // // Act
-  // Expected<SuccessType, ErrorType> result_e = std::move(error_uut).and_then(func);
+  // Expected<SuccessType, ErrorType> result_e =
+  // std::move(error_uut).and_then(func);
   // // Assert
   // EXPECT_FALSE(result_e.has_value());
   // EXPECT_EQ(result_e.error(), original_e_val);
 }
 
-// Проверяем and_then() const && (const rvalue-ссылка).
-// Убеждаемся, что функция применяется к константному перемещенному значению, или константная перемещенная ошибка
-// распространяется.
-TYPED_TEST(ExpectedTest, AndThenConstRValue_AppliesFunctionToConstMovedValueOrPropagatesConstMovedError)
+// Check and_then() const && (const rvalue reference).
+// Assert that the function is applied to the const moved value, or the const
+// moved error is forwarded.
+TYPED_TEST (
+    ExpectedTest,
+    AndThenConstRValue_AppliesFunctionToConstMovedValueOrPropagatesConstMovedError)
 {
   using SuccessType = typename TestFixture::SuccessType;
-  using ErrorType   = typename TestFixture::ErrorType;
+  using ErrorType = typename TestFixture::ErrorType;
 
-  // Arrange: Успешный Expected
+  // Arrange: successful Expected
   SuccessType original_s_val = this->s_val1;
-  Expected<SuccessType, ErrorType> const success_uut(original_s_val);
+  Expected<SuccessType, ErrorType> const success_uut (original_s_val);
   // Act
-  auto func = [&](SuccessType const &&) { return Expected<SuccessType, ErrorType>(this->s_val2); };
-  Expected<SuccessType, ErrorType> result_s = std::move(success_uut).and_then(func);
+  auto func = [&] (SuccessType const &&) {
+    return Expected<SuccessType, ErrorType> (this->s_val2);
+  };
+  Expected<SuccessType, ErrorType> result_s
+      = std::move (success_uut).and_then (func);
   // Assert
-  EXPECT_TRUE(result_s.has_value());
-  EXPECT_EQ(result_s.value(), this->s_val2);
-  // Для ComplexSuccess, исходный Expected должен остаться неизменным
-  if(std::is_same<SuccessType, ComplexSuccess>::value) EXPECT_EQ(success_uut.value(), original_s_val);
+  EXPECT_TRUE (result_s.has_value ());
+  EXPECT_EQ (result_s.value (), this->s_val2);
+  // For ComplexSuccess, the source Expected must stay unchanged
+  if (std::is_same<SuccessType, ComplexSuccess>::value)
+    EXPECT_EQ (success_uut.value (), original_s_val);
 
-  // TODO: Fix this part of the test - SFINAE issue with and_then on moved error Expected
-  // // Arrange: Expected с ошибкой
+  // TODO: Fix this part of the test - SFINAE issue with and_then on moved
+  // error Expected
+  // // Arrange: Expected holding an error
   // ErrorType original_e_val = this->e_val1;
-  // Expected<SuccessType, ErrorType> error_uut(Unexpected<ErrorType>(original_e_val));
+  // Expected<SuccessType, ErrorType>
+  // error_uut(Unexpected<ErrorType>(original_e_val));
   // // Act
-  // Expected<SuccessType, ErrorType> result_e = std::move(error_uut).and_then(func);
+  // Expected<SuccessType, ErrorType> result_e =
+  // std::move(error_uut).and_then(func);
   // // Assert
   // EXPECT_FALSE(result_e.has_value());
   // EXPECT_EQ(result_e.error(), original_e_val);
-  // // Для ComplexError, исходный Expected должен остаться неизменным
+  // // For ComplexError, the source Expected must stay unchanged
   // if(std::is_same<ErrorType, ComplexError>::value)
   // {
-  //   // Unfortunately, compiler complains on error C2660: 'testing::internal::EqHelper::Compare': function does not
+  //   // Unfortunately, compiler complains on error C2660:
+  //   'testing::internal::EqHelper::Compare': function does not
   //   // take
-  //   // 3 arguments, so I will place temporary variable for this purpose with explicit type to help the compiler.
-  //   ErrorType expected_error = error_uut.error();
-  //   EXPECT_EQ(expected_error, original_e_val);
+  //   // 3 arguments, so I will place temporary variable for this purpose with
+  //   explicit type to help the compiler. ErrorType expected_error =
+  //   error_uut.error(); EXPECT_EQ(expected_error, original_e_val);
   // }
 }
 
-// Проверяем transform() & (lvalue-ссылка).
-// Убеждаемся, что функция трансформирует значение, если оно есть, или ошибка распространяется.
-TYPED_TEST(ExpectedTest, TransformLValue_TransformsValueOrPropagatesError)
+// Check transform() & (lvalue reference).
+// Assert that the function transforms the value when present, otherwise the
+// error is forwarded.
+TYPED_TEST (ExpectedTest, TransformLValue_TransformsValueOrPropagatesError)
 {
   using SuccessType = typename TestFixture::SuccessType;
-  using ErrorType   = typename TestFixture::ErrorType;
-  using ResultType  = Expected<SuccessType, ErrorType>;
+  using ErrorType = typename TestFixture::ErrorType;
+  using ResultType = Expected<SuccessType, ErrorType>;
 
-  // Arrange: Успешный Expected
-  Expected<SuccessType, ErrorType> success_uut(this->s_val1);
+  // Arrange: successful Expected
+  Expected<SuccessType, ErrorType> success_uut (this->s_val1);
 
-  // Act: применяем функцию, которая преобразует SuccessType в тот же тип
-  auto func = [&](SuccessType &val) -> SuccessType
-  {
-    if constexpr(std::is_same_v<SuccessType, int>) { return val + 1; }
-    else if constexpr(std::is_same_v<SuccessType, std::string>) { return val + "_transformed"; }
-    else if constexpr(std::is_same_v<SuccessType, SimpleSuccess>) { return SimpleSuccess(val.value + 1); }
-    else if constexpr(std::is_same_v<SuccessType, ComplexSuccess>)
-    {
-      ComplexSuccess result = val;
-      result.name += "_transformed";
-      return result;
-    }
+  // Act: apply a function that maps SuccessType to the same type
+  auto func = [&] (SuccessType &val) -> SuccessType {
+    if constexpr (std::is_same_v<SuccessType, int>)
+      {
+        return val + 1;
+      }
+    else if constexpr (std::is_same_v<SuccessType, std::string>)
+      {
+        return val + "_transformed";
+      }
+    else if constexpr (std::is_same_v<SuccessType, SimpleSuccess>)
+      {
+        return SimpleSuccess (val.value + 1);
+      }
+    else if constexpr (std::is_same_v<SuccessType, ComplexSuccess>)
+      {
+        ComplexSuccess result = val;
+        result.name += "_transformed";
+        return result;
+      }
     else
-    {
-      return val; // fallback - return unchanged
-    }
+      {
+        return val; // fallback - return unchanged
+      }
   };
 
-  ResultType result_s = success_uut.transform(func);
+  ResultType result_s = success_uut.transform (func);
 
   // Assert
-  EXPECT_TRUE(result_s.has_value());
-  if constexpr(std::is_same_v<SuccessType, int>) { EXPECT_EQ(result_s.value(), this->s_val1 + 1); }
-  else if constexpr(std::is_same_v<SuccessType, std::string>)
-  {
-    EXPECT_EQ(result_s.value(), this->s_val1 + "_transformed");
-  }
-  else if constexpr(std::is_same_v<SuccessType, SimpleSuccess>)
-  {
-    EXPECT_EQ(result_s.value(), SimpleSuccess(this->s_val1.value + 1));
-  }
-  else if constexpr(std::is_same_v<SuccessType, ComplexSuccess>)
-  {
-    ComplexSuccess expected = this->s_val1;
-    expected.name += "_transformed";
-    EXPECT_EQ(result_s.value(), expected);
-  }
+  EXPECT_TRUE (result_s.has_value ());
+  if constexpr (std::is_same_v<SuccessType, int>)
+    {
+      EXPECT_EQ (result_s.value (), this->s_val1 + 1);
+    }
+  else if constexpr (std::is_same_v<SuccessType, std::string>)
+    {
+      EXPECT_EQ (result_s.value (), this->s_val1 + "_transformed");
+    }
+  else if constexpr (std::is_same_v<SuccessType, SimpleSuccess>)
+    {
+      EXPECT_EQ (result_s.value (), SimpleSuccess (this->s_val1.value + 1));
+    }
+  else if constexpr (std::is_same_v<SuccessType, ComplexSuccess>)
+    {
+      ComplexSuccess expected = this->s_val1;
+      expected.name += "_transformed";
+      EXPECT_EQ (result_s.value (), expected);
+    }
 
-  // Arrange: Expected с ошибкой
-  Expected<SuccessType, ErrorType> error_uut(Unexpected<ErrorType>(this->e_val1));
+  // Arrange: Expected holding an error
+  Expected<SuccessType, ErrorType> error_uut (
+      Unexpected<ErrorType> (this->e_val1));
   // Act
-  ResultType result_e = error_uut.transform(func);
+  ResultType result_e = error_uut.transform (func);
   // Assert
-  EXPECT_FALSE(result_e.has_value());
-  EXPECT_EQ(result_e.error(), this->e_val1);
+  EXPECT_FALSE (result_e.has_value ());
+  EXPECT_EQ (result_e.error (), this->e_val1);
 }
 
-// Проверяем transform() const & (const lvalue-ссылка).
-// Убеждаемся, что функция трансформирует константное значение, если оно есть, или ошибка распространяется.
-TYPED_TEST(ExpectedTest, TransformConstLValue_TransformsConstValueOrPropagatesError)
+// Check transform() const & (const lvalue reference).
+// Assert that the function transforms the const value when present, otherwise
+// the error is forwarded.
+TYPED_TEST (ExpectedTest,
+            TransformConstLValue_TransformsConstValueOrPropagatesError)
 {
   using SuccessType = typename TestFixture::SuccessType;
-  using ErrorType   = typename TestFixture::ErrorType;
-  using ResultType  = Expected<SuccessType, ErrorType>;
+  using ErrorType = typename TestFixture::ErrorType;
+  using ResultType = Expected<SuccessType, ErrorType>;
 
-  // Arrange: Успешный Expected
-  Expected<SuccessType, ErrorType> const success_uut(this->s_val1);
+  // Arrange: successful Expected
+  Expected<SuccessType, ErrorType> const success_uut (this->s_val1);
 
-  // Act: применяем функцию
-  auto func = [&](SuccessType const &val) -> SuccessType
-  {
-    if constexpr(std::is_same_v<SuccessType, int>) { return val + 1; }
-    else if constexpr(std::is_same_v<SuccessType, std::string>) { return val + "_transformed"; }
-    else if constexpr(std::is_same_v<SuccessType, SimpleSuccess>) { return SimpleSuccess(val.value + 1); }
-    else if constexpr(std::is_same_v<SuccessType, ComplexSuccess>)
-    {
-      ComplexSuccess result = val;
-      result.name += "_transformed";
-      return result;
-    }
+  // Act: apply the function
+  auto func = [&] (SuccessType const &val) -> SuccessType {
+    if constexpr (std::is_same_v<SuccessType, int>)
+      {
+        return val + 1;
+      }
+    else if constexpr (std::is_same_v<SuccessType, std::string>)
+      {
+        return val + "_transformed";
+      }
+    else if constexpr (std::is_same_v<SuccessType, SimpleSuccess>)
+      {
+        return SimpleSuccess (val.value + 1);
+      }
+    else if constexpr (std::is_same_v<SuccessType, ComplexSuccess>)
+      {
+        ComplexSuccess result = val;
+        result.name += "_transformed";
+        return result;
+      }
     else
-    {
-      return val; // fallback - return unchanged
-    }
+      {
+        return val; // fallback - return unchanged
+      }
   };
 
-  ResultType result_s = success_uut.transform(func);
+  ResultType result_s = success_uut.transform (func);
 
   // Assert
-  EXPECT_TRUE(result_s.has_value());
-  if constexpr(std::is_same_v<SuccessType, int>) { EXPECT_EQ(result_s.value(), this->s_val1 + 1); }
-  else if constexpr(std::is_same_v<SuccessType, std::string>)
-  {
-    EXPECT_EQ(result_s.value(), this->s_val1 + "_transformed");
-  }
-  else if constexpr(std::is_same_v<SuccessType, SimpleSuccess>)
-  {
-    EXPECT_EQ(result_s.value(), SimpleSuccess(this->s_val1.value + 1));
-  }
-  else if constexpr(std::is_same_v<SuccessType, ComplexSuccess>)
-  {
-    ComplexSuccess expected = this->s_val1;
-    expected.name += "_transformed";
-    EXPECT_EQ(result_s.value(), expected);
-  }
+  EXPECT_TRUE (result_s.has_value ());
+  if constexpr (std::is_same_v<SuccessType, int>)
+    {
+      EXPECT_EQ (result_s.value (), this->s_val1 + 1);
+    }
+  else if constexpr (std::is_same_v<SuccessType, std::string>)
+    {
+      EXPECT_EQ (result_s.value (), this->s_val1 + "_transformed");
+    }
+  else if constexpr (std::is_same_v<SuccessType, SimpleSuccess>)
+    {
+      EXPECT_EQ (result_s.value (), SimpleSuccess (this->s_val1.value + 1));
+    }
+  else if constexpr (std::is_same_v<SuccessType, ComplexSuccess>)
+    {
+      ComplexSuccess expected = this->s_val1;
+      expected.name += "_transformed";
+      EXPECT_EQ (result_s.value (), expected);
+    }
 
-  // Arrange: Expected с ошибкой
-  Expected<SuccessType, ErrorType> const error_uut(Unexpected<ErrorType>(this->e_val1));
+  // Arrange: Expected holding an error
+  Expected<SuccessType, ErrorType> const error_uut (
+      Unexpected<ErrorType> (this->e_val1));
   // Act
-  ResultType result_e = error_uut.transform(func);
+  ResultType result_e = error_uut.transform (func);
   // Assert
-  EXPECT_FALSE(result_e.has_value());
-  EXPECT_EQ(result_e.error(), this->e_val1);
+  EXPECT_FALSE (result_e.has_value ());
+  EXPECT_EQ (result_e.error (), this->e_val1);
 }
 
-// Проверяем or_else() & (lvalue-ссылка).
-// Убеждаемся, что функция применяется к ошибке, если она есть, или значение распространяется.
-TYPED_TEST(ExpectedTest, OrElseLValue_AppliesFunctionToErrorOrPropagatesValue)
+// Check or_else() & (lvalue reference).
+// Assert that the function is applied to the error when present, otherwise the
+// value is forwarded.
+TYPED_TEST (ExpectedTest, OrElseLValue_AppliesFunctionToErrorOrPropagatesValue)
 {
   using SuccessType = typename TestFixture::SuccessType;
-  using ErrorType   = typename TestFixture::ErrorType;
-  using ReturnType = Expected<SuccessType, ErrorType>; // Функция or_else возвращает Expected<SuccessType, NewErrorType>
+  using ErrorType = typename TestFixture::ErrorType;
+  using ReturnType = Expected<SuccessType, ErrorType>; // or_else returns
+                                                       // Expected<SuccessType,
+                                                       // NewErrorType>
 
-  // Arrange: Expected с ошибкой
-  Expected<SuccessType, ErrorType> error_uut(Unexpected<ErrorType>(this->e_val1));
+  // Arrange: Expected holding an error
+  Expected<SuccessType, ErrorType> error_uut (
+      Unexpected<ErrorType> (this->e_val1));
   // Act
-  auto func           = [&](ErrorType &) { return ReturnType(unexpect_t(), this->e_val2); };
-  ReturnType result_e = error_uut.or_else(func);
+  auto func
+      = [&] (ErrorType &) { return ReturnType (unexpect_t (), this->e_val2); };
+  ReturnType result_e = error_uut.or_else (func);
   // Assert
-  EXPECT_FALSE(result_e.has_value());
-  EXPECT_EQ(result_e.error(), this->e_val2);
+  EXPECT_FALSE (result_e.has_value ());
+  EXPECT_EQ (result_e.error (), this->e_val2);
 
-  // Arrange: Успешный Expected
-  Expected<SuccessType, ErrorType> success_uut(this->s_val1);
+  // Arrange: successful Expected
+  Expected<SuccessType, ErrorType> success_uut (this->s_val1);
   // Act
-  ReturnType result_s = success_uut.or_else(func);
+  ReturnType result_s = success_uut.or_else (func);
   // Assert
-  EXPECT_TRUE(result_s.has_value());
-  EXPECT_EQ(result_s.value(), this->s_val1);
+  EXPECT_TRUE (result_s.has_value ());
+  EXPECT_EQ (result_s.value (), this->s_val1);
 }
 
-// Проверяем or_else() const & (const lvalue-ссылка).
-// Убеждаемся, что функция применяется к константной ошибке, если она есть, или значение распространяется.
-TYPED_TEST(ExpectedTest, OrElseConstLValue_AppliesFunctionToConstErrorOrPropagatesValue)
+// Check or_else() const & (const lvalue reference).
+// Assert that the function is applied to the const error when present,
+// otherwise the value is forwarded.
+TYPED_TEST (ExpectedTest,
+            OrElseConstLValue_AppliesFunctionToConstErrorOrPropagatesValue)
 {
   using SuccessType = typename TestFixture::SuccessType;
-  using ErrorType   = typename TestFixture::ErrorType;
-  using ReturnType  = Expected<SuccessType, ErrorType>;
+  using ErrorType = typename TestFixture::ErrorType;
+  using ReturnType = Expected<SuccessType, ErrorType>;
 
-  // Arrange: Expected с ошибкой
-  Expected<SuccessType, ErrorType> const error_uut(Unexpected<ErrorType>(this->e_val1));
+  // Arrange: Expected holding an error
+  Expected<SuccessType, ErrorType> const error_uut (
+      Unexpected<ErrorType> (this->e_val1));
   // Act
-  auto func           = [&](ErrorType const &) { return ReturnType(unexpect_t(), this->e_val2); };
-  ReturnType result_e = error_uut.or_else(func);
+  auto func = [&] (ErrorType const &) {
+    return ReturnType (unexpect_t (), this->e_val2);
+  };
+  ReturnType result_e = error_uut.or_else (func);
   // Assert
-  EXPECT_FALSE(result_e.has_value());
-  EXPECT_EQ(result_e.error(), this->e_val2);
+  EXPECT_FALSE (result_e.has_value ());
+  EXPECT_EQ (result_e.error (), this->e_val2);
 
-  // Arrange: Успешный Expected
-  Expected<SuccessType, ErrorType> const success_uut(this->s_val1);
+  // Arrange: successful Expected
+  Expected<SuccessType, ErrorType> const success_uut (this->s_val1);
   // Act
-  ReturnType result_s = success_uut.or_else(func);
+  ReturnType result_s = success_uut.or_else (func);
   // Assert
-  EXPECT_TRUE(result_s.has_value());
-  EXPECT_EQ(result_s.value(), this->s_val1);
+  EXPECT_TRUE (result_s.has_value ());
+  EXPECT_EQ (result_s.value (), this->s_val1);
 }

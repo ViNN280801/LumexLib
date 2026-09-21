@@ -4,9 +4,12 @@
 #include <iostream>
 #include <memory>
 
+#include "lumex/core/utility/assert/LumexAssert.hpp"
+#include "lumex/core/utility/macros/LumexKeywords.hpp"
+
 #if defined(__linux__) || defined(__APPLE__)
-  #include <sys/stat.h> // struct stat, S_ISREG
-  #include <unistd.h>   // fstat
+#include <sys/stat.h> // struct stat, S_ISREG
+#include <unistd.h>   // fstat
 #endif
 
 #include "lumex/xml/node/XmlNode.hpp"
@@ -18,409 +21,476 @@
 #include "XmlDocument.hpp"
 #include "XmlDocumentBase.hpp"
 
-using namespace Lumex::Xml::Utility;
-using namespace Lumex::Xml::Document;
-using namespace Lumex::Xml::Writer;
-using namespace Lumex::Xml::Node;
+using namespace lumex::xml::utility;
+using namespace lumex::xml::document;
+using namespace lumex::xml::writer;
+using namespace lumex::xml::node;
 
 namespace
 {
-  template <typename T>
-  inline xml_parse_status
-  load_stream_data_seek(std::basic_istream<T> &stream, void **out_buffer, size_t *out_size)
-  {
-    // get length of remaining data in stream
-    typename std::basic_istream<T>::pos_type pos = stream.tellg();
-    stream.seekg(0, std::ios::end);
-    std::streamoff length = stream.tellg() - pos;
-    stream.seekg(pos);
+template <typename T>
+inline xml_parse_status
+load_stream_data_seek (std::basic_istream<T> &stream, void **out_buffer,
+                       std::size_t *out_size)
+{
+  // get length of remaining data in stream
+  typename std::basic_istream<T>::pos_type pos = stream.tellg ();
+  stream.seekg (0, std::ios::end);
+  std::streamoff length = stream.tellg () - pos;
+  stream.seekg (pos);
 
-    if(stream.fail() || pos < 0) return status_io_error;
+  if (stream.fail () || pos < 0)
+    return status_io_error;
 
-    // guard against huge files
-    auto read_length = static_cast<size_t>(length);
+  // guard against huge files
+  auto read_length = static_cast<std::size_t> (length);
 
-    if(static_cast<std::streamsize>(read_length) != length || length < 0) return status_out_of_memory;
+  if (static_cast<std::streamsize> (read_length) != length || length < 0)
+    return status_out_of_memory;
 
-    size_t max_suffix_size = sizeof(char_t);
+  std::size_t max_suffix_size = sizeof (char_t);
 
-    // read stream data into memory (guard against stream exceptions with buffer holder)
-    Utility::XmlCleaner<void> buffer(malloc( // NOLINT(cppcoreguidelines-no-malloc)
-                                       (read_length * sizeof(T)) + max_suffix_size),
-                                     free);
-    if(!buffer.data) return status_out_of_memory;
+  // read stream data into memory (guard against stream exceptions with buffer
+  // holder)
+  utility::XmlCleaner<void> buffer (
+      malloc ( // NOLINT(cppcoreguidelines-no-malloc)
+          (read_length * sizeof (T)) + max_suffix_size),
+      free);
+  if (!buffer.data)
+    return status_out_of_memory;
 
-    stream.read(static_cast<T *>(buffer.data), static_cast<std::streamsize>(read_length));
+  stream.read (static_cast<T *> (buffer.data),
+               static_cast<std::streamsize> (read_length));
 
-    // read may set failbit | eofbit in case gcount() is less than read_length (i.e. line ending conversion), so check
-    // for other I/O errors
-    if(stream.bad() || (!stream.eof() && stream.fail())) return status_io_error;
+  // read may set failbit | eofbit in case gcount() is less than read_length
+  // (i.e. line ending conversion), so check for other I/O errors
+  if (stream.bad () || (!stream.eof () && stream.fail ()))
+    return status_io_error;
 
-    // return buffer
-    size_t actual_length = static_cast<size_t>(stream.gcount());
-    LUMEX_ASSERT(actual_length <= read_length);
+  // return buffer
+  std::size_t actual_length = static_cast<std::size_t> (stream.gcount ());
+  LUMEX_ASSERT (actual_length <= read_length);
 
-    *out_buffer = buffer.release();
-    *out_size   = actual_length * sizeof(T);
+  *out_buffer = buffer.release ();
+  *out_size = actual_length * sizeof (T);
 
-    return status_ok;
-  }
+  return status_ok;
+}
 }
 
-template <typename T> struct xml_stream_chunk {
+template <typename T> struct xml_stream_chunk
+{
   static xml_stream_chunk *
-  create()
+  create ()
   {
-    void *memory                          // NOLINT(cppcoreguidelines-owning-memory)
-      = malloc(sizeof(xml_stream_chunk)); // NOLINT(cppcoreguidelines-no-malloc)
-    if(memory == nullptr) return nullptr;
+    void *memory // NOLINT(cppcoreguidelines-owning-memory)
+        = malloc (
+            sizeof (xml_stream_chunk)); // NOLINT(cppcoreguidelines-no-malloc)
+    if (memory == nullptr)
+      return nullptr;
 
-    return new(memory) xml_stream_chunk(); // NOLINT(cppcoreguidelines-owning-memory)
+    return new (memory)
+        xml_stream_chunk (); // NOLINT(cppcoreguidelines-owning-memory)
   }
 
   static void
-  destroy(xml_stream_chunk *chunk)
+  destroy (xml_stream_chunk *chunk)
   {
     // free chunk chain
-    while(chunk)
-    {
-      xml_stream_chunk *next_ = chunk->next;
+    while (chunk)
+      {
+        xml_stream_chunk *next_ = chunk->next;
 
-      free(chunk); // NOLINT(cppcoreguidelines-owning-memory, cppcoreguidelines-no-malloc)
+        free (chunk); // NOLINT(cppcoreguidelines-owning-memory,
+                      // cppcoreguidelines-no-malloc)
 
-      chunk = next_;
-    }
+        chunk = next_;
+      }
   }
 
-  xml_stream_chunk() : next(nullptr) {}
+  xml_stream_chunk () : next (nullptr) {}
 
-  xml_stream_chunk *next; // NOLINT(misc-non-private-member-variables-in-classes)
-  size_t size{};          // NOLINT(misc-non-private-member-variables-in-classes)
-  T data[                 // NOLINT(misc-non-private-member-variables-in-classes, cppcoreguidelines-avoid-c-arrays,
-                          // modernize-avoid-c-arrays)
-    Memory::kdefault_xml_memory_page_size / sizeof(T)];
+  xml_stream_chunk
+      *next;          // NOLINT(misc-non-private-member-variables-in-classes)
+  std::size_t size{}; // NOLINT(misc-non-private-member-variables-in-classes)
+  T data[             // NOLINT(misc-non-private-member-variables-in-classes,
+          // cppcoreguidelines-avoid-c-arrays, modernize-avoid-c-arrays)
+      memory::kdefault_xml_memory_page_size / sizeof (T)];
 };
 
 namespace
 {
-  template <typename T>
-  inline xml_parse_status
-  load_stream_data_noseek(std::basic_istream<T> &stream, void **out_buffer, size_t *out_size)
-  {
-    XmlCleaner<xml_stream_chunk<T>> chunks(nullptr, xml_stream_chunk<T>::destroy);
+template <typename T>
+inline xml_parse_status
+load_stream_data_noseek (std::basic_istream<T> &stream, void **out_buffer,
+                         std::size_t *out_size)
+{
+  XmlCleaner<xml_stream_chunk<T>> chunks (nullptr,
+                                          xml_stream_chunk<T>::destroy);
 
-    // read file to a chunk list
-    size_t total              = 0;
-    xml_stream_chunk<T> *last = nullptr;
+  // read file to a chunk list
+  std::size_t total = 0;
+  xml_stream_chunk<T> *last = nullptr;
 
-    while(!stream.eof())
+  while (!stream.eof ())
     {
       // allocate new chunk
-      xml_stream_chunk<T> *chunk = xml_stream_chunk<T>::create();
-      if(!chunk) return status_out_of_memory;
+      xml_stream_chunk<T> *chunk = xml_stream_chunk<T>::create ();
+      if (!chunk)
+        return status_out_of_memory;
 
       // append chunk to list
-      if(last)
+      if (last)
         last = last->next = chunk;
       else
         chunks.data = last = chunk;
 
       // read data to chunk
-      stream.read(chunk->data, // NOLINT(cppcoreguidelines-pro-bounds-array-to-pointer-decay)
-                  static_cast<std::streamsize>(sizeof(chunk->data) / sizeof(T)));
-      chunk->size = static_cast<size_t>(stream.gcount()) * sizeof(T);
+      stream.read (
+          chunk
+              ->data, // NOLINT(cppcoreguidelines-pro-bounds-array-to-pointer-decay)
+          static_cast<std::streamsize> (sizeof (chunk->data) / sizeof (T)));
+      chunk->size = static_cast<std::size_t> (stream.gcount ()) * sizeof (T);
 
-      // read may set failbit | eofbit in case gcount() is less than read length, so check for other I/O errors
-      if(stream.bad() || (!stream.eof() && stream.fail())) return status_io_error;
+      // read may set failbit | eofbit in case gcount() is less than read
+      // length, so check for other I/O errors
+      if (stream.bad () || (!stream.eof () && stream.fail ()))
+        return status_io_error;
 
-      // guard against huge files (chunk size is small enough to make this overflow check work)
-      if(total + chunk->size < total) return status_out_of_memory;
+      // guard against huge files (chunk size is small enough to make this
+      // overflow check work)
+      if (total + chunk->size < total)
+        return status_out_of_memory;
       total += chunk->size;
     }
 
-    size_t max_suffix_size = sizeof(char_t);
+  std::size_t max_suffix_size = sizeof (char_t);
 
-    // copy chunk list to a contiguous buffer
-    char *buffer = static_cast<char *>(malloc( // NOLINT(cppcoreguidelines-owning-memory, cppcoreguidelines-no-malloc )
-      total + max_suffix_size));
-    if(!buffer) return status_out_of_memory;
+  // copy chunk list to a contiguous buffer
+  char *buffer = static_cast<char *> (
+      malloc ( // NOLINT(cppcoreguidelines-owning-memory,
+               // cppcoreguidelines-no-malloc )
+          total + max_suffix_size));
+  if (!buffer)
+    return status_out_of_memory;
 
-    char *write = buffer;
+  char *write = buffer;
 
-    for(xml_stream_chunk<T> *chunk = chunks.data; chunk; chunk = chunk->next)
+  for (xml_stream_chunk<T> *chunk = chunks.data; chunk; chunk = chunk->next)
     {
-      LUMEX_ASSERT(write + chunk->size <= buffer + total);
-      memcpy(write, chunk->data, chunk->size); // NOLINT(cppcoreguidelines-pro-bounds-array-to-pointer-decay)
+      LUMEX_ASSERT (write + chunk->size <= buffer + total);
+      memcpy (
+          write, chunk->data,
+          chunk
+              ->size); // NOLINT(cppcoreguidelines-pro-bounds-array-to-pointer-decay)
       write += chunk->size;
     }
 
-    LUMEX_ASSERT(write == buffer + total);
+  LUMEX_ASSERT (write == buffer + total);
 
-    // return buffer
-    *out_buffer = buffer;
-    *out_size   = total;
+  // return buffer
+  *out_buffer = buffer;
+  *out_size = total;
 
-    return status_ok;
-  }
+  return status_ok;
+}
 
-  inline size_t
-  zero_terminate_buffer(void *buffer, size_t size, xml_encoding encoding)
-  {
+inline std::size_t
+zero_terminate_buffer (void *buffer, std::size_t size, xml_encoding encoding)
+{
 #ifdef LUMEX_XML_WCHAR_MODE
-    xml_encoding wchar_encoding = get_wchar_encoding();
+  xml_encoding wchar_encoding = get_wchar_encoding ();
 
-    if(encoding == wchar_encoding || Utility::need_endian_swap_utf(encoding, wchar_encoding))
+  if (encoding == wchar_encoding
+      || utility::need_endian_swap_utf (encoding, wchar_encoding))
     {
-      size_t length                         = size / sizeof(char_t);
+      std::size_t length = size / sizeof (char_t);
 
-      static_cast<char_t *>(buffer)[length] = 0;
-      return (length + 1) * sizeof(char_t);
+      static_cast<char_t *> (buffer)[length] = 0;
+      return (length + 1) * sizeof (char_t);
     }
 #else
-    if(encoding == encoding_utf8)
+  if (encoding == encoding_utf8)
     {
-      static_cast<char *>(buffer)[size] = 0;
+      static_cast<char *> (buffer)[size] = 0;
       return size + 1;
     }
 #endif
 
-    return size;
-  }
+  return size;
+}
 
-  template <typename T>
-  inline XmlParseResult
-  load_stream_impl(XmlDocumentBase *doc, std::basic_istream<T> &stream, unsigned int options, xml_encoding encoding,
-                   char_t **out_buffer)
-  {
-    void *buffer            = nullptr;
-    size_t size             = 0;
-    xml_parse_status status = status_ok;
+template <typename T>
+inline xml_parse_result_t
+load_stream_impl (XmlDocumentBase *doc, std::basic_istream<T> &stream,
+                  unsigned int options, xml_encoding encoding,
+                  char_t **out_buffer)
+{
+  void *buffer = nullptr;
+  std::size_t size = 0;
+  xml_parse_status status = status_ok;
 
-    // if stream has an error bit set, bail out (otherwise tellg() can fail and we'll clear error bits)
-    if(stream.fail()) return make_parse_result(status_io_error);
+  // if stream has an error bit set, bail out (otherwise tellg() can fail and
+  // we'll clear error bits)
+  if (stream.fail ())
+    return make_parse_result (status_io_error);
 
-    // load stream to memory (using seek-based implementation if possible, since it's faster and takes less memory)
-    if(stream.tellg() < 0)
+  // load stream to memory (using seek-based implementation if possible, since
+  // it's faster and takes less memory)
+  if (stream.tellg () < 0)
     {
-      stream.clear(); // clear error flags that could be set by a failing tellg
-      status = load_stream_data_noseek(stream, &buffer, &size);
+      stream
+          .clear (); // clear error flags that could be set by a failing tellg
+      status = load_stream_data_noseek (stream, &buffer, &size);
     }
-    else
-      status = load_stream_data_seek(stream, &buffer, &size);
+  else
+    status = load_stream_data_seek (stream, &buffer, &size);
 
-    if(status != status_ok) return make_parse_result(status);
+  if (status != status_ok)
+    return make_parse_result (status);
 
-    xml_encoding real_encoding = get_buffer_encoding(encoding, buffer, size);
+  xml_encoding real_encoding = get_buffer_encoding (encoding, buffer, size);
 
-    return load_buffer_impl(doc, doc, buffer, zero_terminate_buffer(buffer, size, real_encoding), options,
-                            real_encoding, true, true, out_buffer);
-  }
+  return load_buffer_impl (doc, doc, buffer,
+                           zero_terminate_buffer (buffer, size, real_encoding),
+                           options, real_encoding, true, true, out_buffer);
+}
 }
 
 LUMEX_PUBLIC_API
-inline XmlDocument::XmlDocument() : m_memory{0} { _create(); }
+inline XmlDocument::XmlDocument () : m_memory{ 0 } { _create (); }
 
 LUMEX_PUBLIC_API
-inline XmlDocument::~XmlDocument() { _destroy(); }
+inline XmlDocument::~XmlDocument () { _destroy (); }
 
 LUMEX_PUBLIC_API
-inline XmlDocument::XmlDocument(XmlDocument &&rhs) noexcept // NOLINT(cppcoreguidelines-pro-type-member-init)
+inline XmlDocument::XmlDocument (XmlDocument &&rhs)
+    LUMEX_NOEXCEPT // NOLINT(cppcoreguidelines-pro-type-member-init)
 {
-  _create();
-  _move(rhs);
+  _create ();
+  _move (rhs);
 }
 
 LUMEX_PUBLIC_API
 inline XmlDocument &
-XmlDocument::operator=(XmlDocument &&rhs) noexcept
+XmlDocument::operator= (XmlDocument &&rhs) LUMEX_NOEXCEPT
 {
-  if(this == &rhs) return *this;
+  if (this == &rhs)
+    return *this;
 
-  _destroy();
-  _create();
-  _move(rhs);
+  _destroy ();
+  _create ();
+  _move (rhs);
 
   return *this;
 }
 
 LUMEX_PUBLIC_API
 inline void
-XmlDocument::reset()
+XmlDocument::reset ()
 {
-  _destroy();
-  _create();
+  _destroy ();
+  _create ();
 }
 
 LUMEX_PUBLIC_API
 inline void
-XmlDocument::reset(XmlDocument const &proto)
+XmlDocument::reset (XmlDocument const &proto)
 {
-  reset();
-  node_copy_tree(m_root, proto.m_root);
+  reset ();
+  node_copy_tree (m_root, proto.m_root);
 }
 
 LUMEX_PUBLIC_API
 inline void
-XmlDocument::_create()
+XmlDocument::_create ()
 {
-  LUMEX_ASSERT(!m_root);
+  LUMEX_ASSERT (!m_root);
 
-  size_t const page_offset = 0;
+  std::size_t const page_offset = 0;
 
   // initialize sentinel page
-  LUMEX_STATIC_ASSERT(sizeof(XmlMemoryPage) + sizeof(XmlDocumentBase) + page_offset <= sizeof(m_memory));
+  LUMEX_STATIC_ASSERT (sizeof (XmlMemoryPage) + sizeof (XmlDocumentBase)
+                           + page_offset
+                       <= sizeof (m_memory));
 
   // prepare page structure
-  XmlMemoryPage *page
-    = XmlMemoryPage::construct(m_memory); // NOLINT(cppcoreguidelines-pro-bounds-array-to-pointer-decay)
-  LUMEX_ASSERT(page);
+  XmlMemoryPage *page = XmlMemoryPage::construct (
+      m_memory); // NOLINT(cppcoreguidelines-pro-bounds-array-to-pointer-decay)
+  LUMEX_ASSERT (page);
 
-  page->busy_size = Memory::kdefault_xml_memory_page_size;
+  page->busy_size = memory::kdefault_xml_memory_page_size;
 
   // allocate new root
-  m_root                 = new( // NOLINT(cppcoreguidelines-owning-memory)
-    reinterpret_cast<char *>(page) + sizeof(XmlMemoryPage) + page_offset) XmlDocumentBase(page);
+  m_root = new ( // NOLINT(cppcoreguidelines-owning-memory)
+      reinterpret_cast<char *> (page) + sizeof (XmlMemoryPage) + page_offset)
+      XmlDocumentBase (page);
   m_root->prev_sibling_c = m_root;
 
   // setup sentinel page
-  page->allocator = static_cast<XmlDocumentBase *>(m_root); // NOLINT(cppcoreguidelines-pro-type-static-cast-downcast)
+  page->allocator = static_cast<XmlDocumentBase *> (
+      m_root); // NOLINT(cppcoreguidelines-pro-type-static-cast-downcast)
 
   // verify the document allocation
-  LUMEX_ASSERT(reinterpret_cast<char *>(m_root) + sizeof(XmlDocumentBase)
-               <= m_memory + sizeof(m_memory)); // NOLINT(cppcoreguidelines-pro-bounds-array-to-pointer-decay)
+  LUMEX_ASSERT (
+      reinterpret_cast<char *> (m_root) + sizeof (XmlDocumentBase)
+      <= m_memory
+             + sizeof (
+                 m_memory)); // NOLINT(cppcoreguidelines-pro-bounds-array-to-pointer-decay)
 }
 
 LUMEX_PUBLIC_API
 inline void
-XmlDocument::_destroy()
+XmlDocument::_destroy ()
 {
-  LUMEX_ASSERT(m_root);
+  LUMEX_ASSERT (m_root);
 
   // destroy static storage
-  if(m_buffer != nullptr)
-  {
-    free(m_buffer); // NOLINT(cppcoreguidelines-owning-memory, cppcoreguidelines-no-malloc)
-    m_buffer = nullptr;
-  }
+  if (m_buffer != nullptr)
+    {
+      free (m_buffer); // NOLINT(cppcoreguidelines-owning-memory,
+                       // cppcoreguidelines-no-malloc)
+      m_buffer = nullptr;
+    }
 
-  // destroy extra buffers (note: no need to destroy linked list nodes, they're allocated using document allocator)
-  for(xml_extra_buffer *extra = static_cast< // NOLINT(cppcoreguidelines-pro-type-static-cast-downcast)
-                                  XmlDocumentBase *>(m_root)
-                                  ->extra_buffers;
+  // destroy extra buffers (note: no need to destroy linked list nodes, they're
+  // allocated using document allocator)
+  for (
+      xml_extra_buffer *extra
+      = static_cast< // NOLINT(cppcoreguidelines-pro-type-static-cast-downcast)
+            XmlDocumentBase *> (m_root)
+            ->extra_buffers;
       extra != nullptr; extra = extra->next)
-    if(extra->buffer != nullptr)
-      free(extra->buffer); // NOLINT(cppcoreguidelines-owning-memory, cppcoreguidelines-no-malloc)
+    if (extra->buffer != nullptr)
+      free (extra->buffer); // NOLINT(cppcoreguidelines-owning-memory,
+                            // cppcoreguidelines-no-malloc)
 
   // destroy dynamic storage, leave sentinel page (it's in static memory)
-  XmlMemoryPage *root_page = LUMEX_XML_GETPAGE(m_root); // NOLINT(cppcoreguidelines-pro-type-const-cast)
-  LUMEX_ASSERT(root_page && !root_page->prev);
-  LUMEX_ASSERT(reinterpret_cast<char *>(root_page)
-                 >= m_memory // NOLINT(cppcoreguidelines-pro-bounds-array-to-pointer-decay)
-               && reinterpret_cast<char *>(root_page)
-                    < m_memory + sizeof(m_memory)); // NOLINT(cppcoreguidelines-pro-bounds-array-to-pointer-decay)
+  XmlMemoryPage *root_page = LUMEX_XML_GETPAGE (
+      m_root); // NOLINT(cppcoreguidelines-pro-type-const-cast)
+  LUMEX_ASSERT (root_page && !root_page->prev);
+  LUMEX_ASSERT (
+      reinterpret_cast<char *> (root_page)
+          >= m_memory // NOLINT(cppcoreguidelines-pro-bounds-array-to-pointer-decay)
+      && reinterpret_cast<char *> (root_page)
+             < m_memory
+                   + sizeof (
+                       m_memory)); // NOLINT(cppcoreguidelines-pro-bounds-array-to-pointer-decay)
 
-  for(XmlMemoryPage *page = root_page->next; page != nullptr;)
-  {
-    XmlMemoryPage *next = page->next;
-    XmlAllocator::deallocate_page(page);
+  for (XmlMemoryPage *page = root_page->next; page != nullptr;)
+    {
+      XmlMemoryPage *next = page->next;
+      XmlAllocator::deallocate_page (page);
 
-    page = next;
-  }
+      page = next;
+    }
 
   m_root = nullptr;
 }
 
 LUMEX_PUBLIC_API
 inline void
-XmlDocument::_move(XmlDocument &rhs) noexcept
+XmlDocument::_move (XmlDocument &rhs) LUMEX_NOEXCEPT
 {
-  auto *doc   = static_cast<XmlDocumentBase *>(m_root);     // NOLINT(cppcoreguidelines-pro-type-static-cast-downcast)
-  auto *other = static_cast<XmlDocumentBase *>(rhs.m_root); // NOLINT(cppcoreguidelines-pro-type-static-cast-downcast)
+  auto *doc = static_cast<XmlDocumentBase *> (
+      m_root); // NOLINT(cppcoreguidelines-pro-type-static-cast-downcast)
+  auto *other = static_cast<XmlDocumentBase *> (
+      rhs.m_root); // NOLINT(cppcoreguidelines-pro-type-static-cast-downcast)
 
   // save first child pointer for later; this needs hash access
   XmlNodeBase *other_first_child = other->first_child;
 
   // move allocation state
-  // note that other->m_root may point to the embedded document page, in which case we should keep original (empty)
-  // state
-  if(other->m_root != LUMEX_XML_GETPAGE(other)) // NOLINT(cppcoreguidelines-pro-type-const-cast)
-  {
-    doc->m_root      = other->m_root;
-    doc->m_busy_size = other->m_busy_size;
-  }
+  // note that other->m_root may point to the embedded document page, in which
+  // case we should keep original (empty) state
+  if (other->m_root
+      != LUMEX_XML_GETPAGE (
+          other)) // NOLINT(cppcoreguidelines-pro-type-const-cast)
+    {
+      doc->m_root = other->m_root;
+      doc->m_busy_size = other->m_busy_size;
+    }
 
   // move buffer state
-  doc->buffer        = other->buffer;
+  doc->buffer = other->buffer;
   doc->extra_buffers = other->extra_buffers;
-  m_buffer           = rhs.m_buffer;
+  m_buffer = rhs.m_buffer;
 
   // move page structure
-  XmlMemoryPage *doc_page = LUMEX_XML_GETPAGE(doc); // NOLINT(cppcoreguidelines-pro-type-const-cast)
-  LUMEX_ASSERT(doc_page && !doc_page->prev && !doc_page->next);
+  XmlMemoryPage *doc_page = LUMEX_XML_GETPAGE (
+      doc); // NOLINT(cppcoreguidelines-pro-type-const-cast)
+  LUMEX_ASSERT (doc_page && !doc_page->prev && !doc_page->next);
 
-  XmlMemoryPage *other_page = LUMEX_XML_GETPAGE(other); // NOLINT(cppcoreguidelines-pro-type-const-cast)
-  LUMEX_ASSERT(other_page && !other_page->prev);
+  XmlMemoryPage *other_page = LUMEX_XML_GETPAGE (
+      other); // NOLINT(cppcoreguidelines-pro-type-const-cast)
+  LUMEX_ASSERT (other_page && !other_page->prev);
 
   // relink pages since root page is embedded into XmlDocument
-  if(XmlMemoryPage *page = other_page->next)
-  {
-    LUMEX_ASSERT(page->prev == other_page);
+  if (XmlMemoryPage *page = other_page->next)
+    {
+      LUMEX_ASSERT (page->prev == other_page);
 
-    page->prev       = doc_page;
+      page->prev = doc_page;
 
-    doc_page->next   = page;
-    other_page->next = nullptr;
-  }
+      doc_page->next = page;
+      other_page->next = nullptr;
+    }
 
   // make sure pages point to the correct document state
-  for(XmlMemoryPage *page = doc_page->next; page != nullptr; page = page->next)
-  {
-    LUMEX_ASSERT(page->allocator == other);
+  for (XmlMemoryPage *page = doc_page->next; page != nullptr;
+       page = page->next)
+    {
+      LUMEX_ASSERT (page->allocator == other);
 
-    page->allocator = doc;
-  }
+      page->allocator = doc;
+    }
 
   // move tree structure
-  LUMEX_ASSERT(!doc->first_child);
+  LUMEX_ASSERT (!doc->first_child);
 
   doc->first_child = other_first_child;
 
-  for(XmlNodeBase *node = other_first_child; node != nullptr; node = node->next_sibling)
-  {
-    LUMEX_ASSERT(node->parent == other);
-    node->parent = doc;
-  }
+  for (XmlNodeBase *node = other_first_child; node != nullptr;
+       node = node->next_sibling)
+    {
+      LUMEX_ASSERT (node->parent == other);
+      node->parent = doc;
+    }
 
   // reset other document
-  new(other) XmlDocumentBase(LUMEX_XML_GETPAGE(other)); // NOLINT(cppcoreguidelines-pro-type-const-cast)
+  new (other) XmlDocumentBase (LUMEX_XML_GETPAGE (
+      other)); // NOLINT(cppcoreguidelines-pro-type-const-cast)
   rhs.m_buffer = nullptr;
 }
 
 LUMEX_PUBLIC_API
-inline XmlParseResult
-XmlDocument::load(std::basic_istream<char> &stream, unsigned int options, xml_encoding encoding)
+inline xml_parse_result_t
+XmlDocument::load (std::basic_istream<char> &stream, unsigned int options,
+                   xml_encoding encoding)
 {
-  reset();
+  reset ();
 
-  return load_stream_impl(static_cast< // NOLINT(cppcoreguidelines-pro-type-static-cast-downcast)
-                            XmlDocumentBase *>(m_root),
-                          stream, options, encoding, &m_buffer);
+  return load_stream_impl (
+      static_cast< // NOLINT(cppcoreguidelines-pro-type-static-cast-downcast)
+          XmlDocumentBase *> (m_root),
+      stream, options, encoding, &m_buffer);
 }
 
 LUMEX_PUBLIC_API
-inline XmlParseResult
-XmlDocument::load(std::basic_istream<wchar_t> &stream, unsigned int options)
+inline xml_parse_result_t
+XmlDocument::load (std::basic_istream<wchar_t> &stream, unsigned int options)
 {
-  reset();
+  reset ();
 
-  return load_stream_impl(static_cast< // NOLINT(cppcoreguidelines-pro-type-static-cast-downcast)
-                            XmlDocumentBase *>(m_root),
-                          stream, options, encoding_wchar, &m_buffer);
+  return load_stream_impl (
+      static_cast< // NOLINT(cppcoreguidelines-pro-type-static-cast-downcast)
+          XmlDocumentBase *> (m_root),
+      stream, options, encoding_wchar, &m_buffer);
 }
 
 LUMEX_PUBLIC_API
-inline XmlParseResult
-XmlDocument::load_string(char_t const *contents, unsigned int options)
+inline xml_parse_result_t
+XmlDocument::load_string (char_t const *contents, unsigned int options)
 {
   // Force native encoding (skip autodetection)
 #ifdef LUMEX_XML_WCHAR_MODE
@@ -429,355 +499,419 @@ XmlDocument::load_string(char_t const *contents, unsigned int options)
   xml_encoding encoding = encoding_utf8;
 #endif
 
-  return load_buffer(contents, Utility::strlength(contents) * sizeof(char_t), options, encoding);
+  return load_buffer (contents,
+                      utility::strlength (contents) * sizeof (char_t), options,
+                      encoding);
 }
 
 LUMEX_PUBLIC_API
-inline XmlParseResult
-XmlDocument::load(char_t const *contents, unsigned int options)
+inline xml_parse_result_t
+XmlDocument::load (char_t const *contents, unsigned int options)
 {
-  return load_string(contents, options);
+  return load_string (contents, options);
 }
 
 namespace
 {
-  template <typename T>
-  inline xml_parse_status
-  convert_file_size(T length, size_t &out_result)
-  {
-    // check for I/O errors
-    if(length < 0) return status_io_error;
+template <typename T>
+inline xml_parse_status
+convert_file_size (T length, std::size_t &out_result)
+{
+  // check for I/O errors
+  if (length < 0)
+    return status_io_error;
 
-    // check for overflow
-    auto result = static_cast<size_t>(length);
+  // check for overflow
+  auto result = static_cast<std::size_t> (length);
 
-    if(static_cast<T>(result) != length) return status_out_of_memory;
+  if (static_cast<T> (result) != length)
+    return status_out_of_memory;
 
-    out_result = result;
-    return status_ok;
-  }
+  out_result = result;
+  return status_ok;
+}
 
-  inline xml_parse_status
-  get_file_size(FILE *file, size_t &out_result)
-  {
+inline xml_parse_status
+get_file_size (FILE *file, std::size_t &out_result)
+{
 #if defined(__linux__) || defined(__APPLE__)
-    // this simultaneously retrieves the file size and file mode (to guard against loading non-files)
-    struct stat st;
-    if(fstat(fileno(file), &st) != 0) return status_io_error;
+  // this simultaneously retrieves the file size and file mode (to guard
+  // against loading non-files)
+  struct stat st;
+  if (fstat (fileno (file), &st) != 0)
+    return status_io_error;
 
-    // anything that's not a regular file doesn't have a coherent length
-    if(!S_ISREG(st.st_mode)) return status_io_error;
+  // anything that's not a regular file doesn't have a coherent length
+  if (!S_ISREG (st.st_mode))
+    return status_io_error;
 
-    xml_parse_status status = convert_file_size(st.st_size, out_result);
+  xml_parse_status status = convert_file_size (st.st_size, out_result);
 #elif defined(LUMEX_XML_MSVC_CRT_VERSION) && LUMEX_XML_MSVC_CRT_VERSION >= 1400
-    // there are 64-bit versions of fseek/ftell, let's use them
-    _fseeki64(file, 0, SEEK_END);
-    __int64 length = _ftelli64(file);
-    _fseeki64(file, 0, SEEK_SET);
+  // there are 64-bit versions of fseek/ftell, let's use them
+  _fseeki64 (file, 0, SEEK_END);
+  __int64 length = _ftelli64 (file);
+  _fseeki64 (file, 0, SEEK_SET);
 
-    xml_parse_status status = convert_file_size(length, out_result);
-#elif defined(__MINGW32__) && !defined(__NO_MINGW_LFS)                                                                 \
-  && (!defined(__STRICT_ANSI__) || defined(__MINGW64_VERSION_MAJOR))
-    // there are 64-bit versions of fseek/ftell, let's use them
-    fseeko64(file, 0, SEEK_END);
-    off64_t length = ftello64(file);
-    fseeko64(file, 0, SEEK_SET);
+  xml_parse_status status = convert_file_size (length, out_result);
+#elif defined(__MINGW32__) && !defined(__NO_MINGW_LFS)                        \
+    && (!defined(__STRICT_ANSI__) || defined(__MINGW64_VERSION_MAJOR))
+  // there are 64-bit versions of fseek/ftell, let's use them
+  fseeko64 (file, 0, SEEK_END);
+  off64_t length = ftello64 (file);
+  fseeko64 (file, 0, SEEK_SET);
 
-    xml_parse_status status = convert_file_size(length, out_result);
+  xml_parse_status status = convert_file_size (length, out_result);
 #else
-    // if this is a 32-bit OS, long is enough; if this is a unix system, long is 64-bit, which is enough; otherwise we
-    // can't do anything anyway.
-    fseek(file, 0, SEEK_END);
-    long length = ftell(file);
-    fseek(file, 0, SEEK_SET);
+  // if this is a 32-bit OS, long is enough; if this is a unix system, long is
+  // 64-bit, which is enough; otherwise we can't do anything anyway.
+  fseek (file, 0, SEEK_END);
+  long length = ftell (file);
+  fseek (file, 0, SEEK_SET);
 
-    xml_parse_status status = convert_file_size(length, out_result);
+  xml_parse_status status = convert_file_size (length, out_result);
 #endif
 
-    return status;
-  }
+  return status;
+}
 
-  inline XmlParseResult
-  load_file_impl(XmlDocumentBase *doc, FILE *file, unsigned int options, xml_encoding encoding, char_t **out_buffer)
-  {
-    if(file == nullptr) return make_parse_result(status_file_not_found);
+inline xml_parse_result_t
+load_file_impl (XmlDocumentBase *doc, FILE *file, unsigned int options,
+                xml_encoding encoding, char_t **out_buffer)
+{
+  if (file == nullptr)
+    return make_parse_result (status_file_not_found);
 
-    // get file size (can result in I/O errors)
-    size_t size                  = 0;
-    xml_parse_status size_status = get_file_size(file, size);
-    if(size_status != status_ok) return make_parse_result(size_status);
+  // get file size (can result in I/O errors)
+  std::size_t size = 0;
+  xml_parse_status size_status = get_file_size (file, size);
+  if (size_status != status_ok)
+    return make_parse_result (size_status);
 
-    size_t max_suffix_size = sizeof(char_t);
+  std::size_t max_suffix_size = sizeof (char_t);
 
-    // allocate buffer for the whole file
-    char *contents = static_cast<char *>(malloc( // NOLINT(cppcoreguidelines-owning-memory, cppcoreguidelines-no-malloc)
-      size + max_suffix_size));
-    if(contents == nullptr) return make_parse_result(status_out_of_memory);
+  // allocate buffer for the whole file
+  char *contents = static_cast<char *> (
+      malloc ( // NOLINT(cppcoreguidelines-owning-memory,
+               // cppcoreguidelines-no-malloc)
+          size + max_suffix_size));
+  if (contents == nullptr)
+    return make_parse_result (status_out_of_memory);
 
-    // read file in memory
-    size_t read_size = fread(contents, 1, size, file);
+  // read file in memory
+  std::size_t read_size = fread (contents, 1, size, file);
 
-    if(read_size != size)
+  if (read_size != size)
     {
-      free(contents); // NOLINT(cppcoreguidelines-owning-memory, cppcoreguidelines-no-malloc)
-      return make_parse_result(status_io_error);
+      free (contents); // NOLINT(cppcoreguidelines-owning-memory,
+                       // cppcoreguidelines-no-malloc)
+      return make_parse_result (status_io_error);
     }
 
-    xml_encoding real_encoding = get_buffer_encoding(encoding, contents, size);
+  xml_encoding real_encoding = get_buffer_encoding (encoding, contents, size);
 
-    return load_buffer_impl(doc, doc, contents, zero_terminate_buffer(contents, size, real_encoding), options,
-                            real_encoding, true, true, out_buffer);
-  }
+  return load_buffer_impl (
+      doc, doc, contents,
+      zero_terminate_buffer (contents, size, real_encoding), options,
+      real_encoding, true, true, out_buffer);
+}
 
-  inline void
-  close_file(FILE *file)
-  {
-    fclose(file); // NOLINT(cppcoreguidelines-owning-memory)
-  }
+inline void
+close_file (FILE *file)
+{
+  fclose (file); // NOLINT(cppcoreguidelines-owning-memory)
+}
 
-#if (defined(__MINGW32__) && (!defined(__STRICT_ANSI__) || defined(__MINGW64_VERSION_MAJOR)))
-  inline FILE *
-  open_file_wide(const wchar_t *path, const wchar_t *mode)
-  {
-  #if defined(MSVC) && MSVC >= 1400
-    FILE *file = nullptr;
-    return _wfopen_s(&file, path, mode) == 0 ? file : nullptr;
-  #else
-    return _wfopen(path, mode);
-  #endif
-  }
+#if (defined(__MINGW32__)                                                     \
+     && (!defined(__STRICT_ANSI__) || defined(__MINGW64_VERSION_MAJOR)))
+inline FILE *
+open_file_wide (const wchar_t *path, const wchar_t *mode)
+{
+#if defined(MSVC) && MSVC >= 1400
+  FILE *file = nullptr;
+  return _wfopen_s (&file, path, mode) == 0 ? file : nullptr;
 #else
-  inline char *
-  convert_path_heap(const wchar_t *str)
-  {
-    LUMEX_ASSERT(str);
+  return _wfopen (path, mode);
+#endif
+}
+#else
+inline char *
+convert_path_heap (const wchar_t *str)
+{
+  LUMEX_ASSERT (str);
 
-    // first pass: get length in utf8 characters
-    size_t length = strlength_wide(str);
-    size_t size   = as_utf8_begin(str, length);
+  // first pass: get length in utf8 characters
+  std::size_t length = strlength_wide (str);
+  std::size_t size = as_utf8_begin (str, length);
 
-    // allocate resulting string
-    char *result                               // NOLINT(cppcoreguidelines-owning-memory)
-      = static_cast<char *>(malloc(size + 1)); // NOLINT(cppcoreguidelines-no-malloc)
-    if(result == nullptr) return nullptr;
+  // allocate resulting string
+  char *result // NOLINT(cppcoreguidelines-owning-memory)
+      = static_cast<char *> (
+          malloc (size + 1)); // NOLINT(cppcoreguidelines-no-malloc)
+  if (result == nullptr)
+    return nullptr;
 
-    // second pass: convert to utf8
-    as_utf8_end(result, size, str, length);
+  // second pass: convert to utf8
+  as_utf8_end (result, size, str, length);
 
-    // zero-terminate
-    result[size] = 0;
+  // zero-terminate
+  result[size] = 0;
 
-    return result;
-  }
+  return result;
+}
 
-  inline FILE *
-  open_file_wide(wchar_t const *path, wchar_t const *mode) // NOLINT(bugprone-easily-swappable-parameters)
-  {
-    // there is no standard function to open wide paths, so our best bet is to try utf8 path
-    std::unique_ptr<char, decltype(&std::free)> path_utf8(convert_path_heap(path), &std::free);
-    if(!path_utf8) return nullptr;
+inline FILE *
+open_file_wide (
+    wchar_t const *path,
+    wchar_t const *mode) // NOLINT(bugprone-easily-swappable-parameters)
+{
+  // there is no standard function to open wide paths, so our best bet is to
+  // try utf8 path
+  std::unique_ptr<char, decltype (&std::free)> path_utf8 (
+      convert_path_heap (path), &std::free);
+  if (!path_utf8)
+    return nullptr;
 
-    // convert mode to ASCII (we mirror _wfopen interface)
-    char mode_ascii[4] = {0}; // NOLINT(cppcoreguidelines-avoid-c-arrays, modernize-avoid-c-arrays)
-    for(size_t i = 0; mode[i] != 0; ++i)
-      mode_ascii[i] = static_cast<char>(mode[i]); // NOLINT(cppcoreguidelines-pro-bounds-constant-array-index)
+  // convert mode to ASCII (we mirror _wfopen interface)
+  char mode_ascii[4] = {
+    0
+  }; // NOLINT(cppcoreguidelines-avoid-c-arrays, modernize-avoid-c-arrays)
+  for (std::size_t i = 0; mode[i] != 0; ++i)
+    mode_ascii[i] = static_cast<char> (
+        mode[i]); // NOLINT(cppcoreguidelines-pro-bounds-constant-array-index)
 
-    FILE *result = nullptr;
+  FILE *result = nullptr;
 
-  #ifdef _WIN32
-    // Use fopen_s on Windows for secure file opening
-    if(fopen_s(&result, path_utf8.get(),
-               mode_ascii) // NOLINT(cppcoreguidelines-pro-bounds-array-to-pointer-decay)
-       != 0)
-      result = nullptr; // Ensure result is null on error
-  #else
-    // Use standard fopen on other platforms
-    result = std::fopen(path_utf8.get(), mode_ascii);
-  #endif
-
-    return result;
-  }
+#ifdef _WIN32
+  // Use fopen_s on Windows for secure file opening
+  if (fopen_s (
+          &result, path_utf8.get (),
+          mode_ascii) // NOLINT(cppcoreguidelines-pro-bounds-array-to-pointer-decay)
+      != 0)
+    result = nullptr; // Ensure result is null on error
+#else
+  // Use standard fopen on other platforms
+  result = std::fopen (path_utf8.get (), mode_ascii);
 #endif
 
-  inline FILE *
-  open_file(const char *path, const char *mode)
-  {
+  return result;
+}
+#endif
+
+inline FILE *
+open_file (const char *path, const char *mode)
+{
 #if defined(LUMEX_XML_MSVC_CRT_VERSION) && LUMEX_XML_MSVC_CRT_VERSION >= 1400
-    FILE *file = nullptr;
-    return fopen_s(&file, path, mode) == 0 ? file : nullptr;
+  FILE *file = nullptr;
+  return fopen_s (&file, path, mode) == 0 ? file : nullptr;
 #else
-    return fopen(path, mode);
+  return fopen (path, mode);
 #endif
-  }
+}
 
-  inline bool
-  save_file_impl(XmlDocument const &doc, FILE *file, char_t const *indent, unsigned int flags, xml_encoding encoding)
-  {
-    if(file == nullptr) return false;
+inline bool
+save_file_impl (XmlDocument const &doc, FILE *file, char_t const *indent,
+                unsigned int flags, xml_encoding encoding)
+{
+  if (file == nullptr)
+    return false;
 
-    XmlWriterFile writer(file);
-    doc.save(writer, indent, flags, encoding);
+  XmlWriterFile writer (file);
+  doc.save (writer, indent, flags, encoding);
 
-    return fflush(file) == 0 && ferror(file) == 0;
-  }
+  return fflush (file) == 0 && ferror (file) == 0;
+}
 }
 
 LUMEX_PUBLIC_API
-inline XmlParseResult
-XmlDocument::load_file(char const *path_, unsigned int options, xml_encoding encoding)
+inline xml_parse_result_t
+XmlDocument::load_file (char const *path_, unsigned int options,
+                        xml_encoding encoding)
 {
-  reset();
+  reset ();
 
-  XmlCleaner<FILE> file(open_file(path_, "rb"), close_file);
+  XmlCleaner<FILE> file (open_file (path_, "rb"), close_file);
 
-  return load_file_impl(static_cast< // NOLINT(cppcoreguidelines-pro-type-static-cast-downcast)
-                          XmlDocumentBase *>(m_root),
-                        file.data, options, encoding, &m_buffer);
+  return load_file_impl (
+      static_cast< // NOLINT(cppcoreguidelines-pro-type-static-cast-downcast)
+          XmlDocumentBase *> (m_root),
+      file.data, options, encoding, &m_buffer);
 }
 
 LUMEX_PUBLIC_API
-inline XmlParseResult
-XmlDocument::load_file(wchar_t const *path_, unsigned int options, xml_encoding encoding)
+inline xml_parse_result_t
+XmlDocument::load_file (wchar_t const *path_, unsigned int options,
+                        xml_encoding encoding)
 {
-  reset();
+  reset ();
 
-  XmlCleaner<FILE> file(open_file_wide(path_, L"rb"), close_file);
+  XmlCleaner<FILE> file (open_file_wide (path_, L"rb"), close_file);
 
-  return load_file_impl(static_cast< // NOLINT(cppcoreguidelines-pro-type-static-cast-downcast)
-                          XmlDocumentBase *>(m_root),
-                        file.data, options, encoding, &m_buffer);
+  return load_file_impl (
+      static_cast< // NOLINT(cppcoreguidelines-pro-type-static-cast-downcast)
+          XmlDocumentBase *> (m_root),
+      file.data, options, encoding, &m_buffer);
 }
 
 LUMEX_PUBLIC_API
-inline XmlParseResult
-XmlDocument::load_buffer(void const *contents, size_t size, unsigned int options, xml_encoding encoding)
+inline xml_parse_result_t
+XmlDocument::load_buffer (void const *contents, std::size_t size,
+                          unsigned int options, xml_encoding encoding)
 {
-  reset();
+  reset ();
 
-  return load_buffer_impl(static_cast< // NOLINT(cppcoreguidelines-pro-type-static-cast-downcast)
-                            XmlDocumentBase *>(m_root),
-                          m_root,
-                          const_cast< // NOLINT(cppcoreguidelines-pro-type-const-cast)
-                            void *>(contents),
-                          size, options, encoding, false, false, &m_buffer);
+  return load_buffer_impl (
+      static_cast< // NOLINT(cppcoreguidelines-pro-type-static-cast-downcast)
+          XmlDocumentBase *> (m_root),
+      m_root,
+      const_cast< // NOLINT(cppcoreguidelines-pro-type-const-cast)
+          void *> (contents),
+      size, options, encoding, false, false, &m_buffer);
 }
 
 LUMEX_PUBLIC_API
-inline XmlParseResult
-XmlDocument::load_buffer_inplace(void *contents, size_t size, unsigned int options, xml_encoding encoding)
+inline xml_parse_result_t
+XmlDocument::load_buffer_inplace (void *contents, std::size_t size,
+                                  unsigned int options, xml_encoding encoding)
 {
-  reset();
+  reset ();
 
-  return load_buffer_impl(static_cast< // NOLINT(cppcoreguidelines-pro-type-static-cast-downcast)
-                            XmlDocumentBase *>(m_root),
-                          m_root, contents, size, options, encoding, true, false, &m_buffer);
+  return load_buffer_impl (
+      static_cast< // NOLINT(cppcoreguidelines-pro-type-static-cast-downcast)
+          XmlDocumentBase *> (m_root),
+      m_root, contents, size, options, encoding, true, false, &m_buffer);
 }
 
 LUMEX_PUBLIC_API
-inline XmlParseResult
-XmlDocument::load_buffer_inplace_own(void *contents, size_t size, unsigned int options, xml_encoding encoding)
+inline xml_parse_result_t
+XmlDocument::load_buffer_inplace_own (void *contents, std::size_t size,
+                                      unsigned int options,
+                                      xml_encoding encoding)
 {
-  reset();
+  reset ();
 
-  return load_buffer_impl(static_cast< // NOLINT(cppcoreguidelines-pro-type-static-cast-downcast)
-                            XmlDocumentBase *>(m_root),
-                          m_root, contents, size, options, encoding, true, true, &m_buffer);
+  return load_buffer_impl (
+      static_cast< // NOLINT(cppcoreguidelines-pro-type-static-cast-downcast)
+          XmlDocumentBase *> (m_root),
+      m_root, contents, size, options, encoding, true, true, &m_buffer);
 }
 
 namespace
 {
-  inline bool
-  has_declaration(XmlNodeBase *node)
-  {
-    for(XmlNodeBase *child = node->first_child; child != nullptr; child = child->next_sibling)
+inline bool
+has_declaration (XmlNodeBase *node)
+{
+  for (XmlNodeBase *child = node->first_child; child != nullptr;
+       child = child->next_sibling)
     {
-      auto type = LUMEX_XML_NODETYPE(child);
-      if(type == node_declaration) return true;
-      if(type == node_element) return false;
+      auto type = LUMEX_XML_NODETYPE (child);
+      if (type == node_declaration)
+        return true;
+      if (type == node_element)
+        return false;
     }
 
-    return false;
-  }
+  return false;
+}
 }
 
 LUMEX_PUBLIC_API
 inline void
-XmlDocument::save(IXmlWriter &writer, char_t const *indent, unsigned int flags, xml_encoding encoding) const
+XmlDocument::save (IXmlWriter &writer, char_t const *indent,
+                   unsigned int flags, xml_encoding encoding) const
 {
-  XmlBufferedWriter buffered_writer(writer, encoding);
+  XmlBufferedWriter buffered_writer (writer, encoding);
 
-  if(((flags & Constants::kformat_write_bom) != 0) && buffered_writer.encoding != encoding_latin1)
-  {
-    // BOM always represents the codepoint U+FEFF, so just write it in native encoding
+  if (((flags & Constants::kformat_write_bom) != 0)
+      && buffered_writer.encoding != encoding_latin1)
+    {
+      // BOM always represents the codepoint U+FEFF, so just write it in native
+      // encoding
 #ifdef LUMEX_XML_WCHAR_MODE
-    unsigned int bom = 0xfeff;
-    buffered_writer.write(static_cast<wchar_t>(bom));
+      unsigned int bom = 0xfeff;
+      buffered_writer.write (static_cast<wchar_t> (bom));
 #else
-    buffered_writer.write('\xef', '\xbb', '\xbf');
+      buffered_writer.write ('\xef', '\xbb', '\xbf');
 #endif
-  }
+    }
 
-  if(((flags & Constants::kformat_no_declaration) == 0) && !has_declaration(m_root))
-  {
-    buffered_writer.write_string(LUMEX_XML_TEXT("<?xml version=\"1.0\""));
-    if(buffered_writer.encoding == encoding_latin1)
-      buffered_writer.write_string(LUMEX_XML_TEXT(" encoding=\"ISO-8859-1\""));
-    buffered_writer.write('?', '>');
-    if((flags & Constants::kformat_raw) == 0) buffered_writer.write('\n');
-  }
+  if (((flags & Constants::kformat_no_declaration) == 0)
+      && !has_declaration (m_root))
+    {
+      buffered_writer.write_string (LUMEX_XML_TEXT ("<?xml version=\"1.0\""));
+      if (buffered_writer.encoding == encoding_latin1)
+        buffered_writer.write_string (
+            LUMEX_XML_TEXT (" encoding=\"ISO-8859-1\""));
+      buffered_writer.write ('?', '>');
+      if ((flags & Constants::kformat_raw) == 0)
+        buffered_writer.write ('\n');
+    }
 
-  node_output(buffered_writer, m_root, indent, flags, 0);
+  node_output (buffered_writer, m_root, indent, flags, 0);
 
-  buffered_writer.flush();
+  buffered_writer.flush ();
 }
 
 LUMEX_PUBLIC_API
 inline void
-XmlDocument::save(std::basic_ostream<char> &stream, char_t const *indent, unsigned int flags,
-                  xml_encoding encoding) const
+XmlDocument::save (std::basic_ostream<char> &stream, char_t const *indent,
+                   unsigned int flags, xml_encoding encoding) const
 {
-  XmlWriterStream writer(stream);
+  XmlWriterStream writer (stream);
 
-  save(writer, indent, flags, encoding);
+  save (writer, indent, flags, encoding);
 }
 
 LUMEX_PUBLIC_API
 inline void
-XmlDocument::save(std::basic_ostream<wchar_t> &stream, char_t const *indent, unsigned int flags) const
+XmlDocument::save (std::basic_ostream<wchar_t> &stream, char_t const *indent,
+                   unsigned int flags) const
 {
-  XmlWriterStream writer(stream);
+  XmlWriterStream writer (stream);
 
-  save(writer, indent, flags, encoding_wchar);
+  save (writer, indent, flags, encoding_wchar);
 }
 
 LUMEX_PUBLIC_API
 inline bool
-XmlDocument::save_file(char const *path_, char_t const *indent, // NOLINT(bugprone-easily-swappable-parameters)
-                       unsigned int flags, xml_encoding encoding) const
+XmlDocument::save_file (
+    char const *path_,
+    char_t const *indent, // NOLINT(bugprone-easily-swappable-parameters)
+    unsigned int flags, xml_encoding encoding) const
 {
-  XmlCleaner<FILE> file(open_file(path_, ((flags & Constants::kformat_save_file_text) != 0) ? "w" : "wb"), close_file);
-  return save_file_impl(*this, file.data, indent, flags, encoding)
-         && fclose(file.release()) == 0; // NOLINT(cppcoreguidelines-owning-memory)
+  XmlCleaner<FILE> file (
+      open_file (path_, ((flags & Constants::kformat_save_file_text) != 0)
+                            ? "w"
+                            : "wb"),
+      close_file);
+  return save_file_impl (*this, file.data, indent, flags, encoding)
+         && fclose (file.release ())
+                == 0; // NOLINT(cppcoreguidelines-owning-memory)
 }
 
 LUMEX_PUBLIC_API
 inline bool
-XmlDocument::save_file(wchar_t const *path_, char_t const *indent, unsigned int flags, xml_encoding encoding) const
+XmlDocument::save_file (wchar_t const *path_, char_t const *indent,
+                        unsigned int flags, xml_encoding encoding) const
 {
-  XmlCleaner<FILE> file(open_file_wide(path_, ((flags & Constants::kformat_save_file_text) != 0) ? L"w" : L"wb"),
-                        close_file);
-  return save_file_impl(*this, file.data, indent, flags, encoding)
-         && fclose(file.release()) == 0; // NOLINT(cppcoreguidelines-owning-memory)
+  XmlCleaner<FILE> file (
+      open_file_wide (path_, ((flags & Constants::kformat_save_file_text) != 0)
+                                 ? L"w"
+                                 : L"wb"),
+      close_file);
+  return save_file_impl (*this, file.data, indent, flags, encoding)
+         && fclose (file.release ())
+                == 0; // NOLINT(cppcoreguidelines-owning-memory)
 }
 
 LUMEX_PUBLIC_API
 inline XmlNode
-XmlDocument::document_element() const
+XmlDocument::document_element () const
 {
-  LUMEX_ASSERT(m_root);
+  LUMEX_ASSERT (m_root);
 
-  for(XmlNodeBase *i = m_root->first_child; i != nullptr; i = i->next_sibling)
-    if(LUMEX_XML_NODETYPE(i) == node_element) return XmlNode(i);
+  for (XmlNodeBase *i = m_root->first_child; i != nullptr; i = i->next_sibling)
+    if (LUMEX_XML_NODETYPE (i) == node_element)
+      return XmlNode (i);
 
   return {};
 }

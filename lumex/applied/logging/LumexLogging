@@ -1,2 +1,2 @@
-#include "LumexLogging.hpp"
-#include "LumexLoggingMacro.hpp"
+#include "log/LumexLogging.hpp"
+#include "log/LumexLoggingMacro.hpp"

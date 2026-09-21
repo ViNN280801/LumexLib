@@ -4,11 +4,16 @@ set(LUMEX_CIRCULAR_BUFFER_NAME LumexCore_circular_buffer)
 set(EXPORT_TO LumexCoreTargets)
 
 add_library(${LUMEX_CIRCULAR_BUFFER_NAME} INTERFACE)
-add_library(Lumex::circular_buffer ALIAS ${LUMEX_CIRCULAR_BUFFER_NAME})
+add_library(lumex::circular_buffer ALIAS ${LUMEX_CIRCULAR_BUFFER_NAME})
 
 target_include_directories(${LUMEX_CIRCULAR_BUFFER_NAME} INTERFACE
     $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}>
     $<INSTALL_INTERFACE:include>
+)
+
+# LUMEX_ASSERT expands to lumex_assert_handler (LumexCore_utility).
+target_link_libraries(${LUMEX_CIRCULAR_BUFFER_NAME} INTERFACE
+    lumex::utility
 )
 
 install(TARGETS ${LUMEX_CIRCULAR_BUFFER_NAME} EXPORT ${EXPORT_TO})

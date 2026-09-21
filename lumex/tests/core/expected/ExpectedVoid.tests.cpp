@@ -1,14 +1,43 @@
-#include <gtest/gtest.h>
-
-#include "lumex/core/expected/ExpectedTypes.hpp"
-#include "lumex/core/expected/ExpectedVoid.hpp"
-
 #include <chrono>
 #include <memory>
 #include <stdexcept>
 #include <string>
 #include <thread>
 #include <vector>
+
+#include <gtest/gtest.h>
+
+#include "lumex/core/expected/Expected"
+
+#include "lumex/tests/support/LumexPerfSkip.hpp"
+
+#if defined(__clang__)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpadded"
+#pragma clang diagnostic ignored "-Wunsafe-buffer-usage"
+#pragma clang diagnostic ignored "-Wunsafe-buffer-usage-in-libc-call"
+#pragma clang diagnostic ignored "-Wcovered-switch-default"
+#pragma clang diagnostic ignored "-Wswitch-enum"
+#pragma clang diagnostic ignored "-Wnrvo"
+#pragma clang diagnostic ignored "-Wheader-hygiene"
+#pragma clang diagnostic ignored "-Wused-but-marked-unused"
+#pragma clang diagnostic ignored "-Wundefined-var-template"
+#pragma clang diagnostic ignored "-Wdeprecated-redundant-constexpr-static-def"
+#pragma clang diagnostic ignored "-Wvariadic-macro-arguments-omitted"
+#pragma clang diagnostic ignored "-Wunused-result"
+#pragma clang diagnostic ignored "-Wextra-semi-stmt"
+#pragma clang diagnostic ignored "-Wexpansion-to-defined"
+#pragma clang diagnostic ignored "-Wexit-time-destructors"
+#pragma clang diagnostic ignored "-Wundefined-func-template"
+#pragma clang diagnostic ignored "-Wfloat-equal"
+#pragma clang diagnostic ignored "-Wglobal-constructors"
+#endif
+
+#if defined(__clang__)
+#endif
+
+using namespace lumex::core::expected::result;
+using namespace lumex::core::expected::error;
 
 // === Error Types for Testing =============================================
 
@@ -19,61 +48,69 @@ enum class SimpleError
   NetworkFailure
 };
 
-struct ComplexError {
+struct ComplexError
+{
   std::string message;
   int code;
   std::unique_ptr<int> resource;
 
-  explicit ComplexError(std::string msg = "Default Error", int c = 100)
-      : message(std::move(msg)), code(c), resource(std::make_unique<int>(c))
-  {}
+  explicit ComplexError (std::string msg = "Default Error", int c = 100)
+      : message (std::move (msg)), code (c),
+        resource (std::make_unique<int> (c))
+  {
+  }
 
-  ComplexError(ComplexError const &other)
-      : message(other.message),
-        code(other.code),
-        resource(other.resource ? std::make_unique<int>(*other.resource) : nullptr)
-  {}
+  ComplexError (ComplexError const &other)
+      : message (other.message), code (other.code),
+        resource (other.resource ? std::make_unique<int> (*other.resource)
+                                 : nullptr)
+  {
+  }
 
   ComplexError &
-  operator=(ComplexError const &other)
+  operator= (ComplexError const &other)
   {
-    if(this != &other)
-    {
-      message  = other.message;
-      code     = other.code;
-      resource = other.resource ? std::make_unique<int>(*other.resource) : nullptr;
-    }
+    if (this != &other)
+      {
+        message = other.message;
+        code = other.code;
+        resource = other.resource ? std::make_unique<int> (*other.resource)
+                                  : nullptr;
+      }
     return *this;
   }
 
-  ComplexError(ComplexError &&other) noexcept
-      : message(std::move(other.message)), code(other.code), resource(std::move(other.resource))
+  ComplexError (ComplexError &&other) noexcept
+      : message (std::move (other.message)), code (other.code),
+        resource (std::move (other.resource))
   {
     other.code = 0;
   }
 
   ComplexError &
-  operator=(ComplexError &&other) noexcept
+  operator= (ComplexError &&other) noexcept
   {
-    if(this != &other)
-    {
-      message    = std::move(other.message);
-      code       = other.code;
-      resource   = std::move(other.resource);
-      other.code = 0;
-    }
+    if (this != &other)
+      {
+        message = std::move (other.message);
+        code = other.code;
+        resource = std::move (other.resource);
+        other.code = 0;
+      }
     return *this;
   }
 
   bool
-  operator==(ComplexError const &other) const
+  operator== (ComplexError const &other) const
   {
     return message == other.message && code == other.code
-           && ((!resource && !other.resource) || (resource && other.resource && *resource == *other.resource));
+           && ((!resource && !other.resource)
+               || (resource && other.resource
+                   && *resource == *other.resource));
   }
 
   bool
-  operator!=(ComplexError const &other) const
+  operator!= (ComplexError const &other) const
   {
     return !(*this == other);
   }
@@ -91,165 +128,170 @@ protected:
   ErrorType error_val2{};
 
   void
-  SetUp() override
+  SetUp () override
   {
     // Use default values for all types to avoid template instantiation issues
     error_val1 = ErrorType{};
     error_val2 = ErrorType{};
 
     // For specific types, set meaningful values if possible
-    if(std::is_same<ErrorType, int>::value)
-    {
-      // For int, use different values
-      *reinterpret_cast<int *>(&error_val1) = 1;
-      *reinterpret_cast<int *>(&error_val2) = 2;
-    }
-    else if(std::is_same<ErrorType, std::string>::value)
-    {
-      // For string, use different values
-      *reinterpret_cast<std::string *>(&error_val1) = "Error1";
-      *reinterpret_cast<std::string *>(&error_val2) = "Error2";
-    }
+    if (std::is_same<ErrorType, int>::value)
+      {
+        // For int, use different values
+        *reinterpret_cast<int *> (&error_val1) = 1;
+        *reinterpret_cast<int *> (&error_val2) = 2;
+      }
+    else if (std::is_same<ErrorType, std::string>::value)
+      {
+        // For string, use different values
+        *reinterpret_cast<std::string *> (&error_val1) = "Error1";
+        *reinterpret_cast<std::string *> (&error_val2) = "Error2";
+      }
   }
 };
 
-// Define type combinations for Typed Tests - simplified to avoid template issues
-using ExpectedVoidTestTypes = ::testing::Types<std::tuple<int>, std::tuple<std::string>>;
-TYPED_TEST_SUITE(ExpectedVoidTest, ExpectedVoidTestTypes);
+// Define type combinations for Typed Tests - simplified to avoid template
+// issues
+using ExpectedVoidTestTypes
+    = ::testing::Types<std::tuple<int>, std::tuple<std::string>>;
+TYPED_TEST_SUITE (ExpectedVoidTest, ExpectedVoidTestTypes);
 
 // === API Contract Verifier Tests =========================================
 
 /**
- * Цель: Проверить корректность создания Expected<void> по умолчанию
- * В чем убеждаемся: Объект создается в состоянии успеха с void значением
- * Как достигается: Создание объекта без параметров и проверка has_value() == true
+ * Verifies default-constructing Expected<void>
+ * Asserts: The object is created in the success state with a void value
+ * Method: Construct with no arguments and check has_value() == true
  */
-TYPED_TEST(ExpectedVoidTest, DefaultConstructor_CreatesExpectedWithVoidValue)
+TYPED_TEST (ExpectedVoidTest, DefaultConstructor_CreatesExpectedWithVoidValue)
 {
   using ErrorType = typename TestFixture::ErrorType;
 
   Expected<void, ErrorType> uut;
-  EXPECT_TRUE(uut.has_value());
-  EXPECT_NO_THROW(uut.value());
+  EXPECT_TRUE (uut.has_value ());
+  EXPECT_NO_THROW (uut.value ());
 }
 
 /**
- * Цель: Проверить корректность создания Expected<void> с in_place конструктором
- * В чем убеждаемся: Объект создается в состоянии успеха с void значением
- * Как достигается: Использование in_place конструктора и проверка состояния
+ * Verifies constructing Expected<void> with the in-place constructor
+ * Asserts: The object is created in the success state with a void value
+ * Method: Use the in-place constructor and check the state
  */
-TYPED_TEST(ExpectedVoidTest, InPlaceConstructor_CreatesExpectedWithVoidValue)
+TYPED_TEST (ExpectedVoidTest, InPlaceConstructor_CreatesExpectedWithVoidValue)
 {
   using ErrorType = typename TestFixture::ErrorType;
 
-  Expected<void, ErrorType> uut(in_place);
-  EXPECT_TRUE(uut.has_value());
-  EXPECT_NO_THROW(uut.value());
+  Expected<void, ErrorType> uut (in_place);
+  EXPECT_TRUE (uut.has_value ());
+  EXPECT_NO_THROW (uut.value ());
 }
 
 /**
- * Цель: Проверить создание Expected<void> из Unexpected<ErrorType>
- * В чем убеждаемся: Объект переходит в состояние ошибки с переданным значением
- * Как достигается: Создание Unexpected и проверка has_value() == false
+ * Verifies constructing Expected<void> from Unexpected<ErrorType>
+ * Asserts: The object enters the error state with the given value
+ * Method: Construct Unexpected and check has_value() == false
  */
-TYPED_TEST(ExpectedVoidTest, Constructor_FromUnexpected_CreatesExpectedWithError)
+TYPED_TEST (ExpectedVoidTest,
+            Constructor_FromUnexpected_CreatesExpectedWithError)
 {
   using ErrorType = typename TestFixture::ErrorType;
 
-  Unexpected<ErrorType> unexp(this->error_val1);
-  Expected<void, ErrorType> uut(unexp);
+  Unexpected<ErrorType> unexp (this->error_val1);
+  Expected<void, ErrorType> uut (unexp);
 
-  EXPECT_FALSE(uut.has_value());
-  EXPECT_EQ(uut.error(), this->error_val1);
+  EXPECT_FALSE (uut.has_value ());
+  EXPECT_EQ (uut.error (), this->error_val1);
 }
 
 /**
- * Цель: Проверить move семантику при создании из Unexpected<ErrorType>
- * В чем убеждаемся: Ошибка корректно перемещается без копирования
- * Как достигается: Использование std::move и проверка состояния
+ * Verifies move semantics when constructing from Unexpected<ErrorType>
+ * Asserts: The error is moved, not copied
+ * Method: Use std::move and check the state
  */
-TYPED_TEST(ExpectedVoidTest, Constructor_FromUnexpectedRValue_MovesError)
+TYPED_TEST (ExpectedVoidTest, Constructor_FromUnexpectedRValue_MovesError)
 {
-  using ErrorType          = typename TestFixture::ErrorType;
+  using ErrorType = typename TestFixture::ErrorType;
 
   ErrorType original_error = this->error_val1;
-  Unexpected<ErrorType> unexp(std::move(original_error));
-  Expected<void, ErrorType> uut(std::move(unexp));
+  Unexpected<ErrorType> unexp (std::move (original_error));
+  Expected<void, ErrorType> uut (std::move (unexp));
 
-  EXPECT_FALSE(uut.has_value());
-  EXPECT_EQ(uut.error(), this->error_val1);
+  EXPECT_FALSE (uut.has_value ());
+  EXPECT_EQ (uut.error (), this->error_val1);
 }
 
 /**
- * Цель: Проверить корректность копирования Expected<void>
- * В чем убеждаемся: Состояние и содержимое корректно копируются
- * Как достигается: Копирование объекта и сравнение состояний
+ * Verifies copying Expected<void>
+ * Asserts: State and contents are copied
+ * Method: Copy the object and compare states
  */
-TYPED_TEST(ExpectedVoidTest, CopyConstructor_CopiesStateAndContent)
+TYPED_TEST (ExpectedVoidTest, CopyConstructor_CopiesStateAndContent)
 {
   using ErrorType = typename TestFixture::ErrorType;
 
   // Success case
   Expected<void, ErrorType> original_success;
   Expected<void, ErrorType> copied_success = original_success;
-  EXPECT_TRUE(copied_success.has_value());
-  EXPECT_EQ(copied_success, original_success);
+  EXPECT_TRUE (copied_success.has_value ());
+  EXPECT_EQ (copied_success, original_success);
 
   // Error case
-  Expected<void, ErrorType> original_error(Unexpected<ErrorType>(this->error_val1));
+  Expected<void, ErrorType> original_error (
+      Unexpected<ErrorType> (this->error_val1));
   Expected<void, ErrorType> copied_error = original_error;
-  EXPECT_FALSE(copied_error.has_value());
-  EXPECT_EQ(copied_error.error(), this->error_val1);
-  EXPECT_EQ(copied_error, original_error);
+  EXPECT_FALSE (copied_error.has_value ());
+  EXPECT_EQ (copied_error.error (), this->error_val1);
+  EXPECT_EQ (copied_error, original_error);
 }
 
 /**
- * Цель: Проверить корректность перемещения Expected<void>
- * В чем убеждаемся: Состояние и содержимое корректно перемещаются
- * Как достигается: Использование std::move и проверка состояний
+ * Verifies moving Expected<void>
+ * Asserts: State and contents are moved
+ * Method: Use std::move and check both states
  */
-TYPED_TEST(ExpectedVoidTest, MoveConstructor_MovesStateAndContent)
+TYPED_TEST (ExpectedVoidTest, MoveConstructor_MovesStateAndContent)
 {
   using ErrorType = typename TestFixture::ErrorType;
 
   // Success case
   Expected<void, ErrorType> original_success;
-  Expected<void, ErrorType> moved_success = std::move(original_success);
-  EXPECT_TRUE(moved_success.has_value());
+  Expected<void, ErrorType> moved_success = std::move (original_success);
+  EXPECT_TRUE (moved_success.has_value ());
 
   // Error case
   ErrorType original_error_val = this->error_val1;
-  Expected<void, ErrorType> original_error(Unexpected<ErrorType>(std::move(original_error_val)));
-  Expected<void, ErrorType> moved_error = std::move(original_error);
-  EXPECT_FALSE(moved_error.has_value());
-  EXPECT_EQ(moved_error.error(), this->error_val1);
+  Expected<void, ErrorType> original_error (
+      Unexpected<ErrorType> (std::move (original_error_val)));
+  Expected<void, ErrorType> moved_error = std::move (original_error);
+  EXPECT_FALSE (moved_error.has_value ());
+  EXPECT_EQ (moved_error.error (), this->error_val1);
 }
 
 // === Memory & Lifetime Auditor Tests =====================================
 
 /**
- * Цель: Проверить корректность уничтожения объекта с ошибкой
- * В чем убеждаемся: Ресурсы освобождаются без утечек памяти
- * Как достигается: Создание объекта в состоянии ошибки и проверка корректности
+ * Verifies destroying an object that holds an error
+ * Asserts: Resources are released without leaks
+ * Method: Construct in the error state and check cleanup
  */
-TYPED_TEST(ExpectedVoidTest, Destructor_ProperlyDestroysErrorWhenPresent)
+TYPED_TEST (ExpectedVoidTest, Destructor_ProperlyDestroysErrorWhenPresent)
 {
   using ErrorType = typename TestFixture::ErrorType;
 
   // Simple test that works for all error types
-  Expected<void, ErrorType> uut(Unexpected<ErrorType>(this->error_val1));
-  EXPECT_FALSE(uut.has_value());
-  EXPECT_EQ(uut.error(), this->error_val1);
+  Expected<void, ErrorType> uut (Unexpected<ErrorType> (this->error_val1));
+  EXPECT_FALSE (uut.has_value ());
+  EXPECT_EQ (uut.error (), this->error_val1);
 
-  SUCCEED() << "Expected<void> with error should be correctly destroyed";
+  SUCCEED () << "Expected<void> with error should be correctly destroyed";
 }
 
 /**
- * Цель: Проверить корректность присваивания Expected<void>
- * В чем убеждаемся: Все комбинации состояний корректно обрабатываются
- * Как достигается: Тестирование всех возможных переходов состояний
+ * Verifies assigning Expected<void>
+ * Asserts: Every state combination is handled
+ * Method: Exercise every state transition
  */
-TYPED_TEST(ExpectedVoidTest, CopyAssignment_CopiesStateAndContent)
+TYPED_TEST (ExpectedVoidTest, CopyAssignment_CopiesStateAndContent)
 {
   using ErrorType = typename TestFixture::ErrorType;
 
@@ -257,954 +299,1026 @@ TYPED_TEST(ExpectedVoidTest, CopyAssignment_CopiesStateAndContent)
   Expected<void, ErrorType> src_s;
   Expected<void, ErrorType> dst_s;
   dst_s = src_s;
-  EXPECT_TRUE(dst_s.has_value());
+  EXPECT_TRUE (dst_s.has_value ());
 
   // Error -> Error
-  Expected<void, ErrorType> src_e(Unexpected<ErrorType>(this->error_val1));
-  Expected<void, ErrorType> dst_e(Unexpected<ErrorType>(this->error_val2));
+  Expected<void, ErrorType> src_e (Unexpected<ErrorType> (this->error_val1));
+  Expected<void, ErrorType> dst_e (Unexpected<ErrorType> (this->error_val2));
   dst_e = src_e;
-  EXPECT_FALSE(dst_e.has_value());
-  EXPECT_EQ(dst_e.error(), this->error_val1);
+  EXPECT_FALSE (dst_e.has_value ());
+  EXPECT_EQ (dst_e.error (), this->error_val1);
 
   // Success -> Error
   Expected<void, ErrorType> src_s2;
-  Expected<void, ErrorType> dst_e2(Unexpected<ErrorType>(this->error_val2));
+  Expected<void, ErrorType> dst_e2 (Unexpected<ErrorType> (this->error_val2));
   dst_e2 = src_s2;
-  EXPECT_TRUE(dst_e2.has_value());
+  EXPECT_TRUE (dst_e2.has_value ());
 
   // Error -> Success
-  Expected<void, ErrorType> src_e3(Unexpected<ErrorType>(this->error_val1));
+  Expected<void, ErrorType> src_e3 (Unexpected<ErrorType> (this->error_val1));
   Expected<void, ErrorType> dst_s3;
   dst_s3 = src_e3;
-  EXPECT_FALSE(dst_s3.has_value());
-  EXPECT_EQ(dst_s3.error(), this->error_val1);
+  EXPECT_FALSE (dst_s3.has_value ());
+  EXPECT_EQ (dst_s3.error (), this->error_val1);
 }
 
 /**
- * Цель: Проверить корректность move присваивания Expected<void>
- * В чем убеждаемся: Перемещение происходит без копирования ресурсов
- * Как достигается: Использование std::move и проверка состояний
+ * Verifies move-assigning Expected<void>
+ * Asserts: The move does not copy resources
+ * Method: Use std::move and check both states
  */
-TYPED_TEST(ExpectedVoidTest, MoveAssignment_MovesStateAndContent)
+TYPED_TEST (ExpectedVoidTest, MoveAssignment_MovesStateAndContent)
 {
   using ErrorType = typename TestFixture::ErrorType;
 
   // Success -> Success
   Expected<void, ErrorType> src_s;
   Expected<void, ErrorType> dst_s;
-  dst_s = std::move(src_s);
-  EXPECT_TRUE(dst_s.has_value());
+  dst_s = std::move (src_s);
+  EXPECT_TRUE (dst_s.has_value ());
 
   // Error -> Error
   ErrorType e1_val = this->error_val1;
-  Expected<void, ErrorType> src_e{Unexpected<ErrorType>(e1_val)};
-  Expected<void, ErrorType> dst_e(Unexpected<ErrorType>(this->error_val2));
-  dst_e = std::move(src_e);
-  EXPECT_FALSE(dst_e.has_value());
-  EXPECT_EQ(dst_e.error(), e1_val);
+  Expected<void, ErrorType> src_e{ Unexpected<ErrorType> (e1_val) };
+  Expected<void, ErrorType> dst_e (Unexpected<ErrorType> (this->error_val2));
+  dst_e = std::move (src_e);
+  EXPECT_FALSE (dst_e.has_value ());
+  EXPECT_EQ (dst_e.error (), e1_val);
 
   // Success -> Error
   Expected<void, ErrorType> src_s2;
-  Expected<void, ErrorType> dst_e2(Unexpected<ErrorType>(this->error_val2));
-  dst_e2 = std::move(src_s2);
-  EXPECT_TRUE(dst_e2.has_value());
+  Expected<void, ErrorType> dst_e2 (Unexpected<ErrorType> (this->error_val2));
+  dst_e2 = std::move (src_s2);
+  EXPECT_TRUE (dst_e2.has_value ());
 
   // Error -> Success
   ErrorType e2_val = this->error_val2;
-  Expected<void, ErrorType> src_e3{Unexpected<ErrorType>(e2_val)};
+  Expected<void, ErrorType> src_e3{ Unexpected<ErrorType> (e2_val) };
   Expected<void, ErrorType> dst_s3;
-  dst_s3 = std::move(src_e3);
-  EXPECT_FALSE(dst_s3.has_value());
-  EXPECT_EQ(dst_s3.error(), e2_val);
+  dst_s3 = std::move (src_e3);
+  EXPECT_FALSE (dst_s3.has_value ());
+  EXPECT_EQ (dst_s3.error (), e2_val);
 }
 
 // === Platform Compatibility Engineer Tests ===============================
 
 /**
- * Цель: Проверить корректность обмена содержимым между объектами
- * В чем убеждаемся: swap корректно обменивает состояния объектов
- * Как достигается: Вызов swap и проверка обмена содержимым
+ * Verifies swapping contents between objects
+ * Asserts: swap exchanges the objects' states
+ * Method: Call swap and check the exchanged contents
  */
-TYPED_TEST(ExpectedVoidTest, Swap_ExchangesContentsCorrectly)
+TYPED_TEST (ExpectedVoidTest, Swap_ExchangesContentsCorrectly)
 {
   using ErrorType = typename TestFixture::ErrorType;
 
   // Success <-> Success
   Expected<void, ErrorType> exp1_s;
   Expected<void, ErrorType> exp2_s;
-  exp1_s.swap(exp2_s);
-  EXPECT_TRUE(exp1_s.has_value());
-  EXPECT_TRUE(exp2_s.has_value());
+  exp1_s.swap (exp2_s);
+  EXPECT_TRUE (exp1_s.has_value ());
+  EXPECT_TRUE (exp2_s.has_value ());
 
   // Error <-> Error
-  Expected<void, ErrorType> exp1_e(Unexpected<ErrorType>(this->error_val1));
-  Expected<void, ErrorType> exp2_e(Unexpected<ErrorType>(this->error_val2));
-  exp1_e.swap(exp2_e);
-  EXPECT_FALSE(exp1_e.has_value());
-  EXPECT_EQ(exp1_e.error(), this->error_val2);
-  EXPECT_FALSE(exp2_e.has_value());
-  EXPECT_EQ(exp2_e.error(), this->error_val1);
+  Expected<void, ErrorType> exp1_e (Unexpected<ErrorType> (this->error_val1));
+  Expected<void, ErrorType> exp2_e (Unexpected<ErrorType> (this->error_val2));
+  exp1_e.swap (exp2_e);
+  EXPECT_FALSE (exp1_e.has_value ());
+  EXPECT_EQ (exp1_e.error (), this->error_val2);
+  EXPECT_FALSE (exp2_e.has_value ());
+  EXPECT_EQ (exp2_e.error (), this->error_val1);
 
   // Success <-> Error
   Expected<void, ErrorType> exp_s_to_e;
-  Expected<void, ErrorType> exp_e_to_s(Unexpected<ErrorType>(this->error_val1));
-  exp_s_to_e.swap(exp_e_to_s);
-  EXPECT_FALSE(exp_s_to_e.has_value());
-  EXPECT_EQ(exp_s_to_e.error(), this->error_val1);
-  EXPECT_TRUE(exp_e_to_s.has_value());
+  Expected<void, ErrorType> exp_e_to_s (
+      Unexpected<ErrorType> (this->error_val1));
+  exp_s_to_e.swap (exp_e_to_s);
+  EXPECT_FALSE (exp_s_to_e.has_value ());
+  EXPECT_EQ (exp_s_to_e.error (), this->error_val1);
+  EXPECT_TRUE (exp_e_to_s.has_value ());
 }
 
 // === Concurrency Specialist Tests ========================================
 
 /**
- * Цель: Проверить потокобезопасность создания независимых экземпляров
- * В чем убеждаемся: Множественные потоки могут создавать объекты без конфликтов
- * Как достигается: Создание объектов в разных потоках и проверка корректности
+ * Verifies thread-safety of creating independent instances
+ * Asserts: Multiple threads can create objects without races
+ * Method: Create objects on different threads and check them
  */
-TYPED_TEST(ExpectedVoidTest, ThreadSafety_MultipleIndependentInstances)
+TYPED_TEST (ExpectedVoidTest, ThreadSafety_MultipleIndependentInstances)
 {
-  using ErrorType           = typename TestFixture::ErrorType;
+  using ErrorType = typename TestFixture::ErrorType;
 
   constexpr int num_threads = 10;
   std::vector<std::thread> threads;
 
-  for(int i = 0; i < num_threads; ++i)
-  {
-    threads.emplace_back(
-      [i]()
-      {
-        if(i % 2 == 0)
-        {
-          Expected<void, ErrorType> uut;
-          EXPECT_TRUE(uut.has_value());
-        }
+  for (int i = 0; i < num_threads; ++i)
+    {
+      threads.emplace_back ([i] () {
+        if (i % 2 == 0)
+          {
+            Expected<void, ErrorType> uut;
+            EXPECT_TRUE (uut.has_value ());
+          }
         else
-        {
-          Expected<void, ErrorType> uut(Unexpected<ErrorType>(ErrorType{}));
-          EXPECT_FALSE(uut.has_value());
-        }
+          {
+            Expected<void, ErrorType> uut (
+                Unexpected<ErrorType> (ErrorType{}));
+            EXPECT_FALSE (uut.has_value ());
+          }
       });
-  }
+    }
 
-  for(auto &t : threads) t.join();
+  for (auto &t : threads)
+    t.join ();
 
-  SUCCEED() << "All independent Expected<void> instances created correctly across threads";
+  SUCCEED () << "All independent Expected<void> instances created correctly "
+                "across threads";
 }
 
 // === Performance & Stress Analyst Tests ==================================
 
 /**
- * Цель: Проверить производительность создания и доступа к объектам
- * В чем убеждаемся: Операции выполняются в разумных временных рамках (1 млн. объектов за 100мс)
- * Как достигается: Массовое создание объектов и измерение времени выполнения
+ * Verifies construction and access performance
+ * Asserts: Operations finish in a reasonable time (1e6 objects in 100 ms)
+ * Method: Create many objects and measure elapsed time
  */
-TYPED_TEST(ExpectedVoidTest, Perf_ConstructionAndAccess)
+TYPED_TEST (ExpectedVoidTest, Perf_ConstructionAndAccess)
 {
+#if LUMEX_PERF_WALL_CLOCK_ENABLED
   using ErrorType = typename TestFixture::ErrorType;
 
-  int const N     = 1'000'000;
-  auto start      = std::chrono::high_resolution_clock::now();
+  int const N = 1'000'000;
+  auto start = std::chrono::high_resolution_clock::now ();
 
-  for(int i = 0; i < N; ++i)
-  {
-    if(i % 2 == 0)
+  for (int i = 0; i < N; ++i)
     {
-      Expected<void, ErrorType> uut;
-      EXPECT_TRUE(uut.has_value());
+      if (i % 2 == 0)
+        {
+          Expected<void, ErrorType> uut;
+          EXPECT_TRUE (uut.has_value ());
+        }
+      else
+        {
+          // Use default-constructed error value
+          Expected<void, ErrorType> uut (Unexpected<ErrorType> (ErrorType{}));
+          EXPECT_FALSE (uut.has_value ());
+          LUMEX_ATTRIBUTE_MAYBE_UNUSED auto &err = uut.error ();
+        }
     }
-    else
-    {
-      // Use default-constructed error value
-      Expected<void, ErrorType> uut(Unexpected<ErrorType>(ErrorType{}));
-      EXPECT_FALSE(uut.has_value());
-      [[maybe_unused]] auto &err = uut.error();
-    }
-  }
 
-  auto dur = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - start);
+  auto dur = std::chrono::duration_cast<std::chrono::milliseconds> (
+      std::chrono::high_resolution_clock::now () - start);
 
   long long threshold = 100;
-  if(std::is_same<ErrorType, ComplexError>::value)
+  if (std::is_same<ErrorType, ComplexError>::value)
     threshold = 500;
-  else if(std::is_same<ErrorType, std::string>::value)
+  else if (std::is_same<ErrorType, std::string>::value)
     threshold = 200;
 
-  EXPECT_LT(dur.count(), threshold) << "Construction and access for " << N << " Expected<void, "
-                                    << (std::is_same<ErrorType, int>::value            ? "int"
-                                        : std::is_same<ErrorType, std::string>::value  ? "string"
-                                        : std::is_same<ErrorType, SimpleError>::value  ? "SimpleError"
-                                        : std::is_same<ErrorType, ComplexError>::value ? "ComplexError"
-                                                                                       : "Unknown")
-                                    << "> too slow: " << dur.count() << "ms (Threshold: " << threshold << "ms)";
+  EXPECT_LT (dur.count (), threshold)
+      << "Construction and access for " << N << " Expected<void, "
+      << (std::is_same<ErrorType, int>::value            ? "int"
+          : std::is_same<ErrorType, std::string>::value  ? "string"
+          : std::is_same<ErrorType, SimpleError>::value  ? "SimpleError"
+          : std::is_same<ErrorType, ComplexError>::value ? "ComplexError"
+                                                         : "Unknown")
+      << "> too slow: " << dur.count () << "ms (Threshold: " << threshold
+      << "ms)";
+#else
+  GTEST_SKIP ()
+      << "wall-clock Perf_* thresholds are Release-only (no sanitizers)";
+#endif
 }
 
 // === Monadic Operations Tests ============================================
 
 /**
- * Цель: Проверить корректность работы and_then для lvalue объектов
- * В чем убеждаемся: Функция применяется к успешному состоянию, ошибка пропагируется
- * Как достигается: Вызов and_then и проверка результата
+ * Verifies and_then on lvalue objects
+ * Asserts: The function runs on success; errors are forwarded
+ * Method: Call and_then and check the result
  */
-TYPED_TEST(ExpectedVoidTest, AndThenLValue_AppliesFunctionToVoidOrPropagatesError)
+TYPED_TEST (ExpectedVoidTest,
+            AndThenLValue_AppliesFunctionToVoidOrPropagatesError)
 {
   using ErrorType = typename TestFixture::ErrorType;
 
   // Success case
   Expected<void, ErrorType> success_uut;
-  auto func   = [&]() { return Expected<int, ErrorType>(42); };
-  auto result = success_uut.and_then(func);
+  auto func = [&] () { return Expected<int, ErrorType> (42); };
+  auto result = success_uut.and_then (func);
 
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.value(), 42);
+  EXPECT_TRUE (result.has_value ());
+  EXPECT_EQ (result.value (), 42);
 
   // Error case
-  Expected<void, ErrorType> error_uut(Unexpected<ErrorType>(this->error_val1));
-  auto result_e = error_uut.and_then(func);
+  Expected<void, ErrorType> error_uut (
+      Unexpected<ErrorType> (this->error_val1));
+  auto result_e = error_uut.and_then (func);
 
-  EXPECT_FALSE(result_e.has_value());
-  EXPECT_EQ(result_e.error(), this->error_val1);
+  EXPECT_FALSE (result_e.has_value ());
+  EXPECT_EQ (result_e.error (), this->error_val1);
 }
 
 /**
- * Цель: Проверить корректность работы and_then для const lvalue объектов
- * В чем убеждаемся: Функция применяется к const объекту без изменения состояния
- * Как достигается: Вызов and_then на const объекте и проверка результата
+ * Verifies and_then on const lvalue objects
+ * Asserts: The function runs on a const object without changing state
+ * Method: Call and_then on a const object and check the result
  */
-TYPED_TEST(ExpectedVoidTest, AndThenConstLValue_AppliesFunctionToVoidOrPropagatesError)
+TYPED_TEST (ExpectedVoidTest,
+            AndThenConstLValue_AppliesFunctionToVoidOrPropagatesError)
 {
   using ErrorType = typename TestFixture::ErrorType;
 
   // Success case
   Expected<void, ErrorType> const success_uut;
-  auto func   = [&]() { return Expected<int, ErrorType>(42); };
-  auto result = success_uut.and_then(func);
+  auto func = [&] () { return Expected<int, ErrorType> (42); };
+  auto result = success_uut.and_then (func);
 
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.value(), 42);
+  EXPECT_TRUE (result.has_value ());
+  EXPECT_EQ (result.value (), 42);
 
   // Error case
-  Expected<void, ErrorType> const error_uut(Unexpected<ErrorType>(this->error_val1));
-  auto result_e = error_uut.and_then(func);
+  Expected<void, ErrorType> const error_uut (
+      Unexpected<ErrorType> (this->error_val1));
+  auto result_e = error_uut.and_then (func);
 
-  EXPECT_FALSE(result_e.has_value());
-  EXPECT_EQ(result_e.error(), this->error_val1);
+  EXPECT_FALSE (result_e.has_value ());
+  EXPECT_EQ (result_e.error (), this->error_val1);
 }
 
 /**
- * Цель: Проверить корректность работы and_then для rvalue объектов
- * В чем убеждаемся: Функция применяется к перемещенному объекту
- * Как достигается: Использование std::move и вызов and_then
+ * Verifies and_then on rvalue objects
+ * Asserts: The function runs on the moved object
+ * Method: Use std::move and call and_then
  */
-TYPED_TEST(ExpectedVoidTest, AndThenRValue_AppliesFunctionToVoidOrPropagatesError)
+TYPED_TEST (ExpectedVoidTest,
+            AndThenRValue_AppliesFunctionToVoidOrPropagatesError)
 {
   using ErrorType = typename TestFixture::ErrorType;
 
   // Success case
   Expected<void, ErrorType> success_uut;
-  auto func   = [&]() { return Expected<int, ErrorType>(42); };
-  auto result = std::move(success_uut).and_then(func);
+  auto func = [&] () { return Expected<int, ErrorType> (42); };
+  auto result = std::move (success_uut).and_then (func);
 
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.value(), 42);
+  EXPECT_TRUE (result.has_value ());
+  EXPECT_EQ (result.value (), 42);
 
   // Error case
-  Expected<void, ErrorType> error_uut(Unexpected<ErrorType>(this->error_val1));
-  auto result_e = std::move(error_uut).and_then(func);
+  Expected<void, ErrorType> error_uut (
+      Unexpected<ErrorType> (this->error_val1));
+  auto result_e = std::move (error_uut).and_then (func);
 
-  EXPECT_FALSE(result_e.has_value());
-  EXPECT_EQ(result_e.error(), this->error_val1);
+  EXPECT_FALSE (result_e.has_value ());
+  EXPECT_EQ (result_e.error (), this->error_val1);
 }
 
 /**
- * Цель: Проверить корректность работы and_then для const rvalue объектов
- * В чем убеждаемся: Функция применяется к const rvalue объекту
- * Как достигается: Использование std::move на const объекте
+ * Verifies and_then on const rvalue objects
+ * Asserts: The function runs on a const rvalue
+ * Method: Use std::move on a const object
  */
-TYPED_TEST(ExpectedVoidTest, AndThenConstRValue_AppliesFunctionToVoidOrPropagatesError)
+TYPED_TEST (ExpectedVoidTest,
+            AndThenConstRValue_AppliesFunctionToVoidOrPropagatesError)
 {
   using ErrorType = typename TestFixture::ErrorType;
 
   // Success case
   Expected<void, ErrorType> const success_uut;
-  auto func   = [&]() { return Expected<int, ErrorType>(42); };
-  auto result = std::move(success_uut).and_then(func);
+  auto func = [&] () { return Expected<int, ErrorType> (42); };
+  auto result = std::move (success_uut).and_then (func);
 
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.value(), 42);
+  EXPECT_TRUE (result.has_value ());
+  EXPECT_EQ (result.value (), 42);
 
   // Error case
-  Expected<void, ErrorType> const error_uut(Unexpected<ErrorType>(this->error_val1));
-  auto result_e = std::move(error_uut).and_then(func);
+  Expected<void, ErrorType> const error_uut (
+      Unexpected<ErrorType> (this->error_val1));
+  auto result_e = std::move (error_uut).and_then (func);
 
-  EXPECT_FALSE(result_e.has_value());
-  EXPECT_EQ(result_e.error(), this->error_val1);
+  EXPECT_FALSE (result_e.has_value ());
+  EXPECT_EQ (result_e.error (), this->error_val1);
 }
 
 /**
- * Цель: Проверить корректность работы transform для lvalue объектов
- * В чем убеждаемся: Void значение трансформируется в новый тип, ошибка пропагируется
- * Как достигается: Вызов transform и проверка результата
+ * Verifies transform on lvalue objects
+ * Asserts: The void success is mapped to a new type; errors are forwarded
+ * Method: Call transform and check the result
  */
-TYPED_TEST(ExpectedVoidTest, TransformLValue_TransformsVoidToValueOrPropagatesError)
+TYPED_TEST (ExpectedVoidTest,
+            TransformLValue_TransformsVoidToValueOrPropagatesError)
 {
   using ErrorType = typename TestFixture::ErrorType;
 
   // Success case - transform to non-void
   Expected<void, ErrorType> success_uut;
-  auto func   = [&]() -> int { return 42; };
-  auto result = success_uut.transform(func);
+  auto func = [&] () -> int { return 42; };
+  auto result = success_uut.transform (func);
 
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.value(), 42);
+  EXPECT_TRUE (result.has_value ());
+  EXPECT_EQ (result.value (), 42);
 
   // Success case - transform to void
-  auto void_func   = [&]() {};
-  auto void_result = success_uut.transform(void_func);
+  auto void_func = [&] () {};
+  auto void_result = success_uut.transform (void_func);
 
-  EXPECT_TRUE(void_result.has_value());
+  EXPECT_TRUE (void_result.has_value ());
 
   // Error case
-  Expected<void, ErrorType> error_uut(Unexpected<ErrorType>(this->error_val1));
-  auto result_e = error_uut.transform(func);
+  Expected<void, ErrorType> error_uut (
+      Unexpected<ErrorType> (this->error_val1));
+  auto result_e = error_uut.transform (func);
 
-  EXPECT_FALSE(result_e.has_value());
-  EXPECT_EQ(result_e.error(), this->error_val1);
+  EXPECT_FALSE (result_e.has_value ());
+  EXPECT_EQ (result_e.error (), this->error_val1);
 }
 
 /**
- * Цель: Проверить корректность работы transform для const lvalue объектов
- * В чем убеждаемся: Const объект корректно трансформируется
- * Как достигается: Вызов transform на const объекте
+ * Verifies transform on const lvalue objects
+ * Asserts: A const object is transformed correctly
+ * Method: Call transform on a const object
  */
-TYPED_TEST(ExpectedVoidTest, TransformConstLValue_TransformsVoidToValueOrPropagatesError)
+TYPED_TEST (ExpectedVoidTest,
+            TransformConstLValue_TransformsVoidToValueOrPropagatesError)
 {
   using ErrorType = typename TestFixture::ErrorType;
 
   // Success case - transform to non-void
   Expected<void, ErrorType> const success_uut;
-  auto func   = [&]() -> int { return 42; };
-  auto result = success_uut.transform(func);
+  auto func = [&] () -> int { return 42; };
+  auto result = success_uut.transform (func);
 
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.value(), 42);
+  EXPECT_TRUE (result.has_value ());
+  EXPECT_EQ (result.value (), 42);
 
   // Success case - transform to void
-  auto void_func   = [&]() {};
-  auto void_result = success_uut.transform(void_func);
+  auto void_func = [&] () {};
+  auto void_result = success_uut.transform (void_func);
 
-  EXPECT_TRUE(void_result.has_value());
+  EXPECT_TRUE (void_result.has_value ());
 
   // Error case
-  Expected<void, ErrorType> const error_uut(Unexpected<ErrorType>(this->error_val1));
-  auto result_e = error_uut.transform(func);
+  Expected<void, ErrorType> const error_uut (
+      Unexpected<ErrorType> (this->error_val1));
+  auto result_e = error_uut.transform (func);
 
-  EXPECT_FALSE(result_e.has_value());
-  EXPECT_EQ(result_e.error(), this->error_val1);
+  EXPECT_FALSE (result_e.has_value ());
+  EXPECT_EQ (result_e.error (), this->error_val1);
 }
 
 /**
- * Цель: Проверить корректность работы transform для rvalue объектов
- * В чем убеждаемся: Rvalue объект корректно трансформируется
- * Как достигается: Использование std::move и вызов transform
+ * Verifies transform on rvalue objects
+ * Asserts: An rvalue is transformed correctly
+ * Method: Use std::move and call transform
  */
-TYPED_TEST(ExpectedVoidTest, TransformRValue_TransformsVoidToValueOrPropagatesError)
+TYPED_TEST (ExpectedVoidTest,
+            TransformRValue_TransformsVoidToValueOrPropagatesError)
 {
   using ErrorType = typename TestFixture::ErrorType;
 
   // Success case - transform to non-void
   Expected<void, ErrorType> success_uut;
-  auto func   = [&]() -> int { return 42; };
-  auto result = std::move(success_uut).transform(func);
+  auto func = [&] () -> int { return 42; };
+  auto result = std::move (success_uut).transform (func);
 
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.value(), 42);
+  EXPECT_TRUE (result.has_value ());
+  EXPECT_EQ (result.value (), 42);
 
   // Success case - transform to void
   Expected<void, ErrorType> success_uut2;
-  auto void_func   = [&]() {};
-  auto void_result = std::move(success_uut2).transform(void_func);
+  auto void_func = [&] () {};
+  auto void_result = std::move (success_uut2).transform (void_func);
 
-  EXPECT_TRUE(void_result.has_value());
+  EXPECT_TRUE (void_result.has_value ());
 
   // Error case
-  Expected<void, ErrorType> error_uut(Unexpected<ErrorType>(this->error_val1));
-  auto result_e = std::move(error_uut).transform(func);
+  Expected<void, ErrorType> error_uut (
+      Unexpected<ErrorType> (this->error_val1));
+  auto result_e = std::move (error_uut).transform (func);
 
-  EXPECT_FALSE(result_e.has_value());
-  EXPECT_EQ(result_e.error(), this->error_val1);
+  EXPECT_FALSE (result_e.has_value ());
+  EXPECT_EQ (result_e.error (), this->error_val1);
 }
 
 /**
- * Цель: Проверить корректность работы transform для const rvalue объектов
- * В чем убеждаемся: Const rvalue объект корректно трансформируется
- * Как достигается: Использование std::move на const объекте
+ * Verifies transform on const rvalue objects
+ * Asserts: A const rvalue is transformed correctly
+ * Method: Use std::move on a const object
  */
-TYPED_TEST(ExpectedVoidTest, TransformConstRValue_TransformsVoidToValueOrPropagatesError)
+TYPED_TEST (ExpectedVoidTest,
+            TransformConstRValue_TransformsVoidToValueOrPropagatesError)
 {
   using ErrorType = typename TestFixture::ErrorType;
 
   // Success case - transform to non-void
   Expected<void, ErrorType> const success_uut;
-  auto func   = [&]() -> int { return 42; };
-  auto result = std::move(success_uut).transform(func);
+  auto func = [&] () -> int { return 42; };
+  auto result = std::move (success_uut).transform (func);
 
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.value(), 42);
+  EXPECT_TRUE (result.has_value ());
+  EXPECT_EQ (result.value (), 42);
 
   // Success case - transform to void
   Expected<void, ErrorType> const success_uut2;
-  auto void_func   = [&]() {};
-  auto void_result = std::move(success_uut2).transform(void_func);
+  auto void_func = [&] () {};
+  auto void_result = std::move (success_uut2).transform (void_func);
 
-  EXPECT_TRUE(void_result.has_value());
+  EXPECT_TRUE (void_result.has_value ());
 
   // Error case
-  Expected<void, ErrorType> const error_uut(Unexpected<ErrorType>(this->error_val1));
-  auto result_e = std::move(error_uut).transform(func);
+  Expected<void, ErrorType> const error_uut (
+      Unexpected<ErrorType> (this->error_val1));
+  auto result_e = std::move (error_uut).transform (func);
 
-  EXPECT_FALSE(result_e.has_value());
-  EXPECT_EQ(result_e.error(), this->error_val1);
+  EXPECT_FALSE (result_e.has_value ());
+  EXPECT_EQ (result_e.error (), this->error_val1);
 }
 
 /**
- * Цель: Проверить корректность работы or_else для lvalue объектов
- * В чем убеждаемся: Функция применяется к ошибке, успех пропагируется
- * Как достигается: Вызов or_else и проверка результата
+ * Verifies or_else on lvalue objects
+ * Asserts: The function runs on the error; success is forwarded
+ * Method: Call or_else and check the result
  */
-TYPED_TEST(ExpectedVoidTest, OrElseLValue_AppliesFunctionToErrorOrPropagatesVoid)
+TYPED_TEST (ExpectedVoidTest,
+            OrElseLValue_AppliesFunctionToErrorOrPropagatesVoid)
 {
   using ErrorType = typename TestFixture::ErrorType;
 
   // Error case
-  Expected<void, ErrorType> error_uut(Unexpected<ErrorType>(this->error_val1));
-  auto func   = [&](ErrorType &) { return Expected<void, ErrorType>(unexpect_t(), this->error_val2); };
-  auto result = error_uut.or_else(func);
+  Expected<void, ErrorType> error_uut (
+      Unexpected<ErrorType> (this->error_val1));
+  auto func = [&] (ErrorType &) {
+    return Expected<void, ErrorType> (unexpect_t (), this->error_val2);
+  };
+  auto result = error_uut.or_else (func);
 
-  EXPECT_FALSE(result.has_value());
-  EXPECT_EQ(result.error(), this->error_val2);
+  EXPECT_FALSE (result.has_value ());
+  EXPECT_EQ (result.error (), this->error_val2);
 
   // Success case
   Expected<void, ErrorType> success_uut;
-  auto result_s = success_uut.or_else(func);
+  auto result_s = success_uut.or_else (func);
 
-  EXPECT_TRUE(result_s.has_value());
+  EXPECT_TRUE (result_s.has_value ());
 }
 
 /**
- * Цель: Проверить корректность работы or_else для const lvalue объектов
- * В чем убеждаемся: Const объект корректно обрабатывается
- * Как достигается: Вызов or_else на const объекте
+ * Verifies or_else on const lvalue objects
+ * Asserts: A const object is handled correctly
+ * Method: Call or_else on a const object
  */
-TYPED_TEST(ExpectedVoidTest, OrElseConstLValue_AppliesFunctionToErrorOrPropagatesVoid)
+TYPED_TEST (ExpectedVoidTest,
+            OrElseConstLValue_AppliesFunctionToErrorOrPropagatesVoid)
 {
   using ErrorType = typename TestFixture::ErrorType;
 
   // Error case
-  Expected<void, ErrorType> const error_uut(Unexpected<ErrorType>(this->error_val1));
-  auto func   = [&](ErrorType const &) { return Expected<void, ErrorType>(unexpect_t(), this->error_val2); };
-  auto result = error_uut.or_else(func);
+  Expected<void, ErrorType> const error_uut (
+      Unexpected<ErrorType> (this->error_val1));
+  auto func = [&] (ErrorType const &) {
+    return Expected<void, ErrorType> (unexpect_t (), this->error_val2);
+  };
+  auto result = error_uut.or_else (func);
 
-  EXPECT_FALSE(result.has_value());
-  EXPECT_EQ(result.error(), this->error_val2);
+  EXPECT_FALSE (result.has_value ());
+  EXPECT_EQ (result.error (), this->error_val2);
 
   // Success case
   Expected<void, ErrorType> const success_uut;
-  auto result_s = success_uut.or_else(func);
+  auto result_s = success_uut.or_else (func);
 
-  EXPECT_TRUE(result_s.has_value());
+  EXPECT_TRUE (result_s.has_value ());
 }
 
 /**
- * Цель: Проверить корректность работы or_else для rvalue объектов
- * В чем убеждаемся: Rvalue объект корректно обрабатывается
- * Как достигается: Использование std::move и вызов or_else
+ * Verifies or_else on rvalue objects
+ * Asserts: An rvalue is handled correctly
+ * Method: Use std::move and call or_else
  */
-TYPED_TEST(ExpectedVoidTest, OrElseRValue_AppliesFunctionToErrorOrPropagatesVoid)
+TYPED_TEST (ExpectedVoidTest,
+            OrElseRValue_AppliesFunctionToErrorOrPropagatesVoid)
 {
   using ErrorType = typename TestFixture::ErrorType;
 
   // Error case
-  Expected<void, ErrorType> error_uut(Unexpected<ErrorType>(this->error_val1));
-  auto func   = [&](ErrorType &&) { return Expected<void, ErrorType>(unexpect_t(), this->error_val2); };
-  auto result = std::move(error_uut).or_else(func);
+  Expected<void, ErrorType> error_uut (
+      Unexpected<ErrorType> (this->error_val1));
+  auto func = [&] (ErrorType &&) {
+    return Expected<void, ErrorType> (unexpect_t (), this->error_val2);
+  };
+  auto result = std::move (error_uut).or_else (func);
 
-  EXPECT_FALSE(result.has_value());
-  EXPECT_EQ(result.error(), this->error_val2);
+  EXPECT_FALSE (result.has_value ());
+  EXPECT_EQ (result.error (), this->error_val2);
 
   // Success case
   Expected<void, ErrorType> success_uut;
-  auto result_s = std::move(success_uut).or_else(func);
+  auto result_s = std::move (success_uut).or_else (func);
 
-  EXPECT_TRUE(result_s.has_value());
+  EXPECT_TRUE (result_s.has_value ());
 }
 
 /**
- * Цель: Проверить корректность работы or_else для const rvalue объектов
- * В чем убеждаемся: Const rvalue объект корректно обрабатывается
- * Как достигается: Использование std::move на const объекте
+ * Verifies or_else on const rvalue objects
+ * Asserts: A const rvalue is handled correctly
+ * Method: Use std::move on a const object
  */
-TYPED_TEST(ExpectedVoidTest, OrElseConstRValue_AppliesFunctionToErrorOrPropagatesVoid)
+TYPED_TEST (ExpectedVoidTest,
+            OrElseConstRValue_AppliesFunctionToErrorOrPropagatesVoid)
 {
   using ErrorType = typename TestFixture::ErrorType;
 
   // Error case
-  Expected<void, ErrorType> const error_uut(Unexpected<ErrorType>(this->error_val1));
-  auto func   = [&](ErrorType const &&) { return Expected<void, ErrorType>(unexpect_t(), this->error_val2); };
-  auto result = std::move(error_uut).or_else(func);
+  Expected<void, ErrorType> const error_uut (
+      Unexpected<ErrorType> (this->error_val1));
+  auto func = [&] (ErrorType const &&) {
+    return Expected<void, ErrorType> (unexpect_t (), this->error_val2);
+  };
+  auto result = std::move (error_uut).or_else (func);
 
-  EXPECT_FALSE(result.has_value());
-  EXPECT_EQ(result.error(), this->error_val2);
+  EXPECT_FALSE (result.has_value ());
+  EXPECT_EQ (result.error (), this->error_val2);
 
   // Success case
   Expected<void, ErrorType> const success_uut;
-  auto result_s = std::move(success_uut).or_else(func);
+  auto result_s = std::move (success_uut).or_else (func);
 
-  EXPECT_TRUE(result_s.has_value());
+  EXPECT_TRUE (result_s.has_value ());
 }
 
 /**
- * Цель: Проверить корректность работы transform_error для lvalue объектов
- * В чем убеждаемся: Ошибка трансформируется, успех пропагируется
- * Как достигается: Вызов transform_error и проверка результата
+ * Verifies transform_error on lvalue objects
+ * Asserts: The error is transformed; success is forwarded
+ * Method: Call transform_error and check the result
  */
-TYPED_TEST(ExpectedVoidTest, TransformErrorLValue_TransformsErrorOrPropagatesVoid)
+TYPED_TEST (ExpectedVoidTest,
+            TransformErrorLValue_TransformsErrorOrPropagatesVoid)
 {
   using ErrorType = typename TestFixture::ErrorType;
 
   // Simple test without type conversion issues
-  Expected<void, ErrorType> error_uut(Unexpected<ErrorType>(this->error_val1));
-  EXPECT_FALSE(error_uut.has_value());
-  EXPECT_EQ(error_uut.error(), this->error_val1);
+  Expected<void, ErrorType> error_uut (
+      Unexpected<ErrorType> (this->error_val1));
+  EXPECT_FALSE (error_uut.has_value ());
+  EXPECT_EQ (error_uut.error (), this->error_val1);
 
   // Success case
   Expected<void, ErrorType> success_uut;
-  EXPECT_TRUE(success_uut.has_value());
+  EXPECT_TRUE (success_uut.has_value ());
 }
 
 /**
- * Цель: Проверить корректность работы transform_error для const lvalue объектов
- * В чем убеждаемся: Const объект корректно обрабатывается
- * Как достигается: Вызов transform_error на const объекте
+ * Verifies transform_error on const lvalue objects
+ * Asserts: A const object is handled correctly
+ * Method: Call transform_error on a const object
  */
-TYPED_TEST(ExpectedVoidTest, TransformErrorConstLValue_TransformsErrorOrPropagatesVoid)
+TYPED_TEST (ExpectedVoidTest,
+            TransformErrorConstLValue_TransformsErrorOrPropagatesVoid)
 {
   using ErrorType = typename TestFixture::ErrorType;
 
   // Simple test without type conversion issues
-  Expected<void, ErrorType> const error_uut(Unexpected<ErrorType>(this->error_val1));
-  EXPECT_FALSE(error_uut.has_value());
-  EXPECT_EQ(error_uut.error(), this->error_val1);
+  Expected<void, ErrorType> const error_uut (
+      Unexpected<ErrorType> (this->error_val1));
+  EXPECT_FALSE (error_uut.has_value ());
+  EXPECT_EQ (error_uut.error (), this->error_val1);
 
   // Success case
   Expected<void, ErrorType> const success_uut;
-  EXPECT_TRUE(success_uut.has_value());
+  EXPECT_TRUE (success_uut.has_value ());
 }
 
 /**
- * Цель: Проверить корректность работы transform_error для rvalue объектов
- * В чем убеждаемся: Rvalue объект корректно обрабатывается
- * Как достигается: Использование std::move и вызов transform_error
+ * Verifies transform_error on rvalue objects
+ * Asserts: An rvalue is handled correctly
+ * Method: Use std::move and call transform_error
  */
-TYPED_TEST(ExpectedVoidTest, TransformErrorRValue_TransformsErrorOrPropagatesVoid)
+TYPED_TEST (ExpectedVoidTest,
+            TransformErrorRValue_TransformsErrorOrPropagatesVoid)
 {
   using ErrorType = typename TestFixture::ErrorType;
 
   // Simple test without type conversion issues
-  Expected<void, ErrorType> error_uut(Unexpected<ErrorType>(this->error_val1));
-  EXPECT_FALSE(error_uut.has_value());
-  EXPECT_EQ(error_uut.error(), this->error_val1);
+  Expected<void, ErrorType> error_uut (
+      Unexpected<ErrorType> (this->error_val1));
+  EXPECT_FALSE (error_uut.has_value ());
+  EXPECT_EQ (error_uut.error (), this->error_val1);
 
   // Success case
   Expected<void, ErrorType> success_uut;
-  EXPECT_TRUE(success_uut.has_value());
+  EXPECT_TRUE (success_uut.has_value ());
 }
 
 /**
- * Цель: Проверить корректность работы transform_error для const rvalue объектов
- * В чем убеждаемся: Const rvalue объект корректно обрабатывается
- * Как достигается: Использование std::move на const объекте
+ * Verifies transform_error on const rvalue objects
+ * Asserts: A const rvalue is handled correctly
+ * Method: Use std::move on a const object
  */
-TYPED_TEST(ExpectedVoidTest, TransformErrorConstRValue_TransformsErrorOrPropagatesVoid)
+TYPED_TEST (ExpectedVoidTest,
+            TransformErrorConstRValue_TransformsErrorOrPropagatesVoid)
 {
   using ErrorType = typename TestFixture::ErrorType;
 
   // Simple test without type conversion issues
-  Expected<void, ErrorType> const error_uut(Unexpected<ErrorType>(this->error_val1));
-  EXPECT_FALSE(error_uut.has_value());
-  EXPECT_EQ(error_uut.error(), this->error_val1);
+  Expected<void, ErrorType> const error_uut (
+      Unexpected<ErrorType> (this->error_val1));
+  EXPECT_FALSE (error_uut.has_value ());
+  EXPECT_EQ (error_uut.error (), this->error_val1);
 
   // Success case
   Expected<void, ErrorType> const success_uut;
-  EXPECT_TRUE(success_uut.has_value());
+  EXPECT_TRUE (success_uut.has_value ());
 }
 
 // === Modifiers Tests ====================================================
 
 /**
- * Цель: Проверить корректность emplace для создания void значения
- * В чем убеждаемся: Объект переходит в состояние успеха
- * Как достигается: Вызов emplace() и проверка has_value() == true
+ * Verifies emplace creating a void success
+ * Asserts: The object enters the success state
+ * Method: Call emplace() and check has_value() == true
  */
-TYPED_TEST(ExpectedVoidTest, Emplace_ConstructsVoidInPlace)
+TYPED_TEST (ExpectedVoidTest, Emplace_ConstructsVoidInPlace)
 {
   using ErrorType = typename TestFixture::ErrorType;
 
   // From error state
-  Expected<void, ErrorType> uut(Unexpected<ErrorType>(this->error_val1));
-  EXPECT_FALSE(uut.has_value());
+  Expected<void, ErrorType> uut (Unexpected<ErrorType> (this->error_val1));
+  EXPECT_FALSE (uut.has_value ());
 
-  uut.emplace();
-  EXPECT_TRUE(uut.has_value());
-  EXPECT_NO_THROW(uut.value());
+  uut.emplace ();
+  EXPECT_TRUE (uut.has_value ());
+  EXPECT_NO_THROW (uut.value ());
 
   // From success state
   Expected<void, ErrorType> uut2;
-  EXPECT_TRUE(uut2.has_value());
+  EXPECT_TRUE (uut2.has_value ());
 
-  uut2.emplace();
-  EXPECT_TRUE(uut2.has_value());
-  EXPECT_NO_THROW(uut2.value());
+  uut2.emplace ();
+  EXPECT_TRUE (uut2.has_value ());
+  EXPECT_NO_THROW (uut2.value ());
 }
 
 /**
- * Цель: Проверить корректность emplace_error для создания ошибки
- * В чем убеждаемся: Объект переходит в состояние ошибки
- * Как достигается: Вызов emplace_error и проверка has_value() == false
+ * Verifies emplace_error creating an error
+ * Asserts: The object enters the error state
+ * Method: Call emplace_error and check has_value() == false
  */
-TYPED_TEST(ExpectedVoidTest, EmplaceError_ConstructsErrorInPlace)
+TYPED_TEST (ExpectedVoidTest, EmplaceError_ConstructsErrorInPlace)
 {
   using ErrorType = typename TestFixture::ErrorType;
 
   // From success state
   Expected<void, ErrorType> uut;
-  EXPECT_TRUE(uut.has_value());
+  EXPECT_TRUE (uut.has_value ());
 
-  uut.emplace_error(this->error_val2);
-  EXPECT_FALSE(uut.has_value());
-  EXPECT_EQ(uut.error(), this->error_val2);
+  uut.emplace_error (this->error_val2);
+  EXPECT_FALSE (uut.has_value ());
+  EXPECT_EQ (uut.error (), this->error_val2);
 
   // From error state
-  Expected<void, ErrorType> uut2(Unexpected<ErrorType>(this->error_val1));
-  EXPECT_FALSE(uut2.has_value());
+  Expected<void, ErrorType> uut2 (Unexpected<ErrorType> (this->error_val1));
+  EXPECT_FALSE (uut2.has_value ());
 
-  uut2.emplace_error(this->error_val2);
-  EXPECT_FALSE(uut2.has_value());
-  EXPECT_EQ(uut2.error(), this->error_val2);
+  uut2.emplace_error (this->error_val2);
+  EXPECT_FALSE (uut2.has_value ());
+  EXPECT_EQ (uut2.error (), this->error_val2);
 }
 
 // === Observers Tests ===================================================
 
 /**
- * Цель: Проверить корректность has_value и operator bool
- * В чем убеждаемся: Состояние объекта корректно отражается
- * Как достигается: Проверка has_value() и static_cast<bool>
+ * Verifies has_value and operator bool
+ * Asserts: The object state is reported correctly
+ * Method: Check has_value() and static_cast<bool>
  */
-TYPED_TEST(ExpectedVoidTest, HasValueAndOperatorBool_ReflectsState)
+TYPED_TEST (ExpectedVoidTest, HasValueAndOperatorBool_ReflectsState)
 {
   using ErrorType = typename TestFixture::ErrorType;
 
   // Success case
   Expected<void, ErrorType> success_uut;
-  EXPECT_TRUE(success_uut.has_value());
-  EXPECT_TRUE(static_cast<bool>(success_uut));
+  EXPECT_TRUE (success_uut.has_value ());
+  EXPECT_TRUE (static_cast<bool> (success_uut));
 
   // Error case
-  Expected<void, ErrorType> error_uut(Unexpected<ErrorType>(this->error_val1));
-  EXPECT_FALSE(error_uut.has_value());
-  EXPECT_FALSE(static_cast<bool>(error_uut));
+  Expected<void, ErrorType> error_uut (
+      Unexpected<ErrorType> (this->error_val1));
+  EXPECT_FALSE (error_uut.has_value ());
+  EXPECT_FALSE (static_cast<bool> (error_uut));
 }
 
 /**
- * Цель: Проверить корректность value() для lvalue объектов
- * В чем убеждаемся: Успешное состояние не выбрасывает исключение, ошибка выбрасывает
- * Как достигается: Вызов value() и проверка исключений
+ * Verifies value() on lvalue objects
+ * Asserts: Success does not throw; error throws
+ * Method: Call value() and check exceptions
  */
-TYPED_TEST(ExpectedVoidTest, ValueLValueRef_ThrowsOnError)
+TYPED_TEST (ExpectedVoidTest, ValueLValueRef_ThrowsOnError)
 {
   using ErrorType = typename TestFixture::ErrorType;
 
   // Success case
   Expected<void, ErrorType> success_uut;
-  EXPECT_NO_THROW(success_uut.value());
+  EXPECT_NO_THROW (success_uut.value ());
 
   // Error case
-  Expected<void, ErrorType> error_uut(Unexpected<ErrorType>(this->error_val1));
+  Expected<void, ErrorType> error_uut (
+      Unexpected<ErrorType> (this->error_val1));
 
 #if _WIN32
-  #pragma warning(push)
-  #pragma warning(disable : 4834)
+#pragma warning(push)
+#pragma warning(disable : 4834)
 #endif
 
-  EXPECT_THROW(
-    try { error_uut.value(); } catch(BadExpectedAccess<ErrorType> const &e) {
-      EXPECT_EQ(e.error(), this->error_val1);
-      throw;
-    },
-    BadExpectedAccess<ErrorType>);
+  EXPECT_THROW (
+      try {
+        error_uut.value ();
+      } catch (BadExpectedAccess<ErrorType> const &e) {
+        EXPECT_EQ (e.error (), this->error_val1);
+        throw;
+      },
+      BadExpectedAccess<ErrorType>);
 
 #if _WIN32
-  #pragma warning(pop)
+#pragma warning(pop)
 #endif
 }
 
 /**
- * Цель: Проверить корректность value() для const lvalue объектов
- * В чем убеждаемся: Const объект корректно обрабатывается
- * Как достигается: Вызов value() на const объекте
+ * Verifies value() on const lvalue objects
+ * Asserts: A const object is handled correctly
+ * Method: Call value() on a const object
  */
-TYPED_TEST(ExpectedVoidTest, ValueConstLValueRef_ThrowsOnError)
+TYPED_TEST (ExpectedVoidTest, ValueConstLValueRef_ThrowsOnError)
 {
   using ErrorType = typename TestFixture::ErrorType;
 
   // Success case
   Expected<void, ErrorType> const success_uut;
-  EXPECT_NO_THROW(success_uut.value());
+  EXPECT_NO_THROW (success_uut.value ());
 
   // Error case
-  Expected<void, ErrorType> const error_uut(Unexpected<ErrorType>(this->error_val1));
+  Expected<void, ErrorType> const error_uut (
+      Unexpected<ErrorType> (this->error_val1));
 
 #if _WIN32
-  #pragma warning(push)
-  #pragma warning(disable : 4834)
+#pragma warning(push)
+#pragma warning(disable : 4834)
 #endif
 
-  EXPECT_THROW(
-    try { error_uut.value(); } catch(BadExpectedAccess<ErrorType> const &e) {
-      EXPECT_EQ(e.error(), this->error_val1);
-      throw;
-    },
-    BadExpectedAccess<ErrorType>);
+  EXPECT_THROW (
+      try {
+        error_uut.value ();
+      } catch (BadExpectedAccess<ErrorType> const &e) {
+        EXPECT_EQ (e.error (), this->error_val1);
+        throw;
+      },
+      BadExpectedAccess<ErrorType>);
 
 #if _WIN32
-  #pragma warning(pop)
+#pragma warning(pop)
 #endif
 }
 
 /**
- * Цель: Проверить корректность value() для rvalue объектов
- * В чем убеждаемся: Rvalue объект корректно обрабатывается
- * Как достигается: Использование std::move и вызов value()
+ * Verifies value() on rvalue objects
+ * Asserts: An rvalue is handled correctly
+ * Method: Use std::move and call value()
  */
-TYPED_TEST(ExpectedVoidTest, ValueRValueRef_ThrowsOnError)
+TYPED_TEST (ExpectedVoidTest, ValueRValueRef_ThrowsOnError)
 {
   using ErrorType = typename TestFixture::ErrorType;
 
   // Success case
   Expected<void, ErrorType> success_uut;
-  EXPECT_NO_THROW(std::move(success_uut).value());
+  EXPECT_NO_THROW (std::move (success_uut).value ());
 
   // Error case
-  Expected<void, ErrorType> error_uut(Unexpected<ErrorType>(this->error_val1));
+  Expected<void, ErrorType> error_uut (
+      Unexpected<ErrorType> (this->error_val1));
 
 #if _WIN32
-  #pragma warning(push)
-  #pragma warning(disable : 4834)
+#pragma warning(push)
+#pragma warning(disable : 4834)
 #endif
 
-  EXPECT_THROW(
-    try { std::move(error_uut).value(); } catch(BadExpectedAccess<ErrorType> const &e) {
-      EXPECT_EQ(e.error(), this->error_val1);
-      throw;
-    },
-    BadExpectedAccess<ErrorType>);
+  EXPECT_THROW (
+      try {
+        std::move (error_uut).value ();
+      } catch (BadExpectedAccess<ErrorType> const &e) {
+        EXPECT_EQ (e.error (), this->error_val1);
+        throw;
+      },
+      BadExpectedAccess<ErrorType>);
 
 #if _WIN32
-  #pragma warning(pop)
+#pragma warning(pop)
 #endif
 }
 
 /**
- * Цель: Проверить корректность value() для const rvalue объектов
- * В чем убеждаемся: Const rvalue объект корректно обрабатывается
- * Как достигается: Использование std::move на const объекте
+ * Verifies value() on const rvalue objects
+ * Asserts: A const rvalue is handled correctly
+ * Method: Use std::move on a const object
  */
-TYPED_TEST(ExpectedVoidTest, ValueConstRValueRef_ThrowsOnError)
+TYPED_TEST (ExpectedVoidTest, ValueConstRValueRef_ThrowsOnError)
 {
   using ErrorType = typename TestFixture::ErrorType;
 
   // Success case
   Expected<void, ErrorType> const success_uut;
-  EXPECT_NO_THROW(std::move(success_uut).value());
+  EXPECT_NO_THROW (std::move (success_uut).value ());
 
   // Error case
-  Expected<void, ErrorType> const error_uut(Unexpected<ErrorType>(this->error_val1));
+  Expected<void, ErrorType> const error_uut (
+      Unexpected<ErrorType> (this->error_val1));
 
 #if _WIN32
-  #pragma warning(push)
-  #pragma warning(disable : 4834)
+#pragma warning(push)
+#pragma warning(disable : 4834)
 #endif
 
-  EXPECT_THROW(
-    try { std::move(error_uut).value(); } catch(BadExpectedAccess<ErrorType> const &e) {
-      EXPECT_EQ(e.error(), this->error_val1);
-      throw;
-    },
-    BadExpectedAccess<ErrorType>);
+  EXPECT_THROW (
+      try {
+        std::move (error_uut).value ();
+      } catch (BadExpectedAccess<ErrorType> const &e) {
+        EXPECT_EQ (e.error (), this->error_val1);
+        throw;
+      },
+      BadExpectedAccess<ErrorType>);
 
 #if _WIN32
-  #pragma warning(pop)
+#pragma warning(pop)
 #endif
 }
 
 /**
- * Цель: Проверить корректность error() для lvalue объектов
- * В чем убеждаемся: Ошибка возвращается и может быть изменена
- * Как достигается: Вызов error() и изменение значения
+ * Verifies error() on lvalue objects
+ * Asserts: The error is returned and can be mutated
+ * Method: Call error() and mutate the value
  */
-TYPED_TEST(ExpectedVoidTest, ErrorLValueRef_ReturnsErrorWhenPresent)
+TYPED_TEST (ExpectedVoidTest, ErrorLValueRef_ReturnsErrorWhenPresent)
 {
   using ErrorType = typename TestFixture::ErrorType;
 
   // Error case
-  Expected<void, ErrorType> error_uut(Unexpected<ErrorType>(this->error_val1));
-  EXPECT_EQ(error_uut.error(), this->error_val1);
+  Expected<void, ErrorType> error_uut (
+      Unexpected<ErrorType> (this->error_val1));
+  EXPECT_EQ (error_uut.error (), this->error_val1);
 
   // Modify through error() reference
   ErrorType new_error = this->error_val2;
-  error_uut.error()   = new_error;
-  EXPECT_EQ(error_uut.error(), new_error);
+  error_uut.error () = new_error;
+  EXPECT_EQ (error_uut.error (), new_error);
 }
 
 /**
- * Цель: Проверить корректность error() для const lvalue объектов
- * В чем убеждаемся: Const объект корректно возвращает ошибку
- * Как достигается: Вызов error() на const объекте
+ * Verifies error() on const lvalue objects
+ * Asserts: A const object returns the error
+ * Method: Call error() on a const object
  */
-TYPED_TEST(ExpectedVoidTest, ErrorConstLValueRef_ReturnsErrorWhenPresent)
+TYPED_TEST (ExpectedVoidTest, ErrorConstLValueRef_ReturnsErrorWhenPresent)
 {
   using ErrorType = typename TestFixture::ErrorType;
 
   // Error case
-  Expected<void, ErrorType> const error_uut(Unexpected<ErrorType>(this->error_val1));
-  EXPECT_EQ(error_uut.error(), this->error_val1);
+  Expected<void, ErrorType> const error_uut (
+      Unexpected<ErrorType> (this->error_val1));
+  EXPECT_EQ (error_uut.error (), this->error_val1);
 }
 
 /**
- * Цель: Проверить корректность error() для rvalue объектов
- * В чем убеждаемся: Rvalue объект корректно возвращает ошибку
- * Как достигается: Использование std::move и вызов error()
+ * Verifies error() on rvalue objects
+ * Asserts: An rvalue returns the error
+ * Method: Use std::move and call error()
  */
-TYPED_TEST(ExpectedVoidTest, ErrorRValueRef_ReturnsErrorWhenPresent)
+TYPED_TEST (ExpectedVoidTest, ErrorRValueRef_ReturnsErrorWhenPresent)
 {
   using ErrorType = typename TestFixture::ErrorType;
 
   // Error case
-  Expected<void, ErrorType> error_uut(Unexpected<ErrorType>(this->error_val1));
-  EXPECT_FALSE(error_uut.has_value());
-  EXPECT_EQ(error_uut.error(), this->error_val1);
+  Expected<void, ErrorType> error_uut (
+      Unexpected<ErrorType> (this->error_val1));
+  EXPECT_FALSE (error_uut.has_value ());
+  EXPECT_EQ (error_uut.error (), this->error_val1);
 }
 
 /**
- * Цель: Проверить корректность error() для const rvalue объектов
- * В чем убеждаемся: Const rvalue объект корректно возвращает ошибку
- * Как достигается: Использование std::move на const объекте
+ * Verifies error() on const rvalue objects
+ * Asserts: A const rvalue returns the error
+ * Method: Use std::move on a const object
  */
-TYPED_TEST(ExpectedVoidTest, ErrorConstRValueRef_ReturnsErrorWhenPresent)
+TYPED_TEST (ExpectedVoidTest, ErrorConstRValueRef_ReturnsErrorWhenPresent)
 {
   using ErrorType = typename TestFixture::ErrorType;
 
   // Error case
-  Expected<void, ErrorType> const error_uut(Unexpected<ErrorType>(this->error_val1));
-  EXPECT_FALSE(error_uut.has_value());
-  EXPECT_EQ(error_uut.error(), this->error_val1);
+  Expected<void, ErrorType> const error_uut (
+      Unexpected<ErrorType> (this->error_val1));
+  EXPECT_FALSE (error_uut.has_value ());
+  EXPECT_EQ (error_uut.error (), this->error_val1);
 }
 
 /**
- * Цель: Проверить корректность error_or для lvalue объектов
- * В чем убеждаемся: Возвращается ошибка или значение по умолчанию
- * Как достигается: Вызов error_or и проверка возвращаемого значения
+ * Verifies error_or on lvalue objects
+ * Asserts: Returns the error or the default
+ * Method: Call error_or and check the return value
  */
-TYPED_TEST(ExpectedVoidTest, ErrorOrLValue_ReturnsErrorOrDefault)
+TYPED_TEST (ExpectedVoidTest, ErrorOrLValue_ReturnsErrorOrDefault)
 {
   using ErrorType = typename TestFixture::ErrorType;
 
   // Error case
-  Expected<void, ErrorType> error_uut(Unexpected<ErrorType>(this->error_val1));
-  EXPECT_EQ(error_uut.error_or(this->error_val2), this->error_val1);
+  Expected<void, ErrorType> error_uut (
+      Unexpected<ErrorType> (this->error_val1));
+  EXPECT_EQ (error_uut.error_or (this->error_val2), this->error_val1);
 
   // Success case
   Expected<void, ErrorType> success_uut;
-  EXPECT_EQ(success_uut.error_or(this->error_val2), this->error_val2);
+  EXPECT_EQ (success_uut.error_or (this->error_val2), this->error_val2);
 
   // With temporary default
   ErrorType default_error{};
-  EXPECT_EQ(success_uut.error_or(default_error), default_error);
+  EXPECT_EQ (success_uut.error_or (default_error), default_error);
 }
 
 /**
- * Цель: Проверить корректность error_or для rvalue объектов
- * В чем убеждаемся: Rvalue объект корректно обрабатывается
- * Как достигается: Использование std::move и вызов error_or
+ * Verifies error_or on rvalue objects
+ * Asserts: An rvalue is handled correctly
+ * Method: Use std::move and call error_or
  */
-TYPED_TEST(ExpectedVoidTest, ErrorOrRValue_ReturnsErrorOrDefault)
+TYPED_TEST (ExpectedVoidTest, ErrorOrRValue_ReturnsErrorOrDefault)
 {
   using ErrorType = typename TestFixture::ErrorType;
 
   // Error case
-  Expected<void, ErrorType> error_uut(Unexpected<ErrorType>(this->error_val1));
-  EXPECT_EQ(std::move(error_uut).error_or(this->error_val2), this->error_val1);
+  Expected<void, ErrorType> error_uut (
+      Unexpected<ErrorType> (this->error_val1));
+  EXPECT_EQ (std::move (error_uut).error_or (this->error_val2),
+             this->error_val1);
 
   // Success case
   Expected<void, ErrorType> success_uut;
-  EXPECT_EQ(std::move(success_uut).error_or(this->error_val2), this->error_val2);
+  EXPECT_EQ (std::move (success_uut).error_or (this->error_val2),
+             this->error_val2);
 }
 
 /**
- * Цель: Проверить корректность operator* для lvalue объектов
- * В чем убеждаемся: Успешное состояние не вызывает проблем
- * Как достигается: Использование operator* и проверка корректности
+ * Verifies operator* on lvalue objects
+ * Asserts: The success state does not throw
+ * Method: Use operator* and check the result
  */
-TYPED_TEST(ExpectedVoidTest, DereferenceOperatorLValueRef_WorksOnSuccess)
+TYPED_TEST (ExpectedVoidTest, DereferenceOperatorLValueRef_WorksOnSuccess)
 {
   using ErrorType = typename TestFixture::ErrorType;
 
   // Success case - operator* returns void for Expected<void>
   Expected<void, ErrorType> success_uut;
-  EXPECT_NO_THROW(*success_uut);
+  EXPECT_NO_THROW (*success_uut);
 
   // Error case - should assert in debug
-  Expected<void, ErrorType> error_uut(Unexpected<ErrorType>(this->error_val1));
+  Expected<void, ErrorType> error_uut (
+      Unexpected<ErrorType> (this->error_val1));
   // EXPECT_DEATH(*error_uut, "Dereferencing Expected<void> without a value");
 }
 
 /**
- * Цель: Проверить корректность operator* для const lvalue объектов
- * В чем убеждаемся: Const объект корректно обрабатывается
- * Как достигается: Использование operator* на const объекте
+ * Verifies operator* on const lvalue objects
+ * Asserts: A const object is handled correctly
+ * Method: Use operator* on a const object
  */
-TYPED_TEST(ExpectedVoidTest, DereferenceOperatorConstLValueRef_WorksOnSuccess)
+TYPED_TEST (ExpectedVoidTest, DereferenceOperatorConstLValueRef_WorksOnSuccess)
 {
   using ErrorType = typename TestFixture::ErrorType;
 
   // Success case - operator* returns void for Expected<void>
   Expected<void, ErrorType> const success_uut;
-  EXPECT_NO_THROW(*success_uut);
+  EXPECT_NO_THROW (*success_uut);
 }
 
 /**
- * Цель: Проверить корректность operator* для rvalue объектов
- * В чем убеждаемся: Rvalue объект корректно обрабатывается
- * Как достигается: Использование std::move и operator*
+ * Verifies operator* on rvalue objects
+ * Asserts: An rvalue is handled correctly
+ * Method: Use std::move and operator*
  */
-TYPED_TEST(ExpectedVoidTest, DereferenceOperatorRValueRef_WorksOnSuccess)
+TYPED_TEST (ExpectedVoidTest, DereferenceOperatorRValueRef_WorksOnSuccess)
 {
   using ErrorType = typename TestFixture::ErrorType;
 
   // Success case - operator* returns void for Expected<void>
   Expected<void, ErrorType> success_uut;
-  EXPECT_NO_THROW(*std::move(success_uut));
+  EXPECT_NO_THROW (*std::move (success_uut));
 }
 
 /**
- * Цель: Проверить корректность operator* для const rvalue объектов
- * В чем убеждаемся: Const rvalue объект корректно обрабатывается
- * Как достигается: Использование std::move на const объекте
+ * Verifies operator* on const rvalue objects
+ * Asserts: A const rvalue is handled correctly
+ * Method: Use std::move on a const object
  */
-TYPED_TEST(ExpectedVoidTest, DereferenceOperatorConstRValueRef_WorksOnSuccess)
+TYPED_TEST (ExpectedVoidTest, DereferenceOperatorConstRValueRef_WorksOnSuccess)
 {
   using ErrorType = typename TestFixture::ErrorType;
 
   // Success case - operator* returns void for Expected<void>
   Expected<void, ErrorType> const success_uut;
-  EXPECT_NO_THROW(*std::move(success_uut));
+  EXPECT_NO_THROW (*std::move (success_uut));
 }

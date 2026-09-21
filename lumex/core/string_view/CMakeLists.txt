@@ -3,11 +3,9 @@
 set(LUMEX_STRING_VIEW_NAME LumexCore_string_view)
 set(EXPORT_TO LumexCoreTargets)
 
-add_library(${LUMEX_STRING_VIEW_NAME}
-    LumexStringView.cpp
-    LumexWStringView.cpp
-)
-add_library(Lumex::string_view ALIAS ${LUMEX_STRING_VIEW_NAME})
+file(GLOB_RECURSE SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
+add_library(${LUMEX_STRING_VIEW_NAME} ${SOURCES})
+add_library(lumex::string_view ALIAS ${LUMEX_STRING_VIEW_NAME})
 
 if(WIN32 AND BUILD_SHARED_LIBS)
     target_compile_definitions(${LUMEX_STRING_VIEW_NAME} PRIVATE LUMEX_EXPORTS)
@@ -19,7 +17,7 @@ target_include_directories(${LUMEX_STRING_VIEW_NAME} PUBLIC
 )
 
 target_link_libraries(${LUMEX_STRING_VIEW_NAME} PUBLIC
-    Lumex::utility
+    lumex::utility
 )
 
 lumex_apply_library_versioning(${LUMEX_STRING_VIEW_NAME} "Lumex String View Library")

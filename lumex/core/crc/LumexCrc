@@ -1,1 +1,2 @@
-#include "LumexCrc.hpp"
+#include "parametric/LumexCrcParametric.hpp"
+#include "catalog/LumexCrcCatalog.hpp"

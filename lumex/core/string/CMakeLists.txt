@@ -4,7 +4,7 @@ set(LUMEX_STRING_NAME LumexCore_string)
 set(EXPORT_TO LumexCoreTargets)
 
 add_library(${LUMEX_STRING_NAME} INTERFACE)
-add_library(Lumex::string ALIAS ${LUMEX_STRING_NAME})
+add_library(lumex::string ALIAS ${LUMEX_STRING_NAME})
 
 target_include_directories(${LUMEX_STRING_NAME} INTERFACE
     $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}>

@@ -1,109 +1,108 @@
 @PACKAGE_INIT@
 
-# LumexLib CMake Configuration (aggregates LumexCore + LumexApplied)
+# LumexLib CMake Configuration (aggregates whichever components were installed)
 
 include(CMakeFindDependencyMacro)
 
 if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/LumexCoreTargets.cmake")
     include("${CMAKE_CURRENT_LIST_DIR}/LumexCoreTargets.cmake")
-    # Define aliases for LumexCore components after they are imported
-    if(TARGET Lumex::LumexCore_base64 AND NOT TARGET Lumex::base64)
-        add_library(Lumex::base64 ALIAS Lumex::LumexCore_base64)
+    if(TARGET lumex::LumexCore_base64 AND NOT TARGET lumex::base64)
+        add_library(lumex::base64 ALIAS lumex::LumexCore_base64)
     endif()
-    if(TARGET Lumex::LumexCore_circular_buffer AND NOT TARGET Lumex::circular_buffer)
-        add_library(Lumex::circular_buffer ALIAS Lumex::LumexCore_circular_buffer)
+    if(TARGET lumex::LumexCore_circular_buffer AND NOT TARGET lumex::circular_buffer)
+        add_library(lumex::circular_buffer ALIAS lumex::LumexCore_circular_buffer)
     endif()
-    if(TARGET Lumex::LumexCore_crc AND NOT TARGET Lumex::crc)
-        add_library(Lumex::crc ALIAS Lumex::LumexCore_crc)
+    if(TARGET lumex::LumexCore_crc AND NOT TARGET lumex::crc)
+        add_library(lumex::crc ALIAS lumex::LumexCore_crc)
     endif()
-    if(TARGET Lumex::LumexCore_environment AND NOT TARGET Lumex::environment)
-        add_library(Lumex::environment ALIAS Lumex::LumexCore_environment)
+    if(TARGET lumex::LumexCore_environment AND NOT TARGET lumex::environment)
+        add_library(lumex::environment ALIAS lumex::LumexCore_environment)
     endif()
-    if(TARGET Lumex::LumexCore_exceptions AND NOT TARGET Lumex::exceptions)
-        add_library(Lumex::exceptions ALIAS Lumex::LumexCore_exceptions)
+    if(TARGET lumex::LumexCore_exceptions AND NOT TARGET lumex::exceptions)
+        add_library(lumex::exceptions ALIAS lumex::LumexCore_exceptions)
     endif()
-    if(TARGET Lumex::LumexCore_expected AND NOT TARGET Lumex::expected)
-        add_library(Lumex::expected ALIAS Lumex::LumexCore_expected)
+    if(TARGET lumex::LumexCore_expected AND NOT TARGET lumex::expected)
+        add_library(lumex::expected ALIAS lumex::LumexCore_expected)
     endif()
-    if(TARGET Lumex::LumexCore_filesystem AND NOT TARGET Lumex::filesystem)
-        add_library(Lumex::filesystem ALIAS Lumex::LumexCore_filesystem)
+    if(TARGET lumex::LumexCore_filesystem AND NOT TARGET lumex::filesystem)
+        add_library(lumex::filesystem ALIAS lumex::LumexCore_filesystem)
     endif()
-    if(TARGET Lumex::LumexCore_generators AND NOT TARGET Lumex::generators)
-        add_library(Lumex::generators ALIAS Lumex::LumexCore_generators)
+    if(TARGET lumex::LumexCore_number_generator AND NOT TARGET lumex::number_generator)
+        add_library(lumex::number_generator ALIAS lumex::LumexCore_number_generator)
     endif()
-    if(TARGET Lumex::LumexCore_math AND NOT TARGET Lumex::math)
-        add_library(Lumex::math ALIAS Lumex::LumexCore_math)
+    if(TARGET lumex::LumexCore_math AND NOT TARGET lumex::math)
+        add_library(lumex::math ALIAS lumex::LumexCore_math)
     endif()
-    if(TARGET Lumex::LumexCore_optional AND NOT TARGET Lumex::optional)
-        add_library(Lumex::optional ALIAS Lumex::LumexCore_optional)
+    if(TARGET lumex::LumexCore_optional AND NOT TARGET lumex::optional)
+        add_library(lumex::optional ALIAS lumex::LumexCore_optional)
     endif()
-    if(TARGET Lumex::LumexCore_string AND NOT TARGET Lumex::string)
-        add_library(Lumex::string ALIAS Lumex::LumexCore_string)
+    if(TARGET lumex::LumexCore_reflection AND NOT TARGET lumex::reflection)
+        add_library(lumex::reflection ALIAS lumex::LumexCore_reflection)
     endif()
-    if(TARGET Lumex::LumexCore_string_view AND NOT TARGET Lumex::string_view)
-        add_library(Lumex::string_view ALIAS Lumex::LumexCore_string_view)
+    if(TARGET lumex::LumexCore_string AND NOT TARGET lumex::string)
+        add_library(lumex::string ALIAS lumex::LumexCore_string)
     endif()
-    if(TARGET Lumex::LumexCore_temporary AND NOT TARGET Lumex::temporary)
-        add_library(Lumex::temporary ALIAS Lumex::LumexCore_temporary)
+    if(TARGET lumex::LumexCore_string_view AND NOT TARGET lumex::string_view)
+        add_library(lumex::string_view ALIAS lumex::LumexCore_string_view)
     endif()
-    if(TARGET Lumex::LumexCore_time AND NOT TARGET Lumex::time)
-        add_library(Lumex::time ALIAS Lumex::LumexCore_time)
+    if(TARGET lumex::LumexCore_temporary AND NOT TARGET lumex::temporary)
+        add_library(lumex::temporary ALIAS lumex::LumexCore_temporary)
     endif()
-    if(TARGET Lumex::LumexCore_utility AND NOT TARGET Lumex::utility)
-        add_library(Lumex::utility ALIAS Lumex::LumexCore_utility)
+    if(TARGET lumex::LumexCore_time AND NOT TARGET lumex::time)
+        add_library(lumex::time ALIAS lumex::LumexCore_time)
+    endif()
+    if(TARGET lumex::LumexCore_utility AND NOT TARGET lumex::utility)
+        add_library(lumex::utility ALIAS lumex::LumexCore_utility)
     endif()
 endif()
 
 if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/LumexAppliedTargets.cmake")
     include("${CMAKE_CURRENT_LIST_DIR}/LumexAppliedTargets.cmake")
-    # Define aliases for LumexApplied components after they are imported
-    if(TARGET Lumex::LumexApplied_hardware AND NOT TARGET Lumex::hardware)
-        add_library(Lumex::hardware ALIAS Lumex::LumexApplied_hardware)
+    if(TARGET lumex::LumexApplied_hardware AND NOT TARGET lumex::hardware)
+        add_library(lumex::hardware ALIAS lumex::LumexApplied_hardware)
     endif()
-    if(TARGET Lumex::LumexApplied_logger AND NOT TARGET Lumex::logger)
-        add_library(Lumex::logger ALIAS Lumex::LumexApplied_logger)
+    if(TARGET lumex::LumexApplied_logger AND NOT TARGET lumex::logger)
+        add_library(lumex::logger ALIAS lumex::LumexApplied_logger)
     endif()
-    if(TARGET Lumex::LumexApplied_logging AND NOT TARGET Lumex::logging)
-        add_library(Lumex::logging ALIAS Lumex::LumexApplied_logging)
+    if(TARGET lumex::LumexApplied_logging AND NOT TARGET lumex::logging)
+        add_library(lumex::logging ALIAS lumex::LumexApplied_logging)
     endif()
-    if(TARGET Lumex::LumexApplied_settings AND NOT TARGET Lumex::settings)
-        add_library(Lumex::settings ALIAS Lumex::LumexApplied_settings)
+    if(TARGET lumex::LumexApplied_resource_monitor AND NOT TARGET lumex::resource_monitor)
+        add_library(lumex::resource_monitor ALIAS lumex::LumexApplied_resource_monitor)
+    endif()
+    if(TARGET lumex::LumexApplied_serial AND NOT TARGET lumex::serial)
+        add_library(lumex::serial ALIAS lumex::LumexApplied_serial)
+    endif()
+    if(TARGET lumex::LumexApplied_settings AND NOT TARGET lumex::settings)
+        add_library(lumex::settings ALIAS lumex::LumexApplied_settings)
     endif()
 endif()
 
 if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/LumexXmlTargets.cmake")
     include("${CMAKE_CURRENT_LIST_DIR}/LumexXmlTargets.cmake")
-    if(TARGET Lumex::LumexXml AND NOT TARGET Lumex::xml)
-        add_library(Lumex::xml ALIAS Lumex::LumexXml)
+    if(TARGET lumex::LumexXml AND NOT TARGET lumex::xml)
+        add_library(lumex::xml ALIAS lumex::LumexXml)
     endif()
 endif()
 
-# Provide umbrella INTERFACE target `Lumex::Lumex` if missing
-if(NOT TARGET Lumex::Lumex)
-    add_library(Lumex::Lumex INTERFACE IMPORTED)
-    set_target_properties(Lumex::Lumex PROPERTIES
-        INTERFACE_LINK_LIBRARIES "
-            Lumex::hardware;
-            Lumex::logger;
-            Lumex::logging;
-            Lumex::settings
-            
-            Lumex::base64;
-            Lumex::environment;
-            Lumex::exceptions;
-            Lumex::filesystem;
-            Lumex::generators;
-            Lumex::math;
-            Lumex::optional;
-            Lumex::string;
-            Lumex::string_view;
-            Lumex::temporary;
-            Lumex::time;
-            Lumex::utility;
-            
-            Lumex::xml;
-            "
-    )
+if(NOT TARGET lumex::Lumex)
+    set(_lumex_umbrella)
+    foreach(_c
+            hardware logger logging resource_monitor serial settings
+            base64 circular_buffer crc environment exceptions expected
+            filesystem number_generator math optional reflection string
+            string_view temporary time utility xml)
+        if(TARGET lumex::${_c})
+            list(APPEND _lumex_umbrella lumex::${_c})
+        endif()
+    endforeach()
+    add_library(lumex::Lumex INTERFACE IMPORTED)
+    if(_lumex_umbrella)
+        set_target_properties(lumex::Lumex PROPERTIES
+            INTERFACE_LINK_LIBRARIES "${_lumex_umbrella}"
+        )
+    endif()
+    unset(_lumex_umbrella)
 endif()
 
 check_required_components(LumexLib)

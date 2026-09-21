@@ -3,11 +3,9 @@
 set(LUMEX_HARDWARE_NAME LumexApplied_hardware)
 set(EXPORT_TO LumexAppliedTargets)
 
-add_library(${LUMEX_HARDWARE_NAME} 
-    LumexHardwareCapabilities.cpp
-    LumexCPUVectorizationCapabilities.cpp
-)
-add_library(Lumex::hardware ALIAS ${LUMEX_HARDWARE_NAME})
+file(GLOB_RECURSE SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
+add_library(${LUMEX_HARDWARE_NAME} ${SOURCES})
+add_library(lumex::hardware ALIAS ${LUMEX_HARDWARE_NAME})
 
 if(BUILD_SHARED_LIBS AND WIN32)
     target_compile_definitions(${LUMEX_HARDWARE_NAME} PRIVATE LUMEX_EXPORTS)
@@ -19,8 +17,8 @@ target_include_directories(${LUMEX_HARDWARE_NAME} PUBLIC
 )
 
 target_link_libraries(${LUMEX_HARDWARE_NAME} PUBLIC
-    Lumex::logging
-    Lumex::utility
+    lumex::logging
+    lumex::utility
 )
 
 lumex_apply_library_versioning(${LUMEX_HARDWARE_NAME} "Lumex Hardware Capabilities Library")

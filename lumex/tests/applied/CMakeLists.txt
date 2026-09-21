@@ -1,5 +1,8 @@
 # lumex/tests/applied/CMakeLists.txt
 
-add_subdirectory(hardware)
-add_subdirectory(logging)
-add_subdirectory(settings)
+lumex_add_subdirectory_if(LUMEX_BUILD_HARDWARE hardware)
+lumex_add_subdirectory_if(LUMEX_BUILD_LOGGER logger)
+lumex_add_subdirectory_if(LUMEX_BUILD_LOGGING logging)
+lumex_add_subdirectory_if(LUMEX_BUILD_RESOURCE_MONITOR resource_monitor)
+lumex_add_subdirectory_if(LUMEX_BUILD_SERIAL serial)
+lumex_add_subdirectory_if(LUMEX_BUILD_SETTINGS settings)

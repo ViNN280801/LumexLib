@@ -56,7 +56,7 @@ add_library(${LUMEX_XML_NAME} SHARED
     xpath/variable/XPathVariableSet.cpp
 )
 
-add_library(Lumex::xml ALIAS ${LUMEX_XML_NAME})
+add_library(lumex::xml ALIAS ${LUMEX_XML_NAME})
 
 if(BUILD_SHARED_LIBS)
     target_compile_definitions(${LUMEX_XML_NAME} PRIVATE LUMEX_EXPORTS)
@@ -102,7 +102,7 @@ target_include_directories(${LUMEX_XML_NAME} PUBLIC
     $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/lumex/core/utility>
 )
 
-target_link_libraries(${LUMEX_XML_NAME} PUBLIC Lumex::utility)
+target_link_libraries(${LUMEX_XML_NAME} PUBLIC lumex::utility)
 
 if(NOT WIN32)
     set_target_properties(${LUMEX_XML_NAME} PROPERTIES

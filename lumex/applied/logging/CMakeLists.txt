@@ -3,8 +3,9 @@
 set(LUMEX_LOGGING_NAME LumexApplied_logging)
 set(EXPORT_TO LumexAppliedTargets)
 
-add_library(${LUMEX_LOGGING_NAME} LumexLogging.cpp)
-add_library(Lumex::logging ALIAS ${LUMEX_LOGGING_NAME})
+file(GLOB_RECURSE SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
+add_library(${LUMEX_LOGGING_NAME} ${SOURCES})
+add_library(lumex::logging ALIAS ${LUMEX_LOGGING_NAME})
 
 if(BUILD_SHARED_LIBS AND WIN32)
     target_compile_definitions(${LUMEX_LOGGING_NAME} PRIVATE LUMEX_EXPORTS)
@@ -16,10 +17,10 @@ target_include_directories(${LUMEX_LOGGING_NAME} PUBLIC
 )
 
 target_link_libraries(${LUMEX_LOGGING_NAME} PUBLIC
-    Lumex::environment
-    Lumex::filesystem
-    Lumex::string
-    Lumex::time
+    lumex::environment
+    lumex::filesystem
+    lumex::string
+    lumex::time
 )
 
 lumex_apply_library_versioning(${LUMEX_LOGGING_NAME} "Lumex Logging Library")

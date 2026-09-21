@@ -1,0 +1,17 @@
+# logger has no Lumex-module CMake link. CORE=OFF plus only logger ON
+# must not FATAL.
+
+include("${LUMEX_SOURCE_DIR}/lumex/tests/cmake/setup_all_on.cmake")
+
+set(LUMEX_BUILD_CORE OFF)
+set(LUMEX_BUILD_XML OFF)
+set(LUMEX_BUILD_HARDWARE OFF)
+set(LUMEX_BUILD_LOGGING OFF)
+set(LUMEX_BUILD_RESOURCE_MONITOR OFF)
+set(LUMEX_BUILD_SERIAL OFF)
+set(LUMEX_BUILD_SETTINGS OFF)
+set(LUMEX_BUILD_LOGGER ON)
+set(LUMEX_BUILD_APPLIED ON)
+
+include("${LUMEX_SOURCE_DIR}/cmake/LumexModules.cmake")
+lumex_check_module_dependencies()

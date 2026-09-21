@@ -4,11 +4,16 @@ set(LUMEX_EXPECTED_NAME LumexCore_expected)
 set(EXPORT_TO LumexCoreTargets)
 
 add_library(${LUMEX_EXPECTED_NAME} INTERFACE)
-add_library(Lumex::expected ALIAS ${LUMEX_EXPECTED_NAME})
+add_library(lumex::expected ALIAS ${LUMEX_EXPECTED_NAME})
 
 target_include_directories(${LUMEX_EXPECTED_NAME} INTERFACE
     $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}>
     $<INSTALL_INTERFACE:include>
+)
+
+# LUMEX_ASSERT expands to lumex_assert_handler (LumexCore_utility).
+target_link_libraries(${LUMEX_EXPECTED_NAME} INTERFACE
+    lumex::utility
 )
 
 install(TARGETS ${LUMEX_EXPECTED_NAME} EXPORT ${EXPORT_TO})

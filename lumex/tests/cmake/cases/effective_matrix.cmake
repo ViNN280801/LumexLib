@@ -1,0 +1,65 @@
+# Exhaustive effective-on matrix: group AND module, including XML
+# (group == module) and an unknown option (no group).
+
+include("${LUMEX_SOURCE_DIR}/lumex/tests/cmake/setup_all_on.cmake")
+include("${LUMEX_SOURCE_DIR}/cmake/LumexModules.cmake")
+
+function(_assert_effective opt_var expected)
+    lumex_effective_on(_got "${opt_var}")
+    if(expected AND NOT _got)
+        message(FATAL_ERROR "expected ${opt_var} effective ON")
+    endif()
+    if(NOT expected AND _got)
+        message(FATAL_ERROR "expected ${opt_var} effective OFF")
+    endif()
+endfunction()
+
+function(_assert_group opt_var expected)
+    lumex_module_group(_got "${opt_var}")
+    if(NOT _got STREQUAL expected)
+        message(FATAL_ERROR
+            "group of ${opt_var} is '${_got}', expected '${expected}'")
+    endif()
+endfunction()
+
+_assert_group(LUMEX_BUILD_BASE64 LUMEX_BUILD_CORE)
+_assert_group(LUMEX_BUILD_HARDWARE LUMEX_BUILD_APPLIED)
+_assert_group(LUMEX_BUILD_XML LUMEX_BUILD_XML)
+_assert_group(LUMEX_BUILD_NOT_A_MODULE "")
+
+foreach(_opt ${LUMEX_CORE_MODULE_OPTIONS})
+    _assert_effective(${_opt} TRUE)
+endforeach()
+foreach(_opt ${LUMEX_APPLIED_MODULE_OPTIONS})
+    _assert_effective(${_opt} TRUE)
+endforeach()
+_assert_effective(LUMEX_BUILD_XML TRUE)
+
+set(LUMEX_BUILD_CORE OFF)
+foreach(_opt ${LUMEX_CORE_MODULE_OPTIONS})
+    _assert_effective(${_opt} FALSE)
+endforeach()
+foreach(_opt ${LUMEX_APPLIED_MODULE_OPTIONS})
+    _assert_effective(${_opt} TRUE)
+endforeach()
+_assert_effective(LUMEX_BUILD_XML TRUE)
+set(LUMEX_BUILD_CORE ON)
+
+set(LUMEX_BUILD_APPLIED OFF)
+foreach(_opt ${LUMEX_CORE_MODULE_OPTIONS})
+    _assert_effective(${_opt} TRUE)
+endforeach()
+foreach(_opt ${LUMEX_APPLIED_MODULE_OPTIONS})
+    _assert_effective(${_opt} FALSE)
+endforeach()
+set(LUMEX_BUILD_APPLIED ON)
+
+set(LUMEX_BUILD_CRC OFF)
+_assert_effective(LUMEX_BUILD_CRC FALSE)
+_assert_effective(LUMEX_BUILD_BASE64 TRUE)
+set(LUMEX_BUILD_CRC ON)
+
+set(LUMEX_NOT_A_MODULE ON)
+_assert_effective(LUMEX_NOT_A_MODULE TRUE)
+set(LUMEX_NOT_A_MODULE OFF)
+_assert_effective(LUMEX_NOT_A_MODULE FALSE)

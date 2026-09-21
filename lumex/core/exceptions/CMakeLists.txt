@@ -7,8 +7,10 @@ file(GLOB_RECURSE SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp"
 )
 
-add_library(${LUMEX_EXCEPTIONS_NAME} ${SOURCES})
-add_library(Lumex::exceptions ALIAS ${LUMEX_EXCEPTIONS_NAME})
+# LumexExceptionWrapper.hpp is header-only (template-only, no .cpp) so the GLOB above never picks it up -
+# listed explicitly so it still shows up as a target source in IDEs.
+add_library(${LUMEX_EXCEPTIONS_NAME} ${SOURCES} LumexExceptionWrapper.hpp)
+add_library(lumex::exceptions ALIAS ${LUMEX_EXCEPTIONS_NAME})
 
 if(BUILD_SHARED_LIBS AND WIN32)
     target_compile_definitions(${LUMEX_EXCEPTIONS_NAME} PRIVATE LUMEX_EXPORTS)
@@ -20,11 +22,11 @@ target_include_directories(${LUMEX_EXCEPTIONS_NAME} PUBLIC
 )
 
 target_link_libraries(${LUMEX_EXCEPTIONS_NAME} PUBLIC
-    Lumex::environment
-    Lumex::filesystem
-    Lumex::string
-    Lumex::time
-    Lumex::utility
+    lumex::environment
+    lumex::filesystem
+    lumex::string
+    lumex::time
+    lumex::utility
 )
 
 if(WIN32)

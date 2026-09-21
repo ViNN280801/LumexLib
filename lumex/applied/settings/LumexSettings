@@ -1,4 +1,12 @@
-#include "SupportedConfigExtensions.hpp"
+#include "interface/ILumexSettings.hpp"
 
-#include "LumexSettingsFactory.hpp"
-#include "LumexSettingsINI.hpp"
+#include "factory/LumexSettingsFactory.hpp"
+
+#include "guard/LumexSettingsGuard.hpp"
+
+#include "ini/LumexSettingsINI.hpp"
+#include "ini/SupportedConfigExtensions.hpp"
+
+#include "json/LumexSettingsJSON.hpp"
+
+#include "xml/LumexSettingsXML.hpp"

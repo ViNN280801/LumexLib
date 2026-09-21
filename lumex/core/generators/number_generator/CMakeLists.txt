@@ -4,7 +4,7 @@ set(LUMEX_NUMBER_GENERATOR_NAME LumexCore_number_generator)
 set(EXPORT_TO LumexCoreTargets)
 
 add_library(${LUMEX_NUMBER_GENERATOR_NAME} INTERFACE)
-add_library(Lumex::number_generator ALIAS ${LUMEX_NUMBER_GENERATOR_NAME})
+add_library(lumex::number_generator ALIAS ${LUMEX_NUMBER_GENERATOR_NAME})
 
 target_include_directories(${LUMEX_NUMBER_GENERATOR_NAME} INTERFACE
     $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}>

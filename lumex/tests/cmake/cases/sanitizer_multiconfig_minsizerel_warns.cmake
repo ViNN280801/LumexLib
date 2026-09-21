@@ -1,0 +1,7 @@
+set(LUMEX_USE_ASAN OFF)
+set(LUMEX_USE_UBSAN ON)
+set(LUMEX_USE_TSAN OFF)
+unset(CMAKE_BUILD_TYPE)
+set(CMAKE_CONFIGURATION_TYPES "Debug;MinSizeRel")
+include("${CMAKE_CURRENT_LIST_DIR}/_sanitizer_build_type.cmake")
+lumex_run_sanitizer_build_type_check(TRUE)

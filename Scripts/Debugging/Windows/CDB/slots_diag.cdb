@@ -1,0 +1,35 @@
+$$ slots_diag.cdb - Disassemble vtable functions to map slot layout, and list
+$$ all symbols for a target class to confirm which overrides are present.
+$$
+$$ Run after the crash stops (STATUS_BREAKPOINT / pure-virtual trap).
+$$
+$$ Required CDB aliases (set in crash_diag.ps1 -ExtraCmd, or manually in CDB):
+$$   as TargetExe    <module_name>           e.g.  TeuchosCore_TypeConversions_UnitTest
+$$   as TargetClass  <qualified_class_name>  e.g.  `anonymous namespace'::MyClass<int>
+$$   as SlotAddr     <vtable_slot_address>   e.g.  00007ff6466b4ba0
+$$
+$$ Quick manual alias setup inside CDB:
+$$   as TargetExe   TeuchosCore_TypeConversions_UnitTest
+$$   as TargetClass `anonymous namespace'::asSafe_realToUnsignedIntTypeOverflow_UnitTest<double,unsigned int>
+$$   as SlotAddr    00007ff6466b4ba0
+$$   $$<D:\Develop\Trilinos\Scripts\CDB\slots_diag.cdb
+
+.echo ===== list all symbols for the target class =====
+x ${TargetExe}!*${TargetClass}*
+
+.echo ===== class memory layout (dt) =====
+dt ${TargetExe}!${TargetClass}
+
+.echo ===== disassemble unitTestFileLineNumber (known anchor method) =====
+uf ${TargetExe}!${TargetClass}::unitTestFileLineNumber
+
+.echo ===== disassemble runUnitTestImpl (may show pure-call stub if broken) =====
+uf ${TargetExe}!${TargetClass}::runUnitTestImpl
+
+.echo ===== disassemble function at suspect vtable slot =====
+ub ${SlotAddr}
+u  ${SlotAddr} L30
+
+.echo ===== DONE slots_diag =====
+.logclose
+q

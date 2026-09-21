@@ -3,8 +3,9 @@
 set(LUMEX_TEMPORARY_NAME LumexCore_temporary)
 set(EXPORT_TO LumexCoreTargets)
 
-add_library(${LUMEX_TEMPORARY_NAME} LumexTemporary.cpp)
-add_library(Lumex::temporary ALIAS ${LUMEX_TEMPORARY_NAME})
+file(GLOB_RECURSE SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
+add_library(${LUMEX_TEMPORARY_NAME} ${SOURCES})
+add_library(lumex::temporary ALIAS ${LUMEX_TEMPORARY_NAME})
 
 if(BUILD_SHARED_LIBS AND WIN32)
     target_compile_definitions(${LUMEX_TEMPORARY_NAME} PRIVATE LUMEX_EXPORTS)
@@ -16,8 +17,8 @@ target_include_directories(${LUMEX_TEMPORARY_NAME} PUBLIC
 )
 
 target_link_libraries(${LUMEX_TEMPORARY_NAME} PUBLIC
-    Lumex::environment
-    Lumex::filesystem
+    lumex::environment
+    lumex::filesystem
 )
 
 lumex_apply_library_versioning(${LUMEX_TEMPORARY_NAME} "Lumex Temporary Library")

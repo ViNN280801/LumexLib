@@ -2,38 +2,45 @@
 
 #include "XmlNode.hpp"
 
-#include "lumex/core/utility/LumexAssert.hpp"
+#include "lumex/core/utility/assert/LumexAssert.hpp"
 
-using namespace Lumex::Xml::Node;
-
-LUMEX_PUBLIC_API
-inline XmlNodeIterator::XmlNodeIterator(XmlNode const &node) : m_wrap(node), m_parent(node.parent()) {}
+using namespace lumex::xml::node;
 
 LUMEX_PUBLIC_API
-inline XmlNodeIterator::XmlNodeIterator(XmlNodeBase *ref, // NOLINT(bugprone-easily-swappable-parameters)
-                                        XmlNodeBase *parent)
-    : m_wrap(ref), m_parent(parent)
-{}
-
-LUMEX_PUBLIC_API
-inline bool
-XmlNodeIterator::operator==(XmlNodeIterator const &rhs) const
+inline XmlNodeIterator::XmlNodeIterator (XmlNode const &node)
+    : m_wrap (node), m_parent (node.parent ())
 {
-  return m_wrap.m_root == rhs.m_wrap.m_root && m_parent.m_root == rhs.m_parent.m_root;
+}
+
+LUMEX_PUBLIC_API
+inline XmlNodeIterator::XmlNodeIterator (
+    XmlNodeBase *ref, // NOLINT(bugprone-easily-swappable-parameters)
+    XmlNodeBase *parent)
+    : m_wrap (ref), m_parent (parent)
+{
 }
 
 LUMEX_PUBLIC_API
 inline bool
-XmlNodeIterator::operator!=(XmlNodeIterator const &rhs) const
+XmlNodeIterator::operator== (XmlNodeIterator const &rhs) const
 {
-  return m_wrap.m_root != rhs.m_wrap.m_root || m_parent.m_root != rhs.m_parent.m_root;
+  return m_wrap.m_root == rhs.m_wrap.m_root
+         && m_parent.m_root == rhs.m_parent.m_root;
+}
+
+LUMEX_PUBLIC_API
+inline bool
+XmlNodeIterator::operator!= (XmlNodeIterator const &rhs) const
+{
+  return m_wrap.m_root != rhs.m_wrap.m_root
+         || m_parent.m_root != rhs.m_parent.m_root;
 }
 
 LUMEX_PUBLIC_API
 inline XmlNode &
-XmlNodeIterator::operator*() const
+XmlNodeIterator::operator* () const
 {
-  LUMEX_ASSERT(m_wrap.m_root);
+  LUMEX_ASSERT (m_wrap.m_root);
   return m_wrap;
 }
 
@@ -41,22 +48,22 @@ LUMEX_PUBLIC_API
 inline XmlNode *
 XmlNodeIterator::operator->() const
 {
-  LUMEX_ASSERT(m_wrap.m_root);
+  LUMEX_ASSERT (m_wrap.m_root);
   return &m_wrap;
 }
 
 LUMEX_PUBLIC_API
 inline XmlNodeIterator &
-XmlNodeIterator::operator++()
+XmlNodeIterator::operator++ ()
 {
-  LUMEX_ASSERT(m_wrap.m_root);
+  LUMEX_ASSERT (m_wrap.m_root);
   m_wrap.m_root = m_wrap.m_root->next_sibling;
   return *this;
 }
 
 LUMEX_PUBLIC_API
 inline XmlNodeIterator
-XmlNodeIterator::operator++(int)
+XmlNodeIterator::operator++ (int)
 {
   XmlNodeIterator temp = *this;
   ++*this;
@@ -65,15 +72,16 @@ XmlNodeIterator::operator++(int)
 
 LUMEX_PUBLIC_API
 inline XmlNodeIterator &
-XmlNodeIterator::operator--()
+XmlNodeIterator::operator-- ()
 {
-  m_wrap = (m_wrap.m_root != nullptr) ? m_wrap.previous_sibling() : m_parent.last_child();
+  m_wrap = (m_wrap.m_root != nullptr) ? m_wrap.previous_sibling ()
+                                      : m_parent.last_child ();
   return *this;
 }
 
 LUMEX_PUBLIC_API
 inline XmlNodeIterator
-XmlNodeIterator::operator--(int)
+XmlNodeIterator::operator-- (int)
 {
   XmlNodeIterator temp = *this;
   --*this;

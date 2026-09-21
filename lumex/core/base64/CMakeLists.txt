@@ -3,12 +3,9 @@
 set(LUMEX_BASE64_NAME LumexCore_base64)
 set(EXPORT_TO LumexCoreTargets)
 
-add_library(${LUMEX_BASE64_NAME}
-    Decoder.cpp
-    Encoder.cpp
-    Validator.cpp
-)
-add_library(Lumex::base64 ALIAS ${LUMEX_BASE64_NAME})
+file(GLOB_RECURSE SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
+add_library(${LUMEX_BASE64_NAME} ${SOURCES})
+add_library(lumex::base64 ALIAS ${LUMEX_BASE64_NAME})
 
 if(BUILD_SHARED_LIBS AND WIN32)
     target_compile_definitions(${LUMEX_BASE64_NAME} PRIVATE LUMEX_EXPORTS)
@@ -20,7 +17,7 @@ target_include_directories(${LUMEX_BASE64_NAME} PUBLIC
 )
 
 target_link_libraries(${LUMEX_BASE64_NAME} PUBLIC
-    Lumex::utility
+    lumex::utility
 )
 
 lumex_apply_library_versioning(${LUMEX_BASE64_NAME} "Lumex Base64 Library")

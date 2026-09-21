@@ -4,30 +4,15 @@ set(TEST_EXECUTABLE_NAME LumexCircularBufferTests)
 
 add_executable(
     ${TEST_EXECUTABLE_NAME}
+    CircularBuffer.header.tests.cpp
     CircularBuffer.tests.cpp
 )
 
 target_link_libraries(
     ${TEST_EXECUTABLE_NAME}
     PRIVATE
-    GTest::gtest_main
-    Lumex::circular_buffer
+    lumex::circular_buffer
 )
 
-if(WIN32)
-    add_custom_command(
-        TARGET ${TEST_EXECUTABLE_NAME} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different
-        $<TARGET_FILE:GTest::gtest>
-        $<TARGET_FILE_DIR:${TEST_EXECUTABLE_NAME}>
-
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different
-        $<TARGET_FILE:GTest::gtest_main>
-        $<TARGET_FILE_DIR:${TEST_EXECUTABLE_NAME}>
-
-        COMMENT "Copying GoogleTest DLLs for runtime execution"
-    )
-endif()
-
-include(GoogleTest)
+lumex_test_use_gtest(${TEST_EXECUTABLE_NAME} CXX_STANDARD 11)
 gtest_discover_tests(${TEST_EXECUTABLE_NAME})

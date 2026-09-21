@@ -4,7 +4,10 @@ set(TEST_EXECUTABLE_NAME LumexSettingsTests)
 
 add_executable(
     ${TEST_EXECUTABLE_NAME}
+    LumexSettingsGuard.tests.cpp
     LumexSettingsINI.tests.cpp
+    LumexSettingsJSON.tests.cpp
+    LumexSettingsXML.tests.cpp
 )
 
 set_target_properties(${TEST_EXECUTABLE_NAME} PROPERTIES
@@ -14,11 +17,10 @@ set_target_properties(${TEST_EXECUTABLE_NAME} PROPERTIES
 target_link_libraries(
     ${TEST_EXECUTABLE_NAME}
     PRIVATE
-    GTest::gtest_main
-    Lumex::filesystem
-    Lumex::settings
-    Lumex::utility
+    lumex::filesystem
+    lumex::settings
+    lumex::utility
 )
 
-include(GoogleTest)
+lumex_test_use_gtest(${TEST_EXECUTABLE_NAME} CXX_STANDARD 11)
 gtest_discover_tests(${TEST_EXECUTABLE_NAME})

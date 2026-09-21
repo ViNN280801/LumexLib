@@ -6,3 +6,5 @@
 
 #include "stacktrace/LumexStacktrace.hpp"
 #include "stacktrace/LumexStacktraceEntry.hpp"
+
+#include "LumexExceptionWrapper.hpp"

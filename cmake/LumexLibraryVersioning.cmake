@@ -9,7 +9,7 @@ include(${CMAKE_CURRENT_LIST_DIR}/LibraryVersioning.cmake)
 
 # Lumex vendor information
 set(LUMEX_VENDOR_NAME "Semykin Vladislav")
-set(LUMEX_VENDOR_EMAIL "vladislav_semykin01@mail.ru")
+set(LUMEX_VENDOR_EMAIL "vladislav.semykin@gmail.com")
 set(LUMEX_VENDOR_COMPANY "Lumex Ltd.")
 
 # Get current year dynamically

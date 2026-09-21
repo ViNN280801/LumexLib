@@ -4,9 +4,14 @@
 
 #include "XmlDocumentBase.hpp"
 
-using namespace Lumex::Xml::Document;
-using namespace Lumex::Xml::Memory;
-using namespace Lumex::Xml::Node;
+using namespace lumex::xml::document;
+using namespace lumex::xml::memory;
+using namespace lumex::xml::node;
+using namespace lumex::xml::types;
+using namespace lumex::xml::types::Types;
 
 LUMEX_PUBLIC_API
-XmlDocumentBase::XmlDocumentBase(XmlMemoryPage *page) : XmlNodeBase(page, node_document), XmlAllocator(page) {}
+XmlDocumentBase::XmlDocumentBase (XmlMemoryPage *page)
+    : XmlNodeBase (page, node_document), XmlAllocator (page)
+{
+}

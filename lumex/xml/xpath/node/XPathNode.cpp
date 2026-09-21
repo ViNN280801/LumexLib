@@ -2,47 +2,58 @@
 
 #include "XPathNode.hpp"
 
-using namespace Lumex::Xml::XPath::Node;
+using namespace lumex::xml::xpath::node;
 
 LUMEX_PUBLIC_API
-inline XPathNode::XPathNode(Lumex::Xml::Node::XmlNode const &node_) : m_node(node_) {}
-
-LUMEX_PUBLIC_API
-inline XPathNode::XPathNode(Lumex::Xml::Attribute::XmlAttribute const &attribute_,
-                            Lumex::Xml::Node::XmlNode const &parent_)
-    : m_node((attribute_ != nullptr) ? parent_ : Lumex::Xml::Node::XmlNode()), m_attribute(attribute_)
-{}
-
-LUMEX_PUBLIC_API
-inline Lumex::Xml::Node::XmlNode
-XPathNode::node() const
+inline XPathNode::XPathNode (lumex::xml::node::XmlNode const &node_)
+    : m_node (node_)
 {
-  return (m_attribute != nullptr) ? Lumex::Xml::Node::XmlNode() : m_node;
 }
 
 LUMEX_PUBLIC_API
-inline Lumex::Xml::Attribute::XmlAttribute
-XPathNode::attribute() const
+inline XPathNode::XPathNode (
+    lumex::xml::attribute::XmlAttribute const &attribute_,
+    lumex::xml::node::XmlNode const &parent_)
+    : m_node ((attribute_ != nullptr) ? parent_
+                                      : lumex::xml::node::XmlNode ()),
+      m_attribute (attribute_)
+{
+}
+
+LUMEX_PUBLIC_API
+inline lumex::xml::node::XmlNode
+XPathNode::node () const
+{
+  return (m_attribute != nullptr) ? lumex::xml::node::XmlNode () : m_node;
+}
+
+LUMEX_PUBLIC_API
+inline lumex::xml::attribute::XmlAttribute
+XPathNode::attribute () const
 {
   return m_attribute;
 }
 
 LUMEX_PUBLIC_API
-inline Lumex::Xml::Node::XmlNode
-XPathNode::parent() const
+inline lumex::xml::node::XmlNode
+XPathNode::parent () const
 {
-  return (m_attribute != nullptr) ? m_node : m_node.parent();
+  return (m_attribute != nullptr) ? m_node : m_node.parent ();
 }
 
 inline static void
-unspecified_bool_xpath_node(XPathNode *** /*unused*/) // NOLINT(misc-use-anonymous-namespace)
-{}
+unspecified_bool_xpath_node (
+    XPathNode *** /*unused*/) // NOLINT(misc-use-anonymous-namespace)
+{
+}
 
 LUMEX_PUBLIC_API
 inline XPathNode::
-operator XPathNode::unspecified_bool_type() const
+operator XPathNode::unspecified_bool_type () const
 {
-  return ((m_node != nullptr) || (m_attribute != nullptr)) ? unspecified_bool_xpath_node : nullptr;
+  return ((m_node != nullptr) || (m_attribute != nullptr))
+             ? unspecified_bool_xpath_node
+             : nullptr;
 }
 
 LUMEX_PUBLIC_API
@@ -54,28 +65,30 @@ XPathNode::operator!() const
 
 LUMEX_PUBLIC_API
 inline bool
-XPathNode::operator==(XPathNode const &n) const
+XPathNode::operator== (XPathNode const &n) const
 {
   return m_node == n.m_node && m_attribute == n.m_attribute;
 }
 
 LUMEX_PUBLIC_API
 inline bool
-XPathNode::operator!=(XPathNode const &n) const
+XPathNode::operator!= (XPathNode const &n) const
 {
   return m_node != n.m_node || m_attribute != n.m_attribute;
 }
 
 LUMEX_PUBLIC_API
 inline bool
-Lumex::Xml::XPath::Node::operator&&(XPathNode const &lhs, bool rhs) // NOLINT(misc-use-internal-linkage)
+lumex::xml::xpath::node::operator&& (
+    XPathNode const &lhs, bool rhs) // NOLINT(misc-use-internal-linkage)
 {
   return (bool)lhs && rhs;
 }
 
 LUMEX_PUBLIC_API
 inline bool
-Lumex::Xml::XPath::Node::operator||(XPathNode const &lhs, bool rhs) // NOLINT(misc-use-internal-linkage)
+lumex::xml::xpath::node::operator|| (
+    XPathNode const &lhs, bool rhs) // NOLINT(misc-use-internal-linkage)
 {
   return (bool)lhs || rhs;
 }
