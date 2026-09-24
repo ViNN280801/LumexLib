@@ -15,14 +15,14 @@ target_link_libraries(${LUMEX_REFLECTION_NAME} INTERFACE
     lumex::utility
 )
 
-# field_reflection/ uses vendored nlohmann/json and LumexAggregateFields
-# (no Boost.PFR). Pulled in only when LUMEX_WITH_FIELD_REFLECTION is ON.
+# field_reflection/ is header-only and includes <nlohmann/json.hpp>.
+# Do not put 3rdparty on this INTERFACE target: that include directory
+# would shadow a consumer's own nlohmann/json.hpp in every translation
+# unit that links lumex::reflection. The vendored header stays private
+# to Lumex TUs that explicitly link nlohmann_json::nlohmann_json
+# (field-reflection tests). Logger and settings already link it PRIVATE.
 if(LUMEX_WITH_FIELD_REFLECTION)
     lumex_setup_nlohmann_json()
-    target_include_directories(${LUMEX_REFLECTION_NAME} INTERFACE
-        $<BUILD_INTERFACE:${LumexLib_SOURCE_DIR}/3rdparty>
-        $<INSTALL_INTERFACE:include>
-    )
     target_compile_definitions(${LUMEX_REFLECTION_NAME} INTERFACE LUMEX_WITH_FIELD_REFLECTION)
     message(STATUS "Building with LumexFieldReflection (nlohmann/json) enabled")
 endif()
@@ -36,12 +36,5 @@ if(LUMEX_INSTALL)
         FILES_MATCHING
             PATTERN "*.hpp"
             PATTERN "LumexReflection"
-    )
-endif()
-
-if(LUMEX_INSTALL AND LUMEX_WITH_FIELD_REFLECTION)
-    install(
-        DIRECTORY ${LumexLib_SOURCE_DIR}/3rdparty/nlohmann
-        DESTINATION include
     )
 endif()

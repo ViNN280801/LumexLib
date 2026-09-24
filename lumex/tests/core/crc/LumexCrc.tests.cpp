@@ -4,6 +4,7 @@
 #include <random>
 #include <thread>
 #include <tuple>
+#include <type_traits>
 #include <utility>
 #include <vector>
 
@@ -81,6 +82,26 @@ expect_all_catalog_checks (std::index_sequence<I...>)
   (void)expand;
 }
 
+template <std::size_t I>
+void
+expect_named_engine_matches_spec ()
+{
+  using Spec = typename std::tuple_element<I, all_crc_specs_t>::type;
+  using Engine = typename std::tuple_element<I, all_crc_algorithms_t>::type;
+  static_assert (std::is_same<Engine, CrcParametric<Spec>>::value,
+                 "named engine must be CrcParametric of the paired spec");
+  byte const *data = reinterpret_cast<byte const *> (kRevEngCheckMessage);
+  EXPECT_EQ (Engine::calculate (data, kRevEngCheckSize), Spec::kCatalogCheck);
+}
+
+template <std::size_t... I>
+void
+expect_all_named_engines (std::index_sequence<I...>)
+{
+  int const expand[] = { 0, (expect_named_engine_matches_spec<I> (), 0)... };
+  (void)expand;
+}
+
 crc_params_t
 params_from_maxim_dow ()
 {
@@ -131,79 +152,79 @@ protected:
 
 TEST_F (Crc8Test, GivenEmptyVector_WhenCalculateCrc8_ThenReturnsZero)
 {
-  EXPECT_EQ (Crc8MaximDow::calculate_crc8 (empty_data), 0);
+  EXPECT_EQ (Crc8MaximDow::calculate (empty_data), 0);
 }
 
 TEST_F (Crc8Test, GivenNullptrAndZeroSize_WhenCalculateCrc8Raw_ThenReturnsZero)
 {
-  EXPECT_EQ (Crc8MaximDow::calculate_crc8 (nullptr, 0), 0);
+  EXPECT_EQ (Crc8MaximDow::calculate (nullptr, 0), 0);
 }
 
 TEST_F (Crc8Test,
         GivenNullptrAndNonZeroSize_WhenCalculateCrc8Raw_ThenReturnsZero)
 {
-  EXPECT_EQ (Crc8MaximDow::calculate_crc8 (nullptr, 10), 0);
+  EXPECT_EQ (Crc8MaximDow::calculate (nullptr, 10), 0);
 }
 
 TEST_F (Crc8Test,
         GivenSingleByteVector_WhenCalculateCrc8_ThenReturnsCorrectCrc)
 {
-  EXPECT_EQ (Crc8MaximDow::calculate_crc8 (single_byte_data), 0xFA);
+  EXPECT_EQ (Crc8MaximDow::calculate (single_byte_data), 0xFA);
 }
 
 TEST_F (Crc8Test,
         GivenSingleByteRaw_WhenCalculateCrc8Raw_ThenReturnsCorrectCrc)
 {
-  EXPECT_EQ (Crc8MaximDow::calculate_crc8 (single_byte_data.data (),
-                                           single_byte_data.size ()),
+  EXPECT_EQ (Crc8MaximDow::calculate (single_byte_data.data (),
+                                      single_byte_data.size ()),
              0xFA);
 }
 
 TEST_F (Crc8Test,
         GivenKnownData1Vector_WhenCalculateCrc8_ThenReturnsExpectedCrc)
 {
-  EXPECT_EQ (Crc8MaximDow::calculate_crc8 (known_data_1), 0xF4);
+  EXPECT_EQ (Crc8MaximDow::calculate (known_data_1), 0xF4);
 }
 
 TEST_F (Crc8Test,
         GivenKnownData1Raw_WhenCalculateCrc8Raw_ThenReturnsExpectedCrc)
 {
-  EXPECT_EQ (Crc8MaximDow::calculate_crc8 (known_data_1.data (),
-                                           known_data_1.size ()),
-             0xF4);
+  EXPECT_EQ (
+      Crc8MaximDow::calculate (known_data_1.data (), known_data_1.size ()),
+      0xF4);
 }
 
 TEST_F (Crc8Test,
         GivenKnownData2Vector_WhenCalculateCrc8_ThenReturnsExpectedCrc)
 {
-  EXPECT_EQ (Crc8MaximDow::calculate_crc8 (known_data_2), 0x84);
+  EXPECT_EQ (Crc8MaximDow::calculate (known_data_2), 0x84);
 }
 
 TEST_F (Crc8Test,
         GivenKnownData2Raw_WhenCalculateCrc8Raw_ThenReturnsExpectedCrc)
 {
-  EXPECT_EQ (Crc8MaximDow::calculate_crc8 (known_data_2.data (),
-                                           known_data_2.size ()),
-             0x84);
+  EXPECT_EQ (
+      Crc8MaximDow::calculate (known_data_2.data (), known_data_2.size ()),
+      0x84);
 }
 
 TEST_F (Crc8Test, GivenAllZeroData_WhenCalculateCrc8_ThenReturnsZero)
 {
-  EXPECT_EQ (Crc8MaximDow::calculate_crc8 (all_zero_data), 0x00);
+  EXPECT_EQ (Crc8MaximDow::calculate (all_zero_data), 0x00);
 }
 
 TEST_F (Crc8Test, GivenAllZeroDataRaw_WhenCalculateCrc8Raw_ThenReturnsZero)
 {
-  EXPECT_EQ (Crc8MaximDow::calculate_crc8 (all_zero_data.data (),
-                                           all_zero_data.size ()),
-             0x00);
+  EXPECT_EQ (
+      Crc8MaximDow::calculate (all_zero_data.data (), all_zero_data.size ()),
+      0x00);
 }
 
 TEST_F (Crc8Test,
         GivenMaximumInputSize_WhenCalculateCrc8_ThenCompletesWithoutError)
 {
   byte crc = 0;
-  EXPECT_NO_THROW (crc = Crc8MaximDow::calculate_crc8 (large_data));
+  EXPECT_NO_THROW (crc = Crc8MaximDow::calculate (large_data));
   EXPECT_NE (crc, 0);
 }
 
@@ -212,8 +233,8 @@ TEST_F (
     GivenMaximumInputSizeRaw_WhenCalculateCrc8Raw_ThenCompletesWithoutError)
 {
   byte crc = 0;
-  EXPECT_NO_THROW (crc = Crc8MaximDow::calculate_crc8 (large_data.data (),
-                                                       large_data.size ()));
+  EXPECT_NO_THROW (
+      crc = Crc8MaximDow::calculate (large_data.data (), large_data.size ()));
   EXPECT_NE (crc, 0);
 }
 
@@ -222,7 +243,7 @@ TEST_F (Crc8Test, ThreadSafety_MultipleConcurrentCalculationsVector)
   int const num_threads = 8;
   std::vector<byte> data_to_process
       = { 0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88 };
-  byte const expected_crc = Crc8MaximDow::calculate_crc8 (data_to_process);
+  byte const expected_crc = Crc8MaximDow::calculate (data_to_process);
 
   std::vector<std::thread> threads;
   std::vector<byte> results (static_cast<std::size_t> (num_threads));
@@ -230,7 +251,7 @@ TEST_F (Crc8Test, ThreadSafety_MultipleConcurrentCalculationsVector)
   for (int i = 0; i < num_threads; ++i)
     threads.emplace_back ([&, i] () {
       results[static_cast<std::size_t> (i)]
-          = Crc8MaximDow::calculate_crc8 (data_to_process);
+          = Crc8MaximDow::calculate (data_to_process);
     });
 
   for (auto &t : threads)
@@ -245,15 +266,15 @@ TEST_F (Crc8Test, ThreadSafety_MultipleConcurrentCalculationsRaw)
   int const num_threads = 8;
   std::vector<byte> data_to_process
       = { 0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF, 0x01, 0x02 };
-  byte const expected_crc = Crc8MaximDow::calculate_crc8 (
-      data_to_process.data (), data_to_process.size ());
+  byte const expected_crc = Crc8MaximDow::calculate (data_to_process.data (),
+                                                     data_to_process.size ());
 
   std::vector<std::thread> threads;
   std::vector<byte> results (static_cast<std::size_t> (num_threads));
 
   for (int i = 0; i < num_threads; ++i)
     threads.emplace_back ([&, i] () {
-      results[static_cast<std::size_t> (i)] = Crc8MaximDow::calculate_crc8 (
+      results[static_cast<std::size_t> (i)] = Crc8MaximDow::calculate (
           data_to_process.data (), data_to_process.size ());
     });
 
@@ -271,7 +292,7 @@ TEST_F (Crc8Test, Perf_LargeDataVectorEncoding)
   byte sink = 0;
   auto start = std::chrono::high_resolution_clock::now ();
   for (int i = 0; i < N; ++i)
-    sink = Crc8MaximDow::calculate_crc8 (large_data);
+    sink = Crc8MaximDow::calculate (large_data);
   auto const dur = std::chrono::duration_cast<std::chrono::milliseconds> (
       std::chrono::high_resolution_clock::now () - start);
 
@@ -291,8 +312,7 @@ TEST_F (Crc8Test, Perf_LargeDataRawEncoding)
   byte sink = 0;
   auto start = std::chrono::high_resolution_clock::now ();
   for (int i = 0; i < N; ++i)
-    sink = Crc8MaximDow::calculate_crc8 (large_data.data (),
-                                         large_data.size ());
+    sink = Crc8MaximDow::calculate (large_data.data (), large_data.size ());
   auto const dur = std::chrono::duration_cast<std::chrono::milliseconds> (
       std::chrono::high_resolution_clock::now () - start);
 
@@ -316,8 +336,8 @@ TEST_P (Crc8SingleByteParamTest, VectorMatchesRawPointer)
   ASSERT_LE (p, 255);
   byte const b = static_cast<byte> (static_cast<unsigned char> (p));
   std::vector<byte> v = { b };
-  EXPECT_EQ (Crc8MaximDow::calculate_crc8 (v),
-             Crc8MaximDow::calculate_crc8 (&b, static_cast<std::size_t> (1)));
+  EXPECT_EQ (Crc8MaximDow::calculate (v),
+             Crc8MaximDow::calculate (&b, static_cast<std::size_t> (1)));
 }
 
 INSTANTIATE_TEST_SUITE_P (AllByteValues_0_255, Crc8SingleByteParamTest,
@@ -328,15 +348,14 @@ TEST (Crc8Span, MatchesVector)
 {
   std::vector<byte> data = { 0x01, 0x02, 0x03, 0x04 };
   std::span<byte const> sp (data.data (), data.size ());
-  EXPECT_EQ (Crc8MaximDow::calculate_crc8 (sp),
-             Crc8MaximDow::calculate_crc8 (data));
+  EXPECT_EQ (Crc8MaximDow::calculate (sp), Crc8MaximDow::calculate (data));
 }
 
 TEST (Crc8Span, EmptySpan_ReturnsZero)
 {
   std::vector<byte> empty;
   std::span<byte const> sp (empty.data (), static_cast<std::size_t> (0));
-  EXPECT_EQ (Crc8MaximDow::calculate_crc8 (sp), 0);
+  EXPECT_EQ (Crc8MaximDow::calculate (sp), 0);
 }
 #endif
 
@@ -350,6 +369,14 @@ TEST (CrcCatalog, EntryCountMatchesAllCrcSpecsTuple)
 TEST (CrcCatalog, AllSpecsMatchRevEngCheckOf123456789)
 {
   expect_all_catalog_checks (
+      std::make_index_sequence<std::tuple_size<all_crc_specs_t>::value>{});
+}
+
+TEST (CrcCatalog, NamedEnginesCoverEverySpec)
+{
+  EXPECT_EQ (std::tuple_size<all_crc_algorithms_t>::value,
+             std::tuple_size<all_crc_specs_t>::value);
+  expect_all_named_engines (
       std::make_index_sequence<std::tuple_size<all_crc_specs_t>::value>{});
 }
 
@@ -463,7 +490,7 @@ TEST_F (CrcTransportTest, DefaultModeUsesCrc8MaximDow)
   EXPECT_EQ (GetTransportCrcCatalogIndex (), CrcCatalogLegacyIndex ());
   std::vector<byte> data = { 0x01, 0x02, 0x03, 0x04 };
   EXPECT_EQ (ComputeTransportChecksum (data.data (), data.size ()),
-             Crc8MaximDow::calculate_crc8 (data));
+             Crc8MaximDow::calculate (data));
 }
 
 TEST_F (CrcTransportTest, CatalogModeUsesFirstWidth8Entry)

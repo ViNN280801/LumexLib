@@ -293,6 +293,16 @@ function(lumex_configure_target target_name)
     ENABLE_LTO "${LUMEX_ENABLE_LTO}"
     DEBUG_SYMBOLS "${LUMEX_DEBUG_SYMBOLS}")
 
+  # CMakeRoutines configure_compiler_flags adds NOMINMAX only on the MSVC
+  # path (clang-cl). GNU-like clang++ / g++ on Windows still see min/max
+  # macros from the Windows SDK and break std::min / std::max (e.g.
+  # LumexLogger). Always define both for every compiled Lumex target.
+  if(WIN32)
+    target_compile_definitions("${target_name}" PRIVATE
+      NOMINMAX
+      WIN32_LEAN_AND_MEAN)
+  endif()
+
   # C4251: std members in dllexport classes (Logger, Timer). Pimpl is out
   # of scope; clients never need those members' layout to be exported.
   # /EHa must be last on LumexExceptionsTests so HIGH's /EHsc does not

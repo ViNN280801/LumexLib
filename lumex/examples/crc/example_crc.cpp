@@ -51,22 +51,22 @@ main ()
 
   std::cout << "\n--- 2. CRC-32/ISO-HDLC (Ethernet / ZIP / PNG) ---\n";
   std::uint32_t const crc32
-      = Crc32IsoHdlc::calculate_crc32 (check_ascii, sizeof (check_ascii));
-  std::uint32_t const crc32_vec = Crc32IsoHdlc::calculate_crc32 (payload);
+      = Crc32IsoHdlc::calculate (check_ascii, sizeof (check_ascii));
+  std::uint32_t const crc32_vec = Crc32IsoHdlc::calculate (payload);
   std::cout << "crc32=0x" << std::hex << crc32
             << " vector_match=" << (crc32 == crc32_vec ? "yes" : "no")
             << std::dec << '\n';
 
   std::cout << "\n--- 3. CRC-8/MAXIM-DOW (1-Wire) ---\n";
   std::uint8_t const crc8
-      = Crc8MaximDow::calculate_crc8 (check_ascii, sizeof (check_ascii));
+      = Crc8MaximDow::calculate (check_ascii, sizeof (check_ascii));
   std::cout << "crc8=0x" << std::hex << static_cast<unsigned> (crc8)
             << std::dec << '\n';
 
   std::cout << "\n--- 4. Empty buffer is a defined check value ---\n";
   std::vector<std::uint8_t> const empty;
   std::cout << "crc32(empty)=0x" << std::hex
-            << Crc32IsoHdlc::calculate_crc32 (empty) << std::dec << '\n';
+            << Crc32IsoHdlc::calculate (empty) << std::dec << '\n';
 
   std::cout << "\n--- 5. Out-of-range catalogue index ---\n";
   std::uint64_t const bogus

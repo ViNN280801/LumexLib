@@ -16,6 +16,36 @@
 
 ### [v1.0.0.0]
 
+#### Исправлено
+
+##### nlohmann/json 3.12.0 не попадает в include path потребителя
+
+**Файлы:**
+
+- `lumex/core/reflection/CMakeLists.txt`
+- `cmake/LumexNlohmannJson.cmake`
+
+**Суть:** `lumex::reflection` больше не добавляет `3rdparty` в INTERFACE include и не устанавливает заголовки nlohmann в публичный `include/`. Иначе `#include <nlohmann/json.hpp>` в каждом исходнике, который линкует reflection, резолвился в vendored 3.12.0 и расходился с копией потребителя. Скомпилированные модули (logger, settings) по-прежнему линкуют `nlohmann_json::nlohmann_json` как PRIVATE. Тесты field reflection линкуют этот таргет сами.
+
+##### Windows: NOMINMAX для GNU-like clang++ / g++ при встраивании
+
+**Файлы:**
+
+- `cmake/LumexBuild.cmake`
+
+**Суть:** `configure_compiler_flags` из CMakeRoutines задаёт `NOMINMAX` / `WIN32_LEAN_AND_MEAN` только на пути MSVC (clang-cl). При встраивании в PeakExpertNoGUI с GNU-like `clang++` макросы `min`/`max` из Windows SDK ломали `std::min` / `std::max` в `LumexLogger`. `lumex_configure_target` теперь всегда добавляет оба определения на WIN32 для каждого скомпилированного таргета.
+
+#### Добавлено
+
+##### Именованный движок для каждого CRC каталога RevEng ширины 3..64
+
+**Файлы:**
+
+- `lumex/core/crc/parametric/LumexCrcParametric.hpp`
+- `lumex/tests/core/crc/LumexCrc.tests.cpp`
+
+**Суть:** У каждой из 112 спецификаций есть тип `Crc*` (`using` на `CrcParametric<spec>`), в том же порядке, что `all_crc_specs_t`. Раньше публичный класс был только у 17 алгоритмов. Прежние 17 имен сохранены; `calculate` у них тот же. CRC-82/DARC по-прежнему нет: полином ширины 82 не помещается в `std::uint64_t`.
+
 #### Изменено
 
 ##### CMake: LumexLib встраивается через `add_subdirectory`

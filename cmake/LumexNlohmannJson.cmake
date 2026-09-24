@@ -4,9 +4,10 @@
 # Called when LUMEX_WITH_FIELD_REFLECTION is ON, when logger JSON config
 # is compiled, and when settings finds the header (LumexSettingsJSON).
 # Creates an in-tree INTERFACE target that is NOT exported (exporting it
-# would require a find_dependency in the package config). Include dirs
-# are also copied onto lumex::reflection so the installed package export
-# stays self-contained.
+# would require a find_dependency in the package config). Link it PRIVATE
+# from Lumex translation units. Do not attach it to a consumer-facing
+# INTERFACE target: the include directory would override the consumer's
+# own <nlohmann/json.hpp>.
 
 # Resolve against this file, not CMAKE_SOURCE_DIR: when a parent project
 # embeds LumexLib, CMAKE_SOURCE_DIR is the parent's root. Captured at include

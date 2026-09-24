@@ -314,13 +314,13 @@ ComputeTransportChecksum (std::uint8_t const *data,
   switch (local.mode)
     {
     case TransportCrcMode::Default:
-      return Crc8MaximDow::calculate_crc8 (data, byteCount);
+      return Crc8MaximDow::calculate (data, byteCount);
     case TransportCrcMode::Catalog:
       {
         if (local.catalogIndex >= kCatalogSize)
-          return Crc8MaximDow::calculate_crc8 (data, byteCount);
+          return Crc8MaximDow::calculate (data, byteCount);
         if (kWidthTable.at (local.catalogIndex) != kTransportFrameCrcBitWidth)
-          return Crc8MaximDow::calculate_crc8 (data, byteCount);
+          return Crc8MaximDow::calculate (data, byteCount);
         return static_cast<std::uint8_t> (
             kComputeTable.at (local.catalogIndex) (data, byteCount)
             & static_cast<std::uint64_t> (
@@ -334,7 +334,7 @@ ComputeTransportChecksum (std::uint8_t const *data,
     default:
       break;
     }
-  return Crc8MaximDow::calculate_crc8 (data, byteCount);
+  return Crc8MaximDow::calculate (data, byteCount);
 }
 } // namespace catalog
 } // namespace crc
