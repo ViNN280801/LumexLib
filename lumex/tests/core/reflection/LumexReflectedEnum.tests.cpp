@@ -35,18 +35,20 @@ using namespace lumex::core::reflection;
 
 namespace
 {
-// DEFINE_REFLECTED_ENUM: default toString() from the enumerator identifiers.
-DEFINE_REFLECTED_ENUM (Color, std::uint8_t, (Red), (Green, 5), (Blue))
+// LUMEX_DEFINE_REFLECTED_ENUM: default toString() from the enumerator
+// identifiers.
+LUMEX_DEFINE_REFLECTED_ENUM (Color, std::uint8_t, (Red), (Green, 5), (Blue))
 
-// DEFINE_REFLECTED_ENUM_TO_STRING: custom display strings via an X-macro.
+// LUMEX_DEFINE_REFLECTED_ENUM_TO_STRING: custom display strings via an
+// X-macro.
 // clang-format off
   #define SHAPE_STRINGS(ENTRY) \
     ENTRY(Circle, "circle") \
     ENTRY(Square, "square") \
     ENTRY(Triangle, "triangle")
 // clang-format on
-DEFINE_REFLECTED_ENUM_TO_STRING (Shape, std::uint8_t, SHAPE_STRINGS, (Circle),
-                                 (Square, 10), (Triangle))
+LUMEX_DEFINE_REFLECTED_ENUM_TO_STRING (Shape, std::uint8_t, SHAPE_STRINGS,
+                                       (Circle), (Square, 10), (Triangle))
 
 // clang-format off
 #define STATUS_STRINGS(ENTRY) \
@@ -54,16 +56,16 @@ DEFINE_REFLECTED_ENUM_TO_STRING (Shape, std::uint8_t, SHAPE_STRINGS, (Circle),
   ENTRY(Empty, "") \
   ENTRY(Fail, "fail")
 // clang-format on
-DEFINE_REFLECTED_ENUM_TO_STRING (Status, std::uint8_t, STATUS_STRINGS, (Ok),
-                                 (Empty), (Fail), (Hidden))
+LUMEX_DEFINE_REFLECTED_ENUM_TO_STRING (Status, std::uint8_t, STATUS_STRINGS,
+                                       (Ok), (Empty), (Fail), (Hidden))
 
-DEFINE_REFLECTED_ENUM (Single, int, (Only))
+LUMEX_DEFINE_REFLECTED_ENUM (Single, int, (Only))
 
 struct Wrapper
 {
   // A reflected enum invoked at class scope must also work (documented
   // supported use case).
-  DEFINE_REFLECTED_ENUM (Nested, int, (A), (B))
+  LUMEX_DEFINE_REFLECTED_ENUM (Nested, int, (A), (B))
 };
 } // namespace
 

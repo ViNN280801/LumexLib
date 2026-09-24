@@ -5,6 +5,7 @@
 
 lumex_add_subdirectory_if(LUMEX_BUILD_LOGGING logging)
 lumex_add_subdirectory_if(LUMEX_BUILD_HARDWARE hardware)
+lumex_add_subdirectory_if(LUMEX_BUILD_JSON json)
 # Settings precedes logger because LUMEX_LOGGER_CONFIG_FORMAT=INI makes the
 # logger PRIVATE-link lumex::settings at configure time.
 lumex_add_subdirectory_if(LUMEX_BUILD_SETTINGS settings)

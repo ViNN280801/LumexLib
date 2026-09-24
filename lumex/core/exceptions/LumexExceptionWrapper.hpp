@@ -54,36 +54,13 @@
  * rather than being folded into it.
  *
  *          Unlike `LumexBaseException`, `ExceptionWrapper` does not depend on
- * any logging facility: `core/` is this library's foundational layer and must
- * not depend on the higher-level, opinionated `lumex/applied/` modules (which
- * is where `lumex/applied/logging` lives). Failures are therefore always
- * written straight to `std::cerr`, the same mechanism
- * `LumexBaseException::to_stderr()` already uses, via only `noexcept`
- * operations.
+ * any logging facility: `core/` must not depend on `lumex/applied/logging`.
+ * The default report sink is `std::cerr`. A consumer can install one function
+ * pointer (`set_safe_call_reporter`) so the same text goes to its own logger.
+ * If that function throws, the wrapper falls back to `std::cerr`.
  */
 #ifndef LUMEX_CORE_EXCEPTIONS_HPP
 #define LUMEX_CORE_EXCEPTIONS_HPP
-
-#if defined(__clang__)
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wpadded"
-#pragma clang diagnostic ignored "-Wunsafe-buffer-usage"
-#pragma clang diagnostic ignored "-Wunsafe-buffer-usage-in-libc-call"
-#pragma clang diagnostic ignored "-Wcovered-switch-default"
-#pragma clang diagnostic ignored "-Wswitch-enum"
-#pragma clang diagnostic ignored "-Wnrvo"
-#pragma clang diagnostic ignored "-Wheader-hygiene"
-#pragma clang diagnostic ignored "-Wused-but-marked-unused"
-#pragma clang diagnostic ignored "-Wundefined-var-template"
-#pragma clang diagnostic ignored "-Wdeprecated-redundant-constexpr-static-def"
-#pragma clang diagnostic ignored "-Wvariadic-macro-arguments-omitted"
-#pragma clang diagnostic ignored "-Wunused-result"
-#pragma clang diagnostic ignored "-Wextra-semi-stmt"
-#pragma clang diagnostic ignored "-Wexpansion-to-defined"
-#pragma clang diagnostic ignored "-Wexit-time-destructors"
-#pragma clang diagnostic ignored "-Wundefined-func-template"
-#pragma clang diagnostic ignored "-Wfloat-equal"
-#endif
 
 #if defined(__clang__)
 #pragma clang diagnostic push
@@ -112,6 +89,8 @@
 #include <type_traits> // std::is_default_constructible, std::is_void
 #include <utility>     // std::forward
 
+#include "lumex/LumexExport.hpp"
+
 #include "lumex/core/utility/assert/LumexAssert.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 #include "lumex/core/utility/macros/LumexMacros.hpp"
@@ -129,6 +108,27 @@ namespace exceptions
 {
 namespace Wrapper
 {
+/**
+ * @brief Consumer report sink for a fully built failure line.
+ * @param message Non-owning, null-terminated text. Valid only for the call.
+ * The function may throw; `ExceptionWrapper` then writes the same line to
+ * `std::cerr`.
+ */
+using safe_call_report_fn = void (*) (char const *message);
+
+/**
+ * @brief Installs the process-wide report sink. `nullptr` restores
+ * `std::cerr`.
+ * @note The pointer is stored in this library's binary, so the executable and
+ * the exceptions DLL share one sink.
+ */
+LUMEX_API void
+set_safe_call_reporter (safe_call_report_fn reporter) LUMEX_NOEXCEPT;
+
+/** @brief Returns the installed sink, or `nullptr` when reports go to
+ * `std::cerr`. */
+LUMEX_API safe_call_report_fn get_safe_call_reporter () LUMEX_NOEXCEPT;
+
 namespace detail
 {
 /**
@@ -178,6 +178,56 @@ write_to_stderr (std::string const &line) LUMEX_NOEXCEPT
   std::cerr.write (line.data (), static_cast<std::streamsize> (line.size ()));
   std::cerr.put ('\n');
   std::cerr.flush ();
+}
+
+/**
+ * @brief Sends `line` to the installed sink. On a null sink or a throw from
+ * the sink, writes `line` to `std::cerr`.
+ */
+inline void
+report_line (std::string const &line) LUMEX_NOEXCEPT
+{
+  safe_call_report_fn const reporter = get_safe_call_reporter ();
+  if (reporter != nullptr)
+    {
+      try
+        {
+          reporter (line.c_str ());
+          return;
+        }
+      catch (...)
+        {
+        }
+    }
+  write_to_stderr (line);
+}
+
+/**
+ * @brief Builds "prefix. Reason: what" and reports it.
+ * @param whatMsg May be `nullptr`; then the reason is
+ * `<unknown exception message>`.
+ */
+inline void
+report_exception (std::string const &prefix,
+                  char const *whatMsg) LUMEX_NOEXCEPT
+{
+  safe_call_report_fn const reporter = get_safe_call_reporter ();
+  if (reporter != nullptr)
+    {
+      try
+        {
+          std::string line = prefix;
+          line += ". Reason: ";
+          line += (whatMsg != nullptr) ? whatMsg
+                                       : "<unknown exception message>";
+          reporter (line.c_str ());
+          return;
+        }
+      catch (...)
+        {
+        }
+    }
+  write_to_stderr (prefix, whatMsg);
 }
 } // namespace detail
 
@@ -254,11 +304,11 @@ ExceptionWrapper (
     }
   catch (std::exception const &exc)
     {
-      detail::write_to_stderr (excMessage, exc.what ());
+      detail::report_exception (excMessage, exc.what ());
     }
   catch (...)
     {
-      detail::write_to_stderr (unknownExcMessage);
+      detail::report_line (unknownExcMessage);
     }
 
   // static_assert above guarantees ReturnType is default-constructible or
@@ -333,10 +383,6 @@ ExceptionWrapper (
   lumex::core::exceptions::Wrapper::ExceptionWrapper (excMessage,             \
                                                       unknExcMessage, lambda)
 // NOLINTEND(cppcoreguidelines-macro-usage)
-
-#if defined(__clang__)
-#pragma clang diagnostic pop
-#endif
 
 #if defined(__clang__)
 #pragma clang diagnostic pop

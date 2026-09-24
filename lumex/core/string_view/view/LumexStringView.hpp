@@ -196,12 +196,15 @@ public:
    * including, the null terminator. If `str` is `nullptr`, the
    * `LumexStringView` will be empty.
    * @param str A pointer to a null-terminated C-style string (`char const *`).
-   * @note This constructor is `explicit` to prevent unintended implicit
-   * conversions.
+   * @note Implicit, like `std::string_view`, so a literal or a string can be
+   * passed where a view is expected. The view does not own the characters:
+   * do not bind it to a temporary that dies first. `nullptr` gives an
+   * empty view.
    * @note Complexity: O(N) where N is the length of the string, due to
    * `std::strlen`.
    */
-  explicit LumexStringView (char const *str) LUMEX_NOEXCEPT;
+  LumexStringView (char const *str)
+      LUMEX_NOEXCEPT; // NOLINT(google-explicit-constructor)
 
   /**
    * @brief Constructs a `LumexStringView` from a pointer to character data and
@@ -1164,7 +1167,7 @@ public:
    * @note Complexity: O(1).
    */
   template <class Allocator>
-  explicit LumexStringView (
+  LumexStringView ( // NOLINT(google-explicit-constructor)
       std::basic_string<char, std::char_traits<char>, Allocator> const &str)
       LUMEX_NOEXCEPT : m_data (str.data ()),
                        m_size (str.size ())
@@ -1181,7 +1184,8 @@ public:
    * outlive the view.
    * @note Complexity: O(1).
    */
-  explicit LumexStringView (std::string const &str) LUMEX_NOEXCEPT;
+  LumexStringView (std::string const &str)
+      LUMEX_NOEXCEPT; // NOLINT(google-explicit-constructor)
 
 private:
   /**

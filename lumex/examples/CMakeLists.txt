@@ -104,6 +104,12 @@ else()
     message(STATUS "Skipping hardware examples (LUMEX_BUILD_APPLIED or LUMEX_BUILD_HARDWARE is OFF)")
 endif()
 
+if(LUMEX_BUILD_APPLIED AND LUMEX_BUILD_JSON)
+    add_subdirectory(json)
+else()
+    message(STATUS "Skipping json examples (LUMEX_BUILD_APPLIED or LUMEX_BUILD_JSON is OFF)")
+endif()
+
 if(LUMEX_BUILD_APPLIED AND LUMEX_BUILD_LOGGER)
     add_subdirectory(logger)
 else()

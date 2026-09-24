@@ -7,8 +7,8 @@ file(GLOB_RECURSE SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp"
 )
 
-# LumexExceptionWrapper.hpp is header-only (template-only, no .cpp) so the GLOB above never picks it up -
-# listed explicitly so it still shows up as a target source in IDEs.
+# Listed explicitly so the header still shows up as a target source in IDEs.
+# LumexExceptionWrapper.cpp holds the process-wide report sink.
 add_library(${LUMEX_EXCEPTIONS_NAME} ${SOURCES} LumexExceptionWrapper.hpp)
 add_library(lumex::exceptions ALIAS ${LUMEX_EXCEPTIONS_NAME})
 

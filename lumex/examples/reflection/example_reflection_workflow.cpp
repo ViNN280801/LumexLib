@@ -5,7 +5,8 @@
 
 using namespace lumex::core::reflection::var_info;
 
-DEFINE_REFLECTED_ENUM (ExampleValve, std::uint8_t, (Load), (Inject), (Waste))
+LUMEX_DEFINE_REFLECTED_ENUM (ExampleValve, std::uint8_t, (Load), (Inject),
+                             (Waste))
 
 int
 main ()

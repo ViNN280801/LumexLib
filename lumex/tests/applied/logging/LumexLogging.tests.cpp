@@ -743,22 +743,27 @@ TEST_F (LumexLoggingTest, ThreadSafety_SimultaneousConsoleAndFileLogging)
 
   for (int i = 0; i < num_threads; ++i)
     {
-      threads.emplace_back ([&, i] () {
-        for (int j = 0; j < messages_per_thread; ++j)
-          {
-            std::string module = "Thread_" + stringify (i);
-            std::string message
-                = "Message_" + stringify (j) + " from thread " + stringify (i);
-            LumexLogging::info (module.c_str (), message);
+      threads.emplace_back (
+          [&, i] ()
+            {
+              for (int j = 0; j < messages_per_thread; ++j)
+                {
+                  std::string module
+                      = "Thread_" + lumex::core::string::format::stringify (i);
+                  std::string message
+                      = "Message_" + lumex::core::string::format::stringify (j)
+                        + " from thread "
+                        + lumex::core::string::format::stringify (i);
+                  LumexLogging::info (module.c_str (), message);
 
-            // Also log to a specific file to check file integrity
-            LumexLogging::toFile (
-                filename.c_str (),
-                lumex::applied::logging::log::LumexLogLevel::Debug,
-                module.c_str (), message.c_str (), true);
-            total_messages++;
-          }
-      });
+                  // Also log to a specific file to check file integrity
+                  LumexLogging::toFile (
+                      filename.c_str (),
+                      lumex::applied::logging::log::LumexLogLevel::Debug,
+                      module.c_str (), message.c_str (), true);
+                  total_messages++;
+                }
+            });
     }
 
   for (auto &t : threads)

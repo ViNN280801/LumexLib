@@ -200,12 +200,15 @@ public:
    * `LumexWStringView` will be empty.
    * @param str A pointer to a null-terminated C-style wide string (`wchar_t
    * const *`).
-   * @note This constructor is `explicit` to prevent unintended implicit
-   * conversions.
+   * @note Implicit, like `std::wstring_view`, so a literal or a string can be
+   * passed where a view is expected. The view does not own the characters:
+   * do not bind it to a temporary that dies first. `nullptr` gives an
+   * empty view.
    * @note Complexity: O(N) where N is the length of the string, due to
    * `std::wcslen`.
    */
-  explicit LumexWStringView (wchar_t const *str) LUMEX_NOEXCEPT;
+  LumexWStringView (wchar_t const *str)
+      LUMEX_NOEXCEPT; // NOLINT(google-explicit-constructor)
 
   /**
    * @brief Constructs a `LumexWStringView` from a pointer to wide character
@@ -237,7 +240,7 @@ public:
    * @note Complexity: O(1).
    */
   template <class Allocator>
-  explicit LumexWStringView (
+  LumexWStringView ( // NOLINT(google-explicit-constructor)
       std::basic_string<wchar_t, std::char_traits<wchar_t>, Allocator> const
           &str) LUMEX_NOEXCEPT : m_data (str.data ()),
                                  m_size (str.size ())
@@ -254,7 +257,8 @@ public:
    * outlive the view.
    * @note Complexity: O(1).
    */
-  explicit LumexWStringView (std::wstring const &str) LUMEX_NOEXCEPT;
+  LumexWStringView (std::wstring const &str)
+      LUMEX_NOEXCEPT; // NOLINT(google-explicit-constructor)
 
   /**
    * @brief Copy constructor. Creates a new `LumexWStringView` that views the

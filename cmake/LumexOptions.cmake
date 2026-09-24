@@ -50,6 +50,7 @@ option(LUMEX_BUILD_UTILITY "Build core/utility" ON)
 
 # Applied
 option(LUMEX_BUILD_HARDWARE "Build applied/hardware" ON)
+option(LUMEX_BUILD_JSON "Build applied/json (header-only; needs the consumer's nlohmann/json)" ON)
 option(LUMEX_BUILD_LOGGER "Build applied/logger" ON)
 option(LUMEX_BUILD_LOGGING "Build applied/logging" ON)
 option(LUMEX_BUILD_RESOURCE_MONITOR "Build applied/resource_monitor" ON)

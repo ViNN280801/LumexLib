@@ -260,6 +260,62 @@ TEST (LumexExceptionWrapperTest,
 
 // --- Type trait reuse -------------------------------------------------------
 
+std::string g_safe_call_report;
+
+void
+capture_safe_call_report (char const *message)
+{
+  g_safe_call_report = (message != nullptr) ? message : "";
+}
+
+void
+throwing_safe_call_report (char const *)
+{
+  throw std::runtime_error ("logger down");
+}
+
+class SafeCallReporterGuard
+{
+public:
+  explicit SafeCallReporterGuard (Wrapper::safe_call_report_fn reporter)
+      : m_previous (Wrapper::get_safe_call_reporter ())
+  {
+    Wrapper::set_safe_call_reporter (reporter);
+  }
+
+  ~SafeCallReporterGuard () { Wrapper::set_safe_call_reporter (m_previous); }
+
+private:
+  Wrapper::safe_call_report_fn m_previous;
+};
+
+TEST (LumexExceptionWrapperTest, InstalledReporter_ReceivesReasonLine)
+{
+  g_safe_call_report.clear ();
+  SafeCallReporterGuard const guard (&capture_safe_call_report);
+  WrapperStderrCapture capture;
+  ExceptionWrapper ("Failed to compute", "unused", [] () -> int {
+    throw std::runtime_error ("disk on fire");
+  });
+
+  EXPECT_NE (g_safe_call_report.find ("Failed to compute"), std::string::npos);
+  EXPECT_NE (g_safe_call_report.find (". Reason: "), std::string::npos);
+  EXPECT_NE (g_safe_call_report.find ("disk on fire"), std::string::npos);
+  EXPECT_TRUE (capture.output ().empty ());
+}
+
+TEST (LumexExceptionWrapperTest, ThrowingReporter_FallsBackToStderr)
+{
+  SafeCallReporterGuard const guard (&throwing_safe_call_report);
+  WrapperStderrCapture capture;
+  ExceptionWrapper ("sink failed", "unused",
+                    [] () -> int { throw std::runtime_error ("boom"); });
+
+  std::string output = capture.output ();
+  EXPECT_NE (output.find ("sink failed"), std::string::npos);
+  EXPECT_NE (output.find ("boom"), std::string::npos);
+}
+
 TEST (LumexExceptionWrapperTest, IsCallable_ReusesLumexTypeTraits)
 {
   auto fn = [] (int) { return 1; };

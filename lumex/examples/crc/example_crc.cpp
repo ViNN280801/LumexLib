@@ -65,8 +65,8 @@ main ()
 
   std::cout << "\n--- 4. Empty buffer is a defined check value ---\n";
   std::vector<std::uint8_t> const empty;
-  std::cout << "crc32(empty)=0x" << std::hex
-            << Crc32IsoHdlc::calculate (empty) << std::dec << '\n';
+  std::cout << "crc32(empty)=0x" << std::hex << Crc32IsoHdlc::calculate (empty)
+            << std::dec << '\n';
 
   std::cout << "\n--- 5. Out-of-range catalogue index ---\n";
   std::uint64_t const bogus

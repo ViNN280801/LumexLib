@@ -26,8 +26,8 @@
  * @file LumexReflectedEnum.hpp
  * @brief X-macro system that generates a scoped enum together with its own
  *        compile-time reflection data and a `toString()` function.
- * @details `DEFINE_REFLECTED_ENUM(EnumName, UnderlyingType, (A), (B, 5), (C))`
- *          expands to an `enum class EnumName : UnderlyingType { A, B = 5, C
+ * @details `LUMEX_DEFINE_REFLECTED_ENUM(EnumName, UnderlyingType, (A), (B, 5),
+ * (C))` expands to an `enum class EnumName : UnderlyingType { A, B = 5, C
  * };` plus four `constexpr` companions declared right next to it -
  *          `EnumNameValues` (a `std::array` of every enumerator, in
  *          declaration order), `EnumNameFirst`, `EnumNameSize`, and
@@ -45,18 +45,18 @@
 
 // clang-format off
 
-// Each entry passed to DEFINE_REFLECTED_ENUM is (Name) or (Name, Value), e.g.
-//   DEFINE_REFLECTED_ENUM(Foo, std::uint8_t, (A), (B, 5), (C))
+// Each entry passed to LUMEX_DEFINE_REFLECTED_ENUM is (Name) or (Name, Value), e.g.
+//   LUMEX_DEFINE_REFLECTED_ENUM(Foo, std::uint8_t, (A), (B, 5), (C))
 // The wrapping parens make every entry ONE macro argument regardless of an
 // internal comma, so LUMEX_PP_ARG_COUNT below counts entries, not tokens.
 //
-// DEFINE_REFLECTED_ENUM always emits toString(EnumName). Display strings
+// LUMEX_DEFINE_REFLECTED_ENUM always emits toString(EnumName). Display strings
 // default to the enumerator identifiers (#Name): toString(Foo::B) == "B".
 //
-// Custom strings: do NOT also call DEFINE_REFLECTED_ENUM (that would define
-// toString twice). Use DEFINE_REFLECTED_ENUM_TO_STRING instead:
+// Custom strings: do NOT also call LUMEX_DEFINE_REFLECTED_ENUM (that would define
+// toString twice). Use LUMEX_DEFINE_REFLECTED_ENUM_TO_STRING instead:
 //   #define FOO_STRINGS(ENTRY) ENTRY(A, "alpha") ENTRY(B, "beta") ENTRY(C, "charlie")
-//   DEFINE_REFLECTED_ENUM_TO_STRING(Foo, std::uint8_t, FOO_STRINGS, (A), (B, 5), (C))
+//   LUMEX_DEFINE_REFLECTED_ENUM_TO_STRING(Foo, std::uint8_t, FOO_STRINGS, (A), (B, 5), (C))
 //   char const* s = toString(Foo::B); // "beta"
 // There must be no comma between ENTRY(...) entries. Do not name the X-macro
 // parameter after an enumerator (ENTRY(X, "ex") is fine; X(X, "ex") is not:
@@ -67,16 +67,16 @@
 // never null.
 //
 // Reflection data is emitted as plain EnumName##Values/First/Size/Last
-// constants next to the enum itself, NOT as an EnumTraits<Enum> specialization.
+// constants next to the enum itself, NOT as an lumex_enum_traits_t<Enum> specialization.
 // Two independent reasons rule that out, both stemming from [temp.expl.spec]
 // (an explicit specialization must be declared in the SAME namespace as its
 // primary template):
 //   1. MSVC (C2888) additionally refuses a lambda inside such a specialization
 //      when it is defined inside a namespace - an earlier design built
-//      EnumTraits<Enum>::values via `[]{ using enum Enum; return std::array{...}; }()`.
-//   2. Even lambda-free, DEFINE_REFLECTED_ENUM is meant to be invoked from
+//      lumex_enum_traits_t<Enum>::values via `[]{ using enum Enum; return std::array{...}; }()`.
+//   2. Even lambda-free, LUMEX_DEFINE_REFLECTED_ENUM is meant to be invoked from
 //      inside arbitrary namespaces, or even inside a nested struct/class -
-//      neither is the global scope EnumTraits<T> would need, so the
+//      neither is the global scope lumex_enum_traits_t<T> would need, so the
 //      specialization itself would be ill-formed regardless of what is inside it.
 // `static constexpr` on each generated constant is deliberate: at namespace
 // scope it just gives ordinary internal linkage (harmless per-TU duplication
@@ -192,21 +192,28 @@
   case LumexToStringEnum_::LUMEX_PP_ENUM_NAME(entry):        \
     return LUMEX_PP_ENUM_DEFAULT_STRING(entry);
 
+// Companion constants. They stay `constexpr` in every standard: C++20
+// LUMEX_CONST_NUM is `constinit`, which does not make EnumNameValues usable in
+// a constant expression, so EnumNameFirst = EnumNameValues.front() would not
+// compile, and a plain `static const` std::array cannot be initialized inside
+// a class before C++17.
+#define LUMEX_PP_ENUM_CONSTANT static LUMEX_INLINE_VARIABLE constexpr
+
 #define LUMEX_PP_DEFINE_REFLECTED_ENUM_DECL(EnumName, UnderlyingType, ...)                          \
   enum class EnumName : UnderlyingType                                                              \
   {                                                                                                  \
     LUMEX_PP_FOR_EACH(LUMEX_PP_ENUM_BODY, __VA_ARGS__)                                              \
   };                                                                                                 \
                                                                                                       \
-  LUMEX_ATTRIBUTE_MAYBE_UNUSED LUMEX_CONST_NUM std::array<EnumName, LUMEX_PP_ARG_COUNT(__VA_ARGS__)>            \
+  LUMEX_ATTRIBUTE_MAYBE_UNUSED LUMEX_PP_ENUM_CONSTANT std::array<EnumName, LUMEX_PP_ARG_COUNT(__VA_ARGS__)>            \
     LUMEX_PP_CAT(EnumName, Values){                                                                  \
       LUMEX_PP_FOR_EACH_ARG(LUMEX_PP_ENUM_VALUE, EnumName, __VA_ARGS__)                              \
     };                                                                                               \
-  LUMEX_ATTRIBUTE_MAYBE_UNUSED LUMEX_CONST_NUM EnumName LUMEX_PP_CAT(EnumName, First) =                         \
+  LUMEX_ATTRIBUTE_MAYBE_UNUSED LUMEX_PP_ENUM_CONSTANT EnumName LUMEX_PP_CAT(EnumName, First) =                         \
     LUMEX_PP_CAT(EnumName, Values).front();                                                          \
-  LUMEX_ATTRIBUTE_MAYBE_UNUSED LUMEX_CONST_NUM std::size_t LUMEX_PP_CAT(EnumName, Size) =                       \
+  LUMEX_ATTRIBUTE_MAYBE_UNUSED LUMEX_PP_ENUM_CONSTANT std::size_t LUMEX_PP_CAT(EnumName, Size) =                       \
     LUMEX_PP_CAT(EnumName, Values).size();                                                           \
-  LUMEX_ATTRIBUTE_MAYBE_UNUSED LUMEX_CONST_NUM EnumName LUMEX_PP_CAT(EnumName, Last) =                          \
+  LUMEX_ATTRIBUTE_MAYBE_UNUSED LUMEX_PP_ENUM_CONSTANT EnumName LUMEX_PP_CAT(EnumName, Last) =                          \
     LUMEX_PP_CAT(EnumName, Values).back();
 
 #define LUMEX_PP_ENUM_TO_STRING_CASE(enumerator, str) \
@@ -225,13 +232,13 @@
     }                                                                                             \
   }
 
-#define DEFINE_REFLECTED_ENUM(EnumName, UnderlyingType, ...)             \
+#define LUMEX_DEFINE_REFLECTED_ENUM(EnumName, UnderlyingType, ...)             \
   LUMEX_PP_DEFINE_REFLECTED_ENUM_DECL(EnumName, UnderlyingType, __VA_ARGS__) \
   LUMEX_PP_DEFINE_TO_STRING_FN(                                          \
     EnumName,                                                            \
     LUMEX_PP_FOR_EACH_ARG_NC(LUMEX_PP_ENUM_DEFAULT_TO_STRING_ARM, EnumName, __VA_ARGS__))
 
-#define DEFINE_REFLECTED_ENUM_TO_STRING(EnumName, UnderlyingType, XList, ...) \
+#define LUMEX_DEFINE_REFLECTED_ENUM_TO_STRING(EnumName, UnderlyingType, XList, ...) \
   LUMEX_PP_DEFINE_REFLECTED_ENUM_DECL(EnumName, UnderlyingType, __VA_ARGS__)  \
   LUMEX_PP_DEFINE_TO_STRING_FN(EnumName, XList(LUMEX_PP_ENUM_TO_STRING_CASE))
 // NOLINTEND(cppcoreguidelines-macro-usage)

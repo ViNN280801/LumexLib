@@ -21,9 +21,16 @@ target_link_libraries(${LUMEX_REFLECTION_NAME} INTERFACE
 # unit that links lumex::reflection. The vendored header stays private
 # to Lumex TUs that explicitly link nlohmann_json::nlohmann_json
 # (field-reflection tests). Logger and settings already link it PRIVATE.
+#
+# LUMEX_WITH_FIELD_REFLECTION is deliberately NOT an INTERFACE definition.
+# The umbrella pulls LumexFieldReflection.hpp (and nlohmann) only when the
+# macro is defined, so exporting it would break every consumer of the
+# umbrella that has no nlohmann of its own. A consumer that wants field
+# reflection defines the macro and provides nlohmann itself. The option only
+# builds the field-reflection tests (LumexCMake.wiring_field_reflection_no_leak and
+# LumexCMake.consumer_reflection_umbrella_field_reflection_on guard this).
 if(LUMEX_WITH_FIELD_REFLECTION)
     lumex_setup_nlohmann_json()
-    target_compile_definitions(${LUMEX_REFLECTION_NAME} INTERFACE LUMEX_WITH_FIELD_REFLECTION)
     message(STATUS "Building with LumexFieldReflection (nlohmann/json) enabled")
 endif()
 

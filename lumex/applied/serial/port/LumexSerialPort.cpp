@@ -28,7 +28,8 @@ std::string
 resolve_serial_port_path (
     std::string const &portName, std::uint32_t channelType,
     std::function<std::string ()> const &getIpAddressCallback,
-    std::function<void (std::string const &)> const &) LUMEX_NOEXCEPT
+    std::function<void (std::string const &)> const &logWarningCallback)
+    LUMEX_NOEXCEPT
 {
   // Windows COM port: "COM1", "COM2" -> "\\.\COM1", "\\.\COM2"
   if (portName.length () >= 3 && _starts_with (portName, "COM"))

@@ -38,7 +38,10 @@
 #pragma clang diagnostic ignored "-Wglobal-constructors"
 #endif
 
-using namespace lumex::core::string::utility;
+using lumex::core::string::format::stringify;
+#if __cplusplus >= 202002L
+using lumex::core::string::format::stringify_v2;
+#endif
 
 // Platform-specific includes
 #ifdef _WIN32
@@ -537,59 +540,59 @@ TEST_F (LumexStringifyTest, MoveSemantics_Dirty)
 // === Type Trait Tests ===
 
 // NOTE: `is_streamable`/`all_streamable` are only defined by
-// LumexStringify.hpp's pre-C++20 SFINAE branch
+// LumexTypeTraits.hpp SFINAE branch
 // (`#if __cplusplus < 202002L`) - under C++20 that branch is replaced by the
 // `Streamable`/`AllStreamable` concepts instead (found while verifying this
-// file still builds after adding Join/Quote/ToCaseInsensitive; this
-// pre-existing test was unconditional and therefore could never have compiled
-// under the C++20 standard this project builds with by default - not something
-// introduced by this change).
+// file still builds after adding text::join / quote / to_case_insensitive;
+// this pre-existing test was unconditional and therefore could never have
+// compiled under the C++20 standard this project builds with by default - not
+// something introduced by this change).
 #if __cplusplus < 202002L
 TEST_F (LumexStringifyTest, TypeTraits_Dirty)
 {
   // Test is_streamable trait
-  EXPECT_TRUE (lumex::core::string::utility::is_streamable<int>::value);
+  EXPECT_TRUE (lumex::core::utility::traits::is_streamable<int>::value);
   EXPECT_TRUE (
-      lumex::core::string::utility::is_streamable<std::string>::value);
+      lumex::core::utility::traits::is_streamable<std::string>::value);
   EXPECT_TRUE (
-      lumex::core::string::utility::is_streamable<CustomStreamable>::value);
+      lumex::core::utility::traits::is_streamable<CustomStreamable>::value);
   EXPECT_FALSE (
-      lumex::core::string::utility::is_streamable<NonStreamable>::value);
+      lumex::core::utility::traits::is_streamable<NonStreamable>::value);
 
   // Test all_streamable trait
   EXPECT_TRUE (
-      (lumex::core::string::utility::all_streamable<int, std::string>::value));
-  EXPECT_TRUE ((lumex::core::string::utility::all_streamable<CustomStreamable,
+      (lumex::core::utility::traits::all_streamable<int, std::string>::value));
+  EXPECT_TRUE ((lumex::core::utility::traits::all_streamable<CustomStreamable,
                                                              int>::value));
-  EXPECT_FALSE ((lumex::core::string::utility::all_streamable<NonStreamable,
+  EXPECT_FALSE ((lumex::core::utility::traits::all_streamable<NonStreamable,
                                                               int>::value));
   EXPECT_FALSE (
-      (lumex::core::string::utility::all_streamable<int,
+      (lumex::core::utility::traits::all_streamable<int,
                                                     NonStreamable>::value));
 
   // Empty all_streamable
-  EXPECT_TRUE (lumex::core::string::utility::all_streamable<>::value);
+  EXPECT_TRUE (lumex::core::utility::traits::all_streamable<>::value);
 }
 #else
 TEST_F (LumexStringifyTest, TypeTraits_Dirty)
 {
   // C++20 path: the SFINAE structs above do not exist here -
   // `Streamable`/`AllStreamable` concepts cover the same purpose instead.
-  EXPECT_TRUE (lumex::core::string::utility::Streamable<int>);
-  EXPECT_TRUE (lumex::core::string::utility::Streamable<std::string>);
-  EXPECT_TRUE (lumex::core::string::utility::Streamable<CustomStreamable>);
-  EXPECT_FALSE (lumex::core::string::utility::Streamable<NonStreamable>);
+  EXPECT_TRUE (lumex::core::utility::traits::Streamable<int>);
+  EXPECT_TRUE (lumex::core::utility::traits::Streamable<std::string>);
+  EXPECT_TRUE (lumex::core::utility::traits::Streamable<CustomStreamable>);
+  EXPECT_FALSE (lumex::core::utility::traits::Streamable<NonStreamable>);
 
   EXPECT_TRUE (
-      (lumex::core::string::utility::AllStreamable<int, std::string>));
+      (lumex::core::utility::traits::AllStreamable<int, std::string>));
   EXPECT_TRUE (
-      (lumex::core::string::utility::AllStreamable<CustomStreamable, int>));
+      (lumex::core::utility::traits::AllStreamable<CustomStreamable, int>));
   EXPECT_FALSE (
-      (lumex::core::string::utility::AllStreamable<NonStreamable, int>));
+      (lumex::core::utility::traits::AllStreamable<NonStreamable, int>));
   EXPECT_FALSE (
-      (lumex::core::string::utility::AllStreamable<int, NonStreamable>));
+      (lumex::core::utility::traits::AllStreamable<int, NonStreamable>));
 
-  EXPECT_TRUE (lumex::core::string::utility::AllStreamable<>);
+  EXPECT_TRUE (lumex::core::utility::traits::AllStreamable<>);
 }
 #endif
 
@@ -682,9 +685,9 @@ TEST_F (LumexStringifyTest, ThreadSafety_Dirty)
   std::vector<std::string> results (100);
 
   for (int i = 0; i < 100; ++i)
-    threads.emplace_back ([&results, i] () {
-      results[i] = stringify ("Thread ", i, " result");
-    });
+    threads.emplace_back (
+        [&results, i] ()
+          { results[i] = stringify ("Thread ", i, " result"); });
 
   for (auto &thread : threads)
     if (thread.joinable ())
@@ -1159,14 +1162,16 @@ TEST_F (LumexStringifyTest, ConcurrentAccess_Dirty)
 
   for (int i = 0; i < num_threads; ++i)
     {
-      threads.emplace_back ([&results, &counter, i] () {
-        for (int j = 0; j < 100; ++j)
-          {
-            int count = counter.fetch_add (1);
-            results[i]
-                += stringify ("Thread", i, "_Iter", j, "_Count", count, " ");
-          }
-      });
+      threads.emplace_back (
+          [&results, &counter, i] ()
+            {
+              for (int j = 0; j < 100; ++j)
+                {
+                  int count = counter.fetch_add (1);
+                  results[i] += stringify ("Thread", i, "_Iter", j, "_Count",
+                                           count, " ");
+                }
+            });
     }
 
   for (auto &thread : threads)
@@ -1227,107 +1232,29 @@ TEST_F (LumexStringifyTest, FinalIntegration_Dirty)
   EXPECT_NE (integration_result.find ("End"), std::string::npos);
 }
 
-// === Join / Quote / ToCaseInsensitive Tests ===
-// Join/Quote/QuoteDouble/QuoteSingle are only defined for C++20 (they are
-// built on std::ranges), matching LumexStringify.hpp's own `#if __cplusplus >=
-// 202002L` guard around them.
-#if __cplusplus >= 202002L
-
-TEST_F (LumexStringifyTest, Join_EmptyRange_ReturnsEmptyString)
-{
-  std::vector<std::string> empty;
-  EXPECT_EQ (lumex::core::string::utility::Join (empty, ", "), "");
-}
-
-TEST_F (LumexStringifyTest, Join_SingleElement_HasNoSeparator)
-{
-  std::vector<std::string> single{ "COM1" };
-  EXPECT_EQ (lumex::core::string::utility::Join (single, ", "), "COM1");
-}
-
-TEST_F (LumexStringifyTest,
-        Join_MultipleElements_SeparatesWithoutTrailingSeparator)
-{
-  std::vector<std::string> ports{ "COM1", "COM2", "COM3", "COM4" };
-  EXPECT_EQ (lumex::core::string::utility::Join (ports, ", "),
-             "COM1, COM2, COM3, COM4");
-}
-
-TEST_F (LumexStringifyTest, Join_WorksWithNonStringStreamableElements)
-{
-  std::vector<int> numbers{ 1, 2, 3 };
-  EXPECT_EQ (lumex::core::string::utility::Join (numbers, "-"), "1-2-3");
-}
-
-TEST_F (LumexStringifyTest, Join_WorksWithArbitraryInputRange)
-{
-  // A set is an input_range too (forward_range in practice, which still
-  // satisfies input_range).
-  std::set<std::string> ports{ "COM1", "COM2" };
-  std::string result = lumex::core::string::utility::Join (ports, ",");
-  EXPECT_EQ (result,
-             "COM1,COM2"); // std::set<std::string> iterates in sorted order.
-}
-
-TEST_F (LumexStringifyTest, Quote_WrapsEachElementInDoubleQuotes)
-{
-  std::vector<std::string> ports{ "COM1", "COM2", "COM3", "COM4" };
-  EXPECT_EQ (lumex::core::string::utility::Quote (ports, ", "),
-             R"("COM1", "COM2", "COM3", "COM4")");
-}
-
-TEST_F (LumexStringifyTest, Quote_EmptyRange_ReturnsEmptyString)
-{
-  std::vector<std::string> empty;
-  EXPECT_EQ (lumex::core::string::utility::Quote (empty, ", "), "");
-}
-
-TEST_F (LumexStringifyTest, QuoteDouble_IsEquivalentToQuote)
-{
-  std::vector<std::string> ports{ "a", "b" };
-  EXPECT_EQ (lumex::core::string::utility::QuoteDouble (ports, "|"),
-             lumex::core::string::utility::Quote (ports, "|"));
-  EXPECT_EQ (lumex::core::string::utility::QuoteDouble (ports, "|"),
-             R"("a"|"b")");
-}
-
-TEST_F (LumexStringifyTest, QuoteSingle_WrapsEachElementInSingleQuotes)
-{
-  std::vector<std::string> ports{ "COM1", "COM2" };
-  EXPECT_EQ (lumex::core::string::utility::QuoteSingle (ports, ", "),
-             "'COM1', 'COM2'");
-}
-
-TEST_F (LumexStringifyTest, QuoteSingle_EmptyRange_ReturnsEmptyString)
-{
-  std::vector<std::string> empty;
-  EXPECT_EQ (lumex::core::string::utility::QuoteSingle (empty, ", "), "");
-}
-
-#if defined(__clang__)
-#endif
-
-#endif // __cplusplus >= 202002L
+// === text::to_case_insensitive Tests ===
+// text::join and quote* are covered by LumexJoin.tests.cpp and
+// LumexQuote.tests.cpp in every standard.
 
 TEST_F (LumexStringifyTest,
         ToCaseInsensitive_InPlace_LowercasesAndRemovesSpacesByDefault)
 {
   std::string str = "Hello WORLD Test";
-  lumex::core::string::utility::ToCaseInsensitive (str);
+  lumex::core::string::text::to_case_insensitive (str);
   EXPECT_EQ (str, "helloworldtest");
 }
 
 TEST_F (LumexStringifyTest, ToCaseInsensitive_InPlace_KeepsSpacesWhenRequested)
 {
   std::string str = "Hello WORLD";
-  lumex::core::string::utility::ToCaseInsensitive (str, false);
+  lumex::core::string::text::to_case_insensitive (str, false);
   EXPECT_EQ (str, "hello world");
 }
 
 TEST_F (LumexStringifyTest, ToCaseInsensitive_InPlace_EmptyString_StaysEmpty)
 {
   std::string str;
-  lumex::core::string::utility::ToCaseInsensitive (str);
+  lumex::core::string::text::to_case_insensitive (str);
   EXPECT_TRUE (str.empty ());
 }
 
@@ -1335,7 +1262,7 @@ TEST_F (LumexStringifyTest,
         ToCaseInsensitive_InPlace_AlreadyLowercase_Unchanged)
 {
   std::string str = "already";
-  lumex::core::string::utility::ToCaseInsensitive (str, false);
+  lumex::core::string::text::to_case_insensitive (str, false);
   EXPECT_EQ (str, "already");
 }
 
@@ -1343,7 +1270,7 @@ TEST_F (LumexStringifyTest, ToCaseInsensitive_CopyOut_DoesNotModifyOriginal)
 {
   std::string const orig = "Hello WORLD";
   std::string out;
-  lumex::core::string::utility::ToCaseInsensitive (orig, out);
+  lumex::core::string::text::to_case_insensitive (orig, out);
   EXPECT_EQ (orig, "Hello WORLD");
   EXPECT_EQ (out, "helloworld");
 }
@@ -1353,7 +1280,7 @@ TEST_F (LumexStringifyTest,
 {
   std::string const orig = "Hello WORLD";
   std::string out;
-  lumex::core::string::utility::ToCaseInsensitive (orig, out, false);
+  lumex::core::string::text::to_case_insensitive (orig, out, false);
   EXPECT_EQ (out, "hello world");
 }
 
@@ -1361,13 +1288,13 @@ TEST_F (LumexStringifyTest, ToCaseInsensitive_CopyOut_DefaultRemovesSpaces)
 {
   std::string const orig = "A B C";
   std::string out;
-  lumex::core::string::utility::ToCaseInsensitive (orig, out);
+  lumex::core::string::text::to_case_insensitive (orig, out);
   EXPECT_EQ (out, "abc");
 }
 
 TEST_F (LumexStringifyTest, ToCaseInsensitive_HandlesTabsAndNewlinesAsSpaces)
 {
   std::string str = "A\tB\nC";
-  lumex::core::string::utility::ToCaseInsensitive (str);
+  lumex::core::string::text::to_case_insensitive (str);
   EXPECT_EQ (str, "abc");
 }

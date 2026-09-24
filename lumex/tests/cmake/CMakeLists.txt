@@ -61,6 +61,7 @@ lumex_add_cmake_test(wiring_subdirs)
 lumex_add_cmake_test(wiring_distr)
 lumex_add_cmake_test(publish_distr_filters)
 lumex_add_cmake_test(wiring_field_reflection)
+lumex_add_cmake_test(wiring_field_reflection_no_leak)
 lumex_add_cmake_test(wiring_sanitizers)
 lumex_add_cmake_test(options_field_reflection_and_nlohmann)
 lumex_add_cmake_test(sanitizer_asan_release_warns)
@@ -136,9 +137,46 @@ lumex_add_cmake_fail_test(require_fail_resource_monitor_without_logging
     "LUMEX_BUILD_RESOURCE_MONITOR is enabled but requires LUMEX_BUILD_LOGGING")
 lumex_add_cmake_fail_test(require_fail_settings_without_logging
     "LUMEX_BUILD_SETTINGS is enabled but requires LUMEX_BUILD_LOGGING")
+lumex_add_cmake_fail_test(require_fail_json_without_reflection
+    "LUMEX_BUILD_JSON is enabled but requires LUMEX_BUILD_REFLECTION")
+lumex_add_cmake_fail_test(require_fail_json_without_string_view
+    "LUMEX_BUILD_JSON is enabled but requires LUMEX_BUILD_STRING_VIEW")
 lumex_add_cmake_fail_test(require_fail_logger_ini_without_settings
     "LUMEX_LOGGER_CONFIG_FORMAT=INI requires LUMEX_BUILD_SETTINGS")
 lumex_add_cmake_fail_test(require_fail_logger_xml_without_xml
     "LUMEX_LOGGER_CONFIG_FORMAT=XML requires LUMEX_BUILD_XML")
 lumex_add_cmake_fail_test(require_fail_logger_invalid_format
     "Invalid LUMEX_LOGGER_CONFIG_FORMAT='TOML'")
+
+# Consumer smoke: configure, build and run a tiny project that embeds
+# LumexLib and includes the reflection umbrella with lumex::reflection alone
+# (no nlohmann), once with LUMEX_WITH_FIELD_REFLECTION OFF and once ON. The
+# nested build reuses this tree's generator and compiler and the calling
+# shell's environment (MSVC: run ctest from a developer shell, otherwise the
+# case is reported as skipped).
+set(_LUMEX_CONSUMER_RUN "${CMAKE_CURRENT_SOURCE_DIR}/consumer/run_consumer.cmake")
+
+function(lumex_add_consumer_test name fixture)
+    add_test(NAME LumexCMake.${name}
+        COMMAND ${CMAKE_COMMAND}
+            -DCASE=${fixture}
+            -DLUMEX_SOURCE_DIR=${LumexLib_SOURCE_DIR}
+            -DWORK_DIR=${CMAKE_CURRENT_BINARY_DIR}/consumer/${name}
+            -DGENERATOR=${CMAKE_GENERATOR}
+            -DCXX_COMPILER=${CMAKE_CXX_COMPILER}
+            -DBUILD_TYPE=Release
+            "-DEXTRA_ARGS=${ARGN}"
+            -P ${_LUMEX_CONSUMER_RUN}
+    )
+    set_tests_properties(LumexCMake.${name} PROPERTIES
+        LABELS "cmake;consumer"
+        TIMEOUT 900
+        SKIP_REGULAR_EXPRESSION "LUMEX_CONSUMER_SKIP"
+        RUN_SERIAL TRUE
+    )
+endfunction()
+
+lumex_add_consumer_test(consumer_reflection_umbrella_field_reflection_off
+    reflection_umbrella -DLUMEX_WITH_FIELD_REFLECTION=OFF)
+lumex_add_consumer_test(consumer_reflection_umbrella_field_reflection_on
+    reflection_umbrella -DLUMEX_WITH_FIELD_REFLECTION=ON)

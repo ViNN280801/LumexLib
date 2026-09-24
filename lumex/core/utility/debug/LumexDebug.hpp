@@ -115,7 +115,7 @@
 #endif
 #endif
 
-#include "lumex/core/string/utility/LumexStringify.hpp"
+#include "lumex/core/string/format/LumexStringify.hpp"
 
 namespace lumex
 {
@@ -158,7 +158,7 @@ resolveAddressWithAddr2line (void *addr, char const *exe_path) LUMEX_NOEXCEPT
       std::string result;
 
       // Build command: addr2line -C -f -e <executable> <address>
-      std::string cmd = stringify (
+      std::string cmd = lumex::core::string::format::stringify (
           "addr2line -C -f -e ", exe_path, " 0x",
           formatHex (reinterpret_cast<uintptr_t> (addr)), " 2>/dev/null");
 
@@ -273,20 +273,24 @@ ensureSymbolsInitialized (HANDLE process) LUMEX_NOEXCEPT
   if (initialized.load (std::memory_order_acquire))
     return true;
 
-  std::call_once (init_flag, [process] () {
-    std::lock_guard<std::mutex> lock (getDbgHelpMutex ());
-    // SymSetOptions MUST be called BEFORE SymInitialize
-    // (MSDN)
-    SymSetOptions (SYMOPT_LOAD_LINES | SYMOPT_UNDNAME | SYMOPT_DEFERRED_LOADS);
-    std::string const exeDir = getExeDirectory ();
-    char const *searchPath = exeDir.empty () ? nullptr : exeDir.c_str ();
-    if (SymInitialize (process, searchPath, TRUE))
-      {
-        if (!exeDir.empty ())
-          SymSetSearchPath (process, exeDir.c_str ());
-        initialized.store (true, std::memory_order_release);
-      }
-  });
+  std::call_once (init_flag,
+                  [process] ()
+                    {
+                      std::lock_guard<std::mutex> lock (getDbgHelpMutex ());
+                      // SymSetOptions MUST be called BEFORE SymInitialize
+                      // (MSDN)
+                      SymSetOptions (SYMOPT_LOAD_LINES | SYMOPT_UNDNAME
+                                     | SYMOPT_DEFERRED_LOADS);
+                      std::string const exeDir = getExeDirectory ();
+                      char const *searchPath
+                          = exeDir.empty () ? nullptr : exeDir.c_str ();
+                      if (SymInitialize (process, searchPath, TRUE))
+                        {
+                          if (!exeDir.empty ())
+                            SymSetSearchPath (process, exeDir.c_str ());
+                          initialized.store (true, std::memory_order_release);
+                        }
+                    });
 
   return initialized.load (std::memory_order_acquire);
 }
@@ -398,7 +402,7 @@ captureStackTrace (int skip_frames = 1, int max_frames = 16) LUMEX_NOEXCEPT
               static_cast<DWORD> (max_frames), stack, nullptr);
 
           for (WORD i = 0; i < frames; ++i)
-            result += stringify (
+            result += lumex::core::string::format::stringify (
                 "  #", i, ": [0x",
                 Detail::formatHex (reinterpret_cast<uintptr_t> (stack[i])),
                 "]\n");
@@ -452,17 +456,17 @@ captureStackTrace (int skip_frames = 1, int max_frames = 16) LUMEX_NOEXCEPT
                                         &line))
                 {
                   // Full info: function + file:line + address
-                  result += stringify ("  #", i, ": ", symbol_buffer->Name,
-                                       " (", line.FileName, ":",
-                                       line.LineNumber, ") [0x",
-                                       Detail::formatHex (address), "]\n");
+                  result += lumex::core::string::format::stringify (
+                      "  #", i, ": ", symbol_buffer->Name, " (", line.FileName,
+                      ":", line.LineNumber, ") [0x",
+                      Detail::formatHex (address), "]\n");
                 }
               else
                 {
                   // Only function name + address (no line info)
-                  result += stringify ("  #", i, ": ", symbol_buffer->Name,
-                                       " [0x", Detail::formatHex (address),
-                                       "]\n");
+                  result += lumex::core::string::format::stringify (
+                      "  #", i, ": ", symbol_buffer->Name, " [0x",
+                      Detail::formatHex (address), "]\n");
                 }
             }
           else
@@ -474,15 +478,15 @@ captureStackTrace (int skip_frames = 1, int max_frames = 16) LUMEX_NOEXCEPT
               if (SymGetModuleInfo64 (process, address, &moduleInfo))
                 {
                   DWORD64 const offset = address - moduleInfo.BaseOfImage;
-                  result
-                      += stringify ("  #", i, ": ", moduleInfo.ModuleName,
-                                    "+0x", Detail::formatHex (offset), " [0x",
-                                    Detail::formatHex (address), "]\n");
+                  result += lumex::core::string::format::stringify (
+                      "  #", i, ": ", moduleInfo.ModuleName, "+0x",
+                      Detail::formatHex (offset), " [0x",
+                      Detail::formatHex (address), "]\n");
                 }
               else
                 {
-                  result += stringify ("  #", i, ": [0x",
-                                       Detail::formatHex (address), "]\n");
+                  result += lumex::core::string::format::stringify (
+                      "  #", i, ": [0x", Detail::formatHex (address), "]\n");
                 }
             }
         }
@@ -519,7 +523,7 @@ captureStackTrace (int skip_frames = 1, int max_frames = 16) LUMEX_NOEXCEPT
                 {
                   std::string demangled
                       = Detail::demangleSymbol (info.dli_sname);
-                  result += stringify (
+                  result += lumex::core::string::format::stringify (
                       "  #", i, ": ", demangled, " [0x",
                       Detail::formatHex (reinterpret_cast<uintptr_t> (
                           addresses[i + skip_frames])),
@@ -527,7 +531,7 @@ captureStackTrace (int skip_frames = 1, int max_frames = 16) LUMEX_NOEXCEPT
                 }
               else
                 {
-                  result += stringify (
+                  result += lumex::core::string::format::stringify (
                       "  #", i, ": [0x",
                       Detail::formatHex (reinterpret_cast<uintptr_t> (
                           addresses[i + skip_frames])),
@@ -557,7 +561,7 @@ captureStackTrace (int skip_frames = 1, int max_frames = 16) LUMEX_NOEXCEPT
                   = reinterpret_cast<char *> (addresses[i + skip_frames])
                     - reinterpret_cast<char *> (info.dli_saddr);
 
-              result += stringify (
+              result += lumex::core::string::format::stringify (
                   "  #", i, ": ", demangled, " +", offset, " [0x",
                   Detail::formatHex (reinterpret_cast<uintptr_t> (
                       addresses[i + skip_frames])),
@@ -574,7 +578,7 @@ captureStackTrace (int skip_frames = 1, int max_frames = 16) LUMEX_NOEXCEPT
               if (!addr2line_result.empty ())
                 {
                   // addr2line succeeded - use its output
-                  result += stringify (
+                  result += lumex::core::string::format::stringify (
                       "  #", i, ": ", addr2line_result, " [0x",
                       Detail::formatHex (reinterpret_cast<uintptr_t> (
                           addresses[i + skip_frames])),
@@ -583,7 +587,7 @@ captureStackTrace (int skip_frames = 1, int max_frames = 16) LUMEX_NOEXCEPT
               else
                 {
                   // Complete fallback: raw backtrace_symbols output
-                  result += stringify (
+                  result += lumex::core::string::format::stringify (
                       "  #", i, ": ", symbols[i], " [0x",
                       Detail::formatHex (reinterpret_cast<uintptr_t> (
                           addresses[i + skip_frames])),
@@ -598,19 +602,21 @@ captureStackTrace (int skip_frames = 1, int max_frames = 16) LUMEX_NOEXCEPT
 #else
       // No backtrace support - return basic info
       result = "  Stack trace unavailable (<execinfo.h> not available)\n";
-      result += stringify ("  Current function: ", LUMEX_FUNCTION_NAME, "\n");
+      result += lumex::core::string::format::stringify (
+          "  Current function: ", LUMEX_FUNCTION_NAME, "\n");
 #endif
 
 #else
       // Unknown platform
       result = "  Stack trace not supported on this platform\n";
-      result += stringify ("  Current function: ", LUMEX_FUNCTION_NAME, "\n");
+      result += lumex::core::string::format::stringify (
+          "  Current function: ", LUMEX_FUNCTION_NAME, "\n");
 #endif
     }
   catch (std::exception const &exc)
     {
-      return stringify ("  Stack trace unavailable (exception: ", exc.what (),
-                        ")\n");
+      return lumex::core::string::format::stringify (
+          "  Stack trace unavailable (exception: ", exc.what (), ")\n");
     }
   catch (...)
     {
@@ -638,8 +644,9 @@ captureCallerInfoImpl (char const *caller_function, char const *caller_file,
       if (last_slash != std::string::npos)
         file_name = file_name.substr (last_slash + 1);
 
-      return stringify (caller_function ? caller_function : "<unknown>",
-                        "() at ", file_name, ":", caller_line);
+      return lumex::core::string::format::stringify (
+          caller_function ? caller_function : "<unknown>", "() at ", file_name,
+          ":", caller_line);
     }
   catch (...)
     {

@@ -21,6 +21,31 @@ target_link_libraries(
 lumex_test_use_gtest(${TEST_EXECUTABLE_NAME} CXX_STANDARD 11)
 gtest_discover_tests(${TEST_EXECUTABLE_NAME})
 
+# Same sources at C++20. LUMEX_CONST_NUM is `constinit` there, which once made
+# every LUMEX_DEFINE_REFLECTED_ENUM fail to compile (EnumNameFirst read a
+# non-constexpr EnumNameValues) while the C++11 suite stayed green.
+# TEST_SUFFIX keeps CTest names distinct.
+set(REFLECTION_CXX20_TEST_NAME LumexReflectionCxx20Tests)
+
+add_executable(
+    ${REFLECTION_CXX20_TEST_NAME}
+    LumexReflectedEnum.tests.cpp
+    LumexVarInfo.tests.cpp
+)
+
+set_target_properties(${REFLECTION_CXX20_TEST_NAME} PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/$<CONFIG>"
+)
+
+target_link_libraries(
+    ${REFLECTION_CXX20_TEST_NAME}
+    PRIVATE
+    lumex::reflection
+)
+
+lumex_test_use_gtest(${REFLECTION_CXX20_TEST_NAME} CXX_STANDARD 20)
+gtest_discover_tests(${REFLECTION_CXX20_TEST_NAME} TEST_SUFFIX ".cxx20")
+
 # field_reflection/ needs LUMEX_WITH_FIELD_REFLECTION and the
 # in-tree nlohmann_json::nlohmann_json target from LumexNlohmannJson.cmake.
 # C++11 suite proves count. C++14 suite proves indexed get

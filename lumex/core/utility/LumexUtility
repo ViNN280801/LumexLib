@@ -1,5 +1,6 @@
 #include "assert/LumexAssert.hpp"
 #include "attr/LumexAttributes.hpp"
+#include "callback/LumexCallbackSlot.hpp"
 #include "debug/LumexDebug.hpp"
 #include "demangle/LumexDemangle.hpp"
 #include "dump/LumexCoreDumpGenerator.hpp"

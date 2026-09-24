@@ -464,11 +464,11 @@ TEST (LumexTypeTraitsTest, GivenStdOptional_WhenIsOptional_ThenTrue)
 }
 #endif
 
-// --- LUMEX_DEFINE_ENUM_TRAITS / EnumTraits
+// --- LUMEX_DEFINE_ENUM_TRAITS / lumex_enum_traits_t
 // ------------------------------------------------------
 
 #if __cplusplus >= 202002L
-// Must be invoked at global scope: EnumTraits<T> (see LumexTypeTraits.hpp) is
+// Must be invoked at global scope: lumex_enum_traits_t<T> (see LumexTypeTraits.hpp) is
 // declared in the global namespace, and [temp.expl.spec] requires explicit
 // specializations to live in a namespace enclosing the primary template's
 // namespace - so this cannot be nested in an anonymous namespace.
@@ -482,20 +482,20 @@ TEST (LumexTypeTraitsTest,
 {
   using enum LumexTypeTraitsTestColor;
 
-  EXPECT_EQ (EnumTraits<LumexTypeTraitsTestColor>::size, 3U);
-  EXPECT_EQ (EnumTraits<LumexTypeTraitsTestColor>::first, Red);
-  EXPECT_EQ (EnumTraits<LumexTypeTraitsTestColor>::last, Blue);
-  EXPECT_EQ (EnumTraits<LumexTypeTraitsTestColor>::values[1], Green);
+  EXPECT_EQ (lumex_enum_traits_t<LumexTypeTraitsTestColor>::size, 3U);
+  EXPECT_EQ (lumex_enum_traits_t<LumexTypeTraitsTestColor>::first, Red);
+  EXPECT_EQ (lumex_enum_traits_t<LumexTypeTraitsTestColor>::last, Blue);
+  EXPECT_EQ (lumex_enum_traits_t<LumexTypeTraitsTestColor>::values[1], Green);
 }
 
 TEST (LumexTypeTraitsTest,
       GivenSingleEnumerator_WhenUsingEnumTraits_ThenFirstEqualsLast)
 {
   using enum LumexTypeTraitsTestSingle;
-  EXPECT_EQ (EnumTraits<LumexTypeTraitsTestSingle>::size, 1U);
-  EXPECT_EQ (EnumTraits<LumexTypeTraitsTestSingle>::first, Only);
-  EXPECT_EQ (EnumTraits<LumexTypeTraitsTestSingle>::last, Only);
-  EXPECT_EQ (EnumTraits<LumexTypeTraitsTestSingle>::values[0], Only);
+  EXPECT_EQ (lumex_enum_traits_t<LumexTypeTraitsTestSingle>::size, 1U);
+  EXPECT_EQ (lumex_enum_traits_t<LumexTypeTraitsTestSingle>::first, Only);
+  EXPECT_EQ (lumex_enum_traits_t<LumexTypeTraitsTestSingle>::last, Only);
+  EXPECT_EQ (lumex_enum_traits_t<LumexTypeTraitsTestSingle>::values[0], Only);
 }
 
 TEST (LumexTypeTraitsTest,
@@ -506,7 +506,7 @@ TEST (LumexTypeTraitsTest,
   bool saw_red = false;
   bool saw_green = false;
   bool saw_blue = false;
-  for (auto const value : EnumTraits<LumexTypeTraitsTestColor>::values)
+  for (auto const value : lumex_enum_traits_t<LumexTypeTraitsTestColor>::values)
     {
       ++count;
       if (value == Red)

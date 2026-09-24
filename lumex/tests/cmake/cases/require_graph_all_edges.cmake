@@ -33,7 +33,10 @@ foreach(_edge
         "lumex_require_module(LUMEX_BUILD_RESOURCE_MONITOR LUMEX_BUILD_TIME)"
         "lumex_require_module(LUMEX_BUILD_SETTINGS LUMEX_BUILD_FILESYSTEM)"
         "lumex_require_module(LUMEX_BUILD_SETTINGS LUMEX_BUILD_LOGGING)"
-        "lumex_require_module(LUMEX_BUILD_SETTINGS LUMEX_BUILD_TIME)")
+        "lumex_require_module(LUMEX_BUILD_SETTINGS LUMEX_BUILD_TIME)"
+        "lumex_require_module(LUMEX_BUILD_JSON LUMEX_BUILD_REFLECTION)"
+        "lumex_require_module(LUMEX_BUILD_JSON LUMEX_BUILD_STRING_VIEW)"
+        "lumex_require_module(LUMEX_BUILD_JSON LUMEX_BUILD_UTILITY)")
     string(FIND "${_mod}" "${_edge}" _pos)
     if(_pos EQUAL -1)
         message(FATAL_ERROR "missing dependency edge: ${_edge}")

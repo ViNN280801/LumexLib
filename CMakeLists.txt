@@ -256,6 +256,7 @@ if(LUMEX_INSTALL)
 
     lumex_install_export_if_any(LumexAppliedTargets LumexAppliedTargets.cmake
         LumexApplied_hardware
+        LumexApplied_json
         LumexApplied_logger
         LumexApplied_logging
         LumexApplied_resource_monitor

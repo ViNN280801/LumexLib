@@ -1,6 +1,7 @@
 # lumex/tests/applied/CMakeLists.txt
 
 lumex_add_subdirectory_if(LUMEX_BUILD_HARDWARE hardware)
+lumex_add_subdirectory_if(LUMEX_BUILD_JSON json)
 lumex_add_subdirectory_if(LUMEX_BUILD_LOGGER logger)
 lumex_add_subdirectory_if(LUMEX_BUILD_LOGGING logging)
 lumex_add_subdirectory_if(LUMEX_BUILD_RESOURCE_MONITOR resource_monitor)

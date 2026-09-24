@@ -45,7 +45,8 @@ foreach(_tgt
         LumexCore_optional LumexCore_reflection LumexCore_string
         LumexCore_string_view LumexCore_temporary LumexCore_time
         LumexCore_utility
-        LumexApplied_hardware LumexApplied_logger LumexApplied_logging
+        LumexApplied_hardware LumexApplied_json LumexApplied_logger
+        LumexApplied_logging
         LumexApplied_resource_monitor LumexApplied_serial LumexApplied_settings
         LumexXml)
     string(FIND "${_root}" "${_tgt}" _pos)
@@ -62,14 +63,15 @@ foreach(_f ${_test_cmakes})
     string(APPEND _tests_txt "${_chunk}")
 endforeach()
 foreach(_suite
-        LumexHardwareCapabilitiesTests LumexLoggerTests LumexLoggingTests
+        LumexHardwareCapabilitiesTests LumexJsonTests LumexJsonCxx20Tests
+        LumexCallbackSlotTests LumexLoggerTests LumexLoggingTests
         LumexResourceMonitorTests LumexSerialPortTests LumexSettingsTests
         LumexBase64Tests LumexCircularBufferTests LumexCrcTests
         LumexEnvironmentTests LumexExceptionsTests LumexExpectedTests
         LumexFilesystemTests LumexMathTests LumexNumberGeneratorTests
-        LumexOptionalTests LumexReflectionTests LumexFieldReflectionTests
+        LumexOptionalTests LumexReflectionTests LumexReflectionCxx20Tests LumexFieldReflectionTests
         LumexFieldReflectionGetTests LumexFieldReflectionNamesTests
-        LumexStringifyTests
+        LumexStringifyTests LumexStringifyCxx20Tests
         LumexStringViewTests LumexTemporaryTests LumexTimeTests
         LumexTypeTraitsTests LumexSafeNumericComparatorCxx11Tests
         LumexUtilityTests LumexXmlTests)

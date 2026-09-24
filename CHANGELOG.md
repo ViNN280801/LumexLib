@@ -18,6 +18,24 @@
 
 #### Исправлено
 
+##### `LUMEX_WITH_FIELD_REFLECTION` больше не протекает к потребителям `lumex::reflection`
+
+**Файлы:**
+
+- `lumex/core/reflection/CMakeLists.txt`
+- `lumex/tests/cmake/cases/wiring_field_reflection_no_leak.cmake`, `lumex/tests/cmake/consumer/`
+
+**Суть:** при `LUMEX_WITH_FIELD_REFLECTION=ON` цель выставляла одноименное INTERFACE-определение, и umbrella `LumexReflection` подключал `LumexFieldReflection.hpp` с `<nlohmann/json.hpp>` у каждого потребителя, хотя путь к nlohmann намеренно не экспортируется. `LumexReflectionTests` и примеры reflection не собирались. Определение убрано: опция только собирает field-reflection тесты, потребитель, которому нужен `to_json`, задает макрос и nlohmann сам. Новые тесты: `LumexCMake.wiring_field_reflection_no_leak` и `LumexCMake.consumer_reflection_umbrella_field_reflection_{off,on}` (сборка мини-проекта с встроенной LumexLib).
+
+##### `LUMEX_DEFINE_REFLECTED_ENUM` не компилировался в C++20
+
+**Файлы:**
+
+- `lumex/core/reflection/reflected_enum/LumexReflectedEnum.hpp`
+- `lumex/tests/core/reflection/CMakeLists.txt`
+
+**Суть:** сопутствующие константы (`Values`, `First`, `Size`, `Last`) объявлялись через `LUMEX_CONST_NUM`, который в C++20 раскрывается в `constinit`; `First = Values.front()` читал не-constexpr массив, и любой reflected enum падал с C2127. Теперь они `static LUMEX_INLINE_VARIABLE constexpr` во всех стандартах. Добавлен набор `LumexReflectionCxx20Tests`.
+
 ##### nlohmann/json 3.12.0 не попадает в include path потребителя
 
 **Файлы:**
@@ -37,6 +55,25 @@
 
 #### Добавлено
 
+##### Модуль `applied/json` (`lumex::json`, header-only)
+
+**Файлы:**
+
+- `lumex/applied/json/` (`LumexJson`, `diagnostics/`, `helper/`, `schema/`, `validation/`, `normalization/`)
+- `lumex/tests/applied/json/`, `lumex/examples/json/`
+- `cmake/LumexOptions.cmake` (`LUMEX_BUILD_JSON`), `cmake/LumexModules.cmake`, `cmake/LumexLibConfig.cmake.in`, корневой `CMakeLists.txt`
+
+**Суть:** перенесено из PeakExpertWeb `Utility/Json/`: `LumexJsonHelper` (бывший `JsonHelper`, API в snake_case, без исключений, общий recursive mutex для файловых операций), движок схем draft-7 подмножества `LumexJsonSchemaTraverser`, `LumexJsonSchemaValidator`, абстрактный `LumexJsonSchemaNormalizer`, `LumexJsonSchemaException`. Каталог схем (`JsonApiSchemaCatalog`/`JsonApiSchemaId`) не перенесен. Модуль компилируется с nlohmann потребителя (3.x), диагностика идет через `diagnostics::set_diagnostic_reporter` (по умолчанию `warning`/`error` в `std::cerr`). Пол C++11; наборы `LumexJsonTests` (C++11) и `LumexJsonCxx20Tests`.
+
+##### `LumexCallbackSlot` - слот для внешнего указателя на функцию
+
+**Файлы:**
+
+- `lumex/core/utility/callback/LumexCallbackSlot.hpp`
+- `lumex/core/exceptions/LumexExceptionWrapper.cpp`
+
+**Суть:** шаблон `LumexCallbackSlot<Tag, R (Args...)>` (atomic-указатель, `set`/`get`/`exchange`/`reset`/`invoke_or`, RAII `Scoped`). На нем построены `set_safe_call_reporter` и json-диагностика. Набор `LumexCallbackSlotTests` (C++11).
+
 ##### Именованный движок для каждого CRC каталога RevEng ширины 3..64
 
 **Файлы:**
@@ -47,6 +84,25 @@
 **Суть:** У каждой из 112 спецификаций есть тип `Crc*` (`using` на `CrcParametric<spec>`), в том же порядке, что `all_crc_specs_t`. Раньше публичный класс был только у 17 алгоритмов. Прежние 17 имен сохранены; `calculate` у них тот же. CRC-82/DARC по-прежнему нет: полином ширины 82 не помещается в `std::uint64_t`.
 
 #### Изменено
+
+##### `core/string` разложен по компонентам, глобальный `stringify` убран
+
+**Файлы:**
+
+- `lumex/core/string/format/LumexStringify.hpp`, `lumex/core/string/text/{LumexJoin,LumexQuote,LumexTextCase}.hpp` (вместо `lumex/core/string/utility/LumexStringify.hpp`)
+- `lumex/core/utility/traits/LumexTypeTraits.hpp`
+- вызовы в `LumexLogging.hpp`, `LumexException.hpp`, `LumexDebug.hpp`, тесты и примеры
+
+**Суть:** глобальный `using lumex::core::string::utility::stringify;` конфликтовал с глобальным `stringify` DChannel у потребителя (PeakExpertWeb, около 100 единиц трансляции). Теперь `lumex::core::string::format::stringify` / `stringify_v2`, `lumex::core::string::text::join`, `quote`, `quote_double`, `quote_single`, `to_case_insensitive` (snake_case вместо `Join`/`Quote*`/`ToCaseInsensitive`), ничего не выносится в глобальный неймспейс. `join`/`quote*` получили реализацию для C++11..17 (ranges-версия для C++20 сохранена), ограничения через SFINAE / `requires`. Все трейты (`is_streamable`, `all_streamable`, `*_v`, концепты `Streamable`/`AllStreamable`, `range_reference`, `is_iterable`, `has_streamable_elements`, `has_elements_convertible_to`) перенесены в `lumex::core::utility::traits`; потоковые SFINAE-трейты теперь есть во всех стандартах. Новые наборы: `LumexStringifyCxx20Tests`; тесты join, quote, ограничений, потоковых и range-трейтов.
+
+##### `LumexStringView` / `LumexWStringView` неявно конструируются из C-строки и `std::basic_string`
+
+**Файлы:**
+
+- `lumex/core/string_view/view/LumexStringView.hpp`, `LumexWStringView.hpp`
+- `lumex/tests/core/string_view/LumexStringViewImplicit.tests.cpp`
+
+**Суть:** как у `std::string_view`: литерал или строку можно передать туда, где ожидается view; `nullptr` по-прежнему дает пустой view; обратное преобразование в строку остается `explicit`.
 
 ##### CMake: LumexLib встраивается через `add_subdirectory`
 

@@ -47,7 +47,7 @@
 #include <string>
 
 #include "lumex/core/filesystem/LumexFilesystem" // For `Path`
-#include "lumex/core/string/LumexString"         // For `stringify`
+#include "lumex/core/string/LumexString"         // For `format::stringify`
 #include "lumex/core/utility/macros/LumexConstantMacros.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 
@@ -86,8 +86,9 @@ public:
   static void
   debug (char const *moduleName, Args &&...args)
   {
-    _log (LumexLogLevel::Debug, moduleName,
-          stringify (std::forward<Args> (args)...));
+    _log (
+        LumexLogLevel::Debug, moduleName,
+        lumex::core::string::format::stringify (std::forward<Args> (args)...));
   }
 
   /// @brief Log an INFO-level message.
@@ -95,8 +96,9 @@ public:
   static void
   info (char const *moduleName, Args &&...args)
   {
-    _log (LumexLogLevel::Info, moduleName,
-          stringify (std::forward<Args> (args)...));
+    _log (
+        LumexLogLevel::Info, moduleName,
+        lumex::core::string::format::stringify (std::forward<Args> (args)...));
   }
 
   /// @brief Log a SUCCESS-level message (custom level).
@@ -104,8 +106,9 @@ public:
   static void
   success (char const *moduleName, Args &&...args)
   {
-    _log (LumexLogLevel::Success, moduleName,
-          stringify (std::forward<Args> (args)...));
+    _log (
+        LumexLogLevel::Success, moduleName,
+        lumex::core::string::format::stringify (std::forward<Args> (args)...));
   }
 
   /// @brief Log a WARNING-level message.
@@ -113,8 +116,9 @@ public:
   static void
   warning (char const *moduleName, Args &&...args)
   {
-    _log (LumexLogLevel::Warning, moduleName,
-          stringify (std::forward<Args> (args)...));
+    _log (
+        LumexLogLevel::Warning, moduleName,
+        lumex::core::string::format::stringify (std::forward<Args> (args)...));
   }
 
   /// @brief Log an ERROR-level message.
@@ -122,8 +126,9 @@ public:
   static void
   error (char const *moduleName, Args &&...args)
   {
-    _log (LumexLogLevel::Error, moduleName,
-          stringify (std::forward<Args> (args)...));
+    _log (
+        LumexLogLevel::Error, moduleName,
+        lumex::core::string::format::stringify (std::forward<Args> (args)...));
   }
 
   /// @brief Log a CRITICAL-level message.
@@ -131,8 +136,9 @@ public:
   static void
   critical (char const *moduleName, Args &&...args)
   {
-    _log (LumexLogLevel::Critical, moduleName,
-          stringify (std::forward<Args> (args)...));
+    _log (
+        LumexLogLevel::Critical, moduleName,
+        lumex::core::string::format::stringify (std::forward<Args> (args)...));
   }
 
   /**
@@ -167,8 +173,8 @@ private:
 
 #ifdef _WIN32
 #pragma warning(push)
-#pragma warning(                                                              \
-    disable : 4251) // Suppress C4251 for STL members in DLL interface
+#pragma warning(disable                                                       \
+                : 4251) // Suppress C4251 for STL members in DLL interface
 #endif
   static std::string s_appName; ///< The name of the application, by default it
                                 ///< would be empty.

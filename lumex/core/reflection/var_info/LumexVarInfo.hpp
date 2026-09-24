@@ -47,7 +47,7 @@
  * and `noexcept(expr)` at the call site.
  *
  * @note Philosophy difference from
- * `lumex/core/string/utility/LumexStringify.hpp`'s `stringify()`:
+ * `lumex/core/string/format/LumexStringify.hpp`'s `stringify()`:
  * `stringify()` uses a hard `static_assert` to reject any non-streamable type
  * at compile time - the absence of `operator<<` is treated as a caller bug
  * that should fail the build. `FormatValue` below instead degrades gracefully

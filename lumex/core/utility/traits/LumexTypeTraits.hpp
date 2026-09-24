@@ -43,16 +43,19 @@
 #include <array>
 #include <cstddef>
 #include <functional>
+#include <iterator>
+#include <memory>
+#include <ostream>
+#include <string>
 #include <type_traits>
 #include <utility>
+#if __cplusplus >= 201703L
+#include <optional>
+#endif
 
 #include "lumex/core/utility/assert/LumexAssert.hpp"
 #include "lumex/core/utility/macros/LumexConstantMacros.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
-
-#if __cplusplus >= 201703L
-#include <optional>
-#endif
 
 namespace lumex
 {
@@ -326,6 +329,238 @@ template <typename T> struct is_optional<std::optional<T>> : std::true_type
 
 template <typename T>
 LUMEX_CONSTEXPR bool is_optional_v = is_optional<T>::value;
+
+// ---------------------------------------------------------------------
+// Stream traits: can a type be written with `std::ostream << value`?
+// ---------------------------------------------------------------------
+
+namespace detail
+{
+/** @brief `std::declval<std::ostream &>() << std::declval<T>()` compiles. */
+template <typename T, typename Enable = void>
+struct is_streamable_expression : std::false_type
+{
+};
+
+template <typename T>
+struct is_streamable_expression<
+    T,
+    void_t<decltype (std::declval<std::ostream &> () << std::declval<T> ())>>
+    : std::true_type
+{
+};
+
+/**
+ * @brief Smart pointers that lumex::core::string::format::stringify streams
+ * as their raw address below C++20 (its own operator<< overloads, which the
+ * expression check above cannot see).
+ */
+template <typename T> struct is_address_streamed : std::false_type
+{
+};
+
+#if __cplusplus < 202002L
+template <typename T, typename D>
+struct is_address_streamed<std::unique_ptr<T, D>> : std::true_type
+{
+};
+template <typename T>
+struct is_address_streamed<std::shared_ptr<T>> : std::true_type
+{
+};
+#endif
+} // namespace detail
+
+/**
+ * @brief `std::true_type` when `std::declval<std::ostream &>() <<
+ * std::declval<T>()` is well-formed (or, below C++20, `T` is a
+ * `std::unique_ptr` / `std::shared_ptr`), otherwise `std::false_type`.
+ * @details One primary template decides through `detail` helpers, so no two
+ * partial specializations can compete for the same `T`.
+ * @tparam T The type to check (not decayed; see `is_streamable_v`).
+ * @tparam Enable Kept for SFINAE-style use; leave it defaulted.
+ */
+template <typename T, typename Enable = void>
+struct is_streamable
+    : std::integral_constant<bool,
+                             detail::is_streamable_expression<T>::value
+                                 || detail::is_address_streamed<T>::value>
+{
+};
+
+/// @cond DO_NOT_DOCUMENT
+// Fundamental types, spelled out for C++11 compilers whose expression SFINAE
+// is weak.
+template <> struct is_streamable<bool> : std::true_type
+{
+};
+template <> struct is_streamable<char> : std::true_type
+{
+};
+template <> struct is_streamable<signed char> : std::true_type
+{
+};
+template <> struct is_streamable<unsigned char> : std::true_type
+{
+};
+template <> struct is_streamable<wchar_t> : std::true_type
+{
+};
+template <> struct is_streamable<short> : std::true_type
+{
+};
+template <> struct is_streamable<unsigned short> : std::true_type
+{
+};
+template <> struct is_streamable<int> : std::true_type
+{
+};
+template <> struct is_streamable<unsigned int> : std::true_type
+{
+};
+template <> struct is_streamable<long> : std::true_type
+{
+};
+template <> struct is_streamable<unsigned long> : std::true_type
+{
+};
+template <> struct is_streamable<long long> : std::true_type
+{
+};
+template <> struct is_streamable<unsigned long long> : std::true_type
+{
+};
+template <> struct is_streamable<float> : std::true_type
+{
+};
+template <> struct is_streamable<double> : std::true_type
+{
+};
+template <> struct is_streamable<long double> : std::true_type
+{
+};
+template <> struct is_streamable<char const *> : std::true_type
+{
+};
+template <> struct is_streamable<char *> : std::true_type
+{
+};
+template <> struct is_streamable<std::string> : std::true_type
+{
+};
+/// @endcond
+
+/**
+ * @brief `value` is true when every type in `Args` (after `std::decay`) is
+ * streamable; true for an empty pack.
+ */
+template <typename... Args> struct all_streamable;
+
+template <> struct all_streamable<> : std::true_type
+{
+};
+
+template <typename First, typename... Rest>
+struct all_streamable<First, Rest...>
+    : std::integral_constant<
+          bool, is_streamable<typename std::decay<First>::type>::value
+                    && all_streamable<Rest...>::value>
+{
+};
+
+#if __cplusplus >= 201402L
+/** @brief `is_streamable<std::decay_t<T>>::value`. */
+template <typename T>
+LUMEX_CONSTEXPR bool is_streamable_v = is_streamable<std::decay_t<T>>::value;
+
+/** @brief `all_streamable<Args...>::value`. */
+template <typename... Args>
+LUMEX_CONSTEXPR bool all_streamable_v = all_streamable<Args...>::value;
+#endif
+
+#if __cplusplus >= 202002L
+/** @brief A type that `std::ostream` can write with `operator<<`. */
+template <typename T>
+concept Streamable = requires (T &&type, std::ostream &ostream) {
+  ostream << std::forward<T> (type);
+};
+
+/**
+ * @brief Every type in `Args` (after `std::decay_t`) is `Streamable`. An
+ * empty pack satisfies it.
+ */
+template <typename... Args>
+concept AllStreamable = (Streamable<std::decay_t<Args>> && ...);
+#endif
+
+// ---------------------------------------------------------------------
+// Range traits: can a `Range const &` be walked like a range-based `for`?
+// ---------------------------------------------------------------------
+
+/**
+ * @brief `type` is what `*std::begin(range)` yields for a `Range const &`
+ * that has `std::begin`, `std::end`, `!=` and `++`; absent otherwise, so it
+ * can drive SFINAE.
+ */
+template <typename Range, typename Enable = void> struct range_reference
+{
+};
+
+template <typename Range>
+struct range_reference<
+    Range, void_t<decltype (std::begin (std::declval<Range const &> ())
+                            != std::end (std::declval<Range const &> ())),
+                  decltype (++std::declval<decltype (std::begin (
+                                std::declval<Range const &> ())) &> ()),
+                  decltype (*std::begin (std::declval<Range const &> ()))>>
+{
+  using type = decltype (*std::begin (std::declval<Range const &> ()));
+};
+
+/** @brief `Range const &` can be walked (see `range_reference`). */
+template <typename Range, typename Enable = void>
+struct is_iterable : std::false_type
+{
+};
+
+template <typename Range>
+struct is_iterable<Range, void_t<typename range_reference<Range>::type>>
+    : std::true_type
+{
+};
+
+/**
+ * @brief `Range` is iterable and its elements (after `std::decay`) are
+ * streamable.
+ */
+template <typename Range, typename Enable = void>
+struct has_streamable_elements : std::false_type
+{
+};
+
+template <typename Range>
+struct has_streamable_elements<Range,
+                               void_t<typename range_reference<Range>::type>>
+    : is_streamable<
+          typename std::decay<typename range_reference<Range>::type>::type>
+{
+};
+
+/**
+ * @brief `Range` is iterable and its element reference converts to `To`
+ * (for example `std::string const &`).
+ */
+template <typename Range, typename To, typename Enable = void>
+struct has_elements_convertible_to : std::false_type
+{
+};
+
+template <typename Range, typename To>
+struct has_elements_convertible_to<
+    Range, To, void_t<typename range_reference<Range>::type>>
+    : std::is_convertible<typename range_reference<Range>::type, To>
+{
+};
 } // namespace traits
 } // namespace utility
 } // namespace core
@@ -341,7 +576,7 @@ LUMEX_CONSTEXPR bool is_optional_v = is_optional<T>::value;
  * support lives in `core/reflection` - do not confuse the two;
  * LUMEX_DEFINE_ENUM_TRAITS intentionally does not reuse that name.
  */
-template <typename Enum> struct EnumTraits;
+template <typename Enum> struct lumex_enum_traits_t;
 
 // NOLINTNEXTLINE(cppcoreguidelines-macro-usage)
 #define LUMEX_DEFINE_ENUM_TRAITS(EnumName, UnderlyingType, ...)               \
@@ -350,12 +585,13 @@ template <typename Enum> struct EnumTraits;
     __VA_ARGS__                                                               \
   };                                                                          \
                                                                               \
-  template <> struct EnumTraits<EnumName>                                     \
+  template <> struct lumex_enum_traits_t<EnumName>                            \
   {                                                                           \
-    static LUMEX_CONSTEXPR auto values = [] {                                 \
-      using enum EnumName;                                                    \
-      return std::array{ __VA_ARGS__ };                                       \
-    }();                                                                      \
+    static LUMEX_CONSTEXPR auto values = []                                   \
+      {                                                                       \
+        using enum EnumName;                                                  \
+        return std::array{ __VA_ARGS__ };                                     \
+      }();                                                                    \
     static LUMEX_CONSTEXPR EnumName first = values.front ();                  \
     static LUMEX_CONSTEXPR std::size_t size = values.size ();                 \
     static LUMEX_CONSTEXPR EnumName last = values.back ();                    \

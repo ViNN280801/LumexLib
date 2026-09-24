@@ -33,6 +33,7 @@ set(LUMEX_CORE_MODULE_OPTIONS
 
 set(LUMEX_APPLIED_MODULE_OPTIONS
     LUMEX_BUILD_HARDWARE
+    LUMEX_BUILD_JSON
     LUMEX_BUILD_LOGGER
     LUMEX_BUILD_LOGGING
     LUMEX_BUILD_RESOURCE_MONITOR
@@ -130,6 +131,10 @@ function(lumex_check_module_dependencies)
     lumex_require_module(LUMEX_BUILD_SETTINGS LUMEX_BUILD_LOGGING)
     lumex_require_module(LUMEX_BUILD_SETTINGS LUMEX_BUILD_TIME)
 
+    lumex_require_module(LUMEX_BUILD_JSON LUMEX_BUILD_REFLECTION)
+    lumex_require_module(LUMEX_BUILD_JSON LUMEX_BUILD_STRING_VIEW)
+    lumex_require_module(LUMEX_BUILD_JSON LUMEX_BUILD_UTILITY)
+
     string(TOUPPER "${LUMEX_LOGGER_CONFIG_FORMAT}" _logger_config_format)
     set(_logger_config_formats PLAIN_TEXT INI JSON YAML XML)
     if(NOT _logger_config_format IN_LIST _logger_config_formats)
@@ -198,6 +203,7 @@ set(LUMEX_SHARED_LIBRARY_CANDIDATES
     LumexCore_time
     LumexCore_utility
     LumexApplied_hardware
+    LumexApplied_json
     LumexApplied_logger
     LumexApplied_logging
     LumexApplied_resource_monitor

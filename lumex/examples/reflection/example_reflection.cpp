@@ -6,8 +6,8 @@
 
 using namespace lumex::core::reflection::var_info;
 
-DEFINE_REFLECTED_ENUM (ExampleRunState, std::uint8_t, (Idle), (Injecting, 5),
-                       (Running), (Done))
+LUMEX_DEFINE_REFLECTED_ENUM (ExampleRunState, std::uint8_t, (Idle),
+                             (Injecting, 5), (Running), (Done))
 
 int
 main ()

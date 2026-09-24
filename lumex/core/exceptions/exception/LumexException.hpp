@@ -183,7 +183,8 @@ using LumexBaseException
 // [LumexException] -> Failed to open file
 #include "lumex/core/string/LumexString"
 #define LUMEX_THROW_EXCEPTION(exception_name, msg)                            \
-  throw exception_name (stringify (lumDemangle (exception_name), ": ", msg));
+  throw exception_name (lumex::core::string::format::stringify (              \
+      lumDemangle (exception_name), ": ", msg));
 
 // 3. Handle the exception.
 #define LUMEX_EXCEPTION_HANDLE_BEGIN                                          \

@@ -5,6 +5,7 @@ set(TEST_EXECUTABLE_NAME LumexStringViewTests)
 add_executable(
     ${TEST_EXECUTABLE_NAME}
     LumexStringView.tests.cpp
+    LumexStringViewImplicit.tests.cpp
     LumexWStringView.tests.cpp
 )
 
