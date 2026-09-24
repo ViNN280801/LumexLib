@@ -17,7 +17,7 @@ if(BUILD_SHARED_LIBS AND WIN32)
 endif()
 
 target_include_directories(${LUMEX_EXCEPTIONS_NAME} PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}>
+    $<BUILD_INTERFACE:${LumexLib_SOURCE_DIR}>
     $<INSTALL_INTERFACE:include>
 )
 
@@ -44,16 +44,18 @@ endif()
 
 lumex_apply_library_versioning(${LUMEX_EXCEPTIONS_NAME} "Lumex Exceptions Library")
 
-install(TARGETS ${LUMEX_EXCEPTIONS_NAME} EXPORT ${EXPORT_TO}
-    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-)
+if(LUMEX_INSTALL)
+    install(TARGETS ${LUMEX_EXCEPTIONS_NAME} EXPORT ${EXPORT_TO}
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    )
 
-install(
-    DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/
-    DESTINATION include/lumex/core/exceptions
-    FILES_MATCHING 
-        PATTERN "*.hpp"
-        PATTERN "LumexException"
-)
+    install(
+        DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/
+        DESTINATION include/lumex/core/exceptions
+        FILES_MATCHING 
+            PATTERN "*.hpp"
+            PATTERN "LumexException"
+    )
+endif()

@@ -12,7 +12,7 @@ if(BUILD_SHARED_LIBS AND WIN32)
 endif()
 
 target_include_directories(${LUMEX_FILESYSTEM_NAME} PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}>
+    $<BUILD_INTERFACE:${LumexLib_SOURCE_DIR}>
     $<INSTALL_INTERFACE:include>
 )
 
@@ -24,16 +24,18 @@ endif()
 
 lumex_apply_library_versioning(${LUMEX_FILESYSTEM_NAME} "Lumex Filesystem Library")
 
-install(TARGETS ${LUMEX_FILESYSTEM_NAME} EXPORT ${EXPORT_TO}
-    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-)
+if(LUMEX_INSTALL)
+    install(TARGETS ${LUMEX_FILESYSTEM_NAME} EXPORT ${EXPORT_TO}
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    )
 
-install(
-    DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/
-    DESTINATION include/lumex/core/filesystem
-    FILES_MATCHING 
-        PATTERN "*.hpp"
-        PATTERN "lumex_filesystem"
-)
+    install(
+        DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/
+        DESTINATION include/lumex/core/filesystem
+        FILES_MATCHING 
+            PATTERN "*.hpp"
+            PATTERN "lumex_filesystem"
+    )
+endif()

@@ -46,27 +46,6 @@
 #pragma clang diagnostic ignored "-Wfloat-equal"
 #endif
 
-#if defined(__clang__)
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wpadded"
-#pragma clang diagnostic ignored "-Wunsafe-buffer-usage"
-#pragma clang diagnostic ignored "-Wunsafe-buffer-usage-in-libc-call"
-#pragma clang diagnostic ignored "-Wcovered-switch-default"
-#pragma clang diagnostic ignored "-Wswitch-enum"
-#pragma clang diagnostic ignored "-Wnrvo"
-#pragma clang diagnostic ignored "-Wheader-hygiene"
-#pragma clang diagnostic ignored "-Wused-but-marked-unused"
-#pragma clang diagnostic ignored "-Wundefined-var-template"
-#pragma clang diagnostic ignored "-Wdeprecated-redundant-constexpr-static-def"
-#pragma clang diagnostic ignored "-Wvariadic-macro-arguments-omitted"
-#pragma clang diagnostic ignored "-Wunused-result"
-#pragma clang diagnostic ignored "-Wextra-semi-stmt"
-#pragma clang diagnostic ignored "-Wexpansion-to-defined"
-#pragma clang diagnostic ignored "-Wexit-time-destructors"
-#pragma clang diagnostic ignored "-Wundefined-func-template"
-#pragma clang diagnostic ignored "-Wfloat-equal"
-#endif
-
 #include <cstddef>
 #include <cstdint>
 #include <vector>
@@ -294,10 +273,6 @@ ComputeCrcWithRevEngParams (crc_params_t const &params,
 } // namespace crc
 } // namespace core
 } // namespace lumex
-
-#if defined(__clang__)
-#pragma clang diagnostic pop
-#endif
 
 #if defined(__clang__)
 #pragma clang diagnostic pop

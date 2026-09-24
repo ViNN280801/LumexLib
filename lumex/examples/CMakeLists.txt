@@ -141,7 +141,7 @@ else()
 endif()
 
 get_property(_example_targets GLOBAL PROPERTY LUMEX_EXAMPLE_TARGETS)
-if(_example_targets)
+if(LUMEX_INSTALL AND _example_targets)
     install(TARGETS ${_example_targets} DESTINATION bin)
 endif()
 

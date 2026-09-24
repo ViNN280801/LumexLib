@@ -9,4 +9,6 @@ lumex_add_subdirectory_if(LUMEX_BUILD_CORE core)
 lumex_add_subdirectory_if(LUMEX_BUILD_XML xml)
 lumex_add_subdirectory_if(LUMEX_BUILD_APPLIED applied)
 
-install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/LumexExport.hpp" DESTINATION include/lumex)
+if(LUMEX_INSTALL)
+    install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/LumexExport.hpp" DESTINATION include/lumex)
+endif()

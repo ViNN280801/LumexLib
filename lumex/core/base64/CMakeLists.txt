@@ -12,7 +12,7 @@ if(BUILD_SHARED_LIBS AND WIN32)
 endif()
 
 target_include_directories(${LUMEX_BASE64_NAME} PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}>
+    $<BUILD_INTERFACE:${LumexLib_SOURCE_DIR}>
     $<INSTALL_INTERFACE:include>
 )
 
@@ -22,16 +22,18 @@ target_link_libraries(${LUMEX_BASE64_NAME} PUBLIC
 
 lumex_apply_library_versioning(${LUMEX_BASE64_NAME} "Lumex Base64 Library")
 
-install(TARGETS ${LUMEX_BASE64_NAME} EXPORT ${EXPORT_TO}
-    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-)
+if(LUMEX_INSTALL)
+    install(TARGETS ${LUMEX_BASE64_NAME} EXPORT ${EXPORT_TO}
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    )
 
-install(
-    DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/
-    DESTINATION include/lumex/core/base64
-    FILES_MATCHING 
-        PATTERN "*.hpp"
-        PATTERN "LumexBase64"
-)
+    install(
+        DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/
+        DESTINATION include/lumex/core/base64
+        FILES_MATCHING 
+            PATTERN "*.hpp"
+            PATTERN "LumexBase64"
+    )
+endif()

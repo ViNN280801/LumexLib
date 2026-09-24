@@ -76,6 +76,21 @@ option(LUMEX_BUILD_EXAMPLES "Build the examples for the LumexLib (also implied b
 option(LUMEX_BUILD_TESTS "Build the tests for LumexCore (also compiles and runs lumex/examples)" OFF)
 
 # ==============================================================================
+# INSTALL
+# ==============================================================================
+# ON when LumexLib is the top-level project, OFF when a parent embeds it with
+# add_subdirectory() (the root CMakeLists.txt sets LUMEX_IS_TOP_LEVEL before
+# project()). A parent that wants Lumex headers, libraries and the package
+# config in its own `cmake --install` passes -DLUMEX_INSTALL=ON.
+if(LUMEX_IS_TOP_LEVEL)
+    set(_lumex_install_default ON)
+else()
+    set(_lumex_install_default OFF)
+endif()
+option(LUMEX_INSTALL "Generate LumexLib install() rules (default: ON only when LumexLib is the top-level project)" ${_lumex_install_default})
+unset(_lumex_install_default)
+
+# ==============================================================================
 # OPTIMIZATION (CMakeRoutines configure_optimization_level)
 # ==============================================================================
 # Standard:   O1, x86-64 baseline                 - quick build

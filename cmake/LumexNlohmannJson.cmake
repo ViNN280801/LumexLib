@@ -8,8 +8,14 @@
 # are also copied onto lumex::reflection so the installed package export
 # stays self-contained.
 
+# Resolve against this file, not CMAKE_SOURCE_DIR: when a parent project
+# embeds LumexLib, CMAKE_SOURCE_DIR is the parent's root. Captured at include
+# time because CMAKE_CURRENT_LIST_DIR inside a function is the caller's dir.
+get_filename_component(_LUMEX_NLOHMANN_ROOT
+    "${CMAKE_CURRENT_LIST_DIR}/../3rdparty" ABSOLUTE)
+
 function(lumex_setup_nlohmann_json)
-    set(_nlohmann_root "${CMAKE_SOURCE_DIR}/3rdparty")
+    set(_nlohmann_root "${_LUMEX_NLOHMANN_ROOT}")
     set(_nlohmann_hdr "${_nlohmann_root}/nlohmann/json.hpp")
     if(NOT EXISTS "${_nlohmann_hdr}")
         message(FATAL_ERROR

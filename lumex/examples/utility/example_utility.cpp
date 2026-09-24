@@ -6,11 +6,13 @@
 
 using namespace lumex::core::utility::demangle;
 using namespace lumex::core::utility::numeric;
+using namespace lumex::core::utility::process;
 
 int
 main ()
 {
-  std::cout << "=== Utility: demangle, OS macros, SafeComparator ===\n\n";
+  std::cout
+      << "=== Utility: demangle, OS macros, SafeComparator, process ===\n\n";
 
   std::cout << "--- 1. lumDemangle / demangle_type_name ---\n";
   std::cout << "demangle(vector<int>)=" << lumDemangle (std::vector<int>)
@@ -34,6 +36,9 @@ main ()
             << " 200u8 < 300=" << (packet.safe_less (limit) ? "yes" : "no")
             << " 200u8 <= 200="
             << (packet.safe_less_equal (200) ? "yes" : "no") << '\n';
+
+  std::cout << "\n--- 4. get_current_pid ---\n";
+  std::cout << "pid=" << get_current_pid () << '\n';
 
   std::cout << "\n=== Utility example finished ===\n";
   return 0;

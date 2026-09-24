@@ -883,7 +883,7 @@ inline bool
 set_value_integer (String &dest, Header &header, uintptr_t header_mask,
                    U value, bool negative)
 {
-  LUMEX_CONST_NUM std::size_t kBufSize = 64UL;
+  LUMEX_CONSTEXPR std::size_t kBufSize = 64UL;
   char_t buf[kBufSize]; // NOLINT(cppcoreguidelines-avoid-c-arrays,
                         // modernize-avoid-c-arrays)
   char_t *end = buf + kBufSize;
@@ -918,7 +918,7 @@ set_value_convert (
     uintptr_t header_mask, // NOLINT(bugprone-easily-swappable-parameters)
     float value, int precision)
 {
-  LUMEX_CONST_NUM std::size_t kBufSize = 128U;
+  LUMEX_CONSTEXPR std::size_t kBufSize = 128U;
   char_t buf[kBufSize]; // NOLINT(cppcoreguidelines-avoid-c-arrays,
                         // modernize-avoid-c-arrays)
   LUMEX_XML_SNPRINTF (  // NOLINT (cppcoreguidelines-pro-type-vararg)
@@ -935,7 +935,7 @@ set_value_convert (
     uintptr_t header_mask, // NOLINT(bugprone-easily-swappable-parameters)
     double value, int precision)
 {
-  LUMEX_CONST_NUM std::size_t kBufSize = 128U;
+  LUMEX_CONSTEXPR std::size_t kBufSize = 128U;
   char_t buf[kBufSize]; // NOLINT(cppcoreguidelines-avoid-c-arrays,
                         // modernize-avoid-c-arrays)
   LUMEX_XML_SNPRINTF (buf, "%.*g", precision, value);

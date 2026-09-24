@@ -12,7 +12,7 @@ if(BUILD_SHARED_LIBS AND WIN32)
 endif()
 
 target_include_directories(${LUMEX_SETTINGS_NAME} PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}>
+    $<BUILD_INTERFACE:${LumexLib_SOURCE_DIR}>
     $<INSTALL_INTERFACE:include>
 )
 
@@ -34,7 +34,7 @@ endif()
 # JSON settings uses the same vendored nlohmann header as logger JSON and
 # field reflection. The INTERFACE target is not exported. INI still builds
 # without it; factory then returns nullptr for JSON.
-if(EXISTS "${CMAKE_SOURCE_DIR}/3rdparty/nlohmann/json.hpp")
+if(EXISTS "${LumexLib_SOURCE_DIR}/3rdparty/nlohmann/json.hpp")
     lumex_setup_nlohmann_json()
     target_link_libraries(${LUMEX_SETTINGS_NAME}
         PRIVATE nlohmann_json::nlohmann_json)
@@ -44,16 +44,18 @@ endif()
 
 lumex_apply_library_versioning(${LUMEX_SETTINGS_NAME} "Lumex Settings Library")
 
-install(TARGETS ${LUMEX_SETTINGS_NAME} EXPORT ${EXPORT_TO}
-    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-)
+if(LUMEX_INSTALL)
+    install(TARGETS ${LUMEX_SETTINGS_NAME} EXPORT ${EXPORT_TO}
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    )
 
-install(
-    DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/
-    DESTINATION include/lumex/applied/settings
-    FILES_MATCHING 
-        PATTERN "*.hpp"
-        PATTERN "LumexSettings"
-)
+    install(
+        DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/
+        DESTINATION include/lumex/applied/settings
+        FILES_MATCHING 
+            PATTERN "*.hpp"
+            PATTERN "LumexSettings"
+    )
+endif()

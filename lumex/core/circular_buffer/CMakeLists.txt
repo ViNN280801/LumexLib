@@ -7,7 +7,7 @@ add_library(${LUMEX_CIRCULAR_BUFFER_NAME} INTERFACE)
 add_library(lumex::circular_buffer ALIAS ${LUMEX_CIRCULAR_BUFFER_NAME})
 
 target_include_directories(${LUMEX_CIRCULAR_BUFFER_NAME} INTERFACE
-    $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}>
+    $<BUILD_INTERFACE:${LumexLib_SOURCE_DIR}>
     $<INSTALL_INTERFACE:include>
 )
 
@@ -16,12 +16,14 @@ target_link_libraries(${LUMEX_CIRCULAR_BUFFER_NAME} INTERFACE
     lumex::utility
 )
 
-install(TARGETS ${LUMEX_CIRCULAR_BUFFER_NAME} EXPORT ${EXPORT_TO})
+if(LUMEX_INSTALL)
+    install(TARGETS ${LUMEX_CIRCULAR_BUFFER_NAME} EXPORT ${EXPORT_TO})
 
-install(
-    DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/
-    DESTINATION include/lumex/core/circular_buffer
-    FILES_MATCHING
-    PATTERN "*.hpp"
-    PATTERN "CircularBuffer"
-)
+    install(
+        DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/
+        DESTINATION include/lumex/core/circular_buffer
+        FILES_MATCHING
+        PATTERN "*.hpp"
+        PATTERN "CircularBuffer"
+    )
+endif()

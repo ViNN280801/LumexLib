@@ -109,3 +109,32 @@ else()
     add_test(NAME ${SAFE_NUMERIC_CXX11_TEST_NAME}
         COMMAND ${SAFE_NUMERIC_CXX11_TEST_NAME})
 endif()
+
+# get_current_pid () is C++11 header-only; pin the suite to that floor.
+set(PROCESS_TEST_NAME LumexProcessTests)
+
+add_executable(
+    ${PROCESS_TEST_NAME}
+    LumexProcess.tests.cpp
+)
+
+set_target_properties(${PROCESS_TEST_NAME} PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/$<CONFIG>"
+)
+
+target_link_libraries(
+    ${PROCESS_TEST_NAME}
+    PRIVATE
+    lumex::utility
+)
+
+lumex_test_use_gtest(${PROCESS_TEST_NAME} CXX_STANDARD 11)
+
+if(CMAKE_VERSION VERSION_GREATER_EQUAL "3.18")
+    gtest_discover_tests(${PROCESS_TEST_NAME}
+        DISCOVERY_TIMEOUT 60
+        DISCOVERY_MODE PRE_TEST
+    )
+else()
+    add_test(NAME ${PROCESS_TEST_NAME} COMMAND ${PROCESS_TEST_NAME})
+endif()

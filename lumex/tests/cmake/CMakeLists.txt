@@ -11,7 +11,7 @@ function(lumex_add_cmake_test name)
     add_test(NAME LumexCMake.${name}
         COMMAND ${CMAKE_COMMAND}
             -DCASE=${name}
-            -DLUMEX_SOURCE_DIR=${CMAKE_SOURCE_DIR}
+            -DLUMEX_SOURCE_DIR=${LumexLib_SOURCE_DIR}
             -P ${_LUMEX_CMAKE_RUN}
     )
     set_tests_properties(LumexCMake.${name} PROPERTIES
@@ -26,7 +26,7 @@ function(lumex_add_cmake_fail_test name pattern)
             -DCASE=${name}
             -DCASE_EXPECT_FAIL=1
             -DCASE_FAIL_PATTERN=${pattern}
-            -DLUMEX_SOURCE_DIR=${CMAKE_SOURCE_DIR}
+            -DLUMEX_SOURCE_DIR=${LumexLib_SOURCE_DIR}
             -P ${_LUMEX_CMAKE_RUN}
     )
     set_tests_properties(LumexCMake.${name} PROPERTIES
@@ -88,6 +88,7 @@ lumex_add_cmake_test(wiring_warning_suppression)
 lumex_add_cmake_test(wiring_recursive_source_collection)
 lumex_add_cmake_test(wiring_compile_commands)
 lumex_add_cmake_test(wiring_export_namespace)
+lumex_add_cmake_test(wiring_embedding)
 lumex_add_cmake_test(asan_clang_cl_runtime_library)
 
 lumex_add_cmake_fail_test(wiring_msvc_vcvars_after_project

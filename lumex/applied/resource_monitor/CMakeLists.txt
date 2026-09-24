@@ -20,7 +20,7 @@ if(BUILD_SHARED_LIBS AND WIN32)
 endif()
 
 target_include_directories(${LUMEX_RESOURCE_MONITOR_NAME} PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}>
+    $<BUILD_INTERFACE:${LumexLib_SOURCE_DIR}>
     $<INSTALL_INTERFACE:include>
 )
 
@@ -31,16 +31,18 @@ target_link_libraries(${LUMEX_RESOURCE_MONITOR_NAME} PUBLIC
 
 lumex_apply_library_versioning(${LUMEX_RESOURCE_MONITOR_NAME} "Lumex Resource Monitor Library")
 
-install(TARGETS ${LUMEX_RESOURCE_MONITOR_NAME} EXPORT ${EXPORT_TO}
-    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-)
+if(LUMEX_INSTALL)
+    install(TARGETS ${LUMEX_RESOURCE_MONITOR_NAME} EXPORT ${EXPORT_TO}
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    )
 
-install(
-    DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/
-    DESTINATION include/lumex/applied/resource_monitor
-    FILES_MATCHING
-        PATTERN "*.hpp"
-        PATTERN "LumexResourceMonitor"
-)
+    install(
+        DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/
+        DESTINATION include/lumex/applied/resource_monitor
+        FILES_MATCHING
+            PATTERN "*.hpp"
+            PATTERN "LumexResourceMonitor"
+    )
+endif()

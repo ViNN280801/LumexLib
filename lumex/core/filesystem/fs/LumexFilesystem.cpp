@@ -96,7 +96,7 @@ isReservedName (std::string const &name) LUMEX_NOEXCEPT
       = { "CON",  "PRN",  "AUX",  "NUL",  "COM1", "COM2", "COM3", "COM4",
           "COM5", "COM6", "COM7", "COM8", "COM9", "LPT1", "LPT2", "LPT3",
           "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9" };
-  LUMEX_CONST_NUM std::size_t count = reservedNames.size ();
+  std::size_t const count = reservedNames.size ();
 
   for (std::size_t i = 0; i < count; ++i)
     if (upperName == reservedNames.at (i))

@@ -8,6 +8,7 @@
 #include "macros/LumexMacros.hpp"
 #include "numeric/LumexSafeNumericComparator.hpp"
 #include "os/LumexCheckOS.hpp"
+#include "process/LumexProcess.hpp"
 #include "traits/LumexTypeTraits.hpp"
 #include "util/LumexUtilities.hpp"
 

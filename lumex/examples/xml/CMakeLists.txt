@@ -36,5 +36,7 @@ if(TARGET LumexXmlExample3)
       "$<TARGET_FILE_DIR:LumexXmlExample3>/${EX3_XML_FILE}"
     COMMENT "Copying ${EX3_XML_FILE} to build directory"
   )
-  install(FILES ${EX3_XML_FILE} DESTINATION bin)
+  if(LUMEX_INSTALL)
+    install(FILES ${EX3_XML_FILE} DESTINATION bin)
+  endif()
 endif()

@@ -18,6 +18,15 @@
 
 #### Изменено
 
+##### CMake: LumexLib встраивается через `add_subdirectory`
+
+**Файлы:**
+
+- `CMakeLists.txt`, `cmake/LumexOptions.cmake`, `cmake/LumexNlohmannJson.cmake`
+- `CMakeLists.txt` модулей под `lumex/core/`, `lumex/applied/`, `lumex/xml/`; `lumex/CMakeLists.txt`, `lumex/examples/CMakeLists.txt`, `lumex/examples/xml/CMakeLists.txt`, `lumex/tests/cmake/CMakeLists.txt`
+
+**Суть:** родительский проект может подключить LumexLib через `add_subdirectory` (раньше configure падал). `LUMEX_IS_TOP_LEVEL` вычисляется до `project()`; `configure_msvc_vcvars()` вызывается только для верхнего проекта; свой `CMakeRoutines` ставится первым в `CMAKE_MODULE_PATH`; пути внутри библиотеки идут от `LumexLib_SOURCE_DIR` (или от самого файла), а не от `CMAKE_SOURCE_DIR` родителя. При встраивании LumexLib не принуждает `CMAKE_BUILD_TYPE`, не трогает `CMAKE_EXPORT_COMPILE_COMMANDS`, не копирует `compile_commands.json` и не публикует `Distr` в свое дерево исходников. Правила `install()` закрыты опцией `LUMEX_INSTALL`.
+
 ##### CMake: пространство имен таргетов `Lumex::` -> `lumex::`
 
 **Файлы:**
@@ -81,6 +90,15 @@
 **Суть:** named `WhenFound` / `WhenUnfound` cases for lookup APIs (catalog width, XML child/attr, Settings get, Environment get, Optional `value_or`, Filesystem exists, string_view find, Base64 alphabet, Serial name/state, Temporary missing dir, enum `to_string`, FieldReflection names, Hardware unknown CPU, Logger unknown key, Expected `has_value`, Time timestamp format).
 
 #### Исправлено
+
+##### LumexXml не собирался в C++17 и новее
+
+**Файлы:**
+
+- `lumex/xml/utility/XmlUtils.hpp`
+- `lumex/core/filesystem/fs/LumexFilesystem.cpp` (ветка Apple)
+
+**Суть:** внутри функций стоял `LUMEX_CONST_NUM` (`static inline const constinit`), а `inline` в блочной области запрещен начиная с C++17 (MSVC C7524, clang "inline declaration ... not allowed in block scope"). Заменено на `LUMEX_CONSTEXPR` в `XmlUtils.hpp` (значение служит размером массива) и на обычный `std::size_t const` в Apple-ветке `LumexFilesystem.cpp`. Найдено при сборке LumexLib внутри проекта на C++20.
 
 ##### PLAIN_TEXT logger unknown KEY=value overwrote LEVEL
 
@@ -154,6 +172,27 @@
 - Expected `Perf_*`: тело под `#ifdef NDEBUG`, иначе `GTEST_SKIP` (C4702 unreachable в Debug).
 
 #### Добавлено
+
+##### `core/utility/process`: `get_current_pid`
+
+**Файлы:**
+
+- `lumex/core/utility/process/LumexProcess.hpp`
+- `lumex/core/utility/LumexUtility`
+- `lumex/tests/core/utility/LumexProcess.tests.cpp`, `CMakeLists.txt`
+- `lumex/examples/utility/example_utility.cpp`, `example_utility_workflow.cpp`
+
+**Суть:** header-only `lumex::core::utility::process::get_current_pid ()` возвращает PID текущего процесса (`GetCurrentProcessId` на Windows, `getpid` на POSIX) как `unsigned long`. Входит в зонтик `LumexUtility`. Сьют `LumexProcessTests` собран в C++11. Прямые вызовы `getpid` / `GetCurrentProcessId` внутри самой библиотеки пока не переведены.
+
+##### Опция `LUMEX_INSTALL`, CMake-кейс встраивания, Xml-тесты в C++20
+
+**Файлы:**
+
+- `cmake/LumexOptions.cmake`
+- `lumex/tests/cmake/cases/wiring_embedding.cmake`, `lumex/tests/cmake/CMakeLists.txt`
+- `lumex/tests/xml/CMakeLists.txt`
+
+**Суть:** `LUMEX_INSTALL` (по умолчанию ON только для верхнего проекта) управляет всеми `install()` библиотеки. `LumexCMake.wiring_embedding` падает, если вернется `${CMAKE_SOURCE_DIR}`, незащищенный `install()` или вызов vcvars при встраивании. `LumexXmlCxx20Tests` собирает те же Xml-тесты в C++20 (имена CTest с суффиксом `.cxx20`).
 
 ##### JSON Settings backend (`LumexSettingsJSON`)
 

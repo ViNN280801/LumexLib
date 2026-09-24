@@ -99,7 +99,7 @@ target_include_directories(${LUMEX_XML_NAME} PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/xpath/utility>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/xpath/variable>
 
-    $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/lumex/core/utility>
+    $<BUILD_INTERFACE:${LumexLib_SOURCE_DIR}/lumex/core/utility>
 )
 
 target_link_libraries(${LUMEX_XML_NAME} PUBLIC lumex::utility)
@@ -131,31 +131,33 @@ endif()
 
 lumex_apply_library_versioning(${LUMEX_XML_NAME} "Lumex XML Library")
 
-install(TARGETS ${LUMEX_XML_NAME} EXPORT ${EXPORT_TO}
-    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-)
+if(LUMEX_INSTALL)
+    install(TARGETS ${LUMEX_XML_NAME} EXPORT ${EXPORT_TO}
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    )
 
-install(DIRECTORY
-    ${CMAKE_CURRENT_SOURCE_DIR}/attribute
-    ${CMAKE_CURRENT_SOURCE_DIR}/constants
-    ${CMAKE_CURRENT_SOURCE_DIR}/document
-    ${CMAKE_CURRENT_SOURCE_DIR}/memory
-    ${CMAKE_CURRENT_SOURCE_DIR}/node
-    ${CMAKE_CURRENT_SOURCE_DIR}/range
-    ${CMAKE_CURRENT_SOURCE_DIR}/text
-    ${CMAKE_CURRENT_SOURCE_DIR}/tree
-    ${CMAKE_CURRENT_SOURCE_DIR}/types
-    ${CMAKE_CURRENT_SOURCE_DIR}/utility
-    ${CMAKE_CURRENT_SOURCE_DIR}/writer
-    ${CMAKE_CURRENT_SOURCE_DIR}/xpath
-    DESTINATION include/lumex/xml
-    FILES_MATCHING
-    PATTERN "*.hpp"
-)
+    install(DIRECTORY
+        ${CMAKE_CURRENT_SOURCE_DIR}/attribute
+        ${CMAKE_CURRENT_SOURCE_DIR}/constants
+        ${CMAKE_CURRENT_SOURCE_DIR}/document
+        ${CMAKE_CURRENT_SOURCE_DIR}/memory
+        ${CMAKE_CURRENT_SOURCE_DIR}/node
+        ${CMAKE_CURRENT_SOURCE_DIR}/range
+        ${CMAKE_CURRENT_SOURCE_DIR}/text
+        ${CMAKE_CURRENT_SOURCE_DIR}/tree
+        ${CMAKE_CURRENT_SOURCE_DIR}/types
+        ${CMAKE_CURRENT_SOURCE_DIR}/utility
+        ${CMAKE_CURRENT_SOURCE_DIR}/writer
+        ${CMAKE_CURRENT_SOURCE_DIR}/xpath
+        DESTINATION include/lumex/xml
+        FILES_MATCHING
+        PATTERN "*.hpp"
+    )
 
-install(FILES
-    ${CMAKE_CURRENT_SOURCE_DIR}/LumexXml
-    DESTINATION include/lumex/xml
-)
+    install(FILES
+        ${CMAKE_CURRENT_SOURCE_DIR}/LumexXml
+        DESTINATION include/lumex/xml
+    )
+endif()
