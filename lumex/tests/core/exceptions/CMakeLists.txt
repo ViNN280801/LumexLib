@@ -56,4 +56,4 @@ elseif(UNIX AND NOT APPLE)
     target_link_options(${TEST_EXECUTABLE_NAME} PRIVATE -rdynamic) # needed for backtrace_symbols to resolve names
 endif()
 
-gtest_discover_tests(${TEST_EXECUTABLE_NAME})
+lumex_gtest_discover_tests(${TEST_EXECUTABLE_NAME})

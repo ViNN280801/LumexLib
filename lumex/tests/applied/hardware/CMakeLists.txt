@@ -18,4 +18,4 @@ target_link_libraries(
 )
 
 lumex_test_use_gtest(${TEST_EXECUTABLE_NAME} CXX_STANDARD 11)
-gtest_discover_tests(${TEST_EXECUTABLE_NAME})
+lumex_gtest_discover_tests(${TEST_EXECUTABLE_NAME})

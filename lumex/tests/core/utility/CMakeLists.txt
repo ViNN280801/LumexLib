@@ -42,7 +42,7 @@ if(WIN32)
 endif()
 
 if(CMAKE_VERSION VERSION_GREATER_EQUAL "3.18")
-    gtest_discover_tests(${TEST_EXECUTABLE_NAME}
+    lumex_gtest_discover_tests(${TEST_EXECUTABLE_NAME}
         DISCOVERY_TIMEOUT 60
         DISCOVERY_MODE PRE_TEST
     )
@@ -79,7 +79,7 @@ target_link_libraries(
 lumex_test_use_gtest(${TYPE_TRAITS_TEST_NAME} CXX_STANDARD 11)
 
 if(CMAKE_VERSION VERSION_GREATER_EQUAL "3.18")
-    gtest_discover_tests(${TYPE_TRAITS_TEST_NAME}
+    lumex_gtest_discover_tests(${TYPE_TRAITS_TEST_NAME}
         DISCOVERY_TIMEOUT 60
         DISCOVERY_MODE PRE_TEST
     )
@@ -110,7 +110,7 @@ target_link_libraries(
 lumex_test_use_gtest(${SAFE_NUMERIC_CXX11_TEST_NAME} CXX_STANDARD 11)
 
 if(CMAKE_VERSION VERSION_GREATER_EQUAL "3.18")
-    gtest_discover_tests(${SAFE_NUMERIC_CXX11_TEST_NAME}
+    lumex_gtest_discover_tests(${SAFE_NUMERIC_CXX11_TEST_NAME}
         DISCOVERY_TIMEOUT 60
         DISCOVERY_MODE PRE_TEST
     )
@@ -140,7 +140,7 @@ target_link_libraries(
 lumex_test_use_gtest(${PROCESS_TEST_NAME} CXX_STANDARD 11)
 
 if(CMAKE_VERSION VERSION_GREATER_EQUAL "3.18")
-    gtest_discover_tests(${PROCESS_TEST_NAME}
+    lumex_gtest_discover_tests(${PROCESS_TEST_NAME}
         DISCOVERY_TIMEOUT 60
         DISCOVERY_MODE PRE_TEST
     )
@@ -170,7 +170,7 @@ target_link_libraries(
 lumex_test_use_gtest(${CALLBACK_SLOT_TEST_NAME} CXX_STANDARD 11)
 
 if(CMAKE_VERSION VERSION_GREATER_EQUAL "3.18")
-    gtest_discover_tests(${CALLBACK_SLOT_TEST_NAME}
+    lumex_gtest_discover_tests(${CALLBACK_SLOT_TEST_NAME}
         DISCOVERY_TIMEOUT 60
         DISCOVERY_MODE PRE_TEST
     )

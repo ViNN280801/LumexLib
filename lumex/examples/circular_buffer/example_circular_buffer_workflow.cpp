@@ -3,7 +3,7 @@
 
 #include "lumex/core/circular_buffer/CircularBuffer"
 
-using namespace lumex::core::circular_buffer::buffer;
+using namespace lumex::core::circular_buffer;
 
 int
 main ()

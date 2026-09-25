@@ -19,4 +19,4 @@ target_link_libraries(
 # Test sources use if constexpr (C++17), but Expected.hpp / ExpectedVoid.hpp
 # declare constexpr destructors, which MSVC accepts only in C++20 (C2178).
 lumex_test_use_gtest(${TEST_EXECUTABLE_NAME} CXX_STANDARD 20)
-gtest_discover_tests(${TEST_EXECUTABLE_NAME})
+lumex_gtest_discover_tests(${TEST_EXECUTABLE_NAME})

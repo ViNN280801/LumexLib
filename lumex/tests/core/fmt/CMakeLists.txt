@@ -41,8 +41,8 @@ foreach(_format_suite IN ITEMS
 
     lumex_test_use_gtest(${_format_name} CXX_STANDARD ${_format_std})
     if(_format_suffix)
-        gtest_discover_tests(${_format_name} TEST_SUFFIX "${_format_suffix}")
+        lumex_gtest_discover_tests(${_format_name} TEST_SUFFIX "${_format_suffix}")
     else()
-        gtest_discover_tests(${_format_name})
+        lumex_gtest_discover_tests(${_format_name})
     endif()
 endforeach()

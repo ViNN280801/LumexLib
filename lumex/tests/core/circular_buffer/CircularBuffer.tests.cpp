@@ -37,7 +37,7 @@
 #if defined(__clang__)
 #endif
 
-using namespace lumex::core::circular_buffer::buffer;
+using namespace lumex::core::circular_buffer;
 
 // === Data types for tests ========================================
 

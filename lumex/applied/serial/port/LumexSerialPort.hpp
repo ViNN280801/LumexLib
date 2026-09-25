@@ -58,7 +58,6 @@
 #include <functional>
 #include <string>
 
-#include "lumex/core/utility/attr/LumexAttributes.hpp"
 #include "lumex/core/utility/macros/LumexConstantMacros.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 
@@ -107,9 +106,10 @@ LUMEX_CONST_NUM std::uint32_t KNET_UDP_CHANNEL_TYPE
  * `"/dev/ttyACM0"`.
  * - Linux by-id device: `"usb-FTDI_..."` ->
  * `"/dev/serial/by-id/usb-FTDI_..."`.
- * - Invalid `"USB"`-style markers on Linux: `"USB"` -> `"/dev/ttyUSB0"`,
- * `"USB42"` -> `"/dev/ttyUSB42"` (a fallback for configuration values that
- * name a USB slot instead of a real device node).
+ * - Invalid `"USB"`-style markers: `"USB"` / `"USB42"` are slot names, not
+ * device nodes. Linux guesses `"/dev/ttyUSB0"` / `"/dev/ttyUSB42"`. macOS
+ * prefixes `"/dev/"`. Windows leaves the name unchanged. Every platform
+ * reports the substitution through `logWarningCallback`.
  *
  * @param portName Short port name as it appears in configuration (e.g.
  * `"COM1"`, `"ttyUSB0"`,
@@ -123,8 +123,8 @@ LUMEX_CONST_NUM std::uint32_t KNET_UDP_CHANNEL_TYPE
  * `Constants::KNET_UDP_CHANNEL_TYPE`). May be empty; if so, `portName` itself
  * is returned unchanged.
  * @param logWarningCallback Optional callback used to report a
- * resolved-but-unverified fallback path (see the warning below). Ignored on
- * platforms where the fallback path never triggers.
+ * resolved-but-unverified fallback for an invalid `"USB"` marker. Called on
+ * every platform. May be empty.
  *
  * @return The platform-specific path/identifier to use when opening the
  * channel.
@@ -132,13 +132,13 @@ LUMEX_CONST_NUM std::uint32_t KNET_UDP_CHANNEL_TYPE
  * @note For network channels, the result is whatever `getIpAddressCallback`
  * returns.
  *
- * @note For invalid `"USB"`-style markers on Linux:
- *       - `"USB"` (no trailing number) resolves to `"/dev/ttyUSB0"` (default
- * fallback index).
- *       - `"USB42"` (trailing number) resolves to `"/dev/ttyUSB42"` (uses the
- * given index).
- *       - When this fallback fires, `logWarningCallback` (if provided) is
- * invoked with a human-readable description of what happened.
+ * @note For invalid `"USB"`-style markers:
+ *       - Linux: `"USB"` resolves to `"/dev/ttyUSB0"`, `"USB42"` to
+ * `"/dev/ttyUSB42"`.
+ *       - macOS: the name is prefixed with `"/dev/"`.
+ *       - Windows: the name is returned unchanged.
+ *       - On every platform, `logWarningCallback` (if provided) is invoked
+ * with a description of the name and the path actually returned.
  *
  * @warning For invalid `"USB"` markers, this function returns a *guessed*
  * device path - it never checks whether that device actually exists or is
@@ -151,8 +151,7 @@ LUMEX_PUBLIC_API
 std::string resolve_serial_port_path (
     std::string const &portName, std::uint32_t channelType,
     std::function<std::string ()> const &getIpAddressCallback = nullptr,
-    LUMEX_ATTRIBUTE_MAYBE_UNUSED
-        std::function<void (std::string const &)> const &logWarningCallback
+    std::function<void (std::string const &)> const &logWarningCallback
     = nullptr) LUMEX_NOEXCEPT;
 
 } // namespace port

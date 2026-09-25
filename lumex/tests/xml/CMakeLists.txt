@@ -14,7 +14,7 @@ target_link_libraries(
 )
 
 lumex_test_use_gtest(${TEST_EXECUTABLE_NAME} CXX_STANDARD 11)
-gtest_discover_tests(${TEST_EXECUTABLE_NAME})
+lumex_gtest_discover_tests(${TEST_EXECUTABLE_NAME})
 
 target_link_options(${TEST_EXECUTABLE_NAME} PRIVATE -Wl,--no-as-needed)
 
@@ -37,6 +37,6 @@ target_link_libraries(
 )
 
 lumex_test_use_gtest(${XML_CXX20_TEST_NAME} CXX_STANDARD 20)
-gtest_discover_tests(${XML_CXX20_TEST_NAME} TEST_SUFFIX ".cxx20")
+lumex_gtest_discover_tests(${XML_CXX20_TEST_NAME} TEST_SUFFIX ".cxx20")
 
 target_link_options(${XML_CXX20_TEST_NAME} PRIVATE -Wl,--no-as-needed)

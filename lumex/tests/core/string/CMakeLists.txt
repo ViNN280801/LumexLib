@@ -18,7 +18,7 @@ target_link_libraries(
 )
 
 lumex_test_use_gtest(${TEST_EXECUTABLE_NAME} CXX_STANDARD 11)
-gtest_discover_tests(${TEST_EXECUTABLE_NAME})
+lumex_gtest_discover_tests(${TEST_EXECUTABLE_NAME})
 
 # Same sources at C++20: text::join / quote* switch to their std::ranges
 # implementation and the stream traits switch from SFINAE to concepts. TEST_SUFFIX keeps CTest names distinct.
@@ -40,4 +40,4 @@ target_link_libraries(
 )
 
 lumex_test_use_gtest(${STRING_CXX20_TEST_NAME} CXX_STANDARD 20)
-gtest_discover_tests(${STRING_CXX20_TEST_NAME} TEST_SUFFIX ".cxx20")
+lumex_gtest_discover_tests(${STRING_CXX20_TEST_NAME} TEST_SUFFIX ".cxx20")

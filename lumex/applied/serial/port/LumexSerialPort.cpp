@@ -1,8 +1,10 @@
 #define LUMEX_IMPLEMENTATION
 #include <cctype>
 
-#include "LumexSerialPort.hpp"
+#include "lumex/core/utility/attr/LumexAttributes.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
+
+#include "LumexSerialPort.hpp"
 
 namespace lumex
 {
@@ -20,6 +22,19 @@ bool
 _starts_with (std::string const &value, std::string const &prefix)
 {
   return value.compare (0, prefix.size (), prefix) == 0;
+}
+
+void
+_warn_invalid_port (
+    std::function<void (std::string const &)> const &logWarningCallback,
+    std::string const &portName, std::string const &resolvedPath)
+{
+  if (!logWarningCallback)
+    return;
+  logWarningCallback ("Port name '" + portName
+                      + "' is invalid for a serial channel. Resolving to '"
+                      + resolvedPath
+                      + "' (the device may not exist or may be unavailable)");
 }
 } // namespace
 
@@ -50,18 +65,12 @@ resolve_serial_port_path (
                        // provided.
     }
 
-// Some serial-device configurations on Linux use a bare "USB"/"USB1"/"USB34"
-// marker instead of a real port name. These are not valid serial-port names,
-// so they get substituted below.
-#if !defined(_WIN32) && !defined(__APPLE__)
-  // Does the name start with "USB" without being an already-valid device name?
-  // Valid: "ttyUSB0", "ttyUSB1", "usb-FTDI_...-if00-port0", etc.
-  // Invalid: "USB", "USB1", "USB34", etc.
+  // Bare "USB"/"USB1"/"USB34" is a slot marker, not a device name.
+  // Valid names ("ttyUSB0", "usb-FTDI_...") are handled above or below.
   if (_starts_with (portName, "USB") && !_starts_with (portName, "ttyUSB")
       && !_starts_with (portName, "usb-"))
     {
-      // Extract the trailing number from "USB42" -> "42", or use "0" for a
-      // bare "USB".
+      // "USB42" -> "42"; a bare "USB" uses index 0.
       std::string usbNumber = "0";
       if (portName.length () > 3)
         {
@@ -81,19 +90,20 @@ resolve_serial_port_path (
             usbNumber = numberPart;
         }
 
+        // Linux can guess a ttyUSB node. Windows has no such node, so the
+        // name is left as given. macOS keeps the usual /dev/ prefix.
+#if !defined(_WIN32) && !defined(__APPLE__)
       std::string const resolvedPath = "/dev/ttyUSB" + usbNumber;
-
-      if (logWarningCallback)
-        {
-          logWarningCallback (
-              "Port name '" + portName
-              + "' is invalid for a serial channel. Resolving to '"
-              + resolvedPath
-              + "' (the device may not exist or may be unavailable)");
-        }
+#elif defined(__APPLE__)
+      LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR (usbNumber);
+      std::string const resolvedPath = "/dev/" + portName;
+#else
+      LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR (usbNumber);
+      std::string const resolvedPath = portName;
+#endif
+      _warn_invalid_port (logWarningCallback, portName, resolvedPath);
       return resolvedPath;
     }
-#endif
 
 // Everything else.
 #if defined(_WIN32)

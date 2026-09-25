@@ -19,7 +19,7 @@ target_link_libraries(
 )
 
 lumex_test_use_gtest(${TEST_EXECUTABLE_NAME} CXX_STANDARD 11)
-gtest_discover_tests(${TEST_EXECUTABLE_NAME})
+lumex_gtest_discover_tests(${TEST_EXECUTABLE_NAME})
 
 # Same sources at C++20. LUMEX_CONST_NUM is `constinit` there, which once made
 # every LUMEX_DEFINE_REFLECTED_ENUM fail to compile (EnumNameFirst read a
@@ -44,7 +44,7 @@ target_link_libraries(
 )
 
 lumex_test_use_gtest(${REFLECTION_CXX20_TEST_NAME} CXX_STANDARD 20)
-gtest_discover_tests(${REFLECTION_CXX20_TEST_NAME} TEST_SUFFIX ".cxx20")
+lumex_gtest_discover_tests(${REFLECTION_CXX20_TEST_NAME} TEST_SUFFIX ".cxx20")
 
 # field_reflection/ needs LUMEX_WITH_FIELD_REFLECTION and the
 # in-tree nlohmann_json::nlohmann_json target from LumexNlohmannJson.cmake.
@@ -66,7 +66,7 @@ if(LUMEX_WITH_FIELD_REFLECTION AND TARGET nlohmann_json::nlohmann_json)
             LUMEX_WITH_FIELD_REFLECTION
         )
         lumex_test_use_gtest(${target_name} CXX_STANDARD ${cxx_standard})
-        gtest_discover_tests(${target_name})
+        lumex_gtest_discover_tests(${target_name})
     endfunction()
 
     lumex_add_field_reflection_tests(LumexFieldReflectionTests 11)

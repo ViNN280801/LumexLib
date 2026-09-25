@@ -22,7 +22,7 @@ target_link_libraries(
 lumex_test_use_gtest(${TEST_EXECUTABLE_NAME} CXX_STANDARD 14)
 
 if(CMAKE_VERSION VERSION_GREATER_EQUAL "3.18")
-    gtest_discover_tests(${TEST_EXECUTABLE_NAME}
+    lumex_gtest_discover_tests(${TEST_EXECUTABLE_NAME}
         DISCOVERY_TIMEOUT 60
         DISCOVERY_MODE PRE_TEST
     )

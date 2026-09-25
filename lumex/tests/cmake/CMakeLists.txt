@@ -91,6 +91,7 @@ lumex_add_cmake_test(wiring_compile_commands)
 lumex_add_cmake_test(wiring_export_namespace)
 lumex_add_cmake_test(wiring_embedding)
 lumex_add_cmake_test(asan_clang_cl_runtime_library)
+lumex_add_cmake_test(gtest_discovery_does_not_lock_exe)
 
 lumex_add_cmake_fail_test(wiring_msvc_vcvars_after_project
     "must be called BEFORE project")

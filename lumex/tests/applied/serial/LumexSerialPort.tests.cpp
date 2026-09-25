@@ -124,6 +124,19 @@ TEST (LumexSerialPort, WindowsFallbackReturnsNameUnchanged)
              "SomeOtherName");
 }
 
+TEST (LumexSerialPort, BareUsbMarkerWarnsAndKeepsTheName)
+{
+  std::vector<std::string> warnings;
+  auto const warn
+      = [&warnings] (std::string const &msg) { warnings.push_back (msg); };
+
+  EXPECT_EQ (resolve_serial_port_path (
+                 "USB", Constants::KSERIAL_PORT_CHANNEL_TYPE, nullptr, warn),
+             "USB");
+  ASSERT_EQ (warnings.size (), 1U);
+  EXPECT_NE (warnings[0].find ("USB"), std::string::npos);
+}
+
 #elif defined(__APPLE__)
 
 TEST (LumexSerialPort, MacFallbackPrependsDev)
@@ -131,6 +144,19 @@ TEST (LumexSerialPort, MacFallbackPrependsDev)
   EXPECT_EQ (resolve_serial_port_path ("cu.usbserial-1420",
                                        Constants::KSERIAL_PORT_CHANNEL_TYPE),
              "/dev/cu.usbserial-1420");
+}
+
+TEST (LumexSerialPort, BareUsbMarkerWarnsAndPrependsDev)
+{
+  std::vector<std::string> warnings;
+  auto const warn
+      = [&warnings] (std::string const &msg) { warnings.push_back (msg); };
+
+  EXPECT_EQ (resolve_serial_port_path (
+                 "USB", Constants::KSERIAL_PORT_CHANNEL_TYPE, nullptr, warn),
+             "/dev/USB");
+  ASSERT_EQ (warnings.size (), 1U);
+  EXPECT_NE (warnings[0].find ("/dev/USB"), std::string::npos);
 }
 
 #else // Linux / other Unix

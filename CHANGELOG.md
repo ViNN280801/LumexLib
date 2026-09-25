@@ -600,7 +600,7 @@
 
 **Файлы:**
 
-- `lumex/core/circular_buffer/buffer/CircularBuffer.hpp`
+- `lumex/core/circular_buffer/CircularBuffer.hpp`
 
 - `is_swap_noexcept` считает `std::swap` аллокаторов через `LUMEX_NOEXCEPT_IF`, а не сырой оператор `noexcept(...)`.
 
@@ -833,7 +833,7 @@
 **Файлы:**
 
 - `lumex/core/utility/assert/LumexAssert.hpp`
-- `lumex/core/circular_buffer/buffer/CircularBuffer.hpp`
+- `lumex/core/circular_buffer/CircularBuffer.hpp`
 - `lumex/core/circular_buffer/CMakeLists.txt`
 - `lumex/core/expected/CMakeLists.txt`
 - `cmake/LumexModules.cmake`

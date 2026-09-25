@@ -12,7 +12,7 @@
 #pragma clang diagnostic ignored "-Wglobal-constructors"
 #endif
 
-using lumex::core::circular_buffer::buffer::CircularBuffer;
+using lumex::core::circular_buffer::CircularBuffer;
 
 // This TU includes the public umbrella before gtest so LUMEX_ASSERT /
 // LUMEX_STATIC_ASSERT_MSG from CircularBuffer.hpp are resolved without a

@@ -51,8 +51,6 @@ namespace core
 {
 namespace circular_buffer
 {
-namespace buffer
-{
 /**
  * @brief Fixed-capacity circular buffer that overwrites when full (similar to
  * Boost's `circular_buffer`).
@@ -1850,7 +1848,6 @@ operator<=> (CircularBuffer<T, Alloc> const &lhs,
   return std::strong_ordering::greater;
 }
 #endif
-} // namespace buffer
 } // namespace circular_buffer
 } // namespace core
 } // namespace lumex

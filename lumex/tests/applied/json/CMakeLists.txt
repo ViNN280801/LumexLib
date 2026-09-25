@@ -32,7 +32,7 @@ target_compile_definitions(${TEST_EXECUTABLE_NAME}
     PRIVATE LUMEX_JSON_TEST_SUITE="cxx11")
 
 lumex_test_use_gtest(${TEST_EXECUTABLE_NAME} CXX_STANDARD 11)
-gtest_discover_tests(${TEST_EXECUTABLE_NAME})
+lumex_gtest_discover_tests(${TEST_EXECUTABLE_NAME})
 
 # Same sources at C++20: consumers such as PeakExpertWeb compile these headers
 # at C++20, and the schema walker takes its std::ranges branch there.
@@ -56,4 +56,4 @@ target_compile_definitions(${JSON_CXX20_TEST_NAME}
     PRIVATE LUMEX_JSON_TEST_SUITE="cxx20")
 
 lumex_test_use_gtest(${JSON_CXX20_TEST_NAME} CXX_STANDARD 20)
-gtest_discover_tests(${JSON_CXX20_TEST_NAME} TEST_SUFFIX ".cxx20")
+lumex_gtest_discover_tests(${JSON_CXX20_TEST_NAME} TEST_SUFFIX ".cxx20")

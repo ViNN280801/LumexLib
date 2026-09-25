@@ -75,10 +75,17 @@ function(lumex_test_use_gtest target)
     CXX_STANDARD_REQUIRED ON
     CXX_EXTENSIONS OFF
     # Same directory as shared Lumex DLLs (bin/, not bin/$<CONFIG>).
-    # gtest_discover_tests runs the exe at build time; a split output
-    # directory yields Windows STATUS_DLL_NOT_FOUND (0xc0000135).
+    # A split output directory yields Windows STATUS_DLL_NOT_FOUND
+    # (0xc0000135) when ctest later runs the exe.
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
   )
+
+  # Incremental link opens the existing exe to patch it. POST_BUILD
+  # discovery (and a parallel rebuild) keeps that image mapped, and
+  # link.exe then fails with LNK1104 on the output exe.
+  if(MSVC)
+    target_link_options(${target} PRIVATE "/INCREMENTAL:NO")
+  endif()
 
   if(ARG_CXX_STANDARD LESS 17)
     target_link_libraries(${target} PRIVATE lumex::gtest_main_cxx11)
@@ -102,11 +109,11 @@ function(lumex_test_use_gtest target)
     target_compile_options(${target} PRIVATE -Wa,-mbig-obj)
   endif()
 
-  # Stage the clang-cl ASan runtime DLL next to the test executable BEFORE
-  # gtest_discover_tests registers its POST_BUILD discovery command. POST_BUILD
-  # commands run in registration order, and every test CMakeLists calls
-  # lumex_test_use_gtest immediately before gtest_discover_tests, so the copy
-  # lands first and the discovery run can load clang_rt.asan_dynamic-*.dll.
+  # Stage the clang-cl ASan runtime DLL next to the test executable at
+  # build time. lumex_gtest_discover_tests uses DISCOVERY_MODE PRE_TEST, so
+  # the exe is not launched from the link recipe; ctest still needs the DLL
+  # beside it. POST_BUILD commands run in registration order, and every test
+  # CMakeLists calls lumex_test_use_gtest before lumex_gtest_discover_tests.
   if(COMMAND stage_clang_sanitizer_runtime)
     stage_clang_sanitizer_runtime(${target}
       ADDRESS ${LUMEX_USE_ASAN}
@@ -123,4 +130,12 @@ function(lumex_test_use_gtest target)
     suppress_warnings_for_sources(${target} MATCH ".*" ALL)
   endif()
   set_property(TARGET ${target} PROPERTY LUMEX_SUPPRESS_ALL_WARNINGS TRUE)
+endfunction()
+
+# Register tests without executing the binary from the link recipe.
+# DISCOVERY_MODE PRE_TEST runs --gtest_list_tests at ctest time. The old
+# POST_BUILD mode left the exe mapped, and the next MSVC link failed with
+# LNK1104 (cannot open the output exe) under /INCREMENTAL.
+function(lumex_gtest_discover_tests target)
+  gtest_discover_tests(${target} ${ARGN} DISCOVERY_MODE PRE_TEST)
 endfunction()
