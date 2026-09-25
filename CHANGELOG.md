@@ -28,6 +28,24 @@
 
 **Суть:** заголовки ветвятся по `__cplusplus`, а MSVC без `/Zc:__cplusplus` сообщает `199711L`. Свой сборщик библиотеки ставил флаг только на ее объектные файлы. Потребитель через `find_package` или Conan его не видел: `LUMEX_CONSTEXPR` раскрывался в пустоту, `LumexDebug.hpp` не компилировался. Теперь каждая цель `LumexCore_*`, `LumexApplied_*` и `LumexXml` отдает флаг как INTERFACE (в том числе header-only модули). В рецепте Conan тот же флаг стоит на каждом компоненте при компиляторе `msvc`. Проверка: `LumexCMake.consumer_cplusplus_macro` и `conan create` тестового потребителя без собственного флага.
 
+##### LumexMath: усечение в `rms`/`rmse`, точность `checked_narrow_cast`, `avg` по `filter_view`
+
+**Файлы:**
+
+- `lumex/core/math/ops/LumexMath.hpp`
+- `lumex/tests/core/math/LumexMath.tests.cpp`
+
+**Суть:** `rms (a, b)`, `rmse (range, scalar)` и `rmse (a, b)` для целочисленных диапазонов делили сумму на N в целых до `sqrt`: `rmse ({1, 2}, 0)` давал `sqrt (2)` вместо `sqrt (2.5)`. Теперь деление в типе результата. `checked_narrow_cast` сравнивал границы в `long double`, который на MSVC равен `double`: `<uint64_t, int64_t> (2^63)` и `<double, int64_t> (9.3e18)` проходили проверку и давали `INT64_MIN`. Теперь целое в целое сравнивается точно, а для вещественного источника дополнительно проверяется точная граница `2^digits`. `avg` не компилировался для `std::views::filter` (view не итерируется через const). Каждый случай закреплен тестом.
+
+##### Linux: корневой `project()` больше не требует компилятор ресурсов
+
+**Файлы:**
+
+- `CMakeLists.txt`
+- `lumex/tests/cmake/cases/wiring_rc_windows_only.cmake`, `lumex/tests/cmake/CMakeLists.txt`
+
+**Суть:** `project(LumexLib ... LANGUAGES CXX RC)` обрывал конфигурацию вне Windows (`No CMAKE_RC_COMPILER could be found`). Теперь `LANGUAGES CXX`, а `enable_language(RC)` только под `if(WIN32)` (ресурсы версий DLL). Закреплено `LumexCMake.wiring_rc_windows_only`.
+
 ##### `LUMEX_WITH_FIELD_REFLECTION` больше не протекает к потребителям `lumex::reflection`
 
 **Файлы:**
@@ -105,6 +123,24 @@
 **Суть:** У каждой из 112 спецификаций есть тип `Crc*` (`using` на `CrcParametric<spec>`), в том же порядке, что `all_crc_specs_t`. Раньше публичный класс был только у 17 алгоритмов. Прежние 17 имен сохранены; `calculate` у них тот же. CRC-82/DARC по-прежнему нет: полином ширины 82 не помещается в `std::uint64_t`.
 
 #### Изменено
+
+##### LumexMath работает с C++11; `LumexMathSizeMismatchException`
+
+**Файлы:**
+
+- `lumex/core/math/ops/LumexMath.hpp`
+- `lumex/tests/core/math/LumexMath.tests.cpp`, `lumex/tests/core/math/CMakeLists.txt`, `lumex/tests/cmake/cases/wiring_subdirs.cmake`
+- `lumex/examples/math/CMakeLists.txt`, корневой `CMakeLists.txt` (комментарий)
+
+**Суть:** заголовок больше не требует C++20: вместо concepts и ranges - SFINAE-трейты (`traits::is_numeric`; `traits::NumericConcept` остается в C++20) и собственный однопроходный обход. Диапазон - все, что принимают `begin`/`end`: контейнеры, C-массивы, временные объекты, `std::list`, а в C++20 views, включая не константно итерируемые (`filter`) и с sentinel-концом (`take_while`). У каждой функции одна перегрузка с forwarding-ссылкой, сохраняющая константность аргумента. `distance` и `squared_difference` для целых - `constexpr`, результат продвигается как `a - b`. Имя поля в `checked_narrow_cast` - любой выводимый в `std::ostream` тип (строковый литерал, `std::string`, `std::string_view`). Двухдиапазонные `rms` и `rmse` при разной длине, в том числе когда пуст только один диапазон (раньше возвращали 0), бросают `LumexMathSizeMismatchException` (объявлен через `LUMEX_DEFINE_EXCEPTION`, наследует `std::invalid_argument`); текст содержит обе длины. Наборы `LumexMathTests` (C++11), `LumexMathCxx17Tests`, `LumexMathCxx20Tests`; примеры собираются в C++11.
+
+##### Conan-рецепт покрывает все модули
+
+**Файлы:**
+
+- `conanfile.py`
+
+**Суть:** компоненты повторяют CMake-цели `lumex::<module>` (header-only без библиотек, системные библиотеки Windows/FreeBSD, define-ы settings и logger) и зонтичную `lumex::Lumex`; лицензия MIT, версия читается из `project(LumexLib VERSION ...)`, `exports_sources` включает `LICENSE`, `CMakeRoutines` и `3rdparty`, по умолчанию `shared=True` (как `LUMEX_BUILD_SHARED_LIBS`). Проверено `conan create` с тестовым пакетом.
 
 ##### `core/string` разложен по компонентам, глобальный `stringify` убран
 

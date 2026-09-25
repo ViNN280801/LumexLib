@@ -68,7 +68,8 @@ foreach(_suite
         LumexResourceMonitorTests LumexSerialPortTests LumexSettingsTests
         LumexBase64Tests LumexCircularBufferTests LumexCrcTests
         LumexEnvironmentTests LumexExceptionsTests LumexExpectedTests
-        LumexFilesystemTests LumexMathTests LumexNumberGeneratorTests
+        LumexFilesystemTests LumexMathTests LumexMathCxx17Tests
+        LumexMathCxx20Tests LumexNumberGeneratorTests
         LumexOptionalTests LumexReflectionTests LumexReflectionCxx20Tests LumexFieldReflectionTests
         LumexFieldReflectionGetTests LumexFieldReflectionNamesTests
         LumexStringifyTests LumexStringifyCxx20Tests

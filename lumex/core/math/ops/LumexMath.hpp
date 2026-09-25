@@ -26,35 +26,33 @@
  * @file LumexMath.hpp
  * @brief Numeric helpers: NaN/Inf checks, checked narrowing casts, distance,
  *        squared difference, and range-based avg/rms/rmse.
- * @details Requires C++20 (`<concepts>`, `<ranges>`). Signatures are kept as
- *          close as practical to their original source, only renamed into
- *          the `lumex::core::Math` namespace and adapted to this library's
- *          error-reporting style (message building via `std::ostringstream`
- *          rather than `std::format`, since full `<format>` support is not
- *          guaranteed on every C++20 toolchain this library targets).
+ * @details Works from C++11 on. A "range" is anything `begin (r)` / `end (r)`
+ *          accept (found through `std::begin` / `std::end` or ADL): standard
+ *          containers, C arrays, `std::initializer_list`, and from C++20 the
+ *          `std::views` adaptors, including views that are not const-iterable
+ *          (`std::views::filter`) and ranges whose end is a sentinel of
+ *          another type. Every range is traversed once, so the range only
+ *          needs input iterators. Numeric types are the integral types except
+ *          `bool`, and the floating-point types; overloads outside that set
+ *          do not take part in overload resolution (SFINAE).
  */
 #ifndef LUMEX_CORE_MATH_OPS_HPP
 #define LUMEX_CORE_MATH_OPS_HPP
 
-#include "lumex/core/utility/attr/LumexAttributes.hpp"
-#include "lumex/core/utility/macros/LumexKeywords.hpp"
-#if __cplusplus < 202002L
-#error "LumexMath.hpp requires C++20 (concepts, ranges)."
-#endif
-
-#include <algorithm>
 #include <cmath>
-#include <concepts>
 #include <cstddef>
+#include <cstdint>
 #include <iterator>
 #include <limits>
-#include <numeric>
-#include <ranges>
 #include <sstream>
 #include <stdexcept>
 #include <string>
-#include <string_view>
 #include <type_traits>
+#include <utility>
+
+#include "lumex/core/utility/attr/LumexAttributes.hpp"
+#include "lumex/core/utility/macros/LumexExceptionMacros.hpp"
+#include "lumex/core/utility/macros/LumexKeywords.hpp"
 
 namespace lumex
 {
@@ -64,24 +62,356 @@ namespace math
 {
 namespace ops
 {
+/// @brief Thrown by the two-range `rms` / `rmse` when the ranges have
+/// different lengths, one of them empty included. Derives from
+/// `std::invalid_argument`, so handlers of that type still catch it.
+LUMEX_DEFINE_EXCEPTION (LumexMathSizeMismatchException, std::invalid_argument)
+
 namespace traits
 {
 /// @brief A "real" numeric type: any integral type except `bool`, or any
-/// floating-point type.
+/// floating-point type (cv-qualifiers ignored).
 template <typename T>
-concept NumericConcept
-    = (std::integral<T> && !std::same_as<T, bool>) || std::floating_point<T>;
+struct is_numeric
+    : std::integral_constant<
+          bool, (std::is_integral<T>::value
+                 && !std::is_same<typename std::remove_cv<T>::type,
+                                  bool>::value)
+                    || std::is_floating_point<T>::value>
+{
+};
+
+#if __cplusplus >= 202002L
+/// @brief C++20 spelling of @ref is_numeric.
+template <typename T>
+concept NumericConcept = is_numeric<T>::value;
+#endif
 } // namespace traits
+
+namespace Detail
+{
+template <typename...>
+struct voider
+{
+  typedef void type;
+};
+
+using std::begin;
+using std::end;
+
+/// @brief `begin (range)` with `std::begin` and ADL, as a range-for does.
+template <typename Range>
+auto
+adl_begin (Range &range) -> decltype (begin (range))
+{
+  return begin (range);
+}
+
+/// @brief `end (range)` with `std::end` and ADL, as a range-for does.
+template <typename Range>
+auto
+adl_end (Range &range) -> decltype (end (range))
+{
+  return end (range);
+}
+
+/// @brief `Range` without reference, as the lvalue the functions iterate.
+template <typename Range>
+struct range_object
+{
+  typedef typename std::remove_reference<Range>::type type;
+};
+
+/// @brief True when `Range` can be iterated as an lvalue and its elements
+/// decay to a numeric type.
+template <typename Range, typename = void>
+struct is_numeric_range : std::false_type
+{
+};
+
+template <typename Range>
+struct is_numeric_range<
+    Range,
+    typename voider<
+        decltype (adl_begin (
+                      std::declval<typename range_object<Range>::type &> ())
+                  != adl_end (
+                      std::declval<typename range_object<Range>::type &> ())),
+        decltype (++std::declval<decltype (adl_begin (
+                      std::declval<typename range_object<Range>::type &> ()))
+                                     &> ()),
+        decltype (*adl_begin (
+            std::declval<typename range_object<Range>::type &> ()))>::type>
+    : traits::is_numeric<typename std::decay<decltype (*adl_begin (
+          std::declval<typename range_object<Range>::type &> ()))>::type>
+{
+};
+
+/// @brief The element type of a numeric range; no `type` otherwise, so it
+/// can sit in a return type for SFINAE.
+template <typename Range, bool = is_numeric_range<Range>::value>
+struct numeric_range_value
+{
+};
+
+template <typename Range>
+struct numeric_range_value<Range, true>
+{
+  typedef typename std::decay<decltype (*adl_begin (
+      std::declval<typename range_object<Range>::type &> ()))>::type type;
+};
+
+/// @brief `std::sqrt`'s result type for `T` (double for an integral `T`).
+template <typename T>
+struct sqrt_result
+{
+  typedef decltype (std::sqrt (std::declval<T> ())) type;
+};
+
+/// @brief `std::common_type` of two numeric types; no `type` otherwise.
+template <typename T, typename U,
+          bool = traits::is_numeric<T>::value && traits::is_numeric<U>::value>
+struct numeric_common
+{
+};
+
+template <typename T, typename U>
+struct numeric_common<T, U, true>
+{
+  typedef typename std::common_type<T, U>::type type;
+};
+
+/// @brief The type `a - b` has in the common type of T and U (promoted, so
+/// `short - short` is `int`); no `type` unless both are numeric.
+template <typename T, typename U,
+          bool = traits::is_numeric<T>::value && traits::is_numeric<U>::value>
+struct difference_type
+{
+};
+
+template <typename T, typename U>
+struct difference_type<T, U, true>
+{
+  typedef typename std::common_type<T, U>::type common;
+  typedef decltype (std::declval<common> () - std::declval<common> ()) type;
+};
+
+/// @brief Result type of `distance` for two integers; no `type` otherwise.
+/// Every trait here stays SFINAE-friendly for any argument type, so an
+/// unqualified `distance (it1, it2)` next to `using namespace ops` still
+/// finds `std::distance`.
+template <typename T, typename U,
+          bool = traits::is_numeric<T>::value && traits::is_numeric<U>::value
+                 && !std::is_floating_point<T>::value
+                 && !std::is_floating_point<U>::value>
+struct integral_distance
+{
+};
+
+template <typename T, typename U>
+struct integral_distance<T, U, true>
+{
+  typedef typename difference_type<T, U>::type type;
+};
+
+/// @brief Result type of `distance` with a floating-point operand; no `type`
+/// otherwise.
+template <typename T, typename U,
+          bool = traits::is_numeric<T>::value && traits::is_numeric<U>::value
+                 && (std::is_floating_point<T>::value
+                     || std::is_floating_point<U>::value)>
+struct floating_distance
+{
+};
+
+template <typename T, typename U>
+struct floating_distance<T, U, true>
+{
+  typedef typename std::common_type<T, U>::type type;
+};
+
+/// @brief `sqrt` result type of the common element type of two numeric
+/// ranges; no `type` otherwise.
+template <typename Range1, typename Range2,
+          bool = is_numeric_range<Range1>::value
+                 && is_numeric_range<Range2>::value>
+struct range_pair_result
+{
+};
+
+template <typename Range1, typename Range2>
+struct range_pair_result<Range1, Range2, true>
+{
+  typedef typename std::common_type<
+      typename numeric_range_value<Range1>::type,
+      typename numeric_range_value<Range2>::type>::type common;
+  typedef typename sqrt_result<common>::type type;
+};
+
+/// @brief `sqrt` result type of a numeric range's elements combined with a
+/// numeric scalar; no `type` otherwise.
+template <typename Range, typename Scalar,
+          bool = is_numeric_range<Range>::value
+                 && traits::is_numeric<Scalar>::value>
+struct range_scalar_result
+{
+};
+
+template <typename Range, typename Scalar>
+struct range_scalar_result<Range, Scalar, true>
+{
+  typedef typename std::common_type<typename numeric_range_value<Range>::type,
+                                    Scalar>::type common;
+  typedef typename sqrt_result<common>::type type;
+};
+
+// --- checked_narrow_cast helpers ------------------------------------------
+
+/// @brief Prints a value as a number: the unary plus promotes character
+/// types, so they print their code, not a glyph.
+template <typename T>
+void
+print_number (std::ostream &os, T value)
+{
+  os << +value;
+}
+
+/// @brief `a < b` for two integers of any signedness, without the usual
+/// arithmetic conversions turning a negative value into a huge unsigned one
+/// (C++20 `std::cmp_less`).
+template <typename A, typename B>
+bool
+cmp_less (A a, B b, std::integral_constant<int, 0>) // unsigned, unsigned
+{
+  return static_cast<std::uintmax_t> (a) < static_cast<std::uintmax_t> (b);
+}
+
+template <typename A, typename B>
+bool
+cmp_less (A a, B b, std::integral_constant<int, 1>) // unsigned, signed
+{
+  return b > 0 && static_cast<std::uintmax_t> (a)
+                      < static_cast<std::uintmax_t> (b);
+}
+
+template <typename A, typename B>
+bool
+cmp_less (A a, B b, std::integral_constant<int, 2>) // signed, unsigned
+{
+  return a < 0 || static_cast<std::uintmax_t> (a)
+                      < static_cast<std::uintmax_t> (b);
+}
+
+template <typename A, typename B>
+bool
+cmp_less (A a, B b, std::integral_constant<int, 3>) // signed, signed
+{
+  return static_cast<std::intmax_t> (a) < static_cast<std::intmax_t> (b);
+}
+
+template <typename A, typename B>
+bool
+cmp_less (A a, B b)
+{
+  return cmp_less (
+      a, b,
+      std::integral_constant<int, (std::is_signed<A>::value ? 2 : 0)
+                                      + (std::is_signed<B>::value ? 1 : 0)> ());
+}
+
+/// @brief Integral source, integral target: exact comparison.
+template <typename Target, typename Source>
+bool
+fits (Source value, std::true_type, std::true_type)
+{
+  return !cmp_less (value, std::numeric_limits<Target>::lowest ())
+         && !cmp_less ((std::numeric_limits<Target>::max) (), value);
+}
+
+/// @brief Floating-point source, integral target. The bounds are compared in
+/// `long double`, which is only `double` on MSVC: the maximum of a 64-bit
+/// target rounds up to 2^63 / 2^64 there, so the exclusive power-of-two
+/// bound `2^digits` (exact in any binary floating type) is checked as well.
+/// The lowest value (0 or -2^digits) is always exact.
+template <typename Target, typename Source>
+bool
+fits (Source value, std::false_type, std::true_type)
+{
+  long double const v = static_cast<long double> (value);
+  long double const lowest
+      = static_cast<long double> (std::numeric_limits<Target>::lowest ());
+  long double const highest
+      = static_cast<long double> ((std::numeric_limits<Target>::max) ());
+  long double const bound
+      = std::ldexp (1.0L, std::numeric_limits<Target>::digits);
+  return !(v < lowest) && !(v > highest) && v < bound;
+}
+
+/// @brief Floating-point target: compare against its finite range.
+template <typename Target, typename Source, typename SourceIsIntegral>
+bool
+fits (Source value, SourceIsIntegral, std::false_type)
+{
+  long double const v = static_cast<long double> (value);
+  return !(v < static_cast<long double> (
+               std::numeric_limits<Target>::lowest ()))
+         && !(v > static_cast<long double> (
+                  (std::numeric_limits<Target>::max) ()));
+}
+
+template <typename Source, typename Name>
+void
+throw_if_not_finite (Source value, Name const &fieldName, std::true_type)
+{
+  if (!std::isfinite (value))
+    {
+      std::ostringstream oss;
+      oss << "Field '" << fieldName << "' contains non-finite value " << value;
+      throw std::out_of_range (oss.str ());
+    }
+}
+
+template <typename Source, typename Name>
+void
+throw_if_not_finite (Source, Name const &, std::false_type)
+{
+}
+
+/// @brief Called after a lockstep pass over two ranges that consumed `count`
+/// elements of each: throws LumexMathSizeMismatchException unless both
+/// ranges are exhausted. Counts what is left, so the message carries both
+/// lengths.
+template <typename It1, typename End1, typename It2, typename End2>
+void
+require_same_size (char const *function, It1 &it1, End1 const &last1, It2 &it2,
+                   End2 const &last2, std::size_t count)
+{
+  if (!(it1 != last1) && !(it2 != last2))
+    return;
+
+  std::size_t size1 = count;
+  std::size_t size2 = count;
+  for (; it1 != last1; ++it1)
+    ++size1;
+  for (; it2 != last2; ++it2)
+    ++size2;
+  throw LumexMathSizeMismatchException (
+      std::string (function) + ": size of both ranges must be equal ("
+      + std::to_string (size1) + " vs " + std::to_string (size2) + ")");
+}
+} // namespace Detail
 
 /**
  * @brief Checks whether a floating-point value is NaN or +-Infinity.
  * @param value The value to check.
  * @return true if `value` is NaN or infinite, false otherwise.
  */
-template <std::floating_point T>
+template <typename T>
 LUMEX_ATTRIBUTE_NODISCARD ("return value must be used")
-LUMEX_CONSTEXPR bool is_nan_inf (T value) LUMEX_NOEXCEPT_IF (
-    noexcept (std::isnan (value)) && noexcept (std::isinf (value)))
+LUMEX_CONSTEXPR
+    typename std::enable_if<std::is_floating_point<T>::value, bool>::type
+    is_nan_inf (T value) LUMEX_NOEXCEPT_IF (noexcept (std::isnan (value))
+                                            && noexcept (std::isinf (value)))
 {
   return std::isnan (value) || std::isinf (value);
 }
@@ -91,288 +421,262 @@ LUMEX_CONSTEXPR bool is_nan_inf (T value) LUMEX_NOEXCEPT_IF (
  *        non-finite (for a floating-point source) or does not fit in
  *        `TargetType`'s range.
  * @param sourceValue The value to cast.
- * @param fieldName A human-readable name for `sourceValue`, used only
- *        to build the exception message.
- * @throws std::out_of_range if `sourceValue` is non-finite, or does
- *         not fit into `TargetType`'s representable range.
+ * @param fieldName A human-readable name for `sourceValue`, used only to
+ *        build the exception message: anything `std::ostream` prints
+ *        (a string literal, `std::string`, `std::string_view`, ...).
+ * @throws std::out_of_range if `sourceValue` is non-finite, or does not fit
+ *         into `TargetType`'s representable range. The check is exact for
+ *         every pair of types, 64-bit integers included.
  */
-template <typename SourceType, typename TargetType>
-  requires (traits::NumericConcept<SourceType>
-            && traits::NumericConcept<TargetType>)
+template <typename SourceType, typename TargetType, typename Name>
 LUMEX_ATTRIBUTE_NODISCARD ("return value must be used")
-TargetType
-    checked_narrow_cast (SourceType sourceValue, std::string_view fieldName)
+typename std::enable_if<traits::is_numeric<SourceType>::value
+                            && traits::is_numeric<TargetType>::value,
+                        TargetType>::type
+    checked_narrow_cast (SourceType sourceValue, Name const &fieldName)
 {
-  LUMEX_CONSTEXPR_IF (std::floating_point<SourceType>)
-  {
-    if (!std::isfinite (sourceValue))
-      {
-        std::ostringstream oss;
-        oss << "Field '" << fieldName << "' contains non-finite value "
-            << sourceValue;
-        throw std::out_of_range (oss.str ());
-      }
-  }
+  Detail::throw_if_not_finite (
+      sourceValue, fieldName,
+      std::integral_constant<bool,
+                             std::is_floating_point<SourceType>::value> ());
 
-  auto const value = static_cast<long double> (sourceValue);
-  auto const minValue
-      = static_cast<long double> (std::numeric_limits<TargetType>::lowest ());
-  auto const maxValue
-      = static_cast<long double> (std::numeric_limits<TargetType>::max ());
-  if ((value < minValue) || (value > maxValue))
+  bool const inRange = Detail::fits<TargetType> (
+      sourceValue,
+      std::integral_constant<bool, std::is_integral<SourceType>::value> (),
+      std::integral_constant<bool, std::is_integral<TargetType>::value> ());
+  if (!inRange)
     {
       std::ostringstream oss;
-      oss << "Field '" << fieldName << "' value " << sourceValue
-          << " is out of range [" << minValue << "; " << maxValue << "]";
+      oss << "Field '" << fieldName << "' value ";
+      Detail::print_number (oss, sourceValue);
+      oss << " is out of range [";
+      Detail::print_number (oss, std::numeric_limits<TargetType>::lowest ());
+      oss << "; ";
+      Detail::print_number (oss, (std::numeric_limits<TargetType>::max) ());
+      oss << "]";
       throw std::out_of_range (oss.str ());
     }
 
   return static_cast<TargetType> (sourceValue);
 }
 
-/// @brief Unsigned distance between two numeric values (|a - b|, computed
-/// without an intermediate signed underflow for unsigned types).
+/// @brief Absolute difference |a - b| of two integers, computed without an
+/// intermediate signed underflow for unsigned types.
 template <typename T, typename U>
-  requires (traits::NumericConcept<T> && traits::NumericConcept<U>)
-auto
+LUMEX_CONSTEXPR typename Detail::integral_distance<T, U>::type
 distance (T a, U b)
 {
-  using CommonType = std::common_type_t<T, U>;
-  auto const ca = static_cast<CommonType> (a);
-  auto const cb = static_cast<CommonType> (b);
-  return (ca > cb) ? (ca - cb) : (cb - ca);
+  typedef typename Detail::numeric_common<T, U>::type CommonType;
+  return (static_cast<CommonType> (a) > static_cast<CommonType> (b))
+             ? (static_cast<CommonType> (a) - static_cast<CommonType> (b))
+             : (static_cast<CommonType> (b) - static_cast<CommonType> (a));
 }
 
-/// @brief Overload for at least one floating-point operand - uses `std::abs`
-/// directly instead of a manual comparison.
+/// @brief Overload for at least one floating-point operand: `std::abs` of the
+/// difference in the common type.
 template <typename T, typename U>
-  requires ((traits::NumericConcept<T> && traits::NumericConcept<U>)
-            && (std::floating_point<T> || std::floating_point<U>))
-auto
+typename Detail::floating_distance<T, U>::type
 distance (T a, U b)
 {
-  using CommonType = std::common_type_t<T, U>;
+  typedef typename Detail::numeric_common<T, U>::type CommonType;
   return std::abs (static_cast<CommonType> (a) - static_cast<CommonType> (b));
 }
 
-/// @brief (a - b)^2, computed in the common type of a and b.
+/// @brief (a - b)^2, computed in the common type of a and b (promoted, so two
+/// `short` operands give an `int`).
 template <typename T, typename U>
-  requires (traits::NumericConcept<T> && traits::NumericConcept<U>)
-auto
+LUMEX_CONSTEXPR typename Detail::difference_type<T, U>::type
 squared_difference (T a, U b)
 {
-  using CommonType = std::common_type_t<T, U>;
-  auto const diff = static_cast<CommonType> (a) - static_cast<CommonType> (b);
-  return diff * diff;
+  typedef typename Detail::numeric_common<T, U>::type CommonType;
+  return (static_cast<CommonType> (a) - static_cast<CommonType> (b))
+         * (static_cast<CommonType> (a) - static_cast<CommonType> (b));
 }
 
-namespace Detail
+/**
+ * @brief Arithmetic mean of a range's elements, or `ValueType{0}` for an
+ *        empty range.
+ * @details The mean has the element type: for integers it is truncated
+ *          (`avg ({1, 2})` is 1). `range` keeps the caller's constness, so
+ *          views that can only be iterated when not const
+ *          (`std::views::filter`) work as lvalues and as temporaries.
+ */
+template <typename Range>
+typename Detail::numeric_range_value<Range>::type
+avg (Range &&range)
 {
-/// @brief Shared implementation for both `avg` overloads below - avoids
-/// the two overloads calling each other recursively.
-template <std::ranges::input_range Range>
-  requires (traits::NumericConcept<std::ranges::range_value_t<Range>>)
-auto
-_avg_impl (Range const &range)
-{
-  using ValueType = std::ranges::range_value_t<Range>;
+  typedef typename Detail::numeric_range_value<Range>::type ValueType;
 
-  if (std::ranges::begin (range) == std::ranges::end (range))
-    return ValueType{ 0 };
-
-  ValueType sum = ValueType{ 0 };
-  std::size_t size = std::size_t{ 0 };
-
-  for (auto const &elem : range)
+  ValueType sum = ValueType (0);
+  std::size_t count = 0;
+  auto it = Detail::adl_begin (range);
+  auto const last = Detail::adl_end (range);
+  for (; it != last; ++it)
     {
-      sum += elem;
-      ++size;
+      sum += *it;
+      ++count;
     }
 
-  // static_cast to ValueType: without it, `sum / size` promotes to
-  // the common type of ValueType and std::size_t (the usual
-  // arithmetic conversions) whenever ValueType is a narrower
-  // integral type - e.g. int / std::size_t promotes to std::size_t - which
-  // does not match the `ValueType{0}` early-return above and fails
-  // `auto` return-type deduction (both return statements in one
-  // function must deduce to the same type).
-  return (size == 0)
-             ? ValueType{ 0 }
-             : static_cast<ValueType> (sum / static_cast<ValueType> (size));
-}
-} // namespace Detail
-
-/// @brief Arithmetic mean of a range's elements, or `ValueType{0}` for an
-/// empty range.
-template <std::ranges::input_range Range>
-  requires (traits::NumericConcept<std::ranges::range_value_t<Range>>)
-auto
-avg (Range &range)
-{
-  return Detail::_avg_impl (range);
-}
-
-/// @brief `const`-range overload of avg(Range&).
-template <std::ranges::input_range Range>
-  requires (traits::NumericConcept<std::ranges::range_value_t<Range>>)
-auto
-avg (Range const &range)
-{
-  return Detail::_avg_impl (range);
+  return (count == 0)
+             ? ValueType (0)
+             : static_cast<ValueType> (sum / static_cast<ValueType> (count));
 }
 
 /// @brief Arithmetic mean of only the elements matching `predicate`, or
 /// `ValueType{0}` if none match (or the range is empty).
-template <std::ranges::input_range Range, typename Predicate>
-  requires (traits::NumericConcept<std::ranges::range_value_t<Range>>
-            && std::predicate<Predicate, std::ranges::range_value_t<Range>>)
-auto
-avg (Range const &range, Predicate predicate)
+template <typename Range, typename Predicate>
+typename Detail::numeric_range_value<Range>::type
+avg (Range &&range, Predicate predicate)
 {
-  using ValueType = std::ranges::range_value_t<Range>;
+  typedef typename Detail::numeric_range_value<Range>::type ValueType;
 
-  if (std::ranges::begin (range) == std::ranges::end (range))
-    return ValueType{ 0 };
+  ValueType sum = ValueType (0);
+  std::size_t count = 0;
+  auto it = Detail::adl_begin (range);
+  auto const last = Detail::adl_end (range);
+  for (; it != last; ++it)
+    {
+      ValueType const value = *it;
+      if (predicate (value))
+        {
+          sum += value;
+          ++count;
+        }
+    }
 
-  auto init
-      = std::make_pair (ValueType{ 0 }, std::ranges::range_size_t<Range>{ 0 });
-  auto [sum, count] = std::accumulate (
-      std::ranges::begin (range), std::ranges::end (range), init,
-      [&predicate] (auto accumulator, auto const &elem) {
-        if (predicate (elem))
-          {
-            accumulator.first += elem;
-            accumulator.second += 1;
-          }
-        return accumulator;
-      });
-  if (count == std::ranges::range_size_t<Range>{ 0 })
-    return ValueType{ 0 };
-
-  return sum / static_cast<ValueType> (count);
+  return (count == 0)
+             ? ValueType (0)
+             : static_cast<ValueType> (sum / static_cast<ValueType> (count));
 }
 
 /// @brief Root Mean Square of a range's elements, or `ResultType{0}` for an
 /// empty range.
 /// @note Returns `decltype(std::sqrt(ValueType{}))` (always a floating-point
-/// type,
-///       even for an integral `ValueType`), not `ValueType` itself -
-///       `std::sqrt` has no integral overload, so forcing the result back to
-///       an integral `ValueType` would both lose precision and make the
-///       empty-range early-return (`ValueType{0}`) a different type than the
-///       computed result, which fails `auto` return-type deduction.
-template <std::ranges::sized_range Range>
-  requires (traits::NumericConcept<std::ranges::range_value_t<Range>>)
-auto
-rms (Range const &range)
+///       type, even for an integral `ValueType`), not `ValueType` itself:
+///       `std::sqrt` has no integral result, and truncating it back to an
+///       integer would lose the answer.
+template <typename Range>
+typename Detail::sqrt_result<
+    typename Detail::numeric_range_value<Range>::type>::type
+rms (Range &&range)
 {
-  using ValueType = std::ranges::range_value_t<Range>;
-  using ResultType = decltype (std::sqrt (ValueType{}));
+  typedef typename Detail::numeric_range_value<Range>::type ValueType;
+  typedef typename Detail::sqrt_result<ValueType>::type ResultType;
 
-  if (std::ranges::empty (range))
-    return ResultType{ 0 };
+  ValueType sumOfSquares = ValueType (0);
+  std::size_t count = 0;
+  auto it = Detail::adl_begin (range);
+  auto const last = Detail::adl_end (range);
+  for (; it != last; ++it)
+    {
+      ValueType const value = *it;
+      sumOfSquares += value * value;
+      ++count;
+    }
 
-  ValueType const sumOfSquares = std::inner_product (
-      std::ranges::begin (range), std::ranges::end (range),
-      std::ranges::begin (range), ValueType{ 0 });
-  return static_cast<ResultType> (std::sqrt (
-      sumOfSquares / static_cast<ResultType> (std::ranges::size (range))));
+  if (count == 0)
+    return ResultType (0);
+  return static_cast<ResultType> (
+      std::sqrt (sumOfSquares / static_cast<ResultType> (count)));
 }
 
 /// @brief Root Mean Square of the element-wise product of two equally-sized
-/// ranges.
-/// @throws std::invalid_argument if `first` and `second` have different sizes.
-/// @note See @ref rms(Range const&) for why this returns
-/// `decltype(std::sqrt(ValueType{}))`.
-template <std::ranges::sized_range Range>
-  requires (traits::NumericConcept<std::ranges::range_value_t<Range>>)
-auto
-rms (Range const &first, Range const &second)
+/// ranges: sqrt( 1/N * sum (x_i * y_i) ). `ResultType{0}` if both ranges are
+/// empty.
+/// @throws LumexMathSizeMismatchException if `first` and `second` have
+///         different lengths (one of them empty included).
+/// @note The sum is divided by N in `ResultType`, so integer ranges are not
+///       truncated before the square root.
+template <typename Range1, typename Range2>
+typename Detail::range_pair_result<Range1, Range2>::type
+rms (Range1 &&first, Range2 &&second)
 {
-  using ValueType = std::ranges::range_value_t<Range>;
-  using ResultType = decltype (std::sqrt (ValueType{}));
+  typedef typename Detail::range_pair_result<Range1, Range2>::common
+      CommonType;
+  typedef typename Detail::range_pair_result<Range1, Range2>::type ResultType;
 
-  if (std::ranges::empty (first) || std::ranges::empty (second))
-    return ResultType{ 0 };
+  auto it1 = Detail::adl_begin (first);
+  auto const last1 = Detail::adl_end (first);
+  auto it2 = Detail::adl_begin (second);
+  auto const last2 = Detail::adl_end (second);
+  CommonType sumOfProducts = CommonType (0);
+  std::size_t count = 0;
+  for (; it1 != last1 && it2 != last2; ++it1, ++it2)
+    {
+      sumOfProducts
+          += static_cast<CommonType> (*it1) * static_cast<CommonType> (*it2);
+      ++count;
+    }
+  Detail::require_same_size ("rms", it1, last1, it2, last2, count);
 
-  auto const firstSize = std::ranges::size (first);
-  auto const secondSize = std::ranges::size (second);
-  if (firstSize != secondSize)
-    throw std::invalid_argument ("Size of both ranges must be equal.");
-
-  ValueType const sumOfSquares = std::inner_product (
-      std::ranges::begin (first), std::ranges::end (first),
-      std::ranges::begin (second), ValueType{ 0 });
+  if (count == 0)
+    return ResultType (0);
   return static_cast<ResultType> (
-      std::sqrt (sumOfSquares / static_cast<ValueType> (firstSize)));
+      std::sqrt (sumOfProducts / static_cast<ResultType> (count)));
 }
 
-/// @brief Root Mean Squared Error of a range against a fixed scalar: sqrt( 1/N
-/// * sum (x_i - scalar)^2 ).
+/// @brief Root Mean Squared Error of a range against a fixed scalar:
+/// sqrt( 1/N * sum (x_i - scalar)^2 ). `ResultType{0}` for an empty range.
 /// @note Returns `decltype(std::sqrt(CommonType{}))` for the same reason
-///       @ref rms(Range const&) does - see that function's own note.
-template <std::ranges::sized_range Range, typename Scalar>
-  requires (traits::NumericConcept<std::ranges::range_value_t<Range>>
-            && traits::NumericConcept<Scalar>)
-auto
-rmse (Range const &range, Scalar const &scalar)
+///       @ref rms does; the sum is divided by N in that type.
+template <typename Range, typename Scalar>
+typename Detail::range_scalar_result<Range, Scalar>::type
+rmse (Range &&range, Scalar const &scalar)
 {
-  using ValueType = std::ranges::range_value_t<Range>;
-  using CommonType = std::common_type_t<ValueType, Scalar>;
-  using ResultType = decltype (std::sqrt (CommonType{}));
+  typedef typename Detail::range_scalar_result<Range, Scalar>::common
+      CommonType;
+  typedef typename Detail::range_scalar_result<Range, Scalar>::type ResultType;
 
-  if (std::ranges::empty (range))
-    return ResultType{ 0 };
+  CommonType sumOfSquaredDifferences = CommonType (0);
+  std::size_t count = 0;
+  auto it = Detail::adl_begin (range);
+  auto const last = Detail::adl_end (range);
+  for (; it != last; ++it)
+    {
+      sumOfSquaredDifferences
+          += static_cast<CommonType> (squared_difference (*it, scalar));
+      ++count;
+    }
 
-  CommonType sumOfSquaredDifferences{};
-
-  std::ranges::for_each (
-      range, [&sumOfSquaredDifferences, scalar] (auto const &value) {
-        return sumOfSquaredDifferences += squared_difference (value, scalar);
-      });
-  return static_cast<ResultType> (
-      std::sqrt (sumOfSquaredDifferences
-                 / static_cast<CommonType> (std::ranges::size (range))));
-}
-
-/// @brief Root Mean Squared Error between two equally-sized ranges: sqrt( 1/N
-/// * sum (x_i - y_i)^2 ).
-/// @throws std::invalid_argument if `first` and `second` have different sizes.
-/// @note Returns `decltype(std::sqrt(CommonType{}))` for the same reason
-///       @ref rms(Range const&) does - see that function's own note.
-template <std::ranges::sized_range Range1, std::ranges::sized_range Range2>
-  requires (traits::NumericConcept<std::ranges::range_value_t<Range1>>
-            && traits::NumericConcept<std::ranges::range_value_t<Range2>>)
-auto
-rmse (Range1 const &first, Range2 const &second)
-{
-  using ValueType1 = std::ranges::range_value_t<Range1>;
-  using ValueType2 = std::ranges::range_value_t<Range2>;
-  using CommonType = std::common_type_t<ValueType1, ValueType2>;
-  using ResultType = decltype (std::sqrt (CommonType{}));
-
-  if (std::ranges::empty (first) || std::ranges::empty (second))
-    return ResultType{ 0 };
-
-  auto const firstSize = std::ranges::size (first);
-  auto const secondSize = std::ranges::size (second);
-  if (firstSize != secondSize)
-    throw std::invalid_argument ("Size of both ranges must be equal.");
-
-  CommonType sumOfSquaredDifferences{};
-
-  auto const indices = std::views::iota (
-      std::ptrdiff_t{ 0 }, static_cast<std::ptrdiff_t> (firstSize));
-  auto it1 = std::ranges::begin (first);
-  auto it2 = std::ranges::begin (second);
-
-  std::ranges::for_each (indices, [&sumOfSquaredDifferences, it1,
-                                   it2] (std::ptrdiff_t idx) {
-    sumOfSquaredDifferences += squared_difference (*(it1 + idx), *(it2 + idx));
-  });
-
+  if (count == 0)
+    return ResultType (0);
   return static_cast<ResultType> (std::sqrt (
-      sumOfSquaredDifferences / static_cast<CommonType> (firstSize)));
+      sumOfSquaredDifferences / static_cast<ResultType> (count)));
+}
+
+/// @brief Root Mean Squared Error between two equally-sized ranges:
+/// sqrt( 1/N * sum (x_i - y_i)^2 ). `ResultType{0}` if both ranges are empty.
+/// @throws LumexMathSizeMismatchException if `first` and `second` have
+///         different lengths (one of them empty included).
+/// @note Returns `decltype(std::sqrt(CommonType{}))` for the same reason
+///       @ref rms does; the sum is divided by N in that type.
+template <typename Range1, typename Range2>
+typename Detail::range_pair_result<Range1, Range2>::type
+rmse (Range1 &&first, Range2 &&second)
+{
+  typedef typename Detail::range_pair_result<Range1, Range2>::common
+      CommonType;
+  typedef typename Detail::range_pair_result<Range1, Range2>::type ResultType;
+
+  auto it1 = Detail::adl_begin (first);
+  auto const last1 = Detail::adl_end (first);
+  auto it2 = Detail::adl_begin (second);
+  auto const last2 = Detail::adl_end (second);
+  CommonType sumOfSquaredDifferences = CommonType (0);
+  std::size_t count = 0;
+  for (; it1 != last1 && it2 != last2; ++it1, ++it2)
+    {
+      sumOfSquaredDifferences += static_cast<CommonType> (
+          squared_difference (static_cast<CommonType> (*it1),
+                              static_cast<CommonType> (*it2)));
+      ++count;
+    }
+  Detail::require_same_size ("rmse", it1, last1, it2, last2, count);
+
+  if (count == 0)
+    return ResultType (0);
+  return static_cast<ResultType> (std::sqrt (
+      sumOfSquaredDifferences / static_cast<ResultType> (count)));
 }
 } // namespace ops
 } // namespace math

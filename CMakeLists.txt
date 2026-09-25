@@ -74,8 +74,15 @@ endif()
 
 project(LumexLib
     VERSION 1.0.0.0
-    LANGUAGES CXX RC
+    LANGUAGES CXX
 )
+# The resource compiler only exists on Windows (version .rc files of the
+# shared libraries, cmake/LibraryVersioning.cmake). Asking for RC everywhere
+# made configure fail on Linux ("No CMAKE_RC_COMPILER could be found").
+# Pinned by LumexCMake.wiring_rc_windows_only.
+if(WIN32)
+    enable_language(RC)
+endif()
 
 if(ARCHITECTURE)
     message(STATUS "Building for target architecture: ${ARCHITECTURE}")
@@ -85,8 +92,8 @@ endif()
 # Deliberately NOT setting a project-wide CMAKE_CXX_STANDARD default. A previous
 # attempt to pin one globally broke base64: Decoder/Validator select which
 # overload signature exists via `#if __cplusplus`, so a library .cpp compiled
-# at a different standard than its tests fails to link. Several *headers* (LumexMath,
-# LumexBit/Cast/MemRead/Ranges, ...) do require C++20 unconditionally,
+# at a different standard than its tests fails to link. Several *headers*
+# (LumexBit/Cast/MemRead/Ranges, ...) do require C++20 unconditionally,
 # but every one of them is header-only and only ever reached from a target that already pins
 # its own standard explicitly (test executables via `lumex_test_use_gtest(<tgt> CXX_STANDARD N)`).
 # Several older modules (e.g. base64's Decoder/Validator) instead use `#if __cplusplus` to

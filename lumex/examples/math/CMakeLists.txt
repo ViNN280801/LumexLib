@@ -10,12 +10,12 @@ lumex_example_executable(
   SOURCE example_math.cpp
   LINK lumex::math
   REQUIRE_TARGET lumex::math
-  CXX_STANDARD 20
+  CXX_STANDARD 11
 )
 lumex_example_executable(
   NAME LumexMathExampleWorkflow
   SOURCE example_math_workflow.cpp
   LINK lumex::math
   REQUIRE_TARGET lumex::math
-  CXX_STANDARD 20
+  CXX_STANDARD 11
 )
