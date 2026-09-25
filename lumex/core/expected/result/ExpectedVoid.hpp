@@ -900,8 +900,7 @@ public:
              && (!std::is_void_v<std::invoke_result_t<FunctionType>>)
              && (!lumex::core::utility::traits::value::is_expected_concept<
                  std::invoke_result_t<FunctionType>>)
-  LUMEX_CONSTEXPR_FUNCTION auto
-  transform (FunctionType func)
+  LUMEX_CONSTEXPR_FUNCTION auto transform (FunctionType func)
       & -> Expected<std::invoke_result_t<FunctionType>, ErrorType>
   {
     if (m_has_value)
@@ -1004,8 +1003,7 @@ public:
              && (!std::is_void_v<std::invoke_result_t<FunctionType>>)
              && (!lumex::core::utility::traits::value::is_expected_concept<
                  std::invoke_result_t<FunctionType>>)
-  LUMEX_CONSTEXPR_FUNCTION auto
-  transform (FunctionType func)
+  LUMEX_CONSTEXPR_FUNCTION auto transform (FunctionType func)
       const & -> Expected<std::invoke_result_t<FunctionType>, ErrorType>
   {
     if (m_has_value)
@@ -1097,8 +1095,7 @@ public:
              && (!std::is_void_v<std::invoke_result_t<FunctionType>>)
              && (!lumex::core::utility::traits::value::is_expected_concept<
                  std::invoke_result_t<FunctionType>>)
-  LUMEX_CONSTEXPR_FUNCTION auto
-  transform (FunctionType func)
+  LUMEX_CONSTEXPR_FUNCTION auto transform (FunctionType func)
       && -> Expected<std::invoke_result_t<FunctionType>, ErrorType>
   {
     if (m_has_value)
@@ -1186,8 +1183,7 @@ public:
              && (!std::is_void_v<std::invoke_result_t<FunctionType>>)
              && (!lumex::core::utility::traits::value::is_expected_concept<
                  std::invoke_result_t<FunctionType>>)
-  LUMEX_CONSTEXPR_FUNCTION auto
-  transform (FunctionType func)
+  LUMEX_CONSTEXPR_FUNCTION auto transform (FunctionType func)
       const && -> Expected<std::invoke_result_t<FunctionType>, ErrorType>
   {
     if (m_has_value)
@@ -1429,8 +1425,7 @@ public:
                  std::invoke_result_t<FunctionType, ErrorType &>>)
              && (!lumex::core::utility::traits::value::is_expected_concept<
                  std::invoke_result_t<FunctionType, ErrorType &>>)
-  LUMEX_CONSTEXPR_FUNCTION auto
-  transform_error (FunctionType func)
+  LUMEX_CONSTEXPR_FUNCTION auto transform_error (FunctionType func)
       & -> Expected<void, std::invoke_result_t<FunctionType, ErrorType &>>
   {
     if (m_has_value)
@@ -1471,9 +1466,9 @@ public:
                  std::invoke_result_t<FunctionType, const ErrorType &>>)
              && (!lumex::core::utility::traits::value::is_expected_concept<
                  std::invoke_result_t<FunctionType, const ErrorType &>>)
-  LUMEX_CONSTEXPR_FUNCTION auto
-  transform_error (FunctionType func) const & -> Expected<
-      void, std::invoke_result_t<FunctionType, const ErrorType &>>
+  LUMEX_CONSTEXPR_FUNCTION
+      auto transform_error (FunctionType func) const & -> Expected<
+          void, std::invoke_result_t<FunctionType, const ErrorType &>>
   {
     if (m_has_value)
       return Expected<void,
@@ -1515,8 +1510,7 @@ public:
                  std::invoke_result_t<FunctionType, ErrorType &&>>)
              && (!lumex::core::utility::traits::value::is_expected_concept<
                  std::invoke_result_t<FunctionType, ErrorType &&>>)
-  LUMEX_CONSTEXPR_FUNCTION auto
-  transform_error (FunctionType func)
+  LUMEX_CONSTEXPR_FUNCTION auto transform_error (FunctionType func)
       && -> Expected<void, std::invoke_result_t<FunctionType, ErrorType &&>>
   {
     if (m_has_value)
@@ -1561,9 +1555,9 @@ public:
                  std::invoke_result_t<FunctionType, const ErrorType &&>>)
              && (!lumex::core::utility::traits::value::is_expected_concept<
                  std::invoke_result_t<FunctionType, const ErrorType &&>>)
-  LUMEX_CONSTEXPR_FUNCTION auto
-  transform_error (FunctionType func) const && -> Expected<
-      void, std::invoke_result_t<FunctionType, const ErrorType &&>>
+  LUMEX_CONSTEXPR_FUNCTION
+      auto transform_error (FunctionType func) const && -> Expected<
+          void, std::invoke_result_t<FunctionType, const ErrorType &&>>
   {
     if (m_has_value)
       return Expected<void,

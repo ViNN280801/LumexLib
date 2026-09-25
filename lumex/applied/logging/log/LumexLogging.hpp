@@ -173,8 +173,8 @@ private:
 
 #ifdef _WIN32
 #pragma warning(push)
-#pragma warning(disable                                                       \
-                : 4251) // Suppress C4251 for STL members in DLL interface
+#pragma warning(                                                              \
+    disable : 4251) // Suppress C4251 for STL members in DLL interface
 #endif
   static std::string s_appName; ///< The name of the application, by default it
                                 ///< would be empty.

@@ -56,17 +56,16 @@ inline void
 to_case_insensitive (std::string &str, bool need_to_remove_spaces = true)
 {
 #if __cplusplus >= 202002L
-  auto lowered = str
-                 | std::ranges::views::transform (
-                     [] (unsigned char chr)
-                       { return static_cast<char> (std::tolower (chr)); });
+  auto lowered = str | std::ranges::views::transform ([] (unsigned char chr) {
+                   return static_cast<char> (std::tolower (chr));
+                 });
 
   if (need_to_remove_spaces)
     {
       auto filtered
-          = lowered
-            | std::ranges::views::filter ([] (unsigned char chr)
-                                            { return !std::isspace (chr); });
+          = lowered | std::ranges::views::filter ([] (unsigned char chr) {
+              return !std::isspace (chr);
+            });
       str = std::string (filtered.begin (), filtered.end ());
     }
   else

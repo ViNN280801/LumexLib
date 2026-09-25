@@ -973,11 +973,10 @@ template <typename Enum> struct lumex_enum_traits_t;
                                                                               \
   template <> struct lumex_enum_traits_t<EnumName>                            \
   {                                                                           \
-    static LUMEX_CONSTEXPR auto values = []                                   \
-      {                                                                       \
-        using enum EnumName;                                                  \
-        return std::array{ __VA_ARGS__ };                                     \
-      }();                                                                    \
+    static LUMEX_CONSTEXPR auto values = [] {                                 \
+      using enum EnumName;                                                    \
+      return std::array{ __VA_ARGS__ };                                       \
+    }();                                                                      \
     static LUMEX_CONSTEXPR EnumName first = values.front ();                  \
     static LUMEX_CONSTEXPR std::size_t size = values.size ();                 \
     static LUMEX_CONSTEXPR EnumName last = values.back ();                    \

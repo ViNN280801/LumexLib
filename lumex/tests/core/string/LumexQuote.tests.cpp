@@ -131,9 +131,9 @@ TEST (LumexQuoteTest, GivenStringViewSeparator_WhenQuote_ThenUsed)
 TEST (LumexQuoteTest, GivenConstIterableView_WhenQuoteSingle_ThenWalksIt)
 {
   std::vector<std::string> const parts = { "a", "b" };
-  auto shouted = parts
-                 | std::views::transform ([] (std::string const &text)
-                                            { return text + "!"; });
+  auto shouted = parts | std::views::transform ([] (std::string const &text) {
+                   return text + "!";
+                 });
   EXPECT_EQ (quote_single (shouted, ","), "'a!','b!'");
 }
 

@@ -511,8 +511,7 @@ TEST (LumexMathTest,
       GivenFilterViewsOfDifferentLengths_WhenRMSE_ThenThrowsInvalidArgument)
 {
   std::vector<int> const values{ 1, 2, 3, 4 };
-  auto even
-      = values | std::views::filter ([] (int v) { return v % 2 == 0; });
+  auto even = values | std::views::filter ([] (int v) { return v % 2 == 0; });
   auto all = values | std::views::filter ([] (int) { return true; });
   EXPECT_THROW (rmse (even, all), std::invalid_argument);
 }

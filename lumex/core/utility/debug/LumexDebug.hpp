@@ -273,24 +273,20 @@ ensureSymbolsInitialized (HANDLE process) LUMEX_NOEXCEPT
   if (initialized.load (std::memory_order_acquire))
     return true;
 
-  std::call_once (init_flag,
-                  [process] ()
-                    {
-                      std::lock_guard<std::mutex> lock (getDbgHelpMutex ());
-                      // SymSetOptions MUST be called BEFORE SymInitialize
-                      // (MSDN)
-                      SymSetOptions (SYMOPT_LOAD_LINES | SYMOPT_UNDNAME
-                                     | SYMOPT_DEFERRED_LOADS);
-                      std::string const exeDir = getExeDirectory ();
-                      char const *searchPath
-                          = exeDir.empty () ? nullptr : exeDir.c_str ();
-                      if (SymInitialize (process, searchPath, TRUE))
-                        {
-                          if (!exeDir.empty ())
-                            SymSetSearchPath (process, exeDir.c_str ());
-                          initialized.store (true, std::memory_order_release);
-                        }
-                    });
+  std::call_once (init_flag, [process] () {
+    std::lock_guard<std::mutex> lock (getDbgHelpMutex ());
+    // SymSetOptions MUST be called BEFORE SymInitialize
+    // (MSDN)
+    SymSetOptions (SYMOPT_LOAD_LINES | SYMOPT_UNDNAME | SYMOPT_DEFERRED_LOADS);
+    std::string const exeDir = getExeDirectory ();
+    char const *searchPath = exeDir.empty () ? nullptr : exeDir.c_str ();
+    if (SymInitialize (process, searchPath, TRUE))
+      {
+        if (!exeDir.empty ())
+          SymSetSearchPath (process, exeDir.c_str ());
+        initialized.store (true, std::memory_order_release);
+      }
+  });
 
   return initialized.load (std::memory_order_acquire);
 }

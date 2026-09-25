@@ -74,10 +74,10 @@ namespace traits
 template <typename T>
 struct is_numeric
     : std::integral_constant<
-          bool, (std::is_integral<T>::value
-                 && !std::is_same<typename std::remove_cv<T>::type,
-                                  bool>::value)
-                    || std::is_floating_point<T>::value>
+          bool,
+          (std::is_integral<T>::value
+           && !std::is_same<typename std::remove_cv<T>::type, bool>::value)
+              || std::is_floating_point<T>::value>
 {
 };
 
@@ -90,8 +90,7 @@ concept NumericConcept = is_numeric<T>::value;
 
 namespace Detail
 {
-template <typename...>
-struct voider
+template <typename...> struct voider
 {
   typedef void type;
 };
@@ -116,8 +115,7 @@ adl_end (Range &range) -> decltype (end (range))
 }
 
 /// @brief `Range` without reference, as the lvalue the functions iterate.
-template <typename Range>
-struct range_object
+template <typename Range> struct range_object
 {
   typedef typename std::remove_reference<Range>::type type;
 };
@@ -154,16 +152,14 @@ struct numeric_range_value
 {
 };
 
-template <typename Range>
-struct numeric_range_value<Range, true>
+template <typename Range> struct numeric_range_value<Range, true>
 {
   typedef typename std::decay<decltype (*adl_begin (
       std::declval<typename range_object<Range>::type &> ()))>::type type;
 };
 
 /// @brief `std::sqrt`'s result type for `T` (double for an integral `T`).
-template <typename T>
-struct sqrt_result
+template <typename T> struct sqrt_result
 {
   typedef decltype (std::sqrt (std::declval<T> ())) type;
 };
@@ -175,8 +171,7 @@ struct numeric_common
 {
 };
 
-template <typename T, typename U>
-struct numeric_common<T, U, true>
+template <typename T, typename U> struct numeric_common<T, U, true>
 {
   typedef typename std::common_type<T, U>::type type;
 };
@@ -189,8 +184,7 @@ struct difference_type
 {
 };
 
-template <typename T, typename U>
-struct difference_type<T, U, true>
+template <typename T, typename U> struct difference_type<T, U, true>
 {
   typedef typename std::common_type<T, U>::type common;
   typedef decltype (std::declval<common> () - std::declval<common> ()) type;
@@ -208,8 +202,7 @@ struct integral_distance
 {
 };
 
-template <typename T, typename U>
-struct integral_distance<T, U, true>
+template <typename T, typename U> struct integral_distance<T, U, true>
 {
   typedef typename difference_type<T, U>::type type;
 };
@@ -224,8 +217,7 @@ struct floating_distance
 {
 };
 
-template <typename T, typename U>
-struct floating_distance<T, U, true>
+template <typename T, typename U> struct floating_distance<T, U, true>
 {
   typedef typename std::common_type<T, U>::type type;
 };
@@ -233,8 +225,8 @@ struct floating_distance<T, U, true>
 /// @brief `sqrt` result type of the common element type of two numeric
 /// ranges; no `type` otherwise.
 template <typename Range1, typename Range2,
-          bool = is_numeric_range<Range1>::value
-                 && is_numeric_range<Range2>::value>
+          bool
+          = is_numeric_range<Range1>::value && is_numeric_range<Range2>::value>
 struct range_pair_result
 {
 };
@@ -290,16 +282,16 @@ template <typename A, typename B>
 bool
 cmp_less (A a, B b, std::integral_constant<int, 1>) // unsigned, signed
 {
-  return b > 0 && static_cast<std::uintmax_t> (a)
-                      < static_cast<std::uintmax_t> (b);
+  return b > 0
+         && static_cast<std::uintmax_t> (a) < static_cast<std::uintmax_t> (b);
 }
 
 template <typename A, typename B>
 bool
 cmp_less (A a, B b, std::integral_constant<int, 2>) // signed, unsigned
 {
-  return a < 0 || static_cast<std::uintmax_t> (a)
-                      < static_cast<std::uintmax_t> (b);
+  return a < 0
+         || static_cast<std::uintmax_t> (a) < static_cast<std::uintmax_t> (b);
 }
 
 template <typename A, typename B>
@@ -315,8 +307,9 @@ cmp_less (A a, B b)
 {
   return cmp_less (
       a, b,
-      std::integral_constant<int, (std::is_signed<A>::value ? 2 : 0)
-                                      + (std::is_signed<B>::value ? 1 : 0)> ());
+      std::integral_constant<int,
+                             (std::is_signed<A>::value ? 2 : 0)
+                                 + (std::is_signed<B>::value ? 1 : 0)> ());
 }
 
 /// @brief Integral source, integral target: exact comparison.
@@ -353,8 +346,8 @@ bool
 fits (Source value, SourceIsIntegral, std::false_type)
 {
   long double const v = static_cast<long double> (value);
-  return !(v < static_cast<long double> (
-               std::numeric_limits<Target>::lowest ()))
+  return !(v
+           < static_cast<long double> (std::numeric_limits<Target>::lowest ()))
          && !(v > static_cast<long double> (
                   (std::numeric_limits<Target>::max) ()));
 }
@@ -410,8 +403,8 @@ template <typename T>
 LUMEX_ATTRIBUTE_NODISCARD ("return value must be used")
 LUMEX_CONSTEXPR
     typename std::enable_if<std::is_floating_point<T>::value, bool>::type
-    is_nan_inf (T value) LUMEX_NOEXCEPT_IF (noexcept (std::isnan (value))
-                                            && noexcept (std::isinf (value)))
+    is_nan_inf (T value) LUMEX_NOEXCEPT_IF (
+        noexcept (std::isnan (value)) && noexcept (std::isinf (value)))
 {
   return std::isnan (value) || std::isinf (value);
 }
@@ -591,8 +584,8 @@ template <typename Range1, typename Range2>
 typename Detail::range_pair_result<Range1, Range2>::type
 rms (Range1 &&first, Range2 &&second)
 {
-  typedef typename Detail::range_pair_result<Range1, Range2>::common
-      CommonType;
+  typedef
+      typename Detail::range_pair_result<Range1, Range2>::common CommonType;
   typedef typename Detail::range_pair_result<Range1, Range2>::type ResultType;
 
   auto it1 = Detail::adl_begin (first);
@@ -623,8 +616,8 @@ template <typename Range, typename Scalar>
 typename Detail::range_scalar_result<Range, Scalar>::type
 rmse (Range &&range, Scalar const &scalar)
 {
-  typedef typename Detail::range_scalar_result<Range, Scalar>::common
-      CommonType;
+  typedef
+      typename Detail::range_scalar_result<Range, Scalar>::common CommonType;
   typedef typename Detail::range_scalar_result<Range, Scalar>::type ResultType;
 
   CommonType sumOfSquaredDifferences = CommonType (0);
@@ -640,8 +633,8 @@ rmse (Range &&range, Scalar const &scalar)
 
   if (count == 0)
     return ResultType (0);
-  return static_cast<ResultType> (std::sqrt (
-      sumOfSquaredDifferences / static_cast<ResultType> (count)));
+  return static_cast<ResultType> (
+      std::sqrt (sumOfSquaredDifferences / static_cast<ResultType> (count)));
 }
 
 /// @brief Root Mean Squared Error between two equally-sized ranges:
@@ -654,8 +647,8 @@ template <typename Range1, typename Range2>
 typename Detail::range_pair_result<Range1, Range2>::type
 rmse (Range1 &&first, Range2 &&second)
 {
-  typedef typename Detail::range_pair_result<Range1, Range2>::common
-      CommonType;
+  typedef
+      typename Detail::range_pair_result<Range1, Range2>::common CommonType;
   typedef typename Detail::range_pair_result<Range1, Range2>::type ResultType;
 
   auto it1 = Detail::adl_begin (first);
@@ -666,17 +659,16 @@ rmse (Range1 &&first, Range2 &&second)
   std::size_t count = 0;
   for (; it1 != last1 && it2 != last2; ++it1, ++it2)
     {
-      sumOfSquaredDifferences += static_cast<CommonType> (
-          squared_difference (static_cast<CommonType> (*it1),
-                              static_cast<CommonType> (*it2)));
+      sumOfSquaredDifferences += static_cast<CommonType> (squared_difference (
+          static_cast<CommonType> (*it1), static_cast<CommonType> (*it2)));
       ++count;
     }
   Detail::require_same_size ("rmse", it1, last1, it2, last2, count);
 
   if (count == 0)
     return ResultType (0);
-  return static_cast<ResultType> (std::sqrt (
-      sumOfSquaredDifferences / static_cast<ResultType> (count)));
+  return static_cast<ResultType> (
+      std::sqrt (sumOfSquaredDifferences / static_cast<ResultType> (count)));
 }
 } // namespace ops
 } // namespace math

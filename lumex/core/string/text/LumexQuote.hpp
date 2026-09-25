@@ -71,11 +71,11 @@ quote (std::ranges::input_range auto const &range, std::string_view separator)
   requires std::is_convertible_v<
       std::ranges::range_reference_t<decltype (range)>, std::string const &>
 {
-  return join (range
-                   | std::ranges::views::transform (
-                       [] (std::string const &element)
-                         { return "\"" + element + "\""; }),
-               separator);
+  return join (
+      range | std::ranges::views::transform ([] (std::string const &element) {
+        return "\"" + element + "\"";
+      }),
+      separator);
 }
 
 /** @brief Same as `quote`; named for symmetry with `quote_single`. */
@@ -100,9 +100,9 @@ quote_single (std::ranges::input_range auto const &range,
       std::ranges::range_reference_t<decltype (range)>, std::string const &>
 {
   return join (
-      range
-          | std::ranges::views::transform ([] (std::string const &element)
-                                             { return "'" + element + "'"; }),
+      range | std::ranges::views::transform ([] (std::string const &element) {
+        return "'" + element + "'";
+      }),
       separator);
 }
 

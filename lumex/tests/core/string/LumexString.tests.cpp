@@ -692,9 +692,9 @@ TEST_F (LumexStringifyTest, ThreadSafety_Dirty)
   std::vector<std::string> results (100);
 
   for (int i = 0; i < 100; ++i)
-    threads.emplace_back (
-        [&results, i] ()
-          { results[i] = stringify ("Thread ", i, " result"); });
+    threads.emplace_back ([&results, i] () {
+      results[i] = stringify ("Thread ", i, " result");
+    });
 
   for (auto &thread : threads)
     if (thread.joinable ())
@@ -1169,16 +1169,14 @@ TEST_F (LumexStringifyTest, ConcurrentAccess_Dirty)
 
   for (int i = 0; i < num_threads; ++i)
     {
-      threads.emplace_back (
-          [&results, &counter, i] ()
-            {
-              for (int j = 0; j < 100; ++j)
-                {
-                  int count = counter.fetch_add (1);
-                  results[i] += stringify ("Thread", i, "_Iter", j, "_Count",
-                                           count, " ");
-                }
-            });
+      threads.emplace_back ([&results, &counter, i] () {
+        for (int j = 0; j < 100; ++j)
+          {
+            int count = counter.fetch_add (1);
+            results[i]
+                += stringify ("Thread", i, "_Iter", j, "_Count", count, " ");
+          }
+      });
     }
 
   for (auto &thread : threads)
