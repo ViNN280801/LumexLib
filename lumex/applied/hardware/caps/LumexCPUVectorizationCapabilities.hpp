@@ -84,6 +84,11 @@ namespace hardware
 {
 namespace caps
 {
+#if defined(_MSC_VER)
+#pragma warning(push)
+#pragma warning(disable : 4324) // structure was padded due to alignment
+                                // specifier (intentional)
+#endif
 /**
  * @brief Comprehensive CPU vectorization capabilities structure
  *
@@ -387,6 +392,10 @@ struct alignas (LUMEX_CPU_VECTORIZATION_INFO_ALIGNMENT) LUMEX_API
 #pragma warning(pop)
 #endif
 };
+
+#if defined(_MSC_VER)
+#pragma warning(pop)
+#endif
 
 /**
  * @brief CPU vectorization capabilities detection utility class
