@@ -1,4 +1,4 @@
-#include "format/LumexStringify.hpp"
+#include "utility/LumexStringify.hpp"
 
 #include "text/LumexJoin.hpp"
 #include "text/LumexQuote.hpp"

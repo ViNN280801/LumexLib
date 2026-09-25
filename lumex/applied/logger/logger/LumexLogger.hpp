@@ -44,6 +44,7 @@
 #include "lumex/core/utility/attr/LumexAttributes.hpp"
 #include "lumex/core/utility/macros/LumexConstantMacros.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
+#include "lumex/core/utility/traits/LumexTypeTraits.hpp"
 // ============= OS Detection Macros =============
 // Cross-platform OS macros for detecting operating systems
 // Compatible with MSVC, GCC, and Clang compilers
@@ -194,79 +195,14 @@ namespace logger
 {
 // ============= Stringify Function =============
 
-// C++11/C++14 compatibility layer
-#if __cplusplus < 201703L
-template <typename... T> using void_t = void;
-#else
-using std::void_t;
-#endif
-
-// C++20 concepts-based approach
-#if __cplusplus >= 202002L
-
-template <typename T>
-concept LoggerStreamable = requires (T &&type, std::ostream &ostream) {
-  ostream << std::forward<T> (type);
-};
-
-template <typename... Args>
-concept LoggerAllStreamable = (LoggerStreamable<std::decay_t<Args>> && ...);
-
-#else
-
-// C++11/C++14/C++17 SFINAE-based approach
-template <typename T, typename Enable = void>
-struct logger_is_streamable : std::false_type
-{
-};
-
-template <typename T>
-struct logger_is_streamable<T, void_t<decltype (std::declval<std::ostream &> ()
-                                                << std::declval<T> ())>>
-    : std::true_type
-{
-};
-
-#if __cplusplus >= 201402L
-template <typename T>
-LUMEX_CONSTEXPR bool logger_is_streamable_v
-    = logger_is_streamable<std::decay_t<T>>::value;
-#endif
-
-#if __cplusplus >= 201703L
-template <typename... Args>
-LUMEX_CONSTEXPR bool logger_all_streamable_v
-    = (logger_is_streamable<std::decay_t<Args>>::value && ...);
-#else
-template <typename... Args> struct logger_all_streamable;
-
-template <typename First, typename... Rest>
-struct logger_all_streamable<First, Rest...>
-{
-  LUMEX_CONST_NUM bool value
-      = logger_is_streamable<typename std::decay<First>::type>::value
-        && logger_all_streamable<Rest...>::value;
-};
-
-template <> struct logger_all_streamable<>
-{
-  LUMEX_CONST_NUM bool value = true;
-};
-
-#if __cplusplus >= 201402L
-template <typename... Args>
-LUMEX_CONSTEXPR bool logger_all_streamable_v
-    = logger_all_streamable<Args...>::value;
-#endif
-#endif
-
-#endif // __cplusplus >= 202002L
+// Streamability checks: lumex::core::utility::traits::stream (plain
+// `os << value`, no stringify extras).
 
 // Stringify implementation variants
 #if __cplusplus >= 202002L
 
 // C++20+ concepts version
-template <LoggerAllStreamable... Args>
+template <lumex::core::utility::traits::stream::AllStreamable... Args>
 inline std::string
 logger_stringify (Args &&...args)
 {
@@ -286,8 +222,9 @@ template <typename... Args>
 inline std::string
 logger_stringify (Args &&...args)
 {
-  LUMEX_STATIC_ASSERT_MSG (logger_all_streamable_v<Args...>,
-                           "All arguments must be streamable");
+  LUMEX_STATIC_ASSERT_MSG (
+      lumex::core::utility::traits::stream::all_ostreamable_v<Args...>,
+      "All arguments must be streamable");
 
   LUMEX_CONSTEXPR_IF (sizeof...(args) == 0) { return ""; }
   else
@@ -305,8 +242,9 @@ template <typename... Args>
 inline std::string
 logger_stringify (Args &&...args)
 {
-  LUMEX_STATIC_ASSERT_MSG (logger_all_streamable_v<Args...>,
-                           "All arguments must be streamable");
+  LUMEX_STATIC_ASSERT_MSG (
+      lumex::core::utility::traits::stream::all_ostreamable_v<Args...>,
+      "All arguments must be streamable");
 
   if ((sizeof...(args) == 0) ? true : false)
     return "";
@@ -323,8 +261,9 @@ template <typename... Args>
 inline std::string
 logger_stringify (Args &&...args)
 {
-  LUMEX_STATIC_ASSERT_MSG (logger_all_streamable<Args...>::value,
-                           "All arguments must be streamable");
+  LUMEX_STATIC_ASSERT_MSG (
+      lumex::core::utility::traits::stream::all_ostreamable<Args...>::value,
+      "All arguments must be streamable");
 
   if ((sizeof...(args) == 0) ? true : false)
     return "";

@@ -3,7 +3,7 @@
 
 #include "lumex/core/string/LumexString"
 
-using lumex::core::string::format::stringify;
+using lumex::core::string::utility::stringify;
 
 int
 main ()

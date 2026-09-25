@@ -243,6 +243,7 @@ if(LUMEX_INSTALL)
         LumexCore_exceptions
         LumexCore_expected
         LumexCore_filesystem
+        LumexCore_fmt
         LumexCore_number_generator
         LumexCore_math
         LumexCore_optional
@@ -298,6 +299,18 @@ if(LUMEX_BUILD_DOCUMENTATION)
 
     if(NOT DOXYGEN_EXECUTABLE)
         message(FATAL_ERROR "Doxygen executable not found! Please install Doxygen or ensure it's in your PATH.")
+    endif()
+
+    # Markdown pages (README.md next to a component) keep repository-relative
+    # image links; this filter turns them into file names from IMAGE_PATH
+    # while Doxygen reads them. Without Python the images are just missing.
+    find_package(Python3 COMPONENTS Interpreter QUIET)
+    if(Python3_Interpreter_FOUND)
+        set(LUMEX_DOXYGEN_MARKDOWN_FILTER
+            "${Python3_EXECUTABLE} ${LumexLib_SOURCE_DIR}/Scripts/Doxygen/markdown_image_filter.py")
+    else()
+        set(LUMEX_DOXYGEN_MARKDOWN_FILTER "")
+        message(WARNING "Python 3 not found: Markdown images are left out of the documentation")
     endif()
 
     # Configure Doxyfile from template with project version
@@ -356,6 +369,11 @@ endif()
 if(LUMEX_BUILD_TESTS)
     message(STATUS "Building with tests enabled")
     add_subdirectory(lumex/tests)
+endif()
+
+if(LUMEX_BUILD_BENCHMARKS AND LUMEX_BUILD_CORE AND LUMEX_BUILD_FMT)
+    message(STATUS "Building benchmarks (benchmarks/fmt)")
+    add_subdirectory(benchmarks/fmt)
 endif()
 
 # Shared libs (not test/example binaries) -> <platform>/Distr<Config>.

@@ -38,6 +38,7 @@ option(LUMEX_BUILD_ENVIRONMENT "Build core/environment" ON)
 option(LUMEX_BUILD_EXCEPTIONS "Build core/exceptions" ON)
 option(LUMEX_BUILD_EXPECTED "Build core/expected" ON)
 option(LUMEX_BUILD_FILESYSTEM "Build core/filesystem" ON)
+option(LUMEX_BUILD_FMT "Build core/fmt (std::format-style formatting)" ON)
 option(LUMEX_BUILD_GENERATORS "Build core/generators" ON)
 option(LUMEX_BUILD_MATH "Build core/math" ON)
 option(LUMEX_BUILD_OPTIONAL "Build core/optional" ON)
@@ -75,6 +76,7 @@ option(LUMEX_WITH_FIELD_REFLECTION "Enable field reflection to_json via LumexAgg
 option(LUMEX_BUILD_DOCUMENTATION "Build Doxygen documentation" OFF)
 option(LUMEX_BUILD_EXAMPLES "Build the examples for the LumexLib (also implied by LUMEX_BUILD_TESTS)" OFF)
 option(LUMEX_BUILD_TESTS "Build the tests for LumexCore (also compiles and runs lumex/examples)" OFF)
+option(LUMEX_BUILD_BENCHMARKS "Build the benchmarks under benchmarks/ (Release builds only make sense)" OFF)
 
 # ==============================================================================
 # INSTALL

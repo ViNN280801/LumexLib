@@ -245,18 +245,18 @@ report_exception (std::string const &prefix,
  * @param args Arguments forwarded to `func`.
  * @return Whatever `func(args...)` returns on success; a value-initialized
  * default
- *         (`lumex::core::utility::traits::default_return<ReturnType>::value()`)
+ *         (`lumex::core::utility::traits::meta::default_return<ReturnType>::value()`)
  * if it throws.
  *
  * @note `noexcept` is conditional on whether the wrapped call itself is
  * `noexcept`: reporting a failure is unconditionally `noexcept` (see
  * `detail::write_to_stderr`), so it never needs to be part of this check.
  * @note Invocation intentionally uses plain `func(args...)`, not
- *       `lumex::core::utility::traits::detail::INVOKE` - that helper only has
- * a `decltype`-computed trailing return type (no function body) because it
- * exists solely to drive `invoke_result`/ `is_callable` at compile time, not
- * to be called at runtime. `invoke_result_t`/`is_callable_v` (built on top of
- * it) remain the right tools for return-type deduction and the
+ *       `lumex::core::utility::traits::invoke::detail::INVOKE` - that helper
+ * only has a `decltype`-computed trailing return type (no function body)
+ * because it exists solely to drive `invoke_result`/ `is_callable` at compile
+ * time, not to be called at runtime. `invoke_result_t`/`is_callable_v` (built
+ * on top of it) remain the right tools for return-type deduction and the
  *       Callable-Named-Requirement check below.
  *
  * @example
@@ -280,13 +280,15 @@ ExceptionWrapper (
     std::string const &unknownExcMessage, Function &&func, Args &&...args)
     LUMEX_NOEXCEPT_IF (noexcept (
         std::forward<Function> (func) (std::forward<Args> (args)...)))
-        -> lumex::core::utility::traits::invoke_result_t<Function, Args...>
+        -> lumex::core::utility::traits::invoke::invoke_result_t<Function,
+                                                                 Args...>
 {
   using ReturnType
-      = lumex::core::utility::traits::invoke_result_t<Function, Args...>;
+      = lumex::core::utility::traits::invoke::invoke_result_t<Function,
+                                                              Args...>;
 
   LUMEX_STATIC_ASSERT_MSG (
-      lumex::core::utility::traits::is_callable_v<Function, Args...>,
+      lumex::core::utility::traits::invoke::is_callable_v<Function, Args...>,
       "Function must be callable with the supplied arguments. Check:\n"
       "1) Function type is correct\n"
       "2) Number of arguments matches\n"
@@ -313,7 +315,8 @@ ExceptionWrapper (
 
   // static_assert above guarantees ReturnType is default-constructible or
   // void, so this cannot throw.
-  return lumex::core::utility::traits::default_return<ReturnType>::value ();
+  return lumex::core::utility::traits::meta::default_return<
+      ReturnType>::value ();
 }
 // NOLINTEND(cppcoreguidelines-avoid-do-while)
 } // namespace Wrapper

@@ -1,7 +1,8 @@
 # Configures, builds and runs one consumer fixture under consumer/<CASE>.
 #
 # Required: CASE, LUMEX_SOURCE_DIR, WORK_DIR, GENERATOR, CXX_COMPILER.
-# Optional: BUILD_TYPE (default Release), EXTRA_ARGS (;-list of -D...).
+# Optional: BUILD_TYPE (default Release), EXTRA_ARGS (;-list of -D...),
+# CONFIGURE_ONLY (stop after a successful configure).
 #
 # The nested build uses the compiler environment of the calling ctest. On
 # MSVC that means a developer shell (INCLUDE/LIB set); without it the case
@@ -44,6 +45,14 @@ if(NOT _rc EQUAL 0)
     message(FATAL_ERROR "consumer ${CASE}: configure failed (${_rc})\n${_out}")
 endif()
 
+# Fixtures that check everything while configuring (try_compile) stop here;
+# their output is echoed so CTest can match LUMEX_CONSUMER_SKIP.
+if(CONFIGURE_ONLY)
+    message("${_out}")
+    message(STATUS "consumer ${CASE}: configure OK")
+    return()
+endif()
+
 execute_process(
     COMMAND "${CMAKE_COMMAND}" --build "${_binary}" --config "${BUILD_TYPE}"
     RESULT_VARIABLE _rc
@@ -54,10 +63,11 @@ if(NOT _rc EQUAL 0)
     message(FATAL_ERROR "consumer ${CASE}: build failed (${_rc})\n${_out}")
 endif()
 
+# Every fixture builds one executable named <CASE>_consumer.
 file(GLOB_RECURSE _exe LIST_DIRECTORIES false
-    "${_binary}/reflection_umbrella_consumer"
-    "${_binary}/reflection_umbrella_consumer.exe"
-    "${_binary}/*/reflection_umbrella_consumer.exe")
+    "${_binary}/${CASE}_consumer"
+    "${_binary}/${CASE}_consumer.exe"
+    "${_binary}/*/${CASE}_consumer.exe")
 list(REMOVE_DUPLICATES _exe)
 list(LENGTH _exe _count)
 if(_count EQUAL 0)
@@ -92,6 +102,6 @@ execute_process(
 if(NOT _rc EQUAL 0)
     message(FATAL_ERROR
         "consumer ${CASE}: executable exited with ${_rc} "
-        "(2 = LUMEX_WITH_FIELD_REFLECTION leaked into the consumer)\n${_out}")
+        "(reflection_umbrella: 2 = LUMEX_WITH_FIELD_REFLECTION leaked into the consumer)\n${_out}")
 endif()
 message(STATUS "consumer ${CASE}: configure, build and run OK")

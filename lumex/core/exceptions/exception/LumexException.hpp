@@ -44,6 +44,7 @@
 
 #include "lumex/core/exceptions/stacktrace/LumexStacktrace.hpp"
 #include "lumex/core/utility/attr/LumexAttributes.hpp"
+#include "lumex/core/utility/macros/LumexExceptionMacros.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 
 // ================================================================== //
@@ -163,18 +164,9 @@ using LumexBaseException
 // ====================== Lumex Exception Macro ===================== //
 // ================================================================== //
 
-// 1 option. Define the exception class.
-#define LUMEX_DEFINE_EXCEPTION(exception_name, inherit_from)                  \
-  class exception_name : public inherit_from                                  \
-  {                                                                           \
-  public:                                                                     \
-    exception_name (char const *message) : inherit_from (message) {}          \
-    exception_name (std::string const &message) : inherit_from (message) {}   \
-    exception_name (std::string &&message)                                    \
-        : inherit_from (std::move (message))                                  \
-    {                                                                         \
-    }                                                                         \
-  };
+// 1 option. Define the exception class: LUMEX_DEFINE_EXCEPTION and
+// LUMEX_DEFINE_EXCEPTION_WITH_BODY live in LumexExceptionMacros.hpp (included
+// above) so modules that must not depend on this one can use them too.
 
 // 2 option. Throw the exception.
 // Pattern:
@@ -183,7 +175,7 @@ using LumexBaseException
 // [LumexException] -> Failed to open file
 #include "lumex/core/string/LumexString"
 #define LUMEX_THROW_EXCEPTION(exception_name, msg)                            \
-  throw exception_name (lumex::core::string::format::stringify (              \
+  throw exception_name (lumex::core::string::utility::stringify (             \
       lumDemangle (exception_name), ": ", msg));
 
 // 3. Handle the exception.

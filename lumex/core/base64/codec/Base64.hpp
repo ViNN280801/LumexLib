@@ -68,6 +68,7 @@
 
 #include "lumex/core/utility/assert/LumexAssert.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
+#include "lumex/core/utility/traits/LumexTypeTraits.hpp"
 
 #if __cplusplus >= 201703L
 #include <string_view>
@@ -157,133 +158,6 @@ _is_base64_char_impl (Types::byte_type chr) LUMEX_NOEXCEPT
   return _decode_table.at (chr) != Constants::kBase64DecodeInvalidChar;
 }
 
-// C++11 compatible void_t replacement
-template <typename...> struct void_t_impl
-{
-  using type = void;
-};
-template <typename... Ts> using void_t = typename void_t_impl<Ts...>::type;
-
-// C++11 compatible enable_if_t replacement
-template <bool B, typename T = void>
-using enable_if_t = typename std::enable_if<B, T>::type;
-
-/**
- * @brief Primary template for `has_convertible_size` trait.
- *
- * This template serves as the default, base case for the
- * `has_convertible_size` type trait. By default, it inherits from
- * `std::false_type`, indicating that a given type `T` is assumed *not* to
- * possess a callable `.size()` method whose return type is convertible to
- * `std::size_t`. This setup is fundamental to the SFINAE (Substitution Failure
- * Is Not An Error) pattern, where the compiler attempts to match more
- * specialized templates first. If no more specialized template can be
- * successfully instantiated (due to substitution failures in their template
- * parameters), this general template is selected, resulting in a compile-time
- * `false` value.
- *
- * @tparam T The type to be inspected for the presence and convertibility of
- * its `.size()` method.
- * @tparam = void An unused parameter, typically used in SFINAE to enable or
- * disable template specializations based on the validity of expressions within
- * `void_t`. In this primary template, it simply completes the template
- * signature.
- */
-template <typename T, typename = void>
-struct has_convertible_size : std::false_type
-{
-};
-
-/**
- * @brief Specialization of `has_convertible_size` for types with a suitable
- * `.size()` method.
- *
- * This template specialization is enabled via SFINAE when `T` provides a
- * `.size()` member function whose return type is convertible to `std::size_t`.
- *
- * - `void_t<decltype(std::declval<T>().size())>`: Checks if `T::size()` is a
- * valid expression. `std::declval<T>()` provides a `T` object without
- * requiring a default constructor, enabling compile-time checks on its member
- * functions.
- * - `enable_if_t<std::is_convertible<decltype(std::declval<T>().size()),
- * std::size_t>::value>>`: Further constrains the specialization, ensuring that
- * the return type of `T::size()` can be implicitly converted to `std::size_t`.
- * If either of these conditions fails, this specialization is discarded from
- * the overload set, and the primary template (inheriting from
- * `std::false_type`) is chosen instead.
- *
- * If this specialization is chosen, it inherits from `std::true_type`,
- * indicating that the type `T` meets the specified criteria.
- *
- * @tparam T The type being checked.
- */
-template <typename T>
-struct has_convertible_size<
-    T, void_t<decltype (std::declval<T> ().size ()),
-              enable_if_t<std::is_convertible<
-                  decltype (std::declval<T> ().size ()), std::size_t>::value>>>
-    : std::true_type
-{
-};
-
-/**
- * @brief Primary template for `has_convertible_indexed_access` trait.
- *
- * This is the default, base case for the `has_convertible_indexed_access` type
- * trait. By default, it inherits from `std::false_type`, signifying that a
- * type `T` is assumed *not* to have a callable `operator[]` that accepts
- * `std::size_t` as an index and whose return type is convertible to
- * `byte_type`. This is part of the SFINAE mechanism, where more specialized
- * templates are preferred if their template arguments can be successfully
- * substituted. If substitution fails for all specializations, this general
- * template is used, resulting in a compile-time `false`.
- *
- * @tparam T The type to be checked for `operator[]` and its return type
- * convertibility.
- * @tparam = void An unused SFINAE-enabling parameter that completes the
- * template signature.
- */
-template <typename T, typename = void>
-struct has_convertible_indexed_access : std::false_type
-{
-};
-
-/**
- * @brief Specialization of `has_convertible_indexed_access` for types with
- * suitable `operator[]`.
- *
- * This template specialization is actively selected by the compiler if the
- * type `T`         * satisfies the following conditions, verified through
- * SFINAE:
- *
- * - `void_t<decltype(std::declval<T>()[std::declval<std::size_t>()])>`: Checks
- * if `T::operator[]` is a valid expression when invoked with a `std::size_t`
- * argument. `std::declval<std::size_t>()` provides a `std::size_t` value for
- * compile-time expression evaluation.
- * -
- * `enable_if_t<std::is_convertible<decltype(std::declval<T>()[std::declval<std::size_t>()]),
- *   Types::byte_type>::value>>>`: Ensures that the return type of
- * `T::operator[](std::size_t)` is implicitly convertible to
- * `lumex::core::utility::base64::Types::byte_type`. This is critical for
- * ensuring that the indexed access yields a byte-compatible value.
- *
- * If both conditions are met, this specialization is chosen, and it inherits
- * from `std::true_type`, confirming that `T` supports convertible byte access
- * via `operator[]`. Otherwise, the primary `has_convertible_indexed_access`
- * template is used.
- *
- * @tparam T The type being checked.
- */
-template <typename T>
-struct has_convertible_indexed_access<
-    T, void_t<decltype (std::declval<T> ()[std::declval<
-                  std::size_t> ()]), // Check with std::size_t as index
-              enable_if_t<std::is_convertible<
-                  decltype (std::declval<T> ()[std::declval<std::size_t> ()]),
-                  Types::byte_type>::value>>> : std::true_type
-{
-};
-
 /**
  * @brief Internal helper to encode binary data into a Base64 string from a
  * view-like type.
@@ -297,11 +171,12 @@ std::string
 _encode_impl (T const &data_view)
 {
   LUMEX_STATIC_ASSERT_MSG (
-      has_convertible_size<T>::value,
+      lumex::core::utility::traits::range::has_convertible_size<T>::value,
       "Encoding data requires a type with a .size() method whose "
       "return type is convertible to std::size_t.");
   LUMEX_STATIC_ASSERT_MSG (
-      has_convertible_indexed_access<T>::value,
+      lumex::core::utility::traits::range::has_convertible_indexed_access<
+          T, Types::byte_type>::value,
       "Encoding data requires a type with an operator[] that "
       "accepts std::size_t as an index and returns "
       "a type convertible to byte_type.");

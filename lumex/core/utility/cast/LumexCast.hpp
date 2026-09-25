@@ -34,6 +34,7 @@
 
 #include "lumex/core/utility/attr/LumexAttributes.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
+#include "lumex/core/utility/traits/LumexTypeTraits.hpp"
 
 namespace lumex
 {
@@ -46,61 +47,29 @@ namespace cast
 namespace Detail
 {
 /// @see https://timsong-cpp.github.io/cppwp/n4868/expr.dynamic.cast
-// --- extract the pointee / referred-to type --- //
-template <typename T> struct indirection_of
-{
-  using type = void;
-};
-
-template <typename T> struct indirection_of<T *>
-{
-  using type = T;
-};
-template <typename T> struct indirection_of<T &>
-{
-  using type = T;
-};
-
+// --- dynamic_cast operand forms (pointer / lvalue reference to class) --- //
 template <typename T>
-using indirection_of_t = typename indirection_of<T>::type;
-
-// --- p1: "pointer to class" / "lvalue reference to class" --- //
-template <typename T>
-concept PointerToClass
-    = std::is_pointer_v<T> && std::is_class_v<std::remove_pointer_t<T>>;
-
-template <typename T>
-concept LvalueRefToClass = std::is_lvalue_reference_v<T>
-                           && std::is_class_v<std::remove_reference_t<T>>;
-
-template <typename T>
-concept DynCastForm = PointerToClass<T> || LvalueRefToClass<T>;
-
-// --- p1: "complete class type" --- //
-// sizeof() SFINAEs out on incomplete types.
-template <typename T>
-concept CompleteType = requires { sizeof (T); };
-
-// --- p1: "shall not cast away constness" --- //
-template <typename From, typename To>
-concept PreserveCV
-    = ((!std::is_const_v<From> || std::is_const_v<To>)
-       && (!std::is_volatile_v<From> || std::is_volatile_v<To>));
+concept DynCastForm
+    = traits::meta::PointerToClass<T> || traits::meta::LvalueRefToClass<T>;
 
 template <typename Base, typename Derived>
 concept ValidDownCast
     = DynCastForm<Base> && DynCastForm<Derived>
       && (std::is_pointer_v<Base>
           == std::is_pointer_v<Derived>) // matching ptr "shape"
-      &&CompleteType<indirection_of_t<Base>>
-      && CompleteType<indirection_of_t<Derived>> &&
+      &&traits::meta::CompleteType<traits::meta::indirection_of_t<Base>>
+      && traits::meta::CompleteType<traits::meta::indirection_of_t<Derived>> &&
       // p5: v must be pointer-to / glvalue-of a polymorphic type
-      std::is_polymorphic_v<std::remove_cv_t<indirection_of_t<Base>>> &&
+      std::is_polymorphic_v<
+          std::remove_cv_t<traits::meta::indirection_of_t<Base>>>
+      &&
       // narrowed to an actual downcast - not an arbitrary cross-cast
-      std::derived_from<std::remove_cv_t<indirection_of_t<Derived>>,
-                        std::remove_cv_t<indirection_of_t<Base>>>
+      std::derived_from<
+          std::remove_cv_t<traits::meta::indirection_of_t<Derived>>,
+          std::remove_cv_t<traits::meta::indirection_of_t<Base>>>
       // p2
-      && PreserveCV<indirection_of_t<Base>, indirection_of_t<Derived>>;
+      && traits::meta::PreserveCV<traits::meta::indirection_of_t<Base>,
+                                  traits::meta::indirection_of_t<Derived>>;
 } // namespace Detail
 
 /**

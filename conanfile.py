@@ -1,17 +1,32 @@
-# LumexCore/conanfile.py
+# LumexLib/conanfile.py
+#
+# Conan 2 recipe. Consumers use `find_package(LumexLib)` and link either one
+# module target (`lumex::fmt`, `lumex::settings`, ...) or the umbrella
+# `lumex::Lumex`. The components below mirror the CMake targets: keep them in
+# step with `cmake/LumexModules.cmake` and every module's CMakeLists.txt
+# (quality-gates section 10).
+
+import os
+import re
 
 from conan import ConanFile
 from conan.tools.cmake import CMake, CMakeToolchain, cmake_layout
+from conan.tools.files import copy, load
 
 
-class LumexCoreConan(ConanFile):
+class LumexLibConan(ConanFile):
     name = "lumex-core"
-    version = "1.0.0"
-    license = "Proprietary"
-    author = "ViNN280801"
+    license = "MIT"
+    author = "Vladislav Semykin <vladislav.semykin@gmail.com>"
     url = "https://github.com/ViNN280801/LumexCore"
-    description = "A core C++11 library for various utilities"
-    topics = ("c++", "library", "lumex", "utilities")
+    description = (
+        "Modular C++ utility library (C++11 floor; math, to_json and "
+        "std::format-style compile-time checks need C++20, resource_monitor "
+        "needs C++17): formatting, strings, logging, settings, JSON, XML, "
+        "filesystem, time, diagnostics"
+    )
+    topics = ("c++", "library", "lumex", "utilities", "format", "xml", "logging")
+    package_type = "library"
 
     # Configuration
     settings = "os", "compiler", "build_type", "arch"
@@ -20,12 +35,32 @@ class LumexCoreConan(ConanFile):
         "fPIC": [True, False],
         "with_tests": [True, False],
     }
+    # Shared by default, as LUMEX_BUILD_SHARED_LIBS: LumexXml is always a
+    # shared library, and on Windows LUMEX_API imports the other modules.
     default_options = {
-        "shared": False,
+        "shared": True,
         "fPIC": True,
         "with_tests": False,
     }
-    exports_sources = "CMakeLists.txt", "lumex/*", "cmake/*"
+    # CMakeRoutines holds the build helpers the root CMakeLists.txt includes;
+    # 3rdparty holds the vendored nlohmann/json (settings, logger) and
+    # GoogleTest (with_tests).
+    exports_sources = (
+        "CMakeLists.txt",
+        "LICENSE",
+        "cmake/*",
+        "CMakeRoutines/*",
+        "3rdparty/*",
+        "lumex/*",
+    )
+
+    def set_version(self):
+        """The version of `project(LumexLib VERSION ...)`."""
+        content = load(self, os.path.join(self.recipe_folder, "CMakeLists.txt"))
+        match = re.search(r"project\(\s*LumexLib\s+VERSION\s+([0-9.]+)", content)
+        if match is None:
+            raise ValueError("CMakeLists.txt: no project(LumexLib VERSION ...)")
+        self.version = match.group(1)
 
     def config_options(self):
         if self.settings.os == "Windows":  # type: ignore
@@ -42,148 +77,140 @@ class LumexCoreConan(ConanFile):
         tc = CMakeToolchain(self)
         tc.variables["LUMEX_BUILD_SHARED_LIBS"] = self.options.shared  # type: ignore
         tc.variables["LUMEX_BUILD_TESTS"] = self.options.with_tests  # type: ignore
+        tc.variables["LUMEX_BUILD_EXAMPLES"] = False
+        tc.variables["LUMEX_BUILD_BENCHMARKS"] = False
+        tc.variables["LUMEX_BUILD_DOCUMENTATION"] = False
+        tc.variables["LUMEX_INSTALL"] = True
         tc.generate()
 
     def build(self):
         cmake = CMake(self)
         cmake.configure()
         cmake.build()
+        # with_tests compiles the library suite into the build tree. ctest
+        # runs here, before package(); the binaries are not installed.
+        if self.options.with_tests:  # type: ignore
+            cmake.test()
 
     def package(self):
+        copy(
+            self,
+            "LICENSE",
+            src=self.source_folder,
+            dst=os.path.join(self.package_folder, "licenses"),
+        )
         cmake = CMake(self)
         cmake.install()
 
+    def _component(self, name, target, libs=None, requires=None):
+        """One component per CMake target `lumex::<target>`."""
+        component = self.cpp_info.components[name]
+        component.set_property("cmake_target_name", "lumex::" + target)
+        component.libs = libs or []
+        component.requires = requires or []
+        # As the CMake export (cmake/LumexBuild.cmake): Lumex headers test
+        # __cplusplus, which MSVC reports as 199711L without this flag.
+        if self.settings.compiler == "msvc":  # type: ignore
+            component.cxxflags = ["/Zc:__cplusplus"]
+        return component
+
     def package_info(self):
-        # ================= Info =================
-        # Consumers will use `find_package(lumex-core)`
+        # Consumers call find_package(LumexLib) and link lumex::<module> or
+        # the umbrella lumex::Lumex.
         self.cpp_info.set_property("cmake_file_name", "LumexLib")
         self.cpp_info.set_property("cmake_target_name", "lumex::Lumex")
+        windows = self.settings.os == "Windows"  # type: ignore
 
-        # Don't need to set global cmake_target_name, because the library is fully modular.
-        # Consumers will connect specific targets, for example lumex::settings.
-        # Or they can use lumex::Lumex to connect all components.
-
-        # ================= Core Components =================
-
-        # core_base64
-        self.cpp_info.components["core_base64"].set_property(
-            "cmake_target_name", "lumex::base64"
+        # ================= Core components =================
+        # Header-only (CMake INTERFACE targets): no libs.
+        self._component("core_math", "math")
+        self._component("core_optional", "optional")
+        self._component("core_string", "string")
+        self._component("core_generators_number", "number_generator")
+        self._component(
+            "core_utility", "utility", ["LumexCore_utility"], ["core_math"]
         )
-        self.cpp_info.components["core_base64"].libs = ["LumexCore_base64"]
-        self.cpp_info.components["core_base64"].requires = [
-            "core_utility",
-        ]
+        self._component("core_circular_buffer", "circular_buffer",
+                        requires=["core_utility"])
+        self._component("core_expected", "expected", requires=["core_utility"])
+        self._component("core_fmt", "fmt", requires=["core_utility"])
+        self._component("core_reflection", "reflection",
+                        requires=["core_utility"])
 
-        # core_environment
-        self.cpp_info.components["core_environment"].set_property(
-            "cmake_target_name", "lumex::environment"
+        self._component(
+            "core_base64", "base64", ["LumexCore_base64"], ["core_utility"]
         )
-        self.cpp_info.components["core_environment"].libs = ["LumexCore_environment"]
-        self.cpp_info.components["core_environment"].requires = [
-            "core_utility",
-        ]
-
-        # core_exceptions
-        self.cpp_info.components["core_exceptions"].set_property(
-            "cmake_target_name", "lumex::exceptions"
+        self._component("core_crc", "crc", ["LumexCore_crc"], ["core_utility"])
+        self._component(
+            "core_environment", "environment", ["LumexCore_environment"],
+            ["core_utility"],
         )
-        self.cpp_info.components["core_exceptions"].libs = ["LumexCore_exceptions"]
-        self.cpp_info.components["core_exceptions"].requires = [
-            "core_environment",
-            "core_filesystem",
-            "core_string",
-            "core_time",
-            "core_utility",
-        ]
-        if self.settings.os == "Windows":  # type: ignore
-            self.cpp_info.components["core_exceptions"].system_libs.append("dbghelp")
-        elif self.settings.os in ["Linux", "FreeBSD"]:  # type: ignore
-            self.cpp_info.components["core_exceptions"].system_libs.append("execinfo")
-
-        # core_filesystem
-        self.cpp_info.components["core_filesystem"].set_property(
-            "cmake_target_name", "lumex::filesystem"
+        filesystem = self._component(
+            "core_filesystem", "filesystem", ["LumexCore_filesystem"],
+            ["core_utility"],
         )
-        self.cpp_info.components["core_filesystem"].libs = ["LumexCore_filesystem"]
-        self.cpp_info.components["core_filesystem"].requires = ["core_utility"]
-        if self.settings.os == "Windows":  # type: ignore
-            self.cpp_info.components["core_filesystem"].system_libs.append("shlwapi")
-
-        # core_generators_number (header-only)
-        self.cpp_info.components["core_generators_number"].set_property(
-            "cmake_target_name", "lumex::number_generator"
+        if windows:
+            filesystem.system_libs.append("shlwapi")
+        self._component(
+            "core_string_view", "string_view", ["LumexCore_string_view"],
+            ["core_utility"],
         )
-
-        # core_math (header-only)
-        self.cpp_info.components["core_math"].set_property(
-            "cmake_target_name", "lumex::math"
+        self._component(
+            "core_time", "time", ["LumexCore_time"], ["core_environment"]
         )
-
-        # core_optional (header-only)
-        self.cpp_info.components["core_optional"].set_property(
-            "cmake_target_name", "lumex::optional"
+        self._component(
+            "core_temporary", "temporary", ["LumexCore_temporary"],
+            ["core_environment", "core_filesystem"],
         )
-
-        # core_string (header-only)
-        self.cpp_info.components["core_string"].set_property(
-            "cmake_target_name", "lumex::string"
+        exceptions = self._component(
+            "core_exceptions", "exceptions", ["LumexCore_exceptions"],
+            ["core_environment", "core_filesystem", "core_string", "core_time",
+             "core_utility"],
         )
+        if windows:
+            exceptions.system_libs.append("dbghelp")
+        elif self.settings.os == "FreeBSD":  # type: ignore
+            # glibc has backtrace () built in; FreeBSD needs libexecinfo.
+            exceptions.system_libs.append("execinfo")
 
-        # core_string_view
-        self.cpp_info.components["core_string_view"].set_property(
-            "cmake_target_name", "lumex::string_view"
+        # ================= XML =================
+        xml = self._component("xml", "xml", ["LumexXml"], ["core_utility"])
+        xml.includedirs = ["include", os.path.join("include", "lumex", "xml")]
+
+        # ================= Applied components =================
+        self._component(
+            "applied_logging", "logging", ["LumexApplied_logging"],
+            ["core_environment", "core_filesystem", "core_string", "core_time"],
         )
-        self.cpp_info.components["core_string_view"].libs = ["LumexCore_string_view"]
-
-        # core_temporary
-        self.cpp_info.components["core_temporary"].set_property(
-            "cmake_target_name", "lumex::temporary"
+        self._component(
+            "applied_hardware", "hardware", ["LumexApplied_hardware"],
+            ["applied_logging", "core_utility"],
         )
-        self.cpp_info.components["core_temporary"].libs = ["LumexCore_temporary"]
-        self.cpp_info.components["core_temporary"].requires = [
-            "core_environment",
-            "core_filesystem",
-        ]
-
-        # core_time
-        self.cpp_info.components["core_time"].set_property(
-            "cmake_target_name", "lumex::time"
+        self._component(
+            "applied_resource_monitor", "resource_monitor",
+            ["LumexApplied_resource_monitor"], ["applied_logging", "core_time"],
         )
-        self.cpp_info.components["core_time"].libs = ["LumexCore_time"]
-        self.cpp_info.components["core_time"].requires = ["core_utility"]
-
-        # core_utility (header-only)
-        self.cpp_info.components["core_utility"].set_property(
-            "cmake_target_name", "lumex::utility"
+        serial = self._component(
+            "applied_serial", "serial", ["LumexApplied_serial"],
+            ["core_utility"],
         )
-
-        # ================= Applied Components =================
-
-        # applied_hardware
-        self.cpp_info.components["applied_hardware"].set_property(
-            "cmake_target_name", "lumex::hardware"
+        if windows:
+            serial.system_libs.extend(["setupapi", "advapi32"])
+        settings = self._component(
+            "applied_settings", "settings", ["LumexApplied_settings"],
+            ["core_filesystem", "applied_logging", "core_time", "xml"],
         )
-        self.cpp_info.components["applied_hardware"].libs = ["LumexApplied_hardware"]
-        self.cpp_info.components["applied_hardware"].requires = [
-            "core_utility",
-            "applied_logging",
-        ]
-
-        # applied_logging
-        self.cpp_info.components["applied_logging"].set_property(
-            "cmake_target_name", "lumex::logging"
+        # The package is built with XML and the vendored nlohmann/json.
+        settings.defines = ["LUMEX_SETTINGS_WITH_XML", "LUMEX_SETTINGS_WITH_JSON"]
+        logger = self._component(
+            "applied_logger", "logger", ["LumexApplied_logger"]
         )
-        self.cpp_info.components["applied_logging"].libs = ["LumexApplied_logging"]
-        self.cpp_info.components["applied_logging"].requires = [
-            "core_environment",
-            "core_filesystem",
-            "core_string",
-            "core_time",
-        ]
-
-        # applied_settings
-        self.cpp_info.components["applied_settings"].set_property(
-            "cmake_target_name", "lumex::settings"
+        # Default LUMEX_LOGGER_CONFIG_FORMAT (PLAIN_TEXT): no reader library.
+        logger.defines = ["LUMEX_LOGGER_CONFIG_FORMAT_PLAIN_TEXT"]
+        if windows:
+            logger.system_libs.append("dbghelp")
+        # Header-only; compiles against the consumer's own nlohmann/json.
+        self._component(
+            "applied_json", "json",
+            requires=["core_reflection", "core_string_view", "core_utility"],
         )
-        self.cpp_info.components["applied_settings"].libs = ["LumexApplied_settings"]
-        self.cpp_info.components["applied_settings"].requires = ["core_filesystem"]

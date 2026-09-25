@@ -13,6 +13,11 @@
 *.yml text
 *.yaml text
 *.json text
+*.cmake text
+*.in text
+*.csv text
+# SVG is XML text: LF line endings, readable diffs
+*.svg text
 
 # Exceptions: files that MUST use CRLF (e.g., .bat)
 *.bat text eol=crlf
@@ -25,3 +30,6 @@
 *.zip binary
 *.pdf binary
 *.exe
+
+# Generated benchmark results: collapsed in the GitHub / GitLab diff views
+benchmarks/**/results/** linguist-generated=true gitlab-generated=true

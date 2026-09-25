@@ -42,7 +42,7 @@ foreach(_tgt
         LumexCore_base64 LumexCore_circular_buffer LumexCore_crc
         LumexCore_environment LumexCore_exceptions LumexCore_expected
         LumexCore_filesystem LumexCore_number_generator LumexCore_math
-        LumexCore_optional LumexCore_reflection LumexCore_string
+        LumexCore_optional LumexCore_reflection LumexCore_string LumexCore_fmt
         LumexCore_string_view LumexCore_temporary LumexCore_time
         LumexCore_utility
         LumexApplied_hardware LumexApplied_json LumexApplied_logger
@@ -72,6 +72,7 @@ foreach(_suite
         LumexOptionalTests LumexReflectionTests LumexReflectionCxx20Tests LumexFieldReflectionTests
         LumexFieldReflectionGetTests LumexFieldReflectionNamesTests
         LumexStringifyTests LumexStringifyCxx20Tests
+        LumexFormatTests LumexFormatCxx17Tests LumexFormatCxx20Tests
         LumexStringViewTests LumexTemporaryTests LumexTimeTests
         LumexTypeTraitsTests LumexSafeNumericComparatorCxx11Tests
         LumexUtilityTests LumexXmlTests)

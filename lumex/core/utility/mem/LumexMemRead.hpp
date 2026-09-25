@@ -59,6 +59,7 @@
 
 #include "lumex/core/utility/attr/LumexAttributes.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
+#include "lumex/core/utility/traits/LumexTypeTraits.hpp"
 
 namespace lumex
 {
@@ -70,20 +71,12 @@ namespace mem
 {
 namespace Detail
 {
-template <typename T>
-concept Extractible
-    = std::is_trivially_copyable_v<T> && std::is_standard_layout_v<T>
-      && !std::is_pointer_v<T> && !std::is_reference_v<T>;
-
 template <typename TSource>
 concept DataSource = requires (TSource const &source) {
   { source.GetData () } -> std::convertible_to<void const *>;
   { source.GetDataSize () } -> std::convertible_to<int>;
 };
 
-template <typename T>
-concept ByteLike = std::same_as<T, std::byte> || std::same_as<T, char>
-                   || std::same_as<T, unsigned char>;
 } // namespace Detail
 
 /**
@@ -99,7 +92,7 @@ concept ByteLike = std::same_as<T, std::byte> || std::same_as<T, char>
  * external devices/wire formats, so no alignment assertion is performed -
  * memcpy handles this correctly.
  */
-template <Detail::Extractible T>
+template <traits::meta::Extractible T>
 LUMEX_ATTRIBUTE_NODISCARD ("return value must be used")
 std::optional<T> As (void const *data, std::size_t size) LUMEX_NOEXCEPT
 {
@@ -117,7 +110,7 @@ std::optional<T> As (void const *data, std::size_t size) LUMEX_NOEXCEPT
  * @tparam TSource Type satisfying the DataSource concept (GetData() -> const
  * void*, GetDataSize() -> int).
  */
-template <Detail::Extractible T, Detail::DataSource TSource>
+template <traits::meta::Extractible T, Detail::DataSource TSource>
 LUMEX_ATTRIBUTE_NODISCARD ("return value must be used")
 std::optional<T> As (TSource const &source) LUMEX_NOEXCEPT
 {
@@ -130,7 +123,7 @@ std::optional<T> As (TSource const &source) LUMEX_NOEXCEPT
 /**
  * @brief Overload of As() that reads from a std::span of byte-like elements.
  */
-template <Detail::Extractible T, Detail::ByteLike ByteType>
+template <traits::meta::Extractible T, traits::meta::ByteLike ByteType>
 LUMEX_ATTRIBUTE_NODISCARD ("return value must be used")
 std::optional<T> As (std::span<ByteType const> span) LUMEX_NOEXCEPT
 {

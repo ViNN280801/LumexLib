@@ -76,7 +76,7 @@ namespace text
  */
 std::string
 join (std::ranges::input_range auto const &range, std::string_view separator)
-  requires lumex::core::utility::traits::Streamable<
+  requires lumex::core::utility::traits::stream::Streamable<
       std::ranges::range_reference_t<decltype (range)>>
 {
   std::ostringstream oss;
@@ -108,8 +108,8 @@ join (std::ranges::input_range auto const &range, std::string_view separator)
  */
 template <typename Range, typename Separator>
 typename std::enable_if<
-    lumex::core::utility::traits::has_streamable_elements<Range>::value
-        && lumex::core::utility::traits::is_streamable<
+    lumex::core::utility::traits::range::has_streamable_elements<Range>::value
+        && lumex::core::utility::traits::stream::is_streamable<
             typename std::decay<Separator>::type>::value,
     std::string>::type
 join (Range const &range, Separator const &separator)

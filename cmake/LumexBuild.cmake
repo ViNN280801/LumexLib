@@ -357,8 +357,29 @@ function(lumex_configure_targets_in_dir dir)
   endforeach()
 endfunction()
 
+# Lumex headers select code with `#if __cplusplus`; MSVC reports 199711L
+# there unless /Zc:__cplusplus is on (then LUMEX_CONSTEXPR is empty and
+# LumexDebug.hpp does not compile). The library's own TUs get the flag from
+# CMakeRoutines, privately; this passes it on to every consumer of a module
+# target, embedded or through the installed export (the conanfile.py
+# components carry the same flag). Pinned by LumexCMake.consumer_cplusplus_macro.
+function(lumex_export_msvc_cplusplus_in_dir dir)
+  get_property(_targets DIRECTORY "${dir}" PROPERTY BUILDSYSTEM_TARGETS)
+  foreach(_t IN LISTS _targets)
+    if(_t MATCHES "^(LumexCore_|LumexApplied_|LumexXml$)")
+      target_compile_options("${_t}" INTERFACE
+        "$<$<COMPILE_LANG_AND_ID:CXX,MSVC>:/Zc:__cplusplus>")
+    endif()
+  endforeach()
+  get_property(_subs DIRECTORY "${dir}" PROPERTY SUBDIRECTORIES)
+  foreach(_s IN LISTS _subs)
+    lumex_export_msvc_cplusplus_in_dir("${_s}")
+  endforeach()
+endfunction()
+
 function(lumex_configure_all_compiled_targets)
   lumex_configure_targets_in_dir("${PROJECT_SOURCE_DIR}")
+  lumex_export_msvc_cplusplus_in_dir("${PROJECT_SOURCE_DIR}")
 
   # lumex_configure_target skips lumex_gtest_* (they already use /W0 / -w).
   # Sanitizer flags still have to land on those static libs whenever

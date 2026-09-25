@@ -27,6 +27,9 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/LumexCoreTargets.cmake")
     if(TARGET lumex::LumexCore_filesystem AND NOT TARGET lumex::filesystem)
         add_library(lumex::filesystem ALIAS lumex::LumexCore_filesystem)
     endif()
+    if(TARGET lumex::LumexCore_fmt AND NOT TARGET lumex::fmt)
+        add_library(lumex::fmt ALIAS lumex::LumexCore_fmt)
+    endif()
     if(TARGET lumex::LumexCore_number_generator AND NOT TARGET lumex::number_generator)
         add_library(lumex::number_generator ALIAS lumex::LumexCore_number_generator)
     endif()
@@ -93,7 +96,7 @@ if(NOT TARGET lumex::Lumex)
     foreach(_c
             hardware json logger logging resource_monitor serial settings
             base64 circular_buffer crc environment exceptions expected
-            filesystem number_generator math optional reflection string
+            filesystem fmt number_generator math optional reflection string
             string_view temporary time utility xml)
         if(TARGET lumex::${_c})
             list(APPEND _lumex_umbrella lumex::${_c})

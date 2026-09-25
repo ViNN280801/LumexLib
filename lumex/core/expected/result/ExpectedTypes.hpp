@@ -43,6 +43,7 @@
 #include <type_traits>
 
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
+#include "lumex/core/utility/traits/LumexTypeTraits.hpp"
 
 // ====================== Helper tags and types ======================
 /**
@@ -90,37 +91,8 @@ struct unexpect_t
 /// @brief Global tag constant (like std::unexpect).
 LUMEX_CONSTEXPR unexpect_t unexpect{};
 
-// Forward declaration for is_expected type trait
-template <typename SuccessType, typename ErrorType> class Expected;
-
-/// @brief Type trait: whether T is an Expected. Default is false.
-template <typename T> struct is_expected : std::false_type
-{
-};
-
-/// @brief Type trait: `Expected<S, E>` is an Expected.
-template <typename S, typename E>
-struct is_expected<Expected<S, E>> : std::true_type
-{
-};
-
-/// @brief Type trait: `Expected<void, E>` is an Expected.
-template <typename E> struct is_expected<Expected<void, E>> : std::true_type
-{
-};
-
-#if __cplusplus >= 202002L
-// C++20 helper type traits and concepts
-template <typename T>
-concept is_expected_concept = is_expected<T>::value;
-
-template <typename T>
-LUMEX_CONSTEXPR bool is_expected_v = is_expected<T>::value;
-#else
-// Pre-C++20 helper type traits
-template <typename T>
-LUMEX_CONSTEXPR bool is_expected_v = is_expected<T>::value;
-#endif
+// is_expected / is_expected_v / is_expected_concept live in
+// lumex/core/utility/traits/LumexTypeTraits.hpp (traits::value).
 
 } // namespace result
 } // namespace expected

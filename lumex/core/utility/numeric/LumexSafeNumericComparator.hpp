@@ -57,6 +57,7 @@
 #include "lumex/core/utility/attr/LumexAttributes.hpp"
 #include "lumex/core/utility/macros/LumexConstantMacros.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
+#include "lumex/core/utility/traits/LumexTypeTraits.hpp"
 
 #if __cplusplus >= 202002L
 #include <compare>
@@ -526,59 +527,6 @@ namespace numeric
  *
  */
 
-// === Helper metafunctions ===
-template <typename TypeToClean> struct clean_type_t
-{
-  using type = typename std::remove_cv<
-      typename std::remove_reference<TypeToClean>::type>::type;
-};
-
-// === Type compatibility checks ===
-
-/**
- * @brief Metafunction: whether two types can be compared safely
- * @tparam T First type to compare
- * @tparam U Second type to compare
- * @details Checks that both types are arithmetic and have specialized
- * numeric_limits. Required for correct value ranges and overflow prevention.
- * @note Compile-time check; no runtime cost
- */
-template <typename T, typename U> struct is_safe_comparable
-{
-  using clean_T = typename clean_type_t<T>::type;
-  using clean_U = typename clean_type_t<U>::type;
-  static bool const value = std::is_arithmetic<clean_T>::value
-                            && std::is_arithmetic<clean_U>::value
-                            && std::numeric_limits<clean_T>::is_specialized
-                            && std::numeric_limits<clean_U>::is_specialized;
-};
-
-// === Concepts for C++20 compatibility ===
-#if __cplusplus >= 202002L
-/**
- * @brief Concept for arithmetic types with specialized numeric_limits
- * @tparam T Type to check
- * @details C++20 alternative to SFINAE for checking arithmetic types.
- *          Gives clearer compile errors and better integration with modern
- * C++.
- * @since C++20
- */
-template <typename T>
-concept ArithmeticType
-    = std::is_arithmetic_v<T> && std::numeric_limits<T>::is_specialized;
-
-/**
- * @brief Concept for safely comparable types
- * @tparam T First type to compare
- * @tparam U Second type to compare
- * @details Checks that both types are arithmetic and can be safely compared.
- *          Used for stricter typing in C++20 code.
- * @since C++20
- */
-template <typename T, typename U>
-concept SafeComparable = ArithmeticType<T> && ArithmeticType<U>;
-#endif
-
 // === Traits for optimization ===
 /**
  * @brief Metafunction describing comparison traits of two types
@@ -591,8 +539,8 @@ concept SafeComparable = ArithmeticType<T> && ArithmeticType<U>;
  */
 template <typename T, typename U> struct comparison_traits
 {
-  using clean_T = typename clean_type_t<T>::type;
-  using clean_U = typename clean_type_t<U>::type;
+  using clean_T = traits::meta::CleanType<T>;
+  using clean_U = traits::meta::CleanType<U>;
 
   static bool const same_type
       = std::is_same<clean_T,
@@ -637,12 +585,11 @@ struct safe_compare_impl_helper;
  * @note No-throw, maximum performance
  */
 template <typename T>
-struct safe_compare_impl_helper<
-    T, T,
-    typename std::enable_if<
-        std::is_integral<typename clean_type_t<T>::type>::value>::type>
+struct safe_compare_impl_helper<T, T,
+                                typename std::enable_if<std::is_integral<
+                                    traits::meta::CleanType<T>>::value>::type>
 {
-  using clean_T = typename clean_type_t<T>::type;
+  using clean_T = traits::meta::CleanType<T>;
   /**
    * @brief Safe comparison >= for identical types
    * @param[in] current Current value
@@ -758,12 +705,11 @@ struct safe_compare_impl_helper<
  * @note No-throw, maximum performance for floating-point types
  */
 template <typename T>
-struct safe_compare_impl_helper<
-    T, T,
-    typename std::enable_if<
-        std::is_floating_point<typename clean_type_t<T>::type>::value>::type>
+struct safe_compare_impl_helper<T, T,
+                                typename std::enable_if<std::is_floating_point<
+                                    traits::meta::CleanType<T>>::value>::type>
 {
-  using clean_T = typename clean_type_t<T>::type;
+  using clean_T = traits::meta::CleanType<T>;
   /**
    * @brief Safe comparison >= for identical floating-point types
    * @param[in] current Current value
@@ -909,13 +855,13 @@ template <typename T, typename U>
 struct safe_compare_impl_helper<
     T, U,
     typename std::enable_if<
-        std::is_integral<typename clean_type_t<T>::type>::value
-        && std::is_integral<typename clean_type_t<U>::type>::value
-        && !std::is_same<typename clean_type_t<T>::type,
-                         typename clean_type_t<U>::type>::value>::type>
+        std::is_integral<traits::meta::CleanType<T>>::value
+        && std::is_integral<traits::meta::CleanType<U>>::value
+        && !std::is_same<traits::meta::CleanType<T>,
+                         traits::meta::CleanType<U>>::value>::type>
 {
-  using clean_T = typename clean_type_t<T>::type;
-  using clean_U = typename clean_type_t<U>::type;
+  using clean_T = traits::meta::CleanType<T>;
+  using clean_U = traits::meta::CleanType<U>;
   using CommonType =
       typename std::common_type<clean_T, clean_U>::type; ///< Common type for
                                                          ///< safe conversion
@@ -1455,13 +1401,13 @@ template <typename T, typename U>
 struct safe_compare_impl_helper<
     T, U,
     typename std::enable_if<
-        std::is_floating_point<typename clean_type_t<T>::type>::value
-        && std::is_floating_point<typename clean_type_t<U>::type>::value
-        && !std::is_same<typename clean_type_t<T>::type,
-                         typename clean_type_t<U>::type>::value>::type>
+        std::is_floating_point<traits::meta::CleanType<T>>::value
+        && std::is_floating_point<traits::meta::CleanType<U>>::value
+        && !std::is_same<traits::meta::CleanType<T>,
+                         traits::meta::CleanType<U>>::value>::type>
 {
-  using clean_T = typename clean_type_t<T>::type;
-  using clean_U = typename clean_type_t<U>::type;
+  using clean_T = traits::meta::CleanType<T>;
+  using clean_U = traits::meta::CleanType<U>;
   using CommonType =
       typename std::common_type<clean_T, clean_U>::type; ///< Common type for
                                                          ///< safe conversion
@@ -1636,13 +1582,13 @@ template <typename T, typename U>
 struct safe_compare_impl_helper<
     T, U,
     typename std::enable_if<
-        (std::is_integral<typename clean_type_t<T>::type>::value
-         && std::is_floating_point<typename clean_type_t<U>::type>::value)
-        || (std::is_floating_point<typename clean_type_t<T>::type>::value
-            && std::is_integral<typename clean_type_t<U>::type>::value)>::type>
+        (std::is_integral<traits::meta::CleanType<T>>::value
+         && std::is_floating_point<traits::meta::CleanType<U>>::value)
+        || (std::is_floating_point<traits::meta::CleanType<T>>::value
+            && std::is_integral<traits::meta::CleanType<U>>::value)>::type>
 {
-  using clean_T = typename clean_type_t<T>::type;
-  using clean_U = typename clean_type_t<U>::type;
+  using clean_T = traits::meta::CleanType<T>;
+  using clean_U = traits::meta::CleanType<U>;
   using CommonType =
       typename std::common_type<clean_T, clean_U>::type; ///< Common type for
                                                          ///< safe conversion
@@ -1938,7 +1884,7 @@ struct safe_compare_impl_helper<
  */
 template <typename T, bool Atomic = false> class SafeComparator
 {
-  using clean_T = typename clean_type_t<T>::type;
+  using clean_T = traits::meta::CleanType<T>;
   LUMEX_STATIC_ASSERT_MSG (std::is_arithmetic<clean_T>::value,
                            "T must be arithmetic type");
   LUMEX_STATIC_ASSERT_MSG (std::numeric_limits<clean_T>::is_specialized,
@@ -2115,7 +2061,7 @@ public:
   bool
   safe_compare (U other) const LUMEX_NOEXCEPT
   {
-    LUMEX_STATIC_ASSERT_MSG (is_safe_comparable<T, U>::value,
+    LUMEX_STATIC_ASSERT_MSG (traits::numeric::is_safe_comparable<T, U>::value,
                              "Types must be safely comparable");
     return safe_compare_impl_helper<clean_T, U>::compare (atomic_load (),
                                                           other);
@@ -2134,7 +2080,7 @@ public:
   bool
   safe_greater_equal (U other) const LUMEX_NOEXCEPT
   {
-    LUMEX_STATIC_ASSERT_MSG (is_safe_comparable<T, U>::value,
+    LUMEX_STATIC_ASSERT_MSG (traits::numeric::is_safe_comparable<T, U>::value,
                              "Types must be safely comparable");
     return safe_compare_impl_helper<clean_T, U>::greater_equal (atomic_load (),
                                                                 other);
@@ -2154,7 +2100,7 @@ public:
   bool
   safe_less_equal (U other) const LUMEX_NOEXCEPT
   {
-    LUMEX_STATIC_ASSERT_MSG (is_safe_comparable<T, U>::value,
+    LUMEX_STATIC_ASSERT_MSG (traits::numeric::is_safe_comparable<T, U>::value,
                              "Types must be safely comparable");
     return safe_compare_impl_helper<clean_T, U>::less_equal (atomic_load (),
                                                              other);
@@ -2173,7 +2119,7 @@ public:
   bool
   safe_less (U other) const LUMEX_NOEXCEPT
   {
-    LUMEX_STATIC_ASSERT_MSG (is_safe_comparable<T, U>::value,
+    LUMEX_STATIC_ASSERT_MSG (traits::numeric::is_safe_comparable<T, U>::value,
                              "Types must be safely comparable");
     return safe_compare_impl_helper<clean_T, U>::less (atomic_load (), other);
   }
@@ -2191,7 +2137,7 @@ public:
   bool
   safe_greater (U other) const LUMEX_NOEXCEPT
   {
-    LUMEX_STATIC_ASSERT_MSG (is_safe_comparable<T, U>::value,
+    LUMEX_STATIC_ASSERT_MSG (traits::numeric::is_safe_comparable<T, U>::value,
                              "Types must be safely comparable");
     return safe_compare_impl_helper<clean_T, U>::greater (atomic_load (),
                                                           other);
@@ -2210,7 +2156,7 @@ public:
   bool
   safe_equal (U other) const LUMEX_NOEXCEPT
   {
-    LUMEX_STATIC_ASSERT_MSG (is_safe_comparable<T, U>::value,
+    LUMEX_STATIC_ASSERT_MSG (traits::numeric::is_safe_comparable<T, U>::value,
                              "Types must be safely comparable");
     return safe_compare_impl_helper<clean_T, U>::equal (atomic_load (), other);
   }
@@ -2228,7 +2174,7 @@ public:
   bool
   safe_not_equal (U other) const LUMEX_NOEXCEPT
   {
-    LUMEX_STATIC_ASSERT_MSG (is_safe_comparable<T, U>::value,
+    LUMEX_STATIC_ASSERT_MSG (traits::numeric::is_safe_comparable<T, U>::value,
                              "Types must be safely comparable");
     return safe_compare_impl_helper<clean_T, U>::not_equal (atomic_load (),
                                                             other);
@@ -2251,7 +2197,7 @@ public:
   auto
   safe_three_way_compare (U other) const LUMEX_NOEXCEPT
   {
-    LUMEX_STATIC_ASSERT_MSG (is_safe_comparable<T, U>::value,
+    LUMEX_STATIC_ASSERT_MSG (traits::numeric::is_safe_comparable<T, U>::value,
                              "Types must be safely comparable");
     return safe_compare_impl_helper<clean_T, U>::three_way_compare (
         atomic_load (), other);
@@ -2509,8 +2455,8 @@ using SafeLongDoubleComparator
  */
 template <typename T, typename U> struct three_way_comparison_result
 {
-  using clean_T = typename clean_type_t<T>::type;
-  using clean_U = typename clean_type_t<U>::type;
+  using clean_T = traits::meta::CleanType<T>;
+  using clean_U = traits::meta::CleanType<U>;
 
   LUMEX_CONST_NUM bool both_integral
       = std::is_integral<clean_T>::value && std::is_integral<clean_U>::value;
@@ -2726,7 +2672,7 @@ template <typename T, typename U>
 bool
 safe_compare (T value1, U value2) LUMEX_NOEXCEPT
 {
-  LUMEX_STATIC_ASSERT_MSG (is_safe_comparable<T, U>::value,
+  LUMEX_STATIC_ASSERT_MSG (traits::numeric::is_safe_comparable<T, U>::value,
                            "Types must be safely comparable");
   return safe_compare_impl_helper<T, U>::compare (value1, value2);
 }
@@ -2752,7 +2698,7 @@ template <typename T, typename U>
 bool
 safe_greater_equal (T value1, U value2) LUMEX_NOEXCEPT
 {
-  LUMEX_STATIC_ASSERT_MSG (is_safe_comparable<T, U>::value,
+  LUMEX_STATIC_ASSERT_MSG (traits::numeric::is_safe_comparable<T, U>::value,
                            "Types must be safely comparable");
   return safe_compare_impl_helper<T, U>::greater_equal (value1, value2);
 }
@@ -2778,7 +2724,7 @@ template <typename T, typename U>
 bool
 safe_less_equal (T value1, U value2) LUMEX_NOEXCEPT
 {
-  LUMEX_STATIC_ASSERT_MSG (is_safe_comparable<T, U>::value,
+  LUMEX_STATIC_ASSERT_MSG (traits::numeric::is_safe_comparable<T, U>::value,
                            "Types must be safely comparable");
   return safe_compare_impl_helper<T, U>::less_equal (value1, value2);
 }
@@ -2804,7 +2750,7 @@ template <typename T, typename U>
 bool
 safe_less (T value1, U value2) LUMEX_NOEXCEPT
 {
-  LUMEX_STATIC_ASSERT_MSG (is_safe_comparable<T, U>::value,
+  LUMEX_STATIC_ASSERT_MSG (traits::numeric::is_safe_comparable<T, U>::value,
                            "Types must be safely comparable");
   return safe_compare_impl_helper<T, U>::less (value1, value2);
 }
@@ -2830,7 +2776,7 @@ template <typename T, typename U>
 bool
 safe_greater (T value1, U value2) LUMEX_NOEXCEPT
 {
-  LUMEX_STATIC_ASSERT_MSG (is_safe_comparable<T, U>::value,
+  LUMEX_STATIC_ASSERT_MSG (traits::numeric::is_safe_comparable<T, U>::value,
                            "Types must be safely comparable");
   return safe_compare_impl_helper<T, U>::greater (value1, value2);
 }
@@ -2856,7 +2802,7 @@ template <typename T, typename U>
 bool
 safe_equal (T value1, U value2) LUMEX_NOEXCEPT
 {
-  LUMEX_STATIC_ASSERT_MSG (is_safe_comparable<T, U>::value,
+  LUMEX_STATIC_ASSERT_MSG (traits::numeric::is_safe_comparable<T, U>::value,
                            "Types must be safely comparable");
   return safe_compare_impl_helper<T, U>::equal (value1, value2);
 }
@@ -2882,7 +2828,7 @@ template <typename T, typename U>
 bool
 safe_not_equal (T value1, U value2) LUMEX_NOEXCEPT
 {
-  LUMEX_STATIC_ASSERT_MSG (is_safe_comparable<T, U>::value,
+  LUMEX_STATIC_ASSERT_MSG (traits::numeric::is_safe_comparable<T, U>::value,
                            "Types must be safely comparable");
   return safe_compare_impl_helper<T, U>::not_equal (value1, value2);
 }
@@ -2912,7 +2858,7 @@ template <typename T, typename U>
 auto
 safe_three_way_compare (T value1, U value2) LUMEX_NOEXCEPT
 {
-  LUMEX_STATIC_ASSERT_MSG (is_safe_comparable<T, U>::value,
+  LUMEX_STATIC_ASSERT_MSG (traits::numeric::is_safe_comparable<T, U>::value,
                            "Types must be safely comparable");
   return safe_compare_impl_helper<T, U>::three_way_compare (value1, value2);
 }
@@ -2941,8 +2887,9 @@ template <typename TargetType, typename SourceType>
 bool
 fits_in_type (SourceType value) LUMEX_NOEXCEPT
 {
-  LUMEX_STATIC_ASSERT_MSG (is_safe_comparable<TargetType, SourceType>::value,
-                           "Both types must be safely comparable");
+  LUMEX_STATIC_ASSERT_MSG (
+      traits::numeric::is_safe_comparable<TargetType, SourceType>::value,
+      "Both types must be safely comparable");
 
   using clean_target = typename std::remove_cv<
       typename std::remove_reference<TargetType>::type>::type;

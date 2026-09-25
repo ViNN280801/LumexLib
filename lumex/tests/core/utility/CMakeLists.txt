@@ -10,12 +10,14 @@ add_executable(
     LumexCoreDumpGenerator.tests.cpp
     LumexDebug.tests.cpp
     LumexDemangle.tests.cpp
+    LumexExceptionMacros.tests.cpp
     LumexMemRead.tests.cpp
     LumexRanges.tests.cpp
     LumexSafeNumericComparator.tests.cpp
     LumexRangeTraits.tests.cpp
     LumexStreamTraits.tests.cpp
     LumexTypeTraits.tests.cpp
+    LumexTypeTraitsTopics.tests.cpp
     LumexUtilities.tests.cpp
 )
 
@@ -57,9 +59,11 @@ set(TYPE_TRAITS_TEST_NAME LumexTypeTraitsTests)
 
 add_executable(
     ${TYPE_TRAITS_TEST_NAME}
+    LumexExceptionMacros.tests.cpp
     LumexRangeTraits.tests.cpp
     LumexStreamTraits.tests.cpp
     LumexTypeTraits.tests.cpp
+    LumexTypeTraitsTopics.tests.cpp
 )
 
 set_target_properties(${TYPE_TRAITS_TEST_NAME} PROPERTIES

@@ -46,6 +46,7 @@
 
 #include "lumex/core/reflection/field_reflection/LumexAggregateFields.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
+#include "lumex/core/utility/traits/LumexTypeTraits.hpp"
 #include <nlohmann/json.hpp>
 
 namespace lumex
@@ -58,19 +59,6 @@ namespace field_reflection
 {
 namespace detail
 {
-template <typename T> class is_optional_like
-{
-  template <typename U>
-  static auto test (int)
-      -> decltype (std::declval<U const &> ().has_value (),
-                   *std::declval<U const &> (), std::true_type{});
-
-  template <typename U> static std::false_type test (...);
-
-public:
-  static const bool value = decltype (test<T> (0))::value;
-};
-
 template <typename... T>
 void
 swallow (T const &...) LUMEX_NOEXCEPT
@@ -79,8 +67,12 @@ swallow (T const &...) LUMEX_NOEXCEPT
 
 template <typename U>
 void
-append_one (nlohmann::json &j, char const *name, U const &field,
-            typename std::enable_if<is_optional_like<U>::value, int>::type = 0)
+append_one (
+    nlohmann::json &j, char const *name, U const &field,
+    typename std::enable_if<
+        lumex::core::utility::traits::value::is_optional_like<U>::value,
+        int>::type
+    = 0)
 {
   if (field.has_value ())
     j[name] = *field;
@@ -88,9 +80,12 @@ append_one (nlohmann::json &j, char const *name, U const &field,
 
 template <typename U>
 void
-append_one (nlohmann::json &j, char const *name, U const &field,
-            typename std::enable_if<!is_optional_like<U>::value, int>::type
-            = 0)
+append_one (
+    nlohmann::json &j, char const *name, U const &field,
+    typename std::enable_if<
+        !lumex::core::utility::traits::value::is_optional_like<U>::value,
+        int>::type
+    = 0)
 {
   j[name] = field;
 }

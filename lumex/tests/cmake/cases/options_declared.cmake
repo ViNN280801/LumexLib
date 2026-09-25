@@ -13,6 +13,7 @@ foreach(_name
         LUMEX_BUILD_EXCEPTIONS
         LUMEX_BUILD_EXPECTED
         LUMEX_BUILD_FILESYSTEM
+        LUMEX_BUILD_FMT
         LUMEX_BUILD_GENERATORS
         LUMEX_BUILD_MATH
         LUMEX_BUILD_OPTIONAL
@@ -37,7 +38,8 @@ foreach(_name
         LUMEX_USE_CPPCHECK
         LUMEX_MAXIMUM_STANDARD_COMPLIANCE
         LUMEX_BUILD_TIMING
-        LUMEX_GENERATE_BUILD_INFO)
+        LUMEX_GENERATE_BUILD_INFO
+        LUMEX_BUILD_BENCHMARKS)
     string(FIND "${_opts}" "option(${_name} " _pos)
     if(_pos EQUAL -1)
         message(FATAL_ERROR

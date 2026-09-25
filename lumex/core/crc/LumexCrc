@@ -1,2 +1,3 @@
 #include "parametric/LumexCrcParametric.hpp"
+
 #include "catalog/LumexCrcCatalog.hpp"

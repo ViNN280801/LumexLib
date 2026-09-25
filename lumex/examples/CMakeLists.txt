@@ -56,6 +56,12 @@ else()
     message(STATUS "Skipping math examples (LUMEX_BUILD_CORE or LUMEX_BUILD_MATH is OFF)")
 endif()
 
+if(LUMEX_BUILD_CORE AND LUMEX_BUILD_FMT)
+    add_subdirectory(fmt)
+else()
+    message(STATUS "Skipping fmt examples (LUMEX_BUILD_CORE or LUMEX_BUILD_FMT is OFF)")
+endif()
+
 if(LUMEX_BUILD_CORE AND LUMEX_BUILD_OPTIONAL)
     add_subdirectory(optional)
 else()

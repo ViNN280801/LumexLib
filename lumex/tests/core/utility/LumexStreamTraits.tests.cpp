@@ -45,8 +45,8 @@ struct derived_streamable_t : custom_streamable_t
 
 #if __cplusplus >= 202002L
 
-using lumex::core::utility::traits::AllStreamable;
-using lumex::core::utility::traits::Streamable;
+using lumex::core::utility::traits::stream::AllStreamable;
+using lumex::core::utility::traits::stream::Streamable;
 
 TEST (LumexStreamTraitsConceptTest, GivenFundamentalTypes_ThenStreamable)
 {
@@ -104,8 +104,8 @@ TEST (LumexStreamTraitsConceptTest, GivenPacks_ThenAllStreamableFoldsDecay)
 #endif // __cplusplus >= 202002L
 
 // The SFINAE traits exist in every standard.
-using lumex::core::utility::traits::all_streamable;
-using lumex::core::utility::traits::is_streamable;
+using lumex::core::utility::traits::stream::all_streamable;
+using lumex::core::utility::traits::stream::is_streamable;
 
 TEST (LumexStreamTraitsSfinaeTest, GivenFundamentalTypes_ThenStreamable)
 {
@@ -136,7 +136,7 @@ TEST (LumexStreamTraitsSfinaeTest, GivenStringLikeTypes_ThenStreamable)
 }
 
 #if __cplusplus < 202002L
-// Below C++20 format::stringify streams smart pointers as addresses.
+// Below C++20 utility::stringify streams smart pointers as addresses.
 TEST (LumexStreamTraitsSfinaeTest, GivenSmartPointersPreCxx20_ThenStreamable)
 {
   EXPECT_TRUE ((is_streamable<std::unique_ptr<int>>::value));
@@ -191,8 +191,8 @@ TEST (LumexStreamTraitsSfinaeTest, GivenPacks_ThenAllStreamableRecursesDecay)
 }
 
 #if __cplusplus >= 201402L
-using lumex::core::utility::traits::all_streamable_v;
-using lumex::core::utility::traits::is_streamable_v;
+using lumex::core::utility::traits::stream::all_streamable_v;
+using lumex::core::utility::traits::stream::is_streamable_v;
 
 TEST (LumexStreamTraitsSfinaeTest, GivenVariableTemplates_ThenMatchTraits)
 {

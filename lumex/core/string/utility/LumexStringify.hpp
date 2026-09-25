@@ -34,10 +34,10 @@
  *
  * Nothing here is placed in the global namespace, so the names cannot clash
  * with a consumer's own `stringify`. Call it qualified, or bring it in with a
- * local `using lumex::core::string::format::stringify;`.
+ * local `using lumex::core::string::utility::stringify;`.
  */
-#ifndef LUMEX_CORE_STRING_FORMAT_HPP
-#define LUMEX_CORE_STRING_FORMAT_HPP
+#ifndef LUMEX_CORE_STRING_UTILITY_STRINGIFY_HPP
+#define LUMEX_CORE_STRING_UTILITY_STRINGIFY_HPP
 
 #include <memory>
 #include <ostream>
@@ -57,7 +57,7 @@ namespace core
 {
 namespace string
 {
-namespace format
+namespace utility
 {
 #if __cplusplus < 202002L
 /**
@@ -87,7 +87,7 @@ operator<< (std::ostream &ostream, std::shared_ptr<T> const &ptr)
  * @return The text, or an empty string for no arguments.
  * @note O(total length of the text).
  */
-template <lumex::core::utility::traits::AllStreamable... Args>
+template <lumex::core::utility::traits::stream::AllStreamable... Args>
 std::string
 stringify (Args &&...args)
 {
@@ -108,7 +108,7 @@ std::string
 stringify (Args &&...args)
 {
   LUMEX_STATIC_ASSERT_MSG (
-      lumex::core::utility::traits::all_streamable_v<Args...>,
+      lumex::core::utility::traits::stream::all_streamable_v<Args...>,
       "All arguments must be streamable");
 
   LUMEX_CONSTEXPR_IF (sizeof...(args) == 0) { return ""; }
@@ -128,7 +128,7 @@ std::string
 stringify (Args &&...args)
 {
   LUMEX_STATIC_ASSERT_MSG (
-      lumex::core::utility::traits::all_streamable_v<Args...>,
+      lumex::core::utility::traits::stream::all_streamable_v<Args...>,
       "All arguments must be streamable");
 
   std::ostringstream oss;
@@ -145,7 +145,7 @@ std::string
 stringify (Args &&...args)
 {
   LUMEX_STATIC_ASSERT_MSG (
-      lumex::core::utility::traits::all_streamable<Args...>::value,
+      lumex::core::utility::traits::stream::all_streamable<Args...>::value,
       "All arguments must be streamable");
 
   std::ostringstream oss;
@@ -172,7 +172,7 @@ stringify () LUMEX_NOEXCEPT
  * clause instead of a constrained template parameter.
  */
 template <typename... Args>
-  requires lumex::core::utility::traits::AllStreamable<Args...>
+  requires lumex::core::utility::traits::stream::AllStreamable<Args...>
 std::string
 stringify_v2 (Args &&...args)
 {
@@ -186,9 +186,9 @@ stringify_v2 (Args &&...args)
 }
 
 #endif
-} // namespace format
+} // namespace utility
 } // namespace string
 } // namespace core
 } // namespace lumex
 
-#endif // !LUMEX_CORE_STRING_FORMAT_HPP
+#endif // !LUMEX_CORE_STRING_UTILITY_STRINGIFY_HPP

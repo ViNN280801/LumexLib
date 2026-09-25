@@ -62,9 +62,13 @@ build_*
 # CodeQL dirs and files (also, build dirs)
 codeql-build/
 results*/
+# Benchmark results are committed on purpose (CSV, SVG charts, Markdown
+# table); re-include them after the CodeQL rule above.
+!benchmarks/**/results/
 
 # Conan files
 CMakeUserPresets.json
+test_package/build/
 
 # Any Python environment
 *venv*/
@@ -75,6 +79,11 @@ compile_commands.json
 # Any cache files
 cache*/
 .cache*/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
 
 # Cwd leftovers from aborted test processes. Fixtures TearDown these
 # directories; ignore them if a run is killed before cleanup.

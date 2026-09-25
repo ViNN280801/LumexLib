@@ -38,9 +38,9 @@
 #pragma clang diagnostic ignored "-Wglobal-constructors"
 #endif
 
-using lumex::core::string::format::stringify;
+using lumex::core::string::utility::stringify;
 #if __cplusplus >= 202002L
-using lumex::core::string::format::stringify_v2;
+using lumex::core::string::utility::stringify_v2;
 #endif
 
 // Platform-specific includes
@@ -551,48 +551,55 @@ TEST_F (LumexStringifyTest, MoveSemantics_Dirty)
 TEST_F (LumexStringifyTest, TypeTraits_Dirty)
 {
   // Test is_streamable trait
-  EXPECT_TRUE (lumex::core::utility::traits::is_streamable<int>::value);
   EXPECT_TRUE (
-      lumex::core::utility::traits::is_streamable<std::string>::value);
+      lumex::core::utility::traits::stream::is_streamable<int>::value);
   EXPECT_TRUE (
-      lumex::core::utility::traits::is_streamable<CustomStreamable>::value);
-  EXPECT_FALSE (
-      lumex::core::utility::traits::is_streamable<NonStreamable>::value);
+      lumex::core::utility::traits::stream::is_streamable<std::string>::value);
+  EXPECT_TRUE (lumex::core::utility::traits::stream::is_streamable<
+               CustomStreamable>::value);
+  EXPECT_FALSE (lumex::core::utility::traits::stream::is_streamable<
+                NonStreamable>::value);
 
   // Test all_streamable trait
+  EXPECT_TRUE ((lumex::core::utility::traits::stream::all_streamable<
+                int, std::string>::value));
   EXPECT_TRUE (
-      (lumex::core::utility::traits::all_streamable<int, std::string>::value));
-  EXPECT_TRUE ((lumex::core::utility::traits::all_streamable<CustomStreamable,
-                                                             int>::value));
-  EXPECT_FALSE ((lumex::core::utility::traits::all_streamable<NonStreamable,
-                                                              int>::value));
+      (lumex::core::utility::traits::stream::all_streamable<CustomStreamable,
+                                                            int>::value));
   EXPECT_FALSE (
-      (lumex::core::utility::traits::all_streamable<int,
-                                                    NonStreamable>::value));
+      (lumex::core::utility::traits::stream::all_streamable<NonStreamable,
+                                                            int>::value));
+  EXPECT_FALSE ((lumex::core::utility::traits::stream::all_streamable<
+                 int, NonStreamable>::value));
 
   // Empty all_streamable
-  EXPECT_TRUE (lumex::core::utility::traits::all_streamable<>::value);
+  EXPECT_TRUE (lumex::core::utility::traits::stream::all_streamable<>::value);
 }
 #else
 TEST_F (LumexStringifyTest, TypeTraits_Dirty)
 {
   // C++20 path: the SFINAE structs above do not exist here -
   // `Streamable`/`AllStreamable` concepts cover the same purpose instead.
-  EXPECT_TRUE (lumex::core::utility::traits::Streamable<int>);
-  EXPECT_TRUE (lumex::core::utility::traits::Streamable<std::string>);
-  EXPECT_TRUE (lumex::core::utility::traits::Streamable<CustomStreamable>);
-  EXPECT_FALSE (lumex::core::utility::traits::Streamable<NonStreamable>);
+  EXPECT_TRUE (lumex::core::utility::traits::stream::Streamable<int>);
+  EXPECT_TRUE (lumex::core::utility::traits::stream::Streamable<std::string>);
+  EXPECT_TRUE (
+      lumex::core::utility::traits::stream::Streamable<CustomStreamable>);
+  EXPECT_FALSE (
+      lumex::core::utility::traits::stream::Streamable<NonStreamable>);
 
   EXPECT_TRUE (
-      (lumex::core::utility::traits::AllStreamable<int, std::string>));
+      (lumex::core::utility::traits::stream::AllStreamable<int, std::string>));
   EXPECT_TRUE (
-      (lumex::core::utility::traits::AllStreamable<CustomStreamable, int>));
+      (lumex::core::utility::traits::stream::AllStreamable<CustomStreamable,
+                                                           int>));
   EXPECT_FALSE (
-      (lumex::core::utility::traits::AllStreamable<NonStreamable, int>));
+      (lumex::core::utility::traits::stream::AllStreamable<NonStreamable,
+                                                           int>));
   EXPECT_FALSE (
-      (lumex::core::utility::traits::AllStreamable<int, NonStreamable>));
+      (lumex::core::utility::traits::stream::AllStreamable<int,
+                                                           NonStreamable>));
 
-  EXPECT_TRUE (lumex::core::utility::traits::AllStreamable<>);
+  EXPECT_TRUE (lumex::core::utility::traits::stream::AllStreamable<>);
 }
 #endif
 

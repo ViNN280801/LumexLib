@@ -749,11 +749,13 @@ TEST_F (LumexLoggingTest, ThreadSafety_SimultaneousConsoleAndFileLogging)
               for (int j = 0; j < messages_per_thread; ++j)
                 {
                   std::string module
-                      = "Thread_" + lumex::core::string::format::stringify (i);
+                      = "Thread_"
+                        + lumex::core::string::utility::stringify (i);
                   std::string message
-                      = "Message_" + lumex::core::string::format::stringify (j)
+                      = "Message_"
+                        + lumex::core::string::utility::stringify (j)
                         + " from thread "
-                        + lumex::core::string::format::stringify (i);
+                        + lumex::core::string::utility::stringify (i);
                   LumexLogging::info (module.c_str (), message);
 
                   // Also log to a specific file to check file integrity

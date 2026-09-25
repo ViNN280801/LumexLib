@@ -115,7 +115,7 @@
 #endif
 #endif
 
-#include "lumex/core/string/format/LumexStringify.hpp"
+#include "lumex/core/string/utility/LumexStringify.hpp"
 
 namespace lumex
 {
@@ -158,7 +158,7 @@ resolveAddressWithAddr2line (void *addr, char const *exe_path) LUMEX_NOEXCEPT
       std::string result;
 
       // Build command: addr2line -C -f -e <executable> <address>
-      std::string cmd = lumex::core::string::format::stringify (
+      std::string cmd = lumex::core::string::utility::stringify (
           "addr2line -C -f -e ", exe_path, " 0x",
           formatHex (reinterpret_cast<uintptr_t> (addr)), " 2>/dev/null");
 
@@ -402,7 +402,7 @@ captureStackTrace (int skip_frames = 1, int max_frames = 16) LUMEX_NOEXCEPT
               static_cast<DWORD> (max_frames), stack, nullptr);
 
           for (WORD i = 0; i < frames; ++i)
-            result += lumex::core::string::format::stringify (
+            result += lumex::core::string::utility::stringify (
                 "  #", i, ": [0x",
                 Detail::formatHex (reinterpret_cast<uintptr_t> (stack[i])),
                 "]\n");
@@ -456,7 +456,7 @@ captureStackTrace (int skip_frames = 1, int max_frames = 16) LUMEX_NOEXCEPT
                                         &line))
                 {
                   // Full info: function + file:line + address
-                  result += lumex::core::string::format::stringify (
+                  result += lumex::core::string::utility::stringify (
                       "  #", i, ": ", symbol_buffer->Name, " (", line.FileName,
                       ":", line.LineNumber, ") [0x",
                       Detail::formatHex (address), "]\n");
@@ -464,7 +464,7 @@ captureStackTrace (int skip_frames = 1, int max_frames = 16) LUMEX_NOEXCEPT
               else
                 {
                   // Only function name + address (no line info)
-                  result += lumex::core::string::format::stringify (
+                  result += lumex::core::string::utility::stringify (
                       "  #", i, ": ", symbol_buffer->Name, " [0x",
                       Detail::formatHex (address), "]\n");
                 }
@@ -478,14 +478,14 @@ captureStackTrace (int skip_frames = 1, int max_frames = 16) LUMEX_NOEXCEPT
               if (SymGetModuleInfo64 (process, address, &moduleInfo))
                 {
                   DWORD64 const offset = address - moduleInfo.BaseOfImage;
-                  result += lumex::core::string::format::stringify (
+                  result += lumex::core::string::utility::stringify (
                       "  #", i, ": ", moduleInfo.ModuleName, "+0x",
                       Detail::formatHex (offset), " [0x",
                       Detail::formatHex (address), "]\n");
                 }
               else
                 {
-                  result += lumex::core::string::format::stringify (
+                  result += lumex::core::string::utility::stringify (
                       "  #", i, ": [0x", Detail::formatHex (address), "]\n");
                 }
             }
@@ -523,7 +523,7 @@ captureStackTrace (int skip_frames = 1, int max_frames = 16) LUMEX_NOEXCEPT
                 {
                   std::string demangled
                       = Detail::demangleSymbol (info.dli_sname);
-                  result += lumex::core::string::format::stringify (
+                  result += lumex::core::string::utility::stringify (
                       "  #", i, ": ", demangled, " [0x",
                       Detail::formatHex (reinterpret_cast<uintptr_t> (
                           addresses[i + skip_frames])),
@@ -531,7 +531,7 @@ captureStackTrace (int skip_frames = 1, int max_frames = 16) LUMEX_NOEXCEPT
                 }
               else
                 {
-                  result += lumex::core::string::format::stringify (
+                  result += lumex::core::string::utility::stringify (
                       "  #", i, ": [0x",
                       Detail::formatHex (reinterpret_cast<uintptr_t> (
                           addresses[i + skip_frames])),
@@ -561,7 +561,7 @@ captureStackTrace (int skip_frames = 1, int max_frames = 16) LUMEX_NOEXCEPT
                   = reinterpret_cast<char *> (addresses[i + skip_frames])
                     - reinterpret_cast<char *> (info.dli_saddr);
 
-              result += lumex::core::string::format::stringify (
+              result += lumex::core::string::utility::stringify (
                   "  #", i, ": ", demangled, " +", offset, " [0x",
                   Detail::formatHex (reinterpret_cast<uintptr_t> (
                       addresses[i + skip_frames])),
@@ -578,7 +578,7 @@ captureStackTrace (int skip_frames = 1, int max_frames = 16) LUMEX_NOEXCEPT
               if (!addr2line_result.empty ())
                 {
                   // addr2line succeeded - use its output
-                  result += lumex::core::string::format::stringify (
+                  result += lumex::core::string::utility::stringify (
                       "  #", i, ": ", addr2line_result, " [0x",
                       Detail::formatHex (reinterpret_cast<uintptr_t> (
                           addresses[i + skip_frames])),
@@ -587,7 +587,7 @@ captureStackTrace (int skip_frames = 1, int max_frames = 16) LUMEX_NOEXCEPT
               else
                 {
                   // Complete fallback: raw backtrace_symbols output
-                  result += lumex::core::string::format::stringify (
+                  result += lumex::core::string::utility::stringify (
                       "  #", i, ": ", symbols[i], " [0x",
                       Detail::formatHex (reinterpret_cast<uintptr_t> (
                           addresses[i + skip_frames])),
@@ -602,20 +602,20 @@ captureStackTrace (int skip_frames = 1, int max_frames = 16) LUMEX_NOEXCEPT
 #else
       // No backtrace support - return basic info
       result = "  Stack trace unavailable (<execinfo.h> not available)\n";
-      result += lumex::core::string::format::stringify (
+      result += lumex::core::string::utility::stringify (
           "  Current function: ", LUMEX_FUNCTION_NAME, "\n");
 #endif
 
 #else
       // Unknown platform
       result = "  Stack trace not supported on this platform\n";
-      result += lumex::core::string::format::stringify (
+      result += lumex::core::string::utility::stringify (
           "  Current function: ", LUMEX_FUNCTION_NAME, "\n");
 #endif
     }
   catch (std::exception const &exc)
     {
-      return lumex::core::string::format::stringify (
+      return lumex::core::string::utility::stringify (
           "  Stack trace unavailable (exception: ", exc.what (), ")\n");
     }
   catch (...)
@@ -644,7 +644,7 @@ captureCallerInfoImpl (char const *caller_function, char const *caller_file,
       if (last_slash != std::string::npos)
         file_name = file_name.substr (last_slash + 1);
 
-      return lumex::core::string::format::stringify (
+      return lumex::core::string::utility::stringify (
           caller_function ? caller_function : "<unknown>", "() at ", file_name,
           ":", caller_line);
     }

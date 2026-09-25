@@ -943,7 +943,9 @@ public:
 #if __cplusplus >= 202002L
   template <typename FunctionType>
     requires requires (FunctionType &&f, SuccessType &val) {
-      { std::forward<FunctionType> (f) (val) } -> is_expected_concept;
+      {
+        std::forward<FunctionType> (f) (val)
+      } -> lumex::core::utility::traits::value::is_expected_concept;
     }
   LUMEX_CONSTEXPR_FUNCTION auto
   and_then (
@@ -958,8 +960,9 @@ public:
   template <typename FunctionType,
             typename ReturnType
             = typename std::result_of<FunctionType (SuccessType &)>::type,
-            typename
-            = typename std::enable_if<is_expected<ReturnType>::value>::type>
+            typename = typename std::enable_if<
+                lumex::core::utility::traits::value::is_expected<
+                    ReturnType>::value>::type>
   LUMEX_CONSTEXPR_FUNCTION auto
   and_then (FunctionType func) & -> ReturnType
   {
@@ -990,7 +993,9 @@ public:
 #if __cplusplus >= 202002L
   template <typename FunctionType>
     requires requires (FunctionType &&f, const SuccessType &val) {
-      { std::forward<FunctionType> (f) (val) } -> is_expected_concept;
+      {
+        std::forward<FunctionType> (f) (val)
+      } -> lumex::core::utility::traits::value::is_expected_concept;
     }
   LUMEX_CONSTEXPR_FUNCTION auto
   and_then (FunctionType func)
@@ -1002,11 +1007,13 @@ public:
         Unexpected<ErrorType> (m_storage.m_error));
   }
 #else
-  template <typename FunctionType,
-            typename ResultOfFunc = typename std::result_of<
-                FunctionType (SuccessType const &)>::type,
-            typename
-            = typename std::enable_if<is_expected<ResultOfFunc>::value>::type>
+  template <
+      typename FunctionType,
+      typename ResultOfFunc
+      = typename std::result_of<FunctionType (SuccessType const &)>::type,
+      typename
+      = typename std::enable_if<lumex::core::utility::traits::value::
+                                    is_expected<ResultOfFunc>::value>::type>
   LUMEX_CONSTEXPR_FUNCTION auto
   and_then (FunctionType func) const & -> ResultOfFunc
   {
@@ -1039,7 +1046,7 @@ public:
     requires requires (FunctionType &&f, SuccessType &&val) {
       {
         std::forward<FunctionType> (f) (std::move (val))
-      } -> is_expected_concept;
+      } -> lumex::core::utility::traits::value::is_expected_concept;
     }
   LUMEX_CONSTEXPR_FUNCTION auto
   and_then (FunctionType func)
@@ -1054,8 +1061,9 @@ public:
   template <typename FunctionType,
             typename ResultOfFunc
             = typename std::result_of<FunctionType (SuccessType &&)>::type,
-            typename
-            = typename std::enable_if<is_expected<ResultOfFunc>::value>::type>
+            typename = typename std::enable_if<
+                lumex::core::utility::traits::value::is_expected<
+                    ResultOfFunc>::value>::type>
   LUMEX_CONSTEXPR_FUNCTION auto
   and_then (FunctionType func) && -> ResultOfFunc
   {
@@ -1089,7 +1097,7 @@ public:
     requires requires (FunctionType &&f, const SuccessType &&val) {
       {
         std::forward<FunctionType> (f) (std::move (val))
-      } -> is_expected_concept;
+      } -> lumex::core::utility::traits::value::is_expected_concept;
     }
   LUMEX_CONSTEXPR_FUNCTION auto
   and_then (FunctionType func)
@@ -1101,11 +1109,13 @@ public:
         Unexpected<ErrorType> (std::move (m_storage.m_error)));
   }
 #else
-  template <typename FunctionType,
-            typename ResultOfFunc = typename std::result_of<
-                FunctionType (SuccessType const &&)>::type,
-            typename
-            = typename std::enable_if<is_expected<ResultOfFunc>::value>::type>
+  template <
+      typename FunctionType,
+      typename ResultOfFunc
+      = typename std::result_of<FunctionType (SuccessType const &&)>::type,
+      typename
+      = typename std::enable_if<lumex::core::utility::traits::value::
+                                    is_expected<ResultOfFunc>::value>::type>
   LUMEX_CONSTEXPR_FUNCTION auto
   and_then (FunctionType func) const && -> ResultOfFunc
   {
@@ -1134,9 +1144,10 @@ public:
         std::forward<FunctionType> (f) (val)
       } -> std::convertible_to<typename std::remove_cv_t<SuccessType>>;
     } && (!std::is_void_v<std::invoke_result_t<FunctionType, SuccessType &>>)
-             && (!is_expected_v<
+             && (!lumex::core::utility::traits::value::is_expected_v<
                  std::invoke_result_t<FunctionType, SuccessType &>>)
-  LUMEX_CONSTEXPR_FUNCTION auto transform (FunctionType func) & -> Expected<
+  LUMEX_CONSTEXPR_FUNCTION auto
+  transform (FunctionType func) & -> Expected<
       std::invoke_result_t<FunctionType, SuccessType &>, ErrorType>
   {
     if (m_has_value)
@@ -1152,7 +1163,8 @@ public:
             typename ReturnType = Expected<ResultOfFunc, ErrorType>,
             typename = typename std::enable_if<
                 !std::is_void<ResultOfFunc>::value
-                && !is_expected<ResultOfFunc>::value>::type>
+                && !lumex::core::utility::traits::value::is_expected<
+                    ResultOfFunc>::value>::type>
   LUMEX_CONSTEXPR_FUNCTION auto
   transform (FunctionType func) & -> ReturnType
   {
@@ -1188,11 +1200,11 @@ public:
     }
              && (!std::is_void_v<
                  std::invoke_result_t<FunctionType, const SuccessType &>>)
-             && (!is_expected_v<
+             && (!lumex::core::utility::traits::value::is_expected_v<
                  std::invoke_result_t<FunctionType, const SuccessType &>>)
-  LUMEX_CONSTEXPR_FUNCTION
-      auto transform (FunctionType func) const & -> Expected<
-          std::invoke_result_t<FunctionType, const SuccessType &>, ErrorType>
+  LUMEX_CONSTEXPR_FUNCTION auto
+  transform (FunctionType func) const & -> Expected<
+      std::invoke_result_t<FunctionType, const SuccessType &>, ErrorType>
   {
     if (m_has_value)
       return Expected<std::invoke_result_t<FunctionType, SuccessType const &>,
@@ -1212,7 +1224,8 @@ public:
       // Expected.
       typename
       = typename std::enable_if<!std::is_void<ResultOfFunc>::value
-                                && !is_expected<ResultOfFunc>::value>::type>
+                                && !lumex::core::utility::traits::value::
+                                       is_expected<ResultOfFunc>::value>::type>
   LUMEX_CONSTEXPR_FUNCTION auto
   transform (FunctionType func) const & -> ReturnType
   {
@@ -1248,9 +1261,10 @@ public:
         std::forward<FunctionType> (f) (std::move (val))
       } -> std::convertible_to<typename std::remove_cv_t<SuccessType>>;
     } && (!std::is_void_v<std::invoke_result_t<FunctionType, SuccessType &&>>)
-             && (!is_expected_v<
+             && (!lumex::core::utility::traits::value::is_expected_v<
                  std::invoke_result_t<FunctionType, SuccessType &&>>)
-  LUMEX_CONSTEXPR_FUNCTION auto transform (FunctionType func) && -> Expected<
+  LUMEX_CONSTEXPR_FUNCTION auto
+  transform (FunctionType func) && -> Expected<
       std::invoke_result_t<FunctionType, SuccessType &&>, ErrorType>
   {
     if (m_has_value)
@@ -1268,7 +1282,8 @@ public:
             typename ReturnType = Expected<ResultOfFunc, ErrorType>,
             typename = typename std::enable_if<
                 !std::is_void<ResultOfFunc>::value
-                && !is_expected<ResultOfFunc>::value>::type>
+                && !lumex::core::utility::traits::value::is_expected<
+                    ResultOfFunc>::value>::type>
   LUMEX_CONSTEXPR_FUNCTION auto
   transform (FunctionType func) && -> ReturnType
   {
@@ -1304,11 +1319,11 @@ public:
     }
              && (!std::is_void_v<
                  std::invoke_result_t<FunctionType, const SuccessType &&>>)
-             && (!is_expected_v<
+             && (!lumex::core::utility::traits::value::is_expected_v<
                  std::invoke_result_t<FunctionType, const SuccessType &&>>)
-  LUMEX_CONSTEXPR_FUNCTION
-      auto transform (FunctionType func) const && -> Expected<
-          std::invoke_result_t<FunctionType, const SuccessType &&>, ErrorType>
+  LUMEX_CONSTEXPR_FUNCTION auto
+  transform (FunctionType func) const && -> Expected<
+      std::invoke_result_t<FunctionType, const SuccessType &&>, ErrorType>
   {
     if (m_has_value)
       return Expected<std::invoke_result_t<FunctionType, SuccessType const &&>,
@@ -1326,7 +1341,8 @@ public:
       typename ReturnType = Expected<ResultOfFunc, ErrorType>,
       typename
       = typename std::enable_if<!std::is_void<ResultOfFunc>::value
-                                && !is_expected<ResultOfFunc>::value>::type>
+                                && !lumex::core::utility::traits::value::
+                                       is_expected<ResultOfFunc>::value>::type>
   LUMEX_CONSTEXPR_FUNCTION auto
   transform (FunctionType func) const && -> ReturnType
   {
@@ -1351,7 +1367,9 @@ public:
 #if __cplusplus >= 202002L
   template <typename FunctionType>
     requires requires (FunctionType &&f, ErrorType &err) {
-      { std::forward<FunctionType> (f) (err) } -> is_expected_concept;
+      {
+        std::forward<FunctionType> (f) (err)
+      } -> lumex::core::utility::traits::value::is_expected_concept;
     }
   LUMEX_CONSTEXPR_FUNCTION auto
   or_else (
@@ -1365,8 +1383,9 @@ public:
   template <typename FunctionType,
             typename ResultOfFunc
             = typename std::result_of<FunctionType (ErrorType &)>::type,
-            typename
-            = typename std::enable_if<is_expected<ResultOfFunc>::value>::type>
+            typename = typename std::enable_if<
+                lumex::core::utility::traits::value::is_expected<
+                    ResultOfFunc>::value>::type>
   LUMEX_CONSTEXPR_FUNCTION auto
   or_else (FunctionType func) & -> ResultOfFunc
   {
@@ -1396,7 +1415,9 @@ public:
 #if __cplusplus >= 202002L
   template <typename FunctionType>
     requires requires (FunctionType &&f, const ErrorType &err) {
-      { std::forward<FunctionType> (f) (err) } -> is_expected_concept;
+      {
+        std::forward<FunctionType> (f) (err)
+      } -> lumex::core::utility::traits::value::is_expected_concept;
     }
   LUMEX_CONSTEXPR_FUNCTION auto
   or_else (FunctionType func)
@@ -1410,8 +1431,9 @@ public:
   template <typename FunctionType,
             typename ResultOfFunc
             = typename std::result_of<FunctionType (ErrorType const &)>::type,
-            typename
-            = typename std::enable_if<is_expected<ResultOfFunc>::value>::type>
+            typename = typename std::enable_if<
+                lumex::core::utility::traits::value::is_expected<
+                    ResultOfFunc>::value>::type>
   LUMEX_CONSTEXPR_FUNCTION auto
   or_else (FunctionType func) const & -> ResultOfFunc
   {
@@ -1444,7 +1466,7 @@ public:
     requires requires (FunctionType &&f, ErrorType &&err) {
       {
         std::forward<FunctionType> (f) (std::move (err))
-      } -> is_expected_concept;
+      } -> lumex::core::utility::traits::value::is_expected_concept;
     }
   LUMEX_CONSTEXPR_FUNCTION auto
   or_else (
@@ -1459,8 +1481,9 @@ public:
   template <typename FunctionType,
             typename ResultOfFunc
             = typename std::result_of<FunctionType (ErrorType &&)>::type,
-            typename
-            = typename std::enable_if<is_expected<ResultOfFunc>::value>::type>
+            typename = typename std::enable_if<
+                lumex::core::utility::traits::value::is_expected<
+                    ResultOfFunc>::value>::type>
   LUMEX_CONSTEXPR_FUNCTION auto
   or_else (FunctionType func) && -> ResultOfFunc
   {
@@ -1493,7 +1516,7 @@ public:
     requires requires (FunctionType &&f, const ErrorType &&err) {
       {
         std::forward<FunctionType> (f) (std::move (err))
-      } -> is_expected_concept;
+      } -> lumex::core::utility::traits::value::is_expected_concept;
     }
   LUMEX_CONSTEXPR_FUNCTION auto
   or_else (FunctionType func)
@@ -1508,8 +1531,9 @@ public:
   template <typename FunctionType,
             typename ResultOfFunc
             = typename std::result_of<FunctionType (ErrorType const &&)>::type,
-            typename
-            = typename std::enable_if<is_expected<ResultOfFunc>::value>::type>
+            typename = typename std::enable_if<
+                lumex::core::utility::traits::value::is_expected<
+                    ResultOfFunc>::value>::type>
   LUMEX_CONSTEXPR_FUNCTION auto
   or_else (FunctionType func) const && -> ResultOfFunc
   {
@@ -1538,11 +1562,11 @@ public:
         std::forward<FunctionType> (f) (err)
       } -> std::convertible_to<typename std::remove_cv_t<ErrorType>>;
     } && (!std::is_void_v<std::invoke_result_t<FunctionType, ErrorType &>>)
-             && (!is_expected_v<
+             && (!lumex::core::utility::traits::value::is_expected_v<
                  std::invoke_result_t<FunctionType, ErrorType &>>)
-  LUMEX_CONSTEXPR_FUNCTION
-      auto transform_error (FunctionType func) & -> Expected<
-          SuccessType, std::invoke_result_t<FunctionType, ErrorType &>>
+  LUMEX_CONSTEXPR_FUNCTION auto
+  transform_error (FunctionType func) & -> Expected<
+      SuccessType, std::invoke_result_t<FunctionType, ErrorType &>>
   {
     if (m_has_value)
       return Expected<SuccessType,
@@ -1560,7 +1584,8 @@ public:
             typename ReturnType = Expected<SuccessType, ResultOfFunc>,
             typename = typename std::enable_if<
                 !std::is_void<ResultOfFunc>::value
-                && !is_expected<ResultOfFunc>::value>::type>
+                && !lumex::core::utility::traits::value::is_expected<
+                    ResultOfFunc>::value>::type>
   LUMEX_CONSTEXPR_FUNCTION auto
   transform_error (FunctionType func) & -> ReturnType
   {
@@ -1596,11 +1621,11 @@ public:
     }
              && (!std::is_void_v<
                  std::invoke_result_t<FunctionType, const ErrorType &>>)
-             && (!is_expected_v<
+             && (!lumex::core::utility::traits::value::is_expected_v<
                  std::invoke_result_t<FunctionType, const ErrorType &>>)
-  LUMEX_CONSTEXPR_FUNCTION
-      auto transform_error (FunctionType func) const & -> Expected<
-          SuccessType, std::invoke_result_t<FunctionType, const ErrorType &>>
+  LUMEX_CONSTEXPR_FUNCTION auto
+  transform_error (FunctionType func) const & -> Expected<
+      SuccessType, std::invoke_result_t<FunctionType, const ErrorType &>>
   {
     if (m_has_value)
       return Expected<SuccessType,
@@ -1618,7 +1643,8 @@ public:
             typename ReturnType = Expected<SuccessType, ResultOfFunc>,
             typename = typename std::enable_if<
                 !std::is_void<ResultOfFunc>::value
-                && !is_expected<ResultOfFunc>::value>::type>
+                && !lumex::core::utility::traits::value::is_expected<
+                    ResultOfFunc>::value>::type>
   LUMEX_CONSTEXPR_FUNCTION auto
   transform_error (FunctionType func) const & -> ReturnType
   {
@@ -1652,11 +1678,11 @@ public:
         std::forward<FunctionType> (f) (std::move (err))
       } -> std::convertible_to<typename std::remove_cv_t<ErrorType>>;
     } && (!std::is_void_v<std::invoke_result_t<FunctionType, ErrorType &&>>)
-             && (!is_expected_v<
+             && (!lumex::core::utility::traits::value::is_expected_v<
                  std::invoke_result_t<FunctionType, ErrorType &&>>)
-  LUMEX_CONSTEXPR_FUNCTION
-      auto transform_error (FunctionType func) && -> Expected<
-          SuccessType, std::invoke_result_t<FunctionType, ErrorType &&>>
+  LUMEX_CONSTEXPR_FUNCTION auto
+  transform_error (FunctionType func) && -> Expected<
+      SuccessType, std::invoke_result_t<FunctionType, ErrorType &&>>
   {
     if (m_has_value)
       return Expected<SuccessType,
@@ -1674,7 +1700,8 @@ public:
             typename ReturnType = Expected<SuccessType, ResultOfFunc>,
             typename = typename std::enable_if<
                 !std::is_void<ResultOfFunc>::value
-                && !is_expected<ResultOfFunc>::value>::type>
+                && !lumex::core::utility::traits::value::is_expected<
+                    ResultOfFunc>::value>::type>
   LUMEX_CONSTEXPR_FUNCTION auto
   transform_error (FunctionType func) && -> ReturnType
   {
@@ -1711,11 +1738,11 @@ public:
     }
              && (!std::is_void_v<
                  std::invoke_result_t<FunctionType, const ErrorType &&>>)
-             && (!is_expected_v<
+             && (!lumex::core::utility::traits::value::is_expected_v<
                  std::invoke_result_t<FunctionType, const ErrorType &&>>)
-  LUMEX_CONSTEXPR_FUNCTION
-      auto transform_error (FunctionType func) const && -> Expected<
-          SuccessType, std::invoke_result_t<FunctionType, const ErrorType &&>>
+  LUMEX_CONSTEXPR_FUNCTION auto
+  transform_error (FunctionType func) const && -> Expected<
+      SuccessType, std::invoke_result_t<FunctionType, const ErrorType &&>>
   {
     if (m_has_value)
       return Expected<SuccessType,
@@ -1733,7 +1760,8 @@ public:
             typename ReturnType = Expected<SuccessType, ResultOfFunc>,
             typename = typename std::enable_if<
                 !std::is_void<ResultOfFunc>::value
-                && !is_expected<ResultOfFunc>::value>::type>
+                && !lumex::core::utility::traits::value::is_expected<
+                    ResultOfFunc>::value>::type>
   LUMEX_CONSTEXPR_FUNCTION auto
   transform_error (FunctionType func) const && -> ReturnType
   {

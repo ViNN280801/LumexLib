@@ -1,0 +1,8 @@
+#ifndef LUMEX_CORE_FMT_HPP
+#define LUMEX_CORE_FMT_HPP
+
+#include "LumexFormat.hpp"
+#include "LumexFormatChrono.hpp"
+#include "LumexFormatRanges.hpp"
+
+#endif // !LUMEX_CORE_FMT_HPP

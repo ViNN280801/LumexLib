@@ -47,7 +47,7 @@
  * and `noexcept(expr)` at the call site.
  *
  * @note Philosophy difference from
- * `lumex/core/string/format/LumexStringify.hpp`'s `stringify()`:
+ * `lumex/core/string/utility/LumexStringify.hpp`'s `stringify()`:
  * `stringify()` uses a hard `static_assert` to reject any non-streamable type
  * at compile time - the absence of `operator<<` is treated as a caller bug
  * that should fail the build. `FormatValue` below instead degrades gracefully
@@ -70,6 +70,7 @@
 
 #include "lumex/core/utility/demangle/LumexDemangle.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
+#include "lumex/core/utility/traits/LumexTypeTraits.hpp"
 
 #if __cplusplus >= 202002L
 #include <source_location>
@@ -117,30 +118,6 @@ namespace VarInfoDetail
  *          for this case in tests, only that something non-empty was
  *          printed and it differs from the no-operator<< placeholder.
  */
-template <typename T> class HasOstreamOperator
-{
-  template <typename U>
-  static auto Test (int) -> decltype (std::declval<std::ostream &> ()
-                                          << std::declval<U const &> (),
-                                      std::true_type{});
-
-  template <typename U> static std::false_type Test (...);
-
-public:
-  static bool const value = decltype (Test<T> (0))::value;
-};
-
-#if __cplusplus >= 202002L
-/**
- * @brief C++20: same detector as HasOstreamOperator, expressed as a
- *        concept/requires clause - reads directly as a condition,
- *        without the trailing-decltype trick. Used only by the
- *        C++20 branch of FormatValue below; HasOstreamOperator
- *        remains the shared one for older standards and is not removed.
- */
-template <typename T>
-concept Streamable = requires (std::ostream &os, T const &v) { os << v; };
-#endif
 
 #if __cplusplus >= 201703L
 // C++17+: if constexpr instead of a pair of enable_if overloads - one
@@ -151,9 +128,11 @@ std::string
 FormatValue (T const &value)
 {
 #if __cplusplus >= 202002L
-  LUMEX_CONSTEXPR_IF (Streamable<typename std::decay<T>::type>)
+  LUMEX_CONSTEXPR_IF (lumex::core::utility::traits::stream::Streamable<
+                      typename std::decay<T>::type const &>)
 #else
-  LUMEX_CONSTEXPR_IF (HasOstreamOperator<typename std::decay<T>::type>::value)
+  LUMEX_CONSTEXPR_IF (lumex::core::utility::traits::stream::is_ostreamable<
+                      typename std::decay<T>::type const &>::value)
 #endif
   {
     std::ostringstream oss;
@@ -172,8 +151,9 @@ FormatValue (T const &value)
 // C++11/14: if constexpr is unavailable (C++17) - classic
 // enable_if dispatch between two overloads, selected via SFINAE.
 template <typename T>
-typename std::enable_if<
-    HasOstreamOperator<typename std::decay<T>::type>::value, std::string>::type
+typename std::enable_if<lumex::core::utility::traits::stream::is_ostreamable<
+                            typename std::decay<T>::type const &>::value,
+                        std::string>::type
 FormatValue (T const &value)
 {
   std::ostringstream oss;
@@ -185,9 +165,9 @@ FormatValue (T const &value)
 ///        work), so a value with no operator<< only needs a
 ///        placeholder, without failing the build.
 template <typename T>
-typename std::enable_if<
-    !HasOstreamOperator<typename std::decay<T>::type>::value,
-    std::string>::type
+typename std::enable_if<!lumex::core::utility::traits::stream::is_ostreamable<
+                            typename std::decay<T>::type const &>::value,
+                        std::string>::type
 FormatValue (T const &)
 {
   return "<no operator<<>";

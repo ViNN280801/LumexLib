@@ -13,10 +13,10 @@
 
 #include "lumex/core/utility/traits/LumexTypeTraits.hpp"
 
-using lumex::core::utility::traits::has_elements_convertible_to;
-using lumex::core::utility::traits::has_streamable_elements;
-using lumex::core::utility::traits::is_iterable;
-using lumex::core::utility::traits::range_reference;
+using lumex::core::utility::traits::range::has_elements_convertible_to;
+using lumex::core::utility::traits::range::has_streamable_elements;
+using lumex::core::utility::traits::range::is_iterable;
+using lumex::core::utility::traits::range::range_reference;
 
 namespace
 {
@@ -72,7 +72,8 @@ struct has_reference_type : std::false_type
 
 template <typename T>
 struct has_reference_type<
-    T, lumex::core::utility::traits::void_t<typename T::type>> : std::true_type
+    T, lumex::core::utility::traits::meta::void_t<typename T::type>>
+    : std::true_type
 {
 };
 } // namespace

@@ -18,6 +18,16 @@
 
 #### Исправлено
 
+##### MSVC-потребитель получает `/Zc:__cplusplus` от целей модулей
+
+**Файлы:**
+
+- `cmake/LumexBuild.cmake`
+- `conanfile.py`
+- `lumex/tests/cmake/consumer/cplusplus_macro/`, `lumex/tests/cmake/consumer/run_consumer.cmake`, `lumex/tests/cmake/CMakeLists.txt`
+
+**Суть:** заголовки ветвятся по `__cplusplus`, а MSVC без `/Zc:__cplusplus` сообщает `199711L`. Свой сборщик библиотеки ставил флаг только на ее объектные файлы. Потребитель через `find_package` или Conan его не видел: `LUMEX_CONSTEXPR` раскрывался в пустоту, `LumexDebug.hpp` не компилировался. Теперь каждая цель `LumexCore_*`, `LumexApplied_*` и `LumexXml` отдает флаг как INTERFACE (в том числе header-only модули). В рецепте Conan тот же флаг стоит на каждом компоненте при компиляторе `msvc`. Проверка: `LumexCMake.consumer_cplusplus_macro` и `conan create` тестового потребителя без собственного флага.
+
 ##### `LUMEX_WITH_FIELD_REFLECTION` больше не протекает к потребителям `lumex::reflection`
 
 **Файлы:**
@@ -55,6 +65,17 @@
 
 #### Добавлено
 
+##### Компонент `core/fmt` (`lumex::fmt`) - форматирование в стиле `std::format` с C++11
+
+**Файлы:**
+
+- `lumex/core/fmt/LumexFormat.hpp`, `LumexFormatRanges.hpp`, `LumexFormatChrono.hpp`, umbrella `lumex/core/fmt/LumexFormat`, `lumex/core/fmt/README.md` (страница Doxygen), `lumex/core/fmt/CMakeLists.txt`
+- `cmake/LumexOptions.cmake` (`LUMEX_BUILD_FMT`, `LUMEX_BUILD_BENCHMARKS`), `cmake/LumexModules.cmake` (ребро `FMT -> UTILITY`), `cmake/LumexLibConfig.cmake.in`, `conanfile.py` (`core_fmt`), корневой `CMakeLists.txt`
+- `lumex/core/utility/macros/LumexExceptionMacros.hpp` (`LUMEX_DEFINE_EXCEPTION` перенесен сюда, добавлен `LUMEX_DEFINE_EXCEPTION_WITH_BODY`)
+- `lumex/tests/core/fmt/`, `lumex/tests/cmake/consumer/format_compile_checks/`, `lumex/examples/fmt/` (6 примеров), `benchmarks/fmt/`, `Scripts/CodeTools/check_fmt_examples_coverage.py`, `Scripts/Doxygen/markdown_image_filter.py`, `Doxyfile`, `Doxyfile.in`
+
+**Суть:** собственная реализация (fmt 12.2.0 использовался только как справочник, код не копировался) в пространстве `lumex::core::fmt`: `format`, `format_to`, `format_to_n`, `formatted_size`, `vformat`, `vformat_to`, `runtime`, `try_format` (noexcept), `print`/`println`, `FormatError` с позицией поля. Полная мини-грамматика спецификаций std, именованные аргументы `arg ("name", v)`, `wchar_t`, `L` через `std::locale`, reflected enums, `Formatter<T>` для пользовательских типов, opt-in `OstreamFormatter`/`streamed`. Диапазоны, словари, множества, `pair`/`tuple` по правилам C++23; `std::chrono` длительности и `system_clock` time point со спецификациями `%H:%M:%S`, `%F`, ... . В C++20 литеральная строка формата проверяется `consteval` при компиляции. Вывод совпадает с `std::format` (MSVC): ширина по графемным кластерам, нулевое дополнение указателей (P2510), диапазон `{:c}` по типу символа, `L` для всех целочисленных представлений; сверено дифференциальным фаззингом (~120 000 случаев). Корректны экстремумы chrono (`duration::min ()`, далекие даты), где MSVC ошибается. Наборы `LumexFormatTests` (C++11), `LumexFormatCxx17Tests`, `LumexFormatCxx20Tests`, compile-fail `LumexCMake.format_compile_checks`, `require_fail_fmt_without_utility`, проверка полноты примеров `LumexFormatExamplesCoverage`. Бенчмарки против `std::format`, `ostringstream`, `snprintf`, `to_string` (CSV + SVG) и страница в Doxygen с графиками. `LumexString` форматтер не подключает.
+
 ##### Модуль `applied/json` (`lumex::json`, header-only)
 
 **Файлы:**
@@ -89,11 +110,21 @@
 
 **Файлы:**
 
-- `lumex/core/string/format/LumexStringify.hpp`, `lumex/core/string/text/{LumexJoin,LumexQuote,LumexTextCase}.hpp` (вместо `lumex/core/string/utility/LumexStringify.hpp`)
+- `lumex/core/string/utility/LumexStringify.hpp` (путь прежний, неймспейс `lumex::core::string::utility`), `lumex/core/string/text/{LumexJoin,LumexQuote,LumexTextCase}.hpp`
 - `lumex/core/utility/traits/LumexTypeTraits.hpp`
 - вызовы в `LumexLogging.hpp`, `LumexException.hpp`, `LumexDebug.hpp`, тесты и примеры
 
-**Суть:** глобальный `using lumex::core::string::utility::stringify;` конфликтовал с глобальным `stringify` DChannel у потребителя (PeakExpertWeb, около 100 единиц трансляции). Теперь `lumex::core::string::format::stringify` / `stringify_v2`, `lumex::core::string::text::join`, `quote`, `quote_double`, `quote_single`, `to_case_insensitive` (snake_case вместо `Join`/`Quote*`/`ToCaseInsensitive`), ничего не выносится в глобальный неймспейс. `join`/`quote*` получили реализацию для C++11..17 (ranges-версия для C++20 сохранена), ограничения через SFINAE / `requires`. Все трейты (`is_streamable`, `all_streamable`, `*_v`, концепты `Streamable`/`AllStreamable`, `range_reference`, `is_iterable`, `has_streamable_elements`, `has_elements_convertible_to`) перенесены в `lumex::core::utility::traits`; потоковые SFINAE-трейты теперь есть во всех стандартах. Новые наборы: `LumexStringifyCxx20Tests`; тесты join, quote, ограничений, потоковых и range-трейтов.
+**Суть:** глобальный `using lumex::core::string::utility::stringify;` конфликтовал с глобальным `stringify` DChannel у потребителя (PeakExpertWeb, около 100 единиц трансляции). Теперь `lumex::core::string::utility::stringify` / `stringify_v2`, `lumex::core::string::text::join`, `quote`, `quote_double`, `quote_single`, `to_case_insensitive` (snake_case вместо `Join`/`Quote*`/`ToCaseInsensitive`), ничего не выносится в глобальный неймспейс. `join`/`quote*` получили реализацию для C++11..17 (ranges-версия для C++20 сохранена), ограничения через SFINAE / `requires`. Все трейты (`is_streamable`, `all_streamable`, `*_v`, концепты `Streamable`/`AllStreamable`, `range_reference`, `is_iterable`, `has_streamable_elements`, `has_elements_convertible_to`) перенесены в `lumex::core::utility::traits` (см. следующую запись); потоковые SFINAE-трейты теперь есть во всех стандартах. Новые наборы: `LumexStringifyCxx20Tests`; тесты join, quote, ограничений, потоковых и range-трейтов.
+
+##### Все обобщенные трейты в `LumexTypeTraits.hpp`, по пространствам имен тем
+
+**Файлы:**
+
+- `lumex/core/utility/traits/LumexTypeTraits.hpp`
+- `lumex/core/base64/codec/Base64.hpp`, `lumex/core/expected/result/{Expected,ExpectedVoid,ExpectedTypes}.hpp`, `lumex/core/utility/{cast/LumexCast,mem/LumexMemRead,dump/LumexCoreDumpGenerator,numeric/LumexSafeNumericComparator}.hpp`, `lumex/core/reflection/{var_info/LumexVarInfo,field_reflection/LumexFieldReflection}.hpp`, `lumex/applied/logger/logger/LumexLogger.hpp`, все вызовы
+- `lumex/tests/core/utility/LumexTypeTraitsTopics.tests.cpp`
+
+**Суть:** `lumex::core::utility::traits::{meta, invoke, stream, range, string, tuple, value, enums, numeric}` вместо одного плоского пространства (без алиасов старых имен). Туда же перенесены обобщенные трейты из модулей (`has_convertible_size`, `has_convertible_indexed_access<T, To>`, `is_expected*`, `indirection_of`, концепты `PointerToClass`, `LvalueRefToClass`, `CompleteType`, `PreserveCV`, `Extractible`, `ByteLike`, `StringLike`, `is_optional_like`, `is_safe_comparable`, `ArithmeticType`, `SafeComparable`, `has_key_type`, `has_mapped_type`, `is_pair_like`, `is_any_string`); дубликаты в VarInfo и логгере удалены (новые `stream::is_ostreamable` / `all_ostreamable`). В модулях остались трейты, завязанные на свои типы; `NumericConcept` остается в `math` (иначе цикл `utility` <-> `math`). Потребители: `lumex::core::utility::traits::X` -> `traits::<тема>::X` (PeakExpertWeb: `SpectrophotometricDetector.cpp`).
 
 ##### `LumexStringView` / `LumexWStringView` неявно конструируются из C-строки и `std::basic_string`
 

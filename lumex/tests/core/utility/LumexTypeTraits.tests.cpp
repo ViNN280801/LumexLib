@@ -1,4 +1,5 @@
 // LumexTypeTraits.tests.cpp
+#include <cstddef>
 #include <functional>
 #include <memory>
 #include <string>
@@ -7,6 +8,7 @@
 
 #if __cplusplus >= 201703L
 #include <optional>
+#include <string_view>
 #endif
 
 #include <gtest/gtest.h>
@@ -40,7 +42,11 @@
 #if defined(__clang__)
 #endif
 
-using namespace lumex::core::utility::traits;
+using namespace lumex::core::utility::traits::meta;
+using namespace lumex::core::utility::traits::invoke;
+using namespace lumex::core::utility::traits::string;
+using namespace lumex::core::utility::traits::value;
+using namespace lumex::core::utility::traits::enums;
 
 namespace
 {
@@ -468,10 +474,11 @@ TEST (LumexTypeTraitsTest, GivenStdOptional_WhenIsOptional_ThenTrue)
 // ------------------------------------------------------
 
 #if __cplusplus >= 202002L
-// Must be invoked at global scope: lumex_enum_traits_t<T> (see LumexTypeTraits.hpp) is
-// declared in the global namespace, and [temp.expl.spec] requires explicit
-// specializations to live in a namespace enclosing the primary template's
-// namespace - so this cannot be nested in an anonymous namespace.
+// Must be invoked at global scope: lumex_enum_traits_t<T> (see
+// LumexTypeTraits.hpp) is declared in the global namespace, and
+// [temp.expl.spec] requires explicit specializations to live in a namespace
+// enclosing the primary template's namespace - so this cannot be nested in an
+// anonymous namespace.
 LUMEX_DEFINE_ENUM_TRAITS (LumexTypeTraitsTestColor, unsigned char, Red, Green,
                           Blue);
 
@@ -506,7 +513,8 @@ TEST (LumexTypeTraitsTest,
   bool saw_red = false;
   bool saw_green = false;
   bool saw_blue = false;
-  for (auto const value : lumex_enum_traits_t<LumexTypeTraitsTestColor>::values)
+  for (auto const value :
+       lumex_enum_traits_t<LumexTypeTraitsTestColor>::values)
     {
       ++count;
       if (value == Red)
@@ -625,4 +633,150 @@ TEST (LumexTypeTraitsTest, GivenMatchingInvokeResult_WhenHasType_ThenTrue)
   LUMEX_STATIC_ASSERT_MSG ((has_type<invoke_result<Functor, int>>::value),
                            "Functor(int) has ::type");
   SUCCEED ();
+}
+
+// --- type_identity / is_string_like / is_reflected_enum (used by LumexFormat)
+
+namespace type_traits_test_enums
+{
+enum class Reflected
+{
+  first,
+  second
+};
+
+inline char const *
+toString (Reflected value)
+{
+  return value == Reflected::first ? "first" : "second";
+}
+
+enum class NotReflected
+{
+  only
+};
+
+enum class WrongReturn
+{
+  only
+};
+
+inline int
+toString (WrongReturn)
+{
+  return 0;
+}
+
+struct NotAnEnum
+{
+};
+
+inline char const *
+toString (NotAnEnum)
+{
+  return "struct";
+}
+} // namespace type_traits_test_enums
+
+namespace
+{
+/** Mimics a string view: data / size / npos / value_type. */
+struct char_view_t
+{
+  typedef char value_type;
+  static std::size_t const npos = static_cast<std::size_t> (-1);
+
+  char const *
+  data () const
+  {
+    return "";
+  }
+
+  std::size_t
+  size () const
+  {
+    return 0;
+  }
+};
+
+/** Container of chars without npos: not a string. */
+struct char_buffer_t
+{
+  typedef char value_type;
+
+  char const *
+  data () const
+  {
+    return "";
+  }
+
+  std::size_t
+  size () const
+  {
+    return 0;
+  }
+};
+
+template <typename T>
+T
+identity_deduced (typename type_identity<T>::type value)
+{
+  return value;
+}
+} // namespace
+
+TEST (LumexTypeTraitsTest, GivenTypeIdentity_WhenUsed_ThenSameTypeNoDeduction)
+{
+  LUMEX_STATIC_ASSERT_MSG (
+      (std::is_same<type_identity<int>::type, int>::value),
+      "type_identity<int>::type is int");
+  LUMEX_STATIC_ASSERT_MSG (
+      (std::is_same<type_identity<int const &>::type, int const &>::value),
+      "type_identity keeps cv-ref");
+  // The parameter is a non-deduced context: T comes from the template
+  // argument only, so a char converts to the explicit long.
+  EXPECT_EQ (identity_deduced<long> ('a'), 97L);
+}
+
+TEST (LumexTypeTraitsTest, GivenStringTypes_WhenIsStringLike_ThenTrueForChar)
+{
+  EXPECT_TRUE ((is_string_like<std::string, char>::value));
+  EXPECT_TRUE ((is_string_like<std::wstring, wchar_t>::value));
+  EXPECT_TRUE ((is_string_like<char_view_t, char>::value));
+#if __cplusplus >= 201703L
+  EXPECT_TRUE ((is_string_like<std::string_view, char>::value));
+  EXPECT_TRUE ((is_string_like<std::wstring_view, wchar_t>::value));
+#endif
+}
+
+TEST (LumexTypeTraitsTest, GivenOtherTypes_WhenIsStringLike_ThenFalse)
+{
+  // Wrong character type.
+  EXPECT_FALSE ((is_string_like<std::string, wchar_t>::value));
+  EXPECT_FALSE ((is_string_like<std::wstring, char>::value));
+  // Containers without npos, pointers, arrays, scalars.
+  EXPECT_FALSE ((is_string_like<std::vector<char>, char>::value));
+  EXPECT_FALSE ((is_string_like<char_buffer_t, char>::value));
+  EXPECT_FALSE ((is_string_like<char const *, char>::value));
+  EXPECT_FALSE ((is_string_like<char[4], char>::value));
+  EXPECT_FALSE ((is_string_like<int, char>::value));
+}
+
+TEST (LumexTypeTraitsTest, GivenEnumWithAdlToString_WhenIsReflected_ThenTrue)
+{
+  EXPECT_TRUE ((is_reflected_enum<type_traits_test_enums::Reflected>::value));
+  EXPECT_STREQ (toString (type_traits_test_enums::Reflected::second),
+                "second");
+}
+
+TEST (LumexTypeTraitsTest, GivenOtherTypes_WhenIsReflectedEnum_ThenFalse)
+{
+  // No toString, toString returning a non-string, not an enum, builtins.
+  EXPECT_FALSE (
+      (is_reflected_enum<type_traits_test_enums::NotReflected>::value));
+  EXPECT_FALSE (
+      (is_reflected_enum<type_traits_test_enums::WrongReturn>::value));
+  EXPECT_FALSE ((is_reflected_enum<type_traits_test_enums::NotAnEnum>::value));
+  EXPECT_FALSE ((is_reflected_enum<int>::value));
+  EXPECT_FALSE ((is_reflected_enum<std::string>::value));
 }

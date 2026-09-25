@@ -48,20 +48,23 @@ ThrowingFunction ()
 }
 } // namespace
 
-// --- VarInfoDetail::HasOstreamOperator / FormatValue --------------------
+// --- stream detection (traits::stream) / FormatValue -----------------------
 
-TEST (LumexVarInfoTest,
-      GivenStreamableType_WhenHasOstreamOperator_ThenValueIsTrue)
+TEST (LumexVarInfoTest, GivenStreamableType_WhenIsOstreamable_ThenValueIsTrue)
 {
-  EXPECT_TRUE (VarInfoDetail::HasOstreamOperator<int>::value);
-  EXPECT_TRUE (VarInfoDetail::HasOstreamOperator<std::string>::value);
-  EXPECT_TRUE (VarInfoDetail::HasOstreamOperator<Streamable>::value);
+  EXPECT_TRUE (lumex::core::utility::traits::stream::is_ostreamable<
+               int const &>::value);
+  EXPECT_TRUE (lumex::core::utility::traits::stream::is_ostreamable<
+               std::string const &>::value);
+  EXPECT_TRUE (lumex::core::utility::traits::stream::is_ostreamable<
+               Streamable const &>::value);
 }
 
 TEST (LumexVarInfoTest,
-      GivenNonStreamableType_WhenHasOstreamOperator_ThenValueIsFalse)
+      GivenNonStreamableType_WhenIsOstreamable_ThenValueIsFalse)
 {
-  EXPECT_FALSE (VarInfoDetail::HasOstreamOperator<NoStreamable>::value);
+  EXPECT_FALSE (lumex::core::utility::traits::stream::is_ostreamable<
+                NoStreamable const &>::value);
 }
 
 TEST (LumexVarInfoTest,

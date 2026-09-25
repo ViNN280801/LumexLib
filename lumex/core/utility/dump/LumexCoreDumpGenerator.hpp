@@ -143,6 +143,7 @@
 
 #include "lumex/LumexExport.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
+#include "lumex/core/utility/traits/LumexTypeTraits.hpp"
 
 #if HAS_CHRONO
 #include <chrono>
@@ -445,10 +446,6 @@ template <typename T>
 concept DumpTypeLike = std::same_as<T, DumpType>;
 
 template <typename T>
-concept StringLike = std::convertible_to<T, std::string_view>
-                     || std::convertible_to<T, std::string>;
-
-template <typename T>
 concept Configurable = requires (T configurable) {
   { configurable.isValid () } -> std::convertible_to<bool>;
   { configurable.getValidationError () } -> std::convertible_to<std::string>;
@@ -580,21 +577,21 @@ public:
 
 #if HAS_CONCEPTS
   // Template setters with concepts for type safety
-  template <CoreDumpGeneratorConcepts::StringLike T>
+  template <traits::string::StringLike T>
   bool
   setFilename (T const &filename) noexcept
   {
     return setFilename (std::string{ filename });
   }
 
-  template <CoreDumpGeneratorConcepts::StringLike T>
+  template <traits::string::StringLike T>
   bool
   setDirectory (T const &directory) noexcept
   {
     return setDirectory (std::string{ directory });
   }
 
-  template <CoreDumpGeneratorConcepts::StringLike T>
+  template <traits::string::StringLike T>
   bool
   addMemoryFilter (T const &filter) noexcept
   {
@@ -1352,14 +1349,14 @@ public:
 
 #if HAS_CONCEPTS
   // Template methods with concepts for type safety
-  template <CoreDumpGeneratorConcepts::StringLike T>
+  template <traits::string::StringLike T>
   bool
   generateInstanceDump (T const &reason)
   {
     return generateInstanceDump (std::string{ reason });
   }
 
-  template <CoreDumpGeneratorConcepts::StringLike T>
+  template <traits::string::StringLike T>
   bool
   generateInstanceDump (T const &reason, std::error_code &errorCode) noexcept
   {

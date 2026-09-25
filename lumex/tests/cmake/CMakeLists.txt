@@ -103,6 +103,8 @@ lumex_add_cmake_fail_test(require_fail_environment_without_utility
     "LUMEX_BUILD_ENVIRONMENT is enabled but requires LUMEX_BUILD_UTILITY")
 lumex_add_cmake_fail_test(require_fail_filesystem_without_utility
     "LUMEX_BUILD_FILESYSTEM is enabled but requires LUMEX_BUILD_UTILITY")
+lumex_add_cmake_fail_test(require_fail_fmt_without_utility
+    "LUMEX_BUILD_FMT is enabled but requires LUMEX_BUILD_UTILITY")
 lumex_add_cmake_fail_test(require_fail_string_view_without_utility
     "LUMEX_BUILD_STRING_VIEW is enabled but requires LUMEX_BUILD_UTILITY")
 lumex_add_cmake_fail_test(require_fail_reflection_without_utility
@@ -180,3 +182,26 @@ lumex_add_consumer_test(consumer_reflection_umbrella_field_reflection_off
     reflection_umbrella -DLUMEX_WITH_FIELD_REFLECTION=OFF)
 lumex_add_consumer_test(consumer_reflection_umbrella_field_reflection_on
     reflection_umbrella -DLUMEX_WITH_FIELD_REFLECTION=ON)
+# MSVC consumers that set no /Zc:__cplusplus must still see the real
+# __cplusplus in Lumex headers (the INTERFACE flag of every module target).
+lumex_add_consumer_test(consumer_cplusplus_macro cplusplus_macro)
+
+# LumexFormat compile-time checks: bad literal format strings must not
+# compile at C++20 (consteval), good ones must. Header-only, so the fixture
+# only includes the source tree and runs try_compile while configuring.
+add_test(NAME LumexCMake.format_compile_checks
+    COMMAND ${CMAKE_COMMAND}
+        -DCASE=format_compile_checks
+        -DLUMEX_SOURCE_DIR=${LumexLib_SOURCE_DIR}
+        -DWORK_DIR=${CMAKE_CURRENT_BINARY_DIR}/consumer/format_compile_checks
+        -DGENERATOR=${CMAKE_GENERATOR}
+        -DCXX_COMPILER=${CMAKE_CXX_COMPILER}
+        -DBUILD_TYPE=Release
+        -DCONFIGURE_ONLY=ON
+        -P ${_LUMEX_CONSUMER_RUN}
+)
+set_tests_properties(LumexCMake.format_compile_checks PROPERTIES
+    LABELS "cmake;consumer"
+    TIMEOUT 900
+    SKIP_REGULAR_EXPRESSION "LUMEX_CONSUMER_SKIP"
+)

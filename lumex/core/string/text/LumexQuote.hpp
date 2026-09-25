@@ -116,9 +116,9 @@ namespace Detail
  */
 template <typename Range, typename Separator>
 typename std::enable_if<
-    lumex::core::utility::traits::has_elements_convertible_to<
+    lumex::core::utility::traits::range::has_elements_convertible_to<
         Range, std::string const &>::value
-        && lumex::core::utility::traits::is_streamable<
+        && lumex::core::utility::traits::stream::is_streamable<
             typename std::decay<Separator>::type>::value,
     std::string>::type
 quote_each (Range const &range, Separator const &separator, char mark)
@@ -147,9 +147,9 @@ quote_each (Range const &range, Separator const &separator, char mark)
  */
 template <typename Range, typename Separator>
 typename std::enable_if<
-    lumex::core::utility::traits::has_elements_convertible_to<
+    lumex::core::utility::traits::range::has_elements_convertible_to<
         Range, std::string const &>::value
-        && lumex::core::utility::traits::is_streamable<
+        && lumex::core::utility::traits::stream::is_streamable<
             typename std::decay<Separator>::type>::value,
     std::string>::type
 quote (Range const &range, Separator const &separator)
@@ -160,9 +160,9 @@ quote (Range const &range, Separator const &separator)
 /** @brief Same as `quote`; named for symmetry with `quote_single`. */
 template <typename Range, typename Separator>
 typename std::enable_if<
-    lumex::core::utility::traits::has_elements_convertible_to<
+    lumex::core::utility::traits::range::has_elements_convertible_to<
         Range, std::string const &>::value
-        && lumex::core::utility::traits::is_streamable<
+        && lumex::core::utility::traits::stream::is_streamable<
             typename std::decay<Separator>::type>::value,
     std::string>::type
 quote_double (Range const &range, Separator const &separator)
@@ -176,9 +176,9 @@ quote_double (Range const &range, Separator const &separator)
  */
 template <typename Range, typename Separator>
 typename std::enable_if<
-    lumex::core::utility::traits::has_elements_convertible_to<
+    lumex::core::utility::traits::range::has_elements_convertible_to<
         Range, std::string const &>::value
-        && lumex::core::utility::traits::is_streamable<
+        && lumex::core::utility::traits::stream::is_streamable<
             typename std::decay<Separator>::type>::value,
     std::string>::type
 quote_single (Range const &range, Separator const &separator)
