@@ -121,6 +121,7 @@ function(apply_library_versioning TARGET_NAME)
     VENDOR_NAME
     VENDOR_EMAIL
     VENDOR_COMPANY
+    VENDOR_URL
     COPYRIGHT_YEAR
   )
   set(multiValueArgs "")
@@ -170,6 +171,29 @@ function(apply_library_versioning TARGET_NAME)
     set(ARG_VENDOR_COMPANY "")
   endif()
   
+  if(NOT ARG_VENDOR_URL)
+    set(ARG_VENDOR_URL "")
+  endif()
+  
+  # Vendor display string for CompanyName, in the house format
+  # "Name <email> (Company, URL)" - the same shape the DChannel rc uses, so every
+  # Lumex-built binary shows one authorship line. Falls back to the company alone
+  # when no person/team was provided.
+  set(ARG_VENDOR_DISPLAY "${ARG_VENDOR_COMPANY}")
+  if(ARG_VENDOR_NAME)
+    set(ARG_VENDOR_DISPLAY "${ARG_VENDOR_NAME}")
+    if(ARG_VENDOR_EMAIL)
+      set(ARG_VENDOR_DISPLAY "${ARG_VENDOR_DISPLAY} <${ARG_VENDOR_EMAIL}>")
+    endif()
+    if(ARG_VENDOR_COMPANY)
+      set(ARG_VENDOR_DISPLAY "${ARG_VENDOR_DISPLAY} (${ARG_VENDOR_COMPANY}")
+      if(ARG_VENDOR_URL)
+        set(ARG_VENDOR_DISPLAY "${ARG_VENDOR_DISPLAY}, ${ARG_VENDOR_URL}")
+      endif()
+      set(ARG_VENDOR_DISPLAY "${ARG_VENDOR_DISPLAY})")
+    endif()
+  endif()
+  
   # Parse version string: major.minor.patch[.tweak]
   string(REPLACE "." ";" VERSION_LIST ${ARG_PROJECT_VERSION})
   list(LENGTH VERSION_LIST VERSION_LIST_LENGTH)
@@ -213,10 +237,12 @@ function(apply_library_versioning TARGET_NAME)
     # CRITICAL: Must use "1 VERSIONINFO" not "VS_VERSION_INFO VERSIONINFO"
     set(VERSION_RC "${CMAKE_CURRENT_BINARY_DIR}/${TARGET_NAME}_version.rc")
     
-    # Build copyright string
+    # Build copyright string. One house format everywhere:
+    # "Copyright (C) <year>, Lumex Ltd." PXCalc, the oldest shipped resource,
+    # keeps its 2022 line - do not "fix" it.
     set(COPYRIGHT_STRING "")
     if(ARG_VENDOR_COMPANY)
-      set(COPYRIGHT_STRING "Copyright (C) ${ARG_COPYRIGHT_YEAR} ${ARG_VENDOR_COMPANY}")
+      set(COPYRIGHT_STRING "Copyright (C) ${ARG_COPYRIGHT_YEAR}, ${ARG_VENDOR_COMPANY}")
     else()
       set(COPYRIGHT_STRING "Copyright (C) ${ARG_COPYRIGHT_YEAR}")
     endif()
@@ -244,9 +270,9 @@ function(apply_library_versioning TARGET_NAME)
       "    BEGIN\n"
     )
     
-    # Add vendor company if provided
-    if(ARG_VENDOR_COMPANY)
-      string(APPEND RC_CONTENT "      VALUE \"CompanyName\", \"${ARG_VENDOR_COMPANY}\\0\"\n")
+    # CompanyName carries the full authorship line, not just the legal entity.
+    if(ARG_VENDOR_DISPLAY)
+      string(APPEND RC_CONTENT "      VALUE \"CompanyName\", \"${ARG_VENDOR_DISPLAY}\\0\"\n")
     endif()
     
     # Add file description

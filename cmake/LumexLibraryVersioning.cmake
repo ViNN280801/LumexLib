@@ -7,10 +7,14 @@
 # Include the universal function
 include(${CMAKE_CURRENT_LIST_DIR}/LibraryVersioning.cmake)
 
-# Lumex vendor information
-set(LUMEX_VENDOR_NAME "Semykin Vladislav")
-set(LUMEX_VENDOR_EMAIL "vladislav.semykin@gmail.com")
+# Lumex vendor information. The house authorship line is
+# "Lumex <lumex@lumex.ru> (Lumex Ltd., https://www.lumex.ru/)" in CompanyName and
+# "Copyright (C) <year>, Lumex Ltd." in LegalCopyright - see LibraryVersioning.cmake.
+# PEAK_EXPERT_CE has no LumexLib checkout: this file exists in PEAK_EXPERT_WEB only.
+set(LUMEX_VENDOR_NAME "Lumex")
+set(LUMEX_VENDOR_EMAIL "lumex@lumex.ru")
 set(LUMEX_VENDOR_COMPANY "Lumex Ltd.")
+set(LUMEX_VENDOR_URL "https://www.lumex.ru/")
 
 # Get current year dynamically
 string(TIMESTAMP LUMEX_COPYRIGHT_YEAR "%Y")
@@ -37,6 +41,7 @@ function(lumex_apply_library_versioning TARGET_NAME)
     VENDOR_NAME "${LUMEX_VENDOR_NAME}"
     VENDOR_EMAIL "${LUMEX_VENDOR_EMAIL}"
     VENDOR_COMPANY "${LUMEX_VENDOR_COMPANY}"
+    VENDOR_URL "${LUMEX_VENDOR_URL}"
     COPYRIGHT_YEAR "${LUMEX_COPYRIGHT_YEAR}"
   )
 endfunction()
