@@ -50,9 +50,14 @@
  *          is not a constant expression for the NTTP.
  *
  *          Limit: 32 public data members. No base classes, no
- *          bit-fields, no reference members. A computed-size check
- *          rejects types whose layout does not match sequential
- *          aligned members.
+ *          bit-fields, no reference members. From C++17,
+ *          indexed `get` uses structured bindings (Boost.PFR
+ *          core17 shape) so optional-only aggregates never hit the
+ *          CWG 2118 loophole. The loophole remains for C++14 only:
+ *          once-only friend body + `operator U&() const&&` (plain
+ *          `operator U()` redefines the friend for both the wrapper
+ *          and the contained type -> C2084; locking the contained
+ *          type first then fails the layout sizeof check).
  */
 
 #ifndef LUMEX_CORE_REFLECTION_FIELD_REFLECTION_AGGREGATE_FIELDS_HPP
@@ -89,8 +94,17 @@
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 #include "lumex/core/utility/macros/LumexMacros.hpp"
 
-#if __cplusplus >= 202002L
+// Prefer structured bindings for get whenever the compiler can do them
+// (feature test or C++17+). Otherwise the C++14 loophole path runs. The two
+// must be mutually exclusive: MSVC /std:c++20 sometimes omits
+// __cpp_structured_bindings while still compiling bindings, and a stale
+// loophole lock of std::optional's contained type then fails the layout
+// sizeof check (ChannelAmqpError::error_message_t).
+#if defined(__cpp_structured_bindings) || __cplusplus >= 201703L
+#define LUMEX_AGGREGATE_FIELDS_USE_SB 1
 #include <tuple>
+#else
+#define LUMEX_AGGREGATE_FIELDS_USE_SB 0
 #endif
 
 namespace lumex
@@ -168,13 +182,29 @@ struct count_fields_impl<Aggregate, Lo, Hi, false>
                            ok ? mid : Lo, ok ? Hi : mid - 1 > ::value;
 };
 
-#if __cplusplus >= 201402L
+#if __cplusplus >= 201402L && !LUMEX_AGGREGATE_FIELDS_USE_SB
+// CWG 2118 friend-injection loophole (Boost.PFR / Alexandr Poltavsky shape).
+// MSVC may instantiate the converting operator for both a field type U and a
+// type convertible into U (e.g. int and std::optional<int>). Defining the
+// friend body on every hit yields C2084. Probe whether loophole_fn is already
+// declared for (T, N); only the first successful U gets a body. operator U&()
+// const&& (not operator U()) is required so optional-like fields resolve to
+// the wrapper type, not the contained type.
 template <typename T, std::size_t N> struct loophole_tag
 {
   friend auto loophole_fn (loophole_tag<T, N>);
 };
 
-template <typename T, typename U, std::size_t N> struct loophole_set
+template <typename T, typename U, std::size_t N, bool AlreadyDefined>
+struct loophole_set;
+
+template <typename T, typename U, std::size_t N>
+struct loophole_set<T, U, N, true>
+{
+};
+
+template <typename T, typename U, std::size_t N>
+struct loophole_set<T, U, N, false>
 {
   friend auto
   loophole_fn (loophole_tag<T, N>)
@@ -185,8 +215,17 @@ template <typename T, typename U, std::size_t N> struct loophole_set
 
 template <typename T, std::size_t N> struct loophole_ubiq
 {
-  template <typename U, std::size_t = sizeof (loophole_set<T, U, N>)>
-  operator U ();
+  template <typename U, std::size_t M> static std::size_t probe (...);
+
+  template <typename U, std::size_t M,
+            std::size_t = sizeof (loophole_fn (loophole_tag<T, M>{}))>
+  static char probe (int);
+
+  template <
+      typename U,
+      std::size_t = sizeof (
+          loophole_set<T, U, N, (sizeof (probe<U, N> (0)) == sizeof (char))>)>
+  operator U & () const &&;
 };
 
 template <typename T, std::size_t N,
@@ -256,7 +295,7 @@ template <typename T> struct aggregate_traits
   static const std::size_t count
       = count_fields_impl<T, 0, k_max_aggregate_fields>::value;
 
-#if __cplusplus >= 201402L
+#if __cplusplus >= 201402L && !LUMEX_AGGREGATE_FIELDS_USE_SB
   typedef inject_fields<T, count> injected_t;
   static const std::size_t injected = injected_t::trigger;
 
@@ -314,26 +353,7 @@ copy_parsed_name (char *dest, std::size_t dest_size,
   dest[out] = '\0';
 }
 
-#if __cplusplus >= 202002L
-// Phantom storage for name extraction only: declared, never defined. Taking
-// the address of a member is enough for a pointer NTTP; constructing a real
-// `inline T fake{}` fails on MSVC (C2672) because a local reference into
-// that object is not a constant expression for `template <auto>`.
-template <typename T> struct fake_object_wrapper_t
-{
-  T const value;
-};
-
-template <typename T>
-extern fake_object_wrapper_t<T> const fake_object_storage;
-
-template <typename T>
-LUMEX_CONSTEXPR T const &
-fake_object () LUMEX_NOEXCEPT
-{
-  return fake_object_storage<T>.value;
-}
-
+#if LUMEX_AGGREGATE_FIELDS_USE_SB
 #define LUMEX_AF_TIE(N, ...)                                                  \
   template <typename Aggregate>                                               \
   LUMEX_CONSTEXPR auto as_tied (Aggregate &&value,                            \
@@ -408,6 +428,27 @@ LUMEX_AF_TIE (32, a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13,
               a27, a28, a29, a30, a31)
 
 #undef LUMEX_AF_TIE
+#endif
+
+#if __cplusplus >= 202002L
+// Phantom storage for name extraction only: declared, never defined. Taking
+// the address of a member is enough for a pointer NTTP; constructing a real
+// `inline T fake{}` fails on MSVC (C2672) because a local reference into
+// that object is not a constant expression for `template <auto>`.
+template <typename T> struct fake_object_wrapper_t
+{
+  T const value;
+};
+
+template <typename T>
+extern fake_object_wrapper_t<T> const fake_object_storage;
+
+template <typename T>
+LUMEX_CONSTEXPR T const &
+fake_object () LUMEX_NOEXCEPT
+{
+  return fake_object_storage<T>.value;
+}
 
 // Agg is unused but required: MSVC __FUNCSIG__ can collapse pointer NTTPs
 // from different aggregates into the same string unless the type is a
@@ -462,7 +503,7 @@ template <typename Agg> struct names_builder<Agg, index_sequence<>>
 };
 #endif
 
-#if __cplusplus >= 201402L
+#if __cplusplus >= 201402L && !LUMEX_AGGREGATE_FIELDS_USE_SB
 template <std::size_t I, typename Agg> struct qualified_field
 {
   typedef typename std::remove_const<
@@ -486,7 +527,31 @@ template <typename Aggregate>
 LUMEX_CONSTEXPR std::size_t tuple_size_v = tuple_size<Aggregate>::value;
 #endif
 
-#if __cplusplus >= 201402L
+#if LUMEX_AGGREGATE_FIELDS_USE_SB
+template <std::size_t Index, typename Aggregate>
+decltype (auto)
+get (Aggregate &value) LUMEX_NOEXCEPT
+{
+  typedef typename std::remove_const<Aggregate>::type bare_t;
+  LUMEX_STATIC_ASSERT_MSG (Index < tuple_size<bare_t>::value,
+                           "field index out of range");
+  return std::get<Index> (detail::as_tied (
+      value,
+      std::integral_constant<std::size_t, tuple_size<bare_t>::value>{}));
+}
+
+template <std::size_t Index, typename Aggregate>
+decltype (auto)
+get (Aggregate const &value) LUMEX_NOEXCEPT
+{
+  typedef typename std::remove_const<Aggregate>::type bare_t;
+  LUMEX_STATIC_ASSERT_MSG (Index < tuple_size<bare_t>::value,
+                           "field index out of range");
+  return std::get<Index> (detail::as_tied (
+      value,
+      std::integral_constant<std::size_t, tuple_size<bare_t>::value>{}));
+}
+#elif __cplusplus >= 201402L
 template <std::size_t Index, typename Aggregate>
 typename detail::qualified_field<Index, Aggregate &>::type &
 get (Aggregate &value) LUMEX_NOEXCEPT
@@ -540,5 +605,7 @@ names_as_array () LUMEX_NOEXCEPT
 #if defined(__clang__)
 #pragma clang diagnostic pop
 #endif
+
+#undef LUMEX_AGGREGATE_FIELDS_USE_SB
 
 #endif // !LUMEX_CORE_REFLECTION_FIELD_REFLECTION_AGGREGATE_FIELDS_HPP

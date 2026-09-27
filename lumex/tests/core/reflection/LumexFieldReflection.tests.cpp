@@ -15,6 +15,10 @@
 #include <utility>
 #endif
 
+#if __cplusplus >= 201703L
+#include <optional>
+#endif
+
 #include <gtest/gtest.h>
 
 #include "lumex/core/optional/LumexOptional"
@@ -88,6 +92,35 @@ struct MixedOptionals
   int always;
   optional<int> present;
 };
+
+#if __cplusplus >= 201703L
+// All std::optional fields: PeakExpertCE ChannelAmqpError::error_message_t
+// shape. C++17+ get uses structured bindings; C++14 loophole must not lock
+// the contained type (layout mismatch) or redefine the friend (C2084).
+struct AllStdOptionalFields
+{
+  std::optional<int> device;
+  std::optional<int> faultyUnit;
+  std::optional<int> issue;
+  std::optional<std::string> errorLogFile;
+  std::optional<std::string> message;
+  std::optional<std::string> errorMessage;
+};
+
+class NestedOptionalHost
+{
+public:
+  struct error_message_t
+  {
+    std::optional<int> device;
+    std::optional<int> faultyUnit;
+    std::optional<int> issue;
+    std::optional<std::string> errorLogFile;
+    std::optional<std::string> message;
+    std::optional<std::string> errorMessage;
+  };
+};
+#endif
 
 struct Scalars
 {
@@ -686,6 +719,57 @@ TEST (LumexFieldReflectionTest,
   EXPECT_EQ (j["always"].get<int> (), 9);
   EXPECT_EQ (j["present"].get<int> (), 4);
 }
+
+#if __cplusplus >= 201703L
+TEST (LumexFieldReflectionTest,
+      GivenAllStdOptionalFields_WhenToJson_ThenEngagedKeysOnlyAndTypesSurvive)
+{
+  AllStdOptionalFields obj;
+  obj.issue = 10661;
+  obj.message = std::string ("openFiles normalize error");
+  nlohmann::json const j = to_json (obj);
+
+  EXPECT_FALSE (j.contains ("device"));
+  EXPECT_FALSE (j.contains ("faultyUnit"));
+  EXPECT_FALSE (j.contains ("errorLogFile"));
+  EXPECT_FALSE (j.contains ("errorMessage"));
+  ASSERT_TRUE (j.contains ("issue"));
+  ASSERT_TRUE (j.contains ("message"));
+  EXPECT_EQ (j["issue"].get<int> (), 10661);
+  EXPECT_EQ (j["message"].get<std::string> (), "openFiles normalize error");
+  EXPECT_EQ (tuple_size<AllStdOptionalFields>::value, 6u);
+  AllStdOptionalFields typed{};
+  EXPECT_TRUE (
+      (std::is_same<
+          typename std::remove_reference<decltype (get<0> (typed))>::type,
+          std::optional<int>>::value));
+  EXPECT_TRUE (
+      (std::is_same<
+          typename std::remove_reference<decltype (get<3> (typed))>::type,
+          std::optional<std::string>>::value));
+}
+
+TEST (
+    LumexFieldReflectionTest,
+    GivenNestedAllStdOptionalFields_WhenToJson_ThenEngagedKeysOnlyAndTypesSurvive)
+{
+  NestedOptionalHost::error_message_t obj;
+  obj.issue = 10661;
+  obj.message = std::string ("openFiles normalize error");
+  nlohmann::json const j = to_json (obj);
+
+  EXPECT_FALSE (j.contains ("device"));
+  ASSERT_TRUE (j.contains ("issue"));
+  ASSERT_TRUE (j.contains ("message"));
+  EXPECT_EQ (j["issue"].get<int> (), 10661);
+  EXPECT_EQ (tuple_size<NestedOptionalHost::error_message_t>::value, 6u);
+  NestedOptionalHost::error_message_t typed{};
+  EXPECT_TRUE (
+      (std::is_same<
+          typename std::remove_reference<decltype (get<0> (typed))>::type,
+          std::optional<int>>::value));
+}
+#endif
 
 TEST (LumexFieldReflectionTest,
       GivenScalarFields_WhenToJson_ThenTypesAndEmptyStringArePreserved)
