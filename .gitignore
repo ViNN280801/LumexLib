@@ -43,6 +43,12 @@
 # Build dirs
 out/
 output/
+# Exception: vendored trees must not be swept by build-output globs.
+# nlohmann's multi-header layout uses detail/output/; a future vendor of that
+# layout (this tree currently ships the amalgamated json.hpp) would vanish
+# from the index the same way PeakExpertWeb's copy did under Output/.
+!3rdparty/
+!3rdparty/**
 build*
 build-*
 build_*
