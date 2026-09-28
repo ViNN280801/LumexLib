@@ -7,6 +7,7 @@ add_executable(
     BadExpectedAccess.tests.cpp
     Expected.tests.cpp
     ExpectedVoid.tests.cpp
+    SuccessFailure.tests.cpp
     Unexpected.tests.cpp
 )
 

@@ -3,3 +3,4 @@
 #include "result/Expected.hpp"
 #include "result/ExpectedTypes.hpp"
 #include "result/ExpectedVoid.hpp"
+#include "result/SuccessFailure.hpp"

@@ -53,6 +53,15 @@ main ()
   std::cout << "void_ok=" << (done ? "yes" : "no")
             << " void_err=" << failed.error () << '\n';
 
+  std::cout << "\n--- 5. success() / failure() factories ---\n";
+  Expected<int, std::string> const fromFactory = success (7);
+  Expected<int, std::string> const failedFactory
+      = failure (std::string ("factory error"));
+  Expected<void, std::string> const voidFactory = success ();
+  std::cout << "factory_ok=" << fromFactory.value ()
+            << " factory_err=" << failedFactory.error ()
+            << " factory_void=" << (voidFactory ? "yes" : "no") << '\n';
+
   std::cout << "\n=== Expected example finished ===\n";
   return 0;
 }

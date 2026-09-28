@@ -10,9 +10,48 @@
 
 ---
 
-## [v1.0.0.0] - в разработке
+## [v1.0.0.2] - в разработке
 
-> Первая учитываемая версия. Не закоммичено на момент записи - дата и хеш коммита будут добавлены после коммита.
+> Изменения после тега `v1.0.0.1`. Версия в `CMakeLists.txt` поднимается коммитом релиза.
+
+### [v1.0.0.2]
+
+#### Добавлено
+
+##### core/expected: фабрики `success()` и `failure()`
+
+**Файлы:**
+
+- `lumex/core/expected/result/SuccessFailure.hpp`
+- `lumex/core/expected/Expected`
+- `lumex/tests/core/expected/SuccessFailure.tests.cpp`
+- `lumex/tests/core/expected/CMakeLists.txt`
+- `lumex/examples/expected/example_expected.cpp`
+
+**Суть:** собрать `Expected` можно было только через `unexpect`-тег, что многословно в `return` и расходится с привычной идиомой boost.outcome (`return success();`, `return failure(error);`). Добавлены маркеры `success_t<ValueType>` и `failure_t<ErrorType>` с неявным преобразованием в `Expected<T, E>` и `Expected<void, E>`, ограниченным SFINAE: const-маркер копирует значение, rvalue-маркер перемещает, несовместимая цель ловится на `return`, а не молча меняет значение. Фабрики: `success()`, `success(value)`, `failure(error)`; `success_t<void>` покрывает и `Expected<void, E>`, и `Expected<T, E>` с конструируемым по умолчанию `T`. Пример расширен разделом с фабриками. Тесты: `SuccessFailure.tests.cpp` - компиляционная матрица типов, типовая сюита 8x8 (адресация пары в отчете плюс типы, не стоящие строки матрицы) и полная матрица 25x25 = 625 пар через pack-expansion (типовая сюита столько параметров не тянет: механике gtest не хватает глубины инстанцирования), плюс пограничные случаи (пустая ошибка, NUL внутри строки, 10k-сообщение, move-only значение и ошибка, бросающий конструктор по умолчанию, возврат из хелпера и лямбды). Размер списка типов - бюджет: стоимость матрицы квадратична, а матрица из 99 типов на MSVC собиралась больше 20 минут при повторных пиках памяти компилятора в 5-8 ГБ, поэтому список сознательно короткий, а расширять его надо по одному-два типа с замером.
+
+## [v1.0.0.1] - 2026-09-28
+
+> Тег `v1.0.0.1`, релизный коммит `8c6f8911`.
+
+### [v1.0.0.1]
+
+#### Исправлено
+
+##### field_reflection: `AggregateFields` безопасен для агрегатов только из `std::optional` на MSVC
+
+**Файлы:**
+
+- `lumex/core/reflection/field_reflection/LumexAggregateFields.hpp`
+- `lumex/tests/core/reflection/LumexFieldReflection.tests.cpp`
+- `cmake/LibraryVersioning.cmake`, `cmake/LumexLibraryVersioning.cmake`
+- `CMakeLists.txt`
+
+**Суть:** MSVC в `/std:c++20` может не объявлять `__cpp_structured_bindings`, хотя структурированные привязки компилирует, поэтому лазейка CWG 2118 для C++14 оставалась активной рядом с SB-веткой: тип внутри `std::optional` оказывался зафиксирован (ошибка layout `sizeof`) либо `loophole_fn` определялся повторно (C2084). Теперь структурированные привязки предпочитаются, когда доступны (`LUMEX_AGGREGATE_FIELDS_USE_SB`), а на loophole-пути тело friend определяется один раз и преобразуется через `operator U&() const&&`. Тесты покрывают агрегаты целиком из `std::optional` (форма `ChannelAmqpError::error_message_t`), включая вложенный host-тип. Отдельным коммитом исправлены автор и почта в метаданных версии, `CMakeLists.txt` поднят до `1.0.0.1`.
+
+## [v1.0.0.0] - 2026-09-25
+
+> Первая учитываемая версия. Тег `v1.0.0.0`, релизный коммит `df93fc30`.
 
 ### [v1.0.0.0]
 
