@@ -596,15 +596,17 @@ TEST_F (CircularBufferIntTest, ThreadSafety_MultipleIndependentInstances)
   // Act
   for (int i = 0; i < num_threads; ++i)
     {
-      threads.emplace_back ([&, i] () {
-        auto &buffer = buffers[i];
-        buffer.push_back (val1);
-        buffer.push_back (val2);
+      threads.emplace_back (
+          [&, i] ()
+            {
+              auto &buffer = buffers[i];
+              buffer.push_back (val1);
+              buffer.push_back (val2);
 
-        EXPECT_EQ (buffer.size (), 2);
-        EXPECT_EQ (buffer[0], val1);
-        EXPECT_EQ (buffer[1], val2);
-      });
+              EXPECT_EQ (buffer.size (), 2);
+              EXPECT_EQ (buffer[0], val1);
+              EXPECT_EQ (buffer[1], val2);
+            });
     }
 
   for (auto &t : threads)

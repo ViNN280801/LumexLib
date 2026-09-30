@@ -42,6 +42,11 @@
 
 #include "lumex/LumexExport.hpp"
 
+#include <string>
+#if __cplusplus >= 201703L
+#include <string_view>
+#endif
+
 #include "lumex/core/exceptions/stacktrace/LumexStacktrace.hpp"
 #include "lumex/core/utility/attr/LumexAttributes.hpp"
 #include "lumex/core/utility/macros/LumexExceptionMacros.hpp"
@@ -50,10 +55,6 @@
 // ================================================================== //
 // ====================== Lumex Base Exception ====================== //
 // ================================================================== //
-
-#if __cplusplus >= 201703L
-#include <string_view>
-#endif
 
 namespace lumex // NOLINT(modernize-concat-nested-namespaces)
 {
@@ -93,9 +94,15 @@ public:
 #if __cplusplus >= 201703L
   /**
    * @brief Constructs a `LumexBaseException` with a message.
-   * @param message The error message.
+   * @details Inline and delegating to the `std::string &&` constructor, so
+   * the library exports the same constructors in every C++ standard and a
+   * consumer built at another standard links.
+   * @param message The error message; may contain NUL characters.
    */
-  LumexBaseException (std::string_view message);
+  LumexBaseException (std::string_view message)
+      : LumexBaseException (std::string (message))
+  {
+  }
 #endif
 
   /**
@@ -148,14 +155,14 @@ private:
 #ifdef _WIN32
 #pragma warning(pop)
 #endif
-} // namespace exception
-} // namespace exceptions
-} // namespace core
-} // namespace lumex
 
 // Declare the trampoline function
 LUMEX_PUBLIC_API LUMEX_ATTRIBUTE_NOINLINE LumexStacktrace
 LumexException_GetStackTraceTrampoline (int skip_frames);
+} // namespace exception
+} // namespace exceptions
+} // namespace core
+} // namespace lumex
 
 using LumexBaseException
     = lumex::core::exceptions::exception::LumexBaseException;

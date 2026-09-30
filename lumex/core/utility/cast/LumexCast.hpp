@@ -31,10 +31,20 @@
 #include <string>
 #include <type_traits>
 #include <typeinfo>
+#if __cplusplus > 201703L && defined(__has_include)
+#if __has_include(<concepts>)
+#include <concepts>
+#endif
+#endif
 
 #include "lumex/core/utility/attr/LumexAttributes.hpp"
+#include "lumex/core/utility/compiler/LumexCheckFeatures.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 #include "lumex/core/utility/traits/LumexTypeTraits.hpp"
+
+// Needs C++20 concepts and <concepts>; without them the header declares
+// nothing.
+#if LUMEX_HAS_STD_CONCEPTS
 
 namespace lumex
 {
@@ -193,5 +203,7 @@ Derived downcast_noexcept (Base base) LUMEX_NOEXCEPT
 } // namespace utility
 } // namespace core
 } // namespace lumex
+
+#endif // LUMEX_HAS_STD_CONCEPTS
 
 #endif // !LUMEX_CORE_UTILITY_CAST_HPP

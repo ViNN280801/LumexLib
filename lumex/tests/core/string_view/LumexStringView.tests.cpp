@@ -725,11 +725,13 @@ TEST_F (LumexStringViewTest, ThreadSafeReads)
 
   for (int i = 0; i < 10; ++i)
     {
-      threads.emplace_back ([&sv, &results, i] () {
-        // Multiple threads reading simultaneously
-        results[i]
-            = (sv.size () == 13 && sv.find ('H') == 0 && sv.ends_with ('!'));
-      });
+      threads.emplace_back (
+          [&sv, &results, i] ()
+            {
+              // Multiple threads reading simultaneously
+              results[i] = (sv.size () == 13 && sv.find ('H') == 0
+                            && sv.ends_with ('!'));
+            });
     }
 
   for (auto &thread : threads)

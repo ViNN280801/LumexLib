@@ -1,28 +1,33 @@
 #define LUMEX_IMPLEMENTATION
 #include <algorithm>
 #include <cstring>
+#include <fstream>
+#include <regex>
+#include <sstream>
 #include <thread>
 #include <vector>
 
-#include "LumexHardwareCapabilities.hpp"
-#include "lumex/applied/logging/LumexLogging"
-#include "lumex/core/utility/LumexUtility"
-#include "lumex/core/utility/macros/LumexKeywords.hpp"
-
-#if LUMEX_OS_WINDOWS
+// Platform headers are gated on compiler macros so they can precede the
+// project headers (the code below still branches on LUMEX_OS_*).
+#if defined(_WIN32)
 #include <Windows.h>
 
 #include <intrin.h>
 
 #include <d3d11.h>
 #include <dxgi.h>
+#elif defined(__unix__) || defined(__APPLE__)
+#include <unistd.h>
+#endif
+
+#include "LumexHardwareCapabilities.hpp"
+#include "lumex/applied/logging/LumexLogging"
+#include "lumex/core/utility/LumexUtility"
+#include "lumex/core/utility/macros/LumexKeywords.hpp"
+
+#if defined(_WIN32)
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "dxgi.lib")
-#elif LUMEX_OS_UNIX
-#include <fstream>
-#include <regex>
-#include <sstream>
-#include <unistd.h>
 #endif
 
 namespace lumex
@@ -44,7 +49,7 @@ HardwareCapabilities::detect_hardware ()
   if (info.cpu_core_count == 0)
     info.cpu_core_count = 1; // Fallback
 
-#if LUMEX_OS_WINDOWS
+#if defined(LUMEX_OS_WINDOWS)
   // Get CPU name on Windows
   int cpuInfo[4] = { -1 };
   char cpuBrandString[Constants::KCPU_INFO_BUFFER_SIZE] = { 0 };
@@ -134,7 +139,7 @@ HardwareCapabilities::detect_hardware ()
       pFactory->Release ();
     }
 
-#elif LUMEX_OS_UNIX
+#elif defined(LUMEX_OS_UNIX)
   // Get CPU info from /proc/cpuinfo
   std::ifstream cpuinfo ("/proc/cpuinfo");
   std::string line;
@@ -380,17 +385,16 @@ HardwareCapabilities::is_old_cpu (std::string const &cpu_name)
           Constants::KAMD_A_SERIES_IDENTIFIER };  // AMD A-series APUs
 
   std::string lowerCpu = cpu_name;
-  std::transform (
-      lowerCpu.begin (), lowerCpu.end (), lowerCpu.begin (),
-      [] (unsigned char ch) { return static_cast<char> (::tolower (ch)); });
+  std::transform (lowerCpu.begin (), lowerCpu.end (), lowerCpu.begin (),
+                  [] (unsigned char ch)
+                    { return static_cast<char> (::tolower (ch)); });
 
   for (auto const &oldCpu : oldCPUs)
     {
       std::string lowerOldCpu = oldCpu;
       std::transform (lowerOldCpu.begin (), lowerOldCpu.end (),
-                      lowerOldCpu.begin (), [] (unsigned char ch) {
-                        return static_cast<char> (::tolower (ch));
-                      });
+                      lowerOldCpu.begin (), [] (unsigned char ch)
+                        { return static_cast<char> (::tolower (ch)); });
       if (lowerCpu.find (lowerOldCpu) != std::string::npos)
         return true;
     }
@@ -477,7 +481,7 @@ HardwareCapabilities::apply_optimal_rendering_settings ()
                           "Applying software rendering settings for "
                           "optimal performance on this hardware");
 
-#if LUMEX_OS_WINDOWS
+#if defined(LUMEX_OS_WINDOWS)
       _putenv_s ("QT_QUICK_BACKEND", "software");
       _putenv_s ("QSG_RENDER_LOOP", "basic");
 #else
@@ -498,9 +502,9 @@ HardwareCapabilities::apply_optimal_rendering_settings ()
 
 LUMEX_PUBLIC_API
 std::string
-lumex::applied::hardware::caps::get_mac_address ()
+get_mac_address ()
 {
-#if LUMEX_OS_WINDOWS
+#if defined(LUMEX_OS_WINDOWS)
   // Windows implementation using GetAdaptersInfo
   ULONG buffer_size = 0;
   DWORD result = GetAdaptersInfo (nullptr, std::addressof (buffer_size));
@@ -581,9 +585,9 @@ lumex::applied::hardware::caps::get_mac_address ()
 
 LUMEX_PUBLIC_API
 std::uint64_t
-lumex::applied::hardware::caps::generate_cryptographic_seed ()
+generate_cryptographic_seed ()
 {
-#if LUMEX_OS_WINDOWS
+#if defined(LUMEX_OS_WINDOWS)
   // Windows: Try CryptGenRandom first
   HCRYPTPROV h_prov = 0;
   if (CryptAcquireContext (&h_prov, nullptr, nullptr, PROV_RSA_FULL,

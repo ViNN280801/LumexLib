@@ -35,15 +35,21 @@
 #include <stdexcept>
 #include <type_traits>
 #include <utility>
-
-#include "lumex/core/utility/assert/LumexAssert.hpp"
-#include "lumex/core/utility/macros/LumexConstantMacros.hpp"
-#include "lumex/core/utility/macros/LumexKeywords.hpp"
-
-#if __cplusplus >= 202002L
-#include <compare>  // For std::strong_ordering
+#if __cplusplus > 201703L && defined(__has_include)
+#if __has_include(<compare>)
+#include <compare> // For std::strong_ordering
+#endif
+#endif
+#if __cplusplus > 201703L && defined(__has_include)
+#if __has_include(<concepts>)
 #include <concepts> // For std::three_way_comparable
 #endif
+#endif
+
+#include "lumex/core/utility/assert/LumexAssert.hpp"
+#include "lumex/core/utility/compiler/LumexCheckFeatures.hpp"
+#include "lumex/core/utility/macros/LumexConstantMacros.hpp"
+#include "lumex/core/utility/macros/LumexKeywords.hpp"
 
 namespace lumex
 {
@@ -1808,7 +1814,7 @@ operator>= (CircularBuffer<T, Alloc> const &lhs,
   return !(lhs < rhs);
 }
 
-#if __cplusplus >= 202002L
+#if LUMEX_HAS_THREE_WAY_COMPARISON && LUMEX_HAS_STD_CONCEPTS
 /**
  * @brief Three-way comparison (`<=>`) of two `CircularBuffer` objects (C++20).
  *

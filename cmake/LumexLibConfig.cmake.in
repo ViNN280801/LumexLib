@@ -4,6 +4,9 @@
 
 include(CMakeFindDependencyMacro)
 
+# lumex::utility links Threads::Threads (pthread before glibc 2.34).
+find_dependency(Threads)
+
 if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/LumexCoreTargets.cmake")
     include("${CMAKE_CURRENT_LIST_DIR}/LumexCoreTargets.cmake")
     if(TARGET lumex::LumexCore_base64 AND NOT TARGET lumex::base64)

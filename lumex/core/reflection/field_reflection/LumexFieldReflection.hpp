@@ -44,10 +44,11 @@
 #include <type_traits>
 #include <utility>
 
+#include <nlohmann/json.hpp>
+
 #include "lumex/core/reflection/field_reflection/LumexAggregateFields.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 #include "lumex/core/utility/traits/LumexTypeTraits.hpp"
-#include <nlohmann/json.hpp>
 
 namespace lumex
 {

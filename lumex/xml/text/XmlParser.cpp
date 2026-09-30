@@ -30,7 +30,8 @@ struct gap
       {
         // Move [old_gap_end, new_gap_start) to [old_gap_start, ...)
         LUMEX_ASSERT (s >= end);
-        memmove (end - size, end, (s - end) * sizeof (char_t));
+        memmove (end - size, end,
+                 static_cast<std::size_t> (s - end) * sizeof (char_t));
       }
 
     s += count; // end of current gap
@@ -48,7 +49,8 @@ struct gap
       {
         // Move [old_gap_end, current_pos) to [old_gap_start, ...)
         LUMEX_ASSERT (s >= end);
-        memmove (end - size, end, (s - end) * sizeof (char_t));
+        memmove (end - size, end,
+                 static_cast<std::size_t> (s - end) * sizeof (char_t));
 
         return s - size;
       }
@@ -80,9 +82,10 @@ strconv_escape (char_t *s, gap &g)
             for (;;)
               {
                 if (static_cast<unsigned int> (ch - '0') <= 9)
-                  ucsc = 16 * ucsc + (ch - '0');
+                  ucsc = 16 * ucsc + static_cast<unsigned int> (ch - '0');
                 else if (static_cast<unsigned int> ((ch | ' ') - 'a') <= 5)
-                  ucsc = 16 * ucsc + ((ch | ' ') - 'a' + 10);
+                  ucsc = 16 * ucsc
+                         + static_cast<unsigned int> ((ch | ' ') - 'a' + 10);
                 else if (ch == ';')
                   break;
                 else // cancel
@@ -103,7 +106,7 @@ strconv_escape (char_t *s, gap &g)
             for (;;)
               {
                 if (static_cast<unsigned int> (ch - '0') <= 9)
-                  ucsc = 10 * ucsc + (ch - '0');
+                  ucsc = 10 * ucsc + static_cast<unsigned int> (ch - '0');
                 else if (ch == ';')
                   break;
                 else // cancel
@@ -123,7 +126,7 @@ strconv_escape (char_t *s, gap &g)
             utf8_writer::any (reinterpret_cast<uint8_t *> (s), ucsc));
 #endif
 
-        g.push (s, stre - s);
+        g.push (s, static_cast<std::size_t> (stre - s));
         return stre;
       }
 
@@ -138,7 +141,7 @@ strconv_escape (char_t *s, gap &g)
                 *s++ = '&';
                 ++stre;
 
-                g.push (s, stre - s);
+                g.push (s, static_cast<std::size_t> (stre - s));
                 return stre;
               }
           }
@@ -149,7 +152,7 @@ strconv_escape (char_t *s, gap &g)
                 *s++ = '\'';
                 ++stre;
 
-                g.push (s, stre - s);
+                g.push (s, static_cast<std::size_t> (stre - s));
                 return stre;
               }
           }
@@ -163,7 +166,7 @@ strconv_escape (char_t *s, gap &g)
             *s++ = '>';
             ++stre;
 
-            g.push (s, stre - s);
+            g.push (s, static_cast<std::size_t> (stre - s));
             return stre;
           }
         break;
@@ -176,7 +179,7 @@ strconv_escape (char_t *s, gap &g)
             *s++ = '<';
             ++stre;
 
-            g.push (s, stre - s);
+            g.push (s, static_cast<std::size_t> (stre - s));
             return stre;
           }
         break;
@@ -190,7 +193,7 @@ strconv_escape (char_t *s, gap &g)
             *s++ = '"';
             ++stre;
 
-            g.push (s, stre - s);
+            g.push (s, static_cast<std::size_t> (stre - s));
             return stre;
           }
         break;
@@ -221,7 +224,7 @@ template <typename opt_escape> struct strconv_attribute_impl
           ++tmp;
         while (LUMEX_XML_IS_CHARTYPE (*tmp, ct_space));
 
-        g.push (str, tmp - str);
+        g.push (str, static_cast<std::size_t> (tmp - str));
       }
 
     while (true)
@@ -249,7 +252,7 @@ template <typename opt_escape> struct strconv_attribute_impl
                 while (LUMEX_XML_IS_CHARTYPE (*tmp, ct_space))
                   ++tmp;
 
-                g.push (str, tmp - str);
+                g.push (str, static_cast<std::size_t> (tmp - str));
               }
           }
         else if (opt_escape::value && *str == '&')
@@ -584,7 +587,7 @@ get_strconv_pcdata (unsigned int optmask)
 }
 
 LUMEX_PUBLIC_API
-inline XmlParser::XmlParser (XmlAllocator *alloc_)
+XmlParser::XmlParser (XmlAllocator *alloc_)
     : alloc (alloc_), error_status (status_ok)
 {
 }
@@ -1342,7 +1345,8 @@ XmlParser::parse (char_t *buffer, std::size_t length,
       // since we removed last character, we have to handle the only possible
       // false positive (stray <)
       if (endch == '<')
-        return make_parse_result (status_unrecognized_tag, length - 1);
+        return make_parse_result (status_unrecognized_tag,
+                                  static_cast<ptrdiff_t> (length - 1));
 
       // check if there are any element nodes parsed
       XmlNodeBase *first_root_child_parsed
@@ -1351,7 +1355,8 @@ XmlParser::parse (char_t *buffer, std::size_t length,
 
       if (!LUMEX_XML_OPTSET (Constants::kparse_fragment)
           && !has_element_node_siblings (first_root_child_parsed))
-        return make_parse_result (status_no_document_element, length - 1);
+        return make_parse_result (status_no_document_element,
+                                  static_cast<ptrdiff_t> (length - 1));
     }
   else
     {

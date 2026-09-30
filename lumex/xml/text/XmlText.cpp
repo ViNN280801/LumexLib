@@ -15,10 +15,10 @@ using namespace lumex::xml::constants;
 using namespace lumex::xml::constants::Constants;
 
 LUMEX_PUBLIC_API
-inline XmlText::XmlText (XmlNodeBase *root) : m_root (root) {}
+XmlText::XmlText (XmlNodeBase *root) : m_root (root) {}
 
 LUMEX_PUBLIC_API
-inline XmlNodeBase *
+XmlNodeBase *
 XmlText::_data () const
 {
   if ((m_root == nullptr) || node::is_text_node (m_root))
@@ -38,7 +38,7 @@ XmlText::_data () const
 }
 
 LUMEX_PUBLIC_API
-inline XmlNodeBase *
+XmlNodeBase *
 XmlText::_data_new ()
 {
   XmlNodeBase *data = _data ();
@@ -49,7 +49,7 @@ XmlText::_data_new ()
 }
 
 LUMEX_PUBLIC_API
-inline XmlText::XmlText () : m_root (nullptr) {}
+XmlText::XmlText () : m_root (nullptr) {}
 
 inline static void
 unspecified_bool_xml_text (
@@ -58,28 +58,28 @@ unspecified_bool_xml_text (
 }
 
 LUMEX_PUBLIC_API
-inline XmlText::
+XmlText::
 operator XmlText::unspecified_bool_type () const
 {
   return (_data () != nullptr) ? unspecified_bool_xml_text : nullptr;
 }
 
 LUMEX_PUBLIC_API
-inline bool
+bool
 XmlText::operator!() const
 {
   return _data () == nullptr;
 }
 
 LUMEX_PUBLIC_API
-inline bool
+bool
 XmlText::empty () const
 {
   return _data () == nullptr;
 }
 
 LUMEX_PUBLIC_API
-inline char_t const *
+char_t const *
 XmlText::get () const
 {
   XmlNodeBase *data = _data ();
@@ -90,7 +90,7 @@ XmlText::get () const
 }
 
 LUMEX_PUBLIC_API
-inline char_t const *
+char_t const *
 XmlText::as_string (char_t const *def) const
 {
   XmlNodeBase *data = _data ();
@@ -101,7 +101,7 @@ XmlText::as_string (char_t const *def) const
 }
 
 LUMEX_PUBLIC_API
-inline int
+int
 XmlText::as_int (int def) const
 {
   XmlNodeBase *data = _data ();
@@ -112,7 +112,7 @@ XmlText::as_int (int def) const
 }
 
 LUMEX_PUBLIC_API
-inline unsigned int
+unsigned int
 XmlText::as_uint (unsigned int def) const
 {
   XmlNodeBase *data = _data ();
@@ -123,7 +123,7 @@ XmlText::as_uint (unsigned int def) const
 }
 
 LUMEX_PUBLIC_API
-inline double
+double
 XmlText::as_double (double def) const
 {
   XmlNodeBase *data = _data ();
@@ -134,7 +134,7 @@ XmlText::as_double (double def) const
 }
 
 LUMEX_PUBLIC_API
-inline float
+float
 XmlText::as_float (float def) const
 {
   XmlNodeBase *data = _data ();
@@ -145,7 +145,7 @@ XmlText::as_float (float def) const
 }
 
 LUMEX_PUBLIC_API
-inline bool
+bool
 XmlText::as_bool (bool def) const
 {
   XmlNodeBase *data = _data ();
@@ -156,7 +156,7 @@ XmlText::as_bool (bool def) const
 }
 
 LUMEX_PUBLIC_API
-inline long long
+long long
 XmlText::as_llong (long long def) const
 {
   XmlNodeBase *data = _data ();
@@ -167,7 +167,7 @@ XmlText::as_llong (long long def) const
 }
 
 LUMEX_PUBLIC_API
-inline unsigned long long
+unsigned long long
 XmlText::as_ullong (unsigned long long def) const
 {
   XmlNodeBase *data = _data ();
@@ -178,7 +178,7 @@ XmlText::as_ullong (unsigned long long def) const
 }
 
 LUMEX_PUBLIC_API
-inline bool
+bool
 XmlText::set (char_t const *rhs)
 {
   XmlNodeBase *newdata = _data_new ();
@@ -191,7 +191,7 @@ XmlText::set (char_t const *rhs)
 }
 
 LUMEX_PUBLIC_API
-inline bool
+bool
 XmlText::set (char_t const *rhs, std::size_t size)
 {
   XmlNodeBase *newdata = _data_new ();
@@ -203,36 +203,21 @@ XmlText::set (char_t const *rhs, std::size_t size)
              : false;
 }
 
-#if __cplusplus >= 201703L
 LUMEX_PUBLIC_API
-inline bool
-XmlText::set (string_view_t rhs)
-{
-  XmlNodeBase *newdata = _data_new ();
-
-  return (newdata != nullptr)
-             ? utility::strcpy_insitu (newdata->value, newdata->header,
-                                       kxml_memory_page_value_allocated_mask,
-                                       rhs.data (), rhs.size ())
-             : false;
-}
-#endif
-
-LUMEX_PUBLIC_API
-inline bool
+bool
 XmlText::set (int rhs)
 {
   XmlNodeBase *newdata = _data_new ();
 
-  return (newdata != nullptr)
-             ? utility::set_value_integer<unsigned int> (
-                   newdata->value, newdata->header,
-                   kxml_memory_page_value_allocated_mask, rhs, rhs < 0)
-             : false;
+  return (newdata != nullptr) ? utility::set_value_integer<unsigned int> (
+                                    newdata->value, newdata->header,
+                                    kxml_memory_page_value_allocated_mask,
+                                    static_cast<unsigned int> (rhs), rhs < 0)
+                              : false;
 }
 
 LUMEX_PUBLIC_API
-inline bool
+bool
 XmlText::set (unsigned int rhs)
 {
   XmlNodeBase *newdata = _data_new ();
@@ -245,20 +230,20 @@ XmlText::set (unsigned int rhs)
 }
 
 LUMEX_PUBLIC_API
-inline bool
+bool
 XmlText::set (long rhs)
 {
   XmlNodeBase *newdata = _data_new ();
 
-  return (newdata != nullptr)
-             ? utility::set_value_integer<unsigned long> (
-                   newdata->value, newdata->header,
-                   kxml_memory_page_value_allocated_mask, rhs, rhs < 0)
-             : false;
+  return (newdata != nullptr) ? utility::set_value_integer<unsigned long> (
+                                    newdata->value, newdata->header,
+                                    kxml_memory_page_value_allocated_mask,
+                                    static_cast<unsigned long> (rhs), rhs < 0)
+                              : false;
 }
 
 LUMEX_PUBLIC_API
-inline bool
+bool
 XmlText::set (unsigned long rhs)
 {
   XmlNodeBase *newdata = _data_new ();
@@ -271,7 +256,7 @@ XmlText::set (unsigned long rhs)
 }
 
 LUMEX_PUBLIC_API
-inline bool
+bool
 XmlText::set (float rhs)
 {
   XmlNodeBase *newdata = _data_new ();
@@ -284,7 +269,7 @@ XmlText::set (float rhs)
 }
 
 LUMEX_PUBLIC_API
-inline bool
+bool
 XmlText::set (float rhs, int precision)
 {
   XmlNodeBase *newdata = _data_new ();
@@ -297,7 +282,7 @@ XmlText::set (float rhs, int precision)
 }
 
 LUMEX_PUBLIC_API
-inline bool
+bool
 XmlText::set (double rhs)
 {
   XmlNodeBase *newdata = _data_new ();
@@ -310,7 +295,7 @@ XmlText::set (double rhs)
 }
 
 LUMEX_PUBLIC_API
-inline bool
+bool
 XmlText::set (double rhs, int precision)
 {
   XmlNodeBase *newdata = _data_new ();
@@ -323,7 +308,7 @@ XmlText::set (double rhs, int precision)
 }
 
 LUMEX_PUBLIC_API
-inline bool
+bool
 XmlText::set (bool rhs)
 {
   XmlNodeBase *newdata = _data_new ();
@@ -336,7 +321,7 @@ XmlText::set (bool rhs)
 }
 
 LUMEX_PUBLIC_API
-inline bool
+bool
 XmlText::set (long long rhs)
 {
   XmlNodeBase *newdata = _data_new ();
@@ -344,12 +329,13 @@ XmlText::set (long long rhs)
   return (newdata != nullptr)
              ? utility::set_value_integer<unsigned long long> (
                    newdata->value, newdata->header,
-                   kxml_memory_page_value_allocated_mask, rhs, rhs < 0)
+                   kxml_memory_page_value_allocated_mask,
+                   static_cast<unsigned long long> (rhs), rhs < 0)
              : false;
 }
 
 LUMEX_PUBLIC_API
-inline bool
+bool
 XmlText::set (unsigned long long rhs)
 {
   XmlNodeBase *newdata = _data_new ();
@@ -362,7 +348,7 @@ XmlText::set (unsigned long long rhs)
 }
 
 LUMEX_PUBLIC_API
-inline XmlText &
+XmlText &
 XmlText::operator= (char_t const *rhs)
 {
   set (rhs);
@@ -370,7 +356,7 @@ XmlText::operator= (char_t const *rhs)
 }
 
 LUMEX_PUBLIC_API
-inline XmlText &
+XmlText &
 XmlText::operator= (int rhs)
 {
   set (rhs);
@@ -378,7 +364,7 @@ XmlText::operator= (int rhs)
 }
 
 LUMEX_PUBLIC_API
-inline XmlText &
+XmlText &
 XmlText::operator= (unsigned int rhs)
 {
   set (rhs);
@@ -386,7 +372,7 @@ XmlText::operator= (unsigned int rhs)
 }
 
 LUMEX_PUBLIC_API
-inline XmlText &
+XmlText &
 XmlText::operator= (long rhs)
 {
   set (rhs);
@@ -394,7 +380,7 @@ XmlText::operator= (long rhs)
 }
 
 LUMEX_PUBLIC_API
-inline XmlText &
+XmlText &
 XmlText::operator= (unsigned long rhs)
 {
   set (rhs);
@@ -402,7 +388,7 @@ XmlText::operator= (unsigned long rhs)
 }
 
 LUMEX_PUBLIC_API
-inline XmlText &
+XmlText &
 XmlText::operator= (double rhs)
 {
   set (rhs);
@@ -410,7 +396,7 @@ XmlText::operator= (double rhs)
 }
 
 LUMEX_PUBLIC_API
-inline XmlText &
+XmlText &
 XmlText::operator= (float rhs)
 {
   set (rhs);
@@ -418,25 +404,15 @@ XmlText::operator= (float rhs)
 }
 
 LUMEX_PUBLIC_API
-inline XmlText &
+XmlText &
 XmlText::operator= (bool rhs)
 {
   set (rhs);
   return *this;
 }
 
-#if __cplusplus >= 201703L
 LUMEX_PUBLIC_API
-inline XmlText &
-XmlText::operator= (string_view_t rhs)
-{
-  set (rhs);
-  return *this;
-}
-#endif
-
-LUMEX_PUBLIC_API
-inline XmlText &
+XmlText &
 XmlText::operator= (long long rhs)
 {
   set (rhs);
@@ -444,7 +420,7 @@ XmlText::operator= (long long rhs)
 }
 
 LUMEX_PUBLIC_API
-inline XmlText &
+XmlText &
 XmlText::operator= (unsigned long long rhs)
 {
   set (rhs);
@@ -452,24 +428,24 @@ XmlText::operator= (unsigned long long rhs)
 }
 
 LUMEX_PUBLIC_API
-inline XmlNode
+XmlNode
 XmlText::data () const
 {
   return XmlNode (_data ());
 }
 
 LUMEX_PUBLIC_API
-inline bool
+bool
 lumex::xml::text::operator&& (XmlText const &lhs,
                               bool rhs) // NOLINT(misc-use-internal-linkage)
 {
-  return (bool)lhs && rhs;
+  return static_cast<bool> (lhs) && rhs;
 }
 
 LUMEX_PUBLIC_API
-inline bool
+bool
 lumex::xml::text::operator|| (XmlText const &lhs,
                               bool rhs) // NOLINT(misc-use-internal-linkage)
 {
-  return (bool)lhs || rhs;
+  return static_cast<bool> (lhs) || rhs;
 }

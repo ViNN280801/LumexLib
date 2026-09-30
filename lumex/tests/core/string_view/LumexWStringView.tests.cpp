@@ -728,11 +728,13 @@ TEST_F (LumexWStringViewTest, ThreadSafeReads)
 
   for (int i = 0; i < 10; ++i)
     {
-      threads.emplace_back ([&wsv, &results, i] () {
-        // Multiple threads reading simultaneously
-        results[i] = (wsv.size () == 13 && wsv.find (L'H') == 0
-                      && wsv.ends_with (L'!'));
-      });
+      threads.emplace_back (
+          [&wsv, &results, i] ()
+            {
+              // Multiple threads reading simultaneously
+              results[i] = (wsv.size () == 13 && wsv.find (L'H') == 0
+                            && wsv.ends_with (L'!'));
+            });
     }
 
   for (auto &thread : threads)

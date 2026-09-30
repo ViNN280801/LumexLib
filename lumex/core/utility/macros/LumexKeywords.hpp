@@ -94,7 +94,11 @@
 #define LUMEX_CONSTEXPR_DEFAULTED_DTOR constexpr
 #define LUMEX_CONSTEXPR_VIRTUAL_DTOR constexpr
 #define LUMEX_CONSTEXPR_DEFAULTED_VIRTUAL_DTOR constexpr
-#elif __cplusplus == 202002L
+// The branches test ranges, not exact values: compilers report values
+// between the published ones for unfinished standards (GCC 13 -std=c++23
+// gives 202100L, MSVC /std:c++latest 202004L), and those must take the
+// branch of the newest standard they complete.
+#elif __cplusplus >= 202002L
 // C++20: Virtual functions constexpr, but NOT virtual destructors
 #define LUMEX_CONSTEXPR_FUNCTION constexpr
 #define LUMEX_CONSTEXPR_VIRTUAL_FUNCTION constexpr
@@ -104,17 +108,18 @@
 #define LUMEX_CONSTEXPR_DEFAULTED_DTOR
 #define LUMEX_CONSTEXPR_VIRTUAL_DTOR
 #define LUMEX_CONSTEXPR_DEFAULTED_VIRTUAL_DTOR
-#elif __cplusplus == 201703L
-// C++17: Base constexpr capabilities
+#elif __cplusplus >= 201703L
+// C++17: Base constexpr capabilities. Destructors cannot be constexpr before
+// C++20 (P0784R7).
 #define LUMEX_CONSTEXPR_FUNCTION constexpr
 #define LUMEX_CONSTEXPR_VIRTUAL_FUNCTION
 #define LUMEX_CONSTEXPR_CTOR constexpr
 #define LUMEX_CONSTEXPR_DEFAULTED_CTOR
-#define LUMEX_CONSTEXPR_DTOR constexpr
+#define LUMEX_CONSTEXPR_DTOR
 #define LUMEX_CONSTEXPR_DEFAULTED_DTOR
 #define LUMEX_CONSTEXPR_VIRTUAL_DTOR
 #define LUMEX_CONSTEXPR_DEFAULTED_VIRTUAL_DTOR
-#elif __cplusplus == 201103L || __cplusplus == 201402L
+#elif __cplusplus >= 201103L
 // C++11 and C++14: Very limited constexpr (only simple functions, no defaulted
 // special members)
 #define LUMEX_CONSTEXPR_FUNCTION constexpr
@@ -139,5 +144,18 @@
 #endif
 
 #define LUMEX_CONSTEXPR LUMEX_CONSTEXPR_FUNCTION
+
+// For functions whose body needs the relaxed constexpr rules of C++14
+// (N3652): more than one statement, local variables, loops, a switch, or a
+// void return type. C++11 allows none of these in a constexpr function, so
+// there the specifier is dropped. A member function defined in its class
+// stays implicitly inline; a namespace-scope function in a header needs an
+// explicit `inline` next to the macro, because without `constexpr` it would
+// be defined in every translation unit that includes the header.
+#if __cplusplus >= 201402L
+#define LUMEX_CONSTEXPR_CXX14 constexpr
+#else
+#define LUMEX_CONSTEXPR_CXX14
+#endif
 
 #endif // !LUMEX_CORE_UTILITY_MACROS_KEYWORDS_HPP

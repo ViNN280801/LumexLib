@@ -850,17 +850,19 @@ TEST (SafeComparatorAtomicTests,
 
   for (int i = 0; i < num_threads; ++i)
     {
-      threads.emplace_back ([&, i] () {
-        int thread_result = 0;
-        for (int j = 0; j < operations_per_thread; ++j)
-          {
-            atomic_comparator.update (j);
-            thread_result += atomic_comparator.get ();
-            if (atomic_comparator.compare_and_set (j, j + 1))
-              thread_result += 1;
-          }
-        results[static_cast<std::size_t> (i)] = thread_result;
-      });
+      threads.emplace_back (
+          [&, i] ()
+            {
+              int thread_result = 0;
+              for (int j = 0; j < operations_per_thread; ++j)
+                {
+                  atomic_comparator.update (j);
+                  thread_result += atomic_comparator.get ();
+                  if (atomic_comparator.compare_and_set (j, j + 1))
+                    thread_result += 1;
+                }
+              results[static_cast<std::size_t> (i)] = thread_result;
+            });
     }
 
   for (auto &thread : threads)

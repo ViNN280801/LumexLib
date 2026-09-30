@@ -44,15 +44,21 @@
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wpadded"
 #pragma clang diagnostic ignored "-Wunsafe-buffer-usage"
+#if __has_warning("-Wunsafe-buffer-usage-in-libc-call")
 #pragma clang diagnostic ignored "-Wunsafe-buffer-usage-in-libc-call"
+#endif
 #pragma clang diagnostic ignored "-Wcovered-switch-default"
 #pragma clang diagnostic ignored "-Wswitch-enum"
+#if __has_warning("-Wnrvo")
 #pragma clang diagnostic ignored "-Wnrvo"
+#endif
 #pragma clang diagnostic ignored "-Wheader-hygiene"
 #pragma clang diagnostic ignored "-Wused-but-marked-unused"
 #pragma clang diagnostic ignored "-Wundefined-var-template"
 #pragma clang diagnostic ignored "-Wdeprecated-redundant-constexpr-static-def"
+#if __has_warning("-Wvariadic-macro-arguments-omitted")
 #pragma clang diagnostic ignored "-Wvariadic-macro-arguments-omitted"
+#endif
 #pragma clang diagnostic ignored "-Wunused-result"
 #pragma clang diagnostic ignored "-Wextra-semi-stmt"
 #pragma clang diagnostic ignored "-Wexpansion-to-defined"
@@ -62,6 +68,9 @@
 #endif
 
 #include "lumex/LumexExport.hpp"
+
+#include <cstddef>
+
 #include "lumex/core/base64/codec/Base64.hpp"
 
 using namespace lumex::core::base64::codec::Types;
@@ -74,27 +83,52 @@ namespace base64
 {
 namespace validate
 {
+/**
+ * @brief Base64 syntax check.
+ * @details The pointer and size overload is exported and has the same
+ * signature in every C++ standard; the string overload is an inline wrapper
+ * over it (`string_type_t` is `std::string_view` from C++17 and
+ * `std::string const &` below).
+ */
 class LUMEX_API Validator final
 {
 public:
   /**
-   * @brief Checks if a given string is a valid Base64 encoded string.
+   * @brief Checks whether `size` characters starting at `str` are valid
+   * Base64.
    *
-   * This function verifies the integrity of a Base64 string by checking its
-   * length, character set, and padding. A valid Base64 string must have a
-   * length that is a multiple of 4, consist only of Base64 alphabet characters
-   * and padding characters ('='), and have correctly placed padding at the end
-   * if present.
+   * Valid Base64 consists of alphabet characters followed by at most two
+   * `'='`; with padding the length is a multiple of 4, without it the last
+   * group has two or three characters. The range needs no terminating NUL
+   * and nothing after it is read; a NUL inside the range is invalid.
+   *
+   * @param[in] str First character; never valid as `nullptr`, even with a
+   * `size` of 0 (pass `""` for an empty input).
+   * @param[in] size Number of characters to check.
+   * @return `true` if the range is valid Base64 (an empty range is), `false`
+   * otherwise, and always for `nullptr`.
+   */
+  static bool is_valid_base64 (char const *str, std::size_t size);
+
+  /**
+   * @brief Checks if a given string is a valid Base64 encoded string (see
+   * the pointer and size overload for the rules).
    *
    * @param[in] str The string to be checked for Base64 validity.
    * @return `true` if the string adheres to Base64 formatting rules, `false`
    * otherwise.
    */
-  static bool is_valid_base64 (string_type_t str);
+  static bool
+  is_valid_base64 (string_type_t str)
+  {
+    // An empty input is valid: a default-constructed std::string_view has no
+    // data pointer, which the core rejects.
+    return is_valid_base64 (str.empty () ? "" : str.data (), str.size ());
+  }
 };
 } // namespace validate
 } // namespace base64
-} // namespace utility
+} // namespace core
 } // namespace lumex
 
 #if defined(__clang__)

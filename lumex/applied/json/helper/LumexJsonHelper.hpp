@@ -622,19 +622,21 @@ private:
       config = nlohmann::json::object ();
     nlohmann::json *current = &config;
     _walk_section_path (
-        section, [&current] (std::string const &component) -> bool {
-          nlohmann::json::iterator const it = current->find (component);
-          if (it == current->end () || !it->is_object ())
-            {
-              (*current)[component] = nlohmann::json::object ();
-              _report (level_type::warning,
-                       "LumexJsonHelper::_get_target_section",
-                       "Creating or overwriting key '", component,
-                       "' to an object in section traversal.");
-            }
-          current = &(*current)[component];
-          return true;
-        });
+        section,
+        [&current] (std::string const &component) -> bool
+          {
+            nlohmann::json::iterator const it = current->find (component);
+            if (it == current->end () || !it->is_object ())
+              {
+                (*current)[component] = nlohmann::json::object ();
+                _report (level_type::warning,
+                         "LumexJsonHelper::_get_target_section",
+                         "Creating or overwriting key '", component,
+                         "' to an object in section traversal.");
+              }
+            current = &(*current)[component];
+            return true;
+          });
     return *current;
   }
 
@@ -652,13 +654,16 @@ private:
       return empty_object;
     nlohmann::json const *current = &config;
     bool const found = _walk_section_path (
-        section, [&current] (std::string const &component) -> bool {
-          nlohmann::json::const_iterator const it = current->find (component);
-          if (it == current->cend () || !it->is_object ())
-            return false;
-          current = &(*it);
-          return true;
-        });
+        section,
+        [&current] (std::string const &component) -> bool
+          {
+            nlohmann::json::const_iterator const it
+                = current->find (component);
+            if (it == current->cend () || !it->is_object ())
+              return false;
+            current = &(*it);
+            return true;
+          });
     return found ? *current : empty_object;
   }
 };

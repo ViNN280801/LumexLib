@@ -8,21 +8,21 @@ using namespace lumex::xml::node;
 using namespace lumex::xml::attribute;
 
 LUMEX_PUBLIC_API
-inline XmlAttributeIterator::XmlAttributeIterator (XmlAttribute const &attr,
-                                                   XmlNode const &parent)
+XmlAttributeIterator::XmlAttributeIterator (XmlAttribute const &attr,
+                                            XmlNode const &parent)
     : m_wrap (attr), m_parent (parent)
 {
 }
 
 LUMEX_PUBLIC_API
-inline XmlAttributeIterator::XmlAttributeIterator (XmlAttributeBase *ref,
-                                                   XmlNodeBase *parent)
+XmlAttributeIterator::XmlAttributeIterator (XmlAttributeBase *ref,
+                                            XmlNodeBase *parent)
     : m_wrap (ref), m_parent (parent)
 {
 }
 
 LUMEX_PUBLIC_API
-inline bool
+bool
 XmlAttributeIterator::operator== (XmlAttributeIterator const &rhs) const
 {
   return m_wrap.m_attr == rhs.m_wrap.m_attr
@@ -30,7 +30,7 @@ XmlAttributeIterator::operator== (XmlAttributeIterator const &rhs) const
 }
 
 LUMEX_PUBLIC_API
-inline bool
+bool
 XmlAttributeIterator::operator!= (XmlAttributeIterator const &rhs) const
 {
   return m_wrap.m_attr != rhs.m_wrap.m_attr
@@ -38,7 +38,7 @@ XmlAttributeIterator::operator!= (XmlAttributeIterator const &rhs) const
 }
 
 LUMEX_PUBLIC_API
-inline XmlAttribute &
+XmlAttribute &
 XmlAttributeIterator::operator* () const
 {
   LUMEX_ASSERT (m_wrap.m_attr);
@@ -46,7 +46,7 @@ XmlAttributeIterator::operator* () const
 }
 
 LUMEX_PUBLIC_API
-inline XmlAttribute *
+XmlAttribute *
 XmlAttributeIterator::operator->() const
 {
   LUMEX_ASSERT (m_wrap.m_attr);
@@ -54,7 +54,7 @@ XmlAttributeIterator::operator->() const
 }
 
 LUMEX_PUBLIC_API
-inline XmlAttributeIterator &
+XmlAttributeIterator &
 XmlAttributeIterator::operator++ ()
 {
   LUMEX_ASSERT (m_wrap.m_attr);
@@ -63,7 +63,7 @@ XmlAttributeIterator::operator++ ()
 }
 
 LUMEX_PUBLIC_API
-inline XmlAttributeIterator
+XmlAttributeIterator
 XmlAttributeIterator::operator++ (int)
 {
   XmlAttributeIterator temp = *this;
@@ -72,7 +72,7 @@ XmlAttributeIterator::operator++ (int)
 }
 
 LUMEX_PUBLIC_API
-inline XmlAttributeIterator &
+XmlAttributeIterator &
 XmlAttributeIterator::operator-- ()
 {
   m_wrap = (m_wrap.m_attr != nullptr) ? m_wrap.previous_attribute ()
@@ -81,7 +81,7 @@ XmlAttributeIterator::operator-- ()
 }
 
 LUMEX_PUBLIC_API
-inline XmlAttributeIterator
+XmlAttributeIterator
 XmlAttributeIterator::operator-- (int)
 {
   XmlAttributeIterator temp = *this;

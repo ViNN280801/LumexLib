@@ -10,13 +10,13 @@ using namespace lumex::xml::utility;
 using namespace lumex::xml::xpath::variable;
 
 LUMEX_PUBLIC_API
-inline XPathVariable::XPathVariable (xpath_value_type type_)
+XPathVariable::XPathVariable (xpath_value_type type_)
     : m_type (type_), m_next (nullptr)
 {
 }
 
 LUMEX_PUBLIC_API
-inline char_t const *
+char_t const *
 XPathVariable::name () const
 {
   switch (m_type)
@@ -49,14 +49,14 @@ XPathVariable::name () const
 }
 
 LUMEX_PUBLIC_API
-inline xpath_value_type
+xpath_value_type
 XPathVariable::type () const
 {
   return m_type;
 }
 
 LUMEX_PUBLIC_API
-inline bool
+bool
 XPathVariable::get_boolean () const
 {
   return (m_type == xpath_type_boolean)
@@ -67,7 +67,7 @@ XPathVariable::get_boolean () const
 }
 
 LUMEX_PUBLIC_API
-inline double
+double
 XPathVariable::get_number () const
 {
   return (m_type == xpath_type_number)
@@ -78,7 +78,7 @@ XPathVariable::get_number () const
 }
 
 LUMEX_PUBLIC_API
-inline char_t const *
+char_t const *
 XPathVariable::get_string () const
 {
   char_t const *value
@@ -91,7 +91,7 @@ XPathVariable::get_string () const
 }
 
 LUMEX_PUBLIC_API
-inline XPathNodeSet const &
+XPathNodeSet const &
 XPathVariable::get_node_set () const
 {
   return (m_type == xpath_type_node_set)
@@ -102,7 +102,7 @@ XPathVariable::get_node_set () const
 }
 
 LUMEX_PUBLIC_API
-inline bool
+bool
 XPathVariable::set (bool value)
 {
   if (m_type != xpath_type_boolean)
@@ -114,7 +114,7 @@ XPathVariable::set (bool value)
 }
 
 LUMEX_PUBLIC_API
-inline bool
+bool
 XPathVariable::set (double value)
 {
   if (m_type != xpath_type_number)
@@ -126,7 +126,7 @@ XPathVariable::set (double value)
 }
 
 LUMEX_PUBLIC_API
-inline bool
+bool
 XPathVariable::set (char_t const *value)
 {
   if (m_type != xpath_type_string)
@@ -155,7 +155,7 @@ XPathVariable::set (char_t const *value)
 }
 
 LUMEX_PUBLIC_API
-inline bool
+bool
 XPathVariable::set (XPathNodeSet const &value)
 {
   if (m_type != xpath_type_node_set)

@@ -9,7 +9,7 @@ using namespace lumex::xml::utility;
 using namespace lumex::xml::xpath::variable;
 
 LUMEX_PUBLIC_API
-inline XPathVariableSet::XPathVariableSet ()
+XPathVariableSet::XPathVariableSet ()
 {
   for (std::size_t i = 0; i < sizeof (_data) / sizeof (_data.at (0));
        ++i) // NOLINT(bugprone-sizeof-expression)
@@ -17,7 +17,7 @@ inline XPathVariableSet::XPathVariableSet ()
 }
 
 LUMEX_PUBLIC_API
-inline XPathVariableSet::~XPathVariableSet ()
+XPathVariableSet::~XPathVariableSet ()
 {
   for (std::size_t i = 0; i < sizeof (_data) / sizeof (_data.at (0));
        ++i) // NOLINT(bugprone-sizeof-expression)
@@ -25,7 +25,7 @@ inline XPathVariableSet::~XPathVariableSet ()
 }
 
 LUMEX_PUBLIC_API
-inline XPathVariableSet::XPathVariableSet (XPathVariableSet const &rhs)
+XPathVariableSet::XPathVariableSet (XPathVariableSet const &rhs)
 {
   for (std::size_t i = 0; i < sizeof (_data) / sizeof (_data.at (0));
        ++i) // NOLINT(bugprone-sizeof-expression)
@@ -35,7 +35,7 @@ inline XPathVariableSet::XPathVariableSet (XPathVariableSet const &rhs)
 }
 
 LUMEX_PUBLIC_API
-inline XPathVariableSet &
+XPathVariableSet &
 XPathVariableSet::operator= (XPathVariableSet const &rhs)
 {
   if (this == &rhs)
@@ -47,8 +47,7 @@ XPathVariableSet::operator= (XPathVariableSet const &rhs)
 }
 
 LUMEX_PUBLIC_API
-inline XPathVariableSet::XPathVariableSet (XPathVariableSet &&rhs)
-    LUMEX_NOEXCEPT
+XPathVariableSet::XPathVariableSet (XPathVariableSet &&rhs) LUMEX_NOEXCEPT
 {
   for (std::size_t i = 0; i < sizeof (_data) / sizeof (_data.at (0));
        ++i) // NOLINT(bugprone-sizeof-expression)
@@ -59,7 +58,7 @@ inline XPathVariableSet::XPathVariableSet (XPathVariableSet &&rhs)
 }
 
 LUMEX_PUBLIC_API
-inline XPathVariableSet &
+XPathVariableSet &
 XPathVariableSet::operator= (XPathVariableSet &&rhs) LUMEX_NOEXCEPT
 {
   for (std::size_t i = 0; i < sizeof (_data) / sizeof (_data.at (0));
@@ -75,7 +74,7 @@ XPathVariableSet::operator= (XPathVariableSet &&rhs) LUMEX_NOEXCEPT
 }
 
 LUMEX_PUBLIC_API
-inline void
+void
 XPathVariableSet::_assign (XPathVariableSet const &rhs)
 {
   XPathVariableSet temp;
@@ -90,7 +89,7 @@ XPathVariableSet::_assign (XPathVariableSet const &rhs)
 }
 
 LUMEX_PUBLIC_API
-inline void
+void
 XPathVariableSet::_swap (XPathVariableSet &rhs)
 {
   for (std::size_t i = 0; i < sizeof (_data) / sizeof (_data.at (0));
@@ -104,7 +103,7 @@ XPathVariableSet::_swap (XPathVariableSet &rhs)
 }
 
 LUMEX_PUBLIC_API
-inline XPathVariable *
+XPathVariable *
 XPathVariableSet::_find (char_t const *name) const
 {
   std::size_t const hash_size
@@ -125,7 +124,7 @@ XPathVariableSet::_find (char_t const *name) const
 }
 
 LUMEX_PUBLIC_API
-inline bool
+bool
 XPathVariableSet::_clone (XPathVariable *var, XPathVariable **out_result)
 {
   XPathVariable *last = nullptr;
@@ -157,7 +156,7 @@ XPathVariableSet::_clone (XPathVariable *var, XPathVariable **out_result)
 }
 
 LUMEX_PUBLIC_API
-inline void
+void
 XPathVariableSet::_destroy (XPathVariable *var)
 {
   while (var != nullptr)
@@ -171,7 +170,7 @@ XPathVariableSet::_destroy (XPathVariable *var)
 }
 
 LUMEX_PUBLIC_API
-inline XPathVariable *
+XPathVariable *
 XPathVariableSet::add (char_t const *name, xpath_value_type type)
 {
   std::size_t const hash_size
@@ -202,7 +201,7 @@ XPathVariableSet::add (char_t const *name, xpath_value_type type)
 }
 
 LUMEX_PUBLIC_API
-inline bool
+bool
 XPathVariableSet::set (char_t const *name, bool value)
 {
   XPathVariable *var = add (name, xpath_type_boolean);
@@ -210,7 +209,7 @@ XPathVariableSet::set (char_t const *name, bool value)
 }
 
 LUMEX_PUBLIC_API
-inline bool
+bool
 XPathVariableSet::set (char_t const *name, double value)
 {
   XPathVariable *var = add (name, xpath_type_number);
@@ -218,7 +217,7 @@ XPathVariableSet::set (char_t const *name, double value)
 }
 
 LUMEX_PUBLIC_API
-inline bool
+bool
 XPathVariableSet::set (
     char_t const *name,
     char_t const *value) // NOLINT(bugprone-easily-swappable-parameters)
@@ -228,7 +227,7 @@ XPathVariableSet::set (
 }
 
 LUMEX_PUBLIC_API
-inline bool
+bool
 XPathVariableSet::set (char_t const *name, XPathNodeSet const &value)
 {
   XPathVariable *var = add (name, xpath_type_node_set);
@@ -236,14 +235,14 @@ XPathVariableSet::set (char_t const *name, XPathNodeSet const &value)
 }
 
 LUMEX_PUBLIC_API
-inline XPathVariable *
+XPathVariable *
 XPathVariableSet::get (char_t const *name)
 {
   return _find (name);
 }
 
 LUMEX_PUBLIC_API
-inline XPathVariable const *
+XPathVariable const *
 XPathVariableSet::get (char_t const *name) const
 {
   return _find (name);

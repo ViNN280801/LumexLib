@@ -49,10 +49,12 @@ main ()
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wpadded"
 #endif
-          workers.emplace_back ([&logger, worker] {
-            logger.debug ("[NetworkManager]: worker=", worker,
-                          " processed one packet");
-          });
+          workers.emplace_back (
+              [&logger, worker]
+                {
+                  logger.debug ("[NetworkManager]: worker=", worker,
+                                " processed one packet");
+                });
 #if defined(__clang__)
 #pragma clang diagnostic pop
 #endif

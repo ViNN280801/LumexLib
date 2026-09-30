@@ -30,15 +30,21 @@
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wpadded"
 #pragma clang diagnostic ignored "-Wunsafe-buffer-usage"
+#if __has_warning("-Wunsafe-buffer-usage-in-libc-call")
 #pragma clang diagnostic ignored "-Wunsafe-buffer-usage-in-libc-call"
+#endif
 #pragma clang diagnostic ignored "-Wcovered-switch-default"
 #pragma clang diagnostic ignored "-Wswitch-enum"
+#if __has_warning("-Wnrvo")
 #pragma clang diagnostic ignored "-Wnrvo"
+#endif
 #pragma clang diagnostic ignored "-Wheader-hygiene"
 #pragma clang diagnostic ignored "-Wused-but-marked-unused"
 #pragma clang diagnostic ignored "-Wundefined-var-template"
 #pragma clang diagnostic ignored "-Wdeprecated-redundant-constexpr-static-def"
+#if __has_warning("-Wvariadic-macro-arguments-omitted")
 #pragma clang diagnostic ignored "-Wvariadic-macro-arguments-omitted"
+#endif
 #pragma clang diagnostic ignored "-Wunused-result"
 #pragma clang diagnostic ignored "-Wextra-semi-stmt"
 #pragma clang diagnostic ignored "-Wexpansion-to-defined"
@@ -52,16 +58,18 @@
 #include <limits>
 #include <type_traits>
 #include <utility>
+#if __cplusplus > 201703L && defined(__has_include)
+#if __has_include(<compare>)
+#include <compare>
+#endif
+#endif
 
 #include "lumex/core/utility/assert/LumexAssert.hpp"
 #include "lumex/core/utility/attr/LumexAttributes.hpp"
+#include "lumex/core/utility/compiler/LumexCheckFeatures.hpp"
 #include "lumex/core/utility/macros/LumexConstantMacros.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 #include "lumex/core/utility/traits/LumexTypeTraits.hpp"
-
-#if __cplusplus >= 202002L
-#include <compare>
-#endif
 
 // Cast mixed-signedness compares on every ISA. The old x86-only gate left
 // x64/x86_64 on the uncast branch (MSVC C4018).
@@ -255,7 +263,7 @@ namespace numeric
  *         // Safe comparison >=
  *     }
  *
- * #if __cplusplus >= 202002L
+ * #if LUMEX_HAS_THREE_WAY_COMPARISON
  *     // C++20 three-way comparison
  *     auto result = safeSize.safe_three_way_compare(threshold);
  *     if (is_equal(result)) {
@@ -675,7 +683,7 @@ struct safe_compare_impl_helper<T, T,
     return current != other;
   }
 
-#if __cplusplus >= 202002L
+#if LUMEX_HAS_THREE_WAY_COMPARISON
   /**
    * @brief Three-way comparison for identical types (C++20 spaceship)
    * @param[in] current Current value
@@ -815,7 +823,7 @@ struct safe_compare_impl_helper<T, T,
     return current >= other;
   }
 
-#if __cplusplus >= 202002L
+#if LUMEX_HAS_THREE_WAY_COMPARISON
   /**
    * @brief Three-way comparison for identical floating-point types
    * @param[in] current Current value
@@ -1304,7 +1312,7 @@ struct safe_compare_impl_helper<
            != static_cast<CommonType> (other);
   }
 
-#if __cplusplus >= 202002L
+#if LUMEX_HAS_THREE_WAY_COMPARISON
   /**
    * @brief Three-way comparison for integer types (C++20 spaceship)
    * @param[in] current Current value of type T
@@ -1536,7 +1544,7 @@ struct safe_compare_impl_helper<
            != static_cast<CommonType> (other);
   }
 
-#if __cplusplus >= 202002L
+#if LUMEX_HAS_THREE_WAY_COMPARISON
   /**
    * @brief Three-way comparison for floating-point types (C++20 spaceship)
    * @param[in] current Current value of type T
@@ -1783,7 +1791,7 @@ struct safe_compare_impl_helper<
            != static_cast<CommonType> (other);
   }
 
-#if __cplusplus >= 202002L
+#if LUMEX_HAS_THREE_WAY_COMPARISON
   /**
    * @brief Three-way comparison for mixed types (C++20 spaceship)
    * @param[in] current Current value of type T
@@ -1996,12 +2004,15 @@ public:
    * @brief Move constructor
    * @param[in] other Source object to move from
    * @details Moves the value from another comparator and zeros the source
-   * object. Uses std::exchange for a safe move.
+   * object: reads the source value, then resets the source to zero. The
+   * load and store helpers work for the atomic and the plain storage alike
+   * (std::atomic cannot be moved, and std::exchange is C++14).
    * @note No-throw, maximum performance
    */
   SafeComparator (SafeComparator &&other) LUMEX_NOEXCEPT
-      : m_value (std::exchange (other.m_value, clean_T{}))
+      : m_value (other.atomic_load ())
   {
+    other.atomic_store (clean_T{});
   }
 
   /**
@@ -2032,7 +2043,11 @@ public:
   operator= (SafeComparator &&other) LUMEX_NOEXCEPT
   {
     if (this != &other)
-      atomic_store (std::exchange (other.m_value, clean_T{}));
+      {
+        clean_T const moved = other.atomic_load ();
+        other.atomic_store (clean_T{});
+        atomic_store (moved);
+      }
     return *this;
   }
 
@@ -2180,7 +2195,7 @@ public:
                                                             other);
   }
 
-#if __cplusplus >= 202002L
+#if LUMEX_HAS_THREE_WAY_COMPARISON
   /**
    * @brief Three-way comparison with another type (C++20 spaceship)
    * @tparam U Type of the value to compare
@@ -2443,7 +2458,7 @@ using SafeLongDoubleComparator
 
 // === Three-way comparison and utilities ===
 
-#if __cplusplus >= 202002L
+#if LUMEX_HAS_THREE_WAY_COMPARISON
 /**
  * @brief Metafunction for the three-way comparison result type
  * @tparam T First type to compare
@@ -2833,7 +2848,7 @@ safe_not_equal (T value1, U value2) LUMEX_NOEXCEPT
   return safe_compare_impl_helper<T, U>::not_equal (value1, value2);
 }
 
-#if __cplusplus >= 202002L
+#if LUMEX_HAS_THREE_WAY_COMPARISON
 /**
  * @brief Safe three-way comparison (C++20 spaceship)
  * @tparam T First type to compare
@@ -2983,7 +2998,7 @@ if (safe_greater_equal(block_size, threshold)) { // >=
 }
 
 // Example 3: C++20 three-way comparison
-#if __cplusplus >= 202002L
+#if LUMEX_HAS_THREE_WAY_COMPARISON
 auto result = safe_size.safe_three_way_compare(threshold);
 if (is_equal(result)) { // ==
 }
@@ -3056,7 +3071,7 @@ threshold) { SafeUCharComparator safe_packet_size(packet_size);
         processLargePacket();
     }
 
-#if __cplusplus >= 202002L
+#if LUMEX_HAS_THREE_WAY_COMPARISON
     // Use three-way comparison for sorting
     auto comparison = safe_packet_size.safe_three_way_compare(max_size);
     if (is_less(comparison)) {

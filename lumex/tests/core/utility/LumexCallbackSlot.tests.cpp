@@ -287,20 +287,25 @@ TEST_F (LumexCallbackSlotTest,
   std::vector<std::thread> threads;
   for (int writer = 0; writer < 2; ++writer)
     {
-      threads.emplace_back ([writer, &stop] () {
-        while (!stop.load ())
-          TextSlot::set (writer == 0 ? &primary_sink : &secondary_sink);
-      });
+      threads.emplace_back (
+          [writer, &stop] ()
+            {
+              while (!stop.load ())
+                TextSlot::set (writer == 0 ? &primary_sink : &secondary_sink);
+            });
     }
-  threads.emplace_back ([&stop, &unknown] () {
-    for (int i = 0; i < 100000; ++i)
-      {
-        TextSlot::function_type const fn = TextSlot::get ();
-        if (fn != nullptr && fn != &primary_sink && fn != &secondary_sink)
-          ++unknown;
-      }
-    stop.store (true);
-  });
+  threads.emplace_back (
+      [&stop, &unknown] ()
+        {
+          for (int i = 0; i < 100000; ++i)
+            {
+              TextSlot::function_type const fn = TextSlot::get ();
+              if (fn != nullptr && fn != &primary_sink
+                  && fn != &secondary_sink)
+                ++unknown;
+            }
+          stop.store (true);
+        });
   for (std::size_t i = 0; i < threads.size (); ++i)
     threads[i].join ();
   EXPECT_EQ (unknown.load (), 0);

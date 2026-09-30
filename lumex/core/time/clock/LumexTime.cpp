@@ -25,36 +25,37 @@ LumexTime::get_current_datetime (char const *format)
     {
       // Reject unsupported/invalid strftime conversion specifiers early to
       // avoid undefined‐behaviour crashes (e.g. "%Q" on MSVC).
-      auto is_supported = [] (char chr) {
-        switch (chr)
-          {
-          case 'a':
-          case 'A':
-          case 'b':
-          case 'B':
-          case 'c':
-          case 'd':
-          case 'H':
-          case 'I':
-          case 'j':
-          case 'm':
-          case 'M':
-          case 'p':
-          case 'S':
-          case 'U':
-          case 'w':
-          case 'W':
-          case 'x':
-          case 'X':
-          case 'y':
-          case 'Y':
-          case 'Z':
-          case '%':
-            return true;
-          default:
-            return false;
-          }
-      };
+      auto is_supported = [] (char chr)
+        {
+          switch (chr)
+            {
+            case 'a':
+            case 'A':
+            case 'b':
+            case 'B':
+            case 'c':
+            case 'd':
+            case 'H':
+            case 'I':
+            case 'j':
+            case 'm':
+            case 'M':
+            case 'p':
+            case 'S':
+            case 'U':
+            case 'w':
+            case 'W':
+            case 'x':
+            case 'X':
+            case 'y':
+            case 'Y':
+            case 'Z':
+            case '%':
+              return true;
+            default:
+              return false;
+            }
+        };
 
       for (char const *pChar = format; static_cast<bool> (*pChar);
            ++pChar) // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
@@ -74,13 +75,13 @@ LumexTime::get_current_datetime (char const *format)
       auto secs = std::chrono::system_clock::to_time_t (now);
       std::tm tmStruct{};
 
-#if LUMEX_OS_WINDOWS
+#if defined(LUMEX_OS_WINDOWS)
       if (localtime_s (std::addressof (tmStruct), std::addressof (secs)) != 0)
         {
           std::cerr << "localtime_s failed, using 0 time\n";
           tmStruct = {};
         }
-#elif LUMEX_OS_UNIX
+#elif defined(LUMEX_OS_UNIX)
       if (localtime_r (std::addressof (secs), std::addressof (tmStruct))
           == nullptr)
         {
@@ -101,8 +102,17 @@ LumexTime::get_current_datetime (char const *format)
        * tests expect for the "InvalidFormat_Dirty" case. */
       std::array<char, Constants::KDEFAULT_DATETIME_BUF_SIZE>
           buf{}; // zero-initialised
+      // The format comes from the caller by design and every conversion
+      // specifier in it was checked above (-Wformat-nonliteral).
+#if defined(__GNUC__) || defined(__clang__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wformat-nonliteral"
+#endif
       std::size_t written = std::strftime (buf.data (), buf.size (), format,
                                            std::addressof (tmStruct));
+#if defined(__GNUC__) || defined(__clang__)
+#pragma GCC diagnostic pop
+#endif
       return written == 0 ? std::string{} : std::string (buf.data ());
     }
   catch (std::exception const &exc)
@@ -196,13 +206,13 @@ LumexTime::timestamp (std::time_t time_, std::string const &fmt)
   std::tm tm_snapshot{};
   bool tm_ok = false;
 
-#if LUMEX_OS_WINDOWS
+#if defined(LUMEX_OS_WINDOWS)
   tm_ok = (localtime_s (std::addressof (tm_snapshot), std::addressof (time_))
            == 0);
   if (!tm_ok)
     tm_ok = (gmtime_s (std::addressof (tm_snapshot), std::addressof (time_))
              == 0);
-#elif LUMEX_OS_UNIX
+#elif defined(LUMEX_OS_UNIX)
   tm_ok = (localtime_r (std::addressof (time_), std::addressof (tm_snapshot))
            != nullptr);
   if (!tm_ok)
@@ -227,13 +237,13 @@ LumexTime::timestamp_ms (std::chrono::system_clock::time_point tp,
   std::tm tm_snapshot{};
   bool tm_ok = false;
 
-#if LUMEX_OS_WINDOWS
+#if defined(LUMEX_OS_WINDOWS)
   tm_ok
       = (localtime_s (std::addressof (tm_snapshot), std::addressof (tt)) == 0);
   if (!tm_ok)
     tm_ok
         = (gmtime_s (std::addressof (tm_snapshot), std::addressof (tt)) == 0);
-#elif LUMEX_OS_UNIX
+#elif defined(LUMEX_OS_UNIX)
   tm_ok = (localtime_r (std::addressof (tt), std::addressof (tm_snapshot))
            != nullptr);
   if (!tm_ok)

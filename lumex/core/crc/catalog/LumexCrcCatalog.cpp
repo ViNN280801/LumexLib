@@ -15,15 +15,21 @@
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wpadded"
 #pragma clang diagnostic ignored "-Wunsafe-buffer-usage"
+#if __has_warning("-Wunsafe-buffer-usage-in-libc-call")
 #pragma clang diagnostic ignored "-Wunsafe-buffer-usage-in-libc-call"
+#endif
 #pragma clang diagnostic ignored "-Wcovered-switch-default"
 #pragma clang diagnostic ignored "-Wswitch-enum"
+#if __has_warning("-Wnrvo")
 #pragma clang diagnostic ignored "-Wnrvo"
+#endif
 #pragma clang diagnostic ignored "-Wheader-hygiene"
 #pragma clang diagnostic ignored "-Wused-but-marked-unused"
 #pragma clang diagnostic ignored "-Wundefined-var-template"
 #pragma clang diagnostic ignored "-Wdeprecated-redundant-constexpr-static-def"
+#if __has_warning("-Wvariadic-macro-arguments-omitted")
 #pragma clang diagnostic ignored "-Wvariadic-macro-arguments-omitted"
+#endif
 #pragma clang diagnostic ignored "-Wunused-result"
 #pragma clang diagnostic ignored "-Wextra-semi-stmt"
 #pragma clang diagnostic ignored "-Wexpansion-to-defined"
@@ -340,3 +346,153 @@ ComputeTransportChecksum (std::uint8_t const *data,
 } // namespace crc
 } // namespace core
 } // namespace lumex
+
+#if __cplusplus < 201703L
+namespace lumex
+{
+namespace core
+{
+namespace crc
+{
+namespace parametric
+{
+// Namespace-scope definitions of the static members of every CRC spec.
+// Before C++17 an in-class `static const` member that is odr-used (bound to a
+// reference, as EXPECT_EQ does) needs exactly one such definition, and this
+// translation unit is always compiled as C++14 (the module's standard), so it
+// provides them for every consumer built before C++17. From C++17 the members
+// are inline variables. Every spec of LumexCrcParametric.hpp must be listed.
+// clang-format off
+#define LUMEX_CRC_SPEC_LIST(X) \
+  X (crc3_gsm_spec_t) \
+  X (crc5_usb_spec_t) \
+  X (crc8_maxim_dow_spec_t) \
+  X (crc6_cdma2000_a_spec_t) \
+  X (crc6_cdma2000_b_spec_t) \
+  X (crc8_cdma2000_spec_t) \
+  X (crc10_cdma2000_spec_t) \
+  X (crc12_cdma2000_spec_t) \
+  X (crc16_cdma2000_spec_t) \
+  X (crc30_cdma_spec_t) \
+  X (crc16_ibm3740_spec_t) \
+  X (crc16_kermit_spec_t) \
+  X (crc16_modbus_spec_t) \
+  X (crc24_open_pgp_spec_t) \
+  X (crc32_iso_hdlc_spec_t) \
+  X (crc32_iscsi_spec_t) \
+  X (crc64_ecma182_spec_t) \
+  X (crc3_rohc_spec_t) \
+  X (crc4_g704_spec_t) \
+  X (crc4_interlaken_spec_t) \
+  X (crc5_epc_c1_g2_spec_t) \
+  X (crc5_g704_spec_t) \
+  X (crc6_darc_spec_t) \
+  X (crc6_g704_spec_t) \
+  X (crc6_gsm_spec_t) \
+  X (crc7_mmc_spec_t) \
+  X (crc7_rohc_spec_t) \
+  X (crc7_umts_spec_t) \
+  X (crc8_autosar_spec_t) \
+  X (crc8_bluetooth_spec_t) \
+  X (crc8_darc_spec_t) \
+  X (crc8_dvb_s2_spec_t) \
+  X (crc8_gsm_a_spec_t) \
+  X (crc8_gsm_b_spec_t) \
+  X (crc8_hitag_spec_t) \
+  X (crc8_i4321_spec_t) \
+  X (crc8_i_code_spec_t) \
+  X (crc8_lte_spec_t) \
+  X (crc8_mifare_mad_spec_t) \
+  X (crc8_nrsc5_spec_t) \
+  X (crc8_opensafety_spec_t) \
+  X (crc8_rohc_spec_t) \
+  X (crc8_sae_j1850_spec_t) \
+  X (crc8_smbus_spec_t) \
+  X (crc8_tech3250_spec_t) \
+  X (crc8_wcdma_spec_t) \
+  X (crc10_atm_spec_t) \
+  X (crc10_gsm_spec_t) \
+  X (crc11_flexray_spec_t) \
+  X (crc11_umts_spec_t) \
+  X (crc12_dect_spec_t) \
+  X (crc12_gsm_spec_t) \
+  X (crc12_umts_spec_t) \
+  X (crc13_bbc_spec_t) \
+  X (crc14_darc_spec_t) \
+  X (crc14_gsm_spec_t) \
+  X (crc15_can_spec_t) \
+  X (crc15_mpt1327_spec_t) \
+  X (crc16_arc_spec_t) \
+  X (crc16_cms_spec_t) \
+  X (crc16_dds110_spec_t) \
+  X (crc16_dect_r_spec_t) \
+  X (crc16_dect_x_spec_t) \
+  X (crc16_dnp_spec_t) \
+  X (crc16_en13757_spec_t) \
+  X (crc16_genibus_spec_t) \
+  X (crc16_gsm_spec_t) \
+  X (crc16_ibm_sdlc_spec_t) \
+  X (crc16_iso_iec14443_3_a_spec_t) \
+  X (crc16_lj1200_spec_t) \
+  X (crc16_m17_spec_t) \
+  X (crc16_maxim_dow_spec_t) \
+  X (crc16_mcrf4xx_spec_t) \
+  X (crc16_nrsc5_spec_t) \
+  X (crc16_opensafety_a_spec_t) \
+  X (crc16_opensafety_b_spec_t) \
+  X (crc16_profibus_spec_t) \
+  X (crc16_riello_spec_t) \
+  X (crc16_spi_fujitsu_spec_t) \
+  X (crc16_t10_dif_spec_t) \
+  X (crc16_teledisk_spec_t) \
+  X (crc16_tms37157_spec_t) \
+  X (crc16_umts_spec_t) \
+  X (crc16_usb_spec_t) \
+  X (crc16_xmodem_spec_t) \
+  X (crc17_can_fd_spec_t) \
+  X (crc21_can_fd_spec_t) \
+  X (crc24_ble_spec_t) \
+  X (crc24_flexray_a_spec_t) \
+  X (crc24_flexray_b_spec_t) \
+  X (crc24_interlaken_spec_t) \
+  X (crc24_lte_a_spec_t) \
+  X (crc24_lte_b_spec_t) \
+  X (crc24_os9_spec_t) \
+  X (crc31_philips_spec_t) \
+  X (crc32_aixm_spec_t) \
+  X (crc32_autosar_spec_t) \
+  X (crc32_base91_d_spec_t) \
+  X (crc32_bzip2_spec_t) \
+  X (crc32_cd_rom_edc_spec_t) \
+  X (crc32_cksum_spec_t) \
+  X (crc32_jamcrc_spec_t) \
+  X (crc32_mef_spec_t) \
+  X (crc32_mpeg2_spec_t) \
+  X (crc32_xfer_spec_t) \
+  X (crc40_gsm_spec_t) \
+  X (crc64_go_iso_spec_t) \
+  X (crc64_ms_spec_t) \
+  X (crc64_nvme_spec_t) \
+  X (crc64_redis_spec_t) \
+  X (crc64_we_spec_t) \
+  X (crc64_xz_spec_t)
+// clang-format on
+
+#define LUMEX_CRC_DEFINE_SPEC_STORAGE(Spec)                                   \
+  decltype (Spec::kWidth) Spec::kWidth;                                       \
+  decltype (Spec::kPoly) Spec::kPoly;                                         \
+  decltype (Spec::kInit) Spec::kInit;                                         \
+  decltype (Spec::kRefIn) Spec::kRefIn;                                       \
+  decltype (Spec::kRefOut) Spec::kRefOut;                                     \
+  decltype (Spec::kXorOut) Spec::kXorOut;                                     \
+  decltype (Spec::kCatalogCheck) Spec::kCatalogCheck;
+
+LUMEX_CRC_SPEC_LIST (LUMEX_CRC_DEFINE_SPEC_STORAGE)
+
+#undef LUMEX_CRC_DEFINE_SPEC_STORAGE
+#undef LUMEX_CRC_SPEC_LIST
+} // namespace parametric
+} // namespace crc
+} // namespace core
+} // namespace lumex
+#endif

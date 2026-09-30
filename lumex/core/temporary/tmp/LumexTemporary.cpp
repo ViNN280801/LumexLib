@@ -4,6 +4,14 @@
 #include <random>
 #include <sstream>
 
+#if defined(_WIN32)
+#include <Windows.h>
+#include <process.h>
+#elif defined(__unix__) || defined(__APPLE__)
+#include <sys/types.h>
+#include <unistd.h>
+#endif
+
 #include "LumexTemporary.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 
@@ -17,16 +25,6 @@ namespace temporary
 namespace tmp
 {
 using lumex_filesystem = lumex::filesystem;
-
-#if LUMEX_OS_WINDOWS
-#include <Windows.h>
-#include <process.h>
-
-#elif LUMEX_OS_UNIX
-#include <sys/types.h>
-#include <unistd.h>
-
-#endif
 
 // RAII TemporaryDirectory implementation
 LUMEX_PUBLIC_API
@@ -133,7 +131,7 @@ LUMEX_PUBLIC_API
 lumex::path
 LumexTemporary::get_temp_directory_path ()
 {
-#if LUMEX_OS_WINDOWS
+#if defined(LUMEX_OS_WINDOWS)
   // On Windows, always use system temp directory (original behavior)
   auto tmp
       = lumex::core::filesystem::fs::lumex_filesystem::temp_directory_path ()
@@ -191,9 +189,9 @@ LumexTemporary::_generate_random_suffix ()
   oss << std::hex << now;
 
   // Add process ID if available
-#if LUMEX_OS_WINDOWS
+#if defined(LUMEX_OS_WINDOWS)
   oss << "_" << std::hex << GetCurrentProcessId ();
-#elif LUMEX_OS_UNIX
+#elif defined(LUMEX_OS_UNIX)
   oss << "_" << std::hex << getpid ();
 #else
   // Fallback for other systems - use additional random component

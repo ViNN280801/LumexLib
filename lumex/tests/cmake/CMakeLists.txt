@@ -90,12 +90,24 @@ lumex_add_cmake_test(wiring_recursive_source_collection)
 lumex_add_cmake_test(wiring_compile_commands)
 lumex_add_cmake_test(wiring_export_namespace)
 lumex_add_cmake_test(wiring_rc_windows_only)
+lumex_add_cmake_test(wiring_posix_system_libraries)
+lumex_add_cmake_test(source_no_inline_variable_in_cpp)
+lumex_add_cmake_test(source_no_public_api_inline_in_cpp)
+lumex_add_cmake_test(source_crc_spec_storage_complete)
+lumex_add_cmake_test(wiring_xml_no_keep_flags)
+lumex_add_cmake_test(wiring_gtest_cxx_stdlib)
 lumex_add_cmake_test(wiring_embedding)
+lumex_add_cmake_test(wiring_include_order_ctest)
+lumex_add_cmake_test(wiring_clang_stdlib)
 lumex_add_cmake_test(asan_clang_cl_runtime_library)
 lumex_add_cmake_test(gtest_discovery_does_not_lock_exe)
 
-lumex_add_cmake_fail_test(wiring_msvc_vcvars_after_project
-    "must be called BEFORE project")
+# configure_msvc_vcvars is a no-op on non-Windows hosts, so the guard against
+# calling it after project() can only fire on Windows.
+if(CMAKE_HOST_WIN32)
+    lumex_add_cmake_fail_test(wiring_msvc_vcvars_after_project
+        "must be called BEFORE project")
+endif()
 
 lumex_add_cmake_fail_test(require_fail_base64_without_utility
     "LUMEX_BUILD_BASE64 is enabled but requires LUMEX_BUILD_UTILITY")
@@ -161,6 +173,9 @@ lumex_add_cmake_fail_test(require_fail_logger_invalid_format
 set(_LUMEX_CONSUMER_RUN "${CMAKE_CURRENT_SOURCE_DIR}/consumer/run_consumer.cmake")
 
 function(lumex_add_consumer_test name fixture)
+    # The nested build uses this tree's C++ flags (a --gcc-toolchain, for
+    # example) and its Clang standard library choice, so it builds like the
+    # tree that runs it.
     add_test(NAME LumexCMake.${name}
         COMMAND ${CMAKE_COMMAND}
             -DCASE=${fixture}
@@ -168,6 +183,8 @@ function(lumex_add_consumer_test name fixture)
             -DWORK_DIR=${CMAKE_CURRENT_BINARY_DIR}/consumer/${name}
             -DGENERATOR=${CMAKE_GENERATOR}
             -DCXX_COMPILER=${CMAKE_CXX_COMPILER}
+            "-DCXX_FLAGS=${CMAKE_CXX_FLAGS}"
+            -DCLANG_STDLIB=${LUMEX_CLANG_STDLIB}
             -DBUILD_TYPE=Release
             "-DEXTRA_ARGS=${ARGN}"
             -P ${_LUMEX_CONSUMER_RUN}
@@ -187,6 +204,13 @@ lumex_add_consumer_test(consumer_reflection_umbrella_field_reflection_on
 # MSVC consumers that set no /Zc:__cplusplus must still see the real
 # __cplusplus in Lumex headers (the INTERFACE flag of every module target).
 lumex_add_consumer_test(consumer_cplusplus_macro cplusplus_macro)
+# Exported functions do not depend on the C++ standard: the library at one
+# standard and the consumer at another link, both ways (base64, XML and
+# exceptions, through their inline wrappers).
+lumex_add_consumer_test(consumer_standard_mismatch_lib11_consumer20
+    standard_mismatch -DLIB_STD=11 -DCONSUMER_STD=20)
+lumex_add_consumer_test(consumer_standard_mismatch_lib20_consumer11
+    standard_mismatch -DLIB_STD=20 -DCONSUMER_STD=11)
 
 # LumexFormat compile-time checks: bad literal format strings must not
 # compile at C++20 (consteval), good ones must. Header-only, so the fixture
@@ -198,6 +222,8 @@ add_test(NAME LumexCMake.format_compile_checks
         -DWORK_DIR=${CMAKE_CURRENT_BINARY_DIR}/consumer/format_compile_checks
         -DGENERATOR=${CMAKE_GENERATOR}
         -DCXX_COMPILER=${CMAKE_CXX_COMPILER}
+        "-DCXX_FLAGS=${CMAKE_CXX_FLAGS}"
+        -DCLANG_STDLIB=${LUMEX_CLANG_STDLIB}
         -DBUILD_TYPE=Release
         -DCONFIGURE_ONLY=ON
         -P ${_LUMEX_CONSUMER_RUN}

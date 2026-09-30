@@ -80,11 +80,16 @@
 // keys off LUMEX_EXPORTS, defined for ALL shared targets), this pins symbols
 // to exactly one module so header-only classes with out-of-line static data
 // members are not re-exported from every DLL that happens to include the
-// header.
+// header. __declspec exists only for Windows targets; ELF builds of the
+// utility library give the same symbols default visibility instead.
+#if defined(_WIN32) || defined(__CYGWIN__)
 #if defined(LumexCore_utility_EXPORTS)
 #define LUMEX_UTILITY_API __declspec (dllexport)
-#elif defined(_WIN32) || defined(__CYGWIN__)
+#else
 #define LUMEX_UTILITY_API __declspec (dllimport)
+#endif
+#elif defined(LumexCore_utility_EXPORTS)
+#define LUMEX_UTILITY_API __attribute__ ((visibility ("default")))
 #else
 #define LUMEX_UTILITY_API
 #endif
@@ -95,7 +100,7 @@
 // Force C linkage for compatibility with legacy applications
 #define LUMEX_PUBLIC_C_API extern "C" __declspec (dllexport)
 #define LUMEX_PUBLIC_API __declspec (dllexport)
-#elif _WIN32
+#elif defined(_WIN32)
 #define LUMEX_PUBLIC_C_API extern "C" __attribute__ ((dllexport))
 #define LUMEX_PUBLIC_API __attribute__ ((dllexport))
 #else

@@ -3,18 +3,25 @@
 #include <deque>
 #include <functional>
 #include <list>
+#if __has_include(<ranges>)
 #include <ranges>
+#endif
 #include <vector>
+#if __has_include(<version>)
 #include <version>
+#endif
 
 #include <gtest/gtest.h>
 
+#include "lumex/core/utility/compiler/LumexCheckFeatures.hpp"
 #include "lumex/core/utility/ranges/LumexRanges.hpp"
 #if defined(__clang__)
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wglobal-constructors"
 #pragma clang diagnostic ignored "-Wexit-time-destructors"
 #endif
+
+#if LUMEX_HAS_STD_RANGES
 
 using namespace lumex::core::utility::ranges;
 
@@ -246,4 +253,13 @@ TEST (LumexRangesTest,
   ASSERT_NE (it, values.end ());
   EXPECT_TRUE (std::ranges::contains (values, *it));
 }
+#endif
+
+#else // the toolchain lacks the features of the module
+
+TEST (LumexRangesTest, UnavailableOnThisToolchain)
+{
+  GTEST_SKIP () << "LumexRanges.hpp needs C++20 <ranges>";
+}
+
 #endif

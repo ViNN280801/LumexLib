@@ -82,9 +82,10 @@
 /* ===== For these 4 macros, we need to use the constants from:
 LumexXmlMemoryPage.hpp, LumexXmlTypes.hpp, LumexXmlConstants.hpp ===== */
 #define LUMEX_XML_GETHEADER_IMPL(object, page, flags)                         \
-  (((reinterpret_cast<char *> (object) - reinterpret_cast<char *> (page))     \
-    << 8)                                                                     \
-   | (flags))
+  static_cast<uintptr_t> (                                                    \
+      ((reinterpret_cast<char *> (object) - reinterpret_cast<char *> (page))  \
+       << 8)                                                                  \
+      | (flags))
 #define LUMEX_XML_GETPAGE_IMPL(header)                                        \
   static_cast<XmlMemoryPage *> (                                              \
       const_cast<void *> (static_cast<const void *> (                         \

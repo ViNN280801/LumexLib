@@ -54,15 +54,21 @@
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wpadded"
 #pragma clang diagnostic ignored "-Wunsafe-buffer-usage"
+#if __has_warning("-Wunsafe-buffer-usage-in-libc-call")
 #pragma clang diagnostic ignored "-Wunsafe-buffer-usage-in-libc-call"
+#endif
 #pragma clang diagnostic ignored "-Wcovered-switch-default"
 #pragma clang diagnostic ignored "-Wswitch-enum"
+#if __has_warning("-Wnrvo")
 #pragma clang diagnostic ignored "-Wnrvo"
+#endif
 #pragma clang diagnostic ignored "-Wheader-hygiene"
 #pragma clang diagnostic ignored "-Wused-but-marked-unused"
 #pragma clang diagnostic ignored "-Wundefined-var-template"
 #pragma clang diagnostic ignored "-Wdeprecated-redundant-constexpr-static-def"
+#if __has_warning("-Wvariadic-macro-arguments-omitted")
 #pragma clang diagnostic ignored "-Wvariadic-macro-arguments-omitted"
+#endif
 #pragma clang diagnostic ignored "-Wunused-result"
 #pragma clang diagnostic ignored "-Wextra-semi-stmt"
 #pragma clang diagnostic ignored "-Wexpansion-to-defined"
@@ -71,20 +77,20 @@
 #pragma clang diagnostic ignored "-Wfloat-equal"
 #endif
 
+#include "lumex/LumexExport.hpp"
+
+#include <cstdlib> // _dupenv_s, free (Windows)
 #include <cstring> // std::strlen, std::strcpy
 #include <memory>  // std::unique_ptr, std::addressof
 #include <mutex>   // std::mutex, std::lock_guard
 #include <string>  // std::string
-
-#include "lumex/core/utility/LumexUtility"
-
-#if LUMEX_OS_WINDOWS
-#include <Windows.h> // GetEnvironmentVariableA/W
-#include <cstdlib>   // _dupenv_s, free
 #include <utility>
+
+#if defined(_WIN32)
+#include <Windows.h> // GetEnvironmentVariableA/W
 #endif
 
-#include "lumex/LumexExport.hpp"
+#include "lumex/core/utility/LumexUtility"
 
 namespace lumex // NOLINT(modernize-concat-nested-namespaces)
 {
@@ -290,7 +296,7 @@ private:
     virtual bool unset_variable (char const *name) const = 0;
   };
 
-#if LUMEX_OS_WINDOWS
+#if defined(LUMEX_OS_WINDOWS)
   /**
    * @brief Windows-specific implementation of the EnvironmentStrategy.
    * @details This class provides the concrete implementation for environment
@@ -441,7 +447,7 @@ private:
   static std::unique_ptr<EnvironmentStrategy>
   create_strategy ()
   {
-#if LUMEX_OS_WINDOWS
+#if defined(LUMEX_OS_WINDOWS)
     return std::unique_ptr<EnvironmentStrategy> (
         new WindowsEnvironmentStrategy ());
 #else

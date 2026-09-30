@@ -1,4 +1,7 @@
 #define LUMEX_IMPLEMENTATION
+#include <cstddef>
+#include <vector>
+
 #include "Decoder.hpp"
 #include "lumex/core/base64/validate/Validator.hpp"
 
@@ -8,85 +11,79 @@ using namespace lumex::core::base64::codec;
 using namespace lumex::core::base64::codec::Types;
 using namespace lumex::core::base64::codec::detail;
 
-LUMEX_PUBLIC_API
-#if __cplusplus >= 201703L
-bool
-Decoder::decode (std::string_view encoded, std::vector<byte_type> &out)
-#else
-bool
-Decoder::decode (std::string const &encoded, std::vector<byte_type> &out)
-#endif
+namespace
 {
-  if (encoded.empty ())
-    {
-      out.clear ();
-      return true;
-    }
+/// @brief Six-bit value of an alphabet character (the validator already
+/// rejected every other character).
+byte_type
+sextet (char chr)
+{
+  return detail::_decode_table.at (static_cast<byte_type> (chr));
+}
+} // namespace
 
-  // This handles length, invalid characters, and incorrect padding
-  // positions/amounts.
-  if (!Validator::is_valid_base64 (encoded))
-    {
-      out.clear (); // Ensure output is empty on failure
-      return false;
-    }
-
-  // Calculate output size - This part is correct and depends on padding
-  std::size_t output_size = (encoded.length () / 4) * 3;
-  if (encoded[encoded.length () - 1] == '=')
-    output_size--;
-  if (encoded[encoded.length () - 2] == '=')
-    output_size--;
-
+LUMEX_PUBLIC_API
+bool
+Decoder::decode (char const *encoded, std::size_t size,
+                 std::vector<byte_type> &out)
+{
   out.clear ();
-  out.reserve (output_size);
+  if (encoded == nullptr)
+    return false;
+  if (size == 0)
+    return true;
 
-  for (std::size_t i = 0UL; i < encoded.length (); i += 4)
+  // Length, invalid characters, and padding position and amount.
+  if (!Validator::is_valid_base64 (encoded, size))
+    return false;
+
+  // Padding only ends the input, so the data characters are a prefix. The
+  // padding may also be omitted, which leaves a last group of two or three
+  // characters (never one: the validator rejects that length).
+  std::size_t data_length = size;
+  while (data_length > 0 && encoded[data_length - 1] == '=')
+    --data_length;
+
+  out.reserve (data_length * 3 / 4);
+
+  // Each step keeps the low 8 bits of the combined sextets.
+  std::size_t pos = 0;
+  for (; pos + 4 <= data_length; pos += 4)
     {
-      // These calls use detail::_decode_table, which is correct for mapping
-      // characters to their values.
-      byte_type byte1
-          = detail::_decode_table.at (static_cast<byte_type> (encoded[i]));
-      byte_type byte2
-          = detail::_decode_table.at (static_cast<byte_type> (encoded[i + 1]));
-      byte_type byte3 = (encoded[i + 2] == '=')
-                            ? 0
-                            : detail::_decode_table.at (
-                                  static_cast<byte_type> (encoded[i + 2]));
-      byte_type byte4 = (encoded[i + 3] == '=')
-                            ? 0
-                            : detail::_decode_table.at (
-                                  static_cast<byte_type> (encoded[i + 3]));
+      byte_type const byte1 = sextet (encoded[pos]);
+      byte_type const byte2 = sextet (encoded[pos + 1]);
+      byte_type const byte3 = sextet (encoded[pos + 2]);
+      byte_type const byte4 = sextet (encoded[pos + 3]);
+      out.push_back (static_cast<byte_type> ((byte1 << 2) | (byte2 >> 4)));
+      out.push_back (static_cast<byte_type> ((byte2 << 4) | (byte3 >> 2)));
+      out.push_back (static_cast<byte_type> (
+          (byte3 << 6) // NOLINT(cppcoreguidelines-avoid-magic-numbers,
+                       // readability-magic-numbers)
+          | byte4));
+    }
 
-      // 1. Get the first 6 bits of the first byte
-      out.push_back ((byte1 << 2) | (byte2 >> 4));
-
-      // 2. Get the last 4 bits of the second byte and the first 2 bits of the
-      // third byte
-      if (encoded[i + 2] != '=')
-        out.push_back ((byte2 << 4) | (byte3 >> 2));
-
-      // 3. Get the last 6 bits of the third byte
-      if (encoded[i + 3] != '=')
-        out.push_back (
-            (byte3 << 6) // NOLINT(cppcoreguidelines-avoid-magic-numbers,
-                         // readability-magic-numbers)
-            | byte4);
+  // Last group of two or three data characters: one or two bytes.
+  std::size_t const rest = data_length - pos;
+  if (rest >= 2)
+    {
+      byte_type const byte1 = sextet (encoded[pos]);
+      byte_type const byte2 = sextet (encoded[pos + 1]);
+      out.push_back (static_cast<byte_type> ((byte1 << 2) | (byte2 >> 4)));
+      if (rest == 3)
+        {
+          byte_type const byte3 = sextet (encoded[pos + 2]);
+          out.push_back (static_cast<byte_type> ((byte2 << 4) | (byte3 >> 2)));
+        }
     }
 
   return true;
 }
 
 LUMEX_PUBLIC_API
-#if __cplusplus >= 201703L
 std::vector<byte_type>
-Decoder::decode (std::string_view encoded)
-#else
-std::vector<byte_type>
-Decoder::decode (std::string const &encoded)
-#endif
+Decoder::decode (char const *encoded, std::size_t size)
 {
   std::vector<byte_type> result;
-  decode (encoded, result);
+  decode (encoded, size, result);
   return result;
 }

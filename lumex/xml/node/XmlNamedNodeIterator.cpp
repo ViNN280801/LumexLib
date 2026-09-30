@@ -10,17 +10,17 @@ using namespace lumex::xml::node;
 using namespace lumex::xml::utility;
 
 LUMEX_PUBLIC_API
-inline XmlNamedNodeIterator::XmlNamedNodeIterator () : m_name (nullptr) {}
+XmlNamedNodeIterator::XmlNamedNodeIterator () : m_name (nullptr) {}
 
 LUMEX_PUBLIC_API
-inline XmlNamedNodeIterator::XmlNamedNodeIterator (XmlNode const &node,
-                                                   char_t const *name)
+XmlNamedNodeIterator::XmlNamedNodeIterator (XmlNode const &node,
+                                            char_t const *name)
     : m_wrap (node), m_parent (node.parent ()), m_name (name)
 {
 }
 
 LUMEX_PUBLIC_API
-inline XmlNamedNodeIterator::XmlNamedNodeIterator (
+XmlNamedNodeIterator::XmlNamedNodeIterator (
     XmlNodeBase *ref, // NOLINT(bugprone-easily-swappable-parameters)
     XmlNodeBase *parent, char_t const *name)
     : m_wrap (ref), m_parent (parent), m_name (name)
@@ -28,7 +28,7 @@ inline XmlNamedNodeIterator::XmlNamedNodeIterator (
 }
 
 LUMEX_PUBLIC_API
-inline bool
+bool
 XmlNamedNodeIterator::operator== (XmlNamedNodeIterator const &rhs) const
 {
   return m_wrap.root () == rhs.m_wrap.root ()
@@ -36,7 +36,7 @@ XmlNamedNodeIterator::operator== (XmlNamedNodeIterator const &rhs) const
 }
 
 LUMEX_PUBLIC_API
-inline bool
+bool
 XmlNamedNodeIterator::operator!= (XmlNamedNodeIterator const &rhs) const
 {
   return m_wrap.root () != rhs.m_wrap.root ()
@@ -44,7 +44,7 @@ XmlNamedNodeIterator::operator!= (XmlNamedNodeIterator const &rhs) const
 }
 
 LUMEX_PUBLIC_API
-inline XmlNode &
+XmlNode &
 XmlNamedNodeIterator::operator* () const
 {
   LUMEX_ASSERT (m_wrap.root ());
@@ -52,7 +52,7 @@ XmlNamedNodeIterator::operator* () const
 }
 
 LUMEX_PUBLIC_API
-inline XmlNode *
+XmlNode *
 XmlNamedNodeIterator::operator->() const
 {
   LUMEX_ASSERT (m_wrap.root ());
@@ -60,7 +60,7 @@ XmlNamedNodeIterator::operator->() const
 }
 
 LUMEX_PUBLIC_API
-inline XmlNamedNodeIterator &
+XmlNamedNodeIterator &
 XmlNamedNodeIterator::operator++ ()
 {
   LUMEX_ASSERT (m_wrap.root ());
@@ -69,7 +69,7 @@ XmlNamedNodeIterator::operator++ ()
 }
 
 LUMEX_PUBLIC_API
-inline XmlNamedNodeIterator
+XmlNamedNodeIterator
 XmlNamedNodeIterator::operator++ (int)
 {
   XmlNamedNodeIterator temp = *this;
@@ -78,7 +78,7 @@ XmlNamedNodeIterator::operator++ (int)
 }
 
 LUMEX_PUBLIC_API
-inline XmlNamedNodeIterator &
+XmlNamedNodeIterator &
 XmlNamedNodeIterator::operator-- ()
 {
   if (m_wrap.root () != nullptr)
@@ -95,7 +95,7 @@ XmlNamedNodeIterator::operator-- ()
 }
 
 LUMEX_PUBLIC_API
-inline XmlNamedNodeIterator
+XmlNamedNodeIterator
 XmlNamedNodeIterator::operator-- (int)
 {
   XmlNamedNodeIterator temp = *this;

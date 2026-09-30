@@ -82,14 +82,16 @@ TEST (LumexMathTest,
 TEST (LumexMathTest,
       GivenNonFiniteFloatingValue_Whenchecked_narrow_cast_ThenThrowsOutOfRange)
 {
-  auto const kCastInfinity = [] {
-    return checked_narrow_cast<double, int> (
-        std::numeric_limits<double>::infinity (), "field");
-  };
-  auto const kCastNan = [] {
-    return checked_narrow_cast<double, int> (
-        std::numeric_limits<double>::quiet_NaN (), "field");
-  };
+  auto const kCastInfinity = []
+    {
+      return checked_narrow_cast<double, int> (
+          std::numeric_limits<double>::infinity (), "field");
+    };
+  auto const kCastNan = []
+    {
+      return checked_narrow_cast<double, int> (
+          std::numeric_limits<double>::quiet_NaN (), "field");
+    };
   EXPECT_THROW (kCastInfinity (), std::out_of_range);
   EXPECT_THROW (kCastNan (), std::out_of_range);
 }
@@ -398,10 +400,11 @@ TEST (LumexMathTest, GivenTwoIntegerRanges_WhenRMS_ThenDividesInFloatingPoint)
 TEST (LumexMathTest,
       GivenUnsignedAboveInt64Max_Whenchecked_narrow_cast_ThenThrowsOutOfRange)
 {
-  auto const kCast = [] {
-    return checked_narrow_cast<std::uint64_t, std::int64_t> (
-        std::uint64_t (1) << 63, "field");
-  };
+  auto const kCast = []
+    {
+      return checked_narrow_cast<std::uint64_t, std::int64_t> (
+          std::uint64_t (1) << 63, "field");
+    };
   EXPECT_THROW (kCast (), std::out_of_range);
 
   std::uint64_t const fits = (std::uint64_t (1) << 63) - 1;
@@ -413,14 +416,16 @@ TEST (LumexMathTest,
 TEST (LumexMathTest,
       GivenDoubleAtTwoToThe63_Whenchecked_narrow_cast_ThenThrowsOutOfRange)
 {
-  auto const kToSigned = [] {
-    return checked_narrow_cast<double, std::int64_t> (9223372036854775808.0,
-                                                      "field");
-  };
-  auto const kToUnsigned = [] {
-    return checked_narrow_cast<double, std::uint64_t> (18446744073709551616.0,
-                                                       "field");
-  };
+  auto const kToSigned = []
+    {
+      return checked_narrow_cast<double, std::int64_t> (9223372036854775808.0,
+                                                        "field");
+    };
+  auto const kToUnsigned = []
+    {
+      return checked_narrow_cast<double, std::uint64_t> (
+          18446744073709551616.0, "field");
+    };
   EXPECT_THROW (kToSigned (), std::out_of_range);
   EXPECT_THROW (kToUnsigned (), std::out_of_range);
 
@@ -432,9 +437,8 @@ TEST (LumexMathTest,
 TEST (LumexMathTest,
       GivenNegativeValueAndUnsignedTarget_Whenchecked_narrow_cast_ThenThrows)
 {
-  auto const kFromInt64 = [] {
-    return checked_narrow_cast<std::int64_t, std::uint64_t> (-1, "field");
-  };
+  auto const kFromInt64 = []
+    { return checked_narrow_cast<std::int64_t, std::uint64_t> (-1, "field"); };
   auto const kFromDouble
       = [] { return checked_narrow_cast<double, unsigned> (-0.5, "field"); };
   EXPECT_THROW (kFromInt64 (), std::out_of_range);

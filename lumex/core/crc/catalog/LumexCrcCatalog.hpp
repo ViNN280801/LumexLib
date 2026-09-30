@@ -29,15 +29,21 @@
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wpadded"
 #pragma clang diagnostic ignored "-Wunsafe-buffer-usage"
+#if __has_warning("-Wunsafe-buffer-usage-in-libc-call")
 #pragma clang diagnostic ignored "-Wunsafe-buffer-usage-in-libc-call"
+#endif
 #pragma clang diagnostic ignored "-Wcovered-switch-default"
 #pragma clang diagnostic ignored "-Wswitch-enum"
+#if __has_warning("-Wnrvo")
 #pragma clang diagnostic ignored "-Wnrvo"
+#endif
 #pragma clang diagnostic ignored "-Wheader-hygiene"
 #pragma clang diagnostic ignored "-Wused-but-marked-unused"
 #pragma clang diagnostic ignored "-Wundefined-var-template"
 #pragma clang diagnostic ignored "-Wdeprecated-redundant-constexpr-static-def"
+#if __has_warning("-Wvariadic-macro-arguments-omitted")
 #pragma clang diagnostic ignored "-Wvariadic-macro-arguments-omitted"
+#endif
 #pragma clang diagnostic ignored "-Wunused-result"
 #pragma clang diagnostic ignored "-Wextra-semi-stmt"
 #pragma clang diagnostic ignored "-Wexpansion-to-defined"
@@ -46,6 +52,8 @@
 #pragma clang diagnostic ignored "-Wfloat-equal"
 #endif
 
+#include "lumex/LumexExport.hpp"
+
 #include <cstddef>
 #include <cstdint>
 #include <vector>
@@ -53,12 +61,14 @@
 #if __cplusplus >= 201703L
 #include <string_view>
 #endif
-#if __cplusplus >= 202002L
+#if __cplusplus > 201703L && defined(__has_include)
+#if __has_include(<span>)
 #include <span>
 #endif
+#endif
 
-#include "lumex/LumexExport.hpp"
 #include "lumex/core/utility/attr/LumexAttributes.hpp"
+#include "lumex/core/utility/compiler/LumexCheckFeatures.hpp"
 #include "lumex/core/utility/macros/LumexConstantMacros.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 
@@ -253,7 +263,7 @@ AppendCrcLeastSignificantByteFirst (crc_params_t const &params,
 }
 #endif
 
-#if __cplusplus >= 202002L
+#if LUMEX_HAS_STD_SPAN
 inline std::uint64_t
 ComputeCrcCatalog (std::uint32_t catalogIndex,
                    std::span<std::uint8_t const> bytes) LUMEX_NOEXCEPT

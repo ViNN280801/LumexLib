@@ -59,10 +59,16 @@ main ()
 
   std::cout << "\n--- 5. Validator: well-formed vs broken ---\n";
   char const *good = "SGVsbG8=";
-  char const *bad_len = "SGVsbG8";
+  // The padding may be omitted: a last group of two or three characters.
+  char const *unpadded = "SGVsbG8";
+  // A last group of one character cannot hold a byte.
+  char const *bad_len = "SGVsb";
   char const *bad_char = "SGVs$G8=";
   std::cout << "is_valid(\"" << good
             << "\")=" << (Validator::is_valid_base64 (good) ? "yes" : "no")
+            << '\n';
+  std::cout << "is_valid(\"" << unpadded
+            << "\")=" << (Validator::is_valid_base64 (unpadded) ? "yes" : "no")
             << '\n';
   std::cout << "is_valid(\"" << bad_len
             << "\")=" << (Validator::is_valid_base64 (bad_len) ? "yes" : "no")

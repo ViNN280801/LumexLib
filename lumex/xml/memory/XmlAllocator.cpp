@@ -179,7 +179,9 @@ XmlAllocator::allocate_string (std::size_t length)
                           - reinterpret_cast<char *> (page)
                           - static_cast<ptrdiff_t> (sizeof (XmlMemoryPage));
 
-  LUMEX_ASSERT (page_offset % kxml_memory_block_alignment == 0);
+  LUMEX_ASSERT (static_cast<std::size_t> (page_offset)
+                    % kxml_memory_block_alignment
+                == 0);
   LUMEX_ASSERT (page_offset >= 0
                 && static_cast<std::size_t> (page_offset)
                        < max_encoded_offset);

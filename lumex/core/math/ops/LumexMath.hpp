@@ -51,6 +51,7 @@
 #include <utility>
 
 #include "lumex/core/utility/attr/LumexAttributes.hpp"
+#include "lumex/core/utility/compiler/LumexCheckFeatures.hpp"
 #include "lumex/core/utility/macros/LumexExceptionMacros.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 
@@ -81,7 +82,7 @@ struct is_numeric
 {
 };
 
-#if __cplusplus >= 202002L
+#if LUMEX_HAS_CONCEPTS
 /// @brief C++20 spelling of @ref is_numeric.
 template <typename T>
 concept NumericConcept = is_numeric<T>::value;

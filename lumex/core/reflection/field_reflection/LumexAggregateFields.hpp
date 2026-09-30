@@ -67,15 +67,21 @@
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wpadded"
 #pragma clang diagnostic ignored "-Wunsafe-buffer-usage"
+#if __has_warning("-Wunsafe-buffer-usage-in-libc-call")
 #pragma clang diagnostic ignored "-Wunsafe-buffer-usage-in-libc-call"
+#endif
 #pragma clang diagnostic ignored "-Wcovered-switch-default"
 #pragma clang diagnostic ignored "-Wswitch-enum"
+#if __has_warning("-Wnrvo")
 #pragma clang diagnostic ignored "-Wnrvo"
+#endif
 #pragma clang diagnostic ignored "-Wheader-hygiene"
 #pragma clang diagnostic ignored "-Wused-but-marked-unused"
 #pragma clang diagnostic ignored "-Wundefined-var-template"
 #pragma clang diagnostic ignored "-Wdeprecated-redundant-constexpr-static-def"
+#if __has_warning("-Wvariadic-macro-arguments-omitted")
 #pragma clang diagnostic ignored "-Wvariadic-macro-arguments-omitted"
+#endif
 #pragma clang diagnostic ignored "-Wunused-result"
 #pragma clang diagnostic ignored "-Wextra-semi-stmt"
 #pragma clang diagnostic ignored "-Wexpansion-to-defined"
@@ -225,7 +231,7 @@ template <typename T, std::size_t N> struct loophole_ubiq
       typename U,
       std::size_t = sizeof (
           loophole_set<T, U, N, (sizeof (probe<U, N> (0)) == sizeof (char))>)>
-  operator U & () const &&;
+  operator U &() const &&;
 };
 
 template <typename T, std::size_t N,
@@ -516,10 +522,16 @@ template <std::size_t I, typename Agg> struct qualified_field
 #endif
 } // namespace detail
 
-template <typename Aggregate> struct tuple_size
+// Derived from std::integral_constant like std::tuple_size: `value` is then
+// defined by the standard library in every standard. A plain in-class
+// `static const` member is never implicitly inline, so binding it to a
+// reference (EXPECT_EQ does) fails to link without optimization.
+template <typename Aggregate>
+struct tuple_size
+    : std::integral_constant<
+          std::size_t, detail::aggregate_traits<
+                           typename std::remove_cv<Aggregate>::type>::count>
 {
-  static const std::size_t value = detail::aggregate_traits<
-      typename std::remove_cv<Aggregate>::type>::count;
 };
 
 #if __cplusplus >= 201402L

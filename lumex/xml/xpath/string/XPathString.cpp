@@ -13,14 +13,14 @@ using namespace lumex::xml::xpath::node;
 using namespace lumex::xml::xpath::string;
 
 LUMEX_PUBLIC_API
-inline XPathString
+XPathString
 XPathString::from_const (char_t const *str)
 {
   return { str, false, 0 };
 }
 
 LUMEX_PUBLIC_API
-inline XPathString
+XPathString
 XPathString::from_heap_preallocated (char_t const *begin, char_t const *end)
 {
   LUMEX_ASSERT (begin <= end && *end == 0);
@@ -29,7 +29,7 @@ XPathString::from_heap_preallocated (char_t const *begin, char_t const *end)
 }
 
 LUMEX_PUBLIC_API
-inline XPathString
+XPathString
 XPathString::from_heap (char_t const *begin, char_t const *end,
                         XPathAllocator *alloc)
 {
@@ -45,13 +45,13 @@ XPathString::from_heap (char_t const *begin, char_t const *end,
 }
 
 LUMEX_PUBLIC_API
-inline XPathString::XPathString ()
+XPathString::XPathString ()
     : m_buffer (LUMEX_XML_TEXT ("")), m_uses_heap (false), m_length_heap (0)
 {
 }
 
 LUMEX_PUBLIC_API
-inline void
+void
 XPathString::append (XPathString const &other, XPathAllocator *alloc)
 {
   // skip empty sources
@@ -99,21 +99,21 @@ XPathString::append (XPathString const &other, XPathAllocator *alloc)
 }
 
 LUMEX_PUBLIC_API
-inline char_t const *
+char_t const *
 XPathString::c_str () const
 {
   return m_buffer;
 }
 
 LUMEX_PUBLIC_API
-inline std::size_t
+std::size_t
 XPathString::length () const
 {
   return m_uses_heap ? m_length_heap : utility::strlength (m_buffer);
 }
 
 LUMEX_PUBLIC_API
-inline char_t *
+char_t *
 XPathString::data (XPathAllocator *alloc)
 {
   // make private heap copy
@@ -135,35 +135,35 @@ XPathString::data (XPathAllocator *alloc)
 }
 
 LUMEX_PUBLIC_API
-inline bool
+bool
 XPathString::empty () const
 {
   return *m_buffer == 0;
 }
 
 LUMEX_PUBLIC_API
-inline bool
+bool
 XPathString::operator== (XPathString const &other) const
 {
   return utility::strequal (m_buffer, other.m_buffer);
 }
 
 LUMEX_PUBLIC_API
-inline bool
+bool
 XPathString::operator!= (XPathString const &other) const
 {
   return !utility::strequal (m_buffer, other.m_buffer);
 }
 
 LUMEX_PUBLIC_API
-inline bool
+bool
 XPathString::uses_heap () const
 {
   return m_uses_heap;
 }
 
 LUMEX_PUBLIC_API
-inline char_t *
+char_t *
 XPathString::duplicate_string (char_t const *string, std::size_t length,
                                XPathAllocator *alloc)
 {
@@ -179,14 +179,14 @@ XPathString::duplicate_string (char_t const *string, std::size_t length,
 }
 
 LUMEX_PUBLIC_API
-inline XPathString::XPathString (char_t const *buffer, bool uses_heap_,
-                                 std::size_t length_heap)
+XPathString::XPathString (char_t const *buffer, bool uses_heap_,
+                          std::size_t length_heap)
     : m_buffer (buffer), m_uses_heap (uses_heap_), m_length_heap (length_heap)
 {
 }
 
 LUMEX_PUBLIC_API
-inline XPathString
+XPathString
 lumex::xml::xpath::string::string_value (
     XPathNode const &node,
     XPathAllocator *alloc) // NOLINT(misc-use-internal-linkage)
@@ -240,7 +240,7 @@ lumex::xml::xpath::string::string_value (
 }
 
 LUMEX_PUBLIC_API
-inline XPathString
+XPathString
 lumex::xml::xpath::string::convert_number_to_string (
     double value,
     XPathAllocator *alloc) // NOLINT(misc-use-internal-linkage)
@@ -259,12 +259,16 @@ lumex::xml::xpath::string::convert_number_to_string (
   utility::convert_number_to_mantissa_exponent (value, mantissa_buffer,
                                                 &mantissa, &exponent);
 
-  // allocate a buffer of suitable length for the number
+  // allocate a buffer of suitable length for the number; the magnitude gets
+  // its own variable because GCC 8 reports -Wsign-conversion for the cast
+  // when it stays inside the sum
+  std::size_t const exponent_magnitude
+      = static_cast<std::size_t> (exponent > 0 ? exponent : -exponent);
   std::size_t result_size
       = strlen (
             mantissa_buffer // NOLINT(cppcoreguidelines-pro-bounds-array-to-pointer-decay)
             )
-        + (exponent > 0 ? exponent : -exponent) + 4;
+        + exponent_magnitude + 4;
   auto *result = static_cast<char_t *> (
       alloc->allocate (sizeof (char_t) * result_size));
   if (result == nullptr)

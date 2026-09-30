@@ -16,8 +16,17 @@ target_include_directories(${LUMEX_UTILITY_NAME} PUBLIC
     $<INSTALL_INTERFACE:include>
 )
 
+# Public headers call into two system libraries from inline code: the dump
+# header uses std::thread and pthread_sigmask, the debug header resolves
+# symbol names with dladdr. Before glibc 2.34 those live in libpthread and
+# libdl, so every consumer of the headers needs both on its link line
+# (CMAKE_DL_LIBS is empty where dladdr is part of libc).
+find_package(Threads REQUIRED)
+
 target_link_libraries(${LUMEX_UTILITY_NAME} PUBLIC
     lumex::math
+    Threads::Threads
+    ${CMAKE_DL_LIBS}
 )
 
 lumex_apply_library_versioning(${LUMEX_UTILITY_NAME} "Lumex Utility Library")

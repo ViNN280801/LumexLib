@@ -13,6 +13,7 @@
 
 #if defined(__unix__) || defined(__linux__) || defined(__APPLE__)
 #include <sys/stat.h>
+#include <unistd.h>
 #endif
 
 #include <gtest/gtest.h>
@@ -235,16 +236,18 @@ TEST_F (LumexSettingsINITest, GivenEmptyValue_WhenIsIniValid_ThenReturnsTrue)
 TEST_F (LumexSettingsINITest,
         GivenNoReadPermission_WhenIsIniValid_ThenReturnsFalse)
 {
-  // Platform Compatibility Engineer: Test file access permissions.
-  // If the file cannot be read, validation should fail.
+  // If the file cannot be read, validation fails.
 #if LUMEX_OS_UNIX
+  // Permission bits do not restrict root, so the file would stay readable.
+  if (::geteuid () == 0)
+    GTEST_SKIP () << "running as root: permission bits do not deny reading";
   lumex::path test_file
       = _test_dir
         / "GivenNoReadPermission_WhenIsIniValid_ThenReturnsFalse.test.ini";
   create_test_ini_file (test_file, "[section]\nkey=value\n");
   // Set permissions to write-only (0333)
   EXPECT_EQ (chmod (test_file.c_str (), 0333), 0);
-  EXPECT_TRUE (LumexSettingsINI::is_ini_valid (test_file));
+  EXPECT_FALSE (LumexSettingsINI::is_ini_valid (test_file));
   // Restore permissions for TearDown
   EXPECT_EQ (chmod (test_file.c_str (), 0777), 0);
 #else
@@ -567,11 +570,14 @@ TEST_F (LumexSettingsINITest, ThreadSafety_ConcurrentGets)
 
   for (int i = 0; i < num_threads; ++i)
     {
-      futures.push_back (std::async (std::launch::async, [&] () {
-        std::string val1 = ini_settings.get ("section", "key");
-        std::string val2 = ini_settings.get ("section", "key2");
-        return val1 + "|" + val2; // Combine to verify both are correct
-      }));
+      futures.push_back (std::async (
+          std::launch::async,
+          [&] ()
+            {
+              std::string val1 = ini_settings.get ("section", "key");
+              std::string val2 = ini_settings.get ("section", "key2");
+              return val1 + "|" + val2; // Combine to verify both are correct
+            }));
     }
 
   for (auto &f : futures)

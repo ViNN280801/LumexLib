@@ -67,14 +67,16 @@
 #include <type_traits>
 #include <typeinfo>
 #include <utility>
+#if __cplusplus > 201703L && defined(__has_include)
+#if __has_include(<source_location>)
+#include <source_location>
+#endif
+#endif
 
+#include "lumex/core/utility/compiler/LumexCheckFeatures.hpp"
 #include "lumex/core/utility/demangle/LumexDemangle.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 #include "lumex/core/utility/traits/LumexTypeTraits.hpp"
-
-#if __cplusplus >= 202002L
-#include <source_location>
-#endif
 
 namespace lumex
 {
@@ -127,7 +129,7 @@ template <typename T>
 std::string
 FormatValue (T const &value)
 {
-#if __cplusplus >= 202002L
+#if LUMEX_HAS_CONCEPTS
   LUMEX_CONSTEXPR_IF (lumex::core::utility::traits::stream::Streamable<
                       typename std::decay<T>::type const &>)
 #else
@@ -261,7 +263,7 @@ VarInfo (char const *exprText, T &&value, bool isExprNoexcept,
   return oss.str ();
 }
 
-#if __cplusplus >= 202002L
+#if LUMEX_HAS_STD_SOURCE_LOCATION
 /**
  * @brief C++20: same as above, but the call site comes from
  *        `std::source_location::current()` instead of `__FILE__`/
@@ -306,7 +308,7 @@ VarInfo (char const *exprText, T &&value, bool isExprNoexcept,
  * `LUMEX_VARINFO(std::pair<int,int>(1,2))` works without a wrapper.
  * @see lumex::core::reflection::VarInfo
  */
-#if __cplusplus >= 202002L
+#if LUMEX_HAS_STD_SOURCE_LOCATION
   // NOLINTNEXTLINE(cppcoreguidelines-macro-usage)
 #define LUMEX_VARINFO(...)                                                    \
   ::lumex::core::reflection::var_info::VarInfo (                              \

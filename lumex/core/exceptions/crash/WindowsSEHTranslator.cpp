@@ -2,7 +2,7 @@
 #include "WindowsSEHTranslator.hpp"
 #include "lumex/core/utility/attr/LumexAttributes.hpp"
 
-#if LUMEX_OS_WINDOWS
+#if defined(LUMEX_OS_WINDOWS)
 #include "LumexCrashHandler.hpp"
 
 inline void

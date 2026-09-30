@@ -44,6 +44,13 @@ function(lumex_example_executable)
     endif()
   endif()
 
+  # An example that starts threads itself names Threads::Threads in LINK.
+  # The imported target found by lumex/core/utility is not visible in the
+  # example directories, so find it here (after project() when standalone).
+  if("Threads::Threads" IN_LIST LEX_LINK AND NOT TARGET Threads::Threads)
+    find_package(Threads REQUIRED)
+  endif()
+
   add_executable(${LEX_NAME} ${LEX_SOURCE})
   target_link_libraries(${LEX_NAME} PRIVATE ${LEX_LINK})
 

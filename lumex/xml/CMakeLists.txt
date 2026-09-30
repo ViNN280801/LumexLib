@@ -120,13 +120,6 @@ if(NOT WIN32)
         -Wl,--no-gc-sections
         -Wl,--no-undefined
     )
-
-    if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
-        target_compile_options(${LUMEX_XML_NAME} PRIVATE
-            -fkeep-inline-functions
-            -fkeep-static-functions
-        )
-    endif()
 endif()
 
 lumex_apply_library_versioning(${LUMEX_XML_NAME} "Lumex XML Library")

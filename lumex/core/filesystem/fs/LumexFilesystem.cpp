@@ -1,31 +1,33 @@
 #define LUMEX_IMPLEMENTATION
 #include <algorithm>
 #include <array>
+#include <cerrno>
 #include <cstddef>
 #include <fstream>
 #include <iostream>
 
-#include "LumexFilesystem.hpp"
-#include "lumex/core/utility/macros/LumexConstantMacros.hpp"
-#include "lumex/core/utility/macros/LumexKeywords.hpp"
 #include <sys/stat.h>
-
-#if LUMEX_OS_WINDOWS
+#if defined(_WIN32)
 #include <Shlwapi.h>
 #include <Windows.h>
 #include <winnt.h>
-#pragma comment(lib, "shlwapi.lib")
 #else
 #include <dirent.h>
-#include <errno.h>
 #include <fcntl.h>
 #include <linux/limits.h> // For PATH_MAX
-#include <sys/stat.h>
-#include <sys/statvfs.h> // For statvfs
+#include <sys/statvfs.h>  // For statvfs
 #include <sys/types.h>
 #include <unistd.h>
 #include <utime.h> // For utime and utimbuf
+#endif
 
+#include "LumexFilesystem.hpp"
+#include "lumex/core/utility/compiler/LumexCheckFeatures.hpp"
+#include "lumex/core/utility/macros/LumexConstantMacros.hpp"
+#include "lumex/core/utility/macros/LumexKeywords.hpp"
+
+#if defined(_WIN32)
+#pragma comment(lib, "shlwapi.lib")
 #endif
 
 namespace lumex
@@ -39,7 +41,7 @@ namespace fs
 
 namespace Detail
 {
-#if LUMEX_OS_WINDOWS
+#if defined(LUMEX_OS_WINDOWS)
 LUMEX_CONST_STR kForbiddenChars = "<>:\"/\\|*?";
 static std::array<std::string, 22> const kReservedNames
     = { "CON",  "PRN",  "AUX",  "NUL",  "COM1", "COM2", "COM3", "COM4",
@@ -57,9 +59,9 @@ static inline bool
 isReservedName (std::string const &name) LUMEX_NOEXCEPT
 {
   std::string upperName = name;
-  std::transform (
-      upperName.begin (), upperName.end (), upperName.begin (),
-      [] (unsigned char ch) { return static_cast<char> (::toupper (ch)); });
+  std::transform (upperName.begin (), upperName.end (), upperName.begin (),
+                  [] (unsigned char ch)
+                    { return static_cast<char> (::toupper (ch)); });
 
   for (std::size_t i = 0; i < kReservedNamesCount; ++i)
     if (upperName == kReservedNames.at (i))
@@ -73,7 +75,7 @@ hasInvalidEnding (std::string const &name) LUMEX_NOEXCEPT
   return !name.empty () && (name.back () == '.' || name.back () == ' ');
 }
 
-#elif LUMEX_OS_APPLE
+#elif defined(LUMEX_OS_APPLE)
 LUMEX_CONST_STR kForbiddenChars = ":/";
 LUMEX_CONST_STR kProblematicChars = "*?|\"'";
 
@@ -88,9 +90,9 @@ static inline bool
 isReservedName (std::string const &name) LUMEX_NOEXCEPT
 {
   std::string upperName = name;
-  std::transform (
-      upperName.begin (), upperName.end (), upperName.begin (),
-      [] (unsigned char ch) { return static_cast<char> (::toupper (ch)); });
+  std::transform (upperName.begin (), upperName.end (), upperName.begin (),
+                  [] (unsigned char ch)
+                    { return static_cast<char> (::toupper (ch)); });
 
   static std::array<std::string, 22> const reservedNames
       = { "CON",  "PRN",  "AUX",  "NUL",  "COM1", "COM2", "COM3", "COM4",
@@ -110,7 +112,7 @@ hasInvalidEnding (std::string const &) LUMEX_NOEXCEPT
   return false;
 }
 
-#elif LUMEX_OS_LINUX
+#elif defined(LUMEX_OS_LINUX)
 LUMEX_CONST_STR kForbiddenChars = "/";
 LUMEX_CONST_STR kProblematicChars = "&;|*?'\"`[]()$<>{}^#\\%!";
 
@@ -164,7 +166,7 @@ LUMEX_PUBLIC_API
 bool
 lumex::path::is_separator (value_type chr)
 {
-#if LUMEX_OS_WINDOWS
+#if defined(LUMEX_OS_WINDOWS)
   return chr == '/' || chr == '\\';
 #else
   return chr == '/';
@@ -268,7 +270,7 @@ LUMEX_PUBLIC_API
 lumex::path &
 lumex::path::make_preferred ()
 {
-#if LUMEX_OS_WINDOWS
+#if defined(LUMEX_OS_WINDOWS)
   std::replace (m_path.begin (), m_path.end (), '/', '\\');
 #else
   std::replace (m_path.begin (), m_path.end (), '\\', '/');
@@ -284,7 +286,7 @@ lumex::path::find_filename_pos () const
     return string_type::npos;
 
   std::size_t pos = m_path.find_last_of ("/\\");
-  if (static_cast<decltype (string_type::npos)> (pos) == string_type::npos)
+  if (static_cast<string_type::size_type> (pos) == string_type::npos)
     return 0;
 
   return pos + 1;
@@ -317,7 +319,7 @@ lumex::path::filename () const
     }
 
   std::size_t pos = find_filename_pos ();
-  if (static_cast<decltype (string_type::npos)> (pos) == string_type::npos)
+  if (static_cast<string_type::size_type> (pos) == string_type::npos)
     return path ();
 
   return path (m_path.substr (pos));
@@ -345,7 +347,7 @@ lumex::path::parent_path () const
     }
 
   std::size_t pos = find_filename_pos ();
-  if (static_cast<decltype (string_type::npos)> (pos) == string_type::npos)
+  if (static_cast<string_type::size_type> (pos) == string_type::npos)
     {
       // Return a path_arg with empty string so empty() returns true
       path result;
@@ -384,12 +386,11 @@ std::size_t
 lumex::path::find_extension_pos () const
 {
   std::size_t filename_pos = find_filename_pos ();
-  if (static_cast<decltype (string_type::npos)> (filename_pos)
-      == string_type::npos)
+  if (static_cast<string_type::size_type> (filename_pos) == string_type::npos)
     return string_type::npos;
 
   std::size_t dot_pos = m_path.find_last_of ('.');
-  if (static_cast<decltype (string_type::npos)> (dot_pos) == string_type::npos
+  if (static_cast<string_type::size_type> (dot_pos) == string_type::npos
       || dot_pos < filename_pos)
     return string_type::npos;
 
@@ -405,7 +406,7 @@ lumex::path
 lumex::path::extension () const
 {
   std::size_t pos = find_extension_pos ();
-  if (static_cast<decltype (string_type::npos)> (pos) == string_type::npos)
+  if (static_cast<string_type::size_type> (pos) == string_type::npos)
     {
       // Return a path with empty string so empty() returns true
       path result;
@@ -421,12 +422,11 @@ lumex::path
 lumex::path::stem () const
 {
   std::size_t filename_pos = find_filename_pos ();
-  if (static_cast<decltype (string_type::npos)> (filename_pos)
-      == string_type::npos)
+  if (static_cast<string_type::size_type> (filename_pos) == string_type::npos)
     return path ();
 
   std::size_t ext_pos = find_extension_pos ();
-  if (static_cast<decltype (string_type::npos)> (ext_pos) == string_type::npos)
+  if (static_cast<string_type::size_type> (ext_pos) == string_type::npos)
     return path (m_path.substr (filename_pos));
 
   return path (m_path.substr (filename_pos, ext_pos - filename_pos));
@@ -451,7 +451,7 @@ lumex::path &
 lumex::path::replace_extension (path const &ext)
 {
   std::size_t pos = find_extension_pos ();
-  if (static_cast<decltype (string_type::npos)> (pos) != string_type::npos)
+  if (static_cast<string_type::size_type> (pos) != string_type::npos)
     m_path.erase (pos);
 
   if (!ext.empty () && ext.m_path != ".")
@@ -469,7 +469,7 @@ lumex::path &
 lumex::path::remove_filename ()
 {
   std::size_t pos = find_filename_pos ();
-  if (static_cast<decltype (string_type::npos)> (pos) != string_type::npos
+  if (static_cast<string_type::size_type> (pos) != string_type::npos
       && pos > 0)
     {
       // Remove the filename and any trailing separators
@@ -516,7 +516,7 @@ LUMEX_PUBLIC_API
 bool
 lumex::path::is_absolute () const
 {
-#if LUMEX_OS_WINDOWS
+#if defined(LUMEX_OS_WINDOWS)
   // Native Windows: both a root-name (C: or UNC) and a root-directory.
   // "/file.txt" has a root-directory but no root-name, so it is relative.
   return has_root_name () && has_root_directory ();
@@ -540,7 +540,7 @@ LUMEX_PUBLIC_API
 bool
 lumex::path::has_extension () const
 {
-  return static_cast<decltype (string_type::npos)> (find_extension_pos ())
+  return static_cast<string_type::size_type> (find_extension_pos ())
          != string_type::npos;
 }
 
@@ -555,7 +555,7 @@ LUMEX_PUBLIC_API
 bool
 lumex::path::has_root_directory () const
 {
-#if LUMEX_OS_WINDOWS
+#if defined(LUMEX_OS_WINDOWS)
   if (m_path.length () >= 3 && std::isalpha (m_path[0]) != 0
       && m_path[1] == ':' && is_separator (m_path[2]))
     return true;
@@ -577,7 +577,7 @@ lumex::path::root_directory () const
   if (!has_root_directory ())
     return {};
 
-#if LUMEX_OS_WINDOWS
+#if defined(LUMEX_OS_WINDOWS)
   if (m_path.length () >= 3 && std::isalpha (m_path[0]) != 0
       && m_path[1] == ':')
     return path ("\\");
@@ -585,11 +585,10 @@ lumex::path::root_directory () const
     {
       // Find next separator after \\server
       std::size_t pos = m_path.find_first_of ("/\\", 2);
-      if (static_cast<decltype (string_type::npos)> (pos) != string_type::npos)
+      if (static_cast<string_type::size_type> (pos) != string_type::npos)
         {
           pos = m_path.find_first_of ("/\\", pos + 1);
-          if (static_cast<decltype (string_type::npos)> (pos)
-              != string_type::npos)
+          if (static_cast<string_type::size_type> (pos) != string_type::npos)
             return path ("\\");
         }
     }
@@ -612,7 +611,7 @@ LUMEX_PUBLIC_API
 lumex::path
 lumex::path::root_name () const
 {
-#if LUMEX_OS_WINDOWS
+#if defined(LUMEX_OS_WINDOWS)
   // Windows: root name is drive letter or UNC server/share
   if (m_path.size () >= 2 && std::isalpha (m_path[0]) != 0 && m_path[1] == ':')
     return path (m_path.substr (0, 2));
@@ -621,11 +620,10 @@ lumex::path::root_name () const
     {
       // UNC path: \\server\share\...
       std::size_t pos = m_path.find_first_of ("/\\", 2);
-      if (static_cast<decltype (string_type::npos)> (pos) != string_type::npos)
+      if (static_cast<string_type::size_type> (pos) != string_type::npos)
         {
           pos = m_path.find_first_of ("/\\", pos + 1);
-          if (static_cast<decltype (string_type::npos)> (pos)
-              != string_type::npos)
+          if (static_cast<string_type::size_type> (pos) != string_type::npos)
             return path (m_path.substr (0, pos));
         }
     }
@@ -693,7 +691,7 @@ LUMEX_PUBLIC_API
 bool
 lumex_filesystem::exists (path const &path_arg)
 {
-#if LUMEX_OS_WINDOWS
+#if defined(LUMEX_OS_WINDOWS)
   DWORD attrs = GetFileAttributesA (path_arg.c_str ());
   return attrs != INVALID_FILE_ATTRIBUTES;
 #else
@@ -706,7 +704,7 @@ LUMEX_PUBLIC_API
 bool
 lumex_filesystem::is_directory (path const &path_arg)
 {
-#if LUMEX_OS_WINDOWS
+#if defined(LUMEX_OS_WINDOWS)
   DWORD attrs = GetFileAttributesA (path_arg.c_str ());
   return attrs != INVALID_FILE_ATTRIBUTES
          && (attrs & FILE_ATTRIBUTE_DIRECTORY) != 0;
@@ -722,7 +720,7 @@ LUMEX_PUBLIC_API
 bool
 lumex_filesystem::is_regular_file (path const &path_arg)
 {
-#if LUMEX_OS_WINDOWS
+#if defined(LUMEX_OS_WINDOWS)
   DWORD attrs = GetFileAttributesA (path_arg.c_str ());
   return attrs != INVALID_FILE_ATTRIBUTES
          && (attrs & FILE_ATTRIBUTE_DIRECTORY) == 0
@@ -739,7 +737,7 @@ LUMEX_PUBLIC_API
 lumex::filesystem_result<bool>
 lumex_filesystem::create_directory (path const &path_arg)
 {
-#if LUMEX_OS_WINDOWS
+#if defined(LUMEX_OS_WINDOWS)
   if (CreateDirectoryA (path_arg.c_str (), nullptr) != 0)
     return filesystem_result<bool>::ok (true);
   DWORD error = GetLastError ();
@@ -759,7 +757,7 @@ LUMEX_PUBLIC_API
 lumex::filesystem_result<lumex::path>
 lumex_filesystem::current_path ()
 {
-#if LUMEX_OS_WINDOWS
+#if defined(LUMEX_OS_WINDOWS)
   std::array<char, MAX_PATH> buffer;
   DWORD result = GetCurrentDirectoryA (MAX_PATH, buffer.data ());
   if (result == 0 || result > MAX_PATH)
@@ -778,7 +776,7 @@ LUMEX_PUBLIC_API
 lumex::filesystem_result<void>
 lumex_filesystem::current_path (path const &path_arg)
 {
-#if LUMEX_OS_WINDOWS
+#if defined(LUMEX_OS_WINDOWS)
   if (SetCurrentDirectoryA (path_arg.c_str ()) != 0)
     return filesystem_result<void>::ok ();
   return filesystem_result<void>::err (static_cast<int> (GetLastError ()));
@@ -792,7 +790,7 @@ lumex_filesystem::current_path (path const &path_arg)
 namespace detail
 {
 // ---------- Additional filesystem helpers (private) ------------
-#if LUMEX_OS_WINDOWS
+#if defined(LUMEX_OS_WINDOWS)
 // Renamed and updated to apply permissions rather than just convert
 static DWORD
 apply_perms_to_windows_attributes (DWORD existing_attrs, lumex::perms prms)
@@ -815,7 +813,7 @@ perms_to_posix_mode (lumex::perms prms)
 } // namespace detail
 
 // ---------------- Low-level status helpers --------------------
-#if LUMEX_OS_WINDOWS
+#if defined(LUMEX_OS_WINDOWS)
 LUMEX_PUBLIC_API
 lumex::filesystem_result<lumex::file_status>
 lumex_filesystem::get_file_status_windows (path const &path_arg, bool follow)
@@ -874,8 +872,8 @@ lumex_filesystem::get_file_status_posix (path const &path_arg, bool follow)
   else if (S_ISSOCK (stt.st_mode))
     type = file_type::socket;
 
-  auto perms = static_cast<perms> (stt.st_mode & 07777);
-  return filesystem_result<file_status>::ok (file_status (type, perms));
+  auto const file_perms = static_cast<perms> (stt.st_mode & 07777U);
+  return filesystem_result<file_status>::ok (file_status (type, file_perms));
 }
 #endif
 
@@ -884,7 +882,7 @@ LUMEX_PUBLIC_API
 lumex::filesystem_result<lumex::file_status>
 lumex_filesystem::status (path const &path_arg)
 {
-#if LUMEX_OS_WINDOWS
+#if defined(LUMEX_OS_WINDOWS)
   return get_file_status_windows (path_arg, true);
 #else
   return get_file_status_posix (path_arg, true);
@@ -895,7 +893,7 @@ LUMEX_PUBLIC_API
 lumex::filesystem_result<lumex::file_status>
 lumex_filesystem::symlink_status (path const &path_arg)
 {
-#if LUMEX_OS_WINDOWS
+#if defined(LUMEX_OS_WINDOWS)
   return get_file_status_windows (path_arg, false);
 #else
   return get_file_status_posix (path_arg, false);
@@ -1012,7 +1010,7 @@ LUMEX_PUBLIC_API
 lumex::filesystem_result<void>
 lumex_filesystem::copy_file (path const &from, path const &to_)
 {
-#if LUMEX_OS_WINDOWS
+#if defined(LUMEX_OS_WINDOWS)
   if (CopyFileA (from.c_str (), to_.c_str (), FALSE) != 0)
     return filesystem_result<void>::ok ();
   return filesystem_result<void>::err (static_cast<int> (GetLastError ()));
@@ -1051,7 +1049,7 @@ LUMEX_PUBLIC_API
 lumex::filesystem_result<void>
 lumex_filesystem::copy_symlink (path const &from, path const &to_)
 {
-#if LUMEX_OS_WINDOWS
+#if defined(LUMEX_OS_WINDOWS)
   // Windows requires knowing if link is file or dir
   DWORD attrs = GetFileAttributesA (from.c_str ());
   if (attrs == INVALID_FILE_ATTRIBUTES)
@@ -1096,7 +1094,7 @@ lumex_filesystem::remove (path const &path_arg)
   if (!exists (path_arg))
     return filesystem_result<bool>::ok (false);
 
-#if LUMEX_OS_WINDOWS
+#if defined(LUMEX_OS_WINDOWS)
   // Native std::filesystem::remove on Windows clears FILE_ATTRIBUTE_READONLY
   // before DeleteFile/RemoveDirectory. Without that, remove_all fails after
   // permissions(..., owner_read) and leaves a leftover tree that poisons the
@@ -1165,7 +1163,7 @@ LUMEX_PUBLIC_API
 lumex::filesystem_result<std::uintmax_t>
 lumex_filesystem::file_size (path const &path_arg)
 {
-#if LUMEX_OS_WINDOWS
+#if defined(LUMEX_OS_WINDOWS)
   HANDLE hFile
       = CreateFileA (path_arg.c_str (), GENERIC_READ, FILE_SHARE_READ, nullptr,
                      OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
@@ -1197,7 +1195,7 @@ LUMEX_PUBLIC_API
 lumex::filesystem_result<std::time_t>
 lumex_filesystem::last_write_time (path const &path_arg)
 {
-#if LUMEX_OS_WINDOWS
+#if defined(LUMEX_OS_WINDOWS)
   HANDLE hFile
       = CreateFileA (path_arg.c_str (), GENERIC_READ, FILE_SHARE_READ, nullptr,
                      OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
@@ -1232,7 +1230,7 @@ LUMEX_PUBLIC_API
 lumex::filesystem_result<void>
 lumex_filesystem::last_write_time (path const &path_arg, std::time_t new_time)
 {
-#if LUMEX_OS_WINDOWS
+#if defined(LUMEX_OS_WINDOWS)
   HANDLE hFile
       = CreateFileA (path_arg.c_str (), GENERIC_WRITE, FILE_SHARE_WRITE,
                      nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
@@ -1264,7 +1262,7 @@ LUMEX_PUBLIC_API
 lumex::filesystem_result<void>
 lumex_filesystem::permissions (path const &path_arg, perms prms)
 {
-#if LUMEX_OS_WINDOWS
+#if defined(LUMEX_OS_WINDOWS)
   DWORD attrs = GetFileAttributesA (path_arg.c_str ());
   if (attrs == INVALID_FILE_ATTRIBUTES)
     return filesystem_result<void>::err (static_cast<int> (GetLastError ()));
@@ -1286,7 +1284,7 @@ LUMEX_PUBLIC_API
 lumex::filesystem_result<lumex::path>
 lumex_filesystem::read_symlink (path const &path_arg)
 {
-#if LUMEX_OS_WINDOWS
+#if defined(LUMEX_OS_WINDOWS)
   std::vector<char> buf (MAX_PATH);
   DWORD len = GetFinalPathNameByHandleA (
       CreateFileA (path_arg.c_str (), 0, 0, nullptr, OPEN_EXISTING,
@@ -1301,7 +1299,7 @@ lumex_filesystem::read_symlink (path const &path_arg)
   ssize_t len = readlink (path_arg.c_str (), buf.data (), buf.size () - 1);
   if (len < 0)
     return filesystem_result<path>::err (errno, path ());
-  buf[len] = 0;
+  buf[static_cast<std::size_t> (len)] = 0;
   return filesystem_result<path>::ok (path (buf.data ()));
 #endif
 }
@@ -1311,7 +1309,7 @@ LUMEX_PUBLIC_API
 lumex::filesystem_result<lumex::space_info>
 lumex_filesystem::space (path const &path_arg)
 {
-#if LUMEX_OS_WINDOWS
+#if defined(LUMEX_OS_WINDOWS)
   ULARGE_INTEGER freeBytesAvailable;
   ULARGE_INTEGER totalNumberOfBytes;
   ULARGE_INTEGER totalNumberOfFreeBytes;
@@ -1339,10 +1337,10 @@ lumex_filesystem::space (path const &path_arg)
 }
 
 // -------------- directory listing ----------------------
-class lumex::directory_iterator::Impl
+class directory_iterator::Impl
 {
 public:
-#if LUMEX_OS_WINDOWS
+#if defined(LUMEX_OS_WINDOWS)
   HANDLE handle;
   WIN32_FIND_DATAA data;
   bool first;
@@ -1359,7 +1357,7 @@ lumex::directory_iterator::directory_iterator (path const &path_arg)
     : m_impl (new Impl)
 {
   m_impl->base = path_arg;
-#if LUMEX_OS_WINDOWS
+#if defined(LUMEX_OS_WINDOWS)
   std::string pattern = path_arg.string ();
   if (!pattern.empty () && pattern.back () != '/')
     pattern += "/*";
@@ -1426,7 +1424,7 @@ lumex::directory_iterator::operator++ ()
 {
   if (!m_impl)
     return *this;
-#if LUMEX_OS_WINDOWS
+#if defined(LUMEX_OS_WINDOWS)
   BOOL ok_;
   if (m_impl->first)
     {
@@ -1695,7 +1693,7 @@ LUMEX_PUBLIC_API
 lumex::filesystem_result<void>
 lumex_filesystem::create_symlink (path const &target, path const &link)
 {
-#if LUMEX_OS_WINDOWS
+#if defined(LUMEX_OS_WINDOWS)
   // On Windows, CreateSymbolicLinkA requires admin rights for files, and needs
   // to know if target is a dir
   DWORD attrs = GetFileAttributesA (target.c_str ());
@@ -1719,7 +1717,7 @@ lumex::filesystem_result<void>
 lumex_filesystem::create_directory_symlink (path const &target,
                                             path const &link)
 {
-#if LUMEX_OS_WINDOWS
+#if defined(LUMEX_OS_WINDOWS)
   // Always create as directory symlink
   if (CreateSymbolicLinkA (link.c_str (), target.c_str (),
                            SYMBOLIC_LINK_FLAG_DIRECTORY)
@@ -1737,7 +1735,7 @@ LUMEX_PUBLIC_API
 lumex::path
 lumex_filesystem::canonical (path const &path_arg)
 {
-#if LUMEX_OS_WINDOWS
+#if defined(LUMEX_OS_WINDOWS)
   std::array<char, MAX_PATH> buf;
   DWORD len
       = GetFullPathNameA (path_arg.c_str (), MAX_PATH, buf.data (), nullptr);
@@ -1772,13 +1770,13 @@ lumex_filesystem::relative (path const &path_arg, path const &base)
   path abs_base = absolute (base);
   std::string pstr = abs_p.string ();
   std::string bstr = abs_base.string ();
-#if LUMEX_OS_WINDOWS
-  std::transform (
-      pstr.begin (), pstr.end (), pstr.begin (),
-      [] (unsigned char ch) { return static_cast<char> (::tolower (ch)); });
-  std::transform (
-      bstr.begin (), bstr.end (), bstr.begin (),
-      [] (unsigned char ch) { return static_cast<char> (::tolower (ch)); });
+#if defined(LUMEX_OS_WINDOWS)
+  std::transform (pstr.begin (), pstr.end (), pstr.begin (),
+                  [] (unsigned char ch)
+                    { return static_cast<char> (::tolower (ch)); });
+  std::transform (bstr.begin (), bstr.end (), bstr.begin (),
+                  [] (unsigned char ch)
+                    { return static_cast<char> (::tolower (ch)); });
 #endif
   if (pstr.find (bstr) == 0
       && (pstr.size () == bstr.size () || pstr[bstr.size ()] == '/'
@@ -1810,7 +1808,7 @@ LUMEX_PUBLIC_API
 lumex::filesystem_result<void>
 lumex_filesystem::rename (path const &from, path const &to_)
 {
-#if LUMEX_OS_WINDOWS
+#if defined(LUMEX_OS_WINDOWS)
   if (MoveFileExA (from.c_str (), to_.c_str (), MOVEFILE_REPLACE_EXISTING)
       != 0)
     return filesystem_result<void>::ok ();
@@ -1826,7 +1824,7 @@ LUMEX_PUBLIC_API
 lumex::filesystem_result<void>
 lumex_filesystem::resize_file (path const &path_arg, std::uintmax_t new_size)
 {
-#if LUMEX_OS_WINDOWS
+#if defined(LUMEX_OS_WINDOWS)
   HANDLE hFile = CreateFileA (path_arg.c_str (), GENERIC_WRITE, 0, nullptr,
                               OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
   if (hFile == INVALID_HANDLE_VALUE)
@@ -1853,7 +1851,7 @@ LUMEX_PUBLIC_API
 lumex::filesystem_result<void>
 lumex_filesystem::move_file (path const &from, path const &to_path)
 {
-#if LUMEX_OS_WINDOWS
+#if defined(LUMEX_OS_WINDOWS)
   // Try native MoveFileEx with overwrite
   if (MoveFileExA (from.c_str (), to_path.c_str (),
                    MOVEFILE_REPLACE_EXISTING | MOVEFILE_COPY_ALLOWED
@@ -1914,7 +1912,7 @@ lumex_filesystem::move_directory (path const &from, path const &to_path)
         return filesystem_result<void>::err (rem.error_code ());
     }
 
-#if LUMEX_OS_WINDOWS
+#if defined(LUMEX_OS_WINDOWS)
   if (MoveFileExA (from.c_str (), to_path.c_str (),
                    MOVEFILE_COPY_ALLOWED | MOVEFILE_WRITE_THROUGH)
       != 0)
@@ -1942,7 +1940,7 @@ LUMEX_PUBLIC_API
 lumex::filesystem_result<lumex::path>
 lumex_filesystem::temp_directory_path ()
 {
-#if LUMEX_OS_WINDOWS
+#if defined(LUMEX_OS_WINDOWS)
   char buf[MAX_PATH];
   DWORD len = GetTempPathA (MAX_PATH, buf);
   if (len == 0 || len > MAX_PATH)
@@ -1961,7 +1959,7 @@ LUMEX_PUBLIC_API
 std::wstring
 lumex_filesystem::to_wide_string (std::string const &str)
 {
-#if LUMEX_OS_WINDOWS
+#if defined(LUMEX_OS_WINDOWS)
   if (str.empty ())
     return {};
   int size_needed = MultiByteToWideChar (CP_UTF8, 0, str.c_str (),
@@ -1974,7 +1972,7 @@ lumex_filesystem::to_wide_string (std::string const &str)
   if (str.empty ())
     return {};
   std::size_t len = mbstowcs (nullptr, str.c_str (), 0);
-  if (len == (std::size_t)-1)
+  if (len == static_cast<std::size_t> (-1))
     return {};
   std::wstring wstr (len, 0);
   mbstowcs (&wstr[0], str.c_str (), len);
@@ -1986,7 +1984,7 @@ LUMEX_PUBLIC_API
 std::string
 lumex_filesystem::from_wide_string (std::wstring const &wstr)
 {
-#if LUMEX_OS_WINDOWS
+#if defined(LUMEX_OS_WINDOWS)
   if (wstr.empty ())
     return {};
   int size_needed
@@ -2000,7 +1998,7 @@ lumex_filesystem::from_wide_string (std::wstring const &wstr)
   if (wstr.empty ())
     return {};
   std::size_t len = wcstombs (nullptr, wstr.c_str (), 0);
-  if (len == (std::size_t)-1)
+  if (len == static_cast<std::size_t> (-1))
     return {};
   std::string str (len, 0);
   wcstombs (&str[0], wstr.c_str (), len);
@@ -2014,7 +2012,7 @@ lumex_filesystem::get_exe_path ()
 {
   try
     {
-#if LUMEX_OS_WINDOWS
+#if defined(LUMEX_OS_WINDOWS)
       std::array<wchar_t, MAX_PATH> buf{};
       DWORD len
           = GetModuleFileNameW (nullptr, buf.data (), (DWORD)buf.size ());
@@ -2027,7 +2025,7 @@ lumex_filesystem::get_exe_path ()
       std::array<char, PATH_MAX> buf{};
       ssize_t len
           = ::readlink ("/proc/self/exe", buf.data (), buf.size () - 1);
-      buf[len < 0 ? 0 : len] = '\0';
+      buf[static_cast<std::size_t> (len < 0 ? 0 : len)] = '\0';
       return path (buf.data ());
 #endif
     }
@@ -2051,7 +2049,7 @@ lumex_filesystem::lock_directory (lumex::path const &path_arg)
 {
   try
     {
-#if LUMEX_OS_WINDOWS
+#if defined(LUMEX_OS_WINDOWS)
       static HANDLE s_dirHandle = INVALID_HANDLE_VALUE;
       s_dirHandle = CreateFileW (
           path_arg.wstring ().c_str (), GENERIC_READ,
@@ -2207,7 +2205,7 @@ lumex_filesystem::is_accessible (lumex::path const &path_arg)
 }
 
 LUMEX_PUBLIC_API
-inline bool
+bool
 isFileExists (std::string const &path_arg)
 {
   std::ifstream ifs (path_arg.c_str ());
@@ -2271,28 +2269,26 @@ sanitizeName (
         return defaultValue + "_file";
 
       // Cleaning invalid endings/beginnings
-#if LUMEX_OS_WINDOWS
+#if defined(LUMEX_OS_WINDOWS)
       while (!sanitized.empty ()
              && (sanitized.back () == '.' || sanitized.back () == ' '))
         sanitized.pop_back ();
-#elif LUMEX_OS_LINUX
+#elif defined(LUMEX_OS_LINUX)
       if (!sanitized.empty () && sanitized.front () == '-')
         sanitized.erase (0, 1);
 #endif
 
       // Removing consecutive underscores
       sanitized.erase (
-#if __cplusplus >= 202002L
-          std::ranges::unique (
-              sanitized,
-              [] (char chr1, char chr2) { return chr1 == '_' && chr2 == '_'; })
+#if LUMEX_HAS_STD_RANGES
+          std::ranges::unique (sanitized, [] (char chr1, char chr2)
+                                 { return chr1 == '_' && chr2 == '_'; })
               .begin (),
           sanitized.end ()
 #else
           std::unique (sanitized.begin (), sanitized.end (),
-                       [] (char chr1, char chr2) {
-                         return chr1 == '_' && chr2 == '_';
-                       }),
+                       [] (char chr1, char chr2)
+                         { return chr1 == '_' && chr2 == '_'; }),
           sanitized.end ()
 #endif
       );

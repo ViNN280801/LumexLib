@@ -7,6 +7,10 @@ Groups (quality-gates.md section 7):
   3. Third-party / platform angle includes
   4. Project quoted includes ("lumex/...", same-dir children)
 
+Also rejects an angle include after the first namespace opening: a
+standard or system header included inside a namespace puts its
+declarations there when nothing included it before ([using.headers]).
+
 Usage (from LumexLib/):
   python Scripts/CodeTools/check_include_order.py --check
   python Scripts/CodeTools/check_include_order.py --fix
@@ -23,8 +27,11 @@ STD_CPP = {
     "any",
     "array",
     "atomic",
+    "barrier",
+    "bit",
     "bitset",
     "cassert",
+    "ccomplex",
     "cctype",
     "cerrno",
     "cfenv",
@@ -32,6 +39,7 @@ STD_CPP = {
     "charconv",
     "chrono",
     "cinttypes",
+    "ciso646",
     "climits",
     "clocale",
     "cmath",
@@ -40,65 +48,90 @@ STD_CPP = {
     "complex",
     "concepts",
     "condition_variable",
+    "contracts",
     "coroutine",
     "csetjmp",
     "csignal",
+    "cstdalign",
     "cstdarg",
+    "cstdbool",
     "cstddef",
     "cstdint",
     "cstdio",
     "cstdlib",
     "cstring",
+    "ctgmath",
     "ctime",
     "cuchar",
     "cwchar",
     "cwctype",
+    "debugging",
     "deque",
     "exception",
     "execution",
+    "expected",
     "filesystem",
+    "flat_map",
+    "flat_set",
     "format",
     "forward_list",
     "fstream",
     "functional",
     "future",
+    "generator",
+    "hazard_pointer",
+    "hive",
     "initializer_list",
+    "inplace_vector",
     "iomanip",
     "ios",
     "iosfwd",
     "iostream",
     "istream",
     "iterator",
+    "latch",
     "limits",
+    "linalg",
     "list",
     "locale",
     "map",
+    "mdspan",
     "memory",
     "memory_resource",
     "mutex",
     "new",
+    "numbers",
     "numeric",
     "optional",
     "ostream",
+    "print",
     "queue",
     "random",
     "ranges",
     "ratio",
+    "rcu",
     "regex",
     "scoped_allocator",
+    "semaphore",
     "set",
     "shared_mutex",
+    "simd",
     "source_location",
     "span",
+    "spanstream",
     "sstream",
     "stack",
+    "stacktrace",
     "stdexcept",
+    "stdfloat",
     "stop_token",
     "streambuf",
     "string",
     "string_view",
     "strstream",
+    "syncstream",
     "system_error",
+    "text_encoding",
     "thread",
     "tuple",
     "type_traits",
@@ -115,6 +148,7 @@ STD_CPP = {
 
 STD_C = {
     "assert.h",
+    "complex.h",
     "ctype.h",
     "errno.h",
     "fenv.h",
@@ -128,6 +162,7 @@ STD_C = {
     "signal.h",
     "stdalign.h",
     "stdarg.h",
+    "stdatomic.h",
     "stdbool.h",
     "stddef.h",
     "stdint.h",
@@ -190,6 +225,10 @@ THIRD_PARTY_EXACT = {
 INCLUDE_RE = re.compile(
     r'^\s*#\s*include\s+(<([^>]+)>|"([^"]+)")(.*)$'
 )
+
+# A namespace opening at the start of a line (not an alias `namespace a = b;`).
+NAMESPACE_OPEN_RE = re.compile(r"^namespace\b[^;=]*$")
+ANGLE_INCLUDE_RE = re.compile(r"^\s*#\s*include\s*<([^>]+)>")
 
 SKIP_DIR_NAMES = {"3rdparty", ".git", "build", "build-tests-asan", "build-notest", "build-examples"}
 
@@ -289,6 +328,24 @@ def check_file(path: Path) -> list[str]:
             )
         last_group = group
         last_header = header
+    errors.extend(check_includes_outside_namespaces(path, lines))
+    return errors
+
+
+def check_includes_outside_namespaces(path: Path, lines: list[str]) -> list[str]:
+    """Angle includes must precede the first namespace opening."""
+    errors: list[str] = []
+    namespace_line = 0
+    for idx, line in enumerate(lines, start=1):
+        if namespace_line == 0 and NAMESPACE_OPEN_RE.match(line.strip()):
+            namespace_line = idx
+            continue
+        match = ANGLE_INCLUDE_RE.match(line)
+        if namespace_line and match:
+            errors.append(
+                f"{path}:{idx}: include <{match.group(1)}> after the namespace "
+                f"opened at line {namespace_line}; move it to the include block"
+            )
     return errors
 
 

@@ -54,6 +54,9 @@
  * https://sourceforge.net/p/predef/wiki/OperatingSystems/
  */
 
+#include "lumex/core/utility/attr/LumexAttributes.hpp"
+#include "lumex/core/utility/compiler/LumexCheckCompiler.hpp"
+
 // Reset all OS macros first
 #undef LUMEX_OS_WINDOWS
 #undef LUMEX_OS_LINUX
@@ -104,8 +107,10 @@
 #define LUMEX_OS_APPLE_UNKNOWN 1
 #endif
 
-// Common Apple macro
+// Common Apple macro. Apple systems are POSIX, so they also take the
+// LUMEX_OS_UNIX branches of the library.
 #define LUMEX_OS_APPLE 1
+#define LUMEX_OS_UNIX 1
 
 // Android (check before Linux since Android is Linux-based)
 #elif defined(__ANDROID__)
@@ -191,34 +196,60 @@
 #define LUMEX_ARCH_32BIT 1
 #endif
 
-// Compiler
-#if defined(_MSC_VER)
-#define LUMEX_COMPILER_MSVC 1
-#define LUMEX_COMPILER_VERSION _MSC_VER
-#elif defined(__clang__)
-#define LUMEX_COMPILER_CLANG 1
-#define LUMEX_COMPILER_VERSION                                                \
-  (__clang_major__ * 10000 + __clang_minor__ * 100 + __clang_patchlevel__)
-#elif defined(__GNUC__)
-#define LUMEX_COMPILER_GCC 1
-#define LUMEX_COMPILER_VERSION                                                \
-  (__GNUC__ * 10000 + __GNUC_MINOR__ * 100 + __GNUC_PATCHLEVEL__)
+// Compiler: LUMEX_COMPILER_* live in LumexCheckCompiler.hpp (included above).
+
+// Convenience macros for common checks. Each one expands to the constant 1
+// or 0 chosen here, so it works both in `#if` and in ordinary code. (A macro
+// that expands to `defined (...)` is undefined behaviour inside `#if` and does
+// not compile outside it.)
+#if defined(LUMEX_OS_WINDOWS)
+#define LUMEX_OS_IS_WINDOWS() 1
+#else
+#define LUMEX_OS_IS_WINDOWS() 0
 #endif
 
-// Convenience macros for common checks
-#define LUMEX_OS_IS_WINDOWS() (defined (LUMEX_OS_WINDOWS))
-#define LUMEX_OS_IS_LINUX()                                                   \
-  (defined (LUMEX_OS_LINUX) || defined (LUMEX_OS_ANDROID))
-#define LUMEX_OS_IS_ANDROID() (defined (LUMEX_OS_ANDROID))
-#define LUMEX_OS_IS_MACOS()                                                   \
-  (defined (LUMEX_OS_MAC) || defined (LUMEX_OS_MACOS))
-#define LUMEX_OS_IS_IOS() (defined (LUMEX_OS_IOS))
-#define LUMEX_OS_IS_ANDROID() (defined (LUMEX_OS_ANDROID))
-#define LUMEX_OS_IS_APPLE() (defined (LUMEX_OS_APPLE))
-#define LUMEX_OS_IS_UNIX()                                                    \
-  (defined (LUMEX_OS_UNIX) || defined (LUMEX_OS_LINUX)                        \
-   || defined (LUMEX_OS_APPLE))
-#define LUMEX_OS_IS_POSIX() (defined (LUMEX_OS_POSIX) || LUMEX_OS_IS_UNIX ())
+#if defined(LUMEX_OS_LINUX) || defined(LUMEX_OS_ANDROID)
+#define LUMEX_OS_IS_LINUX() 1
+#else
+#define LUMEX_OS_IS_LINUX() 0
+#endif
+
+#if defined(LUMEX_OS_ANDROID)
+#define LUMEX_OS_IS_ANDROID() 1
+#else
+#define LUMEX_OS_IS_ANDROID() 0
+#endif
+
+#if defined(LUMEX_OS_MAC) || defined(LUMEX_OS_MACOS)
+#define LUMEX_OS_IS_MACOS() 1
+#else
+#define LUMEX_OS_IS_MACOS() 0
+#endif
+
+#if defined(LUMEX_OS_IOS)
+#define LUMEX_OS_IS_IOS() 1
+#else
+#define LUMEX_OS_IS_IOS() 0
+#endif
+
+#if defined(LUMEX_OS_APPLE)
+#define LUMEX_OS_IS_APPLE() 1
+#else
+#define LUMEX_OS_IS_APPLE() 0
+#endif
+
+#if defined(LUMEX_OS_UNIX) || defined(LUMEX_OS_LINUX)                         \
+    || defined(LUMEX_OS_APPLE)
+#define LUMEX_OS_IS_UNIX() 1
+#else
+#define LUMEX_OS_IS_UNIX() 0
+#endif
+
+#if defined(LUMEX_OS_POSIX) || LUMEX_OS_IS_UNIX()
+#define LUMEX_OS_IS_POSIX() 1
+#else
+#define LUMEX_OS_IS_POSIX() 0
+#endif
 
 /* Usage example */
 /*
@@ -246,15 +277,19 @@ if (LUMEX_OS_IS_WINDOWS()) {
                                    : LUMEX_OS_IS_UNIX ()    ? "Unix"          \
                                    : LUMEX_OS_IS_POSIX ()   ? "POSIX"         \
                                                             : "Unknown";        \
+      LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR (os_name);                             \
     }                                                                         \
   while (0)
 #else
 #define LUMEX_OS_DEBUG_INFO() ;
 #endif
 
-#if defined(LUMEX_OS_IS_WINDOWS) && LUMEX_OS_IS_WINDOWS
+// The full signature spelling is a compiler extension, not an OS feature:
+// __FUNCSIG__ exists only in MSVC-compatible front ends (MSVC, clang-cl),
+// __PRETTY_FUNCTION__ in GCC and Clang (MinGW included).
+#if defined(_MSC_VER)
 #define LUMEX_FUNC_NAME __FUNCSIG__
-#elif defined(LUMEX_OS_IS_UNIX) && LUMEX_OS_IS_UNIX
+#elif defined(__GNUC__) || defined(__clang__)
 #define LUMEX_FUNC_NAME __PRETTY_FUNCTION__
 #else
 #define LUMEX_FUNC_NAME __func__

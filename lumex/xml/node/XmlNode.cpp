@@ -32,7 +32,7 @@ using namespace lumex::xml::xpath::query;
 using namespace lumex::xml::xpath::variable;
 
 LUMEX_PUBLIC_API
-inline bool
+bool
 lumex::xml::node::is_text_node (XmlNodeBase *node)
 {
   auto type = LUMEX_XML_NODETYPE (node);
@@ -40,7 +40,7 @@ lumex::xml::node::is_text_node (XmlNodeBase *node)
 }
 
 LUMEX_PUBLIC_API
-inline bool
+bool
 lumex::xml::node::allow_move (
     XmlNode parent, XmlNode child) // NOLINT(misc-use-internal-linkage)
 {
@@ -70,108 +70,107 @@ LUMEX_PUBLIC_API
 XmlNode::XmlNode () = default;
 
 LUMEX_PUBLIC_API
-inline XmlNode::XmlNode (XmlNodeBase *ptr) : m_root (ptr) {}
+XmlNode::XmlNode (XmlNodeBase *ptr) : m_root (ptr) {}
 
-LUMEX_PUBLIC_API
-inline void
+inline static void
 unspecified_bool_xml_node (
-    XmlNode *** /* unused */) // NOLINT(misc-use-internal-linkage)
+    XmlNode *** /* unused */) // NOLINT(misc-use-anonymous-namespace)
 {
 }
 
 LUMEX_PUBLIC_API
-inline XmlNode::
+XmlNode::
 operator XmlNode::unspecified_bool_type () const
 {
   return (m_root != nullptr) ? unspecified_bool_xml_node : nullptr;
 }
 
 LUMEX_PUBLIC_API
-inline bool
+bool
 XmlNode::operator!() const
 {
   return m_root == nullptr;
 }
 
 LUMEX_PUBLIC_API
-inline XmlNodeIterator
+XmlNodeIterator
 XmlNode::begin () const
 {
   return { (m_root != nullptr) ? m_root->first_child + 0 : nullptr, m_root };
 }
 
 LUMEX_PUBLIC_API
-inline XmlNodeIterator
+XmlNodeIterator
 XmlNode::end () const
 {
   return { nullptr, m_root };
 }
 
 LUMEX_PUBLIC_API
-inline XmlAttributeIterator
+XmlAttributeIterator
 XmlNode::attributes_begin () const
 {
   return { m_root != nullptr ? m_root->first_attribute + 0 : nullptr, m_root };
 }
 
 LUMEX_PUBLIC_API
-inline XmlAttributeIterator
+XmlAttributeIterator
 XmlNode::attributes_end () const
 {
   return { nullptr, m_root };
 }
 
 LUMEX_PUBLIC_API
-inline bool
+bool
 XmlNode::operator== (XmlNode const &other) const
 {
   return (m_root == other.m_root);
 }
 
 LUMEX_PUBLIC_API
-inline bool
+bool
 XmlNode::operator!= (XmlNode const &other) const
 {
   return (m_root != other.m_root);
 }
 
 LUMEX_PUBLIC_API
-inline bool
+bool
 XmlNode::operator< (XmlNode const &other) const
 {
   return (m_root < other.m_root);
 }
 
 LUMEX_PUBLIC_API
-inline bool
+bool
 XmlNode::operator> (XmlNode const &other) const
 {
   return (m_root > other.m_root);
 }
 
 LUMEX_PUBLIC_API
-inline bool
+bool
 XmlNode::operator<= (XmlNode const &other) const
 {
   return (m_root <= other.m_root);
 }
 
 LUMEX_PUBLIC_API
-inline bool
+bool
 XmlNode::operator>= (XmlNode const &other) const
 {
   return (m_root >= other.m_root);
 }
 
 LUMEX_PUBLIC_API
-inline bool
+bool
 XmlNode::empty () const
 {
   return m_root == nullptr;
 }
 
 LUMEX_PUBLIC_API
-inline char_t const *
+char_t const *
 XmlNode::name () const
 {
   if (m_root == nullptr)
@@ -181,14 +180,14 @@ XmlNode::name () const
 }
 
 LUMEX_PUBLIC_API
-inline xml_node_type
+xml_node_type
 XmlNode::type () const
 {
   return (m_root != nullptr) ? LUMEX_XML_NODETYPE (m_root) : node_null;
 }
 
 LUMEX_PUBLIC_API
-inline char_t const *
+char_t const *
 XmlNode::value () const
 {
   if (m_root == nullptr)
@@ -198,7 +197,7 @@ XmlNode::value () const
 }
 
 LUMEX_PUBLIC_API
-inline XmlNode
+XmlNode
 XmlNode::child (char_t const *name_) const
 {
   if (m_root == nullptr)
@@ -215,7 +214,7 @@ XmlNode::child (char_t const *name_) const
 }
 
 LUMEX_PUBLIC_API
-inline XmlAttribute
+XmlAttribute
 XmlNode::attribute (char_t const *name_) const
 {
   if (m_root == nullptr)
@@ -233,7 +232,7 @@ XmlNode::attribute (char_t const *name_) const
 }
 
 LUMEX_PUBLIC_API
-inline XmlNode
+XmlNode
 XmlNode::next_sibling (char_t const *name_) const
 {
   if (m_root == nullptr)
@@ -251,14 +250,14 @@ XmlNode::next_sibling (char_t const *name_) const
 }
 
 LUMEX_PUBLIC_API
-inline XmlNode
+XmlNode
 XmlNode::next_sibling () const
 {
   return (m_root != nullptr) ? XmlNode (m_root->next_sibling) : XmlNode ();
 }
 
 LUMEX_PUBLIC_API
-inline XmlNode
+XmlNode
 XmlNode::previous_sibling (char_t const *name_) const
 {
   if (m_root == nullptr)
@@ -275,10 +274,9 @@ XmlNode::previous_sibling (char_t const *name_) const
   return {};
 }
 
-#if __cplusplus >= 201703L
 LUMEX_PUBLIC_API
-inline XmlNode
-XmlNode::child (string_view_t name_) const
+XmlNode
+XmlNode::child (char_t const *name_, std::size_t size_) const
 {
   if (m_root == nullptr)
     return {};
@@ -286,7 +284,7 @@ XmlNode::child (string_view_t name_) const
   for (XmlNodeBase *i = m_root->first_child; i != nullptr; i = i->next_sibling)
     {
       char_t const *iname = i->name;
-      if ((iname != nullptr) && utility::stringview_equal (name_, iname))
+      if ((iname != nullptr) && utility::sized_strequal (name_, size_, iname))
         return XmlNode (i);
     }
 
@@ -294,8 +292,8 @@ XmlNode::child (string_view_t name_) const
 }
 
 LUMEX_PUBLIC_API
-inline XmlAttribute
-XmlNode::attribute (string_view_t name_) const
+XmlAttribute
+XmlNode::attribute (char_t const *name_, std::size_t size_) const
 {
   if (m_root == nullptr)
     return {};
@@ -304,7 +302,7 @@ XmlNode::attribute (string_view_t name_) const
        i = i->next_attribute)
     {
       char_t const *iname = i->name;
-      if ((iname != nullptr) && utility::stringview_equal (name_, iname))
+      if ((iname != nullptr) && utility::sized_strequal (name_, size_, iname))
         return XmlAttribute (i);
     }
 
@@ -312,8 +310,8 @@ XmlNode::attribute (string_view_t name_) const
 }
 
 LUMEX_PUBLIC_API
-inline XmlNode
-XmlNode::next_sibling (string_view_t name_) const
+XmlNode
+XmlNode::next_sibling (char_t const *name_, std::size_t size_) const
 {
   if (m_root == nullptr)
     return {};
@@ -322,7 +320,7 @@ XmlNode::next_sibling (string_view_t name_) const
        i = i->next_sibling)
     {
       char_t const *iname = i->name;
-      if ((iname != nullptr) && utility::stringview_equal (name_, iname))
+      if ((iname != nullptr) && utility::sized_strequal (name_, size_, iname))
         return XmlNode (i);
     }
 
@@ -330,8 +328,8 @@ XmlNode::next_sibling (string_view_t name_) const
 }
 
 LUMEX_PUBLIC_API
-inline XmlNode
-XmlNode::previous_sibling (string_view_t name_) const
+XmlNode
+XmlNode::previous_sibling (char_t const *name_, std::size_t size_) const
 {
   if (m_root == nullptr)
     return {};
@@ -340,16 +338,15 @@ XmlNode::previous_sibling (string_view_t name_) const
        i = i->prev_sibling_c)
     {
       char_t const *iname = i->name;
-      if ((iname != nullptr) && utility::stringview_equal (name_, iname))
+      if ((iname != nullptr) && utility::sized_strequal (name_, size_, iname))
         return XmlNode (i);
     }
 
   return {};
 }
-#endif
 
 LUMEX_PUBLIC_API
-inline XmlAttribute
+XmlAttribute
 XmlNode::attribute (char_t const *name_, XmlAttribute &hint_) const
 {
   XmlAttributeBase *hint = hint_.get ();
@@ -396,10 +393,10 @@ XmlNode::attribute (char_t const *name_, XmlAttribute &hint_) const
   return {};
 }
 
-#if __cplusplus >= 201703L
 LUMEX_PUBLIC_API
-inline XmlAttribute
-XmlNode::attribute (string_view_t name_, XmlAttribute &hint_) const
+XmlAttribute
+XmlNode::attribute (char_t const *name_, std::size_t size_,
+                    XmlAttribute &hint_) const
 {
   XmlAttributeBase *hint = hint_.get ();
 
@@ -415,7 +412,7 @@ XmlNode::attribute (string_view_t name_, XmlAttribute &hint_) const
   for (XmlAttributeBase *i = hint; i != nullptr; i = i->next_attribute)
     {
       char_t const *iname = i->name;
-      if ((iname != nullptr) && utility::stringview_equal (name_, iname))
+      if ((iname != nullptr) && utility::sized_strequal (name_, size_, iname))
         {
           // update hint to maximize efficiency of searching for consecutive
           // attributes
@@ -432,7 +429,7 @@ XmlNode::attribute (string_view_t name_, XmlAttribute &hint_) const
        j != nullptr && j != hint; j = j->next_attribute)
     {
       char_t const *jname = j->name;
-      if ((jname != nullptr) && utility::stringview_equal (name_, jname))
+      if ((jname != nullptr) && utility::sized_strequal (name_, size_, jname))
         {
           // update hint to maximize efficiency of searching for consecutive
           // attributes
@@ -444,10 +441,9 @@ XmlNode::attribute (string_view_t name_, XmlAttribute &hint_) const
 
   return {};
 }
-#endif
 
 LUMEX_PUBLIC_API
-inline XmlNode
+XmlNode
 XmlNode::previous_sibling () const
 {
   if (m_root == nullptr)
@@ -457,14 +453,14 @@ XmlNode::previous_sibling () const
 }
 
 LUMEX_PUBLIC_API
-inline XmlNode
+XmlNode
 XmlNode::parent () const
 {
   return (m_root != nullptr) ? XmlNode (m_root->parent) : XmlNode ();
 }
 
 LUMEX_PUBLIC_API
-inline XmlNode
+XmlNode
 XmlNode::root () const
 {
   return (m_root != nullptr) ? XmlNode (&document::get_document (m_root))
@@ -472,14 +468,14 @@ XmlNode::root () const
 }
 
 LUMEX_PUBLIC_API
-inline XmlText
+XmlText
 XmlNode::text () const
 {
   return XmlText (m_root);
 }
 
 LUMEX_PUBLIC_API
-inline char_t const *
+char_t const *
 XmlNode::child_value () const
 {
   if (m_root == nullptr)
@@ -500,14 +496,14 @@ XmlNode::child_value () const
 }
 
 LUMEX_PUBLIC_API
-inline char_t const *
+char_t const *
 XmlNode::child_value (char_t const *name_) const
 {
   return child (name_).child_value ();
 }
 
 LUMEX_PUBLIC_API
-inline XmlAttribute
+XmlAttribute
 XmlNode::first_attribute () const
 {
   if (m_root == nullptr)
@@ -516,7 +512,7 @@ XmlNode::first_attribute () const
 }
 
 LUMEX_PUBLIC_API
-inline XmlAttribute
+XmlAttribute
 XmlNode::last_attribute () const
 {
   if (m_root == nullptr)
@@ -527,7 +523,7 @@ XmlNode::last_attribute () const
 }
 
 LUMEX_PUBLIC_API
-inline XmlNode
+XmlNode
 XmlNode::first_child () const
 {
   if (m_root == nullptr)
@@ -536,7 +532,7 @@ XmlNode::first_child () const
 }
 
 LUMEX_PUBLIC_API
-inline XmlNode
+XmlNode
 XmlNode::last_child () const
 {
   if (m_root == nullptr)
@@ -546,7 +542,7 @@ XmlNode::last_child () const
 }
 
 LUMEX_PUBLIC_API
-inline bool
+bool
 XmlNode::set_name (char_t const *rhs)
 {
   xml_node_type type_
@@ -562,7 +558,7 @@ XmlNode::set_name (char_t const *rhs)
 }
 
 LUMEX_PUBLIC_API
-inline bool
+bool
 XmlNode::set_name (char_t const *rhs, std::size_t size)
 {
   xml_node_type type_
@@ -576,26 +572,8 @@ XmlNode::set_name (char_t const *rhs, std::size_t size)
       Constants::kxml_memory_page_name_allocated_mask, rhs, size);
 }
 
-#if __cplusplus >= 201703L
 LUMEX_PUBLIC_API
-inline bool
-XmlNode::set_name (string_view_t rhs)
-{
-  xml_node_type type_
-      = (m_root != nullptr) ? LUMEX_XML_NODETYPE (m_root) : node_null;
-
-  if (type_ != node_element && type_ != node_pi && type_ != node_declaration)
-    return false;
-
-  return utility::strcpy_insitu (
-      m_root->name, m_root->header,
-      Constants::kxml_memory_page_name_allocated_mask, rhs.data (),
-      rhs.size ());
-}
-#endif
-
-LUMEX_PUBLIC_API
-inline bool
+bool
 XmlNode::set_value (char_t const *rhs)
 {
   xml_node_type type_
@@ -612,7 +590,7 @@ XmlNode::set_value (char_t const *rhs)
 }
 
 LUMEX_PUBLIC_API
-inline bool
+bool
 XmlNode::set_value (char_t const *rhs, std::size_t size)
 {
   xml_node_type type_
@@ -627,27 +605,8 @@ XmlNode::set_value (char_t const *rhs, std::size_t size)
       Constants::kxml_memory_page_value_allocated_mask, rhs, size);
 }
 
-#if __cplusplus >= 201703L
 LUMEX_PUBLIC_API
-inline bool
-XmlNode::set_value (string_view_t rhs)
-{
-  xml_node_type type_
-      = (m_root != nullptr) ? LUMEX_XML_NODETYPE (m_root) : node_null;
-
-  if (type_ != node_pcdata && type_ != node_cdata && type_ != node_comment
-      && type_ != node_pi && type_ != node_doctype)
-    return false;
-
-  return utility::strcpy_insitu (
-      m_root->value, m_root->header,
-      Constants::kxml_memory_page_value_allocated_mask, rhs.data (),
-      rhs.size ());
-}
-#endif
-
-LUMEX_PUBLIC_API
-inline XmlAttribute
+XmlAttribute
 XmlNode::append_attribute (char_t const *name_)
 {
   if (!utility::allow_insert_attribute (type ()))
@@ -667,7 +626,7 @@ XmlNode::append_attribute (char_t const *name_)
 }
 
 LUMEX_PUBLIC_API
-inline XmlAttribute
+XmlAttribute
 XmlNode::prepend_attribute (char_t const *name_)
 {
   if (!utility::allow_insert_attribute (type ()))
@@ -687,7 +646,7 @@ XmlNode::prepend_attribute (char_t const *name_)
 }
 
 LUMEX_PUBLIC_API
-inline XmlAttribute
+XmlAttribute
 XmlNode::insert_attribute_after (char_t const *name_, XmlAttribute const &attr)
 {
   if (!utility::allow_insert_attribute (type ()))
@@ -710,7 +669,7 @@ XmlNode::insert_attribute_after (char_t const *name_, XmlAttribute const &attr)
 }
 
 LUMEX_PUBLIC_API
-inline XmlAttribute
+XmlAttribute
 XmlNode::insert_attribute_before (char_t const *name_,
                                   XmlAttribute const &attr)
 {
@@ -733,10 +692,9 @@ XmlNode::insert_attribute_before (char_t const *name_,
   return newAttr;
 }
 
-#if __cplusplus >= 201703L
 LUMEX_PUBLIC_API
-inline XmlAttribute
-XmlNode::append_attribute (string_view_t name_)
+XmlAttribute
+XmlNode::append_attribute (char_t const *name_, std::size_t size_)
 {
   if (!utility::allow_insert_attribute (type ()))
     return {};
@@ -749,14 +707,14 @@ XmlNode::append_attribute (string_view_t name_)
 
   lumex::xml::node::append_attribute (newAttr.get (), m_root);
 
-  newAttr.set_name (name_);
+  newAttr.set_name (name_, size_);
 
   return newAttr;
 }
 
 LUMEX_PUBLIC_API
-inline XmlAttribute
-XmlNode::prepend_attribute (string_view_t name_)
+XmlAttribute
+XmlNode::prepend_attribute (char_t const *name_, std::size_t size_)
 {
   if (!utility::allow_insert_attribute (type ()))
     return {};
@@ -769,14 +727,15 @@ XmlNode::prepend_attribute (string_view_t name_)
 
   lumex::xml::attribute::prepend_attribute (newAttr.get (), m_root);
 
-  newAttr.set_name (name_);
+  newAttr.set_name (name_, size_);
 
   return newAttr;
 }
 
 LUMEX_PUBLIC_API
-inline XmlAttribute
-XmlNode::insert_attribute_after (string_view_t name_, XmlAttribute const &attr)
+XmlAttribute
+XmlNode::insert_attribute_after (char_t const *name_, std::size_t size_,
+                                 XmlAttribute const &attr)
 {
   if (!utility::allow_insert_attribute (type ()))
     return {};
@@ -792,14 +751,14 @@ XmlNode::insert_attribute_after (string_view_t name_, XmlAttribute const &attr)
   lumex::xml::attribute::insert_attribute_after (newAttr.get (), attr.get (),
                                                  m_root);
 
-  newAttr.set_name (name_);
+  newAttr.set_name (name_, size_);
 
   return newAttr;
 }
 
 LUMEX_PUBLIC_API
-inline XmlAttribute
-XmlNode::insert_attribute_before (string_view_t name_,
+XmlAttribute
+XmlNode::insert_attribute_before (char_t const *name_, std::size_t size_,
                                   XmlAttribute const &attr)
 {
   if (!utility::allow_insert_attribute (type ()))
@@ -816,14 +775,13 @@ XmlNode::insert_attribute_before (string_view_t name_,
   lumex::xml::attribute::insert_attribute_before (newAttr.get (), attr.get (),
                                                   m_root);
 
-  newAttr.set_name (name_);
+  newAttr.set_name (name_, size_);
 
   return newAttr;
 }
-#endif
 
 LUMEX_PUBLIC_API
-inline XmlAttribute
+XmlAttribute
 XmlNode::append_copy (XmlAttribute const &proto)
 {
   if (!proto)
@@ -844,7 +802,7 @@ XmlNode::append_copy (XmlAttribute const &proto)
 }
 
 LUMEX_PUBLIC_API
-inline XmlAttribute
+XmlAttribute
 XmlNode::prepend_copy (XmlAttribute const &proto)
 {
   if (!proto)
@@ -865,7 +823,7 @@ XmlNode::prepend_copy (XmlAttribute const &proto)
 }
 
 LUMEX_PUBLIC_API
-inline XmlAttribute
+XmlAttribute
 XmlNode::insert_copy_after (XmlAttribute const &proto,
                             XmlAttribute const &attr)
 {
@@ -890,7 +848,7 @@ XmlNode::insert_copy_after (XmlAttribute const &proto,
 }
 
 LUMEX_PUBLIC_API
-inline XmlAttribute
+XmlAttribute
 XmlNode::insert_copy_before (XmlAttribute const &proto,
                              XmlAttribute const &attr)
 {
@@ -915,7 +873,7 @@ XmlNode::insert_copy_before (XmlAttribute const &proto,
 }
 
 LUMEX_PUBLIC_API
-inline XmlNode
+XmlNode
 XmlNode::append_child (xml_node_type type_)
 {
   if (!utility::allow_insert_child (type (), type_))
@@ -936,7 +894,7 @@ XmlNode::append_child (xml_node_type type_)
 }
 
 LUMEX_PUBLIC_API
-inline XmlNode
+XmlNode
 XmlNode::prepend_child (xml_node_type type_)
 {
   if (!utility::allow_insert_child (type (), type_))
@@ -957,7 +915,7 @@ XmlNode::prepend_child (xml_node_type type_)
 }
 
 LUMEX_PUBLIC_API
-inline XmlNode
+XmlNode
 XmlNode::insert_child_before (xml_node_type type_, XmlNode const &node)
 {
   if (!utility::allow_insert_child (type (), type_))
@@ -980,7 +938,7 @@ XmlNode::insert_child_before (xml_node_type type_, XmlNode const &node)
 }
 
 LUMEX_PUBLIC_API
-inline XmlNode
+XmlNode
 XmlNode::insert_child_after (xml_node_type type_, XmlNode const &node)
 {
   if (!utility::allow_insert_child (type (), type_))
@@ -1003,7 +961,7 @@ XmlNode::insert_child_after (xml_node_type type_, XmlNode const &node)
 }
 
 LUMEX_PUBLIC_API
-inline XmlNode
+XmlNode
 XmlNode::append_child (char_t const *name_)
 {
   XmlNode result = append_child (node_element);
@@ -1014,7 +972,7 @@ XmlNode::append_child (char_t const *name_)
 }
 
 LUMEX_PUBLIC_API
-inline XmlNode
+XmlNode
 XmlNode::prepend_child (char_t const *name_)
 {
   XmlNode result = prepend_child (node_element);
@@ -1025,7 +983,7 @@ XmlNode::prepend_child (char_t const *name_)
 }
 
 LUMEX_PUBLIC_API
-inline XmlNode
+XmlNode
 XmlNode::insert_child_after (char_t const *name_, XmlNode const &node)
 {
   XmlNode result = insert_child_after (node_element, node);
@@ -1036,7 +994,7 @@ XmlNode::insert_child_after (char_t const *name_, XmlNode const &node)
 }
 
 LUMEX_PUBLIC_API
-inline XmlNode
+XmlNode
 XmlNode::insert_child_before (char_t const *name_, XmlNode const &node)
 {
   XmlNode result = insert_child_before (node_element, node);
@@ -1046,54 +1004,54 @@ XmlNode::insert_child_before (char_t const *name_, XmlNode const &node)
   return result;
 }
 
-#if __cplusplus >= 201703L
 LUMEX_PUBLIC_API
-inline XmlNode
-XmlNode::append_child (string_view_t name_)
+XmlNode
+XmlNode::append_child (char_t const *name_, std::size_t size_)
 {
   XmlNode result = append_child (node_element);
 
-  result.set_name (name_);
+  result.set_name (name_, size_);
 
   return result;
 }
 
 LUMEX_PUBLIC_API
-inline XmlNode
-XmlNode::prepend_child (string_view_t name_)
+XmlNode
+XmlNode::prepend_child (char_t const *name_, std::size_t size_)
 {
   XmlNode result = prepend_child (node_element);
 
-  result.set_name (name_);
+  result.set_name (name_, size_);
 
   return result;
 }
 
 LUMEX_PUBLIC_API
-inline XmlNode
-XmlNode::insert_child_after (string_view_t name_, XmlNode const &node)
+XmlNode
+XmlNode::insert_child_after (char_t const *name_, std::size_t size_,
+                             XmlNode const &node)
 {
   XmlNode result = insert_child_after (node_element, node);
 
-  result.set_name (name_);
+  result.set_name (name_, size_);
 
   return result;
 }
 
 LUMEX_PUBLIC_API
-inline XmlNode
-XmlNode::insert_child_before (string_view_t name_, XmlNode const &node)
+XmlNode
+XmlNode::insert_child_before (char_t const *name_, std::size_t size_,
+                              XmlNode const &node)
 {
   XmlNode result = insert_child_before (node_element, node);
 
-  result.set_name (name_);
+  result.set_name (name_, size_);
 
   return result;
 }
-#endif
 
 LUMEX_PUBLIC_API
-inline XmlNode
+XmlNode
 XmlNode::append_copy (XmlNode const &proto)
 {
   xml_node_type type_ = proto.type ();
@@ -1113,7 +1071,7 @@ XmlNode::append_copy (XmlNode const &proto)
 }
 
 LUMEX_PUBLIC_API
-inline XmlNode
+XmlNode
 XmlNode::prepend_copy (XmlNode const &proto)
 {
   xml_node_type type_ = proto.type ();
@@ -1133,7 +1091,7 @@ XmlNode::prepend_copy (XmlNode const &proto)
 }
 
 LUMEX_PUBLIC_API
-inline XmlNode
+XmlNode
 XmlNode::insert_copy_after (XmlNode const &proto, XmlNode const &node)
 {
   xml_node_type type_ = proto.type ();
@@ -1155,7 +1113,7 @@ XmlNode::insert_copy_after (XmlNode const &proto, XmlNode const &node)
 }
 
 LUMEX_PUBLIC_API
-inline XmlNode
+XmlNode
 XmlNode::insert_copy_before (XmlNode const &proto, XmlNode const &node)
 {
   xml_node_type type_ = proto.type ();
@@ -1177,7 +1135,7 @@ XmlNode::insert_copy_before (XmlNode const &proto, XmlNode const &node)
 }
 
 LUMEX_PUBLIC_API
-inline XmlNode
+XmlNode
 XmlNode::append_move (XmlNode const &moved)
 {
   if (!allow_move (*this, moved))
@@ -1195,7 +1153,7 @@ XmlNode::append_move (XmlNode const &moved)
 }
 
 LUMEX_PUBLIC_API
-inline XmlNode
+XmlNode
 XmlNode::prepend_move (XmlNode const &moved)
 {
   if (!allow_move (*this, moved))
@@ -1213,7 +1171,7 @@ XmlNode::prepend_move (XmlNode const &moved)
 }
 
 LUMEX_PUBLIC_API
-inline XmlNode
+XmlNode
 XmlNode::insert_move_after (XmlNode const &moved, XmlNode const &node)
 {
   if (!allow_move (*this, moved))
@@ -1235,7 +1193,7 @@ XmlNode::insert_move_after (XmlNode const &moved, XmlNode const &node)
 }
 
 LUMEX_PUBLIC_API
-inline XmlNode
+XmlNode
 XmlNode::insert_move_before (XmlNode const &moved, XmlNode const &node)
 {
   if (!allow_move (*this, moved))
@@ -1257,23 +1215,21 @@ XmlNode::insert_move_before (XmlNode const &moved, XmlNode const &node)
 }
 
 LUMEX_PUBLIC_API
-inline bool
+bool
 XmlNode::remove_attribute (char_t const *name_)
 {
   return remove_attribute (attribute (name_));
 }
 
-#if __cplusplus >= 201703L
 LUMEX_PUBLIC_API
-inline bool
-XmlNode::remove_attribute (string_view_t name_)
+bool
+XmlNode::remove_attribute (char_t const *name_, std::size_t size_)
 {
-  return remove_attribute (attribute (name_));
+  return remove_attribute (attribute (name_, size_));
 }
-#endif
 
 LUMEX_PUBLIC_API
-inline bool
+bool
 XmlNode::remove_attribute (XmlAttribute const &attr)
 {
   if ((m_root == nullptr) || (attr.get () == nullptr))
@@ -1290,7 +1246,7 @@ XmlNode::remove_attribute (XmlAttribute const &attr)
 }
 
 LUMEX_PUBLIC_API
-inline bool
+bool
 XmlNode::remove_attributes ()
 {
   if (m_root == nullptr)
@@ -1313,23 +1269,21 @@ XmlNode::remove_attributes ()
 }
 
 LUMEX_PUBLIC_API
-inline bool
+bool
 XmlNode::remove_child (char_t const *name_)
 {
   return remove_child (child (name_));
 }
 
-#if __cplusplus >= 201703L
 LUMEX_PUBLIC_API
-inline bool
-XmlNode::remove_child (string_view_t name_)
+bool
+XmlNode::remove_child (char_t const *name_, std::size_t size_)
 {
-  return remove_child (child (name_));
+  return remove_child (child (name_, size_));
 }
-#endif
 
 LUMEX_PUBLIC_API
-inline bool
+bool
 XmlNode::remove_child (XmlNode const &n)
 {
   if ((m_root == nullptr) || (n.m_root == nullptr)
@@ -1345,7 +1299,7 @@ XmlNode::remove_child (XmlNode const &n)
 }
 
 LUMEX_PUBLIC_API
-inline bool
+bool
 XmlNode::remove_children ()
 {
   if (m_root == nullptr)
@@ -1368,7 +1322,7 @@ XmlNode::remove_children ()
 }
 
 LUMEX_PUBLIC_API
-inline xml_parse_result_t
+xml_parse_result_t
 XmlNode::append_buffer (void const *contents, std::size_t size,
                         unsigned int options, xml_encoding encoding)
 {
@@ -1418,7 +1372,7 @@ XmlNode::append_buffer (void const *contents, std::size_t size,
 }
 
 LUMEX_PUBLIC_API
-inline XmlNode
+XmlNode
 XmlNode::find_child_by_attribute (char_t const *name_, char_t const *attr_name,
                                   char_t const *attr_value) const
 {
@@ -1450,7 +1404,7 @@ XmlNode::find_child_by_attribute (char_t const *name_, char_t const *attr_name,
 }
 
 LUMEX_PUBLIC_API
-inline XmlNode
+XmlNode
 XmlNode::find_child_by_attribute (char_t const *attr_name,
                                   char_t const *attr_value) const
 {
@@ -1476,7 +1430,7 @@ XmlNode::find_child_by_attribute (char_t const *attr_name,
 }
 
 LUMEX_PUBLIC_API
-inline string_t
+string_t
 XmlNode::path (char_t delimiter) const
 {
   if (m_root == nullptr)
@@ -1515,7 +1469,7 @@ XmlNode::path (char_t delimiter) const
 }
 
 LUMEX_PUBLIC_API
-inline XmlNode
+XmlNode
 XmlNode::first_element_by_path (
     char_t const *path_, char_t delimiter) const // NOLINT(misc-no-recursion)
 {
@@ -1570,7 +1524,7 @@ XmlNode::first_element_by_path (
 }
 
 LUMEX_PUBLIC_API
-inline bool
+bool
 XmlNode::traverse (XmlTreeWalker &walker)
 {
   walker.set_depth (-1);
@@ -1621,21 +1575,21 @@ XmlNode::traverse (XmlTreeWalker &walker)
 }
 
 LUMEX_PUBLIC_API
-inline std::size_t
+std::size_t
 XmlNode::hash_value () const
 {
   return reinterpret_cast<uintptr_t> (m_root) / sizeof (XmlNodeBase);
 }
 
 LUMEX_PUBLIC_API
-inline XmlNodeBase *
+XmlNodeBase *
 XmlNode::get () const
 {
   return m_root;
 }
 
 LUMEX_PUBLIC_API
-inline void
+void
 XmlNode::print (IXmlWriter &writer, char_t const *indent, unsigned int flags,
                 xml_encoding encoding, unsigned int depth) const
 {
@@ -1650,7 +1604,7 @@ XmlNode::print (IXmlWriter &writer, char_t const *indent, unsigned int flags,
 }
 
 LUMEX_PUBLIC_API
-inline void
+void
 XmlNode::print (std::basic_ostream<char> &stream, char_t const *indent,
                 unsigned int flags, xml_encoding encoding,
                 unsigned int depth) const
@@ -1661,7 +1615,7 @@ XmlNode::print (std::basic_ostream<char> &stream, char_t const *indent,
 }
 
 LUMEX_PUBLIC_API
-inline void
+void
 XmlNode::print (std::basic_ostream<wchar_t> &stream, char_t const *indent,
                 unsigned int flags, unsigned int depth) const
 {
@@ -1671,7 +1625,7 @@ XmlNode::print (std::basic_ostream<wchar_t> &stream, char_t const *indent,
 }
 
 LUMEX_PUBLIC_API
-inline ptrdiff_t
+ptrdiff_t
 XmlNode::offset_debug () const
 {
   if (m_root == nullptr)
@@ -1719,7 +1673,7 @@ XmlNode::offset_debug () const
 }
 
 LUMEX_PUBLIC_API
-inline XPathNode
+XPathNode
 XmlNode::select_node (char_t const *query, XPathVariableSet *variables) const
 {
   XPathQuery query_obj (query, variables);
@@ -1727,14 +1681,14 @@ XmlNode::select_node (char_t const *query, XPathVariableSet *variables) const
 }
 
 LUMEX_PUBLIC_API
-inline XPathNode
+XPathNode
 XmlNode::select_node (XPathQuery const &query) const
 {
   return query.evaluate_node (*this);
 }
 
 LUMEX_PUBLIC_API
-inline XPathNodeSet
+XPathNodeSet
 XmlNode::select_nodes (char_t const *query, XPathVariableSet *variables) const
 {
   XPathQuery query_obj (query, variables);
@@ -1742,14 +1696,14 @@ XmlNode::select_nodes (char_t const *query, XPathVariableSet *variables) const
 }
 
 LUMEX_PUBLIC_API
-inline XPathNodeSet
+XPathNodeSet
 XmlNode::select_nodes (XPathQuery const &query) const
 {
   return query.evaluate_node_set (*this);
 }
 
 LUMEX_PUBLIC_API
-inline XPathNode
+XPathNode
 XmlNode::select_single_node (char_t const *query,
                              XPathVariableSet *variables) const
 {
@@ -1758,7 +1712,7 @@ XmlNode::select_single_node (char_t const *query,
 }
 
 LUMEX_PUBLIC_API
-inline XPathNode
+XPathNode
 XmlNode::select_single_node (XPathQuery const &query) const
 {
   return query.evaluate_node (*this);
@@ -2137,7 +2091,7 @@ node_output_simple (
 }
 
 LUMEX_PUBLIC_API
-inline void
+void
 lumex::xml::node::node_output ( // NOLINT(misc-use-internal-linkage,
                                 // readability-function-cognitive-complexity)
     XmlBufferedWriter &writer, XmlNodeBase *root, char_t const *indent,
@@ -2248,17 +2202,17 @@ lumex::xml::node::node_output ( // NOLINT(misc-use-internal-linkage,
 }
 
 LUMEX_PUBLIC_API
-inline bool
+bool
 lumex::xml::node::operator&& (XmlNode const &lhs,
                               bool rhs) // NOLINT(misc-use-internal-linkage)
 {
-  return (bool)lhs && rhs;
+  return static_cast<bool> (lhs) && rhs;
 }
 
 LUMEX_PUBLIC_API
-inline bool
+bool
 lumex::xml::node::operator|| (XmlNode const &lhs,
                               bool rhs) // NOLINT(misc-use-internal-linkage)
 {
-  return (bool)lhs || rhs;
+  return static_cast<bool> (lhs) || rhs;
 }

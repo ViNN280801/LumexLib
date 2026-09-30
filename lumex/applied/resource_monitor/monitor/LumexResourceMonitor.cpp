@@ -10,29 +10,37 @@
 #include <system_error>
 #include <thread>
 
+#if defined(_WIN32) || defined(_WIN64)
+#include <Windows.h>
+#else
+#include <sys/sysinfo.h>
+#endif
+
 #include "LumexResourceMonitor.hpp"
 #include "lumex/applied/logging/LumexLogging"
 #include "lumex/core/time/LumexTime"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 
-#if defined(_WIN32) || defined(_WIN64)
-#include <Windows.h>
-#else
-#include <sys/sysinfo.h>
-
+#if !defined(_WIN32) && !defined(_WIN64)
 #if defined(__clang__)
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wpadded"
 #pragma clang diagnostic ignored "-Wunsafe-buffer-usage"
+#if __has_warning("-Wunsafe-buffer-usage-in-libc-call")
 #pragma clang diagnostic ignored "-Wunsafe-buffer-usage-in-libc-call"
+#endif
 #pragma clang diagnostic ignored "-Wcovered-switch-default"
 #pragma clang diagnostic ignored "-Wswitch-enum"
+#if __has_warning("-Wnrvo")
 #pragma clang diagnostic ignored "-Wnrvo"
+#endif
 #pragma clang diagnostic ignored "-Wheader-hygiene"
 #pragma clang diagnostic ignored "-Wused-but-marked-unused"
 #pragma clang diagnostic ignored "-Wundefined-var-template"
 #pragma clang diagnostic ignored "-Wdeprecated-redundant-constexpr-static-def"
+#if __has_warning("-Wvariadic-macro-arguments-omitted")
 #pragma clang diagnostic ignored "-Wvariadic-macro-arguments-omitted"
+#endif
 #pragma clang diagnostic ignored "-Wunused-result"
 #pragma clang diagnostic ignored "-Wextra-semi-stmt"
 #pragma clang diagnostic ignored "-Wexpansion-to-defined"
@@ -284,15 +292,17 @@ lumex::applied::resource_monitor::monitor::LumexResourceMonitor::
   std::string const path = makeLogFilePath (logDirectory);
 
   g_stop.store (false, std::memory_order_relaxed);
-  g_thread = std::thread ([path, interval] () {
-    // Give the host application time to finish initializing before
-    // sampling starts, and avoid reporting noise from a
-    // thread/instrumentation sanitizer for activity happening during
-    // that window.
-    std::this_thread::sleep_for (
-        std::chrono::milliseconds (Constants::KSTARTUP_GRACE_PERIOD_MS));
-    workerLoop (path, interval);
-  });
+  g_thread = std::thread (
+      [path, interval] ()
+        {
+          // Give the host application time to finish initializing before
+          // sampling starts, and avoid reporting noise from a
+          // thread/instrumentation sanitizer for activity happening during
+          // that window.
+          std::this_thread::sleep_for (
+              std::chrono::milliseconds (Constants::KSTARTUP_GRACE_PERIOD_MS));
+          workerLoop (path, interval);
+        });
   g_started = true;
 
   lumInfo (KMODULE_NAME, "Started, logging to '", path, "' every ",

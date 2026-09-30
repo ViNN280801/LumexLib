@@ -45,6 +45,7 @@
 #include <nlohmann/json.hpp>
 
 #include "lumex/applied/json/schema/LumexJsonSchemaException.hpp"
+#include "lumex/core/utility/compiler/LumexCheckFeatures.hpp"
 
 #include "lumex/core/reflection/reflected_enum/LumexReflectedEnum.hpp"
 #include "lumex/core/string_view/view/LumexStringView.hpp"
@@ -195,7 +196,7 @@ private:
   static bool
   _contains_value (nlohmann::json const &list, nlohmann::json const &value)
   {
-#if __cplusplus >= 202002L && defined(__cpp_lib_ranges)
+#if LUMEX_HAS_STD_RANGES
     return std::ranges::find (list, value) != list.end ();
 #else
     return std::find (list.begin (), list.end (), value) != list.end ();
@@ -206,7 +207,7 @@ private:
   _contains_name (std::vector<std::string> const &names,
                   std::string const &name)
   {
-#if __cplusplus >= 202002L && defined(__cpp_lib_ranges)
+#if LUMEX_HAS_STD_RANGES
     return std::ranges::find (names, name) != names.end ();
 #else
     return std::find (names.begin (), names.end (), name) != names.end ();

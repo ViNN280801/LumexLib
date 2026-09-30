@@ -33,11 +33,21 @@
 
 #include <algorithm>
 #include <array>
-#include <bit>     // for std::bit_cast
+#if __cplusplus > 201703L && defined(__has_include)
+#if __has_include(<bit>)
+#include <bit> // for std::bit_cast
+#endif
+#endif
 #include <cstddef> // for std::byte
 #include <type_traits>
 
+#include "lumex/core/utility/compiler/LumexCheckFeatures.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
+
+// Needs C++20 concepts, std::bit_cast, std::ranges and
+// std::is_constant_evaluated; without them the header declares nothing.
+#if LUMEX_HAS_CONCEPTS && LUMEX_HAS_STD_BIT_CAST && LUMEX_HAS_STD_RANGES      \
+    && LUMEX_HAS_STD_IS_CONSTANT_EVALUATED
 
 namespace lumex
 {
@@ -151,6 +161,8 @@ ByteSwap (T value) LUMEX_NOEXCEPT
 } // namespace utility
 } // namespace core
 } // namespace lumex
+
+#endif // LUMEX_HAS_CONCEPTS && ...
 
 // NOLINTEND(readability-identifier-length,
 // cppcoreguidelines-avoid-magic-numbers, readability-magic-numbers)

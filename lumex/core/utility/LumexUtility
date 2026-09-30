@@ -1,6 +1,8 @@
 #include "assert/LumexAssert.hpp"
 #include "attr/LumexAttributes.hpp"
 #include "callback/LumexCallbackSlot.hpp"
+#include "compiler/LumexCheckCompiler.hpp"
+#include "compiler/LumexCheckFeatures.hpp"
 #include "debug/LumexDebug.hpp"
 #include "demangle/LumexDemangle.hpp"
 #include "dump/LumexCoreDumpGenerator.hpp"
@@ -13,9 +15,9 @@
 #include "traits/LumexTypeTraits.hpp"
 #include "util/LumexUtilities.hpp"
 
-#if __cplusplus >= 202002L
+// C++20 modules. Each one checks its own features and declares nothing
+// where the toolchain lacks them.
 #include "bit/LumexBit.hpp"
 #include "cast/LumexCast.hpp"
 #include "mem/LumexMemRead.hpp"
 #include "ranges/LumexRanges.hpp"
-#endif

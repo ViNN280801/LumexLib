@@ -73,15 +73,21 @@
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wpadded"
 #pragma clang diagnostic ignored "-Wunsafe-buffer-usage"
+#if __has_warning("-Wunsafe-buffer-usage-in-libc-call")
 #pragma clang diagnostic ignored "-Wunsafe-buffer-usage-in-libc-call"
+#endif
 #pragma clang diagnostic ignored "-Wcovered-switch-default"
 #pragma clang diagnostic ignored "-Wswitch-enum"
+#if __has_warning("-Wnrvo")
 #pragma clang diagnostic ignored "-Wnrvo"
+#endif
 #pragma clang diagnostic ignored "-Wheader-hygiene"
 #pragma clang diagnostic ignored "-Wused-but-marked-unused"
 #pragma clang diagnostic ignored "-Wundefined-var-template"
 #pragma clang diagnostic ignored "-Wdeprecated-redundant-constexpr-static-def"
+#if __has_warning("-Wvariadic-macro-arguments-omitted")
 #pragma clang diagnostic ignored "-Wvariadic-macro-arguments-omitted"
+#endif
 #pragma clang diagnostic ignored "-Wunused-result"
 #pragma clang diagnostic ignored "-Wextra-semi-stmt"
 #pragma clang diagnostic ignored "-Wexpansion-to-defined"
@@ -509,7 +515,7 @@ public:
   /// @brief The preferred directory separator character for the current
   /// operating system.
   static value_type const preferred_separator =
-#if LUMEX_OS_WINDOWS
+#if defined(LUMEX_OS_WINDOWS)
       '\\';
 #else
       '/';
@@ -923,8 +929,8 @@ public:
 private:
 #ifdef _WIN32
 #pragma warning(push)
-#pragma warning(                                                              \
-    disable : 4251) // Suppress C4251 for STL members in DLL interface
+#pragma warning(disable                                                       \
+                : 4251) // Suppress C4251 for STL members in DLL interface
 #endif
   std::string m_path; ///< The internal string storing the path.
 #ifdef _WIN32
@@ -1826,7 +1832,7 @@ public:
 
 private:
   // =================== OS-specific implementations ===================
-#if LUMEX_OS_WINDOWS
+#if defined(LUMEX_OS_WINDOWS)
   static filesystem_result<file_status>
   get_file_status_windows (path const &,
                            bool); ///< Internal helper for Windows file status.
@@ -2008,6 +2014,38 @@ LUMEX_PUBLIC_API void checkName (std::string const &name);
 LUMEX_PUBLIC_API std::string sanitizeName (
     std::string const &name, // NOLINT(bugprone-easily-swappable-parameters)
     std::string const &defaultValue = "unnamed") LUMEX_NOEXCEPT;
+/**
+ * @brief Stream insertion operator for `lumex::path`.
+ * @details Allows printing `path` objects directly to `std::ostream` (e.g.,
+ * `std::cout`). Declared in the namespace of the class, so that
+ * argument-dependent lookup finds it from any namespace.
+ * @param out The output stream.
+ * @param path_arg The `lumex::path` object to print.
+ * @return A reference to the output stream.
+ */
+inline std::ostream &
+operator<< (std::ostream &out, path const &path_arg)
+{
+  out << path_arg.string ();
+  return out;
+}
+
+/**
+ * @brief Stream insertion operator for `lumex::directory_entry`.
+ * @details Allows printing `directory_entry` objects directly to
+ * `std::ostream` (e.g., `std::cout`). It prints the path_arg string of the
+ * entry.
+ * @param out The output stream.
+ * @param entry The `lumex::directory_entry` object to print.
+ * @return A reference to the output stream.
+ */
+inline std::ostream &
+operator<< (std::ostream &out, directory_entry const &entry)
+{
+  out << entry.path ().string ();
+  return out;
+}
+
 } // namespace fs
 } // namespace filesystem
 } // namespace core
@@ -2089,37 +2127,6 @@ using filesystem = core::filesystem::fs::lumex_filesystem;
 template <typename T>
 using filesystem_result = core::filesystem::fs::filesystem_result<T>;
 } // namespace lumex
-
-/**
- * @brief Stream insertion operator for `lumex::path`.
- * @details Allows printing `path` objects directly to `std::ostream` (e.g.,
- * `std::cout`).
- * @param out The output stream.
- * @param path_arg The `lumex::path` object to print.
- * @return A reference to the output stream.
- */
-inline std::ostream &
-operator<< (std::ostream &out, lumex::path const &path_arg)
-{
-  out << path_arg.string ();
-  return out;
-}
-
-/**
- * @brief Stream insertion operator for `lumex::directory_entry`.
- * @details Allows printing `directory_entry` objects directly to
- * `std::ostream` (e.g., `std::cout`). It prints the path_arg string of the
- * entry.
- * @param out The output stream.
- * @param entry The `lumex::directory_entry` object to print.
- * @return A reference to the output stream.
- */
-inline std::ostream &
-operator<< (std::ostream &out, lumex::directory_entry const &entry)
-{
-  out << entry.path ().string ();
-  return out;
-}
 
 #if defined(__clang__)
 #pragma clang diagnostic pop

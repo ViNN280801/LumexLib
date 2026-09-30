@@ -65,14 +65,13 @@
 #include <array>
 #include <string>
 #include <type_traits>
+#if __cplusplus >= 201703L
+#include <string_view>
+#endif
 
 #include "lumex/core/utility/assert/LumexAssert.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 #include "lumex/core/utility/traits/LumexTypeTraits.hpp"
-
-#if __cplusplus >= 201703L
-#include <string_view>
-#endif
 
 namespace lumex // NOLINT(modernize-concat-nested-namespaces)
 {
@@ -199,16 +198,16 @@ _encode_impl (T const &data_view)
 
       // 1.2. Get the last 2 bits of the first byte and the first 4 bits of the
       // second byte
-      result += detail::_base64_chars.at (
+      result += detail::_base64_chars.at (static_cast<std::size_t> (
           ((data_view[pos] & Constants::kBase64MaskTwoBits) << 4)
-          | ((data_view[pos + 1] >> 4) & Constants::kBase64MaskFourBits));
+          | ((data_view[pos + 1] >> 4) & Constants::kBase64MaskFourBits)));
 
       // 1.3. Get the last 4 bits of the second byte and the first 2 bits of
       // the third byte
-      result += detail::_base64_chars.at (
+      result += detail::_base64_chars.at (static_cast<std::size_t> (
           ((data_view[pos + 1] & Constants::kBase64MaskFourBits) << 2)
           | ((data_view[pos + 2] >> Constants::kBase64RightShiftSixBits)
-             & Constants::kBase64MaskTwoBits));
+             & Constants::kBase64MaskTwoBits)));
 
       // 1.4. Get the last 6 bits of the third byte
       result += detail::_base64_chars.at (data_view[pos + 2]
@@ -229,13 +228,13 @@ _encode_impl (T const &data_view)
         {
           // 2.1.1. Get the last 2 bits of the first byte and the first 4 bits
           // of the second byte
-          result += detail::_base64_chars.at (
+          result += detail::_base64_chars.at (static_cast<std::size_t> (
               ((data_view[pos] & Constants::kBase64MaskTwoBits) << 4)
-              | ((data_view[pos + 1] >> 4) & Constants::kBase64MaskFourBits));
+              | ((data_view[pos + 1] >> 4) & Constants::kBase64MaskFourBits)));
 
           // 2.1.2. Get the last 4 bits of the second byte
-          result += detail::_base64_chars.at (
-              (data_view[pos + 1] & Constants::kBase64MaskFourBits) << 2);
+          result += detail::_base64_chars.at (static_cast<std::size_t> (
+              (data_view[pos + 1] & Constants::kBase64MaskFourBits) << 2));
 
           // 2.1.3. Add padding
           result += '=';
@@ -244,8 +243,8 @@ _encode_impl (T const &data_view)
         {
           // 2.2.1. Get the last 2 bits of the first byte and the first 4 bits
           // of the second byte
-          result += detail::_base64_chars.at (
-              (data_view[pos] & Constants::kBase64MaskTwoBits) << 4);
+          result += detail::_base64_chars.at (static_cast<std::size_t> (
+              (data_view[pos] & Constants::kBase64MaskTwoBits) << 4));
 
           // 2.2.2. Add double padding, because there is only one byte left
           result += "==";

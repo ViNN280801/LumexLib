@@ -299,9 +299,12 @@ LUMEX_FR_DEFINE (32);
 
 #undef LUMEX_FR_DEFINE
 
-template <std::size_t N> struct field_count_tag_t
+// std::integral_constant supplies the definition of `value`, which
+// EXPECT_EQ odr-uses; a plain in-class `static const` member would not
+// link without optimization in any standard.
+template <std::size_t N>
+struct field_count_tag_t : std::integral_constant<std::size_t, N>
 {
-  static std::size_t const value = N;
 };
 
 template <std::size_t I> struct field_type_sel;
@@ -537,6 +540,17 @@ TEST (LumexAggregateFieldsTest, GivenPaddedAggregate_WhenSized_ThenThree)
 TEST (LumexAggregateFieldsTest, GivenEightFields_WhenSized_ThenEight)
 {
   EXPECT_EQ (tuple_size<EightFields>::value, 8u);
+}
+
+TEST (LumexAggregateFieldsTest, GivenTupleSizeValue_WhenAddressTaken_ThenLinks)
+{
+  // A volatile pointer keeps the reference to the `value` symbol in an
+  // optimized build too, so a member without a definition fails to link
+  // here in every build type, not only without optimization.
+  std::size_t const *volatile address = &tuple_size<Plain>::value;
+  EXPECT_EQ (*address, 2u);
+  address = &tuple_size<Empty>::value;
+  EXPECT_EQ (*address, 0u);
 }
 
 #if __cplusplus >= 202002L

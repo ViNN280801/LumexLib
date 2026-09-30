@@ -437,16 +437,18 @@ TYPED_TEST (BadExpectedAccessTest, ThreadSafety_MultipleIndependentInstances)
   // Act
   for (int i = 0; i < num_threads; ++i)
     {
-      threads.emplace_back ([&, i] () {
-        // Each thread constructs its BadExpectedAccess
-        TypeParam expected_error_in_thread = initial_errors[i];
-        BadExpectedAccess<TypeParam> uut (std::move (initial_errors[i]));
-        // and checks its value
-        EXPECT_EQ (uut.error (),
-                   expected_error_in_thread); // Compare with the value
-                                              // from before the move
-        EXPECT_STREQ ("Bad expected access", uut.what ());
-      });
+      threads.emplace_back (
+          [&, i] ()
+            {
+              // Each thread constructs its BadExpectedAccess
+              TypeParam expected_error_in_thread = initial_errors[i];
+              BadExpectedAccess<TypeParam> uut (std::move (initial_errors[i]));
+              // and checks its value
+              EXPECT_EQ (uut.error (),
+                         expected_error_in_thread); // Compare with the value
+                                                    // from before the move
+              EXPECT_STREQ ("Bad expected access", uut.what ());
+            });
     }
 
   for (auto &t : threads)

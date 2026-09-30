@@ -7,13 +7,13 @@
 using namespace lumex::xml::node;
 
 LUMEX_PUBLIC_API
-inline XmlNodeIterator::XmlNodeIterator (XmlNode const &node)
+XmlNodeIterator::XmlNodeIterator (XmlNode const &node)
     : m_wrap (node), m_parent (node.parent ())
 {
 }
 
 LUMEX_PUBLIC_API
-inline XmlNodeIterator::XmlNodeIterator (
+XmlNodeIterator::XmlNodeIterator (
     XmlNodeBase *ref, // NOLINT(bugprone-easily-swappable-parameters)
     XmlNodeBase *parent)
     : m_wrap (ref), m_parent (parent)
@@ -21,7 +21,7 @@ inline XmlNodeIterator::XmlNodeIterator (
 }
 
 LUMEX_PUBLIC_API
-inline bool
+bool
 XmlNodeIterator::operator== (XmlNodeIterator const &rhs) const
 {
   return m_wrap.m_root == rhs.m_wrap.m_root
@@ -29,7 +29,7 @@ XmlNodeIterator::operator== (XmlNodeIterator const &rhs) const
 }
 
 LUMEX_PUBLIC_API
-inline bool
+bool
 XmlNodeIterator::operator!= (XmlNodeIterator const &rhs) const
 {
   return m_wrap.m_root != rhs.m_wrap.m_root
@@ -37,7 +37,7 @@ XmlNodeIterator::operator!= (XmlNodeIterator const &rhs) const
 }
 
 LUMEX_PUBLIC_API
-inline XmlNode &
+XmlNode &
 XmlNodeIterator::operator* () const
 {
   LUMEX_ASSERT (m_wrap.m_root);
@@ -45,7 +45,7 @@ XmlNodeIterator::operator* () const
 }
 
 LUMEX_PUBLIC_API
-inline XmlNode *
+XmlNode *
 XmlNodeIterator::operator->() const
 {
   LUMEX_ASSERT (m_wrap.m_root);
@@ -53,7 +53,7 @@ XmlNodeIterator::operator->() const
 }
 
 LUMEX_PUBLIC_API
-inline XmlNodeIterator &
+XmlNodeIterator &
 XmlNodeIterator::operator++ ()
 {
   LUMEX_ASSERT (m_wrap.m_root);
@@ -62,7 +62,7 @@ XmlNodeIterator::operator++ ()
 }
 
 LUMEX_PUBLIC_API
-inline XmlNodeIterator
+XmlNodeIterator
 XmlNodeIterator::operator++ (int)
 {
   XmlNodeIterator temp = *this;
@@ -71,7 +71,7 @@ XmlNodeIterator::operator++ (int)
 }
 
 LUMEX_PUBLIC_API
-inline XmlNodeIterator &
+XmlNodeIterator &
 XmlNodeIterator::operator-- ()
 {
   m_wrap = (m_wrap.m_root != nullptr) ? m_wrap.previous_sibling ()
@@ -80,7 +80,7 @@ XmlNodeIterator::operator-- ()
 }
 
 LUMEX_PUBLIC_API
-inline XmlNodeIterator
+XmlNodeIterator
 XmlNodeIterator::operator-- (int)
 {
   XmlNodeIterator temp = *this;

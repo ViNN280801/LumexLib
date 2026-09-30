@@ -15,7 +15,7 @@ using namespace lumex::xml::types::Types;
 using namespace lumex::xml::utility;
 
 LUMEX_PUBLIC_API
-inline void
+void
 lumex::xml::node::destroy_node (
     XmlNodeBase *n, // NOLINT(misc-use-internal-linkage, misc-no-recursion)
     XmlAllocator &alloc)
@@ -50,7 +50,7 @@ lumex::xml::node::destroy_node (
 }
 
 LUMEX_PUBLIC_API
-inline XmlNodeBase *
+XmlNodeBase *
 lumex::xml::node::allocate_node (XmlAllocator &alloc, xml_node_type type)
 {
   XmlMemoryPage *page{};
@@ -65,7 +65,7 @@ lumex::xml::node::allocate_node (XmlAllocator &alloc, xml_node_type type)
 LUMEX_PUBLIC_API void destroy_node (XmlNodeBase *n, XmlAllocator &alloc);
 
 LUMEX_PUBLIC_API
-inline void
+void
 lumex::xml::node::append_node (XmlNodeBase *child, XmlNodeBase *node)
 {
   child->parent = node;
@@ -88,7 +88,7 @@ lumex::xml::node::append_node (XmlNodeBase *child, XmlNodeBase *node)
 }
 
 LUMEX_PUBLIC_API
-inline void
+void
 lumex::xml::node::prepend_node (XmlNodeBase *child, XmlNodeBase *node)
 {
   child->parent = node;
@@ -108,7 +108,7 @@ lumex::xml::node::prepend_node (XmlNodeBase *child, XmlNodeBase *node)
 }
 
 LUMEX_PUBLIC_API
-inline void
+void
 lumex::xml::node::insert_node_after (XmlNodeBase *child, XmlNodeBase *node)
 {
   XmlNodeBase *parent = node->parent;
@@ -129,7 +129,7 @@ lumex::xml::node::insert_node_after (XmlNodeBase *child, XmlNodeBase *node)
 }
 
 LUMEX_PUBLIC_API
-inline void
+void
 lumex::xml::node::insert_node_before (XmlNodeBase *child, XmlNodeBase *node)
 {
   XmlNodeBase *parent = node->parent;
@@ -150,7 +150,7 @@ lumex::xml::node::insert_node_before (XmlNodeBase *child, XmlNodeBase *node)
 }
 
 LUMEX_PUBLIC_API
-inline void
+void
 lumex::xml::node::remove_node (XmlNodeBase *node)
 {
   XmlNodeBase *parent = node->parent;
@@ -174,7 +174,7 @@ lumex::xml::node::remove_node (XmlNodeBase *node)
 }
 
 LUMEX_PUBLIC_API
-inline XmlNodeBase *
+XmlNodeBase *
 lumex::xml::node::append_new_node (XmlNodeBase *node, XmlAllocator &alloc,
                                    xml_node_type type)
 {
@@ -188,7 +188,7 @@ lumex::xml::node::append_new_node (XmlNodeBase *node, XmlAllocator &alloc,
 }
 
 LUMEX_PUBLIC_API
-inline void
+void
 lumex::xml::node::append_attribute (XmlAttributeBase *attr, XmlNodeBase *node)
 {
   XmlAttributeBase *head = node->first_attribute;
@@ -209,7 +209,7 @@ lumex::xml::node::append_attribute (XmlAttributeBase *attr, XmlNodeBase *node)
 }
 
 LUMEX_PUBLIC_API
-inline XmlAttributeBase *
+XmlAttributeBase *
 lumex::xml::node::append_new_attribute (XmlNodeBase *node, XmlAllocator &alloc)
 {
   XmlAttributeBase *attr = lumex::xml::attribute::allocate_attribute (alloc);
@@ -222,7 +222,7 @@ lumex::xml::node::append_new_attribute (XmlNodeBase *node, XmlAllocator &alloc)
 }
 
 LUMEX_PUBLIC_API
-inline void
+void
 lumex::xml::node::node_copy_contents (XmlNodeBase *dn_, XmlNodeBase *sn_,
                                       XmlAllocator *shared_alloc)
 {
@@ -251,7 +251,7 @@ lumex::xml::node::node_copy_contents (XmlNodeBase *dn_, XmlNodeBase *sn_,
 }
 
 LUMEX_PUBLIC_API
-inline void
+void
 lumex::xml::node::node_copy_tree (XmlNodeBase *dn_, XmlNodeBase *sn_)
 {
   XmlAllocator &alloc = get_allocator (dn_);
@@ -311,7 +311,7 @@ lumex::xml::node::node_copy_tree (XmlNodeBase *dn_, XmlNodeBase *sn_)
 }
 
 LUMEX_PUBLIC_API
-inline bool
+bool
 lumex::xml::node::node_is_ancestor (XmlNodeBase *parent, XmlNodeBase *node)
 {
   while ((node != nullptr) && node != parent)

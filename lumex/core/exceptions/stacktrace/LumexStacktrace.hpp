@@ -57,15 +57,21 @@
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wpadded"
 #pragma clang diagnostic ignored "-Wunsafe-buffer-usage"
+#if __has_warning("-Wunsafe-buffer-usage-in-libc-call")
 #pragma clang diagnostic ignored "-Wunsafe-buffer-usage-in-libc-call"
+#endif
 #pragma clang diagnostic ignored "-Wcovered-switch-default"
 #pragma clang diagnostic ignored "-Wswitch-enum"
+#if __has_warning("-Wnrvo")
 #pragma clang diagnostic ignored "-Wnrvo"
+#endif
 #pragma clang diagnostic ignored "-Wheader-hygiene"
 #pragma clang diagnostic ignored "-Wused-but-marked-unused"
 #pragma clang diagnostic ignored "-Wundefined-var-template"
 #pragma clang diagnostic ignored "-Wdeprecated-redundant-constexpr-static-def"
+#if __has_warning("-Wvariadic-macro-arguments-omitted")
 #pragma clang diagnostic ignored "-Wvariadic-macro-arguments-omitted"
+#endif
 #pragma clang diagnostic ignored "-Wunused-result"
 #pragma clang diagnostic ignored "-Wextra-semi-stmt"
 #pragma clang diagnostic ignored "-Wexpansion-to-defined"
@@ -75,37 +81,40 @@
 #endif
 
 #include <algorithm> // std::min, std::max, std::equal, std::lexicographical_compare
+#include <cstdio>     // std::snprintf, popen, pclose, fgets
+#include <cstdlib>    // std::getenv, std::free, std::strtoul
 #include <cstring>    // std::strlen, std::strrchr
 #include <functional> // std::hash
 #include <memory>     // std::unique_ptr
+#include <mutex>      // std::mutex
+#include <sstream>    // std::istringstream
 #include <string>     // std::string, std::to_string
 #include <vector>     // std::vector
 
-#include "lumex/core/exceptions/stacktrace/LumexStacktraceEntry.hpp"
-#include "lumex/core/utility/LumexUtility"
-#include "lumex/core/utility/macros/LumexKeywords.hpp"
-
 // ****************** Platform-specific includes ****************** //
-#if LUMEX_OS_WINDOWS
+// Gated on compiler macros so they can precede the project headers (the
+// code below still branches on LUMEX_OS_*).
+#if defined(_WIN32)
 #include <Windows.h> // This include should be 1st
 
 #include <DbgHelp.h> // This include should be 2nd, because it uses types from windows.h
-
-#include <mutex> // std::mutex
-
-#pragma comment(lib, "dbghelp.lib")
 #else
-#include <cstdio>     // std::snprintf, popen, pclose, fgets
-#include <cstdlib>    // std::getenv, std::free, std::strtoul
 #include <cxxabi.h>   // abi::__cxa_demangle
 #include <dlfcn.h>    // dladdr, Dl_info
 #include <execinfo.h> // backtrace
-#include <sstream>    // std::istringstream
 
 #if defined(__linux__)
 #include <sys/wait.h> // waitpid (though not directly used, generally for popen related)
 #include <unistd.h> // fork, exec (addr2line related)
 #endif
+#endif
+
+#include "lumex/core/exceptions/stacktrace/LumexStacktraceEntry.hpp"
+#include "lumex/core/utility/LumexUtility"
+#include "lumex/core/utility/macros/LumexKeywords.hpp"
+
+#if defined(_WIN32)
+#pragma comment(lib, "dbghelp.lib")
 #endif
 
 // *********************************************************************** //
@@ -155,7 +164,7 @@ LUMEX_CONSTEXPR std::size_t kHashGoldenRatio
     = 0x9e3779b9U; ///< Golden ratio constant used in hash calculation to
                    ///< provide good distribution.
 
-#if LUMEX_OS_WINDOWS
+#if defined(LUMEX_OS_WINDOWS)
 /// @brief Global mutex for synchronizing access to DbgHelp API functions.
 /// @details DbgHelp library is not thread-safe, so all calls to its functions
 ///          must be protected by this mutex. It is extern because its

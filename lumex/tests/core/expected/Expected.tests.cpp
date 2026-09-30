@@ -1011,9 +1011,8 @@ TYPED_TEST (ExpectedTest,
   Expected<SuccessType, ErrorType> success_uut (this->s_val1);
   // Act: apply a function that maps SuccessType to Expected<SuccessType,
   // ErrorType>
-  auto func = [&] (SuccessType &) {
-    return Expected<SuccessType, ErrorType> (this->s_val2);
-  };
+  auto func = [&] (SuccessType &)
+    { return Expected<SuccessType, ErrorType> (this->s_val2); };
   Expected<SuccessType, ErrorType> result_s = success_uut.and_then (func);
   // Assert
   EXPECT_TRUE (result_s.has_value ());
@@ -1042,9 +1041,8 @@ TYPED_TEST (ExpectedTest,
   Expected<SuccessType, ErrorType> const success_uut (this->s_val1);
   // Act: apply a function that maps const SuccessType & to
   // Expected<SuccessType, ErrorType>
-  auto func = [&] (SuccessType const &) {
-    return Expected<SuccessType, ErrorType> (this->s_val2);
-  };
+  auto func = [&] (SuccessType const &)
+    { return Expected<SuccessType, ErrorType> (this->s_val2); };
   Expected<SuccessType, ErrorType> result_s = success_uut.and_then (func);
   // Assert
   EXPECT_TRUE (result_s.has_value ());
@@ -1073,9 +1071,8 @@ TYPED_TEST (ExpectedTest,
   SuccessType original_s_val = this->s_val1;
   Expected<SuccessType, ErrorType> success_uut (original_s_val);
   // Act
-  auto func = [&] (SuccessType &&) {
-    return Expected<SuccessType, ErrorType> (this->s_val2);
-  };
+  auto func = [&] (SuccessType &&)
+    { return Expected<SuccessType, ErrorType> (this->s_val2); };
   Expected<SuccessType, ErrorType> result_s
       = std::move (success_uut).and_then (func);
   // Assert
@@ -1115,9 +1112,8 @@ TYPED_TEST (
   SuccessType original_s_val = this->s_val1;
   Expected<SuccessType, ErrorType> const success_uut (original_s_val);
   // Act
-  auto func = [&] (SuccessType const &&) {
-    return Expected<SuccessType, ErrorType> (this->s_val2);
-  };
+  auto func = [&] (SuccessType const &&)
+    { return Expected<SuccessType, ErrorType> (this->s_val2); };
   Expected<SuccessType, ErrorType> result_s
       = std::move (success_uut).and_then (func);
   // Assert
@@ -1164,30 +1160,31 @@ TYPED_TEST (ExpectedTest, TransformLValue_TransformsValueOrPropagatesError)
   Expected<SuccessType, ErrorType> success_uut (this->s_val1);
 
   // Act: apply a function that maps SuccessType to the same type
-  auto func = [&] (SuccessType &val) -> SuccessType {
-    if constexpr (std::is_same_v<SuccessType, int>)
-      {
-        return val + 1;
-      }
-    else if constexpr (std::is_same_v<SuccessType, std::string>)
-      {
-        return val + "_transformed";
-      }
-    else if constexpr (std::is_same_v<SuccessType, SimpleSuccess>)
-      {
-        return SimpleSuccess (val.value + 1);
-      }
-    else if constexpr (std::is_same_v<SuccessType, ComplexSuccess>)
-      {
-        ComplexSuccess result = val;
-        result.name += "_transformed";
-        return result;
-      }
-    else
-      {
-        return val; // fallback - return unchanged
-      }
-  };
+  auto func = [&] (SuccessType &val) -> SuccessType
+    {
+      if constexpr (std::is_same_v<SuccessType, int>)
+        {
+          return val + 1;
+        }
+      else if constexpr (std::is_same_v<SuccessType, std::string>)
+        {
+          return val + "_transformed";
+        }
+      else if constexpr (std::is_same_v<SuccessType, SimpleSuccess>)
+        {
+          return SimpleSuccess (val.value + 1);
+        }
+      else if constexpr (std::is_same_v<SuccessType, ComplexSuccess>)
+        {
+          ComplexSuccess result = val;
+          result.name += "_transformed";
+          return result;
+        }
+      else
+        {
+          return val; // fallback - return unchanged
+        }
+    };
 
   ResultType result_s = success_uut.transform (func);
 
@@ -1236,30 +1233,31 @@ TYPED_TEST (ExpectedTest,
   Expected<SuccessType, ErrorType> const success_uut (this->s_val1);
 
   // Act: apply the function
-  auto func = [&] (SuccessType const &val) -> SuccessType {
-    if constexpr (std::is_same_v<SuccessType, int>)
-      {
-        return val + 1;
-      }
-    else if constexpr (std::is_same_v<SuccessType, std::string>)
-      {
-        return val + "_transformed";
-      }
-    else if constexpr (std::is_same_v<SuccessType, SimpleSuccess>)
-      {
-        return SimpleSuccess (val.value + 1);
-      }
-    else if constexpr (std::is_same_v<SuccessType, ComplexSuccess>)
-      {
-        ComplexSuccess result = val;
-        result.name += "_transformed";
-        return result;
-      }
-    else
-      {
-        return val; // fallback - return unchanged
-      }
-  };
+  auto func = [&] (SuccessType const &val) -> SuccessType
+    {
+      if constexpr (std::is_same_v<SuccessType, int>)
+        {
+          return val + 1;
+        }
+      else if constexpr (std::is_same_v<SuccessType, std::string>)
+        {
+          return val + "_transformed";
+        }
+      else if constexpr (std::is_same_v<SuccessType, SimpleSuccess>)
+        {
+          return SimpleSuccess (val.value + 1);
+        }
+      else if constexpr (std::is_same_v<SuccessType, ComplexSuccess>)
+        {
+          ComplexSuccess result = val;
+          result.name += "_transformed";
+          return result;
+        }
+      else
+        {
+          return val; // fallback - return unchanged
+        }
+    };
 
   ResultType result_s = success_uut.transform (func);
 
@@ -1339,9 +1337,8 @@ TYPED_TEST (ExpectedTest,
   Expected<SuccessType, ErrorType> const error_uut (
       Unexpected<ErrorType> (this->e_val1));
   // Act
-  auto func = [&] (ErrorType const &) {
-    return ReturnType (unexpect_t (), this->e_val2);
-  };
+  auto func = [&] (ErrorType const &)
+    { return ReturnType (unexpect_t (), this->e_val2); };
   ReturnType result_e = error_uut.or_else (func);
   // Assert
   EXPECT_FALSE (result_e.has_value ());

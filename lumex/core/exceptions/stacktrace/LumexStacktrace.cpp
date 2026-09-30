@@ -13,7 +13,7 @@ namespace stacktrace
 {
 namespace detail
 {
-#if LUMEX_OS_WINDOWS
+#if defined(LUMEX_OS_WINDOWS)
 // Static member definition
 bool DbgHelpInitializer::s_initialized = false;
 
@@ -259,7 +259,7 @@ capture_stacktrace<std::allocator<LumexStacktraceEntry>> (
   if (actual_count <= 0)
     return LumexBasicStacktrace<std::allocator<LumexStacktraceEntry>> (alloc);
 
-  entries.reserve (actual_count);
+  entries.reserve (static_cast<container_type::size_type> (actual_count));
 
   for (int i = start_index; i < frame_count; ++i)
     {

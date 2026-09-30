@@ -40,6 +40,8 @@
 #ifndef LUMEX_CORE_UTILITY_ATTR_HPP
 #define LUMEX_CORE_UTILITY_ATTR_HPP
 
+#include "lumex/core/utility/compiler/LumexCheckFeatures.hpp"
+
 // @link https://en.cppreference.com/w/cpp/language/attributes.html
 
 // [[nodiscard]] and [[nodiscard("reason")]]
@@ -54,12 +56,11 @@
 #else
 #define LUMEX_ATTRIBUTE_NODISCARD(msg)
 #endif
-#elif __cplusplus == 201703L
-#define LUMEX_ATTRIBUTE_NODISCARD(msg)                                        \
-  [[nodiscard]] // __cplusplus >= 201703L:
-                // https://en.cppreference.com/w/cpp/language/attributes/nodiscard
-#else // __cplusplus >= 202002UL
+#elif LUMEX_HAS_NODISCARD_MESSAGE
 #define LUMEX_ATTRIBUTE_NODISCARD(msg) [[nodiscard (msg)]]
+#else // C++17, or a later mode without the reason form (GCC 8 and 9)
+#define LUMEX_ATTRIBUTE_NODISCARD(msg)                                        \
+  [[nodiscard]] // https://en.cppreference.com/w/cpp/language/attributes/nodiscard
 #endif
 
 // --- Lumex Standard Attribute Macros ---

@@ -109,8 +109,13 @@ TEST (LumexFormatFloatTest, GivenHexType_WhenFormat_ThenStdStyleWithoutPrefix)
   EXPECT_EQ (fmt::format ("{:.10a}", 4.2), "1.0ccccccccdp+2");
   EXPECT_EQ (fmt::format ("{:a}", -42.0), "-1.5p+5");
   EXPECT_EQ (fmt::format ("{:A}", -42.0), "-1.5P+5");
-  EXPECT_EQ (fmt::format ("{:.10a}", 0x1.ffffffffffp+2), "1.ffffffffffp+2");
-  EXPECT_EQ (fmt::format ("{:.9a}", 0x1.ffffffffffp+2), "2.000000000p+2");
+  // 0x1.ffffffffffp+2 without the C++17 hexadecimal literal (the suite
+  // also builds as C++11): the 41-bit significand 0x1ffffffffff scaled by
+  // 2^(2 - 40).
+  double const below_eight
+      = std::ldexp (static_cast<double> (0x1ffffffffffULL), -38);
+  EXPECT_EQ (fmt::format ("{:.10a}", below_eight), "1.ffffffffffp+2");
+  EXPECT_EQ (fmt::format ("{:.9a}", below_eight), "2.000000000p+2");
 }
 
 TEST (LumexFormatFloatTest, GivenHexTypeAtLimits_WhenFormat_ThenExactBits)

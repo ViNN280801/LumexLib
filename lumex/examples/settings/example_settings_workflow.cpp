@@ -19,11 +19,13 @@ main ()
       LumexSettingsFactory::create (LumexSettingsExtensions::INI));
   LumexSettingsGuard guard (settings, path);
 
-  bool const created = guard.ensureExistsWithDefaults ([&path, settings] () {
-    settings->add ("method", "name", "isocratic");
-    settings->add ("pump", "flow", "1.0");
-    return settings->save (path);
-  });
+  bool const created = guard.ensureExistsWithDefaults (
+      [&path, settings] ()
+        {
+          settings->add ("method", "name", "isocratic");
+          settings->add ("pump", "flow", "1.0");
+          return settings->save (path);
+        });
 
   std::vector<lumex_settings_key_spec_t> specs (1);
   specs[0].section = "detector";

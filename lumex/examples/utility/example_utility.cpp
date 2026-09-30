@@ -21,9 +21,9 @@ main ()
             << demangle_type_name (typeid (std::vector<int>).name ()) << '\n';
 
   std::cout << "\n--- 2. OS compile-time flags ---\n";
-#if LUMEX_OS_WINDOWS
+#if defined(LUMEX_OS_WINDOWS)
   std::cout << "LUMEX_OS_WINDOWS=1\n";
-#elif LUMEX_OS_LINUX
+#elif defined(LUMEX_OS_LINUX)
   std::cout << "LUMEX_OS_LINUX=1\n";
 #else
   std::cout << "other OS\n";

@@ -72,18 +72,16 @@ TEST (LumexExceptionWrapperTest,
 
 TEST (LumexExceptionWrapperTest, StdException_ReturnsDefaultConstructedValue)
 {
-  int result = ExceptionWrapper ("exc message", "unk message", [] () -> int {
-    throw std::runtime_error ("boom");
-  });
+  int result = ExceptionWrapper ("exc message", "unk message", [] () -> int
+                                   { throw std::runtime_error ("boom"); });
   EXPECT_EQ (result, 0);
 }
 
 TEST (LumexExceptionWrapperTest, StdException_ReportsExcMessageAndWhatToStderr)
 {
   WrapperStderrCapture capture;
-  ExceptionWrapper ("Failed to compute", "unused", [] () -> int {
-    throw std::runtime_error ("disk on fire");
-  });
+  ExceptionWrapper ("Failed to compute", "unused", [] () -> int
+                      { throw std::runtime_error ("disk on fire"); });
 
   std::string output = capture.output ();
   EXPECT_NE (output.find ("Failed to compute"), std::string::npos);
@@ -99,8 +97,8 @@ TEST (LumexExceptionWrapperTest, StdException_DefaultString_IsEmpty)
 
 TEST (LumexExceptionWrapperTest, StdException_DefaultPointer_IsNull)
 {
-  int *result = ExceptionWrapper (
-      "exc", "unk", [] () -> int * { throw std::runtime_error ("bad ptr"); });
+  int *result = ExceptionWrapper ("exc", "unk", [] () -> int *
+                                    { throw std::runtime_error ("bad ptr"); });
   EXPECT_EQ (result, nullptr);
 }
 
@@ -127,9 +125,8 @@ TEST (LumexExceptionWrapperTest,
 TEST (LumexExceptionWrapperTest, UnknownException_DoesNotUseExcMessage)
 {
   WrapperStderrCapture capture;
-  ExceptionWrapper ("should not appear", "unknown branch", [] () -> int {
-    throw std::string ("not a std::exception");
-  });
+  ExceptionWrapper ("should not appear", "unknown branch", [] () -> int
+                      { throw std::string ("not a std::exception"); });
 
   std::string output = capture.output ();
   EXPECT_EQ (output.find ("should not appear"), std::string::npos);
@@ -197,10 +194,11 @@ TEST (LumexExceptionWrapperMacroTest,
       LUMEX_SAFE_CALL_LAMBDA_MSG_RunsMultiStatementBody)
 {
   int state = 0;
-  auto lambda = [&state] () {
-    state += 1;
-    state += 2;
-  };
+  auto lambda = [&state] ()
+    {
+      state += 1;
+      state += 2;
+    };
   LUMEX_SAFE_CALL_LAMBDA_MSG (lambda, "exc", "unk");
   EXPECT_EQ (state, 3);
 }
@@ -210,10 +208,11 @@ TEST (LumexExceptionWrapperMacroTest,
 {
   WrapperStderrCapture capture;
   int state = 0;
-  auto lambda = [&state] () {
-    state = 1;
-    throw std::runtime_error ("lambda body boom");
-  };
+  auto lambda = [&state] ()
+    {
+      state = 1;
+      throw std::runtime_error ("lambda body boom");
+    };
   EXPECT_NO_THROW (LUMEX_SAFE_CALL_LAMBDA_MSG (lambda, "lambda failed",
                                                "lambda unknown failure"));
 
@@ -294,9 +293,8 @@ TEST (LumexExceptionWrapperTest, InstalledReporter_ReceivesReasonLine)
   g_safe_call_report.clear ();
   SafeCallReporterGuard const guard (&capture_safe_call_report);
   WrapperStderrCapture capture;
-  ExceptionWrapper ("Failed to compute", "unused", [] () -> int {
-    throw std::runtime_error ("disk on fire");
-  });
+  ExceptionWrapper ("Failed to compute", "unused", [] () -> int
+                      { throw std::runtime_error ("disk on fire"); });
 
   EXPECT_NE (g_safe_call_report.find ("Failed to compute"), std::string::npos);
   EXPECT_NE (g_safe_call_report.find (". Reason: "), std::string::npos);

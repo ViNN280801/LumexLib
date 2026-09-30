@@ -81,6 +81,14 @@ class LumexLibConan(ConanFile):
         tc.variables["LUMEX_BUILD_BENCHMARKS"] = False
         tc.variables["LUMEX_BUILD_DOCUMENTATION"] = False
         tc.variables["LUMEX_INSTALL"] = True
+        # Clang: the profile's compiler.libcxx picks the C++ standard library
+        # (the package and its consumers must agree on it).
+        if str(self.settings.compiler) in ("clang", "apple-clang"):  # type: ignore
+            libcxx = str(self.settings.get_safe("compiler.libcxx") or "")
+            if libcxx == "libc++":
+                tc.cache_variables["LUMEX_CLANG_STDLIB"] = "LIBCXX"
+            elif libcxx in ("libstdc++", "libstdc++11"):
+                tc.cache_variables["LUMEX_CLANG_STDLIB"] = "DEFAULT"
         tc.generate()
 
     def build(self):
@@ -120,6 +128,9 @@ class LumexLibConan(ConanFile):
         self.cpp_info.set_property("cmake_file_name", "LumexLib")
         self.cpp_info.set_property("cmake_target_name", "lumex::Lumex")
         windows = self.settings.os == "Windows"  # type: ignore
+        # dladdr moved into libc only in glibc 2.34; older glibc keeps it in
+        # libdl (CMake CMAKE_DL_LIBS). Other systems have it in libc.
+        linux = self.settings.os == "Linux"  # type: ignore
 
         # ================= Core components =================
         # Header-only (CMake INTERFACE targets): no libs.
@@ -127,9 +138,16 @@ class LumexLibConan(ConanFile):
         self._component("core_optional", "optional")
         self._component("core_string", "string")
         self._component("core_generators_number", "number_generator")
-        self._component(
+        utility = self._component(
             "core_utility", "utility", ["LumexCore_utility"], ["core_math"]
         )
+        if not windows:
+            # As CMake's Threads::Threads: the dump header uses std::thread
+            # and pthread_sigmask; glibc before 2.34 keeps them in libpthread.
+            utility.system_libs.append("pthread")
+        if linux:
+            # The debug header calls dladdr from inline code.
+            utility.system_libs.append("dl")
         self._component("core_circular_buffer", "circular_buffer",
                         requires=["core_utility"])
         self._component("core_expected", "expected", requires=["core_utility"])
@@ -169,6 +187,8 @@ class LumexLibConan(ConanFile):
         )
         if windows:
             exceptions.system_libs.append("dbghelp")
+        elif linux:
+            exceptions.system_libs.append("dl")
         elif self.settings.os == "FreeBSD":  # type: ignore
             # glibc has backtrace () built in; FreeBSD needs libexecinfo.
             exceptions.system_libs.append("execinfo")
@@ -209,6 +229,8 @@ class LumexLibConan(ConanFile):
         logger.defines = ["LUMEX_LOGGER_CONFIG_FORMAT_PLAIN_TEXT"]
         if windows:
             logger.system_libs.append("dbghelp")
+        elif linux:
+            logger.system_libs.append("dl")
         # Header-only; compiles against the consumer's own nlohmann/json.
         self._component(
             "applied_json", "json",

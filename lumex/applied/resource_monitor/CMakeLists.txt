@@ -13,6 +13,8 @@ add_library(lumex::resource_monitor ALIAS ${LUMEX_RESOURCE_MONITOR_NAME})
 set_target_properties(${LUMEX_RESOURCE_MONITOR_NAME} PROPERTIES
     CXX_STANDARD 17
     CXX_STANDARD_REQUIRED ON
+    # lumex_configure_target links stdc++fs / c++fs where the toolchain needs it (GCC 8).
+    LUMEX_USES_STD_FILESYSTEM ON
 )
 
 if(BUILD_SHARED_LIBS AND WIN32)

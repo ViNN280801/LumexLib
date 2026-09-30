@@ -872,10 +872,13 @@ TEST_F (LumexFilesystemTest, Filesystem_ThreadSafety_ConcurrentExists)
 
   std::vector<std::future<bool>> futures;
   for (int i = 0; i < 10; ++i)
-    futures.push_back (std::async (std::launch::async, [&test_file_path] () {
-      return lumex::core::filesystem::fs::lumex_filesystem::exists (
-          test_file_path);
-    }));
+    futures.push_back (std::async (
+        std::launch::async,
+        [&test_file_path] ()
+          {
+            return lumex::core::filesystem::fs::lumex_filesystem::exists (
+                test_file_path);
+          }));
 
   for (auto &future : futures)
     EXPECT_TRUE (future.get ());
@@ -887,10 +890,13 @@ TEST_F (LumexFilesystemTest,
   std::vector<std::future<lumex::filesystem_result<bool>>> futures;
   for (int i = 0; i < 5; ++i)
     {
-      futures.push_back (std::async (std::launch::async, [this, i] () {
-        return lumex::core::filesystem::fs::lumex_filesystem::
-            create_directory (test_dir / ("dir" + std::to_string (i)));
-      }));
+      futures.push_back (std::async (
+          std::launch::async,
+          [this, i] ()
+            {
+              return lumex::core::filesystem::fs::lumex_filesystem::
+                  create_directory (test_dir / ("dir" + std::to_string (i)));
+            }));
     }
 
   for (auto &future : futures)

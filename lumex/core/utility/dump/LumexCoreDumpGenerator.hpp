@@ -1,129 +1,46 @@
-#ifndef CORE_DUMP_GENERATOR_HPP
-#define CORE_DUMP_GENERATOR_HPP
+/**
+ * Copyright (c) 2026 Vladislav Semykin <vladislav.semykin@gmail.com>
+ *
+ *
+ * SPDX-License-Identifier: MIT
+ *
+ * Permission is hereby granted, free of
+ * charge, to any person obtaining a copy
+ * of this software and associated
+ * documentation files (the "Software"), to deal
+ * in the Software without
+ * restriction, including without limitation the rights
+ * to use, copy,
+ * modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the
+ * Software, and to permit persons to whom the Software is
+ * furnished to do
+ * so, subject to the following conditions:
+ *
+ * The above copyright notice
+ * and this permission notice shall be included in
+ * all copies or substantial
+ * portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT
+ * WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO
+ * THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE
+ * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF
+ * CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH
+ * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 
-// C++ Standard feature detection macros
-#if __cplusplus >= 201103L
-#define CPP11_OR_GREATER 1
-#else
-#define CPP11_OR_GREATER 0
-#endif
+#ifndef LUMEX_CORE_UTILITY_DUMP_HPP
+#define LUMEX_CORE_UTILITY_DUMP_HPP
 
-#if __cplusplus >= 201402L
-#define CPP14_OR_GREATER 1
-#else
-#define CPP14_OR_GREATER 0
-#endif
-
-#if __cplusplus >= 201703L
-#define CPP17_OR_GREATER 1
-#else
-#define CPP17_OR_GREATER 0
-#endif
-
-#if __cplusplus >= 202002L
-#define CPP20_OR_GREATER 1
-#else
-#define CPP20_OR_GREATER 0
-#endif
-
-#if __cplusplus >= 202302L
-#define CPP23_OR_GREATER 1
-#else
-#define CPP23_OR_GREATER 0
-#endif
-
-#if __cplusplus >= 202612L
-#define CPP26_OR_GREATER 1
-#else
-#define CPP26_OR_GREATER 0
-#endif
-
-// Feature detection for specific C++ features
-#if CPP11_OR_GREATER
-#define HAS_TYPE_TRAITS 1
-#define HAS_ATOMIC 1
-#define HAS_THREAD 1
-#define HAS_MUTEX 1
-#define HAS_CONDITION_VARIABLE 1
-#define HAS_FUTURE 1
-#define HAS_CHRONO 1
-#else
-#define HAS_TYPE_TRAITS 0
-#define HAS_ATOMIC 0
-#define HAS_THREAD 0
-#define HAS_MUTEX 0
-#define HAS_CONDITION_VARIABLE 0
-#define HAS_FUTURE 0
-#define HAS_CHRONO 0
-#endif
-
-#if CPP14_OR_GREATER
-#define HAS_MAKE_UNIQUE 1
-#define HAS_SHARED_MUTEX 0 // C++17 feature
-#else
-#define HAS_MAKE_UNIQUE 0
-#define HAS_SHARED_MUTEX 0
-#endif
-
-#if CPP17_OR_GREATER
-#define HAS_OPTIONAL 1
-#define HAS_VARIANT 1
-#define HAS_ANY 1
-#define HAS_STRING_VIEW 1
-#ifndef HAS_SHARED_MUTEX
-#define HAS_SHARED_MUTEX 1
-#endif
-#define HAS_FILESYSTEM 1
-#define HAS_PARALLEL_ALGORITHMS 1
-#else
-#define HAS_OPTIONAL 0
-#define HAS_VARIANT 0
-#define HAS_ANY 0
-#define HAS_STRING_VIEW 0
-#define HAS_SHARED_MUTEX 0
-#define HAS_FILESYSTEM 0
-#define HAS_PARALLEL_ALGORITHMS 0
-#endif
-
-#if CPP20_OR_GREATER
-#define HAS_CONCEPTS 1
-#define HAS_RANGES 1
-#define HAS_SPAN 1
-#define HAS_FORMAT 1
-#define HAS_COROUTINES 1
-#define HAS_JTHREAD 1
-#define HAS_BARRIER 1
-#define HAS_LATCH 1
-#define HAS_SEMAPHORE 1
-#else
-#define HAS_CONCEPTS 0
-#define HAS_RANGES 0
-#define HAS_SPAN 0
-#define HAS_FORMAT 0
-#define HAS_COROUTINES 0
-#define HAS_JTHREAD 0
-#define HAS_BARRIER 0
-#define HAS_LATCH 0
-#define HAS_SEMAPHORE 0
-#endif
-
-#if CPP23_OR_GREATER
-#define HAS_EXPECTED 1
-#define HAS_MDSpan 1
-#define HAS_STACKTRACE 1
-#else
-#define HAS_EXPECTED 0
-#define HAS_MDSpan 0
-#define HAS_STACKTRACE 0
-#endif
-
-#if CPP26_OR_GREATER
-#define HAS_REFLECTION 1
-#define HAS_EXECUTORS 1
-#else
-#define HAS_REFLECTION 0
-#define HAS_EXECUTORS 0
-#endif
+#include "lumex/LumexExport.hpp"
 
 #include <algorithm>
 #include <array>
@@ -141,66 +58,40 @@
 #include <system_error>
 #include <vector>
 
-#include "lumex/LumexExport.hpp"
-#include "lumex/core/utility/macros/LumexKeywords.hpp"
-#include "lumex/core/utility/traits/LumexTypeTraits.hpp"
-
-#if HAS_CHRONO
-#include <chrono>
-#endif
-
-#if HAS_ATOMIC
 #include <atomic>
-#endif
-
-#if HAS_MUTEX
-#include <mutex>
-#endif
-
-#if HAS_THREAD
-#include <thread>
-#endif
-
-#if HAS_CONDITION_VARIABLE
+#include <chrono>
 #include <condition_variable>
-#endif
-
-#if HAS_STRING_VIEW
-#include <string_view>
-#endif
-
-#if HAS_OPTIONAL
+#include <mutex>
+#include <thread>
+#if __cplusplus >= 201703L
 #include <optional>
 #endif
-
-#if HAS_SHARED_MUTEX
-#include <shared_mutex>
+#if __cplusplus > 201703L && defined(__has_include)
+#if __has_include(<concepts>)
+#include <concepts>
 #endif
-
-#if HAS_STACKTRACE
-#include <stacktrace>
 #endif
-
-#if HAS_RANGES
+#if __cplusplus > 201703L && defined(__has_include)
+#if __has_include(<ranges>)
 #include <ranges>
 #endif
+#endif
+
+#include "lumex/core/utility/compiler/LumexCheckFeatures.hpp"
+#include "lumex/core/utility/macros/LumexKeywords.hpp"
+#include "lumex/core/utility/os/LumexCheckOS.hpp"
+#include "lumex/core/utility/traits/LumexTypeTraits.hpp"
 
 // Forward declarations
 
-// Platform detection
-#if defined(_WIN32) || defined(_WIN64)
-#define DUMP_CREATOR_WINDOWS 1
-#define DUMP_CREATOR_UNIX 0
-#elif defined(__unix__) || defined(__unix)                                    \
-    || (defined(__APPLE__) && defined(__MACH__))
-#define DUMP_CREATOR_WINDOWS 0
-#define DUMP_CREATOR_UNIX 1
-#else
+// Platforms: Windows, or a Unix-like system (Android included, which
+// LumexCheckOS.hpp does not count as LUMEX_OS_IS_UNIX()).
+#if !LUMEX_OS_IS_WINDOWS() && !LUMEX_OS_IS_UNIX() && !LUMEX_OS_IS_ANDROID()
 #error "Unsupported platform"
 #endif
 
 // Windows-specific includes
-#if DUMP_CREATOR_WINDOWS
+#if LUMEX_OS_IS_WINDOWS()
 // Prevent Windows headers from defining conflicting symbols
 #ifndef NOMINMAX
 #define NOMINMAX
@@ -226,7 +117,7 @@
 #endif
 
 // UNIX-specific includes
-#if DUMP_CREATOR_UNIX
+#if (LUMEX_OS_IS_UNIX() || LUMEX_OS_IS_ANDROID())
 #include <csignal>
 #include <cstdlib>
 #include <errno.h>
@@ -437,9 +328,7 @@ getMaxValue () noexcept
 } // namespace DumpTypeUtils
 
 // Modern C++ concepts for type safety
-#if HAS_CONCEPTS
-#include <concepts>
-
+#if LUMEX_HAS_STD_CONCEPTS
 namespace CoreDumpGeneratorConcepts
 {
 template <typename T>
@@ -575,7 +464,7 @@ public:
   bool setFilename (std::string const &filename) noexcept;
   bool setDirectory (std::string const &directory) noexcept;
 
-#if HAS_CONCEPTS
+#if LUMEX_HAS_STD_CONCEPTS
   // Template setters with concepts for type safety
   template <traits::string::StringLike T>
   bool
@@ -726,9 +615,8 @@ DumpConfiguration::isValid () const noexcept
   return DumpTypeUtils::isValid (m_type) && isValidFilename (m_filename)
          && isValidDirectory (m_directory)
          && std::all_of (m_memoryFilters.begin (), m_memoryFilters.end (),
-                         [] (std::string const &filter) {
-                           return isValidMemoryFilter (filter);
-                         });
+                         [] (std::string const &filter)
+                           { return isValidMemoryFilter (filter); });
 }
 
 inline std::string
@@ -759,30 +647,44 @@ DumpConfiguration::isValidFilename (std::string const &filename) noexcept
     return false;
 
 // Check for invalid characters
-#if HAS_RANGES
-  return std::ranges::all_of (filename, [] (char character) {
-    return character
-               >= DumpTypeUtils::CharacterConstants::CONTROL_CHAR_THRESHOLD
-           && character != DumpTypeUtils::CharacterConstants::COLON_CHAR
-           && character != DumpTypeUtils::CharacterConstants::ASTERISK_CHAR
-           && character != DumpTypeUtils::CharacterConstants::QUESTION_CHAR
-           && character != DumpTypeUtils::CharacterConstants::QUOTE_CHAR
-           && character != DumpTypeUtils::CharacterConstants::LESS_THAN_CHAR
-           && character != DumpTypeUtils::CharacterConstants::GREATER_THAN_CHAR
-           && character != DumpTypeUtils::CharacterConstants::PIPE_CHAR;
-  });
+#if LUMEX_HAS_STD_RANGES
+  return std::ranges::all_of (
+      filename,
+      [] (char character)
+        {
+          return character >= DumpTypeUtils::CharacterConstants::
+                         CONTROL_CHAR_THRESHOLD
+                 && character != DumpTypeUtils::CharacterConstants::COLON_CHAR
+                 && character
+                        != DumpTypeUtils::CharacterConstants::ASTERISK_CHAR
+                 && character
+                        != DumpTypeUtils::CharacterConstants::QUESTION_CHAR
+                 && character != DumpTypeUtils::CharacterConstants::QUOTE_CHAR
+                 && character
+                        != DumpTypeUtils::CharacterConstants::LESS_THAN_CHAR
+                 && character
+                        != DumpTypeUtils::CharacterConstants::GREATER_THAN_CHAR
+                 && character != DumpTypeUtils::CharacterConstants::PIPE_CHAR;
+        });
 #else
-  return std::all_of (filename.begin (), filename.end (), [] (char character) {
-    return character
-               >= DumpTypeUtils::CharacterConstants::CONTROL_CHAR_THRESHOLD
-           && character != DumpTypeUtils::CharacterConstants::COLON_CHAR
-           && character != DumpTypeUtils::CharacterConstants::ASTERISK_CHAR
-           && character != DumpTypeUtils::CharacterConstants::QUESTION_CHAR
-           && character != DumpTypeUtils::CharacterConstants::QUOTE_CHAR
-           && character != DumpTypeUtils::CharacterConstants::LESS_THAN_CHAR
-           && character != DumpTypeUtils::CharacterConstants::GREATER_THAN_CHAR
-           && character != DumpTypeUtils::CharacterConstants::PIPE_CHAR;
-  });
+  return std::all_of (
+      filename.begin (), filename.end (),
+      [] (char character)
+        {
+          return character >= DumpTypeUtils::CharacterConstants::
+                         CONTROL_CHAR_THRESHOLD
+                 && character != DumpTypeUtils::CharacterConstants::COLON_CHAR
+                 && character
+                        != DumpTypeUtils::CharacterConstants::ASTERISK_CHAR
+                 && character
+                        != DumpTypeUtils::CharacterConstants::QUESTION_CHAR
+                 && character != DumpTypeUtils::CharacterConstants::QUOTE_CHAR
+                 && character
+                        != DumpTypeUtils::CharacterConstants::LESS_THAN_CHAR
+                 && character
+                        != DumpTypeUtils::CharacterConstants::GREATER_THAN_CHAR
+                 && character != DumpTypeUtils::CharacterConstants::PIPE_CHAR;
+        });
 #endif
 }
 
@@ -793,31 +695,42 @@ DumpConfiguration::isValidDirectory (std::string const &directory) noexcept
     return true; // Empty directory is valid (will use default)
 
 // Check for invalid characters
-#if HAS_RANGES
-  return std::ranges::all_of (directory, [] (char character) {
-    return character
-               >= DumpTypeUtils::CharacterConstants::CONTROL_CHAR_THRESHOLD
-           && character != DumpTypeUtils::CharacterConstants::ASTERISK_CHAR
-           && character != DumpTypeUtils::CharacterConstants::QUESTION_CHAR
-           && character != DumpTypeUtils::CharacterConstants::QUOTE_CHAR
-           && character != DumpTypeUtils::CharacterConstants::LESS_THAN_CHAR
-           && character != DumpTypeUtils::CharacterConstants::GREATER_THAN_CHAR
-           && character != DumpTypeUtils::CharacterConstants::PIPE_CHAR;
-  });
+#if LUMEX_HAS_STD_RANGES
+  return std::ranges::all_of (
+      directory,
+      [] (char character)
+        {
+          return character >= DumpTypeUtils::CharacterConstants::
+                         CONTROL_CHAR_THRESHOLD
+                 && character
+                        != DumpTypeUtils::CharacterConstants::ASTERISK_CHAR
+                 && character
+                        != DumpTypeUtils::CharacterConstants::QUESTION_CHAR
+                 && character != DumpTypeUtils::CharacterConstants::QUOTE_CHAR
+                 && character
+                        != DumpTypeUtils::CharacterConstants::LESS_THAN_CHAR
+                 && character
+                        != DumpTypeUtils::CharacterConstants::GREATER_THAN_CHAR
+                 && character != DumpTypeUtils::CharacterConstants::PIPE_CHAR;
+        });
 #else
   return std::all_of (
-      directory.begin (), directory.end (), [] (char character) {
-        return character
-                   >= DumpTypeUtils::CharacterConstants::CONTROL_CHAR_THRESHOLD
-               && character != DumpTypeUtils::CharacterConstants::ASTERISK_CHAR
-               && character != DumpTypeUtils::CharacterConstants::QUESTION_CHAR
-               && character != DumpTypeUtils::CharacterConstants::QUOTE_CHAR
-               && character
-                      != DumpTypeUtils::CharacterConstants::LESS_THAN_CHAR
-               && character
-                      != DumpTypeUtils::CharacterConstants::GREATER_THAN_CHAR
-               && character != DumpTypeUtils::CharacterConstants::PIPE_CHAR;
-      });
+      directory.begin (), directory.end (),
+      [] (char character)
+        {
+          return character >= DumpTypeUtils::CharacterConstants::
+                         CONTROL_CHAR_THRESHOLD
+                 && character
+                        != DumpTypeUtils::CharacterConstants::ASTERISK_CHAR
+                 && character
+                        != DumpTypeUtils::CharacterConstants::QUESTION_CHAR
+                 && character != DumpTypeUtils::CharacterConstants::QUOTE_CHAR
+                 && character
+                        != DumpTypeUtils::CharacterConstants::LESS_THAN_CHAR
+                 && character
+                        != DumpTypeUtils::CharacterConstants::GREATER_THAN_CHAR
+                 && character != DumpTypeUtils::CharacterConstants::PIPE_CHAR;
+        });
 #endif
 }
 
@@ -830,28 +743,42 @@ DumpConfiguration::isValidMemoryFilter (std::string const &filter) noexcept
 // Basic validation for memory filter format
 // This is a simplified validation - in practice, you might want more
 // sophisticated checks
-#if HAS_RANGES
-  return std::ranges::all_of (filter, [] (char character) {
-    return character
-               >= DumpTypeUtils::CharacterConstants::CONTROL_CHAR_THRESHOLD
-           && character != DumpTypeUtils::CharacterConstants::ASTERISK_CHAR
-           && character != DumpTypeUtils::CharacterConstants::QUESTION_CHAR
-           && character != DumpTypeUtils::CharacterConstants::QUOTE_CHAR
-           && character != DumpTypeUtils::CharacterConstants::LESS_THAN_CHAR
-           && character != DumpTypeUtils::CharacterConstants::GREATER_THAN_CHAR
-           && character != DumpTypeUtils::CharacterConstants::PIPE_CHAR;
-  });
+#if LUMEX_HAS_STD_RANGES
+  return std::ranges::all_of (
+      filter,
+      [] (char character)
+        {
+          return character >= DumpTypeUtils::CharacterConstants::
+                         CONTROL_CHAR_THRESHOLD
+                 && character
+                        != DumpTypeUtils::CharacterConstants::ASTERISK_CHAR
+                 && character
+                        != DumpTypeUtils::CharacterConstants::QUESTION_CHAR
+                 && character != DumpTypeUtils::CharacterConstants::QUOTE_CHAR
+                 && character
+                        != DumpTypeUtils::CharacterConstants::LESS_THAN_CHAR
+                 && character
+                        != DumpTypeUtils::CharacterConstants::GREATER_THAN_CHAR
+                 && character != DumpTypeUtils::CharacterConstants::PIPE_CHAR;
+        });
 #else
-  return std::all_of (filter.begin (), filter.end (), [] (char character) {
-    return character
-               >= DumpTypeUtils::CharacterConstants::CONTROL_CHAR_THRESHOLD
-           && character != DumpTypeUtils::CharacterConstants::ASTERISK_CHAR
-           && character != DumpTypeUtils::CharacterConstants::QUESTION_CHAR
-           && character != DumpTypeUtils::CharacterConstants::QUOTE_CHAR
-           && character != DumpTypeUtils::CharacterConstants::LESS_THAN_CHAR
-           && character != DumpTypeUtils::CharacterConstants::GREATER_THAN_CHAR
-           && character != DumpTypeUtils::CharacterConstants::PIPE_CHAR;
-  });
+  return std::all_of (
+      filter.begin (), filter.end (),
+      [] (char character)
+        {
+          return character >= DumpTypeUtils::CharacterConstants::
+                         CONTROL_CHAR_THRESHOLD
+                 && character
+                        != DumpTypeUtils::CharacterConstants::ASTERISK_CHAR
+                 && character
+                        != DumpTypeUtils::CharacterConstants::QUESTION_CHAR
+                 && character != DumpTypeUtils::CharacterConstants::QUOTE_CHAR
+                 && character
+                        != DumpTypeUtils::CharacterConstants::LESS_THAN_CHAR
+                 && character
+                        != DumpTypeUtils::CharacterConstants::GREATER_THAN_CHAR
+                 && character != DumpTypeUtils::CharacterConstants::PIPE_CHAR;
+        });
 #endif
 }
 
@@ -1051,7 +978,7 @@ public:
   CoreDumpGenerator &operator= (CoreDumpGenerator &&) = delete;
   ~CoreDumpGenerator () noexcept
   {
-#if DUMP_CREATOR_UNIX
+#if (LUMEX_OS_IS_UNIX() || LUMEX_OS_IS_ANDROID())
     // Stop instant systemd monitor thread
     if (s_monitorThread.joinable ())
       {
@@ -1274,7 +1201,7 @@ public:
   static bool registerCustomSignalHandler (int signum,
                                            void (*handler) (int)) noexcept;
 
-#if DUMP_CREATOR_WINDOWS
+#if LUMEX_OS_IS_WINDOWS()
   /**
    * @brief Register a custom console handler for Windows graceful shutdown
    *
@@ -1298,7 +1225,7 @@ public:
       registerCustomConsoleHandler (BOOL (WINAPI *handler) (DWORD)) noexcept;
 #endif
 
-#if DUMP_CREATOR_UNIX
+#if (LUMEX_OS_IS_UNIX() || LUMEX_OS_IS_ANDROID())
   /**
    * @brief POSIX-safe console-style graceful shutdown registration.
    * Blocks SIGINT/SIGTERM/SIGHUP in the caller and starts an internal sigwait
@@ -1347,7 +1274,7 @@ public:
   bool generateInstanceDump (std::string const &reason,
                              std::error_code &errorCode) noexcept;
 
-#if HAS_CONCEPTS
+#if LUMEX_HAS_STD_CONCEPTS
   // Template methods with concepts for type safety
   template <traits::string::StringLike T>
   bool
@@ -1365,7 +1292,7 @@ public:
 #endif
 
 // Modern C++ features
-#if HAS_RANGES
+#if LUMEX_HAS_STD_RANGES
   /**
    * @brief Get all memory filters as a range
    * @return Range of memory filters
@@ -1378,7 +1305,7 @@ public:
   }
 #endif
 
-#if HAS_OPTIONAL
+#if LUMEX_HAS_STD_OPTIONAL
   /**
    * @brief Get optional dump directory
    * @return Optional containing directory if set, empty if not
@@ -1424,11 +1351,11 @@ private:
   // Member variables
   static std::unique_ptr<CoreDumpGenerator> s_instance;
   static std::mutex s_mutex;
-#if CPP11_OR_GREATER
+#if __cplusplus >= 201103L
   static std::once_flag s_initFlag;
 #endif
   static std::string s_dumpDirectory;
-#if CPP11_OR_GREATER
+#if __cplusplus >= 201103L
   static std::atomic_bool s_initialized;
 #else
   static bool s_initialized;
@@ -1436,7 +1363,7 @@ private:
   static DumpConfiguration s_currentConfig;
   static std::string s_originalCorePattern;
 
-#if DUMP_CREATOR_UNIX
+#if (LUMEX_OS_IS_UNIX() || LUMEX_OS_IS_ANDROID())
   // Instant systemd-coredump monitor thread (for IMMEDIATE extraction)
   static std::atomic_bool s_monitorThreadShouldStop;
   static std::thread s_monitorThread;
@@ -1447,10 +1374,10 @@ private:
   // Custom signal handlers for graceful shutdown
   static std::map<int, void (*) (int)> s_customSignalHandlers;
   static std::mutex s_customHandlersMutex;
-#if DUMP_CREATOR_WINDOWS
+#if LUMEX_OS_IS_WINDOWS()
   static BOOL (WINAPI *s_customConsoleHandler) (DWORD);
 #endif
-#if DUMP_CREATOR_UNIX
+#if (LUMEX_OS_IS_UNIX() || LUMEX_OS_IS_ANDROID())
   static void (*s_unixConsoleHandler) ();
   static std::atomic_bool s_posixSigThreadStarted;
 #endif
@@ -1461,28 +1388,19 @@ private:
   bool m_isInitialized = false;
   mutable std::mutex m_instanceMutex;
 
-// Performance optimization: cache frequently accessed values
-#if HAS_OPTIONAL
-  mutable std::optional<DumpType> m_cachedDumpType;
-  mutable std::optional<std::string> m_cachedDumpDirectory;
-#else
+  // Performance optimization: cache frequently accessed values
   mutable DumpType m_cachedDumpType = DumpType::DEFAULT_AUTO;
   mutable std::string m_cachedDumpDirectory;
   mutable bool m_cachedDumpTypeValid = false;
   mutable bool m_cachedDumpDirectoryValid = false;
-#endif
   mutable bool m_cacheValid = false;
 
   // Memory optimization: use small string optimization
   static constexpr size_t SMALL_STRING_SIZE = 32;
   using SmallString = std::array<char, SMALL_STRING_SIZE>;
 
-// Thread safety improvements
-#if HAS_SHARED_MUTEX
-  mutable std::shared_mutex m_sharedMutex;
-#else
+  // Thread safety improvements
   mutable std::mutex m_sharedMutex;
-#endif
   std::atomic_bool m_operationInProgress;
 
   // Concurrency control
@@ -1498,7 +1416,7 @@ private:
   static void _setupExceptionHandling ();
   static void _unhandledExceptionHandler ();
 
-#if DUMP_CREATOR_WINDOWS
+#if LUMEX_OS_IS_WINDOWS()
   /**
    * @brief Setup Windows handlers
    */
@@ -1511,7 +1429,7 @@ private:
                                   DumpConfiguration const &config);
 #endif
 
-#if DUMP_CREATOR_WINDOWS
+#if LUMEX_OS_IS_WINDOWS()
   /**
    * @brief Windows-specific unhandled exception filter
    */
@@ -1531,7 +1449,7 @@ private:
       EXCEPTION_POINTERS * /*ExceptionInfo*/) noexcept;
 #endif
 
-#if DUMP_CREATOR_UNIX
+#if (LUMEX_OS_IS_UNIX() || LUMEX_OS_IS_ANDROID())
   /**
    * @brief UNIX-specific signal handler
    */
@@ -1607,7 +1525,7 @@ private:
   static void _logMessage (std::string const &message, bool isError = false);
 
   // Helper functions to reduce code duplication
-#if DUMP_CREATOR_WINDOWS
+#if LUMEX_OS_IS_WINDOWS()
   static std::string _convertWideStringToNarrow (
       std::wstring const &wideStr) noexcept; // only for Windows
 #endif
@@ -1620,7 +1538,7 @@ private:
                                      std::string const &content) noexcept;
   static bool _createDirectoryAtomically (std::string const &path) noexcept;
 
-#if DUMP_CREATOR_WINDOWS
+#if LUMEX_OS_IS_WINDOWS()
   /**
    * @brief Convert DumpType enum to MINIDUMP_TYPE flags
    * @param type The dump type to convert
@@ -1636,16 +1554,10 @@ private:
   static bool _isValidMinidumpType (MINIDUMP_TYPE flags) noexcept;
 #endif
 
-// Security and validation functions
-#if HAS_STRING_VIEW
-  static bool _validateDirectory (std::string_view path) noexcept;
-  static bool _validateFilename (std::string_view filename) noexcept;
-  static std::string _sanitizePath (std::string_view path) noexcept;
-#else
+  // Security and validation functions
   static bool _validateDirectory (std::string const &path) noexcept;
   static bool _validateFilename (std::string const &filename) noexcept;
   static std::string _sanitizePath (std::string const &path) noexcept;
-#endif
 
   // Platform-specific filesystem utilities (C++11 compatible)
   static bool _createDirectoryRecursive (std::string const &path) noexcept;
@@ -1719,7 +1631,7 @@ private:
   };
 
 // Windows privilege checking
-#if DUMP_CREATOR_WINDOWS
+#if LUMEX_OS_IS_WINDOWS()
   static bool _isAdminPrivileges () noexcept;
   static bool _isElevatedProcess () noexcept;
 #endif
@@ -1732,12 +1644,12 @@ private:
 // cppcoreguidelines-pro-type-reinterpret-cast,
 // cppcoreguidelines-pro-bounds-array-to-pointer-decay)
 
-// Static data members are defined exactly once, in LumexCoreDumpGenerator.cpp
-// (with LUMEX_INLINE_VARIABLE, which expands to nothing before C++17). They
-// must NOT be defined here: a C++17 `inline` variable in a header is only a
-// clang-cl warning (-Wc++17-extensions) but a hard MSVC error (C7525) in a
-// translation unit without /std:c++17.
-#if DUMP_CREATOR_UNIX
+// Static data members are defined exactly once, in LumexCoreDumpGenerator.cpp,
+// as ordinary (non-inline) definitions. They must NOT be defined here: a
+// C++17 `inline` variable in a header is only a clang-cl warning
+// (-Wc++17-extensions) but a hard MSVC error (C7525) in a translation unit
+// without /std:c++17.
+#if (LUMEX_OS_IS_UNIX() || LUMEX_OS_IS_ANDROID())
 
 inline bool
 CoreDumpGenerator::registerCustomConsoleHandler (void (*handler) ()) noexcept
@@ -1911,7 +1823,7 @@ CoreDumpGenerator::initialize (DumpConfiguration const &config,
 {
   std::lock_guard<std::mutex> lock (s_mutex);
 
-#if CPP11_OR_GREATER
+#if __cplusplus >= 201103L
   // Check if already initialized using atomic load
   if (s_initialized.load (std::memory_order_acquire))
     {
@@ -1966,7 +1878,7 @@ CoreDumpGenerator::initialize (DumpConfiguration const &config,
 
       // Set initialized flag with release semantics to ensure all previous
       // operations are visible
-#if CPP11_OR_GREATER
+#if __cplusplus >= 201103L
       s_initialized.store (true, std::memory_order_release);
 #else
       s_initialized = true;
@@ -1992,19 +1904,23 @@ CoreDumpGenerator::initialize (DumpConfiguration const &config,
 inline CoreDumpGenerator &
 CoreDumpGenerator::instance ()
 {
-#if CPP11_OR_GREATER
+#if __cplusplus >= 201103L
   // Double-checked locking pattern for thread safety
   if (!s_initialized.load (std::memory_order_acquire))
     throw std::runtime_error (
         "CoreDumpGenerator not initialized. Call initialize() first.");
 
-  std::call_once (s_initFlag, [] () {
-    // Additional check inside call_once for extra safety
-    if (!s_initialized.load (std::memory_order_acquire))
-      throw std::runtime_error (
-          "CoreDumpGenerator not initialized. Call initialize() first.");
-    s_instance = std::unique_ptr<CoreDumpGenerator> (new CoreDumpGenerator ());
-  });
+  std::call_once (
+      s_initFlag,
+      [] ()
+        {
+          // Additional check inside call_once for extra safety
+          if (!s_initialized.load (std::memory_order_acquire))
+            throw std::runtime_error (
+                "CoreDumpGenerator not initialized. Call initialize() first.");
+          s_instance
+              = std::unique_ptr<CoreDumpGenerator> (new CoreDumpGenerator ());
+        });
 #else
   // C++98/03 fallback - not thread-safe
   if (!s_instance)
@@ -2021,7 +1937,7 @@ CoreDumpGenerator::instance ()
 inline bool
 CoreDumpGenerator::isInitialized () noexcept
 {
-#if CPP11_OR_GREATER
+#if __cplusplus >= 201103L
   return s_initialized.load (std::memory_order_seq_cst);
 #else
   return s_initialized;
@@ -2031,7 +1947,7 @@ CoreDumpGenerator::isInitialized () noexcept
 inline bool
 CoreDumpGenerator::generateDump (std::string const &reason, DumpType dumpType)
 {
-#if CPP11_OR_GREATER
+#if __cplusplus >= 201103L
   if (!s_initialized.load (std::memory_order_acquire))
     throw std::runtime_error (
         "CoreDumpGenerator not initialized. Call initialize() first.");
@@ -2056,9 +1972,9 @@ CoreDumpGenerator::generateDump (std::string const &reason, DumpType dumpType)
                        + DumpFactory::getDescription (config.getType ()),
                    false);
 
-#if DUMP_CREATOR_WINDOWS
+#if LUMEX_OS_IS_WINDOWS()
       return _createWindowsDump (filename, config);
-#elif DUMP_CREATOR_UNIX
+#elif (LUMEX_OS_IS_UNIX() || LUMEX_OS_IS_ANDROID())
       _generateCoreDump ();
       _logCoreDumpSize (filename);
       return true;
@@ -2076,7 +1992,7 @@ inline bool
 CoreDumpGenerator::generateDump (DumpConfiguration const &config,
                                  std::string const &reason)
 {
-#if CPP11_OR_GREATER
+#if __cplusplus >= 201103L
   if (!s_initialized.load (std::memory_order_acquire))
     throw std::runtime_error (
         "CoreDumpGenerator not initialized. Call initialize() first.");
@@ -2094,9 +2010,9 @@ CoreDumpGenerator::generateDump (DumpConfiguration const &config,
                        + DumpFactory::getDescription (config.getType ()),
                    false);
 
-#if DUMP_CREATOR_WINDOWS
+#if LUMEX_OS_IS_WINDOWS()
       return _createWindowsDump (filename, config);
-#elif DUMP_CREATOR_UNIX
+#elif (LUMEX_OS_IS_UNIX() || LUMEX_OS_IS_ANDROID())
       _generateCoreDump ();
       _logCoreDumpSize (filename);
       return true;
@@ -2119,7 +2035,7 @@ CoreDumpGenerator::generateDump (std::string const &reason, DumpType dumpType,
       // Clear error code
       errorCode.clear ();
 
-#if CPP11_OR_GREATER
+#if __cplusplus >= 201103L
       if (!s_initialized.load (std::memory_order_acquire))
         {
           errorCode
@@ -2155,9 +2071,9 @@ CoreDumpGenerator::generateDump (std::string const &reason, DumpType dumpType,
                        + DumpFactory::getDescription (config.getType ()),
                    false);
 
-#if DUMP_CREATOR_WINDOWS
+#if LUMEX_OS_IS_WINDOWS()
       return _createWindowsDump (filename, config);
-#elif DUMP_CREATOR_UNIX
+#elif (LUMEX_OS_IS_UNIX() || LUMEX_OS_IS_ANDROID())
       _generateCoreDump ();
       _logCoreDumpSize (filename);
       return true;
@@ -2204,7 +2120,7 @@ CoreDumpGenerator::setDumpType (DumpType dumpType)
 {
   std::lock_guard<std::mutex> lock (s_mutex);
 
-#if CPP11_OR_GREATER
+#if __cplusplus >= 201103L
   if (!s_initialized.load (std::memory_order_acquire))
     throw std::runtime_error (
         "CoreDumpGenerator not initialized. Call initialize() first.");
@@ -2242,7 +2158,7 @@ CoreDumpGenerator::setCorePatternForCrash ()
 inline void
 CoreDumpGenerator::setAdminGroupName (std::string const &name) noexcept
 {
-#if DUMP_CREATOR_UNIX
+#if (LUMEX_OS_IS_UNIX() || LUMEX_OS_IS_ANDROID())
   try
     {
       std::lock_guard<std::mutex> lock (s_customHandlersMutex);
@@ -2261,9 +2177,9 @@ CoreDumpGenerator::setAdminGroupName (std::string const &name) noexcept
 inline bool
 CoreDumpGenerator::isAdminPrivileges () noexcept
 {
-#if DUMP_CREATOR_WINDOWS
+#if LUMEX_OS_IS_WINDOWS()
   return _isAdminPrivileges ();
-#elif DUMP_CREATOR_UNIX
+#elif (LUMEX_OS_IS_UNIX() || LUMEX_OS_IS_ANDROID())
   if (getuid () == 0)
     return true;
 
@@ -2304,7 +2220,7 @@ inline bool
 CoreDumpGenerator::registerCustomSignalHandler (int signum,
                                                 void (*handler) (int)) noexcept
 {
-#if DUMP_CREATOR_UNIX
+#if (LUMEX_OS_IS_UNIX() || LUMEX_OS_IS_ANDROID())
   try
     {
       std::lock_guard<std::mutex> lock (s_customHandlersMutex);
@@ -2314,7 +2230,7 @@ CoreDumpGenerator::registerCustomSignalHandler (int signum,
       struct sigaction sa;
       sa.sa_handler = _customSignalHandlerWrapper;
       sigemptyset (&sa.sa_mask);
-      sa.sa_flags = SA_RESETHAND;
+      sa.sa_flags = static_cast<int> (SA_RESETHAND);
 
       if (sigaction (signum, &sa, nullptr) == 0)
         {
@@ -2341,7 +2257,7 @@ CoreDumpGenerator::registerCustomSignalHandler (int signum,
 #endif
 }
 
-#if DUMP_CREATOR_WINDOWS
+#if LUMEX_OS_IS_WINDOWS()
 inline bool
 CoreDumpGenerator::registerCustomConsoleHandler (
     BOOL (WINAPI *handler) (DWORD)) noexcept
@@ -2450,9 +2366,9 @@ inline void
 CoreDumpGenerator::_waitForOperationSlot () noexcept
 {
   std::unique_lock<std::mutex> lock (s_operationMutex);
-  s_operationCondition.wait (lock, [] () {
-    return s_activeOperations.load () < MAX_CONCURRENT_OPERATIONS;
-  });
+  s_operationCondition.wait (
+      lock, [] ()
+        { return s_activeOperations.load () < MAX_CONCURRENT_OPERATIONS; });
 }
 
 inline void
@@ -2460,13 +2376,8 @@ CoreDumpGenerator::_invalidateCache () const noexcept
 {
   std::lock_guard<std::mutex> lock (m_instanceMutex);
   m_cacheValid = false;
-#if HAS_OPTIONAL
-  m_cachedDumpType.reset ();
-  m_cachedDumpDirectory.reset ();
-#else
   m_cachedDumpTypeValid = false;
   m_cachedDumpDirectoryValid = false;
-#endif
 }
 
 inline void
@@ -2475,15 +2386,10 @@ CoreDumpGenerator::_updateCache () const noexcept
   std::lock_guard<std::mutex> lock (m_instanceMutex);
   if (!m_cacheValid)
     {
-#if HAS_OPTIONAL
-      m_cachedDumpType = m_currentConfig.getType ();
-      m_cachedDumpDirectory = m_dumpDirectory;
-#else
       m_cachedDumpType = m_currentConfig.getType ();
       m_cachedDumpDirectory = m_dumpDirectory;
       m_cachedDumpTypeValid = true;
       m_cachedDumpDirectoryValid = true;
-#endif
       m_cacheValid = true;
     }
 }
@@ -2541,9 +2447,9 @@ CoreDumpGenerator::_logPerformanceMetrics (
 inline void
 CoreDumpGenerator::_platformInitialize ()
 {
-#if DUMP_CREATOR_WINDOWS
+#if LUMEX_OS_IS_WINDOWS()
   _setupWindowsHandlers ();
-#elif DUMP_CREATOR_UNIX
+#elif (LUMEX_OS_IS_UNIX() || LUMEX_OS_IS_ANDROID())
   _setupSignalHandlers ();
   _setupCoreDumpSettings ();
 
@@ -2652,7 +2558,7 @@ CoreDumpGenerator::_platformInitialize ()
 }
 
 // Windows-specific implementation
-#if DUMP_CREATOR_WINDOWS
+#if LUMEX_OS_IS_WINDOWS()
 
 inline void
 CoreDumpGenerator::_setupWindowsHandlers ()
@@ -3162,10 +3068,10 @@ CoreDumpGenerator::_isValidMinidumpType (MINIDUMP_TYPE flags) noexcept
   // Ensure all flags are valid
   return (flags & ~validFlags) == 0;
 }
-#endif // DUMP_CREATOR_WINDOWS
+#endif // LUMEX_OS_IS_WINDOWS ()
 
 // UNIX-specific implementation
-#if DUMP_CREATOR_UNIX
+#if (LUMEX_OS_IS_UNIX() || LUMEX_OS_IS_ANDROID())
 
 inline void
 CoreDumpGenerator::_setupSignalHandlers ()
@@ -3173,7 +3079,8 @@ CoreDumpGenerator::_setupSignalHandlers ()
   struct sigaction sa;
   sa.sa_handler = _unixSignalHandler;
   sigemptyset (&sa.sa_mask);
-  sa.sa_flags = SA_RESETHAND; // This flag resets handler after first call
+  sa.sa_flags = static_cast<int> (
+      SA_RESETHAND); // This flag resets handler after first call
 
   sigaction (SIGSEGV, &sa, nullptr);
   sigaction (SIGABRT, &sa, nullptr);
@@ -3829,10 +3736,10 @@ CoreDumpGenerator::_generateCoreDump ()
 
 // Helper function to set core pattern for crash (like in the working example)
 
-#endif // DUMP_CREATOR_UNIX
+#endif // (LUMEX_OS_IS_UNIX () || LUMEX_OS_IS_ANDROID ())
 
 // Helper functions to reduce code duplication
-#if DUMP_CREATOR_WINDOWS
+#if LUMEX_OS_IS_WINDOWS()
 inline std::string
 CoreDumpGenerator::_convertWideStringToNarrow (
     std::wstring const &wideStr) noexcept
@@ -3893,7 +3800,7 @@ CoreDumpGenerator::_createFileAtomically (std::string const &filename,
 {
   try
     {
-#if DUMP_CREATOR_WINDOWS
+#if LUMEX_OS_IS_WINDOWS()
       // On Windows, use CreateFileW with CREATE_NEW to ensure atomic creation
       std::wstring wfilename (filename.begin (), filename.end ());
       HANDLE hFile = CreateFileW (wfilename.c_str (), GENERIC_WRITE, 0, NULL,
@@ -3961,7 +3868,7 @@ CoreDumpGenerator::_createDirectoryAtomically (
 {
   try
     {
-#if DUMP_CREATOR_WINDOWS
+#if LUMEX_OS_IS_WINDOWS()
       // On Windows, use CreateDirectoryW
       std::wstring wpath (path.begin (), path.end ());
       if (CreateDirectoryW (wpath.c_str (), NULL))
@@ -4015,9 +3922,9 @@ CoreDumpGenerator::_generateDumpFilename (std::string const &prefix)
   oss << s_dumpDirectory << "/" << sanitizedPrefix << "_" << sanitizedTimeStr
       << "_" << randomComponent;
 
-#if DUMP_CREATOR_WINDOWS
+#if LUMEX_OS_IS_WINDOWS()
   oss << ".dmp";
-#elif DUMP_CREATOR_UNIX
+#elif (LUMEX_OS_IS_UNIX() || LUMEX_OS_IS_ANDROID())
   oss << ".core";
 #endif
 
@@ -4029,9 +3936,9 @@ CoreDumpGenerator::_generateDumpFilename (std::string const &prefix)
       // Fallback to safe default filename
       std::ostringstream fallback;
       fallback << s_dumpDirectory << "/dump_" << randomComponent;
-#if DUMP_CREATOR_WINDOWS
+#if LUMEX_OS_IS_WINDOWS()
       fallback << ".dmp";
-#elif DUMP_CREATOR_UNIX
+#elif (LUMEX_OS_IS_UNIX() || LUMEX_OS_IS_ANDROID())
       fallback << ".core";
 #endif
       return fallback.str ();
@@ -4052,7 +3959,7 @@ CoreDumpGenerator::_getExecutableDirectory () noexcept
 {
   try
     {
-#if DUMP_CREATOR_WINDOWS
+#if LUMEX_OS_IS_WINDOWS()
       std::array<char, MAX_PATH> buffer{};
       DWORD length = GetModuleFileNameA (nullptr, buffer.data (),
                                          static_cast<DWORD> (buffer.size ()));
@@ -4068,7 +3975,7 @@ CoreDumpGenerator::_getExecutableDirectory () noexcept
         return exePath.substr (0, lastSlash);
       return ".";
 
-#elif DUMP_CREATOR_UNIX
+#elif (LUMEX_OS_IS_UNIX() || LUMEX_OS_IS_ANDROID())
       std::array<char, PATH_MAX> buffer{};
       ssize_t length
           = readlink ("/proc/self/exe", buffer.data (), buffer.size () - 1);
@@ -4081,7 +3988,8 @@ CoreDumpGenerator::_getExecutableDirectory () noexcept
           return ".";
         }
 
-      buffer[length] = '\0';
+      // readlink returns -1 or the non-negative number of bytes written.
+      buffer[static_cast<std::size_t> (length)] = '\0';
       std::string exePath (buffer.data ());
       size_t lastSlash = exePath.find_last_of ('/');
       if (lastSlash != std::string::npos)
@@ -4110,9 +4018,9 @@ DumpFactory::createConfiguration (DumpType type)
   if (type == DumpType::DEFAULT_AUTO)
     type = getDefaultDumpType ();
 
-#if DUMP_CREATOR_WINDOWS
+#if LUMEX_OS_IS_WINDOWS()
   return createWindowsConfiguration (type);
-#elif DUMP_CREATOR_UNIX
+#elif (LUMEX_OS_IS_UNIX() || LUMEX_OS_IS_ANDROID())
   return createUnixConfiguration (type);
 #else
   return DumpConfiguration{}; // Empty configuration for unsupported platforms
@@ -4122,9 +4030,9 @@ DumpFactory::createConfiguration (DumpType type)
 inline DumpType
 DumpFactory::getDefaultDumpType () noexcept
 {
-#if DUMP_CREATOR_WINDOWS
+#if LUMEX_OS_IS_WINDOWS()
   return DumpType::DEFAULT_WINDOWS;
-#elif DUMP_CREATOR_UNIX
+#elif (LUMEX_OS_IS_UNIX() || LUMEX_OS_IS_ANDROID())
   return DumpType::DEFAULT_UNIX;
 #else
   return DumpType::DEFAULT_AUTO;
@@ -4137,14 +4045,14 @@ DumpFactory::isSupported (DumpType type) noexcept
   if (type == DumpType::DEFAULT_AUTO)
     return true; // Always supported
 
-#if DUMP_CREATOR_WINDOWS
+#if LUMEX_OS_IS_WINDOWS()
   // Windows supports all mini-dump types and kernel dump types
   return (static_cast<int> (type)
               >= static_cast<int> (DumpType::MINI_DUMP_NORMAL)
           && static_cast<int> (type)
                  <= static_cast<int> (DumpType::KERNEL_ACTIVE_DUMP))
          || (type == DumpType::DEFAULT_WINDOWS);
-#elif DUMP_CREATOR_UNIX
+#elif (LUMEX_OS_IS_UNIX() || LUMEX_OS_IS_ANDROID())
   // UNIX supports core dump types
   return (static_cast<int> (type)
               >= static_cast<int> (DumpType::CORE_DUMP_FULL)
@@ -4227,6 +4135,12 @@ DumpFactory::createWindowsConfiguration (DumpType type)
   config.setIncludeThreadInfo (true);
   config.setIncludeProcessData (true);
 
+  // Only the types with their own size limit have a case label; every other
+  // DumpType takes the default limit on purpose (-Wswitch-enum).
+#if defined(__GNUC__) || defined(__clang__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wswitch-enum"
+#endif
   switch (type)
     {
     case DumpType::MINI_DUMP_NORMAL:
@@ -4249,6 +4163,9 @@ DumpFactory::createWindowsConfiguration (DumpType type)
                               * 1024ULL); // 256MB default limit
       break;
     }
+#if defined(__GNUC__) || defined(__clang__)
+#pragma GCC diagnostic pop
+#endif
 
   return config;
 }
@@ -4261,6 +4178,12 @@ DumpFactory::createUnixConfiguration (DumpType type)
   config.setEnableSymbols (true);
   config.setEnableSourceInfo (true);
 
+  // Only the full core dump has its own size limit; every other DumpType
+  // takes the default limit on purpose (-Wswitch-enum).
+#if defined(__GNUC__) || defined(__clang__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wswitch-enum"
+#endif
   switch (type)
     {
     case DumpType::CORE_DUMP_FULL:
@@ -4273,6 +4196,9 @@ DumpFactory::createUnixConfiguration (DumpType type)
                               * 1024ULL); // 128MB default limit
       break;
     }
+#if defined(__GNUC__) || defined(__clang__)
+#pragma GCC diagnostic pop
+#endif
 
   return config;
 }
@@ -4354,7 +4280,7 @@ CoreDumpGenerator::_unhandledExceptionHandler ()
 
       // Generate dump for the exception with proper synchronization
       // Use atomic load to safely check initialization status
-#if CPP11_OR_GREATER
+#if __cplusplus >= 201103L
       bool isInitialized = s_initialized.load (std::memory_order_acquire);
 #else
       bool isInitialized = s_initialized;
@@ -4368,9 +4294,9 @@ CoreDumpGenerator::_unhandledExceptionHandler ()
           std::string filename = _generateDumpFilename ("unhandled_exception");
           _logMessage ("Generating exception dump: " + filename, false);
 
-#if DUMP_CREATOR_WINDOWS
+#if LUMEX_OS_IS_WINDOWS()
           _createWindowsDump (filename, localConfig);
-#elif DUMP_CREATOR_UNIX
+#elif (LUMEX_OS_IS_UNIX() || LUMEX_OS_IS_ANDROID())
           _generateCoreDump ();
 #endif
         }
@@ -4386,7 +4312,7 @@ CoreDumpGenerator::_unhandledExceptionHandler ()
       // If exception handling fails, just log to stderr
       // Use only async-signal-safe functions in exception handler
       char const errorMsg[] = "Failed to handle unhandled exception\n";
-#if DUMP_CREATOR_UNIX
+#if (LUMEX_OS_IS_UNIX() || LUMEX_OS_IS_ANDROID())
       auto bytes_written
           = write (STDERR_FILENO, errorMsg, sizeof (errorMsg) - 1);
       if (bytes_written == -1)
@@ -4403,19 +4329,10 @@ CoreDumpGenerator::_unhandledExceptionHandler ()
 }
 
 // Security and validation functions
-#if HAS_STRING_VIEW
-inline bool
-CoreDumpGenerator::_validateDirectory (std::string_view path) noexcept
-#else
 inline bool
 CoreDumpGenerator::_validateDirectory (std::string const &path) noexcept
-#endif
 {
-#if HAS_STRING_VIEW
-  auto npos = std::string_view::npos;
-#else
   auto npos = std::string::npos;
-#endif
 
   try
     {
@@ -4434,21 +4351,23 @@ CoreDumpGenerator::_validateDirectory (std::string const &path) noexcept
       // Termination)
       normalizedPath.erase (
           std::remove_if (normalizedPath.begin (), normalizedPath.end (),
-                          [] (char c) {
-                            return c == '\0'
-                                   || (c < 32 && c != '\t' && c != '\n'
-                                       && c != '\r');
-                          }),
+                          [] (char c)
+                            {
+                              return c == '\0'
+                                     || (c < 32 && c != '\t' && c != '\n'
+                                         && c != '\r');
+                            }),
           normalizedPath.end ());
 
       // Check for path traversal attempts (CWE-22: Path Traversal) - Enhanced
       // detection Check for various encoding attacks
       std::string lowerPath = normalizedPath;
       std::transform (lowerPath.begin (), lowerPath.end (), lowerPath.begin (),
-                      [] (char c) {
-                        return static_cast<char> (
-                            std::tolower (static_cast<unsigned char> (c)));
-                      });
+                      [] (char c)
+                        {
+                          return static_cast<char> (
+                              std::tolower (static_cast<unsigned char> (c)));
+                        });
 
       // Check for directory traversal patterns
       if (lowerPath.find ("..") != npos)
@@ -4472,10 +4391,10 @@ CoreDumpGenerator::_validateDirectory (std::string const &path) noexcept
       constexpr std::array<char, 15> dangerous_chars
           = { ';', '&', '|', '`', '$', '(', ')', '{',
               '}', '[', ']', '<', '>', '"', '\'' };
-      if (!std::none_of (dangerous_chars.begin (), dangerous_chars.end (),
-                         [&normalizedPath, npos] (char character) {
-                           return normalizedPath.find (character) != npos;
-                         }))
+      if (!std::none_of (
+              dangerous_chars.begin (), dangerous_chars.end (),
+              [&normalizedPath, npos] (char character)
+                { return normalizedPath.find (character) != npos; }))
         return false;
 
       // Check for absolute path requirements
@@ -4484,7 +4403,7 @@ CoreDumpGenerator::_validateDirectory (std::string const &path) noexcept
 
       // Validate absolute path format
       bool isAbsolute = false;
-#if DUMP_CREATOR_WINDOWS
+#if LUMEX_OS_IS_WINDOWS()
       // Windows: C:\ or \\server\share
       isAbsolute
           = (normalizedPath.length () >= 3 && normalizedPath[1] == ':'
@@ -4500,7 +4419,7 @@ CoreDumpGenerator::_validateDirectory (std::string const &path) noexcept
         return false;
 
       // Additional Windows-specific checks
-#if DUMP_CREATOR_WINDOWS
+#if LUMEX_OS_IS_WINDOWS()
       // Check for reserved names (CWE-22) - Enhanced check
       std::array<std::string, 22> const reservedNames
           = { "con",  "prn",  "aux",  "nul",  "com1", "com2", "com3", "com4",
@@ -4533,19 +4452,10 @@ CoreDumpGenerator::_validateDirectory (std::string const &path) noexcept
     }
 }
 
-#if HAS_STRING_VIEW
-inline bool
-CoreDumpGenerator::_validateFilename (std::string_view filename) noexcept
-#else
 inline bool
 CoreDumpGenerator::_validateFilename (std::string const &filename) noexcept
-#endif
 {
-#if HAS_STRING_VIEW
-  auto npos = std::string_view::npos;
-#else
   auto npos = std::string::npos;
-#endif
 
   try
     {
@@ -4565,20 +4475,23 @@ CoreDumpGenerator::_validateFilename (std::string const &filename) noexcept
       normalizedFilename.erase (
           std::remove_if (
               normalizedFilename.begin (), normalizedFilename.end (),
-              [] (char c) {
-                return c == '\0'
-                       || (c < 32 && c != '\t' && c != '\n' && c != '\r');
-              }),
+              [] (char c)
+                {
+                  return c == '\0'
+                         || (c < 32 && c != '\t' && c != '\n' && c != '\r');
+                }),
           normalizedFilename.end ());
 
       // Check for path traversal attempts (CWE-22: Path Traversal) - Enhanced
       // detection
       std::string lowerFilename = normalizedFilename;
       std::transform (lowerFilename.begin (), lowerFilename.end (),
-                      lowerFilename.begin (), [] (char c) {
-                        return static_cast<char> (
-                            std::tolower (static_cast<unsigned char> (c)));
-                      });
+                      lowerFilename.begin (),
+                      [] (char c)
+                        {
+                          return static_cast<char> (
+                              std::tolower (static_cast<unsigned char> (c)));
+                        });
 
       // Check for directory traversal patterns
       if (lowerFilename.find ("..") != npos)
@@ -4600,10 +4513,10 @@ CoreDumpGenerator::_validateFilename (std::string const &filename) noexcept
       constexpr std::array<char, 15> dangerous_chars
           = { ';', '&', '|', '`', '$', '(', ')', '{',
               '}', '[', ']', '<', '>', '"', '\'' };
-      if (!std::none_of (dangerous_chars.begin (), dangerous_chars.end (),
-                         [&normalizedFilename, npos] (char character) {
-                           return normalizedFilename.find (character) != npos;
-                         }))
+      if (!std::none_of (
+              dangerous_chars.begin (), dangerous_chars.end (),
+              [&normalizedFilename, npos] (char character)
+                { return normalizedFilename.find (character) != npos; }))
         return false;
 
       // Check for valid extension
@@ -4611,7 +4524,7 @@ CoreDumpGenerator::_validateFilename (std::string const &filename) noexcept
         return false;
 
       // Additional Windows-specific checks
-#if DUMP_CREATOR_WINDOWS
+#if LUMEX_OS_IS_WINDOWS()
       // Check for reserved names (CWE-22) - Enhanced check
       std::array<std::string, 22> const reservedNames
           = { "con",  "prn",  "aux",  "nul",  "com1", "com2", "com3", "com4",
@@ -4638,19 +4551,10 @@ CoreDumpGenerator::_validateFilename (std::string const &filename) noexcept
     }
 }
 
-#if HAS_STRING_VIEW
-inline std::string
-CoreDumpGenerator::_sanitizePath (std::string_view path) noexcept
-#else
 inline std::string
 CoreDumpGenerator::_sanitizePath (std::string const &path) noexcept
-#endif
 {
-#if HAS_STRING_VIEW
-  auto npos = std::string_view::npos;
-#else
   auto npos = std::string::npos;
-#endif
 
   try
     {
@@ -4660,28 +4564,19 @@ CoreDumpGenerator::_sanitizePath (std::string const &path) noexcept
       std::string sanitized (path);
 
       // Remove dangerous characters
-#if HAS_STRING_VIEW
-      std::string_view const dangerous_chars = ";&|`$(){}[]<>\"'";
-#else
       std::string const dangerous_chars = ";&|`$(){}[]<>\"'";
-#endif
-      sanitized.erase (std::remove_if (sanitized.begin (), sanitized.end (),
-                                       [&dangerous_chars, npos] (char c) {
-                                         return dangerous_chars.find (c)
-                                                != npos;
-                                       }),
-                       sanitized.end ());
+      sanitized.erase (
+          std::remove_if (sanitized.begin (), sanitized.end (),
+                          [&dangerous_chars, npos] (char c)
+                            { return dangerous_chars.find (c) != npos; }),
+          sanitized.end ());
 
       // Return sanitized path
       return sanitized;
     }
   catch (...)
     {
-#if HAS_STRING_VIEW
-      return std::string (path); // Return original if sanitization fails
-#else
       return path; // Return original if sanitization fails
-#endif
     }
 }
 
@@ -4697,7 +4592,7 @@ CoreDumpGenerator::_generateSecureRandomComponent () noexcept
       constexpr size_t RANDOM_BYTES = 32;
       std::array<unsigned char, RANDOM_BYTES> randomBytes{};
 
-#if DUMP_CREATOR_WINDOWS
+#if LUMEX_OS_IS_WINDOWS()
       // Use Windows CryptGenRandom for cryptographically secure random numbers
       // This is the recommended approach for Windows systems per NIST SP
       // 800-90A
@@ -4800,7 +4695,7 @@ CoreDumpGenerator::_generateFallbackRandomComponent () noexcept
 
       // Use multiple entropy sources for better (but still insufficient)
       // randomness
-#if DUMP_CREATOR_WINDOWS
+#if LUMEX_OS_IS_WINDOWS()
       auto pid = _getpid ();
 #else
       auto pid = getpid ();
@@ -4871,10 +4766,10 @@ CoreDumpGenerator::_sanitizeFilenameComponent (
         }
 
       // Remove consecutive underscores
-      sanitized.erase (
-          std::unique (sanitized.begin (), sanitized.end (),
-                       [] (char a, char b) { return a == '_' && b == '_'; }),
-          sanitized.end ());
+      sanitized.erase (std::unique (sanitized.begin (), sanitized.end (),
+                                    [] (char a, char b)
+                                      { return a == '_' && b == '_'; }),
+                       sanitized.end ());
 
       // Remove leading/trailing underscores
       if (!sanitized.empty () && sanitized.front () == '_')
@@ -5026,10 +4921,10 @@ CoreDumpGenerator::_sanitizeLogMessage (std::string const &message) noexcept
         }
 
       // Remove control characters and non-printable characters
-      sanitized.erase (
-          std::remove_if (sanitized.begin (), sanitized.end (),
-                          [] (char c) { return c < 32 || c > 126; }),
-          sanitized.end ());
+      sanitized.erase (std::remove_if (sanitized.begin (), sanitized.end (),
+                                       [] (char c)
+                                         { return c < 32 || c > 126; }),
+                       sanitized.end ());
 
       // Limit message length to prevent log flooding
       constexpr size_t MAX_LOG_LENGTH = 512;
@@ -5095,10 +4990,10 @@ CoreDumpGenerator::_sanitizeLogMessageForAdmin (
         }
 
       // Remove control characters and non-printable characters
-      sanitized.erase (
-          std::remove_if (sanitized.begin (), sanitized.end (),
-                          [] (char c) { return c < 32 || c > 126; }),
-          sanitized.end ());
+      sanitized.erase (std::remove_if (sanitized.begin (), sanitized.end (),
+                                       [] (char c)
+                                         { return c < 32 || c > 126; }),
+                       sanitized.end ());
 
       // Limit message length to prevent log flooding
       constexpr size_t MAX_LOG_LENGTH
@@ -5115,7 +5010,7 @@ CoreDumpGenerator::_sanitizeLogMessageForAdmin (
 }
 
 // Windows privilege checking implementation
-#if DUMP_CREATOR_WINDOWS
+#if LUMEX_OS_IS_WINDOWS()
 inline bool
 CoreDumpGenerator::_isAdminPrivileges () noexcept
 {
@@ -5228,7 +5123,7 @@ CoreDumpGenerator::_isElevatedProcess () noexcept
       return false;
     }
 }
-#endif // DUMP_CREATOR_WINDOWS
+#endif // LUMEX_OS_IS_WINDOWS ()
 
 // Platform-specific filesystem utilities implementation
 inline bool
@@ -5239,7 +5134,7 @@ CoreDumpGenerator::_createDirectoryRecursive (std::string const &path) noexcept
       if (path.empty ())
         return false;
 
-#if DUMP_CREATOR_WINDOWS
+#if LUMEX_OS_IS_WINDOWS()
       // Windows implementation using CreateDirectory
       std::wstring wpath (path.begin (), path.end ());
 
@@ -5264,7 +5159,7 @@ CoreDumpGenerator::_createDirectoryRecursive (std::string const &path) noexcept
       // Create the directory atomically
       return _createDirectoryAtomically (path);
 
-#elif DUMP_CREATOR_UNIX
+#elif (LUMEX_OS_IS_UNIX() || LUMEX_OS_IS_ANDROID())
       // UNIX implementation using mkdir
       struct stat st;
       if (stat (path.c_str (), &st) == 0)
@@ -5304,4 +5199,4 @@ CoreDumpGenerator::_createDirectoryRecursive (std::string const &path) noexcept
 } // namespace core
 } // namespace lumex
 
-#endif // !CORE_DUMP_GENERATOR_HPP
+#endif // !LUMEX_CORE_UTILITY_DUMP_HPP

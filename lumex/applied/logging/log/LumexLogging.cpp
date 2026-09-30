@@ -1,21 +1,20 @@
 #define LUMEX_IMPLEMENTATION
-#include "LumexLogging.hpp"
-#include "lumex/core/utility/macros/LumexKeywords.hpp"
+#include <fstream>
+#include <iomanip>
+#include <iostream>
 
-#include "lumex/core/environment/LumexEnvironment"
-#include "lumex/core/filesystem/LumexFilesystem"
-#include "lumex/core/time/LumexTime"
-#include "lumex/core/utility/LumexUtility"
-
-#if LUMEX_OS_WINDOWS
+#if defined(_WIN32)
 #include <Windows.h>
 #else
 #include <unistd.h>
 #endif
 
-#include <fstream>
-#include <iomanip>
-#include <iostream>
+#include "LumexLogging.hpp"
+#include "lumex/core/environment/LumexEnvironment"
+#include "lumex/core/filesystem/LumexFilesystem"
+#include "lumex/core/time/LumexTime"
+#include "lumex/core/utility/LumexUtility"
+#include "lumex/core/utility/macros/LumexKeywords.hpp"
 
 namespace lumex
 {
@@ -111,7 +110,7 @@ LumexLogging::getLogsDirectory ()
 {
   try
     {
-#if LUMEX_OS_UNIX
+#if defined(LUMEX_OS_UNIX)
       std::string homeDir = LumexEnvironment::get ("HOME").value;
       if (homeDir.empty ())
         {

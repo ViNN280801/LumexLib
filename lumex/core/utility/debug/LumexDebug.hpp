@@ -44,15 +44,21 @@
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wpadded"
 #pragma clang diagnostic ignored "-Wunsafe-buffer-usage"
+#if __has_warning("-Wunsafe-buffer-usage-in-libc-call")
 #pragma clang diagnostic ignored "-Wunsafe-buffer-usage-in-libc-call"
+#endif
 #pragma clang diagnostic ignored "-Wcovered-switch-default"
 #pragma clang diagnostic ignored "-Wswitch-enum"
+#if __has_warning("-Wnrvo")
 #pragma clang diagnostic ignored "-Wnrvo"
+#endif
 #pragma clang diagnostic ignored "-Wheader-hygiene"
 #pragma clang diagnostic ignored "-Wused-but-marked-unused"
 #pragma clang diagnostic ignored "-Wundefined-var-template"
 #pragma clang diagnostic ignored "-Wdeprecated-redundant-constexpr-static-def"
+#if __has_warning("-Wvariadic-macro-arguments-omitted")
 #pragma clang diagnostic ignored "-Wvariadic-macro-arguments-omitted"
+#endif
 #pragma clang diagnostic ignored "-Wunused-result"
 #pragma clang diagnostic ignored "-Wextra-semi-stmt"
 #pragma clang diagnostic ignored "-Wexpansion-to-defined"
@@ -65,15 +71,21 @@
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wpadded"
 #pragma clang diagnostic ignored "-Wunsafe-buffer-usage"
+#if __has_warning("-Wunsafe-buffer-usage-in-libc-call")
 #pragma clang diagnostic ignored "-Wunsafe-buffer-usage-in-libc-call"
+#endif
 #pragma clang diagnostic ignored "-Wcovered-switch-default"
 #pragma clang diagnostic ignored "-Wswitch-enum"
+#if __has_warning("-Wnrvo")
 #pragma clang diagnostic ignored "-Wnrvo"
+#endif
 #pragma clang diagnostic ignored "-Wheader-hygiene"
 #pragma clang diagnostic ignored "-Wused-but-marked-unused"
 #pragma clang diagnostic ignored "-Wundefined-var-template"
 #pragma clang diagnostic ignored "-Wdeprecated-redundant-constexpr-static-def"
+#if __has_warning("-Wvariadic-macro-arguments-omitted")
 #pragma clang diagnostic ignored "-Wvariadic-macro-arguments-omitted"
+#endif
 #pragma clang diagnostic ignored "-Wunused-result"
 #pragma clang diagnostic ignored "-Wextra-semi-stmt"
 #pragma clang diagnostic ignored "-Wexpansion-to-defined"
@@ -82,24 +94,21 @@
 #pragma clang diagnostic ignored "-Wfloat-equal"
 #endif
 
+#include <array>
+#include <atomic>
 #include <cstdint>
 #include <cstdio>
+#include <mutex>
 #include <sstream>
 #include <string>
 
-#include "lumex/core/utility/macros/LumexKeywords.hpp"
-#include "lumex/core/utility/os/LumexCheckOS.hpp"
-
-#if LUMEX_OS_WINDOWS
+// Platform headers are gated on compiler macros so they can precede the
+// project headers (the code below still branches on LUMEX_OS_*).
+#if defined(_WIN32)
 #include <Windows.h>
 
 #include <DbgHelp.h>
-
-#include <array>
-#include <atomic>
-#include <mutex>
 #else
-#include <array>
 #include <unistd.h>
 #endif
 
@@ -116,6 +125,8 @@
 #endif
 
 #include "lumex/core/string/utility/LumexStringify.hpp"
+#include "lumex/core/utility/macros/LumexKeywords.hpp"
+#include "lumex/core/utility/os/LumexCheckOS.hpp"
 
 namespace lumex
 {
@@ -208,7 +219,7 @@ getExecutablePath () LUMEX_NOEXCEPT
 {
   try
     {
-#if LUMEX_OS_LINUX
+#if defined(LUMEX_OS_LINUX)
       std::array<char, 4096> buffer{};
       ssize_t len
           = readlink ("/proc/self/exe", buffer.data (), buffer.size () - 1);
@@ -227,7 +238,7 @@ getExecutablePath () LUMEX_NOEXCEPT
 }
 #endif
 
-#if LUMEX_OS_WINDOWS
+#if defined(LUMEX_OS_WINDOWS)
 // Thread-safe DbgHelp mutex (Windows requires external synchronization)
 static inline std::mutex &
 getDbgHelpMutex () LUMEX_NOEXCEPT
@@ -273,20 +284,24 @@ ensureSymbolsInitialized (HANDLE process) LUMEX_NOEXCEPT
   if (initialized.load (std::memory_order_acquire))
     return true;
 
-  std::call_once (init_flag, [process] () {
-    std::lock_guard<std::mutex> lock (getDbgHelpMutex ());
-    // SymSetOptions MUST be called BEFORE SymInitialize
-    // (MSDN)
-    SymSetOptions (SYMOPT_LOAD_LINES | SYMOPT_UNDNAME | SYMOPT_DEFERRED_LOADS);
-    std::string const exeDir = getExeDirectory ();
-    char const *searchPath = exeDir.empty () ? nullptr : exeDir.c_str ();
-    if (SymInitialize (process, searchPath, TRUE))
-      {
-        if (!exeDir.empty ())
-          SymSetSearchPath (process, exeDir.c_str ());
-        initialized.store (true, std::memory_order_release);
-      }
-  });
+  std::call_once (init_flag,
+                  [process] ()
+                    {
+                      std::lock_guard<std::mutex> lock (getDbgHelpMutex ());
+                      // SymSetOptions MUST be called BEFORE SymInitialize
+                      // (MSDN)
+                      SymSetOptions (SYMOPT_LOAD_LINES | SYMOPT_UNDNAME
+                                     | SYMOPT_DEFERRED_LOADS);
+                      std::string const exeDir = getExeDirectory ();
+                      char const *searchPath
+                          = exeDir.empty () ? nullptr : exeDir.c_str ();
+                      if (SymInitialize (process, searchPath, TRUE))
+                        {
+                          if (!exeDir.empty ())
+                            SymSetSearchPath (process, exeDir.c_str ());
+                          initialized.store (true, std::memory_order_release);
+                        }
+                    });
 
   return initialized.load (std::memory_order_acquire);
 }
@@ -383,7 +398,7 @@ captureStackTrace (int skip_frames = 1, int max_frames = 16) LUMEX_NOEXCEPT
 
   try
     {
-#if LUMEX_OS_WINDOWS
+#if defined(LUMEX_OS_WINDOWS)
       // Windows: DbgHelp API for symbol information
       void *stack[kMaxStackFrames];
 

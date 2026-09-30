@@ -4,14 +4,13 @@
 #include <iostream>
 #include <memory>
 
-#include "lumex/core/utility/assert/LumexAssert.hpp"
-#include "lumex/core/utility/macros/LumexKeywords.hpp"
-
 #if defined(__linux__) || defined(__APPLE__)
 #include <sys/stat.h> // struct stat, S_ISREG
 #include <unistd.h>   // fstat
 #endif
 
+#include "lumex/core/utility/assert/LumexAssert.hpp"
+#include "lumex/core/utility/macros/LumexKeywords.hpp"
 #include "lumex/xml/node/XmlNode.hpp"
 #include "lumex/xml/utility/XmlCleaner.hpp"
 #include "lumex/xml/utility/XmlUtils.hpp"
@@ -258,13 +257,13 @@ load_stream_impl (XmlDocumentBase *doc, std::basic_istream<T> &stream,
 }
 
 LUMEX_PUBLIC_API
-inline XmlDocument::XmlDocument () : m_memory{ 0 } { _create (); }
+XmlDocument::XmlDocument () : m_memory{ 0 } { _create (); }
 
 LUMEX_PUBLIC_API
-inline XmlDocument::~XmlDocument () { _destroy (); }
+XmlDocument::~XmlDocument () { _destroy (); }
 
 LUMEX_PUBLIC_API
-inline XmlDocument::XmlDocument (XmlDocument &&rhs)
+XmlDocument::XmlDocument (XmlDocument &&rhs)
     LUMEX_NOEXCEPT // NOLINT(cppcoreguidelines-pro-type-member-init)
 {
   _create ();
@@ -272,7 +271,7 @@ inline XmlDocument::XmlDocument (XmlDocument &&rhs)
 }
 
 LUMEX_PUBLIC_API
-inline XmlDocument &
+XmlDocument &
 XmlDocument::operator= (XmlDocument &&rhs) LUMEX_NOEXCEPT
 {
   if (this == &rhs)
@@ -286,7 +285,7 @@ XmlDocument::operator= (XmlDocument &&rhs) LUMEX_NOEXCEPT
 }
 
 LUMEX_PUBLIC_API
-inline void
+void
 XmlDocument::reset ()
 {
   _destroy ();
@@ -294,7 +293,7 @@ XmlDocument::reset ()
 }
 
 LUMEX_PUBLIC_API
-inline void
+void
 XmlDocument::reset (XmlDocument const &proto)
 {
   reset ();
@@ -302,7 +301,7 @@ XmlDocument::reset (XmlDocument const &proto)
 }
 
 LUMEX_PUBLIC_API
-inline void
+void
 XmlDocument::_create ()
 {
   LUMEX_ASSERT (!m_root);
@@ -340,7 +339,7 @@ XmlDocument::_create ()
 }
 
 LUMEX_PUBLIC_API
-inline void
+void
 XmlDocument::_destroy ()
 {
   LUMEX_ASSERT (m_root);
@@ -389,7 +388,7 @@ XmlDocument::_destroy ()
 }
 
 LUMEX_PUBLIC_API
-inline void
+void
 XmlDocument::_move (XmlDocument &rhs) LUMEX_NOEXCEPT
 {
   auto *doc = static_cast<XmlDocumentBase *> (
@@ -464,7 +463,7 @@ XmlDocument::_move (XmlDocument &rhs) LUMEX_NOEXCEPT
 }
 
 LUMEX_PUBLIC_API
-inline xml_parse_result_t
+xml_parse_result_t
 XmlDocument::load (std::basic_istream<char> &stream, unsigned int options,
                    xml_encoding encoding)
 {
@@ -477,7 +476,7 @@ XmlDocument::load (std::basic_istream<char> &stream, unsigned int options,
 }
 
 LUMEX_PUBLIC_API
-inline xml_parse_result_t
+xml_parse_result_t
 XmlDocument::load (std::basic_istream<wchar_t> &stream, unsigned int options)
 {
   reset ();
@@ -489,7 +488,7 @@ XmlDocument::load (std::basic_istream<wchar_t> &stream, unsigned int options)
 }
 
 LUMEX_PUBLIC_API
-inline xml_parse_result_t
+xml_parse_result_t
 XmlDocument::load_string (char_t const *contents, unsigned int options)
 {
   // Force native encoding (skip autodetection)
@@ -505,7 +504,7 @@ XmlDocument::load_string (char_t const *contents, unsigned int options)
 }
 
 LUMEX_PUBLIC_API
-inline xml_parse_result_t
+xml_parse_result_t
 XmlDocument::load (char_t const *contents, unsigned int options)
 {
   return load_string (contents, options);
@@ -723,7 +722,7 @@ save_file_impl (XmlDocument const &doc, FILE *file, char_t const *indent,
 }
 
 LUMEX_PUBLIC_API
-inline xml_parse_result_t
+xml_parse_result_t
 XmlDocument::load_file (char const *path_, unsigned int options,
                         xml_encoding encoding)
 {
@@ -738,7 +737,7 @@ XmlDocument::load_file (char const *path_, unsigned int options,
 }
 
 LUMEX_PUBLIC_API
-inline xml_parse_result_t
+xml_parse_result_t
 XmlDocument::load_file (wchar_t const *path_, unsigned int options,
                         xml_encoding encoding)
 {
@@ -753,7 +752,7 @@ XmlDocument::load_file (wchar_t const *path_, unsigned int options,
 }
 
 LUMEX_PUBLIC_API
-inline xml_parse_result_t
+xml_parse_result_t
 XmlDocument::load_buffer (void const *contents, std::size_t size,
                           unsigned int options, xml_encoding encoding)
 {
@@ -769,7 +768,7 @@ XmlDocument::load_buffer (void const *contents, std::size_t size,
 }
 
 LUMEX_PUBLIC_API
-inline xml_parse_result_t
+xml_parse_result_t
 XmlDocument::load_buffer_inplace (void *contents, std::size_t size,
                                   unsigned int options, xml_encoding encoding)
 {
@@ -782,7 +781,7 @@ XmlDocument::load_buffer_inplace (void *contents, std::size_t size,
 }
 
 LUMEX_PUBLIC_API
-inline xml_parse_result_t
+xml_parse_result_t
 XmlDocument::load_buffer_inplace_own (void *contents, std::size_t size,
                                       unsigned int options,
                                       xml_encoding encoding)
@@ -815,7 +814,7 @@ has_declaration (XmlNodeBase *node)
 }
 
 LUMEX_PUBLIC_API
-inline void
+void
 XmlDocument::save (IXmlWriter &writer, char_t const *indent,
                    unsigned int flags, xml_encoding encoding) const
 {
@@ -852,7 +851,7 @@ XmlDocument::save (IXmlWriter &writer, char_t const *indent,
 }
 
 LUMEX_PUBLIC_API
-inline void
+void
 XmlDocument::save (std::basic_ostream<char> &stream, char_t const *indent,
                    unsigned int flags, xml_encoding encoding) const
 {
@@ -862,7 +861,7 @@ XmlDocument::save (std::basic_ostream<char> &stream, char_t const *indent,
 }
 
 LUMEX_PUBLIC_API
-inline void
+void
 XmlDocument::save (std::basic_ostream<wchar_t> &stream, char_t const *indent,
                    unsigned int flags) const
 {
@@ -872,7 +871,7 @@ XmlDocument::save (std::basic_ostream<wchar_t> &stream, char_t const *indent,
 }
 
 LUMEX_PUBLIC_API
-inline bool
+bool
 XmlDocument::save_file (
     char const *path_,
     char_t const *indent, // NOLINT(bugprone-easily-swappable-parameters)
@@ -889,7 +888,7 @@ XmlDocument::save_file (
 }
 
 LUMEX_PUBLIC_API
-inline bool
+bool
 XmlDocument::save_file (wchar_t const *path_, char_t const *indent,
                         unsigned int flags, xml_encoding encoding) const
 {
@@ -904,7 +903,7 @@ XmlDocument::save_file (wchar_t const *path_, char_t const *indent,
 }
 
 LUMEX_PUBLIC_API
-inline XmlNode
+XmlNode
 XmlDocument::document_element () const
 {
   LUMEX_ASSERT (m_root);

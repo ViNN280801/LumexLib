@@ -9,6 +9,8 @@ add_executable(
 
 set_target_properties(${TEST_EXECUTABLE_NAME} PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/$<CONFIG>"
+    # The test calls std::filesystem itself (scratch directories).
+    LUMEX_USES_STD_FILESYSTEM ON
 )
 
 target_link_libraries(

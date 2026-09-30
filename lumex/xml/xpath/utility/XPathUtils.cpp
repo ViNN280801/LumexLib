@@ -16,7 +16,7 @@ using namespace lumex::xml::xpath::node;
 using namespace lumex::xml::xpath::utility;
 
 LUMEX_PUBLIC_API
-inline XPathNodeSet::type_t
+XPathNodeSet::type_t
 lumex::xml::xpath::utility::xpath_get_order (
     XPathNode const *begin,
     XPathNode const *end) // NOLINT(misc-use-internal-linkage)
@@ -36,7 +36,7 @@ lumex::xml::xpath::utility::xpath_get_order (
 }
 
 LUMEX_PUBLIC_API
-inline XPathNodeSet::type_t
+XPathNodeSet::type_t
 lumex::xml::xpath::utility::xpath_sort (
     XPathNode *begin, XPathNode *end, XPathNodeSet::type_t type,
     bool rev) // NOLINT(misc-use-internal-linkage)
@@ -66,7 +66,7 @@ lumex::xml::xpath::utility::xpath_sort (
 }
 
 LUMEX_PUBLIC_API
-inline XPathNode
+XPathNode
 lumex::xml::xpath::utility::xpath_first (
     XPathNode const *begin,
     XPathNode const *end, // NOLINT(misc-use-internal-linkage)
@@ -93,7 +93,7 @@ lumex::xml::xpath::utility::xpath_first (
 }
 
 LUMEX_PUBLIC_API
-inline bool
+bool
 lumex::xml::xpath::utility::copy_xpath_variable (
     XPathVariable *lhs,
     XPathVariable const *rhs) // NOLINT(misc-use-internal-linkage)

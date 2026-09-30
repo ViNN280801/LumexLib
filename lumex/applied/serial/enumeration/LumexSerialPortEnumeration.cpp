@@ -1,10 +1,23 @@
 #include <algorithm>
 #include <array>
+#include <cerrno>
 #include <cstring>
+#include <fstream>
 #include <map>
 #include <set>
 #include <string>
 #include <vector>
+
+#if defined(_WIN32)
+#include <Windows.h>
+
+#include <setupapi.h>
+#else
+#include <dirent.h>
+#include <fcntl.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#endif
 
 #include "lumex/applied/serial/enumeration/LumexSerialPortEnumeration.hpp"
 #include "lumex/applied/serial/port/LumexSerialPort.hpp"
@@ -12,11 +25,7 @@
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 #include "lumex/core/utility/os/LumexCheckOS.hpp"
 
-#if LUMEX_OS_WINDOWS
-#include <Windows.h>
-
-#include <setupapi.h>
-
+#if defined(LUMEX_OS_WINDOWS)
 #ifndef DIREG_DEV
 #define DIREG_DEV 0x00000001
 #endif
@@ -36,13 +45,6 @@ struct dev_info_guard_t
   dev_info_guard_t (dev_info_guard_t const &) = delete;
   dev_info_guard_t &operator= (dev_info_guard_t const &) = delete;
 };
-#else
-#include <cerrno>
-#include <dirent.h>
-#include <fcntl.h>
-#include <fstream>
-#include <sys/stat.h>
-#include <unistd.h>
 #endif
 
 namespace lumex
@@ -59,6 +61,7 @@ using namespace lumex::applied::serial::port;
 
 namespace
 {
+#if defined(LUMEX_OS_WINDOWS)
 bool
 starts_with (std::string const &value, char const *prefix)
 {
@@ -67,7 +70,6 @@ starts_with (std::string const &value, char const *prefix)
          && value.compare (0, prefix_len, prefix) == 0;
 }
 
-#if LUMEX_OS_WINDOWS
 std::string
 convert_wide_to_utf8 (std::wstring const &wide) LUMEX_NOEXCEPT
 {
@@ -250,7 +252,7 @@ serial_port_state_to_string (serial_port_state state) LUMEX_NOEXCEPT
 bool
 is_bluetooth_enumerated_port (std::string const &port_name) LUMEX_NOEXCEPT
 {
-#if LUMEX_OS_WINDOWS
+#if defined(LUMEX_OS_WINDOWS)
   DWORD const k_max_class_guids = 8;
   DWORD const k_friendly_size = 256;
 
@@ -372,7 +374,7 @@ enumerate_serial_ports_detailed (std::string const &connected_port,
 {
   std::vector<serial_port_info_t> result;
 
-#if LUMEX_OS_WINDOWS
+#if defined(LUMEX_OS_WINDOWS)
   DWORD const k_max_class_guids = 8;
   DWORD const k_port_name_size = 32;
   DWORD const k_friendly_size = 256;
@@ -710,13 +712,14 @@ enumerate_serial_ports_detailed (std::string const &connected_port,
   std::vector<std::string> sorted_ports (unique_ports.begin (),
                                          unique_ports.end ());
   std::sort (sorted_ports.begin (), sorted_ports.end (),
-             [] (std::string const &lhs, std::string const &rhs) {
-               int const num_lhs = com_number (lhs);
-               int const num_rhs = com_number (rhs);
-               if (num_lhs >= 0 && num_rhs >= 0)
-                 return num_lhs < num_rhs;
-               return lhs < rhs;
-             });
+             [] (std::string const &lhs, std::string const &rhs)
+               {
+                 int const num_lhs = com_number (lhs);
+                 int const num_rhs = com_number (rhs);
+                 if (num_lhs >= 0 && num_rhs >= 0)
+                   return num_lhs < num_rhs;
+                 return lhs < rhs;
+               });
 
   for (std::size_t i = 0; i < sorted_ports.size (); ++i)
     result.push_back (port_info_map[sorted_ports[i]]);
@@ -884,11 +887,9 @@ enumerate_serial_ports_detailed (std::string const &connected_port,
         }
     }
 
-  std::sort (
-      result.begin (), result.end (),
-      [] (serial_port_info_t const &lhs, serial_port_info_t const &rhs) {
-        return lhs.path < rhs.path;
-      });
+  std::sort (result.begin (), result.end (),
+             [] (serial_port_info_t const &lhs, serial_port_info_t const &rhs)
+               { return lhs.path < rhs.path; });
 #endif
 
   return result;

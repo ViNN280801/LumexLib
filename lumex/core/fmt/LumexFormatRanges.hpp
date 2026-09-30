@@ -186,12 +186,18 @@ parse_default_element (ElementFormatter &formatter)
   formatter.parse (ctx);
 }
 
-/** @brief Map elements print `key: value` without brackets. */
+/**
+ * @brief Map elements print `key: value` without brackets.
+ * @note The return types use `std::declval`, not a string literal: GCC 8
+ *       rejects a string literal in a function template signature ("sorry,
+ *       unimplemented").
+ */
 template <typename ElementFormatter>
 auto
 use_map_element_style (ElementFormatter &formatter, int)
-    -> decltype (formatter.set_brackets (BasicStringRef<char> (""),
-                                         BasicStringRef<char> ("")),
+    -> decltype (formatter.set_brackets (
+                     std::declval<BasicStringRef<char>> (),
+                     std::declval<BasicStringRef<char>> ()),
                  void ())
 {
   formatter.set_brackets (BasicStringRef<char> (""),
@@ -202,8 +208,9 @@ use_map_element_style (ElementFormatter &formatter, int)
 template <typename ElementFormatter>
 auto
 use_map_element_style (ElementFormatter &formatter, long)
-    -> decltype (formatter.set_brackets (BasicStringRef<wchar_t> (L""),
-                                         BasicStringRef<wchar_t> (L"")),
+    -> decltype (formatter.set_brackets (
+                     std::declval<BasicStringRef<wchar_t>> (),
+                     std::declval<BasicStringRef<wchar_t>> ()),
                  void ())
 {
   formatter.set_brackets (BasicStringRef<wchar_t> (L""),
@@ -358,12 +365,13 @@ public:
   {
     TupleFormatter const &self = *this;
     write_with_width (_specs, ctx,
-                      [&self, &value] (BasicFormatContext<Char> &out) {
-                        out.out ().buffer ().append (self._open);
-                        tuple_each<0, sizeof...(Types)>::format (
-                            self._formatters, value, self._separator, out);
-                        out.out ().buffer ().append (self._close);
-                      });
+                      [&self, &value] (BasicFormatContext<Char> &out)
+                        {
+                          out.out ().buffer ().append (self._open);
+                          tuple_each<0, sizeof...(Types)>::format (
+                              self._formatters, value, self._separator, out);
+                          out.out ().buffer ().append (self._close);
+                        });
     return ctx.out ();
   }
 
@@ -503,9 +511,8 @@ public:
   {
     Formatter const &self = *this;
     Detail::write_with_width (_specs, ctx,
-                              [&self, &range] (BasicFormatContext<Char> &out) {
-                                self.write_body (range, out);
-                              });
+                              [&self, &range] (BasicFormatContext<Char> &out)
+                                { self.write_body (range, out); });
     return ctx.out ();
   }
 

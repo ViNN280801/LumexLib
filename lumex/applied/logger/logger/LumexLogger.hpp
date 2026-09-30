@@ -42,6 +42,7 @@
 
 #include "lumex/core/utility/assert/LumexAssert.hpp"
 #include "lumex/core/utility/attr/LumexAttributes.hpp"
+#include "lumex/core/utility/compiler/LumexCheckFeatures.hpp"
 #include "lumex/core/utility/macros/LumexConstantMacros.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 #include "lumex/core/utility/traits/LumexTypeTraits.hpp"
@@ -99,15 +100,34 @@
 #define LOGGER_ARCH_32BIT 1
 #endif
 
-// Convenience macros for common checks
-#define LOGGER_OS_IS_WINDOWS() (defined (LOGGER_OS_WINDOWS))
-#define LOGGER_OS_IS_LINUX() (defined (LOGGER_OS_LINUX))
-#define LOGGER_OS_IS_MACOS()                                                  \
-  (defined (LOGGER_OS_MAC) || defined (LOGGER_OS_MACOS))
-#define LOGGER_OS_IS_APPLE() (defined (LOGGER_OS_APPLE))
-#define LOGGER_OS_IS_UNIX()                                                   \
-  (defined (LOGGER_OS_UNIX) || defined (LOGGER_OS_LINUX)                      \
-   || defined (LOGGER_OS_APPLE))
+// Convenience macros for common checks: constants 1 or 0, usable in `#if`
+// and in code (see LUMEX_OS_IS_*() in LumexCheckOS.hpp).
+#if defined(LOGGER_OS_WINDOWS)
+#define LOGGER_OS_IS_WINDOWS() 1
+#else
+#define LOGGER_OS_IS_WINDOWS() 0
+#endif
+#if defined(LOGGER_OS_LINUX)
+#define LOGGER_OS_IS_LINUX() 1
+#else
+#define LOGGER_OS_IS_LINUX() 0
+#endif
+#if defined(LOGGER_OS_MAC) || defined(LOGGER_OS_MACOS)
+#define LOGGER_OS_IS_MACOS() 1
+#else
+#define LOGGER_OS_IS_MACOS() 0
+#endif
+#if defined(LOGGER_OS_APPLE)
+#define LOGGER_OS_IS_APPLE() 1
+#else
+#define LOGGER_OS_IS_APPLE() 0
+#endif
+#if defined(LOGGER_OS_UNIX) || defined(LOGGER_OS_LINUX)                       \
+    || defined(LOGGER_OS_APPLE)
+#define LOGGER_OS_IS_UNIX() 1
+#else
+#define LOGGER_OS_IS_UNIX() 0
+#endif
 
 // File separator and path constants
 #ifdef LOGGER_OS_WINDOWS
@@ -199,7 +219,7 @@ namespace logger
 // `os << value`, no stringify extras).
 
 // Stringify implementation variants
-#if __cplusplus >= 202002L
+#if LUMEX_HAS_CONCEPTS
 
 // C++20+ concepts version
 template <lumex::core::utility::traits::stream::AllStreamable... Args>
@@ -373,14 +393,19 @@ struct alignas (LOGGER_ALIGNMENT_LOGGER_CONFIG) logger_config_t
   std::unordered_set<std::string>
       preset_components; ///< Preset component set (empty = preset
                          ///< disabled)
+  // The two constants are plain `static const` members defined in
+  // LumexLogger.cpp, not LUMEX_CONST_NUM: from C++17 that makes them inline
+  // variables, which Clang does not emit from a library built at C++17, so a
+  // C++11 / C++14 consumer that binds them to a reference (EXPECT_EQ does)
+  // would not link. An ordinary definition exists in every standard.
   /// 8 bytes
-  LUMEX_CONST_NUM std::size_t kBufferSize
+  static std::size_t const kBufferSize
       = 100; ///< Log buffer size (default 100 entries)
   std::size_t buffer_size
       = kBufferSize; ///< Log buffer size (default 100 entries)
 
   /// Then medium types (2-4 bytes)
-  LUMEX_CONST_NUM short kMaxStackTraceFrames
+  static short const kMaxStackTraceFrames
       = 16; ///< Maximum stack-trace frames (default 16)
   short stack_trace_max_frames = kMaxStackTraceFrames; ///< Maximum stack-trace
                                                        ///< frames (default 16)

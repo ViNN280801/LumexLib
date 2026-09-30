@@ -12,10 +12,12 @@ lumex_example_executable(
   REQUIRE_TARGET lumex::logger
   CXX_STANDARD 11
 )
+# The workflow starts std::thread workers itself: before glibc 2.34
+# pthread_create lives in libpthread, which only Threads::Threads adds.
 lumex_example_executable(
   NAME LumexLoggerExampleWorkflow
   SOURCE example_logger_workflow.cpp
-  LINK lumex::logger
+  LINK lumex::logger Threads::Threads
   REQUIRE_TARGET lumex::logger
   CXX_STANDARD 11
 )

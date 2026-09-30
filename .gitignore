@@ -100,3 +100,6 @@ lumex_xml_test_*.xml
 
 # Doxygen files
 Doxyfile
+
+# create_release.sh packages (default --output-dir)
+/release/

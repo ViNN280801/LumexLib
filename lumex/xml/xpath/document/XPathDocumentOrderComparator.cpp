@@ -11,7 +11,7 @@ using namespace lumex::xml::document;
 using namespace lumex::xml::xpath::document;
 
 LUMEX_PUBLIC_API
-inline bool
+bool
 lumex::xml::xpath::document::node_is_before_sibling (
     XmlNodeBase *ln_node,
     XmlNodeBase *rn_node) // NOLINT(misc-use-internal-linkage)
@@ -43,7 +43,7 @@ lumex::xml::xpath::document::node_is_before_sibling (
 }
 
 LUMEX_PUBLIC_API
-inline bool
+bool
 lumex::xml::xpath::document::node_is_before (
     XmlNodeBase *ln_node,
     XmlNodeBase *rn_node) // NOLINT(misc-use-internal-linkage)
@@ -93,7 +93,7 @@ lumex::xml::xpath::document::node_is_before (
 }
 
 LUMEX_PUBLIC_API
-inline void const *
+void const *
 lumex::xml::xpath::document::document_buffer_order (
     XPathNode const &xnode) // NOLINT(misc-use-internal-linkage)
 {
@@ -143,7 +143,7 @@ lumex::xml::xpath::document::document_buffer_order (
 }
 
 LUMEX_PUBLIC_API
-inline bool
+bool
 lumex::xml::xpath::document::document_order_comparator::operator() (
     XPathNode const &lhs, XPathNode const &rhs) const
 {

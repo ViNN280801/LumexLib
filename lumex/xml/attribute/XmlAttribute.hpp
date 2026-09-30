@@ -44,15 +44,21 @@
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wpadded"
 #pragma clang diagnostic ignored "-Wunsafe-buffer-usage"
+#if __has_warning("-Wunsafe-buffer-usage-in-libc-call")
 #pragma clang diagnostic ignored "-Wunsafe-buffer-usage-in-libc-call"
+#endif
 #pragma clang diagnostic ignored "-Wcovered-switch-default"
 #pragma clang diagnostic ignored "-Wswitch-enum"
+#if __has_warning("-Wnrvo")
 #pragma clang diagnostic ignored "-Wnrvo"
+#endif
 #pragma clang diagnostic ignored "-Wheader-hygiene"
 #pragma clang diagnostic ignored "-Wused-but-marked-unused"
 #pragma clang diagnostic ignored "-Wundefined-var-template"
 #pragma clang diagnostic ignored "-Wdeprecated-redundant-constexpr-static-def"
+#if __has_warning("-Wvariadic-macro-arguments-omitted")
 #pragma clang diagnostic ignored "-Wvariadic-macro-arguments-omitted"
+#endif
 #pragma clang diagnostic ignored "-Wunused-result"
 #pragma clang diagnostic ignored "-Wextra-semi-stmt"
 #pragma clang diagnostic ignored "-Wexpansion-to-defined"
@@ -61,11 +67,11 @@
 #pragma clang diagnostic ignored "-Wfloat-equal"
 #endif
 
+#include "lumex/LumexExport.hpp"
+
 #if __cplusplus >= 201703L
 #include <string_view>
 #endif
-
-#include "lumex/LumexExport.hpp"
 
 #include "lumex/core/utility/attr/LumexAttributes.hpp"
 
@@ -422,7 +428,11 @@ public:
    * name is larger than the current buffer.
    * @note Available only when compiled with C++17 or later.
    */
-  bool set_name (std::string_view rhs);
+  bool
+  set_name (string_view_t rhs)
+  {
+    return set_name (rhs.data (), rhs.size ());
+  }
 #endif
   /**
    * @brief Sets the value of the XML attribute from a null-terminated C-style
@@ -464,7 +474,11 @@ public:
    * value is larger than the current buffer.
    * @note Available only when compiled with C++17 or later.
    */
-  bool set_value (std::string_view rhs);
+  bool
+  set_value (string_view_t rhs)
+  {
+    return set_value (rhs.data (), rhs.size ());
+  }
 #endif
 
   // Set attribute value with type conversion (numbers are converted to
@@ -718,7 +732,12 @@ public:
    * @note Prefer `set_value` for robust error handling.
    * @note Available only when compiled with C++17 or later.
    */
-  XmlAttribute &operator= (std::string_view rhs);
+  XmlAttribute &
+  operator= (string_view_t rhs)
+  {
+    set_value (rhs.data (), rhs.size ());
+    return *this;
+  }
 #endif
 
   /**

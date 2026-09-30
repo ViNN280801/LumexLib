@@ -1,17 +1,25 @@
 #include <array>
+#include <cstdint>
+#include <cstdlib>
 #include <cstring>
+#include <fstream>
+#include <iterator>
 #include <string>
 #include <vector>
+
+#if defined(_WIN32)
+#include <Windows.h>
+#else
+#include <dirent.h>
+#include <fcntl.h>
+#include <unistd.h>
+#endif
 
 #include "lumex/applied/serial/resolver/LumexPortProcessResolver.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 #include "lumex/core/utility/os/LumexCheckOS.hpp"
 
-#if LUMEX_OS_WINDOWS
-#include <Windows.h>
-
-#include <cstdint>
-
+#if defined(LUMEX_OS_WINDOWS)
 #ifndef NT_SUCCESS
 #define NT_SUCCESS(Status) (((NTSTATUS)(Status)) >= 0)
 #endif
@@ -49,14 +57,6 @@ typedef struct _SYSTEM_HANDLE_INFORMATION
   ULONG HandleCount;
   SYSTEM_HANDLE_ENTRY Handles[1];
 } SYSTEM_HANDLE_INFORMATION;
-#else
-#include <dirent.h>
-#include <fcntl.h>
-#include <unistd.h>
-
-#include <cstdlib>
-#include <fstream>
-#include <iterator>
 #endif
 
 namespace lumex
@@ -67,7 +67,7 @@ namespace serial
 {
 namespace resolver
 {
-#if LUMEX_OS_WINDOWS
+#if defined(LUMEX_OS_WINDOWS)
 namespace
 {
 std::string
@@ -489,7 +489,7 @@ get_posix_port_holder_resolver ()
 system_error_formatter const &
 port_process_resolver::error_formatter () LUMEX_NOEXCEPT
 {
-#if LUMEX_OS_WINDOWS
+#if defined(LUMEX_OS_WINDOWS)
   return get_win32_error_formatter ();
 #else
   return get_posix_error_formatter ();
@@ -499,7 +499,7 @@ port_process_resolver::error_formatter () LUMEX_NOEXCEPT
 port_holder_resolver const &
 port_process_resolver::holder_resolver () LUMEX_NOEXCEPT
 {
-#if LUMEX_OS_WINDOWS
+#if defined(LUMEX_OS_WINDOWS)
   return get_win32_port_holder_resolver ();
 #else
   return get_posix_port_holder_resolver ();

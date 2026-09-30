@@ -55,11 +55,14 @@
 #include <optional>
 #include <string_view>
 #endif
-#if __cplusplus >= 202002L
+#if __cplusplus > 201703L && defined(__has_include)
+#if __has_include(<concepts>)
 #include <concepts>
+#endif
 #endif
 
 #include "lumex/core/utility/assert/LumexAssert.hpp"
+#include "lumex/core/utility/compiler/LumexCheckFeatures.hpp"
 #include "lumex/core/utility/macros/LumexConstantMacros.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 
@@ -139,7 +142,7 @@ template <typename T> struct type_identity
   using type = T;
 };
 
-#if __cplusplus >= 202002L
+#if LUMEX_HAS_STD_REMOVE_CVREF
 template <typename TypeToClean>
 using CleanType = std::remove_cvref_t<TypeToClean>;
 #else
@@ -193,10 +196,11 @@ template <typename T> struct default_return
   }
 };
 
-// void{} is not a valid expression.
+// void{} is not a valid expression. A constexpr function returning void needs
+// C++14 (void became a literal type there).
 template <> struct default_return<void>
 {
-  static LUMEX_CONSTEXPR void
+  static LUMEX_CONSTEXPR_CXX14 void
   value () LUMEX_NOEXCEPT
   {
   }
@@ -237,7 +241,7 @@ template <typename T> struct indirection_of<T &>
 template <typename T>
 using indirection_of_t = typename indirection_of<T>::type;
 
-#if __cplusplus >= 202002L
+#if LUMEX_HAS_STD_CONCEPTS
 /** @brief A pointer to a class type. */
 template <typename T>
 concept PointerToClass
@@ -432,14 +436,15 @@ struct is_streamable_expression<
 
 /**
  * @brief Smart pointers that lumex::core::string::utility::stringify streams
- * as their raw address below C++20 (its own operator<< overloads, which the
- * expression check above cannot see).
+ * as their raw address through its own operator<< overloads, which the
+ * expression check above cannot see. The standard library has the same
+ * overloads only since C++20 and only in newer releases (libstdc++ 12), so
+ * stringify keeps its own in every standard.
  */
 template <typename T> struct is_address_streamed : std::false_type
 {
 };
 
-#if __cplusplus < 202002L
 template <typename T, typename D>
 struct is_address_streamed<std::unique_ptr<T, D>> : std::true_type
 {
@@ -448,7 +453,6 @@ template <typename T>
 struct is_address_streamed<std::shared_ptr<T>> : std::true_type
 {
 };
-#endif
 } // namespace detail
 
 /**
@@ -596,7 +600,7 @@ template <typename... Args>
 LUMEX_CONSTEXPR bool all_streamable_v = all_streamable<Args...>::value;
 #endif
 
-#if __cplusplus >= 202002L
+#if LUMEX_HAS_CONCEPTS
 /** @brief A type that `std::ostream` can write with `operator<<`. */
 template <typename T>
 concept Streamable = requires (T &&type, std::ostream &ostream) {
@@ -609,6 +613,18 @@ concept Streamable = requires (T &&type, std::ostream &ostream) {
  */
 template <typename... Args>
 concept AllStreamable = (Streamable<std::decay_t<Args>> && ...);
+
+namespace detail
+{
+/**
+ * @brief What lumex::core::string::utility::stringify accepts: `Streamable`,
+ * or a smart pointer it streams as its address.
+ */
+template <typename... Args>
+concept AllStringifiable = ((Streamable<std::decay_t<Args>>
+                             || is_address_streamed<std::decay_t<Args>>::value)
+                            && ...);
+} // namespace detail
 #endif
 } // namespace stream
 
@@ -757,12 +773,16 @@ struct is_string_like : std::false_type
 {
 };
 
+// `T::npos` is tested before `data ()`: substitution stops at the first
+// failure in lexical order, and libstdc++ declares `data ()` of
+// `std::vector<bool>` protected (and deleted), which Clang reports as a hard
+// access error here instead of a substitution failure.
 template <typename T, typename Char>
 struct is_string_like<
     T, Char,
-    meta::void_t<decltype (std::declval<T const &> ().data ()),
+    meta::void_t<typename T::value_type, decltype (T::npos),
                  decltype (std::declval<T const &> ().size ()),
-                 decltype (T::npos), typename T::value_type>>
+                 decltype (std::declval<T const &> ().data ())>>
     : std::integral_constant<
           bool, std::is_same<typename T::value_type, Char>::value
                     && std::is_convertible<
@@ -785,7 +805,7 @@ struct is_any_string<T, meta::void_t<typename T::value_type>>
     : is_string_like<T, typename T::value_type>
 {
 };
-#if __cplusplus >= 202002L
+#if LUMEX_HAS_STD_CONCEPTS
 /** @brief Converts to `std::string_view` or `std::string`. */
 template <typename T>
 concept StringLike = std::convertible_to<T, std::string_view>
@@ -865,7 +885,7 @@ struct is_expected<lumex::core::expected::result::Expected<S, E>>
 template <typename T>
 LUMEX_CONSTEXPR bool is_expected_v = is_expected<T>::value;
 
-#if __cplusplus >= 202002L
+#if LUMEX_HAS_CONCEPTS
 /** @brief Concept form of `is_expected`. */
 template <typename T>
 concept is_expected_concept = is_expected<T>::value;
@@ -926,17 +946,23 @@ namespace numeric
 /**
  * @brief Both types (without cv / reference) are arithmetic with a
  * specialized `std::numeric_limits`, so `SafeComparator` can compare them.
+ * @details Derived from `std::integral_constant` like the standard traits:
+ * the standard library defines `value` in every standard, while a plain
+ * in-class `static const` member fails to link once it is odr-used
+ * (`EXPECT_TRUE` binds it to a reference) in a build without optimization.
  */
-template <typename T, typename U> struct is_safe_comparable
+template <typename T, typename U>
+struct is_safe_comparable
+    : std::integral_constant<
+          bool, std::is_arithmetic<meta::CleanType<T>>::value
+                    && std::is_arithmetic<meta::CleanType<U>>::value
+                    && std::numeric_limits<meta::CleanType<T>>::is_specialized
+                    && std::numeric_limits<meta::CleanType<U>>::is_specialized>
 {
   using clean_T = meta::CleanType<T>;
   using clean_U = meta::CleanType<U>;
-  static bool const value = std::is_arithmetic<clean_T>::value
-                            && std::is_arithmetic<clean_U>::value
-                            && std::numeric_limits<clean_T>::is_specialized
-                            && std::numeric_limits<clean_U>::is_specialized;
 };
-#if __cplusplus >= 202002L
+#if LUMEX_HAS_CONCEPTS
 /** @brief Arithmetic with a specialized `std::numeric_limits`. */
 template <typename T>
 concept ArithmeticType
@@ -973,10 +999,11 @@ template <typename Enum> struct lumex_enum_traits_t;
                                                                               \
   template <> struct lumex_enum_traits_t<EnumName>                            \
   {                                                                           \
-    static LUMEX_CONSTEXPR auto values = [] {                                 \
-      using enum EnumName;                                                    \
-      return std::array{ __VA_ARGS__ };                                       \
-    }();                                                                      \
+    static LUMEX_CONSTEXPR auto values = []                                   \
+      {                                                                       \
+        using enum EnumName;                                                  \
+        return std::array{ __VA_ARGS__ };                                     \
+      }();                                                                    \
     static LUMEX_CONSTEXPR EnumName first = values.front ();                  \
     static LUMEX_CONSTEXPR std::size_t size = values.size ();                 \
     static LUMEX_CONSTEXPR EnumName last = values.back ();                    \

@@ -10,6 +10,10 @@
 #   bin_dir              - REQUIRED. Directory that holds built Lumex DLLs/SOs
 #   distr_dir            - REQUIRED. Destination folder (Distr<Config>)
 #   copy_runtime_script  - OPTIONAL. Path to CopyRuntimeDependencies.cmake
+#   cxx_compiler         - OPTIONAL. The C++ compiler that built the libraries.
+#                          On ELF hosts every staged compiler runtime is
+#                          replaced with the file this compiler links against
+#                          (see the end of this script).
 #
 # Never copies test or example binaries (*Tests*, *Example*).
 
@@ -147,3 +151,48 @@ endif()
 
 list(GET _runtime_probe 0 target_file)
 include("${copy_runtime_script}")
+
+# CopyRuntimeDependencies picks the runtime names from what the libraries
+# depend on, which is right, but resolves each name through the ldconfig
+# cache and ignores LD_LIBRARY_PATH. With a compiler newer than the system
+# one (GCC 13.2 under /opt on Astra Linux SE 1.7, glibc 2.28) that stages the
+# older system libstdc++, which lacks the GLIBCXX versions the libraries
+# need. Replace every staged runtime with the file the compiler links.
+if(UNIX AND NOT APPLE AND cxx_compiler)
+  foreach(_runtime IN ITEMS
+      libstdc++.so.6 libgcc_s.so.1 libatomic.so.1 libgomp.so.1
+      libquadmath.so.0 libc++.so.1 libc++abi.so.1 libunwind.so.1)
+    if(NOT EXISTS "${distr_dir}/${_runtime}")
+      continue()
+    endif()
+    execute_process(
+      COMMAND "${cxx_compiler}" "-print-file-name=${_runtime}"
+      OUTPUT_VARIABLE _linked
+      OUTPUT_STRIP_TRAILING_WHITESPACE
+      ERROR_QUIET)
+    # The compiler echoes the bare name when the library is not on its paths.
+    if(_linked STREQUAL "" OR _linked STREQUAL _runtime
+       OR NOT EXISTS "${_linked}")
+      continue()
+    endif()
+    get_filename_component(_linked "${_linked}" REALPATH)
+    execute_process(
+      COMMAND "${CMAKE_COMMAND}" -E compare_files
+              "${_linked}" "${distr_dir}/${_runtime}"
+      RESULT_VARIABLE _differs
+      OUTPUT_QUIET
+      ERROR_QUIET)
+    if(NOT _differs EQUAL 0)
+      execute_process(
+        COMMAND "${CMAKE_COMMAND}" -E copy "${_linked}" "${distr_dir}/${_runtime}"
+        RESULT_VARIABLE _copy_rc
+        ERROR_VARIABLE _copy_err
+        OUTPUT_QUIET)
+      if(_copy_rc EQUAL 0)
+        message(STATUS "PublishDistr: ${_runtime} <- ${_linked} (the compiler's own runtime)")
+      else()
+        message(WARNING "PublishDistr: failed to stage '${_linked}': ${_copy_err}")
+      endif()
+    endif()
+  endforeach()
+endif()

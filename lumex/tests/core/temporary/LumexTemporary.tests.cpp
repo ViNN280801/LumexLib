@@ -631,15 +631,17 @@ TEST_F (LumexTemporaryTest, GenerateTempName_ThreadSafety)
 
   for (int i = 0; i < 10; ++i)
     {
-      threads.emplace_back ([&names, &names_mutex] () {
-        for (int j = 0; j < 100; ++j)
-          {
-            std::string name
-                = LumexTemporary::generate_temp_name ("thread_test");
-            std::lock_guard<std::mutex> lock (names_mutex);
-            names.push_back (name);
-          }
-      });
+      threads.emplace_back (
+          [&names, &names_mutex] ()
+            {
+              for (int j = 0; j < 100; ++j)
+                {
+                  std::string name
+                      = LumexTemporary::generate_temp_name ("thread_test");
+                  std::lock_guard<std::mutex> lock (names_mutex);
+                  names.push_back (name);
+                }
+            });
     }
 
   for (auto &thread : threads)
@@ -660,9 +662,12 @@ TEST_F (LumexTemporaryTest, ConcurrentTempDirectoryCreation)
 
   for (int i = 0; i < 20; ++i)
     {
-      futures.push_back (std::async (std::launch::async, [] () {
-        return LumexTemporary::create_temp_directory ("concurrent_test");
-      }));
+      futures.push_back (std::async (
+          std::launch::async,
+          [] ()
+            {
+              return LumexTemporary::create_temp_directory ("concurrent_test");
+            }));
     }
 
   std::vector<lumex::path> paths;
@@ -685,9 +690,9 @@ TEST_F (LumexTemporaryTest, ConcurrentTempFileCreation)
 
   for (int i = 0; i < 20; ++i)
     {
-      futures.push_back (std::async (std::launch::async, [] () {
-        return LumexTemporary::create_temp_file ("concurrent_test");
-      }));
+      futures.push_back (std::async (
+          std::launch::async, [] ()
+            { return LumexTemporary::create_temp_file ("concurrent_test"); }));
     }
 
   std::vector<lumex::path> paths;

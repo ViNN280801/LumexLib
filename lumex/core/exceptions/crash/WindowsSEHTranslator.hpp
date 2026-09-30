@@ -41,13 +41,16 @@
 #define LUMEX_CORE_EXCEPTIONS_CRASH_WINDOWS_SEH_TRANSLATOR_HPP
 
 #include "lumex/LumexExport.hpp"
+
+#if defined(_WIN32)
+#include <Windows.h>
+#include <eh.h>
+#endif
+
 #include "lumex/core/utility/LumexUtility"
 #include "lumex/core/utility/attr/LumexAttributes.hpp"
 
-#if LUMEX_OS_WINDOWS
-#include <Windows.h>
-#include <eh.h>
-
+#if defined(LUMEX_OS_WINDOWS)
 /**
  * @brief SEH translator function for Windows.
  * @param code The exception code.
@@ -58,7 +61,7 @@ inline void seh_translator (LUMEX_ATTRIBUTE_MAYBE_UNUSED unsigned int code,
                             _EXCEPTION_POINTERS *info);
 #endif
 
-#if LUMEX_OS_WINDOWS
+#if defined(LUMEX_OS_WINDOWS)
 #define SET_SEH_TRANSLATOR _set_se_translator (seh_translator);
 #else
 #define SET_SEH_TRANSLATOR

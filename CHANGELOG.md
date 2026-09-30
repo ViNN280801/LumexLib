@@ -10,9 +10,124 @@
 
 ---
 
-## [v1.0.0.2] - в разработке
+## [v1.0.1.0] - в разработке
 
-> Изменения после тега `v1.0.0.1`. Версия в `CMakeLists.txt` поднимается коммитом релиза.
+> Изменения после тега `v1.0.0.2`. Версия в `CMakeLists.txt` поднята до `1.0.1.0`; дату секции ставит релизный коммит.
+
+### [v1.0.1.0]
+
+#### Исправлено
+
+##### Сборка на Linux: GCC 13.2 и Clang 19 на Astra Linux SE 1.7 (glibc 2.28)
+
+**Файлы:**
+
+- `lumex/LumexExport.hpp`
+- `lumex/core/environment/env/LumexEnvironment.cpp`
+- `lumex/core/filesystem/fs/LumexFilesystem.cpp`
+- `lumex/applied/hardware/caps/LumexHardwareCapabilities.cpp`
+- `lumex/core/utility/dump/LumexCoreDumpGenerator.cpp`, `lumex/core/utility/dump/LumexCoreDumpGenerator.hpp`
+- `lumex/xml/**/*.cpp`, `lumex/xml/CMakeLists.txt`
+- `lumex/core/utility/CMakeLists.txt`, `lumex/core/exceptions/CMakeLists.txt`, `lumex/applied/logger/CMakeLists.txt`
+- `cmake/LumexLibConfig.cmake.in`, `conanfile.py`
+
+**Суть:** библиотеку собирали и проверяли только MSVC и clang-cl, поэтому сборка по умолчанию на Linux не проходила. Под GCC 13.2: `LUMEX_UTILITY_API` раскрывался в `__declspec (dllexport)` на любой платформе (теперь `__declspec` остался только для Windows и Cygwin, на ELF это `visibility ("default")`); в `LumexEnvironment.cpp` открытие пространств имен стояло внутри ветки `#if LUMEX_OS_WINDOWS`, и POSIX-код попадал в глобальную область; в `LumexFilesystem.cpp` переменная `perms` затеняла одноименный тип в своем инициализаторе, а `directory_iterator::Impl` определялся через псевдоним из пространства имен `lumex`; в `LumexHardwareCapabilities.cpp` две функции определялись с полной квалификацией внутри своего же пространства имен. Статические члены `CoreDumpGenerator` и `DumpFactory` были определены в `.cpp` через `LUMEX_INLINE_VARIABLE`, то есть как `inline`-переменные начиная с C++17, при объявлении без `inline` в заголовке: GCC не эмитировал константно инициализируемые члены (`s_mutex`, `s_activeOperations`, `s_initialized` и другие), и `libLumexXml.so` не линковалась с `-Wl,--no-undefined`. Теперь это обычные определения. Под Clang 19 `libLumexXml.so` не линковалась по той же причине для функций: 388 API-определений XML и `isFileExists` в `filesystem` были `inline` в `.cpp`, а Clang эмитирует такие функции только там, где они используются (GCC это скрывал флагом `-fkeep-inline-functions`, MSVC - `dllexport`). Теперь это обычные определения, а `-fkeep-inline-functions` и `-fkeep-static-functions` передаются только GCC (второй флаг Clang отвергал как неизвестный). До glibc 2.34 `pthread_*` и `dladdr` находятся в `libpthread` и `libdl`: `lumex::utility` получил `Threads::Threads` и `${CMAKE_DL_LIBS}` как PUBLIC-зависимости (их вызывает inline-код заголовков дампа и отладки), `exceptions` и `logger` - `${CMAKE_DL_LIBS}`; без этого у `libLumexCore_exceptions.so` и `libLumexApplied_logger.so` оставался неразрешенный `dladdr`. Конфигурация пакета вызывает `find_dependency(Threads)`, рецепт Conan добавляет `pthread` вне Windows и `dl` на Linux. Ни одна общая библиотека больше не содержит неразрешенных символов (`ldd -r`).
+
+##### Предупреждения GCC и Clang при `WARNINGS HIGH`
+
+**Файлы:** production-код под `lumex/`, блок прагм проекта в `3rdparty/nlohmann/json.hpp`
+
+**Суть:** сборка по умолчанию дает 0 предупреждений под GCC 13.2 и под Clang 19. Условия `#if LUMEX_OS_X` заменены на `#if defined(LUMEX_OS_X)` (`-Wundef`; поведение то же, эти макросы определяются только как `1`). Неявные знаковые и сужающие преобразования сделаны явными `static_cast` к тому же типу, к которому они и так выполнялись (`SA_RESETHAND` в `sa_flags`, индексы после `readlink`, UTF-8 и числовой код XML-парсера, индексы и байты Base64); `(bool)` заменен на `static_cast<bool>`, `decltype (string_type::npos)` на `string_type::size_type`; переименованы затеняющие параметры конструкторов `xml_parse_result_t` и `XmlWriterFile`; `starts_with` в перечислении последовательных портов перенесен в Windows-ветку, где он используется; неиспользуемые на x86 константы CPUID помечены `LUMEX_ATTRIBUTE_MAYBE_UNUSED`. `LumexException_GetStackTraceTrampoline` объявлялся в глобальном пространстве имен, а определялся в `lumex::core::exceptions::exception`, то есть объявленная функция не имела определения; объявление перенесено к определению. `-Wswitch-enum` в двух `switch` класса `DumpFactory`, намеренно разбирающих часть `DumpType`, и `-Wformat-nonliteral` у `strftime` с форматом от вызывающего в `LumexTime` подавлены точечными `#pragma GCC diagnostic`. Прагмы с группами, которых нет в Clang 19 (`-Wnrvo`, `-Wunsafe-buffer-usage-in-libc-call`, `-Wvariadic-macro-arguments-omitted`), обернуты в `#if __has_warning(...)`. Сборка Debug под GCC показала еще два: `unspecified_bool_xml_node` в `XmlNode.cpp` была объявлена экспортируемой `inline`-функцией без объявления в заголовке и после снятия `inline` давала `-Wmissing-declarations`; теперь она внутренняя, как у соседних классов. Буфер `set_value_integer` в `XmlUtils.hpp` передавался как указатель на `const` неинициализированным (`-Wmaybe-uninitialized`), теперь он обнулен.
+
+##### `LUMEX_FUNC_NAME` всегда раскрывался в `__func__`
+
+**Файлы:** `lumex/core/utility/os/LumexCheckOS.hpp`
+
+**Суть:** условие `#if defined(LUMEX_OS_IS_WINDOWS) && LUMEX_OS_IS_WINDOWS` проверяло функциональный макрос без скобок, который в `#if` дает 0, поэтому ветки `__FUNCSIG__` и `__PRETTY_FUNCTION__` не выбирались никогда. Выбор теперь идет по компилятору: MSVC и clang-cl - `__FUNCSIG__`, GCC и Clang (включая MinGW) - `__PRETTY_FUNCTION__`, иначе `__func__`. Меняется только текст диагностик `std::cerr` в `LumexFilesystem.cpp`.
+
+##### CPUID: данные функции 7 читались без проверки ее поддержки
+
+**Файлы:** `lumex/applied/hardware/caps/LumexCPUVectorizationCapabilities.cpp`
+
+**Суть:** проверка поддержки расширенных функций была записана как `eax >= 0` для `uint32_t` и всегда была истинной. Теперь AVX2 и AVX-512 определяются по функции 7 только если CPUID(0) сообщает максимальную стандартную функцию не ниже 7. На процессорах с функцией 7 результат не меняется, на старых больше не читаются данные чужой функции.
+
+##### Distr получает рантайм компилятора, а не системный
+
+**Файлы:** `cmake/PublishDistr.cmake`, `cmake/LumexModules.cmake`
+
+**Суть:** `CopyRuntimeDependencies` определяет имена рантайма по зависимостям библиотек, но находит сами файлы через кеш ldconfig и игнорирует `LD_LIBRARY_PATH`. Для сборки GCC 13.2 из `/opt` в `x64/DistrRelease` попадал системный `libstdc++.so.6.0.25` без `GLIBCXX_3.4.30`, которого требуют библиотеки, и Distr не загружался на чистой системе. `publish_distr` передает путь к компилятору, а `PublishDistr.cmake` заменяет каждый скопированный рантайм файлом, который сообщает сам компилятор (`-print-file-name`).
+
+##### Тесты и примеры на Linux: ветки C++11, C++14 и C++17
+
+**Файлы:**
+
+- `lumex/core/utility/macros/LumexKeywords.hpp`, `lumex/core/utility/traits/LumexTypeTraits.hpp`, `lumex/core/utility/numeric/LumexSafeNumericComparator.hpp`
+- `lumex/core/reflection/reflected_enum/LumexReflectedEnum.hpp`, `lumex/core/reflection/field_reflection/LumexAggregateFields.hpp`
+- `lumex/core/crc/catalog/LumexCrcCatalog.cpp`, `lumex/core/exceptions/stacktrace/LumexStacktraceEntry.hpp`
+- `lumex/applied/logger/logger/LumexLogger.hpp`, `lumex/applied/logger/logger/LumexLogger.cpp`
+- `lumex/examples/logger/CMakeLists.txt`, `lumex/examples/cmake/LumexExampleHelpers.cmake`
+- `lumex/tests/core/utility/`, `lumex/tests/core/reflection/`, `lumex/tests/core/crc/`, `lumex/tests/core/fmt/`, `lumex/tests/core/expected/`
+- `lumex/tests/cmake/cases/source_crc_spec_storage_complete.cmake`, `lumex/tests/cmake/cases/wiring_posix_system_libraries.cmake`, `lumex/tests/cmake/CMakeLists.txt`
+
+**Суть:** MSVC не опускается ниже C++14, а GCC 13 и Clang 19 по умолчанию собирают C++17, поэтому наборы тестов, закрепленные на C++11 и C++14, и примеры в стандарте по умолчанию на Linux не собирались. `LUMEX_CONSTEXPR_DTOR` в ветке C++17 раскрывался в `constexpr`, хотя `constexpr`-деструкторы появились только в C++20, и `Expected` не компилировался в C++17; теперь ветка пустая, а новый набор `LumexExpectedCxx17Tests` (имена CTest с `.cxx17`) проверяет C++17. Новый макрос `LUMEX_CONSTEXPR_CXX14` дает `constexpr` начиная с C++14 для тел, которым нужны правила C++14 (несколько операторов, `switch`, возврат `void`): им помечены `default_return<void>::value` и `toString` отражаемых перечислений, которые не компилировались в C++11. `LumexSafeNumericComparator` вызывал `std::exchange` (C++14) в ветке C++11. `First` и `Last` отражаемых перечислений вычислялись через `std::array::front ()` и `back ()`, которые `constexpr` только с C++14; теперь их дают вспомогательные функции C++11, и они остаются константными выражениями в C++11. До C++17 статический `constexpr`-член не является `inline`, и его odr-использование (привязка к ссылке, как в `EXPECT_EQ`) требует определения вне класса. Для перечислений, объявленных внутри класса, добавлен `LUMEX_DEFINE_REFLECTED_ENUM_STORAGE (Owner, EnumName)`: он пишется один раз в `.cpp` и с C++17 пуст. `LumexCrcCatalog.cpp` определяет константы всех 112 спецификаций CRC, без них `LumexCrcTests` (C++14) не линковался; кейс `LumexCMake.source_crc_spec_storage_complete` не дает пропустить новую спецификацию. `field_reflection::tuple_size<T>::value` и `traits::numeric::is_safe_comparable<T, U>::value` были обычными членами `static const` шаблонов, а такой член не бывает неявно `inline` ни в одном стандарте, поэтому `EXPECT_EQ` и `EXPECT_TRUE` с ними без оптимизации не линковались (Debug); теперь оба наследуют `std::integral_constant`, как стандартные трейты. `logger_config_t::kBufferSize` и `kMaxStackTraceFrames` были объявлены через `LUMEX_CONST_NUM`, то есть с C++17 это `inline`-переменные, которые Clang не эмитирует из библиотеки, собранной в C++17 (GCC - только при избыточном внешнем определении), и `LumexLoggerTests` (C++11) не линковался; теперь это обычные члены `static const` с определением в `LumexLogger.cpp`, и библиотека экспортирует их в любом стандарте. Пример `LumexLoggerExampleWorkflow` сам запускает `std::thread`, а до glibc 2.34 `pthread_create` лежит в `libpthread`: пример линкует `Threads::Threads`, а кейс `LumexCMake.wiring_posix_system_libraries` проверяет каждый пример, который включает `<thread>`. В самих тестах `LumexFormatMinMaxMacros.tests.cpp` включает стандартные заголовки до макросов `min` и `max` (с ними не компилируется сама libstdc++), шестнадцатеричные вещественные литералы (C++17) в наборе C++11 заменены на `std::ldexp`, `field_count_tag_t` наследует `std::integral_constant`. Каждое исправление закреплено тестом в своем стандарте. Сборка Clang 19 с libstdc++ из GCC 13.2 нашла еще одну ошибку: признак `traits::string::is_string_like` проверял `data ()` раньше `npos`, а у `std::vector<bool>` в libstdc++ `data ()` объявлен защищенным и удаленным, и Clang вместо отказа подстановки выдавал ошибку доступа (форматирование `std::vector<bool>` в `lumex::fmt` не компилировалось); теперь `npos` проверяется первым. `native_handle ()` и `operator bool` у `LumexStacktraceEntry` помечены `LUMEX_CONSTEXPR_CXX14`: класс не литеральный, а C++11 требует этого от `constexpr`-методов.
+
+##### Экспортируемые функции base64, XML и исключений не зависят от стандарта C++
+
+**Файлы:**
+
+- `lumex/core/base64/decode/Decoder.hpp`, `lumex/core/base64/decode/Decoder.cpp`, `lumex/core/base64/encode/Encoder.hpp`, `lumex/core/base64/encode/Encoder.cpp`, `lumex/core/base64/validate/Validator.hpp`, `lumex/core/base64/validate/Validator.cpp`
+- `lumex/xml/node/XmlNode.hpp`, `lumex/xml/node/XmlNode.cpp`, `lumex/xml/attribute/XmlAttribute.hpp`, `lumex/xml/attribute/XmlAttribute.cpp`, `lumex/xml/text/XmlText.hpp`, `lumex/xml/text/XmlText.cpp`, `lumex/xml/utility/XmlUtils.hpp`
+- `lumex/core/exceptions/exception/LumexException.hpp`, `lumex/core/exceptions/exception/LumexException.cpp`
+- `lumex/examples/base64/example_base64.cpp`
+- `lumex/tests/core/base64/`, `lumex/tests/xml/LumexXml.tests.cpp`, `lumex/tests/core/exceptions/`
+- `lumex/tests/cmake/consumer/standard_mismatch/`, `lumex/tests/cmake/CMakeLists.txt`
+
+**Суть:** перегрузки, которые существуют только в части стандартов (`std::string_view` и `std::span` начиная с C++17 и C++20, `std::string const &` ниже C++17), экспортировались из библиотеки в том виде, в каком ее собрали. Поэтому библиотека в одном стандарте и потребитель в другом не линковались: например, `LumexBase64Tests` (C++11) против base64, собранного в C++17 по умолчанию у GCC 13 и Clang 19. Теперь экспортируются только функции с одинаковой сигнатурой во всех стандартах (указатель и размер, `std::string`, `std::vector`), а зависящие от стандарта перегрузки стали inline-обертками в заголовках, как в `core/crc`. В base64 это `Decoder::decode (char const *, std::size_t, ...)` и `Validator::is_valid_base64 (char const *, std::size_t)`; в XML - новые размерные `(char_t const *, std::size_t)` у всех именных функций `XmlNode` (`child`, `attribute` с подсказкой и без нее, `next_sibling`, `previous_sibling`, `append_*`, `prepend_*`, `insert_*`, `remove_*`), над которыми работают `string_view_t`-перегрузки `XmlNode`, `XmlAttribute` и `XmlText`; `LumexBaseException (std::string_view)` делегирует конструктору `std::string &&`. Меняется ABI модулей base64, XML и исключений, потребители пересобираются. Ядра с указателем считают `nullptr` недопустимым входом даже при нулевом размере, а обертки передают для пустой строки `""`, так что поведение строковых перегрузок не меняется. Попутно исправлено: декодер Base64 читал за концом входа без паддинга, который валидатор принимает (`"SGk"`: в C++11 лишний байт, в C++17 неопределенное поведение); теперь последняя группа из двух или трех символов декодируется явно. Пример base64 называл вход без паддинга `"SGVsbG8"` ошибкой длины, хотя он допустим; теперь пример показывает оба случая. Тесты: новые наборы `LumexBase64Cxx20Tests` и `LumexExceptionsCxx20Tests` (ветки C++17 и C++20 этих модулей раньше не исполнялись), тесты ядер (вход в середине большего буфера, NUL внутри, пустой вход, `nullptr` с нулевым и ненулевым размером, найдено и не найдено) и оберток; кейсы `LumexCMake.consumer_standard_mismatch_lib11_consumer20` и `LumexCMake.consumer_standard_mismatch_lib20_consumer11` собирают библиотеку в одном стандарте, а потребителя в другом. Ограничение Windows: обертки остаются членами классов с `LUMEX_API`, и MSVC без инлайнинга (Debug) вызывает их копию из DLL, поэтому на Windows DLL и потребитель по-прежнему собираются в одном стандарте.
+
+##### Заголовки больше не включаются внутри пространств имен
+
+**Файлы:**
+
+- `lumex/core/temporary/tmp/LumexTemporary.cpp`, `lumex/applied/settings/ini/LumexSettingsINI.cpp`, `lumex/core/utility/dump/LumexCoreDumpGenerator.hpp`
+- `Scripts/CodeTools/check_include_order.py`, `lumex/tests/CMakeLists.txt`, `lumex/tests/cmake/cases/wiring_include_order_ctest.cmake`, `lumex/tests/cmake/CMakeLists.txt`
+
+**Суть:** `<Windows.h>`, `<process.h>`, `<sys/types.h>` и `<unistd.h>` в `LumexTemporary.cpp`, `<iostream>` в `LumexSettingsINI.cpp` и `<concepts>` в `LumexCoreDumpGenerator.hpp` включались внутри пространства имен `lumex`. Это неопределенное поведение ([using.headers]): код работал только потому, что те же заголовки уже были включены раньше, иначе их объявления оказались бы в `lumex::...` и не нашлись бы при линковке. Теперь они стоят в блоке включений. Проверка `Scripts/CodeTools/check_include_order.py` отвергает такие включения, знает стандартные заголовки C++17-C++26 и запускается как тест CTest `LumexIncludeOrder` (метка `lint`), регистрацию которого закрепляет кейс `LumexCMake.wiring_include_order_ctest`.
+
+##### `LUMEX_OS_IS_*()` работают в `#if` и в коде, Apple получает `LUMEX_OS_UNIX`
+
+**Файлы:**
+
+- `lumex/core/utility/os/LumexCheckOS.hpp`, `lumex/applied/logger/logger/LumexLogger.hpp`
+- `lumex/tests/core/utility/LumexCheckOS.tests.cpp`, `lumex/tests/core/utility/CMakeLists.txt`
+
+**Суть:** `LUMEX_OS_IS_WINDOWS()`, `LUMEX_OS_IS_LINUX()` и остальные раскрывались в `defined (...)`: внутри `#if` это неопределенное поведение (GCC, Clang и MSVC его терпят), а в обычном коде такой макрос не компилировался, поэтому не собирался и `LUMEX_OS_DEBUG_INFO()`. Теперь каждый макрос раскрывается в константу `1` или `0`, вычисленную в заголовке; так же исправлены `LOGGER_OS_IS_*()` логгера. На Apple не определялся `LUMEX_OS_UNIX`, и `LumexTime`, `LumexTemporary`, обработчик сбоев и определение оборудования уходили в ветку неподдерживаемой ОС; теперь Apple определяет `LUMEX_OS_UNIX` вместе с `LUMEX_OS_APPLE`. Тест `LumexCheckOS.tests.cpp` проверяет макросы в `#if` и в коде в наборах C++11 (`LumexTypeTraitsTests`) и C++20 (`LumexUtilityTests`).
+
+##### Стандартную библиотеку C++ под Clang выбирает проект верхнего уровня
+
+**Файлы:**
+
+- `cmake/LumexOptions.cmake`, `cmake/LumexBuild.cmake`, `conanfile.py`
+- `lumex/tests/cmake/cases/wiring_clang_stdlib.cmake`, `lumex/tests/cmake/CMakeLists.txt`, `lumex/tests/cmake/consumer/run_consumer.cmake`
+- сабмодуль `CMakeRoutines`: `optimizations/OptimizationLevelConfig.cmake`, `deployment/LinkCompilerRuntime.cmake`, самотесты
+
+**Суть:** CMakeRoutines сам решал, брать ли libc++ (`-stdlib=libc++`, если с ним собирается и линкуется проверочная программа), и ставил флаг только самой цели. Встроенная библиотека навязывала libc++ проекту, который собирается с libstdc++, а потребитель библиотеки, собранной с libc++, флага не получал и не линковался из-за разного `std::string`. Теперь выбор задает опция `LUMEX_CLANG_STDLIB`: `AUTO` (проверка, как раньше) по умолчанию, когда LumexLib - проект верхнего уровня, `DEFAULT` (без `-stdlib`, библиотека родителя) при встраивании, `LIBCXX` требует libc++ и останавливает конфигурацию, если он непригоден. Рецепт Conan берет значение из `compiler.libcxx` профиля. В CMakeRoutines у `configure_optimization_level` появился аргумент `CXX_STDLIB`; у библиотек флаг `-stdlib=libc++` теперь PUBLIC (компиляция и линковка) и переходит к потребителям, у исполняемых файлов остается PRIVATE; `link_compiler_runtime` ищет `-stdlib` сначала у самой цели и у библиотек, которые она линкует, и только потом в глобальных флагах. Кейс `LumexCMake.wiring_clang_stdlib` и самотесты CMakeRoutines закрепляют поведение. Consumer-кейсы `LumexCMake.consumer_*` собирают встроенную библиотеку с `CMAKE_CXX_FLAGS` и `LUMEX_CLANG_STDLIB` вызывающего дерева, поэтому проходят и в дереве Clang с libc++, и в дереве Clang с libstdc++ из GCC 13.2.
+
+##### Тесты: GoogleTest и libc++, кейсы `LumexCMake.*` на Linux
+
+**Файлы:** `cmake/LumexBuild.cmake`, `lumex/tests/cmake/CMakeLists.txt`, `lumex/tests/cmake/cases/*.cmake`, сабмодуль `CMakeRoutines`
+
+**Суть:** CMakeRoutines собирает цели Clang с `-stdlib=libc++`, если libc++ пригоден, но vendored GoogleTest обходит `lumex_configure_target` и оставался бы на libstdc++, и тесты не линковались бы из-за разного `std::string`. Выбор стандартной библиотеки теперь переносится на `lumex_gtest_*`. Новые кейсы: `wiring_posix_system_libraries`, `source_no_inline_variable_in_cpp`, `source_no_public_api_inline_in_cpp`, `wiring_xml_keep_flags_gcc_only`, `wiring_gtest_cxx_stdlib`; `wiring_distr` проверяет замену рантайма. Кейсы `publish_distr_filters` и `wiring_recursive_source_collection` искали временный каталог только в `TEMP`, который есть лишь в Windows (`publish_distr_filters` к тому же создавал только `.dll`), а `wiring_msvc_vcvars_after_project` проверяет поведение, существующее только на Windows: теперь первые два проходят на Linux, а третий регистрируется только на Windows. В CMakeRoutines непригодный libc++ больше не отбрасывается молча: конфигурация один раз сообщает, какая библиотека остается, а его самотесты больше не пишут в `/` на Linux.
+
+##### `set_environment_variable` на POSIX не перезаписывал существующую переменную
+
+**Файлы:** `lumex/core/environment/env/LumexEnvironment.cpp`, `lumex/tests/applied/settings/LumexSettingsINI.tests.cpp`
+
+**Суть:** POSIX-стратегия вызывала `setenv (name, value, 0)`, поэтому повторная установка уже существующей переменной молча сохраняла старое значение, хотя `overwrite` по умолчанию `true` (на Windows `SetEnvironmentVariableA` перезаписывает всегда). Решение о перезаписи принимает `set_environment_variable`, стратегия теперь всегда вызывает `setenv (..., 1)`. Тест `GivenNoReadPermission_WhenIsIniValid_ThenReturnsFalse` на Linux ожидал `true` вопреки своему имени и раньше не выполнялся (заглушка вне Unix); теперь ожидает `false`, а под root пропускается, потому что права доступа root не ограничивают.
+
+
+## [v1.0.0.2] - 2026-09-28
+
+> Тег `v1.0.0.2`, релизный коммит `32a547d6`.
 
 ### [v1.0.0.2]
 

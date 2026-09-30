@@ -45,11 +45,18 @@
 #include <string>
 #include <type_traits>
 #include <utility>
-#if __cplusplus >= 202002L
+#if __cplusplus > 201703L && defined(__has_include)
+#if __has_include(<ranges>)
 #include <ranges>
+#endif
+#endif
+#if __cplusplus > 201703L && defined(__has_include)
+#if __has_include(<string_view>)
 #include <string_view>
 #endif
+#endif
 
+#include "lumex/core/utility/compiler/LumexCheckFeatures.hpp"
 #include "lumex/core/utility/traits/LumexTypeTraits.hpp"
 
 namespace lumex // NOLINT(modernize-concat-nested-namespaces)
@@ -60,7 +67,7 @@ namespace string
 {
 namespace text
 {
-#if __cplusplus >= 202002L
+#if LUMEX_HAS_STD_RANGES
 
 /**
  * @brief Streams every element of `range` with `operator<<`, separated by
@@ -126,7 +133,7 @@ join (Range const &range, Separator const &separator)
   return oss.str ();
 }
 
-#endif // __cplusplus >= 202002L
+#endif // LUMEX_HAS_STD_RANGES
 } // namespace text
 } // namespace string
 } // namespace core

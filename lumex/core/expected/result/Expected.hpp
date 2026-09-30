@@ -29,15 +29,21 @@
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wpadded"
 #pragma clang diagnostic ignored "-Wunsafe-buffer-usage"
+#if __has_warning("-Wunsafe-buffer-usage-in-libc-call")
 #pragma clang diagnostic ignored "-Wunsafe-buffer-usage-in-libc-call"
+#endif
 #pragma clang diagnostic ignored "-Wcovered-switch-default"
 #pragma clang diagnostic ignored "-Wswitch-enum"
+#if __has_warning("-Wnrvo")
 #pragma clang diagnostic ignored "-Wnrvo"
+#endif
 #pragma clang diagnostic ignored "-Wheader-hygiene"
 #pragma clang diagnostic ignored "-Wused-but-marked-unused"
 #pragma clang diagnostic ignored "-Wundefined-var-template"
 #pragma clang diagnostic ignored "-Wdeprecated-redundant-constexpr-static-def"
+#if __has_warning("-Wvariadic-macro-arguments-omitted")
 #pragma clang diagnostic ignored "-Wvariadic-macro-arguments-omitted"
+#endif
 #pragma clang diagnostic ignored "-Wunused-result"
 #pragma clang diagnostic ignored "-Wextra-semi-stmt"
 #pragma clang diagnostic ignored "-Wexpansion-to-defined"
@@ -54,6 +60,7 @@
 #include "lumex/core/expected/error/Unexpected.hpp"
 #include "lumex/core/utility/assert/LumexAssert.hpp"
 #include "lumex/core/utility/attr/LumexAttributes.hpp"
+#include "lumex/core/utility/compiler/LumexCheckFeatures.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 
 /**
@@ -940,7 +947,7 @@ public:
    * @return Expected<U, ErrorType> holding the result of 'func' or the current
    * error.
    */
-#if __cplusplus >= 202002L
+#if LUMEX_HAS_CONCEPTS
   template <typename FunctionType>
     requires requires (FunctionType &&f, SuccessType &val) {
       {
@@ -990,7 +997,7 @@ public:
    * @throws May throw if `func` throws or the constructor
    * of `Expected` from an error throws.
    */
-#if __cplusplus >= 202002L
+#if LUMEX_HAS_CONCEPTS
   template <typename FunctionType>
     requires requires (FunctionType &&f, const SuccessType &val) {
       {
@@ -1041,7 +1048,7 @@ public:
    * @throws May throw if `func` throws or the constructor
    * of `Expected` from an error throws.
    */
-#if __cplusplus >= 202002L
+#if LUMEX_HAS_CONCEPTS
   template <typename FunctionType>
     requires requires (FunctionType &&f, SuccessType &&val) {
       {
@@ -1092,7 +1099,7 @@ public:
    * @throws May throw if `func` throws or the constructor
    * of `Expected` from an error throws.
    */
-#if __cplusplus >= 202002L
+#if LUMEX_HAS_CONCEPTS
   template <typename FunctionType>
     requires requires (FunctionType &&f, const SuccessType &&val) {
       {
@@ -1137,7 +1144,7 @@ public:
    * @return Expected<U, ErrorType> holding the transformed value or the
    * current error.
    */
-#if __cplusplus >= 202002L
+#if LUMEX_HAS_CONCEPTS
   template <typename FunctionType>
     requires requires (FunctionType &&f, SuccessType &val) {
       {
@@ -1146,7 +1153,8 @@ public:
     } && (!std::is_void_v<std::invoke_result_t<FunctionType, SuccessType &>>)
              && (!lumex::core::utility::traits::value::is_expected_v<
                  std::invoke_result_t<FunctionType, SuccessType &>>)
-  LUMEX_CONSTEXPR_FUNCTION auto transform (FunctionType func) & -> Expected<
+  LUMEX_CONSTEXPR_FUNCTION auto
+  transform (FunctionType func) & -> Expected<
       std::invoke_result_t<FunctionType, SuccessType &>, ErrorType>
   {
     if (m_has_value)
@@ -1190,7 +1198,7 @@ public:
    * @throws May throw if `func` throws or the constructor
    * of `Expected` from an error throws.
    */
-#if __cplusplus >= 202002L
+#if LUMEX_HAS_CONCEPTS
   template <typename FunctionType>
     requires requires (FunctionType &&f, const SuccessType &val) {
       {
@@ -1201,9 +1209,9 @@ public:
                  std::invoke_result_t<FunctionType, const SuccessType &>>)
              && (!lumex::core::utility::traits::value::is_expected_v<
                  std::invoke_result_t<FunctionType, const SuccessType &>>)
-  LUMEX_CONSTEXPR_FUNCTION
-      auto transform (FunctionType func) const & -> Expected<
-          std::invoke_result_t<FunctionType, const SuccessType &>, ErrorType>
+  LUMEX_CONSTEXPR_FUNCTION auto
+  transform (FunctionType func) const & -> Expected<
+      std::invoke_result_t<FunctionType, const SuccessType &>, ErrorType>
   {
     if (m_has_value)
       return Expected<std::invoke_result_t<FunctionType, SuccessType const &>,
@@ -1253,7 +1261,7 @@ public:
    * @throws May throw if `func` throws or the constructor
    * of `Expected` from an error throws.
    */
-#if __cplusplus >= 202002L
+#if LUMEX_HAS_CONCEPTS
   template <typename FunctionType>
     requires requires (FunctionType &&f, SuccessType &&val) {
       {
@@ -1262,7 +1270,8 @@ public:
     } && (!std::is_void_v<std::invoke_result_t<FunctionType, SuccessType &&>>)
              && (!lumex::core::utility::traits::value::is_expected_v<
                  std::invoke_result_t<FunctionType, SuccessType &&>>)
-  LUMEX_CONSTEXPR_FUNCTION auto transform (FunctionType func) && -> Expected<
+  LUMEX_CONSTEXPR_FUNCTION auto
+  transform (FunctionType func) && -> Expected<
       std::invoke_result_t<FunctionType, SuccessType &&>, ErrorType>
   {
     if (m_has_value)
@@ -1308,7 +1317,7 @@ public:
    * @throws May throw if `func` throws or the constructor
    * of `Expected` from an error throws.
    */
-#if __cplusplus >= 202002L
+#if LUMEX_HAS_CONCEPTS
   template <typename FunctionType>
     requires requires (FunctionType &&f, const SuccessType &&val) {
       {
@@ -1319,9 +1328,9 @@ public:
                  std::invoke_result_t<FunctionType, const SuccessType &&>>)
              && (!lumex::core::utility::traits::value::is_expected_v<
                  std::invoke_result_t<FunctionType, const SuccessType &&>>)
-  LUMEX_CONSTEXPR_FUNCTION
-      auto transform (FunctionType func) const && -> Expected<
-          std::invoke_result_t<FunctionType, const SuccessType &&>, ErrorType>
+  LUMEX_CONSTEXPR_FUNCTION auto
+  transform (FunctionType func) const && -> Expected<
+      std::invoke_result_t<FunctionType, const SuccessType &&>, ErrorType>
   {
     if (m_has_value)
       return Expected<std::invoke_result_t<FunctionType, SuccessType const &&>,
@@ -1362,7 +1371,7 @@ public:
    * @return Expected<SuccessType, F_E> holding the current value or the result
    * of 'func'.
    */
-#if __cplusplus >= 202002L
+#if LUMEX_HAS_CONCEPTS
   template <typename FunctionType>
     requires requires (FunctionType &&f, ErrorType &err) {
       {
@@ -1410,7 +1419,7 @@ public:
    * @throws May throw if `func` throws or the constructor
    * `Expected` from a value throws.
    */
-#if __cplusplus >= 202002L
+#if LUMEX_HAS_CONCEPTS
   template <typename FunctionType>
     requires requires (FunctionType &&f, const ErrorType &err) {
       {
@@ -1459,7 +1468,7 @@ public:
    * @throws May throw if `func` throws or the constructor
    * `Expected` from a value throws.
    */
-#if __cplusplus >= 202002L
+#if LUMEX_HAS_CONCEPTS
   template <typename FunctionType>
     requires requires (FunctionType &&f, ErrorType &&err) {
       {
@@ -1509,7 +1518,7 @@ public:
    * @throws May throw if `func` throws or the constructor
    * `Expected` from a value throws.
    */
-#if __cplusplus >= 202002L
+#if LUMEX_HAS_CONCEPTS
   template <typename FunctionType>
     requires requires (FunctionType &&f, const ErrorType &&err) {
       {
@@ -1553,7 +1562,7 @@ public:
    * @return Expected<SuccessType, F_E> holding the current value or the
    * transformed error.
    */
-#if __cplusplus >= 202002L
+#if LUMEX_HAS_CONCEPTS
   template <typename FunctionType>
     requires requires (FunctionType &&f, ErrorType &err) {
       {
@@ -1562,9 +1571,9 @@ public:
     } && (!std::is_void_v<std::invoke_result_t<FunctionType, ErrorType &>>)
              && (!lumex::core::utility::traits::value::is_expected_v<
                  std::invoke_result_t<FunctionType, ErrorType &>>)
-  LUMEX_CONSTEXPR_FUNCTION
-      auto transform_error (FunctionType func) & -> Expected<
-          SuccessType, std::invoke_result_t<FunctionType, ErrorType &>>
+  LUMEX_CONSTEXPR_FUNCTION auto
+  transform_error (FunctionType func) & -> Expected<
+      SuccessType, std::invoke_result_t<FunctionType, ErrorType &>>
   {
     if (m_has_value)
       return Expected<SuccessType,
@@ -1610,7 +1619,7 @@ public:
    * @throws May throw if `func` throws or the constructor
    * `Expected` from a value throws.
    */
-#if __cplusplus >= 202002L
+#if LUMEX_HAS_CONCEPTS
   template <typename FunctionType>
     requires requires (FunctionType &&f, const ErrorType &err) {
       {
@@ -1621,9 +1630,9 @@ public:
                  std::invoke_result_t<FunctionType, const ErrorType &>>)
              && (!lumex::core::utility::traits::value::is_expected_v<
                  std::invoke_result_t<FunctionType, const ErrorType &>>)
-  LUMEX_CONSTEXPR_FUNCTION
-      auto transform_error (FunctionType func) const & -> Expected<
-          SuccessType, std::invoke_result_t<FunctionType, const ErrorType &>>
+  LUMEX_CONSTEXPR_FUNCTION auto
+  transform_error (FunctionType func) const & -> Expected<
+      SuccessType, std::invoke_result_t<FunctionType, const ErrorType &>>
   {
     if (m_has_value)
       return Expected<SuccessType,
@@ -1669,7 +1678,7 @@ public:
    * @throws May throw if `func` throws or the constructor
    * `Expected` from a value throws.
    */
-#if __cplusplus >= 202002L
+#if LUMEX_HAS_CONCEPTS
   template <typename FunctionType>
     requires requires (FunctionType &&f, ErrorType &&err) {
       {
@@ -1678,9 +1687,9 @@ public:
     } && (!std::is_void_v<std::invoke_result_t<FunctionType, ErrorType &&>>)
              && (!lumex::core::utility::traits::value::is_expected_v<
                  std::invoke_result_t<FunctionType, ErrorType &&>>)
-  LUMEX_CONSTEXPR_FUNCTION
-      auto transform_error (FunctionType func) && -> Expected<
-          SuccessType, std::invoke_result_t<FunctionType, ErrorType &&>>
+  LUMEX_CONSTEXPR_FUNCTION auto
+  transform_error (FunctionType func) && -> Expected<
+      SuccessType, std::invoke_result_t<FunctionType, ErrorType &&>>
   {
     if (m_has_value)
       return Expected<SuccessType,
@@ -1727,7 +1736,7 @@ public:
    * @throws May throw if `func` throws or the constructor
    * `Expected` from a value throws.
    */
-#if __cplusplus >= 202002L
+#if LUMEX_HAS_CONCEPTS
   template <typename FunctionType>
     requires requires (FunctionType &&f, const ErrorType &&err) {
       {
@@ -1738,9 +1747,9 @@ public:
                  std::invoke_result_t<FunctionType, const ErrorType &&>>)
              && (!lumex::core::utility::traits::value::is_expected_v<
                  std::invoke_result_t<FunctionType, const ErrorType &&>>)
-  LUMEX_CONSTEXPR_FUNCTION
-      auto transform_error (FunctionType func) const && -> Expected<
-          SuccessType, std::invoke_result_t<FunctionType, const ErrorType &&>>
+  LUMEX_CONSTEXPR_FUNCTION auto
+  transform_error (FunctionType func) const && -> Expected<
+      SuccessType, std::invoke_result_t<FunctionType, const ErrorType &&>>
   {
     if (m_has_value)
       return Expected<SuccessType,

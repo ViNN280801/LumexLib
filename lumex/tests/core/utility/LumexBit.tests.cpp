@@ -2,7 +2,9 @@
 #include <cstdint>
 #include <limits>
 #include <type_traits>
+#if __has_include(<version>)
 #include <version>
+#endif
 
 #if defined(__cpp_lib_byteswap) && __cpp_lib_byteswap >= 202110L
 #include <bit>
@@ -12,11 +14,15 @@
 
 #include "lumex/core/utility/assert/LumexAssert.hpp"
 #include "lumex/core/utility/bit/LumexBit.hpp"
+#include "lumex/core/utility/compiler/LumexCheckFeatures.hpp"
 #if defined(__clang__)
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wglobal-constructors"
 #pragma clang diagnostic ignored "-Wexit-time-destructors"
 #endif
+
+#if LUMEX_HAS_CONCEPTS && LUMEX_HAS_STD_BIT_CAST && LUMEX_HAS_STD_RANGES      \
+    && LUMEX_HAS_STD_IS_CONSTANT_EVALUATED
 
 using namespace lumex::core::utility::bit;
 
@@ -229,3 +235,13 @@ INSTANTIATE_TEST_SUITE_P (KnownPatterns, LumexBitRoundtrip32Test,
                           ::testing::Values (0u, 1u, 0xFFu, 0xFF00u, 0xFF0000u,
                                              0x80000000u, 0x7FFFFFFFu,
                                              0xA5A5A5A5u, 0x5A5A5A5Au));
+
+#else // the toolchain lacks the features of the module
+
+TEST (LumexBitTest, UnavailableOnThisToolchain)
+{
+  GTEST_SKIP () << "LumexBit.hpp needs C++20 concepts, std::bit_cast, "
+                   "std::ranges and std::is_constant_evaluated";
+}
+
+#endif

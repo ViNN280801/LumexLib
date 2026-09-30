@@ -2,7 +2,9 @@
 #
 # Required: CASE, LUMEX_SOURCE_DIR, WORK_DIR, GENERATOR, CXX_COMPILER.
 # Optional: BUILD_TYPE (default Release), EXTRA_ARGS (;-list of -D...),
-# CONFIGURE_ONLY (stop after a successful configure).
+# CONFIGURE_ONLY (stop after a successful configure), CXX_FLAGS and
+# CLANG_STDLIB (the calling tree's CMAKE_CXX_FLAGS and LUMEX_CLANG_STDLIB,
+# forwarded when set).
 #
 # The nested build uses the compiler environment of the calling ctest. On
 # MSVC that means a developer shell (INCLUDE/LIB set); without it the case
@@ -30,12 +32,21 @@ set(_source "${CMAKE_CURRENT_LIST_DIR}/${CASE}")
 set(_binary "${WORK_DIR}/${CASE}")
 file(REMOVE_RECURSE "${_binary}")
 
+set(_forwarded "")
+if(NOT "${CXX_FLAGS}" STREQUAL "")
+    list(APPEND _forwarded "-DCMAKE_CXX_FLAGS=${CXX_FLAGS}")
+endif()
+if(NOT "${CLANG_STDLIB}" STREQUAL "")
+    list(APPEND _forwarded "-DLUMEX_CLANG_STDLIB=${CLANG_STDLIB}")
+endif()
+
 execute_process(
     COMMAND "${CMAKE_COMMAND}"
         -S "${_source}" -B "${_binary}" -G "${GENERATOR}"
         "-DCMAKE_CXX_COMPILER=${CXX_COMPILER}"
         "-DCMAKE_BUILD_TYPE=${BUILD_TYPE}"
         "-DLUMEX_SOURCE_DIR=${LUMEX_SOURCE_DIR}"
+        ${_forwarded}
         ${EXTRA_ARGS}
     RESULT_VARIABLE _rc
     OUTPUT_VARIABLE _out

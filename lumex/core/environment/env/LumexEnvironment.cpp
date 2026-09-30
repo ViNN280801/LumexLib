@@ -4,7 +4,6 @@
 
 #include "LumexEnvironment.hpp"
 
-#if LUMEX_OS_WINDOWS
 namespace lumex
 {
 namespace core
@@ -13,6 +12,7 @@ namespace environment
 {
 namespace env
 {
+#if defined(LUMEX_OS_WINDOWS)
 LUMEX_PUBLIC_API
 LumexEnvironment::EnvResult
 LumexEnvironment::WindowsEnvironmentStrategy::get_variable (
@@ -126,8 +126,10 @@ LumexEnvironment::PosixEnvironmentStrategy::set_variable (
     return false;
 
 #if defined(_POSIX_C_SOURCE) && _POSIX_C_SOURCE >= 200112L
-  // Use setenv if available (POSIX.1-2001)
-  return setenv (name, value ? value : "", value ? 0 : 1) == 0;
+  // Use setenv if available (POSIX.1-2001). Always overwrite: the caller
+  // (set_environment_variable) has already applied its `overwrite` choice,
+  // like SetEnvironmentVariableA does on Windows.
+  return setenv (name, value ? value : "", 1) == 0;
 #else
   // Fallback to putenv (less safe, but more portable)
   if (value == nullptr)
@@ -262,9 +264,8 @@ LumexEnvironment::is_environment_variable_truthy (char const *name) const
 
   string_type value_lower = value;
   std::transform (value_lower.begin (), value_lower.end (),
-                  value_lower.begin (), [] (unsigned char chr) {
-                    return static_cast<char> (std::tolower (chr));
-                  });
+                  value_lower.begin (), [] (unsigned char chr)
+                    { return static_cast<char> (std::tolower (chr)); });
 
   return !(value.empty () || value_lower == "false" || value_lower == "0");
 }

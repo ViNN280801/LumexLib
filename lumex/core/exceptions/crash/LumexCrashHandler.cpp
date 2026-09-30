@@ -1,5 +1,6 @@
 #define LUMEX_IMPLEMENTATION
 #include <cstring>
+#include <fstream> // used in _generateCoreDump() (Unix)
 #include <iostream>
 
 #include "DefaultPaths.hpp"
@@ -8,10 +9,6 @@
 #include "lumex/core/filesystem/LumexFilesystem"
 #include "lumex/core/time/LumexTime"
 #include "lumex/core/utility/attr/LumexAttributes.hpp"
-
-#if LUMEX_OS_UNIX
-#include <fstream> // used in _generateCoreDump()
-#endif
 
 namespace lumex
 {
@@ -43,7 +40,7 @@ LumexCrashHandler::initialize (
 
   try
     {
-#if LUMEX_OS_UNIX
+#if defined(LUMEX_OS_UNIX)
       std::string homeDir = LumexEnvironment::get ("HOME").value;
       if (homeDir.empty ())
         {
@@ -102,7 +99,7 @@ LumexCrashHandler::initialize (
                 << KDEFAULT_CRASHES_DIR_PATH << "\n";
 #endif
 
-#if LUMEX_OS_WINDOWS
+#if defined(LUMEX_OS_WINDOWS)
       // Set Windows unhandled exception filter
       // SetUnhandledExceptionFilter(_WindowsCrashHandler);
       std::cout << "Windows crash handler installed\n";
@@ -132,7 +129,7 @@ LumexCrashHandler::_notifyAndLog (std::string const &errorMessage)
   std::cerr << "CRASH: " << errorMessage << "\n";
 
   // On Windows, show a message box
-#if LUMEX_OS_WINDOWS
+#if defined(LUMEX_OS_WINDOWS)
   MessageBoxA (nullptr, errorMessage.c_str (), "Application Crash",
                MB_OK | MB_ICONERROR);
 #endif
@@ -142,7 +139,7 @@ LUMEX_PUBLIC_API
 std::string
 LumexCrashHandler::_generateDumpFilename (std::string const &prefix)
 {
-#if LUMEX_OS_UNIX
+#if defined(LUMEX_OS_UNIX)
   lumex::path dir;
 
   // Check if we're running in AppImage mode
@@ -204,7 +201,7 @@ LumexCrashHandler::_generateDumpFilename (std::string const &prefix)
   std::string timestamp = LumexTime::get_current_datetime ();
   lumex::path dumpPath = dir
                          / lumex::path ((std::string (prefix) + timestamp
-#if LUMEX_OS_WINDOWS
+#if defined(LUMEX_OS_WINDOWS)
                                          + ".dmp"));
 #else
                                          + ".core"));
@@ -213,7 +210,7 @@ LumexCrashHandler::_generateDumpFilename (std::string const &prefix)
   return dumpPath.string ();
 }
 
-#if LUMEX_OS_WINDOWS
+#if defined(LUMEX_OS_WINDOWS)
 LUMEX_PUBLIC_API
 LONG WINAPI
 LumexCrashHandler::_onWindowsCrashHandler (PEXCEPTION_POINTERS pExInfo)
@@ -462,7 +459,7 @@ LumexCrashHandler::_setupSignalHandlers ()
   struct sigaction sigAct;
   sigAct.sa_handler = _signalHandler;
   sigemptyset (&sigAct.sa_mask);
-  sigAct.sa_flags = SA_RESETHAND;
+  sigAct.sa_flags = static_cast<int> (SA_RESETHAND);
 
   sigaction (SIGSEGV, &sigAct, nullptr);
   sigaction (SIGABRT, &sigAct, nullptr);

@@ -66,6 +66,60 @@ def resolve_config(config_arg: Path) -> Path:
     return path
 
 
+def resolve_clang_format(binary_arg: str | None) -> str:
+    """Return the clang-format executable to run.
+
+    Without --with-clang-format the first clang-format found in PATH is used.
+    With it, the value is a path to the executable or a command name that is
+    looked up in PATH. The value is kept as text: Path("./clang-format") would
+    collapse to "clang-format" and be searched in PATH instead of the cwd.
+    """
+    if binary_arg is None:
+        found = shutil.which("clang-format")
+        if found is None:
+            raise FileNotFoundError(
+                "clang-format not found in PATH.\n"
+                "Install LLVM/clang-format and ensure it is on PATH, "
+                "or pass --with-clang-format PATH."
+            )
+        return found
+
+    candidate = os.path.expanduser(binary_arg.strip())
+    if not candidate:
+        raise FileNotFoundError("--with-clang-format needs a path to the clang-format executable.")
+    if os.path.isdir(candidate):
+        raise FileNotFoundError(
+            f"--with-clang-format expects the clang-format executable, not a directory: {candidate}"
+        )
+    found = shutil.which(candidate)
+    if found is None:
+        raise FileNotFoundError(f"clang-format not found or not executable: {candidate}")
+    return os.path.abspath(found)
+
+
+def probe_clang_format(clang_format: str) -> str:
+    """Run `clang-format --version` and return its text.
+
+    Raises RuntimeError if the binary cannot be started or exits with an error,
+    so a broken binary stops the run instead of failing every single file.
+    """
+    try:
+        result = subprocess.run(
+            [clang_format, "--version"],
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            check=False,
+        )
+    except OSError as exc:
+        raise RuntimeError(f"Cannot run {clang_format}: {exc}") from exc
+    output = (result.stdout or result.stderr).strip()
+    if result.returncode != 0:
+        raise RuntimeError(f"{clang_format} --version exited with code {result.returncode}:\n{output}")
+    return output
+
+
 def collect_work_units(root: Path) -> list[tuple[Path, bool]]:
     units: list[tuple[Path, bool]] = [(root, False)]
     try:
@@ -96,11 +150,16 @@ def iter_source_files(
     return files
 
 
-def format_one(path: Path, config: Path, check: bool = False) -> tuple[str, Path]:
+def format_one(
+    path: Path,
+    config: Path,
+    check: bool = False,
+    clang_format: str = "clang-format",
+) -> tuple[str, Path]:
     if check:
-        argv = ["clang-format", "--dry-run", "-Werror", f"--style=file:{config}", str(path)]
+        argv = [clang_format, "--dry-run", "-Werror", f"--style=file:{config}", str(path)]
     else:
-        argv = ["clang-format", "-i", f"--style=file:{config}", str(path)]
+        argv = [clang_format, "-i", f"--style=file:{config}", str(path)]
     result = subprocess.run(
         argv,
         capture_output=True,
@@ -120,6 +179,7 @@ def process_unit(
     exclude: re.Pattern[str] | None,
     extensions: set[str],
     check: bool = False,
+    clang_format: str = "clang-format",
 ) -> tuple[int, int, int]:
     ok = skipped = failed = 0
     for path in iter_source_files(directory, recursive, extensions):
@@ -127,7 +187,7 @@ def process_unit(
         if exclude is not None and exclude.search(path_str):
             skipped += 1
             continue
-        status, file_path = format_one(path, config, check)
+        status, file_path = format_one(path, config, check, clang_format)
         with _PRINT_LOCK:
             if status == "ok":
                 print(f"OK: {file_path}")
@@ -165,6 +225,15 @@ def build_parser() -> argparse.ArgumentParser:
         help="Path to .clang-format file, or a directory containing it",
     )
     parser.add_argument(
+        "--with-clang-format",
+        default=None,
+        metavar="PATH",
+        help=(
+            "clang-format executable to run: a path, or a command name looked up in PATH "
+            "(default: clang-format from PATH)"
+        ),
+    )
+    parser.add_argument(
         "--exclude",
         default=None,
         help=r'Path patterns separated by "," or "|", e.g. "3rdparty|Temp" or "3rdparty,Temp"',
@@ -193,9 +262,11 @@ def main() -> int:
     started = time.perf_counter()
     args = build_parser().parse_args()
 
-    if shutil.which("clang-format") is None:
-        print("ERROR: clang-format not found in PATH.", file=sys.stderr)
-        print("Install LLVM/clang-format and ensure it is on PATH.", file=sys.stderr)
+    try:
+        clang_format = resolve_clang_format(args.with_clang_format)
+        version_text = probe_clang_format(clang_format)
+    except (FileNotFoundError, RuntimeError) as exc:
+        print(f"ERROR: {exc}", file=sys.stderr)
         return 1
 
     if not args.dir and not args.files:
@@ -231,16 +302,8 @@ def main() -> int:
         print(f"ERROR: Invalid --exclude pattern: {exc}", file=sys.stderr)
         return 1
 
-    version = subprocess.run(
-        ["clang-format", "--version"],
-        capture_output=True,
-        text=True,
-        encoding="utf-8",
-        errors="replace",
-        check=False,
-    )
     print("clang-format:")
-    print((version.stdout or version.stderr).strip())
+    print(version_text)
     print(f"Directories ({len(roots)}):")
     for root in roots:
         print(f"  - {root}")
@@ -248,6 +311,7 @@ def main() -> int:
     for file_path in files:
         print(f"  - {file_path}")
     print(f"Config:    {config}")
+    print(f"Binary:    {clang_format}")
     print(f"Exts:      {', '.join(sorted(extensions))}")
     print(f"Exclude:   {args.exclude if args.exclude else '(none)'}")
     print()
@@ -261,11 +325,11 @@ def main() -> int:
     total_ok = total_skipped = total_failed = 0
     with ThreadPoolExecutor(max_workers=jobs) as pool:
         futures = [
-            pool.submit(process_unit, directory, recursive, config, exclude, extensions, args.check)
+            pool.submit(process_unit, directory, recursive, config, exclude, extensions, args.check, clang_format)
             for directory, recursive in units
         ]
         file_futures = {
-            pool.submit(format_one, file_path, config, args.check): file_path
+            pool.submit(format_one, file_path, config, args.check, clang_format): file_path
             for file_path in files
             if exclude is None or not exclude.search(str(file_path))
         }

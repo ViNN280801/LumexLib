@@ -4,6 +4,21 @@
 # library group is OFF so -DLUMEX_BUILD_TESTS=ON still has a suite.
 add_subdirectory(cmake)
 
+# Include order of every source under lumex/ (quality-gates section 7). The
+# checker runs on Python 3.7 and later; without an interpreter the test is
+# not registered.
+find_package(Python3 COMPONENTS Interpreter QUIET)
+if(Python3_Interpreter_FOUND)
+    add_test(NAME LumexIncludeOrder
+        COMMAND ${Python3_EXECUTABLE}
+            ${LumexLib_SOURCE_DIR}/Scripts/CodeTools/check_include_order.py
+            --check --dir ${LumexLib_SOURCE_DIR}/lumex
+    )
+    set_tests_properties(LumexIncludeOrder PROPERTIES LABELS "lint")
+else()
+    message(STATUS "Skipping LumexIncludeOrder: no Python 3 interpreter")
+endif()
+
 # Two vendored GoogleTest trees (not FetchContent):
 #   1.12.1 for C++11/14 tests, 1.18.0 for C++17+ tests.
 include("${CMAKE_CURRENT_LIST_DIR}/../../cmake/LumexGoogleTest.cmake")

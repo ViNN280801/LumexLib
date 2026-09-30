@@ -347,31 +347,33 @@ TYPED_TEST (UnexpectedTest, ThreadSafety_MultipleIndependentInstances)
   // Act
   for (int i = 0; i < num_threads; ++i)
     {
-      threads.emplace_back ([&, i] () {
-        // Each thread constructs its Unexpected (moving its error)
-        Unexpected<TypeParam> uut (std::move (initial_errors[i]));
-        // and checks its value
-        // Note: initial_errors[i] is moved-from; compare against the
-        // expected value (the value from before the move)
-        if constexpr (std::is_same_v<TypeParam, ComplexError>)
-          {
-            EXPECT_EQ (uut.error ().code,
-                       400 + i); // Check a specific ComplexError field
-          }
-        else
-          {
-            // For simple types, uut.error() still holds the original
-            // value because copy/move does not empty the source for
-            // those types. After std::move(), initial_errors[i] may be
-            // unspecified for std::string. Compare against a copy taken
-            // before the move. initial_errors[i] cannot be compared to
-            // uut.error() here, because initial_errors[i] has already
-            // been moved from. This test mainly checks that Unexpected
-            // was created and error() works.
-            SUCCEED (); // If not ComplexError, just assert there is no
-                        // crash.
-          }
-      });
+      threads.emplace_back (
+          [&, i] ()
+            {
+              // Each thread constructs its Unexpected (moving its error)
+              Unexpected<TypeParam> uut (std::move (initial_errors[i]));
+              // and checks its value
+              // Note: initial_errors[i] is moved-from; compare against the
+              // expected value (the value from before the move)
+              if constexpr (std::is_same_v<TypeParam, ComplexError>)
+                {
+                  EXPECT_EQ (uut.error ().code,
+                             400 + i); // Check a specific ComplexError field
+                }
+              else
+                {
+                  // For simple types, uut.error() still holds the original
+                  // value because copy/move does not empty the source for
+                  // those types. After std::move(), initial_errors[i] may be
+                  // unspecified for std::string. Compare against a copy taken
+                  // before the move. initial_errors[i] cannot be compared to
+                  // uut.error() here, because initial_errors[i] has already
+                  // been moved from. This test mainly checks that Unexpected
+                  // was created and error() works.
+                  SUCCEED (); // If not ComplexError, just assert there is no
+                              // crash.
+                }
+            });
     }
 
   for (auto &t : threads)

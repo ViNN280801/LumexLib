@@ -5,6 +5,9 @@
 #include <string>
 #include <thread>
 #include <vector>
+#if __cplusplus >= 201703L
+#include <string_view>
+#endif
 
 #include <gtest/gtest.h>
 
@@ -201,6 +204,134 @@ TEST_F (Base64DecoderTest,
     }
 }
 
+// --- Pointer and size core (same signature in every standard) ---------
+
+TEST_F (Base64DecoderTest,
+        GivenNullPointerAndZeroSize_WhenDecode_ThenFalseAndOutputCleared)
+{
+  // nullptr is checked before the size: (nullptr, 0) is not an empty input.
+  std::vector<byte_type> out (3, 0x7F);
+  EXPECT_FALSE (Decoder::decode (nullptr, 0, out));
+  EXPECT_TRUE (out.empty ());
+  EXPECT_TRUE (Decoder::decode (nullptr, 0).empty ());
+}
+
+TEST_F (Base64DecoderTest,
+        GivenNullPointerAndNonZeroSize_WhenDecode_ThenFalseAndOutputCleared)
+{
+  std::vector<byte_type> out (3, 0x7F);
+  EXPECT_FALSE (Decoder::decode (nullptr, 1, out));
+  EXPECT_TRUE (out.empty ());
+  out.assign (3, 0x7F);
+  EXPECT_FALSE (Decoder::decode (nullptr, 8, out));
+  EXPECT_TRUE (out.empty ());
+  EXPECT_TRUE (Decoder::decode (nullptr, 8).empty ());
+}
+
+TEST_F (Base64DecoderTest,
+        GivenEmptyNonNullRange_WhenDecode_ThenTrueAndOutputCleared)
+{
+  std::vector<byte_type> out (3, 0x7F);
+  EXPECT_TRUE (Decoder::decode ("", 0, out));
+  EXPECT_TRUE (out.empty ());
+  // Size 0 over a non-empty buffer is an empty input as well.
+  out.assign (3, 0x7F);
+  EXPECT_TRUE (Decoder::decode ("SGk=", 0, out));
+  EXPECT_TRUE (out.empty ());
+}
+
+TEST_F (Base64DecoderTest,
+        GivenRangeInsideLargerBuffer_WhenDecode_ThenOnlyTheRangeIsRead)
+{
+  char const buffer[] = "xxSGVsbG8=yy";
+  std::vector<byte_type> out;
+  ASSERT_TRUE (Decoder::decode (buffer + 2, 8, out));
+  EXPECT_EQ (std::string (out.begin (), out.end ()), "Hello");
+  std::vector<byte_type> const bytes = Decoder::decode (buffer + 2, 8);
+  EXPECT_EQ (std::string (bytes.begin (), bytes.end ()), "Hello");
+  // The same buffer with its invalid neighbours is rejected.
+  EXPECT_FALSE (Decoder::decode (buffer, 12, out));
+  EXPECT_TRUE (out.empty ());
+}
+
+TEST_F (Base64DecoderTest,
+        GivenUnpaddedRangeFollowedByAlphabet_WhenDecode_ThenStopsAtRangeEnd)
+{
+  // "SGk" is "Hi" without its padding: the 'A' after the range must not
+  // become a third byte.
+  char const buffer[] = "SGkA";
+  std::vector<byte_type> out;
+  ASSERT_TRUE (Decoder::decode (buffer, 3, out));
+  EXPECT_EQ (std::string (out.begin (), out.end ()), "Hi");
+}
+
+TEST_F (Base64DecoderTest, GivenUnpaddedInput_WhenDecode_ThenDecodesLastGroup)
+{
+  struct UnpaddedCase
+  {
+    std::string input;
+    std::string expected;
+  };
+  std::vector<UnpaddedCase> const cases = {
+    { "QQ", "A" },               // last group of two characters
+    { "SGk", "Hi" },             // last group of three characters
+    { "SGVsbG8", "Hello" },      // a full group, then three characters
+    { "QUJDREVGRw", "ABCDEFG" }, // two full groups, then two characters
+  };
+  for (auto const &test : cases)
+    {
+      std::vector<byte_type> out;
+      EXPECT_TRUE (Decoder::decode (test.input, out)) << test.input;
+      EXPECT_EQ (std::string (out.begin (), out.end ()), test.expected)
+          << test.input;
+    }
+}
+
+TEST_F (Base64DecoderTest, GivenEmbeddedNul_WhenDecode_ThenFalse)
+{
+  std::string const encoded ("SG\0k", 4);
+  std::vector<byte_type> out (2, 0x7F);
+  EXPECT_FALSE (Decoder::decode (encoded.data (), encoded.size (), out));
+  EXPECT_TRUE (out.empty ());
+  EXPECT_FALSE (Decoder::decode (encoded, out));
+  EXPECT_TRUE (Decoder::decode (encoded).empty ());
+}
+
+TEST_F (Base64DecoderTest, GivenRangeOfOneDataCharacter_WhenDecode_ThenFalse)
+{
+  // One character cannot hold a byte; the '=' after it is outside the range.
+  std::vector<byte_type> out;
+  EXPECT_FALSE (Decoder::decode ("S===", 1, out));
+  EXPECT_TRUE (out.empty ());
+}
+
+#if __cplusplus >= 201703L
+TEST_F (Base64DecoderTest,
+        GivenDefaultConstructedStringView_WhenDecode_ThenTrueAndEmpty)
+{
+  // A default-constructed view has no data pointer but is an empty input,
+  // unlike the pointer and size core called with nullptr.
+  std::string_view const empty_view;
+  ASSERT_EQ (empty_view.data (), nullptr);
+  std::vector<byte_type> out (3, 0x7F);
+  EXPECT_TRUE (Decoder::decode (empty_view, out));
+  EXPECT_TRUE (out.empty ());
+  EXPECT_TRUE (Decoder::decode (empty_view).empty ());
+}
+
+TEST_F (Base64DecoderTest,
+        GivenStringViewSubRange_WhenDecode_ThenOnlyTheViewIsRead)
+{
+  std::string const longer = "xxSGk=yy";
+  std::string_view const view = std::string_view (longer).substr (2, 4);
+  std::vector<byte_type> const bytes = Decoder::decode (view);
+  EXPECT_EQ (std::string (bytes.begin (), bytes.end ()), "Hi");
+  // Without the padding the view is still valid unpadded Base64.
+  std::vector<byte_type> const unpadded = Decoder::decode (view.substr (0, 3));
+  EXPECT_EQ (std::string (unpadded.begin (), unpadded.end ()), "Hi");
+}
+#endif
+
 // --- Error & Exception Flow Tests --------------------------------------
 
 TEST_F (Base64DecoderTest, GivenInvalidCharacters_WhenDecode_ThenReturnsFalse)
@@ -365,9 +496,12 @@ TEST_F (Base64DecoderTest, ThreadSafety_SimultaneousDecoding)
 
   for (int i = 0; i < num_threads; ++i)
     {
-      threads.emplace_back ([&results, &test_input, i] () {
-        results[i].first = Decoder::decode (test_input, results[i].second);
-      });
+      threads.emplace_back (
+          [&results, &test_input, i] ()
+            {
+              results[i].first
+                  = Decoder::decode (test_input, results[i].second);
+            });
     }
 
   for (auto &t : threads)

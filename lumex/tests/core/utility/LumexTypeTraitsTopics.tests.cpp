@@ -411,6 +411,19 @@ TEST (LumexTypeTraitsTopicsTest,
       (traits::numeric::is_safe_comparable<std::string, int>::value));
 }
 
+TEST (LumexTypeTraitsTopicsTest,
+      GivenSafeComparableValue_WhenAddressTaken_ThenLinks)
+{
+  // A volatile pointer keeps the reference to the `value` symbol in an
+  // optimized build too, so a member without a definition fails to link
+  // here in every build type, not only without optimization.
+  bool const *volatile address
+      = &traits::numeric::is_safe_comparable<int, double>::value;
+  EXPECT_TRUE (*address);
+  address = &traits::numeric::is_safe_comparable<int, int *>::value;
+  EXPECT_FALSE (*address);
+}
+
 #if __cplusplus >= 202002L
 TEST (LumexTypeTraitsTopicsTest,
       GivenTypes_WhenArithmeticConcepts_ThenMatchTrait)

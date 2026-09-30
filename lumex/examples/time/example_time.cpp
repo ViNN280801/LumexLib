@@ -22,21 +22,24 @@ main ()
   std::cout << "s=" << LumexTime::get_timestamp_s () << '\n';
 
   std::cout << "\n--- 3. measure_execution_time ---\n";
-  long long const ms = measure_execution_time ([] () {
-    volatile int x = 0;
-    for (int i = 0; i < 10000; ++i)
-      x += i;
-    LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR (x);
-  });
+  long long const ms = measure_execution_time (
+      [] ()
+        {
+          volatile int x = 0;
+          for (int i = 0; i < 10000; ++i)
+            x += i;
+          LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR (x);
+        });
   std::cout << "loop_ms=" << ms << '\n';
 
   std::cout << "\n--- 4. measure_time without env gate ---\n";
   std::ostringstream report;
   bool const reported = measure_time (
-      [] () {
-        volatile int y = 1;
-        LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR (y);
-      },
+      [] ()
+        {
+          volatile int y = 1;
+          LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR (y);
+        },
       "noop", report, /*need_to_gate_via_env=*/false);
   std::cout << "reported=" << (reported ? "yes" : "no")
             << " text_chars=" << report.str ().size () << '\n';

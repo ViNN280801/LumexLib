@@ -258,6 +258,7 @@ function(lumex_add_publish_distr_target)
             -Dbin_dir=${_bin_dir}
             -Ddistr_dir=${_distr_dir}
             -Dcopy_runtime_script=${PROJECT_SOURCE_DIR}/CMakeRoutines/deployment/CopyRuntimeDependencies.cmake
+            -Dcxx_compiler=${CMAKE_CXX_COMPILER}
             -P ${PROJECT_SOURCE_DIR}/cmake/PublishDistr.cmake
         DEPENDS ${_deps}
         COMMENT "Publishing Lumex shared libraries to Distr"

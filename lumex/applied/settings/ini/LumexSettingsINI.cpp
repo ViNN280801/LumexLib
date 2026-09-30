@@ -1,6 +1,7 @@
 #define LUMEX_IMPLEMENTATION
 #include <array>
 #include <fstream>
+#include <iostream>
 #include <regex>
 
 #include "lumex/core/filesystem/LumexFilesystem"
@@ -61,7 +62,6 @@ _quote_if_needed (std::string const &value)
 }
 } // anonymous namespace
 
-#include <iostream>
 LUMEX_PUBLIC_API
 bool
 LumexSettingsINI::is_ini_valid (std::string const &path)

@@ -231,10 +231,12 @@ TEST (
   LumexSettingsGuard guard (nullptr, "whatever.ini");
   bool createCalled = false;
 
-  EXPECT_FALSE (guard.ensureExistsWithDefaults ([&] () {
-    createCalled = true;
-    return true;
-  }));
+  EXPECT_FALSE (guard.ensureExistsWithDefaults (
+      [&] ()
+        {
+          createCalled = true;
+          return true;
+        }));
   EXPECT_FALSE (createCalled);
 }
 
@@ -265,10 +267,12 @@ TEST (
   LumexSettingsGuard guard (fake, "file.ini");
   bool createCalled = false;
 
-  EXPECT_TRUE (guard.ensureExistsWithDefaults ([&] () {
-    createCalled = true;
-    return true;
-  }));
+  EXPECT_TRUE (guard.ensureExistsWithDefaults (
+      [&] ()
+        {
+          createCalled = true;
+          return true;
+        }));
   EXPECT_FALSE (createCalled);
   EXPECT_EQ (fake->loadCallCount, 1);
 }
@@ -282,11 +286,14 @@ TEST (
   LumexSettingsGuard guard (fake, "file.ini");
   int createCallCount = 0;
 
-  bool const result = guard.ensureExistsWithDefaults ([&] () {
-    ++createCallCount;
-    fake->loadResult = true; // simulate defaults now being on disk / loadable
-    return true;
-  });
+  bool const result = guard.ensureExistsWithDefaults (
+      [&] ()
+        {
+          ++createCallCount;
+          fake->loadResult
+              = true; // simulate defaults now being on disk / loadable
+          return true;
+        });
 
   EXPECT_TRUE (result);
   EXPECT_EQ (createCallCount, 1);
@@ -354,10 +361,12 @@ TEST (
   LumexSettingsGuard guard (fake, "file.ini");
   bool createCalled = false;
 
-  EXPECT_TRUE (guard.repairIfCorrupted ([&] () {
-    createCalled = true;
-    return true;
-  }));
+  EXPECT_TRUE (guard.repairIfCorrupted (
+      [&] ()
+        {
+          createCalled = true;
+          return true;
+        }));
   EXPECT_FALSE (createCalled);
 }
 
@@ -369,10 +378,12 @@ TEST (
   fake->loadResult = false;
   LumexSettingsGuard guard (fake, "file.ini");
 
-  EXPECT_TRUE (guard.repairIfCorrupted ([&] () {
-    fake->loadResult = true;
-    return true;
-  }));
+  EXPECT_TRUE (guard.repairIfCorrupted (
+      [&] ()
+        {
+          fake->loadResult = true;
+          return true;
+        }));
 }
 
 // --- backup()
@@ -421,11 +432,13 @@ TEST_F (
   LumexSettingsGuard guard (ini, _test_file.string ());
 
   lumex::path const targetFile = _test_file;
-  bool const result = guard.ensureExistsWithDefaults ([targetFile] () {
-    std::ofstream out (targetFile.string ());
-    out << "[section]\nkey=value\n";
-    return out.good ();
-  });
+  bool const result = guard.ensureExistsWithDefaults (
+      [targetFile] ()
+        {
+          std::ofstream out (targetFile.string ());
+          out << "[section]\nkey=value\n";
+          return out.good ();
+        });
 
   EXPECT_TRUE (result);
   EXPECT_EQ (ini->get ("section", "key"), "value");
@@ -441,11 +454,13 @@ TEST_F (
   LumexSettingsGuard guard (ini, _test_file.string ());
 
   lumex::path const targetFile = _test_file;
-  bool const result = guard.ensureExistsWithDefaults ([targetFile] () {
-    std::ofstream out (targetFile.string ());
-    out << "[section]\nkey=value\n";
-    return out.good ();
-  });
+  bool const result = guard.ensureExistsWithDefaults (
+      [targetFile] ()
+        {
+          std::ofstream out (targetFile.string ());
+          out << "[section]\nkey=value\n";
+          return out.good ();
+        });
 
   EXPECT_TRUE (result);
   EXPECT_EQ (ini->get ("section", "key"), "value");
@@ -505,10 +520,12 @@ TEST (
   LumexSettingsGuard guard (fake, "file.ini");
   std::vector<lumex_settings_key_spec_t> specs{
     { "section", "key", "42",
-      [] (std::string const &value) {
-        return !value.empty ()
-               && value.find_first_not_of ("0123456789") == std::string::npos;
-      } }
+      [] (std::string const &value)
+        {
+          return !value.empty ()
+                 && value.find_first_not_of ("0123456789")
+                        == std::string::npos;
+        } }
   };
 
   EXPECT_TRUE (guard.ensureKeysWithDefaults (specs));
@@ -523,10 +540,12 @@ TEST (LumexSettingsGuardTest,
   LumexSettingsGuard guard (fake, "file.ini");
   std::vector<lumex_settings_key_spec_t> specs{
     { "section", "key", "42",
-      [] (std::string const &value) {
-        return !value.empty ()
-               && value.find_first_not_of ("0123456789") == std::string::npos;
-      } }
+      [] (std::string const &value)
+        {
+          return !value.empty ()
+                 && value.find_first_not_of ("0123456789")
+                        == std::string::npos;
+        } }
   };
 
   EXPECT_FALSE (guard.ensureKeysWithDefaults (specs));

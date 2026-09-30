@@ -13,7 +13,7 @@ using namespace lumex::xml::xpath::utility;
 using namespace lumex::xml::utility;
 
 LUMEX_PUBLIC_API
-inline void
+void
 XPathNodeSet::_assign (const_iterator begin_, const_iterator end_,
                        type_t type_)
 {
@@ -47,7 +47,7 @@ XPathNodeSet::_assign (const_iterator begin_, const_iterator end_,
 }
 
 LUMEX_PUBLIC_API
-inline void
+void
 XPathNodeSet::_move (XPathNodeSet &rhs) LUMEX_NOEXCEPT
 {
   m_type = rhs.m_type;
@@ -62,15 +62,15 @@ XPathNodeSet::_move (XPathNodeSet &rhs) LUMEX_NOEXCEPT
 }
 
 LUMEX_PUBLIC_API
-inline XPathNodeSet::XPathNodeSet ()
+XPathNodeSet::XPathNodeSet ()
     : m_type (type_unsorted), m_begin (m_storage.data ()),
       m_end (m_storage.data ())
 {
 }
 
 LUMEX_PUBLIC_API
-inline XPathNodeSet::XPathNodeSet (const_iterator begin_, const_iterator end_,
-                                   type_t type_)
+XPathNodeSet::XPathNodeSet (const_iterator begin_, const_iterator end_,
+                            type_t type_)
     : m_type (type_unsorted), m_begin (m_storage.data ()),
       m_end (m_storage.data ())
 {
@@ -78,7 +78,7 @@ inline XPathNodeSet::XPathNodeSet (const_iterator begin_, const_iterator end_,
 }
 
 LUMEX_PUBLIC_API
-inline XPathNodeSet::~XPathNodeSet ()
+XPathNodeSet::~XPathNodeSet ()
 {
   if (m_begin != m_storage.data ())
     free (m_begin); // NOLINT(cppcoreguidelines-owning-memory,
@@ -86,7 +86,7 @@ inline XPathNodeSet::~XPathNodeSet ()
 }
 
 LUMEX_PUBLIC_API
-inline XPathNodeSet::XPathNodeSet (XPathNodeSet const &rhs)
+XPathNodeSet::XPathNodeSet (XPathNodeSet const &rhs)
     : m_type (type_unsorted), m_begin (m_storage.data ()),
       m_end (m_storage.data ())
 {
@@ -94,7 +94,7 @@ inline XPathNodeSet::XPathNodeSet (XPathNodeSet const &rhs)
 }
 
 LUMEX_PUBLIC_API
-inline XPathNodeSet &
+XPathNodeSet &
 XPathNodeSet::operator= (XPathNodeSet const &rhs)
 {
   if (this == &rhs)
@@ -106,7 +106,7 @@ XPathNodeSet::operator= (XPathNodeSet const &rhs)
 }
 
 LUMEX_PUBLIC_API
-inline XPathNodeSet::XPathNodeSet (XPathNodeSet &&rhs) LUMEX_NOEXCEPT
+XPathNodeSet::XPathNodeSet (XPathNodeSet &&rhs) LUMEX_NOEXCEPT
     : m_type (type_unsorted),
       m_begin (m_storage.data ()),
       m_end (m_storage.data ())
@@ -115,7 +115,7 @@ inline XPathNodeSet::XPathNodeSet (XPathNodeSet &&rhs) LUMEX_NOEXCEPT
 }
 
 LUMEX_PUBLIC_API
-inline XPathNodeSet &
+XPathNodeSet &
 XPathNodeSet::operator= (XPathNodeSet &&rhs) LUMEX_NOEXCEPT
 {
   if (this == &rhs)
@@ -131,28 +131,28 @@ XPathNodeSet::operator= (XPathNodeSet &&rhs) LUMEX_NOEXCEPT
 }
 
 LUMEX_PUBLIC_API
-inline XPathNodeSet::type_t
+XPathNodeSet::type_t
 XPathNodeSet::type () const
 {
   return m_type;
 }
 
 LUMEX_PUBLIC_API
-inline std::size_t
+std::size_t
 XPathNodeSet::size () const
 {
-  return m_end - m_begin;
+  return static_cast<std::size_t> (m_end - m_begin);
 }
 
 LUMEX_PUBLIC_API
-inline bool
+bool
 XPathNodeSet::empty () const
 {
   return m_begin == m_end;
 }
 
 LUMEX_PUBLIC_API
-inline XPathNode const &
+XPathNode const &
 XPathNodeSet::operator[] (std::size_t index) const
 {
   LUMEX_ASSERT (index < size ());
@@ -160,28 +160,28 @@ XPathNodeSet::operator[] (std::size_t index) const
 }
 
 LUMEX_PUBLIC_API
-inline XPathNodeSet::const_iterator
+XPathNodeSet::const_iterator
 XPathNodeSet::begin () const
 {
   return m_begin;
 }
 
 LUMEX_PUBLIC_API
-inline XPathNodeSet::const_iterator
+XPathNodeSet::const_iterator
 XPathNodeSet::end () const
 {
   return m_end;
 }
 
 LUMEX_PUBLIC_API
-inline void
+void
 XPathNodeSet::sort (bool reverse)
 {
   m_type = utility::xpath_sort (m_begin, m_end, m_type, reverse);
 }
 
 LUMEX_PUBLIC_API
-inline XPathNode
+XPathNode
 XPathNodeSet::first () const
 {
   return utility::xpath_first (m_begin, m_end, m_type);

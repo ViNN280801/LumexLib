@@ -413,19 +413,21 @@ TYPED_TEST (ExpectedVoidTest, ThreadSafety_MultipleIndependentInstances)
 
   for (int i = 0; i < num_threads; ++i)
     {
-      threads.emplace_back ([i] () {
-        if (i % 2 == 0)
-          {
-            Expected<void, ErrorType> uut;
-            EXPECT_TRUE (uut.has_value ());
-          }
-        else
-          {
-            Expected<void, ErrorType> uut (
-                Unexpected<ErrorType> (ErrorType{}));
-            EXPECT_FALSE (uut.has_value ());
-          }
-      });
+      threads.emplace_back (
+          [i] ()
+            {
+              if (i % 2 == 0)
+                {
+                  Expected<void, ErrorType> uut;
+                  EXPECT_TRUE (uut.has_value ());
+                }
+              else
+                {
+                  Expected<void, ErrorType> uut (
+                      Unexpected<ErrorType> (ErrorType{}));
+                  EXPECT_FALSE (uut.has_value ());
+                }
+            });
     }
 
   for (auto &t : threads)
@@ -747,9 +749,8 @@ TYPED_TEST (ExpectedVoidTest,
   // Error case
   Expected<void, ErrorType> error_uut (
       Unexpected<ErrorType> (this->error_val1));
-  auto func = [&] (ErrorType &) {
-    return Expected<void, ErrorType> (unexpect_t (), this->error_val2);
-  };
+  auto func = [&] (ErrorType &)
+    { return Expected<void, ErrorType> (unexpect_t (), this->error_val2); };
   auto result = error_uut.or_else (func);
 
   EXPECT_FALSE (result.has_value ());
@@ -775,9 +776,8 @@ TYPED_TEST (ExpectedVoidTest,
   // Error case
   Expected<void, ErrorType> const error_uut (
       Unexpected<ErrorType> (this->error_val1));
-  auto func = [&] (ErrorType const &) {
-    return Expected<void, ErrorType> (unexpect_t (), this->error_val2);
-  };
+  auto func = [&] (ErrorType const &)
+    { return Expected<void, ErrorType> (unexpect_t (), this->error_val2); };
   auto result = error_uut.or_else (func);
 
   EXPECT_FALSE (result.has_value ());
@@ -803,9 +803,8 @@ TYPED_TEST (ExpectedVoidTest,
   // Error case
   Expected<void, ErrorType> error_uut (
       Unexpected<ErrorType> (this->error_val1));
-  auto func = [&] (ErrorType &&) {
-    return Expected<void, ErrorType> (unexpect_t (), this->error_val2);
-  };
+  auto func = [&] (ErrorType &&)
+    { return Expected<void, ErrorType> (unexpect_t (), this->error_val2); };
   auto result = std::move (error_uut).or_else (func);
 
   EXPECT_FALSE (result.has_value ());
@@ -831,9 +830,8 @@ TYPED_TEST (ExpectedVoidTest,
   // Error case
   Expected<void, ErrorType> const error_uut (
       Unexpected<ErrorType> (this->error_val1));
-  auto func = [&] (ErrorType const &&) {
-    return Expected<void, ErrorType> (unexpect_t (), this->error_val2);
-  };
+  auto func = [&] (ErrorType const &&)
+    { return Expected<void, ErrorType> (unexpect_t (), this->error_val2); };
   auto result = std::move (error_uut).or_else (func);
 
   EXPECT_FALSE (result.has_value ());

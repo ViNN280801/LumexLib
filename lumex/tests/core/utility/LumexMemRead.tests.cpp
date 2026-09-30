@@ -2,11 +2,14 @@
 #include <array>
 #include <cstdint>
 #include <cstring>
+#if __has_include(<span>)
 #include <span>
+#endif
 #include <vector>
 
 #include <gtest/gtest.h>
 
+#include "lumex/core/utility/compiler/LumexCheckFeatures.hpp"
 #include "lumex/core/utility/mem/LumexMemRead.hpp"
 
 #if defined(__clang__)
@@ -33,6 +36,8 @@
 
 #if defined(__clang__)
 #endif
+
+#if LUMEX_HAS_STD_CONCEPTS && LUMEX_HAS_STD_SPAN
 
 using namespace lumex::core::utility::mem;
 
@@ -325,3 +330,12 @@ TEST (LumexMemReadTest, GivenSignedInteger_WhenAs_ThenPreservesTwoComplement)
   ASSERT_TRUE (result.has_value ());
   EXPECT_EQ (*result, value);
 }
+
+#else // the toolchain lacks the features of the module
+
+TEST (LumexMemReadTest, UnavailableOnThisToolchain)
+{
+  GTEST_SKIP () << "LumexMemRead.hpp needs C++20 <concepts> and <span>";
+}
+
+#endif

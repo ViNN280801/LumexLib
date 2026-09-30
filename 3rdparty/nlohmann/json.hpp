@@ -22,15 +22,21 @@
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wpadded"
 #pragma clang diagnostic ignored "-Wunsafe-buffer-usage"
+#if __has_warning("-Wunsafe-buffer-usage-in-libc-call")
 #pragma clang diagnostic ignored "-Wunsafe-buffer-usage-in-libc-call"
+#endif
 #pragma clang diagnostic ignored "-Wcovered-switch-default"
 #pragma clang diagnostic ignored "-Wswitch-enum"
+#if __has_warning("-Wnrvo")
 #pragma clang diagnostic ignored "-Wnrvo"
+#endif
 #pragma clang diagnostic ignored "-Wheader-hygiene"
 #pragma clang diagnostic ignored "-Wused-but-marked-unused"
 #pragma clang diagnostic ignored "-Wundefined-var-template"
 #pragma clang diagnostic ignored "-Wdeprecated-redundant-constexpr-static-def"
+#if __has_warning("-Wvariadic-macro-arguments-omitted")
 #pragma clang diagnostic ignored "-Wvariadic-macro-arguments-omitted"
+#endif
 #pragma clang diagnostic ignored "-Wunused-result"
 #pragma clang diagnostic ignored "-Wextra-semi-stmt"
 #pragma clang diagnostic ignored "-Wexpansion-to-defined"
@@ -5347,7 +5353,9 @@ inline void from_json(const BasicJsonType& j, std_fs::path& p)
         JSON_THROW(type_error::create(302, concat("type must be string, but is ", j.type_name()), &j));
     }
     const auto& s = *j.template get_ptr<const typename BasicJsonType::string_t*>();
-#ifdef JSON_HAS_CPP_20
+// LumexLib local change: GCC 8 to 10 report C++20 for -std=c++2a without
+// char8_t, so the C++20 branch also needs the library's char8_t support.
+#if defined(JSON_HAS_CPP_20) && defined(__cpp_lib_char8_t)
     p = std_fs::path(std::u8string_view(reinterpret_cast<const char8_t*>(s.data()), s.size()));
 #else
     p = std_fs::u8path(s); // accepts UTF-8 encoded std::string in C++17, deprecated in C++20
@@ -6112,7 +6120,8 @@ inline void to_json(BasicJsonType& j, const T& t)
 template<typename BasicJsonType>
 inline void to_json(BasicJsonType& j, const std_fs::path& p)
 {
-#ifdef JSON_HAS_CPP_20
+// LumexLib local change: see from_json(std_fs::path) above.
+#if defined(JSON_HAS_CPP_20) && defined(__cpp_lib_char8_t)
     const std::u8string s = p.u8string();
     j = std::string(s.begin(), s.end());
 #else

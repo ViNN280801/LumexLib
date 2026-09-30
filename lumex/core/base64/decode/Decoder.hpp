@@ -44,15 +44,21 @@
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wpadded"
 #pragma clang diagnostic ignored "-Wunsafe-buffer-usage"
+#if __has_warning("-Wunsafe-buffer-usage-in-libc-call")
 #pragma clang diagnostic ignored "-Wunsafe-buffer-usage-in-libc-call"
+#endif
 #pragma clang diagnostic ignored "-Wcovered-switch-default"
 #pragma clang diagnostic ignored "-Wswitch-enum"
+#if __has_warning("-Wnrvo")
 #pragma clang diagnostic ignored "-Wnrvo"
+#endif
 #pragma clang diagnostic ignored "-Wheader-hygiene"
 #pragma clang diagnostic ignored "-Wused-but-marked-unused"
 #pragma clang diagnostic ignored "-Wundefined-var-template"
 #pragma clang diagnostic ignored "-Wdeprecated-redundant-constexpr-static-def"
+#if __has_warning("-Wvariadic-macro-arguments-omitted")
 #pragma clang diagnostic ignored "-Wvariadic-macro-arguments-omitted"
+#endif
 #pragma clang diagnostic ignored "-Wunused-result"
 #pragma clang diagnostic ignored "-Wextra-semi-stmt"
 #pragma clang diagnostic ignored "-Wexpansion-to-defined"
@@ -63,19 +69,17 @@
 
 #include "lumex/LumexExport.hpp"
 
+#include <cstddef>
 #include <vector>
+#if __cplusplus >= 201703L
+#include <string_view>
+#else
+#include <string>
+#endif
 
 #include "lumex/core/base64/codec/Base64.hpp"
 
 using namespace lumex::core::base64::codec::Types;
-
-#if __cplusplus >= 201703L
-#include <string_view>
-#endif
-
-#if __cplusplus >= 202002L
-#include <span>
-#endif
 
 namespace lumex // NOLINT(modernize-concat-nested-namespaces)
 {
@@ -91,48 +95,97 @@ namespace base64
 {
 namespace decode
 {
+/**
+ * @brief Base64 decoder.
+ * @details The two functions that take a pointer and a size are exported and
+ * have the same signature in every C++ standard, so a consumer built at
+ * another standard than the library links. The overloads that take a string
+ * are inline wrappers over them: `std::string_view` from C++17,
+ * `std::string const &` below.
+ */
 class LUMEX_API Decoder final
 {
 public:
   /**
-   * @brief Decodes a Base64 string into binary data and stores it in an output
-   * vector.
+   * @brief Decodes `size` Base64 characters starting at `encoded` into `out`.
    *
-   * This function attempts to decode the given Base64 string. The decoded
-   * binary data is appended to the provided `out` vector. Before appending,
-   * the `out` vector is cleared to ensure it only contains the result of the
-   * current decoding operation.
+   * The range needs no terminating NUL and nothing after it is read; a NUL
+   * inside the range is an invalid character. The input may omit the
+   * trailing padding (`"SGk"` decodes like `"SGk="`). `out` is cleared first
+   * and stays empty on failure.
    *
-   * @param[in] encoded The Base64-encoded input string.
-   * @param[out] out A `std::vector<byte_type>` that will store the decoded
-   * binary data. It is cleared at the beginning of the function.
-   * @return `true` if the decoding was successful and the input string was a
-   * valid Base64 format, `false` otherwise (e.g., invalid length, contains
-   * non-Base64 characters, or incorrect padding).
+   * @param[in] encoded First character of the input; never valid as
+   * `nullptr`, even with a `size` of 0 (pass `""` for an empty input).
+   * @param[in] size Number of characters to decode.
+   * @param[out] out Receives the decoded bytes.
+   * @return `true` if the range is valid Base64 (an empty range is),
+   * `false` otherwise (invalid length, a character outside the alphabet,
+   * misplaced or excess padding, `nullptr`).
    */
-#if __cplusplus >= 201703L
-  static bool decode (std::string_view encoded, std::vector<byte_type> &out);
-#else
-  static bool decode (std::string const &encoded, std::vector<byte_type> &out);
-#endif
+  static bool decode (char const *encoded, std::size_t size,
+                      std::vector<byte_type> &out);
 
   /**
-   * @brief Decodes a Base64 string into binary data and returns it as a
-   * `std::vector<byte_type>`.
-   *
-   * This is an overloaded function that provides a convenient way to decode a
-   * Base64 string and receive the result directly as a returned
-   * `std::vector<byte_type>`.
-   *
-   * @param[in] encoded The Base64-encoded input string.
-   * @return A `std::vector<byte_type>` containing the decoded binary data.
-   *         Returns an empty vector if the decoding fails or the input string
-   * is invalid.
+   * @brief Decodes `size` Base64 characters starting at `encoded`.
+   * @param[in] encoded First character of the input; never valid as
+   * `nullptr`.
+   * @param[in] size Number of characters to decode.
+   * @return The decoded bytes, or an empty vector if the range is not valid
+   * Base64.
    */
+  static std::vector<byte_type> decode (char const *encoded, std::size_t size);
+
 #if __cplusplus >= 201703L
-  static std::vector<byte_type> decode (std::string_view encoded);
+  /**
+   * @brief Decodes a Base64 string into `out` (see the pointer and size
+   * overload).
+   * @param[in] encoded The Base64-encoded input.
+   * @param[out] out Receives the decoded bytes; cleared first.
+   * @return `true` if the input is valid Base64, `false` otherwise.
+   */
+  static bool
+  decode (std::string_view encoded, std::vector<byte_type> &out)
+  {
+    // An empty input is valid: a default-constructed std::string_view has
+    // no data pointer, which the core rejects.
+    return decode (encoded.empty () ? "" : encoded.data (), encoded.size (),
+                   out);
+  }
+
+  /**
+   * @brief Decodes a Base64 string.
+   * @param[in] encoded The Base64-encoded input.
+   * @return The decoded bytes, or an empty vector if the input is invalid.
+   */
+  static std::vector<byte_type>
+  decode (std::string_view encoded)
+  {
+    return decode (encoded.empty () ? "" : encoded.data (), encoded.size ());
+  }
 #else
-  static std::vector<byte_type> decode (std::string const &encoded);
+  /**
+   * @brief Decodes a Base64 string into `out` (see the pointer and size
+   * overload).
+   * @param[in] encoded The Base64-encoded input.
+   * @param[out] out Receives the decoded bytes; cleared first.
+   * @return `true` if the input is valid Base64, `false` otherwise.
+   */
+  static bool
+  decode (std::string const &encoded, std::vector<byte_type> &out)
+  {
+    return decode (encoded.data (), encoded.size (), out);
+  }
+
+  /**
+   * @brief Decodes a Base64 string.
+   * @param[in] encoded The Base64-encoded input.
+   * @return The decoded bytes, or an empty vector if the input is invalid.
+   */
+  static std::vector<byte_type>
+  decode (std::string const &encoded)
+  {
+    return decode (encoded.data (), encoded.size ());
+  }
 #endif
 };
 } // namespace decode

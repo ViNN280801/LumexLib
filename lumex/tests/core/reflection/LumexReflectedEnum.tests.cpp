@@ -1,4 +1,5 @@
 // LumexReflectedEnum.tests.cpp
+#include <cstddef>
 #include <cstdint>
 #include <string>
 
@@ -67,6 +68,22 @@ struct Wrapper
   // supported use case).
   LUMEX_DEFINE_REFLECTED_ENUM (Nested, int, (A), (B))
 };
+
+// Before C++17 the class-scope companions need one namespace-scope
+// definition each once they are odr-used; empty from C++17.
+LUMEX_DEFINE_REFLECTED_ENUM_STORAGE (Wrapper, Nested)
+
+// The companions are constant expressions in every standard, C++11 included
+// (First / Last do not rely on std::array::front / back there).
+static_assert (ColorFirst == Color::Red, "EnumNameFirst is constexpr");
+static_assert (ColorLast == Color::Blue, "EnumNameLast is constexpr");
+static_assert (ColorSize == 3u, "EnumNameSize is constexpr");
+static_assert (ShapeLast == Shape::Triangle, "Last follows the entry list");
+static_assert (SingleFirst == SingleLast, "one enumerator: First == Last");
+static_assert (Wrapper::NestedFirst == Wrapper::Nested::A,
+               "class-scope First is constexpr");
+static_assert (Wrapper::NestedLast == Wrapper::Nested::B,
+               "class-scope Last is constexpr");
 } // namespace
 
 TEST (LumexReflectedEnumTest,
@@ -141,6 +158,37 @@ TEST (
   EXPECT_EQ (static_cast<int> (Wrapper::Nested::B), 1);
   EXPECT_STREQ (Wrapper::toString (Wrapper::Nested::B), "B");
   EXPECT_EQ (Wrapper::NestedSize, 2u);
+}
+
+TEST (LumexReflectedEnumTest,
+      GivenClassScopeReflectedEnum_WhenCompanionsBoundToReferences_ThenLinks)
+{
+  // Binding a reference odr-uses the static members, which before C++17
+  // needs LUMEX_DEFINE_REFLECTED_ENUM_STORAGE to link.
+  Wrapper::Nested const &first = Wrapper::NestedFirst;
+  Wrapper::Nested const &last = Wrapper::NestedLast;
+  std::size_t const &size = Wrapper::NestedSize;
+  EXPECT_EQ (first, Wrapper::Nested::A);
+  EXPECT_EQ (last, Wrapper::Nested::B);
+  EXPECT_EQ (size, 2u);
+
+  std::size_t visited = 0;
+  for (Wrapper::Nested const &value : Wrapper::NestedValues)
+    {
+      EXPECT_EQ (static_cast<int> (value), static_cast<int> (visited));
+      ++visited;
+    }
+  EXPECT_EQ (visited, Wrapper::NestedSize);
+}
+
+TEST (
+    LumexReflectedEnumTest,
+    GivenNamespaceScopeReflectedEnum_WhenValuesIterated_ThenFirstAndLastMatch)
+{
+  ASSERT_EQ (ColorValues.size (), ColorSize);
+  EXPECT_EQ (ColorValues.front (), ColorFirst);
+  EXPECT_EQ (ColorValues.back (), ColorLast);
+  EXPECT_EQ (static_cast<std::uint8_t> (ColorLast), 6u);
 }
 
 TEST (LumexReflectedEnumTest,

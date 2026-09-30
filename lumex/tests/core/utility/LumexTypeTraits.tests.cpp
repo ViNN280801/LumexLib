@@ -15,6 +15,7 @@
 
 #include "lumex/core/optional/LumexOptional"
 #include "lumex/core/utility/assert/LumexAssert.hpp"
+#include "lumex/core/utility/macros/LumexKeywords.hpp"
 #include "lumex/core/utility/traits/LumexTypeTraits.hpp"
 
 #if defined(__clang__)
@@ -418,6 +419,44 @@ TEST (LumexTypeTraitsTest, GivenVoidType_WhenDefaultReturnValue_ThenCompiles)
   SUCCEED ();
 }
 
+namespace
+{
+// A loop and several statements: a constexpr body only from C++14. On C++11
+// LUMEX_CONSTEXPR_CXX14 is empty and these are ordinary functions.
+LUMEX_CONSTEXPR_CXX14 int
+sum_up_to (int n)
+{
+  int total = 0;
+  for (int i = 1; i <= n; ++i)
+    total += i;
+  return total;
+}
+
+// default_return<void>::value is constexpr from C++14, so a constexpr
+// function may call it there.
+LUMEX_CONSTEXPR_CXX14 int
+one_after_void_default ()
+{
+  default_return<void>::value ();
+  return 1;
+}
+
+#if __cplusplus >= 201402L
+static_assert (sum_up_to (4) == 10,
+               "LUMEX_CONSTEXPR_CXX14 is constexpr from C++14");
+static_assert (one_after_void_default () == 1,
+               "default_return<void>::value is constexpr from C++14");
+#endif
+} // namespace
+
+TEST (LumexTypeTraitsTest,
+      GivenConstexprCxx14Function_WhenCalledAtRunTime_ThenComputes)
+{
+  EXPECT_EQ (sum_up_to (4), 10);
+  EXPECT_EQ (sum_up_to (0), 0);
+  EXPECT_EQ (one_after_void_default (), 1);
+}
+
 TEST (LumexTypeTraitsTest,
       GivenStringType_WhenDefaultReturnValue_ThenReturnsEmptyString)
 {
@@ -756,6 +795,10 @@ TEST (LumexTypeTraitsTest, GivenOtherTypes_WhenIsStringLike_ThenFalse)
   EXPECT_FALSE ((is_string_like<std::wstring, char>::value));
   // Containers without npos, pointers, arrays, scalars.
   EXPECT_FALSE ((is_string_like<std::vector<char>, char>::value));
+  // libstdc++ declares a protected, deleted data () in std::vector<bool>;
+  // the trait must reject it without touching data () (Clang).
+  EXPECT_FALSE ((is_string_like<std::vector<bool>, bool>::value));
+  EXPECT_FALSE ((is_any_string<std::vector<bool>>::value));
   EXPECT_FALSE ((is_string_like<char_buffer_t, char>::value));
   EXPECT_FALSE ((is_string_like<char const *, char>::value));
   EXPECT_FALSE ((is_string_like<char[4], char>::value));

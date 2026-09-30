@@ -117,9 +117,9 @@ TEST_F (LumexTimeTest, GetCurrentDatetime_ThreadSafety_Dirty)
 
   for (int i = 0; i < 100; ++i)
     {
-      threads.emplace_back ([&results, i] () {
-        results[i] = LumexTime::get_current_datetime ();
-      });
+      threads.emplace_back (
+          [&results, i] ()
+            { results[i] = LumexTime::get_current_datetime (); });
     }
 
   for (auto &th : threads)
@@ -280,8 +280,8 @@ TEST_F (LumexTimeTest, Timestamp_ThreadSafety_Dirty)
 
   for (int i = 0; i < 50; ++i)
     {
-      threads.emplace_back (
-          [&results, i] () { results[i] = LumexTime::timestamp (); });
+      threads.emplace_back ([&results, i] ()
+                              { results[i] = LumexTime::timestamp (); });
     }
   for (auto &th : threads)
     if (th.joinable ())
@@ -456,10 +456,11 @@ TEST (MeasureTimeTest, GivenGateOff_ThenAlwaysReportsToStream)
   std::ostringstream oss;
   int calls = 0;
   bool const reported = measure_time (
-      [&calls] () {
-        ++calls;
-        std::this_thread::sleep_for (std::chrono::milliseconds (5));
-      },
+      [&calls] ()
+        {
+          ++calls;
+          std::this_thread::sleep_for (std::chrono::milliseconds (5));
+        },
       "unit", oss, /*need_to_gate_via_env=*/false, "UNUSED_ENV_NAME");
 
   EXPECT_TRUE (reported);

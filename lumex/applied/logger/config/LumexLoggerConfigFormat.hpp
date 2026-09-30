@@ -25,9 +25,10 @@
 #ifndef LUMEX_APPLIED_LOGGER_CONFIG_LOGGER_CONFIG_FORMAT_HPP
 #define LUMEX_APPLIED_LOGGER_CONFIG_LOGGER_CONFIG_FORMAT_HPP
 
+#include "lumex/LumexExport.hpp"
+
 #include <cstdint>
 
-#include "lumex/LumexExport.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 
 namespace lumex // NOLINT(modernize-concat-nested-namespaces)

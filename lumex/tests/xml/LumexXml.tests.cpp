@@ -16,6 +16,9 @@
 #include <thread>
 #include <utility>
 #include <vector>
+#if __cplusplus >= 201703L
+#include <string_view>
+#endif
 
 #include <gtest/gtest.h>
 
@@ -368,9 +371,9 @@ TEST_F (XmlFixture, GivenPredicates_WhenFindAttributeNode_ThenReturnsExpected)
   r.append_attribute ("bb").set_value ("2");
   r.append_child ("x").append_attribute ("k").set_value ("v");
 
-  XmlAttribute aa = r.find_attribute ([] (XmlAttribute const &a) {
-    return std::strcmp (a.name (), "aa") == 0;
-  });
+  XmlAttribute aa
+      = r.find_attribute ([] (XmlAttribute const &a)
+                            { return std::strcmp (a.name (), "aa") == 0; });
   ASSERT_TRUE (aa);
   EXPECT_STREQ (aa.value (), "1");
 
@@ -671,14 +674,16 @@ TEST_F (XmlFixture, ThreadSafety_ReadOnlyTraversal_16Threads)
   std::atomic<int> ok (0);
   for (int i = 0; i < 16; ++i)
     {
-      threads.push_back (std::thread ([&] () {
-        int local = 0;
-        for (auto it = r.begin (); it != r.end (); ++it)
-          if ((*it))
-            ++local;
-        if (local >= 5)
-          ok.fetch_add (1);
-      }));
+      threads.push_back (std::thread (
+          [&] ()
+            {
+              int local = 0;
+              for (auto it = r.begin (); it != r.end (); ++it)
+                if ((*it))
+                  ++local;
+              if (local >= 5)
+                ok.fetch_add (1);
+            }));
     }
   for (std::size_t i = 0; i < threads.size (); ++i)
     threads[i].join ();
@@ -762,6 +767,206 @@ TEST_F (XmlFixture, GivenSiblings_WhenPreviousNextSiblingByName_ThenCorrect)
   EXPECT_TRUE (c.previous_sibling ("n"));
   EXPECT_TRUE (b.next_sibling ("n"));
 }
+
+// --- Sized names (same signature in every standard) ---------------------
+// Children of `node` or its attributes by name, joined with ','.
+std::string
+child_names (XmlNode const &node)
+{
+  std::string names;
+  for (XmlNode c = node.first_child (); c; c = c.next_sibling ())
+    {
+      if (!names.empty ())
+        names += ',';
+      names += c.name ();
+    }
+  return names;
+}
+
+std::string
+attribute_names (XmlNode const &node)
+{
+  std::string names;
+  for (XmlAttribute a = node.first_attribute (); a; a = a.next_attribute ())
+    {
+      if (!names.empty ())
+        names += ',';
+      names += a.name ();
+    }
+  return names;
+}
+
+TEST_F (XmlFixture,
+        GivenNameInsideLargerBuffer_WhenSizedLookup_ThenOnlyTheRangeMatches)
+{
+  ASSERT_EQ (
+      doc.load_string ("<r a='1' ab='2'><x/><xy/><x/></r>", kparse_default)
+          .status,
+      xml_parse_status::status_ok);
+  XmlNode const r = doc.document_element ();
+  // "x", "xy", "a" and "ab" are ranges of one buffer without NUL between.
+  char const names[] = "xyab";
+
+  // Found.
+  EXPECT_STREQ (r.child (names, 1).name (), "x");
+  EXPECT_STREQ (r.child (names, 2).name (), "xy");
+  EXPECT_STREQ (r.attribute (names + 2, 1).value (), "1");
+  EXPECT_STREQ (r.attribute (names + 2, 2).value (), "2");
+  XmlNode const first = r.child (names, 1);
+  EXPECT_STREQ (first.next_sibling (names, 2).name (), "xy");
+  EXPECT_STREQ (r.last_child ().previous_sibling (names, 2).name (), "xy");
+
+  // Unfound: a longer range, a range that is no name, an empty name.
+  EXPECT_FALSE (r.child (names, 3));
+  EXPECT_FALSE (r.attribute (names + 1, 1));
+  EXPECT_FALSE (first.next_sibling (names + 1, 1));
+  EXPECT_FALSE (r.last_child ().previous_sibling (names, 3));
+  EXPECT_FALSE (r.child ("", 0));
+  EXPECT_FALSE (r.attribute ("", 0));
+}
+
+TEST_F (XmlFixture, GivenNameWithEmbeddedNul_WhenSizedLookup_ThenUnfound)
+{
+  ASSERT_EQ (doc.load_string ("<r x='1'><x/><xy/></r>", kparse_default).status,
+             xml_parse_status::status_ok);
+  XmlNode r = doc.document_element ();
+  char const name[] = { 'x', '\0', 'y' };
+  EXPECT_FALSE (r.child (name, 3));
+  EXPECT_FALSE (r.attribute (name, 3));
+  EXPECT_FALSE (r.remove_child (name, 3));
+  EXPECT_EQ (child_names (r), "x,xy");
+}
+
+TEST_F (XmlFixture,
+        GivenHint_WhenSizedAttributeLookup_ThenFoundAndHintAdvanced)
+{
+  ASSERT_EQ (doc.load_string ("<r a='1' b='2' c='3'/>", kparse_default).status,
+             xml_parse_status::status_ok);
+  XmlNode const r = doc.document_element ();
+  char const names[] = "abc";
+  XmlAttribute hint;
+
+  EXPECT_STREQ (r.attribute (names + 1, 1, hint).value (), "2");
+  EXPECT_STREQ (hint.name (), "c");
+  // Wraps around to the attributes before the hint.
+  EXPECT_STREQ (r.attribute (names, 1, hint).value (), "1");
+  EXPECT_STREQ (hint.name (), "b");
+  // Unfound leaves the hint alone.
+  EXPECT_FALSE (r.attribute (names, 2, hint));
+  EXPECT_STREQ (hint.name (), "b");
+}
+
+TEST_F (
+    XmlFixture,
+    GivenNamesInsideLargerBuffer_WhenSizedInsertAndRemove_ThenOnlyRangeUsed)
+{
+  doc.reset ();
+  XmlNode r = doc.append_child ("r");
+  // "item" is names[0..4), "name" is names[4..8).
+  char const names[] = "itemname";
+
+  XmlNode const item = r.append_child (names, 4);
+  EXPECT_STREQ (item.name (), "item");
+  XmlNode const name = r.prepend_child (names + 4, 4);
+  EXPECT_STREQ (name.name (), "name");
+  EXPECT_STREQ (r.insert_child_after (names, 2, name).name (), "it");
+  EXPECT_STREQ (r.insert_child_before (names + 4, 2, name).name (), "na");
+  EXPECT_EQ (child_names (r), "na,name,it,item");
+
+  XmlNode node = r.child (names, 4);
+  XmlAttribute const attr = node.append_attribute (names + 4, 4);
+  EXPECT_STREQ (attr.name (), "name");
+  EXPECT_STREQ (node.prepend_attribute (names, 2).name (), "it");
+  EXPECT_STREQ (node.insert_attribute_after (names, 4, attr).name (), "item");
+  EXPECT_STREQ (node.insert_attribute_before (names + 4, 2, attr).name (),
+                "na");
+  EXPECT_EQ (attribute_names (node), "it,na,name,item");
+
+  // Found, then unfound once removed.
+  EXPECT_TRUE (node.remove_attribute (names + 4, 2));
+  EXPECT_FALSE (node.remove_attribute (names + 4, 2));
+  EXPECT_EQ (attribute_names (node), "it,name,item");
+  EXPECT_TRUE (r.remove_child (names, 2));
+  EXPECT_FALSE (r.remove_child (names, 3));
+  EXPECT_EQ (child_names (r), "na,name,item");
+}
+
+#if __cplusplus >= 201703L
+TEST_F (XmlFixture,
+        GivenStringViewNames_WhenLookupAndEdit_ThenWrappersUseTheViewOnly)
+{
+  ASSERT_EQ (doc.load_string ("<r a='1'><x/><xy/></r>", kparse_default).status,
+             xml_parse_status::status_ok);
+  XmlNode r = doc.document_element ();
+  std::string_view const names = "xyab";
+
+  EXPECT_STREQ (r.child (names.substr (0, 2)).name (), "xy");
+  EXPECT_STREQ (r.attribute (names.substr (2, 1)).value (), "1");
+  EXPECT_FALSE (r.child (names.substr (0, 3)));
+  XmlNode const x = r.child (names.substr (0, 1));
+  EXPECT_STREQ (x.next_sibling (names.substr (0, 2)).name (), "xy");
+  EXPECT_STREQ (r.last_child ().previous_sibling (names.substr (0, 1)).name (),
+                "x");
+  XmlAttribute hint;
+  EXPECT_STREQ (r.attribute (names.substr (2, 1), hint).value (), "1");
+
+  XmlNode added = r.append_child (std::string_view ("zz").substr (0, 1));
+  EXPECT_STREQ (added.name (), "z");
+  EXPECT_TRUE (added.set_name (std::string_view ("renamed!").substr (0, 7)));
+  EXPECT_STREQ (added.name (), "renamed");
+  EXPECT_STREQ (r.prepend_child (std::string_view ("p")).name (), "p");
+  EXPECT_STREQ (r.insert_child_after (std::string_view ("after"), x).name (),
+                "after");
+  EXPECT_STREQ (r.insert_child_before (std::string_view ("before"), x).name (),
+                "before");
+  EXPECT_EQ (child_names (r), "p,before,x,after,xy,renamed");
+
+  XmlAttribute attr
+      = added.append_attribute (std::string_view ("key=").substr (0, 3));
+  EXPECT_STREQ (attr.name (), "key");
+  EXPECT_TRUE (attr.set_value (std::string_view ("value;").substr (0, 5)));
+  EXPECT_STREQ (attr.value (), "value");
+  attr = std::string_view ("other;").substr (0, 5);
+  EXPECT_STREQ (attr.value (), "other");
+  EXPECT_TRUE (attr.set_name (std::string_view ("k2;").substr (0, 2)));
+  EXPECT_STREQ (attr.name (), "k2");
+  EXPECT_STREQ (added.prepend_attribute (std::string_view ("k1")).name (),
+                "k1");
+  EXPECT_STREQ (
+      added.insert_attribute_after (std::string_view ("k3"), attr).name (),
+      "k3");
+  EXPECT_STREQ (
+      added.insert_attribute_before (std::string_view ("k1b"), attr).name (),
+      "k1b");
+  EXPECT_EQ (attribute_names (added), "k1,k1b,k2,k3");
+
+  XmlText text = added.text ();
+  EXPECT_TRUE (text.set (std::string_view ("body!").substr (0, 4)));
+  EXPECT_STREQ (added.text ().get (), "body");
+  text = std::string_view ("next!").substr (0, 4);
+  EXPECT_STREQ (added.text ().get (), "next");
+
+  XmlNode pcdata = r.append_child (xml_node_type::node_pcdata);
+  EXPECT_TRUE (pcdata.set_value (std::string_view ("abc!").substr (0, 3)));
+  EXPECT_STREQ (pcdata.value (), "abc");
+
+  EXPECT_TRUE (added.remove_attribute (std::string_view ("k2")));
+  EXPECT_FALSE (added.remove_attribute (std::string_view ("k2")));
+  EXPECT_TRUE (r.remove_child (std::string_view ("renamed")));
+  EXPECT_FALSE (r.child (std::string_view ("renamed")));
+}
+
+TEST_F (XmlFixture, GivenDefaultConstructedStringView_WhenLookup_ThenUnfound)
+{
+  ASSERT_EQ (doc.load_string ("<r a='1'><x/></r>", kparse_default).status,
+             xml_parse_status::status_ok);
+  XmlNode const r = doc.document_element ();
+  std::string_view const empty;
+  EXPECT_FALSE (r.child (empty));
+  EXPECT_FALSE (r.attribute (empty));
+  EXPECT_FALSE (r.child ("x").next_sibling (empty));
+}
+#endif
 
 // --- Attribute hash and node hash existence (sanity) --------------------
 TEST_F (XmlFixture, GivenHandles_WhenHashValue_ThenNonZero)
@@ -1135,13 +1340,15 @@ TEST_P (ConcurrencyLargeReadOnlyParamTest,
   std::atomic<int> ok (0);
   for (int t = 0; t < 16; ++t)
     {
-      threads.push_back (std::thread ([&] () {
-        std::size_t c = 0;
-        for (auto it = r.begin (); it != r.end (); ++it)
-          ++c;
-        if (c == static_cast<std::size_t> (N))
-          ok.fetch_add (1);
-      }));
+      threads.push_back (std::thread (
+          [&] ()
+            {
+              std::size_t c = 0;
+              for (auto it = r.begin (); it != r.end (); ++it)
+                ++c;
+              if (c == static_cast<std::size_t> (N))
+                ok.fetch_add (1);
+            }));
     }
   for (std::size_t i = 0; i < threads.size (); ++i)
     threads[i].join ();

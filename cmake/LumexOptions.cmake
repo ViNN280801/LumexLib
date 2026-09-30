@@ -112,6 +112,28 @@ option(LUMEX_ENABLE_LTO
     OFF)
 option(LUMEX_DEBUG_SYMBOLS "Emit debug symbols on compiled Lumex targets" ON)
 
+# C++ standard library under Clang (CMakeRoutines configure_optimization_level
+# CXX_STDLIB). The top-level project chooses: AUTO (libc++ when a program
+# built with it compiles and links, else the compiler default) when LumexLib
+# is the top-level project, DEFAULT (no -stdlib, the parent's library) when a
+# parent embeds it. LIBCXX requires libc++. A library built with libc++ hands
+# -stdlib=libc++ to its consumers. GCC and MSVC ignore the option.
+if(LUMEX_IS_TOP_LEVEL)
+    set(_lumex_clang_stdlib_default AUTO)
+else()
+    set(_lumex_clang_stdlib_default DEFAULT)
+endif()
+set(LUMEX_CLANG_STDLIB "${_lumex_clang_stdlib_default}" CACHE STRING
+    "C++ standard library under Clang: AUTO, LIBCXX or DEFAULT (default: AUTO at top level, DEFAULT when embedded)")
+set_property(CACHE LUMEX_CLANG_STDLIB PROPERTY STRINGS AUTO LIBCXX DEFAULT)
+unset(_lumex_clang_stdlib_default)
+string(TOUPPER "${LUMEX_CLANG_STDLIB}" _lumex_clang_stdlib_upper)
+if(NOT _lumex_clang_stdlib_upper MATCHES "^(AUTO|LIBCXX|DEFAULT)$")
+    message(FATAL_ERROR
+        "Invalid LUMEX_CLANG_STDLIB='${LUMEX_CLANG_STDLIB}': use AUTO, LIBCXX or DEFAULT")
+endif()
+unset(_lumex_clang_stdlib_upper)
+
 # ==============================================================================
 # SANITIZERS (CMakeRoutines testing/SanitizersConfig.cmake)
 # ==============================================================================

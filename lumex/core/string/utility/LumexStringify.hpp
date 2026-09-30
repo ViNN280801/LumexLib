@@ -48,6 +48,7 @@
 
 #include "lumex/core/utility/assert/LumexAssert.hpp"
 #include "lumex/core/utility/attr/LumexAttributes.hpp"
+#include "lumex/core/utility/compiler/LumexCheckFeatures.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 #include "lumex/core/utility/traits/LumexTypeTraits.hpp"
 
@@ -59,10 +60,12 @@ namespace string
 {
 namespace utility
 {
-#if __cplusplus < 202002L
 /**
  * @brief Streams the raw address held by a `std::unique_ptr`.
- * @details Declared here so `stringify` finds it by ordinary lookup.
+ * @details Declared here so `stringify` finds it by ordinary lookup. The
+ * standard library has the same overload only since C++20 and only in newer
+ * releases; where it has one, this one is more specialized and prints the
+ * same text.
  */
 template <typename T, typename D>
 std::ostream &
@@ -78,16 +81,16 @@ operator<< (std::ostream &ostream, std::shared_ptr<T> const &ptr)
 {
   return ostream << ptr.get ();
 }
-#endif
 
-#if __cplusplus >= 202002L
+#if LUMEX_HAS_CONCEPTS
 
 /**
  * @brief Concatenates the streamed text of `args`.
  * @return The text, or an empty string for no arguments.
  * @note O(total length of the text).
  */
-template <lumex::core::utility::traits::stream::AllStreamable... Args>
+template <
+    lumex::core::utility::traits::stream::detail::AllStringifiable... Args>
 std::string
 stringify (Args &&...args)
 {
@@ -165,14 +168,15 @@ stringify () LUMEX_NOEXCEPT
   return {};
 }
 
-#if __cplusplus >= 202002L
+#if LUMEX_HAS_CONCEPTS
 
 /**
  * @brief Same result as `stringify`, constrained with a `requires`
  * clause instead of a constrained template parameter.
  */
 template <typename... Args>
-  requires lumex::core::utility::traits::stream::AllStreamable<Args...>
+  requires lumex::core::utility::traits::stream::detail::AllStringifiable<
+      Args...>
 std::string
 stringify_v2 (Args &&...args)
 {

@@ -3,6 +3,9 @@
 #include <string>
 #include <thread>
 #include <vector>
+#if __cplusplus >= 201703L
+#include <string_view>
+#endif
 
 #include <gtest/gtest.h>
 
@@ -182,6 +185,72 @@ TEST_F (Base64ValidatorTest,
                            << test.input;
     }
 }
+
+// --- Pointer and size core (same signature in every standard) ---------
+
+TEST_F (Base64ValidatorTest,
+        GivenNullPointerAndZeroSize_WhenValidate_ThenReturnsFalse)
+{
+  // nullptr is checked before the size: (nullptr, 0) is not an empty input.
+  EXPECT_FALSE (Validator::is_valid_base64 (nullptr, 0));
+}
+
+TEST_F (Base64ValidatorTest,
+        GivenNullPointerAndNonZeroSize_WhenValidate_ThenReturnsFalse)
+{
+  EXPECT_FALSE (Validator::is_valid_base64 (nullptr, 1));
+  EXPECT_FALSE (Validator::is_valid_base64 (nullptr, 4));
+  EXPECT_FALSE (Validator::is_valid_base64 (nullptr, 1024));
+}
+
+TEST_F (Base64ValidatorTest,
+        GivenEmptyNonNullRange_WhenValidate_ThenReturnsTrue)
+{
+  EXPECT_TRUE (Validator::is_valid_base64 ("", 0));
+  // Size 0 over a buffer of invalid characters is an empty input as well.
+  EXPECT_TRUE (Validator::is_valid_base64 ("@@@@", 0));
+}
+
+TEST_F (Base64ValidatorTest,
+        GivenRangeInsideLargerBuffer_WhenValidate_ThenOnlyTheRangeIsChecked)
+{
+  char const buffer[] = "@@SGVsbG8=@@";
+  EXPECT_TRUE (Validator::is_valid_base64 (buffer + 2, 8));
+  // The same buffer with its invalid neighbours included is rejected.
+  EXPECT_FALSE (Validator::is_valid_base64 (buffer, 12));
+  EXPECT_FALSE (Validator::is_valid_base64 (buffer + 1, 9));
+  EXPECT_FALSE (Validator::is_valid_base64 (buffer + 2, 9));
+}
+
+TEST_F (Base64ValidatorTest,
+        GivenPrefixOfPaddedInput_WhenValidate_ThenPaddingOutsideIsIgnored)
+{
+  // The '=' after the range is not part of it: "SGk" is valid unpadded
+  // Base64, "S" (one data character) is not.
+  char const buffer[] = "SGk=";
+  EXPECT_TRUE (Validator::is_valid_base64 (buffer, 3));
+  EXPECT_TRUE (Validator::is_valid_base64 (buffer, 4));
+  EXPECT_FALSE (Validator::is_valid_base64 (buffer, 1));
+}
+
+TEST_F (Base64ValidatorTest, GivenEmbeddedNul_WhenValidate_ThenReturnsFalse)
+{
+  std::string const text ("SG\0k", 4);
+  EXPECT_FALSE (Validator::is_valid_base64 (text.data (), text.size ()));
+  EXPECT_FALSE (Validator::is_valid_base64 (text));
+}
+
+#if __cplusplus >= 201703L
+TEST_F (Base64ValidatorTest,
+        GivenDefaultConstructedStringView_WhenValidate_ThenReturnsTrue)
+{
+  // A default-constructed view has no data pointer but is an empty input,
+  // unlike the pointer and size core called with nullptr.
+  std::string_view const empty_view;
+  ASSERT_EQ (empty_view.data (), nullptr);
+  EXPECT_TRUE (Validator::is_valid_base64 (empty_view));
+}
+#endif
 
 // --- Error Detection Tests ---------------------------------------------
 

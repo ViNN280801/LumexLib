@@ -1,4 +1,7 @@
 #define LUMEX_IMPLEMENTATION
+
+#include <cstddef>
+
 #include "Validator.hpp"
 
 using namespace lumex::core::base64::validate;
@@ -9,7 +12,7 @@ using namespace lumex::core::base64::codec::Constants;
 namespace
 {
 bool
-validate_base64_characters (string_type_t str, std::size_t data_length)
+validate_base64_characters (char const *str, std::size_t data_length)
 {
   for (std::size_t i = 0; i < data_length; ++i)
     {
@@ -22,16 +25,17 @@ validate_base64_characters (string_type_t str, std::size_t data_length)
 }
 
 bool
-validate_padding_format (string_type_t str, std::size_t padding_start)
+validate_padding_format (char const *str, std::size_t size,
+                         std::size_t padding_start)
 {
-  if (str.length () % 4 != 0)
+  if (size % 4 != 0)
     return false;
 
-  std::size_t padding_count = str.length () - padding_start;
+  std::size_t padding_count = size - padding_start;
   if (padding_count > 2)
     return false;
 
-  for (std::size_t i = padding_start; i < str.length (); ++i)
+  for (std::size_t i = padding_start; i < size; ++i)
     if (str[i] != '=')
       return false;
 
@@ -54,27 +58,31 @@ validate_padding_correctness (
     return false;
   return true;
 }
-} // namespace anonymous
+} // namespace
 
 LUMEX_PUBLIC_API
 bool
-Validator::is_valid_base64 (string_type_t str)
+Validator::is_valid_base64 (char const *str, std::size_t size)
 {
-  if (str.empty ())
+  if (str == nullptr)
+    return false;
+  if (size == 0)
     return true;
 
-  std::size_t padding_start = str.find ('=');
-  std::size_t data_length
-      = (padding_start == std::string::npos) ? str.length () : padding_start;
+  // The first '=' inside the range; `size` when there is none.
+  std::size_t padding_start = 0;
+  while (padding_start < size && str[padding_start] != '=')
+    ++padding_start;
+  std::size_t const data_length = padding_start;
 
   if (!validate_base64_characters (str, data_length))
     return false;
 
-  if (padding_start != std::string::npos)
+  if (padding_start != size)
     {
-      if (!validate_padding_format (str, padding_start))
+      if (!validate_padding_format (str, size, padding_start))
         return false;
-      std::size_t padding_count = str.length () - padding_start;
+      std::size_t padding_count = size - padding_start;
       return validate_padding_correctness (data_length, padding_count);
     }
 

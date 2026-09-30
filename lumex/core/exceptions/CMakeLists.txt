@@ -29,6 +29,10 @@ target_link_libraries(${LUMEX_EXCEPTIONS_NAME} PUBLIC
     lumex::utility
 )
 
+# The stack trace resolves symbol names with dladdr, which lives in libdl
+# before glibc 2.34 (CMAKE_DL_LIBS is empty where it is part of libc).
+target_link_libraries(${LUMEX_EXCEPTIONS_NAME} PRIVATE ${CMAKE_DL_LIBS})
+
 if(WIN32)
     target_link_libraries(${LUMEX_EXCEPTIONS_NAME} PRIVATE dbghelp)
 elseif(UNIX AND NOT APPLE)

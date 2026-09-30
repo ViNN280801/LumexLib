@@ -12,28 +12,28 @@ using namespace lumex::xml::document;
 using namespace lumex::xml::text;
 
 LUMEX_PUBLIC_API
-inline xml_parse_result_t::xml_parse_result_t ()
+xml_parse_result_t::xml_parse_result_t ()
     : status (Types::xml_parse_status::status_internal_error), offset (0),
       encoding (Types::xml_encoding::encoding_auto)
 {
 }
 
 LUMEX_PUBLIC_API
-inline xml_parse_result_t::xml_parse_result_t (Types::xml_parse_status status)
-    : status (status), offset (0),
+xml_parse_result_t::xml_parse_result_t (Types::xml_parse_status parse_status)
+    : status (parse_status), offset (0),
       encoding (Types::xml_encoding::encoding_auto)
 {
 }
 
 LUMEX_PUBLIC_API
-inline xml_parse_result_t::
+xml_parse_result_t::
 operator bool () const
 {
   return status == Types::xml_parse_status::status_ok;
 }
 
 LUMEX_PUBLIC_API
-inline char const *
+char const *
 xml_parse_result_t::description () const
 {
   switch (status)
@@ -84,7 +84,7 @@ xml_parse_result_t::description () const
 }
 
 LUMEX_PUBLIC_API
-inline xml_parse_result_t
+xml_parse_result_t
 lumex::xml::text::load_buffer_impl ( // NOLINT(misc-use-internal-linkage)
     document::XmlDocumentBase *doc, node::XmlNodeBase *root, void *contents,
     std::size_t size, // NOLINT(bugprone-easily-swappable-parameters)

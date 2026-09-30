@@ -42,27 +42,30 @@
 
 #include "lumex/LumexExport.hpp"
 
+#include <csignal>
+#include <cstdlib>
 #include <string>
 
-#include "lumex/core/utility/LumexUtility"
-#include "lumex/core/utility/attr/LumexAttributes.hpp"
-
-#if LUMEX_OS_WINDOWS
+#if defined(_WIN32)
 #include <Windows.h> // This library must be included before DbgHelp.h
                      // because DbgHelp.h uses types from Windows.h
 
 #include <DbgHelp.h>
 #include <tchar.h>
-#pragma comment(lib, "dbghelp.lib")
 #else
-#include <csignal>
-#include <cstdlib>
 #include <fcntl.h>
 #include <sys/prctl.h>
 #include <sys/resource.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
+#endif
+
+#include "lumex/core/utility/LumexUtility"
+#include "lumex/core/utility/attr/LumexAttributes.hpp"
+
+#if defined(_WIN32)
+#pragma comment(lib, "dbghelp.lib")
 #endif
 
 namespace lumex // NOLINT(modernize-concat-nested-namespaces)
@@ -105,7 +108,7 @@ public:
   void initialize (LUMEX_ATTRIBUTE_MAYBE_UNUSED std::string const &appName
                    = s_defaultAppName);
 
-#if LUMEX_OS_WINDOWS
+#if defined(LUMEX_OS_WINDOWS)
   /**
    * @brief Windows-specific crash handler for unhandled exceptions.
    * @param pExInfo Pointer to exception information.
@@ -130,8 +133,8 @@ private:
 
 #ifdef _WIN32
 #pragma warning(push)
-#pragma warning(                                                              \
-    disable : 4251) // Suppress C4251 for STL members in DLL interface
+#pragma warning(disable                                                       \
+                : 4251) // Suppress C4251 for STL members in DLL interface
 #endif
   static std::string s_appName; ///< The name of the application.
 #ifdef _WIN32

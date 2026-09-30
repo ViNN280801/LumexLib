@@ -29,15 +29,21 @@
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wpadded"
 #pragma clang diagnostic ignored "-Wunsafe-buffer-usage"
+#if __has_warning("-Wunsafe-buffer-usage-in-libc-call")
 #pragma clang diagnostic ignored "-Wunsafe-buffer-usage-in-libc-call"
+#endif
 #pragma clang diagnostic ignored "-Wcovered-switch-default"
 #pragma clang diagnostic ignored "-Wswitch-enum"
+#if __has_warning("-Wnrvo")
 #pragma clang diagnostic ignored "-Wnrvo"
+#endif
 #pragma clang diagnostic ignored "-Wheader-hygiene"
 #pragma clang diagnostic ignored "-Wused-but-marked-unused"
 #pragma clang diagnostic ignored "-Wundefined-var-template"
 #pragma clang diagnostic ignored "-Wdeprecated-redundant-constexpr-static-def"
+#if __has_warning("-Wvariadic-macro-arguments-omitted")
 #pragma clang diagnostic ignored "-Wvariadic-macro-arguments-omitted"
+#endif
 #pragma clang diagnostic ignored "-Wunused-result"
 #pragma clang diagnostic ignored "-Wextra-semi-stmt"
 #pragma clang diagnostic ignored "-Wexpansion-to-defined"
@@ -48,19 +54,22 @@
 
 #include "lumex/LumexExport.hpp"
 
+#include <cstddef>
+#include <string>
 #include <vector>
-
-#include "lumex/core/base64/codec/Base64.hpp"
-
-using namespace lumex::core::base64::codec::Types;
-
 #if __cplusplus >= 201703L
 #include <string_view>
 #endif
-
-#if __cplusplus >= 202002L
+#if __cplusplus > 201703L && defined(__has_include)
+#if __has_include(<span>)
 #include <span>
 #endif
+#endif
+
+#include "lumex/core/base64/codec/Base64.hpp"
+#include "lumex/core/utility/compiler/LumexCheckFeatures.hpp"
+
+using namespace lumex::core::base64::codec::Types;
 
 namespace lumex // NOLINT(modernize-concat-nested-namespaces)
 {
@@ -76,6 +85,14 @@ namespace base64
 {
 namespace encode
 {
+/**
+ * @brief Base64 encoder.
+ * @details `encode (void const *, std::size_t)` and
+ * `encode (std::vector<byte_type> const &)` are exported and have the same
+ * signature in every C++ standard, so a consumer built at another standard
+ * than the library links. The `std::string_view` (C++17) and `std::span`
+ * (C++20) overloads are inline wrappers over the pointer and size one.
+ */
 class LUMEX_API Encoder final
 {
 public:
@@ -124,10 +141,14 @@ public:
    * the input data. Returns an empty string if the input `string_view` is
    * empty.
    */
-  static std::string encode (std::string_view data);
+  static std::string
+  encode (std::string_view data)
+  {
+    return encode (data.data (), data.size ());
+  }
 #endif
 
-#if __cplusplus >= 202002L
+#if LUMEX_HAS_STD_SPAN
   /**
    * @brief Encodes binary data from a `std::span<const byte_type>` into a
    * Base64 string.
@@ -141,7 +162,11 @@ public:
    * @return A `std::string` containing the Base64-encoded representation of
    * the input data. Returns an empty string if the input `span` is empty.
    */
-  static std::string encode (std::span<byte_type const> data);
+  static std::string
+  encode (std::span<byte_type const> data)
+  {
+    return encode (data.data (), data.size ());
+  }
 #endif
 };
 } // namespace encode

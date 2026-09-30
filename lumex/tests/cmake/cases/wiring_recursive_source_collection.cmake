@@ -29,6 +29,10 @@ if(DEFINED ENV{TEMP} AND NOT "$ENV{TEMP}" STREQUAL "")
     set(_tmp "$ENV{TEMP}/lumex_rsc_smoke")
 elseif(DEFINED ENV{TMPDIR} AND NOT "$ENV{TMPDIR}" STREQUAL "")
     set(_tmp "$ENV{TMPDIR}/lumex_rsc_smoke")
+elseif(CMAKE_HOST_UNIX)
+    # The in-tree fallback below lies under lumex/tests, which the collector
+    # skips by default, so it would find nothing.
+    set(_tmp "/tmp/lumex_rsc_smoke")
 else()
     set(_tmp "${LUMEX_SOURCE_DIR}/lumex/tests/cmake/.rsc_smoke_tmp")
 endif()

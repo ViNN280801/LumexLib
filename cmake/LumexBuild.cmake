@@ -33,6 +33,7 @@ include(utils/RecursiveSourceCollection)
 include(testing/SanitizersConfig)
 include(analysis/StaticAnalysisConfig)
 include(analysis/MaximumStandardCompliance)
+include(dependencies/StdFilesystem)
 include(deployment/BuildInfoPrinter)
 include("${CMAKE_CURRENT_LIST_DIR}/LumexSanitizerBuildType.cmake")
 
@@ -291,7 +292,33 @@ function(lumex_configure_target target_name)
   configure_optimization_level("${target_name}"
     LEVEL "${LUMEX_OPTIMIZATION_LEVEL}"
     ENABLE_LTO "${LUMEX_ENABLE_LTO}"
-    DEBUG_SYMBOLS "${LUMEX_DEBUG_SYMBOLS}")
+    DEBUG_SYMBOLS "${LUMEX_DEBUG_SYMBOLS}"
+    CXX_STDLIB "${LUMEX_CLANG_STDLIB}")
+
+  # Remember the C++ standard library CMakeRoutines chose (-stdlib=libc++ on
+  # Clang when libc++ is usable): the vendored GoogleTest libraries skip this
+  # function and must be built against the same library as the tests.
+  get_target_property(_lumex_opts "${target_name}" COMPILE_OPTIONS)
+  if(_lumex_opts AND "-stdlib=libc++" IN_LIST _lumex_opts)
+    set_property(GLOBAL PROPERTY LUMEX_CXX_STDLIB_OPTION "-stdlib=libc++")
+  endif()
+
+  # A target that calls std::filesystem sets LUMEX_USES_STD_FILESYSTEM. Before
+  # GCC 9 / LLVM 9 the standard library keeps it in a separate static archive
+  # (stdc++fs / c++fs); the probe uses the -stdlib= choice made just above.
+  get_target_property(_lumex_uses_fs "${target_name}" LUMEX_USES_STD_FILESYSTEM)
+  if(_lumex_uses_fs)
+    set(_lumex_stdlib_opts "")
+    if(_lumex_opts)
+      foreach(_opt IN LISTS _lumex_opts)
+        if(_opt MATCHES "^-stdlib=")
+          list(APPEND _lumex_stdlib_opts "${_opt}")
+        endif()
+      endforeach()
+    endif()
+    link_std_filesystem("${target_name}" PRIVATE
+      COMPILE_OPTIONS ${_lumex_stdlib_opts})
+  endif()
 
   # CMakeRoutines configure_compiler_flags adds NOMINMAX only on the MSVC
   # path (clang-cl). GNU-like clang++ / g++ on Windows still see min/max
@@ -388,4 +415,17 @@ function(lumex_configure_all_compiled_targets)
              lumex_gtest_1_18 lumex_gtest_main_1_18)
     lumex_apply_sanitizers("${_g}")
   endforeach()
+
+  # Every test links the vendored GoogleTest, so it has to use the tests' C++
+  # standard library: libc++ and libstdc++ mangle std::string differently and
+  # a test that mixes them does not link.
+  get_property(_lumex_stdlib GLOBAL PROPERTY LUMEX_CXX_STDLIB_OPTION)
+  if(_lumex_stdlib)
+    foreach(_g lumex_gtest_1_12 lumex_gtest_main_1_12
+               lumex_gtest_1_18 lumex_gtest_main_1_18)
+      if(TARGET "${_g}")
+        target_compile_options("${_g}" PRIVATE ${_lumex_stdlib})
+      endif()
+    endforeach()
+  endif()
 endfunction()

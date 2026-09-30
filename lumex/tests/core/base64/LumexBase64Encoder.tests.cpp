@@ -5,6 +5,12 @@
 #include <string>
 #include <thread>
 #include <vector>
+#if __cplusplus >= 201703L
+#include <string_view>
+#endif
+#if __cplusplus >= 202002L
+#include <span>
+#endif
 
 #include <gtest/gtest.h>
 
@@ -222,6 +228,47 @@ TEST_F (Base64EncoderTest, GivenSpan_WhenEncode_ThenProducesCorrectOutput)
 }
 #endif
 
+TEST_F (Base64EncoderTest,
+        GivenRangeInsideLargerBuffer_WhenEncode_ThenOnlyTheRangeIsEncoded)
+{
+  char const buffer[] = "xxHiyy";
+  EXPECT_EQ (Encoder::encode (buffer + 2, 2), "SGk=");
+}
+
+#if __cplusplus >= 201703L
+TEST_F (Base64EncoderTest,
+        GivenStringViewWithEmbeddedNul_WhenEncode_ThenEncodesTheWholeView)
+{
+  // The view is sized: its NUL is a byte, not the end of the input.
+  std::string_view const view ("a\0b", 3);
+  EXPECT_EQ (Encoder::encode (view), "YQBi");
+}
+
+TEST_F (Base64EncoderTest,
+        GivenStringViewSubRange_WhenEncode_ThenOnlyTheViewIsEncoded)
+{
+  std::string const longer = "xxHiyy";
+  EXPECT_EQ (Encoder::encode (std::string_view (longer).substr (2, 2)),
+             "SGk=");
+}
+
+TEST_F (Base64EncoderTest,
+        GivenDefaultConstructedStringView_WhenEncode_ThenReturnsEmptyString)
+{
+  EXPECT_TRUE (Encoder::encode (std::string_view ()).empty ());
+}
+#endif
+
+#if __cplusplus >= 202002L
+TEST_F (Base64EncoderTest, GivenSubSpan_WhenEncode_ThenOnlyTheSpanIsEncoded)
+{
+  std::vector<byte_type> const data = { 'x', 'H', 'i', 'y' };
+  std::span<byte_type const> const whole (data);
+  EXPECT_EQ (Encoder::encode (whole.subspan (1, 2)), "SGk=");
+  EXPECT_TRUE (Encoder::encode (std::span<byte_type const> ()).empty ());
+}
+#endif
+
 // --- Edge & Corner Cases -----------------------------------------------
 
 TEST_F (Base64EncoderTest,
@@ -316,9 +363,8 @@ TEST_F (Base64EncoderTest, ThreadSafety_SimultaneousEncoding)
       = { 'T', 'h', 'r', 'e', 'a', 'd', 'T', 'e', 's', 't' };
 
   for (int i = 0; i < num_threads; ++i)
-    threads.emplace_back ([&results, &test_data, i] () {
-      results[i] = Encoder::encode (test_data);
-    });
+    threads.emplace_back ([&results, &test_data, i] ()
+                            { results[i] = Encoder::encode (test_data); });
 
   for (auto &t : threads)
     t.join ();

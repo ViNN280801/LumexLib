@@ -43,6 +43,57 @@
 #include "lumex/core/utility/macros/LumexConstantMacros.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 
+namespace lumex
+{
+namespace core
+{
+namespace reflection
+{
+namespace reflected_enum
+{
+namespace detail
+{
+/**
+ * @brief Returns the first of its arguments.
+ * @details Computes the `EnumNameFirst` companion from the enumerator list:
+ * `std::array::front` is not `constexpr` before C++14.
+ */
+template <typename T, typename... Rest>
+LUMEX_CONSTEXPR T
+first_of (T first, Rest...) LUMEX_NOEXCEPT
+{
+  return first;
+}
+
+/**
+ * @brief Returns its only argument (end of the `last_of` recursion).
+ */
+template <typename T>
+LUMEX_CONSTEXPR T
+last_of (T only) LUMEX_NOEXCEPT
+{
+  return only;
+}
+
+/**
+ * @brief Returns the last of its arguments.
+ * @details Computes the `EnumNameLast` companion from the enumerator list:
+ * `std::array::back` is not `constexpr` before C++14, and a C++11 `constexpr`
+ * function may only recurse, not loop.
+ */
+template <typename T, typename Next, typename... Rest>
+LUMEX_CONSTEXPR T
+last_of (T, Next next, Rest... rest) LUMEX_NOEXCEPT
+{
+  return ::lumex::core::reflection::reflected_enum::detail::last_of (next,
+                                                                     rest...);
+}
+} // namespace detail
+} // namespace reflected_enum
+} // namespace reflection
+} // namespace core
+} // namespace lumex
+
 // clang-format off
 
 // Each entry passed to LUMEX_DEFINE_REFLECTED_ENUM is (Name) or (Name, Value), e.g.
@@ -210,18 +261,20 @@
       LUMEX_PP_FOR_EACH_ARG(LUMEX_PP_ENUM_VALUE, EnumName, __VA_ARGS__)                              \
     };                                                                                               \
   LUMEX_ATTRIBUTE_MAYBE_UNUSED LUMEX_PP_ENUM_CONSTANT EnumName LUMEX_PP_CAT(EnumName, First) =                         \
-    LUMEX_PP_CAT(EnumName, Values).front();                                                          \
+    ::lumex::core::reflection::reflected_enum::detail::first_of(                                     \
+      LUMEX_PP_FOR_EACH_ARG(LUMEX_PP_ENUM_VALUE, EnumName, __VA_ARGS__));                            \
   LUMEX_ATTRIBUTE_MAYBE_UNUSED LUMEX_PP_ENUM_CONSTANT std::size_t LUMEX_PP_CAT(EnumName, Size) =                       \
     LUMEX_PP_CAT(EnumName, Values).size();                                                           \
   LUMEX_ATTRIBUTE_MAYBE_UNUSED LUMEX_PP_ENUM_CONSTANT EnumName LUMEX_PP_CAT(EnumName, Last) =                          \
-    LUMEX_PP_CAT(EnumName, Values).back();
+    ::lumex::core::reflection::reflected_enum::detail::last_of(                                      \
+      LUMEX_PP_FOR_EACH_ARG(LUMEX_PP_ENUM_VALUE, EnumName, __VA_ARGS__));
 
 #define LUMEX_PP_ENUM_TO_STRING_CASE(enumerator, str) \
   case LumexToStringEnum_::enumerator:                \
     return str;
 
 #define LUMEX_PP_DEFINE_TO_STRING_FN(EnumName, SwitchBody)                                       \
-  LUMEX_ATTRIBUTE_NODISCARD ("return value must be used") LUMEX_ATTRIBUTE_MAYBE_UNUSED static LUMEX_CONSTEXPR char const * toString(EnumName value) LUMEX_NOEXCEPT  \
+  LUMEX_ATTRIBUTE_NODISCARD ("return value must be used") LUMEX_ATTRIBUTE_MAYBE_UNUSED static LUMEX_CONSTEXPR_CXX14 char const * toString(EnumName value) LUMEX_NOEXCEPT  \
   {                                                                                               \
     using LumexToStringEnum_ = EnumName;                                                         \
     switch(value)                                                                                \
@@ -241,6 +294,24 @@
 #define LUMEX_DEFINE_REFLECTED_ENUM_TO_STRING(EnumName, UnderlyingType, XList, ...) \
   LUMEX_PP_DEFINE_REFLECTED_ENUM_DECL(EnumName, UnderlyingType, __VA_ARGS__)  \
   LUMEX_PP_DEFINE_TO_STRING_FN(EnumName, XList(LUMEX_PP_ENUM_TO_STRING_CASE))
+
+// Class-scope storage. Before C++17 a static constexpr data member that is
+// odr-used (bound to a reference, as EXPECT_EQ does) needs one definition at
+// namespace scope, which a macro expanded inside the class cannot emit. Write
+//   LUMEX_DEFINE_REFLECTED_ENUM_STORAGE(Owner, EnumName)
+// once, in one .cpp, after the class that invoked LUMEX_DEFINE_REFLECTED_ENUM
+// or LUMEX_DEFINE_REFLECTED_ENUM_TO_STRING. From C++17 the companions are
+// inline variables and the macro expands to nothing. Namespace-scope enums
+// never need it: there the companions have internal linkage.
+#if __cplusplus < 201703L
+#define LUMEX_DEFINE_REFLECTED_ENUM_STORAGE(Owner, EnumName)                                  \
+  constexpr decltype(Owner::LUMEX_PP_CAT(EnumName, Values)) Owner::LUMEX_PP_CAT(EnumName, Values); \
+  constexpr decltype(Owner::LUMEX_PP_CAT(EnumName, First)) Owner::LUMEX_PP_CAT(EnumName, First);   \
+  constexpr decltype(Owner::LUMEX_PP_CAT(EnumName, Size)) Owner::LUMEX_PP_CAT(EnumName, Size);     \
+  constexpr decltype(Owner::LUMEX_PP_CAT(EnumName, Last)) Owner::LUMEX_PP_CAT(EnumName, Last);
+#else
+#define LUMEX_DEFINE_REFLECTED_ENUM_STORAGE(Owner, EnumName)
+#endif
 // NOLINTEND(cppcoreguidelines-macro-usage)
 // clang-format on
 

@@ -12,7 +12,7 @@ using namespace lumex::xml::node;
 using namespace lumex::xml::utility;
 
 LUMEX_PUBLIC_API
-inline XmlAttributeBase *
+XmlAttributeBase *
 lumex::xml::attribute::allocate_attribute (XmlAllocator &alloc)
 {
   XmlMemoryPage *page{};
@@ -25,7 +25,7 @@ lumex::xml::attribute::allocate_attribute (XmlAllocator &alloc)
 }
 
 LUMEX_PUBLIC_API
-inline void
+void
 lumex::xml::attribute::destroy_attribute (XmlAttributeBase *attr,
                                           XmlAllocator &alloc)
 {
@@ -42,7 +42,7 @@ lumex::xml::attribute::destroy_attribute (XmlAttributeBase *attr,
 }
 
 LUMEX_PUBLIC_API
-inline void
+void
 lumex::xml::attribute::prepend_attribute (XmlAttributeBase *attr,
                                           XmlNodeBase *node)
 {
@@ -61,7 +61,7 @@ lumex::xml::attribute::prepend_attribute (XmlAttributeBase *attr,
 }
 
 LUMEX_PUBLIC_API
-inline void
+void
 lumex::xml::attribute::insert_attribute_after (XmlAttributeBase *attr,
                                                XmlAttributeBase *place,
                                                XmlNodeBase *node)
@@ -79,7 +79,7 @@ lumex::xml::attribute::insert_attribute_after (XmlAttributeBase *attr,
 }
 
 LUMEX_PUBLIC_API
-inline void
+void
 lumex::xml::attribute::insert_attribute_before (XmlAttributeBase *attr,
                                                 XmlAttributeBase *place,
                                                 XmlNodeBase *node)
@@ -97,7 +97,7 @@ lumex::xml::attribute::insert_attribute_before (XmlAttributeBase *attr,
 }
 
 LUMEX_PUBLIC_API
-inline void
+void
 lumex::xml::attribute::remove_attribute (XmlAttributeBase *attr,
                                          XmlNodeBase *node)
 {
@@ -119,7 +119,7 @@ lumex::xml::attribute::remove_attribute (XmlAttributeBase *attr,
 }
 
 LUMEX_PUBLIC_API
-inline void
+void
 lumex::xml::attribute::node_copy_attribute (XmlAttributeBase *da_,
                                             XmlAttributeBase *sa_)
 {

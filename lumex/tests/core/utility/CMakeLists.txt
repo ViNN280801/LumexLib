@@ -7,6 +7,7 @@ add_executable(
     LumexBit.tests.cpp
     LumexCallbackSlot.tests.cpp
     LumexCast.tests.cpp
+    LumexCheckOS.tests.cpp
     LumexCoreDumpGenerator.tests.cpp
     LumexDebug.tests.cpp
     LumexDemangle.tests.cpp
@@ -53,12 +54,13 @@ endif()
 # Same TypeTraits sources, pinned to C++11. lumex_enum_traits_t / using enum stay
 # behind #if __cplusplus >= 202002L in the .cpp, so this suite proves
 # CleanType, is_callable, is_optional (optional), and default_return
-# on the library floor. UtilityTests remains CXX 20 for Bit/Cast/Ranges
+# on the library floor, plus the LUMEX_OS_IS_*() constants of LumexCheckOS.hpp. UtilityTests remains CXX 20 for Bit/Cast/Ranges
 # plus the lumex_enum_traits_t cases.
 set(TYPE_TRAITS_TEST_NAME LumexTypeTraitsTests)
 
 add_executable(
     ${TYPE_TRAITS_TEST_NAME}
+    LumexCheckOS.tests.cpp
     LumexExceptionMacros.tests.cpp
     LumexRangeTraits.tests.cpp
     LumexStreamTraits.tests.cpp

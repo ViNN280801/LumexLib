@@ -44,15 +44,21 @@
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wpadded"
 #pragma clang diagnostic ignored "-Wunsafe-buffer-usage"
+#if __has_warning("-Wunsafe-buffer-usage-in-libc-call")
 #pragma clang diagnostic ignored "-Wunsafe-buffer-usage-in-libc-call"
+#endif
 #pragma clang diagnostic ignored "-Wcovered-switch-default"
 #pragma clang diagnostic ignored "-Wswitch-enum"
+#if __has_warning("-Wnrvo")
 #pragma clang diagnostic ignored "-Wnrvo"
+#endif
 #pragma clang diagnostic ignored "-Wheader-hygiene"
 #pragma clang diagnostic ignored "-Wused-but-marked-unused"
 #pragma clang diagnostic ignored "-Wundefined-var-template"
 #pragma clang diagnostic ignored "-Wdeprecated-redundant-constexpr-static-def"
+#if __has_warning("-Wvariadic-macro-arguments-omitted")
 #pragma clang diagnostic ignored "-Wvariadic-macro-arguments-omitted"
+#endif
 #pragma clang diagnostic ignored "-Wunused-result"
 #pragma clang diagnostic ignored "-Wextra-semi-stmt"
 #pragma clang diagnostic ignored "-Wexpansion-to-defined"
@@ -547,6 +553,50 @@ public:
    */
   XmlNode previous_sibling (char_t const *name) const;
 
+  LUMEX_ATTRIBUTE_NODISCARD (
+      "The result of a lookup should be used; discarding it negates "
+      "the purpose of the getter.")
+  /**
+   * @brief `child` with a name of `size` characters at `name`, which
+   * need no terminating NUL (a range of a larger buffer works).
+   * @details Exported with the same signature in every C++ standard; the
+   * `string_view_t` overload is an inline wrapper over it.
+   */
+  XmlNode child (char_t const *name, std::size_t size) const;
+
+  LUMEX_ATTRIBUTE_NODISCARD (
+      "The result of a lookup should be used; discarding it negates "
+      "the purpose of the getter.")
+  /**
+   * @brief `attribute` with a name of `size` characters at `name`, which
+   * need no terminating NUL (a range of a larger buffer works).
+   * @details Exported with the same signature in every C++ standard; the
+   * `string_view_t` overload is an inline wrapper over it.
+   */
+  XmlAttribute attribute (char_t const *name, std::size_t size) const;
+
+  LUMEX_ATTRIBUTE_NODISCARD (
+      "The result of a lookup should be used; discarding it negates "
+      "the purpose of the getter.")
+  /**
+   * @brief `next_sibling` with a name of `size` characters at `name`, which
+   * need no terminating NUL (a range of a larger buffer works).
+   * @details Exported with the same signature in every C++ standard; the
+   * `string_view_t` overload is an inline wrapper over it.
+   */
+  XmlNode next_sibling (char_t const *name, std::size_t size) const;
+
+  LUMEX_ATTRIBUTE_NODISCARD (
+      "The result of a lookup should be used; discarding it negates "
+      "the purpose of the getter.")
+  /**
+   * @brief `previous_sibling` with a name of `size` characters at `name`,
+   * which need no terminating NUL (a range of a larger buffer works).
+   * @details Exported with the same signature in every C++ standard; the
+   * `string_view_t` overload is an inline wrapper over it.
+   */
+  XmlNode previous_sibling (char_t const *name, std::size_t size) const;
+
 #if __cplusplus >= 201703L
   LUMEX_ATTRIBUTE_NODISCARD (
       "The returned child node should be used; discarding it negates the "
@@ -562,7 +612,11 @@ public:
    * @note The search is case-sensitive. Available only when compiled with
    * C++17 or later.
    */
-  XmlNode child (string_view_t name) const;
+  XmlNode
+  child (string_view_t name) const
+  {
+    return child (name.data (), name.size ());
+  }
 
   LUMEX_ATTRIBUTE_NODISCARD (
       "The returned attribute should be used; discarding it negates the "
@@ -578,7 +632,11 @@ public:
    * @note The search is case-sensitive. Available only when compiled with
    * C++17 or later.
    */
-  XmlAttribute attribute (string_view_t name) const;
+  XmlAttribute
+  attribute (string_view_t name) const
+  {
+    return attribute (name.data (), name.size ());
+  }
 
   LUMEX_ATTRIBUTE_NODISCARD (
       "The returned next sibling node should be used; discarding it negates "
@@ -594,7 +652,11 @@ public:
    * @note The search is case-sensitive and starts from the current node's next
    * sibling. Available only when compiled with C++17 or later.
    */
-  XmlNode next_sibling (string_view_t name) const;
+  XmlNode
+  next_sibling (string_view_t name) const
+  {
+    return next_sibling (name.data (), name.size ());
+  }
 
   LUMEX_ATTRIBUTE_NODISCARD (
       "The returned previous sibling node should be used; discarding it "
@@ -610,7 +672,11 @@ public:
    * @note The search is case-sensitive and starts from the current node's
    * previous sibling. Available only when compiled with C++17 or later.
    */
-  XmlNode previous_sibling (string_view_t name) const;
+  XmlNode
+  previous_sibling (string_view_t name) const
+  {
+    return previous_sibling (name.data (), name.size ());
+  }
 #endif
 
   // Get attribute, starting the search from a hint (and updating hint so that
@@ -631,6 +697,16 @@ public:
    * undefined in release builds (asserts in debug).
    */
   XmlAttribute attribute (char_t const *name, XmlAttribute &hint) const;
+
+  /**
+   * @brief `attribute` with a name of `size` characters at `name`, which
+   * need no terminating NUL (a range of a larger buffer works).
+   * @details Exported with the same signature in every C++ standard; the
+   * `string_view_t` overload is an inline wrapper over it.
+   */
+  XmlAttribute attribute (char_t const *name, std::size_t size,
+                          XmlAttribute &hint) const;
+
 #if __cplusplus >= 201703L
   /**
    * @brief Finds an attribute by name using `std::string_view`, optimizing
@@ -645,7 +721,11 @@ public:
    * @warning If `hint` is not an attribute of `this` node, the behavior is
    * undefined in release builds (asserts in debug).
    */
-  XmlAttribute attribute (string_view_t name, XmlAttribute &hint) const;
+  XmlAttribute
+  attribute (string_view_t name, XmlAttribute &hint) const
+  {
+    return attribute (name.data (), name.size (), hint);
+  }
 #endif
 
   // Get child value of current node; that is, value of the first child node of
@@ -720,7 +800,11 @@ public:
    * leveraging `std::string_view` for efficiency.
    * @note Available only when compiled with C++17 or later.
    */
-  bool set_name (string_view_t rhs);
+  bool
+  set_name (string_view_t rhs)
+  {
+    return set_name (rhs.data (), rhs.size ());
+  }
 #endif
 
   /**
@@ -757,7 +841,11 @@ public:
    * leveraging `std::string_view`.
    * @note Available only when compiled with C++17 or later.
    */
-  bool set_value (string_view_t rhs);
+  bool
+  set_value (string_view_t rhs)
+  {
+    return set_value (rhs.data (), rhs.size ());
+  }
 #endif
 
   // Add attribute with specified name. Returns added attribute, or empty
@@ -822,6 +910,40 @@ public:
   XmlAttribute insert_attribute_before (char_t const *name,
                                         XmlAttribute const &attr);
 
+  /**
+   * @brief `append_attribute` with a name of `size` characters at `name`,
+   * which need no terminating NUL (a range of a larger buffer works).
+   * @details Exported with the same signature in every C++ standard; the
+   * `string_view_t` overload is an inline wrapper over it.
+   */
+  XmlAttribute append_attribute (char_t const *name, std::size_t size);
+
+  /**
+   * @brief `prepend_attribute` with a name of `size` characters at `name`,
+   * which need no terminating NUL (a range of a larger buffer works).
+   * @details Exported with the same signature in every C++ standard; the
+   * `string_view_t` overload is an inline wrapper over it.
+   */
+  XmlAttribute prepend_attribute (char_t const *name, std::size_t size);
+
+  /**
+   * @brief `insert_attribute_after` with a name of `size` characters at
+   * `name`, which need no terminating NUL (a range of a larger buffer works).
+   * @details Exported with the same signature in every C++ standard; the
+   * `string_view_t` overload is an inline wrapper over it.
+   */
+  XmlAttribute insert_attribute_after (char_t const *name, std::size_t size,
+                                       XmlAttribute const &attr);
+
+  /**
+   * @brief `insert_attribute_before` with a name of `size` characters at
+   * `name`, which need no terminating NUL (a range of a larger buffer works).
+   * @details Exported with the same signature in every C++ standard; the
+   * `string_view_t` overload is an inline wrapper over it.
+   */
+  XmlAttribute insert_attribute_before (char_t const *name, std::size_t size,
+                                        XmlAttribute const &attr);
+
 #if __cplusplus >= 201703L
   /**
    * @brief Appends a new attribute with the specified name
@@ -831,7 +953,11 @@ public:
    * or an empty `XmlAttribute` on error.
    * @note Available only when compiled with C++17 or later.
    */
-  XmlAttribute append_attribute (string_view_t name);
+  XmlAttribute
+  append_attribute (string_view_t name)
+  {
+    return append_attribute (name.data (), name.size ());
+  }
 
   /**
    * @brief Prepends a new attribute with the specified name
@@ -841,7 +967,11 @@ public:
    * or an empty `XmlAttribute` on error.
    * @note Available only when compiled with C++17 or later.
    */
-  XmlAttribute prepend_attribute (string_view_t name);
+  XmlAttribute
+  prepend_attribute (string_view_t name)
+  {
+    return prepend_attribute (name.data (), name.size ());
+  }
 
   /**
    * @brief Inserts a new attribute with the specified name
@@ -853,8 +983,11 @@ public:
    * or an empty `XmlAttribute` on error.
    * @note Available only when compiled with C++17 or later.
    */
-  XmlAttribute insert_attribute_after (string_view_t name,
-                                       XmlAttribute const &attr);
+  XmlAttribute
+  insert_attribute_after (string_view_t name, XmlAttribute const &attr)
+  {
+    return insert_attribute_after (name.data (), name.size (), attr);
+  }
 
   /**
    * @brief Inserts a new attribute with the specified name
@@ -866,8 +999,11 @@ public:
    * or an empty `XmlAttribute` on error.
    * @note Available only when compiled with C++17 or later.
    */
-  XmlAttribute insert_attribute_before (string_view_t name,
-                                        XmlAttribute const &attr);
+  XmlAttribute
+  insert_attribute_before (string_view_t name, XmlAttribute const &attr)
+  {
+    return insert_attribute_before (name.data (), name.size (), attr);
+  }
 #endif
 
   // Add a copy of the specified attribute. Returns added attribute, or empty
@@ -1019,6 +1155,40 @@ public:
    */
   XmlNode insert_child_before (char_t const *name, XmlNode const &node);
 
+  /**
+   * @brief `append_child` with a name of `size` characters at `name`, which
+   * need no terminating NUL (a range of a larger buffer works).
+   * @details Exported with the same signature in every C++ standard; the
+   * `string_view_t` overload is an inline wrapper over it.
+   */
+  XmlNode append_child (char_t const *name, std::size_t size);
+
+  /**
+   * @brief `prepend_child` with a name of `size` characters at `name`, which
+   * need no terminating NUL (a range of a larger buffer works).
+   * @details Exported with the same signature in every C++ standard; the
+   * `string_view_t` overload is an inline wrapper over it.
+   */
+  XmlNode prepend_child (char_t const *name, std::size_t size);
+
+  /**
+   * @brief `insert_child_after` with a name of `size` characters at `name`,
+   * which need no terminating NUL (a range of a larger buffer works).
+   * @details Exported with the same signature in every C++ standard; the
+   * `string_view_t` overload is an inline wrapper over it.
+   */
+  XmlNode insert_child_after (char_t const *name, std::size_t size,
+                              XmlNode const &node);
+
+  /**
+   * @brief `insert_child_before` with a name of `size` characters at `name`,
+   * which need no terminating NUL (a range of a larger buffer works).
+   * @details Exported with the same signature in every C++ standard; the
+   * `string_view_t` overload is an inline wrapper over it.
+   */
+  XmlNode insert_child_before (char_t const *name, std::size_t size,
+                               XmlNode const &node);
+
 #if __cplusplus >= 201703L
   /**
    * @brief Appends a new child element with the specified name
@@ -1028,7 +1198,11 @@ public:
    * empty `XmlNode` on error.
    * @note Available only when compiled with C++17 or later.
    */
-  XmlNode append_child (string_view_t name);
+  XmlNode
+  append_child (string_view_t name)
+  {
+    return append_child (name.data (), name.size ());
+  }
 
   /**
    * @brief Prepends a new child element with the specified name
@@ -1038,7 +1212,11 @@ public:
    * empty `XmlNode` on error.
    * @note Available only when compiled with C++17 or later.
    */
-  XmlNode prepend_child (string_view_t name);
+  XmlNode
+  prepend_child (string_view_t name)
+  {
+    return prepend_child (name.data (), name.size ());
+  }
 
   /**
    * @brief Inserts a new child element with the specified name
@@ -1050,7 +1228,11 @@ public:
    * empty `XmlNode` on error.
    * @note Available only when compiled with C++17 or later.
    */
-  XmlNode insert_child_after (string_view_t, XmlNode const &node);
+  XmlNode
+  insert_child_after (string_view_t name, XmlNode const &node)
+  {
+    return insert_child_after (name.data (), name.size (), node);
+  }
 
   /**
    * @brief Inserts a new child element with the specified name
@@ -1062,7 +1244,11 @@ public:
    * empty `XmlNode` on error.
    * @note Available only when compiled with C++17 or later.
    */
-  XmlNode insert_child_before (string_view_t name, XmlNode const &node);
+  XmlNode
+  insert_child_before (string_view_t name, XmlNode const &node)
+  {
+    return insert_child_before (name.data (), name.size (), node);
+  }
 #endif
 
   // Add a copy of the specified node as a child. Returns added node, or empty
@@ -1188,6 +1374,14 @@ public:
    */
   bool remove_attribute (char_t const *name);
 
+  /**
+   * @brief `remove_attribute` with a name of `size` characters at `name`,
+   * which need no terminating NUL (a range of a larger buffer works).
+   * @details Exported with the same signature in every C++ standard; the
+   * `string_view_t` overload is an inline wrapper over it.
+   */
+  bool remove_attribute (char_t const *name, std::size_t size);
+
 #if __cplusplus >= 201703L
   /**
    * @brief Removes an attribute with the specified name (`std::string_view`)
@@ -1198,7 +1392,11 @@ public:
    * removed, `false` otherwise.
    * @note Available only when compiled with C++17 or later.
    */
-  bool remove_attribute (string_view_t name);
+  bool
+  remove_attribute (string_view_t name)
+  {
+    return remove_attribute (name.data (), name.size ());
+  }
 #endif
 
   // Remove all attributes
@@ -1235,6 +1433,14 @@ public:
    */
   bool remove_child (char_t const *name);
 
+  /**
+   * @brief `remove_child` with a name of `size` characters at `name`, which
+   * need no terminating NUL (a range of a larger buffer works).
+   * @details Exported with the same signature in every C++ standard; the
+   * `string_view_t` overload is an inline wrapper over it.
+   */
+  bool remove_child (char_t const *name, std::size_t size);
+
 #if __cplusplus >= 201703L
   /**
    * @brief Removes the first child node with the specified name
@@ -1245,7 +1451,11 @@ public:
    * `false` otherwise.
    * @note Available only when compiled with C++17 or later.
    */
-  bool remove_child (string_view_t name);
+  bool
+  remove_child (string_view_t name)
+  {
+    return remove_child (name.data (), name.size ());
+  }
 #endif
 
   // Remove all children

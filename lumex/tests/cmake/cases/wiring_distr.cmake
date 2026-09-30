@@ -25,6 +25,28 @@ _require_text("cmake/PublishDistr.cmake" "Tests")
 _require_text("cmake/PublishDistr.cmake" "Example")
 _require_text("cmake/PublishDistr.cmake" "copy_runtime_script")
 
+# The staged compiler runtime must be the one the compiler links, not the
+# ldconfig match: with GCC 13.2 in /opt on Astra Linux SE 1.7 the ldconfig
+# match is the system libstdc++ 6.0.25, which lacks GLIBCXX_3.4.30.
+_require_text("cmake/LumexModules.cmake" "-Dcxx_compiler=\${CMAKE_CXX_COMPILER}")
+file(READ "${LUMEX_SOURCE_DIR}/cmake/PublishDistr.cmake" _publish)
+string(FIND "${_publish}" "include(\"\${copy_runtime_script}\")" _include_pos)
+string(FIND "${_publish}" "-print-file-name=\${_runtime}" _print_pos)
+if(_include_pos EQUAL -1 OR _print_pos EQUAL -1
+   OR _print_pos LESS _include_pos)
+    message(FATAL_ERROR
+        "cmake/PublishDistr.cmake must replace the staged runtime with the "
+        "compiler's own file (-print-file-name) after CopyRuntimeDependencies")
+endif()
+foreach(_runtime libstdc++.so.6 libgcc_s.so.1 libc++.so.1 libc++abi.so.1
+                 libunwind.so.1)
+    string(FIND "${_publish}" "${_runtime}" _runtime_pos)
+    if(_runtime_pos EQUAL -1)
+        message(FATAL_ERROR
+            "cmake/PublishDistr.cmake does not re-stage ${_runtime}")
+    endif()
+endforeach()
+
 _forbid_text("CMakeLists.txt" "run_all_tests ALL")
 _forbid_text("CMakeLists.txt" "lumex_add_run_all_tests_target")
 _forbid_text("cmake/LumexModules.cmake" "lumex_add_run_all_tests_target")

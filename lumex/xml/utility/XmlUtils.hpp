@@ -44,15 +44,21 @@
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wpadded"
 #pragma clang diagnostic ignored "-Wunsafe-buffer-usage"
+#if __has_warning("-Wunsafe-buffer-usage-in-libc-call")
 #pragma clang diagnostic ignored "-Wunsafe-buffer-usage-in-libc-call"
+#endif
 #pragma clang diagnostic ignored "-Wcovered-switch-default"
 #pragma clang diagnostic ignored "-Wswitch-enum"
+#if __has_warning("-Wnrvo")
 #pragma clang diagnostic ignored "-Wnrvo"
+#endif
 #pragma clang diagnostic ignored "-Wheader-hygiene"
 #pragma clang diagnostic ignored "-Wused-but-marked-unused"
 #pragma clang diagnostic ignored "-Wundefined-var-template"
 #pragma clang diagnostic ignored "-Wdeprecated-redundant-constexpr-static-def"
+#if __has_warning("-Wvariadic-macro-arguments-omitted")
 #pragma clang diagnostic ignored "-Wvariadic-macro-arguments-omitted"
+#endif
 #pragma clang diagnostic ignored "-Wunused-result"
 #pragma clang diagnostic ignored "-Wextra-semi-stmt"
 #pragma clang diagnostic ignored "-Wexpansion-to-defined"
@@ -170,8 +176,10 @@ template <typename opt_swap> struct utf16_decoder
 
             if (static_cast<unsigned int> (next - 0xDC00) < 0x400)
               {
-                result = Traits::high (result, 0x10000 + ((lead & 0x3ff) << 10)
-                                                   + (next & 0x3ff));
+                result = Traits::high (
+                    result,
+                    static_cast<uint32_t> (0x10000 + ((lead & 0x3ff) << 10)
+                                           + (next & 0x3ff)));
                 data += 2;
                 size -= 2;
               }
@@ -503,8 +511,9 @@ struct utf8_decoder
         else if (static_cast<unsigned int> (lead - 0xC0) < 0x20 && size >= 2
                  && (data[1] & 0xc0) == 0x80)
           {
-            result = Traits::low (result, ((lead & ~0xC0) << 6)
-                                              | (data[1] & utf8_byte_mask));
+            result = Traits::low (
+                result, static_cast<uint32_t> (((lead & ~0xC0) << 6)
+                                               | (data[1] & utf8_byte_mask)));
             data += 2;
             size -= 2;
           }
@@ -512,10 +521,11 @@ struct utf8_decoder
         else if (static_cast<unsigned int> (lead - 0xE0) < 0x10 && size >= 3
                  && (data[1] & 0xc0) == 0x80 && (data[2] & 0xc0) == 0x80)
           {
-            result
-                = Traits::low (result, ((lead & ~0xE0) << 12)
-                                           | ((data[1] & utf8_byte_mask) << 6)
-                                           | (data[2] & utf8_byte_mask));
+            result = Traits::low (
+                result,
+                static_cast<uint32_t> (((lead & ~0xE0) << 12)
+                                       | ((data[1] & utf8_byte_mask) << 6)
+                                       | (data[2] & utf8_byte_mask)));
             data += 3;
             size -= 3;
           }
@@ -524,11 +534,12 @@ struct utf8_decoder
                  && (data[1] & 0xc0) == 0x80 && (data[2] & 0xc0) == 0x80
                  && (data[3] & 0xc0) == 0x80)
           {
-            result = Traits::high (result,
-                                   ((lead & ~0xF0) << 18)
+            result = Traits::high (
+                result,
+                static_cast<uint32_t> (((lead & ~0xF0) << 18)
                                        | ((data[1] & utf8_byte_mask) << 12)
                                        | ((data[2] & utf8_byte_mask) << 6)
-                                       | (data[3] & utf8_byte_mask));
+                                       | (data[3] & utf8_byte_mask)));
             data += 4;
             size -= 4;
           }
@@ -577,11 +588,12 @@ string_to_integer (
       for (;;)
         {
           if (static_cast<unsigned> (*str - '0') < kDecimalBase)
-            result = (result * kHexadecimalBase) + (*str - '0');
+            result = (result * kHexadecimalBase) + static_cast<U> (*str - '0');
           else if (static_cast<unsigned> ((*str | ' ') - 'a')
                    < kHexCharOffsetLimit)
             result = (result * kHexadecimalBase)
-                     + ((*str | ' ') - 'a' + kDecimalBase);
+                     + (static_cast<unsigned> ((*str | ' ') - 'a')
+                        + kDecimalBase);
           else
             break;
 
@@ -603,7 +615,7 @@ string_to_integer (
       for (;;)
         {
           if (static_cast<unsigned> (*str - '0') < kDecimalBase)
-            result = (result * kDecimalBase) + (*str - '0');
+            result = (result * kDecimalBase) + static_cast<U> (*str - '0');
           else
             break;
 
@@ -645,10 +657,10 @@ string_to_integer (
 inline int
 get_value_int (char_t const *value)
 {
-  return string_to_integer<
-      unsigned int> ( // NOLINT(cppcoreguidelines-narrowing-conversions,
-                      // bugprone-narrowing-conversions)
-      value, static_cast<unsigned int> (INT_MIN), INT_MAX);
+  // The unsigned result carries the two's complement bit pattern of the
+  // signed value.
+  return static_cast<int> (string_to_integer<unsigned int> (
+      value, static_cast<unsigned int> (INT_MIN), INT_MAX));
 }
 
 inline unsigned int
@@ -702,10 +714,10 @@ get_value_bool (char_t const *value)
 inline long long
 get_value_llong (char_t const *value)
 {
-  return string_to_integer<
-      unsigned long long> ( // NOLINT(cppcoreguidelines-narrowing-conversions,
-                            // bugprone-narrowing-conversions)
-      value, static_cast<unsigned long long> (LLONG_MIN), LLONG_MAX);
+  // The unsigned result carries the two's complement bit pattern of the
+  // signed value.
+  return static_cast<long long> (string_to_integer<unsigned long long> (
+      value, static_cast<unsigned long long> (LLONG_MIN), LLONG_MAX));
 }
 
 inline unsigned long long
@@ -807,17 +819,15 @@ strequal (char_t const *src, char_t const *dst)
 #endif
 }
 
-#if __cplusplus >= 201703L
-// Check if the null-terminated dst string is equal to the entire contents of
-// srcview
+// Check if the null-terminated dst string is equal to the `srclen`
+// characters at src. src needs no terminating NUL and may contain NUL
+// characters (they never match inside dst); it may be null when srclen is 0.
 inline bool
-stringview_equal (string_view_t srcview, char_t const *dst)
+sized_strequal (char_t const *src, std::size_t srclen, char_t const *dst)
 {
   // std::basic_string_view::compare(const char*) has the right behavior, but
   // it performs an extra traversal of dst to compute its length.
   LUMEX_ASSERT (dst);
-  char_t const *src = srcview.data ();
-  std::size_t srclen = srcview.size ();
 
   while ((srclen != 0) && (*dst != 0) && (*src == *dst))
     {
@@ -826,6 +836,15 @@ stringview_equal (string_view_t srcview, char_t const *dst)
       ++src;
     }
   return srclen == 0 && *dst == 0;
+}
+
+#if __cplusplus >= 201703L
+// Check if the null-terminated dst string is equal to the entire contents of
+// srcview
+inline bool
+stringview_equal (string_view_t srcview, char_t const *dst)
+{
+  return sized_strequal (srcview.data (), srcview.size (), dst);
 }
 #endif
 
@@ -884,12 +903,16 @@ set_value_integer (String &dest, Header &header, uintptr_t header_mask,
                    U value, bool negative)
 {
   LUMEX_CONSTEXPR std::size_t kBufSize = 64UL;
-  char_t buf[kBufSize]; // NOLINT(cppcoreguidelines-avoid-c-arrays,
-                        // modernize-avoid-c-arrays)
+  // Zero-initialized: integer_to_string takes the start of the buffer as a
+  // pointer to const (for its bounds check only), and GCC without inlining
+  // reports an uninitialized buffer passed that way.
+  char_t buf[kBufSize] = {}; // NOLINT(cppcoreguidelines-avoid-c-arrays,
+                             // modernize-avoid-c-arrays)
   char_t *end = buf + kBufSize;
   char_t *begin = integer_to_string (buf, end, value, negative);
 
-  return strcpy_insitu (dest, header, header_mask, begin, end - begin);
+  return strcpy_insitu (dest, header, header_mask, begin,
+                        static_cast<std::size_t> (end - begin));
 }
 
 template <typename String, typename Header>

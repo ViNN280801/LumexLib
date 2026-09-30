@@ -5,6 +5,7 @@
 #include <gtest/gtest.h>
 
 #include "lumex/core/utility/cast/LumexCast.hpp"
+#include "lumex/core/utility/compiler/LumexCheckFeatures.hpp"
 
 #if defined(__clang__)
 #pragma clang diagnostic push
@@ -30,6 +31,8 @@
 
 #if defined(__clang__)
 #endif
+
+#if LUMEX_HAS_STD_CONCEPTS
 
 using namespace lumex::core::utility::cast;
 
@@ -317,3 +320,12 @@ TEST (LumexCastTest,
                  std::string::npos);
     }
 }
+
+#else // the toolchain lacks the features of the module
+
+TEST (LumexCastTest, UnavailableOnThisToolchain)
+{
+  GTEST_SKIP () << "LumexCast.hpp needs C++20 concepts and <concepts>";
+}
+
+#endif

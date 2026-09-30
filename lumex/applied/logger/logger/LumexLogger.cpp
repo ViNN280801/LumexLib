@@ -17,19 +17,9 @@
 #include <nlohmann/json.hpp>
 #endif
 
-#include "LumexLogger.hpp"
-#include "lumex/applied/logger/config/LumexLoggerConfigFormat.hpp"
-#include "lumex/core/utility/attr/LumexAttributes.hpp"
-#include "lumex/core/utility/macros/LumexKeywords.hpp"
-
-#if defined(LUMEX_LOGGER_CONFIG_FORMAT_INI)
-#include "lumex/applied/settings/ini/LumexSettingsINI.hpp"
-#endif
-#if defined(LUMEX_LOGGER_CONFIG_FORMAT_XML)
-#include "lumex/xml/LumexXml"
-#endif
-
-#ifdef LOGGER_OS_WINDOWS
+// Platform headers are gated on compiler macros so they can precede the
+// project headers (LOGGER_OS_WINDOWS comes from LumexLogger.hpp).
+#if defined(_WIN32)
 #include <Windows.h>
 #ifdef _MSC_VER
 #include <DbgHelp.h>
@@ -56,6 +46,19 @@
 #if defined(__linux__)
 #include <linux/limits.h>
 #endif
+#endif
+
+#include "LumexLogger.hpp"
+#include "lumex/applied/logger/config/LumexLoggerConfigFormat.hpp"
+#include "lumex/core/utility/attr/LumexAttributes.hpp"
+#include "lumex/core/utility/compiler/LumexCheckFeatures.hpp"
+#include "lumex/core/utility/macros/LumexKeywords.hpp"
+
+#if defined(LUMEX_LOGGER_CONFIG_FORMAT_INI)
+#include "lumex/applied/settings/ini/LumexSettingsINI.hpp"
+#endif
+#if defined(LUMEX_LOGGER_CONFIG_FORMAT_XML)
+#include "lumex/xml/LumexXml"
 #endif
 
 // Bring the namespaced logger symbols into this translation unit unqualified.
@@ -312,15 +315,18 @@ capture_stack_trace (int skip_frames = 1, int max_frames = 16) LUMEX_NOEXCEPT
 
       if (!initialized.load (std::memory_order_acquire))
         {
-          std::call_once (init_flag, [process] () {
-            std::lock_guard<std::mutex> lock (dbghelp_mutex);
-            if (SymInitialize (process, nullptr, TRUE))
-              {
-                SymSetOptions (SYMOPT_LOAD_LINES | SYMOPT_UNDNAME
-                               | SYMOPT_DEFERRED_LOADS);
-                initialized.store (true, std::memory_order_release);
-              }
-          });
+          std::call_once (
+              init_flag,
+              [process] ()
+                {
+                  std::lock_guard<std::mutex> lock (dbghelp_mutex);
+                  if (SymInitialize (process, nullptr, TRUE))
+                    {
+                      SymSetOptions (SYMOPT_LOAD_LINES | SYMOPT_UNDNAME
+                                     | SYMOPT_DEFERRED_LOADS);
+                      initialized.store (true, std::memory_order_release);
+                    }
+                });
         }
 
       if (!initialized.load (std::memory_order_acquire))
@@ -527,19 +533,18 @@ _normalizeString (std::string const &str) LUMEX_NOEXCEPT
       std::string result = str;
 
       // Convert to uppercase
-#if __cplusplus >= 202002L
-      std::ranges::transform (result, result.begin (), [] (unsigned char ch) {
-        return static_cast<char> (::toupper (ch));
-      });
+#if LUMEX_HAS_STD_RANGES
+      std::ranges::transform (
+          result, result.begin (), [] (unsigned char ch)
+            { return static_cast<char> (::toupper (ch)); });
 #else
       std::transform (result.begin (), result.end (), result.begin (),
-                      [] (unsigned char ch) {
-                        return static_cast<char> (::toupper (ch));
-                      });
+                      [] (unsigned char ch)
+                        { return static_cast<char> (::toupper (ch)); });
 #endif
 
       // Strip spaces
-#if __cplusplus >= 202002L
+#if LUMEX_HAS_STD_RANGES
       auto iter = std::ranges::remove_if (result, ::isspace);
       result.erase (iter.begin (), result.end ());
 #else
@@ -1013,6 +1018,11 @@ file_hint_about_logger ()
   std::cout << get_hint_file_content ();
 }
 } // anonymous namespaces for utility functions
+
+// Ordinary definitions of the in-class constants (see LumexLogger.hpp): the
+// library exports them in every standard.
+std::size_t const logger_config_t::kBufferSize;
+short const logger_config_t::kMaxStackTraceFrames;
 
 LumexLogger::LumexLogger ()
     : current_log_level (LogLevel::LEVEL_INFO), logging_enabled (false),
@@ -2617,9 +2627,8 @@ LumexLogger::_getLogFilesSortedByTime (std::string const &directoryPath)
       // Sort by creation time (oldest first)
       std::sort (result.begin (), result.end (),
                  [] (std::pair<std::string, std::time_t> const &firstFile,
-                     std::pair<std::string, std::time_t> const &secondFile) {
-                   return firstFile.second < secondFile.second;
-                 });
+                     std::pair<std::string, std::time_t> const &secondFile)
+                   { return firstFile.second < secondFile.second; });
     }
   catch (...)
     {

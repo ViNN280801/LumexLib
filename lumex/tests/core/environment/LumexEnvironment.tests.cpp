@@ -534,13 +534,15 @@ TEST_F (LumexEnvironmentTest, ThreadSafety_SimultaneousReads)
 
   for (int i = 0; i < num_threads; ++i)
     {
-      threads.emplace_back ([this, i, &results, &successes] () {
-        LumexEnvironment::EnvResult res
-            = env->get_environment_variable ("LUMEX_CONCURRENCY_READ");
-        successes[i] = res.success;
-        if (res.success)
-          results[i] = res.value;
-      });
+      threads.emplace_back (
+          [this, i, &results, &successes] ()
+            {
+              LumexEnvironment::EnvResult res
+                  = env->get_environment_variable ("LUMEX_CONCURRENCY_READ");
+              successes[i] = res.success;
+              if (res.success)
+                results[i] = res.value;
+            });
     }
 
   for (auto &t : threads)
@@ -565,24 +567,28 @@ TEST_F (LumexEnvironmentTest, ThreadSafety_SimultaneousWritesAndReads)
 
   for (int i = 0; i < num_threads; ++i)
     {
-      threads.emplace_back ([this, i] () {
-        std::string var_name = "LUMEX_CONCURRENCY_VAR_" + std::to_string (i);
-        std::string var_value = "Value_" + std::to_string (i);
+      threads.emplace_back (
+          [this, i] ()
+            {
+              std::string var_name
+                  = "LUMEX_CONCURRENCY_VAR_" + std::to_string (i);
+              std::string var_value = "Value_" + std::to_string (i);
 
-        // Set
-        EXPECT_TRUE (env->set_environment_variable (var_name.c_str (),
-                                                    var_value.c_str ()));
-        // Read
-        LumexEnvironment::EnvResult res
-            = env->get_environment_variable (var_name.c_str ());
-        EXPECT_TRUE (res.success) << "Failed to read " << var_name;
-        EXPECT_EQ (res.value, var_value)
-            << "Read incorrect value for " << var_name;
-        // Unset
-        EXPECT_TRUE (env->unset_environment_variable (var_name.c_str ()));
-        // Verify unset
-        EXPECT_FALSE (env->has_environment_variable (var_name.c_str ()));
-      });
+              // Set
+              EXPECT_TRUE (env->set_environment_variable (var_name.c_str (),
+                                                          var_value.c_str ()));
+              // Read
+              LumexEnvironment::EnvResult res
+                  = env->get_environment_variable (var_name.c_str ());
+              EXPECT_TRUE (res.success) << "Failed to read " << var_name;
+              EXPECT_EQ (res.value, var_value)
+                  << "Read incorrect value for " << var_name;
+              // Unset
+              EXPECT_TRUE (
+                  env->unset_environment_variable (var_name.c_str ()));
+              // Verify unset
+              EXPECT_FALSE (env->has_environment_variable (var_name.c_str ()));
+            });
     }
 
   for (auto &t : threads)

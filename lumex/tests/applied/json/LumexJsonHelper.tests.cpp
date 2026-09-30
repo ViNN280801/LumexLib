@@ -881,29 +881,31 @@ TEST_F (LumexJsonHelperTest, ThreadSafety_ConcurrentReadsFromSameFile)
 
   for (int i = 0; i < num_threads; ++i)
     {
-      reader_threads.emplace_back ([&] () {
-        for (int j = 0; j < reads_per_thread; ++j)
-          {
-            try
-              {
-                nlohmann::json loaded
-                    = LumexJsonHelper::load_config (current_test_filename_);
-                if (!loaded.empty () && loaded.contains ("key1")
-                    && loaded.contains ("key2"))
-                  {
-                    successful_reads++;
-                  }
-                else
-                  {
-                    failed_reads++;
-                  }
-              }
-            catch (...)
-              {
-                failed_reads++;
-              }
-          }
-      });
+      reader_threads.emplace_back (
+          [&] ()
+            {
+              for (int j = 0; j < reads_per_thread; ++j)
+                {
+                  try
+                    {
+                      nlohmann::json loaded = LumexJsonHelper::load_config (
+                          current_test_filename_);
+                      if (!loaded.empty () && loaded.contains ("key1")
+                          && loaded.contains ("key2"))
+                        {
+                          successful_reads++;
+                        }
+                      else
+                        {
+                          failed_reads++;
+                        }
+                    }
+                  catch (...)
+                    {
+                      failed_reads++;
+                    }
+                }
+            });
     }
 
   for (auto &thread : reader_threads)
@@ -924,29 +926,31 @@ TEST_F (LumexJsonHelperTest, ThreadSafety_ConcurrentWritesToDifferentSections)
 
   for (int i = 0; i < num_threads; ++i)
     {
-      writer_threads.emplace_back ([&, i] () {
-        std::string section_name = "Section" + std::to_string (i);
-        std::string key_name = "key" + std::to_string (i);
-        std::string value = "value" + std::to_string (i);
+      writer_threads.emplace_back (
+          [&, i] ()
+            {
+              std::string section_name = "Section" + std::to_string (i);
+              std::string key_name = "key" + std::to_string (i);
+              std::string value = "value" + std::to_string (i);
 
-        try
-          {
-            bool written = LumexJsonHelper::write_value (
-                current_test_filename_, key_name, value, section_name);
-            if (written)
-              {
-                successful_writes++;
-              }
-            else
-              {
-                failed_writes++;
-              }
-          }
-        catch (...)
-          {
-            failed_writes++;
-          }
-      });
+              try
+                {
+                  bool written = LumexJsonHelper::write_value (
+                      current_test_filename_, key_name, value, section_name);
+                  if (written)
+                    {
+                      successful_writes++;
+                    }
+                  else
+                    {
+                      failed_writes++;
+                    }
+                }
+              catch (...)
+                {
+                  failed_writes++;
+                }
+            });
     }
 
   for (auto &thread : writer_threads)
@@ -988,59 +992,63 @@ TEST_F (LumexJsonHelperTest, ThreadSafety_ConcurrentReadsAndWrites)
 
   for (int i = 0; i < num_readers; ++i)
     {
-      reader_threads.emplace_back ([&] () {
-        for (int j = 0; j < operations_per_thread; ++j)
-          {
-            try
-              {
-                nlohmann::json loaded
-                    = LumexJsonHelper::load_config (current_test_filename_);
-                if (!loaded.empty ())
-                  {
-                    successful_reads++;
-                  }
-                else
-                  {
-                    failed_operations++;
-                  }
-              }
-            catch (...)
-              {
-                failed_operations++;
-              }
-          }
-      });
+      reader_threads.emplace_back (
+          [&] ()
+            {
+              for (int j = 0; j < operations_per_thread; ++j)
+                {
+                  try
+                    {
+                      nlohmann::json loaded = LumexJsonHelper::load_config (
+                          current_test_filename_);
+                      if (!loaded.empty ())
+                        {
+                          successful_reads++;
+                        }
+                      else
+                        {
+                          failed_operations++;
+                        }
+                    }
+                  catch (...)
+                    {
+                      failed_operations++;
+                    }
+                }
+            });
     }
 
   for (int i = 0; i < num_writers; ++i)
     {
-      writer_threads.emplace_back ([&, i] () {
-        for (int j = 0; j < operations_per_thread; ++j)
-          {
-            try
-              {
-                std::string key = "writer" + std::to_string (i) + "_key"
-                                  + std::to_string (j);
-                std::string value = "writer" + std::to_string (i) + "_value"
-                                    + std::to_string (j);
+      writer_threads.emplace_back (
+          [&, i] ()
+            {
+              for (int j = 0; j < operations_per_thread; ++j)
+                {
+                  try
+                    {
+                      std::string key = "writer" + std::to_string (i) + "_key"
+                                        + std::to_string (j);
+                      std::string value = "writer" + std::to_string (i)
+                                          + "_value" + std::to_string (j);
 
-                bool written = LumexJsonHelper::write_value (
-                    current_test_filename_, key, value);
-                if (written)
-                  {
-                    successful_writes++;
-                  }
-                else
-                  {
-                    failed_operations++;
-                  }
-              }
-            catch (...)
-              {
-                failed_operations++;
-              }
-          }
-      });
+                      bool written = LumexJsonHelper::write_value (
+                          current_test_filename_, key, value);
+                      if (written)
+                        {
+                          successful_writes++;
+                        }
+                      else
+                        {
+                          failed_operations++;
+                        }
+                    }
+                  catch (...)
+                    {
+                      failed_operations++;
+                    }
+                }
+            });
     }
 
   for (auto &thread : reader_threads)
@@ -1086,49 +1094,52 @@ TEST_F (LumexJsonHelperTest, ThreadSafety_LargeFileConcurrentOperations)
 
   for (int i = 0; i < num_threads; ++i)
     {
-      worker_threads.emplace_back ([&, i] () {
-        for (int j = 0; j < 20; ++j)
-          {
-            try
-              {
-                if (j % 2 == 0)
-                  {
-                    nlohmann::json loaded = LumexJsonHelper::load_config (
-                        current_test_filename_);
-                    if (!loaded.empty ())
-                      {
-                        successful_operations++;
-                      }
-                    else
-                      {
-                        failed_operations++;
-                      }
-                  }
-                else
-                  {
-                    std::string section = "Section" + std::to_string (i);
-                    std::string key = "new_key" + std::to_string (j);
-                    std::string value = "new_value" + std::to_string (i) + "_"
-                                        + std::to_string (j);
+      worker_threads.emplace_back (
+          [&, i] ()
+            {
+              for (int j = 0; j < 20; ++j)
+                {
+                  try
+                    {
+                      if (j % 2 == 0)
+                        {
+                          nlohmann::json loaded
+                              = LumexJsonHelper::load_config (
+                                  current_test_filename_);
+                          if (!loaded.empty ())
+                            {
+                              successful_operations++;
+                            }
+                          else
+                            {
+                              failed_operations++;
+                            }
+                        }
+                      else
+                        {
+                          std::string section = "Section" + std::to_string (i);
+                          std::string key = "new_key" + std::to_string (j);
+                          std::string value = "new_value" + std::to_string (i)
+                                              + "_" + std::to_string (j);
 
-                    bool written = LumexJsonHelper::write_value (
-                        current_test_filename_, key, value, section);
-                    if (written)
-                      {
-                        successful_operations++;
-                      }
-                    else
-                      {
-                        failed_operations++;
-                      }
-                  }
-              }
-            catch (...)
-              {
-                failed_operations++;
-              }
-          }
-      });
+                          bool written = LumexJsonHelper::write_value (
+                              current_test_filename_, key, value, section);
+                          if (written)
+                            {
+                              successful_operations++;
+                            }
+                          else
+                            {
+                              failed_operations++;
+                            }
+                        }
+                    }
+                  catch (...)
+                    {
+                      failed_operations++;
+                    }
+                }
+            });
     }
 
   for (auto &thread : worker_threads)
@@ -1189,13 +1200,15 @@ TEST_F (LumexJsonHelperTest, ExceptionSafety_WriteValueWithFileSystemIssues)
   std::atomic<bool> write_completed{ false };
   std::atomic<bool> write_succeeded{ false };
 
-  std::thread writer_thread ([&] () {
-    write_started.store (true);
-    bool result = LumexJsonHelper::write_value (current_test_filename_,
-                                                "new_key", "new_value");
-    write_succeeded.store (result);
-    write_completed.store (true);
-  });
+  std::thread writer_thread (
+      [&] ()
+        {
+          write_started.store (true);
+          bool result = LumexJsonHelper::write_value (current_test_filename_,
+                                                      "new_key", "new_value");
+          write_succeeded.store (result);
+          write_completed.store (true);
+        });
 
   while (!write_started.load ())
     {
@@ -1800,9 +1813,11 @@ TEST_F (LumexJsonHelperTest,
     std::lock_guard<std::recursive_mutex> const lock (
         LumexJsonHelper::get_file_mutex ());
     std::string const filename = current_test_filename_;
-    writer = std::thread ([filename, &written] () {
-      written.store (LumexJsonHelper::write_value (filename, "k", 1));
-    });
+    writer = std::thread (
+        [filename, &written] ()
+          {
+            written.store (LumexJsonHelper::write_value (filename, "k", 1));
+          });
     std::this_thread::sleep_for (std::chrono::milliseconds (50));
     EXPECT_FALSE (written.load ());
   }

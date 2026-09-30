@@ -5,23 +5,22 @@
 #include <array>
 #include <sstream>
 #include <vector>
+#if defined(__linux__) || defined(__unix__)
+#include <fstream>
+#endif
 
-#include "LumexCPUVectorizationCapabilities.hpp"
-#include "lumex/applied/logging/LumexLogging"
-#include "lumex/core/utility/macros/LumexConstantMacros.hpp"
-#include "lumex/core/utility/macros/LumexKeywords.hpp"
-#include "lumex/core/utility/os/LumexCheckOS.hpp"
-
-#if LUMEX_OS_WINDOWS
+#if defined(_WIN32)
 #include <intrin.h>
 #elif defined(__GNUC__) || defined(__clang__)
 #include <cpuid.h>
 #endif
 
-#if defined(__linux__) || defined(__unix__)
-#include <fstream>
-#include <sstream>
-#endif
+#include "LumexCPUVectorizationCapabilities.hpp"
+#include "lumex/applied/logging/LumexLogging"
+#include "lumex/core/utility/attr/LumexAttributes.hpp"
+#include "lumex/core/utility/macros/LumexConstantMacros.hpp"
+#include "lumex/core/utility/macros/LumexKeywords.hpp"
+#include "lumex/core/utility/os/LumexCheckOS.hpp"
 
 namespace lumex // NOLINT(modernize-concat-nested-namespaces)
 {
@@ -60,9 +59,10 @@ LUMEX_CONSTEXPR uint32_t KSSE_WIDTH_BITS = 128; ///< SSE register width in bits
 LUMEX_CONSTEXPR uint32_t KAVX_WIDTH_BITS = 256; ///< AVX register width in bits
 LUMEX_CONSTEXPR uint32_t KAVX512_WIDTH_BITS
     = 512; ///< AVX-512 register width in bits
-LUMEX_CONSTEXPR uint32_t KNEON_WIDTH_BITS
+// The ARM widths are read only by the ARM detection path.
+LUMEX_ATTRIBUTE_MAYBE_UNUSED LUMEX_CONSTEXPR uint32_t KNEON_WIDTH_BITS
     = 128; ///< NEON register width in bits
-LUMEX_CONSTEXPR uint32_t KSVE_MAX_WIDTH_BITS
+LUMEX_ATTRIBUTE_MAYBE_UNUSED LUMEX_CONSTEXPR uint32_t KSVE_MAX_WIDTH_BITS
     = 2048; ///< SVE maximum register width in bits
 } // namespace SIMDWidth
 
@@ -71,15 +71,19 @@ LUMEX_CONSTEXPR uint32_t KSVE_MAX_WIDTH_BITS
  */
 namespace CPUIDECXFlags
 {
-LUMEX_CONSTEXPR uint32_t KSSE3 = (1U << 0);   ///< SSE3 support
-LUMEX_CONSTEXPR uint32_t KPCLMUL = (1U << 1); ///< PCLMULQDQ support
-LUMEX_CONSTEXPR uint32_t KSSSE3 = (1U << 9);  ///< SSSE3 support
-LUMEX_CONSTEXPR uint32_t KFMA = (1U << 12);   ///< FMA3 support
-LUMEX_CONSTEXPR uint32_t KCX16 = (1U << 13);  ///< CMPXCHG16B support
+LUMEX_CONSTEXPR uint32_t KSSE3 = (1U << 0); ///< SSE3 support
+// PCLMUL, CX16 and F16C complete the register layout; nothing queries them.
+LUMEX_ATTRIBUTE_MAYBE_UNUSED LUMEX_CONSTEXPR uint32_t KPCLMUL
+    = (1U << 1);                             ///< PCLMULQDQ support
+LUMEX_CONSTEXPR uint32_t KSSSE3 = (1U << 9); ///< SSSE3 support
+LUMEX_CONSTEXPR uint32_t KFMA = (1U << 12);  ///< FMA3 support
+LUMEX_ATTRIBUTE_MAYBE_UNUSED LUMEX_CONSTEXPR uint32_t KCX16
+    = (1U << 13);                             ///< CMPXCHG16B support
 LUMEX_CONSTEXPR uint32_t KSSE41 = (1U << 19); ///< SSE4.1 support
 LUMEX_CONSTEXPR uint32_t KSSE42 = (1U << 20); ///< SSE4.2 support
 LUMEX_CONSTEXPR uint32_t KAVX = (1U << 28);   ///< AVX support
-LUMEX_CONSTEXPR uint32_t KF16C = (1U << 29);  ///< F16C support
+LUMEX_ATTRIBUTE_MAYBE_UNUSED LUMEX_CONSTEXPR uint32_t KF16C
+    = (1U << 29); ///< F16C support
 } // namespace CPUIDECXFlags
 
 /**
@@ -149,7 +153,7 @@ void
 CPUVectorizationDetector::_execute_cpuid (uint32_t function,
                                           std::array<uint32_t, 4> &regs)
 {
-#if LUMEX_OS_WINDOWS
+#if defined(LUMEX_OS_WINDOWS)
   int cpuInfo[4] = {
     0
   }; // NOLINT(cppcoreguidelines-avoid-c-arrays, modernize-avoid-c-arrays)
@@ -225,10 +229,11 @@ CPUVectorizationDetector::_detect_x86_x64 (
   _execute_cpuid (0, regs);
   if (regs[0] == 0 && regs[1] == 0 && regs[2] == 0 && regs[3] == 0)
     return;
+  // CPUID function 0 reports the highest supported standard function in EAX.
+  uint32_t const max_standard_function = regs[0];
 
   // Get standard feature information (function 0x00000001)
   _execute_cpuid (CPUIDFunctions::KFEATURE_INFO, regs);
-  uint32_t eax = regs[0];
   uint32_t ebx = regs[1];
   uint32_t ecx = regs[2];
   uint32_t edx = regs[3];
@@ -253,13 +258,13 @@ CPUVectorizationDetector::_detect_x86_x64 (
 
   // Get extended feature information (function 0x00000007, subfunction 0)
   _execute_cpuid (CPUIDFunctions::KEXTENDED_FEATURE, regs);
-  eax = regs[0];
   ebx = regs[1];
   ecx = regs[2];
   edx = regs[3];
 
-  // Check if extended features are supported (eax >= 0)
-  if (eax >= 0)
+  // Function 7 data is meaningful only when the CPU reports it as supported;
+  // an unsupported function returns the data of the highest one instead.
+  if (max_standard_function >= CPUIDFunctions::KEXTENDED_FEATURE)
     {
       // Detect AVX2 (requires AVX support)
       if ((ebx & CPUIDEBXFlags::KAVX2) != 0 && capabilities.supports_avx)
@@ -292,7 +297,6 @@ CPUVectorizationDetector::_detect_x86_x64 (
   // Get extended feature information (function 0x80000001) for AMD-specific
   // features
   _execute_cpuid (CPUIDFunctions::KEXTENDED_FEATURE_ECX, regs);
-  eax = regs[0];
   ebx = regs[1];
   ecx = regs[2];
   edx = regs[3];

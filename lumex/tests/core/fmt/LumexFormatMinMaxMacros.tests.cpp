@@ -2,16 +2,52 @@
 // A consumer that includes <windows.h> without NOMINMAX gets function-like
 // `min` / `max` macros; every LumexFormat header (and what it includes) must
 // still compile, so `std::numeric_limits<T>::max ()` has to be written
-// `(std::numeric_limits<T>::max) ()`. The standard headers and GoogleTest
-// come first (as they would after <windows.h>), then the macros, then the
-// library headers.
+// `(std::numeric_limits<T>::max) ()`. The macros guard only the Lumex code:
+// the MSVC standard library tolerates them, libstdc++ does not (its
+// `tr1/*.tcc`, pulled by <cmath> from C++17, calls
+// `std::numeric_limits<_Tp>::max ()` without parentheses), so every
+// standard header of the LumexFormat include tree comes first, then
+// GoogleTest, then the macros, then the library headers. A standard header
+// added to LumexFormat that fails here on GCC belongs in this list.
+#include <array>
 #include <chrono>
+#include <climits>
+#include <clocale>
+#include <cmath>
 #include <cstddef>
+#include <cstdint>
+#include <cstdio>
+#include <cstdlib>
+#include <ctime>
+#include <exception>
+#include <functional>
+#include <iostream>
+#include <iterator>
 #include <limits>
 #include <locale>
 #include <map>
+#include <memory>
+#include <ostream>
+#include <ratio>
+#include <sstream>
+#include <stdexcept>
 #include <string>
+#include <tuple>
+#include <type_traits>
+#include <utility>
 #include <vector>
+#if __cplusplus >= 201703L
+#include <optional>
+#include <string_view>
+#if defined(__has_include)
+#if __has_include(<charconv>)
+#include <charconv>
+#endif
+#endif
+#endif
+#if __cplusplus >= 202002L
+#include <concepts>
+#endif
 
 #include <gtest/gtest.h>
 

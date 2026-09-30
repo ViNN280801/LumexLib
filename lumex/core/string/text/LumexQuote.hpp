@@ -43,12 +43,19 @@
 #include <string>
 #include <type_traits>
 
-#if __cplusplus >= 202002L
+#if __cplusplus > 201703L && defined(__has_include)
+#if __has_include(<ranges>)
 #include <ranges>
+#endif
+#endif
+#if __cplusplus > 201703L && defined(__has_include)
+#if __has_include(<string_view>)
 #include <string_view>
+#endif
 #endif
 
 #include "lumex/core/string/text/LumexJoin.hpp"
+#include "lumex/core/utility/compiler/LumexCheckFeatures.hpp"
 #include "lumex/core/utility/traits/LumexTypeTraits.hpp"
 
 namespace lumex // NOLINT(modernize-concat-nested-namespaces)
@@ -59,7 +66,7 @@ namespace string
 {
 namespace text
 {
-#if __cplusplus >= 202002L
+#if LUMEX_HAS_STD_RANGES
 
 /**
  * @brief `join` with every element wrapped in double quotes (`"element"`).
@@ -71,11 +78,11 @@ quote (std::ranges::input_range auto const &range, std::string_view separator)
   requires std::is_convertible_v<
       std::ranges::range_reference_t<decltype (range)>, std::string const &>
 {
-  return join (
-      range | std::ranges::views::transform ([] (std::string const &element) {
-        return "\"" + element + "\"";
-      }),
-      separator);
+  return join (range
+                   | std::ranges::views::transform (
+                       [] (std::string const &element)
+                         { return "\"" + element + "\""; }),
+               separator);
 }
 
 /** @brief Same as `quote`; named for symmetry with `quote_single`. */
@@ -100,9 +107,9 @@ quote_single (std::ranges::input_range auto const &range,
       std::ranges::range_reference_t<decltype (range)>, std::string const &>
 {
   return join (
-      range | std::ranges::views::transform ([] (std::string const &element) {
-        return "'" + element + "'";
-      }),
+      range
+          | std::ranges::views::transform ([] (std::string const &element)
+                                             { return "'" + element + "'"; }),
       separator);
 }
 
@@ -186,7 +193,7 @@ quote_single (Range const &range, Separator const &separator)
   return Detail::quote_each (range, separator, '\'');
 }
 
-#endif // __cplusplus >= 202002L
+#endif // LUMEX_HAS_STD_RANGES
 } // namespace text
 } // namespace string
 } // namespace core

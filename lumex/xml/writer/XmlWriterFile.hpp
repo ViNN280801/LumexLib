@@ -65,10 +65,11 @@ class LUMEX_API XmlWriterFile : public IXmlWriter
 public:
   /**
    * @brief Constructs an `XmlWriterFile` with a given file handle.
-   * @param[in] file A `void*` pointer to the file handle (e.g., from `fopen`).
-   *                   This class does not take ownership of this pointer.
+   * @param[in] file_handle A `void*` pointer to the file handle (e.g., from
+   *                   `fopen`). This class does not take ownership of this
+   *                   pointer.
    */
-  XmlWriterFile (void *file) : file (file) {}
+  XmlWriterFile (void *file_handle) : file (file_handle) {}
   /**
    * @brief Virtual destructor for `XmlWriterFile`.
    * @details Ensures proper cleanup of derived classes.

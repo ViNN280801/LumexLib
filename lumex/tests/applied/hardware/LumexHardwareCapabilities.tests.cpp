@@ -354,9 +354,9 @@ TEST_F (HardwareCapabilitiesTest, DetectHardware_ThreadSafety)
   int const num_threads = 10;
 
   for (int i = 0; i < num_threads; ++i)
-    futures.push_back (std::async (std::launch::async, [] () {
-      return HardwareCapabilities::detect_hardware ();
-    }));
+    futures.push_back (
+        std::async (std::launch::async, [] ()
+                      { return HardwareCapabilities::detect_hardware (); }));
 
   for (auto &f : futures)
     {

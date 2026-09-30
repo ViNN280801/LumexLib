@@ -7,6 +7,9 @@
 #include <string>
 #include <thread>
 #include <vector>
+#if __cplusplus >= 201703L
+#include <string_view>
+#endif
 
 #include <gtest/gtest.h>
 
@@ -180,6 +183,30 @@ TEST_F (LumexExceptionTest, LumexBaseException_What_ReturnsCorrectMessage)
   EXPECT_STREQ (ex.what (), msg.c_str ());
 }
 
+#if __cplusplus >= 201703L
+// API Contract Verifier: the std::string_view constructor (an inline wrapper
+// over the exported std::string one) copies exactly the view
+TEST_F (LumexExceptionTest, LumexBaseException_StringViewCtor_CopiesTheView)
+{
+  std::string const text = "prefix:message:suffix";
+  std::string_view const view = std::string_view (text).substr (7, 7);
+  LumexBaseException const ex (view);
+  EXPECT_STREQ (ex.what (), "message");
+}
+
+TEST_F (LumexExceptionTest,
+        LumexBaseException_StringViewCtor_EmptyAndEmbeddedNulKept)
+{
+  std::string_view const empty_view;
+  LumexBaseException const empty (empty_view);
+  EXPECT_STREQ (empty.what (), "");
+
+  std::string_view const with_nul ("a\0b", 3);
+  LumexBaseException const ex (with_nul);
+  EXPECT_EQ (std::string (ex.what (), 3), std::string (with_nul));
+}
+#endif
+
 // API Contract Verifier: Test `getStackTrace()` returns a non-empty stack
 // trace
 TEST_F (LumexExceptionTest,
@@ -310,8 +337,8 @@ TEST_F (LumexExceptionTest, LumexBaseException_ToCrashReport_ThreadSafe)
 
   // Act
   for (int i = 0; i < num_threads; ++i)
-    threads.emplace_back (
-        [&exceptions, i] () { exceptions[i].to_crash_report (); });
+    threads.emplace_back ([&exceptions, i] ()
+                            { exceptions[i].to_crash_report (); });
 
   for (auto &t : threads)
     if (t.joinable ())

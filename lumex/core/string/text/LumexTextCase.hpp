@@ -33,9 +33,13 @@
 #include <string>
 #include <utility>
 
-#if __cplusplus >= 202002L
+#if __cplusplus > 201703L && defined(__has_include)
+#if __has_include(<ranges>)
 #include <ranges>
 #endif
+#endif
+
+#include "lumex/core/utility/compiler/LumexCheckFeatures.hpp"
 
 namespace lumex // NOLINT(modernize-concat-nested-namespaces)
 {
@@ -55,17 +59,18 @@ namespace text
 inline void
 to_case_insensitive (std::string &str, bool need_to_remove_spaces = true)
 {
-#if __cplusplus >= 202002L
-  auto lowered = str | std::ranges::views::transform ([] (unsigned char chr) {
-                   return static_cast<char> (std::tolower (chr));
-                 });
+#if LUMEX_HAS_STD_RANGES
+  auto lowered = str
+                 | std::ranges::views::transform (
+                     [] (unsigned char chr)
+                       { return static_cast<char> (std::tolower (chr)); });
 
   if (need_to_remove_spaces)
     {
       auto filtered
-          = lowered | std::ranges::views::filter ([] (unsigned char chr) {
-              return !std::isspace (chr);
-            });
+          = lowered
+            | std::ranges::views::filter ([] (unsigned char chr)
+                                            { return !std::isspace (chr); });
       str = std::string (filtered.begin (), filtered.end ());
     }
   else

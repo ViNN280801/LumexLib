@@ -16,6 +16,10 @@ target_include_directories(${LUMEX_LOGGER_NAME} PUBLIC
     $<INSTALL_INTERFACE:include>
 )
 
+# Stack trace capture resolves symbol names with dladdr, which lives in libdl
+# before glibc 2.34 (CMAKE_DL_LIBS is empty where it is part of libc).
+target_link_libraries(${LUMEX_LOGGER_NAME} PRIVATE ${CMAKE_DL_LIBS})
+
 # Exactly one reader is compiled into the logger. The definition is PUBLIC so
 # consumers, tests, and examples see the same compile-time format.
 if(LUMEX_LOGGER_CONFIG_FORMAT_NORMALIZED STREQUAL "PLAIN_TEXT")

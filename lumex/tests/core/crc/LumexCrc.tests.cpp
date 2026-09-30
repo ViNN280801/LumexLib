@@ -249,10 +249,12 @@ TEST_F (Crc8Test, ThreadSafety_MultipleConcurrentCalculationsVector)
   std::vector<byte> results (static_cast<std::size_t> (num_threads));
 
   for (int i = 0; i < num_threads; ++i)
-    threads.emplace_back ([&, i] () {
-      results[static_cast<std::size_t> (i)]
-          = Crc8MaximDow::calculate (data_to_process);
-    });
+    threads.emplace_back (
+        [&, i] ()
+          {
+            results[static_cast<std::size_t> (i)]
+                = Crc8MaximDow::calculate (data_to_process);
+          });
 
   for (auto &t : threads)
     t.join ();
@@ -273,10 +275,12 @@ TEST_F (Crc8Test, ThreadSafety_MultipleConcurrentCalculationsRaw)
   std::vector<byte> results (static_cast<std::size_t> (num_threads));
 
   for (int i = 0; i < num_threads; ++i)
-    threads.emplace_back ([&, i] () {
-      results[static_cast<std::size_t> (i)] = Crc8MaximDow::calculate (
-          data_to_process.data (), data_to_process.size ());
-    });
+    threads.emplace_back (
+        [&, i] ()
+          {
+            results[static_cast<std::size_t> (i)] = Crc8MaximDow::calculate (
+                data_to_process.data (), data_to_process.size ());
+          });
 
   for (auto &t : threads)
     t.join ();
@@ -398,6 +402,22 @@ TEST (CrcCatalog, RepresentativeSpecsMatchPublishedCheckValues)
   EXPECT_EQ (
       CrcParametric<crc64_ecma182_spec_t>::calculate (data, kRevEngCheckSize),
       crc64_ecma182_spec_t::kCatalogCheck);
+}
+
+TEST (CrcCatalog, SpecConstantsBoundToReferencesLinkBeforeCxx17)
+{
+  // Binding a reference odr-uses the in-class static members; before C++17
+  // that needs their namespace-scope definitions in LumexCrcCatalog.cpp.
+  int const &width = crc16_modbus_spec_t::kWidth;
+  std::uint64_t const &poly = crc16_modbus_spec_t::kPoly;
+  bool const &reflect_in = crc16_modbus_spec_t::kRefIn;
+  std::uint16_t const &check = crc16_modbus_spec_t::kCatalogCheck;
+  std::uint8_t const &small_check = crc3_gsm_spec_t::kCatalogCheck;
+  EXPECT_EQ (width, 16);
+  EXPECT_EQ (poly, 0x8005U);
+  EXPECT_TRUE (reflect_in);
+  EXPECT_EQ (check, 0x4B37U);
+  EXPECT_EQ (small_check, 0x4U);
 }
 
 TEST (CrcCatalog, ComputeCrcCatalogIndexZeroMatchesCrc3Gsm)
