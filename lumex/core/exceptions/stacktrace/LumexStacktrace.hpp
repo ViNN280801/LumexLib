@@ -45,7 +45,9 @@
  * manipulating stack traces, which are crucial for debugging, error reporting,
  * and understanding program execution flow. It includes platform-specific
  *          implementations for Windows (using DbgHelp) and POSIX systems
- * (using backtrace, dladdr, and addr2line). The core `LumexBasicStacktrace`
+ * (using backtrace and dladdr; a frame without an exported symbol is named by
+ * its module and the address inside it, for offline symbolization). The core
+ * `LumexBasicStacktrace`
  * template class provides a container for `LumexStacktraceEntry` objects,
  * representing individual frames in the call stack. It is designed to be
  * allocator-aware and exception-safe.
@@ -81,8 +83,8 @@
 #endif
 
 #include <algorithm> // std::min, std::max, std::equal, std::lexicographical_compare
-#include <cstdio>     // std::snprintf, popen, pclose, fgets
-#include <cstdlib>    // std::getenv, std::free, std::strtoul
+#include <cstdio>     // std::snprintf
+#include <cstdlib>    // std::free
 #include <cstring>    // std::strlen, std::strrchr
 #include <functional> // std::hash
 #include <memory>     // std::unique_ptr
@@ -102,11 +104,6 @@
 #include <cxxabi.h>   // abi::__cxa_demangle
 #include <dlfcn.h>    // dladdr, Dl_info
 #include <execinfo.h> // backtrace
-
-#if defined(__linux__)
-#include <sys/wait.h> // waitpid (though not directly used, generally for popen related)
-#include <unistd.h> // fork, exec (addr2line related)
-#endif
 #endif
 
 #include "lumex/core/exceptions/stacktrace/LumexStacktraceEntry.hpp"
@@ -154,12 +151,6 @@ LUMEX_CONSTEXPR short const kDefaultAddrStrSize
     = 32; ///< Default buffer size for address string representations.
 LUMEX_CONSTEXPR short const kDefaultMaxFrames
     = 128; ///< Default maximum number of frames to capture in a stacktrace.
-LUMEX_CONSTEXPR short const kDefaultBufferSize
-    = 256; ///< Default buffer size for reading output from external commands
-           ///< (e.g., addr2line).
-LUMEX_CONSTEXPR short const kDefaultCmdSize
-    = 512; ///< Default buffer size for constructing external commands (e.g.,
-           ///< addr2line command string).
 LUMEX_CONSTEXPR std::size_t kHashGoldenRatio
     = 0x9e3779b9U; ///< Golden ratio constant used in hash calculation to
                    ///< provide good distribution.
@@ -290,25 +281,6 @@ bool resolve_symbol_info (void *address, std::string &function_name,
 std::string demangle_symbol (char const *mangled);
 
 /**
- * @brief Retrieves source file and line number information for a given address
- * using `addr2line` on POSIX systems.
- * @details This function attempts to get more precise source location
- * information by executing the `addr2line` utility as a subprocess. It parses
- * the output to extract the file path and line number.
- * @param address The `void*` address of the stack frame to resolve.
- * @param file Output parameter for the source file path.
- * @param line Output parameter for the line number.
- * @return True if source information was successfully retrieved, false
- * otherwise.
- * @note This function typically works best on Linux systems with `binutils`
- * installed.
- * @warning This method involves spawning a child process (`popen`), which can
- * be relatively slow and resource-intensive.
- */
-bool get_source_info_addr2line (void *address, std::string &file,
-                                std::uint32_t &line);
-
-/**
  * @brief Platform-specific stacktrace capture implementation for POSIX
  * systems.
  * @details This function captures the current call stack using the `backtrace`
@@ -330,18 +302,21 @@ capture_stacktrace (std::size_t skip, std::size_t max_depth,
                     Allocator const &alloc) LUMEX_NOEXCEPT;
 
 /**
- * @brief Resolves symbol information (function name, source file, line number)
- * for a given address on POSIX systems.
- * @details This function uses `dladdr` to get basic symbol information
- * (module, symbol name) and then attempts to use `get_source_info_addr2line`
- * for more precise source file and line number information. It demangles C++
- * symbols.
+ * @brief Resolves the description of a given address on POSIX systems.
+ * @details An exported symbol is named through `dladdr` and demangled, and
+ * the module with the address inside it follows in parentheses
+ * ("name (libfoo.so.1+0x1A2B)"); a frame without one is described by its
+ * module and offset alone ("app+0x401234"), which addr2line or gdb resolve
+ * offline with that module or its separate debug file. No process is started
+ * and no debug information is read, so source file and line are not
+ * resolved here.
  * @param address The `void*` address of the stack frame to resolve.
- * @param function_name Output parameter for the resolved function name.
- * @param source_file Output parameter for the source file path.
- * @param line_number Output parameter for the line number in the source file.
- * @return True if any symbol information was successfully resolved, false
- * otherwise.
+ * @param function_name Output parameter for the description.
+ * @param source_file Output parameter for the source file path (always
+ * cleared on POSIX).
+ * @param line_number Output parameter for the line number (always 0 on
+ * POSIX).
+ * @return True if a symbol or a module holds the address, false otherwise.
  * @note Does not throw.
  */
 bool resolve_symbol_info (void *address, std::string &function_name,

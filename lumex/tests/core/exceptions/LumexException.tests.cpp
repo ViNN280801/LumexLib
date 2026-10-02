@@ -1,6 +1,7 @@
 #include <chrono>
 #include <cstdint>
 #include <cstdio> // For remove
+#include <cstdlib>
 #include <fstream>
 #include <future>
 #include <iostream>
@@ -12,6 +13,11 @@
 #endif
 
 #include <gtest/gtest.h>
+#if defined(__linux__)
+#include <dlfcn.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#endif
 
 #include "lumex/core/exceptions/LumexException"
 #include "lumex/core/filesystem/LumexFilesystem"
@@ -781,3 +787,144 @@ TEST (LumexStacktraceTest, Perf_StacktraceCapture_IsEfficient)
       << "wall-clock Perf_* thresholds are Release-only (no sanitizers)";
 #endif
 }
+
+// --- Frames described by module and offset (POSIX)
+// --------------------------- A frame is described by its exported symbol, or
+// by its module and the address inside it, which addr2line and gdb resolve
+// offline with the module or its separate debug file. Describing starts no
+// process: the addr2line it used to start per frame read a whole separate
+// debug file each time.
+
+#if defined(LUMEX_OS_LINUX)
+namespace
+{
+LUMEX_ATTRIBUTE_NOINLINE LumexStacktrace
+stacktrace_from_unexported_function ()
+{
+  return LumexStacktrace::current (0);
+}
+
+// Internal linkage: never in the executable's dynamic symbol table, even
+// when the executable exports its other symbols, so dladdr has no name for
+// it.
+LUMEX_ATTRIBUTE_NOINLINE int
+unexported_probe (int value)
+{
+  return value * 3 + 1;
+}
+
+// A stand-in addr2line in a fresh directory put first on PATH: it leaves a
+// mark when anything starts it. The destructor restores PATH.
+class StandInAddr2line
+{
+public:
+  StandInAddr2line ()
+  {
+    char const *tmp = std::getenv ("TMPDIR");
+    std::string pattern = std::string (tmp != nullptr ? tmp : "/tmp")
+                          + "/lumex-addr2line-XXXXXX";
+    char *made = mkdtemp (&pattern[0]);
+    m_dir = made != nullptr ? std::string (made) : std::string ();
+    std::ofstream script ((m_dir + "/addr2line").c_str ());
+    script << "#!/bin/sh\ntouch '" << mark () << "'\n";
+    script.close ();
+    chmod ((m_dir + "/addr2line").c_str (), 0700);
+    char const *path = std::getenv ("PATH");
+    m_old_path = path != nullptr ? path : "";
+    setenv ("PATH", (m_dir + ":" + m_old_path).c_str (), 1);
+  }
+
+  ~StandInAddr2line ()
+  {
+    setenv ("PATH", m_old_path.c_str (), 1);
+    std::remove (mark ().c_str ());
+    std::remove ((m_dir + "/addr2line").c_str ());
+    rmdir (m_dir.c_str ());
+  }
+
+  bool
+  valid () const
+  {
+    return !m_dir.empty ();
+  }
+
+  bool
+  started () const
+  {
+    struct stat info;
+    return stat (mark ().c_str (), &info) == 0;
+  }
+
+private:
+  std::string
+  mark () const
+  {
+    return m_dir + "/started";
+  }
+
+  std::string m_dir;
+  std::string m_old_path;
+};
+} // namespace
+
+TEST (
+    LumexStacktraceEntryTest,
+    GivenAStack_WhenItsFramesAreDescribed_ThenSymbolOrModuleAndOffsetAndNoSource)
+{
+  LumexStacktrace const st = stacktrace_from_unexported_function ();
+  ASSERT_FALSE (st.empty ());
+
+  for (std::size_t i = 0; i < st.size (); ++i)
+    {
+      void *address = st[i].native_handle ();
+      std::string const location
+          = lumex::core::utility::debug::Detail::describe_module_address (
+              address);
+      std::string const description = st[i].description ();
+      Dl_info info;
+      if (dladdr (address, &info) != 0 && info.dli_sname != nullptr)
+        {
+          EXPECT_NE (description.find (" (" + location + ")"),
+                     std::string::npos)
+              << description;
+        }
+      else
+        {
+          EXPECT_EQ (description, location);
+        }
+      EXPECT_TRUE (st[i].source_file ().empty ()) << description;
+      EXPECT_EQ (st[i].source_line (), 0U) << description;
+    }
+}
+
+TEST (LumexStacktraceEntryTest,
+      GivenAnUnexportedFunction_WhenDescribed_ThenItIsItsModuleAndOffset)
+{
+  void *address = reinterpret_cast<void *> (&unexported_probe);
+  LumexStacktraceEntry const entry (address);
+
+  std::string const location
+      = lumex::core::utility::debug::Detail::describe_module_address (address);
+
+  ASSERT_FALSE (location.empty ());
+  EXPECT_NE (location.find ("+0x"), std::string::npos) << location;
+  EXPECT_EQ (entry.description (), location);
+  EXPECT_TRUE (entry.source_file ().empty ());
+  EXPECT_EQ (entry.source_line (), 0U);
+  EXPECT_EQ (unexported_probe (1), 4);
+}
+
+TEST (LumexStacktraceEntryTest,
+      GivenAnAddr2lineOnThePath_WhenFramesAreDescribed_ThenNothingStartsIt)
+{
+  StandInAddr2line const stand_in;
+  ASSERT_TRUE (stand_in.valid ());
+  LumexStacktrace const st = stacktrace_from_unexported_function ();
+  ASSERT_FALSE (st.empty ());
+
+  for (std::size_t i = 0; i < st.size (); ++i)
+    EXPECT_FALSE (st[i].description ().empty ());
+
+  EXPECT_FALSE (stand_in.started ()) << to_string (st);
+}
+#endif

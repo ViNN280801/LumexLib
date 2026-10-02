@@ -94,10 +94,12 @@
 #pragma clang diagnostic ignored "-Wfloat-equal"
 #endif
 
+#include <algorithm>
 #include <array>
 #include <atomic>
+#include <cstddef>
 #include <cstdint>
-#include <cstdio>
+#include <cstdlib>
 #include <mutex>
 #include <sstream>
 #include <string>
@@ -110,6 +112,9 @@
 #include <DbgHelp.h>
 #else
 #include <unistd.h>
+#if defined(__linux__) && __has_include(<link.h>)
+#include <link.h>
+#endif
 #endif
 
 #if defined(__GNUC__) || defined(__clang__)
@@ -155,88 +160,6 @@ formatHex (std::uintptr_t value)
   oss << std::hex << std::uppercase << value;
   return oss.str ();
 }
-
-#if (defined(__GNUC__) || defined(__clang__)) && defined(LUMEX_OS_LINUX)      \
-    && LUMEX_OS_LINUX
-// Resolve address to function name using addr2line (POSIX fallback)
-static inline std::string
-resolveAddressWithAddr2line (void *addr, char const *exe_path) LUMEX_NOEXCEPT
-{
-  try
-    {
-      // Create pipe for addr2line output
-      std::array<char, 512> buffer{};
-      std::string result;
-
-      // Build command: addr2line -C -f -e <executable> <address>
-      std::string cmd = lumex::core::string::utility::stringify (
-          "addr2line -C -f -e ", exe_path, " 0x",
-          formatHex (reinterpret_cast<uintptr_t> (addr)), " 2>/dev/null");
-
-      FILE *pipe = popen (cmd.c_str (),
-                          "r"); // NOLINT(cppcoreguidelines-owning-memory)
-      if (!pipe)
-        return "";
-
-      // Read function name (first line)
-      if (fgets (buffer.data (), buffer.size (), pipe) != nullptr)
-        {
-          result = buffer.data ();
-          // Remove newline
-          if (!result.empty () && result.back () == '\n')
-            result.pop_back ();
-
-          // Read file:line (second line) and append
-          if (fgets (buffer.data (), buffer.size (), pipe) != nullptr)
-            {
-              std::string location = buffer.data ();
-              if (!location.empty () && location.back () == '\n')
-                location.pop_back ();
-
-              // Filter out "??:0" and "??:?"
-              if (location != "??:0" && location != "??:?")
-                result += " at " + location;
-            }
-        }
-
-      pclose (pipe); // NOLINT(cppcoreguidelines-owning-memory)
-
-      // Return empty if addr2line failed (contains "?" or "0x")
-      if (result.find ("??") != std::string::npos || result.empty ())
-        return "";
-
-      return result;
-    }
-  catch (...)
-    {
-      return "";
-    }
-}
-
-// Get executable path for addr2line
-static inline std::string
-getExecutablePath () LUMEX_NOEXCEPT
-{
-  try
-    {
-#if defined(LUMEX_OS_LINUX)
-      std::array<char, 4096> buffer{};
-      ssize_t len
-          = readlink ("/proc/self/exe", buffer.data (), buffer.size () - 1);
-      if (len > 0)
-        {
-          buffer[static_cast<std::size_t> (len)] = '\0';
-          return std::string (buffer.data ());
-        }
-#endif
-      return "";
-    }
-  catch (...)
-    {
-      return "";
-    }
-}
-#endif
 
 #if defined(LUMEX_OS_WINDOWS)
 // Thread-safe DbgHelp mutex (Windows requires external synchronization)
@@ -329,6 +252,175 @@ demangleSymbol (char const *mangled) LUMEX_NOEXCEPT
   return result;
 }
 #endif
+#if !defined(LUMEX_OS_WINDOWS) && (defined(__GNUC__) || defined(__clang__))
+// Where an address lies: the file name of the module (executable or shared
+// library) that holds it and the address inside that module's image. The
+// offset is what offline tools take with that file (addr2line -e <module>,
+// gdb "info line *<offset>"), so a stack can be symbolized later from the
+// module and its separate debug file. No process is started and no debug
+// information is read here.
+struct module_address_t
+{
+  std::string module;        ///< File name of the module, no directories.
+  std::uintptr_t offset = 0; ///< Address inside the module's image.
+  bool found = false;        ///< False when no loaded module holds it.
+};
+
+// The file name of the running executable, read once: the loader reports
+// the main program without a name.
+static inline std::string const &
+executable_file_name () LUMEX_NOEXCEPT
+{
+  static std::string const name = [] () -> std::string
+    {
+      try
+        {
+#if defined(LUMEX_OS_LINUX)
+          std::array<char, 4096> buffer{};
+          ssize_t const length = readlink ("/proc/self/exe", buffer.data (),
+                                           buffer.size () - 1);
+          if (length > 0)
+            return std::string (buffer.data (),
+                                static_cast<std::size_t> (length));
+#endif
+          return std::string ();
+        }
+      catch (...)
+        {
+          return std::string ();
+        }
+    }();
+  return name;
+}
+
+static inline std::string
+file_name_of (std::string const &path)
+{
+  std::size_t const last_slash = path.find_last_of ('/');
+  return last_slash == std::string::npos ? path : path.substr (last_slash + 1);
+}
+
+#if defined(LUMEX_OS_LINUX) && __has_include(<link.h>)
+struct module_search_t
+{
+  std::uintptr_t address;
+  module_address_t *result;
+};
+
+// dl_iterate_phdr callback: the module whose loadable segment holds the
+// address. dlpi_addr is the load bias, 0 for an executable linked at a fixed
+// address, so address - bias is the address in the ELF file for executables
+// (PIE or not) and shared libraries alike.
+static inline int
+find_module_callback (dl_phdr_info *info, std::size_t,
+                      void *data) LUMEX_NOEXCEPT
+{
+  try
+    {
+      auto *search = static_cast<module_search_t *> (data);
+      for (ElfW (Half) i = 0; i < info->dlpi_phnum; ++i)
+        {
+          ElfW (Phdr) const &segment = info->dlpi_phdr[i];
+          if (segment.p_type != PT_LOAD)
+            continue;
+          std::uintptr_t const start
+              = static_cast<std::uintptr_t> (info->dlpi_addr)
+                + static_cast<std::uintptr_t> (segment.p_vaddr);
+          if (search->address < start
+              || search->address
+                     >= start + static_cast<std::uintptr_t> (segment.p_memsz))
+            continue;
+          search->result->found = true;
+          search->result->offset
+              = search->address
+                - static_cast<std::uintptr_t> (info->dlpi_addr);
+          char const *name = info->dlpi_name;
+          search->result->module = file_name_of (
+              name != nullptr && name[0] != '\0' ? std::string (name)
+                                                 : executable_file_name ());
+          return 1;
+        }
+      return 0;
+    }
+  catch (...)
+    {
+      return 1;
+    }
+}
+#endif
+
+// The module that holds address and the address inside it. Linux walks the
+// loaded modules (dl_iterate_phdr); other systems fall back to dladdr and the
+// module's base address, which is right for position-independent images.
+static inline module_address_t
+find_module_address (void const *address) LUMEX_NOEXCEPT
+{
+  module_address_t result;
+  try
+    {
+#if defined(LUMEX_OS_LINUX) && __has_include(<link.h>)
+      module_search_t search{ reinterpret_cast<std::uintptr_t> (address),
+                              &result };
+      dl_iterate_phdr (&find_module_callback, &search);
+#elif __has_include(<dlfcn.h>)
+      Dl_info info;
+      if (dladdr (address, &info) != 0 && info.dli_fname != nullptr)
+        {
+          result.found = true;
+          result.offset = reinterpret_cast<std::uintptr_t> (address)
+                          - reinterpret_cast<std::uintptr_t> (info.dli_fbase);
+          result.module = file_name_of (info.dli_fname);
+        }
+#endif
+    }
+  catch (...)
+    {
+      result = module_address_t ();
+    }
+  return result;
+}
+
+// "<module>+0x<offset>", or an empty string when no loaded module holds the
+// address.
+static inline std::string
+describe_module_address (void const *address)
+{
+  module_address_t const where = find_module_address (address);
+  if (!where.found)
+    return std::string ();
+  return lumex::core::string::utility::stringify (where.module, "+0x",
+                                                  formatHex (where.offset));
+}
+
+// One frame of captureStackTrace: "  #N: <symbol> +<offset>
+// (<module>+0x<offset in module>) [0x<address>]" for an exported symbol, " #N:
+// <module>+0x<offset in module> [0x<address>]" otherwise.
+static inline std::string
+format_frame (int index, void *address)
+{
+  std::string const hex
+      = formatHex (reinterpret_cast<std::uintptr_t> (address));
+  std::string const location = describe_module_address (address);
+#if __has_include(<dlfcn.h>)
+  Dl_info info;
+  if (dladdr (address, &info) != 0 && info.dli_sname != nullptr)
+    {
+      std::ptrdiff_t const offset = static_cast<char *> (address)
+                                    - static_cast<char *> (info.dli_saddr);
+      return lumex::core::string::utility::stringify (
+          "  #", index, ": ", demangleSymbol (info.dli_sname), " +", offset,
+          location.empty () ? std::string () : " (" + location + ")", " [0x",
+          hex, "]\n");
+    }
+#endif
+  if (!location.empty ())
+    return lumex::core::string::utility::stringify (
+        "  #", index, ": ", location, " [0x", hex, "]\n");
+  return lumex::core::string::utility::stringify ("  #", index, ": [0x", hex,
+                                                  "]\n");
+}
+#endif
+
 } // namespace Detail
 
 /**
@@ -342,19 +434,25 @@ demangleSymbol (char const *mangled) LUMEX_NOEXCEPT
  * - Lazy initialization to minimize overhead
  *
  * Linux/POSIX (GCC/Clang):
- * - Uses GNU backtrace() + backtrace_symbols() (not POSIX, but widely
- * available)
- * - Automatic demangling C++ symbols through __cxa_demangle
- * - Requires compilation with -g and linking with -rdynamic
- * - Fallback on dladdr() when backtrace is not available
+ * - Uses GNU backtrace() (not POSIX, but widely available) for the
+ * addresses
+ * - Names a frame by its exported symbol (dladdr, demangled through
+ * __cxa_demangle); a function the module does not export (most of an
+ * executable not linked with -rdynamic) has no name here
+ * - Every frame also carries its module and the address inside it
+ * ("libfoo.so.1+0x1A2B", "app+0x401234"), found through dl_iterate_phdr on
+ * Linux: the address addr2line, gdb or eu-addr2line take with that module or
+ * its separate debug file, so the stack is symbolized offline, with source
+ * lines
+ * - Starts no process and reads no debug information
  *
  * Performance:
- * - Debug mode: ~150-400 μs on 10 frames
- * - Release with symbols: ~100-250 μs
- * - Release without symbols: ~50-100 μs (only addresses)
+ * - Windows: DbgHelp resolves symbols and lines in-process
+ * - POSIX: a few microseconds per frame, whatever debug information the
+ * modules have (the frame needs only dladdr and the loaded module list)
  *
  * Graceful Degradation:
- * - Without debug symbols: returns addresses in hex format
+ * - Without a module for an address: returns the address in hex format
  * - On errors: returns "Stack trace unavailable: <reason>"
  * - Thread-safe in all modes
  *
@@ -363,7 +461,9 @@ demangleSymbol (char const *mangled) LUMEX_NOEXCEPT
  * @param max_frames Maximum number of frames to capture (default 16)
  *
  * @return std::string Formatted stack trace, each frame on a new line.
- *         Format: "  #N: function_name (file:line) [0xADDRESS]"
+ *         Windows: "  #N: function_name (file:line) [0xADDRESS]".
+ *         POSIX: "  #N: symbol +offset (module+0xOFFSET) [0xADDRESS]" for
+ *         an exported symbol, "  #N: module+0xOFFSET [0xADDRESS]" otherwise.
  *
  * @note
  * - Function noexcept - never throws exceptions
@@ -373,20 +473,20 @@ demangleSymbol (char const *mangled) LUMEX_NOEXCEPT
  *
  * @warning
  * - Windows: Requires DbgHelp.lib in linking
- * - Linux: Requires -rdynamic for symbol export
+ * - POSIX: names only exported symbols; link with -rdynamic to export more,
+ * or symbolize the module offsets offline
  * - Inline functions may be missing in trace at aggressive optimization
  *
  * @example
  * @code
- * void setConfigToDefault() {
+ * void resetConfig() {
  *   std::string trace = lumex::core::utility::debug::captureStackTrace(1, 5);
- *   lumWarning("Config reset. Call stack:\n", trace);
- *   // Output:
- *   //   #0: initChannelAmqpErrors() at ChromatographicController.cpp:140
- * [0x7FF6A2B41234]
- *   //   #1: CMChromatographicController::CMChromatographicController()
- * [0x7FF6A2B3F890]
- *   //   #2: ... etc
+ *   std::cerr << "Config reset. Call stack:\n" << trace;
+ *   // Windows:
+ *   //   #0: loadConfig (config.cpp:140) [0x7FF6A2B41234]
+ *   // Linux (offsets for addr2line or gdb with app and libc.so.6):
+ *   //   #0: app+0x4F7250 [0x8F7250]
+ *   //   #1: __libc_start_main +235 (libc.so.6+0x2409B) [0x7F3E1E8E009B]
  * }
  * @endcode
  */
@@ -506,9 +606,13 @@ captureStackTrace (int skip_frames = 1, int max_frames = 16) LUMEX_NOEXCEPT
           symbol_buffer); // NOLINT(cppcoreguidelines-owning-memory,cppcoreguidelines-no-malloc)
 
 #elif defined(__GNUC__) || defined(__clang__)
-      // Linux/POSIX: backtrace() + dladdr() for symbols
-      // NOTE: backtrace() - GNU extension, not in POSIX.1-2024, but widely
-      // available
+      // POSIX: backtrace () for the addresses, dladdr () for the exported
+      // symbol names, the module and the address inside it for the rest.
+      // No process is started and no debug information is read: a frame
+      // costs microseconds, and the module offsets are symbolized offline
+      // from the module's debug file.
+      // NOTE: backtrace () is a GNU extension, not in POSIX.1-2024, but
+      // widely available.
 
 #if __has_include(<execinfo.h>)
       void *addresses[kMaxStackFrames];
@@ -520,95 +624,8 @@ captureStackTrace (int skip_frames = 1, int max_frames = 16) LUMEX_NOEXCEPT
 
       int actual_frames = std::min (frame_count - skip_frames, max_frames);
 
-      // Use backtrace_symbols for quick resolution (allocates memory)
-      char **symbols
-          = backtrace_symbols (addresses + skip_frames, actual_frames);
-
-      if (!symbols)
-        {
-          // Fallback: dladdr() for each address
-          for (int i = 0; i < actual_frames; ++i)
-            {
-              Dl_info info;
-              if (dladdr (addresses[i + skip_frames], &info))
-                {
-                  std::string demangled
-                      = Detail::demangleSymbol (info.dli_sname);
-                  result += lumex::core::string::utility::stringify (
-                      "  #", i, ": ", demangled, " [0x",
-                      Detail::formatHex (reinterpret_cast<uintptr_t> (
-                          addresses[i + skip_frames])),
-                      "]\n");
-                }
-              else
-                {
-                  result += lumex::core::string::utility::stringify (
-                      "  #", i, ": [0x",
-                      Detail::formatHex (reinterpret_cast<uintptr_t> (
-                          addresses[i + skip_frames])),
-                      "]\n");
-                }
-            }
-          return result;
-        }
-
-      // Get executable path for addr2line fallback
-      static std::string const exe_path = Detail::getExecutablePath ();
-      bool const use_addr2line_fallback = !exe_path.empty ();
-
-      // Process each frame with demangling
       for (int i = 0; i < actual_frames; ++i)
-        {
-          Dl_info info;
-          bool has_symbol
-              = dladdr (addresses[i + skip_frames], &info) && info.dli_sname;
-          if (has_symbol)
-            {
-              // Demangle C++ symbol
-              std::string demangled = Detail::demangleSymbol (info.dli_sname);
-
-              // Calculate offset within function
-              ptrdiff_t offset
-                  = reinterpret_cast<char *> (addresses[i + skip_frames])
-                    - reinterpret_cast<char *> (info.dli_saddr);
-
-              result += lumex::core::string::utility::stringify (
-                  "  #", i, ": ", demangled, " +", offset, " [0x",
-                  Detail::formatHex (reinterpret_cast<uintptr_t> (
-                      addresses[i + skip_frames])),
-                  "]\n");
-            }
-          else
-            {
-              // Try addr2line fallback if no symbol info available
-              std::string addr2line_result;
-              if (use_addr2line_fallback)
-                addr2line_result = Detail::resolveAddressWithAddr2line (
-                    addresses[i + skip_frames], exe_path.c_str ());
-
-              if (!addr2line_result.empty ())
-                {
-                  // addr2line succeeded - use its output
-                  result += lumex::core::string::utility::stringify (
-                      "  #", i, ": ", addr2line_result, " [0x",
-                      Detail::formatHex (reinterpret_cast<uintptr_t> (
-                          addresses[i + skip_frames])),
-                      "]\n");
-                }
-              else
-                {
-                  // Complete fallback: raw backtrace_symbols output
-                  result += lumex::core::string::utility::stringify (
-                      "  #", i, ": ", symbols[i], " [0x",
-                      Detail::formatHex (reinterpret_cast<uintptr_t> (
-                          addresses[i + skip_frames])),
-                      "]\n");
-                }
-            }
-        }
-
-      free (
-          symbols); // NOLINT(cppcoreguidelines-owning-memory,cppcoreguidelines-no-malloc)
+        result += Detail::format_frame (i, addresses[i + skip_frames]);
 
 #else
       // No backtrace support - return basic info
