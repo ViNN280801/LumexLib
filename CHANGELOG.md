@@ -10,6 +10,55 @@
 
 ---
 
+## [v1.0.2.0] - в разработке
+
+> Изменения поверх `v1.0.1.1` (ветка `feat/atomic-shared-ptr`). Версия в `CMakeLists.txt` поднята до `1.0.2.0`; дату секции ставит релизный коммит.
+
+### [v1.0.2.0]
+
+#### Добавлено
+
+##### Модуль `core/atomic`: `atomic_shared_ptr` и `atomic_weak_ptr` начиная с C++11
+
+**Файлы:**
+
+- `lumex/core/atomic/LumexAtomic`, `lumex/core/atomic/smart_ptr/` (`LumexAtomicSharedPtr.hpp`, `LumexAtomicWeakPtr.hpp`, `LumexAtomicSmartPtrConfig.hpp`, `LumexAtomicSmartPtrCell.hpp`), `lumex/core/atomic/sync/` (`LumexBitLock.hpp`, `LumexAtomicWait.hpp`), `lumex/core/atomic/CMakeLists.txt`, `lumex/core/atomic/README.md`
+- `lumex/core/CMakeLists.txt`, корневой `CMakeLists.txt`, `cmake/LumexOptions.cmake` (`LUMEX_BUILD_ATOMIC`), `cmake/LumexModules.cmake`, `cmake/LumexLibConfig.cmake.in`, `conanfile.py` (`core_atomic`), `Doxyfile`, `Doxyfile.in`
+- `lumex/examples/atomic/` (`example_atomic_smart_ptr.cpp`, `example_atomic_config_reload.cpp`), `lumex/examples/CMakeLists.txt`
+- `lumex/tests/core/atomic/`, `lumex/tests/core/CMakeLists.txt`, `lumex/tests/cmake/consumer/atomic_compile_checks/`, `lumex/tests/cmake/consumer/atomic_cross_module/`, `lumex/tests/cmake/cases/wiring_atomic.cmake` и затронутые кейсы `LumexCMake` (`options_declared`, `wiring_subdirs`, `wiring_distr`, `require_ok_*`, `setup_all_on`)
+
+**Коммиты:** `e72f58c5`, `157ebd66`
+
+**Суть:** интерфейс C++20 `std::atomic<std::shared_ptr<T>>` и `std::atomic<std::weak_ptr<T>>` (P0718R2, LWG 3661, LWG 3893) начиная с C++11 поверх обычных `std::shared_ptr` и `std::weak_ptr` любой стандартной библиотеки: `lumex::core::atomic::smart_ptr::atomic_shared_ptr<T>` и `atomic_weak_ptr<T>` (плюс глобальные псевдонимы, как у `optional`), цель `lumex::atomic` (header-only, `Threads::Threads`). Это порт собственной реализации автора для LLVM libc++ (llvm-project pull request 194215), в которой два метода, lock-based и lock-free; это не сторонняя библиотека и не копия libstdc++, MSVC STL или Folly. Перенесен lock-based метод: замок из двух битов (занят, есть спящие) в отдельном 32-битном слове, а не в младших битах указателя на control block, как в libc++, потому что раскладку `std::shared_ptr` чужой библиотеки трогать нельзя; поток, проигравший гонку после пробуждения, снова ставит бит спящего (исправление потерянного пробуждения из libc++), старое значение и его deleter освобождаются после снятия замка. Lock-free метод не перенесен: он работает с control block libc++ (счетчик в слове control block, `__add_shared`, `__release_shared`), что для `std::shared_ptr` другой библиотеки - неопределенное поведение. Где библиотека предоставляет `__cpp_lib_atomic_shared_ptr` (libstdc++ 12+, MSVC STL в C++20), классы оборачивают стандартный тип; `wait` в обоих вариантах свой и соответствует стандарту (`wait` из libstdc++ 13 просыпается, когда другой поток лишь берет внутренний замок, и не замечает смены одного хранимого указателя). Потоки спят через `std::atomic::wait` начиная с C++20 и через таблицу из 64 полос `std::mutex` + `std::condition_variable` раньше; таблица одна на процесс на ELF и Mach-O. Выбор виден в `LUMEX_ATOMIC_SMART_PTR_USES_STD` и `LUMEX_ATOMIC_WAIT_USES_STD`, каждая комбинация живет в своем inline namespace, для тестов и бенчмарков есть `LUMEX_FORCE_LOCK_BASED_ATOMIC_SHARED_PTR` и `LUMEX_FORCE_ATOMIC_WAIT_TABLE`. Clang сообщает о запрещенных стандартом константных memory order через `diagnose_if`. Пять наборов тестов (C++11, C++17, C++20, C++20 с принудительным lock-based, C++20 с принудительной таблицей; имена CTest с префиксом `atomic.`), проверки компиляции, проверка пробуждения через разделяемые библиотеки со скрытой видимостью. `README.md` модуля описывает оба метода libc++, расследование livelock в CAS и известную утечку ссылки в `load ()` lock-free метода.
+
+##### Бенчмарк `benchmarks/atomic`
+
+**Файлы:** `benchmarks/atomic/` (`bench_atomic_smart_ptr.cpp`, `bench_atomic_smart_ptr.hpp`, `bench_lumex_cxx11.cpp`, `bench_lumex_lock_based.cpp`, `bench_lumex_default.cpp`, `CMakeLists.txt`, `run_benchmark.py`, `plot_results.py`, `README.md`, `results/`), корневой `CMakeLists.txt`, `Doxyfile`, `Doxyfile.in` (`IMAGE_PATH`), `lumex/core/atomic/README.md`
+
+**Коммит:** `86a01a27`
+
+**Суть:** `load`, `store`, `exchange` и `compare_exchange_strong` при 1-20 потоках на одном объекте и без конкуренции, каждое число - отношение к `std::atomic<std::uint64_t>::compare_exchange_strong` того же процесса и того же числа потоков, медиана 100 запусков с паузами 30 с, реализации чередуются (методика бенчмарка автора для libc++). Сравниваются lock-based реализация LumexLib в C++11 и в C++20, выбор LumexLib по умолчанию в C++20 и `std::atomic<std::shared_ptr<T>>` из libstdc++ 13; ряд MSVC STL ждет запуска на Windows (todo 56). Итог полного прогона (Intel Core i7-12700K, 20 логических CPU, GCC 13.2, libstdc++ 13, 91 минута): базовая линия всех блоков в пределах 3 % от среднего; при 20 потоках lock-based реализация в 2.8-3.5 раза дешевле libstdc++ для `load ()`, в 2.4-2.9 раза для `compare_exchange_strong ()`, в 2.0-2.3 раза для `exchange ()` и в 1.6-1.8 раза для `store ()`; libstdc++ выигрывает `store ()` при 2-6 потоках; без конкуренции `load ()`, `store ()` и `exchange ()` стоят 17-22 нс у всех реализаций, а lock-based `compare_exchange_strong ()` - 44-47 нс против 57 нс. Выбор LumexLib по умолчанию в C++20 (обертка над типом libstdc++) не дороже самой libstdc++.
+
+#### Исправлено
+
+##### Документация сверена с кодом
+
+**Файлы:** `lumex/core/fmt/README.md`, `benchmarks/fmt/README.md`, `lumex/applied/logger/README.md`, `lumex/applied/logger/logger/LumexLogger.hpp`, `docker/README.md`, `Scripts/Debugging/Linux/hang_diag.example.md`, `Scripts/Debugging/Windows/CDB/crash_diag.example.md`, `CHANGELOG.md`, `Doxyfile`, `Doxyfile.in`, `lumex/core/optional/opt/LumexOptional.hpp`, `lumex/core/utility/numeric/LumexSafeNumericComparator.hpp`, `lumex/core/filesystem/fs/LumexFilesystem.hpp`, `lumex/applied/settings/guard/LumexSettingsGuard.hpp`
+
+**Коммит:** `8c21ba17`
+
+**Суть:** утверждения документации проверены по коду и сборке. README `fmt` и бенчмарка `fmt`: `snprintf` не самый быстрый для всех чисел (для `int` быстрее `std::to_string`, для `{:.3f}` он в 1.4 раза медленнее LumexFormat). README логгера: `LumexLogging` используют `LumexHardwareCapabilities.cpp`, `LumexResourceMonitor.cpp` и `LumexSettingsGuard.cpp`, а не `LumexDebug.hpp`; страница логгера (`\page Logger`) теперь входит в Doxygen (`INPUT`). Комментарий класса `LumexLogger`: константы `kLoggingEnableFileName` нет (файл-триггер `kDefaultTriggerFileName`), в списке уровней не было `success`, имя файла с меткой времени `logger_DD.MM.YYYY-hh-mm-ss.log`, без двоеточий. README docker: каталогов `complete-*` и `analyzed-files.txt` скрипт не создает. Примеры отладочных скриптов ссылались на `Scripts/hang_diag.sh` и `Scripts\CDB\`, а скрипты лежат в `Scripts/Debugging/Linux/` и `Scripts\Debugging\Windows\CDB\`; пример вывода `hang_diag.sh` дополнен строками, которые скрипт печатает. `@file` в `LumexOptional.hpp` и `LumexSafeNumericComparator.hpp` называли несуществующие файлы. `LumexFilesystem.hpp` называл модуль header-only и обещал отсутствие исключений, а он собирается из `LumexFilesystem.cpp`, и `checkName` бросает `std::invalid_argument`. `LumexSettingsGuard.hpp`: реализаций `ILumexSettings` уже три (INI, JSON, XML). В этом файле в секции `[v1.0.1.0]`: флаги `-fkeep-inline-functions` и `-fkeep-static-functions` удалены, а не оставлены для GCC, и кейс называется `wiring_xml_no_keep_flags`.
+
+##### Примеры из комментариев заголовков больше не попадают на страницу Examples
+
+**Файлы:** `lumex/applied/hardware/caps/LumexCPUVectorizationCapabilities.hpp`, `lumex/applied/hardware/caps/LumexHardwareCapabilities.hpp`, `lumex/applied/logger/logger/LumexLogger.hpp`, `lumex/applied/resource_monitor/monitor/LumexResourceMonitor.hpp`, `lumex/core/environment/env/LumexEnvironment.hpp`, `lumex/core/exceptions/LumexExceptionWrapper.hpp`, `lumex/core/exceptions/exception/LumexException.hpp`, `lumex/core/exceptions/stacktrace/LumexStacktraceEntry.hpp`, `lumex/core/time/clock/LumexTime.hpp`, `lumex/core/time/timer/LumexTimer.hpp`, `lumex/core/utility/debug/LumexDebug.hpp`, `lumex/core/utility/demangle/LumexDemangle.hpp`, `lumex/core/utility/dump/LumexCoreDumpGenerator.hpp`, `lumex/core/utility/macros/LumexConstantMacros.hpp`, `lumex/core/utility/numeric/LumexSafeNumericComparator.hpp`, `lumex/core/utility/util/LumexUtilities.hpp`
+
+**Коммит:** `a3c1a60f`
+
+**Суть:** шестнадцать заголовков оформляли пример использования командой `@example`, а в Doxygen она документирует отдельный файл с примером. Поэтому страница Examples в `docs/` содержала 25 ложных примеров: 14 заголовков целиком, каждый под абсолютным путем к копии репозитория, на которой собиралась документация, семь значений-образцов, слова `Typical`, `Usage` и `Examples` как имена файлов и несуществующий `SafeNumericComparator_Examples.cpp`; Doxygen выдавал 30 предупреждений. Такой блок комментария целиком уходил на страницу примера, и его функция или класс оставались без описания. Теперь пример оформлен через `@par Example` (код без `@code` обернут в `@code` / `@endcode`, значения-образцы стали списком `@par Examples`), и описание снова стоит у своей функции или класса. Это открыло три описания, не совпадавших с кодом: у `fd_to_ptr` и `ptr_to_fd` в `@param` стояли не те имена параметров, а описание `lumDemangle` говорило о функции, принимающей искаженное имя, хотя макрос принимает тип или выражение и сам вызывает `typeid`. Блок, ссылавшийся на несуществующий файл примеров, стал обычным комментарием.
+
+---
+
 ## [v1.0.1.1] - в разработке
 
 > Изменения после тега `v1.0.1.0`. Версия в `CMakeLists.txt` поднята до `1.0.1.1`; дату секции ставит релизный коммит.
