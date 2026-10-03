@@ -52,7 +52,6 @@ set(_transition
     crc
     environment
     expected
-    filesystem
     fmt
     generators.number_generator
     hardware

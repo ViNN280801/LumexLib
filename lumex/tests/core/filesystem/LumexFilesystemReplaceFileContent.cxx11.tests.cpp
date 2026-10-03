@@ -1,4 +1,4 @@
-// lumex/tests/core/filesystem/LumexFilesystemReplaceFileContent.tests.cpp
+// lumex/tests/core/filesystem/LumexFilesystemReplaceFileContent.cxx11.tests.cpp
 #include <cerrno>
 #include <fstream>
 #include <iostream>
@@ -13,6 +13,7 @@
 #include <gtest/gtest.h>
 
 #include "lumex/core/filesystem/LumexFilesystem"
+#include "lumex/core/utility/process/LumexProcess.hpp"
 
 using lumex::core::filesystem::fs::KTEMPORARY_FILE_SUFFIX;
 using lumex::core::filesystem::fs::write_mode;
@@ -65,6 +66,10 @@ public:
     name += info->test_suite_name ();
     name += "_";
     name += info->name ();
+    // The suite of every standard runs the same case in the same working
+    // directory, possibly at the same time: the process id keeps them apart.
+    name += "_";
+    name += std::to_string (lumex::core::utility::process::get_current_pid ());
     for (auto &chr : name)
       if (chr == '/')
         chr = '_';

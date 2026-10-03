@@ -8,6 +8,7 @@
 #include <limits>
 #include <random>
 #include <sstream>
+#include <string>
 #include <thread>
 #include <vector>
 
@@ -15,6 +16,7 @@
 
 #include "lumex/core/filesystem/LumexFilesystem"
 #include "lumex/core/utility/os/LumexCheckOS.hpp"
+#include "lumex/core/utility/process/LumexProcess.hpp"
 
 #if defined(__clang__)
 #pragma clang diagnostic push
@@ -59,6 +61,11 @@ protected:
     dir_name += info->test_suite_name ();
     dir_name += "_";
     dir_name += info->name ();
+    // The suite of every standard runs the same case in the same working
+    // directory, possibly at the same time: the process id keeps them apart.
+    dir_name += "_";
+    dir_name
+        += std::to_string (lumex::core::utility::process::get_current_pid ());
     test_dir = lumex::path (dir_name);
     test_file = test_dir / "test_file.txt";
     test_dir_nested = test_dir / "nested" / "deep";
