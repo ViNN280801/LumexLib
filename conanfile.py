@@ -48,6 +48,7 @@ class LumexLibConan(ConanFile):
     exports_sources = (
         "CMakeLists.txt",
         "LICENSE",
+        "THIRD-PARTY-NOTICES.md",
         "cmake/*",
         "CMakeRoutines/*",
         "3rdparty/*",
@@ -101,12 +102,13 @@ class LumexLibConan(ConanFile):
             cmake.test()
 
     def package(self):
-        copy(
-            self,
-            "LICENSE",
-            src=self.source_folder,
-            dst=os.path.join(self.package_folder, "licenses"),
-        )
+        for name in ("LICENSE", "THIRD-PARTY-NOTICES.md"):
+            copy(
+                self,
+                name,
+                src=self.source_folder,
+                dst=os.path.join(self.package_folder, "licenses"),
+            )
         cmake = CMake(self)
         cmake.install()
 

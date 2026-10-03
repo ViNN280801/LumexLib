@@ -296,6 +296,15 @@ if(LUMEX_INSTALL)
         DESTINATION
         ${CMAKE_INSTALL_LIBDIR}/cmake/LumexLib
     )
+
+    # The license and the notices of the code LumexLib derives from (pugixml).
+    install(
+        FILES
+        "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE"
+        "${CMAKE_CURRENT_SOURCE_DIR}/THIRD-PARTY-NOTICES.md"
+        DESTINATION
+        ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}
+    )
 endif()
 
 # ==============================================================================

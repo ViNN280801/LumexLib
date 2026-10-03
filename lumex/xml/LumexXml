@@ -8,6 +8,10 @@
  * interface and its file and stream implementations, the parse result, the
  * XPath classes, the common types and constants, and `XmlCleaner` and
  * `XmlUtils`.
+ *
+ * The module is derived from pugixml (https://github.com/zeux/pugixml,
+ * MIT, Copyright (c) 2006-2026 Arseny Kapoulkine); its notice is in
+ * `THIRD-PARTY-NOTICES.md`, installed with the library.
  */
 #ifndef LUMEX_XML_HPP
 #define LUMEX_XML_HPP
