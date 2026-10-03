@@ -1,21 +1,9 @@
 # lumex/tests/core/time/CMakeLists.txt
 
-set(TEST_EXECUTABLE_NAME LumexTimeTests)
-
-add_executable(
-    ${TEST_EXECUTABLE_NAME}
-    LumexTime.tests.cpp
+# time has one standard in lumex/tests/LumexTestStandards.cmake, C++11:
+# LumexTimeCxx11Tests builds every *.cxx11.tests.cpp of this directory.
+lumex_add_standard_suites(Time
+    MODULE time
+    LINK
+        lumex::time
 )
-
-set_target_properties(${TEST_EXECUTABLE_NAME} PROPERTIES
-    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/$<CONFIG>"
-)
-
-target_link_libraries(
-    ${TEST_EXECUTABLE_NAME}
-    PRIVATE
-    lumex::time
-)
-
-lumex_test_use_gtest(${TEST_EXECUTABLE_NAME} CXX_STANDARD 11)
-lumex_gtest_discover_tests(${TEST_EXECUTABLE_NAME})

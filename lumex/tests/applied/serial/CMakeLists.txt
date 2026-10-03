@@ -1,33 +1,23 @@
 # lumex/tests/applied/serial/CMakeLists.txt
 
-set(TEST_EXECUTABLE_NAME LumexSerialPortTests)
-
-add_executable(
-    ${TEST_EXECUTABLE_NAME}
-    LumexSerialPort.tests.cpp
-    LumexSerialPortEnumeration.tests.cpp
-)
-
-set_target_properties(${TEST_EXECUTABLE_NAME} PROPERTIES
-    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/$<CONFIG>"
-)
-
-target_link_libraries(
-    ${TEST_EXECUTABLE_NAME}
-    PRIVATE
-    lumex::serial
-)
-
-lumex_test_use_gtest(${TEST_EXECUTABLE_NAME} CXX_STANDARD 11)
-# PRE_TEST: do not run the exe at build time. A POST_BUILD discover
-# of this suite previously left cmake.exe blocked while ninja still
-# held the tree (CreateFile on Bluetooth COM in an older probe).
+# serial has one standard in lumex/tests/LumexTestStandards.cmake, C++11:
+# LumexSerialPortCxx11Tests builds every *.cxx11.tests.cpp of this directory.
+#
+# Discovery runs the executable at ctest time (DISCOVERY_MODE PRE_TEST, set by
+# lumex_gtest_discover_tests), never from the link step: a POST_BUILD
+# discovery of this suite once left cmake.exe blocked while ninja still held
+# the tree (CreateFile on a Bluetooth COM port in an older probe). CMake
+# before 3.18 has no DISCOVERY_MODE, so there the executable is registered as
+# one CTest test (PLAIN_EXECUTABLE) and is not run at build time either.
 if(CMAKE_VERSION VERSION_GREATER_EQUAL "3.18")
-    lumex_gtest_discover_tests(${TEST_EXECUTABLE_NAME}
-        DISCOVERY_TIMEOUT 30
-        DISCOVERY_MODE PRE_TEST
-    )
+    set(_serial_registration DISCOVER_ARGS DISCOVERY_TIMEOUT 30)
 else()
-    lumex_test_name(_ctest_name ${TEST_EXECUTABLE_NAME})
-    add_test(NAME ${_ctest_name} COMMAND ${TEST_EXECUTABLE_NAME})
+    set(_serial_registration PLAIN_EXECUTABLE)
 endif()
+
+lumex_add_standard_suites(SerialPort
+    MODULE serial
+    LINK
+        lumex::serial
+    ${_serial_registration}
+)

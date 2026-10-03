@@ -66,19 +66,16 @@ endforeach()
 # gets its names from the helper and leaves this list; wiring_standard_suites
 # checks it instead.
 foreach(_suite
-        LumexHardwareCapabilitiesTests LumexJsonTests LumexJsonCxx20Tests
-        LumexCallbackSlotTests LumexLoggerTests LumexLoggingTests
-        LumexSerialPortTests LumexSettingsTests
+        LumexJsonTests LumexJsonCxx20Tests
+        LumexCallbackSlotTests LumexLoggerTests
         LumexAtomicTests LumexAtomicCxx17Tests LumexAtomicCxx20Tests
         LumexAtomicLockBasedCxx20Tests LumexAtomicWaitTableCxx20Tests
         LumexCrcTests
-        LumexEnvironmentTests LumexExpectedTests
-        LumexNumberGeneratorTests
-        LumexOptionalTests LumexReflectionTests LumexReflectionCxx20Tests LumexFieldReflectionTests
+        LumexExpectedTests
+        LumexReflectionTests LumexReflectionCxx20Tests LumexFieldReflectionTests
         LumexFieldReflectionGetTests LumexFieldReflectionNamesTests
         LumexStringifyTests LumexStringifyCxx20Tests
         LumexFormatTests LumexFormatCxx17Tests LumexFormatCxx20Tests
-        LumexStringViewTests LumexTemporaryTests LumexTimeTests
         LumexTypeTraitsTests LumexSafeNumericComparatorCxx11Tests
         LumexUtilityTests)
     string(FIND "${_tests_txt}" "${_suite}" _pos)

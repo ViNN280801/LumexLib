@@ -1,4 +1,4 @@
-// lumex/tests/applied/settings/LumexSettingsGuard.tests.cpp
+// lumex/tests/applied/settings/LumexSettingsGuard.cxx11.tests.cpp
 #include <fstream>
 #include <iostream>
 #include <memory>

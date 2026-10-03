@@ -1,4 +1,4 @@
-// lumex/tests/applied/settings/LumexSettingsSave.tests.cpp
+// lumex/tests/applied/settings/LumexSettingsSave.cxx11.tests.cpp
 #include <fstream>
 #include <initializer_list>
 #include <iostream>

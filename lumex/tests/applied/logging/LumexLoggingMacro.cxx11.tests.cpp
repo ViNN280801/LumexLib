@@ -1,4 +1,4 @@
-// LumexLoggingMacro.tests.cpp
+// LumexLoggingMacro.cxx11.tests.cpp
 // LumexLoggingMacro.hpp provides LUMEX_FUNCTION_NAME through LumexMacros.hpp,
 // so the logging macros and the rest of the library name a function the same
 // way. This translation unit includes only the logging macro header.

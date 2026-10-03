@@ -1,19 +1,9 @@
 # lumex/tests/core/string_view/CMakeLists.txt
 
-set(TEST_EXECUTABLE_NAME LumexStringViewTests)
-
-add_executable(
-    ${TEST_EXECUTABLE_NAME}
-    LumexStringView.tests.cpp
-    LumexStringViewImplicit.tests.cpp
-    LumexWStringView.tests.cpp
+# string_view has one standard in lumex/tests/LumexTestStandards.cmake, C++11:
+# LumexStringViewCxx11Tests builds every *.cxx11.tests.cpp of this directory.
+lumex_add_standard_suites(StringView
+    MODULE string_view
+    LINK
+        lumex::string_view
 )
-
-target_link_libraries(
-    ${TEST_EXECUTABLE_NAME}
-    PRIVATE
-    lumex::string_view
-)
-
-lumex_test_use_gtest(${TEST_EXECUTABLE_NAME} CXX_STANDARD 11)
-lumex_gtest_discover_tests(${TEST_EXECUTABLE_NAME})

@@ -1,4 +1,4 @@
-// lumex/tests/applied/settings/LumexSettingsINI.tests.cpp
+// lumex/tests/applied/settings/LumexSettingsINI.cxx11.tests.cpp
 #include <algorithm>
 #include <array>
 #include <chrono>

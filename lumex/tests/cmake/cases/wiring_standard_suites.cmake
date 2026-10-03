@@ -50,22 +50,12 @@ endif()
 set(_transition
     atomic
     crc
-    environment
     expected
     fmt
-    generators.number_generator
-    hardware
     json
     logger
-    logging
-    optional
     reflection
-    serial
-    settings
     string
-    string_view
-    temporary
-    time
     utility
 )
 
