@@ -105,6 +105,19 @@ main ()
                      static_cast<std::uint8_t> (200))); // uint8_t is a number
   show (fmt::format ("{} {}", static_cast<short> (-7),
                      static_cast<signed char> (-5)));
+#if LUMEX_FORMAT_HAS_INT128
+  // Built from shifts. A product of two __int128 values would ask the
+  // linker for a compiler-rt helper that clang-cl does not ship.
+  unsigned __int128 const bit64 = static_cast<unsigned __int128> (1) << 64;
+  unsigned __int128 const high_nibble
+      = static_cast<unsigned __int128> (0xABULL) << 64;
+  __int128 const int128_max = static_cast<__int128> (
+      (static_cast<unsigned __int128> (1) << 127) - 1);
+  __int128 const int128_min = -int128_max - 1;
+  show (fmt::format ("{} {:x} {:#X} {:b}", bit64, bit64, high_nibble, bit64));
+  show (fmt::format ("{} {}", int128_max, int128_min));
+  show (fmt::format ("{}", ~static_cast<unsigned __int128> (0)));
+#endif
 
   std::cout << "\n--- 6. Floating point: shortest, e E f F g G a A ---\n";
   show (fmt::format ("{} {} {} {}", 0.1, 1e-5, 1e21, 123456789.0f));

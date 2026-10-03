@@ -62,6 +62,16 @@ fake_pointer (std::uintptr_t value)
 {
   return reinterpret_cast<void const *> (value);
 }
+
+#if LUMEX_FORMAT_HAS_INT128
+/** @brief `high` and `low` joined by a shift. No 128-bit multiply. */
+unsigned __int128
+uint128_limbs (std::uint64_t high, std::uint64_t low)
+{
+  return (static_cast<unsigned __int128> (high) << 64)
+         | static_cast<unsigned __int128> (low);
+}
+#endif
 } // namespace
 
 // ---------------------------------------------------------------------------
@@ -259,6 +269,55 @@ TEST (LumexFormatTypesTest, GivenInt128_WhenFormat_ThenAllDigits)
   EXPECT_EQ (fmt::format ("{0:o}", int128_min),
              "-2000000000000000000000000000000000000000000");
   EXPECT_EQ (fmt::format ("{0:+}", static_cast<__int128> (42)), "+42");
+}
+
+TEST (LumexFormatTypesTest, GivenInt128_WhenPow10Groups_ThenExactDigits)
+{
+  unsigned __int128 const pow10_19 = 10000000000000000000ULL;
+  unsigned __int128 const below = 9999999999999999999ULL;
+  unsigned __int128 const above = 10000000000000000001ULL;
+  // 10^38, 10^38 - 1 and 10^38 + 1 as limbs. A multiply of two
+  // `__int128` values would reference `__multi3`.
+  unsigned __int128 const pow10_38
+      = uint128_limbs (0x4B3B4CA85A86C47AULL, 0x098A224000000000ULL);
+  unsigned __int128 const pow10_38_minus
+      = uint128_limbs (0x4B3B4CA85A86C47AULL, 0x098A223FFFFFFFFFULL);
+  unsigned __int128 const pow10_38_plus
+      = uint128_limbs (0x4B3B4CA85A86C47AULL, 0x098A224000000001ULL);
+
+  EXPECT_EQ (fmt::format ("{}", below), "9999999999999999999");
+  EXPECT_EQ (fmt::format ("{}", pow10_19), "10000000000000000000");
+  EXPECT_EQ (fmt::format ("{}", above), "10000000000000000001");
+  EXPECT_EQ (fmt::format ("{}", -static_cast<__int128> (pow10_19)),
+             "-10000000000000000000");
+  EXPECT_EQ (fmt::format ("{}", pow10_38_minus), std::string (38, '9'));
+  EXPECT_EQ (fmt::format ("{}", pow10_38), "1" + std::string (38, '0'));
+  EXPECT_EQ (fmt::format ("{}", pow10_38_plus),
+             "1" + std::string (37, '0') + "1");
+  EXPECT_EQ (fmt::format ("{}", -static_cast<__int128> (pow10_38)),
+             "-1" + std::string (38, '0'));
+  EXPECT_EQ (fmt::format ("{:040}", static_cast<unsigned __int128> (1)),
+             std::string (39, '0') + "1");
+  EXPECT_EQ (fmt::format ("{:040}", pow10_38),
+             std::string ("01") + std::string (38, '0'));
+  EXPECT_EQ (fmt::format ("{:L}", pow10_38), "1" + std::string (38, '0'));
+}
+
+TEST (LumexFormatTypesTest, GivenInt128_WhenPowerOfTwo_ThenShiftedDigits)
+{
+  unsigned __int128 const two_64 = static_cast<unsigned __int128> (1) << 64;
+  unsigned __int128 const high_nibble = uint128_limbs (0xABULL, 0);
+
+  EXPECT_EQ (fmt::format ("{:b}", two_64), "1" + std::string (64, '0'));
+  EXPECT_EQ (fmt::format ("{:o}", two_64), "2" + std::string (21, '0'));
+  EXPECT_EQ (fmt::format ("{:x}", two_64), "10000000000000000");
+  EXPECT_EQ (fmt::format ("{:#x}", two_64), "0x10000000000000000");
+  EXPECT_EQ (fmt::format ("{:#X}", two_64), "0X10000000000000000");
+  EXPECT_EQ (fmt::format ("{:x}", high_nibble), "ab" + std::string (16, '0'));
+  EXPECT_EQ (fmt::format ("{:X}", high_nibble), "AB" + std::string (16, '0'));
+  EXPECT_EQ (fmt::format ("{:Lx}", high_nibble), "ab" + std::string (16, '0'));
+  EXPECT_EQ (fmt::format ("{:b}", ~static_cast<unsigned __int128> (0)),
+             std::string (128, '1'));
 }
 #endif
 

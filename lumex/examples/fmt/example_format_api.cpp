@@ -73,6 +73,11 @@ main ()
   std::locale const comma (std::locale::classic (), new CommaDecimal);
   std::cout << fmt::format (comma, "{:L}", 2.5) << '\n';
   std::wcout << fmt::format (std::locale::classic (), L"{:L}", 3.5) << L'\n';
+#if LUMEX_FORMAT_HAS_INT128
+  unsigned __int128 const bit64 = static_cast<unsigned __int128> (1) << 64;
+  std::cout << fmt::format ("{} {:x}", bit64, bit64) << '\n';
+  std::wcout << fmt::format (L"{}", bit64) << L'\n';
+#endif
 
   std::cout << "\n--- 2. format_to: any output iterator ---\n";
   std::string text;
