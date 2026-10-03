@@ -103,6 +103,9 @@ public:
   /**
    * @brief Saves the current settings as an object of objects.
    * @details If the parent directory does not exist, it will be created.
+   * The document is serialized before the file is opened: a value that is
+   * not valid UTF-8, which nlohmann/json cannot serialize, makes `save`
+   * return `false` without touching the file. `save` does not throw.
    * @param[in] path The filesystem path to save the JSON file to.
    * @return `true` if the file is written successfully, `false` otherwise.
    */

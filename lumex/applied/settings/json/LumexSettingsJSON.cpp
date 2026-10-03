@@ -212,31 +212,53 @@ LumexSettingsJSON::_save_with_parser (std::string const &path) const
   (void)path;
   return false;
 #else
-  auto parent = lumex::path (path).parent_path ();
-  if (!parent.empty ()
-      && !lumex::core::filesystem::fs::lumex_filesystem::exists (parent))
-    lumex::core::filesystem::fs::lumex_filesystem::create_directories (parent);
-
-  ::nlohmann::json root = ::nlohmann::json::object ();
-  for (auto const &sec_pair : _settings)
+  // Serialize first: nlohmann throws `type_error` 316 from `dump` for a value
+  // that is not valid UTF-8. `save` reports failure with `false` and must not
+  // touch the file then, so nothing is opened before the text is complete.
+  std::string text;
+  try
     {
-      if (sec_pair.first.empty ())
-        continue;
-      ::nlohmann::json section = ::nlohmann::json::object ();
-      for (auto const &kv : sec_pair.second)
+      ::nlohmann::json root = ::nlohmann::json::object ();
+      for (auto const &sec_pair : _settings)
         {
-          if (kv.first.empty ())
+          if (sec_pair.first.empty ())
             continue;
-          section[kv.first] = kv.second;
+          ::nlohmann::json section = ::nlohmann::json::object ();
+          for (auto const &kv : sec_pair.second)
+            {
+              if (kv.first.empty ())
+                continue;
+              section[kv.first] = kv.second;
+            }
+          root[sec_pair.first] = section;
         }
-      root[sec_pair.first] = section;
+      text = root.dump (2);
+      text += '\n';
+    }
+  catch (...)
+    {
+      return false;
     }
 
-  std::ofstream file (path.c_str ());
-  if (!file.is_open ())
-    return false;
-  file << root.dump (2) << '\n';
-  return file.good ();
+  try
+    {
+      auto parent = lumex::path (path).parent_path ();
+      if (!parent.empty ()
+          && !lumex::core::filesystem::fs::lumex_filesystem::exists (parent))
+        lumex::core::filesystem::fs::lumex_filesystem::create_directories (
+            parent);
+
+      std::ofstream file (path.c_str ());
+      if (!file.is_open ())
+        return false;
+      file << text;
+      file.close ();
+      return file.good ();
+    }
+  catch (...)
+    {
+      return false;
+    }
 #endif
 }
 

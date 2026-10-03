@@ -24,6 +24,43 @@ using namespace lumex::applied::settings;
 using namespace lumex::applied::settings::json;
 using namespace lumex::core::filesystem::fs;
 
+#if defined(LUMEX_SETTINGS_WITH_JSON)
+namespace
+{
+// Bytes of a settings file that a failed save must leave unchanged. The
+// carriage return makes a rewrite in text mode visible on every platform.
+char const *const OLD_JSON_BYTES
+    = "{\r\n  \"old\": {\n    \"key\": \"old value\"\n  }\n}\n";
+
+// A value nlohmann/json cannot serialize: 0xC3 starts a two-byte UTF-8
+// sequence, '(' is not a continuation byte.
+char const *const INVALID_UTF8_VALUE = "\xC3\x28";
+
+// What save () wrote for section "section", key "key", value `value "q"`
+// before it serialized to a string first (captured from that version).
+char const *const EXPECTED_JSON_DOCUMENT
+    = "{\n  \"section\": {\n    \"key\": \"value \\\"q\\\"\"\n  }\n}\n";
+
+void
+write_bytes (lumex::path const &path, std::string const &bytes)
+{
+  std::ofstream file (path.string (), std::ios::binary);
+  ASSERT_TRUE (file.is_open ()) << path.string ();
+  file << bytes;
+  file.close ();
+  ASSERT_TRUE (file.good ()) << path.string ();
+}
+
+std::string
+read_bytes (lumex::path const &path)
+{
+  std::ifstream file (path.string (), std::ios::binary);
+  return std::string ((std::istreambuf_iterator<char> (file)),
+                      std::istreambuf_iterator<char> ());
+}
+} // namespace
+#endif // defined(LUMEX_SETTINGS_WITH_JSON)
+
 class LumexSettingsJSONTest : public ::testing::Test
 {
 protected:
@@ -360,6 +397,50 @@ TEST_F (LumexSettingsJSONTest,
   LumexSettingsJSON reloaded;
   ASSERT_TRUE (reloaded.load (nested.string ()));
   EXPECT_EQ (reloaded.get ("oven", "temperature"), "40");
+}
+
+TEST_F (LumexSettingsJSONTest,
+        GivenValueNotValidUtf8_WhenSave_ThenReturnsFalseWithoutThrowing)
+{
+  LumexSettingsJSON json_settings;
+  json_settings.add ("section", "key", INVALID_UTF8_VALUE);
+
+  bool result = true;
+  EXPECT_NO_THROW (result = json_settings.save (_test_file.string ()));
+  EXPECT_FALSE (result);
+}
+
+TEST_F (LumexSettingsJSONTest,
+        GivenExistingFileAndValueNotValidUtf8_WhenSave_ThenFileKeepsItsBytes)
+{
+  write_bytes (_test_file, OLD_JSON_BYTES);
+  LumexSettingsJSON json_settings;
+  json_settings.add ("section", "valid", "value");
+  json_settings.add ("section", "key", INVALID_UTF8_VALUE);
+
+  EXPECT_FALSE (json_settings.save (_test_file.string ()));
+  EXPECT_EQ (read_bytes (_test_file), OLD_JSON_BYTES);
+}
+
+TEST_F (LumexSettingsJSONTest,
+        GivenNoFileAndValueNotValidUtf8_WhenSave_ThenCreatesNoFile)
+{
+  LumexSettingsJSON json_settings;
+  json_settings.add ("section", "key", INVALID_UTF8_VALUE);
+
+  EXPECT_FALSE (json_settings.save (_test_file.string ()));
+  EXPECT_FALSE (
+      lumex::core::filesystem::fs::lumex_filesystem::exists (_test_file));
+}
+
+TEST_F (LumexSettingsJSONTest,
+        GivenOneKey_WhenSave_ThenWritesTheSameDocumentAsBefore)
+{
+  LumexSettingsJSON json_settings;
+  json_settings.add ("section", "key", "value \"q\"");
+
+  ASSERT_TRUE (json_settings.save (_test_file.string ()));
+  EXPECT_EQ (read_file_content (_test_file), EXPECTED_JSON_DOCUMENT);
 }
 
 TEST_F (LumexSettingsJSONTest, GivenFactoryJson_WhenSaveLoad_ThenWorks)
