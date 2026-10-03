@@ -1,7 +1,7 @@
 /**
  * @file LumexOptional
  * @brief Optional module: a C++11 implementation of the C++17 `std::optional`.
- * @details Link `lumex::optional` (header-only). Works from C++11. The umbrella
- * includes `opt/LumexOptional.hpp`.
+ * @details Link <tt>%lumex::optional</tt> (header-only). Works from C++11. The
+ * umbrella includes `opt/LumexOptional.hpp`.
  */
 #include "opt/LumexOptional.hpp"

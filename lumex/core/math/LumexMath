@@ -3,9 +3,9 @@
  * @brief Math module: mathematical constants as `LUMEX_MATH_CONSTANTS_*`
  * macros, and numeric helpers such as NaN and infinity checks, checked
  * narrowing casts, and the average, RMS and RMSE of a range.
- * @details Link `lumex::math` (header-only). Works from C++11; from C++20 the
- * range helpers also take `std::views` adaptors. The umbrella includes
- * `constants/LumexMathConstants.hpp` and `ops/LumexMath.hpp`.
+ * @details Link <tt>%lumex::math</tt> (header-only). Works from C++11; from
+ * C++20 the range helpers also take `std::views` adaptors. The umbrella
+ * includes `constants/LumexMathConstants.hpp` and `ops/LumexMath.hpp`.
  */
 #include "constants/LumexMathConstants.hpp"
 #include "ops/LumexMath.hpp"

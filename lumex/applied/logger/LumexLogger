@@ -1,10 +1,10 @@
 /**
  * @file LumexLogger
- * @brief Logger module: a thread-safe file logger that writes only while its
+ * @brief %Logger module: a thread-safe file logger that writes only while its
  * trigger file (`enable_logs` by default) exists and reads the log level from
  * that file.
- * @details Link `lumex::logger` (compiled library). Works from C++11. The
- * format of the trigger file is chosen when LumexLib is configured
+ * @details Link <tt>%lumex::logger</tt> (compiled library). Works from C++11.
+ * The format of the trigger file is chosen when LumexLib is configured
  * (`LUMEX_LOGGER_CONFIG_FORMAT`: plain text, INI, JSON or XML; YAML is
  * reserved). The umbrella includes `logger/LumexLogger.hpp`.
  * @see @ref Logger

@@ -2,10 +2,10 @@
  * @file LumexCrc
  * @brief CRC module: parametric CRC engines in the notation of the CRC RevEng
  * catalogue, and the catalogue's named parameter sets.
- * @details Link `lumex::crc` (compiled library). The library itself is compiled
- * as C++14 because its catalogue tables use `std::make_index_sequence`. The
- * umbrella includes `parametric/LumexCrcParametric.hpp` and
- * `catalog/LumexCrcCatalog.hpp`.
+ * @details Link <tt>%lumex::crc</tt> (compiled library). The library itself is
+ * compiled as C++14 because its catalogue tables use
+ * `std::make_index_sequence`. The umbrella includes
+ * `parametric/LumexCrcParametric.hpp` and `catalog/LumexCrcCatalog.hpp`.
  */
 #include "parametric/LumexCrcParametric.hpp"
 

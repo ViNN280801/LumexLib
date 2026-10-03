@@ -2,8 +2,9 @@
  * @file LumexStringView
  * @brief String view module: C++11 implementations of the C++17
  * `std::string_view` and `std::wstring_view`.
- * @details Link `lumex::string_view` (compiled library). Works from C++11. The
- * umbrella includes `view/LumexStringView.hpp` and `view/LumexWStringView.hpp`.
+ * @details Link <tt>%lumex::string_view</tt> (compiled library). Works from
+ * C++11. The umbrella includes `view/LumexStringView.hpp` and
+ * `view/LumexWStringView.hpp`.
  */
 #include "view/LumexStringView.hpp"
 #include "view/LumexWStringView.hpp"

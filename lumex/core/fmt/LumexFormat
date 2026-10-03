@@ -2,9 +2,9 @@
  * @file LumexFormat
  * @brief Format module: `std::format`-style text formatting from C++11 on,
  * including ranges, tuples and `std::chrono` types.
- * @details Link `lumex::fmt` (header-only). Works from C++11; from C++20 a
- * literal format string is checked at compile time, below C++20 the same checks
- * run at run time. The umbrella includes `LumexFormat.hpp`,
+ * @details Link <tt>%lumex::fmt</tt> (header-only). Works from C++11; from
+ * C++20 a literal format string is checked at compile time, below C++20 the
+ * same checks run at run time. The umbrella includes `LumexFormat.hpp`,
  * `LumexFormatChrono.hpp` and `LumexFormatRanges.hpp`.
  * @see @ref lumex_fmt
  */

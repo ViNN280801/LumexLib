@@ -2,8 +2,8 @@
  * @file CircularBuffer
  * @brief Circular buffer module: a fixed-capacity ring buffer that overwrites
  * its oldest element when full, similar to Boost's `circular_buffer`.
- * @details Link `lumex::circular_buffer` (header-only; it brings
- * `lumex::utility` for `LUMEX_ASSERT`). Works from C++11. The umbrella includes
- * `CircularBuffer.hpp`.
+ * @details Link <tt>%lumex::circular_buffer</tt> (header-only; it brings
+ * <tt>%lumex::utility</tt> for `LUMEX_ASSERT`). Works from C++11. The umbrella
+ * includes `CircularBuffer.hpp`.
  */
 #include "CircularBuffer.hpp"

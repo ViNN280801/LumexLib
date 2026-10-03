@@ -3,8 +3,8 @@
  * @brief Serial port module: lists serial ports with device details, turns a
  * configuration-style port name into the path the platform opens, and finds the
  * process that holds a port open.
- * @details Link `lumex::serial` (compiled library). Works from C++11. The
- * umbrella includes `enumeration/LumexSerialPortEnumeration.hpp`,
+ * @details Link <tt>%lumex::serial</tt> (compiled library). Works from C++11.
+ * The umbrella includes `enumeration/LumexSerialPortEnumeration.hpp`,
  * `port/LumexSerialPort.hpp` and `resolver/LumexPortProcessResolver.hpp`.
  */
 #include "enumeration/LumexSerialPortEnumeration.hpp"

@@ -4,8 +4,8 @@
  * keyword and constant macros, compiler, feature and OS checks, type traits,
  * stack text and core dumps, demangling, safe numeric comparison, the process
  * id and a callback slot.
- * @details Link `lumex::utility` (compiled library). Works from C++11. The
- * umbrella also includes the C++20 headers `bit/`, `cast/`, `mem/` and
+ * @details Link <tt>%lumex::utility</tt> (compiled library). Works from C++11.
+ * The umbrella also includes the C++20 headers `bit/`, `cast/`, `mem/` and
  * `ranges/`; each checks its own features and declares nothing where the
  * toolchain lacks them.
  */

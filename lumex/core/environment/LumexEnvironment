@@ -2,7 +2,7 @@
  * @file LumexEnvironment
  * @brief Environment module: `LumexEnvironment`, thread-safe reading and
  * writing of environment variables on Windows, Linux and macOS.
- * @details Link `lumex::environment` (compiled library). Works from C++11. The
- * umbrella includes `env/LumexEnvironment.hpp`.
+ * @details Link <tt>%lumex::environment</tt> (compiled library). Works from
+ * C++11. The umbrella includes `env/LumexEnvironment.hpp`.
  */
 #include "env/LumexEnvironment.hpp"

@@ -3,8 +3,8 @@
  * @brief String module: `stringify`, which concatenates the stream output of
  * its arguments, joining and quoting the elements of a range, and text
  * normalization for case-insensitive comparison.
- * @details Link `lumex::string` (header-only). Works from C++11; from C++20
- * `join` and the quote functions take any `std::ranges::input_range`. The
+ * @details Link <tt>%lumex::string</tt> (header-only). Works from C++11; from
+ * C++20 `join` and the quote functions take any `std::ranges::input_range`. The
  * umbrella includes `utility/LumexStringify.hpp`, `text/LumexJoin.hpp`,
  * `text/LumexQuote.hpp` and `text/LumexTextCase.hpp`.
  */

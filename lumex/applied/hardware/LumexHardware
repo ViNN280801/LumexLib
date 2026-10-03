@@ -3,9 +3,10 @@
  * @brief Hardware module: a profile of the CPU, memory and GPUs of the machine,
  * the SIMD instruction sets the CPU supports, the MAC address and a seed for
  * random generators.
- * @details Link `lumex::hardware` (compiled library). Works from C++11. The
- * umbrella includes `caps/LumexHardwareCapabilities.hpp` (`hardware_info_t`,
- * `HardwareCapabilities`, `get_mac_address`, `generate_cryptographic_seed`) and
+ * @details Link <tt>%lumex::hardware</tt> (compiled library). Works from C++11.
+ * The umbrella includes `caps/LumexHardwareCapabilities.hpp`
+ * (`hardware_info_t`, `HardwareCapabilities`, `get_mac_address`,
+ * `generate_cryptographic_seed`) and
  * `caps/LumexCPUVectorizationCapabilities.hpp` (`CPUVectorizationDetector`).
  */
 #include "caps/LumexCPUVectorizationCapabilities.hpp"
