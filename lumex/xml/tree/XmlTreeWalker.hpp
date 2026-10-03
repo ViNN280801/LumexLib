@@ -37,6 +37,18 @@
  * SOFTWARE.
  */
 
+/**
+ * @file XmlTreeWalker.hpp
+ * @brief `XmlTreeWalker`, the callback interface of the depth-first traversal
+ * performed by `XmlNode::traverse`.
+ * @details A walker derives from this class and implements `for_each`, which
+ * is called for every descendant of the node being traversed in document
+ * order. `begin` and `end` are called once with that node, before and after
+ * the descendants. Returning `false` from `begin` or `for_each` stops the walk
+ * and makes `traverse` return `false`; otherwise it returns what `end`
+ * returns. During `for_each`, `depth()` is the depth of the visited node below
+ * the traversed one, 0 for its children.
+ */
 #ifndef LUMEX_XML_TREE_HPP
 #define LUMEX_XML_TREE_HPP
 

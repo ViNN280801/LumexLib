@@ -37,6 +37,17 @@
  * SOFTWARE.
  */
 
+/**
+ * @file XmlBufferedWriter.hpp
+ * @brief Internal output buffer of the serializer: it collects characters,
+ * converts them to the target encoding and passes blocks to an `IXmlWriter`.
+ * @details `XmlBufferedWriter` keeps its buffers inside the object (10 KiB in
+ * total for the characters and the conversion scratch area), so buffering
+ * allocates no memory. Its `write` overloads for one to six characters let the
+ * serializer (`node_output` in `XmlNode.hpp`) emit markup without measuring
+ * strings. The owner calls `flush()` after the last write; `XmlDocument::save`
+ * and `XmlNode::print` do.
+ */
 #ifndef LUMEX_XML_WRITER_XML_BUFFERED_WRITER_HPP
 #define LUMEX_XML_WRITER_XML_BUFFERED_WRITER_HPP
 

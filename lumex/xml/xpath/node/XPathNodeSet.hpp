@@ -37,6 +37,23 @@
  * SOFTWARE.
  */
 
+/**
+ * @file XPathNodeSet.hpp
+ * @brief `XPathNodeSet`, the node set an XPath query returns, and
+ * `XPathNodeSetRaw`, the growable array used while evaluating.
+ * @details `XPathNodeSet` owns an array of `XPathNode` (one element is stored
+ * inline, more on the heap) and records whether it is unsorted or in forward
+ * or reverse document order. It can be copied and moved, sorted by document
+ * order, and asked for the first node in document order.
+ * `XmlNode::select_nodes` and `XPathQuery::evaluate_node_set` return it, and
+ * consumers include it through `lumex/xml/LumexXml`.
+ *
+ * `XPathNodeSetRaw` is the evaluation's working set. It takes its memory from
+ * an `XPathAllocator`, grows, appends, truncates and removes duplicates, and
+ * does not free anything itself. `dummy_node_set` is the empty set returned
+ * where no set exists, for example by `XPathVariable::get_node_set` for a
+ * variable of another type.
+ */
 #ifndef LUMEX_XML_XPATH_NODE_XPATH_NODE_SET_HPP
 #define LUMEX_XML_XPATH_NODE_XPATH_NODE_SET_HPP
 

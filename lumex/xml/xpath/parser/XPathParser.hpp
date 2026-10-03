@@ -37,6 +37,22 @@
  * SOFTWARE.
  */
 
+/**
+ * @file XPathParser.hpp
+ * @brief `XPathParser`, the recursive descent parser that compiles an XPath
+ * 1.0 expression into a tree of `XPathAstNode`s.
+ * @details Each grammar production of XPath 1.0 has a member function, and
+ * binary operators are parsed by precedence in `parse_expression_rec`. The
+ * parser checks the number and types of function arguments and resolves every
+ * variable reference against the `XPathVariableSet` at compile time, so a
+ * variable must exist in the set before the query is compiled. Nodes and
+ * strings are allocated in the given `XPathAllocator`. An error stops parsing
+ * and is reported in the `xpath_parse_result_t` with its offset; recursion
+ * deeper than `kxpath_ast_depth_limit` is such an error.
+ *
+ * `XPathQuery` calls the static `parse`. The file is internal to the XPath
+ * engine.
+ */
 #ifndef LUMEX_XML_XPATH_PARSER_XPATH_PARSER_HPP
 #define LUMEX_XML_XPATH_PARSER_XPATH_PARSER_HPP
 

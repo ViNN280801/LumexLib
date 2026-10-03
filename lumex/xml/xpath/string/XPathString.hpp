@@ -37,6 +37,19 @@
  * SOFTWARE.
  */
 
+/**
+ * @file XPathString.hpp
+ * @brief `XPathString`, the string type of XPath evaluation, and the
+ * conversions of nodes and numbers to it.
+ * @details An `XPathString` either refers to text it does not own, such as a
+ * value in the document or a literal of the expression, or owns a copy in an
+ * `XPathAllocator`. It copies only when it has to, for example when appending
+ * or when `data()` asks for writable characters. `string_value` returns the
+ * string value of a node as XPath 1.0 defines it (the concatenated text of an
+ * element's descendants), and `convert_number_to_string` formats a number the
+ * XPath way, without an exponent and with `NaN`, `Infinity` and `-Infinity`
+ * for the special values. The file is internal to the XPath engine.
+ */
 #ifndef LUMEX_XML_XPATH_STRING_HPP
 #define LUMEX_XML_XPATH_STRING_HPP
 

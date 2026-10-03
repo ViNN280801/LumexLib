@@ -37,6 +37,17 @@
  * SOFTWARE.
  */
 
+/**
+ * @file XPathStack.hpp
+ * @brief The memory an XPath evaluation runs on: `XPathStack`, a pair of
+ * allocators, and `XPathStackData`, which owns them.
+ * @details The `result` allocator holds the values a subexpression returns to
+ * its caller, and the `temp` allocator holds intermediate data that is dropped
+ * when the subexpression finishes. `XPathStackData` embeds the first block of
+ * each, frees the others on destruction and records an allocation failure in
+ * `oom`. Each `XPathQuery` evaluation creates its own `XPathStackData` on the
+ * stack. The file is internal to the XPath engine.
+ */
 #ifndef LUMEX_XML_XPATH_MEMORY_XPATH_STACK_HPP
 #define LUMEX_XML_XPATH_MEMORY_XPATH_STACK_HPP
 

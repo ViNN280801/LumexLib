@@ -37,6 +37,29 @@
  * SOFTWARE.
  */
 
+/**
+ * @file XmlConstants.hpp
+ * @brief Constants of the XML module: parse and format option flags, the masks
+ * of the node and attribute header word, and the character class tables of the
+ * parser.
+ * @details Everything is in `lumex::xml::constants::Constants`. The `kparse_*`
+ * flags are OR-ed into the `options` argument of the `XmlDocument` load
+ * functions and `XmlNode::append_buffer`; `kparse_default` enables CDATA,
+ * escapes, end-of-line normalization and whitespace conversion in attribute
+ * values, and `kparse_full` adds processing instructions, comments, the
+ * declaration and the document type. The `kformat_*` flags control
+ * `XmlDocument::save`, `XmlDocument::save_file` and `XmlNode::print`;
+ * `kformat_default` is `kformat_indent`. `kdefault_double_precision` (17) and
+ * `kdefault_float_precision` (9) are the significant digits used when a
+ * `double` or a `float` is stored as text without an explicit precision.
+ *
+ * The remaining constants serve the implementation: the `kxml_memory_page_*`
+ * masks select the node type and the allocation flags in the low bits of a
+ * header word, and `kchartype_table` and `kchartypex_table` give the character
+ * classes of `chartype_t` and `chartypex_t` (`XmlTypes.hpp`) for each byte,
+ * tested through `LUMEX_XML_IS_CHARTYPE` and `LUMEX_XML_IS_CHARTYPEX`
+ * (`XmlMacros.hpp`).
+ */
 #ifndef LUMEX_XML_CONSTANTS_HPP
 #define LUMEX_XML_CONSTANTS_HPP
 

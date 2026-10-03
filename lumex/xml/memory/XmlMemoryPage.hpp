@@ -37,6 +37,20 @@
  * SOFTWARE.
  */
 
+/**
+ * @file XmlMemoryPage.hpp
+ * @brief The header of a memory page of the XML allocator, and the default
+ * page size.
+ * @details `XmlMemoryPage` sits at the start of every block the `XmlAllocator`
+ * obtains: it names the owning allocator, links the neighbouring pages and
+ * counts the bytes in use and the bytes freed. The data area follows it.
+ * `kdefault_xml_memory_page_size` is 32768 bytes minus the size of this
+ * header, so that a page with its header takes 32 KiB.
+ *
+ * A node or attribute finds its page from its own header word
+ * (`LUMEX_XML_GETPAGE` in `XmlMacros.hpp`) and the allocator from the page.
+ * The file is part of the module's implementation.
+ */
 #ifndef LUMEX_XML_MEMORY_XML_MEMORY_PAGE_HPP
 #define LUMEX_XML_MEMORY_XML_MEMORY_PAGE_HPP
 

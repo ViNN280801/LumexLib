@@ -37,6 +37,22 @@
  * SOFTWARE.
  */
 
+/**
+ * @file XmlAttributeBase.hpp
+ * @brief Internal storage of an XML attribute and the functions that allocate,
+ * link, unlink and copy it.
+ * @details `XmlAttributeBase` is the record an `XmlAttribute` handle points
+ * to: a header word, the name and value pointers and the links of the
+ * attribute list of its element. That list is doubly linked; the first
+ * attribute's `prev_attribute_c` points to the last one, so appending needs no
+ * walk. The functions here allocate and destroy a record through the
+ * document's `XmlAllocator`, insert it into or remove it from an element's
+ * list, and copy name and value between records. Appending is declared next to
+ * the node record in `XmlNodeBase.hpp`.
+ *
+ * These are building blocks of `XmlNode` and the parser. Application code
+ * works through `XmlAttribute`.
+ */
 #ifndef LUMEX_XML_ATTRIBUTE_XML_ATTRIBUTE_BASE_HPP
 #define LUMEX_XML_ATTRIBUTE_XML_ATTRIBUTE_BASE_HPP
 

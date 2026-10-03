@@ -37,6 +37,15 @@
  * SOFTWARE.
  */
 
+/**
+ * @file XPathLexerString.hpp
+ * @brief `XPathLexerString`, the begin and end of a token inside the text of
+ * an XPath expression.
+ * @details The view does not own its characters and is not terminated. The
+ * parser compares it with null-terminated names (axes, node types, functions)
+ * through `operator==`, and copies it with `XPathParser::alloc_string` when
+ * the text must be kept. The file is internal to the XPath engine.
+ */
 #ifndef LUMEX_XML_XPATH_PARSER_LEXER_XPATH_LEXER_STRING_HPP
 #define LUMEX_XML_XPATH_PARSER_LEXER_XPATH_LEXER_STRING_HPP
 

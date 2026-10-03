@@ -37,6 +37,16 @@
  * SOFTWARE.
  */
 
+/**
+ * @file XmlWriterStream.hpp
+ * @brief `XmlWriterStream`, an `IXmlWriter` that writes to a narrow or a wide
+ * standard output stream.
+ * @details A narrow stream receives the bytes as they are. A wide stream
+ * receives them as `wchar_t` units, so the output must be in the `wchar_t`
+ * encoding; `XmlDocument::save` and `XmlNode::print` use `encoding_wchar` for
+ * wide streams. The writer does not own the stream. Consumers include the file
+ * through `lumex/xml/LumexXml`.
+ */
 #ifndef LUMEX_XML_WRITER_XML_WRITER_STREAM_HPP
 #define LUMEX_XML_WRITER_XML_WRITER_STREAM_HPP
 

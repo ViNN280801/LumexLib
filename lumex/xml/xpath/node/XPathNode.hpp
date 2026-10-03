@@ -37,6 +37,20 @@
  * SOFTWARE.
  */
 
+/**
+ * @file XPathNode.hpp
+ * @brief `XPathNode`, an item of an XPath result: either an XML node or an
+ * attribute together with its element.
+ * @details An XPath node set can contain elements, other tree nodes and
+ * attributes, and an attribute handle does not know its element. `XPathNode`
+ * therefore stores an `XmlNode` and an `XmlAttribute`: for an attribute the
+ * node is its element, for a tree node the attribute is empty. `XPathNodeSet`
+ * holds these items, and `XmlNode::select_node` and
+ * `XPathQuery::evaluate_node` return one. It does not own what it refers to
+ * and is valid as long as the document. The file also declares the logical AND
+ * and OR operators with a `bool`. Consumers include it through
+ * `lumex/xml/LumexXml`.
+ */
 #ifndef LUMEX_XML_XPATH_NODE_XPATH_NODE_HPP
 #define LUMEX_XML_XPATH_NODE_XPATH_NODE_HPP
 

@@ -37,6 +37,19 @@
  * SOFTWARE.
  */
 
+/**
+ * @file XmlDocumentBase.hpp
+ * @brief Internal root record of a document: the document node and the
+ * allocator of its tree in one object.
+ * @details `XmlDocumentBase` derives from both `XmlNodeBase` (as a
+ * `node_document` node) and `XmlAllocator`, so the root of every tree is also
+ * the allocator that owns the tree's memory pages. It also keeps the buffers
+ * that the document and the fragments appended to it were parsed from, because
+ * names and values point into them. `get_document` finds the document that
+ * owns a node or an attribute through the memory page the object lives in.
+ *
+ * The public type is `XmlDocument`, which holds this record.
+ */
 #ifndef LUMEX_XML_DOCUMENT_XML_DOCUMENT_BASE_HPP
 #define LUMEX_XML_DOCUMENT_XML_DOCUMENT_BASE_HPP
 

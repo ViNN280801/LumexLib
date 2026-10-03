@@ -37,6 +37,20 @@
  * SOFTWARE.
  */
 
+/**
+ * @file XmlText.hpp
+ * @brief `XmlText`, typed access to the text content of a node.
+ * @details `XmlNode::text()` returns an `XmlText` for an element or a text
+ * node. It reads the node's first PCDATA or CDATA child, or the element's own
+ * value when the document was parsed with `kparse_embed_pcdata`, and converts
+ * it to numbers or a boolean; the given default is returned only when there is
+ * no text. Setting a value creates a PCDATA child when there is none. The
+ * handle does not own the text and is valid as long as the document.
+ *
+ * The `std::string_view` overloads exist only when the including code is
+ * compiled as C++17 or later. The file also declares the logical AND and OR
+ * operators with a `bool`. Consumers include it through `lumex/xml/LumexXml`.
+ */
 #ifndef LUMEX_XML_TEXT_XML_TEXT_HPP
 #define LUMEX_XML_TEXT_XML_TEXT_HPP
 

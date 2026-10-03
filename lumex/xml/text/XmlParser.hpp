@@ -37,6 +37,22 @@
  * SOFTWARE.
  */
 
+/**
+ * @file XmlParser.hpp
+ * @brief The internal XML parser that turns a writable character buffer into a
+ * node tree in place.
+ * @details `XmlParser` works on a buffer that is already in the native
+ * `char_t` encoding. It writes terminating zeros into the buffer and points
+ * node names and values into it instead of copying them, so the buffer must
+ * live as long as the document. There is one member function per construct
+ * (element tree, comment, CDATA, document type, processing instruction and
+ * declaration), and the `kparse_*` options decide which constructs become
+ * nodes. An error is not thrown: it is recorded in `error_status` and
+ * `error_offset` (`LUMEX_XML_THROW_ERROR` in `XmlMacros.hpp`) and parsing
+ * stops.
+ *
+ * The static `XmlParser::parse` is the entry point used by `load_buffer_impl`.
+ */
 #ifndef LUMEX_XML_TEXT_XML_PARSER_HPP
 #define LUMEX_XML_TEXT_XML_PARSER_HPP
 

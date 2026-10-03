@@ -37,6 +37,28 @@
  * SOFTWARE.
  */
 
+/**
+ * @file XmlMacros.hpp
+ * @brief Preprocessor macros of the XML module: the character mode, the
+ * declaration of constants, the decoding of header words and the scanning
+ * macros of the parser.
+ * @details `LUMEX_XML_CHAR` and `LUMEX_XML_TEXT` select `char` or `wchar_t`
+ * (with the `L` prefix for literals) depending on `LUMEX_XML_WCHAR_MODE`, and
+ * `LUMEX_XML_CONSTANT` declares the module's constants. Every node and
+ * attribute starts with a header word that holds the byte distance from its
+ * memory page, shifted left by 8 bits, and flags in the low 8 bits;
+ * `LUMEX_XML_GETHEADER_IMPL` builds that word, `LUMEX_XML_GETPAGE` recovers
+ * the page and `LUMEX_XML_NODETYPE` the node type. `LUMEX_XML_IS_CHARTYPE` and
+ * `LUMEX_XML_IS_CHARTYPEX` test a character against the class tables of
+ * `XmlConstants.hpp`.
+ *
+ * The scanning macros (`LUMEX_XML_SKIPWS`, `LUMEX_XML_SCANFOR`,
+ * `LUMEX_XML_PUSHNODE`, `LUMEX_XML_THROW_ERROR` and the others) are written
+ * for the bodies of the parser and refer to its local variables, such as
+ * `str`, `cursor`, `alloc` and `optmsk`. Several macros also use names from
+ * `XmlConstants.hpp`, `XmlMemoryPage.hpp` and `XmlTypes.hpp` that must be
+ * visible where they are expanded.
+ */
 #ifndef LUMEX_XML_UTILITY_XML_MACROS_HPP
 #define LUMEX_XML_UTILITY_XML_MACROS_HPP
 

@@ -37,6 +37,22 @@
  * SOFTWARE.
  */
 
+/**
+ * @file XPathQuery.hpp
+ * @brief `XPathQuery`, a compiled XPath expression that can be evaluated many
+ * times, and its private implementation record.
+ * @details The constructor compiles the expression, with an optional
+ * `XPathVariableSet`, and throws `XPathException` for an invalid expression or
+ * `std::bad_alloc` when memory runs out. The `evaluate_*` functions evaluate
+ * it against a context `XPathNode` and convert the result to a boolean, a
+ * number, a string, a node set or the first node in document order. A query
+ * can be moved but not copied. `XPathQueryImpl` holds the expression tree and
+ * its allocator behind an opaque pointer.
+ *
+ * `XmlNode::select_nodes` and its relatives accept an `XPathQuery` as well as
+ * a string, so an expression used often is compiled once. Consumers include
+ * the file through `lumex/xml/LumexXml`.
+ */
 #ifndef LUMEX_XML_XPATH_QUERY_HPP
 #define LUMEX_XML_XPATH_QUERY_HPP
 

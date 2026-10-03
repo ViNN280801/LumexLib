@@ -37,6 +37,15 @@
  * SOFTWARE.
  */
 
+/**
+ * @file XmlCleaner.hpp
+ * @brief `XmlCleaner`, a scope guard that frees a pointer with a given deleter
+ * function unless it is released.
+ * @details The module's implementation uses it to free a temporary resource on
+ * every return path, for example an open `FILE`, a loading buffer or a query
+ * implementation, and calls `release()` once ownership has passed elsewhere.
+ * Header-only.
+ */
 #ifndef LUMEX_XML_UTILITY_XML_CLEANER_HPP
 #define LUMEX_XML_UTILITY_XML_CLEANER_HPP
 

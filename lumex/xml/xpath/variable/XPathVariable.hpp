@@ -37,6 +37,22 @@
  * SOFTWARE.
  */
 
+/**
+ * @file XPathVariable.hpp
+ * @brief `XPathVariable`, a named and typed XPath variable, its four concrete
+ * kinds, and the functions that create, copy and destroy them.
+ * @details A variable has a fixed `xpath_value_type`: a getter of another type
+ * returns a default value, and a setter of another type fails and returns
+ * `false`; nothing is converted. The concrete structs
+ * `xpath_variable_boolean`, `xpath_variable_number`, `xpath_variable_string`
+ * and `xpath_variable_node_set` store the name inline after the object, so
+ * `new_xpath_variable` allocates them with `malloc` and
+ * `delete_xpath_variable` must release them.
+ *
+ * Variables are normally created through `XPathVariableSet::add`, and an
+ * expression refers to a variable as `$name`. Consumers include the file
+ * through `lumex/xml/LumexXml`.
+ */
 #ifndef LUMEX_XML_XPATH_VARIABLE_XPATH_VARIABLE_HPP
 #define LUMEX_XML_XPATH_VARIABLE_XPATH_VARIABLE_HPP
 

@@ -37,6 +37,30 @@
  * SOFTWARE.
  */
 
+/**
+ * @file XmlNode.hpp
+ * @brief `XmlNode`, the handle to a node of a document tree, with the
+ * iterators over its children and attributes.
+ * @details `XmlNode` is the main interface for reading and editing a tree:
+ * navigation, name and value, adding, copying, moving and removing children
+ * and attributes, search by name, attribute or predicate, paths, depth-first
+ * traversal with an `XmlTreeWalker`, XPath selection, printing to an
+ * `IXmlWriter` or a stream, and parsing a fragment into an existing element
+ * with `append_buffer`. It is a non-owning handle; an empty handle is safe to
+ * use and yields empty results. Handles become invalid with the `XmlDocument`
+ * they come from.
+ *
+ * The bidirectional iterators `XmlNodeIterator` and `XmlNamedNodeIterator`
+ * walk the children of a node, all of them or those with one name, and
+ * `attribute::XmlAttributeIterator` walks its attributes; `children()` and
+ * `attributes()` wrap them in an `XmlObjectRange` for range-based for loops.
+ * The name passed to `children(name)` is stored, not copied, and must outlive
+ * the range. The XPath functions that take a query string compile it on every
+ * call and throw `XPathException` if it is malformed; compile an `XPathQuery`
+ * once to reuse it. The file also declares the serializer `node_output` and
+ * helpers of the implementation. Consumers include it through
+ * `lumex/xml/LumexXml`.
+ */
 #ifndef LUMEX_XML_NODE_XML_NODE_HPP
 #define LUMEX_XML_NODE_XML_NODE_HPP
 

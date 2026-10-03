@@ -37,6 +37,20 @@
  * SOFTWARE.
  */
 
+/**
+ * @file XmlParseResult.hpp
+ * @brief `xml_parse_result_t`, the outcome of loading XML or appending a
+ * fragment, and the internal entry point that loads a buffer.
+ * @details A result holds an `xml_parse_status` (`XmlTypes.hpp`), the offset
+ * of the error in `char_t` units, and the encoding of the source. It converts
+ * to `true` only for `status_ok`, and `description()` returns a readable
+ * message. `XmlDocument` load functions and `XmlNode::append_buffer` return
+ * it.
+ *
+ * `load_buffer_impl` is the code these functions share: it converts the buffer
+ * to the native encoding, takes care of its ownership and runs the parser.
+ * `make_parse_result` builds a result from a status and an offset.
+ */
 #ifndef LUMEX_XML_TEXT_XML_PARSE_RESULT_HPP
 #define LUMEX_XML_TEXT_XML_PARSE_RESULT_HPP
 

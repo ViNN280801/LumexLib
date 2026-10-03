@@ -37,6 +37,22 @@
  * SOFTWARE.
  */
 
+/**
+ * @file XmlAllocator.hpp
+ * @brief The page allocator that holds the nodes, attributes and strings of
+ * one XML document.
+ * @details `XmlAllocator` hands out memory from a chain of `XmlMemoryPage`
+ * blocks of 32 KiB; a request larger than a quarter of a page gets a block of
+ * its own. Freeing only counts the released bytes of a page, and a page whose
+ * bytes are all freed is returned to the system, except the current page,
+ * which is reused. A string allocation is preceded by an
+ * `xml_mem_str_header_t` that locates its page. `get_allocator` finds the
+ * allocator of any node or attribute through the header word of the object,
+ * without a pointer stored in it.
+ *
+ * Each document is its own allocator (`XmlDocumentBase` derives from this
+ * type). The allocator is not synchronized.
+ */
 #ifndef LUMEX_XML_MEMORY_XML_ALLOCATOR_HPP
 #define LUMEX_XML_MEMORY_XML_ALLOCATOR_HPP
 

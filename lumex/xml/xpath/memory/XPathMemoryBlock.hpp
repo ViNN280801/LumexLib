@@ -37,6 +37,17 @@
  * SOFTWARE.
  */
 
+/**
+ * @file XPathMemoryBlock.hpp
+ * @brief `XPathMemoryBlock`, the unit of memory of the XPath allocator.
+ * @details A block links to the next one and records its capacity, followed by
+ * a data area of `kxpath_memory_page_size` bytes aligned for `double`. The
+ * first block of an allocator is a member of its owner (`XPathQueryImpl`,
+ * `XPathStackData`), so a small query or evaluation needs no further
+ * allocation. Further blocks are allocated with `malloc` and can be larger
+ * than the declared data area when one request needs it; `capacity` gives the
+ * real size. The file is internal to the XPath engine.
+ */
 #ifndef LUMEX_XML_XPATH_MEMORY_XPATH_MEMORY_BLOCK_HPP
 #define LUMEX_XML_XPATH_MEMORY_XPATH_MEMORY_BLOCK_HPP
 

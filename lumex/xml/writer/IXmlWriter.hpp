@@ -37,6 +37,16 @@
  * SOFTWARE.
  */
 
+/**
+ * @file IXmlWriter.hpp
+ * @brief `IXmlWriter`, the output interface that XML serialization writes
+ * bytes to.
+ * @details The interface has one pure virtual function, `write(data, size)`.
+ * `XmlDocument::save` and `XmlNode::print` encode and buffer their output and
+ * pass it to the writer in blocks of bytes in the target encoding. Implement
+ * it to send XML to any destination; the library provides `XmlWriterFile` and
+ * `XmlWriterStream`. Consumers include the file through `lumex/xml/LumexXml`.
+ */
 #ifndef LUMEX_XML_WRITER_I_XML_WRITER_HPP
 #define LUMEX_XML_WRITER_I_XML_WRITER_HPP
 

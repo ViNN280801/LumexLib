@@ -37,6 +37,15 @@
  * SOFTWARE.
  */
 
+/**
+ * @file XPathParseResult.hpp
+ * @brief `xpath_parse_result_t`, the outcome of compiling an XPath expression.
+ * @details A result holds an error message, `nullptr` on success, and the
+ * offset of the error in the expression in `char_t` units. It converts to
+ * `true` on success, and `description()` returns the message or "No error". A
+ * default-constructed result reports an internal error. `XPathQuery::result()`
+ * and `XPathException::result()` return it.
+ */
 #ifndef LUMEX_XML_XPATH_PARSER_XPATH_PARSE_RESULT_HPP
 #define LUMEX_XML_XPATH_PARSER_XPATH_PARSE_RESULT_HPP
 

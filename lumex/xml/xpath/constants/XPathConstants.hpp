@@ -37,6 +37,16 @@
  * SOFTWARE.
  */
 
+/**
+ * @file XPathConstants.hpp
+ * @brief Size limits and alignment of the XPath engine.
+ * @details `kxpath_memory_page_size` (4096) is the data size of an
+ * `XPathMemoryBlock`, `kxpath_ast_depth_limit` (1024) the deepest recursion
+ * `XPathParser` accepts before it reports an error, and
+ * `kxpath_memory_block_alignment` the alignment of every XPath allocation, the
+ * larger of the alignments needed for a `double` and a pointer. The constants
+ * are in `lumex::xml::xpath::constants::Constants`.
+ */
 #ifndef LUMEX_XML_XPATH_CONSTANTS_HPP
 #define LUMEX_XML_XPATH_CONSTANTS_HPP
 

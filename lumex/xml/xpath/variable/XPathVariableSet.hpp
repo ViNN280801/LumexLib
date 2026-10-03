@@ -37,6 +37,23 @@
  * SOFTWARE.
  */
 
+/**
+ * @file XPathVariableSet.hpp
+ * @brief `XPathVariableSet`, the named variables an XPath expression can refer
+ * to, and the lookup helper the parser uses.
+ * @details The set owns its variables and finds them by name in a hash table
+ * of 64 chained buckets; copying it copies every variable. `add` creates a
+ * variable or returns the existing one of the same type, and `set` changes the
+ * value of an existing variable of the matching type. The parser binds
+ * variable references to the variables of the set when a query is compiled, so
+ * every referenced variable must be added before compiling, and the set must
+ * outlive the query. A value changed afterwards is seen by the next
+ * evaluation.
+ *
+ * `get_variable_scratch` looks up a name that is not terminated, copying it
+ * into a scratch buffer first. Consumers include the file through
+ * `lumex/xml/LumexXml`.
+ */
 #ifndef LUMEX_XML_XPATH_VARIABLE_XPATH_VARIABLE_SET_HPP
 #define LUMEX_XML_XPATH_VARIABLE_XPATH_VARIABLE_SET_HPP
 

@@ -37,6 +37,18 @@
  * SOFTWARE.
  */
 
+/**
+ * @file XPathLexer.hpp
+ * @brief `XPathLexer`, the tokenizer that splits an XPath expression into
+ * lexemes for `XPathParser`.
+ * @details The lexer keeps one token of look-ahead: `current()` is its
+ * `lexeme_t` (`XmlTypes.hpp`), `contents()` its text and `current_pos()` its
+ * position, which the parser uses for error offsets; `next()` moves on. It
+ * skips whitespace, recognizes operators of one and two characters, names,
+ * numbers, string literals and variable references, and leaves all grammar
+ * checks to the parser. The expression is not copied and must outlive the
+ * lexer. The file is internal to the XPath engine.
+ */
 #ifndef LUMEX_XML_XPATH_PARSER_LEXER_XPATH_LEXER_HPP
 #define LUMEX_XML_XPATH_PARSER_LEXER_XPATH_LEXER_HPP
 

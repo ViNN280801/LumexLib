@@ -37,6 +37,23 @@
  * SOFTWARE.
  */
 
+/**
+ * @file XmlTypes.hpp
+ * @brief The basic types and enumerations of the XML module: character and
+ * string types, node types, encodings, parse statuses, and the internal
+ * enumerations of the parser and the XPath engine.
+ * @details Everything is in `lumex::xml::types::Types`. `char_t` is `char`, or
+ * `wchar_t` when the library is built with `LUMEX_XML_WCHAR_MODE` (a CMake
+ * option of the same name); `string_t` and, from C++17, `string_view_t` are
+ * built on it. The enumerations consumers meet are `xml_node_type`,
+ * `xml_encoding`, `xml_parse_status` and `xpath_value_type`.
+ *
+ * The other types belong to the implementation: the character class bits
+ * `chartype_t` and `chartypex_t`, the string header `xml_mem_str_header_t`,
+ * the buffer list `xml_extra_buffer`, the serializer's `indent_flags_t`, and
+ * the XPath enumerations `ast_type_t`, `axis_t`, `nodetest_t`, `predicate_t`,
+ * `nodeset_eval_t` and `lexeme_t`.
+ */
 #ifndef LUMEX_XML_TYPES_HPP
 #define LUMEX_XML_TYPES_HPP
 

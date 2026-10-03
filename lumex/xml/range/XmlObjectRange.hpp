@@ -37,6 +37,15 @@
  * SOFTWARE.
  */
 
+/**
+ * @file XmlObjectRange.hpp
+ * @brief `XmlObjectRange`, a pair of iterators that lets range-based for loops
+ * walk the children or attributes of a node.
+ * @details The class template stores a begin and an end iterator and exposes
+ * them through `begin()` and `end()`. `XmlNode::children` and
+ * `XmlNode::attributes` return it. The range owns nothing and is valid as long
+ * as its iterators are. Header-only.
+ */
 #ifndef LUMEX_XML_RANGE_HPP
 #define LUMEX_XML_RANGE_HPP
 

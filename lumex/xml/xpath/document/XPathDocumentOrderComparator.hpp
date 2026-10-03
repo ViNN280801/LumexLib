@@ -37,6 +37,18 @@
  * SOFTWARE.
  */
 
+/**
+ * @file XPathDocumentOrderComparator.hpp
+ * @brief Comparison of XPath nodes by document order, used to sort node sets.
+ * @details `node_is_before` compares two tree nodes through their common
+ * ancestor, and `node_is_before_sibling` two children of one parent.
+ * `document_buffer_order` gives a fast path: while a node's name or value
+ * still lies in the buffer the document was parsed from, the order of the
+ * addresses is the document order. `document_order_comparator` combines both
+ * and places an attribute after its element and before the element's children.
+ * `xpath_sort` and `xpath_first` (`XPathUtils.hpp`) use it. The file is
+ * internal to the XPath engine.
+ */
 #ifndef LUMEX_XML_XPATH_DOCUMENT_HPP
 #define LUMEX_XML_XPATH_DOCUMENT_HPP
 

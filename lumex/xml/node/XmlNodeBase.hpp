@@ -37,6 +37,22 @@
  * SOFTWARE.
  */
 
+/**
+ * @file XmlNodeBase.hpp
+ * @brief Internal storage of an XML node and the functions that build, link,
+ * copy and destroy the tree.
+ * @details `XmlNodeBase` is the record an `XmlNode` handle points to: a header
+ * word with the node type, the name and value pointers, the parent, the first
+ * child, the sibling links (the first child's `prev_sibling_c` points to the
+ * last child) and the first attribute. The functions here allocate a node,
+ * destroy it with its subtree, link it into or out of a parent without
+ * touching memory, append new nodes and attributes, copy the contents of a
+ * node or a whole subtree, and test ancestry. `name_null_sentry` hides a
+ * node's name for the duration of a scope.
+ *
+ * These are building blocks of `XmlNode`, `XmlDocument` and the parser.
+ * Application code works through `XmlNode`.
+ */
 #ifndef LUMEX_XML_NODE_XML_NODE_BASE_HPP
 #define LUMEX_XML_NODE_XML_NODE_BASE_HPP
 

@@ -37,6 +37,17 @@
  * SOFTWARE.
  */
 
+/**
+ * @file XPathUtils.hpp
+ * @brief Document order sorting of XPath node ranges, and copying of XPath
+ * variable values.
+ * @details `xpath_get_order` finds whether a range is already sorted,
+ * `xpath_sort` sorts it forwards or backwards only when needed, and
+ * `xpath_first` finds the first node in document order without sorting.
+ * `XPathNodeSet` and `XPathNodeSetRaw` are built on them.
+ * `copy_xpath_variable` copies the value of one variable to another of the
+ * same type. The file is internal to the XPath engine.
+ */
 #ifndef LUMEX_XML_XPATH_UTILITY_HPP
 #define LUMEX_XML_XPATH_UTILITY_HPP
 

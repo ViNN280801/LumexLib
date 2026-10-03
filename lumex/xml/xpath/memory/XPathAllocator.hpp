@@ -37,6 +37,22 @@
  * SOFTWARE.
  */
 
+/**
+ * @file XPathAllocator.hpp
+ * @brief `XPathAllocator`, the bump allocator of the XPath engine, and
+ * `XPathAllocatorCapture`, which rolls it back at the end of a scope.
+ * @details The allocator takes memory in sequence from a chain of
+ * `XPathMemoryBlock`s and adds a block when the current one is full. Only the
+ * most recent allocation can grow in place. Nothing is freed individually:
+ * `revert` returns to a saved state and frees the blocks added since, and
+ * `XPathAllocatorCapture` does so on scope exit, which drops the temporaries
+ * of a subexpression. A failed allocation returns `nullptr` and sets the error
+ * flag given to the constructor; callers turn that into `std::bad_alloc`.
+ *
+ * A compiled query keeps its tree in one allocator (`XPathQueryImpl`), and
+ * every evaluation uses the two of an `XPathStackData`. The allocator is not
+ * synchronized and is internal to the XPath engine.
+ */
 #ifndef LUMEX_XML_XPATH_MEMORY_XPATH_ALLOCATOR_HPP
 #define LUMEX_XML_XPATH_MEMORY_XPATH_ALLOCATOR_HPP
 

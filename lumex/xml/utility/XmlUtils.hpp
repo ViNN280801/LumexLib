@@ -37,6 +37,27 @@
  * SOFTWARE.
  */
 
+/**
+ * @file XmlUtils.hpp
+ * @brief Header-only helpers of the XML implementation: transcoding, encoding
+ * detection, conversions between text and numbers, and the storage of names
+ * and values.
+ * @details The decoders, writers and counters convert between UTF-8, UTF-16,
+ * UTF-32, Latin-1 and `wchar_t`, with byte swapping for the other endianness.
+ * On top of them the file detects the encoding of an input buffer (byte order
+ * mark, first characters, `encoding` attribute of the declaration), converts
+ * input to the native `char_t` and output to the target encoding, and provides
+ * `as_utf8` and `as_wide`. The `get_value_*` and `set_value_*` functions
+ * convert attribute and text values to and from numbers, and `strcpy_insitu`
+ * stores a new name or value, reusing the old storage when it is large enough.
+ * The rest serves the XPath engine: number formatting and parsing,
+ * `normalize-space`, `translate`, NaN handling and a pointer hash set.
+ *
+ * The functions are undocumented implementation details shared by the parser,
+ * the writers, the handles and the XPath engine. The umbrella header
+ * `LumexXml` includes the file, so they are visible to consumers in
+ * `lumex::xml::utility`.
+ */
 #ifndef LUMEX_XML_UTILITY_XML_UTILS_HPP
 #define LUMEX_XML_UTILITY_XML_UTILS_HPP
 

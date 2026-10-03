@@ -37,6 +37,16 @@
  * SOFTWARE.
  */
 
+/**
+ * @file XmlWriterFile.hpp
+ * @brief `XmlWriterFile`, an `IXmlWriter` that writes to a C `FILE` stream
+ * opened by the caller.
+ * @details The constructor takes the stream as a `void` pointer, which must be
+ * a `FILE` pointer, and `write` passes each block to `fwrite`. The writer does
+ * not open, flush or close the stream. `XmlDocument::save_file` uses it. The
+ * class can be neither copied nor moved. Consumers include the file through
+ * `lumex/xml/LumexXml`.
+ */
 #ifndef LUMEX_XML_WRITER_XML_WRITER_FILE_HPP
 #define LUMEX_XML_WRITER_XML_WRITER_FILE_HPP
 

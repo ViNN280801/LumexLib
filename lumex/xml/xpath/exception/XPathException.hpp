@@ -37,6 +37,18 @@
  * SOFTWARE.
  */
 
+/**
+ * @file XPathException.hpp
+ * @brief `XPathException`, thrown when an XPath expression cannot be compiled,
+ * or is evaluated as a node set although it returns another type.
+ * @details The exception derives from `std::exception` and carries the
+ * `xpath_parse_result_t` of the failure; `what()` returns its message and
+ * `result()` also gives the offset in the expression. `XPathQuery` throws it
+ * from its constructor, and hence from the `XmlNode` functions that take a
+ * query string, and from the node-set evaluations when the expression is not a
+ * node set. Running out of memory throws `std::bad_alloc` instead.
+ * Header-only; consumers include the file through `lumex/xml/LumexXml`.
+ */
 #ifndef LUMEX_XML_XPATH_EXCEPTION_HPP
 #define LUMEX_XML_XPATH_EXCEPTION_HPP
 

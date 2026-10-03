@@ -37,6 +37,26 @@
  * SOFTWARE.
  */
 
+/**
+ * @file XmlDocument.hpp
+ * @brief `XmlDocument`, the owner of an XML tree: loading from files, streams,
+ * strings and memory buffers, and saving.
+ * @details An `XmlDocument` is the document node of its tree and owns all of
+ * the tree's memory. Every `XmlNode`, `XmlAttribute` and `XmlText` obtained
+ * from it is valid only until the document is destroyed, reset or loaded
+ * again. A document can be moved but not copied; `reset(proto)` makes a deep
+ * copy of another one.
+ *
+ * Each load function first resets the document, then parses with the given
+ * `kparse_*` options (`XmlConstants.hpp`) and source encoding (`encoding_auto`
+ * detects it) and reports the outcome in an `xml_parse_result_t`. The buffer
+ * variants differ in ownership: `load_buffer` copies the input,
+ * `load_buffer_inplace` parses the caller's buffer, which must then outlive
+ * the document, and `load_buffer_inplace_own` also takes it over. Saving
+ * writes to an `IXmlWriter`, a narrow or wide output stream, or a file, with
+ * an indentation string, `kformat_*` flags and a target encoding. Consumers
+ * include the file through `lumex/xml/LumexXml`.
+ */
 #ifndef LUMEX_XML_DOCUMENT_XML_DOCUMENT_HPP
 #define LUMEX_XML_DOCUMENT_XML_DOCUMENT_HPP
 

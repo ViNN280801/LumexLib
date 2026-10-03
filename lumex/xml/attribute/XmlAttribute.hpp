@@ -37,6 +37,25 @@
  * SOFTWARE.
  */
 
+/**
+ * @file XmlAttribute.hpp
+ * @brief `XmlAttribute`, the handle to one attribute of an element: read its
+ * name and value, convert the value to numbers and booleans, and change both.
+ * @details An `XmlAttribute` is one pointer into the tree of an `XmlDocument`.
+ * Copying it copies the handle, not the attribute, and the handle dangles once
+ * the document is destroyed, reset or loaded again. An empty handle is safe to
+ * use: getters return empty strings or the given defaults and setters return
+ * `false`. Attributes are obtained from `XmlNode` (`attribute`,
+ * `first_attribute`, `append_attribute` and the attribute iterators declared
+ * in `XmlNode.hpp`).
+ *
+ * The `std::string_view` overloads exist only when the including code is
+ * compiled as C++17 or later. They are inline wrappers over the exported
+ * pointer-and-size functions, so the library binary does not depend on the
+ * standard of its consumer. The file also declares the logical AND and OR
+ * operators with a `bool` and `utility::is_attribute_of`. Consumers include it
+ * through `lumex/xml/LumexXml`.
+ */
 #ifndef LUMEX_XML_ATTRIBUTE_XML_ATTRIBUTE_HPP
 #define LUMEX_XML_ATTRIBUTE_XML_ATTRIBUTE_HPP
 

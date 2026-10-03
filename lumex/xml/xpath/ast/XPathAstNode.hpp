@@ -37,6 +37,23 @@
  * SOFTWARE.
  */
 
+/**
+ * @file XPathAstNode.hpp
+ * @brief `XPathAstNode`, the node of a compiled XPath expression tree, which
+ * evaluates itself against a context.
+ * @details `XPathParser` builds a tree of these nodes in the `XPathAllocator`
+ * of a query. A node holds its `ast_type_t`, its result type, the axis and
+ * node test of a location step, links to its operands and a constant, a
+ * variable or other data. The `eval_boolean`, `eval_number`, `eval_string` and
+ * `eval_node_set` members implement XPath 1.0: operators, the core function
+ * library, location steps along every `axis_t` axis, and predicates.
+ * `optimize` rewrites the tree once after parsing, for example into a
+ * precomputed `translate` table or a direct attribute comparison.
+ *
+ * The step templates and `axis_to_type` live in the header because the
+ * evaluation is instantiated per axis. The file is internal; consumers compile
+ * and evaluate expressions with `XPathQuery`.
+ */
 #ifndef LUMEX_XML_XPATH_AST_HPP
 #define LUMEX_XML_XPATH_AST_HPP
 

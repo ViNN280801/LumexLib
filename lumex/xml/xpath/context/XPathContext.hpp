@@ -37,6 +37,15 @@
  * SOFTWARE.
  */
 
+/**
+ * @file XPathContext.hpp
+ * @brief `XPathContext`, the context node, position and size that XPath
+ * evaluation passes to every subexpression.
+ * @details The position and size are the values of `position()` and `last()`.
+ * `XPathQuery` starts an evaluation with position and size 1, and a predicate
+ * evaluates its expression in a new context for every candidate node. The file
+ * is internal to the XPath engine.
+ */
 #ifndef LUMEX_XML_XPATH_CONTEXT_HPP
 #define LUMEX_XML_XPATH_CONTEXT_HPP
 
