@@ -48,10 +48,6 @@ endif()
 # directory calls lumex_add_standard_suites; the list goes away when it is
 # empty.
 set(_transition
-    atomic
-    crc
-    json
-    logger
     utility
 )
 
