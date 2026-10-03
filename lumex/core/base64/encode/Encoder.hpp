@@ -104,8 +104,11 @@ using namespace lumex::core::base64::codec::Types;
  * signature in every C++ standard, so a consumer built at another standard
  * than the library links. The `std::string_view` (C++17) and `std::span`
  * (C++20) overloads are inline wrappers over the pointer and size one.
+ * The class itself is not exported: a dllimport class makes clang-cl emit
+ * an import for an inline member it does not inline, and the library does
+ * not provide the standard-dependent overload.
  */
-class LUMEX_API Encoder final
+class Encoder final
 {
 public:
   /**
@@ -121,7 +124,7 @@ public:
    * the input data. Returns an empty string if `data` is `nullptr` or `size`
    * is `0`.
    */
-  static std::string encode (void const *data, std::size_t size);
+  LUMEX_API static std::string encode (void const *data, std::size_t size);
 
   /**
    * @brief Encodes binary data from a `std::vector<byte_type>` into a Base64
@@ -137,7 +140,7 @@ public:
    * the input vector's data. Returns an empty string if the input vector is
    * empty.
    */
-  static std::string encode (std::vector<byte_type> const &data);
+  LUMEX_API static std::string encode (std::vector<byte_type> const &data);
 
 #if __cplusplus >= 201703L
   /**

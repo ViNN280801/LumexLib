@@ -101,9 +101,12 @@ using namespace lumex::core::base64::codec::Types;
  * @details The pointer and size overload is exported and has the same
  * signature in every C++ standard; the string overload is an inline wrapper
  * over it (`string_type_t` is `std::string_view` from C++17 and
- * `std::string const &` below).
+ * `std::string const &` below). The class itself is not exported: a
+ * dllimport class makes clang-cl emit an import for an inline member it
+ * does not inline, and the library does not provide the standard-dependent
+ * overload.
  */
-class LUMEX_API Validator final
+class Validator final
 {
 public:
   /**
@@ -121,7 +124,7 @@ public:
    * @return `true` if the range is valid Base64 (an empty range is), `false`
    * otherwise, and always for `nullptr`.
    */
-  static bool is_valid_base64 (char const *str, std::size_t size);
+  LUMEX_API static bool is_valid_base64 (char const *str, std::size_t size);
 
   /**
    * @brief Checks if a given string is a valid Base64 encoded string (see
