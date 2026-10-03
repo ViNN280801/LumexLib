@@ -102,9 +102,12 @@ namespace settings
  * synchronization.
  * @note Exceptions: the member functions are not `noexcept`. The
  * implementations in this library report a failed load or save through the
- * return value, but an exception can still propagate, for example
- * `std::bad_alloc`, or the nlohmann/json `type_error` thrown by `save()` of
- * `LumexSettingsJSON` when a value is not valid UTF-8.
+ * return value, including the nlohmann/json `type_error` that
+ * `LumexSettingsJSON` gets for a value that is not valid UTF-8, but an
+ * exception such as `std::bad_alloc` can still propagate from a member.
+ * @note Their `save()` writes the whole file to `<path>.tmp` and renames it
+ * over `path`, so a failed save leaves the previous file unchanged
+ * (`storage/LumexSettingsStorage.hpp`).
  */
 class LUMEX_API ILumexSettings
 {

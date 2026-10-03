@@ -41,8 +41,10 @@
 #include <array>
 #include <fstream>
 #include <regex>
+#include <sstream>
 #include <string>
 
+#include "lumex/applied/settings/storage/LumexSettingsStorage.hpp"
 #include "lumex/core/filesystem/LumexFilesystem"
 
 #include "LumexSettingsINI.hpp"
@@ -263,33 +265,37 @@ LUMEX_PUBLIC_API
 bool
 LumexSettingsINI::_save_with_parser (std::string const &path) const
 {
-  auto parent = lumex::path (path).parent_path ();
-  if (!parent.empty ()
-      && !lumex::core::filesystem::fs::lumex_filesystem::exists (parent))
-    lumex::core::filesystem::fs::lumex_filesystem::create_directories (parent);
-
-  std::ofstream file (path.c_str ());
-  if (!file.is_open ())
-    return false;
-
-  bool firstSection = true;
-  for (auto const &secPair : m_settings)
+  // Build the whole text first and replace the file through a temporary
+  // one, so a failed write never leaves the previous file truncated.
+  std::string text;
+  try
     {
-      if (!firstSection && !secPair.second.empty ())
-        file << "\n";
+      std::ostringstream file;
+      bool firstSection = true;
+      for (auto const &secPair : m_settings)
+        {
+          if (!firstSection && !secPair.second.empty ())
+            file << "\n";
 
-      if (!secPair.first.empty ())
-        file << "[" << secPair.first << "]\n";
+          if (!secPair.first.empty ())
+            file << "[" << secPair.first << "]\n";
 
-      for (auto const &kvEntry : secPair.second)
-        file << kvEntry.first << "=" << _quote_if_needed (kvEntry.second)
-             << "\n";
+          for (auto const &kvEntry : secPair.second)
+            file << kvEntry.first << "=" << _quote_if_needed (kvEntry.second)
+                 << "\n";
 
-      if (!secPair.second.empty ())
-        firstSection = false;
+          if (!secPair.second.empty ())
+            firstSection = false;
+        }
+      text = file.str ();
     }
-  file.close ();
-  return file.good ();
+  catch (...)
+    {
+      return false;
+    }
+
+  return lumex::applied::settings::storage::replace_file_content (
+      path, text, lumex::applied::settings::storage::LumexWriteMode::text);
 }
 
 LUMEX_PUBLIC_API

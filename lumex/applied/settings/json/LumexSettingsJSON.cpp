@@ -47,6 +47,7 @@
 #include <nlohmann/json.hpp>
 #endif
 
+#include "lumex/applied/settings/storage/LumexSettingsStorage.hpp"
 #include "lumex/core/filesystem/LumexFilesystem"
 
 #include "LumexSettingsJSON.hpp"
@@ -215,6 +216,8 @@ LumexSettingsJSON::_save_with_parser (std::string const &path) const
   // Serialize first: nlohmann throws `type_error` 316 from `dump` for a value
   // that is not valid UTF-8. `save` reports failure with `false` and must not
   // touch the file then, so nothing is opened before the text is complete.
+  // The text then replaces the file through a temporary one, so a failed
+  // write never leaves the previous file truncated.
   std::string text;
   try
     {
@@ -240,25 +243,8 @@ LumexSettingsJSON::_save_with_parser (std::string const &path) const
       return false;
     }
 
-  try
-    {
-      auto parent = lumex::path (path).parent_path ();
-      if (!parent.empty ()
-          && !lumex::core::filesystem::fs::lumex_filesystem::exists (parent))
-        lumex::core::filesystem::fs::lumex_filesystem::create_directories (
-            parent);
-
-      std::ofstream file (path.c_str ());
-      if (!file.is_open ())
-        return false;
-      file << text;
-      file.close ();
-      return file.good ();
-    }
-  catch (...)
-    {
-      return false;
-    }
+  return lumex::applied::settings::storage::replace_file_content (
+      path, text, lumex::applied::settings::storage::LumexWriteMode::text);
 #endif
 }
 

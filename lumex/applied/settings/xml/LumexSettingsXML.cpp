@@ -39,9 +39,11 @@
 
 #define LUMEX_IMPLEMENTATION
 
+#include <sstream>
 #include <string>
 #include <unordered_map>
 
+#include "lumex/applied/settings/storage/LumexSettingsStorage.hpp"
 #include "lumex/core/filesystem/LumexFilesystem"
 
 #if defined(LUMEX_SETTINGS_WITH_XML)
@@ -221,38 +223,51 @@ LumexSettingsXML::_save_with_parser (std::string const &path) const
   (void)path;
   return false;
 #else
-  auto parent = lumex::path (path).parent_path ();
-  if (!parent.empty ()
-      && !lumex::core::filesystem::fs::lumex_filesystem::exists (parent))
-    lumex::core::filesystem::fs::lumex_filesystem::create_directories (parent);
-
-  ::lumex::xml::document::XmlDocument document;
-  ::lumex::xml::node::XmlNode root
-      = document.append_child (Constants::SETTINGS_ROOT_NAME);
-  if (!root)
-    return false;
-
-  for (auto const &sec_pair : _settings)
+  // Serialize the whole document first and replace the file through a
+  // temporary one, so a failed write never leaves the previous file
+  // truncated. Binary mode, as `XmlDocument::save_file` writes by default.
+  std::string text;
+  try
     {
-      if (sec_pair.first.empty ())
-        continue;
-      ::lumex::xml::node::XmlNode section
-          = root.append_child (sec_pair.first.c_str ());
-      if (!section)
-        continue;
-      for (auto const &kv : sec_pair.second)
+      ::lumex::xml::document::XmlDocument document;
+      ::lumex::xml::node::XmlNode root
+          = document.append_child (Constants::SETTINGS_ROOT_NAME);
+      if (!root)
+        return false;
+
+      for (auto const &sec_pair : _settings)
         {
-          if (kv.first.empty ())
+          if (sec_pair.first.empty ())
             continue;
-          ::lumex::xml::node::XmlNode key
-              = section.append_child (kv.first.c_str ());
-          if (!key)
+          ::lumex::xml::node::XmlNode section
+              = root.append_child (sec_pair.first.c_str ());
+          if (!section)
             continue;
-          (void)key.text ().set (kv.second.c_str ());
+          for (auto const &kv : sec_pair.second)
+            {
+              if (kv.first.empty ())
+                continue;
+              ::lumex::xml::node::XmlNode key
+                  = section.append_child (kv.first.c_str ());
+              if (!key)
+                continue;
+              (void)key.text ().set (kv.second.c_str ());
+            }
         }
+
+      std::ostringstream stream;
+      document.save (stream);
+      if (!stream.good ())
+        return false;
+      text = stream.str ();
+    }
+  catch (...)
+    {
+      return false;
     }
 
-  return document.save_file (path.c_str ());
+  return lumex::applied::settings::storage::replace_file_content (
+      path, text, lumex::applied::settings::storage::LumexWriteMode::binary);
 #endif
 }
 

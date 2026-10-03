@@ -930,6 +930,19 @@ TEST_F (LumexSettingsINITest, GivenUnicode_WhenSave_ThenSavesCorrectly)
   EXPECT_EQ (loaded_settings.get ("节", "键"), "值");
 }
 
+TEST_F (LumexSettingsINITest,
+        GivenOneKey_WhenSave_ThenWritesTheSameTextAsBefore)
+{
+  // What save () wrote before it built the text first and replaced the file
+  // through a temporary one (captured from that version).
+  char const *const expected = "[section]\nkey=\"two words\"\n";
+  LumexSettingsINI ini_settings;
+  ini_settings.add ("section", "key", "two words");
+
+  ASSERT_TRUE (ini_settings.save (_test_file));
+  EXPECT_EQ (read_file_content (_test_file), expected);
+}
+
 TEST_F (LumexSettingsINITest, GivenExistingFile_WhenSave_ThenOverwritesContent)
 {
   // Saving to an existing file should overwrite its content.

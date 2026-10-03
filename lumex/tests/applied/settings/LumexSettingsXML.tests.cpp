@@ -334,6 +334,21 @@ TEST_F (LumexSettingsXMLTest,
   EXPECT_EQ (reloaded.get ("oven", "temperature"), "40");
 }
 
+TEST_F (LumexSettingsXMLTest,
+        GivenOneKey_WhenSave_ThenWritesTheSameDocumentAsBefore)
+{
+  // What save () wrote before it serialized to a string and replaced the
+  // file through a temporary one (captured from that version).
+  char const *const expected
+      = "<?xml version=\"1.0\"?>\n<settings>\n\t<section>\n"
+        "\t\t<key>a&lt;b&amp;c</key>\n\t</section>\n</settings>\n";
+  LumexSettingsXML xml_settings;
+  xml_settings.add ("section", "key", "a<b&c");
+
+  ASSERT_TRUE (xml_settings.save (_test_file.string ()));
+  EXPECT_EQ (read_file_content (_test_file), expected);
+}
+
 TEST_F (LumexSettingsXMLTest, GivenFactoryXml_WhenSaveLoad_ThenWorks)
 {
   std::unique_ptr<ILumexSettings> settings

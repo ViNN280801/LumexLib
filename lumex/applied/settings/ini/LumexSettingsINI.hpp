@@ -112,10 +112,12 @@ public:
    * @brief Saves the current settings to an INI file.
    * @details Writes all sections and key-value pairs to the specified path.
    *          If the parent directory does not exist, it will be created.
-   *          The written file is not validated afterwards.
+   *          The text is written to a temporary file that replaces `path`
+   *          only when complete (`storage::replace_file_content`), so a
+   *          failed save leaves the previous file unchanged. The written file
+   *          is not validated afterwards. Does not throw.
    * @param[in] path The filesystem path to save the INI file to.
-   * @return `true` if the file was opened and the stream is still good after
-   *         writing and closing it, `false` otherwise.
+   * @return `true` if `path` holds the new content, `false` otherwise.
    */
   bool save (std::string const &path) const override;
   bool save (char const *path) const;

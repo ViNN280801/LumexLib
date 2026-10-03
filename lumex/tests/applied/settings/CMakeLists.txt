@@ -7,6 +7,7 @@ add_executable(
     LumexSettingsGuard.tests.cpp
     LumexSettingsINI.tests.cpp
     LumexSettingsJSON.tests.cpp
+    LumexSettingsStorage.tests.cpp
     LumexSettingsXML.tests.cpp
 )
 
