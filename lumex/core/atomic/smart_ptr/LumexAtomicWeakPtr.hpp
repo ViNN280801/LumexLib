@@ -59,7 +59,12 @@
  * they were made from aliasing shared pointers to different subobjects; the
  * standard types compare those stored pointers.
  *
+ * The template is declared only in `lumex::core::atomic::smart_ptr`;
+ * nothing is added to the global namespace.
+ *
  * @code
+ * using lumex::core::atomic::smart_ptr::atomic_weak_ptr;
+ *
  * atomic_weak_ptr<Session> active;
  * active.store (session);                                // keeps no owner
  * if (std::shared_ptr<Session> s = active.load ().lock ())
@@ -323,13 +328,5 @@ LUMEX_CONSTEXPR bool atomic_weak_ptr<T>::is_always_lock_free;
 #elif defined(__GNUC__)
 #pragma GCC diagnostic pop
 #endif
-
-/**
- * @brief Global alias for
- * `lumex::core::atomic::smart_ptr::atomic_weak_ptr<T>`.
- * @tparam T The element type of the weak pointer.
- */
-template <typename T>
-using atomic_weak_ptr = lumex::core::atomic::smart_ptr::atomic_weak_ptr<T>;
 
 #endif // !LUMEX_CORE_ATOMIC_SMART_PTR_ATOMIC_WEAK_PTR_HPP

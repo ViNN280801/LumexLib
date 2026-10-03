@@ -60,7 +60,7 @@ TYPED_TEST (LumexAtomicWeakPtrTest,
   static_assert (
       std::is_same<A,
                    lumex::core::atomic::smart_ptr::atomic_weak_ptr<T>>::value,
-      "the global name is the namespace class");
+      "the short name is the namespace class");
   SUCCEED ();
 }
 

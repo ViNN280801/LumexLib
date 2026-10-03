@@ -62,7 +62,12 @@
  * The lock-based implementation is not lock-free (`is_always_lock_free` and
  * `is_lock_free ()` are false) and treats every memory order as `seq_cst`.
  *
+ * The template is declared only in `lumex::core::atomic::smart_ptr`;
+ * nothing is added to the global namespace.
+ *
  * @code
+ * using lumex::core::atomic::smart_ptr::atomic_shared_ptr;
+ *
  * atomic_shared_ptr<Config> current (std::make_shared<Config> ());
  * std::shared_ptr<Config> snapshot = current.load ();   // reader
  * current.store (std::make_shared<Config> (next));      // writer
@@ -344,13 +349,5 @@ LUMEX_CONSTEXPR bool atomic_shared_ptr<T>::is_always_lock_free;
 #elif defined(__GNUC__)
 #pragma GCC diagnostic pop
 #endif
-
-/**
- * @brief Global alias for
- * `lumex::core::atomic::smart_ptr::atomic_shared_ptr<T>`.
- * @tparam T The element type of the shared pointer.
- */
-template <typename T>
-using atomic_shared_ptr = lumex::core::atomic::smart_ptr::atomic_shared_ptr<T>;
 
 #endif // !LUMEX_CORE_ATOMIC_SMART_PTR_ATOMIC_SHARED_PTR_HPP

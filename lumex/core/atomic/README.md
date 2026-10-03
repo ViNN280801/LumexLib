@@ -5,6 +5,8 @@
 ```cpp
 #include "lumex/core/atomic/LumexAtomic"
 
+using lumex::core::atomic::smart_ptr::atomic_shared_ptr;
+
 atomic_shared_ptr<Config const> g_config (std::make_shared<Config const> ());
 
 void reload (std::shared_ptr<Config const> next)
@@ -39,7 +41,7 @@ Everything outside the two class templates is an implementation detail (`Detail`
 
 ## Interface
 
-Both templates live in `lumex::core::atomic::smart_ptr` and are also available at global scope as `atomic_shared_ptr` and `atomic_weak_ptr`, the way LumexLib exports `optional`. The members follow `std::atomic<std::shared_ptr<T>>` and `std::atomic<std::weak_ptr<T>>`:
+Both templates live in `lumex::core::atomic::smart_ptr`, and only there: the module declares nothing at global scope, so a program that has its own global `atomic_shared_ptr` or `atomic_weak_ptr` keeps compiling (`LumexAtomicGlobalNamesTest` checks that). For the short names write a `using` declaration (`using lumex::core::atomic::smart_ptr::atomic_shared_ptr;`) in your own scope. The members follow `std::atomic<std::shared_ptr<T>>` and `std::atomic<std::weak_ptr<T>>`:
 
 | Member | Notes |
 | --- | --- |

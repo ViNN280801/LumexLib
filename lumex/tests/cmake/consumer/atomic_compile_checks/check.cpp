@@ -12,6 +12,9 @@
 
 #include "lumex/core/atomic/LumexAtomic"
 
+using lumex::core::atomic::smart_ptr::atomic_shared_ptr;
+using lumex::core::atomic::smart_ptr::atomic_weak_ptr;
+
 int
 main ()
 {

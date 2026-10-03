@@ -77,6 +77,12 @@
 
 namespace lumex_atomic_test
 {
+// LumexLib declares the templates only in their namespace. The tests use the
+// short names the way a consumer would: through these using-declarations,
+// which every test file brings in with `using namespace lumex_atomic_test`.
+using lumex::core::atomic::smart_ptr::atomic_shared_ptr;
+using lumex::core::atomic::smart_ptr::atomic_weak_ptr;
+
 // --- Value types -----------------------------------------------------------
 
 struct TrackedPod

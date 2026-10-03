@@ -51,6 +51,8 @@
 
 #include "lumex/core/atomic/LumexAtomic"
 
+using lumex::core::atomic::smart_ptr::atomic_shared_ptr;
+
 #if defined(_WIN32)
 #define CROSS_MODULE_API __declspec (dllexport)
 #else

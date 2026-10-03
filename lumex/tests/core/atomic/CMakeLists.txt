@@ -14,6 +14,9 @@
 #   LumexAtomicLockBasedCxx20Tests C++20 - lock-based (forced), std::atomic::wait
 #   LumexAtomicWaitTableCxx20Tests C++20 - as LumexAtomicCxx20Tests, with the
 #                                  table (forced)
+# LumexAtomicGlobalNames.tests.cpp declares global atomic_shared_ptr and
+# atomic_weak_ptr templates of its own: every suite stops building if the
+# module declares either name at global scope.
 # CTest names carry the directory prefix "atomic." and the suffix of the
 # suite. A lost wake-up hangs a test; the in-test watchdog aborts it after
 # 120 s and the CTest timeout below is the second line of defence.
@@ -28,6 +31,7 @@ set(LUMEX_ATOMIC_TEST_SOURCES
     LumexAtomicSmartPtrConcurrency.tests.cpp
     LumexAtomicSmartPtrConfig.tests.cpp
     LumexAtomicSmartPtrPerf.tests.cpp
+    LumexAtomicGlobalNames.tests.cpp
 )
 
 # name;standard;CTest suffix;forcing definition

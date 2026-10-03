@@ -10,6 +10,11 @@
 
 #include "lumex/core/atomic/LumexAtomic"
 
+// The templates are declared only in lumex::core::atomic::smart_ptr; a
+// program names them in full or brings the short names in itself.
+using lumex::core::atomic::smart_ptr::atomic_shared_ptr;
+using lumex::core::atomic::smart_ptr::atomic_weak_ptr;
+
 namespace
 {
 struct Settings
