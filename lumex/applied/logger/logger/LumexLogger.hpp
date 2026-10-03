@@ -572,16 +572,17 @@ struct logger_applied_config_view_t
  * - Timestamped logs in the Logger_logs/ directory
  *
  * Invariants:
- * - The log file is created only when `kLoggingEnableFileName` exists
+ * - The log file is created only when the trigger file exists
+ * (`kDefaultTriggerFileName`, "enable_logs", see `set_trigger_file_name`)
  * - Every write is protected by a mutex
  * - Log level cannot be below LEVEL_TRACE or above
  * LEVEL_FATAL
  * - Logging is disabled by default if the trigger file is missing
  * - Default log level: LEVEL_INFO
- * - Supported levels in the file: trace, debug, info, warning, error, fatal
- * (case-insensitive)
+ * - Supported levels in the file: trace, debug, info, success, warning,
+ * error, fatal (case-insensitive)
  * - Timestamped logs are created in Logger_logs/ with names
- * logger_DD.MM.YYYY-hh:mm:ss.log
+ * logger_DD.MM.YYYY-hh-mm-ss.log
  *
  * Thread safety:
  * - Every operation is protected by an internal mutex
@@ -754,10 +755,10 @@ public:
 
   /**
    * @brief Checks whether logging is enabled at all.
-   * @details If a file named `kLoggingEnableFileName` exists next to
+   * @details If the trigger file (default `enable_logs`) exists next to
    * the executable (or library), logging is enabled. If
-   * the file specifies a log level (trace, debug, info, warning, error,
-   * fatal), that level is used; otherwise the default is info.
+   * the file specifies a log level (trace, debug, info, success, warning,
+   * error, fatal), that level is used; otherwise the default is info.
    * Case-insensitive parsing is supported.
    * @return true if logging is enabled, false otherwise.
    * @note Does not throw.

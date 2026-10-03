@@ -85,7 +85,7 @@ namespace numeric
 {
 
 /**
- * @file SafeNumericComparator.hpp
+ * @file LumexSafeNumericComparator.hpp
  * @brief Universal thread-safe comparator for safe comparison of arithmetic
  * types
  * @details Prevents overflow and incorrect comparisons between types with

@@ -13,25 +13,25 @@ CDB is expected at one of:
 ### Mode 1 - Run EXE and catch crash
 
 ```powershell
-.\Scripts\CDB\crash_diag.ps1 -Exe path\to\test.exe
+.\Scripts\Debugging\Windows\CDB\crash_diag.ps1 -Exe path\to\test.exe
 ```
 
 With extra PDB path and Microsoft public symbol server:
 
 ```powershell
-.\Scripts\CDB\crash_diag.ps1 -Exe path\to\test.exe -SymPath D:\build\lib -SymSrv
+.\Scripts\Debugging\Windows\CDB\crash_diag.ps1 -Exe path\to\test.exe -SymPath D:\build\lib -SymSrv
 ```
 
 Pass arguments to the EXE:
 
 ```powershell
-.\Scripts\CDB\crash_diag.ps1 -Exe path\to\test.exe -ExeArgs '--test','myTest'
+.\Scripts\Debugging\Windows\CDB\crash_diag.ps1 -Exe path\to\test.exe -ExeArgs '--test','myTest'
 ```
 
 Catch the crash and save a heap dump automatically:
 
 ```powershell
-.\Scripts\CDB\crash_diag.ps1 -Exe path\to\test.exe -WriteDump -DumpType heap
+.\Scripts\Debugging\Windows\CDB\crash_diag.ps1 -Exe path\to\test.exe -WriteDump -DumpType heap
 ```
 
 The script:
@@ -50,31 +50,31 @@ The script:
 Auto-detect by process name:
 
 ```powershell
-.\Scripts\CDB\crash_diag.ps1 -ProcessName myapp
+.\Scripts\Debugging\Windows\CDB\crash_diag.ps1 -ProcessName myapp
 ```
 
 Wait up to 60 seconds for the process to appear, then auto-attach:
 
 ```powershell
-.\Scripts\CDB\crash_diag.ps1 -ProcessName myapp -Timeout 60 -Force
+.\Scripts\Debugging\Windows\CDB\crash_diag.ps1 -ProcessName myapp -Timeout 60 -Force
 ```
 
 Explicit PID:
 
 ```powershell
-.\Scripts\CDB\crash_diag.ps1 -PidArg 5432
+.\Scripts\Debugging\Windows\CDB\crash_diag.ps1 -PidArg 5432
 ```
 
 Attach to an elevated process:
 
 ```powershell
-.\Scripts\CDB\crash_diag.ps1 -PidArg 5432 -Admin
+.\Scripts\Debugging\Windows\CDB\crash_diag.ps1 -PidArg 5432 -Admin
 ```
 
 Attach and capture a full dump before analysis:
 
 ```powershell
-.\Scripts\CDB\crash_diag.ps1 -ProcessName myapp -WriteDump -DumpType full -DumpOut C:\Dumps\hang.dmp
+.\Scripts\Debugging\Windows\CDB\crash_diag.ps1 -ProcessName myapp -WriteDump -DumpType full -DumpOut C:\Dumps\hang.dmp
 ```
 
 ---
@@ -84,25 +84,25 @@ Attach and capture a full dump before analysis:
 Single file:
 
 ```powershell
-.\Scripts\CDB\crash_diag.ps1 -Dump C:\Temp\crash.dmp
+.\Scripts\Debugging\Windows\CDB\crash_diag.ps1 -Dump C:\Temp\crash.dmp
 ```
 
 Newest dump in a directory:
 
 ```powershell
-.\Scripts\CDB\crash_diag.ps1 -Dump C:\CrashDumps\
+.\Scripts\Debugging\Windows\CDB\crash_diag.ps1 -Dump C:\CrashDumps\
 ```
 
 Glob pattern:
 
 ```powershell
-.\Scripts\CDB\crash_diag.ps1 -Dump "C:\Temp\myapp*.dmp"
+.\Scripts\Debugging\Windows\CDB\crash_diag.ps1 -Dump "C:\Temp\myapp*.dmp"
 ```
 
 With the original binary (for symbol resolution) and Microsoft symbols:
 
 ```powershell
-.\Scripts\CDB\crash_diag.ps1 -Dump C:\Temp\crash.dmp -DumpExe path\to\test.exe -SymSrv
+.\Scripts\Debugging\Windows\CDB\crash_diag.ps1 -Dump C:\Temp\crash.dmp -DumpExe path\to\test.exe -SymSrv
 ```
 
 ---
@@ -110,13 +110,13 @@ With the original binary (for symbol resolution) and Microsoft symbols:
 ### Mode 4 - Auto-find the most recent WER dump
 
 ```powershell
-.\Scripts\CDB\crash_diag.ps1 -FindRecentDump
+.\Scripts\Debugging\Windows\CDB\crash_diag.ps1 -FindRecentDump
 ```
 
 Filter by process name and add an extra search directory:
 
 ```powershell
-.\Scripts\CDB\crash_diag.ps1 -FindRecentDump -ProcessName myapp -DumpSearchDir C:\MyDumps
+.\Scripts\Debugging\Windows\CDB\crash_diag.ps1 -FindRecentDump -ProcessName myapp -DumpSearchDir C:\MyDumps
 ```
 
 Searches these locations by default:
@@ -203,15 +203,15 @@ Run inside CDB after the crash stops, setting aliases first:
 ```powershell
 as BaseModule teuchoscore
 as BaseMethod Teuchos::UnitTestBase::runUnitTest
-$$<D:\Develop\Trilinos\Scripts\CDB\vtable_diag.cdb
+$$<D:\path\to\LumexLib\Scripts\Debugging\Windows\CDB\vtable_diag.cdb
 ```
 
 Or inject via crash_diag.ps1 using `-ExtraCmd`:
 
 ```powershell
-.\Scripts\CDB\crash_diag.ps1 -Exe .\test.exe `
+.\Scripts\Debugging\Windows\CDB\crash_diag.ps1 -Exe .\test.exe `
     -ExtraCmd "as BaseModule teuchoscore; as BaseMethod Teuchos::UnitTestBase::runUnitTest" `
-    -CdbScript .\Scripts\CDB\vtable_diag.cdb
+    -CdbScript .\Scripts\Debugging\Windows\CDB\vtable_diag.cdb
 ```
 
 **slots_diag.cdb** - list all symbols for a class and disassemble suspect slots.
@@ -220,7 +220,7 @@ Or inject via crash_diag.ps1 using `-ExtraCmd`:
 as TargetExe   TeuchosCore_TypeConversions_UnitTest
 as TargetClass `anonymous namespace'::asSafe_realToUnsignedIntTypeOverflow_UnitTest<double,unsigned int>
 as SlotAddr    00007ff6466b4ba0
-$$<D:\Develop\Trilinos\Scripts\CDB\slots_diag.cdb
+$$<D:\path\to\LumexLib\Scripts\Debugging\Windows\CDB\slots_diag.cdb
 ```
 
 ### One-shot: all 3 logs from a single run (-ExtraScripts)
@@ -230,12 +230,12 @@ Each script writes to its own log. ${SlotAddr} is automatically replaced with @r
 (the crash rip IS the purecall-thunk slot address - no need to specify it manually).
 
 ```powershell
-.\Scripts\CDB\crash_diag.ps1 `
+.\Scripts\Debugging\Windows\CDB\crash_diag.ps1 `
     -Exe .\btomp\packages\teuchos\core\test\TypeConversions\TeuchosCore_TypeConversions_UnitTest.exe `
     -SymPath D:\Develop\Trilinos\btomp\lib `
     -SymSrv `
     -ExtraCmd "as BaseModule teuchoscore; as BaseMethod Teuchos::UnitTestBase::runUnitTest; as TargetExe TeuchosCore_TypeConversions_UnitTest; as TargetClass ``anonymous namespace'``::asSafe_realToUnsignedIntTypeOverflow_UnitTest<double,unsigned int>" `
-    -ExtraScripts @(".\Scripts\CDB\vtable_diag.cdb",".\Scripts\CDB\slots_diag.cdb") `
+    -ExtraScripts @(".\Scripts\Debugging\Windows\CDB\vtable_diag.cdb",".\Scripts\Debugging\Windows\CDB\slots_diag.cdb") `
     -Log .\log1-crash.log
 ```
 
@@ -253,7 +253,7 @@ Produces (CDB appends pid+timestamp to each log name via `.logopen /t`):
 cd D:\Develop\Trilinos
 $env:PATH = "D:\Develop\Trilinos\btomp\lib;$env:PATH"
 
-.\Scripts\CDB\crash_diag.ps1 `
+.\Scripts\Debugging\Windows\CDB\crash_diag.ps1 `
     -Exe .\btomp\packages\teuchos\core\test\TypeConversions\TeuchosCore_TypeConversions_UnitTest.exe `
     -SymPath .\btomp\lib `
     -SymSrv

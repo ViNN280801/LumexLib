@@ -1,18 +1,18 @@
 # hang_diag - usage examples
 
-Universal wrapper: `Scripts/hang_diag.sh`  
-Debugger command files: `Scripts/GDB/hang_diag.gdb`, `Scripts/LLDB/hang_diag.lldb`
+Universal wrapper: `Scripts/Debugging/Linux/hang_diag.sh`  
+Debugger command files: `Scripts/Debugging/Linux/GDB/hang_diag.gdb`, `Scripts/Debugging/Linux/LLDB/hang_diag.lldb`
 
-Legacy shortcuts: `Scripts/GDB/hang_diag.sh` -> `--gdb`, `Scripts/LLDB/hang_diag.sh` -> `--lldb`.
+Legacy shortcuts: `Scripts/Debugging/Linux/GDB/hang_diag.sh` -> `--gdb`, `Scripts/Debugging/Linux/LLDB/hang_diag.sh` -> `--lldb`.
 
 ## Quick reference
 
 | Mode                       | Command                                                                       |
 | -------------------------- | ----------------------------------------------------------------------------- |
-| Live attach (GDB, default) | `./Scripts/hang_diag.sh [pid] [log] [solib]`                                  |
-| Live attach (LLDB)         | `./Scripts/hang_diag.sh --lldb [pid] [log] [solib]`                           |
-| Core dump                  | `./Scripts/hang_diag.sh [--gdb\|--lldb] --core <binary> <core> [log] [solib]` |
-| Run until crash            | `./Scripts/hang_diag.sh [--lldb] --run <binary> [log] [solib] [-- args...]`   |
+| Live attach (GDB, default) | `./Scripts/Debugging/Linux/hang_diag.sh [pid] [log] [solib]`                                  |
+| Live attach (LLDB)         | `./Scripts/Debugging/Linux/hang_diag.sh --lldb [pid] [log] [solib]`                           |
+| Core dump                  | `./Scripts/Debugging/Linux/hang_diag.sh [--gdb\|--lldb] --core <binary> <core> [log] [solib]` |
+| Run until crash            | `./Scripts/Debugging/Linux/hang_diag.sh [--lldb] --run <binary> [log] [solib] [-- args...]`   |
 
 Environment: `HANG_DEBUGGER=gdb|lldb`, `HANG_PID`, `HANG_VERBOSE=1`, `HANG_BT_DEPTH=20`, `HANG_SOLIB`, `USE_SUDO=1`, `HANG_PROCESS_NAME` (live auto-detect).
 
@@ -31,33 +31,33 @@ ps aux | grep PeakExpertNoGUI
 ### Wrapper (auto-detect PID)
 
 ```bash
-./Scripts/hang_diag.sh
+./Scripts/Debugging/Linux/hang_diag.sh
 # or explicitly GDB:
-./Scripts/hang_diag.sh --gdb
+./Scripts/Debugging/Linux/hang_diag.sh --gdb
 ```
 
 Explicit PID:
 
 ```bash
-./Scripts/hang_diag.sh 150167
+./Scripts/Debugging/Linux/hang_diag.sh 150167
 ```
 
 Custom log and solib (default solib for `PeakExpertNoGUI` is `~/.peakexpertweb/PeakExpertNoGUI/`):
 
 ```bash
-./Scripts/hang_diag.sh 150167 "$HOME/Downloads/my-hang.log" "$HOME/.peakexpertweb/PeakExpertNoGUI/"
+./Scripts/Debugging/Linux/hang_diag.sh 150167 "$HOME/Downloads/my-hang.log" "$HOME/.peakexpertweb/PeakExpertNoGUI/"
 ```
 
 Attach as root when needed:
 
 ```bash
-USE_SUDO=1 ./Scripts/hang_diag.sh
+USE_SUDO=1 ./Scripts/Debugging/Linux/hang_diag.sh
 ```
 
 Verbose log (locals, args, all thread registers):
 
 ```bash
-HANG_VERBOSE=1 ./Scripts/hang_diag.sh
+HANG_VERBOSE=1 ./Scripts/Debugging/Linux/hang_diag.sh
 ```
 
 ### Raw GDB (without wrapper)
@@ -67,7 +67,7 @@ mkdir -pv "$HOME/Downloads"
 sudo gdb -batch -p 150167 \
   -ex 'set $hang_shell_log = 1' \
   -ex 'set $hang_solib = "$HOME/.peakexpertweb/PeakExpertNoGUI/"' \
-  -x ./Scripts/GDB/hang_diag.gdb \
+  -x ./Scripts/Debugging/Linux/GDB/hang_diag.gdb \
   2>&1 | tee "$HOME/Downloads/gdb-live-hang.log"
 ```
 
@@ -79,7 +79,7 @@ Core dumps: `~/.peakexpertweb/PeakExpertNoGUI/dumps/`
 Binary and libraries: `~/.peakexpertweb/PeakExpertNoGUI/`
 
 ```bash
-./Scripts/hang_diag.sh --core \
+./Scripts/Debugging/Linux/hang_diag.sh --core \
   ~/.peakexpertweb/PeakExpertNoGUI/PeakExpertNoGUI \
   ~/.peakexpertweb/PeakExpertNoGUI/dumps/core_dump_full_<timestamp>_<pid>_PeakExpertNoGUI.core
 ```
@@ -87,7 +87,7 @@ Binary and libraries: `~/.peakexpertweb/PeakExpertNoGUI/`
 Custom log and solib:
 
 ```bash
-./Scripts/hang_diag.sh --core \
+./Scripts/Debugging/Linux/hang_diag.sh --core \
   ~/.peakexpertweb/PeakExpertNoGUI/PeakExpertNoGUI \
   ~/.peakexpertweb/PeakExpertNoGUI/dumps/core_dump_full_1778840301_321240_PeakExpertNoGUI.core \
   ~/Downloads/my-crash.log \
@@ -99,13 +99,13 @@ Via environment variables:
 ```bash
 HANG_BINARY=~/.peakexpertweb/PeakExpertNoGUI/PeakExpertNoGUI \
 HANG_CORE=~/.peakexpertweb/PeakExpertNoGUI/dumps/core_dump_full_1778840301_321240_PeakExpertNoGUI.core \
-./Scripts/hang_diag.sh --gdb
+./Scripts/Debugging/Linux/hang_diag.sh --gdb
 ```
 
 LLDB core analysis:
 
 ```bash
-./Scripts/hang_diag.sh --lldb --core \
+./Scripts/Debugging/Linux/hang_diag.sh --lldb --core \
   ~/.peakexpertweb/PeakExpertNoGUI/PeakExpertNoGUI \
   ~/.peakexpertweb/PeakExpertNoGUI/dumps/core_dump_full_<timestamp>_<pid>_PeakExpertNoGUI.core \
   /tmp/lldb-core.log \
@@ -134,14 +134,14 @@ cd /path/to/Trilinos
 BIN=build_teuchos/packages/teuchos/core/test/TypeConversions/TeuchosCore_TypeConversions_UnitTest.exe
 LOG=/tmp/typeconv-msan.log
 
-./Scripts/hang_diag.sh --lldb --run "$BIN" "$LOG" -- \
+/path/to/LumexLib/Scripts/Debugging/Linux/hang_diag.sh --lldb --run "$BIN" "$LOG" -- \
   --filter="*realToUnsignedIntTypeOverflow*"
 ```
 
 GDB equivalent:
 
 ```bash
-./Scripts/hang_diag.sh --gdb --run "$BIN" "$LOG" -- \
+/path/to/LumexLib/Scripts/Debugging/Linux/hang_diag.sh --gdb --run "$BIN" "$LOG" -- \
   --filter="*realToUnsignedIntTypeOverflow*"
 ```
 
@@ -155,6 +155,8 @@ Debugger: gdb
 Mode: core (hang_mode=1)
 Log: /tmp/gdb-core-20260515-132900.log
 Solib: /home/user/.peakexpertweb/PeakExpertNoGUI/
+Verbose: 0, bt depth: 20
+GDB script: /path/to/LumexLib/Scripts/Debugging/Linux/GDB/hang_diag.gdb
 Binary: /home/user/.peakexpertweb/PeakExpertNoGUI/PeakExpertNoGUI
 Core:   /home/user/.peakexpertweb/PeakExpertNoGUI/dumps/core_dump_full_1778840301_321240_PeakExpertNoGUI.core
 ...

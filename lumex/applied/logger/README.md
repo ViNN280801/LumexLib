@@ -6,7 +6,7 @@
 
 Класс живет в пространстве имен `lumex::applied::logger::logger` (файл `LumexLogger.hpp`, полное имя `lumex::applied::logger::logger::LumexLogger`), а для удобства использования в глобальном пространстве имен объявлен алиас `LumexLogger` (по аналогии с `LumexEnvironment` и `LumexLogging`). В коде достаточно писать `LumexLogger::getInstance()`, не указывая полный путь пространства имен.
 
-Этот модуль (`lumex/applied/logger/`) - это отдельный, самостоятельный механизм логирования, синхронизированный по функциональности с `Logger` из проекта DChannel. Он **не связан** с `lumex/applied/logging/` (`LumexLogging`) - другим, независимо используемым внутри самой LumexLib логирующим фасадом (см. `LumexDebug.hpp`, `LumexHardwareCapabilities.cpp` и др.). Не путайте эти два модуля.
+Этот модуль (`lumex/applied/logger/`) - это отдельный, самостоятельный механизм логирования, синхронизированный по функциональности с `Logger` из проекта DChannel. Он **не связан** с `lumex/applied/logging/` (`LumexLogging`) - другим, независимо используемым внутри самой LumexLib логирующим фасадом (см. `LumexHardwareCapabilities.cpp`, `LumexResourceMonitor.cpp`, `LumexSettingsGuard.cpp`). Не путайте эти два модуля.
 
 ## Ключевые особенности
 

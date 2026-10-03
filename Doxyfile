@@ -993,7 +993,8 @@ WARN_LOGFILE           =
 
 INPUT                  = lumex/ \
                          lumex/core/fmt/README.md \
-                         lumex/core/atomic/README.md
+                         lumex/core/atomic/README.md \
+                         lumex/applied/logger/README.md
 
 # This tag can be used to specify the character encoding of the source files
 # that Doxygen parses. Internally Doxygen uses the UTF-8 encoding. Doxygen uses

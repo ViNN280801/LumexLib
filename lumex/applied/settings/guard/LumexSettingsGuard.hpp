@@ -29,7 +29,7 @@
  * @details This header ports the "keep a settings file alive" behavior of
  * PeakExpertWeb's JSON-specific `BaseConfiguration` (default-key restoration,
  * corruption backup, and per-key validation) to a form that works with *any*
- * `ILumexSettings` implementation (INI today, JSON or others tomorrow), by
+ * `ILumexSettings` implementation (INI, JSON and XML), by
  * driving everything through the interface's `load`/`save`/`get`/`add`
  * contract instead of a concrete parser.
  */

@@ -38,7 +38,7 @@
  */
 
 /**
- * @file optional.hpp
+ * @file LumexOptional.hpp
  * @brief C++11 implementation of `std::optional` (C++17 feature) providing a
  * type-safe nullable value container.
  * @details This header provides a comprehensive, cross-platform implementation

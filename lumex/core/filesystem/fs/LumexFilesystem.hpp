@@ -39,17 +39,16 @@
 
 /**
  * @file LumexFilesystem.hpp
- * @brief Cross-platform, header-only replacement for <filesystem> (C++17)
- * written in pure C++11.
+ * @brief Cross-platform replacement for `<filesystem>` (C++17) written in
+ * pure C++11, compiled into the `lumex::filesystem` library
+ * (`LumexFilesystem.cpp`).
  *
  * The design goals are:
- *   1. 100 % C++11-conformance – no compiler extensions, RTTI, or exceptions
- * required.
+ *   1. 100 % C++11-conformance – no compiler extensions or RTTI required.
  *   2. No dynamic memory allocation inside core operations unless unavoidable.
- *   3. Zero-exception guarantee – all APIs return `filesystem_result<T>`
- * instead of throwing.
- *   4. SOLID-compliant, header-only implementation with clean separation of
- * concerns.
+ *   3. Most operations return `filesystem_result<T>` instead of throwing;
+ * `checkName` throws `std::invalid_argument` for an invalid file name.
+ *   4. SOLID-compliant implementation with clean separation of concerns.
  *   5. Thread-safety for read-only operations (stat, exists, etc.).
  *
  *     @code

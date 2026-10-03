@@ -51,5 +51,7 @@ python benchmarks/fmt/plot_results.py benchmarks/fmt/results/format_benchmark.cs
   strings and 1.2 to 1.5 times slower for decimal integers, floating point
   and many-field lines (per-field parsing and argument dispatch are not
   tuned the way the standard library is).
-- `snprintf` stays the fastest for plain numbers, without type safety or
-  compile-time checks.
+- For integers `snprintf` is the fastest formatting call (only
+  `std::to_string` beats it, on a plain decimal `int`), without type safety
+  or compile-time checks; for `{:.3f}` of a `double` it is 1.4 times slower
+  than LumexFormat.

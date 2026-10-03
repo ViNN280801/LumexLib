@@ -52,12 +52,7 @@ docker/results/
 ├── LumexLib_20240115_143022.csv      # CSV для анализа в Excel
 ├── latest.sarif                      # Последний результат
 ├── latest.csv                        # Последний CSV
-├── summary.txt                       # Краткая сводка
-└── complete-*/                       # Полные анализы
-    ├── complete-analysis.sarif
-    ├── complete-analysis.csv
-    ├── analyzed-files.txt
-    └── summary.txt
+└── summary.txt                       # Краткая сводка
 ```
 
 ### Интеграция с IDE
@@ -138,8 +133,8 @@ docker compose exec codeql ls -la /workspace/lumexlib/lumex/
 ### Пустые результаты
 
 ```bash
-# Проверить что анализ нашел файлы
-docker compose exec codeql full-scan.sh /workspace/lumexlib --help
+# Показать параметры анализа
+docker compose exec codeql full-scan.sh --help
 
 # Посмотреть какие файлы были проанализированы
 cat docker/results/latest.sarif | jq '.runs[].results | length'

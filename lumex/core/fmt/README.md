@@ -111,8 +111,10 @@ the benchmark checks before timing.
 - Faster than MSVC's `std::format` for hexadecimal numbers and padded
   strings; 1.2 to 1.5 times slower for decimal integers, floating point and
   lines with many fields.
-- `snprintf` stays the fastest for plain numbers, without type safety or
-  compile-time checks.
+- For integers `snprintf` is the fastest formatting call (only
+  `std::to_string` beats it, on a plain decimal `int`), without type safety
+  or compile-time checks; for `{:.3f}` of a `double` it is 1.4 times slower
+  than LumexFormat.
 
 The numbers, the method and how to regenerate the charts:
 `benchmarks/fmt/README.md` and `benchmarks/fmt/results/format_benchmark.md`
