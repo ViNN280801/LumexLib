@@ -81,7 +81,7 @@ namespace
 // ============= Utility Functions =============
 
 /**
- * @brief Converts an integral type or pointer to a 0xHH string.
+ * @brief Converts an integral value (an address) to a 0xHH string.
  */
 template <typename T>
 typename std::enable_if<std::is_integral<T>::value, std::string>::type
@@ -89,18 +89,6 @@ format_hex (T value) LUMEX_NOEXCEPT
 {
   std::ostringstream oss;
   oss << "0x" << std::hex << std::uppercase << value;
-  return oss.str ();
-}
-
-template <typename T>
-typename std::enable_if<std::is_pointer<T>::value, std::string>::type
-format_hex (T value) LUMEX_NOEXCEPT
-{
-  if (value == nullptr)
-    return "0x00 (nullptr)";
-  std::ostringstream oss;
-  oss << "0x" << std::hex << std::uppercase
-      << reinterpret_cast<uintptr_t> (value);
   return oss.str ();
 }
 
