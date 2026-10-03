@@ -19,6 +19,20 @@ else()
     message(STATUS "Skipping lint.include_order: no Python 3 interpreter")
 endif()
 
+# Every public header and module umbrella under lumex/ has a Doxygen @file
+# block: without one Doxygen documents none of the file's free functions,
+# macros or typedefs. Same Python 3.7+ interpreter as the include order.
+if(Python3_Interpreter_FOUND)
+    add_test(NAME lint.file_blocks
+        COMMAND ${Python3_EXECUTABLE}
+            ${LumexLib_SOURCE_DIR}/Scripts/CodeTools/check_file_blocks.py
+            --check --dir ${LumexLib_SOURCE_DIR}/lumex
+    )
+    set_tests_properties(lint.file_blocks PROPERTIES LABELS "lint")
+else()
+    message(STATUS "Skipping lint.file_blocks: no Python 3 interpreter")
+endif()
+
 # Two vendored GoogleTest trees (not FetchContent):
 #   1.12.1 for C++11/14 tests, 1.18.0 for C++17+ tests.
 include("${CMAKE_CURRENT_LIST_DIR}/../../cmake/LumexGoogleTest.cmake")
