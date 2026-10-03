@@ -20,6 +20,14 @@
 
 #### Добавлено
 
+##### Ряд MSVC STL в бенчмарке `benchmarks/atomic`
+
+**Файлы:** `benchmarks/atomic/README.md`, `lumex/core/atomic/README.md`, `benchmarks/atomic/results/msvc/`
+
+**Коммит:** `1b522c5f`
+
+**Суть:** пять наборов atomic на MSVC 19.51 x64 Release прошли (2232 теста, 0 падений; два теста `constinit` в C++11 и C++17 пропускаются, им нужен C++20). Полный прогон (Intel Core i9-12900H, 20 логических CPU, схема питания Balanced, 93.8 минуты) записан в `benchmarks/atomic/results/msvc` и не заменяет ряд libstdc++. При 20 потоках MSVC STL, выбор LumexLib по умолчанию и lock-based сборка C++11 стоят примерно одинаково (`load ()` 6.9-7.0); lock-based сборка C++20, которая ждет через `std::atomic::wait`, дороже (`load ()` 11.8, `compare_exchange_strong ()` 25.9; нижний квартиль `load ()` 6.7-12.8). Базовая линия блоков в пределах 3 % от среднего (0.975-1.021).
+
 ##### Уведомления сторонних лицензий: `THIRD-PARTY-NOTICES.md`
 
 **Файлы:** `THIRD-PARTY-NOTICES.md` (новый), `CMakeLists.txt`, `conanfile.py`, `lumex/xml/LumexXml`, `lumex/tests/cmake/cases/wiring_license_install.cmake` (новый)
