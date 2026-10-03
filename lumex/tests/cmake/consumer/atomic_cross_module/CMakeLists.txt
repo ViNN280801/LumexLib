@@ -1,4 +1,4 @@
-# Fixture of LumexCMake.consumer_atomic_cross_module (see main.cpp).
+# Fixture of cmake.consumer_atomic_cross_module (see main.cpp).
 #
 # Builds two shared libraries with hidden visibility and an executable at
 # C++11, where the lock-based atomic smart pointers sleep on the striped table

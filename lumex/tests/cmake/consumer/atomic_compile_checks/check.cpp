@@ -1,5 +1,5 @@
 // Compile checks of atomic_shared_ptr and atomic_weak_ptr, built by
-// LumexCMake.atomic_compile_checks. They port two libc++ verify tests of
+// cmake.atomic_compile_checks. They port two libc++ verify tests of
 // llvm-project pull request 194215: nodiscard.verify.cpp (load () and
 // is_lock_free () results must be used) and
 // atomic_shared_ptr_memory_order.verify.cpp (constant invalid memory orders

@@ -1,4 +1,4 @@
-# Compile-check fixture for LumexCMake.atomic_compile_checks.
+# Compile-check fixture for cmake.atomic_compile_checks.
 #
 # Every LUMEX_ATOMIC_BAD_CASE in check.cpp must fail to compile with warnings
 # as errors, and LUMEX_ATOMIC_GOOD_CASE must compile. Cases 1-4 discard the

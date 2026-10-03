@@ -1,4 +1,4 @@
-// LumexCMake.consumer_atomic_cross_module: before C++20 the lock-based atomic
+// cmake.consumer_atomic_cross_module: before C++20 the lock-based atomic
 // smart pointers sleep on a table that lives in a function-local static of an
 // inline function. Two shared libraries built with hidden visibility must
 // still share that table: a thread that sleeps through one library is woken

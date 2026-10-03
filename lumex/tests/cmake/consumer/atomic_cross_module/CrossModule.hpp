@@ -40,7 +40,7 @@
 /**
  * @file CrossModule.hpp
  * @brief Functions of the two shared libraries of the
- * LumexCMake.consumer_atomic_cross_module fixture.
+ * cmake.consumer_atomic_cross_module fixture.
  * @details Both libraries are compiled with hidden visibility; only these
  * functions are exported.
  */

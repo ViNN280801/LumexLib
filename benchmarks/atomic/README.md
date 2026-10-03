@@ -32,7 +32,7 @@ The harness checks which implementation each series measured: the units fail to 
 Not measured here:
 
 - **A LumexLib lock-free series.** LumexLib ports only the lock-based method of the libc++ implementation; the lock-free method works on libc++'s own control block and cannot run over another library's `std::shared_ptr` (see `lumex/core/atomic/README.md`). The author's measurements of the two libc++ methods are summarized [below](#the-libc-implementation-reference) for reference.
-- **The MSVC STL.** Pending (LumexLib todo 56): the harness is written for MSVC as well, where the `std` series is MSVC's `std::atomic<std::shared_ptr<T>>`, but it has not been compiled with MSVC yet and has to be run on a Windows machine. See [MSVC (pending)](#msvc-pending).
+- **The MSVC STL.** Pending (LumexLib todo 56): the harness is written for MSVC as well, where the `std` series is MSVC's `std::atomic<std::shared_ptr<T>>`, but it has not been compiled with MSVC yet and has to be run on a Windows machine. See [Windows (MSVC)](#windows-msvc).
 
 ## Method
 
@@ -102,15 +102,36 @@ The author's RFC benchmark of the two libc++ methods (lock-free DWCAS with a spl
 
 Uncontended, in nanoseconds (lock-free / lock-based): `load ()` 36.1 / 20.5, `store ()` 30.4 / 28.8, `exchange ()` 38.3 / 27.7, `compare_exchange_strong ()` 83.1 / 58.8. In short: `store ()` and `compare_exchange_strong ()` favour the lock-free method, more so under contention; `load ()` is about even up to 16 threads and loses to the spin lock at 18 and 20; uncontended, the spin lock is cheaper for all four.
 
-## MSVC (pending)
+## Windows (MSVC)
 
-The MSVC STL series needs a Windows machine (LumexLib todo 56):
+**Not run yet.** None of the commands below has been executed on Windows so far; they are to be run on a Windows PC before v1.0.2.0 is tagged (LumexLib todo 56). Until then this README has no MSVC numbers and the MSVC build of the module is unverified.
+
+Open an **x64 Native Tools Command Prompt for VS 2022**, or a **Developer PowerShell for VS 2022** started for x64 (`Launch-VsDevShell.ps1 -Arch amd64 -HostArch amd64` from `Common7\Tools` of the Visual Studio installation; `cl` must report "for x64"), and change to the LumexLib checkout. The commands are the same in both shells. The consumer fixtures of the CMake cases need that developer environment and report Skipped without it.
+
+Configure and build with Ninja (single configuration, the compiler of the prompt):
 
 ```bat
-cmake -S . -B build-bench -G "Visual Studio 17 2022" -A x64 -DLUMEX_BUILD_BENCHMARKS=ON
-cmake --build build-bench --config Release --target LumexAtomicBenchmark -- /m
-python benchmarks\atomic\run_benchmark.py --exe build-bench\bin\Release\LumexAtomicBenchmark.exe --out-dir benchmarks\atomic\results\msvc
+cmake -S . -B build-msvc -G Ninja -DCMAKE_BUILD_TYPE=Release -DLUMEX_BUILD_TESTS=ON -DLUMEX_BUILD_BENCHMARKS=ON
+cmake --build build-msvc --parallel
+ctest --test-dir build-msvc -R "^atomic\." --output-on-failure --parallel 8
+python benchmarks\atomic\run_benchmark.py --exe build-msvc\bin\LumexAtomicBenchmark.exe --quick --no-plot --out-dir build-msvc\atomic-quick
+python benchmarks\atomic\run_benchmark.py --exe build-msvc\bin\LumexAtomicBenchmark.exe --out-dir benchmarks\atomic\results\msvc
+```
+
+or with the Visual Studio generator (multi-configuration; `-A x64` selects the platform whatever the prompt):
+
+```bat
+cmake -S . -B build-vs -G "Visual Studio 17 2022" -A x64 -DLUMEX_BUILD_TESTS=ON -DLUMEX_BUILD_BENCHMARKS=ON
+cmake --build build-vs --config Release -- /m
+ctest --test-dir build-vs -C Release -R "^atomic\." --output-on-failure --parallel 8
+python benchmarks\atomic\run_benchmark.py --exe build-vs\bin\Release\LumexAtomicBenchmark.exe --quick --no-plot --out-dir build-vs\atomic-quick
+python benchmarks\atomic\run_benchmark.py --exe build-vs\bin\Release\LumexAtomicBenchmark.exe --out-dir benchmarks\atomic\results\msvc
+```
+
+In each block the third command runs the five atomic suites (`LumexAtomicTests`, `LumexAtomicCxx17Tests`, `LumexAtomicCxx20Tests`, `LumexAtomicLockBasedCxx20Tests`, `LumexAtomicWaitTableCxx20Tests`; every CTest name starts with `atomic.`). `-R "atomic"` instead also runs `cmake.wiring_atomic`, `cmake.atomic_compile_checks`, `cmake.consumer_atomic_cross_module` and the atomic examples. The fourth command is the smoke run (a few seconds, numbers not kept), the fifth the full sweep (100 runs with 30 s pauses, about an hour and a half on 20 hardware threads), which writes into `results\msvc` and leaves the Linux results alone. `python` is Python 3 (`py -3` where `python` is not on `PATH`); the scripts need only its standard library. To draw the MSVC series next to the Linux ones:
+
+```bat
 python benchmarks\atomic\plot_results.py benchmarks\atomic\results\atomic_benchmark.csv benchmarks\atomic\results\msvc\atomic_benchmark.csv
 ```
 
-There the C++11 unit builds at C++14 (MSVC's lowest mode), the default series wraps MSVC's `std::atomic<std::shared_ptr<T>>`, and the `std` series measures it directly. `plot_results.py` takes several result files and draws their series in the same charts, labelled with the compiler and the CPU; the ratios make the machines comparable, the nanoseconds do not.
+On MSVC the C++11 unit of the benchmark builds at C++14 (MSVC's lowest mode), the default series wraps MSVC's `std::atomic<std::shared_ptr<T>>`, and the `std` series measures it directly. `plot_results.py` takes several result files and draws their series in the same charts, labelled with the compiler and the CPU; the ratios make the machines comparable, the nanoseconds do not.
