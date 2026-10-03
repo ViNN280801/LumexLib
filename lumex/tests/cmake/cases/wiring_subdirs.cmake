@@ -70,10 +70,6 @@ foreach(_suite
         LumexCallbackSlotTests LumexLoggerTests
         LumexAtomicTests LumexAtomicCxx17Tests LumexAtomicCxx20Tests
         LumexAtomicLockBasedCxx20Tests LumexAtomicWaitTableCxx20Tests
-        LumexCrcTests
-        LumexExpectedTests
-        LumexReflectionTests LumexReflectionCxx20Tests LumexFieldReflectionTests
-        LumexFieldReflectionGetTests LumexFieldReflectionNamesTests
         LumexFormatTests LumexFormatCxx17Tests LumexFormatCxx20Tests
         LumexTypeTraitsTests LumexSafeNumericComparatorCxx11Tests
         LumexUtilityTests)

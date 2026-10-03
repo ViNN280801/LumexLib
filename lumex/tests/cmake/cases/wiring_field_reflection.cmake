@@ -40,8 +40,8 @@ _forbid_text("${_agg_hdr}" "boost/pfr")
 _forbid_text("${_agg_hdr}" "boost::pfr")
 
 file(READ "${LUMEX_SOURCE_DIR}/lumex/tests/core/reflection/CMakeLists.txt" _tcmake)
-foreach(_suite LumexFieldReflectionTests LumexFieldReflectionGetTests
-               LumexFieldReflectionNamesTests)
+foreach(_suite "lumex_add_standard_suites(Reflection"
+               "LumexFieldReflection.cxx*.tests.cpp")
     string(FIND "${_tcmake}" "${_suite}" _tp)
     if(_tp EQUAL -1)
         message(FATAL_ERROR "reflection tests omit ${_suite}")

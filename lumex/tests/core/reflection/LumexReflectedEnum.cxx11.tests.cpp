@@ -1,4 +1,4 @@
-// LumexReflectedEnum.tests.cpp
+// LumexReflectedEnum.cxx11.tests.cpp
 #include <cstddef>
 #include <cstdint>
 #include <string>

@@ -1,4 +1,4 @@
-// LumexVarInfo.tests.cpp
+// LumexVarInfo.cxx11.tests.cpp
 #include <string>
 #include <vector>
 
