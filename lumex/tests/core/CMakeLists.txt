@@ -1,5 +1,6 @@
 # lumex/tests/core/CMakeLists.txt
 
+lumex_add_subdirectory_if(LUMEX_BUILD_ATOMIC atomic)
 lumex_add_subdirectory_if(LUMEX_BUILD_BASE64 base64)
 lumex_add_subdirectory_if(LUMEX_BUILD_CIRCULAR_BUFFER circular_buffer)
 lumex_add_subdirectory_if(LUMEX_BUILD_CRC crc)

@@ -66,6 +66,8 @@ foreach(_suite
         LumexHardwareCapabilitiesTests LumexJsonTests LumexJsonCxx20Tests
         LumexCallbackSlotTests LumexLoggerTests LumexLoggingTests
         LumexResourceMonitorTests LumexSerialPortTests LumexSettingsTests
+        LumexAtomicTests LumexAtomicCxx17Tests LumexAtomicCxx20Tests
+        LumexAtomicLockBasedCxx20Tests LumexAtomicWaitTableCxx20Tests
         LumexBase64Tests LumexCircularBufferTests LumexCrcTests
         LumexEnvironmentTests LumexExceptionsTests LumexExpectedTests
         LumexFilesystemTests LumexMathTests LumexMathCxx17Tests

@@ -101,6 +101,7 @@ lumex_add_cmake_test(wiring_include_order_ctest)
 lumex_add_cmake_test(wiring_clang_stdlib)
 lumex_add_cmake_test(asan_clang_cl_runtime_library)
 lumex_add_cmake_test(gtest_discovery_does_not_lock_exe)
+lumex_add_cmake_test(wiring_atomic)
 
 # configure_msvc_vcvars is a no-op on non-Windows hosts, so the guard against
 # calling it after project() can only fire on Windows.
@@ -211,6 +212,10 @@ lumex_add_consumer_test(consumer_standard_mismatch_lib11_consumer20
     standard_mismatch -DLIB_STD=11 -DCONSUMER_STD=20)
 lumex_add_consumer_test(consumer_standard_mismatch_lib20_consumer11
     standard_mismatch -DLIB_STD=20 -DCONSUMER_STD=11)
+# Before C++20 the lock-based atomic smart pointers sleep on a table in a
+# function-local static; two shared libraries built with hidden visibility
+# must share it (skipped on Windows, where DLLs cannot).
+lumex_add_consumer_test(consumer_atomic_cross_module atomic_cross_module)
 
 # LumexFormat compile-time checks: bad literal format strings must not
 # compile at C++20 (consteval), good ones must. Header-only, so the fixture
@@ -229,6 +234,29 @@ add_test(NAME LumexCMake.format_compile_checks
         -P ${_LUMEX_CONSUMER_RUN}
 )
 set_tests_properties(LumexCMake.format_compile_checks PROPERTIES
+    LABELS "cmake;consumer"
+    TIMEOUT 900
+    SKIP_REGULAR_EXPRESSION "LUMEX_CONSUMER_SKIP"
+)
+
+# atomic_shared_ptr / atomic_weak_ptr compile-time checks: discarded load ()
+# and is_lock_free () results (nodiscard) and, with the diagnose_if attribute,
+# constant memory orders the standard forbids must not compile with warnings
+# as errors; valid use must.
+add_test(NAME LumexCMake.atomic_compile_checks
+    COMMAND ${CMAKE_COMMAND}
+        -DCASE=atomic_compile_checks
+        -DLUMEX_SOURCE_DIR=${LumexLib_SOURCE_DIR}
+        -DWORK_DIR=${CMAKE_CURRENT_BINARY_DIR}/consumer/atomic_compile_checks
+        -DGENERATOR=${CMAKE_GENERATOR}
+        -DCXX_COMPILER=${CMAKE_CXX_COMPILER}
+        "-DCXX_FLAGS=${CMAKE_CXX_FLAGS}"
+        -DCLANG_STDLIB=${LUMEX_CLANG_STDLIB}
+        -DBUILD_TYPE=Release
+        -DCONFIGURE_ONLY=ON
+        -P ${_LUMEX_CONSUMER_RUN}
+)
+set_tests_properties(LumexCMake.atomic_compile_checks PROPERTIES
     LABELS "cmake;consumer"
     TIMEOUT 900
     SKIP_REGULAR_EXPRESSION "LUMEX_CONSUMER_SKIP"
