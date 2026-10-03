@@ -9,6 +9,9 @@
 
 find_package(Threads REQUIRED)
 
+# lumex_test_name: CTest names derived from the registering directory.
+include("${CMAKE_CURRENT_LIST_DIR}/LumexTestNames.cmake")
+
 # Resolve against this file, not CMAKE_SOURCE_DIR: LumexLib is often a
 # submodule, and CMAKE_SOURCE_DIR then points at the consuming project.
 get_filename_component(_lumex_root "${CMAKE_CURRENT_LIST_DIR}/.." ABSOLUTE)
@@ -136,6 +139,20 @@ endfunction()
 # DISCOVERY_MODE PRE_TEST runs --gtest_list_tests at ctest time. The old
 # POST_BUILD mode left the exe mapped, and the next MSVC link failed with
 # LNK1104 (cannot open the output exe) under /INCREMENTAL.
+#
+# CTest names are <prefix><Suite>.<Test><suffix>. The prefix comes from the
+# calling directory (lumex_test_name, cmake/LumexTestNames.cmake): crc. for
+# lumex/tests/core/crc. An explicit TEST_PREFIX replaces it; TEST_SUFFIX and
+# every other argument go to gtest_discover_tests unchanged.
 function(lumex_gtest_discover_tests target)
-  gtest_discover_tests(${target} ${ARGN} DISCOVERY_MODE PRE_TEST)
+  cmake_parse_arguments(ARG "" "TEST_PREFIX" "" ${ARGN})
+  set(_override "")
+  if(DEFINED ARG_TEST_PREFIX OR "TEST_PREFIX" IN_LIST ARG_KEYWORDS_MISSING_VALUES)
+    set(_override TEST_PREFIX "${ARG_TEST_PREFIX}")
+  endif()
+  lumex_test_name(_prefix "" ${_override})
+  gtest_discover_tests(${target}
+    TEST_PREFIX "${_prefix}"
+    ${ARG_UNPARSED_ARGUMENTS}
+    DISCOVERY_MODE PRE_TEST)
 endfunction()

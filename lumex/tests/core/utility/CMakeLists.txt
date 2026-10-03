@@ -48,7 +48,8 @@ if(CMAKE_VERSION VERSION_GREATER_EQUAL "3.18")
         DISCOVERY_MODE PRE_TEST
     )
 else()
-    add_test(NAME ${TEST_EXECUTABLE_NAME} COMMAND ${TEST_EXECUTABLE_NAME})
+    lumex_test_name(_ctest_name ${TEST_EXECUTABLE_NAME})
+    add_test(NAME ${_ctest_name} COMMAND ${TEST_EXECUTABLE_NAME})
 endif()
 
 # Same TypeTraits sources, pinned to C++11. lumex_enum_traits_t / using enum stay
@@ -86,7 +87,8 @@ if(CMAKE_VERSION VERSION_GREATER_EQUAL "3.18")
         DISCOVERY_MODE PRE_TEST
     )
 else()
-    add_test(NAME ${TYPE_TRAITS_TEST_NAME} COMMAND ${TYPE_TRAITS_TEST_NAME})
+    lumex_test_name(_ctest_name ${TYPE_TRAITS_TEST_NAME})
+    add_test(NAME ${_ctest_name} COMMAND ${TYPE_TRAITS_TEST_NAME})
 endif()
 
 # Keep a C++11 target that instantiates every comma-bearing
@@ -117,7 +119,8 @@ if(CMAKE_VERSION VERSION_GREATER_EQUAL "3.18")
         DISCOVERY_MODE PRE_TEST
     )
 else()
-    add_test(NAME ${SAFE_NUMERIC_CXX11_TEST_NAME}
+    lumex_test_name(_ctest_name ${SAFE_NUMERIC_CXX11_TEST_NAME})
+    add_test(NAME ${_ctest_name}
         COMMAND ${SAFE_NUMERIC_CXX11_TEST_NAME})
 endif()
 
@@ -147,7 +150,8 @@ if(CMAKE_VERSION VERSION_GREATER_EQUAL "3.18")
         DISCOVERY_MODE PRE_TEST
     )
 else()
-    add_test(NAME ${PROCESS_TEST_NAME} COMMAND ${PROCESS_TEST_NAME})
+    lumex_test_name(_ctest_name ${PROCESS_TEST_NAME})
+    add_test(NAME ${_ctest_name} COMMAND ${PROCESS_TEST_NAME})
 endif()
 
 # LumexCallbackSlot.hpp is C++11 header-only; pin a suite to that floor. The
@@ -177,5 +181,6 @@ if(CMAKE_VERSION VERSION_GREATER_EQUAL "3.18")
         DISCOVERY_MODE PRE_TEST
     )
 else()
-    add_test(NAME ${CALLBACK_SLOT_TEST_NAME} COMMAND ${CALLBACK_SLOT_TEST_NAME})
+    lumex_test_name(_ctest_name ${CALLBACK_SLOT_TEST_NAME})
+    add_test(NAME ${_ctest_name} COMMAND ${CALLBACK_SLOT_TEST_NAME})
 endif()

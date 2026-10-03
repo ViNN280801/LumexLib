@@ -27,5 +27,6 @@ if(CMAKE_VERSION VERSION_GREATER_EQUAL "3.18")
         DISCOVERY_MODE PRE_TEST
     )
 else()
-    add_test(NAME ${TEST_EXECUTABLE_NAME} COMMAND ${TEST_EXECUTABLE_NAME})
+    lumex_test_name(_ctest_name ${TEST_EXECUTABLE_NAME})
+    add_test(NAME ${_ctest_name} COMMAND ${TEST_EXECUTABLE_NAME})
 endif()

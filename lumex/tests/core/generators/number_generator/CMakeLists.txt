@@ -22,4 +22,6 @@ lumex_test_use_gtest(${TEST_EXECUTABLE_NAME} CXX_STANDARD 11)
 # this binary does not understand - it just runs its whole ad-hoc suite regardless of argv, which the
 # build-time discovery step then kills as a false "Process terminated due to timeout" once it runs long
 # enough. add_test() instead just registers it to run under ctest directly, with no enumeration step.
-add_test(NAME ${TEST_EXECUTABLE_NAME} COMMAND ${TEST_EXECUTABLE_NAME})
+# The CTest name carries the prefix of this directory: generators.number_generator.LumexNumberGeneratorTests.
+lumex_test_name(_ctest_name ${TEST_EXECUTABLE_NAME})
+add_test(NAME ${_ctest_name} COMMAND ${TEST_EXECUTABLE_NAME})
