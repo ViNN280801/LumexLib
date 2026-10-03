@@ -114,9 +114,11 @@ using namespace lumex::core::base64::codec::Types;
  * have the same signature in every C++ standard, so a consumer built at
  * another standard than the library links. The overloads that take a string
  * are inline wrappers over them: `std::string_view` from C++17,
- * `std::string const &` below.
+ * `std::string const &` below. The class itself is not exported: a dllimport
+ * class makes clang-cl emit an import for an inline member it does not
+ * inline, and the library does not provide the standard-dependent overload.
  */
-class LUMEX_API Decoder final
+class Decoder final
 {
 public:
   /**
@@ -135,8 +137,8 @@ public:
    * `false` otherwise (invalid length, a character outside the alphabet,
    * misplaced or excess padding, `nullptr`).
    */
-  static bool decode (char const *encoded, std::size_t size,
-                      std::vector<byte_type> &out);
+  LUMEX_API static bool decode (char const *encoded, std::size_t size,
+                                std::vector<byte_type> &out);
 
   /**
    * @brief Decodes `size` Base64 characters starting at `encoded`.
@@ -146,7 +148,8 @@ public:
    * @return The decoded bytes, or an empty vector if the range is not valid
    * Base64.
    */
-  static std::vector<byte_type> decode (char const *encoded, std::size_t size);
+  LUMEX_API static std::vector<byte_type> decode (char const *encoded,
+                                                  std::size_t size);
 
 #if __cplusplus >= 201703L
   /**
