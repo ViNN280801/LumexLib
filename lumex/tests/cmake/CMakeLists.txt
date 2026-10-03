@@ -108,6 +108,7 @@ lumex_add_cmake_test(wiring_clang_stdlib)
 lumex_add_cmake_test(asan_clang_cl_runtime_library)
 lumex_add_cmake_test(gtest_discovery_does_not_lock_exe)
 lumex_add_cmake_test(wiring_atomic)
+lumex_add_cmake_test(wiring_test_names)
 
 # configure_msvc_vcvars is a no-op on non-Windows hosts, so the guard against
 # calling it after project() can only fire on Windows.
@@ -116,6 +117,8 @@ if(CMAKE_HOST_WIN32)
         "must be called BEFORE project")
 endif()
 
+lumex_add_cmake_fail_test(wiring_test_names_outside_root
+    "the directory is not under the root")
 lumex_add_cmake_fail_test(require_fail_base64_without_utility
     "LUMEX_BUILD_BASE64 is enabled but requires LUMEX_BUILD_UTILITY")
 lumex_add_cmake_fail_test(require_fail_crc_without_utility
