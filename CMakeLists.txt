@@ -329,7 +329,7 @@ if(LUMEX_BUILD_DOCUMENTATION)
     endif()
 
     # Configure Doxyfile from template with project version
-    set(DOXYFILE_IN "${LumexLib_SOURCE_DIR}/Doxyfile")
+    set(DOXYFILE_IN "${LumexLib_SOURCE_DIR}/Doxyfile.in")
     set(DOXYFILE_OUT "${CMAKE_BINARY_DIR}/Doxyfile")
 
     configure_file(

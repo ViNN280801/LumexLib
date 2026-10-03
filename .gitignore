@@ -98,8 +98,9 @@ test_ini_settings*/
 test_filesystem_*/
 lumex_xml_test_*.xml
 
-# Doxygen files
-Doxyfile
+# The Doxyfile CMake configures from Doxyfile.in, when the build directory
+# is the source directory.
+/Doxyfile
 
 # create_release.sh packages (default --output-dir)
 /release/

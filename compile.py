@@ -3530,33 +3530,60 @@ class CMakeBuilder:
 
     def _check_doxyfile_exists(self) -> bool:
         """
-        Check if Doxyfile exists in the project root.
+        Check if the Doxygen template Doxyfile.in exists in the project root.
 
         Returns:
-            bool: True if Doxyfile exists, False otherwise
+            bool: True if Doxyfile.in exists, False otherwise
         """
-        doxyfile_path = os_path_join(self.project_root, "Doxyfile")
+        doxyfile_path = os_path_join(self.project_root, "Doxyfile.in")
         if not os_path_exists(doxyfile_path):
-            self.logger.error("Doxyfile not found at: {}".format(doxyfile_path))
-            self.logger.error("Please ensure Doxyfile exists in the project root")
+            self.logger.error("Doxyfile.in not found at: {}".format(doxyfile_path))
+            self.logger.error("Please ensure Doxyfile.in exists in the project root")
             return False
 
-        self.logger.info("Doxyfile found at: {}".format(doxyfile_path))
+        self.logger.info("Doxyfile.in found at: {}".format(doxyfile_path))
         return True
 
     def generate_html_documentation(self) -> bool:
         """
         Generate HTML documentation using Doxygen.
 
+        Doxyfile.in is a CMake template, so Doxygen does not read it
+        directly: a temporary build directory is configured with
+        LUMEX_BUILD_DOCUMENTATION=ON, and its generate_documentation target
+        writes docs/html into the project.
+
         Returns:
             bool: True if HTML generation succeeded, False otherwise
         """
+        from tempfile import mkdtemp as tempfile_mkdtemp
+
         self.logger.info("Generating HTML documentation...")
 
-        doxygen_cmd = ["doxygen", "Doxyfile"]
-        if not self.run_command(doxygen_cmd, cwd=self.project_root):
-            self.logger.error("HTML documentation generation failed")
-            return False
+        temp_build_dir = tempfile_mkdtemp(prefix="lumex_docs_")
+        try:
+            configure_cmd = [
+                "cmake",
+                "-S",
+                self.project_root,
+                "-B",
+                temp_build_dir,
+                "-DLUMEX_BUILD_DOCUMENTATION=ON",
+            ]
+            build_cmd = [
+                "cmake",
+                "--build",
+                temp_build_dir,
+                "--target",
+                "generate_documentation",
+            ]
+            succeeded = self.run_command(configure_cmd)
+            succeeded = succeeded and self.run_command(build_cmd)
+            if not succeeded:
+                self.logger.error("HTML documentation generation failed")
+                return False
+        finally:
+            shutil_rmtree(temp_build_dir, ignore_errors=True)
 
         # Check if HTML documentation was generated
         html_dir = os_path_join(self.project_root, "docs", "html")
@@ -3673,7 +3700,7 @@ class CMakeBuilder:
             "Starting documentation generation in format: {}".format(doc_format)
         )
 
-        # Check if Doxyfile exists
+        # Check if Doxyfile.in exists
         if not self._check_doxyfile_exists():
             return False
 

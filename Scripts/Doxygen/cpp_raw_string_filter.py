@@ -16,7 +16,7 @@ Comments, ordinary strings and character literals are skipped, so text
 that only looks like a raw string is left alone. The file on disk is not
 changed.
 
-Wired in the Doxyfile as FILTER_PATTERNS = *.hpp=<python> <this script>
+Wired in Doxyfile.in as FILTER_PATTERNS = *.hpp=<python> <this script>
 (and *.h, *.cpp).
 
 Usage (by Doxygen): cpp_raw_string_filter.py <source file>  -> filtered text

@@ -9,7 +9,7 @@ output only when the link is a bare file name found in IMAGE_PATH, so this
 filter rewrites every relative image link to its file name while Doxygen
 reads the file. Absolute URLs (http, https, data) are left alone.
 
-Wired in the Doxyfile as FILTER_PATTERNS = *.md=<python> <this script>.
+Wired in Doxyfile.in as FILTER_PATTERNS = *.md=<python> <this script>.
 
 Usage (by Doxygen): markdown_image_filter.py <file.md>  -> filtered text
 """
