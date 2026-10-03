@@ -127,6 +127,8 @@
 
 **Файлы:** `lumex/core/fmt/LumexFormat.hpp`, `lumex/tests/core/fmt/LumexFormatTypes.cxx11.tests.cpp`, `lumex/examples/fmt/example_format.cpp`, `lumex/examples/fmt/example_format_api.cpp`
 
+**Коммит:** `a28c5c17`
+
 **Суть:** `LUMEX_FORMAT_HAS_INT128` включается по `__SIZEOF_INT128__`, поэтому clang-cl собирал `write_integer` и `to_base` для `unsigned __int128` с операторами `/` и `%`. Эти операторы тянут `__udivti3` и `__umodti3` из compiler-rt, а `link.exe` у clang-cl их не предоставляет: `LumexFormatExample` и `LumexFormatExampleApi` не линковались (LNK2019). Десятичная запись теперь делит значение на `10^19` по двум `uint64_t`, основания 2, 8 и 16 берутся сдвигом и маской. Тип по-прежнему печатается везде, где компилятор его дает. Примеры `LumexFormatExample` и `LumexFormatExampleApi` выводят `2^64`.
 
 ##### `compile_commands.json` включает библиотеку с первой конфигурации
