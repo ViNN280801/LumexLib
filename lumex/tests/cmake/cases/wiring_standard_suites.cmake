@@ -50,7 +50,6 @@ endif()
 set(_transition
     atomic
     crc
-    expected
     json
     logger
     utility

@@ -8,8 +8,8 @@
 #include "lumex/core/expected/Expected"
 
 // Monadic operations whose function changes the value type or the error type.
-// The source is compiled into every suite of the module (C++17 and C++20), so
-// the SFINAE branch and the concepts branch of Expected.hpp and
+// The source is compiled into every suite of the module (C++11, C++17 and
+// C++20), so the SFINAE branch and the concepts branch of Expected.hpp and
 // ExpectedVoid.hpp must give the same types and the same results. Each
 // function below accepts only the value category of the overload it is meant
 // for, so a call that passes the argument in another category does not

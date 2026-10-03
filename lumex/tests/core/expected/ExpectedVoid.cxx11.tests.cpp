@@ -1,8 +1,12 @@
+// Expected<void, E> tests. They compile from C++11, so every expected suite
+// (C++11, C++17, C++20) runs them.
+
 #include <chrono>
 #include <memory>
 #include <stdexcept>
 #include <string>
 #include <thread>
+#include <tuple>
 #include <type_traits>
 #include <utility>
 #include <vector>
@@ -12,6 +16,7 @@
 #include "lumex/core/expected/Expected"
 #include "lumex/core/utility/attr/LumexAttributes.hpp"
 
+#include "lumex/tests/core/expected/ExpectedTestTypes.hpp"
 #include "lumex/tests/support/LumexPerfSkip.hpp"
 
 #if defined(__clang__)
@@ -47,83 +52,6 @@ constexpr char const *kVoidErrorWithoutErrorPattern
     = "error\\(\\) called on an Expected<void> that holds no error";
 constexpr char const *kVoidDereferenceOnErrorPattern
     = "operator\\* called on an Expected<void> that holds an error";
-
-// === Error Types for Testing =============================================
-
-enum class SimpleError
-{
-  None,
-  InvalidInput,
-  NetworkFailure
-};
-
-struct ComplexError
-{
-  std::string message;
-  int code;
-  std::unique_ptr<int> resource;
-
-  explicit ComplexError (std::string msg = "Default Error", int c = 100)
-      : message (std::move (msg)), code (c),
-        resource (std::make_unique<int> (c))
-  {
-  }
-
-  ComplexError (ComplexError const &other)
-      : message (other.message), code (other.code),
-        resource (other.resource ? std::make_unique<int> (*other.resource)
-                                 : nullptr)
-  {
-  }
-
-  ComplexError &
-  operator= (ComplexError const &other)
-  {
-    if (this != &other)
-      {
-        message = other.message;
-        code = other.code;
-        resource = other.resource ? std::make_unique<int> (*other.resource)
-                                  : nullptr;
-      }
-    return *this;
-  }
-
-  ComplexError (ComplexError &&other) noexcept
-      : message (std::move (other.message)), code (other.code),
-        resource (std::move (other.resource))
-  {
-    other.code = 0;
-  }
-
-  ComplexError &
-  operator= (ComplexError &&other) noexcept
-  {
-    if (this != &other)
-      {
-        message = std::move (other.message);
-        code = other.code;
-        resource = std::move (other.resource);
-        other.code = 0;
-      }
-    return *this;
-  }
-
-  bool
-  operator== (ComplexError const &other) const
-  {
-    return message == other.message && code == other.code
-           && ((!resource && !other.resource)
-               || (resource && other.resource
-                   && *resource == *other.resource));
-  }
-
-  bool
-  operator!= (ComplexError const &other) const
-  {
-    return !(*this == other);
-  }
-};
 
 // === Helpers for the monadic operations =================================
 
@@ -476,7 +404,7 @@ TYPED_TEST (ExpectedVoidTest, Perf_ConstructionAndAccess)
 #if LUMEX_PERF_WALL_CLOCK_ENABLED
   using ErrorType = typename TestFixture::ErrorType;
 
-  int const N = 1'000'000;
+  int const N = 1000000;
   auto start = std::chrono::high_resolution_clock::now ();
 
   for (int i = 0; i < N; ++i)

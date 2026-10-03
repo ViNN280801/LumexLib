@@ -1,15 +1,22 @@
+// Expected<T, E> tests. They compile from C++11, so every expected suite
+// (C++11, C++17, C++20) runs them.
+
 #include <chrono>
 #include <memory>
 #include <stdexcept>
 #include <string>
 #include <thread>
 #include <tuple>
+#include <type_traits>
+#include <utility>
 #include <vector>
 
 #include <gtest/gtest.h>
 
 #include "lumex/core/expected/Expected"
 #include "lumex/core/utility/attr/LumexAttributes.hpp"
+
+#include "lumex/tests/core/expected/ExpectedTestTypes.hpp"
 
 #if defined(__clang__)
 #pragma clang diagnostic push
@@ -71,13 +78,12 @@ struct ComplexSuccess
   std::unique_ptr<int> data;
 
   explicit ComplexSuccess (std::string n = "Default Success", int d = 0)
-      : name (std::move (n)), data (std::make_unique<int> (d))
+      : name (std::move (n)), data (new int (d))
   {
   }
 
   ComplexSuccess (ComplexSuccess const &other)
-      : name (other.name),
-        data (other.data ? std::make_unique<int> (*other.data) : nullptr)
+      : name (other.name), data (other.data ? new int (*other.data) : nullptr)
   {
   }
 
@@ -87,7 +93,7 @@ struct ComplexSuccess
     if (this != &other)
       {
         name = other.name;
-        data = other.data ? std::make_unique<int> (*other.data) : nullptr;
+        data.reset (other.data ? new int (*other.data) : nullptr);
       }
     return *this;
   }
@@ -129,82 +135,79 @@ struct ComplexSuccess
   }
 };
 
-// === Error types for tests ========================================
+// === Per-type steps of the transform tests =================================
+// transform() maps each success type to a changed value of the same type; the
+// overloads below are that map and its expectation for the four success types
+// of the fixture (the template leaves any other type unchanged and unchecked).
 
-enum class SimpleError
+namespace
 {
-  None,
-  InvalidInput,
-  NetworkFailure
-};
-
-struct ComplexError
+int
+TransformSuccess (int const &value)
 {
-  std::string message;
-  int code;
-  std::unique_ptr<int> resource;
+  return value + 1;
+}
 
-  explicit ComplexError (std::string msg = "Default Error", int c = 100)
-      : message (std::move (msg)), code (c),
-        resource (std::make_unique<int> (c))
-  {
-  }
+std::string
+TransformSuccess (std::string const &value)
+{
+  return value + "_transformed";
+}
 
-  ComplexError (ComplexError const &other)
-      : message (other.message), code (other.code),
-        resource (other.resource ? std::make_unique<int> (*other.resource)
-                                 : nullptr)
-  {
-  }
+SimpleSuccess
+TransformSuccess (SimpleSuccess const &value)
+{
+  return SimpleSuccess (value.value + 1);
+}
 
-  ComplexError &
-  operator= (ComplexError const &other)
-  {
-    if (this != &other)
-      {
-        message = other.message;
-        code = other.code;
-        resource = other.resource ? std::make_unique<int> (*other.resource)
-                                  : nullptr;
-      }
-    return *this;
-  }
+ComplexSuccess
+TransformSuccess (ComplexSuccess const &value)
+{
+  ComplexSuccess result = value;
+  result.name += "_transformed";
+  return result;
+}
 
-  ComplexError (ComplexError &&other) noexcept
-      : message (std::move (other.message)), code (other.code),
-        resource (std::move (other.resource))
-  {
-    other.code = 0; // Clear the source resource
-  }
+template <typename T>
+T
+TransformSuccess (T const &value)
+{
+  return value; // fallback - return unchanged
+}
 
-  ComplexError &
-  operator= (ComplexError &&other) noexcept
-  {
-    if (this != &other)
-      {
-        message = std::move (other.message);
-        code = other.code;
-        resource = std::move (other.resource);
-        other.code = 0; // Clear the source resource
-      }
-    return *this;
-  }
+void
+ExpectTransformed (int const &actual, int const &original)
+{
+  EXPECT_EQ (actual, original + 1);
+}
 
-  bool
-  operator== (ComplexError const &other) const
-  {
-    return message == other.message && code == other.code
-           && ((!resource && !other.resource)
-               || (resource && other.resource
-                   && *resource == *other.resource));
-  }
+void
+ExpectTransformed (std::string const &actual, std::string const &original)
+{
+  EXPECT_EQ (actual, original + "_transformed");
+}
 
-  bool
-  operator!= (ComplexError const &other) const
-  {
-    return !(*this == other);
-  }
-};
+void
+ExpectTransformed (SimpleSuccess const &actual, SimpleSuccess const &original)
+{
+  EXPECT_EQ (actual, SimpleSuccess (original.value + 1));
+}
+
+void
+ExpectTransformed (ComplexSuccess const &actual,
+                   ComplexSuccess const &original)
+{
+  ComplexSuccess expected = original;
+  expected.name += "_transformed";
+  EXPECT_EQ (actual, expected);
+}
+
+template <typename T>
+void
+ExpectTransformed (T const &, T const &)
+{
+}
+} // namespace
 
 // === Fixture for Expected ==================================================
 template <typename T> class ExpectedTest : public ::testing::Test
@@ -1154,53 +1157,13 @@ TYPED_TEST (ExpectedTest, TransformLValue_TransformsValueOrPropagatesError)
 
   // Act: apply a function that maps SuccessType to the same type
   auto func = [&] (SuccessType &val) -> SuccessType
-    {
-      if constexpr (std::is_same_v<SuccessType, int>)
-        {
-          return val + 1;
-        }
-      else if constexpr (std::is_same_v<SuccessType, std::string>)
-        {
-          return val + "_transformed";
-        }
-      else if constexpr (std::is_same_v<SuccessType, SimpleSuccess>)
-        {
-          return SimpleSuccess (val.value + 1);
-        }
-      else if constexpr (std::is_same_v<SuccessType, ComplexSuccess>)
-        {
-          ComplexSuccess result = val;
-          result.name += "_transformed";
-          return result;
-        }
-      else
-        {
-          return val; // fallback - return unchanged
-        }
-    };
+    { return TransformSuccess (val); };
 
   ResultType result_s = success_uut.transform (func);
 
   // Assert
   EXPECT_TRUE (result_s.has_value ());
-  if constexpr (std::is_same_v<SuccessType, int>)
-    {
-      EXPECT_EQ (result_s.value (), this->s_val1 + 1);
-    }
-  else if constexpr (std::is_same_v<SuccessType, std::string>)
-    {
-      EXPECT_EQ (result_s.value (), this->s_val1 + "_transformed");
-    }
-  else if constexpr (std::is_same_v<SuccessType, SimpleSuccess>)
-    {
-      EXPECT_EQ (result_s.value (), SimpleSuccess (this->s_val1.value + 1));
-    }
-  else if constexpr (std::is_same_v<SuccessType, ComplexSuccess>)
-    {
-      ComplexSuccess expected = this->s_val1;
-      expected.name += "_transformed";
-      EXPECT_EQ (result_s.value (), expected);
-    }
+  ExpectTransformed (result_s.value (), this->s_val1);
 
   // Arrange: Expected holding an error
   Expected<SuccessType, ErrorType> error_uut (
@@ -1227,53 +1190,13 @@ TYPED_TEST (ExpectedTest,
 
   // Act: apply the function
   auto func = [&] (SuccessType const &val) -> SuccessType
-    {
-      if constexpr (std::is_same_v<SuccessType, int>)
-        {
-          return val + 1;
-        }
-      else if constexpr (std::is_same_v<SuccessType, std::string>)
-        {
-          return val + "_transformed";
-        }
-      else if constexpr (std::is_same_v<SuccessType, SimpleSuccess>)
-        {
-          return SimpleSuccess (val.value + 1);
-        }
-      else if constexpr (std::is_same_v<SuccessType, ComplexSuccess>)
-        {
-          ComplexSuccess result = val;
-          result.name += "_transformed";
-          return result;
-        }
-      else
-        {
-          return val; // fallback - return unchanged
-        }
-    };
+    { return TransformSuccess (val); };
 
   ResultType result_s = success_uut.transform (func);
 
   // Assert
   EXPECT_TRUE (result_s.has_value ());
-  if constexpr (std::is_same_v<SuccessType, int>)
-    {
-      EXPECT_EQ (result_s.value (), this->s_val1 + 1);
-    }
-  else if constexpr (std::is_same_v<SuccessType, std::string>)
-    {
-      EXPECT_EQ (result_s.value (), this->s_val1 + "_transformed");
-    }
-  else if constexpr (std::is_same_v<SuccessType, SimpleSuccess>)
-    {
-      EXPECT_EQ (result_s.value (), SimpleSuccess (this->s_val1.value + 1));
-    }
-  else if constexpr (std::is_same_v<SuccessType, ComplexSuccess>)
-    {
-      ComplexSuccess expected = this->s_val1;
-      expected.name += "_transformed";
-      EXPECT_EQ (result_s.value (), expected);
-    }
+  ExpectTransformed (result_s.value (), this->s_val1);
 
   // Arrange: Expected holding an error
   Expected<SuccessType, ErrorType> const error_uut (
@@ -1344,6 +1267,114 @@ TYPED_TEST (ExpectedTest,
   // Assert
   EXPECT_TRUE (result_s.has_value ());
   EXPECT_EQ (result_s.value (), this->s_val1);
+}
+
+// === Observer overloads by value category ===================================
+// A C++11 constexpr member function is implicitly const, so the non-const
+// overloads of value(), error(), operator* and operator-> used to collide with
+// their const twins and the module did not compile at C++11. These checks pin
+// every overload to the type it returns, in every value category, and use the
+// mutable and the const lvalue overload of error() at run time.
+
+TEST (ExpectedObserverTest, EveryValueCategory_ReturnsTheMatchingType)
+{
+  using E = Expected<int, std::string>;
+  static_assert (
+      std::is_same<decltype (std::declval<E &> ().value ()), int &>::value,
+      "value () &");
+  static_assert (std::is_same<decltype (std::declval<E const &> ().value ()),
+                              int const &>::value,
+                 "value () const &");
+  static_assert (
+      std::is_same<decltype (std::declval<E &&> ().value ()), int &&>::value,
+      "value () &&");
+  static_assert (std::is_same<decltype (std::declval<E const &&> ().value ()),
+                              int const &&>::value,
+                 "value () const &&");
+  static_assert (std::is_same<decltype (std::declval<E &> ().error ()),
+                              std::string &>::value,
+                 "error () &");
+  static_assert (std::is_same<decltype (std::declval<E const &> ().error ()),
+                              std::string const &>::value,
+                 "error () const &");
+  static_assert (std::is_same<decltype (std::declval<E &&> ().error ()),
+                              std::string &&>::value,
+                 "error () &&");
+  static_assert (std::is_same<decltype (std::declval<E const &&> ().error ()),
+                              std::string const &&>::value,
+                 "error () const &&");
+  static_assert (std::is_same<decltype (*std::declval<E &> ()), int &>::value,
+                 "operator* () &");
+  static_assert (
+      std::is_same<decltype (*std::declval<E const &> ()), int const &>::value,
+      "operator* () const &");
+  static_assert (
+      std::is_same<decltype (*std::declval<E &&> ()), int &&>::value,
+      "operator* () &&");
+  static_assert (std::is_same<decltype (*std::declval<E const &&> ()),
+                              int const &&>::value,
+                 "operator* () const &&");
+  static_assert (
+      std::is_same<decltype (std::declval<E &> ().operator->()), int *>::value,
+      "operator-> ()");
+  static_assert (
+      std::is_same<decltype (std::declval<E const &> ().operator->()),
+                   int const *>::value,
+      "operator-> () const");
+  static_assert (
+      std::is_same<decltype (std::declval<E const &> ().value_or (0)),
+                   int>::value,
+      "value_or () const &");
+  static_assert (
+      std::is_same<decltype (std::declval<E &&> ().value_or (0)), int>::value,
+      "value_or () &&");
+  static_assert (std::is_same<decltype (std::declval<E const &> ().error_or (
+                                  std::string ())),
+                              std::string>::value,
+                 "error_or () const &");
+  static_assert (
+      std::is_same<decltype (std::declval<E &&> ().error_or (std::string ())),
+                   std::string>::value,
+      "error_or () &&");
+
+  using V = Expected<void, std::string>;
+  static_assert (std::is_same<decltype (std::declval<V &> ().error ()),
+                              std::string &>::value,
+                 "void: error () &");
+  static_assert (std::is_same<decltype (std::declval<V const &> ().error ()),
+                              std::string const &>::value,
+                 "void: error () const &");
+  static_assert (std::is_same<decltype (std::declval<V &&> ().error ()),
+                              std::string &&>::value,
+                 "void: error () &&");
+  static_assert (std::is_same<decltype (std::declval<V const &&> ().error ()),
+                              std::string const &&>::value,
+                 "void: error () const &&");
+  static_assert (
+      std::is_same<decltype (std::declval<V &> ().value ()), void>::value,
+      "void: value () &");
+  static_assert (std::is_same<decltype (std::declval<V const &&> ().value ()),
+                              void>::value,
+                 "void: value () const &&");
+  static_assert (std::is_same<decltype (*std::declval<V &> ()), void>::value,
+                 "void: operator* () &");
+  static_assert (
+      std::is_same<decltype (*std::declval<V const &&> ()), void>::value,
+      "void: operator* () const &&");
+
+  // The mutable lvalue overload writes the stored error, the const one and
+  // the rvalue one read it.
+  E with_error (unexpect, "first");
+  with_error.error () = "second";
+  E const &const_ref = with_error;
+  EXPECT_EQ (const_ref.error (), "second");
+  EXPECT_EQ (std::move (with_error).error (), "second");
+
+  V void_error (unexpect, "first");
+  void_error.error () = "second";
+  V const &void_const_ref = void_error;
+  EXPECT_EQ (void_const_ref.error (), "second");
+  EXPECT_EQ (std::move (void_error).error (), "second");
 }
 
 // === Precondition violations ===========================================

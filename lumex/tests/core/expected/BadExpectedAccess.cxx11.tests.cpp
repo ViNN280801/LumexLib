@@ -1,14 +1,19 @@
+// BadExpectedAccess<E> tests. They compile from C++11, so every expected
+// suite (C++11, C++17, C++20) runs them.
+
 #include <chrono>
 #include <memory>
 #include <stdexcept>
 #include <string>
 #include <thread>
+#include <utility>
 #include <vector>
 
 #include <gtest/gtest.h>
 
 #include "lumex/core/expected/Expected"
 
+#include "lumex/tests/core/expected/ExpectedTestTypes.hpp"
 #include "lumex/tests/support/LumexPerfSkip.hpp"
 
 #if defined(__clang__)
@@ -39,83 +44,197 @@
 using namespace lumex::core::expected::result;
 using namespace lumex::core::expected::error;
 
-// === Error types for tests ========================================
+// === Per-type steps of these tests ==========================================
+// The shared steps live in ExpectedTestTypes.hpp; these are the ones only the
+// BadExpectedAccess tests take.
 
-enum class SimpleError
+namespace
 {
-  None,
-  InvalidInput,
-  NetworkFailure
-};
-
-// Complex type of error with resource ownership (for checking move and copy)
-struct ComplexError
+// Writes through error() & and checks the exception sees the change.
+void
+MutateThroughError (BadExpectedAccess<int> &uut)
 {
-  std::string message;
-  int code;
-  std::unique_ptr<int> resource;
+  uut.error () = 999;
+  EXPECT_EQ (uut.error (), 999);
+}
 
-  explicit ComplexError (std::string msg = "Default Error", int c = 100)
-      : message (std::move (msg)), code (c),
-        resource (std::make_unique<int> (c))
-  {
-  }
+void
+MutateThroughError (BadExpectedAccess<std::string> &uut)
+{
+  uut.error () = "Modified Error";
+  EXPECT_EQ (uut.error (), "Modified Error");
+}
 
-  ComplexError (ComplexError const &other)
-      : message (other.message), code (other.code),
-        resource (other.resource ? std::make_unique<int> (*other.resource)
-                                 : nullptr)
-  {
-  }
+template <typename T>
+void
+MutateThroughError (BadExpectedAccess<T> &)
+{
+}
 
-  ComplexError &
-  operator= (ComplexError const &other)
+// The lifetime check only applies to ComplexError (it owns a resource).
+void
+CheckComplexErrorLifetime (TypeTag<ComplexError>)
+{
+  // Arrange
+  ComplexError initial_error ("Memory Test Error", 200);
+  int *original_resource_ptr = initial_error.resource.get ();
+  // Act and assert (no leaks when leaving the scope)
   {
-    if (this != &other)
-      {
-        message = other.message;
-        code = other.code;
-        resource = other.resource ? std::make_unique<int> (*other.resource)
-                                  : nullptr;
-      }
-    return *this;
-  }
+    BadExpectedAccess<ComplexError> uut (std::move (initial_error));
+    EXPECT_NE (uut.error ().resource, nullptr);
+    EXPECT_EQ (uut.error ().resource.get (),
+               original_resource_ptr); // Must be the same resource, but moved
+  } // uut is destroyed here; the unique_ptr resource must be released.
+  // Directly observing unique_ptr release is hard without changing
+  // ComplexError, but RAII guarantees it. Checking that original_resource_ptr
+  // now points at freed memory is unsafe. Rely on unique_ptr instead.
+  SUCCEED () << "ComplexError with unique_ptr should be correctly "
+                "destroyed, preventing memory leaks.";
+}
 
-  ComplexError (ComplexError &&other) noexcept
-      : message (std::move (other.message)), code (other.code),
-        resource (std::move (other.resource))
-  {
-    other.code = 0;
-  }
+template <typename T>
+void
+CheckComplexErrorLifetime (TypeTag<T>)
+{
+  SUCCEED () << "Test not applicable for non-ComplexError types.";
+}
 
-  ComplexError &
-  operator= (ComplexError &&other) noexcept
-  {
-    if (this != &other)
-      {
-        message = std::move (other.message);
-        code = other.code;
-        resource = std::move (other.resource);
-        other.code = 0;
-      }
-    return *this;
-  }
+// Changes the error of `changed` after `kept` was copied or assigned from it,
+// then checks that `kept` still holds `expected`.
+void
+ExpectIndependentCopy (BadExpectedAccess<int> &changed,
+                       BadExpectedAccess<int> const &kept, int const &expected,
+                       int new_value)
+{
+  changed.error () = new_value;
+  EXPECT_NE (kept.error (), changed.error ());
+  EXPECT_EQ (kept.error (), expected);
+}
 
-  bool
-  operator== (ComplexError const &other) const
-  {
-    return message == other.message && code == other.code
-           && ((!resource && !other.resource)
-               || (resource && other.resource
-                   && *resource == *other.resource));
-  }
+void
+ExpectIndependentCopy (BadExpectedAccess<std::string> &changed,
+                       BadExpectedAccess<std::string> const &kept,
+                       std::string const &expected,
+                       std::string const &new_value)
+{
+  changed.error () = new_value;
+  EXPECT_NE (kept.error (), changed.error ());
+  EXPECT_EQ (kept.error (), expected);
+}
 
-  bool
-  operator!= (ComplexError const &other) const
-  {
-    return !(*this == other);
-  }
-};
+void
+ExpectIndependentCopy (BadExpectedAccess<ComplexError> &changed,
+                       BadExpectedAccess<ComplexError> const &kept,
+                       ComplexError const &expected,
+                       std::string const &new_message, int new_code)
+{
+  changed.error ().message = new_message;
+  changed.error ().code = new_code;
+  EXPECT_NE (kept.error (), changed.error ());
+  EXPECT_EQ (kept.error ().message, expected.message);
+  EXPECT_EQ (kept.error ().code, expected.code);
+  EXPECT_NE (kept.error ().resource,
+             changed.error ().resource); // Must be distinct unique_ptr objects
+}
+
+// The copy constructor and copy assignment tests change the source with
+// different values; SimpleError is not changed.
+void
+CheckCopyAfterCopyConstruction (BadExpectedAccess<int> &original,
+                                BadExpectedAccess<int> const &copy,
+                                int const &expected)
+{
+  ExpectIndependentCopy (original, copy, expected, 123);
+}
+
+void
+CheckCopyAfterCopyConstruction (BadExpectedAccess<std::string> &original,
+                                BadExpectedAccess<std::string> const &copy,
+                                std::string const &expected)
+{
+  ExpectIndependentCopy (original, copy, expected, "Changed Original");
+}
+
+void
+CheckCopyAfterCopyConstruction (BadExpectedAccess<ComplexError> &original,
+                                BadExpectedAccess<ComplexError> const &copy,
+                                ComplexError const &expected)
+{
+  ExpectIndependentCopy (original, copy, expected, "Changed Original Message",
+                         500);
+}
+
+template <typename T>
+void
+CheckCopyAfterCopyConstruction (BadExpectedAccess<T> &,
+                                BadExpectedAccess<T> const &, T const &)
+{
+}
+
+void
+CheckCopyAfterCopyAssignment (BadExpectedAccess<int> &source,
+                              BadExpectedAccess<int> const &target,
+                              int const &expected)
+{
+  ExpectIndependentCopy (source, target, expected, 456);
+}
+
+void
+CheckCopyAfterCopyAssignment (BadExpectedAccess<std::string> &source,
+                              BadExpectedAccess<std::string> const &target,
+                              std::string const &expected)
+{
+  ExpectIndependentCopy (source, target, expected, "Changed Source");
+}
+
+void
+CheckCopyAfterCopyAssignment (BadExpectedAccess<ComplexError> &source,
+                              BadExpectedAccess<ComplexError> const &target,
+                              ComplexError const &expected)
+{
+  ExpectIndependentCopy (source, target, expected, "Changed Source Message",
+                         600);
+}
+
+template <typename T>
+void
+CheckCopyAfterCopyAssignment (BadExpectedAccess<T> &,
+                              BadExpectedAccess<T> const &, T const &)
+{
+}
+
+// A distinct error per thread index.
+void
+AssignThreadError (int &error, int i)
+{
+  error = i + 1;
+}
+
+void
+AssignThreadError (std::string &error, int i)
+{
+  error = "Error " + std::to_string (i + 1);
+}
+
+void
+AssignThreadError (SimpleError &error, int i)
+{
+  error = static_cast<SimpleError> (i % 3 + 1);
+}
+
+void
+AssignThreadError (ComplexError &error, int i)
+{
+  error = ComplexError ("Thread Error " + std::to_string (i + 1), 300 + i);
+}
+
+template <typename T>
+void
+AssignThreadError (T &error, int)
+{
+  error = T (); // Default value
+}
+} // namespace
 
 // === Fixture for BadExpectedAccess =========================================
 template <typename ErrorType>
@@ -128,26 +247,9 @@ protected:
   void
   SetUp () override
   {
-    // Initialize SimpleError when ErrorType is SimpleError
-    if constexpr (std::is_same_v<ErrorType, SimpleError>)
-      {
-        error_val1 = static_cast<ErrorType> (SimpleError::InvalidInput);
-        error_val2 = static_cast<ErrorType> (SimpleError::NetworkFailure);
-      }
-    // Initialize ComplexError when ErrorType is ComplexError
-    else if constexpr (std::is_same_v<ErrorType, ComplexError>)
-      {
-        error_val1
-            = static_cast<ErrorType> (ComplexError ("Test Error 1", 101));
-        error_val2
-            = static_cast<ErrorType> (ComplexError ("Test Error 2", 102));
-      }
-    // For other types, use the default constructor or a simple init
-    else
-      {
-        error_val1 = ErrorType ();
-        error_val2 = ErrorType ();
-      }
+    // SimpleError and ComplexError get known values; other types use the
+    // default constructor.
+    InitErrorPair (error_val1, error_val2);
   }
 
   ErrorType error_val1;
@@ -189,16 +291,7 @@ TYPED_TEST (BadExpectedAccessTest,
   // Assert
   EXPECT_EQ (uut.error (), expected_error);
   // Assert that mutation through the lvalue reference changes internal state.
-  if constexpr (std::is_same_v<TypeParam, int>)
-    {
-      uut.error () = 999;
-      EXPECT_EQ (uut.error (), 999);
-    }
-  else if constexpr (std::is_same_v<TypeParam, std::string>)
-    {
-      uut.error () = "Modified Error";
-      EXPECT_EQ (uut.error (), "Modified Error");
-    }
+  MutateThroughError (uut);
 }
 
 // Check that const error() as an lvalue returns the correct value
@@ -234,13 +327,9 @@ TYPED_TEST (BadExpectedAccessTest,
   TypeParam moved_error = std::move (uut).error ();
   // Assert
   EXPECT_EQ (moved_error, expected_error);
-  // For ComplexError, the resource inside uut must be moved.
-  if constexpr (std::is_same_v<TypeParam, ComplexError>)
-    {
-      EXPECT_EQ (uut.error ().code,
-                 0); // Check that the source ComplexError was changed
-      EXPECT_EQ (uut.error ().resource, nullptr);
-    }
+  // For ComplexError, the resource inside uut must be moved (the source
+  // ComplexError has code 0 and no resource).
+  ExpectMovedFrom (uut.error ());
 }
 
 // Check that const error() as an rvalue returns the correct value
@@ -259,11 +348,9 @@ TYPED_TEST (BadExpectedAccessTest,
             .error ();
   // Assert
   EXPECT_EQ (const_moved_error, expected_error);
-  // For ComplexError, the resource inside uut must not be moved.
-  if constexpr (std::is_same_v<TypeParam, ComplexError>)
-    EXPECT_EQ (
-        uut.error (),
-        expected_error); // Check that the source ComplexError was not changed
+  // For ComplexError, the resource inside uut must not be moved: the source
+  // ComplexError is not changed.
+  ExpectEqualComplex (uut.error (), expected_error);
 }
 
 // === Memory and lifetime tests =======================================
@@ -273,30 +360,7 @@ TYPED_TEST (BadExpectedAccessTest,
 // ComplexError uses unique_ptr to track ownership.
 TYPED_TEST (BadExpectedAccessTest, MemorySafety_ComplexErrorDestructorCalled)
 {
-  if constexpr (std::is_same_v<TypeParam, ComplexError>)
-    {
-      // Arrange
-      ComplexError initial_error ("Memory Test Error", 200);
-      int *original_resource_ptr = initial_error.resource.get ();
-      // Act and assert (no leaks when leaving the scope)
-      {
-        BadExpectedAccess<ComplexError> uut (std::move (initial_error));
-        EXPECT_NE (uut.error ().resource, nullptr);
-        EXPECT_EQ (
-            uut.error ().resource.get (),
-            original_resource_ptr); // Must be the same resource, but moved
-      } // uut is destroyed here; the unique_ptr resource must be released.
-      // Directly observing unique_ptr release is hard without changing
-      // ComplexError, but RAII guarantees it. Checking that
-      // original_resource_ptr now points at freed memory is unsafe. Rely on
-      // unique_ptr instead.
-      SUCCEED () << "ComplexError with unique_ptr should be correctly "
-                    "destroyed, preventing memory leaks.";
-    }
-  else
-    {
-      SUCCEED () << "Test not applicable for non-ComplexError types.";
-    }
+  CheckComplexErrorLifetime (TypeTag<TypeParam> ());
 }
 
 // Check the BadExpectedAccess copy constructor.
@@ -314,29 +378,8 @@ TYPED_TEST (BadExpectedAccessTest, CopyConstructor_CopiesErrorCorrectly)
   // Assert
   EXPECT_EQ (copied_uut.error (), expected_error_value);
   // Mutating the original must not affect the copy
-  if constexpr (std::is_same_v<TypeParam, int>)
-    {
-      original_uut.error () = 123;
-      EXPECT_NE (copied_uut.error (), original_uut.error ());
-      EXPECT_EQ (copied_uut.error (), expected_error_value);
-    }
-  else if constexpr (std::is_same_v<TypeParam, std::string>)
-    {
-      original_uut.error () = "Changed Original";
-      EXPECT_NE (copied_uut.error (), original_uut.error ());
-      EXPECT_EQ (copied_uut.error (), expected_error_value);
-    }
-  else if constexpr (std::is_same_v<TypeParam, ComplexError>)
-    {
-      original_uut.error ().message = "Changed Original Message";
-      original_uut.error ().code = 500;
-      EXPECT_NE (copied_uut.error (), original_uut.error ());
-      EXPECT_EQ (copied_uut.error ().message, expected_error_value.message);
-      EXPECT_EQ (copied_uut.error ().code, expected_error_value.code);
-      EXPECT_NE (copied_uut.error ().resource,
-                 original_uut.error ()
-                     .resource); // Must be distinct unique_ptr objects
-    }
+  CheckCopyAfterCopyConstruction (original_uut, copied_uut,
+                                  expected_error_value);
 }
 
 // Check BadExpectedAccess copy assignment.
@@ -356,27 +399,7 @@ TYPED_TEST (BadExpectedAccessTest, CopyAssignment_CopiesErrorCorrectly)
   // Assert
   EXPECT_EQ (dst_uut.error (), expected_error_value);
   // Mutating the source must not affect the target
-  if constexpr (std::is_same_v<TypeParam, int>)
-    {
-      src_uut.error () = 456;
-      EXPECT_NE (dst_uut.error (), src_uut.error ());
-      EXPECT_EQ (dst_uut.error (), expected_error_value);
-    }
-  else if constexpr (std::is_same_v<TypeParam, std::string>)
-    {
-      src_uut.error () = "Changed Source";
-      EXPECT_NE (dst_uut.error (), src_uut.error ());
-      EXPECT_EQ (dst_uut.error (), expected_error_value);
-    }
-  else if constexpr (std::is_same_v<TypeParam, ComplexError>)
-    {
-      src_uut.error ().message = "Changed Source Message";
-      src_uut.error ().code = 600;
-      EXPECT_NE (dst_uut.error (), src_uut.error ());
-      EXPECT_EQ (dst_uut.error ().message, expected_error_value.message);
-      EXPECT_EQ (dst_uut.error ().code, expected_error_value.code);
-      EXPECT_NE (dst_uut.error ().resource, src_uut.error ().resource);
-    }
+  CheckCopyAfterCopyAssignment (src_uut, dst_uut, expected_error_value);
 }
 
 // Check BadExpectedAccess move assignment.
@@ -396,11 +419,7 @@ TYPED_TEST (BadExpectedAccessTest, MoveAssignment_MovesErrorCorrectly)
   // Assert
   EXPECT_EQ (dst_uut.error (), expected_error_value);
   // Check that src_uut now holds the moved-from resource
-  if constexpr (std::is_same_v<TypeParam, ComplexError>)
-    {
-      EXPECT_EQ (src_uut.error ().code, 0);
-      EXPECT_EQ (src_uut.error ().resource, nullptr);
-    }
+  ExpectMovedFrom (src_uut.error ());
   // For simple types such as int or std::string, the source may stay unchanged
   // or be valid but unspecified. Its value is not checked
   // after the move because that is not part of the contract.
@@ -422,17 +441,7 @@ TYPED_TEST (BadExpectedAccessTest, ThreadSafety_MultipleIndependentInstances)
   // Create source errors per thread
   std::vector<TypeParam> initial_errors (num_threads);
   for (int i = 0; i < num_threads; ++i)
-    if constexpr (std::is_same_v<TypeParam, int>)
-      initial_errors[i] = i + 1;
-    else if constexpr (std::is_same_v<TypeParam, std::string>)
-      initial_errors[i] = "Error " + std::to_string (i + 1);
-    else if constexpr (std::is_same_v<TypeParam, SimpleError>)
-      initial_errors[i] = static_cast<SimpleError> (i % 3 + 1);
-    else if constexpr (std::is_same_v<TypeParam, ComplexError>)
-      initial_errors[i]
-          = ComplexError ("Thread Error " + std::to_string (i + 1), 300 + i);
-    else
-      initial_errors[i] = TypeParam (); // Default value
+    AssignThreadError (initial_errors[i], i);
 
   // Act
   for (int i = 0; i < num_threads; ++i)
@@ -469,20 +478,13 @@ TYPED_TEST (BadExpectedAccessTest, Perf_ConstructionAndAccess)
   // Expected state: the operation finishes in acceptable time.
   // Benchmark the constructor and error() to find bottlenecks.
   // Assert that performance matches expectations.
-  int const N = 1'000'000;
+  int const N = 1000000;
   auto start = std::chrono::high_resolution_clock::now ();
 
   for (int i = 0; i < N; ++i)
     {
       TypeParam error_data;
-      if constexpr (std::is_same_v<TypeParam, int>)
-        error_data = i;
-      else if constexpr (std::is_same_v<TypeParam, std::string>)
-        error_data = "Error" + std::to_string (i);
-      else if constexpr (std::is_same_v<TypeParam, SimpleError>)
-        error_data = static_cast<SimpleError> (i % 3 + 1);
-      else if constexpr (std::is_same_v<TypeParam, ComplexError>)
-        error_data = ComplexError ("Perf Error", i);
+      AssignPerfError (error_data, i);
 
       BadExpectedAccess<TypeParam> uut (std::move (error_data));
       // Call error() to simulate use
@@ -495,21 +497,12 @@ TYPED_TEST (BadExpectedAccessTest, Perf_ConstructionAndAccess)
   // Expected time depends heavily on ErrorType.
   // ComplexError is much slower because of unique_ptr and std::string.
   // Use a higher threshold for ComplexError.
-  long long threshold = 100; // ms
-  if constexpr (std::is_same_v<TypeParam, ComplexError>)
-    threshold = 1000; // ms for ComplexError
-  else if constexpr (std::is_same_v<TypeParam, std::string>)
-    threshold = 200; // ms for std::string
+  long long const threshold = PerfThresholdMs (TypeTag<TypeParam> ()); // ms
 
   EXPECT_LT (dur.count (), threshold)
       << "Construction and access for " << N << " BadExpectedAccess<"
-      << (std::is_same_v<TypeParam, int>            ? "int"
-          : std::is_same_v<TypeParam, std::string>  ? "string"
-          : std::is_same_v<TypeParam, SimpleError>  ? "SimpleError"
-          : std::is_same_v<TypeParam, ComplexError> ? "ComplexError"
-                                                    : "Unknown")
-      << "> too slow: " << dur.count () << "ms (Threshold: " << threshold
-      << "ms)";
+      << TypeLabel (TypeTag<TypeParam> ()) << "> too slow: " << dur.count ()
+      << "ms (Threshold: " << threshold << "ms)";
 #else
   GTEST_SKIP ()
       << "wall-clock Perf_* thresholds are Release-only (no sanitizers)";

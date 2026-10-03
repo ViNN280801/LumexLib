@@ -1,37 +1,20 @@
 # lumex/tests/core/expected/CMakeLists.txt
 
-set(LUMEX_EXPECTED_TEST_SOURCES
-    BadExpectedAccess.tests.cpp
-    Expected.tests.cpp
-    ExpectedMonadic.tests.cpp
-    ExpectedVoid.tests.cpp
-    SuccessFailure.tests.cpp
-    Unexpected.tests.cpp
+# One suite per standard of the module (lumex/tests/LumexTestStandards.cmake):
+#   LumexExpectedCxx11Tests  every *.cxx11.tests.cpp: Expected<T, E>,
+#                            Expected<void, E>, Unexpected, BadExpectedAccess,
+#                            the monadic operations, success () / failure ()
+#                            and the type matrix over the C++11 types
+#   LumexExpectedCxx17Tests  + SuccessFailure.cxx17.tests.cpp: the full type
+#                            matrix with std::string_view, std::optional and
+#                            std::variant; C++17 is also the GCC and Clang
+#                            default, where LUMEX_CONSTEXPR_DTOR stays empty
+#   LumexExpectedCxx20Tests  the same sources with the constexpr destructors
+#                            and the concepts branch of the monadic operations
+# ExpectedTestTypes.hpp and SuccessFailureTestSupport.hpp hold the error types
+# and the type matrix the files of several standards share.
+lumex_add_standard_suites(Expected
+    MODULE expected
+    LINK lumex::expected
+    SOURCES ExpectedTestTypes.hpp SuccessFailureTestSupport.hpp
 )
-
-# The test sources use if constexpr, so C++17 is their floor. C++17 is also
-# the default of GCC and Clang, where LUMEX_CONSTEXPR_DTOR must stay empty
-# (constexpr destructors are C++20); the C++20 suite takes the constexpr
-# destructor branch of Expected.hpp / ExpectedVoid.hpp.
-foreach(_expected_suite IN ITEMS
-        "LumexExpectedTests;20;"
-        "LumexExpectedCxx17Tests;17;.cxx17")
-    list(GET _expected_suite 0 _expected_name)
-    list(GET _expected_suite 1 _expected_std)
-    list(GET _expected_suite 2 _expected_suffix)
-
-    add_executable(${_expected_name} ${LUMEX_EXPECTED_TEST_SOURCES})
-
-    target_link_libraries(
-        ${_expected_name}
-        PRIVATE
-        lumex::expected
-    )
-
-    lumex_test_use_gtest(${_expected_name} CXX_STANDARD ${_expected_std})
-    if(_expected_suffix)
-        lumex_gtest_discover_tests(${_expected_name} TEST_SUFFIX "${_expected_suffix}")
-    else()
-        lumex_gtest_discover_tests(${_expected_name})
-    endif()
-endforeach()
