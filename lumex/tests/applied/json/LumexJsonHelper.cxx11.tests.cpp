@@ -1,4 +1,7 @@
-// LumexJsonHelper.tests.cpp
+// LumexJsonHelper.cxx11.tests.cpp
+// LumexJsonHelper tests that compile from C++11; every json suite runs them.
+// LumexJsonHelper.cxx17.tests.cpp adds the std::string_view case, and
+// LumexJsonHelperTestFixture.hpp holds the fixture both files use.
 #include <algorithm>
 #include <atomic>
 #include <cerrno>
@@ -15,149 +18,18 @@
 #include <thread>
 #include <type_traits>
 #include <vector>
-#if __cplusplus >= 201703L
-#include <string_view>
-#endif
 
 #include <gtest/gtest.h>
 #include <nlohmann/json.hpp>
 
 #include "lumex/applied/json/LumexJson"
+#include "lumex/tests/applied/json/LumexJsonHelperTestFixture.hpp"
 #include "lumex/tests/support/LumexPerfSkip.hpp"
-
-#ifndef LUMEX_JSON_TEST_SUITE
-#define LUMEX_JSON_TEST_SUITE "default"
-#endif
 
 using lumex::applied::json::diagnostics::LumexJsonDiagnosticLevel;
 using lumex::applied::json::diagnostics::LumexJsonDiagnosticSlot;
 using lumex::applied::json::helper::LumexJsonHelper;
-
-namespace
-{
-struct captured_diagnostic_t
-{
-  LumexJsonDiagnosticLevel level;
-  std::string message;
-};
-
-std::mutex g_captured_mutex;
-std::vector<captured_diagnostic_t> g_captured;
-
-void
-capture_diagnostic (LumexJsonDiagnosticLevel level, char const *message)
-{
-  std::lock_guard<std::mutex> const lock (g_captured_mutex);
-  captured_diagnostic_t entry;
-  entry.level = level;
-  entry.message = message;
-  g_captured.push_back (entry);
-}
-
-std::size_t
-count_level (LumexJsonDiagnosticLevel level)
-{
-  std::lock_guard<std::mutex> const lock (g_captured_mutex);
-  std::size_t count = 0;
-  for (std::size_t i = 0; i < g_captured.size (); ++i)
-    if (g_captured[i].level == level)
-      ++count;
-  return count;
-}
-
-bool
-any_message_contains (std::string const &needle)
-{
-  std::lock_guard<std::mutex> const lock (g_captured_mutex);
-  for (std::size_t i = 0; i < g_captured.size (); ++i)
-    if (g_captured[i].message.find (needle) != std::string::npos)
-      return true;
-  return false;
-}
-
-std::size_t
-captured_count ()
-{
-  std::lock_guard<std::mutex> const lock (g_captured_mutex);
-  return g_captured.size ();
-}
-} // namespace
-
-// Every test gets its own file, named after the suite binary and the test,
-// so the C++11 and C++20 suites can run in parallel. Diagnostics are
-// captured instead of going to std::cerr, so tests can assert on them.
-class LumexJsonHelperTest : public ::testing::Test
-{
-protected:
-  std::string current_test_filename_;
-  std::string test_section = "TestSection";
-
-  void
-  SetUp () override
-  {
-    {
-      std::lock_guard<std::mutex> const lock (g_captured_mutex);
-      g_captured.clear ();
-    }
-    LumexJsonDiagnosticSlot::set (&capture_diagnostic);
-
-    ::testing::TestInfo const *info
-        = ::testing::UnitTest::GetInstance ()->current_test_info ();
-    current_test_filename_
-        = std::string ("LumexJsonHelper.") + LUMEX_JSON_TEST_SUITE + "."
-          + info->test_case_name () + "." + info->name () + ".json";
-    if (std::remove (current_test_filename_.c_str ()) != 0 && errno != ENOENT)
-      ADD_FAILURE () << "Cannot remove '" << current_test_filename_
-                     << "' before the test: " << std::strerror (errno);
-  }
-
-  void
-  TearDown () override
-  {
-    LumexJsonDiagnosticSlot::reset ();
-    if (std::remove (current_test_filename_.c_str ()) != 0 && errno != ENOENT)
-      ADD_FAILURE () << "Cannot remove '" << current_test_filename_
-                     << "' after the test: " << std::strerror (errno);
-  }
-
-  void
-  create_test_file (nlohmann::json const &content)
-  {
-    std::ofstream ofs (current_test_filename_.c_str ());
-    if (!ofs.is_open ())
-      {
-        FAIL () << "Cannot create the test file " << current_test_filename_;
-      }
-    ofs << std::setw (4) << content << std::endl;
-  }
-
-  void
-  create_raw_file (std::string const &text)
-  {
-    std::ofstream ofs (current_test_filename_.c_str ());
-    ofs << text;
-  }
-
-  nlohmann::json
-  read_file_content ()
-  {
-    std::ifstream ifs (current_test_filename_.c_str ());
-    if (!ifs.is_open ())
-      return nlohmann::json ();
-    nlohmann::json content;
-    try
-      {
-        ifs >> content;
-      }
-    catch (std::exception const &exc)
-      {
-        // Some tests write invalid JSON on purpose.
-        std::cerr << "read_file_content(" << current_test_filename_
-                  << "): " << exc.what () << std::endl;
-      }
-    return content;
-  }
-};
+using namespace lumex_json_test;
 
 // --- load_config ---
 
@@ -1736,16 +1608,6 @@ TEST_F (LumexJsonHelperTest,
   EXPECT_FALSE (lumex::applied::json::helper::Detail::is_empty_value ("x"));
   EXPECT_FALSE (lumex::applied::json::helper::Detail::is_empty_value (0));
 }
-
-#if __cplusplus >= 201703L
-TEST_F (LumexJsonHelperTest, GivenStdStringView_WhenEmpty_ThenIsEmptyValue)
-{
-  EXPECT_TRUE (lumex::applied::json::helper::Detail::is_empty_value (
-      std::string_view ()));
-  EXPECT_FALSE (lumex::applied::json::helper::Detail::is_empty_value (
-      std::string_view ("x")));
-}
-#endif
 
 TEST_F (LumexJsonHelperTest,
         GivenNonStringValues_WhenSetValue_ThenZeroAndFalseAreStored)
