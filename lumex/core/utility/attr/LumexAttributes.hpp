@@ -200,25 +200,31 @@
 #endif
 
 // [[likely]] / [[unlikely]]
+// LUMEX_ATTRIBUTE_LIKELY_COND(cond) and LUMEX_ATTRIBUTE_UNLIKELY_COND(cond)
+// wrap a condition and exist in every standard. Below C++20 they pass the hint
+// through __builtin_expect on GCC and Clang (the condition is converted to
+// bool first, so a pointer works too) and are the plain condition elsewhere.
 #if __cplusplus >= 202002L
 #define LUMEX_ATTRIBUTE_LIKELY [[likely]]
 #define LUMEX_ATTRIBUTE_UNLIKELY [[unlikely]]
 #define LUMEX_ATTRIBUTE_LIKELY_COND(cond) (cond)
 #define LUMEX_ATTRIBUTE_UNLIKELY_COND(cond) (cond)
-#elif (defined(__GNUC__) && (__GNUC__ >= 9))                                  \
+#else
+#if (defined(__GNUC__) && (__GNUC__ >= 9))                                    \
     || (defined(__clang__) && __has_cpp_attribute(likely))
 #define LUMEX_ATTRIBUTE_LIKELY __attribute__ ((likely))
 #define LUMEX_ATTRIBUTE_UNLIKELY __attribute__ ((unlikely))
-
-#if (defined(__GNUC__))
-#define LUMEX_ATTRIBUTE_UNLIKELY_COND(cond) __builtin_expect (cond, 0)
-#else
-#define LUMEX_ATTRIBUTE_UNLIKELY_COND(cond) (cond)
-#endif
 #else
 #define LUMEX_ATTRIBUTE_LIKELY
 #define LUMEX_ATTRIBUTE_UNLIKELY
+#endif
+#if defined(__GNUC__) || defined(__clang__)
+#define LUMEX_ATTRIBUTE_LIKELY_COND(cond) (__builtin_expect (!!(cond), 1))
+#define LUMEX_ATTRIBUTE_UNLIKELY_COND(cond) (__builtin_expect (!!(cond), 0))
+#else
+#define LUMEX_ATTRIBUTE_LIKELY_COND(cond) (cond)
 #define LUMEX_ATTRIBUTE_UNLIKELY_COND(cond) (cond)
+#endif
 #endif
 
 // [[no_unique_address]] -> C++20
