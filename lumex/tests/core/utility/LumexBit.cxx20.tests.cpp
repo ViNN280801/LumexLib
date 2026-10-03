@@ -1,14 +1,11 @@
-// LumexBit.tests.cpp
+// LumexBit.cxx20.tests.cpp
+// ByteSwap of LumexBit.hpp, which needs C++20 concepts, std::bit_cast,
+// std::ranges and std::is_constant_evaluated; where the toolchain lacks one
+// of them a single test reports the skip. LumexBit.cxx23.tests.cpp compares
+// ByteSwap with std::byteswap (C++23).
 #include <cstdint>
 #include <limits>
 #include <type_traits>
-#if __has_include(<version>)
-#include <version>
-#endif
-
-#if defined(__cpp_lib_byteswap) && __cpp_lib_byteswap >= 202110L
-#include <bit>
-#endif
 
 #include <gtest/gtest.h>
 
@@ -204,21 +201,6 @@ TEST (LumexBitTest, GivenPowerOfTwoBoundaries_WhenByteSwap_ThenMovesTheSetBit)
   EXPECT_EQ (ByteSwap (static_cast<std::uint32_t> (0x00010000u)),
              static_cast<std::uint32_t> (0x00000100u));
 }
-
-#if defined(__cpp_lib_byteswap) && __cpp_lib_byteswap >= 202110L
-TEST (LumexBitTest,
-      GivenCpp23Byteswap_WhenCompared_ThenMatchesStandardByteswap)
-{
-  std::uint16_t const u16 = 0xBEEF;
-  std::uint32_t const u32 = 0xCAFEBABEu;
-  std::uint64_t const u64 = 0x0123456789ABCDEFULL;
-  EXPECT_EQ (ByteSwap (u16), std::byteswap (u16));
-  EXPECT_EQ (ByteSwap (u32), std::byteswap (u32));
-  EXPECT_EQ (ByteSwap (u64), std::byteswap (u64));
-  EXPECT_EQ (ByteSwap (static_cast<std::int32_t> (-99)),
-             std::byteswap (static_cast<std::int32_t> (-99)));
-}
-#endif
 
 class LumexBitRoundtrip32Test : public ::testing::TestWithParam<std::uint32_t>
 {

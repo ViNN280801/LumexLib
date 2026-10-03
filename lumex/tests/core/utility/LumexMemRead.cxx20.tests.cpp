@@ -1,4 +1,4 @@
-// LumexMemRead.tests.cpp
+// LumexMemRead.cxx20.tests.cpp
 #include <array>
 #include <cstdint>
 #include <cstring>

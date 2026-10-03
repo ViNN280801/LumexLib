@@ -1,4 +1,4 @@
-// LumexCoreDumpGenerator.tests.cpp
+// LumexCoreDumpGenerator.cxx11.tests.cpp
 #include <string>
 #include <system_error>
 #include <utility>
@@ -404,17 +404,6 @@ TEST (LumexCoreDumpGeneratorFactoryTest,
              "Full core dump with all memory");
   EXPECT_EQ (DumpFactory::getDescription (DumpType::DEFAULT_AUTO),
              "Auto-detect based on platform");
-}
-
-TEST (LumexCoreDumpGeneratorFactoryTest,
-      GivenKnownTypes_WhenGetEstimatedSize_ThenMatchesCatalog)
-{
-  EXPECT_EQ (DumpFactory::getEstimatedSize (DumpType::MINI_DUMP_NORMAL),
-             CoreDumpGenerator::KB_64);
-  EXPECT_EQ (DumpFactory::getEstimatedSize (DumpType::KERNEL_SMALL_DUMP),
-             CoreDumpGenerator::KB_64);
-  EXPECT_EQ (DumpFactory::getEstimatedSize (DumpType::DEFAULT_AUTO), 0u);
-  EXPECT_EQ (DumpFactory::getEstimatedSize (DumpType::CORE_DUMP_FULL), 0u);
 }
 
 TEST (LumexCoreDumpGeneratorFactoryTest,

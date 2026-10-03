@@ -1,4 +1,4 @@
-// LumexCheckOS.tests.cpp
+// LumexCheckOS.cxx11.tests.cpp
 // LUMEX_OS_IS_*() expand to the constant 1 or 0, so they work in `#if` and
 // in ordinary code, and agree with the LUMEX_OS_* macros they summarize.
 #include <gtest/gtest.h>

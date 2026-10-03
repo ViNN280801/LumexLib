@@ -1,4 +1,4 @@
-// LumexCallbackSlot.tests.cpp
+// LumexCallbackSlot.cxx11.tests.cpp
 #include <atomic>
 #include <cstddef>
 #include <stdexcept>

@@ -1,11 +1,11 @@
-// LumexTypeTraitsTopics.tests.cpp
+// LumexTypeTraitsTopics.cxx11.tests.cpp
 // Traits gathered into LumexTypeTraits.hpp from other modules (base64,
 // expected, cast, mem, dump, reflection, numeric, fmt) and the ones added
 // with them: every public trait of the meta / stream / range / string /
-// tuple / value / numeric topics that LumexTypeTraits.tests.cpp,
-// LumexStreamTraits.tests.cpp and LumexRangeTraits.tests.cpp do not cover.
-// Runs at C++11 (LumexTypeTraitsTests) and C++20 (LumexUtilityTests); the
-// concept checks exist only at C++20.
+// tuple / value / numeric topics that the LumexTypeTraits,
+// LumexStreamTraits and LumexRangeTraits test sources do not cover.
+// Every utility suite compiles this file; the concepts are in
+// LumexTypeTraitsTopics.cxx20.tests.cpp.
 #include <array>
 #include <cstddef>
 #include <cstdint>
@@ -123,13 +123,6 @@ struct flag_only_t
     return false;
   }
 };
-
-struct incomplete_t;
-
-struct base_t
-{
-  virtual ~base_t () = default;
-};
 } // namespace
 
 // ---------------------------------------------------------------------------
@@ -151,62 +144,6 @@ TEST (LumexTypeTraitsTopicsTest,
   EXPECT_TRUE (
       (std::is_same<traits::meta::indirection_of_t<int **>, int *>::value));
 }
-
-#if __cplusplus >= 202002L
-TEST (LumexTypeTraitsTopicsTest,
-      GivenClassForms_WhenPointerOrRefToClass_ThenMatch)
-{
-  EXPECT_TRUE (traits::meta::PointerToClass<base_t *>);
-  EXPECT_TRUE (traits::meta::PointerToClass<base_t const *>);
-  EXPECT_FALSE (traits::meta::PointerToClass<int *>);
-  EXPECT_FALSE (traits::meta::PointerToClass<base_t>);
-  EXPECT_FALSE (traits::meta::PointerToClass<base_t &>);
-
-  EXPECT_TRUE (traits::meta::LvalueRefToClass<base_t &>);
-  EXPECT_TRUE (traits::meta::LvalueRefToClass<base_t const &>);
-  EXPECT_FALSE (traits::meta::LvalueRefToClass<base_t &&>);
-  EXPECT_FALSE (traits::meta::LvalueRefToClass<int &>);
-  EXPECT_FALSE (traits::meta::LvalueRefToClass<base_t *>);
-}
-
-TEST (LumexTypeTraitsTopicsTest, GivenTypes_WhenCompleteType_ThenOnlyComplete)
-{
-  EXPECT_TRUE (traits::meta::CompleteType<int>);
-  EXPECT_TRUE (traits::meta::CompleteType<base_t>);
-  EXPECT_FALSE (traits::meta::CompleteType<incomplete_t>);
-  EXPECT_FALSE (traits::meta::CompleteType<void>);
-}
-
-TEST (LumexTypeTraitsTopicsTest, GivenCvPairs_WhenPreserveCV_ThenNoCvDropped)
-{
-  EXPECT_TRUE ((traits::meta::PreserveCV<int, int>));
-  EXPECT_TRUE ((traits::meta::PreserveCV<int, int const>));
-  EXPECT_TRUE ((traits::meta::PreserveCV<int const, int const volatile>));
-  EXPECT_FALSE ((traits::meta::PreserveCV<int const, int>));
-  EXPECT_FALSE ((traits::meta::PreserveCV<int volatile, int const>));
-}
-
-TEST (LumexTypeTraitsTopicsTest, GivenTypes_WhenExtractible_ThenPodValuesOnly)
-{
-  EXPECT_TRUE (traits::meta::Extractible<int>);
-  EXPECT_TRUE (traits::meta::Extractible<double>);
-  EXPECT_TRUE ((traits::meta::Extractible<std::array<char, 4>>));
-  EXPECT_FALSE (traits::meta::Extractible<int *>);
-  EXPECT_FALSE (traits::meta::Extractible<int &>);
-  EXPECT_FALSE (traits::meta::Extractible<std::string>);
-  EXPECT_FALSE (traits::meta::Extractible<base_t>);
-}
-
-TEST (LumexTypeTraitsTopicsTest, GivenTypes_WhenByteLike_ThenOnlyByteTypes)
-{
-  EXPECT_TRUE (traits::meta::ByteLike<std::byte>);
-  EXPECT_TRUE (traits::meta::ByteLike<char>);
-  EXPECT_TRUE (traits::meta::ByteLike<unsigned char>);
-  EXPECT_FALSE (traits::meta::ByteLike<signed char>);
-  EXPECT_FALSE (traits::meta::ByteLike<std::uint16_t>);
-  EXPECT_FALSE (traits::meta::ByteLike<char const>);
-}
-#endif
 
 // ---------------------------------------------------------------------------
 // stream: is_ostreamable (plain `os << value`)
@@ -328,19 +265,6 @@ TEST (LumexTypeTraitsTopicsTest, GivenTypes_WhenIsAnyString_ThenOwnCharType)
   EXPECT_FALSE (traits::string::is_any_string<int>::value);
 }
 
-#if __cplusplus >= 202002L
-TEST (LumexTypeTraitsTopicsTest,
-      GivenTypes_WhenStringLikeConcept_ThenConvertible)
-{
-  EXPECT_TRUE (traits::string::StringLike<std::string>);
-  EXPECT_TRUE (traits::string::StringLike<char const *>);
-  EXPECT_TRUE (traits::string::StringLike<std::string_view>);
-  EXPECT_TRUE ((traits::string::StringLike<char const (&)[4]>));
-  EXPECT_FALSE (traits::string::StringLike<int>);
-  EXPECT_FALSE (traits::string::StringLike<std::wstring>);
-}
-#endif
-
 // ---------------------------------------------------------------------------
 // tuple
 // ---------------------------------------------------------------------------
@@ -423,16 +347,3 @@ TEST (LumexTypeTraitsTopicsTest,
   address = &traits::numeric::is_safe_comparable<int, int *>::value;
   EXPECT_FALSE (*address);
 }
-
-#if __cplusplus >= 202002L
-TEST (LumexTypeTraitsTopicsTest,
-      GivenTypes_WhenArithmeticConcepts_ThenMatchTrait)
-{
-  EXPECT_TRUE (traits::numeric::ArithmeticType<int>);
-  EXPECT_TRUE (traits::numeric::ArithmeticType<long double>);
-  EXPECT_FALSE (traits::numeric::ArithmeticType<int *>);
-  EXPECT_FALSE (traits::numeric::ArithmeticType<int const &>);
-  EXPECT_TRUE ((traits::numeric::SafeComparable<int, double>));
-  EXPECT_FALSE ((traits::numeric::SafeComparable<int, std::string>));
-}
-#endif

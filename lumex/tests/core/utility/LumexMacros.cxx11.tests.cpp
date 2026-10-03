@@ -1,9 +1,9 @@
-// LumexMacros.tests.cpp
+// LumexMacros.cxx11.tests.cpp
 // LUMEX_FUNCTION_NAME, LUMEX_STRINGIZE and LUMEX_CONCAT of LumexMacros.hpp.
 // LUMEX_FUNCTION_NAME is chosen by compiler: __FUNCSIG__ with _MSC_VER
 // (MSVC, clang-cl), __PRETTY_FUNCTION__ with GCC and Clang (MinGW included),
-// __func__ otherwise. LumexMacrosMinGW.tests.cpp checks the MinGW case on
-// other hosts.
+// __func__ otherwise. LumexMacrosMinGW.cxx11.tests.cpp checks the MinGW
+// case on other hosts.
 #include <string>
 
 #include <gtest/gtest.h>

@@ -1,4 +1,8 @@
-// LumexRanges.tests.cpp
+// LumexRanges.cxx20.tests.cpp
+// GetNearestTo of LumexRanges.hpp, which needs C++20 <ranges>; where the
+// toolchain lacks it a single test reports the skip.
+// LumexRanges.cxx23.tests.cpp adds a check through std::ranges::contains
+// (C++23).
 #include <array>
 #include <deque>
 #include <functional>
@@ -7,9 +11,6 @@
 #include <ranges>
 #endif
 #include <vector>
-#if __has_include(<version>)
-#include <version>
-#endif
 
 #include <gtest/gtest.h>
 
@@ -243,17 +244,6 @@ TEST (LumexRangesTest,
   ASSERT_NE (it, values.end ());
   EXPECT_FLOAT_EQ (*it, 0.5f);
 }
-
-#if defined(__cpp_lib_ranges_contains) && __cpp_lib_ranges_contains >= 202207L
-TEST (LumexRangesTest,
-      GivenCpp23Contains_WhenCheckingSortedSource_ThenConfirmsMembership)
-{
-  std::vector<int> const values{ 1, 3, 5, 7, 9 };
-  auto const it = GetNearestTo (values, 7);
-  ASSERT_NE (it, values.end ());
-  EXPECT_TRUE (std::ranges::contains (values, *it));
-}
-#endif
 
 #else // the toolchain lacks the features of the module
 

@@ -66,8 +66,6 @@ endforeach()
 # gets its names from the helper and leaves this list; wiring_standard_suites
 # checks it instead.
 foreach(_suite
-        LumexTypeTraitsTests LumexSafeNumericComparatorCxx11Tests
-        LumexUtilityTests)
     string(FIND "${_tests_txt}" "${_suite}" _pos)
     if(_pos EQUAL -1)
         message(FATAL_ERROR

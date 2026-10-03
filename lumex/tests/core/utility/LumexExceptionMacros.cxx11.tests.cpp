@@ -1,4 +1,4 @@
-// LumexExceptionMacros.tests.cpp
+// LumexExceptionMacros.cxx11.tests.cpp
 // LUMEX_DEFINE_EXCEPTION / LUMEX_DEFINE_EXCEPTION_WITH_BODY on any base with
 // string constructors (std::runtime_error here), independent of the
 // exceptions module.

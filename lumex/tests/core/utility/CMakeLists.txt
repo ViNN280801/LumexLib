@@ -1,192 +1,30 @@
 # lumex/tests/core/utility/CMakeLists.txt
 
-set(TEST_EXECUTABLE_NAME LumexUtilityTests)
-
-add_executable(
-    ${TEST_EXECUTABLE_NAME}
-    LumexAttributes.tests.cpp
-    LumexBit.tests.cpp
-    LumexCallbackSlot.tests.cpp
-    LumexCast.tests.cpp
-    LumexCheckOS.tests.cpp
-    LumexCoreDumpGenerator.tests.cpp
-    LumexDebug.tests.cpp
-    LumexDemangle.tests.cpp
-    LumexExceptionMacros.tests.cpp
-    LumexMemRead.tests.cpp
-    LumexRanges.tests.cpp
-    LumexSafeNumericComparator.tests.cpp
-    LumexRangeTraits.tests.cpp
-    LumexStreamTraits.tests.cpp
-    LumexTypeTraits.tests.cpp
-    LumexTypeTraitsTopics.tests.cpp
-    LumexUtilities.tests.cpp
+# One suite per standard of the module (lumex/tests/LumexTestStandards.cmake)
+# for every component of the directory: LumexUtilityCxx11Tests,
+# LumexUtilityCxx14Tests, ... LumexUtilityCxx26Tests (C++23 and C++26 only
+# where the compiler has them). The suite of a standard compiles the
+# <Component>.cxx<std>.tests.cpp files of that standard and of every lower
+# one:
+#   .cxx11  every component that works from C++11: Attributes, CallbackSlot,
+#           CheckOS, CoreDumpGenerator, Debug, Demangle, ExceptionMacros,
+#           Macros (and the MinGW simulation), Process, RangeTraits,
+#           SafeNumericComparator, StreamTraits, TypeTraits, TypeTraitsTopics,
+#           Utilities
+#   .cxx14  the stream trait variable templates
+#   .cxx17  is_optional on std::optional; the CoreDumpGenerator size
+#           constants bound to a reference (inline variables from C++17)
+#   .cxx20  Bit, Cast, MemRead and Ranges (C++20 modules), the concepts, the
+#           three-way comparison and LUMEX_DEFINE_ENUM_TRAITS
+#   .cxx23  std::byteswap and std::ranges::contains
+# A test of a feature the toolchain lacks (GCC 8 accepts -std=c++2a without
+# concepts, <span>, <ranges> or <compare>) reports GTEST_SKIP.
+# LumexStreamTraitsTestTypes.hpp holds the types the stream trait tests of
+# several standards share. LumexDebug.hpp's captureStackTrace () uses the
+# DbgHelp API on Windows.
+lumex_add_standard_suites(Utility
+    MODULE utility
+    LINK lumex::utility "$<$<PLATFORM_ID:Windows>:dbghelp>"
+    SOURCES LumexStreamTraitsTestTypes.hpp
+    DISCOVER_ARGS DISCOVERY_TIMEOUT 60
 )
-
-set_target_properties(${TEST_EXECUTABLE_NAME} PROPERTIES
-    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/$<CONFIG>"
-)
-
-target_link_libraries(
-    ${TEST_EXECUTABLE_NAME}
-    PRIVATE
-    lumex::utility
-)
-
-# LumexBit.hpp / LumexCast.hpp / LumexMemRead.hpp / LumexRanges.hpp and the
-# LUMEX_DEFINE_ENUM_TRAITS test (using enum) all require C++20.
-lumex_test_use_gtest(${TEST_EXECUTABLE_NAME} CXX_STANDARD 20)
-
-# LumexDebug.hpp's captureStackTrace() uses the DbgHelp API (SymInitialize, SymFromAddr,
-# SymGetLineFromAddr64, SymGetModuleInfo64, SymRefreshModuleList, ...) on Windows.
-if(WIN32)
-    target_link_libraries(${TEST_EXECUTABLE_NAME} PRIVATE dbghelp)
-endif()
-
-if(CMAKE_VERSION VERSION_GREATER_EQUAL "3.18")
-    lumex_gtest_discover_tests(${TEST_EXECUTABLE_NAME}
-        DISCOVERY_TIMEOUT 60
-        DISCOVERY_MODE PRE_TEST
-    )
-else()
-    lumex_test_name(_ctest_name ${TEST_EXECUTABLE_NAME})
-    add_test(NAME ${_ctest_name} COMMAND ${TEST_EXECUTABLE_NAME})
-endif()
-
-# Same TypeTraits sources, pinned to C++11. lumex_enum_traits_t / using enum stay
-# behind #if __cplusplus >= 202002L in the .cpp, so this suite proves
-# CleanType, is_callable, is_optional (optional), and default_return
-# on the library floor, plus the LUMEX_OS_IS_*() constants of LumexCheckOS.hpp,
-# the likely / unlikely macros of LumexAttributes.hpp and LUMEX_FUNCTION_NAME
-# of LumexMacros.hpp (also under simulated MinGW target macros). UtilityTests
-# remains CXX 20 for Bit/Cast/Ranges plus the lumex_enum_traits_t cases.
-set(TYPE_TRAITS_TEST_NAME LumexTypeTraitsTests)
-
-add_executable(
-    ${TYPE_TRAITS_TEST_NAME}
-    LumexAttributes.tests.cpp
-    LumexCheckOS.tests.cpp
-    LumexExceptionMacros.tests.cpp
-    LumexMacros.tests.cpp
-    LumexMacrosMinGW.tests.cpp
-    LumexRangeTraits.tests.cpp
-    LumexStreamTraits.tests.cpp
-    LumexTypeTraits.tests.cpp
-    LumexTypeTraitsTopics.tests.cpp
-)
-
-set_target_properties(${TYPE_TRAITS_TEST_NAME} PROPERTIES
-    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/$<CONFIG>"
-)
-
-target_link_libraries(
-    ${TYPE_TRAITS_TEST_NAME}
-    PRIVATE
-    lumex::utility
-)
-
-lumex_test_use_gtest(${TYPE_TRAITS_TEST_NAME} CXX_STANDARD 11)
-
-if(CMAKE_VERSION VERSION_GREATER_EQUAL "3.18")
-    lumex_gtest_discover_tests(${TYPE_TRAITS_TEST_NAME}
-        DISCOVERY_TIMEOUT 60
-        DISCOVERY_MODE PRE_TEST
-    )
-else()
-    lumex_test_name(_ctest_name ${TYPE_TRAITS_TEST_NAME})
-    add_test(NAME ${_ctest_name} COMMAND ${TYPE_TRAITS_TEST_NAME})
-endif()
-
-# Keep a C++11 target that instantiates every comma-bearing
-# is_safe_comparable<T, U> assertion. C++20 compilation does not prove that
-# the C++11 expansion of LUMEX_STATIC_ASSERT_MSG remains valid.
-set(SAFE_NUMERIC_CXX11_TEST_NAME LumexSafeNumericComparatorCxx11Tests)
-
-add_executable(
-    ${SAFE_NUMERIC_CXX11_TEST_NAME}
-    LumexSafeNumericComparator.cxx11.tests.cpp
-)
-
-set_target_properties(${SAFE_NUMERIC_CXX11_TEST_NAME} PROPERTIES
-    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/$<CONFIG>"
-)
-
-target_link_libraries(
-    ${SAFE_NUMERIC_CXX11_TEST_NAME}
-    PRIVATE
-    lumex::utility
-)
-
-lumex_test_use_gtest(${SAFE_NUMERIC_CXX11_TEST_NAME} CXX_STANDARD 11)
-
-if(CMAKE_VERSION VERSION_GREATER_EQUAL "3.18")
-    lumex_gtest_discover_tests(${SAFE_NUMERIC_CXX11_TEST_NAME}
-        DISCOVERY_TIMEOUT 60
-        DISCOVERY_MODE PRE_TEST
-    )
-else()
-    lumex_test_name(_ctest_name ${SAFE_NUMERIC_CXX11_TEST_NAME})
-    add_test(NAME ${_ctest_name}
-        COMMAND ${SAFE_NUMERIC_CXX11_TEST_NAME})
-endif()
-
-# get_current_pid () is C++11 header-only; pin the suite to that floor.
-set(PROCESS_TEST_NAME LumexProcessTests)
-
-add_executable(
-    ${PROCESS_TEST_NAME}
-    LumexProcess.tests.cpp
-)
-
-set_target_properties(${PROCESS_TEST_NAME} PROPERTIES
-    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/$<CONFIG>"
-)
-
-target_link_libraries(
-    ${PROCESS_TEST_NAME}
-    PRIVATE
-    lumex::utility
-)
-
-lumex_test_use_gtest(${PROCESS_TEST_NAME} CXX_STANDARD 11)
-
-if(CMAKE_VERSION VERSION_GREATER_EQUAL "3.18")
-    lumex_gtest_discover_tests(${PROCESS_TEST_NAME}
-        DISCOVERY_TIMEOUT 60
-        DISCOVERY_MODE PRE_TEST
-    )
-else()
-    lumex_test_name(_ctest_name ${PROCESS_TEST_NAME})
-    add_test(NAME ${_ctest_name} COMMAND ${PROCESS_TEST_NAME})
-endif()
-
-# LumexCallbackSlot.hpp is C++11 header-only; pin a suite to that floor. The
-# same source also runs inside LumexUtilityTests at C++20.
-set(CALLBACK_SLOT_TEST_NAME LumexCallbackSlotTests)
-
-add_executable(
-    ${CALLBACK_SLOT_TEST_NAME}
-    LumexCallbackSlot.tests.cpp
-)
-
-set_target_properties(${CALLBACK_SLOT_TEST_NAME} PROPERTIES
-    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/$<CONFIG>"
-)
-
-target_link_libraries(
-    ${CALLBACK_SLOT_TEST_NAME}
-    PRIVATE
-    lumex::utility
-)
-
-lumex_test_use_gtest(${CALLBACK_SLOT_TEST_NAME} CXX_STANDARD 11)
-
-if(CMAKE_VERSION VERSION_GREATER_EQUAL "3.18")
-    lumex_gtest_discover_tests(${CALLBACK_SLOT_TEST_NAME}
-        DISCOVERY_TIMEOUT 60
-        DISCOVERY_MODE PRE_TEST
-    )
-else()
-    lumex_test_name(_ctest_name ${CALLBACK_SLOT_TEST_NAME})
-    add_test(NAME ${_ctest_name} COMMAND ${CALLBACK_SLOT_TEST_NAME})
-endif()

@@ -1,4 +1,8 @@
-// LumexTypeTraits.tests.cpp
+// LumexTypeTraits.cxx11.tests.cpp
+// The traits of LumexTypeTraits.hpp that exist in every standard. Checks of
+// a higher standard inside a test stay under #if __cplusplus;
+// LumexTypeTraits.cxx17.tests.cpp adds std::optional,
+// LumexTypeTraits.cxx20.tests.cpp LUMEX_DEFINE_ENUM_TRAITS.
 #include <cstddef>
 #include <functional>
 #include <memory>
@@ -7,7 +11,6 @@
 #include <vector>
 
 #if __cplusplus >= 201703L
-#include <optional>
 #include <string_view>
 #endif
 
@@ -497,78 +500,6 @@ TEST (LumexTypeTraitsTest, GivenNonOptionalType_WhenIsOptional_ThenFalse)
   EXPECT_FALSE ((is_optional_v<std::string>));
   EXPECT_FALSE ((is_optional_v<MyClass>));
 }
-
-#if __cplusplus >= 201703L
-TEST (LumexTypeTraitsTest, GivenStdOptional_WhenIsOptional_ThenTrue)
-{
-  LUMEX_STATIC_ASSERT_MSG ((is_optional<std::optional<int>>::value),
-                           "std::optional<int> must be recognized");
-  EXPECT_TRUE (is_optional_v<std::optional<int>>);
-  EXPECT_TRUE (is_optional_v<std::optional<int> const>);
-  EXPECT_FALSE (is_optional_v<std::optional<int> *>);
-}
-#endif
-
-// --- LUMEX_DEFINE_ENUM_TRAITS / lumex_enum_traits_t
-// ------------------------------------------------------
-
-#if __cplusplus >= 202002L
-// Must be invoked at global scope: lumex_enum_traits_t<T> (see
-// LumexTypeTraits.hpp) is declared in the global namespace, and
-// [temp.expl.spec] requires explicit specializations to live in a namespace
-// enclosing the primary template's namespace - so this cannot be nested in an
-// anonymous namespace.
-LUMEX_DEFINE_ENUM_TRAITS (LumexTypeTraitsTestColor, unsigned char, Red, Green,
-                          Blue);
-
-LUMEX_DEFINE_ENUM_TRAITS (LumexTypeTraitsTestSingle, int, Only);
-
-TEST (LumexTypeTraitsTest,
-      GivenReflectedEnum_WhenUsingEnumTraits_ThenValuesFirstLastSizeAreCorrect)
-{
-  using enum LumexTypeTraitsTestColor;
-
-  EXPECT_EQ (lumex_enum_traits_t<LumexTypeTraitsTestColor>::size, 3U);
-  EXPECT_EQ (lumex_enum_traits_t<LumexTypeTraitsTestColor>::first, Red);
-  EXPECT_EQ (lumex_enum_traits_t<LumexTypeTraitsTestColor>::last, Blue);
-  EXPECT_EQ (lumex_enum_traits_t<LumexTypeTraitsTestColor>::values[1], Green);
-}
-
-TEST (LumexTypeTraitsTest,
-      GivenSingleEnumerator_WhenUsingEnumTraits_ThenFirstEqualsLast)
-{
-  using enum LumexTypeTraitsTestSingle;
-  EXPECT_EQ (lumex_enum_traits_t<LumexTypeTraitsTestSingle>::size, 1U);
-  EXPECT_EQ (lumex_enum_traits_t<LumexTypeTraitsTestSingle>::first, Only);
-  EXPECT_EQ (lumex_enum_traits_t<LumexTypeTraitsTestSingle>::last, Only);
-  EXPECT_EQ (lumex_enum_traits_t<LumexTypeTraitsTestSingle>::values[0], Only);
-}
-
-TEST (LumexTypeTraitsTest,
-      GivenReflectedEnum_WhenIteratingValues_ThenVisitsEveryEnumerator)
-{
-  using enum LumexTypeTraitsTestColor;
-  std::size_t count = 0;
-  bool saw_red = false;
-  bool saw_green = false;
-  bool saw_blue = false;
-  for (auto const value :
-       lumex_enum_traits_t<LumexTypeTraitsTestColor>::values)
-    {
-      ++count;
-      if (value == Red)
-        saw_red = true;
-      if (value == Green)
-        saw_green = true;
-      if (value == Blue)
-        saw_blue = true;
-    }
-  EXPECT_EQ (count, 3U);
-  EXPECT_TRUE (saw_red);
-  EXPECT_TRUE (saw_green);
-  EXPECT_TRUE (saw_blue);
-}
-#endif
 
 TEST (LumexTypeTraitsTest, GivenLambda_WhenIsCallable_ThenMatchesArity)
 {

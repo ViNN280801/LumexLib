@@ -1,4 +1,4 @@
-// LumexProcess.tests.cpp
+// LumexProcess.cxx11.tests.cpp
 #include <gtest/gtest.h>
 
 #include "lumex/core/utility/assert/LumexAssert.hpp"

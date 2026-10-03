@@ -1,4 +1,4 @@
-// LumexDebug.tests.cpp
+// LumexDebug.cxx11.tests.cpp
 #include <chrono>
 #include <cstdint>
 #include <cstdlib>
@@ -112,7 +112,7 @@ TEST (LumexDebugTest,
       GivenCaptureCallerInfoMacro_WhenCalled_ThenMentionsThisFile)
 {
   std::string const info = LUMEX_CAPTURE_CALLER_INFO ();
-  EXPECT_NE (info.find ("LumexDebug.tests.cpp"), std::string::npos);
+  EXPECT_NE (info.find ("LumexDebug.cxx11.tests.cpp"), std::string::npos);
 }
 
 TEST (LumexDebugTest, GivenLowerHexLetters_WhenFormatHex_ThenEmitsUppercase)

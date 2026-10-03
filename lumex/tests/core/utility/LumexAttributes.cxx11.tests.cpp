@@ -1,10 +1,10 @@
-// LumexAttributes.tests.cpp
+// LumexAttributes.cxx11.tests.cpp
 // The likely / unlikely macros of LumexAttributes.hpp in every standard.
-// LumexTypeTraitsTests runs this file at C++11 (empty statement attributes;
-// conditions through __builtin_expect on GCC and Clang, plain elsewhere),
-// LumexUtilityTests at C++20 ([[likely]] / [[unlikely]], plain conditions).
-// The suite name carries the standard so the two executables register
-// different CTest names.
+// Every utility suite compiles this file: below C++20 the statement
+// attributes are empty and the conditions go through __builtin_expect on GCC
+// and Clang (plain elsewhere); from C++20 they are [[likely]] / [[unlikely]]
+// and the conditions are plain. The CTest suffix .cxx<std> tells the
+// standards apart.
 #include <string>
 
 #include <gtest/gtest.h>
@@ -12,13 +12,7 @@
 #include "lumex/core/utility/attr/LumexAttributes.hpp"
 #include "lumex/core/utility/macros/LumexMacros.hpp"
 
-#if __cplusplus >= 202002L
-#define LUMEX_ATTRIBUTES_TEST_SUITE LumexAttributesCxx20Test
-#else
-#define LUMEX_ATTRIBUTES_TEST_SUITE LumexAttributesTest
-#endif
-
-TEST (LUMEX_ATTRIBUTES_TEST_SUITE,
+TEST (LumexAttributesTest,
       GivenATrueCondition_WhenLikelyCondWrapsIt_ThenTheBranchIsTaken)
 {
   // Arrange
@@ -33,7 +27,7 @@ TEST (LUMEX_ATTRIBUTES_TEST_SUITE,
   EXPECT_TRUE (taken);
 }
 
-TEST (LUMEX_ATTRIBUTES_TEST_SUITE,
+TEST (LumexAttributesTest,
       GivenAFalseCondition_WhenLikelyCondWrapsIt_ThenTheBranchIsSkipped)
 {
   // Arrange
@@ -48,7 +42,7 @@ TEST (LUMEX_ATTRIBUTES_TEST_SUITE,
   EXPECT_FALSE (taken);
 }
 
-TEST (LUMEX_ATTRIBUTES_TEST_SUITE,
+TEST (LumexAttributesTest,
       GivenATrueCondition_WhenUnlikelyCondWrapsIt_ThenTheBranchIsTaken)
 {
   // Arrange
@@ -63,7 +57,7 @@ TEST (LUMEX_ATTRIBUTES_TEST_SUITE,
   EXPECT_TRUE (taken);
 }
 
-TEST (LUMEX_ATTRIBUTES_TEST_SUITE,
+TEST (LumexAttributesTest,
       GivenAFalseCondition_WhenUnlikelyCondWrapsIt_ThenTheBranchIsSkipped)
 {
   // Arrange
@@ -78,7 +72,7 @@ TEST (LUMEX_ATTRIBUTES_TEST_SUITE,
   EXPECT_FALSE (taken);
 }
 
-TEST (LUMEX_ATTRIBUTES_TEST_SUITE,
+TEST (LumexAttributesTest,
       GivenAConditionWithASideEffect_WhenWrapped_ThenItIsEvaluatedOnce)
 {
   // Arrange
@@ -98,7 +92,7 @@ TEST (LUMEX_ATTRIBUTES_TEST_SUITE,
   EXPECT_EQ (1, unlikely_calls);
 }
 
-TEST (LUMEX_ATTRIBUTES_TEST_SUITE,
+TEST (LumexAttributesTest,
       GivenAPointerCondition_WhenWrapped_ThenNullIsFalseAndNonNullIsTrue)
 {
   // Arrange
@@ -119,7 +113,7 @@ TEST (LUMEX_ATTRIBUTES_TEST_SUITE,
   EXPECT_FALSE (null_taken);
 }
 
-TEST (LUMEX_ATTRIBUTES_TEST_SUITE,
+TEST (LumexAttributesTest,
       GivenLowPrecedenceOperators_WhenWrapped_ThenTheWholeConditionCounts)
 {
   // Arrange
@@ -139,7 +133,7 @@ TEST (LUMEX_ATTRIBUTES_TEST_SUITE,
   EXPECT_FALSE (ternary_taken);
 }
 
-TEST (LUMEX_ATTRIBUTES_TEST_SUITE,
+TEST (LumexAttributesTest,
       GivenALoopCondition_WhenWrapped_ThenTheLoopRunsUntilItIsFalse)
 {
   // Arrange
@@ -154,7 +148,7 @@ TEST (LUMEX_ATTRIBUTES_TEST_SUITE,
 }
 
 TEST (
-    LUMEX_ATTRIBUTES_TEST_SUITE,
+    LumexAttributesTest,
     GivenThisCompilerAndStandard_WhenCondMacrosExpand_ThenTheyTakeTheirBranch)
 {
   // The text each macro call expands to.
@@ -175,7 +169,7 @@ TEST (
 }
 
 TEST (
-    LUMEX_ATTRIBUTES_TEST_SUITE,
+    LumexAttributesTest,
     GivenStatementAttributes_WhenTheyPrecedeIfAndElseBlocks_ThenEachBlockRuns)
 {
   // Arrange
@@ -196,7 +190,7 @@ TEST (
   EXPECT_EQ (1, skipped);
 }
 
-TEST (LUMEX_ATTRIBUTES_TEST_SUITE,
+TEST (LumexAttributesTest,
       GivenThisStandard_WhenStatementAttributesExpand_ThenTheyTakeTheirBranch)
 {
 #if __cplusplus >= 202002L

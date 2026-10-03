@@ -21,14 +21,14 @@ if(CMAKE_HOST_WIN32)
     set(_dropped
         LumexFakeTests.dll
         LumexXmlExample1.dll
-        LumexUtilityTests.exe
+        LumexUtilityCxx11Tests.exe
         LumexXmlExample1.exe)
 else()
     set(_kept libLumexCore_utility.so)
     set(_dropped
         libLumexFakeTests.so
         libLumexXmlExample1.so
-        LumexUtilityTests
+        LumexUtilityCxx11Tests
         LumexXmlExample1)
 endif()
 

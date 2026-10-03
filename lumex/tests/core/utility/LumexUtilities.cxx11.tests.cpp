@@ -1,4 +1,4 @@
-// LumexUtilities.tests.cpp
+// LumexUtilities.cxx11.tests.cpp
 #include <climits>
 #include <cstdint>
 #include <limits>
