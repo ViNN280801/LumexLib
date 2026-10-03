@@ -35,8 +35,8 @@ foreach(_atomic_suite IN ITEMS
         "LumexAtomicTests;11;;"
         "LumexAtomicCxx17Tests;17;.cxx17;"
         "LumexAtomicCxx20Tests;20;.cxx20;"
-        "LumexAtomicLockBasedCxx20Tests;20;.lock_based.cxx20;LUMEX_FORCE_LOCK_BASED_ATOMIC_SHARED_PTR"
-        "LumexAtomicWaitTableCxx20Tests;20;.wait_table.cxx20;LUMEX_FORCE_ATOMIC_WAIT_TABLE")
+        "LumexAtomicLockBasedCxx20Tests;20;.lock_based.cxx20;LUMEX_ATOMIC_SMART_PTR_FORCE_LOCK_BASED"
+        "LumexAtomicWaitTableCxx20Tests;20;.wait_table.cxx20;LUMEX_ATOMIC_WAIT_FORCE_TABLE")
     list(GET _atomic_suite 0 _atomic_name)
     list(GET _atomic_suite 1 _atomic_std)
     list(GET _atomic_suite 2 _atomic_suffix)

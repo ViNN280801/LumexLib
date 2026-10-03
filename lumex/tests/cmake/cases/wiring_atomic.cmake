@@ -25,9 +25,9 @@ _require_text("${_tests}" "\"LumexAtomicTests;11;;\"")
 _require_text("${_tests}" "\"LumexAtomicCxx17Tests;17;.cxx17;\"")
 _require_text("${_tests}" "\"LumexAtomicCxx20Tests;20;.cxx20;\"")
 _require_text("${_tests}"
-    "\"LumexAtomicLockBasedCxx20Tests;20;.lock_based.cxx20;LUMEX_FORCE_LOCK_BASED_ATOMIC_SHARED_PTR\"")
+    "\"LumexAtomicLockBasedCxx20Tests;20;.lock_based.cxx20;LUMEX_ATOMIC_SMART_PTR_FORCE_LOCK_BASED\"")
 _require_text("${_tests}"
-    "\"LumexAtomicWaitTableCxx20Tests;20;.wait_table.cxx20;LUMEX_FORCE_ATOMIC_WAIT_TABLE\"")
+    "\"LumexAtomicWaitTableCxx20Tests;20;.wait_table.cxx20;LUMEX_ATOMIC_WAIT_FORCE_TABLE\"")
 _require_text("${_tests}"
     "target_compile_definitions(\${_atomic_name} PRIVATE \${_atomic_force})")
 _require_text("${_tests}"
@@ -47,8 +47,8 @@ _require_text("${_config_in}" "atomic base64 circular_buffer")
 
 _require_text("conanfile.py" "\"core_atomic\", \"atomic\"")
 _require_text("lumex/core/atomic/smart_ptr/LumexAtomicSmartPtrConfig.hpp"
-    "defined(LUMEX_FORCE_LOCK_BASED_ATOMIC_SHARED_PTR)")
+    "defined(LUMEX_ATOMIC_SMART_PTR_FORCE_LOCK_BASED)")
 _require_text("lumex/core/atomic/sync/LumexAtomicWait.hpp"
-    "defined(LUMEX_FORCE_ATOMIC_WAIT_TABLE)")
+    "defined(LUMEX_ATOMIC_WAIT_FORCE_TABLE)")
 _require_text("lumex/core/atomic/sync/LumexAtomicWait.hpp"
     "__attribute__ ((visibility (\"default\")))")

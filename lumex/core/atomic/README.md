@@ -62,10 +62,10 @@ Every operation is `noexcept`. Constant memory order arguments that the standard
 | C++20 with libstdc++ 12+ or the MSVC STL | wraps the standard type | `std::atomic::wait` | `std_backed_std_wait` |
 | C++20 with libc++ (no `std::atomic<std::shared_ptr<T>>` yet) | lock-based | `std::atomic::wait` | `lock_based_std_wait` |
 | C++11, C++14, C++17 | lock-based | striped table | `lock_based_table_wait` |
-| `LUMEX_FORCE_LOCK_BASED_ATOMIC_SHARED_PTR` | lock-based | as above | `lock_based_*` |
-| `LUMEX_FORCE_ATOMIC_WAIT_TABLE` | as above | striped table | `*_table_wait` |
+| `LUMEX_ATOMIC_SMART_PTR_FORCE_LOCK_BASED` | lock-based | as above | `lock_based_*` |
+| `LUMEX_ATOMIC_WAIT_FORCE_TABLE` | as above | striped table | `*_table_wait` |
 
-The standard type is used when the library defines `__cpp_lib_atomic_shared_ptr`; `LUMEX_ATOMIC_SMART_PTR_USES_STD` reports the choice. The lock-based implementation sleeps through `std::atomic::wait` when the library defines `__cpp_lib_atomic_wait`; `LUMEX_ATOMIC_WAIT_USES_STD` reports that choice. The two `LUMEX_FORCE_*` macros exist for tests and benchmarks, which use them to run every implementation at C++20 as well, like libc++'s `_LIBCPP_FORCE_LOCK_BASED_ATOMIC_SHARED_PTR`.
+The standard type is used when the library defines `__cpp_lib_atomic_shared_ptr`; `LUMEX_ATOMIC_SMART_PTR_USES_STD` reports the choice. The lock-based implementation sleeps through `std::atomic::wait` when the library defines `__cpp_lib_atomic_wait`; `LUMEX_ATOMIC_WAIT_USES_STD` reports that choice. The two forcing macros exist for tests and benchmarks, which use them to run every implementation at C++20 as well, like libc++'s `_LIBCPP_FORCE_LOCK_BASED_ATOMIC_SHARED_PTR`.
 
 Each combination lives in its own inline namespace. A program may mix translation units built with different standards or switches: their types are distinct, so passing an object across such a boundary through a function signature fails to link instead of silently mixing two layouts. (A mismatch hidden inside a user type that holds the object is not detected, as with any other configuration macro.)
 

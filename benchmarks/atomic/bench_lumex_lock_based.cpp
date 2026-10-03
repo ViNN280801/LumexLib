@@ -1,7 +1,7 @@
 // bench_lumex_lock_based.cpp
 // LumexLib's lock-based atomic_shared_ptr at C++20, where it sleeps in
 // std::atomic::wait. CMake builds this unit with
-// LUMEX_FORCE_LOCK_BASED_ATOMIC_SHARED_PTR, so the lock-based implementation
+// LUMEX_ATOMIC_SMART_PTR_FORCE_LOCK_BASED, so the lock-based implementation
 // is measured even where the standard library has its own
 // std::atomic<std::shared_ptr<T>>; the checks below fail the build if the
 // switch did not take effect.
@@ -9,7 +9,7 @@
 
 #include "bench_atomic_smart_ptr.hpp"
 
-#if !defined(LUMEX_FORCE_LOCK_BASED_ATOMIC_SHARED_PTR)                        \
+#if !defined(LUMEX_ATOMIC_SMART_PTR_FORCE_LOCK_BASED)                        \
     || LUMEX_ATOMIC_SMART_PTR_USES_STD
 #error "this unit must build the forced lock-based implementation"
 #endif

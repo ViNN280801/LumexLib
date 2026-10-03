@@ -99,10 +99,10 @@
  * on the striped table.
  * @details `std::atomic::wait` is used when the standard library has it
  * (`LUMEX_HAS_STD_ATOMIC_WAIT`, `__cpp_lib_atomic_wait`). Defining
- * `LUMEX_FORCE_ATOMIC_WAIT_TABLE` before the first include selects the table
+ * `LUMEX_ATOMIC_WAIT_FORCE_TABLE` before the first include selects the table
  * even then; it is meant for tests, which run the table at C++20 that way.
  */
-#if defined(LUMEX_FORCE_ATOMIC_WAIT_TABLE)
+#if defined(LUMEX_ATOMIC_WAIT_FORCE_TABLE)
 #define LUMEX_ATOMIC_WAIT_USES_STD 0
 #elif LUMEX_HAS_STD_ATOMIC_WAIT
 #define LUMEX_ATOMIC_WAIT_USES_STD 1

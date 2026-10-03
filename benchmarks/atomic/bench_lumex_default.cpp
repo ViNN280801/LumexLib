@@ -7,8 +7,8 @@
 
 #include "bench_atomic_smart_ptr.hpp"
 
-#if defined(LUMEX_FORCE_LOCK_BASED_ATOMIC_SHARED_PTR)                         \
-    || defined(LUMEX_FORCE_ATOMIC_WAIT_TABLE)
+#if defined(LUMEX_ATOMIC_SMART_PTR_FORCE_LOCK_BASED)                         \
+    || defined(LUMEX_ATOMIC_WAIT_FORCE_TABLE)
 #error "this unit measures the default selection"
 #endif
 #if LUMEX_ATOMIC_BENCH_STANDARD < 202002L

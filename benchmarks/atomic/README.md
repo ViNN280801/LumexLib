@@ -23,7 +23,7 @@ In short, on the machine below: under contention LumexLib's lock-based implement
 | Series | What it is | Selected implementation |
 | --- | --- | --- |
 | LumexLib lock-based, C++11 | `atomic_shared_ptr<int>` in a translation unit built at C++11: the lock-based implementation, sleeping on the striped wait table | `lock_based_table_wait` |
-| LumexLib lock-based, C++20 | the lock-based implementation forced at C++20 (`LUMEX_FORCE_LOCK_BASED_ATOMIC_SHARED_PTR`), sleeping in `std::atomic::wait` | `lock_based_std_wait` |
+| LumexLib lock-based, C++20 | the lock-based implementation forced at C++20 (`LUMEX_ATOMIC_SMART_PTR_FORCE_LOCK_BASED`), sleeping in `std::atomic::wait` | `lock_based_std_wait` |
 | LumexLib default, C++20 | what a C++20 build gets with nothing forced: on libstdc++ 13 it wraps `std::atomic<std::shared_ptr<T>>` and adds its own conforming `wait` | `std_backed_std_wait` |
 | std::atomic, libstdc++ 13 | `std::atomic<std::shared_ptr<int>>` of the standard library | - |
 

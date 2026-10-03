@@ -40,7 +40,7 @@ constinit atomic_weak_ptr<int> g_constinit_weak;
 TEST (LumexAtomicSmartPtrConfigTest,
       GivenTheBuild_WhenSelectingTheImplementation_ThenTheDocumentedRuleHolds)
 {
-#if defined(LUMEX_FORCE_LOCK_BASED_ATOMIC_SHARED_PTR)
+#if defined(LUMEX_ATOMIC_SMART_PTR_FORCE_LOCK_BASED)
   EXPECT_EQ (LUMEX_ATOMIC_SMART_PTR_USES_STD, 0);
 #elif LUMEX_HAS_STD_ATOMIC_SHARED_PTR
   EXPECT_EQ (LUMEX_ATOMIC_SMART_PTR_USES_STD, 1);
@@ -48,7 +48,7 @@ TEST (LumexAtomicSmartPtrConfigTest,
   EXPECT_EQ (LUMEX_ATOMIC_SMART_PTR_USES_STD, 0);
 #endif
 
-#if defined(LUMEX_FORCE_ATOMIC_WAIT_TABLE)
+#if defined(LUMEX_ATOMIC_WAIT_FORCE_TABLE)
   EXPECT_EQ (LUMEX_ATOMIC_WAIT_USES_STD, 0);
 #elif LUMEX_HAS_STD_ATOMIC_WAIT
   EXPECT_EQ (LUMEX_ATOMIC_WAIT_USES_STD, 1);

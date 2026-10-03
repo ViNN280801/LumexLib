@@ -8,7 +8,7 @@
 # One executable holds every implementation: the C++11 unit is an object
 # library of its own (LumexLib's lock-based implementation sleeping on the
 # wait table), the forced lock-based unit gets
-# LUMEX_FORCE_LOCK_BASED_ATOMIC_SHARED_PTR, and the rest is C++20. LumexLib's
+# LUMEX_ATOMIC_SMART_PTR_FORCE_LOCK_BASED, and the rest is C++20. LumexLib's
 # inline ABI namespaces keep the three selections apart in one program.
 #
 #   cmake -S . -B build-bench -DCMAKE_BUILD_TYPE=Release
@@ -35,7 +35,7 @@ add_executable(LumexAtomicBenchmark
     $<TARGET_OBJECTS:LumexAtomicBenchmarkCxx11>
 )
 set_source_files_properties(bench_lumex_lock_based.cpp PROPERTIES
-    COMPILE_DEFINITIONS LUMEX_FORCE_LOCK_BASED_ATOMIC_SHARED_PTR
+    COMPILE_DEFINITIONS LUMEX_ATOMIC_SMART_PTR_FORCE_LOCK_BASED
 )
 target_link_libraries(LumexAtomicBenchmark PRIVATE lumex::atomic)
 set_target_properties(LumexAtomicBenchmark PROPERTIES

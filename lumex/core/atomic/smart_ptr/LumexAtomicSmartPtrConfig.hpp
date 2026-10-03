@@ -67,9 +67,9 @@
  *
  * `LUMEX_ATOMIC_SMART_PTR_USES_STD` reports the choice: 1 for the standard
  * types, 0 for the lock-based implementation. Defining
- * `LUMEX_FORCE_LOCK_BASED_ATOMIC_SHARED_PTR` before the first include selects
+ * `LUMEX_ATOMIC_SMART_PTR_FORCE_LOCK_BASED` before the first include selects
  * the lock-based implementation even where the standard types exist. It is
- * meant for tests and comparisons, as is `LUMEX_FORCE_ATOMIC_WAIT_TABLE` (see
+ * meant for tests and comparisons, as is `LUMEX_ATOMIC_WAIT_FORCE_TABLE` (see
  * `lumex/core/atomic/sync/LumexAtomicWait.hpp`), which selects the way
  * `wait ()` sleeps. Every translation unit of a program that shares an atomic
  * smart pointer object must make the same choices: each combination of
@@ -91,11 +91,11 @@
  * atomic smart pointers, 0 when they use the lock-based implementation.
  * @details The standard types are used when the library has them
  * (`LUMEX_HAS_STD_ATOMIC_SHARED_PTR`), unless
- * `LUMEX_FORCE_LOCK_BASED_ATOMIC_SHARED_PTR` is defined. Their `wait ()` is
+ * `LUMEX_ATOMIC_SMART_PTR_FORCE_LOCK_BASED` is defined. Their `wait ()` is
  * not used (see `LumexAtomicSmartPtrCell.hpp`), so `std::atomic::wait` is not
  * a precondition.
  */
-#if defined(LUMEX_FORCE_LOCK_BASED_ATOMIC_SHARED_PTR)
+#if defined(LUMEX_ATOMIC_SMART_PTR_FORCE_LOCK_BASED)
 #define LUMEX_ATOMIC_SMART_PTR_USES_STD 0
 #elif LUMEX_HAS_STD_ATOMIC_SHARED_PTR
 #define LUMEX_ATOMIC_SMART_PTR_USES_STD 1
