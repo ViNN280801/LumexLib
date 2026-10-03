@@ -114,8 +114,13 @@
 #define LUMEX_FORMAT_HAS_CONSTEVAL 0
 #endif
 
-/** @brief 1 when `std::to_chars` handles floating point. */
-#if defined(__cpp_lib_to_chars) && __cpp_lib_to_chars >= 201611L
+/**
+ * @brief 1 when `std::to_chars` handles floating point.
+ * @details From C++17 only: `<charconv>` is included from C++17, while
+ * libstdc++ 13 defines `__cpp_lib_to_chars` in `<version>` at C++14 too.
+ */
+#if __cplusplus >= 201703L && defined(__cpp_lib_to_chars)                     \
+    && __cpp_lib_to_chars >= 201611L
 #define LUMEX_FORMAT_HAS_FLOAT_TO_CHARS 1
 #else
 #define LUMEX_FORMAT_HAS_FLOAT_TO_CHARS 0
