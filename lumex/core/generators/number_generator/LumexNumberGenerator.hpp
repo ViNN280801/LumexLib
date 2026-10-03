@@ -95,6 +95,14 @@
 #include "lumex/core/utility/macros/LumexConstantMacros.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 
+namespace lumex
+{
+namespace core
+{
+namespace generators
+{
+namespace number_generator
+{
 /**
  * @brief Enumeration of supported probability distributions for random number
  * generation.
@@ -104,15 +112,6 @@
  * Library's `<random>` header. Users can select the desired distribution when
  * constructing or configuring a `NumberGenerator` instance.
  */
-
-namespace lumex
-{
-namespace core
-{
-namespace generators
-{
-namespace number_generator
-{
 enum class DistributionType : std::uint8_t
 {
   UNIFORM, ///< Uniform distribution (default): All values within a given range
