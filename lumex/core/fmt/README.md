@@ -84,8 +84,8 @@ keeps it that way):
 
 - Three suites run the same sources at C++11, C++17 and C++20
   (`LumexFormatTests`, `LumexFormatCxx17Tests`, `LumexFormatCxx20Tests`;
-  CTest names `fmt.<Suite>.<Test>` with the suffix `.cxx17` or `.cxx20`,
-  selected together by `ctest -R '^fmt\.'`), with the input / output cases
+  their CTest names start with `fmt.` and end with `.cxx17` or `.cxx20`
+  for the newer suites, so `ctest -R "^fmt"` selects them all), with the input / output cases
   of fmt's `format-test.cc` ported and the expectations checked against
   `std::format`.
 - Differential fuzzing (`LumexFormatDifferential.tests.cpp`, C++20): about
