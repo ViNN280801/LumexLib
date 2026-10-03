@@ -67,6 +67,10 @@ endif()
 include("${CMAKE_CURRENT_LIST_DIR}/../../cmake/LumexGoogleTest.cmake")
 include(GoogleTest)
 
+# The C++ standards of every test module (one suite per module and standard),
+# read by lumex_add_standard_suites.
+include("${CMAKE_CURRENT_LIST_DIR}/LumexTestStandards.cmake")
+
 lumex_add_subdirectory_if(LUMEX_BUILD_APPLIED applied)
 lumex_add_subdirectory_if(LUMEX_BUILD_CORE core)
 lumex_add_subdirectory_if(LUMEX_BUILD_XML xml)

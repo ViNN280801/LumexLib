@@ -1,0 +1,339 @@
+# lumex/tests/LumexTestStandards.cmake
+#
+# The C++ standards every test module is built and run at: one test suite
+# (one executable) per module and standard. This file is the only place that
+# names a module's standards; a module CMakeLists.txt names its module key and
+# gets the standards from here through lumex_add_standard_suites
+# (cmake/LumexGoogleTest.cmake).
+#
+# The file only defines functions and variables, so it also works in script
+# mode (cmake -P), where cmake.wiring_standard_suites reads it.
+#
+# Terms
+# -----
+# Module key: the CTest prefix of the test directory without its trailing
+#   dot (cmake/LumexTestNames.cmake): lumex/tests/core/base64 -> base64,
+#   lumex/tests/core/generators/number_generator ->
+#   generators.number_generator, lumex/tests/xml -> xml.
+# Test source of a standard: <Stem>.cxx<std>.tests.cpp in the module
+#   directory, for example LumexBase64.cxx17.tests.cpp. <Stem> is a letter
+#   followed by letters, digits or underscores (no dots); <std> is one of the
+#   module's standards.
+# Suite of a standard: the executable Lumex<Component>Cxx<std>Tests. It
+#   compiles the test sources of its own standard and of every lower standard
+#   of the module, so the C++20 suite of base64 (11 17 20) runs the .cxx11,
+#   .cxx17 and .cxx20 files. Its CTest names end in .cxx<std>, also at the
+#   lowest standard: base64.Base64EncoderTest.GivenSpan_WhenEncode_...cxx20.
+# Variant: an extra suite on the same sources with compile definitions, at
+#   the standards declared for it here: Lumex<Component><Variant>Cxx<std>Tests
+#   and the CTest suffix .<variant>.cxx<std> (atomic: lock_based, wait_table).
+# Standards above LUMEX_TEST_STANDARDS_OPTIONAL_ABOVE (20) are built only
+#   when the compiler supports them (cxx_std_<std> in
+#   CMAKE_CXX_COMPILE_FEATURES); otherwise the suite is skipped with a STATUS
+#   message (GCC 8.3 has no C++23, GCC 13 no C++26).
+#
+# How to convert a module
+# -----------------------
+# 1. Find the module key and its standards in the table below.
+# 2. Rename and split the test sources: the tests that compile at the lowest
+#    standard go into <Stem>.cxx<lowest>.tests.cpp. A test under
+#    `#if __cplusplus >= 201703L` (or 202002L, ...) moves into
+#    <Stem>.cxx17.tests.cpp (or .cxx20, ...) without the #if; a standard
+#    header included only for it (<string_view>, <span>) moves with it,
+#    unconditionally. A test under a LUMEX_HAS_* feature check goes into the
+#    file of the standard the feature belongs to and keeps the check, with
+#    GTEST_SKIP () in the #else branch, because toolchains differ. A negative
+#    branch (`#if __cplusplus < 201703L`) stays in the lower file. Platform
+#    branches (_WIN32, LUMEX_OS_*) stay where they are. A fixture or helper
+#    that the files of several standards use goes into a header next to them
+#    (for example LumexBase64TestFixtures.hpp), passed through SOURCES.
+#    Suite and test names stay as they were: only the CTest suffix changes.
+# 3. A standard of the table may have no file of its own: its suite then runs
+#    the files of the lower standards. The lowest standard must have files.
+#    Rename every *.tests.cpp of the directory into the scheme, also the
+#    sources of other components in the same directory: they all go into the
+#    one executable per standard (see "Several components" below).
+# 4. Replace the add_executable / lumex_test_use_gtest /
+#    lumex_gtest_discover_tests block of the module CMakeLists.txt with one
+#    call (all arguments but <Component> and MODULE are optional):
+#      lumex_add_standard_suites(<Component> MODULE <key>
+#          LINK <targets...>            # target_link_libraries PRIVATE
+#          SOURCES <files...>           # extra files of every suite (headers)
+#          DEFINITIONS <defs...>        # compile definitions of every suite
+#          EXCLUDE <files...>           # scheme files left out of the build
+#          DISCOVER_ARGS <args...>      # to lumex_gtest_discover_tests
+#          PLAIN_EXECUTABLE             # own main (), registered by add_test
+#          TARGETS_VAR <var>            # receives the created target names
+#          VARIANT <name> DEFINITIONS <defs...>   # repeatable
+#      )
+#    Examples:
+#      One standard (environment: 11):
+#        lumex_add_standard_suites(Environment MODULE environment
+#            LINK lumex::environment)
+#      Several standards (base64: 11 17 20):
+#        lumex_add_standard_suites(Base64 MODULE base64 LINK lumex::base64
+#            SOURCES LumexBase64TestFixtures.hpp)
+#      Several components in one directory (utility): every
+#        LumexTypeTraits.cxx11.tests.cpp, LumexCheckOS.cxx11.tests.cpp,
+#        LumexBit.cxx20.tests.cpp, ... goes into LumexUtilityCxx<std>Tests:
+#        lumex_add_standard_suites(Utility MODULE utility LINK lumex::utility
+#            "$<$<PLATFORM_ID:Windows>:dbghelp>"
+#            DISCOVER_ARGS DISCOVERY_TIMEOUT 60)
+#      Variants (atomic: lock_based and wait_table, declared below):
+#        lumex_add_standard_suites(Atomic MODULE atomic LINK lumex::atomic
+#            DISCOVER_ARGS PROPERTIES TIMEOUT 300
+#            VARIANT lock_based
+#                DEFINITIONS LUMEX_ATOMIC_SMART_PTR_FORCE_LOCK_BASED
+#            VARIANT wait_table DEFINITIONS LUMEX_ATOMIC_WAIT_FORCE_TABLE)
+#      Not a GoogleTest binary (number_generator), CTest name
+#        generators.number_generator.LumexNumberGeneratorTests.cxx11:
+#        lumex_add_standard_suites(NumberGenerator
+#            MODULE generators.number_generator
+#            LINK lumex::number_generator PLAIN_EXECUTABLE)
+#      Options per target (exceptions: -g, -rdynamic):
+#        lumex_add_standard_suites(Exceptions MODULE exceptions
+#            LINK lumex::exceptions TARGETS_VAR _exceptions_targets)
+#        foreach(_target IN LISTS _exceptions_targets)
+#          target_link_options(${_target} PRIVATE -rdynamic)
+#        endforeach()
+#    <Component> is the executable name part without the Lumex prefix
+#    (Base64 -> LumexBase64Cxx11Tests). One call per directory: the helper
+#    stops with an error on a second call, a file outside the scheme, a file
+#    of a standard the table does not list for the module, or a module key
+#    or variant missing from the table.
+# 5. Remove the directory from the transition list of
+#    lumex/tests/cmake/cases/wiring_standard_suites.cmake, configure and run
+#    `ctest -R '^<key>\.'` and `ctest -L cmake`. Compare the test names
+#    before and after: every old name must still exist with the suffix of
+#    its suite (an old unsuffixed name gets .cxx<lowest>), and new suites
+#    may only add names.
+#
+# Several components in one directory
+# -----------------------------------
+# The helper takes every *.cxx<std>.tests.cpp of the directory, whatever its
+# stem, so a directory with several components (utility: TypeTraits,
+# CheckOS, CallbackSlot, Process, SafeNumericComparator, ...) still builds
+# ONE executable per standard, named after the module's <Component>
+# (LumexUtilityCxx11Tests, LumexUtilityCxx14Tests, ...). There is no second
+# call and no per-component executable.
+#
+# What cmake.wiring_standard_suites checks
+# ----------------------------------------
+# - Every test directory (a directory under lumex/tests with *.tests.cpp,
+#   other than cmake/ and support/) has a table entry, and every entry has a
+#   directory.
+# - A converted directory (not on the case's transition list) calls
+#   lumex_add_standard_suites exactly once with MODULE <its key>, and calls
+#   none of add_executable, add_test, lumex_test_use_gtest and
+#   lumex_gtest_discover_tests itself.
+# - Every *.tests.cpp of a converted directory follows the scheme with a
+#   standard of the module's entry, and the lowest standard has a file.
+# - Every variant of the table is passed as VARIANT <name> in the module's
+#   CMakeLists.txt, and every VARIANT there is in the table.
+# - A directory still on the transition list does not call the helper yet
+#   (otherwise its entry is stale and must be removed).
+
+# Every C++ standard a test suite may name, in ascending order.
+set(LUMEX_TEST_STANDARDS_KNOWN 11 14 17 20 23 26)
+
+# A standard above this one is built only when the compiler supports it.
+set(LUMEX_TEST_STANDARDS_OPTIONAL_ABOVE 20)
+
+# Module keys in declaration order; filled by lumex_test_standards_declare.
+set(LUMEX_TEST_STANDARD_MODULES "")
+
+# lumex_test_standards_declare(<key> <std>...)
+#
+# Declares the standards of the test module <key>: known standards in
+# strictly ascending order. Sets LUMEX_TEST_STANDARDS_<key> and appends <key>
+# to LUMEX_TEST_STANDARD_MODULES in the calling scope.
+function(lumex_test_standards_declare key)
+  if(NOT key MATCHES "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)*$")
+    message(FATAL_ERROR
+      "lumex_test_standards_declare: '${key}' is not a module key "
+      "(the CTest prefix of the directory without its trailing dot)")
+  endif()
+  if(key IN_LIST LUMEX_TEST_STANDARD_MODULES)
+    message(FATAL_ERROR
+      "lumex_test_standards_declare: module '${key}' is declared twice")
+  endif()
+  _lumex_test_standards_check_list("${key}" ${ARGN})
+  set(LUMEX_TEST_STANDARDS_${key} ${ARGN} PARENT_SCOPE)
+  set(LUMEX_TEST_STANDARD_VARIANTS_${key} "" PARENT_SCOPE)
+  set(_modules ${LUMEX_TEST_STANDARD_MODULES} "${key}")
+  set(LUMEX_TEST_STANDARD_MODULES ${_modules} PARENT_SCOPE)
+endfunction()
+
+# lumex_test_standards_declare_variant(<key> <variant> <std>...)
+#
+# Declares a variant suite of the module <key> (declared before) at the given
+# standards, each of which must be a standard of the module. <variant> is
+# snake_case; the executable gets its CamelCase form, the CTest suffix the
+# name itself (.<variant>.cxx<std>).
+function(lumex_test_standards_declare_variant key variant)
+  if(NOT key IN_LIST LUMEX_TEST_STANDARD_MODULES)
+    message(FATAL_ERROR
+      "lumex_test_standards_declare_variant: module '${key}' is not declared")
+  endif()
+  if(NOT variant MATCHES "^[a-z][a-z0-9]*(_[a-z0-9]+)*$")
+    message(FATAL_ERROR
+      "lumex_test_standards_declare_variant: variant '${variant}' of "
+      "'${key}' is not snake_case")
+  endif()
+  if(variant IN_LIST LUMEX_TEST_STANDARD_VARIANTS_${key})
+    message(FATAL_ERROR
+      "lumex_test_standards_declare_variant: variant '${variant}' of "
+      "'${key}' is declared twice")
+  endif()
+  _lumex_test_standards_check_list("${key}/${variant}" ${ARGN})
+  foreach(_std IN LISTS ARGN)
+    if(NOT _std IN_LIST LUMEX_TEST_STANDARDS_${key})
+      message(FATAL_ERROR
+        "lumex_test_standards_declare_variant: C++${_std} of variant "
+        "'${variant}' is not a standard of '${key}' "
+        "(${LUMEX_TEST_STANDARDS_${key}})")
+    endif()
+  endforeach()
+  set(LUMEX_TEST_STANDARDS_${key}/${variant} ${ARGN} PARENT_SCOPE)
+  set(_variants ${LUMEX_TEST_STANDARD_VARIANTS_${key}} "${variant}")
+  set(LUMEX_TEST_STANDARD_VARIANTS_${key} ${_variants} PARENT_SCOPE)
+endfunction()
+
+# Fails unless ARGN is a non-empty, strictly ascending list of known
+# standards. <what> names the entry in the message.
+function(_lumex_test_standards_check_list what)
+  if(NOT ARGN)
+    message(FATAL_ERROR "lumex/tests/LumexTestStandards.cmake: '${what}' has no standard")
+  endif()
+  set(_previous 0)
+  foreach(_std IN LISTS ARGN)
+    if(NOT _std IN_LIST LUMEX_TEST_STANDARDS_KNOWN)
+      message(FATAL_ERROR
+        "lumex/tests/LumexTestStandards.cmake: '${what}' names C++${_std}; "
+        "known standards are ${LUMEX_TEST_STANDARDS_KNOWN}")
+    endif()
+    if(NOT _std GREATER _previous)
+      message(FATAL_ERROR
+        "lumex/tests/LumexTestStandards.cmake: the standards of '${what}' "
+        "are not strictly ascending (${ARGN})")
+    endif()
+    set(_previous ${_std})
+  endforeach()
+endfunction()
+
+# lumex_test_standards_get(<out_var> <key> [VARIANT <variant>])
+#
+# Stores in <out_var> the standards of the module <key>, or of its variant.
+# Fails when the table has no such entry.
+function(lumex_test_standards_get out_var key)
+  cmake_parse_arguments(ARG "" "VARIANT" "" ${ARGN})
+  if(NOT key IN_LIST LUMEX_TEST_STANDARD_MODULES)
+    message(FATAL_ERROR
+      "lumex/tests/LumexTestStandards.cmake has no module '${key}'")
+  endif()
+  if(ARG_VARIANT)
+    if(NOT ARG_VARIANT IN_LIST LUMEX_TEST_STANDARD_VARIANTS_${key})
+      message(FATAL_ERROR
+        "lumex/tests/LumexTestStandards.cmake has no variant "
+        "'${ARG_VARIANT}' of '${key}'")
+    endif()
+    set(${out_var} ${LUMEX_TEST_STANDARDS_${key}/${ARG_VARIANT}} PARENT_SCOPE)
+  else()
+    set(${out_var} ${LUMEX_TEST_STANDARDS_${key}} PARENT_SCOPE)
+  endif()
+endfunction()
+
+# lumex_test_standards_of_file(<out_var> <file>)
+#
+# Stores in <out_var> the standard of a test source named
+# <Stem>.cxx<std>.tests.cpp (the directory part of <file> is ignored), or an
+# empty string when the name does not follow that scheme.
+function(lumex_test_standards_of_file out_var file)
+  get_filename_component(_name "${file}" NAME)
+  set(_std "")
+  if(_name MATCHES "^[A-Za-z][A-Za-z0-9_]*\\.cxx([0-9]+)\\.tests\\.cpp$")
+    if(CMAKE_MATCH_1 IN_LIST LUMEX_TEST_STANDARDS_KNOWN)
+      set(_std "${CMAKE_MATCH_1}")
+    endif()
+  endif()
+  set(${out_var} "${_std}" PARENT_SCOPE)
+endfunction()
+
+# lumex_test_standards_select(<out_var> <key> <std> [<file>...])
+#
+# Given every *.tests.cpp file of the directory of module <key>, stores in
+# <out_var> the files the suite of standard <std> compiles: those of <std>
+# and of every lower standard, lower standards first, by name within a
+# standard. Fails on a file outside the scheme or of a standard that is not
+# one of the module's, and when the selection is empty.
+function(lumex_test_standards_select out_var key std)
+  lumex_test_standards_get(_standards "${key}")
+  set(_bad "")
+  set(_selected "")
+  foreach(_level IN LISTS _standards)
+    set(_files_${_level} "")
+  endforeach()
+  foreach(_file IN LISTS ARGN)
+    lumex_test_standards_of_file(_file_std "${_file}")
+    if(_file_std STREQUAL "" OR NOT _file_std IN_LIST _standards)
+      string(APPEND _bad "  ${_file}\n")
+      continue()
+    endif()
+    list(APPEND _files_${_file_std} "${_file}")
+  endforeach()
+  if(_bad)
+    message(FATAL_ERROR
+      "Test sources of '${key}' outside the scheme <Stem>.cxx<std>.tests.cpp "
+      "with <std> one of ${_standards}:\n${_bad}")
+  endif()
+  foreach(_level IN LISTS _standards)
+    if(_level GREATER std)
+      break()
+    endif()
+    list(SORT _files_${_level})
+    list(APPEND _selected ${_files_${_level}})
+  endforeach()
+  if(NOT _selected)
+    message(FATAL_ERROR
+      "The C++${std} suite of '${key}' has no test source: the lowest "
+      "standard (${_standards}) needs a <Stem>.cxx<std>.tests.cpp file")
+  endif()
+  set(${out_var} ${_selected} PARENT_SCOPE)
+endfunction()
+
+# --- The table (user decision 2026-10-03) ---------------------------------
+
+lumex_test_standards_declare(utility 11 14 17 20 23 26)
+
+lumex_test_standards_declare(fmt 11 14 17 20)
+lumex_test_standards_declare(reflection 11 14 17 20)
+lumex_test_standards_declare(string 11 14 17 20)
+lumex_test_standards_declare(logger 11 14 17 20)
+
+lumex_test_standards_declare(crc 14 17 20)
+
+lumex_test_standards_declare(atomic 11 17 20)
+lumex_test_standards_declare_variant(atomic lock_based 20)
+lumex_test_standards_declare_variant(atomic wait_table 20)
+lumex_test_standards_declare(base64 11 17 20)
+lumex_test_standards_declare(expected 11 17 20)
+lumex_test_standards_declare(json 11 17 20)
+lumex_test_standards_declare(xml 11 17 20)
+lumex_test_standards_declare(exceptions 11 17 20)
+lumex_test_standards_declare(math 11 17 20)
+
+lumex_test_standards_declare(circular_buffer 11 20)
+lumex_test_standards_declare(filesystem 11 20)
+
+lumex_test_standards_declare(resource_monitor 17)
+
+lumex_test_standards_declare(environment 11)
+lumex_test_standards_declare(generators.number_generator 11)
+lumex_test_standards_declare(optional 11)
+lumex_test_standards_declare(string_view 11)
+lumex_test_standards_declare(temporary 11)
+lumex_test_standards_declare(time 11)
+lumex_test_standards_declare(hardware 11)
+lumex_test_standards_declare(logging 11)
+lumex_test_standards_declare(serial 11)
+lumex_test_standards_declare(settings 11)

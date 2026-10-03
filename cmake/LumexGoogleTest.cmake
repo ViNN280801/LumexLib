@@ -3,8 +3,10 @@
 # export the same gtest / gtest_main target names. These targets compile
 # gtest-all.cc from each tree under distinct names instead.
 #
-# Usage from a test CMakeLists.txt, after add_executable() and after
-# target_link_libraries() for Lumex modules:
+# Usage from a test CMakeLists.txt: lumex_add_standard_suites (at the end of
+# this file) builds one suite per C++ standard of the module from
+# lumex/tests/LumexTestStandards.cmake. A hand-made executable calls, after
+# add_executable() and after target_link_libraries() for Lumex modules:
 #   lumex_test_use_gtest(${TEST_EXECUTABLE_NAME} CXX_STANDARD 11)
 
 find_package(Threads REQUIRED)
@@ -66,11 +68,11 @@ add_library(lumex::gtest_main_cxx17 ALIAS lumex_gtest_main_1_18)
 
 # Pins the test target's language standard and links the matching gtest.
 # CXX_STANDARD 11 or 14 -> GoogleTest 1.12.1
-# CXX_STANDARD 17 or 20 -> GoogleTest 1.18.0
+# CXX_STANDARD 17 and above -> GoogleTest 1.18.0
 function(lumex_test_use_gtest target)
   cmake_parse_arguments(ARG "" "CXX_STANDARD" "" ${ARGN})
   if(NOT ARG_CXX_STANDARD)
-    message(FATAL_ERROR "lumex_test_use_gtest(${target}): CXX_STANDARD is required (11, 14, 17, or 20)")
+    message(FATAL_ERROR "lumex_test_use_gtest(${target}): CXX_STANDARD is required (11, 14, 17, 20, 23 or 26)")
   endif()
 
   set_target_properties(${target} PROPERTIES
@@ -155,4 +157,236 @@ function(lumex_gtest_discover_tests target)
     TEST_PREFIX "${_prefix}"
     ${ARG_UNPARSED_ARGUMENTS}
     DISCOVERY_MODE PRE_TEST)
+endfunction()
+
+# lumex_add_standard_suites(<Component> MODULE <key>
+#     [LINK <item>...] [SOURCES <file>...] [DEFINITIONS <definition>...]
+#     [EXCLUDE <file>...] [DISCOVER_ARGS <argument>...] [PLAIN_EXECUTABLE]
+#     [TARGETS_VAR <out_var>]
+#     [VARIANT <name> [DEFINITIONS <definition>...]]...)
+#
+# The common DEFINITIONS go before the first VARIANT: after VARIANT <name>,
+# DEFINITIONS belongs to that variant. Every other keyword ends the group.
+#
+# One test suite (one executable) per C++ standard of the test module <key>,
+# as listed in lumex/tests/LumexTestStandards.cmake, which must be included
+# before (lumex/tests/CMakeLists.txt does). That file also explains the
+# scheme and how to convert a module; in short:
+#
+# - The test sources are every <Stem>.cxx<std>.tests.cpp of the calling
+#   directory, whatever the stem, so a directory with several components
+#   still gets one executable per standard. The suite of a standard compiles
+#   the files of that standard and of every lower standard of the module.
+#   A *.tests.cpp outside the scheme, or of a standard the module does not
+#   list, is an error. EXCLUDE leaves named scheme files out of every suite
+#   (for sources that need an optional dependency).
+# - Executables are Lumex<Component>Cxx<std>Tests; <Component> is given
+#   without the Lumex prefix. CTest names get the directory prefix
+#   (lumex_test_name) and the suffix .cxx<std>, at every standard.
+# - A standard above LUMEX_TEST_STANDARDS_OPTIONAL_ABOVE is built only when
+#   CMAKE_CXX_COMPILE_FEATURES has cxx_std_<std>; otherwise it is skipped
+#   with a STATUS message.
+# - VARIANT <name> adds suites on the same sources at the standards the table
+#   declares for that variant, with DEFINITIONS on top of the common ones:
+#   Lumex<Component><Name in CamelCase>Cxx<std>Tests, CTest suffix
+#   .<name>.cxx<std>. Every variant of the table must be passed.
+# - LINK goes to target_link_libraries PRIVATE, SOURCES (helper headers, a
+#   support .cpp) into every suite, DISCOVER_ARGS to
+#   lumex_gtest_discover_tests (TEST_SUFFIX is the helper's own).
+# - PLAIN_EXECUTABLE is for a suite with its own main () and no GoogleTest
+#   test list: each executable is one CTest test named
+#   <prefix>Lumex<Component>Tests<suffix>.
+# - TARGETS_VAR receives the names of the created targets, for options the
+#   helper does not cover (compile or link flags of one module). Add sources
+#   through SOURCES, not afterwards: lumex_test_use_gtest silences warnings
+#   for the sources the target has when it runs.
+#
+# One call per directory.
+function(lumex_add_standard_suites component)
+  if(NOT COMMAND lumex_test_standards_select
+     OR NOT DEFINED LUMEX_TEST_STANDARD_MODULES)
+    message(FATAL_ERROR
+      "lumex_add_standard_suites: include lumex/tests/LumexTestStandards.cmake first")
+  endif()
+  if(NOT component MATCHES "^[A-Z][A-Za-z0-9]*$" OR component MATCHES "^Lumex")
+    message(FATAL_ERROR
+      "lumex_add_standard_suites: '${component}' must be a CamelCase "
+      "component name without the Lumex prefix (Base64, not LumexBase64)")
+  endif()
+
+  get_property(_previous DIRECTORY PROPERTY LUMEX_STANDARD_SUITES_COMPONENT)
+  if(_previous)
+    message(FATAL_ERROR
+      "lumex_add_standard_suites(${component}): this directory already "
+      "called it for ${_previous}; one call per directory builds one "
+      "executable per standard")
+  endif()
+  set_property(DIRECTORY PROPERTY LUMEX_STANDARD_SUITES_COMPONENT "${component}")
+
+  # Split the arguments into the common ones and one group per VARIANT. A
+  # group is VARIANT <name> [DEFINITIONS ...]; any other keyword of the
+  # helper ends it, so the common arguments may also follow the variants
+  # (except DEFINITIONS, which inside a group belongs to the variant).
+  set(_common_keywords MODULE LINK SOURCES EXCLUDE DISCOVER_ARGS
+    PLAIN_EXECUTABLE TARGETS_VAR)
+  set(_group _main)
+  set(_args__main "")
+  set(_variants "")
+  set(_after_variant FALSE)
+  foreach(_arg IN LISTS ARGN)
+    if(_arg STREQUAL "VARIANT")
+      set(_after_variant TRUE)
+      continue()
+    endif()
+    if(_arg IN_LIST _common_keywords)
+      set(_group _main)
+    endif()
+    if(_after_variant)
+      if(NOT _arg MATCHES "^[a-z][a-z0-9]*(_[a-z0-9]+)*$")
+        message(FATAL_ERROR
+          "lumex_add_standard_suites(${component}): VARIANT needs a "
+          "snake_case name, got '${_arg}'")
+      endif()
+      if(_arg IN_LIST _variants)
+        message(FATAL_ERROR
+          "lumex_add_standard_suites(${component}): VARIANT ${_arg} is given twice")
+      endif()
+      list(APPEND _variants "${_arg}")
+      set(_group "${_arg}")
+      set(_args_${_group} "")
+      set(_after_variant FALSE)
+      continue()
+    endif()
+    list(APPEND _args_${_group} "${_arg}")
+  endforeach()
+  if(_after_variant)
+    message(FATAL_ERROR
+      "lumex_add_standard_suites(${component}): VARIANT without a name")
+  endif()
+
+  cmake_parse_arguments(ARG "PLAIN_EXECUTABLE" "MODULE;TARGETS_VAR"
+    "LINK;SOURCES;DEFINITIONS;EXCLUDE;DISCOVER_ARGS" ${_args__main})
+  if(ARG_UNPARSED_ARGUMENTS)
+    message(FATAL_ERROR
+      "lumex_add_standard_suites(${component}): unexpected arguments: "
+      "${ARG_UNPARSED_ARGUMENTS}")
+  endif()
+  if(NOT ARG_MODULE)
+    message(FATAL_ERROR
+      "lumex_add_standard_suites(${component}): MODULE <key> is required")
+  endif()
+  if("TEST_SUFFIX" IN_LIST ARG_DISCOVER_ARGS)
+    message(FATAL_ERROR
+      "lumex_add_standard_suites(${component}): TEST_SUFFIX is set by the "
+      "helper (.cxx<std>), do not pass it in DISCOVER_ARGS")
+  endif()
+  if(ARG_PLAIN_EXECUTABLE AND ARG_DISCOVER_ARGS)
+    message(FATAL_ERROR
+      "lumex_add_standard_suites(${component}): DISCOVER_ARGS has no effect "
+      "with PLAIN_EXECUTABLE")
+  endif()
+
+  foreach(_variant IN LISTS _variants)
+    cmake_parse_arguments(_VAR "" "" "DEFINITIONS" ${_args_${_variant}})
+    if(_VAR_UNPARSED_ARGUMENTS)
+      message(FATAL_ERROR
+        "lumex_add_standard_suites(${component}): unexpected arguments of "
+        "VARIANT ${_variant}: ${_VAR_UNPARSED_ARGUMENTS}")
+    endif()
+    set(_definitions_${_variant} ${_VAR_DEFINITIONS})
+  endforeach()
+
+  # The table decides the standards; check that the call and the table name
+  # the same variants.
+  lumex_test_standards_get(_module_standards "${ARG_MODULE}")
+  set(_declared ${LUMEX_TEST_STANDARD_VARIANTS_${ARG_MODULE}})
+  foreach(_variant IN LISTS _declared)
+    if(NOT _variant IN_LIST _variants)
+      message(FATAL_ERROR
+        "lumex_add_standard_suites(${component}): the table declares variant "
+        "'${_variant}' of '${ARG_MODULE}'; pass VARIANT ${_variant}")
+    endif()
+  endforeach()
+  foreach(_variant IN LISTS _variants)
+    lumex_test_standards_get(_variant_standards_${_variant} "${ARG_MODULE}"
+      VARIANT "${_variant}")
+  endforeach()
+
+  file(GLOB _found RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" CONFIGURE_DEPENDS
+    "${CMAKE_CURRENT_SOURCE_DIR}/*.tests.cpp")
+  foreach(_excluded IN LISTS ARG_EXCLUDE)
+    if(NOT _excluded IN_LIST _found)
+      message(FATAL_ERROR
+        "lumex_add_standard_suites(${component}): EXCLUDE names "
+        "'${_excluded}', which is not a *.tests.cpp of this directory")
+    endif()
+  endforeach()
+
+  set(_targets "")
+  foreach(_suite IN ITEMS _main ${_variants})
+    if(_suite STREQUAL "_main")
+      set(_standards ${_module_standards})
+      set(_name_part "")
+      set(_suffix_part "")
+      set(_definitions ${ARG_DEFINITIONS})
+    else()
+      set(_standards ${_variant_standards_${_suite}})
+      string(REPLACE "_" ";" _words "${_suite}")
+      set(_name_part "")
+      foreach(_word IN LISTS _words)
+        string(SUBSTRING "${_word}" 0 1 _first)
+        string(SUBSTRING "${_word}" 1 -1 _rest)
+        string(TOUPPER "${_first}" _first)
+        string(APPEND _name_part "${_first}${_rest}")
+      endforeach()
+      set(_suffix_part ".${_suite}")
+      set(_definitions ${ARG_DEFINITIONS} ${_definitions_${_suite}})
+    endif()
+
+    foreach(_std IN LISTS _standards)
+      set(_target "Lumex${component}${_name_part}Cxx${_std}Tests")
+      if(_std GREATER LUMEX_TEST_STANDARDS_OPTIONAL_ABOVE
+         AND NOT "cxx_std_${_std}" IN_LIST CMAKE_CXX_COMPILE_FEATURES)
+        message(STATUS
+          "Skipping ${_target}: ${CMAKE_CXX_COMPILER_ID} "
+          "${CMAKE_CXX_COMPILER_VERSION} has no C++${_std} "
+          "(cxx_std_${_std} is not in CMAKE_CXX_COMPILE_FEATURES)")
+        continue()
+      endif()
+
+      lumex_test_standards_select(_sources "${ARG_MODULE}" ${_std} ${_found})
+      if(ARG_EXCLUDE)
+        list(REMOVE_ITEM _sources ${ARG_EXCLUDE})
+        if(NOT _sources)
+          message(FATAL_ERROR
+            "lumex_add_standard_suites(${component}): EXCLUDE leaves "
+            "${_target} without a test source")
+        endif()
+      endif()
+
+      add_executable(${_target} ${_sources} ${ARG_SOURCES})
+      if(ARG_LINK)
+        target_link_libraries(${_target} PRIVATE ${ARG_LINK})
+      endif()
+      if(_definitions)
+        target_compile_definitions(${_target} PRIVATE ${_definitions})
+      endif()
+      lumex_test_use_gtest(${_target} CXX_STANDARD ${_std})
+
+      set(_suffix "${_suffix_part}.cxx${_std}")
+      if(ARG_PLAIN_EXECUTABLE)
+        lumex_test_name(_ctest_name "Lumex${component}Tests${_suffix}")
+        add_test(NAME ${_ctest_name} COMMAND ${_target})
+      else()
+        lumex_gtest_discover_tests(${_target}
+          TEST_SUFFIX "${_suffix}"
+          ${ARG_DISCOVER_ARGS})
+      endif()
+      list(APPEND _targets ${_target})
+    endforeach()
+  endforeach()
+
+  if(ARG_TARGETS_VAR)
+    set(${ARG_TARGETS_VAR} ${_targets} PARENT_SCOPE)
+  endif()
 endfunction()

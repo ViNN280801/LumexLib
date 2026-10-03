@@ -114,6 +114,7 @@ lumex_add_cmake_test(asan_clang_cl_runtime_library)
 lumex_add_cmake_test(gtest_discovery_does_not_lock_exe)
 lumex_add_cmake_test(wiring_atomic)
 lumex_add_cmake_test(wiring_test_names)
+lumex_add_cmake_test(wiring_standard_suites)
 
 # configure_msvc_vcvars is a no-op on non-Windows hosts, so the guard against
 # calling it after project() can only fire on Windows.
