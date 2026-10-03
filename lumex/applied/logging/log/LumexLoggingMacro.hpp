@@ -42,26 +42,15 @@
  * @brief Short macros over `LumexLogging`: `lumDebug` to `lumCritical`, and
  * the `...FL` variants that prefix the source file and line.
  * @details Each macro takes a module name and the message parts and calls the
- * `LumexLogging` function of the same level. The header also defines
+ * `LumexLogging` function of the same level. The header also provides
  * `LUMEX_FUNCTION_NAME` (the compiler's decorated name of the enclosing
- * function) with the same definition as `LumexMacros.hpp`.
+ * function) by including `LumexMacros.hpp`, which defines it.
  */
 #ifndef LUMEX_APPLIED_LOGGING_LOG_LOGGING_MACRO_HPP
 #define LUMEX_APPLIED_LOGGING_LOG_LOGGING_MACRO_HPP
 
 #include "LumexLogging.hpp"
-
-#if defined(_WIN32) || defined(__WIN32__) || defined(__WIN64__)               \
-    || defined(__MINGW32__) || defined(__MINGW64__)
-#define LUMEX_FUNCTION_NAME __FUNCSIG__
-#elif defined(__linux__) || defined(__APPLE__) || defined(__MACH__)           \
-    || defined(__MACOS__) || defined(__GNUC__) || defined(__clang__)
-#define LUMEX_FUNCTION_NAME __PRETTY_FUNCTION__
-#elif defined(__ICC) || defined(__INTEL_COMPILER)
-#define LUMEX_FUNCTION_NAME __FUNCTION__
-#else
-#define LUMEX_FUNCTION_NAME __FUNCTION__
-#endif
+#include "lumex/core/utility/macros/LumexMacros.hpp"
 
 #define lumDebug(moduleName, ...) LumexLogging::debug (moduleName, __VA_ARGS__)
 #define lumInfo(moduleName, ...) LumexLogging::info (moduleName, __VA_ARGS__)

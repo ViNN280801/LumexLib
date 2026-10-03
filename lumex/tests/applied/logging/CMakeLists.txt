@@ -5,6 +5,7 @@ set(TEST_EXECUTABLE_NAME LumexLoggingTests)
 add_executable(
     ${TEST_EXECUTABLE_NAME}
     LumexLogging.tests.cpp
+    LumexLoggingMacro.tests.cpp
 )
 
 set_target_properties(${TEST_EXECUTABLE_NAME} PROPERTIES

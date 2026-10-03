@@ -27,24 +27,21 @@
  * @brief General preprocessor helpers: `LUMEX_FUNCTION_NAME`,
  * `LUMEX_STRINGIZE` and `LUMEX_CONCAT`.
  * @details `LUMEX_FUNCTION_NAME` is the decorated name of the enclosing
- * function: `__FUNCSIG__` on Windows targets, `__PRETTY_FUNCTION__` with GCC
- * and Clang elsewhere, `__FUNCTION__` otherwise. `LUMEX_STRINGIZE(x)` and
+ * function, chosen by compiler, not by target: `__FUNCSIG__` with MSVC and
+ * clang-cl (`_MSC_VER`), `__PRETTY_FUNCTION__` with GCC and Clang (MinGW
+ * included), the standard `__func__` otherwise. `LUMEX_STRINGIZE(x)` and
  * `LUMEX_CONCAT(x, y)` expand their arguments before turning them into a
  * string literal or pasting them into one token.
  */
 #ifndef LUMEX_CORE_UTILITY_MACROS_MACROS_HPP
 #define LUMEX_CORE_UTILITY_MACROS_MACROS_HPP
 
-#if defined(_WIN32) || defined(__WIN32__) || defined(__WIN64__)               \
-    || defined(__MINGW32__) || defined(__MINGW64__)
+#if defined(_MSC_VER)
 #define LUMEX_FUNCTION_NAME __FUNCSIG__
-#elif defined(__linux__) || defined(__APPLE__) || defined(__MACH__)           \
-    || defined(__MACOS__) || defined(__GNUC__) || defined(__clang__)
+#elif defined(__GNUC__) || defined(__clang__)
 #define LUMEX_FUNCTION_NAME __PRETTY_FUNCTION__
-#elif defined(__ICC) || defined(__INTEL_COMPILER)
-#define LUMEX_FUNCTION_NAME __FUNCTION__
 #else
-#define LUMEX_FUNCTION_NAME __FUNCTION__
+#define LUMEX_FUNCTION_NAME __func__
 #endif
 
 #define LUMEX_STRINGIZE_DETAIL(x) #x

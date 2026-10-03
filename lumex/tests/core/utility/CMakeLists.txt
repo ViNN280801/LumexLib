@@ -56,9 +56,10 @@ endif()
 # Same TypeTraits sources, pinned to C++11. lumex_enum_traits_t / using enum stay
 # behind #if __cplusplus >= 202002L in the .cpp, so this suite proves
 # CleanType, is_callable, is_optional (optional), and default_return
-# on the library floor, plus the LUMEX_OS_IS_*() constants of LumexCheckOS.hpp
-# and the likely / unlikely macros of LumexAttributes.hpp. UtilityTests remains CXX 20 for Bit/Cast/Ranges
-# plus the lumex_enum_traits_t cases.
+# on the library floor, plus the LUMEX_OS_IS_*() constants of LumexCheckOS.hpp,
+# the likely / unlikely macros of LumexAttributes.hpp and LUMEX_FUNCTION_NAME
+# of LumexMacros.hpp (also under simulated MinGW target macros). UtilityTests
+# remains CXX 20 for Bit/Cast/Ranges plus the lumex_enum_traits_t cases.
 set(TYPE_TRAITS_TEST_NAME LumexTypeTraitsTests)
 
 add_executable(
@@ -66,6 +67,8 @@ add_executable(
     LumexAttributes.tests.cpp
     LumexCheckOS.tests.cpp
     LumexExceptionMacros.tests.cpp
+    LumexMacros.tests.cpp
+    LumexMacrosMinGW.tests.cpp
     LumexRangeTraits.tests.cpp
     LumexStreamTraits.tests.cpp
     LumexTypeTraits.tests.cpp
