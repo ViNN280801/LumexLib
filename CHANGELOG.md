@@ -57,6 +57,12 @@
 
 **Суть:** шестнадцать заголовков оформляли пример использования командой `@example`, а в Doxygen она документирует отдельный файл с примером. Поэтому страница Examples в `docs/` содержала 25 ложных примеров: 14 заголовков целиком, каждый под абсолютным путем к копии репозитория, на которой собиралась документация, семь значений-образцов, слова `Typical`, `Usage` и `Examples` как имена файлов и несуществующий `SafeNumericComparator_Examples.cpp`; Doxygen выдавал 30 предупреждений. Такой блок комментария целиком уходил на страницу примера, и его функция или класс оставались без описания. Теперь пример оформлен через `@par Example` (код без `@code` обернут в `@code` / `@endcode`, значения-образцы стали списком `@par Examples`), и описание снова стоит у своей функции или класса. Это открыло три описания, не совпадавших с кодом: у `fd_to_ptr` и `ptr_to_fd` в `@param` стояли не те имена параметров, а описание `lumDemangle` говорило о функции, принимающей искаженное имя, хотя макрос принимает тип или выражение и сам вызывает `typeid`. Блок, ссылавшийся на несуществующий файл примеров, стал обычным комментарием.
 
+
+##### Пути в секции `[v1.0.0.0]`
+
+**Файлы:** `CHANGELOG.md`
+
+**Суть:** четыре пути в «Файлы:» секции `[v1.0.0.0]` не встречаются ни в одном коммите. Они заменены файлами из тега `v1.0.0.0`: `lumex/applied/serial/LumexSerialPort` вместо `lumex/applied/serial/LumexSerial`; `cmake/LibraryVersioning.cmake`, который пишет `<цель>_version.rc` в каталог сборки, вместо `lumex/core/utility/version/version.rc.in`; `lumex/applied/resource_monitor/monitor/LumexResourceMonitor.hpp` вместо `lumex/applied/utility/resourcemonitor/LumexResourceMonitor.hpp`. Строка `lumex/examples/**/*.hpp` в записи о лицензии MIT удалена: примеры состоят из `.cpp` без заголовка MIT.
 ---
 
 ## [v1.0.1.1] - в разработке
@@ -310,7 +316,7 @@
 
 - `cmake/LumexBuild.cmake`
 
-**Суть:** `configure_compiler_flags` из CMakeRoutines задаёт `NOMINMAX` / `WIN32_LEAN_AND_MEAN` только на пути MSVC (clang-cl). При встраивании в PeakExpertNoGUI с GNU-like `clang++` макросы `min`/`max` из Windows SDK ломали `std::min` / `std::max` в `LumexLogger`. `lumex_configure_target` теперь всегда добавляет оба определения на WIN32 для каждого скомпилированного таргета.
+**Суть:** `configure_compiler_flags` из CMakeRoutines задает `NOMINMAX` / `WIN32_LEAN_AND_MEAN` только на пути MSVC (clang-cl). При встраивании в PeakExpertNoGUI с GNU-like `clang++` макросы `min`/`max` из Windows SDK ломали `std::min` / `std::max` в `LumexLogger`. `lumex_configure_target` теперь всегда добавляет оба определения на WIN32 для каждого скомпилированного таргета.
 
 #### Добавлено
 
@@ -785,7 +791,6 @@
 
 - `LICENSE`
 - `lumex/**/*.hpp`
-- `lumex/examples/**/*.hpp`
 
 - Корневой `LICENSE` (MIT).
 - Полный MIT-блок со `SPDX-License-Identifier: MIT` на каждом `.hpp` под `lumex/` и `examples/`.
@@ -810,7 +815,7 @@
 - `lumex/applied/serial/enumeration/LumexSerialPortEnumeration.cpp`
 - `lumex/applied/serial/resolver/LumexPortProcessResolver.hpp`
 - `lumex/applied/serial/resolver/LumexPortProcessResolver.cpp`
-- `lumex/applied/serial/LumexSerial`
+- `lumex/applied/serial/LumexSerialPort`
 - `lumex/tests/applied/serial/LumexSerialPort.tests.cpp`
 
 - `enumerateSerialPorts(need_to_filter_bluetooth)`: Windows SetupAPI / Linux `/dev` + `sysfs`.
@@ -859,7 +864,7 @@
 - `examples/**`
 
 - Спецификаторы `noexcept`, `constexpr`, `if constexpr` и атрибуты `[[nodiscard]]` / `[[maybe_unused]]` / `[[noreturn]]` / `[[deprecated]]` заменены на `LUMEX_*` аналоги во всей production-кодовой базе. Каталог `lumex/tests/` не тронут.
-- Локальные обёртки `LOGGER_NOEXCEPT_*` / `LOGGER_CONSTEXPR_*` / `LOGGER_CONST*` / `LOGGER_ATTRIBUTE_*` в Logger сведены к `LUMEX_*`.
+- Локальные обертки `LOGGER_NOEXCEPT_*` / `LOGGER_CONSTEXPR_*` / `LOGGER_CONST*` / `LOGGER_ATTRIBUTE_*` в Logger сведены к `LUMEX_*`.
 - `LUMEX_XML_CONSTANT` стал алиасом `LUMEX_CONSTINIT_CONSTANT`.
 - Оператор `noexcept(expr)` в выражениях оставлен сырым.
 
@@ -984,7 +989,7 @@
 **Файлы:**
 
 - `CMakeLists.txt`
-- `lumex/core/utility/version/version.rc.in`
+- `cmake/LibraryVersioning.cmake`
 
 - `project(... VERSION 1.0.0.0)`.
 - Контакт вендора: `vladislav.semykin@gmail.com`.
@@ -1045,7 +1050,7 @@
 - `lumex/applied/serial/resolver/LumexPortProcessResolver.cpp`
 - `lumex/applied/serial/port/LumexSerialPort.hpp`
 - `lumex/applied/serial/port/LumexSerialPort.cpp`
-- `lumex/applied/utility/resourcemonitor/LumexResourceMonitor.hpp`
+- `lumex/applied/resource_monitor/monitor/LumexResourceMonitor.hpp`
 
 - Структуры `serial_port_info_t`, `port_holder_info_t`.
 - На переписанных файлах: `LUMEX_NOEXCEPT` вместо сырого `noexcept`; `LUMEX_CONST_NUM` / `LUMEX_CONST_STR` для именованных констант.
