@@ -53,10 +53,11 @@ lumex_example_executable(
 if(NOT CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR AND LUMEX_BUILD_TESTS)
   find_package(Python3 COMPONENTS Interpreter QUIET)
   if(Python3_Interpreter_FOUND)
-    add_test(NAME LumexFormatExamplesCoverage
+    lumex_example_test_name(_ctest_name LumexFormatExamplesCoverage)
+    add_test(NAME ${_ctest_name}
       COMMAND ${Python3_EXECUTABLE}
         ${LumexLib_SOURCE_DIR}/Scripts/CodeTools/check_fmt_examples_coverage.py
     )
-    set_tests_properties(LumexFormatExamplesCoverage PROPERTIES LABELS "example")
+    set_tests_properties(${_ctest_name} PROPERTIES LABELS "example")
   endif()
 endif()

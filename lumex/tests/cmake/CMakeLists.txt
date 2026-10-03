@@ -2,26 +2,32 @@
 #
 # Tests the CMake option helpers and keeps subdirectory wiring from
 # drifting off cmake/LumexOptions.cmake. These are cmake -P scripts,
-# not GoogleTest binaries. They register as CTest names LumexCMake.*
-# and run with the rest of the suite when LUMEX_BUILD_TESTS=ON.
+# not GoogleTest binaries. They register as CTest names cmake.<case> (the
+# prefix of this directory, lumex_test_name) and run with the rest of the
+# suite when LUMEX_BUILD_TESTS=ON.
+
+# This directory is added before lumex/tests includes LumexGoogleTest.cmake.
+include("${CMAKE_CURRENT_LIST_DIR}/../../../cmake/LumexTestNames.cmake")
 
 set(_LUMEX_CMAKE_RUN "${CMAKE_CURRENT_SOURCE_DIR}/run_one.cmake")
 
 function(lumex_add_cmake_test name)
-    add_test(NAME LumexCMake.${name}
+    lumex_test_name(_ctest_name ${name})
+    add_test(NAME ${_ctest_name}
         COMMAND ${CMAKE_COMMAND}
             -DCASE=${name}
             -DLUMEX_SOURCE_DIR=${LumexLib_SOURCE_DIR}
             -P ${_LUMEX_CMAKE_RUN}
     )
-    set_tests_properties(LumexCMake.${name} PROPERTIES
+    set_tests_properties(${_ctest_name} PROPERTIES
         LABELS "cmake"
         TIMEOUT 30
     )
 endfunction()
 
 function(lumex_add_cmake_fail_test name pattern)
-    add_test(NAME LumexCMake.${name}
+    lumex_test_name(_ctest_name ${name})
+    add_test(NAME ${_ctest_name}
         COMMAND ${CMAKE_COMMAND}
             -DCASE=${name}
             -DCASE_EXPECT_FAIL=1
@@ -29,7 +35,7 @@ function(lumex_add_cmake_fail_test name pattern)
             -DLUMEX_SOURCE_DIR=${LumexLib_SOURCE_DIR}
             -P ${_LUMEX_CMAKE_RUN}
     )
-    set_tests_properties(LumexCMake.${name} PROPERTIES
+    set_tests_properties(${_ctest_name} PROPERTIES
         LABELS "cmake"
         TIMEOUT 30
     )
@@ -177,7 +183,8 @@ function(lumex_add_consumer_test name fixture)
     # The nested build uses this tree's C++ flags (a --gcc-toolchain, for
     # example) and its Clang standard library choice, so it builds like the
     # tree that runs it.
-    add_test(NAME LumexCMake.${name}
+    lumex_test_name(_ctest_name ${name})
+    add_test(NAME ${_ctest_name}
         COMMAND ${CMAKE_COMMAND}
             -DCASE=${fixture}
             -DLUMEX_SOURCE_DIR=${LumexLib_SOURCE_DIR}
@@ -190,7 +197,7 @@ function(lumex_add_consumer_test name fixture)
             "-DEXTRA_ARGS=${ARGN}"
             -P ${_LUMEX_CONSUMER_RUN}
     )
-    set_tests_properties(LumexCMake.${name} PROPERTIES
+    set_tests_properties(${_ctest_name} PROPERTIES
         LABELS "cmake;consumer"
         TIMEOUT 900
         SKIP_REGULAR_EXPRESSION "LUMEX_CONSUMER_SKIP"
@@ -225,7 +232,8 @@ lumex_add_consumer_test(install_header_only_without_utility
 # LumexFormat compile-time checks: bad literal format strings must not
 # compile at C++20 (consteval), good ones must. Header-only, so the fixture
 # only includes the source tree and runs try_compile while configuring.
-add_test(NAME LumexCMake.format_compile_checks
+lumex_test_name(_ctest_name format_compile_checks)
+add_test(NAME ${_ctest_name}
     COMMAND ${CMAKE_COMMAND}
         -DCASE=format_compile_checks
         -DLUMEX_SOURCE_DIR=${LumexLib_SOURCE_DIR}
@@ -238,7 +246,7 @@ add_test(NAME LumexCMake.format_compile_checks
         -DCONFIGURE_ONLY=ON
         -P ${_LUMEX_CONSUMER_RUN}
 )
-set_tests_properties(LumexCMake.format_compile_checks PROPERTIES
+set_tests_properties(${_ctest_name} PROPERTIES
     LABELS "cmake;consumer"
     TIMEOUT 900
     SKIP_REGULAR_EXPRESSION "LUMEX_CONSUMER_SKIP"
@@ -248,7 +256,8 @@ set_tests_properties(LumexCMake.format_compile_checks PROPERTIES
 # and is_lock_free () results (nodiscard) and, with the diagnose_if attribute,
 # constant memory orders the standard forbids must not compile with warnings
 # as errors; valid use must.
-add_test(NAME LumexCMake.atomic_compile_checks
+lumex_test_name(_ctest_name atomic_compile_checks)
+add_test(NAME ${_ctest_name}
     COMMAND ${CMAKE_COMMAND}
         -DCASE=atomic_compile_checks
         -DLUMEX_SOURCE_DIR=${LumexLib_SOURCE_DIR}
@@ -261,7 +270,7 @@ add_test(NAME LumexCMake.atomic_compile_checks
         -DCONFIGURE_ONLY=ON
         -P ${_LUMEX_CONSUMER_RUN}
 )
-set_tests_properties(LumexCMake.atomic_compile_checks PROPERTIES
+set_tests_properties(${_ctest_name} PROPERTIES
     LABELS "cmake;consumer"
     TIMEOUT 900
     SKIP_REGULAR_EXPRESSION "LUMEX_CONSUMER_SKIP"

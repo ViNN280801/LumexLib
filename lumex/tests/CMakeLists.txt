@@ -9,14 +9,14 @@ add_subdirectory(cmake)
 # not registered.
 find_package(Python3 COMPONENTS Interpreter QUIET)
 if(Python3_Interpreter_FOUND)
-    add_test(NAME LumexIncludeOrder
+    add_test(NAME lint.include_order
         COMMAND ${Python3_EXECUTABLE}
             ${LumexLib_SOURCE_DIR}/Scripts/CodeTools/check_include_order.py
             --check --dir ${LumexLib_SOURCE_DIR}/lumex
     )
-    set_tests_properties(LumexIncludeOrder PROPERTIES LABELS "lint")
+    set_tests_properties(lint.include_order PROPERTIES LABELS "lint")
 else()
-    message(STATUS "Skipping LumexIncludeOrder: no Python 3 interpreter")
+    message(STATUS "Skipping lint.include_order: no Python 3 interpreter")
 endif()
 
 # Two vendored GoogleTest trees (not FetchContent):

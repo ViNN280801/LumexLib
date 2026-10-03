@@ -6,8 +6,9 @@
 # - Standalone (this dir is CMAKE_SOURCE_DIR): find_package(LumexLib) after
 #   install, then link the same lumex::* names.
 # When LUMEX_BUILD_TESTS is ON, each in-tree example is also an add_test
-# (exit 0 required). Binaries land in ${CMAKE_BINARY_DIR}/bin next to
-# shared Lumex DLLs.
+# (exit 0 required) named examples.<directory>.<NAME>, for example
+# examples.atomic.LumexAtomicExample (lumex_example_test_name). Binaries land
+# in ${CMAKE_BINARY_DIR}/bin next to shared Lumex DLLs.
 #
 # Usage in a component CMakeLists.txt:
 #   include(${CMAKE_CURRENT_LIST_DIR}/../cmake/LumexExampleHelpers.cmake)
@@ -18,6 +19,21 @@
 #     REQUIRE_TARGET lumex::base64
 #     [CXX_STANDARD 14]
 #   )
+
+# Directory of this file, recorded when a component includes it.
+set(_LUMEX_EXAMPLE_HELPERS_DIR "${CMAKE_CURRENT_LIST_DIR}")
+
+# lumex_example_test_name(<out_var> <name>)
+#
+# Stores in <out_var> the CTest name of an in-tree example test registered
+# from the calling directory: examples.<path under lumex/examples, "/" as
+# ".">.<name>. The naming module is included here, not at the top of this
+# file, because a standalone example build never registers tests.
+function(lumex_example_test_name out_var name)
+  include("${_LUMEX_EXAMPLE_HELPERS_DIR}/../../../cmake/LumexTestNames.cmake")
+  lumex_test_name(_name "${name}" ROOT "${LUMEX_TEST_NAMES_LUMEX_DIR}")
+  set(${out_var} "${_name}" PARENT_SCOPE)
+endfunction()
 
 function(lumex_example_executable)
   set(options)
@@ -69,8 +85,9 @@ function(lumex_example_executable)
     )
     set_property(GLOBAL APPEND PROPERTY LUMEX_EXAMPLE_TARGETS ${LEX_NAME})
     if(LUMEX_BUILD_TESTS)
-      add_test(NAME ${LEX_NAME} COMMAND ${LEX_NAME})
-      set_tests_properties(${LEX_NAME} PROPERTIES
+      lumex_example_test_name(_ctest_name ${LEX_NAME})
+      add_test(NAME ${_ctest_name} COMMAND ${LEX_NAME})
+      set_tests_properties(${_ctest_name} PROPERTIES
         WORKING_DIRECTORY "$<TARGET_FILE_DIR:${LEX_NAME}>"
         LABELS "example"
       )
