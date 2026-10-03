@@ -36,6 +36,6 @@ if(LUMEX_INSTALL)
         DESTINATION include/lumex/core/filesystem
         FILES_MATCHING 
             PATTERN "*.hpp"
-            PATTERN "lumex_filesystem"
+            PATTERN "LumexFilesystem"
     )
 endif()

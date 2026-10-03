@@ -3,11 +3,9 @@
 add_subdirectory(number_generator)
 
 if(LUMEX_INSTALL)
+    # Only the umbrella: number_generator installs its own headers.
     install(
-        DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/
+        FILES ${CMAKE_CURRENT_SOURCE_DIR}/LumexGenerators
         DESTINATION include/lumex/core/generators
-        FILES_MATCHING 
-            PATTERN "*.hpp"
-            PATTERN "LumexGenerators"
     )
 endif()
