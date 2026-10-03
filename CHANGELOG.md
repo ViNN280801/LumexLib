@@ -127,6 +127,8 @@
 
 **Файлы:** `lumex/core/base64/encode/Encoder.hpp`, `lumex/core/base64/decode/Decoder.hpp`, `lumex/core/base64/validate/Validator.hpp`
 
+**Коммит:** `fdf84600`
+
 **Суть:** `Encoder`, `Decoder` и `Validator` были `class LUMEX_API`. clang-cl даже в Release не встраивает inline-член такого класса и ставит на него `dllimport`. DLL собрана без перегрузок `std::string_view` и `std::span` (их нет в каждом стандарте), поэтому `LumexBase64Cxx17Tests` и `LumexBase64Cxx20Tests` падали с LNK2019. Теперь `LUMEX_API` стоит только на функциях с указателем и размером и на `encode` от `std::vector`. Обертки остаются inline в заголовке и больше не импортируются.
 
 ##### `__int128` форматируется на clang-cl без `__udivti3`
