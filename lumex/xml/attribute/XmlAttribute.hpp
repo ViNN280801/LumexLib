@@ -124,7 +124,6 @@ using namespace lumex::xml::types::Types;
 class LUMEX_API XmlAttribute
 {
   friend class XmlAttributeIterator;
-  friend class LumexXmlNode;
 
 public:
   using unspecified_bool_type = void (*) (XmlAttribute ***);
@@ -303,105 +302,107 @@ public:
    */
   char_t const *as_string (char_t const *def = LUMEX_XML_TEXT ("")) const;
 
-  // Get attribute value as a number, or the default value if conversion did
-  // not succeed or attribute is empty
+  // Get attribute value as a number, or the default value if the attribute
+  // is empty or has no value
   LUMEX_ATTRIBUTE_NODISCARD ("The returned value is the default value; "
                              "discarding it negates the purpose of the getter")
   /**
-   * @brief Converts and retrieves the attribute's value as an `int`.
-   * @details Attempts to parse the attribute's string value into an `int`.
-   *          If the attribute is empty, its value is null, or the conversion
-   * fails, the `def` value is returned.
-   * @param[in] def The default `int` value to return if conversion fails or
-   * the attribute is empty. Defaults to `0`.
-   * @return The attribute's value as an `int`, or `def` if parsing fails or
-   * the attribute is invalid.
+   * @brief Converts the attribute's value to an `int`.
+   * @details Skips leading white space, then reads an optional sign and either
+   * decimal digits or `0x` and hexadecimal digits, up to the first other
+   * character. A value without digits gives `0`, and a value out of range
+   * gives `INT_MIN` or `INT_MAX`. `def` is returned only when the attribute is
+   * empty or has no value, not for a value that is not a number.
+   * @param[in] def The value returned when the attribute is empty or has no
+   * value. Defaults to `0`.
+   * @return The converted value, or `def`.
    */
   int as_int (int def = 0) const;
 
   LUMEX_ATTRIBUTE_NODISCARD ("The returned value is the default value; "
                              "discarding it negates the purpose of the getter")
   /**
-   * @brief Converts and retrieves the attribute's value as an `unsigned int`.
-   * @details Attempts to parse the attribute's string value into an `unsigned
-   * int`. If the attribute is empty, its value is null, or the conversion
-   * fails, the `def` value is returned.
-   * @param[in] def The default `unsigned int` value to return if conversion
-   * fails or the attribute is empty. Defaults to `0`.
-   * @return The attribute's value as an `unsigned int`, or `def` if parsing
-   * fails or the attribute is invalid.
+   * @brief Converts the attribute's value to an `unsigned int`.
+   * @details Skips leading white space, then reads an optional sign and either
+   * decimal digits or `0x` and hexadecimal digits, up to the first other
+   * character. A value without digits or a negative value gives `0`, and a
+   * value above the range gives `UINT_MAX`. `def` is returned only when the
+   * attribute is empty or has no value, not for a value that is not a number.
+   * @param[in] def The value returned when the attribute is empty or has no
+   * value. Defaults to `0`.
+   * @return The converted value, or `def`.
    */
   unsigned int as_uint (unsigned int def = 0) const;
 
   LUMEX_ATTRIBUTE_NODISCARD ("The returned value is the default value; "
                              "discarding it negates the purpose of the getter")
   /**
-   * @brief Converts and retrieves the attribute's value as a `double`.
-   * @details Attempts to parse the attribute's string value into a `double`.
-   *          If the attribute is empty, its value is null, or the conversion
-   * fails, the `def` value is returned.
-   * @param[in] def The default `double` value to return if conversion fails or
-   * the attribute is empty. Defaults to `0.0`.
-   * @return The attribute's value as a `double`, or `def` if parsing fails or
-   * the attribute is invalid.
+   * @brief Converts the attribute's value to a `double`.
+   * @details Converts the value as `strtod` does (`wcstod` in wide-character
+   * mode); a value that is not a number gives `0`. `def` is returned only when
+   * the attribute is empty or has no value, not for a value that is not a
+   * number.
+   * @param[in] def The value returned when the attribute is empty or has no
+   * value. Defaults to `0.0`.
+   * @return The converted value, or `def`.
    */
   double as_double (double def = 0) const;
 
   LUMEX_ATTRIBUTE_NODISCARD ("The returned value is the default value; "
                              "discarding it negates the purpose of the getter")
   /**
-   * @brief Converts and retrieves the attribute's value as a `float`.
-   * @details Attempts to parse the attribute's string value into a `float`.
-   *          If the attribute is empty, its value is null, or the conversion
-   * fails, the `def` value is returned.
-   * @param[in] def The default `float` value to return if conversion fails or
-   * the attribute is empty. Defaults to `0.0f`.
-   * @return The attribute's value as a `float`, or `def` if parsing fails or
-   * the attribute is invalid.
+   * @brief Converts the attribute's value to a `float`.
+   * @details Converts the value as `strtod` does (`wcstod` in wide-character
+   * mode), then narrows it to `float`; a value that is not a number gives `0`.
+   * `def` is returned only when the attribute is empty or has no value, not
+   * for a value that is not a number.
+   * @param[in] def The value returned when the attribute is empty or has no
+   * value. Defaults to `0.0f`.
+   * @return The converted value, or `def`.
    */
   float as_float (float def = 0) const;
 
   LUMEX_ATTRIBUTE_NODISCARD ("The returned value is the default value; "
                              "discarding it negates the purpose of the getter")
   /**
-   * @brief Converts and retrieves the attribute's value as a `long long`.
-   * @details Attempts to parse the attribute's string value into a `long
-   * long`. If the attribute is empty, its value is null, or the conversion
-   * fails, the `def` value is returned.
-   * @param[in] def The default `long long` value to return if conversion fails
-   * or the attribute is empty. Defaults to `0LL`.
-   * @return The attribute's value as a `long long`, or `def` if parsing fails
-   * or the attribute is invalid.
+   * @brief Converts the attribute's value to a `long long`.
+   * @details Skips leading white space, then reads an optional sign and either
+   * decimal digits or `0x` and hexadecimal digits, up to the first other
+   * character. A value without digits gives `0`, and a value out of range
+   * gives `LLONG_MIN` or `LLONG_MAX`. `def` is returned only when the
+   * attribute is empty or has no value, not for a value that is not a number.
+   * @param[in] def The value returned when the attribute is empty or has no
+   * value. Defaults to `0LL`.
+   * @return The converted value, or `def`.
    */
   long long as_llong (long long def = 0) const;
 
   LUMEX_ATTRIBUTE_NODISCARD ("The returned value is the default value; "
                              "discarding it negates the purpose of the getter")
   /**
-   * @brief Converts and retrieves the attribute's value as an `unsigned long
-   * long`.
-   * @details Attempts to parse the attribute's string value into an `unsigned
-   * long long`. If the attribute is empty, its value is null, or the
-   * conversion fails, the `def` value is returned.
-   * @param[in] def The default `unsigned long long` value to return if
-   * conversion fails or the attribute is empty. Defaults to `0ULL`.
-   * @return The attribute's value as an `unsigned long long`, or `def` if
-   * parsing fails or the attribute is invalid.
+   * @brief Converts the attribute's value to an `unsigned long long`.
+   * @details Skips leading white space, then reads an optional sign and either
+   * decimal digits or `0x` and hexadecimal digits, up to the first other
+   * character. A value without digits or a negative value gives `0`, and a
+   * value above the range gives `ULLONG_MAX`. `def` is returned only when the
+   * attribute is empty or has no value, not for a value that is not a number.
+   * @param[in] def The value returned when the attribute is empty or has no
+   * value. Defaults to `0ULL`.
+   * @return The converted value, or `def`.
    */
   unsigned long long as_ullong (unsigned long long def = 0) const;
 
   LUMEX_ATTRIBUTE_NODISCARD ("The returned value is the default value; "
                              "discarding it negates the purpose of the getter")
   /**
-   * @brief Converts and retrieves the attribute's value as a `bool`.
-   * @details The conversion logic considers values starting with '1', 't',
-   * 'T', 'y', 'Y' (case-insensitive) as `true`. If the attribute is empty, its
-   * value is null, or the conversion logic does not yield `true`, the `def`
-   * value is returned.
-   * @param[in] def The default `bool` value to return if conversion fails or
-   * the attribute is empty. Defaults to `false`.
-   * @return The attribute's value as a `bool`, or `def` if parsing fails or
-   * the attribute is invalid.
+   * @brief Converts the attribute's value to a `bool`.
+   * @details The result is `true` when the first character of the value is
+   * '1', 't', 'T', 'y' or 'Y', and `false` for any other value, including an
+   * empty one. `def` is returned only when the attribute is empty or has no
+   * value.
+   * @param[in] def The value returned when the attribute is empty or has no
+   * value. Defaults to `false`.
+   * @return The converted value, or `def`.
    */
   bool as_bool (bool def = false) const;
 

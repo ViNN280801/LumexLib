@@ -122,7 +122,6 @@ using namespace lumex::xml::xpath::node;
 class LUMEX_API
     XPathVariable // NOLINT(cppcoreguidelines-special-member-functions)
 {
-  friend class xpath_variable_set;
   friend struct xpath_variable_boolean;
   friend struct xpath_variable_number;
   friend struct xpath_variable_string;
@@ -557,6 +556,8 @@ delete_xpath_variable (xpath_value_type type, XPathVariable *var)
  * @return `true` if the copy was successful, `false` otherwise (e.g., memory
  * allocation failure for strings/node-sets).
  * @throws `LUMEX_ASSERT` if an invalid variable type is encountered.
+ * @note The exported `lumex::xml::xpath::utility::copy_xpath_variable` of
+ * XPathUtils.hpp forwards to this function.
  */
 LUMEX_API
 inline bool

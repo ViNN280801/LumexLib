@@ -132,7 +132,10 @@ XPathNode xpath_first (XPathNode const *begin, XPathNode const *end,
  * @brief Copies the value of one XPath variable to another.
  * @details This function performs a deep copy of the value from `rhs` (source
  * variable) to `lhs` (destination variable), handling different XPath variable
- * types (node-set, number, string, boolean).
+ * types (node-set, number, string, boolean). It forwards to the inline
+ * `lumex::xml::xpath::variable::copy_xpath_variable` of XPathVariable.hpp,
+ * which holds the only implementation; this exported function is kept so
+ * that programs linked against it still find it.
  * @param lhs A pointer to the destination `XPathVariable` to which the value
  * will be copied.
  * @param rhs A constant pointer to the source `XPathVariable` from which the

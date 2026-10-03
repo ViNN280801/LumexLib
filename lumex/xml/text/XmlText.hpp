@@ -181,11 +181,15 @@ public:
   char_t const *as_string (char_t const *def = LUMEX_XML_TEXT ("")) const;
 
   /**
-   * @brief Converts the text content to an integer.
-   * @param[in] def The default integer value to return if conversion fails or
-   * the object is empty. Defaults to `0`.
-   * @return The text content as an `int`, or `def` if conversion is not
-   * possible or the object is empty.
+   * @brief Converts the text object's value to an `int`.
+   * @details Skips leading white space, then reads an optional sign and either
+   * decimal digits or `0x` and hexadecimal digits, up to the first other
+   * character. A value without digits gives `0`, and a value out of range
+   * gives `INT_MIN` or `INT_MAX`. `def` is returned only when the object is
+   * empty or its text has no value, not for a value that is not a number.
+   * @param[in] def The value returned when the object is empty or its text has
+   * no value. Defaults to `0`.
+   * @return The converted value, or `def`.
    */
   LUMEX_ATTRIBUTE_NODISCARD (
       "The returned integer value should be used; discarding it negates the "
@@ -193,11 +197,16 @@ public:
   int as_int (int def = 0) const;
 
   /**
-   * @brief Converts the text content to an unsigned integer.
-   * @param[in] def The default unsigned integer value to return if conversion
-   * fails or the object is empty. Defaults to `0`.
-   * @return The text content as an `unsigned int`, or `def` if conversion is
-   * not possible or the object is empty.
+   * @brief Converts the text object's value to an `unsigned int`.
+   * @details Skips leading white space, then reads an optional sign and either
+   * decimal digits or `0x` and hexadecimal digits, up to the first other
+   * character. A value without digits or a negative value gives `0`, and a
+   * value above the range gives `UINT_MAX`. `def` is returned only when the
+   * object is empty or its text has no value, not for a value that is not a
+   * number.
+   * @param[in] def The value returned when the object is empty or its text has
+   * no value. Defaults to `0`.
+   * @return The converted value, or `def`.
    */
   LUMEX_ATTRIBUTE_NODISCARD (
       "The returned unsigned integer value should be used; discarding it "
@@ -205,12 +214,14 @@ public:
   unsigned int as_uint (unsigned int def = 0) const;
 
   /**
-   * @brief Converts the text content to a double-precision floating-point
-   * number.
-   * @param[in] def The default double value to return if conversion fails or
-   * the object is empty. Defaults to `0.0`.
-   * @return The text content as a `double`, or `def` if conversion is not
-   * possible or the object is empty.
+   * @brief Converts the text object's value to a `double`.
+   * @details Converts the value as `strtod` does (`wcstod` in wide-character
+   * mode); a value that is not a number gives `0`. `def` is returned only when
+   * the object is empty or its text has no value, not for a value that is not
+   * a number.
+   * @param[in] def The value returned when the object is empty or its text has
+   * no value. Defaults to `0.0`.
+   * @return The converted value, or `def`.
    */
   LUMEX_ATTRIBUTE_NODISCARD (
       "The returned double value should be used; discarding it negates the "
@@ -218,12 +229,14 @@ public:
   double as_double (double def = 0) const;
 
   /**
-   * @brief Converts the text content to a single-precision floating-point
-   * number.
-   * @param[in] def The default float value to return if conversion fails or
-   * the object is empty. Defaults to `0.0f`.
-   * @return The text content as a `float`, or `def` if conversion is not
-   * possible or the object is empty.
+   * @brief Converts the text object's value to a `float`.
+   * @details Converts the value as `strtod` does (`wcstod` in wide-character
+   * mode), then narrows it to `float`; a value that is not a number gives `0`.
+   * `def` is returned only when the object is empty or its text has no value,
+   * not for a value that is not a number.
+   * @param[in] def The value returned when the object is empty or its text has
+   * no value. Defaults to `0.0f`.
+   * @return The converted value, or `def`.
    */
   LUMEX_ATTRIBUTE_NODISCARD (
       "The returned float value should be used; discarding it negates the "
@@ -231,11 +244,15 @@ public:
   float as_float (float def = 0) const;
 
   /**
-   * @brief Converts the text content to a long long integer.
-   * @param[in] def The default long long value to return if conversion fails
-   * or the object is empty. Defaults to `0LL`.
-   * @return The text content as a `long long`, or `def` if conversion is not
-   * possible or the object is empty.
+   * @brief Converts the text object's value to a `long long`.
+   * @details Skips leading white space, then reads an optional sign and either
+   * decimal digits or `0x` and hexadecimal digits, up to the first other
+   * character. A value without digits gives `0`, and a value out of range
+   * gives `LLONG_MIN` or `LLONG_MAX`. `def` is returned only when the object
+   * is empty or its text has no value, not for a value that is not a number.
+   * @param[in] def The value returned when the object is empty or its text has
+   * no value. Defaults to `0LL`.
+   * @return The converted value, or `def`.
    */
   LUMEX_ATTRIBUTE_NODISCARD (
       "The returned long long value should be used; discarding it negates the "
@@ -243,11 +260,16 @@ public:
   long long as_llong (long long def = 0) const;
 
   /**
-   * @brief Converts the text content to an unsigned long long integer.
-   * @param[in] def The default unsigned long long value to return if
-   * conversion fails or the object is empty. Defaults to `0ULL`.
-   * @return The text content as an `unsigned long long`, or `def` if
-   * conversion is not possible or the object is empty.
+   * @brief Converts the text object's value to an `unsigned long long`.
+   * @details Skips leading white space, then reads an optional sign and either
+   * decimal digits or `0x` and hexadecimal digits, up to the first other
+   * character. A value without digits or a negative value gives `0`, and a
+   * value above the range gives `ULLONG_MAX`. `def` is returned only when the
+   * object is empty or its text has no value, not for a value that is not a
+   * number.
+   * @param[in] def The value returned when the object is empty or its text has
+   * no value. Defaults to `0ULL`.
+   * @return The converted value, or `def`.
    */
   LUMEX_ATTRIBUTE_NODISCARD (
       "The returned unsigned long long value should be used; discarding it "
@@ -255,12 +277,14 @@ public:
   unsigned long long as_ullong (unsigned long long def = 0) const;
 
   /**
-   * @brief Converts the text content to a boolean.
-   * @details Returns `true` if the first character of the text is '1', 't',
-   * 'T', 'y', or 'Y' (case-insensitive).
-   * @param[in] def The default boolean value to return if the object is empty.
-   * Defaults to `false`.
-   * @return The text content as a `bool`, or `def` if the object is empty.
+   * @brief Converts the text object's value to a `bool`.
+   * @details The result is `true` when the first character of the value is
+   * '1', 't', 'T', 'y' or 'Y', and `false` for any other value, including an
+   * empty one. `def` is returned only when the object is empty or its text has
+   * no value.
+   * @param[in] def The value returned when the object is empty or its text has
+   * no value. Defaults to `false`.
+   * @return The converted value, or `def`.
    */
   LUMEX_ATTRIBUTE_NODISCARD (
       "The returned boolean value should be used; discarding it negates the "

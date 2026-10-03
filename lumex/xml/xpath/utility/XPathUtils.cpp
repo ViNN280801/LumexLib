@@ -98,31 +98,8 @@ lumex::xml::xpath::utility::copy_xpath_variable (
     XPathVariable *lhs,
     XPathVariable const *rhs) // NOLINT(misc-use-internal-linkage)
 {
-  switch (rhs->type ())
-    {
-    case xpath_type_node_set: // NOLINT(bugprone-branch-clone)
-      return lhs->set (
-          static_cast< // NOLINT(cppcoreguidelines-pro-type-static-cast-downcast
-              xpath_variable_node_set const *> (rhs)
-              ->value);
-    case xpath_type_number:
-      return lhs->set (
-          static_cast< // NOLINT(cppcoreguidelines-pro-type-static-cast-downcast)
-              xpath_variable_number const *> (rhs)
-              ->value);
-    case xpath_type_string:
-      return lhs->set (
-          static_cast< // NOLINT(cppcoreguidelines-pro-type-static-cast-downcast
-              xpath_variable_string const *> (rhs)
-              ->value);
-    case xpath_type_boolean:
-      return lhs->set (
-          static_cast< // NOLINT(cppcoreguidelines-pro-type-static-cast-downcast
-              xpath_variable_boolean const *> (rhs)
-              ->value);
-
-    default:
-      LUMEX_ASSERT (false && "Invalid variable type"); // unreachable
-      return false;
-    }
+  // One implementation: the inline function of XPathVariable.hpp, which
+  // XPathVariableSet uses too. This exported name stays for binary
+  // compatibility.
+  return lumex::xml::xpath::variable::copy_xpath_variable (lhs, rhs);
 }

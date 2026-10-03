@@ -7,6 +7,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <fstream>
+#include <initializer_list>
 #include <iterator>
 #include <limits>
 #include <map>
@@ -23,6 +24,7 @@
 #include <gtest/gtest.h>
 
 #include "lumex/xml/LumexXml"
+#include "lumex/xml/xpath/utility/XPathUtils.hpp"
 
 #include "lumex/tests/support/LumexPerfSkip.hpp"
 #if defined(__clang__)
@@ -1356,4 +1358,188 @@ TEST_P (ConcurrencyLargeReadOnlyParamTest,
 }
 INSTANTIATE_TEST_SUITE_P (Xml, ConcurrencyLargeReadOnlyParamTest,
                           ::testing::Values (100, 500, 1000, 1500, 2000));
+
+// --- Typed getters: the default stands only for a missing value ---------
+// The getters of XmlAttribute and XmlText return `def` only when there is
+// no value. A value that is not a number still converts: to 0, to false,
+// or clamped to the range of the type.
+TEST_F (XmlFixture,
+        GivenNonNumericAttribute_WhenNumericGettersWithDefault_ThenZero)
+{
+  ASSERT_EQ (doc.load_string ("<n a=\"abc\" e=\"\" w=\" 12px\"/>").status,
+             xml_parse_status::status_ok);
+  XmlNode n = doc.child ("n");
+  XmlAttribute a = n.attribute ("a");
+  ASSERT_FALSE (a.empty ());
+  EXPECT_EQ (a.as_int (7), 0);
+  EXPECT_EQ (a.as_uint (7U), 0U);
+  EXPECT_EQ (a.as_llong (7), 0);
+  EXPECT_EQ (a.as_ullong (7), 0U);
+  EXPECT_DOUBLE_EQ (a.as_double (7.5), 0.0);
+  EXPECT_FLOAT_EQ (a.as_float (7.5F), 0.0F);
+  XmlAttribute e = n.attribute ("e");
+  ASSERT_FALSE (e.empty ());
+  EXPECT_EQ (e.as_int (7), 0);
+  EXPECT_DOUBLE_EQ (e.as_double (7.5), 0.0);
+  EXPECT_EQ (n.attribute ("w").as_int (7), 12);
+}
+
+TEST_F (XmlFixture, GivenNonTrueAttribute_WhenAsBoolWithTrueDefault_ThenFalse)
+{
+  ASSERT_EQ (doc.load_string ("<n a=\"no\" e=\"\" t=\"yes\"/>").status,
+             xml_parse_status::status_ok);
+  XmlNode n = doc.child ("n");
+  EXPECT_FALSE (n.attribute ("a").as_bool (true));
+  EXPECT_FALSE (n.attribute ("e").as_bool (true));
+  EXPECT_TRUE (n.attribute ("t").as_bool (false));
+}
+
+TEST_F (XmlFixture, GivenMissingAttribute_WhenTypedGetters_ThenDefault)
+{
+  ASSERT_EQ (doc.load_string ("<n a=\"1\"/>").status,
+             xml_parse_status::status_ok);
+  XmlAttribute m = doc.child ("n").attribute ("missing");
+  ASSERT_TRUE (m.empty ());
+  EXPECT_EQ (m.as_int (7), 7);
+  EXPECT_EQ (m.as_uint (7U), 7U);
+  EXPECT_EQ (m.as_llong (7), 7);
+  EXPECT_EQ (m.as_ullong (7), 7U);
+  EXPECT_DOUBLE_EQ (m.as_double (7.5), 7.5);
+  EXPECT_FLOAT_EQ (m.as_float (7.5F), 7.5F);
+  EXPECT_TRUE (m.as_bool (true));
+}
+
+TEST_F (XmlFixture,
+        GivenOutOfRangeAttribute_WhenIntegerGetters_ThenClampedNotDefault)
+{
+  ASSERT_EQ (doc.load_string ("<n big=\"99999999999999999999999\" "
+                              "small=\"-99999999999999999999999\" "
+                              "neg=\"-5\" hex=\"0x1F\"/>")
+                 .status,
+             xml_parse_status::status_ok);
+  XmlNode n = doc.child ("n");
+  EXPECT_EQ (n.attribute ("big").as_int (7), std::numeric_limits<int>::max ());
+  EXPECT_EQ (n.attribute ("small").as_int (7),
+             std::numeric_limits<int>::min ());
+  EXPECT_EQ (n.attribute ("big").as_uint (7U),
+             std::numeric_limits<unsigned int>::max ());
+  EXPECT_EQ (n.attribute ("big").as_llong (7),
+             std::numeric_limits<long long>::max ());
+  EXPECT_EQ (n.attribute ("small").as_llong (7),
+             std::numeric_limits<long long>::min ());
+  EXPECT_EQ (n.attribute ("big").as_ullong (7),
+             std::numeric_limits<unsigned long long>::max ());
+  EXPECT_EQ (n.attribute ("neg").as_uint (7U), 0U);
+  EXPECT_EQ (n.attribute ("neg").as_ullong (7), 0U);
+  EXPECT_EQ (n.attribute ("hex").as_int (7), 31);
+}
+
+TEST_F (XmlFixture, GivenNonNumericText_WhenTypedGettersWithDefault_ThenZero)
+{
+  ASSERT_EQ (doc.load_string ("<x>abc</x>").status,
+             xml_parse_status::status_ok);
+  XmlText xt = doc.child ("x").text ();
+  ASSERT_FALSE (xt.empty ());
+  EXPECT_EQ (xt.as_int (7), 0);
+  EXPECT_EQ (xt.as_uint (7U), 0U);
+  EXPECT_EQ (xt.as_llong (7), 0);
+  EXPECT_EQ (xt.as_ullong (7), 0U);
+  EXPECT_DOUBLE_EQ (xt.as_double (7.5), 0.0);
+  EXPECT_FLOAT_EQ (xt.as_float (7.5F), 0.0F);
+  EXPECT_FALSE (xt.as_bool (true));
+}
+
+TEST_F (XmlFixture, GivenElementWithoutText_WhenTextTypedGetters_ThenDefault)
+{
+  ASSERT_EQ (doc.load_string ("<x><y/></x>").status,
+             xml_parse_status::status_ok);
+  XmlText xt = doc.child ("x").text ();
+  ASSERT_TRUE (xt.empty ());
+  EXPECT_EQ (xt.as_int (7), 7);
+  EXPECT_EQ (xt.as_uint (7U), 7U);
+  EXPECT_EQ (xt.as_llong (7), 7);
+  EXPECT_EQ (xt.as_ullong (7), 7U);
+  EXPECT_DOUBLE_EQ (xt.as_double (7.5), 7.5);
+  EXPECT_FLOAT_EQ (xt.as_float (7.5F), 7.5F);
+  EXPECT_TRUE (xt.as_bool (true));
+}
+
+// --- copy_xpath_variable: one implementation under two names ------------
+// The exported lumex::xml::xpath::utility::copy_xpath_variable forwards to
+// the inline lumex::xml::xpath::variable::copy_xpath_variable, which the
+// copy of an XPathVariableSet uses.
+class XPathVariableCopyTest : public ::testing::Test
+{
+protected:
+  void
+  SetUp () override
+  {
+    ASSERT_EQ (doc.load_string ("<r><a/><b/></r>").status,
+               xml_parse_status::status_ok);
+    for (char const *name : { "b", "n", "s", "ns" })
+      ASSERT_NE (target.get (name), nullptr) << name;
+    ASSERT_TRUE (source.set ("b", true));
+    ASSERT_TRUE (source.set ("n", 2.5));
+    ASSERT_TRUE (source.set ("s", "text"));
+    ASSERT_TRUE (source.set ("ns", doc.select_nodes ("/r/*")));
+  }
+
+  XmlDocument doc;
+  lumex::xml::xpath::variable::XPathVariableSet source = make_set ();
+  lumex::xml::xpath::variable::XPathVariableSet target = make_set ();
+
+  static lumex::xml::xpath::variable::XPathVariableSet
+  make_set ()
+  {
+    lumex::xml::xpath::variable::XPathVariableSet set;
+    set.add ("b", lumex::xml::types::Types::xpath_type_boolean);
+    set.add ("n", lumex::xml::types::Types::xpath_type_number);
+    set.add ("s", lumex::xml::types::Types::xpath_type_string);
+    set.add ("ns", lumex::xml::types::Types::xpath_type_node_set);
+    return set;
+  }
+
+  void
+  expect_copied ()
+  {
+    EXPECT_TRUE (target.get ("b")->get_boolean ());
+    EXPECT_DOUBLE_EQ (target.get ("n")->get_number (), 2.5);
+    EXPECT_STREQ (target.get ("s")->get_string (), "text");
+    EXPECT_EQ (target.get ("ns")->get_node_set ().size (), 2U);
+  }
+};
+
+TEST_F (XPathVariableCopyTest, GivenEveryType_WhenExportedCopy_ThenValueCopied)
+{
+  for (char const *name : { "b", "n", "s", "ns" })
+    EXPECT_TRUE (lumex::xml::xpath::utility::copy_xpath_variable (
+        target.get (name), source.get (name)))
+        << name;
+  expect_copied ();
+}
+
+TEST_F (XPathVariableCopyTest, GivenEveryType_WhenInlineCopy_ThenValueCopied)
+{
+  for (char const *name : { "b", "n", "s", "ns" })
+    EXPECT_TRUE (lumex::xml::xpath::variable::copy_xpath_variable (
+        target.get (name), source.get (name)))
+        << name;
+  expect_copied ();
+}
+
+TEST_F (XPathVariableCopyTest, GivenOtherType_WhenExportedCopy_ThenFalse)
+{
+  EXPECT_FALSE (lumex::xml::xpath::utility::copy_xpath_variable (
+      target.get ("b"), source.get ("n")));
+  EXPECT_FALSE (target.get ("b")->get_boolean ());
+}
+
+TEST_F (XPathVariableCopyTest, GivenSet_WhenCopyConstructed_ThenValuesCopied)
+{
+  lumex::xml::xpath::variable::XPathVariableSet copy (source);
+  EXPECT_TRUE (copy.get ("b")->get_boolean ());
+  EXPECT_DOUBLE_EQ (copy.get ("n")->get_number (), 2.5);
+  EXPECT_STREQ (copy.get ("s")->get_string (), "text");
+  EXPECT_EQ (copy.get ("ns")->get_node_set ().size (), 2U);
+}
 } // namespace
