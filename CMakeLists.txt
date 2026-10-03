@@ -328,7 +328,32 @@ if(LUMEX_BUILD_DOCUMENTATION)
                         "and declarations after a raw string literal may be too")
     endif()
 
-    # Configure Doxyfile from template with project version
+    # The module umbrellas (lumex/core/atomic/LumexAtomic, ...) have no file
+    # extension, so no FILE_PATTERNS entry of the Doxyfile reaches them.
+    # Doxyfile.in lists them in INPUT through LUMEX_DOXYGEN_UMBRELLAS, one
+    # source-relative path per line (Doxygen runs in the source directory).
+    # The list is taken at configure time; a new umbrella comes with a new
+    # module directory, whose add_subdirectory reruns the configure.
+    file(GLOB_RECURSE _lumex_doxygen_candidates
+        LIST_DIRECTORIES false
+        RELATIVE "${LumexLib_SOURCE_DIR}"
+        "${LumexLib_SOURCE_DIR}/lumex/*")
+    list(SORT _lumex_doxygen_candidates)
+    set(LUMEX_DOXYGEN_UMBRELLAS "")
+    foreach(_lumex_doxygen_file IN LISTS _lumex_doxygen_candidates)
+        get_filename_component(_lumex_doxygen_name "${_lumex_doxygen_file}" NAME)
+        if(_lumex_doxygen_file MATCHES "^lumex/(tests|examples)/"
+           OR _lumex_doxygen_name MATCHES "\\.")
+            continue()
+        endif()
+        if(LUMEX_DOXYGEN_UMBRELLAS)
+            string(APPEND LUMEX_DOXYGEN_UMBRELLAS " \\\n                         ")
+        endif()
+        string(APPEND LUMEX_DOXYGEN_UMBRELLAS "\"${_lumex_doxygen_file}\"")
+    endforeach()
+
+    # Configure the Doxyfile from its template with the project version, the
+    # filters and the umbrella list.
     set(DOXYFILE_IN "${LumexLib_SOURCE_DIR}/Doxyfile.in")
     set(DOXYFILE_OUT "${CMAKE_BINARY_DIR}/Doxyfile")
 

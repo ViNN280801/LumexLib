@@ -349,8 +349,12 @@ OPTIMIZE_OUTPUT_SLICE  = NO
 # * to the FILE_PATTERNS.
 #
 # Note see also the list of default file extension mappings.
+#
+# LumexLib: the module umbrellas (lumex/core/atomic/LumexAtomic and the like)
+# have no extension. They are listed one by one in INPUT instead of matching
+# a FILE_PATTERNS entry, and this mapping parses them as C++.
 
-EXTENSION_MAPPING      =
+EXTENSION_MAPPING      = no_extension=C++
 
 # If the MARKDOWN_SUPPORT tag is enabled then Doxygen pre-processes all comments
 # according to the Markdown format, which allows for more readable
@@ -967,12 +971,18 @@ WARN_LOGFILE           =
 # directories like /usr/src/myproject. Separate the files or directories with
 # spaces. See also FILE_PATTERNS and EXTENSION_MAPPING
 # Note: If this tag is empty the current directory is searched.
+#
+# LumexLib: CMake replaces the LUMEX_DOXYGEN_UMBRELLAS placeholder with every
+# extensionless module umbrella under lumex/ (outside lumex/tests and
+# lumex/examples), one path per line. FILE_PATTERNS cannot match a name without
+# an extension, and a file named in INPUT is read whatever FILE_PATTERNS says.
 
 INPUT                  = lumex/ \
                          VERSIONING.md \
                          lumex/core/fmt/README.md \
                          lumex/core/atomic/README.md \
-                         lumex/applied/logger/README.md
+                         lumex/applied/logger/README.md \
+                         @LUMEX_DOXYGEN_UMBRELLAS@
 
 # This tag can be used to specify the character encoding of the source files
 # that Doxygen parses. Internally Doxygen uses the UTF-8 encoding. Doxygen uses

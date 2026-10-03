@@ -1,3 +1,15 @@
+/**
+ * @file LumexSettings
+ * @brief Settings module: section, key and value configuration files in INI,
+ * JSON or XML behind one interface, plus a guard that restores default keys,
+ * backs up a corrupted file and validates values.
+ * @details Link `lumex::settings` (compiled library). Works from C++11. INI is
+ * always available; XML when `lumex::xml` is part of the build
+ * (`LUMEX_SETTINGS_WITH_XML`), JSON when the vendored nlohmann/json header is
+ * present (`LUMEX_SETTINGS_WITH_JSON`). The umbrella includes the interface
+ * (`interface/ILumexSettings.hpp`), the factory, the guard, and the INI, JSON
+ * and XML implementations.
+ */
 #include "interface/ILumexSettings.hpp"
 
 #include "factory/LumexSettingsFactory.hpp"

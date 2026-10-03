@@ -1,2 +1,10 @@
+/**
+ * @file LumexTime
+ * @brief Time module: `LumexTime`, the current date and time as text and
+ * timestamps in units from nanoseconds to years, and `LumexTimer`, a stopwatch
+ * with helpers that time a callable (`LUMEX_MEASURE_TIME`).
+ * @details Link `lumex::time` (compiled library). Works from C++11. The
+ * umbrella includes `clock/LumexTime.hpp` and `timer/LumexTimer.hpp`.
+ */
 #include "clock/LumexTime.hpp"
 #include "timer/LumexTimer.hpp"

@@ -1,1 +1,9 @@
+/**
+ * @file LumexResourceMonitor
+ * @brief Resource monitor module: a background thread that samples the CPU and
+ * RAM usage of the system and appends one line per sample to a dated log file.
+ * @details Link `lumex::resource_monitor` (compiled library). The library
+ * itself is compiled as C++17 because its implementation uses
+ * `std::filesystem`. The umbrella includes `monitor/LumexResourceMonitor.hpp`.
+ */
 #include "monitor/LumexResourceMonitor.hpp"

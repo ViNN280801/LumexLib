@@ -1,3 +1,16 @@
+/**
+ * @file LumexReflection
+ * @brief Reflection module: `LUMEX_VARINFO`, which prints the name, value, type
+ * and other properties of an expression; enums with compile-time names
+ * (`LUMEX_DEFINE_REFLECTED_ENUM`); and, on request, aggregates written to JSON
+ * field by field.
+ * @details Link `lumex::reflection` (header-only). Works from C++11. Field
+ * reflection is included only when `LUMEX_WITH_FIELD_REFLECTION` is defined; it
+ * needs nlohmann/json on the include path, and its `to_json` needs C++20 for
+ * the field names. The umbrella includes `var_info/LumexVarInfo.hpp`,
+ * `reflected_enum/LumexReflectedEnum.hpp` and, with that macro,
+ * `field_reflection/LumexFieldReflection.hpp`.
+ */
 #ifndef LUMEX_CORE_REFLECTION_HPP
 #define LUMEX_CORE_REFLECTION_HPP
 

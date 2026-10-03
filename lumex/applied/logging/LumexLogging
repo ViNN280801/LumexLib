@@ -1,2 +1,12 @@
+/**
+ * @file LumexLogging
+ * @brief Logging module: `LumexLogging`, a thread-safe console logger with
+ * levels from Debug to Critical, module names, colored output and an optional
+ * log file.
+ * @details Link `lumex::logging` (compiled library). Works from C++11. The
+ * umbrella includes `log/LumexLogging.hpp` and `log/LumexLoggingMacro.hpp`
+ * (`lumDebug`, `lumInfo`, `lumSuccess`, `lumWarning`, `lumError`, `lumCritical`
+ * and their variants).
+ */
 #include "log/LumexLogging.hpp"
 #include "log/LumexLoggingMacro.hpp"

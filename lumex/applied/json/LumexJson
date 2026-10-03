@@ -1,3 +1,15 @@
+/**
+ * @file LumexJson
+ * @brief JSON module: non-throwing helpers for JSON configuration files, and
+ * validation and normalization of a document against a JSON Schema draft-7
+ * subset.
+ * @details Link `lumex::json` (header-only). The module is written against
+ * nlohmann/json 3.x and does not ship it: put your own `<nlohmann/json.hpp>` on
+ * the include path. Works from C++11. The umbrella includes the report sink
+ * (`diagnostics/`), `helper/LumexJsonHelper.hpp`, the normalizer and validator
+ * contracts with their schema-based implementations (`normalization/`,
+ * `validation/`) and the schema walker with its exception (`schema/`).
+ */
 #include "diagnostics/LumexJsonDiagnostics.hpp"
 
 #include "helper/LumexJsonHelper.hpp"

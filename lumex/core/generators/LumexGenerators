@@ -1,1 +1,9 @@
+/**
+ * @file LumexGenerators
+ * @brief Generators module: `NumberGenerator`, random integral and
+ * floating-point numbers from the uniform, normal, exponential, gamma,
+ * Bernoulli, binomial, geometric or Poisson distribution.
+ * @details Link `lumex::number_generator` (header-only). Works from C++11. The
+ * umbrella includes `number_generator/LumexNumberGenerator.hpp`.
+ */
 #include "number_generator/LumexNumberGenerator.hpp"

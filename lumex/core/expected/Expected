@@ -1,3 +1,12 @@
+/**
+ * @file Expected
+ * @brief Expected module: `Expected<T, E>`, a value or an error after the C++23
+ * `std::expected`, with its `void` specialization, `Unexpected`,
+ * `BadExpectedAccess` and the `success` / `failure` markers.
+ * @details Link `lumex::expected` (header-only; it brings `lumex::utility` for
+ * `LUMEX_ASSERT`). Works from C++11. The umbrella includes the error types
+ * (`error/`) and the result types (`result/`).
+ */
 #include "error/BadExpectedAccess.hpp"
 #include "error/Unexpected.hpp"
 #include "result/Expected.hpp"

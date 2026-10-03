@@ -1,2 +1,14 @@
+/**
+ * @file LumexAtomic
+ * @brief Atomic module: `atomic_shared_ptr<T>` and `atomic_weak_ptr<T>`, the
+ * interface of the C++20 `std::atomic<std::shared_ptr<T>>` and
+ * `std::atomic<std::weak_ptr<T>>` from C++11 on.
+ * @details Link `lumex::atomic` (header-only; it brings `Threads::Threads`).
+ * Works from C++11. Where the standard library has the C++20 atomic smart
+ * pointers, the classes wrap them; elsewhere they use a lock-based
+ * implementation. The umbrella includes `smart_ptr/LumexAtomicSharedPtr.hpp`
+ * and `smart_ptr/LumexAtomicWeakPtr.hpp`.
+ * @see @ref lumex_atomic
+ */
 #include "smart_ptr/LumexAtomicSharedPtr.hpp"
 #include "smart_ptr/LumexAtomicWeakPtr.hpp"

@@ -1,1 +1,8 @@
+/**
+ * @file LumexTemporary
+ * @brief Temporary module: an RAII temporary directory that is removed when its
+ * owner is destroyed.
+ * @details Link `lumex::temporary` (compiled library). Works from C++11. The
+ * umbrella includes `tmp/LumexTemporary.hpp`.
+ */
 #include "tmp/LumexTemporary.hpp"

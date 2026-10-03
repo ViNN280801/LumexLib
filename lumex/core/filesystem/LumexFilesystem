@@ -1,1 +1,8 @@
+/**
+ * @file LumexFilesystem
+ * @brief Filesystem module: paths, directory iteration and file operations in
+ * the shape of C++17 `<filesystem>`, written in C++11.
+ * @details Link `lumex::filesystem` (compiled library). Works from C++11. The
+ * umbrella includes `fs/LumexFilesystem.hpp`.
+ */
 #include "fs/LumexFilesystem.hpp"
