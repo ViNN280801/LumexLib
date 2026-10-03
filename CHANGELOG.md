@@ -65,6 +65,14 @@
 
 #### Изменено
 
+##### Один набор тестов на каждый стандарт C++
+
+**Файлы:** `lumex/tests/LumexTestStandards.cmake` (новый), `cmake/LumexGoogleTest.cmake` (`lumex_add_standard_suites`), `lumex/tests/cmake/cases/wiring_standard_suites.cmake` (новый), все каталоги `lumex/tests/`, кейсы `cmake.*` с именами тестов, README `atomic`
+
+**Коммиты:** `a9a9c5c8`, `918b26ca`, `b3bc4e0c`, `9bf997aa`, `f08b0921`, `6f689261`, `430d1c9d`, `d7b89bbb`, `91196e58`, `b4855c6e`, `0975b1a9`, `de0082b6`, `b9e6ef45`, `bc24fa2c`, `24b31ec3`, `f8b1937a`, `75cf0a14`, `f4d99fbd`, `8933c659`, `8ba4da60`, `62dcdfbc`, `1b902cb4`
+
+**Суть:** каждый модуль собирает тесты для своего нижнего стандарта и для каждого порога, на котором ветвится его код (`__cplusplus`, `__cpp_*`, `LUMEX_HAS_*`), плюс прежние наборы: utility 11/14/17/20/23/26, fmt, reflection, string, logger 11/14/17/20, crc 14/17/20, atomic, base64, expected, json, xml, exceptions, math 11/17/20, circular_buffer, filesystem 11/20, resource_monitor 17, остальные 11; C++23 и C++26 только там, где их знают CMake и компилятор. Таблица в одном месте, `lumex/tests/LumexTestStandards.cmake`; кейс `cmake.wiring_standard_suites` проверяет каждый каталог. Файлы тестов называются `<Компонент>.cxx<std>.tests.cpp`, набор стандарта компилирует файлы своего и всех младших стандартов; исполняемые файлы `Lumex<Компонент>Cxx<std>Tests`, у каждого имени CTest суффикс `.cxx<std>` и для нижнего стандарта (`base64.LumexBase64Test.Encode.cxx11`). Один исполняемый файл на модуль и стандарт убрал одинаковые имена CTest (в `utility` и `reflection` одни и те же исходники собирались в несколько файлов). Старые имена тестов сохранились с суффиксом. Тесты, которые раньше молча выпадали из компиляции на GCC 8 (он сообщает `__cplusplus` 201709L при `-std=c++2a`), теперь видны как пропущенные. **Потребителю и скриптам:** фильтры `ctest -R` по старым именам исполняемых файлов и тестов без суффикса нужно переписать.
+
 ##### Лицензия MIT во всех публичных файлах, обычным комментарием
 
 **Файлы:** все `.hpp`, `.h` и `.cpp` в `lumex/` (кроме `tests/` и `examples/`), 26 зонтичных заголовков, `Scripts/CodeTools/check_license_headers.py` (новый), `lumex/tests/CMakeLists.txt`
@@ -106,6 +114,14 @@
 **Суть:** у 85 из 136 публичных заголовков не было блока `@file`, и их страницы в документации были без описания; теперь у каждого есть описание, написанное по коду. Doxygen не читал зонтичные заголовки без расширения, которые и включает потребитель: CMake передает их список в `INPUT`, `EXTENSION_MAPPING = no_extension=C++`, у каждого зонтика блок `@file` с назначением модуля, целью `lumex::<модуль>` и нужным стандартом. Тест `lint.file_blocks` (метка `lint`) падает, если у публичного заголовка нет блока `@file`. CMake читает шаблон `Doxyfile.in` с `FULL_PATH_NAMES = NO`; одинаковый с ним `Doxyfile` удален.
 
 #### Исправлено
+
+##### Найдено новыми наборами: `expected` на C++11, `fmt` на C++14, reflection `get<I>` на C++14, константы `CoreDumpGenerator`
+
+**Файлы:** `lumex/core/expected/result/Expected.hpp`, `lumex/core/expected/result/ExpectedVoid.hpp`, `lumex/core/fmt/LumexFormat.hpp`, `lumex/core/reflection/field_reflection/LumexAggregateFields.hpp`, `lumex/core/utility/dump/LumexCoreDumpGenerator.{hpp,cpp}`, тесты этих модулей
+
+**Коммиты:** `56c51f83`, `29a387f7`, `eaf75958`, `d40f234e`
+
+**Суть:** `core/expected` обещал C++11, но не компилировался: в C++11 `constexpr`-функция-член неявно `const`, и `error () &` конфликтовал с `error () const &`; теперь неконстантные члены и функции из нескольких операторов помечены `LUMEX_CONSTEXPR_CXX14`, на C++14 и новее код не изменился. libstdc++ 13 объявляет `__cpp_lib_to_chars` и на C++14, поэтому `LumexFormat.hpp` включал вывод чисел через `std::to_chars` без `<charconv>`, и потребитель `fmt` на GCC 13 с `-std=c++14` не собирался; теперь только с C++17. В field reflection на C++14 `get<I>` компилировался, только если в той же единице трансляции раньше использовали `tuple_size<T>`; теперь `field_type` сам вызывает внедрение всех полей. `CoreDumpGenerator::KB_*` и `MB_1` были `static constexpr` без определения вне класса, и потребитель на C++11/14, привязавший их к ссылке, не линковался; теперь это `static const` с определением в библиотеке при любом стандарте.
 
 ##### Имена `xml` и `base64` больше не попадают в глобальное пространство имен
 
