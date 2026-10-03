@@ -192,6 +192,89 @@ namespace Detail
 // String reference and buffers
 // ----------------------------------------------------------------------
 
+template <typename NumericType>
+std::enable_if<std::is_integral<NumericType>::value
+                   && std::is_unsigned<NumericType>::value
+                   && !std::is_same<bool, NumericType>::value,
+               std::uint8_t>::type
+count_leading_zeros (NumericType value)
+{
+  if (value == 0)
+    return sizeof (NumericType) * 8;
+
+#if defined(_MSC_VER)
+  // --- MSVC (Microsoft Visual C++) ---
+  unsigned long index = 0;
+
+  if (sizeof (NumericType) <= 4)
+    {
+      // For 32-bit (and smaller) types use _BitScanReverse
+      _BitScanReverse (std::addressof (index),
+                       static_cast<std::uint32_t> (value));
+      // _BitScanReverse returns the index of the rightmost bit (0..31).
+      // Convert to the number of leading zeros for the specific type
+      // NumericType:
+      return (sizeof (NumericType) * 8) - 1 - index;
+    }
+  else
+    {
+#if defined(_M_X64) || defined(_M_ARM64)
+      // For 64-bit types in MSVC (on x64) there is _BitScanReverse64
+      _BitScanReverse64 (std::addressof (index),
+                         static_cast<std::uint64_t> (value));
+      return 64 - 1 - index;
+#else
+      // If MSVC is compiled for 32-bit Windows, there is no 64-bit intrinsic.
+      // Apply the logic of splitting 64 = 32 + 32
+      std::uint32_t high = static_cast<std::uint32_t> (value >> 32);
+      if (high != 0)
+        {
+          _BitScanReverse (std::addressof (index), high);
+          return 32 - 1 - index;
+        }
+      else
+        {
+          _BitScanReverse (std::addressof (index),
+                           static_cast<std::uint32_t> (value));
+          return 64 - 1 - index;
+        }
+#endif
+    }
+
+#elif defined(__GNUC__) || defined(__clang__)
+  // --- GCC / Clang ---
+  if (sizeof (NumericType) <= 4)
+    {
+      // __builtin_clz counts the zeros relative to the 32-bit unsigned int
+      return __builtin_clz (static_cast<std::uint32_t> (value))
+             - (32 - sizeof (NumericType) * 8);
+    }
+  else
+    {
+      // __builtin_clzll counts the zeros relative to the 64-bit unsigned long
+      return __builtin_clzll (static_cast<std::uint64_t> (value));
+    }
+
+#else
+  std::uint8_t bits = sizeof (NumericType) * 8;
+  std::uint8_t count = 0;
+
+  // Shift by halves (for 64-bit: check the top 32, then 16, 8, 4, 2, 1)
+  for (int shift = bits >> 1; shift > 0; shift >>= 1)
+    {
+      if ((value >> shift) != 0)
+        {
+          value >>= shift;
+        }
+      else
+        {
+          count += shift;
+        }
+    }
+  return count;
+#endif
+}
+
 template <typename Char>
 LUMEX_FORMAT_CONSTEXPR std::size_t
 c_string_length (Char const *text) LUMEX_NOEXCEPT
@@ -1913,20 +1996,202 @@ group_digits (std::basic_string<Char> const &digits,
   return std::basic_string<Char> (reversed.rbegin (), reversed.rend ());
 }
 
+#if LUMEX_FORMAT_HAS_INT128
+/**
+ * @brief Two 64-bit limbs of an `unsigned __int128`, `high` then `low`.
+ */
+struct uint128_limbs_t
+{
+  std::uint64_t high;
+  std::uint64_t low;
+};
+
+/**
+ * @brief Split @p value with a cast and a 64-bit shift.
+ * @details Those operations are inline. A `/` or `%` on this type is not:
+ * it references `__udivti3` or `__umodti3`, which the MSVC linker used by
+ * clang-cl does not provide.
+ */
+inline uint128_limbs_t
+split_uint128 (unsigned __int128 value) LUMEX_NOEXCEPT
+{
+  uint128_limbs_t parts;
+  parts.low = static_cast<std::uint64_t> (value);
+  parts.high = static_cast<std::uint64_t> (value >> 64);
+  return parts;
+}
+
+/**
+ * @brief Quotient and remainder of @p value divided by `10^19`.
+ * @details `10^19` fits in `std::uint64_t` and `2 * 10^19` does not, so the
+ * running remainder is 65 bits (`high` is 0 or 1). The quotient replaces
+ * @p value. The returned remainder's high limb is 0.
+ * @return The remainder in `0 .. 10^19 - 1`.
+ */
+inline std::uint64_t
+divmod_by_pow10_19 (uint128_limbs_t &value) LUMEX_NOEXCEPT
+{
+  std::uint64_t const divisor = 10000000000000000000ULL;
+  uint128_limbs_t quotient;
+  quotient.high = 0;
+  quotient.low = 0;
+  uint128_limbs_t remainder;
+  remainder.high = 0;
+  remainder.low = 0;
+  for (int bit = 127; bit >= 0; --bit)
+    {
+      remainder.high = (remainder.high << 1) | (remainder.low >> 63);
+      remainder.low <<= 1;
+      std::uint64_t const source_bit
+          = bit >= 64 ? (value.high >> static_cast<unsigned> (bit - 64)) & 1ULL
+                      : (value.low >> static_cast<unsigned> (bit)) & 1ULL;
+      remainder.low |= source_bit;
+      bool const ge = remainder.high != 0 || remainder.low >= divisor;
+      if (!ge)
+        continue;
+      if (remainder.low < divisor)
+        --remainder.high;
+      remainder.low -= divisor;
+      if (bit >= 64)
+        quotient.high |= 1ULL << static_cast<unsigned> (bit - 64);
+      else
+        quotient.low |= 1ULL << static_cast<unsigned> (bit);
+    }
+  value = quotient;
+  return remainder.low;
+}
+
+/**
+ * @brief Write the decimal digits of one `10^19` group, least significant
+ * digit first in a right-to-left buffer.
+ * @details Groups below the highest are padded to 19 digits. The division
+ * here is on `std::uint64_t` only.
+ */
+template <typename Char>
+Char *
+write_u64_decimal_group (Char *it, std::uint64_t value, int min_digits,
+                         char const *table)
+{
+  int written = 0;
+  do
+    {
+      *--it = static_cast<Char> (table[static_cast<unsigned> (value % 10)]);
+      value /= 10;
+      ++written;
+    }
+  while (value != 0);
+  while (written < min_digits)
+    {
+      *--it = static_cast<Char> (table[0]);
+      ++written;
+    }
+  return it;
+}
+
+/**
+ * @brief Digits of an `unsigned __int128`, least significant digit at the
+ * right.
+ * @details Base 10 is up to three groups of 19 digits (`2^128 - 1` has 39).
+ * Bases 2, 8 and 16 are a shift and a mask. No operator in this function
+ * divides a 128-bit value.
+ */
+template <typename Char>
+Char *
+write_uint128_digits (Char *end, unsigned __int128 magnitude, unsigned base,
+                      char const *table)
+{
+  uint128_limbs_t current = split_uint128 (magnitude);
+  Char *it = end;
+  if (base == 10)
+    {
+      std::uint64_t groups[3];
+      std::size_t count = 0;
+      do
+        {
+          groups[count] = divmod_by_pow10_19 (current);
+          ++count;
+        }
+      while ((current.high != 0 || current.low != 0) && count < 3);
+      for (std::size_t index = 0; index < count; ++index)
+        {
+          int const min_digits = index + 1 == count ? 1 : 19;
+          it = write_u64_decimal_group (it, groups[index], min_digits, table);
+        }
+      return it;
+    }
+  unsigned shift = 4;
+  if (base == 2)
+    shift = 1;
+  else if (base == 8)
+    shift = 3;
+  unsigned const mask = base - 1u;
+  do
+    {
+      *--it = static_cast<Char> (
+          table[static_cast<unsigned> (current.low & mask)]);
+      current.low = (current.low >> shift) | (current.high << (64u - shift));
+      current.high >>= shift;
+    }
+  while (current.high != 0 || current.low != 0);
+  return it;
+}
+#endif
+
+/**
+ * @brief Digits of an integer of at most 64 bits.
+ * @details The only caller is the overload that SFINAE rejects for
+ * `unsigned __int128`, so this `/` and `%` are not instantiated for it.
+ */
+template <typename Char, typename UInt>
+Char *
+write_narrow_magnitude_digits (Char *end, UInt value, unsigned base,
+                               char const *table)
+{
+  Char *it = end;
+  do
+    {
+      *--it = static_cast<Char> (table[static_cast<unsigned> (value % base)]);
+      value = static_cast<UInt> (value / base);
+    }
+  while (value != 0);
+  return it;
+}
+
+/**
+ * @brief Select the digit writer that does not divide a 128-bit value.
+ * @details An `if` inside one function template would still instantiate
+ * `value / base` for `unsigned __int128`. The 128-bit overload is a
+ * separate function, and this one is removed from the overload set for
+ * that type.
+ */
+template <typename Char, typename UInt>
+Char *
+write_magnitude_digits (
+    Char *end, UInt value, unsigned base, char const *table,
+    typename std::enable_if<(sizeof (UInt) <= sizeof (std::uint64_t))>::type
+        * = 0)
+{
+  return write_narrow_magnitude_digits (end, value, base, table);
+}
+
+#if LUMEX_FORMAT_HAS_INT128
+template <typename Char>
+Char *
+write_magnitude_digits (Char *end, unsigned __int128 value, unsigned base,
+                        char const *table)
+{
+  return write_uint128_digits (end, value, base, table);
+}
+#endif
+
 template <typename UInt>
 std::string
 to_base (UInt value, unsigned base, bool upper)
 {
   char const *const digits = upper ? "0123456789ABCDEF" : "0123456789abcdef";
   char buffer[130];
-  char *end = buffer + sizeof (buffer);
-  char *it = end;
-  do
-    {
-      *--it = digits[static_cast<unsigned> (value % base)];
-      value = static_cast<UInt> (value / base);
-    }
-  while (value != 0);
+  char *const end = buffer + sizeof (buffer);
+  char *const it = write_magnitude_digits (end, value, base, digits);
   return std::string (it, end);
 }
 
@@ -2008,15 +2273,7 @@ write_integer (Buffer<Char> &buffer, format_specs_t<Char> const &specs,
                                     : "0123456789abcdef";
       Char text[140];
       Char *const end = text + sizeof (text) / sizeof (text[0]);
-      Char *it = end;
-      UInt value = magnitude;
-      do
-        {
-          *--it = static_cast<Char> (
-              table[static_cast<unsigned> (value % base)]);
-          value = static_cast<UInt> (value / base);
-        }
-      while (value != 0);
+      Char *it = write_magnitude_digits (end, magnitude, base, table);
       Char *const digits_begin = it;
       for (std::size_t i = prefix.size (); i-- > 0;)
         *--it = static_cast<Char> (prefix[i]);
