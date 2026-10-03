@@ -24,7 +24,7 @@ In short, on the machine below: under contention LumexLib's lock-based implement
 | --- | --- | --- |
 | LumexLib lock-based, C++11 | `atomic_shared_ptr<int>` in a translation unit built at C++11: the lock-based implementation, sleeping on the striped wait table | `lock_based_table_wait` |
 | LumexLib lock-based, C++20 | the lock-based implementation forced at C++20 (`LUMEX_ATOMIC_SMART_PTR_FORCE_LOCK_BASED`), sleeping in `std::atomic::wait` | `lock_based_std_wait` |
-| LumexLib default, C++20 | what a C++20 build gets with nothing forced: on libstdc++ 13 it wraps `std::atomic<std::shared_ptr<T>>` and adds its own conforming `wait` | `std_backed_std_wait` |
+| LumexLib default, C++20 | what a C++20 build gets with nothing forced: it wraps the standard library's `std::atomic<std::shared_ptr<T>>` (libstdc++ 13 in the charts above, the MSVC STL in the [Windows series](#msvc-stl)) and adds its own conforming `wait` | `std_backed_std_wait` |
 | std::atomic, libstdc++ 13 | `std::atomic<std::shared_ptr<int>>` of the standard library | - |
 
 The harness checks which implementation each series measured: the units fail to compile when a forcing switch did not take effect, `--list` prints the selected inline namespace of every series, and `run_benchmark.py` stops when a LumexLib series measured something else.
@@ -32,7 +32,7 @@ The harness checks which implementation each series measured: the units fail to 
 Not measured here:
 
 - **A LumexLib lock-free series.** LumexLib ports only the lock-based method of the libc++ implementation; the lock-free method works on libc++'s own control block and cannot run over another library's `std::shared_ptr` (see `lumex/core/atomic/README.md`). The author's measurements of the two libc++ methods are summarized [below](#the-libc-implementation-reference) for reference.
-- **The MSVC STL.** Pending (LumexLib todo 56): the harness is written for MSVC as well, where the `std` series is MSVC's `std::atomic<std::shared_ptr<T>>`, but it has not been compiled with MSVC yet and has to be run on a Windows machine. See [Windows (MSVC)](#windows-msvc).
+- **The MSVC STL** is a separate series, on another machine: [MSVC STL](#msvc-stl). The `std` series there is MSVC's `std::atomic<std::shared_ptr<T>>`.
 
 ## Method
 
@@ -102,9 +102,61 @@ The author's RFC benchmark of the two libc++ methods (lock-free DWCAS with a spl
 
 Uncontended, in nanoseconds (lock-free / lock-based): `load ()` 36.1 / 20.5, `store ()` 30.4 / 28.8, `exchange ()` 38.3 / 27.7, `compare_exchange_strong ()` 83.1 / 58.8. In short: `store ()` and `compare_exchange_strong ()` favour the lock-free method, more so under contention; `load ()` is about even up to 16 threads and loses to the spin lock at 18 and 20; uncontended, the spin lock is cheaper for all four.
 
+## MSVC STL
+
+The same four series on Windows. The charts above stay the libstdc++ run; these are only the MSVC run.
+
+![Baseline](results/msvc/atomic_benchmark_baseline.svg)
+
+![load () under contention](results/msvc/atomic_benchmark_load.svg)
+
+![store () under contention](results/msvc/atomic_benchmark_store.svg)
+
+![exchange () under contention](results/msvc/atomic_benchmark_exchange.svg)
+
+![compare_exchange_strong () under contention](results/msvc/atomic_benchmark_compare_exchange_strong.svg)
+
+![Uncontended](results/msvc/atomic_benchmark_uncontended.svg)
+
+The numbers: [results/msvc/atomic_benchmark.md](results/msvc/atomic_benchmark.md) (medians and quartiles: [results/msvc/atomic_benchmark.csv](results/msvc/atomic_benchmark.csv)).
+
+### Machine and build
+
+| | |
+| --- | --- |
+| CPU | 12th Gen Intel Core i9-12900H, 20 logical CPUs. The CSV header stores what Python's `platform.processor()` returns: `Intel64 Family 6 Model 154 Stepping 3, GenuineIntel` |
+| Power plan | Balanced (Windows has no cpufreq governor; the CSV records `governor=unknown`) |
+| OS | Windows 11 Pro, build 10.0.26100. The CSV stores `platform.platform()`: `Windows-10-10.0.26100-SP0`, kernel `10` |
+| Compiler | MSVC 19.51 (`_MSC_VER` 1951; the benchmark prints `MSVC 1951`) with the MSVC STL, toolset 14.51.36231, Visual Studio 18 Community, x64. Release, LumexLib's `Portable` level: `/O2 /Oi /Ot /Oy /GF`, no `/arch` switch |
+| Language mode | The C++20 units are `/std:c++20`. The C++11 unit is `/std:c++14` (MSVC's lowest mode); the CSV records `201402` and `lock_based_table_wait` |
+| Run | 2026-10-03, 100 runs, 30 s pauses, 100 ms windows, 93.8 minutes |
+| Load | The CSV records `unknown`: `os.getloadavg` does not exist on Windows. An interactive desktop session ran throughout |
+
+The five atomic suites were run on this build before the sweep: 2232 tests, 0 failed. `LumexAtomicSmartPtrConfigTest.GivenConstantInitialization_WhenTheObjectsAreUsed_ThenTheyWork` skips at `.cxx11` and `.cxx17` (`constinit` needs C++20) and runs at `.cxx20`.
+
+The baseline rows agree within 3 % at every thread count (0.975 to 1.021 of their mean, table in [results/msvc/atomic_benchmark.md](results/msvc/atomic_benchmark.md)): the machine did not drift between the blocks. None of the four series reports `is_lock_free`. The default series selected `std_backed_std_wait`, the C++20 lock-based series `lock_based_std_wait`.
+
+### Reading the results
+
+Ratios to the baseline at 1 / 4 / 8 / 20 threads (medians; lower is better):
+
+| Operation | LumexLib lock-based, C++11 | LumexLib lock-based, C++20 | LumexLib default, C++20 | std::atomic, MSVC STL |
+| --- | ---: | ---: | ---: | ---: |
+| `load ()` | 2.4 / 6.4 / 7.2 / 7.0 | 2.4 / 6.9 / 9.5 / 11.8 | 2.3 / 6.8 / 6.6 / 7.0 | 2.3 / 6.9 / 6.7 / 6.9 |
+| `store ()` | 2.7 / 5.4 / 7.2 / 8.4 | 2.6 / 5.5 / 7.8 / 12.0 | 2.5 / 5.6 / 7.3 / 7.9 | 2.5 / 5.8 / 7.4 / 7.7 |
+| `exchange ()` | 2.7 / 5.4 / 7.4 / 8.3 | 2.6 / 5.7 / 8.2 / 11.9 | 2.6 / 5.5 / 7.3 / 7.8 | 2.6 / 5.5 / 7.5 / 7.6 |
+| `compare_exchange_strong ()` | 6.6 / 14.6 / 16.5 / 17.4 | 6.5 / 15.1 / 20.4 / 25.9 | 6.5 / 15.2 / 16.4 / 17.7 | 6.3 / 14.7 / 16.8 / 17.1 |
+
+- **At 20 threads the MSVC STL does not blow up the way libstdc++ 13 did.** `load ()` of the MSVC STL, of LumexLib's default and of the lock-based C++11 build is 6.9-7.0, against 28.1 for libstdc++ on the other machine. `store ()` is 7.7-8.4, `exchange ()` 7.6-8.3, `compare_exchange_strong ()` 17.1-17.7. The quartiles of those three overlap. The ratios are not a comparison of the two machines: each is divided by that machine's own baseline.
+- **The expensive series under heavy contention is the C++20 lock-based build**, which sleeps in `std::atomic::wait`: at 20 threads `load ()` 11.8, `store ()` 12.0, `exchange ()` 11.9, `compare_exchange_strong ()` 25.9. The lower quartile is wide (`load ()` 6.7-12.8 around the median 11.8), so a quarter of the runs sits with the other three and the median does not. The cause was not analysed.
+- **At 2 threads the lock-based builds are cheaper.** `load ()` 3.7-4.0 against 5.5-5.7, `store ()` 3.4 against 4.6-4.8. From 4 threads the four series are close, until the C++20 lock-based series pulls away.
+- **Uncontended**, in nanoseconds: `load ()` 26.4 / 26.1 / 25.2 / 25.1, `store ()` 29.4 / 28.5 / 27.3 / 27.3, `exchange ()` 29.3 / 28.5 / 27.5 / 27.6, `compare_exchange_strong ()` 69.8 / 70.7 / 68.1 / 66.8 (same column order). The MSVC STL is the cheapest of the four; the lock-based builds cost a few nanoseconds more. On the libstdc++ machine the lock-based compare-exchange was the cheap one.
+- **LumexLib's default at C++20 costs nothing over the MSVC STL.** It wraps `std::atomic<std::shared_ptr<T>>`; the medians stay inside each other's quartiles.
+- **Successful compare-exchanges at 20 threads:** 65 % for the C++11 lock-based build, 58 % for the C++20 lock-based build, 76 % for the default and 76 % for the MSVC STL.
+
 ## Windows (MSVC)
 
-**Not run yet.** None of the commands below has been executed on Windows so far; they are to be run on a Windows PC before v1.0.2.0 is tagged (LumexLib todo 56). Until then this README has no MSVC numbers and the MSVC build of the module is unverified.
+Run on 2026-10-03, as recorded above. The commands below reproduce it. This run used Ninja from a normal PowerShell: `configure_msvc_vcvars()` imports the x64 toolset before `project()`, so a Developer prompt was not required for the suites or the benchmark. The binary directory was outside the source tree, and the targets built were the five suites and `LumexAtomicBenchmark`, so the `compile_commands.json` copy did not run. The consumer fixtures of the CMake cases still need that developer environment and report Skipped without it. The prompt below remains the way to get `cl` for x64 when CMake is not importing it.
 
 Open an **x64 Native Tools Command Prompt for VS 2022**, or a **Developer PowerShell for VS 2022** started for x64 (`Launch-VsDevShell.ps1 -Arch amd64 -HostArch amd64` from `Common7\Tools` of the Visual Studio installation; `cl` must report "for x64"), and change to the LumexLib checkout. The commands are the same in both shells. The consumer fixtures of the CMake cases need that developer environment and report Skipped without it.
 
@@ -128,10 +180,10 @@ python benchmarks\atomic\run_benchmark.py --exe build-vs\bin\Release\LumexAtomic
 python benchmarks\atomic\run_benchmark.py --exe build-vs\bin\Release\LumexAtomicBenchmark.exe --out-dir benchmarks\atomic\results\msvc
 ```
 
-In each block the third command runs the five atomic suites (`LumexAtomicCxx11Tests`, `LumexAtomicCxx17Tests`, `LumexAtomicCxx20Tests`, `LumexAtomicLockBasedCxx20Tests`, `LumexAtomicWaitTableCxx20Tests`; every CTest name starts with `atomic.` and ends with `.cxx11`, `.cxx17`, `.cxx20`, `.lock_based.cxx20` or `.wait_table.cxx20`). `-R "atomic"` instead also runs `cmake.wiring_atomic`, `cmake.atomic_compile_checks`, `cmake.consumer_atomic_cross_module` and the atomic examples. The fourth command is the smoke run (a few seconds, numbers not kept), the fifth the full sweep (100 runs with 30 s pauses, about an hour and a half on 20 hardware threads), which writes into `results\msvc` and leaves the Linux results alone. `python` is Python 3 (`py -3` where `python` is not on `PATH`); the scripts need only its standard library. To draw the MSVC series next to the Linux ones:
+In each block the third command runs the five atomic suites (`LumexAtomicCxx11Tests`, `LumexAtomicCxx17Tests`, `LumexAtomicCxx20Tests`, `LumexAtomicLockBasedCxx20Tests`, `LumexAtomicWaitTableCxx20Tests`; every CTest name starts with `atomic.` and ends with `.cxx11`, `.cxx17`, `.cxx20`, `.lock_based.cxx20` or `.wait_table.cxx20`). `-R "atomic"` instead also runs `cmake.wiring_atomic`, `cmake.atomic_compile_checks`, `cmake.consumer_atomic_cross_module` and the atomic examples. The fourth command is the smoke run (a few seconds, numbers not kept), the fifth the full sweep (100 runs with 30 s pauses, about an hour and a half on 20 hardware threads), which writes into `results\msvc` and leaves the Linux results alone. `python` is Python 3 (`py -3` where `python` is not on `PATH`); the scripts need only its standard library. To draw both series on one chart, pass both CSVs. `plot_results.py` writes the SVG files and the Markdown table next to the first CSV, so the command below replaces the Linux charts; the committed charts are the two separate series. The labels carry the compiler and the CPU, and the ratios make the machines comparable (the nanoseconds do not):
 
 ```bat
 python benchmarks\atomic\plot_results.py benchmarks\atomic\results\atomic_benchmark.csv benchmarks\atomic\results\msvc\atomic_benchmark.csv
 ```
 
-On MSVC the C++11 unit of the benchmark builds at C++14 (MSVC's lowest mode), the default series wraps MSVC's `std::atomic<std::shared_ptr<T>>`, and the `std` series measures it directly. `plot_results.py` takes several result files and draws their series in the same charts, labelled with the compiler and the CPU; the ratios make the machines comparable, the nanoseconds do not.
+On MSVC the C++11 unit of the benchmark builds at C++14 (MSVC's lowest mode), the default series wraps MSVC's `std::atomic<std::shared_ptr<T>>`, and the `std` series measures it directly.
