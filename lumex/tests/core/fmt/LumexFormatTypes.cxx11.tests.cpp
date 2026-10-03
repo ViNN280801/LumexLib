@@ -1,19 +1,18 @@
-// LumexFormatTypes.tests.cpp
+// LumexFormatTypes.cxx11.tests.cpp
 // Built-in argument types other than floating point: integers of every
 // width (plus __int128), bool, characters, strings, pointers, and the `?`
 // debug presentation. Cases ported from fmt's format-test.cc (format_bool,
 // format_short, format_int, format_bin, format_dec, format_hex, format_oct,
 // format_char, format_unsigned_char, format_cstring, format_pointer,
-// format_string, format_string_view, debug_presentation).
+// format_string, format_string_view, debug_presentation). Every suite of the
+// module compiles this file; the std::string_view case is in
+// LumexFormatTypes.cxx17.tests.cpp.
 #include <climits>
 #include <cstdint>
 #include <cstdio>
 #include <cstring>
 #include <limits>
 #include <string>
-#if __cplusplus >= 201703L
-#include <string_view>
-#endif
 
 #include <gtest/gtest.h>
 
@@ -348,16 +347,6 @@ TEST (LumexFormatTypesTest, GivenLumexStringView_WhenFormat_ThenText)
   EXPECT_EQ (fmt::format ("{}", LumexStringView ()), "");
   EXPECT_EQ (fmt::format ("{:?}", LumexStringView ("t\nst")), "\"t\\nst\"");
 }
-
-#if __cplusplus >= 201703L
-TEST (LumexFormatTypesTest, GivenStdStringView_WhenFormat_ThenText)
-{
-  EXPECT_EQ (fmt::format ("{}", std::string_view ("test")), "test");
-  EXPECT_EQ (fmt::format ("{:?}", std::string_view ("t\nst")), "\"t\\nst\"");
-  EXPECT_EQ (fmt::format ("{}", std::string_view ()), "");
-  EXPECT_EQ (fmt::format ("{:*^8}", std::string_view ("mid")), "**mid***");
-}
-#endif
 
 TEST (LumexFormatTypesTest, GivenStringDebug_WhenFormat_ThenQuotedEscaped)
 {

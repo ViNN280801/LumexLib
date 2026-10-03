@@ -1,4 +1,4 @@
-// LumexFormatChrono.tests.cpp
+// LumexFormatChrono.cxx11.tests.cpp
 // LumexFormatChrono.hpp: std::chrono::duration and system_clock time points
 // with the C++20 chrono specification. The expected texts were checked
 // against MSVC std::format (C++20); the two deliberate differences are

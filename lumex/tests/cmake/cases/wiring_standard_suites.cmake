@@ -51,7 +51,6 @@ set(_transition
     atomic
     crc
     expected
-    fmt
     json
     logger
     utility

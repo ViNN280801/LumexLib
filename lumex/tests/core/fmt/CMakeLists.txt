@@ -1,48 +1,19 @@
 # lumex/tests/core/fmt/CMakeLists.txt
 
-# LumexFormat (lumex/core/fmt): the same sources at every standard
-# with its own code path. C++11 is the floor (printf / strtod float
-# fallback, run-time format string checks); C++17 switches floats to
-# std::to_chars; C++20 adds the consteval format string check and the
-# std::format cross-check (LumexFormatStdCompare.tests.cpp).
-set(LUMEX_FORMAT_TEST_SOURCES
-    LumexFormatApi.tests.cpp
-    LumexFormatChrono.tests.cpp
-    LumexFormatDifferential.tests.cpp
-    LumexFormatEdgeCases.tests.cpp
-    LumexFormatFloat.tests.cpp
-    LumexFormatMinMaxMacros.tests.cpp
-    LumexFormatParse.tests.cpp
-    LumexFormatPerf.tests.cpp
-    LumexFormatRanges.tests.cpp
-    LumexFormatSpecs.tests.cpp
-    LumexFormatStdCompare.tests.cpp
-    LumexFormatTestHelpers.hpp
-    LumexFormatTypes.tests.cpp
+# LumexFormat (lumex/core/fmt) has its own code path at several standards.
+# One suite per standard of the module (lumex/tests/LumexTestStandards.cmake):
+#   LumexFormatCxx11Tests  *.cxx11.tests.cpp: the floor (printf / strtod
+#                          float fallback, run-time format string checks)
+#   LumexFormatCxx14Tests  the C++11 files at C++14
+#   LumexFormatCxx17Tests  + *.cxx17.tests.cpp: std::string_view arguments
+#                          and format strings; floats through std::to_chars
+#   LumexFormatCxx20Tests  + *.cxx20.tests.cpp: the consteval format string
+#                          check and the cross-checks against std::format
+#                          (LumexFormatStdCompare, the differential fuzzing
+#                          of LumexFormatDifferential, ranges)
+# LumexFormatTestHelpers.hpp holds the run-time helpers every file shares.
+lumex_add_standard_suites(Format
+    MODULE fmt
+    LINK lumex::fmt lumex::string_view lumex::reflection
+    SOURCES LumexFormatTestHelpers.hpp
 )
-
-foreach(_format_suite IN ITEMS
-        "LumexFormatTests;11;"
-        "LumexFormatCxx17Tests;17;.cxx17"
-        "LumexFormatCxx20Tests;20;.cxx20")
-    list(GET _format_suite 0 _format_name)
-    list(GET _format_suite 1 _format_std)
-    list(GET _format_suite 2 _format_suffix)
-
-    add_executable(${_format_name} ${LUMEX_FORMAT_TEST_SOURCES})
-
-    target_link_libraries(
-        ${_format_name}
-        PRIVATE
-        lumex::fmt
-        lumex::string_view
-        lumex::reflection
-    )
-
-    lumex_test_use_gtest(${_format_name} CXX_STANDARD ${_format_std})
-    if(_format_suffix)
-        lumex_gtest_discover_tests(${_format_name} TEST_SUFFIX "${_format_suffix}")
-    else()
-        lumex_gtest_discover_tests(${_format_name})
-    endif()
-endforeach()

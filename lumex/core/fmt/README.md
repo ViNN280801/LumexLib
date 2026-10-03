@@ -82,13 +82,14 @@ keeps it that way):
 
 ## How it is verified
 
-- Three suites run the same sources at C++11, C++17 and C++20
-  (`LumexFormatTests`, `LumexFormatCxx17Tests`, `LumexFormatCxx20Tests`;
-  their CTest names start with `fmt.` and end with `.cxx17` or `.cxx20`
-  for the newer suites, so `ctest -R "^fmt"` selects them all), with the input / output cases
-  of fmt's `format-test.cc` ported and the expectations checked against
-  `std::format`.
-- Differential fuzzing (`LumexFormatDifferential.tests.cpp`, C++20): about
+- One suite per standard, C++11, C++14, C++17 and C++20
+  (`LumexFormatCxx11Tests` to `LumexFormatCxx20Tests`); each runs the test
+  files of its standard (`LumexFormatParse.cxx17.tests.cpp` belongs to
+  C++17) and of every lower one. Their CTest names start with `fmt.` and
+  end with `.cxx11` to `.cxx20`, so `ctest -R "^fmt"` selects them all.
+  The input / output cases of fmt's `format-test.cc` are ported, and the
+  expectations are checked against `std::format`.
+- Differential fuzzing (`LumexFormatDifferential.cxx20.tests.cpp`): about
   120 000 random specifications, valid and invalid, applied to edge-case
   integers, floating-point values, strings, characters, `bool` and pointers;
   LumexFormat must produce exactly `std::format`'s text or fail exactly when

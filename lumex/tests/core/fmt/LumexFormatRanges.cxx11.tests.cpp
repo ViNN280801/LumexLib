@@ -1,9 +1,10 @@
-// LumexFormatRanges.tests.cpp
+// LumexFormatRanges.cxx11.tests.cpp
 // LumexFormatRanges.hpp: ranges, sets, maps, std::pair and std::tuple with
 // the C++23 range specification ([[fill]align][width][n][m|s|?s][:element]).
 // Every expected text below matches std::format of C++23 (checked with
-// MSVC /std:c++latest); where the library provides range formatting the
-// std comparison at the end runs too.
+// MSVC /std:c++latest). Every suite of the module compiles this file; the
+// comparison with std::format, where the standard library provides range
+// formatting, is in LumexFormatRanges.cxx20.tests.cpp.
 #include <array>
 #include <deque>
 #include <list>
@@ -14,11 +15,6 @@
 #include <type_traits>
 #include <utility>
 #include <vector>
-#if __cplusplus >= 202002L && defined(__has_include)
-#if __has_include(<format>)
-#include <format>
-#endif
-#endif
 
 #include <gtest/gtest.h>
 
@@ -207,21 +203,3 @@ TEST (LumexFormatRangesTest, GivenElementTypes_WhenFormattable_ThenTraitsAgree)
   // Strings stay strings.
   EXPECT_EQ (fmt::format ("{}", std::string ("text")), "text");
 }
-
-#if defined(__cpp_lib_format_ranges) && __cpp_lib_format_ranges >= 202207L
-TEST (LumexFormatRangesTest, GivenRanges_WhenFormat_ThenSameAsStd)
-{
-  std::vector<int> const values = { 1, 2, 3 };
-  std::map<std::string, int> const map = { { "a", 1 } };
-  std::vector<char> const chars = { 'a', '\t' };
-  std::tuple<int, std::string, char> const tuple (1, "s", 'c');
-  EXPECT_EQ (fmt::format ("{:*^15}|{::#x}|{:n}", values, values, values),
-             std::format ("{:*^15}|{::#x}|{:n}", values, values, values));
-  EXPECT_EQ (fmt::format ("{}|{:n}", map, map),
-             std::format ("{}|{:n}", map, map));
-  EXPECT_EQ (fmt::format ("{}|{:s}|{:?s}", chars, chars, chars),
-             std::format ("{}|{:s}|{:?s}", chars, chars, chars));
-  EXPECT_EQ (fmt::format ("{}|{:n}|{:>12}", tuple, tuple, tuple),
-             std::format ("{}|{:n}|{:>12}", tuple, tuple, tuple));
-}
-#endif

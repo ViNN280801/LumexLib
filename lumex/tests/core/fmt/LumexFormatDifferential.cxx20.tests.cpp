@@ -1,12 +1,14 @@
-// LumexFormatDifferential.tests.cpp
+// LumexFormatDifferential.cxx20.tests.cpp
 // Differential fuzzing against std::format: a deterministic generator builds
 // tens of thousands of random format specifications from the grammar
 // [[fill]align][sign][#][0][width][.precision][type] (valid and invalid
 // ones) and applies them to edge-case values of every built-in kind. For
 // every pair LumexFormat must either produce exactly std::format's text or
-// fail exactly when std::format fails. Runs where the standard library has
-// <format> (the C++20 suite on MSVC); `?` is C++23 and is not generated.
-#if __cplusplus >= 202002L && defined(__has_include)
+// fail exactly when std::format fails. The C++20 suite compiles this file;
+// the tests run where the standard library has std::format
+// (__cpp_lib_format) and skip elsewhere (libstdc++ 8 at -std=c++2a). `?` is
+// C++23 and is not generated.
+#if defined(__has_include)
 #if __has_include(<format>)
 #include <format>
 #endif
@@ -248,6 +250,25 @@ TEST (LumexFormatDifferentialTest,
       seed++, static_cast<void const *> (&seed), "pointer", 2000);
   differences += compare_random_specs (seed++, nullptr, "nullptr", 2000);
   EXPECT_EQ (differences, 0);
+}
+
+#else
+
+TEST (LumexFormatDifferentialTest, GivenIntegers_WhenRandomSpecs_ThenSameAsStd)
+{
+  GTEST_SKIP () << "the standard library has no std::format";
+}
+
+TEST (LumexFormatDifferentialTest,
+      GivenFloatingPoint_WhenRandomSpecs_ThenSameAsStd)
+{
+  GTEST_SKIP () << "the standard library has no std::format";
+}
+
+TEST (LumexFormatDifferentialTest,
+      GivenTextAndOthers_WhenRandomSpecs_ThenSameAsStd)
+{
+  GTEST_SKIP () << "the standard library has no std::format";
 }
 
 #endif

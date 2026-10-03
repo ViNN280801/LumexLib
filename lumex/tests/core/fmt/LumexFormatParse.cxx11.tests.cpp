@@ -1,9 +1,10 @@
-// LumexFormatParse.tests.cpp
+// LumexFormatParse.cxx11.tests.cpp
 // Format string grammar: escapes, argument ids (automatic / manual / named),
 // and the errors of malformed strings. Cases ported from fmt's format-test.cc
 // (escape, unmatched_braces, args_in_different_positions, arg_errors,
 // many_args, named_arg, auto_arg_index, empty_specs,
-// non_null_terminated_format_string).
+// non_null_terminated_format_string). Every suite of the module compiles
+// this file; the std::string_view case is in LumexFormatParse.cxx17.tests.cpp.
 #include <climits>
 #include <string>
 
@@ -197,10 +198,6 @@ TEST (LumexFormatParseTest,
   std::string const text = "{}foo";
   EXPECT_EQ (fmt::vformat (text.substr (0, 2), fmt::make_format_args (42)),
              "42");
-#if __cplusplus >= 201703L
-  EXPECT_EQ (fmt::format (fmt::runtime (std::string_view ("{}foo", 2)), 42),
-             "42");
-#endif
 }
 
 TEST (LumexFormatParseTest, GivenRuntimeString_WhenFormat_ThenSameAsLiteral)

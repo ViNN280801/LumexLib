@@ -1,9 +1,11 @@
-// LumexFormatStdCompare.tests.cpp
+// LumexFormatStdCompare.cxx20.tests.cpp
 // Cross-check against the standard library: where <format> is available
 // (C++20), every specification in the tables below must produce the same
-// text as std::format. Compiled into every LumexFormat suite; the tests
-// exist only when the standard library provides std::format.
-#if __cplusplus >= 202002L && defined(__has_include)
+// text as std::format. The C++20 suite compiles this file; the tests run
+// where the standard library provides std::format (__cpp_lib_format) and
+// skip elsewhere (libstdc++ 8 at -std=c++2a). The `?` presentation is C++23
+// (__cpp_lib_format_ranges) and skips without it.
+#if defined(__has_include)
 #if __has_include(<format>)
 #include <format>
 #endif
@@ -161,16 +163,18 @@ TEST (LumexFormatStdCompareTest, GivenCharsAndBools_WhenFormat_ThenSameAsStd)
   expect_same_as_std (bool_specs, false);
 }
 
-#if defined(__cpp_lib_format_ranges)
 TEST (LumexFormatStdCompareTest,
       GivenDebugPresentation_WhenFormat_ThenSameAsStd)
 {
+#if defined(__cpp_lib_format_ranges)
   expect_same_as_std (debug_specs, "a\tb\n\"q\"\\");
   expect_same_as_std (debug_specs, std::string ("\x01z"));
   expect_same_as_std (debug_specs, '\n');
   expect_same_as_std (debug_specs, '\'');
-}
+#else
+  GTEST_SKIP () << "the standard library has no `?` presentation";
 #endif
+}
 
 TEST (LumexFormatStdCompareTest, GivenPointers_WhenFormat_ThenSameAsStd)
 {
@@ -192,6 +196,59 @@ TEST (LumexFormatStdCompareTest, GivenDynamicSpecs_WhenFormat_ThenSameAsStd)
              std::format ("{:{}.{}f}", 3.14159, 10, 3));
   EXPECT_EQ (fmt::format ("{0:*^{1}}", "x", 7),
              std::format ("{0:*^{1}}", "x", 7));
+}
+
+#else
+
+TEST (LumexFormatStdCompareTest, GivenIntegers_WhenFormat_ThenSameAsStd)
+{
+  GTEST_SKIP () << "the standard library has no std::format";
+}
+
+TEST (LumexFormatStdCompareTest, GivenDoubles_WhenFormat_ThenSameAsStd)
+{
+  GTEST_SKIP () << "the standard library has no std::format";
+}
+
+TEST (LumexFormatStdCompareTest, GivenFloats_WhenFormat_ThenSameAsStd)
+{
+  GTEST_SKIP () << "the standard library has no std::format";
+}
+
+TEST (LumexFormatStdCompareTest, GivenLongDoubles_WhenFormat_ThenSameAsStd)
+{
+  GTEST_SKIP () << "the standard library has no std::format";
+}
+
+TEST (LumexFormatStdCompareTest, GivenStrings_WhenFormat_ThenSameAsStd)
+{
+  GTEST_SKIP () << "the standard library has no std::format";
+}
+
+TEST (LumexFormatStdCompareTest, GivenCharsAndBools_WhenFormat_ThenSameAsStd)
+{
+  GTEST_SKIP () << "the standard library has no std::format";
+}
+
+TEST (LumexFormatStdCompareTest,
+      GivenDebugPresentation_WhenFormat_ThenSameAsStd)
+{
+  GTEST_SKIP () << "the standard library has no std::format";
+}
+
+TEST (LumexFormatStdCompareTest, GivenPointers_WhenFormat_ThenSameAsStd)
+{
+  GTEST_SKIP () << "the standard library has no std::format";
+}
+
+TEST (LumexFormatStdCompareTest, GivenWideStrings_WhenFormat_ThenSameAsStd)
+{
+  GTEST_SKIP () << "the standard library has no std::format";
+}
+
+TEST (LumexFormatStdCompareTest, GivenDynamicSpecs_WhenFormat_ThenSameAsStd)
+{
+  GTEST_SKIP () << "the standard library has no std::format";
 }
 
 #endif

@@ -1,4 +1,4 @@
-// LumexFormatPerf.tests.cpp
+// LumexFormatPerf.cxx11.tests.cpp
 // One wall-clock budget: formatting a typical log line must stay in the
 // same range as building it with std::ostringstream (Release only, no
 // sanitizers; see LumexPerfSkip.hpp).

@@ -1,4 +1,4 @@
-// LumexFormatMinMaxMacros.tests.cpp
+// LumexFormatMinMaxMacros.cxx11.tests.cpp
 // A consumer that includes <windows.h> without NOMINMAX gets function-like
 // `min` / `max` macros; every LumexFormat header (and what it includes) must
 // still compile, so `std::numeric_limits<T>::max ()` has to be written
