@@ -1,13 +1,12 @@
-// LumexQuote.tests.cpp
+// LumexQuote.cxx11.tests.cpp
+// text::quote, quote_double and quote_single from C++11. Every suite of the
+// module compiles this file; the C++20 cases are in
+// LumexQuote.cxx20.tests.cpp.
 #include <array>
 #include <list>
 #include <set>
 #include <string>
 #include <vector>
-#if __cplusplus >= 202002L
-#include <ranges>
-#include <string_view>
-#endif
 
 #include <gtest/gtest.h>
 
@@ -103,7 +102,11 @@ TEST (LumexQuoteTest, GivenStdStringSeparator_WhenQuote_ThenUsed)
   EXPECT_EQ (quote (parts, separator), "\"a\" | \"b\"");
 }
 
-#if __cplusplus < 202002L
+// Without std::ranges (below C++20, and with a standard library that has no
+// <ranges> at C++20, such as libstdc++ 8) quote takes any streamable
+// separator. LumexQuote.cxx20.tests.cpp covers the std::ranges path; both
+// follow the library's own switch, LUMEX_HAS_STD_RANGES.
+#if !LUMEX_HAS_STD_RANGES
 
 TEST (LumexQuoteTest, GivenCharSeparator_WhenQuotePreCxx20_ThenUsed)
 {
@@ -117,24 +120,6 @@ TEST (LumexQuoteTest, GivenLumexStringViewSeparator_WhenQuotePreCxx20_ThenUsed)
   std::vector<std::string> const parts = { "a", "b" };
   lumex::core::string_view::view::LumexStringView const separator ("; ", 2);
   EXPECT_EQ (quote_double (parts, separator), "\"a\"; \"b\"");
-}
-
-#else
-
-TEST (LumexQuoteTest, GivenStringViewSeparator_WhenQuote_ThenUsed)
-{
-  std::vector<std::string> const parts = { "a", "b" };
-  std::string_view const separator ("; ");
-  EXPECT_EQ (quote (parts, separator), "\"a\"; \"b\"");
-}
-
-TEST (LumexQuoteTest, GivenConstIterableView_WhenQuoteSingle_ThenWalksIt)
-{
-  std::vector<std::string> const parts = { "a", "b" };
-  auto shouted = parts
-                 | std::views::transform ([] (std::string const &text)
-                                            { return text + "!"; });
-  EXPECT_EQ (quote_single (shouted, ","), "'a!','b!'");
 }
 
 #endif

@@ -1,43 +1,19 @@
 # lumex/tests/core/string/CMakeLists.txt
 
-set(TEST_EXECUTABLE_NAME LumexStringifyTests)
-
-add_executable(
-    ${TEST_EXECUTABLE_NAME}
-    LumexJoin.tests.cpp
-    LumexQuote.tests.cpp
-    LumexString.tests.cpp
-    LumexTextConstraints.tests.cpp
+# One suite per standard of the module (lumex/tests/LumexTestStandards.cmake):
+#   LumexStringifyCxx11Tests  *.cxx11.tests.cpp: format::stringify,
+#                             text::join / quote* / to_case_insensitive and
+#                             the SFINAE constraints of join / quote
+#   LumexStringifyCxx14Tests  the C++11 files at C++14
+#   LumexStringifyCxx17Tests  + LumexJoin.cxx17.tests.cpp: a std::string_view
+#                             separator below C++20
+#   LumexStringifyCxx20Tests  + *.cxx20.tests.cpp: stringify_v2, the stream
+#                             concepts, the std::ranges join / quote and
+#                             their requires-clauses
+# LumexStringTestFixtures.hpp and LumexTextConstraintsTestHelpers.hpp hold
+# what the files of several standards share.
+lumex_add_standard_suites(Stringify
+    MODULE string
+    LINK lumex::string lumex::string_view
+    SOURCES LumexStringTestFixtures.hpp LumexTextConstraintsTestHelpers.hpp
 )
-
-target_link_libraries(
-    ${TEST_EXECUTABLE_NAME}
-    PRIVATE
-    lumex::string
-    lumex::string_view
-)
-
-lumex_test_use_gtest(${TEST_EXECUTABLE_NAME} CXX_STANDARD 11)
-lumex_gtest_discover_tests(${TEST_EXECUTABLE_NAME})
-
-# Same sources at C++20: text::join / quote* switch to their std::ranges
-# implementation and the stream traits switch from SFINAE to concepts. TEST_SUFFIX keeps CTest names distinct.
-set(STRING_CXX20_TEST_NAME LumexStringifyCxx20Tests)
-
-add_executable(
-    ${STRING_CXX20_TEST_NAME}
-    LumexJoin.tests.cpp
-    LumexQuote.tests.cpp
-    LumexString.tests.cpp
-    LumexTextConstraints.tests.cpp
-)
-
-target_link_libraries(
-    ${STRING_CXX20_TEST_NAME}
-    PRIVATE
-    lumex::string
-    lumex::string_view
-)
-
-lumex_test_use_gtest(${STRING_CXX20_TEST_NAME} CXX_STANDARD 20)
-lumex_gtest_discover_tests(${STRING_CXX20_TEST_NAME} TEST_SUFFIX ".cxx20")

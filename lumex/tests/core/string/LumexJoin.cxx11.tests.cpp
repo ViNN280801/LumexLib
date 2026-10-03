@@ -1,4 +1,7 @@
-// LumexJoin.tests.cpp
+// LumexJoin.cxx11.tests.cpp
+// text::join from C++11. Every suite of the module compiles this file; the
+// C++17 and C++20 cases are in LumexJoin.cxx17.tests.cpp and
+// LumexJoin.cxx20.tests.cpp.
 #include <array>
 #include <cstddef>
 #include <deque>
@@ -7,12 +10,6 @@
 #include <set>
 #include <string>
 #include <vector>
-#if __cplusplus >= 201703L
-#include <string_view>
-#endif
-#if __cplusplus >= 202002L
-#include <ranges>
-#endif
 
 #include <gtest/gtest.h>
 
@@ -156,7 +153,11 @@ TEST (LumexJoinTest, Stress_GivenManyElements_WhenJoin_ThenLengthAndEdges)
   EXPECT_EQ (text.substr (text.size () - 3), "8,9");
 }
 
-#if __cplusplus < 202002L
+// Without std::ranges (below C++20, and with a standard library that has no
+// <ranges> at C++20, such as libstdc++ 8) join takes any streamable
+// separator. LumexJoin.cxx20.tests.cpp covers the std::ranges path; both
+// follow the library's own switch, LUMEX_HAS_STD_RANGES.
+#if !LUMEX_HAS_STD_RANGES
 
 TEST (LumexJoinTest, GivenCharSeparator_WhenJoinPreCxx20_ThenUsed)
 {
@@ -169,46 +170,6 @@ TEST (LumexJoinTest, GivenLumexStringViewSeparator_WhenJoinPreCxx20_ThenUsed)
   std::vector<int> const numbers = { 1, 2 };
   lumex::core::string_view::view::LumexStringView const separator (" | ", 3);
   EXPECT_EQ (join (numbers, separator), "1 | 2");
-}
-
-#if __cplusplus >= 201703L
-TEST (LumexJoinTest, GivenStdStringViewSeparator_WhenJoinCxx17_ThenUsed)
-{
-  std::vector<int> const numbers = { 1, 2 };
-  EXPECT_EQ (join (numbers, std::string_view (", ")), "1, 2");
-}
-#endif
-
-#else
-
-TEST (LumexJoinTest, GivenStringViewSeparator_WhenJoin_ThenUsed)
-{
-  std::vector<int> const numbers = { 1, 2 };
-  std::string_view const separator (", ");
-  EXPECT_EQ (join (numbers, separator), "1, 2");
-}
-
-TEST (LumexJoinTest, GivenConstIterableView_WhenJoin_ThenWalksIt)
-{
-  EXPECT_EQ (join (std::views::iota (1, 6), " "), "1 2 3 4 5");
-}
-
-// The range is taken as `input_range auto const &`, so a view that is not
-// iterable through const (std::views::filter) is rejected at the call.
-TEST (LumexJoinTest, GivenFilterView_WhenJoin_ThenNotViableThroughConst)
-{
-  auto evens = std::views::iota (1, 11)
-               | std::views::filter ([] (int n) { return n % 2 == 0; });
-  EXPECT_FALSE (std::ranges::input_range<decltype (evens) const>);
-}
-
-TEST (LumexJoinTest, GivenTransformedView_WhenJoin_ThenTransformedText)
-{
-  std::vector<int> const numbers = { 1, 2, 3 };
-  EXPECT_EQ (
-      join (numbers | std::views::transform ([] (int n) { return n * n; }),
-            "+"),
-      "1+4+9");
 }
 
 #endif

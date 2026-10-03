@@ -1,3 +1,7 @@
+// LumexString.cxx11.tests.cpp
+// format::stringify and text::to_case_insensitive from C++11. Every suite of
+// the module compiles this file; the C++20 cases are in
+// LumexString.cxx20.tests.cpp.
 #include <array>
 #include <atomic>
 #include <codecvt>
@@ -15,6 +19,8 @@
 #include <gtest/gtest.h>
 
 #include "lumex/core/string/LumexString"
+
+#include "lumex/tests/core/string/LumexStringTestFixtures.hpp"
 
 #if defined(__clang__)
 #pragma clang diagnostic push
@@ -39,9 +45,6 @@
 #endif
 
 using lumex::core::string::utility::stringify;
-#if __cplusplus >= 202002L
-using lumex::core::string::utility::stringify_v2;
-#endif
 
 // Platform-specific includes
 #ifdef _WIN32
@@ -68,32 +71,9 @@ using lumex::core::string::utility::stringify_v2;
 
 #endif
 
-// Test fixture for StringifyTests
-class LumexStringifyTest : public ::testing::Test
-{
-};
-
 // === Helper Types and Structures ===
-
-// Custom type with operator<<
-struct CustomStreamable
-{
-  int value;
-  CustomStreamable (int v) : value (v) {}
-  friend std::ostream &
-  operator<< (std::ostream &os, CustomStreamable const &cs)
-  {
-    return os << "CustomStreamable(" << cs.value << ")";
-  }
-};
-
-// Custom type WITHOUT operator<< (not streamable)
-struct NonStreamable
-{
-  int value;
-  NonStreamable (int v) : value (v) {}
-  // No operator<< defined
-};
+// (LumexStringifyTest, CustomStreamable and NonStreamable are in
+// LumexStringTestFixtures.hpp.)
 
 // Type with alignment requirements
 #ifdef _MSC_VER
@@ -539,15 +519,13 @@ TEST_F (LumexStringifyTest, MoveSemantics_Dirty)
 
 // === Type Trait Tests ===
 
-// NOTE: `is_streamable`/`all_streamable` are only defined by
-// LumexTypeTraits.hpp SFINAE branch
-// (`#if __cplusplus < 202002L`) - under C++20 that branch is replaced by the
-// `Streamable`/`AllStreamable` concepts instead (found while verifying this
-// file still builds after adding text::join / quote / to_case_insensitive;
-// this pre-existing test was unconditional and therefore could never have
-// compiled under the C++20 standard this project builds with by default - not
-// something introduced by this change).
-#if __cplusplus < 202002L
+// Where the compiler has concepts (LUMEX_HAS_CONCEPTS), LumexTypeTraits.hpp
+// adds the `Streamable`/`AllStreamable` concepts and TypeTraits_Dirty checks
+// them (LumexString.cxx20.tests.cpp); otherwise it checks the
+// `is_streamable`/`all_streamable` structs here. The two conditions are
+// exact complements, so one suite never defines the test twice (GCC 10
+// reports __cplusplus 201709L at -std=c++20 and still has concepts).
+#if !LUMEX_HAS_CONCEPTS
 TEST_F (LumexStringifyTest, TypeTraits_Dirty)
 {
   // Test is_streamable trait
@@ -574,32 +552,6 @@ TEST_F (LumexStringifyTest, TypeTraits_Dirty)
 
   // Empty all_streamable
   EXPECT_TRUE (lumex::core::utility::traits::stream::all_streamable<>::value);
-}
-#else
-TEST_F (LumexStringifyTest, TypeTraits_Dirty)
-{
-  // C++20 path: the SFINAE structs above do not exist here -
-  // `Streamable`/`AllStreamable` concepts cover the same purpose instead.
-  EXPECT_TRUE (lumex::core::utility::traits::stream::Streamable<int>);
-  EXPECT_TRUE (lumex::core::utility::traits::stream::Streamable<std::string>);
-  EXPECT_TRUE (
-      lumex::core::utility::traits::stream::Streamable<CustomStreamable>);
-  EXPECT_FALSE (
-      lumex::core::utility::traits::stream::Streamable<NonStreamable>);
-
-  EXPECT_TRUE (
-      (lumex::core::utility::traits::stream::AllStreamable<int, std::string>));
-  EXPECT_TRUE (
-      (lumex::core::utility::traits::stream::AllStreamable<CustomStreamable,
-                                                           int>));
-  EXPECT_FALSE (
-      (lumex::core::utility::traits::stream::AllStreamable<NonStreamable,
-                                                           int>));
-  EXPECT_FALSE (
-      (lumex::core::utility::traits::stream::AllStreamable<int,
-                                                           NonStreamable>));
-
-  EXPECT_TRUE (lumex::core::utility::traits::stream::AllStreamable<>);
 }
 #endif
 
@@ -1240,8 +1192,8 @@ TEST_F (LumexStringifyTest, FinalIntegration_Dirty)
 }
 
 // === text::to_case_insensitive Tests ===
-// text::join and quote* are covered by LumexJoin.tests.cpp and
-// LumexQuote.tests.cpp in every standard.
+// text::join and quote* are covered by LumexJoin.cxx*.tests.cpp and
+// LumexQuote.cxx*.tests.cpp in every standard.
 
 TEST_F (LumexStringifyTest,
         ToCaseInsensitive_InPlace_LowercasesAndRemovesSpacesByDefault)

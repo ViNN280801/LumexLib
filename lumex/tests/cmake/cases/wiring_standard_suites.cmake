@@ -55,7 +55,6 @@ set(_transition
     json
     logger
     reflection
-    string
     utility
 )
 

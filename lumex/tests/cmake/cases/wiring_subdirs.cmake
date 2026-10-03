@@ -74,7 +74,6 @@ foreach(_suite
         LumexExpectedTests
         LumexReflectionTests LumexReflectionCxx20Tests LumexFieldReflectionTests
         LumexFieldReflectionGetTests LumexFieldReflectionNamesTests
-        LumexStringifyTests LumexStringifyCxx20Tests
         LumexFormatTests LumexFormatCxx17Tests LumexFormatCxx20Tests
         LumexTypeTraitsTests LumexSafeNumericComparatorCxx11Tests
         LumexUtilityTests)

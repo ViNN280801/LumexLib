@@ -1,8 +1,10 @@
-// LumexTextConstraints.tests.cpp
+// LumexTextConstraints.cxx11.tests.cpp
 //
 // Which join / quote calls are viable. A rejected call must be removed from
 // overload resolution (SFINAE below C++20, a requires-clause at C++20), not
 // fail inside the function body, so these detection checks can see it.
+// Every suite of the module compiles this file; the C++20 checks are in
+// LumexTextConstraints.cxx20.tests.cpp.
 #include <array>
 #include <deque>
 #include <list>
@@ -11,14 +13,14 @@
 #include <ostream>
 #include <set>
 #include <string>
-#include <type_traits>
-#include <utility>
 #include <vector>
 
 #include <gtest/gtest.h>
 
-#include "lumex/core/string/text/LumexJoin.hpp"
-#include "lumex/core/string/text/LumexQuote.hpp"
+#include "lumex/tests/core/string/LumexTextConstraintsTestHelpers.hpp"
+
+using text_constraints_test_helpers::can_join;
+using text_constraints_test_helpers::can_quote;
 
 namespace
 {
@@ -50,46 +52,6 @@ struct begin_only_t
   {
     return nullptr;
   }
-};
-
-template <typename... T> struct make_void
-{
-  typedef void type;
-};
-
-template <typename Range, typename Separator, typename = void>
-struct can_join : std::false_type
-{
-};
-
-template <typename Range, typename Separator>
-struct can_join<Range, Separator,
-                typename make_void<decltype (lumex::core::string::text::join (
-                    std::declval<Range const &> (),
-                    std::declval<Separator const &> ()))>::type>
-    : std::true_type
-{
-};
-
-template <typename Range, typename Separator, typename = void>
-struct can_quote : std::false_type
-{
-};
-
-template <typename Range, typename Separator>
-struct can_quote<
-    Range, Separator,
-    typename make_void<decltype (lumex::core::string::text::quote (
-                           std::declval<Range const &> (),
-                           std::declval<Separator const &> ())),
-                       decltype (lumex::core::string::text::quote_double (
-                           std::declval<Range const &> (),
-                           std::declval<Separator const &> ())),
-                       decltype (lumex::core::string::text::quote_single (
-                           std::declval<Range const &> (),
-                           std::declval<Separator const &> ()))>::type>
-    : std::true_type
-{
 };
 
 typedef char const separator_literal_t[3];
@@ -176,7 +138,9 @@ TEST (LumexTextConstraintsTest, GivenNonStreamableSeparator_ThenQuoteRejected)
       (can_quote<std::vector<std::string>, not_streamable_t>::value));
 }
 
-#if __cplusplus < 202002L
+// The library switches to the requires-clauses with LUMEX_HAS_STD_RANGES
+// (C++20 with <ranges>); LumexTextConstraints.cxx20.tests.cpp checks them.
+#if !LUMEX_HAS_STD_RANGES
 
 // --- C++11 to C++17: any streamable separator, and the Detail traits ---
 
@@ -192,16 +156,5 @@ TEST (LumexTextConstraintsTest, GivenStreamableNonStringSeparator_ThenViable)
 // has_elements_convertible_to, is_streamable) are tested in
 // lumex/tests/core/utility/LumexRangeTraits.tests.cpp and
 // LumexStreamTraits.tests.cpp.
-
-#else
-
-// --- C++20: the separator must convert to std::string_view ---
-
-TEST (LumexTextConstraintsTest, GivenNonStringViewSeparator_ThenRejected)
-{
-  EXPECT_FALSE ((can_join<std::vector<int>, char>::value));
-  EXPECT_FALSE ((can_join<std::vector<int>, int>::value));
-  EXPECT_FALSE ((can_quote<std::vector<std::string>, char>::value));
-}
 
 #endif
