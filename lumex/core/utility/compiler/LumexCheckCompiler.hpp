@@ -64,7 +64,7 @@
  *          compiler release. To find out whether a language or library
  *          feature is available, use `LumexCheckFeatures.hpp` instead.
  *
- * @link Compiler macros: https://sourceforge.net/p/predef/wiki/Compilers/
+ * @see Compiler macros: https://sourceforge.net/p/predef/wiki/Compilers/
  */
 
 #if defined(_MSC_VER)

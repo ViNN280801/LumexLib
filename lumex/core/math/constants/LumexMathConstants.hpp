@@ -40,9 +40,13 @@
 #ifndef LUMEX_CORE_MATH_CONSTANTS_HPP
 #define LUMEX_CORE_MATH_CONSTANTS_HPP
 
-/// @link https://en.wikipedia.org/wiki/List_of_mathematical_constants
-/// @link https://calculla.com/math_constants
-/// @link http://www.numberworld.org/digits/
+/**
+ * @file LumexMathConstants.hpp
+ * @brief Mathematical constants as `LUMEX_MATH_CONSTANTS_*` macros.
+ * @see https://en.wikipedia.org/wiki/List_of_mathematical_constants
+ * @see https://calculla.com/math_constants
+ * @see http://www.numberworld.org/digits/
+ */
 
 // 50 digits precision
 #define LUMEX_MATH_CONSTANTS_PI                                               \

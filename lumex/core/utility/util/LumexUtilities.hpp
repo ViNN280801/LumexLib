@@ -64,7 +64,8 @@
  *   * Behavior with different sizes is implementation-defined (not guaranteed)
  *
  * Why safe through intptr_t:
- * 1. `intptr_t` (from <cstdint>) guaranteed to have pointer size (32/64 bits)
+ * 1. `intptr_t` (from `<cstdint>`) guaranteed to have pointer size (32/64
+ * bits)
  * 2. `static_cast<intptr_t>(fd)`:
  *    - POSIX file descriptors are always >= 0 (non-negative)
  *    - int (32 bits) extends to intptr_t (64 bits) with sign preservation:

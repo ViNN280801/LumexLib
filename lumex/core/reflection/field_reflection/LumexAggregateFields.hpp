@@ -129,6 +129,9 @@ template <std::size_t... I> struct index_sequence
 {
 };
 
+/// @cond
+// Hidden from Doxygen, which reports the recursive base of
+// make_index_sequence_impl (N derives from N - 1) as an error.
 template <std::size_t N, std::size_t... I>
 struct make_index_sequence_impl : make_index_sequence_impl<N - 1, N - 1, I...>
 {
@@ -143,6 +146,7 @@ template <std::size_t N>
 struct make_index_sequence : make_index_sequence_impl<N>
 {
 };
+/// @endcond
 
 template <std::size_t I> struct any_field
 {

@@ -239,7 +239,7 @@ public:
    * @note Complexity: O(1).
    */
   LUMEX_CONSTEXPR_CTOR
-  LumexStringView (LumexStringView const &) LUMEX_NOEXCEPT = default;
+  LumexStringView (LumexStringView const &other) LUMEX_NOEXCEPT = default;
   /**
    * @brief Copy assignment operator. Assigns the view of another
    * `LumexStringView`.
@@ -249,7 +249,7 @@ public:
    * @return A reference to `*this`.
    * @note Complexity: O(1).
    */
-  LumexStringView &operator= (LumexStringView const &) LUMEX_NOEXCEPT
+  LumexStringView &operator= (LumexStringView const &other) LUMEX_NOEXCEPT
       = default;
   /**
    * @brief Move constructor. Creates a new `LumexStringView` by moving from
@@ -260,7 +260,7 @@ public:
    * @note Complexity: O(1).
    */
   LUMEX_CONSTEXPR_CTOR
-  LumexStringView (LumexStringView &&) LUMEX_NOEXCEPT = default;
+  LumexStringView (LumexStringView &&other) LUMEX_NOEXCEPT = default;
   /**
    * @brief Move assignment operator. Assigns the view of another
    * `LumexStringView` by moving.
@@ -270,7 +270,8 @@ public:
    * @return A reference to `*this`.
    * @note Complexity: O(1).
    */
-  LumexStringView &operator= (LumexStringView &&) LUMEX_NOEXCEPT = default;
+  LumexStringView &operator= (LumexStringView &&other) LUMEX_NOEXCEPT
+      = default;
   /**
    * @brief Destructor.
    * @details Does nothing as `LumexStringView` does not own the character

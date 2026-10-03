@@ -91,7 +91,7 @@ enum xml_node_type : std::uint8_t
 {
   node_null,        ///< Empty (null) node handle
   node_document,    ///< A document tree's absolute root
-  node_element,     ///< Element tag, i.e. '<node/>'
+  node_element,     ///< Element tag, i.e. `<node/>`
   node_pcdata,      ///< Plain character data, i.e. 'text'
   node_cdata,       ///< Character data, i.e. '<![CDATA[text]]>'
   node_comment,     ///< Comment tag, i.e. '<!-- text -->'

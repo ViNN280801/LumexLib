@@ -38,7 +38,7 @@
  *   one of `m`, `s`, `?s`. `n` drops the brackets, `m` prints pairs as
  *   `k: v` inside `{}`, `s` and `?s` print a range of characters as a
  *   string / debug string, and the text after `:` is the specification of
- *   every element (for example `{::x}`).
+ *   every element (for example <tt>{\::x}</tt>).
  * - Tuple specification: `[[fill]align][width][n or m]`, where `m` prints
  *   a pair as `k: v`.
  *

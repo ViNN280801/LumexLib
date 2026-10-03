@@ -128,9 +128,9 @@ struct lumex_settings_key_spec_t
  * @note Thread-safety: an internal `std::recursive_mutex` serializes
  * concurrent calls made through the *same* `LumexSettingsGuard` instance. This
  * is narrower than `BaseConfiguration`'s single process-wide mutex (shared
- * with its JSON file helper)
- *       - by design, since a `LumexSettingsGuard` composes a caller-owned
- *       `ILumexSettings` instance rather than a global file-access chokepoint.
+ * with its JSON file helper), by design: a `LumexSettingsGuard` composes a
+ * caller-owned `ILumexSettings` instance rather than a global file-access
+ * chokepoint.
  * If the same underlying file is also touched by other `ILumexSettings`
  * instances, other `LumexSettingsGuard`s, or unrelated code, callers remain
  * responsible for their own synchronization, exactly as `ILumexSettings`'s own

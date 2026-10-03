@@ -834,8 +834,8 @@ public:
 /**
  * @brief Checks whether an environment variable is set to a non-empty value.
  * @details A small free-function helper, equivalent to
- *          `!LumexEnvironment::get_or(name, {}).empty()`: true only when the
- *          variable exists and its value is not an empty string.
+ *          <tt>!LumexEnvironment\::get_or(name, {}).empty()</tt>: true only
+ * when the variable exists and its value is not an empty string.
  * @param name Name of the environment variable to check.
  * @return True if the variable exists and is non-empty, false otherwise.
  * @note This function is thread-safe (delegates to `LumexEnvironment`).

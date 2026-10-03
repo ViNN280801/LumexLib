@@ -41,8 +41,8 @@
  * @file  Base64.hpp
  * @brief Cross-platform Base64 encoding and decoding utilities.
  *
- * @link  https://en.wikipedia.org/wiki/Base64
- * @link
+ * @see https://en.wikipedia.org/wiki/Base64
+ * @see
  * https://renenyffenegger.ch/notes/development/Base64/Encoding-and-decoding-base-64-with-cpp/
  *
  * This header provides a set of functions for converting binary data to its

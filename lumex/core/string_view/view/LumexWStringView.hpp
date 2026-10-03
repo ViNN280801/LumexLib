@@ -275,7 +275,7 @@ public:
    * @note Complexity: O(1).
    */
   LUMEX_CONSTEXPR_CTOR
-  LumexWStringView (LumexWStringView const &) LUMEX_NOEXCEPT = default;
+  LumexWStringView (LumexWStringView const &other) LUMEX_NOEXCEPT = default;
   /**
    * @brief Copy assignment operator. Assigns the view of another
    * `LumexWStringView`.
@@ -285,7 +285,7 @@ public:
    * @return A reference to `*this`.
    * @note Complexity: O(1).
    */
-  LumexWStringView &operator= (LumexWStringView const &) LUMEX_NOEXCEPT
+  LumexWStringView &operator= (LumexWStringView const &other) LUMEX_NOEXCEPT
       = default;
   /**
    * @brief Move constructor. Creates a new `LumexWStringView` by moving from
@@ -296,7 +296,7 @@ public:
    * @note Complexity: O(1).
    */
   LUMEX_CONSTEXPR_CTOR
-  LumexWStringView (LumexWStringView &&) LUMEX_NOEXCEPT = default;
+  LumexWStringView (LumexWStringView &&other) LUMEX_NOEXCEPT = default;
   /**
    * @brief Move assignment operator. Assigns the view of another
    * `LumexWStringView` by moving.
@@ -306,7 +306,8 @@ public:
    * @return A reference to `*this`.
    * @note Complexity: O(1).
    */
-  LumexWStringView &operator= (LumexWStringView &&) LUMEX_NOEXCEPT = default;
+  LumexWStringView &operator= (LumexWStringView &&other) LUMEX_NOEXCEPT
+      = default;
   /**
    * @brief Destructor.
    * @details Does nothing as `LumexWStringView` does not own the wide

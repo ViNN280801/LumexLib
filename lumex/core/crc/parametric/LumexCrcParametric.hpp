@@ -406,6 +406,9 @@ ComputeTableDriven (std::uint8_t const *data, std::size_t size) LUMEX_NOEXCEPT
 
 template <typename Spec, typename Enable = void> struct crc_dispatch_t;
 
+/// @cond
+// Hidden from Doxygen: it reads the comparisons in the template arguments
+// of these partial specializations as angle brackets.
 template <typename Spec>
 struct crc_dispatch_t<
     Spec, typename std::enable_if<(Spec::kWidth < kBitsPerByte), void>::type>
@@ -427,6 +430,7 @@ struct crc_dispatch_t<
     return ComputeTableDriven<Spec> (data, size);
   }
 };
+/// @endcond
 
 template <typename Spec>
 LUMEX_CRC_DETAIL_CONSTEXPR typename Spec::ValueType

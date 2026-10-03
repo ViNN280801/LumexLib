@@ -1867,7 +1867,7 @@ struct safe_compare_impl_helper<
  * - No-throw where possible (every method is noexcept)
  * - RAII resource management
  *
- * @section performance Performance
+ * @section comparator_performance Performance
  * - Compile-time SFINAE dispatch
  * - Specializations that optimize identical types
  * - Zero-cost abstractions where possible

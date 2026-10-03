@@ -65,7 +65,7 @@
 
 /**
  * @brief Class that mimics std::expected from C++23.
- * @link https://en.cppreference.com/w/cpp/utility/expected
+ * @see https://en.cppreference.com/w/cpp/utility/expected
  * @details Holds either a value of type SuccessType,
  *          or an error of type ErrorType. Functions can return either a
  * success result, or error information without exceptions for expected
@@ -267,7 +267,6 @@ public:
    * @details Creates an `Expected` in the success state, constructing
    * `SuccessType` in place using the forwarded arguments.
    * @tparam Args Argument types forwarded to the `SuccessType` constructor.
-   * @param[in] unused `in_place_tag` that selects this constructor.
    * @param[in] args Arguments forwarded to the `SuccessType` constructor.
    * @note Avoids extra copies or moves when creating the value.
    * @throws May throw if the `SuccessType` constructor throws.

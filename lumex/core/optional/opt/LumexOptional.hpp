@@ -122,8 +122,6 @@ struct nullopt_t
   };
   /**
    * @brief Explicit constructor for `nullopt_t`.
-   * @param unused An unused `init_tag` parameter, enforcing explicit
-   * construction.
    */
   explicit LUMEX_CONSTEXPR
   nullopt_t (init_tag /*unused*/)
@@ -165,8 +163,6 @@ struct in_place_t
   };
   /**
    * @brief Explicit constructor for `in_place_t`.
-   * @param unused An unused `init_tag` parameter, enforcing explicit
-   * construction.
    */
   explicit LUMEX_CONSTEXPR
   in_place_t (init_tag /*unused*/)
@@ -353,7 +349,6 @@ public:
    * @brief Constructs an empty `optional` from `nullopt`.
    * @details Allows explicit construction of an empty optional using the
    * `nullopt` constant.
-   * @param unused A `nullopt_t` constant (e.g., `lumex::nullopt`).
    */
   LUMEX_CONSTEXPR_CTOR
   optional (nullopt_t /*unused*/) LUMEX_NOEXCEPT : m_has_value (false) {}
@@ -433,7 +428,6 @@ public:
    *          optional's storage using the provided arguments, bypassing
    *          intermediate copy/move operations.
    * @tparam Args Variadic template arguments for the constructor of `T`.
-   * @param unused An `in_place_t` constant (e.g., `lumex::in_place`).
    * @param args Arguments to forward to the constructor of `T`.
    */
   template <typename... Args>
@@ -449,7 +443,6 @@ public:
    * `initializer_list` and additional arguments to its constructor.
    * @tparam U The type of elements in the `initializer_list`.
    * @tparam Args Variadic template arguments for the constructor of `T`.
-   * @param unused An `in_place_t` constant.
    * @param ilist An `std::initializer_list` to pass to the constructor of `T`.
    * @param args Additional arguments to forward to the constructor of `T`.
    */
@@ -475,7 +468,6 @@ public:
    * @brief Assigns `nullopt` to the `optional`, making it empty.
    * @details If the optional currently holds a value, its destructor is
    * called, and then `m_has_value` is set to `false`.
-   * @param unused A `nullopt_t` constant.
    * @return A reference to `*this`.
    */
   optional &
@@ -1039,7 +1031,6 @@ operator>= (optional<T> const &lhs, optional<U> const &rhs)
  * @brief Equality comparison between a `optional` and `nullopt`.
  * @tparam T Type of value in the optional.
  * @param opt The `optional` object.
- * @param unused `nullopt` constant.
  * @return `true` if the optional is empty, `false` otherwise.
  */
 template <typename T>
@@ -1052,7 +1043,6 @@ operator== (optional<T> const &opt, nullopt_t /*unused*/) LUMEX_NOEXCEPT
 /**
  * @brief Equality comparison between `nullopt` and a `optional`.
  * @tparam T Type of value in the optional.
- * @param unused `nullopt` constant.
  * @param opt The `optional` object.
  * @return `true` if the optional is empty, `false` otherwise.
  */
@@ -1067,7 +1057,6 @@ operator== (nullopt_t /*unused*/, optional<T> const &opt) LUMEX_NOEXCEPT
  * @brief Inequality comparison between a `optional` and `nullopt`.
  * @tparam T Type of value in the optional.
  * @param opt The `optional` object.
- * @param unused `nullopt` constant.
  * @return `true` if the optional has a value, `false` otherwise.
  */
 template <typename T>
@@ -1080,7 +1069,6 @@ operator!= (optional<T> const &opt, nullopt_t /*unused*/) LUMEX_NOEXCEPT
 /**
  * @brief Inequality comparison between `nullopt` and a `optional`.
  * @tparam T Type of value in the optional.
- * @param unused `nullopt` constant.
  * @param opt The `optional` object.
  * @return `true` if the optional has a value, `false` otherwise.
  */
@@ -1095,8 +1083,6 @@ operator!= (nullopt_t /*unused*/, optional<T> const &opt) LUMEX_NOEXCEPT
  * @brief Less-than comparison between a `optional` and `nullopt`.
  * @details An optional with a value is never less than `nullopt`.
  * @tparam T Type of value in the optional.
- * @param unused_opt The `optional` object.
- * @param unused_nullopt `nullopt` constant.
  * @return `false`.
  */
 template <typename T>
@@ -1111,7 +1097,6 @@ operator< (optional<T> const & /*unused_opt*/,
  * @brief Less-than comparison between `nullopt` and a `optional`.
  * @details `nullopt` is less than any `optional` that contains a value.
  * @tparam T Type of value in the optional.
- * @param unused_nullopt `nullopt` constant.
  * @param opt The `optional` object.
  * @return `true` if `opt` has a value, `false` otherwise.
  */
@@ -1128,7 +1113,6 @@ operator< (nullopt_t /*unused_nullopt*/, optional<T> const &opt) LUMEX_NOEXCEPT
  * @details An optional with a value is never less than or equal to `nullopt`.
  * @tparam T Type of value in the optional.
  * @param opt The `optional` object.
- * @param unused_nullopt `nullopt` constant.
  * @return `true` if the optional is empty, `false` otherwise.
  */
 template <typename T>
@@ -1144,8 +1128,6 @@ operator<= (optional<T> const &opt,
  * `optional`.
  * @details `nullopt` is always less than or equal to any `optional`.
  * @tparam T Type of value in the optional.
- * @param unused_nullopt `nullopt` constant.
- * @param unused_opt The `optional` object.
  * @return `true`.
  */
 template <typename T>
@@ -1161,7 +1143,6 @@ operator<= (nullopt_t /*unused_nullopt*/,
  * @details A `optional` with a value is always greater than `nullopt`.
  * @tparam T Type of value in the optional.
  * @param opt The `optional` object.
- * @param unused_nullopt `nullopt` constant.
  * @return `true` if the optional has a value, `false` otherwise.
  */
 template <typename T>
@@ -1175,8 +1156,6 @@ operator> (optional<T> const &opt, nullopt_t /*unused_nullopt*/) LUMEX_NOEXCEPT
  * @brief Greater-than comparison between `nullopt` and a `optional`.
  * @details `nullopt` is never greater than any `optional`.
  * @tparam T Type of value in the optional.
- * @param unused_nullopt `nullopt` constant.
- * @param unused_opt The `optional` object.
  * @return `false`.
  */
 template <typename T>
@@ -1192,8 +1171,6 @@ operator> (nullopt_t /*unused_nullopt*/,
  * `nullopt`.
  * @details A `optional` is always greater than or equal to `nullopt`.
  * @tparam T Type of value in the optional.
- * @param unused_opt The `optional` object.
- * @param unused_nullopt `nullopt` constant.
  * @return `true`.
  */
 template <typename T>
@@ -1210,7 +1187,6 @@ operator>= (optional<T> const & /*unused_opt*/,
  * @details `nullopt` is greater than or equal to a `optional` only if the
  * latter is empty.
  * @tparam T Type of value in the optional.
- * @param unused_nullopt `nullopt` constant.
  * @param opt The `optional` object.
  * @return `true` if `opt` is empty, `false` otherwise.
  */

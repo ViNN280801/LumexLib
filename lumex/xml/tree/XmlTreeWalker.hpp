@@ -86,8 +86,9 @@ public:
    * visiting a node's children.
    */
   virtual bool
-  begin (XmlNode & /* unused */)
+  begin (XmlNode &node)
   {
+    static_cast<void> (node);
     return true;
   }
 
@@ -109,8 +110,9 @@ public:
    * visiting a node's children.
    */
   virtual bool
-  end (XmlNode & /* unused */)
+  end (XmlNode &node)
   {
+    static_cast<void> (node);
     return true;
   }
 

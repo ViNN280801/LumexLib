@@ -848,7 +848,7 @@ public:
   /**
    * @brief Create a dump configuration with error handling
    * @param type The dump type to create configuration for
-   * @param ec Error code to be set on failure
+   * @param errorCode Error code to be set on failure
    * @return DumpConfiguration object configured for the specified type
    * @note This method is thread-safe and noexcept
    */
@@ -1067,7 +1067,7 @@ public:
    * @param reason Optional reason for the dump generation
    * @param dumpType Type of dump to generate (uses current config if
    * DEFAULT_AUTO)
-   * @param ec Error code to be set on failure
+   * @param errorCode Error code to be set on failure
    * @return true if dump was generated successfully, false otherwise
    *
    * @complexity O(1) for basic operations, O(n) where n is memory size for

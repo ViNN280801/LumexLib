@@ -26,7 +26,8 @@
  * @file LumexQuote.hpp
  * @brief Joins the elements of a range with each element wrapped in quotes.
  *
- * @details `quote` / `quote_double` wrap in `"`, `quote_single` in `'`.
+ * @details `quote` and `quote_double` wrap the text in double quotes,
+ * `quote_single` in single quotes.
  * Elements must convert to `std::string const &` (`std::string`,
  * `char const *`, ...). Quote characters inside an element are not escaped.
  * C++20 builds on `std::ranges` and `join`; C++11 to C++17 use one explicit

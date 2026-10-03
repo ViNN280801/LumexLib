@@ -158,13 +158,13 @@ hasInvalidEnding (std::string const &) LUMEX_NOEXCEPT
 } // namespace Detail
 
 LUMEX_PUBLIC_API
-lumex::path::path (string_type source) : m_path (std::move (source)) {}
+path::path (string_type source) : m_path (std::move (source)) {}
 
-lumex::path::value_type const lumex::path::preferred_separator;
+path::value_type const path::preferred_separator;
 
 LUMEX_PUBLIC_API
 bool
-lumex::path::is_separator (value_type chr)
+path::is_separator (value_type chr)
 {
 #if defined(LUMEX_OS_WINDOWS)
   return chr == '/' || chr == '\\';
@@ -175,15 +175,15 @@ lumex::path::is_separator (value_type chr)
 
 LUMEX_PUBLIC_API
 void
-lumex::path::append_separator_if_needed ()
+path::append_separator_if_needed ()
 {
   if (!m_path.empty () && !is_separator (m_path.back ()))
     m_path += preferred_separator;
 }
 
 LUMEX_PUBLIC_API
-lumex::path &
-lumex::path::operator/= (path const &path_arg)
+path &
+path::operator/= (path const &path_arg)
 {
   if (path_arg.empty () || path_arg.m_path == ".")
     return *this;
@@ -221,54 +221,54 @@ lumex::path::operator/= (path const &path_arg)
 }
 
 LUMEX_PUBLIC_API
-lumex::path &
-lumex::path::operator/= (string_type const &path_arg)
+path &
+path::operator/= (string_type const &path_arg)
 {
   return operator/= (path (path_arg));
 }
 
 LUMEX_PUBLIC_API
-lumex::path &
-lumex::path::operator/= (char const *path_arg)
+path &
+path::operator/= (char const *path_arg)
 {
   return operator/= (path (path_arg));
 }
 
 LUMEX_PUBLIC_API
-lumex::path &
-lumex::path::operator+= (path const &path_arg)
+path &
+path::operator+= (path const &path_arg)
 {
   m_path += path_arg.m_path;
   return *this;
 }
 
 LUMEX_PUBLIC_API
-lumex::path &
-lumex::path::operator+= (string_type const &path_arg)
+path &
+path::operator+= (string_type const &path_arg)
 {
   m_path += path_arg;
   return *this;
 }
 
 LUMEX_PUBLIC_API
-lumex::path &
-lumex::path::operator+= (char const *path_arg)
+path &
+path::operator+= (char const *path_arg)
 {
   m_path += path_arg != nullptr ? path_arg : "";
   return *this;
 }
 
 LUMEX_PUBLIC_API
-lumex::path &
-lumex::path::operator+= (value_type chr)
+path &
+path::operator+= (value_type chr)
 {
   m_path += chr;
   return *this;
 }
 
 LUMEX_PUBLIC_API
-lumex::path &
-lumex::path::make_preferred ()
+path &
+path::make_preferred ()
 {
 #if defined(LUMEX_OS_WINDOWS)
   std::replace (m_path.begin (), m_path.end (), '/', '\\');
@@ -280,7 +280,7 @@ lumex::path::make_preferred ()
 
 LUMEX_PUBLIC_API
 std::size_t
-lumex::path::find_filename_pos () const
+path::find_filename_pos () const
 {
   if (m_path.empty ())
     return string_type::npos;
@@ -293,8 +293,8 @@ lumex::path::find_filename_pos () const
 }
 
 LUMEX_PUBLIC_API
-lumex::path
-lumex::path::filename () const
+path
+path::filename () const
 {
   if (m_path.empty ())
     return path ();
@@ -326,8 +326,8 @@ lumex::path::filename () const
 }
 
 LUMEX_PUBLIC_API
-lumex::path
-lumex::path::parent_path () const
+path
+path::parent_path () const
 {
   if (m_path.empty () || m_path == "." || m_path == "..")
     {
@@ -383,7 +383,7 @@ lumex::path::parent_path () const
 
 LUMEX_PUBLIC_API
 std::size_t
-lumex::path::find_extension_pos () const
+path::find_extension_pos () const
 {
   std::size_t filename_pos = find_filename_pos ();
   if (static_cast<string_type::size_type> (filename_pos) == string_type::npos)
@@ -402,8 +402,8 @@ lumex::path::find_extension_pos () const
 }
 
 LUMEX_PUBLIC_API
-lumex::path
-lumex::path::extension () const
+path
+path::extension () const
 {
   std::size_t pos = find_extension_pos ();
   if (static_cast<string_type::size_type> (pos) == string_type::npos)
@@ -418,8 +418,8 @@ lumex::path::extension () const
 }
 
 LUMEX_PUBLIC_API
-lumex::path
-lumex::path::stem () const
+path
+path::stem () const
 {
   std::size_t filename_pos = find_filename_pos ();
   if (static_cast<string_type::size_type> (filename_pos) == string_type::npos)
@@ -433,22 +433,22 @@ lumex::path::stem () const
 }
 
 LUMEX_PUBLIC_API
-lumex::path &
-lumex::path::replace_extension (char const *ext)
+path &
+path::replace_extension (char const *ext)
 {
   return replace_extension (path (ext));
 }
 
 LUMEX_PUBLIC_API
-lumex::path &
-lumex::path::replace_extension (std::string const &ext)
+path &
+path::replace_extension (std::string const &ext)
 {
   return replace_extension (path (ext));
 }
 
 LUMEX_PUBLIC_API
-lumex::path &
-lumex::path::replace_extension (path const &ext)
+path &
+path::replace_extension (path const &ext)
 {
   std::size_t pos = find_extension_pos ();
   if (static_cast<string_type::size_type> (pos) != string_type::npos)
@@ -465,8 +465,8 @@ lumex::path::replace_extension (path const &ext)
 }
 
 LUMEX_PUBLIC_API
-lumex::path &
-lumex::path::remove_filename ()
+path &
+path::remove_filename ()
 {
   std::size_t pos = find_filename_pos ();
   if (static_cast<string_type::size_type> (pos) != string_type::npos
@@ -491,22 +491,22 @@ lumex::path::remove_filename ()
 }
 
 LUMEX_PUBLIC_API
-lumex::path &
-lumex::path::replace_filename (char const *filename)
+path &
+path::replace_filename (char const *filename)
 {
   return replace_filename (path (filename));
 }
 
 LUMEX_PUBLIC_API
-lumex::path &
-lumex::path::replace_filename (std::string const &filename)
+path &
+path::replace_filename (std::string const &filename)
 {
   return replace_filename (path (filename));
 }
 
 LUMEX_PUBLIC_API
-lumex::path &
-lumex::path::replace_filename (path const &replacement)
+path &
+path::replace_filename (path const &replacement)
 {
   remove_filename ();
   return operator/= (replacement);
@@ -514,7 +514,7 @@ lumex::path::replace_filename (path const &replacement)
 
 LUMEX_PUBLIC_API
 bool
-lumex::path::is_absolute () const
+path::is_absolute () const
 {
 #if defined(LUMEX_OS_WINDOWS)
   // Native Windows: both a root-name (C: or UNC) and a root-directory.
@@ -527,7 +527,7 @@ lumex::path::is_absolute () const
 
 LUMEX_PUBLIC_API
 bool
-lumex::path::has_filename () const
+path::has_filename () const
 {
   if (m_path.empty () || m_path == "." || m_path == "..")
     return false;
@@ -538,7 +538,7 @@ lumex::path::has_filename () const
 
 LUMEX_PUBLIC_API
 bool
-lumex::path::has_extension () const
+path::has_extension () const
 {
   return static_cast<string_type::size_type> (find_extension_pos ())
          != string_type::npos;
@@ -546,14 +546,14 @@ lumex::path::has_extension () const
 
 LUMEX_PUBLIC_API
 bool
-lumex::path::has_parent_path () const
+path::has_parent_path () const
 {
   return !parent_path ().empty ();
 }
 
 LUMEX_PUBLIC_API
 bool
-lumex::path::has_root_directory () const
+path::has_root_directory () const
 {
 #if defined(LUMEX_OS_WINDOWS)
   if (m_path.length () >= 3 && std::isalpha (m_path[0]) != 0
@@ -571,8 +571,8 @@ lumex::path::has_root_directory () const
 }
 
 LUMEX_PUBLIC_API
-lumex::path
-lumex::path::root_directory () const
+path
+path::root_directory () const
 {
   if (!has_root_directory ())
     return {};
@@ -602,14 +602,14 @@ lumex::path::root_directory () const
 
 LUMEX_PUBLIC_API
 std::wstring
-lumex::path::wstring () const
+path::wstring () const
 {
   return lumex_filesystem::to_wide_string (m_path);
 }
 
 LUMEX_PUBLIC_API
-lumex::path
-lumex::path::root_name () const
+path
+path::root_name () const
 {
 #if defined(LUMEX_OS_WINDOWS)
   // Windows: root name is drive letter or UNC server/share
@@ -635,8 +635,8 @@ lumex::path::root_name () const
 }
 
 LUMEX_PUBLIC_API
-lumex::path
-lumex::path::root_path () const
+path
+path::root_path () const
 {
   path rnp = root_name ();
   path rdp = root_directory ();
@@ -650,8 +650,8 @@ lumex::path::root_path () const
 }
 
 LUMEX_PUBLIC_API
-lumex::path
-lumex::path::relative_path () const
+path
+path::relative_path () const
 {
   path rpp = root_path ();
   if (rpp.empty ())
@@ -661,28 +661,28 @@ lumex::path::relative_path () const
 
 LUMEX_PUBLIC_API
 bool
-lumex::path::has_root_name () const
+path::has_root_name () const
 {
   return !root_name ().empty ();
 }
 
 LUMEX_PUBLIC_API
 bool
-lumex::path::has_root_path () const
+path::has_root_path () const
 {
   return !root_path ().empty ();
 }
 
 LUMEX_PUBLIC_API
 bool
-lumex::path::has_relative_path () const
+path::has_relative_path () const
 {
   return !relative_path ().empty ();
 }
 
 LUMEX_PUBLIC_API
 bool
-lumex::path::has_stem () const
+path::has_stem () const
 {
   return !stem ().empty ();
 }
@@ -734,7 +734,7 @@ lumex_filesystem::is_regular_file (path const &path_arg)
 }
 
 LUMEX_PUBLIC_API
-lumex::filesystem_result<bool>
+filesystem_result<bool>
 lumex_filesystem::create_directory (path const &path_arg)
 {
 #if defined(LUMEX_OS_WINDOWS)
@@ -754,7 +754,7 @@ lumex_filesystem::create_directory (path const &path_arg)
 }
 
 LUMEX_PUBLIC_API
-lumex::filesystem_result<lumex::path>
+filesystem_result<path>
 lumex_filesystem::current_path ()
 {
 #if defined(LUMEX_OS_WINDOWS)
@@ -773,7 +773,7 @@ lumex_filesystem::current_path ()
 }
 
 LUMEX_PUBLIC_API
-lumex::filesystem_result<void>
+filesystem_result<void>
 lumex_filesystem::current_path (path const &path_arg)
 {
 #if defined(LUMEX_OS_WINDOWS)
@@ -793,10 +793,10 @@ namespace detail
 #if defined(LUMEX_OS_WINDOWS)
 // Renamed and updated to apply permissions rather than just convert
 static DWORD
-apply_perms_to_windows_attributes (DWORD existing_attrs, lumex::perms prms)
+apply_perms_to_windows_attributes (DWORD existing_attrs, perms prms)
 {
   DWORD new_attrs = existing_attrs;
-  if ((prms & lumex::perms::owner_write) == lumex::perms::none)
+  if ((prms & perms::owner_write) == perms::none)
     new_attrs |= FILE_ATTRIBUTE_READONLY; // If write not allowed, set readonly
   else
     new_attrs
@@ -805,9 +805,9 @@ apply_perms_to_windows_attributes (DWORD existing_attrs, lumex::perms prms)
 }
 #else
 static mode_t
-perms_to_posix_mode (lumex::perms prms)
+perms_to_posix_mode (perms prms)
 {
-  return static_cast<mode_t> (prms & lumex::perms::mask);
+  return static_cast<mode_t> (prms & perms::mask);
 }
 #endif
 } // namespace detail
@@ -815,7 +815,7 @@ perms_to_posix_mode (lumex::perms prms)
 // ---------------- Low-level status helpers --------------------
 #if defined(LUMEX_OS_WINDOWS)
 LUMEX_PUBLIC_API
-lumex::filesystem_result<lumex::file_status>
+filesystem_result<file_status>
 lumex_filesystem::get_file_status_windows (path const &path_arg, bool follow)
 {
   WIN32_FILE_ATTRIBUTE_DATA data;
@@ -847,7 +847,7 @@ lumex_filesystem::get_file_status_windows (path const &path_arg, bool follow)
 }
 #else
 LUMEX_PUBLIC_API
-lumex::filesystem_result<lumex::file_status>
+filesystem_result<file_status>
 lumex_filesystem::get_file_status_posix (path const &path_arg, bool follow)
 {
   struct stat stt;
@@ -879,7 +879,7 @@ lumex_filesystem::get_file_status_posix (path const &path_arg, bool follow)
 
 // ---------------- public status helpers -----------------------
 LUMEX_PUBLIC_API
-lumex::filesystem_result<lumex::file_status>
+filesystem_result<file_status>
 lumex_filesystem::status (path const &path_arg)
 {
 #if defined(LUMEX_OS_WINDOWS)
@@ -890,7 +890,7 @@ lumex_filesystem::status (path const &path_arg)
 }
 
 LUMEX_PUBLIC_API
-lumex::filesystem_result<lumex::file_status>
+filesystem_result<file_status>
 lumex_filesystem::symlink_status (path const &path_arg)
 {
 #if defined(LUMEX_OS_WINDOWS)
@@ -961,7 +961,7 @@ lumex_filesystem::is_empty (path const &path_arg)
 
 // ---------------- copy operations -----------------------------
 LUMEX_PUBLIC_API
-lumex::filesystem_result<void>
+filesystem_result<void>
 lumex_filesystem::copy (path const &from, path const &to_)
 {
   // Step 1: Check if the source 'from' is a directory.
@@ -1007,7 +1007,7 @@ lumex_filesystem::copy (path const &from, path const &to_)
 }
 
 LUMEX_PUBLIC_API
-lumex::filesystem_result<void>
+filesystem_result<void>
 lumex_filesystem::copy_file (path const &from, path const &to_)
 {
 #if defined(LUMEX_OS_WINDOWS)
@@ -1046,7 +1046,7 @@ lumex_filesystem::copy_file (path const &from, path const &to_)
 }
 
 LUMEX_PUBLIC_API
-lumex::filesystem_result<void>
+filesystem_result<void>
 lumex_filesystem::copy_symlink (path const &from, path const &to_)
 {
 #if defined(LUMEX_OS_WINDOWS)
@@ -1069,7 +1069,7 @@ lumex_filesystem::copy_symlink (path const &from, path const &to_)
 
 // ---------------- directory helpers ---------------------------
 LUMEX_PUBLIC_API
-lumex::filesystem_result<bool>
+filesystem_result<bool>
 lumex_filesystem::create_directories (path const &path_arg)
 {
   if (path_arg.empty ())
@@ -1087,7 +1087,7 @@ lumex_filesystem::create_directories (path const &path_arg)
 }
 
 LUMEX_PUBLIC_API
-lumex::filesystem_result<bool>
+filesystem_result<bool>
 lumex_filesystem::remove (path const &path_arg)
 {
   // If file doesn't exist, return success with false
@@ -1135,7 +1135,7 @@ lumex_filesystem::remove (path const &path_arg)
 }
 
 LUMEX_PUBLIC_API
-lumex::filesystem_result<std::uintmax_t>
+filesystem_result<std::uintmax_t>
 lumex_filesystem::remove_all (path const &path_arg)
 {
   if (!exists (path_arg))
@@ -1160,7 +1160,7 @@ lumex_filesystem::remove_all (path const &path_arg)
 }
 
 LUMEX_PUBLIC_API
-lumex::filesystem_result<std::uintmax_t>
+filesystem_result<std::uintmax_t>
 lumex_filesystem::file_size (path const &path_arg)
 {
 #if defined(LUMEX_OS_WINDOWS)
@@ -1192,7 +1192,7 @@ lumex_filesystem::file_size (path const &path_arg)
 }
 
 LUMEX_PUBLIC_API
-lumex::filesystem_result<std::time_t>
+filesystem_result<std::time_t>
 lumex_filesystem::last_write_time (path const &path_arg)
 {
 #if defined(LUMEX_OS_WINDOWS)
@@ -1227,7 +1227,7 @@ lumex_filesystem::last_write_time (path const &path_arg)
 }
 
 LUMEX_PUBLIC_API
-lumex::filesystem_result<void>
+filesystem_result<void>
 lumex_filesystem::last_write_time (path const &path_arg, std::time_t new_time)
 {
 #if defined(LUMEX_OS_WINDOWS)
@@ -1259,7 +1259,7 @@ lumex_filesystem::last_write_time (path const &path_arg, std::time_t new_time)
 }
 
 LUMEX_PUBLIC_API
-lumex::filesystem_result<void>
+filesystem_result<void>
 lumex_filesystem::permissions (path const &path_arg, perms prms)
 {
 #if defined(LUMEX_OS_WINDOWS)
@@ -1281,7 +1281,7 @@ lumex_filesystem::permissions (path const &path_arg, perms prms)
 }
 
 LUMEX_PUBLIC_API
-lumex::filesystem_result<lumex::path>
+filesystem_result<path>
 lumex_filesystem::read_symlink (path const &path_arg)
 {
 #if defined(LUMEX_OS_WINDOWS)
@@ -1306,7 +1306,7 @@ lumex_filesystem::read_symlink (path const &path_arg)
 
 // --------- space info & temp directory -----------------
 LUMEX_PUBLIC_API
-lumex::filesystem_result<lumex::space_info>
+filesystem_result<space_info>
 lumex_filesystem::space (path const &path_arg)
 {
 #if defined(LUMEX_OS_WINDOWS)
@@ -1353,7 +1353,7 @@ public:
 };
 
 LUMEX_PUBLIC_API
-lumex::directory_iterator::directory_iterator (path const &path_arg)
+directory_iterator::directory_iterator (path const &path_arg)
     : m_impl (new Impl)
 {
   m_impl->base = path_arg;
@@ -1377,50 +1377,49 @@ lumex::directory_iterator::directory_iterator (path const &path_arg)
 }
 
 LUMEX_PUBLIC_API
-lumex::directory_iterator::directory_iterator (directory_iterator const &other)
+directory_iterator::directory_iterator (directory_iterator const &other)
     : m_impl (other.m_impl)
 {
 }
 
 LUMEX_PUBLIC_API
-lumex::directory_iterator &
-lumex::directory_iterator::operator= (directory_iterator const &other)
+directory_iterator &
+directory_iterator::operator= (directory_iterator const &other)
 {
   m_impl = other.m_impl;
   return *this;
 }
 
 LUMEX_PUBLIC_API
-lumex::directory_iterator::directory_iterator (directory_iterator &&other)
+directory_iterator::directory_iterator (directory_iterator &&other)
     LUMEX_NOEXCEPT : m_impl (std::move (other.m_impl))
 {
 }
 
 LUMEX_PUBLIC_API
-lumex::directory_iterator &
-lumex::directory_iterator::operator= (directory_iterator &&other)
-    LUMEX_NOEXCEPT
+directory_iterator &
+directory_iterator::operator= (directory_iterator &&other) LUMEX_NOEXCEPT
 {
   m_impl = std::move (other.m_impl);
   return *this;
 }
 
-LUMEX_PUBLIC_API lumex::directory_iterator::reference
-lumex::directory_iterator::operator* () const
+LUMEX_PUBLIC_API directory_iterator::reference
+directory_iterator::operator* () const
 {
   return m_impl->current;
 }
 
 LUMEX_PUBLIC_API
-lumex::directory_iterator::pointer
-lumex::directory_iterator::operator->() const
+directory_iterator::pointer
+directory_iterator::operator->() const
 {
   return &m_impl->current;
 }
 
 LUMEX_PUBLIC_API
-lumex::directory_iterator &
-lumex::directory_iterator::operator++ ()
+directory_iterator &
+directory_iterator::operator++ ()
 {
   if (!m_impl)
     return *this;
@@ -1464,24 +1463,24 @@ lumex::directory_iterator::operator++ ()
 }
 
 LUMEX_PUBLIC_API
-lumex::directory_iterator
-lumex::directory_iterator::operator++ (int)
+directory_iterator
+directory_iterator::operator++ (int)
 {
-  lumex::directory_iterator tmp (*this);
+  directory_iterator tmp (*this);
   ++*this;
   return tmp;
 }
 
 LUMEX_PUBLIC_API
 bool
-lumex::directory_iterator::operator== (directory_iterator const &rhs) const
+directory_iterator::operator== (directory_iterator const &rhs) const
 {
   return m_impl == rhs.m_impl;
 }
 
 LUMEX_PUBLIC_API
 bool
-lumex::directory_iterator::operator!= (directory_iterator const &rhs) const
+directory_iterator::operator!= (directory_iterator const &rhs) const
 {
   return !(*this == rhs);
 }
@@ -1495,7 +1494,7 @@ directory_entry::directory_entry (fs::path const &path_arg)
 
 LUMEX_PUBLIC_API
 void
-lumex::directory_entry::refresh_status () const
+directory_entry::refresh_status () const
 {
   m_status = lumex_filesystem::status (m_path).value ();
   m_status_known = true;
@@ -1503,145 +1502,145 @@ lumex::directory_entry::refresh_status () const
 
 LUMEX_PUBLIC_API
 bool
-lumex::directory_entry::exists () const
+directory_entry::exists () const
 {
   return lumex_filesystem::exists (m_path);
 }
 
 LUMEX_PUBLIC_API
 bool
-lumex::directory_entry::is_regular_file () const
+directory_entry::is_regular_file () const
 {
   return lumex_filesystem::is_regular_file (m_path);
 }
 
 LUMEX_PUBLIC_API
 bool
-lumex::directory_entry::is_directory () const
+directory_entry::is_directory () const
 {
   return lumex_filesystem::is_directory (m_path);
 }
 
 LUMEX_PUBLIC_API
 bool
-lumex::directory_entry::is_symlink () const
+directory_entry::is_symlink () const
 {
   return lumex_filesystem::is_symlink (m_path);
 }
 
 LUMEX_PUBLIC_API
 bool
-lumex::directory_entry::is_block_file () const
+directory_entry::is_block_file () const
 {
   return lumex_filesystem::is_block_file (m_path);
 }
 
 LUMEX_PUBLIC_API
 bool
-lumex::directory_entry::is_character_file () const
+directory_entry::is_character_file () const
 {
   return lumex_filesystem::is_character_file (m_path);
 }
 
 LUMEX_PUBLIC_API
 bool
-lumex::directory_entry::is_fifo () const
+directory_entry::is_fifo () const
 {
   return lumex_filesystem::is_fifo (m_path);
 }
 
 LUMEX_PUBLIC_API
 bool
-lumex::directory_entry::is_socket () const
+directory_entry::is_socket () const
 {
   return lumex_filesystem::is_socket (m_path);
 }
 
 LUMEX_PUBLIC_API
 bool
-lumex::directory_entry::is_other () const
+directory_entry::is_other () const
 {
   return lumex_filesystem::is_other (m_path);
 }
 
 LUMEX_PUBLIC_API
 std::uintmax_t
-lumex::directory_entry::file_size () const
+directory_entry::file_size () const
 {
   return lumex_filesystem::file_size (m_path).value ();
 }
 
 LUMEX_PUBLIC_API
-lumex::file_status
-lumex::directory_entry::status () const
+file_status
+directory_entry::status () const
 {
   return lumex_filesystem::status (m_path).value ();
 }
 
 LUMEX_PUBLIC_API
-lumex::file_status
-lumex::directory_entry::symlink_status () const
+file_status
+directory_entry::symlink_status () const
 {
   return lumex_filesystem::symlink_status (m_path).value ();
 }
 
 LUMEX_PUBLIC_API
 bool
-lumex::directory_entry::operator== (directory_entry const &rhs) const
+directory_entry::operator== (directory_entry const &rhs) const
 {
   return m_path == rhs.m_path;
 }
 
 LUMEX_PUBLIC_API
 bool
-lumex::directory_entry::operator!= (directory_entry const &rhs) const
+directory_entry::operator!= (directory_entry const &rhs) const
 {
   return !(*this == rhs);
 }
 
 LUMEX_PUBLIC_API
 bool
-lumex::directory_entry::operator< (directory_entry const &rhs) const
+directory_entry::operator< (directory_entry const &rhs) const
 {
   return m_path < rhs.m_path;
 }
 
 LUMEX_PUBLIC_API
 bool
-lumex::directory_entry::operator<= (directory_entry const &rhs) const
+directory_entry::operator<= (directory_entry const &rhs) const
 {
   return !(rhs < *this);
 }
 
 LUMEX_PUBLIC_API
 bool
-lumex::directory_entry::operator> (directory_entry const &rhs) const
+directory_entry::operator> (directory_entry const &rhs) const
 {
   return rhs < *this;
 }
 
 LUMEX_PUBLIC_API
 bool
-lumex::directory_entry::operator>= (directory_entry const &rhs) const
+directory_entry::operator>= (directory_entry const &rhs) const
 {
   return !(*this < rhs);
 }
 
 LUMEX_PUBLIC_API
-std::vector<lumex::directory_entry>
+std::vector<directory_entry>
 lumex_filesystem::directory_contents (path const &path_arg)
 {
-  std::vector<lumex::directory_entry> out;
+  std::vector<directory_entry> out;
   for (directory_iterator it (path_arg); it != directory_iterator (); ++it)
     out.push_back (*it);
   return out;
 }
 
 LUMEX_PUBLIC_API
-lumex::filesystem_result<std::vector<lumex::path>>
+filesystem_result<std::vector<path>>
 lumex_filesystem::directory_paths (path const &path_arg)
 {
-  std::vector<lumex::path> paths;
+  std::vector<path> paths;
 
   // IMPORTANT FIX(Test: Filesystem_DirectoryPaths_PathIsFile):
   // Ensure the path_arg exists and is a directory BEFORE iterating.
@@ -1680,7 +1679,7 @@ lumex_filesystem::equivalent (path const &path1, path const &path2)
 }
 
 LUMEX_PUBLIC_API
-lumex::path
+path
 lumex_filesystem::absolute (path const &path_arg)
 {
   if (path_arg.is_absolute ())
@@ -1690,7 +1689,7 @@ lumex_filesystem::absolute (path const &path_arg)
 }
 
 LUMEX_PUBLIC_API
-lumex::filesystem_result<void>
+filesystem_result<void>
 lumex_filesystem::create_symlink (path const &target, path const &link)
 {
 #if defined(LUMEX_OS_WINDOWS)
@@ -1713,7 +1712,7 @@ lumex_filesystem::create_symlink (path const &target, path const &link)
 }
 
 LUMEX_PUBLIC_API
-lumex::filesystem_result<void>
+filesystem_result<void>
 lumex_filesystem::create_directory_symlink (path const &target,
                                             path const &link)
 {
@@ -1732,7 +1731,7 @@ lumex_filesystem::create_directory_symlink (path const &target,
 }
 
 LUMEX_PUBLIC_API
-lumex::path
+path
 lumex_filesystem::canonical (path const &path_arg)
 {
 #if defined(LUMEX_OS_WINDOWS)
@@ -1751,7 +1750,7 @@ lumex_filesystem::canonical (path const &path_arg)
 }
 
 LUMEX_PUBLIC_API
-lumex::path
+path
 lumex_filesystem::weakly_canonical (path const &path_arg)
 {
   // Try canonical, fallback to absolute if fails
@@ -1762,7 +1761,7 @@ lumex_filesystem::weakly_canonical (path const &path_arg)
 }
 
 LUMEX_PUBLIC_API
-lumex::path
+path
 lumex_filesystem::relative (path const &path_arg, path const &base)
 {
   // Simple implementation: if p is absolute and starts with base, strip base
@@ -1794,7 +1793,7 @@ lumex_filesystem::relative (path const &path_arg, path const &base)
 }
 
 LUMEX_PUBLIC_API
-lumex::path
+path
 lumex_filesystem::proximate (path const &path_arg, path const &base)
 {
   // proximate: like relative, but if not possible, return p
@@ -1805,7 +1804,7 @@ lumex_filesystem::proximate (path const &path_arg, path const &base)
 }
 
 LUMEX_PUBLIC_API
-lumex::filesystem_result<void>
+filesystem_result<void>
 lumex_filesystem::rename (path const &from, path const &to_)
 {
 #if defined(LUMEX_OS_WINDOWS)
@@ -1821,7 +1820,7 @@ lumex_filesystem::rename (path const &from, path const &to_)
 }
 
 LUMEX_PUBLIC_API
-lumex::filesystem_result<void>
+filesystem_result<void>
 lumex_filesystem::resize_file (path const &path_arg, std::uintmax_t new_size)
 {
 #if defined(LUMEX_OS_WINDOWS)
@@ -1848,7 +1847,7 @@ lumex_filesystem::resize_file (path const &path_arg, std::uintmax_t new_size)
 }
 
 LUMEX_PUBLIC_API
-lumex::filesystem_result<void>
+filesystem_result<void>
 lumex_filesystem::move_file (path const &from, path const &to_path)
 {
 #if defined(LUMEX_OS_WINDOWS)
@@ -1893,7 +1892,7 @@ lumex_filesystem::move_file (path const &from, path const &to_path)
 }
 
 LUMEX_PUBLIC_API
-lumex::filesystem_result<void>
+filesystem_result<void>
 lumex_filesystem::move_directory (path const &from, path const &to_path)
 {
   // Basic validation
@@ -1937,7 +1936,7 @@ lumex_filesystem::move_directory (path const &from, path const &to_path)
 }
 
 LUMEX_PUBLIC_API
-lumex::filesystem_result<lumex::path>
+filesystem_result<path>
 lumex_filesystem::temp_directory_path ()
 {
 #if defined(LUMEX_OS_WINDOWS)
@@ -2007,7 +2006,7 @@ lumex_filesystem::from_wide_string (std::wstring const &wstr)
 }
 
 LUMEX_PUBLIC_API
-lumex::path
+path
 lumex_filesystem::get_exe_path ()
 {
   try
@@ -2045,7 +2044,7 @@ lumex_filesystem::get_exe_path ()
 
 LUMEX_PUBLIC_API
 void
-lumex_filesystem::lock_directory (lumex::path const &path_arg)
+lumex_filesystem::lock_directory (path const &path_arg)
 {
   try
     {
@@ -2091,7 +2090,7 @@ lumex_filesystem::lock_directory (lumex::path const &path_arg)
 
 LUMEX_PUBLIC_API
 bool
-lumex_filesystem::is_readable (lumex::path const &path_arg)
+lumex_filesystem::is_readable (path const &path_arg)
 {
   try
     {
@@ -2143,7 +2142,7 @@ lumex_filesystem::is_readable (lumex::path const &path_arg)
 
 LUMEX_PUBLIC_API
 bool
-lumex_filesystem::is_writable (lumex::path const &path_arg)
+lumex_filesystem::is_writable (path const &path_arg)
 {
   try
     {
@@ -2195,7 +2194,7 @@ lumex_filesystem::is_writable (lumex::path const &path_arg)
 
 LUMEX_PUBLIC_API
 bool
-lumex_filesystem::is_accessible (lumex::path const &path_arg)
+lumex_filesystem::is_accessible (path const &path_arg)
 {
   std::clog << "Checking if path_arg '" << path_arg
             << "' is accessible by the current "

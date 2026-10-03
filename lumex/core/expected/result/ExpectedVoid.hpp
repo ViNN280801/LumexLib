@@ -158,8 +158,6 @@ public:
    * @details Creates an `Expected` in the success state (`m_has_value =
    * true`). This constructor states that the object must be created in the
    * success state with no value, using the `in_place_tag` tag.
-   * @param[in] unused `in_place_tag` that selects this constructor. Unused in
-   * the function body.
    * @note Guaranteed not to throw (`noexcept`).
    */
   LUMEX_CONSTEXPR_CTOR explicit Expected (in_place_tag /* unused */)
@@ -205,12 +203,10 @@ public:
   }
 
   /**
-   * @brief Move constructor for `Expected<void, ErrorType>` specialization.
-   * @details Creates a new `Expected` by moving the state and, if `other`
-   * holds an error, moves that error. If `other` is in the success state
-   * (`void`), the new object is also in the success state. After the call,
-   * `other` remains valid but unspecified.
-   * @param[in] other `Expected<void, ErrorType>` object moved from.
+   * @brief Constructs an `Expected<void, ErrorType>` in the error state from
+   * an `Unexpected` rvalue.
+   * @details Move-constructs the stored error from `unexp.error()`.
+   * @param[in] unexp The `Unexpected` whose error is moved from.
    * @note This constructor is conditionally `noexcept` if the `ErrorType` move
    * constructor does not throw.
    * @throws May throw if the `ErrorType` move constructor throws.

@@ -484,11 +484,17 @@ struct all_ostreamable<First, Rest...>
 };
 
 #if __cplusplus >= 201402L
-/** @brief `is_ostreamable<std::decay_t<T>>::value`. */
+/**
+ * @brief Shorthand for
+ * <tt>is_ostreamable\<std::decay_t\<T\>\>\::value</tt>.
+ */
 template <typename T>
 LUMEX_CONSTEXPR bool is_ostreamable_v = is_ostreamable<std::decay_t<T>>::value;
 
-/** @brief `all_ostreamable<Args...>::value`. */
+/**
+ * @brief Shorthand for
+ * <tt>all_ostreamable\<Args...\>\::value</tt>.
+ */
 template <typename... Args>
 LUMEX_CONSTEXPR bool all_ostreamable_v = all_ostreamable<Args...>::value;
 #endif
@@ -591,11 +597,17 @@ struct all_streamable<First, Rest...>
 };
 
 #if __cplusplus >= 201402L
-/** @brief `is_streamable<std::decay_t<T>>::value`. */
+/**
+ * @brief Shorthand for
+ * <tt>is_streamable\<std::decay_t\<T\>\>\::value</tt>.
+ */
 template <typename T>
 LUMEX_CONSTEXPR bool is_streamable_v = is_streamable<std::decay_t<T>>::value;
 
-/** @brief `all_streamable<Args...>::value`. */
+/**
+ * @brief Shorthand for
+ * <tt>all_streamable\<Args...\>\::value</tt>.
+ */
 template <typename... Args>
 LUMEX_CONSTEXPR bool all_streamable_v = all_streamable<Args...>::value;
 #endif
@@ -635,8 +647,8 @@ concept AllStringifiable = ((Streamable<std::decay_t<Args>>
 namespace range
 {
 /**
- * @brief `type` is what `*std::begin(range)` yields for a `Range const &`
- * that has `std::begin`, `std::end`, `!=` and `++`; absent otherwise, so it
+ * @brief `type` is what <tt>*std\::begin(range)</tt> yields for a `Range const
+ * &` that has `std::begin`, `std::end`, `!=` and `++`; absent otherwise, so it
  * can drive SFINAE.
  */
 template <typename Range, typename Enable = void> struct range_reference

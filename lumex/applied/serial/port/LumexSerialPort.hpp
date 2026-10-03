@@ -46,8 +46,8 @@
  * serial ports (`COM1` vs.
  *          `/dev/ttyUSB0` vs. `/dev/serial/by-id/...`), plus a couple of
  * historical fallback quirks (see @ref
- * lumex::applied::serial::resolve_serial_port_path for the full list) that
- * keep a slightly malformed configuration value from failing outright.
+ * lumex::applied::serial::port::resolve_serial_port_path for the full list)
+ * that keep a slightly malformed configuration value from failing outright.
  */
 #ifndef LUMEX_APPLIED_SERIAL_PORT_HPP
 #define LUMEX_APPLIED_SERIAL_PORT_HPP

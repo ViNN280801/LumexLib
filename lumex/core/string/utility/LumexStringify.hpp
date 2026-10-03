@@ -82,13 +82,13 @@ operator<< (std::ostream &ostream, std::shared_ptr<T> const &ptr)
   return ostream << ptr.get ();
 }
 
-#if LUMEX_HAS_CONCEPTS
-
 /**
  * @brief Concatenates the streamed text of `args`.
  * @return The text, or an empty string for no arguments.
  * @note O(total length of the text).
  */
+#if LUMEX_HAS_CONCEPTS
+
 template <
     lumex::core::utility::traits::stream::detail::AllStringifiable... Args>
 std::string
@@ -105,7 +105,6 @@ stringify (Args &&...args)
 
 #elif __cplusplus >= 201703L
 
-/** @copydoc stringify */
 template <typename... Args>
 std::string
 stringify (Args &&...args)
@@ -125,7 +124,6 @@ stringify (Args &&...args)
 
 #elif __cplusplus >= 201402L
 
-/** @copydoc stringify */
 template <typename... Args>
 std::string
 stringify (Args &&...args)
@@ -142,7 +140,6 @@ stringify (Args &&...args)
 
 #else
 
-/** @copydoc stringify */
 template <typename... Args>
 std::string
 stringify (Args &&...args)

@@ -311,8 +311,10 @@ public:
     return _get_string (config, key, default_value, section);
   }
 
-  /** @copydoc get_value(nlohmann::json const&, char const*, char const*,
-   * std::string const&) */
+  /**
+   * @brief `get_value` for a `std::string` key and a string literal default;
+   * returns `std::string`.
+   */
   static std::string
   get_value (nlohmann::json const &config, std::string const &key,
              char const *default_value,

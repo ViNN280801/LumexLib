@@ -1,6 +1,6 @@
 # Versioning
 
-A LumexLib version has four components, `MAJOR.MINOR.PATCH.TWEAK`, set in one place: `project(LumexLib VERSION ...)` in the root `CMakeLists.txt`. A release is a commit tagged `vMAJOR.MINOR.PATCH.TWEAK`, with a dated section in [CHANGELOG.md](CHANGELOG.md) and a GitHub release. These rules apply from 2026-10-03; the releases made before them are listed at the end.
+A LumexLib version has four components, `MAJOR.MINOR.PATCH.TWEAK`, set in one place: `project(LumexLib VERSION ...)` in the root `CMakeLists.txt`. A release is a commit tagged `vMAJOR.MINOR.PATCH.TWEAK`, with a dated section in [CHANGELOG.md](https://github.com/ViNN280801/LumexCore/blob/develop/CHANGELOG.md) and a GitHub release. These rules apply from 2026-10-03; the releases made before them are listed at the end.
 
 ## What raises which component
 

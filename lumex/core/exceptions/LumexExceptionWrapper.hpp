@@ -210,6 +210,7 @@ report_line (std::string const &line) LUMEX_NOEXCEPT
 
 /**
  * @brief Builds "prefix. Reason: what" and reports it.
+ * @param prefix The text the message starts with.
  * @param whatMsg May be `nullptr`; then the reason is
  * `<unknown exception message>`.
  */
@@ -251,7 +252,7 @@ report_exception (std::string const &prefix,
  * @param args Arguments forwarded to `func`.
  * @return Whatever `func(args...)` returns on success; a value-initialized
  * default
- *         (`lumex::core::utility::traits::meta::default_return<ReturnType>::value()`)
+ *         (<tt>lumex::core::utility::traits::meta::default_return\<ReturnType\>\::value()</tt>)
  * if it throws.
  *
  * @note `noexcept` is conditional on whether the wrapped call itself is

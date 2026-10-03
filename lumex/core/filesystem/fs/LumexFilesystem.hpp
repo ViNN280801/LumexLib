@@ -599,10 +599,10 @@ public:
   /**
    * @brief Appends another `path` object as a sub-path using the path
    * concatenation operator (`/=`).
-   * @param path_arg The `path_arg` object to append.
+   * @param path_arg The path to append.
    * @return A reference to the modified `*this` object.
    */
-  path &operator/= (path const &);
+  path &operator/= (path const &path_arg);
   /**
    * @brief Appends a `std::string` as a sub-path_arg using the path_arg
    * concatenation operator (`/=`).
@@ -610,7 +610,7 @@ public:
    * append.
    * @return A reference to the modified `*this` object.
    */
-  path &operator/= (string_type const &);
+  path &operator/= (string_type const &path_arg);
   /**
    * @brief Appends a C-style string as a sub-path_arg using the path_arg
    * concatenation operator (`/=`).
@@ -618,7 +618,7 @@ public:
    * component to append.
    * @return A reference to the modified `*this` object.
    */
-  path &operator/= (char const *);
+  path &operator/= (char const *path_arg);
 
   /**
    * @brief Concatenates another `path_arg` object directly to the end of the
@@ -627,28 +627,28 @@ public:
    * appended.
    * @return A reference to the modified `*this` object.
    */
-  path &operator+= (path const &);
+  path &operator+= (path const &path_arg);
   /**
    * @brief Concatenates a `std::string` directly to the end of the current
    * path_arg string.
    * @param path_arg The `std::string` to append.
    * @return A reference to the modified `*this` object.
    */
-  path &operator+= (string_type const &);
+  path &operator+= (string_type const &path_arg);
   /**
    * @brief Concatenates a C-style string directly to the end of the current
    * path_arg string.
    * @param path_arg The null-terminated C-string to append.
    * @return A reference to the modified `*this` object.
    */
-  path &operator+= (char const *);
+  path &operator+= (char const *path_arg);
   /**
    * @brief Concatenates a single character directly to the end of the current
    * path_arg string.
    * @param chr The character to append.
    * @return A reference to the modified `*this` object.
    */
-  path &operator+= (value_type);
+  path &operator+= (value_type chr);
 
   // =================== Modifiers ===================
   /**
@@ -963,7 +963,7 @@ public:
    * @brief Constructs a `file_status` object with a specified file type and
    * optional permissions.
    * @param type The `file_type` of the entry.
-   * @param perms The `perms` of the entry. Defaults to `perms::unknown`.
+   * @param p The `perms` of the entry. Defaults to `perms::unknown`.
    */
   explicit file_status (file_type type, perms p = perms::unknown)
       : m_type (type), m_perms (p)
@@ -1224,18 +1224,18 @@ public:
    * @note Initializes the iterator to point to the first entry. If the
    * directory cannot be opened, it becomes an end iterator.
    */
-  explicit directory_iterator (path const &);
+  explicit directory_iterator (path const &path_arg);
   /**
    * @brief Copy constructor. Copies the underlying shared state.
    * @param other The `directory_iterator` object to copy from.
    */
-  directory_iterator (directory_iterator const &);
+  directory_iterator (directory_iterator const &other);
   /**
    * @brief Move constructor. Moves the underlying shared state.
    * @param other The `directory_iterator` object to move from.
    * @note The moved-from object is left in a valid, but unspecified, state.
    */
-  directory_iterator (directory_iterator &&) LUMEX_NOEXCEPT;
+  directory_iterator (directory_iterator &&other) LUMEX_NOEXCEPT;
   /**
    * @brief Default destructor. Closes the directory handle/stream if open.
    */
@@ -1246,14 +1246,14 @@ public:
    * @param other The `directory_iterator` object to copy from.
    * @return A reference to `*this` after assignment.
    */
-  directory_iterator &operator= (directory_iterator const &);
+  directory_iterator &operator= (directory_iterator const &other);
   /**
    * @brief Move assignment operator. Moves the underlying shared state.
    * @param other The `directory_iterator` object to move from.
    * @return A reference to `*this` after assignment.
    * @note The moved-from object is left in a valid, but unspecified, state.
    */
-  directory_iterator &operator= (directory_iterator &&) LUMEX_NOEXCEPT;
+  directory_iterator &operator= (directory_iterator &&other) LUMEX_NOEXCEPT;
 
   // =================== Iterator operations ===================
   /**
@@ -1288,13 +1288,13 @@ public:
    * @return True if the iterators are equal (point to the same state), false
    * otherwise.
    */
-  bool operator== (directory_iterator const &) const;
+  bool operator== (directory_iterator const &rhs) const;
   /**
    * @brief Compares two `directory_iterator` objects for inequality.
    * @param rhs The right-hand side `directory_iterator` object.
    * @return True if the iterators are not equal, false otherwise.
    */
-  bool operator!= (directory_iterator const &) const;
+  bool operator!= (directory_iterator const &rhs) const;
 
 private:
   class Impl; ///< Forward declaration for the private implementation details.
@@ -1499,11 +1499,11 @@ public:
 
   /**
    * @brief Checks if two paths refer to the same file system entity.
-   * @param lhs The first `path_arg` object.
-   * @param rhs The second `path_arg` object.
+   * @param path1 The first path.
+   * @param path2 The second path.
    * @return True if the file types and sizes are equal, false otherwise.
    */
-  static bool equivalent (path const &, path const &);
+  static bool equivalent (path const &path1, path const &path2);
 
   /**
    * @brief Retrieves the size of a regular file in bytes.
@@ -1989,7 +1989,7 @@ operator/ (char const *lhs, path const &rhs)
 
 /**
  * @brief Checks if a file exists at the specified path
- * @param path path_arg to the file
+ * @param path_arg Path to the file
  * @return True if the file exists, false otherwise
  */
 LUMEX_PUBLIC_API

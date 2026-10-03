@@ -46,11 +46,11 @@
  * @details Provides LUMEX_OS_* macros for detecting operating systems
  *          Compatible with MSVC, GCC, and Clang compilers
  *
- * Info get from:
- * @link stackoverflow:
+ * Sources:
+ * @see Stack Overflow:
  * https://stackoverflow.com/questions/5919996/how-to-detect-reliably-mac-os-x-ios-linux-windows-in-c-preprocessor
- * @link Compiler macros: https://sourceforge.net/p/predef/wiki/Compilers/
- * @link Operating System macros:
+ * @see Compiler macros: https://sourceforge.net/p/predef/wiki/Compilers/
+ * @see Operating System macros:
  * https://sourceforge.net/p/predef/wiki/OperatingSystems/
  */
 

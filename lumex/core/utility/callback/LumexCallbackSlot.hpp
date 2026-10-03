@@ -129,6 +129,7 @@ public:
    * same `args` when the slot is empty or the installed function throws.
    * @param fallback Any callable taking `Args...` and returning something
    * convertible to `Result`. Its exceptions propagate to the caller.
+   * @param args The arguments for the installed function or for `fallback`.
    * @return What the called function returned.
    */
   template <typename Fallback>

@@ -212,7 +212,7 @@ FormatValue (T const &)
  *          value into a plain variable first:
  *          `auto tmp = s.bitField; LUMEX_VARINFO(tmp);`.
  * @note This function is not noexcept: besides exceptions from the
- *       type's own operator<< (if any), std::ostringstream/std::string
+ *       type's own operator<< (if any), `std::ostringstream` / `std::string`
  *       can throw bad_alloc/length_error on allocation failure, like
  *       any ordinary string handling in this codebase.
  * @note Requires only the standard library; on GCC/Clang additionally

@@ -72,7 +72,7 @@
  *          standards in earlier modes too, as extensions that `-Wpedantic`
  *          reports.
  *
- * @link The list and the values follow
+ * @see The list and the values follow
  * https://en.cppreference.com/w/cpp/feature_test (2026-09-30). Compiler
  * versions per feature: https://en.cppreference.com/w/cpp/compiler_support
  */

@@ -151,8 +151,8 @@ namespace circular_buffer
  *
  * @subsection allocator Allocator and swap
  * On `swap`, allocators are exchanged only if
- * `std::allocator_traits<Allocator>::propagate_on_container_swap::value ==
- * true`. Otherwise they are assumed equivalent; elements do not move.
+ * <tt>std::allocator_traits\<Allocator\>\::propagate_on_container_swap\::value</tt>
+ * is `true`. Otherwise they are assumed equivalent; elements do not move.
  */
 template <class T, class Allocator = std::allocator<T>> class CircularBuffer
 {
@@ -1326,9 +1326,9 @@ public:
    *
    * @details Swaps every element between this buffer and `other`.
    *          If
-   * `std::allocator_traits<Allocator>::propagate_on_container_swap::value` is
-   * `true`, allocators are swapped too. Otherwise allocators are not swapped,
-   * and they are assumed equivalent.
+   * <tt>std::allocator_traits\<Allocator\>\::propagate_on_container_swap\::value</tt>
+   * is `true`, allocators are swapped too. Otherwise allocators are not
+   * swapped, and they are assumed equivalent.
    *
    * @note Invalidates every iterator (they are bound to this
    * container). References/pointers stay valid, but ownership moves to the

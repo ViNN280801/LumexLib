@@ -49,7 +49,7 @@ enum class logger_config_format_t : std::uint8_t
   ini,            ///< INI via LumexSettingsINI ([logger] section).
   json,           ///< JSON via vendored nlohmann/json.
   yaml,           ///< Reserved; throws until LumexSettingsYAML exists.
-  xml             ///< XML via LumexXml (<logger> child elements).
+  xml             ///< XML via LumexXml (`<logger>` child elements).
 };
 
 #if (defined(LUMEX_LOGGER_CONFIG_FORMAT_PLAIN_TEXT)                           \

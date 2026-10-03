@@ -131,8 +131,8 @@ private:
 
   // Private copy constructor and assignment operator to prevent copying
   // and enforce move-only semantics, as the internal m_impl is a raw pointer.
-  XPathQuery (XPathQuery const &);
-  XPathQuery &operator= (XPathQuery const &);
+  XPathQuery (XPathQuery const &other);
+  XPathQuery &operator= (XPathQuery const &other);
 
 public:
   /**

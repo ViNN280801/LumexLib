@@ -72,8 +72,18 @@ XPathQueryImpl::XPathQueryImpl () : alloc (&block, &oom)
       = sizeof (block.data); // NOLINT(cppcoreguidelines-pro-type-union-access)
 }
 
+namespace lumex // NOLINT(modernize-concat-nested-namespaces)
+{
+namespace xml
+{
+namespace xpath
+{
+namespace query
+{
+
 LUMEX_PUBLIC_API
-XPathQuery::XPathQuery (char_t const *query, XPathVariableSet *variables)
+XPathQuery::XPathQuery (char_t const *query,
+                        variable::XPathVariableSet *variables)
     : m_impl (nullptr)
 {
   XPathQueryImpl *qimpl = XPathQueryImpl::create ();
@@ -186,7 +196,7 @@ XPathQuery::evaluate_number (XPathNode const &n) const
 
 LUMEX_PUBLIC_API
 string_t
-XPathQuery::evaluate_string (XPathNode const &n) const
+XPathQuery::evaluate_string (node::XPathNode const &n) const
 {
   if (m_impl == nullptr)
     return {};
@@ -206,7 +216,7 @@ XPathQuery::evaluate_string (XPathNode const &n) const
 LUMEX_PUBLIC_API
 std::size_t
 XPathQuery::evaluate_string (char_t *buffer, std::size_t capacity,
-                             XPathNode const &n) const
+                             node::XPathNode const &n) const
 {
   XPathContext ctx (n, 1, 1);
   XPathStackData stack_data;
@@ -296,3 +306,8 @@ XPathQuery::operator!() const
 {
   return m_impl == nullptr;
 }
+
+} // namespace query
+} // namespace xpath
+} // namespace xml
+} // namespace lumex

@@ -65,8 +65,8 @@ namespace range
  * comparable for equality/inequality, and can be dereferenced. For earlier C++
  * standards (before C++20), similar checks would be implemented using SFINAE
  * and `std::iterator_traits`, for example, through
- * `std::enable_if_t<std::is_base_of_v<std::input_iterator_tag, typename
- * std::iterator_traits<Iterator>::iterator_category>>`. Using
+ * <tt>std::enable_if_t\<std::is_base_of_v\<std::input_iterator_tag, typename
+ * std::iterator_traits\<Iterator\>\::iterator_category\>\></tt>. Using
  * `std::forward_iterator` in C++20 is a more explicit and clear way to express
  * these requirements.
  *
