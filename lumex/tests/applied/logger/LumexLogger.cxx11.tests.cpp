@@ -1,4 +1,6 @@
-// LumexLogger.tests.cpp
+// LumexLogger.cxx11.tests.cpp: every logger suite (C++11, C++14, C++17,
+// C++20) compiles it, so the standard-dependent branches of the logger
+// headers are all built and run.
 //
 // Test scope note: LumexLogger is a Meyer's singleton whose "logging enabled"
 // state (and most of its config-file-driven fields:

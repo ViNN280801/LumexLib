@@ -1,21 +1,11 @@
 # lumex/tests/applied/logger/CMakeLists.txt
 
-set(TEST_EXECUTABLE_NAME LumexLoggerTests)
-
-add_executable(
-    ${TEST_EXECUTABLE_NAME}
-    LumexLogger.tests.cpp
+# One suite per standard of the module (lumex/tests/LumexTestStandards.cmake):
+# LumexLoggerCxx11Tests, LumexLoggerCxx14Tests, LumexLoggerCxx17Tests and
+# LumexLoggerCxx20Tests, all built from LumexLogger.cxx11.tests.cpp: the
+# logger headers branch on C++14, C++17 and C++20, so every branch is
+# compiled and run.
+lumex_add_standard_suites(Logger
+    MODULE logger
+    LINK lumex::logger
 )
-
-set_target_properties(${TEST_EXECUTABLE_NAME} PROPERTIES
-    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/$<CONFIG>"
-)
-
-target_link_libraries(
-    ${TEST_EXECUTABLE_NAME}
-    PRIVATE
-    lumex::logger
-)
-
-lumex_test_use_gtest(${TEST_EXECUTABLE_NAME} CXX_STANDARD 11)
-lumex_gtest_discover_tests(${TEST_EXECUTABLE_NAME})
