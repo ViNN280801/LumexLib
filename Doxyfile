@@ -992,6 +992,7 @@ WARN_LOGFILE           =
 # Note: If this tag is empty the current directory is searched.
 
 INPUT                  = lumex/ \
+                         VERSIONING.md \
                          lumex/core/fmt/README.md \
                          lumex/core/atomic/README.md \
                          lumex/applied/logger/README.md
