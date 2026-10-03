@@ -18,8 +18,8 @@ using namespace lumex::core::exceptions;
 using lumex::core::exceptions::Wrapper::ExceptionWrapper;
 
 // Helper to capture stderr output for the duration of a scope (mirrors
-// LumexException.tests.cpp's own StderrCapture, kept as a distinct type here
-// since each .tests.cpp in this executable is its own translation unit).
+// LumexException.cxx11.tests.cpp's own StderrCapture, kept as a distinct type
+// here since each .tests.cpp in this executable is its own translation unit).
 class WrapperStderrCapture
 {
 public:

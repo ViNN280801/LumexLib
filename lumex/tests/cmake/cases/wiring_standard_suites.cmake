@@ -52,7 +52,6 @@ set(_transition
     circular_buffer
     crc
     environment
-    exceptions
     expected
     filesystem
     fmt

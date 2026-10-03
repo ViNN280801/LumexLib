@@ -72,7 +72,7 @@ foreach(_suite
         LumexAtomicTests LumexAtomicCxx17Tests LumexAtomicCxx20Tests
         LumexAtomicLockBasedCxx20Tests LumexAtomicWaitTableCxx20Tests
         LumexCircularBufferTests LumexCrcTests
-        LumexEnvironmentTests LumexExceptionsTests LumexExpectedTests
+        LumexEnvironmentTests LumexExpectedTests
         LumexFilesystemTests LumexMathTests LumexMathCxx17Tests
         LumexMathCxx20Tests LumexNumberGeneratorTests
         LumexOptionalTests LumexReflectionTests LumexReflectionCxx20Tests LumexFieldReflectionTests

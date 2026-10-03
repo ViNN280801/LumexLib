@@ -8,9 +8,6 @@
 #include <string>
 #include <thread>
 #include <vector>
-#if __cplusplus >= 201703L
-#include <string_view>
-#endif
 
 #include <gtest/gtest.h>
 #if defined(__linux__)
@@ -24,6 +21,7 @@
 #include "lumex/core/time/LumexTime"
 #include "lumex/core/utility/LumexUtility"
 
+#include "lumex/tests/core/exceptions/LumexExceptionTestFixtures.hpp"
 #include "lumex/tests/support/LumexPerfSkip.hpp"
 
 #if defined(__clang__)
@@ -87,71 +85,6 @@ private:
   std::ostringstream new_cerr_buf;
 };
 
-// --- Fixture ------------------------------------------------------------
-class LumexExceptionTest : public ::testing::Test
-{
-protected:
-  lumex::path test_crash_dir;
-
-  void
-  SetUp () override
-  {
-    // Create a unique temporary directory for each test fixture run
-    // to avoid conflicts with crash reports from other tests.
-    test_crash_dir
-        = lumex::core::filesystem::fs::lumex_filesystem::temp_directory_path ()
-              .value ()
-          / ("LumexTestCrashes_" + LumexTime::get_timestamp_ns ());
-    lumex::core::filesystem::fs::lumex_filesystem::create_directories (
-        test_crash_dir);
-
-    // This is important for to_crash_report to create new files in each test.
-    // It relies on
-    // lumex::core::filesystem::fs::lumex_filesystem::get_exe_path().parent_path()
-    // / KDEFAULT_CRASHES_DIR_PATH We need to ensure KDEFAULT_CRASHES_DIR_PATH
-    // is relative to our test_crash_dir For testing purposes, we need to
-    // temporarily redirect the "default" crash path. This cannot be easily
-    // done without modifying the `DefaultPaths.hpp` directly or using
-    // environment variables, which the current `to_crash_report`
-    // implementation does not take into account for its static initialization.
-    // As a workaround for testing, we'll clean up the default crashes
-    // directory before each test, or just check the presence of new files. For
-    // concurrent tests, we'll check for the total number of entries.
-  }
-
-  void
-  TearDown () override
-  {
-    // Clean up the temporary directory
-    if (lumex::core::filesystem::fs::lumex_filesystem::exists (test_crash_dir))
-      lumex::core::filesystem::fs::lumex_filesystem::remove_all (
-          test_crash_dir);
-    // Also clean up the global default crash directory if it's not the same as
-    // test_crash_dir
-    lumex::path default_crash_path
-        = lumex::core::filesystem::fs::lumex_filesystem::get_exe_path ()
-              .parent_path ()
-          / KDEFAULT_CRASHES_DIR_PATH;
-    if (lumex::core::filesystem::fs::lumex_filesystem::exists (
-            default_crash_path)
-        && default_crash_path != test_crash_dir)
-      lumex::core::filesystem::fs::lumex_filesystem::remove_all (
-          default_crash_path);
-  }
-
-  // Helper to read content of a file
-  std::string
-  read_file_content (lumex::path const &path)
-  {
-    std::ifstream file (path.string ());
-    if (!file.is_open ())
-      return "";
-    std::stringstream buffer;
-    buffer << file.rdbuf ();
-    return buffer.str ();
-  }
-};
-
 // --- LumexBaseException Tests -------------------------------------------
 
 // API Contract Verifier: Test default constructor message
@@ -188,30 +121,6 @@ TEST_F (LumexExceptionTest, LumexBaseException_What_ReturnsCorrectMessage)
   // Act & Assert
   EXPECT_STREQ (ex.what (), msg.c_str ());
 }
-
-#if __cplusplus >= 201703L
-// API Contract Verifier: the std::string_view constructor (an inline wrapper
-// over the exported std::string one) copies exactly the view
-TEST_F (LumexExceptionTest, LumexBaseException_StringViewCtor_CopiesTheView)
-{
-  std::string const text = "prefix:message:suffix";
-  std::string_view const view = std::string_view (text).substr (7, 7);
-  LumexBaseException const ex (view);
-  EXPECT_STREQ (ex.what (), "message");
-}
-
-TEST_F (LumexExceptionTest,
-        LumexBaseException_StringViewCtor_EmptyAndEmbeddedNulKept)
-{
-  std::string_view const empty_view;
-  LumexBaseException const empty (empty_view);
-  EXPECT_STREQ (empty.what (), "");
-
-  std::string_view const with_nul ("a\0b", 3);
-  LumexBaseException const ex (with_nul);
-  EXPECT_EQ (std::string (ex.what (), 3), std::string (with_nul));
-}
-#endif
 
 // API Contract Verifier: Test `getStackTrace()` returns a non-empty stack
 // trace

@@ -1,4 +1,4 @@
-// LumexExceptionHeader.tests.cpp
+// LumexExceptionHeader.cxx11.tests.cpp
 // LumexException.hpp on its own: this translation unit includes no other
 // Lumex header, so the macros below compile only while the header includes
 // what they expand to (SET_SEH_TRANSLATOR of WindowsSEHTranslator.hpp in

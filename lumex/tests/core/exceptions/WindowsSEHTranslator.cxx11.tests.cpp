@@ -1,4 +1,4 @@
-// WindowsSEHTranslator.tests.cpp
+// WindowsSEHTranslator.cxx11.tests.cpp
 // Both branches of WindowsSEHTranslator.hpp. On Windows SET_SEH_TRANSLATOR
 // installs seh_translator, an ordinary function exported by
 // lumex::exceptions: this file is another translation unit than its

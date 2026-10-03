@@ -332,8 +332,8 @@ function(lumex_configure_target target_name)
 
   # C4251: std members in dllexport classes (Logger, Timer). Pimpl is out
   # of scope; clients never need those members' layout to be exported.
-  # /EHa must be last on LumexExceptionsTests so HIGH's /EHsc does not
-  # win (MSVC C4535 on _set_se_translator).
+  # /EHa must be last on the LumexExceptionsCxx<std>Tests suites so HIGH's
+  # /EHsc does not win (MSVC C4535 on _set_se_translator).
   if(MSVC)
     target_compile_options("${target_name}" PRIVATE /wd4251)
     # /external:* is an MSVC cl.exe feature. clang-cl ignores
@@ -343,7 +343,7 @@ function(lumex_configure_target target_name)
         /external:W0
         /external:anglebrackets)
     endif()
-    if(target_name STREQUAL "LumexExceptionsTests")
+    if(target_name MATCHES "^LumexExceptionsCxx[0-9]+Tests$")
       # HIGH injects /EHsc as a target option. Replace it so /EHa is the
       # only EH model (MSVC D9025 + C4535 on _set_se_translator).
       get_target_property(_lumex_eh_opts "${target_name}" COMPILE_OPTIONS)
