@@ -1,4 +1,4 @@
-# Compile-check fixture for LumexCMake.format_compile_checks.
+# Compile-check fixture for cmake.format_compile_checks.
 #
 # LumexFormat checks a literal format string against the argument types at
 # compile time from C++20 on (consteval constructor of BasicFormatString).

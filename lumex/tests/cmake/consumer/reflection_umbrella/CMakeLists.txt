@@ -1,4 +1,4 @@
-# Consumer fixture for LumexCMake.consumer_reflection_umbrella_*.
+# Consumer fixture for cmake.consumer_reflection_umbrella_*.
 #
 # Embeds LumexLib with only the modules lumex::reflection needs and builds one
 # executable that includes the reflection umbrella and links lumex::reflection

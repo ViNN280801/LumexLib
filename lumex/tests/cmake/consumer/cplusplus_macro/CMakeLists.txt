@@ -1,4 +1,4 @@
-# Consumer fixture for LumexCMake.consumer_cplusplus_macro.
+# Consumer fixture for cmake.consumer_cplusplus_macro.
 #
 # LumexLib headers select code with `#if __cplusplus`. MSVC reports
 # 199711L there unless /Zc:__cplusplus is on, so the library targets carry

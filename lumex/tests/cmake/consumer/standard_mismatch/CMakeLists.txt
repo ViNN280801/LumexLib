@@ -1,4 +1,4 @@
-# Consumer fixture for LumexCMake.consumer_standard_mismatch_*.
+# Consumer fixture for cmake.consumer_standard_mismatch_*.
 #
 # The embedded Lumex modules are compiled at LIB_STD and this consumer at
 # CONSUMER_STD. The exported functions of base64, XML and exceptions have one

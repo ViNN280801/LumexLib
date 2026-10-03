@@ -68,8 +68,8 @@ format string that does not match its arguments does not compile.
 ## Examples
 
 Six programs in `lumex/examples/fmt/` show every public function, type and
-specification option (a CTest check, `LumexFormatExamplesCoverage`, keeps
-it that way):
+specification option (a CTest check, `examples.fmt.LumexFormatExamplesCoverage`,
+keeps it that way):
 
 | Example | Shows |
 | --- | --- |
@@ -83,15 +83,17 @@ it that way):
 ## How it is verified
 
 - Three suites run the same sources at C++11, C++17 and C++20
-  (`LumexFormatTests`, `LumexFormatCxx17Tests`, `LumexFormatCxx20Tests`),
-  with the input / output cases of fmt's `format-test.cc` ported and the
-  expectations checked against `std::format`.
+  (`LumexFormatTests`, `LumexFormatCxx17Tests`, `LumexFormatCxx20Tests`;
+  CTest names `fmt.<Suite>.<Test>` with the suffix `.cxx17` or `.cxx20`,
+  selected together by `ctest -R '^fmt\.'`), with the input / output cases
+  of fmt's `format-test.cc` ported and the expectations checked against
+  `std::format`.
 - Differential fuzzing (`LumexFormatDifferential.tests.cpp`, C++20): about
   120 000 random specifications, valid and invalid, applied to edge-case
   integers, floating-point values, strings, characters, `bool` and pointers;
   LumexFormat must produce exactly `std::format`'s text or fail exactly when
   it fails.
-- Compile-fail checks (`LumexCMake.format_compile_checks`): invalid literal
+- Compile-fail checks (`cmake.format_compile_checks`): invalid literal
   format strings must not compile at C++20.
 
 ## Benchmarks
