@@ -92,8 +92,6 @@
 
 #include "XPathVariable.hpp"
 
-using namespace lumex::xml::xpath::node;
-
 namespace lumex // NOLINT(modernize-concat-nested-namespaces)
 {
 namespace xml
@@ -102,6 +100,8 @@ namespace xpath
 {
 namespace variable
 {
+using namespace lumex::xml::xpath::node;
+
 /**
  * @brief Manages a collection of XPath variables.
  * @details This class provides a container for `XPathVariable` objects,

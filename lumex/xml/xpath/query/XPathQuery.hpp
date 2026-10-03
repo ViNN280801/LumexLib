@@ -93,11 +93,6 @@
 #include "lumex/xml/xpath/memory/XPathMemoryBlock.hpp"
 #include "lumex/xml/xpath/parser/XPathParseResult.hpp"
 
-using namespace lumex::xml::types;
-using namespace lumex::xml::types::Types;
-using namespace lumex::xml::xpath::memory;
-using namespace lumex::xml::xpath::parser;
-
 namespace lumex // NOLINT(modernize-concat-nested-namespaces)
 {
 namespace xml
@@ -120,6 +115,11 @@ class XPathVariableSet;
 
 namespace query
 {
+using namespace lumex::xml::types;
+using namespace lumex::xml::types::Types;
+using namespace lumex::xml::xpath::memory;
+using namespace lumex::xml::xpath::parser;
+
 /**
  * @brief Represents a compiled XPath query ready for evaluation.
  * @details This class encapsulates a parsed and optimized XPath expression,
@@ -393,9 +393,10 @@ struct XPathQueryImpl
       *root{}; // NOLINT(misc-non-private-member-variables-in-classes)
   /// @brief The allocator used for managing memory for the AST nodes and
   /// related data.
-  XPathAllocator alloc; // NOLINT(misc-non-private-member-variables-in-classes)
+  memory::XPathAllocator
+      alloc; // NOLINT(misc-non-private-member-variables-in-classes)
   /// @brief The initial memory block used by the allocator.
-  XPathMemoryBlock
+  memory::XPathMemoryBlock
       block{}; // NOLINT(misc-non-private-member-variables-in-classes)
   /// @brief Flag indicating if an out-of-memory condition occurred during
   /// parsing or optimization.

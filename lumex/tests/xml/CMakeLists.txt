@@ -2,9 +2,18 @@
 
 set(TEST_EXECUTABLE_NAME LumexXmlTests)
 
+# LumexXmlGlobalNames.tests.cpp includes the XML and base64 umbrellas and
+# declares global names that a file-scope using-directive in their headers
+# would make ambiguous. It uses only the declarations of base64 (no call),
+# so the suites link lumex::xml alone and build without the base64 module.
+set(LUMEX_XML_TEST_SOURCES
+    LumexXml.tests.cpp
+    LumexXmlGlobalNames.tests.cpp
+)
+
 add_executable(
     ${TEST_EXECUTABLE_NAME}
-    LumexXml.tests.cpp
+    ${LUMEX_XML_TEST_SOURCES}
 )
 
 target_link_libraries(
@@ -27,7 +36,7 @@ set(XML_CXX20_TEST_NAME LumexXmlCxx20Tests)
 
 add_executable(
     ${XML_CXX20_TEST_NAME}
-    LumexXml.tests.cpp
+    ${LUMEX_XML_TEST_SOURCES}
 )
 
 target_link_libraries(

@@ -92,11 +92,6 @@
 
 #include "lumex/xml/xpath/node/XPathNodeSet.hpp"
 
-using namespace lumex::xml::types;
-using namespace lumex::xml::types::Types;
-using namespace lumex::xml::utility;
-using namespace lumex::xml::xpath::node;
-
 namespace lumex // NOLINT(modernize-concat-nested-namespaces)
 {
 namespace xml
@@ -105,6 +100,11 @@ namespace xpath
 {
 namespace variable
 {
+using namespace lumex::xml::types;
+using namespace lumex::xml::types::Types;
+using namespace lumex::xml::utility;
+using namespace lumex::xml::xpath::node;
+
 /**
  * @brief Base class for all XPath variables.
  * @details This abstract base class defines the interface for XPath variables,

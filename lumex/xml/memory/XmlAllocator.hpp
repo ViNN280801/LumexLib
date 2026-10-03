@@ -65,14 +65,14 @@
 
 #include "XmlMemoryPage.hpp"
 
-using lumex::xml::types::Types::char_t;
-
 namespace lumex // NOLINT(modernize-concat-nested-namespaces)
 {
 namespace xml
 {
 namespace memory
 {
+using lumex::xml::types::Types::char_t;
+
 /**
  * @brief Manages memory allocation and deallocation for XML nodes, attributes,
  * and strings within a document.

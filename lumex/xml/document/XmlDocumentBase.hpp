@@ -61,16 +61,16 @@
 #include "lumex/xml/memory/XmlMemoryPage.hpp"
 #include "lumex/xml/node/XmlNodeBase.hpp"
 
-using namespace lumex::xml::node;
-using namespace lumex::xml::types;
-using namespace lumex::xml::types::Types;
-
 namespace lumex // NOLINT(modernize-concat-nested-namespaces)
 {
 namespace xml
 {
 namespace document
 {
+using namespace lumex::xml::node;
+using namespace lumex::xml::types;
+using namespace lumex::xml::types::Types;
+
 /**
  * @brief Base structure representing an XML document, combining node and
  * allocator functionalities.

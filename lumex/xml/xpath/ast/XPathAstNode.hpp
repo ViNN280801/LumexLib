@@ -68,14 +68,6 @@
 #include "lumex/xml/xpath/string/XPathString.hpp"
 #include "lumex/xml/xpath/variable/XPathVariable.hpp"
 
-using namespace lumex::xml::types;
-using namespace lumex::xml::types::Types;
-using namespace lumex::xml::xpath::node;
-using namespace lumex::xml::xpath::variable;
-using namespace lumex::xml::xpath::memory;
-using namespace lumex::xml::xpath::context;
-using namespace lumex::xml::xpath::string;
-
 namespace lumex // NOLINT(modernize-concat-nested-namespaces)
 {
 namespace xml
@@ -84,6 +76,14 @@ namespace xpath
 {
 namespace ast
 {
+using namespace lumex::xml::types;
+using namespace lumex::xml::types::Types;
+using namespace lumex::xml::xpath::node;
+using namespace lumex::xml::xpath::variable;
+using namespace lumex::xml::xpath::memory;
+using namespace lumex::xml::xpath::context;
+using namespace lumex::xml::xpath::string;
+
 /**
  * @brief Provides a static member `axis` for mapping an `axis_t` enumeration
  * value to a type.

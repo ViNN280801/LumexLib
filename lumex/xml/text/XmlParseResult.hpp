@@ -88,10 +88,6 @@
 #include "lumex/core/utility/attr/LumexAttributes.hpp"
 #include "lumex/xml/types/XmlTypes.hpp"
 
-using namespace lumex::xml;
-using namespace lumex::xml::types;
-using namespace lumex::xml::types::Types;
-
 namespace lumex // NOLINT(modernize-concat-nested-namespaces)
 {
 namespace xml
@@ -108,6 +104,9 @@ struct XmlNodeBase;
 
 namespace text
 {
+using namespace lumex::xml::types;
+using namespace lumex::xml::types::Types;
+
 /**
  * @brief Represents the result of an XML parsing operation, including status,
  * error offset, and encoding.

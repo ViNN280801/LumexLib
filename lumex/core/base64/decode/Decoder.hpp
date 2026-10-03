@@ -92,8 +92,6 @@
 
 #include "lumex/core/base64/codec/Base64.hpp"
 
-using namespace lumex::core::base64::codec::Types;
-
 namespace lumex // NOLINT(modernize-concat-nested-namespaces)
 {
 namespace core
@@ -108,6 +106,8 @@ namespace base64
 {
 namespace decode
 {
+using namespace lumex::core::base64::codec::Types;
+
 /**
  * @brief Base64 decoder.
  * @details The two functions that take a pointer and a size are exported and

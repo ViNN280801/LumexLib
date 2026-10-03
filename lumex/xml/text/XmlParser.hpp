@@ -64,6 +64,12 @@
 #include "lumex/xml/text/XmlParseResult.hpp"
 #include "lumex/xml/types/XmlTypes.hpp"
 
+namespace lumex // NOLINT(modernize-concat-nested-namespaces)
+{
+namespace xml
+{
+namespace text
+{
 using namespace lumex::xml::document;
 using namespace lumex::xml::text;
 using namespace lumex::xml::node;
@@ -71,12 +77,6 @@ using namespace lumex::xml::types;
 using namespace lumex::xml::types::Types;
 using namespace lumex::xml::memory;
 
-namespace lumex // NOLINT(modernize-concat-nested-namespaces)
-{
-namespace xml
-{
-namespace text
-{
 /**
  * @brief Internal XML parser structure responsible for tokenizing and building
  * the XML document tree.

@@ -95,16 +95,16 @@
 #include "lumex/xml/node/XmlNode.hpp"
 #include "lumex/xml/writer/IXmlWriter.hpp"
 
-using namespace lumex::xml::node;
-using namespace lumex::xml::constants;
-using namespace lumex::xml::constants::Constants;
-
 namespace lumex // NOLINT(modernize-concat-nested-namespaces)
 {
 namespace xml
 {
 namespace document
 {
+using namespace lumex::xml::node;
+using namespace lumex::xml::constants;
+using namespace lumex::xml::constants::Constants;
+
 /**
  * @brief Represents an XML document, providing methods for loading, saving,
  * and manipulating XML data.

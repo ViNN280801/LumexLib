@@ -67,14 +67,6 @@
 #include "lumex/xml/xpath/parser/lexer/XPathLexer.hpp"
 #include "lumex/xml/xpath/variable/XPathVariableSet.hpp"
 
-using namespace lumex::xml::types;
-using namespace lumex::xml::types::Types;
-
-using namespace lumex::xml::xpath::ast;
-using namespace lumex::xml::xpath::memory;
-using namespace lumex::xml::xpath::variable;
-using namespace lumex::xml::xpath::parser::lexer;
-
 namespace lumex // NOLINT(modernize-concat-nested-namespaces)
 {
 namespace xml
@@ -83,6 +75,13 @@ namespace xpath
 {
 namespace parser
 {
+using namespace lumex::xml::types;
+using namespace lumex::xml::types::Types;
+using namespace lumex::xml::xpath::ast;
+using namespace lumex::xml::xpath::memory;
+using namespace lumex::xml::xpath::variable;
+using namespace lumex::xml::xpath::parser::lexer;
+
 /**
  * @brief Parses XPath expressions into an Abstract Syntax Tree (AST).
  * @details This class implements a recursive descent parser for XPath 1.0

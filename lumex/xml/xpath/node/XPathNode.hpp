@@ -88,9 +88,6 @@
 #include "lumex/xml/attribute/XmlAttribute.hpp"
 #include "lumex/xml/node/XmlNode.hpp"
 
-using namespace lumex::xml::node;
-using namespace lumex::xml::attribute;
-
 namespace lumex // NOLINT(modernize-concat-nested-namespaces)
 {
 namespace xml
@@ -99,6 +96,9 @@ namespace xpath
 {
 namespace node
 {
+using namespace lumex::xml::node;
+using namespace lumex::xml::attribute;
+
 /**
  * @brief Represents a node in an XPath node-set, which can be either an XML
  * element/document node or an XML attribute.

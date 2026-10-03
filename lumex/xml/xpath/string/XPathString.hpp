@@ -60,10 +60,6 @@
 #include "lumex/xml/types/XmlTypes.hpp"
 #include "lumex/xml/xpath/memory/XPathAllocator.hpp"
 
-using namespace lumex::xml::types;
-using namespace lumex::xml::types::Types;
-using namespace lumex::xml::xpath::memory;
-
 namespace lumex // NOLINT(modernize-concat-nested-namespaces)
 {
 namespace xml
@@ -76,6 +72,10 @@ class XPathNode;
 }
 namespace string
 {
+using namespace lumex::xml::types;
+using namespace lumex::xml::types::Types;
+using namespace lumex::xml::xpath::memory;
+
 /**
  * @brief Represents an XPath string value, optimized for both constant and
  * heap-allocated strings.

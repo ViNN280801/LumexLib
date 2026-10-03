@@ -89,17 +89,17 @@
 #include "lumex/xml/memory/XmlAllocator.hpp"
 #include "lumex/xml/types/XmlTypes.hpp"
 
-using namespace lumex::xml::memory;
-using namespace lumex::xml::types;
-using namespace lumex::xml::types::Types;
-using namespace lumex::xml::attribute;
-
 namespace lumex // NOLINT(modernize-concat-nested-namespaces)
 {
 namespace xml
 {
 namespace node
 {
+using namespace lumex::xml::memory;
+using namespace lumex::xml::types;
+using namespace lumex::xml::types::Types;
+using namespace lumex::xml::attribute;
+
 /**
  * @brief Base structure representing an XML node in the document tree.
  * @details `XmlNodeBase` holds the fundamental data for any XML node,

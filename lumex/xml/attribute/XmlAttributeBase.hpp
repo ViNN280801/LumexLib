@@ -88,10 +88,6 @@
 #include "lumex/xml/memory/XmlAllocator.hpp"
 #include "lumex/xml/memory/XmlMemoryPage.hpp"
 
-using namespace lumex::xml::memory;
-using namespace lumex::xml::types;
-using namespace lumex::xml::types::Types;
-
 namespace lumex // NOLINT(modernize-concat-nested-namespaces)
 {
 namespace xml
@@ -102,6 +98,10 @@ struct XmlNodeBase;
 }
 namespace attribute
 {
+using namespace lumex::xml::memory;
+using namespace lumex::xml::types;
+using namespace lumex::xml::types::Types;
+
 /**
  * @brief Base structure for representing an XML attribute.
  * @details This structure holds the raw pointers to the attribute's name and

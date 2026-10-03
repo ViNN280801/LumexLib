@@ -99,8 +99,6 @@
 #pragma clang diagnostic ignored "-Wexit-time-destructors"
 #endif
 
-using namespace lumex::xml::xpath::memory;
-
 namespace lumex // NOLINT(modernize-concat-nested-namespaces)
 {
 namespace xml
@@ -109,6 +107,8 @@ namespace xpath
 {
 namespace node
 {
+using namespace lumex::xml::xpath::memory;
+
 /**
  * @brief Represents a collection of XPath nodes, managing their order and
  * uniqueness.

@@ -56,8 +56,6 @@
 #include "lumex/xml/xpath/node/XPathNode.hpp"
 #include "lumex/xml/xpath/node/XPathNodeSet.hpp"
 
-using namespace lumex::xml::xpath::node;
-
 namespace lumex // NOLINT(modernize-concat-nested-namespaces)
 {
 namespace xml
@@ -71,6 +69,7 @@ class XPathVariable;
 
 namespace utility
 {
+using namespace lumex::xml::xpath::node;
 using namespace variable;
 
 /**

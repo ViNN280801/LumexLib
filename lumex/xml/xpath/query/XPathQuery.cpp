@@ -14,6 +14,7 @@ using namespace lumex::xml::xpath;
 
 using namespace lumex::xml::xpath::exception;
 using namespace lumex::xml::xpath::parser;
+using namespace lumex::xml::xpath::query;
 using namespace lumex::xml::xpath::variable;
 
 namespace

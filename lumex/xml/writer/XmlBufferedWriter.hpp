@@ -87,15 +87,14 @@
 #include "lumex/core/utility/macros/LumexConstantMacros.hpp"
 #include "lumex/xml/types/XmlTypes.hpp"
 
-using namespace lumex::xml::types;
-using namespace lumex::xml::types::Types;
-
 namespace lumex // NOLINT(modernize-concat-nested-namespaces)
 {
 namespace xml
 {
 namespace writer
 {
+using namespace lumex::xml::types;
+using namespace lumex::xml::types::Types;
 
 /**
  * @brief A buffered writer for XML output, optimizing write operations by

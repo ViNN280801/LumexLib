@@ -85,8 +85,6 @@
 
 #include "lumex/xml/xpath/constants/XPathConstants.hpp"
 
-using namespace lumex::xml::xpath::constants::Constants;
-
 namespace lumex // NOLINT(modernize-concat-nested-namespaces)
 {
 namespace xml
@@ -95,6 +93,8 @@ namespace xpath
 {
 namespace memory
 {
+using namespace lumex::xml::xpath::constants::Constants;
+
 /**
  * @brief Represents a block of memory used by XPathAllocator.
  * @details This structure defines a contiguous block of memory that the

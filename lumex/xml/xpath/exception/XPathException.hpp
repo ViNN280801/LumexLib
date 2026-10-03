@@ -86,8 +86,6 @@
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 #include "lumex/xml/xpath/parser/XPathParseResult.hpp"
 
-using namespace lumex::xml::xpath::parser;
-
 namespace lumex // NOLINT(modernize-concat-nested-namespaces)
 {
 namespace xml
@@ -96,6 +94,8 @@ namespace xpath
 {
 namespace exception
 {
+using namespace lumex::xml::xpath::parser;
+
 /**
  * @brief Exception class for XPath parsing and evaluation errors.
  * @details This class inherits from `std::exception` and provides detailed

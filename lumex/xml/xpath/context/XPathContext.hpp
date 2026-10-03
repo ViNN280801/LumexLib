@@ -53,8 +53,6 @@
 
 #include "lumex/xml/xpath/node/XPathNode.hpp"
 
-using namespace lumex::xml::xpath::node;
-
 namespace lumex // NOLINT(modernize-concat-nested-namespaces)
 {
 namespace xml
@@ -63,6 +61,8 @@ namespace xpath
 {
 namespace context
 {
+using namespace lumex::xml::xpath::node;
+
 /**
  * @brief Represents the XPath evaluation context for an expression.
  * @details This structure holds the essential components of the XPath context,

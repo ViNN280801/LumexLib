@@ -98,15 +98,15 @@
 
 #include "XmlAttributeBase.hpp"
 
-using namespace lumex::xml::types;
-using namespace lumex::xml::types::Types;
-
 namespace lumex // NOLINT(modernize-concat-nested-namespaces)
 {
 namespace xml
 {
 namespace attribute
 {
+using namespace lumex::xml::types;
+using namespace lumex::xml::types::Types;
+
 /**
  * @brief Represents an XML attribute, providing a safe and convenient
  * interface for accessing and modifying its name and value.

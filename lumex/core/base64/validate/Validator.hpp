@@ -86,8 +86,6 @@
 
 #include "lumex/core/base64/codec/Base64.hpp"
 
-using namespace lumex::core::base64::codec::Types;
-
 namespace lumex // NOLINT(modernize-concat-nested-namespaces)
 {
 namespace core
@@ -96,6 +94,8 @@ namespace base64
 {
 namespace validate
 {
+using namespace lumex::core::base64::codec::Types;
+
 /**
  * @brief Base64 syntax check.
  * @details The pointer and size overload is exported and has the same

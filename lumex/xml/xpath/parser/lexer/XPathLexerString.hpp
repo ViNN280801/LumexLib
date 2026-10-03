@@ -53,9 +53,6 @@
 
 #include "lumex/xml/types/XmlTypes.hpp"
 
-using namespace lumex::xml::types;
-using namespace lumex::xml::types::Types;
-
 namespace lumex // NOLINT(modernize-concat-nested-namespaces)
 {
 namespace xml
@@ -66,6 +63,9 @@ namespace parser
 {
 namespace lexer
 {
+using namespace lumex::xml::types;
+using namespace lumex::xml::types::Types;
+
 /**
  * @brief Represents a string view used by the XPath lexer.
  * @details This structure holds pointers to the beginning and end of a

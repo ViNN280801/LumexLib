@@ -81,8 +81,6 @@
 #include "lumex/core/base64/codec/Base64.hpp"
 #include "lumex/core/utility/compiler/LumexCheckFeatures.hpp"
 
-using namespace lumex::core::base64::codec::Types;
-
 namespace lumex // NOLINT(modernize-concat-nested-namespaces)
 {
 namespace core
@@ -97,6 +95,8 @@ namespace base64
 {
 namespace encode
 {
+using namespace lumex::core::base64::codec::Types;
+
 /**
  * @brief Base64 encoder.
  * @details `encode (void const *, std::size_t)` and

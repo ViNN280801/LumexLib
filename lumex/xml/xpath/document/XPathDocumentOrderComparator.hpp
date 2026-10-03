@@ -57,9 +57,6 @@
 #include "lumex/xml/node/XmlNodeBase.hpp"
 #include "lumex/xml/xpath/node/XPathNode.hpp"
 
-using namespace lumex::xml::xpath::node;
-using namespace lumex::xml::node;
-
 namespace lumex // NOLINT(modernize-concat-nested-namespaces)
 {
 namespace xml
@@ -68,6 +65,9 @@ namespace xpath
 {
 namespace document
 {
+using namespace lumex::xml::xpath::node;
+using namespace lumex::xml::node;
+
 /**
  * @brief Determines if `ln_node` comes before `rn_node` among siblings in
  * document order.

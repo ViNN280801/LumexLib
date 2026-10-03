@@ -20,8 +20,10 @@
 #include "XmlDocument.hpp"
 #include "XmlDocumentBase.hpp"
 
+using namespace lumex::xml;
 using namespace lumex::xml::utility;
 using namespace lumex::xml::document;
+using namespace lumex::xml::text;
 using namespace lumex::xml::writer;
 using namespace lumex::xml::node;
 

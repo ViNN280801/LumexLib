@@ -122,13 +122,6 @@ class XmlAttributeIterator;
 }
 }
 
-using namespace lumex::xml::attribute;
-using namespace lumex::xml::writer;
-using namespace lumex::xml::text;
-using namespace lumex::xml::constants;
-using namespace lumex::xml::constants::Constants;
-using namespace lumex::xml::writer;
-
 namespace lumex // NOLINT(modernize-concat-nested-namespaces)
 {
 namespace xml
@@ -169,6 +162,9 @@ using namespace xpath::query;
 using namespace attribute;
 using namespace text;
 using namespace tree;
+using namespace writer;
+using namespace constants;
+using namespace constants::Constants;
 // End of forward declarations
 
 namespace node

@@ -107,6 +107,12 @@
 #include "lumex/xml/utility/XmlMacros.hpp"
 #include "lumex/xml/xpath/memory/XPathAllocator.hpp"
 
+namespace lumex // NOLINT(modernize-concat-nested-namespaces)
+{
+namespace xml
+{
+namespace utility
+{
 using namespace lumex::xml::memory;
 using namespace lumex::xml::constants;
 using namespace lumex::xml::constants::Constants;
@@ -114,12 +120,6 @@ using namespace lumex::xml::types;
 using namespace lumex::xml::types::Types;
 using namespace lumex::xml::xpath::memory;
 
-namespace lumex // NOLINT(modernize-concat-nested-namespaces)
-{
-namespace xml
-{
-namespace utility
-{
 struct opt_false
 {
   enum : std::uint8_t

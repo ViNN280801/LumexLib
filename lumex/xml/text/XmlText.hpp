@@ -87,9 +87,6 @@
 
 #include "lumex/xml/types/XmlTypes.hpp"
 
-using namespace lumex::xml::types;
-using namespace lumex::xml::types::Types;
-
 namespace lumex // NOLINT(modernize-concat-nested-namespaces)
 {
 namespace xml
@@ -104,6 +101,9 @@ using namespace node;
 
 namespace text
 {
+using namespace lumex::xml::types;
+using namespace lumex::xml::types::Types;
+
 /**
  * @brief Represents the text content of an XML node, providing type-safe
  * access and modification.
