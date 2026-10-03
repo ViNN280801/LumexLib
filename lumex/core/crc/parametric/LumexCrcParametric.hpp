@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2026 Vladislav Semykin <vladislav.semykin@gmail.com>
  *
  * SPDX-License-Identifier: MIT
