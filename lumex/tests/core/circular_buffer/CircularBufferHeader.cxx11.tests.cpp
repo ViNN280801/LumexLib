@@ -16,8 +16,8 @@ using lumex::core::circular_buffer::CircularBuffer;
 
 // This TU includes the public umbrella before gtest so LUMEX_ASSERT /
 // LUMEX_STATIC_ASSERT_MSG from CircularBuffer.hpp are resolved without a
-// prior <cassert> or gtest include. CircularBuffer.tests.cpp hides that
-// hole because it includes gtest first.
+// prior <cassert> or gtest include. CircularBuffer.cxx11.tests.cpp hides
+// that hole because it includes gtest first.
 
 LUMEX_STATIC_ASSERT_MSG (
     (std::is_same<CircularBuffer<int>::value_type, int>::value),

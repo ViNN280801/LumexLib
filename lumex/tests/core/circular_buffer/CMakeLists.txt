@@ -1,18 +1,13 @@
 # lumex/tests/core/circular_buffer/CMakeLists.txt
 
-set(TEST_EXECUTABLE_NAME LumexCircularBufferTests)
-
-add_executable(
-    ${TEST_EXECUTABLE_NAME}
-    CircularBuffer.header.tests.cpp
-    CircularBuffer.tests.cpp
+# One suite per standard of the module (lumex/tests/LumexTestStandards.cmake):
+#   LumexCircularBufferCxx11Tests  CircularBuffer.cxx11.tests.cpp and
+#                                  CircularBufferHeader.cxx11.tests.cpp
+#   LumexCircularBufferCxx20Tests  the same files at C++20, where
+#                                  CircularBuffer.hpp takes its C++20 branches
+#                                  (<=> and concepts)
+lumex_add_standard_suites(CircularBuffer
+    MODULE circular_buffer
+    LINK
+        lumex::circular_buffer
 )
-
-target_link_libraries(
-    ${TEST_EXECUTABLE_NAME}
-    PRIVATE
-    lumex::circular_buffer
-)
-
-lumex_test_use_gtest(${TEST_EXECUTABLE_NAME} CXX_STANDARD 11)
-lumex_gtest_discover_tests(${TEST_EXECUTABLE_NAME})

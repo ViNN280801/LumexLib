@@ -71,7 +71,7 @@ foreach(_suite
         LumexResourceMonitorTests LumexSerialPortTests LumexSettingsTests
         LumexAtomicTests LumexAtomicCxx17Tests LumexAtomicCxx20Tests
         LumexAtomicLockBasedCxx20Tests LumexAtomicWaitTableCxx20Tests
-        LumexCircularBufferTests LumexCrcTests
+        LumexCrcTests
         LumexEnvironmentTests LumexExpectedTests
         LumexFilesystemTests
         LumexNumberGeneratorTests
