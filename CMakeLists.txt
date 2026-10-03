@@ -311,14 +311,21 @@ if(LUMEX_BUILD_DOCUMENTATION)
 
     # Markdown pages (README.md next to a component) keep repository-relative
     # image links; this filter turns them into file names from IMAGE_PATH
-    # while Doxygen reads them. Without Python the images are just missing.
+    # while Doxygen reads them. C and C++ sources go through a second filter
+    # that rewrites raw string literals into ordinary ones: Doxygen 1.8 does
+    # not lex them and loses the declarations that follow. Without Python the
+    # images are missing and such declarations may be too.
     find_package(Python3 COMPONENTS Interpreter QUIET)
     if(Python3_Interpreter_FOUND)
         set(LUMEX_DOXYGEN_MARKDOWN_FILTER
             "${Python3_EXECUTABLE} ${LumexLib_SOURCE_DIR}/Scripts/Doxygen/markdown_image_filter.py")
+        set(LUMEX_DOXYGEN_CPP_FILTER
+            "${Python3_EXECUTABLE} ${LumexLib_SOURCE_DIR}/Scripts/Doxygen/cpp_raw_string_filter.py")
     else()
         set(LUMEX_DOXYGEN_MARKDOWN_FILTER "")
-        message(WARNING "Python 3 not found: Markdown images are left out of the documentation")
+        set(LUMEX_DOXYGEN_CPP_FILTER "")
+        message(WARNING "Python 3 not found: Markdown images are left out of the documentation, "
+                        "and declarations after a raw string literal may be too")
     endif()
 
     # Configure Doxyfile from template with project version
