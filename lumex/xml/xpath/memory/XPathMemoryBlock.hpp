@@ -105,10 +105,13 @@ struct LUMEX_API XPathMemoryBlock
 
   union
   {
-    /// @brief The raw character array used for general-purpose memory
+    // Details, not a brief: Doxygen 1.8 links the brief of an anonymous union
+    // member to a page it does not generate.
+
+    /// @details The raw character array used for general-purpose memory
     /// allocation.
     std::array<char, kxpath_memory_page_size> data;
-    /// @brief A dummy member used to ensure the `data` array is aligned for
+    /// @details A dummy member used to ensure the `data` array is aligned for
     /// `double`s.
     double alignment;
   };

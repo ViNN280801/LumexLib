@@ -129,14 +129,17 @@ public:
   /// for different character sizes.
   union
   {
+    // Details, not a brief: Doxygen 1.8 links the brief of an anonymous union
+    // member to a page it does not generate.
+
     std::array<std::uint8_t, static_cast<std::size_t> (4U * bufcapacity)>
-        data_u8; ///< @brief Scratch buffer for 8-bit characters (UTF-8).
+        data_u8; ///< @details Scratch buffer for 8-bit characters (UTF-8).
     std::array<std::uint16_t, static_cast<std::size_t> (2U * bufcapacity)>
-        data_u16; ///< @brief Scratch buffer for 16-bit characters (UTF-16).
+        data_u16; ///< @details Scratch buffer for 16-bit characters (UTF-16).
     std::array<std::uint32_t, bufcapacity>
-        data_u32; ///< @brief Scratch buffer for 32-bit characters (UTF-32).
+        data_u32; ///< @details Scratch buffer for 32-bit characters (UTF-32).
     std::array<char_t, bufcapacity>
-        data_char; ///< @brief Scratch buffer for generic `char_t`.
+        data_char; ///< @details Scratch buffer for generic `char_t`.
   } scratch;       // NOLINT(misc-non-private-member-variables-in-classes)
 
   /// @brief Reference to the underlying `IXmlWriter` to which buffered data is
