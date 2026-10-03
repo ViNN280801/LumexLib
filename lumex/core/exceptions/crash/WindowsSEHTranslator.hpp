@@ -71,8 +71,8 @@
  * @param info The exception information.
  */
 LUMEX_PUBLIC_API
-inline void seh_translator (LUMEX_ATTRIBUTE_MAYBE_UNUSED unsigned int code,
-                            _EXCEPTION_POINTERS *info);
+void seh_translator (LUMEX_ATTRIBUTE_MAYBE_UNUSED unsigned int code,
+                     _EXCEPTION_POINTERS *info);
 #endif
 
 #if defined(LUMEX_OS_WINDOWS)

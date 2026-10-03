@@ -5,7 +5,8 @@
 #if defined(LUMEX_OS_WINDOWS)
 #include "LumexCrashHandler.hpp"
 
-inline void
+LUMEX_PUBLIC_API
+void
 seh_translator (LUMEX_ATTRIBUTE_MAYBE_UNUSED unsigned int code,
                 _EXCEPTION_POINTERS *info)
 {

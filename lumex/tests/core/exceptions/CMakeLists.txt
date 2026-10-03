@@ -26,6 +26,7 @@ foreach(_exceptions_suite IN ITEMS
         ${_exceptions_name}
         LumexException.tests.cpp
         LumexExceptionWrapper.tests.cpp
+        WindowsSEHTranslator.tests.cpp
     )
 
     set_target_properties(${_exceptions_name} PROPERTIES
