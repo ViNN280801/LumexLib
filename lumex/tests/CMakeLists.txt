@@ -33,6 +33,22 @@ else()
     message(STATUS "Skipping lint.file_blocks: no Python 3 interpreter")
 endif()
 
+# No public header under lumex/ writes `using namespace` at file scope:
+# there the directive puts the names of the library into the global
+# namespace of every consumer. Same Python 3.7+ interpreter as above.
+if(Python3_Interpreter_FOUND)
+    add_test(NAME lint.header_using_directives
+        COMMAND ${Python3_EXECUTABLE}
+            ${LumexLib_SOURCE_DIR}/Scripts/CodeTools/check_header_using.py
+            --check --dir ${LumexLib_SOURCE_DIR}/lumex
+    )
+    set_tests_properties(lint.header_using_directives PROPERTIES
+        LABELS "lint")
+else()
+    message(STATUS
+        "Skipping lint.header_using_directives: no Python 3 interpreter")
+endif()
+
 # Two vendored GoogleTest trees (not FetchContent):
 #   1.12.1 for C++11/14 tests, 1.18.0 for C++17+ tests.
 include("${CMAKE_CURRENT_LIST_DIR}/../../cmake/LumexGoogleTest.cmake")
