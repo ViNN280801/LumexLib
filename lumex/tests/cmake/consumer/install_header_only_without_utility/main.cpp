@@ -1,4 +1,4 @@
-// LumexCMake.install_header_only_without_utility: the five header-only
+// cmake.install_header_only_without_utility: the five header-only
 // modules compile and work from an install prefix that has no core/utility
 // module. Their umbrellas include core/utility headers, which LumexLib
 // installs whatever LUMEX_BUILD_UTILITY says. Exit code 0 on success, 1 when

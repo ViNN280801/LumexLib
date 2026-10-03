@@ -389,7 +389,7 @@ endfunction()
 # LumexDebug.hpp does not compile). The library's own TUs get the flag from
 # CMakeRoutines, privately; this passes it on to every consumer of a module
 # target, embedded or through the installed export (the conanfile.py
-# components carry the same flag). Pinned by LumexCMake.consumer_cplusplus_macro.
+# components carry the same flag). Pinned by cmake.consumer_cplusplus_macro.
 function(lumex_export_msvc_cplusplus_in_dir dir)
   get_property(_targets DIRECTORY "${dir}" PROPERTY BUILDSYSTEM_TARGETS)
   foreach(_t IN LISTS _targets)

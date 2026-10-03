@@ -27,8 +27,8 @@ target_link_libraries(${LUMEX_REFLECTION_NAME} INTERFACE
 # macro is defined, so exporting it would break every consumer of the
 # umbrella that has no nlohmann of its own. A consumer that wants field
 # reflection defines the macro and provides nlohmann itself. The option only
-# builds the field-reflection tests (LumexCMake.wiring_field_reflection_no_leak and
-# LumexCMake.consumer_reflection_umbrella_field_reflection_on guard this).
+# builds the field-reflection tests (cmake.wiring_field_reflection_no_leak and
+# cmake.consumer_reflection_umbrella_field_reflection_on guard this).
 if(LUMEX_WITH_FIELD_REFLECTION)
     lumex_setup_nlohmann_json()
     message(STATUS "Building with LumexFieldReflection (nlohmann/json) enabled")

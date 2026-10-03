@@ -86,12 +86,12 @@ enum class LumexLogLevel : std::uint8_t
 };
 
 /**
- * @class Logger
+ * @class LumexLogging
  * @brief Thread-safe singleton logger supporting multiple modules.
  *
- * Logger provides methods for logging messages at different severity levels,
- * includes a custom SUCCESS level, and outputs colored messages to the console
- * using ANSI escape codes.
+ * LumexLogging provides methods for logging messages at different severity
+ * levels, includes a custom SUCCESS level, and outputs colored messages to the
+ * console using ANSI escape codes.
  */
 class LUMEX_API LumexLogging
 {

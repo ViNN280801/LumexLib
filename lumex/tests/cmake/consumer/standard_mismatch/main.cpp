@@ -1,4 +1,4 @@
-// Consumer of LumexCMake.consumer_standard_mismatch_*: compiled at
+// Consumer of cmake.consumer_standard_mismatch_*: compiled at
 // CONSUMER_STD against Lumex libraries compiled at LIB_STD. Each call uses the
 // overload of the consumer's own standard: std::string_view / std::span from
 // C++17 / C++20, std::string const & and the pointer and size functions

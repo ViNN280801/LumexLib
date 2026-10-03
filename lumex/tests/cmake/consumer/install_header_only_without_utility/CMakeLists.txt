@@ -1,4 +1,4 @@
-# Fixture of LumexCMake.install_header_only_without_utility (see main.cpp).
+# Fixture of cmake.install_header_only_without_utility (see main.cpp).
 #
 # While configuring, installs LumexLib into a prefix under this build tree
 # with LUMEX_BUILD_UTILITY OFF, every module that requires utility OFF and the

@@ -4,7 +4,7 @@
 # Sanitizer reports need debug info and mostly-unoptimized frames;
 # RelWithDebInfo is the minimum useful config, Debug is the recommended one.
 #
-# Independent of CMakeRoutines so LumexCMake.* can include this file from
+# Independent of CMakeRoutines so cmake.* can include this file from
 # cmake -P without project() or a compiler.
 
 include_guard(GLOBAL)

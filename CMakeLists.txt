@@ -79,7 +79,7 @@ project(LumexLib
 # The resource compiler only exists on Windows (version .rc files of the
 # shared libraries, cmake/LibraryVersioning.cmake). Asking for RC everywhere
 # made configure fail on Linux ("No CMAKE_RC_COMPILER could be found").
-# Pinned by LumexCMake.wiring_rc_windows_only.
+# Pinned by cmake.wiring_rc_windows_only.
 if(WIN32)
     enable_language(RC)
 endif()
