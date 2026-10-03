@@ -37,6 +37,15 @@
  * SOFTWARE.
  */
 
+/**
+ * @file Unexpected.hpp
+ * @brief `Unexpected`, the wrapper that carries an error into an `Expected`;
+ * an analogue of C++23 `std::unexpected`.
+ * @details Constructing an `Expected` from an `Unexpected<E>` puts it in the
+ * error state, and `make_unexpected<E>()` of `Expected.hpp` builds one in
+ * place. Header-only, part of `lumex::expected` and usable from C++11; the
+ * class is also visible at global scope.
+ */
 #ifndef LUMEX_CORE_EXPECTED_ERROR_UNEXPECTED_HPP
 #define LUMEX_CORE_EXPECTED_ERROR_UNEXPECTED_HPP
 

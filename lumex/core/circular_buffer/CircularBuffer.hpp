@@ -22,6 +22,17 @@
  * IN THE SOFTWARE.
  */
 
+/**
+ * @file CircularBuffer.hpp
+ * @brief `CircularBuffer`, a fixed-capacity ring buffer that overwrites its
+ * oldest element when full, modeled on Boost's `circular_buffer`.
+ * @details Header-only (`lumex::circular_buffer` is an interface target) and
+ * written for C++11: the class template, its random-access iterators and the
+ * non-member comparison operators, with `operator<=>` added when the compiler
+ * supports three-way comparison and the standard concepts library (C++20). The
+ * class documentation lists the iterator invalidation, complexity and
+ * exception guarantees of each operation.
+ */
 #ifndef LUMEX_CORE_CIRCULAR_BUFFER_BUFFER_HPP
 #define LUMEX_CORE_CIRCULAR_BUFFER_BUFFER_HPP
 

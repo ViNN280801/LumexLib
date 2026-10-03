@@ -22,6 +22,20 @@
  * IN THE SOFTWARE.
  */
 
+/**
+ * @file LumexLoggerConfigFormat.hpp
+ * @brief The format of the logger's trigger file, fixed when the logger
+ * library is configured.
+ * @details Declares `logger_config_format_t` and
+ * `configured_logger_config_format()`, which returns the one format compiled
+ * into the target. The CMake cache variable `LUMEX_LOGGER_CONFIG_FORMAT`
+ * (`PLAIN_TEXT` by default, or `INI`, `JSON`, `YAML`, `XML`) becomes exactly
+ * one public `LUMEX_LOGGER_CONFIG_FORMAT_*` definition of `lumex::logger`, so
+ * a consumer compiles this header with the same choice; the header stops with
+ * `#error` unless exactly one is defined. The extension of the trigger file
+ * name plays no part in choosing the parser, and `yaml` is reserved: the
+ * logger throws for it until a YAML settings reader exists.
+ */
 #ifndef LUMEX_APPLIED_LOGGER_CONFIG_LOGGER_CONFIG_FORMAT_HPP
 #define LUMEX_APPLIED_LOGGER_CONFIG_LOGGER_CONFIG_FORMAT_HPP
 

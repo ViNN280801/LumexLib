@@ -22,8 +22,19 @@
  * IN THE SOFTWARE.
  */
 
-/// @warning Requires C++20 (concepts).
-
+/**
+ * @file LumexCast.hpp
+ * @brief `downcast()`, a checked `dynamic_cast` from a polymorphic base to a
+ * derived class that throws `BadDownCast` on a type mismatch, and the
+ * non-throwing `downcast_noexcept()`.
+ * @details The constraints accept only a real downcast: pointer to pointer or
+ * lvalue reference to lvalue reference, complete class types, a polymorphic
+ * source, a target derived from the source and no loss of cv-qualifiers. A
+ * null pointer converts to a null pointer without an error. `BadDownCast`
+ * derives from `std::bad_cast` and names both types in its message.
+ * @warning Requires C++20 (concepts and `<concepts>`); with an older standard
+ * the header declares nothing.
+ */
 #ifndef LUMEX_CORE_UTILITY_CAST_HPP
 #define LUMEX_CORE_UTILITY_CAST_HPP
 

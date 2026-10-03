@@ -22,6 +22,16 @@
  * IN THE SOFTWARE.
  */
 
+/**
+ * @file ExpectedVoid.hpp
+ * @brief The specialization `Expected<void, ErrorType>` for operations that
+ * succeed without a value; an analogue of C++23 `std::expected<void, E>`.
+ * @details It keeps the interface of the primary template where it applies to
+ * an absent value: `has_value()`, `value()` (which only checks the state and
+ * throws `BadExpectedAccess` on an error), `error()`, `error_or()`,
+ * `emplace()`, `emplace_error()`, `swap()` and the monadic operations. The
+ * header includes `Expected.hpp`, so it is enough for both forms.
+ */
 #ifndef LUMEX_CORE_EXPECTED_RESULT_EXPECTED_VOID_HPP
 #define LUMEX_CORE_EXPECTED_RESULT_EXPECTED_VOID_HPP
 

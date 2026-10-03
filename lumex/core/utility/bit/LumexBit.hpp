@@ -22,8 +22,18 @@
  * IN THE SOFTWARE.
  */
 
-/// @warning Requires C++20 (std::bit_cast, std::is_constant_evaluated,
-/// <ranges>).
+/**
+ * @file LumexBit.hpp
+ * @brief `ByteSwap()`, which reverses the byte order of any integral value and
+ * is usable in constant expressions; an analogue of C++23 `std::byteswap`.
+ * @details At run time it uses the compiler's byte swap builtin for 2, 4 and 8
+ * bytes (`__builtin_bswap*` with GCC and Clang, `_byteswap_*` with MSVC). In a
+ * constant expression, and for other sizes, it reverses the bytes of a
+ * `std::bit_cast` copy.
+ * @warning Requires C++20 (concepts, `std::bit_cast`, `std::ranges` and
+ * `std::is_constant_evaluated`); with an older standard the header declares
+ * nothing.
+ */
 
 // NOLINTBEGIN(readability-identifier-length,
 // cppcoreguidelines-avoid-magic-numbers, readability-magic-numbers)

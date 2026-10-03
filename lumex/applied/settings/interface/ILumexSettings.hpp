@@ -37,6 +37,17 @@
  * SOFTWARE.
  */
 
+/**
+ * @file ILumexSettings.hpp
+ * @brief The interface every settings format implements: load, save, and get,
+ * add or remove a string value by section and key.
+ * @details `ILumexSettings` is what `LumexSettingsFactory` returns and what
+ * `LumexSettingsGuard` works on, so code written against it does not depend on
+ * the file format. It is declared in `lumex::applied::settings` rather than in
+ * a namespace named after its directory, because the Windows SDK header
+ * `combaseapi.h` defines `interface` as a macro. A global alias of the same
+ * name is provided.
+ */
 #ifndef LUMEX_APPLIED_SETTINGS_INTERFACE_HPP
 #define LUMEX_APPLIED_SETTINGS_INTERFACE_HPP
 

@@ -37,6 +37,20 @@
  * SOFTWARE.
  */
 
+/**
+ * @file LumexConstantMacros.hpp
+ * @brief Macros that declare static constants in the same way in every C++
+ * standard: `LUMEX_CONST_NUM`, `LUMEX_CONST_STR`, `LUMEX_CONST` and their
+ * building blocks.
+ * @details `LUMEX_CONST_NUM` expands to `static`, `inline` from C++17,
+ * `const`, and `constinit` from C++20 or `constexpr` from C++11, so its
+ * initializer must be a constant expression. `LUMEX_CONST_STR` declares a
+ * constant `char const *` (restrict-qualified where the compiler supports it)
+ * for a string literal, and `LUMEX_CONST` is the plain `static const`,
+ * `inline` from C++17. `LUMEX_CONSTEVAL_FUNCTION` is `consteval` from C++20
+ * and `constexpr` before. The keyword macros these are built from are in
+ * `LumexKeywords.hpp`.
+ */
 #ifndef LUMEX_CORE_UTILITY_MACROS_CONSTANT_MACROS_HPP
 #define LUMEX_CORE_UTILITY_MACROS_CONSTANT_MACROS_HPP
 

@@ -22,6 +22,21 @@
  * IN THE SOFTWARE.
  */
 
+/**
+ * @file LumexCrcParametric.hpp
+ * @brief Header-only CRC engines for every algorithm of the CRC RevEng
+ * catalogue up to 64 bits.
+ * @details A specification structure (`..._spec_t`) carries the catalogue
+ * parameters (width, polynomial, initial value, input and output reflection,
+ * final XOR) and the catalogue check value; `CrcParametric<Spec>` computes
+ * that CRC over a buffer, and the aliases from `Crc3Gsm` to `Crc64Xz` name one
+ * engine per catalogue entry. `all_crc_specs_t` and `all_crc_algorithms_t`
+ * list all 112 in the same order, which is also the index order of
+ * `LumexCrcCatalog.hpp`. CRC-82/DARC is the only catalogue algorithm left out,
+ * because its polynomial does not fit in 64 bits. Widths of 8 bits and more
+ * use a 256-entry table, narrower ones a bitwise loop; from C++14 the table is
+ * built at compile time, in C++11 on first use.
+ */
 #ifndef LUMEX_CORE_CRC_PARAMETRIC_HPP
 #define LUMEX_CORE_CRC_PARAMETRIC_HPP
 

@@ -37,6 +37,26 @@
  * SOFTWARE.
  */
 
+/**
+ * @file LumexHardwareCapabilities.hpp
+ * @brief Hardware inventory (processor, memory, graphics adapter) and the
+ * decision whether an application should render in software.
+ * @details Declares `hardware_info_t`, `HardwareCapabilities` with the
+ * thresholds it compares against (namespace `Constants`), and two free
+ * functions: `get_mac_address()` for the first active network interface and
+ * `generate_cryptographic_seed()` for a 64-bit seed from the operating
+ * system's random source. `should_use_software_rendering()` recommends
+ * software rendering for little memory, few cores, an old or known weak
+ * processor, or no discrete graphics adapter together with modest memory or
+ * core count. `apply_optimal_rendering_settings()` acts on that recommendation
+ * by setting the Qt Quick environment variables `QT_QUICK_BACKEND=software`
+ * and `QSG_RENDER_LOOP=basic`; otherwise it changes nothing.
+ *
+ * Detection uses CPUID, the registry, `GlobalMemoryStatusEx` and DXGI on
+ * Windows, and `/proc/cpuinfo`, `/proc/meminfo` and the output of `lspci` on
+ * Linux. The implementation is compiled into the `lumex::hardware` library and
+ * reports through `LumexLogging`.
+ */
 #ifndef LUMEX_APPLIED_HARDWARE_CAPS_HARDWARE_CAPABILITIES_HPP
 #define LUMEX_APPLIED_HARDWARE_CAPS_HARDWARE_CAPABILITIES_HPP
 

@@ -37,6 +37,15 @@
  * SOFTWARE.
  */
 
+/**
+ * @file LumexProcess.hpp
+ * @brief `get_current_pid()`, the operating system's id of the calling
+ * process.
+ * @details Header-only and usable from C++11: `GetCurrentProcessId()` on
+ * Windows and `getpid()` elsewhere, returned as `unsigned long` on every
+ * platform. The header includes `<windows.h>` (defining `WIN32_LEAN_AND_MEAN`
+ * and `NOMINMAX` unless they are set) or `<unistd.h>`.
+ */
 #ifndef LUMEX_CORE_UTILITY_PROCESS_HPP
 #define LUMEX_CORE_UTILITY_PROCESS_HPP
 

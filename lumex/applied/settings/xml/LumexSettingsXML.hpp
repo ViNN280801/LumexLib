@@ -22,6 +22,16 @@
  * IN THE SOFTWARE.
  */
 
+/**
+ * @file LumexSettingsXML.hpp
+ * @brief `ILumexSettings` over XML files, parsed and written with the
+ * library's own `lumex::xml` module.
+ * @details Declares `LumexSettingsXML` and its `Constants` (the `.xml`
+ * extension and `settings`, the root element that saving writes). A section is
+ * a child element of the root and a key is a leaf element inside it. Without
+ * `LUMEX_SETTINGS_WITH_XML` (the XML module not built) the class still
+ * compiles, but loading, saving and validation fail.
+ */
 #ifndef LUMEX_APPLIED_SETTINGS_XML_SETTINGS_XML_HPP
 #define LUMEX_APPLIED_SETTINGS_XML_SETTINGS_XML_HPP
 

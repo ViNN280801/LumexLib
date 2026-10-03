@@ -37,6 +37,16 @@
  * SOFTWARE.
  */
 
+/**
+ * @file LumexDemangle.hpp
+ * @brief Readable C++ type names: the `lumDemangle` macro for a type or an
+ * expression and `demangle_type_name()` for a name that is already mangled.
+ * @details `lumDemangle(type)` applies `typeid` and demangles the result;
+ * `demangle_type_name()` demangles a name taken from elsewhere, such as a
+ * stack frame. Both use `abi::__cxa_demangle` with GCC and Clang and return
+ * the name unchanged with other compilers or when demangling fails. The macro
+ * is defined at global scope.
+ */
 #ifndef LUMEX_CORE_UTILITY_DEMANGLE_HPP
 #define LUMEX_CORE_UTILITY_DEMANGLE_HPP
 

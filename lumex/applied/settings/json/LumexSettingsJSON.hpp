@@ -22,6 +22,17 @@
  * IN THE SOFTWARE.
  */
 
+/**
+ * @file LumexSettingsJSON.hpp
+ * @brief `ILumexSettings` over JSON files, parsed and written with the
+ * vendored nlohmann/json.
+ * @details Declares `LumexSettingsJSON` and its `Constants` (the `.json`
+ * extension and `settings`, the implicit section of the scalar members of the
+ * root object). A section is a JSON object and a key is one of its scalar
+ * members. Without `LUMEX_SETTINGS_WITH_JSON` (the nlohmann/json header absent
+ * at build time) the class still compiles, but loading, saving and validation
+ * fail.
+ */
 #ifndef LUMEX_APPLIED_SETTINGS_JSON_SETTINGS_JSON_HPP
 #define LUMEX_APPLIED_SETTINGS_JSON_SETTINGS_JSON_HPP
 

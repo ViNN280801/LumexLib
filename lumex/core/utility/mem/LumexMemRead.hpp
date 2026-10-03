@@ -22,8 +22,20 @@
  * IN THE SOFTWARE.
  */
 
-/// @warning Requires C++20 (concepts, <span>).
-
+/**
+ * @file LumexMemRead.hpp
+ * @brief `As<T>()`, which reads a trivially copyable value out of a raw byte
+ * buffer through `std::memcpy`, so unaligned data is read without undefined
+ * behavior.
+ * @details It returns `std::nullopt` for a null pointer or a buffer shorter
+ * than `sizeof(T)`. The overloads take a pointer and a size, a `std::span` of
+ * `std::byte`, `char` or `unsigned char`, or an object with `GetData()` and
+ * `GetDataSize()`. The value type must satisfy `Extractible` of
+ * `LumexTypeTraits.hpp`: trivially copyable, standard layout, and neither a
+ * pointer nor a reference.
+ * @warning Requires C++20 (concepts and `<span>`); with an older standard the
+ * header declares nothing.
+ */
 #ifndef LUMEX_CORE_UTILITY_MEM_HPP
 #define LUMEX_CORE_UTILITY_MEM_HPP
 

@@ -37,6 +37,21 @@
  * SOFTWARE.
  */
 
+/**
+ * @file LumexAttributes.hpp
+ * @brief `LUMEX_ATTRIBUTE_*` macros that spell C++ attributes portably, and
+ * the structure packing macros `LUMEX_PACK_BEGIN` and `LUMEX_PACK_END`.
+ * @details Each attribute macro expands to the standard attribute when the
+ * compiled standard has it, otherwise to a GCC, Clang or MSVC extension with
+ * the same effect, and to nothing where neither exists. The macros cover
+ * nodiscard (with a reason), noreturn, noinline, packed, carries_dependency,
+ * deprecated (with or without a reason), fallthrough, maybe_unused, likely and
+ * unlikely, no_unique_address (C++20), assume (C++23) and indeterminate
+ * (C++26). `LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR(...)` silences an unused
+ * expression by casting it to `void`. `LUMEX_ATTRIBUTE_PACKED` is empty for
+ * MSVC, which packs through `LUMEX_PACK_BEGIN(n)` and `LUMEX_PACK_END`
+ * instead; those two work with MSVC, GCC and Clang and are empty elsewhere.
+ */
 #ifndef LUMEX_CORE_UTILITY_ATTR_HPP
 #define LUMEX_CORE_UTILITY_ATTR_HPP
 

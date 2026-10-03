@@ -22,6 +22,22 @@
  * IN THE SOFTWARE.
  */
 
+/**
+ * @file LumexCrcCatalog.hpp
+ * @brief Run-time CRC computation by catalogue index or by explicit
+ * parameters, and the process-wide 8-bit transport checksum.
+ * @details The functions are compiled into the `lumex::crc` library and take
+ * parameters known only at run time: `ComputeCrcCatalog()` takes an index into
+ * `all_crc_specs_t` of `LumexCrcParametric.hpp` (112 algorithms ordered by
+ * width, so index 0 is CRC-3/GSM), and `ComputeCrcWithRevEngParams()` takes a
+ * `crc_params_t` in CRC RevEng notation (width 1 to 64). The transport
+ * functions keep one process-global, mutex-protected setting that
+ * `ComputeTransportChecksum()` uses for a one-byte frame checksum:
+ * CRC-8/MAXIM-DOW by default, an 8-bit catalogue entry, or caller-supplied
+ * 8-bit parameters. The overloads for `std::vector` (every standard),
+ * `std::string_view` (C++17) and `std::span` (C++20) are inline wrappers over
+ * the pointer and size functions.
+ */
 #ifndef LUMEX_CORE_CRC_CATALOG_HPP
 #define LUMEX_CORE_CRC_CATALOG_HPP
 

@@ -37,6 +37,19 @@
  * SOFTWARE.
  */
 
+/**
+ * @file Decoder.hpp
+ * @brief Base64 decoding: the `Decoder` class of the `lumex::base64` library.
+ * @details `Decoder::decode()` turns Base64 text in the standard alphabet
+ * (with `+` and `/`, padding optional) into bytes, either into a caller's
+ * vector with a success flag or as a returned vector that is empty for invalid
+ * input. The overloads that take a pointer and a size are compiled into the
+ * library and have the same signature in every C++ standard; the string
+ * overloads are inline wrappers over them (`std::string_view` from C++17,
+ * `std::string` before). Like the other Base64 headers, it brings the names of
+ * the codec's `Types` namespace (`byte_type`, `string_type_t`) into the global
+ * namespace with a using-directive.
+ */
 #ifndef LUMEX_CORE_BASE64_DECODE_HPP
 #define LUMEX_CORE_BASE64_DECODE_HPP
 

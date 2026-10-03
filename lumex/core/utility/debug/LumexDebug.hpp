@@ -37,6 +37,21 @@
  * SOFTWARE.
  */
 
+/**
+ * @file LumexDebug.hpp
+ * @brief Header-only call stack capture for diagnostics: `captureStackTrace()`
+ * and the `LUMEX_CAPTURE_CALLER_INFO()` macro.
+ * @details `captureStackTrace()` returns the current stack as text, one frame
+ * per line, and never throws. On Windows it resolves names, files and lines in
+ * the process through DbgHelp, with the calls serialized by a mutex. With GCC
+ * or Clang elsewhere it collects the addresses with `backtrace()` and names
+ * exported symbols with `dladdr()`; on Linux every frame also gets its module
+ * and the offset inside it (`libfoo.so.1+0x1A2B`), so `addr2line` or `gdb` can
+ * symbolize the stack later from the module's debug file. It starts no process
+ * and reads no debug information, but it allocates, so it must not be called
+ * from a signal handler. `LUMEX_CAPTURE_CALLER_INFO()` formats the function,
+ * file and line of the place where it is written.
+ */
 #ifndef LUMEX_CORE_UTILITY_DEBUG_HPP
 #define LUMEX_CORE_UTILITY_DEBUG_HPP
 

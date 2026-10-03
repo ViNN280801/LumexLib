@@ -22,6 +22,18 @@
  * IN THE SOFTWARE.
  */
 
+/**
+ * @file Encoder.hpp
+ * @brief Base64 encoding: the `Encoder` class of the `lumex::base64` library.
+ * @details `Encoder::encode()` turns bytes into Base64 text in the standard
+ * alphabet (with `+` and `/`), padded with `=` to a multiple of four
+ * characters. The pointer and size overload and the `std::vector` overload are
+ * compiled into the library and have the same signature in every C++ standard;
+ * the `std::string_view` (C++17) and `std::span` (C++20) overloads are inline
+ * wrappers over the pointer one. Like the other Base64 headers, it brings the
+ * names of the codec's `Types` namespace (`byte_type`, `string_type_t`) into
+ * the global namespace with a using-directive.
+ */
 #ifndef LUMEX_CORE_BASE64_ENCODE_HPP
 #define LUMEX_CORE_BASE64_ENCODE_HPP
 

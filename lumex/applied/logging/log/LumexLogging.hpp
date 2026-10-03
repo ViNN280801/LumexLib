@@ -37,6 +37,21 @@
  * SOFTWARE.
  */
 
+/**
+ * @file LumexLogging.hpp
+ * @brief The console and file logging facade `LumexLogging` that other
+ * LumexLib modules report through.
+ * @details `LumexLogging` has one static function per level of `LumexLogLevel`
+ * (debug, info, success, warning, error, critical); each takes a module name
+ * and any number of streamable parts. A message is printed in ANSI colors, to
+ * `std::clog` up to the warning level and to `std::cerr` above it, and then
+ * appended to one log file per run in the directory that `getLogsDirectory()`
+ * returns: `logs` next to the executable on Windows, a `logs` directory under
+ * `~/.local/share` or `XDG_DATA_HOME` on Unix-like systems. A mutex serializes
+ * the output. The class is compiled into `lumex::logging`, a module separate
+ * from the file logger `LumexLogger` of `lumex::logger`; the short macros are
+ * in `LumexLoggingMacro.hpp`.
+ */
 #ifndef LUMEX_APPLIED_LOGGING_LOG_LOGGING_HPP
 #define LUMEX_APPLIED_LOGGING_LOG_LOGGING_HPP
 

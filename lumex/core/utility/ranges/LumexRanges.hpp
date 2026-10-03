@@ -37,8 +37,19 @@
  * SOFTWARE.
  */
 
-/// @warning Requires C++20 (concepts, <ranges>).
-
+/**
+ * @file LumexRanges.hpp
+ * @brief `GetNearestTo()`, which finds the element of a sorted range whose
+ * value is numerically nearest to a given value.
+ * @details It searches with `std::ranges::lower_bound` and then compares the
+ * element found with its predecessor, so the range must be sorted by the same
+ * comparison and projection. It accepts an iterator and sentinel pair or a
+ * range, plus an optional comparison and projection as the standard range
+ * algorithms do, and returns the end iterator only for an empty range. The
+ * distance and the numeric concept come from the `lumex::math` module.
+ * @warning Requires C++20 (concepts and `<ranges>`); with an older standard
+ * the header declares nothing.
+ */
 #ifndef LUMEX_CORE_UTILITY_RANGES_HPP
 #define LUMEX_CORE_UTILITY_RANGES_HPP
 

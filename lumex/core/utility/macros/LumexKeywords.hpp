@@ -37,6 +37,24 @@
  * SOFTWARE.
  */
 
+/**
+ * @file LumexKeywords.hpp
+ * @brief Macros that spell C++ keywords and specifiers only where the compiled
+ * standard supports them, so one source compiles from C++11 to C++26.
+ * @details `LUMEX_NOEXCEPT` and `LUMEX_NOEXCEPT_IF(...)` are `noexcept` and
+ * its conditional form. `LUMEX_CONSTEXPR` and the `LUMEX_CONSTEXPR_*` family
+ * for functions, constructors, destructors and virtual functions expand to
+ * `constexpr` only from the standard the header picks for that kind of
+ * declaration: C++11 for functions and constructors, C++20 for virtual
+ * functions and destructors, C++23 for defaulted special members and virtual
+ * destructors. `LUMEX_CONSTEXPR_CXX14` marks a function body that needs the
+ * relaxed rules of C++14. `LUMEX_CONSTEXPR_IF` is `if constexpr` from C++17
+ * and a plain `if` before, so both branches must compile.
+ * `LUMEX_INLINE_VARIABLE` is `inline` from C++17 and empty before;
+ * `LUMEX_CONSTINIT` and `LUMEX_CONSTEVAL` are the C++20 keywords and
+ * `constexpr` before; `LUMEX_RESTRICT` is the compiler's `__restrict`
+ * extension. The header includes nothing.
+ */
 #ifndef LUMEX_CORE_UTILITY_MACROS_KEYWORDS_HPP
 #define LUMEX_CORE_UTILITY_MACROS_KEYWORDS_HPP
 

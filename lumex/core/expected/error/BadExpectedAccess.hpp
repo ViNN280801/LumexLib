@@ -37,6 +37,17 @@
  * SOFTWARE.
  */
 
+/**
+ * @file BadExpectedAccess.hpp
+ * @brief `BadExpectedAccess`, the exception that `Expected` throws when its
+ * value is read while it holds an error; an analogue of C++23
+ * `std::bad_expected_access`.
+ * @details `value()` of an `Expected` in the error state throws
+ * `BadExpectedAccess<E>` with a copy (or, from an rvalue, the moved value) of
+ * that error, which `error()` of the exception returns. Header-only, part of
+ * `lumex::expected` and usable from C++11; the class is also visible at global
+ * scope.
+ */
 #ifndef LUMEX_CORE_EXPECTED_ERROR_BAD_EXPECTED_ACCESS_HPP
 #define LUMEX_CORE_EXPECTED_ERROR_BAD_EXPECTED_ACCESS_HPP
 

@@ -37,6 +37,20 @@
  * SOFTWARE.
  */
 
+/**
+ * @file WindowsSEHTranslator.hpp
+ * @brief The Windows structured exception translator `seh_translator()` and
+ * the `SET_SEH_TRANSLATOR` macro that installs it.
+ * @details On Windows `SET_SEH_TRANSLATOR` calls
+ * `_set_se_translator(seh_translator)`, which applies to the calling thread
+ * only. When a structured exception (an access violation, for example) then
+ * occurs in that thread, the translator lets `LumexCrashHandler` write a
+ * minidump and terminates the process with the exception code. MSVC expects
+ * the code that installs a translator to be compiled with `/EHa` (warning
+ * C4535 otherwise). `LUMEX_EXCEPTION_HANDLE_BEGIN` of `LumexException.hpp`
+ * expands to this macro. On other platforms the macro is empty and the
+ * function is not declared.
+ */
 #ifndef LUMEX_CORE_EXCEPTIONS_CRASH_WINDOWS_SEH_TRANSLATOR_HPP
 #define LUMEX_CORE_EXCEPTIONS_CRASH_WINDOWS_SEH_TRANSLATOR_HPP
 

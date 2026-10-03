@@ -37,6 +37,15 @@
  * SOFTWARE.
  */
 
+/**
+ * @file SupportedConfigExtensions.hpp
+ * @brief The configuration file formats the settings module knows, used to
+ * select an implementation from `LumexSettingsFactory`.
+ * @details Declares the unscoped enumeration `SupportedConfigExtensions`
+ * (`INI`, `XML`, `JSON`) and its global alias `LumexSettingsExtensions`. A
+ * value names a format; whether the build provides that format is decided by
+ * the factory. The header lives in `ini/` but serves every format.
+ */
 #ifndef LUMEX_APPLIED_SETTINGS_INI_SUPPORTED_CONFIG_EXTENSIONS_HPP
 #define LUMEX_APPLIED_SETTINGS_INI_SUPPORTED_CONFIG_EXTENSIONS_HPP
 

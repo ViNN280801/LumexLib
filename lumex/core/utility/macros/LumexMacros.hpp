@@ -22,6 +22,16 @@
  * IN THE SOFTWARE.
  */
 
+/**
+ * @file LumexMacros.hpp
+ * @brief General preprocessor helpers: `LUMEX_FUNCTION_NAME`,
+ * `LUMEX_STRINGIZE` and `LUMEX_CONCAT`.
+ * @details `LUMEX_FUNCTION_NAME` is the decorated name of the enclosing
+ * function: `__FUNCSIG__` on Windows targets, `__PRETTY_FUNCTION__` with GCC
+ * and Clang elsewhere, `__FUNCTION__` otherwise. `LUMEX_STRINGIZE(x)` and
+ * `LUMEX_CONCAT(x, y)` expand their arguments before turning them into a
+ * string literal or pasting them into one token.
+ */
 #ifndef LUMEX_CORE_UTILITY_MACROS_MACROS_HPP
 #define LUMEX_CORE_UTILITY_MACROS_MACROS_HPP
 

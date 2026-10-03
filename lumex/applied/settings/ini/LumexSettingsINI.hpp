@@ -22,6 +22,17 @@
  * IN THE SOFTWARE.
  */
 
+/**
+ * @file LumexSettingsINI.hpp
+ * @brief `ILumexSettings` over INI files, parsed and written by the library
+ * itself.
+ * @details Declares `LumexSettingsINI`, which keeps the sections and keys in
+ * memory, and the `Constants` it parses with: the `.ini` extension, the
+ * regular expressions for a `[section]` header and a `key=value` line (a value
+ * may be quoted, and `#` or `;` starts a comment), and the UTF-8 byte order
+ * mark. The INI reader needs no other module, so it is the one format the
+ * settings factory always provides.
+ */
 #ifndef LUMEX_APPLIED_SETTINGS_INI_SETTINGS_INI_HPP
 #define LUMEX_APPLIED_SETTINGS_INI_SETTINGS_INI_HPP
 

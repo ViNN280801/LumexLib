@@ -22,6 +22,19 @@
  * IN THE SOFTWARE.
  */
 
+/**
+ * @file SuccessFailure.hpp
+ * @brief The return markers `success()` and `failure()` for functions that
+ * return an `Expected`.
+ * @details `return success();`, `return success(value);` and
+ * `return failure(error);` produce `success_t` and `failure_t` objects that
+ * convert implicitly into the `Expected<T, E>` the function returns, so the
+ * return statement need not spell that type. A conversion takes part in
+ * overload resolution only when the target value or error type can be
+ * constructed from what the marker holds; `success()` without an argument
+ * converts into `Expected<void, E>` or into an `Expected` whose value type is
+ * default-constructible.
+ */
 #ifndef LUMEX_CORE_EXPECTED_RESULT_SUCCESS_FAILURE_HPP
 #define LUMEX_CORE_EXPECTED_RESULT_SUCCESS_FAILURE_HPP
 

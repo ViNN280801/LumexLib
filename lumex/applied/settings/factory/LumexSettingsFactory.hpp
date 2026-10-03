@@ -22,6 +22,18 @@
  * IN THE SOFTWARE.
  */
 
+/**
+ * @file LumexSettingsFactory.hpp
+ * @brief Creates the `ILumexSettings` implementation for a configuration file
+ * format.
+ * @details `LumexSettingsFactory::create()` maps a `SupportedConfigExtensions`
+ * value to a new `LumexSettingsINI`, `LumexSettingsXML` or `LumexSettingsJSON`
+ * owned by a `std::unique_ptr`. INI is always available. XML and JSON exist
+ * only when the settings library was built with `LUMEX_SETTINGS_WITH_XML` (the
+ * XML module) or `LUMEX_SETTINGS_WITH_JSON` (the vendored nlohmann/json
+ * header); for a format the build left out, the factory returns a null
+ * pointer.
+ */
 #ifndef LUMEX_APPLIED_SETTINGS_FACTORY_HPP
 #define LUMEX_APPLIED_SETTINGS_FACTORY_HPP
 

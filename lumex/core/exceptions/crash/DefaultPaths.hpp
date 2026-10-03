@@ -22,6 +22,17 @@
  * IN THE SOFTWARE.
  */
 
+/**
+ * @file DefaultPaths.hpp
+ * @brief Default names used by the crash handling of `lumex::exceptions`: the
+ * crash directory and the file name prefixes.
+ * @details `KDEFAULT_CRASHES_DIR_PATH` ("crashes") is the directory next to
+ * the executable that `LumexBaseException::to_crash_report()` writes to on
+ * every platform and that `LumexCrashHandler` writes dumps to on Windows.
+ * `KDEFAULT_MINIDUMP_PREFIX` ("dump_") starts the name of a dump file, and
+ * `KDEFAULT_CRASH_REPORT_PREFIX` ("crash_report_") the name of a crash report.
+ * The constants are declared at global scope.
+ */
 #ifndef LUMEX_CORE_EXCEPTIONS_CRASH_DEFAULT_PATHS_HPP
 #define LUMEX_CORE_EXCEPTIONS_CRASH_DEFAULT_PATHS_HPP
 

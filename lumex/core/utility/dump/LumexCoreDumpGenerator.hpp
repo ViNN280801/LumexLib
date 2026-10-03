@@ -37,6 +37,27 @@
  * SOFTWARE.
  */
 
+/**
+ * @file LumexCoreDumpGenerator.hpp
+ * @brief The crash dump subsystem of `lumex::utility`: `CoreDumpGenerator`,
+ * the `DumpType` enumeration, `DumpConfiguration` and `DumpFactory`.
+ * @details `CoreDumpGenerator` is a process-wide singleton that installs crash
+ * handlers and writes dumps on a crash or on request: minidumps through
+ * DbgHelp on Windows, where `DumpType` maps to `MINIDUMP_TYPE` flags, and core
+ * dumps on Unix-like systems, where it lifts the core size limit, points the
+ * kernel core pattern at its dump directory through `sudo` (restoring the
+ * previous pattern on destruction) and can copy the dumps that
+ * systemd-coredump collects. It also lets the application register a graceful
+ * shutdown handler: a console control handler on Windows, a thread that waits
+ * for SIGINT, SIGTERM or SIGHUP on POSIX systems. `DumpFactory` builds and
+ * checks the configuration for a dump type and reports which types the
+ * platform supports.
+ *
+ * Most of the implementation is inline in this header; the static data members
+ * are defined in `LumexCoreDumpGenerator.cpp`. Windows and Unix-like systems
+ * including Android are supported; on any other platform the header stops with
+ * `#error`.
+ */
 #ifndef LUMEX_CORE_UTILITY_DUMP_HPP
 #define LUMEX_CORE_UTILITY_DUMP_HPP
 

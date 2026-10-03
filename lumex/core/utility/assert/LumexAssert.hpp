@@ -37,6 +37,20 @@
  * SOFTWARE.
  */
 
+/**
+ * @file LumexAssert.hpp
+ * @brief Assertion macros: `LUMEX_ASSERT`, checked at run time, and
+ * `LUMEX_STATIC_ASSERT` and `LUMEX_STATIC_ASSERT_MSG`, checked at compile
+ * time.
+ * @details `LUMEX_ASSERT(cond)` stays active in every build, `NDEBUG`
+ * included: a false condition calls `lumex_assert_handler()`, which prints the
+ * expression, the file and the line to standard error and calls
+ * `std::abort()`. The handler has C linkage and is compiled into
+ * `lumex::utility`. `LUMEX_STATIC_ASSERT(cond)` is `static_assert(cond)` from
+ * C++17 and passes the condition text as the message before, when a message
+ * was still required; `LUMEX_STATIC_ASSERT_MSG(...)` is variadic so that
+ * commas in template arguments do not split the condition.
+ */
 #ifndef LUMEX_CORE_UTILITY_ASSERT_HPP
 #define LUMEX_CORE_UTILITY_ASSERT_HPP
 

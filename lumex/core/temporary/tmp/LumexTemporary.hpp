@@ -37,6 +37,21 @@
  * SOFTWARE.
  */
 
+/**
+ * @file LumexTemporary.hpp
+ * @brief Temporary files and directories that delete themselves:
+ * `TemporaryFile`, `TemporaryDirectory` and the factory `LumexTemporary`.
+ * @details `LumexTemporary::create_temp_file()` and `create_temp_directory()`
+ * create an entry with a unique name (prefix, time, process id, random
+ * hexadecimal digits and a counter) and return it in a `filesystem_result`.
+ * The returned object can be moved but not copied, and it deletes the entry
+ * when destroyed unless `release()` was called. Entries are created in a
+ * `Lumex` directory: in the system temporary directory on Windows and when
+ * running as an AppImage, otherwise in the home directory, where an unset
+ * `HOME` makes `get_temp_directory_path()` throw `std::runtime_error`. The
+ * implementation is compiled into `lumex::temporary`; the classes are also
+ * visible at global scope.
+ */
 #ifndef LUMEX_CORE_TEMPORARY_TMP_HPP
 #define LUMEX_CORE_TEMPORARY_TMP_HPP
 

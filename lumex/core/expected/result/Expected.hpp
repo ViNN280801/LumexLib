@@ -22,6 +22,24 @@
  * IN THE SOFTWARE.
  */
 
+/**
+ * @file Expected.hpp
+ * @brief `Expected<SuccessType, ErrorType>`, an analogue of C++23
+ * `std::expected` usable from C++11, with its non-member functions and
+ * factories.
+ * @details The class holds either a value or an error in a union and manages
+ * their lifetimes by hand. It provides the observers of `std::expected`
+ * (`has_value()`, `value()`, which throws `BadExpectedAccess`, `error()`,
+ * `value_or()`, `error_or()`, `operator*`), `emplace()`, `swap()` and the
+ * monadic operations `and_then()`, `transform()`, `or_else()` and
+ * `transform_error()`, which are constrained with concepts from C++20 and with
+ * SFINAE before. The header also declares the non-member `operator==` and
+ * `swap()`, `make_expected()` and `make_unexpected<E>()`; the overloads of
+ * `make_unexpected()` that return an `Expected` are deprecated. The
+ * specialization for a `void` value is in `ExpectedVoid.hpp`. Header-only,
+ * part of `lumex::expected`; `Expected` and `make_unexpected` are also visible
+ * at global scope.
+ */
 #ifndef LUMEX_CORE_EXPECTED_RESULT_EXPECTED_HPP
 #define LUMEX_CORE_EXPECTED_RESULT_EXPECTED_HPP
 

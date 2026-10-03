@@ -37,6 +37,15 @@
  * SOFTWARE.
  */
 
+/**
+ * @file LumexLoggingMacro.hpp
+ * @brief Short macros over `LumexLogging`: `lumDebug` to `lumCritical`, and
+ * the `...FL` variants that prefix the source file and line.
+ * @details Each macro takes a module name and the message parts and calls the
+ * `LumexLogging` function of the same level. The header also defines
+ * `LUMEX_FUNCTION_NAME` (the compiler's decorated name of the enclosing
+ * function) with the same definition as `LumexMacros.hpp`.
+ */
 #ifndef LUMEX_APPLIED_LOGGING_LOG_LOGGING_MACRO_HPP
 #define LUMEX_APPLIED_LOGGING_LOG_LOGGING_MACRO_HPP
 

@@ -37,6 +37,26 @@
  * SOFTWARE.
  */
 
+/**
+ * @file LumexCrashHandler.hpp
+ * @brief `LumexCrashHandler`, the singleton that writes a dump when the
+ * process crashes.
+ * @details `initialize()` creates the crash directory and, on Unix-like
+ * systems, marks the process dumpable, lifts the core file size limit and
+ * installs handlers for SIGSEGV, SIGABRT, SIGFPE and SIGILL. Such a handler
+ * reports the signal on standard error, tries to point the kernel core pattern
+ * at the crash directory (it runs `sudo tee /proc/sys/kernel/core_pattern` and
+ * writes a `.info` file when that fails) and raises the signal again with the
+ * default action. On these systems the crash directory is `crashes` in the
+ * application's directory under `~/.local/share` or `XDG_DATA_HOME`; on
+ * Windows it is `crashes` next to the executable.
+ *
+ * On Windows the handler writes a minidump through DbgHelp and shows a message
+ * box, but `initialize()` installs no unhandled-exception filter: a thread
+ * reaches the handler through the translator that `SET_SEH_TRANSLATOR` of
+ * `WindowsSEHTranslator.hpp` installs. The class is compiled into
+ * `lumex::exceptions` and is also visible at global scope.
+ */
 #ifndef LUMEX_CORE_EXCEPTIONS_CRASH_CRASH_HANDLER_HPP
 #define LUMEX_CORE_EXCEPTIONS_CRASH_CRASH_HANDLER_HPP
 

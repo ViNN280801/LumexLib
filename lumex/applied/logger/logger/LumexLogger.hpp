@@ -22,6 +22,28 @@
  * IN THE SOFTWARE.
  */
 
+/**
+ * @file LumexLogger.hpp
+ * @brief The file logger of the `lumex::logger` module: the `LumexLogger`
+ * singleton, its level and configuration types, and the `LOGGER_LOG_*` and
+ * `LUMEX_LOG_*` macros.
+ * @details The logger, kept in step with the Logger of the DChannel project,
+ * writes to a log file next to the executable and is enabled only while its
+ * trigger file (`enable_logs` by default) exists; the contents of the trigger
+ * file set the level and the other options, in the format chosen by
+ * `LumexLoggerConfigFormat.hpp`. Besides the class, the header declares
+ * `LogLevel`, `FunctionNameMode`, `logger_config_t`, `log_entry_t` and
+ * `logger_stringify()`.
+ *
+ * A logging macro does nothing when its level is disabled; otherwise it
+ * prefixes the message with the calling function (as `FunctionNameMode`
+ * selects) and the thread id. `LOGGER_LOG_*` is the generic layer and
+ * `LUMEX_LOG_*` forwards to it under the library's prefix. The header also
+ * defines its own `LOGGER_OS_*`, `LOGGER_ARCH_*` and `LOGGER_FUNCTION_NAME`
+ * macros, `MAX_PATH` or `PATH_MAX` when the platform headers have not, and
+ * below C++14 it declares `std::make_unique` and `std::exchange` itself. The
+ * module is independent of `lumex::logging` (`LumexLogging`).
+ */
 #ifndef LUMEX_APPLIED_LOGGER_LOGGER_HPP
 #define LUMEX_APPLIED_LOGGER_LOGGER_HPP
 

@@ -37,6 +37,28 @@
  * SOFTWARE.
  */
 
+/**
+ * @file LumexException.hpp
+ * @brief `LumexBaseException`, the base exception of LumexLib that records the
+ * stack where it was constructed, and the macros that throw and catch it.
+ * @details The exception keeps its message and a `LumexStacktrace` captured by
+ * the constructor. `to_stderr()` prints the demangled exception type and the
+ * message; `to_crash_report()` appends the message and the stack to one
+ * `crash_report_<timestamp>.txt` per run in the `crashes` directory next to
+ * the executable. The constructors are compiled into `lumex::exceptions` and
+ * have the same signatures in every C++ standard; the `std::string_view`
+ * constructor (C++17) is an inline wrapper.
+ *
+ * `LUMEX_THROW_EXCEPTION` throws an exception type with its demangled name in
+ * front of the message. `LUMEX_EXCEPTION_HANDLE_BEGIN` and
+ * `LUMEX_EXCEPTION_HANDLE_END` wrap a block in a `try` that reports a
+ * `LumexBaseException`, any other `std::exception` and an unknown exception;
+ * the opening macro also installs the Windows translator through
+ * `SET_SEH_TRANSLATOR`, which `WindowsSEHTranslator.hpp` defines and this
+ * header does not include, so these macros need the `LumexException` umbrella.
+ * `LUMEX_DEFINE_EXCEPTION`, which declares new exception types, comes from the
+ * included `LumexExceptionMacros.hpp`.
+ */
 #ifndef LUMEX_CORE_EXCEPTIONS_EXCEPTION_HPP
 #define LUMEX_CORE_EXCEPTIONS_EXCEPTION_HPP
 

@@ -37,6 +37,17 @@
  * SOFTWARE.
  */
 
+/**
+ * @file ExpectedTypes.hpp
+ * @brief The tags and the placeholder type that `Expected` uses: `in_place`,
+ * `unexpect` and `Unit`.
+ * @details `in_place_tag` and `in_place` request in-place construction of the
+ * value, `unexpect_t` and `unexpect` in-place construction of the error, as
+ * `std::in_place` (C++17) and `std::unexpect` (C++23) do. `Unit` is the empty
+ * object that fills the success alternative of `Expected<void, E>`. The
+ * `is_expected` traits are not here but in `LumexTypeTraits.hpp`. The tags are
+ * also visible at global scope.
+ */
 #ifndef LUMEX_CORE_EXPECTED_RESULT_EXPECTED_TYPES_HPP
 #define LUMEX_CORE_EXPECTED_RESULT_EXPECTED_TYPES_HPP
 

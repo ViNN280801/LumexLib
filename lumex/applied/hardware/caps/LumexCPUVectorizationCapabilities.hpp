@@ -37,6 +37,20 @@
  * SOFTWARE.
  */
 
+/**
+ * @file LumexCPUVectorizationCapabilities.hpp
+ * @brief Run-time detection of the SIMD instruction sets that the processor
+ * and the operating system support.
+ * @details Declares `cpu_vectorization_info_t`, which holds one flag per
+ * instruction set (SSE to SSE4.2, AVX, AVX2, five AVX-512 subsets, FMA3, FMA4,
+ * NEON, SVE), the widest usable SIMD register in bits and a readable summary,
+ * and `CPUVectorizationDetector`, which fills it. On x86 and x64 the detector
+ * reads CPUID and reports AVX and the later sets only when the operating
+ * system saves the extended register state (XSAVE); on ARM Linux it reads the
+ * hardware capability words of the auxiliary vector (`getauxval`). Nothing is
+ * cached: every `detect()` call queries the processor again. The
+ * implementation is compiled into the `lumex::hardware` library.
+ */
 #ifndef LUMEX_APPLIED_HARDWARE_CAPS_CPU_VECTORIZATION_CAPABILITIES_HPP
 #define LUMEX_APPLIED_HARDWARE_CAPS_CPU_VECTORIZATION_CAPABILITIES_HPP
 

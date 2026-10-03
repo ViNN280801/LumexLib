@@ -37,6 +37,16 @@
  * SOFTWARE.
  */
 
+/**
+ * @file LumexUtilities.hpp
+ * @brief `fd_to_ptr()` and `ptr_to_fd()`, which store a POSIX file descriptor
+ * in a `void *` handle slot and get it back.
+ * @details The conversion goes through `intptr_t`, so a non-negative
+ * descriptor survives the round trip on 32-bit and 64-bit targets; it serves
+ * code that keeps a Windows `HANDLE` and a POSIX descriptor in the same
+ * member. Both functions are `static inline` at global scope, so every
+ * translation unit gets its own copy.
+ */
 #ifndef LUMEX_CORE_UTILITY_UTIL_HPP
 #define LUMEX_CORE_UTILITY_UTIL_HPP
 

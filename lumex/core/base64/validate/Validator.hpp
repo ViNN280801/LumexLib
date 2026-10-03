@@ -37,6 +37,19 @@
  * SOFTWARE.
  */
 
+/**
+ * @file Validator.hpp
+ * @brief Base64 syntax check: the `Validator` class of the `lumex::base64`
+ * library.
+ * @details `Validator::is_valid_base64()` tells whether text is well-formed
+ * Base64 without decoding it: alphabet characters followed by at most two `=`,
+ * with or without padding. The pointer and size overload is compiled into the
+ * library and has the same signature in every C++ standard; the string
+ * overload is an inline wrapper over it (`std::string_view` from C++17,
+ * `std::string` before). Like the other Base64 headers, it brings the names of
+ * the codec's `Types` namespace into the global namespace with a
+ * using-directive.
+ */
 #ifndef LUMEX_CORE_BASE64_VALIDATE_HPP
 #define LUMEX_CORE_BASE64_VALIDATE_HPP
 
