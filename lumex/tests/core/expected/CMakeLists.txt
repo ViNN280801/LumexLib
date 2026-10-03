@@ -3,6 +3,7 @@
 set(LUMEX_EXPECTED_TEST_SOURCES
     BadExpectedAccess.tests.cpp
     Expected.tests.cpp
+    ExpectedMonadic.tests.cpp
     ExpectedVoid.tests.cpp
     SuccessFailure.tests.cpp
     Unexpected.tests.cpp

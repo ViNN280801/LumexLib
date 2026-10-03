@@ -1564,10 +1564,7 @@ public:
   transform_error (FunctionType func) && -> ReturnType
   {
     if (m_has_value)
-      return ReturnType (std::move (
-          m_storage
-              .m_error)); // Corrected: return std::move(m_storage.m_error),
-                          // not std::move(m_storage.m_error)
+      return ReturnType (in_place);
     return ReturnType (
         Unexpected<ResultOfFunc> (func (std::move (m_storage.m_error))));
   }
@@ -1612,10 +1609,7 @@ public:
   transform_error (FunctionType func) const && -> ReturnType
   {
     if (m_has_value)
-      return ReturnType (std::move (
-          m_storage
-              .m_error)); // Corrected: return std::move(m_storage.m_error),
-                          // not std::move(m_storage.m_error)
+      return ReturnType (in_place);
     return ReturnType (
         Unexpected<ResultOfFunc> (func (std::move (m_storage.m_error))));
   }

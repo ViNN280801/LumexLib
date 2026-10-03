@@ -1397,7 +1397,8 @@ public:
       FunctionType func) & -> std::invoke_result_t<FunctionType, ErrorType &>
   {
     if (m_has_value)
-      return Expected<SuccessType, ErrorType> (in_place, m_storage.m_value);
+      return std::invoke_result_t<FunctionType, ErrorType &> (
+          in_place, m_storage.m_value);
     return func (m_storage.m_error);
   }
 #else
@@ -1411,7 +1412,7 @@ public:
   or_else (FunctionType func) & -> ResultOfFunc
   {
     if (m_has_value)
-      return Expected<SuccessType, ErrorType> (in_place, m_storage.m_value);
+      return ResultOfFunc (in_place, m_storage.m_value);
     return func (m_storage.m_error);
   }
 #endif
@@ -1445,7 +1446,8 @@ public:
       const & -> std::invoke_result_t<FunctionType, const ErrorType &>
   {
     if (m_has_value)
-      return Expected<SuccessType, ErrorType> (in_place, m_storage.m_value);
+      return std::invoke_result_t<FunctionType, ErrorType const &> (
+          in_place, m_storage.m_value);
     return func (m_storage.m_error);
   }
 #else
@@ -1459,7 +1461,7 @@ public:
   or_else (FunctionType func) const & -> ResultOfFunc
   {
     if (m_has_value)
-      return Expected<SuccessType, ErrorType> (in_place, m_storage.m_value);
+      return ResultOfFunc (in_place, m_storage.m_value);
     return func (m_storage.m_error);
   }
 #endif
@@ -1494,8 +1496,8 @@ public:
       FunctionType func) && -> std::invoke_result_t<FunctionType, ErrorType &&>
   {
     if (m_has_value)
-      return Expected<SuccessType, ErrorType> (in_place,
-                                               std::move (m_storage.m_value));
+      return std::invoke_result_t<FunctionType, ErrorType &&> (
+          in_place, std::move (m_storage.m_value));
     return func (std::move (m_storage.m_error));
   }
 #else
@@ -1509,8 +1511,7 @@ public:
   or_else (FunctionType func) && -> ResultOfFunc
   {
     if (m_has_value)
-      return Expected<SuccessType, ErrorType> (in_place,
-                                               std::move (m_storage.m_value));
+      return ResultOfFunc (in_place, std::move (m_storage.m_value));
     return func (std::move (m_storage.m_error));
   }
 #endif
@@ -1544,8 +1545,8 @@ public:
       const && -> std::invoke_result_t<FunctionType, const ErrorType &&>
   {
     if (m_has_value)
-      return Expected<SuccessType, ErrorType> (in_place,
-                                               std::move (m_storage.m_value));
+      return std::invoke_result_t<FunctionType, ErrorType const &&> (
+          in_place, std::move (m_storage.m_value));
     return func (std::move (m_storage.m_error));
   }
 #else
@@ -1559,8 +1560,7 @@ public:
   or_else (FunctionType func) const && -> ResultOfFunc
   {
     if (m_has_value)
-      return Expected<SuccessType, ErrorType> (in_place,
-                                               std::move (m_storage.m_value));
+      return ResultOfFunc (in_place, std::move (m_storage.m_value));
     return func (std::move (m_storage.m_error));
   }
 #endif

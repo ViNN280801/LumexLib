@@ -3,6 +3,8 @@
 #include <stdexcept>
 #include <string>
 #include <thread>
+#include <type_traits>
+#include <utility>
 #include <vector>
 
 #include <gtest/gtest.h>
@@ -114,6 +116,24 @@ struct ComplexError
   {
     return !(*this == other);
   }
+};
+
+// === Helpers for the monadic operations =================================
+
+/// The value category in which a monadic operation passed its argument.
+enum class value_category_t
+{
+  lvalue,
+  const_lvalue,
+  rvalue,
+  const_rvalue
+};
+
+/// A new error type for transform_error: the old error and how it was passed.
+template <typename E> struct wrapped_error_t
+{
+  E inner;
+  value_category_t category;
 };
 
 // === Test Fixture ========================================================
@@ -846,86 +866,166 @@ TYPED_TEST (ExpectedVoidTest,
 
 /**
  * Verifies transform_error on lvalue objects
- * Asserts: The error is transformed; success is forwarded
- * Method: Call transform_error and check the result
+ * Asserts: The error is passed as an lvalue and the result becomes the new
+ * error; on success the function is not called and the result holds no error
+ * Method: Call transform_error with a function that accepts only ErrorType &
  */
 TYPED_TEST (ExpectedVoidTest,
             TransformErrorLValue_TransformsErrorOrPropagatesVoid)
 {
   using ErrorType = typename TestFixture::ErrorType;
+  using ResultType = Expected<void, wrapped_error_t<ErrorType>>;
 
-  // Simple test without type conversion issues
+  int calls = 0;
+  auto func = [&calls] (ErrorType &error)
+    {
+      ++calls;
+      return wrapped_error_t<ErrorType>{ error, value_category_t::lvalue };
+    };
+
+  // Error case
   Expected<void, ErrorType> error_uut (
       Unexpected<ErrorType> (this->error_val1));
-  EXPECT_FALSE (error_uut.has_value ());
+  auto result_e = error_uut.transform_error (func);
+  static_assert (std::is_same<decltype (result_e), ResultType>::value,
+                 "transform_error must return Expected<void, G>");
+  ASSERT_FALSE (result_e.has_value ());
+  EXPECT_EQ (result_e.error ().inner, this->error_val1);
+  EXPECT_EQ (result_e.error ().category, value_category_t::lvalue);
   EXPECT_EQ (error_uut.error (), this->error_val1);
+  EXPECT_EQ (calls, 1);
 
   // Success case
   Expected<void, ErrorType> success_uut;
-  EXPECT_TRUE (success_uut.has_value ());
+  auto result_s = success_uut.transform_error (func);
+  static_assert (std::is_same<decltype (result_s), ResultType>::value,
+                 "transform_error must return Expected<void, G>");
+  EXPECT_TRUE (result_s.has_value ());
+  EXPECT_EQ (calls, 1);
 }
 
 /**
  * Verifies transform_error on const lvalue objects
- * Asserts: A const object is handled correctly
- * Method: Call transform_error on a const object
+ * Asserts: The error is passed as a const lvalue and the result becomes the
+ * new error; on success the function is not called
+ * Method: Call transform_error on a const object with a function that accepts
+ * only ErrorType const &
  */
 TYPED_TEST (ExpectedVoidTest,
             TransformErrorConstLValue_TransformsErrorOrPropagatesVoid)
 {
   using ErrorType = typename TestFixture::ErrorType;
+  using ResultType = Expected<void, wrapped_error_t<ErrorType>>;
 
-  // Simple test without type conversion issues
+  int calls = 0;
+  auto func = [&calls] (ErrorType const &error)
+    {
+      ++calls;
+      return wrapped_error_t<ErrorType>{ error,
+                                         value_category_t::const_lvalue };
+    };
+
+  // Error case
   Expected<void, ErrorType> const error_uut (
       Unexpected<ErrorType> (this->error_val1));
-  EXPECT_FALSE (error_uut.has_value ());
-  EXPECT_EQ (error_uut.error (), this->error_val1);
+  auto result_e = error_uut.transform_error (func);
+  static_assert (std::is_same<decltype (result_e), ResultType>::value,
+                 "transform_error must return Expected<void, G>");
+  ASSERT_FALSE (result_e.has_value ());
+  EXPECT_EQ (result_e.error ().inner, this->error_val1);
+  EXPECT_EQ (result_e.error ().category, value_category_t::const_lvalue);
+  EXPECT_EQ (calls, 1);
 
   // Success case
   Expected<void, ErrorType> const success_uut;
-  EXPECT_TRUE (success_uut.has_value ());
+  auto result_s = success_uut.transform_error (func);
+  static_assert (std::is_same<decltype (result_s), ResultType>::value,
+                 "transform_error must return Expected<void, G>");
+  EXPECT_TRUE (result_s.has_value ());
+  EXPECT_EQ (calls, 1);
 }
 
 /**
  * Verifies transform_error on rvalue objects
- * Asserts: An rvalue is handled correctly
- * Method: Use std::move and call transform_error
+ * Asserts: The error is passed as an rvalue and the result becomes the new
+ * error; on success the function is not called and the result holds no error
+ * Method: Use std::move and call transform_error with a function that accepts
+ * only ErrorType &&
  */
 TYPED_TEST (ExpectedVoidTest,
             TransformErrorRValue_TransformsErrorOrPropagatesVoid)
 {
   using ErrorType = typename TestFixture::ErrorType;
+  using ResultType = Expected<void, wrapped_error_t<ErrorType>>;
 
-  // Simple test without type conversion issues
+  int calls = 0;
+  auto func = [&calls] (ErrorType &&error)
+    {
+      ++calls;
+      return wrapped_error_t<ErrorType>{ std::move (error),
+                                         value_category_t::rvalue };
+    };
+
+  // Error case
   Expected<void, ErrorType> error_uut (
       Unexpected<ErrorType> (this->error_val1));
-  EXPECT_FALSE (error_uut.has_value ());
-  EXPECT_EQ (error_uut.error (), this->error_val1);
+  auto result_e = std::move (error_uut).transform_error (func);
+  static_assert (std::is_same<decltype (result_e), ResultType>::value,
+                 "transform_error must return Expected<void, G>");
+  ASSERT_FALSE (result_e.has_value ());
+  EXPECT_EQ (result_e.error ().inner, this->error_val1);
+  EXPECT_EQ (result_e.error ().category, value_category_t::rvalue);
+  EXPECT_EQ (calls, 1);
 
   // Success case
   Expected<void, ErrorType> success_uut;
-  EXPECT_TRUE (success_uut.has_value ());
+  auto result_s = std::move (success_uut).transform_error (func);
+  static_assert (std::is_same<decltype (result_s), ResultType>::value,
+                 "transform_error must return Expected<void, G>");
+  EXPECT_TRUE (result_s.has_value ());
+  EXPECT_EQ (calls, 1);
 }
 
 /**
  * Verifies transform_error on const rvalue objects
- * Asserts: A const rvalue is handled correctly
- * Method: Use std::move on a const object
+ * Asserts: The error is passed as a const rvalue and the result becomes the
+ * new error; on success the function is not called
+ * Method: Use std::move on a const object and call transform_error with a
+ * function that accepts only ErrorType const &&
  */
 TYPED_TEST (ExpectedVoidTest,
             TransformErrorConstRValue_TransformsErrorOrPropagatesVoid)
 {
   using ErrorType = typename TestFixture::ErrorType;
+  using ResultType = Expected<void, wrapped_error_t<ErrorType>>;
 
-  // Simple test without type conversion issues
+  int calls = 0;
+  auto func = [&calls] (ErrorType const &&error)
+    {
+      ++calls;
+      return wrapped_error_t<ErrorType>{ error,
+                                         value_category_t::const_rvalue };
+    };
+
+  // Error case
   Expected<void, ErrorType> const error_uut (
       Unexpected<ErrorType> (this->error_val1));
-  EXPECT_FALSE (error_uut.has_value ());
+  auto result_e = std::move (error_uut).transform_error (func);
+  static_assert (std::is_same<decltype (result_e), ResultType>::value,
+                 "transform_error must return Expected<void, G>");
+  ASSERT_FALSE (result_e.has_value ());
+  EXPECT_EQ (result_e.error ().inner, this->error_val1);
+  EXPECT_EQ (result_e.error ().category, value_category_t::const_rvalue);
   EXPECT_EQ (error_uut.error (), this->error_val1);
+  EXPECT_EQ (calls, 1);
 
   // Success case
   Expected<void, ErrorType> const success_uut;
-  EXPECT_TRUE (success_uut.has_value ());
+  auto result_s = std::move (success_uut).transform_error (func);
+  static_assert (std::is_same<decltype (result_s), ResultType>::value,
+                 "transform_error must return Expected<void, G>");
+  EXPECT_TRUE (result_s.has_value ());
+  EXPECT_EQ (calls, 1);
 }
 
 // === Modifiers Tests ====================================================
