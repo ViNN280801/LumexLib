@@ -1,9 +1,10 @@
 // LumexAttributes.tests.cpp
 // The likely / unlikely macros of LumexAttributes.hpp in every standard.
-// LumexTypeTraitsTests runs this file at C++11 (__builtin_expect on GCC and
-// Clang, the plain condition elsewhere), LumexUtilityTests at C++20 (the
-// plain condition next to [[likely]] / [[unlikely]]). The suite name carries
-// the standard so the two executables register different CTest names.
+// LumexTypeTraitsTests runs this file at C++11 (empty statement attributes;
+// conditions through __builtin_expect on GCC and Clang, plain elsewhere),
+// LumexUtilityTests at C++20 ([[likely]] / [[unlikely]], plain conditions).
+// The suite name carries the standard so the two executables register
+// different CTest names.
 #include <string>
 
 #include <gtest/gtest.h>
@@ -170,5 +171,39 @@ TEST (
 #else
   EXPECT_EQ ("(x)", likely);
   EXPECT_EQ ("(x)", unlikely);
+#endif
+}
+
+TEST (
+    LUMEX_ATTRIBUTES_TEST_SUITE,
+    GivenStatementAttributes_WhenTheyPrecedeIfAndElseBlocks_ThenEachBlockRuns)
+{
+  // Arrange
+  int taken = 0;
+  int skipped = 0;
+
+  // Act
+  for (int value = 0; value < 2; ++value)
+    {
+      if (value == 1)
+        LUMEX_ATTRIBUTE_LIKELY { ++taken; }
+      else
+        LUMEX_ATTRIBUTE_UNLIKELY { ++skipped; }
+    }
+
+  // Assert
+  EXPECT_EQ (1, taken);
+  EXPECT_EQ (1, skipped);
+}
+
+TEST (LUMEX_ATTRIBUTES_TEST_SUITE,
+      GivenThisStandard_WhenStatementAttributesExpand_ThenTheyTakeTheirBranch)
+{
+#if __cplusplus >= 202002L
+  EXPECT_STREQ ("[[likely]]", LUMEX_STRINGIZE (LUMEX_ATTRIBUTE_LIKELY));
+  EXPECT_STREQ ("[[unlikely]]", LUMEX_STRINGIZE (LUMEX_ATTRIBUTE_UNLIKELY));
+#else
+  EXPECT_STREQ ("", LUMEX_STRINGIZE (LUMEX_ATTRIBUTE_LIKELY));
+  EXPECT_STREQ ("", LUMEX_STRINGIZE (LUMEX_ATTRIBUTE_UNLIKELY));
 #endif
 }
