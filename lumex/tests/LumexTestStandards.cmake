@@ -101,9 +101,7 @@
 #    stops with an error on a second call, a file outside the scheme, a file
 #    of a standard the table does not list for the module, or a module key
 #    or variant missing from the table.
-# 5. Remove the directory from the transition list of
-#    lumex/tests/cmake/cases/wiring_standard_suites.cmake, configure and run
-#    `ctest -R '^<key>\.'` and `ctest -L cmake`. Compare the test names
+# 5. Configure and run `ctest -R '^<key>\.'` and `ctest -L cmake`. Compare the test names
 #    before and after: every old name must still exist with the suffix of
 #    its suite (an old unsuffixed name gets .cxx<lowest>), and new suites
 #    may only add names.
@@ -122,7 +120,7 @@
 # - Every test directory (a directory under lumex/tests with *.tests.cpp,
 #   other than cmake/ and support/) has a table entry, and every entry has a
 #   directory.
-# - A converted directory (not on the case's transition list) calls
+# - Every test directory calls
 #   lumex_add_standard_suites exactly once with MODULE <its key>, and calls
 #   none of add_executable, add_test, lumex_test_use_gtest and
 #   lumex_gtest_discover_tests itself.
@@ -130,8 +128,6 @@
 #   standard of the module's entry, and the lowest standard has a file.
 # - Every variant of the table is passed as VARIANT <name> in the module's
 #   CMakeLists.txt, and every VARIANT there is in the table.
-# - A directory still on the transition list does not call the helper yet
-#   (otherwise its entry is stale and must be removed).
 
 # Every C++ standard a test suite may name, in ascending order.
 set(LUMEX_TEST_STANDARDS_KNOWN 11 14 17 20 23 26)

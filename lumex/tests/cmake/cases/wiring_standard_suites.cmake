@@ -10,8 +10,6 @@
 #   test source <Stem>.cxx<std>.tests.cpp with <std> a standard of its entry,
 #   has a file of its lowest standard, and passes VARIANT <name> for exactly
 #   the variants of its entry.
-# - A directory on the transition list is not converted yet; it must not
-#   call the helper (a converted directory leaves the list).
 # - The helper and the table functions behave as documented.
 
 include("${LUMEX_SOURCE_DIR}/cmake/LumexTestNames.cmake")
@@ -43,12 +41,6 @@ if(DEFINED LUMEX_STANDARD_SUITES_EXPECT_FAIL)
     endif()
     return()
 endif()
-
-# Test directories not converted yet, by module key. Remove a module when its
-# directory calls lumex_add_standard_suites; the list goes away when it is
-# empty.
-set(_transition
-)
 
 set(_errors "")
 
@@ -196,15 +188,6 @@ foreach(_dir IN LISTS _dirs)
         _calls "${_code}")
     list(LENGTH _calls _call_count)
 
-    if(_key IN_LIST _transition)
-        if(_call_count GREATER 0)
-            string(APPEND _errors
-                "  lumex/tests/${_rel}: converted, remove '${_key}' from the "
-                "transition list of this case\n")
-        endif()
-        continue()
-    endif()
-
     if(NOT _call_count EQUAL 1)
         string(APPEND _errors
             "  lumex/tests/${_rel}/CMakeLists.txt: ${_call_count} calls of "
@@ -300,12 +283,6 @@ foreach(_key IN LISTS LUMEX_TEST_STANDARD_MODULES)
     if(NOT _key IN_LIST _seen_keys)
         string(APPEND _errors
             "  LumexTestStandards.cmake: module '${_key}' has no test directory\n")
-    endif()
-endforeach()
-foreach(_key IN LISTS _transition)
-    if(NOT _key IN_LIST _seen_keys)
-        string(APPEND _errors
-            "  transition list: '${_key}' is not a test directory\n")
     endif()
 endforeach()
 
