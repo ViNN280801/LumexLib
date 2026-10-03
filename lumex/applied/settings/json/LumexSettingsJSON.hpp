@@ -107,8 +107,8 @@ public:
    * not valid UTF-8, which nlohmann/json cannot serialize, makes `save`
    * return `false` without touching the file. The text is written to a
    * temporary file that replaces `path` only when complete
-   * (`storage::replace_file_content`), so a failed write leaves the previous
-   * file unchanged too. `save` does not throw.
+   * (`lumex_filesystem::replace_file_content`), so a failed write leaves the
+   * previous file unchanged too. `save` does not throw.
    * @param[in] path The filesystem path to save the JSON file to.
    * @return `true` if the file is written successfully, `false` otherwise.
    */

@@ -107,7 +107,7 @@ namespace settings
  * exception such as `std::bad_alloc` can still propagate from a member.
  * @note Their `save()` writes the whole file to `<path>.tmp` and renames it
  * over `path`, so a failed save leaves the previous file unchanged
- * (`storage/LumexSettingsStorage.hpp`).
+ * (`lumex_filesystem::replace_file_content`).
  */
 class LUMEX_API ILumexSettings
 {

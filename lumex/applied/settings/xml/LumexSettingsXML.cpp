@@ -43,7 +43,6 @@
 #include <string>
 #include <unordered_map>
 
-#include "lumex/applied/settings/storage/LumexSettingsStorage.hpp"
 #include "lumex/core/filesystem/LumexFilesystem"
 
 #if defined(LUMEX_SETTINGS_WITH_XML)
@@ -266,8 +265,10 @@ LumexSettingsXML::_save_with_parser (std::string const &path) const
       return false;
     }
 
-  return lumex::applied::settings::storage::replace_file_content (
-      path, text, lumex::applied::settings::storage::LumexWriteMode::binary);
+  return lumex::core::filesystem::fs::lumex_filesystem::replace_file_content (
+             lumex::path (path), text,
+             lumex::core::filesystem::fs::write_mode::binary)
+      .success ();
 #endif
 }
 

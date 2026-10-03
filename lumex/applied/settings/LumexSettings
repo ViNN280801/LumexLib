@@ -46,9 +46,8 @@
  * INI is always available; XML when <tt>%lumex::xml</tt> is part of the build
  * (`LUMEX_SETTINGS_WITH_XML`), JSON when the vendored nlohmann/json header is
  * present (`LUMEX_SETTINGS_WITH_JSON`). The umbrella includes the interface
- * (`interface/ILumexSettings.hpp`), the factory, the guard, the INI, JSON
- * and XML implementations, and `storage::replace_file_content`, the write
- * through a temporary file that their `save` uses.
+ * (`interface/ILumexSettings.hpp`), the factory, the guard, and the INI, JSON
+ * and XML implementations.
  */
 #include "interface/ILumexSettings.hpp"
 
@@ -60,7 +59,5 @@
 #include "ini/SupportedConfigExtensions.hpp"
 
 #include "json/LumexSettingsJSON.hpp"
-
-#include "storage/LumexSettingsStorage.hpp"
 
 #include "xml/LumexSettingsXML.hpp"

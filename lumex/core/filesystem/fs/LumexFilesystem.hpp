@@ -105,6 +105,7 @@
 #include <vector>  // std::vector
 
 #include "lumex/core/utility/LumexUtility"
+#include "lumex/core/utility/macros/LumexConstantMacros.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 
 // C++11 compatible nested namespaces
@@ -143,6 +144,9 @@ LUMEX_CONSTEXPR unsigned long long
 /// second.
 LUMEX_CONSTEXPR unsigned long long KDEFAULT_HUNDRED_NANOSECONDS_PER_SECOND
     = 10000000ULL;
+/// @brief Suffix appended to the target path to name the temporary file that
+/// `lumex_filesystem::replace_file_content` writes first.
+LUMEX_CONST_STR KTEMPORARY_FILE_SUFFIX = ".tmp";
 
 // Forward declarations
 class path;
@@ -169,6 +173,16 @@ enum class file_type : std::int8_t
   fifo = 6,       ///< A FIFO (named pipe) file.
   socket = 7,     ///< A socket file.
   unknown = 8     ///< The file type is unknown or could not be determined.
+};
+
+/**
+ * @brief How `lumex_filesystem::replace_file_content` opens the file it
+ * writes.
+ */
+enum class write_mode : std::uint8_t
+{
+  text,  ///< Text mode: on Windows every `\n` becomes `\r\n`.
+  binary ///< Binary mode: the bytes are written unchanged.
 };
 
 /**
@@ -1577,6 +1591,32 @@ public:
   static filesystem_result<void> rename (path const &, path const &);
 
   /**
+   * @brief Replaces the content of a file without ever leaving it truncated.
+   * @details Creates the parent directory when it does not exist, writes
+   * `content` to the target path + `KTEMPORARY_FILE_SUFFIX` in the same
+   * directory, closes it, and renames it over the target with `rename`
+   * (which replaces an existing file on Windows too). If opening, writing,
+   * closing or renaming fails, the temporary file is removed when this call
+   * created it, the target keeps its previous content (or stays absent),
+   * and the call returns the error.
+   * @note The renamed file is a new file: it gets the default permissions of
+   * a new file, and a symbolic link at the target is replaced by a regular
+   * file instead of being followed. An existing directory or a file that
+   * cannot be written at the temporary path makes the call fail. The
+   * temporary name is fixed, so concurrent writers of one file need their
+   * own synchronization.
+   * @param path_arg The file to replace.
+   * @param content The complete new content.
+   * @param mode Whether the temporary file is opened in text or binary mode.
+   * @return A `filesystem_result<void>`: `ok()` if the target holds `content`,
+   * `err(error_code)` otherwise (`errno` of the failed step, `EINVAL` for an
+   * empty path, `EIO` when the step set no `errno`). Does not throw.
+   */
+  static filesystem_result<void>
+  replace_file_content (path const &path_arg, std::string const &content,
+                        write_mode mode) LUMEX_NOEXCEPT;
+
+  /**
    * @brief Changes the size of a regular file.
    * @param path_arg The `path_arg` object representing the file to resize.
    * @param new_size The desired new size of the file in bytes.
@@ -2099,6 +2139,13 @@ using file_status = core::filesystem::fs::file_status;
  * qualification.
  */
 using perms = core::filesystem::fs::perms;
+
+/**
+ * @brief Global alias for `lumex::core::filesystem::fs::write_mode`.
+ * @details This allows `write_mode` to be used without full namespace
+ * qualification.
+ */
+using write_mode = core::filesystem::fs::write_mode;
 
 /**
  * @brief Global alias for

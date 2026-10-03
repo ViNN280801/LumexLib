@@ -5,6 +5,7 @@ set(TEST_EXECUTABLE_NAME LumexFilesystemTests)
 add_executable(
     ${TEST_EXECUTABLE_NAME}
     LumexFilesystem.tests.cpp
+    LumexFilesystemReplaceFileContent.tests.cpp
 )
 
 set_target_properties(${TEST_EXECUTABLE_NAME} PROPERTIES

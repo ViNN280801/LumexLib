@@ -44,7 +44,6 @@
 #include <sstream>
 #include <string>
 
-#include "lumex/applied/settings/storage/LumexSettingsStorage.hpp"
 #include "lumex/core/filesystem/LumexFilesystem"
 
 #include "LumexSettingsINI.hpp"
@@ -294,8 +293,10 @@ LumexSettingsINI::_save_with_parser (std::string const &path) const
       return false;
     }
 
-  return lumex::applied::settings::storage::replace_file_content (
-      path, text, lumex::applied::settings::storage::LumexWriteMode::text);
+  return lumex::core::filesystem::fs::lumex_filesystem::replace_file_content (
+             lumex::path (path), text,
+             lumex::core::filesystem::fs::write_mode::text)
+      .success ();
 }
 
 LUMEX_PUBLIC_API

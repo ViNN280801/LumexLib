@@ -1,4 +1,4 @@
-// lumex/tests/applied/settings/LumexSettingsStorage.tests.cpp
+// lumex/tests/applied/settings/LumexSettingsSave.tests.cpp
 #include <fstream>
 #include <initializer_list>
 #include <iostream>
@@ -18,16 +18,13 @@
 #include "lumex/core/filesystem/LumexFilesystem"
 
 using namespace lumex::applied::settings;
-using namespace lumex::applied::settings::storage;
+using lumex::core::filesystem::fs::KTEMPORARY_FILE_SUFFIX;
 
 namespace
 {
 // Bytes of a file that a failed write must leave unchanged. The carriage
 // return makes a rewrite in text mode visible on every platform.
 char const *const OLD_BYTES = "old\r\ncontent\n";
-
-// Content a successful write puts into the file.
-char const *const NEW_BYTES = "new\ncontent\r\n";
 
 // Section, key and value the backends save in the tests below.
 char const *const SECTION = "section";
@@ -57,7 +54,7 @@ read_bytes (lumex::path const &path)
 lumex::path
 temporary_of (lumex::path const &path)
 {
-  return lumex::path (path.string () + TEMPORARY_FILE_SUFFIX);
+  return lumex::path (path.string () + KTEMPORARY_FILE_SUFFIX);
 }
 
 // A directory per test, removed (after its permissions are restored) when
@@ -69,7 +66,7 @@ public:
   {
     ::testing::TestInfo const *info
         = ::testing::UnitTest::GetInstance ()->current_test_info ();
-    std::string name = "test_settings_storage_";
+    std::string name = "test_settings_save_";
     name += info->test_suite_name ();
     name += "_";
     name += info->name ();
@@ -120,131 +117,6 @@ permissions_are_ignored ()
 }
 #endif
 } // namespace
-
-// --- replace_file_content ---------------------------------------------------
-
-TEST (LumexSettingsStorageTest,
-      GivenMissingFile_WhenReplaceFileContent_ThenCreatesItWithTheBytes)
-{
-  StorageDirectory dir;
-  lumex::path const file = dir.path () / "settings.cfg";
-
-  EXPECT_TRUE (replace_file_content (file.string (), NEW_BYTES,
-                                     LumexWriteMode::binary));
-  EXPECT_EQ (read_bytes (file), NEW_BYTES);
-  EXPECT_FALSE (lumex_filesystem::exists (temporary_of (file)));
-}
-
-TEST (
-    LumexSettingsStorageTest,
-    GivenExistingFile_WhenReplaceFileContent_ThenReplacesItAndLeavesNoTemporary)
-{
-  StorageDirectory dir;
-  lumex::path const file = dir.path () / "settings.cfg";
-  write_bytes (file, OLD_BYTES);
-
-  EXPECT_TRUE (replace_file_content (file.string (), NEW_BYTES,
-                                     LumexWriteMode::binary));
-  EXPECT_EQ (read_bytes (file), NEW_BYTES);
-  EXPECT_FALSE (lumex_filesystem::exists (temporary_of (file)));
-}
-
-TEST (LumexSettingsStorageTest,
-      GivenEmptyContent_WhenReplaceFileContent_ThenFileBecomesEmpty)
-{
-  StorageDirectory dir;
-  lumex::path const file = dir.path () / "settings.cfg";
-  write_bytes (file, OLD_BYTES);
-
-  EXPECT_TRUE (
-      replace_file_content (file.string (), "", LumexWriteMode::binary));
-  EXPECT_EQ (read_bytes (file), "");
-}
-
-TEST (LumexSettingsStorageTest,
-      GivenMissingParent_WhenReplaceFileContent_ThenCreatesDirectories)
-{
-  StorageDirectory dir;
-  lumex::path const file = dir.path () / "nested" / "deeper" / "settings.cfg";
-
-  EXPECT_TRUE (replace_file_content (file.string (), NEW_BYTES,
-                                     LumexWriteMode::binary));
-  EXPECT_EQ (read_bytes (file), NEW_BYTES);
-}
-
-TEST (LumexSettingsStorageTest,
-      GivenStaleTemporaryFile_WhenReplaceFileContent_ThenOverwritesIt)
-{
-  StorageDirectory dir;
-  lumex::path const file = dir.path () / "settings.cfg";
-  write_bytes (temporary_of (file), "left over by an interrupted write");
-
-  EXPECT_TRUE (replace_file_content (file.string (), NEW_BYTES,
-                                     LumexWriteMode::binary));
-  EXPECT_EQ (read_bytes (file), NEW_BYTES);
-  EXPECT_FALSE (lumex_filesystem::exists (temporary_of (file)));
-}
-
-TEST (LumexSettingsStorageTest,
-      GivenEmptyPath_WhenReplaceFileContent_ThenReturnsFalse)
-{
-  EXPECT_FALSE (replace_file_content ("", NEW_BYTES, LumexWriteMode::binary));
-}
-
-TEST (
-    LumexSettingsStorageTest,
-    GivenDirectoryAtTemporaryPath_WhenReplaceFileContent_ThenReturnsFalseAndKeepsTheFile)
-{
-  StorageDirectory dir;
-  lumex::path const file = dir.path () / "settings.cfg";
-  write_bytes (file, OLD_BYTES);
-  ASSERT_TRUE (
-      lumex_filesystem::create_directories (temporary_of (file)).success ());
-
-  EXPECT_FALSE (replace_file_content (file.string (), NEW_BYTES,
-                                      LumexWriteMode::binary));
-  EXPECT_EQ (read_bytes (file), OLD_BYTES);
-  EXPECT_TRUE (lumex_filesystem::is_directory (temporary_of (file)));
-}
-
-TEST (
-    LumexSettingsStorageTest,
-    GivenDirectoryAtTargetPath_WhenReplaceFileContent_ThenReturnsFalseAndRemovesTheTemporary)
-{
-  StorageDirectory dir;
-  lumex::path const target = dir.path () / "settings.cfg";
-  ASSERT_TRUE (lumex_filesystem::create_directories (target).success ());
-
-  EXPECT_FALSE (replace_file_content (target.string (), NEW_BYTES,
-                                      LumexWriteMode::binary));
-  EXPECT_TRUE (lumex_filesystem::is_directory (target));
-  EXPECT_FALSE (lumex_filesystem::exists (temporary_of (target)));
-}
-
-TEST (
-    LumexSettingsStorageTest,
-    GivenReadOnlyDirectory_WhenReplaceFileContent_ThenReturnsFalseAndKeepsTheFile)
-{
-#if LUMEX_OS_UNIX
-  if (permissions_are_ignored ())
-    GTEST_SKIP () << "running as root: permission bits do not deny writing";
-  StorageDirectory dir;
-  lumex::path const file = dir.path () / "settings.cfg";
-  write_bytes (file, OLD_BYTES);
-  ASSERT_EQ (chmod (dir.path ().c_str (), 0555), 0);
-
-  bool const result = replace_file_content (file.string (), NEW_BYTES,
-                                            LumexWriteMode::binary);
-  (void)chmod (dir.path ().c_str (), 0777);
-
-  EXPECT_FALSE (result);
-  EXPECT_EQ (read_bytes (file), OLD_BYTES);
-#else
-  GTEST_SKIP () << "directory permission bits are POSIX-only";
-#endif
-}
-
-// --- save () of every backend -----------------------------------------------
 
 namespace
 {

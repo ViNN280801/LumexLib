@@ -102,8 +102,9 @@ public:
    * @brief Saves the current settings as canonical XML.
    * @details If the parent directory does not exist, it will be created.
    * The document is serialized first and written to a temporary file that
-   * replaces `path` only when complete (`storage::replace_file_content`), so
-   * a failed save leaves the previous file unchanged. Does not throw.
+   * replaces `path` only when complete
+   * (`lumex_filesystem::replace_file_content`), so a failed save leaves the
+   * previous file unchanged. Does not throw.
    * @param[in] path The filesystem path to save the XML file to.
    * @return `true` if the file is written successfully, `false` otherwise.
    */

@@ -43,7 +43,9 @@
 #include <cerrno>
 #include <cstddef>
 #include <fstream>
+#include <ios>
 #include <iostream>
+#include <string>
 
 #include <sys/stat.h>
 #if defined(_WIN32)
@@ -1856,6 +1858,75 @@ lumex_filesystem::rename (path const &from, path const &to_)
     return filesystem_result<void>::ok ();
   return filesystem_result<void>::err (errno);
 #endif
+}
+
+LUMEX_PUBLIC_API
+filesystem_result<void>
+lumex_filesystem::replace_file_content (path const &path_arg,
+                                        std::string const &content,
+                                        write_mode mode) LUMEX_NOEXCEPT
+{
+  if (path_arg.empty ())
+    return filesystem_result<void>::err (EINVAL);
+
+  // The error of the step that failed: its `errno`, or `EIO` when it set none
+  // (a stream may fail without one).
+  auto const last_error = [] () { return errno != 0 ? errno : EIO; };
+
+  bool created = false;
+  std::string temporary;
+  try
+    {
+      path const parent = path_arg.parent_path ();
+      if (!parent.empty () && !exists (parent))
+        create_directories (parent);
+
+      temporary = path_arg.string () + KTEMPORARY_FILE_SUFFIX;
+      std::ios_base::openmode const open_mode
+          = mode == write_mode::binary
+                ? std::ios_base::out | std::ios_base::trunc
+                      | std::ios_base::binary
+                : std::ios_base::out | std::ios_base::trunc;
+
+      errno = 0;
+      std::ofstream out (temporary.c_str (), open_mode);
+      if (!out.is_open ())
+        return filesystem_result<void>::err (last_error ());
+      created = true;
+
+      out.write (content.data (),
+                 static_cast<std::streamsize> (content.size ()));
+      out.close ();
+      if (!out.good ())
+        {
+          int const error = last_error ();
+          lumex_filesystem::remove (path (temporary));
+          return filesystem_result<void>::err (error);
+        }
+
+      filesystem_result<void> const renamed
+          = rename (path (temporary), path_arg);
+      if (!renamed.success ())
+        {
+          lumex_filesystem::remove (path (temporary));
+          return renamed;
+        }
+      return filesystem_result<void>::ok ();
+    }
+  catch (...)
+    {
+      if (created)
+        {
+          try
+            {
+              lumex_filesystem::remove (path (temporary));
+            }
+          catch (...)
+            {
+            }
+        }
+      return filesystem_result<void>::err (EIO);
+    }
 }
 
 LUMEX_PUBLIC_API
