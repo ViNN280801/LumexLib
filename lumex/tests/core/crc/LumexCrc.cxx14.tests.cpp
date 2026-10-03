@@ -1,3 +1,9 @@
+// CRC tests that compile from C++14 (parametric CRC needs C++14 constexpr and
+// std::make_index_sequence); every crc suite (C++14, C++17, C++20) runs them.
+// The span checks inside RandomVectors and ManualCases run in the C++20
+// suite; LumexCrc.cxx17.tests.cpp adds the std::string_view overloads and
+// LumexCrc.cxx20.tests.cpp the std::span tests of Crc8MaximDow.
+
 #include <chrono>
 #include <cstdint>
 #include <iterator>
@@ -347,22 +353,6 @@ TEST_P (Crc8SingleByteParamTest, VectorMatchesRawPointer)
 INSTANTIATE_TEST_SUITE_P (AllByteValues_0_255, Crc8SingleByteParamTest,
                           ::testing::Range (0, 256));
 
-#if __cplusplus >= 202002L
-TEST (Crc8Span, MatchesVector)
-{
-  std::vector<byte> data = { 0x01, 0x02, 0x03, 0x04 };
-  std::span<byte const> sp (data.data (), data.size ());
-  EXPECT_EQ (Crc8MaximDow::calculate (sp), Crc8MaximDow::calculate (data));
-}
-
-TEST (Crc8Span, EmptySpan_ReturnsZero)
-{
-  std::vector<byte> empty;
-  std::span<byte const> sp (empty.data (), static_cast<std::size_t> (0));
-  EXPECT_EQ (Crc8MaximDow::calculate (sp), 0);
-}
-#endif
-
 TEST (CrcCatalog, EntryCountMatchesAllCrcSpecsTuple)
 {
   EXPECT_EQ (
@@ -660,10 +650,10 @@ TYPED_TEST (CrcParametricTest, ManualCases)
       EXPECT_EQ (CrcParametric<Spec>::calculate (
                      std::span<std::uint8_t const>{ data }),
                  ref);
-#if defined(__clang__)
-#pragma clang diagnostic pop
-#endif
-
 #endif
     }
 }
+
+#if defined(__clang__)
+#pragma clang diagnostic pop
+#endif

@@ -1,32 +1,16 @@
 # lumex/tests/core/crc/CMakeLists.txt
 
-set(TEST_EXECUTABLE_NAME LumexCrcTests)
-
-add_executable(
-    ${TEST_EXECUTABLE_NAME}
-    LumexCrc.tests.cpp
-    LumexCrcTestHelpers.hpp
+# One suite per standard of the module (lumex/tests/LumexTestStandards.cmake):
+#   LumexCrcCxx14Tests  LumexCrc.cxx14.tests.cpp: parametric CRC needs C++14
+#                       constexpr, the catalogue checks
+#                       std::make_index_sequence
+#   LumexCrcCxx17Tests  + LumexCrc.cxx17.tests.cpp: the std::string_view
+#                       overloads of the catalogue
+#   LumexCrcCxx20Tests  + LumexCrc.cxx20.tests.cpp: the std::span overload
+# LumexCrcTestHelpers.hpp holds the reference CRC the tests compare against.
+lumex_add_standard_suites(Crc
+    MODULE crc
+    LINK lumex::crc
+    SOURCES LumexCrcTestHelpers.hpp
+    DISCOVER_ARGS DISCOVERY_TIMEOUT 60
 )
-
-set_target_properties(${TEST_EXECUTABLE_NAME} PROPERTIES
-    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/$<CONFIG>"
-)
-
-target_link_libraries(
-    ${TEST_EXECUTABLE_NAME}
-    PRIVATE
-    lumex::crc
-)
-
-# Catalogue check tests use std::make_index_sequence (C++14).
-lumex_test_use_gtest(${TEST_EXECUTABLE_NAME} CXX_STANDARD 14)
-
-if(CMAKE_VERSION VERSION_GREATER_EQUAL "3.18")
-    lumex_gtest_discover_tests(${TEST_EXECUTABLE_NAME}
-        DISCOVERY_TIMEOUT 60
-        DISCOVERY_MODE PRE_TEST
-    )
-else()
-    lumex_test_name(_ctest_name ${TEST_EXECUTABLE_NAME})
-    add_test(NAME ${_ctest_name} COMMAND ${TEST_EXECUTABLE_NAME})
-endif()
