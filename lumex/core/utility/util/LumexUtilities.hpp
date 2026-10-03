@@ -55,71 +55,42 @@
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 
 /**
- * @brief Safe cast from POSIX file descriptor (int) to void* for
- * cross-platform storage.
- * @details
- * Problem:
- * - Windows: native handles are `HANDLE` (void*)
- * - POSIX/Linux: native handles are `int` (file descriptor)
- * - For uniform storage in the base class, a common type is needed -> `void*`
- * is chosen
+ * @brief Stores a POSIX file descriptor in a `void *` handle slot.
+ * @details Windows keeps a native handle as a `HANDLE`, which is a `void *`;
+ * POSIX keeps an `int` file descriptor. Code that keeps either one in the
+ * same `void *` member converts a descriptor with this function and gets it
+ * back with `ptr_to_fd()`.
  *
- * Why direct reinterpret_cast<void*>(int) is dangerous:
- * On 64-bit systems:
- * - `int` takes 32 bits (signed: -2,147,483,648 .. 2,147,483,647)
- * - `void*` takes 64 bits
- * - Direct `reinterpret_cast<void*>(int)` is undefined behavior according to
- * C++ standard:
- *   * Standard allows `reinterpret_cast` only for types of the same size
- *   * Behavior with different sizes is implementation-defined (not guaranteed)
+ * The descriptor is first widened to `intptr_t`, an integer as wide as a
+ * pointer, and then converted to `void *`. Converting an integer to a pointer
+ * is implementation-defined in C++, and on 64-bit targets an `int` is
+ * narrower than a pointer; going through `intptr_t` keeps both sides of the
+ * conversion the same width. On flat address spaces (x86, x86-64, ARM) the
+ * pointer then carries the integer value unchanged, so `ptr_to_fd()` restores
+ * it on 32-bit and 64-bit targets alike.
  *
- * Why safe through intptr_t:
- * 1. `intptr_t` (from `<cstdint>`) guaranteed to have pointer size (32/64
- * bits)
- * 2. `static_cast<intptr_t>(fd)`:
- *    - POSIX file descriptors are always >= 0 (non-negative)
- *    - int (32 bits) extends to intptr_t (64 bits) with sign preservation:
- *      * fd >= 0: highest 32 bits = 0x00000000 (extension by zeros)
- *      * fd < 0:  highest 32 bits = 0xFFFFFFFF (extension by sign) - but POSIX
- * fd is always >= 0!
- * 3. `reinterpret_cast<void*>(intptr_t)`:
- *    - Both types of the same size (64 bits) -> safe bitwise copy
- *    - Guaranteed by C++ standard for intptr_t ↔ void*
+ * The function is declared at global scope, not in a namespace, and is
+ * `static inline`, so every translation unit gets its own copy.
  *
- * Reverse conversion (lumex::core::utility::ptr_to_fd):
- * - `reinterpret_cast<intptr_t>(ptr)` -> get 64-bit value
- * - `static_cast<int>(intptr_t)` -> truncate to 32 bits (safe, since highest
- * bits = 0)
- * - Get original file descriptor
+ * @param fileDescriptor POSIX file descriptor.
+ * @return The descriptor as a `void *`. Descriptor 0 (standard input) gives
+ * a null pointer.
+ * @note Meant for POSIX file descriptors, which are non-negative. A negative
+ * value such as -1 also survives the round trip, but its pointer is not
+ * null. A Windows `HANDLE` is assigned to the `void *` member directly.
  *
- * Architectural portability:
- * - 32-bit systems: int (32) -> intptr_t (32) -> void* (32)
- * - 64-bit systems: int (32) -> intptr_t (64) -> void* (64)
- * - ARM32/ARM64/x86/x64/RISC-V: all support intptr_t
- *
- * @param fileDescriptor POSIX file descriptor (int >= 0)
- * @return void* representation of the descriptor for cross-platform storage
- *
- * @note Use ONLY for POSIX file descriptors (non-negative integers)!
- *       For Windows HANDLE directly assign to void* (already a pointer).
- *
- * @par Typical usage in a serial port:
+ * @par Example
  * @code
  * #if LUMEX_OS_WINDOWS
- *   m_hInputFile = m_serialPort.native_handle(); // Windows: HANDLE -> void*
+ *   m_hInputFile = m_serialPort.native_handle(); // HANDLE is a void *
  * #else
- *   m_hInputFile =
- * lumex::core::utility::fd_to_ptr(m_serialPort.native_handle()); // POSIX: int
- * -> void* #endif
+ *   m_hInputFile = fd_to_ptr(m_serialPort.native_handle()); // int to void *
+ * #endif
  *
- * // Reverse conversion:
  * #if !LUMEX_OS_WINDOWS
- *   int fd = lumex::core::utility::ptr_to_fd(m_hInputFile);
- *   ::close(fd);
+ *   ::close(ptr_to_fd(m_hInputFile));
  * #endif
  * @endcode
- *
- * @warning DO NOT use for arbitrary int values! Only for file descriptors!
  */
 static inline void *
 fd_to_ptr (int fileDescriptor) LUMEX_NOEXCEPT
@@ -129,28 +100,22 @@ fd_to_ptr (int fileDescriptor) LUMEX_NOEXCEPT
 }
 
 /**
- * @brief Safe reverse conversion of void* to POSIX file descriptor (int).
- * @details Reverse operation for lumex::core::utility::fd_to_ptr. Restores the
- * original file descriptor from void* representation.
+ * @brief Gets back the POSIX file descriptor that `fd_to_ptr()` stored in a
+ * `void *`.
+ * @details Converts the pointer to `intptr_t` and truncates it to `int`. For
+ * a pointer made by `fd_to_ptr()`, the bits that are dropped only repeat the
+ * sign of the descriptor, so the original value comes back. Like
+ * `fd_to_ptr()`, the function is declared at global scope, not in a
+ * namespace, and is `static inline`.
  *
- * Mechanism of work:
- * 1. `reinterpret_cast<intptr_t>(ptr)`:
- *    - void* (64 bits) -> intptr_t (64 bits) bitwise
- *    - Highest 32 bits = 0x00000000 (from the original FD_TO_PTR conversion)
- *    - Lowest 32 bits = original file descriptor
- * 2. `static_cast<int>(intptr_t)`:
- *    - Truncates to 32 bits (takes lowest bits)
- *    - Get original fd
- *
- * @param pointer void* representation of the descriptor (from
- * lumex::core::utility::fd_to_ptr)
- * @return int POSIX file descriptor
+ * @param pointer A descriptor stored by `fd_to_ptr()`.
+ * @return The POSIX file descriptor; 0 for a null pointer.
  *
  * @par Example
  * @code
- * void* stored_ptr = lumex::core::utility::fd_to_ptr(5); // fd=5 -> void*
- * int fd = lumex::core::utility::ptr_to_fd(stored_ptr);  // void* -> fd=5
- * assert(fd == 5); // Restored original descriptor
+ * void *stored_ptr = fd_to_ptr(5); // fd 5 as a void *
+ * int fd = ptr_to_fd(stored_ptr);  // 5 again
+ * assert(fd == 5);
  * @endcode
  */
 inline static int

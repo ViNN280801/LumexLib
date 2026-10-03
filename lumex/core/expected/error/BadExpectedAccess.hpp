@@ -85,17 +85,6 @@
 
 // ====================== BadExpectedAccess class (C++23 analogue)
 // ======================
-/**
- * @brief Exception thrown when accessing a missing value or error in
- * `Expected`.
- * @details Analogue of `std::bad_expected_access` from C++23. Thrown by
- * `value()` or `error()` when `Expected` is in the wrong state (for example,
- * calling `value()` on an object that holds an error).
- * @tparam ErrorType Error type stored in and retrievable from the exception.
- * @note Not thread-safe unless `ErrorType` itself is thread-safe.
- * @warning Constructing `BadExpectedAccess` can be expensive if `ErrorType`
- * has a heavy constructor or allocates. Thrown by `value()` and `error()`.
- */
 
 namespace lumex
 {
@@ -105,13 +94,26 @@ namespace expected
 {
 namespace error
 {
+/**
+ * @brief Exception thrown when the value of an `Expected` is read while it
+ * holds an error.
+ * @details Analogue of `std::bad_expected_access` from C++23. Thrown only by
+ * `value()` of an `Expected` that holds an error; it carries that error.
+ * `error()` of `Expected` does not throw it: called without an error, it
+ * fails `LUMEX_ASSERT` and aborts the program.
+ * @tparam ErrorType Error type stored in and retrievable from the exception.
+ * @note Not thread-safe unless `ErrorType` itself is thread-safe.
+ * @warning Constructing `BadExpectedAccess` can be expensive if `ErrorType`
+ * has a heavy constructor or allocates.
+ */
 template <typename ErrorType> class BadExpectedAccess : public std::exception
 {
 public:
   /**
    * @brief Constructs the exception, moving `error` into the object.
    * @param[in] error Error value stored inside the exception.
-   * @note Noexcept if `ErrorType`'s move constructor does not throw.
+   * @note Not declared `noexcept`; copying or moving the argument into the
+   * parameter and moving it into the object may throw.
    */
   explicit BadExpectedAccess (ErrorType error) : m_error (std::move (error)) {}
   /**

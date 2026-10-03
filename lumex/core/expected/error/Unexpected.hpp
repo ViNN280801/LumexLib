@@ -53,13 +53,6 @@
 
 // ====================== Unexpected class (C++23 analogue)
 // ======================
-/**
- * @brief Wrapper that holds an error value for `Expected`.
- * @details Used to construct an `Expected` in the error state. Analogue of
- * `std::unexpected` from C++23.
- * @tparam ErrorType Type of the stored error value.
- * @note An `Unexpected` object is always in the error state.
- */
 
 namespace lumex
 {
@@ -69,20 +62,29 @@ namespace expected
 {
 namespace error
 {
+/**
+ * @brief Wrapper that holds an error value for `Expected`.
+ * @details Used to construct an `Expected` in the error state. Analogue of
+ * `std::unexpected` from C++23.
+ * @tparam ErrorType Type of the stored error value.
+ * @note An `Unexpected` object is always in the error state.
+ */
 template <typename ErrorType> class Unexpected
 {
 public:
   /**
    * @brief Constructs from a const lvalue error.
    * @param[in] error Const reference to the error to store.
-   * @note Noexcept if `ErrorType`'s copy constructor does not throw.
+   * @note Not declared `noexcept`; throws whatever the copy constructor of
+   * `ErrorType` throws.
    */
   explicit Unexpected (ErrorType const &error) : m_error (error) {}
 
   /**
    * @brief Constructs from an rvalue error.
    * @param[in] error Rvalue reference to the error to store.
-   * @note Noexcept if `ErrorType`'s move constructor does not throw.
+   * @note Not declared `noexcept`; throws whatever the move constructor of
+   * `ErrorType` throws.
    */
   explicit Unexpected (ErrorType &&error) : m_error (std::move (error)) {}
 

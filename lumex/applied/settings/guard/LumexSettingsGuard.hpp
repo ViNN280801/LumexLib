@@ -95,8 +95,9 @@ using LumexSettingsCreateFn = std::function<bool (void)>;
  */
 struct lumex_settings_key_spec_t
 {
-  std::string section; ///< Section name; empty is implementation-defined (e.g.
-                       ///< "root").
+  std::string section; ///< Section name; the implementations in this library
+                       ///< ignore an empty one (`get()` returns an empty
+                       ///< string, `add()` does nothing).
   std::string key;     ///< Key name within the section.
   std::string default_value; ///< Value written when the key is missing, empty,
                              ///< or invalid.
@@ -122,9 +123,9 @@ struct lumex_settings_key_spec_t
  * `lumex_settings_key_spec_t` and restores each key's default value whenever
  * it is missing, empty, or fails its own `validate` callback. The class owns
  * no settings storage itself - it composes an existing
- *          `std::shared_ptr<ILumexSettings>` (INI today; any future
- * JSON/YAML/XML implementation of the same interface works unchanged) plus the
- * filesystem path that instance loads from and saves to.
+ *          `std::shared_ptr<ILumexSettings>` (INI, JSON, XML or any other
+ * implementation of the interface) plus the filesystem path that instance
+ * loads from and saves to.
  * @note Thread-safety: an internal `std::recursive_mutex` serializes
  * concurrent calls made through the *same* `LumexSettingsGuard` instance. This
  * is narrower than `BaseConfiguration`'s single process-wide mutex (shared
@@ -133,12 +134,15 @@ struct lumex_settings_key_spec_t
  * chokepoint.
  * If the same underlying file is also touched by other `ILumexSettings`
  * instances, other `LumexSettingsGuard`s, or unrelated code, callers remain
- * responsible for their own synchronization, exactly as `ILumexSettings`'s own
- * contract already requires of its implementations.
- * @note Exception safety: no public member function throws. Exceptions raised
- * by a caller-supplied `LumexSettingsValidateFn`/`LumexSettingsCreateFn` are
- * caught and treated as failure (validation rejected / default-creation
- * failed).
+ * responsible for their own synchronization, as with any `ILumexSettings`
+ * instance.
+ * @note Exception safety: every public member function is `noexcept`.
+ * Exceptions raised by a caller-supplied
+ * `LumexSettingsValidateFn`/`LumexSettingsCreateFn` are caught and treated as
+ * failure (validation rejected / default-creation failed), and `backup()`
+ * catches everything. An exception from the guarded `ILumexSettings` itself
+ * (its `load()`, `get()`, `add()` or `save()`) is not caught, so it ends in
+ * `std::terminate()`.
  */
 class LUMEX_API LumexSettingsGuard final
 {
@@ -147,7 +151,8 @@ public:
    * @brief Constructs a guard around an existing settings object and the path
    * it persists to.
    * @param settings The `ILumexSettings` instance to guard. May be any
-   * concrete implementation (`LumexSettingsINI` today). A `nullptr` is
+   * concrete implementation (`LumexSettingsINI`, `LumexSettingsJSON`,
+   * `LumexSettingsXML`). A `nullptr` is
    * accepted defensively - every operation below then simply fails (returns
    * `false`) instead of crashing.
    * @param filename The filesystem path this guard loads from, saves to, and
@@ -195,10 +200,14 @@ public:
    * @details Loads no file itself - it validates/repairs whatever is currently
    * held by the guarded `ILumexSettings` instance (typically populated by a
    * prior `load()` or by `ensureExistsWithDefaults`), then persists the result
-   * via `save(filename)` if, and only if, at least one key was changed.
+   * via `save(filename)` if, and only if, at least one key needed its default.
+   * A key needs its default when `validate` rejects its current value or, with
+   * no `validate`, when that value is empty; the default is then passed to
+   * `add()`, which the implementations in this library ignore for an empty
+   * section, key or default.
    * @param specs The key specifications to enforce, in order.
-   * @return `true` if at least one key was changed and the save succeeded;
-   * `false` if nothing needed changing, or if saving the changes failed.
+   * @return `true` if at least one key needed its default and the save
+   * succeeded; `false` if no key needed it, or if saving failed.
    */
   bool ensureKeysWithDefaults (
       std::vector<lumex_settings_key_spec_t> const &specs) LUMEX_NOEXCEPT;

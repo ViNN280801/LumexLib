@@ -57,11 +57,6 @@
 #include "lumex/core/utility/traits/LumexTypeTraits.hpp"
 
 // ====================== Helper tags and types ======================
-/**
- * @brief In-place construction tag; C++11 has no std::in_place.
- * @details Directly constructs the contained value inside `Expected`, avoiding
- * extra copies or moves. Analogue of `std::in_place_t` from C++17.
- */
 
 namespace lumex
 {
@@ -71,6 +66,11 @@ namespace expected
 {
 namespace result
 {
+/**
+ * @brief In-place construction tag; C++11 has no std::in_place.
+ * @details Directly constructs the contained value inside `Expected`, avoiding
+ * extra copies or moves. Analogue of `std::in_place_t` from C++17.
+ */
 struct in_place_tag
 {
 };

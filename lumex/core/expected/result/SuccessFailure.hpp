@@ -75,14 +75,16 @@ template <typename ValueType> struct success_t
   /**
    * @brief Constructs from a const lvalue value.
    * @param[in] value Value to store.
-   * @note Noexcept if `ValueType`'s copy constructor does not throw.
+   * @note Not declared `noexcept`; throws whatever the copy constructor of
+   * `ValueType` throws.
    */
   explicit success_t (ValueType const &value) : m_value (value) {}
 
   /**
    * @brief Constructs from an rvalue value.
    * @param[in] value Value to store.
-   * @note Noexcept if `ValueType`'s move constructor does not throw.
+   * @note Not declared `noexcept`; throws whatever the move constructor of
+   * `ValueType` throws.
    */
   explicit success_t (ValueType &&value) : m_value (std::move (value)) {}
 
@@ -210,14 +212,16 @@ template <typename ErrorType> struct failure_t
   /**
    * @brief Constructs from a const lvalue error.
    * @param[in] error Error to store.
-   * @note Noexcept if `ErrorType`'s copy constructor does not throw.
+   * @note Not declared `noexcept`; throws whatever the copy constructor of
+   * `ErrorType` throws.
    */
   explicit failure_t (ErrorType const &error) : m_error (error) {}
 
   /**
    * @brief Constructs from an rvalue error.
    * @param[in] error Error to store.
-   * @note Noexcept if `ErrorType`'s move constructor does not throw.
+   * @note Not declared `noexcept`; throws whatever the move constructor of
+   * `ErrorType` throws.
    */
   explicit failure_t (ErrorType &&error) : m_error (std::move (error)) {}
 

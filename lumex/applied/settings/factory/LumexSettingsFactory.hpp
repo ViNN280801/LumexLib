@@ -39,7 +39,7 @@
 
 #include "lumex/LumexExport.hpp"
 
-#include <memory> ///< For RAII-managed pointers on base interface.
+#include <memory> // For RAII-managed pointers on base interface.
 
 #include "lumex/applied/settings/ini/SupportedConfigExtensions.hpp"
 #include "lumex/applied/settings/interface/ILumexSettings.hpp"
@@ -57,7 +57,8 @@ namespace factory
  * @details Provides a static method to instantiate settings objects based on
  * the desired configuration file format (INI, XML when
  * `LUMEX_SETTINGS_WITH_XML` is defined, JSON when
- * `LUMEX_SETTINGS_WITH_JSON` is defined).
+ * `LUMEX_SETTINGS_WITH_JSON` is defined). For a format the build does not
+ * provide, `create()` returns a null pointer.
  * @note Thread-safe: The factory method is stateless and can be called
  * concurrently.
  */
@@ -68,8 +69,13 @@ public:
    * @brief Creates a settings object for the specified file format.
    * @param ext The configuration file format (e.g.,
    * `SupportedConfigExtensions::INI`).
-   * @return A `std::unique_ptr` to the new `ILumexSettings` instance.
-   * @throws std::invalid_argument If the format is unsupported.
+   * @return A `std::unique_ptr` to the new `ILumexSettings` instance, or a
+   * null pointer when the format is not available: `XML` in a build without
+   * `LUMEX_SETTINGS_WITH_XML`, `JSON` in a build without
+   * `LUMEX_SETTINGS_WITH_JSON`, or a value that is not an enumerator of
+   * `SupportedConfigExtensions`. Check the result before using it.
+   * @throws std::bad_alloc If the new object cannot be allocated. An
+   * unsupported format is reported by the null pointer, not by an exception.
    * @warning The caller assumes ownership of the returned pointer, which
    * means:
    *          - The caller is responsible for the lifetime of the returned

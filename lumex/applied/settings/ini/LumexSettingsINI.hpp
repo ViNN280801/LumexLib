@@ -59,9 +59,9 @@ LUMEX_CONST_STR REGEX_SECTION
 
 // FIX(Test:
 // LumexSettingsINITest.GivenSpecialCharactersInValues_WhenSave_ThenQuotesIfNecessary):
-// Fixed regex to properly handle quoted and unquoted values
-// The pattern now correctly matches quoted strings (any content except quotes)
-// or unquoted strings (no special chars)
+// Fixed regex to properly handle quoted and unquoted values.
+// A quoted value may contain anything, with a quote or a backslash escaped by
+// a backslash; an unquoted value contains no comma, quote, '#' or ';'.
 LUMEX_CONST_STR REGEX_KEY_VALUE
     = R"(^\s*([^=\s]+)\s*=\s*(?:\"((?:[^\"\\]|\\.)*)\"|([^,"#;]*))\s*(?:[#;].*)?$)"; ///< Regex for key-value
                                                                                      ///< pairs.
@@ -84,8 +84,8 @@ LUMEX_CONST_NUM unsigned char UTF8_BOM_2 = 0xBF; ///< Third byte of UTF-8 BOM.
  *
  * All file I/O and parsing logic is self-contained and implemented using C++11
  * features, with no external dependencies beyond the Lumex framework itself.
- * It includes validation checks before loading and after saving to ensure
- * data integrity.
+ * It validates a file with `is_ini_valid()` before loading it; saving does not
+ * validate the file it writes.
  *
  * @note This class is not designed to be thread-safe for concurrent writes.
  *       External synchronization is required if instances are shared across
@@ -99,9 +99,10 @@ public:
    * @details Before loading, this method validates the file's syntax and
    *          readability using `is_ini_valid()`. If validation passes,
    *          it clears any current settings and populates the internal map
-   *          with the data from the file.
+   *          with the data from the file. A valid file without any key
+   *          still clears the current settings.
    * @param[in] path The filesystem path to the INI file.
-   * @return `true` if the file is successfully validated and loaded,
+   * @return `true` if the file is valid and at least one key was loaded,
    *         `false` otherwise.
    */
   bool load (std::string const &path) override;
@@ -111,11 +112,10 @@ public:
    * @brief Saves the current settings to an INI file.
    * @details Writes all sections and key-value pairs to the specified path.
    *          If the parent directory does not exist, it will be created.
-   *          After writing the file, it is re-validated to ensure its
-   *          integrity.
+   *          The written file is not validated afterwards.
    * @param[in] path The filesystem path to save the INI file to.
-   * @return `true` if the file is saved and validated successfully,
-   *         `false` otherwise.
+   * @return `true` if the file was opened and the stream is still good after
+   *         writing and closing it, `false` otherwise.
    */
   bool save (std::string const &path) const override;
   bool save (char const *path) const;
@@ -200,11 +200,11 @@ private:
    * @brief Internal implementation for saving the settings to a file.
    * @details This method iterates through the `m_settings` map and writes
    *          each section and its key-value pairs to the specified file.
-   *          It ensures the parent directory exists before writing and
-   *          validates the output file's integrity after saving.
+   *          It ensures the parent directory exists before writing; it does
+   *          not validate the output file afterwards.
    * @param[in] path The path where the INI file will be saved.
-   * @return `true` if the file was successfully written and validated,
-   *         `false` otherwise.
+   * @return `true` if the file was opened and the stream is still good after
+   *         writing and closing it, `false` otherwise.
    */
   bool _save_with_parser (std::string const &path) const;
 };

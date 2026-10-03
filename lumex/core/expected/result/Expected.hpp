@@ -81,6 +81,17 @@
 #include "lumex/core/utility/compiler/LumexCheckFeatures.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 
+namespace lumex
+{
+namespace core
+{
+namespace expected
+{
+namespace result
+{
+using error::BadExpectedAccess;
+using error::Unexpected;
+
 /**
  * @brief Class that mimics std::expected from C++23.
  * @see https://en.cppreference.com/w/cpp/utility/expected
@@ -98,18 +109,6 @@
  * constructors/destructors or allocate memory, may be slower than C++23
  * `std::expected`, because object lifetime is managed by hand.
  */
-
-namespace lumex
-{
-namespace core
-{
-namespace expected
-{
-namespace result
-{
-using error::BadExpectedAccess;
-using error::Unexpected;
-
 template <typename SuccessType, typename ErrorType> class Expected
 {
 public:
@@ -160,7 +159,7 @@ public:
   /**
    * @brief Default constructor.
    * @details Creates an `Expected` in the success state holding the value
-   * `SuccessType()`, default-initialized. This constructor is available only
+   * `SuccessType()`, value-initialized. This constructor is available only
    * if `SuccessType` is default-constructible.
    * @note This constructor requires `SuccessType` to be default-constructible.
    *       If `SuccessType` has no default constructor, this constructor is a
@@ -178,8 +177,7 @@ public:
    * @details Creates a new `Expected` by copying the state and the contained
    * value or error from `other`.
    * @param[in] other `Expected` object to copy.
-   * @note Noexcept depends on the constructors of copy of `SuccessType` and
-   * `ErrorType`.
+   * @note Not declared `noexcept`.
    * @throws May throw if the copy constructor of `SuccessType` or `ErrorType`
    * throws.
    */
@@ -224,7 +222,7 @@ public:
    * @details Creates an `Expected` in the error state by copying the error
    * from `unexp`.
    * @param[in] unexp Const reference to an `Unexpected` that holds an error.
-   * @note Noexcept depends on the constructor of copy of `ErrorType`.
+   * @note Not declared `noexcept`.
    * @throws May throw if the copy constructor of `ErrorType` throws.
    */
   LUMEX_CONSTEXPR_CTOR explicit Expected (Unexpected<ErrorType> const &unexp)
@@ -239,7 +237,7 @@ public:
    * value from `unexp`. After the constructor, `unexp` is valid but
    * unspecified.
    * @param[in] unexp Rvalue reference to an `Unexpected` that holds the error.
-   * @note Noexcept depends on the constructor of move of `ErrorType`.
+   * @note Not declared `noexcept`.
    * @throws May throw if the move constructor of `ErrorType` throws.
    */
   LUMEX_CONSTEXPR_CTOR explicit Expected (Unexpected<ErrorType> &&unexp)
@@ -313,13 +311,13 @@ public:
   }
 
   /**
-   * @brief Constructor from `Unexpected` (copy) for implicit error
-   * construction.
+   * @brief Converting constructor from `Unexpected<Err>` (copy).
    * @details Creates an `Expected` in the error state by copying the error
-   * from `unex`. Alternative way to initialize `Expected` with an error.
+   * from `unex`. Alternative way to initialize `Expected` with an error. The
+   * constructor is `explicit`, so the conversion must be written out.
    * @tparam Err Error type convertible to `ErrorType`.
    * @param[in] unex Const reference to `Unexpected<Err>` that holds an error.
-   * @note Noexcept depends on the constructor of copy of `ErrorType`.
+   * @note Not declared `noexcept`.
    * @throws May throw if the copy constructor of `ErrorType` throws.
    */
   template <
@@ -336,14 +334,14 @@ public:
   }
 
   /**
-   * @brief Constructor from `Unexpected` (move) for implicit error
-   * construction.
+   * @brief Converting constructor from `Unexpected<Err>` (move).
    * @details Creates an `Expected` in the error state by moving the error
    * value from `unex`. Alternative way to initialize `Expected` with an error
-   * without copying.
+   * without copying. The constructor is `explicit`, so the conversion must be
+   * written out.
    * @tparam Err Error type convertible to `ErrorType`.
    * @param[in] unex Rvalue reference to `Unexpected<Err>` that holds an error.
-   * @note Noexcept depends on the constructor of move of `ErrorType`.
+   * @note Not declared `noexcept`.
    * @throws May throw if the move constructor of `ErrorType` throws.
    */
   template <
@@ -395,7 +393,8 @@ public:
     // *this stays in its original valid state.
     Expected temp (other);
 
-    // 2. Swap with the temporary. This does not throw.
+    // 2. Swap with the temporary. This throws only if moving or swapping
+    // SuccessType or ErrorType throws.
     swap (temp);
     return *this;
 
@@ -436,9 +435,9 @@ public:
   }
 
   /**
-   * @brief Implicit conversion to `bool`.
-   * @details Lets `Expected` be used in conditional expressions (for example,
-   * `if (myExpected)`).
+   * @brief Explicit conversion to `bool`.
+   * @details Lets `Expected` be used where a condition is expected (for
+   * example, `if (myExpected)`); elsewhere the conversion must be written out.
    * @return `true` if the object holds a success value, `false` otherwise.
    * @note Does not throw. Marked `[[nodiscard]]` to ensure handling of
    * the returned value.
@@ -524,15 +523,16 @@ public:
   {
     if (!m_has_value)
       throw BadExpectedAccess<ErrorType> (
-          std::move (m_storage.m_error)); // Move the error into the exception
+          std::move (m_storage.m_error)); // A const error is copied
     return std::move (m_storage.m_value);
   }
 
   /**
    * @brief Returns a mutable lvalue reference to the stored error.
    * @pre !has_value()
-   * @warning Precondition violation is undefined behavior (checked via assert
-   * in debug builds).
+   * @warning Calling it without an error violates the precondition:
+   * `LUMEX_ASSERT`, active in every build including `NDEBUG`, aborts the
+   * program.
    * @return Reference to the `ErrorType` error.
    * @note Use when you know `Expected` holds an error. Use `[[nodiscard]]`.
    */
@@ -542,36 +542,19 @@ public:
   error () &
   {
     // Precondition: !m_has_value.
-    // Violation is UB (undefined behavior) for two reasons:
+    // In std::expected, error() is an unchecked observer: calling it without
+    // an error is undefined behavior, and checked access is value(), which
+    // throws bad_expected_access<E>. Here the storage is a union, so reading
+    // m_storage.m_error while m_has_value is true would read an inactive
+    // member, which is undefined behavior in C++.
     //
-    // 1) Interface-level contract (compatibility with C++23).
-    //    In std::expected, error() is an unchecked observer with the
-    //    precondition that the object holds an error. If the precondition is
-    //    violated, behavior is undefined. Checked access is value(), which
-    //    throws bad_expected_access<E>. This library keeps the same model:
-    //    error() does not add checks or throws, so it stays noexcept and has
-    //    no extra cost.
-    //
-    // 2) Language rules for union (implementation level).
-    //    Expected storage is a union: either the value member is active
-    //    (or a dummy marker for void success), or m_error is active. If
-    //    m_has_value == true, m_error is not active. Accessing an inactive
-    //    union member is UB in C++. Therefore reading m_storage.m_error when
-    //    m_has_value == true is itself undefined behavior at the language
-    //    level.
-    //
-    // Why this method does not throw:
-    //  - The method must stay usable in noexcept contexts (destructors, swap,
-    //  emergency paths).
-    //  - Zero release cost: assert is removed under NDEBUG, with no extra
-    //  branches or throws.
-    //  - Checked, catchable access is already provided by value() (and a prior
-    //    has_value() check).
-    //
-    // Practical consequence:
-    //  - In debug, assert fires immediately and shows the contract violation.
-    //  - In release the caller is responsible: before calling error() it must
-    //    guarantee !has_value() (for example via if (!has_value()) ...).
+    // This method checks the precondition with LUMEX_ASSERT instead of
+    // throwing. LUMEX_ASSERT is active in every build, NDEBUG included: a
+    // violation prints the condition, the file and the line, and aborts the
+    // program before the inactive member is read. The check costs one branch
+    // in every build. Because error() never throws, it stays usable where an
+    // exception must not escape (destructors, swap, emergency paths);
+    // checked, catchable access is value() or a prior has_value() check.
     LUMEX_ASSERT (
         !m_has_value
         && "Calling error() while value is present is undefined behavior.");
@@ -581,8 +564,9 @@ public:
   /**
    * @brief Returns a const lvalue reference to the stored error.
    * @pre !has_value()
-   * @warning Precondition violation is undefined behavior (checked via assert
-   * in debug builds).
+   * @warning Calling it without an error violates the precondition:
+   * `LUMEX_ASSERT`, active in every build including `NDEBUG`, aborts the
+   * program.
    * @return Const reference to the `ErrorType` error.
    * @note Use this function to read the error without modifying it. Use
    * `[[nodiscard]]`.
@@ -601,8 +585,9 @@ public:
   /**
    * @brief Returns an rvalue reference to the stored error.
    * @pre !has_value()
-   * @warning Precondition violation is undefined behavior (checked via assert
-   * in debug builds).
+   * @warning Calling it without an error violates the precondition:
+   * `LUMEX_ASSERT`, active in every build including `NDEBUG`, aborts the
+   * program.
    * @return Rvalue reference to the `ErrorType` error.
    * @note This function is intended to move the error out of `Expected`. Use
    * `[[nodiscard]]`.
@@ -621,8 +606,9 @@ public:
   /**
    * @brief Returns a const rvalue reference to the stored error.
    * @pre !has_value()
-   * @warning Precondition violation is undefined behavior (checked via assert
-   * in debug builds).
+   * @warning Calling it without an error violates the precondition:
+   * `LUMEX_ASSERT`, active in every build including `NDEBUG`, aborts the
+   * program.
    * @return Const rvalue reference to the `ErrorType` error.
    * @note This function is intended to move a const error out of `Expected`.
    * Use
@@ -645,7 +631,8 @@ public:
    * @param[in] default_value Value returned if the object does not hold a
    * success value.
    * @return The stored value or `default_value`.
-   * @note This function does not throw.
+   * @note Not declared `noexcept`: copying the stored value or converting
+   * `default_value` to `SuccessType` may throw.
    * @note Use `[[nodiscard]]` to ensure handling of the returned value.
    */
   template <typename U = typename std::remove_cv<SuccessType>::type>
@@ -665,8 +652,10 @@ public:
    * @param[in] default_value Value returned if the object does not hold a
    * success value.
    * @return The stored value moved out of `Expected`, or `default_value`.
-   * @note This function does not throw. If `Expected` holds a value, it is
-   * moved. After that, `Expected` remains in a valid but unspecified state.
+   * @note Not declared `noexcept`: moving the stored value or converting
+   * `default_value` to `SuccessType` may throw. If `Expected` holds a value,
+   * it is moved. After that, `Expected` remains in a valid but unspecified
+   * state.
    * @note Use `[[nodiscard]]` to ensure handling of the returned value.
    */
   template <typename U = typename std::remove_cv<SuccessType>::type>
@@ -710,7 +699,8 @@ public:
    * @param[in] default_error Error returned if the object holds a success
    * value.
    * @return The stored error or `default_error`.
-   * @note This function does not throw.
+   * @note Not declared `noexcept`: copying the stored error or converting
+   * `default_error` to `ErrorType` may throw.
    * @note Use `[[nodiscard]]` to ensure handling of the returned value.
    */
   template <typename U = ErrorType>
@@ -726,8 +716,9 @@ public:
   /**
    * @brief Dereference operator (lvalue).
    * @details Returns a mutable lvalue reference to the stored success value.
-   * @warning Assumes `Expected` holds a value. If it does not, behavior
-   * is undefined (`assert` fires).
+   * @warning Assumes `Expected` holds a value. If it does not,
+   * `LUMEX_ASSERT`, active in every build including `NDEBUG`, aborts the
+   * program.
    * @return Reference to the `SuccessType` value.
    * @note This function does not throw, but requires a prior `has_value()`
    * check.
@@ -747,8 +738,9 @@ public:
    * @brief Dereference operator (rvalue).
    * @details Returns an rvalue reference to the stored success value for
    * moving.
-   * @warning Assumes `Expected` holds a value. If it does not, behavior
-   * is undefined (`assert` fires).
+   * @warning Assumes `Expected` holds a value. If it does not,
+   * `LUMEX_ASSERT`, active in every build including `NDEBUG`, aborts the
+   * program.
    * @return Rvalue reference to the `SuccessType` value.
    * @note This function does not throw, but requires a prior `has_value()`
    * check. After the call `Expected` remains in a valid but unspecified state.
@@ -767,8 +759,9 @@ public:
   /**
    * @brief Const dereference operator (lvalue).
    * @details Returns a const lvalue reference to the stored success value.
-   * @warning Assumes `Expected` holds a value. If it does not, behavior
-   * is undefined (`assert` fires).
+   * @warning Assumes `Expected` holds a value. If it does not,
+   * `LUMEX_ASSERT`, active in every build including `NDEBUG`, aborts the
+   * program.
    * @return Const reference to the `SuccessType` value.
    * @note This function does not throw, but requires a prior `has_value()`
    * check.
@@ -786,8 +779,9 @@ public:
   /**
    * @brief Const dereference operator (rvalue).
    * @details Returns a const rvalue reference to the stored success value.
-   * @warning Assumes `Expected` holds a value. If it does not, behavior
-   * is undefined (`assert` fires).
+   * @warning Assumes `Expected` holds a value. If it does not,
+   * `LUMEX_ASSERT`, active in every build including `NDEBUG`, aborts the
+   * program.
    * @return Const rvalue reference to the `SuccessType` value.
    * @note This function does not throw, but requires a prior `has_value()`
    * check. After the call `Expected` remains in a valid but unspecified state.
@@ -805,8 +799,9 @@ public:
   /**
    * @brief Member-access operator (lvalue).
    * @details Returns a pointer to the stored success value.
-   * @warning Assumes `Expected` holds a value. If it does not, behavior
-   * is undefined (`assert` fires).
+   * @warning Assumes `Expected` holds a value. If it does not,
+   * `LUMEX_ASSERT`, active in every build including `NDEBUG`, aborts the
+   * program.
    * @return Pointer to the `SuccessType` value.
    * @note This function does not throw, but requires a prior `has_value()`
    * check.
@@ -825,8 +820,9 @@ public:
   /**
    * @brief Const member-access operator (lvalue).
    * @details Returns a const pointer to the stored success value.
-   * @warning Assumes `Expected` holds a value. If it does not, behavior
-   * is undefined (`assert` fires).
+   * @warning Assumes `Expected` holds a value. If it does not,
+   * `LUMEX_ASSERT`, active in every build including `NDEBUG`, aborts the
+   * program.
    * @return Const pointer to the `SuccessType` value.
    * @note This function does not throw, but requires a prior `has_value()`
    * check.
@@ -845,16 +841,17 @@ public:
   // ====================== Modifiers ======================
 
   /**
-   * @brief Constructs a `SuccessType` value in place, destroying the current
-   * contents.
-   * @details This function first destroys the current stored value (or error),
-   * then constructs a new `SuccessType` success value in place from the
-   * forwarded arguments.
+   * @brief Replaces the current contents with a new `SuccessType` value.
+   * @details This function constructs the new value from the forwarded
+   * arguments in a temporary `Expected`, then move-assigns that temporary to
+   * this object, which swaps the contents; the previous value (or error) is
+   * destroyed together with the temporary.
    * @tparam Args Argument types for the `SuccessType` constructor.
    * @param[in] args Arguments forwarded to the `SuccessType` constructor.
-   * @return Reference to the newly constructed `SuccessType` value.
-   * @note May throw if the `SuccessType` constructor throws. On exception
-   *       the `Expected` object may be left in an invalid state.
+   * @return Reference to the new `SuccessType` value.
+   * @note May throw if the `SuccessType` constructor throws; this object then
+   * keeps its previous contents. The move assignment is `noexcept`, so an
+   * exception thrown while swapping calls `std::terminate()`.
    */
   template <typename... Args>
   LUMEX_CONSTEXPR_FUNCTION SuccessType &
@@ -925,7 +922,7 @@ public:
         std::swap (m_storage.m_error, other.m_storage.m_error);
       }
     else
-      { // One holds void success, the other an error. Move is required.
+      { // One holds a value, the other an error. Move is required.
         if (m_has_value)
           {
             ErrorType temp_error (std::move (other.m_storage.m_error));
@@ -1573,7 +1570,7 @@ public:
    * @details If Expected holds an error, 'func' is called with that error,
    *          and a new Expected holding the transformed error is returned.
    *          If Expected holds a value, 'func' is not called,
-   *          and an Expected holding the current error is returned.
+   *          and an Expected holding the current value is returned.
    * @tparam FunctionType Function type that takes ErrorType and returns F_E.
    * @param func Function to apply.
    * @return Expected<SuccessType, F_E> holding the current value or the
@@ -1977,9 +1974,10 @@ operator== (Expected<void, ErrorType> const &lhs,
  * @param[in,out] lhs Left-hand operand of the swap.
  * @param[in,out] rhs Right-hand operand of the swap.
  *
- * @note Marked `noexcept` via `LUMEX_NOEXCEPT`; the actual guarantee
- *       depends on the `swap` exception guarantees of
- * `SuccessType`/`ErrorType` in the class method.
+ * @note Marked `noexcept` unconditionally via `LUMEX_NOEXCEPT`, unlike the
+ * member `swap`, whose `noexcept` depends on `SuccessType` and `ErrorType`.
+ * An exception thrown by the member `swap` therefore calls
+ * `std::terminate()`.
  * @par Thread safety
  *      Not thread-safe for the same objects without external synchronization.
  * @par Performance
@@ -2001,8 +1999,9 @@ swap (Expected<SuccessType, ErrorType> &lhs,
  * @param[in,out] lhs Left-hand operand of the swap.
  * @param[in,out] rhs Right-hand operand of the swap.
  *
- * @note The actual `noexcept` guarantee comes from `Expected<void,
- * ErrorType>::swap`.
+ * @note Marked `noexcept` unconditionally via `LUMEX_NOEXCEPT`, unlike the
+ * member `swap`, whose `noexcept` depends on `ErrorType`. An exception thrown
+ * by the member `swap` therefore calls `std::terminate()`.
  * @par Thread safety
  *      Not thread-safe without external synchronization on the same instances.
  */

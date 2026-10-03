@@ -91,14 +91,20 @@ namespace settings
 // Last-dir token "interface" is a Windows SDK macro (combaseapi.h).
 // Types from lumex/applied/settings/interface stay in settings.
 /**
- * @brief Factory interface for creating and managing settings objects.
+ * @brief Interface of a settings store kept in a configuration file.
  * @details This interface defines the contract for loading, saving, and
  * manipulating application settings stored in configuration files.
  * Implementations should handle platform-specific file operations and parsing
  * logic.
- * @note Thread-safety: Implementations must ensure thread-safe access if used
- * in a multi-threaded context. Exception safety: Implementations must ensure
- * that no exceptions are thrown from any of the public member functions.
+ * @note Thread safety: the implementations in this library
+ * (`LumexSettingsINI`, `LumexSettingsJSON`, `LumexSettingsXML`) do not
+ * synchronize; an instance shared between threads needs external
+ * synchronization.
+ * @note Exceptions: the member functions are not `noexcept`. The
+ * implementations in this library report a failed load or save through the
+ * return value, but an exception can still propagate, for example
+ * `std::bad_alloc`, or the nlohmann/json `type_error` thrown by `save()` of
+ * `LumexSettingsJSON` when a value is not valid UTF-8.
  */
 class LUMEX_API ILumexSettings
 {
@@ -110,7 +116,7 @@ public:
    * @brief Load settings from a configuration file.
    * @details "Load" means that the settings have been successfully read from
    * the file to the internal storage and can be retrieved by the `get` method
-   *          or modified by the `set` method.
+   * or modified by the `add` and `remove` methods.
    * @param path The filesystem path to the configuration file.
    * @return `true` if the settings were loaded successfully, `false`
    * otherwise.
@@ -144,7 +150,9 @@ public:
    * @param section The section name in the configuration file.
    * @param key The key name within the section.
    * @param value The new value to assign.
-   * @note Do nothing if the section or key does not exist.
+   * @note The implementations in this library create a missing section or key
+   * and overwrite an existing value; they do nothing when the section, the key
+   * or the value is empty.
    */
   virtual void add (std::string const &section, std::string const &key,
                     std::string const &value)

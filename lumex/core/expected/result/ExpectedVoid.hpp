@@ -70,15 +70,6 @@
 
 // ====================== Specialization for Expected<void, ErrorType>
 // ======================
-/**
- * @brief `Expected` specialization when the success value is absent (`void`).
- * @details Lets `Expected` be used for functions that either succeed
- *          without returning a value, or return an error.
- *          It is the analogue of `std::expected<void, E>` from C++23.
- * @tparam ErrorType Error type.
- * @note Here `has_value()` means success without a returned value,
- *       and `!has_value()` means the object holds an error.
- */
 
 namespace lumex
 {
@@ -88,6 +79,15 @@ namespace expected
 {
 namespace result
 {
+/**
+ * @brief `Expected` specialization when the success value is absent (`void`).
+ * @details Lets `Expected` be used for functions that either succeed
+ *          without returning a value, or return an error.
+ *          It is the analogue of `std::expected<void, E>` from C++23.
+ * @tparam ErrorType Error type.
+ * @note Here `has_value()` means success without a returned value,
+ *       and `!has_value()` means the object holds an error.
+ */
 template <typename ErrorType> class Expected<void, ErrorType>
 {
 public:
@@ -127,7 +127,7 @@ public:
    * an error, copies that error. If `other` is in the success state (`void`),
    *          the new object is also in the success state.
    * @param[in] other `Expected<void, ErrorType>` object copied from.
-   * @note Noexcept depends on the constructor of copy of `ErrorType`.
+   * @note Not declared `noexcept`.
    * @throws May throw if the copy constructor of `ErrorType` throws.
    */
   LUMEX_CONSTEXPR_CTOR
@@ -309,10 +309,10 @@ public:
   }
 
   /**
-   * @brief Implicit conversion to `bool` for `Expected<void, ErrorType>`
+   * @brief Explicit conversion to `bool` for `Expected<void, ErrorType>`
    * specialization.
-   * @details Lets `Expected` be used in conditional expressions (for example,
-   * `if (myExpected)`).
+   * @details Lets `Expected` be used where a condition is expected (for
+   * example, `if (myExpected)`); elsewhere the conversion must be written out.
    * @return `true` if the object holds the success (void) state, `false`
    * otherwise.
    * @note Does not throw. Marked `[[nodiscard]]` to ensure handling of
@@ -335,7 +335,7 @@ public:
    * @warning Calling this while the object holds an error throws
    * `BadExpectedAccess<ErrorType>` specialization.
    * @throws BadExpectedAccess<ErrorType> if the object holds an error.
-   * @note This function does not throw.
+   * @note Does not throw in the success state.
    */
   LUMEX_CONSTEXPR_FUNCTION void
   value () &
@@ -353,7 +353,7 @@ public:
    * @warning Calling this while the object holds an error throws
    * `BadExpectedAccess<ErrorType>` specialization.
    * @throws BadExpectedAccess<ErrorType> if the object holds an error.
-   * @note This function does not throw.
+   * @note Does not throw in the success state.
    */
   LUMEX_CONSTEXPR_FUNCTION void
   value () &&
@@ -371,7 +371,7 @@ public:
    * @warning Calling this while the object holds an error throws
    * `BadExpectedAccess<ErrorType>` specialization.
    * @throws BadExpectedAccess<ErrorType> if the object holds an error.
-   * @note This function does not throw.
+   * @note Does not throw in the success state.
    */
   LUMEX_CONSTEXPR_FUNCTION void
   value () const &
@@ -385,11 +385,12 @@ public:
    * (const rvalue).
    * @details Same as the rvalue version, but for const rvalue references. Used
    * for `Expected` objects that are moved and whose state must not change. If
-   * the object holds an error, it is moved into the exception.
+   * the object holds an error, it is copied into the exception, because a
+   * const error cannot be moved from.
    * @warning Calling this while the object holds an error throws
    * `BadExpectedAccess<ErrorType>` specialization.
    * @throws BadExpectedAccess<ErrorType> if the object holds an error.
-   * @note This function does not throw.
+   * @note Does not throw in the success state.
    */
   LUMEX_CONSTEXPR_FUNCTION void
   value () const &&
@@ -401,11 +402,12 @@ public:
   /**
    * @brief Returns a mutable lvalue reference to the stored error.
    * @pre !has_value()
-   * @warning Precondition violation is undefined behavior (checked via assert
-   * in debug builds).
+   * @warning Calling it without an error violates the precondition:
+   * `LUMEX_ASSERT`, active in every build including `NDEBUG`, aborts the
+   * program.
    * @details This function returns a mutable reference to the error when
-   * `Expected` is in the error state. If the object is in the success state,
-   * it throws `BadExpectedAccess<ErrorType>` specialization.
+   * `Expected` is in the error state. It never throws: in the success state
+   * the assertion aborts the program (see the warning).
    * @return Reference to the `ErrorType` error.
    * @note Use `[[nodiscard]]` to ensure handling of the returned value.
    */
@@ -423,11 +425,12 @@ public:
   /**
    * @brief Returns a const lvalue reference to the stored error.
    * @pre !has_value()
-   * @warning Precondition violation is undefined behavior (checked via assert
-   * in debug builds).
+   * @warning Calling it without an error violates the precondition:
+   * `LUMEX_ASSERT`, active in every build including `NDEBUG`, aborts the
+   * program.
    * @details This function returns a const reference to the error when
-   * `Expected` is in the error state. If the object is in the success state,
-   * it throws `BadExpectedAccess<ErrorType>` specialization.
+   * `Expected` is in the error state. It never throws: in the success state
+   * the assertion aborts the program (see the warning).
    * @return Const reference to the `ErrorType` error.
    * @note Use `[[nodiscard]]` to ensure handling of the returned value.
    */
@@ -445,12 +448,13 @@ public:
   /**
    * @brief Returns an rvalue reference to the stored error.
    * @pre !has_value()
-   * @warning Precondition violation is undefined behavior (checked via assert
-   * in debug builds).
+   * @warning Calling it without an error violates the precondition:
+   * `LUMEX_ASSERT`, active in every build including `NDEBUG`, aborts the
+   * program.
    * @details This function returns an rvalue reference to the error when
-   * `Expected` is in the error state. If the object is in the success state,
-   * it throws `BadExpectedAccess<ErrorType>` specialization. The error is
-   * moved.
+   * `Expected` is in the error state, so the caller can move the error out.
+   * It never throws: in the success state the assertion aborts the program
+   * (see the warning).
    * @return Rvalue reference to the `ErrorType` error.
    * @note Use `[[nodiscard]]` to ensure handling of the returned value.
    */
@@ -468,12 +472,13 @@ public:
   /**
    * @brief Returns a const rvalue reference to the stored error.
    * @pre !has_value()
-   * @warning Precondition violation is undefined behavior (checked via assert
-   * in debug builds).
+   * @warning Calling it without an error violates the precondition:
+   * `LUMEX_ASSERT`, active in every build including `NDEBUG`, aborts the
+   * program.
    * @details This function returns a const rvalue reference to the error when
-   * `Expected` is in the error state. If the object is in the success state,
-   * it throws `BadExpectedAccess<ErrorType>` specialization. The error is
-   * moved.
+   * `Expected` is in the error state; being const, it cannot be moved from.
+   * It never throws: in the success state the assertion aborts the program
+   * (see the warning).
    * @return Const rvalue reference to the `ErrorType` error.
    * @note Use `[[nodiscard]]` to ensure handling of the returned value.
    */
@@ -537,8 +542,9 @@ public:
    * @brief Dereference operator (lvalue) for `Expected<void, ErrorType>`
    * specialization.
    * @details Confirms the success state and returns no value.
-   * @warning Assumes `Expected` is in the success state. If not, behavior
-   *          is undefined (`assert` fires).
+   * @warning Assumes `Expected` is in the success state. If not,
+   * `LUMEX_ASSERT`, active in every build including `NDEBUG`, aborts the
+   * program.
    * @note This function does not throw, but requires a prior `has_value()`
    * check.
    */
@@ -554,8 +560,9 @@ public:
    * @brief Dereference operator (rvalue) for `Expected<void, ErrorType>`
    * specialization.
    * @details Confirms the success state and returns no value.
-   * @warning Assumes `Expected` is in the success state. If not, behavior
-   *          is undefined (`assert` fires).
+   * @warning Assumes `Expected` is in the success state. If not,
+   * `LUMEX_ASSERT`, active in every build including `NDEBUG`, aborts the
+   * program.
    * @note This function does not throw, but requires a prior `has_value()`
    * check.
    */
@@ -571,8 +578,9 @@ public:
    * @brief Const dereference operator (lvalue) for `Expected<void, ErrorType>`
    * specialization.
    * @details Confirms the success state and returns no value.
-   * @warning Assumes `Expected` is in the success state. If not, behavior
-   *          is undefined (`assert` fires).
+   * @warning Assumes `Expected` is in the success state. If not,
+   * `LUMEX_ASSERT`, active in every build including `NDEBUG`, aborts the
+   * program.
    * @note This function does not throw, but requires a prior `has_value()`
    * check.
    */
@@ -587,8 +595,9 @@ public:
    * @brief Const dereference operator (rvalue) for `Expected<void, ErrorType>`
    * specialization.
    * @details Confirms the success state and returns no value.
-   * @warning Assumes `Expected` is in the success state. If not, behavior
-   *          is undefined (`assert` fires).
+   * @warning Assumes `Expected` is in the success state. If not,
+   * `LUMEX_ASSERT`, active in every build including `NDEBUG`, aborts the
+   * program.
    * @note This function does not throw, but requires a prior `has_value()`
    * check.
    */
@@ -605,10 +614,12 @@ public:
   /**
    * @brief Constructs the success "void" state in place, destroying the
    * current contents of `Expected<void, ErrorType>` specialization.
-   * @details This function first destroys the current stored state (if it was
-   * an error), then puts the object in the success state with no value. This
+   * @details This function move-assigns `Expected(in_place)` to this object,
+   * which swaps the contents; a previous error is destroyed together with the
+   * temporary. The object is then in the success state with no value. This
    * is `emplace` for the `void` specialization.
-   * @note Guaranteed not to throw (`noexcept`).
+   * @note Not declared `noexcept`, but it does not throw: the `in_place`
+   * constructor and the move assignment are both `noexcept`.
    */
   LUMEX_CONSTEXPR_FUNCTION void
   emplace ()
@@ -999,7 +1010,7 @@ public:
    *          If the object is in the success state (`m_has_value == true`),
    *          `func()` is called and the result is packed into a new
    * `Expected<ResultOfFunc, ErrorType>` specialization. If the object holds an
-   * error, `Unexpected` with the current error is returned.
+   * error, an `Expected` holding the current error is returned.
    *
    * @tparam FunctionType Type of the called function (no arguments).
    * @tparam ResultOfFunc Type returned by `func`.
@@ -1050,7 +1061,7 @@ public:
    * the result into `Expected<void, ErrorType>` specialization.
    * @details If the object is in the success state, `func()` is called and
    * `Expected<void, ErrorType>` in the success state is returned. If the
-   * object holds an error, `Unexpected` with that error is returned.
+   * object holds an error, an `Expected` holding that error is returned.
    *
    * @tparam FunctionType Type of the called function (no arguments) that
    * returns `void`.
@@ -1096,7 +1107,8 @@ public:
    * return a non-void value.
    * @details Lets `func()` run on temporary `Expected` objects. If a value is
    * present, the result is wrapped in `Expected<ResultOfFunc, ErrorType>`
-   * specialization. If the object holds an error, `Unexpected` is returned.
+   * specialization. If the object holds an error, an `Expected` holding it
+   * is returned.
    *
    * @tparam FunctionType Type of the called function.
    * @tparam ResultOfFunc Type returned by `func`.
@@ -1231,8 +1243,8 @@ public:
    * @brief `transform` overload for a const rvalue reference and functions
    * that return `void`.
    * @details If the object is in the success state, `func()` is called and
-   *          `Expected<void, ErrorType>` in the success state. If the object
-   * holds an error, `Unexpected` with that error is returned.
+   *          `Expected<void, ErrorType>` in the success state is returned. If
+   * the object holds an error, an `Expected` holding that error is returned.
    *
    * @tparam FunctionType Type of the called function.
    * @tparam ReturnType Final return type.
@@ -1640,7 +1652,8 @@ private:
     /**
      * @brief Dummy used to mark the success state with no value.
      * @details Used only as a marker; its contents are never read.
-     * @note The field need not be initialized and does not affect behavior.
+     * @note Its default member initializer makes it the active member when
+     * `Storage` is constructed.
      */
     Unit m_dummy{}; // Dummy for the success state
 
@@ -1653,8 +1666,9 @@ private:
 
     /**
      * @brief Default constructor.
-     * @details Does not initialize `m_dummy`/`m_error`; selecting the active
-     *          member and constructing it is done by the outer class.
+     * @details Initializes only `m_dummy`, through its default member
+     * initializer; constructing `m_error` in its place is done by the outer
+     * class.
      * @note Guaranteed not to throw.
      */
     Storage () {}
@@ -1700,9 +1714,8 @@ private:
   /**
    * @brief Flag: `true` if `Expected` holds a success value, `false` if it
    * holds an error.
-   * @details This member selects which `m_storage` union member is active and
-   * therefore which object (`SuccessType` or `ErrorType`) must be constructed
-   * or destroyed.
+   * @details This member tells whether `m_storage.m_error` is active, and
+   * therefore whether an `ErrorType` must be constructed or destroyed.
    */
   bool m_has_value;
 };
