@@ -197,12 +197,12 @@ enum class DumpType : std::int8_t
   MINI_DUMP_WITH_TOKEN_INFORMATION = 19,     ///< Include token information
 
   // Windows kernel-mode dump types (based on Microsoft documentation)
-  KERNEL_FULL_DUMP = 20,      ///< Полный дамп памяти - largest kernel dump
-  KERNEL_KERNEL_DUMP = 21,    ///< Дамп памяти ядра - kernel memory only
-  KERNEL_SMALL_DUMP = 22,     ///< Небольшой дамп памяти - 64KB
-  KERNEL_AUTOMATIC_DUMP = 23, ///< Автоматический дамп памяти - flexible size
+  KERNEL_FULL_DUMP = 20,      ///< Complete memory dump - largest kernel dump
+  KERNEL_KERNEL_DUMP = 21,    ///< Kernel memory dump - kernel memory only
+  KERNEL_SMALL_DUMP = 22,     ///< Small memory dump - 64KB
+  KERNEL_AUTOMATIC_DUMP = 23, ///< Automatic memory dump - flexible size
   KERNEL_ACTIVE_DUMP
-  = 24, ///< Активный дамп памяти - similar to full but smaller
+  = 24, ///< Active memory dump - similar to full but smaller
 
   // UNIX/Linux core dump types
   CORE_DUMP_FULL = 25, ///< Full core dump with all memory
