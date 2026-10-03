@@ -87,6 +87,10 @@ namespace result
  * @tparam ErrorType Error type.
  * @note Here `has_value()` means success without a returned value,
  *       and `!has_value()` means the object holds an error.
+ * @note Works from C++11. As in the primary template, a member that is not
+ * const, returns `void` or needs more than one statement is marked
+ * `LUMEX_CONSTEXPR_CXX14`: `constexpr` from C++14, an ordinary function at
+ * C++11.
  */
 template <typename ErrorType> class Expected<void, ErrorType>
 {
@@ -130,7 +134,7 @@ public:
    * @note Not declared `noexcept`.
    * @throws May throw if the copy constructor of `ErrorType` throws.
    */
-  LUMEX_CONSTEXPR_CTOR
+  LUMEX_CONSTEXPR_CXX14
   Expected (Expected const &other) : m_has_value (other.m_has_value)
   {
     if (!m_has_value)
@@ -151,7 +155,7 @@ public:
    * constructor does not throw.
    * @throws May throw if the `ErrorType` move constructor throws.
    */
-  LUMEX_CONSTEXPR_CTOR
+  LUMEX_CONSTEXPR_CXX14
   Expected (Expected &&other)
       LUMEX_NOEXCEPT_IF (std::is_nothrow_move_constructible<ErrorType>::value)
       : m_has_value (other.m_has_value)
@@ -179,8 +183,8 @@ public:
    * @brief Constructs the error in place via unexpect (void specialization).
    */
   template <typename... Args>
-  LUMEX_CONSTEXPR_CTOR explicit Expected (unexpect_t /*unused*/,
-                                          Args &&...args)
+  LUMEX_CONSTEXPR_CXX14 explicit Expected (unexpect_t /*unused*/,
+                                           Args &&...args)
       : m_has_value (false)
   {
     new (std::addressof (m_storage.m_error))
@@ -206,7 +210,7 @@ public:
           && !std::is_same<typename std::decay<Err>::type, in_place_tag>::value
           && !std::is_same<typename std::decay<Err>::type,
                            unexpect_t>::value>::type>
-  LUMEX_CONSTEXPR_CTOR explicit Expected (Unexpected<Err> const &unexp)
+  LUMEX_CONSTEXPR_CXX14 explicit Expected (Unexpected<Err> const &unexp)
       : m_has_value (false)
   {
     new (std::addressof (m_storage.m_error)) ErrorType (unexp.error ());
@@ -228,7 +232,7 @@ public:
           && !std::is_same<typename std::decay<Err>::type, in_place_tag>::value
           && !std::is_same<typename std::decay<Err>::type,
                            unexpect_t>::value>::type>
-  LUMEX_CONSTEXPR_CTOR explicit Expected (Unexpected<Err> &&unexp)
+  LUMEX_CONSTEXPR_CXX14 explicit Expected (Unexpected<Err> &&unexp)
       LUMEX_NOEXCEPT_IF (std::is_nothrow_move_constructible<ErrorType>::value)
       : m_has_value (false)
   {
@@ -265,7 +269,7 @@ public:
    * @throws May throw if the copy constructor of `Expected` or `std::swap`
    * throw.
    */
-  LUMEX_CONSTEXPR_FUNCTION Expected &
+  LUMEX_CONSTEXPR_CXX14 Expected &
   operator= (Expected const &other) LUMEX_NOEXCEPT_IF (
       std::is_nothrow_move_constructible<ErrorType>::value
           &&std::is_nothrow_move_assignable<ErrorType>::value)
@@ -284,7 +288,7 @@ public:
    * specialization.
    * @note Guaranteed not to throw (`noexcept`).
    */
-  LUMEX_CONSTEXPR_FUNCTION Expected &
+  LUMEX_CONSTEXPR_CXX14 Expected &
   operator= (Expected &&other) LUMEX_NOEXCEPT
   {
     swap (other);
@@ -337,7 +341,7 @@ public:
    * @throws BadExpectedAccess<ErrorType> if the object holds an error.
    * @note Does not throw in the success state.
    */
-  LUMEX_CONSTEXPR_FUNCTION void
+  LUMEX_CONSTEXPR_CXX14 void
   value () &
   {
     if (!m_has_value)
@@ -355,7 +359,7 @@ public:
    * @throws BadExpectedAccess<ErrorType> if the object holds an error.
    * @note Does not throw in the success state.
    */
-  LUMEX_CONSTEXPR_FUNCTION void
+  LUMEX_CONSTEXPR_CXX14 void
   value () &&
   {
     if (!m_has_value)
@@ -373,7 +377,7 @@ public:
    * @throws BadExpectedAccess<ErrorType> if the object holds an error.
    * @note Does not throw in the success state.
    */
-  LUMEX_CONSTEXPR_FUNCTION void
+  LUMEX_CONSTEXPR_CXX14 void
   value () const &
   {
     if (!m_has_value)
@@ -392,7 +396,7 @@ public:
    * @throws BadExpectedAccess<ErrorType> if the object holds an error.
    * @note Does not throw in the success state.
    */
-  LUMEX_CONSTEXPR_FUNCTION void
+  LUMEX_CONSTEXPR_CXX14 void
   value () const &&
   {
     if (!m_has_value)
@@ -413,7 +417,7 @@ public:
    */
   LUMEX_ATTRIBUTE_NODISCARD (
       "Return value is the contained error; should always be used.")
-  LUMEX_CONSTEXPR_FUNCTION ErrorType &
+  LUMEX_CONSTEXPR_CXX14 ErrorType &
   error () &
   {
     LUMEX_ASSERT (
@@ -436,7 +440,7 @@ public:
    */
   LUMEX_ATTRIBUTE_NODISCARD (
       "Return value is the contained error; should always be used.")
-  LUMEX_CONSTEXPR_FUNCTION ErrorType const &
+  LUMEX_CONSTEXPR_CXX14 ErrorType const &
   error () const &
   {
     LUMEX_ASSERT (
@@ -460,7 +464,7 @@ public:
    */
   LUMEX_ATTRIBUTE_NODISCARD (
       "Return value is the contained error; should always be used.")
-  LUMEX_CONSTEXPR_FUNCTION ErrorType &&
+  LUMEX_CONSTEXPR_CXX14 ErrorType &&
   error () &&
   {
     LUMEX_ASSERT (
@@ -484,7 +488,7 @@ public:
    */
   LUMEX_ATTRIBUTE_NODISCARD (
       "Return value is the contained error; should always be used.")
-  LUMEX_CONSTEXPR_FUNCTION ErrorType const &&
+  LUMEX_CONSTEXPR_CXX14 ErrorType const &&
   error () const &&
   {
     LUMEX_ASSERT (
@@ -531,7 +535,7 @@ public:
   template <typename G = ErrorType>
   LUMEX_ATTRIBUTE_NODISCARD ("Return value is the error or a "
                              "default-constructed substitute; should be used.")
-  LUMEX_CONSTEXPR_FUNCTION ErrorType error_or (G &&default_error) &&
+  LUMEX_CONSTEXPR_CXX14 ErrorType error_or (G &&default_error) &&
   {
     if (!m_has_value)
       return std::move (m_storage.m_error);
@@ -548,7 +552,7 @@ public:
    * @note This function does not throw, but requires a prior `has_value()`
    * check.
    */
-  LUMEX_CONSTEXPR_FUNCTION void
+  LUMEX_CONSTEXPR_CXX14 void
       operator* ()
       & LUMEX_NOEXCEPT
   {
@@ -567,7 +571,7 @@ public:
    * @note This function does not throw, but requires a prior `has_value()`
    * check.
    */
-  LUMEX_CONSTEXPR_FUNCTION void
+  LUMEX_CONSTEXPR_CXX14 void
       operator* ()
       && LUMEX_NOEXCEPT
   {
@@ -586,7 +590,7 @@ public:
    * @note This function does not throw, but requires a prior `has_value()`
    * check.
    */
-  LUMEX_CONSTEXPR_FUNCTION void
+  LUMEX_CONSTEXPR_CXX14 void
   operator* () const &LUMEX_NOEXCEPT
   {
     LUMEX_ASSERT (
@@ -604,7 +608,7 @@ public:
    * @note This function does not throw, but requires a prior `has_value()`
    * check.
    */
-  LUMEX_CONSTEXPR_FUNCTION void
+  LUMEX_CONSTEXPR_CXX14 void
   operator* () const &&LUMEX_NOEXCEPT
   {
     LUMEX_ASSERT (
@@ -625,7 +629,7 @@ public:
    * @note Not declared `noexcept`, but it does not throw: the `in_place`
    * constructor and the move assignment are both `noexcept`.
    */
-  LUMEX_CONSTEXPR_FUNCTION void
+  LUMEX_CONSTEXPR_CXX14 void
   emplace ()
   {
     *this = Expected (in_place);
@@ -644,7 +648,7 @@ public:
    *       the `Expected` object may be left in an invalid state.
    */
   template <typename... Args>
-  LUMEX_CONSTEXPR_FUNCTION ErrorType &
+  LUMEX_CONSTEXPR_CXX14 ErrorType &
   emplace_error (Args &&...args)
   {
     if (!m_has_value)
@@ -672,7 +676,7 @@ public:
    * @throws May throw if move constructors or `std::swap` of
    *         `ErrorType` throw.
    */
-  LUMEX_CONSTEXPR_FUNCTION void
+  LUMEX_CONSTEXPR_CXX14 void
   swap (Expected &other)
 #if __cplusplus >= 201703L
       LUMEX_NOEXCEPT_IF (std::is_nothrow_move_constructible<ErrorType>::value
@@ -736,7 +740,7 @@ public:
     requires std::invocable<FunctionType>
              && lumex::core::utility::traits::value::is_expected_concept<
                  std::invoke_result_t<FunctionType>>
-  LUMEX_CONSTEXPR_FUNCTION auto
+  LUMEX_CONSTEXPR_CXX14 auto
   and_then (FunctionType func) & -> std::invoke_result_t<FunctionType>
   {
     if (m_has_value)
@@ -751,7 +755,7 @@ public:
             typename = typename std::enable_if<
                 lumex::core::utility::traits::value::is_expected<
                     ResultOfFunc>::value>::type>
-  LUMEX_CONSTEXPR_FUNCTION auto
+  LUMEX_CONSTEXPR_CXX14 auto
   and_then (FunctionType func) & -> ResultOfFunc
   {
     if (m_has_value)
@@ -783,7 +787,7 @@ public:
     requires std::invocable<FunctionType>
              && lumex::core::utility::traits::value::is_expected_concept<
                  std::invoke_result_t<FunctionType>>
-  LUMEX_CONSTEXPR_FUNCTION auto
+  LUMEX_CONSTEXPR_CXX14 auto
   and_then (FunctionType func) const & -> std::invoke_result_t<FunctionType>
   {
     if (m_has_value)
@@ -798,7 +802,7 @@ public:
       typename
       = typename std::enable_if<lumex::core::utility::traits::value::
                                     is_expected<ResultOfFunc>::value>::type>
-  LUMEX_CONSTEXPR_FUNCTION auto
+  LUMEX_CONSTEXPR_CXX14 auto
   and_then (FunctionType func) const & -> ResultOfFunc
   {
     if (m_has_value)
@@ -830,7 +834,7 @@ public:
     requires std::invocable<FunctionType>
              && lumex::core::utility::traits::value::is_expected_concept<
                  std::invoke_result_t<FunctionType>>
-  LUMEX_CONSTEXPR_FUNCTION auto
+  LUMEX_CONSTEXPR_CXX14 auto
   and_then (FunctionType func) && -> std::invoke_result_t<FunctionType>
   {
     if (m_has_value)
@@ -845,7 +849,7 @@ public:
       typename
       = typename std::enable_if<lumex::core::utility::traits::value::
                                     is_expected<ResultOfFunc>::value>::type>
-  LUMEX_CONSTEXPR_FUNCTION auto
+  LUMEX_CONSTEXPR_CXX14 auto
   and_then (FunctionType func) && -> ResultOfFunc
   {
     if (m_has_value)
@@ -878,7 +882,7 @@ public:
     requires std::invocable<FunctionType>
              && lumex::core::utility::traits::value::is_expected_concept<
                  std::invoke_result_t<FunctionType>>
-  LUMEX_CONSTEXPR_FUNCTION auto
+  LUMEX_CONSTEXPR_CXX14 auto
   and_then (FunctionType func) const && -> std::invoke_result_t<FunctionType>
   {
     if (m_has_value)
@@ -893,7 +897,7 @@ public:
       typename
       = typename std::enable_if<lumex::core::utility::traits::value::
                                     is_expected<ResultOfFunc>::value>::type>
-  LUMEX_CONSTEXPR_FUNCTION auto
+  LUMEX_CONSTEXPR_CXX14 auto
   and_then (FunctionType func) const && -> ResultOfFunc
   {
     if (m_has_value)
@@ -928,7 +932,7 @@ public:
              && (!std::is_void_v<std::invoke_result_t<FunctionType>>)
              && (!lumex::core::utility::traits::value::is_expected_concept<
                  std::invoke_result_t<FunctionType>>)
-  LUMEX_CONSTEXPR_FUNCTION auto
+  LUMEX_CONSTEXPR_CXX14 auto
   transform (FunctionType func)
       & -> Expected<std::invoke_result_t<FunctionType>, ErrorType>
   {
@@ -947,7 +951,7 @@ public:
       = typename std::enable_if<!std::is_void<ResultOfFunc>::value
                                 && !lumex::core::utility::traits::value::
                                        is_expected<ResultOfFunc>::value>::type>
-  LUMEX_CONSTEXPR_FUNCTION auto
+  LUMEX_CONSTEXPR_CXX14 auto
   transform (FunctionType func) & -> ReturnType
   {
     if (m_has_value)
@@ -978,7 +982,7 @@ public:
   template <typename FunctionType>
     requires std::invocable<FunctionType>
              && std::is_void_v<std::invoke_result_t<FunctionType>>
-  LUMEX_CONSTEXPR_FUNCTION auto
+  LUMEX_CONSTEXPR_CXX14 auto
   transform (FunctionType func) & -> Expected<void, ErrorType>
   {
     if (m_has_value)
@@ -994,7 +998,7 @@ public:
       typename FunctionType, typename ReturnType = Expected<void, ErrorType>,
       typename = typename std::enable_if<std::is_void<typename std::result_of<
           FunctionType ()>::type>::value>::type> // If func returns void
-  LUMEX_CONSTEXPR_FUNCTION auto
+  LUMEX_CONSTEXPR_CXX14 auto
   transform (
       FunctionType func) & -> ReturnType // transform into Expected<void, E>
   {
@@ -1032,7 +1036,7 @@ public:
              && (!std::is_void_v<std::invoke_result_t<FunctionType>>)
              && (!lumex::core::utility::traits::value::is_expected_concept<
                  std::invoke_result_t<FunctionType>>)
-  LUMEX_CONSTEXPR_FUNCTION auto
+  LUMEX_CONSTEXPR_CXX14 auto
   transform (FunctionType func)
       const & -> Expected<std::invoke_result_t<FunctionType>, ErrorType>
   {
@@ -1051,7 +1055,7 @@ public:
       = typename std::enable_if<!std::is_void<ResultOfFunc>::value
                                 && !lumex::core::utility::traits::value::
                                        is_expected<ResultOfFunc>::value>::type>
-  LUMEX_CONSTEXPR_FUNCTION auto
+  LUMEX_CONSTEXPR_CXX14 auto
   transform (FunctionType func) const & -> ReturnType
   {
     if (m_has_value)
@@ -1078,7 +1082,7 @@ public:
   template <typename FunctionType>
     requires std::invocable<FunctionType>
              && std::is_void_v<std::invoke_result_t<FunctionType>>
-  LUMEX_CONSTEXPR_FUNCTION auto
+  LUMEX_CONSTEXPR_CXX14 auto
   transform (FunctionType func) const & -> Expected<void, ErrorType>
   {
     if (m_has_value)
@@ -1094,7 +1098,7 @@ public:
             typename ReturnType = Expected<void, ErrorType>,
             typename = typename std::enable_if<std::is_void<
                 typename std::result_of<FunctionType ()>::type>::value>::type>
-  LUMEX_CONSTEXPR_FUNCTION auto
+  LUMEX_CONSTEXPR_CXX14 auto
   transform (FunctionType func) const & -> ReturnType
   {
     if (m_has_value)
@@ -1126,7 +1130,7 @@ public:
              && (!std::is_void_v<std::invoke_result_t<FunctionType>>)
              && (!lumex::core::utility::traits::value::is_expected_concept<
                  std::invoke_result_t<FunctionType>>)
-  LUMEX_CONSTEXPR_FUNCTION auto
+  LUMEX_CONSTEXPR_CXX14 auto
   transform (FunctionType func)
       && -> Expected<std::invoke_result_t<FunctionType>, ErrorType>
   {
@@ -1145,7 +1149,7 @@ public:
       = typename std::enable_if<!std::is_void<ResultOfFunc>::value
                                 && !lumex::core::utility::traits::value::
                                        is_expected<ResultOfFunc>::value>::type>
-  LUMEX_CONSTEXPR_FUNCTION auto
+  LUMEX_CONSTEXPR_CXX14 auto
   transform (FunctionType func) && -> ReturnType
   {
     if (m_has_value)
@@ -1169,7 +1173,7 @@ public:
   template <typename FunctionType>
     requires std::invocable<FunctionType>
              && std::is_void_v<std::invoke_result_t<FunctionType>>
-  LUMEX_CONSTEXPR_FUNCTION auto
+  LUMEX_CONSTEXPR_CXX14 auto
   transform (FunctionType func) && -> Expected<void, ErrorType>
   {
     if (m_has_value)
@@ -1185,7 +1189,7 @@ public:
             typename ReturnType = Expected<void, ErrorType>,
             typename = typename std::enable_if<std::is_void<
                 typename std::result_of<FunctionType ()>::type>::value>::type>
-  LUMEX_CONSTEXPR_FUNCTION auto
+  LUMEX_CONSTEXPR_CXX14 auto
   transform (FunctionType func) && -> ReturnType
   {
     if (m_has_value)
@@ -1215,7 +1219,7 @@ public:
              && (!std::is_void_v<std::invoke_result_t<FunctionType>>)
              && (!lumex::core::utility::traits::value::is_expected_concept<
                  std::invoke_result_t<FunctionType>>)
-  LUMEX_CONSTEXPR_FUNCTION auto
+  LUMEX_CONSTEXPR_CXX14 auto
   transform (FunctionType func)
       const && -> Expected<std::invoke_result_t<FunctionType>, ErrorType>
   {
@@ -1234,7 +1238,7 @@ public:
       = typename std::enable_if<!std::is_void<ResultOfFunc>::value
                                 && !lumex::core::utility::traits::value::
                                        is_expected<ResultOfFunc>::value>::type>
-  LUMEX_CONSTEXPR_FUNCTION auto
+  LUMEX_CONSTEXPR_CXX14 auto
   transform (FunctionType func) const && -> ReturnType
   {
     if (m_has_value)
@@ -1258,7 +1262,7 @@ public:
   template <typename FunctionType>
     requires std::invocable<FunctionType>
              && std::is_void_v<std::invoke_result_t<FunctionType>>
-  LUMEX_CONSTEXPR_FUNCTION auto
+  LUMEX_CONSTEXPR_CXX14 auto
   transform (FunctionType func) const && -> Expected<void, ErrorType>
   {
     if (m_has_value)
@@ -1274,7 +1278,7 @@ public:
             typename ReturnType = Expected<void, ErrorType>,
             typename = typename std::enable_if<std::is_void<
                 typename std::result_of<FunctionType ()>::type>::value>::type>
-  LUMEX_CONSTEXPR_FUNCTION auto
+  LUMEX_CONSTEXPR_CXX14 auto
   transform (FunctionType func) const && -> ReturnType
   {
     if (m_has_value)
@@ -1301,7 +1305,7 @@ public:
     requires std::invocable<FunctionType, ErrorType &>
              && lumex::core::utility::traits::value::is_expected_concept<
                  std::invoke_result_t<FunctionType, ErrorType &>>
-  LUMEX_CONSTEXPR_FUNCTION auto
+  LUMEX_CONSTEXPR_CXX14 auto
   or_else (
       FunctionType func) & -> std::invoke_result_t<FunctionType, ErrorType &>
   {
@@ -1316,7 +1320,7 @@ public:
             typename = typename std::enable_if<
                 lumex::core::utility::traits::value::is_expected<
                     ResultOfFunc>::value>::type>
-  LUMEX_CONSTEXPR_FUNCTION auto
+  LUMEX_CONSTEXPR_CXX14 auto
   or_else (FunctionType func) & -> ResultOfFunc
   {
     if (m_has_value)
@@ -1339,7 +1343,7 @@ public:
     requires std::invocable<FunctionType, const ErrorType &>
              && lumex::core::utility::traits::value::is_expected_concept<
                  std::invoke_result_t<FunctionType, const ErrorType &>>
-  LUMEX_CONSTEXPR_FUNCTION auto
+  LUMEX_CONSTEXPR_CXX14 auto
   or_else (FunctionType func)
       const & -> std::invoke_result_t<FunctionType, const ErrorType &>
   {
@@ -1354,7 +1358,7 @@ public:
             typename = typename std::enable_if<
                 lumex::core::utility::traits::value::is_expected<
                     ResultOfFunc>::value>::type>
-  LUMEX_CONSTEXPR_FUNCTION auto
+  LUMEX_CONSTEXPR_CXX14 auto
   or_else (FunctionType func) const & -> ResultOfFunc
   {
     if (m_has_value)
@@ -1377,7 +1381,7 @@ public:
     requires std::invocable<FunctionType, ErrorType &&>
              && lumex::core::utility::traits::value::is_expected_concept<
                  std::invoke_result_t<FunctionType, ErrorType &&>>
-  LUMEX_CONSTEXPR_FUNCTION auto
+  LUMEX_CONSTEXPR_CXX14 auto
   or_else (
       FunctionType func) && -> std::invoke_result_t<FunctionType, ErrorType &&>
   {
@@ -1392,7 +1396,7 @@ public:
             typename = typename std::enable_if<
                 lumex::core::utility::traits::value::is_expected<
                     ResultOfFunc>::value>::type>
-  LUMEX_CONSTEXPR_FUNCTION auto
+  LUMEX_CONSTEXPR_CXX14 auto
   or_else (FunctionType func) && -> ResultOfFunc
   {
     if (m_has_value)
@@ -1415,7 +1419,7 @@ public:
     requires std::invocable<FunctionType, const ErrorType &&>
              && lumex::core::utility::traits::value::is_expected_concept<
                  std::invoke_result_t<FunctionType, const ErrorType &&>>
-  LUMEX_CONSTEXPR_FUNCTION auto
+  LUMEX_CONSTEXPR_CXX14 auto
   or_else (FunctionType func)
       const && -> std::invoke_result_t<FunctionType, const ErrorType &&>
   {
@@ -1430,7 +1434,7 @@ public:
             typename = typename std::enable_if<
                 lumex::core::utility::traits::value::is_expected<
                     ResultOfFunc>::value>::type>
-  LUMEX_CONSTEXPR_FUNCTION auto
+  LUMEX_CONSTEXPR_CXX14 auto
   or_else (FunctionType func) const && -> ResultOfFunc
   {
     if (m_has_value)
@@ -1458,7 +1462,7 @@ public:
                  std::invoke_result_t<FunctionType, ErrorType &>>)
              && (!lumex::core::utility::traits::value::is_expected_concept<
                  std::invoke_result_t<FunctionType, ErrorType &>>)
-  LUMEX_CONSTEXPR_FUNCTION auto
+  LUMEX_CONSTEXPR_CXX14 auto
   transform_error (FunctionType func)
       & -> Expected<void, std::invoke_result_t<FunctionType, ErrorType &>>
   {
@@ -1478,7 +1482,7 @@ public:
                 !std::is_void<ResultOfFunc>::value
                 && !lumex::core::utility::traits::value::is_expected<
                     ResultOfFunc>::value>::type>
-  LUMEX_CONSTEXPR_FUNCTION auto
+  LUMEX_CONSTEXPR_CXX14 auto
   transform_error (FunctionType func) & -> ReturnType
   {
     if (m_has_value)
@@ -1500,7 +1504,7 @@ public:
                  std::invoke_result_t<FunctionType, const ErrorType &>>)
              && (!lumex::core::utility::traits::value::is_expected_concept<
                  std::invoke_result_t<FunctionType, const ErrorType &>>)
-  LUMEX_CONSTEXPR_FUNCTION auto
+  LUMEX_CONSTEXPR_CXX14 auto
   transform_error (FunctionType func) const & -> Expected<
       void, std::invoke_result_t<FunctionType, const ErrorType &>>
   {
@@ -1522,7 +1526,7 @@ public:
                 !std::is_void<ResultOfFunc>::value
                 && !lumex::core::utility::traits::value::is_expected<
                     ResultOfFunc>::value>::type>
-  LUMEX_CONSTEXPR_FUNCTION auto
+  LUMEX_CONSTEXPR_CXX14 auto
   transform_error (FunctionType func) const & -> ReturnType
   {
     if (m_has_value)
@@ -1544,7 +1548,7 @@ public:
                  std::invoke_result_t<FunctionType, ErrorType &&>>)
              && (!lumex::core::utility::traits::value::is_expected_concept<
                  std::invoke_result_t<FunctionType, ErrorType &&>>)
-  LUMEX_CONSTEXPR_FUNCTION auto
+  LUMEX_CONSTEXPR_CXX14 auto
   transform_error (FunctionType func)
       && -> Expected<void, std::invoke_result_t<FunctionType, ErrorType &&>>
   {
@@ -1564,7 +1568,7 @@ public:
                 !std::is_void<ResultOfFunc>::value
                 && !lumex::core::utility::traits::value::is_expected<
                     ResultOfFunc>::value>::type>
-  LUMEX_CONSTEXPR_FUNCTION auto
+  LUMEX_CONSTEXPR_CXX14 auto
   transform_error (FunctionType func) && -> ReturnType
   {
     if (m_has_value)
@@ -1587,7 +1591,7 @@ public:
                  std::invoke_result_t<FunctionType, const ErrorType &&>>)
              && (!lumex::core::utility::traits::value::is_expected_concept<
                  std::invoke_result_t<FunctionType, const ErrorType &&>>)
-  LUMEX_CONSTEXPR_FUNCTION auto
+  LUMEX_CONSTEXPR_CXX14 auto
   transform_error (FunctionType func) const && -> Expected<
       void, std::invoke_result_t<FunctionType, const ErrorType &&>>
   {
@@ -1609,7 +1613,7 @@ public:
                 !std::is_void<ResultOfFunc>::value
                 && !lumex::core::utility::traits::value::is_expected<
                     ResultOfFunc>::value>::type>
-  LUMEX_CONSTEXPR_FUNCTION auto
+  LUMEX_CONSTEXPR_CXX14 auto
   transform_error (FunctionType func) const && -> ReturnType
   {
     if (m_has_value)
