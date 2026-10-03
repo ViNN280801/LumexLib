@@ -54,8 +54,8 @@
  * `LUMEX_EXCEPTION_HANDLE_END` wrap a block in a `try` that reports a
  * `LumexBaseException`, any other `std::exception` and an unknown exception;
  * the opening macro also installs the Windows translator through
- * `SET_SEH_TRANSLATOR`, which `WindowsSEHTranslator.hpp` defines and this
- * header does not include, so these macros need the `LumexException` umbrella.
+ * `SET_SEH_TRANSLATOR` of the included `WindowsSEHTranslator.hpp`, so the
+ * macros work with this header alone.
  * `LUMEX_DEFINE_EXCEPTION`, which declares new exception types, comes from the
  * included `LumexExceptionMacros.hpp`.
  */
@@ -64,13 +64,17 @@
 
 #include "lumex/LumexExport.hpp"
 
+#include <exception>
+#include <iostream>
 #include <string>
 #if __cplusplus >= 201703L
 #include <string_view>
 #endif
 
+#include "lumex/core/exceptions/crash/WindowsSEHTranslator.hpp"
 #include "lumex/core/exceptions/stacktrace/LumexStacktrace.hpp"
 #include "lumex/core/utility/attr/LumexAttributes.hpp"
+#include "lumex/core/utility/demangle/LumexDemangle.hpp"
 #include "lumex/core/utility/macros/LumexExceptionMacros.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 

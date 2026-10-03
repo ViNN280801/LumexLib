@@ -25,6 +25,7 @@ foreach(_exceptions_suite IN ITEMS
     add_executable(
         ${_exceptions_name}
         LumexException.tests.cpp
+        LumexExceptionHeader.tests.cpp
         LumexExceptionWrapper.tests.cpp
         WindowsSEHTranslator.tests.cpp
     )
