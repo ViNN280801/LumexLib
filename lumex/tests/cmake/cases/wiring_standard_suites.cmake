@@ -60,7 +60,6 @@ set(_transition
     json
     logger
     logging
-    math
     optional
     reflection
     resource_monitor

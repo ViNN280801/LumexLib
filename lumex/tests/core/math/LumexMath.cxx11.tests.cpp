@@ -1,8 +1,8 @@
-// LumexMath.tests.cpp
+// LumexMath.cxx11.tests.cpp
 //
-// Built three times (LumexMathTests at C++11, LumexMathCxx17Tests,
-// LumexMathCxx20Tests): LumexMath works from C++11 on, and the C++20 block at
-// the end checks std::views (non-const-iterable views, sentinel ends).
+// LumexMath works from C++11 on: the suite of every standard
+// (LumexMathCxx11Tests, LumexMathCxx17Tests, LumexMathCxx20Tests) runs this
+// file. LumexMath.cxx20.tests.cpp adds the std::views cases at C++20.
 #include <cmath>
 #include <cstdint>
 #include <iterator>
@@ -12,9 +12,6 @@
 #include <string>
 #include <type_traits>
 #include <vector>
-#if __cplusplus >= 202002L
-#include <ranges>
-#endif
 
 #include <gtest/gtest.h>
 
@@ -483,40 +480,3 @@ TEST (
                     "Field 'gain' value 300 is out of range [-128; 127]");
     }
 }
-
-#if __cplusplus >= 202002L
-// --- C++20 views ------------------------------------------------------------
-
-TEST (LumexMathTest,
-      GivenFilterView_WhenAverage_ThenNonConstOverloadIteratesTheView)
-{
-  // std::views::filter caches its begin () and cannot be iterated through
-  // a const reference. avg(Range&) used to hand the view to a const-ref
-  // helper, which did not compile for such views (PeakExpertWeb
-  // SpectrumArray: filter | transform over data points).
-  std::vector<double> const points{ 1.0, 2.0, 3.0, 10.0, 20.0 };
-  auto view = points | std::views::filter ([] (double v) { return v < 5.0; })
-              | std::views::transform ([] (double v) { return v * 2.0; });
-  EXPECT_DOUBLE_EQ (avg (view), 4.0); // (2 + 4 + 6) / 3
-  EXPECT_DOUBLE_EQ (rms (view), std::sqrt (56.0 / 3.0));
-  EXPECT_DOUBLE_EQ (rmse (view, 4.0), std::sqrt (8.0 / 3.0));
-}
-
-TEST (LumexMathTest, GivenViewWithSentinelEnd_WhenAverage_ThenStopsAtSentinel)
-{
-  // take_while's end () is a sentinel of a different type than begin ().
-  auto view = std::views::iota (1)
-              | std::views::take_while ([] (int v) { return v < 4; });
-  EXPECT_EQ (avg (view), 2);
-  EXPECT_EQ (avg (std::views::iota (1, 4)), 2); // temporary view
-}
-
-TEST (LumexMathTest,
-      GivenFilterViewsOfDifferentLengths_WhenRMSE_ThenThrowsInvalidArgument)
-{
-  std::vector<int> const values{ 1, 2, 3, 4 };
-  auto even = values | std::views::filter ([] (int v) { return v % 2 == 0; });
-  auto all = values | std::views::filter ([] (int) { return true; });
-  EXPECT_THROW (rmse (even, all), std::invalid_argument);
-}
-#endif
