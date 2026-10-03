@@ -1,6 +1,7 @@
 # core/atomic wiring: a header-only target that links Threads::Threads, five
 # test suites (C++11, C++17, C++20, and C++20 with the forced lock-based
-# implementation or the forced wait table) under the CTest prefix "atomic.",
+# implementation or the forced wait table) under the CTest prefix "atomic."
+# (derived from the directory, pinned by wiring_test_names),
 # the test that keeps the module's names out of the global namespace, the
 # examples, the package config alias and umbrella, the Conan component and
 # the documented switches.
@@ -33,7 +34,7 @@ _require_text("${_tests}"
     "target_compile_definitions(\${_atomic_name} PRIVATE \${_atomic_force})")
 _require_text("${_tests}"
     "lumex_test_use_gtest(\${_atomic_name} CXX_STANDARD \${_atomic_std})")
-_require_text("${_tests}" "TEST_PREFIX \"atomic.\"")
+_require_text("${_tests}" "lumex_gtest_discover_tests(\${_atomic_name}")
 _require_text("${_tests}" "LumexAtomicGlobalNames.tests.cpp")
 _require_text("${_tests}" "PROPERTIES TIMEOUT")
 

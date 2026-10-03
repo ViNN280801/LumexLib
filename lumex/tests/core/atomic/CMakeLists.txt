@@ -61,12 +61,10 @@ foreach(_atomic_suite IN ITEMS
     lumex_test_use_gtest(${_atomic_name} CXX_STANDARD ${_atomic_std})
     if(_atomic_suffix)
         lumex_gtest_discover_tests(${_atomic_name}
-            TEST_PREFIX "atomic."
             TEST_SUFFIX "${_atomic_suffix}"
             PROPERTIES TIMEOUT 300)
     else()
         lumex_gtest_discover_tests(${_atomic_name}
-            TEST_PREFIX "atomic."
             PROPERTIES TIMEOUT 300)
     endif()
 endforeach()
