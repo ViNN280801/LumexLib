@@ -115,6 +115,14 @@
 
 #### Исправлено
 
+##### `compile_commands.json` включает библиотеку с первой конфигурации
+
+**Файлы:** корневой `CMakeLists.txt`, `lumex/tests/cmake/cases/wiring_compile_commands.cmake`
+
+**Коммит:** `3445464a`
+
+**Суть:** `configure_compile_commands` стоял после `add_subdirectory(lumex)`. `CMAKE_EXPORT_COMPILE_COMMANDS` копируется на цель в момент ее создания, поэтому при первой конфигурации единицы трансляции библиотеки не попадали в `compile_commands.json` до повторной конфигурации. Вызов перенесен выше `add_subdirectory(lumex)` и по-прежнему выполняется только при `LUMEX_IS_TOP_LEVEL`. Кейс `cmake.wiring_compile_commands` закрепляет этот порядок.
+
 ##### Найдено новыми наборами: `expected` на C++11, `fmt` на C++14, reflection `get<I>` на C++14, константы `CoreDumpGenerator`
 
 **Файлы:** `lumex/core/expected/result/Expected.hpp`, `lumex/core/expected/result/ExpectedVoid.hpp`, `lumex/core/fmt/LumexFormat.hpp`, `lumex/core/reflection/field_reflection/LumexAggregateFields.hpp`, `lumex/core/utility/dump/LumexCoreDumpGenerator.{hpp,cpp}`, тесты этих модулей
