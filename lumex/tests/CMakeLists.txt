@@ -49,6 +49,19 @@ else()
         "Skipping lint.header_using_directives: no Python 3 interpreter")
 endif()
 
+# Every public source file under lumex/ starts with the MIT notice in a plain
+# /* comment: a Doxygen /** comment would copy the license onto every page.
+if(Python3_Interpreter_FOUND)
+    add_test(NAME lint.license_headers
+        COMMAND ${Python3_EXECUTABLE}
+            ${LumexLib_SOURCE_DIR}/Scripts/CodeTools/check_license_headers.py
+            --check --dir ${LumexLib_SOURCE_DIR}/lumex
+    )
+    set_tests_properties(lint.license_headers PROPERTIES LABELS "lint")
+else()
+    message(STATUS "Skipping lint.license_headers: no Python 3 interpreter")
+endif()
+
 # Two vendored GoogleTest trees (not FetchContent):
 #   1.12.1 for C++11/14 tests, 1.18.0 for C++17+ tests.
 include("${CMAKE_CURRENT_LIST_DIR}/../../cmake/LumexGoogleTest.cmake")
