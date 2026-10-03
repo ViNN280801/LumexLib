@@ -62,13 +62,16 @@ foreach(_f ${_test_cmakes})
     file(READ "${_f}" _chunk)
     string(APPEND _tests_txt "${_chunk}")
 endforeach()
+# Suites named by hand. A directory converted to lumex_add_standard_suites
+# gets its names from the helper and leaves this list; wiring_standard_suites
+# checks it instead.
 foreach(_suite
         LumexHardwareCapabilitiesTests LumexJsonTests LumexJsonCxx20Tests
         LumexCallbackSlotTests LumexLoggerTests LumexLoggingTests
         LumexResourceMonitorTests LumexSerialPortTests LumexSettingsTests
         LumexAtomicTests LumexAtomicCxx17Tests LumexAtomicCxx20Tests
         LumexAtomicLockBasedCxx20Tests LumexAtomicWaitTableCxx20Tests
-        LumexBase64Tests LumexCircularBufferTests LumexCrcTests
+        LumexCircularBufferTests LumexCrcTests
         LumexEnvironmentTests LumexExceptionsTests LumexExpectedTests
         LumexFilesystemTests LumexMathTests LumexMathCxx17Tests
         LumexMathCxx20Tests LumexNumberGeneratorTests

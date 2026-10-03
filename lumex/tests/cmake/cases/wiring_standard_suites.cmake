@@ -49,7 +49,6 @@ endif()
 # empty.
 set(_transition
     atomic
-    base64
     circular_buffer
     crc
     environment
