@@ -116,7 +116,7 @@ namespace caps
  * @see CPUVectorizationDetector::detect() for structure population
  * @see CPUVectorizationDetector class for detection methods
  *
- * @example
+ * @par Example
  * @code
  * auto caps = CPUVectorizationDetector::detect();
  * if (caps.supports_avx2) {
@@ -384,8 +384,9 @@ struct alignas (LUMEX_CPU_VECTORIZATION_INFO_ALIGNMENT) LUMEX_API
    * sets, formatted for display in logs, diagnostics, or user interfaces.
    * Provides a quick overview of CPU capabilities.
    *
-   * @example "SSE, SSE2, SSE3, SSSE3, SSE4.1, SSE4.2, AVX, AVX2, FMA3"
-   * @example "NEON, SVE"
+   * @par Examples
+   * - `"SSE, SSE2, SSE3, SSSE3, SSE4.1, SSE4.2, AVX, AVX2, FMA3"`
+   * - `"NEON, SVE"`
    * @note Automatically generated during detection
    * @note Empty string if no vectorization support detected
    */
@@ -427,7 +428,7 @@ struct alignas (LUMEX_CPU_VECTORIZATION_INFO_ALIGNMENT) LUMEX_API
  *
  * @see cpu_vectorization_info_t for detailed capability structure
  *
- * @example
+ * @par Example
  * @code
  * // Detect CPU vectorization capabilities
  * auto caps = CPUVectorizationDetector::detect();
@@ -481,7 +482,7 @@ public:
    *
    * @see cpu_vectorization_info_t for detailed structure documentation
    *
-   * @example
+   * @par Example
    * @code
    * auto caps = CPUVectorizationDetector::detect();
    * std::cout << "AVX2: " << (caps.supports_avx2 ? "Yes" : "No") <<
@@ -507,7 +508,7 @@ public:
    * @note Technologies are listed in order of introduction (SSE -> AVX ->
    * AVX-512)
    *
-   * @example
+   * @par Example
    * @code
    * auto caps = CPUVectorizationDetector::detect();
    * std::string summary = CPUVectorizationDetector::get_summary(caps);

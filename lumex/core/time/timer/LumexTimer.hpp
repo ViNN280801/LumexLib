@@ -97,12 +97,14 @@ default_measure_time_env_name () LUMEX_NOEXCEPT
  * started and stopped from one thread at a time; it is not internally
  * synchronized.
  *
- * @example
+ * @par Example
+ * @code
  * LumexTimer timer;
  * timer.start_timer();
  * doSomeWork();
  * timer.stop_timer();
  * std::cout << "Elapsed: " << timer.elapsed_time_ms() << "ms" << std::endl;
+ * @endcode
  */
 class LUMEX_API LumexTimer
 {
@@ -160,10 +162,12 @@ private:
  * extraction left nothing (e.g. the input was empty or contained no
  * identifier-like prefix).
  *
- * @example
+ * @par Example
+ * @code
  * extract_function_name("obj->DoSomething(1, 2)"); // -> "DoSomething"
  * extract_function_name("obj.Method()");            // -> "Method"
  * extract_function_name("justName");                // -> "justName"
+ * @endcode
  */
 LUMEX_API std::string extract_function_name (std::string const &expr_str);
 

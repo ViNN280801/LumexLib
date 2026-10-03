@@ -949,7 +949,7 @@ private:
  * @see DumpConfiguration
  * @see DumpFactory
  *
- * @example
+ * @par Example
  * ```cpp
  * // Initialize the crash dump handler
  * CoreDumpGenerator::initialize("/path/to/dumps",

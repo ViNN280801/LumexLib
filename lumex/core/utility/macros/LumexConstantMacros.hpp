@@ -94,7 +94,7 @@
  * immutable, `const` in the composition of this macro prevents further
  * changes.
  *
- * @example Examples of usage:
+ * @par Examples of usage:
  * @code
  * class MyConfig {
  * public:

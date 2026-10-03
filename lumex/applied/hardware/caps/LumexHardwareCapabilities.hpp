@@ -357,8 +357,9 @@ struct LUMEX_API hardware_info_t
    * including manufacturer, model number, and additional identifiers.
    * Used for CPU generation estimation and compatibility checks.
    *
-   * @example "Intel(R) Core(TM) i7-8700K CPU @ 3.70GHz"
-   * @example "AMD Ryzen 5 3600 6-Core Processor"
+   * @par Examples
+   * - `"Intel(R) Core(TM) i7-8700K CPU @ 3.70GHz"`
+   * - `"AMD Ryzen 5 3600 6-Core Processor"`
    */
 #ifdef _WIN32
 #pragma warning(push)
@@ -427,9 +428,10 @@ struct LUMEX_API hardware_info_t
    * being used by the system. Used for driver compatibility checks and
    * rendering capability assessment.
    *
-   * @example "NVIDIA GeForce RTX 3080"
-   * @example "AMD Radeon RX 6800 XT"
-   * @example "Intel UHD Graphics 630"
+   * @par Examples
+   * - `"NVIDIA GeForce RTX 3080"`
+   * - `"AMD Radeon RX 6800 XT"`
+   * - `"Intel UHD Graphics 630"`
    * @note May indicate integrated graphics even when discrete GPU is present
    */
 #ifdef _WIN32
@@ -488,7 +490,7 @@ LUMEX_CONST_STR KMODULE_NAME = "HardwareCapabilities";
  * @see hardware_info_t for detailed hardware specification structure
  * @see Constants namespace for threshold values and detection parameters
  *
- * @example
+ * @par Example
  * @code
  * // Detect current hardware configuration
  * auto hwInfo = HardwareCapabilities::detect_hardware();
@@ -537,7 +539,7 @@ public:
    * @see hardware_info_t for detailed structure documentation
    * @see Constants namespace for detection thresholds and parameters
    *
-   * @example
+   * @par Example
    * @code
    * auto hardware = HardwareCapabilities::detect_hardware();
    * std::cout << "CPU: " << hardware.cpu_name << std::endl;
@@ -579,7 +581,7 @@ public:
    * @see Constants threshold values for decision criteria
    * @see apply_optimal_rendering_settings() for automatic configuration
    *
-   * @example
+   * @par Example
    * @code
    * if (HardwareCapabilities::should_use_software_rendering()) {
    *     renderer.setSoftwareMode(true);
@@ -623,7 +625,7 @@ public:
    * @see should_use_software_rendering() for rendering strategy determination
    * @see detect_hardware() for underlying hardware analysis
    *
-   * @example
+   * @par Example
    * @code
    * // Apply optimal settings at application startup
    * HardwareCapabilities::apply_optimal_rendering_settings();

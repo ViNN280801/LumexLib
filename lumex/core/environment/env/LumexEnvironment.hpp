@@ -124,7 +124,8 @@ namespace env
  * platform-specific APIs for optimal performance and security (e.g., _dupenv_s
  * on Windows).
  *
- * @example
+ * @par Example
+ * @code
  * // Basic usage:
  * LumexEnvironment::EnvResult path_result = LumexEnvironment::get("PATH");
  * if (path_result.success) {
@@ -150,6 +151,7 @@ namespace env
  * if (LumexEnvironment::has("TEMP")) {
  *     std::cout << "TEMP variable exists." << std::endl;
  * }
+ * @endcode
  */
 class LUMEX_API LumexEnvironment
 {
@@ -173,7 +175,8 @@ public:
    *          values with fallbacks, preventing null pointer dereferences or
    *          exceptions.
    *
-   * @example
+   * @par Example
+   * @code
    * LumexEnvironment::EnvResult result =
    * LumexEnvironment::get("NON_EXISTENT_VAR"); if (!result) { // Implicit
    * conversion to bool for convenience std::cerr << "Variable not found. Error
@@ -181,6 +184,7 @@ public:
    * result.get_value_or("DEFAULT_FALLBACK"); std::cout << "Using fallback
    * value: " << fallback << std::endl;
    * }
+   * @endcode
    */
   struct EnvResult
   {
@@ -468,11 +472,13 @@ public:
    * @note The instance is lazily initialized upon the first call to this
    * method.
    *
-   * @example
+   * @par Example
+   * @code
    * LumexEnvironment& env_instance = LumexEnvironment::instance();
    * // Now use env_instance to call non-static methods if preferred
    * LumexEnvironment::EnvResult path_res =
    * env_instance.get_environment_variable("PATH");
+   * @endcode
    */
   static LumexEnvironment &instance ();
 
@@ -528,13 +534,15 @@ public:
    * @note This method is thread-safe.
    * @note Does not throw.
    *
-   * @example
+   * @par Example
+   * @code
    * LumexEnvironment::EnvResult user_result =
    * LumexEnvironment::instance().get_environment_variable("USER"); if
    * (user_result.success) { std::cout << "Current user: " << user_result.value
    * << std::endl; } else { std::cerr << "Could not get USER variable. Error: "
    * << user_result.error_code << std::endl;
    * }
+   * @endcode
    */
   EnvResult get_environment_variable (char const *name) const;
 
@@ -576,7 +584,8 @@ public:
    * @note This method is thread-safe.
    * @note Does not throw.
    *
-   * @example
+   * @par Example
+   * @code
    * if (LumexEnvironment::instance().set_environment_variable("LOG_LEVEL",
    * "DEBUG")) { std::cout << "LOG_LEVEL set to DEBUG." << std::endl; } else {
    *     std::cerr << "Failed to set LOG_LEVEL." << std::endl;
@@ -590,6 +599,7 @@ public:
    * // Setting only if not already present:
    * LumexEnvironment::instance().set_environment_variable("CONFIG_PATH",
    * "/default/path", false);
+   * @endcode
    */
   bool set_environment_variable (char const *name, char const *value,
                                  bool overwrite = true) const;
@@ -626,12 +636,14 @@ public:
    * @note This method is thread-safe.
    * @note Does not throw.
    *
-   * @example
+   * @par Example
+   * @code
    * if (LumexEnvironment::instance().unset_environment_variable("TEMP_VAR")) {
    *     std::cout << "TEMP_VAR unset successfully." << std::endl;
    * } else {
    *     std::cerr << "Failed to unset TEMP_VAR." << std::endl;
    * }
+   * @endcode
    */
   bool unset_environment_variable (char const *name) const;
 
@@ -650,10 +662,12 @@ public:
    * @note This method is thread-safe.
    * @note Does not throw.
    *
-   * @example
+   * @par Example
+   * @code
    * std::string editor =
    * LumexEnvironment::instance().get_environment_variable_or("EDITOR", "vim");
    * std::cout << "Preferred editor: " << editor << std::endl;
+   * @endcode
    */
   string_type
   get_environment_variable_or (char const *name,
@@ -673,10 +687,12 @@ public:
    * @note This method is thread-safe.
    * @note Does not throw.
    *
-   * @example
+   * @par Example
+   * @code
    * if (LumexEnvironment::instance().has_environment_variable("PROGRAMFILES"))
    * { std::cout << "PROGRAMFILES variable is present." << std::endl;
    * }
+   * @endcode
    */
   bool has_environment_variable (char const *name) const;
 
@@ -693,11 +709,13 @@ public:
    * @note This method is thread-safe.
    * @note Does not throw.
    *
-   * @example
+   * @par Example
+   * @code
    * if
    * (LumexEnvironment::instance().is_environment_variable_truthy("FEATURE_X"))
    * { std::cout << "Feature X is enabled." << std::endl;
    * }
+   * @endcode
    */
   bool is_environment_variable_truthy (char const *name) const;
 
@@ -714,11 +732,13 @@ public:
    * @note This method is thread-safe.
    * @note Does not throw.
    *
-   * @example
+   * @par Example
+   * @code
    * auto locale_result = LumexEnvironment::get("LANG");
    * if (locale_result) {
    *     std::cout << "System language: " << locale_result.value << std::endl;
    * }
+   * @endcode
    */
   static EnvResult get (char const *name);
 
@@ -737,9 +757,11 @@ public:
    * @note This method is thread-safe.
    * @note Does not throw.
    *
-   * @example
+   * @par Example
+   * @code
    * std::string temp_path = LumexEnvironment::get_or("TMP", "/tmp");
    * std::cout << "Temporary path: " << temp_path << std::endl;
+   * @endcode
    */
   static string_type get_or (char const *name,
                              string_type const &default_value);
@@ -759,10 +781,12 @@ public:
    * @note This method is thread-safe.
    * @note Does not throw.
    *
-   * @example
+   * @par Example
+   * @code
    * if (LumexEnvironment::set("APP_MODE", "PRODUCTION")) {
    *     std::cout << "App mode set to PRODUCTION." << std::endl;
    * }
+   * @endcode
    */
   static bool set (char const *name, char const *value, bool overwrite = true);
 
@@ -777,10 +801,12 @@ public:
    * @note This method is thread-safe.
    * @note Does not throw.
    *
-   * @example
+   * @par Example
+   * @code
    * if (LumexEnvironment::has("HOME")) {
    *     std::cout << "HOME variable is defined." << std::endl;
    * }
+   * @endcode
    */
   static bool has (char const *name);
 
@@ -795,10 +821,12 @@ public:
    * @note This method is thread-safe.
    * @note Does not throw.
    *
-   * @example
+   * @par Example
+   * @code
    * if (LumexEnvironment::is_truthy("FEATURE_X")) {
    *     std::cout << "Feature X is enabled." << std::endl;
    * }
+   * @endcode
    */
   static bool is_truthy (char const *name);
 };

@@ -51,18 +51,16 @@
 /**
  * @brief Demangles a C++ type name for human-readable output.
  *
- * This method takes a mangled C++ type name (as returned by typeid) and
- * attempts to demangle it into a human-readable format. On GCC/Clang
- * platforms, it uses the ABI's demangling function. On other platforms, it
- * returns the original name.
+ * This macro takes a type or an expression, gets its mangled name from
+ * `typeid`, and attempts to demangle it into a human-readable format. On
+ * GCC/Clang platforms, it uses the ABI's demangling function. On other
+ * platforms, it returns the name from `typeid` unchanged.
  *
- * @param[in] name The mangled type name to demangle (typically from
- * typeid().name())
- * @return std::string The demangled name if successful, or the original name
- * if:
+ * @param type A type or an expression, as for `typeid`.
+ * @return std::string The demangled name if successful, or the name from
+ * `typeid` if:
  *         - Platform doesn't support demangling (non-GNU)
  *         - Demangling failed
- *         - Input was nullptr
  *
  * @note On GNU-compatible compilers (GCC/Clang), this uses abi::__cxa_demangle
  *       which handles:
@@ -71,13 +69,12 @@
  *       - CV-qualifiers
  *       - Calling conventions
  *
- * @warning The caller must ensure the input pointer is valid (not dangling).
- *          The method makes no ownership claims on the input string.
- *
- * @example
- *   std::cout << _demangle(typeid(std::vector<int>).name());
- *   // Outputs: "std::vector<int, std::allocator<int>>" instead of
- * "St6vectorIiSaIiEE"
+ * @par Example
+ * @code
+ *   std::cout << lumDemangle (std::vector<int>);
+ *   // GCC: "std::vector<int, std::allocator<int> >" instead of
+ *   // "St6vectorIiSaIiEE"
+ * @endcode
  */
 #ifdef __GNUG__
 #define lumDemangle(type)                                                     \

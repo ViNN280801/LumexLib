@@ -1380,7 +1380,7 @@ using LumexLogger = lumex::applied::logger::logger::LumexLogger;
  * this project (LumexLib); use it in LumexLib and dependent
  * projects.
  *
- * @example Usage examples:
+ * @par Usage examples:
  * @code
  * void myFunction() {
  *   LUMEX_LOG_TRACE("Entering function");

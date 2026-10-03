@@ -86,13 +86,13 @@
  * - 64-bit systems: int (32) -> intptr_t (64) -> void* (64)
  * - ARM32/ARM64/x86/x64/RISC-V: all support intptr_t
  *
- * @param fd POSIX file descriptor (int >= 0)
+ * @param fileDescriptor POSIX file descriptor (int >= 0)
  * @return void* representation of the descriptor for cross-platform storage
  *
  * @note Use ONLY for POSIX file descriptors (non-negative integers)!
  *       For Windows HANDLE directly assign to void* (already a pointer).
  *
- * @example Typical usage in a serial port:
+ * @par Typical usage in a serial port:
  * @code
  * #if LUMEX_OS_WINDOWS
  *   m_hInputFile = m_serialPort.native_handle(); // Windows: HANDLE -> void*
@@ -131,11 +131,11 @@ fd_to_ptr (int fileDescriptor) LUMEX_NOEXCEPT
  *    - Truncates to 32 bits (takes lowest bits)
  *    - Get original fd
  *
- * @param ptr void* representation of the descriptor (from
+ * @param pointer void* representation of the descriptor (from
  * lumex::core::utility::fd_to_ptr)
  * @return int POSIX file descriptor
  *
- * @example
+ * @par Example
  * @code
  * void* stored_ptr = lumex::core::utility::fd_to_ptr(5); // fd=5 -> void*
  * int fd = lumex::core::utility::ptr_to_fd(stored_ptr);  // void* -> fd=5

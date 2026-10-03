@@ -265,7 +265,7 @@ report_exception (std::string const &prefix,
  * on top of it) remain the right tools for return-type deduction and the
  *       Callable-Named-Requirement check below.
  *
- * @example
+ * @par Example
  * @code
  * // Simple usage with default, source-location-based messages.
  * int result = LUMEX_SAFE_CALL(someFunction(42));
@@ -379,7 +379,7 @@ ExceptionWrapper (
  * @param excMessage Message reported for a `std::exception`.
  * @param unknExcMessage Message reported for any other exception.
  *
- * @example
+ * @par Example
  * @code
  * LUMEX_SAFE_CALL_LAMBDA_MSG(
  *     [&]() {

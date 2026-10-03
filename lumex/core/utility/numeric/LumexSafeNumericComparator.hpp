@@ -1873,7 +1873,8 @@ struct safe_compare_impl_helper<
  * - Zero-cost abstractions where possible
  * - Lock-free operations for atomic versions
  *
- * @example
+ * @par Example
+ * @code
  * // Thread-safe version for multithreading
  * SafeComparator<int, true> atomic_counter(0);
  * atomic_counter.update(100);
@@ -1886,6 +1887,7 @@ struct safe_compare_impl_helper<
  * if (fast_size.safe_compare(300)) {
  *   // Safe comparison unsigned char >= int without overflow
  * }
+ * @endcode
  *
  * @since C++11
  * @note Fully C++11 compatible; uses C++20 concepts when available
@@ -2676,12 +2678,14 @@ is_not_equal (Ordering const &ordering) LUMEX_NOEXCEPT
  *          Does not require a comparator object.
  * @note Thread-safe, no-throw
  * @warning T and U must be safely comparable (checked at compile-time)
- * @example
+ * @par Example
+ * @code
  * unsigned char size = 200;
  * int limit = 300;
  * if (safe_compare(size, limit)) {
  *   // Safe comparison unsigned char >= int
  * }
+ * @endcode
  */
 template <typename T, typename U>
 bool
@@ -2702,12 +2706,14 @@ safe_compare (T value1, U value2) LUMEX_NOEXCEPT
  * @details Alias for safe_compare() for readability.
  *          Performs the same safe range check.
  * @note Thread-safe, no-throw
- * @example
+ * @par Example
+ * @code
  * float f = 3.14f;
  * int i = 3;
  * if (safe_greater_equal(f, i)) {
  *   // Safe comparison float >= int
  * }
+ * @endcode
  */
 template <typename T, typename U>
 bool
@@ -2728,12 +2734,14 @@ safe_greater_equal (T value1, U value2) LUMEX_NOEXCEPT
  * @details Performs a safe less-or-equal comparison of two values of different
  * types. Checks value ranges to prevent overflow.
  * @note Thread-safe, no-throw
- * @example
+ * @par Example
+ * @code
  * int i = 3;
  * float f = 3.14f;
  * if (safe_less_equal(i, f)) {
  *   // Safe comparison int <= float
  * }
+ * @endcode
  */
 template <typename T, typename U>
 bool
@@ -2754,12 +2762,14 @@ safe_less_equal (T value1, U value2) LUMEX_NOEXCEPT
  * @details Performs a safe less-than comparison of two values of different
  * types. Checks value ranges to prevent overflow.
  * @note Thread-safe, no-throw
- * @example
+ * @par Example
+ * @code
  * unsigned char size = 200;
  * int limit = 300;
  * if (safe_less(size, limit)) {
  *   // Safe comparison unsigned char < int
  * }
+ * @endcode
  */
 template <typename T, typename U>
 bool
@@ -2780,12 +2790,14 @@ safe_less (T value1, U value2) LUMEX_NOEXCEPT
  * @details Performs a safe greater-than comparison of two values of different
  * types. Checks value ranges to prevent overflow.
  * @note Thread-safe, no-throw
- * @example
+ * @par Example
+ * @code
  * int threshold = 100;
  * unsigned char count = 150;
  * if (safe_greater(count, threshold)) {
  *   // Safe comparison unsigned char > int
  * }
+ * @endcode
  */
 template <typename T, typename U>
 bool
@@ -2806,12 +2818,14 @@ safe_greater (T value1, U value2) LUMEX_NOEXCEPT
  * @details Performs a safe equality comparison of two values of different
  * types. Checks value ranges to prevent overflow.
  * @note Thread-safe, no-throw
- * @example
+ * @par Example
+ * @code
  * int expected = 42;
  * float actual = 42.0f;
  * if (safe_equal(expected, actual)) {
  *   // Safe comparison int == float
  * }
+ * @endcode
  */
 template <typename T, typename U>
 bool
@@ -2832,12 +2846,14 @@ safe_equal (T value1, U value2) LUMEX_NOEXCEPT
  * @details Performs a safe inequality comparison of two values of different
  * types. Checks value ranges to prevent overflow.
  * @note Thread-safe, no-throw
- * @example
+ * @par Example
+ * @code
  * int threshold = 100;
  * unsigned char count = 150;
  * if (safe_not_equal(count, threshold)) {
  *   // Safe comparison unsigned char != int
  * }
+ * @endcode
  */
 template <typename T, typename U>
 bool
@@ -2861,13 +2877,15 @@ safe_not_equal (T value1, U value2) LUMEX_NOEXCEPT
  * floating-point. Checks value ranges to prevent overflow.
  * @note Thread-safe, no-throw
  * @since C++20
- * @example
+ * @par Example
+ * @code
  * int a = 42;
  * float b = 42.0f;
  * auto result = safe_three_way_compare(a, b);
  * if (result == std::strong_ordering::equal) {
  *   // Safe three-way comparison of int <=> float
  * }
+ * @endcode
  */
 template <typename T, typename U>
 auto
@@ -2889,7 +2907,8 @@ safe_three_way_compare (T value1, U value2) LUMEX_NOEXCEPT
  * TargetType. For integers, checks value ranges. For floating-point types,
  * rejects NaN and infinities.
  * @note No-throw; compile-time type check
- * @example
+ * @par Example
+ * @code
  * if (fits_in_type<unsigned char>(300)) {
  *   // 300 does not fit in unsigned char (0-255)
  * }
@@ -2897,6 +2916,7 @@ safe_three_way_compare (T value1, U value2) LUMEX_NOEXCEPT
  * if (fits_in_type<int>(3.14f)) {
  *   // 3.14f can be converted to int safely
  * }
+ * @endcode
  */
 template <typename TargetType, typename SourceType>
 bool
@@ -2935,8 +2955,7 @@ fits_in_type (SourceType value) LUMEX_NOEXCEPT
 
 // === Usage examples ===
 
-/**
- * @example SafeNumericComparator_Examples.cpp
+/*
  * @brief SafeComparator usage examples for various scenarios
  * @details Shows the main capabilities of the safe comparison:
  *          - Safe comparison of different types

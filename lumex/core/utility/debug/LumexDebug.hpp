@@ -477,7 +477,7 @@ format_frame (int index, void *address)
  * or symbolize the module offsets offline
  * - Inline functions may be missing in trace at aggressive optimization
  *
- * @example
+ * @par Example
  * @code
  * void resetConfig() {
  *   std::string trace = lumex::core::utility::debug::captureStackTrace(1, 5);

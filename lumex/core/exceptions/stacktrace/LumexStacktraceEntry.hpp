@@ -108,11 +108,13 @@ namespace stacktrace
  * @warning Symbol resolution might fail or provide incomplete information
  *          if debug symbols are not available or if the address is invalid.
  *
- * @example
+ * @par Example
+ * @code
  * LumexStacktraceEntry entry(reinterpret_cast<void*>(0x12345678));
  * std::cout << "Function: " << entry.description() << std::endl;
  * std::cout << "Source: " << entry.source_file() << ":" << entry.source_line()
  * << std::endl;
+ * @endcode
  */
 class LUMEX_API LumexStacktraceEntry
 {

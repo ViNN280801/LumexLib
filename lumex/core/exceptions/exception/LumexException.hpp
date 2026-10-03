@@ -136,8 +136,10 @@ public:
    * format: [exception_name] -> custom message Uses demangled exception name
    * to avoid names like "NSt6vectorIiSaIiEEE" -> "std::vector<int,
    * std::allocator<int>>"
-   * @example
+   * @par Example
+   * @code
    * [LumexException] -> Failed to open file
+   * @endcode
    */
   void to_stderr () const LUMEX_NOEXCEPT;
 

@@ -242,9 +242,11 @@ public:
    * functions and local state).
    * @note Does not throw.
    *
-   * @example
+   * @par Example
+   * @code
    * std::string log_stamp = LumexTime::timestamp();
    * std::string custom = LumexTime::timestamp(std::time(nullptr), "%Y-%m-%d");
+   * @endcode
    */
   static std::string timestamp (std::time_t time_ = std::time (nullptr),
                                 std::string const &fmt = "%Y%m%d-%H%M%S");
@@ -266,8 +268,10 @@ public:
    * @note This method is thread-safe.
    * @note Does not throw.
    *
-   * @example
+   * @par Example
+   * @code
    * std::string log_stamp = LumexTime::timestamp_ms();
+   * @endcode
    */
   static std::string timestamp_ms (std::chrono::system_clock::time_point tp
                                    = std::chrono::system_clock::now (),
