@@ -4160,8 +4160,8 @@ class CMakeBuilderCLI:
             "--documentation",
             nargs="?",
             const="html",
-            choices=["html", "pdf", "all"],
-            help="Generate project documentation. Options: html (default), pdf, or all (both HTML and PDF)",
+            choices=["html"],
+            help="Generate the HTML documentation into docs/html. There is no PDF: Doxyfile.in sets GENERATE_LATEX = NO.",
         )
         self.parser.add_argument(
             "--install-prefix",
