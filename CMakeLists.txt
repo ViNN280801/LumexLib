@@ -384,6 +384,11 @@ if(LUMEX_BUILD_BENCHMARKS AND LUMEX_BUILD_CORE AND LUMEX_BUILD_FMT)
     add_subdirectory(benchmarks/fmt)
 endif()
 
+if(LUMEX_BUILD_BENCHMARKS AND LUMEX_BUILD_CORE AND LUMEX_BUILD_ATOMIC)
+    message(STATUS "Building benchmarks (benchmarks/atomic)")
+    add_subdirectory(benchmarks/atomic)
+endif()
+
 # Shared libs (not test/example binaries) -> <platform>/Distr<Config>.
 # Tests are registered with CTest; the programmer runs ctest explicitly.
 # Embedded: Distr lives in this library's source tree, and the parent
