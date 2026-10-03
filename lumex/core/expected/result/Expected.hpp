@@ -555,9 +555,8 @@ public:
     // in every build. Because error() never throws, it stays usable where an
     // exception must not escape (destructors, swap, emergency paths);
     // checked, catchable access is value() or a prior has_value() check.
-    LUMEX_ASSERT (
-        !m_has_value
-        && "Calling error() while value is present is undefined behavior.");
+    LUMEX_ASSERT (!m_has_value
+                  && "error() called on an Expected that holds a value");
     return m_storage.m_error;
   }
 
@@ -576,9 +575,8 @@ public:
   LUMEX_CONSTEXPR_FUNCTION ErrorType const &
   error () const &
   {
-    LUMEX_ASSERT (
-        !m_has_value
-        && "Calling error() while value is present is undefined behavior.");
+    LUMEX_ASSERT (!m_has_value
+                  && "error() called on an Expected that holds a value");
     return m_storage.m_error;
   }
 
@@ -597,9 +595,8 @@ public:
   LUMEX_CONSTEXPR_FUNCTION ErrorType &&
   error () &&
   {
-    LUMEX_ASSERT (
-        !m_has_value
-        && "Calling error() while value is present is undefined behavior.");
+    LUMEX_ASSERT (!m_has_value
+                  && "error() called on an Expected that holds a value");
     return std::move (m_storage.m_error);
   }
 
@@ -619,9 +616,8 @@ public:
   LUMEX_CONSTEXPR_FUNCTION ErrorType const &&
   error () const &&
   {
-    LUMEX_ASSERT (
-        !m_has_value
-        && "Calling error() while value is present is undefined behavior.");
+    LUMEX_ASSERT (!m_has_value
+                  && "error() called on an Expected that holds a value");
     return std::move (m_storage.m_error);
   }
 
@@ -730,7 +726,8 @@ public:
       operator* ()
       & LUMEX_NOEXCEPT
   {
-    LUMEX_ASSERT (m_has_value && "Dereferencing Expected without a value.");
+    LUMEX_ASSERT (m_has_value
+                  && "operator* called on an Expected that holds an error");
     return m_storage.m_value;
   }
 
@@ -752,7 +749,8 @@ public:
       operator* ()
       && LUMEX_NOEXCEPT
   {
-    LUMEX_ASSERT (m_has_value && "Dereferencing Expected without a value.");
+    LUMEX_ASSERT (m_has_value
+                  && "operator* called on an Expected that holds an error");
     return std::move (m_storage.m_value);
   }
 
@@ -772,7 +770,8 @@ public:
   LUMEX_CONSTEXPR_FUNCTION SuccessType const &
   operator* () const &LUMEX_NOEXCEPT
   {
-    LUMEX_ASSERT (m_has_value && "Dereferencing Expected without a value.");
+    LUMEX_ASSERT (m_has_value
+                  && "operator* called on an Expected that holds an error");
     return m_storage.m_value;
   }
 
@@ -792,7 +791,8 @@ public:
   LUMEX_CONSTEXPR_FUNCTION SuccessType const &&
   operator* () const &&LUMEX_NOEXCEPT
   {
-    LUMEX_ASSERT (m_has_value && "Dereferencing Expected without a value.");
+    LUMEX_ASSERT (m_has_value
+                  && "operator* called on an Expected that holds an error");
     return std::move (m_storage.m_value);
   }
 
@@ -813,7 +813,7 @@ public:
   operator->() LUMEX_NOEXCEPT
   {
     LUMEX_ASSERT (m_has_value
-                  && "Accessing Expected members without a value.");
+                  && "operator-> called on an Expected that holds an error");
     return std::addressof (m_storage.m_value);
   }
 
@@ -834,7 +834,7 @@ public:
   operator->() const LUMEX_NOEXCEPT
   {
     LUMEX_ASSERT (m_has_value
-                  && "Accessing Expected members without a value.");
+                  && "operator-> called on an Expected that holds an error");
     return std::addressof (m_storage.m_value);
   }
 

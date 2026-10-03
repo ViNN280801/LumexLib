@@ -418,7 +418,7 @@ public:
   {
     LUMEX_ASSERT (
         !m_has_value
-        && "Calling error() while value is present is undefined behavior.");
+        && "error() called on an Expected<void> that holds no error");
     return m_storage.m_error;
   }
 
@@ -441,7 +441,7 @@ public:
   {
     LUMEX_ASSERT (
         !m_has_value
-        && "Calling error() while value is present is undefined behavior.");
+        && "error() called on an Expected<void> that holds no error");
     return m_storage.m_error;
   }
 
@@ -465,7 +465,7 @@ public:
   {
     LUMEX_ASSERT (
         !m_has_value
-        && "Calling error() while value is present is undefined behavior.");
+        && "error() called on an Expected<void> that holds no error");
     return std::move (m_storage.m_error);
   }
 
@@ -489,7 +489,7 @@ public:
   {
     LUMEX_ASSERT (
         !m_has_value
-        && "Calling error() while value is present is undefined behavior.");
+        && "error() called on an Expected<void> that holds no error");
     return std::move (m_storage.m_error);
   }
 
@@ -552,8 +552,9 @@ public:
       operator* ()
       & LUMEX_NOEXCEPT
   {
-    LUMEX_ASSERT (m_has_value
-                  && "Dereferencing Expected<void> without a value.");
+    LUMEX_ASSERT (
+        m_has_value
+        && "operator* called on an Expected<void> that holds an error");
   }
 
   /**
@@ -570,8 +571,9 @@ public:
       operator* ()
       && LUMEX_NOEXCEPT
   {
-    LUMEX_ASSERT (m_has_value
-                  && "Dereferencing Expected<void> without a value.");
+    LUMEX_ASSERT (
+        m_has_value
+        && "operator* called on an Expected<void> that holds an error");
   }
 
   /**
@@ -587,8 +589,9 @@ public:
   LUMEX_CONSTEXPR_FUNCTION void
   operator* () const &LUMEX_NOEXCEPT
   {
-    LUMEX_ASSERT (m_has_value
-                  && "Dereferencing Expected<void> without a value.");
+    LUMEX_ASSERT (
+        m_has_value
+        && "operator* called on an Expected<void> that holds an error");
   }
 
   /**
@@ -604,8 +607,9 @@ public:
   LUMEX_CONSTEXPR_FUNCTION void
   operator* () const &&LUMEX_NOEXCEPT
   {
-    LUMEX_ASSERT (m_has_value
-                  && "Dereferencing Expected<void> without a value.");
+    LUMEX_ASSERT (
+        m_has_value
+        && "operator* called on an Expected<void> that holds an error");
   }
 
   // operator->() is not applicable to Expected<void>

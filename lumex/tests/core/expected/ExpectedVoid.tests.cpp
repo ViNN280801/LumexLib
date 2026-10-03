@@ -10,6 +10,7 @@
 #include <gtest/gtest.h>
 
 #include "lumex/core/expected/Expected"
+#include "lumex/core/utility/attr/LumexAttributes.hpp"
 
 #include "lumex/tests/support/LumexPerfSkip.hpp"
 
@@ -40,6 +41,12 @@
 
 using namespace lumex::core::expected::result;
 using namespace lumex::core::expected::error;
+
+// The LUMEX_ASSERT messages of Expected<void, E>, as death test patterns.
+constexpr char const *kVoidErrorWithoutErrorPattern
+    = "error\\(\\) called on an Expected<void> that holds no error";
+constexpr char const *kVoidDereferenceOnErrorPattern
+    = "operator\\* called on an Expected<void> that holds an error";
 
 // === Error Types for Testing =============================================
 
@@ -1373,10 +1380,7 @@ TYPED_TEST (ExpectedVoidTest, DereferenceOperatorLValueRef_WorksOnSuccess)
   Expected<void, ErrorType> success_uut;
   EXPECT_NO_THROW (*success_uut);
 
-  // Error case - should assert in debug
-  Expected<void, ErrorType> error_uut (
-      Unexpected<ErrorType> (this->error_val1));
-  // EXPECT_DEATH(*error_uut, "Dereferencing Expected<void> without a value");
+  // With an error it aborts: see ExpectedVoidDeathTest.
 }
 
 /**
@@ -1419,4 +1423,45 @@ TYPED_TEST (ExpectedVoidTest, DereferenceOperatorConstRValueRef_WorksOnSuccess)
   // Success case - operator* returns void for Expected<void>
   Expected<void, ErrorType> const success_uut;
   EXPECT_NO_THROW (*std::move (success_uut));
+}
+
+// === Precondition violations ===========================================
+// LUMEX_ASSERT is active in every build: a violated precondition prints the
+// message of the assertion and aborts the program.
+
+TEST (ExpectedVoidDeathTest, Error_WhenNoErrorPresent_AbortsWithMessage)
+{
+#if GTEST_HAS_DEATH_TEST
+  GTEST_FLAG_SET (death_test_style, "threadsafe");
+  Expected<void, int> uut;
+  Expected<void, int> const const_uut;
+
+  EXPECT_DEATH (LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR (uut.error ()),
+                kVoidErrorWithoutErrorPattern);
+  EXPECT_DEATH (LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR (const_uut.error ()),
+                kVoidErrorWithoutErrorPattern);
+  EXPECT_DEATH (LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR (std::move (uut).error ()),
+                kVoidErrorWithoutErrorPattern);
+  EXPECT_DEATH (
+      LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR (std::move (const_uut).error ()),
+      kVoidErrorWithoutErrorPattern);
+#else
+  GTEST_SKIP () << "death tests are not supported on this platform";
+#endif
+}
+
+TEST (ExpectedVoidDeathTest, Dereference_WhenErrorPresent_AbortsWithMessage)
+{
+#if GTEST_HAS_DEATH_TEST
+  GTEST_FLAG_SET (death_test_style, "threadsafe");
+  Expected<void, int> uut (unexpect, 2);
+  Expected<void, int> const const_uut (unexpect, 2);
+
+  EXPECT_DEATH (*uut, kVoidDereferenceOnErrorPattern);
+  EXPECT_DEATH (*const_uut, kVoidDereferenceOnErrorPattern);
+  EXPECT_DEATH (*std::move (uut), kVoidDereferenceOnErrorPattern);
+  EXPECT_DEATH (*std::move (const_uut), kVoidDereferenceOnErrorPattern);
+#else
+  GTEST_SKIP () << "death tests are not supported on this platform";
+#endif
 }

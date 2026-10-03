@@ -9,6 +9,7 @@
 #include <gtest/gtest.h>
 
 #include "lumex/core/expected/Expected"
+#include "lumex/core/utility/attr/LumexAttributes.hpp"
 
 #if defined(__clang__)
 #pragma clang diagnostic push
@@ -37,6 +38,14 @@
 
 using namespace lumex::core::expected::result;
 using namespace lumex::core::expected::error;
+
+// The LUMEX_ASSERT messages of Expected<T, E>, as death test patterns.
+constexpr char const *kErrorOnValuePattern
+    = "error\\(\\) called on an Expected that holds a value";
+constexpr char const *kDereferenceOnErrorPattern
+    = "operator\\* called on an Expected that holds an error";
+constexpr char const *kArrowOnErrorPattern
+    = "operator-> called on an Expected that holds an error";
 
 // === Success types for tests ==============================
 
@@ -696,7 +705,7 @@ TYPED_TEST (ExpectedTest,
 
 // Check error() & (lvalue reference).
 // Assert that the error is returned when present.
-//      If a value is present, assert fires in debug. In release this is UB.
+//      With a value present it aborts (ExpectedDeathTest).
 TYPED_TEST (ExpectedTest, ErrorLValueRef_ReturnsErrorWhenPresent)
 {
   using SuccessType = typename TestFixture::SuccessType;
@@ -711,16 +720,6 @@ TYPED_TEST (ExpectedTest, ErrorLValueRef_ReturnsErrorWhenPresent)
   ErrorType new_error_val = this->e_val2;
   error_uut.error () = new_error_val;
   EXPECT_EQ (error_uut.error (), new_error_val);
-
-  // Arrange: successful Expected
-  Expected<SuccessType, ErrorType> success_uut (this->s_val1);
-  // Act and assert (success path - assert in debug)
-  // An assert cannot be EXPECT-ed directly. In release this is UB.
-  // Just confirm the call is not fatal when assert is disabled.
-  // Tests know the precondition and must not call error() on success_uut.
-  // Commented here to record that we know this.
-  // EXPECT_DEATH(success_uut.error(), "Calling error\\(\\) while value is
-  // present is undefined behavior.");
 }
 
 // Check error() const & (const lvalue reference).
@@ -810,7 +809,7 @@ TYPED_TEST (ExpectedTest, ErrorOrConstLValue_ReturnsErrorOrDefaultError)
 
 // Check operator*() & (lvalue reference).
 // Assert that a reference to the value is returned when present.
-//      If no value is present, assert fires in debug.
+//      Without a value it aborts (ExpectedDeathTest).
 TYPED_TEST (ExpectedTest, DereferenceOperatorLValueRef_ReturnsValueWhenPresent)
 {
   using SuccessType = typename TestFixture::SuccessType;
@@ -824,12 +823,6 @@ TYPED_TEST (ExpectedTest, DereferenceOperatorLValueRef_ReturnsValueWhenPresent)
   SuccessType new_val = this->s_val2;
   *success_uut = new_val;
   EXPECT_EQ (*success_uut, new_val);
-
-  // Arrange: Expected holding an error
-  Expected<SuccessType, ErrorType> error_uut (
-      Unexpected<ErrorType> (this->e_val1));
-  // Act and assert (assert in debug, UB in release)
-  // EXPECT_DEATH(*error_uut, "Dereferencing Expected without a value.");
 }
 
 // Check operator*() const & (const lvalue reference).
@@ -1351,4 +1344,65 @@ TYPED_TEST (ExpectedTest,
   // Assert
   EXPECT_TRUE (result_s.has_value ());
   EXPECT_EQ (result_s.value (), this->s_val1);
+}
+
+// === Precondition violations ===========================================
+// LUMEX_ASSERT is active in every build: a violated precondition prints the
+// message of the assertion and aborts the program.
+
+TEST (ExpectedDeathTest, Error_WhenValuePresent_AbortsWithMessage)
+{
+#if GTEST_HAS_DEATH_TEST
+  GTEST_FLAG_SET (death_test_style, "threadsafe");
+  Expected<int, int> uut (1);
+  Expected<int, int> const const_uut (1);
+
+  EXPECT_DEATH (LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR (uut.error ()),
+                kErrorOnValuePattern);
+  EXPECT_DEATH (LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR (const_uut.error ()),
+                kErrorOnValuePattern);
+  EXPECT_DEATH (LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR (std::move (uut).error ()),
+                kErrorOnValuePattern);
+  EXPECT_DEATH (
+      LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR (std::move (const_uut).error ()),
+      kErrorOnValuePattern);
+#else
+  GTEST_SKIP () << "death tests are not supported on this platform";
+#endif
+}
+
+TEST (ExpectedDeathTest, Dereference_WhenErrorPresent_AbortsWithMessage)
+{
+#if GTEST_HAS_DEATH_TEST
+  GTEST_FLAG_SET (death_test_style, "threadsafe");
+  Expected<int, int> uut (unexpect, 2);
+  Expected<int, int> const const_uut (unexpect, 2);
+
+  EXPECT_DEATH (LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR (*uut),
+                kDereferenceOnErrorPattern);
+  EXPECT_DEATH (LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR (*const_uut),
+                kDereferenceOnErrorPattern);
+  EXPECT_DEATH (LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR (*std::move (uut)),
+                kDereferenceOnErrorPattern);
+  EXPECT_DEATH (LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR (*std::move (const_uut)),
+                kDereferenceOnErrorPattern);
+#else
+  GTEST_SKIP () << "death tests are not supported on this platform";
+#endif
+}
+
+TEST (ExpectedDeathTest, Arrow_WhenErrorPresent_AbortsWithMessage)
+{
+#if GTEST_HAS_DEATH_TEST
+  GTEST_FLAG_SET (death_test_style, "threadsafe");
+  Expected<std::string, int> uut (unexpect, 2);
+  Expected<std::string, int> const const_uut (unexpect, 2);
+
+  EXPECT_DEATH (LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR (uut->size ()),
+                kArrowOnErrorPattern);
+  EXPECT_DEATH (LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR (const_uut->size ()),
+                kArrowOnErrorPattern);
+#else
+  GTEST_SKIP () << "death tests are not supported on this platform";
+#endif
 }
