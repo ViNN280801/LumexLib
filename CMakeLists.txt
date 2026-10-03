@@ -207,8 +207,6 @@ endif()
 
 include(cmake/LumexLibraryVersioning.cmake)
 
-add_subdirectory(lumex)
-
 # CMakeRoutines' symlink target is not ALL. clangd reads the repo-root copy.
 # Visual Studio / Xcode never write compile_commands.json, so copy via a
 # script that no-ops when the source is missing (copy_if_different would
@@ -216,6 +214,9 @@ add_subdirectory(lumex)
 # Embedded: CMAKE_EXPORT_COMPILE_COMMANDS is a cache entry of the whole
 # tree (the routine FORCEs it), and the copy would drop the parent's
 # database into this submodule's source tree; leave both to the parent.
+# The variable is read when a target is created, so this call has to
+# precede add_subdirectory(lumex). A later call leaves EXPORT_COMPILE_COMMANDS
+# off on every library target of a fresh tree.
 if(LUMEX_IS_TOP_LEVEL)
     configure_compile_commands(ENABLE ON CREATE_SYMLINK OFF)
     add_custom_target(lumex_copy_compile_commands ALL
@@ -227,6 +228,8 @@ if(LUMEX_IS_TOP_LEVEL)
         VERBATIM
     )
 endif()
+
+add_subdirectory(lumex)
 
 if(LUMEX_BUILD_XML)
     if(LUMEX_XML_WCHAR_MODE)
