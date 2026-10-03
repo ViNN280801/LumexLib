@@ -1,3 +1,4 @@
+#include <cstddef>
 #include <string>
 #include <type_traits>
 #include <utility>
@@ -23,12 +24,19 @@ namespace
 constexpr int kValue = 7;
 constexpr int kError = 42;
 
-/// Builds the error text of the or_else functions: "<category>:<error>".
+/// Builds the text the functions return: "<category>:<argument>".
 std::string
-describe (char const *category, int error)
+describe (char const *category, int argument)
 {
-  return std::string (category) + ":" + std::to_string (error);
+  return std::string (category) + ":" + std::to_string (argument);
 }
+
+/// The new error type of transform_error; not convertible to or from int.
+struct error_info_t
+{
+  std::string category;
+  int code;
+};
 
 } // namespace
 
@@ -208,4 +216,270 @@ TEST (ExpectedMonadicTest, VoidOrElse_NewErrorType_BothPathsInEveryCategory)
   EXPECT_TRUE (
       std::move (const_succeeded).or_else (const_rvalue).has_value ());
   EXPECT_TRUE (std::move (succeeded).or_else (rvalue).has_value ());
+}
+
+// === transform of Expected<T, E> to another value type ===================
+
+TEST (ExpectedMonadicTest, TransformLValue_IntToString_BothPaths)
+{
+  using ResultType = Expected<std::string, int>;
+  int calls = 0;
+  auto func = [&calls] (int &value)
+    {
+      ++calls;
+      return describe ("lvalue", value);
+    };
+
+  Expected<int, int> succeeded (kValue);
+  auto result_s = succeeded.transform (func);
+  static_assert (std::is_same<decltype (result_s), ResultType>::value,
+                 "transform must return Expected<U, E>");
+  ASSERT_TRUE (result_s.has_value ());
+  EXPECT_EQ (*result_s, "lvalue:7");
+
+  Expected<int, int> failed (unexpect, kError);
+  auto result_e = failed.transform (func);
+  static_assert (std::is_same<decltype (result_e), ResultType>::value,
+                 "transform must return Expected<U, E>");
+  ASSERT_FALSE (result_e.has_value ());
+  EXPECT_EQ (result_e.error (), kError);
+  EXPECT_EQ (calls, 1);
+}
+
+TEST (ExpectedMonadicTest, TransformConstLValue_IntToString_BothPaths)
+{
+  using ResultType = Expected<std::string, int>;
+  int calls = 0;
+  auto func = [&calls] (int const &value)
+    {
+      ++calls;
+      return describe ("const_lvalue", value);
+    };
+
+  Expected<int, int> const succeeded (kValue);
+  auto result_s = succeeded.transform (func);
+  static_assert (std::is_same<decltype (result_s), ResultType>::value,
+                 "transform must return Expected<U, E>");
+  ASSERT_TRUE (result_s.has_value ());
+  EXPECT_EQ (*result_s, "const_lvalue:7");
+
+  Expected<int, int> const failed (unexpect, kError);
+  auto result_e = failed.transform (func);
+  static_assert (std::is_same<decltype (result_e), ResultType>::value,
+                 "transform must return Expected<U, E>");
+  ASSERT_FALSE (result_e.has_value ());
+  EXPECT_EQ (result_e.error (), kError);
+  EXPECT_EQ (calls, 1);
+}
+
+TEST (ExpectedMonadicTest, TransformRValue_IntToString_BothPaths)
+{
+  using ResultType = Expected<std::string, int>;
+  int calls = 0;
+  auto func = [&calls] (int &&value)
+    {
+      ++calls;
+      return describe ("rvalue", value);
+    };
+
+  Expected<int, int> succeeded (kValue);
+  auto result_s = std::move (succeeded).transform (func);
+  static_assert (std::is_same<decltype (result_s), ResultType>::value,
+                 "transform must return Expected<U, E>");
+  ASSERT_TRUE (result_s.has_value ());
+  EXPECT_EQ (*result_s, "rvalue:7");
+
+  Expected<int, int> failed (unexpect, kError);
+  auto result_e = std::move (failed).transform (func);
+  static_assert (std::is_same<decltype (result_e), ResultType>::value,
+                 "transform must return Expected<U, E>");
+  ASSERT_FALSE (result_e.has_value ());
+  EXPECT_EQ (result_e.error (), kError);
+  EXPECT_EQ (calls, 1);
+}
+
+TEST (ExpectedMonadicTest, TransformConstRValue_IntToString_BothPaths)
+{
+  using ResultType = Expected<std::string, int>;
+  int calls = 0;
+  auto func = [&calls] (int const &&value)
+    {
+      ++calls;
+      return describe ("const_rvalue", value);
+    };
+
+  Expected<int, int> const succeeded (kValue);
+  auto result_s = std::move (succeeded).transform (func);
+  static_assert (std::is_same<decltype (result_s), ResultType>::value,
+                 "transform must return Expected<U, E>");
+  ASSERT_TRUE (result_s.has_value ());
+  EXPECT_EQ (*result_s, "const_rvalue:7");
+
+  Expected<int, int> const failed (unexpect, kError);
+  auto result_e = std::move (failed).transform (func);
+  static_assert (std::is_same<decltype (result_e), ResultType>::value,
+                 "transform must return Expected<U, E>");
+  ASSERT_FALSE (result_e.has_value ());
+  EXPECT_EQ (result_e.error (), kError);
+  EXPECT_EQ (calls, 1);
+}
+
+TEST (ExpectedMonadicTest, TransformRValue_StringToSize_MovesTheValueIn)
+{
+  using ResultType = Expected<std::size_t, int>;
+  auto func = [] (std::string &&value)
+    {
+      std::string const taken (std::move (value));
+      return taken.size ();
+    };
+
+  Expected<std::string, int> succeeded (std::string ("eleven char"));
+  auto result = std::move (succeeded).transform (func);
+  static_assert (std::is_same<decltype (result), ResultType>::value,
+                 "transform must return Expected<U, E>");
+  ASSERT_TRUE (result.has_value ());
+  EXPECT_EQ (*result, 11u);
+}
+
+// === transform_error of Expected<T, E> to another error type =============
+
+TEST (ExpectedMonadicTest, TransformErrorLValue_IntToStruct_BothPaths)
+{
+  using ResultType = Expected<int, error_info_t>;
+  int calls = 0;
+  auto func = [&calls] (int &error)
+    {
+      ++calls;
+      return error_info_t{ "lvalue", error };
+    };
+
+  Expected<int, int> failed (unexpect, kError);
+  auto result_e = failed.transform_error (func);
+  static_assert (std::is_same<decltype (result_e), ResultType>::value,
+                 "transform_error must return Expected<T, G>");
+  ASSERT_FALSE (result_e.has_value ());
+  EXPECT_EQ (result_e.error ().category, "lvalue");
+  EXPECT_EQ (result_e.error ().code, kError);
+
+  Expected<int, int> succeeded (kValue);
+  auto result_s = succeeded.transform_error (func);
+  static_assert (std::is_same<decltype (result_s), ResultType>::value,
+                 "transform_error must return Expected<T, G>");
+  ASSERT_TRUE (result_s.has_value ());
+  EXPECT_EQ (*result_s, kValue);
+  EXPECT_EQ (calls, 1);
+}
+
+TEST (ExpectedMonadicTest, TransformErrorConstLValue_IntToStruct_BothPaths)
+{
+  using ResultType = Expected<int, error_info_t>;
+  int calls = 0;
+  auto func = [&calls] (int const &error)
+    {
+      ++calls;
+      return error_info_t{ "const_lvalue", error };
+    };
+
+  Expected<int, int> const failed (unexpect, kError);
+  auto result_e = failed.transform_error (func);
+  static_assert (std::is_same<decltype (result_e), ResultType>::value,
+                 "transform_error must return Expected<T, G>");
+  ASSERT_FALSE (result_e.has_value ());
+  EXPECT_EQ (result_e.error ().category, "const_lvalue");
+  EXPECT_EQ (result_e.error ().code, kError);
+
+  Expected<int, int> const succeeded (kValue);
+  auto result_s = succeeded.transform_error (func);
+  static_assert (std::is_same<decltype (result_s), ResultType>::value,
+                 "transform_error must return Expected<T, G>");
+  ASSERT_TRUE (result_s.has_value ());
+  EXPECT_EQ (*result_s, kValue);
+  EXPECT_EQ (calls, 1);
+}
+
+TEST (ExpectedMonadicTest, TransformErrorRValue_IntToStruct_BothPaths)
+{
+  using ResultType = Expected<int, error_info_t>;
+  int calls = 0;
+  auto func = [&calls] (int &&error)
+    {
+      ++calls;
+      return error_info_t{ "rvalue", error };
+    };
+
+  Expected<int, int> failed (unexpect, kError);
+  auto result_e = std::move (failed).transform_error (func);
+  static_assert (std::is_same<decltype (result_e), ResultType>::value,
+                 "transform_error must return Expected<T, G>");
+  ASSERT_FALSE (result_e.has_value ());
+  EXPECT_EQ (result_e.error ().category, "rvalue");
+  EXPECT_EQ (result_e.error ().code, kError);
+
+  Expected<int, int> succeeded (kValue);
+  auto result_s = std::move (succeeded).transform_error (func);
+  static_assert (std::is_same<decltype (result_s), ResultType>::value,
+                 "transform_error must return Expected<T, G>");
+  ASSERT_TRUE (result_s.has_value ());
+  EXPECT_EQ (*result_s, kValue);
+  EXPECT_EQ (calls, 1);
+}
+
+TEST (ExpectedMonadicTest, TransformErrorConstRValue_IntToStruct_BothPaths)
+{
+  using ResultType = Expected<int, error_info_t>;
+  int calls = 0;
+  auto func = [&calls] (int const &&error)
+    {
+      ++calls;
+      return error_info_t{ "const_rvalue", error };
+    };
+
+  Expected<int, int> const failed (unexpect, kError);
+  auto result_e = std::move (failed).transform_error (func);
+  static_assert (std::is_same<decltype (result_e), ResultType>::value,
+                 "transform_error must return Expected<T, G>");
+  ASSERT_FALSE (result_e.has_value ());
+  EXPECT_EQ (result_e.error ().category, "const_rvalue");
+  EXPECT_EQ (result_e.error ().code, kError);
+
+  Expected<int, int> const succeeded (kValue);
+  auto result_s = std::move (succeeded).transform_error (func);
+  static_assert (std::is_same<decltype (result_s), ResultType>::value,
+                 "transform_error must return Expected<T, G>");
+  ASSERT_TRUE (result_s.has_value ());
+  EXPECT_EQ (*result_s, kValue);
+  EXPECT_EQ (calls, 1);
+}
+
+// === transform of Expected<void, E> to a value ===========================
+
+TEST (ExpectedMonadicTest, VoidTransform_VoidToString_BothPathsInEveryCategory)
+{
+  using ResultType = Expected<std::string, int>;
+  int calls = 0;
+  auto func = [&calls] ()
+    {
+      ++calls;
+      return std::string ("made");
+    };
+
+  Expected<void, int> succeeded;
+  Expected<void, int> const const_succeeded;
+  Expected<void, int> failed (unexpect, kError);
+  Expected<void, int> const const_failed (unexpect, kError);
+
+  static_assert (
+      std::is_same<decltype (succeeded.transform (func)), ResultType>::value,
+      "transform must return Expected<U, E>");
+  EXPECT_EQ (*succeeded.transform (func), "made");
+  EXPECT_EQ (*const_succeeded.transform (func), "made");
+  EXPECT_EQ (*std::move (const_succeeded).transform (func), "made");
+  EXPECT_EQ (*std::move (succeeded).transform (func), "made");
+  EXPECT_EQ (calls, 4);
+
+  EXPECT_EQ (failed.transform (func).error (), kError);
+  EXPECT_EQ (const_failed.transform (func).error (), kError);
+  EXPECT_EQ (std::move (const_failed).transform (func).error (), kError);
+  EXPECT_EQ (std::move (failed).transform (func).error (), kError);
+  EXPECT_EQ (calls, 4);
 }

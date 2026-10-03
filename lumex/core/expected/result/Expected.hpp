@@ -1161,9 +1161,7 @@ public:
 #if LUMEX_HAS_CONCEPTS
   template <typename FunctionType>
     requires requires (FunctionType &&f, SuccessType &val) {
-      {
-        std::forward<FunctionType> (f) (val)
-      } -> std::convertible_to<typename std::remove_cv_t<SuccessType>>;
+      std::forward<FunctionType> (f) (val);
     } && (!std::is_void_v<std::invoke_result_t<FunctionType, SuccessType &>>)
              && (!lumex::core::utility::traits::value::is_expected_v<
                  std::invoke_result_t<FunctionType, SuccessType &>>)
@@ -1215,9 +1213,7 @@ public:
 #if LUMEX_HAS_CONCEPTS
   template <typename FunctionType>
     requires requires (FunctionType &&f, const SuccessType &val) {
-      {
-        std::forward<FunctionType> (f) (val)
-      } -> std::convertible_to<typename std::remove_cv_t<SuccessType>>;
+      std::forward<FunctionType> (f) (val);
     }
              && (!std::is_void_v<
                  std::invoke_result_t<FunctionType, const SuccessType &>>)
@@ -1278,9 +1274,7 @@ public:
 #if LUMEX_HAS_CONCEPTS
   template <typename FunctionType>
     requires requires (FunctionType &&f, SuccessType &&val) {
-      {
-        std::forward<FunctionType> (f) (std::move (val))
-      } -> std::convertible_to<typename std::remove_cv_t<SuccessType>>;
+      std::forward<FunctionType> (f) (std::move (val));
     } && (!std::is_void_v<std::invoke_result_t<FunctionType, SuccessType &&>>)
              && (!lumex::core::utility::traits::value::is_expected_v<
                  std::invoke_result_t<FunctionType, SuccessType &&>>)
@@ -1334,9 +1328,7 @@ public:
 #if LUMEX_HAS_CONCEPTS
   template <typename FunctionType>
     requires requires (FunctionType &&f, const SuccessType &&val) {
-      {
-        std::forward<FunctionType> (f) (std::move (val))
-      } -> std::convertible_to<typename std::remove_cv_t<SuccessType>>;
+      std::forward<FunctionType> (f) (std::move (val));
     }
              && (!std::is_void_v<
                  std::invoke_result_t<FunctionType, const SuccessType &&>>)
@@ -1579,9 +1571,7 @@ public:
 #if LUMEX_HAS_CONCEPTS
   template <typename FunctionType>
     requires requires (FunctionType &&f, ErrorType &err) {
-      {
-        std::forward<FunctionType> (f) (err)
-      } -> std::convertible_to<typename std::remove_cv_t<ErrorType>>;
+      std::forward<FunctionType> (f) (err);
     } && (!std::is_void_v<std::invoke_result_t<FunctionType, ErrorType &>>)
              && (!lumex::core::utility::traits::value::is_expected_v<
                  std::invoke_result_t<FunctionType, ErrorType &>>)
@@ -1636,9 +1626,7 @@ public:
 #if LUMEX_HAS_CONCEPTS
   template <typename FunctionType>
     requires requires (FunctionType &&f, const ErrorType &err) {
-      {
-        std::forward<FunctionType> (f) (err)
-      } -> std::convertible_to<typename std::remove_cv_t<ErrorType>>;
+      std::forward<FunctionType> (f) (err);
     }
              && (!std::is_void_v<
                  std::invoke_result_t<FunctionType, const ErrorType &>>)
@@ -1695,9 +1683,7 @@ public:
 #if LUMEX_HAS_CONCEPTS
   template <typename FunctionType>
     requires requires (FunctionType &&f, ErrorType &&err) {
-      {
-        std::forward<FunctionType> (f) (std::move (err))
-      } -> std::convertible_to<typename std::remove_cv_t<ErrorType>>;
+      std::forward<FunctionType> (f) (std::move (err));
     } && (!std::is_void_v<std::invoke_result_t<FunctionType, ErrorType &&>>)
              && (!lumex::core::utility::traits::value::is_expected_v<
                  std::invoke_result_t<FunctionType, ErrorType &&>>)
@@ -1753,9 +1739,7 @@ public:
 #if LUMEX_HAS_CONCEPTS
   template <typename FunctionType>
     requires requires (FunctionType &&f, const ErrorType &&err) {
-      {
-        std::forward<FunctionType> (f) (std::move (err))
-      } -> std::convertible_to<typename std::remove_cv_t<ErrorType>>;
+      std::forward<FunctionType> (f) (std::move (err));
     }
              && (!std::is_void_v<
                  std::invoke_result_t<FunctionType, const ErrorType &&>>)
