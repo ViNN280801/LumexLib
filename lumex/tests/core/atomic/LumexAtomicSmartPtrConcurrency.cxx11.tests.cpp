@@ -18,17 +18,6 @@
 #include <thread>
 #include <utility>
 #include <vector>
-#if defined(__has_include)
-#if __has_include(<version>)
-#include <version>
-#endif
-#endif
-#if defined(__cpp_lib_latch)
-#include <latch>
-#endif
-#if defined(__cpp_lib_jthread)
-#include <stop_token>
-#endif
 
 #include <gtest/gtest.h>
 
@@ -788,76 +777,3 @@ TEST (LumexAtomicSmartPtrConcurrencyTest,
       EXPECT_EQ (done.load (), consumers);
     }
 }
-
-// --- C++20 synchronization
-// ---------------------------------------------------------
-
-#if defined(__cpp_lib_latch)
-TEST (LumexAtomicSmartPtrConcurrencyTest,
-      GivenThreadsStartedByALatch_WhenExchangingAndLoading_ThenCountsBalance)
-{
-  // C++20: std::latch starts every thread at once for maximum contention.
-  Watchdog const dog ("GivenThreadsStartedByALatch");
-  std::vector<int> const counts = stress_thread_counts ();
-  for (std::size_t c = 0; c < counts.size (); ++c)
-    {
-      int const iterations = stress_iterations (3000);
-      int const alive_before = Tracker::alive ().load ();
-      {
-        atomic_shared_ptr<Tracker> a (make_counted_tracker (0));
-        std::latch start (counts[c]);
-        std::vector<std::thread> threads;
-        for (int t = 0; t < counts[c]; ++t)
-          threads.push_back (std::thread (
-              [&, t]
-                {
-                  start.arrive_and_wait ();
-                  for (int i = 0; i < iterations; ++i)
-                    {
-                      if ((i + t) % 2 == 0)
-                        a.exchange (make_counted_tracker (i));
-                      else
-                        {
-                          std::shared_ptr<Tracker> const v = a.load ();
-                          EXPECT_TRUE (v && v->intact ());
-                        }
-                    }
-                }));
-        join_all (threads);
-      }
-      EXPECT_EQ (Tracker::alive ().load (), alive_before);
-    }
-}
-#endif
-
-#if defined(__cpp_lib_jthread)
-TEST (LumexAtomicSmartPtrConcurrencyTest,
-      GivenJthreadReaders_WhenStopIsRequested_ThenTheyJoinAndCountsBalance)
-{
-  // C++20: std::jthread readers stop through std::stop_token.
-  Watchdog const dog ("GivenJthreadReaders_WhenStopIsRequested");
-  int const alive_before = Tracker::alive ().load ();
-  {
-    atomic_shared_ptr<Tracker> a (make_counted_tracker (0));
-    std::atomic<long> broken (0);
-    {
-      std::vector<std::jthread> readers;
-      for (int r = 0; r < 4; ++r)
-        readers.emplace_back (
-            [&] (std::stop_token stop)
-              {
-                while (!stop.stop_requested ())
-                  {
-                    std::shared_ptr<Tracker> const v = a.load ();
-                    if (!v || !v->intact ())
-                      broken.fetch_add (1);
-                  }
-              });
-      for (int i = 0; i < stress_iterations (5000); ++i)
-        a.store (make_counted_tracker (i));
-    } // request_stop and join
-    EXPECT_EQ (broken.load (), 0L);
-  }
-  EXPECT_EQ (Tracker::alive ().load (), alive_before);
-}
-#endif

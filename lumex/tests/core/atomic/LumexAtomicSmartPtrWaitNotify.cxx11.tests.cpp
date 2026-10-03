@@ -13,17 +13,6 @@
 #include <thread>
 #include <utility>
 #include <vector>
-#if defined(__has_include)
-#if __has_include(<version>)
-#include <version>
-#endif
-#endif
-#if defined(__cpp_lib_latch)
-#include <latch>
-#endif
-#if defined(__cpp_lib_jthread)
-#include <stop_token>
-#endif
 
 #include <gtest/gtest.h>
 
@@ -411,66 +400,3 @@ TEST (LumexAtomicSmartPtrWaitNotifyTest,
   waiter.join ();
   EXPECT_TRUE (refers_to (a.load (), value));
 }
-
-#if defined(__cpp_lib_latch)
-TEST (LumexAtomicSmartPtrWaitNotifyTest,
-      GivenWaitersStartedByALatch_WhenNotifyAll_ThenEveryOneWakes)
-{
-  // C++20: std::latch releases every waiter at the same moment.
-  Watchdog const dog ("GivenWaitersStartedByALatch_WhenNotifyAll");
-  int const waiter_count = 8;
-  atomic_shared_ptr<int> a (std::make_shared<int> (0));
-  std::latch start (waiter_count + 1);
-  std::atomic<int> woke (0);
-  std::vector<std::thread> waiters;
-  for (int i = 0; i < waiter_count; ++i)
-    waiters.push_back (std::thread (
-        [&]
-          {
-            std::shared_ptr<int> const old = a.load ();
-            start.arrive_and_wait ();
-            a.wait (old);
-            woke.fetch_add (1);
-          }));
-  start.arrive_and_wait ();
-  a.store (std::make_shared<int> (1));
-  a.notify_all ();
-  join_all (waiters);
-  EXPECT_EQ (woke.load (), waiter_count);
-}
-#endif
-
-#if defined(__cpp_lib_jthread)
-TEST (LumexAtomicSmartPtrWaitNotifyTest,
-      GivenAJthreadConsumer_WhenStopIsRequested_ThenANotifiedChangeEndsIt)
-{
-  // C++20: std::jthread with std::stop_token; the stop request alone does
-  // not end a wait, the notified change does.
-  Watchdog const dog ("GivenAJthreadConsumer_WhenStopIsRequested");
-  atomic_shared_ptr<int> a (std::make_shared<int> (0));
-  std::atomic<int> seen (0);
-  std::atomic<bool> started (false);
-  {
-    std::jthread consumer (
-        [&] (std::stop_token stop)
-          {
-            while (!stop.stop_requested ())
-              {
-                std::shared_ptr<int> const current = a.load ();
-                seen.store (*current);
-                started.store (true);
-                a.wait (current);
-              }
-          });
-    wait_for_flag (started);
-    a.store (std::make_shared<int> (1));
-    a.notify_one ();
-    while (seen.load () != 1)
-      std::this_thread::yield ();
-    consumer.request_stop ();
-    a.store (std::make_shared<int> (2));
-    a.notify_one ();
-  } // jthread joins here
-  EXPECT_GE (seen.load (), 1);
-}
-#endif

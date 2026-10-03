@@ -1,15 +1,13 @@
 // Implementation selection of the atomic smart pointers: the documented rule
 // behind LUMEX_ATOMIC_SMART_PTR_USES_STD and LUMEX_ATOMIC_WAIT_USES_STD, the
-// inline namespace of each combination, constant initialization (LWG 3661),
-// and, where the standard library has std::atomic<std::shared_ptr<T>>, a
-// differential run of the same scenarios on both types.
+// inline namespace of each combination and constant initialization (LWG
+// 3661). The differential run against std::atomic<std::shared_ptr<T>> is in
+// LumexAtomicSmartPtrConfig.cxx20.tests.cpp.
 
 #include <atomic>
-#include <cstddef>
 #include <iostream>
 #include <memory>
 #include <type_traits>
-#include <vector>
 
 #include <gtest/gtest.h>
 
@@ -21,14 +19,6 @@ using namespace lumex_atomic_test;
 
 namespace
 {
-struct Pair
-{
-  int a;
-  int b;
-};
-
-int g_value = 3;
-
 #if defined(__cpp_constinit)
 // LWG 3661: constant initialization from nullptr and by default.
 constinit atomic_shared_ptr<int> g_constinit_shared (nullptr);
@@ -154,61 +144,3 @@ TEST (LumexAtomicSmartPtrConfigTest,
   GTEST_SKIP () << "constinit needs C++20";
 #endif
 }
-
-#if LUMEX_HAS_STD_ATOMIC_SHARED_PTR
-namespace
-{
-/// One scripted run on any atomic shared pointer type; returns the trace.
-template <typename Atomic>
-std::vector<long>
-run_script (std::shared_ptr<Pair> const &owner)
-{
-  std::vector<long> trace;
-  std::shared_ptr<int> const view_a (owner, &owner->a);
-  std::shared_ptr<int> const view_b (owner, &owner->b);
-  std::shared_ptr<int> const other_owner_same_pointer (
-      std::make_shared<int> (0), &g_value);
-  std::shared_ptr<int> const empty_storing (std::shared_ptr<int> (), &g_value);
-  std::shared_ptr<int> const null_owner (static_cast<int *> (nullptr));
-
-  Atomic a (view_a);
-  std::shared_ptr<int> e = view_b;
-  trace.push_back (a.compare_exchange_strong (e, view_b) ? 1 : 0);
-  trace.push_back (e.get () == view_a.get () ? 1 : 0);
-  e = view_a;
-  trace.push_back (a.compare_exchange_strong (e, empty_storing) ? 1 : 0);
-  e = std::shared_ptr<int> ();
-  trace.push_back (a.compare_exchange_strong (e, null_owner) ? 1 : 0);
-  trace.push_back (e.get () == &g_value ? 1 : 0);
-  trace.push_back (e.use_count ());
-  trace.push_back (a.compare_exchange_strong (e, null_owner) ? 1 : 0);
-  e = std::shared_ptr<int> ();
-  trace.push_back (a.compare_exchange_strong (e, view_a) ? 1 : 0);
-  trace.push_back (e.use_count ());
-  e = null_owner;
-  trace.push_back (
-      a.compare_exchange_strong (e, other_owner_same_pointer) ? 1 : 0);
-  e = std::shared_ptr<int> (std::make_shared<int> (0), &g_value);
-  trace.push_back (a.compare_exchange_strong (e, view_a) ? 1 : 0);
-  std::shared_ptr<int> const previous = a.exchange (view_b);
-  trace.push_back (previous.get () == &g_value ? 1 : 0);
-  trace.push_back (a.load ().get () == &owner->b ? 1 : 0);
-  a.store (nullptr);
-  trace.push_back (a.load () ? 1 : 0);
-  trace.push_back (owner.use_count ());
-  return trace;
-}
-} // namespace
-
-TEST (LumexAtomicSmartPtrConfigTest,
-      GivenTheStandardType_WhenRunningTheSameScenario_ThenOutcomesMatch)
-{
-  std::shared_ptr<Pair> const owner = std::make_shared<Pair> (Pair{ 10, 20 });
-  std::vector<long> const ours = run_script<atomic_shared_ptr<int>> (owner);
-  std::vector<long> const standard
-      = run_script<std::atomic<std::shared_ptr<int>>> (owner);
-  ASSERT_EQ (ours.size (), standard.size ());
-  for (std::size_t i = 0; i < ours.size (); ++i)
-    EXPECT_EQ (ours[i], standard[i]) << "step " << i;
-}
-#endif

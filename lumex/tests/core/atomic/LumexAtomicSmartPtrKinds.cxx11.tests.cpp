@@ -3,9 +3,11 @@
 // pointer, aliases with the same stored pointer and different owners (and
 // the reverse), pointer adjustment under multiple inheritance, polymorphic,
 // const, void and incomplete element types, pointers from unique_ptr, custom
-// deleters, allocate_shared, enable_shared_from_this, and the array forms of
-// C++17 and C++20. The equivalence cases extend the aliasing test of the
-// libc++ implementation of llvm-project pull request 194215.
+// deleters, allocate_shared, enable_shared_from_this and array element
+// types; weak_from_this and make_shared for arrays are in
+// LumexAtomicSmartPtrKinds.cxx17.tests.cpp and .cxx20.tests.cpp. The
+// equivalence cases extend the aliasing test of the libc++ implementation of
+// llvm-project pull request 194215.
 
 #include <atomic>
 #include <cstddef>
@@ -381,23 +383,13 @@ TEST (LumexAtomicSharedPtrKindsTest,
   EXPECT_EQ (object.use_count (), 2L) << "object and expected";
 }
 
-#if defined(__cpp_lib_enable_shared_from_this)
-TEST (LumexAtomicSharedPtrKindsTest,
-      GivenWeakFromThis_WhenStoredInAnAtomicWeakPtr_ThenRefersToTheObject)
-{
-  std::shared_ptr<SelfAware> const object = std::make_shared<SelfAware> ();
-  atomic_weak_ptr<SelfAware> atom (object->weak_from_this ());
-  EXPECT_TRUE (refers_to (atom.load (), object));
-  std::weak_ptr<SelfAware> expected = object->weak_from_this ();
-  EXPECT_TRUE (
-      atom.compare_exchange_strong (expected, std::weak_ptr<SelfAware> ()));
-}
-#endif
-
-#if defined(__cpp_lib_shared_ptr_arrays)
+// std::shared_ptr<T[]> is C++17 (__cpp_lib_shared_ptr_arrays), but libstdc++
+// provides it in every mode, so the test stays in the C++11 file and is
+// skipped where the library lacks it.
 TEST (LumexAtomicSharedPtrKindsTest,
       GivenAnArrayElementType_WhenStoredAndCompareExchanged_ThenWorks)
 {
+#if defined(__cpp_lib_shared_ptr_arrays)
   std::shared_ptr<int[]> const arr (new int[3]{ 1, 2, 3 });
   atomic_shared_ptr<int[]> atom (arr);
   EXPECT_EQ (atom.load ()[2], 3);
@@ -407,22 +399,10 @@ TEST (LumexAtomicSharedPtrKindsTest,
   EXPECT_TRUE (atom.compare_exchange_strong (expected, nullptr));
   EXPECT_FALSE (atom.load ());
   EXPECT_EQ (arr.use_count (), 2L) << "arr and expected";
-}
+#else
+  GTEST_SKIP () << "array element types need __cpp_lib_shared_ptr_arrays";
 #endif
-
-#if defined(__cpp_lib_shared_ptr_arrays)                                      \
-    && __cpp_lib_shared_ptr_arrays >= 201707L
-TEST (LumexAtomicSharedPtrKindsTest,
-      GivenMakeSharedForAnArray_WhenStored_ThenElementsAreReachable)
-{
-  atomic_shared_ptr<double[]> atom (std::make_shared<double[]> (4, 0.25));
-  EXPECT_EQ (atom.load ()[3], 0.25);
-  std::shared_ptr<double[]> const previous
-      = atom.exchange (std::make_shared<double[]> (2));
-  EXPECT_EQ (previous[0], 0.25);
-  EXPECT_EQ (atom.load ()[1], 0.0);
 }
-#endif
 
 // --- weak pointers
 // -------------------------------------------------------------
