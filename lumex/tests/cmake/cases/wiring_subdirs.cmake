@@ -1,4 +1,4 @@
-# Subdirectory CMakeLists and export / test-suite lists must name every
+# Subdirectory CMakeLists and the export list must name every
 # module option. A new module without these strings is a wiring hole.
 
 include("${LUMEX_SOURCE_DIR}/cmake/LumexModules.cmake")
@@ -56,19 +56,5 @@ foreach(_tgt
     endif()
 endforeach()
 
-file(GLOB_RECURSE _test_cmakes "${LUMEX_SOURCE_DIR}/lumex/tests/*CMakeLists.txt")
-set(_tests_txt "")
-foreach(_f ${_test_cmakes})
-    file(READ "${_f}" _chunk)
-    string(APPEND _tests_txt "${_chunk}")
-endforeach()
-# Suites named by hand. A directory converted to lumex_add_standard_suites
-# gets its names from the helper and leaves this list; wiring_standard_suites
-# checks it instead.
-foreach(_suite
-    string(FIND "${_tests_txt}" "${_suite}" _pos)
-    if(_pos EQUAL -1)
-        message(FATAL_ERROR
-            "lumex/tests CMakeLists omit ${_suite}")
-    endif()
-endforeach()
+# Test suites: every test directory builds its suites through
+# lumex_add_standard_suites, which cmake.wiring_standard_suites checks.
