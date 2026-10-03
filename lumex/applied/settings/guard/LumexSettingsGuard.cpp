@@ -38,7 +38,12 @@
  */
 
 #define LUMEX_IMPLEMENTATION
+#include <exception>
+#include <mutex>
+#include <string>
+
 #include "LumexSettingsGuard.hpp"
+#include "lumex/core/utility/macros/LumexConstantMacros.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 
 #include "lumex/applied/logging/LumexLogging"
@@ -53,6 +58,54 @@ namespace settings
 {
 namespace guard
 {
+namespace
+{
+/// Module name of every message the guard logs.
+LUMEX_CONST_STR GUARD_LOG_MODULE = "LumexSettingsGuard";
+
+/// Logged in place of `what ()` for an exception that does not derive from
+/// `std::exception`.
+LUMEX_CONST_STR UNKNOWN_EXCEPTION = "unknown exception";
+
+/// Operation name logged for `ensureKeysWithDefaults`.
+LUMEX_CONST_STR ENSURE_KEYS_NAME = "ensureKeysWithDefaults";
+
+/// Operation name logged for `ensureExistsWithDefaults`.
+LUMEX_CONST_STR ENSURE_EXISTS_NAME = "ensureExistsWithDefaults";
+
+/// Operation name logged for `repairIfCorrupted`.
+LUMEX_CONST_STR REPAIR_NAME = "repairIfCorrupted";
+
+/**
+ * @brief Logs that an operation of the guard ended with an exception.
+ * @details Called from the catch handlers of the `noexcept` members, so it
+ * swallows anything the logging itself throws (for example `std::bad_alloc`
+ * while formatting the message): an exception leaving the handler would end
+ * the program in `std::terminate()`.
+ * @param as_error `true` to log at error level, `false` at warning level.
+ * @param operation The guard member that failed.
+ * @param filename The settings file of the guard.
+ * @param what The exception message, or `UNKNOWN_EXCEPTION`.
+ */
+void
+log_exception (bool as_error, char const *operation,
+               std::string const &filename, char const *what) LUMEX_NOEXCEPT
+{
+  try
+    {
+      if (as_error)
+        LumexLogging::error (GUARD_LOG_MODULE, operation, " for '", filename,
+                             "' failed with an exception: ", what);
+      else
+        LumexLogging::warning (GUARD_LOG_MODULE, operation, " for '", filename,
+                               "' failed with an exception: ", what);
+    }
+  catch (...)
+    {
+    }
+}
+} // namespace
+
 LUMEX_PUBLIC_API
 LumexSettingsGuard::LumexSettingsGuard (
     std::shared_ptr<ILumexSettings> settings,
@@ -82,20 +135,29 @@ LumexSettingsGuard::backup (std::string const &filename) LUMEX_NOEXCEPT
               src, lumex::path (dst));
       if (!result.success ())
         {
-          LumexLogging::warning ("LumexSettingsGuard", "Failed to back up '",
+          LumexLogging::warning (GUARD_LOG_MODULE, "Failed to back up '",
                                  filename, "' to '", dst, "' (error code ",
                                  result.error_code (), ").");
           return false;
         }
 
-      LumexLogging::info ("LumexSettingsGuard", "Backup of '", filename,
+      LumexLogging::info (GUARD_LOG_MODULE, "Backup of '", filename,
                           "' created at '", dst, "'.");
       return true;
     }
   catch (...)
     {
-      LumexLogging::warning ("LumexSettingsGuard",
-                             "Exception while backing up '", filename, "'.");
+      // The warning itself may throw (for example `std::bad_alloc`); it must
+      // not leave this `noexcept` function.
+      try
+        {
+          LumexLogging::warning (GUARD_LOG_MODULE,
+                                 "Exception while backing up '", filename,
+                                 "'.");
+        }
+      catch (...)
+        {
+        }
       return false;
     }
 }
@@ -105,7 +167,6 @@ bool
 LumexSettingsGuard::ensureExistsWithDefaults (
     LumexSettingsCreateFn const &createDefault) LUMEX_NOEXCEPT
 {
-  std::lock_guard<std::recursive_mutex> lock (m_mutex);
   return _ensureOrRepairImpl (createDefault, /*logOnFinalFailure=*/true);
 }
 
@@ -114,7 +175,6 @@ bool
 LumexSettingsGuard::repairIfCorrupted (
     LumexSettingsCreateFn const &createDefault) LUMEX_NOEXCEPT
 {
-  std::lock_guard<std::recursive_mutex> lock (m_mutex);
   return _ensureOrRepairImpl (createDefault, /*logOnFinalFailure=*/false);
 }
 
@@ -124,44 +184,65 @@ LumexSettingsGuard::_ensureOrRepairImpl (
     LumexSettingsCreateFn const &createDefault,
     bool logOnFinalFailure) LUMEX_NOEXCEPT
 {
-  if (!m_settings)
-    return false;
-
-  bool ok = m_settings->load (m_filename);
-  if (!ok)
+  // The guarded settings object may throw although its interface reports
+  // failure through return values. An exception must not leave this
+  // `noexcept` function, so it ends the call as a failure. The file is not
+  // regenerated then: the exception does not mean that the file is corrupted.
+  try
     {
-      // Best-effort: back up whatever is currently on disk (no-op if nothing
-      // exists there).
-      backup (m_filename);
+      std::lock_guard<std::recursive_mutex> lock (m_mutex);
+      if (!m_settings)
+        return false;
 
-      bool createSucceeded = false;
-      try
+      bool ok = m_settings->load (m_filename);
+      if (!ok)
         {
-          createSucceeded
-              = static_cast<bool> (createDefault) && createDefault ();
-        }
-      catch (...)
-        {
-          createSucceeded = false;
+          // Best-effort: back up whatever is currently on disk (no-op if
+          // nothing exists there).
+          backup (m_filename);
+
+          bool createSucceeded = false;
+          try
+            {
+              createSucceeded
+                  = static_cast<bool> (createDefault) && createDefault ();
+            }
+          catch (...)
+            {
+              createSucceeded = false;
+            }
+
+          if (!createSucceeded)
+            {
+              if (logOnFinalFailure)
+                LumexLogging::error (GUARD_LOG_MODULE,
+                                     "Failed to create default settings for '",
+                                     m_filename, "'.");
+              return false;
+            }
+
+          ok = m_settings->load (m_filename);
         }
 
-      if (!createSucceeded)
-        {
-          if (logOnFinalFailure)
-            LumexLogging::error ("LumexSettingsGuard",
-                                 "Failed to create default settings for '",
-                                 m_filename, "'.");
-          return false;
-        }
+      if (!ok && logOnFinalFailure)
+        LumexLogging::error (GUARD_LOG_MODULE, "Settings file '", m_filename,
+                             "' is still invalid after repair.");
 
-      ok = m_settings->load (m_filename);
+      return ok;
     }
-
-  if (!ok && logOnFinalFailure)
-    LumexLogging::error ("LumexSettingsGuard", "Settings file '", m_filename,
-                         "' is still invalid after repair.");
-
-  return ok;
+  catch (std::exception const &exc)
+    {
+      log_exception (logOnFinalFailure,
+                     logOnFinalFailure ? ENSURE_EXISTS_NAME : REPAIR_NAME,
+                     m_filename, exc.what ());
+    }
+  catch (...)
+    {
+      log_exception (logOnFinalFailure,
+                     logOnFinalFailure ? ENSURE_EXISTS_NAME : REPAIR_NAME,
+                     m_filename, UNKNOWN_EXCEPTION);
+    }
+  return false;
 }
 
 LUMEX_PUBLIC_API
@@ -169,51 +250,66 @@ bool
 LumexSettingsGuard::ensureKeysWithDefaults (
     std::vector<lumex_settings_key_spec_t> const &specs) LUMEX_NOEXCEPT
 {
-  std::lock_guard<std::recursive_mutex> lock (m_mutex);
-  if (!m_settings)
-    return false;
-
-  bool changed = false;
-
-  for (auto const &spec : specs)
+  // As in `_ensureOrRepairImpl`: an exception from the guarded settings object
+  // (`get`, `add` or `save`) ends the call as a failure. Defaults already
+  // added in memory stay there; nothing is saved after the exception.
+  try
     {
-      std::string const currentValue
-          = m_settings->get (spec.section, spec.key);
+      std::lock_guard<std::recursive_mutex> lock (m_mutex);
+      if (!m_settings)
+        return false;
 
-      bool needDefault = false;
-      if (spec.validate)
+      bool changed = false;
+
+      for (auto const &spec : specs)
         {
-          try
+          std::string const currentValue
+              = m_settings->get (spec.section, spec.key);
+
+          bool needDefault = false;
+          if (spec.validate)
             {
-              needDefault = !spec.validate (currentValue);
+              try
+                {
+                  needDefault = !spec.validate (currentValue);
+                }
+              catch (...)
+                {
+                  needDefault = true;
+                }
             }
-          catch (...)
+          else
             {
-              needDefault = true;
+              needDefault = currentValue.empty ();
             }
-        }
-      else
-        {
-          needDefault = currentValue.empty ();
+
+          if (needDefault)
+            {
+              m_settings->add (spec.section, spec.key, spec.default_value);
+              changed = true;
+            }
         }
 
-      if (needDefault)
-        {
-          m_settings->add (spec.section, spec.key, spec.default_value);
-          changed = true;
-        }
+      if (!changed)
+        return false;
+
+      bool const saved = m_settings->save (m_filename);
+      if (!saved)
+        LumexLogging::warning (GUARD_LOG_MODULE,
+                               "Failed to persist repaired keys to '",
+                               m_filename, "'.");
+
+      return saved;
     }
-
-  if (!changed)
-    return false;
-
-  bool const saved = m_settings->save (m_filename);
-  if (!saved)
-    LumexLogging::warning ("LumexSettingsGuard",
-                           "Failed to persist repaired keys to '", m_filename,
-                           "'.");
-
-  return saved;
+  catch (std::exception const &exc)
+    {
+      log_exception (false, ENSURE_KEYS_NAME, m_filename, exc.what ());
+    }
+  catch (...)
+    {
+      log_exception (false, ENSURE_KEYS_NAME, m_filename, UNKNOWN_EXCEPTION);
+    }
+  return false;
 }
 } // namespace guard
 } // namespace settings

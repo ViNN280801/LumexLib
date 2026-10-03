@@ -2,6 +2,7 @@
 #include <fstream>
 #include <iostream>
 #include <memory>
+#include <sstream>
 #include <stdexcept>
 #include <string>
 #include <unordered_map>
@@ -43,6 +44,65 @@ using namespace lumex::core::filesystem::fs;
 
 namespace
 {
+// Messages of the exceptions FakeLumexSettings throws; the tests look for
+// them in the guard's log.
+char const *const LOAD_ERROR = "fake load failure";
+char const *const SAVE_ERROR = "fake save failure";
+char const *const GET_ERROR = "fake get failure";
+char const *const ADD_ERROR = "fake add failure";
+
+// Path every FakeLumexSettings-based guard below is constructed with.
+char const *const FAKE_FILE = "file.ini";
+
+// Thrown by FakeLumexSettings when an exception that does not derive from
+// std::exception is requested.
+struct non_std_exception_t
+{
+};
+
+// Which FakeLumexSettings member throws, and what it throws.
+enum class ThrowKind
+{
+  NONE,
+  STD_EXCEPTION,
+  NON_STD_EXCEPTION
+};
+
+void
+throw_if_requested (ThrowKind kind, char const *message)
+{
+  if (kind == ThrowKind::STD_EXCEPTION)
+    throw std::runtime_error (message);
+  if (kind == ThrowKind::NON_STD_EXCEPTION)
+    throw non_std_exception_t ();
+}
+
+// Redirects a standard stream into a string for the lifetime of the object.
+class StreamCapture
+{
+public:
+  explicit StreamCapture (std::ostream &stream)
+      : m_stream (stream), m_old (stream.rdbuf (m_buffer.rdbuf ()))
+  {
+  }
+
+  ~StreamCapture () { m_stream.rdbuf (m_old); }
+
+  StreamCapture (StreamCapture const &) = delete;
+  StreamCapture &operator= (StreamCapture const &) = delete;
+
+  std::string
+  text () const
+  {
+    return m_buffer.str ();
+  }
+
+private:
+  std::ostream &m_stream;
+  std::ostringstream m_buffer;
+  std::streambuf *m_old;
+};
+
 // Minimal, fully in-memory ILumexSettings test double. Gives tests precise,
 // deterministic control over load()/save() outcomes and call counts,
 // independent of LumexSettingsINI's own parsing/validity quirks - used to
@@ -52,6 +112,10 @@ class FakeLumexSettings : public ILumexSettings
 public:
   bool loadResult = true;
   bool saveResult = true;
+  ThrowKind loadThrows = ThrowKind::NONE;
+  ThrowKind saveThrows = ThrowKind::NONE;
+  ThrowKind getThrows = ThrowKind::NONE;
+  ThrowKind addThrows = ThrowKind::NONE;
   int loadCallCount = 0;
   mutable int saveCallCount = 0;
   std::string lastLoadPath;
@@ -62,6 +126,7 @@ public:
   {
     ++loadCallCount;
     lastLoadPath = path;
+    throw_if_requested (loadThrows, LOAD_ERROR);
     return loadResult;
   }
 
@@ -70,12 +135,14 @@ public:
   {
     ++saveCallCount;
     lastSavePath = path;
+    throw_if_requested (saveThrows, SAVE_ERROR);
     return saveResult;
   }
 
   std::string
   get (std::string const &section, std::string const &key) const override
   {
+    throw_if_requested (getThrows, GET_ERROR);
     auto sectionIt = m_values.find (section);
     if (sectionIt == m_values.end ())
       return "";
@@ -89,6 +156,7 @@ public:
   add (std::string const &section, std::string const &key,
        std::string const &value) override
   {
+    throw_if_requested (addThrows, ADD_ERROR);
     m_values[section][key] = value;
   }
 
@@ -625,3 +693,251 @@ TEST_F (
   ASSERT_TRUE (reloaded.load (_test_file));
   EXPECT_EQ (reloaded.get ("section", "key"), "restored_default");
 }
+
+// --- Exceptions from the guarded settings object ----------------------------
+//
+// Every member of the guard is noexcept. An exception from the guarded
+// ILumexSettings must end the call with false and a log line naming the
+// exception, never std::terminate().
+
+TEST (
+    LumexSettingsGuardTest,
+    GivenSaveThrows_WhenEnsureKeysWithDefaults_ThenReturnsFalseAndLogsWarning)
+{
+  auto fake = std::make_shared<FakeLumexSettings> ();
+  fake->saveThrows = ThrowKind::STD_EXCEPTION;
+  LumexSettingsGuard guard (fake, FAKE_FILE);
+  std::vector<lumex_settings_key_spec_t> specs{ { "section", "key",
+                                                  "default_value", nullptr } };
+
+  bool result = true;
+  std::string log;
+  {
+    StreamCapture capture (std::clog);
+    result = guard.ensureKeysWithDefaults (specs);
+    log = capture.text ();
+  }
+
+  EXPECT_FALSE (result);
+  EXPECT_EQ (fake->saveCallCount, 1);
+  EXPECT_NE (log.find (SAVE_ERROR), std::string::npos) << log;
+  EXPECT_NE (log.find (FAKE_FILE), std::string::npos) << log;
+}
+
+TEST (
+    LumexSettingsGuardTest,
+    GivenSaveThrowsNonStdException_WhenEnsureKeysWithDefaults_ThenReturnsFalse)
+{
+  auto fake = std::make_shared<FakeLumexSettings> ();
+  fake->saveThrows = ThrowKind::NON_STD_EXCEPTION;
+  LumexSettingsGuard guard (fake, FAKE_FILE);
+  std::vector<lumex_settings_key_spec_t> specs{ { "section", "key",
+                                                  "default_value", nullptr } };
+
+  bool result = true;
+  std::string log;
+  {
+    StreamCapture capture (std::clog);
+    result = guard.ensureKeysWithDefaults (specs);
+    log = capture.text ();
+  }
+
+  EXPECT_FALSE (result);
+  EXPECT_NE (log.find (FAKE_FILE), std::string::npos) << log;
+}
+
+TEST (LumexSettingsGuardTest,
+      GivenGetThrows_WhenEnsureKeysWithDefaults_ThenReturnsFalseWithoutSaving)
+{
+  auto fake = std::make_shared<FakeLumexSettings> ();
+  fake->getThrows = ThrowKind::STD_EXCEPTION;
+  LumexSettingsGuard guard (fake, FAKE_FILE);
+  std::vector<lumex_settings_key_spec_t> specs{ { "section", "key",
+                                                  "default_value", nullptr } };
+
+  bool result = true;
+  std::string log;
+  {
+    StreamCapture capture (std::clog);
+    result = guard.ensureKeysWithDefaults (specs);
+    log = capture.text ();
+  }
+
+  EXPECT_FALSE (result);
+  EXPECT_EQ (fake->saveCallCount, 0);
+  EXPECT_NE (log.find (GET_ERROR), std::string::npos) << log;
+}
+
+TEST (
+    LumexSettingsGuardTest,
+    GivenAddThrowsOnSecondKey_WhenEnsureKeysWithDefaults_ThenReturnsFalseKeepsFirstKeyAndDoesNotSave)
+{
+  auto fake = std::make_shared<FakeLumexSettings> ();
+  LumexSettingsGuard guard (fake, FAKE_FILE);
+  std::vector<lumex_settings_key_spec_t> specs{
+    { "section", "first", "first_default", nullptr },
+    { "section", "second", "second_default",
+      [fake] (std::string const &)
+        {
+          // Reached after the first default was added: every later add ()
+          // throws.
+          fake->addThrows = ThrowKind::STD_EXCEPTION;
+          return false;
+        } },
+  };
+
+  bool result = true;
+  std::string log;
+  {
+    StreamCapture capture (std::clog);
+    result = guard.ensureKeysWithDefaults (specs);
+    log = capture.text ();
+  }
+
+  EXPECT_FALSE (result);
+  EXPECT_EQ (fake->saveCallCount, 0);
+  EXPECT_NE (log.find (ADD_ERROR), std::string::npos) << log;
+  fake->addThrows = ThrowKind::NONE;
+  EXPECT_EQ (fake->get ("section", "first"), "first_default");
+  EXPECT_EQ (fake->get ("section", "second"), "");
+}
+
+TEST (
+    LumexSettingsGuardTest,
+    GivenSaveThrewOnce_WhenEnsureKeysWithDefaultsAgain_ThenGuardIsUsableAndSaves)
+{
+  // The guard's mutex must be released when the exception ends the call.
+  auto fake = std::make_shared<FakeLumexSettings> ();
+  fake->saveThrows = ThrowKind::STD_EXCEPTION;
+  LumexSettingsGuard guard (fake, FAKE_FILE);
+  std::vector<lumex_settings_key_spec_t> specs{ { "section", "key",
+                                                  "default_value", nullptr } };
+  {
+    StreamCapture capture (std::clog);
+    EXPECT_FALSE (guard.ensureKeysWithDefaults (specs));
+  }
+
+  fake->saveThrows = ThrowKind::NONE;
+  fake->remove ("section", "key");
+  EXPECT_TRUE (guard.ensureKeysWithDefaults (specs));
+  EXPECT_EQ (fake->saveCallCount, 2);
+  EXPECT_EQ (fake->lastSavePath, FAKE_FILE);
+}
+
+TEST (
+    LumexSettingsGuardTest,
+    GivenLoadThrows_WhenEnsureExistsWithDefaults_ThenReturnsFalseLogsErrorAndDoesNotRegenerate)
+{
+  auto fake = std::make_shared<FakeLumexSettings> ();
+  fake->loadThrows = ThrowKind::STD_EXCEPTION;
+  LumexSettingsGuard guard (fake, FAKE_FILE);
+  bool createCalled = false;
+
+  bool result = true;
+  std::string log;
+  {
+    StreamCapture capture (std::cerr);
+    result = guard.ensureExistsWithDefaults (
+        [&] ()
+          {
+            createCalled = true;
+            return true;
+          });
+    log = capture.text ();
+  }
+
+  EXPECT_FALSE (result);
+  EXPECT_FALSE (createCalled);
+  EXPECT_EQ (fake->loadCallCount, 1);
+  EXPECT_NE (log.find (LOAD_ERROR), std::string::npos) << log;
+  EXPECT_NE (log.find (FAKE_FILE), std::string::npos) << log;
+}
+
+TEST (
+    LumexSettingsGuardTest,
+    GivenLoadThrowsAfterCreateDefault_WhenEnsureExistsWithDefaults_ThenReturnsFalse)
+{
+  auto fake = std::make_shared<FakeLumexSettings> ();
+  fake->loadResult = false;
+  LumexSettingsGuard guard (fake, FAKE_FILE);
+
+  bool result = true;
+  std::string log;
+  {
+    StreamCapture capture (std::cerr);
+    result = guard.ensureExistsWithDefaults (
+        [&] ()
+          {
+            fake->loadThrows = ThrowKind::NON_STD_EXCEPTION;
+            return true;
+          });
+    log = capture.text ();
+  }
+
+  EXPECT_FALSE (result);
+  EXPECT_EQ (fake->loadCallCount, 2);
+  EXPECT_NE (log.find (FAKE_FILE), std::string::npos) << log;
+}
+
+TEST (LumexSettingsGuardTest,
+      GivenLoadThrows_WhenRepairIfCorrupted_ThenReturnsFalseAndLogsWarning)
+{
+  auto fake = std::make_shared<FakeLumexSettings> ();
+  fake->loadThrows = ThrowKind::STD_EXCEPTION;
+  LumexSettingsGuard guard (fake, FAKE_FILE);
+
+  bool result = true;
+  std::string log;
+  {
+    StreamCapture capture (std::clog);
+    result = guard.repairIfCorrupted ([] () { return true; });
+    log = capture.text ();
+  }
+
+  EXPECT_FALSE (result);
+  EXPECT_NE (log.find (LOAD_ERROR), std::string::npos) << log;
+}
+
+TEST (LumexSettingsGuardTest,
+      GivenLoadThrewOnce_WhenEnsureExistsWithDefaultsAgain_ThenGuardIsUsable)
+{
+  auto fake = std::make_shared<FakeLumexSettings> ();
+  fake->loadThrows = ThrowKind::STD_EXCEPTION;
+  LumexSettingsGuard guard (fake, FAKE_FILE);
+  {
+    StreamCapture capture (std::cerr);
+    EXPECT_FALSE (guard.ensureExistsWithDefaults ([] () { return true; }));
+  }
+
+  fake->loadThrows = ThrowKind::NONE;
+  EXPECT_TRUE (guard.ensureExistsWithDefaults ([] () { return true; }));
+  EXPECT_EQ (fake->loadCallCount, 2);
+}
+
+#if defined(LUMEX_SETTINGS_WITH_JSON)
+TEST_F (
+    LumexSettingsGuardFileTest,
+    GivenJsonDefaultWithInvalidUtf8_WhenEnsureKeysWithDefaults_ThenReturnsFalseInsteadOfTerminating)
+{
+  // LumexSettingsJSON::save () throws nlohmann's type_error 316 for a value
+  // that is not valid UTF-8.
+  auto json
+      = std::make_shared<lumex::applied::settings::json::LumexSettingsJSON> ();
+  std::string const jsonFile = (_test_dir / "test.json").string ();
+  LumexSettingsGuard guard (json, jsonFile);
+  std::vector<lumex_settings_key_spec_t> specs{
+    { "section", "key", std::string ("\xC3\x28"), nullptr }
+  };
+
+  bool result = true;
+  std::string log;
+  {
+    StreamCapture capture (std::clog);
+    result = guard.ensureKeysWithDefaults (specs);
+    log = capture.text ();
+  }
+
+  EXPECT_FALSE (result);
+  EXPECT_NE (log.find (jsonFile), std::string::npos) << log;
+}
+#endif

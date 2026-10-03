@@ -141,8 +141,10 @@ struct lumex_settings_key_spec_t
  * `LumexSettingsValidateFn`/`LumexSettingsCreateFn` are caught and treated as
  * failure (validation rejected / default-creation failed), and `backup()`
  * catches everything. An exception from the guarded `ILumexSettings` itself
- * (its `load()`, `get()`, `add()` or `save()`) is not caught, so it ends in
- * `std::terminate()`.
+ * (its `load()`, `get()`, `add()` or `save()`; `LumexSettingsJSON::save()`
+ * throws for a value that is not valid UTF-8) ends the call: it is logged
+ * with its `what()` message and the call returns `false`. Values already
+ * changed in memory before the exception stay changed.
  */
 class LUMEX_API LumexSettingsGuard final
 {
@@ -168,12 +170,14 @@ public:
    * unreadable, or fails the implementation's own parse/validity check), the
    * current file is backed up first (when present), `createDefault` is invoked
    * to regenerate it, and `load()` is retried once. Logs at error level if the
-   * file is still not loadable afterward.
+   * file is still not loadable afterward. If the guarded settings object
+   * throws, the call logs the exception at error level and returns `false`
+   * without regenerating the file.
    * @param createDefault Functor that (re)writes default content to
    * `filename`. A `nullptr` or a callback returning `false` is treated as
    * repair failure.
    * @return `true` if the file exists and loads successfully after this call,
-   * `false` otherwise.
+   * `false` otherwise, including when the settings object threw.
    */
   bool ensureExistsWithDefaults (LumexSettingsCreateFn const &createDefault)
       LUMEX_NOEXCEPT;
@@ -185,11 +189,13 @@ public:
    * `BaseConfiguration::repairIfCorrupted`
    *          - for callers that want to probe/repair a file without that
    * failure being logged as an application error (e.g. a caller that will
-   * itself report a more specific message).
+   * itself report a more specific message). An exception from the guarded
+   * settings object is still logged, at warning level, because the caller
+   * cannot learn its message otherwise.
    * @param createDefault Functor that (re)writes default content to
    * `filename`.
    * @return `true` if the file exists and loads successfully after this call,
-   * `false` otherwise.
+   * `false` otherwise, including when the settings object threw.
    */
   bool repairIfCorrupted (LumexSettingsCreateFn const &createDefault)
       LUMEX_NOEXCEPT;
@@ -204,10 +210,14 @@ public:
    * A key needs its default when `validate` rejects its current value or, with
    * no `validate`, when that value is empty; the default is then passed to
    * `add()`, which the implementations in this library ignore for an empty
-   * section, key or default.
+   * section, key or default. If the guarded settings object throws from
+   * `get()`, `add()` or `save()`, the call logs the exception at warning
+   * level, the same level as a failed save, and returns `false`; nothing is
+   * saved after the exception.
    * @param specs The key specifications to enforce, in order.
    * @return `true` if at least one key needed its default and the save
-   * succeeded; `false` if no key needed it, or if saving failed.
+   * succeeded; `false` if no key needed it, if saving failed, or if the
+   * settings object threw.
    */
   bool ensureKeysWithDefaults (
       std::vector<lumex_settings_key_spec_t> const &specs) LUMEX_NOEXCEPT;
@@ -245,6 +255,9 @@ private:
   /**
    * @brief Shared implementation for
    * `ensureExistsWithDefaults`/`repairIfCorrupted`.
+   * @details Takes the guard's mutex. An exception from the guarded settings
+   * object is logged (at error level when `logOnFinalFailure` is `true`, at
+   * warning level otherwise) and ends the call with `false`.
    * @param createDefault Functor that (re)writes default content to
    * `m_filename`.
    * @param logOnFinalFailure Whether to emit an error-level log if the file is
