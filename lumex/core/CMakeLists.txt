@@ -5,6 +5,7 @@
 
 lumex_add_subdirectory_if(LUMEX_BUILD_MATH math)
 lumex_add_subdirectory_if(LUMEX_BUILD_UTILITY utility)
+lumex_add_subdirectory_if(LUMEX_BUILD_ATOMIC atomic)
 lumex_add_subdirectory_if(LUMEX_BUILD_CIRCULAR_BUFFER circular_buffer)
 lumex_add_subdirectory_if(LUMEX_BUILD_EXPECTED expected)
 lumex_add_subdirectory_if(LUMEX_BUILD_GENERATORS generators)

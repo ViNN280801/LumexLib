@@ -31,6 +31,7 @@ option(LUMEX_BUILD_APPLIED "Build the applied module group" ON)
 option(LUMEX_BUILD_XML "Build Xml" ON)
 
 # Core
+option(LUMEX_BUILD_ATOMIC "Build core/atomic (header-only atomic_shared_ptr / atomic_weak_ptr)" ON)
 option(LUMEX_BUILD_BASE64 "Build core/base64" ON)
 option(LUMEX_BUILD_CIRCULAR_BUFFER "Build core/circular_buffer" ON)
 option(LUMEX_BUILD_CRC "Build core/crc" ON)

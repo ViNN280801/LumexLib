@@ -243,6 +243,7 @@ include(CMakePackageConfigHelpers)
 # is the top-level project; module CMakeLists.txt files use the same guard.
 if(LUMEX_INSTALL)
     lumex_install_export_if_any(LumexCoreTargets LumexCoreTargets.cmake
+        LumexCore_atomic
         LumexCore_base64
         LumexCore_circular_buffer
         LumexCore_crc

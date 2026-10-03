@@ -39,7 +39,7 @@ endforeach()
 
 file(READ "${LUMEX_SOURCE_DIR}/CMakeLists.txt" _root)
 foreach(_tgt
-        LumexCore_base64 LumexCore_circular_buffer LumexCore_crc
+        LumexCore_atomic LumexCore_base64 LumexCore_circular_buffer LumexCore_crc
         LumexCore_environment LumexCore_exceptions LumexCore_expected
         LumexCore_filesystem LumexCore_number_generator LumexCore_math
         LumexCore_optional LumexCore_reflection LumexCore_string LumexCore_fmt

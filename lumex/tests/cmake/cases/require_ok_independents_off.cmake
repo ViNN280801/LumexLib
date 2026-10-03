@@ -1,6 +1,7 @@
 # Modules with no Lumex-module CMake link can be OFF while the rest stay ON.
 
 include("${LUMEX_SOURCE_DIR}/lumex/tests/cmake/setup_all_on.cmake")
+set(LUMEX_BUILD_ATOMIC OFF)
 set(LUMEX_BUILD_CIRCULAR_BUFFER OFF)
 set(LUMEX_BUILD_EXPECTED OFF)
 set(LUMEX_BUILD_OPTIONAL OFF)

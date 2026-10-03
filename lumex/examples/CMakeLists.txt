@@ -2,6 +2,12 @@
 
 set_property(GLOBAL PROPERTY LUMEX_EXAMPLE_TARGETS "")
 
+if(LUMEX_BUILD_CORE AND LUMEX_BUILD_ATOMIC)
+    add_subdirectory(atomic)
+else()
+    message(STATUS "Skipping atomic examples (LUMEX_BUILD_CORE or LUMEX_BUILD_ATOMIC is OFF)")
+endif()
+
 if(LUMEX_BUILD_CORE AND LUMEX_BUILD_BASE64)
     add_subdirectory(base64)
 else()

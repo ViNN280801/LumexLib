@@ -136,6 +136,11 @@ class LumexLibConan(ConanFile):
         # Header-only (CMake INTERFACE targets): no libs.
         self._component("core_math", "math")
         self._component("core_optional", "optional")
+        atomic = self._component("core_atomic", "atomic")
+        if not windows:
+            # As CMake's Threads::Threads: the lock-based implementation uses
+            # std::mutex and std::condition_variable before C++20.
+            atomic.system_libs.append("pthread")
         self._component("core_string", "string")
         self._component("core_generators_number", "number_generator")
         utility = self._component(

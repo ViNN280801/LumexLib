@@ -13,6 +13,7 @@ include_guard(GLOBAL)
 cmake_policy(SET CMP0057 NEW)
 
 set(LUMEX_CORE_MODULE_OPTIONS
+    LUMEX_BUILD_ATOMIC
     LUMEX_BUILD_BASE64
     LUMEX_BUILD_CIRCULAR_BUFFER
     LUMEX_BUILD_CRC
@@ -188,6 +189,7 @@ endfunction()
 # modules are skipped at collect time. Keep in lockstep with the
 # install(EXPORT) candidate lists in the root CMakeLists.txt.
 set(LUMEX_SHARED_LIBRARY_CANDIDATES
+    LumexCore_atomic
     LumexCore_base64
     LumexCore_circular_buffer
     LumexCore_crc
