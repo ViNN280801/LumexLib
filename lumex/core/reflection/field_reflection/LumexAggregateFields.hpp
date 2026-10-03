@@ -248,7 +248,20 @@ struct inject_fields<T, N, index_sequence<I...>>
   static const std::size_t trigger = sizeof (T{ loophole_ubiq<T, I>{}... });
 };
 
-template <typename T, std::size_t I> struct field_type
+// Defines loophole_fn for every field of T. A static_assert of a class
+// template is instantiated with the class, so a base of this type injects
+// the fields before its derived class reads them. Without it only
+// aggregate_traits<T> (tuple_size<T>) injected them, and a get<I> before
+// the first tuple_size<T> of a translation unit did not compile.
+template <typename T> struct inject_all_fields
+{
+  static const std::size_t count
+      = count_fields_impl<T, 0, k_max_aggregate_fields>::value;
+  LUMEX_STATIC_ASSERT_MSG (inject_fields<T, count>::trigger > 0,
+                           "field types of the aggregate are injected");
+};
+
+template <typename T, std::size_t I> struct field_type : inject_all_fields<T>
 {
   typedef typename std::remove_pointer<decltype (loophole_fn (
       loophole_tag<T, I>{}))>::type type;

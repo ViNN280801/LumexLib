@@ -35,7 +35,6 @@
 // C++11 file.
 #if defined(LUMEX_WITH_FIELD_REFLECTION)
 
-#include <cstddef>
 #include <utility>
 
 #include <gtest/gtest.h>
@@ -46,36 +45,6 @@
 
 using namespace lumex::core::reflection::field_reflection;
 using namespace lumex_field_reflection_tests;
-
-namespace
-{
-// Below C++17 get<I> takes the field types from the friend-injection
-// loophole, and only tuple_size<T> injects them: a get<I> on a type whose
-// tuple_size<T> this translation unit has not instantiated yet does not
-// compile ("use of auto loophole_fn before deduction of auto"). The tests
-// below call get<I> first, so the field counts of their types are
-// instantiated here.
-template <std::size_t... I>
-LUMEX_CONSTEXPR std::size_t
-arity_field_total (std::index_sequence<I...>)
-{
-  std::size_t const counts[]
-      = { 0, tuple_size<typename fields_of<I + 1>::type>::value... };
-  std::size_t total = 0;
-  for (std::size_t count : counts)
-    total += count;
-  return total;
-}
-
-LUMEX_STATIC_ASSERT_MSG (tuple_size<OneField>::value == 1u
-                             && tuple_size<Plain>::value == 2u
-                             && tuple_size<Padded>::value == 3u
-                             && tuple_size<EightFields>::value == 8u,
-                         "field counts of the get<I> aggregates");
-LUMEX_STATIC_ASSERT_MSG (arity_field_total (std::make_index_sequence<32>{})
-                             == 32u * 33u / 2u,
-                         "field counts of fields_of<1> ... fields_of<32>");
-} // namespace
 
 TEST (LumexAggregateFieldsTest, GivenPlainAggregate_WhenGet_ThenFieldValues)
 {

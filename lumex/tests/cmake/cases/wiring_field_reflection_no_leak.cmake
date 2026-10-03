@@ -64,12 +64,12 @@ if(_suite_wide)
         "the reflection test suites define LUMEX_WITH_FIELD_REFLECTION for "
         "every source; define it on the field-reflection sources only")
 endif()
-string(FIND "${_tests}" "\"\${CMAKE_CURRENT_SOURCE_DIR}/LumexFieldReflection.cxx*.tests.cpp\""
+string(FIND "${_tests}" "\"\${CMAKE_CURRENT_SOURCE_DIR}/LumexFieldReflection*.cxx*.tests.cpp\""
     _field_glob)
 if(_field_glob EQUAL -1)
     message(FATAL_ERROR
         "the field-reflection sources of the reflection tests are not "
-        "selected by LumexFieldReflection.cxx*.tests.cpp")
+        "selected by LumexFieldReflection*.cxx*.tests.cpp")
 endif()
 file(READ "${LUMEX_SOURCE_DIR}/lumex/examples/reflection/CMakeLists.txt"
     _examples)

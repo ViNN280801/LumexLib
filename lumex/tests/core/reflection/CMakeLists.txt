@@ -20,7 +20,7 @@
 # or the target the field-reflection files are left out.
 file(GLOB _field_reflection_sources RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}"
     CONFIGURE_DEPENDS
-    "${CMAKE_CURRENT_SOURCE_DIR}/LumexFieldReflection.cxx*.tests.cpp")
+    "${CMAKE_CURRENT_SOURCE_DIR}/LumexFieldReflection*.cxx*.tests.cpp")
 set(_reflection_link lumex::reflection)
 set(_reflection_exclude "")
 if(LUMEX_WITH_FIELD_REFLECTION AND TARGET nlohmann_json::nlohmann_json)
