@@ -1,4 +1,4 @@
-// lumex/tests/xml/LumexXmlGlobalNames.tests.cpp
+// lumex/tests/xml/LumexXmlGlobalNames.cxx11.tests.cpp
 //
 // Including the XML and base64 umbrellas adds no name to the global
 // namespace. This file declares global names spelled like names of the two

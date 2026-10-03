@@ -72,7 +72,6 @@ set(_transition
     temporary
     time
     utility
-    xml
 )
 
 set(_errors "")

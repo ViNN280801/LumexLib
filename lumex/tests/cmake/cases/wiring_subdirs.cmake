@@ -81,7 +81,7 @@ foreach(_suite
         LumexFormatTests LumexFormatCxx17Tests LumexFormatCxx20Tests
         LumexStringViewTests LumexTemporaryTests LumexTimeTests
         LumexTypeTraitsTests LumexSafeNumericComparatorCxx11Tests
-        LumexUtilityTests LumexXmlTests)
+        LumexUtilityTests)
     string(FIND "${_tests_txt}" "${_suite}" _pos)
     if(_pos EQUAL -1)
         message(FATAL_ERROR
