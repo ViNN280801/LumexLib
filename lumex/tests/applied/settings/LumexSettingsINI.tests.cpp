@@ -7,6 +7,7 @@
 #include <iostream>
 #include <memory>
 #include <regex>
+#include <sstream>
 #include <string>
 #include <thread>
 #include <vector>
@@ -31,6 +32,36 @@
 using namespace lumex::applied::settings;
 using namespace lumex::applied::settings::ini;
 using namespace lumex::core::filesystem::fs;
+
+namespace
+{
+// Lines that is_ini_valid () rejects: a section header without its closing
+// bracket, a key=value line without a key, and a line that is neither.
+char const *const INVALID_INI_CONTENT
+    = "[section]\nkey=value\n[broken\n=value\nnot a pair\n";
+
+// Redirects std::cout into a string for the lifetime of the object.
+class StdoutCapture
+{
+public:
+  StdoutCapture () : m_old (std::cout.rdbuf (m_buffer.rdbuf ())) {}
+
+  ~StdoutCapture () { std::cout.rdbuf (m_old); }
+
+  StdoutCapture (StdoutCapture const &) = delete;
+  StdoutCapture &operator= (StdoutCapture const &) = delete;
+
+  std::string
+  text () const
+  {
+    return m_buffer.str ();
+  }
+
+private:
+  std::ostringstream m_buffer;
+  std::streambuf *m_old;
+};
+} // namespace
 
 // --- Fixture ----------------------------------------------------------------
 
@@ -323,6 +354,61 @@ TEST_F (LumexSettingsINITest, GivenBinaryData_WhenIsIniValid_ThenReturnsFalse)
   file.write (reinterpret_cast<char *> (binary_data), sizeof (binary_data));
   file.close ();
   EXPECT_FALSE (LumexSettingsINI::is_ini_valid (_test_file));
+}
+
+TEST_F (LumexSettingsINITest,
+        GivenInvalidLine_WhenIsIniValid_ThenWritesNothingToStdout)
+{
+  create_test_ini_file (_test_file, INVALID_INI_CONTENT);
+
+  bool result = true;
+  std::string output;
+  {
+    StdoutCapture capture;
+    result = LumexSettingsINI::is_ini_valid (_test_file.string ());
+    output = capture.text ();
+  }
+
+  EXPECT_FALSE (result);
+  EXPECT_EQ (output, "");
+}
+
+TEST_F (
+    LumexSettingsINITest,
+    GivenInvalidLine_WhenIsIniValidWithCharPointer_ThenWritesNothingToStdout)
+{
+  create_test_ini_file (_test_file, INVALID_INI_CONTENT);
+  std::string const path = _test_file.string ();
+
+  bool result = true;
+  std::string output;
+  {
+    StdoutCapture capture;
+    result = LumexSettingsINI::is_ini_valid (path.c_str ());
+    output = capture.text ();
+  }
+
+  EXPECT_FALSE (result);
+  EXPECT_EQ (output, "");
+}
+
+TEST_F (LumexSettingsINITest,
+        GivenInvalidLine_WhenLoad_ThenWritesNothingToStdout)
+{
+  // load () validates the file through is_ini_valid () first.
+  create_test_ini_file (_test_file, INVALID_INI_CONTENT);
+  LumexSettingsINI ini_settings;
+
+  bool result = true;
+  std::string output;
+  {
+    StdoutCapture capture;
+    result = ini_settings.load (_test_file);
+    output = capture.text ();
+  }
+
+  EXPECT_FALSE (result);
+  EXPECT_EQ (output, "");
 }
 
 // --- load() Tests ----------------------------------------------------------

@@ -160,7 +160,8 @@ public:
    * @details Checks if the file is readable and uses regular expressions to
    *          verify that it follows a basic INI structure, containing only
    *          `[section]` headers, `key=value` pairs, comments, and empty
-   * lines.
+   * lines. It writes nothing to the standard streams: the result does not
+   * say which line, if any, failed the check.
    * @param[in] path The path to the INI file.
    * @return `true` if the file is readable and syntactically valid,
    *         `false` otherwise.

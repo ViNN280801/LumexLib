@@ -40,8 +40,8 @@
 #define LUMEX_IMPLEMENTATION
 #include <array>
 #include <fstream>
-#include <iostream>
 #include <regex>
+#include <string>
 
 #include "lumex/core/filesystem/LumexFilesystem"
 
@@ -128,11 +128,9 @@ LumexSettingsINI::is_ini_valid (std::string const &path)
   std::string line;
   std::regex section_re (Constants::REGEX_SECTION);
   std::regex kv_re (Constants::REGEX_KEY_VALUE);
-  int line_number = 0;
 
   while (std::getline (file, line))
     {
-      line_number++;
       std::string trimmed_line = _trim (line);
       if (trimmed_line.empty () || trimmed_line[0] == ';'
           || trimmed_line[0] == '#')
@@ -151,9 +149,6 @@ LumexSettingsINI::is_ini_valid (std::string const &path)
       if (std::regex_match (trimmed_line, kv_re))
         continue;
 
-      // DEBUG: Print the failing line
-      std::cout << "Invalid line " << line_number << ": '" << trimmed_line
-                << "'\n";
       return false; // Line is not a valid comment, section, or key-value pair
     }
 
