@@ -12,8 +12,7 @@
 #           SafeNumericComparator, StreamTraits, TypeTraits, TypeTraitsTopics,
 #           Utilities
 #   .cxx14  the stream trait variable templates
-#   .cxx17  is_optional on std::optional; the CoreDumpGenerator size
-#           constants bound to a reference (inline variables from C++17)
+#   .cxx17  is_optional on std::optional
 #   .cxx20  Bit, Cast, MemRead and Ranges (C++20 modules), the concepts, the
 #           three-way comparison and LUMEX_DEFINE_ENUM_TRAITS
 #   .cxx23  std::byteswap and std::ranges::contains

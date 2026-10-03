@@ -407,6 +407,17 @@ TEST (LumexCoreDumpGeneratorFactoryTest,
 }
 
 TEST (LumexCoreDumpGeneratorFactoryTest,
+      GivenKnownTypes_WhenGetEstimatedSize_ThenMatchesCatalog)
+{
+  EXPECT_EQ (DumpFactory::getEstimatedSize (DumpType::MINI_DUMP_NORMAL),
+             CoreDumpGenerator::KB_64);
+  EXPECT_EQ (DumpFactory::getEstimatedSize (DumpType::KERNEL_SMALL_DUMP),
+             CoreDumpGenerator::KB_64);
+  EXPECT_EQ (DumpFactory::getEstimatedSize (DumpType::DEFAULT_AUTO), 0u);
+  EXPECT_EQ (DumpFactory::getEstimatedSize (DumpType::CORE_DUMP_FULL), 0u);
+}
+
+TEST (LumexCoreDumpGeneratorFactoryTest,
       GivenDefaultAuto_WhenCreateConfigurationWithErrorCode_ThenSucceeds)
 {
   std::error_code error_code;

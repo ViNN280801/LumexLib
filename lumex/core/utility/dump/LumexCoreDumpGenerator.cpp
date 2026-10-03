@@ -55,6 +55,12 @@ namespace dump
 // there only when that unit odr-uses it, and ELF shared libraries then
 // export no symbol for the constant-initialized members.
 std::unique_ptr<CoreDumpGenerator> CoreDumpGenerator::s_instance = nullptr;
+std::size_t const CoreDumpGenerator::KB_32;
+std::size_t const CoreDumpGenerator::KB_64;
+std::size_t const CoreDumpGenerator::KB_128;
+std::size_t const CoreDumpGenerator::KB_256;
+std::size_t const CoreDumpGenerator::KB_512;
+std::size_t const CoreDumpGenerator::MB_1;
 std::mutex CoreDumpGenerator::s_mutex;
 std::condition_variable CoreDumpGenerator::s_operationCondition;
 std::mutex CoreDumpGenerator::s_operationMutex;

@@ -66,6 +66,7 @@
 #include <algorithm>
 #include <array>
 #include <cctype>
+#include <cstddef>
 #include <cstdint>
 #include <cstring>
 #include <ctime>
@@ -986,12 +987,18 @@ private:
 class LUMEX_UTILITY_API CoreDumpGenerator
 {
 public:
-  static constexpr size_t const KB_32 = 32ULL * 1024ULL;   // 32KB
-  static constexpr size_t const KB_64 = 64ULL * 1024ULL;   // 64KB
-  static constexpr size_t const KB_128 = 128ULL * 1024ULL; // 128KB
-  static constexpr size_t const KB_256 = 256ULL * 1024ULL; // 256KB
-  static constexpr size_t const KB_512 = 512ULL * 1024ULL; // 512KB
-  static constexpr size_t const MB_1 = 1024ULL * 1024ULL;  // 1MB
+  // The size constants are plain `static const` members defined in
+  // LumexCoreDumpGenerator.cpp, not constexpr: from C++17 that makes them
+  // inline variables, which a library built at C++17 does not export, so a
+  // C++11 / C++14 consumer that binds one to a reference (EXPECT_EQ does)
+  // would not link. An ordinary definition exists in every standard, and
+  // the members are still constant expressions.
+  static std::size_t const KB_32 = 32ULL * 1024ULL;   // 32KB
+  static std::size_t const KB_64 = 64ULL * 1024ULL;   // 64KB
+  static std::size_t const KB_128 = 128ULL * 1024ULL; // 128KB
+  static std::size_t const KB_256 = 256ULL * 1024ULL; // 256KB
+  static std::size_t const KB_512 = 512ULL * 1024ULL; // 512KB
+  static std::size_t const MB_1 = 1024ULL * 1024ULL;  // 1MB
 
   CoreDumpGenerator (CoreDumpGenerator const &) = delete;
   CoreDumpGenerator &operator= (CoreDumpGenerator const &) = delete;
