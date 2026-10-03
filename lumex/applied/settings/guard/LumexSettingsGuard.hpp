@@ -26,11 +26,10 @@
  * @file LumexSettingsGuard.hpp
  * @brief Format-agnostic backup/repair/validation layer built on top of
  * `ILumexSettings`.
- * @details This header ports the "keep a settings file alive" behavior of
- * PeakExpertWeb's JSON-specific `BaseConfiguration` (default-key restoration,
- * corruption backup, and per-key validation) to a form that works with *any*
- * `ILumexSettings` implementation (INI, JSON and XML), by
- * driving everything through the interface's `load`/`save`/`get`/`add`
+ * @details Keeps a settings file usable: restores default keys, backs up and
+ * regenerates a corrupted file, and validates single keys. It works with any
+ * `ILumexSettings` implementation (INI, JSON, XML or one of your own) because
+ * it drives everything through the interface's `load`/`save`/`get`/`add`
  * contract instead of a concrete parser.
  */
 #ifndef LUMEX_APPLIED_SETTINGS_GUARD_HPP
@@ -82,16 +81,12 @@ using LumexSettingsCreateFn = std::function<bool (void)>;
 /**
  * @brief Describes a single settings key that
  * `LumexSettingsGuard::ensureKeysWithDefaults` must keep present and valid.
- * @details Mirrors the intent of `BaseConfiguration::key_spec_t`
- * (section/key/default/validate), adapted to `ILumexSettings`'s flat
- * string-value model. Unlike a JSON tree, the base interface has no way to
- * distinguish "key absent" from "key present with an empty value" - `get()`
- * returns an empty string for both - so both states are treated identically
- * here: a key is considered to need its default whenever `validate` rejects
- * its current value, or, when no `validate` is supplied, whenever that value
- *          is an empty string. This is not a loss of behavior versus the JSON
- * original: an empty string is already `BaseConfiguration`'s own fallback
- * definition of "no real value" for the no-validator case.
+ * @details Section, key, default value and an optional validator, in the flat
+ * string-value model of `ILumexSettings`. The interface cannot tell "key
+ * absent" from "key present with an empty value" - `get()` returns an empty
+ * string for both - so both states are treated identically here: a key needs
+ * its default whenever `validate` rejects its current value or, when no
+ * `validate` is supplied, whenever that value is an empty string.
  */
 struct lumex_settings_key_spec_t
 {
@@ -108,8 +103,7 @@ struct lumex_settings_key_spec_t
 /**
  * @brief Format-agnostic backup/repair/validation guard for an
  * `ILumexSettings` instance.
- * @details Adds the three behaviors PeakExpertWeb's `BaseConfiguration`
- * provided for its JSON configuration files, generalized to work through
+ * @details Adds three behaviors on top of any settings file, working through
  * `ILumexSettings` alone:
  *            - `ensureExistsWithDefaults` / `repairIfCorrupted`: if the
  * guarded file is missing or fails to `load()`, back it up (when it exists)
@@ -127,11 +121,10 @@ struct lumex_settings_key_spec_t
  * implementation of the interface) plus the filesystem path that instance
  * loads from and saves to.
  * @note Thread-safety: an internal `std::recursive_mutex` serializes
- * concurrent calls made through the *same* `LumexSettingsGuard` instance. This
- * is narrower than `BaseConfiguration`'s single process-wide mutex (shared
- * with its JSON file helper), by design: a `LumexSettingsGuard` composes a
- * caller-owned `ILumexSettings` instance rather than a global file-access
- * chokepoint.
+ * concurrent calls made through the *same* `LumexSettingsGuard` instance, not
+ * every access to the file in the process, by design: a `LumexSettingsGuard`
+ * composes a caller-owned `ILumexSettings` instance rather than a global
+ * file-access chokepoint.
  * If the same underlying file is also touched by other `ILumexSettings`
  * instances, other `LumexSettingsGuard`s, or unrelated code, callers remain
  * responsible for their own synchronization, as with any `ILumexSettings`
@@ -185,9 +178,8 @@ public:
   /**
    * @brief Identical repair behavior to `ensureExistsWithDefaults`, without
    * the final error-level log.
-   * @details Provided as a separate entry point - mirroring
-   * `BaseConfiguration::repairIfCorrupted`
-   *          - for callers that want to probe/repair a file without that
+   * @details Provided as a separate entry point for callers that want to
+   * probe/repair a file without that
    * failure being logged as an application error (e.g. a caller that will
    * itself report a more specific message). An exception from the guarded
    * settings object is still logged, at warning level, because the caller
