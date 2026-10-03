@@ -60,7 +60,6 @@ set(_transition
     logging
     optional
     reflection
-    resource_monitor
     serial
     settings
     string

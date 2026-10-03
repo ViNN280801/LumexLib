@@ -68,7 +68,7 @@ endforeach()
 foreach(_suite
         LumexHardwareCapabilitiesTests LumexJsonTests LumexJsonCxx20Tests
         LumexCallbackSlotTests LumexLoggerTests LumexLoggingTests
-        LumexResourceMonitorTests LumexSerialPortTests LumexSettingsTests
+        LumexSerialPortTests LumexSettingsTests
         LumexAtomicTests LumexAtomicCxx17Tests LumexAtomicCxx20Tests
         LumexAtomicLockBasedCxx20Tests LumexAtomicWaitTableCxx20Tests
         LumexCrcTests

@@ -1,23 +1,18 @@
 # lumex/tests/applied/resource_monitor/CMakeLists.txt
 
-set(TEST_EXECUTABLE_NAME LumexResourceMonitorTests)
-
-add_executable(
-    ${TEST_EXECUTABLE_NAME}
-    LumexResourceMonitor.tests.cpp
+# resource_monitor has one standard in lumex/tests/LumexTestStandards.cmake,
+# C++17: LumexResourceMonitorCxx17Tests builds every *.cxx17.tests.cpp of this
+# directory.
+lumex_add_standard_suites(ResourceMonitor
+    MODULE resource_monitor
+    LINK
+        lumex::resource_monitor
+    TARGETS_VAR _resource_monitor_suites
 )
 
-set_target_properties(${TEST_EXECUTABLE_NAME} PROPERTIES
-    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/$<CONFIG>"
-    # The test calls std::filesystem itself (scratch directories).
-    LUMEX_USES_STD_FILESYSTEM ON
-)
-
-target_link_libraries(
-    ${TEST_EXECUTABLE_NAME}
-    PRIVATE
-    lumex::resource_monitor
-)
-
-lumex_test_use_gtest(${TEST_EXECUTABLE_NAME} CXX_STANDARD 17)
-lumex_gtest_discover_tests(${TEST_EXECUTABLE_NAME})
+# The tests call std::filesystem themselves (scratch directories):
+# lumex_configure_target links stdc++fs / c++fs where the toolchain keeps it
+# in a separate library (GCC 8).
+foreach(_suite IN LISTS _resource_monitor_suites)
+    set_target_properties(${_suite} PROPERTIES LUMEX_USES_STD_FILESYSTEM ON)
+endforeach()
