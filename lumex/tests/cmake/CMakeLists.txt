@@ -216,6 +216,11 @@ lumex_add_consumer_test(consumer_standard_mismatch_lib20_consumer11
 # function-local static; two shared libraries built with hidden visibility
 # must share it (skipped on Windows, where DLLs cannot).
 lumex_add_consumer_test(consumer_atomic_cross_module atomic_cross_module)
+# The header-only modules (string, math, generators, optional, atomic) compile
+# from an install prefix built with LUMEX_BUILD_UTILITY OFF: the core/utility
+# headers they include are installed whatever that option says.
+lumex_add_consumer_test(install_header_only_without_utility
+    install_header_only_without_utility)
 
 # LumexFormat compile-time checks: bad literal format strings must not
 # compile at C++20 (consteval), good ones must. Header-only, so the fixture
