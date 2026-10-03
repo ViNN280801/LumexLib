@@ -20,6 +20,22 @@
 
 #### Добавлено
 
+##### Уведомления сторонних лицензий: `THIRD-PARTY-NOTICES.md`
+
+**Файлы:** `THIRD-PARTY-NOTICES.md` (новый), `CMakeLists.txt`, `conanfile.py`, `lumex/xml/LumexXml`, `lumex/tests/cmake/cases/wiring_license_install.cmake` (новый)
+
+**Коммит:** `d1388a08`
+
+**Суть:** модуль `lumex/xml` сделан на основе pugixml (MIT, Copyright (c) 2006-2026 Arseny Kapoulkine), а лицензия MIT требует сохранять уведомление во всех копиях. Теперь оно лежит в `THIRD-PARTY-NOTICES.md` (там же ссылки на лицензии nlohmann/json и GoogleTest в `3rdparty/`), `cmake --install` ставит его вместе с `LICENSE` в `share/LumexLib`, пакет Conan кладет оба файла в `licenses/`, зонтик `LumexXml` называет происхождение модуля. Кейс `cmake.wiring_license_install`.
+
+##### `lumex_filesystem::replace_file_content`
+
+**Файлы:** `lumex/core/filesystem/fs/LumexFilesystem.hpp`, `lumex/core/filesystem/fs/LumexFilesystem.cpp`, `lumex/tests/core/filesystem/LumexFilesystemReplaceFileContent.tests.cpp` (новый)
+
+**Коммиты:** `a3f2dd76`, `444cbf1a`
+
+**Суть:** `replace_file_content (path, content, write_mode)` записывает содержимое в `<путь>.tmp` (`KTEMPORARY_FILE_SUFFIX`) в том же каталоге и переименовывает его поверх файла; при любой ошибке временный файл удаляется, а прежний файл остается как был. Возвращает `filesystem_result<void>` с `errno` шага, который не удался, не бросает. `write_mode` (`text`, `binary`) доступен и как `lumex::write_mode`.
+
 ##### Модуль `core/atomic`: `atomic_shared_ptr` и `atomic_weak_ptr` начиная с C++11
 
 **Файлы:**
@@ -49,6 +65,30 @@
 
 #### Изменено
 
+##### Лицензия MIT во всех публичных файлах, обычным комментарием
+
+**Файлы:** все `.hpp`, `.h` и `.cpp` в `lumex/` (кроме `tests/` и `examples/`), 26 зонтичных заголовков, `Scripts/CodeTools/check_license_headers.py` (новый), `lumex/tests/CMakeLists.txt`
+
+**Коммиты:** `28239bdd`, `fa99a0c6`
+
+**Суть:** комментарий с лицензией начинался с `/**`, и Doxygen переносил весь текст MIT на страницу каждого файла; теперь это обычный комментарий `/*`. 64 файла `.cpp` и 26 зонтиков, в которых лицензии не было, получили тот же текст. Тест `lint.license_headers` требует его в каждом публичном файле.
+
+##### Настройки сохраняются через временный файл
+
+**Файлы:** `lumex/applied/settings/json/LumexSettingsJSON.cpp`, `lumex/applied/settings/ini/LumexSettingsINI.cpp`, `lumex/applied/settings/xml/LumexSettingsXML.cpp`, заголовки этих классов и `ILumexSettings`, `lumex/tests/applied/settings/LumexSettingsSave.tests.cpp` (новый)
+
+**Коммиты:** `e52f76c9`, `a3f2dd76`, `444cbf1a`
+
+**Суть:** `LumexSettingsJSON::save` открывал файл на запись до сериализации и бросал nlohmann `type_error` 316 на значении не в UTF-8, оставляя обрезанный файл, хотя `ILumexSettings` обещает `false` без исключений. Теперь все три формата сначала строят текст целиком, при ошибке возвращают `false`, не трогая файл, и записывают через `lumex_filesystem::replace_file_content`. Что изменилось для потребителя: `save` нужна запись в каталог файла (только запись в сам файл уже не хватает), символическая ссылка на месте файла заменяется обычным файлом, у нового файла права по умолчанию.
+
+##### `Expected::transform` и `transform_error` на C++20 принимают любой тип результата
+
+**Файлы:** `lumex/core/expected/result/Expected.hpp`, `lumex/tests/core/expected/ExpectedMonadic.tests.cpp` (новый), тесты `Expected`
+
+**Коммит:** `cdc95a21`
+
+**Суть:** ветка C++20 требовала, чтобы результат функции приводился к прежнему `T` или `E`, поэтому `Expected<int, E>::transform` с функцией, возвращающей `std::string`, не компилировался; ветка до C++20 и `std::expected` это разрешают. Теперь все стандарты дают `Expected<U, E>` и `Expected<T, G>`; код, который компилировался, компилируется с тем же смыслом.
+
 ##### Имена тестов CTest повторяют каталоги
 
 **Файлы:** `cmake/LumexTestNames.cmake` (новый), `cmake/LumexGoogleTest.cmake`, `lumex/tests/CMakeLists.txt`, `lumex/tests/cmake/CMakeLists.txt`, `lumex/tests/cmake/cases/wiring_test_names.cmake`, `lumex/tests/cmake/cases/wiring_test_names_outside_root.cmake`, `lumex/tests/cmake/cases/wiring_include_order_ctest.cmake`, `lumex/tests/cmake/cases/wiring_atomic.cmake`, `CMakeLists.txt` тестов `core/crc`, `core/utility`, `core/atomic`, `core/generators/number_generator`, `applied/serial`, `lumex/examples/cmake/LumexExampleHelpers.cmake`, `lumex/examples/fmt/CMakeLists.txt`, комментарии и README с именами тестов
@@ -66,6 +106,54 @@
 **Суть:** у 85 из 136 публичных заголовков не было блока `@file`, и их страницы в документации были без описания; теперь у каждого есть описание, написанное по коду. Doxygen не читал зонтичные заголовки без расширения, которые и включает потребитель: CMake передает их список в `INPUT`, `EXTENSION_MAPPING = no_extension=C++`, у каждого зонтика блок `@file` с назначением модуля, целью `lumex::<модуль>` и нужным стандартом. Тест `lint.file_blocks` (метка `lint`) падает, если у публичного заголовка нет блока `@file`. CMake читает шаблон `Doxyfile.in` с `FULL_PATH_NAMES = NO`; одинаковый с ним `Doxyfile` удален.
 
 #### Исправлено
+
+##### Имена `xml` и `base64` больше не попадают в глобальное пространство имен
+
+**Файлы:** 28 заголовков `lumex/xml/` и `lumex/core/base64/`, `XmlDocument.cpp`, `XPathQuery.cpp`, `Scripts/CodeTools/check_header_using.py` (новый), `lumex/tests/xml/LumexXmlGlobalNames.tests.cpp` (новый), `lumex/tests/CMakeLists.txt`
+
+**Коммиты:** `72a65c28`, `7c1cde6e`
+
+**Суть:** 79 директив `using namespace` на уровне файла (и `using ...::char_t`) переносили имена библиотеки в глобальное пространство каждого, кто включал `LumexXml` или `LumexBase64`, вопреки правилам библиотеки. Теперь директивы стоят внутри пространств имен `lumex`; экспортируемые символы не изменились. **Потребителю:** без квалификации больше не видны `lumex::xml` и его подпространства (`document`, `node`, `xpath`, `types`, `text`, `utility`, `memory`, `writer`, `constants`, `tree`, `attribute`, `range`), `types::Types` (`char_t`, `string_t`, `string_view_t`, перечисления и перечислители вроде `node_element`, `status_ok`, `encoding_auto`), `constants::Constants` (`kparse_*`, `kformat_*`), `xpath::memory`, `xpath::node`, `xpath::parser`, `xpath::constants::Constants`, `lumex::core::base64::codec::Types` (`byte_type`, `string_type_t`); такой код нужно квалифицировать или добавить свой `using`. Тест `lint.header_using_directives` запрещает новые директивы в заголовках.
+
+##### Пять дефектов: `seh_translator`, `LumexException.hpp`, `LIKELY`, `LUMEX_FUNCTION_NAME`
+
+**Файлы:** `lumex/core/exceptions/crash/WindowsSEHTranslator.{hpp,cpp}`, `lumex/core/exceptions/exception/LumexException.hpp`, `lumex/core/utility/attr/LumexAttributes.hpp`, `lumex/core/utility/macros/LumexMacros.hpp`, `lumex/applied/logging/log/LumexLoggingMacro.hpp`, новые тесты и кейсы `cmake.source_*`
+
+**Коммиты:** `ddcd93f9`, `6ac19cb5`, `478064a2`, `f23a9905`, `46fdd1c5`
+
+**Суть:** `seh_translator` был объявлен `inline` и определен только в `.cpp`, поэтому потребитель `SET_SEH_TRANSLATOR` на Windows мог не слинковаться: теперь это обычная экспортируемая функция. `LumexException.hpp` использовал `SET_SEH_TRANSLATOR`, не включая его заголовок. `LUMEX_ATTRIBUTE_LIKELY_COND` / `UNLIKELY_COND` не было до C++20 (теперь `__builtin_expect` на GCC и Clang, просто условие иначе), а `LUMEX_ATTRIBUTE_LIKELY` / `UNLIKELY` до C++20 раскрывались в `__attribute__ ((likely))`, который GCC 13 не принимает в этом месте: теперь они там пустые, как и обещает заголовок. `LUMEX_FUNCTION_NAME` брал `__FUNCSIG__` на MinGW, где его нет: выбор теперь по компилятору, и `LumexLoggingMacro.hpp` берет его из `LumexMacros.hpp`. Проверка на MSVC (todo 56) подтвердит Windows-часть.
+
+##### `Expected`: `transform_error` до C++20, `or_else` с другим типом ошибки, сообщения assert
+
+**Файлы:** `lumex/core/expected/result/Expected.hpp`, `lumex/core/expected/result/ExpectedVoid.hpp`, тесты `Expected`
+
+**Коммиты:** `85853a80`, `70d2f31b`
+
+**Суть:** `Expected<void, E>::transform_error()` для rvalue не компилировался на C++14 и C++17 (ветка до C++20 читала неактивный член и строила не тот тип); тесты с этим именем саму функцию не вызывали. `Expected<T, E>::or_else`, функция которого возвращает другой тип ошибки, не компилировался ни на одном стандарте. Сообщения `LUMEX_ASSERT` говорили «undefined behavior», хотя проверка работает во всех сборках и останавливает программу; теперь они называют, что вызвано и на чем, и это проверяют death-тесты.
+
+##### Settings: исключения в `LumexSettingsGuard`, печать `is_ini_valid`
+
+**Файлы:** `lumex/applied/settings/guard/LumexSettingsGuard.{hpp,cpp}`, `lumex/applied/settings/ini/LumexSettingsINI.{hpp,cpp}`, тесты settings
+
+**Коммиты:** `a5c9432d`, `58637bd7`
+
+**Суть:** `ensureKeysWithDefaults`, `ensureExistsWithDefaults` и `repairIfCorrupted` объявлены `noexcept`, но исключение объекта настроек (например, `save` JSON) приводило к `std::terminate`; теперь они его ловят, пишут в лог и возвращают `false`, сигнатуры прежние. `LumexSettingsINI::is_ini_valid` печатал неверные строки в `std::cout`.
+
+##### Комментарии, которые не совпадали с кодом
+
+**Файлы:** `lumex/applied/settings/**`, `lumex/core/expected/**`, `lumex/core/utility/util/LumexUtilities.hpp`, `lumex/xml/attribute/XmlAttribute.hpp`, `lumex/xml/text/XmlText.hpp`, `lumex/xml/xpath/variable/XPathVariable.hpp`, `lumex/xml/xpath/utility/XPathUtils.{hpp,cpp}`, `lumex/core/generators/number_generator/LumexNumberGenerator.hpp`
+
+**Коммиты:** `57813aeb`, `0941b75b`, `9618a6bb`, `b2bc510e`
+
+**Суть:** около тридцати мест, среди них: `LumexSettingsFactory::create` возвращает `nullptr`, а не бросает; `LUMEX_ASSERT` не отключается при `NDEBUG`; `as_int` и другие геттеры возвращают значение по умолчанию только для пустого значения; описания `Expected`, `Unexpected`, `BadExpectedAccess`, `in_place_tag` и `DistributionType` попадали на страницу пространства имен; `fd_to_ptr` / `ptr_to_fd` объявлены в глобальном пространстве. Удалены два `friend` несуществующих классов; `copy_xpath_variable` теперь одна реализация (экспортируемая версия вызывает встроенную). Комментарии `LumexSettingsGuard` больше не называют класс продукта.
+
+##### Прочее
+
+**Файлы:** `lumex/applied/logger/logger/LumexLogger.cpp`, `compile.py`, `benchmarks/atomic/README.md`
+
+**Коммиты:** `0c1be589`, `9b98f87a`
+
+**Суть:** Clang 23.1.0 предупреждал о неиспользуемой перегрузке `format_hex` для указателей (удалена). `compile.py --documentation` принимает только `html`: `pdf` не мог работать при `GENERATE_LATEX = NO`. Быстрый прогон бенчмарка в README пишет в каталог сборки, а не поверх `results/`.
 
 ##### Установка: header-only модули без `LUMEX_BUILD_UTILITY`, зонтик `LumexFilesystem`, `LumexNumberGenerator.hpp` один раз
 
