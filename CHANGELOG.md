@@ -123,6 +123,12 @@
 
 #### Исправлено
 
+##### `LumexBaseException` на clang-cl больше не импортирует `string_view`
+
+**Файлы:** `lumex/core/exceptions/exception/LumexException.hpp`
+
+**Суть:** класс был `class LUMEX_API`. clang-cl даже в Release не встраивает inline-член такого класса и ставит на него `dllimport`. Конструктор от `std::string_view` есть только в заголовке (C++17), поэтому `LumexExceptionsCxx17Tests` и `LumexExceptionsCxx20Tests` падали с LNK2019. Теперь `LUMEX_API` стоит на конструкторах от `char const *` и `std::string` и на `to_stderr` и `to_crash_report`. Конструктор от `std::string_view` остается inline и больше не импортируется.
+
 ##### Base64 на clang-cl больше не импортирует `string_view` и `span`
 
 **Файлы:** `lumex/core/base64/encode/Encoder.hpp`, `lumex/core/base64/decode/Decoder.hpp`, `lumex/core/base64/validate/Validator.hpp`
