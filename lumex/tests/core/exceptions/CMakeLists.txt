@@ -31,6 +31,12 @@ lumex_add_standard_suites(Exceptions
         lumex::time
         lumex::utility
     SOURCES LumexExceptionTestFixtures.hpp
+    # The C++11, C++17 and C++20 executables share bin/. TearDown of
+    # LumexExceptionTest removes <exe dir>/crashes, and to_crash_report
+    # writes only there. One lock keeps every discovered test of every
+    # standard from deleting that directory under ctest -j.
+    DISCOVER_ARGS
+        PROPERTIES RESOURCE_LOCK lumex_exception_crash_dir
     TARGETS_VAR _exceptions_suites
 )
 
