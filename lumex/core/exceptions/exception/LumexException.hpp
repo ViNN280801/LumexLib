@@ -45,9 +45,10 @@
  * the constructor. `to_stderr()` prints the demangled exception type and the
  * message; `to_crash_report()` appends the message and the stack to one
  * `crash_report_<timestamp>.txt` per run in the `crashes` directory next to
- * the executable. The constructors are compiled into `lumex::exceptions` and
- * have the same signatures in every C++ standard; the `std::string_view`
- * constructor (C++17) is an inline wrapper.
+ * the executable. The constructors compiled into `lumex::exceptions` have
+ * the same signatures in every C++ standard; the `std::string_view`
+ * constructor (C++17) is an inline wrapper. The class itself is not
+ * exported, so that wrapper is not `dllimport`.
  *
  * `LUMEX_THROW_EXCEPTION` throws an exception type with its demangled name in
  * front of the message. `LUMEX_EXCEPTION_HANDLE_BEGIN` and
@@ -96,26 +97,37 @@ namespace exception
 #pragma warning(push)
 #pragma warning(disable : 4275 4251)
 #endif
-class LUMEX_API LumexBaseException : public std::exception
+/**
+ * @brief Base exception that records the stack where it was constructed.
+ * @details `LumexBaseException(char const *)`, both `std::string`
+ * constructors, `to_stderr` and `to_crash_report` are exported and have the
+ * same signature in every C++ standard, so a consumer built at another
+ * standard than the library links. The `std::string_view` constructor
+ * (C++17) is an inline wrapper over `std::string &&`. The class itself is
+ * not exported: a dllimport class makes clang-cl emit an import for an
+ * inline member it does not inline, and the library does not provide the
+ * standard-dependent constructor.
+ */
+class LumexBaseException : public std::exception
 {
 public:
   /**
    * @brief Constructs a `LumexBaseException` with a message.
    * @param message The error message.
    */
-  LumexBaseException (char const *message);
+  LUMEX_API LumexBaseException (char const *message);
 
   /**
    * @brief Constructs a `LumexBaseException` with a message.
    * @param message The error message.
    */
-  LumexBaseException (std::string const &message);
+  LUMEX_API LumexBaseException (std::string const &message);
 
   /**
    * @brief Constructs a `LumexBaseException` with a message.
    * @param message The error message.
    */
-  LumexBaseException (std::string &&message);
+  LUMEX_API LumexBaseException (std::string &&message);
 
 #if __cplusplus >= 201703L
   /**
@@ -167,14 +179,14 @@ public:
    * [LumexException] -> Failed to open file
    * @endcode
    */
-  void to_stderr () const LUMEX_NOEXCEPT;
+  LUMEX_API void to_stderr () const LUMEX_NOEXCEPT;
 
   /**
    * @brief Write a crash report to a file by pattern:
    * "crash_report_{timestamp}.txt".
    * @param stacktrace The stack trace of the error.
    */
-  void to_crash_report () const;
+  LUMEX_API void to_crash_report () const;
 
 private:
   std::string m_message;        ///< The custom error message to be displayed.
