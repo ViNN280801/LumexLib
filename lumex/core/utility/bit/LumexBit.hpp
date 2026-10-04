@@ -26,17 +26,17 @@
  * @file LumexBit.hpp
  * @brief Bit helpers. `count_leading_zeros` (C++11) counts the leading zeros
  * of an unsigned integer of 1, 2, 4 or 8 bytes, an analogue of C++20
- * `std::countl_zero`. `ByteSwap` (C++20) reverses the byte order of an
+ * `std::countl_zero`. `byte_swap` (C++20) reverses the byte order of an
  * integral value and is usable in a constant expression, an analogue of
  * C++23 `std::byteswap`.
  * @details `count_leading_zeros` uses `_BitScanReverse` with MSVC (including
  * clang-cl) and `__builtin_clz` / `__builtin_clzll` with GCC and Clang. A
  * zero value returns the width; those intrinsics do not define that case.
- * `ByteSwap` uses the compiler's byte swap builtin for 2, 4 and 8 bytes
+ * `byte_swap` uses the compiler's byte swap builtin for 2, 4 and 8 bytes
  * (`__builtin_bswap*` with GCC and Clang, `_byteswap_*` with MSVC) at run
  * time, and reverses the bytes of a `std::bit_cast` copy in a constant
  * expression and for other sizes.
- * @warning `ByteSwap` needs C++20 (concepts, `std::bit_cast`, `std::ranges`
+ * @warning `byte_swap` needs C++20 (concepts, `std::bit_cast`, `std::ranges`
  * and `std::is_constant_evaluated`). With an older standard only
  * `count_leading_zeros` is declared.
  */
@@ -171,7 +171,7 @@ count_leading_zeros (NumericType value) LUMEX_NOEXCEPT
 #endif
 }
 
-// ByteSwap needs C++20 concepts, std::bit_cast, std::ranges and
+// byte_swap needs C++20 concepts, std::bit_cast, std::ranges and
 // std::is_constant_evaluated.
 #if LUMEX_HAS_CONCEPTS && LUMEX_HAS_STD_BIT_CAST && LUMEX_HAS_STD_RANGES      \
     && LUMEX_HAS_STD_IS_CONSTANT_EVALUATED
@@ -210,7 +210,7 @@ count_leading_zeros (NumericType value) LUMEX_NOEXCEPT
 template <typename T>
   requires std::is_integral_v<T> && std::has_unique_object_representations_v<T>
 LUMEX_CONSTEXPR T
-ByteSwap (T value) LUMEX_NOEXCEPT
+byte_swap (T value) LUMEX_NOEXCEPT
 {
   using U = std::make_unsigned_t<T>;
   U u = static_cast<U> (value);

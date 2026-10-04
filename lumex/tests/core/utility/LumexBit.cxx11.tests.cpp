@@ -1,6 +1,6 @@
 // LumexBit.cxx11.tests.cpp
 // count_leading_zeros of LumexBit.hpp, declared from C++11 for an unsigned
-// integer of 1, 2, 4 or 8 bytes. ByteSwap stays in LumexBit.cxx20.tests.cpp.
+// integer of 1, 2, 4 or 8 bytes. byte_swap stays in LumexBit.cxx20.tests.cpp.
 #include <cstdint>
 #include <type_traits>
 #include <utility>
