@@ -147,6 +147,12 @@
 
 #### Исправлено
 
+##### Тесты `replace_file_content` и кавычек INI укладываются в предел пути Windows
+
+**Файлы:** `lumex/tests/core/filesystem/LumexFilesystemReplaceFileContent.cxx11.tests.cpp`, `lumex/tests/applied/settings/LumexSettingsINI.cxx11.tests.cpp`
+
+**Суть:** ctest запускает набор из каталога модуля. Имя каталога собиралось из полного имени теста, и вместе с `target.cfg.tmp` или повтором этого имени в имени файла путь превышал 259 символов, которые принимает ANSI-интерфейс Windows. `create_directories` и `save` возвращали неуспех до самой проверки. Каталог для `replace_file_content` теперь состоит из имени теста и pid, файл с кавычками называется `quotes.ini`.
+
 ##### `XmlNode`, `XmlAttribute` и `XmlText` на clang-cl больше не импортируют `string_view`
 
 **Файлы:** `lumex/xml/node/XmlNode.hpp`, `lumex/xml/attribute/XmlAttribute.hpp`, `lumex/xml/text/XmlText.hpp`

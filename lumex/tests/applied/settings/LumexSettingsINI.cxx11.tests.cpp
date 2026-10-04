@@ -878,9 +878,9 @@ TEST_F (LumexSettingsINITest,
   ini_settings.add ("section", "key5",
                     "\"already quoted\""); // Should not double quote
 
-  lumex::path test_file = _test_dir
-                          / "GivenSpecialCharactersInValues_WhenSave_"
-                            "ThenQuotesIfNecessary.test.ini";
+  // The directory name is already the test name. Repeating it in the file
+  // name exceeds the 259-character ANSI path limit on Windows.
+  lumex::path test_file = _test_dir / "quotes.ini";
   EXPECT_TRUE (ini_settings.save (test_file));
 
   LumexSettingsINI loaded_settings;
