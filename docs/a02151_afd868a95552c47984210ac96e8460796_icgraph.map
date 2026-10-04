@@ -1,6 +1,0 @@
-<map id="lumex::core::exceptions::exception::LumexBaseException::what" name="lumex::core::exceptions::exception::LumexBaseException::what">
-<area shape="rect" id="node1" title="Returns the error message as a C&#45;string." alt="" coords="399,42,681,84"/>
-<area shape="rect" id="node2" href="$a00758.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,58,60,84"/>
-<area shape="rect" id="node3" href="$a02151.html#a277f55eeecb20cecca099e0c63bd1559" title="Write a crash report to a file by pattern: &quot;crash_report_{timestamp}.txt&quot;." alt="" coords="108,35,351,91"/>
-<area shape="rect" id="node4" href="$a02151.html#abfb8f6a5e437e18700b6b7fb29f326f6" title="Write an error to the standard error stream by the following format: [exception_name] &#45;&gt; custom messa..." alt="" coords="108,115,351,171"/>
-</map>

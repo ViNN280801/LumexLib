@@ -1,4 +1,0 @@
-<map id="lumex::core::utility::traits::value::is_optional_like&lt; T, meta::void_t&lt; decltype(std::declval&lt; T const &amp; &gt;().has_value()), decltype(*std::declval&lt; T const &amp; &gt;())&gt; &gt;" name="lumex::core::utility::traits::value::is_optional_like&lt; T, meta::void_t&lt; decltype(std::declval&lt; T const &amp; &gt;().has_value()), decltype(*std::declval&lt; T const &amp; &gt;())&gt; &gt;">
-<area shape="rect" id="node1" title=" " alt="" coords="5,80,243,180"/>
-<area shape="rect" id="node2" title=" " alt="" coords="68,5,180,32"/>
-</map>

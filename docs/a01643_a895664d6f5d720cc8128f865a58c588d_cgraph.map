@@ -1,5 +1,0 @@
-<map id="lumex::core::circular_buffer::CircularBuffer::operator=" name="lumex::core::circular_buffer::CircularBuffer::operator=">
-<area shape="rect" id="node1" title="Copy assignment operator." alt="" coords="5,5,169,61"/>
-<area shape="rect" id="node2" href="$a01643.html#ae1bff76223ce74c198b70fbbd2b1fef8" title="Exchanges the contents of two buffers." alt="" coords="217,13,424,54"/>
-<area shape="rect" id="node3" href="$a01348.html#aa6c29be7d01b00f05c127675317c265c" title="Global swap function for LumexBasicStacktrace." alt="" coords="472,13,651,54"/>
-</map>

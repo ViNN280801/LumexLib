@@ -1,7 +1,0 @@
-<map id="lumex::applied::serial::enumeration::enumerate_serial_ports_detailed" name="lumex::applied::serial::enumeration::enumerate_serial_ports_detailed">
-<area shape="rect" id="node1" title="Enumerate serial ports with full serial_port_info_t records." alt="" coords="5,79,197,135"/>
-<area shape="rect" id="node2" href="$a01551.html#a87b46d54c13a2ae30c97f22a4e98fc7c" title="Format a system error code." alt="" coords="245,5,472,61"/>
-<area shape="rect" id="node3" href="$a01434.html#a452dc69c516222ebe97ef081534daff6" title=" " alt="" coords="287,86,430,127"/>
-<area shape="rect" id="node4" href="$a01348.html#a9b962af55f800e2cbb3a49009e6676f1" title="Converts a LumexBasicStacktrace object to its string representation." alt="" coords="269,151,448,193"/>
-<area shape="rect" id="node5" href="$a02155.html#a79f1b53a81f6bde33331116c9926e81a" title="Returns the number of entries in the stacktrace." alt="" coords="520,151,808,193"/>
-</map>

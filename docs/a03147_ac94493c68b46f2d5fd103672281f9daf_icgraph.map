@@ -1,4 +1,0 @@
-<map id="lumex::xml::attribute::XmlAttribute::previous_attribute" name="lumex::xml::attribute::XmlAttribute::previous_attribute">
-<area shape="rect" id="node1" title="Retrieves the previous attribute in the list of attributes belonging to the same parent node." alt="" coords="215,5,392,61"/>
-<area shape="rect" id="node2" href="$a03187.html#a547a6a0024cc06bbe23718ecb872cceb" title="Pre&#45;decrements the iterator to move to the previous attribute in the list." alt="" coords="5,5,167,61"/>
-</map>

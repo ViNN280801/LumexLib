@@ -1,4 +1,0 @@
-<map id="lumex::core::optional::opt::optional::has_value" name="lumex::core::optional::opt::optional::has_value">
-<area shape="rect" id="node1" title="Checks if the optional contains a value." alt="" coords="263,13,449,54"/>
-<area shape="rect" id="node2" href="$a02615.html#aee6af6a076cd6e88c4ef1c7651c01a3c" title="Computes the hash value for a Lumex optional object." alt="" coords="5,5,215,61"/>
-</map>

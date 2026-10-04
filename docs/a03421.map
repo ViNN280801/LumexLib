@@ -1,8 +1,0 @@
-<map id="lumex::xml::xpath::parser::XPathParser" name="lumex::xml::xpath::parser::XPathParser">
-<area shape="rect" id="node1" title="Parses XPath expressions into an Abstract Syntax Tree (AST)." alt="" coords="643,116,792,157"/>
-<area shape="rect" id="node2" href="$a03463.html" title="Manages a collection of XPath variables." alt="" coords="315,5,509,47"/>
-<area shape="rect" id="node3" href="$a03427.html" title="Represents the result of an XPath parsing operation." alt="" coords="337,71,487,127"/>
-<area shape="rect" id="node4" href="$a03411.html" title="Lexer (tokenizer) for XPath expressions." alt="" coords="319,152,505,193"/>
-<area shape="rect" id="node5" href="$a03375.html" title="Allocator for XPath&#45;related data structures." alt="" coords="323,217,501,259"/>
-<area shape="rect" id="node6" href="$a03383.html" title="Represents a block of memory used by XPathAllocator." alt="" coords="5,217,216,259"/>
-</map>

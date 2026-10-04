@@ -1,9 +1,0 @@
-<map id="lumex::core::filesystem::fs::lumex_filesystem::remove" name="lumex::core::filesystem::fs::lumex_filesystem::remove">
-<area shape="rect" id="node1" title="Removes a file or an empty directory at the specified path_arg." alt="" coords="5,105,180,161"/>
-<area shape="rect" id="node2" href="$a02235.html#a209b04de0c65852694ca4d9a44d4d9bd" title="Returns a pointer to the null&#45;terminated C&#45;style string representation of the path." alt="" coords="464,112,639,153"/>
-<area shape="rect" id="node3" href="$a02227.html#a384e25734c6d611b763c77caa77aeafc" title="Factory method for creating an unsuccessful filesystem_result." alt="" coords="228,39,416,80"/>
-<area shape="rect" id="node4" href="$a02255.html#a6a05e2ccdc2eb946a869e5573626c73b" title="Checks if a file or directory exists at the specified path." alt="" coords="235,105,409,161"/>
-<area shape="rect" id="node5" href="$a02255.html#a63e895fa3678c466f520c70bac5defe0" title="Checks if the specified path_arg refers to a directory." alt="" coords="235,185,409,241"/>
-<area shape="rect" id="node6" href="$a02227.html#a16fa37f602e827cf169d0dfb3b952940" title="Factory method for creating a successful filesystem_result." alt="" coords="229,265,415,307"/>
-<area shape="rect" id="node7" href="$a02227.html#ae11d814b4f227302b2e33601f426d421" title="Retrieves the encapsulated value (const version)." alt="" coords="464,258,639,314"/>
-</map>

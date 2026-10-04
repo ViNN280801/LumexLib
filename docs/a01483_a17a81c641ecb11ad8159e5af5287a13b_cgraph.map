@@ -1,4 +1,0 @@
-<map id="lumex::applied::json::helper::LumexJsonHelper::set_value" name="lumex::applied::json::helper::LumexJsonHelper::set_value">
-<area shape="rect" id="node1" title="Stores value under key in section (or the root), creating the section path when needed." alt="" coords="5,5,199,61"/>
-<area shape="rect" id="node2" href="$a01282.html#a93440710aefc3cd89d32f3916f915f66" title="Whether a value is an empty string. set_value refuses to store one. Non&#45;string types are never empty." alt="" coords="247,5,401,61"/>
-</map>

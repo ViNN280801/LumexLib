@@ -1,8 +1,0 @@
-<map id="lumex::xml::node::node_output" name="lumex::xml::node::node_output">
-<area shape="rect" id="node1" title="Outputs the XML subtree rooted at root to a buffered writer." alt="" coords="509,90,685,131"/>
-<area shape="rect" id="node2" href="$a03175.html#a513be35988e895f6735f65b1b96c4b5f" title="Prints the XML subtree rooted at the current node to a custom writer interface." alt="" coords="257,57,461,98"/>
-<area shape="rect" id="node5" href="$a03159.html#a40677f13bf1306858bdcc329c3812775" title="Saves the XML document to a custom writer interface." alt="" coords="275,122,444,163"/>
-<area shape="rect" id="node3" href="$a00911.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title="Main function demonstrating various LumexXml functionalities." alt="" coords="80,5,135,32"/>
-<area shape="rect" id="node4" href="$a03175.html#abc0e3ec301cddb026501f215723743b2" title="Prints the XML subtree rooted at the current node to a C&#45;style character output stream." alt="" coords="5,57,209,98"/>
-<area shape="rect" id="node6" href="$a03159.html#aa6db85e0f29ddd002d752a2b587a17c8" title="Saves the XML document to a C&#45;style character output stream." alt="" coords="23,122,192,163"/>
-</map>

@@ -1,0 +1,15 @@
+digraph "lumex::core::utility::debug::captureStackTrace"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="LR";
+  Node1 [id="Node000001",label="lumex::core::utility\l::debug::captureStackTrace",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="Capture current call stack in a formatted string."];
+  Node1 -> Node2 [id="edge1_Node000001_Node000002",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="lumex::core::utility\l::debug::Detail::formatHex",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01040.html#a1e4c0bb124b74e381342ae2a32d215c0",tooltip=" "];
+  Node1 -> Node3 [id="edge2_Node000001_Node000003",color="steelblue1",style="solid",tooltip=" "];
+  Node3 [id="Node000003",label="lumex::core::string\l::utility::stringify",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01027.html#a6edd6a773e25b016b0dab32f38d58ff9",tooltip="No arguments: an empty string, without creating a stream."];
+  Node1 -> Node4 [id="edge3_Node000001_Node000004",color="steelblue1",style="solid",tooltip=" "];
+  Node4 [id="Node000004",label="lumex::core::string\l::utility::stringify",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01027.html#a644d51beb3d991564cc81242883fd17a",tooltip="Concatenates the streamed text of args."];
+}

@@ -1,8 +1,4 @@
 var a00569 =
 [
-    [ "in_place_tag", "a02191.html", null ],
-    [ "Unit", "a02195.html", null ],
-    [ "unexpect_t", "a02199.html", null ],
-    [ "in_place", "a00569.html#a2843a9a82731a57457a67854be6546d6", null ],
-    [ "unexpect", "a00569.html#a99d7baa9c7bfa0e1e8d7ac195f1abcbc", null ]
+    [ "main", "a00569.html#ae66f6b31b5ad750f1fe042a706a4e3d4", null ]
 ];

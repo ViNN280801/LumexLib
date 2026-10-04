@@ -1,4 +1,0 @@
-<map id="lumex::xml::tree::XmlTreeWalker::begin" name="lumex::xml::tree::XmlTreeWalker::begin">
-<area shape="rect" id="node1" title="Callback function invoked when the tree traversal begins for a node." alt="" coords="257,5,448,47"/>
-<area shape="rect" id="node2" href="$a03175.html#a17cdb500132c1c48fac94a311ff67c87" title="Traverses the subtree rooted at the current node using a custom XmlTreeWalker." alt="" coords="5,5,209,47"/>
-</map>

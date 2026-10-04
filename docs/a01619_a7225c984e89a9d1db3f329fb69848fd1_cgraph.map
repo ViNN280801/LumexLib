@@ -1,7 +1,0 @@
-<map id="lumex::core::atomic::sync::table_wait::Detail::BitLock::unlock" name="lumex::core::atomic::sync::table_wait::Detail::BitLock::unlock">
-<area shape="rect" id="node1" title="Releases the lock and wakes the threads that sleep on it." alt="" coords="5,93,173,149"/>
-<area shape="rect" id="node2" href="$a01322.html#ab0a372674a94f35856052c9f32a55909" title="Wakes every thread sleeping in wait_until_changed on word." alt="" coords="236,5,388,61"/>
-<area shape="rect" id="node4" href="$a01322.html#a45138d629081f839e7c275e9ee3a9b8c" title="ThreadSanitizer annotations of the lock word; no&#45;ops in other builds." alt="" coords="221,86,403,157"/>
-<area shape="rect" id="node5" href="$a01322.html#ae7b93d2510244fa9c6dfbd038fef1e35" title="ThreadSanitizer annotations of the lock word; no&#45;ops in other builds." alt="" coords="225,181,399,251"/>
-<area shape="rect" id="node3" href="$a01322.html#a2fdf0c2f9cdd965f5832478aa40293ea" title="Returns the stripe that serves the word at address." alt="" coords="451,5,603,61"/>
-</map>

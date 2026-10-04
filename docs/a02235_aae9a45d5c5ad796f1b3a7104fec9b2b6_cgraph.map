@@ -1,9 +1,0 @@
-<map id="lumex::core::filesystem::fs::path::root_path" name="lumex::core::filesystem::fs::path::root_path">
-<area shape="rect" id="node1" title="Extracts the root path component from the path (root name + root directory)." alt="" coords="5,123,180,164"/>
-<area shape="rect" id="node2" href="$a02235.html#a6f923676a1ec7e8440b21eca9b6d9312" title="Checks if the path is empty." alt="" coords="230,5,405,47"/>
-<area shape="rect" id="node3" href="$a02235.html#a3b470303c0431f218eeebe77b8acd417" title="Default constructor. Constructs an empty path." alt="" coords="471,123,646,164"/>
-<area shape="rect" id="node4" href="$a02235.html#a2ee7e287b12a157a801ceda671ab45a8" title="Extracts the root directory component from the path." alt="" coords="228,188,407,229"/>
-<area shape="rect" id="node6" href="$a02235.html#aef30bd7f207328b1373169bdd34a9863" title="Extracts the root name component from the path." alt="" coords="230,123,405,164"/>
-<area shape="rect" id="node7" href="$a02235.html#a54758ce9dd25cab6d714efd2ac1e8ace" title="Returns a copy of the path as a std::string." alt="" coords="230,253,405,295"/>
-<area shape="rect" id="node5" href="$a02235.html#a190cfff3cd6b0d076ebbfcc2daf07796" title="Checks if the path has a root directory component." alt="" coords="455,188,663,229"/>
-</map>

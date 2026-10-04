@@ -1,4 +1,0 @@
-<map id="lumex::xml::xpath::parser::XPathParser::parse_filter_expression" name="lumex::xml::xpath::parser::XPathParser::parse_filter_expression">
-<area shape="rect" id="node1" title="Parses a FilterExpr production in the XPath grammar." alt="" coords="5,5,187,61"/>
-<area shape="rect" id="node2" href="$a03355.html#a708708b7a8d4be7a96c467722634664a" title="Retrieves the XPath value type that this AST node is expected to return." alt="" coords="235,13,432,54"/>
-</map>

@@ -1,5 +1,0 @@
-<map id="lumex::core::fmt::Detail::is_chrono_conversion" name="lumex::core::fmt::Detail::is_chrono_conversion">
-<area shape="rect" id="node1" title="%&lt;conversion&gt; is valid for a duration / a time point." alt="" coords="513,5,691,47"/>
-<area shape="rect" id="node2" href="$a01359.html#a28ba701722fdcf7194acbbdaaa6062fd" title="Checks [begin, end) as chrono&#45;specs; they must start with a conversion." alt="" coords="288,5,465,47"/>
-<area shape="rect" id="node3" href="$a02435.html#a1ac3c01c4524d0808757cd4c73ce9364" title=" " alt="" coords="5,5,240,47"/>
-</map>

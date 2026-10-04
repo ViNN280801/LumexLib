@@ -1,4 +1,0 @@
-<map id="lumex::core::filesystem::fs::lumex_filesystem::lock_directory" name="lumex::core::filesystem::fs::lumex_filesystem::lock_directory">
-<area shape="rect" id="node1" title="Acquire an exclusive lock on a directory to prevent its deletion." alt="" coords="296,5,471,61"/>
-<area shape="rect" id="node2" href="$a02151.html#a277f55eeecb20cecca099e0c63bd1559" title="Write a crash report to a file by pattern: &quot;crash_report_{timestamp}.txt&quot;." alt="" coords="5,5,248,61"/>
-</map>

@@ -1,5 +1,0 @@
-<map id="lumex::xml::attribute::XmlAttribute::as_int" name="lumex::xml::attribute::XmlAttribute::as_int">
-<area shape="rect" id="node1" title="Converts the attribute&#39;s value to an int." alt="" coords="5,39,165,80"/>
-<area shape="rect" id="node2" href="$a01434.html#a16b4ac35b0b90e24e97c3db4edf3944a" title=" " alt="" coords="222,5,365,47"/>
-<area shape="rect" id="node3" href="$a03147.html#a40dc4738d939dd04914625f44b5e01c8" title="Retrieves the value of the XML attribute as a C&#45;style string." alt="" coords="213,71,373,112"/>
-</map>

@@ -1,4 +1,0 @@
-<map id="lumex::core::base64::decode::Decoder::decode" name="lumex::core::base64::decode::Decoder::decode">
-<area shape="rect" id="node1" title="Decodes a Base64 string into out (see the pointer and size overload)." alt="" coords="5,5,200,47"/>
-<area shape="rect" id="node2" href="$a01359.html#aea68f84128932af81acea442416d4e71" title="Decodes one code point at it (UTF&#45;8 for char, UTF&#45;16 or UTF&#45;32 for wchar_t); an invalid sequence yiel..." alt="" coords="248,5,425,47"/>
-</map>

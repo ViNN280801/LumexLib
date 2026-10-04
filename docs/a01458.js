@@ -1,8 +1,11 @@
 var a01458 =
 [
-    [ "XPathAllocator", "a03375.html", "a03375" ],
-    [ "XPathAllocatorCapture", "a03379.html", "a03379" ],
-    [ "XPathMemoryBlock", "a03383.html", "a03383" ],
-    [ "XPathStack", "a03391.html", "a03391" ],
-    [ "XPathStackData", "a03395.html", "a03395" ]
+    [ "ValueType", "a01458.html#acde4bef074fdf961b7d2d8128db18219", null ],
+    [ "kCatalogCheck", "a01458.html#aa88e1a68d58e2dafc643dbf1885a25ff", null ],
+    [ "kInit", "a01458.html#a6085ce7e12543a3b9f4f2cb76e154a67", null ],
+    [ "kPoly", "a01458.html#a2d6a8b845a3273cb700bb64cc7291bb5", null ],
+    [ "kRefIn", "a01458.html#a75117cc09999a8db645f563255d7d9ba", null ],
+    [ "kRefOut", "a01458.html#a9a52fbd42d325fcd53c3b251b09371d2", null ],
+    [ "kWidth", "a01458.html#a9049f431487b552bb719cf3b0eaebc49", null ],
+    [ "kXorOut", "a01458.html#abcb8b62372b89ac545b1e1ebd0ab2145", null ]
 ];

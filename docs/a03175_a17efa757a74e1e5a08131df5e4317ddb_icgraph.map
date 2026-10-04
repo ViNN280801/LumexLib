@@ -1,6 +1,0 @@
-<map id="lumex::xml::node::XmlNode::last_child" name="lumex::xml::node::XmlNode::last_child">
-<area shape="rect" id="node1" title="Retrieves the last child node of the current node." alt="" coords="271,71,475,112"/>
-<area shape="rect" id="node2" href="$a03175.html#ad912c9685395afada772e08f6b4fbbf8" title="Parses an XML buffer as a document fragment and appends its root&#45;level nodes as children to the curre..." alt="" coords="12,5,216,47"/>
-<area shape="rect" id="node3" href="$a03179.html#ae0e914b3368157ea8af686d7a08d7f3a" title="Pre&#45;decrements the iterator to move to the previous child node." alt="" coords="12,71,216,112"/>
-<area shape="rect" id="node4" href="$a03183.html#a28c00312b0aff3243cf77ee4c4e3a5e5" title="Pre&#45;decrements the iterator to move to the previous child node with the matching name." alt="" coords="5,136,223,177"/>
-</map>

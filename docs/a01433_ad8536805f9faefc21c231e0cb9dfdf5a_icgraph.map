@@ -1,5 +1,0 @@
-<map id="lumex::xml::attribute::insert_attribute_before" name="lumex::xml::attribute::insert_attribute_before">
-<area shape="rect" id="node1" title="Inserts an XmlAttributeBase before a specified existing attribute." alt="" coords="257,39,436,80"/>
-<area shape="rect" id="node2" href="$a03175.html#a08bd76620887844f06b8806c8ca05227" title="Inserts a new attribute with the specified name before a given existing attribute." alt="" coords="5,5,209,47"/>
-<area shape="rect" id="node3" href="$a03175.html#a59a0d19e40b7937c796ec7995d3b3390" title="Inserts a copy of an existing attribute (proto) before a given existing attribute (attr)." alt="" coords="5,71,209,112"/>
-</map>

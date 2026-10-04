@@ -1,6 +1,0 @@
-<map id="lumex::core::filesystem::fs::lumex_filesystem::is_regular_file" name="lumex::core::filesystem::fs::lumex_filesystem::is_regular_file">
-<area shape="rect" id="node1" title="Checks if the specified path_arg refers to a regular file." alt="" coords="367,45,541,101"/>
-<area shape="rect" id="node2" href="$a01563.html#af9bac403ac10a4c027b0b3b3e7242dab" title="Copies filename to a sibling &lt;filename&gt;.bak.&lt;YYYYMMDD&#45;HHMMSS&gt; backup file." alt="" coords="108,5,319,61"/>
-<area shape="rect" id="node3" href="$a02247.html#a768c98421d02e1312619029c336c5fb9" title="Checks if the entry represents a regular file." alt="" coords="126,85,301,141"/>
-<area shape="rect" id="node4" href="$a00770.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,100,60,127"/>
-</map>

@@ -1,9 +1,0 @@
-var a03239 =
-[
-    [ "D", "a03239.html#a8caa7b69f3316216d4d663b218c578c7", null ],
-    [ "XmlCleaner", "a03239.html#a1c10030b274c9889f1f70274fda87fdf", null ],
-    [ "~XmlCleaner", "a03239.html#a5bd950cc700caa327dff5d9bf07bc744", null ],
-    [ "release", "a03239.html#abc12ffaeb5899ae36c7a082b4c870d1d", null ],
-    [ "data", "a03239.html#a1d7b92a76885fd307aa47c268d794ed3", null ],
-    [ "deleter", "a03239.html#a2e5e1d091887e2da0ba8e0e8444bde4a", null ]
-];

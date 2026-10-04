@@ -1,4 +1,0 @@
-<map id="lumex::core::math::ops::Detail::throw_if_not_finite" name="lumex::core::math::ops::Detail::throw_if_not_finite">
-<area shape="rect" id="node1" title=" " alt="" coords="247,5,400,61"/>
-<area shape="rect" id="node2" href="$a01363.html#a352de153760a43a606fa28f303f057f4" title="Casts sourceValue to TargetType, throwing if the value is non&#45;finite (for a floating&#45;point source) or..." alt="" coords="5,13,199,54"/>
-</map>

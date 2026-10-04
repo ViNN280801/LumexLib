@@ -1,4 +1,0 @@
-<map id="lumex::core::exceptions::stacktrace::detail::resolve_symbol_info" name="lumex::core::exceptions::stacktrace::detail::resolve_symbol_info">
-<area shape="rect" id="node1" title="Resolves the description of a given address on POSIX systems." alt="" coords="5,5,184,61"/>
-<area shape="rect" id="node2" href="$a01349.html#a894eb6f8a719b5015744c5a76dc63b0b" title="Demangles a C++ mangled symbol name on POSIX systems." alt="" coords="232,5,411,61"/>
-</map>

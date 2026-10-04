@@ -1,7 +1,0 @@
-<map id="lumex::xml::node::insert_node_before" name="lumex::xml::node::insert_node_before">
-<area shape="rect" id="node1" title="Inserts a child node before an existing sibling node." alt="" coords="509,71,691,112"/>
-<area shape="rect" id="node2" href="$a03175.html#a62df8cc6d084b34512830bb14d04a8f2" title="Inserts a new child node of a specified type after a given existing child node." alt="" coords="257,5,461,47"/>
-<area shape="rect" id="node4" href="$a03175.html#a35ef839927e8d9eaef5c22122c802fb1" title="Inserts a deep copy of an existing XmlNode (proto) before a given existing child node." alt="" coords="257,71,461,112"/>
-<area shape="rect" id="node5" href="$a03175.html#af6a8f01f7d0918676c09fd1e00157dc3" title="Moves an existing XmlNode (moved) to be inserted before a specified child node." alt="" coords="257,136,461,177"/>
-<area shape="rect" id="node3" href="$a03175.html#a382508de160ecc5107cf79c88c597b36" title="Inserts a new child element with the specified name before a given existing child node." alt="" coords="5,5,209,47"/>
-</map>

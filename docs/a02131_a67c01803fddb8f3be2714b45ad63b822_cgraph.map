@@ -1,7 +1,0 @@
-<map id="lumex::core::environment::env::LumexEnvironment::is_environment_variable_truthy" name="lumex::core::environment::env::LumexEnvironment::is_environment_variable_truthy">
-<area shape="rect" id="node1" title="Checks whether an environment variable is &quot;truthy&quot; (enabled)." alt="" coords="5,45,243,101"/>
-<area shape="rect" id="node2" href="$a02131.html#ab2ebd2b139bc0d06104a86d3c57b02d8" title="Retrieves the value of an environment variable, providing a default fallback." alt="" coords="291,45,512,101"/>
-<area shape="rect" id="node3" href="$a02131.html#a421e9605d3a586425cb22f304d17ac6d" title="Retrieves the value of a specified environment variable in a thread&#45;safe manner." alt="" coords="560,5,761,61"/>
-<area shape="rect" id="node4" href="$a02135.html#ac150613ec458adba41b1af131c4c9d69" title="Retrieves the variable&#39;s value or a specified fallback value if the operation failed." alt="" coords="565,85,756,141"/>
-<area shape="rect" id="node5" href="$a01353.html#aedb3e518171a625ee1b9cad9e0fc1b73" title="Creates a marker for a successful call that carries no value." alt="" coords="809,93,976,134"/>
-</map>

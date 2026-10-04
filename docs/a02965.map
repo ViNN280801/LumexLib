@@ -1,4 +1,0 @@
-<map id="lumex::core::utility::traits::string::is_string_like&lt; T, Char, Enable &gt;" name="lumex::core::utility::traits::string::is_string_like&lt; T, Char, Enable &gt;">
-<area shape="rect" id="node1" title="T is a contiguous string of Char: it has data() convertible to Char const *, size(),..." alt="" coords="5,80,168,151"/>
-<area shape="rect" id="node2" title=" " alt="" coords="41,5,132,32"/>
-</map>

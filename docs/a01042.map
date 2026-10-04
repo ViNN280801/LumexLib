@@ -1,7 +1,0 @@
-<map id="XPathAstNode.hpp" name="XPathAstNode.hpp">
-<area shape="rect" id="node1" title="XPathAstNode, the node of a compiled XPath expression tree, which evaluates itself against a context." alt="" coords="83,5,226,32"/>
-<area shape="rect" id="node2" href="$a01037.html" title=" " alt="" coords="5,80,147,107"/>
-<area shape="rect" id="node3" href="$a01100.html" title="XPathParser, the recursive descent parser that compiles an XPath 1.0 expression into a tree of XPathA..." alt="" coords="171,80,298,107"/>
-<area shape="rect" id="node4" href="$a01097.html" title=" " alt="" coords="97,155,223,181"/>
-<area shape="rect" id="node5" href="$a01109.html" title=" " alt="" coords="247,155,369,181"/>
-</map>

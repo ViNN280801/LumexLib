@@ -1,9 +1,5 @@
 var a00608 =
 [
-    [ "append_all", "a00608.html#af756bcf608cd4a96e0fba1b0d9251147", null ],
-    [ "append_field", "a00608.html#a0f41e924cf040d1f629bd894cf8de99d", null ],
-    [ "append_one", "a00608.html#a6ccfa808b640814a57c069c6ba330c50", null ],
-    [ "append_one", "a00608.html#a8cd209ad1a1778e47a6305485be9e311", null ],
-    [ "swallow", "a00608.html#a17d49d12b7bbd1233be03ebe79837a0a", null ],
-    [ "to_json", "a00608.html#adf61047afd5b3dcf759431721bae5a13", null ]
+    [ "LUMEX_IMPLEMENTATION", "a00608.html#a07486181f1990291c2a348de8eb4c480", null ],
+    [ "unspecified_bool_xml_attribute", "a00608.html#a5b474d4a12f6ac6b94c90479ea6ac04f", null ]
 ];

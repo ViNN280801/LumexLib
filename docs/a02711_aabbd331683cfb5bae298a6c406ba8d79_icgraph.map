@@ -1,5 +1,0 @@
-<map id="lumex::core::utility::dump::DumpFactory::getDescription" name="lumex::core::utility::dump::DumpFactory::getDescription">
-<area shape="rect" id="node1" title="Get a human&#45;readable description of the dump type." alt="" coords="263,45,431,101"/>
-<area shape="rect" id="node2" href="$a02715.html#a7d21898df8bf2acc176872ff3e32931b" title="Manually trigger a dump generation." alt="" coords="5,5,215,61"/>
-<area shape="rect" id="node3" href="$a02715.html#a9c74e415799ae0433175c1675c8a479d" title="Initialize the crash dump handler with full configuration." alt="" coords="5,85,215,141"/>
-</map>

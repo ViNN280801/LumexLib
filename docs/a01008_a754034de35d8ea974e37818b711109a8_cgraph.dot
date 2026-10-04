@@ -1,0 +1,38 @@
+digraph "lumex::core::fmt::Detail::write_chrono"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="LR";
+  Node1 [id="Node000001",label="lumex::core::fmt::Detail\l::write_chrono",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="Writes time following the checked chrono-specs [it, end)."];
+  Node1 -> Node2 [id="edge1_Node000001_Node000002",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="lumex::core::fmt::Detail\l::append_ascii",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01008.html#a50d6c5e29743cab15e1594cf58b632a7",tooltip=" "];
+  Node1 -> Node3 [id="edge2_Node000001_Node000003",color="steelblue1",style="solid",tooltip=" "];
+  Node3 [id="Node000003",label="lumex::core::fmt::Detail\l::append_localized",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01008.html#a3cfab9d85ccf991300e57dec088e9dac",tooltip="One conversion through the locale's std::time_put (L)."];
+  Node1 -> Node4 [id="edge3_Node000001_Node000004",color="steelblue1",style="solid",tooltip=" "];
+  Node4 [id="Node000004",label="lumex::core::fmt::Detail\l::append_number",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01008.html#a818162ff93668f48df1c55821b00846f",tooltip="value with at least width digits, zero padded, with sign."];
+  Node4 -> Node2 [id="edge4_Node000004_Node000002",color="steelblue1",style="solid",tooltip=" "];
+  Node1 -> Node5 [id="edge5_Node000001_Node000005",color="steelblue1",style="solid",tooltip=" "];
+  Node5 [id="Node000005",label="lumex::core::fmt::Detail\l::append_seconds",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01008.html#a40ff57adf446dd2e2b97a65f9e817121",tooltip=" "];
+  Node5 -> Node4 [id="edge6_Node000005_Node000004",color="steelblue1",style="solid",tooltip=" "];
+  Node1 -> Node6 [id="edge7_Node000001_Node000006",color="steelblue1",style="solid",tooltip=" "];
+  Node6 [id="Node000006",label="lumex::core::fmt::Detail\l::floor_div",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01008.html#a8a3611c453003762e23f73cdf331d06a",tooltip="value / divisor rounded toward negative infinity."];
+  Node1 -> Node7 [id="edge8_Node000001_Node000007",color="steelblue1",style="solid",tooltip=" "];
+  Node7 [id="Node000007",label="lumex::core::fmt::Detail\l::floor_mod",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01008.html#ae8c7658b63539d3879a215371302723c",tooltip="value mod divisor in [0, divisor) for a positive divisor."];
+  Node7 -> Node6 [id="edge9_Node000007_Node000006",color="steelblue1",style="solid",tooltip=" "];
+  Node1 -> Node8 [id="edge10_Node000001_Node000008",color="steelblue1",style="solid",tooltip=" "];
+  Node8 [id="Node000008",label="lumex::core::fmt::Detail\l::iso_week",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01008.html#a9bb3e619b249d54a8889159cb394a5bd",tooltip="ISO 8601 week-based year and week number."];
+  Node8 -> Node9 [id="edge11_Node000008_Node000009",color="steelblue1",style="solid",tooltip=" "];
+  Node9 [id="Node000009",label="lumex::core::fmt::Detail\l::civil_from_days",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01008.html#abf8a964b73ead1cec0f493a86c4b9fab",tooltip="Fills the date part of time from days since 1970-01-01."];
+  Node9 -> Node10 [id="edge12_Node000009_Node000010",color="steelblue1",style="solid",tooltip=" "];
+  Node10 [id="Node000010",label="lumex::core::fmt::Detail\l::days_from_civil",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01008.html#a365347e3849bfaedcfb56627e1ee586e",tooltip="Days since 1970-01-01 of a civil date."];
+  Node10 -> Node6 [id="edge13_Node000010_Node000006",color="steelblue1",style="solid",tooltip=" "];
+  Node9 -> Node6 [id="edge14_Node000009_Node000006",color="steelblue1",style="solid",tooltip=" "];
+  Node9 -> Node7 [id="edge15_Node000009_Node000007",color="steelblue1",style="solid",tooltip=" "];
+  Node8 -> Node10 [id="edge16_Node000008_Node000010",color="steelblue1",style="solid",tooltip=" "];
+  Node1 -> Node11 [id="edge17_Node000001_Node000011",color="steelblue1",style="solid",tooltip=" "];
+  Node11 [id="Node000011",label="lumex::core::fmt::Detail\l::month_name",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01008.html#a8add933ba8511f86512df2449d2bd4f9",tooltip=" "];
+  Node1 -> Node12 [id="edge18_Node000001_Node000012",color="steelblue1",style="solid",tooltip=" "];
+  Node12 [id="Node000012",label="lumex::core::fmt::Detail\l::weekday_name",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01008.html#aeefcec729273930a28872e248746c365",tooltip=" "];
+}

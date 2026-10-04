@@ -1,4 +1,0 @@
-<map id="lumex::core::filesystem::fs::lumex_filesystem::canonical" name="lumex::core::filesystem::fs::lumex_filesystem::canonical">
-<area shape="rect" id="node1" title="Returns the canonical (absolute, resolved) form of a path_arg." alt="" coords="228,5,403,61"/>
-<area shape="rect" id="node2" href="$a02255.html#a83280c9f37dbfaf4e58c9a7e02b9bb2c" title="Returns the weakly canonical form of a path_arg." alt="" coords="5,5,180,61"/>
-</map>

@@ -1,4 +1,0 @@
-<map id="lumex::core::utility::traits::string::is_string_like&lt; T, Char, meta::void_t&lt; typename T::value_type, decltype(T::npos), decltype(std::declval&lt; T const &amp; &gt;().size()), decltype(std::declval&lt; T const &amp; &gt;().data())&gt; &gt;" name="lumex::core::utility::traits::string::is_string_like&lt; T, Char, meta::void_t&lt; typename T::value_type, decltype(T::npos), decltype(std::declval&lt; T const &amp; &gt;().size()), decltype(std::declval&lt; T const &amp; &gt;().data())&gt; &gt;">
-<area shape="rect" id="node1" title=" " alt="" coords="324,5,524,149"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,27,276,127"/>
-</map>

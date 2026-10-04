@@ -1,0 +1,9 @@
+digraph "Graphical Class Hierarchy"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="LR";
+  Node0 [id="Node000000",label="lumex::core::crc::parametric\l::crc14_gsm_spec_t",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01558.html",tooltip="CRC-14/GSM: width=14 poly=0x202d init=0x0000 refin=false refout=false xorout=0x3fff."];
+}

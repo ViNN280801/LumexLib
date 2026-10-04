@@ -1,4 +1,0 @@
-<map id="lumex::core::string_view::view::LumexWStringView::substr" name="lumex::core::string_view::view::LumexWStringView::substr">
-<area shape="rect" id="node1" title="Returns a new LumexWStringView representing a substring of this view." alt="" coords="285,5,517,61"/>
-<area shape="rect" id="node2" href="$a02671.html#a9f68b0c3bdc236284ef748e7a7a0c218" title="Compares a substring of this LumexWStringView with another LumexWStringView." alt="" coords="5,5,237,61"/>
-</map>

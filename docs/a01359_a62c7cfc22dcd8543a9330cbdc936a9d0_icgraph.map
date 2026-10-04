@@ -1,6 +1,0 @@
-<map id="lumex::core::fmt::Detail::shortest_decimal" name="lumex::core::fmt::Detail::shortest_decimal">
-<area shape="rect" id="node1" title="Shortest decimal text that reads back to value (non&#45;negative, finite), in std::to_chars plain style: ..." alt="" coords="683,13,860,54"/>
-<area shape="rect" id="node2" href="$a01359.html#af51eecbe7bc62af5b76dc067ec0d6f3c" title="Text of a non&#45;negative finite value in style / precision." alt="" coords="457,13,635,54"/>
-<area shape="rect" id="node3" href="$a01359.html#a6805e940fc8a7ca908fb169f2f308eb9" title=" " alt="" coords="232,13,409,54"/>
-<area shape="rect" id="node4" href="$a02387.html#ac9642063b0f0f6e8ed748e295ff5174c" title=" " alt="" coords="5,5,184,61"/>
-</map>

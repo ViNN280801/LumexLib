@@ -1,6 +1,0 @@
-<map id="lumex::xml::xpath::variable::XPathVariable::set" name="lumex::xml::xpath::variable::XPathVariable::set">
-<area shape="rect" id="node1" title="Sets the boolean value of the variable." alt="" coords="473,50,675,91"/>
-<area shape="rect" id="node2" href="$a01443.html#a8c614ae14269eea0013728c7722e8f69" title="Copies the value of one XPath variable to another." alt="" coords="235,5,393,61"/>
-<area shape="rect" id="node4" href="$a03463.html#a3073c328483b4fa675a412b1783a1406" title="Sets the boolean value of an existing variable." alt="" coords="203,86,425,127"/>
-<area shape="rect" id="node3" href="$a01463.html#a5664ce2a10255b6aca45326df60fcb8e" title="Copies the value of one XPath variable to another." alt="" coords="5,5,155,61"/>
-</map>

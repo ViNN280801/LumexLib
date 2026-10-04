@@ -1,4 +1,0 @@
-<map id="LumexAggregateFields.hpp" name="LumexAggregateFields.hpp">
-<area shape="rect" id="node1" title="Non&#45;intrusive field count, indexed access, and (from C++20) field names for simple aggregates." alt="" coords="5,5,204,32"/>
-<area shape="rect" id="node2" href="$a00608.html" title="Serializes a simple aggregate (no constructors, no private members, no base classes) to JSON by walki..." alt="" coords="11,80,199,107"/>
-</map>

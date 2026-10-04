@@ -1,6 +1,0 @@
-<map id="main" name="main">
-<area shape="rect" id="node1" title=" " alt="" coords="5,93,60,120"/>
-<area shape="rect" id="node2" href="$a02151.html#afe21069e23d4993ebfcdd5f45a38d6a0" title="Returns the stack trace of the error." alt="" coords="131,5,373,61"/>
-<area shape="rect" id="node3" href="$a02155.html#a79f1b53a81f6bde33331116c9926e81a" title="Returns the number of entries in the stacktrace." alt="" coords="108,86,396,127"/>
-<area shape="rect" id="node4" href="$a02151.html#afd868a95552c47984210ac96e8460796" title="Returns the error message as a C&#45;string." alt="" coords="111,151,393,193"/>
-</map>

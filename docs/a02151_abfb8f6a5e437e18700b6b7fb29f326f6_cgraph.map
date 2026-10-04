@@ -1,4 +1,0 @@
-<map id="lumex::core::exceptions::exception::LumexBaseException::to_stderr" name="lumex::core::exceptions::exception::LumexBaseException::to_stderr">
-<area shape="rect" id="node1" title="Write an error to the standard error stream by the following format: [exception_name] &#45;&gt; custom messa..." alt="" coords="5,5,248,61"/>
-<area shape="rect" id="node2" href="$a02151.html#afd868a95552c47984210ac96e8460796" title="Returns the error message as a C&#45;string." alt="" coords="296,13,579,54"/>
-</map>

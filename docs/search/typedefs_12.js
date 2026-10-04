@@ -1,11 +1,11 @@
 var searchData=
 [
-  ['wchar_5fcounter_6736',['wchar_counter',['../a01434.html#ab11e6cd23089ef086c0ce8cdd106089d',1,'lumex::xml::utility']]],
-  ['wchar_5fwriter_6737',['wchar_writer',['../a01434.html#a5138420407338ae7dcb089a8feb70322',1,'lumex::xml::utility']]],
-  ['wformatargs_6738',['WFormatArgs',['../a01358.html#a18ca09e4b4af3294330dc2f4919a2384',1,'lumex::core::fmt']]],
-  ['wformatcontext_6739',['WFormatContext',['../a01358.html#a740badda5c1b17d2c62c59cc78748569',1,'lumex::core::fmt']]],
-  ['wformatparsecontext_6740',['WFormatParseContext',['../a01358.html#a000cf8efac67a0ed2ac307ef9703af50',1,'lumex::core::fmt']]],
-  ['wformatstring_6741',['WFormatString',['../a01358.html#a8a8ce1ec978a51b94ea5fdcf9c2bb95b',1,'lumex::core::fmt']]],
-  ['write_5fmode_6742',['write_mode',['../a01263.html#aa70994f859f17985be6c3d83150898b3',1,'lumex']]],
-  ['writer_6743',['writer',['../a03295.html#a5947ccfb9cb6c5dd1ea242cdca06f3b8',1,'lumex::xml::utility::wchar_selector&lt; 2 &gt;::writer()'],['../a03299.html#a40d5c6db9f064a17d2b1499983df2290',1,'lumex::xml::utility::wchar_selector&lt; 4 &gt;::writer()']]]
+  ['wchar_5fcounter_0',['wchar_counter',['../a01085.html#a3746e86157e541d51f76a69038657333',1,'lumex::xml::utility']]],
+  ['wchar_5fwriter_1',['wchar_writer',['../a01085.html#a246aea38ccb5b0cf2f6ed3077ab7e637',1,'lumex::xml::utility']]],
+  ['wformatargs_2',['WFormatArgs',['../a01007.html#a0db0b953d35b69ceb4cd92cd7bca9ba5',1,'lumex::core::fmt']]],
+  ['wformatcontext_3',['WFormatContext',['../a01007.html#a2f51215270e61c5f9b54863fc7d4d4f9',1,'lumex::core::fmt']]],
+  ['wformatparsecontext_4',['WFormatParseContext',['../a01007.html#a6a688d2cae4c44e83f38a8f675e45520',1,'lumex::core::fmt']]],
+  ['wformatstring_5',['WFormatString',['../a01007.html#a692dc0ce936e7c4a2a5e4f3917be24b3',1,'lumex::core::fmt']]],
+  ['write_5fmode_6',['write_mode',['../a00912.html#a047133438b431876e19f1fb9a35be223',1,'lumex']]],
+  ['writer_7',['writer',['../a02958.html#a5947ccfb9cb6c5dd1ea242cdca06f3b8',1,'lumex::xml::utility::wchar_selector&lt; 2 &gt;::writer'],['../a02962.html#a40d5c6db9f064a17d2b1499983df2290',1,'lumex::xml::utility::wchar_selector&lt; 4 &gt;::writer']]]
 ];

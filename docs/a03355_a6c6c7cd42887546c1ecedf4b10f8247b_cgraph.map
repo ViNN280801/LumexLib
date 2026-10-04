@@ -1,8 +1,0 @@
-<map id="lumex::xml::xpath::ast::XPathAstNode::optimize" name="lumex::xml::xpath::ast::XPathAstNode::optimize">
-<area shape="rect" id="node1" title="Optimizes the XPath AST by applying various rewrite rules recursively." alt="" coords="5,117,212,158"/>
-<area shape="rect" id="node2" href="$a03355.html#a68b6e186d0a0947e77944e5fb045835a" title="Optimizes this specific XPath AST node by applying various rewrite rules." alt="" coords="260,117,499,158"/>
-<area shape="rect" id="node3" href="$a03355.html#a350bf20bba86837f479967880d4aa3c1" title="Checks if the expression represented by this AST node is positionally invariant." alt="" coords="563,29,724,85"/>
-<area shape="rect" id="node4" href="$a03355.html#a083078b951f470f8dd12710bc287b71d" title="Checks if this XPath step is positionally invariant." alt="" coords="563,109,724,165"/>
-<area shape="rect" id="node5" href="$a01434.html#add4ffaa478103d482da69edb64f29609" title=" " alt="" coords="547,190,740,231"/>
-<area shape="rect" id="node6" href="$a03375.html#a5b46ca174cf2a08d8ac4ed3d0b9a1a52" title="Allocates a block of memory of the specified size." alt="" coords="788,183,967,239"/>
-</map>

@@ -1,6 +1,0 @@
-<map id="lumex::core::string_view::view::LumexStringView::size" name="lumex::core::string_view::view::LumexStringView::size">
-<area shape="rect" id="node1" title="Returns the number of characters in the view." alt="" coords="236,57,488,98"/>
-<area shape="rect" id="node2" href="$a00881.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="69,5,124,32"/>
-<area shape="rect" id="node3" href="$a01380.html#a20370c897abc4c8a4d3307351022aaaa" title="Overload for inserting a LumexStringView into an std::ostream." alt="" coords="5,57,188,98"/>
-<area shape="rect" id="node4" href="$a01284.html#a7f84c06feaa571800d529c95c1644cfc" title=" " alt="" coords="19,122,174,163"/>
-</map>

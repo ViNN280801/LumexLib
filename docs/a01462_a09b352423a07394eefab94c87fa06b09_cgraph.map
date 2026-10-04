@@ -1,9 +1,0 @@
-<map id="lumex::xml::xpath::string::convert_number_to_string" name="lumex::xml::xpath::string::convert_number_to_string">
-<area shape="rect" id="node1" title="Converts a double&#45;precision floating&#45;point number to an XPath string representation." alt="" coords="5,165,179,221"/>
-<area shape="rect" id="node2" href="$a03375.html#a5b46ca174cf2a08d8ac4ed3d0b9a1a52" title="Allocates a block of memory of the specified size." alt="" coords="231,5,410,61"/>
-<area shape="rect" id="node3" href="$a01434.html#abc1bb8e618c96999c441f79458c29f6b" title=" " alt="" coords="242,85,399,141"/>
-<area shape="rect" id="node5" href="$a01434.html#a96b3f0cd766ad8db2cb037869bf1db1a" title=" " alt="" coords="243,165,399,221"/>
-<area shape="rect" id="node6" href="$a03439.html#a669d480e25b54b25823e5169dfbcb3e4" title="Creates an XPathString from a constant C&#45;style string." alt="" coords="246,245,395,301"/>
-<area shape="rect" id="node7" href="$a03439.html#a1fd8b8a62e3d6038911fb99e70432c26" title="Creates an XPathString from a pre&#45;allocated heap buffer." alt="" coords="227,325,415,381"/>
-<area shape="rect" id="node4" href="$a01434.html#aefb78936e066ed947459aa5ed0ba164d" title=" " alt="" coords="463,93,605,134"/>
-</map>

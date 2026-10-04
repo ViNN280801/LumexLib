@@ -1,9 +1,0 @@
-<map id="lumex::xml::writer::XmlBufferedWriter::flush" name="lumex::xml::writer::XmlBufferedWriter::flush">
-<area shape="rect" id="node1" title="Writes a block of data directly to the underlying writer after flushing the buffer." alt="" coords="5,129,156,185"/>
-<area shape="rect" id="node2" href="$a01434.html#acb0edbae98a672b69a35269ee8e9a2e7" title=" " alt="" coords="220,71,393,113"/>
-<area shape="rect" id="node5" href="$a01434.html#a5bb3676df516811dcf8c223d24173a28" title=" " alt="" coords="204,137,409,178"/>
-<area shape="rect" id="node7" href="$a03311.html#aa9f972023b05b186b307896ad9444a4d" title="Writes a block of raw data to the output." alt="" coords="235,202,378,243"/>
-<area shape="rect" id="node3" href="$a01434.html#ab83253de00b48533ee88aa1ca631391e" title=" " alt="" coords="457,5,631,61"/>
-<area shape="rect" id="node4" href="$a01434.html#a3550d26fd44f43036b4af55814436c45" title=" " alt="" coords="679,107,821,149"/>
-<area shape="rect" id="node6" href="$a01434.html#a3735e853fcfde7b0a1f7f96fe3d23422" title=" " alt="" coords="463,137,625,178"/>
-</map>

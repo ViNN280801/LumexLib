@@ -1,4 +1,0 @@
-<map id="lumex::xml::document::XmlDocument::load" name="lumex::xml::document::XmlDocument::load">
-<area shape="rect" id="node1" title="Loads an XML document from a C&#45;style character stream." alt="" coords="5,5,175,47"/>
-<area shape="rect" id="node2" href="$a03159.html#a20b942adcf753027eb5e49afbf383920" title="Removes all nodes from the document, leaving it in an empty state." alt="" coords="223,5,392,47"/>
-</map>

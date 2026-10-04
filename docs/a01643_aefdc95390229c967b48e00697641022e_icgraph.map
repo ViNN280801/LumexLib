@@ -1,5 +1,0 @@
-<map id="lumex::core::circular_buffer::CircularBuffer::clear" name="lumex::core::circular_buffer::CircularBuffer::clear">
-<area shape="rect" id="node1" title="Removes every element from the buffer." alt="" coords="217,45,381,101"/>
-<area shape="rect" id="node2" href="$a01643.html#aff6484f44e3a2382e50edf285019bd28" title="Move assignment operator." alt="" coords="5,5,169,61"/>
-<area shape="rect" id="node3" href="$a01643.html#afde17efdbffa8dd1b066904dc7d5ee4f" title="Destructor." alt="" coords="5,85,169,141"/>
-</map>

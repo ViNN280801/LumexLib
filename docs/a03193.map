@@ -1,5 +1,0 @@
-<map id="lumex::xml::node::name_null_sentry" name="lumex::xml::node::name_null_sentry">
-<area shape="rect" id="node1" title="A RAII helper to temporarily set a node&#39;s name to nullptr and restore it upon destruction." alt="" coords="33,231,214,272"/>
-<area shape="rect" id="node2" href="$a03191.html" title="Base structure representing an XML node in the document tree." alt="" coords="5,125,241,152"/>
-<area shape="rect" id="node3" href="$a03151.html" title="Base structure for representing an XML attribute." alt="" coords="43,5,203,47"/>
-</map>

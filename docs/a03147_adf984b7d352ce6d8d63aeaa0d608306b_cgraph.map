@@ -1,5 +1,0 @@
-<map id="lumex::xml::attribute::XmlAttribute::as_ullong" name="lumex::xml::attribute::XmlAttribute::as_ullong">
-<area shape="rect" id="node1" title="Converts the attribute&#39;s value to an unsigned long long." alt="" coords="5,39,188,80"/>
-<area shape="rect" id="node2" href="$a01434.html#a567d3a5ee03ae4164fca7f87899b7aa7" title=" " alt="" coords="245,5,387,47"/>
-<area shape="rect" id="node3" href="$a03147.html#a40dc4738d939dd04914625f44b5e01c8" title="Retrieves the value of the XML attribute as a C&#45;style string." alt="" coords="236,71,396,112"/>
-</map>

@@ -1,0 +1,19 @@
+digraph "lumex::xml::xpath::string::XPathString::append"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="LR";
+  Node1 [id="Node000001",label="lumex::xml::xpath::\lstring::XPathString\l::append",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="Appends another XPathString to this string."];
+  Node1 -> Node2 [id="edge1_Node000001_Node000002",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="lumex::xml::xpath::\lstring::XPathString\l::length",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a03102.html#abe39a62ae0c73e945db3063fc32f7095",tooltip="Returns the length of the string (number of characters)."];
+  Node2 -> Node3 [id="edge2_Node000002_Node000003",color="steelblue1",style="solid",tooltip=" "];
+  Node3 [id="Node000003",label="lumex::xml::utility\l::strlength",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01085.html#aef8fee41b36e9987a5b7ed339b83ce42",tooltip=" "];
+  Node1 -> Node4 [id="edge3_Node000001_Node000004",color="steelblue1",style="solid",tooltip=" "];
+  Node4 [id="Node000004",label="lumex::xml::xpath::\lmemory::XPathAllocator\l::reallocate",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a03038.html#aa2549a11a0984f0c478cb7eaf82c0caa",tooltip="Reallocates a previously allocated block of memory."];
+  Node4 -> Node5 [id="edge4_Node000004_Node000005",color="steelblue1",style="solid",tooltip=" "];
+  Node5 [id="Node000005",label="lumex::xml::xpath::\lmemory::XPathAllocator\l::allocate",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a03038.html#a5b46ca174cf2a08d8ac4ed3d0b9a1a52",tooltip="Allocates a block of memory of the specified size."];
+  Node1 -> Node6 [id="edge5_Node000001_Node000006",color="steelblue1",style="solid",tooltip=" "];
+  Node6 [id="Node000006",label="lumex::xml::xpath::\lstring::XPathString\l::XPathString",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a03102.html#a28203eb92f116963c49bb3e5860c254e",tooltip="Default constructor. Constructs an empty XPathString."];
+}

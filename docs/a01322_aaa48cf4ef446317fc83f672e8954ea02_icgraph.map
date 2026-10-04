@@ -1,4 +1,0 @@
-<map id="lumex::core::atomic::sync::table_wait::Detail::tsan_mutex_pre_lock" name="lumex::core::atomic::sync::table_wait::Detail::tsan_mutex_pre_lock">
-<area shape="rect" id="node1" title="ThreadSanitizer annotations of the lock word; no&#45;ops in other builds." alt="" coords="205,5,413,61"/>
-<area shape="rect" id="node2" href="$a01619.html#a05c2f65b54a7ffa124a2765905a32eb1" title="Takes the lock, sleeping while another thread holds it." alt="" coords="5,5,157,61"/>
-</map>

@@ -1,5 +1,0 @@
-<map id="lumex::xml::node::XmlNode::find_attribute" name="lumex::xml::node::XmlNode::find_attribute">
-<area shape="rect" id="node1" title="Finds the first attribute for which the provided predicate returns true." alt="" coords="5,13,209,54"/>
-<area shape="rect" id="node2" href="$a03147.html#afc2f57264c98deb2e092e1088c63ee88" title="Retrieves the next attribute in the list of attributes belonging to the same parent node." alt="" coords="257,5,417,61"/>
-<area shape="rect" id="node3" href="$a03147.html#a027809a975f6fc6cc4263eb4885fdfc8" title="Default constructor. Constructs an empty (null) attribute." alt="" coords="465,13,669,54"/>
-</map>

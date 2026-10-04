@@ -1,4 +1,0 @@
-<map id="lumex::xml::xpath::memory::XPathAllocator::revert" name="lumex::xml::xpath::memory::XPathAllocator::revert">
-<area shape="rect" id="node1" title="Reverts the allocator&#39;s state to a previously captured state." alt="" coords="284,5,463,61"/>
-<area shape="rect" id="node2" href="$a03379.html#ab17ba73a0b5607ae26c7d70448047ca0" title="Destroys the XPathAllocatorCapture object." alt="" coords="5,5,236,61"/>
-</map>

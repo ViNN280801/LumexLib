@@ -1,13 +1,8 @@
 var a01130 =
 [
-    [ "XPathVariable", "a03443.html", "a03443" ],
-    [ "xpath_variable_boolean", "a03447.html", "a03447" ],
-    [ "xpath_variable_number", "a03451.html", "a03451" ],
-    [ "xpath_variable_string", "a03455.html", "a03455" ],
-    [ "xpath_variable_node_set", "a03459.html", "a03459" ],
-    [ "copy_xpath_variable", "a01130.html#a8c614ae14269eea0013728c7722e8f69", null ],
-    [ "delete_xpath_variable", "a01130.html#a0be06ec2c3c4e4250c31819d89fce85e", null ],
-    [ "delete_xpath_variable", "a01130.html#a10c437efc4cf016b68b63e55b2fe1672", null ],
-    [ "new_xpath_variable", "a01130.html#a905d690a81b62f466b0c6e211162580c", null ],
-    [ "new_xpath_variable", "a01130.html#a9d4e94e4d67f2ca993aa3c9f8c38c148", null ]
+    [ "apply_optimal_rendering_settings", "a01130.html#a3eaf2f4c04de9dfd7a0692f22f8c0b41", null ],
+    [ "detect_hardware", "a01130.html#af3c48849b42dbcc0651429190b4a86b9", null ],
+    [ "estimate_cpu_generation", "a01130.html#ae7ff4b9ce7d8a1f9749c1f01a0e2d182", null ],
+    [ "is_old_cpu", "a01130.html#a2947a856c7b322f8ed0f3135d34b389f", null ],
+    [ "should_use_software_rendering", "a01130.html#abe50368bd4ba1088c99e329d0fc5deb4", null ]
 ];

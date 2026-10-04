@@ -1,5 +1,28 @@
 var a00698 =
 [
-    [ "LUMEX_DEFINE_EXCEPTION", "a00698.html#ac1cf7e477c73144de8304b5a87b250a0", null ],
-    [ "LUMEX_DEFINE_EXCEPTION_WITH_BODY", "a00698.html#a7a9b13ade30769284317ff7b0cc7e19f", null ]
+    [ "LUMEX_XML_CHAR", "a00698.html#aece7bdbef14ad1c01bd9687298a2ab4b", null ],
+    [ "LUMEX_XML_CHECK_ERROR", "a00698.html#a257c37897d5e9375e38be51b0ca8151e", null ],
+    [ "LUMEX_XML_CONSTANT", "a00698.html#a8330f372deff8a96000ada9d7ce1a543", null ],
+    [ "LUMEX_XML_ENDSEG", "a00698.html#a6f2bdcdac097c095069b5de6c28a6137", null ],
+    [ "LUMEX_XML_ENDSWITH", "a00698.html#a02e2be7c41ff66c2d21449919847fb43", null ],
+    [ "LUMEX_XML_GETHEADER_IMPL", "a00698.html#a329b1c53e66ebee947f7b4b82656ad04", null ],
+    [ "LUMEX_XML_GETPAGE", "a00698.html#a52d7b7c93277b4188c6495f44dd8d023", null ],
+    [ "LUMEX_XML_GETPAGE_IMPL", "a00698.html#a3cd57e93eae0c1f6f3a8bb74cdbb8e3a", null ],
+    [ "LUMEX_XML_IS_CHARTYPE", "a00698.html#aaa0da9a5f479a1cb17bebe3b83d10574", null ],
+    [ "LUMEX_XML_IS_CHARTYPE_IMPL", "a00698.html#aafe37eeac32f24640c6666ab89701c5a", null ],
+    [ "LUMEX_XML_IS_CHARTYPEX", "a00698.html#acb3668d38475ab6085a34cad2ff24358", null ],
+    [ "LUMEX_XML_NODETYPE", "a00698.html#afb9b0524feddbb6ef5b72bbba0b36e49", null ],
+    [ "LUMEX_XML_OPTSET", "a00698.html#a66f0d755b887b2fe5edf2e00c07b1c3e", null ],
+    [ "LUMEX_XML_POPNODE", "a00698.html#ae27d4dd6205e5285d9f4b05e834e2e7f", null ],
+    [ "LUMEX_XML_PUSHNODE", "a00698.html#a9b8c37aed3c9234131a36a6ead52337d", null ],
+    [ "LUMEX_XML_SCANCHAR", "a00698.html#a1b317b68e8791035c9674c14c48434bc", null ],
+    [ "LUMEX_XML_SCANCHARTYPE", "a00698.html#a8638ee2c4051bacb91e9f62c22a73dd1", null ],
+    [ "LUMEX_XML_SCANFOR", "a00698.html#afdcf03e694e50b1b507a60e68eb1d35a", null ],
+    [ "LUMEX_XML_SCANWHILE", "a00698.html#a8c3e53c1df9ea7feea4f3aee30f616a1", null ],
+    [ "LUMEX_XML_SCANWHILE_UNROLL", "a00698.html#a1c6aefb65fc05e82dd045d22f9cd0063", null ],
+    [ "LUMEX_XML_SKIPWS", "a00698.html#a2c6cdf6bc5ef321dacea11c998c83f39", null ],
+    [ "LUMEX_XML_SNPRINTF", "a00698.html#aa9bde3f88605af8fa49a7273436d4397", null ],
+    [ "LUMEX_XML_TEXT", "a00698.html#a357195771dc327b24502734362c33681", null ],
+    [ "LUMEX_XML_THROW_ERROR", "a00698.html#a9f595e8a2aecab5327f3bfb66471cf1f", null ],
+    [ "LUMEX_XML_UNLIKELY", "a00698.html#a84e07056f67a1c3e3dd0e3b528ba9f3f", null ]
 ];

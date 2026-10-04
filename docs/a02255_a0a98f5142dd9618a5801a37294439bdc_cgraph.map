@@ -1,4 +1,0 @@
-<map id="lumex::core::filesystem::fs::lumex_filesystem::get_exe_path" name="lumex::core::filesystem::fs::lumex_filesystem::get_exe_path">
-<area shape="rect" id="node1" title="Retrieve the absolute filesystem path_arg of the running executable." alt="" coords="5,5,180,61"/>
-<area shape="rect" id="node2" href="$a02255.html#a54f59bca365269f968f97eae2653d4ca" title="Converts a std::wstring to a std::string (UTF&#45;8 encoded)." alt="" coords="228,5,403,61"/>
-</map>

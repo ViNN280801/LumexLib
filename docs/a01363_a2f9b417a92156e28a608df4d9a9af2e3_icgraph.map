@@ -1,5 +1,0 @@
-<map id="lumex::core::math::ops::squared_difference" name="lumex::core::math::ops::squared_difference">
-<area shape="rect" id="node1" title="(a &#45; b)^2, computed in the common type of a and b (promoted, so two short operands give an int)." alt="" coords="305,5,483,47"/>
-<area shape="rect" id="node2" href="$a00833.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,13,60,39"/>
-<area shape="rect" id="node3" href="$a01363.html#a229d474c16ac226d2cfce2332550eb4b" title="Root Mean Squared Error of a range against a fixed scalar: sqrt( 1/N * sum (x_i &#45; scalar)^2 )...." alt="" coords="108,35,257,76"/>
-</map>

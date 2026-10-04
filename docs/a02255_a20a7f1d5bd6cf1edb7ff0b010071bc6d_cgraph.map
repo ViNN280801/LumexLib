@@ -1,4 +1,0 @@
-<map id="lumex::core::filesystem::fs::lumex_filesystem::is_symlink" name="lumex::core::filesystem::fs::lumex_filesystem::is_symlink">
-<area shape="rect" id="node1" title="Checks if the specified path_arg refers to a symbolic link." alt="" coords="5,5,180,61"/>
-<area shape="rect" id="node2" href="$a02255.html#ab77ae65932c1f7c9e9ce8e68091ed1f8" title="Returns the status of the file or directory at the specified path_arg, without following symbolic lin..." alt="" coords="228,5,403,61"/>
-</map>

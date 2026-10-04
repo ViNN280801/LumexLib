@@ -1,4 +1,0 @@
-<map id="lumex::core::environment::env::LumexEnvironment::get_environment_variable" name="lumex::core::environment::env::LumexEnvironment::get_environment_variable">
-<area shape="rect" id="node1" title="Convenience overload for get_environment_variable using std::string." alt="" coords="5,5,207,61"/>
-<area shape="rect" id="node2" href="$a02131.html#a421e9605d3a586425cb22f304d17ac6d" title="Retrieves the value of a specified environment variable in a thread&#45;safe manner." alt="" coords="255,5,456,61"/>
-</map>

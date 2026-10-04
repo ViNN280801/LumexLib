@@ -1,0 +1,15 @@
+digraph "lumex::core::string_view::view::LumexStringView::ends_with"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="LR";
+  Node1 [id="Node000001",label="lumex::core::string\l_view::view::LumexStringView\l::ends_with",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="Checks if the LumexStringView ends with a specific character."];
+  Node1 -> Node2 [id="edge1_Node000001_Node000002",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="lumex::core::string\l_view::view::LumexStringView::back",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a02326.html#a45bb9712ce876e808903309b89394e3d",tooltip="Returns a const reference to the last character of the view."];
+  Node2 -> Node2 [id="edge2_Node000002_Node000002",color="steelblue1",style="solid",tooltip=" "];
+  Node1 -> Node3 [id="edge3_Node000001_Node000003",color="steelblue1",style="solid",tooltip=" "];
+  Node3 [id="Node000003",label="lumex::core::string\l_view::view::LumexStringView\l::empty",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a02326.html#af5361b1f3400f2c0f4eca2b185a15961",tooltip="Checks if the view is empty (i.e., has a size of 0)."];
+  Node3 -> Node3 [id="edge4_Node000003_Node000003",color="steelblue1",style="solid",tooltip=" "];
+}

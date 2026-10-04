@@ -1,0 +1,9 @@
+digraph "Graphical Class Hierarchy"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="LR";
+  Node0 [id="Node000000",label="lumex::core::crc::parametric\l::crc6_cdma2000_a_spec_t",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01350.html",tooltip="CRC-6/CDMA2000-A (3GPP2 C.S0002)."];
+}

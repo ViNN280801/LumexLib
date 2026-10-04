@@ -1,5 +1,0 @@
-<map id="LumexResourceMonitor" name="LumexResourceMonitor">
-<area shape="rect" id="node1" title="Resource monitor module: a background thread that samples the CPU and RAM usage of the system and app..." alt="" coords="150,5,325,32"/>
-<area shape="rect" id="node2" href="$a00851.html" title=" " alt="" coords="5,87,232,114"/>
-<area shape="rect" id="node3" href="$a00854.html" title=" " alt="" coords="256,80,456,121"/>
-</map>

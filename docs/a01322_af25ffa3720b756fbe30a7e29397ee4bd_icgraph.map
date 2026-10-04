@@ -1,4 +1,0 @@
-<map id="lumex::core::atomic::sync::table_wait::Detail::tsan_mutex_destroy" name="lumex::core::atomic::sync::table_wait::Detail::tsan_mutex_destroy">
-<area shape="rect" id="node1" title="ThreadSanitizer annotations of the lock word; no&#45;ops in other builds." alt="" coords="237,5,440,61"/>
-<area shape="rect" id="node2" href="$a01619.html#a69470d3b5b46b9960699b1f502f25df0" title="Destroys the lock. It must not be taken." alt="" coords="5,5,189,61"/>
-</map>

@@ -1,4 +1,0 @@
-<map id="lumex::core::atomic::sync::table_wait::Detail::wait_until_changed" name="lumex::core::atomic::sync::table_wait::Detail::wait_until_changed">
-<area shape="rect" id="node1" title="Blocks the calling thread while word holds old." alt="" coords="5,5,200,61"/>
-<area shape="rect" id="node2" href="$a01322.html#a2fdf0c2f9cdd965f5832478aa40293ea" title="Returns the stripe that serves the word at address." alt="" coords="248,5,400,61"/>
-</map>

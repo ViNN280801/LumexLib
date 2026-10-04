@@ -1,5 +1,0 @@
-<map id="lumex::core::math::ops::checked_narrow_cast" name="lumex::core::math::ops::checked_narrow_cast">
-<area shape="rect" id="node1" title="Casts sourceValue to TargetType, throwing if the value is non&#45;finite (for a floating&#45;point source) or..." alt="" coords="5,43,199,84"/>
-<area shape="rect" id="node2" href="$a01365.html#ab02125f45f18a96bf33bfb97c10bc6b6" title="Prints a value as a number: the unary plus promotes character types, so they print their code,..." alt="" coords="247,5,433,47"/>
-<area shape="rect" id="node3" href="$a01365.html#ade0e34f98cff83fb7a018f3243ff5195" title=" " alt="" coords="263,71,417,127"/>
-</map>

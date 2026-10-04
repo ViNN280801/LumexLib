@@ -1,6 +1,0 @@
-<map id="lumex::core::filesystem::fs::path::root_path" name="lumex::core::filesystem::fs::path::root_path">
-<area shape="rect" id="node1" title="Extracts the root path component from the path (root name + root directory)." alt="" coords="483,39,657,80"/>
-<area shape="rect" id="node2" href="$a02235.html#aae3018e2b6977322997db9152c894ee2" title="Checks if the path has a root path component." alt="" coords="256,5,435,47"/>
-<area shape="rect" id="node3" href="$a02235.html#ab9635284f85ad28adf68855173325516" title="Extracts the relative path component from the path (after the root path)." alt="" coords="258,71,433,112"/>
-<area shape="rect" id="node4" href="$a02235.html#a3e95228da0c072868d9f9388ff607cd4" title="Checks if the path has a relative path component." alt="" coords="5,71,208,112"/>
-</map>

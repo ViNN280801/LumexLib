@@ -1,8 +1,0 @@
-<map id="lumex::xml::xpath::document::document_buffer_order" name="lumex::xml::xpath::document::document_buffer_order">
-<area shape="rect" id="node1" title="Retrieves a pointer to a buffer location for document order comparison optimization." alt="" coords="5,129,252,171"/>
-<area shape="rect" id="node2" href="$a03399.html#ac344e4ef6ff5cad96438d4c8c9e4eb80" title="Gets the wrapped XmlAttribute if this XPathNode represents an attribute." alt="" coords="318,5,515,47"/>
-<area shape="rect" id="node3" href="$a03147.html#a0bbf2ddf1ea68f4ed3612fe0a45849eb" title="Retrieves the raw internal XmlAttributeBase pointer wrapped by this XmlAttribute object." alt="" coords="337,71,497,112"/>
-<area shape="rect" id="node4" href="$a03175.html#aaace51cc18e7d56b0d6112a525c63295" title="Retrieves the raw internal XmlNodeBase pointer wrapped by this XmlNode object." alt="" coords="300,137,533,163"/>
-<area shape="rect" id="node5" href="$a01439.html#aabe1caf4ca715814b5701d3c5afa2bcc" title="Retrieves a reference to the XmlDocumentBase object that owns a given object (node or attribute)." alt="" coords="332,188,501,229"/>
-<area shape="rect" id="node6" href="$a03399.html#aab5f8620b5100f640652c56743a21b7b" title="Gets the wrapped XmlNode if this XPathNode represents an element/document node." alt="" coords="330,253,503,295"/>
-</map>

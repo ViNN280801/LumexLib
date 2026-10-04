@@ -1,8 +1,0 @@
-<map id="LumexAtomicSmartPtrCell.hpp" name="LumexAtomicSmartPtrCell.hpp">
-<area shape="rect" id="node1" title="Storage and operations behind atomic_shared_ptr and atomic_weak_ptr: a lock&#45;based cell for every stan..." alt="" coords="106,5,329,32"/>
-<area shape="rect" id="node2" href="$a00464.html" title="atomic_shared_ptr&lt;T&gt;: the interface of the C++20 std::atomic&lt;std::shared_ptr&lt;T&gt;&gt; for C++11 and later." alt="" coords="5,80,208,107"/>
-<area shape="rect" id="node6" href="$a00473.html" title="atomic_weak_ptr&lt;T&gt;: the interface of the C++20 std::atomic&lt;std::weak_ptr&lt;T&gt;&gt; for C++11 and later." alt="" coords="233,80,426,107"/>
-<area shape="rect" id="node3" href="$a01205.html" title="Atomic module: atomic_shared_ptr&lt;T&gt; and atomic_weak_ptr&lt;T&gt;, the interface of the C++20 std::atomic&lt;st..." alt="" coords="161,155,273,181"/>
-<area shape="rect" id="node4" href="$a00728.html" title=" " alt="" coords="29,229,206,271"/>
-<area shape="rect" id="node5" href="$a00731.html" title=" " alt="" coords="231,229,407,271"/>
-</map>

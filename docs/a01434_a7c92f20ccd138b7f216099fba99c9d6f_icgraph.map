@@ -1,6 +1,0 @@
-<map id="lumex::xml::utility::get_value_bool" name="lumex::xml::utility::get_value_bool">
-<area shape="rect" id="node1" title=" " alt="" coords="347,39,489,80"/>
-<area shape="rect" id="node2" href="$a03147.html#aca25f5d9c4c12f528d05891b16ca099c" title="Converts the attribute&#39;s value to a bool." alt="" coords="118,5,289,47"/>
-<area shape="rect" id="node4" href="$a03223.html#a3ac43617a58a465715a123b6b01c1413" title="Converts the text object&#39;s value to a bool." alt="" coords="108,71,299,112"/>
-<area shape="rect" id="node3" href="$a00911.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title="Main function demonstrating various LumexXml functionalities." alt="" coords="5,13,60,39"/>
-</map>

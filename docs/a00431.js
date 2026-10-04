@@ -1,5 +1,4 @@
 var a00431 =
 [
-    [ "LumexSettingsFactory", "a01555.html", "a01555" ],
-    [ "LumexSettingsFactory", "a00431.html#a90f219acff9eb90d97465a960d7a7d0f", null ]
+    [ "main", "a00431.html#ae66f6b31b5ad750f1fe042a706a4e3d4", null ]
 ];

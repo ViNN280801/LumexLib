@@ -1,8 +1,0 @@
-<map id="lumex::xml::node::node_copy_tree" name="lumex::xml::node::node_copy_tree">
-<area shape="rect" id="node1" title="Performs a deep copy of an XML node&#39;s entire subtree (including itself, children, and attributes)." alt="" coords="257,136,433,177"/>
-<area shape="rect" id="node2" href="$a03175.html#affd983d76ecc8d527bff7cb6f9c13018" title="Appends a deep copy of an existing XmlNode (proto) as a child of the current node." alt="" coords="5,5,209,47"/>
-<area shape="rect" id="node3" href="$a03175.html#ade75f490c8aafb015483a5444c1af76c" title="Inserts a deep copy of an existing XmlNode (proto) after a given existing child node." alt="" coords="5,71,209,112"/>
-<area shape="rect" id="node4" href="$a03175.html#a35ef839927e8d9eaef5c22122c802fb1" title="Inserts a deep copy of an existing XmlNode (proto) before a given existing child node." alt="" coords="5,136,209,177"/>
-<area shape="rect" id="node5" href="$a03175.html#acf48c85813bfecc4b524bfc0e2cb9344" title="Prepends a deep copy of an existing XmlNode (proto) as a child of the current node." alt="" coords="5,201,209,243"/>
-<area shape="rect" id="node6" href="$a03159.html#a3be8c5ddd0fac3d0f74c85f9ce393341" title="Removes all nodes from the document, then copies the entire contents of a specified document." alt="" coords="23,267,192,308"/>
-</map>

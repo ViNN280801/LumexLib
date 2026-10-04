@@ -1,5 +1,0 @@
-<map id="lumex::applied::hardware::caps::CPUVectorizationDetector::get_summary" name="lumex::applied::hardware::caps::CPUVectorizationDetector::get_summary">
-<area shape="rect" id="node1" title="Gets a human&#45;readable summary of supported vectorization technologies." alt="" coords="392,39,628,95"/>
-<area shape="rect" id="node2" href="$a01471.html#a0bac2910071d92a77fbc9d06ce64f181" title="Performs comprehensive CPU vectorization capabilities detection." alt="" coords="108,5,344,61"/>
-<area shape="rect" id="node3" href="$a00800.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,53,60,80"/>
-</map>

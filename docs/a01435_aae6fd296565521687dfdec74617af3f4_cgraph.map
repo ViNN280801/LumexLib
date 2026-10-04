@@ -1,9 +1,0 @@
-<map id="lumex::xml::node::allow_move" name="lumex::xml::node::allow_move">
-<area shape="rect" id="node1" title="Checks if a move operation between parent and child nodes is allowed." alt="" coords="5,111,228,138"/>
-<area shape="rect" id="node2" href="$a01434.html#a3da44c727bc13069a7e31566df8ad558" title=" " alt="" coords="305,5,451,47"/>
-<area shape="rect" id="node3" href="$a03175.html#ad4130676f6cd5dcdfb86275d28ef6d94" title="Retrieves the parent node of the current node." alt="" coords="276,71,480,112"/>
-<area shape="rect" id="node5" href="$a03175.html#ae75074132cc71a473fe3f862cb3d56e2" title="Retrieves the root of the DOM tree to which this node belongs." alt="" coords="276,136,480,177"/>
-<area shape="rect" id="node7" href="$a03175.html#a6473de83822e0e12f4f02d25420747ca" title="Retrieves the type of the XML node." alt="" coords="276,201,480,243"/>
-<area shape="rect" id="node4" href="$a03175.html#a9ba652be4d38ecccaa3933b5dde6401e" title="Default constructor. Constructs an empty (null) node." alt="" coords="528,71,732,112"/>
-<area shape="rect" id="node6" href="$a01439.html#aabe1caf4ca715814b5701d3c5afa2bcc" title="Retrieves a reference to the XmlDocumentBase object that owns a given object (node or attribute)." alt="" coords="545,136,715,177"/>
-</map>

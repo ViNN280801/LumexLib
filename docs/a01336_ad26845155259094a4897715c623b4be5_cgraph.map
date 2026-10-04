@@ -1,6 +1,0 @@
-<map id="lumex::core::crc::catalog::AppendCrcLeastSignificantByteFirst" name="lumex::core::crc::catalog::AppendCrcLeastSignificantByteFirst">
-<area shape="rect" id="node1" title="Appends the least&#45;significant CRC bytes to buffer (LE, first byte = low 8 bits)." alt="" coords="5,39,265,80"/>
-<area shape="rect" id="node2" href="$a01336.html#a07dc7d6ce7dae828a9174ed5c61a53cd" title="Computes a CRC from explicit RevEng parameters (bit engine, width 1..64)." alt="" coords="313,39,549,80"/>
-<area shape="rect" id="node3" href="$a01339.html#aaba99f39d4a7667b3a2ce6dd58f6f791" title=" " alt="" coords="597,5,803,47"/>
-<area shape="rect" id="node4" href="$a01336.html#a10782f1d322cae0727ac0ee7f52e6f95" title="Validates parameters before computation (width 1..64)." alt="" coords="600,71,800,112"/>
-</map>

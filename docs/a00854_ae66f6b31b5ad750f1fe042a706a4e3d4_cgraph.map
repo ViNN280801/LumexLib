@@ -1,7 +1,0 @@
-<map id="main" name="main">
-<area shape="rect" id="node1" title=" " alt="" coords="5,60,60,87"/>
-<area shape="rect" id="node2" href="$a01523.html#ac3ff6ba95f363349295d24096e2ff96f" title="Starts the background CPU/RAM sampler, unless it is already running." alt="" coords="108,5,359,61"/>
-<area shape="rect" id="node5" href="$a01523.html#aa64dfaead93c3d4c6ceec66922405170" title="Stops the background sampler and joins its thread." alt="" coords="108,85,359,141"/>
-<area shape="rect" id="node3" href="$a01348.html#a9b962af55f800e2cbb3a49009e6676f1" title="Converts a LumexBasicStacktrace object to its string representation." alt="" coords="407,13,585,54"/>
-<area shape="rect" id="node4" href="$a02155.html#a79f1b53a81f6bde33331116c9926e81a" title="Returns the number of entries in the stacktrace." alt="" coords="633,13,921,54"/>
-</map>

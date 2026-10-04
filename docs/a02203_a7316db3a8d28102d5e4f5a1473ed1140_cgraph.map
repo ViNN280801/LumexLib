@@ -1,4 +1,0 @@
-<map id="lumex::core::expected::result::Expected&lt; void, ErrorType &gt;::operator=" name="lumex::core::expected::result::Expected&lt; void, ErrorType &gt;::operator=">
-<area shape="rect" id="node1" title="Copy assignment for Expected&lt;void, ErrorType&gt; specialization." alt="" coords="5,5,188,61"/>
-<area shape="rect" id="node2" href="$a02183.html#a497ad15439a12e7aecaf5fc2f34f6be3" title="Exchanges contents with another Expected object." alt="" coords="236,13,413,54"/>
-</map>

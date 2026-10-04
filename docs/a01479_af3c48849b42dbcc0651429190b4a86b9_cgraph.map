@@ -1,8 +1,0 @@
-<map id="lumex::applied::hardware::caps::HardwareCapabilities::detect_hardware" name="lumex::applied::hardware::caps::HardwareCapabilities::detect_hardware">
-<area shape="rect" id="node1" title="Performs comprehensive system hardware detection and analysis." alt="" coords="5,79,213,135"/>
-<area shape="rect" id="node2" href="$a01479.html#ae7ff4b9ce7d8a1f9749c1f01a0e2d182" title="Estimates CPU generation year based on processor model name analysis." alt="" coords="261,5,469,61"/>
-<area shape="rect" id="node3" href="$a01519.html#aafb110cd6feeb2ab91305f27352b9118" title="Log an INFO&#45;level message." alt="" coords="272,86,459,127"/>
-<area shape="rect" id="node5" href="$a01348.html#a9b962af55f800e2cbb3a49009e6676f1" title="Converts a LumexBasicStacktrace object to its string representation." alt="" coords="276,151,455,193"/>
-<area shape="rect" id="node4" href="$a01378.html#a644d51beb3d991564cc81242883fd17a" title="Concatenates the streamed text of args." alt="" coords="589,86,733,127"/>
-<area shape="rect" id="node6" href="$a02155.html#a79f1b53a81f6bde33331116c9926e81a" title="Returns the number of entries in the stacktrace." alt="" coords="517,151,805,193"/>
-</map>

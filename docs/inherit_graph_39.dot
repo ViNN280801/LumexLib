@@ -1,0 +1,9 @@
+digraph "Graphical Class Hierarchy"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="LR";
+  Node0 [id="Node000000",label="lumex::core::atomic\l::smart_ptr::lock_based\l_table_wait::Detail::smart\l_ptr_traits_t\< std::shared\l_ptr\< T \> \>::probe_t",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01254.html",tooltip="A shared pointer needs no extra state to be compared."];
+}

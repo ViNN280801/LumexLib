@@ -1,5 +1,0 @@
-<map id="lumex::xml::attribute::prepend_attribute" name="lumex::xml::attribute::prepend_attribute">
-<area shape="rect" id="node1" title="Prepends an XmlAttributeBase to the beginning of a node&#39;s attribute list." alt="" coords="257,39,417,80"/>
-<area shape="rect" id="node2" href="$a03175.html#afc6e5a7c3b3dc02be7f5f003c5192d27" title="Prepends a new attribute with the specified name to the current node." alt="" coords="5,5,209,47"/>
-<area shape="rect" id="node3" href="$a03175.html#a0519abe0f6488556f8a8fd22d242df12" title="Prepends a copy of an existing attribute (proto) to the current node." alt="" coords="5,71,209,112"/>
-</map>

@@ -1,5 +1,0 @@
-<map id="lumex::core::utility::dump::DumpFactory::isSupported" name="lumex::core::utility::dump::DumpFactory::isSupported">
-<area shape="rect" id="node1" title="Check if a dump type is supported on the current platform." alt="" coords="263,45,431,101"/>
-<area shape="rect" id="node2" href="$a02715.html#a84b160baa9ba19a63babf3ed547278bb" title="Manually trigger a dump generation with error code." alt="" coords="5,5,215,61"/>
-<area shape="rect" id="node3" href="$a02715.html#aacf87931adc85ff4a1bf3a12968ef030" title="Set the dump type for future dumps." alt="" coords="5,85,215,141"/>
-</map>

@@ -1,6 +1,0 @@
-<map id="lumex::core::filesystem::fs::filesystem_result::success" name="lumex::core::filesystem::fs::filesystem_result::success">
-<area shape="rect" id="node1" title="Checks if the operation was successful." alt="" coords="228,85,403,141"/>
-<area shape="rect" id="node2" href="$a02255.html#ae393a080f3802bbae6871dbb9faff3e4" title="Checks if a file is empty or a directory is empty." alt="" coords="5,5,180,61"/>
-<area shape="rect" id="node3" href="$a02255.html#ac1050fc7fb4e882f6b23a9ad965f9e6c" title="Moves a directory and its contents from one location to another." alt="" coords="5,85,180,141"/>
-<area shape="rect" id="node4" href="$a02255.html#a538ee94b70991213bf07c01bc51b3af4" title="Moves a file from one location to another." alt="" coords="5,165,180,221"/>
-</map>

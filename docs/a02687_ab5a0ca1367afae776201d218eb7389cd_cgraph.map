@@ -1,5 +1,0 @@
-<map id="lumex::core::time::clock::LumexTime::timestamp_ms" name="lumex::core::time::clock::LumexTime::timestamp_ms">
-<area shape="rect" id="node1" title="Formats a point in time as a local&#45;time string with a millisecond suffix." alt="" coords="5,5,252,47"/>
-<area shape="rect" id="node2" href="$a01348.html#a9b962af55f800e2cbb3a49009e6676f1" title="Converts a LumexBasicStacktrace object to its string representation." alt="" coords="300,5,479,47"/>
-<area shape="rect" id="node3" href="$a02155.html#a79f1b53a81f6bde33331116c9926e81a" title="Returns the number of entries in the stacktrace." alt="" coords="527,5,815,47"/>
-</map>

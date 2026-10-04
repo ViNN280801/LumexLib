@@ -1,4 +1,0 @@
-<map id="lumex::core::fmt::Detail::split_seconds" name="lumex::core::fmt::Detail::split_seconds">
-<area shape="rect" id="node1" title="Splits a non&#45;negative duration into whole seconds and the fraction in 10^&#45;digits units (truncated)." alt="" coords="5,5,183,47"/>
-<area shape="rect" id="node2" href="$a01359.html#abf2d03bfeff88c2c87dc0258865374ca" title="10^exponent for exponent in 0..18." alt="" coords="231,5,408,47"/>
-</map>

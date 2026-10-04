@@ -1,5 +1,0 @@
-<map id="lumex::core::circular_buffer::CircularBuffer::push_back" name="lumex::core::circular_buffer::CircularBuffer::push_back">
-<area shape="rect" id="node1" title="Appends a copy of an element." alt="" coords="5,5,169,61"/>
-<area shape="rect" id="node2" href="$a01643.html#a04fd3c271c15c316fca1651a39bb1ca7" title="Constructs an element in place at the back." alt="" coords="217,5,381,61"/>
-<area shape="rect" id="node3" href="$a01643.html#afa6737097a06ea6b96d3e7ff6e46d8a4" title="Checks whether the buffer is full." alt="" coords="429,13,623,54"/>
-</map>

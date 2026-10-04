@@ -1,4 +1,0 @@
-<map id="lumex::core::fmt::Detail::floor_mod" name="lumex::core::fmt::Detail::floor_mod">
-<area shape="rect" id="node1" title="value mod divisor in [0, divisor) for a positive divisor." alt="" coords="5,5,183,47"/>
-<area shape="rect" id="node2" href="$a01359.html#a8a3611c453003762e23f73cdf331d06a" title="value / divisor rounded toward negative infinity." alt="" coords="231,5,408,47"/>
-</map>

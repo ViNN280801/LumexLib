@@ -1,4 +1,0 @@
-<map id="lumex::xml::document::XmlDocument::save" name="lumex::xml::document::XmlDocument::save">
-<area shape="rect" id="node1" title="Saves the XML document to a custom writer interface." alt="" coords="223,5,392,47"/>
-<area shape="rect" id="node2" href="$a03159.html#aa6db85e0f29ddd002d752a2b587a17c8" title="Saves the XML document to a C&#45;style character output stream." alt="" coords="5,5,175,47"/>
-</map>

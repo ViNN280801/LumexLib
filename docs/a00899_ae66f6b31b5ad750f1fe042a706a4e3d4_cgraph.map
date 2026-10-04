@@ -1,8 +1,0 @@
-<map id="main" name="main">
-<area shape="rect" id="node1" title=" " alt="" coords="5,167,60,193"/>
-<area shape="rect" id="node2" href="$a01391.html#a5a8a6ca7779e633cf03b6e232ef67775" title="Demangles an already&#45;mangled C++ name (e.g. one captured from a backtrace/stack unwinder),..." alt="" coords="123,5,291,61"/>
-<area shape="rect" id="node3" href="$a01399.html#a70c7aae8bb35572f410d8de09cfee689" title="Returns the OS process id of the calling process." alt="" coords="112,86,301,127"/>
-<area shape="rect" id="node4" href="$a02755.html#a43ad7995340e97e4a94c19fe8f6df62f" title="Safe &gt;= comparison with another type." alt="" coords="108,152,305,208"/>
-<area shape="rect" id="node5" href="$a02755.html#a7e42c1fdcd8924eba29f3ce2fa4e44d5" title="Safe &lt; comparison with another type." alt="" coords="108,232,305,288"/>
-<area shape="rect" id="node6" href="$a02755.html#a63a42c3ab7e055f6052303ac5ba4c03e" title="Safe &lt;= comparison with another type." alt="" coords="108,312,305,368"/>
-</map>

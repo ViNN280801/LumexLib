@@ -1,8 +1,0 @@
-<map id="lumex::applied::json::helper::LumexJsonHelper::get_file_mutex" name="lumex::applied::json::helper::LumexJsonHelper::get_file_mutex">
-<area shape="rect" id="node1" title="The mutex that serializes the file operations of this helper." alt="" coords="247,165,440,221"/>
-<area shape="rect" id="node2" href="$a01483.html#a3c294a75299ef8fd653d78a68d505e1a" title="Like write_value, but only replaces a key that already exists (not null) in a non&#45;empty file." alt="" coords="5,5,199,61"/>
-<area shape="rect" id="node3" href="$a01483.html#ac21025445d1a3a227555fd46350d3cec" title="Whether the file exists and parses as JSON." alt="" coords="5,85,199,141"/>
-<area shape="rect" id="node4" href="$a01483.html#ac2438f84fe091074be251ab7ca8a3445" title="Loads a JSON document from a file." alt="" coords="5,165,199,221"/>
-<area shape="rect" id="node5" href="$a01483.html#a61602e68acb04f112b6da91520856848" title="Writes config to a file, indented by four spaces." alt="" coords="5,245,199,301"/>
-<area shape="rect" id="node6" href="$a01483.html#a8591e536f16a57221a13814d3fdff1e7" title="Loads the file (an unreadable or missing file counts as an empty object), stores value and saves it b..." alt="" coords="5,325,199,381"/>
-</map>

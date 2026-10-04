@@ -1,7 +1,0 @@
-<map id="lumex::xml::xpath::node::XPathNodeSetRaw::remove_duplicates" name="lumex::xml::xpath::node::XPathNodeSetRaw::remove_duplicates">
-<area shape="rect" id="node1" title="Removes duplicate nodes from the raw node set." alt="" coords="5,112,188,168"/>
-<area shape="rect" id="node2" href="$a03375.html#a5b46ca174cf2a08d8ac4ed3d0b9a1a52" title="Allocates a block of memory of the specified size." alt="" coords="245,5,424,61"/>
-<area shape="rect" id="node3" href="$a03399.html#ac344e4ef6ff5cad96438d4c8c9e4eb80" title="Gets the wrapped XmlAttribute if this XPathNode represents an attribute." alt="" coords="236,86,433,127"/>
-<area shape="rect" id="node4" href="$a03147.html#a0bbf2ddf1ea68f4ed3612fe0a45849eb" title="Retrieves the raw internal XmlAttributeBase pointer wrapped by this XmlAttribute object." alt="" coords="255,151,415,193"/>
-<area shape="rect" id="node5" href="$a01434.html#ae10323c79b428ecefbd57549c80d093c" title=" " alt="" coords="263,217,406,258"/>
-</map>

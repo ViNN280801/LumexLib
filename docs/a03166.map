@@ -1,4 +1,0 @@
-<map id="lumex::xml::memory::XmlAllocator" name="lumex::xml::memory::XmlAllocator">
-<area shape="rect" id="node1" title="Manages memory allocation and deallocation for XML nodes, attributes, and strings within a document." alt="" coords="11,5,169,47"/>
-<area shape="rect" id="node2" href="$a03163.html" title="Base structure representing an XML document, combining node and allocator functionalities." alt="" coords="5,95,175,136"/>
-</map>

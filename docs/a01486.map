@@ -1,4 +1,0 @@
-<map id="lumex::applied::json::normalization::ILumexJsonNormalizer" name="lumex::applied::json::normalization::ILumexJsonNormalizer">
-<area shape="rect" id="node1" title="Parses raw JSON text, checks it and returns the canonical document." alt="" coords="29,5,232,61"/>
-<area shape="rect" id="node2" href="$a01491.html" title="Shares the schema walker and the strict/non&#45;strict error policy between concrete normalizers." alt="" coords="5,109,256,165"/>
-</map>

@@ -1,8 +1,0 @@
-<map id="lumex::core::crc::catalog::ValidateCrcRevEngParams" name="lumex::core::crc::catalog::ValidateCrcRevEngParams">
-<area shape="rect" id="node1" title="Validates parameters before computation (width 1..64)." alt="" coords="597,104,797,145"/>
-<area shape="rect" id="node2" href="$a01336.html#a07dc7d6ce7dae828a9174ed5c61a53cd" title="Computes a CRC from explicit RevEng parameters (bit engine, width 1..64)." alt="" coords="313,71,549,112"/>
-<area shape="rect" id="node6" href="$a01336.html#a803339a9a4d83bf460e3d6c07b66e837" title="Transport: caller&#45;defined 8&#45;bit CRC (must match the peer)." alt="" coords="317,136,545,177"/>
-<area shape="rect" id="node3" href="$a01336.html#ad26845155259094a4897715c623b4be5" title="Appends the least&#45;significant CRC bytes to buffer (LE, first byte = low 8 bits)." alt="" coords="5,5,265,47"/>
-<area shape="rect" id="node4" href="$a01336.html#a6dc94db852a33c1da5da63658df092e1" title="RevEng&#45;parameter CRC of a string (raw bytes, no trailing &#39;\0&#39;)." alt="" coords="17,71,253,112"/>
-<area shape="rect" id="node5" href="$a01336.html#add9426471847b4c3cee375c3f12cd548" title="8&#45;bit transport checksum for the current process&#45;global mode." alt="" coords="27,136,244,177"/>
-</map>

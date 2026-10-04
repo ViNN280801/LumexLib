@@ -1,6 +1,0 @@
-<map id="lumex::xml::node::XmlNamedNodeIterator::operator!=" name="lumex::xml::node::XmlNamedNodeIterator::operator!=">
-<area shape="rect" id="node1" title="Compares two XmlNamedNodeIterator objects for inequality." alt="" coords="5,39,223,80"/>
-<area shape="rect" id="node2" href="$a03175.html#ae75074132cc71a473fe3f862cb3d56e2" title="Retrieves the root of the DOM tree to which this node belongs." alt="" coords="271,39,475,80"/>
-<area shape="rect" id="node3" href="$a01439.html#aabe1caf4ca715814b5701d3c5afa2bcc" title="Retrieves a reference to the XmlDocumentBase object that owns a given object (node or attribute)." alt="" coords="540,5,709,47"/>
-<area shape="rect" id="node4" href="$a03175.html#a9ba652be4d38ecccaa3933b5dde6401e" title="Default constructor. Constructs an empty (null) node." alt="" coords="523,71,727,112"/>
-</map>

@@ -1,5 +1,0 @@
-<map id="lumex::core::string_view::view::LumexStringView::begin" name="lumex::core::string_view::view::LumexStringView::begin">
-<area shape="rect" id="node1" title="Returns a const iterator to the first character of the view." alt="" coords="308,43,527,99"/>
-<area shape="rect" id="node2" href="$a02667.html#aff4741414f0cba69b9f6b51fb922dfe4" title="Returns a const reverse iterator to the character preceding the first character of the view." alt="" coords="23,5,242,61"/>
-<area shape="rect" id="node3" href="$a02667.html#ae957ab0bd20f6574be6a0d0a2c61458d" title="Returns a reverse iterator to the character preceding the first character of the view." alt="" coords="5,86,260,127"/>
-</map>

@@ -1,7 +1,0 @@
-<map id="ExpectedVoid.hpp" name="ExpectedVoid.hpp">
-<area shape="rect" id="node1" title="The specialization Expected&lt;void, ErrorType&gt; for operations that succeed without a value; an analogue..." alt="" coords="137,5,276,32"/>
-<area shape="rect" id="node2" href="$a00575.html" title="The return markers success() and failure() for functions that return an Expected." alt="" coords="79,80,225,107"/>
-<area shape="rect" id="node3" href="$a01223.html" title="Expected module: Expected&lt;T, E&gt;, a value or an error after the C++23 std::expected,..." alt="" coords="165,155,248,181"/>
-<area shape="rect" id="node4" href="$a00764.html" title=" " alt="" coords="5,229,179,256"/>
-<area shape="rect" id="node5" href="$a00767.html" title=" " alt="" coords="203,229,442,256"/>
-</map>

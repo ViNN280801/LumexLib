@@ -1,7 +1,0 @@
-<map id="main" name="main">
-<area shape="rect" id="node1" title=" " alt="" coords="5,140,60,167"/>
-<area shape="rect" id="node2" href="$a01515.html#a55b6074e4a3ed8049557efa36bf2a361" title="Forces buffers to be flushed to the file." alt="" coords="108,5,276,61"/>
-<area shape="rect" id="node3" href="$a01515.html#a36a153bd4f5449d3339821cc6494d9a3" title="Returns the single logger instance (singleton)." alt="" coords="108,85,276,141"/>
-<area shape="rect" id="node4" href="$a01515.html#a655e851db11610b63e4a47b4deb498bc" title="Returns the current minimum log level." alt="" coords="108,165,276,221"/>
-<area shape="rect" id="node5" href="$a01515.html#a640e498c73755ff4e632e4cad7fa2852" title="Sets the minimum log level." alt="" coords="108,245,276,301"/>
-</map>

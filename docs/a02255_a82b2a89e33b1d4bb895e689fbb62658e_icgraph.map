@@ -1,5 +1,0 @@
-<map id="lumex::core::filesystem::fs::lumex_filesystem::remove_all" name="lumex::core::filesystem::fs::lumex_filesystem::remove_all">
-<area shape="rect" id="node1" title="Recursively removes a file or a directory and all its contents." alt="" coords="228,24,403,80"/>
-<area shape="rect" id="node2" href="$a00770.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="65,5,120,32"/>
-<area shape="rect" id="node3" href="$a02255.html#ac1050fc7fb4e882f6b23a9ad965f9e6c" title="Moves a directory and its contents from one location to another." alt="" coords="5,56,180,112"/>
-</map>

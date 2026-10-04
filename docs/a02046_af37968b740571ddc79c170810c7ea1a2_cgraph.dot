@@ -1,0 +1,19 @@
+digraph "lumex::core::fmt::Detail::BuiltinFormatter::resolved_specs"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="LR";
+  Node1 [id="Node000001",label="lumex::core::fmt::Detail\l::BuiltinFormatter::resolved_specs",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="The specification with dynamic width / precision resolved."];
+  Node1 -> Node2 [id="edge1_Node000001_Node000002",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="lumex::core::fmt::Detail\l::resolve_dynamic",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01008.html#a6cc0556e884b37ad17581db736a43123",tooltip=" "];
+  Node2 -> Node3 [id="edge2_Node000002_Node000003",color="steelblue1",style="solid",tooltip=" "];
+  Node3 [id="Node000003",label="lumex::core::fmt::arg",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01007.html#a71066b6ff2980b7f4a955111551f11e4",tooltip="Names value for a {name} replacement field."];
+  Node2 -> Node4 [id="edge3_Node000002_Node000004",color="steelblue1",style="solid",tooltip=" "];
+  Node4 [id="Node000004",label="lumex::core::fmt::BasicFormat\lContext::arg",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01922.html#a8df29d35b12bfcc82a5954d23e2edfa1",tooltip=" "];
+  Node2 -> Node5 [id="edge4_Node000002_Node000005",color="steelblue1",style="solid",tooltip=" "];
+  Node5 [id="Node000005",label="lumex::core::fmt::BasicFormat\lContext::arg_id",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01922.html#a407841d0aa3b88aac49aac958ff1e8ea",tooltip=" "];
+  Node1 -> Node6 [id="edge5_Node000001_Node000006",color="steelblue1",style="solid",tooltip=" "];
+  Node6 [id="Node000006",label="lumex::core::fmt::Detail\l::BuiltinFormatter::specs",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a02046.html#a7c5e79d60623467bc26e8885fdc33beb",tooltip=" "];
+}

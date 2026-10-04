@@ -1,6 +1,0 @@
-<map id="lumex::core::exceptions::Wrapper::get_safe_call_reporter" name="lumex::core::exceptions::Wrapper::get_safe_call_reporter">
-<area shape="rect" id="node1" title="Returns the installed sink, or nullptr when reports go to std::cerr." alt="" coords="519,43,697,99"/>
-<area shape="rect" id="node2" href="$a01347.html#a6731c24b90644c9b4b94c4c81af602dd" title="Builds &quot;prefix. Reason: what&quot; and reports it." alt="" coords="278,5,457,61"/>
-<area shape="rect" id="node4" href="$a01347.html#ab7031ff23205b8e8d31fb72ed3744806" title="Sends line to the installed sink. On a null sink or a throw from the sink, writes line to std::cerr." alt="" coords="264,86,471,127"/>
-<area shape="rect" id="node3" href="$a01345.html#a830b8d9cf501bccfb594bebd0221c287" title="Calls func(args...), catching and safely reporting any exception it throws instead of letting it prop..." alt="" coords="5,50,216,91"/>
-</map>

@@ -1,8 +1,0 @@
-<map id="lumex::xml::node::XmlNode::child_value" name="lumex::xml::node::XmlNode::child_value">
-<area shape="rect" id="node1" title="Retrieves the text content of a named child node." alt="" coords="5,104,209,145"/>
-<area shape="rect" id="node2" href="$a03175.html#a0ba3799de746669b14031ceebdee242c" title="Finds the first child node with the specified name." alt="" coords="257,71,461,112"/>
-<area shape="rect" id="node5" href="$a03175.html#aedb0ec9c973c5b0df750a5e075eae434" title="Retrieves the text content of the first child node that is of type PCDATA or CDATA." alt="" coords="257,136,461,177"/>
-<area shape="rect" id="node3" href="$a01434.html#a7d02305444b9427e8e8371818ab1c99c" title=" " alt="" coords="540,5,683,47"/>
-<area shape="rect" id="node4" href="$a03175.html#a9ba652be4d38ecccaa3933b5dde6401e" title="Default constructor. Constructs an empty (null) node." alt="" coords="509,71,713,112"/>
-<area shape="rect" id="node6" href="$a01435.html#a1e646ed1cb77d39fa585d98f77a5269c" title="Checks if a given XmlNodeBase represents a text&#45;like node." alt="" coords="534,136,689,177"/>
-</map>

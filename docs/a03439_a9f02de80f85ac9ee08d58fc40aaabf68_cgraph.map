@@ -1,7 +1,0 @@
-<map id="lumex::xml::xpath::string::XPathString::append" name="lumex::xml::xpath::string::XPathString::append">
-<area shape="rect" id="node1" title="Appends another XPathString to this string." alt="" coords="5,45,155,101"/>
-<area shape="rect" id="node2" href="$a03439.html#abe39a62ae0c73e945db3063fc32f7095" title="Returns the length of the string (number of characters)." alt="" coords="217,5,367,61"/>
-<area shape="rect" id="node4" href="$a03375.html#aa2549a11a0984f0c478cb7eaf82c0caa" title="Reallocates a previously allocated block of memory." alt="" coords="203,85,381,141"/>
-<area shape="rect" id="node3" href="$a01434.html#aef8fee41b36e9987a5b7ed339b83ce42" title=" " alt="" coords="447,13,590,54"/>
-<area shape="rect" id="node5" href="$a03375.html#a5b46ca174cf2a08d8ac4ed3d0b9a1a52" title="Allocates a block of memory of the specified size." alt="" coords="429,85,608,141"/>
-</map>

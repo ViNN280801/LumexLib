@@ -1,5 +1,0 @@
-<map id="lumex::xml::utility::convert_buffer_output_generic" name="lumex::xml::utility::convert_buffer_output_generic">
-<area shape="rect" id="node1" title=" " alt="" coords="425,5,599,61"/>
-<area shape="rect" id="node2" href="$a01434.html#acb0edbae98a672b69a35269ee8e9a2e7" title=" " alt="" coords="204,13,377,54"/>
-<area shape="rect" id="node3" href="$a03315.html#a203c4b9218cb825120e9320210179523" title="Writes a block of data directly to the underlying writer after flushing the buffer." alt="" coords="5,5,156,61"/>
-</map>

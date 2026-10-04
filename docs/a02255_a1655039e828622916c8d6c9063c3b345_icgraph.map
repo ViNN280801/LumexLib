@@ -1,7 +1,0 @@
-<map id="lumex::core::filesystem::fs::lumex_filesystem::absolute" name="lumex::core::filesystem::fs::lumex_filesystem::absolute">
-<area shape="rect" id="node1" title="Converts a path_arg to its absolute form." alt="" coords="451,56,625,112"/>
-<area shape="rect" id="node2" href="$a00770.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="288,5,343,32"/>
-<area shape="rect" id="node3" href="$a02255.html#a4a90f8fd6dbcb586088fc8a4285d13f0" title="Constructs a relative path_arg from path_arg to base." alt="" coords="228,56,403,112"/>
-<area shape="rect" id="node5" href="$a02255.html#a83280c9f37dbfaf4e58c9a7e02b9bb2c" title="Returns the weakly canonical form of a path_arg." alt="" coords="228,136,403,192"/>
-<area shape="rect" id="node4" href="$a02255.html#a6be80a0a41fea156b883644706ba1050" title="Constructs a proximate path_arg from path_arg to base." alt="" coords="5,56,180,112"/>
-</map>

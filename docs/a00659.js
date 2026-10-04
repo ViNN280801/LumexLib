@@ -1,5 +1,5 @@
 var a00659 =
 [
     [ "LUMEX_IMPLEMENTATION", "a00659.html#a07486181f1990291c2a348de8eb4c480", null ],
-    [ "lumex_assert_handler", "a00659.html#a5334d5477ed5cb85a010f52c4f534fd4", null ]
+    [ "destroy_node", "a00659.html#aa38a9602c7c4f223839ce428a8655f17", null ]
 ];

@@ -1,9 +1,0 @@
-<map id="LumexCPUVectorizationCapabilities.hpp" name="LumexCPUVectorizationCapabilities.hpp">
-<area shape="rect" id="node1" title="Run&#45;time detection of the SIMD instruction sets that the processor and the operating system support." alt="" coords="225,5,508,32"/>
-<area shape="rect" id="node2" href="$a00917.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="5,80,187,107"/>
-<area shape="rect" id="node3" title=" " alt="" coords="211,80,267,107"/>
-<area shape="rect" id="node4" title=" " alt="" coords="291,80,357,107"/>
-<area shape="rect" id="node5" title=" " alt="" coords="381,80,440,107"/>
-<area shape="rect" id="node6" title=" " alt="" coords="464,80,555,107"/>
-<area shape="rect" id="node7" title=" " alt="" coords="579,80,653,107"/>
-</map>

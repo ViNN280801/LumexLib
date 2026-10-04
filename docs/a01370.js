@@ -1,14 +1,11 @@
 var a01370 =
 [
-    [ "aggregate_traits", "a02643.html", "a02643" ],
-    [ "any_field", "a02623.html", "a02623" ],
-    [ "can_construct_n", "a02627.html", "a02627" ],
-    [ "count_fields_impl", "a02631.html", null ],
-    [ "count_fields_impl< Aggregate, Lo, Hi, false >", "a02639.html", "a02639" ],
-    [ "count_fields_impl< Aggregate, Lo, Hi, true >", "a02635.html", "a02635" ],
-    [ "fake_object_wrapper_t", "a02647.html", "a02647" ],
-    [ "index_sequence", "a02619.html", null ],
-    [ "names_builder", "a02651.html", null ],
-    [ "names_builder< Agg, index_sequence< I... > >", "a02655.html", "a02655" ],
-    [ "names_builder< Agg, index_sequence<> >", "a02659.html", "a02659" ]
+    [ "ValueType", "a01370.html#aeb04febba4d94b5e613ca199f2214d68", null ],
+    [ "kCatalogCheck", "a01370.html#a4cace16bf95c6905ec818ad2e5f982f6", null ],
+    [ "kInit", "a01370.html#a2b6b51211a20dcbdff2d08d5100640ff", null ],
+    [ "kPoly", "a01370.html#aca73dc1b855f84a76993ba781ce058af", null ],
+    [ "kRefIn", "a01370.html#a83a72953c0fa1dadf26bc32b36e31d08", null ],
+    [ "kRefOut", "a01370.html#a45298028c114864d5d55fca9fb916706", null ],
+    [ "kWidth", "a01370.html#af5ae6850094ec6e5409b31f8b9f94127", null ],
+    [ "kXorOut", "a01370.html#a0aac9e8bcdff57946837640148d6a865", null ]
 ];

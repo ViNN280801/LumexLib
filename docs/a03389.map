@@ -1,5 +1,0 @@
-<map id="lumex::xml::xpath::memory::XPathStack" name="lumex::xml::xpath::memory::XPathStack">
-<area shape="rect" id="node1" title="Represents a pair of XPath allocators for managing expression evaluation memory." alt="" coords="32,228,189,269"/>
-<area shape="rect" id="node2" href="$a03375.html" title="Allocator for XPath&#45;related data structures." alt="" coords="21,109,200,151"/>
-<area shape="rect" id="node3" href="$a03383.html" title="Represents a block of memory used by XPathAllocator." alt="" coords="5,5,216,47"/>
-</map>

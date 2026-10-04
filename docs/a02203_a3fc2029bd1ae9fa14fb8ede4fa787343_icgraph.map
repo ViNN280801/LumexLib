@@ -1,4 +1,0 @@
-<map id="lumex::core::expected::result::Expected&lt; void, ErrorType &gt;::error" name="lumex::core::expected::result::Expected&lt; void, ErrorType &gt;::error">
-<area shape="rect" id="node1" title="Returns a mutable lvalue reference to the stored error." alt="" coords="220,5,403,61"/>
-<area shape="rect" id="node2" href="$a01353.html#acd150afc868eb2217b4edf2abfd6f28c" title="Compares two Expected&lt;void, ErrorType&gt; objects for equality." alt="" coords="5,13,172,54"/>
-</map>

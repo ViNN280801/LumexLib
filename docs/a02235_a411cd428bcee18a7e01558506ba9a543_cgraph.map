@@ -1,4 +1,0 @@
-<map id="lumex::core::filesystem::fs::path::wstring" name="lumex::core::filesystem::fs::path::wstring">
-<area shape="rect" id="node1" title="Converts and returns the path as a std::wstring." alt="" coords="5,13,180,54"/>
-<area shape="rect" id="node2" href="$a02255.html#ad2a48826fbfcdaa102969dbb4dcfe3dc" title="Converts a std::string (UTF&#45;8 encoded) to a std::wstring." alt="" coords="228,5,403,61"/>
-</map>

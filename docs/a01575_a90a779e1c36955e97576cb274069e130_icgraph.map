@@ -1,7 +1,0 @@
-<map id="lumex::applied::settings::json::LumexSettingsJSON::is_json_valid" name="lumex::applied::settings::json::LumexSettingsJSON::is_json_valid">
-<area shape="rect" id="node1" title="Checks that a path is a readable JSON object document." alt="" coords="563,79,757,135"/>
-<area shape="rect" id="node2" href="$a01575.html#a1885b809d9fb821b0dbdf09684e507b9" title=" " alt="" coords="302,5,497,61"/>
-<area shape="rect" id="node3" href="$a01575.html#a778db1368bf71451852e98009c75cb15" title="Loads and parses a JSON file from the given path." alt="" coords="284,86,515,127"/>
-<area shape="rect" id="node5" href="$a00866.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="93,152,148,179"/>
-<area shape="rect" id="node4" href="$a01575.html#a5c83aecd16719d36974493a4a6eb4322" title=" " alt="" coords="5,86,236,127"/>
-</map>

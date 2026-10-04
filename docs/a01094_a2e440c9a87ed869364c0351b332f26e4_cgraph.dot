@@ -1,0 +1,11 @@
+digraph "lumex::xml::xpath::variable::get_variable_scratch"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="LR";
+  Node1 [id="Node000001",label="lumex::xml::xpath::\lvariable::get_variable\l_scratch",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="Utility function to retrieve a variable from a set, handling scratch buffer for name."];
+  Node1 -> Node2 [id="edge1_Node000001_Node000002",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="lumex::xml::xpath::\lvariable::XPathVariableSet::get",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a03126.html#aa79b3b1721b77504917e6524e1180be6",tooltip="Gets a mutable pointer to an existing variable by name."];
+}

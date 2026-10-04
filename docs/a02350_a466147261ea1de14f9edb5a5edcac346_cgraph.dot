@@ -1,0 +1,15 @@
+digraph "lumex::core::time::timer::LumexTimer::LumexTimer"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="LR";
+  Node1 [id="Node000001",label="lumex::core::time::\ltimer::LumexTimer::LumexTimer",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="Defaulted constructor; the timer measures zero elapsed time until started/stopped."];
+  Node1 -> Node2 [id="edge1_Node000001_Node000002",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="lumex::core::time::\ltimer::LumexTimer::elapsed\l_time_ms",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a02350.html#a7d3c0b7c50df82392b163199ca8d6e64",tooltip="Returns the elapsed time between the last start_timer()/stop_timer() pair."];
+  Node1 -> Node3 [id="edge2_Node000001_Node000003",color="steelblue1",style="solid",tooltip=" "];
+  Node3 [id="Node000003",label="lumex::core::time::\ltimer::LumexTimer::start_timer",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a02350.html#ae5f482d0ba0e310f7b9a88985c3c28e4",tooltip="Starts (or restarts) the timer."];
+  Node1 -> Node4 [id="edge3_Node000001_Node000004",color="steelblue1",style="solid",tooltip=" "];
+  Node4 [id="Node000004",label="lumex::core::time::\ltimer::LumexTimer::stop_timer",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a02350.html#a714290e3e7f5ab19de7b50dd2eafb3f7",tooltip="Stops the timer."];
+}

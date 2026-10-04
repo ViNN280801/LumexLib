@@ -1,4 +1,0 @@
-<map id="lumex::core::atomic::sync::table_wait::Detail::notify_one" name="lumex::core::atomic::sync::table_wait::Detail::notify_one">
-<area shape="rect" id="node1" title="Wakes at least one thread sleeping in wait_until_changed on word." alt="" coords="276,20,428,76"/>
-<area shape="rect" id="node2" href="$a01603.html#aef3f0a96a23f8531354daeead156b223" title=" " alt="" coords="5,5,228,91"/>
-</map>

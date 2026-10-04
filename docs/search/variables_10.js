@@ -1,24 +1,5 @@
 var searchData=
 [
-  ['page_5foffset_6382',['page_offset',['../a03231.html#a79834b6398f764a573cf392533e327b4',1,'lumex::xml::types::Types::xml_mem_str_header_t']]],
-  ['parent_6383',['parent',['../a03191.html#a7ba6ef8b3cc26dc9fbd56bd612f06b81',1,'lumex::xml::node::XmlNodeBase']]],
-  ['path_6384',['path',['../a01527.html#ad559f960efd77b8f1c55e26bb9ba02cb',1,'lumex::applied::serial::enumeration::serial_port_info_t::path()'],['../a03143.html#a4ae19cc0a9557290f95651011cfb1cfc',1,'lumex::examples::logger::temporary_config_file_t::path()']]],
-  ['pid_6385',['pid',['../a01527.html#ac9a19ed38821a8e055273588c1294faa',1,'lumex::applied::serial::enumeration::serial_port_info_t::pid()'],['../a01539.html#ac99a422884c1120ec45b568bf7c46d1e',1,'lumex::applied::serial::resolver::port_holder_info_t::pid()']]],
-  ['pipe_5fchar_6386',['PIPE_CHAR',['../a01396.html#aa4a444f3eb3e5c399b4f6024e840c961',1,'lumex::core::utility::dump::DumpTypeUtils::CharacterConstants']]],
-  ['pointer_6387',['pointer',['../a02351.html#aba2cc312fc64facc4b1b1fe1c7e6abfc',1,'lumex::core::fmt::Detail::format_arg_t']]],
-  ['poly_6388',['poly',['../a01663.html#a20ce03300d984746aa9bc6679d90e246',1,'lumex::core::crc::catalog::crc_params_t']]],
-  ['position_6389',['position',['../a03363.html#a3fcf3ec4950b963c75288fbd4c72d7c6',1,'lumex::xml::xpath::context::XPathContext']]],
-  ['precedence_6390',['precedence',['../a03419.html#a74551758842b6bda42d24faa9f9dacc6',1,'binary_op_t']]],
-  ['precision_6391',['precision',['../a02307.html#a08cf4bdd519ceaefb10a9c7ac38cce8e',1,'lumex::core::fmt::Detail::format_specs_t']]],
-  ['precision_5fref_6392',['precision_ref',['../a02307.html#a80322f662ee3d06215ffc9333063e5e9',1,'lumex::core::fmt::Detail::format_specs_t']]],
-  ['preferred_5fseparator_6393',['preferred_separator',['../a02235.html#a7d6c01e3fbeabe816d94ecd3a232ada7',1,'lumex::core::filesystem::fs::path']]],
-  ['preset_5fcomponents_6394',['preset_components',['../a01503.html#a7de974061b2dcdcce25593f0a56bbfa6',1,'lumex::applied::logger::logger::logger_config_t']]],
-  ['prev_6395',['prev',['../a03171.html#a083b12498b2e7adbbf945eb50f300901',1,'lumex::xml::memory::XmlMemoryPage']]],
-  ['prev_5fattribute_5fc_6396',['prev_attribute_c',['../a03151.html#af15b886c36726ec675576f98a831b781',1,'lumex::xml::attribute::XmlAttributeBase']]],
-  ['prev_5fsibling_5fc_6397',['prev_sibling_c',['../a03191.html#a774b736474760ce41f1f006121a498fa',1,'lumex::xml::node::XmlNodeBase']]],
-  ['product_6398',['product',['../a01527.html#a1911e9b2214abe5383fea9767e2d12f4',1,'lumex::applied::serial::enumeration::serial_port_info_t']]],
-  ['pumpstatefirst_6399',['PumpStateFirst',['../a00785.html#a0af64f7efbc5a4b80cb5f4717359dfe6',1,'example_format_custom.cpp']]],
-  ['pumpstatelast_6400',['PumpStateLast',['../a00785.html#aa588a7b20f907fba4ba6d68cd3eaf155',1,'example_format_custom.cpp']]],
-  ['pumpstatesize_6401',['PumpStateSize',['../a00785.html#a5efc2aa1ad82978c022eb09a3526bb91',1,'example_format_custom.cpp']]],
-  ['pumpstatevalues_6402',['PumpStateValues',['../a00785.html#a7e44e9b82d5a6a1ae16ab4900df60545',1,'example_format_custom.cpp']]]
+  ['question_5fchar_0',['QUESTION_CHAR',['../a01046.html#a3ec778756a39f40d88d409118f61e872',1,'lumex::core::utility::dump::DumpTypeUtils::CharacterConstants']]],
+  ['quote_5fchar_1',['QUOTE_CHAR',['../a01046.html#ac0b2452358a28caba418f0e2af8d56bb',1,'lumex::core::utility::dump::DumpTypeUtils::CharacterConstants']]]
 ];

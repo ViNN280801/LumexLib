@@ -1,5 +1,0 @@
-<map id="lumex::core::exceptions::Wrapper::get_safe_call_reporter" name="lumex::core::exceptions::Wrapper::get_safe_call_reporter">
-<area shape="rect" id="node1" title="Returns the installed sink, or nullptr when reports go to std::cerr." alt="" coords="5,5,184,61"/>
-<area shape="rect" id="node2" href="$a01369.html#affc4125f1c661b62d9a1011d7c589dc9" title=" " alt="" coords="232,13,400,54"/>
-<area shape="rect" id="node3" href="$a01370.html#a4267bbe4c002bf9161d0966b40e2eb6f" title=" " alt="" coords="448,5,619,61"/>
-</map>

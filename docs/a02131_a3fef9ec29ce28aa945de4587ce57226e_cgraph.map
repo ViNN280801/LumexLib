@@ -1,5 +1,0 @@
-<map id="lumex::core::environment::env::LumexEnvironment::set" name="lumex::core::environment::env::LumexEnvironment::set">
-<area shape="rect" id="node1" title="Static convenience method to set an environment variable." alt="" coords="5,53,221,94"/>
-<area shape="rect" id="node2" href="$a02131.html#a2a9def03d86d90318cd7445fd2ea6006" title="Provides the single, globally accessible instance of LumexEnvironment." alt="" coords="274,5,465,61"/>
-<area shape="rect" id="node3" href="$a02131.html#a2278b9ac0fd9ff1c0f9fc296dcb3f1fc" title="Sets or updates the value of a specified environment variable in a thread&#45;safe manner." alt="" coords="269,85,469,141"/>
-</map>

@@ -1,8 +1,0 @@
-<map id="lumex::applied::settings::ini::LumexSettingsINI::get" name="lumex::applied::settings::ini::LumexSettingsINI::get">
-<area shape="rect" id="node1" title="Retrieves a string value for a given section and key." alt="" coords="587,64,785,105"/>
-<area shape="rect" id="node2" href="$a01567.html#a07d0a1dfb93ad84e3c34eebe2db114df" title=" " alt="" coords="340,5,539,47"/>
-<area shape="rect" id="node3" href="$a00863.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="412,71,467,98"/>
-<area shape="rect" id="node4" href="$a01515.html#a18e6ebf596904b610362cfb2257fd9b4" title="Reads logger configuration from an absolute enable/config path." alt="" coords="350,122,529,178"/>
-<area shape="rect" id="node5" href="$a01430.html#aab14961ea93b42c8867851c5113e6744" title=" " alt="" coords="108,129,292,171"/>
-<area shape="rect" id="node6" href="$a00818.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,137,60,163"/>
-</map>

@@ -1,4 +1,0 @@
-<map id="lumex::core::filesystem::fs::path::replace_filename" name="lumex::core::filesystem::fs::path::replace_filename">
-<area shape="rect" id="node1" title="Replaces the filename component of the path_arg with a new C&#45;style string filename." alt="" coords="252,5,451,47"/>
-<area shape="rect" id="node2" href="$a02235.html#a294e8f78fbfa56d5acc6aca85afaaee5" title="Replaces the filename component of the path_arg with a new std::string filename." alt="" coords="5,5,204,47"/>
-</map>

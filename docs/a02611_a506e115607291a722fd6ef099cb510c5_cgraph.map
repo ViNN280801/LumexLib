@@ -1,4 +1,0 @@
-<map id="lumex::core::optional::opt::optional::optional" name="lumex::core::optional::opt::optional::optional">
-<area shape="rect" id="node1" title="Value copy constructor. Constructs a optional with a copied value." alt="" coords="5,5,179,47"/>
-<area shape="rect" id="node2" href="$a02611.html#afe21d4aa4c35e53ce4324a2e0a45481b" title="Returns a non&#45;const lvalue reference to the contained value." alt="" coords="227,5,387,47"/>
-</map>

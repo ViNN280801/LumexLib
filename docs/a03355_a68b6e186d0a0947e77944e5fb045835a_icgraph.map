@@ -1,5 +1,0 @@
-<map id="lumex::xml::xpath::ast::XPathAstNode::optimize_self" name="lumex::xml::xpath::ast::XPathAstNode::optimize_self">
-<area shape="rect" id="node1" title="Optimizes this specific XPath AST node by applying various rewrite rules." alt="" coords="533,29,772,71"/>
-<area shape="rect" id="node2" href="$a03355.html#a6c6c7cd42887546c1ecedf4b10f8247b" title="Optimizes the XPath AST by applying various rewrite rules recursively." alt="" coords="279,29,485,71"/>
-<area shape="rect" id="node3" href="$a03431.html#a2a56412faeaeb1eebca754f5e970c9e4" title="Constructs an XPathQuery by parsing the given query string." alt="" coords="5,29,231,71"/>
-</map>

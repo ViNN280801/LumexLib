@@ -1,5 +1,0 @@
-<map id="lumex::xml::attribute::XmlAttribute::set_value" name="lumex::xml::attribute::XmlAttribute::set_value">
-<area shape="rect" id="node1" title="Sets the value of the XML attribute from a null&#45;terminated C&#45;style string." alt="" coords="240,27,424,69"/>
-<area shape="rect" id="node2" href="$a00908.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="71,5,126,32"/>
-<area shape="rect" id="node3" href="$a03147.html#a955073ff2eca3bfc5070516af70406b9" title="Assigns a null&#45;terminated C&#45;style string as the attribute&#39;s value." alt="" coords="5,57,192,98"/>
-</map>

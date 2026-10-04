@@ -1,4 +1,0 @@
-<map id="lumex::core::utility::demangle::demangle_type_name" name="lumex::core::utility::demangle::demangle_type_name">
-<area shape="rect" id="node1" title="Convenience overload of demangle_type_name for std::string input." alt="" coords="5,5,173,61"/>
-<area shape="rect" id="node2" href="$a01391.html#a5a8a6ca7779e633cf03b6e232ef67775" title="Demangles an already&#45;mangled C++ name (e.g. one captured from a backtrace/stack unwinder),..." alt="" coords="221,5,389,61"/>
-</map>

@@ -1,5 +1,0 @@
-<map id="DefaultPaths.hpp" name="DefaultPaths.hpp">
-<area shape="rect" id="node1" title="Default names used by the crash handling of lumex::exceptions: the crash directory and the file name ..." alt="" coords="66,5,199,32"/>
-<area shape="rect" id="node2" href="$a00695.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="5,80,260,121"/>
-<area shape="rect" id="node3" href="$a00701.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="26,169,239,211"/>
-</map>

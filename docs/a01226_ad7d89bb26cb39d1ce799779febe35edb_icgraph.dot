@@ -1,0 +1,17 @@
+digraph "lumex::applied::settings::ini::LumexSettingsINI::is_ini_valid"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="RL";
+  Node1 [id="Node000001",label="lumex::applied::settings\l::ini::LumexSettingsINI\l::is_ini_valid",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="Performs a static check on an INI file for basic validity."];
+  Node1 -> Node2 [id="edge1_Node000001_Node000002",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="lumex::applied::settings\l::ini::LumexSettingsINI\l::is_ini_valid",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01226.html#aa6aaa50b95d5d9c5a1f4ada8259ac040",tooltip=" "];
+  Node1 -> Node3 [id="edge2_Node000001_Node000003",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node3 [id="Node000003",label="lumex::applied::settings\l::ini::LumexSettingsINI::load",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01226.html#ad8582ddd78b5445e1a56534be5908038",tooltip="Loads and parses an INI file from the given path."];
+  Node3 -> Node4 [id="edge3_Node000003_Node000004",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node4 [id="Node000004",label="lumex::applied::settings\l::ini::LumexSettingsINI::load",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01226.html#aa305f824caad57d086476758c8625d40",tooltip=" "];
+  Node1 -> Node5 [id="edge4_Node000001_Node000005",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node5 [id="Node000005",label="main",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a00551.html#ae66f6b31b5ad750f1fe042a706a4e3d4",tooltip=" "];
+}

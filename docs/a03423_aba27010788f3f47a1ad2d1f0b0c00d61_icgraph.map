@@ -1,5 +1,0 @@
-<map id="lumex::xml::xpath::parser::XPathParser::parse" name="lumex::xml::xpath::parser::XPathParser::parse">
-<area shape="rect" id="node1" title="Parses the XPath query." alt="" coords="279,43,428,99"/>
-<area shape="rect" id="node2" href="$a03423.html#af4472a80bbd3d72e1bdf8bf0f28e9515" title="Static helper to parse an XPath query." alt="" coords="43,5,193,61"/>
-<area shape="rect" id="node3" href="$a03431.html#a2a56412faeaeb1eebca754f5e970c9e4" title="Constructs an XPathQuery by parsing the given query string." alt="" coords="5,86,231,127"/>
-</map>

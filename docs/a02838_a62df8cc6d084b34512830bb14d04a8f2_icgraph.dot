@@ -1,0 +1,15 @@
+digraph "lumex::xml::node::XmlNode::insert_child_before"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="RL";
+  Node1 [id="Node000001",label="lumex::xml::node::XmlNode\l::insert_child_before",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="Inserts a new child node of a specified type after a given existing child node."];
+  Node1 -> Node2 [id="edge1_Node000001_Node000002",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="lumex::xml::node::XmlNode\l::insert_child_before",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a02838.html#aab7bcf34968c0972b2f2663112ac9cc6",tooltip="insert_child_before with a name of size characters at name, which need no terminating NUL (a range of..."];
+  Node1 -> Node3 [id="edge2_Node000001_Node000003",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node3 [id="Node000003",label="lumex::xml::node::XmlNode\l::insert_child_before",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a02838.html#a382508de160ecc5107cf79c88c597b36",tooltip="Inserts a new child element with the specified name before a given existing child node."];
+  Node1 -> Node4 [id="edge3_Node000001_Node000004",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node4 [id="Node000004",label="lumex::xml::node::XmlNode\l::insert_child_before",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a02838.html#a972e7ea652b109d8b1c1b383cae27905",tooltip="Inserts a new child element with the specified name (std::string_view) before a given existing child ..."];
+}

@@ -1,0 +1,20 @@
+digraph "lumex::xml::node::XmlNode::remove_attributes"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="LR";
+  Node1 [id="Node000001",label="lumex::xml::node::XmlNode\l::remove_attributes",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="Removes all attributes from the current node."];
+  Node1 -> Node2 [id="edge1_Node000001_Node000002",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="lumex::xml::attribute\l::destroy_attribute",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01084.html#a39c4f1cfa1cc6b95363c620f8c07bdea",tooltip="Destroys and deallocates an XmlAttributeBase object."];
+  Node2 -> Node3 [id="edge2_Node000002_Node000003",color="steelblue1",style="solid",tooltip=" "];
+  Node3 [id="Node000003",label="lumex::xml::memory\l::XmlAllocator::deallocate\l_memory",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a02830.html#a7916caf4c4f5e8e87a00f8778a3d4640",tooltip="Deallocates a block of memory previously allocated by this allocator."];
+  Node3 -> Node4 [id="edge3_Node000003_Node000004",color="steelblue1",style="solid",tooltip=" "];
+  Node4 [id="Node000004",label="lumex::xml::memory\l::XmlAllocator::deallocate_page",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a02830.html#a46230e854a38c3389d5b092bdd422645",tooltip="Deallocates a memory page previously allocated by this allocator."];
+  Node2 -> Node5 [id="edge4_Node000002_Node000005",color="steelblue1",style="solid",tooltip=" "];
+  Node5 [id="Node000005",label="lumex::xml::memory\l::XmlAllocator::deallocate\l_string",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a02830.html#aa83864016ef06776b8a0075a4fe42d8e",tooltip="Deallocates a string previously allocated by allocate_string."];
+  Node5 -> Node3 [id="edge5_Node000005_Node000003",color="steelblue1",style="solid",tooltip=" "];
+  Node1 -> Node6 [id="edge6_Node000001_Node000006",color="steelblue1",style="solid",tooltip=" "];
+  Node6 [id="Node000006",label="lumex::xml::memory\l::get_allocator",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01091.html#a9e2f482374d0d85e41688b19b06931c7",tooltip="Retrieves the XmlAllocator instance that manages the memory for a given object."];
+}

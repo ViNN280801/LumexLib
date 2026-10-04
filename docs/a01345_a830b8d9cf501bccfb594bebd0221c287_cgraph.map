@@ -1,9 +1,0 @@
-<map id="lumex::core::exceptions::Wrapper::ExceptionWrapper" name="lumex::core::exceptions::Wrapper::ExceptionWrapper">
-<area shape="rect" id="node1" title="Calls func(args...), catching and safely reporting any exception it throws instead of letting it prop..." alt="" coords="5,54,216,95"/>
-<area shape="rect" id="node2" href="$a01347.html#a6731c24b90644c9b4b94c4c81af602dd" title="Builds &quot;prefix. Reason: what&quot; and reports it." alt="" coords="278,9,457,65"/>
-<area shape="rect" id="node7" href="$a01347.html#ab7031ff23205b8e8d31fb72ed3744806" title="Sends line to the installed sink. On a null sink or a throw from the sink, writes line to std::cerr." alt="" coords="264,90,471,131"/>
-<area shape="rect" id="node3" href="$a01345.html#a0e00681207c6fe8355e6416db22d6ee8" title="Returns the installed sink, or nullptr when reports go to std::cerr." alt="" coords="519,5,697,61"/>
-<area shape="rect" id="node6" href="$a01347.html#a92da48ec00b5194131e081ffabbbed57" title="Writes &quot;line\n&quot; to std::cerr using only noexcept operations." alt="" coords="519,85,697,141"/>
-<area shape="rect" id="node4" href="$a01369.html#affc4125f1c661b62d9a1011d7c589dc9" title=" " alt="" coords="745,13,913,54"/>
-<area shape="rect" id="node5" href="$a01370.html#a4267bbe4c002bf9161d0966b40e2eb6f" title=" " alt="" coords="961,5,1132,61"/>
-</map>

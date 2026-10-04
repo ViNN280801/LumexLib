@@ -1,6 +1,0 @@
-<map id="lumex::core::time::timer::measure_execution_time" name="lumex::core::time::timer::measure_execution_time">
-<area shape="rect" id="node1" title="Invokes callable with args and returns elapsed wall&#45;clock time in milliseconds." alt="" coords="5,86,236,127"/>
-<area shape="rect" id="node2" href="$a02691.html#a7d3c0b7c50df82392b163199ca8d6e64" title="Returns the elapsed time between the last start_timer()/stop_timer() pair." alt="" coords="294,5,501,61"/>
-<area shape="rect" id="node3" href="$a02691.html#ae5f482d0ba0e310f7b9a88985c3c28e4" title="Starts (or restarts) the timer." alt="" coords="284,86,511,127"/>
-<area shape="rect" id="node4" href="$a02691.html#a714290e3e7f5ab19de7b50dd2eafb3f7" title="Stops the timer." alt="" coords="285,151,510,193"/>
-</map>

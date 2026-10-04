@@ -1,4 +1,0 @@
-<map id="lumex::xml::xpath::variable::delete_xpath_variable" name="lumex::xml::xpath::variable::delete_xpath_variable">
-<area shape="rect" id="node1" title="Frees the memory associated with a specific XPath variable type." alt="" coords="221,5,389,61"/>
-<area shape="rect" id="node2" href="$a01443.html#a10c437efc4cf016b68b63e55b2fe1672" title="Frees the memory associated with an XPath variable based on its type." alt="" coords="5,5,173,61"/>
-</map>

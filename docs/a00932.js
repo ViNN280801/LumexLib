@@ -1,4 +1,5 @@
 var a00932 =
 [
-    [ "LUMEX_IMPLEMENTATION", "a00932.html#a07486181f1990291c2a348de8eb4c480", null ]
+    [ "ILumexJsonNormalizer", "a01138.html", "a01138" ],
+    [ "LumexJsonSchemaNormalizer", "a01142.html", "a01142" ]
 ];

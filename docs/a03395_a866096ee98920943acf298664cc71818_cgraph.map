@@ -1,4 +1,0 @@
-<map id="lumex::xml::xpath::memory::XPathStackData::~XPathStackData" name="lumex::xml::xpath::memory::XPathStackData::~XPathStackData">
-<area shape="rect" id="node1" title="Destroys the XPathStackData object." alt="" coords="5,5,193,61"/>
-<area shape="rect" id="node2" href="$a03375.html#ab93c0b3a302c65d01f9846257ac426ce" title="Releases all dynamically allocated memory blocks managed by this allocator." alt="" coords="241,5,420,61"/>
-</map>

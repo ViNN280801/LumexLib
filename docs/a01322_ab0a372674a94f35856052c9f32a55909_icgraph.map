@@ -1,7 +1,0 @@
-<map id="lumex::core::atomic::sync::table_wait::Detail::notify_all" name="lumex::core::atomic::sync::table_wait::Detail::notify_all">
-<area shape="rect" id="node1" title="Wakes every thread sleeping in wait_until_changed on word." alt="" coords="547,115,699,171"/>
-<area shape="rect" id="node2" href="$a01603.html#afba323e7b7766d981566a7273f066e6a" title=" " alt="" coords="276,5,499,91"/>
-<area shape="rect" id="node3" href="$a01322.html#a57da345244e75b4b313c745e12a46382" title="Wakes at least one thread sleeping in wait_until_changed on word." alt="" coords="311,115,463,171"/>
-<area shape="rect" id="node5" href="$a01619.html#a7225c984e89a9d1db3f329fb69848fd1" title="Releases the lock and wakes the threads that sleep on it." alt="" coords="303,195,471,251"/>
-<area shape="rect" id="node4" href="$a01603.html#aef3f0a96a23f8531354daeead156b223" title=" " alt="" coords="5,100,228,185"/>
-</map>

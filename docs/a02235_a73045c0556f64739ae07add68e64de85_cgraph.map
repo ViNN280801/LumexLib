@@ -1,5 +1,0 @@
-<map id="lumex::core::filesystem::fs::path::parent_path" name="lumex::core::filesystem::fs::path::parent_path">
-<area shape="rect" id="node1" title="Extracts the parent path component from the path." alt="" coords="5,39,180,80"/>
-<area shape="rect" id="node2" href="$a02235.html#a64215fe6be8d35c058ca8e3df2ca90a6" title=" " alt="" coords="228,5,403,47"/>
-<area shape="rect" id="node3" href="$a02235.html#a3b470303c0431f218eeebe77b8acd417" title="Default constructor. Constructs an empty path." alt="" coords="228,71,403,112"/>
-</map>

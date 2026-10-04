@@ -1,5 +1,4 @@
 var a00416 =
 [
-    [ "LUMEX_IMPLEMENTATION", "a00416.html#a07486181f1990291c2a348de8eb4c480", null ],
-    [ "resolve_serial_port_path", "a00416.html#a523de1146ace21810686af24cd7edd8f", null ]
+    [ "main", "a00416.html#ae66f6b31b5ad750f1fe042a706a4e3d4", null ]
 ];

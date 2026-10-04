@@ -1,4 +1,0 @@
-<map id="lumex::xml::writer::XmlBufferedWriter" name="lumex::xml::writer::XmlBufferedWriter">
-<area shape="rect" id="node1" title="A buffered writer for XML output, optimizing write operations by accumulating data in a buffer." alt="" coords="5,109,156,151"/>
-<area shape="rect" id="node2" href="$a03311.html" title="Abstract base interface for writing XML data to various destinations." alt="" coords="9,5,152,47"/>
-</map>

@@ -1,6 +1,0 @@
-<map id="lumex::core::filesystem::fs::directory_iterator::directory_iterator" name="lumex::core::filesystem::fs::directory_iterator::directory_iterator">
-<area shape="rect" id="node1" title="Constructs a directory_iterator for the specified path." alt="" coords="5,71,180,127"/>
-<area shape="rect" id="node2" href="$a02235.html#a209b04de0c65852694ca4d9a44d4d9bd" title="Returns a pointer to the null&#45;terminated C&#45;style string representation of the path." alt="" coords="228,5,403,47"/>
-<area shape="rect" id="node3" href="$a02251.html#a59350998a003aecb448afdfb464b328c" title="Pre&#45;increments the iterator to move to the next entry in the directory." alt="" coords="228,71,403,127"/>
-<area shape="rect" id="node4" href="$a02235.html#a54758ce9dd25cab6d714efd2ac1e8ace" title="Returns a copy of the path as a std::string." alt="" coords="228,152,403,193"/>
-</map>

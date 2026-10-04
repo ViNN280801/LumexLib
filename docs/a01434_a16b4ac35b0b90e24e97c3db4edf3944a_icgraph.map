@@ -1,6 +1,0 @@
-<map id="lumex::xml::utility::get_value_int" name="lumex::xml::utility::get_value_int">
-<area shape="rect" id="node1" title=" " alt="" coords="347,39,489,80"/>
-<area shape="rect" id="node2" href="$a03147.html#a60197dee0eb2b25d5e4e1f8d857630fd" title="Converts the attribute&#39;s value to an int." alt="" coords="123,5,283,47"/>
-<area shape="rect" id="node4" href="$a03223.html#a9216d03ae5dbb7049af4c3c0a1ffa50d" title="Converts the text object&#39;s value to an int." alt="" coords="108,71,299,112"/>
-<area shape="rect" id="node3" href="$a00908.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,13,60,39"/>
-</map>

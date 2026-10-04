@@ -1,9 +1,0 @@
-<map id="lumex::core::environment::env::is_env_set" name="lumex::core::environment::env::is_env_set">
-<area shape="rect" id="node1" title="Checks whether an environment variable is set to a non&#45;empty value." alt="" coords="5,93,196,134"/>
-<area shape="rect" id="node2" href="$a02131.html#a0e6f9bade0ef8d0fa52a7b719a9d870b" title="Static convenience method to retrieve an environment variable with a default fallback." alt="" coords="244,85,435,141"/>
-<area shape="rect" id="node3" href="$a02131.html#ab2ebd2b139bc0d06104a86d3c57b02d8" title="Retrieves the value of an environment variable, providing a default fallback." alt="" coords="483,45,704,101"/>
-<area shape="rect" id="node7" href="$a02131.html#a2a9def03d86d90318cd7445fd2ea6006" title="Provides the single, globally accessible instance of LumexEnvironment." alt="" coords="498,125,689,181"/>
-<area shape="rect" id="node4" href="$a02131.html#a421e9605d3a586425cb22f304d17ac6d" title="Retrieves the value of a specified environment variable in a thread&#45;safe manner." alt="" coords="752,5,953,61"/>
-<area shape="rect" id="node5" href="$a02135.html#ac150613ec458adba41b1af131c4c9d69" title="Retrieves the variable&#39;s value or a specified fallback value if the operation failed." alt="" coords="757,85,948,141"/>
-<area shape="rect" id="node6" href="$a01353.html#aedb3e518171a625ee1b9cad9e0fc1b73" title="Creates a marker for a successful call that carries no value." alt="" coords="1001,93,1168,134"/>
-</map>

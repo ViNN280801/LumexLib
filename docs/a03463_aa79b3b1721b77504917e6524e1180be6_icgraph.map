@@ -1,5 +1,0 @@
-<map id="lumex::xml::xpath::variable::XPathVariableSet::get" name="lumex::xml::xpath::variable::XPathVariableSet::get">
-<area shape="rect" id="node1" title="Gets a mutable pointer to an existing variable by name." alt="" coords="468,13,691,54"/>
-<area shape="rect" id="node2" href="$a01443.html#a2e440c9a87ed869364c0351b332f26e4" title="Utility function to retrieve a variable from a set, handling scratch buffer for name." alt="" coords="256,5,420,61"/>
-<area shape="rect" id="node3" href="$a03423.html#a94a6d92fbfc6de074d2b4a9dfc706acc" title="Parses a PrimaryExpr production in the XPath grammar." alt="" coords="5,5,208,61"/>
-</map>

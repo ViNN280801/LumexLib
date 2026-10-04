@@ -1,0 +1,11 @@
+digraph "lumex::core::expected::error::BadExpectedAccess::error"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="RL";
+  Node1 [id="Node000001",label="lumex::core::expected\l::error::BadExpectedAccess\l::error",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="Returns a mutable lvalue reference to the stored error."];
+  Node1 -> Node2 [id="edge1_Node000001_Node000002",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="lumex::core::expected\l::error::BadExpectedAccess\l::BadExpectedAccess",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01834.html#a00dd6b0e3cdd38f6b48be943bc1829cc",tooltip="Constructs the exception, moving error into the object."];
+}

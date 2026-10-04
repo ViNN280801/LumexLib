@@ -1,0 +1,11 @@
+digraph "lumex::core::expected::result::success_t::success_t"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="LR";
+  Node1 [id="Node000001",label="lumex::core::expected\l::result::success_t::\lsuccess_t",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="Constructs from a const lvalue value."];
+  Node1 -> Node2 [id="edge1_Node000001_Node000002",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="lumex::core::expected\l::result::success_t::value",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01870.html#a43328dedc196cf16e74382833084a476",tooltip="Returns the stored value (mutable lvalue)."];
+}

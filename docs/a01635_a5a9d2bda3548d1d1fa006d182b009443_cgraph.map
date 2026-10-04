@@ -1,4 +1,0 @@
-<map id="lumex::core::base64::encode::Encoder::encode" name="lumex::core::base64::encode::Encoder::encode">
-<area shape="rect" id="node1" title="Encodes binary data from a std::vector&lt;byte_type&gt; into a Base64 string." alt="" coords="5,5,197,47"/>
-<area shape="rect" id="node2" href="$a01327.html#abda97488987b0b151816d6cc1ee24873" title="Internal helper to encode binary data into a Base64 string from a view&#45;like type." alt="" coords="245,5,456,47"/>
-</map>

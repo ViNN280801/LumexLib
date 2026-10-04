@@ -1,5 +1,0 @@
-<map id="lumex::core::crc::catalog::GetTransportCrcCatalogIndex" name="lumex::core::crc::catalog::GetTransportCrcCatalogIndex">
-<area shape="rect" id="node1" title="Catalogue index in Catalog mode; otherwise CrcCatalogLegacyIndex or CrcTransportUsesCustomSpecSentine..." alt="" coords="5,39,225,80"/>
-<area shape="rect" id="node2" href="$a01336.html#ad5f7e9bf7ab382d6bea8b9c1a68acf2e" title=" " alt="" coords="321,5,503,47"/>
-<area shape="rect" id="node3" href="$a01336.html#a994dcaacfb446400b417d59b23ae129d" title="Value of GetTransportCrcCatalogIndex when the mode is Custom." alt="" coords="273,71,551,112"/>
-</map>

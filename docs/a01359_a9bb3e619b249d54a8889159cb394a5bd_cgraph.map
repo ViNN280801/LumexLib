@@ -1,7 +1,0 @@
-<map id="lumex::core::fmt::Detail::iso_week" name="lumex::core::fmt::Detail::iso_week">
-<area shape="rect" id="node1" title="ISO 8601 week&#45;based year and week number." alt="" coords="5,35,183,76"/>
-<area shape="rect" id="node2" href="$a01359.html#abf8a964b73ead1cec0f493a86c4b9fab" title="Fills the date part of time from days since 1970&#45;01&#45;01." alt="" coords="231,64,408,105"/>
-<area shape="rect" id="node3" href="$a01359.html#a365347e3849bfaedcfb56627e1ee586e" title="Days since 1970&#45;01&#45;01 of a civil date." alt="" coords="456,5,633,47"/>
-<area shape="rect" id="node4" href="$a01359.html#a8a3611c453003762e23f73cdf331d06a" title="value / divisor rounded toward negative infinity." alt="" coords="681,64,859,105"/>
-<area shape="rect" id="node5" href="$a01359.html#ae8c7658b63539d3879a215371302723c" title="value mod divisor in [0, divisor) for a positive divisor." alt="" coords="456,123,633,164"/>
-</map>

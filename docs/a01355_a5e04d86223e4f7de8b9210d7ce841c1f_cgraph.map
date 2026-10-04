@@ -1,5 +1,0 @@
-<map id="lumex::core::filesystem::fs::operator&lt;&lt;" name="lumex::core::filesystem::fs::operator&lt;&lt;">
-<area shape="rect" id="node1" title="Stream insertion operator for lumex::directory_entry." alt="" coords="5,39,180,80"/>
-<area shape="rect" id="node2" href="$a02247.html#a00b5e86e8f73c914762532d7eca99bce" title="Retrieves the path of this directory entry." alt="" coords="228,5,413,47"/>
-<area shape="rect" id="node3" href="$a02235.html#a54758ce9dd25cab6d714efd2ac1e8ace" title="Returns a copy of the path as a std::string." alt="" coords="233,71,408,112"/>
-</map>

@@ -1,7 +1,0 @@
-<map id="lumex::applied::hardware::caps::HardwareCapabilities::estimate_cpu_generation" name="lumex::applied::hardware::caps::HardwareCapabilities::estimate_cpu_generation">
-<area shape="rect" id="node1" title="Estimates CPU generation year based on processor model name analysis." alt="" coords="947,76,1155,132"/>
-<area shape="rect" id="node2" href="$a01479.html#af3c48849b42dbcc0651429190b4a86b9" title="Performs comprehensive system hardware detection and analysis." alt="" coords="691,43,899,99"/>
-<area shape="rect" id="node3" href="$a00803.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,51,60,78"/>
-<area shape="rect" id="node4" href="$a01479.html#abe50368bd4ba1088c99e329d0fc5deb4" title="Determines whether software rendering should be used instead of hardware acceleration." alt="" coords="407,43,643,99"/>
-<area shape="rect" id="node5" href="$a01479.html#a3eaf2f4c04de9dfd7a0692f22f8c0b41" title="Automatically configures optimal rendering settings based on detected hardware." alt="" coords="108,68,359,124"/>
-</map>

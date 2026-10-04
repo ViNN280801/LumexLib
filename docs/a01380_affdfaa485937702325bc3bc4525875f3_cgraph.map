@@ -1,5 +1,0 @@
-<map id="lumex::core::string_view::view::operator&lt;&lt;" name="lumex::core::string_view::view::operator&lt;&lt;">
-<area shape="rect" id="node1" title="Overload for inserting a LumexWStringView into an std::wostream." alt="" coords="5,39,188,80"/>
-<area shape="rect" id="node2" href="$a02671.html#a972b1b7a6722beac93756ec1841ff342" title="Returns a pointer to the beginning of the wide character data." alt="" coords="236,5,504,47"/>
-<area shape="rect" id="node3" href="$a02671.html#a2f853fc60e1040b7c58832294b0d02dd" title="Returns the number of wide characters in the view." alt="" coords="237,71,503,112"/>
-</map>

@@ -1,8 +1,0 @@
-<map id="LumexSerialPort.hpp" name="LumexSerialPort.hpp">
-<area shape="rect" id="node1" title="Resolves short, configuration&#45;style serial&#45;port names into the platform&#45;specific path or identifier a..." alt="" coords="267,5,425,32"/>
-<area shape="rect" id="node2" href="$a00410.html" title=" " alt="" coords="5,80,244,107"/>
-<area shape="rect" id="node3" href="$a00416.html" title=" " alt="" coords="268,80,424,107"/>
-<area shape="rect" id="node4" href="$a01199.html" title="Serial port module: lists serial ports with device details, turns a configuration&#45;style port name int..." alt="" coords="448,80,577,107"/>
-<area shape="rect" id="node5" href="$a00857.html" title=" " alt="" coords="334,155,483,181"/>
-<area shape="rect" id="node6" href="$a00860.html" title=" " alt="" coords="508,155,723,181"/>
-</map>

@@ -1,7 +1,0 @@
-<map id="lumex::xml::xpath::ast::XPathAstNode::rettype" name="lumex::xml::xpath::ast::XPathAstNode::rettype">
-<area shape="rect" id="node1" title="Retrieves the XPath value type that this AST node is expected to return." alt="" coords="235,137,432,178"/>
-<area shape="rect" id="node2" href="$a03423.html#a6263a1f1e32bf9258c8123f0064fc3ea" title="Recursively parses binary expressions based on operator precedence." alt="" coords="11,5,181,61"/>
-<area shape="rect" id="node3" href="$a03423.html#a36eceab449e9caffedaba9928580dca9" title="Parses a FilterExpr production in the XPath grammar." alt="" coords="5,85,187,141"/>
-<area shape="rect" id="node4" href="$a03423.html#ac5decb2d227214cd43834d74b54a6d61" title="Parses a PathExpr, UnionExpr, or UnaryExpr production." alt="" coords="13,166,179,237"/>
-<area shape="rect" id="node5" href="$a03423.html#a9c860c7129b5f44bb914b8a6649fe187" title="Parses a Step production in the XPath grammar." alt="" coords="21,261,171,317"/>
-</map>

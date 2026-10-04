@@ -1,0 +1,10 @@
+var a00383 =
+[
+    [ "LUMEX_BASE_CONSTANT", "a00383.html#ab6144301899a06d23751755672c5a3f7", null ],
+    [ "LUMEX_CONST", "a00383.html#aa63e4a30676d4f67d808597f321f416a", null ],
+    [ "LUMEX_CONST_NUM", "a00383.html#a294baa8c8ad4246130f881cd1da7cbe1", null ],
+    [ "LUMEX_CONST_STR", "a00383.html#a79c537c78fd40b18154a50845e28fb61", null ],
+    [ "LUMEX_CONSTEVAL_FUNCTION", "a00383.html#aea059f2206580c771f0e532c0102a708", null ],
+    [ "LUMEX_CONSTINIT_CONSTANT", "a00383.html#ac8388d271f79d02f47b20cfae244900a", null ],
+    [ "LUMEX_STRING_CONSTANT", "a00383.html#a05ab07d7450e90785790f33e19a37763", null ]
+];

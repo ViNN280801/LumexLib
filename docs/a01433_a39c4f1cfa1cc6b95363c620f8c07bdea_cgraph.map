@@ -1,6 +1,0 @@
-<map id="lumex::xml::attribute::destroy_attribute" name="lumex::xml::attribute::destroy_attribute">
-<area shape="rect" id="node1" title="Destroys and deallocates an XmlAttributeBase object." alt="" coords="5,13,165,54"/>
-<area shape="rect" id="node2" href="$a03167.html#a7916caf4c4f5e8e87a00f8778a3d4640" title="Deallocates a block of memory previously allocated by this allocator." alt="" coords="452,5,643,61"/>
-<area shape="rect" id="node4" href="$a03167.html#aa83864016ef06776b8a0075a4fe42d8e" title="Deallocates a string previously allocated by allocate_string." alt="" coords="213,37,404,93"/>
-<area shape="rect" id="node3" href="$a03167.html#a46230e854a38c3389d5b092bdd422645" title="Deallocates a memory page previously allocated by this allocator." alt="" coords="691,13,920,54"/>
-</map>

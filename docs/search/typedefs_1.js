@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['byte_5ftype_6500',['byte_type',['../a01325.html#a5ce1631da87ffd76dbc11fb072c31a57',1,'lumex::core::base64::codec::Types']]]
+  ['byte_5ftype_0',['byte_type',['../a00974.html#a5e9a9660b44f2279e84d63cbdb62ffd1',1,'lumex::core::base64::codec::Types']]]
 ];

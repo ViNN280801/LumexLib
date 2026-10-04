@@ -1,8 +1,0 @@
-<map id="lumex::core::fmt::Detail::append_number" name="lumex::core::fmt::Detail::append_number">
-<area shape="rect" id="node1" title="value with at least width digits, zero padded, with sign." alt="" coords="793,141,971,182"/>
-<area shape="rect" id="node2" href="$a01359.html#a40ff57adf446dd2e2b97a65f9e817121" title=" " alt="" coords="568,82,745,123"/>
-<area shape="rect" id="node3" href="$a01359.html#a754034de35d8ea974e37818b711109a8" title="Writes time following the checked chrono&#45;specs [it, end)." alt="" coords="343,111,520,153"/>
-<area shape="rect" id="node6" href="$a01359.html#ac7b20507d3e880ccec4b4654d0e50ec2" title="Count of a duration as {} / Q print it." alt="" coords="568,199,745,241"/>
-<area shape="rect" id="node4" href="$a02439.html#afa4e3b18a7e20bb3c43ba297a45d34f7" title=" " alt="" coords="31,5,269,120"/>
-<area shape="rect" id="node5" href="$a02443.html#a9a40bf1ecf001e44a93d8649bf47f9f8" title=" " alt="" coords="5,144,295,259"/>
-</map>

@@ -1,0 +1,11 @@
+digraph "lumex::xml::xpath::parser::XPathParser::alloc_node"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="LR";
+  Node1 [id="Node000001",label="lumex::xml::xpath::\lparser::XPathParser\l::alloc_node",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="Allocates and constructs a generic XPathAstNode with optional children."];
+  Node1 -> Node2 [id="edge1_Node000001_Node000002",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="lumex::xml::xpath::\lparser::XPathParser\l::alloc_node",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a03086.html#a2e8993208c5061cd25b34cb351cbfedf",tooltip="Allocates raw memory for an XPathAstNode."];
+}

@@ -1,6 +1,0 @@
-<map id="lumex::xml::xpath::parser::XPathParser::parse_step" name="lumex::xml::xpath::parser::XPathParser::parse_step">
-<area shape="rect" id="node1" title="Parses a Step production in the XPath grammar." alt="" coords="5,63,155,119"/>
-<area shape="rect" id="node2" href="$a03355.html#a708708b7a8d4be7a96c467722634664a" title="Retrieves the XPath value type that this AST node is expected to return." alt="" coords="207,5,405,47"/>
-<area shape="rect" id="node3" href="$a03355.html#ad429fc425aca0093a7a9638653ffd945" title="Sets the m_next pointer of this AST node." alt="" coords="203,71,409,112"/>
-<area shape="rect" id="node4" href="$a03355.html#a298b08af3d6ff6c7ed1be0ec814a2375" title="Sets the m_right pointer of this AST node." alt="" coords="203,136,409,177"/>
-</map>

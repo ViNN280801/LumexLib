@@ -1,5 +1,0 @@
-<map id="lumex::core::filesystem::fs::path::operator/=" name="lumex::core::filesystem::fs::path::operator/=">
-<area shape="rect" id="node1" title="Appends another path object as a sub&#45;path using the path concatenation operator (/=)." alt="" coords="252,39,427,80"/>
-<area shape="rect" id="node2" href="$a02235.html#a48b63ce6a9b071cab792a587ccb51138" title="Appends a std::string as a sub&#45;path_arg using the path_arg concatenation operator (/=)." alt="" coords="17,5,192,47"/>
-<area shape="rect" id="node3" href="$a02235.html#ad986f755740f5cb77a55ec256236a503" title="Replaces the filename component of the path with a new path filename." alt="" coords="5,71,204,112"/>
-</map>

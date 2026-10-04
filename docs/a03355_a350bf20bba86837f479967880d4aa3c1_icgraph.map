@@ -1,6 +1,0 @@
-<map id="lumex::xml::xpath::ast::XPathAstNode::is_posinv_expr" name="lumex::xml::xpath::ast::XPathAstNode::is_posinv_expr">
-<area shape="rect" id="node1" title="Checks if the expression represented by this AST node is positionally invariant." alt="" coords="820,29,981,85"/>
-<area shape="rect" id="node2" href="$a03355.html#a68b6e186d0a0947e77944e5fb045835a" title="Optimizes this specific XPath AST node by applying various rewrite rules." alt="" coords="533,37,772,78"/>
-<area shape="rect" id="node3" href="$a03355.html#a6c6c7cd42887546c1ecedf4b10f8247b" title="Optimizes the XPath AST by applying various rewrite rules recursively." alt="" coords="279,37,485,78"/>
-<area shape="rect" id="node4" href="$a03431.html#a2a56412faeaeb1eebca754f5e970c9e4" title="Constructs an XPathQuery by parsing the given query string." alt="" coords="5,37,231,78"/>
-</map>

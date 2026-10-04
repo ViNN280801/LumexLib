@@ -1,5 +1,0 @@
-<map id="lumex::xml::xpath::parser::lexer::XPathLexer::contents" name="lumex::xml::xpath::parser::lexer::XPathLexer::contents">
-<area shape="rect" id="node1" title="Returns the contents of the current lexeme as an XPathLexerString." alt="" coords="415,5,600,61"/>
-<area shape="rect" id="node2" href="$a03419.html#a3e485b7e05e69c4867839c42c9ffc600" title=" " alt="" coords="224,20,367,47"/>
-<area shape="rect" id="node3" href="$a03423.html#a6263a1f1e32bf9258c8123f0064fc3ea" title="Recursively parses binary expressions based on operator precedence." alt="" coords="5,5,176,61"/>
-</map>

@@ -1,6 +1,0 @@
-<map id="lumex::core::crc::catalog::ComputeCrcWithRevEngParams" name="lumex::core::crc::catalog::ComputeCrcWithRevEngParams">
-<area shape="rect" id="node1" title="RevEng&#45;parameter CRC of a string (raw bytes, no trailing &#39;\0&#39;)." alt="" coords="5,39,241,80"/>
-<area shape="rect" id="node2" href="$a01336.html#a07dc7d6ce7dae828a9174ed5c61a53cd" title="Computes a CRC from explicit RevEng parameters (bit engine, width 1..64)." alt="" coords="289,39,525,80"/>
-<area shape="rect" id="node3" href="$a01339.html#aaba99f39d4a7667b3a2ce6dd58f6f791" title=" " alt="" coords="573,5,779,47"/>
-<area shape="rect" id="node4" href="$a01336.html#a10782f1d322cae0727ac0ee7f52e6f95" title="Validates parameters before computation (width 1..64)." alt="" coords="576,71,776,112"/>
-</map>

@@ -1,5 +1,0 @@
-<map id="lumex::core::environment::env::LumexEnvironment::is_truthy" name="lumex::core::environment::env::LumexEnvironment::is_truthy">
-<area shape="rect" id="node1" title="Static convenience method to check whether an environment variable is truthy (enabled)." alt="" coords="244,27,435,83"/>
-<area shape="rect" id="node2" href="$a01341.html#a664eee18841a0489fd44e19b214f7761" title="Checks whether an environment variable is &quot;truthy&quot; (enabled)." alt="" coords="5,5,196,47"/>
-<area shape="rect" id="node3" href="$a00752.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="73,71,128,98"/>
-</map>

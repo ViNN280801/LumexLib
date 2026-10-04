@@ -1,8 +1,0 @@
-<map id="lumex::core::crc::catalog::CrcCatalogLegacyIndex" name="lumex::core::crc::catalog::CrcCatalogLegacyIndex">
-<area shape="rect" id="node1" title=" " alt="" coords="540,100,723,141"/>
-<area shape="rect" id="node2" href="$a01336.html#ada153a2397d11cdb757cededb803d6ba" title="Catalogue entry width in bits; &#45;1 on error." alt="" coords="291,5,473,47"/>
-<area shape="rect" id="node4" href="$a01336.html#adfb9a54377d70e075c97d7034dd2d497" title="Catalogue index in Catalog mode; otherwise CrcCatalogLegacyIndex or CrcTransportUsesCustomSpecSentine..." alt="" coords="272,71,492,112"/>
-<area shape="rect" id="node5" href="$a01336.html#a695b6caf304fee0eef53bd8331b01579" title="Transport: 8&#45;bit catalogue entry by index." alt="" coords="5,159,224,200"/>
-<area shape="rect" id="node6" href="$a01336.html#a1895c5276e88e178fd50ae5ff29b22a7" title="Restore the default CRC&#45;8/MAXIM&#45;DOW transport mode." alt="" coords="291,188,473,229"/>
-<area shape="rect" id="node3" href="$a00746.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="87,13,142,39"/>
-</map>

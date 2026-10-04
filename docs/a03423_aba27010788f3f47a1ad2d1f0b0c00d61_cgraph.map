@@ -1,6 +1,0 @@
-<map id="lumex::xml::xpath::parser::XPathParser::parse" name="lumex::xml::xpath::parser::XPathParser::parse">
-<area shape="rect" id="node1" title="Parses the XPath query." alt="" coords="5,85,155,141"/>
-<area shape="rect" id="node2" href="$a03411.html#a315961b587dbad20ea49c3c17413ed2a" title="Returns the type of the current lexeme." alt="" coords="203,5,388,61"/>
-<area shape="rect" id="node3" href="$a03423.html#ab9717be28911f27697db3b57260e2f8d" title="Reports a parsing error." alt="" coords="221,85,370,141"/>
-<area shape="rect" id="node4" href="$a03423.html#a0db2c6a36b7bb7d4555b6fad1c547bc2" title="Parses a general XPath expression (Expr)." alt="" coords="221,165,370,221"/>
-</map>

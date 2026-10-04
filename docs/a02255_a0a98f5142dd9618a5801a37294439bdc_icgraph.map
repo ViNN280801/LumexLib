@@ -1,8 +1,0 @@
-<map id="lumex::core::filesystem::fs::lumex_filesystem::get_exe_path" name="lumex::core::filesystem::fs::lumex_filesystem::get_exe_path">
-<area shape="rect" id="node1" title="Retrieve the absolute filesystem path_arg of the running executable." alt="" coords="643,85,817,141"/>
-<area shape="rect" id="node2" href="$a01519.html#accf4de4dbcf6ed1920c2782a8b1be0fe" title="Get the path to the logs directory." alt="" coords="367,5,579,61"/>
-<area shape="rect" id="node5" href="$a02147.html#a73b8ef911cb0078f0ee965b8f928135b" title="Initializes the crash handler." alt="" coords="371,85,576,141"/>
-<area shape="rect" id="node6" href="$a02151.html#a277f55eeecb20cecca099e0c63bd1559" title="Write a crash report to a file by pattern: &quot;crash_report_{timestamp}.txt&quot;." alt="" coords="352,165,595,221"/>
-<area shape="rect" id="node3" href="$a00827.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,20,60,47"/>
-<area shape="rect" id="node4" href="$a01519.html#a385a6c62d7eee3e396474410c2f4b331" title="Write a log to a file in the logs/ directory." alt="" coords="108,42,304,83"/>
-</map>

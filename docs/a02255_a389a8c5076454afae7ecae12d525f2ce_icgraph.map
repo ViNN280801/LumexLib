@@ -1,4 +1,0 @@
-<map id="lumex::core::filesystem::fs::lumex_filesystem::is_other" name="lumex::core::filesystem::fs::lumex_filesystem::is_other">
-<area shape="rect" id="node1" title="Checks if the specified path_arg refers to a file type other than regular file or directory." alt="" coords="228,5,403,61"/>
-<area shape="rect" id="node2" href="$a02247.html#abf692894e2cf17b47aceee5857df3aba" title="Checks if the entry represents a file type other than regular file or directory." alt="" coords="5,5,180,61"/>
-</map>

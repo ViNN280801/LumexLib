@@ -1,9 +1,0 @@
-<map id="lumex::applied::logging::log::LumexLogging::info" name="lumex::applied::logging::log::LumexLogging::info">
-<area shape="rect" id="node1" title="Log an INFO&#45;level message." alt="" coords="949,158,1136,199"/>
-<area shape="rect" id="node2" href="$a01479.html#a3eaf2f4c04de9dfd7a0692f22f8c0b41" title="Automatically configures optimal rendering settings based on detected hardware." alt="" coords="108,145,359,201"/>
-<area shape="rect" id="node4" href="$a01563.html#af9bac403ac10a4c027b0b3b3e7242dab" title="Copies filename to a sibling &lt;filename&gt;.bak.&lt;YYYYMMDD&#45;HHMMSS&gt; backup file." alt="" coords="691,85,901,141"/>
-<area shape="rect" id="node5" href="$a01479.html#af3c48849b42dbcc0651429190b4a86b9" title="Performs comprehensive system hardware detection and analysis." alt="" coords="692,5,900,61"/>
-<area shape="rect" id="node6" href="$a01479.html#abe50368bd4ba1088c99e329d0fc5deb4" title="Determines whether software rendering should be used instead of hardware acceleration." alt="" coords="407,104,643,160"/>
-<area shape="rect" id="node7" href="$a00827.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="769,267,823,293"/>
-<area shape="rect" id="node3" href="$a00803.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,95,60,121"/>
-</map>

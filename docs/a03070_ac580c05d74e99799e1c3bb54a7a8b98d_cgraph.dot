@@ -1,0 +1,13 @@
+digraph "lumex::xml::xpath::node::XPathNodeSetRaw::remove_duplicates"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="LR";
+  Node1 [id="Node000001",label="lumex::xml::xpath::\lnode::XPathNodeSetRaw\l::remove_duplicates",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="Removes duplicate nodes from the raw node set."];
+  Node1 -> Node2 [id="edge1_Node000001_Node000002",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="lumex::xml::xpath::\lmemory::XPathAllocator\l::allocate",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a03038.html#a5b46ca174cf2a08d8ac4ed3d0b9a1a52",tooltip="Allocates a block of memory of the specified size."];
+  Node1 -> Node3 [id="edge2_Node000001_Node000003",color="steelblue1",style="solid",tooltip=" "];
+  Node3 [id="Node000003",label="lumex::xml::utility\l::hash_insert",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01085.html#ae10323c79b428ecefbd57549c80d093c",tooltip=" "];
+}

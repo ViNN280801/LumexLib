@@ -1,5 +1,0 @@
-<map id="lumex::core::crc::parametric::CrcParametric::calculate" name="lumex::core::crc::parametric::CrcParametric::calculate">
-<area shape="rect" id="node1" title="Computes the CRC of a buffer." alt="" coords="271,35,476,76"/>
-<area shape="rect" id="node2" href="$a01336.html#add9426471847b4c3cee375c3f12cd548" title="8&#45;bit transport checksum for the current process&#45;global mode." alt="" coords="5,5,223,47"/>
-<area shape="rect" id="node3" href="$a00746.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="87,71,141,98"/>
-</map>

@@ -1,8 +1,0 @@
-<map id="lumex::core::fmt::Detail::group_digits" name="lumex::core::fmt::Detail::group_digits">
-<area shape="rect" id="node1" title="Inserts separator into the integral digits per grouping." alt="" coords="747,57,924,99"/>
-<area shape="rect" id="node2" href="$a01359.html#a6805e940fc8a7ca908fb169f2f308eb9" title=" " alt="" coords="521,5,699,47"/>
-<area shape="rect" id="node4" href="$a01359.html#ad0334f950a029dfe06bb9eb1fd904f14" title="Writes an integer given as sign + magnitude." alt="" coords="521,89,699,131"/>
-<area shape="rect" id="node3" href="$a02387.html#ac9642063b0f0f6e8ed748e295ff5174c" title=" " alt="" coords="5,30,184,86"/>
-<area shape="rect" id="node5" href="$a02407.html#a11233bb8904684bc2497addaa68232b4" title=" " alt="" coords="232,96,473,196"/>
-<area shape="rect" id="node6" href="$a01359.html#a82be6a9fe1141dbfaf5f5e709aa53a56" title=" " alt="" coords="264,220,441,261"/>
-</map>

@@ -1,8 +1,0 @@
-<map id="lumex::core::filesystem::fs::lumex_filesystem::temp_directory_path" name="lumex::core::filesystem::fs::lumex_filesystem::temp_directory_path">
-<area shape="rect" id="node1" title="Retrieves the path_arg to the system&#39;s temporary directory." alt="" coords="575,104,749,160"/>
-<area shape="rect" id="node2" href="$a02683.html#a071dfa6421d20a315f6bb09daef6c6f3" title="Returns the path to the temporary directory." alt="" coords="333,71,527,127"/>
-<area shape="rect" id="node6" href="$a00770.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="403,151,457,177"/>
-<area shape="rect" id="node3" href="$a02683.html#a1e1e3010114fc46dece692783035e156" title="Creates a temporary directory with optional name prefix." alt="" coords="108,5,285,61"/>
-<area shape="rect" id="node4" href="$a00887.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,85,60,112"/>
-<area shape="rect" id="node5" href="$a02683.html#a68474b126cb9f245701ee94a470bd4d4" title="Creates a temporary file with optional name prefix." alt="" coords="108,136,285,192"/>
-</map>

@@ -1,4 +1,0 @@
-<map id="lumex::core::optional::opt::optional::operator=" name="lumex::core::optional::opt::optional::operator=">
-<area shape="rect" id="node1" title="Value assignment operator. Assigns a new value to the optional." alt="" coords="5,5,192,47"/>
-<area shape="rect" id="node2" href="$a02611.html#afe21d4aa4c35e53ce4324a2e0a45481b" title="Returns a non&#45;const lvalue reference to the contained value." alt="" coords="240,5,400,47"/>
-</map>

@@ -1,4 +1,0 @@
-<map id="lumex::core::string_view::view::LumexStringView::substr" name="lumex::core::string_view::view::LumexStringView::substr">
-<area shape="rect" id="node1" title="Returns a new LumexStringView representing a substring of this view." alt="" coords="5,5,224,61"/>
-<area shape="rect" id="node2" href="$a02667.html#a19a5de629fbc720c5672939d15254aa5" title="Default constructor. Creates an empty LumexStringView." alt="" coords="272,5,491,61"/>
-</map>

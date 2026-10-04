@@ -1,7 +1,0 @@
-<map id="lumex::core::fmt::Detail::escape" name="lumex::core::fmt::Detail::escape">
-<area shape="rect" id="node1" title="The ? (debug) form of a string or a character." alt="" coords="5,71,183,112"/>
-<area shape="rect" id="node2" href="$a01359.html#aea68f84128932af81acea442416d4e71" title="Decodes one code point at it (UTF&#45;8 for char, UTF&#45;16 or UTF&#45;32 for wchar_t); an invalid sequence yiel..." alt="" coords="231,5,408,47"/>
-<area shape="rect" id="node3" href="$a01376.html#a302f1bdf5e442097f85625effbd1294d" title="join with every element wrapped in double quotes (&quot;element&quot;), C++11 to C++17." alt="" coords="247,71,391,112"/>
-<area shape="rect" id="node5" href="$a01359.html#a9cf9ad2a9a71262b6f6e0f4145a5a3e7" title=" " alt="" coords="231,136,408,177"/>
-<area shape="rect" id="node4" href="$a01377.html#a4dcf39e9c9bb3f6990597b1eabd5c690" title="Joins range, wrapping each element (converted to std::string const &amp;) in mark." alt="" coords="456,71,643,112"/>
-</map>

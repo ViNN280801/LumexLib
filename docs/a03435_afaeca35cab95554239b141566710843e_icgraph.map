@@ -1,4 +1,0 @@
-<map id="lumex::xml::xpath::XPathQueryImpl::create" name="lumex::xml::xpath::XPathQueryImpl::create">
-<area shape="rect" id="node1" title="Factory method to create a new XPathQueryImpl instance." alt="" coords="279,5,455,47"/>
-<area shape="rect" id="node2" href="$a03431.html#a2a56412faeaeb1eebca754f5e970c9e4" title="Constructs an XPathQuery by parsing the given query string." alt="" coords="5,5,231,47"/>
-</map>

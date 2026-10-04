@@ -1,4 +1,0 @@
-<map id="lumex::xml::writer::XmlBufferedWriter::write" name="lumex::xml::writer::XmlBufferedWriter::write">
-<area shape="rect" id="node1" title="Writes three characters to the buffer." alt="" coords="5,5,156,61"/>
-<area shape="rect" id="node2" href="$a03315.html#aaf749c81251686e50d95927e92da078f" title="Flushes the current buffer content to the underlying writer." alt="" coords="204,5,355,61"/>
-</map>

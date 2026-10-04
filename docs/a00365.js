@@ -1,9 +1,10 @@
 var a00365 =
 [
-    [ "LumexJsonHelper", "a01483.html", "a01483" ],
-    [ "is_empty_value", "a00365.html#ac03ca3e92b76a2447489e71063e2d9f4", null ],
-    [ "is_empty_value", "a00365.html#a3ab316248d96a20a7553e2816b5db5f4", null ],
-    [ "is_empty_value", "a00365.html#a93440710aefc3cd89d32f3916f915f66", null ],
-    [ "is_empty_value", "a00365.html#a381fe9ef168d3f139d22480b05e94b8f", null ],
-    [ "is_empty_value", "a00365.html#aa80e7617c79019916105d35ada3be0dd", null ]
+    [ "LUMEX_CLANG_AT_LEAST", "a00365.html#a0d52758eeb198989eed5d421c5203746", null ],
+    [ "LUMEX_CLANG_BEFORE", "a00365.html#a452a12388cb8ce8a8cc4a155895c3f51", null ],
+    [ "LUMEX_COMPILER_IS_CLANG", "a00365.html#a07f0f1f2f5d5702fae3936f8908f329c", null ],
+    [ "LUMEX_COMPILER_IS_GCC", "a00365.html#aaf1f34abd5a0f15b4b3006a6f6db0f46", null ],
+    [ "LUMEX_COMPILER_IS_MSVC", "a00365.html#a6c096539ad413fce13be17bed69bc1bd", null ],
+    [ "LUMEX_GCC_AT_LEAST", "a00365.html#a9345a2b4f0d40658f5da56bdc659399a", null ],
+    [ "LUMEX_GCC_BEFORE", "a00365.html#a4368d2ea5af5470ca3f0850e32b2e258", null ]
 ];

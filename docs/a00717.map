@@ -1,9 +1,0 @@
-<map id="LumexProcess.hpp" name="LumexProcess.hpp">
-<area shape="rect" id="node1" title="get_current_pid(), the operating system&#39;s id of the calling process." alt="" coords="259,5,403,32"/>
-<area shape="rect" id="node2" href="$a00701.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="5,80,219,121"/>
-<area shape="rect" id="node3" href="$a00713.html" title="Cross&#45;platform OS macros." alt="" coords="243,80,418,121"/>
-<area shape="rect" id="node7" title=" " alt="" coords="443,87,517,114"/>
-<area shape="rect" id="node4" href="$a00665.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="112,169,301,211"/>
-<area shape="rect" id="node6" href="$a00677.html" title="Compiler identification and version macros." alt="" coords="326,169,583,211"/>
-<area shape="rect" id="node5" href="$a00680.html" title="C++ language, library and attribute feature availability." alt="" coords="79,259,334,300"/>
-</map>

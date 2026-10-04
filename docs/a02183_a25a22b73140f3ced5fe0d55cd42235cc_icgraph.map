@@ -1,6 +1,0 @@
-<map id="lumex::core::expected::result::Expected::has_value" name="lumex::core::expected::result::Expected::has_value">
-<area shape="rect" id="node1" title="Checks whether this Expected holds a success value." alt="" coords="284,57,493,98"/>
-<area shape="rect" id="node2" href="$a00764.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="93,5,148,32"/>
-<area shape="rect" id="node3" href="$a02183.html#aa9c4215b04c57648f22062516f9c9e96" title="Explicit conversion to bool." alt="" coords="5,57,236,98"/>
-<area shape="rect" id="node4" href="$a01353.html#a7e544fe4c97ff17877fea324122f5e6b" title="Compares two Expected&lt;SuccessType, ErrorType&gt; objects for equality." alt="" coords="37,122,204,163"/>
-</map>

@@ -1,6 +1,0 @@
-<map id="lumex::core::circular_buffer::CircularBuffer::emplace_back" name="lumex::core::circular_buffer::CircularBuffer::emplace_back">
-<area shape="rect" id="node1" title="Constructs an element in place at the back." alt="" coords="320,71,484,127"/>
-<area shape="rect" id="node2" href="$a01643.html#a6b6d4a5433208cc23ba77cc6040f9803" title="Copy constructor." alt="" coords="108,5,272,61"/>
-<area shape="rect" id="node3" href="$a00740.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,119,60,145"/>
-<area shape="rect" id="node4" href="$a01643.html#a724cb41a65049593d9d257a3c5d89f41" title="Appends a copy of an element." alt="" coords="108,136,272,192"/>
-</map>

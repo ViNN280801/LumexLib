@@ -1,6 +1,0 @@
-<map id="lumex::core::environment::env::LumexEnvironment::get_environment_variable_or" name="lumex::core::environment::env::LumexEnvironment::get_environment_variable_or">
-<area shape="rect" id="node1" title="Retrieves the value of an environment variable, providing a default fallback." alt="" coords="5,45,227,101"/>
-<area shape="rect" id="node2" href="$a02131.html#a421e9605d3a586425cb22f304d17ac6d" title="Retrieves the value of a specified environment variable in a thread&#45;safe manner." alt="" coords="275,5,476,61"/>
-<area shape="rect" id="node3" href="$a02135.html#ac150613ec458adba41b1af131c4c9d69" title="Retrieves the variable&#39;s value or a specified fallback value if the operation failed." alt="" coords="280,85,471,141"/>
-<area shape="rect" id="node4" href="$a01353.html#aedb3e518171a625ee1b9cad9e0fc1b73" title="Creates a marker for a successful call that carries no value." alt="" coords="524,93,691,134"/>
-</map>

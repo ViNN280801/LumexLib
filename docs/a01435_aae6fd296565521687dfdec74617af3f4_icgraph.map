@@ -1,7 +1,0 @@
-<map id="lumex::xml::node::allow_move" name="lumex::xml::node::allow_move">
-<area shape="rect" id="node1" title="Checks if a move operation between parent and child nodes is allowed." alt="" coords="257,111,480,138"/>
-<area shape="rect" id="node2" href="$a03175.html#aed35bff5c54a2e71c2022719a34f2d71" title="Moves an existing XmlNode (moved) to become the last child of the current node." alt="" coords="5,5,209,47"/>
-<area shape="rect" id="node3" href="$a03175.html#aa0fdb0a6705bc2aca68e0946950f787f" title="Moves an existing XmlNode (moved) to be inserted after a specified child node." alt="" coords="5,71,209,112"/>
-<area shape="rect" id="node4" href="$a03175.html#af6a8f01f7d0918676c09fd1e00157dc3" title="Moves an existing XmlNode (moved) to be inserted before a specified child node." alt="" coords="5,136,209,177"/>
-<area shape="rect" id="node5" href="$a03175.html#a493772587914bb88310871ebf632e53c" title="Moves an existing XmlNode (moved) to become the first child of the current node." alt="" coords="5,201,209,243"/>
-</map>

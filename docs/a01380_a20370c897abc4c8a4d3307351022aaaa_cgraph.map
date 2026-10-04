@@ -1,5 +1,0 @@
-<map id="lumex::core::string_view::view::operator&lt;&lt;" name="lumex::core::string_view::view::operator&lt;&lt;">
-<area shape="rect" id="node1" title="Overload for inserting a LumexStringView into an std::ostream." alt="" coords="5,39,188,80"/>
-<area shape="rect" id="node2" href="$a02667.html#a9577a05436fdab9556d62016c101fa49" title="Returns a pointer to the beginning of the character data." alt="" coords="236,5,491,47"/>
-<area shape="rect" id="node3" href="$a02667.html#a3b362d2a08291aa7660f069ca1ffe6d0" title="Returns the number of characters in the view." alt="" coords="237,71,489,112"/>
-</map>

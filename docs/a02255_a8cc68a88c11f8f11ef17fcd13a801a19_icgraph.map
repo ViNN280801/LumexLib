@@ -1,4 +1,0 @@
-<map id="lumex::core::filesystem::fs::lumex_filesystem::is_socket" name="lumex::core::filesystem::fs::lumex_filesystem::is_socket">
-<area shape="rect" id="node1" title="Checks if the specified path_arg refers to a socket file." alt="" coords="228,5,403,61"/>
-<area shape="rect" id="node2" href="$a02247.html#aedf7652f05cef96b327fed876091f7e2" title="Checks if the entry represents a socket file." alt="" coords="5,5,180,61"/>
-</map>

@@ -1,4 +1,0 @@
-<map id="lumex::core::filesystem::fs::lumex_filesystem::is_fifo" name="lumex::core::filesystem::fs::lumex_filesystem::is_fifo">
-<area shape="rect" id="node1" title="Checks if the specified path_arg refers to a FIFO (named pipe) file." alt="" coords="228,5,403,61"/>
-<area shape="rect" id="node2" href="$a02247.html#a9b255e0032b61cf9262571a3cb2c8648" title="Checks if the entry represents a FIFO (named pipe) file." alt="" coords="5,5,180,61"/>
-</map>

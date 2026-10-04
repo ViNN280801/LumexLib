@@ -1,6 +1,0 @@
-<map id="lumex::xml::document::XmlDocument" name="lumex::xml::document::XmlDocument">
-<area shape="rect" id="node1" title="Represents an XML document, providing methods for loading, saving, and manipulating XML data." alt="" coords="39,307,208,348"/>
-<area shape="rect" id="node2" href="$a03175.html" title="Represents a single XML node in the DOM tree, providing a high&#45;level interface for accessing and mani..." alt="" coords="21,231,225,257"/>
-<area shape="rect" id="node3" href="$a03191.html" title="Base structure representing an XML node in the document tree." alt="" coords="5,125,241,152"/>
-<area shape="rect" id="node4" href="$a03151.html" title="Base structure for representing an XML attribute." alt="" coords="43,5,203,47"/>
-</map>

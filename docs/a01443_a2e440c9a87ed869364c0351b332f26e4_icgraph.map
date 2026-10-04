@@ -1,4 +1,0 @@
-<map id="lumex::xml::xpath::variable::get_variable_scratch" name="lumex::xml::xpath::variable::get_variable_scratch">
-<area shape="rect" id="node1" title="Utility function to retrieve a variable from a set, handling scratch buffer for name." alt="" coords="256,5,420,61"/>
-<area shape="rect" id="node2" href="$a03423.html#a94a6d92fbfc6de074d2b4a9dfc706acc" title="Parses a PrimaryExpr production in the XPath grammar." alt="" coords="5,5,208,61"/>
-</map>

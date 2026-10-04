@@ -1,8 +1,0 @@
-<map id="main" name="main">
-<area shape="rect" id="node1" title=" " alt="" coords="5,111,60,138"/>
-<area shape="rect" id="node2" href="$a02127.html#a7fcf511f52a47824e0299d04c3bdf9c0" title="Computes the CRC of a buffer." alt="" coords="108,5,313,47"/>
-<area shape="rect" id="node3" href="$a01336.html#a7c78d39b9bad1d190fba9e64e54d3089" title="CRC for catalogue index all_crc_specs_t (0 ... GetCrcCatalogEntryCount &#45; 1)." alt="" coords="119,71,302,112"/>
-<area shape="rect" id="node4" href="$a01336.html#ada153a2397d11cdb757cededb803d6ba" title="Catalogue entry width in bits; &#45;1 on error." alt="" coords="119,136,302,177"/>
-<area shape="rect" id="node6" href="$a01336.html#a4a1bf4a4033234f6ec6bd6ceb8200dca" title="Number of catalogue algorithms (order matches all_crc_specs_t)." alt="" coords="113,201,309,243"/>
-<area shape="rect" id="node5" href="$a01336.html#ad5f7e9bf7ab382d6bea8b9c1a68acf2e" title=" " alt="" coords="361,136,544,177"/>
-</map>

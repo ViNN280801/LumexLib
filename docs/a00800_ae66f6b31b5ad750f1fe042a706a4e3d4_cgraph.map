@@ -1,7 +1,0 @@
-<map id="main" name="main">
-<area shape="rect" id="node1" title=" " alt="" coords="5,53,60,80"/>
-<area shape="rect" id="node2" href="$a01471.html#a0bac2910071d92a77fbc9d06ce64f181" title="Performs comprehensive CPU vectorization capabilities detection." alt="" coords="108,71,344,127"/>
-<area shape="rect" id="node3" href="$a01471.html#a2a6b9c82125308627d435ce6b2474926" title="Gets a human&#45;readable summary of supported vectorization technologies." alt="" coords="392,5,628,61"/>
-<area shape="rect" id="node4" href="$a01348.html#a9b962af55f800e2cbb3a49009e6676f1" title="Converts a LumexBasicStacktrace object to its string representation." alt="" coords="421,86,599,127"/>
-<area shape="rect" id="node5" href="$a02155.html#a79f1b53a81f6bde33331116c9926e81a" title="Returns the number of entries in the stacktrace." alt="" coords="676,86,964,127"/>
-</map>

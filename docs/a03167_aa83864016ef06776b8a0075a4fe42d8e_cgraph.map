@@ -1,5 +1,0 @@
-<map id="lumex::xml::memory::XmlAllocator::deallocate_string" name="lumex::xml::memory::XmlAllocator::deallocate_string">
-<area shape="rect" id="node1" title="Deallocates a string previously allocated by allocate_string." alt="" coords="5,5,196,61"/>
-<area shape="rect" id="node2" href="$a03167.html#a7916caf4c4f5e8e87a00f8778a3d4640" title="Deallocates a block of memory previously allocated by this allocator." alt="" coords="244,5,435,61"/>
-<area shape="rect" id="node3" href="$a03167.html#a46230e854a38c3389d5b092bdd422645" title="Deallocates a memory page previously allocated by this allocator." alt="" coords="483,13,712,54"/>
-</map>

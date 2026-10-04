@@ -1,7 +1,0 @@
-<map id="lumex::xml::xpath::variable::XPathVariable::type" name="lumex::xml::xpath::variable::XPathVariable::type">
-<area shape="rect" id="node1" title="Retrieves the XPath value type of the variable." alt="" coords="477,79,688,120"/>
-<area shape="rect" id="node2" href="$a03463.html#ab37f5ebf628ae27ccad60b41c7286ef9" title="Adds a new variable to the set or retrieves an existing one." alt="" coords="203,5,429,47"/>
-<area shape="rect" id="node3" href="$a01443.html#a8c614ae14269eea0013728c7722e8f69" title="Copies the value of one XPath variable to another." alt="" coords="237,71,395,127"/>
-<area shape="rect" id="node5" href="$a03423.html#a94a6d92fbfc6de074d2b4a9dfc706acc" title="Parses a PrimaryExpr production in the XPath grammar." alt="" coords="215,151,417,207"/>
-<area shape="rect" id="node4" href="$a01463.html#a5664ce2a10255b6aca45326df60fcb8e" title="Copies the value of one XPath variable to another." alt="" coords="5,71,155,127"/>
-</map>

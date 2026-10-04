@@ -1,5 +1,0 @@
-<map id="lumex::xml::attribute::XmlAttribute::as_float" name="lumex::xml::attribute::XmlAttribute::as_float">
-<area shape="rect" id="node1" title="Converts the attribute&#39;s value to a float." alt="" coords="5,39,177,80"/>
-<area shape="rect" id="node2" href="$a01434.html#a87c560e4247a047004f2f5945548f183" title=" " alt="" coords="234,5,377,47"/>
-<area shape="rect" id="node3" href="$a03147.html#a40dc4738d939dd04914625f44b5e01c8" title="Retrieves the value of the XML attribute as a C&#45;style string." alt="" coords="225,71,385,112"/>
-</map>

@@ -1,6 +1,0 @@
-<map id="lumex::core::environment::env::LumexEnvironment::set_environment_variable" name="lumex::core::environment::env::LumexEnvironment::set_environment_variable">
-<area shape="rect" id="node1" title="Sets or updates the value of a specified environment variable in a thread&#45;safe manner." alt="" coords="372,35,572,91"/>
-<area shape="rect" id="node2" href="$a02131.html#a3fef9ec29ce28aa945de4587ce57226e" title="Static convenience method to set an environment variable." alt="" coords="108,5,324,47"/>
-<area shape="rect" id="node4" href="$a02131.html#a71be9b5585eb13851664b017b71533b3" title="Convenience overload for set_environment_variable using std::string." alt="" coords="116,71,316,127"/>
-<area shape="rect" id="node3" href="$a00752.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,13,60,39"/>
-</map>

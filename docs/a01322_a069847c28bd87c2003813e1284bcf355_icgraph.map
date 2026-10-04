@@ -1,4 +1,0 @@
-<map id="lumex::core::atomic::sync::table_wait::Detail::cpu_relax" name="lumex::core::atomic::sync::table_wait::Detail::cpu_relax">
-<area shape="rect" id="node1" title="Tells the processor that the calling thread is spinning." alt="" coords="205,5,357,61"/>
-<area shape="rect" id="node2" href="$a01619.html#a05c2f65b54a7ffa124a2765905a32eb1" title="Takes the lock, sleeping while another thread holds it." alt="" coords="5,5,157,61"/>
-</map>

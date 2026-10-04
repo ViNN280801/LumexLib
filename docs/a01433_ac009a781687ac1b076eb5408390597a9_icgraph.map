@@ -1,5 +1,0 @@
-<map id="lumex::xml::attribute::insert_attribute_after" name="lumex::xml::attribute::insert_attribute_after">
-<area shape="rect" id="node1" title="Inserts an XmlAttributeBase after a specified existing attribute." alt="" coords="257,39,425,80"/>
-<area shape="rect" id="node2" href="$a03175.html#a209987dd4c7649b2062772d74c6a8bb3" title="Inserts a new attribute with the specified name after a given existing attribute." alt="" coords="5,5,209,47"/>
-<area shape="rect" id="node3" href="$a03175.html#a102eaa077981305070e0649d8286c196" title="Inserts a copy of an existing attribute (proto) after a given existing attribute (attr)." alt="" coords="5,71,209,112"/>
-</map>

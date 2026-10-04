@@ -1,5 +1,0 @@
-<map id="lumex::core::filesystem::fs::directory_entry::path" name="lumex::core::filesystem::fs::directory_entry::path">
-<area shape="rect" id="node1" title="Retrieves the path of this directory entry." alt="" coords="228,27,413,69"/>
-<area shape="rect" id="node2" href="$a00770.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="65,5,120,32"/>
-<area shape="rect" id="node3" href="$a01355.html#a5e04d86223e4f7de8b9210d7ce841c1f" title="Stream insertion operator for lumex::directory_entry." alt="" coords="5,57,180,98"/>
-</map>

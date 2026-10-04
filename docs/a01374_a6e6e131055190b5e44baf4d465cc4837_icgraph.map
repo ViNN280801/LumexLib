@@ -1,4 +1,0 @@
-<map id="lumex::core::reflection::var_info::VarInfoDetail::FormatValue" name="lumex::core::reflection::var_info::VarInfoDetail::FormatValue">
-<area shape="rect" id="node1" title="Detects whether std::ostream::operator&lt;&lt;(T) exists for a type T." alt="" coords="221,5,397,61"/>
-<area shape="rect" id="node2" href="$a01373.html#a20aaee909dd3b3e785c2c7a3e6d76e66" title="Builds a diagnostic string about an arbitrary expression: name, value (if the type supports operator&lt;..." alt="" coords="5,13,173,54"/>
-</map>

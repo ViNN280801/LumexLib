@@ -1,6 +1,0 @@
-<map id="lumex::core::string_view::view::LumexStringView::LumexStringView" name="lumex::core::string_view::view::LumexStringView::LumexStringView">
-<area shape="rect" id="node1" title="Default constructor. Creates an empty LumexStringView." alt="" coords="539,39,757,95"/>
-<area shape="rect" id="node2" href="$a02667.html#a448fb1b748cc583b938afd7e65cc1b4e" title="Returns a new LumexStringView representing a substring of this view." alt="" coords="272,39,491,95"/>
-<area shape="rect" id="node3" href="$a02667.html#a55a807050ba5fcb235b1ad6f0f3f5271" title="Compares a substring of this LumexStringView with another LumexStringView." alt="" coords="5,5,224,61"/>
-<area shape="rect" id="node4" href="$a00881.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="87,85,142,112"/>
-</map>

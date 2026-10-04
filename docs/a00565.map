@@ -1,9 +1,0 @@
-<map id="Unexpected.hpp" name="Unexpected.hpp">
-<area shape="rect" id="node1" title="Unexpected, the wrapper that carries an error into an Expected; an analogue of C++23 std::unexpected." alt="" coords="147,5,275,32"/>
-<area shape="rect" id="node2" href="$a00566.html" title="Expected&lt;SuccessType, ErrorType&gt;, an analogue of C++23 std::expected usable from C++11,..." alt="" coords="109,80,220,107"/>
-<area shape="rect" id="node5" href="$a01223.html" title="Expected module: Expected&lt;T, E&gt;, a value or an error after the C++23 std::expected,..." alt="" coords="173,304,255,331"/>
-<area shape="rect" id="node3" href="$a00572.html" title="The specialization Expected&lt;void, ErrorType&gt; for operations that succeed without a value; an analogue..." alt="" coords="63,155,202,181"/>
-<area shape="rect" id="node4" href="$a00575.html" title="The return markers success() and failure() for functions that return an Expected." alt="" coords="5,229,151,256"/>
-<area shape="rect" id="node6" href="$a00764.html" title=" " alt="" coords="13,379,186,405"/>
-<area shape="rect" id="node7" href="$a00767.html" title=" " alt="" coords="211,379,449,405"/>
-</map>

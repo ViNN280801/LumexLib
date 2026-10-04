@@ -1,0 +1,11 @@
+digraph "lumex::xml::xpath::document::node_is_before"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="LR";
+  Node1 [id="Node000001",label="lumex::xml::xpath::\ldocument::node_is_before",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="Determines if ln_node comes before rn_node in overall document order."];
+  Node1 -> Node2 [id="edge1_Node000001_Node000002",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="lumex::xml::xpath::\ldocument::node_is_before\l_sibling",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01107.html#a390bce9be17e61e113730fb8084c70cc",tooltip="Determines if ln_node comes before rn_node among siblings in document order."];
+}

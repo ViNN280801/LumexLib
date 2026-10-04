@@ -1,0 +1,24 @@
+digraph "lumex::core::circular_buffer::CircularBuffer::capacity"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="RL";
+  Node1 [id="Node000001",label="lumex::core::circular\l_buffer::CircularBuffer\l::capacity",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="Returns the maximum number of elements the buffer can hold."];
+  Node1 -> Node2 [id="edge1_Node000001_Node000002",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="lumex::core::circular\l_buffer::CircularBuffer\l::CircularBuffer",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01302.html#a7796466d7c3586bc911f186fddfdf2eb",tooltip="Creates a buffer with the given capacity."];
+  Node2 -> Node3 [id="edge2_Node000002_Node000003",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node3 [id="Node000003",label="lumex::core::circular\l_buffer::CircularBuffer\l::CircularBuffer",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01302.html#ac3c0821def035dfcf7302f4a636a9900",tooltip="Move constructor."];
+  Node2 -> Node4 [id="edge3_Node000002_Node000004",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node4 [id="Node000004",label="lumex::core::circular\l_buffer::CircularBuffer\l::CircularBuffer",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01302.html#a6b6d4a5433208cc23ba77cc6040f9803",tooltip="Copy constructor."];
+  Node2 -> Node5 [id="edge4_Node000002_Node000005",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node5 [id="Node000005",label="lumex::core::circular\l_buffer::CircularBuffer\l::operator=",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01302.html#a54a0e59be69d991bda467e0670474e07",tooltip="Move assignment operator."];
+  Node2 -> Node6 [id="edge5_Node000002_Node000006",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node6 [id="Node000006",label="lumex::core::circular\l_buffer::CircularBuffer\l::operator=",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01302.html#af514096e46d15e7329ccd3cf2282c9ff",tooltip="Copy assignment operator."];
+  Node2 -> Node7 [id="edge6_Node000002_Node000007",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node7 [id="Node000007",label="lumex::core::circular\l_buffer::CircularBuffer::swap",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01302.html#ae1bff76223ce74c198b70fbbd2b1fef8",tooltip="Exchanges the contents of two buffers."];
+  Node7 -> Node6 [id="edge7_Node000007_Node000006",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node2 -> Node8 [id="edge8_Node000002_Node000008",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node8 [id="Node000008",label="lumex::core::circular\l_buffer::CircularBuffer::swap",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01302.html#aa112c6de3c1c9bdca0f748542d3b947f",tooltip="Non-member swap that exchanges two buffers."];
+}

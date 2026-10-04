@@ -1,4 +1,0 @@
-<map id="lumex::xml::xpath::variable::get_variable_scratch" name="lumex::xml::xpath::variable::get_variable_scratch">
-<area shape="rect" id="node1" title="Utility function to retrieve a variable from a set, handling scratch buffer for name." alt="" coords="5,5,169,61"/>
-<area shape="rect" id="node2" href="$a03463.html#aa79b3b1721b77504917e6524e1180be6" title="Gets a mutable pointer to an existing variable by name." alt="" coords="217,13,440,54"/>
-</map>

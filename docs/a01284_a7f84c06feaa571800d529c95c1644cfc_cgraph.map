@@ -1,7 +1,0 @@
-<map id="lumex::applied::json::schema::toString" name="lumex::applied::json::schema::toString">
-<area shape="rect" id="node1" title=" " alt="" coords="5,71,160,112"/>
-<area shape="rect" id="node2" href="$a02667.html#a9577a05436fdab9556d62016c101fa49" title="Returns a pointer to the beginning of the character data." alt="" coords="208,5,463,47"/>
-<area shape="rect" id="node3" href="$a02667.html#a3b362d2a08291aa7660f069ca1ffe6d0" title="Returns the number of characters in the view." alt="" coords="209,71,461,112"/>
-<area shape="rect" id="node4" href="$a01348.html#a9b962af55f800e2cbb3a49009e6676f1" title="Converts a LumexBasicStacktrace object to its string representation." alt="" coords="246,136,425,177"/>
-<area shape="rect" id="node5" href="$a02155.html#a79f1b53a81f6bde33331116c9926e81a" title="Returns the number of entries in the stacktrace." alt="" coords="511,136,799,177"/>
-</map>

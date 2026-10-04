@@ -1,4 +1,0 @@
-<map id="lumex::xml::attribute::XmlAttribute::set" name="lumex::xml::attribute::XmlAttribute::set">
-<area shape="rect" id="node1" title="Sets the internal XmlAttributeBase pointer for this XmlAttribute object." alt="" coords="257,5,417,47"/>
-<area shape="rect" id="node2" href="$a03175.html#ac98e53ac13eb30a240694791d6c21978" title="Finds an attribute by name, optimizing search with a hint." alt="" coords="5,5,209,47"/>
-</map>

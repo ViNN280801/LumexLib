@@ -1,5 +1,0 @@
-<map id="lumex::core::fmt::Detail::validate_specs" name="lumex::core::fmt::Detail::validate_specs">
-<area shape="rect" id="node1" title="Checks the parsed specification against what kind accepts." alt="" coords="457,13,635,54"/>
-<area shape="rect" id="node2" href="$a01359.html#a6a3f6e88c3cfb971c767232841e0df9d" title="Parses [[fill]align][sign][#][0][width][.precision][L][type] starting at ctx.begin(); returns the pos..." alt="" coords="232,13,409,54"/>
-<area shape="rect" id="node3" href="$a02387.html#ae198ad09caf66b1ee0e6aa52311a5d8a" title=" " alt="" coords="5,5,184,61"/>
-</map>

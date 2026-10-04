@@ -1,4 +1,0 @@
-<map id="lumex::xml::node::XmlNodeBase" name="lumex::xml::node::XmlNodeBase">
-<area shape="rect" id="node1" title="Base structure representing an XML node in the document tree." alt="" coords="5,5,241,32"/>
-<area shape="rect" id="node2" href="$a03163.html" title="Base structure representing an XML document, combining node and allocator functionalities." alt="" coords="39,80,208,121"/>
-</map>

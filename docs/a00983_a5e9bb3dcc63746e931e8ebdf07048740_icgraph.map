@@ -1,5 +1,0 @@
-<map id="strconv_cdata" name="strconv_cdata">
-<area shape="rect" id="node1" title=" " alt="" coords="509,13,623,39"/>
-<area shape="rect" id="node2" href="$a03215.html#af02163f17fba53cccc3858f93e36bc6c" title="Parses XML constructs starting with an exclamation mark (&lt;!...)." alt="" coords="257,5,461,47"/>
-<area shape="rect" id="node3" href="$a03215.html#a6428c586faec7c093c2720191554582b" title="The main parsing function that constructs the XML document tree from a buffer." alt="" coords="5,5,209,47"/>
-</map>

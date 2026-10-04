@@ -1,5 +1,0 @@
-<map id="lumex::core::circular_buffer::CircularBuffer::size" name="lumex::core::circular_buffer::CircularBuffer::size">
-<area shape="rect" id="node1" title="Returns the current number of elements in the buffer." alt="" coords="208,27,407,69"/>
-<area shape="rect" id="node2" href="$a00740.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="55,5,110,32"/>
-<area shape="rect" id="node3" href="$a01334.html#ac96da0807d416d4354f8e227a54404fe" title="Equality comparison of two CircularBuffer objects." alt="" coords="5,57,160,98"/>
-</map>

@@ -1,9 +1,0 @@
-<map id="LumexSettingsFactory.hpp" name="LumexSettingsFactory.hpp">
-<area shape="rect" id="node1" title="Creates the ILumexSettings implementation for a configuration file format." alt="" coords="109,5,301,32"/>
-<area shape="rect" id="node2" href="$a00917.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="5,169,187,196"/>
-<area shape="rect" id="node3" title=" " alt="" coords="81,87,159,114"/>
-<area shape="rect" id="node4" href="$a00446.html" title="The configuration file formats the settings module knows, used to select an implementation from Lumex..." alt="" coords="425,80,677,121"/>
-<area shape="rect" id="node6" href="$a00449.html" title="The interface every settings format implements: load, save, and get, add or remove a string value by ..." alt="" coords="183,80,401,121"/>
-<area shape="rect" id="node5" title=" " alt="" coords="517,169,584,196"/>
-<area shape="rect" id="node7" title=" " alt="" coords="263,169,321,196"/>
-</map>

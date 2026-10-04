@@ -1,5 +1,0 @@
-<map id="lumex::xml::utility::set_value_convert" name="lumex::xml::utility::set_value_convert">
-<area shape="rect" id="node1" title=" " alt="" coords="272,27,421,69"/>
-<area shape="rect" id="node2" href="$a03223.html#ae7762559c79d5a33450c910b270ba2de" title="Sets the text content from a single&#45;precision floating&#45;point number, converting it to a string." alt="" coords="5,5,224,32"/>
-<area shape="rect" id="node3" href="$a03147.html#a256ea851e7295e13ad6941fb71471aab" title="Sets the attribute&#39;s value after converting a double to its string representation using default preci..." alt="" coords="23,57,207,98"/>
-</map>

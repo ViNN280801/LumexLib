@@ -1,8 +1,0 @@
-<map id="lumex::core::time::clock::LumexTime::get_current_datetime" name="lumex::core::time::clock::LumexTime::get_current_datetime">
-<area shape="rect" id="node1" title="Retrieves the current date and time formatted as a string." alt="" coords="399,104,569,160"/>
-<area shape="rect" id="node2" href="$a01563.html#af9bac403ac10a4c027b0b3b3e7242dab" title="Copies filename to a sibling &lt;filename&gt;.bak.&lt;YYYYMMDD&#45;HHMMSS&gt; backup file." alt="" coords="124,5,335,61"/>
-<area shape="rect" id="node3" href="$a00893.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="202,85,257,112"/>
-<area shape="rect" id="node4" href="$a02151.html#a277f55eeecb20cecca099e0c63bd1559" title="Write a crash report to a file by pattern: &quot;crash_report_{timestamp}.txt&quot;." alt="" coords="108,136,351,192"/>
-<area shape="rect" id="node5" href="$a01519.html#a385a6c62d7eee3e396474410c2f4b331" title="Write a log to a file in the logs/ directory." alt="" coords="131,217,327,258"/>
-<area shape="rect" id="node6" href="$a00827.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,224,60,251"/>
-</map>

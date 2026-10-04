@@ -1,7 +1,0 @@
-<map id="lumex::xml::xpath::XPathQueryImpl" name="lumex::xml::xpath::XPathQueryImpl">
-<area shape="rect" id="node1" title="Internal implementation structure for XPathQuery." alt="" coords="584,96,733,137"/>
-<area shape="rect" id="node2" href="$a03383.html" title="Represents a block of memory used by XPathAllocator." alt="" coords="5,44,216,85"/>
-<area shape="rect" id="node5" href="$a03375.html" title="Allocator for XPath&#45;related data structures." alt="" coords="321,96,500,137"/>
-<area shape="rect" id="node3" href="$a03355.html" title="Represents a node in the XPath Abstract Syntax Tree (AST)." alt="" coords="336,161,485,203"/>
-<area shape="rect" id="node4" href="$a03443.html" title="Base class for all XPath variables." alt="" coords="24,161,197,203"/>
-</map>

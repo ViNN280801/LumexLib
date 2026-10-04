@@ -1,4 +1,0 @@
-<map id="lumex::core::exceptions::stacktrace::LumexStacktraceEntry::description" name="lumex::core::exceptions::stacktrace::LumexStacktraceEntry::description">
-<area shape="rect" id="node1" title="Gets a human&#45;readable description of this stack frame." alt="" coords="232,5,451,61"/>
-<area shape="rect" id="node2" href="$a01348.html#ac393a64f20f699be5771be27754b7764" title="Converts a LumexStacktraceEntry object to its string representation." alt="" coords="5,13,184,54"/>
-</map>

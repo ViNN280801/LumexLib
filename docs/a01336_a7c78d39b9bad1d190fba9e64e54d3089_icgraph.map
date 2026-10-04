@@ -1,5 +1,0 @@
-<map id="lumex::core::crc::catalog::ComputeCrcCatalog" name="lumex::core::crc::catalog::ComputeCrcCatalog">
-<area shape="rect" id="node1" title="CRC for catalogue index all_crc_specs_t (0 ... GetCrcCatalogEntryCount &#45; 1)." alt="" coords="236,35,419,76"/>
-<area shape="rect" id="node2" href="$a01336.html#a9d4fb6c53d3709d14fb93e835b24e431" title="Catalogue CRC of a byte vector. Available from C++11 so C++14 examples and tests can pass std::vector..." alt="" coords="5,5,188,47"/>
-<area shape="rect" id="node3" href="$a00746.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="69,71,124,98"/>
-</map>

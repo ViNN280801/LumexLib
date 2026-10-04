@@ -1,6 +1,0 @@
-<map id="lumex::xml::node::XmlNode::find_child_by_attribute" name="lumex::xml::node::XmlNode::find_child_by_attribute">
-<area shape="rect" id="node1" title="Finds the first child element with a specific attribute name and value, regardless of the child&#39;s nam..." alt="" coords="5,71,209,112"/>
-<area shape="rect" id="node2" href="$a03175.html#a5df8244a361d9f9de429da1b1ab53629" title="Retrieves the name of the XML node." alt="" coords="257,5,461,47"/>
-<area shape="rect" id="node3" href="$a01434.html#a7d02305444b9427e8e8371818ab1c99c" title=" " alt="" coords="288,71,431,112"/>
-<area shape="rect" id="node4" href="$a03175.html#a9ba652be4d38ecccaa3933b5dde6401e" title="Default constructor. Constructs an empty (null) node." alt="" coords="257,136,461,177"/>
-</map>

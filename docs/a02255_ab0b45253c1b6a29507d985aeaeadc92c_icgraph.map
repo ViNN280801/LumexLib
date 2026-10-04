@@ -1,4 +1,0 @@
-<map id="lumex::core::filesystem::fs::lumex_filesystem::is_character_file" name="lumex::core::filesystem::fs::lumex_filesystem::is_character_file">
-<area shape="rect" id="node1" title="Checks if the specified path_arg refers to a character device file." alt="" coords="228,5,403,61"/>
-<area shape="rect" id="node2" href="$a02247.html#a31d3fd44c2bad44f24d0121b5caa0a7e" title="Checks if the entry represents a character device file." alt="" coords="5,5,180,61"/>
-</map>

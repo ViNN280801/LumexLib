@@ -1,0 +1,15 @@
+digraph "lumex::core::filesystem::fs::directory_entry::is_character_file"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="LR";
+  Node1 [id="Node000001",label="lumex::core::filesystem\l::fs::directory_entry\l::is_character_file",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="Checks if the entry represents a character device file."];
+  Node1 -> Node2 [id="edge1_Node000001_Node000002",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="lumex::core::filesystem\l::fs::lumex_filesystem\l::is_character_file",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01914.html#ab0b45253c1b6a29507d985aeaeadc92c",tooltip="Checks if the specified path_arg refers to a character device file."];
+  Node2 -> Node2 [id="edge2_Node000002_Node000002",color="steelblue1",style="solid",tooltip=" "];
+  Node2 -> Node3 [id="edge3_Node000002_Node000003",color="steelblue1",style="solid",tooltip=" "];
+  Node3 [id="Node000003",label="lumex::core::filesystem\l::fs::lumex_filesystem\l::status",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01914.html#a000d9b463f4db8fa89614c3f6bf14aec",tooltip="Returns the status of the file or directory at the specified path_arg, following symbolic links."];
+  Node3 -> Node3 [id="edge4_Node000003_Node000003",color="steelblue1",style="solid",tooltip=" "];
+}

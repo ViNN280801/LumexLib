@@ -1,4 +1,0 @@
-<map id="lumex::core::filesystem::fs::lumex_filesystem::is_writable" name="lumex::core::filesystem::fs::lumex_filesystem::is_writable">
-<area shape="rect" id="node1" title="Check if a file is writable by the current process." alt="" coords="228,5,403,61"/>
-<area shape="rect" id="node2" href="$a02255.html#a0061e0d3d6fd72dddb13d151f253ba5d" title="Check if a file is both readable and writable by the current process." alt="" coords="5,5,180,61"/>
-</map>

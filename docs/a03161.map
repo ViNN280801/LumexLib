@@ -1,8 +1,0 @@
-<map id="lumex::xml::document::XmlDocumentBase" name="lumex::xml::document::XmlDocumentBase">
-<area shape="rect" id="node1" title="Base structure representing an XML document, combining node and allocator functionalities." alt="" coords="681,200,851,241"/>
-<area shape="rect" id="node2" href="$a03191.html" title="Base structure representing an XML node in the document tree." alt="" coords="307,207,543,234"/>
-<area shape="rect" id="node3" href="$a03151.html" title="Base structure for representing an XML attribute." alt="" coords="5,200,165,241"/>
-<area shape="rect" id="node4" href="$a03167.html" title="Manages memory allocation and deallocation for XML nodes, attributes, and strings within a document." alt="" coords="345,59,504,100"/>
-<area shape="rect" id="node5" href="$a03171.html" title="Represents a single fixed&#45;size memory page used by the XmlAllocator." alt="" coords="687,59,845,100"/>
-<area shape="rect" id="node6" href="$a03235.html" title=" " alt="" coords="335,297,514,339"/>
-</map>

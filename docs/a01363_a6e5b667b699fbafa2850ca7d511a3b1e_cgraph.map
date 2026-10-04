@@ -1,9 +1,0 @@
-<map id="lumex::core::math::ops::rmse" name="lumex::core::math::ops::rmse">
-<area shape="rect" id="node1" title="Root Mean Squared Error between two equally&#45;sized ranges: sqrt( 1/N * sum (x_i &#45; y_i)^2 )...." alt="" coords="5,108,155,149"/>
-<area shape="rect" id="node2" href="$a01365.html#abdf8ed32a58d7ef1884b0e2eb69e139b" title="begin (range) with std::begin and ADL, as a range&#45;for does." alt="" coords="210,5,373,47"/>
-<area shape="rect" id="node3" href="$a01365.html#a39800dfb129ce7e0f3b8520f0e8ce977" title="end (range) with std::end and ADL, as a range&#45;for does." alt="" coords="216,71,367,112"/>
-<area shape="rect" id="node4" href="$a01365.html#a09a7814d770820120d778770c90575e0" title="Called after a lockstep pass over two ranges that consumed count elements of each: throws LumexMathSi..." alt="" coords="217,137,366,193"/>
-<area shape="rect" id="node7" href="$a01363.html#a2f9b417a92156e28a608df4d9a9af2e3" title="(a &#45; b)^2, computed in the common type of a and b (promoted, so two short operands give an int)." alt="" coords="203,217,380,259"/>
-<area shape="rect" id="node5" href="$a01348.html#a9b962af55f800e2cbb3a49009e6676f1" title="Converts a LumexBasicStacktrace object to its string representation." alt="" coords="428,144,607,185"/>
-<area shape="rect" id="node6" href="$a02155.html#a79f1b53a81f6bde33331116c9926e81a" title="Returns the number of entries in the stacktrace." alt="" coords="655,144,943,185"/>
-</map>

@@ -1,5 +1,0 @@
-<map id="lumex::core::filesystem::fs::Detail::isReservedName" name="lumex::core::filesystem::fs::Detail::isReservedName">
-<area shape="rect" id="node1" title=" " alt="" coords="451,35,657,76"/>
-<area shape="rect" id="node2" href="$a01355.html#ad4d22be12b855bec6255dbb4f641d33b" title="Checks if a file or directory name is valid." alt="" coords="228,5,403,47"/>
-<area shape="rect" id="node3" href="$a01355.html#ad620abd69e1b7b23c9590e8222585e66" title="Filters name, replacing invalid characters with &#39;_&#39; (noexcept wrapper)" alt="" coords="5,35,180,76"/>
-</map>

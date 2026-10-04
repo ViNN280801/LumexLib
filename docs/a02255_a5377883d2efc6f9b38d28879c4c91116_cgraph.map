@@ -1,5 +1,0 @@
-<map id="lumex::core::filesystem::fs::lumex_filesystem::lock_directory" name="lumex::core::filesystem::fs::lumex_filesystem::lock_directory">
-<area shape="rect" id="node1" title="Acquire an exclusive lock on a directory to prevent its deletion." alt="" coords="5,5,180,61"/>
-<area shape="rect" id="node2" href="$a02235.html#a411cd428bcee18a7e01558506ba9a543" title="Converts and returns the path as a std::wstring." alt="" coords="228,13,403,54"/>
-<area shape="rect" id="node3" href="$a02255.html#ad2a48826fbfcdaa102969dbb4dcfe3dc" title="Converts a std::string (UTF&#45;8 encoded) to a std::wstring." alt="" coords="451,5,625,61"/>
-</map>

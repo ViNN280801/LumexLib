@@ -1,8 +1,0 @@
-<map id="lumex::core::atomic::sync::table_wait::Detail::BitLock::lock" name="lumex::core::atomic::sync::table_wait::Detail::BitLock::lock">
-<area shape="rect" id="node1" title="Takes the lock, sleeping while another thread holds it." alt="" coords="5,125,157,181"/>
-<area shape="rect" id="node2" href="$a01322.html#a069847c28bd87c2003813e1284bcf355" title="Tells the processor that the calling thread is spinning." alt="" coords="237,5,389,61"/>
-<area shape="rect" id="node3" href="$a01322.html#aa411a9b6a91063b2ca57a48b5cda7e38" title="ThreadSanitizer annotations of the lock word; no&#45;ops in other builds." alt="" coords="205,85,420,141"/>
-<area shape="rect" id="node4" href="$a01322.html#aaa48cf4ef446317fc83f672e8954ea02" title="ThreadSanitizer annotations of the lock word; no&#45;ops in other builds." alt="" coords="209,165,417,221"/>
-<area shape="rect" id="node5" href="$a01322.html#a1639c5bbfd26c902c3942c785090b761" title="Blocks the calling thread while word holds old." alt="" coords="215,245,410,301"/>
-<area shape="rect" id="node6" href="$a01322.html#a2fdf0c2f9cdd965f5832478aa40293ea" title="Returns the stripe that serves the word at address." alt="" coords="468,245,620,301"/>
-</map>

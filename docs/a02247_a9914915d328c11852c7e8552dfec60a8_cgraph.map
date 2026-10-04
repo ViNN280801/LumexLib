@@ -1,5 +1,0 @@
-<map id="lumex::core::filesystem::fs::directory_entry::is_directory" name="lumex::core::filesystem::fs::directory_entry::is_directory">
-<area shape="rect" id="node1" title="Checks if the entry represents a directory." alt="" coords="5,5,180,61"/>
-<area shape="rect" id="node2" href="$a02255.html#a63e895fa3678c466f520c70bac5defe0" title="Checks if the specified path_arg refers to a directory." alt="" coords="228,5,403,61"/>
-<area shape="rect" id="node3" href="$a02235.html#a209b04de0c65852694ca4d9a44d4d9bd" title="Returns a pointer to the null&#45;terminated C&#45;style string representation of the path." alt="" coords="451,13,625,54"/>
-</map>

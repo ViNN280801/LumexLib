@@ -1,4 +1,0 @@
-<map id="lumex::applied::json::helper::LumexJsonHelper::save_config" name="lumex::applied::json::helper::LumexJsonHelper::save_config">
-<area shape="rect" id="node1" title="Writes config to a file, indented by four spaces." alt="" coords="5,5,199,61"/>
-<area shape="rect" id="node2" href="$a01483.html#aab27655cc6e2c5a0b4472e26067d7f77" title="The mutex that serializes the file operations of this helper." alt="" coords="247,5,440,61"/>
-</map>

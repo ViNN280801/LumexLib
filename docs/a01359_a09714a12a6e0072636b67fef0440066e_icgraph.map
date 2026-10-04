@@ -1,4 +1,0 @@
-<map id="lumex::core::fmt::Detail::builtin_kind" name="lumex::core::fmt::Detail::builtin_kind">
-<area shape="rect" id="node1" title="Storage kind of a built&#45;in type T (decayed) for character type Char, or ArgKind::none when T is not b..." alt="" coords="231,5,408,47"/>
-<area shape="rect" id="node2" href="$a01359.html#a36ba631ed556433cf82a615650711b90" title="Storage kind of an argument of type T (after decay and after unwrapping a named argument): built in,..." alt="" coords="5,5,183,47"/>
-</map>

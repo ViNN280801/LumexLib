@@ -1,7 +1,0 @@
-<map id="LumexResourceMonitor.hpp" name="LumexResourceMonitor.hpp">
-<area shape="rect" id="node1" title="Background CPU/RAM usage sampler that appends one line per sample to a dated log file." alt="" coords="110,5,311,32"/>
-<area shape="rect" id="node2" href="$a00404.html" title=" " alt="" coords="5,80,205,107"/>
-<area shape="rect" id="node3" href="$a01196.html" title="Resource monitor module: a background thread that samples the CPU and RAM usage of the system and app..." alt="" coords="230,80,405,107"/>
-<area shape="rect" id="node4" href="$a00851.html" title=" " alt="" coords="85,162,312,189"/>
-<area shape="rect" id="node5" href="$a00854.html" title=" " alt="" coords="336,155,536,196"/>
-</map>

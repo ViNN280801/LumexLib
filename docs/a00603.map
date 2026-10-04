@@ -1,9 +1,0 @@
-<map id="LumexOptional.hpp" name="LumexOptional.hpp">
-<area shape="rect" id="node1" title="C++11 implementation of std::optional (C++17 feature) providing a type&#45;safe nullable value container." alt="" coords="275,5,425,32"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,87,92,114"/>
-<area shape="rect" id="node3" title=" " alt="" coords="116,87,227,114"/>
-<area shape="rect" id="node4" title=" " alt="" coords="251,87,337,114"/>
-<area shape="rect" id="node5" title=" " alt="" coords="361,87,453,114"/>
-<area shape="rect" id="node6" title=" " alt="" coords="477,87,537,114"/>
-<area shape="rect" id="node7" href="$a00701.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="562,80,775,121"/>
-</map>

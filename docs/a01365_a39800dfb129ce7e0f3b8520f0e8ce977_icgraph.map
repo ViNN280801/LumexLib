@@ -1,7 +1,0 @@
-<map id="lumex::core::math::ops::Detail::adl_end" name="lumex::core::math::ops::Detail::adl_end">
-<area shape="rect" id="node1" title="end (range) with std::end and ADL, as a range&#45;for does." alt="" coords="305,71,456,112"/>
-<area shape="rect" id="node2" href="$a01363.html#ad93d68e5c10c71ddb4e4a107879df69a" title="Arithmetic mean of a range&#39;s elements, or ValueType{0} for an empty range." alt="" coords="108,5,257,47"/>
-<area shape="rect" id="node4" href="$a01363.html#a90e1a67a352767f3d7e6099c9056b030" title="Root Mean Square of a range&#39;s elements, or ResultType{0} for an empty range." alt="" coords="108,71,257,112"/>
-<area shape="rect" id="node5" href="$a01363.html#a229d474c16ac226d2cfce2332550eb4b" title="Root Mean Squared Error of a range against a fixed scalar: sqrt( 1/N * sum (x_i &#45; scalar)^2 )...." alt="" coords="108,136,257,177"/>
-<area shape="rect" id="node3" href="$a00833.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,78,60,105"/>
-</map>

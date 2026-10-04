@@ -1,8 +1,0 @@
-<map id="lumex::core::filesystem::fs::lumex_filesystem::file_size" name="lumex::core::filesystem::fs::lumex_filesystem::file_size">
-<area shape="rect" id="node1" title="Retrieves the size of a regular file in bytes." alt="" coords="451,125,625,181"/>
-<area shape="rect" id="node2" href="$a02255.html#adc0d38fee5d48d7ce1aa4abcb4dda599" title="Checks if two paths refer to the same file system entity." alt="" coords="228,5,403,61"/>
-<area shape="rect" id="node4" href="$a02247.html#ab8a636cf14f4aa14723fdbb4aef5cf69" title="Retrieves the size of the file represented by this entry." alt="" coords="228,85,403,141"/>
-<area shape="rect" id="node5" href="$a02255.html#ae393a080f3802bbae6871dbb9faff3e4" title="Checks if a file is empty or a directory is empty." alt="" coords="228,165,403,221"/>
-<area shape="rect" id="node6" href="$a00770.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="288,245,343,272"/>
-<area shape="rect" id="node3" href="$a02255.html#ac1050fc7fb4e882f6b23a9ad965f9e6c" title="Moves a directory and its contents from one location to another." alt="" coords="5,5,180,61"/>
-</map>

@@ -1,7 +1,0 @@
-<map id="lumex::core::fmt::Detail::shortest_decimal" name="lumex::core::fmt::Detail::shortest_decimal">
-<area shape="rect" id="node1" title="Shortest decimal text that reads back to value (non&#45;negative, finite), in std::to_chars plain style: ..." alt="" coords="5,71,183,112"/>
-<area shape="rect" id="node2" href="$a01359.html#af34a0e837174fedbea5a781fb348eb59" title="Replaces the C locale&#39;s decimal point with .." alt="" coords="231,5,425,47"/>
-<area shape="rect" id="node3" href="$a01359.html#a211ae3ef1ab3a61baa6061f1e9285687" title="snprintf with one * precision, as a std::string." alt="" coords="239,71,417,112"/>
-<area shape="rect" id="node4" href="$a01348.html#a9b962af55f800e2cbb3a49009e6676f1" title="Converts a LumexBasicStacktrace object to its string representation." alt="" coords="239,136,417,177"/>
-<area shape="rect" id="node5" href="$a02155.html#a79f1b53a81f6bde33331116c9926e81a" title="Returns the number of entries in the stacktrace." alt="" coords="473,136,761,177"/>
-</map>

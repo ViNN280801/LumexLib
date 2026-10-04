@@ -1,6 +1,0 @@
-<map id="lumex::xml::text::XmlParser::parse_doctype_ignore" name="lumex::xml::text::XmlParser::parse_doctype_ignore">
-<area shape="rect" id="node1" title="Parses an &lt;![IGNORE[...]]&gt; section within a DOCTYPE." alt="" coords="761,5,965,47"/>
-<area shape="rect" id="node2" href="$a03215.html#a491f244f365536c867fa5df1c6a556e2" title="Parses a DOCTYPE group, which can contain nested sections of different types." alt="" coords="509,5,713,47"/>
-<area shape="rect" id="node3" href="$a03215.html#af02163f17fba53cccc3858f93e36bc6c" title="Parses XML constructs starting with an exclamation mark (&lt;!...)." alt="" coords="257,5,461,47"/>
-<area shape="rect" id="node4" href="$a03215.html#a6428c586faec7c093c2720191554582b" title="The main parsing function that constructs the XML document tree from a buffer." alt="" coords="5,5,209,47"/>
-</map>

@@ -1,5 +1,0 @@
-<map id="lumex::applied::json::diagnostics::Detail::report" name="lumex::applied::json::diagnostics::Detail::report">
-<area shape="rect" id="node1" title="Concatenates parts with operator&lt;&lt; and sends the text to the installed sink, or to the default one wh..." alt="" coords="5,45,160,101"/>
-<area shape="rect" id="node2" href="$a01280.html#aca3063965d5431c7f906a0a354f2d4c4" title=" " alt="" coords="208,5,363,61"/>
-<area shape="rect" id="node3" href="$a01280.html#ab6f3b82c767e9d70cfc7b4fad75bdf33" title="Default sink: writes [level] message to std::cerr for warning and error, drops debug and info...." alt="" coords="208,85,363,141"/>
-</map>

@@ -1,6 +1,0 @@
-<map id="lumex::xml::utility::get_value_float" name="lumex::xml::utility::get_value_float">
-<area shape="rect" id="node1" title=" " alt="" coords="347,39,489,80"/>
-<area shape="rect" id="node2" href="$a03147.html#a2400242f3d9ec9cbeba2a3147af82350" title="Converts the attribute&#39;s value to a float." alt="" coords="117,5,289,47"/>
-<area shape="rect" id="node4" href="$a03223.html#ad10371243db3b2167f8ccd00530ebb55" title="Converts the text object&#39;s value to a float." alt="" coords="108,71,299,112"/>
-<area shape="rect" id="node3" href="$a00911.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title="Main function demonstrating various LumexXml functionalities." alt="" coords="5,13,60,39"/>
-</map>

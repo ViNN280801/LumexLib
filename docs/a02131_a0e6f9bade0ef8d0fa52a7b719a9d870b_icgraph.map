@@ -1,7 +1,0 @@
-<map id="lumex::core::environment::env::LumexEnvironment::get_or" name="lumex::core::environment::env::LumexEnvironment::get_or">
-<area shape="rect" id="node1" title="Static convenience method to retrieve an environment variable with a default fallback." alt="" coords="553,20,744,76"/>
-<area shape="rect" id="node2" href="$a01341.html#aa4eee5d823344fc6515437ef34084b7b" title="Checks whether an environment variable is set to a non&#45;empty value." alt="" coords="315,57,505,98"/>
-<area shape="rect" id="node3" href="$a00752.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="160,5,215,32"/>
-<area shape="rect" id="node4" href="$a01386.html#a78cd5363784bcb68df9fbe3e0bd5db9f" title="Optionally gates timing/reporting via an environment variable, then measures callable and writes the ..." alt="" coords="108,57,267,98"/>
-<area shape="rect" id="node5" href="$a00893.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,64,60,91"/>
-</map>

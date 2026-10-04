@@ -1,8 +1,0 @@
-<map id="main" name="main">
-<area shape="rect" id="node1" title=" " alt="" coords="5,140,60,167"/>
-<area shape="rect" id="node2" href="$a02503.html#aede99d86546c89a1fc8d25ab0bd08740" title="Gets a random number with explicitly specified parameters." alt="" coords="108,5,383,61"/>
-<area shape="rect" id="node3" href="$a02503.html#a802b7f69f2229f25a46546a9652f1d3c" title="Generates a sequence (vector) of random numbers." alt="" coords="108,85,383,141"/>
-<area shape="rect" id="node4" href="$a02503.html#ab302c3598a3093a1ee7df07ddb787911" title="Sets both the lower and upper bounds for subsequent random number generations." alt="" coords="108,165,383,221"/>
-<area shape="rect" id="node6" href="$a02503.html#a18170648ef2fced4beb6bae981a3fe65" title="Sets the probability distribution type for subsequent random number generations." alt="" coords="108,245,383,301"/>
-<area shape="rect" id="node5" href="$a01348.html#aa6c29be7d01b00f05c127675317c265c" title="Global swap function for LumexBasicStacktrace." alt="" coords="431,173,609,214"/>
-</map>

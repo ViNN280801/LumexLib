@@ -1,4 +1,0 @@
-<map id="lumex::core::string_view::view::LumexStringView::compare" name="lumex::core::string_view::view::LumexStringView::compare">
-<area shape="rect" id="node1" title="Compares this LumexStringView with a null&#45;terminated C&#45;style string." alt="" coords="5,5,224,61"/>
-<area shape="rect" id="node2" href="$a02667.html#a02c0fdcc30b79e52f80137a4c99acb48" title="Compares this LumexStringView with another LumexStringView." alt="" coords="272,5,491,61"/>
-</map>

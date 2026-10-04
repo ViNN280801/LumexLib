@@ -1,0 +1,10 @@
+digraph "lumex::core::fmt::Formatter&lt; std::chrono::duration&lt; Rep, Period &gt;, Char, typename std::enable_if&lt; Detail::has_formatter&lt; Char, Rep &gt;() &amp;&amp;std::is_arithmetic&lt; Rep &gt;::value &gt;::type &gt;"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  Node1 [id="Node000001",label="lumex::core::fmt::Formatter\l\< std::chrono::duration\l\< Rep, Period \>, Char, typename\l std::enable_if\< Detail::has\l_formatter\< Char, Rep \>() &&std\l::is_arithmetic\< Rep \>::value \>::type \>",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="std::chrono::duration: 42ms, or chrono-specs such as T."];
+  Node2 -> Node1 [id="edge1_Node000001_Node000002",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="lumex::core::fmt::Detail\l::ChronoFormatter\< Char \>",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",URL="$a02094.html",tooltip="Parses [[fill]align][width][.precision][L][chrono-specs] and pads the chrono text; base of the durati..."];
+}

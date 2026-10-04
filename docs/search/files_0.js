@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['readme_2emd_4595',['README.md',['../a03648.html',1,'']]]
+  ['applied_2flogger_2freadme_2emd_0',['README.md',['../a04009.html',1,'']]]
 ];

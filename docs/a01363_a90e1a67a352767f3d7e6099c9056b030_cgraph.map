@@ -1,5 +1,0 @@
-<map id="lumex::core::math::ops::rms" name="lumex::core::math::ops::rms">
-<area shape="rect" id="node1" title="Root Mean Square of a range&#39;s elements, or ResultType{0} for an empty range." alt="" coords="5,39,155,80"/>
-<area shape="rect" id="node2" href="$a01365.html#abdf8ed32a58d7ef1884b0e2eb69e139b" title="begin (range) with std::begin and ADL, as a range&#45;for does." alt="" coords="203,5,365,47"/>
-<area shape="rect" id="node3" href="$a01365.html#a39800dfb129ce7e0f3b8520f0e8ce977" title="end (range) with std::end and ADL, as a range&#45;for does." alt="" coords="209,71,359,112"/>
-</map>

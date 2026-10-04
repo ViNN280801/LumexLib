@@ -1,9 +1,0 @@
-<map id="LumexSettingsFactory.hpp" name="LumexSettingsFactory.hpp">
-<area shape="rect" id="node1" title="Creates the ILumexSettings implementation for a configuration file format." alt="" coords="228,5,420,32"/>
-<area shape="rect" id="node2" href="$a00428.html" title=" " alt="" coords="139,80,330,107"/>
-<area shape="rect" id="node3" href="$a01202.html" title="Settings module: section, key and value configuration files in INI, JSON or XML behind one interface,..." alt="" coords="354,80,473,107"/>
-<area shape="rect" id="node4" href="$a00863.html" title=" " alt="" coords="5,155,171,181"/>
-<area shape="rect" id="node5" href="$a00866.html" title=" " alt="" coords="195,155,394,181"/>
-<area shape="rect" id="node6" href="$a00869.html" title=" " alt="" coords="418,155,649,181"/>
-<area shape="rect" id="node7" href="$a00872.html" title=" " alt="" coords="673,155,871,181"/>
-</map>

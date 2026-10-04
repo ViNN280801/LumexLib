@@ -1,4 +1,0 @@
-<map id="lumex::xml::xpath::parser::lexer::XPathLexer::XPathLexer" name="lumex::xml::xpath::parser::lexer::XPathLexer::XPathLexer">
-<area shape="rect" id="node1" title="Constructs an XPathLexer and initializes it with a query string." alt="" coords="5,5,191,61"/>
-<area shape="rect" id="node2" href="$a03411.html#a79bd95d5f6d764466f356951513c5b96" title="Advances the lexer to the next token in the XPath query." alt="" coords="239,13,461,54"/>
-</map>

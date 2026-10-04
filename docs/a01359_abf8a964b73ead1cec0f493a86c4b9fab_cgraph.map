@@ -1,6 +1,0 @@
-<map id="lumex::core::fmt::Detail::civil_from_days" name="lumex::core::fmt::Detail::civil_from_days">
-<area shape="rect" id="node1" title="Fills the date part of time from days since 1970&#45;01&#45;01." alt="" coords="5,64,183,105"/>
-<area shape="rect" id="node2" href="$a01359.html#a365347e3849bfaedcfb56627e1ee586e" title="Days since 1970&#45;01&#45;01 of a civil date." alt="" coords="231,5,408,47"/>
-<area shape="rect" id="node3" href="$a01359.html#a8a3611c453003762e23f73cdf331d06a" title="value / divisor rounded toward negative infinity." alt="" coords="456,64,633,105"/>
-<area shape="rect" id="node4" href="$a01359.html#ae8c7658b63539d3879a215371302723c" title="value mod divisor in [0, divisor) for a positive divisor." alt="" coords="231,123,408,164"/>
-</map>

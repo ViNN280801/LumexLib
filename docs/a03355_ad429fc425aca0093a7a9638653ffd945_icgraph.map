@@ -1,5 +1,0 @@
-<map id="lumex::xml::xpath::ast::XPathAstNode::set_next" name="lumex::xml::xpath::ast::XPathAstNode::set_next">
-<area shape="rect" id="node1" title="Sets the m_next pointer of this AST node." alt="" coords="256,53,463,94"/>
-<area shape="rect" id="node2" href="$a03423.html#a94a6d92fbfc6de074d2b4a9dfc706acc" title="Parses a PrimaryExpr production in the XPath grammar." alt="" coords="5,5,208,61"/>
-<area shape="rect" id="node3" href="$a03423.html#a9c860c7129b5f44bb914b8a6649fe187" title="Parses a Step production in the XPath grammar." alt="" coords="32,85,181,141"/>
-</map>

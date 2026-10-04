@@ -1,4 +1,0 @@
-<map id="lumex::xml::node::XmlNode::append_attribute" name="lumex::xml::node::XmlNode::append_attribute">
-<area shape="rect" id="node1" title="Appends a new attribute with the specified name (std::string_view) to the current node." alt="" coords="5,5,209,47"/>
-<area shape="rect" id="node2" href="$a01435.html#ac91d41bf86f0da8b9a45c72c88401962" title="Appends an attribute to the end of a node&#39;s attribute list." alt="" coords="257,5,449,47"/>
-</map>

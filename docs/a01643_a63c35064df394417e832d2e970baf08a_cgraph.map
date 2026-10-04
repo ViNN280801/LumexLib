@@ -1,4 +1,0 @@
-<map id="lumex::core::circular_buffer::CircularBuffer::rend" name="lumex::core::circular_buffer::CircularBuffer::rend">
-<area shape="rect" id="node1" title="Returns a const reverse iterator to the end of the reverse sequence." alt="" coords="5,13,207,54"/>
-<area shape="rect" id="node2" href="$a01643.html#a67d61f881a2aadb7cc4eee7b9b2eb3ae" title="Returns an iterator to the start of the logical sequence." alt="" coords="255,5,419,61"/>
-</map>

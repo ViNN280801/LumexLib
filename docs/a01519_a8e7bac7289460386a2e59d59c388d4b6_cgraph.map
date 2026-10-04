@@ -1,4 +1,0 @@
-<map id="lumex::applied::logging::log::LumexLogging::success" name="lumex::applied::logging::log::LumexLogging::success">
-<area shape="rect" id="node1" title="Log a SUCCESS&#45;level message (custom level)." alt="" coords="5,5,217,47"/>
-<area shape="rect" id="node2" href="$a01378.html#a644d51beb3d991564cc81242883fd17a" title="Concatenates the streamed text of args." alt="" coords="265,5,409,47"/>
-</map>

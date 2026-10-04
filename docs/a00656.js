@@ -1,15 +1,12 @@
 var a00656 =
 [
-    [ "LumexTimer", "a02691.html", "a02691" ],
-    [ "LUMEX_MEASURE_TIME", "a00656.html#a684f4a04bd86b9e7425fb3ff1ef4bdd1", null ],
-    [ "LUMEX_MEASURE_TIME_1", "a00656.html#a2d22c1aced9474b3a47224bf981f94eb", null ],
-    [ "LUMEX_MEASURE_TIME_2", "a00656.html#acf30cfd1dcd275170e2bae411ce08642", null ],
-    [ "LUMEX_MEASURE_TIME_DISPATCH", "a00656.html#ae20cd4d02c536ec28d605b39d7346579", null ],
-    [ "LUMEX_MEASURE_TIME_GET_OVERLOAD", "a00656.html#a61099e52bf134773350883c6fa79fbc8", null ],
-    [ "LumexTimer", "a00656.html#a57ef3281ae9b9c2d128025396f7c856f", null ],
-    [ "default_measure_time_env_name", "a00656.html#a0eb3f74a4058413ec262042ee8e4d65d", null ],
-    [ "extract_function_name", "a00656.html#a92a181555350dcc075d22a432da22d8a", null ],
-    [ "measure_execution_time", "a00656.html#a2cc90c92f6a2261ecfb8bc76e3943ed1", null ],
-    [ "measure_time", "a00656.html#a78cd5363784bcb68df9fbe3e0bd5db9f", null ],
-    [ "write_measure_time_report", "a00656.html#aa04009deb3c2f28294b819490ed44b27", null ]
+    [ "lumex::xml::node::XmlNode", "a02838.html", "a02838" ],
+    [ "lumex::xml::node::XmlNodeIterator", "a02842.html", "a02842" ],
+    [ "lumex::xml::node::XmlNamedNodeIterator", "a02846.html", "a02846" ],
+    [ "lumex::xml::attribute::XmlAttributeIterator", "a02850.html", "a02850" ],
+    [ "lumex::xml::node::allow_move", "a01086.html#aae6fd296565521687dfdec74617af3f4", null ],
+    [ "lumex::xml::node::is_text_node", "a01086.html#a1e646ed1cb77d39fa585d98f77a5269c", null ],
+    [ "lumex::xml::node::node_output", "a01086.html#af34491b7156887c5b07e29420a4db813", null ],
+    [ "lumex::xml::node::operator&&", "a01086.html#a9cfeb01c63a015b2ea3b1acdb401fafa", null ],
+    [ "lumex::xml::node::operator||", "a01086.html#a9ddd7da688cc6930afb363d4835bc59d", null ]
 ];

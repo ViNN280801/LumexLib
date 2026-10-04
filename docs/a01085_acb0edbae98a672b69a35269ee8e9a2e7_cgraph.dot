@@ -1,0 +1,13 @@
+digraph "lumex::xml::utility::convert_buffer_output"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="LR";
+  Node1 [id="Node000001",label="lumex::xml::utility\l::convert_buffer_output",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [id="edge1_Node000001_Node000002",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="lumex::xml::utility\l::convert_buffer_output\l_generic",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01085.html#ab83253de00b48533ee88aa1ca631391e",tooltip=" "];
+  Node1 -> Node3 [id="edge2_Node000001_Node000003",color="steelblue1",style="solid",tooltip=" "];
+  Node3 [id="Node000003",label="lumex::xml::utility\l::is_little_endian",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01085.html#a3550d26fd44f43036b4af55814436c45",tooltip=" "];
+}

@@ -1,0 +1,15 @@
+digraph "lumex::core::filesystem::fs::lumex_filesystem::to_wide_string"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="RL";
+  Node1 [id="Node000001",label="lumex::core::filesystem\l::fs::lumex_filesystem\l::to_wide_string",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="Converts a std::string (UTF-8 encoded) to a std::wstring."];
+  Node1 -> Node1 [id="edge1_Node000001_Node000001",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node1 -> Node2 [id="edge2_Node000001_Node000002",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="lumex::core::filesystem\l::fs::path::wstring",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01894.html#a411cd428bcee18a7e01558506ba9a543",tooltip="Converts and returns the path as a std::wstring."];
+  Node2 -> Node3 [id="edge3_Node000002_Node000003",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node3 [id="Node000003",label="lumex::core::filesystem\l::fs::lumex_filesystem\l::lock_directory",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01914.html#a5377883d2efc6f9b38d28879c4c91116",tooltip="Acquire an exclusive lock on a directory to prevent its deletion."];
+  Node3 -> Node3 [id="edge4_Node000003_Node000003",dir="back",color="steelblue1",style="solid",tooltip=" "];
+}

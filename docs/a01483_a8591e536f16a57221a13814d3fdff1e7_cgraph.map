@@ -1,6 +1,0 @@
-<map id="lumex::applied::json::helper::LumexJsonHelper::write_value" name="lumex::applied::json::helper::LumexJsonHelper::write_value">
-<area shape="rect" id="node1" title="Loads the file (an unreadable or missing file counts as an empty object), stores value and saves it b..." alt="" coords="5,45,199,101"/>
-<area shape="rect" id="node2" href="$a01483.html#aab27655cc6e2c5a0b4472e26067d7f77" title="The mutex that serializes the file operations of this helper." alt="" coords="247,5,440,61"/>
-<area shape="rect" id="node3" href="$a01483.html#a17a81c641ecb11ad8159e5af5287a13b" title="Stores value under key in section (or the root), creating the section path when needed." alt="" coords="247,85,440,141"/>
-<area shape="rect" id="node4" href="$a01282.html#a93440710aefc3cd89d32f3916f915f66" title="Whether a value is an empty string. set_value refuses to store one. Non&#45;string types are never empty." alt="" coords="488,85,643,141"/>
-</map>

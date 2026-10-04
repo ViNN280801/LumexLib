@@ -1,4 +1,0 @@
-<map id="lumex::applied::serial::enumeration::is_bluetooth_enumerated_port" name="lumex::applied::serial::enumeration::is_bluetooth_enumerated_port">
-<area shape="rect" id="node1" title="True when Windows registered port_name through a Bluetooth enumerator (BTHENUM / BTHLEENUM)." alt="" coords="5,5,207,61"/>
-<area shape="rect" id="node2" href="$a01434.html#a452dc69c516222ebe97ef081534daff6" title=" " alt="" coords="255,13,397,54"/>
-</map>

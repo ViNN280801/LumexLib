@@ -1,4 +1,0 @@
-<map id="lumex::core::filesystem::fs::path::replace_extension" name="lumex::core::filesystem::fs::path::replace_extension">
-<area shape="rect" id="node1" title="Replaces the extension of the path with a new C&#45;style string extension." alt="" coords="260,5,467,47"/>
-<area shape="rect" id="node2" href="$a02235.html#ade2854109599c0d0cc47f36971bc945c" title="Replaces the extension of the path with a new std::string extension." alt="" coords="5,5,212,47"/>
-</map>

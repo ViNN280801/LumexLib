@@ -1,7 +1,0 @@
-<map id="lumex::xml::xpath::parser::XPathParser::parse_expression_rec" name="lumex::xml::xpath::parser::XPathParser::parse_expression_rec">
-<area shape="rect" id="node1" title="Recursively parses binary expressions based on operator precedence." alt="" coords="5,75,176,131"/>
-<area shape="rect" id="node2" href="$a03419.html#a3e485b7e05e69c4867839c42c9ffc600" title=" " alt="" coords="251,60,394,87"/>
-<area shape="rect" id="node5" href="$a03355.html#a708708b7a8d4be7a96c467722634664a" title="Retrieves the XPath value type that this AST node is expected to return." alt="" coords="224,111,421,153"/>
-<area shape="rect" id="node3" href="$a03411.html#aeb7b2c56ffb9b5240b247a5a49f9da30" title="Returns the contents of the current lexeme as an XPathLexerString." alt="" coords="469,5,655,61"/>
-<area shape="rect" id="node4" href="$a03411.html#a315961b587dbad20ea49c3c17413ed2a" title="Returns the type of the current lexeme." alt="" coords="469,85,655,141"/>
-</map>

@@ -1,5 +1,0 @@
-<map id="LumexAssert.hpp" name="LumexAssert.hpp">
-<area shape="rect" id="node1" title="Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_..." alt="" coords="139,5,274,32"/>
-<area shape="rect" id="node2" href="$a00917.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="5,87,187,114"/>
-<area shape="rect" id="node3" href="$a00701.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="211,80,424,121"/>
-</map>

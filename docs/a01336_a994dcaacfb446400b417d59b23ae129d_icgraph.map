@@ -1,4 +1,0 @@
-<map id="lumex::core::crc::catalog::CrcTransportUsesCustomSpecSentinel" name="lumex::core::crc::catalog::CrcTransportUsesCustomSpecSentinel">
-<area shape="rect" id="node1" title="Value of GetTransportCrcCatalogIndex when the mode is Custom." alt="" coords="273,5,551,47"/>
-<area shape="rect" id="node2" href="$a01336.html#adfb9a54377d70e075c97d7034dd2d497" title="Catalogue index in Catalog mode; otherwise CrcCatalogLegacyIndex or CrcTransportUsesCustomSpecSentine..." alt="" coords="5,5,225,47"/>
-</map>

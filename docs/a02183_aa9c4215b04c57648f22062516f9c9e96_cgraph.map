@@ -1,4 +1,0 @@
-<map id="lumex::core::expected::result::Expected::operator bool" name="lumex::core::expected::result::Expected::operator bool">
-<area shape="rect" id="node1" title="Explicit conversion to bool." alt="" coords="5,5,236,47"/>
-<area shape="rect" id="node2" href="$a02183.html#a25a22b73140f3ced5fe0d55cd42235cc" title="Checks whether this Expected holds a success value." alt="" coords="284,5,493,47"/>
-</map>

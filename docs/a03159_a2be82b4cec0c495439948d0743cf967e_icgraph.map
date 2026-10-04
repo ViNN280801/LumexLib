@@ -1,6 +1,0 @@
-<map id="lumex::xml::document::XmlDocument::load_buffer" name="lumex::xml::document::XmlDocument::load_buffer">
-<area shape="rect" id="node1" title="Loads an XML document from a read&#45;only memory buffer." alt="" coords="473,35,677,76"/>
-<area shape="rect" id="node2" href="$a03159.html#a9e0254f783e96e70cde965a50ba9c7e0" title="Loads an XML document from a zero&#45;terminated C&#45;style string." alt="" coords="223,35,425,76"/>
-<area shape="rect" id="node3" href="$a03159.html#a8b098069f109e13fd8bd8e02648d490f" title="DEPRECATED: Loads an XML document from a zero&#45;terminated C&#45;style string. Use load_string instead." alt="" coords="5,5,175,47"/>
-<area shape="rect" id="node4" href="$a00905.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="63,71,117,98"/>
-</map>

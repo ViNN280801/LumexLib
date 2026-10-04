@@ -1,8 +1,0 @@
-<map id="lumex::core::filesystem::fs::path::is_absolute" name="lumex::core::filesystem::fs::path::is_absolute">
-<area shape="rect" id="node1" title="Checks if the path is an absolute path." alt="" coords="5,39,180,80"/>
-<area shape="rect" id="node2" href="$a02235.html#a190cfff3cd6b0d076ebbfcc2daf07796" title="Checks if the path has a root directory component." alt="" coords="228,5,436,47"/>
-<area shape="rect" id="node3" href="$a02235.html#aa63fa785a22979bf2238c68f73c0d426" title="Checks if the path has a root name component." alt="" coords="239,71,425,112"/>
-<area shape="rect" id="node4" href="$a02235.html#a6f923676a1ec7e8440b21eca9b6d9312" title="Checks if the path is empty." alt="" coords="484,37,659,79"/>
-<area shape="rect" id="node5" href="$a02235.html#aef30bd7f207328b1373169bdd34a9863" title="Extracts the root name component from the path." alt="" coords="484,103,659,144"/>
-<area shape="rect" id="node6" href="$a02235.html#a3b470303c0431f218eeebe77b8acd417" title="Default constructor. Constructs an empty path." alt="" coords="707,103,881,144"/>
-</map>

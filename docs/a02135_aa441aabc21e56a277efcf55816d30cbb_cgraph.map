@@ -1,4 +1,0 @@
-<map id="lumex::core::environment::env::LumexEnvironment::EnvResult::operator bool" name="lumex::core::environment::env::LumexEnvironment::EnvResult::operator bool">
-<area shape="rect" id="node1" title="Allows implicit conversion to bool to easily check the success status." alt="" coords="5,5,196,61"/>
-<area shape="rect" id="node2" href="$a01353.html#aedb3e518171a625ee1b9cad9e0fc1b73" title="Creates a marker for a successful call that carries no value." alt="" coords="244,13,411,54"/>
-</map>

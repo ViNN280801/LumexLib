@@ -1,4 +1,4 @@
 var a00689 =
 [
-    [ "LUMEX_IMPLEMENTATION", "a00689.html#a07486181f1990291c2a348de8eb4c480", null ]
+    [ "lumex::xml::tree::XmlTreeWalker", "a02890.html", "a02890" ]
 ];

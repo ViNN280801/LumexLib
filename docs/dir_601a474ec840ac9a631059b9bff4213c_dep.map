@@ -1,9 +1,0 @@
-<map id="helper" name="helper">
-<area shape="rect" id="node1" href="dir_601a474ec840ac9a631059b9bff4213c.html" title="helper" alt="" coords="27,52,99,100"/>
-<area shape="rect" id="node2" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html" title="core" alt="" coords="27,244,99,292"/>
-<area shape="rect" id="edge1-headlabel" href="dir_000079_000001.html" title="2" alt="" coords="54,217,64,231"/>
-<area shape="rect" id="node3" href="dir_2df03a30e0705916003fc92b8f9f09bc.html" title="diagnostics" alt="" coords="57,148,153,196"/>
-<area shape="rect" id="edge2-headlabel" href="dir_000079_000078.html" title="1" alt="" coords="90,120,99,135"/>
-<area shape="rect" id="edge3-headlabel" href="dir_000078_000001.html" title="3" alt="" coords="84,223,93,238"/>
-<area shape="rect" id="clust1" href="dir_3e92e8848bcd01e21718dfea84e9b21e.html" title="json" alt="" coords="16,16,109,111"/>
-</map>

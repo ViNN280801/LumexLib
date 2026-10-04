@@ -1,8 +1,0 @@
-<map id="lumex::xml::utility::tolower_ascii" name="lumex::xml::utility::tolower_ascii">
-<area shape="rect" id="node1" title=" " alt="" coords="940,75,1083,117"/>
-<area shape="rect" id="node2" href="$a03355.html#a22fd4b0b8128783c9615823bebff036c" title="Evaluates the XPath expression represented by this AST node to a boolean value." alt="" coords="713,68,892,124"/>
-<area shape="rect" id="node3" href="$a03355.html#aefd15ccbea8cfa84dcf96d758e336650" title="Evaluates the XPath expression represented by this AST node to a numeric value." alt="" coords="487,29,665,85"/>
-<area shape="rect" id="node4" href="$a03355.html#a65b0bbe9cb7bb56b63909808fd092948" title="Evaluates the XPath expression represented by this AST node to a string value." alt="" coords="260,68,439,124"/>
-<area shape="rect" id="node5" href="$a03355.html#ac7d75209a648631652c624444c544670" title="Evaluates a &#39;concat&#39; XPath function expression, concatenating multiple strings." alt="" coords="19,68,198,124"/>
-<area shape="rect" id="node6" href="$a03431.html#a246d7958d05f4d033bc4cbdd45f652d1" title="Evaluates the XPath query to a string value, writing to a provided buffer." alt="" coords="5,148,212,204"/>
-</map>

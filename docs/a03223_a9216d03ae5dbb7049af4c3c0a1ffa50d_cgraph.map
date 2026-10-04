@@ -1,6 +1,0 @@
-<map id="lumex::xml::text::XmlText::as_int" name="lumex::xml::text::XmlText::as_int">
-<area shape="rect" id="node1" title="Converts the text object&#39;s value to an int." alt="" coords="5,71,196,112"/>
-<area shape="rect" id="node2" href="$a03223.html#a04729cf70921cbf2ada7655e91bf10b6" title="Retrieves the underlying data node (node_pcdata or node_cdata) for this text object." alt="" coords="251,5,441,47"/>
-<area shape="rect" id="node3" href="$a01434.html#a16b4ac35b0b90e24e97c3db4edf3944a" title=" " alt="" coords="275,71,417,112"/>
-<area shape="rect" id="node4" href="$a03175.html#a3ab22f27c7a36eebc5236b8190546186" title="Retrieves the value of the XML node." alt="" coords="244,136,448,177"/>
-</map>

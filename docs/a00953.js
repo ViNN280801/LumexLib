@@ -1,5 +1,9 @@
 var a00953 =
 [
-    [ "XmlAllocator", "a03167.html", "a03167" ],
-    [ "get_allocator", "a00953.html#a329519afa82f0ce1fd2f9399b854617a", null ]
+    [ "factory", "a00954.html", "a00954" ],
+    [ "guard", "a00955.html", "a00955" ],
+    [ "ini", "a00957.html", "a00957" ],
+    [ "json", "a00960.html", "a00960" ],
+    [ "xml", "a00962.html", "a00962" ],
+    [ "ILumexSettings", "a01230.html", "a01230" ]
 ];

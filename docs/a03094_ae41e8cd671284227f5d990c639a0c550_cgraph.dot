@@ -1,0 +1,15 @@
+digraph "lumex::xml::xpath::query::XPathQuery::evaluate_string"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="LR";
+  Node1 [id="Node000001",label="lumex::xml::xpath::\lquery::XPathQuery::evaluate\l_string",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="Evaluates the XPath query to a string value."];
+  Node1 -> Node2 [id="edge1_Node000001_Node000002",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="lumex::xml::xpath::\lstring::XPathString\l::c_str",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a03102.html#a7acb7be43308736f13b9cd4aa8c2fff8",tooltip="Returns a pointer to the null-terminated C-style string."];
+  Node1 -> Node3 [id="edge2_Node000001_Node000003",color="steelblue1",style="solid",tooltip=" "];
+  Node3 [id="Node000003",label="lumex::xml::xpath::\lstring::XPathString\l::length",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a03102.html#abe39a62ae0c73e945db3063fc32f7095",tooltip="Returns the length of the string (number of characters)."];
+  Node3 -> Node4 [id="edge3_Node000003_Node000004",color="steelblue1",style="solid",tooltip=" "];
+  Node4 [id="Node000004",label="lumex::xml::utility\l::strlength",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01085.html#aef8fee41b36e9987a5b7ed339b83ce42",tooltip=" "];
+}

@@ -1,5 +1,0 @@
-<map id="lumex::core::atomic::sync::table_wait::Detail::notify_one" name="lumex::core::atomic::sync::table_wait::Detail::notify_one">
-<area shape="rect" id="node1" title="Wakes at least one thread sleeping in wait_until_changed on word." alt="" coords="5,5,157,61"/>
-<area shape="rect" id="node2" href="$a01322.html#ab0a372674a94f35856052c9f32a55909" title="Wakes every thread sleeping in wait_until_changed on word." alt="" coords="205,5,357,61"/>
-<area shape="rect" id="node3" href="$a01322.html#a2fdf0c2f9cdd965f5832478aa40293ea" title="Returns the stripe that serves the word at address." alt="" coords="405,5,557,61"/>
-</map>

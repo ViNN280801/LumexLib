@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['quote_5634',['quote',['../a01376.html#a302f1bdf5e442097f85625effbd1294d',1,'lumex::core::string::text']]],
-  ['quote_5fdouble_5635',['quote_double',['../a01376.html#a88eef91964b7cfcb0ba9bf926daee537',1,'lumex::core::string::text']]],
-  ['quote_5feach_5636',['quote_each',['../a01377.html#a4dcf39e9c9bb3f6990597b1eabd5c690',1,'lumex::core::string::text::Detail']]],
-  ['quote_5fsingle_5637',['quote_single',['../a01376.html#a76b867ee109f995de558b6adac3599e0',1,'lumex::core::string::text']]]
+  ['quote_0',['quote',['../a01025.html#aae6445322407323613ef63ab3d415d0e',1,'lumex::core::string::text']]],
+  ['quote_5fdouble_1',['quote_double',['../a01025.html#a151d3e147d42afb9d3c34da8b1386821',1,'lumex::core::string::text']]],
+  ['quote_5feach_2',['quote_each',['../a01026.html#a32d6d763661d76d87d32100556e13793',1,'lumex::core::string::text::Detail']]],
+  ['quote_5fsingle_3',['quote_single',['../a01025.html#a9bf415e00fbac5e4e52b81fe02659546',1,'lumex::core::string::text']]]
 ];

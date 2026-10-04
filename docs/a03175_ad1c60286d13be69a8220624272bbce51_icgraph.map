@@ -1,5 +1,0 @@
-<map id="lumex::xml::node::XmlNode::remove_child" name="lumex::xml::node::XmlNode::remove_child">
-<area shape="rect" id="node1" title="Removes a specified child node from the current node." alt="" coords="257,27,461,69"/>
-<area shape="rect" id="node2" href="$a00911.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title="Main function demonstrating various LumexXml functionalities." alt="" coords="80,5,135,32"/>
-<area shape="rect" id="node3" href="$a03175.html#a398241c262e713edf78677ccced9b7dd" title="Removes the first child node with the specified name from the current node." alt="" coords="5,57,209,98"/>
-</map>

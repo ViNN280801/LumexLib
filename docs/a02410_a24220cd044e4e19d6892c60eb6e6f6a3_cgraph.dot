@@ -1,0 +1,11 @@
+digraph "lumex::core::utility::numeric::safe_compare_impl_helper&lt; T, U, typename std::enable_if&lt;(std::is_integral&lt; traits::meta::CleanType&lt; T &gt; &gt;::value &amp;&amp;std::is_floating_point&lt; traits::meta::CleanType&lt; U &gt; &gt;::value)||(std::is_floating_point&lt; traits::meta::CleanType&lt; T &gt; &gt;::value &amp;&amp;std::is_integral&lt; traits::meta::CleanType&lt; U &gt; &gt;::value)&gt;::type &gt;::greater_equal"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="LR";
+  Node1 [id="Node000001",label="lumex::core::utility\l::numeric::safe_compare\l_impl_helper\< T, U, typename\l std::enable_if\<(std::is_integral\l\< traits::meta::CleanType\< T \>\l \>::value &&std::is_floating_point\l\< traits::meta::CleanType\< U \> \>::\lvalue)\|\|(std::is_floating_point\< traits\l::meta::CleanType\< T \> \>::value &&std\l::is_integral\< traits::meta::CleanType\l\< U \> \>::value)\>::type \>::greater_equal",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="Safe comparison >= for mixed types."];
+  Node1 -> Node2 [id="edge1_Node000001_Node000002",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="lumex::core::utility\l::numeric::safe_compare\l_impl_helper\< T, U, typename\l std::enable_if\<(std::is_integral\l\< traits::meta::CleanType\< T \>\l \>::value &&std::is_floating_point\l\< traits::meta::CleanType\< U \> \>::\lvalue)\|\|(std::is_floating_point\< traits\l::meta::CleanType\< T \> \>::value &&std\l::is_integral\< traits::meta::CleanType\l\< U \> \>::value)\>::type \>::compare",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a02410.html#a2b84569412ac075e3dbaa3274dd377c1",tooltip="Safe comparison >= for mixed types."];
+}

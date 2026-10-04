@@ -1,8 +1,0 @@
-<map id="lumex::core::filesystem::fs::lumex_filesystem::permissions" name="lumex::core::filesystem::fs::lumex_filesystem::permissions">
-<area shape="rect" id="node1" title="Sets the permissions of a file or directory." alt="" coords="5,97,180,153"/>
-<area shape="rect" id="node2" href="$a02235.html#a209b04de0c65852694ca4d9a44d4d9bd" title="Returns a pointer to the null&#45;terminated C&#45;style string representation of the path." alt="" coords="235,5,409,47"/>
-<area shape="rect" id="node3" href="$a02227.html#a384e25734c6d611b763c77caa77aeafc" title="Factory method for creating an unsuccessful filesystem_result." alt="" coords="228,71,416,112"/>
-<area shape="rect" id="node4" href="$a02227.html#a16fa37f602e827cf169d0dfb3b952940" title="Factory method for creating a successful filesystem_result." alt="" coords="229,136,415,177"/>
-<area shape="rect" id="node6" href="$a01357.html#a251f4cb5e96e630e59d402b7830d6067" title=" " alt="" coords="235,202,409,258"/>
-<area shape="rect" id="node5" href="$a02227.html#ae11d814b4f227302b2e33601f426d421" title="Retrieves the encapsulated value (const version)." alt="" coords="464,129,639,185"/>
-</map>

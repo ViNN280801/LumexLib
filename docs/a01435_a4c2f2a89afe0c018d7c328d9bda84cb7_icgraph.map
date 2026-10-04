@@ -1,7 +1,0 @@
-<map id="lumex::xml::node::destroy_node" name="lumex::xml::node::destroy_node">
-<area shape="rect" id="node1" title="Destroys an XmlNodeBase object and recursively deallocates its children and attributes." alt="" coords="509,68,741,95"/>
-<area shape="rect" id="node2" href="$a03175.html#ad1c60286d13be69a8220624272bbce51" title="Removes a specified child node from the current node." alt="" coords="257,27,461,69"/>
-<area shape="rect" id="node5" href="$a03175.html#a755de6a01e5af91f33b90f9ac4022e84" title="Removes all child nodes from the current node." alt="" coords="257,93,461,134"/>
-<area shape="rect" id="node3" href="$a00911.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title="Main function demonstrating various LumexXml functionalities." alt="" coords="80,5,135,32"/>
-<area shape="rect" id="node4" href="$a03175.html#a398241c262e713edf78677ccced9b7dd" title="Removes the first child node with the specified name from the current node." alt="" coords="5,57,209,98"/>
-</map>

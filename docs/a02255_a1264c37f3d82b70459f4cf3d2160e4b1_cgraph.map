@@ -1,7 +1,0 @@
-<map id="lumex::core::filesystem::fs::lumex_filesystem::is_readable" name="lumex::core::filesystem::fs::lumex_filesystem::is_readable">
-<area shape="rect" id="node1" title="Check if a file is readable by the current process." alt="" coords="5,72,180,128"/>
-<area shape="rect" id="node2" href="$a02235.html#a209b04de0c65852694ca4d9a44d4d9bd" title="Returns a pointer to the null&#45;terminated C&#45;style string representation of the path." alt="" coords="451,8,625,49"/>
-<area shape="rect" id="node3" href="$a02255.html#a6a05e2ccdc2eb946a869e5573626c73b" title="Checks if a file or directory exists at the specified path." alt="" coords="228,32,403,88"/>
-<area shape="rect" id="node4" href="$a02255.html#a000d9b463f4db8fa89614c3f6bf14aec" title="Returns the status of the file or directory at the specified path_arg, following symbolic links." alt="" coords="228,112,403,168"/>
-<area shape="rect" id="node5" href="$a02227.html#ae11d814b4f227302b2e33601f426d421" title="Retrieves the encapsulated value (const version)." alt="" coords="228,192,403,248"/>
-</map>

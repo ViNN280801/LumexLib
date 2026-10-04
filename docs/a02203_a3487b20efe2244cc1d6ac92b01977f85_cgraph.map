@@ -1,4 +1,0 @@
-<map id="lumex::core::expected::result::Expected&lt; void, ErrorType &gt;::Expected" name="lumex::core::expected::result::Expected&lt; void, ErrorType &gt;::Expected">
-<area shape="rect" id="node1" title="Constructor from Unexpected (copy) for the Expected&lt;void, ErrorType&gt; specialization." alt="" coords="5,5,188,61"/>
-<area shape="rect" id="node2" href="$a02179.html#abe772de2a48579c10236f4fab3bd3ee1" title="Returns a mutable lvalue reference to the stored error." alt="" coords="236,13,423,54"/>
-</map>

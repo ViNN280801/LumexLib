@@ -1,26 +1,7 @@
 var searchData=
 [
-  ['name_6354',['name',['../a02303.html#ac1c45dd81326729e5ecd54e503876d75',1,'lumex::core::fmt::Detail::arg_ref_t::name()'],['../a02311.html#aeff16f0f2ff5f3529cb5059a909617f6',1,'lumex::core::fmt::Detail::named_arg_t::name()'],['../a02359.html#a3a66c12ab578e2274ecbead2facd7078',1,'lumex::core::fmt::Detail::named_arg_entry_t::name()'],['../a03083.html#a223dd325b2385a983230c076bd6ac0d9',1,'legacy_t::name()'],['../a03151.html#a4e4aa56391a38168c0b3d007c9518d32',1,'lumex::xml::attribute::XmlAttributeBase::name()'],['../a03191.html#af9526c7fb8a12bda3a301320c999c694',1,'lumex::xml::node::XmlNodeBase::name()'],['../a03195.html#a8d126e4a233b87fd9054d31b5bf5114e',1,'lumex::xml::node::name_null_sentry::name()'],['../a03447.html#a585a041ad4a67f58ac2bd534157afc81',1,'lumex::xml::xpath::variable::xpath_variable_boolean::name()'],['../a03451.html#ad27bcbebec0c04fd186e1ace18e1c1d4',1,'lumex::xml::xpath::variable::xpath_variable_number::name()'],['../a03455.html#af8af305fdca1715d3b7440590e87adc2',1,'lumex::xml::xpath::variable::xpath_variable_string::name()'],['../a03459.html#ad8ceb9ed9c194c120205e9ebf8fa3a47',1,'lumex::xml::xpath::variable::xpath_variable_node_set::name()']]],
-  ['name_5fsize_6355',['name_size',['../a02303.html#a4dc91f075a8945f9144e178604d5ad12',1,'lumex::core::fmt::Detail::arg_ref_t']]],
-  ['named_6356',['named',['../a02363.html#a22e5c74e26e4e3300c468e848ec852e8',1,'lumex::core::fmt::Detail::format_arg_store_t']]],
-  ['named_5fcount_6357',['named_count',['../a02363.html#a485837aa9bfefcc233a02e9bf5a13b47',1,'lumex::core::fmt::Detail::format_arg_store_t']]],
-  ['negative_6358',['negative',['../a02431.html#a70e63ac5c62c076233f1b0a189f7b856',1,'lumex::core::fmt::Detail::civil_time_t']]],
-  ['next_6359',['next',['../a03155.html#ad00071f7340adb2bde7c4157d4100b3c',1,'xml_stream_chunk::next()'],['../a03171.html#a41dd6e87dab4591425415dc76842a020',1,'lumex::xml::memory::XmlMemoryPage::next()'],['../a03235.html#afa1b4dc90d28cc56fa80f4a0ab5ee9c9',1,'lumex::xml::types::Types::xml_extra_buffer::next()'],['../a03383.html#aeac00b0c5dbaab1cc464d0e6023b7d02',1,'lumex::xml::xpath::memory::XPathMemoryBlock::next()']]],
-  ['next_5fattribute_6360',['next_attribute',['../a03151.html#aa47074083f71aa800b2b23df2b597eee',1,'lumex::xml::attribute::XmlAttributeBase']]],
-  ['next_5fsibling_6361',['next_sibling',['../a03191.html#ac1a2e86dd7b3a14bdc16593d60d3fb5f',1,'lumex::xml::node::XmlNodeBase']]],
-  ['nnnnnnamespace_6362',['nnnnnnamespace',['../a00785.html#ab46e9b7ee4286a7de143f270ae7777ac',1,'example_format_custom.cpp']]],
-  ['node_6363',['node',['../a03195.html#ac9a5674d6d8bac0f82f304c1cccd6d82',1,'lumex::xml::node::name_null_sentry::node()'],['../a03363.html#ad6b91f3b74d0ef7b6d9b6829dfada689',1,'lumex::xml::xpath::context::XPathContext::node()']]],
-  ['nodetest_6364',['nodetest',['../a03355.html#aeb6fa117698457085ff89264f9ce4b58',1,'lumex::xml::xpath::ast::XPathAstNode']]],
-  ['npos_6365',['npos',['../a02667.html#a68725ebaec8bb90052cdcc500c56f885',1,'lumex::core::string_view::view::LumexStringView::npos()'],['../a02671.html#a595844b48864a6d91911d8e6fa5c0f54',1,'lumex::core::string_view::view::LumexWStringView::npos()']]],
-  ['ns_5fin_5fd_6366',['NS_IN_D',['../a01385.html#a9a09901f0cb2371836aea56749964be6',1,'lumex::core::time::clock::Constants']]],
-  ['ns_5fin_5fh_6367',['NS_IN_H',['../a01385.html#aee175c5f761ca33e9daa712038466e46',1,'lumex::core::time::clock::Constants']]],
-  ['ns_5fin_5fm_6368',['NS_IN_M',['../a01385.html#ae4851dee738c69b971cd8ef30d1bde23',1,'lumex::core::time::clock::Constants']]],
-  ['ns_5fin_5fmcs_6369',['NS_IN_MCS',['../a01385.html#a05f374ba4164eff86a94ac72a7f76f90',1,'lumex::core::time::clock::Constants']]],
-  ['ns_5fin_5fmin_6370',['NS_IN_MIN',['../a01385.html#aa3bb1731becc79770defd32979ecd592',1,'lumex::core::time::clock::Constants']]],
-  ['ns_5fin_5fms_6371',['NS_IN_MS',['../a01385.html#aae41865849d544e2b2065c79ad5d04a3',1,'lumex::core::time::clock::Constants']]],
-  ['ns_5fin_5fs_6372',['NS_IN_S',['../a01385.html#ab23f024fdea559a5db8d58650e206481',1,'lumex::core::time::clock::Constants']]],
-  ['ns_5fin_5fw_6373',['NS_IN_W',['../a01385.html#a204ae22b890f0382c080e185412f2233',1,'lumex::core::time::clock::Constants']]],
-  ['ns_5fin_5fy_6374',['NS_IN_Y',['../a01385.html#adb9e9c4c5982bb75a94a3e06f58d1540',1,'lumex::core::time::clock::Constants']]],
-  ['nullopt_6375',['nullopt',['../a01367.html#a2a333622703b36bee2d00ee4a0db592d',1,'lumex::core::optional::opt']]],
-  ['number_6376',['number',['../a03355.html#ad31b55bb2738e8c7f0af405c94359a43',1,'lumex::xml::xpath::ast::XPathAstNode']]]
+  ['offset_0',['offset',['../a02882.html#a10a08ed832bcc010788978cb1b3d073b',1,'lumex::xml::text::xml_parse_result_t::offset'],['../a03090.html#ae0e682e73b11250fc7e52667bce1b995',1,'lumex::xml::xpath::parser::xpath_parse_result_t::offset']]],
+  ['ok_1',['ok',['../a02298.html#a26c615242e7dc7ffc3fa7b02cdb84208',1,'lumex::core::reflection::field_reflection::detail::count_fields_impl&lt; Aggregate, Lo, Hi, false &gt;']]],
+  ['oom_2',['oom',['../a03058.html#a4c0a787a0450b3149d1315f2e589b673',1,'lumex::xml::xpath::memory::XPathStackData::oom'],['../a03098.html#a48c536799c009e5c3fd1a9e28621be68',1,'lumex::xml::xpath::XPathQueryImpl::oom']]],
+  ['out_3',['out',['../a02082.html#aedf732781558e4f7ecaee89f17b77b0f',1,'lumex::core::fmt::format_to_n_result_t']]]
 ];

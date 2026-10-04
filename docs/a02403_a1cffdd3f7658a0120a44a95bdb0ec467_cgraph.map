@@ -1,6 +1,0 @@
-<map id="lumex::core::fmt::Formatter&lt; T, Char, typename std::enable_if&lt; Detail::builtin_kind&lt; Char, typename std::decay&lt; T &gt;::type &gt;() !=Detail::ArgKind::none &gt;::type &gt;::format" name="lumex::core::fmt::Formatter&lt; T, Char, typename std::enable_if&lt; Detail::builtin_kind&lt; Char, typename std::decay&lt; T &gt;::type &gt;() !=Detail::ArgKind::none &gt;::type &gt;::format">
-<area shape="rect" id="node1" title=" " alt="" coords="5,5,252,105"/>
-<area shape="rect" id="node2" href="$a01358.html#a611c24543a8da9a730e833ded83a42de" title="Names value for a {name} replacement field." alt="" coords="751,63,909,90"/>
-<area shape="rect" id="node3" href="$a01359.html#ab761c82e15f50e3810992ea38ddf3e71" title="Type&#45;erases one (decayed) value into arg." alt="" coords="300,64,477,105"/>
-<area shape="rect" id="node4" href="$a01359.html#aa88197a195f6c5764a3b96718dcca27d" title=" " alt="" coords="525,115,703,156"/>
-</map>

@@ -1,4 +1,0 @@
-<map id="lumex::core::atomic::sync::table_wait::Detail::BitLock::~BitLock" name="lumex::core::atomic::sync::table_wait::Detail::BitLock::~BitLock">
-<area shape="rect" id="node1" title="Destroys the lock. It must not be taken." alt="" coords="5,5,189,61"/>
-<area shape="rect" id="node2" href="$a01322.html#af25ffa3720b756fbe30a7e29397ee4bd" title="ThreadSanitizer annotations of the lock word; no&#45;ops in other builds." alt="" coords="237,5,440,61"/>
-</map>

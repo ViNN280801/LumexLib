@@ -1,6 +1,0 @@
-<map id="lumex::core::fmt::Detail::parse_format_string" name="lumex::core::fmt::Detail::parse_format_string">
-<area shape="rect" id="node1" title="Walks a format string and reports literal text, replacement fields and their specifications to handle..." alt="" coords="5,39,183,80"/>
-<area shape="rect" id="node2" href="$a01359.html#a88982bf465776cb8abb61efccd0764d6" title="Parses an arg&#45;id (0, 12, name) at it; leaves it on the character after it." alt="" coords="231,39,408,80"/>
-<area shape="rect" id="node3" href="$a01359.html#adaae5d05b7b1928c889b5c429a0ed1bf" title=" " alt="" coords="456,5,633,47"/>
-<area shape="rect" id="node4" href="$a01359.html#a9a0112c6db4da55a5ecdb292c7b4a207" title=" " alt="" coords="456,71,633,112"/>
-</map>

@@ -1,7 +1,0 @@
-<map id="lumex::xml::xpath::variable::XPathVariable" name="lumex::xml::xpath::variable::XPathVariable">
-<area shape="rect" id="node1" title="Base class for all XPath variables." alt="" coords="5,133,179,174"/>
-<area shape="rect" id="node2" href="$a03447.html" title="Represents an XPath variable holding a boolean value." alt="" coords="227,5,407,61"/>
-<area shape="rect" id="node3" href="$a03459.html" title="Represents an XPath variable holding a node&#45;set value." alt="" coords="227,85,407,141"/>
-<area shape="rect" id="node4" href="$a03451.html" title="Represents an XPath variable holding a numeric (double) value." alt="" coords="227,165,407,221"/>
-<area shape="rect" id="node5" href="$a03455.html" title="Represents an XPath variable holding a string value." alt="" coords="227,245,407,301"/>
-</map>

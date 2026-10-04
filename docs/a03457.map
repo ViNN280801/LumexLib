@@ -1,5 +1,0 @@
-<map id="lumex::xml::xpath::variable::xpath_variable_node_set" name="lumex::xml::xpath::variable::xpath_variable_node_set">
-<area shape="rect" id="node1" title="Represents an XPath variable holding a node&#45;set value." alt="" coords="95,109,275,165"/>
-<area shape="rect" id="node2" href="$a03443.html" title="Base class for all XPath variables." alt="" coords="5,5,179,47"/>
-<area shape="rect" id="node3" href="$a03403.html" title="Represents a collection of XPath nodes, managing their order and uniqueness." alt="" coords="203,5,357,47"/>
-</map>

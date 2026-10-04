@@ -1,4 +1,0 @@
-<map id="lumex::xml::xpath::document::document_buffer_order" name="lumex::xml::xpath::document::document_buffer_order">
-<area shape="rect" id="node1" title="Retrieves a pointer to a buffer location for document order comparison optimization." alt="" coords="255,13,501,54"/>
-<area shape="rect" id="node2" href="$a03367.html#a3fde20e05ee26c7a8f5479ab92beaefd" title="Compares two XPathNode objects for their document order." alt="" coords="5,5,207,61"/>
-</map>

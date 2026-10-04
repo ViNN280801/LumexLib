@@ -1,5 +1,0 @@
-<map id="lumex::xml::attribute::XmlAttribute::next_attribute" name="lumex::xml::attribute::XmlAttribute::next_attribute">
-<area shape="rect" id="node1" title="Retrieves the next attribute in the list of attributes belonging to the same parent node." alt="" coords="257,35,417,91"/>
-<area shape="rect" id="node2" href="$a03175.html#a0f763486d687ac80cd25a022afeca741" title="Finds the first attribute for which the provided predicate returns true." alt="" coords="5,5,209,47"/>
-<area shape="rect" id="node3" href="$a03367.html#a3fde20e05ee26c7a8f5479ab92beaefd" title="Compares two XPathNode objects for their document order." alt="" coords="7,71,208,127"/>
-</map>

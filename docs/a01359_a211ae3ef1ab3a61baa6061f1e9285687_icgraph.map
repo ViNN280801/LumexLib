@@ -1,7 +1,0 @@
-<map id="lumex::core::fmt::Detail::printf_float" name="lumex::core::fmt::Detail::printf_float">
-<area shape="rect" id="node1" title="snprintf with one * precision, as a std::string." alt="" coords="908,13,1085,54"/>
-<area shape="rect" id="node2" href="$a01359.html#af51eecbe7bc62af5b76dc067ec0d6f3c" title="Text of a non&#45;negative finite value in style / precision." alt="" coords="457,13,635,54"/>
-<area shape="rect" id="node5" href="$a01359.html#a62c7cfc22dcd8543a9330cbdc936a9d0" title="Shortest decimal text that reads back to value (non&#45;negative, finite), in std::to_chars plain style: ..." alt="" coords="683,42,860,83"/>
-<area shape="rect" id="node3" href="$a01359.html#a6805e940fc8a7ca908fb169f2f308eb9" title=" " alt="" coords="232,13,409,54"/>
-<area shape="rect" id="node4" href="$a02387.html#ac9642063b0f0f6e8ed748e295ff5174c" title=" " alt="" coords="5,5,184,61"/>
-</map>

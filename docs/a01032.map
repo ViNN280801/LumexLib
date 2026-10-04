@@ -1,9 +1,0 @@
-<map id="XmlWriterStream.cpp" name="XmlWriterStream.cpp">
-<area shape="rect" id="node1" title=" " alt="" coords="150,5,311,32"/>
-<area shape="rect" id="node2" href="$a00662.html" title="Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_..." alt="" coords="41,80,223,121"/>
-<area shape="rect" id="node5" href="$a01034.html" title="XmlWriterStream, an IXmlWriter that writes to a narrow or a wide standard output stream." alt="" coords="260,87,423,114"/>
-<area shape="rect" id="node3" href="$a00917.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="185,259,367,285"/>
-<area shape="rect" id="node4" href="$a00701.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="25,169,239,211"/>
-<area shape="rect" id="node6" title=" " alt="" coords="313,177,393,203"/>
-<area shape="rect" id="node7" href="$a01016.html" title="IXmlWriter, the output interface that XML serialization writes bytes to." alt="" coords="418,177,537,203"/>
-</map>

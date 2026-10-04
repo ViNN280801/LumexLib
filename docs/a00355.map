@@ -1,8 +1,0 @@
-<map id="LumexCPUVectorizationCapabilities.hpp" name="LumexCPUVectorizationCapabilities.hpp">
-<area shape="rect" id="node1" title="Run&#45;time detection of the SIMD instruction sets that the processor and the operating system support." alt="" coords="120,5,403,32"/>
-<area shape="rect" id="node2" href="$a00350.html" title=" " alt="" coords="5,80,288,107"/>
-<area shape="rect" id="node3" href="$a01184.html" title="Hardware module: a profile of the CPU, memory and GPUs of the machine, the SIMD instruction sets the ..." alt="" coords="311,80,441,107"/>
-<area shape="rect" id="node4" href="$a00800.html" title=" " alt="" coords="22,155,223,196"/>
-<area shape="rect" id="node5" href="$a00803.html" title=" " alt="" coords="248,162,504,189"/>
-<area shape="rect" id="node6" href="$a00806.html" title=" " alt="" coords="529,162,767,189"/>
-</map>

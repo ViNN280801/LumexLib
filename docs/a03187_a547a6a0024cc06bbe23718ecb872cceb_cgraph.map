@@ -1,6 +1,0 @@
-<map id="lumex::xml::attribute::XmlAttributeIterator::operator&#45;&#45;" name="lumex::xml::attribute::XmlAttributeIterator::operator&#45;&#45;">
-<area shape="rect" id="node1" title="Pre&#45;decrements the iterator to move to the previous attribute in the list." alt="" coords="5,35,167,91"/>
-<area shape="rect" id="node2" href="$a03175.html#a3cf020917a8af507489d56a9280a0a9d" title="Retrieves the last attribute of the node." alt="" coords="215,5,419,47"/>
-<area shape="rect" id="node3" href="$a03147.html#ac94493c68b46f2d5fd103672281f9daf" title="Retrieves the previous attribute in the list of attributes belonging to the same parent node." alt="" coords="228,71,405,127"/>
-<area shape="rect" id="node4" href="$a03147.html#a027809a975f6fc6cc4263eb4885fdfc8" title="Default constructor. Constructs an empty (null) attribute." alt="" coords="467,79,671,120"/>
-</map>

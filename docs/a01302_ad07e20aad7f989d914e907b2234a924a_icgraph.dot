@@ -1,0 +1,34 @@
+digraph "lumex::core::circular_buffer::CircularBuffer::empty"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="RL";
+  Node1 [id="Node000001",label="lumex::core::circular\l_buffer::CircularBuffer\l::empty",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="Checks whether the buffer is empty."];
+  Node1 -> Node2 [id="edge1_Node000001_Node000002",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="lumex::core::circular\l_buffer::CircularBuffer::back",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01302.html#a45ddf10dbcfa53cf0f863431fc320897",tooltip="Access the newest element (back)."];
+  Node2 -> Node3 [id="edge2_Node000002_Node000003",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node3 [id="Node000003",label="main",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a00428.html#ae66f6b31b5ad750f1fe042a706a4e3d4",tooltip=" "];
+  Node1 -> Node4 [id="edge3_Node000001_Node000004",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node4 [id="Node000004",label="lumex::core::circular\l_buffer::CircularBuffer::back",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01302.html#a620a7eb008b18a483f587a6e973f83a5",tooltip="Const access to the newest element (back)."];
+  Node1 -> Node5 [id="edge4_Node000001_Node000005",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node5 [id="Node000005",label="lumex::core::circular\l_buffer::CircularBuffer\l::back_safe",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01302.html#a3bb3e1db275af78e3aa9879215798db5",tooltip="Bounds-checked access to the newest element (back)."];
+  Node1 -> Node6 [id="edge5_Node000001_Node000006",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node6 [id="Node000006",label="lumex::core::circular\l_buffer::CircularBuffer\l::back_safe",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01302.html#ac2bdd4d0510867a583a4a6258718f357",tooltip="Const bounds-checked access to the newest element (back)."];
+  Node1 -> Node7 [id="edge6_Node000001_Node000007",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node7 [id="Node000007",label="lumex::core::circular\l_buffer::CircularBuffer\l::front",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01302.html#aba1c8c6cac89abd09dfa0dc2a4cf879b",tooltip="Access the oldest element (front)."];
+  Node7 -> Node3 [id="edge7_Node000007_Node000003",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node1 -> Node8 [id="edge8_Node000001_Node000008",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node8 [id="Node000008",label="lumex::core::circular\l_buffer::CircularBuffer\l::front",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01302.html#a32747a7ed36dc3b2bf81bb5ec820fec7",tooltip="Const access to the oldest element (front)."];
+  Node1 -> Node9 [id="edge9_Node000001_Node000009",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node9 [id="Node000009",label="lumex::core::circular\l_buffer::CircularBuffer\l::front_safe",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01302.html#a0186f43c521c99457911bde7de20089a",tooltip="Bounds-checked access to the oldest element (front)."];
+  Node1 -> Node10 [id="edge10_Node000001_Node000010",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node10 [id="Node000010",label="lumex::core::circular\l_buffer::CircularBuffer\l::front_safe",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01302.html#ad4b37c0df58a5a5b90f7818b4ab8fcf0",tooltip="Const bounds-checked access to the oldest element (front)."];
+  Node1 -> Node11 [id="edge11_Node000001_Node000011",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node11 [id="Node000011",label="lumex::core::circular\l_buffer::CircularBuffer\l::pop_back",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01302.html#ab3783d978e70b1d7611291ba0660cb08",tooltip="Removes the newest element."];
+  Node11 -> Node3 [id="edge12_Node000011_Node000003",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node1 -> Node12 [id="edge13_Node000001_Node000012",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node12 [id="Node000012",label="lumex::core::circular\l_buffer::CircularBuffer\l::pop_front",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01302.html#a24c4b42af519f82996d506e11f4a8e4c",tooltip="Removes the oldest element."];
+  Node12 -> Node3 [id="edge14_Node000012_Node000003",dir="back",color="steelblue1",style="solid",tooltip=" "];
+}

@@ -1,7 +1,0 @@
-<map id="lumex::xml::node::XmlNode::attribute" name="lumex::xml::node::XmlNode::attribute">
-<area shape="rect" id="node1" title="attribute with a name of size characters at name, which need no terminating NUL (a range of a larger ..." alt="" coords="5,104,209,145"/>
-<area shape="rect" id="node2" href="$a03147.html#a0bbf2ddf1ea68f4ed3612fe0a45849eb" title="Retrieves the raw internal XmlAttributeBase pointer wrapped by this XmlAttribute object." alt="" coords="257,5,417,47"/>
-<area shape="rect" id="node3" href="$a01434.html#a2ba3bf150e471b2392f8a8ba5d48a749" title=" " alt="" coords="266,71,409,112"/>
-<area shape="rect" id="node4" href="$a03147.html#ac1708ba37008b5b32435fd3706d74f02" title="Sets the internal XmlAttributeBase pointer for this XmlAttribute object." alt="" coords="257,136,417,177"/>
-<area shape="rect" id="node5" href="$a01434.html#a93864568db0bec9a41250c719b5da0ee" title=" " alt="" coords="266,201,409,243"/>
-</map>

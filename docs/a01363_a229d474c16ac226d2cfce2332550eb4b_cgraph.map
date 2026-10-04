@@ -1,6 +1,0 @@
-<map id="lumex::core::math::ops::rmse" name="lumex::core::math::ops::rmse">
-<area shape="rect" id="node1" title="Root Mean Squared Error of a range against a fixed scalar: sqrt( 1/N * sum (x_i &#45; scalar)^2 )...." alt="" coords="5,71,155,112"/>
-<area shape="rect" id="node2" href="$a01365.html#abdf8ed32a58d7ef1884b0e2eb69e139b" title="begin (range) with std::begin and ADL, as a range&#45;for does." alt="" coords="210,5,373,47"/>
-<area shape="rect" id="node3" href="$a01365.html#a39800dfb129ce7e0f3b8520f0e8ce977" title="end (range) with std::end and ADL, as a range&#45;for does." alt="" coords="216,71,367,112"/>
-<area shape="rect" id="node4" href="$a01363.html#a2f9b417a92156e28a608df4d9a9af2e3" title="(a &#45; b)^2, computed in the common type of a and b (promoted, so two short operands give an int)." alt="" coords="203,136,380,177"/>
-</map>

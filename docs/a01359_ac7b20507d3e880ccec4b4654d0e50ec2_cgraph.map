@@ -1,7 +1,0 @@
-<map id="lumex::core::fmt::Detail::duration_count" name="lumex::core::fmt::Detail::duration_count">
-<area shape="rect" id="node1" title="Count of a duration as {} / Q print it." alt="" coords="5,39,183,80"/>
-<area shape="rect" id="node2" href="$a01359.html#a818162ff93668f48df1c55821b00846f" title="value with at least width digits, zero padded, with sign." alt="" coords="231,39,408,80"/>
-<area shape="rect" id="node3" href="$a01359.html#a50d6c5e29743cab15e1594cf58b632a7" title=" " alt="" coords="457,5,634,47"/>
-<area shape="rect" id="node4" href="$a01348.html#a9b962af55f800e2cbb3a49009e6676f1" title="Converts a LumexBasicStacktrace object to its string representation." alt="" coords="456,71,635,112"/>
-<area shape="rect" id="node5" href="$a02155.html#a79f1b53a81f6bde33331116c9926e81a" title="Returns the number of entries in the stacktrace." alt="" coords="683,71,971,112"/>
-</map>

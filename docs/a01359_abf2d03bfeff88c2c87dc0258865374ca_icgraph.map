@@ -1,7 +1,0 @@
-<map id="lumex::core::fmt::Detail::power_of_ten" name="lumex::core::fmt::Detail::power_of_ten">
-<area shape="rect" id="node1" title="10^exponent for exponent in 0..18." alt="" coords="568,79,745,121"/>
-<area shape="rect" id="node2" href="$a01359.html#a6ba235f9fcada7ece959be451804b733" title="Fractional second digits of S for Period: the smallest n (at most 18) with Period * 10^n whole,..." alt="" coords="343,46,520,87"/>
-<area shape="rect" id="node3" href="$a01359.html#a474c0fd7c9f1ace69805a5a6a099600a" title="Splits a non&#45;negative duration into whole seconds and the fraction in 10^&#45;digits units (truncated)." alt="" coords="343,111,520,153"/>
-<area shape="rect" id="node4" href="$a02439.html#afa4e3b18a7e20bb3c43ba297a45d34f7" title=" " alt="" coords="31,5,269,120"/>
-<area shape="rect" id="node5" href="$a02443.html#a9a40bf1ecf001e44a93d8649bf47f9f8" title=" " alt="" coords="5,144,295,259"/>
-</map>

@@ -1,5 +1,0 @@
-<map id="lumex::core::expected::result::operator==" name="lumex::core::expected::result::operator==">
-<area shape="rect" id="node1" title="Compares two Expected&lt;void, ErrorType&gt; objects for equality." alt="" coords="5,53,172,94"/>
-<area shape="rect" id="node2" href="$a02203.html#a3fc2029bd1ae9fa14fb8ede4fa787343" title="Returns a mutable lvalue reference to the stored error." alt="" coords="220,5,403,61"/>
-<area shape="rect" id="node3" href="$a02203.html#a721e692b24d56d47fe4b73bf383ffe71" title="Checks whether Expected&lt;void, ErrorType&gt; is in the success (void) state." alt="" coords="220,85,403,141"/>
-</map>

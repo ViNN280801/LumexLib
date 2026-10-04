@@ -1,9 +1,0 @@
-<map id="LumexJsonSchemaException.hpp" name="LumexJsonSchemaException.hpp">
-<area shape="rect" id="node1" title="Exception thrown by the JSON schema engine on the first violation." alt="" coords="322,5,559,32"/>
-<area shape="rect" id="node2" href="$a00377.html" title="Recursive walker for a JSON Schema draft&#45;7 subset." alt="" coords="249,80,481,107"/>
-<area shape="rect" id="node4" href="$a01187.html" title="JSON module: non&#45;throwing helpers for JSON configuration files, and validation and normalization of a..." alt="" coords="317,229,410,256"/>
-<area shape="rect" id="node3" href="$a00371.html" title="Abstract base for per&#45;operation normalizers built on the schema walker." alt="" coords="5,155,249,181"/>
-<area shape="rect" id="node7" href="$a00383.html" title="Validate&#45;only checker for one schema tree." alt="" coords="325,155,556,181"/>
-<area shape="rect" id="node5" href="$a00809.html" title=" " alt="" coords="195,304,335,331"/>
-<area shape="rect" id="node6" href="$a00812.html" title=" " alt="" coords="359,304,565,331"/>
-</map>

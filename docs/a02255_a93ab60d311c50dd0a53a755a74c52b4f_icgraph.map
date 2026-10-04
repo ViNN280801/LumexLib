@@ -1,4 +1,0 @@
-<map id="lumex::core::filesystem::fs::lumex_filesystem::is_block_file" name="lumex::core::filesystem::fs::lumex_filesystem::is_block_file">
-<area shape="rect" id="node1" title="Checks if the specified path_arg refers to a block device file." alt="" coords="228,5,403,61"/>
-<area shape="rect" id="node2" href="$a02247.html#a6f18638f3446dd2a8236942f3c0dd2cc" title="Checks if the entry represents a block device file." alt="" coords="5,5,180,61"/>
-</map>

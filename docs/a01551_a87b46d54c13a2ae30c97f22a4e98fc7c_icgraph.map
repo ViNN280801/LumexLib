@@ -1,6 +1,0 @@
-<map id="lumex::applied::serial::resolver::port_process_resolver::format_system_error" name="lumex::applied::serial::resolver::port_process_resolver::format_system_error">
-<area shape="rect" id="node1" title="Format a system error code." alt="" coords="588,5,815,61"/>
-<area shape="rect" id="node2" href="$a01297.html#a4bf634028bc0cb0ff4024dd920df1602" title="Enumerate serial ports with full serial_port_info_t records." alt="" coords="348,5,540,61"/>
-<area shape="rect" id="node3" href="$a01297.html#a4dace1c927ae9cae3eed94de871c9cb1" title="Enumerate serial port paths only." alt="" coords="108,5,300,61"/>
-<area shape="rect" id="node4" href="$a00857.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,20,60,47"/>
-</map>

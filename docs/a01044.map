@@ -1,9 +1,0 @@
-<map id="XPathConstants.hpp" name="XPathConstants.hpp">
-<area shape="rect" id="node1" title="Size limits and alignment of the XPath engine." alt="" coords="98,5,250,32"/>
-<area shape="rect" id="node2" title=" " alt="" coords="53,80,119,107"/>
-<area shape="rect" id="node3" href="$a01010.html" title="Preprocessor macros of the XML module: the character mode, the declaration of constants,..." alt="" coords="144,80,383,107"/>
-<area shape="rect" id="node4" href="$a00665.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="43,155,233,196"/>
-<area shape="rect" id="node6" href="$a00695.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="260,155,515,196"/>
-<area shape="rect" id="node5" href="$a00680.html" title="C++ language, library and attribute feature availability." alt="" coords="5,244,260,285"/>
-<area shape="rect" id="node7" href="$a00701.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="285,244,498,285"/>
-</map>

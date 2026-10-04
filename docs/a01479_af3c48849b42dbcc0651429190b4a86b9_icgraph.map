@@ -1,6 +1,0 @@
-<map id="lumex::applied::hardware::caps::HardwareCapabilities::detect_hardware" name="lumex::applied::hardware::caps::HardwareCapabilities::detect_hardware">
-<area shape="rect" id="node1" title="Performs comprehensive system hardware detection and analysis." alt="" coords="691,5,899,61"/>
-<area shape="rect" id="node2" href="$a00803.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,37,60,64"/>
-<area shape="rect" id="node3" href="$a01479.html#abe50368bd4ba1088c99e329d0fc5deb4" title="Determines whether software rendering should be used instead of hardware acceleration." alt="" coords="407,37,643,93"/>
-<area shape="rect" id="node4" href="$a01479.html#a3eaf2f4c04de9dfd7a0692f22f8c0b41" title="Automatically configures optimal rendering settings based on detected hardware." alt="" coords="108,88,359,144"/>
-</map>

@@ -1,9 +1,0 @@
-<map id="lumex::core::reflection::field_reflection::get" name="lumex::core::reflection::field_reflection::get">
-<area shape="rect" id="node1" title=" " alt="" coords="808,129,976,170"/>
-<area shape="rect" id="node2" href="$a01345.html#a0e00681207c6fe8355e6416db22d6ee8" title="Returns the installed sink, or nullptr when reports go to std::cerr." alt="" coords="550,41,729,97"/>
-<area shape="rect" id="node6" href="$a02699.html#af255fa0efb46d7d08882c8bfb5e74a1b" title="Calls the installed function with args, or fallback with the same args when the slot is empty or the ..." alt="" coords="519,121,760,177"/>
-<area shape="rect" id="node7" href="$a02699.html#a4c5693139b7830ea257387d37f791c76" title="Whether a function is installed." alt="" coords="531,201,748,257"/>
-<area shape="rect" id="node3" href="$a01347.html#a6731c24b90644c9b4b94c4c81af602dd" title="Builds &quot;prefix. Reason: what&quot; and reports it." alt="" coords="278,5,457,61"/>
-<area shape="rect" id="node5" href="$a01347.html#ab7031ff23205b8e8d31fb72ed3744806" title="Sends line to the installed sink. On a null sink or a throw from the sink, writes line to std::cerr." alt="" coords="264,86,471,127"/>
-<area shape="rect" id="node4" href="$a01345.html#a830b8d9cf501bccfb594bebd0221c287" title="Calls func(args...), catching and safely reporting any exception it throws instead of letting it prop..." alt="" coords="5,50,216,91"/>
-</map>

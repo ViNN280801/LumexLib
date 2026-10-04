@@ -1,5 +1,6 @@
 var a00641 =
 [
-    [ "LUMEX_IMPLEMENTATION", "a00641.html#a07486181f1990291c2a348de8eb4c480", null ],
-    [ "lumex_filesystem", "a00641.html#aa8ebcbaa36bc86bda9eaadd6c942d847", null ]
+    [ "lumex::xml::memory::XmlAllocator", "a02830.html", "a02830" ],
+    [ "lumex::xml::memory::char_t", "a01091.html#af5c331138f914028e4642100ea3e7a24", null ],
+    [ "lumex::xml::memory::get_allocator", "a01091.html#a9e2f482374d0d85e41688b19b06931c7", null ]
 ];

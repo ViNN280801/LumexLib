@@ -1,4 +1,0 @@
-<map id="lumex::core::string_view::view::LumexWStringView::crbegin" name="lumex::core::string_view::view::LumexWStringView::crbegin">
-<area shape="rect" id="node1" title="Returns a const reverse iterator to the last wide character of the view." alt="" coords="5,5,237,61"/>
-<area shape="rect" id="node2" href="$a02671.html#a4f1bba88234b8cf7afc61110e656c632" title="Returns a const iterator to the wide character following the last wide character of the view." alt="" coords="285,13,548,54"/>
-</map>

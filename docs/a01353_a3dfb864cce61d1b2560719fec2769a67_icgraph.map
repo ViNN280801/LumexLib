@@ -1,8 +1,0 @@
-<map id="lumex::core::expected::result::failure" name="lumex::core::expected::result::failure">
-<area shape="rect" id="node1" title="Creates a marker for a failed call that carries an error." alt="" coords="284,209,451,251"/>
-<area shape="rect" id="node2" href="$a01583.html#ad4ceeae5fca9e0d08c503dbce930b355" title="Stores desired if the stored value is equivalent to expected, otherwise copies the stored value into ..." alt="" coords="5,5,236,76"/>
-<area shape="rect" id="node3" href="$a01607.html#abbf30cf7575b71f57e7cb9cdcfc8cfaf" title="Stores desired if the stored value is equivalent to expected, otherwise copies the stored value into ..." alt="" coords="5,100,236,171"/>
-<area shape="rect" id="node4" href="$a01583.html#a229af667673db70c777e2a7aabe7bdd4" title="Stores desired if the stored value is equivalent to expected, otherwise copies the stored value into ..." alt="" coords="9,195,233,265"/>
-<area shape="rect" id="node5" href="$a01607.html#aed19d50f88e7770dee6c77dd484722e6" title="Stores desired if the stored value is equivalent to expected, otherwise copies the stored value into ..." alt="" coords="9,289,233,360"/>
-<area shape="rect" id="node6" href="$a00764.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="93,385,148,411"/>
-</map>

@@ -1,5 +1,0 @@
-<map id="lumex::core::reflection::field_reflection::detail::swallow" name="lumex::core::reflection::field_reflection::detail::swallow">
-<area shape="rect" id="node1" title=" " alt="" coords="453,5,624,61"/>
-<area shape="rect" id="node2" href="$a01370.html#af756bcf608cd4a96e0fba1b0d9251147" title=" " alt="" coords="235,5,405,61"/>
-<area shape="rect" id="node3" href="$a01369.html#adf61047afd5b3dcf759431721bae5a13" title="Serializes a simple aggregate to JSON, visiting every field." alt="" coords="5,13,187,54"/>
-</map>

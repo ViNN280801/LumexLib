@@ -1,5 +1,0 @@
-<map id="lumex::xml::node::is_text_node" name="lumex::xml::node::is_text_node">
-<area shape="rect" id="node1" title="Checks if a given XmlNodeBase represents a text&#45;like node." alt="" coords="509,5,664,47"/>
-<area shape="rect" id="node2" href="$a03175.html#aedb0ec9c973c5b0df750a5e075eae434" title="Retrieves the text content of the first child node that is of type PCDATA or CDATA." alt="" coords="257,5,461,47"/>
-<area shape="rect" id="node3" href="$a03175.html#aeb5fad0b46ab82d093d8c12abda4e753" title="Retrieves the text content of a named child node." alt="" coords="5,5,209,47"/>
-</map>

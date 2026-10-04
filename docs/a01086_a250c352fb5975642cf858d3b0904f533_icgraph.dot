@@ -1,0 +1,21 @@
+digraph "lumex::xml::node::append_new_node"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="RL";
+  Node1 [id="Node000001",label="lumex::xml::node::append\l_new_node",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="Appends a newly allocated child node of a specified type to the current node."];
+  Node1 -> Node2 [id="edge1_Node000001_Node000002",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="lumex::xml::node::node\l_copy_tree",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01086.html#a11377e4dbc3c07bbcae59a081a6040b6",tooltip="Performs a deep copy of an XML node's entire subtree (including itself, children, and attributes)."];
+  Node2 -> Node3 [id="edge2_Node000002_Node000003",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node3 [id="Node000003",label="lumex::xml::node::XmlNode\l::append_copy",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a02838.html#affd983d76ecc8d527bff7cb6f9c13018",tooltip="Appends a deep copy of an existing XmlNode (proto) as a child of the current node."];
+  Node2 -> Node4 [id="edge3_Node000002_Node000004",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node4 [id="Node000004",label="lumex::xml::node::XmlNode\l::insert_copy_after",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a02838.html#ade75f490c8aafb015483a5444c1af76c",tooltip="Inserts a deep copy of an existing XmlNode (proto) after a given existing child node."];
+  Node2 -> Node5 [id="edge4_Node000002_Node000005",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node5 [id="Node000005",label="lumex::xml::node::XmlNode\l::insert_copy_before",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a02838.html#a35ef839927e8d9eaef5c22122c802fb1",tooltip="Inserts a deep copy of an existing XmlNode (proto) before a given existing child node."];
+  Node2 -> Node6 [id="edge5_Node000002_Node000006",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node6 [id="Node000006",label="lumex::xml::node::XmlNode\l::prepend_copy",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a02838.html#acf48c85813bfecc4b524bfc0e2cb9344",tooltip="Prepends a deep copy of an existing XmlNode (proto) as a child of the current node."];
+  Node2 -> Node7 [id="edge6_Node000002_Node000007",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node7 [id="Node000007",label="lumex::xml::document\l::XmlDocument::reset",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a02822.html#a3be8c5ddd0fac3d0f74c85f9ce393341",tooltip="Removes all nodes from the document, then copies the entire contents of a specified document."];
+}

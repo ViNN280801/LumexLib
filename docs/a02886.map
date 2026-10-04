@@ -1,4 +1,0 @@
-<map id="lumex::core::utility::traits::stream::is_streamable&lt; T, Enable &gt;" name="lumex::core::utility::traits::stream::is_streamable&lt; T, Enable &gt;">
-<area shape="rect" id="node1" title="std::true_type when std::declval&lt;std::ostream &amp;&gt;() &lt;&lt; std::declval&lt;T&gt;() is well&#45;formed (or,..." alt="" coords="319,13,512,69"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,5,271,76"/>
-</map>

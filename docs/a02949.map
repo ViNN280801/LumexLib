@@ -1,4 +1,0 @@
-<map id="lumex::core::utility::traits::range::has_convertible_size&lt; T, Enable &gt;" name="lumex::core::utility::traits::range::has_convertible_size&lt; T, Enable &gt;">
-<area shape="rect" id="node1" title="std::declval&lt;T&gt;().size() exists and converts to std::size_t." alt="" coords="5,80,168,151"/>
-<area shape="rect" id="node2" title=" " alt="" coords="41,5,132,32"/>
-</map>

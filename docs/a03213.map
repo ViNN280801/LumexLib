@@ -1,5 +1,0 @@
-<map id="lumex::xml::text::XmlParser" name="lumex::xml::text::XmlParser">
-<area shape="rect" id="node1" title="Internal XML parser structure responsible for tokenizing and building the XML document tree." alt="" coords="5,117,209,143"/>
-<area shape="rect" id="node2" href="$a03167.html" title="Manages memory allocation and deallocation for XML nodes, attributes, and strings within a document." alt="" coords="141,5,300,47"/>
-<area shape="rect" id="node3" href="$a03171.html" title="Represents a single fixed&#45;size memory page used by the XmlAllocator." alt="" coords="233,109,392,151"/>
-</map>

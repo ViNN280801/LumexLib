@@ -1,5 +1,0 @@
-<map id="main" name="main">
-<area shape="rect" id="node1" title=" " alt="" coords="5,60,60,87"/>
-<area shape="rect" id="node2" href="$a01279.html#a7c1c9ae8fd4d21054801c40a3c89dbb5" title="Installs the report sink. nullptr restores the default (warning and error to std::cerr,..." alt="" coords="118,5,325,61"/>
-<area shape="rect" id="node3" href="$a01499.html#a2df9663a65e867dfe959e6b332547544" title="Strict: throws on the first violation. Non&#45;strict: never throws for a violation and discards it; use ..." alt="" coords="108,85,335,141"/>
-</map>

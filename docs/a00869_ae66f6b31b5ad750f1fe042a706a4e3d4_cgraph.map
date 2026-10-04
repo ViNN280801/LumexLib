@@ -1,8 +1,0 @@
-<map id="main" name="main">
-<area shape="rect" id="node1" title=" " alt="" coords="5,100,60,127"/>
-<area shape="rect" id="node2" href="$a01555.html#a309046eb225dab34d5578b0174e711ab" title="Creates a settings object for the specified file format." alt="" coords="108,5,335,61"/>
-<area shape="rect" id="node3" href="$a01563.html#a98b36bed73ab40adb63a48f08f1df640" title="Ensures the guarded file exists and is loadable; repairs it via createDefault otherwise." alt="" coords="116,85,327,141"/>
-<area shape="rect" id="node4" href="$a01563.html#a2992a46c96ffd85535ee0aafdf6e2c5d" title="Ensures every key in specs is present and valid, restoring default_value otherwise." alt="" coords="116,165,327,221"/>
-<area shape="rect" id="node5" href="$a01519.html#af4fec23e76323ffee4eaf2aaf716eb15" title="Log a WARNING&#45;level message." alt="" coords="383,173,596,214"/>
-<area shape="rect" id="node6" href="$a01378.html#a644d51beb3d991564cc81242883fd17a" title="Concatenates the streamed text of args." alt="" coords="644,173,788,214"/>
-</map>

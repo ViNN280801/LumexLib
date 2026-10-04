@@ -1,4 +1,0 @@
-<map id="lumex::xml::node::XmlNode::remove_attribute" name="lumex::xml::node::XmlNode::remove_attribute">
-<area shape="rect" id="node1" title="Removes an attribute with the specified name (std::string_view) from the current node." alt="" coords="5,5,209,47"/>
-<area shape="rect" id="node2" href="$a01433.html#afa881ac8bc7844492c7dbf561cc2480c" title="Removes an XmlAttributeBase from its parent node&#39;s attribute list." alt="" coords="257,5,417,47"/>
-</map>

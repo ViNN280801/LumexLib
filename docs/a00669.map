@@ -1,9 +1,0 @@
-<map id="LumexBit.hpp" name="LumexBit.hpp">
-<area shape="rect" id="node1" title="ByteSwap(), which reverses the byte order of any integral value and is usable in constant expressions..." alt="" coords="227,5,339,32"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,87,91,114"/>
-<area shape="rect" id="node3" title=" " alt="" coords="115,87,171,114"/>
-<area shape="rect" id="node4" title=" " alt="" coords="195,87,266,114"/>
-<area shape="rect" id="node5" title=" " alt="" coords="290,87,382,114"/>
-<area shape="rect" id="node6" href="$a00680.html" title="C++ language, library and attribute feature availability." alt="" coords="406,80,661,121"/>
-<area shape="rect" id="node7" href="$a00701.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="685,80,899,121"/>
-</map>

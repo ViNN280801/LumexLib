@@ -1,7 +1,0 @@
-<map id="lumex::xml::attribute::node_copy_attribute" name="lumex::xml::attribute::node_copy_attribute">
-<area shape="rect" id="node1" title="Copies the name and value strings from a source XmlAttributeBase to a destination XmlAttributeBase." alt="" coords="257,104,420,145"/>
-<area shape="rect" id="node2" href="$a03175.html#ace7d9948e6fb922f91d513b2e7cc6655" title="Appends a copy of an existing attribute (proto) to the current node." alt="" coords="5,5,209,47"/>
-<area shape="rect" id="node3" href="$a03175.html#a102eaa077981305070e0649d8286c196" title="Inserts a copy of an existing attribute (proto) after a given existing attribute (attr)." alt="" coords="5,71,209,112"/>
-<area shape="rect" id="node4" href="$a03175.html#a59a0d19e40b7937c796ec7995d3b3390" title="Inserts a copy of an existing attribute (proto) before a given existing attribute (attr)." alt="" coords="5,136,209,177"/>
-<area shape="rect" id="node5" href="$a03175.html#a0519abe0f6488556f8a8fd22d242df12" title="Prepends a copy of an existing attribute (proto) to the current node." alt="" coords="5,201,209,243"/>
-</map>

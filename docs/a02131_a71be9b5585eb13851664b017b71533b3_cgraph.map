@@ -1,4 +1,0 @@
-<map id="lumex::core::environment::env::LumexEnvironment::set_environment_variable" name="lumex::core::environment::env::LumexEnvironment::set_environment_variable">
-<area shape="rect" id="node1" title="Convenience overload for set_environment_variable using std::string." alt="" coords="5,5,205,61"/>
-<area shape="rect" id="node2" href="$a02131.html#a2278b9ac0fd9ff1c0f9fc296dcb3f1fc" title="Sets or updates the value of a specified environment variable in a thread&#45;safe manner." alt="" coords="253,5,453,61"/>
-</map>

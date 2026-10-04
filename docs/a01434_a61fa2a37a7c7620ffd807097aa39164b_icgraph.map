@@ -1,5 +1,0 @@
-<map id="lumex::xml::utility::set_value_bool" name="lumex::xml::utility::set_value_bool">
-<area shape="rect" id="node1" title=" " alt="" coords="272,27,415,69"/>
-<area shape="rect" id="node2" href="$a03223.html#a22b66c13f21226ce506865cf9e3197b7" title="Sets the text content from a boolean, converting it to &quot;true&quot; or &quot;false&quot;." alt="" coords="5,5,224,32"/>
-<area shape="rect" id="node3" href="$a03147.html#a01240ea7933082a3f56dd05a12d05b37" title="Sets the attribute&#39;s value after converting a bool to its string representation." alt="" coords="23,57,207,98"/>
-</map>

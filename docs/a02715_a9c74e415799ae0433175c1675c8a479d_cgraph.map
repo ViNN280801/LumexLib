@@ -1,9 +1,0 @@
-<map id="lumex::core::utility::dump::CoreDumpGenerator::initialize" name="lumex::core::utility::dump::CoreDumpGenerator::initialize">
-<area shape="rect" id="node1" title="Initialize the crash dump handler with full configuration." alt="" coords="5,165,215,221"/>
-<area shape="rect" id="node2" href="$a02711.html#aabbd331683cfb5bae298a6c406ba8d79" title="Get a human&#45;readable description of the dump type." alt="" coords="279,5,447,61"/>
-<area shape="rect" id="node3" href="$a02707.html#ac17e13c585f348a7d5561ed37046f9d6" title=" " alt="" coords="263,85,464,141"/>
-<area shape="rect" id="node4" href="$a02707.html#a7453a7e371d1f2a7e1a9e839dc9e523e" title=" " alt="" coords="263,165,464,221"/>
-<area shape="rect" id="node5" href="$a02707.html#a4dfa03e53bfe6915a233403c89bd5db5" title=" " alt="" coords="263,245,464,301"/>
-<area shape="rect" id="node6" href="$a01348.html#a9b962af55f800e2cbb3a49009e6676f1" title="Converts a LumexBasicStacktrace object to its string representation." alt="" coords="274,326,453,367"/>
-<area shape="rect" id="node7" href="$a02155.html#a79f1b53a81f6bde33331116c9926e81a" title="Returns the number of entries in the stacktrace." alt="" coords="512,326,800,367"/>
-</map>

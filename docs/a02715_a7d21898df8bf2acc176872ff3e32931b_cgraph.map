@@ -1,7 +1,0 @@
-<map id="lumex::core::utility::dump::CoreDumpGenerator::generateDump" name="lumex::core::utility::dump::CoreDumpGenerator::generateDump">
-<area shape="rect" id="node1" title="Manually trigger a dump generation." alt="" coords="5,125,215,181"/>
-<area shape="rect" id="node2" href="$a02711.html#a072b58b2c33d2828b9e774642600a5e2" title="Create a dump configuration for the specified type." alt="" coords="279,5,447,61"/>
-<area shape="rect" id="node3" href="$a02711.html#aabbd331683cfb5bae298a6c406ba8d79" title="Get a human&#45;readable description of the dump type." alt="" coords="279,85,447,141"/>
-<area shape="rect" id="node4" href="$a02707.html#a4dfa03e53bfe6915a233403c89bd5db5" title=" " alt="" coords="263,165,464,221"/>
-<area shape="rect" id="node5" href="$a02707.html#ac8958dd9a2a26a8db706d6607d451eb1" title=" " alt="" coords="263,245,464,301"/>
-</map>

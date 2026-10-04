@@ -1,5 +1,0 @@
-<map id="lumex::xml::xpath::document::node_is_before_sibling" name="lumex::xml::xpath::document::node_is_before_sibling">
-<area shape="rect" id="node1" title="Determines if ln_node comes before rn_node among siblings in document order." alt="" coords="497,5,692,61"/>
-<area shape="rect" id="node2" href="$a01456.html#a8581d5ce879c267c49916eb9b84be203" title="Determines if ln_node comes before rn_node in overall document order." alt="" coords="255,13,449,54"/>
-<area shape="rect" id="node3" href="$a03367.html#a3fde20e05ee26c7a8f5479ab92beaefd" title="Compares two XPathNode objects for their document order." alt="" coords="5,5,207,61"/>
-</map>

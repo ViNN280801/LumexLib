@@ -1,7 +1,0 @@
-<map id="lumex::xml::node::XmlNode::name" name="lumex::xml::node::XmlNode::name">
-<area shape="rect" id="node1" title="Retrieves the name of the XML node." alt="" coords="271,124,475,165"/>
-<area shape="rect" id="node2" href="$a03175.html#a94daa9242d05f5e9264aa26f721ebb13" title="Finds the first child element with a specific attribute name and value, regardless of the child&#39;s nam..." alt="" coords="12,5,216,47"/>
-<area shape="rect" id="node3" href="$a03175.html#afff026c5b343f210b7d1aa8ee9c67aa4" title="Searches for the first element node by a specified path." alt="" coords="12,95,216,136"/>
-<area shape="rect" id="node4" href="$a00911.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title="Main function demonstrating various LumexXml functionalities." alt="" coords="87,161,141,187"/>
-<area shape="rect" id="node5" href="$a03183.html#a28c00312b0aff3243cf77ee4c4e3a5e5" title="Pre&#45;decrements the iterator to move to the previous child node with the matching name." alt="" coords="5,212,223,253"/>
-</map>

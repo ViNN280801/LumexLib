@@ -1,4 +1,0 @@
-<map id="lumex::applied::resource_monitor::monitor::LumexResourceMonitor::startIfEnabled" name="lumex::applied::resource_monitor::monitor::LumexResourceMonitor::startIfEnabled">
-<area shape="rect" id="node1" title="Starts the background CPU/RAM sampler, unless it is already running." alt="" coords="108,5,359,61"/>
-<area shape="rect" id="node2" href="$a00851.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,20,60,47"/>
-</map>

@@ -1,5 +1,0 @@
-<map id="lumex::xml::node::XmlNode::previous_sibling" name="lumex::xml::node::XmlNode::previous_sibling">
-<area shape="rect" id="node1" title="Retrieves the previous sibling node of the current node." alt="" coords="271,39,475,80"/>
-<area shape="rect" id="node2" href="$a03179.html#ae0e914b3368157ea8af686d7a08d7f3a" title="Pre&#45;decrements the iterator to move to the previous child node." alt="" coords="12,5,216,47"/>
-<area shape="rect" id="node3" href="$a03183.html#a28c00312b0aff3243cf77ee4c4e3a5e5" title="Pre&#45;decrements the iterator to move to the previous child node with the matching name." alt="" coords="5,71,223,112"/>
-</map>

@@ -1,6 +1,0 @@
-<map id="lumex::xml::text::XmlParser::parse" name="lumex::xml::text::XmlParser::parse">
-<area shape="rect" id="node1" title="Parses an XML buffer and builds the document tree." alt="" coords="5,71,209,112"/>
-<area shape="rect" id="node2" href="$a03215.html#a1357e4ee0d8dacd74d73e3e253714ab3" title="Checks if any of the given node&#39;s siblings (including itself) are element nodes." alt="" coords="257,5,468,47"/>
-<area shape="rect" id="node3" href="$a01445.html#ae0bf18f6f9e0ed3936938a14c541af0c" title="Helper function to create an xml_parse_result_t object." alt="" coords="275,71,450,112"/>
-<area shape="rect" id="node4" href="$a03215.html#a83df2098eeb7dc86f16fc88be0b48b9b" title="Skips the Byte Order Mark (BOM) from the beginning of the input string." alt="" coords="261,136,465,177"/>
-</map>

@@ -1,5 +1,0 @@
-<map id="lumex::core::atomic::smart_ptr::lock_based_table_wait::atomic_shared_ptr::compare_exchange_weak" name="lumex::core::atomic::smart_ptr::lock_based_table_wait::atomic_shared_ptr::compare_exchange_weak">
-<area shape="rect" id="node1" title="Stores desired if the stored value is equivalent to expected, otherwise copies the stored value into ..." alt="" coords="5,24,229,95"/>
-<area shape="rect" id="node2" href="$a01353.html#a3dfb864cce61d1b2560719fec2769a67" title="Creates a marker for a failed call that carries an error." alt="" coords="277,5,444,47"/>
-<area shape="rect" id="node3" href="$a01353.html#aedb3e518171a625ee1b9cad9e0fc1b73" title="Creates a marker for a successful call that carries no value." alt="" coords="277,71,444,112"/>
-</map>

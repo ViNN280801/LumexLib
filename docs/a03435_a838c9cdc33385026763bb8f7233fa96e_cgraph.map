@@ -1,4 +1,0 @@
-<map id="lumex::xml::xpath::XPathQueryImpl::destroy" name="lumex::xml::xpath::XPathQueryImpl::destroy">
-<area shape="rect" id="node1" title="Destroys an XPathQueryImpl instance and releases its resources." alt="" coords="5,13,189,54"/>
-<area shape="rect" id="node2" href="$a03375.html#ab93c0b3a302c65d01f9846257ac426ce" title="Releases all dynamically allocated memory blocks managed by this allocator." alt="" coords="237,5,416,61"/>
-</map>

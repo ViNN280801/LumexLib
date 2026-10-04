@@ -1,5 +1,0 @@
-<map id="XmlWriterFile.hpp" name="XmlWriterFile.hpp">
-<area shape="rect" id="node1" title="XmlWriterFile, an IXmlWriter that writes to a C FILE stream opened by the caller." alt="" coords="27,5,165,32"/>
-<area shape="rect" id="node2" href="$a00917.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="5,155,187,181"/>
-<area shape="rect" id="node3" href="$a01016.html" title="IXmlWriter, the output interface that XML serialization writes bytes to." alt="" coords="86,80,205,107"/>
-</map>

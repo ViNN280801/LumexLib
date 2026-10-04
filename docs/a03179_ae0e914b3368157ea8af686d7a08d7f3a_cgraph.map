@@ -1,6 +1,0 @@
-<map id="lumex::xml::node::XmlNodeIterator::operator&#45;&#45;" name="lumex::xml::node::XmlNodeIterator::operator&#45;&#45;">
-<area shape="rect" id="node1" title="Pre&#45;decrements the iterator to move to the previous child node." alt="" coords="5,39,209,80"/>
-<area shape="rect" id="node2" href="$a03175.html#a17efa757a74e1e5a08131df5e4317ddb" title="Retrieves the last child node of the current node." alt="" coords="257,5,461,47"/>
-<area shape="rect" id="node4" href="$a03175.html#aae031f4e25d06ebfa007e468904d05b4" title="Retrieves the previous sibling node of the current node." alt="" coords="257,71,461,112"/>
-<area shape="rect" id="node3" href="$a03175.html#a9ba652be4d38ecccaa3933b5dde6401e" title="Default constructor. Constructs an empty (null) node." alt="" coords="509,39,713,80"/>
-</map>

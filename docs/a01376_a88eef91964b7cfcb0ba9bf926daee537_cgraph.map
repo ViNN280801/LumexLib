@@ -1,5 +1,0 @@
-<map id="lumex::core::string::text::quote_double" name="lumex::core::string::text::quote_double">
-<area shape="rect" id="node1" title="Same as quote; named for symmetry with quote_single." alt="" coords="5,5,157,47"/>
-<area shape="rect" id="node2" href="$a01376.html#a302f1bdf5e442097f85625effbd1294d" title="join with every element wrapped in double quotes (&quot;element&quot;), C++11 to C++17." alt="" coords="205,5,349,47"/>
-<area shape="rect" id="node3" href="$a01377.html#a4dcf39e9c9bb3f6990597b1eabd5c690" title="Joins range, wrapping each element (converted to std::string const &amp;) in mark." alt="" coords="397,5,584,47"/>
-</map>

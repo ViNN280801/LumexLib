@@ -1,5 +1,0 @@
-<map id="lumex::xml::xpath::node::XPathNodeSetRaw::sort_do" name="lumex::xml::xpath::node::XPathNodeSetRaw::sort_do">
-<area shape="rect" id="node1" title="Sorts the raw node set in ascending document order." alt="" coords="5,5,188,61"/>
-<area shape="rect" id="node2" href="$a01463.html#a1cda3af8de6ebb42fc0186a350a138e1" title="Sorts a range of XPath nodes by document order." alt="" coords="236,13,385,54"/>
-<area shape="rect" id="node3" href="$a01463.html#a06d335726027c6477be96cb86f9e56ce" title="Determines the current document order of a range of XPath nodes." alt="" coords="433,13,607,54"/>
-</map>

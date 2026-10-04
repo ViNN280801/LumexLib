@@ -1,4 +1,0 @@
-<map id="lumex::xml::writer::XmlWriterStream" name="lumex::xml::writer::XmlWriterStream">
-<area shape="rect" id="node1" title="An IXmlWriter implementation that writes XML data to a C++ standard output stream." alt="" coords="5,95,148,136"/>
-<area shape="rect" id="node2" href="$a03311.html" title="Abstract base interface for writing XML data to various destinations." alt="" coords="5,5,148,47"/>
-</map>

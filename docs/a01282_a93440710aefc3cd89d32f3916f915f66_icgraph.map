@@ -1,6 +1,0 @@
-<map id="lumex::applied::json::helper::Detail::is_empty_value" name="lumex::applied::json::helper::Detail::is_empty_value">
-<area shape="rect" id="node1" title="Whether a value is an empty string. set_value refuses to store one. Non&#45;string types are never empty." alt="" coords="488,45,643,101"/>
-<area shape="rect" id="node2" href="$a01483.html#a17a81c641ecb11ad8159e5af5287a13b" title="Stores value under key in section (or the root), creating the section path when needed." alt="" coords="247,45,440,101"/>
-<area shape="rect" id="node3" href="$a01483.html#a3c294a75299ef8fd653d78a68d505e1a" title="Like write_value, but only replaces a key that already exists (not null) in a non&#45;empty file." alt="" coords="5,5,199,61"/>
-<area shape="rect" id="node4" href="$a01483.html#a8591e536f16a57221a13814d3fdff1e7" title="Loads the file (an unreadable or missing file counts as an empty object), stores value and saves it b..." alt="" coords="5,85,199,141"/>
-</map>

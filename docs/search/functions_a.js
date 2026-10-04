@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['join_5406',['join',['../a01376.html#a231b10aa30739e8dd0d79760d7bb6529',1,'lumex::core::string::text']]]
+  ['join_0',['join',['../a01025.html#a663cd429e2385f582c3ea2fe311bc9ba',1,'lumex::core::string::text']]]
 ];

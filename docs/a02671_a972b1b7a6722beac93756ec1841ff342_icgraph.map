@@ -1,4 +1,0 @@
-<map id="lumex::core::string_view::view::LumexWStringView::data" name="lumex::core::string_view::view::LumexWStringView::data">
-<area shape="rect" id="node1" title="Returns a pointer to the beginning of the wide character data." alt="" coords="236,5,504,47"/>
-<area shape="rect" id="node2" href="$a01380.html#affdfaa485937702325bc3bc4525875f3" title="Overload for inserting a LumexWStringView into an std::wostream." alt="" coords="5,5,188,47"/>
-</map>

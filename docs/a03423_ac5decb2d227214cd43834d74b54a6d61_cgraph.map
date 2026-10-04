@@ -1,4 +1,0 @@
-<map id="lumex::xml::xpath::parser::XPathParser::parse_path_or_unary_expression" name="lumex::xml::xpath::parser::XPathParser::parse_path_or_unary_expression">
-<area shape="rect" id="node1" title="Parses a PathExpr, UnionExpr, or UnaryExpr production." alt="" coords="5,5,172,76"/>
-<area shape="rect" id="node2" href="$a03355.html#a708708b7a8d4be7a96c467722634664a" title="Retrieves the XPath value type that this AST node is expected to return." alt="" coords="220,20,417,61"/>
-</map>

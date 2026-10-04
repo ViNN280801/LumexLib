@@ -1,4 +1,8 @@
 var a00962 =
 [
-    [ "LUMEX_IMPLEMENTATION", "a00962.html#a07486181f1990291c2a348de8eb4c480", null ]
+    [ "Constants", "a00963.html", [
+      [ "constSETTINGS_ROOT_NAME", "a00963.html#a9686f880e1ab09a34249727e8cb8f994", null ],
+      [ "constXML_FILE_EXTENSION", "a00963.html#af855e4cf1325db801e3b37d639568677", null ]
+    ] ],
+    [ "LumexSettingsXML", "a01238.html", "a01238" ]
 ];

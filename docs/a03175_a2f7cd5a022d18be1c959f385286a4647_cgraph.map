@@ -1,5 +1,0 @@
-<map id="lumex::xml::node::XmlNode::offset_debug" name="lumex::xml::node::XmlNode::offset_debug">
-<area shape="rect" id="node1" title="Retrieves the byte offset of the node&#39;s name or value within the original parsed buffer." alt="" coords="5,39,209,80"/>
-<area shape="rect" id="node2" href="$a01439.html#aabe1caf4ca715814b5701d3c5afa2bcc" title="Retrieves a reference to the XmlDocumentBase object that owns a given object (node or attribute)." alt="" coords="275,5,444,47"/>
-<area shape="rect" id="node3" href="$a03175.html#a6473de83822e0e12f4f02d25420747ca" title="Retrieves the type of the XML node." alt="" coords="257,71,461,112"/>
-</map>

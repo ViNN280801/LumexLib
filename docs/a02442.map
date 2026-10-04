@@ -1,4 +1,0 @@
-<map id="lumex::core::fmt::Formatter&lt; std::chrono::time_point&lt; std::chrono::system_clock, Duration &gt;, Char, typename std::enable_if&lt;!std::chrono::treat_as_floating_point&lt; typename Duration::rep &gt;::value &gt;::type &gt;" name="lumex::core::fmt::Formatter&lt; std::chrono::time_point&lt; std::chrono::system_clock, Duration &gt;, Char, typename std::enable_if&lt;!std::chrono::treat_as_floating_point&lt; typename Duration::rep &gt;::value &gt;::type &gt;">
-<area shape="rect" id="node1" title="std::chrono::system_clock time points (UTC): F T by default, the date only for whole&#45;day time points." alt="" coords="5,95,265,209"/>
-<area shape="rect" id="node2" href="$a02435.html" title="Parses [[fill]align][width][.precision][L][chrono&#45;specs] and pads the chrono text; base of the durati..." alt="" coords="35,5,235,47"/>
-</map>

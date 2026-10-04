@@ -1,7 +1,0 @@
-<map id="lumex::core::fmt::Detail::civil_from_days" name="lumex::core::fmt::Detail::civil_from_days">
-<area shape="rect" id="node1" title="Fills the date part of time from days since 1970&#45;01&#45;01." alt="" coords="793,71,971,113"/>
-<area shape="rect" id="node2" href="$a02443.html#a9a40bf1ecf001e44a93d8649bf47f9f8" title=" " alt="" coords="5,5,295,120"/>
-<area shape="rect" id="node3" href="$a01359.html#a9bb3e619b249d54a8889159cb394a5bd" title="ISO 8601 week&#45;based year and week number." alt="" coords="568,101,745,142"/>
-<area shape="rect" id="node4" href="$a01359.html#a754034de35d8ea974e37818b711109a8" title="Writes time following the checked chrono&#45;specs [it, end)." alt="" coords="343,101,520,142"/>
-<area shape="rect" id="node5" href="$a02439.html#afa4e3b18a7e20bb3c43ba297a45d34f7" title=" " alt="" coords="31,144,269,259"/>
-</map>

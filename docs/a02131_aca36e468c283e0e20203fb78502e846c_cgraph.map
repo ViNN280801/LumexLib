@@ -1,5 +1,0 @@
-<map id="lumex::core::environment::env::LumexEnvironment::get" name="lumex::core::environment::env::LumexEnvironment::get">
-<area shape="rect" id="node1" title="Static convenience method to retrieve an environment variable." alt="" coords="5,53,223,94"/>
-<area shape="rect" id="node2" href="$a02131.html#a421e9605d3a586425cb22f304d17ac6d" title="Retrieves the value of a specified environment variable in a thread&#45;safe manner." alt="" coords="271,5,472,61"/>
-<area shape="rect" id="node3" href="$a02131.html#a2a9def03d86d90318cd7445fd2ea6006" title="Provides the single, globally accessible instance of LumexEnvironment." alt="" coords="276,85,467,141"/>
-</map>

@@ -1,5 +1,0 @@
-<map id="lumex::core::utility::dump::CoreDumpGenerator::setDumpType" name="lumex::core::utility::dump::CoreDumpGenerator::setDumpType">
-<area shape="rect" id="node1" title="Set the dump type for future dumps." alt="" coords="5,45,215,101"/>
-<area shape="rect" id="node2" href="$a02711.html#a072b58b2c33d2828b9e774642600a5e2" title="Create a dump configuration for the specified type." alt="" coords="263,5,431,61"/>
-<area shape="rect" id="node3" href="$a02711.html#ae1b259c00a2ae9cfa891b7c4ae660d0a" title="Check if a dump type is supported on the current platform." alt="" coords="263,85,431,141"/>
-</map>

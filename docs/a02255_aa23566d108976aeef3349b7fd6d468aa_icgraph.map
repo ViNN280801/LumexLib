@@ -1,8 +1,0 @@
-<map id="lumex::core::filesystem::fs::lumex_filesystem::copy_file" name="lumex::core::filesystem::fs::lumex_filesystem::copy_file">
-<area shape="rect" id="node1" title="Copies a single file from one location to another." alt="" coords="487,108,661,164"/>
-<area shape="rect" id="node2" href="$a01563.html#af9bac403ac10a4c027b0b3b3e7242dab" title="Copies filename to a sibling &lt;filename&gt;.bak.&lt;YYYYMMDD&#45;HHMMSS&gt; backup file." alt="" coords="228,5,439,61"/>
-<area shape="rect" id="node3" href="$a02255.html#a519d0413d9df62c576d83a2107ccbfea" title="Recursively copies a file or a directory (and its contents) from one location to another." alt="" coords="231,86,436,127"/>
-<area shape="rect" id="node5" href="$a00770.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="306,152,361,179"/>
-<area shape="rect" id="node6" href="$a02255.html#a538ee94b70991213bf07c01bc51b3af4" title="Moves a file from one location to another." alt="" coords="246,203,421,259"/>
-<area shape="rect" id="node4" href="$a02255.html#ac1050fc7fb4e882f6b23a9ad965f9e6c" title="Moves a directory and its contents from one location to another." alt="" coords="5,79,180,135"/>
-</map>

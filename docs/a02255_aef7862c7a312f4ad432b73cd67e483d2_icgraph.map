@@ -1,7 +1,0 @@
-<map id="lumex::core::filesystem::fs::lumex_filesystem::directory_contents" name="lumex::core::filesystem::fs::lumex_filesystem::directory_contents">
-<area shape="rect" id="node1" title="Retrieves a vector of all directory_entry objects within the specified directory." alt="" coords="481,39,656,95"/>
-<area shape="rect" id="node2" href="$a02255.html#a519d0413d9df62c576d83a2107ccbfea" title="Recursively copies a file or a directory (and its contents) from one location to another." alt="" coords="228,9,433,50"/>
-<area shape="rect" id="node4" href="$a02255.html#a82b2a89e33b1d4bb895e689fbb62658e" title="Recursively removes a file or a directory and all its contents." alt="" coords="243,75,418,131"/>
-<area shape="rect" id="node3" href="$a02255.html#ac1050fc7fb4e882f6b23a9ad965f9e6c" title="Moves a directory and its contents from one location to another." alt="" coords="5,5,180,61"/>
-<area shape="rect" id="node5" href="$a00770.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="65,89,120,116"/>
-</map>

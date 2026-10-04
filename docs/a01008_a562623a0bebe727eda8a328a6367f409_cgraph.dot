@@ -1,0 +1,13 @@
+digraph "lumex::core::fmt::Detail::parse_arg_id"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="LR";
+  Node1 [id="Node000001",label="lumex::core::fmt::Detail\l::parse_arg_id",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="Parses an arg-id (0, 12, name) at it; leaves it on the character after it."];
+  Node1 -> Node2 [id="edge1_Node000001_Node000002",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="lumex::core::fmt::Detail\l::is_digit",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01008.html#adaae5d05b7b1928c889b5c429a0ed1bf",tooltip=" "];
+  Node1 -> Node3 [id="edge2_Node000001_Node000003",color="steelblue1",style="solid",tooltip=" "];
+  Node3 [id="Node000003",label="lumex::core::fmt::Detail\l::is_name_start",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01008.html#a9a0112c6db4da55a5ecdb292c7b4a207",tooltip=" "];
+}

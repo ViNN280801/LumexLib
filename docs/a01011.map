@@ -1,7 +1,0 @@
-<map id="XmlMacros.hpp" name="XmlMacros.hpp">
-<area shape="rect" id="node1" title="Preprocessor macros of the XML module: the character mode, the declaration of constants,..." alt="" coords="199,5,322,32"/>
-<area shape="rect" id="node2" href="$a00665.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="43,80,233,121"/>
-<area shape="rect" id="node4" href="$a00695.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="260,80,515,121"/>
-<area shape="rect" id="node3" href="$a00680.html" title="C++ language, library and attribute feature availability." alt="" coords="5,169,260,211"/>
-<area shape="rect" id="node5" href="$a00701.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="285,169,498,211"/>
-</map>

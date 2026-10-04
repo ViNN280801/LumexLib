@@ -1,5 +1,0 @@
-<map id="CircularBuffer" name="CircularBuffer">
-<area shape="rect" id="node1" title="Circular buffer module: a fixed&#45;capacity ring buffer that overwrites its oldest element when full,..." alt="" coords="161,5,271,32"/>
-<area shape="rect" id="node2" href="$a00740.html" title=" " alt="" coords="5,87,211,114"/>
-<area shape="rect" id="node3" href="$a00743.html" title=" " alt="" coords="235,80,413,121"/>
-</map>

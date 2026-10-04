@@ -1,4 +1,0 @@
-<map id="lumex::xml::node::XmlNode::insert_attribute_after" name="lumex::xml::node::XmlNode::insert_attribute_after">
-<area shape="rect" id="node1" title="Inserts a new attribute with the specified name (std::string_view) after a given existing attribute." alt="" coords="5,5,209,47"/>
-<area shape="rect" id="node2" href="$a01433.html#ac009a781687ac1b076eb5408390597a9" title="Inserts an XmlAttributeBase after a specified existing attribute." alt="" coords="257,5,425,47"/>
-</map>

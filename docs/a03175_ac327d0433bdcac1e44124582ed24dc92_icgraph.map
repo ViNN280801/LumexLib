@@ -1,7 +1,0 @@
-<map id="lumex::xml::node::XmlNode::text" name="lumex::xml::node::XmlNode::text">
-<area shape="rect" id="node1" title="Retrieves a text object (XmlText) associated with the current node." alt="" coords="567,31,771,73"/>
-<area shape="rect" id="node2" href="$a00905.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="402,5,457,32"/>
-<area shape="rect" id="node3" href="$a01515.html#a18e6ebf596904b610362cfb2257fd9b4" title="Reads logger configuration from an absolute enable/config path." alt="" coords="340,56,519,112"/>
-<area shape="rect" id="node4" href="$a01430.html#aab14961ea93b42c8867851c5113e6744" title=" " alt="" coords="108,63,292,105"/>
-<area shape="rect" id="node5" href="$a00818.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,71,60,97"/>
-</map>

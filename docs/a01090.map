@@ -1,7 +1,0 @@
-<map id="XPathLexer.hpp" name="XPathLexer.hpp">
-<area shape="rect" id="node1" title="XPathLexer, the tokenizer that splits an XPath expression into lexemes for XPathParser." alt="" coords="78,5,201,32"/>
-<area shape="rect" id="node2" href="$a01085.html" title=" " alt="" coords="5,80,127,107"/>
-<area shape="rect" id="node3" href="$a01100.html" title="XPathParser, the recursive descent parser that compiles an XPath 1.0 expression into a tree of XPathA..." alt="" coords="151,80,277,107"/>
-<area shape="rect" id="node4" href="$a01097.html" title=" " alt="" coords="77,155,202,181"/>
-<area shape="rect" id="node5" href="$a01109.html" title=" " alt="" coords="226,155,349,181"/>
-</map>

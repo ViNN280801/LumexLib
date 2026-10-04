@@ -1,4 +1,0 @@
-<map id="lumex::core::filesystem::fs::path::stem" name="lumex::core::filesystem::fs::path::stem">
-<area shape="rect" id="node1" title="Extracts the stem component from the path (filename without extension)." alt="" coords="228,5,403,47"/>
-<area shape="rect" id="node2" href="$a02235.html#acbdf7bbb8e8c92df446bcf06eb706f51" title="Checks if the path has a stem component (filename without extension)." alt="" coords="5,5,180,47"/>
-</map>

@@ -1,0 +1,29 @@
+digraph "lumex::core::fmt::Detail::float_body"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="LR";
+  Node1 [id="Node000001",label="lumex::core::fmt::Detail\l::float_body",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="Text of a non-negative finite value in style / precision."];
+  Node1 -> Node2 [id="edge1_Node000001_Node000002",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="lumex::core::fmt::format",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01007.html#a6a63800323204704cefa342dec4cad40",tooltip="Formats args into a std::string."];
+  Node2 -> Node3 [id="edge2_Node000002_Node000003",color="steelblue1",style="solid",tooltip=" "];
+  Node3 [id="Node000003",label="lumex::core::fmt::make\l_format_args",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01007.html#a1a7369743e9a56cdf14f5bd2ce80b599",tooltip="Type-erased arguments for vformat; the result refers to args, so use it within the same full expressi..."];
+  Node3 -> Node3 [id="edge3_Node000003_Node000003",color="steelblue1",style="solid",tooltip=" "];
+  Node3 -> Node4 [id="edge4_Node000003_Node000004",color="steelblue1",style="solid",tooltip=" "];
+  Node4 [id="Node000004",label="lumex::core::fmt::Detail\l::store_args",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01008.html#a7c0b83d64d43d9c8746e82f05d43db5a",tooltip=" "];
+  Node1 -> Node5 [id="edge5_Node000001_Node000005",color="steelblue1",style="solid",tooltip=" "];
+  Node5 [id="Node000005",label="lumex::core::fmt::Detail\l::normalize_decimal_point",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01008.html#af34a0e837174fedbea5a781fb348eb59",tooltip="Replaces the C locale's decimal point with .."];
+  Node1 -> Node6 [id="edge6_Node000001_Node000006",color="steelblue1",style="solid",tooltip=" "];
+  Node6 [id="Node000006",label="lumex::core::fmt::Detail\l::printf_float",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01008.html#a211ae3ef1ab3a61baa6061f1e9285687",tooltip="snprintf with one * precision, as a std::string."];
+  Node1 -> Node7 [id="edge7_Node000001_Node000007",color="steelblue1",style="solid",tooltip=" "];
+  Node7 [id="Node000007",label="lumex::core::fmt::Detail\l::printf_pattern",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01008.html#abdf402da92f2de56a23be3b0e34728b1",tooltip=" "];
+  Node1 -> Node8 [id="edge8_Node000001_Node000008",color="steelblue1",style="solid",tooltip=" "];
+  Node8 [id="Node000008",label="lumex::core::fmt::Detail\l::shortest_decimal",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01008.html#a62c7cfc22dcd8543a9330cbdc936a9d0",tooltip="Shortest decimal text that reads back to value (non-negative, finite), in std::to_chars plain style: ..."];
+  Node8 -> Node5 [id="edge9_Node000008_Node000005",color="steelblue1",style="solid",tooltip=" "];
+  Node8 -> Node6 [id="edge10_Node000008_Node000006",color="steelblue1",style="solid",tooltip=" "];
+  Node8 -> Node7 [id="edge11_Node000008_Node000007",color="steelblue1",style="solid",tooltip=" "];
+  Node1 -> Node9 [id="edge12_Node000001_Node000009",color="steelblue1",style="solid",tooltip=" "];
+  Node9 [id="Node000009",label="lumex::core::fmt::Detail\l::strip_hex_prefix",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01008.html#a7e9c3f435e31b7193fc3b49f7b8490b5",tooltip="Removes 0x / 0X and redundant trailing zeros of a."];
+}

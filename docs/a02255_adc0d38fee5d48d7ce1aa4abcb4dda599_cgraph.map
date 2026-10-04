@@ -1,9 +1,0 @@
-<map id="lumex::core::filesystem::fs::lumex_filesystem::equivalent" name="lumex::core::filesystem::fs::lumex_filesystem::equivalent">
-<area shape="rect" id="node1" title="Checks if two paths refer to the same file system entity." alt="" coords="5,103,180,159"/>
-<area shape="rect" id="node2" href="$a02255.html#aa89d0956ffd5c8092dc0f5145a1f1508" title="Retrieves the size of a regular file in bytes." alt="" coords="228,63,403,119"/>
-<area shape="rect" id="node7" href="$a02255.html#a000d9b463f4db8fa89614c3f6bf14aec" title="Returns the status of the file or directory at the specified path_arg, following symbolic links." alt="" coords="228,143,403,199"/>
-<area shape="rect" id="node3" href="$a02235.html#a209b04de0c65852694ca4d9a44d4d9bd" title="Returns a pointer to the null&#45;terminated C&#45;style string representation of the path." alt="" coords="457,5,632,47"/>
-<area shape="rect" id="node4" href="$a02227.html#a384e25734c6d611b763c77caa77aeafc" title="Factory method for creating an unsuccessful filesystem_result." alt="" coords="451,71,639,112"/>
-<area shape="rect" id="node5" href="$a02227.html#a16fa37f602e827cf169d0dfb3b952940" title="Factory method for creating a successful filesystem_result." alt="" coords="451,136,638,177"/>
-<area shape="rect" id="node6" href="$a02227.html#ae11d814b4f227302b2e33601f426d421" title="Retrieves the encapsulated value (const version)." alt="" coords="687,129,861,185"/>
-</map>

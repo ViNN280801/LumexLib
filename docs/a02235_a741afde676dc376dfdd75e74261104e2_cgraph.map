@@ -1,7 +1,0 @@
-<map id="lumex::core::filesystem::fs::path::has_parent_path" name="lumex::core::filesystem::fs::path::has_parent_path">
-<area shape="rect" id="node1" title="Checks if the path has a parent path component." alt="" coords="5,39,200,80"/>
-<area shape="rect" id="node2" href="$a02235.html#a6f923676a1ec7e8440b21eca9b6d9312" title="Checks if the path is empty." alt="" coords="248,5,423,47"/>
-<area shape="rect" id="node3" href="$a02235.html#a73045c0556f64739ae07add68e64de85" title="Extracts the parent path component from the path." alt="" coords="248,71,423,112"/>
-<area shape="rect" id="node4" href="$a02235.html#a64215fe6be8d35c058ca8e3df2ca90a6" title=" " alt="" coords="471,37,645,79"/>
-<area shape="rect" id="node5" href="$a02235.html#a3b470303c0431f218eeebe77b8acd417" title="Default constructor. Constructs an empty path." alt="" coords="471,103,645,144"/>
-</map>

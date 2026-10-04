@@ -1,5 +1,0 @@
-<map id="lumex::core::utility::dump::CoreDumpGenerator::registerCustomSignalHandler" name="lumex::core::utility::dump::CoreDumpGenerator::registerCustomSignalHandler">
-<area shape="rect" id="node1" title="Register a custom signal handler for graceful shutdown signals." alt="" coords="5,5,227,61"/>
-<area shape="rect" id="node2" href="$a01348.html#a9b962af55f800e2cbb3a49009e6676f1" title="Converts a LumexBasicStacktrace object to its string representation." alt="" coords="275,13,453,54"/>
-<area shape="rect" id="node3" href="$a02155.html#a79f1b53a81f6bde33331116c9926e81a" title="Returns the number of entries in the stacktrace." alt="" coords="501,13,789,54"/>
-</map>

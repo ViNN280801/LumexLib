@@ -1,0 +1,36 @@
+digraph "text_output_escaped"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="RL";
+  Node1 [id="Node000001",label="text_output_escaped",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [id="edge1_Node000001_Node000002",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="text_output",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a00653.html#adf60e317ab315b5cb3eb74f99c1c7818",tooltip=" "];
+  Node2 -> Node3 [id="edge2_Node000002_Node000003",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node3 [id="Node000003",label="node_output_attributes",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a00653.html#a1aec0d3f33d23989698e84beb2403d60",tooltip=" "];
+  Node3 -> Node4 [id="edge3_Node000003_Node000004",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node4 [id="Node000004",label="node_output_simple",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a00653.html#a9cf6a87493cf624f41e7e716ca14c5b5",tooltip=" "];
+  Node4 -> Node5 [id="edge4_Node000004_Node000005",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node5 [id="Node000005",label="lumex::xml::node::node\l_output",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01086.html#af34491b7156887c5b07e29420a4db813",tooltip="Outputs the XML subtree rooted at root to a buffered writer."];
+  Node5 -> Node6 [id="edge5_Node000005_Node000006",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node6 [id="Node000006",label="lumex::xml::node::XmlNode\l::print",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a02838.html#a513be35988e895f6735f65b1b96c4b5f",tooltip="Prints the XML subtree rooted at the current node to a custom writer interface."];
+  Node6 -> Node7 [id="edge6_Node000006_Node000007",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node7 [id="Node000007",label="main",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a00599.html#ae66f6b31b5ad750f1fe042a706a4e3d4",tooltip="Main function demonstrating various LumexXml functionalities."];
+  Node6 -> Node8 [id="edge7_Node000006_Node000008",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node8 [id="Node000008",label="lumex::xml::node::XmlNode\l::print",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a02838.html#abc0e3ec301cddb026501f215723743b2",tooltip="Prints the XML subtree rooted at the current node to a C-style character output stream."];
+  Node6 -> Node9 [id="edge8_Node000006_Node000009",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node9 [id="Node000009",label="lumex::xml::node::XmlNode\l::print",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a02838.html#af65a61ef6f7962ffb99fc701f2deb1e4",tooltip="Prints the XML subtree rooted at the current node to a wide character output stream."];
+  Node5 -> Node10 [id="edge9_Node000005_Node000010",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node10 [id="Node000010",label="lumex::xml::document\l::XmlDocument::save",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a02822.html#a40677f13bf1306858bdcc329c3812775",tooltip="Saves the XML document to a custom writer interface."];
+  Node10 -> Node11 [id="edge10_Node000010_Node000011",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node11 [id="Node000011",label="lumex::xml::document\l::XmlDocument::save",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a02822.html#aa6db85e0f29ddd002d752a2b587a17c8",tooltip="Saves the XML document to a C-style character output stream."];
+  Node10 -> Node12 [id="edge11_Node000010_Node000012",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node12 [id="Node000012",label="lumex::xml::document\l::XmlDocument::save",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a02822.html#a5d454caaddafe49d675882e3928dbc3d",tooltip="Saves the XML document to a wide character output stream."];
+  Node3 -> Node13 [id="edge12_Node000003_Node000013",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node13 [id="Node000013",label="node_output_start",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a00653.html#a3781da2446a997aeab30b3a127de9a9d",tooltip=" "];
+  Node13 -> Node5 [id="edge13_Node000013_Node000005",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node2 -> Node4 [id="edge14_Node000002_Node000004",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node2 -> Node13 [id="edge15_Node000002_Node000013",dir="back",color="steelblue1",style="solid",tooltip=" "];
+}

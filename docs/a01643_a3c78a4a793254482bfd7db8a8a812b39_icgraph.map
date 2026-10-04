@@ -1,5 +1,0 @@
-<map id="lumex::core::circular_buffer::CircularBuffer::emplace_front" name="lumex::core::circular_buffer::CircularBuffer::emplace_front">
-<area shape="rect" id="node1" title="Constructs an element in place at the front." alt="" coords="320,5,484,61"/>
-<area shape="rect" id="node2" href="$a01643.html#af8bbf0f91868d4234516f2d8e26d179a" title="Prepends a copy of an element." alt="" coords="108,5,272,61"/>
-<area shape="rect" id="node3" href="$a00740.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,20,60,47"/>
-</map>

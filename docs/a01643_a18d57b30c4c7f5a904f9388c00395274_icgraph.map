@@ -1,6 +1,0 @@
-<map id="lumex::core::circular_buffer::CircularBuffer::end" name="lumex::core::circular_buffer::CircularBuffer::end">
-<area shape="rect" id="node1" title="Returns an iterator to the end of the logical sequence." alt="" coords="217,71,413,112"/>
-<area shape="rect" id="node2" href="$a01334.html#a56bbfbab60073a9b1102f21f970563c9" title="&quot;less&quot; operator for two CircularBuffer objects." alt="" coords="10,5,165,47"/>
-<area shape="rect" id="node3" href="$a01334.html#ac96da0807d416d4354f8e227a54404fe" title="Equality comparison of two CircularBuffer objects." alt="" coords="10,71,165,112"/>
-<area shape="rect" id="node4" href="$a01643.html#afce8214f7d01c88c9cce64e9cebaf8f2" title="Returns a reverse iterator to the start of the reverse sequence." alt="" coords="5,137,169,193"/>
-</map>

@@ -1,6 +1,0 @@
-<map id="lumex::applied::hardware::caps::CPUVectorizationDetector::detect" name="lumex::applied::hardware::caps::CPUVectorizationDetector::detect">
-<area shape="rect" id="node1" title="Performs comprehensive CPU vectorization capabilities detection." alt="" coords="5,43,241,99"/>
-<area shape="rect" id="node2" href="$a01471.html#a2a6b9c82125308627d435ce6b2474926" title="Gets a human&#45;readable summary of supported vectorization technologies." alt="" coords="289,5,525,61"/>
-<area shape="rect" id="node3" href="$a01348.html#a9b962af55f800e2cbb3a49009e6676f1" title="Converts a LumexBasicStacktrace object to its string representation." alt="" coords="318,86,497,127"/>
-<area shape="rect" id="node4" href="$a02155.html#a79f1b53a81f6bde33331116c9926e81a" title="Returns the number of entries in the stacktrace." alt="" coords="573,86,861,127"/>
-</map>

@@ -1,12 +1,8 @@
 var a00968 =
 [
-    [ "XmlNode", "a03175.html", "a03175" ],
-    [ "XmlNodeIterator", "a03179.html", "a03179" ],
-    [ "XmlNamedNodeIterator", "a03183.html", "a03183" ],
-    [ "XmlAttributeIterator", "a03187.html", "a03187" ],
-    [ "allow_move", "a00968.html#aae6fd296565521687dfdec74617af3f4", null ],
-    [ "is_text_node", "a00968.html#a1e646ed1cb77d39fa585d98f77a5269c", null ],
-    [ "node_output", "a00968.html#af34491b7156887c5b07e29420a4db813", null ],
-    [ "operator&&", "a00968.html#a9cfeb01c63a015b2ea3b1acdb401fafa", null ],
-    [ "operator||", "a00968.html#a9ddd7da688cc6930afb363d4835bc59d", null ]
+    [ "LockBasedCell", "a01262.html", "a01262" ],
+    [ "smart_ptr_traits_t", "a01246.html", null ],
+    [ "smart_ptr_traits_t< std::shared_ptr< T > >", "a01250.html", "a01250" ],
+    [ "smart_ptr_traits_t< std::weak_ptr< T > >", "a01258.html", "a01258" ],
+    [ "Cell", "a00968.html#a9085ae433e510f83de86bd55e00c8a2e", null ]
 ];

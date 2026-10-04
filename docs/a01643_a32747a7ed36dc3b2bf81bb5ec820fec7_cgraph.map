@@ -1,4 +1,0 @@
-<map id="lumex::core::circular_buffer::CircularBuffer::front" name="lumex::core::circular_buffer::CircularBuffer::front">
-<area shape="rect" id="node1" title="Const access to the oldest element (front)." alt="" coords="5,5,169,61"/>
-<area shape="rect" id="node2" href="$a01643.html#ad07e20aad7f989d914e907b2234a924a" title="Checks whether the buffer is empty." alt="" coords="217,5,381,61"/>
-</map>

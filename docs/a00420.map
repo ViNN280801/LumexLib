@@ -1,9 +1,0 @@
-<map id="LumexSerialPort.hpp" name="LumexSerialPort.hpp">
-<area shape="rect" id="node1" title="Resolves short, configuration&#45;style serial&#45;port names into the platform&#45;specific path or identifier a..." alt="" coords="315,5,472,32"/>
-<area shape="rect" id="node2" href="$a00917.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="5,87,187,114"/>
-<area shape="rect" id="node3" title=" " alt="" coords="211,87,277,114"/>
-<area shape="rect" id="node4" title=" " alt="" coords="302,87,389,114"/>
-<area shape="rect" id="node5" title=" " alt="" coords="413,87,472,114"/>
-<area shape="rect" id="node6" href="$a00695.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="497,80,751,121"/>
-<area shape="rect" id="node7" href="$a00701.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="600,169,813,211"/>
-</map>

@@ -1,5 +1,0 @@
-<map id="lumex::core::filesystem::fs::directory_entry::is_other" name="lumex::core::filesystem::fs::directory_entry::is_other">
-<area shape="rect" id="node1" title="Checks if the entry represents a file type other than regular file or directory." alt="" coords="5,5,180,61"/>
-<area shape="rect" id="node2" href="$a02255.html#a389a8c5076454afae7ecae12d525f2ce" title="Checks if the specified path_arg refers to a file type other than regular file or directory." alt="" coords="228,5,403,61"/>
-<area shape="rect" id="node3" href="$a02255.html#a000d9b463f4db8fa89614c3f6bf14aec" title="Returns the status of the file or directory at the specified path_arg, following symbolic links." alt="" coords="451,5,625,61"/>
-</map>

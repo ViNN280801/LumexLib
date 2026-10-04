@@ -1,4 +1,0 @@
-<map id="lumex::xml::memory::XmlAllocator::allocate_page" name="lumex::xml::memory::XmlAllocator::allocate_page">
-<area shape="rect" id="node1" title="Allocates a new XmlMemoryPage of a specified data size." alt="" coords="5,5,219,47"/>
-<area shape="rect" id="node2" href="$a03171.html#a9358bd45d40685274a0b0bcbeb7030d2" title="Constructs an XmlMemoryPage object in a pre&#45;allocated memory block." alt="" coords="267,5,475,47"/>
-</map>

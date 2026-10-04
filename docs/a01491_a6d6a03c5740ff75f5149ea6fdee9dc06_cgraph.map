@@ -1,4 +1,0 @@
-<map id="lumex::applied::json::normalization::LumexJsonSchemaNormalizer::normalize_against_schema" name="lumex::applied::json::normalization::LumexJsonSchemaNormalizer::normalize_against_schema">
-<area shape="rect" id="node1" title="validate_and_normalize: returns the built tree." alt="" coords="5,5,285,61"/>
-<area shape="rect" id="node2" href="$a01491.html#a8b52d105932cbbf487e7111f269f13f9" title="Single entry into the shared walker; mode decides whether the normalized tree is built...." alt="" coords="333,5,599,61"/>
-</map>

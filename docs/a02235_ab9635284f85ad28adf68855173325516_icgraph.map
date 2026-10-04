@@ -1,4 +1,0 @@
-<map id="lumex::core::filesystem::fs::path::relative_path" name="lumex::core::filesystem::fs::path::relative_path">
-<area shape="rect" id="node1" title="Extracts the relative path component from the path (after the root path)." alt="" coords="256,5,431,47"/>
-<area shape="rect" id="node2" href="$a02235.html#a3e95228da0c072868d9f9388ff607cd4" title="Checks if the path has a relative path component." alt="" coords="5,5,208,47"/>
-</map>

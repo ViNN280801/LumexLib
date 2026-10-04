@@ -1,4 +1,0 @@
-<map id="lumex::core::atomic::sync::table_wait::Detail::tsan_mutex_post_unlock" name="lumex::core::atomic::sync::table_wait::Detail::tsan_mutex_post_unlock">
-<area shape="rect" id="node1" title="ThreadSanitizer annotations of the lock word; no&#45;ops in other builds." alt="" coords="221,5,403,76"/>
-<area shape="rect" id="node2" href="$a01619.html#a7225c984e89a9d1db3f329fb69848fd1" title="Releases the lock and wakes the threads that sleep on it." alt="" coords="5,13,173,69"/>
-</map>

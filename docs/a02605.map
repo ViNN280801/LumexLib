@@ -1,4 +1,0 @@
-<map id="lumex::core::optional::opt::LumexBadOptionalAccess" name="lumex::core::optional::opt::LumexBadOptionalAccess">
-<area shape="rect" id="node1" title="Exception thrown when attempting to access the value of an empty optional." alt="" coords="5,80,233,121"/>
-<area shape="rect" id="node2" title=" " alt="" coords="60,5,179,32"/>
-</map>

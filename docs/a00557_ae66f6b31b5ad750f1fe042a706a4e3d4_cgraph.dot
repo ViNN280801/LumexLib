@@ -1,0 +1,19 @@
+digraph "main"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="LR";
+  Node1 [id="Node000001",label="main",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [id="edge1_Node000001_Node000002",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="lumex::applied::settings\l::factory::LumexSettingsFactory\l::create",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01214.html#a309046eb225dab34d5578b0174e711ab",tooltip="Creates a settings object for the specified file format."];
+  Node1 -> Node3 [id="edge2_Node000001_Node000003",color="steelblue1",style="solid",tooltip=" "];
+  Node3 [id="Node000003",label="lumex::applied::settings\l::guard::LumexSettingsGuard\l::ensureExistsWithDefaults",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01222.html#a98b36bed73ab40adb63a48f08f1df640",tooltip="Ensures the guarded file exists and is loadable; repairs it via createDefault otherwise."];
+  Node1 -> Node4 [id="edge3_Node000001_Node000004",color="steelblue1",style="solid",tooltip=" "];
+  Node4 [id="Node000004",label="lumex::applied::settings\l::guard::LumexSettingsGuard\l::ensureKeysWithDefaults",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01222.html#a2992a46c96ffd85535ee0aafdf6e2c5d",tooltip="Ensures every key in specs is present and valid, restoring default_value otherwise."];
+  Node4 -> Node5 [id="edge4_Node000004_Node000005",color="steelblue1",style="solid",tooltip=" "];
+  Node5 [id="Node000005",label="lumex::applied::logging\l::log::LumexLogging::warning",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01178.html#af4fec23e76323ffee4eaf2aaf716eb15",tooltip="Log a WARNING-level message."];
+  Node5 -> Node6 [id="edge5_Node000005_Node000006",color="steelblue1",style="solid",tooltip=" "];
+  Node6 [id="Node000006",label="lumex::core::string\l::utility::stringify",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01027.html#a644d51beb3d991564cc81242883fd17a",tooltip="Concatenates the streamed text of args."];
+}

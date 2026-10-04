@@ -1,4 +1,0 @@
-<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$a01487.html" title="Parses raw JSON text, checks it and returns the canonical document." alt="" coords="5,5,208,61"/>
-<area shape="rect" id="node2" href="$a01491.html" title="Shares the schema walker and the strict/non&#45;strict error policy between concrete normalizers." alt="" coords="256,5,507,61"/>
-</map>

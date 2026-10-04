@@ -1,8 +1,0 @@
-<map id="lumex::core::filesystem::fs::directory_entry::file_size" name="lumex::core::filesystem::fs::directory_entry::file_size">
-<area shape="rect" id="node1" title="Retrieves the size of the file represented by this entry." alt="" coords="5,63,180,119"/>
-<area shape="rect" id="node2" href="$a02255.html#aa89d0956ffd5c8092dc0f5145a1f1508" title="Retrieves the size of a regular file in bytes." alt="" coords="228,63,403,119"/>
-<area shape="rect" id="node3" href="$a02235.html#a209b04de0c65852694ca4d9a44d4d9bd" title="Returns a pointer to the null&#45;terminated C&#45;style string representation of the path." alt="" coords="457,5,632,47"/>
-<area shape="rect" id="node4" href="$a02227.html#a384e25734c6d611b763c77caa77aeafc" title="Factory method for creating an unsuccessful filesystem_result." alt="" coords="451,71,639,112"/>
-<area shape="rect" id="node5" href="$a02227.html#a16fa37f602e827cf169d0dfb3b952940" title="Factory method for creating a successful filesystem_result." alt="" coords="451,136,638,177"/>
-<area shape="rect" id="node6" href="$a02227.html#ae11d814b4f227302b2e33601f426d421" title="Retrieves the encapsulated value (const version)." alt="" coords="687,129,861,185"/>
-</map>
