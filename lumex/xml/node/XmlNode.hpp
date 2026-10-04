@@ -48,7 +48,9 @@
  * `IXmlWriter` or a stream, and parsing a fragment into an existing element
  * with `append_buffer`. It is a non-owning handle; an empty handle is safe to
  * use and yields empty results. Handles become invalid with the `XmlDocument`
- * they come from.
+ * they come from. The class is not exported. Members compiled into the
+ * library carry `LUMEX_API`. The `string_view_t` overloads are inline
+ * wrappers and are not `dllimport`.
  *
  * The bidirectional iterators `XmlNodeIterator` and `XmlNamedNodeIterator`
  * walk the children of a node, all of them or those with one name, and
@@ -183,11 +185,13 @@ namespace node
  * @note `XmlNode` objects do not own the memory they point to; their lifetime
  * is tied to the `XmlDocument` from which they originate. Accessing a node
  * after its owning document is destroyed leads to undefined behavior.
+ * @note The class is not exported. Out-of-line members carry `LUMEX_API`.
+ * `string_view_t` overloads stay inline and are not `dllimport`.
  * @see XmlNodeBase
  * @see XmlAttribute
  * @see XmlDocument
  */
-class LUMEX_API XmlNode
+class XmlNode
 {
   friend class tree::XmlTreeWalker;
   friend class attribute::XmlAttribute;
@@ -203,7 +207,7 @@ public:
    * @details An empty node does not point to any valid XML element and its
    * methods will generally return default values or empty objects.
    */
-  XmlNode ();
+  LUMEX_API XmlNode ();
 
   /**
    * @brief Constructs an `XmlNode` from an internal `XmlNodeBase` pointer.
@@ -214,7 +218,7 @@ public:
    * @note This constructor is explicit to prevent unintended conversions from
    * raw pointers.
    */
-  explicit XmlNode (XmlNodeBase *ptr);
+  LUMEX_API explicit XmlNode (XmlNodeBase *ptr);
 
   /**
    * @brief Provides safe boolean conversion for `XmlNode` objects.
@@ -226,7 +230,7 @@ public:
    * @note This conversion prevents problematic implicit conversions to
    * arithmetic types.
    */
-  operator unspecified_bool_type () const;
+  LUMEX_API operator unspecified_bool_type () const;
 
   // Borland C++ workaround
   /**
@@ -237,7 +241,7 @@ public:
    * otherwise.
    * @see empty()
    */
-  bool operator!() const;
+  LUMEX_API bool operator!() const;
 
   // Comparison operators (compares wrapped node pointers)
   /**
@@ -250,7 +254,7 @@ public:
    * @note This performs a pointer comparison, not a value comparison of the
    * node's name or value.
    */
-  bool operator== (XmlNode const &other) const;
+  LUMEX_API bool operator== (XmlNode const &other) const;
   /**
    * @brief Compares two `XmlNode` objects for inequality.
    * @details Two `XmlNode` objects are considered unequal if they wrap
@@ -261,7 +265,7 @@ public:
    * @note This performs a pointer comparison, not a value comparison of the
    * node's name or value.
    */
-  bool operator!= (XmlNode const &other) const;
+  LUMEX_API bool operator!= (XmlNode const &other) const;
   /**
    * @brief Compares two `XmlNode` objects using the less-than operator.
    * @details The comparison is based on the memory addresses of the wrapped
@@ -273,7 +277,7 @@ public:
    * contexts requiring ordering based on pointer addresses, such as STL
    * containers.
    */
-  bool operator< (XmlNode const &other) const;
+  LUMEX_API bool operator< (XmlNode const &other) const;
   /**
    * @brief Compares two `XmlNode` objects using the greater-than operator.
    * @details The comparison is based on the memory addresses of the wrapped
@@ -285,7 +289,7 @@ public:
    * contexts requiring ordering based on pointer addresses, such as STL
    * containers.
    */
-  bool operator> (XmlNode const &other) const;
+  LUMEX_API bool operator> (XmlNode const &other) const;
   /**
    * @brief Compares two `XmlNode` objects using the less-than-or-equal-to
    * operator.
@@ -298,7 +302,7 @@ public:
    * contexts requiring ordering based on pointer addresses, such as STL
    * containers.
    */
-  bool operator<= (XmlNode const &other) const;
+  LUMEX_API bool operator<= (XmlNode const &other) const;
   /**
    * @brief Compares two `XmlNode` objects using the greater-than-or-equal-to
    * operator.
@@ -311,7 +315,7 @@ public:
    * contexts requiring ordering based on pointer addresses, such as STL
    * containers.
    */
-  bool operator>= (XmlNode const &other) const;
+  LUMEX_API bool operator>= (XmlNode const &other) const;
 
   // Check if node is empty (null)
   LUMEX_ATTRIBUTE_NODISCARD (
@@ -324,7 +328,7 @@ public:
    * @return `true` if the node is empty, `false` otherwise.
    * @note This method is equivalent to `!operator bool()`.
    */
-  bool empty () const;
+  LUMEX_API bool empty () const;
 
   // Get node type
   LUMEX_ATTRIBUTE_NODISCARD (
@@ -338,7 +342,7 @@ public:
    * @return An `xml_node_type` value.
    * @see xml_node_type
    */
-  xml_node_type type () const;
+  LUMEX_API xml_node_type type () const;
 
   // Get node name, or "" if node is empty or it has no name
   // Note: For <node>text</node> node.value() does not return "text"! Use
@@ -359,7 +363,7 @@ public:
    * (e.g., for `<tag>text</tag>`, `name()` returns `tag`, not `text`). Use
    * `child_value()` or `text()` for text content.
    */
-  char_t const *name () const;
+  LUMEX_API char_t const *name () const;
 
   // Get node value, or "" if node is empty or it has no value
   // Note: For <node>text</node> node.value() does not return "text"! Use
@@ -381,7 +385,7 @@ public:
    * returns an empty string unless parsing options were used to embed PCDATA.
    * Use `child_value()` or `text()` to access contained text.
    */
-  char_t const *value () const;
+  LUMEX_API char_t const *value () const;
 
   // Get attribute list
   LUMEX_ATTRIBUTE_NODISCARD (
@@ -397,7 +401,7 @@ public:
    * @see last_attribute()
    * @see attributes()
    */
-  XmlAttribute first_attribute () const;
+  LUMEX_API XmlAttribute first_attribute () const;
 
   LUMEX_ATTRIBUTE_NODISCARD (
       "The returned attribute should be used; discarding it negates the "
@@ -413,7 +417,7 @@ public:
    * @see first_attribute()
    * @see attributes()
    */
-  XmlAttribute last_attribute () const;
+  LUMEX_API XmlAttribute last_attribute () const;
 
   // Get children list
   LUMEX_ATTRIBUTE_NODISCARD ("The returned node should be used; discarding it "
@@ -428,7 +432,7 @@ public:
    * @see last_child()
    * @see children()
    */
-  XmlNode first_child () const;
+  LUMEX_API XmlNode first_child () const;
 
   LUMEX_ATTRIBUTE_NODISCARD ("The returned node should be used; discarding it "
                              "negates the purpose of the getter.")
@@ -442,7 +446,7 @@ public:
    * @see first_child()
    * @see children()
    */
-  XmlNode last_child () const;
+  LUMEX_API XmlNode last_child () const;
 
   // Get next/previous sibling in the children list of the parent node
   LUMEX_ATTRIBUTE_NODISCARD ("The returned node should be used; discarding it "
@@ -455,7 +459,7 @@ public:
    * sibling exists or the node is empty.
    * @see previous_sibling()
    */
-  XmlNode next_sibling () const;
+  LUMEX_API XmlNode next_sibling () const;
 
   LUMEX_ATTRIBUTE_NODISCARD ("The returned node should be used; discarding it "
                              "negates the purpose of the getter.")
@@ -467,7 +471,7 @@ public:
    * previous sibling exists or the node is empty.
    * @see next_sibling()
    */
-  XmlNode previous_sibling () const;
+  LUMEX_API XmlNode previous_sibling () const;
 
   // Get parent node
   LUMEX_ATTRIBUTE_NODISCARD ("The returned node should be used; discarding it "
@@ -479,7 +483,7 @@ public:
    * @return The parent `XmlNode`, or an empty `XmlNode` if no parent exists
    * (e.g., for the document node or an empty node).
    */
-  XmlNode parent () const;
+  LUMEX_API XmlNode parent () const;
 
   // Get root of DOM tree this node belongs to
   LUMEX_ATTRIBUTE_NODISCARD ("The returned node should be used; discarding it "
@@ -494,7 +498,7 @@ public:
    * @note The `XmlDocument` object itself is a special type of node
    * (`node_document`).
    */
-  XmlNode root () const;
+  LUMEX_API XmlNode root () const;
 
   // Get text object for the current node
   LUMEX_ATTRIBUTE_NODISCARD (
@@ -511,7 +515,7 @@ public:
    * @note The `XmlText` object is a wrapper and does not own the text data;
    * its lifetime is tied to the node.
    */
-  XmlText text () const;
+  LUMEX_API XmlText text () const;
 
   // Get child, attribute or next/previous sibling with the specified name
   LUMEX_ATTRIBUTE_NODISCARD (
@@ -527,7 +531,7 @@ public:
    * @note The search is case-sensitive.
    * @see children(char_t const*)
    */
-  XmlNode child (char_t const *name) const;
+  LUMEX_API XmlNode child (char_t const *name) const;
 
   LUMEX_ATTRIBUTE_NODISCARD (
       "The returned attribute should be used; discarding it negates the "
@@ -541,7 +545,7 @@ public:
    * exists or the current node is empty.
    * @note The search is case-sensitive.
    */
-  XmlAttribute attribute (char_t const *name) const;
+  LUMEX_API XmlAttribute attribute (char_t const *name) const;
 
   LUMEX_ATTRIBUTE_NODISCARD (
       "The returned next sibling node should be used; discarding it negates "
@@ -556,7 +560,7 @@ public:
    * @note The search is case-sensitive and starts from the current node's next
    * sibling.
    */
-  XmlNode next_sibling (char_t const *name) const;
+  LUMEX_API XmlNode next_sibling (char_t const *name) const;
 
   LUMEX_ATTRIBUTE_NODISCARD (
       "The returned previous sibling node should be used; discarding it "
@@ -571,7 +575,7 @@ public:
    * @note The search is case-sensitive and starts from the current node's
    * previous sibling.
    */
-  XmlNode previous_sibling (char_t const *name) const;
+  LUMEX_API XmlNode previous_sibling (char_t const *name) const;
 
   LUMEX_ATTRIBUTE_NODISCARD (
       "The result of a lookup should be used; discarding it negates "
@@ -582,7 +586,7 @@ public:
    * @details Exported with the same signature in every C++ standard; the
    * `string_view_t` overload is an inline wrapper over it.
    */
-  XmlNode child (char_t const *name, std::size_t size) const;
+  LUMEX_API XmlNode child (char_t const *name, std::size_t size) const;
 
   LUMEX_ATTRIBUTE_NODISCARD (
       "The result of a lookup should be used; discarding it negates "
@@ -593,7 +597,8 @@ public:
    * @details Exported with the same signature in every C++ standard; the
    * `string_view_t` overload is an inline wrapper over it.
    */
-  XmlAttribute attribute (char_t const *name, std::size_t size) const;
+  LUMEX_API XmlAttribute attribute (char_t const *name,
+                                    std::size_t size) const;
 
   LUMEX_ATTRIBUTE_NODISCARD (
       "The result of a lookup should be used; discarding it negates "
@@ -604,7 +609,7 @@ public:
    * @details Exported with the same signature in every C++ standard; the
    * `string_view_t` overload is an inline wrapper over it.
    */
-  XmlNode next_sibling (char_t const *name, std::size_t size) const;
+  LUMEX_API XmlNode next_sibling (char_t const *name, std::size_t size) const;
 
   LUMEX_ATTRIBUTE_NODISCARD (
       "The result of a lookup should be used; discarding it negates "
@@ -615,7 +620,8 @@ public:
    * @details Exported with the same signature in every C++ standard; the
    * `string_view_t` overload is an inline wrapper over it.
    */
-  XmlNode previous_sibling (char_t const *name, std::size_t size) const;
+  LUMEX_API XmlNode previous_sibling (char_t const *name,
+                                      std::size_t size) const;
 
 #if __cplusplus >= 201703L
   LUMEX_ATTRIBUTE_NODISCARD (
@@ -716,7 +722,8 @@ public:
    * @warning If `hint` is not an attribute of `this` node, the behavior is
    * undefined in release builds (asserts in debug).
    */
-  XmlAttribute attribute (char_t const *name, XmlAttribute &hint) const;
+  LUMEX_API XmlAttribute attribute (char_t const *name,
+                                    XmlAttribute &hint) const;
 
   /**
    * @brief `attribute` with a name of `size` characters at `name`, which
@@ -724,8 +731,8 @@ public:
    * @details Exported with the same signature in every C++ standard; the
    * `string_view_t` overload is an inline wrapper over it.
    */
-  XmlAttribute attribute (char_t const *name, std::size_t size,
-                          XmlAttribute &hint) const;
+  LUMEX_API XmlAttribute attribute (char_t const *name, std::size_t size,
+                                    XmlAttribute &hint) const;
 
 #if __cplusplus >= 201703L
   /**
@@ -765,7 +772,7 @@ public:
    * @note The returned pointer points to internal memory and should not be
    * deallocated or modified.
    */
-  char_t const *child_value () const;
+  LUMEX_API char_t const *child_value () const;
 
   // Get child value of child with specified name. Equivalent to
   // child(name).child_value().
@@ -781,7 +788,7 @@ public:
    * @details This is a convenience method equivalent to
    * `child(name).child_value()`.
    */
-  char_t const *child_value (char_t const *name) const;
+  LUMEX_API char_t const *child_value (char_t const *name) const;
 
   // Set node name/value (returns false if node is empty, there is not enough
   // memory, or node can not have name/value)
@@ -797,7 +804,7 @@ public:
    * allocation/reallocation for the name string.
    * @note The `rhs` string is copied into the node's internal memory.
    */
-  bool set_name (char_t const *rhs);
+  LUMEX_API bool set_name (char_t const *rhs);
 
   /**
    * @brief Sets the name of the XML node from a C-style string with a
@@ -809,7 +816,7 @@ public:
    * length, which can be useful for non-null-terminated strings or when only a
    * prefix is desired.
    */
-  bool set_name (char_t const *rhs, std::size_t size);
+  LUMEX_API bool set_name (char_t const *rhs, std::size_t size);
 
 #if __cplusplus >= 201703L
   /**
@@ -839,7 +846,7 @@ public:
    * handles memory allocation/reallocation for the value string.
    * @note The `rhs` string is copied into the node's internal memory.
    */
-  bool set_value (char_t const *rhs);
+  LUMEX_API bool set_value (char_t const *rhs);
 
   /**
    * @brief Sets the value of the XML node from a C-style string with a
@@ -850,7 +857,7 @@ public:
    * @details Similar to `set_value(char_t const*)` but allows specifying the
    * length.
    */
-  bool set_value (char_t const *rhs, std::size_t size);
+  LUMEX_API bool set_value (char_t const *rhs, std::size_t size);
 
 #if __cplusplus >= 201703L
   /**
@@ -882,7 +889,7 @@ public:
    * links it to the end of the current node's attribute list. The name is then
    * set using `XmlAttribute::set_name`.
    */
-  XmlAttribute append_attribute (char_t const *name);
+  LUMEX_API XmlAttribute append_attribute (char_t const *name);
 
   /**
    * @brief Prepends a new attribute with the specified name to the current
@@ -896,7 +903,7 @@ public:
    * links it to the beginning of the current node's attribute list. The name
    * is then set using `XmlAttribute::set_name`.
    */
-  XmlAttribute prepend_attribute (char_t const *name);
+  LUMEX_API XmlAttribute prepend_attribute (char_t const *name);
 
   /**
    * @brief Inserts a new attribute with the specified name after a given
@@ -911,8 +918,8 @@ public:
    * attributes, `attr` does not belong to this node, or memory allocation
    * fails.
    */
-  XmlAttribute insert_attribute_after (char_t const *name,
-                                       XmlAttribute const &attr);
+  LUMEX_API XmlAttribute insert_attribute_after (char_t const *name,
+                                                 XmlAttribute const &attr);
 
   /**
    * @brief Inserts a new attribute with the specified name before a given
@@ -927,8 +934,8 @@ public:
    * attributes, `attr` does not belong to this node, or memory allocation
    * fails.
    */
-  XmlAttribute insert_attribute_before (char_t const *name,
-                                        XmlAttribute const &attr);
+  LUMEX_API XmlAttribute insert_attribute_before (char_t const *name,
+                                                  XmlAttribute const &attr);
 
   /**
    * @brief `append_attribute` with a name of `size` characters at `name`,
@@ -936,7 +943,8 @@ public:
    * @details Exported with the same signature in every C++ standard; the
    * `string_view_t` overload is an inline wrapper over it.
    */
-  XmlAttribute append_attribute (char_t const *name, std::size_t size);
+  LUMEX_API XmlAttribute append_attribute (char_t const *name,
+                                           std::size_t size);
 
   /**
    * @brief `prepend_attribute` with a name of `size` characters at `name`,
@@ -944,7 +952,8 @@ public:
    * @details Exported with the same signature in every C++ standard; the
    * `string_view_t` overload is an inline wrapper over it.
    */
-  XmlAttribute prepend_attribute (char_t const *name, std::size_t size);
+  LUMEX_API XmlAttribute prepend_attribute (char_t const *name,
+                                            std::size_t size);
 
   /**
    * @brief `insert_attribute_after` with a name of `size` characters at
@@ -952,8 +961,9 @@ public:
    * @details Exported with the same signature in every C++ standard; the
    * `string_view_t` overload is an inline wrapper over it.
    */
-  XmlAttribute insert_attribute_after (char_t const *name, std::size_t size,
-                                       XmlAttribute const &attr);
+  LUMEX_API XmlAttribute insert_attribute_after (char_t const *name,
+                                                 std::size_t size,
+                                                 XmlAttribute const &attr);
 
   /**
    * @brief `insert_attribute_before` with a name of `size` characters at
@@ -961,8 +971,9 @@ public:
    * @details Exported with the same signature in every C++ standard; the
    * `string_view_t` overload is an inline wrapper over it.
    */
-  XmlAttribute insert_attribute_before (char_t const *name, std::size_t size,
-                                        XmlAttribute const &attr);
+  LUMEX_API XmlAttribute insert_attribute_before (char_t const *name,
+                                                  std::size_t size,
+                                                  XmlAttribute const &attr);
 
 #if __cplusplus >= 201703L
   /**
@@ -1039,7 +1050,7 @@ public:
    * current node cannot have attributes, or memory allocation fails during the
    * copy.
    */
-  XmlAttribute append_copy (XmlAttribute const &proto);
+  LUMEX_API XmlAttribute append_copy (XmlAttribute const &proto);
 
   /**
    * @brief Prepends a copy of an existing attribute (`proto`) to the current
@@ -1049,7 +1060,7 @@ public:
    * @return An `XmlAttribute` object representing the newly added copy, or an
    * empty `XmlAttribute` on error.
    */
-  XmlAttribute prepend_copy (XmlAttribute const &proto);
+  LUMEX_API XmlAttribute prepend_copy (XmlAttribute const &proto);
 
   /**
    * @brief Inserts a copy of an existing attribute (`proto`) after a given
@@ -1061,8 +1072,8 @@ public:
    * @return An `XmlAttribute` object representing the newly added copy, or an
    * empty `XmlAttribute` on error.
    */
-  XmlAttribute insert_copy_after (XmlAttribute const &proto,
-                                  XmlAttribute const &attr);
+  LUMEX_API XmlAttribute insert_copy_after (XmlAttribute const &proto,
+                                            XmlAttribute const &attr);
 
   /**
    * @brief Inserts a copy of an existing attribute (`proto`) before a given
@@ -1074,8 +1085,8 @@ public:
    * @return An `XmlAttribute` object representing the newly added copy, or an
    * empty `XmlAttribute` on error.
    */
-  XmlAttribute insert_copy_before (XmlAttribute const &proto,
-                                   XmlAttribute const &attr);
+  LUMEX_API XmlAttribute insert_copy_before (XmlAttribute const &proto,
+                                             XmlAttribute const &attr);
 
   // Add child node with specified type. Returns added node, or empty node on
   // errors.
@@ -1088,7 +1099,7 @@ public:
    * @details Returns an empty `XmlNode` if the current node cannot have
    * children of the specified `type` or memory allocation fails.
    */
-  XmlNode append_child (xml_node_type type = node_element);
+  LUMEX_API XmlNode append_child (xml_node_type type = node_element);
 
   /**
    * @brief Prepends a new child node of a specified type to the current node.
@@ -1097,7 +1108,7 @@ public:
    * @return An `XmlNode` object representing the newly added child node, or an
    * empty `XmlNode` on error.
    */
-  XmlNode prepend_child (xml_node_type type = node_element);
+  LUMEX_API XmlNode prepend_child (xml_node_type type = node_element);
 
   /**
    * @brief Inserts a new child node of a specified type before a given
@@ -1108,7 +1119,8 @@ public:
    * @return An `XmlNode` object representing the newly added child node, or an
    * empty `XmlNode` on error.
    */
-  XmlNode insert_child_after (xml_node_type type, XmlNode const &node);
+  LUMEX_API XmlNode insert_child_after (xml_node_type type,
+                                        XmlNode const &node);
 
   /**
    * @brief Inserts a new child node of a specified type after a given existing
@@ -1119,7 +1131,8 @@ public:
    * @return An `XmlNode` object representing the newly added child node, or an
    * empty `XmlNode` on error.
    */
-  XmlNode insert_child_before (xml_node_type type, XmlNode const &node);
+  LUMEX_API XmlNode insert_child_before (xml_node_type type,
+                                         XmlNode const &node);
 
   // Add child element with specified name. Returns added node, or empty node
   // on errors.
@@ -1133,7 +1146,7 @@ public:
    * @details This is a convenience method that calls
    * `append_child(node_element)` and then `set_name(name)`.
    */
-  XmlNode append_child (char_t const *name);
+  LUMEX_API XmlNode append_child (char_t const *name);
 
   /**
    * @brief Prepends a new child element with the specified name to the current
@@ -1145,7 +1158,7 @@ public:
    * @details This is a convenience method that calls
    * `prepend_child(node_element)` and then `set_name(name)`.
    */
-  XmlNode prepend_child (char_t const *name);
+  LUMEX_API XmlNode prepend_child (char_t const *name);
 
   /**
    * @brief Inserts a new child element with the specified name after a given
@@ -1159,7 +1172,8 @@ public:
    * @details This is a convenience method that calls
    * `insert_child_after(node_element, node)` and then `set_name(name)`.
    */
-  XmlNode insert_child_after (char_t const *name, XmlNode const &node);
+  LUMEX_API XmlNode insert_child_after (char_t const *name,
+                                        XmlNode const &node);
 
   /**
    * @brief Inserts a new child element with the specified name before a given
@@ -1173,7 +1187,8 @@ public:
    * @details This is a convenience method that calls
    * `insert_child_before(node_element, node)` and then `set_name(name)`.
    */
-  XmlNode insert_child_before (char_t const *name, XmlNode const &node);
+  LUMEX_API XmlNode insert_child_before (char_t const *name,
+                                         XmlNode const &node);
 
   /**
    * @brief `append_child` with a name of `size` characters at `name`, which
@@ -1181,7 +1196,7 @@ public:
    * @details Exported with the same signature in every C++ standard; the
    * `string_view_t` overload is an inline wrapper over it.
    */
-  XmlNode append_child (char_t const *name, std::size_t size);
+  LUMEX_API XmlNode append_child (char_t const *name, std::size_t size);
 
   /**
    * @brief `prepend_child` with a name of `size` characters at `name`, which
@@ -1189,7 +1204,7 @@ public:
    * @details Exported with the same signature in every C++ standard; the
    * `string_view_t` overload is an inline wrapper over it.
    */
-  XmlNode prepend_child (char_t const *name, std::size_t size);
+  LUMEX_API XmlNode prepend_child (char_t const *name, std::size_t size);
 
   /**
    * @brief `insert_child_after` with a name of `size` characters at `name`,
@@ -1197,8 +1212,8 @@ public:
    * @details Exported with the same signature in every C++ standard; the
    * `string_view_t` overload is an inline wrapper over it.
    */
-  XmlNode insert_child_after (char_t const *name, std::size_t size,
-                              XmlNode const &node);
+  LUMEX_API XmlNode insert_child_after (char_t const *name, std::size_t size,
+                                        XmlNode const &node);
 
   /**
    * @brief `insert_child_before` with a name of `size` characters at `name`,
@@ -1206,8 +1221,8 @@ public:
    * @details Exported with the same signature in every C++ standard; the
    * `string_view_t` overload is an inline wrapper over it.
    */
-  XmlNode insert_child_before (char_t const *name, std::size_t size,
-                               XmlNode const &node);
+  LUMEX_API XmlNode insert_child_before (char_t const *name, std::size_t size,
+                                         XmlNode const &node);
 
 #if __cplusplus >= 201703L
   /**
@@ -1285,7 +1300,7 @@ public:
    * @note The copied node and its subtree will be allocated from the current
    * document's allocator.
    */
-  XmlNode append_copy (XmlNode const &proto);
+  LUMEX_API XmlNode append_copy (XmlNode const &proto);
 
   /**
    * @brief Prepends a deep copy of an existing `XmlNode` (`proto`) as a child
@@ -1295,7 +1310,7 @@ public:
    * @return An `XmlNode` object representing the newly added copy, or an empty
    * `XmlNode` on error.
    */
-  XmlNode prepend_copy (XmlNode const &proto);
+  LUMEX_API XmlNode prepend_copy (XmlNode const &proto);
 
   /**
    * @brief Inserts a deep copy of an existing `XmlNode` (`proto`) after a
@@ -1306,7 +1321,8 @@ public:
    * @return An `XmlNode` object representing the newly added copy, or an empty
    * `XmlNode` on error.
    */
-  XmlNode insert_copy_after (XmlNode const &proto, XmlNode const &node);
+  LUMEX_API XmlNode insert_copy_after (XmlNode const &proto,
+                                       XmlNode const &node);
 
   /**
    * @brief Inserts a deep copy of an existing `XmlNode` (`proto`) before a
@@ -1317,7 +1333,8 @@ public:
    * @return An `XmlNode` object representing the newly added copy, or an empty
    * `XmlNode` on error.
    */
-  XmlNode insert_copy_before (XmlNode const &proto, XmlNode const &node);
+  LUMEX_API XmlNode insert_copy_before (XmlNode const &proto,
+                                        XmlNode const &node);
 
   // Move the specified node to become a child of this node. Returns moved
   // node, or empty node on errors.
@@ -1335,7 +1352,7 @@ public:
    * @note Moving nodes invalidates the "document buffer order" optimization
    * flag on the owning document.
    */
-  XmlNode append_move (XmlNode const &moved);
+  LUMEX_API XmlNode append_move (XmlNode const &moved);
 
   /**
    * @brief Moves an existing `XmlNode` (`moved`) to become the first child of
@@ -1346,7 +1363,7 @@ public:
    * @details Similar to `append_move`, but places `moved` at the beginning of
    * the children list.
    */
-  XmlNode prepend_move (XmlNode const &moved);
+  LUMEX_API XmlNode prepend_move (XmlNode const &moved);
 
   /**
    * @brief Moves an existing `XmlNode` (`moved`) to be inserted after a
@@ -1357,7 +1374,8 @@ public:
    * @return The `XmlNode` object that was moved, or an empty `XmlNode` on
    * error.
    */
-  XmlNode insert_move_after (XmlNode const &moved, XmlNode const &node);
+  LUMEX_API XmlNode insert_move_after (XmlNode const &moved,
+                                       XmlNode const &node);
 
   /**
    * @brief Moves an existing `XmlNode` (`moved`) to be inserted before a
@@ -1368,7 +1386,8 @@ public:
    * @return The `XmlNode` object that was moved, or an empty `XmlNode` on
    * error.
    */
-  XmlNode insert_move_before (XmlNode const &moved, XmlNode const &node);
+  LUMEX_API XmlNode insert_move_before (XmlNode const &moved,
+                                        XmlNode const &node);
 
   // Remove specified attribute
   /**
@@ -1381,7 +1400,7 @@ public:
    * `attr` is not an attribute of this node. The memory associated with the
    * attribute is deallocated.
    */
-  bool remove_attribute (XmlAttribute const &attr);
+  LUMEX_API bool remove_attribute (XmlAttribute const &attr);
 
   /**
    * @brief Removes an attribute with the specified name from the current node.
@@ -1392,7 +1411,7 @@ public:
    * @details This is a convenience method that calls `attribute(name)`
    * followed by `remove_attribute(XmlAttribute const&)`.
    */
-  bool remove_attribute (char_t const *name);
+  LUMEX_API bool remove_attribute (char_t const *name);
 
   /**
    * @brief `remove_attribute` with a name of `size` characters at `name`,
@@ -1400,7 +1419,7 @@ public:
    * @details Exported with the same signature in every C++ standard; the
    * `string_view_t` overload is an inline wrapper over it.
    */
-  bool remove_attribute (char_t const *name, std::size_t size);
+  LUMEX_API bool remove_attribute (char_t const *name, std::size_t size);
 
 #if __cplusplus >= 201703L
   /**
@@ -1427,7 +1446,7 @@ public:
    * @details All attributes attached to this node are deallocated, and the
    * node's `first_attribute` pointer is set to `nullptr`.
    */
-  bool remove_attributes ();
+  LUMEX_API bool remove_attributes ();
 
   // Remove specified child
   /**
@@ -1439,7 +1458,7 @@ public:
    * `n` is not a direct child of this node. The memory associated with the
    * child node and its entire subtree is deallocated.
    */
-  bool remove_child (XmlNode const &n);
+  LUMEX_API bool remove_child (XmlNode const &n);
 
   /**
    * @brief Removes the first child node with the specified name from the
@@ -1451,7 +1470,7 @@ public:
    * @details This is a convenience method that calls `child(name)` followed by
    * `remove_child(XmlNode const&)`.
    */
-  bool remove_child (char_t const *name);
+  LUMEX_API bool remove_child (char_t const *name);
 
   /**
    * @brief `remove_child` with a name of `size` characters at `name`, which
@@ -1459,7 +1478,7 @@ public:
    * @details Exported with the same signature in every C++ standard; the
    * `string_view_t` overload is an inline wrapper over it.
    */
-  bool remove_child (char_t const *name, std::size_t size);
+  LUMEX_API bool remove_child (char_t const *name, std::size_t size);
 
 #if __cplusplus >= 201703L
   /**
@@ -1486,7 +1505,7 @@ public:
    * @details All child nodes and their subtrees are deallocated, and the
    * node's `first_child` pointer is set to `nullptr`.
    */
-  bool remove_children ();
+  LUMEX_API bool remove_children ();
 
   // Parses buffer as an XML document fragment and appends all nodes as
   // children of the current node. Copies/converts the buffer, so it may be
@@ -1517,9 +1536,10 @@ public:
    * @throws `status_append_invalid_root` if target node cannot have children
    * or if `kparse_merge_pcdata` is used with existing PCDATA.
    */
-  xml_parse_result_t append_buffer (void const *contents, std::size_t size,
-                                    unsigned int options = kparse_default,
-                                    xml_encoding encoding = encoding_auto);
+  LUMEX_API xml_parse_result_t
+  append_buffer (void const *contents, std::size_t size,
+                 unsigned int options = kparse_default,
+                 xml_encoding encoding = encoding_auto);
 
   // Find attribute using predicate. Returns first attribute for which
   // predicate returned true.
@@ -1643,8 +1663,9 @@ public:
    * @note The search is case-sensitive for both node and attribute
    * names/values.
    */
-  XmlNode find_child_by_attribute (char_t const *name, char_t const *attr_name,
-                                   char_t const *attr_value) const;
+  LUMEX_API XmlNode find_child_by_attribute (char_t const *name,
+                                             char_t const *attr_name,
+                                             char_t const *attr_value) const;
 
   /**
    * @brief Finds the first child element with a specific attribute name and
@@ -1658,8 +1679,8 @@ public:
    * if no match is found or the current node is empty.
    * @note The search is case-sensitive for attribute names/values.
    */
-  XmlNode find_child_by_attribute (char_t const *attr_name,
-                                   char_t const *attr_value) const;
+  LUMEX_API XmlNode find_child_by_attribute (char_t const *attr_name,
+                                             char_t const *attr_value) const;
 
   // Get the absolute node path from root as a text string.
   /**
@@ -1672,7 +1693,7 @@ public:
    * @details The path includes the names of all ancestor nodes up to the
    * document root, separated by the `delimiter`.
    */
-  string_t path (char_t delimiter = '/') const;
+  LUMEX_API string_t path (char_t delimiter = '/') const;
 
   // Search for a node by path consisting of node names and . or .. elements.
   /**
@@ -1687,8 +1708,8 @@ public:
    * `XmlNode` if no element matches the path.
    * @note This function is recursive.
    */
-  XmlNode first_element_by_path (char_t const *path,
-                                 char_t delimiter = '/') const;
+  LUMEX_API XmlNode first_element_by_path (char_t const *path,
+                                           char_t delimiter = '/') const;
 
   // Recursively traverse subtree with XmlTreeWalker
   /**
@@ -1704,7 +1725,7 @@ public:
    * @note The `walker`'s depth is managed internally by this function.
    * @see XmlTreeWalker
    */
-  bool traverse (XmlTreeWalker &walker);
+  LUMEX_API bool traverse (XmlTreeWalker &walker);
 
   // Select single node by evaluating XPath query. Returns first node from the
   // resulting node set.
@@ -1727,8 +1748,9 @@ public:
    * @see XPathQuery
    * @see XPathNode
    */
-  XPathNode select_node (char_t const *query,
-                         XPathVariableSet *variables = nullptr) const;
+  LUMEX_API XPathNode select_node (char_t const *query,
+                                   XPathVariableSet *variables
+                                   = nullptr) const;
 
   LUMEX_ATTRIBUTE_NODISCARD (
       "The returned XPath node should be used; discarding it negates the "
@@ -1743,7 +1765,7 @@ public:
    * @see XPathQuery
    * @see XPathNode
    */
-  XPathNode select_node (XPathQuery const &query) const;
+  LUMEX_API XPathNode select_node (XPathQuery const &query) const;
 
   // Select node set by evaluating XPath query
   LUMEX_ATTRIBUTE_NODISCARD (
@@ -1764,8 +1786,9 @@ public:
    * @see XPathQuery
    * @see XPathNodeSet
    */
-  XPathNodeSet select_nodes (char_t const *query,
-                             XPathVariableSet *variables = nullptr) const;
+  LUMEX_API XPathNodeSet select_nodes (char_t const *query,
+                                       XPathVariableSet *variables
+                                       = nullptr) const;
 
   LUMEX_ATTRIBUTE_NODISCARD (
       "The returned XPath node set should be used; discarding it negates the "
@@ -1780,19 +1803,19 @@ public:
    * @see XPathQuery
    * @see XPathNodeSet
    */
-  XPathNodeSet select_nodes (XPathQuery const &query) const;
+  LUMEX_API XPathNodeSet select_nodes (XPathQuery const &query) const;
 
   // (deprecated: use select_node instead) Select single node by evaluating
   // XPath query.
   LUMEX_ATTRIBUTE_DEPRECATED LUMEX_ATTRIBUTE_NODISCARD (
       "The returned XPath node should be used; discarding it negates the "
-      "purpose of the getter.") XPathNode
+      "purpose of the getter.") LUMEX_API XPathNode
       select_single_node (char_t const *query,
                           XPathVariableSet *variables = nullptr) const;
 
   LUMEX_ATTRIBUTE_DEPRECATED LUMEX_ATTRIBUTE_NODISCARD (
       "The returned XPath node should be used; discarding it negates the "
-      "purpose of the getter.") XPathNode
+      "purpose of the getter.") LUMEX_API XPathNode
       select_single_node (XPathQuery const &query) const;
 
   // Print subtree using a writer object
@@ -1816,10 +1839,11 @@ public:
    * @note For printing an entire document, use `XmlDocument::save` instead, as
    * it handles XML declarations and BOM.
    */
-  void print (IXmlWriter &writer, char_t const *indent = LUMEX_XML_TEXT ("\t"),
-              unsigned int flags = kformat_default,
-              xml_encoding encoding = encoding_auto,
-              unsigned int depth = 0) const;
+  LUMEX_API void print (IXmlWriter &writer,
+                        char_t const *indent = LUMEX_XML_TEXT ("\t"),
+                        unsigned int flags = kformat_default,
+                        xml_encoding encoding = encoding_auto,
+                        unsigned int depth = 0) const;
 
   // Print subtree to stream
   /**
@@ -1839,11 +1863,11 @@ public:
    * @throws `std::ios_base::failure` if stream operations fail and exceptions
    * are enabled on the stream.
    */
-  void print (std::basic_ostream<char> &ostream,
-              char_t const *indent = LUMEX_XML_TEXT ("\t"),
-              unsigned int flags = kformat_default,
-              xml_encoding encoding = encoding_auto,
-              unsigned int depth = 0) const;
+  LUMEX_API void print (std::basic_ostream<char> &ostream,
+                        char_t const *indent = LUMEX_XML_TEXT ("\t"),
+                        unsigned int flags = kformat_default,
+                        xml_encoding encoding = encoding_auto,
+                        unsigned int depth = 0) const;
   /**
    * @brief Prints the XML subtree rooted at the current node to a wide
    * character output stream.
@@ -1859,10 +1883,10 @@ public:
    * @throws `std::ios_base::failure` if stream operations fail and exceptions
    * are enabled on the stream.
    */
-  void print (std::basic_ostream<wchar_t> &ostream,
-              char_t const *indent = LUMEX_XML_TEXT ("\t"),
-              unsigned int flags = kformat_default,
-              unsigned int depth = 0) const;
+  LUMEX_API void print (std::basic_ostream<wchar_t> &ostream,
+                        char_t const *indent = LUMEX_XML_TEXT ("\t"),
+                        unsigned int flags = kformat_default,
+                        unsigned int depth = 0) const;
 
   // Child nodes iterators
   LUMEX_ATTRIBUTE_NODISCARD ("The returned iterator should be used for "
@@ -1876,7 +1900,7 @@ public:
    * @see end()
    * @see children()
    */
-  XmlNodeIterator begin () const;
+  LUMEX_API XmlNodeIterator begin () const;
 
   LUMEX_ATTRIBUTE_NODISCARD ("The returned iterator should be used for "
                              "delimiting children iteration; discarding "
@@ -1891,7 +1915,7 @@ public:
    * @see begin()
    * @see children()
    */
-  XmlNodeIterator end () const;
+  LUMEX_API XmlNodeIterator end () const;
 
   // Attribute iterators
   LUMEX_ATTRIBUTE_NODISCARD ("The returned attribute iterator should be used "
@@ -1905,7 +1929,7 @@ public:
    * @see attributes_end()
    * @see attributes()
    */
-  XmlAttributeIterator attributes_begin () const;
+  LUMEX_API XmlAttributeIterator attributes_begin () const;
 
   LUMEX_ATTRIBUTE_NODISCARD ("The returned attribute iterator should be used "
                              "for delimiting attribute iteration; "
@@ -1920,7 +1944,7 @@ public:
    * @see attributes_begin()
    * @see attributes()
    */
-  XmlAttributeIterator attributes_end () const;
+  LUMEX_API XmlAttributeIterator attributes_end () const;
 
   // Range-based for support - declarations only, definitions in
   // XmlNodeImpl.hpp
@@ -1935,7 +1959,7 @@ public:
    * (XmlNode child : node.children()) { ...
    * }`.
    */
-  range::XmlObjectRange<XmlNodeIterator> children () const;
+  LUMEX_API range::XmlObjectRange<XmlNodeIterator> children () const;
 
   LUMEX_ATTRIBUTE_NODISCARD ("The returned range object should be used for "
                              "iterating over attributes; discarding "
@@ -1947,7 +1971,7 @@ public:
    * @details This method simplifies iterating through all attributes: `for
    * (XmlAttribute attr : node.attributes()) { ... }`.
    */
-  range::XmlObjectRange<XmlAttributeIterator> attributes () const;
+  LUMEX_API range::XmlObjectRange<XmlAttributeIterator> attributes () const;
 
   // Range-based for support for all children with the specified name
   // Note: name pointer must have a longer lifetime than the returned object;
@@ -1967,7 +1991,7 @@ public:
    * @note The `name` pointer must have a longer lifetime than the returned
    * `XmlObjectRange` object, as it is stored by the iterator.
    */
-  range::XmlObjectRange<XmlNamedNodeIterator>
+  LUMEX_API range::XmlObjectRange<XmlNamedNodeIterator>
   children (char_t const *name) const;
 
   // Get node offset in parsed file/string (in char_t units) for debugging
@@ -1990,7 +2014,7 @@ public:
    * elements/PIs/declarations, and the start of the *value* for
    * PCDATA/CDATA/comments/doctypes. For `node_document`, it returns `0`.
    */
-  ptrdiff_t offset_debug () const;
+  LUMEX_API ptrdiff_t offset_debug () const;
 
   // Get hash value (unique for handles to the same object)
   LUMEX_ATTRIBUTE_NODISCARD (
@@ -2003,7 +2027,7 @@ public:
    * @details The hash is computed from the memory address of the underlying
    * `XmlNodeBase`, suitable for use in hash-based containers.
    */
-  std::size_t hash_value () const;
+  LUMEX_API std::size_t hash_value () const;
 
   // Get internal pointer
   LUMEX_ATTRIBUTE_NODISCARD ("The returned internal pointer should be used "
@@ -2018,7 +2042,7 @@ public:
    * @return A pointer to the internal `XmlNodeBase` structure. Can be
    * `nullptr` if the `XmlNode` is empty.
    */
-  XmlNodeBase *get () const;
+  LUMEX_API XmlNodeBase *get () const;
 
 protected:
   XmlNodeBase

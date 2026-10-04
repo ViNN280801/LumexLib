@@ -52,7 +52,8 @@
  * The `std::string_view` overloads exist only when the including code is
  * compiled as C++17 or later. They are inline wrappers over the exported
  * pointer-and-size functions, so the library binary does not depend on the
- * standard of its consumer. The file also declares the logical AND and OR
+ * standard of its consumer. The class is not exported, so those wrappers
+ * are not `dllimport`. The file also declares the logical AND and OR
  * operators with a `bool` and `utility::is_attribute_of`. Consumers include it
  * through `lumex/xml/LumexXml`.
  */
@@ -118,10 +119,12 @@ using namespace lumex::xml::types::Types;
  * internal pointers managed by the XML document's allocator.
  * @note This class does not own the underlying `XmlAttributeBase` pointer; its
  * lifetime is managed by the XML document.
+ * @note The class is not exported. Out-of-line members carry `LUMEX_API`.
+ * `string_view_t` overloads stay inline and are not `dllimport`.
  * @see XmlAttributeBase
  * @see XmlNode
  */
-class LUMEX_API XmlAttribute
+class XmlAttribute
 {
   friend class XmlAttributeIterator;
 
@@ -134,7 +137,7 @@ public:
    * its methods will generally return default values or false.
    * @note This constructor initializes the internal pointer to `nullptr`.
    */
-  XmlAttribute ();
+  LUMEX_API XmlAttribute ();
 
   /**
    * @brief Constructs an `XmlAttribute` from an internal `XmlAttributeBase`
@@ -144,7 +147,7 @@ public:
    * @note This constructor is explicit to prevent unintended conversions from
    * raw pointers.
    */
-  explicit XmlAttribute (XmlAttributeBase *attr);
+  LUMEX_API explicit XmlAttribute (XmlAttributeBase *attr);
 
   /**
    * @brief Provides safe boolean conversion for `XmlAttribute` objects.
@@ -157,7 +160,7 @@ public:
    * @note This conversion prevents problematic implicit conversions to
    * arithmetic types.
    */
-  operator unspecified_bool_type () const;
+  LUMEX_API operator unspecified_bool_type () const;
 
   /**
    * @brief Overloads the logical NOT operator.
@@ -167,7 +170,7 @@ public:
    * `false` otherwise.
    * @see empty()
    */
-  bool operator!() const;
+  LUMEX_API bool operator!() const;
 
   /**
    * @brief Compares two `XmlAttribute` objects for equality.
@@ -179,7 +182,7 @@ public:
    * @note This performs a pointer comparison, not a value comparison of the
    * attribute's name or value.
    */
-  bool operator== (XmlAttribute const &other) const;
+  LUMEX_API bool operator== (XmlAttribute const &other) const;
 
   /**
    * @brief Compares two `XmlAttribute` objects for inequality.
@@ -191,7 +194,7 @@ public:
    * @note This performs a pointer comparison, not a value comparison of the
    * attribute's name or value.
    */
-  bool operator!= (XmlAttribute const &other) const;
+  LUMEX_API bool operator!= (XmlAttribute const &other) const;
 
   /**
    * @brief Compares two `XmlAttribute` objects using the less-than operator.
@@ -204,7 +207,7 @@ public:
    * contexts requiring ordering based on pointer addresses, such as STL
    * containers.
    */
-  bool operator< (XmlAttribute const &other) const;
+  LUMEX_API bool operator< (XmlAttribute const &other) const;
 
   /**
    * @brief Compares two `XmlAttribute` objects using the greater-than
@@ -218,7 +221,7 @@ public:
    * contexts requiring ordering based on pointer addresses, such as STL
    * containers.
    */
-  bool operator> (XmlAttribute const &other) const;
+  LUMEX_API bool operator> (XmlAttribute const &other) const;
 
   /**
    * @brief Compares two `XmlAttribute` objects using the less-than-or-equal-to
@@ -232,7 +235,7 @@ public:
    * contexts requiring ordering based on pointer addresses, such as STL
    * containers.
    */
-  bool operator<= (XmlAttribute const &other) const;
+  LUMEX_API bool operator<= (XmlAttribute const &other) const;
 
   /**
    * @brief Compares two `XmlAttribute` objects using the
@@ -246,7 +249,7 @@ public:
    * contexts requiring ordering based on pointer addresses, such as STL
    * containers.
    */
-  bool operator>= (XmlAttribute const &other) const;
+  LUMEX_API bool operator>= (XmlAttribute const &other) const;
 
   LUMEX_ATTRIBUTE_NODISCARD ("The returned boolean indicates whether the "
                              "attribute is empty; discarding it "
@@ -258,7 +261,7 @@ public:
    * @return `true` if the attribute is empty, `false` otherwise.
    * @note This method is equivalent to `!operator bool()`.
    */
-  bool empty () const;
+  LUMEX_API bool empty () const;
 
   LUMEX_ATTRIBUTE_NODISCARD ("The returned attribute name (C-style string) "
                              "should be used; discarding it "
@@ -273,7 +276,7 @@ public:
    * @note The returned pointer points to internal memory and should not be
    * deallocated or modified. Its lifetime is tied to the XML document.
    */
-  char_t const *name () const;
+  LUMEX_API char_t const *name () const;
 
   LUMEX_ATTRIBUTE_NODISCARD ("The returned attribute value (C-style string) "
                              "should be used; discarding it "
@@ -288,7 +291,7 @@ public:
    * @note The returned pointer points to internal memory and should not be
    * deallocated or modified. Its lifetime is tied to the XML document.
    */
-  char_t const *value () const;
+  LUMEX_API char_t const *value () const;
 
   /**
    * @brief Retrieves the attribute's value as a C-style string, or a default
@@ -300,7 +303,8 @@ public:
    * @note The returned pointer points to internal memory (if not `def`) and
    * should not be deallocated or modified.
    */
-  char_t const *as_string (char_t const *def = LUMEX_XML_TEXT ("")) const;
+  LUMEX_API char_t const *as_string (char_t const *def
+                                     = LUMEX_XML_TEXT ("")) const;
 
   // Get attribute value as a number, or the default value if the attribute
   // is empty or has no value
@@ -317,7 +321,7 @@ public:
    * value. Defaults to `0`.
    * @return The converted value, or `def`.
    */
-  int as_int (int def = 0) const;
+  LUMEX_API int as_int (int def = 0) const;
 
   LUMEX_ATTRIBUTE_NODISCARD ("The returned value is the default value; "
                              "discarding it negates the purpose of the getter")
@@ -332,7 +336,7 @@ public:
    * value. Defaults to `0`.
    * @return The converted value, or `def`.
    */
-  unsigned int as_uint (unsigned int def = 0) const;
+  LUMEX_API unsigned int as_uint (unsigned int def = 0) const;
 
   LUMEX_ATTRIBUTE_NODISCARD ("The returned value is the default value; "
                              "discarding it negates the purpose of the getter")
@@ -346,7 +350,7 @@ public:
    * value. Defaults to `0.0`.
    * @return The converted value, or `def`.
    */
-  double as_double (double def = 0) const;
+  LUMEX_API double as_double (double def = 0) const;
 
   LUMEX_ATTRIBUTE_NODISCARD ("The returned value is the default value; "
                              "discarding it negates the purpose of the getter")
@@ -360,7 +364,7 @@ public:
    * value. Defaults to `0.0f`.
    * @return The converted value, or `def`.
    */
-  float as_float (float def = 0) const;
+  LUMEX_API float as_float (float def = 0) const;
 
   LUMEX_ATTRIBUTE_NODISCARD ("The returned value is the default value; "
                              "discarding it negates the purpose of the getter")
@@ -375,7 +379,7 @@ public:
    * value. Defaults to `0LL`.
    * @return The converted value, or `def`.
    */
-  long long as_llong (long long def = 0) const;
+  LUMEX_API long long as_llong (long long def = 0) const;
 
   LUMEX_ATTRIBUTE_NODISCARD ("The returned value is the default value; "
                              "discarding it negates the purpose of the getter")
@@ -390,7 +394,7 @@ public:
    * value. Defaults to `0ULL`.
    * @return The converted value, or `def`.
    */
-  unsigned long long as_ullong (unsigned long long def = 0) const;
+  LUMEX_API unsigned long long as_ullong (unsigned long long def = 0) const;
 
   LUMEX_ATTRIBUTE_NODISCARD ("The returned value is the default value; "
                              "discarding it negates the purpose of the getter")
@@ -404,7 +408,7 @@ public:
    * value. Defaults to `false`.
    * @return The converted value, or `def`.
    */
-  bool as_bool (bool def = false) const;
+  LUMEX_API bool as_bool (bool def = false) const;
 
   // Set attribute name/value (returns false if attribute is empty or there is
   // not enough memory)
@@ -419,7 +423,7 @@ public:
    * @note The underlying memory for the name might be reallocated if the new
    * name is larger than the current buffer.
    */
-  bool set_name (char_t const *rhs);
+  LUMEX_API bool set_name (char_t const *rhs);
 
   /**
    * @brief Sets the name of the XML attribute from a C-style string with a
@@ -434,7 +438,7 @@ public:
    * @note The underlying memory for the name might be reallocated if the new
    * name is larger than the current buffer.
    */
-  bool set_name (char_t const *rhs, std::size_t size);
+  LUMEX_API bool set_name (char_t const *rhs, std::size_t size);
 
 #if __cplusplus >= 201703L
   /**
@@ -465,7 +469,7 @@ public:
    * @note The underlying memory for the value might be reallocated if the new
    * value is larger than the current buffer.
    */
-  bool set_value (char_t const *rhs);
+  LUMEX_API bool set_value (char_t const *rhs);
 
   /**
    * @brief Sets the value of the XML attribute from a C-style string with a
@@ -480,7 +484,7 @@ public:
    * @note The underlying memory for the value might be reallocated if the new
    * value is larger than the current buffer.
    */
-  bool set_value (char_t const *rhs, std::size_t size);
+  LUMEX_API bool set_value (char_t const *rhs, std::size_t size);
 
 #if __cplusplus >= 201703L
   /**
@@ -513,7 +517,7 @@ public:
    * if the attribute is empty or memory allocation fails).
    * @note The underlying memory for the value might be reallocated.
    */
-  bool set_value (int rhs);
+  LUMEX_API bool set_value (int rhs);
 
   /**
    * @brief Sets the attribute's value after converting an `unsigned int` to
@@ -525,7 +529,7 @@ public:
    * if the attribute is empty or memory allocation fails).
    * @note The underlying memory for the value might be reallocated.
    */
-  bool set_value (unsigned int rhs);
+  LUMEX_API bool set_value (unsigned int rhs);
 
   /**
    * @brief Sets the attribute's value after converting a `long` to its string
@@ -537,7 +541,7 @@ public:
    * if the attribute is empty or memory allocation fails).
    * @note The underlying memory for the value might be reallocated.
    */
-  bool set_value (long rhs);
+  LUMEX_API bool set_value (long rhs);
 
   /**
    * @brief Sets the attribute's value after converting an `unsigned long` to
@@ -549,7 +553,7 @@ public:
    * if the attribute is empty or memory allocation fails).
    * @note The underlying memory for the value might be reallocated.
    */
-  bool set_value (unsigned long rhs);
+  LUMEX_API bool set_value (unsigned long rhs);
 
   /**
    * @brief Sets the attribute's value after converting a `double` to its
@@ -563,7 +567,7 @@ public:
    * @note The underlying memory for the value might be reallocated.
    * @see set_value(double, int)
    */
-  bool set_value (double rhs);
+  LUMEX_API bool set_value (double rhs);
 
   /**
    * @brief Sets the attribute's value after converting a `double` to its
@@ -578,7 +582,7 @@ public:
    * if the attribute is empty or memory allocation fails).
    * @note The underlying memory for the value might be reallocated.
    */
-  bool set_value (double rhs, int precision);
+  LUMEX_API bool set_value (double rhs, int precision);
 
   /**
    * @brief Sets the attribute's value after converting a `float` to its string
@@ -592,7 +596,7 @@ public:
    * @note The underlying memory for the value might be reallocated.
    * @see set_value(float, int)
    */
-  bool set_value (float rhs);
+  LUMEX_API bool set_value (float rhs);
 
   /**
    * @brief Sets the attribute's value after converting a `float` to its string
@@ -607,7 +611,7 @@ public:
    * if the attribute is empty or memory allocation fails).
    * @note The underlying memory for the value might be reallocated.
    */
-  bool set_value (float rhs, int precision);
+  LUMEX_API bool set_value (float rhs, int precision);
 
   /**
    * @brief Sets the attribute's value after converting a `bool` to its string
@@ -619,7 +623,7 @@ public:
    * if the attribute is empty or memory allocation fails).
    * @note The underlying memory for the value might be reallocated.
    */
-  bool set_value (bool rhs);
+  LUMEX_API bool set_value (bool rhs);
 
   /**
    * @brief Sets the attribute's value after converting a `long long` to its
@@ -631,7 +635,7 @@ public:
    * if the attribute is empty or memory allocation fails).
    * @note The underlying memory for the value might be reallocated.
    */
-  bool set_value (long long rhs);
+  LUMEX_API bool set_value (long long rhs);
 
   /**
    * @brief Sets the attribute's value after converting an `unsigned long long`
@@ -643,7 +647,7 @@ public:
    * if the attribute is empty or memory allocation fails).
    * @note The underlying memory for the value might be reallocated.
    */
-  bool set_value (unsigned long long rhs);
+  LUMEX_API bool set_value (unsigned long long rhs);
 
   // Set attribute value (equivalent to set_value without error checking)
   /**
@@ -655,7 +659,7 @@ public:
    * @return A reference to the current `XmlAttribute` object.
    * @note Prefer `set_value` for robust error handling.
    */
-  XmlAttribute &operator= (char_t const *rhs);
+  LUMEX_API XmlAttribute &operator= (char_t const *rhs);
 
   /**
    * @brief Assigns an `int` as the attribute's value, converting it to a
@@ -667,7 +671,7 @@ public:
    * @return A reference to the current `XmlAttribute` object.
    * @note Prefer `set_value` for robust error handling.
    */
-  XmlAttribute &operator= (int rhs);
+  LUMEX_API XmlAttribute &operator= (int rhs);
 
   /**
    * @brief Assigns an `unsigned int` as the attribute's value, converting it
@@ -679,7 +683,7 @@ public:
    * @return A reference to the current `XmlAttribute` object.
    * @note Prefer `set_value` for robust error handling.
    */
-  XmlAttribute &operator= (unsigned int rhs);
+  LUMEX_API XmlAttribute &operator= (unsigned int rhs);
 
   /**
    * @brief Assigns a `long` as the attribute's value, converting it to a
@@ -691,7 +695,7 @@ public:
    * @return A reference to the current `XmlAttribute` object.
    * @note Prefer `set_value` for robust error handling.
    */
-  XmlAttribute &operator= (long rhs);
+  LUMEX_API XmlAttribute &operator= (long rhs);
 
   /**
    * @brief Assigns an `unsigned long` as the attribute's value, converting it
@@ -703,7 +707,7 @@ public:
    * @return A reference to the current `XmlAttribute` object.
    * @note Prefer `set_value` for robust error handling.
    */
-  XmlAttribute &operator= (unsigned long rhs);
+  LUMEX_API XmlAttribute &operator= (unsigned long rhs);
 
   /**
    * @brief Assigns a `double` as the attribute's value, converting it to a
@@ -715,7 +719,7 @@ public:
    * @return A reference to the current `XmlAttribute` object.
    * @note Prefer `set_value` for robust error handling.
    */
-  XmlAttribute &operator= (double rhs);
+  LUMEX_API XmlAttribute &operator= (double rhs);
 
   /**
    * @brief Assigns a `float` as the attribute's value, converting it to a
@@ -727,7 +731,7 @@ public:
    * @return A reference to the current `XmlAttribute` object.
    * @note Prefer `set_value` for robust error handling.
    */
-  XmlAttribute &operator= (float rhs);
+  LUMEX_API XmlAttribute &operator= (float rhs);
 
   /**
    * @brief Assigns a `bool` as the attribute's value, converting it to "true"
@@ -739,7 +743,7 @@ public:
    * @return A reference to the current `XmlAttribute` object.
    * @note Prefer `set_value` for robust error handling.
    */
-  XmlAttribute &operator= (bool rhs);
+  LUMEX_API XmlAttribute &operator= (bool rhs);
 
 #if __cplusplus >= 201703L
   /**
@@ -770,7 +774,7 @@ public:
    * @return A reference to the current `XmlAttribute` object.
    * @note Prefer `set_value` for robust error handling.
    */
-  XmlAttribute &operator= (long long rhs);
+  LUMEX_API XmlAttribute &operator= (long long rhs);
 
   /**
    * @brief Assigns an `unsigned long long` as the attribute's value,
@@ -782,7 +786,7 @@ public:
    * @return A reference to the current `XmlAttribute` object.
    * @note Prefer `set_value` for robust error handling.
    */
-  XmlAttribute &operator= (unsigned long long rhs);
+  LUMEX_API XmlAttribute &operator= (unsigned long long rhs);
 
   // Get next/previous attribute in the attribute list of the parent node
   LUMEX_ATTRIBUTE_NODISCARD ("The returned attribute should be used; "
@@ -795,7 +799,7 @@ public:
    * @return An `XmlAttribute` object representing the next attribute, or an
    * empty attribute if no next attribute exists.
    */
-  XmlAttribute next_attribute () const;
+  LUMEX_API XmlAttribute next_attribute () const;
 
   LUMEX_ATTRIBUTE_NODISCARD ("The returned attribute should be used; "
                              "discarding it negates the purpose of the getter")
@@ -810,7 +814,7 @@ public:
    * an empty attribute if no previous attribute exists (e.g., if the current
    * attribute is the head but has no other attributes).
    */
-  XmlAttribute previous_attribute () const;
+  LUMEX_API XmlAttribute previous_attribute () const;
 
   LUMEX_ATTRIBUTE_NODISCARD ("The returned hash value should be used; "
                              "discarding it negates the purpose of the getter")
@@ -825,7 +829,7 @@ public:
    * / sizeof(XmlAttributeBase)`) aims to provide a distribution for attribute
    * handles.
    */
-  std::size_t hash_value () const;
+  LUMEX_API std::size_t hash_value () const;
 
   // Get internal pointer
   LUMEX_ATTRIBUTE_NODISCARD ("The returned pointer should be used; discarding "
@@ -839,7 +843,7 @@ public:
    * @return A pointer to the internal `XmlAttributeBase` structure. Can be
    * `nullptr` if the `XmlAttribute` is empty.
    */
-  XmlAttributeBase *get () const;
+  LUMEX_API XmlAttributeBase *get () const;
 
   /**
    * @brief Sets the internal `XmlAttributeBase` pointer for this
@@ -849,7 +853,7 @@ public:
    * @param[in] attr The `XmlAttributeBase` pointer to set. A `nullptr` value
    * will make the `XmlAttribute` empty.
    */
-  void set (XmlAttributeBase *attr);
+  LUMEX_API void set (XmlAttributeBase *attr);
 
 private:
   XmlAttributeBase *m_attr;
