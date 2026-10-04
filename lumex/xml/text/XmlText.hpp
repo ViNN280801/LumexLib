@@ -48,7 +48,9 @@
  * handle does not own the text and is valid as long as the document.
  *
  * The `std::string_view` overloads exist only when the including code is
- * compiled as C++17 or later. The file also declares the logical AND and OR
+ * compiled as C++17 or later. They are inline wrappers and are not
+ * `dllimport`, because the class itself is not exported. The file also
+ * declares the logical AND and OR
  * operators with a `bool`. Consumers include it through `lumex/xml/LumexXml`.
  */
 #ifndef LUMEX_XML_TEXT_XML_TEXT_HPP
@@ -113,9 +115,11 @@ using namespace lumex::xml::types::Types;
  * (int, double, bool, string) and setting it with automatic type conversion.
  * @note This object does not own the memory for the text content; its lifetime
  * is tied to the `XmlDocument` from which its underlying node originates.
+ * @note The class is not exported. Out-of-line members carry `LUMEX_API`.
+ * `string_view_t` overloads stay inline and are not `dllimport`.
  * @see XmlNode::text()
  */
-class LUMEX_API XmlText
+class XmlText
 {
   friend class node::XmlNode;
 
@@ -129,7 +133,7 @@ public:
    * @details An empty `XmlText` object does not point to any valid text
    * content.
    */
-  XmlText ();
+  LUMEX_API XmlText ();
 
   /**
    * @brief Safe boolean conversion operator.
@@ -139,7 +143,7 @@ public:
    * @return A pointer to a dummy function if the internal text data is not
    * null, otherwise `nullptr`.
    */
-  operator unspecified_bool_type () const;
+  LUMEX_API operator unspecified_bool_type () const;
 
   /**
    * @brief Logical NOT operator.
@@ -147,7 +151,7 @@ public:
    * to valid text content), `false` otherwise.
    * @return `true` if the text object is empty, `false` otherwise.
    */
-  bool operator!() const;
+  LUMEX_API bool operator!() const;
 
   /**
    * @brief Checks if the text object is empty (null).
@@ -156,7 +160,7 @@ public:
   LUMEX_ATTRIBUTE_NODISCARD ("The returned boolean indicates whether the text "
                              "object is empty; discarding it "
                              "negates the purpose of the getter.")
-  bool empty () const;
+  LUMEX_API bool empty () const;
 
   /**
    * @brief Retrieves the text content as a C-style string.
@@ -168,7 +172,7 @@ public:
   LUMEX_ATTRIBUTE_NODISCARD (
       "The returned C-style string text should be used; discarding it negates "
       "the purpose of the getter.")
-  char_t const *get () const;
+  LUMEX_API char_t const *get () const;
 
   /**
    * @brief Retrieves the text content as a C-style string, or a default value
@@ -178,7 +182,8 @@ public:
    * @return A null-terminated C-style string representing the text content, or
    * `def` if the object is empty.
    */
-  char_t const *as_string (char_t const *def = LUMEX_XML_TEXT ("")) const;
+  LUMEX_API char_t const *as_string (char_t const *def
+                                     = LUMEX_XML_TEXT ("")) const;
 
   /**
    * @brief Converts the text object's value to an `int`.
@@ -194,7 +199,7 @@ public:
   LUMEX_ATTRIBUTE_NODISCARD (
       "The returned integer value should be used; discarding it negates the "
       "purpose of the getter.")
-  int as_int (int def = 0) const;
+  LUMEX_API int as_int (int def = 0) const;
 
   /**
    * @brief Converts the text object's value to an `unsigned int`.
@@ -211,7 +216,7 @@ public:
   LUMEX_ATTRIBUTE_NODISCARD (
       "The returned unsigned integer value should be used; discarding it "
       "negates the purpose of the getter.")
-  unsigned int as_uint (unsigned int def = 0) const;
+  LUMEX_API unsigned int as_uint (unsigned int def = 0) const;
 
   /**
    * @brief Converts the text object's value to a `double`.
@@ -226,7 +231,7 @@ public:
   LUMEX_ATTRIBUTE_NODISCARD (
       "The returned double value should be used; discarding it negates the "
       "purpose of the getter.")
-  double as_double (double def = 0) const;
+  LUMEX_API double as_double (double def = 0) const;
 
   /**
    * @brief Converts the text object's value to a `float`.
@@ -241,7 +246,7 @@ public:
   LUMEX_ATTRIBUTE_NODISCARD (
       "The returned float value should be used; discarding it negates the "
       "purpose of the getter.")
-  float as_float (float def = 0) const;
+  LUMEX_API float as_float (float def = 0) const;
 
   /**
    * @brief Converts the text object's value to a `long long`.
@@ -257,7 +262,7 @@ public:
   LUMEX_ATTRIBUTE_NODISCARD (
       "The returned long long value should be used; discarding it negates the "
       "purpose of the getter.")
-  long long as_llong (long long def = 0) const;
+  LUMEX_API long long as_llong (long long def = 0) const;
 
   /**
    * @brief Converts the text object's value to an `unsigned long long`.
@@ -274,7 +279,7 @@ public:
   LUMEX_ATTRIBUTE_NODISCARD (
       "The returned unsigned long long value should be used; discarding it "
       "negates the purpose of the getter.")
-  unsigned long long as_ullong (unsigned long long def = 0) const;
+  LUMEX_API unsigned long long as_ullong (unsigned long long def = 0) const;
 
   /**
    * @brief Converts the text object's value to a `bool`.
@@ -289,7 +294,7 @@ public:
   LUMEX_ATTRIBUTE_NODISCARD (
       "The returned boolean value should be used; discarding it negates the "
       "purpose of the getter.")
-  bool as_bool (bool def = false) const;
+  LUMEX_API bool as_bool (bool def = false) const;
 
   /**
    * @brief Sets the text content from a null-terminated C-style string.
@@ -299,7 +304,7 @@ public:
    * @details This function handles memory allocation/reallocation for the text
    * string.
    */
-  bool set (char_t const *rhs);
+  LUMEX_API bool set (char_t const *rhs);
   /**
    * @brief Sets the text content from a C-style string with a specified size.
    * @param[in] rhs The new text content.
@@ -309,7 +314,7 @@ public:
    * @details This function handles memory allocation/reallocation for the text
    * string.
    */
-  bool set (char_t const *rhs, std::size_t size);
+  LUMEX_API bool set (char_t const *rhs, std::size_t size);
 #if __cplusplus >= 201703L
   /**
    * @brief Sets the text content from a `std::string_view`.
@@ -329,35 +334,35 @@ public:
    * @param[in] rhs The integer value.
    * @return `true` if the text was successfully set, `false` otherwise.
    */
-  bool set (int rhs);
+  LUMEX_API bool set (int rhs);
   /**
    * @brief Sets the text content from an unsigned integer, converting it to a
    * string.
    * @param[in] rhs The unsigned integer value.
    * @return `true` if the text was successfully set, `false` otherwise.
    */
-  bool set (unsigned int rhs);
+  LUMEX_API bool set (unsigned int rhs);
   /**
    * @brief Sets the text content from a long integer, converting it to a
    * string.
    * @param[in] rhs The long integer value.
    * @return `true` if the text was successfully set, `false` otherwise.
    */
-  bool set (long rhs);
+  LUMEX_API bool set (long rhs);
   /**
    * @brief Sets the text content from an unsigned long integer, converting it
    * to a string.
    * @param[in] rhs The unsigned long integer value.
    * @return `true` if the text was successfully set, `false` otherwise.
    */
-  bool set (unsigned long rhs);
+  LUMEX_API bool set (unsigned long rhs);
   /**
    * @brief Sets the text content from a double-precision floating-point
    * number, converting it to a string.
    * @param[in] rhs The double value.
    * @return `true` if the text was successfully set, `false` otherwise.
    */
-  bool set (double rhs);
+  LUMEX_API bool set (double rhs);
   /**
    * @brief Sets the text content from a double-precision floating-point number
    * with a specified precision.
@@ -365,14 +370,14 @@ public:
    * @param[in] precision The number of digits after the decimal point.
    * @return `true` if the text was successfully set, `false` otherwise.
    */
-  bool set (double rhs, int precision);
+  LUMEX_API bool set (double rhs, int precision);
   /**
    * @brief Sets the text content from a single-precision floating-point
    * number, converting it to a string.
    * @param[in] rhs The float value.
    * @return `true` if the text was successfully set, `false` otherwise.
    */
-  bool set (float rhs);
+  LUMEX_API bool set (float rhs);
   /**
    * @brief Sets the text content from a single-precision floating-point number
    * with a specified precision.
@@ -380,14 +385,14 @@ public:
    * @param[in] precision The number of digits after the decimal point.
    * @return `true` if the text was successfully set, `false` otherwise.
    */
-  bool set (float rhs, int precision);
+  LUMEX_API bool set (float rhs, int precision);
   /**
    * @brief Sets the text content from a boolean, converting it to "true" or
    * "false".
    * @param[in] rhs The boolean value.
    * @return `true` if the text was successfully set, `false` otherwise.
    */
-  bool set (bool rhs);
+  LUMEX_API bool set (bool rhs);
 
   /**
    * @brief Sets the text content from a long long integer, converting it to a
@@ -395,14 +400,14 @@ public:
    * @param[in] rhs The long long integer value.
    * @return `true` if the text was successfully set, `false` otherwise.
    */
-  bool set (long long rhs);
+  LUMEX_API bool set (long long rhs);
   /**
    * @brief Sets the text content from an unsigned long long integer,
    * converting it to a string.
    * @param[in] rhs The unsigned long long integer value.
    * @return `true` if the text was successfully set, `false` otherwise.
    */
-  bool set (unsigned long long rhs);
+  LUMEX_API bool set (unsigned long long rhs);
 
   /**
    * @brief Assignment operator for a C-style string.
@@ -411,56 +416,56 @@ public:
    * @details Equivalent to `set(rhs)` but without error checking in the return
    * value.
    */
-  XmlText &operator= (char_t const *rhs);
+  LUMEX_API XmlText &operator= (char_t const *rhs);
   /**
    * @brief Assignment operator for an integer.
    * @param[in] rhs The integer to assign.
    * @return A reference to the modified `XmlText` object.
    * @details Converts the integer to a string and assigns it.
    */
-  XmlText &operator= (int rhs);
+  LUMEX_API XmlText &operator= (int rhs);
   /**
    * @brief Assignment operator for an unsigned integer.
    * @param[in] rhs The unsigned integer to assign.
    * @return A reference to the modified `XmlText` object.
    * @details Converts the unsigned integer to a string and assigns it.
    */
-  XmlText &operator= (unsigned int rhs);
+  LUMEX_API XmlText &operator= (unsigned int rhs);
   /**
    * @brief Assignment operator for a long integer.
    * @param[in] rhs The long integer to assign.
    * @return A reference to the modified `XmlText` object.
    * @details Converts the long integer to a string and assigns it.
    */
-  XmlText &operator= (long rhs);
+  LUMEX_API XmlText &operator= (long rhs);
   /**
    * @brief Assignment operator for an unsigned long integer.
    * @param[in] rhs The unsigned long integer to assign.
    * @return A reference to the modified `XmlText` object.
    * @details Converts the unsigned long integer to a string and assigns it.
    */
-  XmlText &operator= (unsigned long rhs);
+  LUMEX_API XmlText &operator= (unsigned long rhs);
   /**
    * @brief Assignment operator for a double-precision floating-point number.
    * @param[in] rhs The double value to assign.
    * @return A reference to the modified `XmlText` object.
    * @details Converts the double to a string and assigns it.
    */
-  XmlText &operator= (double rhs);
+  LUMEX_API XmlText &operator= (double rhs);
   /**
    * @brief Assignment operator for a single-precision floating-point number.
    * @param[in] rhs The float value to assign.
    * @return A reference to the modified `XmlText` object.
    * @details Converts the float to a string and assigns it.
    */
-  XmlText &operator= (float rhs);
+  LUMEX_API XmlText &operator= (float rhs);
   /**
    * @brief Assignment operator for a boolean.
    * @param[in] rhs The boolean value to assign.
    * @return A reference to the modified `XmlText` object.
    * @details Converts the boolean to "true" or "false" and assigns it.
    */
-  XmlText &operator= (bool rhs);
+  LUMEX_API XmlText &operator= (bool rhs);
 
 #if __cplusplus >= 201703L
   /**
@@ -483,7 +488,7 @@ public:
    * @return A reference to the modified `XmlText` object.
    * @details Converts the long long integer to a string and assigns it.
    */
-  XmlText &operator= (long long rhs);
+  LUMEX_API XmlText &operator= (long long rhs);
   /**
    * @brief Assignment operator for an unsigned long long integer.
    * @param[in] rhs The unsigned long long integer to assign.
@@ -491,7 +496,7 @@ public:
    * @details Converts the unsigned long long integer to a string and assigns
    * it.
    */
-  XmlText &operator= (unsigned long long rhs);
+  LUMEX_API XmlText &operator= (unsigned long long rhs);
 
   /**
    * @brief Retrieves the underlying data node (`node_pcdata` or `node_cdata`)
@@ -504,7 +509,7 @@ public:
   LUMEX_ATTRIBUTE_NODISCARD (
       "The returned data node should be used; discarding it negates the "
       "purpose of the getter.")
-  XmlNode data () const;
+  LUMEX_API XmlNode data () const;
 
 private:
   /**
@@ -513,7 +518,7 @@ private:
    * @param[in] root The `XmlNodeBase` pointer that this `XmlText` object will
    * wrap.
    */
-  explicit XmlText (XmlNodeBase *root);
+  LUMEX_API explicit XmlText (XmlNodeBase *root);
 
   /// @brief Pointer to the underlying `XmlNodeBase` that contains or points to
   /// the text data.
@@ -525,7 +530,7 @@ private:
    * appends a new `node_pcdata` child to `m_root` and returns it.
    * @return A pointer to the `XmlNodeBase` that can hold the text data.
    */
-  XmlNodeBase *_data_new ();
+  LUMEX_API XmlNodeBase *_data_new ();
 
   /**
    * @brief Internal utility to retrieve the raw `XmlNodeBase` pointer
@@ -536,7 +541,7 @@ private:
   LUMEX_ATTRIBUTE_NODISCARD (
       "The returned internal pointer should be used; discarding it negates "
       "the purpose of the getter.")
-  XmlNodeBase *_data () const;
+  LUMEX_API XmlNodeBase *_data () const;
 };
 
 /**
