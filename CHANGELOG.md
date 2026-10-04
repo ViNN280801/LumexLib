@@ -151,6 +151,8 @@
 
 **Файлы:** `lumex/xml/node/XmlNode.hpp`, `lumex/xml/attribute/XmlAttribute.hpp`, `lumex/xml/text/XmlText.hpp`
 
+**Коммит:** `5286d4dc`
+
 **Суть:** три класса были `class LUMEX_API`. clang-cl даже в Release не встраивает inline-член такого класса и ставит на него `dllimport`. Перегрузки от `string_view_t` есть только в заголовке (C++17), поэтому `LumexXmlCxx17Tests` и `LumexXmlCxx20Tests` падали с LNK2019: 22 символа из одного теста. Теперь `LUMEX_API` стоит на членах, собранных в библиотеку (`char const *`, указатель и размер и остальные определения в `.cpp`). Перегрузки от `string_view_t` остаются inline и больше не импортируются.
 
 ##### `LumexBaseException` на clang-cl больше не импортирует `string_view`
