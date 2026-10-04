@@ -24,6 +24,8 @@
 
 **Файлы:** `lumex/examples/utility/example_utility.cpp`, `lumex/examples/utility/CMakeLists.txt`
 
+**Коммит:** `bda89747`
+
 **Суть:** обход utility печатает `count_leading_zeros` для `uint8_t` `0x0F` (4), `uint32_t` 0 (32) и `uint64_t` с установленным битом 32 (31), и `byte_swap` для `uint32_t` `0x12345678` (`0x78563412`). Пример собран как C++20, потому что `byte_swap` объявлен только с этого стандарта; вызов стоит за теми же `LUMEX_HAS_*`, что и объявление. Рабочий пример с длиной пакета не менялся.
 
 ##### `count_leading_zeros` в `lumex::core::utility::bit`
@@ -90,6 +92,8 @@
 ##### `ByteSwap` переименован в `byte_swap`
 
 **Файлы:** `lumex/core/utility/bit/LumexBit.hpp`, `lumex/tests/core/utility/LumexBit.cxx11.tests.cpp`, `lumex/tests/core/utility/LumexBit.cxx20.tests.cpp`, `lumex/tests/core/utility/LumexBit.cxx23.tests.cpp`, `lumex/tests/core/utility/CMakeLists.txt`
+
+**Коммит:** `bda89747`
 
 **Суть:** публичное имя `lumex::core::utility::bit::ByteSwap` теперь `byte_swap`. Сигнатура, `constexpr` и порог C++20 те же. Имена тестов GoogleTest с `WhenByteSwap` оставлены: это названия проверок, не API.
 
