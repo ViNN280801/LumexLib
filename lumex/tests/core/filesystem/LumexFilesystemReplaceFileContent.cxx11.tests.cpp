@@ -62,12 +62,12 @@ public:
   {
     ::testing::TestInfo const *info
         = ::testing::UnitTest::GetInstance ()->current_test_info ();
-    std::string name = "test_replace_file_content_";
-    name += info->test_suite_name ();
-    name += "_";
+    // ctest runs in the module binary directory. The ANSI path limit on
+    // Windows is 259 characters, so the directory is the test name and the
+    // process id, not the suite name as well. The process id keeps the suite
+    // of every standard apart when they share that directory.
+    std::string name = "replace_";
     name += info->name ();
-    // The suite of every standard runs the same case in the same working
-    // directory, possibly at the same time: the process id keeps them apart.
     name += "_";
     name += std::to_string (lumex::core::utility::process::get_current_pid ());
     for (auto &chr : name)
