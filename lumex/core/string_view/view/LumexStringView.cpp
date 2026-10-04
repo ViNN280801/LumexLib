@@ -38,6 +38,10 @@
  */
 
 #define LUMEX_IMPLEMENTATION
+
+#include <algorithm> // std::min, std::swap
+#include <stdexcept> // std::out_of_range
+
 #include "LumexStringView.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 

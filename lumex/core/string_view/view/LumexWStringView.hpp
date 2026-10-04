@@ -94,9 +94,7 @@
 #include <ostream>  // For std::wostream
 #include <string>   // For std::wstring (for conversion functions)
 
-#include "lumex/core/utility/LumexUtility" // For LUMEX_ATTRIBUTE_NODISCARD
 #include "lumex/core/utility/attr/LumexAttributes.hpp"
-#include "lumex/core/utility/macros/LumexConstantMacros.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 
 namespace lumex // NOLINT(modernize-concat-nested-namespaces)

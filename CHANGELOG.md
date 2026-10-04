@@ -89,6 +89,12 @@
 
 #### Изменено
 
+##### `LumexStringView` и `LumexWStringView` не включают зонтик `LumexUtility`
+
+**Файлы:** `lumex/core/string_view/view/LumexStringView.hpp`, `lumex/core/string_view/view/LumexWStringView.hpp`, `lumex/core/string_view/view/LumexStringView.cpp`
+
+**Суть:** оба заголовка включали `lumex/core/utility/LumexUtility` и неиспользуемый `LumexConstantMacros.hpp`. Зонтик тянет отладочные заголовки, генератор дампа (`windows.h`, `aclapi.h`, `dbghelp.h` и соседние заголовки Windows) и идентификатор процесса. Классам нужны `LUMEX_CONSTEXPR`, `LUMEX_CONSTEXPR_CTOR`, `LUMEX_NOEXCEPT` и `LUMEX_ATTRIBUTE_NODISCARD`, поэтому остаются `LumexKeywords.hpp` и `LumexAttributes.hpp`. `LumexStringView.cpp` сам включает `<algorithm>` и `<stdexcept>`: `std::min`, `std::swap` и `std::out_of_range` приходили через зонтик. Потребитель, который включал только `string_view` и пользовался отсюда символами дампа, Windows или `stringify`, больше их не видит и включает нужный заголовок сам.
+
 ##### `ByteSwap` переименован в `byte_swap`
 
 **Файлы:** `lumex/core/utility/bit/LumexBit.hpp`, `lumex/tests/core/utility/LumexBit.cxx11.tests.cpp`, `lumex/tests/core/utility/LumexBit.cxx20.tests.cpp`, `lumex/tests/core/utility/LumexBit.cxx23.tests.cpp`, `lumex/tests/core/utility/CMakeLists.txt`
