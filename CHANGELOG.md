@@ -147,6 +147,12 @@
 
 #### Исправлено
 
+##### Тесты исключений не удаляют общий каталог отчетов о сбоях параллельно
+
+**Файлы:** `lumex/tests/core/exceptions/CMakeLists.txt`, `lumex/tests/cmake/CMakeLists.txt`, `lumex/tests/cmake/cases/wiring_exception_crash_lock.cmake`
+
+**Суть:** `TearDown` фикстуры удаляет каталог `crashes` рядом с исполняемым файлом, а наборы C++11, C++17 и C++20 лежат в одном `bin/` и `ctest -j` запускает их вместе. `to_crash_report` пишет только в этот каталог. Все найденные тесты трех наборов получают CTest `RESOURCE_LOCK` `lumex_exception_crash_dir`. Кейс `cmake.wiring_exception_crash_lock` требует эту строку в коде `CMakeLists.txt`, а не в комментарии.
+
 ##### Тесты `replace_file_content` и кавычек INI укладываются в предел пути Windows
 
 **Файлы:** `lumex/tests/core/filesystem/LumexFilesystemReplaceFileContent.cxx11.tests.cpp`, `lumex/tests/applied/settings/LumexSettingsINI.cxx11.tests.cpp`
