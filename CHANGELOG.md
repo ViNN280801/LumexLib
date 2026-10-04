@@ -20,6 +20,12 @@
 
 #### Добавлено
 
+##### `count_leading_zeros` в `lumex::core::utility::bit`
+
+**Файлы:** `lumex/core/utility/bit/LumexBit.hpp`, `lumex/core/fmt/LumexFormat.hpp`, `lumex/tests/core/utility/LumexBit.cxx11.tests.cpp` (новый)
+
+**Суть:** функция лежала в `lumex::core::fmt::Detail` и нигде не вызывалась. Теперь это `lumex::core::utility::bit::count_leading_zeros` (C++11, аналог C++20 `std::countl_zero`): беззнаковое целое в 1, 2, 4 или 8 байт, не `bool`. Ноль возвращает ширину типа. `unsigned __int128` в набор перегрузок не входит: внутренние функции считают нули в 32 или 64 битах и более широкий аргумент обрезали бы. `ByteSwap` в том же заголовке по-прежнему требует C++20.
+
 ##### Ряд MSVC STL в бенчмарке `benchmarks/atomic`
 
 **Файлы:** `benchmarks/atomic/README.md`, `lumex/core/atomic/README.md`, `benchmarks/atomic/results/msvc/`
