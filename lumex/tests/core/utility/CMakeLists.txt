@@ -10,11 +10,11 @@
 #           CheckOS, CoreDumpGenerator, Debug, Demangle, ExceptionMacros,
 #           Macros (and the MinGW simulation), Process, RangeTraits,
 #           SafeNumericComparator, StreamTraits, TypeTraits, TypeTraitsTopics,
-#           Utilities
+#           Utilities, and Bit's count_leading_zeros
 #   .cxx14  the stream trait variable templates
 #   .cxx17  is_optional on std::optional
-#   .cxx20  Bit, Cast, MemRead and Ranges (C++20 modules), the concepts, the
-#           three-way comparison and LUMEX_DEFINE_ENUM_TRAITS
+#   .cxx20  Bit's ByteSwap, Cast, MemRead and Ranges (C++20 modules), the
+#           concepts, the three-way comparison and LUMEX_DEFINE_ENUM_TRAITS
 #   .cxx23  std::byteswap and std::ranges::contains
 # A test of a feature the toolchain lacks (GCC 8 accepts -std=c++2a without
 # concepts, <span>, <ranges> or <compare>) reports GTEST_SKIP.

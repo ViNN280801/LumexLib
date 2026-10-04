@@ -24,15 +24,21 @@
 
 /**
  * @file LumexBit.hpp
- * @brief `ByteSwap()`, which reverses the byte order of any integral value and
- * is usable in constant expressions; an analogue of C++23 `std::byteswap`.
- * @details At run time it uses the compiler's byte swap builtin for 2, 4 and 8
- * bytes (`__builtin_bswap*` with GCC and Clang, `_byteswap_*` with MSVC). In a
- * constant expression, and for other sizes, it reverses the bytes of a
- * `std::bit_cast` copy.
- * @warning Requires C++20 (concepts, `std::bit_cast`, `std::ranges` and
- * `std::is_constant_evaluated`); with an older standard the header declares
- * nothing.
+ * @brief Bit helpers. `count_leading_zeros` (C++11) counts the leading zeros
+ * of an unsigned integer of 1, 2, 4 or 8 bytes, an analogue of C++20
+ * `std::countl_zero`. `ByteSwap` (C++20) reverses the byte order of an
+ * integral value and is usable in a constant expression, an analogue of
+ * C++23 `std::byteswap`.
+ * @details `count_leading_zeros` uses `_BitScanReverse` with MSVC (including
+ * clang-cl) and `__builtin_clz` / `__builtin_clzll` with GCC and Clang. A
+ * zero value returns the width; those intrinsics do not define that case.
+ * `ByteSwap` uses the compiler's byte swap builtin for 2, 4 and 8 bytes
+ * (`__builtin_bswap*` with GCC and Clang, `_byteswap_*` with MSVC) at run
+ * time, and reverses the bytes of a `std::bit_cast` copy in a constant
+ * expression and for other sizes.
+ * @warning `ByteSwap` needs C++20 (concepts, `std::bit_cast`, `std::ranges`
+ * and `std::is_constant_evaluated`). With an older standard only
+ * `count_leading_zeros` is declared.
  */
 
 // NOLINTBEGIN(readability-identifier-length,
@@ -49,15 +55,16 @@
 #endif
 #endif
 #include <cstddef> // for std::byte
+#include <cstdint>
+#include <memory> // for std::addressof
 #include <type_traits>
+
+#if defined(_MSC_VER)
+#include <intrin.h>
+#endif
 
 #include "lumex/core/utility/compiler/LumexCheckFeatures.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
-
-// Needs C++20 concepts, std::bit_cast, std::ranges and
-// std::is_constant_evaluated; without them the header declares nothing.
-#if LUMEX_HAS_CONCEPTS && LUMEX_HAS_STD_BIT_CAST && LUMEX_HAS_STD_RANGES      \
-    && LUMEX_HAS_STD_IS_CONSTANT_EVALUATED
 
 namespace lumex
 {
@@ -67,6 +74,107 @@ namespace utility
 {
 namespace bit
 {
+
+/**
+ * @brief Counts the leading zero bits of an unsigned integer (C++11).
+ * @details Analogue of C++20 `std::countl_zero` for an unsigned integer of
+ * 1, 2, 4 or 8 bytes. `bool` and wider types, including `unsigned __int128`,
+ * are not in the overload set: the intrinsics below scan 32 or 64 bits, and
+ * a wider value would be truncated. A zero value returns the bit width.
+ * The function is not `constexpr`: the MSVC intrinsics are not constant
+ * expressions on the toolchains this library supports.
+ * @tparam NumericType Unsigned integer, not `bool`, of 1, 2, 4 or 8 bytes.
+ * @param[in] value Input value.
+ * @return The number of consecutive zero bits from the most significant bit,
+ *         in the range `0 .. sizeof(NumericType) * 8`.
+ * @note Exception-safety: nothrow (the function is `noexcept`).
+ * @note Thread-safety: yes, no shared state is used.
+ */
+template <typename NumericType>
+typename std::enable_if<
+    std::is_integral<NumericType>::value
+        && std::is_unsigned<NumericType>::value
+        && !std::is_same<bool, NumericType>::value
+        && (sizeof (NumericType) == 1 || sizeof (NumericType) == 2
+            || sizeof (NumericType) == 4 || sizeof (NumericType) == 8),
+    std::uint8_t>::type
+count_leading_zeros (NumericType value) LUMEX_NOEXCEPT
+{
+  // __builtin_clz(0) is undefined, and _BitScanReverse(0) reports no bit.
+  if (value == 0)
+    return sizeof (NumericType) * 8;
+
+#if defined(_MSC_VER)
+  // clang-cl defines __clang__ as well as _MSC_VER. This branch is first
+  // so this compiler keeps the MSVC intrinsic.
+  unsigned long index = 0;
+
+  if (sizeof (NumericType) <= 4)
+    {
+      _BitScanReverse (std::addressof (index),
+                       static_cast<std::uint32_t> (value));
+      // Index of the highest set bit (0 is the least significant bit).
+      return (sizeof (NumericType) * 8) - 1 - index;
+    }
+  else
+    {
+#if defined(_M_X64) || defined(_M_ARM64)
+      _BitScanReverse64 (std::addressof (index),
+                         static_cast<std::uint64_t> (value));
+      return 64 - 1 - index;
+#else
+      // 32-bit MSVC has no _BitScanReverse64. Split the value in half.
+      std::uint32_t high = static_cast<std::uint32_t> (value >> 32);
+      if (high != 0)
+        {
+          _BitScanReverse (std::addressof (index), high);
+          return 32 - 1 - index;
+        }
+      else
+        {
+          _BitScanReverse (std::addressof (index),
+                           static_cast<std::uint32_t> (value));
+          return 64 - 1 - index;
+        }
+#endif
+    }
+
+#elif defined(__GNUC__) || defined(__clang__)
+  if (sizeof (NumericType) <= 4)
+    {
+      // __builtin_clz counts zeros of a 32-bit unsigned int.
+      return __builtin_clz (static_cast<std::uint32_t> (value))
+             - (32 - sizeof (NumericType) * 8);
+    }
+  else
+    {
+      return __builtin_clzll (static_cast<std::uint64_t> (value));
+    }
+
+#else
+  std::uint8_t bits = sizeof (NumericType) * 8;
+  std::uint8_t count = 0;
+
+  // Halve the window: 32, then 16, 8, 4, 2, 1 for a 64-bit value.
+  for (int shift = bits >> 1; shift > 0; shift >>= 1)
+    {
+      if ((value >> shift) != 0)
+        {
+          value >>= shift;
+        }
+      else
+        {
+          count += shift;
+        }
+    }
+  return count;
+#endif
+}
+
+// ByteSwap needs C++20 concepts, std::bit_cast, std::ranges and
+// std::is_constant_evaluated.
+#if LUMEX_HAS_CONCEPTS && LUMEX_HAS_STD_BIT_CAST && LUMEX_HAS_STD_RANGES      \
+    && LUMEX_HAS_STD_IS_CONSTANT_EVALUATED
 /**
  * @brief Reverses the byte order of an integral value (byte swap / endianness
  * reverse).
@@ -167,12 +275,13 @@ ByteSwap (T value) LUMEX_NOEXCEPT
 #endif
   }
 }
+
+#endif // LUMEX_HAS_CONCEPTS && ...
+
 } // namespace bit
 } // namespace utility
 } // namespace core
 } // namespace lumex
-
-#endif // LUMEX_HAS_CONCEPTS && ...
 
 // NOLINTEND(readability-identifier-length,
 // cppcoreguidelines-avoid-magic-numbers, readability-magic-numbers)
