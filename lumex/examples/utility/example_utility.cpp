@@ -1,3 +1,4 @@
+#include <cstdint>
 #include <iostream>
 #include <typeinfo>
 #include <vector>
@@ -7,12 +8,13 @@
 using namespace lumex::core::utility::demangle;
 using namespace lumex::core::utility::numeric;
 using namespace lumex::core::utility::process;
+using lumex::core::utility::bit::count_leading_zeros;
 
 int
 main ()
 {
-  std::cout
-      << "=== Utility: demangle, OS macros, SafeComparator, process ===\n\n";
+  std::cout << "=== Utility: demangle, OS macros, SafeComparator, "
+               "process, bit ===\n\n";
 
   std::cout << "--- 1. lumDemangle / demangle_type_name ---\n";
   std::cout << "demangle(vector<int>)=" << lumDemangle (std::vector<int>)
@@ -39,6 +41,28 @@ main ()
 
   std::cout << "\n--- 4. get_current_pid ---\n";
   std::cout << "pid=" << get_current_pid () << '\n';
+
+  std::cout << "\n--- 5. count_leading_zeros ---\n";
+  std::uint8_t const narrow = 0x0F;
+  std::uint32_t const zero = 0;
+  std::uint64_t const high_half = std::uint64_t (1) << 32;
+  std::cout << "clz(uint8 0x0F)="
+            << static_cast<unsigned> (count_leading_zeros (narrow))
+            << " clz(uint32 0)="
+            << static_cast<unsigned> (count_leading_zeros (zero))
+            << " clz(uint64 1<<32)="
+            << static_cast<unsigned> (count_leading_zeros (high_half)) << '\n';
+
+  std::cout << "\n--- 6. byte_swap ---\n";
+#if LUMEX_HAS_CONCEPTS && LUMEX_HAS_STD_BIT_CAST && LUMEX_HAS_STD_RANGES      \
+    && LUMEX_HAS_STD_IS_CONSTANT_EVALUATED
+  std::uint32_t const pattern = 0x12345678U;
+  std::cout << std::hex << "byte_swap(0x12345678)=0x"
+            << lumex::core::utility::bit::byte_swap (pattern) << std::dec
+            << '\n';
+#else
+  std::cout << "byte_swap needs C++20\n";
+#endif
 
   std::cout << "\n=== Utility example finished ===\n";
   return 0;

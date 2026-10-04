@@ -20,13 +20,19 @@
 
 #### Добавлено
 
+##### Примеры `count_leading_zeros` и `byte_swap`
+
+**Файлы:** `lumex/examples/utility/example_utility.cpp`, `lumex/examples/utility/CMakeLists.txt`
+
+**Суть:** обход utility печатает `count_leading_zeros` для `uint8_t` `0x0F` (4), `uint32_t` 0 (32) и `uint64_t` с установленным битом 32 (31), и `byte_swap` для `uint32_t` `0x12345678` (`0x78563412`). Пример собран как C++20, потому что `byte_swap` объявлен только с этого стандарта; вызов стоит за теми же `LUMEX_HAS_*`, что и объявление. Рабочий пример с длиной пакета не менялся.
+
 ##### `count_leading_zeros` в `lumex::core::utility::bit`
 
 **Файлы:** `lumex/core/utility/bit/LumexBit.hpp`, `lumex/core/fmt/LumexFormat.hpp`, `lumex/tests/core/utility/LumexBit.cxx11.tests.cpp` (новый)
 
 **Коммит:** `8ccf8e5b`
 
-**Суть:** функция лежала в `lumex::core::fmt::Detail` и нигде не вызывалась. Теперь это `lumex::core::utility::bit::count_leading_zeros` (C++11, аналог C++20 `std::countl_zero`): беззнаковое целое в 1, 2, 4 или 8 байт, не `bool`. Ноль возвращает ширину типа. `unsigned __int128` в набор перегрузок не входит: внутренние функции считают нули в 32 или 64 битах и более широкий аргумент обрезали бы. `ByteSwap` в том же заголовке по-прежнему требует C++20.
+**Суть:** функция лежала в `lumex::core::fmt::Detail` и нигде не вызывалась. Теперь это `lumex::core::utility::bit::count_leading_zeros` (C++11, аналог C++20 `std::countl_zero`): беззнаковое целое в 1, 2, 4 или 8 байт, не `bool`. Ноль возвращает ширину типа. `unsigned __int128` в набор перегрузок не входит: внутренние функции считают нули в 32 или 64 битах и более широкий аргумент обрезали бы. `byte_swap` в том же заголовке по-прежнему требует C++20.
 
 ##### Ряд MSVC STL в бенчмарке `benchmarks/atomic`
 
@@ -80,6 +86,12 @@
 **Суть:** записано, какое изменение поднимает какой компонент версии: MAJOR - несовместимый API, MINOR - несовместимый ABI при том же API (вместе с ним меняется SONAME `major.minor`), PATCH - функциональное изменение, TWEAK - изменение без функционального эффекта. Номер принадлежит выпуску, опубликованные выпуски не меняются. Три выпуска, сделанные до правил с номером TWEAK вместо PATCH (`v1.0.0.1`, `v1.0.0.2`, `v1.0.1.1`), отмечены в своих секциях; файл входит в документацию Doxygen.
 
 #### Изменено
+
+##### `ByteSwap` переименован в `byte_swap`
+
+**Файлы:** `lumex/core/utility/bit/LumexBit.hpp`, `lumex/tests/core/utility/LumexBit.cxx11.tests.cpp`, `lumex/tests/core/utility/LumexBit.cxx20.tests.cpp`, `lumex/tests/core/utility/LumexBit.cxx23.tests.cpp`, `lumex/tests/core/utility/CMakeLists.txt`
+
+**Суть:** публичное имя `lumex::core::utility::bit::ByteSwap` теперь `byte_swap`. Сигнатура, `constexpr` и порог C++20 те же. Имена тестов GoogleTest с `WhenByteSwap` оставлены: это названия проверок, не API.
 
 ##### Один набор тестов на каждый стандарт C++
 
