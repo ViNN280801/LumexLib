@@ -93,9 +93,7 @@
 #include <ostream>  // std::ostream
 #include <string>   // std::string
 
-#include "lumex/core/utility/LumexUtility"
 #include "lumex/core/utility/attr/LumexAttributes.hpp"
-#include "lumex/core/utility/macros/LumexConstantMacros.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 
 namespace lumex // NOLINT(modernize-concat-nested-namespaces)
