@@ -37,6 +37,15 @@ Options:
                      compiler's default standard.
   --output-dir DIR   Where the packages go (default: <repo>/release).
   --version V        Override the version read from project(LumexLib VERSION).
+  --tag TAG          Build the sources of a git tag instead of the working tree.
+                     A detached worktree of the tag is created under
+                     <output-dir>/.work/src-<TAG>, its CMakeRoutines submodule is
+                     initialized from this checkout's copy (no network), and the
+                     packages are named after the tag's project(LumexLib VERSION).
+                     This script drives the build; compile.py and the CMakeLists
+                     come from the tag. The worktree is removed at the end (kept
+                     with --keep-work; on an early stop remove it with:
+                     git worktree remove --force <path>; git worktree prune).
   --jobs N           Parallel build jobs (default: nproc).
   --keep-work        Keep the build, staging and packaging trees under
                      <output-dir>/.work (removed by default).
@@ -51,6 +60,8 @@ Notes:
     output never lands in a later archive.
   * dev/ carries the .debug files of every library, split out next to the
     release binaries by the CMakeRoutines linker launcher.
+  * --tag builds a tag's sources in a worktree under <output-dir>/.work and
+    removes it when the run ends; the tag's CMakeLists sets the version.
 EOF
 }
 
@@ -69,6 +80,7 @@ FORMATS_ARG="deb,rpm,tar.xz,tar.gz"
 STD_ARG=""
 OUTPUT_DIR="${REPO_ROOT}/release"
 VERSION_ARG=""
+TAG_ARG=""
 JOBS="$(nproc 2>/dev/null || echo 4)"
 KEEP_WORK=0
 
@@ -91,6 +103,8 @@ while [[ $# -gt 0 ]]; do
     --output-dir=*) OUTPUT_DIR="${1#*=}"; shift ;;
     --version) need_value "$@"; VERSION_ARG="$2"; shift 2 ;;
     --version=*) VERSION_ARG="${1#*=}"; shift ;;
+    --tag) need_value "$@"; TAG_ARG="$2"; shift 2 ;;
+    --tag=*) TAG_ARG="${1#*=}"; shift ;;
     --jobs) need_value "$@"; JOBS="$2"; shift 2 ;;
     --jobs=*) JOBS="${1#*=}"; shift ;;
     --keep-work) KEEP_WORK=1; shift ;;
@@ -146,8 +160,43 @@ if has_format rpm; then
     || die "rpm needs 'rpmbuild': install the package 'rpm' (sudo apt install rpm) or drop rpm from --formats"
 fi
 
+# ---------------------------------------------------------------------------
+# Tag mode: build the sources of a tag in a detached worktree
+# ---------------------------------------------------------------------------
+
+BUILD_ROOT="${REPO_ROOT}"
+TAG_WORKTREE=""
+if [[ -n "${TAG_ARG}" ]]; then
+  git -C "${REPO_ROOT}" rev-parse --verify --quiet "refs/tags/${TAG_ARG}^{commit}" >/dev/null \
+    || die "tag '${TAG_ARG}' is not in this repository; fetch it first (git fetch --tags)"
+  mkdir -p "${OUTPUT_DIR}"
+  OUTPUT_DIR="$(cd "${OUTPUT_DIR}" && pwd)"
+  mkdir -p "${OUTPUT_DIR}/.work"
+  TAG_WORKTREE="${OUTPUT_DIR}/.work/src-$(printf '%s' "${TAG_ARG}" | tr -c 'A-Za-z0-9._-' '_')"
+  [[ ! -e "${TAG_WORKTREE}" ]] \
+    || die "the tag worktree path already exists: ${TAG_WORKTREE} (remove it with: git worktree remove --force <path>)"
+  # An interrupted earlier run can leave a worktree registration whose
+  # directory is gone; git refuses to add one on top of it.
+  git -C "${REPO_ROOT}" worktree prune
+  # This script drives the build; the sources, compile.py and the CMakeLists
+  # come from the tag, so the packages follow the tag's project(LumexLib
+  # VERSION).
+  git -C "${REPO_ROOT}" worktree add --detach "${TAG_WORKTREE}" "refs/tags/${TAG_ARG}" \
+    >"${OUTPUT_DIR}/.work/worktree.log" 2>&1 \
+    || die "git worktree add failed for tag '${TAG_ARG}', see ${OUTPUT_DIR}/.work/worktree.log"
+  # The submodule comes from this checkout's copy, so a tag build needs no
+  # network: its pinned commit is already here. The file transport needs the
+  # explicit allow since Git 2.38.1.
+  git -C "${TAG_WORKTREE}" -c protocol.file.allow=always \
+    -c "submodule.CMakeRoutines.url=${REPO_ROOT}/CMakeRoutines" \
+    submodule update --init --recursive >>"${OUTPUT_DIR}/.work/worktree.log" 2>&1 \
+    || die "git submodule update failed in the tag worktree, see ${OUTPUT_DIR}/.work/worktree.log"
+  BUILD_ROOT="${TAG_WORKTREE}"
+  echo "Tag: ${TAG_ARG} (build tree: ${BUILD_ROOT}; removed at the end unless --keep-work)"
+fi
+
 # project(LumexLib VERSION x.y.z.w) may span several lines.
-CMAKE_VERSION_FOUND="$(tr '\n' ' ' <"${REPO_ROOT}/CMakeLists.txt" \
+CMAKE_VERSION_FOUND="$(tr '\n' ' ' <"${BUILD_ROOT}/CMakeLists.txt" \
   | grep -oE 'project\([[:space:]]*LumexLib[^)]*VERSION[[:space:]]+[0-9]+(\.[0-9]+){1,3}' \
   | grep -oE '[0-9]+(\.[0-9]+){1,3}$' | head -1 || true)"
 [[ -n "${CMAKE_VERSION_FOUND}" ]] || die "cannot read project(LumexLib VERSION ...) from CMakeLists.txt"
@@ -266,7 +315,7 @@ done
 
 remove_x64() {
   # Build output published into the checkout must not reach a later package.
-  rm -rf "${REPO_ROOT}/x64"
+  rm -rf "${BUILD_ROOT}/x64"
 }
 
 # stage_runtime <build dir> <c++ compiler> <isa> <lib dir>
@@ -278,8 +327,8 @@ stage_runtime() {
   distr="$(mktemp -d)"
   flags="$(arch_flags "$isa")"
   cmake -Dbin_dir="${build}/bin" -Ddistr_dir="${distr}" \
-    -Dcopy_runtime_script="${REPO_ROOT}/CMakeRoutines/deployment/CopyRuntimeDependencies.cmake" \
-    -Dcxx_compiler="${cxx}" -P "${REPO_ROOT}/cmake/PublishDistr.cmake" >"${build}/publish-runtime.log" 2>&1 \
+    -Dcopy_runtime_script="${BUILD_ROOT}/CMakeRoutines/deployment/CopyRuntimeDependencies.cmake" \
+    -Dcxx_compiler="${cxx}" -P "${BUILD_ROOT}/cmake/PublishDistr.cmake" >"${build}/publish-runtime.log" 2>&1 \
     || die "cmake/PublishDistr.cmake failed, see ${build}/publish-runtime.log"
   for file in "${distr}"/*; do
     [[ -e "$file" ]] || continue
@@ -370,7 +419,7 @@ for i in "${!JOB_CXX[@]}"; do
 
   flags="$(arch_flags "$isa")"
   cmake_args=(
-    -G Ninja -S "${REPO_ROOT}" -B "${build}" --no-warn-unused-cli
+    -G Ninja -S "${BUILD_ROOT}" -B "${build}" --no-warn-unused-cli
     -DCMAKE_BUILD_TYPE=Release
     "-DCMAKE_C_COMPILER=${c}" "-DCMAKE_CXX_COMPILER=${cxx}"
     -DLUMEX_BUILD_SHARED_LIBS=ON -DLUMEX_BUILD_TESTS=OFF -DLUMEX_BUILD_DOCUMENTATION=OFF
@@ -420,10 +469,20 @@ for i in "${!JOB_CXX[@]}"; do
 
   [[ "${KEEP_WORK}" -eq 1 ]] || rm -rf "${work}"
 done
+if [[ -n "${TAG_WORKTREE}" ]]; then
+  if [[ "${KEEP_WORK}" -eq 1 ]]; then
+    echo "Tag worktree kept (--keep-work): ${TAG_WORKTREE}"
+  else
+    git -C "${REPO_ROOT}" worktree remove --force "${TAG_WORKTREE}" 2>/dev/null \
+      || echo "Warning: could not remove the tag worktree ${TAG_WORKTREE}; remove it with: git worktree remove --force <path>; git worktree prune" >&2
+    git -C "${REPO_ROOT}" worktree prune
+    rm -f "${OUTPUT_DIR}/.work/worktree.log"
+  fi
+fi
 [[ "${KEEP_WORK}" -eq 1 ]] || rmdir "${WORK_ROOT}" 2>/dev/null || true
 
 # A release needs a dated [vX.Y.Z.W] section in CHANGELOG.md.
-if grep -qE "^## \[v${VERSION//./\\.}\].*в разработке" "${REPO_ROOT}/CHANGELOG.md" 2>/dev/null; then
+if grep -qE "^## \[v${VERSION//./\\.}\].*в разработке" "${BUILD_ROOT}/CHANGELOG.md" 2>/dev/null; then
   echo "Warning: CHANGELOG.md section [v${VERSION}] is still marked as in development (not dated)" >&2
 fi
 

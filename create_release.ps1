@@ -23,6 +23,7 @@ param(
     [int]    $Std       = 0,
     [string] $OutputDir = '',
     [string] $Version   = '',
+    [string] $Tag       = '',
     [switch] $KeepWork,
     [switch] $Help
 )
@@ -75,6 +76,16 @@ Options:
   -Version V         Override the version read from project(LumexLib
                      VERSION); it changes the artifact names only, the
                      libraries keep the CMakeLists.txt version.
+  -Tag TAG           Build the sources of a git tag instead of the working
+                     tree: a detached worktree of the tag is created under
+                     <output-dir>/.work/src-<TAG>, its CMakeRoutines
+                     submodule is initialized from this checkout's copy (no
+                     network), and the packages are named after the tag's
+                     project(LumexLib VERSION). This script drives the
+                     build; compile.py and the CMakeLists come from the
+                     tag. The worktree is removed at the end (kept with
+                     -KeepWork; on an early stop remove it with:
+                     git worktree remove --force <path>; git worktree prune).
   -KeepWork          Keep the build, staging and packaging trees under
                      <output-dir>/.work (removed by default).
   -Help              Show this help.
@@ -90,6 +101,8 @@ Notes:
     archives.
   * dev/ carries the developer files of every library: the import .lib
     files, the .exp files and the PDBs next to the release binaries.
+  * -Tag builds a tag's sources in a worktree under <output-dir>/.work and
+    removes it when the run ends; the tag's CMakeLists sets the version.
   * The found makensis directory goes in front of PATH, so CPack runs the
     same makensis; MAKENSIS_EXE overrides the search (a wrong value stops
     the script).
@@ -151,9 +164,6 @@ if ($Std -ne 0 -and @(11, 14, 17, 20, 23) -notcontains $Std) {
 # ---------------------------------------------------------------------------
 
 if (-not (Get-Command python -ErrorAction SilentlyContinue)) { Die "'python' is not in PATH" }
-if (-not (Test-Path -LiteralPath (Join-Path $RepoRoot 'compile.py'))) {
-    Die "compile.py is not next to this script ($RepoRoot)"
-}
 if (-not (Get-Command cmake -ErrorAction SilentlyContinue)) { Die "'cmake' is not in PATH" }
 if ($FormatList -contains 'tar.gz') {
     if (-not (Get-Command tar -ErrorAction SilentlyContinue)) {
@@ -383,24 +393,6 @@ if ($needsNinja -and -not (Get-Command ninja -ErrorAction SilentlyContinue)) {
 }
 
 # ---------------------------------------------------------------------------
-# Version
-# ---------------------------------------------------------------------------
-
-$CmakeText = Get-Content -LiteralPath (Join-Path $RepoRoot 'CMakeLists.txt') -Raw -Encoding UTF8
-$versionMatch = [regex]::Match($CmakeText, 'project\(\s*LumexLib[^)]*?VERSION\s+([0-9]+(?:\.[0-9]+){1,3})', 'Singleline')
-if (-not $versionMatch.Success) {
-    Die 'cannot read project(LumexLib VERSION ...) from CMakeLists.txt'
-}
-$CmakeVersion = $versionMatch.Groups[1].Value
-$EffectiveVersion = $CmakeVersion
-if (-not [string]::IsNullOrWhiteSpace($Version)) {
-    $EffectiveVersion = $Version
-    if ($Version -ne $CmakeVersion) {
-        [Console]::Error.WriteLine("Warning: -Version $Version differs from CMakeLists.txt ($CmakeVersion); the libraries keep $CmakeVersion")
-    }
-}
-
-# ---------------------------------------------------------------------------
 # Build and package
 # ---------------------------------------------------------------------------
 
@@ -414,21 +406,9 @@ $WorkRoot = Join-Path $OutputDir '.work'
 $Stopwatch = [System.Diagnostics.Stopwatch]::StartNew()
 $Artifacts = @()
 
-$stdTextForBanner = if ($Std -ne 0) { "C++$Std" } else { 'C++default' }
-Write-Host "LumexLib $EffectiveVersion, formats: $($FormatList -join ', ')"
-if ($null -ne $NSISMaker) {
-    Write-Host "  NSIS: $NSISMaker"
-}
-foreach ($job in $Jobs) {
-    foreach ($isa in $ArchList) {
-        $detail = if ($job.Kind -eq 'msvc') { $job.Toolset } else { $job.Compiler }
-        Write-Host "  $($job.Label) $isa $stdTextForBanner ($detail)"
-    }
-}
-
 function Remove-X64 {
     # Build output published into the checkout must not reach a later package.
-    $x64 = Join-Path $RepoRoot 'x64'
+    $x64 = Join-Path $BuildRoot 'x64'
     if (Test-Path -LiteralPath $x64) {
         Remove-Item -LiteralPath $x64 -Recurse -Force
     }
@@ -447,6 +427,81 @@ function Invoke-NativeRedirected([string] $FilePath, [string[]] $ArgumentList, [
     }
     finally {
         $ErrorActionPreference = $previous
+    }
+}
+
+# ---------------------------------------------------------------------------
+# Tag mode: build the sources of a git tag in a detached worktree
+# ---------------------------------------------------------------------------
+
+$BuildRoot = $RepoRoot
+$TagWorktree = ''
+if (-not [string]::IsNullOrWhiteSpace($Tag)) {
+    if ($Tag -notmatch '^[A-Za-z0-9][A-Za-z0-9._/-]*$') {
+        Die "-Tag '$Tag' is not a plain tag name"
+    }
+    # The log and the worktree live under the work root, which the per-job
+    # staging would create only later.
+    New-Item -ItemType Directory -Force -Path $WorkRoot | Out-Null
+    $tagLog = Join-Path $WorkRoot 'worktree.log'
+    if ((Invoke-NativeRedirected 'git' @('-C', $RepoRoot, 'rev-parse', '--verify', '--quiet', "refs/tags/$Tag^{commit}") $tagLog) -ne 0) {
+        Die "tag '$Tag' is not in this repository; fetch it first (git fetch --tags)"
+    }
+    $TagWorktree = Join-Path $WorkRoot ('src-' + ($Tag -replace '[^A-Za-z0-9._-]', '_'))
+    if (Test-Path -LiteralPath $TagWorktree) {
+        Die "the tag worktree path already exists: $TagWorktree (remove it with: git worktree remove --force <path>; git worktree prune)"
+    }
+    # An interrupted earlier run can leave a worktree registration whose
+    # directory is gone; git refuses to add one on top of it.
+    $null = Invoke-NativeRedirected 'git' @('-C', $RepoRoot, 'worktree', 'prune') $tagLog
+    # This script drives the build; the sources, compile.py and the CMakeLists
+    # come from the tag, so the packages follow the tag's project(LumexLib
+    # VERSION).
+    if ((Invoke-NativeRedirected 'git' @('-C', $RepoRoot, 'worktree', 'add', '--detach', $TagWorktree, "refs/tags/$Tag") $tagLog) -ne 0) {
+        Die "git worktree add failed for tag '$Tag', see $tagLog"
+    }
+    # The submodule comes from this checkout's copy, so a tag build needs no
+    # network: its pinned commit is already here. The file transport needs the
+    # explicit allow since Git 2.38.1.
+    $submoduleUrl = 'submodule.CMakeRoutines.url=' + ($RepoRoot -replace '\\', '/') + '/CMakeRoutines'
+    if ((Invoke-NativeRedirected 'git' @('-C', $TagWorktree, '-c', 'protocol.file.allow=always', '-c', $submoduleUrl, 'submodule', 'update', '--init', '--recursive') $tagLog) -ne 0) {
+        Die "git submodule update failed in the tag worktree, see $tagLog"
+    }
+    $BuildRoot = $TagWorktree
+    Write-Host "Tag: $Tag (build tree: $BuildRoot; removed at the end unless -KeepWork)"
+}
+
+if (-not (Test-Path -LiteralPath (Join-Path $BuildRoot 'compile.py'))) {
+    Die "compile.py is not in the build tree ($BuildRoot)"
+}
+
+# ---------------------------------------------------------------------------
+# Version
+# ---------------------------------------------------------------------------
+
+$CmakeText = Get-Content -LiteralPath (Join-Path $BuildRoot 'CMakeLists.txt') -Raw -Encoding UTF8
+$versionMatch = [regex]::Match($CmakeText, 'project\(\s*LumexLib[^)]*?VERSION\s+([0-9]+(?:\.[0-9]+){1,3})', 'Singleline')
+if (-not $versionMatch.Success) {
+    Die 'cannot read project(LumexLib VERSION ...) from CMakeLists.txt'
+}
+$CmakeVersion = $versionMatch.Groups[1].Value
+$EffectiveVersion = $CmakeVersion
+if (-not [string]::IsNullOrWhiteSpace($Version)) {
+    $EffectiveVersion = $Version
+    if ($Version -ne $CmakeVersion) {
+        [Console]::Error.WriteLine("Warning: -Version $Version differs from CMakeLists.txt ($CmakeVersion); the libraries keep $CmakeVersion")
+    }
+}
+
+$stdTextForBanner = if ($Std -ne 0) { "C++$Std" } else { 'C++default' }
+Write-Host "LumexLib $EffectiveVersion, formats: $($FormatList -join ', ')"
+if ($null -ne $NSISMaker) {
+    Write-Host "  NSIS: $NSISMaker"
+}
+foreach ($job in $Jobs) {
+    foreach ($isa in $ArchList) {
+        $detail = if ($job.Kind -eq 'msvc') { $job.Toolset } else { $job.Compiler }
+        Write-Host "  $($job.Label) $isa $stdTextForBanner ($detail)"
     }
 }
 
@@ -491,7 +546,7 @@ foreach ($job in $Jobs) {
             $compileArgs += @('--stdcxx', $Std)
         }
         $buildLog = Join-Path $work 'build.log'
-        Push-Location -LiteralPath $RepoRoot
+        Push-Location -LiteralPath $BuildRoot
         try {
             $buildExit = Invoke-NativeRedirected 'python' $compileArgs $buildLog
         }
@@ -505,7 +560,7 @@ foreach ($job in $Jobs) {
         $installerPath = ''
         if ($FormatList -contains 'exe') {
             $installer = @(
-                Get-ChildItem -LiteralPath (Join-Path $RepoRoot 'build') -File -ErrorAction SilentlyContinue |
+                Get-ChildItem -LiteralPath (Join-Path $BuildRoot 'build') -File -ErrorAction SilentlyContinue |
                     Where-Object { $_.Name -like "LumexLib-${EffectiveVersion}-win_${isa}_*_cpp*.exe" }
             )
             if ($installer.Count -ne 1) {
@@ -568,13 +623,34 @@ foreach ($job in $Jobs) {
         }
     }
 }
-if (-not $KeepWork -and (Test-Path -LiteralPath $WorkRoot)) {
+$keepWorkRoot = $false
+if ($TagWorktree) {
+    if ($KeepWork) {
+        Write-Host "Tag worktree kept (-KeepWork): $TagWorktree"
+    }
+    else {
+        $tagRemoveLog = Join-Path $WorkRoot 'worktree-remove.log'
+        $tagRemoved = (Invoke-NativeRedirected 'git' @('-C', $RepoRoot, 'worktree', 'remove', '--force', $TagWorktree) $tagRemoveLog) -eq 0
+        $null = Invoke-NativeRedirected 'git' @('-C', $RepoRoot, 'worktree', 'prune') $tagRemoveLog
+        if ($tagRemoved) {
+            Remove-Item -LiteralPath (Join-Path $WorkRoot 'worktree.log'), $tagRemoveLog -Force -ErrorAction SilentlyContinue
+        }
+        else {
+            # Wiping the work root would delete the worktree directory but
+            # keep its registration: the next run then sees a missing but
+            # registered worktree and git refuses to add it again.
+            $keepWorkRoot = $true
+            [Console]::Error.WriteLine("Warning: could not remove the tag worktree $TagWorktree, see $tagRemoveLog; remove it with: git -C $RepoRoot worktree remove --force $TagWorktree")
+        }
+    }
+}
+if (-not $KeepWork -and -not $keepWorkRoot -and (Test-Path -LiteralPath $WorkRoot)) {
     Remove-Item -LiteralPath $WorkRoot -Recurse -Force -ErrorAction SilentlyContinue
 }
 
 # A release needs the dated [vX.Y.Z.W] section in CHANGELOG.md; warn while
 # the section is still marked as in development.
-$changelog = Join-Path $RepoRoot 'CHANGELOG.md'
+$changelog = Join-Path $BuildRoot 'CHANGELOG.md'
 if (Test-Path -LiteralPath $changelog) {
     $escapedVersion = [regex]::Escape($EffectiveVersion)
     $changelogText = Get-Content -LiteralPath $changelog -Raw -Encoding UTF8
