@@ -80,8 +80,10 @@ Options:
   -Help              Show this help.
 
 Notes:
-  * The MSVC runtime is not bundled: the consumer needs the matching
-    redistributable, as in every previous Windows package.
+  * The MSVC runtime (msvcp140.dll, vcruntime140*.dll) ships in bin/ next to
+    the libraries: the install stages it with the pack's
+    CopyRuntimeDependencies (the same set <platform>/Distr<Config> carries),
+    so the consumer needs no separately installed redistributable.
   * The exe installs per machine into
     <Program Files>\LumexLib\<version>_<compiler>, with an uninstall entry
     in Add/Remove Programs; zip and tar.gz carry the same install tree as
