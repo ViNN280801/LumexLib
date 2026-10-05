@@ -446,3 +446,38 @@ endif()
 # and vendored gtest).
 lumex_configure_all_compiled_targets()
 print_build_info()
+
+# ==============================================================================
+# PACKAGING (CPack)
+# ==============================================================================
+# compile.py -i/--setup-installer builds Release and then runs
+# `cpack -G <NSIS|TGZ>` in the build directory; create_release.ps1 drives that
+# for its `exe` format and copies the installer into release/. The NSIS
+# installer carries the install tree (bin/, include/, share/) and installs per
+# machine into <Program Files>/LumexLib/<version>; the release script overrides
+# CPACK_PACKAGE_INSTALL_DIRECTORY with LumexLib/<version>_<compiler> so builds
+# of several compilers sit side by side, like /opt/LumexLib/<version>_<compiler>
+# on Linux, and gives the uninstall entry the same compiler suffix. A plain
+# `cpack` run by hand keeps the version-only directory.
+if(LUMEX_IS_TOP_LEVEL AND LUMEX_INSTALL)
+    set(CPACK_PACKAGE_NAME "LumexLib")
+    set(CPACK_PACKAGE_VERSION "${PROJECT_VERSION}")
+    set(CPACK_PACKAGE_VENDOR "Lumex Ltd.")
+    set(CPACK_PACKAGE_CONTACT "vladislav.semykin@gmail.com")
+    set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "LumexLib C++ utility library ${PROJECT_VERSION}")
+    set(CPACK_PACKAGE_FILE_NAME "LumexLib-${PROJECT_VERSION}-win")
+    set(CPACK_PACKAGE_INSTALL_DIRECTORY "LumexLib/${PROJECT_VERSION}"
+        CACHE STRING "Installation directory (the release script adds the compiler suffix)")
+    set(CPACK_PACKAGE_INSTALL_REGISTRY_KEY "LumexLib ${PROJECT_VERSION}"
+        CACHE STRING "Add/Remove and vendor registry key of the installer")
+    set(CPACK_NSIS_DISPLAY_NAME "LumexLib ${PROJECT_VERSION}"
+        CACHE STRING "Name shown in Add/Remove Programs")
+    set(CPACK_NSIS_ENABLE_UNINSTALL_BEFORE_INSTALL ON)
+    if(WIN32)
+        set(CPACK_GENERATOR "NSIS")
+    else()
+        set(CPACK_GENERATOR "TGZ")
+    endif()
+    include(CPack)
+endif()
+
