@@ -47,7 +47,7 @@
  * C++20 atomic smart pointers, the classes wrap them; elsewhere they use a
  * lock-based implementation. The umbrella includes
  * `smart_ptr/LumexAtomicSharedPtr.hpp` and `smart_ptr/LumexAtomicWeakPtr.hpp`.
- * @see @ref lumex_atomic
+ * @see The `README.md` page next to this umbrella (part of the documentation).
  */
 #include "smart_ptr/LumexAtomicSharedPtr.hpp"
 #include "smart_ptr/LumexAtomicWeakPtr.hpp"

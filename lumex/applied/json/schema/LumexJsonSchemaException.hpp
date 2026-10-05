@@ -63,8 +63,8 @@ LUMEX_DEFINE_REFLECTED_ENUM (LumexJsonSchemaFailure, std::uint8_t,
  * @class LumexJsonSchemaException
  * @brief Carries the failure reason, the JSON path of the offending value
  * (`$.items[2].name`) and a human-readable detail.
- * @details `what()` is `[LumexJsonSchemaException] <reason> at '<path>':
- * <detail>`.
+ * @details `what()` is `[LumexJsonSchemaException] &lt;reason&gt; at
+ * '&lt;path&gt;': &lt;detail&gt;`.
  */
 class LumexJsonSchemaException final : public std::runtime_error
 {

@@ -184,7 +184,7 @@ public:
   /**
    * @brief Write a crash report to a file by pattern:
    * "crash_report_{timestamp}.txt".
-   * @param stacktrace The stack trace of the error.
+   * @note The report includes the stored stack trace.
    */
   LUMEX_API void to_crash_report () const;
 

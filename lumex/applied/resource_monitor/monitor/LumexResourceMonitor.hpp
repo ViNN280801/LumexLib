@@ -112,8 +112,8 @@ public:
    * @param pollInterval How often to sample CPU/RAM usage. Defaults to
    *                     `Constants::KDEFAULT_POLL_INTERVAL_MS`. A non-positive
    * value is treated as invalid and replaced by that same default.
-   * @note This call is a no-op if the sampler is already running - call @ref
-   * stop first if a different interval or log directory is needed.
+   * @note This call is a no-op if the sampler is already running - call
+   * `stop ()` first if a different interval or log directory is needed.
    * @note Whether to call this at all, and with what interval, is entirely the
    * caller's decision; this class does not read any environment variable to
    * decide it.

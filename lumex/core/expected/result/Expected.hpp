@@ -632,7 +632,8 @@ public:
    * @tparam U Default-value type; must be convertible to `SuccessType`.
    * @param[in] default_value Value returned if the object does not hold a
    * success value.
-   * @return The stored value or `default_value`.
+   * @details Returns the stored value, or `default_value` when the object
+   * holds an error.
    * @note Not declared `noexcept`: copying the stored value or converting
    * `default_value` to `SuccessType` may throw.
    * @note Use `[[nodiscard]]` to ensure handling of the returned value.
@@ -653,7 +654,8 @@ public:
    * @tparam U Default-value type; must be convertible to `SuccessType`.
    * @param[in] default_value Value returned if the object does not hold a
    * success value.
-   * @return The stored value moved out of `Expected`, or `default_value`.
+   * @details Returns the stored value moved out of `Expected`, or
+   * `default_value` when the object holds an error.
    * @note Not declared `noexcept`: moving the stored value or converting
    * `default_value` to `SuccessType` may throw. If `Expected` holds a value,
    * it is moved. After that, `Expected` remains in a valid but unspecified
