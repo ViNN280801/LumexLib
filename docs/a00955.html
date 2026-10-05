@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::applied::settings::guard Namespace Reference</title>
+<title>LumexLib: lumex::applied::hardware::caps::CPUIDECXFlags Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -103,72 +103,20 @@ $(function(){initNavTree('a00955.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
-<a href="#typedef-members">Typedefs</a>  </div>
-  <div class="headertitle"><div class="title">lumex::applied::settings::guard Namespace Reference</div></div>
+  <div class="headertitle"><div class="title">lumex::applied::hardware::caps::CPUIDECXFlags Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01218.html">lumex_settings_key_spec_t</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Describes a single settings key that <code><a class="el" href="a01222.html#a2992a46c96ffd85535ee0aafdf6e2c5d" title="Ensures every key in specs is present and valid, restoring default_value otherwise.">LumexSettingsGuard::ensureKeysWithDefaults</a></code> must keep present and valid.  <a href="a01218.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01222.html">LumexSettingsGuard</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Format-agnostic backup/repair/validation guard for an <code><a class="el" href="a01230.html" title="Interface of a settings store kept in a configuration file.">ILumexSettings</a></code> instance.  <a href="a01222.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
-Typedefs</h2></td></tr>
-<tr class="memitem:abb83c517a273434e9ce8e83640838f61" id="r_abb83c517a273434e9ce8e83640838f61"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abb83c517a273434e9ce8e83640838f61">LumexSettingsValidateFn</a> = std::function&lt;bool (std::string const &amp;)&gt;</td></tr>
-<tr class="memdesc:abb83c517a273434e9ce8e83640838f61"><td class="mdescLeft">&#160;</td><td class="mdescRight">Validation callback for a single settings key.  <br /></td></tr>
-<tr class="separator:abb83c517a273434e9ce8e83640838f61"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afa7cdf0a7ae72bb172b541454fb9bf5a" id="r_afa7cdf0a7ae72bb172b541454fb9bf5a"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afa7cdf0a7ae72bb172b541454fb9bf5a">LumexSettingsCreateFn</a> = std::function&lt;bool (void)&gt;</td></tr>
-<tr class="memdesc:afa7cdf0a7ae72bb172b541454fb9bf5a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback that (re)creates a settings file's default content from scratch.  <br /></td></tr>
-<tr class="separator:afa7cdf0a7ae72bb172b541454fb9bf5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
-<h2 class="groupheader">Typedef Documentation</h2>
-<a id="afa7cdf0a7ae72bb172b541454fb9bf5a" name="afa7cdf0a7ae72bb172b541454fb9bf5a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afa7cdf0a7ae72bb172b541454fb9bf5a">&#9670;&#160;</a></span>LumexSettingsCreateFn</h2>
 
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="#afa7cdf0a7ae72bb172b541454fb9bf5a">lumex::applied::settings::guard::LumexSettingsCreateFn</a> = std::function&lt;bool (void)&gt;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Callback that (re)creates a settings file's default content from scratch. </p>
-<p>Invoked when the guarded file is missing, unreadable, or fails the underlying <code><a class="el" href="a01230.html#a5e8c879f253d759120c2ef9dce35a6fe" title="Load settings from a configuration file.">ILumexSettings::load()</a></code> call. A typical implementation populates a fresh <code><a class="el" href="a01230.html" title="Interface of a settings store kept in a configuration file.">ILumexSettings</a></code> instance with an application's default key/value pairs and persists them via <code>save()</code> to the same path the guard was constructed with. </p><dl class="section return"><dt>Returns</dt><dd><code>true</code> if defaults were written successfully, <code>false</code> otherwise. </dd></dl>
-
-</div>
-</div>
-<a id="abb83c517a273434e9ce8e83640838f61" name="abb83c517a273434e9ce8e83640838f61"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abb83c517a273434e9ce8e83640838f61">&#9670;&#160;</a></span>LumexSettingsValidateFn</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="#abb83c517a273434e9ce8e83640838f61">lumex::applied::settings::guard::LumexSettingsValidateFn</a> = std::function&lt;bool (std::string const &amp;)&gt;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Validation callback for a single settings key. </p>
-<p>Receives the key's current raw string value, exactly as returned by <code><a class="el" href="a01230.html#a4dd441bfa740a2514899dfecceb4dd70" title="Retrieve a setting value by section and key.">ILumexSettings::get()</a></code>, and returns <code>true</code> if that value is acceptable as-is, <code>false</code> if it must be overwritten with the key's configured default. </p><dl class="section note"><dt>Note</dt><dd>Must not throw; if it does, <code><a class="el" href="a01222.html" title="Format-agnostic backup/repair/validation guard for an ILumexSettings instance.">LumexSettingsGuard</a></code> catches the exception and treats it the same as returning <code>false</code> (value rejected, default restored). </dd></dl>
-
-</div>
-</div>
-</div><!-- contents -->
+<p>CPUID feature flags (ECX register, function 0x00000001)  
+<a href="#details">More...</a></p>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>CPUID feature flags (ECX register, function 0x00000001) </p>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00912.html">lumex</a></li><li class="navelem"><a class="el" href="a00913.html">applied</a></li><li class="navelem"><a class="el" href="a00953.html">settings</a></li><li class="navelem"><a class="el" href="a00955.html">guard</a></li>
+    <li class="navelem"><a class="el" href="a00948.html">lumex</a></li><li class="navelem"><a class="el" href="a00949.html">applied</a></li><li class="navelem"><a class="el" href="a00950.html">hardware</a></li><li class="navelem"><a class="el" href="a00951.html">caps</a></li><li class="navelem"><a class="el" href="a00955.html">CPUIDECXFlags</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

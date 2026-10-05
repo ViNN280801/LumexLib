@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: XPathDocumentOrderComparator.cpp File Reference</title>
+<title>LumexLib: XmlUtils.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,46 +104,413 @@ $(function(){initNavTree('a00737.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#define-members">Macros</a>  </div>
-  <div class="headertitle"><div class="title">XPathDocumentOrderComparator.cpp File Reference</div></div>
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle"><div class="title">XmlUtils.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;<a class="el" href="a00350_source.html">lumex/core/utility/assert/LumexAssert.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00623_source.html">lumex/xml/constants/XmlConstants.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00635_source.html">lumex/xml/document/XmlDocumentBase.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00740_source.html">XPathDocumentOrderComparator.hpp</a>&quot;</code><br />
+
+<p>Header-only helpers of the XML implementation: transcoding, encoding detection, conversions between text and numbers, and the storage of names and values.  
+<a href="#details">More...</a></p>
+<div class="textblock"><code>#include &lt;array&gt;</code><br />
+<code>#include &lt;cfloat&gt;</code><br />
+<code>#include &lt;climits&gt;</code><br />
+<code>#include &lt;cmath&gt;</code><br />
+<code>#include &lt;cstddef&gt;</code><br />
+<code>#include &lt;cstdio&gt;</code><br />
+<code>#include &lt;cstdlib&gt;</code><br />
+<code>#include &lt;cstring&gt;</code><br />
+<code>#include &lt;cwchar&gt;</code><br />
+<code>#include &quot;<a class="el" href="a00386_source.html">lumex/core/utility/assert/LumexAssert.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00419_source.html">lumex/core/utility/macros/LumexConstantMacros.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00425_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00659_source.html">lumex/xml/constants/XmlConstants.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00677_source.html">lumex/xml/memory/XmlAllocator.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00728_source.html">lumex/xml/types/XmlTypes.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00734_source.html">lumex/xml/utility/XmlMacros.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00785_source.html">lumex/xml/xpath/memory/XPathAllocator.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for XPathDocumentOrderComparator.cpp:</div>
+Include dependency graph for XmlUtils.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00738.png" border="0" usemap="#a_x_path_document_order_comparator_8cpp" alt=""/></div>
+<div class="center"><img src="a00738.png" border="0" usemap="#a_xml_utils_8hpp" alt=""/></div>
+<map name="a_xml_utils_8hpp" id="a_xml_utils_8hpp">
+<area shape="rect" title="Header&#45;only helpers of the XML implementation: transcoding, encoding detection, conversions between t..." alt="" coords="504,5,601,32"/>
+<area shape="rect" title=" " alt="" coords="443,269,494,296"/>
+<area shape="poly" title=" " alt="" coords="504,29,402,48,356,63,340,72,329,82,318,105,318,130,327,154,343,179,389,224,436,258,433,263,386,228,339,182,322,157,313,131,313,104,325,78,337,68,354,59,401,43,503,23"/>
+<area shape="rect" title=" " alt="" coords="46,88,99,115"/>
+<area shape="poly" title=" " alt="" coords="504,24,428,28,329,38,220,55,112,83,108,84,106,79,110,77,219,50,328,33,427,23,504,19"/>
+<area shape="rect" title=" " alt="" coords="123,88,182,115"/>
+<area shape="poly" title=" " alt="" coords="504,26,363,44,278,60,195,83,190,84,188,79,193,77,277,55,363,39,503,21"/>
+<area shape="rect" title=" " alt="" coords="206,88,264,115"/>
+<area shape="poly" title=" " alt="" coords="505,31,402,51,284,83,278,85,276,80,282,77,401,46,504,26"/>
+<area shape="rect" title=" " alt="" coords="696,269,761,296"/>
+<area shape="poly" title=" " alt="" coords="580,30,612,50,642,78,665,112,677,142,686,174,700,212,719,254,714,256,695,214,681,175,672,144,661,115,638,82,609,55,577,35"/>
+<area shape="rect" title=" " alt="" coords="339,88,395,115"/>
+<area shape="poly" title=" " alt="" coords="524,35,411,84,409,79,522,30"/>
+<area shape="rect" title=" " alt="" coords="709,179,769,205"/>
+<area shape="poly" title=" " alt="" coords="602,29,649,47,672,61,693,78,709,98,721,120,736,162,731,164,716,122,704,101,689,82,669,65,646,52,600,34"/>
+<area shape="rect" title=" " alt="" coords="793,179,853,205"/>
+<area shape="poly" title=" " alt="" coords="602,28,662,47,694,61,725,78,750,98,773,120,808,164,804,168,769,124,746,102,722,82,692,65,660,52,600,33"/>
+<area shape="rect" title=" " alt="" coords="521,88,584,115"/>
+<area shape="poly" title=" " alt="" coords="555,32,555,73,550,73,550,32"/>
+<area shape="rect" href="a00386.html" title="Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_..." alt="" coords="1337,171,1504,213"/>
+<area shape="poly" title=" " alt="" coords="601,21,793,39,916,56,1038,77,1205,119,1347,163,1345,168,1203,124,1037,83,915,61,793,45,601,26"/>
+<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="645,517,839,560"/>
+<area shape="poly" title=" " alt="" coords="542,34,500,82,459,131,431,174,414,220,408,281,408,366,414,401,429,431,452,456,482,477,517,493,554,506,630,524,629,529,552,512,515,498,480,481,449,460,425,434,409,403,403,367,403,281,409,218,426,171,455,128,496,78,538,31"/>
+<area shape="rect" href="a00419.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="136,427,369,469"/>
+<area shape="poly" title=" " alt="" coords="504,25,236,45,105,61,60,71,35,82,16,106,10,129,11,191,11,284,14,309,23,331,37,351,55,369,100,398,150,419,148,424,98,402,52,373,33,355,19,334,9,310,6,284,6,191,4,129,12,103,32,78,58,66,104,56,236,39,504,20"/>
+<area shape="rect" href="a00659.html" title="Constants of the XML module: parse and format option flags, the masks of the node and attribute heade..." alt="" coords="443,171,585,213"/>
+<area shape="poly" title=" " alt="" coords="542,34,524,55,511,81,505,119,508,155,503,156,500,118,506,79,520,52,537,31"/>
+<area shape="rect" href="a00734.html" title="Preprocessor macros of the XML module: the character mode, the declaration of constants,..." alt="" coords="593,352,805,379"/>
+<area shape="poly" title=" " alt="" coords="566,31,599,79,632,149,659,222,695,336,690,338,654,223,627,151,594,81,561,34"/>
+<area shape="rect" href="a00677.html" title="The page allocator that holds the nodes, attributes and strings of one XML document." alt="" coords="1363,88,1598,115"/>
+<area shape="poly" title=" " alt="" coords="601,22,1348,86,1347,91,601,27"/>
+<area shape="rect" href="a00728.html" title="The basic types and enumerations of the XML module: character and string types, node types,..." alt="" coords="1630,179,1835,205"/>
+<area shape="poly" title=" " alt="" coords="601,18,828,24,1144,34,1440,52,1548,64,1611,78,1643,95,1672,118,1716,165,1712,168,1669,122,1640,100,1609,82,1547,69,1440,57,1143,40,828,29,601,24"/>
+<area shape="rect" href="a00785.html" title="XPathAllocator, the bump allocator of the XPath engine, and XPathAllocatorCapture,..." alt="" coords="858,80,1026,123"/>
+<area shape="poly" title=" " alt="" coords="601,27,843,77,842,82,600,33"/>
+<area shape="rect" href="a00641.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="1158,269,1320,296"/>
+<area shape="poly" title=" " alt="" coords="1379,216,1280,265,1277,260,1377,212"/>
+<area shape="poly" title=" " alt="" coords="1409,216,1377,259,1334,306,1275,362,1225,403,1171,437,1097,472,1037,494,974,510,855,531,854,525,973,505,1035,488,1095,467,1169,432,1222,399,1271,358,1330,302,1373,256,1405,212"/>
+<area shape="poly" title=" " alt="" coords="368,467,630,515,629,520,367,473"/>
+<area shape="poly" title=" " alt="" coords="506,215,484,257,479,254,501,213"/>
+<area shape="poly" title=" " alt="" coords="565,211,685,260,683,265,563,216"/>
+<area shape="rect" title=" " alt="" coords="896,352,956,379"/>
+<area shape="poly" title=" " alt="" coords="541,212,605,257,644,281,685,302,736,321,789,336,881,355,879,360,787,341,735,326,683,306,642,286,602,261,538,216"/>
+<area shape="poly" title=" " alt="" coords="521,213,536,258,548,281,565,302,598,327,635,344,633,349,595,331,561,306,544,284,531,260,516,215"/>
+<area shape="poly" title=" " alt="" coords="629,382,383,426,382,421,628,377"/>
+<area shape="rect" href="a00389.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="1467,427,1635,469"/>
+<area shape="poly" title=" " alt="" coords="805,374,1452,435,1451,440,805,379"/>
+<area shape="rect" href="a00404.html" title="C++ language, library and attribute feature availability." alt="" coords="1435,517,1667,560"/>
+<area shape="poly" title=" " alt="" coords="1554,470,1554,502,1548,502,1548,470"/>
+<area shape="poly" title=" " alt="" coords="1474,117,1445,159,1441,156,1470,114"/>
+<area shape="poly" title=" " alt="" coords="1494,114,1508,134,1522,160,1528,188,1525,202,1518,215,1490,235,1445,251,1336,273,1335,268,1443,246,1487,230,1514,212,1520,201,1522,188,1517,162,1504,137,1489,117"/>
+<area shape="poly" title=" " alt="" coords="1498,113,1521,137,1542,170,1559,234,1565,301,1564,362,1559,412,1554,411,1559,362,1560,301,1554,235,1537,172,1517,140,1494,117"/>
+<area shape="poly" title=" " alt="" coords="1517,113,1683,171,1681,176,1516,118"/>
+<area shape="rect" href="a00683.html" title="The header of a memory page of the XML allocator, and the default page size." alt="" coords="1166,179,1312,205"/>
+<area shape="poly" title=" " alt="" coords="1447,118,1289,175,1287,170,1445,113"/>
+<area shape="poly" title=" " alt="" coords="1731,207,1709,257,1689,284,1663,306,1622,319,1551,330,1351,347,1135,359,972,365,971,360,1135,354,1351,342,1550,325,1621,314,1660,302,1685,281,1704,254,1726,205"/>
+<area shape="poly" title=" " alt="" coords="1696,208,1539,257,1437,284,1333,307,1234,320,1099,334,820,358,820,352,1099,329,1234,315,1332,301,1436,279,1538,252,1695,203"/>
+<area shape="rect" title=" " alt="" coords="1731,269,1784,296"/>
+<area shape="poly" title=" " alt="" coords="1739,205,1752,253,1747,255,1733,207"/>
+<area shape="poly" title=" " alt="" coords="1166,207,825,264,776,274,775,268,824,259,1165,202"/>
+<area shape="poly" title=" " alt="" coords="1242,206,1242,254,1236,254,1236,206"/>
+<area shape="poly" title=" " alt="" coords="892,126,781,173,779,174,777,169,779,168,890,121"/>
+<area shape="poly" title=" " alt="" coords="916,125,853,171,850,167,913,121"/>
+<area shape="poly" title=" " alt="" coords="998,121,1048,142,1098,168,1213,258,1210,262,1095,173,1045,147,996,126"/>
+<area shape="poly" title=" " alt="" coords="994,121,1027,141,1055,169,1071,197,1079,222,1080,281,1080,367,1075,403,1059,434,1034,460,1004,481,969,498,931,512,855,529,854,524,930,506,967,493,1001,477,1031,456,1054,431,1070,401,1075,366,1075,281,1073,223,1066,199,1050,172,1023,145,991,125"/>
+<area shape="rect" href="a00788.html" title="XPathMemoryBlock, the unit of memory of the XPath allocator." alt="" coords="878,179,1040,205"/>
+<area shape="poly" title=" " alt="" coords="948,123,956,163,951,164,943,124"/>
+<area shape="poly" title=" " alt="" coords="902,209,866,216,509,278,508,272,865,211,901,203"/>
+<area shape="poly" title=" " alt="" coords="927,208,776,266,774,261,925,203"/>
+<area shape="poly" title=" " alt="" coords="1000,203,1185,262,1184,267,998,208"/>
+<area shape="rect" href="a00767.html" title="Size limits and alignment of the XPath engine." alt="" coords="837,261,1015,304"/>
+<area shape="poly" title=" " alt="" coords="957,207,941,248,936,246,952,205"/>
+<area shape="poly" title=" " alt="" coords="928,305,928,336,923,336,923,305"/>
+<area shape="poly" title=" " alt="" coords="868,307,750,349,748,344,866,302"/>
+</map>
 </div>
-</div><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
-Macros</h2></td></tr>
-<tr class="memitem:a07486181f1990291c2a348de8eb4c480" id="r_a07486181f1990291c2a348de8eb4c480"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a07486181f1990291c2a348de8eb4c480">LUMEX_IMPLEMENTATION</a></td></tr>
-<tr class="separator:a07486181f1990291c2a348de8eb4c480"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00739.png" border="0" usemap="#a_xml_utils_8hppdep" alt=""/></div>
+<map name="a_xml_utils_8hppdep" id="a_xml_utils_8hppdep">
+<area shape="rect" title="Header&#45;only helpers of the XML implementation: transcoding, encoding detection, conversions between t..." alt="" coords="1557,5,1654,32"/>
+<area shape="rect" href="a00944.html" title="XML module: a DOM tree of nodes, attributes and text, loading and saving with writers for files and s..." alt="" coords="277,229,360,256"/>
+<area shape="poly" title=" " alt="" coords="1542,25,1063,44,789,61,676,71,590,83,513,91,450,95,422,101,395,112,368,130,339,156,329,173,323,193,320,229,315,229,317,192,324,171,335,153,365,126,393,107,421,96,450,90,512,85,589,77,675,66,789,55,1063,38,1542,19"/>
+<area shape="rect" href="a00815.html" title=" " alt="" coords="1146,80,1294,107"/>
+<area shape="poly" title=" " alt="" coords="1542,34,1288,82,1287,77,1541,29"/>
+<area shape="rect" href="a00803.html" title=" " alt="" coords="1319,80,1452,107"/>
+<area shape="poly" title=" " alt="" coords="1553,40,1425,82,1423,77,1552,35"/>
+<area shape="rect" href="a00821.html" title=" " alt="" coords="700,304,820,331"/>
+<area shape="poly" title=" " alt="" coords="1542,22,1438,25,1317,34,1259,41,1207,52,1164,65,1135,82,1118,102,1110,123,1109,145,1110,167,1112,190,1110,213,1102,236,1084,258,1065,270,1038,281,969,297,892,308,821,315,821,310,891,303,968,292,1037,276,1063,266,1081,254,1097,234,1105,212,1106,190,1105,168,1103,145,1105,122,1114,99,1132,78,1162,60,1206,46,1258,36,1317,28,1438,20,1541,17"/>
+<area shape="rect" href="a00839.html" title=" " alt="" coords="1476,80,1593,107"/>
+<area shape="poly" title=" " alt="" coords="1584,45,1549,81,1545,78,1581,41"/>
+<area shape="rect" href="a00851.html" title=" " alt="" coords="841,155,970,181"/>
+<area shape="poly" title=" " alt="" coords="1542,23,1411,27,1250,36,1096,54,1035,67,989,82,965,98,944,118,915,156,911,153,940,115,962,94,987,78,1033,62,1095,49,1249,31,1411,22,1542,18"/>
+<area shape="rect" href="a00854.html" title="XPathVariable, a named and typed XPath variable, its four concrete kinds, and the functions that crea..." alt="" coords="601,80,730,107"/>
+<area shape="poly" title=" " alt="" coords="1542,28,730,90,730,84,1541,22"/>
+<area shape="rect" href="a00857.html" title=" " alt="" coords="798,229,946,256"/>
+<area shape="poly" title=" " alt="" coords="1542,23,1425,27,1284,37,1151,54,1098,67,1060,82,1034,104,1020,129,1007,155,983,183,943,211,904,231,901,226,940,207,980,179,1002,152,1015,126,1030,101,1057,78,1097,62,1150,49,1283,31,1424,22,1541,18"/>
+<area shape="rect" href="a00689.html" title=" " alt="" coords="970,229,1070,256"/>
+<area shape="poly" title=" " alt="" coords="1542,22,1429,25,1296,33,1231,41,1173,51,1125,65,1091,82,1074,98,1060,116,1041,158,1029,198,1024,229,1019,228,1024,197,1036,156,1056,113,1070,94,1088,78,1123,60,1172,46,1231,35,1296,28,1429,19,1541,17"/>
+<area shape="rect" href="a00644.html" title=" " alt="" coords="1617,80,1735,107"/>
+<area shape="poly" title=" " alt="" coords="1630,41,1666,78,1662,81,1626,45"/>
+<area shape="rect" href="a00650.html" title=" " alt="" coords="1759,80,1908,107"/>
+<area shape="poly" title=" " alt="" coords="1660,35,1794,77,1793,82,1659,40"/>
+<area shape="rect" href="a00743.html" title=" " alt="" coords="1931,80,2082,107"/>
+<area shape="poly" title=" " alt="" coords="1669,29,1937,77,1936,82,1668,34"/>
+<area shape="rect" href="a00662.html" title=" " alt="" coords="2106,80,2235,107"/>
+<area shape="poly" title=" " alt="" coords="1669,24,2095,77,2106,79,2105,84,2094,83,1668,30"/>
+<area shape="rect" href="a00686.html" title=" " alt="" coords="2259,80,2442,107"/>
+<area shape="poly" title=" " alt="" coords="1669,23,2248,77,2259,79,2259,84,2248,83,1669,28"/>
+<area shape="rect" href="a00695.html" title=" " alt="" coords="2467,80,2597,107"/>
+<area shape="poly" title=" " alt="" coords="1669,20,2005,39,2229,55,2455,77,2467,79,2466,84,2454,83,2228,61,2005,44,1669,25"/>
+<area shape="rect" href="a00713.html" title=" " alt="" coords="2621,80,2763,107"/>
+<area shape="poly" title=" " alt="" coords="1669,19,2066,37,2335,54,2610,77,2621,79,2621,84,2609,83,2335,59,2066,42,1669,25"/>
+<area shape="rect" href="a00707.html" title=" " alt="" coords="2786,80,2894,107"/>
+<area shape="poly" title=" " alt="" coords="1669,18,1857,21,2131,30,2450,48,2775,77,2786,79,2786,84,2774,83,2449,53,2130,35,1857,26,1669,23"/>
+<area shape="rect" href="a00719.html" title=" " alt="" coords="2918,80,3012,107"/>
+<area shape="poly" title=" " alt="" coords="1669,17,1876,18,2181,25,2540,43,2725,58,2906,77,2918,79,2917,84,2905,83,2724,63,2539,49,2181,31,1876,23,1669,22"/>
+<area shape="rect" href="a00629.html" title=" " alt="" coords="405,304,515,331"/>
+<area shape="poly" title=" " alt="" coords="358,261,436,301,434,306,355,266"/>
+<area shape="rect" href="a00632.html" title=" " alt="" coords="5,304,115,331"/>
+<area shape="poly" title=" " alt="" coords="263,262,106,306,104,301,261,257"/>
+<area shape="rect" href="a00635.html" title=" " alt="" coords="139,304,248,331"/>
+<area shape="poly" title=" " alt="" coords="285,266,217,306,214,301,283,262"/>
+<area shape="rect" href="a00638.html" title=" " alt="" coords="272,304,381,331"/>
+<area shape="poly" title=" " alt="" coords="324,271,328,303,323,304,319,272"/>
+<area shape="poly" title=" " alt="" coords="586,105,460,125,404,140,367,157,351,173,338,193,324,230,319,228,334,191,347,170,364,152,403,135,459,120,586,100"/>
+<area shape="poly" title=" " alt="" coords="723,109,864,151,862,157,721,114"/>
+<area shape="rect" href="a00764.html" title="XPathAstNode, the node of a compiled XPath expression tree, which evaluates itself against a context." alt="" coords="377,155,511,181"/>
+<area shape="poly" title=" " alt="" coords="613,114,484,157,482,151,611,109"/>
+<area shape="rect" href="a00845.html" title=" " alt="" coords="535,155,644,181"/>
+<area shape="poly" title=" " alt="" coords="643,119,604,156,601,152,639,116"/>
+<area shape="rect" href="a00860.html" title="XPathVariableSet, the named variables an XPath expression can refer to, and the lookup helper the par..." alt="" coords="668,155,817,181"/>
+<area shape="poly" title=" " alt="" coords="692,116,731,152,728,156,688,119"/>
+<area shape="rect" href="a00761.html" title=" " alt="" coords="384,229,517,256"/>
+<area shape="poly" title=" " alt="" coords="449,197,452,229,447,229,444,197"/>
+<area shape="rect" href="a00824.html" title="XPathParser, the recursive descent parser that compiles an XPath 1.0 expression into a tree of XPathA..." alt="" coords="552,229,672,256"/>
+<area shape="poly" title=" " alt="" coords="488,185,584,226,581,231,486,190"/>
+<area shape="poly" title=" " alt="" coords="653,261,735,301,733,306,650,266"/>
+<area shape="rect" href="a00833.html" title=" " alt="" coords="556,304,673,331"/>
+<area shape="poly" title=" " alt="" coords="616,272,617,304,612,304,610,272"/>
+<area shape="poly" title=" " alt="" coords="653,185,372,232,361,234,360,229,372,227,652,180"/>
+<area shape="poly" title=" " alt="" coords="749,197,761,303,756,304,743,197"/>
+<area shape="poly" title=" " alt="" coords="708,192,636,231,634,226,705,187"/>
+<area shape="poly" title=" " alt="" coords="730,196,686,258,659,284,633,306,629,302,655,280,682,254,726,193"/>
+<area shape="poly" title=" " alt="" coords="780,187,851,226,848,231,777,192"/>
+<area shape="poly" title=" " alt="" coords="806,183,972,226,971,231,805,188"/>
+</map>
+</div>
+</div>
+<p><a href="a00737_source.html">Go to the source code of this file.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02989.html">lumex::xml::utility::opt_false</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02993.html">lumex::xml::utility::opt_true</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02997.html">lumex::xml::utility::utf16_counter</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03001.html">lumex::xml::utility::utf16_decoder&lt; opt_swap &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03005.html">lumex::xml::utility::utf32_decoder&lt; opt_swap &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03009.html">lumex::xml::utility::latin1_decoder</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03013.html">lumex::xml::utility::utf8_counter</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03017.html">lumex::xml::utility::utf8_writer</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03021.html">lumex::xml::utility::utf16_writer</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03025.html">lumex::xml::utility::utf32_counter</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03029.html">lumex::xml::utility::utf32_writer</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03033.html">lumex::xml::utility::latin1_writer</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03041.html">lumex::xml::utility::wchar_selector&lt; 2 &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03045.html">lumex::xml::utility::wchar_selector&lt; 4 &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03049.html">lumex::xml::utility::wchar_decoder</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03053.html">lumex::xml::utility::utf8_decoder</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00948.html">lumex</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01126.html">lumex::xml</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01128.html">lumex::xml::utility</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:a3746e86157e541d51f76a69038657333" id="r_a3746e86157e541d51f76a69038657333"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01128.html#a3746e86157e541d51f76a69038657333">lumex::xml::utility::wchar_counter</a> = <a class="el" href="a03037.html">wchar_selector</a>&lt;sizeof (wchar_t)&gt;::counter</td></tr>
+<tr class="separator:a3746e86157e541d51f76a69038657333"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a246aea38ccb5b0cf2f6ed3077ab7e637" id="r_a246aea38ccb5b0cf2f6ed3077ab7e637"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01128.html#a246aea38ccb5b0cf2f6ed3077ab7e637">lumex::xml::utility::wchar_writer</a> = <a class="el" href="a03037.html">wchar_selector</a>&lt;sizeof (wchar_t)&gt;::writer</td></tr>
+<tr class="separator:a246aea38ccb5b0cf2f6ed3077ab7e637"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a57f19aa79c8914fa98db53378392c68a" id="r_a57f19aa79c8914fa98db53378392c68a"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01128.html#a57f19aa79c8914fa98db53378392c68a">lumex::xml::utility::endian_swap</a> (uint16_t value)</td></tr>
+<tr class="separator:a57f19aa79c8914fa98db53378392c68a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab09c2e6f7fba90c0a0bd1852c93dd8e7" id="r_ab09c2e6f7fba90c0a0bd1852c93dd8e7"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01128.html#ab09c2e6f7fba90c0a0bd1852c93dd8e7">lumex::xml::utility::endian_swap</a> (uint32_t value)</td></tr>
+<tr class="separator:ab09c2e6f7fba90c0a0bd1852c93dd8e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a97919c57db6358f57a97461f9f97cc7f" id="r_a97919c57db6358f57a97461f9f97cc7f"><td class="memTemplParams" colspan="2">template&lt;typename U&gt; </td></tr>
+<tr class="memitem:a97919c57db6358f57a97461f9f97cc7f"><td class="memTemplItemLeft" align="right" valign="top">U&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01128.html#a97919c57db6358f57a97461f9f97cc7f">lumex::xml::utility::string_to_integer</a> (<a class="el" href="a01143.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *value, U minv, U maxv)</td></tr>
+<tr class="separator:a97919c57db6358f57a97461f9f97cc7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a16b4ac35b0b90e24e97c3db4edf3944a" id="r_a16b4ac35b0b90e24e97c3db4edf3944a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01128.html#a16b4ac35b0b90e24e97c3db4edf3944a">lumex::xml::utility::get_value_int</a> (<a class="el" href="a01143.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *value)</td></tr>
+<tr class="separator:a16b4ac35b0b90e24e97c3db4edf3944a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7e63757deedf810dc9dcfb0c8beba623" id="r_a7e63757deedf810dc9dcfb0c8beba623"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01128.html#a7e63757deedf810dc9dcfb0c8beba623">lumex::xml::utility::get_value_uint</a> (<a class="el" href="a01143.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *value)</td></tr>
+<tr class="separator:a7e63757deedf810dc9dcfb0c8beba623"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab7948998dd533ef6c4c7b3071242053b" id="r_ab7948998dd533ef6c4c7b3071242053b"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01128.html#ab7948998dd533ef6c4c7b3071242053b">lumex::xml::utility::get_value_double</a> (<a class="el" href="a01143.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *value)</td></tr>
+<tr class="separator:ab7948998dd533ef6c4c7b3071242053b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a87c560e4247a047004f2f5945548f183" id="r_a87c560e4247a047004f2f5945548f183"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01128.html#a87c560e4247a047004f2f5945548f183">lumex::xml::utility::get_value_float</a> (<a class="el" href="a01143.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *value)</td></tr>
+<tr class="separator:a87c560e4247a047004f2f5945548f183"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7c92f20ccd138b7f216099fba99c9d6f" id="r_a7c92f20ccd138b7f216099fba99c9d6f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01128.html#a7c92f20ccd138b7f216099fba99c9d6f">lumex::xml::utility::get_value_bool</a> (<a class="el" href="a01143.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *value)</td></tr>
+<tr class="separator:a7c92f20ccd138b7f216099fba99c9d6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a270bb8850a95195ef24d72372268a971" id="r_a270bb8850a95195ef24d72372268a971"><td class="memItemLeft" align="right" valign="top">long long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01128.html#a270bb8850a95195ef24d72372268a971">lumex::xml::utility::get_value_llong</a> (<a class="el" href="a01143.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *value)</td></tr>
+<tr class="separator:a270bb8850a95195ef24d72372268a971"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a567d3a5ee03ae4164fca7f87899b7aa7" id="r_a567d3a5ee03ae4164fca7f87899b7aa7"><td class="memItemLeft" align="right" valign="top">unsigned long long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01128.html#a567d3a5ee03ae4164fca7f87899b7aa7">lumex::xml::utility::get_value_ullong</a> (<a class="el" href="a01143.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *value)</td></tr>
+<tr class="separator:a567d3a5ee03ae4164fca7f87899b7aa7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef8fee41b36e9987a5b7ed339b83ce42" id="r_aef8fee41b36e9987a5b7ed339b83ce42"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01128.html#aef8fee41b36e9987a5b7ed339b83ce42">lumex::xml::utility::strlength</a> (<a class="el" href="a01143.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *str)</td></tr>
+<tr class="separator:aef8fee41b36e9987a5b7ed339b83ce42"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae819d654fda5c06256cef8359da83977" id="r_ae819d654fda5c06256cef8359da83977"><td class="memTemplParams" colspan="2">template&lt;typename Header&gt; </td></tr>
+<tr class="memitem:ae819d654fda5c06256cef8359da83977"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01128.html#ae819d654fda5c06256cef8359da83977">lumex::xml::utility::strcpy_insitu_allow</a> (std::size_t length, Header const &amp;header, uintptr_t header_mask, <a class="el" href="a01143.html#af5c331138f914028e4642100ea3e7a24">char_t</a> *target)</td></tr>
+<tr class="separator:ae819d654fda5c06256cef8359da83977"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b9f5b80f9fb35252ff521a51e4974e6" id="r_a9b9f5b80f9fb35252ff521a51e4974e6"><td class="memTemplParams" colspan="2">template&lt;typename String, typename Header&gt; </td></tr>
+<tr class="memitem:a9b9f5b80f9fb35252ff521a51e4974e6"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01128.html#a9b9f5b80f9fb35252ff521a51e4974e6">lumex::xml::utility::strcpy_insitu</a> (String &amp;dest, Header &amp;header, uintptr_t header_mask, <a class="el" href="a01143.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *source, std::size_t source_length)</td></tr>
+<tr class="separator:a9b9f5b80f9fb35252ff521a51e4974e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d02305444b9427e8e8371818ab1c99c" id="r_a7d02305444b9427e8e8371818ab1c99c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01128.html#a7d02305444b9427e8e8371818ab1c99c">lumex::xml::utility::strequal</a> (<a class="el" href="a01143.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *src, <a class="el" href="a01143.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *dst)</td></tr>
+<tr class="separator:a7d02305444b9427e8e8371818ab1c99c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a93864568db0bec9a41250c719b5da0ee" id="r_a93864568db0bec9a41250c719b5da0ee"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01128.html#a93864568db0bec9a41250c719b5da0ee">lumex::xml::utility::sized_strequal</a> (<a class="el" href="a01143.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *src, std::size_t srclen, <a class="el" href="a01143.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *dst)</td></tr>
+<tr class="separator:a93864568db0bec9a41250c719b5da0ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3c5deb31f79c24e9ee3be945e125e6bd" id="r_a3c5deb31f79c24e9ee3be945e125e6bd"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01128.html#a3c5deb31f79c24e9ee3be945e125e6bd">lumex::xml::utility::stringview_equal</a> (<a class="el" href="a01143.html#acc796a34be312ace491c99cf7f191617">string_view_t</a> srcview, <a class="el" href="a01143.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *dst)</td></tr>
+<tr class="separator:a3c5deb31f79c24e9ee3be945e125e6bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaf464c3947b249327d213a517baf5286" id="r_aaf464c3947b249327d213a517baf5286"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01128.html#aaf464c3947b249327d213a517baf5286">lumex::xml::utility::strequalrange</a> (<a class="el" href="a01143.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *lhs, <a class="el" href="a01143.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *rhs, std::size_t count)</td></tr>
+<tr class="separator:aaf464c3947b249327d213a517baf5286"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a133ad02212286d106d8213036a6e9fad" id="r_a133ad02212286d106d8213036a6e9fad"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01128.html#a133ad02212286d106d8213036a6e9fad">lumex::xml::utility::strlength_wide</a> (wchar_t const *str)</td></tr>
+<tr class="separator:a133ad02212286d106d8213036a6e9fad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae41c818302bc44bd88b8a359c5512867" id="r_ae41c818302bc44bd88b8a359c5512867"><td class="memTemplParams" colspan="2">template&lt;typename U&gt; </td></tr>
+<tr class="memitem:ae41c818302bc44bd88b8a359c5512867"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="a01143.html#af5c331138f914028e4642100ea3e7a24">char_t</a> *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01128.html#ae41c818302bc44bd88b8a359c5512867">lumex::xml::utility::integer_to_string</a> (<a class="el" href="a01143.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *begin, <a class="el" href="a01143.html#af5c331138f914028e4642100ea3e7a24">char_t</a> *end, U value, bool negative)</td></tr>
+<tr class="separator:ae41c818302bc44bd88b8a359c5512867"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3b52cfdd683b3e968962bc2d11a111e9" id="r_a3b52cfdd683b3e968962bc2d11a111e9"><td class="memTemplParams" colspan="2">template&lt;typename U, typename String, typename Header&gt; </td></tr>
+<tr class="memitem:a3b52cfdd683b3e968962bc2d11a111e9"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01128.html#a3b52cfdd683b3e968962bc2d11a111e9">lumex::xml::utility::set_value_integer</a> (String &amp;dest, Header &amp;header, uintptr_t header_mask, U value, bool negative)</td></tr>
+<tr class="separator:a3b52cfdd683b3e968962bc2d11a111e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4df69866175ace0f2872d0b8b482d70d" id="r_a4df69866175ace0f2872d0b8b482d70d"><td class="memTemplParams" colspan="2">template&lt;typename String, typename Header&gt; </td></tr>
+<tr class="memitem:a4df69866175ace0f2872d0b8b482d70d"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01128.html#a4df69866175ace0f2872d0b8b482d70d">lumex::xml::utility::set_value_ascii</a> (String &amp;dest, Header &amp;header, uintptr_t header_mask, char *buf)</td></tr>
+<tr class="separator:a4df69866175ace0f2872d0b8b482d70d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad3630629a15e0d50c4d9f0ba49f3fb22" id="r_ad3630629a15e0d50c4d9f0ba49f3fb22"><td class="memTemplParams" colspan="2">template&lt;typename String, typename Header&gt; </td></tr>
+<tr class="memitem:ad3630629a15e0d50c4d9f0ba49f3fb22"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01128.html#ad3630629a15e0d50c4d9f0ba49f3fb22">lumex::xml::utility::set_value_convert</a> (String &amp;dest, Header &amp;header, uintptr_t header_mask, float value, int precision)</td></tr>
+<tr class="separator:ad3630629a15e0d50c4d9f0ba49f3fb22"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aca0b763de1215151eeda5cfa4becd08c" id="r_aca0b763de1215151eeda5cfa4becd08c"><td class="memTemplParams" colspan="2">template&lt;typename String, typename Header&gt; </td></tr>
+<tr class="memitem:aca0b763de1215151eeda5cfa4becd08c"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01128.html#aca0b763de1215151eeda5cfa4becd08c">lumex::xml::utility::set_value_convert</a> (String &amp;dest, Header &amp;header, uintptr_t header_mask, double value, int precision)</td></tr>
+<tr class="separator:aca0b763de1215151eeda5cfa4becd08c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a61fa2a37a7c7620ffd807097aa39164b" id="r_a61fa2a37a7c7620ffd807097aa39164b"><td class="memTemplParams" colspan="2">template&lt;typename String, typename Header&gt; </td></tr>
+<tr class="memitem:a61fa2a37a7c7620ffd807097aa39164b"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01128.html#a61fa2a37a7c7620ffd807097aa39164b">lumex::xml::utility::set_value_bool</a> (String &amp;dest, Header &amp;header, uintptr_t header_mask, bool value)</td></tr>
+<tr class="separator:a61fa2a37a7c7620ffd807097aa39164b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a135b0871557512fb24bb545285f5c9db" id="r_a135b0871557512fb24bb545285f5c9db"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01128.html#a135b0871557512fb24bb545285f5c9db">lumex::xml::utility::gen_nan</a> ()</td></tr>
+<tr class="separator:a135b0871557512fb24bb545285f5c9db"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aac6d2406d93f87b18c27586731e0a1b4" id="r_aac6d2406d93f87b18c27586731e0a1b4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01128.html#aac6d2406d93f87b18c27586731e0a1b4">lumex::xml::utility::is_nan</a> (double value)</td></tr>
+<tr class="separator:aac6d2406d93f87b18c27586731e0a1b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae10323c79b428ecefbd57549c80d093c" id="r_ae10323c79b428ecefbd57549c80d093c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01128.html#ae10323c79b428ecefbd57549c80d093c">lumex::xml::utility::hash_insert</a> (void const **table, std::size_t size, void const *key)</td></tr>
+<tr class="separator:ae10323c79b428ecefbd57549c80d093c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9cc6cae0461eba53161ef1351a4c3512" id="r_a9cc6cae0461eba53161ef1351a4c3512"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01128.html#a9cc6cae0461eba53161ef1351a4c3512">lumex::xml::utility::hash_string</a> (<a class="el" href="a01143.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *str)</td></tr>
+<tr class="separator:a9cc6cae0461eba53161ef1351a4c3512"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3550d26fd44f43036b4af55814436c45" id="r_a3550d26fd44f43036b4af55814436c45"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01128.html#a3550d26fd44f43036b4af55814436c45">lumex::xml::utility::is_little_endian</a> ()</td></tr>
+<tr class="separator:a3550d26fd44f43036b4af55814436c45"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3735e853fcfde7b0a1f7f96fe3d23422" id="r_a3735e853fcfde7b0a1f7f96fe3d23422"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01143.html#af1767ae022d3845084f92ab0bc3776a0">xml_encoding</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01128.html#a3735e853fcfde7b0a1f7f96fe3d23422">lumex::xml::utility::get_wchar_encoding</a> ()</td></tr>
+<tr class="separator:a3735e853fcfde7b0a1f7f96fe3d23422"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a152e4d128c761aac3019be2cbb20bff2" id="r_a152e4d128c761aac3019be2cbb20bff2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01128.html#a152e4d128c761aac3019be2cbb20bff2">lumex::xml::utility::parse_declaration_encoding</a> (uint8_t const *data, std::size_t size, uint8_t const *&amp;out_encoding, std::size_t &amp;out_length)</td></tr>
+<tr class="separator:a152e4d128c761aac3019be2cbb20bff2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0b03422e6a429d3386d49503ea29f9ca" id="r_a0b03422e6a429d3386d49503ea29f9ca"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01143.html#af1767ae022d3845084f92ab0bc3776a0">xml_encoding</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01128.html#a0b03422e6a429d3386d49503ea29f9ca">lumex::xml::utility::guess_buffer_encoding</a> (uint8_t const *data, std::size_t size)</td></tr>
+<tr class="separator:a0b03422e6a429d3386d49503ea29f9ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a89892f076c3d9ddcf776a6d039b1347f" id="r_a89892f076c3d9ddcf776a6d039b1347f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01143.html#af1767ae022d3845084f92ab0bc3776a0">xml_encoding</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01128.html#a89892f076c3d9ddcf776a6d039b1347f">lumex::xml::utility::get_buffer_encoding</a> (<a class="el" href="a01143.html#af1767ae022d3845084f92ab0bc3776a0">xml_encoding</a> encoding, void const *contents, std::size_t size)</td></tr>
+<tr class="separator:a89892f076c3d9ddcf776a6d039b1347f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae9136d5e971321f70e2bd2142e50730f" id="r_ae9136d5e971321f70e2bd2142e50730f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01128.html#ae9136d5e971321f70e2bd2142e50730f">lumex::xml::utility::get_mutable_buffer</a> (<a class="el" href="a01143.html#af5c331138f914028e4642100ea3e7a24">char_t</a> *&amp;out_buffer, std::size_t &amp;out_length, void const *contents, std::size_t size, bool is_mutable)</td></tr>
+<tr class="separator:ae9136d5e971321f70e2bd2142e50730f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5bb3676df516811dcf8c223d24173a28" id="r_a5bb3676df516811dcf8c223d24173a28"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01143.html#af1767ae022d3845084f92ab0bc3776a0">xml_encoding</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01128.html#a5bb3676df516811dcf8c223d24173a28">lumex::xml::utility::get_write_native_encoding</a> ()</td></tr>
+<tr class="separator:a5bb3676df516811dcf8c223d24173a28"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af515ad9a9bcf8166dcb380ab8781ca99" id="r_af515ad9a9bcf8166dcb380ab8781ca99"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01143.html#af1767ae022d3845084f92ab0bc3776a0">xml_encoding</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01128.html#af515ad9a9bcf8166dcb380ab8781ca99">lumex::xml::utility::get_write_encoding</a> (<a class="el" href="a01143.html#af1767ae022d3845084f92ab0bc3776a0">xml_encoding</a> encoding)</td></tr>
+<tr class="separator:af515ad9a9bcf8166dcb380ab8781ca99"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a50bce6a89657c01bf24ad4eae09efc87" id="r_a50bce6a89657c01bf24ad4eae09efc87"><td class="memTemplParams" colspan="2">template&lt;typename D&gt; </td></tr>
+<tr class="memitem:a50bce6a89657c01bf24ad4eae09efc87"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01128.html#a50bce6a89657c01bf24ad4eae09efc87">lumex::xml::utility::convert_buffer_generic</a> (<a class="el" href="a01143.html#af5c331138f914028e4642100ea3e7a24">char_t</a> *&amp;out_buffer, std::size_t &amp;out_length, void const *contents, std::size_t size, D)</td></tr>
+<tr class="separator:a50bce6a89657c01bf24ad4eae09efc87"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3cb4abf426c232710888c97d4d549422" id="r_a3cb4abf426c232710888c97d4d549422"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01128.html#a3cb4abf426c232710888c97d4d549422">lumex::xml::utility::get_latin1_7bit_prefix_length</a> (uint8_t const *data, std::size_t size)</td></tr>
+<tr class="separator:a3cb4abf426c232710888c97d4d549422"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a4e5e4adadf288d536f8cdbc9c5696c" id="r_a7a4e5e4adadf288d536f8cdbc9c5696c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01128.html#a7a4e5e4adadf288d536f8cdbc9c5696c">lumex::xml::utility::convert_buffer_latin1</a> (<a class="el" href="a01143.html#af5c331138f914028e4642100ea3e7a24">char_t</a> *&amp;out_buffer, std::size_t &amp;out_length, void const *contents, std::size_t size, bool is_mutable)</td></tr>
+<tr class="separator:a7a4e5e4adadf288d536f8cdbc9c5696c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2c9959ff1c2cf8e2a807f61de6ae218e" id="r_a2c9959ff1c2cf8e2a807f61de6ae218e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01128.html#a2c9959ff1c2cf8e2a807f61de6ae218e">lumex::xml::utility::convert_buffer</a> (<a class="el" href="a01143.html#af5c331138f914028e4642100ea3e7a24">char_t</a> *&amp;out_buffer, std::size_t &amp;out_length, <a class="el" href="a01143.html#af1767ae022d3845084f92ab0bc3776a0">xml_encoding</a> encoding, void const *contents, std::size_t size, bool is_mutable)</td></tr>
+<tr class="separator:a2c9959ff1c2cf8e2a807f61de6ae218e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a083fac0c7012474709ca9ec3535fa5e9" id="r_a083fac0c7012474709ca9ec3535fa5e9"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01128.html#a083fac0c7012474709ca9ec3535fa5e9">lumex::xml::utility::as_utf8_begin</a> (const wchar_t *str, std::size_t length)</td></tr>
+<tr class="separator:a083fac0c7012474709ca9ec3535fa5e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae786e6b555474db543419f19d993fe1d" id="r_ae786e6b555474db543419f19d993fe1d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01128.html#ae786e6b555474db543419f19d993fe1d">lumex::xml::utility::as_utf8_end</a> (char *buffer, std::size_t size, wchar_t const *str, std::size_t length)</td></tr>
+<tr class="separator:ae786e6b555474db543419f19d993fe1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aec3699510d91e93460457ec7caf7ab77" id="r_aec3699510d91e93460457ec7caf7ab77"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01128.html#aec3699510d91e93460457ec7caf7ab77">lumex::xml::utility::as_utf8_impl</a> (wchar_t const *str, std::size_t length)</td></tr>
+<tr class="separator:aec3699510d91e93460457ec7caf7ab77"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af4b7029c48600ad3574746af36116cbc" id="r_af4b7029c48600ad3574746af36116cbc"><td class="memItemLeft" align="right" valign="top">std::basic_string&lt; wchar_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01128.html#af4b7029c48600ad3574746af36116cbc">lumex::xml::utility::as_wide_impl</a> (char const *str, std::size_t size)</td></tr>
+<tr class="separator:af4b7029c48600ad3574746af36116cbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae3b41eb364d6a93b178414edc1a6c1d3" id="r_ae3b41eb364d6a93b178414edc1a6c1d3"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01128.html#ae3b41eb364d6a93b178414edc1a6c1d3">lumex::xml::utility::as_utf8</a> (wchar_t const *str)</td></tr>
+<tr class="separator:ae3b41eb364d6a93b178414edc1a6c1d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a87bf53ef84b608d280088a5ddbe6ea2f" id="r_a87bf53ef84b608d280088a5ddbe6ea2f"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01128.html#a87bf53ef84b608d280088a5ddbe6ea2f">lumex::xml::utility::as_utf8</a> (std::basic_string&lt; wchar_t &gt; const &amp;str)</td></tr>
+<tr class="separator:a87bf53ef84b608d280088a5ddbe6ea2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a44a5baed98f9f5bc619dc0acd507dc2b" id="r_a44a5baed98f9f5bc619dc0acd507dc2b"><td class="memItemLeft" align="right" valign="top">std::basic_string&lt; wchar_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01128.html#a44a5baed98f9f5bc619dc0acd507dc2b">lumex::xml::utility::as_wide</a> (char const *str)</td></tr>
+<tr class="separator:a44a5baed98f9f5bc619dc0acd507dc2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b25b496f5010ec249eece6fa80e7d03" id="r_a9b25b496f5010ec249eece6fa80e7d03"><td class="memItemLeft" align="right" valign="top">std::basic_string&lt; wchar_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01128.html#a9b25b496f5010ec249eece6fa80e7d03">lumex::xml::utility::as_wide</a> (std::string const &amp;str)</td></tr>
+<tr class="separator:a9b25b496f5010ec249eece6fa80e7d03"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab83253de00b48533ee88aa1ca631391e" id="r_ab83253de00b48533ee88aa1ca631391e"><td class="memTemplParams" colspan="2">template&lt;typename D, typename T&gt; </td></tr>
+<tr class="memitem:ab83253de00b48533ee88aa1ca631391e"><td class="memTemplItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01128.html#ab83253de00b48533ee88aa1ca631391e">lumex::xml::utility::convert_buffer_output_generic</a> (typename T::value_type dest, <a class="el" href="a01143.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *data, std::size_t length, D, T)</td></tr>
+<tr class="separator:ab83253de00b48533ee88aa1ca631391e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af0478e87f327de2de84291ea2cf6c4d5" id="r_af0478e87f327de2de84291ea2cf6c4d5"><td class="memTemplParams" colspan="2">template&lt;typename D, typename T&gt; </td></tr>
+<tr class="memitem:af0478e87f327de2de84291ea2cf6c4d5"><td class="memTemplItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01128.html#af0478e87f327de2de84291ea2cf6c4d5">lumex::xml::utility::convert_buffer_output_generic</a> (typename T::value_type dest, <a class="el" href="a01143.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *data, std::size_t length, D, T, bool opt_swap)</td></tr>
+<tr class="separator:af0478e87f327de2de84291ea2cf6c4d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9e3d87a48f7721dcf542959cd3fdcf35" id="r_a9e3d87a48f7721dcf542959cd3fdcf35"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01128.html#a9e3d87a48f7721dcf542959cd3fdcf35">lumex::xml::utility::get_valid_length</a> (<a class="el" href="a01143.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *data, std::size_t length)</td></tr>
+<tr class="separator:a9e3d87a48f7721dcf542959cd3fdcf35"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb0edbae98a672b69a35269ee8e9a2e7" id="r_acb0edbae98a672b69a35269ee8e9a2e7"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01128.html#acb0edbae98a672b69a35269ee8e9a2e7">lumex::xml::utility::convert_buffer_output</a> (<a class="el" href="a01143.html#af5c331138f914028e4642100ea3e7a24">char_t</a> *, uint8_t *r_u8, uint16_t *r_u16, uint32_t *r_u32, <a class="el" href="a01143.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *data, std::size_t length, <a class="el" href="a01143.html#af1767ae022d3845084f92ab0bc3776a0">xml_encoding</a> encoding)</td></tr>
+<tr class="separator:acb0edbae98a672b69a35269ee8e9a2e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa6315430d20344215735a3104d2c8374" id="r_aa6315430d20344215735a3104d2c8374"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01128.html#aa6315430d20344215735a3104d2c8374">lumex::xml::utility::allow_insert_attribute</a> (<a class="el" href="a01143.html#a2ea2ab672e10bb614a49da9b5a7f0801">xml_node_type</a> parent)</td></tr>
+<tr class="separator:aa6315430d20344215735a3104d2c8374"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3da44c727bc13069a7e31566df8ad558" id="r_a3da44c727bc13069a7e31566df8ad558"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01128.html#a3da44c727bc13069a7e31566df8ad558">lumex::xml::utility::allow_insert_child</a> (<a class="el" href="a01143.html#a2ea2ab672e10bb614a49da9b5a7f0801">xml_node_type</a> parent, <a class="el" href="a01143.html#a2ea2ab672e10bb614a49da9b5a7f0801">xml_node_type</a> child)</td></tr>
+<tr class="separator:a3da44c727bc13069a7e31566df8ad558"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5e7ff474c20e982939860bf95d53b4a3" id="r_a5e7ff474c20e982939860bf95d53b4a3"><td class="memTemplParams" colspan="2">template&lt;typename String, typename Header&gt; </td></tr>
+<tr class="memitem:a5e7ff474c20e982939860bf95d53b4a3"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01128.html#a5e7ff474c20e982939860bf95d53b4a3">lumex::xml::utility::node_copy_string</a> (String &amp;dest, Header &amp;header, uintptr_t header_mask, <a class="el" href="a01143.html#af5c331138f914028e4642100ea3e7a24">char_t</a> *source, Header &amp;source_header, <a class="el" href="a02913.html">XmlAllocator</a> *alloc)</td></tr>
+<tr class="separator:a5e7ff474c20e982939860bf95d53b4a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a94a800da9dd9b1890559ba7ce6caafbe" id="r_a94a800da9dd9b1890559ba7ce6caafbe"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01128.html#a94a800da9dd9b1890559ba7ce6caafbe">lumex::xml::utility::check_string_to_number_format</a> (<a class="el" href="a01143.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *string)</td></tr>
+<tr class="separator:a94a800da9dd9b1890559ba7ce6caafbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad1bfdb0d6ed6a6d2a42c93bc1307be5c" id="r_ad1bfdb0d6ed6a6d2a42c93bc1307be5c"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01128.html#ad1bfdb0d6ed6a6d2a42c93bc1307be5c">lumex::xml::utility::convert_string_to_number</a> (<a class="el" href="a01143.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *string)</td></tr>
+<tr class="separator:ad1bfdb0d6ed6a6d2a42c93bc1307be5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab3ee5af75a9f45cf89eb13e09342e500" id="r_ab3ee5af75a9f45cf89eb13e09342e500"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01128.html#ab3ee5af75a9f45cf89eb13e09342e500">lumex::xml::utility::convert_string_to_number_scratch</a> (<a class="el" href="a01143.html#af5c331138f914028e4642100ea3e7a24">char_t</a>(&amp;buffer)[32], <a class="el" href="a01143.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *begin, <a class="el" href="a01143.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *end, double *out_result)</td></tr>
+<tr class="separator:ab3ee5af75a9f45cf89eb13e09342e500"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acd31df47d33fed67cdcc7ac8eb966e94" id="r_acd31df47d33fed67cdcc7ac8eb966e94"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01128.html#acd31df47d33fed67cdcc7ac8eb966e94">lumex::xml::utility::round_nearest</a> (double value)</td></tr>
+<tr class="separator:acd31df47d33fed67cdcc7ac8eb966e94"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af7599338b99ea5d651e1013892498cc9" id="r_af7599338b99ea5d651e1013892498cc9"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01128.html#af7599338b99ea5d651e1013892498cc9">lumex::xml::utility::round_nearest_nzero</a> (double value)</td></tr>
+<tr class="separator:af7599338b99ea5d651e1013892498cc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a452dc69c516222ebe97ef081534daff6" id="r_a452dc69c516222ebe97ef081534daff6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01128.html#a452dc69c516222ebe97ef081534daff6">lumex::xml::utility::starts_with</a> (<a class="el" href="a01143.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *str, <a class="el" href="a01143.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *pattern)</td></tr>
+<tr class="separator:a452dc69c516222ebe97ef081534daff6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abe226e4ec91c607b0d320754ccdd3bce" id="r_abe226e4ec91c607b0d320754ccdd3bce"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01143.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01128.html#abe226e4ec91c607b0d320754ccdd3bce">lumex::xml::utility::find_char</a> (<a class="el" href="a01143.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *str, <a class="el" href="a01143.html#af5c331138f914028e4642100ea3e7a24">char_t</a> chr)</td></tr>
+<tr class="separator:abe226e4ec91c607b0d320754ccdd3bce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1341b15a901bff5feac3fc5a18015ce9" id="r_a1341b15a901bff5feac3fc5a18015ce9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01143.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01128.html#a1341b15a901bff5feac3fc5a18015ce9">lumex::xml::utility::find_substring</a> (<a class="el" href="a01143.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *str, <a class="el" href="a01143.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *pattern)</td></tr>
+<tr class="separator:a1341b15a901bff5feac3fc5a18015ce9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a47c804542bb36e2a9460e97ce2428f9d" id="r_a47c804542bb36e2a9460e97ce2428f9d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01143.html#af5c331138f914028e4642100ea3e7a24">char_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01128.html#a47c804542bb36e2a9460e97ce2428f9d">lumex::xml::utility::tolower_ascii</a> (<a class="el" href="a01143.html#af5c331138f914028e4642100ea3e7a24">char_t</a> chr)</td></tr>
+<tr class="separator:a47c804542bb36e2a9460e97ce2428f9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afc601b9bc2507301062adb6c622b3208" id="r_afc601b9bc2507301062adb6c622b3208"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01128.html#afc601b9bc2507301062adb6c622b3208">lumex::xml::utility::is_xpath_attribute</a> (<a class="el" href="a01143.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *name)</td></tr>
+<tr class="separator:afc601b9bc2507301062adb6c622b3208"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9e9f9a1cd88cb3d97e3141f4231e439c" id="r_a9e9f9a1cd88cb3d97e3141f4231e439c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01128.html#a9e9f9a1cd88cb3d97e3141f4231e439c">lumex::xml::utility::convert_number_to_boolean</a> (double value)</td></tr>
+<tr class="separator:a9e9f9a1cd88cb3d97e3141f4231e439c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aefb78936e066ed947459aa5ed0ba164d" id="r_aefb78936e066ed947459aa5ed0ba164d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01128.html#aefb78936e066ed947459aa5ed0ba164d">lumex::xml::utility::truncate_zeros</a> (char const *begin, char *end)</td></tr>
+<tr class="separator:aefb78936e066ed947459aa5ed0ba164d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8820434e04a1f11f63d7a8331165108a" id="r_a8820434e04a1f11f63d7a8331165108a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01143.html#af5c331138f914028e4642100ea3e7a24">char_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01128.html#a8820434e04a1f11f63d7a8331165108a">lumex::xml::utility::normalize_space</a> (<a class="el" href="a01143.html#af5c331138f914028e4642100ea3e7a24">char_t</a> *buffer)</td></tr>
+<tr class="separator:a8820434e04a1f11f63d7a8331165108a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaab7a902fd1f500e96587a57a08169a9" id="r_aaab7a902fd1f500e96587a57a08169a9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01143.html#af5c331138f914028e4642100ea3e7a24">char_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01128.html#aaab7a902fd1f500e96587a57a08169a9">lumex::xml::utility::translate</a> (<a class="el" href="a01143.html#af5c331138f914028e4642100ea3e7a24">char_t</a> *buffer, <a class="el" href="a01143.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *from, <a class="el" href="a01143.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *to_, std::size_t to_length)</td></tr>
+<tr class="separator:aaab7a902fd1f500e96587a57a08169a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2921ff6da7e7a0424b31f7b0d5bd8464" id="r_a2921ff6da7e7a0424b31f7b0d5bd8464"><td class="memItemLeft" align="right" valign="top">unsigned char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01128.html#a2921ff6da7e7a0424b31f7b0d5bd8464">lumex::xml::utility::translate_table_generate</a> (<a class="el" href="a03121.html">XPathAllocator</a> *alloc, <a class="el" href="a01143.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *from, <a class="el" href="a01143.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *to_)</td></tr>
+<tr class="separator:a2921ff6da7e7a0424b31f7b0d5bd8464"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad7cd1061b1777a2f8c97c00f7c0c2de2" id="r_ad7cd1061b1777a2f8c97c00f7c0c2de2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01143.html#af5c331138f914028e4642100ea3e7a24">char_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01128.html#ad7cd1061b1777a2f8c97c00f7c0c2de2">lumex::xml::utility::translate_table</a> (<a class="el" href="a01143.html#af5c331138f914028e4642100ea3e7a24">char_t</a> *buffer, unsigned char const *table)</td></tr>
+<tr class="separator:ad7cd1061b1777a2f8c97c00f7c0c2de2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3f7ab7d3c4299df5401b1b426d5bb3d5" id="r_a3f7ab7d3c4299df5401b1b426d5bb3d5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01143.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01128.html#a3f7ab7d3c4299df5401b1b426d5bb3d5">lumex::xml::utility::convert_number_to_string_special</a> (double value)</td></tr>
+<tr class="separator:a3f7ab7d3c4299df5401b1b426d5bb3d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc1bb8e618c96999c441f79458c29f6b" id="r_abc1bb8e618c96999c441f79458c29f6b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01128.html#abc1bb8e618c96999c441f79458c29f6b">lumex::xml::utility::convert_number_to_mantissa_exponent</a> (double value, char(&amp;buffer)[32], char **out_mantissa, int *out_exponent)</td></tr>
+<tr class="separator:abc1bb8e618c96999c441f79458c29f6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="a07486181f1990291c2a348de8eb4c480" name="a07486181f1990291c2a348de8eb4c480"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a07486181f1990291c2a348de8eb4c480">&#9670;&#160;</a></span>LUMEX_IMPLEMENTATION</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_IMPLEMENTATION</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-</div><!-- contents -->
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Header-only helpers of the XML implementation: transcoding, encoding detection, conversions between text and numbers, and the storage of names and values. </p>
+<p>The decoders, writers and counters convert between UTF-8, UTF-16, UTF-32, Latin-1 and <code>wchar_t</code>, with byte swapping for the other endianness. On top of them the file detects the encoding of an input buffer (byte order mark, first characters, <code>encoding</code> attribute of the declaration), converts input to the native <code>char_t</code> and output to the target encoding, and provides <code>as_utf8</code> and <code>as_wide</code>. The <code>get_value_*</code> and <code>set_value_*</code> functions convert attribute and text values to and from numbers, and <code>strcpy_insitu</code> stores a new name or value, reusing the old storage when it is large enough. The rest serves the XPath engine: number formatting and parsing, <code>normalize-space</code>, <code>translate</code>, NaN handling and a pointer hash set.</p>
+<p>The functions are undocumented implementation details shared by the parser, the writers, the handles and the XPath engine. The umbrella header <code>LumexXml</code> includes the file, so they are visible to consumers in <code><a class="el" href="a01128.html">lumex::xml::utility</a></code>. </p>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_d38a0fae6a8e48d91b3b62673cf0c708.html">xpath</a></li><li class="navelem"><a class="el" href="dir_ba6dde11e0d892758174c56741e331d7.html">document</a></li><li class="navelem"><a class="el" href="a00737.html">XPathDocumentOrderComparator.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_7bfbee8fcb850e8938daf1d332a7a70b.html">utility</a></li><li class="navelem"><a class="el" href="a00737.html">XmlUtils.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

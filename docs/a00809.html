@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: XPathUtils.cpp File Reference</title>
+<title>LumexLib: XPathLexer.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -105,18 +105,55 @@ $(function(){initNavTree('a00809.html',''); initResizable(true); });
 <div class="header">
   <div class="summary">
 <a href="#define-members">Macros</a>  </div>
-  <div class="headertitle"><div class="title">XPathUtils.cpp File Reference</div></div>
+  <div class="headertitle"><div class="title">XPathLexer.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;algorithm&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00350_source.html">lumex/core/utility/assert/LumexAssert.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00740_source.html">lumex/xml/xpath/document/XPathDocumentOrderComparator.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00818_source.html">lumex/xml/xpath/variable/XPathVariable.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00812_source.html">XPathUtils.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="a00386_source.html">lumex/core/utility/assert/LumexAssert.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00659_source.html">lumex/xml/constants/XmlConstants.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00812_source.html">XPathLexer.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for XPathUtils.cpp:</div>
+Include dependency graph for XPathLexer.cpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00810.png" border="0" usemap="#a_x_path_utils_8cpp" alt=""/></div>
+<div class="center"><img src="a00810.png" border="0" usemap="#a_x_path_lexer_8cpp" alt=""/></div>
+<map name="a_x_path_lexer_8cpp" id="a_x_path_lexer_8cpp">
+<area shape="rect" title=" " alt="" coords="153,5,268,32"/>
+<area shape="rect" href="a00386.html" title="Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_..." alt="" coords="5,155,173,197"/>
+<area shape="poly" title=" " alt="" coords="203,34,116,144,112,141,198,31"/>
+<area shape="rect" href="a00659.html" title="Constants of the XML module: parse and format option flags, the masks of the node and attribute heade..." alt="" coords="52,245,195,288"/>
+<area shape="poly" title=" " alt="" coords="214,32,211,105,203,152,187,198,175,218,161,236,157,233,171,215,183,196,198,151,206,104,208,32"/>
+<area shape="rect" href="a00812.html" title="XPathLexer, the tokenizer that splits an XPath expression into lexemes for XPathParser." alt="" coords="281,80,396,107"/>
+<area shape="poly" title=" " alt="" coords="234,30,304,70,301,74,231,35"/>
+<area shape="rect" href="a00641.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="218,253,381,280"/>
+<area shape="poly" title=" " alt="" coords="139,196,257,245,255,249,137,200"/>
+<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="110,501,305,544"/>
+<area shape="poly" title=" " alt="" coords="72,199,56,221,43,246,34,278,30,305,33,331,43,362,66,401,97,436,130,466,162,490,159,495,127,470,93,440,62,404,39,364,28,332,25,305,29,277,39,244,51,218,68,196"/>
+<area shape="rect" title=" " alt="" coords="141,336,192,363"/>
+<area shape="poly" title=" " alt="" coords="137,287,155,321,150,323,132,290"/>
+<area shape="rect" title=" " alt="" coords="53,336,117,363"/>
+<area shape="poly" title=" " alt="" coords="116,290,100,323,95,320,111,287"/>
+<area shape="rect" title=" " alt="" coords="216,336,276,363"/>
+<area shape="poly" title=" " alt="" coords="157,286,216,325,213,330,154,291"/>
+<area shape="rect" href="a00734.html" title="Preprocessor macros of the XML module: the character mode, the declaration of constants,..." alt="" coords="301,336,512,363"/>
+<area shape="poly" title=" " alt="" coords="196,286,348,329,347,334,195,291"/>
+<area shape="rect" href="a00389.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="437,411,605,453"/>
+<area shape="poly" title=" " alt="" coords="426,361,481,399,478,404,423,365"/>
+<area shape="rect" href="a00419.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="174,411,406,453"/>
+<area shape="poly" title=" " alt="" coords="390,365,334,404,331,400,387,361"/>
+<area shape="rect" href="a00404.html" title="C++ language, library and attribute feature availability." alt="" coords="405,501,637,544"/>
+<area shape="poly" title=" " alt="" coords="524,454,524,486,518,486,518,454"/>
+<area shape="poly" title=" " alt="" coords="273,456,239,492,235,488,269,452"/>
+<area shape="poly" title=" " alt="" coords="338,108,308,239,303,238,333,106"/>
+<area shape="poly" title=" " alt="" coords="396,101,457,117,523,144,555,163,583,185,607,213,625,244,634,278,633,306,622,334,603,364,586,385,567,403,563,399,582,381,599,361,617,331,627,305,629,278,620,246,603,216,580,189,552,167,521,149,455,122,395,106"/>
+<area shape="rect" href="a00818.html" title="XPathLexerString, the begin and end of a token inside the text of an XPath expression." alt="" coords="337,155,521,197"/>
+<area shape="poly" title=" " alt="" coords="354,105,396,142,393,146,351,109"/>
+<area shape="poly" title=" " alt="" coords="401,200,332,247,329,242,398,196"/>
+<area shape="rect" href="a00728.html" title="The basic types and enumerations of the XML module: character and string types, node types,..." alt="" coords="406,253,610,280"/>
+<area shape="poly" title=" " alt="" coords="449,196,488,240,484,243,445,200"/>
+<area shape="poly" title=" " alt="" coords="468,283,292,337,291,332,466,278"/>
+<area shape="poly" title=" " alt="" coords="493,283,435,329,432,324,490,278"/>
+<area shape="rect" title=" " alt="" coords="536,336,589,363"/>
+<area shape="poly" title=" " alt="" coords="518,279,548,322,543,325,514,282"/>
+</map>
 </div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
@@ -144,7 +181,7 @@ Macros</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_d38a0fae6a8e48d91b3b62673cf0c708.html">xpath</a></li><li class="navelem"><a class="el" href="dir_52cbcfdbf2c58b58307b6d105e348e3a.html">utility</a></li><li class="navelem"><a class="el" href="a00809.html">XPathUtils.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_d38a0fae6a8e48d91b3b62673cf0c708.html">xpath</a></li><li class="navelem"><a class="el" href="dir_4c93ace1da67964a3ff55b959013373d.html">parser</a></li><li class="navelem"><a class="el" href="dir_2f8488fdbf169117866699aa1d08d080.html">lexer</a></li><li class="navelem"><a class="el" href="a00809.html">XPathLexer.cpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

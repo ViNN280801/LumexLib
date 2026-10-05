@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::xml::tree::XmlTreeWalker Class Reference</title>
+<title>LumexLib: Member List</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a02890.html',''); initResizable(true); });
+$(function(){initNavTree('a02893.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,430 +103,73 @@ $(function(){initNavTree('a02890.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="summary">
-<a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#friends">Friends</a> &#124;
-<a href="a02887.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">lumex::xml::tree::XmlTreeWalker Class Reference<span class="mlabels"><span class="mlabel abstract">abstract</span></span></div></div>
+  <div class="headertitle"><div class="title">lumex::xml::attribute::XmlAttribute Member List</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Abstract base class for implementing custom XML tree traversal logic.  
- <a href="#details">More...</a></p>
-
-<p><code>#include &lt;<a class="el" href="a00689_source.html">XmlTreeWalker.hpp</a>&gt;</code></p>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
-Public Member Functions</h2></td></tr>
-<tr class="memitem:aadf87c35c9f2290404a64b2298bbecc4" id="r_aadf87c35c9f2290404a64b2298bbecc4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aadf87c35c9f2290404a64b2298bbecc4">XmlTreeWalker</a> ()=default</td></tr>
-<tr class="memdesc:aadf87c35c9f2290404a64b2298bbecc4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor for <code><a class="el" href="a02890.html" title="Abstract base class for implementing custom XML tree traversal logic.">XmlTreeWalker</a></code>.  <br /></td></tr>
-<tr class="separator:aadf87c35c9f2290404a64b2298bbecc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2bd74e746ff00500aba68e82592904b3" id="r_a2bd74e746ff00500aba68e82592904b3"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2bd74e746ff00500aba68e82592904b3">~XmlTreeWalker</a> ()=default</td></tr>
-<tr class="memdesc:a2bd74e746ff00500aba68e82592904b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Virtual destructor for <code><a class="el" href="a02890.html" title="Abstract base class for implementing custom XML tree traversal logic.">XmlTreeWalker</a></code>.  <br /></td></tr>
-<tr class="separator:a2bd74e746ff00500aba68e82592904b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a923a0f5eebc1482a5cc90f74798c16a8" id="r_a923a0f5eebc1482a5cc90f74798c16a8"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a923a0f5eebc1482a5cc90f74798c16a8">begin</a> (<a class="el" href="a02838.html">XmlNode</a> &amp;node)</td></tr>
-<tr class="memdesc:a923a0f5eebc1482a5cc90f74798c16a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback function invoked when the tree traversal begins for a node.  <br /></td></tr>
-<tr class="separator:a923a0f5eebc1482a5cc90f74798c16a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a987891e65421a028c29cc0881910dcc7" id="r_a987891e65421a028c29cc0881910dcc7"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a987891e65421a028c29cc0881910dcc7">for_each</a> (<a class="el" href="a02838.html">XmlNode</a> &amp;node)=0</td></tr>
-<tr class="memdesc:a987891e65421a028c29cc0881910dcc7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pure virtual callback function invoked for each node traversed.  <br /></td></tr>
-<tr class="separator:a987891e65421a028c29cc0881910dcc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac2f56225caddca7eba13703197e8a123" id="r_ac2f56225caddca7eba13703197e8a123"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac2f56225caddca7eba13703197e8a123">end</a> (<a class="el" href="a02838.html">XmlNode</a> &amp;node)</td></tr>
-<tr class="memdesc:ac2f56225caddca7eba13703197e8a123"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback function invoked when the tree traversal ends for a node.  <br /></td></tr>
-<tr class="separator:ac2f56225caddca7eba13703197e8a123"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2bf612470309d817bac7290e9b612c35" id="r_a2bf612470309d817bac7290e9b612c35"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2bf612470309d817bac7290e9b612c35">depth</a> () const</td></tr>
-<tr class="memdesc:a2bf612470309d817bac7290e9b612c35"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves the current traversal depth.  <br /></td></tr>
-<tr class="separator:a2bf612470309d817bac7290e9b612c35"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aad4866e5fb7a84317a83806d03766333" id="r_aad4866e5fb7a84317a83806d03766333"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aad4866e5fb7a84317a83806d03766333">set_depth</a> (int <a class="el" href="#a2bf612470309d817bac7290e9b612c35">depth</a>)</td></tr>
-<tr class="memdesc:aad4866e5fb7a84317a83806d03766333"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the current traversal depth.  <br /></td></tr>
-<tr class="separator:aad4866e5fb7a84317a83806d03766333"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa14c41a2048e26f3a2a67cec7a3e0e58" id="r_aa14c41a2048e26f3a2a67cec7a3e0e58"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa14c41a2048e26f3a2a67cec7a3e0e58">increment_depth</a> ()</td></tr>
-<tr class="memdesc:aa14c41a2048e26f3a2a67cec7a3e0e58"><td class="mdescLeft">&#160;</td><td class="mdescRight">Increments the current traversal depth.  <br /></td></tr>
-<tr class="separator:aa14c41a2048e26f3a2a67cec7a3e0e58"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7fffc928b2799a2a030e9ca0b6fa210e" id="r_a7fffc928b2799a2a030e9ca0b6fa210e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7fffc928b2799a2a030e9ca0b6fa210e">decrement_depth</a> ()</td></tr>
-<tr class="memdesc:a7fffc928b2799a2a030e9ca0b6fa210e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decrements the current traversal depth.  <br /></td></tr>
-<tr class="separator:a7fffc928b2799a2a030e9ca0b6fa210e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="friends" name="friends"></a>
-Friends</h2></td></tr>
-<tr class="memitem:a88b009b38305b720f82e3bfc4695b70f" id="r_a88b009b38305b720f82e3bfc4695b70f"><td class="memItemLeft" align="right" valign="top">class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a88b009b38305b720f82e3bfc4695b70f">XmlNode</a></td></tr>
-<tr class="separator:a88b009b38305b720f82e3bfc4695b70f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Abstract base class for implementing custom XML tree traversal logic. </p>
-<p><code><a class="el" href="a02890.html" title="Abstract base class for implementing custom XML tree traversal logic.">XmlTreeWalker</a></code> defines a customizable interface for walking an XML document tree. Users can derive from this class and override <code>begin</code>, <code>for_each</code>, and <code>end</code> methods to implement specific behaviors during traversal, such as filtering nodes, collecting data, or performing modifications. </p><dl class="section note"><dt>Note</dt><dd>This class is intended to be used with <code><a class="el" href="a02838.html#a17cdb500132c1c48fac94a311ff67c87" title="Traverses the subtree rooted at the current node using a custom XmlTreeWalker.">XmlNode::traverse()</a></code>. </dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="a02838.html#a17cdb500132c1c48fac94a311ff67c87" title="Traverses the subtree rooted at the current node using a custom XmlTreeWalker.">XmlNode::traverse()</a> </dd></dl>
-</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="aadf87c35c9f2290404a64b2298bbecc4" name="aadf87c35c9f2290404a64b2298bbecc4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aadf87c35c9f2290404a64b2298bbecc4">&#9670;&#160;</a></span>XmlTreeWalker()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">lumex::xml::tree::XmlTreeWalker::XmlTreeWalker </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel default">default</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Default constructor for <code><a class="el" href="a02890.html" title="Abstract base class for implementing custom XML tree traversal logic.">XmlTreeWalker</a></code>. </p>
-<p>Initializes the walker. </p>
-
-</div>
-</div>
-<a id="a2bd74e746ff00500aba68e82592904b3" name="a2bd74e746ff00500aba68e82592904b3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2bd74e746ff00500aba68e82592904b3">&#9670;&#160;</a></span>~XmlTreeWalker()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual lumex::xml::tree::XmlTreeWalker::~XmlTreeWalker </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel virtual">virtual</span><span class="mlabel default">default</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Virtual destructor for <code><a class="el" href="a02890.html" title="Abstract base class for implementing custom XML tree traversal logic.">XmlTreeWalker</a></code>. </p>
-<p>Ensures proper cleanup of derived classes. </p>
-
-</div>
-</div>
-<h2 class="groupheader">Member Function Documentation</h2>
-<a id="a923a0f5eebc1482a5cc90f74798c16a8" name="a923a0f5eebc1482a5cc90f74798c16a8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a923a0f5eebc1482a5cc90f74798c16a8">&#9670;&#160;</a></span>begin()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual bool lumex::xml::tree::XmlTreeWalker::begin </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a02838.html">XmlNode</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>node</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel virtual">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Callback function invoked when the tree traversal begins for a node. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">node</td><td>The <code>XmlNode</code> at which the traversal is beginning. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd><code>true</code> to continue traversal, <code>false</code> to stop.</dd></dl>
-<p>This method can be overridden to perform actions or checks before visiting a node's children. </p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a02890_a923a0f5eebc1482a5cc90f74798c16a8_cgraph.png" border="0" usemap="#aa02890_a923a0f5eebc1482a5cc90f74798c16a8_cgraph" alt=""/></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a02890_a923a0f5eebc1482a5cc90f74798c16a8_icgraph.png" border="0" usemap="#aa02890_a923a0f5eebc1482a5cc90f74798c16a8_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="a7fffc928b2799a2a030e9ca0b6fa210e" name="a7fffc928b2799a2a030e9ca0b6fa210e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7fffc928b2799a2a030e9ca0b6fa210e">&#9670;&#160;</a></span>decrement_depth()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void lumex::xml::tree::XmlTreeWalker::decrement_depth </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Decrements the current traversal depth. </p>
-<p>Used internally during tree ascent. </p>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a02890_a7fffc928b2799a2a030e9ca0b6fa210e_icgraph.png" border="0" usemap="#aa02890_a7fffc928b2799a2a030e9ca0b6fa210e_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="a2bf612470309d817bac7290e9b612c35" name="a2bf612470309d817bac7290e9b612c35"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2bf612470309d817bac7290e9b612c35">&#9670;&#160;</a></span>depth()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">int lumex::xml::tree::XmlTreeWalker::depth </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Retrieves the current traversal depth. </p>
-<dl class="section return"><dt>Returns</dt><dd>An integer representing the current depth in the XML tree (root is depth 0). </dd></dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a02890_a2bf612470309d817bac7290e9b612c35_cgraph.png" border="0" usemap="#aa02890_a2bf612470309d817bac7290e9b612c35_cgraph" alt=""/></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a02890_a2bf612470309d817bac7290e9b612c35_icgraph.png" border="0" usemap="#aa02890_a2bf612470309d817bac7290e9b612c35_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="ac2f56225caddca7eba13703197e8a123" name="ac2f56225caddca7eba13703197e8a123"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac2f56225caddca7eba13703197e8a123">&#9670;&#160;</a></span>end()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual bool lumex::xml::tree::XmlTreeWalker::end </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a02838.html">XmlNode</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>node</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel virtual">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Callback function invoked when the tree traversal ends for a node. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">node</td><td>The <code>XmlNode</code> for which traversal is ending (i.e., all its children and their subtrees have been visited). </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd><code>true</code> to continue traversal, <code>false</code> to stop.</dd></dl>
-<p>This method can be overridden to perform actions or cleanup after visiting a node's children. </p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a02890_ac2f56225caddca7eba13703197e8a123_cgraph.png" border="0" usemap="#aa02890_ac2f56225caddca7eba13703197e8a123_cgraph" alt=""/></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a02890_ac2f56225caddca7eba13703197e8a123_icgraph.png" border="0" usemap="#aa02890_ac2f56225caddca7eba13703197e8a123_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="a987891e65421a028c29cc0881910dcc7" name="a987891e65421a028c29cc0881910dcc7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a987891e65421a028c29cc0881910dcc7">&#9670;&#160;</a></span>for_each()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual bool lumex::xml::tree::XmlTreeWalker::for_each </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a02838.html">XmlNode</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>node</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel pure-virtual">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Pure virtual callback function invoked for each node traversed. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">node</td><td>The <code>XmlNode</code> currently being visited. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd><code>true</code> to continue traversal, <code>false</code> to stop.</dd></dl>
-<p>This method must be implemented by derived classes to define the core logic of the tree walk. </p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a02890_a987891e65421a028c29cc0881910dcc7_cgraph.png" border="0" usemap="#aa02890_a987891e65421a028c29cc0881910dcc7_cgraph" alt=""/></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a02890_a987891e65421a028c29cc0881910dcc7_icgraph.png" border="0" usemap="#aa02890_a987891e65421a028c29cc0881910dcc7_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="aa14c41a2048e26f3a2a67cec7a3e0e58" name="aa14c41a2048e26f3a2a67cec7a3e0e58"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa14c41a2048e26f3a2a67cec7a3e0e58">&#9670;&#160;</a></span>increment_depth()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void lumex::xml::tree::XmlTreeWalker::increment_depth </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Increments the current traversal depth. </p>
-<p>Used internally during tree descent. </p>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a02890_aa14c41a2048e26f3a2a67cec7a3e0e58_icgraph.png" border="0" usemap="#aa02890_aa14c41a2048e26f3a2a67cec7a3e0e58_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="aad4866e5fb7a84317a83806d03766333" name="aad4866e5fb7a84317a83806d03766333"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aad4866e5fb7a84317a83806d03766333">&#9670;&#160;</a></span>set_depth()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void lumex::xml::tree::XmlTreeWalker::set_depth </td>
-          <td>(</td>
-          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>depth</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Sets the current traversal depth. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">depth</td><td>The new depth value. </td></tr>
-  </table>
-  </dd>
-</dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a02890_aad4866e5fb7a84317a83806d03766333_cgraph.png" border="0" usemap="#aa02890_aad4866e5fb7a84317a83806d03766333_cgraph" alt=""/></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a02890_aad4866e5fb7a84317a83806d03766333_icgraph.png" border="0" usemap="#aa02890_aad4866e5fb7a84317a83806d03766333_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<h2 class="groupheader">Friends And Related Symbol Documentation</h2>
-<a id="a88b009b38305b720f82e3bfc4695b70f" name="a88b009b38305b720f82e3bfc4695b70f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a88b009b38305b720f82e3bfc4695b70f">&#9670;&#160;</a></span>XmlNode</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">friend class <a class="el" href="a02838.html">XmlNode</a></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel friend">friend</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<hr/>The documentation for this class was generated from the following file:<ul>
-<li><a class="el" href="a00689_source.html">XmlTreeWalker.hpp</a></li>
-</ul>
-</div><!-- contents -->
+<p>This is the complete list of members for <a class="el" href="a02893.html">lumex::xml::attribute::XmlAttribute</a>, including all inherited members.</p>
+<table class="directory">
+  <tr class="even"><td class="entry"><a class="el" href="a02893.html#aca25f5d9c4c12f528d05891b16ca099c">as_bool</a>(bool def=false) const</td><td class="entry"><a class="el" href="a02893.html">lumex::xml::attribute::XmlAttribute</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02893.html#a7e6beb5b9cc23610b1fa289fd052f78f">as_double</a>(double def=0) const</td><td class="entry"><a class="el" href="a02893.html">lumex::xml::attribute::XmlAttribute</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02893.html#a2400242f3d9ec9cbeba2a3147af82350">as_float</a>(float def=0) const</td><td class="entry"><a class="el" href="a02893.html">lumex::xml::attribute::XmlAttribute</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02893.html#a60197dee0eb2b25d5e4e1f8d857630fd">as_int</a>(int def=0) const</td><td class="entry"><a class="el" href="a02893.html">lumex::xml::attribute::XmlAttribute</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02893.html#a1000b87b582c20c1afdde2a70a2e47aa">as_llong</a>(long long def=0) const</td><td class="entry"><a class="el" href="a02893.html">lumex::xml::attribute::XmlAttribute</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02893.html#abb7b38925b73fbe1fa967deb1a9838fe">as_string</a>(char_t const *def=&quot;&quot;) const</td><td class="entry"><a class="el" href="a02893.html">lumex::xml::attribute::XmlAttribute</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02893.html#a3f541ed5ee221bb0e96aad7b3273caed">as_uint</a>(unsigned int def=0) const</td><td class="entry"><a class="el" href="a02893.html">lumex::xml::attribute::XmlAttribute</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02893.html#adf984b7d352ce6d8d63aeaa0d608306b">as_ullong</a>(unsigned long long def=0) const</td><td class="entry"><a class="el" href="a02893.html">lumex::xml::attribute::XmlAttribute</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02893.html#a34871aa9b33fe76794bf89c03f6ee3cf">empty</a>() const</td><td class="entry"><a class="el" href="a02893.html">lumex::xml::attribute::XmlAttribute</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02893.html#a0bbf2ddf1ea68f4ed3612fe0a45849eb">get</a>() const</td><td class="entry"><a class="el" href="a02893.html">lumex::xml::attribute::XmlAttribute</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02893.html#afd9dc5dc49925561063a7f766b6c4b06">hash_value</a>() const</td><td class="entry"><a class="el" href="a02893.html">lumex::xml::attribute::XmlAttribute</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02893.html#a6f9d3f69f96f19b22f4d2888a6747af6">name</a>() const</td><td class="entry"><a class="el" href="a02893.html">lumex::xml::attribute::XmlAttribute</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02893.html#afc2f57264c98deb2e092e1088c63ee88">next_attribute</a>() const</td><td class="entry"><a class="el" href="a02893.html">lumex::xml::attribute::XmlAttribute</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02893.html#a09a175b2cbbf5919bf4b2c2a92e5d05b">operator unspecified_bool_type</a>() const</td><td class="entry"><a class="el" href="a02893.html">lumex::xml::attribute::XmlAttribute</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02893.html#a5d17ec464b8ebfc9d3bfe094803213c0">operator!</a>() const</td><td class="entry"><a class="el" href="a02893.html">lumex::xml::attribute::XmlAttribute</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02893.html#aee5f265bfade0ee2569c7e68d821b441">operator!=</a>(XmlAttribute const &amp;other) const</td><td class="entry"><a class="el" href="a02893.html">lumex::xml::attribute::XmlAttribute</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02893.html#a972020e230548bcfb4084a6d7c4ac9c5">operator&lt;</a>(XmlAttribute const &amp;other) const</td><td class="entry"><a class="el" href="a02893.html">lumex::xml::attribute::XmlAttribute</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02893.html#ad0db3c238649935e9e31f1c2e9159723">operator&lt;=</a>(XmlAttribute const &amp;other) const</td><td class="entry"><a class="el" href="a02893.html">lumex::xml::attribute::XmlAttribute</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02893.html#a955073ff2eca3bfc5070516af70406b9">operator=</a>(char_t const *rhs)</td><td class="entry"><a class="el" href="a02893.html">lumex::xml::attribute::XmlAttribute</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02893.html#afcdaa8752216eb8bc2ede239b7cb2b78">operator=</a>(int rhs)</td><td class="entry"><a class="el" href="a02893.html">lumex::xml::attribute::XmlAttribute</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02893.html#a3a3a5c46fab9a68fe7b97653dee2a568">operator=</a>(unsigned int rhs)</td><td class="entry"><a class="el" href="a02893.html">lumex::xml::attribute::XmlAttribute</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02893.html#aa587613e97526bc44c3acc261442868b">operator=</a>(long rhs)</td><td class="entry"><a class="el" href="a02893.html">lumex::xml::attribute::XmlAttribute</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02893.html#a5af7aef2164be969423a6a7261d07134">operator=</a>(unsigned long rhs)</td><td class="entry"><a class="el" href="a02893.html">lumex::xml::attribute::XmlAttribute</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02893.html#a69c722e6500f74b77f33d56a92daec03">operator=</a>(double rhs)</td><td class="entry"><a class="el" href="a02893.html">lumex::xml::attribute::XmlAttribute</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02893.html#a8f438045e97d3575541237abec5402b5">operator=</a>(float rhs)</td><td class="entry"><a class="el" href="a02893.html">lumex::xml::attribute::XmlAttribute</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02893.html#afdc74c20f283db4734c255a87ea75635">operator=</a>(bool rhs)</td><td class="entry"><a class="el" href="a02893.html">lumex::xml::attribute::XmlAttribute</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02893.html#aa13144828d356822926f495ad376f662">operator=</a>(string_view_t rhs)</td><td class="entry"><a class="el" href="a02893.html">lumex::xml::attribute::XmlAttribute</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02893.html#adbcff57ee5acefbd8881bec171149cc5">operator=</a>(long long rhs)</td><td class="entry"><a class="el" href="a02893.html">lumex::xml::attribute::XmlAttribute</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02893.html#a879e3c2da7328470e1d5422240161665">operator=</a>(unsigned long long rhs)</td><td class="entry"><a class="el" href="a02893.html">lumex::xml::attribute::XmlAttribute</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02893.html#ac48ac5d5097027144f43cfd9fefeae50">operator==</a>(XmlAttribute const &amp;other) const</td><td class="entry"><a class="el" href="a02893.html">lumex::xml::attribute::XmlAttribute</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02893.html#a19bca41b6662eaaea1a5fe10baff570e">operator&gt;</a>(XmlAttribute const &amp;other) const</td><td class="entry"><a class="el" href="a02893.html">lumex::xml::attribute::XmlAttribute</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02893.html#a37a6d5fb6c8463b12e6aa5a06af93ca3">operator&gt;=</a>(XmlAttribute const &amp;other) const</td><td class="entry"><a class="el" href="a02893.html">lumex::xml::attribute::XmlAttribute</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02893.html#ac94493c68b46f2d5fd103672281f9daf">previous_attribute</a>() const</td><td class="entry"><a class="el" href="a02893.html">lumex::xml::attribute::XmlAttribute</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02893.html#ac1708ba37008b5b32435fd3706d74f02">set</a>(XmlAttributeBase *attr)</td><td class="entry"><a class="el" href="a02893.html">lumex::xml::attribute::XmlAttribute</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02893.html#a442774c703a6a3ab1c8fbfe114b903e2">set_name</a>(char_t const *rhs)</td><td class="entry"><a class="el" href="a02893.html">lumex::xml::attribute::XmlAttribute</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02893.html#a521794daf2be0a21a1a88abf1d9cb5e1">set_name</a>(char_t const *rhs, std::size_t size)</td><td class="entry"><a class="el" href="a02893.html">lumex::xml::attribute::XmlAttribute</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02893.html#abdb9ba56752a9b703189e5d27baa679e">set_name</a>(string_view_t rhs)</td><td class="entry"><a class="el" href="a02893.html">lumex::xml::attribute::XmlAttribute</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02893.html#a4f9cd4cb2c3e5f1096da48b53848b155">set_value</a>(char_t const *rhs)</td><td class="entry"><a class="el" href="a02893.html">lumex::xml::attribute::XmlAttribute</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02893.html#a8d0f0392ab1982af23ca8ea293037835">set_value</a>(char_t const *rhs, std::size_t size)</td><td class="entry"><a class="el" href="a02893.html">lumex::xml::attribute::XmlAttribute</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02893.html#a7a36fb5f2f3a3ab150c6754ffb38e4db">set_value</a>(string_view_t rhs)</td><td class="entry"><a class="el" href="a02893.html">lumex::xml::attribute::XmlAttribute</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02893.html#aad555329398ae610ee23350565f200a1">set_value</a>(int rhs)</td><td class="entry"><a class="el" href="a02893.html">lumex::xml::attribute::XmlAttribute</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02893.html#a06d50fc8a8030db9165babb92f957b4f">set_value</a>(unsigned int rhs)</td><td class="entry"><a class="el" href="a02893.html">lumex::xml::attribute::XmlAttribute</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02893.html#a53899f006138cd6d4411676c5e41e459">set_value</a>(long rhs)</td><td class="entry"><a class="el" href="a02893.html">lumex::xml::attribute::XmlAttribute</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02893.html#aadf024a8f77fbb6565f2199163c2a6bc">set_value</a>(unsigned long rhs)</td><td class="entry"><a class="el" href="a02893.html">lumex::xml::attribute::XmlAttribute</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02893.html#a256ea851e7295e13ad6941fb71471aab">set_value</a>(double rhs)</td><td class="entry"><a class="el" href="a02893.html">lumex::xml::attribute::XmlAttribute</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02893.html#ae0ceccfbd9209f082043f9580a27aafd">set_value</a>(double rhs, int precision)</td><td class="entry"><a class="el" href="a02893.html">lumex::xml::attribute::XmlAttribute</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02893.html#a92922e5e152205740dcaca672f1b3fff">set_value</a>(float rhs)</td><td class="entry"><a class="el" href="a02893.html">lumex::xml::attribute::XmlAttribute</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02893.html#a57792a600a2485e6d09ed0f94a4bf054">set_value</a>(float rhs, int precision)</td><td class="entry"><a class="el" href="a02893.html">lumex::xml::attribute::XmlAttribute</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02893.html#a01240ea7933082a3f56dd05a12d05b37">set_value</a>(bool rhs)</td><td class="entry"><a class="el" href="a02893.html">lumex::xml::attribute::XmlAttribute</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02893.html#a4b67bd8b4cbae360fe84ff68dec8ab65">set_value</a>(long long rhs)</td><td class="entry"><a class="el" href="a02893.html">lumex::xml::attribute::XmlAttribute</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02893.html#a7fdcade807a5dafa365f56bdc1f95901">set_value</a>(unsigned long long rhs)</td><td class="entry"><a class="el" href="a02893.html">lumex::xml::attribute::XmlAttribute</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02893.html#ae6de052414d8de2416bfda106ca51d8d">unspecified_bool_type</a> typedef</td><td class="entry"><a class="el" href="a02893.html">lumex::xml::attribute::XmlAttribute</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02893.html#a40dc4738d939dd04914625f44b5e01c8">value</a>() const</td><td class="entry"><a class="el" href="a02893.html">lumex::xml::attribute::XmlAttribute</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02893.html#a027809a975f6fc6cc4263eb4885fdfc8">XmlAttribute</a>()</td><td class="entry"><a class="el" href="a02893.html">lumex::xml::attribute::XmlAttribute</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02893.html#a2bb3382cae7c88f5ac18ec5c0c8a77a5">XmlAttribute</a>(XmlAttributeBase *attr)</td><td class="entry"><a class="el" href="a02893.html">lumex::xml::attribute::XmlAttribute</a></td><td class="entry"><span class="mlabel">explicit</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02893.html#a58b3a3e023e19bf5fe95bbbb16ddedda">XmlAttributeIterator</a> class</td><td class="entry"><a class="el" href="a02893.html">lumex::xml::attribute::XmlAttribute</a></td><td class="entry"><span class="mlabel">friend</span></td></tr>
+</table></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00912.html">lumex</a></li><li class="navelem"><a class="el" href="a01083.html">xml</a></li><li class="navelem"><a class="el" href="a01097.html">tree</a></li><li class="navelem"><a class="el" href="a02890.html">XmlTreeWalker</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

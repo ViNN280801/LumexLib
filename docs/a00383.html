@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexConstantMacros.hpp File Reference</title>
+<title>LumexLib: LumexAssert.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,204 +104,109 @@ $(function(){initNavTree('a00383.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#define-members">Macros</a>  </div>
-  <div class="headertitle"><div class="title">LumexConstantMacros.hpp File Reference</div></div>
+<a href="#define-members">Macros</a> &#124;
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle"><div class="title">LumexAssert.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-
-<p>Macros that declare static constants in the same way in every C++ standard: <code>LUMEX_CONST_NUM</code>, <code>LUMEX_CONST_STR</code>, <code>LUMEX_CONST</code> and their building blocks.  
-<a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="a00389_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &lt;cstdlib&gt;</code><br />
+<code>#include &lt;iostream&gt;</code><br />
+<code>#include &quot;<a class="el" href="a00386_source.html">LumexAssert.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00425_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for LumexConstantMacros.hpp:</div>
+Include dependency graph for LumexAssert.cpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00384.png" border="0" usemap="#a_lumex_constant_macros_8hpp" alt=""/></div>
+<div class="center"><img src="a00384.png" border="0" usemap="#a_lumex_assert_8cpp" alt=""/></div>
+<map name="a_lumex_assert_8cpp" id="a_lumex_assert_8cpp">
+<area shape="rect" title=" " alt="" coords="123,5,246,32"/>
+<area shape="rect" title=" " alt="" coords="5,80,65,107"/>
+<area shape="poly" title=" " alt="" coords="159,35,76,75,74,70,157,30"/>
+<area shape="rect" title=" " alt="" coords="89,80,160,107"/>
+<area shape="poly" title=" " alt="" coords="176,34,146,70,142,66,172,31"/>
+<area shape="rect" href="a00386.html" title="Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_..." alt="" coords="184,80,307,107"/>
+<area shape="poly" title=" " alt="" coords="197,31,227,66,223,70,193,34"/>
+<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="247,155,442,197"/>
+<area shape="poly" title=" " alt="" coords="241,30,283,48,304,62,321,78,337,107,345,138,340,140,332,109,317,82,300,66,281,53,239,35"/>
+<area shape="rect" href="a00641.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="60,163,223,189"/>
+<area shape="poly" title=" " alt="" coords="231,109,171,155,168,151,228,105"/>
+<area shape="poly" title=" " alt="" coords="263,105,309,143,306,147,259,109"/>
+</map>
 </div>
-</div><div class="textblock"><div class="dynheader">
-This graph shows which files directly or indirectly include this file:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00385.png" border="0" usemap="#a_lumex_constant_macros_8hppdep" alt=""/></div>
-</div>
-</div>
-<p><a href="a00383_source.html">Go to the source code of this file.</a></p>
-<table class="memberdecls">
+</div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:ab6144301899a06d23751755672c5a3f7" id="r_ab6144301899a06d23751755672c5a3f7"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab6144301899a06d23751755672c5a3f7">LUMEX_BASE_CONSTANT</a>&#160;&#160;&#160;static <a class="el" href="a00389.html#a47e6f687e9ccc7895ec20cace7a357d8">LUMEX_INLINE_VARIABLE</a> const</td></tr>
-<tr class="separator:ab6144301899a06d23751755672c5a3f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac8388d271f79d02f47b20cfae244900a" id="r_ac8388d271f79d02f47b20cfae244900a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac8388d271f79d02f47b20cfae244900a">LUMEX_CONSTINIT_CONSTANT</a>&#160;&#160;&#160;<a class="el" href="#ab6144301899a06d23751755672c5a3f7">LUMEX_BASE_CONSTANT</a> <a class="el" href="a00389.html#a7efa0880bd62481ba01b90becb04f413">LUMEX_CONSTINIT</a></td></tr>
-<tr class="memdesc:ac8388d271f79d02f47b20cfae244900a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro for declaring static constants, guaranteeing static initialization.  <br /></td></tr>
-<tr class="separator:ac8388d271f79d02f47b20cfae244900a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a05ab07d7450e90785790f33e19a37763" id="r_a05ab07d7450e90785790f33e19a37763"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a05ab07d7450e90785790f33e19a37763">LUMEX_STRING_CONSTANT</a>&#160;&#160;&#160;<a class="el" href="#ab6144301899a06d23751755672c5a3f7">LUMEX_BASE_CONSTANT</a> char *<a class="el" href="a00389.html#a6b5f5ff346254db7b10ff8acfb874e0a">LUMEX_RESTRICT</a> const</td></tr>
-<tr class="separator:a05ab07d7450e90785790f33e19a37763"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aea059f2206580c771f0e532c0102a708" id="r_aea059f2206580c771f0e532c0102a708"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aea059f2206580c771f0e532c0102a708">LUMEX_CONSTEVAL_FUNCTION</a>&#160;&#160;&#160;<a class="el" href="a00389.html#aa83cbe7f4ea7b2fd1f213698427b535d">LUMEX_CONSTEVAL</a></td></tr>
-<tr class="separator:aea059f2206580c771f0e532c0102a708"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa63e4a30676d4f67d808597f321f416a" id="r_aa63e4a30676d4f67d808597f321f416a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa63e4a30676d4f67d808597f321f416a">LUMEX_CONST</a>&#160;&#160;&#160;<a class="el" href="#ab6144301899a06d23751755672c5a3f7">LUMEX_BASE_CONSTANT</a></td></tr>
-<tr class="separator:aa63e4a30676d4f67d808597f321f416a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a79c537c78fd40b18154a50845e28fb61" id="r_a79c537c78fd40b18154a50845e28fb61"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a79c537c78fd40b18154a50845e28fb61">LUMEX_CONST_STR</a>&#160;&#160;&#160;<a class="el" href="#a05ab07d7450e90785790f33e19a37763">LUMEX_STRING_CONSTANT</a></td></tr>
-<tr class="separator:a79c537c78fd40b18154a50845e28fb61"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a294baa8c8ad4246130f881cd1da7cbe1" id="r_a294baa8c8ad4246130f881cd1da7cbe1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a294baa8c8ad4246130f881cd1da7cbe1">LUMEX_CONST_NUM</a>&#160;&#160;&#160;<a class="el" href="#ac8388d271f79d02f47b20cfae244900a">LUMEX_CONSTINIT_CONSTANT</a></td></tr>
-<tr class="separator:a294baa8c8ad4246130f881cd1da7cbe1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a07486181f1990291c2a348de8eb4c480" id="r_a07486181f1990291c2a348de8eb4c480"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a07486181f1990291c2a348de8eb4c480">LUMEX_IMPLEMENTATION</a></td></tr>
+<tr class="separator:a07486181f1990291c2a348de8eb4c480"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a5334d5477ed5cb85a010f52c4f534fd4" id="r_a5334d5477ed5cb85a010f52c4f534fd4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5334d5477ed5cb85a010f52c4f534fd4">lumex_assert_handler</a> (char const *assertion, char const *file, int line) noexcept</td></tr>
+<tr class="memdesc:a5334d5477ed5cb85a010f52c4f534fd4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handles failed assertions within the Lumex codebase.  <br /></td></tr>
+<tr class="separator:a5334d5477ed5cb85a010f52c4f534fd4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Macros that declare static constants in the same way in every C++ standard: <code>LUMEX_CONST_NUM</code>, <code>LUMEX_CONST_STR</code>, <code>LUMEX_CONST</code> and their building blocks. </p>
-<p><code>LUMEX_CONST_NUM</code> expands to <code>static</code>, <code>inline</code> from C++17, <code>const</code>, and <code>constinit</code> from C++20 or <code>constexpr</code> from C++11, so its initializer must be a constant expression. <code>LUMEX_CONST_STR</code> declares a constant <code>char const *</code> (restrict-qualified where the compiler supports it) for a string literal, and <code>LUMEX_CONST</code> is the plain <code>static const</code>, <code>inline</code> from C++17. <code>LUMEX_CONSTEVAL_FUNCTION</code> is <code>consteval</code> from C++20 and <code>constexpr</code> before. The keyword macros these are built from are in <code><a class="el" href="a00389.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,...">LumexKeywords.hpp</a></code>. </p>
-</div><h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="ab6144301899a06d23751755672c5a3f7" name="ab6144301899a06d23751755672c5a3f7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab6144301899a06d23751755672c5a3f7">&#9670;&#160;</a></span>LUMEX_BASE_CONSTANT</h2>
+<h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a07486181f1990291c2a348de8eb4c480" name="a07486181f1990291c2a348de8eb4c480"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a07486181f1990291c2a348de8eb4c480">&#9670;&#160;</a></span>LUMEX_IMPLEMENTATION</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define LUMEX_BASE_CONSTANT&#160;&#160;&#160;static <a class="el" href="a00389.html#a47e6f687e9ccc7895ec20cace7a357d8">LUMEX_INLINE_VARIABLE</a> const</td>
+          <td class="memname">#define LUMEX_IMPLEMENTATION</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="aa63e4a30676d4f67d808597f321f416a" name="aa63e4a30676d4f67d808597f321f416a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa63e4a30676d4f67d808597f321f416a">&#9670;&#160;</a></span>LUMEX_CONST</h2>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="a5334d5477ed5cb85a010f52c4f534fd4" name="a5334d5477ed5cb85a010f52c4f534fd4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5334d5477ed5cb85a010f52c4f534fd4">&#9670;&#160;</a></span>lumex_assert_handler()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">#define LUMEX_CONST&#160;&#160;&#160;<a class="el" href="#ab6144301899a06d23751755672c5a3f7">LUMEX_BASE_CONSTANT</a></td>
+          <td class="memname">void lumex_assert_handler </td>
+          <td>(</td>
+          <td class="paramtype">char const *</td>          <td class="paramname"><span class="paramname"><em>assertion</em></span>, </td>
         </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a294baa8c8ad4246130f881cd1da7cbe1" name="a294baa8c8ad4246130f881cd1da7cbe1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a294baa8c8ad4246130f881cd1da7cbe1">&#9670;&#160;</a></span>LUMEX_CONST_NUM</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
         <tr>
-          <td class="memname">#define LUMEX_CONST_NUM&#160;&#160;&#160;<a class="el" href="#ac8388d271f79d02f47b20cfae244900a">LUMEX_CONSTINIT_CONSTANT</a></td>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char const *</td>          <td class="paramname"><span class="paramname"><em>file</em></span>, </td>
         </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a79c537c78fd40b18154a50845e28fb61" name="a79c537c78fd40b18154a50845e28fb61"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a79c537c78fd40b18154a50845e28fb61">&#9670;&#160;</a></span>LUMEX_CONST_STR</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
         <tr>
-          <td class="memname">#define LUMEX_CONST_STR&#160;&#160;&#160;<a class="el" href="#a05ab07d7450e90785790f33e19a37763">LUMEX_STRING_CONSTANT</a></td>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>line</em></span>&#160;)</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-</div>
-</div>
-<a id="aea059f2206580c771f0e532c0102a708" name="aea059f2206580c771f0e532c0102a708"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aea059f2206580c771f0e532c0102a708">&#9670;&#160;</a></span>LUMEX_CONSTEVAL_FUNCTION</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_CONSTEVAL_FUNCTION&#160;&#160;&#160;<a class="el" href="a00389.html#aa83cbe7f4ea7b2fd1f213698427b535d">LUMEX_CONSTEVAL</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ac8388d271f79d02f47b20cfae244900a" name="ac8388d271f79d02f47b20cfae244900a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac8388d271f79d02f47b20cfae244900a">&#9670;&#160;</a></span>LUMEX_CONSTINIT_CONSTANT</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_CONSTINIT_CONSTANT&#160;&#160;&#160;<a class="el" href="#ab6144301899a06d23751755672c5a3f7">LUMEX_BASE_CONSTANT</a> <a class="el" href="a00389.html#a7efa0880bd62481ba01b90becb04f413">LUMEX_CONSTINIT</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Macro for declaring static constants, guaranteeing static initialization. </p>
-<p>This macro provides a unified way to declare static constants (class members or global variables) with guaranteed initialization at compile time. The behavior of the macro depends on the used C++ standard: </p><pre class="fragment">     - **C++20 and higher (`-std=c++20` or newer):**
-       The macro expands to `static [inline] const constinit`. In this
-</pre><p> case, <code>constinit</code> is used, which <b>guarantees</b> that the variable will be initialized during static initialization (zero-initialization + constant-initialization). If the variable requires dynamic initialization (i.e. its value cannot be computed at compile time), this will result in a compilation error. The key difference from <code>constexpr</code> is that <code>constinit</code> does not make the variable <code>const</code>-qualified essentially, i.e. its value can be changed at runtime after static initialization, although the use of <code>const</code> in the macro prevents this. </p><pre class="fragment">     - **C++11, C++14, C++17 (`-std=c++11`, `-std=c++14`,
-</pre><p> <code>-std=c++17</code>):** The macro expands to <code>static [inline] const constexpr</code>. In these standards, <code>constexpr</code> is used to indicate that the variable can be initialized at compile time and its value is a constant expression. Starting with C++17, <code>inline</code> for static member variables allows defining them directly in headers without the need to repeat the definition in the <code>.cpp</code> file. </p><pre class="fragment">     - **Before C++11:**
-       The macro expands to `static const`. In this case, there is no
-</pre><p> guarantee that the variable will be initialized at compile time for all types, and the behavior will depend on the specific compiler and the type of data.</p>
-<dl class="section warning"><dt>Warning</dt><dd>The macro expands to <code>static const</code>. In this case, there is no guarantee that the variable will be initialized at compile time for all types, and the behavior will depend on the specific compiler and the type of data.</dd>
+<p>Handles failed assertions within the Lumex codebase. </p>
+<p>This function serves as the central handler for assertion failures. It is typically invoked by an assertion macro when a specified condition evaluates to false. The handler receives details about the failed assertion, including the assertion string itself, the source file where the failure occurred, and the exact line number.</p>
+<p>Its primary responsibility is to process the assertion failure, which might involve logging the details, breaking into a debugger, or terminating the application. Implementations should provide clear diagnostic information to aid in debugging.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">assertion</td><td>A null-terminated string representing the failed assertion expression. This pointer is caller-owned and must remain valid for the duration of the call. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">file</td><td>A null-terminated string representing the name of the source file where the assertion failed. This pointer is caller-owned. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">line</td><td>The line number within the <code>file</code> where the assertion failed. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>This function does not return to the caller under normal assertion failure scenarios, as it is expected to either terminate the program or enter a debugger. </dd>
 <dd>
-<ul>
-<li><b>Compilation error with <code>constinit</code> (C++20+):</b> Do not use this macro for variables that require dynamic initialization. For example, if the initializer calls a function that is not <code>constexpr</code>, or performs operations that cannot be computed at compile time.</li>
-<li><b>Variable type:</b> The declared variable must have a type that can be statically initialized (i.e. be part of a constant expression).</li>
-<li><b>Mutability:</b> Although <code>constinit</code> itself does not make the variable immutable, <code>const</code> in the composition of this macro prevents further changes.</li>
-</ul>
-</dd></dl>
-<dl class="section user"><dt>Examples of usage:</dt><dd><div class="fragment"><div class="line"><span class="keyword">class </span>MyConfig {</div>
-<div class="line"><span class="keyword">public</span>:</div>
-<div class="line">  <span class="comment">// Correct usage: integers and simple constant expressions</span></div>
-<div class="line">  <a class="code hl_define" href="#ac8388d271f79d02f47b20cfae244900a">LUMEX_CONSTINIT_CONSTANT</a> <span class="keywordtype">int</span> kBufferSize = 1024;</div>
-<div class="line">  <a class="code hl_define" href="#ac8388d271f79d02f47b20cfae244900a">LUMEX_CONSTINIT_CONSTANT</a> <span class="keywordtype">double</span> kPi = 3.14159265358979323846;</div>
-<div class="line"> </div>
-<div class="line">  <span class="comment">// Correct usage: objects of trivial types with constexpr constructors</span></div>
-<div class="line">  <span class="keyword">struct </span>Point {</div>
-<div class="line">    <span class="keywordtype">int</span> x, y;</div>
-<div class="line">    <span class="keyword">constexpr</span> Point(<span class="keywordtype">int</span> px, <span class="keywordtype">int</span> py) : x(px), y(py) {}</div>
-<div class="line">  };</div>
-<div class="line">  <a class="code hl_define" href="#ac8388d271f79d02f47b20cfae244900a">LUMEX_CONSTINIT_CONSTANT</a> Point kOrigin = {0, 0};</div>
-<div class="line"> </div>
-<div class="line">  <span class="comment">// Correct usage (starting with C++20 for std::string in certain contexts,</span></div>
-<div class="line">  <span class="comment">// but for LUMEX_CONSTINIT_CONSTANT this will be const char*):</span></div>
-<div class="line">  <span class="comment">// LUMEX_CONSTINIT_CONSTANT std::string kAppName = &quot;MyApp&quot;; // ERROR,</span></div>
-<div class="line">std::string <span class="keyword">requires</span> dynamic initialization</div>
-<div class="line">                                                                        <span class="comment">//</span></div>
-<div class="line">even <span class="keywordflow">if</span> the constructor is <span class="keyword">constexpr</span>, self-placement</div>
-<div class="line">                                                                        <span class="comment">//</span></div>
-<div class="line">of the <span class="keywordtype">string</span> in the heap cannot be <span class="keyword">constinit</span>.</div>
-<div class="line">                                                                        <span class="comment">//</span></div>
-<div class="line">Use <a class="code hl_define" href="#a79c537c78fd40b18154a50845e28fb61">LUMEX_CONST_STR</a> <span class="keywordflow">for</span> <span class="keywordtype">string</span> literals.</div>
-<div class="line"> </div>
-<div class="line">  <span class="comment">// Incorrect usage (will cause a compilation error with C++20 constinit):</span></div>
-<div class="line">  <span class="keywordtype">int</span> getRuntimeValue() { <span class="keywordflow">return</span> 42; }</div>
-<div class="line">  <span class="comment">// LUMEX_CONSTINIT_CONSTANT int kRuntimeValue = getRuntimeValue(); //</span></div>
-<div class="line">ERROR: <span class="keyword">requires</span> dynamic initialization</div>
-<div class="line"> </div>
-<div class="line">  <span class="comment">// Incorrect usage (for C++11-17 with constexpr)</span></div>
-<div class="line">  <span class="comment">// LUMEX_CONSTINIT_CONSTANT std::vector&lt;int&gt; kMyVector = {1, 2, 3}; //</span></div>
-<div class="line">ERROR: std::vector is not <span class="keyword">constexpr</span>-initializable (until C++20)</div>
-<div class="line">                                                                                <span class="comment">//</span></div>
-<div class="line">even in C++20, if it is not trivially copyable/movable,</div>
-<div class="line">                                                                                <span class="comment">//</span></div>
-<div class="line">constinit will not work for the std::vector <span class="keywordtype">object</span>.</div>
-<div class="line">};</div>
-<div class="ttc" id="aa00383_html_a79c537c78fd40b18154a50845e28fb61"><div class="ttname"><a href="#a79c537c78fd40b18154a50845e28fb61">LUMEX_CONST_STR</a></div><div class="ttdeci">#define LUMEX_CONST_STR</div><div class="ttdef"><b>Definition</b> LumexConstantMacros.hpp:170</div></div>
-<div class="ttc" id="aa00383_html_ac8388d271f79d02f47b20cfae244900a"><div class="ttname"><a href="#ac8388d271f79d02f47b20cfae244900a">LUMEX_CONSTINIT_CONSTANT</a></div><div class="ttdeci">#define LUMEX_CONSTINIT_CONSTANT</div><div class="ttdoc">Macro for declaring static constants, guaranteeing static initialization.</div><div class="ttdef"><b>Definition</b> LumexConstantMacros.hpp:160</div></div>
-</div><!-- fragment --></dd></dl>
-<dl class="section note"><dt>Note</dt><dd>Remember the differences between <code>constinit</code> (C++20+) and <code>constexpr</code> (C++11-C++17) in the context of static initialization. This macro abstracts these differences, but the fundamental limitations of each specifier remain in effect.</dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a href="https://en.cppreference.com/w/cpp/language/constinit">https://en.cppreference.com/w/cpp/language/constinit</a> </dd>
-<dd>
-<a href="https://en.cppreference.com/w/cpp/language/constexpr">https://en.cppreference.com/w/cpp/language/constexpr</a> </dd></dl>
-
-</div>
-</div>
-<a id="a05ab07d7450e90785790f33e19a37763" name="a05ab07d7450e90785790f33e19a37763"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a05ab07d7450e90785790f33e19a37763">&#9670;&#160;</a></span>LUMEX_STRING_CONSTANT</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_STRING_CONSTANT&#160;&#160;&#160;<a class="el" href="#ab6144301899a06d23751755672c5a3f7">LUMEX_BASE_CONSTANT</a> char *<a class="el" href="a00389.html#a6b5f5ff346254db7b10ff8acfb874e0a">LUMEX_RESTRICT</a> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
+This function is declared <code>noexcept</code>, indicating that it does not throw C++ exceptions. Any internal failures should be handled without propagating exceptions. </dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>Calling this function directly is typically not recommended; it is intended to be used by internal assertion macros or mechanisms. </dd></dl>
 
 </div>
 </div>
@@ -310,7 +215,7 @@ Macros</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_aaa57aed14d71e316a67f95634c796d3.html">utility</a></li><li class="navelem"><a class="el" href="dir_e3f214e8a41a41e150fac712d4956bd2.html">macros</a></li><li class="navelem"><a class="el" href="a00383.html">LumexConstantMacros.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_aaa57aed14d71e316a67f95634c796d3.html">utility</a></li><li class="navelem"><a class="el" href="dir_fd463bbdb0a2c1e90e6c867fb9115cf9.html">assert</a></li><li class="navelem"><a class="el" href="a00383.html">LumexAssert.cpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

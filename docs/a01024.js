@@ -1,10 +1,10 @@
 var a01024 =
 [
-    [ "text", "a01025.html", "a01025" ],
-    [ "utility", "a01027.html", [
-      [ "operator<<", "a01027.html#aabd30bcdf02da92ec12422a30fd4c4f4", null ],
-      [ "operator<<", "a01027.html#a069a5bbde352f2d95ec427f786215113", null ],
-      [ "stringify", "a01027.html#a6edd6a773e25b016b0dab32f38d58ff9", null ],
-      [ "stringify", "a01027.html#a644d51beb3d991564cc81242883fd17a", null ]
-    ] ]
+    [ "CircularBuffer", "a01385.html", "a01385" ],
+    [ "operator!=", "a01024.html#a9f2053ec78d256b9511bcb2ad97a7df2", null ],
+    [ "operator<", "a01024.html#a56bbfbab60073a9b1102f21f970563c9", null ],
+    [ "operator<=", "a01024.html#a4f2d75691303d649ca012fbe8dda517a", null ],
+    [ "operator==", "a01024.html#ac96da0807d416d4354f8e227a54404fe", null ],
+    [ "operator>", "a01024.html#acc6a20ddca8e466131ac5c016f8db307", null ],
+    [ "operator>=", "a01024.html#aeaf35e00dcf39d60a23f37e0e5a02048", null ]
 ];

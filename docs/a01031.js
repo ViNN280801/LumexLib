@@ -1,7 +1,6 @@
 var a01031 =
 [
-    [ "LumexTemporary", "a02342.html", "a02342" ],
-    [ "TemporaryDirectory", "a02334.html", "a02334" ],
-    [ "TemporaryFile", "a02338.html", "a02338" ],
-    [ "lumex_filesystem", "a01031.html#a893c977b252322f204c5854b5fbabb74", null ]
+    [ "LumexEnvironment", "a01873.html", "a01873" ],
+    [ "is_env_set", "a01031.html#aa4eee5d823344fc6515437ef34084b7b", null ],
+    [ "is_env_truthy", "a01031.html#a664eee18841a0489fd44e19b214f7761", null ]
 ];

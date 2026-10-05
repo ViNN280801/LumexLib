@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: example_logging_workflow.cpp File Reference</title>
+<title>LumexLib: example_generators.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -105,15 +105,49 @@ $(function(){initNavTree('a00518.html',''); initResizable(true); });
 <div class="header">
   <div class="summary">
 <a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">example_logging_workflow.cpp File Reference</div></div>
+  <div class="headertitle"><div class="title">example_generators.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &lt;iostream&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00842_source.html">lumex/applied/logging/LumexLogging</a>&quot;</code><br />
+<code>#include &lt;vector&gt;</code><br />
+<code>#include &quot;<a class="el" href="a00917_source.html">lumex/core/generators/LumexGenerators</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for example_logging_workflow.cpp:</div>
+Include dependency graph for example_generators.cpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00519.png" border="0" usemap="#aexample__logging__workflow_8cpp" alt=""/></div>
+<div class="center"><img src="a00519.png" border="0" usemap="#aexample__generators_8cpp" alt=""/></div>
+<map name="aexample__generators_8cpp" id="aexample__generators_8cpp">
+<area shape="rect" title=" " alt="" coords="47,5,211,32"/>
+<area shape="rect" title=" " alt="" coords="5,269,77,296"/>
+<area shape="poly" title=" " alt="" coords="127,33,53,255,47,254,122,32"/>
+<area shape="rect" title=" " alt="" coords="100,269,158,296"/>
+<area shape="poly" title=" " alt="" coords="132,33,132,254,126,254,126,33"/>
+<area shape="rect" href="a00917.html" title="Generators module: NumberGenerator, random integral and floating&#45;point numbers from the uniform,..." alt="" coords="304,80,455,123"/>
+<area shape="poly" title=" " alt="" coords="169,30,301,72,300,77,167,35"/>
+<area shape="rect" href="a00317.html" title="Defines the NumberGenerator template class for versatile random number generation." alt="" coords="412,171,627,213"/>
+<area shape="poly" title=" " alt="" coords="414,121,476,160,473,164,411,126"/>
+<area shape="poly" title=" " alt="" coords="412,205,258,227,172,243,88,264,82,266,80,261,87,259,171,238,257,221,412,200"/>
+<area shape="poly" title=" " alt="" coords="413,212,299,233,178,264,171,266,170,261,176,259,297,228,412,206"/>
+<area shape="rect" title=" " alt="" coords="490,269,550,296"/>
+<area shape="poly" title=" " alt="" coords="522,214,522,254,517,254,517,214"/>
+<area shape="rect" title=" " alt="" coords="574,269,628,296"/>
+<area shape="poly" title=" " alt="" coords="540,212,581,256,577,260,537,216"/>
+<area shape="rect" title=" " alt="" coords="652,269,716,296"/>
+<area shape="poly" title=" " alt="" coords="559,212,648,259,646,264,557,216"/>
+<area shape="rect" title=" " alt="" coords="740,269,822,296"/>
+<area shape="poly" title=" " alt="" coords="586,211,729,259,735,261,733,266,727,264,584,216"/>
+<area shape="rect" title=" " alt="" coords="847,269,899,296"/>
+<area shape="poly" title=" " alt="" coords="628,207,729,228,835,259,838,260,837,265,833,264,728,233,627,212"/>
+<area shape="rect" href="a00386.html" title="Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_..." alt="" coords="923,261,1090,304"/>
+<area shape="poly" title=" " alt="" coords="628,208,908,258,907,263,627,214"/>
+<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="252,352,446,395"/>
+<area shape="poly" title=" " alt="" coords="412,206,354,215,298,228,251,244,235,253,223,263,217,273,216,282,223,303,243,325,268,343,265,347,239,329,219,305,210,282,212,271,219,260,231,248,249,239,296,222,353,210,411,201"/>
+<area shape="rect" href="a00419.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="233,261,465,304"/>
+<area shape="poly" title=" " alt="" coords="481,216,403,256,401,252,478,212"/>
+<area shape="rect" href="a00641.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="925,360,1088,387"/>
+<area shape="poly" title=" " alt="" coords="1009,304,1009,344,1004,344,1004,304"/>
+<area shape="poly" title=" " alt="" coords="923,305,912,307,672,341,462,364,461,359,671,335,911,301,922,300"/>
+<area shape="poly" title=" " alt="" coords="352,304,352,337,346,337,346,304"/>
+</map>
 </div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
@@ -140,6 +174,17 @@ Functions</h2></td></tr>
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="a00518_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph.png" border="0" usemap="#aa00518_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" alt=""/></div>
+<map name="aa00518_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" id="aa00518_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph">
+<area shape="rect" title=" " alt="" coords="5,145,55,172"/>
+<area shape="rect" href="a02245.html#aede99d86546c89a1fc8d25ab0bd08740" title="Gets a random number with explicitly specified parameters." alt="" coords="103,5,347,64"/>
+<area shape="poly" title=" " alt="" coords="38,143,63,109,101,74,108,70,111,74,104,78,67,112,42,147"/>
+<area shape="rect" href="a02245.html#af01d623fe341896abc84f2f67075c1b8" title="Generates a sequence (vector) of random numbers." alt="" coords="103,88,347,147"/>
+<area shape="poly" title=" " alt="" coords="55,151,86,144,88,149,56,156"/>
+<area shape="rect" href="a02245.html#ab302c3598a3093a1ee7df07ddb787911" title="Sets both the lower and upper bounds for subsequent random number generations." alt="" coords="103,171,347,229"/>
+<area shape="poly" title=" " alt="" coords="56,161,88,168,86,173,55,166"/>
+<area shape="rect" href="a02245.html#a18170648ef2fced4beb6bae981a3fe65" title="Sets the probability distribution type for subsequent random number generations." alt="" coords="103,253,347,312"/>
+<area shape="poly" title=" " alt="" coords="42,171,67,205,104,239,111,243,108,248,101,243,63,208,38,174"/>
+</map>
 </div>
 
 </div>
@@ -149,7 +194,7 @@ Here is the call graph for this function:</div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_e8ae4df8b8335e2a73ecf531ee4a4a97.html">examples</a></li><li class="navelem"><a class="el" href="dir_79837a4a68bc196c1f09e14adaf166fb.html">logging</a></li><li class="navelem"><a class="el" href="a00518.html">example_logging_workflow.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_e8ae4df8b8335e2a73ecf531ee4a4a97.html">examples</a></li><li class="navelem"><a class="el" href="dir_e8d6585c0a3ccc095622008e70435a51.html">generators</a></li><li class="navelem"><a class="el" href="a00518.html">example_generators.cpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

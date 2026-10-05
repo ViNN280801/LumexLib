@@ -1,16 +1,8 @@
 var a00194 =
 [
-    [ "LUMEX_IMPLEMENTATION", "a00194.html#a07486181f1990291c2a348de8eb4c480", null ],
-    [ "lumex::core::crc::catalog::ComputeCrcCatalog", "a00985.html#a7c78d39b9bad1d190fba9e64e54d3089", null ],
-    [ "lumex::core::crc::catalog::ComputeCrcWithRevEngParams", "a00985.html#a07dc7d6ce7dae828a9174ed5c61a53cd", null ],
-    [ "lumex::core::crc::catalog::ComputeTransportChecksum", "a00985.html#add9426471847b4c3cee375c3f12cd548", null ],
-    [ "lumex::core::crc::catalog::GetCrcCatalogBitWidth", "a00985.html#ada153a2397d11cdb757cededb803d6ba", null ],
-    [ "lumex::core::crc::catalog::GetCrcCatalogEntryCount", "a00985.html#a4a1bf4a4033234f6ec6bd6ceb8200dca", null ],
-    [ "lumex::core::crc::catalog::GetTransportCrcCatalogIndex", "a00985.html#adfb9a54377d70e075c97d7034dd2d497", null ],
-    [ "lumex::core::crc::catalog::GetTransportCrcMode", "a00985.html#ae18a771d574e0ab1591e77d45799348c", null ],
-    [ "lumex::core::crc::catalog::SetTransportCrcCatalogIndex", "a00985.html#a695b6caf304fee0eef53bd8331b01579", null ],
-    [ "lumex::core::crc::catalog::SetTransportCrcDefault", "a00985.html#a1895c5276e88e178fd50ae5ff29b22a7", null ],
-    [ "lumex::core::crc::catalog::SetTransportCrcRevEngParams", "a00985.html#a803339a9a4d83bf460e3d6c07b66e837", null ],
-    [ "lumex::core::crc::catalog::TryGetTransportCrcRevEngParams", "a00985.html#a445977ae97a478e402f139ef37cce13a", null ],
-    [ "lumex::core::crc::catalog::ValidateCrcRevEngParams", "a00985.html#a10782f1d322cae0727ac0ee7f52e6f95", null ]
+    [ "LUMEX_ATOMIC_SMART_PTR_ABI_NAMESPACE", "a00194.html#a9be53a42a0b6b53bcfd084ff60e871bc", null ],
+    [ "LUMEX_ATOMIC_SMART_PTR_CHECK_FAILURE_ORDER", "a00194.html#ab3ae82014165ed18f66e176029cfa054", null ],
+    [ "LUMEX_ATOMIC_SMART_PTR_CHECK_LOAD_ORDER", "a00194.html#a6210e9365ae142be6a0511f324aee02d", null ],
+    [ "LUMEX_ATOMIC_SMART_PTR_CHECK_STORE_ORDER", "a00194.html#a4df38d759b3b75a0c2eb43df1680cb61", null ],
+    [ "LUMEX_ATOMIC_SMART_PTR_USES_STD", "a00194.html#af19bd8e04b3f3c9c2e688b87eb4d74b5", null ]
 ];

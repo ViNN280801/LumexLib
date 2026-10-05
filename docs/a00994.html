@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::core::exceptions::Wrapper Namespace Reference</title>
+<title>LumexLib: lumex::applied::settings Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -105,208 +105,36 @@ $(function(){initNavTree('a00994.html',''); initResizable(true); });
 <div class="header">
   <div class="summary">
 <a href="#namespaces">Namespaces</a> &#124;
-<a href="#typedef-members">Typedefs</a> &#124;
-<a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">lumex::core::exceptions::Wrapper Namespace Reference</div></div>
+<a href="#nested-classes">Classes</a>  </div>
+  <div class="headertitle"><div class="title">lumex::applied::settings Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00996.html">detail</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00995.html">factory</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00996.html">guard</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00998.html">ini</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01001.html">json</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01003.html">xml</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
-Typedefs</h2></td></tr>
-<tr class="memitem:a44e9e9da5b97d168978390c418a62b3f" id="r_a44e9e9da5b97d168978390c418a62b3f"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a44e9e9da5b97d168978390c418a62b3f">safe_call_report_fn</a> = void (*) (char const *message)</td></tr>
-<tr class="memdesc:a44e9e9da5b97d168978390c418a62b3f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Consumer report sink for a fully built failure line.  <br /></td></tr>
-<tr class="separator:a44e9e9da5b97d168978390c418a62b3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:a71d9df48ad62f6a5f94220cd14b5f70c" id="r_a71d9df48ad62f6a5f94220cd14b5f70c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a71d9df48ad62f6a5f94220cd14b5f70c">set_safe_call_reporter</a> (<a class="el" href="#a44e9e9da5b97d168978390c418a62b3f">safe_call_report_fn</a> reporter) noexcept</td></tr>
-<tr class="memdesc:a71d9df48ad62f6a5f94220cd14b5f70c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Installs the process-wide report sink. <code>nullptr</code> restores <code>std::cerr</code>.  <br /></td></tr>
-<tr class="separator:a71d9df48ad62f6a5f94220cd14b5f70c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0e00681207c6fe8355e6416db22d6ee8" id="r_a0e00681207c6fe8355e6416db22d6ee8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a44e9e9da5b97d168978390c418a62b3f">safe_call_report_fn</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0e00681207c6fe8355e6416db22d6ee8">get_safe_call_reporter</a> () noexcept</td></tr>
-<tr class="memdesc:a0e00681207c6fe8355e6416db22d6ee8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the installed sink, or <code>nullptr</code> when reports go to <code>std::cerr</code>.  <br /></td></tr>
-<tr class="separator:a0e00681207c6fe8355e6416db22d6ee8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a830b8d9cf501bccfb594bebd0221c287" id="r_a830b8d9cf501bccfb594bebd0221c287"><td class="memTemplParams" colspan="2">template&lt;typename Function, typename... Args&gt; </td></tr>
-<tr class="memitem:a830b8d9cf501bccfb594bebd0221c287"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a830b8d9cf501bccfb594bebd0221c287">ExceptionWrapper</a> (std::string const &amp;excMessage, std::string const &amp;unknownExcMessage, Function &amp;&amp;func, Args &amp;&amp;...args) noexcept(noexcept(std::declval&lt; Function &gt;()(std::declval&lt; Args &gt;()...))) -&gt; <a class="el" href="a01052.html#a18993038d7df3aedaeeb999287ff42b2">lumex::core::utility::traits::invoke::invoke_result_t</a>&lt; Function, Args... &gt;</td></tr>
-<tr class="memdesc:a830b8d9cf501bccfb594bebd0221c287"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calls <code>func(args...)</code>, catching and safely reporting any exception it throws instead of letting it propagate.  <br /></td></tr>
-<tr class="separator:a830b8d9cf501bccfb594bebd0221c287"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01313.html">ILumexSettings</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interface of a settings store kept in a configuration file.  <a href="a01313.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Typedef Documentation</h2>
-<a id="a44e9e9da5b97d168978390c418a62b3f" name="a44e9e9da5b97d168978390c418a62b3f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a44e9e9da5b97d168978390c418a62b3f">&#9670;&#160;</a></span>safe_call_report_fn</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="#a44e9e9da5b97d168978390c418a62b3f">lumex::core::exceptions::Wrapper::safe_call_report_fn</a> = void (*) (char const *message)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Consumer report sink for a fully built failure line. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">message</td><td>Non-owning, null-terminated text. Valid only for the call. The function may throw; <code>ExceptionWrapper</code> then writes the same line to <code>std::cerr</code>. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="a830b8d9cf501bccfb594bebd0221c287" name="a830b8d9cf501bccfb594bebd0221c287"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a830b8d9cf501bccfb594bebd0221c287">&#9670;&#160;</a></span>ExceptionWrapper()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename Function, typename... Args&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">auto lumex::core::exceptions::Wrapper::ExceptionWrapper </td>
-          <td>(</td>
-          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>excMessage</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>unknownExcMessage</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Function &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>func</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Args &amp;&amp;...</td>          <td class="paramname"><span class="paramname"><em>args</em></span>&#160;) -&gt; <a class="el" href="a01052.html#a18993038d7df3aedaeeb999287ff42b2">lumex::core::utility::traits::invoke::invoke_result_t</a>&lt;Function,
-                                                                 Args...&gt;
-</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Calls <code>func(args...)</code>, catching and safely reporting any exception it throws instead of letting it propagate. </p>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">Function</td><td>Callable type; must be invocable with <code>Args...</code>. </td></tr>
-    <tr><td class="paramname">Args</td><td>Types of the arguments forwarded to <code>func</code>. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">excMessage</td><td>Message reported (to <code>std::cerr</code>) when <code>func</code> throws a <code>std::exception</code>; the exception's own <code>what()</code> is appended after it. </td></tr>
-    <tr><td class="paramname">unknownExcMessage</td><td>Message reported when <code>func</code> throws anything that is not a <code>std::exception</code> (e.g. a plain <code>int</code>, or a type from another ABI). </td></tr>
-    <tr><td class="paramname">func</td><td>The callable to invoke. </td></tr>
-    <tr><td class="paramname">args</td><td>Arguments forwarded to <code>func</code>. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>Whatever <code>func(args...)</code> returns on success; a value-initialized default (<code><a class="el" href="a02434.html" title="Helper providing a default value for a type, primarily meant for exception-safe fallbacks.">lumex::core::utility::traits::meta::default_return</a>&lt;ReturnType&gt;::value()</code>) if it throws.</dd></dl>
-<dl class="section note"><dt>Note</dt><dd><code>noexcept</code> is conditional on whether the wrapped call itself is <code>noexcept</code>: reporting a failure is unconditionally <code>noexcept</code> (see <code><a class="el" href="a00996.html#a730010fd0f524d97727a82bb42f2ddd3" title="Writes &quot;prefix. Reason: &lt;whatMsg&gt;\n&quot; to std::cerr using only noexcept operations.">detail::write_to_stderr</a></code>), so it never needs to be part of this check. </dd>
-<dd>
-Invocation intentionally uses plain <code>func(args...)</code>, not <code><a class="el" href="a01053.html#a8ba7e4193163e68cb15bccd03b229d9c">lumex::core::utility::traits::invoke::detail::INVOKE</a></code> - that helper only has a <code>decltype</code>-computed trailing return type (no function body) because it exists solely to drive <code>invoke_result</code>/ <code>is_callable</code> at compile time, not to be called at runtime. <code>invoke_result_t</code>/<code>is_callable_v</code> (built on top of it) remain the right tools for return-type deduction and the Callable-Named-Requirement check below.</dd></dl>
-<dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line"><span class="comment">// Simple usage with default, source-location-based messages.</span></div>
-<div class="line"><span class="keywordtype">int</span> result = <a class="code hl_define" href="a00233.html#a03ec1ac9d020fd4f7b12362a94f204e9">LUMEX_SAFE_CALL</a>(someFunction(42));</div>
-<div class="line"> </div>
-<div class="line"><span class="comment">// Usage with custom messages.</span></div>
-<div class="line"><span class="keywordtype">int</span> result = <a class="code hl_define" href="a00233.html#a261fa5b1604d900afd08ec4e0bebacb8">LUMEX_SAFE_CALL_MSG</a>(</div>
-<div class="line">    someFunction(42),</div>
-<div class="line">    <span class="stringliteral">&quot;Failed to execute someFunction&quot;</span>,</div>
-<div class="line">    <span class="stringliteral">&quot;Unknown error in someFunction&quot;</span></div>
-<div class="line">);</div>
-<div class="ttc" id="aa00233_html_a03ec1ac9d020fd4f7b12362a94f204e9"><div class="ttname"><a href="a00233.html#a03ec1ac9d020fd4f7b12362a94f204e9">LUMEX_SAFE_CALL</a></div><div class="ttdeci">#define LUMEX_SAFE_CALL(expr)</div><div class="ttdoc">Safely evaluates expr, with default, source-location-based diagnostic messages.</div><div class="ttdef"><b>Definition</b> LumexExceptionWrapper.hpp:355</div></div>
-<div class="ttc" id="aa00233_html_a261fa5b1604d900afd08ec4e0bebacb8"><div class="ttname"><a href="a00233.html#a261fa5b1604d900afd08ec4e0bebacb8">LUMEX_SAFE_CALL_MSG</a></div><div class="ttdeci">#define LUMEX_SAFE_CALL_MSG(expr, excMessage, unknExcMessage)</div><div class="ttdoc">Safely evaluates expr, with caller-supplied diagnostic messages.</div><div class="ttdef"><b>Definition</b> LumexExceptionWrapper.hpp:372</div></div>
-</div><!-- fragment --> </dd></dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00994_a830b8d9cf501bccfb594bebd0221c287_cgraph.png" border="0" usemap="#aa00994_a830b8d9cf501bccfb594bebd0221c287_cgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="a0e00681207c6fe8355e6416db22d6ee8" name="a0e00681207c6fe8355e6416db22d6ee8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0e00681207c6fe8355e6416db22d6ee8">&#9670;&#160;</a></span>get_safe_call_reporter()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="#a44e9e9da5b97d168978390c418a62b3f">safe_call_report_fn</a> lumex::core::exceptions::Wrapper::get_safe_call_reporter </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Returns the installed sink, or <code>nullptr</code> when reports go to <code>std::cerr</code>. </p>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00994_a0e00681207c6fe8355e6416db22d6ee8_icgraph.png" border="0" usemap="#aa00994_a0e00681207c6fe8355e6416db22d6ee8_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="a71d9df48ad62f6a5f94220cd14b5f70c" name="a71d9df48ad62f6a5f94220cd14b5f70c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a71d9df48ad62f6a5f94220cd14b5f70c">&#9670;&#160;</a></span>set_safe_call_reporter()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void lumex::core::exceptions::Wrapper::set_safe_call_reporter </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="#a44e9e9da5b97d168978390c418a62b3f">safe_call_report_fn</a></td>          <td class="paramname"><span class="paramname"><em>reporter</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Installs the process-wide report sink. <code>nullptr</code> restores <code>std::cerr</code>. </p>
-<dl class="section note"><dt>Note</dt><dd>The pointer is stored in this library's binary, so the executable and the exceptions DLL share one sink. </dd></dl>
-
-</div>
-</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00912.html">lumex</a></li><li class="navelem"><a class="el" href="a00964.html">core</a></li><li class="navelem"><a class="el" href="a00991.html">exceptions</a></li><li class="navelem"><a class="el" href="a00994.html">Wrapper</a></li>
+    <li class="navelem"><a class="el" href="a00948.html">lumex</a></li><li class="navelem"><a class="el" href="a00949.html">applied</a></li><li class="navelem"><a class="el" href="a00994.html">settings</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

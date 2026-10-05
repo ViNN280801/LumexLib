@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::core::time::timer Namespace Reference</title>
+<title>LumexLib: lumex::core::exceptions::Wrapper Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,41 +104,161 @@ $(function(){initNavTree('a01035.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
 <a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">lumex::core::time::timer Namespace Reference</div></div>
+  <div class="headertitle"><div class="title">lumex::core::exceptions::Wrapper Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02350.html">LumexTimer</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A high-resolution stopwatch for measuring elapsed wall-clock time.  <a href="a02350.html#details">More...</a><br /></td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01037.html">detail</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:a44e9e9da5b97d168978390c418a62b3f" id="r_a44e9e9da5b97d168978390c418a62b3f"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a44e9e9da5b97d168978390c418a62b3f">safe_call_report_fn</a> = void (*) (char const *message)</td></tr>
+<tr class="memdesc:a44e9e9da5b97d168978390c418a62b3f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Consumer report sink for a fully built failure line.  <br /></td></tr>
+<tr class="separator:a44e9e9da5b97d168978390c418a62b3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a92a181555350dcc075d22a432da22d8a" id="r_a92a181555350dcc075d22a432da22d8a"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a92a181555350dcc075d22a432da22d8a">extract_function_name</a> (std::string const &amp;expr_str)</td></tr>
-<tr class="memdesc:a92a181555350dcc075d22a432da22d8a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extracts a short, human-readable name from a stringified call expression.  <br /></td></tr>
-<tr class="separator:a92a181555350dcc075d22a432da22d8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa04009deb3c2f28294b819490ed44b27" id="r_aa04009deb3c2f28294b819490ed44b27"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa04009deb3c2f28294b819490ed44b27">write_measure_time_report</a> (std::ostream &amp;out, std::string const &amp;message, long long elapsed_ms)</td></tr>
-<tr class="memdesc:aa04009deb3c2f28294b819490ed44b27"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes a measure-time report line to <code>out</code>.  <br /></td></tr>
-<tr class="separator:aa04009deb3c2f28294b819490ed44b27"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7a5e6044c994dc0aaa411d6703fc32f4" id="r_a7a5e6044c994dc0aaa411d6703fc32f4"><td class="memItemLeft" align="right" valign="top">char const *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7a5e6044c994dc0aaa411d6703fc32f4">default_measure_time_env_name</a> () noexcept</td></tr>
-<tr class="memdesc:a7a5e6044c994dc0aaa411d6703fc32f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default environment variable that enables <code>measure_time</code> reporting when env gating is on.  <br /></td></tr>
-<tr class="separator:a7a5e6044c994dc0aaa411d6703fc32f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2cc90c92f6a2261ecfb8bc76e3943ed1" id="r_a2cc90c92f6a2261ecfb8bc76e3943ed1"><td class="memTemplParams" colspan="2">template&lt;typename Callable, typename... Args&gt; </td></tr>
-<tr class="memitem:a2cc90c92f6a2261ecfb8bc76e3943ed1"><td class="memTemplItemLeft" align="right" valign="top">long long&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a2cc90c92f6a2261ecfb8bc76e3943ed1">measure_execution_time</a> (Callable &amp;&amp;callable, Args &amp;&amp;...args)</td></tr>
-<tr class="memdesc:a2cc90c92f6a2261ecfb8bc76e3943ed1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes <code>callable</code> with <code>args</code> and returns elapsed wall-clock time in milliseconds.  <br /></td></tr>
-<tr class="separator:a2cc90c92f6a2261ecfb8bc76e3943ed1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac2a95e66868e1a2cc9cc1da9676e38c8" id="r_ac2a95e66868e1a2cc9cc1da9676e38c8"><td class="memTemplParams" colspan="2">template&lt;typename Callable&gt; </td></tr>
-<tr class="memitem:ac2a95e66868e1a2cc9cc1da9676e38c8"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#ac2a95e66868e1a2cc9cc1da9676e38c8">measure_time</a> (Callable &amp;&amp;callable, std::string const &amp;message, std::ostream &amp;out=std::clog, bool need_to_gate_via_env=true, char const *env_name=<a class="el" href="#a7a5e6044c994dc0aaa411d6703fc32f4">default_measure_time_env_name</a>())</td></tr>
-<tr class="memdesc:ac2a95e66868e1a2cc9cc1da9676e38c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Optionally gates timing/reporting via an environment variable, then measures <code>callable</code> and writes the result to <code>out</code>.  <br /></td></tr>
-<tr class="separator:ac2a95e66868e1a2cc9cc1da9676e38c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a71d9df48ad62f6a5f94220cd14b5f70c" id="r_a71d9df48ad62f6a5f94220cd14b5f70c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a71d9df48ad62f6a5f94220cd14b5f70c">set_safe_call_reporter</a> (<a class="el" href="#a44e9e9da5b97d168978390c418a62b3f">safe_call_report_fn</a> reporter) noexcept</td></tr>
+<tr class="memdesc:a71d9df48ad62f6a5f94220cd14b5f70c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Installs the process-wide report sink. <code>nullptr</code> restores <code>std::cerr</code>.  <br /></td></tr>
+<tr class="separator:a71d9df48ad62f6a5f94220cd14b5f70c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0e00681207c6fe8355e6416db22d6ee8" id="r_a0e00681207c6fe8355e6416db22d6ee8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a44e9e9da5b97d168978390c418a62b3f">safe_call_report_fn</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0e00681207c6fe8355e6416db22d6ee8">get_safe_call_reporter</a> () noexcept</td></tr>
+<tr class="memdesc:a0e00681207c6fe8355e6416db22d6ee8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the installed sink, or <code>nullptr</code> when reports go to <code>std::cerr</code>.  <br /></td></tr>
+<tr class="separator:a0e00681207c6fe8355e6416db22d6ee8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a830b8d9cf501bccfb594bebd0221c287" id="r_a830b8d9cf501bccfb594bebd0221c287"><td class="memTemplParams" colspan="2">template&lt;typename Function, typename... Args&gt; </td></tr>
+<tr class="memitem:a830b8d9cf501bccfb594bebd0221c287"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a830b8d9cf501bccfb594bebd0221c287">ExceptionWrapper</a> (std::string const &amp;excMessage, std::string const &amp;unknownExcMessage, Function &amp;&amp;func, Args &amp;&amp;...args) noexcept(noexcept(std::declval&lt; Function &gt;()(std::declval&lt; Args &gt;()...))) -&gt; <a class="el" href="a01093.html#a18993038d7df3aedaeeb999287ff42b2">lumex::core::utility::traits::invoke::invoke_result_t</a>&lt; Function, Args... &gt;</td></tr>
+<tr class="memdesc:a830b8d9cf501bccfb594bebd0221c287"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calls <code>func(args...)</code>, catching and safely reporting any exception it throws instead of letting it propagate.  <br /></td></tr>
+<tr class="separator:a830b8d9cf501bccfb594bebd0221c287"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Typedef Documentation</h2>
+<a id="a44e9e9da5b97d168978390c418a62b3f" name="a44e9e9da5b97d168978390c418a62b3f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a44e9e9da5b97d168978390c418a62b3f">&#9670;&#160;</a></span>safe_call_report_fn</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="#a44e9e9da5b97d168978390c418a62b3f">lumex::core::exceptions::Wrapper::safe_call_report_fn</a> = void (*) (char const *message)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Consumer report sink for a fully built failure line. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">message</td><td>Non-owning, null-terminated text. Valid only for the call. The function may throw; <code>ExceptionWrapper</code> then writes the same line to <code>std::cerr</code>. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="a7a5e6044c994dc0aaa411d6703fc32f4" name="a7a5e6044c994dc0aaa411d6703fc32f4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7a5e6044c994dc0aaa411d6703fc32f4">&#9670;&#160;</a></span>default_measure_time_env_name()</h2>
+<a id="a830b8d9cf501bccfb594bebd0221c287" name="a830b8d9cf501bccfb594bebd0221c287"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a830b8d9cf501bccfb594bebd0221c287">&#9670;&#160;</a></span>ExceptionWrapper()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Function, typename... Args&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto lumex::core::exceptions::Wrapper::ExceptionWrapper </td>
+          <td>(</td>
+          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>excMessage</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>unknownExcMessage</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Function &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>func</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Args &amp;&amp;...</td>          <td class="paramname"><span class="paramname"><em>args</em></span>&#160;) -&gt; <a class="el" href="a01093.html#a18993038d7df3aedaeeb999287ff42b2">lumex::core::utility::traits::invoke::invoke_result_t</a>&lt;Function,
+                                                                 Args...&gt;
+</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Calls <code>func(args...)</code>, catching and safely reporting any exception it throws instead of letting it propagate. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">Function</td><td>Callable type; must be invocable with <code>Args...</code>. </td></tr>
+    <tr><td class="paramname">Args</td><td>Types of the arguments forwarded to <code>func</code>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">excMessage</td><td>Message reported (to <code>std::cerr</code>) when <code>func</code> throws a <code>std::exception</code>; the exception's own <code>what()</code> is appended after it. </td></tr>
+    <tr><td class="paramname">unknownExcMessage</td><td>Message reported when <code>func</code> throws anything that is not a <code>std::exception</code> (e.g. a plain <code>int</code>, or a type from another ABI). </td></tr>
+    <tr><td class="paramname">func</td><td>The callable to invoke. </td></tr>
+    <tr><td class="paramname">args</td><td>Arguments forwarded to <code>func</code>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Whatever <code>func(args...)</code> returns on success; a value-initialized default (<code><a class="el" href="a02517.html" title="Helper providing a default value for a type, primarily meant for exception-safe fallbacks.">lumex::core::utility::traits::meta::default_return</a>&lt;ReturnType&gt;::value()</code>) if it throws.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd><code>noexcept</code> is conditional on whether the wrapped call itself is <code>noexcept</code>: reporting a failure is unconditionally <code>noexcept</code> (see <code><a class="el" href="a01037.html#a730010fd0f524d97727a82bb42f2ddd3" title="Writes &quot;prefix. Reason: &lt;whatMsg&gt;\n&quot; to std::cerr using only noexcept operations.">detail::write_to_stderr</a></code>), so it never needs to be part of this check. </dd>
+<dd>
+Invocation intentionally uses plain <code>func(args...)</code>, not <code><a class="el" href="a01094.html#a8ba7e4193163e68cb15bccd03b229d9c">lumex::core::utility::traits::invoke::detail::INVOKE</a></code> - that helper only has a <code>decltype</code>-computed trailing return type (no function body) because it exists solely to drive <code>invoke_result</code>/ <code>is_callable</code> at compile time, not to be called at runtime. <code>invoke_result_t</code>/<code>is_callable_v</code> (built on top of it) remain the right tools for return-type deduction and the Callable-Named-Requirement check below.</dd></dl>
+<dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line"><span class="comment">// Simple usage with default, source-location-based messages.</span></div>
+<div class="line"><span class="keywordtype">int</span> result = <a class="code hl_define" href="a00269.html#a03ec1ac9d020fd4f7b12362a94f204e9">LUMEX_SAFE_CALL</a>(someFunction(42));</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// Usage with custom messages.</span></div>
+<div class="line"><span class="keywordtype">int</span> result = <a class="code hl_define" href="a00269.html#a261fa5b1604d900afd08ec4e0bebacb8">LUMEX_SAFE_CALL_MSG</a>(</div>
+<div class="line">    someFunction(42),</div>
+<div class="line">    <span class="stringliteral">&quot;Failed to execute someFunction&quot;</span>,</div>
+<div class="line">    <span class="stringliteral">&quot;Unknown error in someFunction&quot;</span></div>
+<div class="line">);</div>
+<div class="ttc" id="aa00269_html_a03ec1ac9d020fd4f7b12362a94f204e9"><div class="ttname"><a href="a00269.html#a03ec1ac9d020fd4f7b12362a94f204e9">LUMEX_SAFE_CALL</a></div><div class="ttdeci">#define LUMEX_SAFE_CALL(expr)</div><div class="ttdoc">Safely evaluates expr, with default, source-location-based diagnostic messages.</div><div class="ttdef"><b>Definition</b> LumexExceptionWrapper.hpp:355</div></div>
+<div class="ttc" id="aa00269_html_a261fa5b1604d900afd08ec4e0bebacb8"><div class="ttname"><a href="a00269.html#a261fa5b1604d900afd08ec4e0bebacb8">LUMEX_SAFE_CALL_MSG</a></div><div class="ttdeci">#define LUMEX_SAFE_CALL_MSG(expr, excMessage, unknExcMessage)</div><div class="ttdoc">Safely evaluates expr, with caller-supplied diagnostic messages.</div><div class="ttdef"><b>Definition</b> LumexExceptionWrapper.hpp:372</div></div>
+</div><!-- fragment --> </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01035_a830b8d9cf501bccfb594bebd0221c287_cgraph.png" border="0" usemap="#aa01035_a830b8d9cf501bccfb594bebd0221c287_cgraph" alt=""/></div>
+<map name="aa01035_a830b8d9cf501bccfb594bebd0221c287_cgraph" id="aa01035_a830b8d9cf501bccfb594bebd0221c287_cgraph">
+<area shape="rect" title="Calls func(args...), catching and safely reporting any exception it throws instead of letting it prop..." alt="" coords="5,87,197,129"/>
+<area shape="rect" href="a01037.html#a6731c24b90644c9b4b94c4c81af602dd" title="Builds &quot;prefix. Reason: what&quot; and reports it." alt="" coords="257,29,417,88"/>
+<area shape="poly" title=" " alt="" coords="197,85,241,76,242,81,198,91"/>
+<area shape="rect" href="a01037.html#ab7031ff23205b8e8d31fb72ed3744806" title="Sends line to the installed sink. On a null sink or a throw from the sink, writes line to std::cerr." alt="" coords="245,136,429,179"/>
+<area shape="poly" title=" " alt="" coords="198,125,230,132,229,137,197,131"/>
+<area shape="poly" title=" " alt="" coords="293,29,294,19,302,10,316,5,337,3,360,5,374,12,372,17,358,10,337,8,318,10,305,15,299,21,298,29"/>
+<area shape="rect" href="a01035.html#a0e00681207c6fe8355e6416db22d6ee8" title="Returns the installed sink, or nullptr when reports go to std::cerr." alt="" coords="477,25,639,84"/>
+<area shape="poly" title=" " alt="" coords="417,55,461,54,461,59,417,60"/>
+<area shape="rect" href="a01037.html#a730010fd0f524d97727a82bb42f2ddd3" title="Writes &quot;prefix. Reason: &lt;whatMsg&gt;\n&quot; to std::cerr using only noexcept operations." alt="" coords="478,132,638,191"/>
+<area shape="poly" title=" " alt="" coords="405,86,430,98,483,123,480,127,428,102,403,91"/>
+<area shape="poly" title=" " alt="" coords="515,132,515,122,523,113,538,107,558,105,581,108,595,115,593,120,580,113,558,111,539,113,526,117,520,124,520,132"/>
+<area shape="poly" title=" " alt="" coords="383,133,478,89,480,93,386,138"/>
+<area shape="poly" title=" " alt="" coords="430,156,462,157,462,162,430,162"/>
+<area shape="poly" title=" " alt="" coords="295,136,293,126,300,117,315,111,337,109,361,112,375,118,373,123,359,117,337,115,316,117,303,121,298,127,300,135"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a0e00681207c6fe8355e6416db22d6ee8" name="a0e00681207c6fe8355e6416db22d6ee8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0e00681207c6fe8355e6416db22d6ee8">&#9670;&#160;</a></span>get_safe_call_reporter()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -147,7 +267,7 @@ Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">char const  * lumex::core::time::timer::default_measure_time_env_name </td>
+          <td class="memname"><a class="el" href="#a44e9e9da5b97d168978390c418a62b3f">safe_call_report_fn</a> lumex::core::exceptions::Wrapper::get_safe_call_reporter </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -155,202 +275,57 @@ Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel noexcept">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Default environment variable that enables <code>measure_time</code> reporting when env gating is on. </p>
+<p>Returns the installed sink, or <code>nullptr</code> when reports go to <code>std::cerr</code>. </p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="a01035_a7a5e6044c994dc0aaa411d6703fc32f4_icgraph.png" border="0" usemap="#aa01035_a7a5e6044c994dc0aaa411d6703fc32f4_icgraph" alt=""/></div>
+<div class="center"><img src="a01035_a0e00681207c6fe8355e6416db22d6ee8_icgraph.png" border="0" usemap="#aa01035_a0e00681207c6fe8355e6416db22d6ee8_icgraph" alt=""/></div>
+<map name="aa01035_a0e00681207c6fe8355e6416db22d6ee8_icgraph" id="aa01035_a0e00681207c6fe8355e6416db22d6ee8_icgraph">
+<area shape="rect" title="Returns the installed sink, or nullptr when reports go to std::cerr." alt="" coords="477,79,639,137"/>
+<area shape="rect" href="a01037.html#a6731c24b90644c9b4b94c4c81af602dd" title="Builds &quot;prefix. Reason: what&quot; and reports it." alt="" coords="257,29,417,88"/>
+<area shape="poly" title=" " alt="" coords="461,89,417,79,418,74,463,84"/>
+<area shape="rect" href="a01037.html#ab7031ff23205b8e8d31fb72ed3744806" title="Sends line to the installed sink. On a null sink or a throw from the sink, writes line to std::cerr." alt="" coords="245,136,429,179"/>
+<area shape="poly" title=" " alt="" coords="462,132,430,139,429,134,461,127"/>
+<area shape="poly" title=" " alt="" coords="372,17,358,10,337,8,318,10,305,15,299,21,298,29,293,29,294,19,302,10,316,5,337,3,360,5,374,12"/>
+<area shape="rect" href="a01035.html#a830b8d9cf501bccfb594bebd0221c287" title="Calls func(args...), catching and safely reporting any exception it throws instead of letting it prop..." alt="" coords="5,87,197,129"/>
+<area shape="poly" title=" " alt="" coords="242,81,197,91,196,85,241,76"/>
+<area shape="poly" title=" " alt="" coords="228,137,196,131,198,125,230,132"/>
+<area shape="poly" title=" " alt="" coords="373,123,359,117,337,115,316,117,303,121,298,127,300,135,295,136,293,126,300,117,315,111,337,109,361,112,375,118"/>
+</map>
 </div>
 
 </div>
 </div>
-<a id="a92a181555350dcc075d22a432da22d8a" name="a92a181555350dcc075d22a432da22d8a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a92a181555350dcc075d22a432da22d8a">&#9670;&#160;</a></span>extract_function_name()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string lumex::core::time::timer::extract_function_name </td>
-          <td>(</td>
-          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>expr_str</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Extracts a short, human-readable name from a stringified call expression. </p>
-<p>Given the textual source of an expression (e.g. produced by stringifying it with the preprocessor <code>#</code> operator), this trims leading/trailing whitespace, discards everything from the first <code>(</code> onward, and then keeps only the part after the last <code>-&gt;</code> or <code>.</code> (i.e. strips any object/pointer member-access prefix). Useful for building short diagnostic labels from an arbitrary call expression's source text. </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">expr_str</td><td>The stringified expression, e.g. "myObject-&gt;DoSomething(1,
-2)". </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The extracted name (e.g. "DoSomething"), or <code>expr_str</code> itself if extraction left nothing (e.g. the input was empty or contained no identifier-like prefix).</dd></dl>
-<dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line"><a class="code hl_function" href="#a92a181555350dcc075d22a432da22d8a">extract_function_name</a>(<span class="stringliteral">&quot;obj-&gt;DoSomething(1, 2)&quot;</span>); <span class="comment">// -&gt; &quot;DoSomething&quot;</span></div>
-<div class="line"><a class="code hl_function" href="#a92a181555350dcc075d22a432da22d8a">extract_function_name</a>(<span class="stringliteral">&quot;obj.Method()&quot;</span>);            <span class="comment">// -&gt; &quot;Method&quot;</span></div>
-<div class="line"><a class="code hl_function" href="#a92a181555350dcc075d22a432da22d8a">extract_function_name</a>(<span class="stringliteral">&quot;justName&quot;</span>);                <span class="comment">// -&gt; &quot;justName&quot;</span></div>
-<div class="ttc" id="aa01035_html_a92a181555350dcc075d22a432da22d8a"><div class="ttname"><a href="#a92a181555350dcc075d22a432da22d8a">lumex::core::time::timer::extract_function_name</a></div><div class="ttdeci">std::string extract_function_name(std::string const &amp;expr_str)</div><div class="ttdoc">Extracts a short, human-readable name from a stringified call expression.</div><div class="ttdef"><b>Definition</b> LumexTimer.cpp:80</div></div>
-</div><!-- fragment --> </dd></dl>
-
-</div>
-</div>
-<a id="a2cc90c92f6a2261ecfb8bc76e3943ed1" name="a2cc90c92f6a2261ecfb8bc76e3943ed1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2cc90c92f6a2261ecfb8bc76e3943ed1">&#9670;&#160;</a></span>measure_execution_time()</h2>
+<a id="a71d9df48ad62f6a5f94220cd14b5f70c" name="a71d9df48ad62f6a5f94220cd14b5f70c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a71d9df48ad62f6a5f94220cd14b5f70c">&#9670;&#160;</a></span>set_safe_call_reporter()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<div class="memtemplate">
-template&lt;typename Callable, typename... Args&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">long long lumex::core::time::timer::measure_execution_time </td>
+          <td class="memname">void lumex::core::exceptions::Wrapper::set_safe_call_reporter </td>
           <td>(</td>
-          <td class="paramtype">Callable &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>callable</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramtype"><a class="el" href="#a44e9e9da5b97d168978390c418a62b3f">safe_call_report_fn</a></td>          <td class="paramname"><span class="paramname"><em>reporter</em></span></td><td>)</td>
           <td></td>
-          <td class="paramtype">Args &amp;&amp;...</td>          <td class="paramname"><span class="paramname"><em>args</em></span>&#160;)</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>Invokes <code>callable</code> with <code>args</code> and returns elapsed wall-clock time in milliseconds. </p>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">Callable</td><td>Invocable type. </td></tr>
-    <tr><td class="paramname">Args</td><td>Argument types forwarded to <code>callable</code>. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">callable</td><td>Callable to time. </td></tr>
-    <tr><td class="paramname">args</td><td>Arguments forwarded to <code>callable</code>. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>Elapsed milliseconds (non-negative). </dd></dl>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01035_a2cc90c92f6a2261ecfb8bc76e3943ed1_icgraph.png" border="0" usemap="#aa01035_a2cc90c92f6a2261ecfb8bc76e3943ed1_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="ac2a95e66868e1a2cc9cc1da9676e38c8" name="ac2a95e66868e1a2cc9cc1da9676e38c8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac2a95e66868e1a2cc9cc1da9676e38c8">&#9670;&#160;</a></span>measure_time()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename Callable&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">bool lumex::core::time::timer::measure_time </td>
-          <td>(</td>
-          <td class="paramtype">Callable &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>callable</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>message</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::ostream &amp;</td>          <td class="paramname"><span class="paramname"><em>out</em></span><span class="paramdefsep"> = </span><span class="paramdefval">std::clog</span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>need_to_gate_via_env</em></span><span class="paramdefsep"> = </span><span class="paramdefval">true</span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">char const *</td>          <td class="paramname"><span class="paramname"><em>env_name</em></span><span class="paramdefsep"> = </span><span class="paramdefval"><a class="el" href="#a7a5e6044c994dc0aaa411d6703fc32f4">default_measure_time_env_name</a>&#160;()</span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Optionally gates timing/reporting via an environment variable, then measures <code>callable</code> and writes the result to <code>out</code>. </p>
-<p>When <code>need_to_gate_via_env</code> is true, timing and reporting run only if <code>env_name</code> is set (non-empty via <code>is_env_set</code>); otherwise <code>callable</code> is invoked without timing. When <code>need_to_gate_via_env</code> is false, <code>env_name</code> is unused and timing/reporting always run. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">Callable</td><td>Nullary invocable (typically a capturing lambda). </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">callable</td><td>Work to run (and optionally time). </td></tr>
-    <tr><td class="paramname">message</td><td>Report label (may be empty). </td></tr>
-    <tr><td class="paramname">out</td><td>Output stream; defaults to <code>std::clog</code>. </td></tr>
-    <tr><td class="paramname">need_to_gate_via_env</td><td>When true, require <code>env_name</code> to be set. </td></tr>
-    <tr><td class="paramname">env_name</td><td>Environment variable name; ignored when gating is off. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd><code>true</code> if timing and reporting ran; <code>false</code> if the env gate skipped them (callable still ran). </dd></dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01035_ac2a95e66868e1a2cc9cc1da9676e38c8_cgraph.png" border="0" usemap="#aa01035_ac2a95e66868e1a2cc9cc1da9676e38c8_cgraph" alt=""/></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01035_ac2a95e66868e1a2cc9cc1da9676e38c8_icgraph.png" border="0" usemap="#aa01035_ac2a95e66868e1a2cc9cc1da9676e38c8_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="aa04009deb3c2f28294b819490ed44b27" name="aa04009deb3c2f28294b819490ed44b27"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa04009deb3c2f28294b819490ed44b27">&#9670;&#160;</a></span>write_measure_time_report()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void lumex::core::time::timer::write_measure_time_report </td>
-          <td>(</td>
-          <td class="paramtype">std::ostream &amp;</td>          <td class="paramname"><span class="paramname"><em>out</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>message</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">long long</td>          <td class="paramname"><span class="paramname"><em>elapsed_ms</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Writes a measure-time report line to <code>out</code>. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">out</td><td>Destination stream (caller-owned; typically <code>std::clog</code>). </td></tr>
-    <tr><td class="paramname">message</td><td>Label prefix; when empty, a generic "Time: N [ms]" line is written. </td></tr>
-    <tr><td class="paramname">elapsed_ms</td><td>Elapsed wall-clock time in milliseconds. </td></tr>
-  </table>
-  </dd>
-</dl>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01035_aa04009deb3c2f28294b819490ed44b27_icgraph.png" border="0" usemap="#aa01035_aa04009deb3c2f28294b819490ed44b27_icgraph" alt=""/></div>
-</div>
+<p>Installs the process-wide report sink. <code>nullptr</code> restores <code>std::cerr</code>. </p>
+<dl class="section note"><dt>Note</dt><dd>The pointer is stored in this library's binary, so the executable and the exceptions DLL share one sink. </dd></dl>
 
 </div>
 </div>
@@ -359,7 +334,7 @@ Here is the caller graph for this function:</div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00912.html">lumex</a></li><li class="navelem"><a class="el" href="a00964.html">core</a></li><li class="navelem"><a class="el" href="a01032.html">time</a></li><li class="navelem"><a class="el" href="a01035.html">timer</a></li>
+    <li class="navelem"><a class="el" href="a00948.html">lumex</a></li><li class="navelem"><a class="el" href="a01005.html">core</a></li><li class="navelem"><a class="el" href="a01032.html">exceptions</a></li><li class="navelem"><a class="el" href="a01035.html">Wrapper</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

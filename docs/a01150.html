@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::applied::json::schema::LumexJsonSchemaTraverser Class Reference</title>
+<title>LumexLib: lumex::xml::xpath::document Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,187 +104,188 @@ $(function(){initNavTree('a01150.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
-<a href="a01147.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">lumex::applied::json::schema::LumexJsonSchemaTraverser Class Reference<span class="mlabels"><span class="mlabel final">final</span></span></div></div>
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle"><div class="title">lumex::xml::xpath::document Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
-
-<p>Stateless schema walker. All members are static.  
- <a href="#details">More...</a></p>
-
-<p><code>#include &lt;<a class="el" href="a00065_source.html">LumexJsonSchemaTraverser.hpp</a>&gt;</code></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
-Public Member Functions</h2></td></tr>
-<tr class="memitem:a56c5f4e9cd2510e1f96aca3fb98b6b89" id="r_a56c5f4e9cd2510e1f96aca3fb98b6b89"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a56c5f4e9cd2510e1f96aca3fb98b6b89">LumexJsonSchemaTraverser</a> ()=delete</td></tr>
-<tr class="separator:a56c5f4e9cd2510e1f96aca3fb98b6b89"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03113.html">document_order_comparator</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Functor for comparing two <a class="el" href="a03145.html" title="Represents a node in an XPath node-set, which can be either an XML element/document node or an XML at...">XPathNode</a> objects based on their document order.  <a href="a03113.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
-Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a1933c607554e5bae08d9a21ea3396cab" id="r_a1933c607554e5bae08d9a21ea3396cab"><td class="memItemLeft" align="right" valign="top">static nlohmann::json&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1933c607554e5bae08d9a21ea3396cab">run</a> (nlohmann::json const &amp;schema, nlohmann::json const &amp;input, <a class="el" href="a00933.html#a84e9d1e17c0e59587c9cf90e57fa7e33">LumexJsonSchemaCheckMode</a> mode=<a class="el" href="a00933.html#a84e9d1e17c0e59587c9cf90e57fa7e33a138e9c1992a292764c05a30ee690b107">LumexJsonSchemaCheckMode::validate_and_normalize</a>, std::string const &amp;<a class="el" href="a00912.html#a45ac34be96c8025d67f85eb38698bf0e">path</a>=&quot;$&quot;)</td></tr>
-<tr class="memdesc:a1933c607554e5bae08d9a21ea3396cab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Walks <code>input</code> against <code>schema</code>.  <br /></td></tr>
-<tr class="separator:a1933c607554e5bae08d9a21ea3396cab"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a570eb5ad115b3f1e96ed36265d6f6c9e" id="r_a570eb5ad115b3f1e96ed36265d6f6c9e"><td class="memItemLeft" align="right" valign="top">static nlohmann::json&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a570eb5ad115b3f1e96ed36265d6f6c9e">parse</a> (<a class="el" href="a02326.html">lumex::core::string_view::view::LumexStringView</a> raw)</td></tr>
-<tr class="memdesc:a570eb5ad115b3f1e96ed36265d6f6c9e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parses raw text into a document.  <br /></td></tr>
-<tr class="separator:a570eb5ad115b3f1e96ed36265d6f6c9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a390bce9be17e61e113730fb8084c70cc" id="r_a390bce9be17e61e113730fb8084c70cc"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a390bce9be17e61e113730fb8084c70cc">node_is_before_sibling</a> (<a class="el" href="a02937.html">XmlNodeBase</a> *ln_node, <a class="el" href="a02937.html">XmlNodeBase</a> *rn_node)</td></tr>
+<tr class="memdesc:a390bce9be17e61e113730fb8084c70cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines if <code>ln_node</code> comes before <code>rn_node</code> among siblings in document order.  <br /></td></tr>
+<tr class="separator:a390bce9be17e61e113730fb8084c70cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8581d5ce879c267c49916eb9b84be203" id="r_a8581d5ce879c267c49916eb9b84be203"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8581d5ce879c267c49916eb9b84be203">node_is_before</a> (<a class="el" href="a02937.html">XmlNodeBase</a> *ln_node, <a class="el" href="a02937.html">XmlNodeBase</a> *rn_node)</td></tr>
+<tr class="memdesc:a8581d5ce879c267c49916eb9b84be203"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines if <code>ln_node</code> comes before <code>rn_node</code> in overall document order.  <br /></td></tr>
+<tr class="separator:a8581d5ce879c267c49916eb9b84be203"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3fae07ce6115049a6980bd493832dbff" id="r_a3fae07ce6115049a6980bd493832dbff"><td class="memItemLeft" align="right" valign="top">void const *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3fae07ce6115049a6980bd493832dbff">document_buffer_order</a> (<a class="el" href="a03145.html">XPathNode</a> const &amp;xnode)</td></tr>
+<tr class="memdesc:a3fae07ce6115049a6980bd493832dbff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves a pointer to a buffer location for document order comparison optimization.  <br /></td></tr>
+<tr class="separator:a3fae07ce6115049a6980bd493832dbff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Stateless schema walker. All members are static. </p>
-<p>Rules per node:</p><ul>
-<li><code>const</code> present: <code>null</code> input passes; any other value must equal it.</li>
-<li><code>type</code> contains <code>object</code>: the input must be an object. Each property in <code>properties</code> is walked when present and not <code>null</code>. A missing or <code>null</code> required object/array is an error unless its own <code>type</code> allows <code>null</code> (then the result holds <code>null</code>). A missing required leaf becomes <code>null</code>.</li>
-<li><code>type</code> contains <code>array</code>: the input must be an array. With <code>items</code>, every element is walked; without it, the array passes through unchanged.</li>
-<li>Otherwise the node is a leaf: <code>null</code> input passes; any other value must match one of the listed types and, when present, <code>enum</code>. A float with a zero fractional part satisfies <code>integer</code>.</li>
-</ul>
-<p>A schema node without <code>const</code> must have <code>type</code>; a node missing both throws <code>nlohmann::json::out_of_range</code>. </p>
-</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a56c5f4e9cd2510e1f96aca3fb98b6b89" name="a56c5f4e9cd2510e1f96aca3fb98b6b89"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a56c5f4e9cd2510e1f96aca3fb98b6b89">&#9670;&#160;</a></span>LumexJsonSchemaTraverser()</h2>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="a3fae07ce6115049a6980bd493832dbff" name="a3fae07ce6115049a6980bd493832dbff"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3fae07ce6115049a6980bd493832dbff">&#9670;&#160;</a></span>document_buffer_order()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">lumex::applied::json::schema::LumexJsonSchemaTraverser::LumexJsonSchemaTraverser </td>
+          <td class="memname">void const  * lumex::xml::xpath::document::document_buffer_order </td>
           <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="a03145.html">XPathNode</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>xnode</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel delete">delete</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
-</div>
-</div>
-<h2 class="groupheader">Member Function Documentation</h2>
-<a id="a570eb5ad115b3f1e96ed36265d6f6c9e" name="a570eb5ad115b3f1e96ed36265d6f6c9e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a570eb5ad115b3f1e96ed36265d6f6c9e">&#9670;&#160;</a></span>parse()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static nlohmann::json lumex::applied::json::schema::LumexJsonSchemaTraverser::parse </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a02326.html">lumex::core::string_view::view::LumexStringView</a></td>          <td class="paramname"><span class="paramname"><em>raw</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span><span class="mlabel nodiscard">nodiscard</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Parses raw text into a document. </p>
-<dl class="exception"><dt>Exceptions</dt><dd>
-  <table class="exception">
-    <tr><td class="paramname"><a class="el" href="a01146.html" title="Carries the failure reason, the JSON path of the offending value ($.items[2].name) and a human-readab...">LumexJsonSchemaException</a></td><td>With <code>parse_error</code> and path <code>$</code> when the text is not valid JSON (an empty view included). </td></tr>
-  </table>
-  </dd>
-</dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01150_a570eb5ad115b3f1e96ed36265d6f6c9e_cgraph.png" border="0" usemap="#aa01150_a570eb5ad115b3f1e96ed36265d6f6c9e_cgraph" alt=""/></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01150_a570eb5ad115b3f1e96ed36265d6f6c9e_icgraph.png" border="0" usemap="#aa01150_a570eb5ad115b3f1e96ed36265d6f6c9e_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="a1933c607554e5bae08d9a21ea3396cab" name="a1933c607554e5bae08d9a21ea3396cab"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1933c607554e5bae08d9a21ea3396cab">&#9670;&#160;</a></span>run()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static nlohmann::json lumex::applied::json::schema::LumexJsonSchemaTraverser::run </td>
-          <td>(</td>
-          <td class="paramtype">nlohmann::json const &amp;</td>          <td class="paramname"><span class="paramname"><em>schema</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">nlohmann::json const &amp;</td>          <td class="paramname"><span class="paramname"><em>input</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="a00933.html#a84e9d1e17c0e59587c9cf90e57fa7e33">LumexJsonSchemaCheckMode</a></td>          <td class="paramname"><span class="paramname"><em>mode</em></span><span class="paramdefsep"> = </span><span class="paramdefval"><a class="el" href="a00933.html#a84e9d1e17c0e59587c9cf90e57fa7e33a138e9c1992a292764c05a30ee690b107">LumexJsonSchemaCheckMode::validate_and_normalize</a></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>path</em></span><span class="paramdefsep"> = </span><span class="paramdefval">&quot;$&quot;</span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span><span class="mlabel nodiscard">nodiscard</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Walks <code>input</code> against <code>schema</code>. </p>
-<dl class="params"><dt>Parameters</dt><dd>
+<p>Retrieves a pointer to a buffer location for document order comparison optimization. </p>
+<p>This function attempts to return a pointer to an internal memory buffer associated with the <code><a class="el" href="a03145.html" title="Represents a node in an XPath node-set, which can be either an XML element/document node or an XML at...">XPathNode</a></code> (either its name or value) if that memory is not shared and can be used for direct pointer comparison to infer document order. This provides an optimized path for document order comparison when nodes reside in contiguous memory blocks. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">schema</td><td>The schema tree itself (<code>type</code>, <code>properties</code>, ...), not an envelope around it. </td></tr>
-    <tr><td class="paramname">input</td><td>The parsed document. </td></tr>
-    <tr><td class="paramname">mode</td><td>Whether to build the normalized result. </td></tr>
-    <tr><td class="paramname">path</td><td>JSON path of <code>input</code>, used in exception messages. </td></tr>
+    <tr><td class="paramname">xnode</td><td>The <code><a class="el" href="a03145.html" title="Represents a node in an XPath node-set, which can be either an XML element/document node or an XML at...">XPathNode</a></code> for which to retrieve the buffer order pointer. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The normalized document for <code>validate_and_normalize</code>, <code>null</code> for <code>validate_only</code>. </dd></dl>
-<dl class="exception"><dt>Exceptions</dt><dd>
-  <table class="exception">
-    <tr><td class="paramname"><a class="el" href="a01146.html" title="Carries the failure reason, the JSON path of the offending value ($.items[2].name) and a human-readab...">LumexJsonSchemaException</a></td><td>On the first violation. </td></tr>
-  </table>
-  </dd>
-</dl>
+<dl class="section return"><dt>Returns</dt><dd>A <code>void const*</code> pointer to a memory location that can be used for ordering, or <code>nullptr</code> if no such optimization is possible (e.g., for shared memory or non-contiguous data). </dd></dl>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="a01150_a1933c607554e5bae08d9a21ea3396cab_cgraph.png" border="0" usemap="#aa01150_a1933c607554e5bae08d9a21ea3396cab_cgraph" alt=""/></div>
+<div class="center"><img src="a01150_a3fae07ce6115049a6980bd493832dbff_cgraph.png" border="0" usemap="#aa01150_a3fae07ce6115049a6980bd493832dbff_cgraph" alt=""/></div>
+<map name="aa01150_a3fae07ce6115049a6980bd493832dbff_cgraph" id="aa01150_a3fae07ce6115049a6980bd493832dbff_cgraph">
+<area shape="rect" title="Retrieves a pointer to a buffer location for document order comparison optimization." alt="" coords="5,131,224,173"/>
+<area shape="rect" href="a03145.html#ac344e4ef6ff5cad96438d4c8c9e4eb80" title="Gets the wrapped XmlAttribute if this XPathNode represents an attribute." alt="" coords="287,5,466,48"/>
+<area shape="poly" title=" " alt="" coords="147,128,203,93,271,58,285,51,287,56,273,62,206,97,150,132"/>
+<area shape="rect" href="a02893.html#a0bbf2ddf1ea68f4ed3612fe0a45849eb" title="Retrieves the raw internal XmlAttributeBase pointer wrapped by this XmlAttribute object." alt="" coords="306,72,446,115"/>
+<area shape="poly" title=" " alt="" coords="212,127,290,110,292,115,213,133"/>
+<area shape="rect" href="a02921.html#aaace51cc18e7d56b0d6112a525c63295" title="Retrieves the raw internal XmlNodeBase pointer wrapped by this XmlNode object." alt="" coords="272,139,481,165"/>
+<area shape="poly" title=" " alt="" coords="224,149,256,149,256,155,224,155"/>
+<area shape="rect" href="a01133.html#a9ff47d1fab33d9dac2db3f3203dd5b2b" title="Retrieves a reference to the XmlDocumentBase object that owns a given object (node or attribute)." alt="" coords="301,189,452,232"/>
+<area shape="poly" title=" " alt="" coords="213,171,287,188,285,193,212,177"/>
+<area shape="rect" href="a03145.html#aab5f8620b5100f640652c56743a21b7b" title="Gets the wrapped XmlNode if this XPathNode represents an element/document node." alt="" coords="296,256,456,299"/>
+<area shape="poly" title=" " alt="" coords="150,172,206,207,273,242,287,248,285,253,271,246,203,211,147,176"/>
+</map>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="a01150_a1933c607554e5bae08d9a21ea3396cab_icgraph.png" border="0" usemap="#aa01150_a1933c607554e5bae08d9a21ea3396cab_icgraph" alt=""/></div>
+<div class="center"><img src="a01150_a3fae07ce6115049a6980bd493832dbff_icgraph.png" border="0" usemap="#aa01150_a3fae07ce6115049a6980bd493832dbff_icgraph" alt=""/></div>
+<map name="aa01150_a3fae07ce6115049a6980bd493832dbff_icgraph" id="aa01150_a3fae07ce6115049a6980bd493832dbff_icgraph">
+<area shape="rect" title="Retrieves a pointer to a buffer location for document order comparison optimization." alt="" coords="233,13,451,56"/>
+<area shape="rect" href="a03113.html#a3fde20e05ee26c7a8f5479ab92beaefd" title="Compares two XPathNode objects for their document order." alt="" coords="5,5,185,64"/>
+<area shape="poly" title=" " alt="" coords="217,37,185,37,185,32,217,32"/>
+</map>
 </div>
 
 </div>
 </div>
-<hr/>The documentation for this class was generated from the following file:<ul>
-<li><a class="el" href="a00065_source.html">LumexJsonSchemaTraverser.hpp</a></li>
-</ul>
+<a id="a8581d5ce879c267c49916eb9b84be203" name="a8581d5ce879c267c49916eb9b84be203"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8581d5ce879c267c49916eb9b84be203">&#9670;&#160;</a></span>node_is_before()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::xml::xpath::document::node_is_before </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02937.html">XmlNodeBase</a> *</td>          <td class="paramname"><span class="paramname"><em>ln_node</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a02937.html">XmlNodeBase</a> *</td>          <td class="paramname"><span class="paramname"><em>rn_node</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Determines if <code>ln_node</code> comes before <code>rn_node</code> in overall document order. </p>
+<p>This function implements a robust comparison of two <code><a class="el" href="a02937.html" title="Base structure representing an XML node in the document tree.">XmlNodeBase</a></code> pointers based on their full document order, even if they are not siblings or are at different depths within the XML tree. It finds their common ancestor and then determines the order based on sibling relationships or ancestor-descendant relationships. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ln_node</td><td>Pointer to the left-hand side <code><a class="el" href="a02937.html" title="Base structure representing an XML node in the document tree.">XmlNodeBase</a></code>. </td></tr>
+    <tr><td class="paramname">rn_node</td><td>Pointer to the right-hand side <code><a class="el" href="a02937.html" title="Base structure representing an XML node in the document tree.">XmlNodeBase</a></code>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if <code>ln_node</code> appears before <code>rn_node</code> in document order, <code>false</code> otherwise. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01150_a8581d5ce879c267c49916eb9b84be203_cgraph.png" border="0" usemap="#aa01150_a8581d5ce879c267c49916eb9b84be203_cgraph" alt=""/></div>
+<map name="aa01150_a8581d5ce879c267c49916eb9b84be203_cgraph" id="aa01150_a8581d5ce879c267c49916eb9b84be203_cgraph">
+<area shape="rect" title="Determines if ln_node comes before rn_node in overall document order." alt="" coords="5,13,180,56"/>
+<area shape="rect" href="a01150.html#a390bce9be17e61e113730fb8084c70cc" title="Determines if ln_node comes before rn_node among siblings in document order." alt="" coords="228,5,402,64"/>
+<area shape="poly" title=" " alt="" coords="180,32,212,32,212,37,180,37"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01150_a8581d5ce879c267c49916eb9b84be203_icgraph.png" border="0" usemap="#aa01150_a8581d5ce879c267c49916eb9b84be203_icgraph" alt=""/></div>
+<map name="aa01150_a8581d5ce879c267c49916eb9b84be203_icgraph" id="aa01150_a8581d5ce879c267c49916eb9b84be203_icgraph">
+<area shape="rect" title="Determines if ln_node comes before rn_node in overall document order." alt="" coords="233,13,407,56"/>
+<area shape="rect" href="a03113.html#a3fde20e05ee26c7a8f5479ab92beaefd" title="Compares two XPathNode objects for their document order." alt="" coords="5,5,185,64"/>
+<area shape="poly" title=" " alt="" coords="218,37,185,37,185,32,218,32"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a390bce9be17e61e113730fb8084c70cc" name="a390bce9be17e61e113730fb8084c70cc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a390bce9be17e61e113730fb8084c70cc">&#9670;&#160;</a></span>node_is_before_sibling()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::xml::xpath::document::node_is_before_sibling </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02937.html">XmlNodeBase</a> *</td>          <td class="paramname"><span class="paramname"><em>ln_node</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a02937.html">XmlNodeBase</a> *</td>          <td class="paramname"><span class="paramname"><em>rn_node</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Determines if <code>ln_node</code> comes before <code>rn_node</code> among siblings in document order. </p>
+<p>This function compares two sibling <code><a class="el" href="a02937.html" title="Base structure representing an XML node in the document tree.">XmlNodeBase</a></code> pointers to establish their relative order within the same parent's child list. It assumes both nodes share the same parent or are both root nodes of different documents. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ln_node</td><td>Pointer to the left-hand side <code><a class="el" href="a02937.html" title="Base structure representing an XML node in the document tree.">XmlNodeBase</a></code>. </td></tr>
+    <tr><td class="paramname">rn_node</td><td>Pointer to the right-hand side <code><a class="el" href="a02937.html" title="Base structure representing an XML node in the document tree.">XmlNodeBase</a></code>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if <code>ln_node</code> appears before <code>rn_node</code> in document order, <code>false</code> otherwise. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Asserts that <code>ln_node</code> and <code>rn_node</code> have the same parent. </dd>
+<dd>
+This function is primarily for internal use by <code>node_is_before</code>. </dd></dl>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01150_a390bce9be17e61e113730fb8084c70cc_icgraph.png" border="0" usemap="#aa01150_a390bce9be17e61e113730fb8084c70cc_icgraph" alt=""/></div>
+<map name="aa01150_a390bce9be17e61e113730fb8084c70cc_icgraph" id="aa01150_a390bce9be17e61e113730fb8084c70cc_icgraph">
+<area shape="rect" title="Determines if ln_node comes before rn_node among siblings in document order." alt="" coords="455,5,629,64"/>
+<area shape="rect" href="a01150.html#a8581d5ce879c267c49916eb9b84be203" title="Determines if ln_node comes before rn_node in overall document order." alt="" coords="233,13,407,56"/>
+<area shape="poly" title=" " alt="" coords="440,37,407,37,407,32,440,32"/>
+<area shape="rect" href="a03113.html#a3fde20e05ee26c7a8f5479ab92beaefd" title="Compares two XPathNode objects for their document order." alt="" coords="5,5,185,64"/>
+<area shape="poly" title=" " alt="" coords="218,37,185,37,185,32,218,32"/>
+</map>
+</div>
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00912.html">lumex</a></li><li class="navelem"><a class="el" href="a00913.html">applied</a></li><li class="navelem"><a class="el" href="a00927.html">json</a></li><li class="navelem"><a class="el" href="a00933.html">schema</a></li><li class="navelem"><a class="el" href="a01150.html">LumexJsonSchemaTraverser</a></li>
+    <li class="navelem"><a class="el" href="a00948.html">lumex</a></li><li class="navelem"><a class="el" href="a01126.html">xml</a></li><li class="navelem"><a class="el" href="a01135.html">xpath</a></li><li class="navelem"><a class="el" href="a01150.html">document</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

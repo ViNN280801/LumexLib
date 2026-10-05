@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: example_serial.cpp File Reference</title>
+<title>LumexLib: example_logger_macros.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -105,17 +105,98 @@ $(function(){initNavTree('a00545.html',''); initResizable(true); });
 <div class="header">
   <div class="summary">
 <a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">example_serial.cpp File Reference</div></div>
+  <div class="headertitle"><div class="title">example_logger_macros.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &lt;iostream&gt;</code><br />
+<code>#include &lt;stdexcept&gt;</code><br />
 <code>#include &lt;string&gt;</code><br />
-<code>#include &lt;vector&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00848_source.html">lumex/applied/serial/LumexSerialPort</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00875_source.html">lumex/applied/logger/LumexLogger</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for example_serial.cpp:</div>
+Include dependency graph for example_logger_macros.cpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00546.png" border="0" usemap="#aexample__serial_8cpp" alt=""/></div>
+<div class="center"><img src="a00546.png" border="0" usemap="#aexample__logger__macros_8cpp" alt=""/></div>
+<map name="aexample__logger__macros_8cpp" id="aexample__logger__macros_8cpp">
+<area shape="rect" title=" " alt="" coords="1263,5,1450,32"/>
+<area shape="rect" title=" " alt="" coords="1156,88,1227,115"/>
+<area shape="poly" title=" " alt="" coords="1332,35,1232,83,1230,79,1330,30"/>
+<area shape="rect" title=" " alt="" coords="1251,88,1329,115"/>
+<area shape="poly" title=" " alt="" coords="1348,34,1312,78,1308,75,1344,31"/>
+<area shape="rect" title=" " alt="" coords="1878,344,1932,371"/>
+<area shape="poly" title=" " alt="" coords="1444,30,1546,53,1605,71,1665,94,1725,122,1782,156,1835,196,1882,244,1894,264,1902,286,1908,328,1903,329,1897,287,1889,266,1877,247,1832,200,1779,160,1722,127,1663,99,1603,76,1545,59,1443,35"/>
+<area shape="rect" href="a00875.html" title="Logger module: a thread&#45;safe file logger that writes only while its trigger file (enable_logs by defa..." alt="" coords="1353,80,1494,123"/>
+<area shape="poly" title=" " alt="" coords="1369,31,1399,67,1395,70,1365,34"/>
+<area shape="rect" href="a00098.html" title="The file logger of the lumex::logger module: the LumexLogger singleton, its level and configuration t..." alt="" coords="967,171,1130,197"/>
+<area shape="poly" title=" " alt="" coords="1353,123,1341,125,1129,170,1128,165,1340,120,1352,117"/>
+<area shape="poly" title=" " alt="" coords="1131,184,1279,188,1456,197,1625,215,1693,227,1745,243,1761,252,1772,263,1796,286,1871,334,1868,338,1793,290,1768,266,1758,256,1742,248,1692,233,1624,220,1456,203,1278,193,1131,189"/>
+<area shape="rect" href="a00641.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="1734,435,1897,461"/>
+<area shape="poly" title=" " alt="" coords="1131,185,1322,191,1555,202,1763,219,1838,230,1881,243,1920,270,1948,302,1956,320,1959,339,1955,359,1946,380,1933,397,1917,411,1881,431,1878,426,1914,406,1929,393,1941,377,1950,357,1953,339,1951,321,1943,304,1917,274,1878,248,1836,235,1763,224,1555,207,1322,196,1131,190"/>
+<area shape="rect" title=" " alt="" coords="1671,253,1731,280"/>
+<area shape="poly" title=" " alt="" coords="1131,183,1236,188,1367,197,1510,215,1652,243,1660,245,1659,250,1651,248,1509,220,1367,203,1236,193,1131,189"/>
+<area shape="rect" title=" " alt="" coords="1807,253,1867,280"/>
+<area shape="poly" title=" " alt="" coords="1131,186,1475,206,1657,223,1788,243,1797,245,1795,250,1787,248,1656,228,1475,212,1131,192"/>
+<area shape="rect" title=" " alt="" coords="131,253,188,280"/>
+<area shape="poly" title=" " alt="" coords="967,190,789,195,568,206,354,223,266,234,200,248,196,249,194,244,199,243,266,229,353,218,567,201,789,190,966,184"/>
+<area shape="rect" title=" " alt="" coords="212,253,278,280"/>
+<area shape="poly" title=" " alt="" coords="967,191,612,210,425,226,348,236,289,248,283,250,282,245,288,243,347,231,424,221,612,204,967,186"/>
+<area shape="rect" title=" " alt="" coords="302,253,359,280"/>
+<area shape="poly" title=" " alt="" coords="967,191,652,211,488,227,422,237,371,248,366,249,365,244,369,243,421,232,488,222,651,205,967,186"/>
+<area shape="rect" title=" " alt="" coords="383,253,451,280"/>
+<area shape="poly" title=" " alt="" coords="967,188,864,192,738,202,599,219,463,248,456,250,455,245,462,243,599,214,737,196,864,187,967,183"/>
+<area shape="rect" title=" " alt="" coords="475,253,532,280"/>
+<area shape="poly" title=" " alt="" coords="967,191,776,207,663,224,552,248,545,250,543,245,551,243,662,219,775,202,966,186"/>
+<area shape="rect" title=" " alt="" coords="1772,344,1854,371"/>
+<area shape="poly" title=" " alt="" coords="1131,187,1382,206,1508,222,1559,232,1598,243,1617,252,1630,263,1660,286,1714,313,1766,335,1764,340,1712,318,1657,290,1627,267,1614,257,1596,248,1558,237,1507,227,1381,211,1130,192"/>
+<area shape="rect" title=" " alt="" coords="608,253,711,280"/>
+<area shape="poly" title=" " alt="" coords="967,200,852,220,724,248,712,251,711,246,723,243,851,215,966,195"/>
+<area shape="rect" title=" " alt="" coords="5,344,58,371"/>
+<area shape="poly" title=" " alt="" coords="967,193,764,213,666,229,597,248,581,257,572,269,561,280,545,290,476,313,416,324,361,325,309,322,256,318,201,316,140,322,70,339,66,340,64,335,68,333,139,317,201,311,257,312,309,317,361,320,415,318,475,308,542,286,558,276,568,265,578,253,594,243,665,223,763,208,966,188"/>
+<area shape="rect" title=" " alt="" coords="928,253,986,280"/>
+<area shape="poly" title=" " alt="" coords="1036,200,984,245,980,241,1033,196"/>
+<area shape="rect" href="a00386.html" title="Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_..." alt="" coords="1580,336,1747,379"/>
+<area shape="poly" title=" " alt="" coords="1131,186,1238,193,1360,204,1472,220,1517,231,1551,243,1579,259,1603,280,1642,322,1638,326,1600,283,1575,264,1549,248,1516,236,1471,225,1359,209,1238,198,1131,191"/>
+<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="1089,427,1283,469"/>
+<area shape="poly" title=" " alt="" coords="1125,195,1231,217,1350,248,1406,266,1455,287,1494,310,1519,335,1531,364,1530,378,1525,390,1504,409,1473,424,1434,434,1390,442,1299,449,1298,444,1389,436,1433,429,1471,419,1501,405,1520,387,1525,377,1526,365,1515,337,1491,314,1453,292,1404,271,1349,253,1230,222,1124,201"/>
+<area shape="rect" href="a00389.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="735,245,904,288"/>
+<area shape="poly" title=" " alt="" coords="1014,200,894,242,892,237,1012,195"/>
+<area shape="rect" href="a00404.html" title="C++ language, library and attribute feature availability." alt="" coords="81,336,312,379"/>
+<area shape="poly" title=" " alt="" coords="1049,199,1034,244,1019,270,998,290,957,304,884,314,685,326,328,339,328,333,685,321,884,308,955,298,995,286,1015,266,1029,242,1044,197"/>
+<area shape="rect" href="a00419.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="337,336,569,379"/>
+<area shape="poly" title=" " alt="" coords="1055,197,1061,242,1057,267,1044,290,1029,302,1010,312,962,326,904,333,840,336,714,336,617,339,585,343,584,337,617,333,714,331,840,331,903,328,961,320,1008,307,1026,298,1040,286,1052,266,1055,242,1050,198"/>
+<area shape="rect" href="a00446.html" title="Every general&#45;purpose type trait of LumexLib, one sub&#45;namespace of lumex::core::utility::traits per t..." alt="" coords="1112,245,1295,288"/>
+<area shape="poly" title=" " alt="" coords="1074,195,1152,236,1149,240,1072,200"/>
+<area shape="poly" title=" " alt="" coords="1700,377,1782,424,1779,429,1698,382"/>
+<area shape="poly" title=" " alt="" coords="1580,378,1561,381,1299,429,1298,424,1560,376,1579,373"/>
+<area shape="poly" title=" " alt="" coords="735,289,724,291,615,307,528,316,328,338,328,333,527,311,614,301,723,285,734,283"/>
+<area shape="poly" title=" " alt="" coords="570,374,588,376,1074,432,1073,438,587,381,569,379"/>
+<area shape="poly" title=" " alt="" coords="1296,264,1412,267,1556,277,1713,298,1791,314,1867,333,1871,335,1869,340,1865,339,1790,319,1712,303,1555,282,1412,272,1296,269"/>
+<area shape="poly" title=" " alt="" coords="1296,270,1510,290,1636,308,1760,333,1770,336,1768,341,1759,339,1635,313,1509,295,1295,275"/>
+<area shape="poly" title=" " alt="" coords="1112,280,997,291,793,297,530,300,396,303,269,310,158,321,69,339,66,340,64,335,68,333,157,316,269,305,395,298,530,294,793,291,997,285,1111,275"/>
+<area shape="poly" title=" " alt="" coords="1296,283,1565,334,1564,340,1295,288"/>
+<area shape="poly" title=" " alt="" coords="1112,288,1093,291,1047,294,987,294,850,291,781,294,719,301,668,315,648,325,633,338,627,348,625,357,627,367,633,377,653,388,692,398,806,416,944,429,1074,438,1074,443,944,434,805,421,691,403,651,393,630,381,622,369,619,357,622,346,630,334,645,321,666,310,718,296,781,288,850,286,987,288,1046,288,1093,285,1111,283"/>
+<area shape="poly" title=" " alt="" coords="1112,283,1042,291,843,306,687,313,529,321,328,338,327,333,529,315,686,307,843,301,1042,285,1111,278"/>
+<area shape="poly" title=" " alt="" coords="1112,288,1093,291,951,307,841,316,730,324,588,339,585,339,584,334,587,333,729,319,840,311,951,302,1092,285,1111,283"/>
+<area shape="rect" title=" " alt="" coords="1454,344,1505,371"/>
+<area shape="poly" title=" " alt="" coords="1294,286,1367,307,1443,334,1445,334,1443,339,1441,338,1366,312,1292,291"/>
+<area shape="rect" title=" " alt="" coords="643,344,708,371"/>
+<area shape="poly" title=" " alt="" coords="1112,288,1093,291,988,302,905,307,823,315,720,339,715,340,713,335,719,333,822,310,904,302,987,297,1092,285,1111,282"/>
+<area shape="rect" title=" " alt="" coords="732,344,809,371"/>
+<area shape="poly" title=" " alt="" coords="1112,287,1093,291,956,310,897,320,822,339,814,341,813,336,820,333,896,315,955,305,1092,285,1111,282"/>
+<area shape="rect" title=" " alt="" coords="833,344,894,371"/>
+<area shape="poly" title=" " alt="" coords="1112,289,996,315,907,339,903,340,901,335,905,333,995,310,1111,284"/>
+<area shape="rect" title=" " alt="" coords="919,344,971,371"/>
+<area shape="poly" title=" " alt="" coords="1124,291,1055,312,983,338,981,339,979,334,981,334,1053,307,1123,286"/>
+<area shape="rect" title=" " alt="" coords="995,344,1063,371"/>
+<area shape="poly" title=" " alt="" coords="1164,291,1068,339,1066,334,1161,286"/>
+<area shape="rect" title=" " alt="" coords="1087,344,1155,371"/>
+<area shape="poly" title=" " alt="" coords="1186,290,1145,334,1141,331,1182,287"/>
+<area shape="rect" title=" " alt="" coords="1179,344,1228,371"/>
+<area shape="poly" title=" " alt="" coords="1206,288,1206,328,1201,328,1201,288"/>
+<area shape="rect" title=" " alt="" coords="1252,344,1318,371"/>
+<area shape="poly" title=" " alt="" coords="1224,287,1265,331,1261,334,1220,290"/>
+<area shape="rect" title=" " alt="" coords="1342,344,1430,371"/>
+<area shape="poly" title=" " alt="" coords="1247,286,1348,334,1345,339,1245,291"/>
+</map>
 </div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
@@ -142,6 +223,14 @@ Functions</h2></td></tr>
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="a00545_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph.png" border="0" usemap="#aa00545_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" alt=""/></div>
+<map name="aa00545_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" id="aa00545_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph">
+<area shape="rect" title=" " alt="" coords="5,45,55,72"/>
+<area shape="rect" href="a01217.html#a36a153bd4f5449d3339821cc6494d9a3" title="Returns the single logger instance (singleton)." alt="" coords="103,29,253,88"/>
+<area shape="poly" title=" " alt="" coords="55,56,87,56,87,61,55,61"/>
+<area shape="rect" href="a01217.html#aef03577e7cdcbf9eb2afaaf6d125df7c" title=" " alt="" coords="301,29,451,88"/>
+<area shape="poly" title=" " alt="" coords="253,56,286,56,286,61,253,61"/>
+<area shape="poly" title=" " alt="" coords="337,29,338,19,345,10,358,5,376,3,397,5,410,12,407,17,395,10,376,8,359,10,348,15,343,21,342,29"/>
+</map>
 </div>
 
 </div>
@@ -151,7 +240,7 @@ Here is the call graph for this function:</div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_e8ae4df8b8335e2a73ecf531ee4a4a97.html">examples</a></li><li class="navelem"><a class="el" href="dir_17cee27abc1c3519861fbb803c40e452.html">serial</a></li><li class="navelem"><a class="el" href="a00545.html">example_serial.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_e8ae4df8b8335e2a73ecf531ee4a4a97.html">examples</a></li><li class="navelem"><a class="el" href="dir_d8462e7a20e984358f3f405611783a31.html">logger</a></li><li class="navelem"><a class="el" href="a00545.html">example_logger_macros.cpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

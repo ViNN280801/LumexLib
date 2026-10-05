@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexString File Reference</title>
+<title>LumexLib: LumexBase64 File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -103,37 +103,117 @@ $(function(){initNavTree('a00893.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">LumexString File Reference</div></div>
+  <div class="headertitle"><div class="title">LumexBase64 File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>String module: <code>stringify</code>, which concatenates the stream output of its arguments, joining and quoting the elements of a range, and text normalization for case-insensitive comparison.  
+<p>Base64 module: encoding, decoding and syntax checks of Base64 text.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="a00314_source.html">utility/LumexStringify.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00305_source.html">text/LumexJoin.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00308_source.html">text/LumexQuote.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00311_source.html">text/LumexTextCase.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="a00206_source.html">codec/Base64.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00212_source.html">decode/Decoder.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00218_source.html">encode/Encoder.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00224_source.html">validate/Validator.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for LumexString:</div>
+Include dependency graph for LumexBase64:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00894.png" border="0" usemap="#a_lumex_string" alt=""/></div>
+<div class="center"><img src="a00894.png" border="0" usemap="#a_lumex_base64" alt=""/></div>
+<map name="a_lumex_base64" id="a_lumex_base64">
+<area shape="rect" title="Base64 module: encoding, decoding and syntax checks of Base64 text." alt="" coords="920,5,1024,32"/>
+<area shape="rect" href="a00206.html" title="Cross&#45;platform Base64 encoding and decoding utilities." alt="" coords="726,155,855,181"/>
+<area shape="poly" title=" " alt="" coords="958,35,819,147,816,143,955,30"/>
+<area shape="rect" href="a00212.html" title="Base64 decoding: the Decoder class of the lumex::base64 library." alt="" coords="497,80,638,107"/>
+<area shape="poly" title=" " alt="" coords="919,32,654,79,653,74,918,27"/>
+<area shape="rect" href="a00218.html" title="Base64 encoding: the Encoder class of the lumex::base64 library." alt="" coords="1222,80,1362,107"/>
+<area shape="poly" title=" " alt="" coords="1025,29,1221,73,1220,79,1024,34"/>
+<area shape="rect" href="a00224.html" title="Base64 syntax check: the Validator class of the lumex::base64 library." alt="" coords="1642,80,1787,107"/>
+<area shape="poly" title=" " alt="" coords="1025,22,1627,81,1626,86,1024,28"/>
+<area shape="rect" title=" " alt="" coords="218,328,269,355"/>
+<area shape="poly" title=" " alt="" coords="726,183,626,204,516,232,397,272,282,322,281,323,278,318,280,318,395,267,515,227,625,198,725,178"/>
+<area shape="rect" title=" " alt="" coords="1586,328,1640,355"/>
+<area shape="poly" title=" " alt="" coords="856,176,988,198,1142,227,1228,248,1315,269,1388,282,1446,288,1504,297,1575,317,1578,319,1577,324,1574,323,1502,303,1445,294,1387,287,1314,275,1227,253,1140,232,987,203,855,182"/>
+<area shape="rect" title=" " alt="" coords="293,328,376,355"/>
+<area shape="poly" title=" " alt="" coords="758,184,389,322,382,325,381,320,387,318,756,179"/>
+<area shape="rect" title=" " alt="" coords="5,328,93,355"/>
+<area shape="poly" title=" " alt="" coords="726,175,455,193,314,210,257,220,214,232,174,250,136,273,75,320,72,315,133,269,171,245,212,227,256,215,313,204,455,188,725,169"/>
+<area shape="rect" href="a00386.html" title="Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_..." alt="" coords="707,320,874,363"/>
+<area shape="poly" title=" " alt="" coords="793,182,793,305,788,305,788,182"/>
+<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="513,411,708,453"/>
+<area shape="poly" title=" " alt="" coords="725,175,570,192,478,209,388,232,283,259,263,267,244,279,226,297,209,321,201,342,202,351,208,361,226,375,253,388,327,407,413,418,498,425,498,430,412,424,326,412,252,393,224,380,204,364,197,353,195,342,204,319,222,293,241,275,261,262,282,254,387,227,477,203,569,187,725,170"/>
+<area shape="rect" href="a00446.html" title="Every general&#45;purpose type trait of LumexLib, one sub&#45;namespace of lumex::core::utility::traits per t..." alt="" coords="945,229,1129,272"/>
+<area shape="poly" title=" " alt="" coords="830,179,960,221,958,227,828,184"/>
+<area shape="rect" href="a00641.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="768,419,930,445"/>
+<area shape="poly" title=" " alt="" coords="806,362,834,404,830,407,802,365"/>
+<area shape="poly" title=" " alt="" coords="749,366,667,406,665,401,747,361"/>
+<area shape="poly" title=" " alt="" coords="945,258,785,266,594,280,412,298,338,310,282,323,278,324,276,319,280,317,337,304,411,293,593,274,785,261,945,253"/>
+<area shape="poly" title=" " alt="" coords="1130,263,1172,269,1286,279,1376,282,1464,291,1516,301,1575,317,1579,319,1577,324,1574,323,1514,306,1463,296,1375,288,1286,285,1171,275,1129,269"/>
+<area shape="poly" title=" " alt="" coords="945,257,832,263,692,274,540,294,388,323,379,325,378,320,387,317,539,288,692,269,832,257,945,252"/>
+<area shape="poly" title=" " alt="" coords="945,261,619,285,207,323,109,334,108,329,206,317,618,280,944,256"/>
+<area shape="poly" title=" " alt="" coords="980,275,863,317,862,312,978,270"/>
+<area shape="poly" title=" " alt="" coords="945,255,886,261,821,273,756,293,696,322,675,338,657,358,629,398,625,395,653,354,672,334,693,318,754,288,820,268,885,256,945,250"/>
+<area shape="rect" title=" " alt="" coords="1920,328,1984,355"/>
+<area shape="poly" title=" " alt="" coords="1129,256,1594,291,1908,317,1915,319,1913,324,1907,323,1594,296,1129,261"/>
+<area shape="rect" title=" " alt="" coords="1230,328,1308,355"/>
+<area shape="poly" title=" " alt="" coords="1094,270,1219,318,1225,320,1223,325,1217,322,1092,275"/>
+<area shape="rect" title=" " alt="" coords="1332,328,1393,355"/>
+<area shape="poly" title=" " alt="" coords="1129,267,1222,288,1321,317,1325,319,1323,324,1319,323,1221,293,1128,272"/>
+<area shape="rect" title=" " alt="" coords="1418,328,1470,355"/>
+<area shape="poly" title=" " alt="" coords="1130,263,1283,289,1354,304,1406,317,1409,319,1407,324,1404,323,1353,309,1282,295,1129,269"/>
+<area shape="rect" title=" " alt="" coords="1494,328,1562,355"/>
+<area shape="poly" title=" " alt="" coords="1130,263,1483,317,1489,319,1487,324,1482,323,1129,268"/>
+<area shape="rect" title=" " alt="" coords="898,328,966,355"/>
+<area shape="poly" title=" " alt="" coords="1014,274,960,320,957,316,1011,270"/>
+<area shape="rect" title=" " alt="" coords="990,328,1039,355"/>
+<area shape="poly" title=" " alt="" coords="1034,273,1024,313,1019,312,1029,272"/>
+<area shape="rect" title=" " alt="" coords="1063,328,1115,355"/>
+<area shape="poly" title=" " alt="" coords="1051,271,1076,313,1072,316,1047,274"/>
+<area shape="rect" title=" " alt="" coords="1140,328,1206,355"/>
+<area shape="poly" title=" " alt="" coords="1070,270,1142,317,1140,322,1067,275"/>
+<area shape="rect" href="a00404.html" title="C++ language, library and attribute feature availability." alt="" coords="1664,320,1895,363"/>
+<area shape="poly" title=" " alt="" coords="1130,258,1361,282,1649,317,1648,322,1360,288,1129,264"/>
+<area shape="rect" href="a00419.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="400,320,632,363"/>
+<area shape="poly" title=" " alt="" coords="945,270,647,320,647,315,945,265"/>
+<area shape="poly" title=" " alt="" coords="539,361,579,398,576,402,536,365"/>
+<area shape="poly" title=" " alt="" coords="607,105,738,147,736,152,606,110"/>
+<area shape="poly" title=" " alt="" coords="497,100,398,105,286,116,183,133,143,144,113,157,95,171,82,189,63,231,54,275,51,313,46,313,48,274,58,229,77,186,92,167,110,152,141,139,182,127,285,110,398,100,496,94"/>
+<area shape="poly" title=" " alt="" coords="497,97,405,100,304,109,256,117,214,127,181,140,159,157,140,185,132,205,128,229,132,256,144,288,169,322,208,361,227,373,250,383,308,397,377,404,453,406,604,405,669,405,720,408,757,413,757,418,719,413,668,410,604,410,453,412,377,409,307,402,248,388,224,378,205,365,165,326,140,290,126,258,123,229,127,203,135,182,155,153,178,135,213,122,255,111,303,104,405,95,497,92"/>
+<area shape="poly" title=" " alt="" coords="639,103,1351,220,1722,282,1908,317,1914,319,1912,324,1907,323,1721,287,1350,225,638,109"/>
+<area shape="rect" title=" " alt="" coords="168,155,226,181"/>
+<area shape="poly" title=" " alt="" coords="497,109,246,157,241,158,240,153,244,152,496,104"/>
+<area shape="poly" title=" " alt="" coords="1221,107,871,158,870,153,1221,102"/>
+<area shape="poly" title=" " alt="" coords="1310,105,1586,316,1583,320,1306,109"/>
+<area shape="poly" title=" " alt="" coords="1221,98,984,105,663,126,500,143,350,166,224,195,173,212,133,232,110,249,91,271,63,315,59,312,87,267,107,245,130,227,171,207,222,190,349,160,499,138,663,120,983,100,1221,93"/>
+<area shape="poly" title=" " alt="" coords="1362,95,1578,113,1707,131,1831,156,1887,172,1936,191,1978,212,2009,236,2029,263,2035,294,2025,328,1997,365,1982,372,1952,379,1855,391,1559,410,1219,423,946,431,946,426,1219,418,1559,405,1854,385,1951,374,1980,367,1994,361,2020,325,2029,294,2024,265,2005,239,1975,216,1934,195,1885,177,1830,161,1706,136,1578,118,1362,100"/>
+<area shape="poly" title=" " alt="" coords="1328,105,1459,152,1685,232,1909,318,1912,319,1910,324,1907,322,1683,237,1457,157,1326,110"/>
+<area shape="poly" title=" " alt="" coords="1318,105,1727,310,1724,315,1315,110"/>
+<area shape="poly" title=" " alt="" coords="1221,97,1049,98,807,106,528,124,385,139,245,157,241,158,241,153,245,152,384,133,527,119,806,101,1049,93,1221,91"/>
+<area shape="poly" title=" " alt="" coords="1641,103,871,163,870,158,1641,98"/>
+<area shape="poly" title=" " alt="" coords="1788,99,1852,112,1920,136,1954,153,1985,174,2013,198,2035,228,2043,256,2046,297,2042,337,2037,353,2029,365,2013,372,1982,379,1881,391,1576,410,1225,424,946,431,946,426,1225,418,1575,405,1881,385,1981,374,2011,367,2026,361,2032,351,2037,336,2041,296,2038,257,2031,231,2009,202,1982,178,1951,158,1918,141,1850,118,1787,104"/>
+<area shape="poly" title=" " alt="" coords="1728,105,1931,315,1928,319,1725,109"/>
+</map>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00895.png" border="0" usemap="#a_lumex_stringdep" alt=""/></div>
+<div class="center"><img src="a00895.png" border="0" usemap="#a_lumex_base64dep" alt=""/></div>
+<map name="a_lumex_base64dep" id="a_lumex_base64dep">
+<area shape="rect" title="Base64 module: encoding, decoding and syntax checks of Base64 text." alt="" coords="124,5,228,32"/>
+<area shape="rect" href="a00458.html" title=" " alt="" coords="5,80,150,107"/>
+<area shape="poly" title=" " alt="" coords="148,44,96,82,93,77,145,39"/>
+<area shape="rect" href="a00461.html" title=" " alt="" coords="174,80,376,107"/>
+<area shape="poly" title=" " alt="" coords="207,39,259,77,256,82,204,44"/>
+</map>
 </div>
 </div>
 <p><a href="a00893_source.html">Go to the source code of this file.</a></p>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>String module: <code>stringify</code>, which concatenates the stream output of its arguments, joining and quoting the elements of a range, and text normalization for case-insensitive comparison. </p>
-<p>Link <code>lumex::string</code> (header-only). Works from C++11; from C++20 <code>join</code> and the quote functions take any <code>std::ranges::input_range</code>. The umbrella includes <code><a class="el" href="a00314.html" title="Concatenates the operator&lt;&lt; text of any number of arguments into one std::string.">utility/LumexStringify.hpp</a></code>, <code><a class="el" href="a00305.html" title="Joins the elements of a range into one string.">text/LumexJoin.hpp</a></code>, <code><a class="el" href="a00308.html" title="Joins the elements of a range with each element wrapped in quotes.">text/LumexQuote.hpp</a></code> and <code><a class="el" href="a00311.html" title="Normalizes text for case-insensitive comparison.">text/LumexTextCase.hpp</a></code>. </p>
+<div class="textblock"><p>Base64 module: encoding, decoding and syntax checks of Base64 text. </p>
+<p>Link <code>lumex::base64</code> (compiled library). Works from C++11; the <code>std::string_view</code> and <code>std::span</code> overloads appear from C++17 and C++20 as inline wrappers over the exported functions. The umbrella includes <code><a class="el" href="a00206.html" title="Cross-platform Base64 encoding and decoding utilities.">codec/Base64.hpp</a></code>, <code><a class="el" href="a00212.html" title="Base64 decoding: the Decoder class of the lumex::base64 library.">decode/Decoder.hpp</a></code>, <code><a class="el" href="a00218.html" title="Base64 encoding: the Encoder class of the lumex::base64 library.">encode/Encoder.hpp</a></code> and <code><a class="el" href="a00224.html" title="Base64 syntax check: the Validator class of the lumex::base64 library.">validate/Validator.hpp</a></code>. </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_459f7d6cb411def697850a9e92b67c08.html">string</a></li><li class="navelem"><a class="el" href="a00893.html">LumexString</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_8c8b73b6e18afab83ac8ebfe214770ca.html">base64</a></li><li class="navelem"><a class="el" href="a00893.html">LumexBase64</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

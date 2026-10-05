@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::core::crc::parametric::crc32_iso_hdlc_spec_t Struct Reference</title>
+<title>LumexLib: Member List</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a01394.html',''); initResizable(true); });
+$(function(){initNavTree('a01397.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,223 +103,43 @@ $(function(){initNavTree('a01394.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="summary">
-<a href="#pub-types">Public Types</a> &#124;
-<a href="#pub-static-attribs">Static Public Attributes</a> &#124;
-<a href="a01391.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">lumex::core::crc::parametric::crc32_iso_hdlc_spec_t Struct Reference</div></div>
+  <div class="headertitle"><div class="title">lumex::core::circular_buffer::CircularBuffer&lt; T, Allocator &gt;::const_iterator Member List</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>CRC-32/ISO-HDLC (IEEE 802.3 FCS, PKZIP, zlib crc32).  
- <a href="#details">More...</a></p>
-
-<p><code>#include &lt;<a class="el" href="a00200_source.html">LumexCrcParametric.hpp</a>&gt;</code></p>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
-Public Types</h2></td></tr>
-<tr class="memitem:abf1d2f98716bcdc64db0b18244f2fdb6" id="r_abf1d2f98716bcdc64db0b18244f2fdb6"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abf1d2f98716bcdc64db0b18244f2fdb6">ValueType</a> = std::uint32_t</td></tr>
-<tr class="separator:abf1d2f98716bcdc64db0b18244f2fdb6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-attribs" name="pub-static-attribs"></a>
-Static Public Attributes</h2></td></tr>
-<tr class="memitem:aa4425f4e8660bb10869dae377de8d8d6" id="r_aa4425f4e8660bb10869dae377de8d8d6"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa4425f4e8660bb10869dae377de8d8d6">kWidth</a> = 32</td></tr>
-<tr class="separator:aa4425f4e8660bb10869dae377de8d8d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a05c02e1c2373090618c35aa8c80658b2" id="r_a05c02e1c2373090618c35aa8c80658b2"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a05c02e1c2373090618c35aa8c80658b2">kPoly</a> = 0x04C11DB7UL</td></tr>
-<tr class="separator:a05c02e1c2373090618c35aa8c80658b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aadb6acf814dbdb221290b87b1324314f" id="r_aadb6acf814dbdb221290b87b1324314f"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aadb6acf814dbdb221290b87b1324314f">kInit</a> = 0xFFFFFFFFUL</td></tr>
-<tr class="separator:aadb6acf814dbdb221290b87b1324314f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae1f3f651a453f24ea001282816b2fecc" id="r_ae1f3f651a453f24ea001282816b2fecc"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITbool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae1f3f651a453f24ea001282816b2fecc">kRefIn</a> = true</td></tr>
-<tr class="separator:ae1f3f651a453f24ea001282816b2fecc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a064569e0fd7b7ebf661ab85c012fdd67" id="r_a064569e0fd7b7ebf661ab85c012fdd67"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITbool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a064569e0fd7b7ebf661ab85c012fdd67">kRefOut</a> = true</td></tr>
-<tr class="separator:a064569e0fd7b7ebf661ab85c012fdd67"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab1ce61b36e141aea08463d83e3ebda6c" id="r_ab1ce61b36e141aea08463d83e3ebda6c"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab1ce61b36e141aea08463d83e3ebda6c">kXorOut</a> = 0xFFFFFFFFUL</td></tr>
-<tr class="separator:ab1ce61b36e141aea08463d83e3ebda6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3a178ae3ad102e0985f15c805dc5b355" id="r_a3a178ae3ad102e0985f15c805dc5b355"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3a178ae3ad102e0985f15c805dc5b355">kCatalogCheck</a> = 0xCBF43926UL</td></tr>
-<tr class="separator:a3a178ae3ad102e0985f15c805dc5b355"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>CRC-32/ISO-HDLC (IEEE 802.3 FCS, PKZIP, zlib crc32). </p>
-<dl class="section see"><dt>See also</dt><dd><a href="https://reveng.sourceforge.io/crc-catalogue/all.htm">https://reveng.sourceforge.io/crc-catalogue/all.htm</a> - CRC-32/ISO-HDLC </dd></dl>
-</div><h2 class="groupheader">Member Typedef Documentation</h2>
-<a id="abf1d2f98716bcdc64db0b18244f2fdb6" name="abf1d2f98716bcdc64db0b18244f2fdb6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abf1d2f98716bcdc64db0b18244f2fdb6">&#9670;&#160;</a></span>ValueType</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="#abf1d2f98716bcdc64db0b18244f2fdb6">lumex::core::crc::parametric::crc32_iso_hdlc_spec_t::ValueType</a> = std::uint32_t</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<h2 class="groupheader">Member Data Documentation</h2>
-<a id="a3a178ae3ad102e0985f15c805dc5b355" name="a3a178ae3ad102e0985f15c805dc5b355"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3a178ae3ad102e0985f15c805dc5b355">&#9670;&#160;</a></span>kCatalogCheck</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constLUMEX_CONSTINITstd::uint32_t lumex::core::crc::parametric::crc32_iso_hdlc_spec_t::kCatalogCheck = 0xCBF43926UL</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aadb6acf814dbdb221290b87b1324314f" name="aadb6acf814dbdb221290b87b1324314f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aadb6acf814dbdb221290b87b1324314f">&#9670;&#160;</a></span>kInit</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constLUMEX_CONSTINITstd::uint64_t lumex::core::crc::parametric::crc32_iso_hdlc_spec_t::kInit = 0xFFFFFFFFUL</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a05c02e1c2373090618c35aa8c80658b2" name="a05c02e1c2373090618c35aa8c80658b2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a05c02e1c2373090618c35aa8c80658b2">&#9670;&#160;</a></span>kPoly</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constLUMEX_CONSTINITstd::uint64_t lumex::core::crc::parametric::crc32_iso_hdlc_spec_t::kPoly = 0x04C11DB7UL</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ae1f3f651a453f24ea001282816b2fecc" name="ae1f3f651a453f24ea001282816b2fecc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae1f3f651a453f24ea001282816b2fecc">&#9670;&#160;</a></span>kRefIn</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constLUMEX_CONSTINITbool lumex::core::crc::parametric::crc32_iso_hdlc_spec_t::kRefIn = true</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a064569e0fd7b7ebf661ab85c012fdd67" name="a064569e0fd7b7ebf661ab85c012fdd67"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a064569e0fd7b7ebf661ab85c012fdd67">&#9670;&#160;</a></span>kRefOut</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constLUMEX_CONSTINITbool lumex::core::crc::parametric::crc32_iso_hdlc_spec_t::kRefOut = true</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aa4425f4e8660bb10869dae377de8d8d6" name="aa4425f4e8660bb10869dae377de8d8d6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa4425f4e8660bb10869dae377de8d8d6">&#9670;&#160;</a></span>kWidth</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constLUMEX_CONSTINITint lumex::core::crc::parametric::crc32_iso_hdlc_spec_t::kWidth = 32</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ab1ce61b36e141aea08463d83e3ebda6c" name="ab1ce61b36e141aea08463d83e3ebda6c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab1ce61b36e141aea08463d83e3ebda6c">&#9670;&#160;</a></span>kXorOut</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constLUMEX_CONSTINITstd::uint64_t lumex::core::crc::parametric::crc32_iso_hdlc_spec_t::kXorOut = 0xFFFFFFFFUL</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<hr/>The documentation for this struct was generated from the following file:<ul>
-<li><a class="el" href="a00200_source.html">LumexCrcParametric.hpp</a></li>
-</ul>
-</div><!-- contents -->
+<p>This is the complete list of members for <a class="el" href="a01397.html">lumex::core::circular_buffer::CircularBuffer&lt; T, Allocator &gt;::const_iterator</a>, including all inherited members.</p>
+<table class="directory">
+  <tr class="even"><td class="entry"><a class="el" href="a01397.html#a8545421a5bccb994dede03af8a71b222">CircularBuffer</a> class</td><td class="entry"><a class="el" href="a01397.html">lumex::core::circular_buffer::CircularBuffer&lt; T, Allocator &gt;::const_iterator</a></td><td class="entry"><span class="mlabel">friend</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a01397.html#ad97e68f50be3d9cce66deeb17036c055">const_iterator</a>()</td><td class="entry"><a class="el" href="a01397.html">lumex::core::circular_buffer::CircularBuffer&lt; T, Allocator &gt;::const_iterator</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a01397.html#ae9ccdafa7d3d56529829d0848034e3bc">const_iterator</a>(iterator const &amp;iter)</td><td class="entry"><a class="el" href="a01397.html">lumex::core::circular_buffer::CircularBuffer&lt; T, Allocator &gt;::const_iterator</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a01397.html#a84db5610c115fcf49a717c32fe91fe20">difference_type</a> typedef</td><td class="entry"><a class="el" href="a01397.html">lumex::core::circular_buffer::CircularBuffer&lt; T, Allocator &gt;::const_iterator</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a01397.html#a071233166c1717b94bb06868e618ac41">iterator_category</a> typedef</td><td class="entry"><a class="el" href="a01397.html">lumex::core::circular_buffer::CircularBuffer&lt; T, Allocator &gt;::const_iterator</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a01397.html#a79f0874f02907afce4f75512c7e9623f">operator!=</a>(const_iterator const &amp;other) const</td><td class="entry"><a class="el" href="a01397.html">lumex::core::circular_buffer::CircularBuffer&lt; T, Allocator &gt;::const_iterator</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a01397.html#a8a7100ebd98181dc469d651337abc20a">operator*</a>() const</td><td class="entry"><a class="el" href="a01397.html">lumex::core::circular_buffer::CircularBuffer&lt; T, Allocator &gt;::const_iterator</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a01397.html#a115fff390a8d699326c661e6a9cb0123">operator+</a>(difference_type n) const</td><td class="entry"><a class="el" href="a01397.html">lumex::core::circular_buffer::CircularBuffer&lt; T, Allocator &gt;::const_iterator</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a01397.html#a7bd9f7893dae2620e510c64fc24e1bb6">operator+</a>(difference_type n, const_iterator iter)</td><td class="entry"><a class="el" href="a01397.html">lumex::core::circular_buffer::CircularBuffer&lt; T, Allocator &gt;::const_iterator</a></td><td class="entry"><span class="mlabel">friend</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a01397.html#a01cbeeb48db48272ff5315af2a692e29">operator++</a>()</td><td class="entry"><a class="el" href="a01397.html">lumex::core::circular_buffer::CircularBuffer&lt; T, Allocator &gt;::const_iterator</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a01397.html#a5b985dd09bcbc34245264cc2f0b873cf">operator++</a>(int)</td><td class="entry"><a class="el" href="a01397.html">lumex::core::circular_buffer::CircularBuffer&lt; T, Allocator &gt;::const_iterator</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a01397.html#af468371cb76d4f860f0222a2469039ce">operator+=</a>(difference_type n)</td><td class="entry"><a class="el" href="a01397.html">lumex::core::circular_buffer::CircularBuffer&lt; T, Allocator &gt;::const_iterator</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a01397.html#a03fd10c4e5c431ef342cf1792a6d696b">operator-</a>(difference_type n) const</td><td class="entry"><a class="el" href="a01397.html">lumex::core::circular_buffer::CircularBuffer&lt; T, Allocator &gt;::const_iterator</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a01397.html#a4eb53491e489590361afaa9ef583eee5">operator-</a>(const_iterator const &amp;other) const</td><td class="entry"><a class="el" href="a01397.html">lumex::core::circular_buffer::CircularBuffer&lt; T, Allocator &gt;::const_iterator</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a01397.html#ade643e4f5a878137a369fec48b03db11">operator--</a>()</td><td class="entry"><a class="el" href="a01397.html">lumex::core::circular_buffer::CircularBuffer&lt; T, Allocator &gt;::const_iterator</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a01397.html#a1b893be85febf0a3f409bd9ff803f32c">operator--</a>(int)</td><td class="entry"><a class="el" href="a01397.html">lumex::core::circular_buffer::CircularBuffer&lt; T, Allocator &gt;::const_iterator</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a01397.html#a1e0d892c9f255de3bd300d3ff5165c59">operator-=</a>(difference_type n)</td><td class="entry"><a class="el" href="a01397.html">lumex::core::circular_buffer::CircularBuffer&lt; T, Allocator &gt;::const_iterator</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a01397.html#a23e5bfae36c8356b0787df9d354f5d03">operator-&gt;</a>() const</td><td class="entry"><a class="el" href="a01397.html">lumex::core::circular_buffer::CircularBuffer&lt; T, Allocator &gt;::const_iterator</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a01397.html#a845286e964e98711a8540b70813ee278">operator&lt;</a>(const_iterator const &amp;other) const</td><td class="entry"><a class="el" href="a01397.html">lumex::core::circular_buffer::CircularBuffer&lt; T, Allocator &gt;::const_iterator</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a01397.html#a464fd2305e5b826ee1e884ce76e4d0a9">operator&lt;=</a>(const_iterator const &amp;other) const</td><td class="entry"><a class="el" href="a01397.html">lumex::core::circular_buffer::CircularBuffer&lt; T, Allocator &gt;::const_iterator</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a01397.html#ae5781b3ee1c5e0ff9c836b617761f075">operator==</a>(const_iterator const &amp;other) const</td><td class="entry"><a class="el" href="a01397.html">lumex::core::circular_buffer::CircularBuffer&lt; T, Allocator &gt;::const_iterator</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a01397.html#a5b5911be8cccc14ee2c4c28eb290bf0c">operator&gt;</a>(const_iterator const &amp;other) const</td><td class="entry"><a class="el" href="a01397.html">lumex::core::circular_buffer::CircularBuffer&lt; T, Allocator &gt;::const_iterator</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a01397.html#a30648ca8d9267b6b19c3cc3f8257a14f">operator&gt;=</a>(const_iterator const &amp;other) const</td><td class="entry"><a class="el" href="a01397.html">lumex::core::circular_buffer::CircularBuffer&lt; T, Allocator &gt;::const_iterator</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a01397.html#a8a84a61779938710027474cf5c2ec2cd">pointer</a> typedef</td><td class="entry"><a class="el" href="a01397.html">lumex::core::circular_buffer::CircularBuffer&lt; T, Allocator &gt;::const_iterator</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a01397.html#a20dffe8f5866e617fa3627d3019475d3">reference</a> typedef</td><td class="entry"><a class="el" href="a01397.html">lumex::core::circular_buffer::CircularBuffer&lt; T, Allocator &gt;::const_iterator</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a01397.html#a9d133376ada6456e63a51dcc21020e73">value_type</a> typedef</td><td class="entry"><a class="el" href="a01397.html">lumex::core::circular_buffer::CircularBuffer&lt; T, Allocator &gt;::const_iterator</a></td><td class="entry"></td></tr>
+</table></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00912.html">lumex</a></li><li class="navelem"><a class="el" href="a00964.html">core</a></li><li class="navelem"><a class="el" href="a00984.html">crc</a></li><li class="navelem"><a class="el" href="a00987.html">parametric</a></li><li class="navelem"><a class="el" href="a01394.html">crc32_iso_hdlc_spec_t</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

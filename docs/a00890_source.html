@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexReflection Source File</title>
+<title>LumexLib: LumexAtomic Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -103,7 +103,7 @@ $(function(){initNavTree('a00890_source.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">LumexReflection</div></div>
+  <div class="headertitle"><div class="title">LumexAtomic</div></div>
 </div><!--header-->
 <div class="contents">
 <a href="a00890.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">/*</span></div>
@@ -145,26 +145,16 @@ $(function(){initNavTree('a00890_source.html',''); initResizable(true); });
 <div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="comment"> * SOFTWARE.</span></div>
 <div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="comment"> */</span></div>
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span></div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="preprocessor">#ifndef LUMEX_CORE_REFLECTION_HPP</span></div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span><span class="preprocessor">#define LUMEX_CORE_REFLECTION_HPP</span></div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span><span class="preprocessor">#include &quot;<a class="code" href="a00302.html">var_info/LumexVarInfo.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="preprocessor">#include &quot;<a class="code" href="a00299.html">reflected_enum/LumexReflectedEnum.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="preprocessor">#if defined(LUMEX_WITH_FIELD_REFLECTION)</span></div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span><span class="preprocessor">#include &quot;<a class="code" href="a00296.html">field_reflection/LumexFieldReflection.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span> </div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span><span class="preprocessor">#endif </span><span class="comment">// !LUMEX_CORE_REFLECTION_HPP</span></div>
-<div class="ttc" id="aa00296_html"><div class="ttname"><a href="a00296.html">LumexFieldReflection.hpp</a></div><div class="ttdoc">Serializes a simple aggregate (no constructors, no private members, no base classes) to JSON by walki...</div></div>
-<div class="ttc" id="aa00299_html"><div class="ttname"><a href="a00299.html">LumexReflectedEnum.hpp</a></div><div class="ttdoc">X-macro system that generates a scoped enum together with its own compile-time reflection data and a ...</div></div>
-<div class="ttc" id="aa00302_html"><div class="ttname"><a href="a00302.html">LumexVarInfo.hpp</a></div><div class="ttdoc">Debug diagnostic printer for an arbitrary expression: name, value (if printable), demangled type,...</div></div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="preprocessor">#include &quot;<a class="code" href="a00188.html">smart_ptr/LumexAtomicSharedPtr.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="preprocessor">#include &quot;<a class="code" href="a00197.html">smart_ptr/LumexAtomicWeakPtr.hpp</a>&quot;</span></div>
+<div class="ttc" id="aa00188_html"><div class="ttname"><a href="a00188.html">LumexAtomicSharedPtr.hpp</a></div><div class="ttdoc">atomic_shared_ptr&lt;T&gt;: the interface of the C++20 std::atomic&lt;std::shared_ptr&lt;T&gt;&gt; for C++11 and later.</div></div>
+<div class="ttc" id="aa00197_html"><div class="ttname"><a href="a00197.html">LumexAtomicWeakPtr.hpp</a></div><div class="ttdoc">atomic_weak_ptr&lt;T&gt;: the interface of the C++20 std::atomic&lt;std::weak_ptr&lt;T&gt;&gt; for C++11 and later.</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_9f19d952725811a71a1277575cb881df.html">reflection</a></li><li class="navelem"><a class="el" href="a00890.html">LumexReflection</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_46588a2def099f5c90ce8dff319725b2.html">atomic</a></li><li class="navelem"><a class="el" href="a00890.html">LumexAtomic</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

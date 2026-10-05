@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexOptional Source File</title>
+<title>LumexLib: LumexSettings Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -103,7 +103,7 @@ $(function(){initNavTree('a00887_source.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">LumexOptional</div></div>
+  <div class="headertitle"><div class="title">LumexSettings</div></div>
 </div><!--header-->
 <div class="contents">
 <a href="a00887.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">/*</span></div>
@@ -145,14 +145,31 @@ $(function(){initNavTree('a00887_source.html',''); initResizable(true); });
 <div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="comment"> * SOFTWARE.</span></div>
 <div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="comment"> */</span></div>
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span></div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span><span class="preprocessor">#include &quot;<a class="code" href="a00290.html">opt/LumexOptional.hpp</a>&quot;</span></div>
-<div class="ttc" id="aa00290_html"><div class="ttname"><a href="a00290.html">LumexOptional.hpp</a></div><div class="ttdoc">C++11 implementation of std::optional (C++17 feature) providing a type-safe nullable value container.</div></div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="preprocessor">#include &quot;<a class="code" href="a00173.html">interface/ILumexSettings.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span><span class="preprocessor">#include &quot;<a class="code" href="a00155.html">factory/LumexSettingsFactory.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span><span class="preprocessor">#include &quot;<a class="code" href="a00161.html">guard/LumexSettingsGuard.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span> </div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span><span class="preprocessor">#include &quot;<a class="code" href="a00167.html">ini/LumexSettingsINI.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="preprocessor">#include &quot;<a class="code" href="a00170.html">ini/SupportedConfigExtensions.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><span class="preprocessor">#include &quot;<a class="code" href="a00179.html">json/LumexSettingsJSON.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span> </div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span><span class="preprocessor">#include &quot;<a class="code" href="a00185.html">xml/LumexSettingsXML.hpp</a>&quot;</span></div>
+<div class="ttc" id="aa00155_html"><div class="ttname"><a href="a00155.html">LumexSettingsFactory.hpp</a></div><div class="ttdoc">Creates the ILumexSettings implementation for a configuration file format.</div></div>
+<div class="ttc" id="aa00161_html"><div class="ttname"><a href="a00161.html">LumexSettingsGuard.hpp</a></div><div class="ttdoc">Format-agnostic backup/repair/validation layer built on top of ILumexSettings.</div></div>
+<div class="ttc" id="aa00167_html"><div class="ttname"><a href="a00167.html">LumexSettingsINI.hpp</a></div><div class="ttdoc">ILumexSettings over INI files, parsed and written by the library itself.</div></div>
+<div class="ttc" id="aa00170_html"><div class="ttname"><a href="a00170.html">SupportedConfigExtensions.hpp</a></div><div class="ttdoc">The configuration file formats the settings module knows, used to select an implementation from Lumex...</div></div>
+<div class="ttc" id="aa00173_html"><div class="ttname"><a href="a00173.html">ILumexSettings.hpp</a></div><div class="ttdoc">The interface every settings format implements: load, save, and get, add or remove a string value by ...</div></div>
+<div class="ttc" id="aa00179_html"><div class="ttname"><a href="a00179.html">LumexSettingsJSON.hpp</a></div><div class="ttdoc">ILumexSettings over JSON files, parsed and written with the vendored nlohmann/json.</div></div>
+<div class="ttc" id="aa00185_html"><div class="ttname"><a href="a00185.html">LumexSettingsXML.hpp</a></div><div class="ttdoc">ILumexSettings over XML files, parsed and written with the library&#39;s own lumex::xml module.</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_9669aebcb67621c55bde5b6a59fa609b.html">optional</a></li><li class="navelem"><a class="el" href="a00887.html">LumexOptional</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_de45db85bd98abf883bc2bd6c3907fd8.html">applied</a></li><li class="navelem"><a class="el" href="dir_9258c4c02d6a33184acee8f108260d77.html">settings</a></li><li class="navelem"><a class="el" href="a00887.html">LumexSettings</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

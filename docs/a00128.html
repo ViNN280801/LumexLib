@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexSettingsINI.cpp File Reference</title>
+<title>LumexLib: LumexSerialBoundedOpen.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -105,60 +105,134 @@ $(function(){initNavTree('a00128.html',''); initResizable(true); });
 <div class="header">
   <div class="summary">
 <a href="#namespaces">Namespaces</a> &#124;
-<a href="#define-members">Macros</a>  </div>
-  <div class="headertitle"><div class="title">LumexSettingsINI.cpp File Reference</div></div>
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle"><div class="title">LumexSerialBoundedOpen.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;array&gt;</code><br />
-<code>#include &lt;fstream&gt;</code><br />
-<code>#include &lt;regex&gt;</code><br />
-<code>#include &lt;sstream&gt;</code><br />
+<div class="textblock"><code>#include &lt;cerrno&gt;</code><br />
+<code>#include &lt;chrono&gt;</code><br />
+<code>#include &lt;condition_variable&gt;</code><br />
+<code>#include &lt;cstdint&gt;</code><br />
+<code>#include &lt;memory&gt;</code><br />
+<code>#include &lt;mutex&gt;</code><br />
 <code>#include &lt;string&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00875_source.html">lumex/core/filesystem/LumexFilesystem</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00131_source.html">LumexSettingsINI.hpp</a>&quot;</code><br />
+<code>#include &lt;thread&gt;</code><br />
+<code>#include &lt;fcntl.h&gt;</code><br />
+<code>#include &lt;unistd.h&gt;</code><br />
+<code>#include &quot;<a class="el" href="a00131_source.html">lumex/applied/serial/probe/detail/LumexSerialBoundedOpen.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00149_source.html">lumex/applied/serial/resolver/LumexPortProcessResolver.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for LumexSettingsINI.cpp:</div>
+Include dependency graph for LumexSerialBoundedOpen.cpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00129.png" border="0" usemap="#a_lumex_settings_i_n_i_8cpp" alt=""/></div>
+<div class="center"><img src="a00129.png" border="0" usemap="#a_lumex_serial_bounded_open_8cpp" alt=""/></div>
+<map name="a_lumex_serial_bounded_open_8cpp" id="a_lumex_serial_bounded_open_8cpp">
+<area shape="rect" title=" " alt="" coords="440,5,641,32"/>
+<area shape="rect" title=" " alt="" coords="5,96,63,123"/>
+<area shape="poly" title=" " alt="" coords="440,24,361,30,270,40,175,57,83,83,66,90,63,85,81,77,174,52,270,35,361,24,440,19"/>
+<area shape="rect" title=" " alt="" coords="137,203,198,229"/>
+<area shape="poly" title=" " alt="" coords="440,23,351,27,257,36,177,54,148,67,128,82,121,94,117,107,121,135,134,164,150,189,145,192,129,166,116,137,112,106,116,92,124,78,145,62,176,49,256,31,350,21,440,17"/>
+<area shape="rect" title=" " alt="" coords="138,96,263,123"/>
+<area shape="poly" title=" " alt="" coords="479,35,386,56,283,83,250,93,248,88,281,77,384,51,477,30"/>
+<area shape="rect" title=" " alt="" coords="278,203,339,229"/>
+<area shape="poly" title=" " alt="" coords="441,27,410,34,379,45,352,61,328,82,314,106,307,134,307,187,301,187,302,133,309,104,324,78,348,56,377,40,408,29,440,22"/>
+<area shape="rect" title=" " alt="" coords="338,96,407,123"/>
+<area shape="poly" title=" " alt="" coords="515,35,421,82,407,90,405,85,418,78,513,30"/>
+<area shape="rect" title=" " alt="" coords="431,96,488,123"/>
+<area shape="poly" title=" " alt="" coords="531,34,483,86,479,83,527,31"/>
+<area shape="rect" title=" " alt="" coords="1138,301,1191,328"/>
+<area shape="poly" title=" " alt="" coords="641,18,818,22,1020,31,1114,39,1195,49,1255,62,1275,69,1288,78,1304,105,1307,135,1299,165,1283,195,1239,251,1194,293,1190,289,1235,247,1279,192,1294,163,1301,134,1299,107,1284,82,1273,74,1253,67,1194,54,1114,44,1020,36,817,27,641,23"/>
+<area shape="rect" title=" " alt="" coords="756,96,813,123"/>
+<area shape="poly" title=" " alt="" coords="601,30,671,49,744,78,758,85,755,89,742,82,669,54,600,35"/>
+<area shape="rect" title=" " alt="" coords="837,96,895,123"/>
+<area shape="poly" title=" " alt="" coords="642,28,733,47,781,60,827,78,840,85,838,89,825,82,780,65,732,52,641,34"/>
+<area shape="rect" title=" " alt="" coords="919,96,986,123"/>
+<area shape="poly" title=" " alt="" coords="642,23,771,41,841,56,908,78,924,85,922,90,906,82,839,61,770,46,641,29"/>
+<area shape="rect" href="a00131.html" title="Internal bounded open shared by the serial prober and the port enumeration." alt="" coords="512,80,732,139"/>
+<area shape="poly" title=" " alt="" coords="554,31,587,67,583,70,550,34"/>
+<area shape="rect" href="a00149.html" title="Identifies the process that holds a serial port open." alt="" coords="1010,88,1274,131"/>
+<area shape="poly" title=" " alt="" coords="642,29,809,50,998,77,1026,82,1025,87,998,83,808,55,641,34"/>
+<area shape="poly" title=" " alt="" coords="513,139,501,141,384,164,267,189,213,204,212,199,265,184,383,159,500,136,512,134"/>
+<area shape="poly" title=" " alt="" coords="513,141,440,163,367,189,347,198,345,193,365,184,439,158,512,136"/>
+<area shape="poly" title=" " alt="" coords="733,134,745,136,824,143,928,148,1029,159,1071,169,1102,184,1125,206,1142,233,1161,285,1156,287,1137,235,1121,210,1099,189,1069,174,1028,164,928,153,824,148,744,141,732,139"/>
+<area shape="rect" href="a00641.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="882,301,1044,328"/>
+<area shape="poly" title=" " alt="" coords="733,134,815,159,849,172,873,184,899,208,921,234,953,286,949,289,917,238,895,211,870,189,847,176,813,164,732,139"/>
+<area shape="rect" href="a00119.html" title="Enumerates serial ports and reports structured device information." alt="" coords="662,187,859,245"/>
+<area shape="poly" title=" " alt="" coords="661,137,713,175,709,180,658,141"/>
+<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="985,384,1179,427"/>
+<area shape="poly" title=" " alt="" coords="733,134,847,163,918,184,964,206,999,226,1029,252,1059,292,1075,330,1083,368,1077,369,1070,332,1054,295,1025,256,996,230,961,211,916,189,846,168,731,139"/>
+<area shape="rect" href="a00437.html" title="Cross&#45;platform OS macros." alt="" coords="378,195,543,237"/>
+<area shape="poly" title=" " alt="" coords="579,141,507,188,504,184,576,137"/>
+<area shape="poly" title=" " alt="" coords="860,238,1124,301,1122,306,859,243"/>
+<area shape="poly" title=" " alt="" coords="822,243,924,292,922,297,820,248"/>
+<area shape="rect" title=" " alt="" coords="568,301,633,328"/>
+<area shape="poly" title=" " alt="" coords="714,248,636,295,633,291,712,244"/>
+<area shape="rect" title=" " alt="" coords="657,301,726,328"/>
+<area shape="poly" title=" " alt="" coords="742,247,711,290,707,287,738,244"/>
+<area shape="rect" title=" " alt="" coords="749,301,807,328"/>
+<area shape="poly" title=" " alt="" coords="768,245,776,286,770,287,763,246"/>
+<area shape="rect" href="a00389.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="376,293,545,336"/>
+<area shape="poly" title=" " alt="" coords="672,248,541,291,539,285,671,243"/>
+<area shape="poly" title=" " alt="" coords="782,244,820,290,845,314,871,334,920,359,971,377,969,382,918,364,869,338,841,318,816,294,778,247"/>
+<area shape="rect" href="a00404.html" title="C++ language, library and attribute feature availability." alt="" coords="345,384,576,427"/>
+<area shape="poly" title=" " alt="" coords="463,336,463,369,458,369,458,336"/>
+<area shape="poly" title=" " alt="" coords="463,238,463,278,458,278,458,238"/>
+<area shape="rect" href="a00401.html" title="Compiler identification and version macros." alt="" coords="120,293,353,336"/>
+<area shape="poly" title=" " alt="" coords="414,240,300,289,297,284,412,235"/>
+<area shape="poly" title=" " alt="" coords="1147,131,1154,186,1165,285,1159,286,1149,187,1142,132"/>
+<area shape="poly" title=" " alt="" coords="1126,133,986,292,982,288,1122,129"/>
+<area shape="poly" title=" " alt="" coords="1040,134,998,141,899,152,821,154,745,162,701,172,651,189,591,227,504,286,501,282,588,222,649,184,700,167,744,157,821,149,899,146,998,136,1039,129"/>
+<area shape="poly" title=" " alt="" coords="1160,130,1185,170,1209,223,1217,252,1220,281,1217,310,1206,337,1186,361,1161,379,1158,374,1182,357,1201,335,1211,309,1214,281,1212,253,1204,225,1180,172,1155,133"/>
+<area shape="rect" href="a00923.html" title="Optional module: a C++11 implementation of the C++17 std::optional." alt="" coords="1362,195,1496,237"/>
+<area shape="poly" title=" " alt="" coords="1200,129,1359,187,1357,192,1198,134"/>
+<area shape="rect" href="a00326.html" title="C++11 implementation of std::optional (C++17 feature) providing a type&#45;safe nullable value container." alt="" coords="1356,301,1512,328"/>
+<area shape="poly" title=" " alt="" coords="1432,238,1435,286,1430,286,1427,238"/>
+<area shape="poly" title=" " alt="" coords="1384,331,1180,382,1179,377,1383,326"/>
+<area shape="rect" title=" " alt="" coords="1610,392,1687,419"/>
+<area shape="poly" title=" " alt="" coords="1466,326,1605,383,1603,388,1464,331"/>
+<area shape="rect" title=" " alt="" coords="1203,392,1300,419"/>
+<area shape="poly" title=" " alt="" coords="1409,331,1292,387,1290,382,1407,326"/>
+<area shape="rect" title=" " alt="" coords="1324,392,1402,419"/>
+<area shape="poly" title=" " alt="" coords="1426,330,1385,382,1381,378,1422,327"/>
+<area shape="rect" title=" " alt="" coords="1426,392,1508,419"/>
+<area shape="poly" title=" " alt="" coords="1441,328,1460,376,1455,378,1436,330"/>
+<area shape="rect" title=" " alt="" coords="1533,392,1586,419"/>
+<area shape="poly" title=" " alt="" coords="1453,326,1531,381,1528,385,1450,331"/>
+</map>
 </div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00912.html">lumex</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00948.html">lumex</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00913.html">lumex::applied</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00949.html">lumex::applied</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00953.html">lumex::applied::settings</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00981.html">lumex::applied::serial</a></td></tr>
+<tr class="memdesc:a00981"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cross-platform helpers for naming/resolving serial (and serial-adjacent) communication ports. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00957.html">lumex::applied::settings::ini</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00987.html">lumex::applied::serial::probe</a></td></tr>
+<tr class="memdesc:a00987"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bounded probing of the device behind a serial port. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00988.html">lumex::applied::serial::probe::detail</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
-Macros</h2></td></tr>
-<tr class="memitem:a07486181f1990291c2a348de8eb4c480" id="r_a07486181f1990291c2a348de8eb4c480"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a07486181f1990291c2a348de8eb4c480">LUMEX_IMPLEMENTATION</a></td></tr>
-<tr class="separator:a07486181f1990291c2a348de8eb4c480"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a0a518e9f25f40fbb213907e34b881f81" id="r_a0a518e9f25f40fbb213907e34b881f81"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01233.html">open_result_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00988.html#a0a518e9f25f40fbb213907e34b881f81">lumex::applied::serial::probe::detail::bounded_open_serial_port</a> (std::string const &amp;open_path, std::uint32_t platform_open_flags, std::chrono::milliseconds deadline)</td></tr>
+<tr class="memdesc:a0a518e9f25f40fbb213907e34b881f81"><td class="mdescLeft">&#160;</td><td class="mdescRight">Opens <code>open_path</code> so the caller never waits past <code>deadline</code>.  <br /></td></tr>
+<tr class="separator:a0a518e9f25f40fbb213907e34b881f81"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeda0fc72f871cf1ddc177f5c172131ea" id="r_aeda0fc72f871cf1ddc177f5c172131ea"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00988.html#aeda0fc72f871cf1ddc177f5c172131ea">lumex::applied::serial::probe::detail::close_serial_handle</a> (<a class="el" href="a00988.html#a3ac21019735948552e6d1ef799f957e7">native_serial_handle_t</a> handle) noexcept</td></tr>
+<tr class="memdesc:aeda0fc72f871cf1ddc177f5c172131ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Closes <code>handle</code>; a no-op for the invalid value.  <br /></td></tr>
+<tr class="separator:aeda0fc72f871cf1ddc177f5c172131ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2baec958c3eebd588ab9cbc9bccd7e5f" id="r_a2baec958c3eebd588ab9cbc9bccd7e5f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a00982.html#a2833c2a4c2aca860a7fe8ecce5e59400">enumeration::serial_port_state</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00988.html#a2baec958c3eebd588ab9cbc9bccd7e5f">lumex::applied::serial::probe::detail::state_from_open_result</a> (<a class="el" href="a01233.html">open_result_t</a> const &amp;result) noexcept</td></tr>
+<tr class="memdesc:a2baec958c3eebd588ab9cbc9bccd7e5f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Maps an open outcome to the enumeration state.  <br /></td></tr>
+<tr class="separator:a2baec958c3eebd588ab9cbc9bccd7e5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="a07486181f1990291c2a348de8eb4c480" name="a07486181f1990291c2a348de8eb4c480"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a07486181f1990291c2a348de8eb4c480">&#9670;&#160;</a></span>LUMEX_IMPLEMENTATION</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_IMPLEMENTATION</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_de45db85bd98abf883bc2bd6c3907fd8.html">applied</a></li><li class="navelem"><a class="el" href="dir_9258c4c02d6a33184acee8f108260d77.html">settings</a></li><li class="navelem"><a class="el" href="dir_780820ccea529b587a25c1a0f8b66936.html">ini</a></li><li class="navelem"><a class="el" href="a00128.html">LumexSettingsINI.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_de45db85bd98abf883bc2bd6c3907fd8.html">applied</a></li><li class="navelem"><a class="el" href="dir_9f3553d7e4d4ebb0490c2c83481c4624.html">serial</a></li><li class="navelem"><a class="el" href="dir_0eb40f4dc310d2549676f4667bcb916d.html">probe</a></li><li class="navelem"><a class="el" href="dir_717a927561f37227ea34383ea00766b8.html">detail</a></li><li class="navelem"><a class="el" href="a00128.html">LumexSerialBoundedOpen.cpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

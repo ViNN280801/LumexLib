@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::applied::json::helper::LumexJsonHelper Class Reference</title>
+<title>LumexLib: lumex::xml::memory Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,239 +104,232 @@ $(function(){initNavTree('a01134.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#pub-types">Public Types</a> &#124;
-<a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
-<a href="a01131.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">lumex::applied::json::helper::LumexJsonHelper Class Reference<span class="mlabels"><span class="mlabel final">final</span></span></div></div>
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
+  <div class="headertitle"><div class="title">lumex::xml::memory Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
-
-<p>One API for flat and sectioned JSON configurations.  
- <a href="#details">More...</a></p>
-
-<p><code>#include &lt;<a class="el" href="a00053_source.html">LumexJsonHelper.hpp</a>&gt;</code></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
-Public Types</h2></td></tr>
-<tr class="memitem:a31829756962f859c46afec9511029278" id="r_a31829756962f859c46afec9511029278"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a31829756962f859c46afec9511029278">level_type</a> = <a class="el" href="a00928.html#acf6c250fe30b33bf20e97c6bc52ad446">lumex::applied::json::diagnostics::LumexJsonDiagnosticLevel</a></td></tr>
-<tr class="separator:a31829756962f859c46afec9511029278"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02913.html">XmlAllocator</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Manages memory allocation and deallocation for XML nodes, attributes, and strings within a document.  <a href="a02913.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02917.html">XmlMemoryPage</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents a single fixed-size memory page used by the <code><a class="el" href="a02913.html" title="Manages memory allocation and deallocation for XML nodes, attributes, and strings within a document.">XmlAllocator</a></code>.  <a href="a02917.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
-Public Member Functions</h2></td></tr>
-<tr class="memitem:ac0f8aec2f4788fe41a204921825b42c5" id="r_ac0f8aec2f4788fe41a204921825b42c5"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac0f8aec2f4788fe41a204921825b42c5">LumexJsonHelper</a> ()=delete</td></tr>
-<tr class="separator:ac0f8aec2f4788fe41a204921825b42c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:af5c331138f914028e4642100ea3e7a24" id="r_af5c331138f914028e4642100ea3e7a24"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af5c331138f914028e4642100ea3e7a24">char_t</a></td></tr>
+<tr class="separator:af5c331138f914028e4642100ea3e7a24"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
-Static Public Member Functions</h2></td></tr>
-<tr class="memitem:ac2438f84fe091074be251ab7ca8a3445" id="r_ac2438f84fe091074be251ab7ca8a3445"><td class="memItemLeft" align="right" valign="top">static nlohmann::json&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac2438f84fe091074be251ab7ca8a3445">load_config</a> (std::string const &amp;filename) noexcept</td></tr>
-<tr class="memdesc:ac2438f84fe091074be251ab7ca8a3445"><td class="mdescLeft">&#160;</td><td class="mdescRight">Loads a JSON document from a file.  <br /></td></tr>
-<tr class="separator:ac2438f84fe091074be251ab7ca8a3445"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a61602e68acb04f112b6da91520856848" id="r_a61602e68acb04f112b6da91520856848"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a61602e68acb04f112b6da91520856848">save_config</a> (nlohmann::json const &amp;config, std::string const &amp;filename) noexcept</td></tr>
-<tr class="memdesc:a61602e68acb04f112b6da91520856848"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes <code>config</code> to a file, indented by four spaces.  <br /></td></tr>
-<tr class="separator:a61602e68acb04f112b6da91520856848"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5a9c562e9a99ff1f339d2f345b05083f" id="r_a5a9c562e9a99ff1f339d2f345b05083f"><td class="memItemLeft" align="right" valign="top">static std::recursive_mutex &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5a9c562e9a99ff1f339d2f345b05083f">get_file_mutex</a> () noexcept</td></tr>
-<tr class="memdesc:a5a9c562e9a99ff1f339d2f345b05083f"><td class="mdescLeft">&#160;</td><td class="mdescRight">The mutex that serializes the file operations of this helper.  <br /></td></tr>
-<tr class="separator:a5a9c562e9a99ff1f339d2f345b05083f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac21025445d1a3a227555fd46350d3cec" id="r_ac21025445d1a3a227555fd46350d3cec"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac21025445d1a3a227555fd46350d3cec">is_json_file_ok</a> (std::string const &amp;filename) noexcept</td></tr>
-<tr class="memdesc:ac21025445d1a3a227555fd46350d3cec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether the file exists and parses as JSON.  <br /></td></tr>
-<tr class="separator:ac21025445d1a3a227555fd46350d3cec"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a910df43bdf51ef72704365f5632cc3e6" id="r_a910df43bdf51ef72704365f5632cc3e6"><td class="memTemplParams" colspan="2">template&lt;typename KeyType&gt; </td></tr>
-<tr class="memitem:a910df43bdf51ef72704365f5632cc3e6"><td class="memTemplItemLeft" align="right" valign="top">static bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a910df43bdf51ef72704365f5632cc3e6">has_key</a> (nlohmann::json const &amp;config, KeyType const &amp;key, std::string const &amp;section=std::string()) noexcept</td></tr>
-<tr class="memdesc:a910df43bdf51ef72704365f5632cc3e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether <code>key</code> exists in <code>section</code> (or at the root) and is not <code>null</code>.  <br /></td></tr>
-<tr class="separator:a910df43bdf51ef72704365f5632cc3e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4d7eb4235264eaae1128afee32a3f375" id="r_a4d7eb4235264eaae1128afee32a3f375"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4d7eb4235264eaae1128afee32a3f375">has_section</a> (nlohmann::json const &amp;config, std::string const &amp;section) noexcept</td></tr>
-<tr class="memdesc:a4d7eb4235264eaae1128afee32a3f375"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether a top-level key named <code>section</code> exists and is not <code>null</code>.  <br /></td></tr>
-<tr class="separator:a4d7eb4235264eaae1128afee32a3f375"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a10be247d0dd58679694495e93fa11b1b" id="r_a10be247d0dd58679694495e93fa11b1b"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a10be247d0dd58679694495e93fa11b1b">create_section</a> (nlohmann::json &amp;config, std::string const &amp;section) noexcept</td></tr>
-<tr class="memdesc:a10be247d0dd58679694495e93fa11b1b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a top-level object named <code>section</code> when it is missing.  <br /></td></tr>
-<tr class="separator:a10be247d0dd58679694495e93fa11b1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afc8400f0c4c8e2fb3575c993f1b84954" id="r_afc8400f0c4c8e2fb3575c993f1b84954"><td class="memTemplParams" colspan="2">template&lt;typename T, typename KeyType&gt; </td></tr>
-<tr class="memitem:afc8400f0c4c8e2fb3575c993f1b84954"><td class="memTemplItemLeft" align="right" valign="top">static T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#afc8400f0c4c8e2fb3575c993f1b84954">get_value</a> (nlohmann::json const &amp;config, KeyType const &amp;key, T const &amp;default_value, std::string const &amp;section=std::string()) noexcept</td></tr>
-<tr class="memdesc:afc8400f0c4c8e2fb3575c993f1b84954"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads <code>key</code> as <code>T</code> from <code>section</code> (or the root).  <br /></td></tr>
-<tr class="separator:afc8400f0c4c8e2fb3575c993f1b84954"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a563b02b07bd0e6f7b6dbdda6b54d8bca" id="r_a563b02b07bd0e6f7b6dbdda6b54d8bca"><td class="memItemLeft" align="right" valign="top">static std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a563b02b07bd0e6f7b6dbdda6b54d8bca">get_value</a> (nlohmann::json const &amp;config, char const *key, char const *default_value, std::string const &amp;section=std::string()) noexcept</td></tr>
-<tr class="memdesc:a563b02b07bd0e6f7b6dbdda6b54d8bca"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>get_value</code> for a string literal default; returns <code>std::string</code>.  <br /></td></tr>
-<tr class="separator:a563b02b07bd0e6f7b6dbdda6b54d8bca"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aecfafe88d69b95dc2fdb5e3598437397" id="r_aecfafe88d69b95dc2fdb5e3598437397"><td class="memItemLeft" align="right" valign="top">static std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aecfafe88d69b95dc2fdb5e3598437397">get_value</a> (nlohmann::json const &amp;config, std::string const &amp;key, char const *default_value, std::string const &amp;section=std::string()) noexcept</td></tr>
-<tr class="memdesc:aecfafe88d69b95dc2fdb5e3598437397"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>get_value</code> for a <code>std::string</code> key and a string literal default; returns <code>std::string</code>.  <br /></td></tr>
-<tr class="separator:aecfafe88d69b95dc2fdb5e3598437397"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a17a81c641ecb11ad8159e5af5287a13b" id="r_a17a81c641ecb11ad8159e5af5287a13b"><td class="memTemplParams" colspan="2">template&lt;typename T, typename KeyType&gt; </td></tr>
-<tr class="memitem:a17a81c641ecb11ad8159e5af5287a13b"><td class="memTemplItemLeft" align="right" valign="top">static bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a17a81c641ecb11ad8159e5af5287a13b">set_value</a> (nlohmann::json &amp;config, KeyType const &amp;key, T const &amp;value, std::string const &amp;section=std::string()) noexcept</td></tr>
-<tr class="memdesc:a17a81c641ecb11ad8159e5af5287a13b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stores <code>value</code> under <code>key</code> in <code>section</code> (or the root), creating the section path when needed.  <br /></td></tr>
-<tr class="separator:a17a81c641ecb11ad8159e5af5287a13b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8591e536f16a57221a13814d3fdff1e7" id="r_a8591e536f16a57221a13814d3fdff1e7"><td class="memTemplParams" colspan="2">template&lt;typename T, typename KeyType&gt; </td></tr>
-<tr class="memitem:a8591e536f16a57221a13814d3fdff1e7"><td class="memTemplItemLeft" align="right" valign="top">static bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a8591e536f16a57221a13814d3fdff1e7">write_value</a> (std::string const &amp;filename, KeyType const &amp;key, T const &amp;value, std::string const &amp;section=std::string()) noexcept</td></tr>
-<tr class="memdesc:a8591e536f16a57221a13814d3fdff1e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Loads the file (an unreadable or missing file counts as an empty object), stores <code>value</code> and saves it back, under the file mutex.  <br /></td></tr>
-<tr class="separator:a8591e536f16a57221a13814d3fdff1e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3c294a75299ef8fd653d78a68d505e1a" id="r_a3c294a75299ef8fd653d78a68d505e1a"><td class="memTemplParams" colspan="2">template&lt;typename T, typename KeyType&gt; </td></tr>
-<tr class="memitem:a3c294a75299ef8fd653d78a68d505e1a"><td class="memTemplItemLeft" align="right" valign="top">static bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a3c294a75299ef8fd653d78a68d505e1a">edit_value</a> (std::string const &amp;filename, KeyType const &amp;key, T const &amp;value, std::string const &amp;section=std::string()) noexcept</td></tr>
-<tr class="memdesc:a3c294a75299ef8fd653d78a68d505e1a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Like <code>write_value</code>, but only replaces a key that already exists (not <code>null</code>) in a non-empty file.  <br /></td></tr>
-<tr class="separator:a3c294a75299ef8fd653d78a68d505e1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a9e2f482374d0d85e41688b19b06931c7" id="r_a9e2f482374d0d85e41688b19b06931c7"><td class="memTemplParams" colspan="2">template&lt;typename Object&gt; </td></tr>
+<tr class="memitem:a9e2f482374d0d85e41688b19b06931c7"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="a02913.html">XmlAllocator</a> &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a9e2f482374d0d85e41688b19b06931c7">get_allocator</a> (Object const *object)</td></tr>
+<tr class="memdesc:a9e2f482374d0d85e41688b19b06931c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves the <code><a class="el" href="a02913.html" title="Manages memory allocation and deallocation for XML nodes, attributes, and strings within a document.">XmlAllocator</a></code> instance that manages the memory for a given object.  <br /></td></tr>
+<tr class="separator:a9e2f482374d0d85e41688b19b06931c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:ac84ecf0eca5d2db3249e4552c2a861a4" id="r_ac84ecf0eca5d2db3249e4552c2a861a4"><td class="memItemLeft" align="right" valign="top">static std::size_t const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac84ecf0eca5d2db3249e4552c2a861a4">kdefault_xml_memory_page_size</a> = 32768 - sizeof (<a class="el" href="a02917.html">XmlMemoryPage</a>)</td></tr>
+<tr class="memdesc:ac84ecf0eca5d2db3249e4552c2a861a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines the default size of a memory page for XML allocation.  <br /></td></tr>
+<tr class="separator:ac84ecf0eca5d2db3249e4552c2a861a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>One API for flat and sectioned JSON configurations. </p>
-<p>Keys live either at the root (empty <code>section</code>) or inside a named section. A section name may be a dot-separated path (<code>"a.b"</code>) into nested objects: reads treat a missing or non-object step as "not found", writes create it (overwriting a non-object value on the way).</p>
-<p>No member throws. Failures return <code>false</code>, an empty document or the default value, and are described through <code><a class="el" href="a00928.html#a7c1c9ae8fd4d21054801c40a3c89dbb5" title="Installs the report sink. nullptr restores the default (warning and error to std::cerr,...">lumex::applied::json::diagnostics::set_diagnostic_reporter</a></code>.</p>
-<p>File operations (<code>load_config</code>, <code>save_config</code>, <code>is_json_file_ok</code>, <code>write_value</code>, <code>edit_value</code>) hold one process-wide recursive mutex, so a read-modify-write in <code>write_value</code> or <code>edit_value</code> is atomic with respect to other helper calls. Callers that do their own read-modify-write can lock the same mutex through <code><a class="el" href="#a5a9c562e9a99ff1f339d2f345b05083f" title="The mutex that serializes the file operations of this helper.">get_file_mutex()</a></code>.</p>
-<p>Header-only: the mutex is a function-local static, so it is shared within one binary (executable or shared library), not across binaries. </p>
-</div><h2 class="groupheader">Member Typedef Documentation</h2>
-<a id="a31829756962f859c46afec9511029278" name="a31829756962f859c46afec9511029278"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a31829756962f859c46afec9511029278">&#9670;&#160;</a></span>level_type</h2>
+<h2 class="groupheader">Typedef Documentation</h2>
+<a id="af5c331138f914028e4642100ea3e7a24" name="af5c331138f914028e4642100ea3e7a24"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af5c331138f914028e4642100ea3e7a24">&#9670;&#160;</a></span>char_t</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="a00928.html#acf6c250fe30b33bf20e97c6bc52ad446">lumex::applied::json::helper::LumexJsonHelper::level_type</a> = <a class="el" href="a00928.html#acf6c250fe30b33bf20e97c6bc52ad446">lumex::applied::json::diagnostics::LumexJsonDiagnosticLevel</a></td>
+          <td class="memname">using <a class="el" href="a01143.html#af5c331138f914028e4642100ea3e7a24">lumex::xml::types::Types::char_t</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="ac0f8aec2f4788fe41a204921825b42c5" name="ac0f8aec2f4788fe41a204921825b42c5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac0f8aec2f4788fe41a204921825b42c5">&#9670;&#160;</a></span>LumexJsonHelper()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">lumex::applied::json::helper::LumexJsonHelper::LumexJsonHelper </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel delete">delete</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<h2 class="groupheader">Member Function Documentation</h2>
-<a id="a10be247d0dd58679694495e93fa11b1b" name="a10be247d0dd58679694495e93fa11b1b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a10be247d0dd58679694495e93fa11b1b">&#9670;&#160;</a></span>create_section()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static bool lumex::applied::json::helper::LumexJsonHelper::create_section </td>
-          <td>(</td>
-          <td class="paramtype">nlohmann::json &amp;</td>          <td class="paramname"><span class="paramname"><em>config</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>section</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Creates a top-level object named <code>section</code> when it is missing. </p>
-<p>An empty <code>section</code> is a no-op success. The name is not split on dots. </p><dl class="section return"><dt>Returns</dt><dd><code>true</code> when the section exists as an object afterwards; <code>false</code> when <code>config</code> is not an object or the key holds a non-object value. </dd></dl>
-
-</div>
-</div>
-<a id="a3c294a75299ef8fd653d78a68d505e1a" name="a3c294a75299ef8fd653d78a68d505e1a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3c294a75299ef8fd653d78a68d505e1a">&#9670;&#160;</a></span>edit_value()</h2>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="a9e2f482374d0d85e41688b19b06931c7" name="a9e2f482374d0d85e41688b19b06931c7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9e2f482374d0d85e41688b19b06931c7">&#9670;&#160;</a></span>get_allocator()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T, typename KeyType&gt; </div>
+template&lt;typename Object&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static bool lumex::applied::json::helper::LumexJsonHelper::edit_value </td>
+          <td class="memname"><a class="el" href="a02913.html">XmlAllocator</a> &amp; lumex::xml::memory::get_allocator </td>
           <td>(</td>
-          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>filename</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">KeyType const &amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">T const &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>section</em></span><span class="paramdefsep"> = </span><span class="paramdefval">std::string&#160;()</span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Like <code>write_value</code>, but only replaces a key that already exists (not <code>null</code>) in a non-empty file. </p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01134_a3c294a75299ef8fd653d78a68d505e1a_cgraph.png" border="0" usemap="#aa01134_a3c294a75299ef8fd653d78a68d505e1a_cgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="a5a9c562e9a99ff1f339d2f345b05083f" name="a5a9c562e9a99ff1f339d2f345b05083f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5a9c562e9a99ff1f339d2f345b05083f">&#9670;&#160;</a></span>get_file_mutex()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static std::recursive_mutex &amp; lumex::applied::json::helper::LumexJsonHelper::get_file_mutex </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td class="paramtype">Object const *</td>          <td class="paramname"><span class="paramname"><em>object</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>The mutex that serializes the file operations of this helper. </p>
-<p>Recursive, so a caller holding it can still call the file operations. </p>
+<p>Retrieves the <code><a class="el" href="a02913.html" title="Manages memory allocation and deallocation for XML nodes, attributes, and strings within a document.">XmlAllocator</a></code> instance that manages the memory for a given object. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">Object</td><td>The type of the object (e.g., <code><a class="el" href="a02937.html" title="Base structure representing an XML node in the document tree.">XmlNodeBase</a></code>, <code><a class="el" href="a02897.html" title="Base structure for representing an XML attribute.">XmlAttributeBase</a></code>, <code><a class="el" href="a02977.html">xml_mem_str_header_t</a></code>). </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">object</td><td>A pointer to the object for which to retrieve the allocator. Must not be <code>nullptr</code>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A reference to the <code><a class="el" href="a02913.html" title="Manages memory allocation and deallocation for XML nodes, attributes, and strings within a document.">XmlAllocator</a></code> that owns <code>object</code>'s memory.</dd></dl>
+<p>This function determines the <code><a class="el" href="a02917.html" title="Represents a single fixed-size memory page used by the XmlAllocator.">XmlMemoryPage</a></code> that contains <code>object</code> and then accesses the <code>allocator</code> pointer stored within that page. Since each page points back to its managing allocator (which is typically the <code><a class="el" href="a02909.html" title="Base structure representing an XML document, combining node and allocator functionalities.">XmlDocumentBase</a></code>), this provides a way to get the correct allocator for any object within an XML document. </p><dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">`LUMEX_ASSERT`</td><td>if <code>object</code> is <code>nullptr</code> (debug builds only). </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>This is an internal utility function. </dd></dl>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="a01134_a5a9c562e9a99ff1f339d2f345b05083f_icgraph.png" border="0" usemap="#aa01134_a5a9c562e9a99ff1f339d2f345b05083f_icgraph" alt=""/></div>
+<div class="center"><img src="a01134_a9e2f482374d0d85e41688b19b06931c7_icgraph.png" border="0" usemap="#aa01134_a9e2f482374d0d85e41688b19b06931c7_icgraph" alt=""/></div>
+<map name="aa01134_a9e2f482374d0d85e41688b19b06931c7_icgraph" id="aa01134_a9e2f482374d0d85e41688b19b06931c7_icgraph">
+<area shape="rect" title="Retrieves the XmlAllocator instance that manages the memory for a given object." alt="" coords="699,851,840,893"/>
+<area shape="rect" href="a02921.html#ada2567cc0764ef183d966076cb8521a5" title="Appends a new attribute with the specified name to the current node." alt="" coords="468,64,651,107"/>
+<area shape="poly" title=" " alt="" coords="762,835,748,695,724,502,691,310,671,232,649,176,622,139,590,109,593,105,626,135,654,173,676,231,696,309,729,501,754,695,768,835"/>
+<area shape="rect" href="a02921.html#a98517bc923b581acabf15a09a86976b7" title="append_attribute with a name of size characters at name, which need no terminating NUL (a range of a ..." alt="" coords="468,253,651,296"/>
+<area shape="poly" title=" " alt="" coords="762,836,749,719,726,564,711,487,693,416,672,357,649,316,628,299,632,295,653,313,677,355,698,414,716,485,731,563,754,718,767,835"/>
+<area shape="rect" href="a02921.html#a6226c2329935d1fc5d905862a3b21da3" title="Appends a new child node of a specified type to the current node." alt="" coords="468,187,651,229"/>
+<area shape="poly" title=" " alt="" coords="763,835,753,704,732,528,717,438,698,356,676,289,663,263,649,243,637,232,641,228,653,240,668,260,681,287,703,355,722,437,737,527,758,704,769,835"/>
+<area shape="rect" href="a02921.html#ace7d9948e6fb922f91d513b2e7cc6655" title="Appends a copy of an existing attribute (proto) to the current node." alt="" coords="237,323,420,365"/>
+<area shape="poly" title=" " alt="" coords="762,835,751,727,729,587,713,517,695,455,674,405,649,373,625,355,598,342,539,327,478,324,421,328,420,323,478,318,539,322,600,337,628,351,653,369,679,403,700,453,719,516,734,586,756,726,768,835"/>
+<area shape="rect" href="a02921.html#affd983d76ecc8d527bff7cb6f9c13018" title="Appends a deep copy of an existing XmlNode (proto) as a child of the current node." alt="" coords="5,583,189,625"/>
+<area shape="poly" title=" " alt="" coords="757,836,744,792,722,742,691,694,672,672,650,654,615,638,567,625,509,616,444,609,309,604,189,604,189,599,309,598,445,604,510,610,568,620,617,633,653,650,675,668,695,690,727,740,749,791,762,834"/>
+<area shape="rect" href="a02921.html#a1afe55c5a83f0973e3b62d4bf8a7d1c3" title="insert_attribute_after with a name of size characters at name, which need no terminating NUL (a range..." alt="" coords="468,909,651,952"/>
+<area shape="poly" title=" " alt="" coords="686,898,639,911,638,906,684,893"/>
+<area shape="rect" href="a02921.html#a209987dd4c7649b2062772d74c6a8bb3" title="Inserts a new attribute with the specified name after a given existing attribute." alt="" coords="468,976,651,1019"/>
+<area shape="poly" title=" " alt="" coords="735,906,697,937,653,966,629,978,627,973,650,962,694,933,732,902"/>
+<area shape="rect" href="a02921.html#a907ba2d6ba1a4afcc1d3243b87746d68" title="insert_attribute_before with a name of size characters at name, which need no terminating NUL (a rang..." alt="" coords="468,1043,651,1085"/>
+<area shape="poly" title=" " alt="" coords="753,908,712,971,685,1004,653,1033,634,1044,631,1040,650,1029,681,1000,708,968,748,905"/>
+<area shape="rect" href="a02921.html#a08bd76620887844f06b8806c8ca05227" title="Inserts a new attribute with the specified name before a given existing attribute." alt="" coords="468,1109,651,1152"/>
+<area shape="poly" title=" " alt="" coords="761,909,746,953,723,1003,693,1055,653,1099,637,1111,634,1107,650,1095,688,1051,719,1001,741,951,756,908"/>
+<area shape="rect" href="a02921.html#a8ac674a8eb55c7777142210558672170" title="Inserts a new child node of a specified type before a given existing child node." alt="" coords="468,1176,651,1219"/>
+<area shape="poly" title=" " alt="" coords="766,909,754,965,733,1033,701,1104,679,1137,653,1166,638,1177,635,1173,650,1162,675,1133,696,1101,729,1031,749,963,761,908"/>
+<area shape="rect" href="a02921.html#a62df8cc6d084b34512830bb14d04a8f2" title="Inserts a new child node of a specified type after a given existing child node." alt="" coords="468,1243,651,1285"/>
+<area shape="poly" title=" " alt="" coords="769,909,761,977,742,1063,728,1108,708,1153,684,1195,653,1233,639,1244,636,1240,649,1229,679,1192,703,1151,723,1107,737,1062,756,976,764,909"/>
+<area shape="rect" href="a02921.html#a102eaa077981305070e0649d8286c196" title="Inserts a copy of an existing attribute (proto) after a given existing attribute (attr)." alt="" coords="237,389,420,432"/>
+<area shape="poly" title=" " alt="" coords="762,836,749,735,727,605,712,542,694,485,673,440,650,411,621,394,590,382,557,376,523,373,455,379,396,391,395,386,454,373,523,368,557,370,591,377,624,389,653,407,678,437,699,483,717,540,732,604,755,734,767,835"/>
+<area shape="rect" href="a02921.html#ade75f490c8aafb015483a5444c1af76c" title="Inserts a deep copy of an existing XmlNode (proto) after a given existing child node." alt="" coords="5,649,189,692"/>
+<area shape="poly" title=" " alt="" coords="753,837,737,803,715,765,686,729,650,701,594,675,534,657,471,646,409,640,348,639,290,642,189,655,189,649,289,637,348,634,409,635,472,640,535,652,596,670,653,696,690,725,719,762,742,800,758,835"/>
+<area shape="rect" href="a02921.html#a59a0d19e40b7937c796ec7995d3b3390" title="Inserts a copy of an existing attribute (proto) before a given existing attribute (attr)." alt="" coords="237,456,420,499"/>
+<area shape="poly" title=" " alt="" coords="764,835,757,771,738,690,723,649,704,609,680,572,650,541,634,531,612,522,554,506,420,487,421,482,555,501,613,517,636,526,653,537,684,569,709,606,728,647,743,689,762,770,769,835"/>
+<area shape="rect" href="a02921.html#a35ef839927e8d9eaef5c22122c802fb1" title="Inserts a deep copy of an existing XmlNode (proto) before a given existing child node." alt="" coords="5,783,189,825"/>
+<area shape="poly" title=" " alt="" coords="684,861,651,856,400,830,189,813,189,807,401,824,652,851,685,855"/>
+<area shape="rect" href="a01127.html#a05babdf187dfa6292de80d86d7470a11" title="Copies the name and value strings from a source XmlAttributeBase to a destination XmlAttributeBase." alt="" coords="486,421,633,464"/>
+<area shape="poly" title=" " alt="" coords="764,835,757,763,739,670,725,621,705,572,680,526,649,485,627,467,630,462,653,481,685,523,710,570,730,619,744,669,763,762,770,835"/>
+<area shape="rect" href="a02921.html#a0519abe0f6488556f8a8fd22d242df12" title="Prepends a copy of an existing attribute (proto) to the current node." alt="" coords="237,523,420,565"/>
+<area shape="poly" title=" " alt="" coords="762,836,753,779,733,710,718,675,700,642,677,612,650,586,624,570,597,557,537,540,477,534,420,535,420,529,477,529,538,535,598,552,627,565,653,582,681,608,704,639,723,673,738,708,758,778,768,835"/>
+<area shape="rect" href="a01129.html#aec8cf7d559fe456a7d4396307ffc5404" title="Copies the name and value strings and all attributes from a source XmlNodeBase to a destination XmlNo..." alt="" coords="481,741,638,784"/>
+<area shape="poly" title=" " alt="" coords="720,845,650,805,612,787,614,782,653,800,723,840"/>
+<area shape="rect" href="a01129.html#a11377e4dbc3c07bbcae59a081a6040b6" title="Performs a deep copy of an XML node&#39;s entire subtree (including itself, children, and attributes)." alt="" coords="250,716,407,759"/>
+<area shape="poly" title=" " alt="" coords="749,839,732,810,710,780,682,753,650,732,621,720,590,713,526,707,463,710,408,719,407,714,463,705,526,701,591,707,622,715,653,727,686,749,714,777,737,807,754,836"/>
+<area shape="rect" href="a02921.html#acf48c85813bfecc4b524bfc0e2cb9344" title="Prepends a deep copy of an existing XmlNode (proto) as a child of the current node." alt="" coords="5,849,189,892"/>
+<area shape="poly" title=" " alt="" coords="684,874,189,874,189,868,684,869"/>
+<area shape="rect" href="a02921.html#afc6e5a7c3b3dc02be7f5f003c5192d27" title="Prepends a new attribute with the specified name to the current node." alt="" coords="468,1309,651,1352"/>
+<area shape="poly" title=" " alt="" coords="771,909,767,988,751,1092,736,1147,716,1202,688,1253,653,1299,640,1311,636,1307,649,1295,684,1250,711,1199,731,1146,746,1091,762,988,766,909"/>
+<area shape="rect" href="a02921.html#a15e68847db6ff8e341f795e5be99f613" title="prepend_attribute with a name of size characters at name, which need no terminating NUL (a range of a..." alt="" coords="468,1376,651,1419"/>
+<area shape="poly" title=" " alt="" coords="767,909,752,1013,729,1149,713,1217,695,1279,676,1330,653,1366,640,1378,636,1373,649,1362,671,1328,690,1277,708,1216,723,1148,747,1012,761,908"/>
+<area shape="rect" href="a02921.html#a2b60652b5cf0a8218617bcc2256066b5" title="Prepends a new child node of a specified type to the current node." alt="" coords="468,1543,651,1585"/>
+<area shape="poly" title=" " alt="" coords="768,909,758,1003,738,1134,704,1284,681,1359,654,1432,619,1495,582,1544,577,1541,614,1492,649,1430,676,1358,699,1283,732,1133,753,1002,763,908"/>
+<area shape="rect" href="a02921.html#a6f070ed5f320f3b771a23e57e4565492" title="Removes a specified XmlAttribute from the current node." alt="" coords="468,1901,651,1944"/>
+<area shape="poly" title=" " alt="" coords="769,909,760,1095,740,1365,724,1507,705,1638,682,1750,668,1795,654,1832,626,1872,593,1903,589,1899,622,1868,649,1829,663,1793,677,1749,700,1637,719,1506,734,1365,755,1095,764,909"/>
+<area shape="rect" href="a02921.html#a65c439391e38b67b41e324daa3d3d390" title="Removes all attributes from the current node." alt="" coords="468,1968,651,2011"/>
+<area shape="poly" title=" " alt="" coords="769,909,757,1136,733,1468,717,1635,699,1782,677,1895,666,1933,653,1958,641,1969,638,1966,649,1954,661,1931,672,1893,693,1782,712,1635,728,1468,752,1136,764,909"/>
+<area shape="rect" href="a02921.html#ad1c60286d13be69a8220624272bbce51" title="Removes a specified child node from the current node." alt="" coords="468,1776,651,1819"/>
+<area shape="poly" title=" " alt="" coords="768,909,758,1026,737,1198,703,1397,681,1499,654,1598,636,1650,614,1700,575,1777,571,1775,609,1697,631,1648,649,1597,675,1498,698,1396,732,1197,753,1025,763,908"/>
+<area shape="rect" href="a02921.html#a755de6a01e5af91f33b90f9ac4022e84" title="Removes all child nodes from the current node." alt="" coords="468,2035,651,2077"/>
+<area shape="poly" title=" " alt="" coords="769,909,758,1150,735,1503,719,1680,700,1837,679,1957,667,1998,653,2024,641,2036,638,2032,649,2021,662,1996,673,1956,695,1837,714,1680,730,1502,753,1149,764,909"/>
+<area shape="rect" href="a02921.html#aed4795cbf9669bd00fcacd49e19a4447" title="Appends a new attribute with the specified name (std::string_view) to the current node." alt="" coords="237,5,420,48"/>
+<area shape="poly" title=" " alt="" coords="458,62,415,51,416,46,459,57"/>
+<area shape="rect" href="a00632.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="304,72,353,99"/>
+<area shape="poly" title=" " alt="" coords="453,88,354,88,354,83,453,83"/>
+<area shape="poly" title=" " alt="" coords="520,179,473,144,419,113,385,100,353,92,354,87,386,95,421,108,476,140,523,174"/>
+<area shape="rect" href="a02921.html#a3c7bd51171193d163b75123b6fcb858d" title="Appends a new child element with the specified name to the current node." alt="" coords="237,123,420,165"/>
+<area shape="poly" title=" " alt="" coords="465,185,407,169,409,163,467,180"/>
+<area shape="rect" href="a02921.html#a25d05a0cc347c9c670f4ec1df768742c" title="append_child with a name of size characters at name, which need no terminating NUL (a range of a larg..." alt="" coords="237,189,420,232"/>
+<area shape="poly" title=" " alt="" coords="453,212,421,212,420,207,453,207"/>
+<area shape="rect" href="a02921.html#a72fa49721a6ffa9200f240b4772e8a12" title="Appends a new child element with the specified name (std::string_view) to the current node." alt="" coords="237,256,420,299"/>
+<area shape="poly" title=" " alt="" coords="473,237,403,258,401,253,471,232"/>
+<area shape="rect" href="a02921.html#ab226afbbdb502d2c775736f8f2b2fca4" title="Inserts a new attribute with the specified name (std::string_view) after a given existing attribute." alt="" coords="237,909,420,952"/>
+<area shape="poly" title=" " alt="" coords="468,974,404,955,406,950,470,969"/>
+<area shape="rect" href="a02921.html#a715b4ab8ffbbd98d8fe0c84c68e3f28e" title="Inserts a new attribute with the specified name (std::string_view) before a given existing attribute." alt="" coords="237,976,420,1019"/>
+<area shape="poly" title=" " alt="" coords="472,1103,466,1099,450,1082,442,1065,433,1049,418,1033,400,1021,403,1017,422,1029,438,1046,446,1063,455,1079,470,1095,475,1099"/>
+<area shape="rect" href="a02921.html#ae8bb7651245fb6e302ffd4cb102d20c3" title="insert_child_after with a name of size characters at name, which need no terminating NUL (a range of ..." alt="" coords="237,1043,420,1085"/>
+<area shape="poly" title=" " alt="" coords="472,1170,466,1166,450,1149,442,1132,433,1115,418,1099,400,1088,403,1084,422,1095,438,1112,446,1129,455,1146,470,1162,475,1166"/>
+<area shape="rect" href="a02921.html#a33547ff6911a38d3cd5aafb699001b7a" title="Inserts a new child element with the specified name after a given existing child node." alt="" coords="237,1109,420,1152"/>
+<area shape="poly" title=" " alt="" coords="468,1174,404,1155,406,1150,470,1169"/>
+<area shape="rect" href="a02921.html#a91f2cdca9e92733aeb3496240735c5de" title="Inserts a new child element with the specified name (std::string_view) after a given existing child n..." alt="" coords="237,1176,420,1219"/>
+<area shape="poly" title=" " alt="" coords="453,1200,421,1200,421,1195,453,1195"/>
+<area shape="rect" href="a02921.html#aab7bcf34968c0972b2f2663112ac9cc6" title="insert_child_before with a name of size characters at name, which need no terminating NUL (a range of..." alt="" coords="237,1243,420,1285"/>
+<area shape="poly" title=" " alt="" coords="453,1267,421,1267,421,1261,453,1261"/>
+<area shape="rect" href="a02921.html#a382508de160ecc5107cf79c88c597b36" title="Inserts a new child element with the specified name before a given existing child node." alt="" coords="237,1309,420,1352"/>
+<area shape="poly" title=" " alt="" coords="470,1293,406,1311,404,1306,468,1287"/>
+<area shape="rect" href="a02921.html#a972e7ea652b109d8b1c1b383cae27905" title="Inserts a new child element with the specified name (std::string_view) before a given existing child ..." alt="" coords="237,1376,420,1419"/>
+<area shape="poly" title=" " alt="" coords="475,1296,470,1299,455,1315,446,1332,438,1349,422,1366,403,1378,400,1373,418,1362,433,1346,442,1329,450,1312,466,1295,472,1291"/>
+<area shape="poly" title=" " alt="" coords="500,417,419,380,390,368,392,363,421,375,502,412"/>
+<area shape="poly" title=" " alt="" coords="471,433,420,426,421,421,471,428"/>
+<area shape="poly" title=" " alt="" coords="471,459,421,466,420,461,471,453"/>
+<area shape="poly" title=" " alt="" coords="504,474,421,513,393,525,391,520,419,508,502,469"/>
+<area shape="poly" title=" " alt="" coords="466,755,407,749,408,743,467,750"/>
+<area shape="poly" title=" " alt="" coords="288,708,241,673,187,640,163,628,166,624,190,635,244,669,291,704"/>
+<area shape="poly" title=" " alt="" coords="237,714,173,695,175,690,238,709"/>
+<area shape="poly" title=" " alt="" coords="238,766,175,785,173,779,237,761"/>
+<area shape="poly" title=" " alt="" coords="291,771,244,806,190,840,166,851,163,846,187,835,241,802,288,767"/>
+<area shape="rect" href="a02905.html#a3be8c5ddd0fac3d0f74c85f9ce393341" title="Removes all nodes from the document, then copies the entire contents of a specified document." alt="" coords="22,716,172,759"/>
+<area shape="poly" title=" " alt="" coords="235,740,173,740,173,735,235,735"/>
+<area shape="rect" href="a02921.html#a59b7df394f724928ed2edcd4feba7e3b" title="Prepends a new attribute with the specified name (std::string_view) to the current node." alt="" coords="237,1443,420,1485"/>
+<area shape="poly" title=" " alt="" coords="475,1362,470,1366,455,1382,446,1399,438,1416,422,1433,403,1444,400,1440,418,1429,433,1413,442,1396,450,1379,466,1362,472,1358"/>
+<area shape="rect" href="a02921.html#aa6f134b485f2cd2c478edf6c0af50243" title="Prepends a new child element with the specified name to the current node." alt="" coords="237,1509,420,1552"/>
+<area shape="poly" title=" " alt="" coords="452,1551,420,1547,421,1541,453,1546"/>
+<area shape="rect" href="a02921.html#ad1158e66c6a726feead88bf858821421" title="prepend_child with a name of size characters at name, which need no terminating NUL (a range of a lar..." alt="" coords="237,1576,420,1619"/>
+<area shape="poly" title=" " alt="" coords="453,1582,421,1587,420,1581,452,1577"/>
+<area shape="rect" href="a02921.html#a077e87bb4351f086653426a4b66560e3" title="Prepends a new child element with the specified name (std::string_view) to the current node." alt="" coords="237,1643,420,1685"/>
+<area shape="poly" title=" " alt="" coords="503,1595,421,1633,393,1644,391,1640,419,1628,501,1590"/>
+<area shape="rect" href="a00635.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title="Main function demonstrating various LumexXml functionalities." alt="" coords="304,1909,353,1936"/>
+<area shape="poly" title=" " alt="" coords="453,1925,354,1925,354,1920,453,1920"/>
+<area shape="rect" href="a02921.html#a91d04cb37686560b2d32e81d1403a7dd" title="Removes an attribute with the specified name from the current node." alt="" coords="237,1960,420,2003"/>
+<area shape="poly" title=" " alt="" coords="459,1951,416,1962,415,1957,458,1946"/>
+<area shape="rect" href="a02921.html#aebbf6ee277fe4c7e95171e8db55c1705" title="remove_attribute with a name of size characters at name, which need no terminating NUL (a range of a ..." alt="" coords="237,2027,420,2069"/>
+<area shape="poly" title=" " alt="" coords="476,1954,470,1958,455,1972,446,1987,437,2002,422,2017,402,2028,399,2024,418,2013,433,1998,442,1984,451,1969,466,1954,473,1950"/>
+<area shape="rect" href="a02921.html#a2da7fdb1ef394ec19945b7cdd906a8df" title="Removes an attribute with the specified name (std::string_view) from the current node." alt="" coords="237,2093,420,2136"/>
+<area shape="poly" title=" " alt="" coords="472,1956,470,1958,458,1973,451,1988,447,2019,442,2051,435,2067,422,2083,407,2095,404,2091,418,2079,430,2064,437,2049,441,2018,446,1987,453,1970,466,1954,469,1952"/>
+<area shape="poly" title=" " alt="" coords="524,1831,477,1867,421,1900,387,1913,354,1921,353,1916,385,1908,419,1895,474,1862,521,1827"/>
+<area shape="rect" href="a02921.html#a398241c262e713edf78677ccced9b7dd" title="Removes the first child node with the specified name from the current node." alt="" coords="237,1709,420,1752"/>
+<area shape="poly" title=" " alt="" coords="468,1774,404,1755,406,1750,470,1769"/>
+<area shape="rect" href="a02921.html#aa5d1dd2641f178f3e5418d6d6c8ac01c" title="remove_child with a name of size characters at name, which need no terminating NUL (a range of a larg..." alt="" coords="237,1776,420,1819"/>
+<area shape="poly" title=" " alt="" coords="453,1800,421,1800,421,1795,453,1795"/>
+<area shape="rect" href="a02921.html#aeec38af035a8b9e7aab29479fb8d0f5e" title="Removes the first child node with the specified name (std::string_view) from the current node." alt="" coords="237,1843,420,1885"/>
+<area shape="poly" title=" " alt="" coords="470,1826,406,1845,404,1839,468,1821"/>
+</map>
 </div>
 
 </div>
 </div>
-<a id="a563b02b07bd0e6f7b6dbdda6b54d8bca" name="a563b02b07bd0e6f7b6dbdda6b54d8bca"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a563b02b07bd0e6f7b6dbdda6b54d8bca">&#9670;&#160;</a></span>get_value() <span class="overload">[1/3]</span></h2>
+<h2 class="groupheader">Variable Documentation</h2>
+<a id="ac84ecf0eca5d2db3249e4552c2a861a4" name="ac84ecf0eca5d2db3249e4552c2a861a4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac84ecf0eca5d2db3249e4552c2a861a4">&#9670;&#160;</a></span>kdefault_xml_memory_page_size</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -345,411 +338,27 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static std::string lumex::applied::json::helper::LumexJsonHelper::get_value </td>
-          <td>(</td>
-          <td class="paramtype">nlohmann::json const &amp;</td>          <td class="paramname"><span class="paramname"><em>config</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">char const *</td>          <td class="paramname"><span class="paramname"><em>key</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">char const *</td>          <td class="paramname"><span class="paramname"><em>default_value</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>section</em></span><span class="paramdefsep"> = </span><span class="paramdefval">std::string&#160;()</span>&#160;)</td>
+          <td class="memname">std::size_t const lumex::xml::memory::kdefault_xml_memory_page_size = 32768 - sizeof (<a class="el" href="a02917.html">XmlMemoryPage</a>)</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p><code>get_value</code> for a string literal default; returns <code>std::string</code>. </p>
+<p>Defines the default size of a memory page for XML allocation. </p>
+<p>This constant specifies the size of the data region within an <code><a class="el" href="a02917.html" title="Represents a single fixed-size memory page used by the XmlAllocator.">XmlMemoryPage</a></code>, excluding the page's own metadata size. It is set to 32KB minus the size of <code><a class="el" href="a02917.html" title="Represents a single fixed-size memory page used by the XmlAllocator.">XmlMemoryPage</a></code> structure itself, to optimize for common system page sizes or cache lines. </p><dl class="section note"><dt>Note</dt><dd>This value can impact performance and memory footprint. Size of the memory page </dd></dl>
 
 </div>
 </div>
-<a id="afc8400f0c4c8e2fb3575c993f1b84954" name="afc8400f0c4c8e2fb3575c993f1b84954"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afc8400f0c4c8e2fb3575c993f1b84954">&#9670;&#160;</a></span>get_value() <span class="overload">[2/3]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T, typename KeyType&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static T lumex::applied::json::helper::LumexJsonHelper::get_value </td>
-          <td>(</td>
-          <td class="paramtype">nlohmann::json const &amp;</td>          <td class="paramname"><span class="paramname"><em>config</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">KeyType const &amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">T const &amp;</td>          <td class="paramname"><span class="paramname"><em>default_value</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>section</em></span><span class="paramdefsep"> = </span><span class="paramdefval">std::string&#160;()</span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Reads <code>key</code> as <code>T</code> from <code>section</code> (or the root). </p>
-<dl class="section return"><dt>Returns</dt><dd>The stored value, or <code>default_value</code> when the key is missing, <code>null</code> or holds a value that does not convert to <code>T</code>. </dd></dl>
-
-</div>
-</div>
-<a id="aecfafe88d69b95dc2fdb5e3598437397" name="aecfafe88d69b95dc2fdb5e3598437397"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aecfafe88d69b95dc2fdb5e3598437397">&#9670;&#160;</a></span>get_value() <span class="overload">[3/3]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static std::string lumex::applied::json::helper::LumexJsonHelper::get_value </td>
-          <td>(</td>
-          <td class="paramtype">nlohmann::json const &amp;</td>          <td class="paramname"><span class="paramname"><em>config</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">char const *</td>          <td class="paramname"><span class="paramname"><em>default_value</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>section</em></span><span class="paramdefsep"> = </span><span class="paramdefval">std::string&#160;()</span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p><code>get_value</code> for a <code>std::string</code> key and a string literal default; returns <code>std::string</code>. </p>
-
-</div>
-</div>
-<a id="a910df43bdf51ef72704365f5632cc3e6" name="a910df43bdf51ef72704365f5632cc3e6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a910df43bdf51ef72704365f5632cc3e6">&#9670;&#160;</a></span>has_key()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename KeyType&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static bool lumex::applied::json::helper::LumexJsonHelper::has_key </td>
-          <td>(</td>
-          <td class="paramtype">nlohmann::json const &amp;</td>          <td class="paramname"><span class="paramname"><em>config</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">KeyType const &amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>section</em></span><span class="paramdefsep"> = </span><span class="paramdefval">std::string&#160;()</span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Whether <code>key</code> exists in <code>section</code> (or at the root) and is not <code>null</code>. </p>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01134_a910df43bdf51ef72704365f5632cc3e6_icgraph.png" border="0" usemap="#aa01134_a910df43bdf51ef72704365f5632cc3e6_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="a4d7eb4235264eaae1128afee32a3f375" name="a4d7eb4235264eaae1128afee32a3f375"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4d7eb4235264eaae1128afee32a3f375">&#9670;&#160;</a></span>has_section()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static bool lumex::applied::json::helper::LumexJsonHelper::has_section </td>
-          <td>(</td>
-          <td class="paramtype">nlohmann::json const &amp;</td>          <td class="paramname"><span class="paramname"><em>config</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>section</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Whether a top-level key named <code>section</code> exists and is not <code>null</code>. </p>
-<p>An empty <code>section</code> names the root and is always present. The name is not split on dots. </p>
-
-</div>
-</div>
-<a id="ac21025445d1a3a227555fd46350d3cec" name="ac21025445d1a3a227555fd46350d3cec"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac21025445d1a3a227555fd46350d3cec">&#9670;&#160;</a></span>is_json_file_ok()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static bool lumex::applied::json::helper::LumexJsonHelper::is_json_file_ok </td>
-          <td>(</td>
-          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>filename</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Whether the file exists and parses as JSON. </p>
-<p>On a parse error the diagnostic names the line and column of the offending byte. </p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01134_ac21025445d1a3a227555fd46350d3cec_cgraph.png" border="0" usemap="#aa01134_ac21025445d1a3a227555fd46350d3cec_cgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="ac2438f84fe091074be251ab7ca8a3445" name="ac2438f84fe091074be251ab7ca8a3445"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac2438f84fe091074be251ab7ca8a3445">&#9670;&#160;</a></span>load_config()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static nlohmann::json lumex::applied::json::helper::LumexJsonHelper::load_config </td>
-          <td>(</td>
-          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>filename</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Loads a JSON document from a file. </p>
-<dl class="section return"><dt>Returns</dt><dd>The document, or an empty (<code>null</code>) document when the name is empty, the file cannot be opened or its content is not valid JSON. </dd></dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01134_ac2438f84fe091074be251ab7ca8a3445_cgraph.png" border="0" usemap="#aa01134_ac2438f84fe091074be251ab7ca8a3445_cgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="a61602e68acb04f112b6da91520856848" name="a61602e68acb04f112b6da91520856848"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a61602e68acb04f112b6da91520856848">&#9670;&#160;</a></span>save_config()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static bool lumex::applied::json::helper::LumexJsonHelper::save_config </td>
-          <td>(</td>
-          <td class="paramtype">nlohmann::json const &amp;</td>          <td class="paramname"><span class="paramname"><em>config</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>filename</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Writes <code>config</code> to a file, indented by four spaces. </p>
-<dl class="section return"><dt>Returns</dt><dd><code>true</code> on success; <code>false</code> for an empty name or a write error. </dd></dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01134_a61602e68acb04f112b6da91520856848_cgraph.png" border="0" usemap="#aa01134_a61602e68acb04f112b6da91520856848_cgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="a17a81c641ecb11ad8159e5af5287a13b" name="a17a81c641ecb11ad8159e5af5287a13b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a17a81c641ecb11ad8159e5af5287a13b">&#9670;&#160;</a></span>set_value()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T, typename KeyType&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static bool lumex::applied::json::helper::LumexJsonHelper::set_value </td>
-          <td>(</td>
-          <td class="paramtype">nlohmann::json &amp;</td>          <td class="paramname"><span class="paramname"><em>config</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">KeyType const &amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">T const &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>section</em></span><span class="paramdefsep"> = </span><span class="paramdefval">std::string&#160;()</span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Stores <code>value</code> under <code>key</code> in <code>section</code> (or the root), creating the section path when needed. </p>
-<dl class="section return"><dt>Returns</dt><dd><code>false</code> for an empty string value (nothing is stored) or when the assignment throws. </dd></dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01134_a17a81c641ecb11ad8159e5af5287a13b_cgraph.png" border="0" usemap="#aa01134_a17a81c641ecb11ad8159e5af5287a13b_cgraph" alt=""/></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01134_a17a81c641ecb11ad8159e5af5287a13b_icgraph.png" border="0" usemap="#aa01134_a17a81c641ecb11ad8159e5af5287a13b_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="a8591e536f16a57221a13814d3fdff1e7" name="a8591e536f16a57221a13814d3fdff1e7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8591e536f16a57221a13814d3fdff1e7">&#9670;&#160;</a></span>write_value()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T, typename KeyType&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static bool lumex::applied::json::helper::LumexJsonHelper::write_value </td>
-          <td>(</td>
-          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>filename</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">KeyType const &amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">T const &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>section</em></span><span class="paramdefsep"> = </span><span class="paramdefval">std::string&#160;()</span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Loads the file (an unreadable or missing file counts as an empty object), stores <code>value</code> and saves it back, under the file mutex. </p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01134_a8591e536f16a57221a13814d3fdff1e7_cgraph.png" border="0" usemap="#aa01134_a8591e536f16a57221a13814d3fdff1e7_cgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<hr/>The documentation for this class was generated from the following file:<ul>
-<li><a class="el" href="a00053_source.html">LumexJsonHelper.hpp</a></li>
-</ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00912.html">lumex</a></li><li class="navelem"><a class="el" href="a00913.html">applied</a></li><li class="navelem"><a class="el" href="a00927.html">json</a></li><li class="navelem"><a class="el" href="a00930.html">helper</a></li><li class="navelem"><a class="el" href="a01134.html">LumexJsonHelper</a></li>
+    <li class="navelem"><a class="el" href="a00948.html">lumex</a></li><li class="navelem"><a class="el" href="a01126.html">xml</a></li><li class="navelem"><a class="el" href="a01134.html">memory</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

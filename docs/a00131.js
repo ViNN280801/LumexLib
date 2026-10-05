@@ -1,12 +1,14 @@
 var a00131 =
 [
-    [ "lumex::applied::settings::ini::LumexSettingsINI", "a01226.html", "a01226" ],
-    [ "LumexSettingsINI", "a00131.html#aa4b9184a671b4fab21d16ff231591689", null ],
-    [ "lumex::applied::settings::ini::Constants::constINI_FILE_EXTENSION", "a00959.html#aa18449bc96f7bd5804e8447c03120e80", null ],
-    [ "lumex::applied::settings::ini::Constants::constREGEX_KEY_VALUE", "a00959.html#ac95d67b8609bff0d7abb6c11ee2fcce7", null ],
-    [ "lumex::applied::settings::ini::Constants::constREGEX_SECTION", "a00959.html#a009497e5f5d3e4d3c76320b3234ea36d", null ],
-    [ "lumex::applied::settings::ini::Constants::UTF8_BOM_0", "a00959.html#adf3415d3845c4ea235f627a3df924205", null ],
-    [ "lumex::applied::settings::ini::Constants::UTF8_BOM_1", "a00959.html#a2f8ea731325aad3daa70bac3b24be9ee", null ],
-    [ "lumex::applied::settings::ini::Constants::UTF8_BOM_2", "a00959.html#aeb9d88a513b1206987f43f086ca6bdf3", null ],
-    [ "lumex::applied::settings::ini::Constants::UTF8_BOM_SIZE", "a00959.html#a59643899f141f82cbd7f2f5e44178a9b", null ]
+    [ "lumex::applied::serial::probe::detail::open_result_t", "a01233.html", "a01233" ],
+    [ "lumex::applied::serial::probe::detail::native_serial_handle_t", "a00988.html#a3ac21019735948552e6d1ef799f957e7", null ],
+    [ "lumex::applied::serial::probe::detail::open_outcome", "a00988.html#a92f95b0efd4f15ba8182341d9e440978", [
+      [ "lumex::applied::serial::probe::detail::open_outcome::opened", "a00988.html#a92f95b0efd4f15ba8182341d9e440978a3a50c5e41a1c3eee6dcddca9e04992e0", null ],
+      [ "lumex::applied::serial::probe::detail::open_outcome::timed_out", "a00988.html#a92f95b0efd4f15ba8182341d9e440978a56c27b1ab1a5a5a0eae853cabb4dc0c1", null ],
+      [ "lumex::applied::serial::probe::detail::open_outcome::failed", "a00988.html#a92f95b0efd4f15ba8182341d9e440978a26934eb377001f66e37289a5c93fe284", null ]
+    ] ],
+    [ "lumex::applied::serial::probe::detail::bounded_open_serial_port", "a00988.html#a0a518e9f25f40fbb213907e34b881f81", null ],
+    [ "lumex::applied::serial::probe::detail::close_serial_handle", "a00988.html#aeda0fc72f871cf1ddc177f5c172131ea", null ],
+    [ "lumex::applied::serial::probe::detail::invalid_native_serial_handle", "a00988.html#a2cf67f171039ab45a5ec960d36c054c6", null ],
+    [ "lumex::applied::serial::probe::detail::state_from_open_result", "a00988.html#a2baec958c3eebd588ab9cbc9bccd7e5f", null ]
 ];

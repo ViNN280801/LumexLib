@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::applied::hardware::caps::CPUVectorizationDetector Class Reference</title>
+<title>LumexLib: lumex::examples::logger Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,65 +104,29 @@ $(function(){initNavTree('a01122.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
-<a href="a01119.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">lumex::applied::hardware::caps::CPUVectorizationDetector Class Reference</div></div>
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle"><div class="title">lumex::examples::logger Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
-
-<p>CPU vectorization capabilities detection utility class.  
- <a href="#details">More...</a></p>
-
-<p><code>#include &lt;<a class="el" href="a00041_source.html">LumexCPUVectorizationCapabilities.hpp</a>&gt;</code></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
-Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a0c41e02b6d1e0710680d86766b4732a1" id="r_a0c41e02b6d1e0710680d86766b4732a1"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="a01118.html">cpu_vectorization_info_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0c41e02b6d1e0710680d86766b4732a1">detect</a> ()</td></tr>
-<tr class="memdesc:a0c41e02b6d1e0710680d86766b4732a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs comprehensive CPU vectorization capabilities detection.  <br /></td></tr>
-<tr class="separator:a0c41e02b6d1e0710680d86766b4732a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3714f0eda41c0d71a8a52e5c2a1c6e43" id="r_a3714f0eda41c0d71a8a52e5c2a1c6e43"><td class="memItemLeft" align="right" valign="top">static std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3714f0eda41c0d71a8a52e5c2a1c6e43">get_summary</a> (<a class="el" href="a01118.html">cpu_vectorization_info_t</a> const &amp;capabilities)</td></tr>
-<tr class="memdesc:a3714f0eda41c0d71a8a52e5c2a1c6e43"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets a human-readable summary of supported vectorization technologies.  <br /></td></tr>
-<tr class="separator:a3714f0eda41c0d71a8a52e5c2a1c6e43"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02889.html">temporary_config_file_t</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:adda1389651fbe9d9a5e8ef363d2535da" id="r_adda1389651fbe9d9a5e8ef363d2535da"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adda1389651fbe9d9a5e8ef363d2535da">require</a> (bool condition, std::string const &amp;message)</td></tr>
+<tr class="separator:adda1389651fbe9d9a5e8ef363d2535da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a165ec8fcea03590b2cffd889ae9f816f" id="r_a165ec8fcea03590b2cffd889ae9f816f"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a165ec8fcea03590b2cffd889ae9f816f">verify_full_config</a> (<a class="el" href="a01205.html">logger_config_t</a> const &amp;config, std::string const &amp;format)</td></tr>
+<tr class="separator:a165ec8fcea03590b2cffd889ae9f816f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aab14961ea93b42c8867851c5113e6744" id="r_aab14961ea93b42c8867851c5113e6744"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aab14961ea93b42c8867851c5113e6744">show_compiled_format</a> ()</td></tr>
+<tr class="separator:aab14961ea93b42c8867851c5113e6744"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>CPU vectorization capabilities detection utility class. </p>
-<p>This static utility class provides comprehensive CPU vectorization detection capabilities across different architectures (x86/x64, ARM, etc.). It uses platform-specific mechanisms to detect supported SIMD instruction sets and provides a unified interface for querying vectorization capabilities.</p>
-<p>The class implements cross-platform detection using:</p><ul>
-<li>CPUID instruction for x86/x64 architectures (Windows, Linux, macOS)</li>
-<li>getauxval() and /proc/cpuinfo for ARM architectures (Linux)</li>
-<li>Architecture-specific feature detection mechanisms</li>
-</ul>
-<p>All detection methods are thread-safe and can be called from any context without external synchronization. Detection results are computed fresh on each call (no caching is implemented).</p>
-<dl class="section note"><dt>Note</dt><dd>All methods are static and thread-safe </dd>
-<dd>
-Detection is performed fresh on each call (no caching) </dd>
-<dd>
-Cross-platform compatibility ensured through conditional compilation </dd></dl>
-<dl class="section warning"><dt>Warning</dt><dd>Detection accuracy depends on OS support for feature reporting</dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="a01118.html" title="Comprehensive CPU vectorization capabilities structure.">cpu_vectorization_info_t</a> for detailed capability structure</dd></dl>
-<dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line"><span class="comment">// Detect CPU vectorization capabilities</span></div>
-<div class="line"><span class="keyword">auto</span> <a class="code hl_namespace" href="a00915.html">caps</a> = <a class="code hl_function" href="#a0c41e02b6d1e0710680d86766b4732a1">CPUVectorizationDetector::detect</a>();</div>
-<div class="line"> </div>
-<div class="line"><span class="comment">// Check for specific instruction set support</span></div>
-<div class="line"><span class="keywordflow">if</span> (<a class="code hl_namespace" href="a00915.html">caps</a>.supports_avx2) {</div>
-<div class="line">    <span class="comment">// Use AVX2 optimized code path</span></div>
-<div class="line">    useAVX2OptimizedFunction();</div>
-<div class="line">} <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code hl_namespace" href="a00915.html">caps</a>.supports_avx) {</div>
-<div class="line">    <span class="comment">// Use AVX optimized code path</span></div>
-<div class="line">    useAVXOptimizedFunction();</div>
-<div class="line">} <span class="keywordflow">else</span> {</div>
-<div class="line">    <span class="comment">// Fall back to scalar code</span></div>
-<div class="line">    useScalarFunction();</div>
-<div class="line">}</div>
-<div class="line"> </div>
-<div class="line"><span class="comment">// Get summary of supported technologies</span></div>
-<div class="line">std::cout &lt;&lt; <span class="stringliteral">&quot;Supported: &quot;</span> &lt;&lt; caps.supported_technologies &lt;&lt; std::endl;</div>
-<div class="ttc" id="aa00915_html"><div class="ttname"><a href="a00915.html">lumex::applied::hardware::caps</a></div><div class="ttdef"><b>Definition</b> LumexCPUVectorizationCapabilities.cpp:71</div></div>
-<div class="ttc" id="aa01122_html_a0c41e02b6d1e0710680d86766b4732a1"><div class="ttname"><a href="#a0c41e02b6d1e0710680d86766b4732a1">lumex::applied::hardware::caps::CPUVectorizationDetector::detect</a></div><div class="ttdeci">static cpu_vectorization_info_t detect()</div><div class="ttdoc">Performs comprehensive CPU vectorization capabilities detection.</div></div>
-</div><!-- fragment --> </dd></dl>
-</div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a0c41e02b6d1e0710680d86766b4732a1" name="a0c41e02b6d1e0710680d86766b4732a1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0c41e02b6d1e0710680d86766b4732a1">&#9670;&#160;</a></span>detect()</h2>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="adda1389651fbe9d9a5e8ef363d2535da" name="adda1389651fbe9d9a5e8ef363d2535da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adda1389651fbe9d9a5e8ef363d2535da">&#9670;&#160;</a></span>require()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -171,7 +135,51 @@ Cross-platform compatibility ensured through conditional compilation </dd></dl>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static <a class="el" href="a01118.html">cpu_vectorization_info_t</a> lumex::applied::hardware::caps::CPUVectorizationDetector::detect </td>
+          <td class="memname">static void lumex::examples::logger::require </td>
+          <td>(</td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>condition</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>message</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01122_adda1389651fbe9d9a5e8ef363d2535da_icgraph.png" border="0" usemap="#aa01122_adda1389651fbe9d9a5e8ef363d2535da_icgraph" alt=""/></div>
+<map name="aa01122_adda1389651fbe9d9a5e8ef363d2535da_icgraph" id="aa01122_adda1389651fbe9d9a5e8ef363d2535da_icgraph">
+<area shape="rect" title=" " alt="" coords="525,5,689,48"/>
+<area shape="rect" href="a01122.html#aab14961ea93b42c8867851c5113e6744" title=" " alt="" coords="103,5,266,48"/>
+<area shape="poly" title=" " alt="" coords="510,26,477,25,314,25,267,26,266,21,314,20,477,20,510,21"/>
+<area shape="rect" href="a01122.html#a165ec8fcea03590b2cffd889ae9f816f" title=" " alt="" coords="314,35,477,77"/>
+<area shape="poly" title=" " alt="" coords="510,43,478,47,477,42,510,37"/>
+<area shape="rect" href="a00542.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,13,55,40"/>
+<area shape="poly" title=" " alt="" coords="87,29,55,29,55,24,87,24"/>
+<area shape="poly" title=" " alt="" coords="298,45,266,41,267,35,299,40"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="aab14961ea93b42c8867851c5113e6744" name="aab14961ea93b42c8867851c5113e6744"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aab14961ea93b42c8867851c5113e6744">&#9670;&#160;</a></span>show_compiled_format()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void lumex::examples::logger::show_compiled_format </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -183,41 +191,101 @@ Cross-platform compatibility ensured through conditional compilation </dd></dl>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Performs comprehensive CPU vectorization capabilities detection. </p>
-<p>Executes a complete vectorization detection routine that identifies all supported SIMD instruction sets on the current CPU. This method uses architecture-specific detection mechanisms (CPUID for x86/x64, getauxval for ARM) to determine runtime support for various vectorization technologies.</p>
-<p>The detection process includes:</p><ul>
-<li>x86/x64: CPUID-based detection for SSE, AVX, AVX2, AVX-512 variants</li>
-<li>ARM: getauxval() and /proc/cpuinfo parsing for NEON, SVE support</li>
-<li>Cross-platform: Maximum SIMD width calculation</li>
-<li>Summary generation: Human-readable technology list</li>
-</ul>
-<dl class="section return"><dt>Returns</dt><dd><a class="el" href="a01118.html" title="Comprehensive CPU vectorization capabilities structure.">cpu_vectorization_info_t</a> Populated structure containing all detected vectorization capabilities</dd></dl>
-<dl class="section note"><dt>Note</dt><dd>Detection is performed fresh on each call - no caching is implemented </dd>
-<dd>
-Some features may require OS support (e.g., AVX requires XSAVE support) </dd>
-<dd>
-Cross-platform compatibility ensured through conditional compilation</dd></dl>
-<dl class="section warning"><dt>Warning</dt><dd>On some systems, certain features may be disabled by microcode </dd>
-<dd>
-Detection accuracy depends on OS and CPU feature reporting mechanisms</dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="a01118.html" title="Comprehensive CPU vectorization capabilities structure.">cpu_vectorization_info_t</a> for detailed structure documentation</dd></dl>
-<dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line"><span class="keyword">auto</span> <a class="code hl_namespace" href="a00915.html">caps</a> = <a class="code hl_function" href="#a0c41e02b6d1e0710680d86766b4732a1">CPUVectorizationDetector::detect</a>();</div>
-<div class="line">std::cout &lt;&lt; <span class="stringliteral">&quot;AVX2: &quot;</span> &lt;&lt; (<a class="code hl_namespace" href="a00915.html">caps</a>.supports_avx2 ? <span class="stringliteral">&quot;Yes&quot;</span> : <span class="stringliteral">&quot;No&quot;</span>) &lt;&lt;</div>
-<div class="line">std::endl; std::cout &lt;&lt; <span class="stringliteral">&quot;Max SIMD width: &quot;</span> &lt;&lt; <a class="code hl_namespace" href="a00915.html">caps</a>.max_simd_width_bits &lt;&lt;</div>
-<div class="line"><span class="stringliteral">&quot; bits&quot;</span> &lt;&lt; std::endl; std::cout &lt;&lt; <span class="stringliteral">&quot;Technologies: &quot;</span> &lt;&lt;</div>
-<div class="line"><a class="code hl_namespace" href="a00915.html">caps</a>.supported_technologies &lt;&lt; std::endl;</div>
-</div><!-- fragment --> </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01122_aab14961ea93b42c8867851c5113e6744_cgraph.png" border="0" usemap="#aa01122_aab14961ea93b42c8867851c5113e6744_cgraph" alt=""/></div>
+<map name="aa01122_aab14961ea93b42c8867851c5113e6744_cgraph" id="aa01122_aab14961ea93b42c8867851c5113e6744_cgraph">
+<area shape="rect" title=" " alt="" coords="5,1100,169,1143"/>
+<area shape="rect" href="a00971.html#a4ff8994ab54d107e5c4077786599a415" title="Returns the only logger config format compiled into this target." alt="" coords="217,976,390,1035"/>
+<area shape="poly" title=" " alt="" coords="123,1097,215,1045,224,1040,226,1045,218,1049,126,1102"/>
+<area shape="rect" href="a01217.html#a18e6ebf596904b610362cfb2257fd9b4" title="Reads logger configuration from an absolute enable/config path." alt="" coords="223,1059,384,1118"/>
+<area shape="poly" title=" " alt="" coords="169,1106,207,1100,208,1106,170,1112"/>
+<area shape="rect" href="a01122.html#adda1389651fbe9d9a5e8ef363d2535da" title=" " alt="" coords="455,1192,618,1235"/>
+<area shape="poly" title=" " alt="" coords="170,1134,391,1178,440,1188,439,1194,389,1183,169,1139"/>
+<area shape="rect" href="a01122.html#a165ec8fcea03590b2cffd889ae9f816f" title=" " alt="" coords="222,1192,385,1235"/>
+<area shape="poly" title=" " alt="" coords="140,1141,238,1183,236,1188,138,1146"/>
+<area shape="rect" href="a02921.html#a0ba3799de746669b14031ceebdee242c" title="Finds the first child node with the specified name." alt="" coords="445,588,628,631"/>
+<area shape="poly" title=" " alt="" coords="376,1056,388,1045,424,997,453,944,477,888,495,831,519,726,530,646,535,647,524,727,500,833,482,890,458,946,428,1000,392,1049,379,1060"/>
+<area shape="rect" href="a02921.html#ac327d0433bdcac1e44124582ed24dc92" title="Retrieves a text object (XmlText) associated with the current node." alt="" coords="915,1012,1098,1055"/>
+<area shape="poly" title=" " alt="" coords="384,1069,438,1060,561,1048,686,1040,899,1032,899,1037,686,1045,562,1053,438,1066,385,1074"/>
+<area shape="rect" href="a02969.html#a2a65ec7571621b8fa6a07e24c0977b89" title="Retrieves the text content as a C&#45;style string." alt="" coords="438,1075,635,1102"/>
+<area shape="poly" title=" " alt="" coords="384,1086,422,1086,422,1091,384,1091"/>
+<area shape="rect" href="a02905.html#a0c8de91086d1d88840e929509c835bf1" title="Loads an XML document from a file specified by a C&#45;style character path." alt="" coords="452,1126,621,1168"/>
+<area shape="poly" title=" " alt="" coords="385,1106,438,1119,436,1124,383,1111"/>
+<area shape="rect" href="a01128.html#a7d02305444b9427e8e8371818ab1c99c" title=" " alt="" coords="1176,18,1300,60"/>
+<area shape="poly" title=" " alt="" coords="541,587,578,481,609,406,650,324,700,240,760,160,794,123,831,89,871,59,913,33,943,19,975,10,1040,3,1104,6,1161,15,1160,21,1103,12,1040,8,976,16,945,24,916,37,874,63,835,93,798,127,764,163,704,243,654,326,614,408,583,483,547,589"/>
+<area shape="rect" href="a02921.html#a9ba652be4d38ecccaa3933b5dde6401e" title="Default constructor. Constructs an empty (null) node." alt="" coords="683,588,867,631"/>
+<area shape="poly" title=" " alt="" coords="629,616,668,616,668,621,629,621"/>
+<area shape="poly" title=" " alt="" coords="683,603,644,603,644,598,683,598"/>
+<area shape="poly" title=" " alt="" coords="731,588,729,578,737,569,752,564,775,562,800,564,815,570,813,575,798,569,775,567,753,569,740,574,735,579,736,587"/>
+<area shape="rect" href="a02921.html#a7f4d671f25c6951150f5c727dbc8261f" title="Finds the first attribute with the specified name." alt="" coords="915,47,1098,90"/>
+<area shape="poly" title=" " alt="" coords="773,588,777,502,784,442,795,375,812,304,837,234,870,167,913,106,923,97,927,100,917,110,874,170,842,236,817,306,800,376,789,442,783,502,779,588"/>
+<area shape="rect" href="a02921.html#a15674661156ec0a973ef0815fe299700" title=" " alt="" coords="1146,143,1329,186"/>
+<area shape="poly" title=" " alt="" coords="777,587,793,491,822,358,841,291,862,230,886,182,913,150,942,133,973,122,1006,116,1040,115,1106,121,1165,135,1164,140,1105,126,1040,120,1007,121,975,127,944,138,916,154,891,185,867,232,846,293,827,360,798,492,782,588"/>
+<area shape="rect" href="a02921.html#a036f6d862ca3981c48d42bf54ccbfad2" title="Checks if the XmlNode object is empty." alt="" coords="915,164,1098,207"/>
+<area shape="poly" title=" " alt="" coords="775,587,784,517,806,419,823,365,847,312,876,262,913,217,915,215,919,218,917,221,881,265,851,314,828,367,811,420,789,518,780,588"/>
+<area shape="rect" href="a02921.html#a1fd71ea59944927bf9867fc98be0ffcf" title="Retrieves the first attribute of the node." alt="" coords="915,231,1098,274"/>
+<area shape="poly" title=" " alt="" coords="777,587,789,528,814,447,832,403,854,360,881,320,913,284,916,281,920,285,917,287,885,323,859,363,837,405,819,449,794,529,782,588"/>
+<area shape="rect" href="a02921.html#a82a93da169b71235dc2923bd9a3a3da4" title="Retrieves the first child node of the current node." alt="" coords="915,298,1098,340"/>
+<area shape="poly" title=" " alt="" coords="782,587,799,541,826,481,863,418,887,388,913,362,942,344,944,349,916,366,891,392,868,421,830,483,804,543,787,589"/>
+<area shape="rect" href="a02921.html#a3cf020917a8af507489d56a9280a0a9d" title="Retrieves the last attribute of the node." alt="" coords="915,364,1098,407"/>
+<area shape="poly" title=" " alt="" coords="784,587,804,550,832,505,869,458,913,417,919,413,922,417,916,421,873,462,837,508,808,553,789,589"/>
+<area shape="rect" href="a02921.html#a17efa757a74e1e5a08131df5e4317ddb" title="Retrieves the last child node of the current node." alt="" coords="915,431,1098,474"/>
+<area shape="poly" title=" " alt="" coords="803,586,852,541,913,495,951,477,953,482,916,500,855,545,806,590"/>
+<area shape="rect" href="a02921.html#a5df8244a361d9f9de429da1b1ab53629" title="Retrieves the name of the XML node." alt="" coords="915,522,1098,564"/>
+<area shape="poly" title=" " alt="" coords="850,585,914,567,916,572,852,590"/>
+<area shape="rect" href="a02921.html#af0c57674f2aa78e5a10d9ffecd11793a" title="Retrieves the next sibling node of the current node." alt="" coords="915,588,1098,631"/>
+<area shape="poly" title=" " alt="" coords="867,616,899,616,899,621,867,621"/>
+<area shape="rect" href="a02921.html#ad4130676f6cd5dcdfb86275d28ef6d94" title="Retrieves the parent node of the current node." alt="" coords="915,655,1098,698"/>
+<area shape="poly" title=" " alt="" coords="826,629,900,652,899,657,825,634"/>
+<area shape="rect" href="a02921.html#aae031f4e25d06ebfa007e468904d05b4" title="Retrieves the previous sibling node of the current node." alt="" coords="915,722,1098,764"/>
+<area shape="poly" title=" " alt="" coords="795,630,841,670,902,712,899,716,838,674,791,634"/>
+<area shape="rect" href="a02921.html#ae75074132cc71a473fe3f862cb3d56e2" title="Retrieves the root of the DOM tree to which this node belongs." alt="" coords="915,788,1098,831"/>
+<area shape="poly" title=" " alt="" coords="787,630,832,700,865,740,904,777,901,781,861,744,828,703,783,633"/>
+<area shape="poly" title=" " alt="" coords="780,631,789,701,811,799,828,852,851,905,881,955,917,998,919,1001,915,1005,913,1002,876,958,847,907,823,854,806,801,784,702,775,632"/>
+<area shape="rect" href="a02921.html#a6473de83822e0e12f4f02d25420747ca" title="Retrieves the type of the XML node." alt="" coords="915,855,1098,898"/>
+<area shape="poly" title=" " alt="" coords="786,630,803,674,831,731,868,790,891,817,916,841,921,844,918,849,913,845,887,820,864,793,826,733,798,676,781,632"/>
+<area shape="rect" href="a02921.html#a3ab22f27c7a36eebc5236b8190546186" title="Retrieves the value of the XML node." alt="" coords="915,946,1098,988"/>
+<area shape="poly" title=" " alt="" coords="784,631,800,684,827,757,866,835,890,873,917,908,949,935,945,939,913,911,885,876,861,838,822,759,795,686,779,632"/>
+<area shape="poly" title=" " alt="" coords="1098,54,1160,46,1161,51,1098,59"/>
+<area shape="poly" title=" " alt="" coords="1061,88,1171,134,1169,139,1059,92"/>
+<area shape="poly" title=" " alt="" coords="1067,228,1097,216,1167,189,1169,194,1099,221,1068,233"/>
+<area shape="poly" title=" " alt="" coords="916,343,890,368,868,397,831,460,804,522,787,574,782,572,799,520,826,458,863,394,886,365,912,339"/>
+<area shape="poly" title=" " alt="" coords="1078,361,1096,350,1135,315,1169,274,1217,198,1221,200,1173,277,1139,318,1100,354,1081,366"/>
+<area shape="poly" title=" " alt="" coords="916,476,882,499,851,526,800,578,797,574,847,522,879,495,913,472"/>
+<area shape="poly" title=" " alt="" coords="962,521,961,511,968,502,983,497,1006,495,1031,497,1046,503,1044,508,1030,502,1006,500,985,502,971,507,966,513,968,520"/>
+<area shape="poly" title=" " alt="" coords="914,603,882,603,882,598,914,598"/>
+<area shape="poly" title=" " alt="" coords="955,657,880,634,882,629,957,652"/>
+<area shape="poly" title=" " alt="" coords="967,723,913,700,867,672,825,642,828,638,870,667,916,695,969,719"/>
+<area shape="poly" title=" " alt="" coords="961,790,937,780,913,766,879,738,849,706,801,645,805,642,853,703,883,734,916,762,939,775,963,785"/>
+<area shape="rect" href="a01133.html#a9ff47d1fab33d9dac2db3f3203dd5b2b" title="Retrieves a reference to the XmlDocumentBase object that owns a given object (node or attribute)." alt="" coords="1162,788,1313,831"/>
+<area shape="poly" title=" " alt="" coords="1098,807,1147,807,1147,812,1098,812"/>
+<area shape="poly" title=" " alt="" coords="962,945,961,935,968,926,983,921,1006,919,1031,921,1046,927,1044,932,1030,926,1006,924,985,926,971,931,966,937,968,944"/>
+<area shape="rect" href="a02969.html#a04729cf70921cbf2ada7655e91bf10b6" title="Retrieves the underlying data node (node_pcdata or node_cdata) for this text object." alt="" coords="689,1071,861,1114"/>
+<area shape="poly" title=" " alt="" coords="636,1087,674,1088,674,1093,636,1093"/>
+<area shape="rect" href="a02969.html#a93c80d4442ba4b50bfd4dd7985283928" title=" " alt="" coords="921,1079,1092,1122"/>
+<area shape="poly" title=" " alt="" coords="861,1093,905,1094,905,1099,861,1098"/>
+<area shape="rect" href="a02905.html#a20b942adcf753027eb5e49afbf383920" title="Removes all nodes from the document, leaving it in an empty state." alt="" coords="700,1138,850,1180"/>
+<area shape="poly" title=" " alt="" coords="621,1148,684,1152,684,1157,621,1154"/>
+<area shape="poly" title=" " alt="" coords="385,1211,440,1211,440,1216,385,1216"/>
+</map>
+</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="a01122_a0c41e02b6d1e0710680d86766b4732a1_icgraph.png" border="0" usemap="#aa01122_a0c41e02b6d1e0710680d86766b4732a1_icgraph" alt=""/></div>
+<div class="center"><img src="a01122_aab14961ea93b42c8867851c5113e6744_icgraph.png" border="0" usemap="#aa01122_aab14961ea93b42c8867851c5113e6744_icgraph" alt=""/></div>
+<map name="aa01122_aab14961ea93b42c8867851c5113e6744_icgraph" id="aa01122_aab14961ea93b42c8867851c5113e6744_icgraph">
+<area shape="rect" title=" " alt="" coords="103,5,266,48"/>
+<area shape="rect" href="a00542.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,13,55,40"/>
+<area shape="poly" title=" " alt="" coords="87,29,55,29,55,24,87,24"/>
+</map>
 </div>
 
 </div>
 </div>
-<a id="a3714f0eda41c0d71a8a52e5c2a1c6e43" name="a3714f0eda41c0d71a8a52e5c2a1c6e43"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3714f0eda41c0d71a8a52e5c2a1c6e43">&#9670;&#160;</a></span>get_summary()</h2>
+<a id="a165ec8fcea03590b2cffd889ae9f816f" name="a165ec8fcea03590b2cffd889ae9f816f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a165ec8fcea03590b2cffd889ae9f816f">&#9670;&#160;</a></span>verify_full_config()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -226,10 +294,14 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static std::string lumex::applied::hardware::caps::CPUVectorizationDetector::get_summary </td>
+          <td class="memname">static void lumex::examples::logger::verify_full_config </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="a01118.html">cpu_vectorization_info_t</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>capabilities</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="a01205.html">logger_config_t</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>config</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>format</em></span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -238,41 +310,37 @@ Here is the caller graph for this function:</div>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Gets a human-readable summary of supported vectorization technologies. </p>
-<p>Generates a comma-separated string listing all supported vectorization instruction sets. This method provides a convenient way to display CPU capabilities in logs, diagnostics, or user interfaces.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">capabilities</td><td>Vectorization capabilities structure to summarize </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>std::string Comma-separated list of supported technologies</dd></dl>
-<dl class="section note"><dt>Note</dt><dd>Empty string is returned if no vectorization support is detected </dd>
-<dd>
-Technologies are listed in order of introduction (SSE -&gt; AVX -&gt; AVX-512)</dd></dl>
-<dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line"><span class="keyword">auto</span> <a class="code hl_namespace" href="a00915.html">caps</a> = <a class="code hl_function" href="#a0c41e02b6d1e0710680d86766b4732a1">CPUVectorizationDetector::detect</a>();</div>
-<div class="line">std::string summary = <a class="code hl_function" href="#a3714f0eda41c0d71a8a52e5c2a1c6e43">CPUVectorizationDetector::get_summary</a>(<a class="code hl_namespace" href="a00915.html">caps</a>);</div>
-<div class="line"><span class="comment">// Output: &quot;SSE, SSE2, SSE3, SSSE3, SSE4.1, SSE4.2, AVX, AVX2, FMA3&quot;</span></div>
-<div class="ttc" id="aa01122_html_a3714f0eda41c0d71a8a52e5c2a1c6e43"><div class="ttname"><a href="#a3714f0eda41c0d71a8a52e5c2a1c6e43">lumex::applied::hardware::caps::CPUVectorizationDetector::get_summary</a></div><div class="ttdeci">static std::string get_summary(cpu_vectorization_info_t const &amp;capabilities)</div><div class="ttdoc">Gets a human-readable summary of supported vectorization technologies.</div></div>
-</div><!-- fragment --> </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01122_a165ec8fcea03590b2cffd889ae9f816f_cgraph.png" border="0" usemap="#aa01122_a165ec8fcea03590b2cffd889ae9f816f_cgraph" alt=""/></div>
+<map name="aa01122_a165ec8fcea03590b2cffd889ae9f816f_cgraph" id="aa01122_a165ec8fcea03590b2cffd889ae9f816f_cgraph">
+<area shape="rect" title=" " alt="" coords="5,5,169,48"/>
+<area shape="rect" href="a01122.html#adda1389651fbe9d9a5e8ef363d2535da" title=" " alt="" coords="217,5,380,48"/>
+<area shape="poly" title=" " alt="" coords="169,24,201,24,201,29,169,29"/>
+</map>
+</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="a01122_a3714f0eda41c0d71a8a52e5c2a1c6e43_icgraph.png" border="0" usemap="#aa01122_a3714f0eda41c0d71a8a52e5c2a1c6e43_icgraph" alt=""/></div>
+<div class="center"><img src="a01122_a165ec8fcea03590b2cffd889ae9f816f_icgraph.png" border="0" usemap="#aa01122_a165ec8fcea03590b2cffd889ae9f816f_icgraph" alt=""/></div>
+<map name="aa01122_a165ec8fcea03590b2cffd889ae9f816f_icgraph" id="aa01122_a165ec8fcea03590b2cffd889ae9f816f_icgraph">
+<area shape="rect" title=" " alt="" coords="314,5,477,48"/>
+<area shape="rect" href="a01122.html#aab14961ea93b42c8867851c5113e6744" title=" " alt="" coords="103,5,266,48"/>
+<area shape="poly" title=" " alt="" coords="299,29,266,29,266,24,299,24"/>
+<area shape="rect" href="a00542.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,13,55,40"/>
+<area shape="poly" title=" " alt="" coords="87,29,55,29,55,24,87,24"/>
+</map>
 </div>
 
 </div>
 </div>
-<hr/>The documentation for this class was generated from the following file:<ul>
-<li><a class="el" href="a00041_source.html">LumexCPUVectorizationCapabilities.hpp</a></li>
-</ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00912.html">lumex</a></li><li class="navelem"><a class="el" href="a00913.html">applied</a></li><li class="navelem"><a class="el" href="a00914.html">hardware</a></li><li class="navelem"><a class="el" href="a00915.html">caps</a></li><li class="navelem"><a class="el" href="a01122.html">CPUVectorizationDetector</a></li>
+    <li class="navelem"><a class="el" href="a00948.html">lumex</a></li><li class="navelem"><a class="el" href="a01121.html">examples</a></li><li class="navelem"><a class="el" href="a01122.html">logger</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

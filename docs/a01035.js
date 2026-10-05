@@ -1,9 +1,13 @@
 var a01035 =
 [
-    [ "LumexTimer", "a02350.html", "a02350" ],
-    [ "default_measure_time_env_name", "a01035.html#a7a5e6044c994dc0aaa411d6703fc32f4", null ],
-    [ "extract_function_name", "a01035.html#a92a181555350dcc075d22a432da22d8a", null ],
-    [ "measure_execution_time", "a01035.html#a2cc90c92f6a2261ecfb8bc76e3943ed1", null ],
-    [ "measure_time", "a01035.html#ac2a95e66868e1a2cc9cc1da9676e38c8", null ],
-    [ "write_measure_time_report", "a01035.html#aa04009deb3c2f28294b819490ed44b27", null ]
+    [ "detail", "a01037.html", [
+      [ "report_exception", "a01037.html#a6731c24b90644c9b4b94c4c81af602dd", null ],
+      [ "report_line", "a01037.html#ab7031ff23205b8e8d31fb72ed3744806", null ],
+      [ "write_to_stderr", "a01037.html#a92da48ec00b5194131e081ffabbbed57", null ],
+      [ "write_to_stderr", "a01037.html#a730010fd0f524d97727a82bb42f2ddd3", null ]
+    ] ],
+    [ "safe_call_report_fn", "a01035.html#a44e9e9da5b97d168978390c418a62b3f", null ],
+    [ "ExceptionWrapper", "a01035.html#a830b8d9cf501bccfb594bebd0221c287", null ],
+    [ "get_safe_call_reporter", "a01035.html#a0e00681207c6fe8355e6416db22d6ee8", null ],
+    [ "set_safe_call_reporter", "a01035.html#a71d9df48ad62f6a5f94220cd14b5f70c", null ]
 ];

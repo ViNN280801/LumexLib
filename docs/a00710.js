@@ -1,4 +1,4 @@
 var a00710 =
 [
-    [ "lumex::xml::writer::XmlBufferedWriter", "a02978.html", "a02978" ]
+    [ "lumex::xml::text::XmlParser", "a02961.html", "a02961" ]
 ];

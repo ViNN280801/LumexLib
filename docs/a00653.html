@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: XmlNode.cpp File Reference</title>
+<title>LumexLib: XmlAttributeBase.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,549 +104,237 @@ $(function(){initNavTree('a00653.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#define-members">Macros</a> &#124;
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#namespaces">Namespaces</a> &#124;
 <a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">XmlNode.cpp File Reference</div></div>
+  <div class="headertitle"><div class="title">XmlAttributeBase.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;<a class="el" href="a00635_source.html">lumex/xml/document/XmlDocumentBase.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00641_source.html">lumex/xml/memory/XmlAllocator.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00680_source.html">lumex/xml/text/XmlParseResult.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00686_source.html">lumex/xml/text/XmlText.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00689_source.html">lumex/xml/tree/XmlTreeWalker.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00692_source.html">lumex/xml/types/XmlTypes.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00701_source.html">lumex/xml/utility/XmlUtils.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00704_source.html">lumex/xml/writer/IXmlWriter.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00710_source.html">lumex/xml/writer/XmlBufferedWriter.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00722_source.html">lumex/xml/writer/XmlWriterStream.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00764_source.html">lumex/xml/xpath/node/XPathNode.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00770_source.html">lumex/xml/xpath/node/XPathNodeSet.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00800_source.html">lumex/xml/xpath/query/XPathQuery.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00824_source.html">lumex/xml/xpath/variable/XPathVariableSet.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00656_source.html">XmlNode.hpp</a>&quot;</code><br />
+
+<p>Internal storage of an XML attribute and the functions that allocate, link, unlink and copy it.  
+<a href="#details">More...</a></p>
+<div class="textblock"><code>#include &quot;<a class="el" href="a00641_source.html">lumex/LumexExport.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00677_source.html">lumex/xml/memory/XmlAllocator.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00683_source.html">lumex/xml/memory/XmlMemoryPage.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for XmlNode.cpp:</div>
+Include dependency graph for XmlAttributeBase.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00654.png" border="0" usemap="#a_xml_node_8cpp" alt=""/></div>
+<div class="center"><img src="a00654.png" border="0" usemap="#a_xml_attribute_base_8hpp" alt=""/></div>
+<map name="a_xml_attribute_base_8hpp" id="a_xml_attribute_base_8hpp">
+<area shape="rect" title="Internal storage of an XML attribute and the functions that allocate, link, unlink and copy it." alt="" coords="591,5,739,32"/>
+<area shape="rect" href="a00641.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="570,245,733,272"/>
+<area shape="poly" title=" " alt="" coords="667,32,656,230,651,230,662,32"/>
+<area shape="rect" href="a00677.html" title="The page allocator that holds the nodes, attributes and strings of one XML document." alt="" coords="385,80,620,107"/>
+<area shape="poly" title=" " alt="" coords="638,35,546,76,544,71,636,30"/>
+<area shape="rect" href="a00683.html" title="The header of a memory page of the XML allocator, and the default page size." alt="" coords="702,163,849,189"/>
+<area shape="poly" title=" " alt="" coords="676,31,760,148,756,152,672,34"/>
+<area shape="poly" title=" " alt="" coords="527,105,559,125,591,153,621,192,642,230,637,233,616,195,587,156,556,130,524,109"/>
+<area shape="rect" href="a00386.html" title="Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_..." alt="" coords="409,155,577,197"/>
+<area shape="poly" title=" " alt="" coords="504,107,500,140,494,139,498,107"/>
+<area shape="rect" href="a00389.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="37,320,205,363"/>
+<area shape="poly" title=" " alt="" coords="385,104,314,112,244,122,185,137,162,147,145,157,132,171,122,188,112,227,111,268,116,304,110,305,106,268,107,227,117,186,128,168,142,153,159,142,183,132,243,117,313,106,384,99"/>
+<area shape="rect" href="a00728.html" title="The basic types and enumerations of the XML module: character and string types, node types,..." alt="" coords="156,163,360,189"/>
+<area shape="poly" title=" " alt="" coords="465,110,312,160,310,155,463,105"/>
+<area shape="poly" title=" " alt="" coords="546,105,719,155,717,160,544,110"/>
+<area shape="poly" title=" " alt="" coords="535,196,614,236,612,240,533,200"/>
+<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="330,411,525,453"/>
+<area shape="poly" title=" " alt="" coords="504,197,513,230,521,273,522,319,518,342,510,364,496,385,478,403,474,399,492,382,505,361,513,341,516,318,516,273,508,232,498,199"/>
+<area shape="rect" href="a00404.html" title="C++ language, library and attribute feature availability." alt="" coords="5,411,237,453"/>
+<area shape="poly" title=" " alt="" coords="124,363,124,395,118,395,118,363"/>
+<area shape="rect" title=" " alt="" coords="123,245,183,272"/>
+<area shape="poly" title=" " alt="" coords="243,192,183,238,180,234,240,188"/>
+<area shape="rect" title=" " alt="" coords="208,245,261,272"/>
+<area shape="poly" title=" " alt="" coords="257,191,245,231,240,230,252,189"/>
+<area shape="rect" href="a00734.html" title="Preprocessor macros of the XML module: the character mode, the declaration of constants,..." alt="" coords="285,245,496,272"/>
+<area shape="poly" title=" " alt="" coords="280,188,358,235,355,239,278,192"/>
+<area shape="poly" title=" " alt="" coords="349,275,206,318,204,313,347,270"/>
+<area shape="rect" href="a00419.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="264,320,496,363"/>
+<area shape="poly" title=" " alt="" coords="391,273,387,305,382,304,386,272"/>
+<area shape="poly" title=" " alt="" coords="393,362,412,396,407,398,388,364"/>
+<area shape="poly" title=" " alt="" coords="758,192,685,239,682,235,755,188"/>
+<area shape="rect" title=" " alt="" coords="757,245,821,272"/>
+<area shape="poly" title=" " alt="" coords="780,189,787,230,782,231,775,190"/>
+</map>
 </div>
-</div><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
-Macros</h2></td></tr>
-<tr class="memitem:a07486181f1990291c2a348de8eb4c480" id="r_a07486181f1990291c2a348de8eb4c480"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a07486181f1990291c2a348de8eb4c480">LUMEX_IMPLEMENTATION</a></td></tr>
-<tr class="separator:a07486181f1990291c2a348de8eb4c480"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00655.png" border="0" usemap="#a_xml_attribute_base_8hppdep" alt=""/></div>
+<map name="a_xml_attribute_base_8hppdep" id="a_xml_attribute_base_8hppdep">
+<area shape="rect" title="Internal storage of an XML attribute and the functions that allocate, link, unlink and copy it." alt="" coords="1871,5,2020,32"/>
+<area shape="rect" href="a00647.html" title="XmlAttribute, the handle to one attribute of an element: read its name and value, convert the value t..." alt="" coords="970,80,1088,107"/>
+<area shape="poly" title=" " alt="" coords="1856,30,1089,90,1089,85,1855,24"/>
+<area shape="rect" href="a00650.html" title=" " alt="" coords="2306,155,2454,181"/>
+<area shape="poly" title=" " alt="" coords="1998,35,2343,151,2342,157,1996,40"/>
+<area shape="rect" href="a00698.html" title="Internal storage of an XML node and the functions that build, link, copy and destroy the tree." alt="" coords="1880,80,2010,107"/>
+<area shape="poly" title=" " alt="" coords="1948,48,1948,80,1943,80,1943,48"/>
+<area shape="rect" href="a00944.html" title="XML module: a DOM tree of nodes, attributes and text, loading and saving with writers for files and s..." alt="" coords="677,528,760,555"/>
+<area shape="poly" title=" " alt="" coords="955,100,801,110,712,119,624,133,543,152,477,176,452,190,433,206,421,223,417,242,417,319,419,348,425,373,435,393,448,411,484,443,532,478,567,499,606,514,677,532,676,537,604,519,565,503,529,482,481,447,444,415,430,396,420,375,414,349,412,319,412,241,416,221,429,202,449,186,475,171,542,147,623,128,711,114,801,104,954,94"/>
+<area shape="rect" href="a00800.html" title="XPathNode, an item of an XPath result: either an XML node or an attribute together with its element." alt="" coords="713,229,826,256"/>
+<area shape="poly" title=" " alt="" coords="995,117,793,231,790,227,993,112"/>
+<area shape="rect" href="a00644.html" title=" " alt="" coords="1069,155,1187,181"/>
+<area shape="poly" title=" " alt="" coords="1060,114,1113,152,1109,156,1057,118"/>
+<area shape="rect" href="a00656.html" title=" " alt="" coords="850,229,1009,256"/>
+<area shape="poly" title=" " alt="" coords="1015,121,940,230,936,227,1010,118"/>
+<area shape="rect" href="a00692.html" title="XmlNode, the handle to a node of a document tree, with the iterators over its children and attributes..." alt="" coords="1312,155,1413,181"/>
+<area shape="poly" title=" " alt="" coords="1103,108,1312,153,1311,158,1102,113"/>
+<area shape="rect" href="a00629.html" title=" " alt="" coords="624,603,733,629"/>
+<area shape="poly" title=" " alt="" coords="707,570,688,604,683,601,702,567"/>
+<area shape="rect" href="a00632.html" title=" " alt="" coords="757,603,867,629"/>
+<area shape="poly" title=" " alt="" coords="749,562,798,600,794,604,745,567"/>
+<area shape="rect" href="a00635.html" title=" " alt="" coords="891,603,1000,629"/>
+<area shape="poly" title=" " alt="" coords="773,557,906,599,905,605,772,562"/>
+<area shape="rect" href="a00638.html" title=" " alt="" coords="491,603,600,629"/>
+<area shape="poly" title=" " alt="" coords="676,563,577,604,575,600,674,559"/>
+<area shape="poly" title=" " alt="" coords="801,263,939,365,1004,418,1037,452,1042,467,1037,482,1018,497,989,509,914,526,831,536,761,541,760,536,831,531,913,521,987,504,1015,492,1033,478,1037,467,1032,455,1000,421,936,369,798,268"/>
+<area shape="rect" href="a00770.html" title="XPathContext, the context node, position and size that XPath evaluation passes to every subexpression..." alt="" coords="186,379,315,405"/>
+<area shape="poly" title=" " alt="" coords="698,260,602,280,497,307,378,345,283,381,281,376,376,340,495,301,601,275,697,255"/>
+<area shape="rect" href="a00776.html" title="Comparison of XPath nodes by document order, used to sort node sets." alt="" coords="1148,304,1390,331"/>
+<area shape="poly" title=" " alt="" coords="842,254,1171,301,1171,306,841,259"/>
+<area shape="rect" href="a00797.html" title=" " alt="" coords="666,304,779,331"/>
+<area shape="poly" title=" " alt="" coords="755,271,733,305,728,302,751,268"/>
+<area shape="rect" href="a00806.html" title="XPathNodeSet, the node set an XPath query returns, and XPathNodeSetRaw, the growable array used while..." alt="" coords="508,304,641,331"/>
+<area shape="poly" title=" " alt="" coords="722,264,610,306,608,301,720,259"/>
+<area shape="rect" href="a00848.html" title="Document order sorting of XPath node ranges, and copying of XPath variable values." alt="" coords="807,379,916,405"/>
+<area shape="poly" title=" " alt="" coords="788,268,856,377,851,380,783,271"/>
+<area shape="rect" href="a00689.html" title=" " alt="" coords="1212,528,1313,555"/>
+<area shape="poly" title=" " alt="" coords="842,255,959,280,1036,302,1075,327,1112,357,1177,422,1227,483,1257,526,1253,529,1222,486,1173,425,1108,361,1072,331,1034,306,958,286,841,261"/>
+<area shape="rect" href="a00839.html" title=" " alt="" coords="906,304,1022,331"/>
+<area shape="poly" title=" " alt="" coords="818,259,931,301,929,306,816,264"/>
+<area shape="rect" href="a00764.html" title="XPathAstNode, the node of a compiled XPath expression tree, which evaluates itself against a context." alt="" coords="121,453,255,480"/>
+<area shape="poly" title=" " alt="" coords="232,419,201,455,197,451,228,416"/>
+<area shape="rect" href="a00761.html" title=" " alt="" coords="5,528,139,555"/>
+<area shape="poly" title=" " alt="" coords="156,491,94,530,91,525,153,486"/>
+<area shape="rect" href="a00824.html" title="XPathParser, the recursive descent parser that compiles an XPath 1.0 expression into a tree of XPathA..." alt="" coords="162,528,283,555"/>
+<area shape="poly" title=" " alt="" coords="203,493,219,526,214,529,198,495"/>
+<area shape="rect" href="a00821.html" title=" " alt="" coords="186,603,307,629"/>
+<area shape="poly" title=" " alt="" coords="234,569,245,601,240,603,229,571"/>
+<area shape="rect" href="a00833.html" title=" " alt="" coords="343,603,460,629"/>
+<area shape="poly" title=" " alt="" coords="269,558,371,600,369,605,267,563"/>
+<area shape="rect" href="a00773.html" title=" " alt="" coords="1398,379,1640,405"/>
+<area shape="poly" title=" " alt="" coords="1328,333,1476,375,1474,381,1327,338"/>
+<area shape="rect" href="a00845.html" title=" " alt="" coords="913,453,1023,480"/>
+<area shape="poly" title=" " alt="" coords="1231,340,995,455,992,450,1229,335"/>
+<area shape="poly" title=" " alt="" coords="637,334,669,352,695,377,715,417,723,459,725,499,723,528,718,528,719,499,718,460,710,418,691,380,666,356,635,339"/>
+<area shape="poly" title=" " alt="" coords="528,339,222,455,220,450,526,334"/>
+<area shape="rect" href="a00803.html" title=" " alt="" coords="756,453,889,480"/>
+<area shape="poly" title=" " alt="" coords="642,333,691,351,739,376,784,415,816,451,811,455,780,419,736,381,688,356,640,338"/>
+<area shape="poly" title=" " alt="" coords="640,332,812,375,810,381,639,338"/>
+<area shape="rect" href="a00854.html" title="XPathVariable, a named and typed XPath variable, its four concrete kinds, and the functions that crea..." alt="" coords="553,379,682,405"/>
+<area shape="poly" title=" " alt="" coords="592,343,612,377,608,380,587,346"/>
+<area shape="rect" href="a00860.html" title="XPathVariableSet, the named variables an XPath expression can refer to, and the lookup helper the par..." alt="" coords="279,453,428,480"/>
+<area shape="poly" title=" " alt="" coords="556,344,524,376,485,408,437,435,390,455,388,450,434,430,483,403,521,372,552,341"/>
+<area shape="poly" title=" " alt="" coords="657,329,819,355,929,376,1024,412,1114,454,1243,525,1241,530,1111,459,1022,417,927,381,818,360,656,334"/>
+<area shape="poly" title=" " alt="" coords="894,412,951,450,948,455,891,417"/>
+<area shape="poly" title=" " alt="" coords="850,420,832,454,827,452,845,418"/>
+<area shape="poly" title=" " alt="" coords="581,416,561,430,546,446,539,462,544,479,571,505,606,522,643,532,677,536,676,542,641,537,604,527,568,509,539,481,534,462,542,443,558,426,578,411"/>
+<area shape="poly" title=" " alt="" coords="538,409,255,457,255,451,537,404"/>
+<area shape="poly" title=" " alt="" coords="694,406,913,451,912,457,693,412"/>
+<area shape="rect" href="a00851.html" title=" " alt="" coords="553,453,682,480"/>
+<area shape="poly" title=" " alt="" coords="620,421,620,453,615,453,615,421"/>
+<area shape="poly" title=" " alt="" coords="558,412,400,455,399,450,556,407"/>
+<area shape="poly" title=" " alt="" coords="433,481,677,529,676,534,432,486"/>
+<area shape="poly" title=" " alt="" coords="319,490,247,530,244,525,316,486"/>
+<area shape="poly" title=" " alt="" coords="339,495,297,556,259,604,255,600,293,553,335,492"/>
+<area shape="poly" title=" " alt="" coords="444,477,486,495,505,509,521,527,527,540,526,553,519,564,509,574,480,592,447,605,445,600,477,587,505,570,515,561,521,551,521,541,516,529,502,513,484,500,442,482"/>
+<area shape="rect" href="a00857.html" title=" " alt="" coords="358,528,506,555"/>
+<area shape="poly" title=" " alt="" coords="380,489,420,526,417,530,377,493"/>
+<area shape="poly" title=" " alt="" coords="443,472,1212,533,1212,539,443,478"/>
+<area shape="poly" title=" " alt="" coords="1297,176,1234,183,1167,194,1109,210,1088,220,1074,231,1056,262,1052,292,1057,323,1067,354,1077,386,1082,418,1078,450,1058,482,1037,497,1006,510,925,527,836,537,761,541,760,536,835,532,924,522,1004,504,1034,492,1054,478,1073,448,1077,418,1072,387,1062,356,1052,324,1046,292,1051,260,1070,228,1085,215,1108,205,1166,189,1233,178,1297,171"/>
+<area shape="poly" title=" " alt="" coords="1297,178,1092,200,838,232,827,234,826,228,837,227,1091,194,1297,173"/>
+<area shape="poly" title=" " alt="" coords="1429,173,1566,193,1631,208,1675,227,1699,245,1716,264,1726,286,1729,316,1729,394,1726,410,1716,425,1680,452,1628,475,1566,494,1429,522,1314,538,1313,532,1428,516,1564,489,1627,470,1678,447,1712,422,1721,408,1724,393,1724,316,1721,288,1712,267,1696,249,1672,232,1629,213,1565,198,1428,178"/>
+<area shape="poly" title=" " alt="" coords="1298,183,1006,231,1005,226,1297,178"/>
+<area shape="rect" href="a00662.html" title=" " alt="" coords="1559,304,1689,331"/>
+<area shape="poly" title=" " alt="" coords="1428,171,1491,178,1558,189,1616,205,1638,215,1653,228,1660,247,1657,269,1637,305,1632,302,1652,267,1655,248,1648,231,1635,220,1614,210,1557,194,1491,183,1428,176"/>
+<area shape="rect" href="a00665.html" title="XmlDocument, the owner of an XML tree: loading from files, streams, strings and memory buffers,..." alt="" coords="1509,229,1638,256"/>
+<area shape="poly" title=" " alt="" coords="1415,184,1537,226,1535,231,1413,189"/>
+<area shape="rect" href="a00686.html" title=" " alt="" coords="1084,229,1268,256"/>
+<area shape="poly" title=" " alt="" coords="1317,190,1210,231,1208,226,1315,185"/>
+<area shape="rect" href="a00701.html" title=" " alt="" coords="1292,229,1433,256"/>
+<area shape="poly" title=" " alt="" coords="1365,197,1365,229,1360,229,1360,197"/>
+<area shape="rect" href="a00719.html" title=" " alt="" coords="1764,229,1858,256"/>
+<area shape="poly" title=" " alt="" coords="1429,176,1746,227,1763,230,1762,235,1745,232,1428,182"/>
+<area shape="poly" title=" " alt="" coords="1544,267,1474,313,1374,372,1255,432,1193,460,1130,483,1028,509,925,527,832,537,761,541,760,536,831,531,924,521,1027,504,1129,477,1191,455,1253,428,1371,367,1471,308,1541,263"/>
+<area shape="poly" title=" " alt="" coords="1593,267,1617,302,1613,305,1589,270"/>
+<area shape="poly" title=" " alt="" coords="1878,114,1704,161,1600,194,1498,232,1446,258,1376,285,1313,306,1311,301,1375,280,1444,254,1496,227,1599,189,1703,156,1877,108"/>
+<area shape="poly" title=" " alt="" coords="1865,104,1188,164,1187,159,1864,99"/>
+<area shape="poly" title=" " alt="" coords="1865,107,1452,157,1414,162,1413,157,1452,152,1864,101"/>
+<area shape="poly" title=" " alt="" coords="1906,117,1880,134,1855,156,1831,195,1817,230,1812,228,1826,192,1851,153,1876,130,1903,112"/>
+<area shape="poly" title=" " alt="" coords="2026,105,2306,152,2305,157,2025,111"/>
+<area shape="rect" href="a00668.html" title=" " alt="" coords="2084,229,2244,256"/>
+<area shape="poly" title=" " alt="" coords="1979,113,2039,152,2148,227,2145,231,2036,157,1976,118"/>
+<area shape="rect" href="a00671.html" title="Internal root record of a document: the document node and the allocator of its tree in one object." alt="" coords="1866,155,2025,181"/>
+<area shape="poly" title=" " alt="" coords="1948,122,1948,154,1943,154,1943,122"/>
+<area shape="rect" href="a00710.html" title="The internal XML parser that turns a writable character buffer into a node tree in place." alt="" coords="2268,229,2375,256"/>
+<area shape="poly" title=" " alt="" coords="1987,111,2140,179,2280,226,2278,231,2138,184,1985,116"/>
+<area shape="rect" href="a00695.html" title=" " alt="" coords="2151,155,2281,181"/>
+<area shape="poly" title=" " alt="" coords="2008,109,2169,151,2168,157,2006,114"/>
+<area shape="poly" title=" " alt="" coords="1941,197,1928,228,1906,258,1874,284,1839,306,1764,341,1688,365,1619,381,1617,375,1687,360,1762,336,1836,301,1871,279,1902,254,1923,226,1936,195"/>
+<area shape="poly" title=" " alt="" coords="1963,194,1986,249,1995,282,1999,316,1999,394,1993,419,1975,442,1949,461,1914,478,1824,504,1717,522,1602,534,1490,540,1313,543,1313,538,1490,535,1602,529,1716,517,1823,499,1912,473,1946,457,1972,438,1988,417,1993,393,1993,316,1990,283,1981,251,1958,196"/>
+<area shape="poly" title=" " alt="" coords="1932,195,1906,228,1871,258,1826,280,1779,296,1690,313,1689,308,1777,291,1824,275,1868,254,1902,225,1928,192"/>
+<area shape="poly" title=" " alt="" coords="1999,184,2126,226,2125,231,1997,189"/>
+<area shape="rect" href="a00713.html" title=" " alt="" coords="2068,304,2209,331"/>
+<area shape="poly" title=" " alt="" coords="1975,189,2124,301,2121,306,1972,193"/>
+<area shape="poly" title=" " alt="" coords="2027,182,2268,228,2267,234,2026,187"/>
+<area shape="poly" title=" " alt="" coords="2276,265,2172,306,2170,301,2274,260"/>
+<area shape="rect" href="a00707.html" title=" " alt="" coords="2268,304,2375,331"/>
+<area shape="poly" title=" " alt="" coords="2324,272,2324,304,2319,304,2319,272"/>
+</map>
+</div>
+</div>
+<p><a href="a00653_source.html">Go to the source code of this file.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02897.html">lumex::xml::attribute::XmlAttributeBase</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Base structure for representing an XML attribute.  <a href="a02897.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00948.html">lumex</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01126.html">lumex::xml</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01129.html">lumex::xml::node</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01127.html">lumex::xml::attribute</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a7f14902237d6fd53b62ea287105d1c31" id="r_a7f14902237d6fd53b62ea287105d1c31"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7f14902237d6fd53b62ea287105d1c31">unspecified_bool_xml_node</a> (<a class="el" href="a02838.html">XmlNode</a> ***)</td></tr>
-<tr class="separator:a7f14902237d6fd53b62ea287105d1c31"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a647665f2ca21227b6053327ad22ae43a" id="r_a647665f2ca21227b6053327ad22ae43a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a647665f2ca21227b6053327ad22ae43a">text_output_escaped</a> (<a class="el" href="a02978.html">XmlBufferedWriter</a> &amp;<a class="el" href="a02954.html">writer</a>, <a class="el" href="a01100.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *str, <a class="el" href="a01100.html#a355198379230c3f88efbc231a9f617b3">chartypex_t</a> type, unsigned int flags)</td></tr>
-<tr class="separator:a647665f2ca21227b6053327ad22ae43a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adf60e317ab315b5cb3eb74f99c1c7818" id="r_adf60e317ab315b5cb3eb74f99c1c7818"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adf60e317ab315b5cb3eb74f99c1c7818">text_output</a> (<a class="el" href="a02978.html">XmlBufferedWriter</a> &amp;<a class="el" href="a02954.html">writer</a>, <a class="el" href="a01100.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *str, <a class="el" href="a01100.html#a355198379230c3f88efbc231a9f617b3">chartypex_t</a> type, unsigned int flags)</td></tr>
-<tr class="separator:adf60e317ab315b5cb3eb74f99c1c7818"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9e97a025d5f0d5027445d44145586231" id="r_a9e97a025d5f0d5027445d44145586231"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9e97a025d5f0d5027445d44145586231">text_output_cdata</a> (<a class="el" href="a02978.html">XmlBufferedWriter</a> &amp;<a class="el" href="a02954.html">writer</a>, <a class="el" href="a01100.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *str)</td></tr>
-<tr class="separator:a9e97a025d5f0d5027445d44145586231"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1c50f986d8e0bd24c89594197a5dc0e9" id="r_a1c50f986d8e0bd24c89594197a5dc0e9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1c50f986d8e0bd24c89594197a5dc0e9">text_output_indent</a> (<a class="el" href="a02978.html">XmlBufferedWriter</a> &amp;<a class="el" href="a02954.html">writer</a>, <a class="el" href="a01100.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *indent, std::size_t indent_length, unsigned int depth)</td></tr>
-<tr class="separator:a1c50f986d8e0bd24c89594197a5dc0e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afdf88c166fbef8feba73a11656d1a2a5" id="r_afdf88c166fbef8feba73a11656d1a2a5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afdf88c166fbef8feba73a11656d1a2a5">node_output_comment</a> (<a class="el" href="a02978.html">XmlBufferedWriter</a> &amp;<a class="el" href="a02954.html">writer</a>, <a class="el" href="a01100.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *str)</td></tr>
-<tr class="separator:afdf88c166fbef8feba73a11656d1a2a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a759553362006542d7aa6079a39a24bf4" id="r_a759553362006542d7aa6079a39a24bf4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a759553362006542d7aa6079a39a24bf4">node_output_pi_value</a> (<a class="el" href="a02978.html">XmlBufferedWriter</a> &amp;<a class="el" href="a02954.html">writer</a>, <a class="el" href="a01100.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *str)</td></tr>
-<tr class="separator:a759553362006542d7aa6079a39a24bf4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1aec0d3f33d23989698e84beb2403d60" id="r_a1aec0d3f33d23989698e84beb2403d60"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1aec0d3f33d23989698e84beb2403d60">node_output_attributes</a> (<a class="el" href="a02978.html">XmlBufferedWriter</a> &amp;<a class="el" href="a02954.html">writer</a>, <a class="el" href="a02854.html">XmlNodeBase</a> *node, <a class="el" href="a01100.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *indent, std::size_t indent_length, unsigned int flags, unsigned int depth)</td></tr>
-<tr class="separator:a1aec0d3f33d23989698e84beb2403d60"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3781da2446a997aeab30b3a127de9a9d" id="r_a3781da2446a997aeab30b3a127de9a9d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3781da2446a997aeab30b3a127de9a9d">node_output_start</a> (<a class="el" href="a02978.html">XmlBufferedWriter</a> &amp;<a class="el" href="a02954.html">writer</a>, <a class="el" href="a02854.html">XmlNodeBase</a> *node, <a class="el" href="a01100.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *indent, std::size_t indent_length, unsigned int flags, unsigned int depth)</td></tr>
-<tr class="separator:a3781da2446a997aeab30b3a127de9a9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a08731803b31fe1bac86107d608100f94" id="r_a08731803b31fe1bac86107d608100f94"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a08731803b31fe1bac86107d608100f94">node_output_end</a> (<a class="el" href="a02978.html">XmlBufferedWriter</a> &amp;<a class="el" href="a02954.html">writer</a>, <a class="el" href="a02854.html">XmlNodeBase</a> *node)</td></tr>
-<tr class="separator:a08731803b31fe1bac86107d608100f94"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9cf6a87493cf624f41e7e716ca14c5b5" id="r_a9cf6a87493cf624f41e7e716ca14c5b5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9cf6a87493cf624f41e7e716ca14c5b5">node_output_simple</a> (<a class="el" href="a02978.html">XmlBufferedWriter</a> &amp;<a class="el" href="a02954.html">writer</a>, <a class="el" href="a02854.html">XmlNodeBase</a> *node, unsigned int flags)</td></tr>
-<tr class="separator:a9cf6a87493cf624f41e7e716ca14c5b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9574910c1eb199b109e5ef6a75692053" id="r_a9574910c1eb199b109e5ef6a75692053"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a02897.html">XmlAttributeBase</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01127.html#a9574910c1eb199b109e5ef6a75692053">lumex::xml::attribute::allocate_attribute</a> (<a class="el" href="a02913.html">XmlAllocator</a> &amp;alloc)</td></tr>
+<tr class="memdesc:a9574910c1eb199b109e5ef6a75692053"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allocates a new <code><a class="el" href="a02897.html" title="Base structure for representing an XML attribute.">XmlAttributeBase</a></code> object using the provided allocator.  <br /></td></tr>
+<tr class="separator:a9574910c1eb199b109e5ef6a75692053"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a39c4f1cfa1cc6b95363c620f8c07bdea" id="r_a39c4f1cfa1cc6b95363c620f8c07bdea"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01127.html#a39c4f1cfa1cc6b95363c620f8c07bdea">lumex::xml::attribute::destroy_attribute</a> (<a class="el" href="a02897.html">XmlAttributeBase</a> *attr, <a class="el" href="a02913.html">XmlAllocator</a> &amp;alloc)</td></tr>
+<tr class="memdesc:a39c4f1cfa1cc6b95363c620f8c07bdea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroys and deallocates an <code><a class="el" href="a02897.html" title="Base structure for representing an XML attribute.">XmlAttributeBase</a></code> object.  <br /></td></tr>
+<tr class="separator:a39c4f1cfa1cc6b95363c620f8c07bdea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6b10ebb9351cdb4dcfb426ab944fa515" id="r_a6b10ebb9351cdb4dcfb426ab944fa515"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01127.html#a6b10ebb9351cdb4dcfb426ab944fa515">lumex::xml::attribute::prepend_attribute</a> (<a class="el" href="a02897.html">XmlAttributeBase</a> *attr, <a class="el" href="a02937.html">node::XmlNodeBase</a> *node)</td></tr>
+<tr class="memdesc:a6b10ebb9351cdb4dcfb426ab944fa515"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prepends an <code><a class="el" href="a02897.html" title="Base structure for representing an XML attribute.">XmlAttributeBase</a></code> to the beginning of a node's attribute list.  <br /></td></tr>
+<tr class="separator:a6b10ebb9351cdb4dcfb426ab944fa515"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac009a781687ac1b076eb5408390597a9" id="r_ac009a781687ac1b076eb5408390597a9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01127.html#ac009a781687ac1b076eb5408390597a9">lumex::xml::attribute::insert_attribute_after</a> (<a class="el" href="a02897.html">XmlAttributeBase</a> *attr, <a class="el" href="a02897.html">XmlAttributeBase</a> *place, <a class="el" href="a02937.html">node::XmlNodeBase</a> *node)</td></tr>
+<tr class="memdesc:ac009a781687ac1b076eb5408390597a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inserts an <code><a class="el" href="a02897.html" title="Base structure for representing an XML attribute.">XmlAttributeBase</a></code> after a specified existing attribute.  <br /></td></tr>
+<tr class="separator:ac009a781687ac1b076eb5408390597a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad8536805f9faefc21c231e0cb9dfdf5a" id="r_ad8536805f9faefc21c231e0cb9dfdf5a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01127.html#ad8536805f9faefc21c231e0cb9dfdf5a">lumex::xml::attribute::insert_attribute_before</a> (<a class="el" href="a02897.html">XmlAttributeBase</a> *attr, <a class="el" href="a02897.html">XmlAttributeBase</a> *place, <a class="el" href="a02937.html">node::XmlNodeBase</a> *node)</td></tr>
+<tr class="memdesc:ad8536805f9faefc21c231e0cb9dfdf5a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inserts an <code><a class="el" href="a02897.html" title="Base structure for representing an XML attribute.">XmlAttributeBase</a></code> before a specified existing attribute.  <br /></td></tr>
+<tr class="separator:ad8536805f9faefc21c231e0cb9dfdf5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afa881ac8bc7844492c7dbf561cc2480c" id="r_afa881ac8bc7844492c7dbf561cc2480c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01127.html#afa881ac8bc7844492c7dbf561cc2480c">lumex::xml::attribute::remove_attribute</a> (<a class="el" href="a02897.html">XmlAttributeBase</a> *attr, <a class="el" href="a02937.html">node::XmlNodeBase</a> *node)</td></tr>
+<tr class="memdesc:afa881ac8bc7844492c7dbf561cc2480c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes an <code><a class="el" href="a02897.html" title="Base structure for representing an XML attribute.">XmlAttributeBase</a></code> from its parent node's attribute list.  <br /></td></tr>
+<tr class="separator:afa881ac8bc7844492c7dbf561cc2480c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a05babdf187dfa6292de80d86d7470a11" id="r_a05babdf187dfa6292de80d86d7470a11"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01127.html#a05babdf187dfa6292de80d86d7470a11">lumex::xml::attribute::node_copy_attribute</a> (<a class="el" href="a02897.html">XmlAttributeBase</a> *da_, <a class="el" href="a02897.html">XmlAttributeBase</a> *sa_)</td></tr>
+<tr class="memdesc:a05babdf187dfa6292de80d86d7470a11"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies the name and value strings from a source <code><a class="el" href="a02897.html" title="Base structure for representing an XML attribute.">XmlAttributeBase</a></code> to a destination <code><a class="el" href="a02897.html" title="Base structure for representing an XML attribute.">XmlAttributeBase</a></code>.  <br /></td></tr>
+<tr class="separator:a05babdf187dfa6292de80d86d7470a11"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="a07486181f1990291c2a348de8eb4c480" name="a07486181f1990291c2a348de8eb4c480"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a07486181f1990291c2a348de8eb4c480">&#9670;&#160;</a></span>LUMEX_IMPLEMENTATION</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_IMPLEMENTATION</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="a1aec0d3f33d23989698e84beb2403d60" name="a1aec0d3f33d23989698e84beb2403d60"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1aec0d3f33d23989698e84beb2403d60">&#9670;&#160;</a></span>node_output_attributes()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void node_output_attributes </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a02978.html">XmlBufferedWriter</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>writer</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="a02854.html">XmlNodeBase</a> *</td>          <td class="paramname"><span class="paramname"><em>node</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="a01100.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *</td>          <td class="paramname"><span class="paramname"><em>indent</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>indent_length</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>flags</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>depth</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00653_a1aec0d3f33d23989698e84beb2403d60_cgraph.png" border="0" usemap="#aa00653_a1aec0d3f33d23989698e84beb2403d60_cgraph" alt=""/></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00653_a1aec0d3f33d23989698e84beb2403d60_icgraph.png" border="0" usemap="#aa00653_a1aec0d3f33d23989698e84beb2403d60_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="afdf88c166fbef8feba73a11656d1a2a5" name="afdf88c166fbef8feba73a11656d1a2a5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afdf88c166fbef8feba73a11656d1a2a5">&#9670;&#160;</a></span>node_output_comment()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void node_output_comment </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a02978.html">XmlBufferedWriter</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>writer</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="a01100.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *</td>          <td class="paramname"><span class="paramname"><em>str</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00653_afdf88c166fbef8feba73a11656d1a2a5_icgraph.png" border="0" usemap="#aa00653_afdf88c166fbef8feba73a11656d1a2a5_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="a08731803b31fe1bac86107d608100f94" name="a08731803b31fe1bac86107d608100f94"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a08731803b31fe1bac86107d608100f94">&#9670;&#160;</a></span>node_output_end()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void node_output_end </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a02978.html">XmlBufferedWriter</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>writer</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="a02854.html">XmlNodeBase</a> *</td>          <td class="paramname"><span class="paramname"><em>node</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00653_a08731803b31fe1bac86107d608100f94_icgraph.png" border="0" usemap="#aa00653_a08731803b31fe1bac86107d608100f94_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="a759553362006542d7aa6079a39a24bf4" name="a759553362006542d7aa6079a39a24bf4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a759553362006542d7aa6079a39a24bf4">&#9670;&#160;</a></span>node_output_pi_value()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void node_output_pi_value </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a02978.html">XmlBufferedWriter</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>writer</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="a01100.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *</td>          <td class="paramname"><span class="paramname"><em>str</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00653_a759553362006542d7aa6079a39a24bf4_icgraph.png" border="0" usemap="#aa00653_a759553362006542d7aa6079a39a24bf4_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="a9cf6a87493cf624f41e7e716ca14c5b5" name="a9cf6a87493cf624f41e7e716ca14c5b5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9cf6a87493cf624f41e7e716ca14c5b5">&#9670;&#160;</a></span>node_output_simple()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void node_output_simple </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a02978.html">XmlBufferedWriter</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>writer</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="a02854.html">XmlNodeBase</a> *</td>          <td class="paramname"><span class="paramname"><em>node</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>flags</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00653_a9cf6a87493cf624f41e7e716ca14c5b5_cgraph.png" border="0" usemap="#aa00653_a9cf6a87493cf624f41e7e716ca14c5b5_cgraph" alt=""/></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00653_a9cf6a87493cf624f41e7e716ca14c5b5_icgraph.png" border="0" usemap="#aa00653_a9cf6a87493cf624f41e7e716ca14c5b5_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="a3781da2446a997aeab30b3a127de9a9d" name="a3781da2446a997aeab30b3a127de9a9d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3781da2446a997aeab30b3a127de9a9d">&#9670;&#160;</a></span>node_output_start()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool node_output_start </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a02978.html">XmlBufferedWriter</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>writer</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="a02854.html">XmlNodeBase</a> *</td>          <td class="paramname"><span class="paramname"><em>node</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="a01100.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *</td>          <td class="paramname"><span class="paramname"><em>indent</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>indent_length</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>flags</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>depth</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00653_a3781da2446a997aeab30b3a127de9a9d_cgraph.png" border="0" usemap="#aa00653_a3781da2446a997aeab30b3a127de9a9d_cgraph" alt=""/></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00653_a3781da2446a997aeab30b3a127de9a9d_icgraph.png" border="0" usemap="#aa00653_a3781da2446a997aeab30b3a127de9a9d_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="adf60e317ab315b5cb3eb74f99c1c7818" name="adf60e317ab315b5cb3eb74f99c1c7818"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adf60e317ab315b5cb3eb74f99c1c7818">&#9670;&#160;</a></span>text_output()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void text_output </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a02978.html">XmlBufferedWriter</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>writer</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="a01100.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *</td>          <td class="paramname"><span class="paramname"><em>str</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="a01100.html#a355198379230c3f88efbc231a9f617b3">chartypex_t</a></td>          <td class="paramname"><span class="paramname"><em>type</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>flags</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00653_adf60e317ab315b5cb3eb74f99c1c7818_cgraph.png" border="0" usemap="#aa00653_adf60e317ab315b5cb3eb74f99c1c7818_cgraph" alt=""/></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00653_adf60e317ab315b5cb3eb74f99c1c7818_icgraph.png" border="0" usemap="#aa00653_adf60e317ab315b5cb3eb74f99c1c7818_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="a9e97a025d5f0d5027445d44145586231" name="a9e97a025d5f0d5027445d44145586231"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9e97a025d5f0d5027445d44145586231">&#9670;&#160;</a></span>text_output_cdata()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void text_output_cdata </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a02978.html">XmlBufferedWriter</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>writer</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="a01100.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *</td>          <td class="paramname"><span class="paramname"><em>str</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00653_a9e97a025d5f0d5027445d44145586231_icgraph.png" border="0" usemap="#aa00653_a9e97a025d5f0d5027445d44145586231_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="a647665f2ca21227b6053327ad22ae43a" name="a647665f2ca21227b6053327ad22ae43a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a647665f2ca21227b6053327ad22ae43a">&#9670;&#160;</a></span>text_output_escaped()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void text_output_escaped </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a02978.html">XmlBufferedWriter</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>writer</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="a01100.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *</td>          <td class="paramname"><span class="paramname"><em>str</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="a01100.html#a355198379230c3f88efbc231a9f617b3">chartypex_t</a></td>          <td class="paramname"><span class="paramname"><em>type</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>flags</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00653_a647665f2ca21227b6053327ad22ae43a_icgraph.png" border="0" usemap="#aa00653_a647665f2ca21227b6053327ad22ae43a_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="a1c50f986d8e0bd24c89594197a5dc0e9" name="a1c50f986d8e0bd24c89594197a5dc0e9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1c50f986d8e0bd24c89594197a5dc0e9">&#9670;&#160;</a></span>text_output_indent()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void text_output_indent </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a02978.html">XmlBufferedWriter</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>writer</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="a01100.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *</td>          <td class="paramname"><span class="paramname"><em>indent</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>indent_length</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>depth</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00653_a1c50f986d8e0bd24c89594197a5dc0e9_icgraph.png" border="0" usemap="#aa00653_a1c50f986d8e0bd24c89594197a5dc0e9_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="a7f14902237d6fd53b62ea287105d1c31" name="a7f14902237d6fd53b62ea287105d1c31"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7f14902237d6fd53b62ea287105d1c31">&#9670;&#160;</a></span>unspecified_bool_xml_node()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static void unspecified_bool_xml_node </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a02838.html">XmlNode</a> ***</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00653_a7f14902237d6fd53b62ea287105d1c31_icgraph.png" border="0" usemap="#aa00653_a7f14902237d6fd53b62ea287105d1c31_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-</div><!-- contents -->
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Internal storage of an XML attribute and the functions that allocate, link, unlink and copy it. </p>
+<p><code>XmlAttributeBase</code> is the record an <code>XmlAttribute</code> handle points to: a header word, the name and value pointers and the links of the attribute list of its element. That list is doubly linked; the first attribute's <code>prev_attribute_c</code> points to the last one, so appending needs no walk. The functions here allocate and destroy a record through the document's <code>XmlAllocator</code>, insert it into or remove it from an element's list, and copy name and value between records. Appending is declared next to the node record in <code><a class="el" href="a00698.html" title="Internal storage of an XML node and the functions that build, link, copy and destroy the tree.">XmlNodeBase.hpp</a></code>.</p>
+<p>These are building blocks of <code>XmlNode</code> and the parser. Application code works through <code>XmlAttribute</code>. </p>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_29d6ff05bf0fbfd630b35569eea8b892.html">node</a></li><li class="navelem"><a class="el" href="a00653.html">XmlNode.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_67864fa9b126ea0c63c4a33fb4799790.html">attribute</a></li><li class="navelem"><a class="el" href="a00653.html">XmlAttributeBase.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

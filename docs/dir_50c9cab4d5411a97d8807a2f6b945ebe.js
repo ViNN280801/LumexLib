@@ -12,5 +12,5 @@ var dir_50c9cab4d5411a97d8807a2f6b945ebe =
     [ "utility", "dir_7bfbee8fcb850e8938daf1d332a7a70b.html", "dir_7bfbee8fcb850e8938daf1d332a7a70b" ],
     [ "writer", "dir_7b089e18b7c2a92c23a9cf3b22a6463e.html", "dir_7b089e18b7c2a92c23a9cf3b22a6463e" ],
     [ "xpath", "dir_d38a0fae6a8e48d91b3b62673cf0c708.html", "dir_d38a0fae6a8e48d91b3b62673cf0c708" ],
-    [ "LumexXml", "a00908.html", null ]
+    [ "LumexXml", "a00944.html", null ]
 ];

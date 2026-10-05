@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::core::atomic Namespace Reference</title>
+<title>LumexLib: lumex::applied::json::diagnostics::Detail Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,24 +104,226 @@ $(function(){initNavTree('a00965.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#namespaces">Namespaces</a>  </div>
-  <div class="headertitle"><div class="title">lumex::core::atomic Namespace Reference</div></div>
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle"><div class="title">lumex::applied::json::diagnostics::Detail Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
-Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00966.html">smart_ptr</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00969.html">sync</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:aca3063965d5431c7f906a0a354f2d4c4" id="r_aca3063965d5431c7f906a0a354f2d4c4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aca3063965d5431c7f906a0a354f2d4c4">append_parts</a> (std::ostringstream &amp;)</td></tr>
+<tr class="separator:aca3063965d5431c7f906a0a354f2d4c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5350d69eada86df796421b3f44453e82" id="r_a5350d69eada86df796421b3f44453e82"><td class="memTemplParams" colspan="2">template&lt;typename Head, typename... Tail&gt; </td></tr>
+<tr class="memitem:a5350d69eada86df796421b3f44453e82"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a5350d69eada86df796421b3f44453e82">append_parts</a> (std::ostringstream &amp;stream, Head const &amp;head, Tail const &amp;...tail)</td></tr>
+<tr class="separator:a5350d69eada86df796421b3f44453e82"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab6f3b82c767e9d70cfc7b4fad75bdf33" id="r_ab6f3b82c767e9d70cfc7b4fad75bdf33"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab6f3b82c767e9d70cfc7b4fad75bdf33">write_to_stderr</a> (<a class="el" href="a00964.html#acf6c250fe30b33bf20e97c6bc52ad446">LumexJsonDiagnosticLevel</a> level, char const *message) noexcept</td></tr>
+<tr class="memdesc:ab6f3b82c767e9d70cfc7b4fad75bdf33"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default sink: writes <code>[level] message</code> to <code>std::cerr</code> for <code>warning</code> and <code>error</code>, drops <code>debug</code> and <code>info</code>. Never throws.  <br /></td></tr>
+<tr class="separator:ab6f3b82c767e9d70cfc7b4fad75bdf33"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad8e38666393a49d562e6873564539189" id="r_ad8e38666393a49d562e6873564539189"><td class="memTemplParams" colspan="2">template&lt;typename... Parts&gt; </td></tr>
+<tr class="memitem:ad8e38666393a49d562e6873564539189"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#ad8e38666393a49d562e6873564539189">report</a> (<a class="el" href="a00964.html#acf6c250fe30b33bf20e97c6bc52ad446">LumexJsonDiagnosticLevel</a> level, Parts const &amp;...parts) noexcept</td></tr>
+<tr class="memdesc:ad8e38666393a49d562e6873564539189"><td class="mdescLeft">&#160;</td><td class="mdescRight">Concatenates <code>parts</code> with <code>operator&lt;&lt;</code> and sends the text to the installed sink, or to the default one when the slot is empty or the sink throws. Never throws: a failure while building the text drops the message.  <br /></td></tr>
+<tr class="separator:ad8e38666393a49d562e6873564539189"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="aca3063965d5431c7f906a0a354f2d4c4" name="aca3063965d5431c7f906a0a354f2d4c4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aca3063965d5431c7f906a0a354f2d4c4">&#9670;&#160;</a></span>append_parts() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lumex::applied::json::diagnostics::Detail::append_parts </td>
+          <td>(</td>
+          <td class="paramtype">std::ostringstream &amp;</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00965_aca3063965d5431c7f906a0a354f2d4c4_cgraph.png" border="0" usemap="#aa00965_aca3063965d5431c7f906a0a354f2d4c4_cgraph" alt=""/></div>
+<map name="aa00965_aca3063965d5431c7f906a0a354f2d4c4_cgraph" id="aa00965_aca3063965d5431c7f906a0a354f2d4c4_cgraph">
+<area shape="rect" title=" " alt="" coords="5,29,143,88"/>
+<area shape="poly" title=" " alt="" coords="46,29,46,19,51,11,61,5,74,3,89,5,98,12,95,16,87,10,74,8,63,10,55,14,52,21,51,29"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00965_aca3063965d5431c7f906a0a354f2d4c4_icgraph.png" border="0" usemap="#aa00965_aca3063965d5431c7f906a0a354f2d4c4_icgraph" alt=""/></div>
+<map name="aa00965_aca3063965d5431c7f906a0a354f2d4c4_icgraph" id="aa00965_aca3063965d5431c7f906a0a354f2d4c4_icgraph">
+<area shape="rect" title=" " alt="" coords="191,47,328,105"/>
+<area shape="poly" title=" " alt="" coords="288,34,277,28,259,25,243,27,233,32,228,38,228,47,222,46,223,36,230,28,242,22,259,20,279,23,291,30"/>
+<area shape="rect" href="a00965.html#a5350d69eada86df796421b3f44453e82" title=" " alt="" coords="5,5,143,64"/>
+<area shape="poly" title=" " alt="" coords="175,60,143,53,144,47,176,55"/>
+<area shape="rect" href="a00965.html#ad8e38666393a49d562e6873564539189" title="Concatenates parts with operator&lt;&lt; and sends the text to the installed sink, or to the default one wh..." alt="" coords="5,88,143,147"/>
+<area shape="poly" title=" " alt="" coords="176,97,144,105,143,99,175,92"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a5350d69eada86df796421b3f44453e82" name="a5350d69eada86df796421b3f44453e82"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5350d69eada86df796421b3f44453e82">&#9670;&#160;</a></span>append_parts() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Head, typename... Tail&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lumex::applied::json::diagnostics::Detail::append_parts </td>
+          <td>(</td>
+          <td class="paramtype">std::ostringstream &amp;</td>          <td class="paramname"><span class="paramname"><em>stream</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Head const &amp;</td>          <td class="paramname"><span class="paramname"><em>head</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Tail const &amp;...</td>          <td class="paramname"><span class="paramname"><em>tail</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00965_a5350d69eada86df796421b3f44453e82_cgraph.png" border="0" usemap="#aa00965_a5350d69eada86df796421b3f44453e82_cgraph" alt=""/></div>
+<map name="aa00965_a5350d69eada86df796421b3f44453e82_cgraph" id="aa00965_a5350d69eada86df796421b3f44453e82_cgraph">
+<area shape="rect" title=" " alt="" coords="5,29,143,88"/>
+<area shape="rect" href="a00965.html#aca3063965d5431c7f906a0a354f2d4c4" title=" " alt="" coords="191,29,328,88"/>
+<area shape="poly" title=" " alt="" coords="143,56,175,56,175,61,143,61"/>
+<area shape="poly" title=" " alt="" coords="222,29,223,19,230,10,242,5,259,3,279,5,291,12,288,17,277,10,259,8,243,10,233,14,228,21,228,29"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ad8e38666393a49d562e6873564539189" name="ad8e38666393a49d562e6873564539189"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad8e38666393a49d562e6873564539189">&#9670;&#160;</a></span>report()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename... Parts&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lumex::applied::json::diagnostics::Detail::report </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a00964.html#acf6c250fe30b33bf20e97c6bc52ad446">LumexJsonDiagnosticLevel</a></td>          <td class="paramname"><span class="paramname"><em>level</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Parts const &amp;...</td>          <td class="paramname"><span class="paramname"><em>parts</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Concatenates <code>parts</code> with <code>operator&lt;&lt;</code> and sends the text to the installed sink, or to the default one when the slot is empty or the sink throws. Never throws: a failure while building the text drops the message. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00965_ad8e38666393a49d562e6873564539189_cgraph.png" border="0" usemap="#aa00965_ad8e38666393a49d562e6873564539189_cgraph" alt=""/></div>
+<map name="aa00965_ad8e38666393a49d562e6873564539189_cgraph" id="aa00965_ad8e38666393a49d562e6873564539189_cgraph">
+<area shape="rect" title="Concatenates parts with operator&lt;&lt; and sends the text to the installed sink, or to the default one wh..." alt="" coords="5,71,143,129"/>
+<area shape="rect" href="a00965.html#aca3063965d5431c7f906a0a354f2d4c4" title=" " alt="" coords="191,29,328,88"/>
+<area shape="poly" title=" " alt="" coords="142,82,175,75,176,80,143,87"/>
+<area shape="rect" href="a00965.html#ab6f3b82c767e9d70cfc7b4fad75bdf33" title="Default sink: writes [level] message to std::cerr for warning and error, drops debug and info...." alt="" coords="191,112,328,171"/>
+<area shape="poly" title=" " alt="" coords="143,113,176,120,175,125,142,118"/>
+<area shape="poly" title=" " alt="" coords="222,29,223,19,230,10,242,5,259,3,279,5,291,12,288,17,277,10,259,8,243,10,233,14,228,21,228,29"/>
+<area shape="rect" href="a00964.html#af6d27a1b23f0336deac6c4926ec4da88" title=" " alt="" coords="376,120,524,163"/>
+<area shape="poly" title=" " alt="" coords="329,139,361,139,361,144,329,144"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ab6f3b82c767e9d70cfc7b4fad75bdf33" name="ab6f3b82c767e9d70cfc7b4fad75bdf33"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab6f3b82c767e9d70cfc7b4fad75bdf33">&#9670;&#160;</a></span>write_to_stderr()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lumex::applied::json::diagnostics::Detail::write_to_stderr </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a00964.html#acf6c250fe30b33bf20e97c6bc52ad446">LumexJsonDiagnosticLevel</a></td>          <td class="paramname"><span class="paramname"><em>level</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char const *</td>          <td class="paramname"><span class="paramname"><em>message</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Default sink: writes <code>[level] message</code> to <code>std::cerr</code> for <code>warning</code> and <code>error</code>, drops <code>debug</code> and <code>info</code>. Never throws. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00965_ab6f3b82c767e9d70cfc7b4fad75bdf33_cgraph.png" border="0" usemap="#aa00965_ab6f3b82c767e9d70cfc7b4fad75bdf33_cgraph" alt=""/></div>
+<map name="aa00965_ab6f3b82c767e9d70cfc7b4fad75bdf33_cgraph" id="aa00965_ab6f3b82c767e9d70cfc7b4fad75bdf33_cgraph">
+<area shape="rect" title="Default sink: writes [level] message to std::cerr for warning and error, drops debug and info...." alt="" coords="5,5,143,64"/>
+<area shape="rect" href="a00964.html#af6d27a1b23f0336deac6c4926ec4da88" title=" " alt="" coords="191,13,339,56"/>
+<area shape="poly" title=" " alt="" coords="143,32,175,32,175,37,143,37"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00965_ab6f3b82c767e9d70cfc7b4fad75bdf33_icgraph.png" border="0" usemap="#aa00965_ab6f3b82c767e9d70cfc7b4fad75bdf33_icgraph" alt=""/></div>
+<map name="aa00965_ab6f3b82c767e9d70cfc7b4fad75bdf33_icgraph" id="aa00965_ab6f3b82c767e9d70cfc7b4fad75bdf33_icgraph">
+<area shape="rect" title="Default sink: writes [level] message to std::cerr for warning and error, drops debug and info...." alt="" coords="191,5,328,64"/>
+<area shape="rect" href="a00965.html#ad8e38666393a49d562e6873564539189" title="Concatenates parts with operator&lt;&lt; and sends the text to the installed sink, or to the default one wh..." alt="" coords="5,5,143,64"/>
+<area shape="poly" title=" " alt="" coords="175,37,143,37,143,32,175,32"/>
+</map>
+</div>
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00912.html">lumex</a></li><li class="navelem"><a class="el" href="a00964.html">core</a></li><li class="navelem"><a class="el" href="a00965.html">atomic</a></li>
+    <li class="navelem"><a class="el" href="a00948.html">lumex</a></li><li class="navelem"><a class="el" href="a00949.html">applied</a></li><li class="navelem"><a class="el" href="a00963.html">json</a></li><li class="navelem"><a class="el" href="a00964.html">diagnostics</a></li><li class="navelem"><a class="el" href="a00965.html">Detail</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

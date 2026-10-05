@@ -1,0 +1,26 @@
+var a01129 =
+[
+    [ "name_null_sentry", "a02941.html", "a02941" ],
+    [ "XmlNamedNodeIterator", "a02929.html", "a02929" ],
+    [ "XmlNode", "a02921.html", "a02921" ],
+    [ "XmlNodeBase", "a02937.html", "a02937" ],
+    [ "XmlNodeIterator", "a02925.html", "a02925" ],
+    [ "allocate_node", "a01129.html#a8a54b20652c8781b21677e83ae9dec6d", null ],
+    [ "allow_move", "a01129.html#aae6fd296565521687dfdec74617af3f4", null ],
+    [ "append_attribute", "a01129.html#ac91d41bf86f0da8b9a45c72c88401962", null ],
+    [ "append_new_attribute", "a01129.html#a803330a161b229c5afdd0c16baaade86", null ],
+    [ "append_new_node", "a01129.html#a250c352fb5975642cf858d3b0904f533", null ],
+    [ "append_node", "a01129.html#ae19ea447d9f1af4a7fb59b9f194ff981", null ],
+    [ "destroy_node", "a01129.html#a4c2f2a89afe0c018d7c328d9bda84cb7", null ],
+    [ "insert_node_after", "a01129.html#a7ac0038c331ec59c37db894f6703e20b", null ],
+    [ "insert_node_before", "a01129.html#aaf66596f81992c733b093191f7d3911d", null ],
+    [ "is_text_node", "a01129.html#a1e646ed1cb77d39fa585d98f77a5269c", null ],
+    [ "node_copy_contents", "a01129.html#aec8cf7d559fe456a7d4396307ffc5404", null ],
+    [ "node_copy_tree", "a01129.html#a11377e4dbc3c07bbcae59a081a6040b6", null ],
+    [ "node_is_ancestor", "a01129.html#a5e091cb7a56f98fe48c2a50c2249cd9e", null ],
+    [ "node_output", "a01129.html#af34491b7156887c5b07e29420a4db813", null ],
+    [ "operator&&", "a01129.html#a9cfeb01c63a015b2ea3b1acdb401fafa", null ],
+    [ "operator||", "a01129.html#a9ddd7da688cc6930afb363d4835bc59d", null ],
+    [ "prepend_node", "a01129.html#afe6cdb8a9df9453aea7cdb35798adb66", null ],
+    [ "remove_node", "a01129.html#afec7ee0b3699369a0c2aae8cf8b4dab8", null ]
+];

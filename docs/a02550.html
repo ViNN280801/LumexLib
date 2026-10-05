@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::core::utility::traits::stream::all_streamable&lt; Args &gt; Struct Template Reference</title>
+<title>LumexLib: Member List</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a02550.html',''); initResizable(true); });
+$(function(){initNavTree('a02553.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,24 +103,23 @@ $(function(){initNavTree('a02550.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">lumex::core::utility::traits::stream::all_streamable&lt; Args &gt; Struct Template Reference</div></div>
+  <div class="headertitle"><div class="title">lumex::core::utility::traits::invoke::detail::invoke_impl&lt; MT B::* &gt; Member List</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p><code>value</code> is true when every type in <code>Args</code> (after <code>std::decay</code>) is streamable; true for an empty pack.  
- <a href="#details">More...</a></p>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><div class="compoundTemplParams">template&lt;typename... Args&gt;<br />
-struct lumex::core::utility::traits::stream::all_streamable&lt; Args &gt;</div><p><code>value</code> is true when every type in <code>Args</code> (after <code>std::decay</code>) is streamable; true for an empty pack. </p>
-</div><hr/>The documentation for this struct was generated from the following file:<ul>
-<li><a class="el" href="a00410_source.html">LumexTypeTraits.hpp</a></li>
-</ul>
-</div><!-- contents -->
+<p>This is the complete list of members for <a class="el" href="a02553.html">lumex::core::utility::traits::invoke::detail::invoke_impl&lt; MT B::* &gt;</a>, including all inherited members.</p>
+<table class="directory">
+  <tr class="even"><td class="entry"><a class="el" href="a02553.html#ad8d7e35f1cd9da681476352ccfd4110f">call</a>(MT1 B::*pmf, T &amp;&amp;arg, Args &amp;&amp;...args) -&gt; decltype((invoke_impl::get(std::forward&lt; T &gt;(arg)) .*pmf)(std::forward&lt; Args &gt;(args)...))</td><td class="entry"><a class="el" href="a02553.html">lumex::core::utility::traits::invoke::detail::invoke_impl&lt; MT B::* &gt;</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02553.html#aac9ab234126f49b0c6ceb57131ab45d2">call</a>(MT B::*pmd, T &amp;&amp;arg) -&gt; decltype(invoke_impl::get(std::forward&lt; T &gt;(arg)).*pmd)</td><td class="entry"><a class="el" href="a02553.html">lumex::core::utility::traits::invoke::detail::invoke_impl&lt; MT B::* &gt;</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02549.html#abe240b9653411e83b690fd985a9daed1">call</a>(Func &amp;&amp;func, Args &amp;&amp;...args) -&gt; decltype(std::forward&lt; Func &gt;(func)(std::forward&lt; Args &gt;(args)...))</td><td class="entry"><a class="el" href="a02553.html">lumex::core::utility::traits::invoke::detail::invoke_impl&lt; MT B::* &gt;</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02553.html#adbeec9328e7c8d6f69075e00a069ca37">get</a>(T &amp;&amp;arg) -&gt; T &amp;&amp;</td><td class="entry"><a class="el" href="a02553.html">lumex::core::utility::traits::invoke::detail::invoke_impl&lt; MT B::* &gt;</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02553.html#a2117ec3ab0fdca8512f4e7ea7e6baeb3">get</a>(T &amp;&amp;arg) -&gt; decltype(arg.get())</td><td class="entry"><a class="el" href="a02553.html">lumex::core::utility::traits::invoke::detail::invoke_impl&lt; MT B::* &gt;</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02553.html#a3203747d32a51310fdd2738406b527fe">get</a>(T &amp;&amp;arg) -&gt; decltype(*std::forward&lt; T &gt;(arg))</td><td class="entry"><a class="el" href="a02553.html">lumex::core::utility::traits::invoke::detail::invoke_impl&lt; MT B::* &gt;</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+</table></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00912.html">lumex</a></li><li class="navelem"><a class="el" href="a00964.html">core</a></li><li class="navelem"><a class="el" href="a01036.html">utility</a></li><li class="navelem"><a class="el" href="a01050.html">traits</a></li><li class="navelem"><a class="el" href="a01054.html">stream</a></li><li class="navelem"><a class="el" href="a02550.html">all_streamable</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

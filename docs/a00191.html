@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: CircularBuffer.hpp File Reference</title>
+<title>LumexLib: LumexAtomicSmartPtrCell.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -106,94 +106,146 @@ $(function(){initNavTree('a00191.html',''); initResizable(true); });
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#namespaces">Namespaces</a> &#124;
-<a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">CircularBuffer.hpp File Reference</div></div>
+<a href="#typedef-members">Typedefs</a>  </div>
+  <div class="headertitle"><div class="title">LumexAtomicSmartPtrCell.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p><code>CircularBuffer</code>, a fixed-capacity ring buffer that overwrites its oldest element when full, modeled on Boost's <code>circular_buffer</code>.  
+<p>Storage and operations behind <code><a class="el" href="a01325.html" title="Atomic std::shared_ptr&lt;T&gt;, as std::atomic&lt;std::shared_ptr&lt;T&gt;&gt;.">atomic_shared_ptr</a></code> and <code><a class="el" href="a01349.html" title="Atomic std::weak_ptr&lt;T&gt;, as std::atomic&lt;std::weak_ptr&lt;T&gt;&gt;.">atomic_weak_ptr</a></code>: a lock-based cell for every standard library, and a cell over the standard atomic smart pointers.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;algorithm&gt;</code><br />
-<code>#include &lt;cstddef&gt;</code><br />
-<code>#include &lt;iterator&gt;</code><br />
+<div class="textblock"><code>#include &lt;atomic&gt;</code><br />
+<code>#include &lt;cstdint&gt;</code><br />
 <code>#include &lt;memory&gt;</code><br />
-<code>#include &lt;stdexcept&gt;</code><br />
-<code>#include &lt;type_traits&gt;</code><br />
 <code>#include &lt;utility&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00350_source.html">lumex/core/utility/assert/LumexAssert.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00368_source.html">lumex/core/utility/compiler/LumexCheckFeatures.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00383_source.html">lumex/core/utility/macros/LumexConstantMacros.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00389_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00194_source.html">lumex/core/atomic/smart_ptr/LumexAtomicSmartPtrConfig.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00200_source.html">lumex/core/atomic/sync/LumexAtomicWait.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00203_source.html">lumex/core/atomic/sync/LumexBitLock.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00425_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for CircularBuffer.hpp:</div>
+Include dependency graph for LumexAtomicSmartPtrCell.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00192.png" border="0" usemap="#a_circular_buffer_8hpp" alt=""/></div>
+<div class="center"><img src="a00192.png" border="0" usemap="#a_lumex_atomic_smart_ptr_cell_8hpp" alt=""/></div>
+<map name="a_lumex_atomic_smart_ptr_cell_8hpp" id="a_lumex_atomic_smart_ptr_cell_8hpp">
+<area shape="rect" title="Storage and operations behind atomic_shared_ptr and atomic_weak_ptr: a lock&#45;based cell for every stan..." alt="" coords="592,5,794,32"/>
+<area shape="rect" title=" " alt="" coords="5,269,66,296"/>
+<area shape="poly" title=" " alt="" coords="592,23,475,27,346,36,229,54,183,67,150,82,129,99,110,120,79,167,58,215,45,255,40,254,53,213,74,165,105,117,125,96,147,78,182,62,228,49,345,31,475,21,592,18"/>
+<area shape="rect" title=" " alt="" coords="889,269,950,296"/>
+<area shape="poly" title=" " alt="" coords="757,30,803,48,826,62,845,78,877,120,898,168,912,215,919,253,914,254,906,216,893,170,872,123,842,82,823,66,801,53,755,35"/>
+<area shape="rect" title=" " alt="" coords="117,179,186,205"/>
+<area shape="poly" title=" " alt="" coords="592,28,343,48,235,64,198,73,179,82,165,99,157,120,152,163,147,163,152,119,161,97,175,78,197,68,234,59,342,43,592,23"/>
+<area shape="rect" title=" " alt="" coords="992,88,1044,115"/>
+<area shape="poly" title=" " alt="" coords="773,30,870,49,974,77,979,79,977,84,972,83,868,55,772,35"/>
+<area shape="rect" href="a00194.html" title="Chooses between the standard std::atomic&lt;std::shared_ptr&lt;T&gt;&gt; and the lock&#45;based implementation,..." alt="" coords="189,80,431,123"/>
+<area shape="poly" title=" " alt="" coords="633,35,424,79,423,74,632,30"/>
+<area shape="rect" href="a00200.html" title="Blocking wait for a change of a 32&#45;bit atomic word, and the wake&#45;up that ends it, from C++11 on." alt="" coords="554,171,714,213"/>
+<area shape="poly" title=" " alt="" coords="687,34,662,81,650,119,642,156,637,155,645,118,657,79,682,31"/>
+<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="974,261,1169,304"/>
+<area shape="poly" title=" " alt="" coords="757,30,818,49,878,78,932,117,980,163,1050,247,1046,251,976,167,928,122,875,82,816,54,755,35"/>
+<area shape="rect" href="a00203.html" title="A lock held in one 32&#45;bit word: one bit marks it as taken, a second bit records that a thread sleeps ..." alt="" coords="671,80,832,123"/>
+<area shape="poly" title=" " alt="" coords="704,31,730,66,726,69,700,34"/>
+<area shape="poly" title=" " alt="" coords="292,125,200,215,167,233,140,243,78,264,75,265,73,260,76,259,138,238,165,228,197,211,288,121"/>
+<area shape="poly" title=" " alt="" coords="274,126,189,173,186,168,272,121"/>
+<area shape="poly" title=" " alt="" coords="387,121,544,164,543,169,385,126"/>
+<area shape="rect" href="a00404.html" title="C++ language, library and attribute feature availability." alt="" coords="89,261,320,304"/>
+<area shape="poly" title=" " alt="" coords="300,125,227,250,222,247,296,122"/>
+<area shape="poly" title=" " alt="" coords="554,214,543,216,472,225,411,229,308,231,205,237,146,247,78,264,72,266,71,261,76,259,145,242,205,232,307,226,411,224,471,220,542,211,553,209"/>
+<area shape="poly" title=" " alt="" coords="716,209,795,231,879,259,882,260,880,265,877,264,794,236,714,215"/>
+<area shape="rect" title=" " alt="" coords="414,269,465,296"/>
+<area shape="poly" title=" " alt="" coords="585,216,478,264,477,264,474,260,476,259,583,211"/>
+<area shape="rect" title=" " alt="" coords="489,269,614,296"/>
+<area shape="poly" title=" " alt="" coords="617,216,575,260,572,256,613,212"/>
+<area shape="rect" title=" " alt="" coords="638,269,702,296"/>
+<area shape="poly" title=" " alt="" coords="645,213,662,254,657,256,640,215"/>
+<area shape="rect" title=" " alt="" coords="727,269,784,296"/>
+<area shape="poly" title=" " alt="" coords="664,212,728,258,724,262,661,216"/>
+<area shape="rect" title=" " alt="" coords="345,269,390,296"/>
+<area shape="poly" title=" " alt="" coords="554,214,480,236,403,264,402,264,400,260,401,259,478,231,553,209"/>
+<area shape="rect" title=" " alt="" coords="808,269,866,296"/>
+<area shape="poly" title=" " alt="" coords="687,211,798,259,800,260,798,265,796,264,685,216"/>
+<area shape="poly" title=" " alt="" coords="554,214,543,216,325,260,324,255,542,211,553,208"/>
+<area shape="poly" title=" " alt="" coords="715,207,960,256,959,261,714,212"/>
+<area shape="poly" title=" " alt="" coords="671,114,521,137,435,153,351,173,294,193,238,216,157,239,78,264,75,265,73,260,76,259,156,234,236,211,292,188,349,168,434,148,520,131,671,109"/>
+<area shape="poly" title=" " alt="" coords="767,122,797,164,836,211,891,258,887,262,832,215,792,168,762,125"/>
+<area shape="poly" title=" " alt="" coords="726,125,675,163,672,159,723,121"/>
+<area shape="poly" title=" " alt="" coords="758,123,768,165,786,212,817,256,812,259,781,215,763,167,752,124"/>
+<area shape="poly" title=" " alt="" coords="785,121,937,211,1016,252,1013,257,934,216,782,125"/>
+<area shape="rect" href="a00389.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="362,171,530,213"/>
+<area shape="poly" title=" " alt="" coords="681,126,533,168,532,163,679,121"/>
+<area shape="poly" title=" " alt="" coords="390,216,276,258,275,253,389,211"/>
+</map>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00193.png" border="0" usemap="#a_circular_buffer_8hppdep" alt=""/></div>
+<div class="center"><img src="a00193.png" border="0" usemap="#a_lumex_atomic_smart_ptr_cell_8hppdep" alt=""/></div>
+<map name="a_lumex_atomic_smart_ptr_cell_8hppdep" id="a_lumex_atomic_smart_ptr_cell_8hppdep">
+<area shape="rect" title="Storage and operations behind atomic_shared_ptr and atomic_weak_ptr: a lock&#45;based cell for every stan..." alt="" coords="98,5,300,32"/>
+<area shape="rect" href="a00188.html" title="atomic_shared_ptr&lt;T&gt;: the interface of the C++20 std::atomic&lt;std::shared_ptr&lt;T&gt;&gt; for C++11 and later." alt="" coords="5,80,190,107"/>
+<area shape="poly" title=" " alt="" coords="170,44,117,82,114,77,167,39"/>
+<area shape="rect" href="a00197.html" title="atomic_weak_ptr&lt;T&gt;: the interface of the C++20 std::atomic&lt;std::weak_ptr&lt;T&gt;&gt; for C++11 and later." alt="" coords="213,80,390,107"/>
+<area shape="poly" title=" " alt="" coords="231,39,285,77,282,82,228,44"/>
+<area shape="rect" href="a00890.html" title="Atomic module: atomic_shared_ptr&lt;T&gt; and atomic_weak_ptr&lt;T&gt;, the interface of the C++20 std::atomic&lt;st..." alt="" coords="148,155,250,181"/>
+<area shape="poly" title=" " alt="" coords="129,114,183,152,180,156,126,118"/>
+<area shape="rect" href="a00452.html" title=" " alt="" coords="29,229,187,272"/>
+<area shape="poly" title=" " alt="" coords="175,194,133,231,130,227,172,190"/>
+<area shape="rect" href="a00455.html" title=" " alt="" coords="211,229,368,272"/>
+<area shape="poly" title=" " alt="" coords="226,190,268,227,265,231,222,194"/>
+<area shape="poly" title=" " alt="" coords="273,118,218,156,215,152,270,114"/>
+</map>
 </div>
 </div>
 <p><a href="a00191_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01302.html">lumex::core::circular_buffer::CircularBuffer&lt; T, Allocator &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fixed-capacity circular buffer that overwrites when full (similar to Boost's <code><a class="el" href="a00983.html">circular_buffer</a></code>).  <a href="a01302.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01333.html">lumex::core::atomic::smart_ptr::lock_based_table_wait::Detail::smart_ptr_traits_t&lt; std::shared_ptr&lt; T &gt; &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalence of <code>std::shared_ptr</code>: same stored pointer and same owner (or both empty).  <a href="a01333.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01310.html">lumex::core::circular_buffer::CircularBuffer&lt; T, Allocator &gt;::iterator</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Random-access iterator over the logical element sequence.  <a href="a01310.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01337.html">lumex::core::atomic::smart_ptr::lock_based_table_wait::Detail::smart_ptr_traits_t&lt; std::shared_ptr&lt; T &gt; &gt;::probe_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A shared pointer needs no extra state to be compared.  <a href="a01337.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01314.html">lumex::core::circular_buffer::CircularBuffer&lt; T, Allocator &gt;::const_iterator</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Const random-access iterator.  <a href="a01314.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01341.html">lumex::core::atomic::smart_ptr::lock_based_table_wait::Detail::smart_ptr_traits_t&lt; std::weak_ptr&lt; T &gt; &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalence of <code>std::weak_ptr</code>: same owner, and the same stored pointer as far as <code>lock ()</code> can observe it.  <a href="a01341.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01345.html">lumex::core::atomic::smart_ptr::lock_based_table_wait::Detail::LockBasedCell&lt; Pointer &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lock-based atomic cell over an ordinary smart pointer.  <a href="a01345.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00912.html">lumex</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00948.html">lumex</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00964.html">lumex::core</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01005.html">lumex::core</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00983.html">lumex::core::circular_buffer</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01006.html">lumex::core::atomic</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01007.html">lumex::core::atomic::smart_ptr</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01008.html">lumex::core::atomic::smart_ptr::lock_based_table_wait</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01009.html">lumex::core::atomic::smart_ptr::lock_based_table_wait::Detail</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:ac96da0807d416d4354f8e227a54404fe" id="r_ac96da0807d416d4354f8e227a54404fe"><td class="memTemplParams" colspan="2">template&lt;class T, class Alloc&gt; </td></tr>
-<tr class="memitem:ac96da0807d416d4354f8e227a54404fe"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a00983.html#ac96da0807d416d4354f8e227a54404fe">lumex::core::circular_buffer::operator==</a> (<a class="el" href="a01302.html">CircularBuffer</a>&lt; T, Alloc &gt; const &amp;lhs, <a class="el" href="a01302.html">CircularBuffer</a>&lt; T, Alloc &gt; const &amp;rhs)</td></tr>
-<tr class="memdesc:ac96da0807d416d4354f8e227a54404fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equality comparison of two <code><a class="el" href="a01302.html" title="Fixed-capacity circular buffer that overwrites when full (similar to Boost&#39;s circular_buffer).">CircularBuffer</a></code> objects.  <br /></td></tr>
-<tr class="separator:ac96da0807d416d4354f8e227a54404fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9f2053ec78d256b9511bcb2ad97a7df2" id="r_a9f2053ec78d256b9511bcb2ad97a7df2"><td class="memTemplParams" colspan="2">template&lt;class T, class Alloc&gt; </td></tr>
-<tr class="memitem:a9f2053ec78d256b9511bcb2ad97a7df2"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a00983.html#a9f2053ec78d256b9511bcb2ad97a7df2">lumex::core::circular_buffer::operator!=</a> (<a class="el" href="a01302.html">CircularBuffer</a>&lt; T, Alloc &gt; const &amp;lhs, <a class="el" href="a01302.html">CircularBuffer</a>&lt; T, Alloc &gt; const &amp;rhs)</td></tr>
-<tr class="memdesc:a9f2053ec78d256b9511bcb2ad97a7df2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inequality comparison of two <code><a class="el" href="a01302.html" title="Fixed-capacity circular buffer that overwrites when full (similar to Boost&#39;s circular_buffer).">CircularBuffer</a></code> objects.  <br /></td></tr>
-<tr class="separator:a9f2053ec78d256b9511bcb2ad97a7df2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a56bbfbab60073a9b1102f21f970563c9" id="r_a56bbfbab60073a9b1102f21f970563c9"><td class="memTemplParams" colspan="2">template&lt;class T, class Alloc&gt; </td></tr>
-<tr class="memitem:a56bbfbab60073a9b1102f21f970563c9"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a00983.html#a56bbfbab60073a9b1102f21f970563c9">lumex::core::circular_buffer::operator&lt;</a> (<a class="el" href="a01302.html">CircularBuffer</a>&lt; T, Alloc &gt; const &amp;lhs, <a class="el" href="a01302.html">CircularBuffer</a>&lt; T, Alloc &gt; const &amp;rhs)</td></tr>
-<tr class="memdesc:a56bbfbab60073a9b1102f21f970563c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">"less" operator for two <code><a class="el" href="a01302.html" title="Fixed-capacity circular buffer that overwrites when full (similar to Boost&#39;s circular_buffer).">CircularBuffer</a></code> objects.  <br /></td></tr>
-<tr class="separator:a56bbfbab60073a9b1102f21f970563c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4f2d75691303d649ca012fbe8dda517a" id="r_a4f2d75691303d649ca012fbe8dda517a"><td class="memTemplParams" colspan="2">template&lt;class T, class Alloc&gt; </td></tr>
-<tr class="memitem:a4f2d75691303d649ca012fbe8dda517a"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a00983.html#a4f2d75691303d649ca012fbe8dda517a">lumex::core::circular_buffer::operator&lt;=</a> (<a class="el" href="a01302.html">CircularBuffer</a>&lt; T, Alloc &gt; const &amp;lhs, <a class="el" href="a01302.html">CircularBuffer</a>&lt; T, Alloc &gt; const &amp;rhs)</td></tr>
-<tr class="memdesc:a4f2d75691303d649ca012fbe8dda517a"><td class="mdescLeft">&#160;</td><td class="mdescRight">"less or equal" operator for two <code><a class="el" href="a01302.html" title="Fixed-capacity circular buffer that overwrites when full (similar to Boost&#39;s circular_buffer).">CircularBuffer</a></code> objects.  <br /></td></tr>
-<tr class="separator:a4f2d75691303d649ca012fbe8dda517a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acc6a20ddca8e466131ac5c016f8db307" id="r_acc6a20ddca8e466131ac5c016f8db307"><td class="memTemplParams" colspan="2">template&lt;class T, class Alloc&gt; </td></tr>
-<tr class="memitem:acc6a20ddca8e466131ac5c016f8db307"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a00983.html#acc6a20ddca8e466131ac5c016f8db307">lumex::core::circular_buffer::operator&gt;</a> (<a class="el" href="a01302.html">CircularBuffer</a>&lt; T, Alloc &gt; const &amp;lhs, <a class="el" href="a01302.html">CircularBuffer</a>&lt; T, Alloc &gt; const &amp;rhs)</td></tr>
-<tr class="memdesc:acc6a20ddca8e466131ac5c016f8db307"><td class="mdescLeft">&#160;</td><td class="mdescRight">"greater" operator for two <code><a class="el" href="a01302.html" title="Fixed-capacity circular buffer that overwrites when full (similar to Boost&#39;s circular_buffer).">CircularBuffer</a></code> objects.  <br /></td></tr>
-<tr class="separator:acc6a20ddca8e466131ac5c016f8db307"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeaf35e00dcf39d60a23f37e0e5a02048" id="r_aeaf35e00dcf39d60a23f37e0e5a02048"><td class="memTemplParams" colspan="2">template&lt;class T, class Alloc&gt; </td></tr>
-<tr class="memitem:aeaf35e00dcf39d60a23f37e0e5a02048"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a00983.html#aeaf35e00dcf39d60a23f37e0e5a02048">lumex::core::circular_buffer::operator&gt;=</a> (<a class="el" href="a01302.html">CircularBuffer</a>&lt; T, Alloc &gt; const &amp;lhs, <a class="el" href="a01302.html">CircularBuffer</a>&lt; T, Alloc &gt; const &amp;rhs)</td></tr>
-<tr class="memdesc:aeaf35e00dcf39d60a23f37e0e5a02048"><td class="mdescLeft">&#160;</td><td class="mdescRight">"greater or equal" operator for two <code><a class="el" href="a01302.html" title="Fixed-capacity circular buffer that overwrites when full (similar to Boost&#39;s circular_buffer).">CircularBuffer</a></code> objects.  <br /></td></tr>
-<tr class="separator:aeaf35e00dcf39d60a23f37e0e5a02048"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:a9085ae433e510f83de86bd55e00c8a2e" id="r_a9085ae433e510f83de86bd55e00c8a2e"><td class="memTemplParams" colspan="2">template&lt;typename Pointer&gt; </td></tr>
+<tr class="memitem:a9085ae433e510f83de86bd55e00c8a2e"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01009.html#a9085ae433e510f83de86bd55e00c8a2e">lumex::core::atomic::smart_ptr::lock_based_table_wait::Detail::Cell</a> = <a class="el" href="a01345.html">LockBasedCell</a>&lt;Pointer&gt;</td></tr>
+<tr class="memdesc:a9085ae433e510f83de86bd55e00c8a2e"><td class="mdescLeft">&#160;</td><td class="mdescRight">The cell selected by <code>LUMEX_ATOMIC_SMART_PTR_USES_STD</code>.  <br /></td></tr>
+<tr class="separator:a9085ae433e510f83de86bd55e00c8a2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p><code>CircularBuffer</code>, a fixed-capacity ring buffer that overwrites its oldest element when full, modeled on Boost's <code>circular_buffer</code>. </p>
-<p>Header-only (<code>lumex::circular_buffer</code> is an interface target) and written for C++11: the class template, its random-access iterators and the non-member comparison operators, with <code>operator&lt;=&gt;</code> added when the compiler supports three-way comparison and the standard concepts library (C++20). The class documentation lists the iterator invalidation, complexity and exception guarantees of each operation. </p>
+<div class="textblock"><p>Storage and operations behind <code><a class="el" href="a01325.html" title="Atomic std::shared_ptr&lt;T&gt;, as std::atomic&lt;std::shared_ptr&lt;T&gt;&gt;.">atomic_shared_ptr</a></code> and <code><a class="el" href="a01349.html" title="Atomic std::weak_ptr&lt;T&gt;, as std::atomic&lt;std::weak_ptr&lt;T&gt;&gt;.">atomic_weak_ptr</a></code>: a lock-based cell for every standard library, and a cell over the standard atomic smart pointers. </p>
+<p>The public class templates forward every operation to one of the cells below; <code>LUMEX_ATOMIC_SMART_PTR_USES_STD</code> selects which.</p>
+<p><code>LockBasedCell</code> is the port of the lock-based method of the author's own libc++ implementation (llvm-project pull request 194215; see <code><a class="el" href="a00194.html" title="Chooses between the standard std::atomic&lt;std::shared_ptr&lt;T&gt;&gt; and the lock-based implementation,...">LumexAtomicSmartPtrConfig.hpp</a></code>). It keeps an ordinary <code>std::shared_ptr</code> or <code>std::weak_ptr</code> behind a <code>BitLock</code>. Every operation holds the lock only to move, swap or copy the smart pointer; a previous value is released after the lock, so a deleter that uses the same atomic object does not deadlock. All operations are serialized by the lock and therefore behave as <code>seq_cst</code>; the memory order arguments are accepted and not needed.</p>
+<p><code>StdBackedCell</code> forwards loads, stores, exchanges and comparisons to <code>std::atomic&lt;std::shared_ptr&lt;T&gt;&gt;</code> or <code>std::atomic&lt;std::weak_ptr&lt;T&gt;&gt;</code>. Its <code>wait</code> and <code>notify_*</code> do not forward. The standard <code>wait</code> must return only after it observes a value that is not equivalent to the old one, and it must observe a change of the stored pointer alone (an aliasing <code>std::shared_ptr</code> with the same owner). libstdc++ 13 does neither: its <code>wait</code> sleeps on the word that holds the control block pointer, so it returns when another thread merely locks that word and keeps sleeping after a store that changes only the stored pointer. Both cells therefore implement waiting the same way: <code>notify_*</code> advances a 32-bit counter and wakes the threads that sleep on it, and <code>wait</code> compares the current value with the old one and sleeps on the counter only while they are equivalent.</p>
+<p>Two smart pointers are equivalent when they store the same pointer and either share ownership or are both empty ([util.smartptr.atomic]). <code>std::shared_ptr</code> exposes both parts (<code>get ()</code>, <code>owner_before ()</code>). <code>std::weak_ptr</code> exposes ownership but not its stored pointer, so the lock-based cell, and <code>wait</code> of both cells, read the stored pointer of a weak pointer through <code>lock ()</code>: two weak pointers with the same owner are equivalent when the object is alive and both lock to the same pointer, or when the object is gone (or both are empty), because the stored pointers can no longer be observed. Only weak pointers made from aliasing shared pointers can differ in that last case.</p>
+<p>Everything here is an implementation detail of <code>lumex/core/atomic</code>. </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_82c4d626dd2f6730040a8639806b148e.html">circular_buffer</a></li><li class="navelem"><a class="el" href="a00191.html">CircularBuffer.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_46588a2def099f5c90ce8dff319725b2.html">atomic</a></li><li class="navelem"><a class="el" href="dir_554c46647e80ff154b2b91be60b0bc34.html">smart_ptr</a></li><li class="navelem"><a class="el" href="a00191.html">LumexAtomicSmartPtrCell.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

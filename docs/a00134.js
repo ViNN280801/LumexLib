@@ -1,9 +1,6 @@
 var a00134 =
 [
-    [ "LumexSettingsExtensions", "a00134.html#ac438d1e8fa1811a2273f163d14e87c50", null ],
-    [ "lumex::applied::settings::ini::SupportedConfigExtensions", "a00957.html#a1af005d4f6d6cbc1fe9b8ac0dd312222", [
-      [ "lumex::applied::settings::ini::INI", "a00957.html#a1af005d4f6d6cbc1fe9b8ac0dd312222a1ca736f3ae57c78e792455365acb1e43", null ],
-      [ "lumex::applied::settings::ini::XML", "a00957.html#a1af005d4f6d6cbc1fe9b8ac0dd312222ad38d2aabee52a0cb2d5d2bc9e713baaa", null ],
-      [ "lumex::applied::settings::ini::JSON", "a00957.html#a1af005d4f6d6cbc1fe9b8ac0dd312222a65f566b1d2f043ba85cca8a07058759e", null ]
-    ] ]
+    [ "lumex::applied::serial::probe::detail::elapsed_since", "a00988.html#abfe791d5b660fa24d46ceb665e918f12", null ],
+    [ "lumex::applied::serial::probe::detail::run_probe", "a00988.html#aad815f0706b5da1500fbda9d64a48e88", null ],
+    [ "lumex::applied::serial::probe::detail::KPROBE_READ_CHUNK_BYTES", "a00988.html#a22e940a3c83c980c026e83c4465e2bbf", null ]
 ];

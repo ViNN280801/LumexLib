@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: Member List</title>
+<title>LumexLib: lumex::xml::text Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a01142.html',''); initResizable(true); });
+$(function(){initNavTree('a01139.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,30 +103,407 @@ $(function(){initNavTree('a01142.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">lumex::applied::json::normalization::LumexJsonSchemaNormalizer Member List</div></div>
+  <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle"><div class="title">lumex::xml::text Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02965.html">xml_parse_result_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents the result of an XML parsing operation, including status, error offset, and encoding.  <a href="a02965.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02961.html">XmlParser</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Internal XML parser structure responsible for tokenizing and building the XML document tree.  <a href="a02961.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02969.html">XmlText</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents the text content of an XML node, providing type-safe access and modification.  <a href="a02969.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:ae0bf18f6f9e0ed3936938a14c541af0c" id="r_ae0bf18f6f9e0ed3936938a14c541af0c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a02965.html">xml_parse_result_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae0bf18f6f9e0ed3936938a14c541af0c">make_parse_result</a> (<a class="el" href="a01143.html#a8264dfa29bbe6720c402fec104db5408">Types::xml_parse_status</a> status, ptrdiff_t offset=0)</td></tr>
+<tr class="memdesc:ae0bf18f6f9e0ed3936938a14c541af0c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Helper function to create an <code><a class="el" href="a02965.html" title="Represents the result of an XML parsing operation, including status, error offset,...">xml_parse_result_t</a></code> object.  <br /></td></tr>
+<tr class="separator:ae0bf18f6f9e0ed3936938a14c541af0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7355b4c5a34fafe87b02c6fd5d116775" id="r_a7355b4c5a34fafe87b02c6fd5d116775"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a02965.html">xml_parse_result_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7355b4c5a34fafe87b02c6fd5d116775">load_buffer_impl</a> (<a class="el" href="a02909.html">document::XmlDocumentBase</a> *doc, <a class="el" href="a02937.html">node::XmlNodeBase</a> *root, void *contents, std::size_t size, unsigned int options, <a class="el" href="a01143.html#af1767ae022d3845084f92ab0bc3776a0">Types::xml_encoding</a> encoding, bool is_mutable, bool own, <a class="el" href="a01143.html#af5c331138f914028e4642100ea3e7a24">Types::char_t</a> **out_buffer)</td></tr>
+<tr class="memdesc:a7355b4c5a34fafe87b02c6fd5d116775"><td class="mdescLeft">&#160;</td><td class="mdescRight">Internal implementation for loading an XML document from a buffer.  <br /></td></tr>
+<tr class="separator:a7355b4c5a34fafe87b02c6fd5d116775"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a98673d4a1b8b431dcfef95e6148547eb" id="r_a98673d4a1b8b431dcfef95e6148547eb"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a98673d4a1b8b431dcfef95e6148547eb">operator&amp;&amp;</a> (<a class="el" href="a02969.html">XmlText</a> const &amp;lhs, bool rhs)</td></tr>
+<tr class="memdesc:a98673d4a1b8b431dcfef95e6148547eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Overload for logical AND operator with <code><a class="el" href="a02969.html" title="Represents the text content of an XML node, providing type-safe access and modification.">XmlText</a></code> on the left-hand side.  <br /></td></tr>
+<tr class="separator:a98673d4a1b8b431dcfef95e6148547eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a637cf8030dca5d7cc1d7a84daa3f1f8f" id="r_a637cf8030dca5d7cc1d7a84daa3f1f8f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a637cf8030dca5d7cc1d7a84daa3f1f8f">operator||</a> (<a class="el" href="a02969.html">XmlText</a> const &amp;lhs, bool rhs)</td></tr>
+<tr class="memdesc:a637cf8030dca5d7cc1d7a84daa3f1f8f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Overload for logical OR operator with <code><a class="el" href="a02969.html" title="Represents the text content of an XML node, providing type-safe access and modification.">XmlText</a></code> on the left-hand side.  <br /></td></tr>
+<tr class="separator:a637cf8030dca5d7cc1d7a84daa3f1f8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="a7355b4c5a34fafe87b02c6fd5d116775" name="a7355b4c5a34fafe87b02c6fd5d116775"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7355b4c5a34fafe87b02c6fd5d116775">&#9670;&#160;</a></span>load_buffer_impl()</h2>
 
-<p>This is the complete list of members for <a class="el" href="a01142.html">lumex::applied::json::normalization::LumexJsonSchemaNormalizer</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a01142.html#aa895f4efd6c47529d881aa66d27621f2">get_exception_message</a>(std::exception_ptr const &amp;error) noexcept</td><td class="entry"><a class="el" href="a01142.html">lumex::applied::json::normalization::LumexJsonSchemaNormalizer</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01142.html#a9918c71ec1bdbd6181e3737ef8b168db">is_strict</a>() const noexcept</td><td class="entry"><a class="el" href="a01142.html">lumex::applied::json::normalization::LumexJsonSchemaNormalizer</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01142.html#abb52695431f3bdf5cbade4f2f30abd4b">LumexJsonSchemaNormalizer</a>(bool strict) noexcept</td><td class="entry"><a class="el" href="a01142.html">lumex::applied::json::normalization::LumexJsonSchemaNormalizer</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">explicit</span><span class="mlabel">protected</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01138.html#a55776e2b94b12a57fd8b1c64e850352c">normalize</a>(lumex::core::string_view::view::LumexStringView raw) const =0</td><td class="entry"><a class="el" href="a01138.html">lumex::applied::json::normalization::ILumexJsonNormalizer</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01138.html#abcf53bbebdf6b8f9ca547657c0e8f617">normalize</a>(lumex::core::string_view::view::LumexStringView raw, std::exception_ptr &amp;error) const =0</td><td class="entry"><a class="el" href="a01138.html">lumex::applied::json::normalization::ILumexJsonNormalizer</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01142.html#a6d6a03c5740ff75f5149ea6fdee9dc06">normalize_against_schema</a>(nlohmann::json const &amp;schema, nlohmann::json const &amp;input, std::string const &amp;path=&quot;$&quot;)</td><td class="entry"><a class="el" href="a01142.html">lumex::applied::json::normalization::LumexJsonSchemaNormalizer</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">protected</span><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01142.html#a8ae52f1cd83ea06bf9c6cb850704d156">parse</a>(lumex::core::string_view::view::LumexStringView raw)</td><td class="entry"><a class="el" href="a01142.html">lumex::applied::json::normalization::LumexJsonSchemaNormalizer</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">protected</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01142.html#a8b52d105932cbbf487e7111f269f13f9">process_against_schema</a>(nlohmann::json const &amp;schema, nlohmann::json const &amp;input, lumex::applied::json::schema::LumexJsonSchemaCheckMode mode, std::string const &amp;path=&quot;$&quot;)</td><td class="entry"><a class="el" href="a01142.html">lumex::applied::json::normalization::LumexJsonSchemaNormalizer</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">protected</span><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01142.html#ad4e6f91a4cc39ea650825173f0406128">report_or_rethrow</a>(std::exception_ptr &amp;error) const</td><td class="entry"><a class="el" href="a01142.html">lumex::applied::json::normalization::LumexJsonSchemaNormalizer</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">protected</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01142.html#a6f4dde669dafce82c9c5768a1cf23ee5">validate</a>(lumex::core::string_view::view::LumexStringView raw) const =0</td><td class="entry"><a class="el" href="a01142.html">lumex::applied::json::normalization::LumexJsonSchemaNormalizer</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01142.html#a679b69c6f8d7e29b190061702a88af03">validate</a>(lumex::core::string_view::view::LumexStringView raw, std::exception_ptr &amp;error) const =0</td><td class="entry"><a class="el" href="a01142.html">lumex::applied::json::normalization::LumexJsonSchemaNormalizer</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01142.html#a1384265ea61be8a83ba651e8fb89a8c5">validate_against_schema</a>(nlohmann::json const &amp;schema, nlohmann::json const &amp;input, std::string const &amp;path=&quot;$&quot;)</td><td class="entry"><a class="el" href="a01142.html">lumex::applied::json::normalization::LumexJsonSchemaNormalizer</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">protected</span><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01138.html#a67d2467937fd7eed290938a31b2b7733">~ILumexJsonNormalizer</a>()=default</td><td class="entry"><a class="el" href="a01138.html">lumex::applied::json::normalization::ILumexJsonNormalizer</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-</table></div><!-- contents -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a02965.html">xml_parse_result_t</a> lumex::xml::text::load_buffer_impl </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02909.html">document::XmlDocumentBase</a> *</td>          <td class="paramname"><span class="paramname"><em>doc</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a02937.html">node::XmlNodeBase</a> *</td>          <td class="paramname"><span class="paramname"><em>root</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *</td>          <td class="paramname"><span class="paramname"><em>contents</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>size</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>options</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a01143.html#af1767ae022d3845084f92ab0bc3776a0">Types::xml_encoding</a></td>          <td class="paramname"><span class="paramname"><em>encoding</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>is_mutable</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>own</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a01143.html#af5c331138f914028e4642100ea3e7a24">Types::char_t</a> **</td>          <td class="paramname"><span class="paramname"><em>out_buffer</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Internal implementation for loading an XML document from a buffer. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">doc</td><td>The <code><a class="el" href="a02909.html" title="Base structure representing an XML document, combining node and allocator functionalities.">XmlDocumentBase</a></code> object to populate with parsed data. </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">root</td><td>The root <code><a class="el" href="a02937.html" title="Base structure representing an XML node in the document tree.">XmlNodeBase</a></code> where the parsed document structure will be attached. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">contents</td><td>A pointer to the raw input data buffer. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">size</td><td>The size of the input buffer in bytes. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">options</td><td>A bitmask of <code>xml_parse_option</code> flags controlling parsing behavior. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">encoding</td><td>The expected character encoding of the buffer. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">is_mutable</td><td><code>true</code> if the input buffer can be modified by the parser, <code>false</code> otherwise. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">own</td><td><code>true</code> if the parser should take ownership of <code>contents</code> and deallocate it, <code>false</code> otherwise. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">out_buffer</td><td>A pointer to a <code>char_t*</code> that will receive the pointer to the internal buffer used for parsing. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>An <code><a class="el" href="a02965.html" title="Represents the result of an XML parsing operation, including status, error offset,...">xml_parse_result_t</a></code> object indicating the parsing outcome.</dd></dl>
+<p>This function handles buffer conversion, BOM skipping, memory ownership, and dispatches to the main XML parsing logic. It is an internal utility function called by <code><a class="el" href="a02905.html#af800f79134368c5f639c5c2f41b91bc8" title="Loads an XML document from a C-style character stream.">XmlDocument::load</a></code>. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01139_a7355b4c5a34fafe87b02c6fd5d116775_cgraph.png" border="0" usemap="#aa01139_a7355b4c5a34fafe87b02c6fd5d116775_cgraph" alt=""/></div>
+<map name="aa01139_a7355b4c5a34fafe87b02c6fd5d116775_cgraph" id="aa01139_a7355b4c5a34fafe87b02c6fd5d116775_cgraph">
+<area shape="rect" title="Internal implementation for loading an XML document from a buffer." alt="" coords="5,464,153,507"/>
+<area shape="rect" href="a01128.html#a2c9959ff1c2cf8e2a807f61de6ae218e" title=" " alt="" coords="231,147,355,189"/>
+<area shape="poly" title=" " alt="" coords="93,462,266,201,271,204,97,465"/>
+<area shape="rect" href="a01128.html#a89892f076c3d9ddcf776a6d039b1347f" title=" " alt="" coords="220,340,366,383"/>
+<area shape="poly" title=" " alt="" coords="116,461,240,388,243,393,119,466"/>
+<area shape="rect" href="a01139.html#ae0bf18f6f9e0ed3936938a14c541af0c" title="Helper function to create an xml_parse_result_t object." alt="" coords="450,464,605,507"/>
+<area shape="poly" title=" " alt="" coords="153,483,434,483,434,488,153,488"/>
+<area shape="rect" href="a02961.html#a6b411ab037cc6b67ddb6c7e3c6f74d57" title="Parses an XML buffer and builds the document tree." alt="" coords="201,531,385,573"/>
+<area shape="poly" title=" " alt="" coords="150,505,208,523,207,528,149,510"/>
+<area shape="rect" href="a02985.html#a0aa80b59356d59d7e72cf05e99e6aa52" title="Releases ownership of the managed data." alt="" coords="219,597,366,640"/>
+<area shape="poly" title=" " alt="" coords="103,505,147,544,202,583,211,588,209,593,199,588,144,548,100,509"/>
+<area shape="rect" href="a01128.html#a50bce6a89657c01bf24ad4eae09efc87" title=" " alt="" coords="448,21,608,64"/>
+<area shape="poly" title=" " alt="" coords="321,144,372,109,432,74,444,68,446,73,434,78,374,113,324,148"/>
+<area shape="rect" href="a01128.html#a7a4e5e4adadf288d536f8cdbc9c5696c" title=" " alt="" coords="453,88,602,131"/>
+<area shape="poly" title=" " alt="" coords="355,150,437,129,439,134,356,155"/>
+<area shape="rect" href="a01128.html#ae9136d5e971321f70e2bd2142e50730f" title=" " alt="" coords="693,155,832,197"/>
+<area shape="poly" title=" " alt="" coords="355,166,678,172,678,177,355,172"/>
+<area shape="rect" href="a01128.html#a3550d26fd44f43036b4af55814436c45" title=" " alt="" coords="700,248,825,291"/>
+<area shape="poly" title=" " alt="" coords="356,179,686,250,684,255,355,184"/>
+<area shape="rect" href="a01128.html#a3cb4abf426c232710888c97d4d549422" title=" " alt="" coords="686,72,839,131"/>
+<area shape="poly" title=" " alt="" coords="602,104,670,102,671,107,603,109"/>
+<area shape="poly" title=" " alt="" coords="603,128,679,150,677,155,602,133"/>
+<area shape="rect" href="a03009.html#aeb6f1c44ae313be99236435e934405af" title=" " alt="" coords="679,5,846,48"/>
+<area shape="poly" title=" " alt="" coords="590,85,685,51,686,56,592,90"/>
+<area shape="poly" title=" " alt="" coords="329,337,377,313,432,292,498,278,565,270,685,265,685,270,566,275,499,283,434,297,379,318,331,342"/>
+<area shape="rect" href="a01128.html#a3735e853fcfde7b0a1f7f96fe3d23422" title=" " alt="" coords="454,307,602,349"/>
+<area shape="poly" title=" " alt="" coords="365,348,438,338,438,343,366,354"/>
+<area shape="rect" href="a01128.html#a0b03422e6a429d3386d49503ea29f9ca" title=" " alt="" coords="446,373,609,416"/>
+<area shape="poly" title=" " alt="" coords="366,369,432,378,431,384,365,374"/>
+<area shape="poly" title=" " alt="" coords="602,307,684,286,686,291,603,312"/>
+<area shape="rect" href="a01128.html#a152e4d128c761aac3019be2cbb20bff2" title=" " alt="" coords="697,365,828,424"/>
+<area shape="poly" title=" " alt="" coords="609,392,681,392,681,397,609,397"/>
+<area shape="poly" title=" " alt="" coords="483,464,481,454,489,445,504,439,528,437,553,440,568,446,566,451,551,445,528,443,505,445,492,449,487,455,488,463"/>
+<area shape="poly" title=" " alt="" coords="369,528,434,509,436,514,371,533"/>
+<area shape="rect" href="a02961.html#a1357e4ee0d8dacd74d73e3e253714ab3" title="Checks if any of the given node&#39;s siblings (including itself) are element nodes." alt="" coords="433,531,622,573"/>
+<area shape="poly" title=" " alt="" coords="385,549,417,549,417,555,385,555"/>
+<area shape="rect" href="a02961.html#a83df2098eeb7dc86f16fc88be0b48b9b" title="Skips the Byte Order Mark (BOM) from the beginning of the input string." alt="" coords="436,597,620,640"/>
+<area shape="poly" title=" " alt="" coords="371,571,436,590,434,595,369,576"/>
+<area shape="rect" href="a02961.html#a6428c586faec7c093c2720191554582b" title="The main parsing function that constructs the XML document tree from a buffer." alt="" coords="436,664,620,707"/>
+<area shape="poly" title=" " alt="" coords="368,572,387,583,403,600,411,618,419,634,435,650,440,654,437,658,431,654,415,637,407,620,398,603,383,587,365,576"/>
+<area shape="rect" href="a02961.html#a2baad67837711ad10ffeaa5f3569c69e" title="Constructs an XmlParser object with a given allocator." alt="" coords="436,731,620,773"/>
+<area shape="poly" title=" " alt="" coords="372,572,387,583,400,601,408,618,412,652,416,685,422,701,435,717,437,719,434,723,431,720,418,703,410,686,406,652,402,619,396,603,383,587,369,576"/>
+<area shape="rect" href="a01129.html#a803330a161b229c5afdd0c16baaade86" title="Appends a newly allocated attribute to the current node." alt="" coords="677,493,848,536"/>
+<area shape="poly" title=" " alt="" coords="605,661,620,650,638,627,644,604,651,579,668,554,684,542,687,546,672,558,656,582,649,605,642,629,624,654,608,666"/>
+<area shape="rect" href="a00707.html#a51e9b0004ac41f142aeed82a9801e288" title=" " alt="" coords="691,701,834,728"/>
+<area shape="poly" title=" " alt="" coords="620,694,676,701,675,706,620,699"/>
+<area shape="rect" href="a00707.html#a107a81d20f6de13719a1c04b6eab36c8" title=" " alt="" coords="695,793,830,820"/>
+<area shape="poly" title=" " alt="" coords="597,705,624,716,682,749,731,782,728,786,679,754,621,721,595,710"/>
+<area shape="rect" href="a02961.html#af02163f17fba53cccc3858f93e36bc6c" title="Parses XML constructs starting with an exclamation mark (&lt;!...)." alt="" coords="670,911,855,953"/>
+<area shape="poly" title=" " alt="" coords="608,705,624,717,645,745,653,771,659,799,673,831,699,866,728,897,724,901,695,870,668,833,653,801,648,773,640,747,620,721,605,709"/>
+<area shape="rect" href="a02961.html#a1dbbc34a3059293b46e2c746df9edf2d" title="Parses XML processing instructions (&lt;?...?&gt;) or XML declarations (&lt;?xml...?&gt;)." alt="" coords="670,568,855,611"/>
+<area shape="poly" title=" " alt="" coords="594,661,621,650,669,620,681,615,683,620,672,625,624,654,597,666"/>
+<area shape="rect" href="a01128.html#aef8fee41b36e9987a5b7ed339b83ce42" title=" " alt="" coords="700,635,825,677"/>
+<area shape="poly" title=" " alt="" coords="620,671,685,663,685,668,620,676"/>
+<area shape="rect" href="a01127.html#a9574910c1eb199b109e5ef6a75692053" title="Allocates a new XmlAttributeBase object using the provided allocator." alt="" coords="925,427,1065,469"/>
+<area shape="poly" title=" " alt="" coords="838,490,909,470,911,475,840,495"/>
+<area shape="rect" href="a01129.html#ac91d41bf86f0da8b9a45c72c88401962" title="Appends an attribute to the end of a node&#39;s attribute list." alt="" coords="909,493,1080,536"/>
+<area shape="poly" title=" " alt="" coords="849,512,893,512,893,517,849,517"/>
+<area shape="rect" href="a02913.html#a23666d6049ee4ccf8e92f7c2c56cf8cf" title="Allocates memory for an object from the allocator&#39;s managed pages." alt="" coords="1149,419,1305,477"/>
+<area shape="poly" title=" " alt="" coords="1065,445,1134,445,1134,451,1065,451"/>
+<area shape="rect" href="a02913.html#a52ba49868e2058ba6c0dbeb923c16c02" title="Allocates a block of memory from the allocator&#39;s managed pages." alt="" coords="1367,419,1524,477"/>
+<area shape="poly" title=" " alt="" coords="1306,445,1352,445,1352,451,1306,451"/>
+<area shape="rect" href="a02913.html#a9066c8946ee3cffc78c015c7464c6206" title="Allocates memory for large objects or strings that do not fit in the current memory page (out&#45;of&#45;band..." alt="" coords="1572,419,1728,477"/>
+<area shape="poly" title=" " alt="" coords="1524,445,1557,445,1557,451,1524,451"/>
+<area shape="rect" href="a02913.html#a1fb1c756bdb1dc9834c3cca336dc7090" title="Allocates a new XmlMemoryPage of a specified data size." alt="" coords="1776,427,1967,469"/>
+<area shape="poly" title=" " alt="" coords="1728,445,1760,445,1760,451,1728,451"/>
+<area shape="rect" href="a02917.html#a9358bd45d40685274a0b0bcbeb7030d2" title="Constructs an XmlMemoryPage object in a pre&#45;allocated memory block." alt="" coords="2015,427,2207,469"/>
+<area shape="poly" title=" " alt="" coords="1968,445,1999,445,1999,451,1968,451"/>
+<area shape="rect" href="a02953.html#a67479865aa424943ead8779b27649a3f" title=" " alt="" coords="920,627,1070,669"/>
+<area shape="poly" title=" " alt="" coords="814,698,854,687,906,672,907,677,855,692,815,703"/>
+<area shape="rect" href="a02953.html#ab6c6f4abbfd01615619607334cb6babe" title=" " alt="" coords="920,760,1070,803"/>
+<area shape="poly" title=" " alt="" coords="813,726,906,753,905,758,811,731"/>
+<area shape="rect" href="a02953.html#aa5b19645d4ab2e20aee5774a1a2d807c" title=" " alt="" coords="920,693,1070,736"/>
+<area shape="poly" title=" " alt="" coords="835,712,905,712,905,717,835,717"/>
+<area shape="rect" href="a02953.html#a4b2e8f59dbc8a5d1ba9d54edd11349fc" title=" " alt="" coords="920,560,1070,603"/>
+<area shape="poly" title=" " alt="" coords="833,698,853,687,869,670,877,651,884,632,901,613,906,609,909,613,904,617,889,635,881,653,873,673,856,691,836,703"/>
+<area shape="rect" href="a02949.html#a7d5e84d56dbeef1310977fe1ecec5ded" title=" " alt="" coords="1188,784,1266,811"/>
+<area shape="poly" title=" " alt="" coords="1065,667,1088,679,1200,772,1196,776,1086,684,1063,672"/>
+<area shape="rect" href="a02949.html#a1b60601371665958226d443c7db6e099" title=" " alt="" coords="1406,737,1485,764"/>
+<area shape="poly" title=" " alt="" coords="1069,635,1126,632,1191,635,1257,646,1321,668,1337,681,1346,695,1355,710,1369,723,1393,735,1391,740,1366,728,1350,713,1342,698,1333,685,1318,673,1256,651,1190,640,1126,638,1070,641"/>
+<area shape="rect" href="a00707.html#a572ca023c41c429e54892e03cdc88a64" title=" " alt="" coords="1170,683,1284,709"/>
+<area shape="poly" title=" " alt="" coords="1071,661,1155,679,1154,684,1070,666"/>
+<area shape="poly" title=" " alt="" coords="1284,707,1392,735,1391,740,1283,713"/>
+<area shape="rect" href="a03017.html#a5736cb1975d1dd35a060ecf0dfd250e5" title=" " alt="" coords="1383,671,1508,713"/>
+<area shape="poly" title=" " alt="" coords="1284,692,1368,691,1368,696,1284,698"/>
+<area shape="rect" href="a03017.html#ab08537b2fa2429a3366ffb3d5b2cd1f3" title=" " alt="" coords="1588,637,1712,680"/>
+<area shape="poly" title=" " alt="" coords="1507,679,1572,669,1573,674,1508,685"/>
+<area shape="rect" href="a03017.html#aebc64439f834a654f2f036ce56ff38c4" title=" " alt="" coords="1588,704,1712,747"/>
+<area shape="poly" title=" " alt="" coords="1508,699,1573,710,1572,715,1507,705"/>
+<area shape="poly" title=" " alt="" coords="1070,784,1173,791,1172,796,1070,789"/>
+<area shape="poly" title=" " alt="" coords="1055,757,1086,746,1174,713,1175,718,1088,750,1057,762"/>
+<area shape="poly" title=" " alt="" coords="1057,734,1136,763,1174,776,1172,781,1134,768,1055,739"/>
+<area shape="poly" title=" " alt="" coords="1070,718,1391,744,1391,749,1070,723"/>
+<area shape="poly" title=" " alt="" coords="1070,706,1155,699,1155,704,1070,711"/>
+<area shape="poly" title=" " alt="" coords="1072,600,1089,613,1109,639,1116,665,1122,691,1137,720,1164,749,1194,773,1190,777,1161,753,1133,723,1117,693,1111,666,1104,642,1085,617,1069,605"/>
+<area shape="poly" title=" " alt="" coords="1070,573,1129,574,1194,582,1260,601,1292,615,1321,633,1333,643,1340,655,1347,678,1353,701,1369,723,1393,737,1390,741,1366,727,1348,704,1342,680,1335,657,1329,647,1318,637,1289,619,1259,606,1193,588,1128,580,1070,578"/>
+<area shape="poly" title=" " alt="" coords="1061,601,1088,612,1144,642,1193,672,1191,676,1142,647,1086,617,1059,606"/>
+<area shape="rect" href="a02957.html#aa8719c95cefb25804c7b8797d0fd4227" title=" " alt="" coords="924,827,1066,869"/>
+<area shape="poly" title=" " alt="" coords="831,816,909,830,908,835,830,821"/>
+<area shape="poly" title=" " alt="" coords="1065,830,1172,806,1174,812,1066,835"/>
+<area shape="poly" title=" " alt="" coords="1066,849,1186,845,1253,836,1318,820,1369,798,1413,771,1416,775,1372,803,1320,825,1254,841,1186,850,1066,854"/>
+<area shape="poly" title=" " alt="" coords="1063,824,1086,812,1110,793,1133,770,1196,717,1199,721,1137,774,1114,797,1088,817,1066,829"/>
+<area shape="rect" href="a02961.html#a491f244f365536c867fa5df1c6a556e2" title="Parses a DOCTYPE group, which can contain nested sections of different types." alt="" coords="903,995,1087,1037"/>
+<area shape="poly" title=" " alt="" coords="824,951,920,986,918,991,823,956"/>
+<area shape="rect" href="a00707.html#afe3e6f37492a7bf6f15aa79ea3473a15" title=" " alt="" coords="943,893,1046,920"/>
+<area shape="poly" title=" " alt="" coords="855,919,927,911,928,917,856,925"/>
+<area shape="rect" href="a00707.html#aabac4ba634904454129cb546e203a896" title=" " alt="" coords="932,944,1058,971"/>
+<area shape="poly" title=" " alt="" coords="856,939,917,946,917,952,855,945"/>
+<area shape="rect" href="a02961.html#a140b0c172df1c62d425658b626e76dc6" title="Parses an &lt;![IGNORE[...]]&gt; section within a DOCTYPE." alt="" coords="1135,993,1319,1036"/>
+<area shape="poly" title=" " alt="" coords="1088,1013,1119,1013,1119,1018,1088,1018"/>
+<area shape="rect" href="a02961.html#a67bfe9adea0e054524313dad862c1393" title="Parses a primitive DOCTYPE section, which can be a quoted string or a PI/comment&#45;like section." alt="" coords="1135,1060,1319,1103"/>
+<area shape="poly" title=" " alt="" coords="1074,1035,1135,1053,1133,1058,1073,1041"/>
+<area shape="poly" title=" " alt="" coords="1046,893,1086,879,1144,849,1193,818,1196,822,1146,854,1088,884,1048,898"/>
+<area shape="poly" title=" " alt="" coords="1047,904,1104,902,1174,894,1247,879,1318,854,1348,837,1376,816,1421,774,1424,778,1380,820,1351,841,1320,858,1249,884,1174,899,1105,907,1047,910"/>
+<area shape="poly" title=" " alt="" coords="1057,942,1086,930,1122,905,1154,876,1204,821,1208,825,1158,880,1125,909,1088,934,1059,947"/>
+<area shape="poly" title=" " alt="" coords="1058,958,1116,956,1183,949,1253,933,1286,920,1318,904,1354,877,1385,843,1410,807,1428,777,1433,779,1415,810,1390,846,1358,881,1321,909,1289,925,1254,938,1184,954,1116,962,1058,963"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01139_a7355b4c5a34fafe87b02c6fd5d116775_icgraph.png" border="0" usemap="#aa01139_a7355b4c5a34fafe87b02c6fd5d116775_icgraph" alt=""/></div>
+<map name="aa01139_a7355b4c5a34fafe87b02c6fd5d116775_icgraph" id="aa01139_a7355b4c5a34fafe87b02c6fd5d116775_icgraph">
+<area shape="rect" title="Internal implementation for loading an XML document from a buffer." alt="" coords="666,109,814,152"/>
+<area shape="rect" href="a02921.html#ad912c9685395afada772e08f6b4fbbf8" title="Parses an XML buffer as a document fragment and appends its root&#45;level nodes as children to the curre..." alt="" coords="435,5,618,48"/>
+<area shape="poly" title=" " alt="" coords="691,103,617,62,591,51,593,46,620,58,694,99"/>
+<area shape="rect" href="a02905.html#a2be82b4cec0c495439948d0743cf967e" title="Loads an XML document from a read&#45;only memory buffer." alt="" coords="435,72,618,115"/>
+<area shape="poly" title=" " alt="" coords="651,118,618,112,619,107,652,113"/>
+<area shape="rect" href="a02905.html#ae9e5c00e1006515a52f21ab08ff70183" title="Loads an XML document by parsing a provided memory buffer in&#45;place." alt="" coords="435,139,618,197"/>
+<area shape="poly" title=" " alt="" coords="652,149,619,155,618,149,651,144"/>
+<area shape="rect" href="a02905.html#ad5dd01b2674c63beb5ec52966f930319" title="Loads an XML document by parsing a provided memory buffer in&#45;place, with ownership transfer." alt="" coords="435,221,618,280"/>
+<area shape="poly" title=" " alt="" coords="697,163,620,212,597,223,595,218,617,207,694,159"/>
+<area shape="rect" href="a02905.html#a9e0254f783e96e70cde965a50ba9c7e0" title="Loads an XML document from a zero&#45;terminated C&#45;style string." alt="" coords="204,72,387,115"/>
+<area shape="poly" title=" " alt="" coords="420,96,388,96,388,91,420,91"/>
+<area shape="rect" href="a02905.html#a8b098069f109e13fd8bd8e02648d490f" title="DEPRECATED: Loads an XML document from a zero&#45;terminated C&#45;style string. Use load_string instead." alt="" coords="5,43,156,85"/>
+<area shape="poly" title=" " alt="" coords="188,81,156,77,157,72,189,76"/>
+<area shape="rect" href="a00629.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="56,109,105,136"/>
+<area shape="poly" title=" " alt="" coords="189,111,106,122,105,117,188,105"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ae0bf18f6f9e0ed3936938a14c541af0c" name="ae0bf18f6f9e0ed3936938a14c541af0c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae0bf18f6f9e0ed3936938a14c541af0c">&#9670;&#160;</a></span>make_parse_result()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a02965.html">xml_parse_result_t</a> lumex::xml::text::make_parse_result </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a01143.html#a8264dfa29bbe6720c402fec104db5408">Types::xml_parse_status</a></td>          <td class="paramname"><span class="paramname"><em>status</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ptrdiff_t</td>          <td class="paramname"><span class="paramname"><em>offset</em></span><span class="paramdefsep"> = </span><span class="paramdefval">0</span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Helper function to create an <code><a class="el" href="a02965.html" title="Represents the result of an XML parsing operation, including status, error offset,...">xml_parse_result_t</a></code> object. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">status</td><td>The parsing status. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">offset</td><td>The offset in the input data where the status occurred. Defaults to 0. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>An <code><a class="el" href="a02965.html" title="Represents the result of an XML parsing operation, including status, error offset,...">xml_parse_result_t</a></code> object initialized with the provided status and offset. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01139_ae0bf18f6f9e0ed3936938a14c541af0c_cgraph.png" border="0" usemap="#aa01139_ae0bf18f6f9e0ed3936938a14c541af0c_cgraph" alt=""/></div>
+<map name="aa01139_ae0bf18f6f9e0ed3936938a14c541af0c_cgraph" id="aa01139_ae0bf18f6f9e0ed3936938a14c541af0c_cgraph">
+<area shape="rect" title="Helper function to create an xml_parse_result_t object." alt="" coords="5,29,161,72"/>
+<area shape="poly" title=" " alt="" coords="53,29,51,19,56,11,67,5,83,3,100,5,110,11,107,16,98,10,83,8,69,10,60,14,57,20,58,28"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01139_ae0bf18f6f9e0ed3936938a14c541af0c_icgraph.png" border="0" usemap="#aa01139_ae0bf18f6f9e0ed3936938a14c541af0c_icgraph" alt=""/></div>
+<map name="aa01139_ae0bf18f6f9e0ed3936938a14c541af0c_icgraph" id="aa01139_ae0bf18f6f9e0ed3936938a14c541af0c_icgraph">
+<area shape="rect" title="Helper function to create an xml_parse_result_t object." alt="" coords="1094,56,1249,99"/>
+<area shape="poly" title=" " alt="" coords="1207,43,1194,37,1172,35,1151,37,1139,41,1134,47,1135,55,1130,56,1129,46,1135,37,1150,31,1172,29,1195,32,1209,38"/>
+<area shape="rect" href="a02921.html#ad912c9685395afada772e08f6b4fbbf8" title="Parses an XML buffer as a document fragment and appends its root&#45;level nodes as children to the curre..." alt="" coords="435,5,618,48"/>
+<area shape="poly" title=" " alt="" coords="1078,73,619,36,619,31,1079,67"/>
+<area shape="rect" href="a01139.html#a7355b4c5a34fafe87b02c6fd5d116775" title="Internal implementation for loading an XML document from a buffer." alt="" coords="666,93,814,136"/>
+<area shape="poly" title=" " alt="" coords="1079,87,862,105,814,110,814,105,861,100,1078,82"/>
+<area shape="rect" href="a02961.html#a6b411ab037cc6b67ddb6c7e3c6f74d57" title="Parses an XML buffer and builds the document tree." alt="" coords="862,115,1046,157"/>
+<area shape="poly" title=" " alt="" coords="1080,105,1036,117,1035,111,1078,100"/>
+<area shape="poly" title=" " alt="" coords="678,89,617,62,588,51,590,46,619,58,680,84"/>
+<area shape="rect" href="a02905.html#a2be82b4cec0c495439948d0743cf967e" title="Loads an XML document from a read&#45;only memory buffer." alt="" coords="435,72,618,115"/>
+<area shape="poly" title=" " alt="" coords="651,108,619,105,619,100,652,103"/>
+<area shape="rect" href="a02905.html#ae9e5c00e1006515a52f21ab08ff70183" title="Loads an XML document by parsing a provided memory buffer in&#45;place." alt="" coords="435,139,618,197"/>
+<area shape="poly" title=" " alt="" coords="652,139,620,148,618,142,651,134"/>
+<area shape="rect" href="a02905.html#ad5dd01b2674c63beb5ec52966f930319" title="Loads an XML document by parsing a provided memory buffer in&#45;place, with ownership transfer." alt="" coords="435,221,618,280"/>
+<area shape="poly" title=" " alt="" coords="705,148,665,180,620,212,599,223,597,218,617,207,662,176,702,144"/>
+<area shape="rect" href="a02905.html#a9e0254f783e96e70cde965a50ba9c7e0" title="Loads an XML document from a zero&#45;terminated C&#45;style string." alt="" coords="204,72,387,115"/>
+<area shape="poly" title=" " alt="" coords="420,96,388,96,388,91,420,91"/>
+<area shape="rect" href="a02905.html#a8b098069f109e13fd8bd8e02648d490f" title="DEPRECATED: Loads an XML document from a zero&#45;terminated C&#45;style string. Use load_string instead." alt="" coords="5,43,156,85"/>
+<area shape="poly" title=" " alt="" coords="188,81,156,77,157,72,189,76"/>
+<area shape="rect" href="a00629.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="56,109,105,136"/>
+<area shape="poly" title=" " alt="" coords="189,111,106,122,105,117,188,105"/>
+<area shape="poly" title=" " alt="" coords="846,128,814,125,814,119,846,123"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a98673d4a1b8b431dcfef95e6148547eb" name="a98673d4a1b8b431dcfef95e6148547eb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a98673d4a1b8b431dcfef95e6148547eb">&#9670;&#160;</a></span>operator&amp;&amp;()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::xml::text::operator&amp;&amp; </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02969.html">XmlText</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>lhs</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>rhs</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Overload for logical AND operator with <code><a class="el" href="a02969.html" title="Represents the text content of an XML node, providing type-safe access and modification.">XmlText</a></code> on the left-hand side. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">lhs</td><td>The <code><a class="el" href="a02969.html" title="Represents the text content of an XML node, providing type-safe access and modification.">XmlText</a></code> object. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">rhs</td><td>The boolean value. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if <code>lhs</code> is valid and <code>rhs</code> is <code>true</code>, <code>false</code> otherwise.</dd></dl>
+<p>This enables expressions like <code>if (xml_text &amp;&amp; some_boolean_condition)</code>. </p>
+
+</div>
+</div>
+<a id="a637cf8030dca5d7cc1d7a84daa3f1f8f" name="a637cf8030dca5d7cc1d7a84daa3f1f8f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a637cf8030dca5d7cc1d7a84daa3f1f8f">&#9670;&#160;</a></span>operator||()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::xml::text::operator|| </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02969.html">XmlText</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>lhs</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>rhs</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Overload for logical OR operator with <code><a class="el" href="a02969.html" title="Represents the text content of an XML node, providing type-safe access and modification.">XmlText</a></code> on the left-hand side. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">lhs</td><td>The <code><a class="el" href="a02969.html" title="Represents the text content of an XML node, providing type-safe access and modification.">XmlText</a></code> object. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">rhs</td><td>The boolean value. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if <code>lhs</code> is valid or <code>rhs</code> is <code>true</code>, <code>false</code> otherwise.</dd></dl>
+<p>This enables expressions like <code>if (xml_text || some_boolean_condition)</code>. </p>
+
+</div>
+</div>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="a00948.html">lumex</a></li><li class="navelem"><a class="el" href="a01126.html">xml</a></li><li class="navelem"><a class="el" href="a01139.html">text</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

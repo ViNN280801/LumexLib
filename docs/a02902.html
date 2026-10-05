@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::xml::utility::XmlCleaner&lt; T &gt; Struct Template Reference</title>
+<title>LumexLib: Member List</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a02902.html',''); initResizable(true); });
+$(function(){initNavTree('a02905.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,228 +103,164 @@ $(function(){initNavTree('a02902.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="summary">
-<a href="#pub-types">Public Types</a> &#124;
-<a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-attribs">Public Attributes</a> &#124;
-<a href="a02899.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">lumex::xml::utility::XmlCleaner&lt; T &gt; Struct Template Reference</div></div>
+  <div class="headertitle"><div class="title">lumex::xml::document::XmlDocument Member List</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>A simple RAII (Resource Acquisition Is Initialization) wrapper for managing dynamically allocated memory.  
- <a href="#details">More...</a></p>
-
-<p><code>#include &lt;<a class="el" href="a00695_source.html">XmlCleaner.hpp</a>&gt;</code></p>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
-Public Types</h2></td></tr>
-<tr class="memitem:a8caa7b69f3316216d4d663b218c578c7" id="r_a8caa7b69f3316216d4d663b218c578c7"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8caa7b69f3316216d4d663b218c578c7">D</a> = void (*) (T *)</td></tr>
-<tr class="memdesc:a8caa7b69f3316216d4d663b218c578c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type alias for the deleter function pointer.  <br /></td></tr>
-<tr class="separator:a8caa7b69f3316216d4d663b218c578c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
-Public Member Functions</h2></td></tr>
-<tr class="memitem:a1c10030b274c9889f1f70274fda87fdf" id="r_a1c10030b274c9889f1f70274fda87fdf"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1c10030b274c9889f1f70274fda87fdf">XmlCleaner</a> (T *data_, <a class="el" href="#a8caa7b69f3316216d4d663b218c578c7">D</a> deleter_)</td></tr>
-<tr class="memdesc:a1c10030b274c9889f1f70274fda87fdf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs an <code><a class="el" href="a02902.html" title="A simple RAII (Resource Acquisition Is Initialization) wrapper for managing dynamically allocated mem...">XmlCleaner</a></code> object, taking ownership of the provided data.  <br /></td></tr>
-<tr class="separator:a1c10030b274c9889f1f70274fda87fdf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5bd950cc700caa327dff5d9bf07bc744" id="r_a5bd950cc700caa327dff5d9bf07bc744"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5bd950cc700caa327dff5d9bf07bc744">~XmlCleaner</a> ()</td></tr>
-<tr class="memdesc:a5bd950cc700caa327dff5d9bf07bc744"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor. Deallocates the managed data using the provided deleter if <code><a class="el" href="#a0aa80b59356d59d7e72cf05e99e6aa52" title="Releases ownership of the managed data.">release()</a></code> was not called.  <br /></td></tr>
-<tr class="separator:a5bd950cc700caa327dff5d9bf07bc744"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0aa80b59356d59d7e72cf05e99e6aa52" id="r_a0aa80b59356d59d7e72cf05e99e6aa52"><td class="memItemLeft" align="right" valign="top">T *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0aa80b59356d59d7e72cf05e99e6aa52">release</a> ()</td></tr>
-<tr class="memdesc:a0aa80b59356d59d7e72cf05e99e6aa52"><td class="mdescLeft">&#160;</td><td class="mdescRight">Releases ownership of the managed data.  <br /></td></tr>
-<tr class="separator:a0aa80b59356d59d7e72cf05e99e6aa52"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
-Public Attributes</h2></td></tr>
-<tr class="memitem:a1d7b92a76885fd307aa47c268d794ed3" id="r_a1d7b92a76885fd307aa47c268d794ed3"><td class="memItemLeft" align="right" valign="top">T *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1d7b92a76885fd307aa47c268d794ed3">data</a> {}</td></tr>
-<tr class="memdesc:a1d7b92a76885fd307aa47c268d794ed3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pointer to the managed data.  <br /></td></tr>
-<tr class="separator:a1d7b92a76885fd307aa47c268d794ed3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2e5e1d091887e2da0ba8e0e8444bde4a" id="r_a2e5e1d091887e2da0ba8e0e8444bde4a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a8caa7b69f3316216d4d663b218c578c7">D</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2e5e1d091887e2da0ba8e0e8444bde4a">deleter</a> {}</td></tr>
-<tr class="memdesc:a2e5e1d091887e2da0ba8e0e8444bde4a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function pointer to the deleter (e.g., <code>free</code>, <code>delete[]</code>).  <br /></td></tr>
-<tr class="separator:a2e5e1d091887e2da0ba8e0e8444bde4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><div class="compoundTemplParams">template&lt;typename T&gt;<br />
-struct lumex::xml::utility::XmlCleaner&lt; T &gt;</div><p>A simple RAII (Resource Acquisition Is Initialization) wrapper for managing dynamically allocated memory. </p>
-<p><code><a class="el" href="a02902.html" title="A simple RAII (Resource Acquisition Is Initialization) wrapper for managing dynamically allocated mem...">XmlCleaner</a></code> ensures that a provided memory block is deallocated using a specified deleter when the <code><a class="el" href="a02902.html" title="A simple RAII (Resource Acquisition Is Initialization) wrapper for managing dynamically allocated mem...">XmlCleaner</a></code> object goes out of scope, unless <code><a class="el" href="#a0aa80b59356d59d7e72cf05e99e6aa52" title="Releases ownership of the managed data.">release()</a></code> is called. This is particularly useful for managing memory that might be conditionally owned or passed between functions. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">T</td><td>The type of the pointer to be managed. </td></tr>
-  </table>
-  </dd>
-</dl>
-</div><h2 class="groupheader">Member Typedef Documentation</h2>
-<a id="a8caa7b69f3316216d4d663b218c578c7" name="a8caa7b69f3316216d4d663b218c578c7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8caa7b69f3316216d4d663b218c578c7">&#9670;&#160;</a></span>D</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="a02902.html">lumex::xml::utility::XmlCleaner</a>&lt; T &gt;::D = void (*) (T *)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Type alias for the deleter function pointer. </p>
-
-</div>
-</div>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a1c10030b274c9889f1f70274fda87fdf" name="a1c10030b274c9889f1f70274fda87fdf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1c10030b274c9889f1f70274fda87fdf">&#9670;&#160;</a></span>XmlCleaner()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="a02902.html">lumex::xml::utility::XmlCleaner</a>&lt; T &gt;::XmlCleaner </td>
-          <td>(</td>
-          <td class="paramtype">T *</td>          <td class="paramname"><span class="paramname"><em>data_</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="#a8caa7b69f3316216d4d663b218c578c7">D</a></td>          <td class="paramname"><span class="paramname"><em>deleter_</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Constructs an <code><a class="el" href="a02902.html" title="A simple RAII (Resource Acquisition Is Initialization) wrapper for managing dynamically allocated mem...">XmlCleaner</a></code> object, taking ownership of the provided data. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">data_</td><td>A pointer to the data to be managed. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">deleter_</td><td>A function pointer to the deleter responsible for freeing <code>data_</code>. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="a5bd950cc700caa327dff5d9bf07bc744" name="a5bd950cc700caa327dff5d9bf07bc744"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5bd950cc700caa327dff5d9bf07bc744">&#9670;&#160;</a></span>~XmlCleaner()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="a02902.html">lumex::xml::utility::XmlCleaner</a>&lt; T &gt;::~<a class="el" href="a02902.html">XmlCleaner</a> </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Destructor. Deallocates the managed data using the provided deleter if <code><a class="el" href="#a0aa80b59356d59d7e72cf05e99e6aa52" title="Releases ownership of the managed data.">release()</a></code> was not called. </p>
-
-</div>
-</div>
-<h2 class="groupheader">Member Function Documentation</h2>
-<a id="a0aa80b59356d59d7e72cf05e99e6aa52" name="a0aa80b59356d59d7e72cf05e99e6aa52"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0aa80b59356d59d7e72cf05e99e6aa52">&#9670;&#160;</a></span>release()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">T * <a class="el" href="a02902.html">lumex::xml::utility::XmlCleaner</a>&lt; T &gt;::release </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Releases ownership of the managed data. </p>
-<dl class="section return"><dt>Returns</dt><dd>A pointer to the previously managed data. The caller is now responsible for its deallocation.</dd></dl>
-<p>After calling <code><a class="el" href="#a0aa80b59356d59d7e72cf05e99e6aa52" title="Releases ownership of the managed data.">release()</a></code>, the <code><a class="el" href="a02902.html" title="A simple RAII (Resource Acquisition Is Initialization) wrapper for managing dynamically allocated mem...">XmlCleaner</a></code> object will no longer deallocate the memory. </p>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a02902_a0aa80b59356d59d7e72cf05e99e6aa52_icgraph.png" border="0" usemap="#aa02902_a0aa80b59356d59d7e72cf05e99e6aa52_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<h2 class="groupheader">Member Data Documentation</h2>
-<a id="a1d7b92a76885fd307aa47c268d794ed3" name="a1d7b92a76885fd307aa47c268d794ed3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1d7b92a76885fd307aa47c268d794ed3">&#9670;&#160;</a></span>data</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">T* <a class="el" href="a02902.html">lumex::xml::utility::XmlCleaner</a>&lt; T &gt;::data {}</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Pointer to the managed data. </p>
-
-</div>
-</div>
-<a id="a2e5e1d091887e2da0ba8e0e8444bde4a" name="a2e5e1d091887e2da0ba8e0e8444bde4a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2e5e1d091887e2da0ba8e0e8444bde4a">&#9670;&#160;</a></span>deleter</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="#a8caa7b69f3316216d4d663b218c578c7">D</a> <a class="el" href="a02902.html">lumex::xml::utility::XmlCleaner</a>&lt; T &gt;::deleter {}</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Function pointer to the deleter (e.g., <code>free</code>, <code>delete[]</code>). </p>
-
-</div>
-</div>
-<hr/>The documentation for this struct was generated from the following file:<ul>
-<li><a class="el" href="a00695_source.html">XmlCleaner.hpp</a></li>
-</ul>
-</div><!-- contents -->
+<p>This is the complete list of members for <a class="el" href="a02905.html">lumex::xml::document::XmlDocument</a>, including all inherited members.</p>
+<table class="directory">
+  <tr class="even"><td class="entry"><a class="el" href="a02921.html#ada2567cc0764ef183d966076cb8521a5">append_attribute</a>(char_t const *name)</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02921.html#a98517bc923b581acabf15a09a86976b7">append_attribute</a>(char_t const *name, std::size_t size)</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02921.html#aed4795cbf9669bd00fcacd49e19a4447">append_attribute</a>(string_view_t name)</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02921.html#ad912c9685395afada772e08f6b4fbbf8">append_buffer</a>(void const *contents, std::size_t size, unsigned int options=kparse_default, xml_encoding encoding=encoding_auto)</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02921.html#a6226c2329935d1fc5d905862a3b21da3">append_child</a>(xml_node_type type=node_element)</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02921.html#a3c7bd51171193d163b75123b6fcb858d">append_child</a>(char_t const *name)</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02921.html#a25d05a0cc347c9c670f4ec1df768742c">append_child</a>(char_t const *name, std::size_t size)</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02921.html#a72fa49721a6ffa9200f240b4772e8a12">append_child</a>(string_view_t name)</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02921.html#ace7d9948e6fb922f91d513b2e7cc6655">append_copy</a>(XmlAttribute const &amp;proto)</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02921.html#affd983d76ecc8d527bff7cb6f9c13018">append_copy</a>(XmlNode const &amp;proto)</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02921.html#aed35bff5c54a2e71c2022719a34f2d71">append_move</a>(XmlNode const &amp;moved)</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02921.html#a7f4d671f25c6951150f5c727dbc8261f">attribute</a>(char_t const *name) const</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02921.html#a994db9eb40feef778d41020ade740cbb">attribute</a>(char_t const *name, std::size_t size) const</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02921.html#afcb61ae58fa2888e94621c384998eb21">attribute</a>(string_view_t name) const</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02921.html#ac98e53ac13eb30a240694791d6c21978">attribute</a>(char_t const *name, XmlAttribute &amp;hint) const</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02921.html#a08455733163442720ade80272bc2614d">attribute</a>(char_t const *name, std::size_t size, XmlAttribute &amp;hint) const</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02921.html#ad8bd60f88095387ea74ed33a1d7911bc">attribute</a>(string_view_t name, XmlAttribute &amp;hint) const</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02921.html#ac5ae746fe4fd8ac5b6700a77fa2fc53d">attributes</a>() const</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02921.html#a2d6563b3cfd9695a2ecf271c7b839fe1">attributes_begin</a>() const</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02921.html#a7c5a56efa5d4b19ab73015894e7c3fe4">attributes_end</a>() const</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02921.html#aebd0d3f0573262886c68bbce3d366e87">begin</a>() const</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02921.html#a0ba3799de746669b14031ceebdee242c">child</a>(char_t const *name) const</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02921.html#a45ae1bdb0e6f97ce48b1fdad1f857887">child</a>(char_t const *name, std::size_t size) const</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02921.html#a3cb95e2f01dcba265e5a7f069c97b29d">child</a>(string_view_t name) const</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02921.html#aedb0ec9c973c5b0df750a5e075eae434">child_value</a>() const</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02921.html#aeb5fad0b46ab82d093d8c12abda4e753">child_value</a>(char_t const *name) const</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02921.html#addfaa189f2b9e57eb6d2c8645316a2e5">children</a>() const</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02921.html#ad396b6f4f70ae18b8b87e2f74d6b6e02">children</a>(char_t const *name) const</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02905.html#a051729e78e5db139897fbb590c8293b3">document_element</a>() const</td><td class="entry"><a class="el" href="a02905.html">lumex::xml::document::XmlDocument</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02921.html#a036f6d862ca3981c48d42bf54ccbfad2">empty</a>() const</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02921.html#a5f8270c5d90f33574f1dfcef855c0060">end</a>() const</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02921.html#a0f763486d687ac80cd25a022afeca741">find_attribute</a>(Predicate pred) const</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02921.html#acb8278ca29b0a63d0610c14b970a5c7f">find_child</a>(Predicate pred) const</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02921.html#a10146a952555b6f47a290e7f0ea75fbf">find_child_by_attribute</a>(char_t const *name, char_t const *attr_name, char_t const *attr_value) const</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02921.html#a94daa9242d05f5e9264aa26f721ebb13">find_child_by_attribute</a>(char_t const *attr_name, char_t const *attr_value) const</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02921.html#a56f237a80e5c9671bc05fd6b1735c5d9">find_node</a>(Predicate pred) const</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02921.html#a1fd71ea59944927bf9867fc98be0ffcf">first_attribute</a>() const</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02921.html#a82a93da169b71235dc2923bd9a3a3da4">first_child</a>() const</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02921.html#afff026c5b343f210b7d1aa8ee9c67aa4">first_element_by_path</a>(char_t const *path, char_t delimiter='/') const</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02921.html#aaace51cc18e7d56b0d6112a525c63295">get</a>() const</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02921.html#a3ef1fb4fb715a7650d8bb3b79f3694bf">hash_value</a>() const</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02921.html#a209987dd4c7649b2062772d74c6a8bb3">insert_attribute_after</a>(char_t const *name, XmlAttribute const &amp;attr)</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02921.html#a1afe55c5a83f0973e3b62d4bf8a7d1c3">insert_attribute_after</a>(char_t const *name, std::size_t size, XmlAttribute const &amp;attr)</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02921.html#ab226afbbdb502d2c775736f8f2b2fca4">insert_attribute_after</a>(string_view_t name, XmlAttribute const &amp;attr)</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02921.html#a08bd76620887844f06b8806c8ca05227">insert_attribute_before</a>(char_t const *name, XmlAttribute const &amp;attr)</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02921.html#a907ba2d6ba1a4afcc1d3243b87746d68">insert_attribute_before</a>(char_t const *name, std::size_t size, XmlAttribute const &amp;attr)</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02921.html#a715b4ab8ffbbd98d8fe0c84c68e3f28e">insert_attribute_before</a>(string_view_t name, XmlAttribute const &amp;attr)</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02921.html#a8ac674a8eb55c7777142210558672170">insert_child_after</a>(xml_node_type type, XmlNode const &amp;node)</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02921.html#a33547ff6911a38d3cd5aafb699001b7a">insert_child_after</a>(char_t const *name, XmlNode const &amp;node)</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02921.html#ae8bb7651245fb6e302ffd4cb102d20c3">insert_child_after</a>(char_t const *name, std::size_t size, XmlNode const &amp;node)</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02921.html#a91f2cdca9e92733aeb3496240735c5de">insert_child_after</a>(string_view_t name, XmlNode const &amp;node)</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02921.html#a62df8cc6d084b34512830bb14d04a8f2">insert_child_before</a>(xml_node_type type, XmlNode const &amp;node)</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02921.html#a382508de160ecc5107cf79c88c597b36">insert_child_before</a>(char_t const *name, XmlNode const &amp;node)</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02921.html#aab7bcf34968c0972b2f2663112ac9cc6">insert_child_before</a>(char_t const *name, std::size_t size, XmlNode const &amp;node)</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02921.html#a972e7ea652b109d8b1c1b383cae27905">insert_child_before</a>(string_view_t name, XmlNode const &amp;node)</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02921.html#a102eaa077981305070e0649d8286c196">insert_copy_after</a>(XmlAttribute const &amp;proto, XmlAttribute const &amp;attr)</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02921.html#ade75f490c8aafb015483a5444c1af76c">insert_copy_after</a>(XmlNode const &amp;proto, XmlNode const &amp;node)</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02921.html#a59a0d19e40b7937c796ec7995d3b3390">insert_copy_before</a>(XmlAttribute const &amp;proto, XmlAttribute const &amp;attr)</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02921.html#a35ef839927e8d9eaef5c22122c802fb1">insert_copy_before</a>(XmlNode const &amp;proto, XmlNode const &amp;node)</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02921.html#aa0fdb0a6705bc2aca68e0946950f787f">insert_move_after</a>(XmlNode const &amp;moved, XmlNode const &amp;node)</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02921.html#af6a8f01f7d0918676c09fd1e00157dc3">insert_move_before</a>(XmlNode const &amp;moved, XmlNode const &amp;node)</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02921.html#a3cf020917a8af507489d56a9280a0a9d">last_attribute</a>() const</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02921.html#a17efa757a74e1e5a08131df5e4317ddb">last_child</a>() const</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02905.html#af800f79134368c5f639c5c2f41b91bc8">load</a>(std::basic_istream&lt; char &gt; &amp;stream, unsigned int options=Constants::kparse_default, xml_encoding encoding=encoding_auto)</td><td class="entry"><a class="el" href="a02905.html">lumex::xml::document::XmlDocument</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02905.html#a2f9b7eda61d2a89fc11166c8c1046ee0">load</a>(std::basic_istream&lt; wchar_t &gt; &amp;stream, unsigned int options=Constants::kparse_default)</td><td class="entry"><a class="el" href="a02905.html">lumex::xml::document::XmlDocument</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02905.html#a8b098069f109e13fd8bd8e02648d490f">load</a>(char_t const *contents, unsigned int options=Constants::kparse_default)</td><td class="entry"><a class="el" href="a02905.html">lumex::xml::document::XmlDocument</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02905.html#a2be82b4cec0c495439948d0743cf967e">load_buffer</a>(void const *contents, std::size_t size, unsigned int options=Constants::kparse_default, xml_encoding encoding=encoding_auto)</td><td class="entry"><a class="el" href="a02905.html">lumex::xml::document::XmlDocument</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02905.html#ae9e5c00e1006515a52f21ab08ff70183">load_buffer_inplace</a>(void *contents, std::size_t size, unsigned int options=Constants::kparse_default, xml_encoding encoding=encoding_auto)</td><td class="entry"><a class="el" href="a02905.html">lumex::xml::document::XmlDocument</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02905.html#ad5dd01b2674c63beb5ec52966f930319">load_buffer_inplace_own</a>(void *contents, std::size_t size, unsigned int options=Constants::kparse_default, xml_encoding encoding=encoding_auto)</td><td class="entry"><a class="el" href="a02905.html">lumex::xml::document::XmlDocument</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02905.html#a0c8de91086d1d88840e929509c835bf1">load_file</a>(char const *path, unsigned int options=Constants::kparse_default, xml_encoding encoding=encoding_auto)</td><td class="entry"><a class="el" href="a02905.html">lumex::xml::document::XmlDocument</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02905.html#ab0adb4deb8b4b4d7f5da54310f50027d">load_file</a>(wchar_t const *path, unsigned int options=Constants::kparse_default, xml_encoding encoding=encoding_auto)</td><td class="entry"><a class="el" href="a02905.html">lumex::xml::document::XmlDocument</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02905.html#a9e0254f783e96e70cde965a50ba9c7e0">load_string</a>(char_t const *contents, unsigned int options=Constants::kparse_default)</td><td class="entry"><a class="el" href="a02905.html">lumex::xml::document::XmlDocument</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02921.html#a002036517f682c4a8789dd39f4db8033">m_root</a></td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02921.html#a5df8244a361d9f9de429da1b1ab53629">name</a>() const</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02921.html#af0c57674f2aa78e5a10d9ffecd11793a">next_sibling</a>() const</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02921.html#a98609f749e0fe132c000e8027a85cfda">next_sibling</a>(char_t const *name) const</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02921.html#a0dddb5d07e21268b50cf2d36ea10e04c">next_sibling</a>(char_t const *name, std::size_t size) const</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02921.html#a59b3eaaa99685f5eca8499f619b71abd">next_sibling</a>(string_view_t name) const</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02921.html#a2f7cd5a022d18be1c959f385286a4647">offset_debug</a>() const</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02921.html#a02c34777420901be82fa5a9ea211d0f5">operator unspecified_bool_type</a>() const</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02921.html#ad19cdef2892f061934ef34edf20ccc73">operator!</a>() const</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02921.html#a372bc0bc0429becd78b69ac0b995e795">operator!=</a>(XmlNode const &amp;other) const</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02921.html#a8d65bb1a218865ecd8ab7dc4e31e7070">operator&lt;</a>(XmlNode const &amp;other) const</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02921.html#a70f50391f48cbec493b240ab77d0c19d">operator&lt;=</a>(XmlNode const &amp;other) const</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02905.html#a7785cbf5e34e2d4eea77379bb0f755e1">operator=</a>(XmlDocument &amp;&amp;rhs) noexcept</td><td class="entry"><a class="el" href="a02905.html">lumex::xml::document::XmlDocument</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02921.html#ab6550c2a166829f951414c509a61865c">operator==</a>(XmlNode const &amp;other) const</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02921.html#a3e8da2332626085fd1575a54e6f2ab42">operator&gt;</a>(XmlNode const &amp;other) const</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02921.html#afa0d4b50fcd763da5c87531c34a68bf6">operator&gt;=</a>(XmlNode const &amp;other) const</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02921.html#ad4130676f6cd5dcdfb86275d28ef6d94">parent</a>() const</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02921.html#aaa8b5c8cd9e8cfeb8059c84f68478ffd">path</a>(char_t delimiter='/') const</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02921.html#afc6e5a7c3b3dc02be7f5f003c5192d27">prepend_attribute</a>(char_t const *name)</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02921.html#a15e68847db6ff8e341f795e5be99f613">prepend_attribute</a>(char_t const *name, std::size_t size)</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02921.html#a59b7df394f724928ed2edcd4feba7e3b">prepend_attribute</a>(string_view_t name)</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02921.html#a2b60652b5cf0a8218617bcc2256066b5">prepend_child</a>(xml_node_type type=node_element)</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02921.html#aa6f134b485f2cd2c478edf6c0af50243">prepend_child</a>(char_t const *name)</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02921.html#ad1158e66c6a726feead88bf858821421">prepend_child</a>(char_t const *name, std::size_t size)</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02921.html#a077e87bb4351f086653426a4b66560e3">prepend_child</a>(string_view_t name)</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02921.html#a0519abe0f6488556f8a8fd22d242df12">prepend_copy</a>(XmlAttribute const &amp;proto)</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02921.html#acf48c85813bfecc4b524bfc0e2cb9344">prepend_copy</a>(XmlNode const &amp;proto)</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02921.html#a493772587914bb88310871ebf632e53c">prepend_move</a>(XmlNode const &amp;moved)</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02921.html#aae031f4e25d06ebfa007e468904d05b4">previous_sibling</a>() const</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02921.html#a6b7fe20865c5f2224e0328e77ddd4777">previous_sibling</a>(char_t const *name) const</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02921.html#aa34ad4323ccc1e96c444a7b47a054f24">previous_sibling</a>(char_t const *name, std::size_t size) const</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02921.html#a3a57f2ca41011ea1063a0acd310324b1">previous_sibling</a>(string_view_t name) const</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02921.html#a513be35988e895f6735f65b1b96c4b5f">print</a>(IXmlWriter &amp;writer, char_t const *indent=&quot;\t&quot;, unsigned int flags=kformat_default, xml_encoding encoding=encoding_auto, unsigned int depth=0) const</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02921.html#abc0e3ec301cddb026501f215723743b2">print</a>(std::basic_ostream&lt; char &gt; &amp;ostream, char_t const *indent=&quot;\t&quot;, unsigned int flags=kformat_default, xml_encoding encoding=encoding_auto, unsigned int depth=0) const</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02921.html#af65a61ef6f7962ffb99fc701f2deb1e4">print</a>(std::basic_ostream&lt; wchar_t &gt; &amp;ostream, char_t const *indent=&quot;\t&quot;, unsigned int flags=kformat_default, unsigned int depth=0) const</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02921.html#a6f070ed5f320f3b771a23e57e4565492">remove_attribute</a>(XmlAttribute const &amp;attr)</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02921.html#a91d04cb37686560b2d32e81d1403a7dd">remove_attribute</a>(char_t const *name)</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02921.html#aebbf6ee277fe4c7e95171e8db55c1705">remove_attribute</a>(char_t const *name, std::size_t size)</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02921.html#a2da7fdb1ef394ec19945b7cdd906a8df">remove_attribute</a>(string_view_t name)</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02921.html#a65c439391e38b67b41e324daa3d3d390">remove_attributes</a>()</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02921.html#ad1c60286d13be69a8220624272bbce51">remove_child</a>(XmlNode const &amp;n)</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02921.html#a398241c262e713edf78677ccced9b7dd">remove_child</a>(char_t const *name)</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02921.html#aa5d1dd2641f178f3e5418d6d6c8ac01c">remove_child</a>(char_t const *name, std::size_t size)</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02921.html#aeec38af035a8b9e7aab29479fb8d0f5e">remove_child</a>(string_view_t name)</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02921.html#a755de6a01e5af91f33b90f9ac4022e84">remove_children</a>()</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02905.html#a20b942adcf753027eb5e49afbf383920">reset</a>()</td><td class="entry"><a class="el" href="a02905.html">lumex::xml::document::XmlDocument</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02905.html#a3be8c5ddd0fac3d0f74c85f9ce393341">reset</a>(XmlDocument const &amp;proto)</td><td class="entry"><a class="el" href="a02905.html">lumex::xml::document::XmlDocument</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02921.html#ae75074132cc71a473fe3f862cb3d56e2">root</a>() const</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02905.html#a40677f13bf1306858bdcc329c3812775">save</a>(IXmlWriter &amp;writer, char_t const *indent=&quot;\t&quot;, unsigned int flags=Constants::kformat_default, xml_encoding encoding=encoding_auto) const</td><td class="entry"><a class="el" href="a02905.html">lumex::xml::document::XmlDocument</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02905.html#aa6db85e0f29ddd002d752a2b587a17c8">save</a>(std::basic_ostream&lt; char &gt; &amp;stream, char_t const *indent=&quot;\t&quot;, unsigned int flags=Constants::kformat_default, xml_encoding encoding=encoding_auto) const</td><td class="entry"><a class="el" href="a02905.html">lumex::xml::document::XmlDocument</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02905.html#a5d454caaddafe49d675882e3928dbc3d">save</a>(std::basic_ostream&lt; wchar_t &gt; &amp;stream, char_t const *indent=&quot;\t&quot;, unsigned int flags=Constants::kformat_default) const</td><td class="entry"><a class="el" href="a02905.html">lumex::xml::document::XmlDocument</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02905.html#aa71c7a3299b9cdf2be00f73510968825">save_file</a>(char const *path, char_t const *indent=&quot;\t&quot;, unsigned int flags=Constants::kformat_default, xml_encoding encoding=encoding_auto) const</td><td class="entry"><a class="el" href="a02905.html">lumex::xml::document::XmlDocument</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02905.html#af6b44c26393920a0e47fccb80ba64bbe">save_file</a>(wchar_t const *path, char_t const *indent=&quot;\t&quot;, unsigned int flags=Constants::kformat_default, xml_encoding encoding=encoding_auto) const</td><td class="entry"><a class="el" href="a02905.html">lumex::xml::document::XmlDocument</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02921.html#ab3b8c4b5ae7c14a5f5353854af2c0980">select_node</a>(char_t const *query, XPathVariableSet *variables=nullptr) const</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02921.html#aacf740ae9745a15c9ea45543b8d7c9b5">select_node</a>(XPathQuery const &amp;query) const</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02921.html#ab8730fb0f45c45e980dc2e0cc918318f">select_nodes</a>(char_t const *query, XPathVariableSet *variables=nullptr) const</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02921.html#aa816156d1ec3e5058b78a1dff90cac61">select_nodes</a>(XPathQuery const &amp;query) const</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02921.html#a260d31b59a5cd0c5f8fff0fd592c2793">select_single_node</a>(char_t const *query, XPathVariableSet *variables=nullptr) const</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02921.html#af9e3578f7aef3421e9eb6efdb0735072">select_single_node</a>(XPathQuery const &amp;query) const</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02921.html#ab93fdc51ad6c79aeab15b4df76843306">set_name</a>(char_t const *rhs)</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02921.html#a574dd82e620e2eee8cc3eac8eba83e1c">set_name</a>(char_t const *rhs, std::size_t size)</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02921.html#aa9e3f026003d77c6e0ebdc9c6876371c">set_name</a>(string_view_t rhs)</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02921.html#ac95ca2fd76efe3f07e1e92c22eb79993">set_value</a>(char_t const *rhs)</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02921.html#ad01e579b2e7e041c91752e04c05f49bb">set_value</a>(char_t const *rhs, std::size_t size)</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02921.html#aa15caa513c7570b4cd374f9f364cabc3">set_value</a>(string_view_t rhs)</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02921.html#ac327d0433bdcac1e44124582ed24dc92">text</a>() const</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02921.html#a17cdb500132c1c48fac94a311ff67c87">traverse</a>(XmlTreeWalker &amp;walker)</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02921.html#a6473de83822e0e12f4f02d25420747ca">type</a>() const</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02921.html#a70ecfca0409e49b802e91f25ec380874">unspecified_bool_type</a> typedef</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02921.html#a3ab22f27c7a36eebc5236b8190546186">value</a>() const</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02905.html#a71daa95a33b7a692549974258893b36e">XmlDocument</a>()</td><td class="entry"><a class="el" href="a02905.html">lumex::xml::document::XmlDocument</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02905.html#ad041203b1ca3056b61dc46d6ad41545f">XmlDocument</a>(XmlDocument &amp;&amp;rhs) noexcept</td><td class="entry"><a class="el" href="a02905.html">lumex::xml::document::XmlDocument</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02921.html#a9ba652be4d38ecccaa3933b5dde6401e">XmlNode</a>()</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02921.html#abfa2a995eff62be6553b434bd1747e95">XmlNode</a>(XmlNodeBase *ptr)</td><td class="entry"><a class="el" href="a02921.html">lumex::xml::node::XmlNode</a></td><td class="entry"><span class="mlabel">explicit</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a02905.html#ab18742228f580a5e4ec87e4b39c8a68c">~XmlDocument</a>()</td><td class="entry"><a class="el" href="a02905.html">lumex::xml::document::XmlDocument</a></td><td class="entry"></td></tr>
+</table></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00912.html">lumex</a></li><li class="navelem"><a class="el" href="a01083.html">xml</a></li><li class="navelem"><a class="el" href="a01085.html">utility</a></li><li class="navelem"><a class="el" href="a02902.html">XmlCleaner</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

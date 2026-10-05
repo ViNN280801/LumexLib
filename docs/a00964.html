@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::core Namespace Reference</title>
+<title>LumexLib: lumex::applied::json::diagnostics Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,61 +104,325 @@ $(function(){initNavTree('a00964.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#namespaces">Namespaces</a>  </div>
-  <div class="headertitle"><div class="title">lumex::core Namespace Reference</div></div>
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
+<a href="#enum-members">Enumerations</a> &#124;
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
+  <div class="headertitle"><div class="title">lumex::applied::json::diagnostics Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00965.html">atomic</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00965.html">Detail</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00972.html">base64</a></td></tr>
-<tr class="memdesc:a00972"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides Base64 decoding functionalities. <br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00983.html">circular_buffer</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00984.html">crc</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00989.html">environment</a></td></tr>
-<tr class="memdesc:a00989"><td class="mdescLeft">&#160;</td><td class="mdescRight">Contains classes and utilities for environment variable interaction. <br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00991.html">exceptions</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01000.html">expected</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01003.html">filesystem</a></td></tr>
-<tr class="memdesc:a01003"><td class="mdescLeft">&#160;</td><td class="mdescRight">Contains classes and utilities for cross-platform filesystem operations. <br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01007.html">fmt</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01009.html">generators</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01011.html">math</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01015.html">optional</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01017.html">reflection</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01024.html">string</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01028.html">string_view</a></td></tr>
-<tr class="memdesc:a01028"><td class="mdescLeft">&#160;</td><td class="mdescRight">Core library components. <br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01030.html">temporary</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01032.html">time</a></td></tr>
-<tr class="memdesc:a01032"><td class="mdescLeft">&#160;</td><td class="mdescRight">Core library components. <br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01036.html">utility</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:ab437a95971b24d48e8d765f3f95d814c" id="r_ab437a95971b24d48e8d765f3f95d814c"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab437a95971b24d48e8d765f3f95d814c">json_diagnostic_fn</a> = void (*) (<a class="el" href="#acf6c250fe30b33bf20e97c6bc52ad446">LumexJsonDiagnosticLevel</a> level, char const *message)</td></tr>
+<tr class="memdesc:ab437a95971b24d48e8d765f3f95d814c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Consumer report sink for one diagnostic message.  <br /></td></tr>
+<tr class="separator:ab437a95971b24d48e8d765f3f95d814c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8695f81fe0deeebaab629183a5e40398" id="r_a8695f81fe0deeebaab629183a5e40398"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8695f81fe0deeebaab629183a5e40398">LumexJsonDiagnosticSlot</a></td></tr>
+<tr class="memdesc:a8695f81fe0deeebaab629183a5e40398"><td class="mdescLeft">&#160;</td><td class="mdescRight">The slot that holds the installed reporter (one per binary).  <br /></td></tr>
+<tr class="separator:a8695f81fe0deeebaab629183a5e40398"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:acf6c250fe30b33bf20e97c6bc52ad446" id="r_acf6c250fe30b33bf20e97c6bc52ad446"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acf6c250fe30b33bf20e97c6bc52ad446">LumexJsonDiagnosticLevel</a> : std::uint8_t { <a class="el" href="#acf6c250fe30b33bf20e97c6bc52ad446aad42f6697b035b7580e4fef93be20b4d">debug</a>
+, <a class="el" href="#acf6c250fe30b33bf20e97c6bc52ad446acaf9b6b99962bf5c2264824231d7a40c">info</a>
+, <a class="el" href="#acf6c250fe30b33bf20e97c6bc52ad446a7b83d3f08fa392b79e3f553b585971cd">warning</a>
+, <a class="el" href="#acf6c250fe30b33bf20e97c6bc52ad446acb5e100e5a9a3e7f6d1fd97512215282">error</a>
+ }</td></tr>
+<tr class="memdesc:acf6c250fe30b33bf20e97c6bc52ad446"><td class="mdescLeft">&#160;</td><td class="mdescRight">Severity of a diagnostic message.  <a href="#acf6c250fe30b33bf20e97c6bc52ad446">More...</a><br /></td></tr>
+<tr class="separator:acf6c250fe30b33bf20e97c6bc52ad446"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:af6d27a1b23f0336deac6c4926ec4da88" id="r_af6d27a1b23f0336deac6c4926ec4da88"><td class="memItemLeft" align="right" valign="top">static constexpr char const *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af6d27a1b23f0336deac6c4926ec4da88">toString</a> (<a class="el" href="#acf6c250fe30b33bf20e97c6bc52ad446">LumexJsonDiagnosticLevel</a> value) noexcept</td></tr>
+<tr class="separator:af6d27a1b23f0336deac6c4926ec4da88"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7c1c9ae8fd4d21054801c40a3c89dbb5" id="r_a7c1c9ae8fd4d21054801c40a3c89dbb5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7c1c9ae8fd4d21054801c40a3c89dbb5">set_diagnostic_reporter</a> (<a class="el" href="#ab437a95971b24d48e8d765f3f95d814c">json_diagnostic_fn</a> reporter) noexcept</td></tr>
+<tr class="memdesc:a7c1c9ae8fd4d21054801c40a3c89dbb5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Installs the report sink. <code>nullptr</code> restores the default (<code>warning</code> and <code>error</code> to <code>std::cerr</code>, the rest dropped).  <br /></td></tr>
+<tr class="separator:a7c1c9ae8fd4d21054801c40a3c89dbb5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a25c6a7a742cf321e1eb59ddad6a59f95" id="r_a25c6a7a742cf321e1eb59ddad6a59f95"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#ab437a95971b24d48e8d765f3f95d814c">json_diagnostic_fn</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a25c6a7a742cf321e1eb59ddad6a59f95">get_diagnostic_reporter</a> () noexcept</td></tr>
+<tr class="memdesc:a25c6a7a742cf321e1eb59ddad6a59f95"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the installed sink, or <code>nullptr</code> for the default one.  <br /></td></tr>
+<tr class="separator:a25c6a7a742cf321e1eb59ddad6a59f95"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:aac9bf451816b13ecc2a7af1a34d7317c" id="r_aac9bf451816b13ecc2a7af1a34d7317c"><td class="memItemLeft" align="right" valign="top">static constexprstd::array&lt; <a class="el" href="#acf6c250fe30b33bf20e97c6bc52ad446">LumexJsonDiagnosticLevel</a>, 4 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aac9bf451816b13ecc2a7af1a34d7317c">LumexJsonDiagnosticLevelValues</a> { <a class="el" href="#acf6c250fe30b33bf20e97c6bc52ad446aad42f6697b035b7580e4fef93be20b4d">LumexJsonDiagnosticLevel::debug</a> , <a class="el" href="#acf6c250fe30b33bf20e97c6bc52ad446acaf9b6b99962bf5c2264824231d7a40c">LumexJsonDiagnosticLevel::info</a> , <a class="el" href="#acf6c250fe30b33bf20e97c6bc52ad446a7b83d3f08fa392b79e3f553b585971cd">LumexJsonDiagnosticLevel::warning</a> , <a class="el" href="#acf6c250fe30b33bf20e97c6bc52ad446acb5e100e5a9a3e7f6d1fd97512215282">LumexJsonDiagnosticLevel::error</a> }</td></tr>
+<tr class="separator:aac9bf451816b13ecc2a7af1a34d7317c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5288baccd29a7499d12072e804177bc1" id="r_a5288baccd29a7499d12072e804177bc1"><td class="memItemLeft" align="right" valign="top">static constexprLumexJsonDiagnosticLevel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5288baccd29a7499d12072e804177bc1">LumexJsonDiagnosticLevelFirst</a> = <a class="el" href="a01062.html#a1402ab62e151b9fd9b6f014b91610bda">::lumex::core::reflection::reflected_enum::detail::first_of</a>( <a class="el" href="#acf6c250fe30b33bf20e97c6bc52ad446aad42f6697b035b7580e4fef93be20b4d">LumexJsonDiagnosticLevel::debug</a> , <a class="el" href="#acf6c250fe30b33bf20e97c6bc52ad446acaf9b6b99962bf5c2264824231d7a40c">LumexJsonDiagnosticLevel::info</a> , <a class="el" href="#acf6c250fe30b33bf20e97c6bc52ad446a7b83d3f08fa392b79e3f553b585971cd">LumexJsonDiagnosticLevel::warning</a> , <a class="el" href="#acf6c250fe30b33bf20e97c6bc52ad446acb5e100e5a9a3e7f6d1fd97512215282">LumexJsonDiagnosticLevel::error</a> )</td></tr>
+<tr class="separator:a5288baccd29a7499d12072e804177bc1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d965ace9f2a42dfa301876df2966418" id="r_a6d965ace9f2a42dfa301876df2966418"><td class="memItemLeft" align="right" valign="top">static constexprstd::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6d965ace9f2a42dfa301876df2966418">LumexJsonDiagnosticLevelSize</a> = <a class="el" href="#aac9bf451816b13ecc2a7af1a34d7317c">LumexJsonDiagnosticLevelValues</a> .size()</td></tr>
+<tr class="separator:a6d965ace9f2a42dfa301876df2966418"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae602b7ea5979d3fb5f22548b8620426b" id="r_ae602b7ea5979d3fb5f22548b8620426b"><td class="memItemLeft" align="right" valign="top">static constexprLumexJsonDiagnosticLevel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae602b7ea5979d3fb5f22548b8620426b">LumexJsonDiagnosticLevelLast</a> = <a class="el" href="a01062.html#a479c8294a6863b2cbd9f422b77a46472">::lumex::core::reflection::reflected_enum::detail::last_of</a>( <a class="el" href="#acf6c250fe30b33bf20e97c6bc52ad446aad42f6697b035b7580e4fef93be20b4d">LumexJsonDiagnosticLevel::debug</a> , <a class="el" href="#acf6c250fe30b33bf20e97c6bc52ad446acaf9b6b99962bf5c2264824231d7a40c">LumexJsonDiagnosticLevel::info</a> , <a class="el" href="#acf6c250fe30b33bf20e97c6bc52ad446a7b83d3f08fa392b79e3f553b585971cd">LumexJsonDiagnosticLevel::warning</a> , <a class="el" href="#acf6c250fe30b33bf20e97c6bc52ad446acb5e100e5a9a3e7f6d1fd97512215282">LumexJsonDiagnosticLevel::error</a> )</td></tr>
+<tr class="separator:ae602b7ea5979d3fb5f22548b8620426b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Typedef Documentation</h2>
+<a id="ab437a95971b24d48e8d765f3f95d814c" name="ab437a95971b24d48e8d765f3f95d814c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab437a95971b24d48e8d765f3f95d814c">&#9670;&#160;</a></span>json_diagnostic_fn</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="#ab437a95971b24d48e8d765f3f95d814c">lumex::applied::json::diagnostics::json_diagnostic_fn</a> = void (*) (<a class="el" href="#acf6c250fe30b33bf20e97c6bc52ad446">LumexJsonDiagnosticLevel</a> level, char const *message)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Consumer report sink for one diagnostic message. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">level</td><td>Severity of the message. </td></tr>
+    <tr><td class="paramname">message</td><td>Non-owning, null-terminated text. Valid only for the call. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a8695f81fe0deeebaab629183a5e40398" name="a8695f81fe0deeebaab629183a5e40398"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8695f81fe0deeebaab629183a5e40398">&#9670;&#160;</a></span>LumexJsonDiagnosticSlot</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="#a8695f81fe0deeebaab629183a5e40398">lumex::applied::json::diagnostics::LumexJsonDiagnosticSlot</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line"> <a class="code hl_class" href="a02437.html">lumex::core::utility::callback::LumexCallbackSlot</a>&lt;</div>
+<div class="line">        Detail::json_diagnostic_tag_t,</div>
+<div class="line">        void (<a class="code hl_enumeration" href="#acf6c250fe30b33bf20e97c6bc52ad446">LumexJsonDiagnosticLevel</a>, <span class="keywordtype">char</span> <span class="keyword">const</span> *)&gt;</div>
+<div class="ttc" id="aa00964_html_acf6c250fe30b33bf20e97c6bc52ad446"><div class="ttname"><a href="#acf6c250fe30b33bf20e97c6bc52ad446">lumex::applied::json::diagnostics::LumexJsonDiagnosticLevel</a></div><div class="ttdeci">LumexJsonDiagnosticLevel</div><div class="ttdoc">Severity of a diagnostic message.</div><div class="ttdef"><b>Definition</b> LumexJsonDiagnostics.hpp:67</div></div>
+<div class="ttc" id="aa02437_html"><div class="ttname"><a href="a02437.html">lumex::core::utility::callback::LumexCallbackSlot</a></div><div class="ttdoc">Primary template; only the function-type specialization below is defined.</div><div class="ttdef"><b>Definition</b> LumexCallbackSlot.hpp:79</div></div>
+</div><!-- fragment -->
+<p>The slot that holds the installed reporter (one per binary). </p>
+
+</div>
+</div>
+<h2 class="groupheader">Enumeration Type Documentation</h2>
+<a id="acf6c250fe30b33bf20e97c6bc52ad446" name="acf6c250fe30b33bf20e97c6bc52ad446"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acf6c250fe30b33bf20e97c6bc52ad446">&#9670;&#160;</a></span>LumexJsonDiagnosticLevel</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="#acf6c250fe30b33bf20e97c6bc52ad446">lumex::applied::json::diagnostics::LumexJsonDiagnosticLevel</a> : std::uint8_t</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Severity of a diagnostic message. </p>
+<p><code><a class="el" href="#af6d27a1b23f0336deac6c4926ec4da88">toString()</a></code> returns the enumerator name (<code>"warning"</code>). </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="acf6c250fe30b33bf20e97c6bc52ad446aad42f6697b035b7580e4fef93be20b4d" name="acf6c250fe30b33bf20e97c6bc52ad446aad42f6697b035b7580e4fef93be20b4d"></a>debug&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="acf6c250fe30b33bf20e97c6bc52ad446acaf9b6b99962bf5c2264824231d7a40c" name="acf6c250fe30b33bf20e97c6bc52ad446acaf9b6b99962bf5c2264824231d7a40c"></a>info&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="acf6c250fe30b33bf20e97c6bc52ad446a7b83d3f08fa392b79e3f553b585971cd" name="acf6c250fe30b33bf20e97c6bc52ad446a7b83d3f08fa392b79e3f553b585971cd"></a>warning&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="acf6c250fe30b33bf20e97c6bc52ad446acb5e100e5a9a3e7f6d1fd97512215282" name="acf6c250fe30b33bf20e97c6bc52ad446acb5e100e5a9a3e7f6d1fd97512215282"></a>error&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="a25c6a7a742cf321e1eb59ddad6a59f95" name="a25c6a7a742cf321e1eb59ddad6a59f95"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a25c6a7a742cf321e1eb59ddad6a59f95">&#9670;&#160;</a></span>get_diagnostic_reporter()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#ab437a95971b24d48e8d765f3f95d814c">json_diagnostic_fn</a> lumex::applied::json::diagnostics::get_diagnostic_reporter </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the installed sink, or <code>nullptr</code> for the default one. </p>
+
+</div>
+</div>
+<a id="a7c1c9ae8fd4d21054801c40a3c89dbb5" name="a7c1c9ae8fd4d21054801c40a3c89dbb5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7c1c9ae8fd4d21054801c40a3c89dbb5">&#9670;&#160;</a></span>set_diagnostic_reporter()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lumex::applied::json::diagnostics::set_diagnostic_reporter </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#ab437a95971b24d48e8d765f3f95d814c">json_diagnostic_fn</a></td>          <td class="paramname"><span class="paramname"><em>reporter</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Installs the report sink. <code>nullptr</code> restores the default (<code>warning</code> and <code>error</code> to <code>std::cerr</code>, the rest dropped). </p>
+
+</div>
+</div>
+<a id="af6d27a1b23f0336deac6c4926ec4da88" name="af6d27a1b23f0336deac6c4926ec4da88"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af6d27a1b23f0336deac6c4926ec4da88">&#9670;&#160;</a></span>toString()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static constexpr char const  * lumex::applied::json::diagnostics::toString </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#acf6c250fe30b33bf20e97c6bc52ad446">LumexJsonDiagnosticLevel</a></td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00964_af6d27a1b23f0336deac6c4926ec4da88_icgraph.png" border="0" usemap="#aa00964_af6d27a1b23f0336deac6c4926ec4da88_icgraph" alt=""/></div>
+<map name="aa00964_af6d27a1b23f0336deac6c4926ec4da88_icgraph" id="aa00964_af6d27a1b23f0336deac6c4926ec4da88_icgraph">
+<area shape="rect" title=" " alt="" coords="376,13,524,56"/>
+<area shape="rect" href="a00965.html#ab6f3b82c767e9d70cfc7b4fad75bdf33" title="Default sink: writes [level] message to std::cerr for warning and error, drops debug and info...." alt="" coords="191,5,328,64"/>
+<area shape="poly" title=" " alt="" coords="360,37,329,37,329,32,360,32"/>
+<area shape="rect" href="a00965.html#ad8e38666393a49d562e6873564539189" title="Concatenates parts with operator&lt;&lt; and sends the text to the installed sink, or to the default one wh..." alt="" coords="5,5,143,64"/>
+<area shape="poly" title=" " alt="" coords="175,37,143,37,143,32,175,32"/>
+</map>
+</div>
+
+</div>
+</div>
+<h2 class="groupheader">Variable Documentation</h2>
+<a id="a5288baccd29a7499d12072e804177bc1" name="a5288baccd29a7499d12072e804177bc1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5288baccd29a7499d12072e804177bc1">&#9670;&#160;</a></span>LumexJsonDiagnosticLevelFirst</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexprLumexJsonDiagnosticLevel lumex::applied::json::diagnostics::LumexJsonDiagnosticLevelFirst = <a class="el" href="a01062.html#a1402ab62e151b9fd9b6f014b91610bda">::lumex::core::reflection::reflected_enum::detail::first_of</a>( <a class="el" href="#acf6c250fe30b33bf20e97c6bc52ad446aad42f6697b035b7580e4fef93be20b4d">LumexJsonDiagnosticLevel::debug</a> , <a class="el" href="#acf6c250fe30b33bf20e97c6bc52ad446acaf9b6b99962bf5c2264824231d7a40c">LumexJsonDiagnosticLevel::info</a> , <a class="el" href="#acf6c250fe30b33bf20e97c6bc52ad446a7b83d3f08fa392b79e3f553b585971cd">LumexJsonDiagnosticLevel::warning</a> , <a class="el" href="#acf6c250fe30b33bf20e97c6bc52ad446acb5e100e5a9a3e7f6d1fd97512215282">LumexJsonDiagnosticLevel::error</a> )</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae602b7ea5979d3fb5f22548b8620426b" name="ae602b7ea5979d3fb5f22548b8620426b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae602b7ea5979d3fb5f22548b8620426b">&#9670;&#160;</a></span>LumexJsonDiagnosticLevelLast</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexprLumexJsonDiagnosticLevel lumex::applied::json::diagnostics::LumexJsonDiagnosticLevelLast = <a class="el" href="a01062.html#a479c8294a6863b2cbd9f422b77a46472">::lumex::core::reflection::reflected_enum::detail::last_of</a>( <a class="el" href="#acf6c250fe30b33bf20e97c6bc52ad446aad42f6697b035b7580e4fef93be20b4d">LumexJsonDiagnosticLevel::debug</a> , <a class="el" href="#acf6c250fe30b33bf20e97c6bc52ad446acaf9b6b99962bf5c2264824231d7a40c">LumexJsonDiagnosticLevel::info</a> , <a class="el" href="#acf6c250fe30b33bf20e97c6bc52ad446a7b83d3f08fa392b79e3f553b585971cd">LumexJsonDiagnosticLevel::warning</a> , <a class="el" href="#acf6c250fe30b33bf20e97c6bc52ad446acb5e100e5a9a3e7f6d1fd97512215282">LumexJsonDiagnosticLevel::error</a> )</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6d965ace9f2a42dfa301876df2966418" name="a6d965ace9f2a42dfa301876df2966418"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6d965ace9f2a42dfa301876df2966418">&#9670;&#160;</a></span>LumexJsonDiagnosticLevelSize</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexprstd::size_t lumex::applied::json::diagnostics::LumexJsonDiagnosticLevelSize = <a class="el" href="#aac9bf451816b13ecc2a7af1a34d7317c">LumexJsonDiagnosticLevelValues</a> .size()</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aac9bf451816b13ecc2a7af1a34d7317c" name="aac9bf451816b13ecc2a7af1a34d7317c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aac9bf451816b13ecc2a7af1a34d7317c">&#9670;&#160;</a></span>LumexJsonDiagnosticLevelValues</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexprstd::array&lt;<a class="el" href="#acf6c250fe30b33bf20e97c6bc52ad446">LumexJsonDiagnosticLevel</a>, 4 &gt; lumex::applied::json::diagnostics::LumexJsonDiagnosticLevelValues { <a class="el" href="#acf6c250fe30b33bf20e97c6bc52ad446aad42f6697b035b7580e4fef93be20b4d">LumexJsonDiagnosticLevel::debug</a> , <a class="el" href="#acf6c250fe30b33bf20e97c6bc52ad446acaf9b6b99962bf5c2264824231d7a40c">LumexJsonDiagnosticLevel::info</a> , <a class="el" href="#acf6c250fe30b33bf20e97c6bc52ad446a7b83d3f08fa392b79e3f553b585971cd">LumexJsonDiagnosticLevel::warning</a> , <a class="el" href="#acf6c250fe30b33bf20e97c6bc52ad446acb5e100e5a9a3e7f6d1fd97512215282">LumexJsonDiagnosticLevel::error</a> }</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00912.html">lumex</a></li><li class="navelem"><a class="el" href="a00964.html">core</a></li>
+    <li class="navelem"><a class="el" href="a00948.html">lumex</a></li><li class="navelem"><a class="el" href="a00949.html">applied</a></li><li class="navelem"><a class="el" href="a00963.html">json</a></li><li class="navelem"><a class="el" href="a00964.html">diagnostics</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

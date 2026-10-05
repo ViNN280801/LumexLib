@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexAtomicSmartPtrCell.hpp File Reference</title>
+<title>LumexLib: LumexSettingsFactory.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -107,83 +107,106 @@ $(function(){initNavTree('a00155.html',''); initResizable(true); });
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#namespaces">Namespaces</a> &#124;
 <a href="#typedef-members">Typedefs</a>  </div>
-  <div class="headertitle"><div class="title">LumexAtomicSmartPtrCell.hpp File Reference</div></div>
+  <div class="headertitle"><div class="title">LumexSettingsFactory.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Storage and operations behind <code><a class="el" href="a01242.html" title="Atomic std::shared_ptr&lt;T&gt;, as std::atomic&lt;std::shared_ptr&lt;T&gt;&gt;.">atomic_shared_ptr</a></code> and <code><a class="el" href="a01266.html" title="Atomic std::weak_ptr&lt;T&gt;, as std::atomic&lt;std::weak_ptr&lt;T&gt;&gt;.">atomic_weak_ptr</a></code>: a lock-based cell for every standard library, and a cell over the standard atomic smart pointers.  
+<p>Creates the <code><a class="el" href="a00173.html#a9c9dcfa5bf995afa0f8e898afaf8efcf">ILumexSettings</a></code> implementation for a configuration file format.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;atomic&gt;</code><br />
-<code>#include &lt;cstdint&gt;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="a00641_source.html">lumex/LumexExport.hpp</a>&quot;</code><br />
 <code>#include &lt;memory&gt;</code><br />
-<code>#include &lt;utility&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00158_source.html">lumex/core/atomic/smart_ptr/LumexAtomicSmartPtrConfig.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00164_source.html">lumex/core/atomic/sync/LumexAtomicWait.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00167_source.html">lumex/core/atomic/sync/LumexBitLock.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00389_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00170_source.html">lumex/applied/settings/ini/SupportedConfigExtensions.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00173_source.html">lumex/applied/settings/interface/ILumexSettings.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for LumexAtomicSmartPtrCell.hpp:</div>
+Include dependency graph for LumexSettingsFactory.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00156.png" border="0" usemap="#a_lumex_atomic_smart_ptr_cell_8hpp" alt=""/></div>
+<div class="center"><img src="a00156.png" border="0" usemap="#a_lumex_settings_factory_8hpp" alt=""/></div>
+<map name="a_lumex_settings_factory_8hpp" id="a_lumex_settings_factory_8hpp">
+<area shape="rect" title="Creates the ILumexSettings implementation for a configuration file format." alt="" coords="100,5,276,32"/>
+<area shape="rect" href="a00641.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="5,171,168,197"/>
+<area shape="poly" title=" " alt="" coords="133,35,95,53,79,66,66,81,60,99,60,119,74,157,69,158,55,120,55,99,62,79,75,62,92,48,131,30"/>
+<area shape="rect" title=" " alt="" coords="76,88,145,115"/>
+<area shape="poly" title=" " alt="" coords="178,34,134,79,131,75,174,31"/>
+<area shape="rect" href="a00170.html" title="The configuration file formats the settings module knows, used to select an implementation from Lumex..." alt="" coords="388,80,617,123"/>
+<area shape="poly" title=" " alt="" coords="238,30,407,73,406,78,237,35"/>
+<area shape="rect" href="a00173.html" title="The interface every settings format implements: load, save, and get, add or remove a string value by ..." alt="" coords="169,80,364,123"/>
+<area shape="poly" title=" " alt="" coords="202,31,238,67,234,71,198,34"/>
+<area shape="rect" title=" " alt="" coords="472,171,533,197"/>
+<area shape="poly" title=" " alt="" coords="505,123,505,155,500,155,500,123"/>
+<area shape="poly" title=" " alt="" coords="221,126,130,166,128,162,219,121"/>
+<area shape="rect" title=" " alt="" coords="240,171,293,197"/>
+<area shape="poly" title=" " alt="" coords="269,123,269,155,264,155,264,123"/>
+</map>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00157.png" border="0" usemap="#a_lumex_atomic_smart_ptr_cell_8hppdep" alt=""/></div>
+<div class="center"><img src="a00157.png" border="0" usemap="#a_lumex_settings_factory_8hppdep" alt=""/></div>
+<map name="a_lumex_settings_factory_8hppdep" id="a_lumex_settings_factory_8hppdep">
+<area shape="rect" title="Creates the ILumexSettings implementation for a configuration file format." alt="" coords="370,5,546,32"/>
+<area shape="rect" href="a00887.html" title="Settings module: section, key and value configuration files in INI, JSON or XML behind one interface,..." alt="" coords="321,80,430,107"/>
+<area shape="poly" title=" " alt="" coords="434,45,391,82,388,78,431,40"/>
+<area shape="rect" href="a00152.html" title=" " alt="" coords="454,80,630,107"/>
+<area shape="poly" title=" " alt="" coords="486,40,529,78,526,82,483,45"/>
+<area shape="rect" href="a00587.html" title=" " alt="" coords="5,155,154,181"/>
+<area shape="poly" title=" " alt="" coords="309,114,132,157,131,151,308,108"/>
+<area shape="rect" href="a00590.html" title=" " alt="" coords="178,155,357,181"/>
+<area shape="poly" title=" " alt="" coords="346,118,288,156,285,152,343,113"/>
+<area shape="rect" href="a00593.html" title=" " alt="" coords="382,155,588,181"/>
+<area shape="poly" title=" " alt="" coords="409,113,467,152,464,156,406,118"/>
+<area shape="rect" href="a00596.html" title=" " alt="" coords="613,155,789,181"/>
+<area shape="poly" title=" " alt="" coords="446,107,645,152,644,157,445,113"/>
+</map>
 </div>
 </div>
 <p><a href="a00155_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01250.html">lumex::core::atomic::smart_ptr::lock_based_table_wait::Detail::smart_ptr_traits_t&lt; std::shared_ptr&lt; T &gt; &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalence of <code>std::shared_ptr</code>: same stored pointer and same owner (or both empty).  <a href="a01250.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01254.html">lumex::core::atomic::smart_ptr::lock_based_table_wait::Detail::smart_ptr_traits_t&lt; std::shared_ptr&lt; T &gt; &gt;::probe_t</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A shared pointer needs no extra state to be compared.  <a href="a01254.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01258.html">lumex::core::atomic::smart_ptr::lock_based_table_wait::Detail::smart_ptr_traits_t&lt; std::weak_ptr&lt; T &gt; &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalence of <code>std::weak_ptr</code>: same owner, and the same stored pointer as far as <code>lock ()</code> can observe it.  <a href="a01258.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01262.html">lumex::core::atomic::smart_ptr::lock_based_table_wait::Detail::LockBasedCell&lt; Pointer &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lock-based atomic cell over an ordinary smart pointer.  <a href="a01262.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01297.html">lumex::applied::settings::factory::LumexSettingsFactory</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factory class for creating <code><a class="el" href="a01313.html" title="Interface of a settings store kept in a configuration file.">ILumexSettings</a></code> instances.  <a href="a01297.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00912.html">lumex</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00948.html">lumex</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00964.html">lumex::core</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00949.html">lumex::applied</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00965.html">lumex::core::atomic</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00994.html">lumex::applied::settings</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00966.html">lumex::core::atomic::smart_ptr</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00967.html">lumex::core::atomic::smart_ptr::lock_based_table_wait</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00968.html">lumex::core::atomic::smart_ptr::lock_based_table_wait::Detail</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00995.html">lumex::applied::settings::factory</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
 Typedefs</h2></td></tr>
-<tr class="memitem:a9085ae433e510f83de86bd55e00c8a2e" id="r_a9085ae433e510f83de86bd55e00c8a2e"><td class="memTemplParams" colspan="2">template&lt;typename Pointer&gt; </td></tr>
-<tr class="memitem:a9085ae433e510f83de86bd55e00c8a2e"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a00968.html#a9085ae433e510f83de86bd55e00c8a2e">lumex::core::atomic::smart_ptr::lock_based_table_wait::Detail::Cell</a> = <a class="el" href="a01262.html">LockBasedCell</a>&lt;Pointer&gt;</td></tr>
-<tr class="memdesc:a9085ae433e510f83de86bd55e00c8a2e"><td class="mdescLeft">&#160;</td><td class="mdescRight">The cell selected by <code>LUMEX_ATOMIC_SMART_PTR_USES_STD</code>.  <br /></td></tr>
-<tr class="separator:a9085ae433e510f83de86bd55e00c8a2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a90f219acff9eb90d97465a960d7a7d0f" id="r_a90f219acff9eb90d97465a960d7a7d0f"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a90f219acff9eb90d97465a960d7a7d0f">LumexSettingsFactory</a> = <a class="el" href="a01297.html">lumex::applied::settings::factory::LumexSettingsFactory</a></td></tr>
+<tr class="separator:a90f219acff9eb90d97465a960d7a7d0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Storage and operations behind <code><a class="el" href="a01242.html" title="Atomic std::shared_ptr&lt;T&gt;, as std::atomic&lt;std::shared_ptr&lt;T&gt;&gt;.">atomic_shared_ptr</a></code> and <code><a class="el" href="a01266.html" title="Atomic std::weak_ptr&lt;T&gt;, as std::atomic&lt;std::weak_ptr&lt;T&gt;&gt;.">atomic_weak_ptr</a></code>: a lock-based cell for every standard library, and a cell over the standard atomic smart pointers. </p>
-<p>The public class templates forward every operation to one of the cells below; <code>LUMEX_ATOMIC_SMART_PTR_USES_STD</code> selects which.</p>
-<p><code>LockBasedCell</code> is the port of the lock-based method of the author's own libc++ implementation (llvm-project pull request 194215; see <code><a class="el" href="a00158.html" title="Chooses between the standard std::atomic&lt;std::shared_ptr&lt;T&gt;&gt; and the lock-based implementation,...">LumexAtomicSmartPtrConfig.hpp</a></code>). It keeps an ordinary <code>std::shared_ptr</code> or <code>std::weak_ptr</code> behind a <code>BitLock</code>. Every operation holds the lock only to move, swap or copy the smart pointer; a previous value is released after the lock, so a deleter that uses the same atomic object does not deadlock. All operations are serialized by the lock and therefore behave as <code>seq_cst</code>; the memory order arguments are accepted and not needed.</p>
-<p><code>StdBackedCell</code> forwards loads, stores, exchanges and comparisons to <code>std::atomic&lt;std::shared_ptr&lt;T&gt;&gt;</code> or <code>std::atomic&lt;std::weak_ptr&lt;T&gt;&gt;</code>. Its <code>wait</code> and <code>notify_*</code> do not forward. The standard <code>wait</code> must return only after it observes a value that is not equivalent to the old one, and it must observe a change of the stored pointer alone (an aliasing <code>std::shared_ptr</code> with the same owner). libstdc++ 13 does neither: its <code>wait</code> sleeps on the word that holds the control block pointer, so it returns when another thread merely locks that word and keeps sleeping after a store that changes only the stored pointer. Both cells therefore implement waiting the same way: <code>notify_*</code> advances a 32-bit counter and wakes the threads that sleep on it, and <code>wait</code> compares the current value with the old one and sleeps on the counter only while they are equivalent.</p>
-<p>Two smart pointers are equivalent when they store the same pointer and either share ownership or are both empty ([util.smartptr.atomic]). <code>std::shared_ptr</code> exposes both parts (<code>get ()</code>, <code>owner_before ()</code>). <code>std::weak_ptr</code> exposes ownership but not its stored pointer, so the lock-based cell, and <code>wait</code> of both cells, read the stored pointer of a weak pointer through <code>lock ()</code>: two weak pointers with the same owner are equivalent when the object is alive and both lock to the same pointer, or when the object is gone (or both are empty), because the stored pointers can no longer be observed. Only weak pointers made from aliasing shared pointers can differ in that last case.</p>
-<p>Everything here is an implementation detail of <code>lumex/core/atomic</code>. </p>
-</div></div><!-- contents -->
+<div class="textblock"><p>Creates the <code><a class="el" href="a00173.html#a9c9dcfa5bf995afa0f8e898afaf8efcf">ILumexSettings</a></code> implementation for a configuration file format. </p>
+<p><code><a class="el" href="a01297.html#a309046eb225dab34d5578b0174e711ab" title="Creates a settings object for the specified file format.">LumexSettingsFactory::create()</a></code> maps a <code>SupportedConfigExtensions</code> value to a new <code><a class="el" href="a00167.html#aa4b9184a671b4fab21d16ff231591689">LumexSettingsINI</a></code>, <code><a class="el" href="a00185.html#ab23132a5fc6ee5da8ac4aa3c6f448f27">LumexSettingsXML</a></code> or <code><a class="el" href="a00179.html#aa919e4a6d6da15cb570e487987991a1b">LumexSettingsJSON</a></code> owned by a <code>std::unique_ptr</code>. INI is always available. XML and JSON exist only when the settings library was built with <code>LUMEX_SETTINGS_WITH_XML</code> (the XML module) or <code>LUMEX_SETTINGS_WITH_JSON</code> (the vendored nlohmann/json header); for a format the build left out, the factory returns a null pointer. </p>
+</div><h2 class="groupheader">Typedef Documentation</h2>
+<a id="a90f219acff9eb90d97465a960d7a7d0f" name="a90f219acff9eb90d97465a960d7a7d0f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a90f219acff9eb90d97465a960d7a7d0f">&#9670;&#160;</a></span>LumexSettingsFactory</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="#a90f219acff9eb90d97465a960d7a7d0f">LumexSettingsFactory</a> = <a class="el" href="a01297.html">lumex::applied::settings::factory::LumexSettingsFactory</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_46588a2def099f5c90ce8dff319725b2.html">atomic</a></li><li class="navelem"><a class="el" href="dir_554c46647e80ff154b2b91be60b0bc34.html">smart_ptr</a></li><li class="navelem"><a class="el" href="a00155.html">LumexAtomicSmartPtrCell.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_de45db85bd98abf883bc2bd6c3907fd8.html">applied</a></li><li class="navelem"><a class="el" href="dir_9258c4c02d6a33184acee8f108260d77.html">settings</a></li><li class="navelem"><a class="el" href="dir_8ff43f65a823961cb56a0ac2c17572a6.html">factory</a></li><li class="navelem"><a class="el" href="a00155.html">LumexSettingsFactory.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

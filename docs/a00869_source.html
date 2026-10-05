@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexException Source File</title>
+<title>LumexLib: LumexHardware Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -103,7 +103,7 @@ $(function(){initNavTree('a00869_source.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">LumexException</div></div>
+  <div class="headertitle"><div class="title">LumexHardware</div></div>
 </div><!--header-->
 <div class="contents">
 <a href="a00869.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">/*</span></div>
@@ -145,29 +145,16 @@ $(function(){initNavTree('a00869_source.html',''); initResizable(true); });
 <div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="comment"> * SOFTWARE.</span></div>
 <div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="comment"> */</span></div>
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span></div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="preprocessor">#include &quot;<a class="code" href="a00209.html">crash/DefaultPaths.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="preprocessor">#include &quot;<a class="code" href="a00215.html">crash/LumexCrashHandler.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span><span class="preprocessor">#include &quot;<a class="code" href="a00221.html">crash/WindowsSEHTranslator.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span><span class="preprocessor">#include &quot;<a class="code" href="a00227.html">exception/LumexException.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span> </div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span><span class="preprocessor">#include &quot;<a class="code" href="a00239.html">stacktrace/LumexStacktrace.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="preprocessor">#include &quot;<a class="code" href="a00245.html">stacktrace/LumexStacktraceEntry.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><span class="preprocessor">#include &quot;<a class="code" href="a00233.html">LumexExceptionWrapper.hpp</a>&quot;</span></div>
-<div class="ttc" id="aa00209_html"><div class="ttname"><a href="a00209.html">DefaultPaths.hpp</a></div><div class="ttdoc">Default names used by the crash handling of lumex::exceptions: the crash directory and the file name ...</div></div>
-<div class="ttc" id="aa00215_html"><div class="ttname"><a href="a00215.html">LumexCrashHandler.hpp</a></div><div class="ttdoc">LumexCrashHandler, the singleton that writes a dump when the process crashes.</div></div>
-<div class="ttc" id="aa00221_html"><div class="ttname"><a href="a00221.html">WindowsSEHTranslator.hpp</a></div><div class="ttdoc">The Windows structured exception translator seh_translator() and the SET_SEH_TRANSLATOR macro that in...</div></div>
-<div class="ttc" id="aa00227_html"><div class="ttname"><a href="a00227.html">LumexException.hpp</a></div><div class="ttdoc">LumexBaseException, the base exception of LumexLib that records the stack where it was constructed,...</div></div>
-<div class="ttc" id="aa00233_html"><div class="ttname"><a href="a00233.html">LumexExceptionWrapper.hpp</a></div><div class="ttdoc">Exception-safe call wrapper: invokes a callable, catches anything it throws, reports it to std::cerr,...</div></div>
-<div class="ttc" id="aa00239_html"><div class="ttname"><a href="a00239.html">LumexStacktrace.hpp</a></div><div class="ttdoc">Defines the LumexBasicStacktrace class and related utilities for capturing and symbolizing call stack...</div></div>
-<div class="ttc" id="aa00245_html"><div class="ttname"><a href="a00245.html">LumexStacktraceEntry.hpp</a></div><div class="ttdoc">Defines the LumexStacktraceEntry class, representing a single frame in a call stack.</div></div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="preprocessor">#include &quot;<a class="code" href="a00059.html">caps/LumexCPUVectorizationCapabilities.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="preprocessor">#include &quot;<a class="code" href="a00065.html">caps/LumexHardwareCapabilities.hpp</a>&quot;</span></div>
+<div class="ttc" id="aa00059_html"><div class="ttname"><a href="a00059.html">LumexCPUVectorizationCapabilities.hpp</a></div><div class="ttdoc">Run-time detection of the SIMD instruction sets that the processor and the operating system support.</div></div>
+<div class="ttc" id="aa00065_html"><div class="ttname"><a href="a00065.html">LumexHardwareCapabilities.hpp</a></div><div class="ttdoc">Hardware inventory (processor, memory, graphics adapter) and the decision whether an application shou...</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_c5abfa2a5a0424f8cc91dab0edfcaee4.html">exceptions</a></li><li class="navelem"><a class="el" href="a00869.html">LumexException</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_de45db85bd98abf883bc2bd6c3907fd8.html">applied</a></li><li class="navelem"><a class="el" href="dir_67ca2fc5a6ed9c37068e27e587cd4bd5.html">hardware</a></li><li class="navelem"><a class="el" href="a00869.html">LumexHardware</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

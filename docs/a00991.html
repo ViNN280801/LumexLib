@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::core::exceptions Namespace Reference</title>
+<title>LumexLib: lumex::applied::serial::probe::Constants Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,28 +104,82 @@ $(function(){initNavTree('a00991.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#namespaces">Namespaces</a>  </div>
-  <div class="headertitle"><div class="title">lumex::core::exceptions Namespace Reference</div></div>
+<a href="#var-members">Variables</a>  </div>
+  <div class="headertitle"><div class="title">lumex::applied::serial::probe::Constants Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Compile-time defaults of the probe contract.  
+<a href="#details">More...</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
-Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00992.html">crash</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00993.html">exception</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00997.html">stacktrace</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00994.html">Wrapper</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a9e0fd1a76f5f73871121c1cb4ba1881d" id="r_a9e0fd1a76f5f73871121c1cb4ba1881d"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9e0fd1a76f5f73871121c1cb4ba1881d">KDEFAULT_PROBE_DEADLINE_MS</a> = 500U</td></tr>
+<tr class="memdesc:a9e0fd1a76f5f73871121c1cb4ba1881d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default overall probe deadline in milliseconds.  <br /></td></tr>
+<tr class="separator:a9e0fd1a76f5f73871121c1cb4ba1881d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a986ffb1746dc1de359d5f8d07b163b1d" id="r_a986ffb1746dc1de359d5f8d07b163b1d"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a986ffb1746dc1de359d5f8d07b163b1d">KDEFAULT_PROBE_MAX_RESPONSE_BYTES</a> = 8192U</td></tr>
+<tr class="memdesc:a986ffb1746dc1de359d5f8d07b163b1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default cap of the collected response, in bytes.  <br /></td></tr>
+<tr class="separator:a986ffb1746dc1de359d5f8d07b163b1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Compile-time defaults of the probe contract. </p>
+</div><h2 class="groupheader">Variable Documentation</h2>
+<a id="a9e0fd1a76f5f73871121c1cb4ba1881d" name="a9e0fd1a76f5f73871121c1cb4ba1881d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9e0fd1a76f5f73871121c1cb4ba1881d">&#9670;&#160;</a></span>KDEFAULT_PROBE_DEADLINE_MS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constLUMEX_CONSTINITstd::uint32_t lumex::applied::serial::probe::Constants::KDEFAULT_PROBE_DEADLINE_MS = 500U</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Default overall probe deadline in milliseconds. </p>
+<p>Shared by the open and the exchange of one <code>probe</code> call; every method takes the deadline as a parameter and falls back to this value. </p>
+
+</div>
+</div>
+<a id="a986ffb1746dc1de359d5f8d07b163b1d" name="a986ffb1746dc1de359d5f8d07b163b1d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a986ffb1746dc1de359d5f8d07b163b1d">&#9670;&#160;</a></span>KDEFAULT_PROBE_MAX_RESPONSE_BYTES</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constLUMEX_CONSTINITstd::size_t lumex::applied::serial::probe::Constants::KDEFAULT_PROBE_MAX_RESPONSE_BYTES = 8192U</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Default cap of the collected response, in bytes. </p>
+<p>A response that reaches the cap stops the read loop with the <code>incomplete</code> outcome when the predicate has not confirmed it. </p>
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00912.html">lumex</a></li><li class="navelem"><a class="el" href="a00964.html">core</a></li><li class="navelem"><a class="el" href="a00991.html">exceptions</a></li>
+    <li class="navelem"><a class="el" href="a00948.html">lumex</a></li><li class="navelem"><a class="el" href="a00949.html">applied</a></li><li class="navelem"><a class="el" href="a00981.html">serial</a></li><li class="navelem"><a class="el" href="a00987.html">probe</a></li><li class="navelem"><a class="el" href="a00991.html">Constants</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

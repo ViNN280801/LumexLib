@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexFormat Source File</title>
+<title>LumexLib: LumexLogging Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -103,7 +103,7 @@ $(function(){initNavTree('a00878_source.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">LumexFormat</div></div>
+  <div class="headertitle"><div class="title">LumexLogging</div></div>
 </div><!--header-->
 <div class="contents">
 <a href="a00878.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">/*</span></div>
@@ -145,23 +145,16 @@ $(function(){initNavTree('a00878_source.html',''); initResizable(true); });
 <div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="comment"> * SOFTWARE.</span></div>
 <div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="comment"> */</span></div>
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span></div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span><span class="preprocessor">#ifndef LUMEX_CORE_FMT_HPP</span></div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="preprocessor">#define LUMEX_CORE_FMT_HPP</span></div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="preprocessor">#include &quot;<a class="code" href="a00272.html">LumexFormat.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span><span class="preprocessor">#include &quot;<a class="code" href="a00275.html">LumexFormatChrono.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span><span class="preprocessor">#include &quot;<a class="code" href="a00278.html">LumexFormatRanges.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="preprocessor">#endif </span><span class="comment">// !LUMEX_CORE_FMT_HPP</span></div>
-<div class="ttc" id="aa00272_html"><div class="ttname"><a href="a00272.html">LumexFormat.hpp</a></div><div class="ttdoc">std::format-style text formatting from C++11 on.</div></div>
-<div class="ttc" id="aa00275_html"><div class="ttname"><a href="a00275.html">LumexFormatChrono.hpp</a></div><div class="ttdoc">std::chrono::duration and system_clock time points for LumexFormat, with the chrono specification of ...</div></div>
-<div class="ttc" id="aa00278_html"><div class="ttname"><a href="a00278.html">LumexFormatRanges.hpp</a></div><div class="ttdoc">Ranges, std::pair and std::tuple for LumexFormat, as the C++23 range formatting of std::format (P2286...</div></div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span><span class="preprocessor">#include &quot;<a class="code" href="a00104.html">log/LumexLogging.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="preprocessor">#include &quot;<a class="code" href="a00107.html">log/LumexLoggingMacro.hpp</a>&quot;</span></div>
+<div class="ttc" id="aa00104_html"><div class="ttname"><a href="a00104.html">LumexLogging.hpp</a></div><div class="ttdoc">The console and file logging facade LumexLogging that other LumexLib modules report through.</div></div>
+<div class="ttc" id="aa00107_html"><div class="ttname"><a href="a00107.html">LumexLoggingMacro.hpp</a></div><div class="ttdoc">Short macros over LumexLogging: lumDebug to lumCritical, and the ...FL variants that prefix the sourc...</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_338a3242ca58d57e3179a5eb9e6b0159.html">fmt</a></li><li class="navelem"><a class="el" href="a00878.html">LumexFormat</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_de45db85bd98abf883bc2bd6c3907fd8.html">applied</a></li><li class="navelem"><a class="el" href="dir_281e30212518eef343610f64aa21cb60.html">logging</a></li><li class="navelem"><a class="el" href="a00878.html">LumexLogging</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::applied::resource_monitor::monitor::LumexResourceMonitor Class Reference</title>
+<title>LumexLib: Member List</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a01182.html',''); initResizable(true); });
+$(function(){initNavTree('a01185.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,132 +103,30 @@ $(function(){initNavTree('a01182.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="summary">
-<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
-<a href="a01179.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">lumex::applied::resource_monitor::monitor::LumexResourceMonitor Class Reference</div></div>
+  <div class="headertitle"><div class="title">lumex::applied::json::normalization::LumexJsonSchemaNormalizer Member List</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Starts/stops a background thread that periodically samples total CPU and RAM usage and appends one formatted line per sample to a dedicated log file.  
- <a href="#details">More...</a></p>
-
-<p><code>#include &lt;<a class="el" href="a00095_source.html">LumexResourceMonitor.hpp</a>&gt;</code></p>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
-Static Public Member Functions</h2></td></tr>
-<tr class="memitem:ac3ff6ba95f363349295d24096e2ff96f" id="r_ac3ff6ba95f363349295d24096e2ff96f"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac3ff6ba95f363349295d24096e2ff96f">startIfEnabled</a> (std::string const &amp;logDirectory, std::chrono::milliseconds pollInterval=std::chrono::milliseconds(<a class="el" href="a00944.html#a2d339c3a57f9e52e4313ff7322012a35">Constants::KDEFAULT_POLL_INTERVAL_MS</a>))</td></tr>
-<tr class="memdesc:ac3ff6ba95f363349295d24096e2ff96f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts the background CPU/RAM sampler, unless it is already running.  <br /></td></tr>
-<tr class="separator:ac3ff6ba95f363349295d24096e2ff96f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa64dfaead93c3d4c6ceec66922405170" id="r_aa64dfaead93c3d4c6ceec66922405170"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa64dfaead93c3d4c6ceec66922405170">stop</a> ()</td></tr>
-<tr class="memdesc:aa64dfaead93c3d4c6ceec66922405170"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stops the background sampler and joins its thread.  <br /></td></tr>
-<tr class="separator:aa64dfaead93c3d4c6ceec66922405170"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Starts/stops a background thread that periodically samples total CPU and RAM usage and appends one formatted line per sample to a dedicated log file. </p>
-<p>On Windows, CPU usage is sampled via <code>GetSystemTimes</code> and RAM via <code>GlobalMemoryStatusEx</code>; on Linux, CPU usage comes from <code>/proc/stat</code> and RAM from <code>sysinfo</code>. Both platforms use the same delta-based CPU percentage calculation (idle-time delta vs. total-time delta between two consecutive samples). The sampler is a process-wide singleton: only one background thread can run at a time, started and stopped through the static methods below.</p>
-<dl class="section note"><dt>Note</dt><dd>All methods are static and thread-safe.</dd></dl>
-<dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line"><span class="comment">// Host application decides whether to enable it and at what interval - the</span></div>
-<div class="line">library does not. <span class="keywordflow">if</span> (hostConfig.resourceLoggingEnabled)</div>
-<div class="line">{</div>
-<div class="line">  <a class="code hl_function" href="#ac3ff6ba95f363349295d24096e2ff96f">lumex::applied::resource_monitor::monitor::LumexResourceMonitor::startIfEnabled</a>(</div>
-<div class="line">    hostConfig.logDirectory, hostConfig.resourceLogPollInterval);</div>
-<div class="line">}</div>
-<div class="line"><span class="comment">// ... later, at shutdown:</span></div>
-<div class="line"><a class="code hl_function" href="#aa64dfaead93c3d4c6ceec66922405170">lumex::applied::resource_monitor::monitor::LumexResourceMonitor::stop</a>();</div>
-<div class="ttc" id="aa01182_html_aa64dfaead93c3d4c6ceec66922405170"><div class="ttname"><a href="#aa64dfaead93c3d4c6ceec66922405170">lumex::applied::resource_monitor::monitor::LumexResourceMonitor::stop</a></div><div class="ttdeci">static void stop()</div><div class="ttdoc">Stops the background sampler and joins its thread.</div><div class="ttdef"><b>Definition</b> LumexResourceMonitor.cpp:353</div></div>
-<div class="ttc" id="aa01182_html_ac3ff6ba95f363349295d24096e2ff96f"><div class="ttname"><a href="#ac3ff6ba95f363349295d24096e2ff96f">lumex::applied::resource_monitor::monitor::LumexResourceMonitor::startIfEnabled</a></div><div class="ttdeci">static void startIfEnabled(std::string const &amp;logDirectory, std::chrono::milliseconds pollInterval=std::chrono::milliseconds(Constants::KDEFAULT_POLL_INTERVAL_MS))</div><div class="ttdoc">Starts the background CPU/RAM sampler, unless it is already running.</div><div class="ttdef"><b>Definition</b> LumexResourceMonitor.cpp:318</div></div>
-</div><!-- fragment --> </dd></dl>
-</div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="ac3ff6ba95f363349295d24096e2ff96f" name="ac3ff6ba95f363349295d24096e2ff96f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac3ff6ba95f363349295d24096e2ff96f">&#9670;&#160;</a></span>startIfEnabled()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void lumex::applied::resource_monitor::monitor::LumexResourceMonitor::startIfEnabled </td>
-          <td>(</td>
-          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>logDirectory</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::chrono::milliseconds</td>          <td class="paramname"><span class="paramname"><em>pollInterval</em></span><span class="paramdefsep"> = </span><span class="paramdefval">std::chrono::milliseconds&#160;(<a class="el" href="a00944.html#a2d339c3a57f9e52e4313ff7322012a35">Constants::KDEFAULT_POLL_INTERVAL_MS</a>)</span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Starts the background CPU/RAM sampler, unless it is already running. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">logDirectory</td><td>Directory the sampler creates (if missing) and writes its dated <code>system_resource_usage_&lt;timestamp&gt;.log</code> file into. </td></tr>
-    <tr><td class="paramname">pollInterval</td><td>How often to sample CPU/RAM usage. Defaults to <code><a class="el" href="a00944.html#a2d339c3a57f9e52e4313ff7322012a35" title="Poll interval used when the caller does not request a specific one.">Constants::KDEFAULT_POLL_INTERVAL_MS</a></code>. A non-positive value is treated as invalid and replaced by that same default. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section note"><dt>Note</dt><dd>This call is a no-op if the sampler is already running - call <a class="el" href="#aa64dfaead93c3d4c6ceec66922405170">stop</a> first if a different interval or log directory is needed. </dd>
-<dd>
-Whether to call this at all, and with what interval, is entirely the caller's decision; this class does not read any environment variable to decide it. </dd></dl>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01182_ac3ff6ba95f363349295d24096e2ff96f_icgraph.png" border="0" usemap="#aa01182_ac3ff6ba95f363349295d24096e2ff96f_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="aa64dfaead93c3d4c6ceec66922405170" name="aa64dfaead93c3d4c6ceec66922405170"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa64dfaead93c3d4c6ceec66922405170">&#9670;&#160;</a></span>stop()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void lumex::applied::resource_monitor::monitor::LumexResourceMonitor::stop </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Stops the background sampler and joins its thread. </p>
-<dl class="section note"><dt>Note</dt><dd>No-op if the sampler is not currently running. </dd></dl>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01182_aa64dfaead93c3d4c6ceec66922405170_icgraph.png" border="0" usemap="#aa01182_aa64dfaead93c3d4c6ceec66922405170_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<hr/>The documentation for this class was generated from the following files:<ul>
-<li><a class="el" href="a00095_source.html">LumexResourceMonitor.hpp</a></li>
-<li><a class="el" href="a00092.html">LumexResourceMonitor.cpp</a></li>
-</ul>
-</div><!-- contents -->
+<p>This is the complete list of members for <a class="el" href="a01185.html">lumex::applied::json::normalization::LumexJsonSchemaNormalizer</a>, including all inherited members.</p>
+<table class="directory">
+  <tr class="even"><td class="entry"><a class="el" href="a01185.html#aa895f4efd6c47529d881aa66d27621f2">get_exception_message</a>(std::exception_ptr const &amp;error) noexcept</td><td class="entry"><a class="el" href="a01185.html">lumex::applied::json::normalization::LumexJsonSchemaNormalizer</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a01185.html#a9918c71ec1bdbd6181e3737ef8b168db">is_strict</a>() const noexcept</td><td class="entry"><a class="el" href="a01185.html">lumex::applied::json::normalization::LumexJsonSchemaNormalizer</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a01185.html#abb52695431f3bdf5cbade4f2f30abd4b">LumexJsonSchemaNormalizer</a>(bool strict) noexcept</td><td class="entry"><a class="el" href="a01185.html">lumex::applied::json::normalization::LumexJsonSchemaNormalizer</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">explicit</span><span class="mlabel">protected</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a01181.html#a55776e2b94b12a57fd8b1c64e850352c">normalize</a>(lumex::core::string_view::view::LumexStringView raw) const =0</td><td class="entry"><a class="el" href="a01181.html">lumex::applied::json::normalization::ILumexJsonNormalizer</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a01181.html#abcf53bbebdf6b8f9ca547657c0e8f617">normalize</a>(lumex::core::string_view::view::LumexStringView raw, std::exception_ptr &amp;error) const =0</td><td class="entry"><a class="el" href="a01181.html">lumex::applied::json::normalization::ILumexJsonNormalizer</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a01185.html#a6d6a03c5740ff75f5149ea6fdee9dc06">normalize_against_schema</a>(nlohmann::json const &amp;schema, nlohmann::json const &amp;input, std::string const &amp;path=&quot;$&quot;)</td><td class="entry"><a class="el" href="a01185.html">lumex::applied::json::normalization::LumexJsonSchemaNormalizer</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">protected</span><span class="mlabel">static</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a01185.html#a8ae52f1cd83ea06bf9c6cb850704d156">parse</a>(lumex::core::string_view::view::LumexStringView raw)</td><td class="entry"><a class="el" href="a01185.html">lumex::applied::json::normalization::LumexJsonSchemaNormalizer</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">protected</span><span class="mlabel">static</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a01185.html#a8b52d105932cbbf487e7111f269f13f9">process_against_schema</a>(nlohmann::json const &amp;schema, nlohmann::json const &amp;input, lumex::applied::json::schema::LumexJsonSchemaCheckMode mode, std::string const &amp;path=&quot;$&quot;)</td><td class="entry"><a class="el" href="a01185.html">lumex::applied::json::normalization::LumexJsonSchemaNormalizer</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">protected</span><span class="mlabel">static</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a01185.html#ad4e6f91a4cc39ea650825173f0406128">report_or_rethrow</a>(std::exception_ptr &amp;error) const</td><td class="entry"><a class="el" href="a01185.html">lumex::applied::json::normalization::LumexJsonSchemaNormalizer</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">protected</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a01185.html#a6f4dde669dafce82c9c5768a1cf23ee5">validate</a>(lumex::core::string_view::view::LumexStringView raw) const =0</td><td class="entry"><a class="el" href="a01185.html">lumex::applied::json::normalization::LumexJsonSchemaNormalizer</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a01185.html#a679b69c6f8d7e29b190061702a88af03">validate</a>(lumex::core::string_view::view::LumexStringView raw, std::exception_ptr &amp;error) const =0</td><td class="entry"><a class="el" href="a01185.html">lumex::applied::json::normalization::LumexJsonSchemaNormalizer</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a01185.html#a1384265ea61be8a83ba651e8fb89a8c5">validate_against_schema</a>(nlohmann::json const &amp;schema, nlohmann::json const &amp;input, std::string const &amp;path=&quot;$&quot;)</td><td class="entry"><a class="el" href="a01185.html">lumex::applied::json::normalization::LumexJsonSchemaNormalizer</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">protected</span><span class="mlabel">static</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a01181.html#a67d2467937fd7eed290938a31b2b7733">~ILumexJsonNormalizer</a>()=default</td><td class="entry"><a class="el" href="a01181.html">lumex::applied::json::normalization::ILumexJsonNormalizer</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+</table></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00912.html">lumex</a></li><li class="navelem"><a class="el" href="a00913.html">applied</a></li><li class="navelem"><a class="el" href="a00941.html">resource_monitor</a></li><li class="navelem"><a class="el" href="a00942.html">monitor</a></li><li class="navelem"><a class="el" href="a01182.html">LumexResourceMonitor</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: XPathUtils.hpp File Reference</title>
+<title>LumexLib: XPathLexer.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,67 +104,94 @@ $(function(){initNavTree('a00812.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#namespaces">Namespaces</a> &#124;
-<a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">XPathUtils.hpp File Reference</div></div>
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#namespaces">Namespaces</a>  </div>
+  <div class="headertitle"><div class="title">XPathLexer.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Document order sorting of XPath node ranges, and copying of XPath variable values.  
+<p><code>XPathLexer</code>, the tokenizer that splits an XPath expression into lexemes for <code>XPathParser</code>.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="a00605_source.html">lumex/LumexExport.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00764_source.html">lumex/xml/xpath/node/XPathNode.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00770_source.html">lumex/xml/xpath/node/XPathNodeSet.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="a00641_source.html">lumex/LumexExport.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00389_source.html">lumex/core/utility/attr/LumexAttributes.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00818_source.html">lumex/xml/xpath/parser/lexer/XPathLexerString.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for XPathUtils.hpp:</div>
+Include dependency graph for XPathLexer.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00813.png" border="0" usemap="#a_x_path_utils_8hpp" alt=""/></div>
+<div class="center"><img src="a00813.png" border="0" usemap="#a_x_path_lexer_8hpp" alt=""/></div>
+<map name="a_x_path_lexer_8hpp" id="a_x_path_lexer_8hpp">
+<area shape="rect" title="XPathLexer, the tokenizer that splits an XPath expression into lexemes for XPathParser." alt="" coords="104,5,218,32"/>
+<area shape="rect" href="a00641.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="114,171,277,197"/>
+<area shape="poly" title=" " alt="" coords="166,32,192,155,187,156,161,33"/>
+<area shape="rect" href="a00389.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="37,320,205,363"/>
+<area shape="poly" title=" " alt="" coords="157,34,130,92,115,131,105,171,102,206,103,242,114,304,108,305,98,242,96,206,100,170,110,129,125,90,152,31"/>
+<area shape="rect" href="a00818.html" title="XPathLexerString, the begin and end of a token inside the text of an XPath expression." alt="" coords="198,80,382,123"/>
+<area shape="poly" title=" " alt="" coords="183,30,246,69,243,74,180,35"/>
+<area shape="rect" href="a00404.html" title="C++ language, library and attribute feature availability." alt="" coords="5,411,237,453"/>
+<area shape="poly" title=" " alt="" coords="124,363,124,395,118,395,118,363"/>
+<area shape="poly" title=" " alt="" coords="268,125,224,162,220,158,264,121"/>
+<area shape="rect" href="a00728.html" title="The basic types and enumerations of the XML module: character and string types, node types,..." alt="" coords="302,171,506,197"/>
+<area shape="poly" title=" " alt="" coords="321,121,375,159,372,164,318,125"/>
+<area shape="rect" title=" " alt="" coords="511,245,571,272"/>
+<area shape="poly" title=" " alt="" coords="429,196,505,235,502,240,426,200"/>
+<area shape="rect" title=" " alt="" coords="198,245,252,272"/>
+<area shape="poly" title=" " alt="" coords="374,200,267,243,265,238,372,195"/>
+<area shape="rect" href="a00734.html" title="Preprocessor macros of the XML module: the character mode, the declaration of constants,..." alt="" coords="275,245,487,272"/>
+<area shape="poly" title=" " alt="" coords="402,199,392,231,387,230,397,197"/>
+<area shape="poly" title=" " alt="" coords="341,275,203,317,202,312,340,270"/>
+<area shape="rect" href="a00419.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="265,320,497,363"/>
+<area shape="poly" title=" " alt="" coords="384,272,384,305,378,305,378,272"/>
+<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="284,411,478,453"/>
+<area shape="poly" title=" " alt="" coords="384,363,384,395,378,395,378,363"/>
+</map>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00814.png" border="0" usemap="#a_x_path_utils_8hppdep" alt=""/></div>
+<div class="center"><img src="a00814.png" border="0" usemap="#a_x_path_lexer_8hppdep" alt=""/></div>
+<map name="a_x_path_lexer_8hppdep" id="a_x_path_lexer_8hppdep">
+<area shape="rect" title="XPathLexer, the tokenizer that splits an XPath expression into lexemes for XPathParser." alt="" coords="76,5,190,32"/>
+<area shape="rect" href="a00809.html" title=" " alt="" coords="5,80,120,107"/>
+<area shape="poly" title=" " alt="" coords="112,45,77,81,73,78,108,41"/>
+<area shape="rect" href="a00824.html" title="XPathParser, the recursive descent parser that compiles an XPath 1.0 expression into a tree of XPathA..." alt="" coords="144,80,264,107"/>
+<area shape="poly" title=" " alt="" coords="158,41,194,78,190,81,154,45"/>
+<area shape="rect" href="a00821.html" title=" " alt="" coords="72,155,192,181"/>
+<area shape="poly" title=" " alt="" coords="182,120,146,156,142,152,179,116"/>
+<area shape="rect" href="a00833.html" title=" " alt="" coords="216,155,333,181"/>
+<area shape="poly" title=" " alt="" coords="229,116,264,152,260,156,225,120"/>
+</map>
 </div>
 </div>
 <p><a href="a00812_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
-Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00912.html">lumex</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01083.html">lumex::xml</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01092.html">lumex::xml::xpath</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01094.html">lumex::xml::xpath::variable</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01114.html">lumex::xml::xpath::utility</a></td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03157.html">lumex::xml::xpath::parser::lexer::XPathLexer</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lexer (tokenizer) for XPath expressions.  <a href="a03157.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:a06d335726027c6477be96cb86f9e56ce" id="r_a06d335726027c6477be96cb86f9e56ce"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a03066.html#adb8cd64c821b92dc30490b083e5e686c">XPathNodeSet::type_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01114.html#a06d335726027c6477be96cb86f9e56ce">lumex::xml::xpath::utility::xpath_get_order</a> (<a class="el" href="a03062.html">XPathNode</a> const *begin, <a class="el" href="a03062.html">XPathNode</a> const *end)</td></tr>
-<tr class="memdesc:a06d335726027c6477be96cb86f9e56ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines the current document order of a range of XPath nodes.  <br /></td></tr>
-<tr class="separator:a06d335726027c6477be96cb86f9e56ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1cda3af8de6ebb42fc0186a350a138e1" id="r_a1cda3af8de6ebb42fc0186a350a138e1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a03066.html#adb8cd64c821b92dc30490b083e5e686c">XPathNodeSet::type_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01114.html#a1cda3af8de6ebb42fc0186a350a138e1">lumex::xml::xpath::utility::xpath_sort</a> (<a class="el" href="a03062.html">XPathNode</a> *begin, <a class="el" href="a03062.html">XPathNode</a> *end, <a class="el" href="a03066.html#adb8cd64c821b92dc30490b083e5e686c">XPathNodeSet::type_t</a> type, bool rev)</td></tr>
-<tr class="memdesc:a1cda3af8de6ebb42fc0186a350a138e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sorts a range of XPath nodes by document order.  <br /></td></tr>
-<tr class="separator:a1cda3af8de6ebb42fc0186a350a138e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abb9de3a45c0762f05c942cebbd27e46a" id="r_abb9de3a45c0762f05c942cebbd27e46a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a03062.html">XPathNode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01114.html#abb9de3a45c0762f05c942cebbd27e46a">lumex::xml::xpath::utility::xpath_first</a> (<a class="el" href="a03062.html">XPathNode</a> const *begin, <a class="el" href="a03062.html">XPathNode</a> const *end, <a class="el" href="a03066.html#adb8cd64c821b92dc30490b083e5e686c">XPathNodeSet::type_t</a> type)</td></tr>
-<tr class="memdesc:abb9de3a45c0762f05c942cebbd27e46a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves the first node in document order from a range of XPath nodes.  <br /></td></tr>
-<tr class="separator:abb9de3a45c0762f05c942cebbd27e46a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5664ce2a10255b6aca45326df60fcb8e" id="r_a5664ce2a10255b6aca45326df60fcb8e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01114.html#a5664ce2a10255b6aca45326df60fcb8e">lumex::xml::xpath::utility::copy_xpath_variable</a> (<a class="el" href="a03106.html">XPathVariable</a> *lhs, <a class="el" href="a03106.html">XPathVariable</a> const *rhs)</td></tr>
-<tr class="memdesc:a5664ce2a10255b6aca45326df60fcb8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies the value of one XPath variable to another.  <br /></td></tr>
-<tr class="separator:a5664ce2a10255b6aca45326df60fcb8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00948.html">lumex</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01126.html">lumex::xml</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01135.html">lumex::xml::xpath</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01153.html">lumex::xml::xpath::parser</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01154.html">lumex::xml::xpath::parser::lexer</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Document order sorting of XPath node ranges, and copying of XPath variable values. </p>
-<p><code>xpath_get_order</code> finds whether a range is already sorted, <code>xpath_sort</code> sorts it forwards or backwards only when needed, and <code>xpath_first</code> finds the first node in document order without sorting. <code>XPathNodeSet</code> and <code>XPathNodeSetRaw</code> are built on them. <code>copy_xpath_variable</code> copies the value of one variable to another of the same type. The file is internal to the XPath engine. </p>
+<div class="textblock"><p><code>XPathLexer</code>, the tokenizer that splits an XPath expression into lexemes for <code>XPathParser</code>. </p>
+<p>The lexer keeps one token of look-ahead: <code>current()</code> is its <code>lexeme_t</code> (<code><a class="el" href="a00728.html" title="The basic types and enumerations of the XML module: character and string types, node types,...">XmlTypes.hpp</a></code>), <code>contents()</code> its text and <code>current_pos()</code> its position, which the parser uses for error offsets; <code>next()</code> moves on. It skips whitespace, recognizes operators of one and two characters, names, numbers, string literals and variable references, and leaves all grammar checks to the parser. The expression is not copied and must outlive the lexer. The file is internal to the XPath engine. </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_d38a0fae6a8e48d91b3b62673cf0c708.html">xpath</a></li><li class="navelem"><a class="el" href="dir_52cbcfdbf2c58b58307b6d105e348e3a.html">utility</a></li><li class="navelem"><a class="el" href="a00812.html">XPathUtils.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_d38a0fae6a8e48d91b3b62673cf0c708.html">xpath</a></li><li class="navelem"><a class="el" href="dir_4c93ace1da67964a3ff55b959013373d.html">parser</a></li><li class="navelem"><a class="el" href="dir_2f8488fdbf169117866699aa1d08d080.html">lexer</a></li><li class="navelem"><a class="el" href="a00812.html">XPathLexer.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

@@ -1,9 +1,12 @@
 var a00227 =
 [
-    [ "lumex::core::exceptions::exception::LumexBaseException", "a01810.html", "a01810" ],
-    [ "LUMEX_EXCEPTION_HANDLE_BEGIN", "a00227.html#aa2c14643747e0675175c89004325e3c4", null ],
-    [ "LUMEX_EXCEPTION_HANDLE_END", "a00227.html#adc7a0e055f41c7602df8841a2c9ffc7e", null ],
-    [ "LUMEX_THROW_EXCEPTION", "a00227.html#a537bc5e66573ec83ae7e2f29bb6cf618", null ],
-    [ "LumexBaseException", "a00227.html#a14cb3c521ade640b8e5a7bf4aac3c929", null ],
-    [ "lumex::core::exceptions::exception::LumexException_GetStackTraceTrampoline", "a00993.html#a31ed01634f7b6bd094769a42fe5f966b", null ]
+    [ "lumex::core::circular_buffer::CircularBuffer< T, Allocator >", "a01385.html", "a01385" ],
+    [ "lumex::core::circular_buffer::CircularBuffer< T, Allocator >::iterator", "a01393.html", "a01393" ],
+    [ "lumex::core::circular_buffer::CircularBuffer< T, Allocator >::const_iterator", "a01397.html", "a01397" ],
+    [ "lumex::core::circular_buffer::operator!=", "a01024.html#a9f2053ec78d256b9511bcb2ad97a7df2", null ],
+    [ "lumex::core::circular_buffer::operator<", "a01024.html#a56bbfbab60073a9b1102f21f970563c9", null ],
+    [ "lumex::core::circular_buffer::operator<=", "a01024.html#a4f2d75691303d649ca012fbe8dda517a", null ],
+    [ "lumex::core::circular_buffer::operator==", "a01024.html#ac96da0807d416d4354f8e227a54404fe", null ],
+    [ "lumex::core::circular_buffer::operator>", "a01024.html#acc6a20ddca8e466131ac5c016f8db307", null ],
+    [ "lumex::core::circular_buffer::operator>=", "a01024.html#aeaf35e00dcf39d60a23f37e0e5a02048", null ]
 ];

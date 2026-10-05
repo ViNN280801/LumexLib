@@ -6,5 +6,5 @@ var dir_9258c4c02d6a33184acee8f108260d77 =
     [ "interface", "dir_a55c3a6c2f1224311e2e61f490a68b21.html", "dir_a55c3a6c2f1224311e2e61f490a68b21" ],
     [ "json", "dir_f6d123197ece58710e69565e1c75f341.html", "dir_f6d123197ece58710e69565e1c75f341" ],
     [ "xml", "dir_3df0cac0d3d934b72ac63bcfda3027b0.html", "dir_3df0cac0d3d934b72ac63bcfda3027b0" ],
-    [ "LumexSettings", "a00851.html", null ]
+    [ "LumexSettings", "a00887.html", null ]
 ];

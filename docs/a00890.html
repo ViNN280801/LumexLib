@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexReflection File Reference</title>
+<title>LumexLib: LumexAtomic File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -103,35 +103,110 @@ $(function(){initNavTree('a00890.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">LumexReflection File Reference</div></div>
+  <div class="headertitle"><div class="title">LumexAtomic File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Reflection module: <code>LUMEX_VARINFO</code>, which prints the name, value, type and other properties of an expression; enums with compile-time names (<code>LUMEX_DEFINE_REFLECTED_ENUM</code>); and, on request, aggregates written to JSON field by field.  
+<p>Atomic module: <code><a class="el" href="a01325.html" title="Atomic std::shared_ptr&lt;T&gt;, as std::atomic&lt;std::shared_ptr&lt;T&gt;&gt;.">atomic_shared_ptr</a>&lt;T&gt;</code> and <code><a class="el" href="a01349.html" title="Atomic std::weak_ptr&lt;T&gt;, as std::atomic&lt;std::weak_ptr&lt;T&gt;&gt;.">atomic_weak_ptr</a>&lt;T&gt;</code>, the interface of the C++20 <code>std::atomic&lt;std::shared_ptr&lt;T&gt;&gt;</code> and <code>std::atomic&lt;std::weak_ptr&lt;T&gt;&gt;</code> from C++11 on.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="a00302_source.html">var_info/LumexVarInfo.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00299_source.html">reflected_enum/LumexReflectedEnum.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="a00188_source.html">smart_ptr/LumexAtomicSharedPtr.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00197_source.html">smart_ptr/LumexAtomicWeakPtr.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for LumexReflection:</div>
+Include dependency graph for LumexAtomic:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00891.png" border="0" usemap="#a_lumex_reflection" alt=""/></div>
+<div class="center"><img src="a00891.png" border="0" usemap="#a_lumex_atomic" alt=""/></div>
+<map name="a_lumex_atomic" id="a_lumex_atomic">
+<area shape="rect" title="Atomic module: atomic_shared_ptr&lt;T&gt; and atomic_weak_ptr&lt;T&gt;, the interface of the C++20 std::atomic&lt;st..." alt="" coords="287,5,388,32"/>
+<area shape="rect" href="a00188.html" title="atomic_shared_ptr&lt;T&gt;: the interface of the C++20 std::atomic&lt;std::shared_ptr&lt;T&gt;&gt; for C++11 and later." alt="" coords="387,80,589,123"/>
+<area shape="poly" title=" " alt="" coords="362,30,437,70,435,75,360,35"/>
+<area shape="rect" href="a00197.html" title="atomic_weak_ptr&lt;T&gt;: the interface of the C++20 std::atomic&lt;std::weak_ptr&lt;T&gt;&gt; for C++11 and later." alt="" coords="130,80,323,123"/>
+<area shape="poly" title=" " alt="" coords="322,35,269,73,266,69,319,30"/>
+<area shape="rect" title=" " alt="" coords="338,451,398,477"/>
+<area shape="poly" title=" " alt="" coords="557,121,590,141,616,169,622,191,616,214,597,253,573,290,515,355,455,407,404,444,401,440,452,403,512,351,569,287,592,251,611,212,617,192,611,172,586,145,554,126"/>
+<area shape="rect" title=" " alt="" coords="1436,451,1500,477"/>
+<area shape="poly" title=" " alt="" coords="589,103,782,110,1008,123,1207,142,1277,154,1317,168,1351,196,1380,229,1403,265,1423,303,1451,377,1466,435,1461,436,1446,379,1418,306,1399,268,1375,232,1347,200,1315,173,1276,159,1206,147,1008,128,782,116,589,108"/>
+<area shape="rect" title=" " alt="" coords="73,360,141,387"/>
+<area shape="poly" title=" " alt="" coords="398,126,304,151,205,183,120,222,89,242,70,263,64,283,67,305,77,327,89,346,84,349,72,329,62,307,59,283,66,260,86,238,117,217,203,178,303,146,397,121"/>
+<area shape="rect" title=" " alt="" coords="81,269,133,296"/>
+<area shape="poly" title=" " alt="" coords="442,126,337,173,147,265,145,260,335,168,440,121"/>
+<area shape="rect" href="a00191.html" title="Storage and operations behind atomic_shared_ptr and atomic_weak_ptr: a lock&#45;based cell for every stan..." alt="" coords="374,171,602,213"/>
+<area shape="poly" title=" " alt="" coords="491,123,491,155,485,155,485,123"/>
+<area shape="rect" href="a00194.html" title="Chooses between the standard std::atomic&lt;std::shared_ptr&lt;T&gt;&gt; and the lock&#45;based implementation,..." alt="" coords="208,261,451,304"/>
+<area shape="poly" title=" " alt="" coords="430,126,395,145,365,172,345,208,336,246,330,245,340,206,361,169,392,141,428,121"/>
+<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="1218,443,1412,485"/>
+<area shape="poly" title=" " alt="" coords="590,102,777,107,994,119,1096,127,1183,138,1248,152,1270,160,1285,169,1307,197,1323,230,1332,265,1336,301,1335,371,1326,427,1321,427,1330,370,1331,301,1327,266,1318,231,1303,200,1281,173,1268,165,1247,157,1182,143,1095,133,994,124,776,112,589,107"/>
+<area shape="rect" href="a00389.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="621,352,790,395"/>
+<area shape="poly" title=" " alt="" coords="585,121,625,140,659,169,684,209,699,254,707,298,709,336,704,336,701,299,694,255,680,211,655,172,622,145,583,126"/>
+<area shape="poly" title=" " alt="" coords="488,214,480,257,465,305,427,380,388,440,384,437,423,377,460,303,475,255,483,213"/>
+<area shape="poly" title=" " alt="" coords="375,205,284,225,239,242,198,264,174,282,153,304,123,348,118,345,149,301,170,278,195,259,237,237,283,220,373,200"/>
+<area shape="poly" title=" " alt="" coords="374,213,266,234,153,264,148,266,146,261,151,259,265,229,373,208"/>
+<area shape="rect" title=" " alt="" coords="677,451,737,477"/>
+<area shape="poly" title=" " alt="" coords="499,212,542,296,574,346,611,393,641,419,672,440,669,445,638,423,608,397,569,349,537,298,494,215"/>
+<area shape="poly" title=" " alt="" coords="452,216,381,256,378,251,450,212"/>
+<area shape="rect" href="a00200.html" title="Blocking wait for a change of a 32&#45;bit atomic word, and the wake&#45;up that ends it, from C++11 on." alt="" coords="965,352,1126,395"/>
+<area shape="poly" title=" " alt="" coords="602,196,703,204,810,217,905,235,943,246,971,259,991,275,1008,295,1033,336,1029,339,1004,298,988,279,968,264,941,251,903,240,809,222,703,209,602,202"/>
+<area shape="poly" title=" " alt="" coords="602,194,692,201,795,213,903,232,1009,259,1062,277,1102,296,1187,350,1240,390,1285,430,1281,434,1236,394,1184,354,1100,300,1060,282,1007,264,902,237,794,218,691,206,602,200"/>
+<area shape="rect" href="a00203.html" title="A lock held in one 32&#45;bit word: one bit marks it as taken, a second bit records that a thread sleeps ..." alt="" coords="797,261,958,304"/>
+<area shape="poly" title=" " alt="" coords="580,211,782,257,781,262,579,217"/>
+<area shape="poly" title=" " alt="" coords="336,304,365,435,360,436,331,305"/>
+<area shape="poly" title=" " alt="" coords="278,307,154,356,152,351,276,302"/>
+<area shape="poly" title=" " alt="" coords="451,296,950,358,949,363,451,302"/>
+<area shape="rect" href="a00404.html" title="C++ language, library and attribute feature availability." alt="" coords="422,443,653,485"/>
+<area shape="poly" title=" " alt="" coords="355,302,504,431,501,435,352,307"/>
+<area shape="poly" title=" " alt="" coords="965,386,410,445,405,447,403,442,409,440,965,380"/>
+<area shape="poly" title=" " alt="" coords="1127,381,1267,402,1347,419,1425,440,1430,442,1429,447,1423,445,1346,424,1266,407,1126,386"/>
+<area shape="poly" title=" " alt="" coords="966,391,862,413,750,445,746,447,744,442,749,440,861,408,964,386"/>
+<area shape="rect" title=" " alt="" coords="912,451,963,477"/>
+<area shape="poly" title=" " alt="" coords="1022,397,966,443,962,439,1019,393"/>
+<area shape="rect" title=" " alt="" coords="987,451,1112,477"/>
+<area shape="poly" title=" " alt="" coords="1049,395,1051,435,1046,435,1044,395"/>
+<area shape="rect" title=" " alt="" coords="1137,451,1194,477"/>
+<area shape="poly" title=" " alt="" coords="1075,393,1138,439,1135,443,1072,397"/>
+<area shape="rect" title=" " alt="" coords="843,451,888,477"/>
+<area shape="poly" title=" " alt="" coords="1000,398,901,445,901,445,898,441,899,440,998,393"/>
+<area shape="rect" title=" " alt="" coords="761,451,818,477"/>
+<area shape="poly" title=" " alt="" coords="972,398,832,445,829,446,827,441,830,440,971,393"/>
+<area shape="poly" title=" " alt="" coords="965,391,669,443,668,437,964,386"/>
+<area shape="poly" title=" " alt="" coords="1109,393,1238,435,1237,440,1108,398"/>
+<area shape="poly" title=" " alt="" coords="872,306,847,353,827,377,803,397,749,423,701,436,656,439,612,437,521,430,469,433,410,445,406,447,404,442,409,440,468,427,521,424,612,432,656,434,700,431,747,418,800,392,823,373,842,350,867,303"/>
+<area shape="poly" title=" " alt="" coords="879,305,871,349,862,374,847,397,748,446,745,441,844,393,857,372,866,348,874,304"/>
+<area shape="poly" title=" " alt="" coords="918,302,994,342,992,347,916,307"/>
+<area shape="poly" title=" " alt="" coords="891,304,905,347,906,372,898,396,871,421,830,445,827,441,868,416,894,393,900,371,899,348,886,305"/>
+<area shape="poly" title=" " alt="" coords="959,294,1047,315,1094,331,1139,350,1168,370,1196,392,1264,432,1261,437,1193,397,1165,374,1136,354,1092,336,1045,321,958,299"/>
+<area shape="poly" title=" " alt="" coords="838,307,760,347,758,342,836,302"/>
+<area shape="poly" title=" " alt="" coords="667,398,591,437,589,433,665,393"/>
+<area shape="poly" title=" " alt="" coords="137,126,93,145,54,173,27,203,12,232,8,264,15,303,29,354,41,373,62,393,81,403,109,414,179,431,323,455,322,460,178,437,107,419,79,408,59,397,37,377,24,357,9,305,3,264,7,230,23,200,50,169,90,140,135,121"/>
+<area shape="poly" title=" " alt="" coords="182,126,142,148,98,179,57,217,27,262,21,283,26,303,46,329,71,349,67,354,42,333,22,305,15,283,22,260,53,213,95,175,139,144,180,121"/>
+<area shape="poly" title=" " alt="" coords="215,125,126,258,121,255,211,122"/>
+<area shape="poly" title=" " alt="" coords="289,121,413,163,412,168,287,126"/>
+<area shape="poly" title=" " alt="" coords="234,122,248,165,270,212,299,248,295,252,266,215,243,167,229,124"/>
+<area shape="poly" title=" " alt="" coords="324,114,504,141,723,177,931,218,1015,239,1080,259,1127,277,1162,295,1195,317,1234,350,1269,389,1297,428,1293,431,1265,392,1230,354,1192,322,1160,300,1125,282,1078,264,1014,244,929,223,722,182,504,146,324,119"/>
+<area shape="poly" title=" " alt="" coords="250,121,301,165,364,211,647,343,645,347,361,216,297,169,247,125"/>
+</map>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00892.png" border="0" usemap="#a_lumex_reflectiondep" alt=""/></div>
+<div class="center"><img src="a00892.png" border="0" usemap="#a_lumex_atomicdep" alt=""/></div>
+<map name="a_lumex_atomicdep" id="a_lumex_atomicdep">
+<area shape="rect" title="Atomic module: atomic_shared_ptr&lt;T&gt; and atomic_weak_ptr&lt;T&gt;, the interface of the C++20 std::atomic&lt;st..." alt="" coords="124,5,226,32"/>
+<area shape="rect" href="a00452.html" title=" " alt="" coords="5,80,164,123"/>
+<area shape="poly" title=" " alt="" coords="152,44,109,82,106,78,148,40"/>
+<area shape="rect" href="a00455.html" title=" " alt="" coords="188,80,344,123"/>
+<area shape="poly" title=" " alt="" coords="202,40,244,78,241,82,199,44"/>
+</map>
 </div>
 </div>
 <p><a href="a00890_source.html">Go to the source code of this file.</a></p>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Reflection module: <code>LUMEX_VARINFO</code>, which prints the name, value, type and other properties of an expression; enums with compile-time names (<code>LUMEX_DEFINE_REFLECTED_ENUM</code>); and, on request, aggregates written to JSON field by field. </p>
-<p>Link <code>lumex::reflection</code> (header-only). Works from C++11. Field reflection is included only when <code>LUMEX_WITH_FIELD_REFLECTION</code> is defined; it needs nlohmann/json on the include path, and its <code>to_json</code> needs C++20 for the field names. The umbrella includes <code><a class="el" href="a00302.html" title="Debug diagnostic printer for an arbitrary expression: name, value (if printable), demangled type,...">var_info/LumexVarInfo.hpp</a></code>, <code><a class="el" href="a00299.html" title="X-macro system that generates a scoped enum together with its own compile-time reflection data and a ...">reflected_enum/LumexReflectedEnum.hpp</a></code> and, with that macro, <code><a class="el" href="a00296.html" title="Serializes a simple aggregate (no constructors, no private members, no base classes) to JSON by walki...">field_reflection/LumexFieldReflection.hpp</a></code>. </p>
+<div class="textblock"><p>Atomic module: <code><a class="el" href="a01325.html" title="Atomic std::shared_ptr&lt;T&gt;, as std::atomic&lt;std::shared_ptr&lt;T&gt;&gt;.">atomic_shared_ptr</a>&lt;T&gt;</code> and <code><a class="el" href="a01349.html" title="Atomic std::weak_ptr&lt;T&gt;, as std::atomic&lt;std::weak_ptr&lt;T&gt;&gt;.">atomic_weak_ptr</a>&lt;T&gt;</code>, the interface of the C++20 <code>std::atomic&lt;std::shared_ptr&lt;T&gt;&gt;</code> and <code>std::atomic&lt;std::weak_ptr&lt;T&gt;&gt;</code> from C++11 on. </p>
+<p>Link <code>lumex::atomic</code> (header-only; it brings <code>Threads::Threads</code>). Works from C++11. Where the standard library has the C++20 atomic smart pointers, the classes wrap them; elsewhere they use a lock-based implementation. The umbrella includes <code><a class="el" href="a00188.html" title="atomic_shared_ptr&lt;T&gt;: the interface of the C++20 std::atomic&lt;std::shared_ptr&lt;T&gt;&gt; for C++11 and later.">smart_ptr/LumexAtomicSharedPtr.hpp</a></code> and <code><a class="el" href="a00197.html" title="atomic_weak_ptr&lt;T&gt;: the interface of the C++20 std::atomic&lt;std::weak_ptr&lt;T&gt;&gt; for C++11 and later.">smart_ptr/LumexAtomicWeakPtr.hpp</a></code>. </p><dl class="section see"><dt>See also</dt><dd>The <code>README.md</code> page next to this umbrella (part of the documentation). </dd></dl>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_9f19d952725811a71a1277575cb881df.html">reflection</a></li><li class="navelem"><a class="el" href="a00890.html">LumexReflection</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_46588a2def099f5c90ce8dff319725b2.html">atomic</a></li><li class="navelem"><a class="el" href="a00890.html">LumexAtomic</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

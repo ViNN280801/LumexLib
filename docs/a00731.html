@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: XPathConstants.hpp File Reference</title>
+<title>LumexLib: XmlCleaner.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,60 +104,76 @@ $(function(){initNavTree('a00731.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#namespaces">Namespaces</a> &#124;
-<a href="#var-members">Variables</a>  </div>
-  <div class="headertitle"><div class="title">XPathConstants.hpp File Reference</div></div>
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#namespaces">Namespaces</a>  </div>
+  <div class="headertitle"><div class="title">XmlCleaner.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Size limits and alignment of the XPath engine.  
+<p><code>XmlCleaner</code>, a scope guard that frees a pointer with a given deleter function unless it is released.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;cstdint&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00698_source.html">lumex/xml/utility/XmlMacros.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="a00641_source.html">lumex/LumexExport.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for XPathConstants.hpp:</div>
+Include dependency graph for XmlCleaner.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00732.png" border="0" usemap="#a_x_path_constants_8hpp" alt=""/></div>
+<div class="center"><img src="a00732.png" border="0" usemap="#a_xml_cleaner_8hpp" alt=""/></div>
+<map name="a_xml_cleaner_8hpp" id="a_xml_cleaner_8hpp">
+<area shape="rect" title="XmlCleaner, a scope guard that frees a pointer with a given deleter function unless it is released." alt="" coords="29,5,144,32"/>
+<area shape="rect" href="a00641.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="5,80,168,107"/>
+<area shape="poly" title=" " alt="" coords="89,33,89,64,84,64,84,33"/>
+</map>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00733.png" border="0" usemap="#a_x_path_constants_8hppdep" alt=""/></div>
+<div class="center"><img src="a00733.png" border="0" usemap="#a_xml_cleaner_8hppdep" alt=""/></div>
+<map name="a_xml_cleaner_8hppdep" id="a_xml_cleaner_8hppdep">
+<area shape="rect" title="XmlCleaner, a scope guard that frees a pointer with a given deleter function unless it is released." alt="" coords="400,5,514,32"/>
+<area shape="rect" href="a00944.html" title="XML module: a DOM tree of nodes, attributes and text, loading and saving with writers for files and s..." alt="" coords="218,80,302,107"/>
+<area shape="poly" title=" " alt="" coords="410,40,296,82,294,77,408,35"/>
+<area shape="rect" href="a00833.html" title=" " alt="" coords="326,80,442,107"/>
+<area shape="poly" title=" " alt="" coords="436,45,398,82,395,78,432,41"/>
+<area shape="rect" href="a00662.html" title=" " alt="" coords="466,80,595,107"/>
+<area shape="poly" title=" " alt="" coords="483,41,520,78,516,82,479,45"/>
+<area shape="rect" href="a00713.html" title=" " alt="" coords="620,80,761,107"/>
+<area shape="poly" title=" " alt="" coords="513,34,650,77,649,82,511,39"/>
+<area shape="rect" href="a00629.html" title=" " alt="" coords="5,155,115,181"/>
+<area shape="poly" title=" " alt="" coords="212,115,96,157,94,152,210,110"/>
+<area shape="rect" href="a00632.html" title=" " alt="" coords="139,155,248,181"/>
+<area shape="poly" title=" " alt="" coords="240,120,207,156,203,152,236,116"/>
+<area shape="rect" href="a00635.html" title=" " alt="" coords="272,155,381,181"/>
+<area shape="poly" title=" " alt="" coords="284,116,317,152,313,156,280,120"/>
+<area shape="rect" href="a00638.html" title=" " alt="" coords="405,155,515,181"/>
+<area shape="poly" title=" " alt="" coords="310,110,426,152,424,157,308,115"/>
+</map>
 </div>
 </div>
 <p><a href="a00731_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
-Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00912.html">lumex</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01083.html">lumex::xml</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01092.html">lumex::xml::xpath</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01104.html">lumex::xml::xpath::constants</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01105.html">lumex::xml::xpath::constants::Constants</a></td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02985.html">lumex::xml::utility::XmlCleaner&lt; T &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A simple RAII (Resource Acquisition Is Initialization) wrapper for managing dynamically allocated memory.  <a href="a02985.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
-Variables</h2></td></tr>
-<tr class="memitem:ad26ad5985470791d299f0bbbc18fb33d" id="r_ad26ad5985470791d299f0bbbc18fb33d"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01105.html#ad26ad5985470791d299f0bbbc18fb33d">lumex::xml::xpath::constants::Constants::kxpath_memory_page_size</a> = 0x1000</td></tr>
-<tr class="separator:ad26ad5985470791d299f0bbbc18fb33d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a313212f487db1c0370399210a9b503ec" id="r_a313212f487db1c0370399210a9b503ec"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01105.html#a313212f487db1c0370399210a9b503ec">lumex::xml::xpath::constants::Constants::kxpath_ast_depth_limit</a> = 0x400</td></tr>
-<tr class="separator:a313212f487db1c0370399210a9b503ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abc2f314e0988bdf72981959e498e258e" id="r_abc2f314e0988bdf72981959e498e258e"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITuintptr_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01105.html#abc2f314e0988bdf72981959e498e258e">lumex::xml::xpath::constants::Constants::kxpath_memory_block_alignment</a> = sizeof (double) &gt; sizeof (void *) ? sizeof (double) : sizeof (void *)</td></tr>
-<tr class="separator:abc2f314e0988bdf72981959e498e258e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00948.html">lumex</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01126.html">lumex::xml</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01128.html">lumex::xml::utility</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Size limits and alignment of the XPath engine. </p>
-<p><code>kxpath_memory_page_size</code> (4096) is the data size of an <code>XPathMemoryBlock</code>, <code>kxpath_ast_depth_limit</code> (1024) the deepest recursion <code>XPathParser</code> accepts before it reports an error, and <code>kxpath_memory_block_alignment</code> the alignment of every XPath allocation, the larger of the alignments needed for a <code>double</code> and a pointer. The constants are in <code><a class="el" href="a01105.html">lumex::xml::xpath::constants::Constants</a></code>. </p>
+<div class="textblock"><p><code>XmlCleaner</code>, a scope guard that frees a pointer with a given deleter function unless it is released. </p>
+<p>The module's implementation uses it to free a temporary resource on every return path, for example an open <code>FILE</code>, a loading buffer or a query implementation, and calls <code>release()</code> once ownership has passed elsewhere. Header-only. </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_d38a0fae6a8e48d91b3b62673cf0c708.html">xpath</a></li><li class="navelem"><a class="el" href="dir_cf6d8699b082a50a97245bbc6ac68abc.html">constants</a></li><li class="navelem"><a class="el" href="a00731.html">XPathConstants.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_7bfbee8fcb850e8938daf1d332a7a70b.html">utility</a></li><li class="navelem"><a class="el" href="a00731.html">XmlCleaner.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

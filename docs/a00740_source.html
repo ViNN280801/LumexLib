@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: XPathDocumentOrderComparator.hpp Source File</title>
+<title>LumexLib: IXmlWriter.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -103,7 +103,7 @@ $(function(){initNavTree('a00740_source.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">XPathDocumentOrderComparator.hpp</div></div>
+  <div class="headertitle"><div class="title">IXmlWriter.hpp</div></div>
 </div><!--header-->
 <div class="contents">
 <a href="a00740.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">/*</span></div>
@@ -145,70 +145,79 @@ $(function(){initNavTree('a00740_source.html',''); initResizable(true); });
 <div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="comment"> * SOFTWARE.</span></div>
 <div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="comment"> */</span></div>
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span></div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="preprocessor">#ifndef LUMEX_XML_XPATH_DOCUMENT_HPP</span></div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="preprocessor">#define LUMEX_XML_XPATH_DOCUMENT_HPP</span></div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span><span class="preprocessor">#include &quot;<a class="code" href="a00605.html">lumex/LumexExport.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="preprocessor">#include &quot;<a class="code" href="a00662.html">lumex/xml/node/XmlNodeBase.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span><span class="preprocessor">#include &quot;<a class="code" href="a00764.html">lumex/xml/xpath/node/XPathNode.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span> </div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a00912.html">lumex</a> <span class="comment">// NOLINT(modernize-concat-nested-namespaces)</span></div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>{</div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01083.html">xml</a></div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>{</div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01092.html">xpath</a></div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>{</div>
-<div class="foldopen" id="foldopen00066" data-start="{" data-end="}">
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno"><a class="line" href="a01107.html">   66</a></span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01107.html">document</a></div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>{</div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span><span class="keyword">using namespace </span><a class="code hl_namespace" href="a01093.html">lumex::xml::xpath::node</a>;</div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span><span class="keyword">using namespace </span><a class="code hl_namespace" href="a01086.html">lumex::xml::node</a>;</div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span></div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span><a class="code hl_define" href="a00605.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a></div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span><span class="keywordtype">bool</span> <a class="code hl_function" href="a01107.html#a390bce9be17e61e113730fb8084c70cc">node_is_before_sibling</a> (<a class="code hl_struct" href="a02854.html">XmlNodeBase</a> *ln_node, <a class="code hl_struct" href="a02854.html">XmlNodeBase</a> *rn_node);</div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span></div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span><a class="code hl_define" href="a00605.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a></div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span><span class="keywordtype">bool</span> <a class="code hl_function" href="a01107.html#a8581d5ce879c267c49916eb9b84be203">node_is_before</a> (<a class="code hl_struct" href="a02854.html">XmlNodeBase</a> *ln_node, <a class="code hl_struct" href="a02854.html">XmlNodeBase</a> *rn_node);</div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span></div>
-<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span><a class="code hl_define" href="a00605.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a></div>
-<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span><span class="keywordtype">void</span> <span class="keyword">const</span> *<a class="code hl_function" href="a01107.html#a3fae07ce6115049a6980bd493832dbff">document_buffer_order</a> (<a class="code hl_class" href="a03062.html">XPathNode</a> <span class="keyword">const</span> &amp;xnode);</div>
-<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span></div>
-<div class="foldopen" id="foldopen00130" data-start="{" data-end="};">
-<div class="line"><a id="l00130" name="l00130"></a><span class="lineno"><a class="line" href="a03030.html">  130</a></span><span class="keyword">struct </span><a class="code hl_define" href="a00605.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a> <a class="code hl_struct" href="a03030.html">document_order_comparator</a></div>
-<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>{</div>
-<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>  <span class="keywordtype">bool</span> operator() (<a class="code hl_class" href="a03062.html">XPathNode</a> <span class="keyword">const</span> &amp;lhs, <a class="code hl_class" href="a03062.html">XPathNode</a> <span class="keyword">const</span> &amp;rhs) <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>};</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span><span class="preprocessor">#ifndef LUMEX_XML_WRITER_I_XML_WRITER_HPP</span></div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="preprocessor">#define LUMEX_XML_WRITER_I_XML_WRITER_HPP</span></div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="preprocessor">#if defined(__clang__)</span></div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span><span class="preprocessor">#pragma clang diagnostic push</span></div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wpadded&quot;</span></div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wunsafe-buffer-usage&quot;</span></div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="preprocessor">#if __has_warning(&quot;-Wunsafe-buffer-usage-in-libc-call&quot;)</span></div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wunsafe-buffer-usage-in-libc-call&quot;</span></div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wcovered-switch-default&quot;</span></div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wswitch-enum&quot;</span></div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span><span class="preprocessor">#if __has_warning(&quot;-Wnrvo&quot;)</span></div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wnrvo&quot;</span></div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wheader-hygiene&quot;</span></div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wused-but-marked-unused&quot;</span></div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wundefined-var-template&quot;</span></div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wdeprecated-redundant-constexpr-static-def&quot;</span></div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span><span class="preprocessor">#if __has_warning(&quot;-Wvariadic-macro-arguments-omitted&quot;)</span></div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wvariadic-macro-arguments-omitted&quot;</span></div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wunused-result&quot;</span></div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wextra-semi-stmt&quot;</span></div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wexpansion-to-defined&quot;</span></div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wexit-time-destructors&quot;</span></div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wundefined-func-template&quot;</span></div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wfloat-equal&quot;</span></div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span> </div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span><span class="preprocessor">#include &quot;<a class="code" href="a00641.html">lumex/LumexExport.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span> </div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a00948.html">lumex</a> <span class="comment">// NOLINT(modernize-concat-nested-namespaces)</span></div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>{</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01126.html">xml</a></div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>{</div>
+<div class="foldopen" id="foldopen00086" data-start="{" data-end="}">
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno"><a class="line" href="a01144.html">   86</a></span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01144.html">writer</a></div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>{</div>
+<div class="foldopen" id="foldopen00099" data-start="{" data-end="};">
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno"><a class="line" href="a03057.html">   99</a></span><span class="keyword">class </span><a class="code hl_define" href="a00641.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a></div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>    <a class="code hl_class" href="a03057.html">IXmlWriter</a> <span class="comment">// NOLINT(cppcoreguidelines-special-member-functions)</span></div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>{</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno"><a class="line" href="a03057.html#a308227b66f5e277dfa480c687133daef">  107</a></span>  <span class="keyword">virtual</span> <a class="code hl_function" href="a03057.html#a308227b66f5e277dfa480c687133daef">~IXmlWriter</a> () = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span></div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno"><a class="line" href="a03057.html#aa9f972023b05b186b307896ad9444a4d">  118</a></span>  <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="a03057.html#aa9f972023b05b186b307896ad9444a4d">write</a> (<span class="keywordtype">void</span> <span class="keyword">const</span> *data, std::size_t size) = 0;</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>};</div>
 </div>
-<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>} <span class="comment">// namespace document</span></div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>} <span class="comment">// namespace writer</span></div>
 </div>
-<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>} <span class="comment">// namespace xpath</span></div>
-<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>} <span class="comment">// namespace xml</span></div>
-<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>} <span class="comment">// namespace lumex</span></div>
-<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span> </div>
-<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span><span class="preprocessor">#endif </span><span class="comment">// !LUMEX_XML_XPATH_DOCUMENT_HPP</span></div>
-<div class="ttc" id="aa00605_html"><div class="ttname"><a href="a00605.html">LumexExport.hpp</a></div><div class="ttdoc">Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,...</div></div>
-<div class="ttc" id="aa00605_html_aa948a1b1a43f6a954fd4c15b01ae4207"><div class="ttname"><a href="a00605.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a></div><div class="ttdeci">#define LUMEX_API</div><div class="ttdef"><b>Definition</b> LumexExport.hpp:90</div></div>
-<div class="ttc" id="aa00662_html"><div class="ttname"><a href="a00662.html">XmlNodeBase.hpp</a></div><div class="ttdoc">Internal storage of an XML node and the functions that build, link, copy and destroy the tree.</div></div>
-<div class="ttc" id="aa00764_html"><div class="ttname"><a href="a00764.html">XPathNode.hpp</a></div><div class="ttdoc">XPathNode, an item of an XPath result: either an XML node or an attribute together with its element.</div></div>
-<div class="ttc" id="aa00912_html"><div class="ttname"><a href="a00912.html">lumex</a></div><div class="ttdef"><b>Definition</b> LumexCPUVectorizationCapabilities.cpp:65</div></div>
-<div class="ttc" id="aa01083_html"><div class="ttname"><a href="a01083.html">lumex::xml</a></div><div class="ttdef"><b>Definition</b> XmlAttribute.hpp:105</div></div>
-<div class="ttc" id="aa01086_html"><div class="ttname"><a href="a01086.html">lumex::xml::node</a></div><div class="ttdef"><b>Definition</b> XmlAttributeBase.hpp:96</div></div>
-<div class="ttc" id="aa01092_html"><div class="ttname"><a href="a01092.html">lumex::xml::xpath</a></div><div class="ttdef"><b>Definition</b> XmlNode.hpp:133</div></div>
-<div class="ttc" id="aa01093_html"><div class="ttname"><a href="a01093.html">lumex::xml::xpath::node</a></div><div class="ttdef"><b>Definition</b> XmlNode.hpp:135</div></div>
-<div class="ttc" id="aa01107_html"><div class="ttname"><a href="a01107.html">lumex::xml::xpath::document</a></div><div class="ttdef"><b>Definition</b> XPathDocumentOrderComparator.hpp:67</div></div>
-<div class="ttc" id="aa01107_html_a390bce9be17e61e113730fb8084c70cc"><div class="ttname"><a href="a01107.html#a390bce9be17e61e113730fb8084c70cc">lumex::xml::xpath::document::node_is_before_sibling</a></div><div class="ttdeci">bool node_is_before_sibling(XmlNodeBase *ln_node, XmlNodeBase *rn_node)</div><div class="ttdoc">Determines if ln_node comes before rn_node among siblings in document order.</div><div class="ttdef"><b>Definition</b> XPathDocumentOrderComparator.cpp:54</div></div>
-<div class="ttc" id="aa01107_html_a3fae07ce6115049a6980bd493832dbff"><div class="ttname"><a href="a01107.html#a3fae07ce6115049a6980bd493832dbff">lumex::xml::xpath::document::document_buffer_order</a></div><div class="ttdeci">void const * document_buffer_order(XPathNode const &amp;xnode)</div><div class="ttdoc">Retrieves a pointer to a buffer location for document order comparison optimization.</div><div class="ttdef"><b>Definition</b> XPathDocumentOrderComparator.cpp:136</div></div>
-<div class="ttc" id="aa01107_html_a8581d5ce879c267c49916eb9b84be203"><div class="ttname"><a href="a01107.html#a8581d5ce879c267c49916eb9b84be203">lumex::xml::xpath::document::node_is_before</a></div><div class="ttdeci">bool node_is_before(XmlNodeBase *ln_node, XmlNodeBase *rn_node)</div><div class="ttdoc">Determines if ln_node comes before rn_node in overall document order.</div><div class="ttdef"><b>Definition</b> XPathDocumentOrderComparator.cpp:86</div></div>
-<div class="ttc" id="aa02854_html"><div class="ttname"><a href="a02854.html">lumex::xml::node::XmlNodeBase</a></div><div class="ttdoc">Base structure representing an XML node in the document tree.</div><div class="ttdef"><b>Definition</b> XmlNodeBase.hpp:116</div></div>
-<div class="ttc" id="aa03030_html"><div class="ttname"><a href="a03030.html">lumex::xml::xpath::document::document_order_comparator</a></div><div class="ttdoc">Functor for comparing two XPathNode objects based on their document order.</div><div class="ttdef"><b>Definition</b> XPathDocumentOrderComparator.hpp:131</div></div>
-<div class="ttc" id="aa03062_html"><div class="ttname"><a href="a03062.html">lumex::xml::xpath::node::XPathNode</a></div><div class="ttdoc">Represents a node in an XPath node-set, which can be either an XML element/document node or an XML at...</div><div class="ttdef"><b>Definition</b> XPathNode.hpp:119</div></div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>} <span class="comment">// namespace xml</span></div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>} <span class="comment">// namespace lumex</span></div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span> </div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span><span class="preprocessor">#if defined(__clang__)</span></div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span><span class="preprocessor">#pragma clang diagnostic pop</span></div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span> </div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span><span class="preprocessor">#endif </span><span class="comment">// !LUMEX_XML_WRITER_I_XML_WRITER_HPP</span></div>
+<div class="ttc" id="aa00641_html"><div class="ttname"><a href="a00641.html">LumexExport.hpp</a></div><div class="ttdoc">Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,...</div></div>
+<div class="ttc" id="aa00641_html_aa948a1b1a43f6a954fd4c15b01ae4207"><div class="ttname"><a href="a00641.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a></div><div class="ttdeci">#define LUMEX_API</div><div class="ttdef"><b>Definition</b> LumexExport.hpp:90</div></div>
+<div class="ttc" id="aa00948_html"><div class="ttname"><a href="a00948.html">lumex</a></div><div class="ttdef"><b>Definition</b> LumexCPUVectorizationCapabilities.cpp:65</div></div>
+<div class="ttc" id="aa01126_html"><div class="ttname"><a href="a01126.html">lumex::xml</a></div><div class="ttdef"><b>Definition</b> XmlAttribute.hpp:105</div></div>
+<div class="ttc" id="aa01144_html"><div class="ttname"><a href="a01144.html">lumex::xml::writer</a></div><div class="ttdef"><b>Definition</b> IXmlWriter.hpp:87</div></div>
+<div class="ttc" id="aa03057_html"><div class="ttname"><a href="a03057.html">lumex::xml::writer::IXmlWriter</a></div><div class="ttdoc">Abstract base interface for writing XML data to various destinations.</div><div class="ttdef"><b>Definition</b> IXmlWriter.hpp:101</div></div>
+<div class="ttc" id="aa03057_html_a308227b66f5e277dfa480c687133daef"><div class="ttname"><a href="a03057.html#a308227b66f5e277dfa480c687133daef">lumex::xml::writer::IXmlWriter::~IXmlWriter</a></div><div class="ttdeci">virtual ~IXmlWriter()=default</div><div class="ttdoc">Virtual destructor.</div></div>
+<div class="ttc" id="aa03057_html_aa9f972023b05b186b307896ad9444a4d"><div class="ttname"><a href="a03057.html#aa9f972023b05b186b307896ad9444a4d">lumex::xml::writer::IXmlWriter::write</a></div><div class="ttdeci">virtual void write(void const *data, std::size_t size)=0</div><div class="ttdoc">Writes a block of raw data to the output.</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_d38a0fae6a8e48d91b3b62673cf0c708.html">xpath</a></li><li class="navelem"><a class="el" href="dir_ba6dde11e0d892758174c56741e331d7.html">document</a></li><li class="navelem"><a class="el" href="a00740.html">XPathDocumentOrderComparator.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_7b089e18b7c2a92c23a9cf3b22a6463e.html">writer</a></li><li class="navelem"><a class="el" href="a00740.html">IXmlWriter.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

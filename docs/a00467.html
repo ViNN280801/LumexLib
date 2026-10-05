@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: example_format_api.cpp File Reference</title>
+<title>LumexLib: example_circular_buffer_workflow.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -105,21 +105,53 @@ $(function(){initNavTree('a00467.html',''); initResizable(true); });
 <div class="header">
   <div class="summary">
 <a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">example_format_api.cpp File Reference</div></div>
+  <div class="headertitle"><div class="title">example_circular_buffer_workflow.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;cstddef&gt;</code><br />
-<code>#include &lt;iostream&gt;</code><br />
-<code>#include &lt;iterator&gt;</code><br />
-<code>#include &lt;locale&gt;</code><br />
-<code>#include &lt;sstream&gt;</code><br />
+<div class="textblock"><code>#include &lt;iostream&gt;</code><br />
 <code>#include &lt;string&gt;</code><br />
-<code>#include &lt;vector&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00878_source.html">lumex/core/fmt/LumexFormat</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00896_source.html">lumex/core/circular_buffer/CircularBuffer</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for example_format_api.cpp:</div>
+Include dependency graph for example_circular_buffer_workflow.cpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00468.png" border="0" usemap="#aexample__format__api_8cpp" alt=""/></div>
+<div class="center"><img src="a00468.png" border="0" usemap="#aexample__circular__buffer__workflow_8cpp" alt=""/></div>
+<map name="aexample__circular__buffer__workflow_8cpp" id="aexample__circular__buffer__workflow_8cpp">
+<area shape="rect" title=" " alt="" coords="311,5,470,48"/>
+<area shape="rect" title=" " alt="" coords="268,104,340,131"/>
+<area shape="poly" title=" " alt="" coords="372,50,328,95,325,91,368,47"/>
+<area shape="rect" title=" " alt="" coords="364,104,417,131"/>
+<area shape="poly" title=" " alt="" coords="393,48,393,88,388,88,388,48"/>
+<area shape="rect" href="a00896.html" title="Circular buffer module: a fixed&#45;capacity ring buffer that overwrites its oldest element when full,..." alt="" coords="442,96,585,139"/>
+<area shape="poly" title=" " alt="" coords="421,46,474,84,471,89,417,51"/>
+<area shape="rect" href="a00227.html" title="CircularBuffer, a fixed&#45;capacity ring buffer that overwrites its oldest element when full,..." alt="" coords="450,187,576,213"/>
+<area shape="poly" title=" " alt="" coords="516,139,516,171,510,171,510,139"/>
+<area shape="rect" title=" " alt="" coords="5,269,80,296"/>
+<area shape="poly" title=" " alt="" coords="450,208,287,226,189,242,93,264,85,266,84,261,91,259,188,237,286,221,450,203"/>
+<area shape="rect" title=" " alt="" coords="104,269,168,296"/>
+<area shape="poly" title=" " alt="" coords="450,211,324,230,252,245,181,264,175,266,174,261,179,259,251,239,323,224,450,205"/>
+<area shape="rect" title=" " alt="" coords="192,269,253,296"/>
+<area shape="poly" title=" " alt="" coords="451,216,362,235,266,264,262,266,260,261,264,259,361,230,449,210"/>
+<area shape="rect" title=" " alt="" coords="278,269,346,296"/>
+<area shape="poly" title=" " alt="" coords="481,216,359,264,356,265,354,260,358,259,479,211"/>
+<area shape="rect" title=" " alt="" coords="370,269,448,296"/>
+<area shape="poly" title=" " alt="" coords="499,216,439,262,435,258,495,212"/>
+<area shape="rect" title=" " alt="" coords="472,269,554,296"/>
+<area shape="poly" title=" " alt="" coords="516,214,516,254,510,254,510,214"/>
+<area shape="rect" title=" " alt="" coords="579,269,631,296"/>
+<area shape="poly" title=" " alt="" coords="529,212,582,257,578,261,526,216"/>
+<area shape="rect" href="a00386.html" title="Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_..." alt="" coords="655,261,822,304"/>
+<area shape="poly" title=" " alt="" coords="549,211,667,253,665,258,547,216"/>
+<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="803,352,997,395"/>
+<area shape="poly" title=" " alt="" coords="577,204,721,224,789,239,836,259,855,276,870,296,891,336,886,339,865,298,851,279,833,264,788,244,720,229,576,210"/>
+<area shape="rect" href="a00404.html" title="C++ language, library and attribute feature availability." alt="" coords="898,261,1129,304"/>
+<area shape="poly" title=" " alt="" coords="577,209,883,258,882,263,576,214"/>
+<area shape="rect" href="a00419.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="1153,261,1385,304"/>
+<area shape="poly" title=" " alt="" coords="576,203,819,224,1138,258,1137,264,818,229,576,209"/>
+<area shape="rect" href="a00641.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="616,360,778,387"/>
+<area shape="poly" title=" " alt="" coords="731,306,712,347,707,345,726,303"/>
+<area shape="poly" title=" " alt="" coords="778,302,850,342,848,347,775,307"/>
+<area shape="poly" title=" " alt="" coords="1183,307,1002,350,1001,345,1182,302"/>
+</map>
 </div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
@@ -146,6 +178,25 @@ Functions</h2></td></tr>
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="a00467_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph.png" border="0" usemap="#aa00467_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" alt=""/></div>
+<map name="aa00467_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" id="aa00467_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph">
+<area shape="rect" title=" " alt="" coords="5,155,55,181"/>
+<area shape="rect" href="a01385.html#a45ddf10dbcfa53cf0f863431fc320897" title="Access the newest element (back)." alt="" coords="103,5,286,48"/>
+<area shape="poly" title=" " alt="" coords="35,153,59,107,78,81,101,58,106,54,110,58,104,62,82,84,64,110,39,155"/>
+<area shape="rect" href="a01385.html#aba1c8c6cac89abd09dfa0dc2a4cf879b" title="Access the oldest element (front)." alt="" coords="121,72,268,131"/>
+<area shape="poly" title=" " alt="" coords="54,156,106,135,108,139,56,161"/>
+<area shape="rect" href="a01385.html#afa6737097a06ea6b96d3e7ff6e46d8a4" title="Checks whether the buffer is full." alt="" coords="529,180,702,223"/>
+<area shape="poly" title=" " alt="" coords="55,167,481,191,514,193,513,198,481,196,55,172"/>
+<area shape="rect" href="a01385.html#a724cb41a65049593d9d257a3c5d89f41" title="Appends a copy of an element." alt="" coords="121,205,268,264"/>
+<area shape="poly" title=" " alt="" coords="56,175,108,197,106,201,54,180"/>
+<area shape="rect" href="a01385.html#ae1b27d59327bdfe7e65548eb4ad209ba" title="Returns the current number of elements in the buffer." alt="" coords="105,288,284,331"/>
+<area shape="poly" title=" " alt="" coords="39,181,64,226,82,252,104,274,110,278,106,282,101,278,78,255,59,229,35,183"/>
+<area shape="rect" href="a01385.html#ad07e20aad7f989d914e907b2234a924a" title="Checks whether the buffer is empty." alt="" coords="334,35,481,93"/>
+<area shape="poly" title=" " alt="" coords="287,40,319,46,318,51,286,45"/>
+<area shape="poly" title=" " alt="" coords="268,86,318,77,319,82,269,91"/>
+<area shape="rect" href="a01385.html#a04fd3c271c15c316fca1651a39bb1ca7" title="Constructs an element in place at the back." alt="" coords="334,205,481,264"/>
+<area shape="poly" title=" " alt="" coords="268,232,318,232,318,237,268,237"/>
+<area shape="poly" title=" " alt="" coords="481,220,513,215,514,220,482,225"/>
+</map>
 </div>
 
 </div>
@@ -155,7 +206,7 @@ Here is the call graph for this function:</div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_e8ae4df8b8335e2a73ecf531ee4a4a97.html">examples</a></li><li class="navelem"><a class="el" href="dir_48f63977bcbbc0057df875ef8f8dd4ef.html">fmt</a></li><li class="navelem"><a class="el" href="a00467.html">example_format_api.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_e8ae4df8b8335e2a73ecf531ee4a4a97.html">examples</a></li><li class="navelem"><a class="el" href="dir_0355cb929a8769565a0594efea203022.html">circular_buffer</a></li><li class="navelem"><a class="el" href="a00467.html">example_circular_buffer_workflow.cpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

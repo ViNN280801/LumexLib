@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexPortProcessResolver.hpp File Reference</title>
+<title>LumexLib: LumexResourceMonitor.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -105,71 +105,120 @@ $(function(){initNavTree('a00113.html',''); initResizable(true); });
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
-<a href="#namespaces">Namespaces</a>  </div>
-  <div class="headertitle"><div class="title">LumexPortProcessResolver.hpp File Reference</div></div>
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
+<a href="#var-members">Variables</a>  </div>
+  <div class="headertitle"><div class="title">LumexResourceMonitor.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Identifies the process that holds a serial port open.  
+<p>Background CPU/RAM usage sampler that appends one line per sample to a dated log file.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="a00605_source.html">lumex/LumexExport.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="a00641_source.html">lumex/LumexExport.hpp</a>&quot;</code><br />
+<code>#include &lt;chrono&gt;</code><br />
+<code>#include &lt;cstdint&gt;</code><br />
 <code>#include &lt;string&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00887_source.html">lumex/core/optional/LumexOptional</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00353_source.html">lumex/core/utility/attr/LumexAttributes.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00389_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00419_source.html">lumex/core/utility/macros/LumexConstantMacros.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for LumexPortProcessResolver.hpp:</div>
+Include dependency graph for LumexResourceMonitor.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00114.png" border="0" usemap="#a_lumex_port_process_resolver_8hpp" alt=""/></div>
+<div class="center"><img src="a00114.png" border="0" usemap="#a_lumex_resource_monitor_8hpp" alt=""/></div>
+<map name="a_lumex_resource_monitor_8hpp" id="a_lumex_resource_monitor_8hpp">
+<area shape="rect" title="Background CPU/RAM usage sampler that appends one line per sample to a dated log file." alt="" coords="214,5,399,32"/>
+<area shape="rect" href="a00641.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="5,88,168,115"/>
+<area shape="poly" title=" " alt="" coords="273,35,136,85,134,80,271,30"/>
+<area shape="rect" title=" " alt="" coords="192,88,253,115"/>
+<area shape="poly" title=" " alt="" coords="295,34,248,80,244,76,292,31"/>
+<area shape="rect" title=" " alt="" coords="276,88,337,115"/>
+<area shape="poly" title=" " alt="" coords="309,32,309,73,304,73,304,32"/>
+<area shape="rect" title=" " alt="" coords="361,88,414,115"/>
+<area shape="poly" title=" " alt="" coords="321,31,367,75,363,79,317,34"/>
+<area shape="rect" href="a00419.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="438,80,671,123"/>
+<area shape="poly" title=" " alt="" coords="346,30,477,72,475,77,344,35"/>
+<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="457,171,652,213"/>
+<area shape="poly" title=" " alt="" coords="557,123,557,155,552,155,552,123"/>
+</map>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00115.png" border="0" usemap="#a_lumex_port_process_resolver_8hppdep" alt=""/></div>
+<div class="center"><img src="a00115.png" border="0" usemap="#a_lumex_resource_monitor_8hppdep" alt=""/></div>
+<map name="a_lumex_resource_monitor_8hppdep" id="a_lumex_resource_monitor_8hppdep">
+<area shape="rect" title="Background CPU/RAM usage sampler that appends one line per sample to a dated log file." alt="" coords="218,5,403,32"/>
+<area shape="rect" href="a00881.html" title="Resource monitor module: a background thread that samples the CPU and RAM usage of the system and app..." alt="" coords="134,80,293,107"/>
+<area shape="poly" title=" " alt="" coords="283,44,232,82,228,77,280,39"/>
+<area shape="rect" href="a00110.html" title=" " alt="" coords="317,80,501,107"/>
+<area shape="poly" title=" " alt="" coords="341,39,394,77,391,82,338,44"/>
+<area shape="rect" href="a00575.html" title=" " alt="" coords="5,163,208,189"/>
+<area shape="poly" title=" " alt="" coords="186,118,125,164,121,160,183,114"/>
+<area shape="rect" href="a00578.html" title=" " alt="" coords="231,155,408,197"/>
+<area shape="poly" title=" " alt="" coords="244,114,294,152,291,156,240,118"/>
+</map>
 </div>
 </div>
 <p><a href="a00113_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01198.html">lumex::applied::serial::resolver::port_holder_info_t</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Process that currently holds a serial-port file descriptor or handle.  <a href="a01198.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01202.html">lumex::applied::serial::resolver::system_error_formatter</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Formats a platform error code into a diagnostic string.  <a href="a01202.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01206.html">lumex::applied::serial::resolver::port_holder_resolver</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Locates the process that holds a given serial port.  <a href="a01206.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01210.html">lumex::applied::serial::resolver::port_process_resolver</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Static facade over the platform error formatter and port-holder resolver.  <a href="a01210.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01225.html">lumex::applied::resource_monitor::monitor::LumexResourceMonitor</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts/stops a background thread that periodically samples total CPU and RAM usage and appends one formatted line per sample to a dedicated log file.  <a href="a01225.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00912.html">lumex</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00948.html">lumex</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00913.html">lumex::applied</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00949.html">lumex::applied</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00945.html">lumex::applied::serial</a></td></tr>
-<tr class="memdesc:a00945"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cross-platform helpers for naming/resolving serial (and serial-adjacent) communication ports. <br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00977.html">lumex::applied::resource_monitor</a></td></tr>
+<tr class="memdesc:a00977"><td class="mdescLeft">&#160;</td><td class="mdescRight">Background system-resource (CPU/RAM) sampling utilities. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00951.html">lumex::applied::serial::resolver</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00978.html">lumex::applied::resource_monitor::monitor</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00980.html">lumex::applied::resource_monitor::monitor::Constants</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:acf3c1433c592f79d38d458c4215ef5b5" id="r_acf3c1433c592f79d38d458c4215ef5b5"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acf3c1433c592f79d38d458c4215ef5b5">LumexResourceMonitor</a> = <a class="el" href="a01225.html">lumex::applied::resource_monitor::monitor::LumexResourceMonitor</a></td></tr>
+<tr class="separator:acf3c1433c592f79d38d458c4215ef5b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a2d339c3a57f9e52e4313ff7322012a35" id="r_a2d339c3a57f9e52e4313ff7322012a35"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::int64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00980.html#a2d339c3a57f9e52e4313ff7322012a35">lumex::applied::resource_monitor::monitor::Constants::KDEFAULT_POLL_INTERVAL_MS</a> = 10000</td></tr>
+<tr class="memdesc:a2d339c3a57f9e52e4313ff7322012a35"><td class="mdescLeft">&#160;</td><td class="mdescRight">Poll interval used when the caller does not request a specific one.  <br /></td></tr>
+<tr class="separator:a2d339c3a57f9e52e4313ff7322012a35"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af9a62099ac7bcfe99416183349af1c31" id="r_af9a62099ac7bcfe99416183349af1c31"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::int64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00980.html#af9a62099ac7bcfe99416183349af1c31">lumex::applied::resource_monitor::monitor::Constants::KSTARTUP_GRACE_PERIOD_MS</a> = 2000</td></tr>
+<tr class="memdesc:af9a62099ac7bcfe99416183349af1c31"><td class="mdescLeft">&#160;</td><td class="mdescRight">Grace period the sampler waits before taking its first sample.  <br /></td></tr>
+<tr class="separator:af9a62099ac7bcfe99416183349af1c31"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af069585a07a8762cdb0fb9a5b7e26580" id="r_af069585a07a8762cdb0fb9a5b7e26580"><td class="memItemLeft" align="right" valign="top">static constchar *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00978.html#af069585a07a8762cdb0fb9a5b7e26580">lumex::applied::resource_monitor::monitor::constKMODULE_NAME</a> = &quot;ResourceMonitor&quot;</td></tr>
+<tr class="memdesc:af069585a07a8762cdb0fb9a5b7e26580"><td class="mdescLeft">&#160;</td><td class="mdescRight">Module name this class logs under (see <code>lumex/applied/logging/LumexLogging</code>).  <br /></td></tr>
+<tr class="separator:af069585a07a8762cdb0fb9a5b7e26580"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Identifies the process that holds a serial port open. </p>
-<p>Cross-platform facade with platform strategies:</p><ul>
-<li>Windows: <code>NtQuerySystemInformation</code> / <code>NtDuplicateObject</code> / <code>NtQueryObject</code> walk system handles and match the object name to a COM display name. Requires <code>SeDebugPrivilege</code> (typically an elevated process) to inspect handles owned by other processes.</li>
-<li>POSIX: scan <code>/proc/&lt;pid&gt;/fd/</code> symbolic links for <code>/dev/tty*</code> and read <code>/proc/&lt;pid&gt;/exe</code> plus <code>/proc/&lt;pid&gt;/cmdline</code>.</li>
-</ul>
-<p>Methods do not mutate facade state. The Meyers singletons used internally are initialized once and are safe to call from multiple threads. </p>
-</div></div><!-- contents -->
+<div class="textblock"><p>Background CPU/RAM usage sampler that appends one line per sample to a dated log file. </p>
+<p>Provides an opt-in resource-usage sampler a host application can start on demand. The library itself owns no configuration policy (no environment-variable name, no hardcoded "is this enabled" switch) - a caller decides whether to start it at all, and with what poll interval, purely through <a class="el" href="a01225.html#ac3ff6ba95f363349295d24096e2ff96f">lumex::applied::resource_monitor::monitor::LumexResourceMonitor::startIfEnabled</a> arguments. </p>
+</div><h2 class="groupheader">Typedef Documentation</h2>
+<a id="acf3c1433c592f79d38d458c4215ef5b5" name="acf3c1433c592f79d38d458c4215ef5b5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acf3c1433c592f79d38d458c4215ef5b5">&#9670;&#160;</a></span>LumexResourceMonitor</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="#acf3c1433c592f79d38d458c4215ef5b5">LumexResourceMonitor</a> = <a class="el" href="a01225.html">lumex::applied::resource_monitor::monitor::LumexResourceMonitor</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_de45db85bd98abf883bc2bd6c3907fd8.html">applied</a></li><li class="navelem"><a class="el" href="dir_9f3553d7e4d4ebb0490c2c83481c4624.html">serial</a></li><li class="navelem"><a class="el" href="dir_280ba8667320f31218bd5995288a7b7b.html">resolver</a></li><li class="navelem"><a class="el" href="a00113.html">LumexPortProcessResolver.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_de45db85bd98abf883bc2bd6c3907fd8.html">applied</a></li><li class="navelem"><a class="el" href="dir_f9152e2f803c7072c4cc804ced04476e.html">resource_monitor</a></li><li class="navelem"><a class="el" href="dir_2f26014b8a4714ca59eb3585df0b0957.html">monitor</a></li><li class="navelem"><a class="el" href="a00113.html">LumexResourceMonitor.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

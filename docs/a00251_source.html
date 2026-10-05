@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: Unexpected.hpp Source File</title>
+<title>LumexLib: LumexCrashHandler.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -103,7 +103,7 @@ $(function(){initNavTree('a00251_source.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">Unexpected.hpp</div></div>
+  <div class="headertitle"><div class="title">LumexCrashHandler.hpp</div></div>
 </div><!--header-->
 <div class="contents">
 <a href="a00251.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">/*</span></div>
@@ -145,93 +145,128 @@ $(function(){initNavTree('a00251_source.html',''); initResizable(true); });
 <div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="comment"> * SOFTWARE.</span></div>
 <div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="comment"> */</span></div>
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span></div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="preprocessor">#ifndef LUMEX_CORE_EXPECTED_ERROR_UNEXPECTED_HPP</span></div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span><span class="preprocessor">#define LUMEX_CORE_EXPECTED_ERROR_UNEXPECTED_HPP</span></div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="preprocessor">#include &lt;utility&gt;</span></div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span><span class="comment">// ====================== Unexpected class (C++23 analogue)</span></div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span><span class="comment">// ======================</span></div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a00912.html">lumex</a></div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>{</div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a00964.html">core</a></div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>{</div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01000.html">expected</a></div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>{</div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01001.html">error</a></div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>{</div>
-<div class="foldopen" id="foldopen00072" data-start="{" data-end="};">
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno"><a class="line" href="a01838.html">   72</a></span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> ErrorType&gt; <span class="keyword">class </span><a class="code hl_function" href="a01838.html#a075c1367f8574a76ab9e4160d6ed521c">Unexpected</a></div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>{</div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span><span class="keyword">public</span>:</div>
-<div class="line"><a id="l00081" name="l00081"></a><span class="lineno"><a class="line" href="a01838.html#a075c1367f8574a76ab9e4160d6ed521c">   81</a></span>  <span class="keyword">explicit</span> <a class="code hl_function" href="a01838.html#a075c1367f8574a76ab9e4160d6ed521c">Unexpected</a> (ErrorType <span class="keyword">const</span> &amp;<a class="code hl_function" href="a01838.html#add04e74193f947673a08bc0dda3f6f20">error</a>) : m_error (<a class="code hl_function" href="a01838.html#add04e74193f947673a08bc0dda3f6f20">error</a>) {}</div>
-<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span></div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno"><a class="line" href="a01838.html#a79082b8816166114c5ee96b83ee85319">   89</a></span>  <span class="keyword">explicit</span> <a class="code hl_function" href="a01838.html#a79082b8816166114c5ee96b83ee85319">Unexpected</a> (ErrorType &amp;&amp;<a class="code hl_function" href="a01838.html#add04e74193f947673a08bc0dda3f6f20">error</a>) : m_error (<a class="code hl_namespace" href="a00999.html">std</a>::move (<a class="code hl_function" href="a01838.html#add04e74193f947673a08bc0dda3f6f20">error</a>)) {}</div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span></div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>  ErrorType &amp;</div>
-<div class="foldopen" id="foldopen00097" data-start="{" data-end="}">
-<div class="line"><a id="l00097" name="l00097"></a><span class="lineno"><a class="line" href="a01838.html#add04e74193f947673a08bc0dda3f6f20">   97</a></span>  <a class="code hl_function" href="a01838.html#add04e74193f947673a08bc0dda3f6f20">error</a> () &amp;</div>
-<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>  {</div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>    <span class="keywordflow">return</span> m_error;</div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>  }</div>
-</div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span></div>
-<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>  ErrorType <span class="keyword">const</span> &amp;</div>
-<div class="foldopen" id="foldopen00108" data-start="{" data-end="}">
-<div class="line"><a id="l00108" name="l00108"></a><span class="lineno"><a class="line" href="a01838.html#ab2b13d122af5d10b0b9addbf7c70f227">  108</a></span>  <a class="code hl_function" href="a01838.html#ab2b13d122af5d10b0b9addbf7c70f227">error</a> () const &amp;</div>
-<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>  {</div>
-<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>    <span class="keywordflow">return</span> m_error;</div>
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>  }</div>
-</div>
-<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span></div>
-<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>  ErrorType &amp;&amp;</div>
-<div class="foldopen" id="foldopen00119" data-start="{" data-end="}">
-<div class="line"><a id="l00119" name="l00119"></a><span class="lineno"><a class="line" href="a01838.html#a81f1dd1da8585415f1139c88f9dc58a9">  119</a></span>  <a class="code hl_function" href="a01838.html#a81f1dd1da8585415f1139c88f9dc58a9">error</a> () &amp;&amp;</div>
-<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>  {</div>
-<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>    <span class="keywordflow">return</span> std::move (m_error);</div>
-<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>  }</div>
-</div>
-<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span></div>
-<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>  ErrorType <span class="keyword">const</span> &amp;&amp;</div>
-<div class="foldopen" id="foldopen00130" data-start="{" data-end="}">
-<div class="line"><a id="l00130" name="l00130"></a><span class="lineno"><a class="line" href="a01838.html#aeaeb174828a6ed9cd56e17462559bacd">  130</a></span>  <a class="code hl_function" href="a01838.html#aeaeb174828a6ed9cd56e17462559bacd">error</a> () const &amp;&amp;</div>
-<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>  {</div>
-<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>    <span class="keywordflow">return</span> std::move (m_error);</div>
-<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>  }</div>
-</div>
-<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span> </div>
-<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span><span class="keyword">private</span>:</div>
-<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>  ErrorType m_error; </div>
-<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>};</div>
-</div>
-<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span> </div>
-<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>} <span class="comment">// namespace error</span></div>
-<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>} <span class="comment">// namespace expected</span></div>
-<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>} <span class="comment">// namespace core</span></div>
-<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>} <span class="comment">// namespace lumex</span></div>
-<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span> </div>
-<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span><span class="keyword">using </span><a class="code hl_class" href="a01838.html">lumex::core::expected::error::Unexpected</a>;</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span><span class="preprocessor">#ifndef LUMEX_CORE_EXCEPTIONS_CRASH_CRASH_HANDLER_HPP</span></div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><span class="preprocessor">#define LUMEX_CORE_EXCEPTIONS_CRASH_CRASH_HANDLER_HPP</span></div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span> </div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span><span class="preprocessor">#include &quot;<a class="code" href="a00641.html">lumex/LumexExport.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span> </div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span><span class="preprocessor">#include &lt;csignal&gt;</span></div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span><span class="preprocessor">#include &lt;cstdlib&gt;</span></div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span> </div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span><span class="preprocessor">#if defined(_WIN32)</span></div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span><span class="preprocessor">#include &lt;Windows.h&gt;</span> <span class="comment">// This library must be included before DbgHelp.h</span></div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>                     <span class="comment">// because DbgHelp.h uses types from Windows.h</span></div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span> </div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span><span class="preprocessor">#include &lt;DbgHelp.h&gt;</span></div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span><span class="preprocessor">#include &lt;tchar.h&gt;</span></div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span><span class="preprocessor">#else</span></div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span><span class="preprocessor">#include &lt;fcntl.h&gt;</span></div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span><span class="preprocessor">#include &lt;sys/prctl.h&gt;</span></div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span><span class="preprocessor">#include &lt;sys/resource.h&gt;</span></div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span><span class="preprocessor">#include &lt;sys/types.h&gt;</span></div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span><span class="preprocessor">#include &lt;sys/wait.h&gt;</span></div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span><span class="preprocessor">#include &lt;unistd.h&gt;</span></div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span> </div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span><span class="preprocessor">#include &quot;<a class="code" href="a00941.html">lumex/core/utility/LumexUtility</a>&quot;</span></div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span><span class="preprocessor">#include &quot;<a class="code" href="a00389.html">lumex/core/utility/attr/LumexAttributes.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span> </div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span><span class="preprocessor">#if defined(_WIN32)</span></div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span><span class="preprocessor">#pragma comment(lib, &quot;dbghelp.lib&quot;)</span></div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span> </div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a00948.html">lumex</a> <span class="comment">// NOLINT(modernize-concat-nested-namespaces)</span></div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>{</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01005.html">core</a></div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>{</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01032.html">exceptions</a></div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>{</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01033.html">crash</a></div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>{</div>
+<div class="foldopen" id="foldopen00108" data-start="{" data-end="};">
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno"><a class="line" href="a01889.html">  108</a></span><span class="keyword">class </span><a class="code hl_define" href="a00641.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a> <a class="code hl_function" href="a01889.html#add0be61b714a9f54a4ee6deaede9a328">LumexCrashHandler</a></div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>{</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno"><a class="line" href="a01889.html#add0be61b714a9f54a4ee6deaede9a328">  111</a></span>  <a class="code hl_function" href="a01889.html#add0be61b714a9f54a4ee6deaede9a328">LumexCrashHandler</a> (<a class="code hl_function" href="a01889.html#add0be61b714a9f54a4ee6deaede9a328">LumexCrashHandler</a> <span class="keyword">const</span> &amp;) = <span class="keyword">delete</span>;</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno"><a class="line" href="a01889.html#a8e0243b8e1e3ebcfdac0a869e62fc0c2">  112</a></span>  <a class="code hl_function" href="a01889.html#add0be61b714a9f54a4ee6deaede9a328">LumexCrashHandler</a> &amp;operator= (<a class="code hl_function" href="a01889.html#add0be61b714a9f54a4ee6deaede9a328">LumexCrashHandler</a> <span class="keyword">const</span> &amp;) = <span class="keyword">delete</span>;</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno"><a class="line" href="a01889.html#a9e169defe2d3ee3ba9f79eda122bfd05">  113</a></span>  <a class="code hl_function" href="a01889.html#a9e169defe2d3ee3ba9f79eda122bfd05">LumexCrashHandler</a> (<a class="code hl_function" href="a01889.html#add0be61b714a9f54a4ee6deaede9a328">LumexCrashHandler</a> &amp;&amp;) = <span class="keyword">delete</span>;</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno"><a class="line" href="a01889.html#af1f0dede4fd39eec64049154ae361501">  114</a></span>  <a class="code hl_function" href="a01889.html#add0be61b714a9f54a4ee6deaede9a328">LumexCrashHandler</a> &amp;operator= (<a class="code hl_function" href="a01889.html#add0be61b714a9f54a4ee6deaede9a328">LumexCrashHandler</a> &amp;&amp;) = <span class="keyword">delete</span>;</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span></div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>  <span class="keyword">static</span> <a class="code hl_function" href="a01889.html#add0be61b714a9f54a4ee6deaede9a328">LumexCrashHandler</a> &amp;<a class="code hl_function" href="a01889.html#ac7cf277fe57c942e42bc79dd1bdb7750">instance</a> ();</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span></div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="a01889.html#ad685272be15aedbb3184ff9421e5247a">initialize</a> (<a class="code hl_define" href="a00389.html#a06748e501657bea60452820c04a1cb9e">LUMEX_ATTRIBUTE_MAYBE_UNUSED</a> std::string <span class="keyword">const</span> &amp;appName</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>                   = s_defaultAppName);</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span> </div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span><span class="preprocessor">#if defined(LUMEX_OS_WINDOWS)</span><span class="preprocessor"></span></div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>  <span class="keyword">static</span> LONG WINAPI _onWindowsCrashHandler (PEXCEPTION_POINTERS pExInfo);</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span></div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>  <span class="keywordtype">void</span></div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>  _handleSEHException (PEXCEPTION_POINTERS pExInfo)</div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>  {</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>    _onWindowsCrashHandler (pExInfo);</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>  }</div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span><span class="preprocessor">#endif</span></div>
 <div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span> </div>
-<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span><span class="preprocessor">#endif </span><span class="comment">// !LUMEX_CORE_EXPECTED_ERROR_UNEXPECTED_HPP</span></div>
-<div class="ttc" id="aa00912_html"><div class="ttname"><a href="a00912.html">lumex</a></div><div class="ttdef"><b>Definition</b> LumexCPUVectorizationCapabilities.cpp:65</div></div>
-<div class="ttc" id="aa00964_html"><div class="ttname"><a href="a00964.html">lumex::core</a></div><div class="ttdef"><b>Definition</b> LumexAtomicSharedPtr.hpp:103</div></div>
-<div class="ttc" id="aa00999_html"><div class="ttname"><a href="a00999.html">std</a></div><div class="ttdef"><b>Definition</b> LumexStacktraceEntry.hpp:452</div></div>
-<div class="ttc" id="aa01000_html"><div class="ttname"><a href="a01000.html">lumex::core::expected</a></div><div class="ttdef"><b>Definition</b> BadExpectedAccess.hpp:94</div></div>
-<div class="ttc" id="aa01001_html"><div class="ttname"><a href="a01001.html">lumex::core::expected::error</a></div><div class="ttdef"><b>Definition</b> BadExpectedAccess.hpp:96</div></div>
-<div class="ttc" id="aa01838_html"><div class="ttname"><a href="a01838.html">lumex::core::expected::error::Unexpected</a></div><div class="ttdoc">Wrapper that holds an error value for Expected.</div><div class="ttdef"><b>Definition</b> Unexpected.hpp:73</div></div>
-<div class="ttc" id="aa01838_html_a075c1367f8574a76ab9e4160d6ed521c"><div class="ttname"><a href="a01838.html#a075c1367f8574a76ab9e4160d6ed521c">lumex::core::expected::error::Unexpected::Unexpected</a></div><div class="ttdeci">Unexpected(ErrorType const &amp;error)</div><div class="ttdoc">Constructs from a const lvalue error.</div><div class="ttdef"><b>Definition</b> Unexpected.hpp:81</div></div>
-<div class="ttc" id="aa01838_html_a79082b8816166114c5ee96b83ee85319"><div class="ttname"><a href="a01838.html#a79082b8816166114c5ee96b83ee85319">lumex::core::expected::error::Unexpected::Unexpected</a></div><div class="ttdeci">Unexpected(ErrorType &amp;&amp;error)</div><div class="ttdoc">Constructs from an rvalue error.</div><div class="ttdef"><b>Definition</b> Unexpected.hpp:89</div></div>
-<div class="ttc" id="aa01838_html_a81f1dd1da8585415f1139c88f9dc58a9"><div class="ttname"><a href="a01838.html#a81f1dd1da8585415f1139c88f9dc58a9">lumex::core::expected::error::Unexpected::error</a></div><div class="ttdeci">ErrorType &amp;&amp; error() &amp;&amp;</div><div class="ttdoc">Returns an rvalue reference to the stored error.</div><div class="ttdef"><b>Definition</b> Unexpected.hpp:119</div></div>
-<div class="ttc" id="aa01838_html_ab2b13d122af5d10b0b9addbf7c70f227"><div class="ttname"><a href="a01838.html#ab2b13d122af5d10b0b9addbf7c70f227">lumex::core::expected::error::Unexpected::error</a></div><div class="ttdeci">ErrorType const &amp; error() const &amp;</div><div class="ttdoc">Returns a const lvalue reference to the stored error.</div><div class="ttdef"><b>Definition</b> Unexpected.hpp:108</div></div>
-<div class="ttc" id="aa01838_html_add04e74193f947673a08bc0dda3f6f20"><div class="ttname"><a href="a01838.html#add04e74193f947673a08bc0dda3f6f20">lumex::core::expected::error::Unexpected::error</a></div><div class="ttdeci">ErrorType &amp; error() &amp;</div><div class="ttdoc">Returns a mutable lvalue reference to the stored error.</div><div class="ttdef"><b>Definition</b> Unexpected.hpp:97</div></div>
-<div class="ttc" id="aa01838_html_aeaeb174828a6ed9cd56e17462559bacd"><div class="ttname"><a href="a01838.html#aeaeb174828a6ed9cd56e17462559bacd">lumex::core::expected::error::Unexpected::error</a></div><div class="ttdeci">ErrorType const &amp;&amp; error() const &amp;&amp;</div><div class="ttdoc">Returns a const rvalue reference to the stored error.</div><div class="ttdef"><b>Definition</b> Unexpected.hpp:130</div></div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>  <a class="code hl_typedef" href="a00251.html#a17b15d4c3f44f0d6df60fe3d3fbdbd4c">LumexCrashHandler</a> () = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>  <a class="code hl_class" href="a01889.html">~LumexCrashHandler</a> () = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span> </div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span><span class="preprocessor">#ifdef _WIN32</span></div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span><span class="preprocessor">#pragma warning(push)</span></div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span><span class="preprocessor">#pragma warning(disable                                                       \</span></div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span><span class="preprocessor">                : 4251) </span><span class="comment">// Suppress C4251 for STL members in DLL interface</span></div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>  <span class="keyword">static</span> std::string s_appName; </div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span><span class="preprocessor">#ifdef _WIN32</span></div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span><span class="preprocessor">#pragma warning(pop)</span></div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>  <span class="keyword">static</span> <span class="keywordtype">char</span> <span class="keyword">const</span> *s_defaultAppName;</div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span></div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>  <span class="keyword">static</span> std::string _generateDumpFilename (std::string <span class="keyword">const</span> &amp;prefix);</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span></div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>  <span class="keyword">static</span> <span class="keywordtype">void</span> _notifyAndLog (std::string <span class="keyword">const</span> &amp;errorMessage);</div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span> </div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span><span class="preprocessor">#if defined(LUMEX_OS_UNIX) &amp;&amp; LUMEX_OS_UNIX</span></div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>  <span class="keyword">static</span> <span class="keywordtype">void</span> _generateCoreDump ();</div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span></div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>  <span class="keyword">static</span> <span class="keywordtype">void</span> _signalHandler (<span class="keywordtype">int</span> signum);</div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span></div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>  <span class="keyword">static</span> <span class="keywordtype">void</span> _setupSignalHandlers ();</div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span></div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>  <span class="keyword">static</span> <span class="keywordtype">void</span> _setupCoreDumpSettings ();</div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>};</div>
+</div>
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>} <span class="comment">// namespace crash</span></div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>} <span class="comment">// namespace exceptions</span></div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>} <span class="comment">// namespace core</span></div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>} <span class="comment">// namespace lumex</span></div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span> </div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno"><a class="line" href="a00251.html#a17b15d4c3f44f0d6df60fe3d3fbdbd4c">  200</a></span><span class="keyword">using </span><a class="code hl_typedef" href="a00251.html#a17b15d4c3f44f0d6df60fe3d3fbdbd4c">LumexCrashHandler</a> = <a class="code hl_class" href="a01889.html">lumex::core::exceptions::crash::LumexCrashHandler</a>;</div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span> </div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span><span class="preprocessor">#endif </span><span class="comment">// !LUMEX_CORE_EXCEPTIONS_CRASH_CRASH_HANDLER_HPP</span></div>
+<div class="ttc" id="aa00251_html_a17b15d4c3f44f0d6df60fe3d3fbdbd4c"><div class="ttname"><a href="a00251.html#a17b15d4c3f44f0d6df60fe3d3fbdbd4c">LumexCrashHandler</a></div><div class="ttdeci">lumex::core::exceptions::crash::LumexCrashHandler LumexCrashHandler</div><div class="ttdef"><b>Definition</b> LumexCrashHandler.hpp:200</div></div>
+<div class="ttc" id="aa00389_html"><div class="ttname"><a href="a00389.html">LumexAttributes.hpp</a></div><div class="ttdoc">LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P...</div></div>
+<div class="ttc" id="aa00389_html_a06748e501657bea60452820c04a1cb9e"><div class="ttname"><a href="a00389.html#a06748e501657bea60452820c04a1cb9e">LUMEX_ATTRIBUTE_MAYBE_UNUSED</a></div><div class="ttdeci">#define LUMEX_ATTRIBUTE_MAYBE_UNUSED</div><div class="ttdef"><b>Definition</b> LumexAttributes.hpp:195</div></div>
+<div class="ttc" id="aa00641_html"><div class="ttname"><a href="a00641.html">LumexExport.hpp</a></div><div class="ttdoc">Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,...</div></div>
+<div class="ttc" id="aa00641_html_aa948a1b1a43f6a954fd4c15b01ae4207"><div class="ttname"><a href="a00641.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a></div><div class="ttdeci">#define LUMEX_API</div><div class="ttdef"><b>Definition</b> LumexExport.hpp:90</div></div>
+<div class="ttc" id="aa00941_html"><div class="ttname"><a href="a00941.html">LumexUtility</a></div><div class="ttdoc">Utility module, the foundation of the library: assertion, attribute, keyword and constant macros,...</div></div>
+<div class="ttc" id="aa00948_html"><div class="ttname"><a href="a00948.html">lumex</a></div><div class="ttdef"><b>Definition</b> LumexCPUVectorizationCapabilities.cpp:65</div></div>
+<div class="ttc" id="aa01005_html"><div class="ttname"><a href="a01005.html">lumex::core</a></div><div class="ttdef"><b>Definition</b> LumexAtomicSharedPtr.hpp:103</div></div>
+<div class="ttc" id="aa01032_html"><div class="ttname"><a href="a01032.html">lumex::core::exceptions</a></div><div class="ttdef"><b>Definition</b> LumexCrashHandler.cpp:57</div></div>
+<div class="ttc" id="aa01033_html"><div class="ttname"><a href="a01033.html">lumex::core::exceptions::crash</a></div><div class="ttdef"><b>Definition</b> LumexCrashHandler.cpp:59</div></div>
+<div class="ttc" id="aa01889_html"><div class="ttname"><a href="a01889.html">lumex::core::exceptions::crash::LumexCrashHandler</a></div><div class="ttdoc">Handles application crashes by generating crash dumps (minidumps on Windows, core dumps on Unix).</div><div class="ttdef"><b>Definition</b> LumexCrashHandler.hpp:109</div></div>
+<div class="ttc" id="aa01889_html_a9e169defe2d3ee3ba9f79eda122bfd05"><div class="ttname"><a href="a01889.html#a9e169defe2d3ee3ba9f79eda122bfd05">lumex::core::exceptions::crash::LumexCrashHandler::LumexCrashHandler</a></div><div class="ttdeci">LumexCrashHandler(LumexCrashHandler &amp;&amp;)=delete</div></div>
+<div class="ttc" id="aa01889_html_ac7cf277fe57c942e42bc79dd1bdb7750"><div class="ttname"><a href="a01889.html#ac7cf277fe57c942e42bc79dd1bdb7750">lumex::core::exceptions::crash::LumexCrashHandler::instance</a></div><div class="ttdeci">static LumexCrashHandler &amp; instance()</div><div class="ttdoc">Returns the singleton instance of the crash handler.</div><div class="ttdef"><b>Definition</b> LumexCrashHandler.cpp:67</div></div>
+<div class="ttc" id="aa01889_html_ad685272be15aedbb3184ff9421e5247a"><div class="ttname"><a href="a01889.html#ad685272be15aedbb3184ff9421e5247a">lumex::core::exceptions::crash::LumexCrashHandler::initialize</a></div><div class="ttdeci">void initialize(std::string const &amp;appName=s_defaultAppName)</div><div class="ttdoc">Initializes the crash handler.</div><div class="ttdef"><b>Definition</b> LumexCrashHandler.cpp:75</div></div>
+<div class="ttc" id="aa01889_html_add0be61b714a9f54a4ee6deaede9a328"><div class="ttname"><a href="a01889.html#add0be61b714a9f54a4ee6deaede9a328">lumex::core::exceptions::crash::LumexCrashHandler::LumexCrashHandler</a></div><div class="ttdeci">LumexCrashHandler(LumexCrashHandler const &amp;)=delete</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_91063fb91facb4308dc4edc779d408bb.html">expected</a></li><li class="navelem"><a class="el" href="dir_d137d0eb9968c5b308dad29829b7bf65.html">error</a></li><li class="navelem"><a class="el" href="a00251.html">Unexpected.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_c5abfa2a5a0424f8cc91dab0edfcaee4.html">exceptions</a></li><li class="navelem"><a class="el" href="dir_5e607916477df1770f4b94662507e744.html">crash</a></li><li class="navelem"><a class="el" href="a00251.html">LumexCrashHandler.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

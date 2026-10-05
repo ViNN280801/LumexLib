@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexStringView File Reference</title>
+<title>LumexLib: CircularBuffer File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -103,35 +103,72 @@ $(function(){initNavTree('a00896.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">LumexStringView File Reference</div></div>
+  <div class="headertitle"><div class="title">CircularBuffer File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>String view module: C++11 implementations of the C++17 <code>std::string_view</code> and <code>std::wstring_view</code>.  
+<p>Circular buffer module: a fixed-capacity ring buffer that overwrites its oldest element when full, similar to Boost's <code>circular_buffer</code>.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="a00320_source.html">view/LumexStringView.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00326_source.html">view/LumexWStringView.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="a00227_source.html">CircularBuffer.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for LumexStringView:</div>
+Include dependency graph for CircularBuffer:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00897.png" border="0" usemap="#a_lumex_string_view" alt=""/></div>
+<div class="center"><img src="a00897.png" border="0" usemap="#a_circular_buffer" alt=""/></div>
+<map name="a_circular_buffer" id="a_circular_buffer">
+<area shape="rect" title="Circular buffer module: a fixed&#45;capacity ring buffer that overwrites its oldest element when full,..." alt="" coords="463,5,563,32"/>
+<area shape="rect" href="a00227.html" title="CircularBuffer, a fixed&#45;capacity ring buffer that overwrites its oldest element when full,..." alt="" coords="450,80,576,107"/>
+<area shape="poly" title=" " alt="" coords="516,33,516,64,510,64,510,33"/>
+<area shape="rect" title=" " alt="" coords="5,163,80,189"/>
+<area shape="poly" title=" " alt="" coords="450,101,287,119,189,135,93,157,85,159,84,154,91,152,188,130,286,114,450,96"/>
+<area shape="rect" title=" " alt="" coords="104,163,168,189"/>
+<area shape="poly" title=" " alt="" coords="450,104,324,123,252,138,181,157,175,159,174,154,179,152,251,133,323,118,450,99"/>
+<area shape="rect" title=" " alt="" coords="192,163,253,189"/>
+<area shape="poly" title=" " alt="" coords="451,109,362,129,266,157,262,159,260,154,264,152,361,124,449,104"/>
+<area shape="rect" title=" " alt="" coords="278,163,346,189"/>
+<area shape="poly" title=" " alt="" coords="481,110,359,157,356,159,354,154,358,152,479,105"/>
+<area shape="rect" title=" " alt="" coords="370,163,448,189"/>
+<area shape="poly" title=" " alt="" coords="499,109,439,155,435,151,495,105"/>
+<area shape="rect" title=" " alt="" coords="472,163,554,189"/>
+<area shape="poly" title=" " alt="" coords="516,107,516,147,510,147,510,107"/>
+<area shape="rect" title=" " alt="" coords="579,163,631,189"/>
+<area shape="poly" title=" " alt="" coords="529,105,582,151,578,155,526,109"/>
+<area shape="rect" href="a00386.html" title="Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_..." alt="" coords="655,155,822,197"/>
+<area shape="poly" title=" " alt="" coords="549,105,667,146,665,152,547,110"/>
+<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="803,245,997,288"/>
+<area shape="poly" title=" " alt="" coords="577,98,721,117,789,133,836,152,855,169,870,189,891,230,886,232,865,192,851,173,833,157,788,138,720,122,576,103"/>
+<area shape="rect" href="a00404.html" title="C++ language, library and attribute feature availability." alt="" coords="898,155,1129,197"/>
+<area shape="poly" title=" " alt="" coords="577,102,883,151,882,156,576,107"/>
+<area shape="rect" href="a00419.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="1153,155,1385,197"/>
+<area shape="poly" title=" " alt="" coords="576,97,819,118,1138,152,1137,157,818,123,576,102"/>
+<area shape="rect" href="a00641.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="616,253,778,280"/>
+<area shape="poly" title=" " alt="" coords="731,199,712,241,707,238,726,197"/>
+<area shape="poly" title=" " alt="" coords="778,196,850,235,848,240,775,200"/>
+<area shape="poly" title=" " alt="" coords="1183,201,1002,244,1001,239,1182,195"/>
+</map>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00898.png" border="0" usemap="#a_lumex_string_viewdep" alt=""/></div>
+<div class="center"><img src="a00898.png" border="0" usemap="#a_circular_bufferdep" alt=""/></div>
+<map name="a_circular_bufferdep" id="a_circular_bufferdep">
+<area shape="rect" title="Circular buffer module: a fixed&#45;capacity ring buffer that overwrites its oldest element when full,..." alt="" coords="144,5,244,32"/>
+<area shape="rect" href="a00464.html" title=" " alt="" coords="5,88,189,115"/>
+<area shape="poly" title=" " alt="" coords="169,44,113,90,110,86,166,40"/>
+<area shape="rect" href="a00467.html" title=" " alt="" coords="212,80,371,123"/>
+<area shape="poly" title=" " alt="" coords="223,40,268,77,265,82,219,44"/>
+</map>
 </div>
 </div>
 <p><a href="a00896_source.html">Go to the source code of this file.</a></p>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>String view module: C++11 implementations of the C++17 <code>std::string_view</code> and <code>std::wstring_view</code>. </p>
-<p>Link <code>lumex::string_view</code> (compiled library). Works from C++11. The umbrella includes <code><a class="el" href="a00320.html" title="C++11 lightweight, non-owning view over character sequences.">view/LumexStringView.hpp</a></code> and <code><a class="el" href="a00326.html" title="C++11 lightweight, non-owning view over contiguous wide character sequences.">view/LumexWStringView.hpp</a></code>. </p>
+<div class="textblock"><p>Circular buffer module: a fixed-capacity ring buffer that overwrites its oldest element when full, similar to Boost's <code>circular_buffer</code>. </p>
+<p>Link <code>lumex::circular_buffer</code> (header-only; it brings <code>lumex::utility</code> for <code>LUMEX_ASSERT</code>). Works from C++11. The umbrella includes <code><a class="el" href="a00227.html" title="CircularBuffer, a fixed-capacity ring buffer that overwrites its oldest element when full,...">CircularBuffer.hpp</a></code>. </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_bbd40a496777ba5881d1b96c9f04381d.html">string_view</a></li><li class="navelem"><a class="el" href="a00896.html">LumexStringView</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_82c4d626dd2f6730040a8639806b148e.html">circular_buffer</a></li><li class="navelem"><a class="el" href="a00896.html">CircularBuffer</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

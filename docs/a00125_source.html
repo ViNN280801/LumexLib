@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexSettingsGuard.hpp Source File</title>
+<title>LumexLib: LumexSerialPort.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -103,171 +103,117 @@ $(function(){initNavTree('a00125_source.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">LumexSettingsGuard.hpp</div></div>
+  <div class="headertitle"><div class="title">LumexSerialPort.hpp</div></div>
 </div><!--header-->
 <div class="contents">
 <a href="a00125.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">/*</span></div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment"> * Copyright (c) 2026 Vladislav Semykin &lt;vladislav.semykin@gmail.com&gt;</span></div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="comment"> *</span></div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="comment"> * SPDX-License-Identifier: MIT</span></div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="comment"> *</span></div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="comment"> * Permission is hereby granted, free of charge, to any person obtaining a copy</span></div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="comment"> * of this software and associated documentation files (the &quot;Software&quot;), to</span></div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="comment"> * deal in the Software without restriction, including without limitation the</span></div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="comment"> * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or</span></div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="comment"> * sell copies of the Software, and to permit persons to whom the Software is</span></div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="comment"> * furnished to do so, subject to the following conditions:</span></div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="comment"> *</span></div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="comment"> * The above copyright notice and this permission notice shall be included in</span></div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="comment"> * all copies or substantial portions of the Software.</span></div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="comment"> *</span></div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="comment"> * THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR</span></div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="comment"> * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,</span></div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="comment"> * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE</span></div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="comment"> * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER</span></div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="comment"> * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING</span></div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="comment"> * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS</span></div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="comment"> * IN THE SOFTWARE.</span></div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="comment"> */</span></div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span></div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="preprocessor">#ifndef LUMEX_APPLIED_SETTINGS_GUARD_HPP</span></div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="preprocessor">#define LUMEX_APPLIED_SETTINGS_GUARD_HPP</span></div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="preprocessor">#include &quot;<a class="code" href="a00605.html">lumex/LumexExport.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span><span class="preprocessor">#include &lt;functional&gt;</span></div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="preprocessor">#include &lt;mutex&gt;</span></div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="preprocessor">#include &lt;string&gt;</span></div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span><span class="preprocessor">#include &lt;vector&gt;</span></div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span><span class="preprocessor">#include &quot;<a class="code" href="a00137.html">lumex/applied/settings/interface/ILumexSettings.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="preprocessor">#include &quot;<a class="code" href="a00389.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a00912.html">lumex</a> <span class="comment">// NOLINT(modernize-concat-nested-namespaces)</span></div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>{</div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a00913.html">applied</a></div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>{</div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a00953.html">settings</a></div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>{</div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a00955.html">guard</a></div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>{</div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno"><a class="line" href="a00955.html#abb83c517a273434e9ce8e83640838f61">   67</a></span><span class="keyword">using </span><a class="code hl_typedef" href="a00955.html#abb83c517a273434e9ce8e83640838f61">LumexSettingsValidateFn</a> = std::function&lt;bool (std::string <span class="keyword">const</span> &amp;)&gt;;</div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span></div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno"><a class="line" href="a00955.html#afa7cdf0a7ae72bb172b541454fb9bf5a">   79</a></span><span class="keyword">using </span><a class="code hl_typedef" href="a00955.html#afa7cdf0a7ae72bb172b541454fb9bf5a">LumexSettingsCreateFn</a> = std::function&lt;bool (<span class="keywordtype">void</span>)&gt;;</div>
-<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span></div>
-<div class="foldopen" id="foldopen00091" data-start="{" data-end="};">
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno"><a class="line" href="a01218.html">   91</a></span><span class="keyword">struct </span><a class="code hl_struct" href="a01218.html">lumex_settings_key_spec_t</a></div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>{</div>
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno"><a class="line" href="a01218.html#ae1c1a5cca9eadac719ad791cd3e83929">   93</a></span>  std::string <a class="code hl_variable" href="a01218.html#ae1c1a5cca9eadac719ad791cd3e83929">section</a>; </div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno"><a class="line" href="a01218.html#a65ba2700f954c1c98291a14fa43d0821">   96</a></span>  std::string <a class="code hl_variable" href="a01218.html#a65ba2700f954c1c98291a14fa43d0821">key</a>;     </div>
-<div class="line"><a id="l00097" name="l00097"></a><span class="lineno"><a class="line" href="a01218.html#ae4d8c105ce3463d71321a0bf12382519">   97</a></span>  std::string <a class="code hl_variable" href="a01218.html#ae4d8c105ce3463d71321a0bf12382519">default_value</a>; </div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>  <a class="code hl_typedef" href="a00955.html#abb83c517a273434e9ce8e83640838f61">LumexSettingsValidateFn</a></div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno"><a class="line" href="a01218.html#aabdcfebce52cca8d3f2ca2dd484eee2f">  100</a></span>      <a class="code hl_variable" href="a01218.html#aabdcfebce52cca8d3f2ca2dd484eee2f">validate</a>; </div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>};</div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="comment"> *</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="comment"> * SPDX-License-Identifier: MIT</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="comment"> *</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="comment"> * Permission is hereby granted, free of</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="comment"> * charge, to any person obtaining a copy</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="comment"> * of this software and associated</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="comment"> * documentation files (the &quot;Software&quot;), to deal</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="comment"> * in the Software without</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="comment"> * restriction, including without limitation the rights</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="comment"> * to use, copy,</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="comment"> * modify, merge, publish, distribute, sublicense, and/or sell</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="comment"> * copies of the</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="comment"> * Software, and to permit persons to whom the Software is</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="comment"> * furnished to do</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="comment"> * so, subject to the following conditions:</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="comment"> *</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="comment"> * The above copyright notice</span></div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="comment"> * and this permission notice shall be included in</span></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="comment"> * all copies or substantial</span></div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="comment"> * portions of the Software.</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="comment"> *</span></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="comment"> * THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="comment"> * WARRANTY OF ANY KIND, EXPRESS OR</span></div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="comment"> * IMPLIED, INCLUDING BUT NOT LIMITED TO</span></div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="comment"> * THE WARRANTIES OF MERCHANTABILITY,</span></div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="comment"> * FITNESS FOR A PARTICULAR PURPOSE AND</span></div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="comment"> * NONINFRINGEMENT. IN NO EVENT SHALL THE</span></div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span><span class="comment"> * AUTHORS OR COPYRIGHT HOLDERS BE</span></div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="comment"> * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER</span></div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><span class="comment"> * LIABILITY, WHETHER IN AN ACTION OF</span></div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span><span class="comment"> * CONTRACT, TORT OR OTHERWISE, ARISING FROM,</span></div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="comment"> * OUT OF OR IN CONNECTION WITH</span></div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="comment"> * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE</span></div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="comment"> * SOFTWARE.</span></div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="comment"> */</span></div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span></div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="preprocessor">#ifndef LUMEX_APPLIED_SERIAL_PORT_HPP</span></div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="preprocessor">#define LUMEX_APPLIED_SERIAL_PORT_HPP</span></div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span><span class="preprocessor">#include &quot;<a class="code" href="a00641.html">lumex/LumexExport.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="preprocessor">#include &lt;cstdint&gt;</span></div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span><span class="preprocessor">#include &lt;functional&gt;</span></div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><span class="preprocessor">#include &quot;<a class="code" href="a00419.html">lumex/core/utility/macros/LumexConstantMacros.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span><span class="preprocessor">#include &quot;<a class="code" href="a00425.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a00948.html">lumex</a> <span class="comment">// NOLINT(modernize-concat-nested-namespaces)</span></div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>{</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a00949.html">applied</a></div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>{</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a00981.html">serial</a></div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>{</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a00984.html">port</a></div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>{</div>
+<div class="foldopen" id="foldopen00087" data-start="{" data-end="}">
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno"><a class="line" href="a00986.html">   87</a></span><span class="keyword">namespace </span><a class="code hl_namespace" href="a00986.html">Constants</a></div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>{</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno"><a class="line" href="a00986.html#a78a9905c515b8e1e4efd4cdb738b67f3">   89</a></span><a class="code hl_define" href="a00419.html#a294baa8c8ad4246130f881cd1da7cbe1">LUMEX_CONST_NUM</a> std::uint32_t <a class="code hl_variable" href="a00986.html#a78a9905c515b8e1e4efd4cdb738b67f3">KSERIAL_PORT_CHANNEL_TYPE</a></div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>    = 0x100; </div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno"><a class="line" href="a00986.html#ade27fc46c3a7e81d4b4282ecb789e043">   91</a></span><a class="code hl_define" href="a00419.html#a294baa8c8ad4246130f881cd1da7cbe1">LUMEX_CONST_NUM</a> std::uint32_t <a class="code hl_variable" href="a00986.html#ade27fc46c3a7e81d4b4282ecb789e043">KSERIAL_PORT_SYNC_CHANNEL_TYPE</a></div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>    = 0x101; </div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno"><a class="line" href="a00986.html#a60c1583bdbe97272bebce16500252428">   93</a></span><a class="code hl_define" href="a00419.html#a294baa8c8ad4246130f881cd1da7cbe1">LUMEX_CONST_NUM</a> std::uint32_t <a class="code hl_variable" href="a00986.html#a60c1583bdbe97272bebce16500252428">KNET_TCP_CHANNEL_TYPE</a></div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>    = 0x810; </div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno"><a class="line" href="a00986.html#a8e84e78c1d605a4e97a9690581795555">   95</a></span><a class="code hl_define" href="a00419.html#a294baa8c8ad4246130f881cd1da7cbe1">LUMEX_CONST_NUM</a> std::uint32_t <a class="code hl_variable" href="a00986.html#a8e84e78c1d605a4e97a9690581795555">KNET_UDP_CHANNEL_TYPE</a></div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>    = 0x820; </div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>} <span class="comment">// namespace Constants</span></div>
 </div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span></div>
-<div class="foldopen" id="foldopen00142" data-start="{" data-end="};">
-<div class="line"><a id="l00142" name="l00142"></a><span class="lineno"><a class="line" href="a01222.html">  142</a></span><span class="keyword">class </span><a class="code hl_define" href="a00605.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a> <a class="code hl_function" href="a01222.html#aeaa4fb6e906161d246cfeeb9271935c6">LumexSettingsGuard</a> final</div>
-<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>{</div>
-<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span><span class="keyword">public</span>:</div>
-<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>  <span class="keyword">explicit</span> <a class="code hl_typedef" href="a00125.html#a03c038d49d13658f514ec716f3b4db81">LumexSettingsGuard</a> (std::shared_ptr&lt;ILumexSettings&gt; <a class="code hl_function" href="a01222.html#a77f7198101f3ba9f2ebdca1daa0c0c23">settings</a>,</div>
-<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>                               std::string <a class="code hl_function" href="a01222.html#ab558db30df367f2e78987194eb74e3c6">filename</a>) <a class="code hl_define" href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a>;</div>
-<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span></div>
-<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>  <span class="keywordtype">bool</span> <a class="code hl_function" href="a01222.html#a98b36bed73ab40adb63a48f08f1df640">ensureExistsWithDefaults</a> (<a class="code hl_typedef" href="a00955.html#afa7cdf0a7ae72bb172b541454fb9bf5a">LumexSettingsCreateFn</a> <span class="keyword">const</span> &amp;createDefault)</div>
-<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>      <a class="code hl_define" href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a>;</div>
-<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span></div>
-<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>  <span class="keywordtype">bool</span> <a class="code hl_function" href="a01222.html#aae22fd9b195098736a14c07ac88ffc49">repairIfCorrupted</a> (<a class="code hl_typedef" href="a00955.html#afa7cdf0a7ae72bb172b541454fb9bf5a">LumexSettingsCreateFn</a> <span class="keyword">const</span> &amp;createDefault)</div>
-<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>      <a class="code hl_define" href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a>;</div>
-<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span></div>
-<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>  <span class="keywordtype">bool</span> <a class="code hl_function" href="a01222.html#a2992a46c96ffd85535ee0aafdf6e2c5d">ensureKeysWithDefaults</a> (</div>
-<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span>      std::vector&lt;lumex_settings_key_spec_t&gt; <span class="keyword">const</span> &amp;specs) <a class="code hl_define" href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a>;</div>
-<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span></div>
-<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>  <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="a01222.html#af9bac403ac10a4c027b0b3b3e7242dab">backup</a> (std::string <span class="keyword">const</span> &amp;<a class="code hl_function" href="a01222.html#ab558db30df367f2e78987194eb74e3c6">filename</a>) <a class="code hl_define" href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a>;</div>
-<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span></div>
-<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span>  std::shared_ptr&lt;ILumexSettings&gt; <span class="keyword">const</span> &amp;</div>
-<div class="foldopen" id="foldopen00233" data-start="{" data-end="}">
-<div class="line"><a id="l00233" name="l00233"></a><span class="lineno"><a class="line" href="a01222.html#a77f7198101f3ba9f2ebdca1daa0c0c23">  233</a></span>  <a class="code hl_function" href="a01222.html#a77f7198101f3ba9f2ebdca1daa0c0c23">settings</a> () const <a class="code hl_define" href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
-<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>  {</div>
-<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span>    <span class="keywordflow">return</span> m_settings;</div>
-<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span>  }</div>
-</div>
-<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span></div>
-<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span>  std::string <span class="keyword">const</span> &amp;</div>
-<div class="foldopen" id="foldopen00241" data-start="{" data-end="}">
-<div class="line"><a id="l00241" name="l00241"></a><span class="lineno"><a class="line" href="a01222.html#ab558db30df367f2e78987194eb74e3c6">  241</a></span>  <a class="code hl_function" href="a01222.html#ab558db30df367f2e78987194eb74e3c6">filename</a> () const <a class="code hl_define" href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
-<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span>  {</div>
-<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span>    <span class="keywordflow">return</span> m_filename;</div>
-<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span>  }</div>
-</div>
-<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span> </div>
-<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span><span class="keyword">private</span>:</div>
-<div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span>  <span class="keywordtype">bool</span> _ensureOrRepairImpl (<a class="code hl_typedef" href="a00955.html#afa7cdf0a7ae72bb172b541454fb9bf5a">LumexSettingsCreateFn</a> <span class="keyword">const</span> &amp;createDefault,</div>
-<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span>                            <span class="keywordtype">bool</span> logOnFinalFailure) <a class="code hl_define" href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a>;</div>
-<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span> </div>
-<div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span><span class="preprocessor">#ifdef _WIN32</span></div>
-<div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span><span class="preprocessor">#pragma warning(push)</span></div>
-<div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span><span class="preprocessor">#pragma warning(disable : 4251) </span><span class="comment">// Suppress C4251 for STL/shared_ptr members in</span></div>
-<div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span>                                <span class="comment">// DLL interface</span></div>
-<div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span>  std::shared_ptr&lt;ILumexSettings&gt;</div>
-<div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span>      m_settings;         </div>
-<div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span>  std::string m_filename; </div>
-<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span>  std::recursive_mutex</div>
-<div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span>      m_mutex; </div>
-<div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span><span class="preprocessor">#ifdef _WIN32</span></div>
-<div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span><span class="preprocessor">#pragma warning(pop)</span></div>
-<div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span>};</div>
-</div>
-<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span>} <span class="comment">// namespace guard</span></div>
-<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span>} <span class="comment">// namespace settings</span></div>
-<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span>} <span class="comment">// namespace applied</span></div>
-<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span>} <span class="comment">// namespace lumex</span></div>
-<div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span> </div>
-<div class="line"><a id="l00282" name="l00282"></a><span class="lineno"><a class="line" href="a00125.html#a03c038d49d13658f514ec716f3b4db81">  282</a></span><span class="keyword">using </span><a class="code hl_typedef" href="a00125.html#a03c038d49d13658f514ec716f3b4db81">LumexSettingsGuard</a> = <a class="code hl_class" href="a01222.html">lumex::applied::settings::guard::LumexSettingsGuard</a>;</div>
-<div class="line"><a id="l00283" name="l00283"></a><span class="lineno"><a class="line" href="a00125.html#aaba76e604dc91717d20367b64faa7745">  283</a></span><span class="keyword">using </span><a class="code hl_typedef" href="a00125.html#aaba76e604dc91717d20367b64faa7745">lumex_settings_key_spec_t</a></div>
-<div class="line"><a id="l00284" name="l00284"></a><span class="lineno"><a class="line" href="a00125.html#a76e902ce20d92ae885d6684f4f295001">  284</a></span>    = <a class="code hl_struct" href="a01218.html">lumex::applied::settings::guard::lumex_settings_key_spec_t</a>;</div>
-<div class="line"><a id="l00285" name="l00285"></a><span class="lineno"><a class="line" href="a00125.html#abea24e19462376739279490b339d4de0">  285</a></span><span class="keyword">using </span><a class="code hl_typedef" href="a00125.html#a76e902ce20d92ae885d6684f4f295001">LumexSettingsValidateFn</a></div>
-<div class="line"><a id="l00286" name="l00286"></a><span class="lineno">  286</span>    = <a class="code hl_typedef" href="a00955.html#abb83c517a273434e9ce8e83640838f61">lumex::applied::settings::guard::LumexSettingsValidateFn</a>;</div>
-<div class="line"><a id="l00287" name="l00287"></a><span class="lineno">  287</span><span class="keyword">using </span><a class="code hl_typedef" href="a00125.html#abea24e19462376739279490b339d4de0">LumexSettingsCreateFn</a></div>
-<div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span>    = <a class="code hl_typedef" href="a00955.html#afa7cdf0a7ae72bb172b541454fb9bf5a">lumex::applied::settings::guard::LumexSettingsCreateFn</a>;</div>
-<div class="line"><a id="l00289" name="l00289"></a><span class="lineno">  289</span> </div>
-<div class="line"><a id="l00290" name="l00290"></a><span class="lineno">  290</span><span class="preprocessor">#endif </span><span class="comment">// !LUMEX_APPLIED_SETTINGS_GUARD_HPP</span></div>
-<div class="ttc" id="aa00125_html_a03c038d49d13658f514ec716f3b4db81"><div class="ttname"><a href="a00125.html#a03c038d49d13658f514ec716f3b4db81">LumexSettingsGuard</a></div><div class="ttdeci">lumex::applied::settings::guard::LumexSettingsGuard LumexSettingsGuard</div><div class="ttdef"><b>Definition</b> LumexSettingsGuard.hpp:282</div></div>
-<div class="ttc" id="aa00125_html_a76e902ce20d92ae885d6684f4f295001"><div class="ttname"><a href="a00125.html#a76e902ce20d92ae885d6684f4f295001">LumexSettingsValidateFn</a></div><div class="ttdeci">lumex::applied::settings::guard::LumexSettingsValidateFn LumexSettingsValidateFn</div><div class="ttdef"><b>Definition</b> LumexSettingsGuard.hpp:284</div></div>
-<div class="ttc" id="aa00125_html_aaba76e604dc91717d20367b64faa7745"><div class="ttname"><a href="a00125.html#aaba76e604dc91717d20367b64faa7745">lumex_settings_key_spec_t</a></div><div class="ttdeci">lumex::applied::settings::guard::lumex_settings_key_spec_t lumex_settings_key_spec_t</div><div class="ttdef"><b>Definition</b> LumexSettingsGuard.hpp:283</div></div>
-<div class="ttc" id="aa00125_html_abea24e19462376739279490b339d4de0"><div class="ttname"><a href="a00125.html#abea24e19462376739279490b339d4de0">LumexSettingsCreateFn</a></div><div class="ttdeci">lumex::applied::settings::guard::LumexSettingsCreateFn LumexSettingsCreateFn</div><div class="ttdef"><b>Definition</b> LumexSettingsGuard.hpp:285</div></div>
-<div class="ttc" id="aa00137_html"><div class="ttname"><a href="a00137.html">ILumexSettings.hpp</a></div><div class="ttdoc">The interface every settings format implements: load, save, and get, add or remove a string value by ...</div></div>
-<div class="ttc" id="aa00389_html"><div class="ttname"><a href="a00389.html">LumexKeywords.hpp</a></div><div class="ttdoc">Macros that spell C++ keywords and specifiers only where the compiled standard supports them,...</div></div>
-<div class="ttc" id="aa00389_html_a8932f306494e2abfe9045da20a41e47c"><div class="ttname"><a href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div><div class="ttdeci">#define LUMEX_NOEXCEPT</div><div class="ttdef"><b>Definition</b> LumexKeywords.hpp:84</div></div>
-<div class="ttc" id="aa00605_html"><div class="ttname"><a href="a00605.html">LumexExport.hpp</a></div><div class="ttdoc">Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,...</div></div>
-<div class="ttc" id="aa00605_html_aa948a1b1a43f6a954fd4c15b01ae4207"><div class="ttname"><a href="a00605.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a></div><div class="ttdeci">#define LUMEX_API</div><div class="ttdef"><b>Definition</b> LumexExport.hpp:90</div></div>
-<div class="ttc" id="aa00912_html"><div class="ttname"><a href="a00912.html">lumex</a></div><div class="ttdef"><b>Definition</b> LumexCPUVectorizationCapabilities.cpp:65</div></div>
-<div class="ttc" id="aa00913_html"><div class="ttname"><a href="a00913.html">lumex::applied</a></div><div class="ttdef"><b>Definition</b> LumexCPUVectorizationCapabilities.cpp:67</div></div>
-<div class="ttc" id="aa00953_html"><div class="ttname"><a href="a00953.html">lumex::applied::settings</a></div><div class="ttdef"><b>Definition</b> LumexSettingsFactory.cpp:55</div></div>
-<div class="ttc" id="aa00955_html"><div class="ttname"><a href="a00955.html">lumex::applied::settings::guard</a></div><div class="ttdef"><b>Definition</b> LumexSettingsGuard.cpp:60</div></div>
-<div class="ttc" id="aa00955_html_abb83c517a273434e9ce8e83640838f61"><div class="ttname"><a href="a00955.html#abb83c517a273434e9ce8e83640838f61">lumex::applied::settings::guard::LumexSettingsValidateFn</a></div><div class="ttdeci">std::function&lt; bool(std::string const &amp;)&gt; LumexSettingsValidateFn</div><div class="ttdoc">Validation callback for a single settings key.</div><div class="ttdef"><b>Definition</b> LumexSettingsGuard.hpp:67</div></div>
-<div class="ttc" id="aa00955_html_afa7cdf0a7ae72bb172b541454fb9bf5a"><div class="ttname"><a href="a00955.html#afa7cdf0a7ae72bb172b541454fb9bf5a">lumex::applied::settings::guard::LumexSettingsCreateFn</a></div><div class="ttdeci">std::function&lt; bool(void)&gt; LumexSettingsCreateFn</div><div class="ttdoc">Callback that (re)creates a settings file&#39;s default content from scratch.</div><div class="ttdef"><b>Definition</b> LumexSettingsGuard.hpp:79</div></div>
-<div class="ttc" id="aa01218_html"><div class="ttname"><a href="a01218.html">lumex::applied::settings::guard::lumex_settings_key_spec_t</a></div><div class="ttdoc">Describes a single settings key that LumexSettingsGuard::ensureKeysWithDefaults must keep present and...</div><div class="ttdef"><b>Definition</b> LumexSettingsGuard.hpp:92</div></div>
-<div class="ttc" id="aa01218_html_a65ba2700f954c1c98291a14fa43d0821"><div class="ttname"><a href="a01218.html#a65ba2700f954c1c98291a14fa43d0821">lumex::applied::settings::guard::lumex_settings_key_spec_t::key</a></div><div class="ttdeci">std::string key</div><div class="ttdoc">Key name within the section.</div><div class="ttdef"><b>Definition</b> LumexSettingsGuard.hpp:96</div></div>
-<div class="ttc" id="aa01218_html_aabdcfebce52cca8d3f2ca2dd484eee2f"><div class="ttname"><a href="a01218.html#aabdcfebce52cca8d3f2ca2dd484eee2f">lumex::applied::settings::guard::lumex_settings_key_spec_t::validate</a></div><div class="ttdeci">LumexSettingsValidateFn validate</div><div class="ttdoc">Optional; nullptr =&gt; validated only against &quot;not empty&quot;.</div><div class="ttdef"><b>Definition</b> LumexSettingsGuard.hpp:100</div></div>
-<div class="ttc" id="aa01218_html_ae1c1a5cca9eadac719ad791cd3e83929"><div class="ttname"><a href="a01218.html#ae1c1a5cca9eadac719ad791cd3e83929">lumex::applied::settings::guard::lumex_settings_key_spec_t::section</a></div><div class="ttdeci">std::string section</div><div class="ttdef"><b>Definition</b> LumexSettingsGuard.hpp:93</div></div>
-<div class="ttc" id="aa01218_html_ae4d8c105ce3463d71321a0bf12382519"><div class="ttname"><a href="a01218.html#ae4d8c105ce3463d71321a0bf12382519">lumex::applied::settings::guard::lumex_settings_key_spec_t::default_value</a></div><div class="ttdeci">std::string default_value</div><div class="ttdef"><b>Definition</b> LumexSettingsGuard.hpp:97</div></div>
-<div class="ttc" id="aa01222_html"><div class="ttname"><a href="a01222.html">lumex::applied::settings::guard::LumexSettingsGuard</a></div><div class="ttdoc">Format-agnostic backup/repair/validation guard for an ILumexSettings instance.</div><div class="ttdef"><b>Definition</b> LumexSettingsGuard.hpp:143</div></div>
-<div class="ttc" id="aa01222_html_a2992a46c96ffd85535ee0aafdf6e2c5d"><div class="ttname"><a href="a01222.html#a2992a46c96ffd85535ee0aafdf6e2c5d">lumex::applied::settings::guard::LumexSettingsGuard::ensureKeysWithDefaults</a></div><div class="ttdeci">bool ensureKeysWithDefaults(std::vector&lt; lumex_settings_key_spec_t &gt; const &amp;specs) noexcept</div><div class="ttdoc">Ensures every key in specs is present and valid, restoring default_value otherwise.</div><div class="ttdef"><b>Definition</b> LumexSettingsGuard.cpp:250</div></div>
-<div class="ttc" id="aa01222_html_a77f7198101f3ba9f2ebdca1daa0c0c23"><div class="ttname"><a href="a01222.html#a77f7198101f3ba9f2ebdca1daa0c0c23">lumex::applied::settings::guard::LumexSettingsGuard::settings</a></div><div class="ttdeci">std::shared_ptr&lt; ILumexSettings &gt; const &amp; settings() const noexcept</div><div class="ttdef"><b>Definition</b> LumexSettingsGuard.hpp:233</div></div>
-<div class="ttc" id="aa01222_html_a98b36bed73ab40adb63a48f08f1df640"><div class="ttname"><a href="a01222.html#a98b36bed73ab40adb63a48f08f1df640">lumex::applied::settings::guard::LumexSettingsGuard::ensureExistsWithDefaults</a></div><div class="ttdeci">bool ensureExistsWithDefaults(LumexSettingsCreateFn const &amp;createDefault) noexcept</div><div class="ttdoc">Ensures the guarded file exists and is loadable; repairs it via createDefault otherwise.</div><div class="ttdef"><b>Definition</b> LumexSettingsGuard.cpp:167</div></div>
-<div class="ttc" id="aa01222_html_aae22fd9b195098736a14c07ac88ffc49"><div class="ttname"><a href="a01222.html#aae22fd9b195098736a14c07ac88ffc49">lumex::applied::settings::guard::LumexSettingsGuard::repairIfCorrupted</a></div><div class="ttdeci">bool repairIfCorrupted(LumexSettingsCreateFn const &amp;createDefault) noexcept</div><div class="ttdoc">Identical repair behavior to ensureExistsWithDefaults, without the final error-level log.</div><div class="ttdef"><b>Definition</b> LumexSettingsGuard.cpp:175</div></div>
-<div class="ttc" id="aa01222_html_ab558db30df367f2e78987194eb74e3c6"><div class="ttname"><a href="a01222.html#ab558db30df367f2e78987194eb74e3c6">lumex::applied::settings::guard::LumexSettingsGuard::filename</a></div><div class="ttdeci">std::string const &amp; filename() const noexcept</div><div class="ttdef"><b>Definition</b> LumexSettingsGuard.hpp:241</div></div>
-<div class="ttc" id="aa01222_html_aeaa4fb6e906161d246cfeeb9271935c6"><div class="ttname"><a href="a01222.html#aeaa4fb6e906161d246cfeeb9271935c6">lumex::applied::settings::guard::LumexSettingsGuard::LumexSettingsGuard</a></div><div class="ttdeci">LumexSettingsGuard(std::shared_ptr&lt; ILumexSettings &gt; settings, std::string filename) noexcept</div><div class="ttdoc">Constructs a guard around an existing settings object and the path it persists to.</div><div class="ttdef"><b>Definition</b> LumexSettingsGuard.cpp:110</div></div>
-<div class="ttc" id="aa01222_html_af9bac403ac10a4c027b0b3b3e7242dab"><div class="ttname"><a href="a01222.html#af9bac403ac10a4c027b0b3b3e7242dab">lumex::applied::settings::guard::LumexSettingsGuard::backup</a></div><div class="ttdeci">static bool backup(std::string const &amp;filename) noexcept</div><div class="ttdoc">Copies filename to a sibling &lt;filename&gt;.bak.&lt;YYYYMMDD-HHMMSS&gt; backup file.</div><div class="ttdef"><b>Definition</b> LumexSettingsGuard.cpp:119</div></div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span></div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span><a class="code hl_define" href="a00641.html#ad1cae46ea7dbf5398bbb2a0bdd2cf917">LUMEX_PUBLIC_API</a></div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>std::string <a class="code hl_function" href="a00984.html#a523de1146ace21810686af24cd7edd8f">resolve_serial_port_path</a> (</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>    std::string <span class="keyword">const</span> &amp;portName, std::uint32_t channelType,</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>    std::function&lt;std::string ()&gt; <span class="keyword">const</span> &amp;getIpAddressCallback = <span class="keyword">nullptr</span>,</div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>    std::function&lt;<span class="keywordtype">void</span> (std::string <span class="keyword">const</span> &amp;)&gt; <span class="keyword">const</span> &amp;logWarningCallback</div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>    = <span class="keyword">nullptr</span>) <a class="code hl_define" href="a00425.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a>;</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span> </div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>} <span class="comment">// namespace port</span></div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>} <span class="comment">// namespace serial</span></div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>} <span class="comment">// namespace applied</span></div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>} <span class="comment">// namespace lumex</span></div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span> </div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span><span class="preprocessor">#endif </span><span class="comment">// !LUMEX_APPLIED_SERIAL_PORT_HPP</span></div>
+<div class="ttc" id="aa00419_html"><div class="ttname"><a href="a00419.html">LumexConstantMacros.hpp</a></div><div class="ttdoc">Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,...</div></div>
+<div class="ttc" id="aa00419_html_a294baa8c8ad4246130f881cd1da7cbe1"><div class="ttname"><a href="a00419.html#a294baa8c8ad4246130f881cd1da7cbe1">LUMEX_CONST_NUM</a></div><div class="ttdeci">#define LUMEX_CONST_NUM</div><div class="ttdef"><b>Definition</b> LumexConstantMacros.hpp:171</div></div>
+<div class="ttc" id="aa00425_html"><div class="ttname"><a href="a00425.html">LumexKeywords.hpp</a></div><div class="ttdoc">Macros that spell C++ keywords and specifiers only where the compiled standard supports them,...</div></div>
+<div class="ttc" id="aa00425_html_a8932f306494e2abfe9045da20a41e47c"><div class="ttname"><a href="a00425.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div><div class="ttdeci">#define LUMEX_NOEXCEPT</div><div class="ttdef"><b>Definition</b> LumexKeywords.hpp:84</div></div>
+<div class="ttc" id="aa00641_html"><div class="ttname"><a href="a00641.html">LumexExport.hpp</a></div><div class="ttdoc">Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,...</div></div>
+<div class="ttc" id="aa00641_html_ad1cae46ea7dbf5398bbb2a0bdd2cf917"><div class="ttname"><a href="a00641.html#ad1cae46ea7dbf5398bbb2a0bdd2cf917">LUMEX_PUBLIC_API</a></div><div class="ttdeci">#define LUMEX_PUBLIC_API</div><div class="ttdef"><b>Definition</b> LumexExport.hpp:130</div></div>
+<div class="ttc" id="aa00948_html"><div class="ttname"><a href="a00948.html">lumex</a></div><div class="ttdef"><b>Definition</b> LumexCPUVectorizationCapabilities.cpp:65</div></div>
+<div class="ttc" id="aa00949_html"><div class="ttname"><a href="a00949.html">lumex::applied</a></div><div class="ttdef"><b>Definition</b> LumexCPUVectorizationCapabilities.cpp:67</div></div>
+<div class="ttc" id="aa00981_html"><div class="ttname"><a href="a00981.html">lumex::applied::serial</a></div><div class="ttdoc">Cross-platform helpers for naming/resolving serial (and serial-adjacent) communication ports.</div><div class="ttdef"><b>Definition</b> LumexSerialPortEnumeration.cpp:97</div></div>
+<div class="ttc" id="aa00984_html"><div class="ttname"><a href="a00984.html">lumex::applied::serial::port</a></div><div class="ttdef"><b>Definition</b> LumexSerialPort.cpp:55</div></div>
+<div class="ttc" id="aa00984_html_a523de1146ace21810686af24cd7edd8f"><div class="ttname"><a href="a00984.html#a523de1146ace21810686af24cd7edd8f">lumex::applied::serial::port::resolve_serial_port_path</a></div><div class="ttdeci">std::string resolve_serial_port_path(std::string const &amp;portName, std::uint32_t channelType, std::function&lt; std::string()&gt; const &amp;getIpAddressCallback, std::function&lt; void(std::string const &amp;)&gt; const &amp;logWarningCallback) noexcept</div><div class="ttdoc">Converts a short serial-port name into the full, platform-specific path a channel needs in order to a...</div><div class="ttdef"><b>Definition</b> LumexSerialPort.cpp:82</div></div>
+<div class="ttc" id="aa00986_html"><div class="ttname"><a href="a00986.html">lumex::applied::serial::port::Constants</a></div><div class="ttdoc">Numeric channel-type identifiers this module understands.</div><div class="ttdef"><b>Definition</b> LumexSerialPort.hpp:88</div></div>
+<div class="ttc" id="aa00986_html_a60c1583bdbe97272bebce16500252428"><div class="ttname"><a href="a00986.html#a60c1583bdbe97272bebce16500252428">lumex::applied::serial::port::Constants::KNET_TCP_CHANNEL_TYPE</a></div><div class="ttdeci">static constLUMEX_CONSTINITstd::uint32_t KNET_TCP_CHANNEL_TYPE</div><div class="ttdoc">TCP network channel.</div><div class="ttdef"><b>Definition</b> LumexSerialPort.hpp:94</div></div>
+<div class="ttc" id="aa00986_html_a78a9905c515b8e1e4efd4cdb738b67f3"><div class="ttname"><a href="a00986.html#a78a9905c515b8e1e4efd4cdb738b67f3">lumex::applied::serial::port::Constants::KSERIAL_PORT_CHANNEL_TYPE</a></div><div class="ttdeci">static constLUMEX_CONSTINITstd::uint32_t KSERIAL_PORT_CHANNEL_TYPE</div><div class="ttdoc">Asynchronous serial port.</div><div class="ttdef"><b>Definition</b> LumexSerialPort.hpp:90</div></div>
+<div class="ttc" id="aa00986_html_a8e84e78c1d605a4e97a9690581795555"><div class="ttname"><a href="a00986.html#a8e84e78c1d605a4e97a9690581795555">lumex::applied::serial::port::Constants::KNET_UDP_CHANNEL_TYPE</a></div><div class="ttdeci">static constLUMEX_CONSTINITstd::uint32_t KNET_UDP_CHANNEL_TYPE</div><div class="ttdoc">UDP network channel.</div><div class="ttdef"><b>Definition</b> LumexSerialPort.hpp:96</div></div>
+<div class="ttc" id="aa00986_html_ade27fc46c3a7e81d4b4282ecb789e043"><div class="ttname"><a href="a00986.html#ade27fc46c3a7e81d4b4282ecb789e043">lumex::applied::serial::port::Constants::KSERIAL_PORT_SYNC_CHANNEL_TYPE</a></div><div class="ttdeci">static constLUMEX_CONSTINITstd::uint32_t KSERIAL_PORT_SYNC_CHANNEL_TYPE</div><div class="ttdoc">Synchronous serial port.</div><div class="ttdef"><b>Definition</b> LumexSerialPort.hpp:92</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_de45db85bd98abf883bc2bd6c3907fd8.html">applied</a></li><li class="navelem"><a class="el" href="dir_9258c4c02d6a33184acee8f108260d77.html">settings</a></li><li class="navelem"><a class="el" href="dir_6c1e121f7cdeaa97aad22f5242bef3d8.html">guard</a></li><li class="navelem"><a class="el" href="a00125.html">LumexSettingsGuard.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_de45db85bd98abf883bc2bd6c3907fd8.html">applied</a></li><li class="navelem"><a class="el" href="dir_9f3553d7e4d4ebb0490c2c83481c4624.html">serial</a></li><li class="navelem"><a class="el" href="dir_a48277b9c470a0b6e44a7755747215d9.html">port</a></li><li class="navelem"><a class="el" href="a00125.html">LumexSerialPort.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

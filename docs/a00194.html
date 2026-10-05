@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexCrcCatalog.cpp File Reference</title>
+<title>LumexLib: LumexAtomicSmartPtrConfig.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,94 +104,184 @@ $(function(){initNavTree('a00194.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#namespaces">Namespaces</a> &#124;
-<a href="#define-members">Macros</a> &#124;
-<a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">LumexCrcCatalog.cpp File Reference</div></div>
+<a href="#define-members">Macros</a>  </div>
+  <div class="headertitle"><div class="title">LumexAtomicSmartPtrConfig.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;array&gt;</code><br />
-<code>#include &lt;cstdint&gt;</code><br />
-<code>#include &lt;limits&gt;</code><br />
-<code>#include &lt;mutex&gt;</code><br />
-<code>#include &lt;tuple&gt;</code><br />
-<code>#include &lt;utility&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00197_source.html">lumex/core/crc/catalog/LumexCrcCatalog.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00200_source.html">lumex/core/crc/parametric/LumexCrcParametric.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00383_source.html">lumex/core/utility/macros/LumexConstantMacros.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00389_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
+
+<p>Chooses between the standard <code>std::atomic&lt;std::shared_ptr&lt;T&gt;&gt;</code> and the lock-based implementation, and defines the memory order checks of the atomic smart pointers.  
+<a href="#details">More...</a></p>
+<div class="textblock"><code>#include &lt;atomic&gt;</code><br />
+<code>#include &lt;memory&gt;</code><br />
+<code>#include &quot;<a class="el" href="a00200_source.html">lumex/core/atomic/sync/LumexAtomicWait.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00404_source.html">lumex/core/utility/compiler/LumexCheckFeatures.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for LumexCrcCatalog.cpp:</div>
+Include dependency graph for LumexAtomicSmartPtrConfig.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00195.png" border="0" usemap="#a_lumex_crc_catalog_8cpp" alt=""/></div>
+<div class="center"><img src="a00195.png" border="0" usemap="#a_lumex_atomic_smart_ptr_config_8hpp" alt=""/></div>
+<map name="a_lumex_atomic_smart_ptr_config_8hpp" id="a_lumex_atomic_smart_ptr_config_8hpp">
+<area shape="rect" title="Chooses between the standard std::atomic&lt;std::shared_ptr&lt;T&gt;&gt; and the lock&#45;based implementation,..." alt="" coords="297,5,513,32"/>
+<area shape="rect" title=" " alt="" coords="5,179,66,205"/>
+<area shape="poly" title=" " alt="" coords="378,35,79,173,77,174,75,169,77,168,376,30"/>
+<area shape="rect" title=" " alt="" coords="301,88,370,115"/>
+<area shape="poly" title=" " alt="" coords="396,34,358,78,354,75,392,31"/>
+<area shape="rect" href="a00200.html" title="Blocking wait for a change of a 32&#45;bit atomic word, and the wake&#45;up that ends it, from C++11 on." alt="" coords="394,80,554,123"/>
+<area shape="poly" title=" " alt="" coords="418,31,449,67,445,70,414,34"/>
+<area shape="rect" href="a00404.html" title="C++ language, library and attribute feature availability." alt="" coords="938,171,1170,213"/>
+<area shape="poly" title=" " alt="" coords="453,30,962,164,961,169,452,35"/>
+<area shape="poly" title=" " alt="" coords="394,123,383,125,297,138,229,144,162,152,79,173,74,175,73,170,77,168,161,147,229,138,296,133,382,120,393,118"/>
+<area shape="rect" title=" " alt="" coords="90,179,141,205"/>
+<area shape="poly" title=" " alt="" coords="394,123,383,125,266,144,216,154,154,173,151,174,149,169,152,168,215,149,266,139,382,120,393,118"/>
+<area shape="rect" title=" " alt="" coords="165,179,290,205"/>
+<area shape="poly" title=" " alt="" coords="417,126,278,176,276,171,415,121"/>
+<area shape="rect" title=" " alt="" coords="314,179,378,205"/>
+<area shape="poly" title=" " alt="" coords="446,125,378,172,375,168,443,121"/>
+<area shape="rect" title=" " alt="" coords="403,179,463,205"/>
+<area shape="poly" title=" " alt="" coords="467,124,447,166,443,164,462,122"/>
+<area shape="rect" title=" " alt="" coords="487,179,544,205"/>
+<area shape="poly" title=" " alt="" coords="486,122,506,164,501,166,481,124"/>
+<area shape="rect" title=" " alt="" coords="569,179,614,205"/>
+<area shape="poly" title=" " alt="" coords="503,121,565,167,561,171,500,125"/>
+<area shape="rect" title=" " alt="" coords="639,179,696,205"/>
+<area shape="poly" title=" " alt="" coords="522,121,627,168,629,169,627,174,625,173,520,126"/>
+<area shape="poly" title=" " alt="" coords="555,112,923,168,923,173,554,117"/>
+<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="720,171,914,213"/>
+<area shape="poly" title=" " alt="" coords="555,121,722,164,721,169,554,126"/>
+</map>
 </div>
-</div><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
-Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00912.html">lumex</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00964.html">lumex::core</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00984.html">lumex::core::crc</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00985.html">lumex::core::crc::catalog</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00196.png" border="0" usemap="#a_lumex_atomic_smart_ptr_config_8hppdep" alt=""/></div>
+<map name="a_lumex_atomic_smart_ptr_config_8hppdep" id="a_lumex_atomic_smart_ptr_config_8hppdep">
+<area shape="rect" title="Chooses between the standard std::atomic&lt;std::shared_ptr&lt;T&gt;&gt; and the lock&#45;based implementation,..." alt="" coords="92,5,308,32"/>
+<area shape="rect" href="a00188.html" title="atomic_shared_ptr&lt;T&gt;: the interface of the C++20 std::atomic&lt;std::shared_ptr&lt;T&gt;&gt; for C++11 and later." alt="" coords="5,155,190,181"/>
+<area shape="poly" title=" " alt="" coords="141,40,112,57,90,81,84,99,85,119,94,154,89,155,79,120,79,99,86,79,109,53,138,36"/>
+<area shape="rect" href="a00191.html" title="Storage and operations behind atomic_shared_ptr and atomic_weak_ptr: a lock&#45;based cell for every stan..." alt="" coords="100,80,301,107"/>
+<area shape="poly" title=" " alt="" coords="203,48,203,80,198,80,198,48"/>
+<area shape="rect" href="a00197.html" title="atomic_weak_ptr&lt;T&gt;: the interface of the C++20 std::atomic&lt;std::weak_ptr&lt;T&gt;&gt; for C++11 and later." alt="" coords="213,155,390,181"/>
+<area shape="poly" title=" " alt="" coords="263,36,293,53,316,79,322,99,322,120,310,155,305,154,316,119,317,99,311,81,289,57,261,41"/>
+<area shape="rect" href="a00890.html" title="Atomic module: atomic_shared_ptr&lt;T&gt; and atomic_weak_ptr&lt;T&gt;, the interface of the C++20 std::atomic&lt;st..." alt="" coords="148,229,250,256"/>
+<area shape="poly" title=" " alt="" coords="129,188,183,227,180,231,126,193"/>
+<area shape="rect" href="a00452.html" title=" " alt="" coords="29,304,187,347"/>
+<area shape="poly" title=" " alt="" coords="175,268,133,306,130,302,172,264"/>
+<area shape="rect" href="a00455.html" title=" " alt="" coords="211,304,368,347"/>
+<area shape="poly" title=" " alt="" coords="226,264,268,302,265,306,222,268"/>
+<area shape="poly" title=" " alt="" coords="171,118,117,156,114,152,168,114"/>
+<area shape="poly" title=" " alt="" coords="232,114,285,152,282,156,229,118"/>
+<area shape="poly" title=" " alt="" coords="273,193,218,231,215,227,270,188"/>
+</map>
+</div>
+</div>
+<p><a href="a00194_source.html">Go to the source code of this file.</a></p>
+<table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a07486181f1990291c2a348de8eb4c480" id="r_a07486181f1990291c2a348de8eb4c480"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a07486181f1990291c2a348de8eb4c480">LUMEX_IMPLEMENTATION</a></td></tr>
-<tr class="separator:a07486181f1990291c2a348de8eb4c480"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:a10782f1d322cae0727ac0ee7f52e6f95" id="r_a10782f1d322cae0727ac0ee7f52e6f95"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00985.html#a10782f1d322cae0727ac0ee7f52e6f95">lumex::core::crc::catalog::ValidateCrcRevEngParams</a> (<a class="el" href="a01322.html">crc_params_t</a> const &amp;params) noexcept</td></tr>
-<tr class="memdesc:a10782f1d322cae0727ac0ee7f52e6f95"><td class="mdescLeft">&#160;</td><td class="mdescRight">Validates parameters before computation (width 1..64).  <br /></td></tr>
-<tr class="separator:a10782f1d322cae0727ac0ee7f52e6f95"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a07dc7d6ce7dae828a9174ed5c61a53cd" id="r_a07dc7d6ce7dae828a9174ed5c61a53cd"><td class="memItemLeft" align="right" valign="top">std::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00985.html#a07dc7d6ce7dae828a9174ed5c61a53cd">lumex::core::crc::catalog::ComputeCrcWithRevEngParams</a> (<a class="el" href="a01322.html">crc_params_t</a> const &amp;params, std::uint8_t const *data, std::size_t byteCount) noexcept</td></tr>
-<tr class="memdesc:a07dc7d6ce7dae828a9174ed5c61a53cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes a CRC from explicit RevEng parameters (bit engine, width 1..64).  <br /></td></tr>
-<tr class="separator:a07dc7d6ce7dae828a9174ed5c61a53cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4a1bf4a4033234f6ec6bd6ceb8200dca" id="r_a4a1bf4a4033234f6ec6bd6ceb8200dca"><td class="memItemLeft" align="right" valign="top">std::uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00985.html#a4a1bf4a4033234f6ec6bd6ceb8200dca">lumex::core::crc::catalog::GetCrcCatalogEntryCount</a> () noexcept</td></tr>
-<tr class="memdesc:a4a1bf4a4033234f6ec6bd6ceb8200dca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of catalogue algorithms (order matches <code><a class="el" href="a00987.html#ab5b7b2701d5366bb0389b8e944d65c13" title="Every RevEng catalogue specification of width 3..64 (112 entries). Order is the runtime catalogue ind...">all_crc_specs_t</a></code>).  <br /></td></tr>
-<tr class="separator:a4a1bf4a4033234f6ec6bd6ceb8200dca"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ada153a2397d11cdb757cededb803d6ba" id="r_ada153a2397d11cdb757cededb803d6ba"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00985.html#ada153a2397d11cdb757cededb803d6ba">lumex::core::crc::catalog::GetCrcCatalogBitWidth</a> (std::uint32_t catalogIndex) noexcept</td></tr>
-<tr class="memdesc:ada153a2397d11cdb757cededb803d6ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Catalogue entry width in bits; -1 on error.  <br /></td></tr>
-<tr class="separator:ada153a2397d11cdb757cededb803d6ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7c78d39b9bad1d190fba9e64e54d3089" id="r_a7c78d39b9bad1d190fba9e64e54d3089"><td class="memItemLeft" align="right" valign="top">std::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00985.html#a7c78d39b9bad1d190fba9e64e54d3089">lumex::core::crc::catalog::ComputeCrcCatalog</a> (std::uint32_t catalogIndex, std::uint8_t const *data, std::size_t byteCount) noexcept</td></tr>
-<tr class="memdesc:a7c78d39b9bad1d190fba9e64e54d3089"><td class="mdescLeft">&#160;</td><td class="mdescRight">CRC for catalogue index <code><a class="el" href="a00987.html#ab5b7b2701d5366bb0389b8e944d65c13" title="Every RevEng catalogue specification of width 3..64 (112 entries). Order is the runtime catalogue ind...">all_crc_specs_t</a></code> (0 ... <a class="el" href="a00985.html#a4a1bf4a4033234f6ec6bd6ceb8200dca">GetCrcCatalogEntryCount</a> - 1).  <br /></td></tr>
-<tr class="separator:a7c78d39b9bad1d190fba9e64e54d3089"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1895c5276e88e178fd50ae5ff29b22a7" id="r_a1895c5276e88e178fd50ae5ff29b22a7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00985.html#a1895c5276e88e178fd50ae5ff29b22a7">lumex::core::crc::catalog::SetTransportCrcDefault</a> () noexcept</td></tr>
-<tr class="memdesc:a1895c5276e88e178fd50ae5ff29b22a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Restore the default CRC-8/MAXIM-DOW transport mode.  <br /></td></tr>
-<tr class="separator:a1895c5276e88e178fd50ae5ff29b22a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a695b6caf304fee0eef53bd8331b01579" id="r_a695b6caf304fee0eef53bd8331b01579"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00985.html#a695b6caf304fee0eef53bd8331b01579">lumex::core::crc::catalog::SetTransportCrcCatalogIndex</a> (std::uint32_t catalogIndex) noexcept</td></tr>
-<tr class="memdesc:a695b6caf304fee0eef53bd8331b01579"><td class="mdescLeft">&#160;</td><td class="mdescRight">Transport: 8-bit catalogue entry by index.  <br /></td></tr>
-<tr class="separator:a695b6caf304fee0eef53bd8331b01579"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a803339a9a4d83bf460e3d6c07b66e837" id="r_a803339a9a4d83bf460e3d6c07b66e837"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00985.html#a803339a9a4d83bf460e3d6c07b66e837">lumex::core::crc::catalog::SetTransportCrcRevEngParams</a> (<a class="el" href="a01322.html">crc_params_t</a> const &amp;params) noexcept</td></tr>
-<tr class="memdesc:a803339a9a4d83bf460e3d6c07b66e837"><td class="mdescLeft">&#160;</td><td class="mdescRight">Transport: caller-defined 8-bit CRC (must match the peer).  <br /></td></tr>
-<tr class="separator:a803339a9a4d83bf460e3d6c07b66e837"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae18a771d574e0ab1591e77d45799348c" id="r_ae18a771d574e0ab1591e77d45799348c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a00985.html#a550c04492ccdbe76b3c82f02ac7c3dc0">TransportCrcMode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00985.html#ae18a771d574e0ab1591e77d45799348c">lumex::core::crc::catalog::GetTransportCrcMode</a> () noexcept</td></tr>
-<tr class="separator:ae18a771d574e0ab1591e77d45799348c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adfb9a54377d70e075c97d7034dd2d497" id="r_adfb9a54377d70e075c97d7034dd2d497"><td class="memItemLeft" align="right" valign="top">std::uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00985.html#adfb9a54377d70e075c97d7034dd2d497">lumex::core::crc::catalog::GetTransportCrcCatalogIndex</a> () noexcept</td></tr>
-<tr class="memdesc:adfb9a54377d70e075c97d7034dd2d497"><td class="mdescLeft">&#160;</td><td class="mdescRight">Catalogue index in <code>Catalog</code> mode; otherwise <a class="el" href="a00985.html#ad5f7e9bf7ab382d6bea8b9c1a68acf2e">CrcCatalogLegacyIndex</a> or <a class="el" href="a00985.html#a994dcaacfb446400b417d59b23ae129d">CrcTransportUsesCustomSpecSentinel</a>.  <br /></td></tr>
-<tr class="separator:adfb9a54377d70e075c97d7034dd2d497"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a445977ae97a478e402f139ef37cce13a" id="r_a445977ae97a478e402f139ef37cce13a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00985.html#a445977ae97a478e402f139ef37cce13a">lumex::core::crc::catalog::TryGetTransportCrcRevEngParams</a> (<a class="el" href="a01322.html">crc_params_t</a> &amp;out) noexcept</td></tr>
-<tr class="memdesc:a445977ae97a478e402f139ef37cce13a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes <code class="param">out</code> in <code>Custom</code> mode; otherwise leaves <code class="param">out</code> unchanged.  <br /></td></tr>
-<tr class="separator:a445977ae97a478e402f139ef37cce13a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:add9426471847b4c3cee375c3f12cd548" id="r_add9426471847b4c3cee375c3f12cd548"><td class="memItemLeft" align="right" valign="top">std::uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00985.html#add9426471847b4c3cee375c3f12cd548">lumex::core::crc::catalog::ComputeTransportChecksum</a> (std::uint8_t const *data, std::size_t byteCount) noexcept</td></tr>
-<tr class="memdesc:add9426471847b4c3cee375c3f12cd548"><td class="mdescLeft">&#160;</td><td class="mdescRight">8-bit transport checksum for the current process-global mode.  <br /></td></tr>
-<tr class="separator:add9426471847b4c3cee375c3f12cd548"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af19bd8e04b3f3c9c2e688b87eb4d74b5" id="r_af19bd8e04b3f3c9c2e688b87eb4d74b5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af19bd8e04b3f3c9c2e688b87eb4d74b5">LUMEX_ATOMIC_SMART_PTR_USES_STD</a>&#160;&#160;&#160;0</td></tr>
+<tr class="memdesc:af19bd8e04b3f3c9c2e688b87eb4d74b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">1 when <code><a class="el" href="a01325.html" title="Atomic std::shared_ptr&lt;T&gt;, as std::atomic&lt;std::shared_ptr&lt;T&gt;&gt;.">atomic_shared_ptr</a></code> and <code><a class="el" href="a01349.html" title="Atomic std::weak_ptr&lt;T&gt;, as std::atomic&lt;std::weak_ptr&lt;T&gt;&gt;.">atomic_weak_ptr</a></code> wrap the standard atomic smart pointers, 0 when they use the lock-based implementation.  <br /></td></tr>
+<tr class="separator:af19bd8e04b3f3c9c2e688b87eb4d74b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9be53a42a0b6b53bcfd084ff60e871bc" id="r_a9be53a42a0b6b53bcfd084ff60e871bc"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9be53a42a0b6b53bcfd084ff60e871bc">LUMEX_ATOMIC_SMART_PTR_ABI_NAMESPACE</a>&#160;&#160;&#160;lock_based_table_wait</td></tr>
+<tr class="memdesc:a9be53a42a0b6b53bcfd084ff60e871bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Name of the inline namespace that holds the selected implementation.  <br /></td></tr>
+<tr class="separator:a9be53a42a0b6b53bcfd084ff60e871bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6210e9365ae142be6a0511f324aee02d" id="r_a6210e9365ae142be6a0511f324aee02d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6210e9365ae142be6a0511f324aee02d">LUMEX_ATOMIC_SMART_PTR_CHECK_LOAD_ORDER</a>(order)</td></tr>
+<tr class="memdesc:a6210e9365ae142be6a0511f324aee02d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compile-time checks of constant memory order arguments.  <br /></td></tr>
+<tr class="separator:a6210e9365ae142be6a0511f324aee02d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4df38d759b3b75a0c2eb43df1680cb61" id="r_a4df38d759b3b75a0c2eb43df1680cb61"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4df38d759b3b75a0c2eb43df1680cb61">LUMEX_ATOMIC_SMART_PTR_CHECK_STORE_ORDER</a>(order)</td></tr>
+<tr class="separator:a4df38d759b3b75a0c2eb43df1680cb61"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab3ae82014165ed18f66e176029cfa054" id="r_ab3ae82014165ed18f66e176029cfa054"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab3ae82014165ed18f66e176029cfa054">LUMEX_ATOMIC_SMART_PTR_CHECK_FAILURE_ORDER</a>(order)</td></tr>
+<tr class="separator:ab3ae82014165ed18f66e176029cfa054"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="a07486181f1990291c2a348de8eb4c480" name="a07486181f1990291c2a348de8eb4c480"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a07486181f1990291c2a348de8eb4c480">&#9670;&#160;</a></span>LUMEX_IMPLEMENTATION</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Chooses between the standard <code>std::atomic&lt;std::shared_ptr&lt;T&gt;&gt;</code> and the lock-based implementation, and defines the memory order checks of the atomic smart pointers. </p>
+<p><code><a class="el" href="a01325.html" title="Atomic std::shared_ptr&lt;T&gt;, as std::atomic&lt;std::shared_ptr&lt;T&gt;&gt;.">atomic_shared_ptr</a>&lt;T&gt;</code> and <code><a class="el" href="a01349.html" title="Atomic std::weak_ptr&lt;T&gt;, as std::atomic&lt;std::weak_ptr&lt;T&gt;&gt;.">atomic_weak_ptr</a>&lt;T&gt;</code> wrap <code>std::atomic&lt;std::shared_ptr&lt;T&gt;&gt;</code> and <code>std::atomic&lt;std::weak_ptr&lt;T&gt;&gt;</code> when the standard library provides them (<code>__cpp_lib_atomic_shared_ptr</code>, for example libstdc++ 12 and later or the MSVC STL, at C++20). Otherwise they use a lock-based implementation over an ordinary <code>std::shared_ptr</code> or <code>std::weak_ptr</code>, which works from C++11 on with any standard library.</p>
+<p>Origin: the lock-based implementation is a port of the own implementation by Vladislav Semykin, the author of this library, of <code>std::atomic&lt;std::shared_ptr&lt;T&gt;&gt;</code> and <code>std::atomic&lt;std::weak_ptr&lt;T&gt;&gt;</code> for LLVM libc++ (P0718R2, llvm-project pull request 194215). That implementation has two methods, a lock-based one and a lock-free one (a double-width compare-and-swap over the pointer and a control block word that also carries a split reference count); it is not derived from libstdc++, the MSVC STL or Folly. Only the lock-based method is ported. Both methods of the libc++ code keep their state in libc++'s own <code>std::shared_ptr</code> (the lock-free one packs the split count into the control block word, the lock-based one takes the two low bits of the control block pointer), which a library cannot do to the <code>std::shared_ptr</code> of another standard library without undefined behaviour. The port keeps the lock and sleeper bits in a separate word instead.</p>
+<p><code>LUMEX_ATOMIC_SMART_PTR_USES_STD</code> reports the choice: 1 for the standard types, 0 for the lock-based implementation. Defining <code>LUMEX_ATOMIC_SMART_PTR_FORCE_LOCK_BASED</code> before the first include selects the lock-based implementation even where the standard types exist. It is meant for tests and comparisons, as is <code>LUMEX_ATOMIC_WAIT_FORCE_TABLE</code> (see <code><a class="el" href="a00200.html" title="Blocking wait for a change of a 32-bit atomic word, and the wake-up that ends it, from C++11 on.">lumex/core/atomic/sync/LumexAtomicWait.hpp</a></code>), which selects the way <code>wait ()</code> sleeps. Every translation unit of a program that shares an atomic smart pointer object must make the same choices: each combination of implementation and way of sleeping lives in its own inline namespace, so a mismatch in a function signature fails to link, but a mismatch inside a user type that holds the object is not detected. </p>
+</div><h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a9be53a42a0b6b53bcfd084ff60e871bc" name="a9be53a42a0b6b53bcfd084ff60e871bc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9be53a42a0b6b53bcfd084ff60e871bc">&#9670;&#160;</a></span>LUMEX_ATOMIC_SMART_PTR_ABI_NAMESPACE</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define LUMEX_IMPLEMENTATION</td>
+          <td class="memname">#define LUMEX_ATOMIC_SMART_PTR_ABI_NAMESPACE&#160;&#160;&#160;lock_based_table_wait</td>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Name of the inline namespace that holds the selected implementation. </p>
+<p>One name per implementation and way of sleeping: the ways of sleeping are not interchangeable (see <code>LUMEX_ATOMIC_WAIT_ABI_NAMESPACE</code>), and both implementations use them for <code>wait ()</code>. </p>
+
+</div>
+</div>
+<a id="ab3ae82014165ed18f66e176029cfa054" name="ab3ae82014165ed18f66e176029cfa054"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab3ae82014165ed18f66e176029cfa054">&#9670;&#160;</a></span>LUMEX_ATOMIC_SMART_PTR_CHECK_FAILURE_ORDER</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_ATOMIC_SMART_PTR_CHECK_FAILURE_ORDER</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>order</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6210e9365ae142be6a0511f324aee02d" name="a6210e9365ae142be6a0511f324aee02d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6210e9365ae142be6a0511f324aee02d">&#9670;&#160;</a></span>LUMEX_ATOMIC_SMART_PTR_CHECK_LOAD_ORDER</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_ATOMIC_SMART_PTR_CHECK_LOAD_ORDER</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>order</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Compile-time checks of constant memory order arguments. </p>
+<p>The standard makes some orders a precondition violation: <code>store</code> with <code>consume</code>, <code>acquire</code> or <code>acq_rel</code>; <code>load</code> and <code>wait</code> with <code>release</code> or <code>acq_rel</code>; the failure order of <code>compare_exchange_*</code> with <code>release</code> or <code>acq_rel</code>. Where the compiler supports the <code>diagnose_if</code> attribute (Clang), a constant argument of that kind is reported as a warning, as libc++ does for <code>std::atomic</code>. Other compilers accept the call; the lock-based implementation then behaves as with <code>seq_cst</code>, and the standard types do whatever their library does. </p>
+
+</div>
+</div>
+<a id="a4df38d759b3b75a0c2eb43df1680cb61" name="a4df38d759b3b75a0c2eb43df1680cb61"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4df38d759b3b75a0c2eb43df1680cb61">&#9670;&#160;</a></span>LUMEX_ATOMIC_SMART_PTR_CHECK_STORE_ORDER</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_ATOMIC_SMART_PTR_CHECK_STORE_ORDER</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>order</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af19bd8e04b3f3c9c2e688b87eb4d74b5" name="af19bd8e04b3f3c9c2e688b87eb4d74b5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af19bd8e04b3f3c9c2e688b87eb4d74b5">&#9670;&#160;</a></span>LUMEX_ATOMIC_SMART_PTR_USES_STD</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_ATOMIC_SMART_PTR_USES_STD&#160;&#160;&#160;0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>1 when <code><a class="el" href="a01325.html" title="Atomic std::shared_ptr&lt;T&gt;, as std::atomic&lt;std::shared_ptr&lt;T&gt;&gt;.">atomic_shared_ptr</a></code> and <code><a class="el" href="a01349.html" title="Atomic std::weak_ptr&lt;T&gt;, as std::atomic&lt;std::weak_ptr&lt;T&gt;&gt;.">atomic_weak_ptr</a></code> wrap the standard atomic smart pointers, 0 when they use the lock-based implementation. </p>
+<p>The standard types are used when the library has them (<code>LUMEX_HAS_STD_ATOMIC_SHARED_PTR</code>), unless <code>LUMEX_ATOMIC_SMART_PTR_FORCE_LOCK_BASED</code> is defined. Their <code>wait ()</code> is not used (see <code><a class="el" href="a00191.html" title="Storage and operations behind atomic_shared_ptr and atomic_weak_ptr: a lock-based cell for every stan...">LumexAtomicSmartPtrCell.hpp</a></code>), so <code>std::atomic::wait</code> is not a precondition. </p>
 
 </div>
 </div>
@@ -200,7 +290,7 @@ Functions</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_151da19bde5d804ceec895a888706424.html">crc</a></li><li class="navelem"><a class="el" href="dir_db9dbe52e9bae709e965975b3782505f.html">catalog</a></li><li class="navelem"><a class="el" href="a00194.html">LumexCrcCatalog.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_46588a2def099f5c90ce8dff319725b2.html">atomic</a></li><li class="navelem"><a class="el" href="dir_554c46647e80ff154b2b91be60b0bc34.html">smart_ptr</a></li><li class="navelem"><a class="el" href="a00194.html">LumexAtomicSmartPtrConfig.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

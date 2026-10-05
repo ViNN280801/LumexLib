@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexGenerators File Reference</title>
+<title>LumexLib: LumexResourceMonitor File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -103,34 +103,58 @@ $(function(){initNavTree('a00881.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">LumexGenerators File Reference</div></div>
+  <div class="headertitle"><div class="title">LumexResourceMonitor File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Generators module: <code>NumberGenerator</code>, random integral and floating-point numbers from the uniform, normal, exponential, gamma, Bernoulli, binomial, geometric or Poisson distribution.  
+<p>Resource monitor module: a background thread that samples the CPU and RAM usage of the system and appends one line per sample to a dated log file.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="a00281_source.html">number_generator/LumexNumberGenerator.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="a00113_source.html">monitor/LumexResourceMonitor.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for LumexGenerators:</div>
+Include dependency graph for LumexResourceMonitor:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00882.png" border="0" usemap="#a_lumex_generators" alt=""/></div>
+<div class="center"><img src="a00882.png" border="0" usemap="#a_lumex_resource_monitor" alt=""/></div>
+<map name="a_lumex_resource_monitor" id="a_lumex_resource_monitor">
+<area shape="rect" title="Resource monitor module: a background thread that samples the CPU and RAM usage of the system and app..." alt="" coords="227,5,386,32"/>
+<area shape="rect" href="a00113.html" title="Background CPU/RAM usage sampler that appends one line per sample to a dated log file." alt="" coords="191,80,422,107"/>
+<area shape="poly" title=" " alt="" coords="309,33,309,64,304,64,304,33"/>
+<area shape="rect" href="a00641.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="5,163,168,189"/>
+<area shape="poly" title=" " alt="" coords="273,110,136,160,134,155,271,105"/>
+<area shape="rect" title=" " alt="" coords="192,163,253,189"/>
+<area shape="poly" title=" " alt="" coords="295,109,248,154,244,150,292,105"/>
+<area shape="rect" title=" " alt="" coords="276,163,337,189"/>
+<area shape="poly" title=" " alt="" coords="309,107,309,147,304,147,304,107"/>
+<area shape="rect" title=" " alt="" coords="361,163,414,189"/>
+<area shape="poly" title=" " alt="" coords="321,105,367,150,363,154,317,109"/>
+<area shape="rect" href="a00419.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="438,155,671,197"/>
+<area shape="poly" title=" " alt="" coords="346,105,477,147,475,152,344,110"/>
+<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="457,245,652,288"/>
+<area shape="poly" title=" " alt="" coords="557,198,557,230,552,230,552,198"/>
+</map>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00883.png" border="0" usemap="#a_lumex_generatorsdep" alt=""/></div>
+<div class="center"><img src="a00883.png" border="0" usemap="#a_lumex_resource_monitordep" alt=""/></div>
+<map name="a_lumex_resource_monitordep" id="a_lumex_resource_monitordep">
+<area shape="rect" title="Resource monitor module: a background thread that samples the CPU and RAM usage of the system and app..." alt="" coords="134,5,293,32"/>
+<area shape="rect" href="a00575.html" title=" " alt="" coords="5,88,208,115"/>
+<area shape="poly" title=" " alt="" coords="186,44,125,90,121,85,183,39"/>
+<area shape="rect" href="a00578.html" title=" " alt="" coords="231,80,408,123"/>
+<area shape="poly" title=" " alt="" coords="244,39,294,77,291,82,240,44"/>
+</map>
 </div>
 </div>
 <p><a href="a00881_source.html">Go to the source code of this file.</a></p>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Generators module: <code>NumberGenerator</code>, random integral and floating-point numbers from the uniform, normal, exponential, gamma, Bernoulli, binomial, geometric or Poisson distribution. </p>
-<p>Link <code>lumex::number_generator</code> (header-only). Works from C++11. The umbrella includes <code><a class="el" href="a00281.html" title="Defines the NumberGenerator template class for versatile random number generation.">number_generator/LumexNumberGenerator.hpp</a></code>. </p>
+<div class="textblock"><p>Resource monitor module: a background thread that samples the CPU and RAM usage of the system and appends one line per sample to a dated log file. </p>
+<p>Link <code>lumex::resource_monitor</code> (compiled library). The library itself is compiled as C++17 because its implementation uses <code>std::filesystem</code>. The umbrella includes <code><a class="el" href="a00113.html" title="Background CPU/RAM usage sampler that appends one line per sample to a dated log file.">monitor/LumexResourceMonitor.hpp</a></code>. </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_7a0b57b0bc11e31c06666ccc60c080d7.html">generators</a></li><li class="navelem"><a class="el" href="a00881.html">LumexGenerators</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_de45db85bd98abf883bc2bd6c3907fd8.html">applied</a></li><li class="navelem"><a class="el" href="dir_f9152e2f803c7072c4cc804ced04476e.html">resource_monitor</a></li><li class="navelem"><a class="el" href="a00881.html">LumexResourceMonitor</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

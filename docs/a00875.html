@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexFilesystem File Reference</title>
+<title>LumexLib: LumexLogger File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -103,34 +103,119 @@ $(function(){initNavTree('a00875.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">LumexFilesystem File Reference</div></div>
+  <div class="headertitle"><div class="title">LumexLogger File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Filesystem module: paths, directory iteration and file operations in the shape of C++17 <code>&lt;filesystem&gt;</code>, written in C++11.  
+<p>Logger module: a thread-safe file logger that writes only while its trigger file (<code>enable_logs</code> by default) exists and reads the log level from that file.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="a00269_source.html">fs/LumexFilesystem.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="a00098_source.html">logger/LumexLogger.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for LumexFilesystem:</div>
+Include dependency graph for LumexLogger:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00876.png" border="0" usemap="#a_lumex_filesystem" alt=""/></div>
+<div class="center"><img src="a00876.png" border="0" usemap="#a_lumex_logger" alt=""/></div>
+<map name="a_lumex_logger" id="a_lumex_logger">
+<area shape="rect" title="Logger module: a thread&#45;safe file logger that writes only while its trigger file (enable_logs by defa..." alt="" coords="1121,5,1220,32"/>
+<area shape="rect" href="a00098.html" title="The file logger of the lumex::logger module: the LumexLogger singleton, its level and configuration t..." alt="" coords="1089,80,1252,107"/>
+<area shape="poly" title=" " alt="" coords="1173,33,1173,64,1168,64,1168,33"/>
+<area shape="rect" href="a00641.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="5,344,168,371"/>
+<area shape="poly" title=" " alt="" coords="1088,99,900,105,663,116,432,133,338,144,266,157,198,169,142,179,118,187,96,200,74,219,53,247,46,267,49,289,57,310,69,330,64,332,52,313,43,290,41,266,48,244,70,216,92,196,116,183,141,174,197,164,265,152,337,139,432,128,663,111,900,100,1088,94"/>
+<area shape="rect" title=" " alt="" coords="1208,163,1269,189"/>
+<area shape="poly" title=" " alt="" coords="1183,105,1220,149,1216,153,1179,109"/>
+<area shape="rect" title=" " alt="" coords="1292,163,1353,189"/>
+<area shape="poly" title=" " alt="" coords="1195,105,1287,153,1284,158,1193,110"/>
+<area shape="rect" title=" " alt="" coords="1377,163,1433,189"/>
+<area shape="poly" title=" " alt="" coords="1220,105,1290,125,1366,152,1369,153,1367,158,1364,157,1288,130,1219,110"/>
+<area shape="rect" title=" " alt="" coords="1458,163,1523,189"/>
+<area shape="poly" title=" " alt="" coords="1249,105,1344,124,1446,152,1451,154,1450,159,1444,157,1342,129,1247,110"/>
+<area shape="rect" title=" " alt="" coords="1547,163,1604,189"/>
+<area shape="poly" title=" " alt="" coords="1253,98,1387,117,1463,132,1537,152,1541,154,1539,159,1535,157,1462,137,1387,122,1252,104"/>
+<area shape="rect" title=" " alt="" coords="1628,163,1697,189"/>
+<area shape="poly" title=" " alt="" coords="1253,96,1423,113,1521,129,1618,152,1624,154,1623,159,1616,157,1520,135,1422,119,1252,101"/>
+<area shape="rect" title=" " alt="" coords="254,253,308,280"/>
+<area shape="poly" title=" " alt="" coords="1088,100,939,106,759,117,588,133,519,144,466,157,421,176,378,199,309,246,306,242,375,195,419,171,464,152,518,139,588,128,759,111,939,100,1088,94"/>
+<area shape="rect" title=" " alt="" coords="1720,163,1778,189"/>
+<area shape="poly" title=" " alt="" coords="1253,92,1347,96,1462,106,1587,123,1710,152,1715,154,1713,159,1708,157,1586,129,1462,111,1347,101,1252,98"/>
+<area shape="rect" title=" " alt="" coords="332,253,414,280"/>
+<area shape="poly" title=" " alt="" coords="1089,101,804,119,659,136,600,146,555,157,511,176,469,199,401,246,398,241,466,195,509,171,554,152,599,141,658,130,804,114,1088,95"/>
+<area shape="rect" title=" " alt="" coords="1802,163,1905,189"/>
+<area shape="poly" title=" " alt="" coords="1253,94,1495,110,1643,127,1791,152,1805,155,1803,161,1790,157,1643,132,1495,116,1252,100"/>
+<area shape="rect" title=" " alt="" coords="439,253,491,280"/>
+<area shape="poly" title=" " alt="" coords="1089,102,848,122,728,138,642,157,599,176,558,199,493,245,490,241,555,195,597,171,640,152,727,133,847,117,1088,97"/>
+<area shape="rect" title=" " alt="" coords="1928,163,1986,189"/>
+<area shape="poly" title=" " alt="" coords="1253,95,1602,113,1785,129,1861,140,1918,152,1923,154,1921,159,1916,157,1860,145,1785,135,1601,118,1253,100"/>
+<area shape="rect" href="a00386.html" title="Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_..." alt="" coords="63,245,230,288"/>
+<area shape="poly" title=" " alt="" coords="1089,100,922,106,716,117,518,134,437,145,375,157,325,174,276,195,193,239,191,235,274,190,323,169,374,152,436,139,517,129,716,112,922,101,1089,94"/>
+<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="1343,336,1537,379"/>
+<area shape="poly" title=" " alt="" coords="1172,107,1175,152,1183,176,1198,195,1225,212,1261,223,1304,229,1352,230,1461,225,1578,213,1695,202,1802,199,1850,202,1891,210,1926,223,1952,243,1960,255,1963,267,1960,278,1952,290,1933,301,1898,311,1796,328,1672,342,1553,351,1553,346,1671,336,1795,323,1897,306,1931,296,1949,286,1955,276,1957,266,1955,257,1949,247,1923,228,1890,215,1849,207,1802,204,1695,207,1579,218,1461,230,1352,236,1303,234,1260,228,1223,217,1194,199,1178,178,1169,153,1167,107"/>
+<area shape="rect" href="a00389.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="688,155,856,197"/>
+<area shape="poly" title=" " alt="" coords="1108,110,872,157,871,152,1107,105"/>
+<area shape="rect" href="a00404.html" title="C++ language, library and attribute feature availability." alt="" coords="515,245,746,288"/>
+<area shape="poly" title=" " alt="" coords="1089,97,981,101,860,110,750,128,708,141,677,157,662,172,651,191,638,231,633,229,646,189,658,169,674,153,706,136,749,123,859,105,981,96,1089,92"/>
+<area shape="rect" href="a00419.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="1706,245,1939,288"/>
+<area shape="poly" title=" " alt="" coords="1165,108,1155,128,1146,151,1145,175,1154,196,1164,202,1183,209,1238,219,1397,232,1691,243,1691,248,1397,237,1237,224,1181,214,1162,207,1150,199,1139,176,1141,150,1150,126,1160,106"/>
+<area shape="rect" href="a00446.html" title="Every general&#45;purpose type trait of LumexLib, one sub&#45;namespace of lumex::core::utility::traits per t..." alt="" coords="899,155,1082,197"/>
+<area shape="poly" title=" " alt="" coords="1143,110,1052,150,1050,145,1141,105"/>
+<area shape="poly" title=" " alt="" coords="135,290,106,333,101,330,130,287"/>
+<area shape="poly" title=" " alt="" coords="231,284,243,285,395,303,550,318,854,337,1124,348,1328,353,1327,358,1124,354,854,343,549,323,394,308,242,291,230,289"/>
+<area shape="poly" title=" " alt="" coords="740,200,678,239,675,235,737,196"/>
+<area shape="poly" title=" " alt="" coords="1733,291,1545,335,1544,329,1732,286"/>
+<area shape="poly" title=" " alt="" coords="899,196,868,200,784,208,713,211,591,210,533,211,471,216,401,228,321,248,317,249,315,244,319,243,400,222,470,211,532,206,591,205,713,205,784,203,868,195,898,190"/>
+<area shape="poly" title=" " alt="" coords="899,195,868,200,744,212,646,217,549,225,427,248,418,250,416,245,426,243,549,220,646,212,743,207,868,195,898,190"/>
+<area shape="poly" title=" " alt="" coords="899,195,868,200,765,211,683,214,603,223,503,248,500,249,498,244,502,243,602,217,683,209,764,205,867,195,898,190"/>
+<area shape="poly" title=" " alt="" coords="899,196,868,200,695,216,558,222,421,229,246,248,245,242,421,223,558,216,694,211,868,195,898,191"/>
+<area shape="poly" title=" " alt="" coords="1004,196,1036,243,1059,266,1085,286,1144,313,1206,332,1269,344,1328,351,1327,356,1268,350,1205,337,1142,318,1082,290,1056,270,1032,246,1000,199"/>
+<area shape="poly" title=" " alt="" coords="907,201,731,244,729,238,905,195"/>
+<area shape="poly" title=" " alt="" coords="1083,192,1101,195,1265,212,1395,220,1525,227,1691,242,1690,248,1524,232,1394,225,1265,217,1101,200,1082,197"/>
+<area shape="rect" title=" " alt="" coords="1632,253,1682,280"/>
+<area shape="poly" title=" " alt="" coords="1083,192,1102,195,1180,203,1248,206,1363,205,1419,206,1478,211,1544,223,1621,243,1625,244,1623,249,1619,248,1543,228,1477,217,1419,212,1363,211,1248,211,1180,208,1101,200,1082,197"/>
+<area shape="rect" title=" " alt="" coords="770,253,835,280"/>
+<area shape="poly" title=" " alt="" coords="948,200,844,249,842,244,945,196"/>
+<area shape="rect" title=" " alt="" coords="858,253,936,280"/>
+<area shape="poly" title=" " alt="" coords="971,200,923,245,919,241,967,196"/>
+<area shape="rect" title=" " alt="" coords="960,253,1021,280"/>
+<area shape="poly" title=" " alt="" coords="993,198,993,238,988,238,988,198"/>
+<area shape="rect" title=" " alt="" coords="1096,253,1149,280"/>
+<area shape="poly" title=" " alt="" coords="1023,196,1092,242,1089,246,1020,200"/>
+<area shape="rect" title=" " alt="" coords="1172,253,1241,280"/>
+<area shape="poly" title=" " alt="" coords="1045,196,1162,243,1165,244,1163,249,1160,248,1043,200"/>
+<area shape="rect" title=" " alt="" coords="1264,253,1333,280"/>
+<area shape="poly" title=" " alt="" coords="1083,195,1167,216,1254,243,1259,245,1257,250,1252,248,1165,221,1082,200"/>
+<area shape="rect" title=" " alt="" coords="1356,253,1406,280"/>
+<area shape="poly" title=" " alt="" coords="1083,192,1346,243,1349,244,1347,249,1344,248,1082,197"/>
+<area shape="rect" title=" " alt="" coords="1429,253,1496,280"/>
+<area shape="poly" title=" " alt="" coords="1083,191,1102,195,1191,206,1262,212,1332,221,1419,243,1425,245,1423,250,1418,248,1331,227,1261,218,1191,212,1101,200,1082,197"/>
+<area shape="rect" title=" " alt="" coords="1520,253,1608,280"/>
+<area shape="poly" title=" " alt="" coords="1083,192,1102,195,1216,208,1306,213,1395,221,1508,243,1519,246,1518,251,1507,248,1394,227,1305,218,1215,213,1101,200,1082,197"/>
+</map>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00877.png" border="0" usemap="#a_lumex_filesystemdep" alt=""/></div>
+<div class="center"><img src="a00877.png" border="0" usemap="#a_lumex_loggerdep" alt=""/></div>
+<map name="a_lumex_loggerdep" id="a_lumex_loggerdep">
+<area shape="rect" title="Logger module: a thread&#45;safe file logger that writes only while its trigger file (enable_logs by defa..." alt="" coords="291,5,390,32"/>
+<area shape="rect" href="a00539.html" title=" " alt="" coords="5,88,143,115"/>
+<area shape="poly" title=" " alt="" coords="286,39,117,90,115,85,284,34"/>
+<area shape="rect" href="a00542.html" title=" " alt="" coords="166,80,320,123"/>
+<area shape="poly" title=" " alt="" coords="316,44,270,82,267,77,312,40"/>
+<area shape="rect" href="a00545.html" title=" " alt="" coords="344,88,532,115"/>
+<area shape="poly" title=" " alt="" coords="369,40,425,86,422,90,366,44"/>
+<area shape="rect" href="a00548.html" title=" " alt="" coords="556,88,752,115"/>
+<area shape="poly" title=" " alt="" coords="405,34,605,85,604,90,404,39"/>
+</map>
 </div>
 </div>
 <p><a href="a00875_source.html">Go to the source code of this file.</a></p>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Filesystem module: paths, directory iteration and file operations in the shape of C++17 <code>&lt;filesystem&gt;</code>, written in C++11. </p>
-<p>Link <code>lumex::filesystem</code> (compiled library). Works from C++11. The umbrella includes <code><a class="el" href="a00269.html" title="Cross-platform replacement for &lt;filesystem&gt; (C++17) written in pure C++11, compiled into the lumex::f...">fs/LumexFilesystem.hpp</a></code>. </p>
+<div class="textblock"><p>Logger module: a thread-safe file logger that writes only while its trigger file (<code>enable_logs</code> by default) exists and reads the log level from that file. </p>
+<p>Link <code>lumex::logger</code> (compiled library). Works from C++11. The format of the trigger file is chosen when LumexLib is configured (<code>LUMEX_LOGGER_CONFIG_FORMAT</code>: plain text, INI, JSON or XML; YAML is reserved). The umbrella includes <code><a class="el" href="a00098.html" title="The file logger of the lumex::logger module: the LumexLogger singleton, its level and configuration t...">logger/LumexLogger.hpp</a></code>. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="a04095.html">Универсальная Система Логирования</a> </dd></dl>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_b6ced81da085a704c96aa55af90df9df.html">filesystem</a></li><li class="navelem"><a class="el" href="a00875.html">LumexFilesystem</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_de45db85bd98abf883bc2bd6c3907fd8.html">applied</a></li><li class="navelem"><a class="el" href="dir_e29b5b767fb03629027b334d9196758a.html">logger</a></li><li class="navelem"><a class="el" href="a00875.html">LumexLogger</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: XmlBufferedWriter.hpp File Reference</title>
+<title>LumexLib: XmlParser.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -106,55 +106,121 @@ $(function(){initNavTree('a00710.html',''); initResizable(true); });
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#namespaces">Namespaces</a>  </div>
-  <div class="headertitle"><div class="title">XmlBufferedWriter.hpp File Reference</div></div>
+  <div class="headertitle"><div class="title">XmlParser.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Internal output buffer of the serializer: it collects characters, converts them to the target encoding and passes blocks to an <code>IXmlWriter</code>.  
+<p>The internal XML parser that turns a writable character buffer into a node tree in place.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="a00605_source.html">lumex/LumexExport.hpp</a>&quot;</code><br />
-<code>#include &lt;array&gt;</code><br />
-<code>#include &lt;cstddef&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00704_source.html">IXmlWriter.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00383_source.html">lumex/core/utility/macros/LumexConstantMacros.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00692_source.html">lumex/xml/types/XmlTypes.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="a00641_source.html">lumex/LumexExport.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00671_source.html">lumex/xml/document/XmlDocumentBase.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00677_source.html">lumex/xml/memory/XmlAllocator.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00698_source.html">lumex/xml/node/XmlNodeBase.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00716_source.html">lumex/xml/text/XmlParseResult.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00728_source.html">lumex/xml/types/XmlTypes.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for XmlBufferedWriter.hpp:</div>
+Include dependency graph for XmlParser.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00711.png" border="0" usemap="#a_xml_buffered_writer_8hpp" alt=""/></div>
+<div class="center"><img src="a00711.png" border="0" usemap="#a_xml_parser_8hpp" alt=""/></div>
+<map name="a_xml_parser_8hpp" id="a_xml_parser_8hpp">
+<area shape="rect" title="The internal XML parser that turns a writable character buffer into a node tree in place." alt="" coords="624,5,731,32"/>
+<area shape="rect" href="a00641.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="138,501,300,528"/>
+<area shape="poly" title=" " alt="" coords="624,24,460,34,358,44,255,59,160,80,81,107,50,123,27,141,13,161,8,183,8,350,12,384,25,408,45,428,72,451,111,476,153,494,151,498,109,481,69,455,41,432,20,411,7,385,3,351,3,182,8,159,23,138,47,119,78,102,158,75,254,54,357,39,459,29,623,19"/>
+<area shape="rect" href="a00671.html" title="Internal root record of a document: the document node and the allocator of its tree in one object." alt="" coords="268,80,431,123"/>
+<area shape="poly" title=" " alt="" coords="626,35,447,79,445,74,625,30"/>
+<area shape="rect" href="a00677.html" title="The page allocator that holds the nodes, attributes and strings of one XML document." alt="" coords="393,336,628,363"/>
+<area shape="poly" title=" " alt="" coords="685,32,695,62,703,104,705,152,701,176,693,199,665,242,628,279,588,309,552,331,549,326,585,304,624,275,661,239,688,196,696,175,699,152,698,105,689,63,680,33"/>
+<area shape="rect" href="a00728.html" title="The basic types and enumerations of the XML module: character and string types, node types,..." alt="" coords="790,419,994,445"/>
+<area shape="poly" title=" " alt="" coords="732,23,806,37,846,49,885,65,920,86,948,112,968,144,975,182,975,268,969,318,949,364,934,388,917,409,913,406,930,385,944,361,964,316,969,268,969,183,963,146,944,116,917,90,882,70,844,54,804,42,731,28"/>
+<area shape="rect" href="a00698.html" title="Internal storage of an XML node and the functions that build, link, copy and destroy the tree." alt="" coords="452,171,678,197"/>
+<area shape="poly" title=" " alt="" coords="671,34,585,159,580,156,667,31"/>
+<area shape="rect" href="a00716.html" title="xml_parse_result_t, the outcome of loading XML or appending a fragment, and the internal entry point ..." alt="" coords="703,336,934,363"/>
+<area shape="poly" title=" " alt="" coords="694,30,716,52,737,79,768,143,792,211,817,320,812,321,786,212,763,145,732,81,712,55,691,34"/>
+<area shape="poly" title=" " alt="" coords="268,115,198,132,163,145,130,161,102,181,79,204,64,232,59,266,59,350,62,375,70,397,84,418,100,436,139,468,178,492,175,496,136,473,96,440,79,421,66,399,57,376,53,351,53,265,59,231,75,201,98,177,128,156,161,140,197,127,267,110"/>
+<area shape="rect" href="a00386.html" title="Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_..." alt="" coords="195,411,362,453"/>
+<area shape="poly" title=" " alt="" coords="312,125,287,146,268,172,257,200,251,230,250,291,258,348,269,395,264,396,252,349,244,291,246,229,252,199,263,169,283,142,309,121"/>
+<area shape="poly" title=" " alt="" coords="371,121,488,244,503,283,510,320,505,321,498,285,483,247,367,125"/>
+<area shape="rect" href="a00683.html" title="The header of a memory page of the XML allocator, and the default page size." alt="" coords="387,419,533,445"/>
+<area shape="poly" title=" " alt="" coords="340,124,325,156,311,197,305,243,306,265,312,287,333,326,362,359,394,387,425,408,422,413,391,391,358,363,328,329,307,289,301,266,300,243,306,196,320,154,335,122"/>
+<area shape="poly" title=" " alt="" coords="406,121,518,162,517,167,404,126"/>
+<area shape="poly" title=" " alt="" coords="265,456,239,490,235,487,261,452"/>
+<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="455,667,649,709"/>
+<area shape="poly" title=" " alt="" coords="302,452,521,654,517,658,299,456"/>
+<area shape="poly" title=" " alt="" coords="524,362,538,381,551,405,556,431,554,443,547,455,532,468,510,478,452,494,384,505,316,512,315,506,383,500,451,489,508,473,529,463,543,452,549,442,551,431,546,407,534,384,520,365"/>
+<area shape="poly" title=" " alt="" coords="475,366,353,408,352,403,474,361"/>
+<area shape="rect" href="a00389.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="808,576,976,619"/>
+<area shape="poly" title=" " alt="" coords="524,361,617,456,688,526,740,552,794,571,792,576,738,557,685,530,613,460,521,365"/>
+<area shape="poly" title=" " alt="" coords="571,361,817,412,816,418,570,366"/>
+<area shape="poly" title=" " alt="" coords="505,365,478,407,474,404,500,362"/>
+<area shape="rect" href="a00404.html" title="C++ language, library and attribute feature availability." alt="" coords="776,667,1008,709"/>
+<area shape="poly" title=" " alt="" coords="895,619,895,651,889,651,889,619"/>
+<area shape="rect" title=" " alt="" coords="1022,501,1082,528"/>
+<area shape="poly" title=" " alt="" coords="918,443,1015,492,1013,497,916,448"/>
+<area shape="rect" title=" " alt="" coords="1107,501,1160,528"/>
+<area shape="poly" title=" " alt="" coords="931,443,1092,497,1091,502,929,448"/>
+<area shape="rect" href="a00734.html" title="Preprocessor macros of the XML module: the character mode, the declaration of constants,..." alt="" coords="786,501,998,528"/>
+<area shape="poly" title=" " alt="" coords="895,446,895,486,889,486,889,446"/>
+<area shape="poly" title=" " alt="" coords="895,528,895,561,889,561,889,528"/>
+<area shape="rect" href="a00419.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="545,576,778,619"/>
+<area shape="poly" title=" " alt="" coords="857,531,736,573,734,568,855,526"/>
+<area shape="poly" title=" " alt="" coords="638,621,591,659,588,655,634,617"/>
+<area shape="poly" title=" " alt="" coords="423,448,271,499,270,494,421,443"/>
+<area shape="rect" title=" " alt="" coords="698,501,763,528"/>
+<area shape="poly" title=" " alt="" coords="503,443,685,497,683,502,502,448"/>
+<area shape="poly" title=" " alt="" coords="454,201,381,218,345,231,311,248,258,280,221,313,195,354,175,411,170,432,175,452,184,471,197,488,192,492,179,474,169,454,165,432,169,410,190,351,217,309,255,276,308,243,343,226,380,213,453,195"/>
+<area shape="poly" title=" " alt="" coords="564,198,522,322,517,320,559,197"/>
+<area shape="poly" title=" " alt="" coords="573,196,589,229,615,273,650,320,692,361,719,378,748,392,807,412,805,417,746,397,716,382,689,365,646,324,611,276,584,232,568,199"/>
+<area shape="rect" href="a00653.html" title="Internal storage of an XML attribute and the functions that allocate, link, unlink and copy it." alt="" coords="321,245,474,288"/>
+<area shape="poly" title=" " alt="" coords="540,200,455,241,453,236,538,195"/>
+<area shape="poly" title=" " alt="" coords="340,291,299,310,255,337,216,371,185,412,180,431,183,451,201,488,197,490,178,452,175,430,180,410,212,367,252,333,296,306,338,286"/>
+<area shape="poly" title=" " alt="" coords="428,286,482,325,479,329,425,291"/>
+<area shape="poly" title=" " alt="" coords="390,289,380,324,379,343,384,362,402,387,426,408,422,412,398,391,379,364,374,344,374,324,385,288"/>
+<area shape="poly" title=" " alt="" coords="794,366,697,410,634,434,569,456,437,486,316,505,315,500,436,481,567,451,632,429,695,405,792,361"/>
+<area shape="poly" title=" " alt="" coords="929,361,996,377,1064,404,1096,423,1126,444,1153,470,1174,500,1183,526,1178,547,1161,564,1135,577,1067,592,992,599,992,593,1067,587,1133,572,1158,560,1173,545,1178,526,1170,503,1149,474,1123,448,1094,427,1062,409,994,382,928,366"/>
+<area shape="poly" title=" " alt="" coords="832,361,873,406,869,409,828,365"/>
+<area shape="poly" title=" " alt="" coords="811,365,780,412,744,488,739,486,775,409,807,362"/>
+</map>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00712.png" border="0" usemap="#a_xml_buffered_writer_8hppdep" alt=""/></div>
+<div class="center"><img src="a00712.png" border="0" usemap="#a_xml_parser_8hppdep" alt=""/></div>
+<map name="a_xml_parser_8hppdep" id="a_xml_parser_8hppdep">
+<area shape="rect" title="The internal XML parser that turns a writable character buffer into a node tree in place." alt="" coords="96,5,203,32"/>
+<area shape="rect" href="a00713.html" title=" " alt="" coords="5,80,147,107"/>
+<area shape="poly" title=" " alt="" coords="128,45,90,82,87,78,124,41"/>
+<area shape="rect" href="a00707.html" title=" " alt="" coords="170,80,278,107"/>
+<area shape="poly" title=" " alt="" coords="175,41,213,78,209,82,171,45"/>
+</map>
 </div>
 </div>
 <p><a href="a00710_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02978.html">lumex::xml::writer::XmlBufferedWriter</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A buffered writer for XML output, optimizing write operations by accumulating data in a buffer.  <a href="a02978.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02961.html">lumex::xml::text::XmlParser</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Internal XML parser structure responsible for tokenizing and building the XML document tree.  <a href="a02961.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00912.html">lumex</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00948.html">lumex</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01083.html">lumex::xml</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01126.html">lumex::xml</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01101.html">lumex::xml::writer</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01139.html">lumex::xml::text</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Internal output buffer of the serializer: it collects characters, converts them to the target encoding and passes blocks to an <code>IXmlWriter</code>. </p>
-<p><code>XmlBufferedWriter</code> keeps its buffers inside the object (10 KiB in total for the characters and the conversion scratch area), so buffering allocates no memory. Its <code>write</code> overloads for one to six characters let the serializer (<code>node_output</code> in <code><a class="el" href="a00656.html" title="XmlNode, the handle to a node of a document tree, with the iterators over its children and attributes...">XmlNode.hpp</a></code>) emit markup without measuring strings. The owner calls <code>flush()</code> after the last write; <code>XmlDocument::save</code> and <code>XmlNode::print</code> do. </p>
+<div class="textblock"><p>The internal XML parser that turns a writable character buffer into a node tree in place. </p>
+<p><code>XmlParser</code> works on a buffer that is already in the native <code>char_t</code> encoding. It writes terminating zeros into the buffer and points node names and values into it instead of copying them, so the buffer must live as long as the document. There is one member function per construct (element tree, comment, CDATA, document type, processing instruction and declaration), and the <code>kparse_*</code> options decide which constructs become nodes. An error is not thrown: it is recorded in <code>error_status</code> and <code>error_offset</code> (<code>LUMEX_XML_THROW_ERROR</code> in <code><a class="el" href="a00734.html" title="Preprocessor macros of the XML module: the character mode, the declaration of constants,...">XmlMacros.hpp</a></code>) and parsing stops.</p>
+<p>The static <code>XmlParser::parse</code> is the entry point used by <code>load_buffer_impl</code>. </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_7b089e18b7c2a92c23a9cf3b22a6463e.html">writer</a></li><li class="navelem"><a class="el" href="a00710.html">XmlBufferedWriter.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_7d2372648e676b867cc7a356791ff2d4.html">text</a></li><li class="navelem"><a class="el" href="a00710.html">XmlParser.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

@@ -1,7 +1,6 @@
 var searchData=
 [
-  ['serial_5fport_5fstate_0',['serial_port_state',['../a00946.html#a2833c2a4c2aca860a7fe8ecce5e59400',1,'lumex::applied::serial::enumeration']]],
-  ['sign_1',['Sign',['../a01008.html#a32e247ced7ccdb9fd9bb448529b4ae4d',1,'lumex::core::fmt::Detail']]],
-  ['speckind_2',['SpecKind',['../a01008.html#a50865894dbfed15f5472a74f7acbac7c',1,'lumex::core::fmt::Detail']]],
-  ['supportedconfigextensions_3',['SupportedConfigExtensions',['../a00957.html#a1af005d4f6d6cbc1fe9b8ac0dd312222',1,'lumex::applied::settings::ini']]]
+  ['perms_0',['perms',['../a01045.html#ab64132a6feae0925f48c883dd04ce26f',1,'lumex::core::filesystem::fs']]],
+  ['predicate_5ft_1',['predicate_t',['../a01143.html#ae1d1a81a6bf6122f9e81f30d2ed87660',1,'lumex::xml::types::Types']]],
+  ['pumpstate_2',['PumpState',['../a00509.html#ad546a4d1e497933db5d6e8364b0756e9',1,'example_format_custom.cpp']]]
 ];

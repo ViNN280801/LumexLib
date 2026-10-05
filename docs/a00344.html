@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexTimer.hpp File Reference</title>
+<title>LumexLib: LumexQuote.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,248 +104,172 @@ $(function(){initNavTree('a00344.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
 <a href="#namespaces">Namespaces</a> &#124;
-<a href="#define-members">Macros</a> &#124;
-<a href="#typedef-members">Typedefs</a> &#124;
 <a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">LumexTimer.hpp File Reference</div></div>
+  <div class="headertitle"><div class="title">LumexQuote.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>High-resolution stopwatch, callable timing helpers, and a thin <code>LUMEX_MEASURE_TIME</code> macro.  
+<p>Joins the elements of a range with each element wrapped in quotes.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="a00605_source.html">lumex/LumexExport.hpp</a>&quot;</code><br />
-<code>#include &lt;chrono&gt;</code><br />
-<code>#include &lt;iostream&gt;</code><br />
+<div class="textblock"><code>#include &lt;sstream&gt;</code><br />
 <code>#include &lt;string&gt;</code><br />
-<code>#include &lt;utility&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00866_source.html">lumex/core/environment/LumexEnvironment</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00350_source.html">lumex/core/utility/assert/LumexAssert.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00353_source.html">lumex/core/utility/attr/LumexAttributes.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00410_source.html">lumex/core/utility/traits/LumexTypeTraits.hpp</a>&quot;</code><br />
+<code>#include &lt;type_traits&gt;</code><br />
+<code>#include &quot;<a class="el" href="a00341_source.html">lumex/core/string/text/LumexJoin.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00404_source.html">lumex/core/utility/compiler/LumexCheckFeatures.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00446_source.html">lumex/core/utility/traits/LumexTypeTraits.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for LumexTimer.hpp:</div>
+Include dependency graph for LumexQuote.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00345.png" border="0" usemap="#a_lumex_timer_8hpp" alt=""/></div>
+<div class="center"><img src="a00345.png" border="0" usemap="#a_lumex_quote_8hpp" alt=""/></div>
+<map name="a_lumex_quote_8hpp" id="a_lumex_quote_8hpp">
+<area shape="rect" title="Joins the elements of a range with each element wrapped in quotes." alt="" coords="154,5,275,32"/>
+<area shape="rect" title=" " alt="" coords="114,179,182,205"/>
+<area shape="poly" title=" " alt="" coords="212,33,161,165,156,163,207,31"/>
+<area shape="rect" title=" " alt="" coords="5,269,59,296"/>
+<area shape="poly" title=" " alt="" coords="187,35,153,54,122,82,92,125,69,173,41,255,36,254,64,170,87,122,118,78,150,50,184,30"/>
+<area shape="rect" title=" " alt="" coords="83,269,165,296"/>
+<area shape="poly" title=" " alt="" coords="203,34,151,90,124,129,104,171,100,193,102,214,114,254,108,256,96,215,95,192,99,170,119,126,147,86,199,31"/>
+<area shape="rect" href="a00341.html" title="Joins the elements of a range into one string." alt="" coords="222,80,370,123"/>
+<area shape="poly" title=" " alt="" coords="229,31,266,67,263,71,226,34"/>
+<area shape="rect" href="a00404.html" title="C++ language, library and attribute feature availability." alt="" coords="351,261,582,304"/>
+<area shape="poly" title=" " alt="" coords="276,27,332,45,359,59,383,78,415,117,438,162,454,207,463,246,458,247,449,209,433,165,410,120,379,82,356,64,329,50,275,32"/>
+<area shape="rect" href="a00446.html" title="Every general&#45;purpose type trait of LumexLib, one sub&#45;namespace of lumex::core::utility::traits per t..." alt="" coords="716,171,900,213"/>
+<area shape="poly" title=" " alt="" coords="276,28,378,49,493,77,627,120,742,162,740,167,625,125,491,83,377,54,275,33"/>
+<area shape="poly" title=" " alt="" coords="263,126,184,173,181,168,260,121"/>
+<area shape="poly" title=" " alt="" coords="281,125,237,176,196,215,163,234,135,243,107,251,72,264,70,265,68,260,70,259,105,246,134,238,161,229,193,211,233,172,277,121"/>
+<area shape="poly" title=" " alt="" coords="292,124,273,168,258,193,241,215,206,243,170,265,167,260,203,239,237,211,254,190,268,166,287,122"/>
+<area shape="rect" title=" " alt="" coords="189,269,251,296"/>
+<area shape="poly" title=" " alt="" coords="302,123,303,166,299,191,292,214,275,241,253,261,249,258,270,237,287,212,294,190,297,166,296,123"/>
+<area shape="rect" title=" " alt="" coords="275,269,328,296"/>
+<area shape="poly" title=" " alt="" coords="316,122,331,144,343,170,346,192,343,214,334,237,322,258,317,255,329,235,337,213,341,192,337,171,326,146,312,125"/>
+<area shape="poly" title=" " alt="" coords="318,121,439,248,435,252,314,125"/>
+<area shape="poly" title=" " alt="" coords="370,113,701,170,701,175,369,118"/>
+<area shape="poly" title=" " alt="" coords="716,200,375,222,198,240,126,252,71,264,67,265,66,260,70,259,125,246,197,235,374,217,716,195"/>
+<area shape="poly" title=" " alt="" coords="716,199,606,205,471,217,324,236,178,264,169,266,167,261,177,259,323,230,470,211,606,200,716,193"/>
+<area shape="poly" title=" " alt="" coords="716,199,621,205,507,216,384,236,263,264,258,266,256,261,262,259,383,230,506,211,620,199,716,193"/>
+<area shape="poly" title=" " alt="" coords="716,200,634,207,539,219,438,237,339,264,336,265,335,260,338,259,437,232,538,213,634,201,716,195"/>
+<area shape="poly" title=" " alt="" coords="729,217,562,259,561,254,727,211"/>
+<area shape="rect" title=" " alt="" coords="1640,269,1690,296"/>
+<area shape="poly" title=" " alt="" coords="900,194,1073,201,1283,214,1484,233,1566,245,1629,259,1633,260,1631,265,1627,264,1565,250,1483,238,1283,219,1073,206,900,199"/>
+<area shape="rect" title=" " alt="" coords="1714,269,1779,296"/>
+<area shape="poly" title=" " alt="" coords="900,194,1088,201,1319,214,1542,233,1634,245,1703,259,1710,261,1708,266,1702,264,1633,250,1541,239,1319,220,1087,207,900,199"/>
+<area shape="rect" title=" " alt="" coords="1803,269,1880,296"/>
+<area shape="poly" title=" " alt="" coords="900,193,1105,201,1362,214,1611,233,1713,245,1791,259,1800,261,1799,266,1790,264,1712,251,1610,239,1361,220,1105,207,900,199"/>
+<area shape="rect" title=" " alt="" coords="606,269,658,296"/>
+<area shape="poly" title=" " alt="" coords="767,216,671,264,670,264,667,259,668,259,764,211"/>
+<area shape="rect" title=" " alt="" coords="682,269,750,296"/>
+<area shape="poly" title=" " alt="" coords="789,216,742,260,738,256,785,212"/>
+<area shape="rect" title=" " alt="" coords="774,269,842,296"/>
+<area shape="poly" title=" " alt="" coords="811,214,811,254,805,254,805,214"/>
+<area shape="rect" title=" " alt="" coords="866,269,915,296"/>
+<area shape="poly" title=" " alt="" coords="829,212,871,256,867,260,825,216"/>
+<area shape="rect" title=" " alt="" coords="939,269,1005,296"/>
+<area shape="poly" title=" " alt="" coords="848,212,936,259,934,264,845,216"/>
+<area shape="rect" title=" " alt="" coords="1030,269,1117,296"/>
+<area shape="poly" title=" " alt="" coords="874,211,1018,259,1025,261,1024,266,1016,264,872,217"/>
+<area shape="rect" href="a00386.html" title="Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_..." alt="" coords="1142,261,1309,304"/>
+<area shape="poly" title=" " alt="" coords="901,210,1127,258,1126,263,900,215"/>
+<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="1290,352,1484,395"/>
+<area shape="poly" title=" " alt="" coords="900,193,1011,200,1134,211,1246,230,1290,243,1323,259,1342,275,1357,295,1378,336,1373,338,1352,298,1338,279,1320,264,1288,248,1245,236,1133,217,1011,205,900,199"/>
+<area shape="rect" href="a00419.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="1384,261,1616,304"/>
+<area shape="poly" title=" " alt="" coords="901,201,1366,259,1368,259,1368,264,1365,264,900,206"/>
+<area shape="rect" href="a00641.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="1103,360,1265,387"/>
+<area shape="poly" title=" " alt="" coords="1218,306,1199,347,1194,345,1213,303"/>
+<area shape="poly" title=" " alt="" coords="1264,302,1337,342,1334,347,1262,307"/>
+<area shape="poly" title=" " alt="" coords="1475,307,1427,344,1423,340,1472,302"/>
+</map>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00346.png" border="0" usemap="#a_lumex_timer_8hppdep" alt=""/></div>
+<div class="center"><img src="a00346.png" border="0" usemap="#a_lumex_quote_8hppdep" alt=""/></div>
+<map name="a_lumex_quote_8hppdep" id="a_lumex_quote_8hppdep">
+<area shape="rect" title="Joins the elements of a range with each element wrapped in quotes." alt="" coords="655,5,776,32"/>
+<area shape="rect" href="a00929.html" title="String module: stringify, which concatenates the stream output of its arguments, joining and quoting ..." alt="" coords="668,80,762,107"/>
+<area shape="poly" title=" " alt="" coords="718,48,718,80,713,80,713,48"/>
+<area shape="rect" href="a00263.html" title="LumexBaseException, the base exception of LumexLib that records the stack where it was constructed,..." alt="" coords="380,155,523,181"/>
+<area shape="poly" title=" " alt="" coords="656,114,498,157,497,151,654,109"/>
+<area shape="rect" href="a00104.html" title="The console and file logging facade LumexLogging that other LumexLib modules report through." alt="" coords="573,155,703,181"/>
+<area shape="poly" title=" " alt="" coords="693,119,653,156,649,152,689,116"/>
+<area shape="rect" href="a00599.html" title=" " alt="" coords="727,155,861,181"/>
+<area shape="poly" title=" " alt="" coords="742,116,782,152,779,156,739,120"/>
+<area shape="rect" href="a00602.html" title=" " alt="" coords="886,155,1078,181"/>
+<area shape="poly" title=" " alt="" coords="777,109,936,151,934,157,775,114"/>
+<area shape="rect" href="a00905.html" title="Exceptions module: the LumexBaseException hierarchy, stack traces, a crash handler that writes minidu..." alt="" coords="238,229,356,256"/>
+<area shape="poly" title=" " alt="" coords="412,191,325,231,323,226,409,186"/>
+<area shape="rect" href="a00260.html" title=" " alt="" coords="380,229,523,256"/>
+<area shape="poly" title=" " alt="" coords="454,197,454,229,449,229,449,197"/>
+<area shape="rect" href="a00482.html" title=" " alt="" coords="185,312,350,339"/>
+<area shape="poly" title=" " alt="" coords="289,272,274,313,269,311,284,270"/>
+<area shape="rect" href="a00485.html" title=" " alt="" coords="374,304,515,347"/>
+<area shape="poly" title=" " alt="" coords="334,261,408,301,405,306,332,266"/>
+<area shape="rect" href="a00878.html" title="Logging module: LumexLogging, a thread&#45;safe console logger with levels from Debug to Critical,..." alt="" coords="660,312,765,339"/>
+<area shape="poly" title=" " alt="" coords="612,194,599,208,589,223,584,239,588,255,603,273,622,288,665,309,663,314,619,293,600,277,584,257,579,239,584,221,594,205,608,190"/>
+<area shape="rect" href="a00101.html" title=" " alt="" coords="598,229,728,256"/>
+<area shape="poly" title=" " alt="" coords="650,195,661,228,656,230,645,197"/>
+<area shape="rect" href="a00107.html" title="Short macros over LumexLogging: lumDebug to lumCritical, and the ...FL variants that prefix the sourc..." alt="" coords="752,229,918,256"/>
+<area shape="poly" title=" " alt="" coords="688,185,802,226,800,231,686,190"/>
+<area shape="rect" href="a00056.html" title=" " alt="" coords="5,395,263,421"/>
+<area shape="poly" title=" " alt="" coords="646,339,226,397,225,391,645,333"/>
+<area shape="rect" href="a00062.html" title=" " alt="" coords="287,395,496,421"/>
+<area shape="poly" title=" " alt="" coords="648,346,443,397,441,391,647,340"/>
+<area shape="rect" href="a00110.html" title=" " alt="" coords="520,395,705,421"/>
+<area shape="poly" title=" " alt="" coords="687,351,630,397,626,392,684,347"/>
+<area shape="rect" href="a00158.html" title=" " alt="" coords="728,395,897,421"/>
+<area shape="poly" title=" " alt="" coords="742,347,799,392,796,397,738,351"/>
+<area shape="rect" href="a00551.html" title=" " alt="" coords="921,395,1064,421"/>
+<area shape="poly" title=" " alt="" coords="772,341,949,392,948,397,770,346"/>
+<area shape="rect" href="a00554.html" title=" " alt="" coords="1088,395,1289,421"/>
+<area shape="poly" title=" " alt="" coords="781,335,1114,391,1113,397,780,341"/>
+<area shape="poly" title=" " alt="" coords="805,267,733,314,730,309,802,262"/>
+</map>
 </div>
 </div>
 <p><a href="a00344_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02350.html">lumex::core::time::timer::LumexTimer</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A high-resolution stopwatch for measuring elapsed wall-clock time.  <a href="a02350.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00912.html">lumex</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00948.html">lumex</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00964.html">lumex::core</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01005.html">lumex::core</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01032.html">lumex::core::time</a></td></tr>
-<tr class="memdesc:a01032"><td class="mdescLeft">&#160;</td><td class="mdescRight">Core library components. <br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01065.html">lumex::core::string</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01035.html">lumex::core::time::timer</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01066.html">lumex::core::string::text</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
-Macros</h2></td></tr>
-<tr class="memitem:a684f4a04bd86b9e7425fb3ff1ef4bdd1" id="r_a684f4a04bd86b9e7425fb3ff1ef4bdd1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a684f4a04bd86b9e7425fb3ff1ef4bdd1">LUMEX_MEASURE_TIME</a>(...)</td></tr>
-<tr class="memdesc:a684f4a04bd86b9e7425fb3ff1ef4bdd1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Times <code>expr</code> and reports to <code>std::clog</code> when the default env gate allows it.  <br /></td></tr>
-<tr class="separator:a684f4a04bd86b9e7425fb3ff1ef4bdd1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae20cd4d02c536ec28d605b39d7346579" id="r_ae20cd4d02c536ec28d605b39d7346579"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae20cd4d02c536ec28d605b39d7346579">LUMEX_MEASURE_TIME_DISPATCH</a>(...)</td></tr>
-<tr class="separator:ae20cd4d02c536ec28d605b39d7346579"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a61099e52bf134773350883c6fa79fbc8" id="r_a61099e52bf134773350883c6fa79fbc8"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a61099e52bf134773350883c6fa79fbc8">LUMEX_MEASURE_TIME_GET_OVERLOAD</a>(_1,  _2,  NAME, ...)</td></tr>
-<tr class="separator:a61099e52bf134773350883c6fa79fbc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2d22c1aced9474b3a47224bf981f94eb" id="r_a2d22c1aced9474b3a47224bf981f94eb"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2d22c1aced9474b3a47224bf981f94eb">LUMEX_MEASURE_TIME_1</a>(expr)</td></tr>
-<tr class="separator:a2d22c1aced9474b3a47224bf981f94eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acf30cfd1dcd275170e2bae411ce08642" id="r_acf30cfd1dcd275170e2bae411ce08642"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acf30cfd1dcd275170e2bae411ce08642">LUMEX_MEASURE_TIME_2</a>(expr,  msg)</td></tr>
-<tr class="separator:acf30cfd1dcd275170e2bae411ce08642"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
-Typedefs</h2></td></tr>
-<tr class="memitem:a57ef3281ae9b9c2d128025396f7c856f" id="r_a57ef3281ae9b9c2d128025396f7c856f"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a57ef3281ae9b9c2d128025396f7c856f">LumexTimer</a> = <a class="el" href="a02350.html">lumex::core::time::timer::LumexTimer</a></td></tr>
-<tr class="memdesc:a57ef3281ae9b9c2d128025396f7c856f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias for <a class="el" href="a02350.html" title="A high-resolution stopwatch for measuring elapsed wall-clock time.">lumex::core::time::timer::LumexTimer</a>.  <br /></td></tr>
-<tr class="separator:a57ef3281ae9b9c2d128025396f7c856f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01067.html">lumex::core::string::text::Detail</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a7a5e6044c994dc0aaa411d6703fc32f4" id="r_a7a5e6044c994dc0aaa411d6703fc32f4"><td class="memItemLeft" align="right" valign="top">char const *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01035.html#a7a5e6044c994dc0aaa411d6703fc32f4">lumex::core::time::timer::default_measure_time_env_name</a> () noexcept</td></tr>
-<tr class="memdesc:a7a5e6044c994dc0aaa411d6703fc32f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default environment variable that enables <code>measure_time</code> reporting when env gating is on.  <br /></td></tr>
-<tr class="separator:a7a5e6044c994dc0aaa411d6703fc32f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a92a181555350dcc075d22a432da22d8a" id="r_a92a181555350dcc075d22a432da22d8a"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01035.html#a92a181555350dcc075d22a432da22d8a">lumex::core::time::timer::extract_function_name</a> (std::string const &amp;expr_str)</td></tr>
-<tr class="memdesc:a92a181555350dcc075d22a432da22d8a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extracts a short, human-readable name from a stringified call expression.  <br /></td></tr>
-<tr class="separator:a92a181555350dcc075d22a432da22d8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa04009deb3c2f28294b819490ed44b27" id="r_aa04009deb3c2f28294b819490ed44b27"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01035.html#aa04009deb3c2f28294b819490ed44b27">lumex::core::time::timer::write_measure_time_report</a> (std::ostream &amp;out, std::string const &amp;message, long long elapsed_ms)</td></tr>
-<tr class="memdesc:aa04009deb3c2f28294b819490ed44b27"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes a measure-time report line to <code>out</code>.  <br /></td></tr>
-<tr class="separator:aa04009deb3c2f28294b819490ed44b27"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2cc90c92f6a2261ecfb8bc76e3943ed1" id="r_a2cc90c92f6a2261ecfb8bc76e3943ed1"><td class="memTemplParams" colspan="2">template&lt;typename Callable, typename... Args&gt; </td></tr>
-<tr class="memitem:a2cc90c92f6a2261ecfb8bc76e3943ed1"><td class="memTemplItemLeft" align="right" valign="top">long long&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01035.html#a2cc90c92f6a2261ecfb8bc76e3943ed1">lumex::core::time::timer::measure_execution_time</a> (Callable &amp;&amp;callable, Args &amp;&amp;...args)</td></tr>
-<tr class="memdesc:a2cc90c92f6a2261ecfb8bc76e3943ed1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes <code>callable</code> with <code>args</code> and returns elapsed wall-clock time in milliseconds.  <br /></td></tr>
-<tr class="separator:a2cc90c92f6a2261ecfb8bc76e3943ed1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac2a95e66868e1a2cc9cc1da9676e38c8" id="r_ac2a95e66868e1a2cc9cc1da9676e38c8"><td class="memTemplParams" colspan="2">template&lt;typename Callable&gt; </td></tr>
-<tr class="memitem:ac2a95e66868e1a2cc9cc1da9676e38c8"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01035.html#ac2a95e66868e1a2cc9cc1da9676e38c8">lumex::core::time::timer::measure_time</a> (Callable &amp;&amp;callable, std::string const &amp;message, std::ostream &amp;out=std::clog, bool need_to_gate_via_env=true, char const *env_name=<a class="el" href="a01035.html#a7a5e6044c994dc0aaa411d6703fc32f4">default_measure_time_env_name</a>())</td></tr>
-<tr class="memdesc:ac2a95e66868e1a2cc9cc1da9676e38c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Optionally gates timing/reporting via an environment variable, then measures <code>callable</code> and writes the result to <code>out</code>.  <br /></td></tr>
-<tr class="separator:ac2a95e66868e1a2cc9cc1da9676e38c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a32d6d763661d76d87d32100556e13793" id="r_a32d6d763661d76d87d32100556e13793"><td class="memTemplParams" colspan="2">template&lt;typename Range, typename Separator&gt; </td></tr>
+<tr class="memitem:a32d6d763661d76d87d32100556e13793"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; <a class="el" href="a02669.html">lumex::core::utility::traits::range::has_elements_convertible_to</a>&lt; Range, std::stringconst &amp; &gt;::value &amp;&amp;<a class="el" href="a02629.html">lumex::core::utility::traits::stream::is_streamable</a>&lt; typenamestd::decay&lt; Separator &gt;::type &gt;::value, std::string &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01067.html#a32d6d763661d76d87d32100556e13793">lumex::core::string::text::Detail::quote_each</a> (Range const &amp;range, Separator const &amp;separator, char mark)</td></tr>
+<tr class="memdesc:a32d6d763661d76d87d32100556e13793"><td class="mdescLeft">&#160;</td><td class="mdescRight">Joins <code>range</code>, wrapping each element (converted to <code>std::string const &amp;</code>) in <code>mark</code>.  <br /></td></tr>
+<tr class="separator:a32d6d763661d76d87d32100556e13793"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aae6445322407323613ef63ab3d415d0e" id="r_aae6445322407323613ef63ab3d415d0e"><td class="memTemplParams" colspan="2">template&lt;typename Range, typename Separator&gt; </td></tr>
+<tr class="memitem:aae6445322407323613ef63ab3d415d0e"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; <a class="el" href="a02669.html">lumex::core::utility::traits::range::has_elements_convertible_to</a>&lt; Range, std::stringconst &amp; &gt;::value &amp;&amp;<a class="el" href="a02629.html">lumex::core::utility::traits::stream::is_streamable</a>&lt; typenamestd::decay&lt; Separator &gt;::type &gt;::value, std::string &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01066.html#aae6445322407323613ef63ab3d415d0e">lumex::core::string::text::quote</a> (Range const &amp;range, Separator const &amp;separator)</td></tr>
+<tr class="memdesc:aae6445322407323613ef63ab3d415d0e"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>join</code> with every element wrapped in double quotes (<code>"element"</code>), C++11 to C++17.  <br /></td></tr>
+<tr class="separator:aae6445322407323613ef63ab3d415d0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a151d3e147d42afb9d3c34da8b1386821" id="r_a151d3e147d42afb9d3c34da8b1386821"><td class="memTemplParams" colspan="2">template&lt;typename Range, typename Separator&gt; </td></tr>
+<tr class="memitem:a151d3e147d42afb9d3c34da8b1386821"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; <a class="el" href="a02669.html">lumex::core::utility::traits::range::has_elements_convertible_to</a>&lt; Range, std::stringconst &amp; &gt;::value &amp;&amp;<a class="el" href="a02629.html">lumex::core::utility::traits::stream::is_streamable</a>&lt; typenamestd::decay&lt; Separator &gt;::type &gt;::value, std::string &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01066.html#a151d3e147d42afb9d3c34da8b1386821">lumex::core::string::text::quote_double</a> (Range const &amp;range, Separator const &amp;separator)</td></tr>
+<tr class="memdesc:a151d3e147d42afb9d3c34da8b1386821"><td class="mdescLeft">&#160;</td><td class="mdescRight">Same as <code>quote</code>; named for symmetry with <code>quote_single</code>.  <br /></td></tr>
+<tr class="separator:a151d3e147d42afb9d3c34da8b1386821"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9bf415e00fbac5e4e52b81fe02659546" id="r_a9bf415e00fbac5e4e52b81fe02659546"><td class="memTemplParams" colspan="2">template&lt;typename Range, typename Separator&gt; </td></tr>
+<tr class="memitem:a9bf415e00fbac5e4e52b81fe02659546"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; <a class="el" href="a02669.html">lumex::core::utility::traits::range::has_elements_convertible_to</a>&lt; Range, std::stringconst &amp; &gt;::value &amp;&amp;<a class="el" href="a02629.html">lumex::core::utility::traits::stream::is_streamable</a>&lt; typenamestd::decay&lt; Separator &gt;::type &gt;::value, std::string &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01066.html#a9bf415e00fbac5e4e52b81fe02659546">lumex::core::string::text::quote_single</a> (Range const &amp;range, Separator const &amp;separator)</td></tr>
+<tr class="memdesc:a9bf415e00fbac5e4e52b81fe02659546"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>join</code> with every element wrapped in single quotes (&lsquo;'element&rsquo;`), C++11 to C++17.  <br /></td></tr>
+<tr class="separator:a9bf415e00fbac5e4e52b81fe02659546"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>High-resolution stopwatch, callable timing helpers, and a thin <code>LUMEX_MEASURE_TIME</code> macro. </p>
-<p>Defines <code><a class="el" href="#a57ef3281ae9b9c2d128025396f7c856f" title="Alias for lumex::core::time::timer::LumexTimer.">LumexTimer</a></code> (start/stop/elapsed), <code>extract_function_name</code>, <code>measure_execution_time</code>, gated <code>measure_time</code> (ostream sink, optional env gate), and <code>LUMEX_MEASURE_TIME</code> which expands to that C++ API. </p>
-</div><h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="a684f4a04bd86b9e7425fb3ff1ef4bdd1" name="a684f4a04bd86b9e7425fb3ff1ef4bdd1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a684f4a04bd86b9e7425fb3ff1ef4bdd1">&#9670;&#160;</a></span>LUMEX_MEASURE_TIME</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_MEASURE_TIME</td>
-          <td>(</td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em></em></span>...</td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line"><a class="code hl_define" href="#ae20cd4d02c536ec28d605b39d7346579">LUMEX_MEASURE_TIME_DISPATCH</a> (__VA_ARGS__)</div>
-<div class="ttc" id="aa00344_html_ae20cd4d02c536ec28d605b39d7346579"><div class="ttname"><a href="#ae20cd4d02c536ec28d605b39d7346579">LUMEX_MEASURE_TIME_DISPATCH</a></div><div class="ttdeci">#define LUMEX_MEASURE_TIME_DISPATCH(...)</div><div class="ttdef"><b>Definition</b> LumexTimer.hpp:281</div></div>
-</div><!-- fragment -->
-<p>Times <code>expr</code> and reports to <code>std::clog</code> when the default env gate allows it. </p>
-<p>One-argument form auto-builds the message from <code>#expr</code> via <code>extract_function_name</code>. Two-argument form uses <code>msg</code> as the report label. Full control (custom stream, gate flag, env name) is on <code>measure_time</code>.</p>
-<p>Usage: <a class="el" href="#a684f4a04bd86b9e7425fb3ff1ef4bdd1" title="Times expr and reports to std::clog when the default env gate allows it.">LUMEX_MEASURE_TIME(doWork())</a>; LUMEX_MEASURE_TIME(doWork(), "custom label"); </p>
-
-</div>
-</div>
-<a id="a2d22c1aced9474b3a47224bf981f94eb" name="a2d22c1aced9474b3a47224bf981f94eb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2d22c1aced9474b3a47224bf981f94eb">&#9670;&#160;</a></span>LUMEX_MEASURE_TIME_1</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_MEASURE_TIME_1</td>
-          <td>(</td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>expr</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">  <a class="code hl_function" href="a01035.html#ac2a95e66868e1a2cc9cc1da9676e38c8">::lumex::core::time::timer::measure_time</a> (                                  \</div>
-<div class="line">      [&amp;] () -&gt; <span class="keyword">decltype</span> (expr) { <span class="keywordflow">return</span> expr; },                             \</div>
-<div class="line">      <span class="stringliteral">&quot;&#39;&quot;</span> + <a class="code hl_function" href="a01035.html#a92a181555350dcc075d22a432da22d8a">::lumex::core::time::timer::extract_function_name</a> (#expr)         \</div>
-<div class="line">          + <span class="stringliteral">&quot;&#39; command was processed.&quot;</span>)</div>
-<div class="ttc" id="aa01035_html_a92a181555350dcc075d22a432da22d8a"><div class="ttname"><a href="a01035.html#a92a181555350dcc075d22a432da22d8a">lumex::core::time::timer::extract_function_name</a></div><div class="ttdeci">std::string extract_function_name(std::string const &amp;expr_str)</div><div class="ttdoc">Extracts a short, human-readable name from a stringified call expression.</div><div class="ttdef"><b>Definition</b> LumexTimer.cpp:80</div></div>
-<div class="ttc" id="aa01035_html_ac2a95e66868e1a2cc9cc1da9676e38c8"><div class="ttname"><a href="a01035.html#ac2a95e66868e1a2cc9cc1da9676e38c8">lumex::core::time::timer::measure_time</a></div><div class="ttdeci">bool measure_time(Callable &amp;&amp;callable, std::string const &amp;message, std::ostream &amp;out=std::clog, bool need_to_gate_via_env=true, char const *env_name=default_measure_time_env_name())</div><div class="ttdoc">Optionally gates timing/reporting via an environment variable, then measures callable and writes the ...</div><div class="ttdef"><b>Definition</b> LumexTimer.hpp:227</div></div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="acf30cfd1dcd275170e2bae411ce08642" name="acf30cfd1dcd275170e2bae411ce08642"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acf30cfd1dcd275170e2bae411ce08642">&#9670;&#160;</a></span>LUMEX_MEASURE_TIME_2</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_MEASURE_TIME_2</td>
-          <td>(</td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>expr</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>msg</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">  <a class="code hl_function" href="a01035.html#ac2a95e66868e1a2cc9cc1da9676e38c8">::lumex::core::time::timer::measure_time</a> ([&amp;] () -&gt; <span class="keyword">decltype</span> (expr)         \</div>
-<div class="line">                                              { <span class="keywordflow">return</span> expr; }, (msg))</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="ae20cd4d02c536ec28d605b39d7346579" name="ae20cd4d02c536ec28d605b39d7346579"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae20cd4d02c536ec28d605b39d7346579">&#9670;&#160;</a></span>LUMEX_MEASURE_TIME_DISPATCH</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_MEASURE_TIME_DISPATCH</td>
-          <td>(</td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em></em></span>...</td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">  <a class="code hl_define" href="#a61099e52bf134773350883c6fa79fbc8">LUMEX_MEASURE_TIME_GET_OVERLOAD</a> (__VA_ARGS__, <a class="code hl_define" href="#acf30cfd1dcd275170e2bae411ce08642">LUMEX_MEASURE_TIME_2</a>,         \</div>
-<div class="line">                                   <a class="code hl_define" href="#a2d22c1aced9474b3a47224bf981f94eb">LUMEX_MEASURE_TIME_1</a>)                      \</div>
-<div class="line">  (__VA_ARGS__)</div>
-<div class="ttc" id="aa00344_html_a2d22c1aced9474b3a47224bf981f94eb"><div class="ttname"><a href="#a2d22c1aced9474b3a47224bf981f94eb">LUMEX_MEASURE_TIME_1</a></div><div class="ttdeci">#define LUMEX_MEASURE_TIME_1(expr)</div><div class="ttdef"><b>Definition</b> LumexTimer.hpp:288</div></div>
-<div class="ttc" id="aa00344_html_a61099e52bf134773350883c6fa79fbc8"><div class="ttname"><a href="#a61099e52bf134773350883c6fa79fbc8">LUMEX_MEASURE_TIME_GET_OVERLOAD</a></div><div class="ttdeci">#define LUMEX_MEASURE_TIME_GET_OVERLOAD(_1, _2, NAME,...)</div><div class="ttdef"><b>Definition</b> LumexTimer.hpp:286</div></div>
-<div class="ttc" id="aa00344_html_acf30cfd1dcd275170e2bae411ce08642"><div class="ttname"><a href="#acf30cfd1dcd275170e2bae411ce08642">LUMEX_MEASURE_TIME_2</a></div><div class="ttdeci">#define LUMEX_MEASURE_TIME_2(expr, msg)</div><div class="ttdef"><b>Definition</b> LumexTimer.hpp:294</div></div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="a61099e52bf134773350883c6fa79fbc8" name="a61099e52bf134773350883c6fa79fbc8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a61099e52bf134773350883c6fa79fbc8">&#9670;&#160;</a></span>LUMEX_MEASURE_TIME_GET_OVERLOAD</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_MEASURE_TIME_GET_OVERLOAD</td>
-          <td>(</td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>_1</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>_2</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>NAME</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em></em></span>...&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">NAME</div>
-</div><!-- fragment -->
-</div>
-</div>
-<h2 class="groupheader">Typedef Documentation</h2>
-<a id="a57ef3281ae9b9c2d128025396f7c856f" name="a57ef3281ae9b9c2d128025396f7c856f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a57ef3281ae9b9c2d128025396f7c856f">&#9670;&#160;</a></span>LumexTimer</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="#a57ef3281ae9b9c2d128025396f7c856f">LumexTimer</a> = <a class="el" href="a02350.html">lumex::core::time::timer::LumexTimer</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Alias for <a class="el" href="a02350.html" title="A high-resolution stopwatch for measuring elapsed wall-clock time.">lumex::core::time::timer::LumexTimer</a>. </p>
-
-</div>
-</div>
-</div><!-- contents -->
+<div class="textblock"><p>Joins the elements of a range with each element wrapped in quotes. </p>
+<p><code>quote</code> and <code>quote_double</code> wrap the text in double quotes, <code>quote_single</code> in single quotes. Elements must convert to <code>std::string const &amp;</code> (<code>std::string</code>, <code>char const *</code>, ...). Quote characters inside an element are not escaped. C++20 builds on <code>std::ranges</code> and <code>join</code>; C++11 to C++17 use one explicit loop with the same result.</p>
+<p>C++20 takes the range as <code>input_range auto const &amp;</code>: a view that is not iterable through const (<code>std::views::filter</code>) must be materialized first. </p>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_8786171c8ada75f0c8eb758679ce883c.html">time</a></li><li class="navelem"><a class="el" href="dir_f2996249a01a49a042982ea2c7cf6564.html">timer</a></li><li class="navelem"><a class="el" href="a00344.html">LumexTimer.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_459f7d6cb411def697850a9e92b67c08.html">string</a></li><li class="navelem"><a class="el" href="dir_7f2a87a12e57e05b49f1824eaaf6f6a8.html">text</a></li><li class="navelem"><a class="el" href="a00344.html">LumexQuote.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

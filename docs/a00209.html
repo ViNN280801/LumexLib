@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: DefaultPaths.hpp File Reference</title>
+<title>LumexLib: Decoder.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,102 +104,101 @@ $(function(){initNavTree('a00209.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#var-members">Variables</a>  </div>
-  <div class="headertitle"><div class="title">DefaultPaths.hpp File Reference</div></div>
+<a href="#define-members">Macros</a>  </div>
+  <div class="headertitle"><div class="title">Decoder.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-
-<p>Default names used by the crash handling of <code>lumex::exceptions</code>: the crash directory and the file name prefixes.  
-<a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="a00383_source.html">lumex/core/utility/macros/LumexConstantMacros.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &lt;cstddef&gt;</code><br />
+<code>#include &lt;vector&gt;</code><br />
+<code>#include &quot;<a class="el" href="a00212_source.html">Decoder.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00224_source.html">lumex/core/base64/validate/Validator.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for DefaultPaths.hpp:</div>
+Include dependency graph for Decoder.cpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00210.png" border="0" usemap="#a_default_paths_8hpp" alt=""/></div>
+<div class="center"><img src="a00210.png" border="0" usemap="#a_decoder_8cpp" alt=""/></div>
+<map name="a_decoder_8cpp" id="a_decoder_8cpp">
+<area shape="rect" title=" " alt="" coords="1686,5,1781,32"/>
+<area shape="rect" title=" " alt="" coords="5,360,70,387"/>
+<area shape="poly" title=" " alt="" coords="1686,23,1477,29,1326,37,1152,50,964,68,767,95,569,129,377,173,314,191,267,208,221,230,166,264,107,308,61,351,58,347,104,304,163,259,219,225,264,203,313,186,376,168,568,124,766,89,963,63,1152,44,1325,31,1477,23,1686,18"/>
+<area shape="rect" title=" " alt="" coords="2061,179,2118,205"/>
+<area shape="poly" title=" " alt="" coords="1782,26,1861,45,1905,59,1947,78,1982,98,2015,121,2068,166,2064,170,2011,125,1979,102,1944,82,1903,64,1860,50,1781,31"/>
+<area shape="rect" href="a00212.html" title="Base64 decoding: the Decoder class of the lumex::base64 library." alt="" coords="1838,88,1933,115"/>
+<area shape="poly" title=" " alt="" coords="1758,30,1850,78,1847,83,1756,35"/>
+<area shape="rect" href="a00224.html" title="Base64 syntax check: the Validator class of the lumex::base64 library." alt="" coords="1563,80,1744,123"/>
+<area shape="poly" title=" " alt="" coords="1723,34,1686,71,1683,67,1719,31"/>
+<area shape="poly" title=" " alt="" coords="1838,113,1757,125,1419,166,1155,191,892,218,555,264,316,297,212,318,82,355,77,356,75,351,81,349,211,312,315,292,554,259,891,213,1155,186,1418,161,1756,120,1837,108"/>
+<area shape="poly" title=" " alt="" coords="1916,113,2048,170,2046,175,1914,118"/>
+<area shape="rect" href="a00641.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="1891,451,2053,477"/>
+<area shape="poly" title=" " alt="" coords="1900,114,1948,173,1974,215,1993,261,2001,308,2000,357,1993,401,1984,436,1978,435,1987,400,1994,356,1996,309,1988,262,1969,217,1944,176,1896,117"/>
+<area shape="rect" title=" " alt="" coords="1847,360,1934,387"/>
+<area shape="poly" title=" " alt="" coords="1888,115,1893,344,1888,344,1883,115"/>
+<area shape="rect" href="a00206.html" title="Cross&#45;platform Base64 encoding and decoding utilities." alt="" coords="1532,171,1703,213"/>
+<area shape="poly" title=" " alt="" coords="1848,118,1695,168,1694,163,1846,113"/>
+<area shape="poly" title=" " alt="" coords="1650,212,1860,349,1857,353,1647,216"/>
+<area shape="rect" title=" " alt="" coords="94,360,144,387"/>
+<area shape="poly" title=" " alt="" coords="1532,199,1087,221,846,240,747,251,671,264,638,274,614,285,589,296,555,307,495,318,443,324,354,326,266,330,216,339,157,355,154,356,152,351,155,349,214,334,266,325,354,321,443,319,494,313,554,301,587,291,612,280,637,269,670,259,746,246,846,235,1087,216,1532,194"/>
+<area shape="rect" title=" " alt="" coords="168,360,222,387"/>
+<area shape="poly" title=" " alt="" coords="1532,198,1351,205,1127,218,910,237,821,250,754,264,731,273,714,285,696,296,672,307,606,323,550,330,452,331,355,331,299,339,234,355,230,356,229,351,233,349,298,333,354,326,452,325,550,325,605,317,670,301,694,292,711,280,728,269,753,259,820,244,909,232,1126,213,1351,200,1532,193"/>
+<area shape="rect" title=" " alt="" coords="246,360,328,387"/>
+<area shape="poly" title=" " alt="" coords="1532,199,1367,207,1166,220,974,239,895,251,836,264,812,274,796,285,778,296,754,307,693,323,640,331,548,335,456,336,403,342,341,355,332,357,330,352,340,349,402,337,456,331,548,329,639,326,692,317,753,301,776,292,793,280,810,269,834,259,894,245,973,234,1166,215,1367,202,1532,194"/>
+<area shape="rect" href="a00386.html" title="Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_..." alt="" coords="1655,352,1822,395"/>
+<area shape="poly" title=" " alt="" coords="1634,212,1719,338,1714,341,1629,215"/>
+<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="1023,443,1217,485"/>
+<area shape="poly" title=" " alt="" coords="1625,213,1630,252,1631,301,1621,352,1610,376,1594,397,1569,414,1534,428,1441,448,1335,459,1233,464,1233,459,1334,454,1440,443,1532,423,1567,409,1590,393,1605,373,1616,351,1625,301,1625,253,1619,214"/>
+<area shape="rect" href="a00446.html" title="Every general&#45;purpose type trait of LumexLib, one sub&#45;namespace of lumex::core::utility::traits per t..." alt="" coords="847,261,1030,304"/>
+<area shape="poly" title=" " alt="" coords="1532,207,1046,270,1045,265,1532,202"/>
+<area shape="poly" title=" " alt="" coords="1794,393,1925,442,1924,447,1793,398"/>
+<area shape="poly" title=" " alt="" coords="1655,394,1637,397,1422,429,1233,452,1233,447,1422,423,1636,392,1654,389"/>
+<area shape="poly" title=" " alt="" coords="847,292,414,321,203,339,82,355,76,356,74,351,81,349,202,333,414,316,847,287"/>
+<area shape="poly" title=" " alt="" coords="1031,280,1185,282,1386,292,1611,313,1725,329,1835,349,1847,352,1845,357,1834,355,1724,334,1610,318,1386,297,1185,288,1031,286"/>
+<area shape="poly" title=" " alt="" coords="847,294,439,326,250,343,157,355,153,356,151,351,156,349,249,338,439,321,847,288"/>
+<area shape="poly" title=" " alt="" coords="847,297,754,307,606,315,490,315,435,317,377,323,311,335,234,355,230,356,229,351,233,349,310,330,376,318,435,312,490,310,606,309,753,301,847,292"/>
+<area shape="poly" title=" " alt="" coords="847,303,820,307,685,319,579,323,474,331,412,340,341,355,331,357,330,352,340,349,412,334,473,325,579,318,685,314,820,301,847,297"/>
+<area shape="poly" title=" " alt="" coords="1031,290,1284,315,1592,349,1640,355,1639,361,1592,355,1284,321,1031,295"/>
+<area shape="poly" title=" " alt="" coords="847,302,722,328,673,342,649,354,640,374,642,383,649,393,672,410,706,425,749,436,798,445,905,456,1008,460,1007,465,905,461,797,450,748,441,704,430,669,415,645,396,637,385,635,373,645,350,671,337,721,323,846,297"/>
+<area shape="rect" title=" " alt="" coords="1340,360,1418,387"/>
+<area shape="poly" title=" " alt="" coords="1031,292,1172,314,1251,330,1329,349,1336,352,1335,357,1327,355,1250,335,1171,319,1030,297"/>
+<area shape="rect" title=" " alt="" coords="1442,360,1503,387"/>
+<area shape="poly" title=" " alt="" coords="1031,286,1117,293,1217,305,1325,324,1430,349,1436,351,1434,356,1429,355,1324,329,1217,310,1116,298,1031,291"/>
+<area shape="rect" title=" " alt="" coords="1527,360,1580,387"/>
+<area shape="poly" title=" " alt="" coords="1031,282,1132,287,1254,298,1386,318,1516,349,1520,351,1518,356,1514,355,1385,323,1254,303,1132,292,1031,287"/>
+<area shape="rect" title=" " alt="" coords="659,360,728,387"/>
+<area shape="poly" title=" " alt="" coords="874,307,740,354,736,356,734,351,738,350,873,302"/>
+<area shape="rect" title=" " alt="" coords="751,360,820,387"/>
+<area shape="poly" title=" " alt="" coords="904,307,822,354,819,350,902,302"/>
+<area shape="rect" title=" " alt="" coords="844,360,893,387"/>
+<area shape="poly" title=" " alt="" coords="925,306,890,349,886,346,920,303"/>
+<area shape="rect" title=" " alt="" coords="917,360,969,387"/>
+<area shape="poly" title=" " alt="" coords="942,304,944,344,939,344,937,305"/>
+<area shape="rect" title=" " alt="" coords="994,360,1060,387"/>
+<area shape="poly" title=" " alt="" coords="961,303,1006,347,1002,351,957,306"/>
+<area shape="rect" href="a00404.html" title="C++ language, library and attribute feature availability." alt="" coords="1084,352,1316,395"/>
+<area shape="poly" title=" " alt="" coords="1001,302,1126,344,1124,349,999,307"/>
+<area shape="rect" href="a00419.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="352,352,584,395"/>
+<area shape="poly" title=" " alt="" coords="847,304,594,351,593,346,846,299"/>
+<area shape="poly" title=" " alt="" coords="585,389,603,392,1008,446,1007,451,602,397,585,395"/>
+<area shape="poly" title=" " alt="" coords="1563,107,1329,113,1027,125,732,144,610,157,518,173,452,191,386,213,260,263,151,314,74,355,71,350,149,309,257,258,384,208,451,186,517,168,609,152,731,139,1027,119,1329,107,1563,102"/>
+<area shape="poly" title=" " alt="" coords="1692,121,1749,157,1819,209,1890,274,1922,311,1949,351,1966,394,1973,435,1968,436,1961,395,1944,353,1918,314,1886,278,1816,213,1746,161,1689,125"/>
+<area shape="poly" title=" " alt="" coords="1648,124,1634,157,1629,155,1643,122"/>
+</map>
 </div>
-</div><div class="textblock"><div class="dynheader">
-This graph shows which files directly or indirectly include this file:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00211.png" border="0" usemap="#a_default_paths_8hppdep" alt=""/></div>
-</div>
-</div>
-<p><a href="a00209_source.html">Go to the source code of this file.</a></p>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
-Variables</h2></td></tr>
-<tr class="memitem:a76d3fe340fdd65a675c1306a96c4cb1b" id="r_a76d3fe340fdd65a675c1306a96c4cb1b"><td class="memItemLeft" align="right" valign="top">static constchar *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a76d3fe340fdd65a675c1306a96c4cb1b">constKDEFAULT_CRASHES_DIR_PATH</a> = &quot;crashes&quot;</td></tr>
-<tr class="separator:a76d3fe340fdd65a675c1306a96c4cb1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7065c3bba0af16ad9cec4753ab8f827d" id="r_a7065c3bba0af16ad9cec4753ab8f827d"><td class="memItemLeft" align="right" valign="top">static constchar *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7065c3bba0af16ad9cec4753ab8f827d">constKDEFAULT_MINIDUMP_PREFIX</a> = &quot;dump_&quot;</td></tr>
-<tr class="separator:a7065c3bba0af16ad9cec4753ab8f827d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac4bd42b32bfac3faf47e88519393fb1a" id="r_ac4bd42b32bfac3faf47e88519393fb1a"><td class="memItemLeft" align="right" valign="top">static constchar *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac4bd42b32bfac3faf47e88519393fb1a">constKDEFAULT_CRASH_REPORT_PREFIX</a> = &quot;crash_report_&quot;</td></tr>
-<tr class="separator:ac4bd42b32bfac3faf47e88519393fb1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a07486181f1990291c2a348de8eb4c480" id="r_a07486181f1990291c2a348de8eb4c480"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a07486181f1990291c2a348de8eb4c480">LUMEX_IMPLEMENTATION</a></td></tr>
+<tr class="separator:a07486181f1990291c2a348de8eb4c480"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Default names used by the crash handling of <code>lumex::exceptions</code>: the crash directory and the file name prefixes. </p>
-<p><code>KDEFAULT_CRASHES_DIR_PATH</code> ("crashes") is the directory next to the executable that <code><a class="el" href="a01810.html#a277f55eeecb20cecca099e0c63bd1559" title="Write a crash report to a file by pattern: &quot;crash_report_{timestamp}.txt&quot;.">LumexBaseException::to_crash_report()</a></code> writes to on every platform and that <code><a class="el" href="a00215.html#a17b15d4c3f44f0d6df60fe3d3fbdbd4c">LumexCrashHandler</a></code> writes dumps to on Windows. <code>KDEFAULT_MINIDUMP_PREFIX</code> ("dump_") starts the name of a dump file, and <code>KDEFAULT_CRASH_REPORT_PREFIX</code> ("crash_report_") the name of a crash report. The constants are declared at global scope. </p>
-</div><h2 class="groupheader">Variable Documentation</h2>
-<a id="ac4bd42b32bfac3faf47e88519393fb1a" name="ac4bd42b32bfac3faf47e88519393fb1a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac4bd42b32bfac3faf47e88519393fb1a">&#9670;&#160;</a></span>constKDEFAULT_CRASH_REPORT_PREFIX</h2>
+<h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a07486181f1990291c2a348de8eb4c480" name="a07486181f1990291c2a348de8eb4c480"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a07486181f1990291c2a348de8eb4c480">&#9670;&#160;</a></span>LUMEX_IMPLEMENTATION</h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constchar* constKDEFAULT_CRASH_REPORT_PREFIX = &quot;crash_report_&quot;</td>
+          <td class="memname">#define LUMEX_IMPLEMENTATION</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a76d3fe340fdd65a675c1306a96c4cb1b" name="a76d3fe340fdd65a675c1306a96c4cb1b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a76d3fe340fdd65a675c1306a96c4cb1b">&#9670;&#160;</a></span>constKDEFAULT_CRASHES_DIR_PATH</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constchar* constKDEFAULT_CRASHES_DIR_PATH = &quot;crashes&quot;</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a7065c3bba0af16ad9cec4753ab8f827d" name="a7065c3bba0af16ad9cec4753ab8f827d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7065c3bba0af16ad9cec4753ab8f827d">&#9670;&#160;</a></span>constKDEFAULT_MINIDUMP_PREFIX</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constchar* constKDEFAULT_MINIDUMP_PREFIX = &quot;dump_&quot;</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 </div>
@@ -209,7 +208,7 @@ Variables</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_c5abfa2a5a0424f8cc91dab0edfcaee4.html">exceptions</a></li><li class="navelem"><a class="el" href="dir_5e607916477df1770f4b94662507e744.html">crash</a></li><li class="navelem"><a class="el" href="a00209.html">DefaultPaths.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_8c8b73b6e18afab83ac8ebfe214770ca.html">base64</a></li><li class="navelem"><a class="el" href="dir_c3d932aadb004fdf3c8a22805bcb3811.html">decode</a></li><li class="navelem"><a class="el" href="a00209.html">Decoder.cpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

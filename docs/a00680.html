@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: XmlParseResult.hpp File Reference</title>
+<title>LumexLib: XmlMemoryPage.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,70 +104,52 @@ $(function(){initNavTree('a00680.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
-<a href="#namespaces">Namespaces</a> &#124;
-<a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">XmlParseResult.hpp File Reference</div></div>
+<a href="#define-members">Macros</a>  </div>
+  <div class="headertitle"><div class="title">XmlMemoryPage.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-
-<p><code>xml_parse_result_t</code>, the outcome of loading XML or appending a fragment, and the internal entry point that loads a buffer.  
-<a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="a00605_source.html">lumex/LumexExport.hpp</a>&quot;</code><br />
-<code>#include &lt;cstddef&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00353_source.html">lumex/core/utility/attr/LumexAttributes.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00692_source.html">lumex/xml/types/XmlTypes.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="a00683_source.html">XmlMemoryPage.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for XmlParseResult.hpp:</div>
+Include dependency graph for XmlMemoryPage.cpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00681.png" border="0" usemap="#a_xml_parse_result_8hpp" alt=""/></div>
+<div class="center"><img src="a00681.png" border="0" usemap="#a_xml_memory_page_8cpp" alt=""/></div>
+<map name="a_xml_memory_page_8cpp" id="a_xml_memory_page_8cpp">
+<area shape="rect" title=" " alt="" coords="81,5,228,32"/>
+<area shape="rect" href="a00683.html" title="The header of a memory page of the XML allocator, and the default page size." alt="" coords="81,80,228,107"/>
+<area shape="poly" title=" " alt="" coords="157,33,157,64,152,64,152,33"/>
+<area shape="rect" href="a00641.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="5,155,168,181"/>
+<area shape="poly" title=" " alt="" coords="145,109,111,145,107,141,141,105"/>
+<area shape="rect" title=" " alt="" coords="192,155,256,181"/>
+<area shape="poly" title=" " alt="" coords="168,105,203,141,199,145,165,109"/>
+</map>
 </div>
-</div><div class="textblock"><div class="dynheader">
-This graph shows which files directly or indirectly include this file:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00682.png" border="0" usemap="#a_xml_parse_result_8hppdep" alt=""/></div>
-</div>
-</div>
-<p><a href="a00680_source.html">Go to the source code of this file.</a></p>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02882.html">lumex::xml::text::xml_parse_result_t</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents the result of an XML parsing operation, including status, error offset, and encoding.  <a href="a02882.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
-Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00912.html">lumex</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01083.html">lumex::xml</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01090.html">lumex::xml::document</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01086.html">lumex::xml::node</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01096.html">lumex::xml::text</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:ae0bf18f6f9e0ed3936938a14c541af0c" id="r_ae0bf18f6f9e0ed3936938a14c541af0c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a02882.html">xml_parse_result_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01096.html#ae0bf18f6f9e0ed3936938a14c541af0c">lumex::xml::text::make_parse_result</a> (<a class="el" href="a01100.html#a8264dfa29bbe6720c402fec104db5408">Types::xml_parse_status</a> status, ptrdiff_t offset=0)</td></tr>
-<tr class="memdesc:ae0bf18f6f9e0ed3936938a14c541af0c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Helper function to create an <code><a class="el" href="a02882.html" title="Represents the result of an XML parsing operation, including status, error offset,...">xml_parse_result_t</a></code> object.  <br /></td></tr>
-<tr class="separator:ae0bf18f6f9e0ed3936938a14c541af0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7355b4c5a34fafe87b02c6fd5d116775" id="r_a7355b4c5a34fafe87b02c6fd5d116775"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a02882.html">xml_parse_result_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01096.html#a7355b4c5a34fafe87b02c6fd5d116775">lumex::xml::text::load_buffer_impl</a> (<a class="el" href="a02826.html">document::XmlDocumentBase</a> *doc, <a class="el" href="a02854.html">node::XmlNodeBase</a> *root, void *contents, std::size_t size, unsigned int options, <a class="el" href="a01100.html#af1767ae022d3845084f92ab0bc3776a0">Types::xml_encoding</a> encoding, bool is_mutable, bool own, <a class="el" href="a01100.html#af5c331138f914028e4642100ea3e7a24">Types::char_t</a> **out_buffer)</td></tr>
-<tr class="memdesc:a7355b4c5a34fafe87b02c6fd5d116775"><td class="mdescLeft">&#160;</td><td class="mdescRight">Internal implementation for loading an XML document from a buffer.  <br /></td></tr>
-<tr class="separator:a7355b4c5a34fafe87b02c6fd5d116775"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a07486181f1990291c2a348de8eb4c480" id="r_a07486181f1990291c2a348de8eb4c480"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a07486181f1990291c2a348de8eb4c480">LUMEX_IMPLEMENTATION</a></td></tr>
+<tr class="separator:a07486181f1990291c2a348de8eb4c480"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p><code>xml_parse_result_t</code>, the outcome of loading XML or appending a fragment, and the internal entry point that loads a buffer. </p>
-<p>A result holds an <code>xml_parse_status</code> (<code><a class="el" href="a00692.html" title="The basic types and enumerations of the XML module: character and string types, node types,...">XmlTypes.hpp</a></code>), the offset of the error in <code>char_t</code> units, and the encoding of the source. It converts to <code>true</code> only for <code>status_ok</code>, and <code>description()</code> returns a readable message. <code>XmlDocument</code> load functions and <code>XmlNode::append_buffer</code> return it.</p>
-<p><code>load_buffer_impl</code> is the code these functions share: it converts the buffer to the native encoding, takes care of its ownership and runs the parser. <code>make_parse_result</code> builds a result from a status and an offset. </p>
-</div></div><!-- contents -->
+<h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a07486181f1990291c2a348de8eb4c480" name="a07486181f1990291c2a348de8eb4c480"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a07486181f1990291c2a348de8eb4c480">&#9670;&#160;</a></span>LUMEX_IMPLEMENTATION</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_IMPLEMENTATION</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_7d2372648e676b867cc7a356791ff2d4.html">text</a></li><li class="navelem"><a class="el" href="a00680.html">XmlParseResult.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_dfaff3bf0c138bf12cc91354825aa357.html">memory</a></li><li class="navelem"><a class="el" href="a00680.html">XmlMemoryPage.cpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

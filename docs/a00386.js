@@ -1,5 +1,7 @@
 var a00386 =
 [
-    [ "LUMEX_DEFINE_EXCEPTION", "a00386.html#ac1cf7e477c73144de8304b5a87b250a0", null ],
-    [ "LUMEX_DEFINE_EXCEPTION_WITH_BODY", "a00386.html#a7a9b13ade30769284317ff7b0cc7e19f", null ]
+    [ "LUMEX_ASSERT", "a00386.html#abff68c03d1bdde004eb72fe25c9c99c9", null ],
+    [ "LUMEX_STATIC_ASSERT", "a00386.html#a79cf2cecfe4fe4577a5e17138da4612f", null ],
+    [ "LUMEX_STATIC_ASSERT_MSG", "a00386.html#a5216865b2fc83a9979ea50b2172a1dfb", null ],
+    [ "lumex_assert_handler", "a00386.html#a5334d5477ed5cb85a010f52c4f534fd4", null ]
 ];

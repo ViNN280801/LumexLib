@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::examples::logger Namespace Reference</title>
+<title>LumexLib: lumex::core::utility::debug::Detail Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,29 +104,19 @@ $(function(){initNavTree('a01081.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
 <a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">lumex::examples::logger Namespace Reference</div></div>
+  <div class="headertitle"><div class="title">lumex::core::utility::debug::Detail Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02806.html">temporary_config_file_t</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:adda1389651fbe9d9a5e8ef363d2535da" id="r_adda1389651fbe9d9a5e8ef363d2535da"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adda1389651fbe9d9a5e8ef363d2535da">require</a> (bool condition, std::string const &amp;message)</td></tr>
-<tr class="separator:adda1389651fbe9d9a5e8ef363d2535da"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a165ec8fcea03590b2cffd889ae9f816f" id="r_a165ec8fcea03590b2cffd889ae9f816f"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a165ec8fcea03590b2cffd889ae9f816f">verify_full_config</a> (<a class="el" href="a01162.html">logger_config_t</a> const &amp;config, std::string const &amp;format)</td></tr>
-<tr class="separator:a165ec8fcea03590b2cffd889ae9f816f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aab14961ea93b42c8867851c5113e6744" id="r_aab14961ea93b42c8867851c5113e6744"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aab14961ea93b42c8867851c5113e6744">show_compiled_format</a> ()</td></tr>
-<tr class="separator:aab14961ea93b42c8867851c5113e6744"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1e4c0bb124b74e381342ae2a32d215c0" id="r_a1e4c0bb124b74e381342ae2a32d215c0"><td class="memItemLeft" align="right" valign="top">static std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1e4c0bb124b74e381342ae2a32d215c0">formatHex</a> (std::uintptr_t value)</td></tr>
+<tr class="separator:a1e4c0bb124b74e381342ae2a32d215c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="adda1389651fbe9d9a5e8ef363d2535da" name="adda1389651fbe9d9a5e8ef363d2535da"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adda1389651fbe9d9a5e8ef363d2535da">&#9670;&#160;</a></span>require()</h2>
+<a id="a1e4c0bb124b74e381342ae2a32d215c0" name="a1e4c0bb124b74e381342ae2a32d215c0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1e4c0bb124b74e381342ae2a32d215c0">&#9670;&#160;</a></span>formatHex()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -135,100 +125,27 @@ Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static void lumex::examples::logger::require </td>
+          <td class="memname">static std::string lumex::core::utility::debug::Detail::formatHex </td>
           <td>(</td>
-          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>condition</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramtype">std::uintptr_t</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
           <td></td>
-          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>message</em></span>&#160;)</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="a01081_adda1389651fbe9d9a5e8ef363d2535da_icgraph.png" border="0" usemap="#aa01081_adda1389651fbe9d9a5e8ef363d2535da_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="aab14961ea93b42c8867851c5113e6744" name="aab14961ea93b42c8867851c5113e6744"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aab14961ea93b42c8867851c5113e6744">&#9670;&#160;</a></span>show_compiled_format()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static void lumex::examples::logger::show_compiled_format </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01081_aab14961ea93b42c8867851c5113e6744_cgraph.png" border="0" usemap="#aa01081_aab14961ea93b42c8867851c5113e6744_cgraph" alt=""/></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01081_aab14961ea93b42c8867851c5113e6744_icgraph.png" border="0" usemap="#aa01081_aab14961ea93b42c8867851c5113e6744_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="a165ec8fcea03590b2cffd889ae9f816f" name="a165ec8fcea03590b2cffd889ae9f816f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a165ec8fcea03590b2cffd889ae9f816f">&#9670;&#160;</a></span>verify_full_config()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static void lumex::examples::logger::verify_full_config </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a01162.html">logger_config_t</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>config</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>format</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01081_a165ec8fcea03590b2cffd889ae9f816f_cgraph.png" border="0" usemap="#aa01081_a165ec8fcea03590b2cffd889ae9f816f_cgraph" alt=""/></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01081_a165ec8fcea03590b2cffd889ae9f816f_icgraph.png" border="0" usemap="#aa01081_a165ec8fcea03590b2cffd889ae9f816f_icgraph" alt=""/></div>
+<div class="center"><img src="a01081_a1e4c0bb124b74e381342ae2a32d215c0_icgraph.png" border="0" usemap="#aa01081_a1e4c0bb124b74e381342ae2a32d215c0_icgraph" alt=""/></div>
+<map name="aa01081_a1e4c0bb124b74e381342ae2a32d215c0_icgraph" id="aa01081_a1e4c0bb124b74e381342ae2a32d215c0_icgraph">
+<area shape="rect" title=" " alt="" coords="236,5,411,48"/>
+<area shape="rect" href="a01080.html#ae31ee00fe829c08a6e1c94f38b8f3c89" title="Capture current call stack in a formatted string." alt="" coords="5,5,188,48"/>
+<area shape="poly" title=" " alt="" coords="220,29,188,29,188,24,220,24"/>
+</map>
 </div>
 
 </div>
@@ -238,7 +155,7 @@ Here is the caller graph for this function:</div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00912.html">lumex</a></li><li class="navelem"><a class="el" href="a01080.html">examples</a></li><li class="navelem"><a class="el" href="a01081.html">logger</a></li>
+    <li class="navelem"><a class="el" href="a00948.html">lumex</a></li><li class="navelem"><a class="el" href="a01005.html">core</a></li><li class="navelem"><a class="el" href="a01077.html">utility</a></li><li class="navelem"><a class="el" href="a01080.html">debug</a></li><li class="navelem"><a class="el" href="a01081.html">Detail</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

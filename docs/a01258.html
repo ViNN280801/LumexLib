@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::core::atomic::smart_ptr::lock_based_table_wait::Detail::smart_ptr_traits_t&lt; std::weak_ptr&lt; T &gt; &gt; Struct Template Reference</title>
+<title>LumexLib: Member List</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a01258.html',''); initResizable(true); });
+$(function(){initNavTree('a01261.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,132 +103,20 @@ $(function(){initNavTree('a01258.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="summary">
-<a href="#pub-types">Public Types</a> &#124;
-<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
-<a href="a01255.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">lumex::core::atomic::smart_ptr::lock_based_table_wait::Detail::smart_ptr_traits_t&lt; std::weak_ptr&lt; T &gt; &gt; Struct Template Reference</div></div>
+  <div class="headertitle"><div class="title">lumex::applied::serial::probe::serial_io_result_t Member List</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Equivalence of <code>std::weak_ptr</code>: same owner, and the same stored pointer as far as <code>lock ()</code> can observe it.  
- <a href="#details">More...</a></p>
-
-<p><code>#include &lt;<a class="el" href="a00155_source.html">LumexAtomicSmartPtrCell.hpp</a>&gt;</code></p>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
-Public Types</h2></td></tr>
-<tr class="memitem:a3f92a0b1895c601a5f248bde6e6c8e4a" id="r_a3f92a0b1895c601a5f248bde6e6c8e4a"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3f92a0b1895c601a5f248bde6e6c8e4a">probe_t</a> = std::shared_ptr&lt;T&gt;</td></tr>
-<tr class="memdesc:a3f92a0b1895c601a5f248bde6e6c8e4a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The stored pointer of a weak pointer, read through <code>lock ()</code>.  <br /></td></tr>
-<tr class="separator:a3f92a0b1895c601a5f248bde6e6c8e4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
-Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a7df09fa3a888cd5892f9dc5b2d46f9cc" id="r_a7df09fa3a888cd5892f9dc5b2d46f9cc"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="#a3f92a0b1895c601a5f248bde6e6c8e4a">probe_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7df09fa3a888cd5892f9dc5b2d46f9cc">probe</a> (std::weak_ptr&lt; T &gt; const &amp;pointer) noexcept</td></tr>
-<tr class="separator:a7df09fa3a888cd5892f9dc5b2d46f9cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae3b1d2f03777ce9b48c06fc7649951c7" id="r_ae3b1d2f03777ce9b48c06fc7649951c7"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae3b1d2f03777ce9b48c06fc7649951c7">equivalent</a> (std::weak_ptr&lt; T &gt; const &amp;current, std::weak_ptr&lt; T &gt; const &amp;expected, <a class="el" href="#a3f92a0b1895c601a5f248bde6e6c8e4a">probe_t</a> const &amp;expected_probe, <a class="el" href="#a3f92a0b1895c601a5f248bde6e6c8e4a">probe_t</a> &amp;current_probe) noexcept</td></tr>
-<tr class="separator:ae3b1d2f03777ce9b48c06fc7649951c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><div class="compoundTemplParams">template&lt;typename T&gt;<br />
-struct lumex::core::atomic::smart_ptr::lock_based_table_wait::Detail::smart_ptr_traits_t&lt; std::weak_ptr&lt; T &gt; &gt;</div><p>Equivalence of <code>std::weak_ptr</code>: same owner, and the same stored pointer as far as <code>lock ()</code> can observe it. </p>
-</div><h2 class="groupheader">Member Typedef Documentation</h2>
-<a id="a3f92a0b1895c601a5f248bde6e6c8e4a" name="a3f92a0b1895c601a5f248bde6e6c8e4a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3f92a0b1895c601a5f248bde6e6c8e4a">&#9670;&#160;</a></span>probe_t</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="a01246.html">lumex::core::atomic::smart_ptr::lock_based_table_wait::Detail::smart_ptr_traits_t</a>&lt; std::weak_ptr&lt; T &gt; &gt;::probe_t = std::shared_ptr&lt;T&gt;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>The stored pointer of a weak pointer, read through <code>lock ()</code>. </p>
-
-</div>
-</div>
-<h2 class="groupheader">Member Function Documentation</h2>
-<a id="ae3b1d2f03777ce9b48c06fc7649951c7" name="ae3b1d2f03777ce9b48c06fc7649951c7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae3b1d2f03777ce9b48c06fc7649951c7">&#9670;&#160;</a></span>equivalent()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static bool <a class="el" href="a01246.html">lumex::core::atomic::smart_ptr::lock_based_table_wait::Detail::smart_ptr_traits_t</a>&lt; std::weak_ptr&lt; T &gt; &gt;::equivalent </td>
-          <td>(</td>
-          <td class="paramtype">std::weak_ptr&lt; T &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>current</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::weak_ptr&lt; T &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>expected</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="#a3f92a0b1895c601a5f248bde6e6c8e4a">probe_t</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>expected_probe</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="#a3f92a0b1895c601a5f248bde6e6c8e4a">probe_t</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>current_probe</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a7df09fa3a888cd5892f9dc5b2d46f9cc" name="a7df09fa3a888cd5892f9dc5b2d46f9cc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7df09fa3a888cd5892f9dc5b2d46f9cc">&#9670;&#160;</a></span>probe()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static <a class="el" href="#a3f92a0b1895c601a5f248bde6e6c8e4a">probe_t</a> <a class="el" href="a01246.html">lumex::core::atomic::smart_ptr::lock_based_table_wait::Detail::smart_ptr_traits_t</a>&lt; std::weak_ptr&lt; T &gt; &gt;::probe </td>
-          <td>(</td>
-          <td class="paramtype">std::weak_ptr&lt; T &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>pointer</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<hr/>The documentation for this struct was generated from the following file:<ul>
-<li><a class="el" href="a00155_source.html">LumexAtomicSmartPtrCell.hpp</a></li>
-</ul>
-</div><!-- contents -->
+<p>This is the complete list of members for <a class="el" href="a01261.html">lumex::applied::serial::probe::serial_io_result_t</a>, including all inherited members.</p>
+<table class="directory">
+  <tr class="even"><td class="entry"><a class="el" href="a01261.html#a3322f6172f0fd111eb1248a7c6a3cb43">bytes_transferred</a></td><td class="entry"><a class="el" href="a01261.html">lumex::applied::serial::probe::serial_io_result_t</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a01261.html#ad8912d6ffe5583b0e141ba6ed95ce8bf">status</a></td><td class="entry"><a class="el" href="a01261.html">lumex::applied::serial::probe::serial_io_result_t</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a01261.html#a1a55a9955978464d3fb8c072b9e03f00">system_error</a></td><td class="entry"><a class="el" href="a01261.html">lumex::applied::serial::probe::serial_io_result_t</a></td><td class="entry"></td></tr>
+</table></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00912.html">lumex</a></li><li class="navelem"><a class="el" href="a00964.html">core</a></li><li class="navelem"><a class="el" href="a00965.html">atomic</a></li><li class="navelem"><a class="el" href="a00966.html">smart_ptr</a></li><li class="navelem"><a class="el" href="a00967.html">lock_based_table_wait</a></li><li class="navelem"><a class="el" href="a00968.html">Detail</a></li><li class="navelem"><a class="el" href="a01258.html">smart_ptr_traits_t&lt; std::weak_ptr&lt; T &gt; &gt;</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

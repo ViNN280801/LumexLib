@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::core::fmt::Detail::FormatHandler&lt; Char &gt; Class Template Reference</title>
+<title>LumexLib: Member List</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a02050.html',''); initResizable(true); });
+$(function(){initNavTree('a02053.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,303 +103,19 @@ $(function(){initNavTree('a02050.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="summary">
-<a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="a02047.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">lumex::core::fmt::Detail::FormatHandler&lt; Char &gt; Class Template Reference</div></div>
+  <div class="headertitle"><div class="title">lumex::core::fmt::Detail::named_arg_t&lt; Char, T &gt; Member List</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p><code>parse_format_string</code> handler that formats into a buffer.  
- <a href="#details">More...</a></p>
-
-<p><code>#include &lt;<a class="el" href="a00272_source.html">LumexFormat.hpp</a>&gt;</code></p>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
-Public Member Functions</h2></td></tr>
-<tr class="memitem:a283c1578f2db53c62c837074338a59b0" id="r_a283c1578f2db53c62c837074338a59b0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a283c1578f2db53c62c837074338a59b0">FormatHandler</a> (<a class="el" href="a01938.html">Buffer</a>&lt; Char &gt; &amp;buffer, <a class="el" href="a01934.html">BasicStringRef</a>&lt; Char &gt; text, <a class="el" href="a02026.html">BasicFormatArgs</a>&lt; Char &gt; const &amp;args, std::locale const *locale)</td></tr>
-<tr class="separator:a283c1578f2db53c62c837074338a59b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6130a3cfa80e81540d195e201057d1be" id="r_a6130a3cfa80e81540d195e201057d1be"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6130a3cfa80e81540d195e201057d1be">on_text</a> (Char const *first, Char const *stop)</td></tr>
-<tr class="separator:a6130a3cfa80e81540d195e201057d1be"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac7dc24f169446606bd212d13d580b527" id="r_ac7dc24f169446606bd212d13d580b527"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac7dc24f169446606bd212d13d580b527">on_field_start</a> (std::size_t offset) noexcept</td></tr>
-<tr class="separator:ac7dc24f169446606bd212d13d580b527"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7fa7075f44b0b6e2bac3d3e037a128a2" id="r_a7fa7075f44b0b6e2bac3d3e037a128a2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7fa7075f44b0b6e2bac3d3e037a128a2">on_auto_arg</a> ()</td></tr>
-<tr class="separator:a7fa7075f44b0b6e2bac3d3e037a128a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab20725ca7c84b3fd674c2e2a410dc9c0" id="r_ab20725ca7c84b3fd674c2e2a410dc9c0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab20725ca7c84b3fd674c2e2a410dc9c0">on_index_arg</a> (int id)</td></tr>
-<tr class="separator:ab20725ca7c84b3fd674c2e2a410dc9c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5fc10056dcbcaf93cac3c6a620e1f043" id="r_a5fc10056dcbcaf93cac3c6a620e1f043"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5fc10056dcbcaf93cac3c6a620e1f043">on_name_arg</a> (Char const *<a class="el" href="a01008.html#a89d8d3fcb093a9782eeed020d3e7628bab068931cc450442b63f5b3d276ea4297">name</a>, std::size_t size)</td></tr>
-<tr class="separator:a5fc10056dcbcaf93cac3c6a620e1f043"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab00b39c13abd349492b4dea870d421a1" id="r_ab00b39c13abd349492b4dea870d421a1"><td class="memItemLeft" align="right" valign="top">Char const *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab00b39c13abd349492b4dea870d421a1">on_format_specs</a> (Char const *it, Char const *)</td></tr>
-<tr class="separator:ab00b39c13abd349492b4dea870d421a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3dd713d01536b26bfb5296ed498469e6" id="r_a3dd713d01536b26bfb5296ed498469e6"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3dd713d01536b26bfb5296ed498469e6">field_start</a> () const noexcept</td></tr>
-<tr class="separator:a3dd713d01536b26bfb5296ed498469e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><div class="compoundTemplParams">template&lt;typename Char&gt;<br />
-class lumex::core::fmt::Detail::FormatHandler&lt; Char &gt;</div><p><code>parse_format_string</code> handler that formats into a buffer. </p>
-</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a283c1578f2db53c62c837074338a59b0" name="a283c1578f2db53c62c837074338a59b0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a283c1578f2db53c62c837074338a59b0">&#9670;&#160;</a></span>FormatHandler()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename Char&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="a02050.html">lumex::core::fmt::Detail::FormatHandler</a>&lt; Char &gt;::FormatHandler </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a01938.html">Buffer</a>&lt; Char &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>buffer</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="a01934.html">BasicStringRef</a>&lt; Char &gt;</td>          <td class="paramname"><span class="paramname"><em>text</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="a02026.html">BasicFormatArgs</a>&lt; Char &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>args</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::locale const *</td>          <td class="paramname"><span class="paramname"><em>locale</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<h2 class="groupheader">Member Function Documentation</h2>
-<a id="a3dd713d01536b26bfb5296ed498469e6" name="a3dd713d01536b26bfb5296ed498469e6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3dd713d01536b26bfb5296ed498469e6">&#9670;&#160;</a></span>field_start()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename Char&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::size_t <a class="el" href="a02050.html">lumex::core::fmt::Detail::FormatHandler</a>&lt; Char &gt;::field_start </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a02050_a3dd713d01536b26bfb5296ed498469e6_icgraph.png" border="0" usemap="#aa02050_a3dd713d01536b26bfb5296ed498469e6_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="a7fa7075f44b0b6e2bac3d3e037a128a2" name="a7fa7075f44b0b6e2bac3d3e037a128a2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7fa7075f44b0b6e2bac3d3e037a128a2">&#9670;&#160;</a></span>on_auto_arg()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename Char&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void <a class="el" href="a02050.html">lumex::core::fmt::Detail::FormatHandler</a>&lt; Char &gt;::on_auto_arg </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ac7dc24f169446606bd212d13d580b527" name="ac7dc24f169446606bd212d13d580b527"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac7dc24f169446606bd212d13d580b527">&#9670;&#160;</a></span>on_field_start()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename Char&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void <a class="el" href="a02050.html">lumex::core::fmt::Detail::FormatHandler</a>&lt; Char &gt;::on_field_start </td>
-          <td>(</td>
-          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>offset</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ab00b39c13abd349492b4dea870d421a1" name="ab00b39c13abd349492b4dea870d421a1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab00b39c13abd349492b4dea870d421a1">&#9670;&#160;</a></span>on_format_specs()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename Char&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">Char const  * <a class="el" href="a02050.html">lumex::core::fmt::Detail::FormatHandler</a>&lt; Char &gt;::on_format_specs </td>
-          <td>(</td>
-          <td class="paramtype">Char const *</td>          <td class="paramname"><span class="paramname"><em>it</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Char const *</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a02050_ab00b39c13abd349492b4dea870d421a1_cgraph.png" border="0" usemap="#aa02050_ab00b39c13abd349492b4dea870d421a1_cgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="ab20725ca7c84b3fd674c2e2a410dc9c0" name="ab20725ca7c84b3fd674c2e2a410dc9c0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab20725ca7c84b3fd674c2e2a410dc9c0">&#9670;&#160;</a></span>on_index_arg()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename Char&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void <a class="el" href="a02050.html">lumex::core::fmt::Detail::FormatHandler</a>&lt; Char &gt;::on_index_arg </td>
-          <td>(</td>
-          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>id</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a5fc10056dcbcaf93cac3c6a620e1f043" name="a5fc10056dcbcaf93cac3c6a620e1f043"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5fc10056dcbcaf93cac3c6a620e1f043">&#9670;&#160;</a></span>on_name_arg()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename Char&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void <a class="el" href="a02050.html">lumex::core::fmt::Detail::FormatHandler</a>&lt; Char &gt;::on_name_arg </td>
-          <td>(</td>
-          <td class="paramtype">Char const *</td>          <td class="paramname"><span class="paramname"><em>name</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>size</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a6130a3cfa80e81540d195e201057d1be" name="a6130a3cfa80e81540d195e201057d1be"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6130a3cfa80e81540d195e201057d1be">&#9670;&#160;</a></span>on_text()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename Char&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void <a class="el" href="a02050.html">lumex::core::fmt::Detail::FormatHandler</a>&lt; Char &gt;::on_text </td>
-          <td>(</td>
-          <td class="paramtype">Char const *</td>          <td class="paramname"><span class="paramname"><em>first</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Char const *</td>          <td class="paramname"><span class="paramname"><em>stop</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<hr/>The documentation for this class was generated from the following file:<ul>
-<li><a class="el" href="a00272_source.html">LumexFormat.hpp</a></li>
-</ul>
-</div><!-- contents -->
+<p>This is the complete list of members for <a class="el" href="a02053.html">lumex::core::fmt::Detail::named_arg_t&lt; Char, T &gt;</a>, including all inherited members.</p>
+<table class="directory">
+  <tr class="even"><td class="entry"><a class="el" href="a02053.html#aeff16f0f2ff5f3529cb5059a909617f6">name</a></td><td class="entry"><a class="el" href="a02053.html">lumex::core::fmt::Detail::named_arg_t&lt; Char, T &gt;</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a02053.html#ad132c2f1ee3fb790a3c46d486bf37571">value</a></td><td class="entry"><a class="el" href="a02053.html">lumex::core::fmt::Detail::named_arg_t&lt; Char, T &gt;</a></td><td class="entry"></td></tr>
+</table></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00912.html">lumex</a></li><li class="navelem"><a class="el" href="a00964.html">core</a></li><li class="navelem"><a class="el" href="a01007.html">fmt</a></li><li class="navelem"><a class="el" href="a01008.html">Detail</a></li><li class="navelem"><a class="el" href="a02050.html">FormatHandler</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

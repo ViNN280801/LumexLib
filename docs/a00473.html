@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: example_format_custom.cpp File Reference</title>
+<title>LumexLib: example_crc_workflow.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,102 +104,82 @@ $(function(){initNavTree('a00473.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
-<a href="#namespaces">Namespaces</a> &#124;
-<a href="#enum-members">Enumerations</a> &#124;
-<a href="#func-members">Functions</a> &#124;
-<a href="#var-members">Variables</a>  </div>
-  <div class="headertitle"><div class="title">example_format_custom.cpp File Reference</div></div>
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle"><div class="title">example_crc_workflow.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;iostream&gt;</code><br />
-<code>#include &lt;ostream&gt;</code><br />
+<div class="textblock"><code>#include &lt;cstdint&gt;</code><br />
+<code>#include &lt;iostream&gt;</code><br />
 <code>#include &lt;string&gt;</code><br />
 <code>#include &lt;vector&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00878_source.html">lumex/core/fmt/LumexFormat</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00299_source.html">lumex/core/reflection/reflected_enum/LumexReflectedEnum.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00899_source.html">lumex/core/crc/LumexCrc</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for example_format_custom.cpp:</div>
+Include dependency graph for example_crc_workflow.cpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00474.png" border="0" usemap="#aexample__format__custom_8cpp" alt=""/></div>
+<div class="center"><img src="a00474.png" border="0" usemap="#aexample__crc__workflow_8cpp" alt=""/></div>
+<map name="aexample__crc__workflow_8cpp" id="aexample__crc__workflow_8cpp">
+<area shape="rect" title=" " alt="" coords="576,5,754,32"/>
+<area shape="rect" title=" " alt="" coords="544,237,604,264"/>
+<area shape="poly" title=" " alt="" coords="629,35,595,53,581,66,570,81,558,117,555,155,560,191,567,222,562,223,555,192,550,155,552,116,565,79,577,62,592,49,626,30"/>
+<area shape="rect" title=" " alt="" coords="774,80,846,107"/>
+<area shape="poly" title=" " alt="" coords="691,30,772,70,770,75,689,35"/>
+<area shape="rect" title=" " alt="" coords="870,80,923,107"/>
+<area shape="poly" title=" " alt="" coords="706,30,856,76,854,82,704,35"/>
+<area shape="rect" title=" " alt="" coords="5,237,63,264"/>
+<area shape="poly" title=" " alt="" coords="618,35,447,84,341,119,235,157,147,196,72,232,70,228,144,191,233,152,339,114,446,79,616,30"/>
+<area shape="rect" href="a00899.html" title="CRC module: parametric CRC engines in the notation of the CRC RevEng catalogue, and the catalogue&#39;s n..." alt="" coords="579,80,750,107"/>
+<area shape="poly" title=" " alt="" coords="667,33,667,64,662,64,662,33"/>
+<area shape="rect" href="a00236.html" title="Header&#45;only CRC engines for every algorithm of the CRC RevEng catalogue up to 64 bits." alt="" coords="881,155,1115,181"/>
+<area shape="poly" title=" " alt="" coords="724,105,925,148,924,153,723,110"/>
+<area shape="rect" href="a00233.html" title="Run&#45;time CRC computation by catalogue index or by explicit parameters, and the process&#45;wide 8&#45;bit tra..." alt="" coords="246,155,443,181"/>
+<area shape="poly" title=" " alt="" coords="609,110,416,153,415,148,608,105"/>
+<area shape="poly" title=" " alt="" coords="881,182,753,200,684,214,617,232,613,233,611,228,616,227,683,209,752,195,880,177"/>
+<area shape="poly" title=" " alt="" coords="880,175,541,191,334,208,126,232,79,241,78,236,126,227,333,202,541,186,880,169"/>
+<area shape="rect" title=" " alt="" coords="1266,237,1316,264"/>
+<area shape="poly" title=" " alt="" coords="1066,179,1154,199,1248,227,1253,229,1251,234,1247,232,1152,204,1065,185"/>
+<area shape="rect" title=" " alt="" coords="628,237,693,264"/>
+<area shape="poly" title=" " alt="" coords="911,185,812,204,705,232,701,233,699,228,704,227,810,198,910,179"/>
+<area shape="rect" title=" " alt="" coords="1341,237,1394,264"/>
+<area shape="poly" title=" " alt="" coords="1116,179,1221,198,1329,227,1333,228,1331,233,1328,232,1220,203,1115,185"/>
+<area shape="rect" title=" " alt="" coords="1417,237,1467,264"/>
+<area shape="poly" title=" " alt="" coords="1116,173,1257,190,1333,206,1407,227,1410,228,1408,233,1405,232,1332,211,1256,196,1115,178"/>
+<area shape="rect" title=" " alt="" coords="1490,237,1572,264"/>
+<area shape="poly" title=" " alt="" coords="1116,173,1289,191,1385,207,1480,227,1489,229,1487,234,1479,232,1384,212,1288,197,1115,179"/>
+<area shape="rect" title=" " alt="" coords="1597,237,1650,264"/>
+<area shape="poly" title=" " alt="" coords="1116,166,1218,170,1336,179,1462,198,1585,227,1590,228,1588,233,1584,232,1461,203,1336,185,1217,175,1116,171"/>
+<area shape="rect" href="a00386.html" title="Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_..." alt="" coords="717,229,884,272"/>
+<area shape="poly" title=" " alt="" coords="968,184,867,225,865,220,966,179"/>
+<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="841,320,1035,363"/>
+<area shape="poly" title=" " alt="" coords="1087,179,1141,193,1187,212,1204,224,1214,238,1215,255,1205,274,1182,292,1144,306,1051,328,1050,322,1143,301,1179,287,1201,270,1209,254,1209,240,1200,228,1185,216,1140,198,1086,185"/>
+<area shape="rect" href="a00389.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="351,229,520,272"/>
+<area shape="poly" title=" " alt="" coords="881,185,721,204,535,231,535,226,720,199,880,179"/>
+<area shape="rect" href="a00404.html" title="C++ language, library and attribute feature availability." alt="" coords="320,320,551,363"/>
+<area shape="poly" title=" " alt="" coords="990,184,944,234,919,259,898,274,838,294,754,310,567,333,566,327,754,305,837,289,895,270,915,255,940,230,986,180"/>
+<area shape="rect" href="a00419.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="959,229,1192,272"/>
+<area shape="poly" title=" " alt="" coords="1012,180,1047,217,1044,220,1008,184"/>
+<area shape="rect" href="a00641.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="77,328,239,355"/>
+<area shape="poly" title=" " alt="" coords="717,273,705,275,594,291,507,301,308,323,255,329,255,324,307,317,506,296,593,286,704,269,716,267"/>
+<area shape="poly" title=" " alt="" coords="834,270,895,309,892,314,831,275"/>
+<area shape="poly" title=" " alt="" coords="438,272,438,305,433,305,433,272"/>
+<area shape="poly" title=" " alt="" coords="1045,275,984,314,981,309,1042,270"/>
+<area shape="poly" title=" " alt="" coords="390,179,458,200,532,227,536,228,534,233,530,232,456,205,389,184"/>
+<area shape="poly" title=" " alt="" coords="275,185,183,204,83,232,77,234,76,229,81,227,182,199,274,179"/>
+<area shape="poly" title=" " alt="" coords="423,179,517,199,617,227,622,228,620,234,616,232,515,204,421,185"/>
+<area shape="poly" title=" " alt="" coords="260,185,179,204,147,217,128,231,120,250,122,272,130,294,141,313,137,316,125,296,117,273,115,249,124,228,145,212,178,199,259,179"/>
+<area shape="poly" title=" " alt="" coords="342,183,335,202,330,226,331,250,341,270,364,282,406,293,533,311,685,324,826,333,825,338,685,330,532,316,405,298,362,287,337,274,326,251,325,225,330,201,336,181"/>
+<area shape="poly" title=" " alt="" coords="361,180,403,217,399,221,357,184"/>
+<area shape="poly" title=" " alt="" coords="333,184,316,202,300,224,292,248,293,259,298,271,318,293,344,311,341,315,314,297,293,273,288,261,287,247,296,222,312,198,329,180"/>
+<area shape="poly" title=" " alt="" coords="444,177,897,227,944,232,943,237,896,232,444,183"/>
+<area shape="rect" title=" " alt="" coords="138,237,226,264"/>
+<area shape="poly" title=" " alt="" coords="320,184,222,233,220,228,318,179"/>
+</map>
 </div>
 </div><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02754.html">lumex::core::fmt::Formatter&lt; pressure_t &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02758.html">lumex::core::fmt::Formatter&lt; pressure_t, wchar_t &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02762.html">lumex::core::fmt::Formatter&lt; date_t &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02766.html">lumex::core::fmt::Formatter&lt; point_t &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02770.html">lumex::core::fmt::Formatter&lt; stars_t, Char &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
-Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00912.html">lumex</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00964.html">lumex::core</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01007.html">lumex::core::fmt</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
-Enumerations</h2></td></tr>
-<tr class="memitem:ad546a4d1e497933db5d6e8364b0756e9" id="r_ad546a4d1e497933db5d6e8364b0756e9"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad546a4d1e497933db5d6e8364b0756e9">PumpState</a> : int { <a class="el" href="#ad546a4d1e497933db5d6e8364b0756e9aec2f993aec2c27fc750119ab17b16cdb">idle</a> = 0
-, <a class="el" href="#ad546a4d1e497933db5d6e8364b0756e9a75101dcdfc88455bcafc9e53e0b06689">running</a> = 10
-, <a class="el" href="#ad546a4d1e497933db5d6e8364b0756e9a3881bfd1571f85c6562ddfac94ea80ba">fault</a> = -1
- }</td></tr>
-<tr class="separator:ad546a4d1e497933db5d6e8364b0756e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a6a0cc95064667202348152e32b5937cc" id="r_a6a0cc95064667202348152e32b5937cc"><td class="memItemLeft" align="right" valign="top">static constexpr char const *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6a0cc95064667202348152e32b5937cc">toString</a> (<a class="el" href="#ad546a4d1e497933db5d6e8364b0756e9">PumpState</a> value) noexcept</td></tr>
-<tr class="separator:a6a0cc95064667202348152e32b5937cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae66f6b31b5ad750f1fe042a706a4e3d4" id="r_ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a> ()</td></tr>
 <tr class="separator:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
-Variables</h2></td></tr>
-<tr class="memitem:a2e2fb07bc7b3b1a503054cb1b33294bc" id="r_a2e2fb07bc7b3b1a503054cb1b33294bc"><td class="memItemLeft" align="right" valign="top">static constexprstd::array&lt; <a class="el" href="#ad546a4d1e497933db5d6e8364b0756e9">PumpState</a>, 3 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2e2fb07bc7b3b1a503054cb1b33294bc">PumpStateValues</a> { <a class="el" href="#ad546a4d1e497933db5d6e8364b0756e9aec2f993aec2c27fc750119ab17b16cdb">PumpState::idle</a> , <a class="el" href="#ad546a4d1e497933db5d6e8364b0756e9a75101dcdfc88455bcafc9e53e0b06689">PumpState::running</a> , <a class="el" href="#ad546a4d1e497933db5d6e8364b0756e9a3881bfd1571f85c6562ddfac94ea80ba">PumpState::fault</a> }</td></tr>
-<tr class="separator:a2e2fb07bc7b3b1a503054cb1b33294bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a05c352d9e2851142ed64870e2e9ae8af" id="r_a05c352d9e2851142ed64870e2e9ae8af"><td class="memItemLeft" align="right" valign="top">static constexprPumpState&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a05c352d9e2851142ed64870e2e9ae8af">PumpStateFirst</a> = <a class="el" href="a01021.html#a1402ab62e151b9fd9b6f014b91610bda">::lumex::core::reflection::reflected_enum::detail::first_of</a>( <a class="el" href="#ad546a4d1e497933db5d6e8364b0756e9aec2f993aec2c27fc750119ab17b16cdb">PumpState::idle</a> , <a class="el" href="#ad546a4d1e497933db5d6e8364b0756e9a75101dcdfc88455bcafc9e53e0b06689">PumpState::running</a> , <a class="el" href="#ad546a4d1e497933db5d6e8364b0756e9a3881bfd1571f85c6562ddfac94ea80ba">PumpState::fault</a> )</td></tr>
-<tr class="separator:a05c352d9e2851142ed64870e2e9ae8af"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7eddc277185aa264e74f84a2ca9ce1ec" id="r_a7eddc277185aa264e74f84a2ca9ce1ec"><td class="memItemLeft" align="right" valign="top">static constexprstd::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7eddc277185aa264e74f84a2ca9ce1ec">PumpStateSize</a> = <a class="el" href="#a2e2fb07bc7b3b1a503054cb1b33294bc">PumpStateValues</a> .size()</td></tr>
-<tr class="separator:a7eddc277185aa264e74f84a2ca9ce1ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a79191d649b3bac5498c73d3e32a3cb0e" id="r_a79191d649b3bac5498c73d3e32a3cb0e"><td class="memItemLeft" align="right" valign="top">static constexprPumpState&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a79191d649b3bac5498c73d3e32a3cb0e">PumpStateLast</a> = <a class="el" href="a01021.html#a479c8294a6863b2cbd9f422b77a46472">::lumex::core::reflection::reflected_enum::detail::last_of</a>( <a class="el" href="#ad546a4d1e497933db5d6e8364b0756e9aec2f993aec2c27fc750119ab17b16cdb">PumpState::idle</a> , <a class="el" href="#ad546a4d1e497933db5d6e8364b0756e9a75101dcdfc88455bcafc9e53e0b06689">PumpState::running</a> , <a class="el" href="#ad546a4d1e497933db5d6e8364b0756e9a3881bfd1571f85c6562ddfac94ea80ba">PumpState::fault</a> )</td></tr>
-<tr class="separator:a79191d649b3bac5498c73d3e32a3cb0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Enumeration Type Documentation</h2>
-<a id="ad546a4d1e497933db5d6e8364b0756e9" name="ad546a4d1e497933db5d6e8364b0756e9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad546a4d1e497933db5d6e8364b0756e9">&#9670;&#160;</a></span>PumpState</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">enum class <a class="el" href="#ad546a4d1e497933db5d6e8364b0756e9">PumpState</a> : int</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ad546a4d1e497933db5d6e8364b0756e9aec2f993aec2c27fc750119ab17b16cdb" name="ad546a4d1e497933db5d6e8364b0756e9aec2f993aec2c27fc750119ab17b16cdb"></a>idle&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="ad546a4d1e497933db5d6e8364b0756e9a75101dcdfc88455bcafc9e53e0b06689" name="ad546a4d1e497933db5d6e8364b0756e9a75101dcdfc88455bcafc9e53e0b06689"></a>running&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="ad546a4d1e497933db5d6e8364b0756e9a3881bfd1571f85c6562ddfac94ea80ba" name="ad546a4d1e497933db5d6e8364b0756e9a3881bfd1571f85c6562ddfac94ea80ba"></a>fault&#160;</td><td class="fielddoc"></td></tr>
-</table>
-
-</div>
-</div>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="ae66f6b31b5ad750f1fe042a706a4e3d4" name="ae66f6b31b5ad750f1fe042a706a4e3d4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae66f6b31b5ad750f1fe042a706a4e3d4">&#9670;&#160;</a></span>main()</h2>
@@ -219,126 +199,12 @@ Variables</h2></td></tr>
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="a00473_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph.png" border="0" usemap="#aa00473_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" alt=""/></div>
+<map name="aa00473_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" id="aa00473_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph">
+<area shape="rect" title=" " alt="" coords="5,21,55,48"/>
+<area shape="rect" href="a01869.html#a7fcf511f52a47824e0299d04c3bdf9c0" title=" " alt="" coords="103,5,287,64"/>
+<area shape="poly" title=" " alt="" coords="55,32,87,32,87,37,55,37"/>
+</map>
 </div>
-
-</div>
-</div>
-<a id="a6a0cc95064667202348152e32b5937cc" name="a6a0cc95064667202348152e32b5937cc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6a0cc95064667202348152e32b5937cc">&#9670;&#160;</a></span>toString()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static constexpr char const  * toString </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="#ad546a4d1e497933db5d6e8364b0756e9">PumpState</a></td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel static">static</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00473_a6a0cc95064667202348152e32b5937cc_icgraph.png" border="0" usemap="#aa00473_a6a0cc95064667202348152e32b5937cc_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<h2 class="groupheader">Variable Documentation</h2>
-<a id="a05c352d9e2851142ed64870e2e9ae8af" name="a05c352d9e2851142ed64870e2e9ae8af"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a05c352d9e2851142ed64870e2e9ae8af">&#9670;&#160;</a></span>PumpStateFirst</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexprPumpState PumpStateFirst = <a class="el" href="a01021.html#a1402ab62e151b9fd9b6f014b91610bda">::lumex::core::reflection::reflected_enum::detail::first_of</a>( <a class="el" href="#ad546a4d1e497933db5d6e8364b0756e9aec2f993aec2c27fc750119ab17b16cdb">PumpState::idle</a> , <a class="el" href="#ad546a4d1e497933db5d6e8364b0756e9a75101dcdfc88455bcafc9e53e0b06689">PumpState::running</a> , <a class="el" href="#ad546a4d1e497933db5d6e8364b0756e9a3881bfd1571f85c6562ddfac94ea80ba">PumpState::fault</a> )</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a79191d649b3bac5498c73d3e32a3cb0e" name="a79191d649b3bac5498c73d3e32a3cb0e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a79191d649b3bac5498c73d3e32a3cb0e">&#9670;&#160;</a></span>PumpStateLast</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexprPumpState PumpStateLast = <a class="el" href="a01021.html#a479c8294a6863b2cbd9f422b77a46472">::lumex::core::reflection::reflected_enum::detail::last_of</a>( <a class="el" href="#ad546a4d1e497933db5d6e8364b0756e9aec2f993aec2c27fc750119ab17b16cdb">PumpState::idle</a> , <a class="el" href="#ad546a4d1e497933db5d6e8364b0756e9a75101dcdfc88455bcafc9e53e0b06689">PumpState::running</a> , <a class="el" href="#ad546a4d1e497933db5d6e8364b0756e9a3881bfd1571f85c6562ddfac94ea80ba">PumpState::fault</a> )</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a7eddc277185aa264e74f84a2ca9ce1ec" name="a7eddc277185aa264e74f84a2ca9ce1ec"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7eddc277185aa264e74f84a2ca9ce1ec">&#9670;&#160;</a></span>PumpStateSize</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexprstd::size_t PumpStateSize = <a class="el" href="#a2e2fb07bc7b3b1a503054cb1b33294bc">PumpStateValues</a> .size()</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a2e2fb07bc7b3b1a503054cb1b33294bc" name="a2e2fb07bc7b3b1a503054cb1b33294bc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2e2fb07bc7b3b1a503054cb1b33294bc">&#9670;&#160;</a></span>PumpStateValues</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexprstd::array&lt;<a class="el" href="#ad546a4d1e497933db5d6e8364b0756e9">PumpState</a>, 3 &gt; PumpStateValues { <a class="el" href="#ad546a4d1e497933db5d6e8364b0756e9aec2f993aec2c27fc750119ab17b16cdb">PumpState::idle</a> , <a class="el" href="#ad546a4d1e497933db5d6e8364b0756e9a75101dcdfc88455bcafc9e53e0b06689">PumpState::running</a> , <a class="el" href="#ad546a4d1e497933db5d6e8364b0756e9a3881bfd1571f85c6562ddfac94ea80ba">PumpState::fault</a> }</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
 
 </div>
 </div>
@@ -347,7 +213,7 @@ Here is the caller graph for this function:</div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_e8ae4df8b8335e2a73ecf531ee4a4a97.html">examples</a></li><li class="navelem"><a class="el" href="dir_48f63977bcbbc0057df875ef8f8dd4ef.html">fmt</a></li><li class="navelem"><a class="el" href="a00473.html">example_format_custom.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_e8ae4df8b8335e2a73ecf531ee4a4a97.html">examples</a></li><li class="navelem"><a class="el" href="dir_f5ee4a495815350fb57d793ab1ff875d.html">crc</a></li><li class="navelem"><a class="el" href="a00473.html">example_crc_workflow.cpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

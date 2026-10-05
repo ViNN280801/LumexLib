@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: XPathVariable.cpp File Reference</title>
+<title>LumexLib: XPathLexerString.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -105,16 +105,97 @@ $(function(){initNavTree('a00815.html',''); initResizable(true); });
 <div class="header">
   <div class="summary">
 <a href="#define-members">Macros</a>  </div>
-  <div class="headertitle"><div class="title">XPathVariable.cpp File Reference</div></div>
+  <div class="headertitle"><div class="title">XPathLexerString.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;<a class="el" href="a00350_source.html">lumex/core/utility/assert/LumexAssert.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00701_source.html">lumex/xml/utility/XmlUtils.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00818_source.html">XPathVariable.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="a00737_source.html">lumex/xml/utility/XmlUtils.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00818_source.html">XPathLexerString.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for XPathVariable.cpp:</div>
+Include dependency graph for XPathLexerString.cpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00816.png" border="0" usemap="#a_x_path_variable_8cpp" alt=""/></div>
+<div class="center"><img src="a00816.png" border="0" usemap="#a_x_path_lexer_string_8cpp" alt=""/></div>
+<map name="a_x_path_lexer_string_8cpp" id="a_x_path_lexer_string_8cpp">
+<area shape="rect" title=" " alt="" coords="599,5,748,32"/>
+<area shape="rect" href="a00737.html" title="Header&#45;only helpers of the XML implementation: transcoding, encoding detection, conversions between t..." alt="" coords="509,80,704,107"/>
+<area shape="poly" title=" " alt="" coords="664,34,630,70,626,67,660,31"/>
+<area shape="rect" href="a00818.html" title="XPathLexerString, the begin and end of a token inside the text of an XPath expression." alt="" coords="1552,163,1701,189"/>
+<area shape="poly" title=" " alt="" coords="748,28,1088,78,1534,152,1556,156,1555,162,1533,157,1088,83,747,33"/>
+<area shape="rect" title=" " alt="" coords="1431,344,1481,371"/>
+<area shape="poly" title=" " alt="" coords="705,97,999,117,1147,133,1254,152,1313,166,1360,179,1401,201,1421,219,1441,244,1452,264,1458,286,1461,328,1456,329,1453,287,1447,266,1436,247,1417,223,1398,206,1358,184,1311,171,1253,157,1147,138,999,122,704,102"/>
+<area shape="rect" title=" " alt="" coords="5,163,59,189"/>
+<area shape="poly" title=" " alt="" coords="509,98,415,102,305,112,187,129,71,157,68,158,66,153,70,152,186,124,304,106,415,97,509,92"/>
+<area shape="rect" title=" " alt="" coords="82,163,142,189"/>
+<area shape="poly" title=" " alt="" coords="509,101,341,118,246,134,154,157,149,159,148,154,153,152,245,129,340,113,508,96"/>
+<area shape="rect" title=" " alt="" coords="166,163,223,189"/>
+<area shape="poly" title=" " alt="" coords="509,107,381,126,243,157,236,159,235,154,242,152,380,121,508,102"/>
+<area shape="rect" title=" " alt="" coords="1136,344,1200,371"/>
+<area shape="poly" title=" " alt="" coords="604,108,585,149,558,199,537,222,528,232,521,246,514,268,515,277,521,286,533,294,555,301,621,311,808,322,998,327,1112,333,1124,336,1123,341,1112,339,998,332,808,328,621,317,554,306,531,299,517,290,510,279,509,268,516,244,524,229,533,219,554,196,580,147,599,106"/>
+<area shape="rect" title=" " alt="" coords="298,163,355,189"/>
+<area shape="poly" title=" " alt="" coords="548,110,465,130,374,157,369,159,367,154,373,152,464,125,547,105"/>
+<area shape="rect" title=" " alt="" coords="530,253,590,280"/>
+<area shape="poly" title=" " alt="" coords="610,107,611,148,603,198,581,242,576,240,597,197,605,148,605,107"/>
+<area shape="rect" title=" " alt="" coords="614,253,674,280"/>
+<area shape="poly" title=" " alt="" coords="622,105,639,127,653,154,658,176,659,198,654,238,649,237,653,198,653,176,648,156,635,130,617,109"/>
+<area shape="rect" title=" " alt="" coords="480,163,544,189"/>
+<area shape="poly" title=" " alt="" coords="594,109,540,155,536,151,590,105"/>
+<area shape="rect" href="a00386.html" title="Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_..." alt="" coords="800,245,968,288"/>
+<area shape="poly" title=" " alt="" coords="705,99,764,106,822,117,871,132,889,142,902,153,911,171,913,192,904,232,899,231,908,192,906,173,898,156,886,146,869,137,821,122,763,112,704,104"/>
+<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="346,592,540,635"/>
+<area shape="poly" title=" " alt="" coords="509,104,444,111,379,122,324,137,303,146,289,157,270,181,263,205,264,265,264,441,267,465,275,487,287,507,303,526,341,558,381,582,379,587,338,562,299,529,283,510,270,489,262,466,259,441,259,265,258,204,265,178,285,153,300,142,322,132,378,117,443,106,508,99"/>
+<area shape="rect" href="a00419.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="530,501,763,544"/>
+<area shape="poly" title=" " alt="" coords="529,110,489,127,472,140,458,156,454,166,454,175,459,197,464,243,478,287,510,346,548,401,619,488,615,491,543,405,506,349,474,289,459,245,453,198,449,175,449,165,454,153,469,136,487,123,527,105"/>
+<area shape="rect" href="a00659.html" title="Constants of the XML module: parse and format option flags, the masks of the node and attribute heade..." alt="" coords="1501,245,1643,288"/>
+<area shape="poly" title=" " alt="" coords="705,94,907,101,1149,112,1363,129,1439,140,1484,152,1507,168,1527,188,1557,230,1553,233,1523,191,1504,172,1482,157,1438,145,1362,134,1149,117,907,106,705,100"/>
+<area shape="rect" href="a00734.html" title="Preprocessor macros of the XML module: the character mode, the declaration of constants,..." alt="" coords="1257,427,1468,453"/>
+<area shape="poly" title=" " alt="" coords="540,110,501,127,484,140,470,156,465,172,465,191,479,234,497,271,507,286,531,302,561,318,638,345,732,368,837,387,1054,414,1242,429,1241,435,1054,419,836,392,731,373,637,350,559,322,528,307,503,290,493,273,474,236,460,192,459,171,466,153,480,136,498,123,538,105"/>
+<area shape="rect" href="a00677.html" title="The page allocator that holds the nodes, attributes and strings of one XML document." alt="" coords="1006,163,1242,189"/>
+<area shape="poly" title=" " alt="" coords="688,105,1028,157,1027,162,688,110"/>
+<area shape="rect" href="a00728.html" title="The basic types and enumerations of the XML module: character and string types, node types,..." alt="" coords="1718,253,1922,280"/>
+<area shape="poly" title=" " alt="" coords="705,93,957,98,1270,109,1554,126,1655,138,1714,152,1743,170,1769,192,1806,238,1802,242,1765,196,1740,174,1712,157,1654,143,1553,131,1270,114,957,104,705,99"/>
+<area shape="rect" href="a00785.html" title="XPathAllocator, the bump allocator of the XPath engine, and XPathAllocatorCapture,..." alt="" coords="720,155,888,197"/>
+<area shape="poly" title=" " alt="" coords="639,105,740,146,738,151,636,110"/>
+<area shape="rect" href="a00641.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="938,344,1100,371"/>
+<area shape="poly" title=" " alt="" coords="917,286,988,333,986,338,914,291"/>
+<area shape="poly" title=" " alt="" coords="842,291,775,325,692,374,603,434,521,503,488,541,463,580,459,577,484,538,517,499,600,430,689,369,773,321,840,286"/>
+<area shape="poly" title=" " alt="" coords="600,547,506,588,503,583,598,542"/>
+<area shape="poly" title=" " alt="" coords="1547,291,1486,337,1483,333,1543,286"/>
+<area shape="poly" title=" " alt="" coords="1501,282,1345,310,1217,339,1210,341,1209,336,1215,333,1344,305,1500,277"/>
+<area shape="rect" title=" " alt="" coords="1539,427,1600,453"/>
+<area shape="poly" title=" " alt="" coords="1574,289,1572,411,1567,411,1569,289"/>
+<area shape="poly" title=" " alt="" coords="1564,290,1536,335,1517,359,1495,381,1458,405,1419,423,1416,418,1455,401,1492,377,1513,355,1532,332,1560,287"/>
+<area shape="poly" title=" " alt="" coords="1257,456,779,509,778,504,1256,451"/>
+<area shape="rect" href="a00389.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="1480,501,1648,544"/>
+<area shape="poly" title=" " alt="" coords="1395,451,1499,493,1497,498,1393,456"/>
+<area shape="rect" href="a00404.html" title="C++ language, library and attribute feature availability." alt="" coords="1448,592,1680,635"/>
+<area shape="poly" title=" " alt="" coords="1567,544,1567,577,1561,577,1561,544"/>
+<area shape="poly" title=" " alt="" coords="1091,192,955,242,953,237,1089,187"/>
+<area shape="poly" title=" " alt="" coords="1101,192,1068,215,1052,230,1040,247,1031,267,1025,288,1021,329,1015,328,1020,287,1026,265,1035,244,1048,226,1065,211,1098,188"/>
+<area shape="poly" title=" " alt="" coords="1243,182,1366,191,1494,205,1600,222,1636,232,1657,243,1674,273,1681,306,1677,340,1667,374,1651,408,1632,439,1594,491,1590,488,1628,436,1646,405,1662,372,1672,339,1675,306,1669,275,1653,247,1634,237,1599,227,1494,210,1365,196,1242,187"/>
+<area shape="poly" title=" " alt="" coords="1242,187,1455,211,1699,243,1732,248,1731,253,1698,248,1454,217,1242,192"/>
+<area shape="rect" href="a00683.html" title="The header of a memory page of the XML allocator, and the default page size." alt="" coords="1094,253,1240,280"/>
+<area shape="poly" title=" " alt="" coords="1133,189,1156,238,1152,240,1128,191"/>
+<area shape="poly" title=" " alt="" coords="1803,283,1602,420,1599,415,1800,278"/>
+<area shape="poly" title=" " alt="" coords="1789,283,1532,381,1414,424,1412,419,1530,376,1787,278"/>
+<area shape="rect" title=" " alt="" coords="1793,344,1847,371"/>
+<area shape="poly" title=" " alt="" coords="1823,281,1823,328,1817,328,1817,281"/>
+<area shape="poly" title=" " alt="" coords="1170,281,1170,328,1165,328,1164,281"/>
+<area shape="poly" title=" " alt="" coords="1147,283,1054,338,1051,333,1144,278"/>
+<area shape="poly" title=" " alt="" coords="737,200,602,248,599,249,597,244,600,243,735,195"/>
+<area shape="poly" title=" " alt="" coords="768,200,682,248,679,243,765,196"/>
+<area shape="poly" title=" " alt="" coords="795,199,787,219,782,242,782,266,790,286,810,302,843,316,927,338,926,343,842,321,808,306,786,290,776,267,776,242,782,218,790,197"/>
+<area shape="poly" title=" " alt="" coords="784,200,615,362,528,450,481,503,463,540,452,578,447,576,458,539,476,500,524,446,611,358,781,196"/>
+<area shape="rect" href="a00788.html" title="XPathMemoryBlock, the unit of memory of the XPath allocator." alt="" coords="1264,253,1426,280"/>
+<area shape="poly" title=" " alt="" coords="889,186,1057,210,1252,243,1275,247,1274,252,1252,248,1056,216,888,191"/>
+<area shape="poly" title=" " alt="" coords="1363,279,1430,332,1427,336,1360,283"/>
+<area shape="poly" title=" " alt="" coords="1321,283,1208,339,1206,334,1319,278"/>
+<area shape="poly" title=" " alt="" coords="1299,283,1081,342,1079,337,1298,278"/>
+<area shape="rect" href="a00767.html" title="Size limits and alignment of the XPath engine." alt="" coords="1228,336,1406,379"/>
+<area shape="poly" title=" " alt="" coords="1344,281,1331,322,1326,321,1339,280"/>
+<area shape="poly" title=" " alt="" coords="1383,377,1526,422,1524,427,1381,382"/>
+<area shape="poly" title=" " alt="" coords="1331,378,1350,412,1346,414,1327,381"/>
+<area shape="poly" title=" " alt="" coords="1552,181,1434,186,1296,197,1169,217,1119,231,1083,248,1064,265,1048,286,1029,330,1024,328,1044,284,1060,261,1080,243,1117,226,1168,211,1296,192,1434,181,1552,176"/>
+<area shape="poly" title=" " alt="" coords="1655,188,1779,244,1777,249,1653,192"/>
+</map>
 </div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
@@ -142,7 +223,7 @@ Macros</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_d38a0fae6a8e48d91b3b62673cf0c708.html">xpath</a></li><li class="navelem"><a class="el" href="dir_fc0ba0971833cb384bf790ca47625916.html">variable</a></li><li class="navelem"><a class="el" href="a00815.html">XPathVariable.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_d38a0fae6a8e48d91b3b62673cf0c708.html">xpath</a></li><li class="navelem"><a class="el" href="dir_4c93ace1da67964a3ff55b959013373d.html">parser</a></li><li class="navelem"><a class="el" href="dir_2f8488fdbf169117866699aa1d08d080.html">lexer</a></li><li class="navelem"><a class="el" href="a00815.html">XPathLexerString.cpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

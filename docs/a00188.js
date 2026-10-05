@@ -1,4 +1,4 @@
 var a00188 =
 [
-    [ "lumex::core::base64::validate::Validator", "a01298.html", "a01298" ]
+    [ "lumex::core::atomic::smart_ptr::lock_based_table_wait::atomic_shared_ptr< T >", "a01325.html", "a01325" ]
 ];

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::xml::writer::XmlWriterStream Class Reference</title>
+<title>LumexLib: Member List</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a02990.html',''); initResizable(true); });
+$(function(){initNavTree('a02993.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,157 +103,18 @@ $(function(){initNavTree('a02990.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="summary">
-<a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="a02987.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">lumex::xml::writer::XmlWriterStream Class Reference</div></div>
+  <div class="headertitle"><div class="title">lumex::xml::utility::opt_true Member List</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>An <code><a class="el" href="a02974.html" title="Abstract base interface for writing XML data to various destinations.">IXmlWriter</a></code> implementation that writes XML data to a C++ standard output stream.  
- <a href="#details">More...</a></p>
-
-<p><code>#include &lt;<a class="el" href="a00722_source.html">XmlWriterStream.hpp</a>&gt;</code></p>
-<div class="dynheader">
-Inheritance diagram for lumex::xml::writer::XmlWriterStream:</div>
-<div class="dyncontent">
-<div class="center"><img src="a02989.png" border="0" usemap="#alumex_1_1xml_1_1writer_1_1_xml_writer_stream_inherit__map" alt="Inheritance graph"/></div>
-<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
-<div class="dynheader">
-Collaboration diagram for lumex::xml::writer::XmlWriterStream:</div>
-<div class="dyncontent">
-<div class="center"><img src="a02988.png" border="0" usemap="#alumex_1_1xml_1_1writer_1_1_xml_writer_stream_coll__map" alt="Collaboration graph"/></div>
-<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
-Public Member Functions</h2></td></tr>
-<tr class="memitem:a1bf8ccbbd33a483bded1223b48158c9a" id="r_a1bf8ccbbd33a483bded1223b48158c9a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1bf8ccbbd33a483bded1223b48158c9a">XmlWriterStream</a> (std::basic_ostream&lt; char &gt; &amp;stream)</td></tr>
-<tr class="memdesc:a1bf8ccbbd33a483bded1223b48158c9a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs an <code><a class="el" href="a02990.html" title="An IXmlWriter implementation that writes XML data to a C++ standard output stream.">XmlWriterStream</a></code> for a narrow character stream (<code>std::ostream</code>).  <br /></td></tr>
-<tr class="separator:a1bf8ccbbd33a483bded1223b48158c9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a70bf5ae98336f8731e57895eb3b541a4" id="r_a70bf5ae98336f8731e57895eb3b541a4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a70bf5ae98336f8731e57895eb3b541a4">XmlWriterStream</a> (std::basic_ostream&lt; wchar_t &gt; &amp;stream)</td></tr>
-<tr class="memdesc:a70bf5ae98336f8731e57895eb3b541a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs an <code><a class="el" href="a02990.html" title="An IXmlWriter implementation that writes XML data to a C++ standard output stream.">XmlWriterStream</a></code> for a wide character stream (<code>std::wostream</code>).  <br /></td></tr>
-<tr class="separator:a70bf5ae98336f8731e57895eb3b541a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6c57dcde95729d25b0c1cde06169dac6" id="r_a6c57dcde95729d25b0c1cde06169dac6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6c57dcde95729d25b0c1cde06169dac6">write</a> (void const *data, std::size_t size) override</td></tr>
-<tr class="memdesc:a6c57dcde95729d25b0c1cde06169dac6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes a block of raw data to the associated stream.  <br /></td></tr>
-<tr class="separator:a6c57dcde95729d25b0c1cde06169dac6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_methods_a02974"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_methods_a02974')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="a02974.html">lumex::xml::writer::IXmlWriter</a></td></tr>
-<tr class="memitem:a308227b66f5e277dfa480c687133daef inherit pub_methods_a02974" id="r_a308227b66f5e277dfa480c687133daef"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02974.html#a308227b66f5e277dfa480c687133daef">~IXmlWriter</a> ()=default</td></tr>
-<tr class="memdesc:a308227b66f5e277dfa480c687133daef inherit pub_methods_a02974"><td class="mdescLeft">&#160;</td><td class="mdescRight">Virtual destructor.  <br /></td></tr>
-<tr class="separator:a308227b66f5e277dfa480c687133daef inherit pub_methods_a02974"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>An <code><a class="el" href="a02974.html" title="Abstract base interface for writing XML data to various destinations.">IXmlWriter</a></code> implementation that writes XML data to a C++ standard output stream. </p>
-<p><code><a class="el" href="a02990.html" title="An IXmlWriter implementation that writes XML data to a C++ standard output stream.">XmlWriterStream</a></code> provides a concrete implementation of the <code><a class="el" href="a02974.html" title="Abstract base interface for writing XML data to various destinations.">IXmlWriter</a></code> interface, allowing XML serialization directly to <code>std::ostream</code> (for <code><a class="el" href="a01100.html#af5c331138f914028e4642100ea3e7a24">char_t</a></code> streams) or <code>std::wostream</code> (for <code>wchar_t</code> streams). It handles the differences between narrow and wide character streams. </p><dl class="section note"><dt>Note</dt><dd>This class does not own the stream; the caller is responsible for its lifetime. </dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="a02974.html" title="Abstract base interface for writing XML data to various destinations.">IXmlWriter</a> </dd></dl>
-</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a1bf8ccbbd33a483bded1223b48158c9a" name="a1bf8ccbbd33a483bded1223b48158c9a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1bf8ccbbd33a483bded1223b48158c9a">&#9670;&#160;</a></span>XmlWriterStream() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">XmlWriterStream::XmlWriterStream </td>
-          <td>(</td>
-          <td class="paramtype">std::basic_ostream&lt; char &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>stream</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Constructs an <code><a class="el" href="a02990.html" title="An IXmlWriter implementation that writes XML data to a C++ standard output stream.">XmlWriterStream</a></code> for a narrow character stream (<code>std::ostream</code>). </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">stream</td><td>A reference to the <code>std::basic_ostream&lt;char&gt;</code> to write to. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="a70bf5ae98336f8731e57895eb3b541a4" name="a70bf5ae98336f8731e57895eb3b541a4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a70bf5ae98336f8731e57895eb3b541a4">&#9670;&#160;</a></span>XmlWriterStream() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">XmlWriterStream::XmlWriterStream </td>
-          <td>(</td>
-          <td class="paramtype">std::basic_ostream&lt; wchar_t &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>stream</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Constructs an <code><a class="el" href="a02990.html" title="An IXmlWriter implementation that writes XML data to a C++ standard output stream.">XmlWriterStream</a></code> for a wide character stream (<code>std::wostream</code>). </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">stream</td><td>A reference to the <code>std::basic_ostream&lt;wchar_t&gt;</code> to write to. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<h2 class="groupheader">Member Function Documentation</h2>
-<a id="a6c57dcde95729d25b0c1cde06169dac6" name="a6c57dcde95729d25b0c1cde06169dac6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6c57dcde95729d25b0c1cde06169dac6">&#9670;&#160;</a></span>write()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void XmlWriterStream::write </td>
-          <td>(</td>
-          <td class="paramtype">void const *</td>          <td class="paramname"><span class="paramname"><em>data</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>size</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel override">override</span><span class="mlabel virtual">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Writes a block of raw data to the associated stream. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">data</td><td>A pointer to the data buffer to write. Must not be <code>nullptr</code>. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">size</td><td>The number of bytes to write from the <code>data</code> buffer.</td></tr>
-  </table>
-  </dd>
-</dl>
-<p>This function determines whether to write to the narrow or wide stream based on how the object was constructed, casting <code>data</code> to the appropriate character type if needed. </p><dl class="section note"><dt>Note</dt><dd>Implements the <code><a class="el" href="a02974.html#aa9f972023b05b186b307896ad9444a4d" title="Writes a block of raw data to the output.">IXmlWriter::write</a></code> pure virtual function. </dd></dl>
-<dl class="exception"><dt>Exceptions</dt><dd>
-  <table class="exception">
-    <tr><td class="paramname">`std::ios_base::failure`</td><td>if stream operations fail and exceptions are enabled on the stream. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p>Implements <a class="el" href="a02974.html#aa9f972023b05b186b307896ad9444a4d">lumex::xml::writer::IXmlWriter</a>.</p>
-
-</div>
-</div>
-<hr/>The documentation for this class was generated from the following files:<ul>
-<li><a class="el" href="a00722_source.html">XmlWriterStream.hpp</a></li>
-<li><a class="el" href="a00719.html">XmlWriterStream.cpp</a></li>
-</ul>
-</div><!-- contents -->
+<p>This is the complete list of members for <a class="el" href="a02993.html">lumex::xml::utility::opt_true</a>, including all inherited members.</p>
+<table class="directory">
+  <tr class="even"><td class="entry"><a class="el" href="a02993.html#a5dd14cd68b9037dabe50c442648a0f7facafb1df299968e7fb2195b2dbe88c598">value</a> enum value</td><td class="entry"><a class="el" href="a02993.html">lumex::xml::utility::opt_true</a></td><td class="entry"></td></tr>
+</table></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00912.html">lumex</a></li><li class="navelem"><a class="el" href="a01083.html">xml</a></li><li class="navelem"><a class="el" href="a01101.html">writer</a></li><li class="navelem"><a class="el" href="a02990.html">XmlWriterStream</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

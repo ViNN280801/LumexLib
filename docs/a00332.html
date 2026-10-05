@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexTemporary.hpp File Reference</title>
+<title>LumexLib: LumexFieldReflection.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,117 +104,138 @@ $(function(){initNavTree('a00332.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
 <a href="#namespaces">Namespaces</a> &#124;
-<a href="#typedef-members">Typedefs</a>  </div>
-  <div class="headertitle"><div class="title">LumexTemporary.hpp File Reference</div></div>
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle"><div class="title">LumexFieldReflection.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Temporary files and directories that delete themselves: <code><a class="el" href="#a26a7a33d3891da86909f3dfbe901b46f">TemporaryFile</a></code>, <code><a class="el" href="#a50474b0ed56613abaa07ff863adce1a1">TemporaryDirectory</a></code> and the factory <code><a class="el" href="#a16e39f808b1ac9dcad15c2abb6f4ff08">LumexTemporary</a></code>.  
+<p>Serializes a simple aggregate (no constructors, no private members, no base classes) to JSON by walking its fields.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="a00605_source.html">lumex/LumexExport.hpp</a>&quot;</code><br />
-<code>#include &lt;string&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00866_source.html">lumex/core/environment/LumexEnvironment</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00875_source.html">lumex/core/filesystem/LumexFilesystem</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00905_source.html">lumex/core/utility/LumexUtility</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00389_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &lt;array&gt;</code><br />
+<code>#include &lt;cstddef&gt;</code><br />
+<code>#include &lt;type_traits&gt;</code><br />
+<code>#include &lt;utility&gt;</code><br />
+<code>#include &lt;nlohmann/json.hpp&gt;</code><br />
+<code>#include &quot;<a class="el" href="a00329_source.html">lumex/core/reflection/field_reflection/LumexAggregateFields.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00425_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00446_source.html">lumex/core/utility/traits/LumexTypeTraits.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for LumexTemporary.hpp:</div>
+Include dependency graph for LumexFieldReflection.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00333.png" border="0" usemap="#a_lumex_temporary_8hpp" alt=""/></div>
-</div>
-</div><div class="textblock"><div class="dynheader">
-This graph shows which files directly or indirectly include this file:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00334.png" border="0" usemap="#a_lumex_temporary_8hppdep" alt=""/></div>
+<div class="center"><img src="a00333.png" border="0" usemap="#a_lumex_field_reflection_8hpp" alt=""/></div>
+<map name="a_lumex_field_reflection_8hpp" id="a_lumex_field_reflection_8hpp">
+<area shape="rect" title="Serializes a simple aggregate (no constructors, no private members, no base classes) to JSON by walki..." alt="" coords="971,5,1143,32"/>
+<area shape="rect" title=" " alt="" coords="112,195,162,221"/>
+<area shape="poly" title=" " alt="" coords="971,28,772,47,655,62,539,83,434,104,354,125,275,150,176,189,174,190,172,185,173,184,273,145,352,119,433,99,538,77,654,57,772,42,970,23"/>
+<area shape="rect" title=" " alt="" coords="989,195,1053,221"/>
+<area shape="poly" title=" " alt="" coords="1057,33,1029,180,1024,179,1052,32"/>
+<area shape="rect" title=" " alt="" coords="5,195,88,221"/>
+<area shape="poly" title=" " alt="" coords="971,25,617,43,432,60,357,70,299,83,236,105,175,133,79,188,77,183,173,128,234,100,298,77,356,65,432,55,617,38,971,20"/>
+<area shape="rect" title=" " alt="" coords="1078,195,1130,221"/>
+<area shape="poly" title=" " alt="" coords="1063,32,1100,179,1094,180,1058,33"/>
+<area shape="rect" title=" " alt="" coords="2199,96,2329,123"/>
+<area shape="poly" title=" " alt="" coords="1144,19,1374,25,1673,36,1967,53,2088,64,2180,77,2219,88,2218,93,2179,83,2087,70,1966,58,1673,41,1374,30,1144,24"/>
+<area shape="rect" href="a00329.html" title="Non&#45;intrusive field count, indexed access, and (from C++20) field names for simple aggregates." alt="" coords="550,80,762,139"/>
+<area shape="poly" title=" " alt="" coords="1000,35,777,84,776,79,999,30"/>
+<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="1121,277,1316,320"/>
+<area shape="poly" title=" " alt="" coords="1144,17,1379,22,1526,31,1679,45,1827,66,1960,95,2018,113,2067,134,2108,158,2138,185,2145,196,2148,208,2145,220,2138,231,2122,242,2096,251,2021,267,1919,279,1801,287,1548,297,1331,300,1331,295,1548,292,1801,282,1919,273,2020,262,2095,246,2119,237,2134,227,2141,218,2143,208,2140,198,2134,188,2105,162,2065,139,2016,118,1959,100,1826,71,1679,50,1526,36,1379,28,1144,22"/>
+<area shape="rect" href="a00446.html" title="Every general&#45;purpose type trait of LumexLib, one sub&#45;namespace of lumex::core::utility::traits per t..." alt="" coords="1119,88,1302,131"/>
+<area shape="poly" title=" " alt="" coords="1080,30,1163,78,1161,82,1078,35"/>
+<area shape="poly" title=" " alt="" coords="550,126,343,155,245,172,175,189,172,190,170,185,174,184,244,167,342,149,549,121"/>
+<area shape="poly" title=" " alt="" coords="762,128,868,152,978,184,983,186,981,191,976,189,866,157,761,133"/>
+<area shape="poly" title=" " alt="" coords="550,121,341,144,220,164,100,189,92,192,90,187,99,184,219,158,340,139,550,115"/>
+<area shape="rect" title=" " alt="" coords="823,195,891,221"/>
+<area shape="poly" title=" " alt="" coords="717,137,818,185,816,190,715,142"/>
+<area shape="rect" href="a00386.html" title="Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_..." alt="" coords="632,187,800,229"/>
+<area shape="poly" title=" " alt="" coords="676,138,697,172,693,175,671,140"/>
+<area shape="poly" title=" " alt="" coords="636,140,623,162,614,185,613,208,622,227,649,240,701,250,848,263,1088,275,1106,277,1105,282,1088,280,847,268,700,255,647,245,618,231,607,209,609,184,618,159,631,138"/>
+<area shape="rect" href="a00389.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="186,187,355,229"/>
+<area shape="poly" title=" " alt="" coords="550,140,369,185,367,180,549,135"/>
+<area shape="rect" href="a00428.html" title="General preprocessor helpers: LUMEX_FUNCTION_NAME, LUMEX_STRINGIZE and LUMEX_CONCAT." alt="" coords="378,187,558,229"/>
+<area shape="poly" title=" " alt="" coords="601,142,523,182,521,177,599,137"/>
+<area shape="rect" title=" " alt="" coords="915,195,964,221"/>
+<area shape="poly" title=" " alt="" coords="763,135,833,157,905,184,906,185,904,190,903,189,832,162,761,140"/>
+<area shape="rect" href="a00641.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="635,285,797,312"/>
+<area shape="poly" title=" " alt="" coords="718,230,718,270,713,270,713,230"/>
+<area shape="poly" title=" " alt="" coords="800,225,811,227,1107,277,1106,283,810,232,799,230"/>
+<area shape="rect" href="a00404.html" title="C++ language, library and attribute feature availability." alt="" coords="844,277,1076,320"/>
+<area shape="poly" title=" " alt="" coords="356,225,367,227,491,244,588,253,809,275,829,277,829,282,809,280,587,259,490,249,366,232,355,230"/>
+<area shape="poly" title=" " alt="" coords="1118,120,561,158,175,189,171,190,170,185,174,184,561,153,1118,114"/>
+<area shape="poly" title=" " alt="" coords="1171,134,1061,189,1059,185,1169,129"/>
+<area shape="poly" title=" " alt="" coords="1118,119,520,159,100,189,90,192,89,187,99,184,520,153,1118,114"/>
+<area shape="poly" title=" " alt="" coords="1190,133,1131,186,1127,182,1186,129"/>
+<area shape="poly" title=" " alt="" coords="1119,132,1015,157,905,189,899,191,898,186,903,184,1014,152,1118,127"/>
+<area shape="poly" title=" " alt="" coords="1119,130,815,188,814,183,1118,125"/>
+<area shape="poly" title=" " alt="" coords="1214,131,1220,262,1214,262,1209,131"/>
+<area shape="poly" title=" " alt="" coords="1206,132,1184,181,1166,208,1144,231,1108,256,1067,274,1065,269,1105,251,1141,227,1162,205,1179,179,1201,130"/>
+<area shape="poly" title=" " alt="" coords="1137,134,1060,158,978,189,976,190,974,185,976,184,1058,153,1135,129"/>
+<area shape="rect" title=" " alt="" coords="1512,195,1589,221"/>
+<area shape="poly" title=" " alt="" coords="1301,129,1397,153,1501,184,1507,186,1505,191,1499,189,1396,159,1299,134"/>
+<area shape="rect" title=" " alt="" coords="1613,195,1674,221"/>
+<area shape="poly" title=" " alt="" coords="1303,119,1445,144,1524,162,1602,184,1607,186,1605,191,1600,189,1523,167,1444,149,1302,125"/>
+<area shape="rect" title=" " alt="" coords="1699,195,1751,221"/>
+<area shape="poly" title=" " alt="" coords="1303,114,1386,122,1483,136,1586,156,1687,184,1691,186,1689,191,1686,189,1585,162,1482,141,1385,128,1302,119"/>
+<area shape="rect" title=" " alt="" coords="1775,195,1843,221"/>
+<area shape="poly" title=" " alt="" coords="1303,113,1400,121,1516,134,1641,155,1765,184,1771,186,1769,191,1763,189,1640,160,1515,140,1399,126,1302,118"/>
+<area shape="rect" title=" " alt="" coords="1868,195,1921,221"/>
+<area shape="poly" title=" " alt="" coords="1303,109,1416,113,1555,125,1707,148,1783,164,1857,184,1861,185,1859,191,1855,189,1782,169,1706,153,1555,131,1415,119,1302,114"/>
+<area shape="rect" title=" " alt="" coords="1945,195,2012,221"/>
+<area shape="poly" title=" " alt="" coords="1302,109,1428,113,1587,125,1761,148,1849,164,1934,184,1940,186,1939,191,1932,189,1848,169,1760,153,1587,131,1428,119,1302,114"/>
+<area shape="rect" title=" " alt="" coords="2036,195,2124,221"/>
+<area shape="poly" title=" " alt="" coords="1303,109,1443,114,1624,127,1824,149,1926,165,2024,184,2035,187,2034,192,2023,189,1925,170,1824,154,1623,132,1443,120,1302,114"/>
+<area shape="rect" href="a00419.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="1256,187,1488,229"/>
+<area shape="poly" title=" " alt="" coords="1246,129,1326,176,1323,181,1244,134"/>
+<area shape="poly" title=" " alt="" coords="1337,232,1269,272,1266,267,1335,228"/>
+</map>
 </div>
 </div>
 <p><a href="a00332_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02334.html">lumex::core::temporary::tmp::TemporaryDirectory</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">RAII wrapper for temporary directory management.  <a href="a02334.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02338.html">lumex::core::temporary::tmp::TemporaryFile</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">RAII wrapper for temporary file management.  <a href="a02338.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02342.html">lumex::core::temporary::tmp::LumexTemporary</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00912.html">lumex</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00948.html">lumex</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00964.html">lumex::core</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01005.html">lumex::core</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01030.html">lumex::core::temporary</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01058.html">lumex::core::reflection</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01031.html">lumex::core::temporary::tmp</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01059.html">lumex::core::reflection::field_reflection</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01060.html">lumex::core::reflection::field_reflection::detail</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
-Typedefs</h2></td></tr>
-<tr class="memitem:a26a7a33d3891da86909f3dfbe901b46f" id="r_a26a7a33d3891da86909f3dfbe901b46f"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a26a7a33d3891da86909f3dfbe901b46f">TemporaryFile</a> = <a class="el" href="a02338.html">lumex::core::temporary::tmp::TemporaryFile</a></td></tr>
-<tr class="separator:a26a7a33d3891da86909f3dfbe901b46f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a50474b0ed56613abaa07ff863adce1a1" id="r_a50474b0ed56613abaa07ff863adce1a1"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a50474b0ed56613abaa07ff863adce1a1">TemporaryDirectory</a> = <a class="el" href="a02334.html">lumex::core::temporary::tmp::TemporaryDirectory</a></td></tr>
-<tr class="separator:a50474b0ed56613abaa07ff863adce1a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a16e39f808b1ac9dcad15c2abb6f4ff08" id="r_a16e39f808b1ac9dcad15c2abb6f4ff08"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a16e39f808b1ac9dcad15c2abb6f4ff08">LumexTemporary</a> = <a class="el" href="a02342.html">lumex::core::temporary::tmp::LumexTemporary</a></td></tr>
-<tr class="separator:a16e39f808b1ac9dcad15c2abb6f4ff08"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a17d49d12b7bbd1233be03ebe79837a0a" id="r_a17d49d12b7bbd1233be03ebe79837a0a"><td class="memTemplParams" colspan="2">template&lt;typename... T&gt; </td></tr>
+<tr class="memitem:a17d49d12b7bbd1233be03ebe79837a0a"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01060.html#a17d49d12b7bbd1233be03ebe79837a0a">lumex::core::reflection::field_reflection::detail::swallow</a> (T const &amp;...) noexcept</td></tr>
+<tr class="separator:a17d49d12b7bbd1233be03ebe79837a0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8cd209ad1a1778e47a6305485be9e311" id="r_a8cd209ad1a1778e47a6305485be9e311"><td class="memTemplParams" colspan="2">template&lt;typename U&gt; </td></tr>
+<tr class="memitem:a8cd209ad1a1778e47a6305485be9e311"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01060.html#a8cd209ad1a1778e47a6305485be9e311">lumex::core::reflection::field_reflection::detail::append_one</a> (nlohmann::json &amp;j, char const *name, U const &amp;field, typename std::enable_if&lt; <a class="el" href="a02769.html">lumex::core::utility::traits::value::is_optional_like</a>&lt; U &gt;::value, int &gt;::type=0)</td></tr>
+<tr class="separator:a8cd209ad1a1778e47a6305485be9e311"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ccfa808b640814a57c069c6ba330c50" id="r_a6ccfa808b640814a57c069c6ba330c50"><td class="memTemplParams" colspan="2">template&lt;typename U&gt; </td></tr>
+<tr class="memitem:a6ccfa808b640814a57c069c6ba330c50"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01060.html#a6ccfa808b640814a57c069c6ba330c50">lumex::core::reflection::field_reflection::detail::append_one</a> (nlohmann::json &amp;j, char const *name, U const &amp;field, typename std::enable_if&lt; !<a class="el" href="a02769.html">lumex::core::utility::traits::value::is_optional_like</a>&lt; U &gt;::value, int &gt;::type=0)</td></tr>
+<tr class="separator:a6ccfa808b640814a57c069c6ba330c50"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0f41e924cf040d1f629bd894cf8de99d" id="r_a0f41e924cf040d1f629bd894cf8de99d"><td class="memTemplParams" colspan="2">template&lt;typename Struct, std::size_t I&gt; </td></tr>
+<tr class="memitem:a0f41e924cf040d1f629bd894cf8de99d"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01060.html#a0f41e924cf040d1f629bd894cf8de99d">lumex::core::reflection::field_reflection::detail::append_field</a> (nlohmann::json &amp;j, Struct const &amp;obj, char const *name)</td></tr>
+<tr class="separator:a0f41e924cf040d1f629bd894cf8de99d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af756bcf608cd4a96e0fba1b0d9251147" id="r_af756bcf608cd4a96e0fba1b0d9251147"><td class="memTemplParams" colspan="2">template&lt;typename Struct, std::size_t... I&gt; </td></tr>
+<tr class="memitem:af756bcf608cd4a96e0fba1b0d9251147"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01060.html#af756bcf608cd4a96e0fba1b0d9251147">lumex::core::reflection::field_reflection::detail::append_all</a> (nlohmann::json &amp;j, Struct const &amp;obj, std::array&lt; char const *, sizeof...(I)&gt; const &amp;names, <a class="el" href="a02361.html">index_sequence</a>&lt; I... &gt;)</td></tr>
+<tr class="separator:af756bcf608cd4a96e0fba1b0d9251147"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adf61047afd5b3dcf759431721bae5a13" id="r_adf61047afd5b3dcf759431721bae5a13"><td class="memTemplParams" colspan="2">template&lt;typename Struct&gt; </td></tr>
+<tr class="memitem:adf61047afd5b3dcf759431721bae5a13"><td class="memTemplItemLeft" align="right" valign="top">nlohmann::json&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01059.html#adf61047afd5b3dcf759431721bae5a13">lumex::core::reflection::field_reflection::to_json</a> (Struct const &amp;obj)</td></tr>
+<tr class="memdesc:adf61047afd5b3dcf759431721bae5a13"><td class="mdescLeft">&#160;</td><td class="mdescRight">Serializes a simple aggregate to JSON, visiting every field.  <br /></td></tr>
+<tr class="separator:adf61047afd5b3dcf759431721bae5a13"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Temporary files and directories that delete themselves: <code><a class="el" href="#a26a7a33d3891da86909f3dfbe901b46f">TemporaryFile</a></code>, <code><a class="el" href="#a50474b0ed56613abaa07ff863adce1a1">TemporaryDirectory</a></code> and the factory <code><a class="el" href="#a16e39f808b1ac9dcad15c2abb6f4ff08">LumexTemporary</a></code>. </p>
-<p><code><a class="el" href="a02342.html#a68474b126cb9f245701ee94a470bd4d4" title="Creates a temporary file with optional name prefix.">LumexTemporary::create_temp_file()</a></code> and <code>create_temp_directory()</code> create an entry with a unique name (prefix, time, process id, random hexadecimal digits and a counter) and return it in a <code>filesystem_result</code>. The returned object can be moved but not copied, and it deletes the entry when destroyed unless <code>release()</code> was called. Entries are created in a <code>Lumex</code> directory: in the system temporary directory on Windows and when running as an AppImage, otherwise in the home directory, where an unset <code>HOME</code> makes <code>get_temp_directory_path()</code> throw <code>std::runtime_error</code>. The implementation is compiled into <code>lumex::temporary</code>; the classes are also visible at global scope. </p>
-</div><h2 class="groupheader">Typedef Documentation</h2>
-<a id="a16e39f808b1ac9dcad15c2abb6f4ff08" name="a16e39f808b1ac9dcad15c2abb6f4ff08"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a16e39f808b1ac9dcad15c2abb6f4ff08">&#9670;&#160;</a></span>LumexTemporary</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="#a16e39f808b1ac9dcad15c2abb6f4ff08">LumexTemporary</a> = <a class="el" href="a02342.html">lumex::core::temporary::tmp::LumexTemporary</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a50474b0ed56613abaa07ff863adce1a1" name="a50474b0ed56613abaa07ff863adce1a1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a50474b0ed56613abaa07ff863adce1a1">&#9670;&#160;</a></span>TemporaryDirectory</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="#a50474b0ed56613abaa07ff863adce1a1">TemporaryDirectory</a> = <a class="el" href="a02334.html">lumex::core::temporary::tmp::TemporaryDirectory</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a26a7a33d3891da86909f3dfbe901b46f" name="a26a7a33d3891da86909f3dfbe901b46f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a26a7a33d3891da86909f3dfbe901b46f">&#9670;&#160;</a></span>TemporaryFile</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="#a26a7a33d3891da86909f3dfbe901b46f">TemporaryFile</a> = <a class="el" href="a02338.html">lumex::core::temporary::tmp::TemporaryFile</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-</div><!-- contents -->
+<div class="textblock"><p>Serializes a simple aggregate (no constructors, no private members, no base classes) to JSON by walking its fields. </p>
+<p>The header parses as C++11 (<code>tuple_size</code>). Indexed <code>get</code> is C++14 (friend-injected field types). <code>to_json</code> needs field names, which <code><a class="el" href="a00329.html" title="Non-intrusive field count, indexed access, and (from C++20) field names for simple aggregates.">LumexAggregateFields.hpp</a></code> can recover only from C++20 (<code>LUMEX_FUNCTION_NAME</code> of a pointer NTTP). JSON is vendored nlohmann 3.12.0 at <code>3rdparty/nlohmann/json.hpp</code>. Optional-like fields (<code>has_value</code> plus unary <code>*</code>) are omitted when empty, so both <code>std::optional</code> and <code>optional</code> work. </p>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_bef940194bb614ff46f5518d22497697.html">temporary</a></li><li class="navelem"><a class="el" href="dir_7c06d7ebbf40ceb29b5c80f69a612248.html">tmp</a></li><li class="navelem"><a class="el" href="a00332.html">LumexTemporary.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_9f19d952725811a71a1277575cb881df.html">reflection</a></li><li class="navelem"><a class="el" href="dir_4183182a33530d5b48cdb15290070151.html">field_reflection</a></li><li class="navelem"><a class="el" href="a00332.html">LumexFieldReflection.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

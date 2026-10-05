@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::applied::json::diagnostics::Detail Namespace Reference</title>
+<title>LumexLib: LumexString File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -103,189 +103,157 @@ $(function(){initNavTree('a00929.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="summary">
-<a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">lumex::applied::json::diagnostics::Detail Namespace Reference</div></div>
+  <div class="headertitle"><div class="title">LumexString File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:aca3063965d5431c7f906a0a354f2d4c4" id="r_aca3063965d5431c7f906a0a354f2d4c4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aca3063965d5431c7f906a0a354f2d4c4">append_parts</a> (std::ostringstream &amp;)</td></tr>
-<tr class="separator:aca3063965d5431c7f906a0a354f2d4c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5350d69eada86df796421b3f44453e82" id="r_a5350d69eada86df796421b3f44453e82"><td class="memTemplParams" colspan="2">template&lt;typename Head, typename... Tail&gt; </td></tr>
-<tr class="memitem:a5350d69eada86df796421b3f44453e82"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a5350d69eada86df796421b3f44453e82">append_parts</a> (std::ostringstream &amp;stream, Head const &amp;head, Tail const &amp;...tail)</td></tr>
-<tr class="separator:a5350d69eada86df796421b3f44453e82"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab6f3b82c767e9d70cfc7b4fad75bdf33" id="r_ab6f3b82c767e9d70cfc7b4fad75bdf33"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab6f3b82c767e9d70cfc7b4fad75bdf33">write_to_stderr</a> (<a class="el" href="a00928.html#acf6c250fe30b33bf20e97c6bc52ad446">LumexJsonDiagnosticLevel</a> level, char const *message) noexcept</td></tr>
-<tr class="memdesc:ab6f3b82c767e9d70cfc7b4fad75bdf33"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default sink: writes <code>[level] message</code> to <code>std::cerr</code> for <code>warning</code> and <code>error</code>, drops <code>debug</code> and <code>info</code>. Never throws.  <br /></td></tr>
-<tr class="separator:ab6f3b82c767e9d70cfc7b4fad75bdf33"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad8e38666393a49d562e6873564539189" id="r_ad8e38666393a49d562e6873564539189"><td class="memTemplParams" colspan="2">template&lt;typename... Parts&gt; </td></tr>
-<tr class="memitem:ad8e38666393a49d562e6873564539189"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#ad8e38666393a49d562e6873564539189">report</a> (<a class="el" href="a00928.html#acf6c250fe30b33bf20e97c6bc52ad446">LumexJsonDiagnosticLevel</a> level, Parts const &amp;...parts) noexcept</td></tr>
-<tr class="memdesc:ad8e38666393a49d562e6873564539189"><td class="mdescLeft">&#160;</td><td class="mdescRight">Concatenates <code>parts</code> with <code>operator&lt;&lt;</code> and sends the text to the installed sink, or to the default one when the slot is empty or the sink throws. Never throws: a failure while building the text drops the message.  <br /></td></tr>
-<tr class="separator:ad8e38666393a49d562e6873564539189"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="aca3063965d5431c7f906a0a354f2d4c4" name="aca3063965d5431c7f906a0a354f2d4c4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aca3063965d5431c7f906a0a354f2d4c4">&#9670;&#160;</a></span>append_parts() <span class="overload">[1/2]</span></h2>
 
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void lumex::applied::json::diagnostics::Detail::append_parts </td>
-          <td>(</td>
-          <td class="paramtype">std::ostringstream &amp;</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
+<p>String module: <code>stringify</code>, which concatenates the stream output of its arguments, joining and quoting the elements of a range, and text normalization for case-insensitive comparison.  
+<a href="#details">More...</a></p>
+<div class="textblock"><code>#include &quot;<a class="el" href="a00350_source.html">utility/LumexStringify.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00341_source.html">text/LumexJoin.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00344_source.html">text/LumexQuote.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00347_source.html">text/LumexTextCase.hpp</a>&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for LumexString:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00929_aca3063965d5431c7f906a0a354f2d4c4_cgraph.png" border="0" usemap="#aa00929_aca3063965d5431c7f906a0a354f2d4c4_cgraph" alt=""/></div>
+<div class="center"><img src="a00930.png" border="0" usemap="#a_lumex_string" alt=""/></div>
+<map name="a_lumex_string" id="a_lumex_string">
+<area shape="rect" title="String module: stringify, which concatenates the stream output of its arguments, joining and quoting ..." alt="" coords="794,5,888,32"/>
+<area shape="rect" href="a00350.html" title="Concatenates the operator&lt;&lt; text of any number of arguments into one std::string." alt="" coords="568,155,735,181"/>
+<area shape="poly" title=" " alt="" coords="826,35,681,147,678,143,823,30"/>
+<area shape="rect" href="a00341.html" title="Joins the elements of a range into one string." alt="" coords="1017,155,1153,181"/>
+<area shape="poly" title=" " alt="" coords="876,30,925,51,977,78,1023,110,1062,142,1059,146,1020,114,974,82,923,55,874,35"/>
+<area shape="rect" href="a00344.html" title="Joins the elements of a range with each element wrapped in quotes." alt="" coords="817,80,964,107"/>
+<area shape="poly" title=" " alt="" coords="852,31,875,66,871,69,847,34"/>
+<area shape="rect" href="a00347.html" title="Normalizes text for case&#45;insensitive comparison." alt="" coords="280,237,447,264"/>
+<area shape="poly" title=" " alt="" coords="815,35,557,157,403,233,401,228,555,152,813,30"/>
+<area shape="rect" title=" " alt="" coords="740,328,808,355"/>
+<area shape="poly" title=" " alt="" coords="661,180,722,270,756,315,752,318,718,274,657,183"/>
+<area shape="rect" title=" " alt="" coords="832,328,900,355"/>
+<area shape="poly" title=" " alt="" coords="669,180,841,316,837,320,666,184"/>
+<area shape="rect" title=" " alt="" coords="928,237,996,264"/>
+<area shape="poly" title=" " alt="" coords="701,179,914,234,912,239,700,185"/>
+<area shape="rect" title=" " alt="" coords="662,328,716,355"/>
+<area shape="poly" title=" " alt="" coords="656,181,672,271,683,312,678,314,666,273,651,182"/>
+<area shape="rect" title=" " alt="" coords="925,328,1008,355"/>
+<area shape="poly" title=" " alt="" coords="679,179,773,227,933,317,931,322,770,232,676,184"/>
+<area shape="rect" title=" " alt="" coords="344,328,396,355"/>
+<area shape="poly" title=" " alt="" coords="625,184,533,232,461,278,401,321,397,316,458,274,530,227,623,179"/>
+<area shape="rect" href="a00386.html" title="Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_..." alt="" coords="420,320,587,363"/>
+<area shape="poly" title=" " alt="" coords="630,184,600,204,570,231,542,269,521,307,516,305,537,266,566,228,597,200,627,180"/>
+<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="778,411,973,453"/>
+<area shape="poly" title=" " alt="" coords="650,182,639,217,631,264,633,315,640,339,652,361,675,384,702,401,732,414,764,422,763,427,731,419,700,406,671,388,648,364,635,341,628,316,626,264,634,216,644,181"/>
+<area shape="rect" href="a00389.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="37,229,205,272"/>
+<area shape="poly" title=" " alt="" coords="568,182,408,204,224,232,221,233,220,227,223,227,407,199,567,177"/>
+<area shape="rect" href="a00404.html" title="C++ language, library and attribute feature availability." alt="" coords="5,320,237,363"/>
+<area shape="poly" title=" " alt="" coords="568,172,501,177,424,187,345,204,269,232,253,241,243,250,219,274,165,313,162,309,215,270,239,247,250,236,267,227,343,199,423,182,500,171,567,167"/>
+<area shape="rect" href="a00446.html" title="Every general&#45;purpose type trait of LumexLib, one sub&#45;namespace of lumex::core::utility::traits per t..." alt="" coords="1224,229,1407,272"/>
+<area shape="poly" title=" " alt="" coords="736,177,1209,234,1208,239,735,182"/>
+<area shape="rect" href="a00641.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="422,419,585,445"/>
+<area shape="poly" title=" " alt="" coords="506,363,506,403,501,403,501,363"/>
+<area shape="poly" title=" " alt="" coords="588,360,774,404,773,409,587,365"/>
+<area shape="poly" title=" " alt="" coords="124,272,124,305,118,305,118,272"/>
+<area shape="poly" title=" " alt="" coords="1224,267,977,299,820,323,814,325,812,319,819,317,977,294,1223,261"/>
+<area shape="poly" title=" " alt="" coords="1224,268,1052,294,914,323,907,325,906,320,912,317,1052,289,1223,262"/>
+<area shape="poly" title=" " alt="" coords="1224,266,1155,275,1034,284,939,286,845,295,791,306,728,323,725,324,723,319,727,317,790,300,844,290,938,281,1033,278,1154,269,1223,261"/>
+<area shape="poly" title=" " alt="" coords="1225,274,1027,323,1017,325,1016,320,1026,317,1223,269"/>
+<area shape="poly" title=" " alt="" coords="1224,264,1104,275,997,280,906,281,751,276,677,276,599,283,511,297,408,323,405,324,403,319,407,317,510,292,598,277,677,271,752,271,906,275,997,275,1103,269,1223,259"/>
+<area shape="poly" title=" " alt="" coords="1224,264,651,323,603,329,602,323,650,317,1223,258"/>
+<area shape="poly" title=" " alt="" coords="1224,271,1149,291,1073,322,1058,332,1047,342,1021,365,942,406,939,402,1018,360,1043,339,1054,328,1070,318,1147,286,1223,266"/>
+<area shape="poly" title=" " alt="" coords="1224,262,1053,275,829,287,653,293,477,302,252,322,252,317,477,297,653,288,829,282,1053,269,1224,257"/>
+<area shape="rect" title=" " alt="" coords="1616,328,1666,355"/>
+<area shape="poly" title=" " alt="" coords="1408,265,1504,286,1605,317,1607,319,1605,323,1603,323,1503,291,1407,270"/>
+<area shape="rect" title=" " alt="" coords="1690,328,1754,355"/>
+<area shape="poly" title=" " alt="" coords="1408,260,1538,282,1609,298,1679,317,1685,319,1683,324,1678,323,1608,303,1537,287,1407,266"/>
+<area shape="rect" title=" " alt="" coords="1778,328,1856,355"/>
+<area shape="poly" title=" " alt="" coords="1408,257,1576,278,1672,295,1767,317,1775,320,1774,325,1766,323,1671,301,1576,284,1408,262"/>
+<area shape="rect" title=" " alt="" coords="1957,328,2018,355"/>
+<area shape="poly" title=" " alt="" coords="1408,250,1518,254,1653,265,1800,285,1946,317,1951,319,1950,324,1944,323,1800,291,1653,270,1518,260,1407,255"/>
+<area shape="rect" title=" " alt="" coords="1880,328,1932,355"/>
+<area shape="poly" title=" " alt="" coords="1408,251,1505,256,1621,267,1746,287,1868,317,1872,319,1871,324,1867,323,1745,292,1620,273,1504,261,1407,256"/>
+<area shape="rect" title=" " alt="" coords="1083,328,1132,355"/>
+<area shape="poly" title=" " alt="" coords="1260,275,1146,322,1145,323,1142,318,1144,318,1258,270"/>
+<area shape="rect" title=" " alt="" coords="1413,328,1480,355"/>
+<area shape="poly" title=" " alt="" coords="1347,270,1417,317,1414,321,1344,275"/>
+<area shape="rect" title=" " alt="" coords="1504,328,1591,355"/>
+<area shape="poly" title=" " alt="" coords="1371,270,1501,320,1499,325,1369,275"/>
+<area shape="rect" href="a00419.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="1157,320,1389,363"/>
+<area shape="poly" title=" " alt="" coords="1308,274,1292,307,1287,305,1303,271"/>
+<area shape="poly" title=" " alt="" coords="1180,366,984,409,983,404,1179,361"/>
+<area shape="poly" title=" " alt="" coords="1067,184,995,231,992,227,1064,180"/>
+<area shape="poly" title=" " alt="" coords="1095,181,1106,200,1114,225,1116,251,1106,274,1093,285,1076,294,1033,305,982,311,925,313,813,313,765,316,728,323,725,324,723,319,727,317,764,311,812,308,925,308,981,306,1032,300,1074,289,1090,280,1102,270,1111,250,1109,226,1101,202,1091,183"/>
+<area shape="poly" title=" " alt="" coords="1110,180,1136,200,1157,228,1164,251,1156,274,1018,325,1016,320,1152,270,1159,251,1152,231,1132,204,1106,184"/>
+<area shape="poly" title=" " alt="" coords="1088,182,1082,228,1072,253,1055,274,1030,289,999,301,924,314,836,319,740,317,551,311,471,313,408,323,405,324,403,319,407,317,470,307,551,305,740,312,836,313,924,309,998,296,1028,284,1051,270,1067,250,1077,226,1083,182"/>
+<area shape="poly" title=" " alt="" coords="1080,183,1047,234,1028,259,1010,274,980,288,943,299,856,313,756,320,647,322,430,319,333,319,253,322,252,317,333,314,430,314,647,317,755,315,856,308,942,293,978,283,1008,270,1024,255,1043,231,1075,180"/>
+<area shape="poly" title=" " alt="" coords="1122,179,1243,221,1241,226,1120,184"/>
+<area shape="poly" title=" " alt="" coords="1153,172,1299,188,1497,216,1722,259,1835,286,1946,317,1951,319,1949,324,1944,323,1834,291,1720,264,1496,221,1298,193,1153,178"/>
+<area shape="poly" title=" " alt="" coords="899,106,953,222,948,224,894,108"/>
+<area shape="poly" title=" " alt="" coords="882,109,710,318,706,315,878,105"/>
+<area shape="poly" title=" " alt="" coords="893,107,896,179,904,225,918,271,931,294,946,315,942,318,926,297,913,273,899,227,891,179,887,107"/>
+<area shape="poly" title=" " alt="" coords="817,97,627,102,510,109,388,120,271,137,166,161,121,175,82,192,50,210,27,231,21,241,20,251,28,271,46,291,71,309,67,314,43,295,23,274,14,251,16,239,23,228,47,206,79,187,119,170,164,156,270,132,387,115,509,104,627,97,816,92"/>
+<area shape="poly" title=" " alt="" coords="965,101,1062,120,1115,134,1166,152,1227,183,1279,218,1276,222,1224,188,1164,157,1113,139,1061,125,964,106"/>
+<area shape="poly" title=" " alt="" coords="925,105,1038,146,1036,151,923,110"/>
+<area shape="poly" title=" " alt="" coords="411,262,648,326,647,331,410,267"/>
+<area shape="poly" title=" " alt="" coords="367,264,371,312,366,313,362,265"/>
+<area shape="poly" title=" " alt="" coords="330,267,193,317,191,312,328,262"/>
+<area shape="rect" title=" " alt="" coords="260,328,320,355"/>
+<area shape="poly" title=" " alt="" coords="355,266,312,318,308,314,351,263"/>
+</map>
 </div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00929_aca3063965d5431c7f906a0a354f2d4c4_icgraph.png" border="0" usemap="#aa00929_aca3063965d5431c7f906a0a354f2d4c4_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="a5350d69eada86df796421b3f44453e82" name="a5350d69eada86df796421b3f44453e82"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5350d69eada86df796421b3f44453e82">&#9670;&#160;</a></span>append_parts() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename Head, typename... Tail&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void lumex::applied::json::diagnostics::Detail::append_parts </td>
-          <td>(</td>
-          <td class="paramtype">std::ostringstream &amp;</td>          <td class="paramname"><span class="paramname"><em>stream</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Head const &amp;</td>          <td class="paramname"><span class="paramname"><em>head</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Tail const &amp;...</td>          <td class="paramname"><span class="paramname"><em>tail</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00929_a5350d69eada86df796421b3f44453e82_cgraph.png" border="0" usemap="#aa00929_a5350d69eada86df796421b3f44453e82_cgraph" alt=""/></div>
-</div>
-
+<div class="center"><img src="a00931.png" border="0" usemap="#a_lumex_stringdep" alt=""/></div>
+<map name="a_lumex_stringdep" id="a_lumex_stringdep">
+<area shape="rect" title="String module: stringify, which concatenates the stream output of its arguments, joining and quoting ..." alt="" coords="668,5,762,32"/>
+<area shape="rect" href="a00263.html" title="LumexBaseException, the base exception of LumexLib that records the stack where it was constructed,..." alt="" coords="380,80,523,107"/>
+<area shape="poly" title=" " alt="" coords="656,39,498,82,497,77,654,34"/>
+<area shape="rect" href="a00104.html" title="The console and file logging facade LumexLogging that other LumexLib modules report through." alt="" coords="573,80,703,107"/>
+<area shape="poly" title=" " alt="" coords="693,45,653,82,649,78,689,41"/>
+<area shape="rect" href="a00599.html" title=" " alt="" coords="727,80,861,107"/>
+<area shape="poly" title=" " alt="" coords="742,41,782,78,779,82,739,45"/>
+<area shape="rect" href="a00602.html" title=" " alt="" coords="886,80,1078,107"/>
+<area shape="poly" title=" " alt="" coords="777,34,936,77,934,82,775,39"/>
+<area shape="rect" href="a00905.html" title="Exceptions module: the LumexBaseException hierarchy, stack traces, a crash handler that writes minidu..." alt="" coords="238,155,356,181"/>
+<area shape="poly" title=" " alt="" coords="412,116,325,156,323,152,409,111"/>
+<area shape="rect" href="a00260.html" title=" " alt="" coords="380,155,523,181"/>
+<area shape="poly" title=" " alt="" coords="454,122,454,154,449,154,449,122"/>
+<area shape="rect" href="a00482.html" title=" " alt="" coords="185,237,350,264"/>
+<area shape="poly" title=" " alt="" coords="289,197,274,238,269,236,284,195"/>
+<area shape="rect" href="a00485.html" title=" " alt="" coords="374,229,515,272"/>
+<area shape="poly" title=" " alt="" coords="334,187,408,226,405,231,332,191"/>
+<area shape="rect" href="a00878.html" title="Logging module: LumexLogging, a thread&#45;safe console logger with levels from Debug to Critical,..." alt="" coords="660,237,765,264"/>
+<area shape="poly" title=" " alt="" coords="612,119,599,133,589,149,584,165,588,180,603,199,622,214,665,234,663,239,619,218,600,202,584,183,579,165,584,147,594,130,608,115"/>
+<area shape="rect" href="a00101.html" title=" " alt="" coords="598,155,728,181"/>
+<area shape="poly" title=" " alt="" coords="650,120,661,153,656,155,645,122"/>
+<area shape="rect" href="a00107.html" title="Short macros over LumexLogging: lumDebug to lumCritical, and the ...FL variants that prefix the sourc..." alt="" coords="752,155,918,181"/>
+<area shape="poly" title=" " alt="" coords="688,110,802,152,800,157,686,115"/>
+<area shape="rect" href="a00056.html" title=" " alt="" coords="5,320,263,347"/>
+<area shape="poly" title=" " alt="" coords="646,264,226,322,225,317,645,259"/>
+<area shape="rect" href="a00062.html" title=" " alt="" coords="287,320,496,347"/>
+<area shape="poly" title=" " alt="" coords="648,271,443,322,441,317,647,266"/>
+<area shape="rect" href="a00110.html" title=" " alt="" coords="520,320,705,347"/>
+<area shape="poly" title=" " alt="" coords="687,276,630,322,626,318,684,272"/>
+<area shape="rect" href="a00158.html" title=" " alt="" coords="728,320,897,347"/>
+<area shape="poly" title=" " alt="" coords="742,272,799,318,796,322,738,276"/>
+<area shape="rect" href="a00551.html" title=" " alt="" coords="921,320,1064,347"/>
+<area shape="poly" title=" " alt="" coords="772,266,949,317,948,322,770,271"/>
+<area shape="rect" href="a00554.html" title=" " alt="" coords="1088,320,1289,347"/>
+<area shape="poly" title=" " alt="" coords="781,261,1114,317,1113,322,780,266"/>
+<area shape="poly" title=" " alt="" coords="805,192,733,239,730,235,802,188"/>
+</map>
 </div>
 </div>
-<a id="ad8e38666393a49d562e6873564539189" name="ad8e38666393a49d562e6873564539189"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad8e38666393a49d562e6873564539189">&#9670;&#160;</a></span>report()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename... Parts&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void lumex::applied::json::diagnostics::Detail::report </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a00928.html#acf6c250fe30b33bf20e97c6bc52ad446">LumexJsonDiagnosticLevel</a></td>          <td class="paramname"><span class="paramname"><em>level</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Parts const &amp;...</td>          <td class="paramname"><span class="paramname"><em>parts</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Concatenates <code>parts</code> with <code>operator&lt;&lt;</code> and sends the text to the installed sink, or to the default one when the slot is empty or the sink throws. Never throws: a failure while building the text drops the message. </p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00929_ad8e38666393a49d562e6873564539189_cgraph.png" border="0" usemap="#aa00929_ad8e38666393a49d562e6873564539189_cgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="ab6f3b82c767e9d70cfc7b4fad75bdf33" name="ab6f3b82c767e9d70cfc7b4fad75bdf33"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab6f3b82c767e9d70cfc7b4fad75bdf33">&#9670;&#160;</a></span>write_to_stderr()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void lumex::applied::json::diagnostics::Detail::write_to_stderr </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a00928.html#acf6c250fe30b33bf20e97c6bc52ad446">LumexJsonDiagnosticLevel</a></td>          <td class="paramname"><span class="paramname"><em>level</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">char const *</td>          <td class="paramname"><span class="paramname"><em>message</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Default sink: writes <code>[level] message</code> to <code>std::cerr</code> for <code>warning</code> and <code>error</code>, drops <code>debug</code> and <code>info</code>. Never throws. </p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00929_ab6f3b82c767e9d70cfc7b4fad75bdf33_cgraph.png" border="0" usemap="#aa00929_ab6f3b82c767e9d70cfc7b4fad75bdf33_cgraph" alt=""/></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00929_ab6f3b82c767e9d70cfc7b4fad75bdf33_icgraph.png" border="0" usemap="#aa00929_ab6f3b82c767e9d70cfc7b4fad75bdf33_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-</div><!-- contents -->
+<p><a href="a00929_source.html">Go to the source code of this file.</a></p>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>String module: <code>stringify</code>, which concatenates the stream output of its arguments, joining and quoting the elements of a range, and text normalization for case-insensitive comparison. </p>
+<p>Link <code>lumex::string</code> (header-only). Works from C++11; from C++20 <code>join</code> and the quote functions take any <code>std::ranges::input_range</code>. The umbrella includes <code><a class="el" href="a00350.html" title="Concatenates the operator&lt;&lt; text of any number of arguments into one std::string.">utility/LumexStringify.hpp</a></code>, <code><a class="el" href="a00341.html" title="Joins the elements of a range into one string.">text/LumexJoin.hpp</a></code>, <code><a class="el" href="a00344.html" title="Joins the elements of a range with each element wrapped in quotes.">text/LumexQuote.hpp</a></code> and <code><a class="el" href="a00347.html" title="Normalizes text for case-insensitive comparison.">text/LumexTextCase.hpp</a></code>. </p>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00912.html">lumex</a></li><li class="navelem"><a class="el" href="a00913.html">applied</a></li><li class="navelem"><a class="el" href="a00927.html">json</a></li><li class="navelem"><a class="el" href="a00928.html">diagnostics</a></li><li class="navelem"><a class="el" href="a00929.html">Detail</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_459f7d6cb411def697850a9e92b67c08.html">string</a></li><li class="navelem"><a class="el" href="a00929.html">LumexString</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

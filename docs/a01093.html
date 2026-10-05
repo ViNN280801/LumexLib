@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::xml::xpath::node Namespace Reference</title>
+<title>LumexLib: lumex::core::utility::traits::invoke Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,125 +104,134 @@ $(function(){initNavTree('a01093.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
+<a href="#namespaces">Namespaces</a> &#124;
 <a href="#nested-classes">Classes</a> &#124;
-<a href="#func-members">Functions</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
 <a href="#var-members">Variables</a>  </div>
-  <div class="headertitle"><div class="title">lumex::xml::xpath::node Namespace Reference</div></div>
+  <div class="headertitle"><div class="title">lumex::core::utility::traits::invoke Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03062.html">XPathNode</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents a node in an XPath node-set, which can be either an XML element/document node or an XML attribute.  <a href="a03062.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03066.html">XPathNodeSet</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents a collection of XPath nodes, managing their order and uniqueness.  <a href="a03066.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03070.html">XPathNodeSetRaw</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents a raw, mutable node set used primarily during XPath evaluation.  <a href="a03070.html#details">More...</a><br /></td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01094.html">detail</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:a0d908f040c4f8067ec34eacbbb099506" id="r_a0d908f040c4f8067ec34eacbbb099506"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0d908f040c4f8067ec34eacbbb099506">operator&amp;&amp;</a> (<a class="el" href="a03062.html">XPathNode</a> const &amp;lhs, bool rhs)</td></tr>
-<tr class="memdesc:a0d908f040c4f8067ec34eacbbb099506"><td class="mdescLeft">&#160;</td><td class="mdescRight">Logical AND operator for <code><a class="el" href="a03062.html" title="Represents a node in an XPath node-set, which can be either an XML element/document node or an XML at...">XPathNode</a></code> and boolean.  <br /></td></tr>
-<tr class="separator:a0d908f040c4f8067ec34eacbbb099506"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a99ec5086ce8edac1d6c4772e3f7c91f2" id="r_a99ec5086ce8edac1d6c4772e3f7c91f2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a99ec5086ce8edac1d6c4772e3f7c91f2">operator||</a> (<a class="el" href="a03062.html">XPathNode</a> const &amp;lhs, bool rhs)</td></tr>
-<tr class="memdesc:a99ec5086ce8edac1d6c4772e3f7c91f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Logical OR operator for <code><a class="el" href="a03062.html" title="Represents a node in an XPath node-set, which can be either an XML element/document node or an XML at...">XPathNode</a></code> and boolean.  <br /></td></tr>
-<tr class="separator:a99ec5086ce8edac1d6c4772e3f7c91f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02565.html">invoke_result</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02589.html">is_callable</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type trait checking whether Func is Callable with Args... (Callable Named Requirement).  <a href="a02589.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02581.html">is_callable_signature</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02585.html">is_callable_signature&lt; Func(Args...)&gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02577.html">is_invocable</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02569.html">result_of</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02573.html">result_of&lt; Func(Args...)&gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:a18993038d7df3aedaeeb999287ff42b2" id="r_a18993038d7df3aedaeeb999287ff42b2"><td class="memTemplParams" colspan="2">template&lt;typename Func, typename... Args&gt; </td></tr>
+<tr class="memitem:a18993038d7df3aedaeeb999287ff42b2"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a18993038d7df3aedaeeb999287ff42b2">invoke_result_t</a> = typename <a class="el" href="a02565.html">invoke_result</a>&lt;Func, Args...&gt;::type</td></tr>
+<tr class="separator:a18993038d7df3aedaeeb999287ff42b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae297a2898f6459ac9ef2c4a1dd537fe8" id="r_ae297a2898f6459ac9ef2c4a1dd537fe8"><td class="memTemplParams" colspan="2">template&lt;typename Sig&gt; </td></tr>
+<tr class="memitem:ae297a2898f6459ac9ef2c4a1dd537fe8"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#ae297a2898f6459ac9ef2c4a1dd537fe8">result_of_t</a> = typename <a class="el" href="a02569.html">result_of</a>&lt;Sig&gt;::type</td></tr>
+<tr class="separator:ae297a2898f6459ac9ef2c4a1dd537fe8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:ae25bb9cdc14472d3df8176c4529130bf" id="r_ae25bb9cdc14472d3df8176c4529130bf"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="a03066.html">XPathNodeSet</a> const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae25bb9cdc14472d3df8176c4529130bf">dummy_node_set</a></td></tr>
-<tr class="memdesc:ae25bb9cdc14472d3df8176c4529130bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">A global, constant empty <code><a class="el" href="a03066.html" title="Represents a collection of XPath nodes, managing their order and uniqueness.">XPathNodeSet</a></code> for convenience.  <br /></td></tr>
-<tr class="separator:ae25bb9cdc14472d3df8176c4529130bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a23b4f19fe242df4cbdc32a2a2c30701d" id="r_a23b4f19fe242df4cbdc32a2a2c30701d"><td class="memTemplParams" colspan="2">template&lt;typename Func, typename... Args&gt; </td></tr>
+<tr class="memitem:a23b4f19fe242df4cbdc32a2a2c30701d"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a23b4f19fe242df4cbdc32a2a2c30701d">is_invocable_v</a> = <a class="el" href="a02577.html">is_invocable</a>&lt;Func, Args...&gt;::value</td></tr>
+<tr class="separator:a23b4f19fe242df4cbdc32a2a2c30701d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aebb2da08be7040fa1f75104ee785e235" id="r_aebb2da08be7040fa1f75104ee785e235"><td class="memTemplParams" colspan="2">template&lt;typename Func, typename... Args&gt; </td></tr>
+<tr class="memitem:aebb2da08be7040fa1f75104ee785e235"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#aebb2da08be7040fa1f75104ee785e235">is_callable_v</a> = <a class="el" href="a02589.html">is_callable</a>&lt;Func, Args...&gt;::value</td></tr>
+<tr class="separator:aebb2da08be7040fa1f75104ee785e235"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="a0d908f040c4f8067ec34eacbbb099506" name="a0d908f040c4f8067ec34eacbbb099506"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0d908f040c4f8067ec34eacbbb099506">&#9670;&#160;</a></span>operator&amp;&amp;()</h2>
+<h2 class="groupheader">Typedef Documentation</h2>
+<a id="a18993038d7df3aedaeeb999287ff42b2" name="a18993038d7df3aedaeeb999287ff42b2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a18993038d7df3aedaeeb999287ff42b2">&#9670;&#160;</a></span>invoke_result_t</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename Func, typename... Args&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">bool lumex::xml::xpath::node::operator&amp;&amp; </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a03062.html">XPathNode</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>lhs</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>rhs</em></span>&#160;)</td>
+          <td class="memname">using <a class="el" href="#a18993038d7df3aedaeeb999287ff42b2">lumex::core::utility::traits::invoke::invoke_result_t</a> = typename <a class="el" href="a02565.html">invoke_result</a>&lt;Func, Args...&gt;::type</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Logical AND operator for <code><a class="el" href="a03062.html" title="Represents a node in an XPath node-set, which can be either an XML element/document node or an XML at...">XPathNode</a></code> and boolean. </p>
-<p>Enables the use of <code><a class="el" href="a03062.html" title="Represents a node in an XPath node-set, which can be either an XML element/document node or an XML at...">XPathNode</a></code> in logical AND expressions (<code>&amp;&amp;</code>) with a boolean right-hand side, treating the <code><a class="el" href="a03062.html" title="Represents a node in an XPath node-set, which can be either an XML element/document node or an XML at...">XPathNode</a></code> as a boolean. </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">lhs</td><td>The left-hand side <code><a class="el" href="a03062.html" title="Represents a node in an XPath node-set, which can be either an XML element/document node or an XML at...">XPathNode</a></code>. </td></tr>
-    <tr><td class="paramname">rhs</td><td>The right-hand side boolean value. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The result of the logical AND operation. </dd></dl>
-
 </div>
 </div>
-<a id="a99ec5086ce8edac1d6c4772e3f7c91f2" name="a99ec5086ce8edac1d6c4772e3f7c91f2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a99ec5086ce8edac1d6c4772e3f7c91f2">&#9670;&#160;</a></span>operator||()</h2>
+<a id="ae297a2898f6459ac9ef2c4a1dd537fe8" name="ae297a2898f6459ac9ef2c4a1dd537fe8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae297a2898f6459ac9ef2c4a1dd537fe8">&#9670;&#160;</a></span>result_of_t</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename Sig&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">bool lumex::xml::xpath::node::operator|| </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a03062.html">XPathNode</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>lhs</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>rhs</em></span>&#160;)</td>
+          <td class="memname">using <a class="el" href="#ae297a2898f6459ac9ef2c4a1dd537fe8">lumex::core::utility::traits::invoke::result_of_t</a> = typename <a class="el" href="a02569.html">result_of</a>&lt;Sig&gt;::type</td>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Logical OR operator for <code><a class="el" href="a03062.html" title="Represents a node in an XPath node-set, which can be either an XML element/document node or an XML at...">XPathNode</a></code> and boolean. </p>
-<p>Enables the use of <code><a class="el" href="a03062.html" title="Represents a node in an XPath node-set, which can be either an XML element/document node or an XML at...">XPathNode</a></code> in logical OR expressions (<code>||</code>) with a boolean right-hand side, treating the <code><a class="el" href="a03062.html" title="Represents a node in an XPath node-set, which can be either an XML element/document node or an XML at...">XPathNode</a></code> as a boolean. </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">lhs</td><td>The left-hand side <code><a class="el" href="a03062.html" title="Represents a node in an XPath node-set, which can be either an XML element/document node or an XML at...">XPathNode</a></code>. </td></tr>
-    <tr><td class="paramname">rhs</td><td>The right-hand side boolean value. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The result of the logical OR operation. </dd></dl>
 
 </div>
 </div>
 <h2 class="groupheader">Variable Documentation</h2>
-<a id="ae25bb9cdc14472d3df8176c4529130bf" name="ae25bb9cdc14472d3df8176c4529130bf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae25bb9cdc14472d3df8176c4529130bf">&#9670;&#160;</a></span>dummy_node_set</h2>
+<a id="aebb2da08be7040fa1f75104ee785e235" name="aebb2da08be7040fa1f75104ee785e235"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aebb2da08be7040fa1f75104ee785e235">&#9670;&#160;</a></span>is_callable_v</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename Func, typename... Args&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="a03066.html">XPathNodeSet</a> const lumex::xml::xpath::node::dummy_node_set</td>
+          <td class="memname">bool lumex::core::utility::traits::invoke::is_callable_v = <a class="el" href="a02589.html">is_callable</a>&lt;Func, Args...&gt;::value</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>A global, constant empty <code><a class="el" href="a03066.html" title="Represents a collection of XPath nodes, managing their order and uniqueness.">XPathNodeSet</a></code> for convenience. </p>
+</div>
+</div>
+<a id="a23b4f19fe242df4cbdc32a2a2c30701d" name="a23b4f19fe242df4cbdc32a2a2c30701d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a23b4f19fe242df4cbdc32a2a2c30701d">&#9670;&#160;</a></span>is_invocable_v</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Func, typename... Args&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::core::utility::traits::invoke::is_invocable_v = <a class="el" href="a02577.html">is_invocable</a>&lt;Func, Args...&gt;::value</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -231,7 +240,7 @@ Variables</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00912.html">lumex</a></li><li class="navelem"><a class="el" href="a01083.html">xml</a></li><li class="navelem"><a class="el" href="a01092.html">xpath</a></li><li class="navelem"><a class="el" href="a01093.html">node</a></li>
+    <li class="navelem"><a class="el" href="a00948.html">lumex</a></li><li class="navelem"><a class="el" href="a01005.html">core</a></li><li class="navelem"><a class="el" href="a01077.html">utility</a></li><li class="navelem"><a class="el" href="a01091.html">traits</a></li><li class="navelem"><a class="el" href="a01093.html">invoke</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

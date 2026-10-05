@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexMath.hpp Source File</title>
+<title>LumexLib: Unexpected.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -103,735 +103,135 @@ $(function(){initNavTree('a00287_source.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">LumexMath.hpp</div></div>
+  <div class="headertitle"><div class="title">Unexpected.hpp</div></div>
 </div><!--header-->
 <div class="contents">
 <a href="a00287.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">/*</span></div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment"> * Copyright (c) 2026 Vladislav Semykin &lt;vladislav.semykin@gmail.com&gt;</span></div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="comment"> *</span></div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="comment"> * SPDX-License-Identifier: MIT</span></div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="comment"> *</span></div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="comment"> * Permission is hereby granted, free of charge, to any person obtaining a copy</span></div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="comment"> * of this software and associated documentation files (the &quot;Software&quot;), to</span></div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="comment"> * deal in the Software without restriction, including without limitation the</span></div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="comment"> * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or</span></div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="comment"> * sell copies of the Software, and to permit persons to whom the Software is</span></div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="comment"> * furnished to do so, subject to the following conditions:</span></div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="comment"> *</span></div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="comment"> * The above copyright notice and this permission notice shall be included in</span></div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="comment"> * all copies or substantial portions of the Software.</span></div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="comment"> *</span></div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="comment"> * THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR</span></div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="comment"> * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,</span></div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="comment"> * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE</span></div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="comment"> * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER</span></div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="comment"> * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING</span></div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="comment"> * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS</span></div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="comment"> * IN THE SOFTWARE.</span></div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="comment"> */</span></div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span></div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span><span class="preprocessor">#ifndef LUMEX_CORE_MATH_OPS_HPP</span></div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span><span class="preprocessor">#define LUMEX_CORE_MATH_OPS_HPP</span></div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="preprocessor">#include &lt;cmath&gt;</span></div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="preprocessor">#include &lt;cstddef&gt;</span></div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span><span class="preprocessor">#include &lt;cstdint&gt;</span></div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="preprocessor">#include &lt;iterator&gt;</span></div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span><span class="preprocessor">#include &lt;limits&gt;</span></div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="preprocessor">#include &lt;sstream&gt;</span></div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span><span class="preprocessor">#include &lt;stdexcept&gt;</span></div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="preprocessor">#include &lt;string&gt;</span></div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span><span class="preprocessor">#include &lt;type_traits&gt;</span></div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="preprocessor">#include &lt;utility&gt;</span></div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="preprocessor">#include &quot;<a class="code" href="a00353.html">lumex/core/utility/attr/LumexAttributes.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span><span class="preprocessor">#include &quot;<a class="code" href="a00368.html">lumex/core/utility/compiler/LumexCheckFeatures.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span><span class="preprocessor">#include &quot;<a class="code" href="a00386.html">lumex/core/utility/macros/LumexExceptionMacros.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span><span class="preprocessor">#include &quot;<a class="code" href="a00389.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span> </div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a00912.html">lumex</a></div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>{</div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a00964.html">core</a></div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>{</div>
-<div class="foldopen" id="foldopen00062" data-start="{" data-end="}">
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno"><a class="line" href="a01011.html">   62</a></span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01011.html">math</a></div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>{</div>
-<div class="foldopen" id="foldopen00064" data-start="{" data-end="}">
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno"><a class="line" href="a01012.html">   64</a></span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01012.html">ops</a></div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>{</div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno"><a class="line" href="a02166.html#a796c2f399644f48028db8d583ca47a4d">   69</a></span><a class="code hl_define" href="a00386.html#ac1cf7e477c73144de8304b5a87b250a0">LUMEX_DEFINE_EXCEPTION</a> (<a class="code hl_function" href="a02166.html#a796c2f399644f48028db8d583ca47a4d">LumexMathSizeMismatchException</a>, std::invalid_argument)</div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
-<div class="foldopen" id="foldopen00071" data-start="{" data-end="}">
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno"><a class="line" href="a01013.html">   71</a></span>namespace <a class="code hl_namespace" href="a01013.html">traits</a></div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>{</div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="foldopen" id="foldopen00076" data-start="{" data-end="};">
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno"><a class="line" href="a02170.html">   76</a></span><span class="keyword">struct </span><a class="code hl_struct" href="a02170.html">is_numeric</a></div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    : std::integral_constant&lt;</div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>          bool,</div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>          (std::is_integral&lt;T&gt;::value</div>
-<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>           &amp;&amp; !std::is_same&lt;typename std::remove_cv&lt;T&gt;::type, bool&gt;::value)</div>
-<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>              || std::is_floating_point&lt;T&gt;::value&gt;</div>
-<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>{</div>
-<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>};</div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="comment"> *</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="comment"> * SPDX-License-Identifier: MIT</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="comment"> *</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="comment"> * Permission is hereby granted, free of</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="comment"> * charge, to any person obtaining a copy</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="comment"> * of this software and associated</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="comment"> * documentation files (the &quot;Software&quot;), to deal</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="comment"> * in the Software without</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="comment"> * restriction, including without limitation the rights</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="comment"> * to use, copy,</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="comment"> * modify, merge, publish, distribute, sublicense, and/or sell</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="comment"> * copies of the</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="comment"> * Software, and to permit persons to whom the Software is</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="comment"> * furnished to do</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="comment"> * so, subject to the following conditions:</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="comment"> *</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="comment"> * The above copyright notice</span></div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="comment"> * and this permission notice shall be included in</span></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="comment"> * all copies or substantial</span></div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="comment"> * portions of the Software.</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="comment"> *</span></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="comment"> * THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="comment"> * WARRANTY OF ANY KIND, EXPRESS OR</span></div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="comment"> * IMPLIED, INCLUDING BUT NOT LIMITED TO</span></div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="comment"> * THE WARRANTIES OF MERCHANTABILITY,</span></div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="comment"> * FITNESS FOR A PARTICULAR PURPOSE AND</span></div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="comment"> * NONINFRINGEMENT. IN NO EVENT SHALL THE</span></div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span><span class="comment"> * AUTHORS OR COPYRIGHT HOLDERS BE</span></div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="comment"> * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER</span></div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><span class="comment"> * LIABILITY, WHETHER IN AN ACTION OF</span></div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span><span class="comment"> * CONTRACT, TORT OR OTHERWISE, ARISING FROM,</span></div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="comment"> * OUT OF OR IN CONNECTION WITH</span></div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="comment"> * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE</span></div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="comment"> * SOFTWARE.</span></div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="comment"> */</span></div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span></div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="preprocessor">#ifndef LUMEX_CORE_EXPECTED_ERROR_UNEXPECTED_HPP</span></div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span><span class="preprocessor">#define LUMEX_CORE_EXPECTED_ERROR_UNEXPECTED_HPP</span></div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="preprocessor">#include &lt;utility&gt;</span></div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span><span class="comment">// ====================== Unexpected class (C++23 analogue)</span></div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span><span class="comment">// ======================</span></div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a00948.html">lumex</a></div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>{</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01005.html">core</a></div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>{</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01041.html">expected</a></div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>{</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01042.html">error</a></div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>{</div>
+<div class="foldopen" id="foldopen00072" data-start="{" data-end="};">
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno"><a class="line" href="a01921.html">   72</a></span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> ErrorType&gt; <span class="keyword">class </span><a class="code hl_function" href="a01921.html#a075c1367f8574a76ab9e4160d6ed521c">Unexpected</a></div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>{</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno"><a class="line" href="a01921.html#a075c1367f8574a76ab9e4160d6ed521c">   81</a></span>  <span class="keyword">explicit</span> <a class="code hl_function" href="a01921.html#a075c1367f8574a76ab9e4160d6ed521c">Unexpected</a> (ErrorType <span class="keyword">const</span> &amp;<a class="code hl_function" href="a01921.html#add04e74193f947673a08bc0dda3f6f20">error</a>) : m_error (<a class="code hl_function" href="a01921.html#add04e74193f947673a08bc0dda3f6f20">error</a>) {}</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span></div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno"><a class="line" href="a01921.html#a79082b8816166114c5ee96b83ee85319">   89</a></span>  <span class="keyword">explicit</span> <a class="code hl_function" href="a01921.html#a79082b8816166114c5ee96b83ee85319">Unexpected</a> (ErrorType &amp;&amp;<a class="code hl_function" href="a01921.html#add04e74193f947673a08bc0dda3f6f20">error</a>) : m_error (<a class="code hl_namespace" href="a01040.html">std</a>::move (<a class="code hl_function" href="a01921.html#add04e74193f947673a08bc0dda3f6f20">error</a>)) {}</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span></div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>  ErrorType &amp;</div>
+<div class="foldopen" id="foldopen00097" data-start="{" data-end="}">
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno"><a class="line" href="a01921.html#add04e74193f947673a08bc0dda3f6f20">   97</a></span>  <a class="code hl_function" href="a01921.html#add04e74193f947673a08bc0dda3f6f20">error</a> () &amp;</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>  {</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>    <span class="keywordflow">return</span> m_error;</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>  }</div>
 </div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span> </div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span><span class="preprocessor">#if LUMEX_HAS_CONCEPTS</span></div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span><span class="keyword">concept </span>NumericConcept = <a class="code hl_struct" href="a02170.html">is_numeric&lt;T&gt;::value</a>;</div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>} <span class="comment">// namespace traits</span></div>
-</div>
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span> </div>
-<div class="foldopen" id="foldopen00092" data-start="{" data-end="}">
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno"><a class="line" href="a01014.html">   92</a></span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01014.html">Detail</a></div>
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>{</div>
-<div class="foldopen" id="foldopen00094" data-start="{" data-end="};">
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno"><a class="line" href="a02174.html">   94</a></span><span class="keyword">template</span> &lt;<span class="keyword">typename</span>...&gt; <span class="keyword">struct </span><a class="code hl_struct" href="a02174.html">voider</a></div>
-<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>{</div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno"><a class="line" href="a02174.html#a91e37a10c231058284bf4595337d7ed3">   96</a></span>  <span class="keyword">typedef</span> <span class="keywordtype">void</span> <a class="code hl_typedef" href="a02174.html#a91e37a10c231058284bf4595337d7ed3">type</a>;</div>
-<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>};</div>
-</div>
-<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span> </div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span><span class="keyword">using </span>std::begin;</div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span><span class="keyword">using </span>std::end;</div>
 <div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span></div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Range&gt;</div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span><span class="keyword">auto</span></div>
-<div class="foldopen" id="foldopen00105" data-start="{" data-end="}">
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno"><a class="line" href="a01014.html#abdf8ed32a58d7ef1884b0e2eb69e139b">  105</a></span><a class="code hl_function" href="a01014.html#abdf8ed32a58d7ef1884b0e2eb69e139b">adl_begin</a> (Range &amp;range) -&gt; <span class="keyword">decltype</span> (begin (range))</div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>{</div>
-<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>  <span class="keywordflow">return</span> begin (range);</div>
-<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>}</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>  ErrorType <span class="keyword">const</span> &amp;</div>
+<div class="foldopen" id="foldopen00108" data-start="{" data-end="}">
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno"><a class="line" href="a01921.html#ab2b13d122af5d10b0b9addbf7c70f227">  108</a></span>  <a class="code hl_function" href="a01921.html#ab2b13d122af5d10b0b9addbf7c70f227">error</a> () const &amp;</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>  {</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>    <span class="keywordflow">return</span> m_error;</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>  }</div>
 </div>
-<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span></div>
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Range&gt;</div>
-<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span><span class="keyword">auto</span></div>
-<div class="foldopen" id="foldopen00113" data-start="{" data-end="}">
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno"><a class="line" href="a01014.html#a39800dfb129ce7e0f3b8520f0e8ce977">  113</a></span><a class="code hl_function" href="a01014.html#a39800dfb129ce7e0f3b8520f0e8ce977">adl_end</a> (Range &amp;range) -&gt; <span class="keyword">decltype</span> (end (range))</div>
-<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>{</div>
-<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>  <span class="keywordflow">return</span> end (range);</div>
-<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>}</div>
-</div>
-<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span></div>
-<div class="foldopen" id="foldopen00119" data-start="{" data-end="};">
-<div class="line"><a id="l00119" name="l00119"></a><span class="lineno"><a class="line" href="a02178.html">  119</a></span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Range&gt; <span class="keyword">struct </span><a class="code hl_struct" href="a02178.html">range_object</a></div>
-<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>{</div>
-<div class="line"><a id="l00121" name="l00121"></a><span class="lineno"><a class="line" href="a02178.html#a0c8e1ae34abe7b5e71943461989d9884">  121</a></span>  <span class="keyword">typedef</span> <span class="keyword">typename</span> std::remove_reference&lt;Range&gt;::type <a class="code hl_typedef" href="a02178.html#a0c8e1ae34abe7b5e71943461989d9884">type</a>;</div>
-<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>};</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span></div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>  ErrorType &amp;&amp;</div>
+<div class="foldopen" id="foldopen00119" data-start="{" data-end="}">
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno"><a class="line" href="a01921.html#a81f1dd1da8585415f1139c88f9dc58a9">  119</a></span>  <a class="code hl_function" href="a01921.html#a81f1dd1da8585415f1139c88f9dc58a9">error</a> () &amp;&amp;</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>  {</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>    <span class="keywordflow">return</span> std::move (m_error);</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>  }</div>
 </div>
 <div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span></div>
-<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Range, <span class="keyword">typename</span> = <span class="keywordtype">void</span>&gt;</div>
-<div class="foldopen" id="foldopen00127" data-start="{" data-end="};">
-<div class="line"><a id="l00127" name="l00127"></a><span class="lineno"><a class="line" href="a02182.html">  127</a></span><span class="keyword">struct </span><a class="code hl_struct" href="a02182.html">is_numeric_range</a> : std::false_type</div>
-<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>{</div>
-<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>};</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>  ErrorType <span class="keyword">const</span> &amp;&amp;</div>
+<div class="foldopen" id="foldopen00130" data-start="{" data-end="}">
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno"><a class="line" href="a01921.html#aeaeb174828a6ed9cd56e17462559bacd">  130</a></span>  <a class="code hl_function" href="a01921.html#aeaeb174828a6ed9cd56e17462559bacd">error</a> () const &amp;&amp;</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>  {</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>    <span class="keywordflow">return</span> std::move (m_error);</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>  }</div>
 </div>
-<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span> </div>
-<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Range&gt;</div>
-<div class="foldopen" id="foldopen00132" data-start="{" data-end="};">
-<div class="line"><a id="l00132" name="l00132"></a><span class="lineno"><a class="line" href="a02186.html">  132</a></span><span class="keyword">struct </span><a class="code hl_struct" href="a02182.html">is_numeric_range</a>&lt;</div>
-<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>    Range,</div>
-<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>    <span class="keyword">typename</span> <a class="code hl_struct" href="a02174.html">voider</a>&lt;</div>
-<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>        <span class="keyword">decltype</span> (<a class="code hl_function" href="a01014.html#abdf8ed32a58d7ef1884b0e2eb69e139b">adl_begin</a> (</div>
-<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>                      std::declval&lt;<span class="keyword">typename</span> <a class="code hl_typedef" href="a02178.html#a0c8e1ae34abe7b5e71943461989d9884">range_object&lt;Range&gt;::type</a> &amp;&gt; ())</div>
-<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>                  != <a class="code hl_function" href="a01014.html#a39800dfb129ce7e0f3b8520f0e8ce977">adl_end</a> (</div>
-<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>                      std::declval&lt;<span class="keyword">typename</span> <a class="code hl_typedef" href="a02178.html#a0c8e1ae34abe7b5e71943461989d9884">range_object&lt;Range&gt;::type</a> &amp;&gt; ())),</div>
-<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>        <span class="keyword">decltype</span> (++std::declval&lt;<span class="keyword">decltype</span> (<a class="code hl_function" href="a01014.html#abdf8ed32a58d7ef1884b0e2eb69e139b">adl_begin</a> (</div>
-<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>                      std::declval&lt;<span class="keyword">typename</span> <a class="code hl_typedef" href="a02178.html#a0c8e1ae34abe7b5e71943461989d9884">range_object&lt;Range&gt;::type</a> &amp;&gt; ()))</div>
-<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>                                     &amp;&gt; ()),</div>
-<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>        <span class="keyword">decltype</span> (*<a class="code hl_function" href="a01014.html#abdf8ed32a58d7ef1884b0e2eb69e139b">adl_begin</a> (</div>
-<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>            std::declval&lt;<span class="keyword">typename</span> <a class="code hl_typedef" href="a02178.html#a0c8e1ae34abe7b5e71943461989d9884">range_object&lt;Range&gt;::type</a> &amp;&gt; ()))&gt;<a class="code hl_class" href="a02210.html">::type</a>&gt;</div>
-<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>    : <a class="code hl_namespace" href="a01013.html">traits</a>::is_numeric&lt;typename <a class="code hl_namespace" href="a00999.html">std</a>::decay&lt;decltype (*<a class="code hl_function" href="a01014.html#abdf8ed32a58d7ef1884b0e2eb69e139b">adl_begin</a> (</div>
-<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>          <a class="code hl_namespace" href="a00999.html">std</a>::declval&lt;typename <a class="code hl_struct" href="a02178.html">range_object</a>&lt;Range&gt;::<a class="code hl_class" href="a02210.html">type</a> &amp;&gt; ()))&gt;::<a class="code hl_class" href="a02210.html">type</a>&gt;</div>
-<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>{</div>
-<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>};</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span> </div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>  ErrorType m_error; </div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>};</div>
 </div>
-<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span></div>
-<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>template &lt;typename Range, bool = is_numeric_range&lt;Range&gt;::value&gt;</div>
-<div class="foldopen" id="foldopen00152" data-start="{" data-end="};">
-<div class="line"><a id="l00152" name="l00152"></a><span class="lineno"><a class="line" href="a02190.html">  152</a></span><span class="keyword">struct </span><a class="code hl_struct" href="a02190.html">numeric_range_value</a></div>
-<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>{</div>
-<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>};</div>
-</div>
-<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span> </div>
-<div class="foldopen" id="foldopen00156" data-start="{" data-end="};">
-<div class="line"><a id="l00156" name="l00156"></a><span class="lineno"><a class="line" href="a02194.html">  156</a></span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Range&gt; <span class="keyword">struct </span><a class="code hl_struct" href="a02190.html">numeric_range_value&lt;Range, true&gt;</a></div>
-<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>{</div>
-<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>  <span class="keyword">typedef</span> <span class="keyword">typename</span> std::decay&lt;<span class="keyword">decltype</span> (*<a class="code hl_function" href="a01014.html#abdf8ed32a58d7ef1884b0e2eb69e139b">adl_begin</a> (</div>
-<div class="line"><a id="l00159" name="l00159"></a><span class="lineno"><a class="line" href="a02194.html#a3217f4ed95f5ffe936ed903617622a2c">  159</a></span>      std::declval&lt;<span class="keyword">typename</span> <a class="code hl_typedef" href="a02178.html#a0c8e1ae34abe7b5e71943461989d9884">range_object&lt;Range&gt;::type</a> &amp;&gt; ()))&gt;<a class="code hl_typedef" href="a02194.html#a3217f4ed95f5ffe936ed903617622a2c">::type</a> <a class="code hl_typedef" href="a02194.html#a3217f4ed95f5ffe936ed903617622a2c">type</a>;</div>
-<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>};</div>
-</div>
-<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span></div>
-<div class="foldopen" id="foldopen00163" data-start="{" data-end="};">
-<div class="line"><a id="l00163" name="l00163"></a><span class="lineno"><a class="line" href="a02198.html">  163</a></span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">struct </span><a class="code hl_struct" href="a02198.html">sqrt_result</a></div>
-<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>{</div>
-<div class="line"><a id="l00165" name="l00165"></a><span class="lineno"><a class="line" href="a02198.html#acbb104667bdd99e1533568c2160f1614">  165</a></span>  <span class="keyword">typedef</span> <span class="keyword">decltype</span> (std::sqrt (std::declval&lt;T&gt; ())) <a class="code hl_typedef" href="a02198.html#acbb104667bdd99e1533568c2160f1614">type</a>;</div>
-<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>};</div>
-</div>
-<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span></div>
-<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> U,</div>
-<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>          <span class="keywordtype">bool</span> = <a class="code hl_struct" href="a02170.html">traits::is_numeric&lt;T&gt;::value</a> &amp;&amp; <a class="code hl_struct" href="a02170.html">traits::is_numeric&lt;U&gt;::value</a>&gt;</div>
-<div class="foldopen" id="foldopen00171" data-start="{" data-end="};">
-<div class="line"><a id="l00171" name="l00171"></a><span class="lineno"><a class="line" href="a02202.html">  171</a></span><span class="keyword">struct </span><a class="code hl_struct" href="a02202.html">numeric_common</a></div>
-<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>{</div>
-<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>};</div>
-</div>
-<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span> </div>
-<div class="foldopen" id="foldopen00175" data-start="{" data-end="};">
-<div class="line"><a id="l00175" name="l00175"></a><span class="lineno"><a class="line" href="a02206.html">  175</a></span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> U&gt; <span class="keyword">struct </span><a class="code hl_struct" href="a02202.html">numeric_common</a>&lt;T, U, true&gt;</div>
-<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>{</div>
-<div class="line"><a id="l00177" name="l00177"></a><span class="lineno"><a class="line" href="a02206.html#ad680dfe8b639a539ce2dcb05796c6196">  177</a></span>  <span class="keyword">typedef</span> <span class="keyword">typename</span> std::common_type&lt;T, U&gt;::type <a class="code hl_typedef" href="a02206.html#ad680dfe8b639a539ce2dcb05796c6196">type</a>;</div>
-<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>};</div>
-</div>
-<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span></div>
-<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> U,</div>
-<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>          <span class="keywordtype">bool</span> = <a class="code hl_struct" href="a02170.html">traits::is_numeric&lt;T&gt;::value</a> &amp;&amp; <a class="code hl_struct" href="a02170.html">traits::is_numeric&lt;U&gt;::value</a>&gt;</div>
-<div class="foldopen" id="foldopen00184" data-start="{" data-end="};">
-<div class="line"><a id="l00184" name="l00184"></a><span class="lineno"><a class="line" href="a02210.html">  184</a></span><span class="keyword">struct </span><a class="code hl_struct" href="a02210.html">difference_type</a></div>
-<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>{</div>
-<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>};</div>
-</div>
-<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span> </div>
-<div class="foldopen" id="foldopen00188" data-start="{" data-end="};">
-<div class="line"><a id="l00188" name="l00188"></a><span class="lineno"><a class="line" href="a02214.html">  188</a></span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> U&gt; <span class="keyword">struct </span><a class="code hl_struct" href="a02210.html">difference_type</a>&lt;T, U, true&gt;</div>
-<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>{</div>
-<div class="line"><a id="l00190" name="l00190"></a><span class="lineno"><a class="line" href="a02214.html#a1cdf2257e6f864b7e5b7f41c72d00dd8">  190</a></span>  <span class="keyword">typedef</span> <span class="keyword">typename</span> std::common_type&lt;T, U&gt;::type <a class="code hl_typedef" href="a02214.html#a1cdf2257e6f864b7e5b7f41c72d00dd8">common</a>;</div>
-<div class="line"><a id="l00191" name="l00191"></a><span class="lineno"><a class="line" href="a02214.html#a93321b4ee0757354748f76a610ba6d0f">  191</a></span>  <span class="keyword">typedef</span> <span class="keyword">decltype</span> (std::declval&lt;common&gt; () - std::declval&lt;common&gt; ()) <a class="code hl_typedef" href="a02214.html#a93321b4ee0757354748f76a610ba6d0f">type</a>;</div>
-<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>};</div>
-</div>
-<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span></div>
-<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> U,</div>
-<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>          <span class="keywordtype">bool</span> = <a class="code hl_struct" href="a02170.html">traits::is_numeric&lt;T&gt;::value</a> &amp;&amp; <a class="code hl_struct" href="a02170.html">traits::is_numeric&lt;U&gt;::value</a></div>
-<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>                 &amp;&amp; !std::is_floating_point&lt;T&gt;::value</div>
-<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>                 &amp;&amp; !std::is_floating_point&lt;U&gt;::value&gt;</div>
-<div class="foldopen" id="foldopen00202" data-start="{" data-end="};">
-<div class="line"><a id="l00202" name="l00202"></a><span class="lineno"><a class="line" href="a02218.html">  202</a></span><span class="keyword">struct </span><a class="code hl_struct" href="a02218.html">integral_distance</a></div>
-<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>{</div>
-<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span>};</div>
-</div>
-<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span> </div>
-<div class="foldopen" id="foldopen00206" data-start="{" data-end="};">
-<div class="line"><a id="l00206" name="l00206"></a><span class="lineno"><a class="line" href="a02222.html">  206</a></span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> U&gt; <span class="keyword">struct </span><a class="code hl_struct" href="a02218.html">integral_distance</a>&lt;T, U, true&gt;</div>
-<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>{</div>
-<div class="line"><a id="l00208" name="l00208"></a><span class="lineno"><a class="line" href="a02222.html#ae4e7f10ea1f97caeac548b56ee034ee5">  208</a></span>  <span class="keyword">typedef</span> <span class="keyword">typename</span> <a class="code hl_struct" href="a02210.html">difference_type&lt;T, U&gt;::type</a> <a class="code hl_typedef" href="a02222.html#ae4e7f10ea1f97caeac548b56ee034ee5">type</a>;</div>
-<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span>};</div>
-</div>
-<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span></div>
-<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> U,</div>
-<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>          <span class="keywordtype">bool</span> = <a class="code hl_struct" href="a02170.html">traits::is_numeric&lt;T&gt;::value</a> &amp;&amp; <a class="code hl_struct" href="a02170.html">traits::is_numeric&lt;U&gt;::value</a></div>
-<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span>                 &amp;&amp; (std::is_floating_point&lt;T&gt;::value</div>
-<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span>                     || std::is_floating_point&lt;U&gt;::value)&gt;</div>
-<div class="foldopen" id="foldopen00217" data-start="{" data-end="};">
-<div class="line"><a id="l00217" name="l00217"></a><span class="lineno"><a class="line" href="a02226.html">  217</a></span><span class="keyword">struct </span><a class="code hl_struct" href="a02226.html">floating_distance</a></div>
-<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>{</div>
-<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>};</div>
-</div>
-<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span> </div>
-<div class="foldopen" id="foldopen00221" data-start="{" data-end="};">
-<div class="line"><a id="l00221" name="l00221"></a><span class="lineno"><a class="line" href="a02230.html">  221</a></span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> U&gt; <span class="keyword">struct </span><a class="code hl_struct" href="a02226.html">floating_distance</a>&lt;T, U, true&gt;</div>
-<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>{</div>
-<div class="line"><a id="l00223" name="l00223"></a><span class="lineno"><a class="line" href="a02230.html#a64a711058a225bbf7a5828c263f0084a">  223</a></span>  <span class="keyword">typedef</span> <span class="keyword">typename</span> std::common_type&lt;T, U&gt;::type <a class="code hl_typedef" href="a02230.html#a64a711058a225bbf7a5828c263f0084a">type</a>;</div>
-<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>};</div>
-</div>
-<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span></div>
-<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Range1, <span class="keyword">typename</span> Range2,</div>
-<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span>          <span class="keywordtype">bool</span></div>
-<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span>          = <a class="code hl_struct" href="a02182.html">is_numeric_range&lt;Range1&gt;::value</a> &amp;&amp; <a class="code hl_struct" href="a02182.html">is_numeric_range&lt;Range2&gt;::value</a>&gt;</div>
-<div class="foldopen" id="foldopen00231" data-start="{" data-end="};">
-<div class="line"><a id="l00231" name="l00231"></a><span class="lineno"><a class="line" href="a02234.html">  231</a></span><span class="keyword">struct </span><a class="code hl_struct" href="a02234.html">range_pair_result</a></div>
-<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span>{</div>
-<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>};</div>
-</div>
-<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span> </div>
-<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Range1, <span class="keyword">typename</span> Range2&gt;</div>
-<div class="foldopen" id="foldopen00236" data-start="{" data-end="};">
-<div class="line"><a id="l00236" name="l00236"></a><span class="lineno"><a class="line" href="a02238.html">  236</a></span><span class="keyword">struct </span><a class="code hl_struct" href="a02234.html">range_pair_result</a>&lt;Range1, Range2, true&gt;</div>
-<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span>{</div>
-<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span>  <span class="keyword">typedef</span> <span class="keyword">typename</span> std::common_type&lt;</div>
-<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span>      <span class="keyword">typename</span> <a class="code hl_struct" href="a02190.html">numeric_range_value&lt;Range1&gt;::type</a>,</div>
-<div class="line"><a id="l00240" name="l00240"></a><span class="lineno"><a class="line" href="a02238.html#acb4ffe16e62b909570fd454387113da1">  240</a></span>      <span class="keyword">typename</span> <a class="code hl_struct" href="a02190.html">numeric_range_value&lt;Range2&gt;::type</a>&gt;<a class="code hl_typedef" href="a02238.html#a20d2b558a364ca7c7a0e103872519349">::type</a> <a class="code hl_typedef" href="a02238.html#acb4ffe16e62b909570fd454387113da1">common</a>;</div>
-<div class="line"><a id="l00241" name="l00241"></a><span class="lineno"><a class="line" href="a02238.html#a20d2b558a364ca7c7a0e103872519349">  241</a></span>  <span class="keyword">typedef</span> <span class="keyword">typename</span> <a class="code hl_typedef" href="a02198.html#acbb104667bdd99e1533568c2160f1614">sqrt_result&lt;common&gt;::type</a> <a class="code hl_typedef" href="a02238.html#a20d2b558a364ca7c7a0e103872519349">type</a>;</div>
-<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span>};</div>
-</div>
-<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span></div>
-<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Range, <span class="keyword">typename</span> Scalar,</div>
-<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span>          <span class="keywordtype">bool</span> = <a class="code hl_struct" href="a02182.html">is_numeric_range&lt;Range&gt;::value</a></div>
-<div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span>                 &amp;&amp; <a class="code hl_struct" href="a02170.html">traits::is_numeric&lt;Scalar&gt;::value</a>&gt;</div>
-<div class="foldopen" id="foldopen00249" data-start="{" data-end="};">
-<div class="line"><a id="l00249" name="l00249"></a><span class="lineno"><a class="line" href="a02242.html">  249</a></span><span class="keyword">struct </span><a class="code hl_struct" href="a02242.html">range_scalar_result</a></div>
-<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span>{</div>
-<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>};</div>
-</div>
-<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span> </div>
-<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Range, <span class="keyword">typename</span> Scalar&gt;</div>
-<div class="foldopen" id="foldopen00254" data-start="{" data-end="};">
-<div class="line"><a id="l00254" name="l00254"></a><span class="lineno"><a class="line" href="a02246.html">  254</a></span><span class="keyword">struct </span><a class="code hl_struct" href="a02242.html">range_scalar_result</a>&lt;Range, Scalar, true&gt;</div>
-<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span>{</div>
-<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span>  <span class="keyword">typedef</span> <span class="keyword">typename</span> std::common_type&lt;typename numeric_range_value&lt;Range&gt;::type,</div>
-<div class="line"><a id="l00257" name="l00257"></a><span class="lineno"><a class="line" href="a02246.html#a0f26becc9ea6f049b0886263577d5418">  257</a></span>                                    Scalar&gt;<a class="code hl_typedef" href="a02246.html#a0ee5b4b5cbdcacb96dfed24cd181ef02">::type</a> <a class="code hl_typedef" href="a02246.html#a0f26becc9ea6f049b0886263577d5418">common</a>;</div>
-<div class="line"><a id="l00258" name="l00258"></a><span class="lineno"><a class="line" href="a02246.html#a0ee5b4b5cbdcacb96dfed24cd181ef02">  258</a></span>  <span class="keyword">typedef</span> <span class="keyword">typename</span> <a class="code hl_typedef" href="a02198.html#acbb104667bdd99e1533568c2160f1614">sqrt_result&lt;common&gt;::type</a> <a class="code hl_typedef" href="a02246.html#a0ee5b4b5cbdcacb96dfed24cd181ef02">type</a>;</div>
-<div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span>};</div>
-</div>
-<div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span> </div>
-<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span><span class="comment">// --- checked_narrow_cast helpers ------------------------------------------</span></div>
-<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span></div>
-<div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span><span class="keywordtype">void</span></div>
-<div class="foldopen" id="foldopen00267" data-start="{" data-end="}">
-<div class="line"><a id="l00267" name="l00267"></a><span class="lineno"><a class="line" href="a01014.html#ab02125f45f18a96bf33bfb97c10bc6b6">  267</a></span><a class="code hl_function" href="a01014.html#ab02125f45f18a96bf33bfb97c10bc6b6">print_number</a> (std::ostream &amp;os, T value)</div>
-<div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span>{</div>
-<div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span>  os &lt;&lt; +value;</div>
-<div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span>}</div>
-</div>
-<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span></div>
-<div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> A, <span class="keyword">typename</span> B&gt;</div>
-<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span><span class="keywordtype">bool</span></div>
-<div class="foldopen" id="foldopen00277" data-start="{" data-end="}">
-<div class="line"><a id="l00277" name="l00277"></a><span class="lineno"><a class="line" href="a01014.html#a251e77cb9662dd8266b1d6c1ba9589c9">  277</a></span><a class="code hl_function" href="a01014.html#a251e77cb9662dd8266b1d6c1ba9589c9">cmp_less</a> (A a, B b, std::integral_constant&lt;int, 0&gt;) <span class="comment">// unsigned, unsigned</span></div>
-<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span>{</div>
-<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span>  <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span>std::uintmax_t<span class="keyword">&gt;</span> (a) &lt; <span class="keyword">static_cast&lt;</span>std::uintmax_t<span class="keyword">&gt;</span> (b);</div>
-<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span>}</div>
-</div>
-<div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span> </div>
-<div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> A, <span class="keyword">typename</span> B&gt;</div>
-<div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span><span class="keywordtype">bool</span></div>
-<div class="foldopen" id="foldopen00284" data-start="{" data-end="}">
-<div class="line"><a id="l00284" name="l00284"></a><span class="lineno"><a class="line" href="a01014.html#ad5584fe84ef9cc56ae2358c0461ab4a0">  284</a></span><a class="code hl_function" href="a01014.html#a251e77cb9662dd8266b1d6c1ba9589c9">cmp_less</a> (A a, B b, std::integral_constant&lt;int, 1&gt;) <span class="comment">// unsigned, signed</span></div>
-<div class="line"><a id="l00285" name="l00285"></a><span class="lineno">  285</span>{</div>
-<div class="line"><a id="l00286" name="l00286"></a><span class="lineno">  286</span>  <span class="keywordflow">return</span> b &gt; 0</div>
-<div class="line"><a id="l00287" name="l00287"></a><span class="lineno">  287</span>         &amp;&amp; <span class="keyword">static_cast&lt;</span>std::uintmax_t<span class="keyword">&gt;</span> (a) &lt; <span class="keyword">static_cast&lt;</span>std::uintmax_t<span class="keyword">&gt;</span> (b);</div>
-<div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span>}</div>
-</div>
-<div class="line"><a id="l00289" name="l00289"></a><span class="lineno">  289</span> </div>
-<div class="line"><a id="l00290" name="l00290"></a><span class="lineno">  290</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> A, <span class="keyword">typename</span> B&gt;</div>
-<div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span><span class="keywordtype">bool</span></div>
-<div class="foldopen" id="foldopen00292" data-start="{" data-end="}">
-<div class="line"><a id="l00292" name="l00292"></a><span class="lineno"><a class="line" href="a01014.html#ae404069b4af30ea78aa85553754f613b">  292</a></span><a class="code hl_function" href="a01014.html#a251e77cb9662dd8266b1d6c1ba9589c9">cmp_less</a> (A a, B b, std::integral_constant&lt;int, 2&gt;) <span class="comment">// signed, unsigned</span></div>
-<div class="line"><a id="l00293" name="l00293"></a><span class="lineno">  293</span>{</div>
-<div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span>  <span class="keywordflow">return</span> a &lt; 0</div>
-<div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span>         || <span class="keyword">static_cast&lt;</span>std::uintmax_t<span class="keyword">&gt;</span> (a) &lt; <span class="keyword">static_cast&lt;</span>std::uintmax_t<span class="keyword">&gt;</span> (b);</div>
-<div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span>}</div>
-</div>
-<div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span> </div>
-<div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> A, <span class="keyword">typename</span> B&gt;</div>
-<div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span><span class="keywordtype">bool</span></div>
-<div class="foldopen" id="foldopen00300" data-start="{" data-end="}">
-<div class="line"><a id="l00300" name="l00300"></a><span class="lineno"><a class="line" href="a01014.html#a58c65dc1b9f60791429b467d17666bee">  300</a></span><a class="code hl_function" href="a01014.html#a251e77cb9662dd8266b1d6c1ba9589c9">cmp_less</a> (A a, B b, std::integral_constant&lt;int, 3&gt;) <span class="comment">// signed, signed</span></div>
-<div class="line"><a id="l00301" name="l00301"></a><span class="lineno">  301</span>{</div>
-<div class="line"><a id="l00302" name="l00302"></a><span class="lineno">  302</span>  <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span>std::intmax_t<span class="keyword">&gt;</span> (a) &lt; <span class="keyword">static_cast&lt;</span>std::intmax_t<span class="keyword">&gt;</span> (b);</div>
-<div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span>}</div>
-</div>
-<div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span> </div>
-<div class="line"><a id="l00305" name="l00305"></a><span class="lineno">  305</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> A, <span class="keyword">typename</span> B&gt;</div>
-<div class="line"><a id="l00306" name="l00306"></a><span class="lineno">  306</span><span class="keywordtype">bool</span></div>
-<div class="foldopen" id="foldopen00307" data-start="{" data-end="}">
-<div class="line"><a id="l00307" name="l00307"></a><span class="lineno"><a class="line" href="a01014.html#a5d655277fb34121a733a1c0c9fbd42fe">  307</a></span><a class="code hl_function" href="a01014.html#a251e77cb9662dd8266b1d6c1ba9589c9">cmp_less</a> (A a, B b)</div>
-<div class="line"><a id="l00308" name="l00308"></a><span class="lineno">  308</span>{</div>
-<div class="line"><a id="l00309" name="l00309"></a><span class="lineno">  309</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="a01014.html#a251e77cb9662dd8266b1d6c1ba9589c9">cmp_less</a> (</div>
-<div class="line"><a id="l00310" name="l00310"></a><span class="lineno">  310</span>      a, b,</div>
-<div class="line"><a id="l00311" name="l00311"></a><span class="lineno">  311</span>      std::integral_constant&lt;<span class="keywordtype">int</span>,</div>
-<div class="line"><a id="l00312" name="l00312"></a><span class="lineno">  312</span>                             (std::is_signed&lt;A&gt;::value ? 2 : 0)</div>
-<div class="line"><a id="l00313" name="l00313"></a><span class="lineno">  313</span>                                 + (std::is_signed&lt;B&gt;::value ? 1 : 0)&gt; ());</div>
-<div class="line"><a id="l00314" name="l00314"></a><span class="lineno">  314</span>}</div>
-</div>
-<div class="line"><a id="l00315" name="l00315"></a><span class="lineno">  315</span></div>
-<div class="line"><a id="l00317" name="l00317"></a><span class="lineno">  317</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Target, <span class="keyword">typename</span> Source&gt;</div>
-<div class="line"><a id="l00318" name="l00318"></a><span class="lineno">  318</span><span class="keywordtype">bool</span></div>
-<div class="foldopen" id="foldopen00319" data-start="{" data-end="}">
-<div class="line"><a id="l00319" name="l00319"></a><span class="lineno"><a class="line" href="a01014.html#a3502a023a6571d1aa9955e571d05724c">  319</a></span><a class="code hl_function" href="a01014.html#a3502a023a6571d1aa9955e571d05724c">fits</a> (Source value, std::true_type, std::true_type)</div>
-<div class="line"><a id="l00320" name="l00320"></a><span class="lineno">  320</span>{</div>
-<div class="line"><a id="l00321" name="l00321"></a><span class="lineno">  321</span>  <span class="keywordflow">return</span> !<a class="code hl_function" href="a01014.html#a251e77cb9662dd8266b1d6c1ba9589c9">cmp_less</a> (value, std::numeric_limits&lt;Target&gt;::lowest ())</div>
-<div class="line"><a id="l00322" name="l00322"></a><span class="lineno">  322</span>         &amp;&amp; !<a class="code hl_function" href="a01014.html#a251e77cb9662dd8266b1d6c1ba9589c9">cmp_less</a> ((std::numeric_limits&lt;Target&gt;::max) (), value);</div>
-<div class="line"><a id="l00323" name="l00323"></a><span class="lineno">  323</span>}</div>
-</div>
-<div class="line"><a id="l00324" name="l00324"></a><span class="lineno">  324</span></div>
-<div class="line"><a id="l00330" name="l00330"></a><span class="lineno">  330</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Target, <span class="keyword">typename</span> Source&gt;</div>
-<div class="line"><a id="l00331" name="l00331"></a><span class="lineno">  331</span><span class="keywordtype">bool</span></div>
-<div class="foldopen" id="foldopen00332" data-start="{" data-end="}">
-<div class="line"><a id="l00332" name="l00332"></a><span class="lineno"><a class="line" href="a01014.html#a07e6deea417237e89ab691949f9dc9db">  332</a></span><a class="code hl_function" href="a01014.html#a3502a023a6571d1aa9955e571d05724c">fits</a> (Source value, std::false_type, std::true_type)</div>
-<div class="line"><a id="l00333" name="l00333"></a><span class="lineno">  333</span>{</div>
-<div class="line"><a id="l00334" name="l00334"></a><span class="lineno">  334</span>  <span class="keywordtype">long</span> <span class="keywordtype">double</span> <span class="keyword">const</span> v = <span class="keyword">static_cast&lt;</span><span class="keywordtype">long</span> <span class="keywordtype">double</span><span class="keyword">&gt;</span> (value);</div>
-<div class="line"><a id="l00335" name="l00335"></a><span class="lineno">  335</span>  <span class="keywordtype">long</span> <span class="keywordtype">double</span> <span class="keyword">const</span> lowest</div>
-<div class="line"><a id="l00336" name="l00336"></a><span class="lineno">  336</span>      = <span class="keyword">static_cast&lt;</span><span class="keywordtype">long</span> <span class="keywordtype">double</span><span class="keyword">&gt;</span> (std::numeric_limits&lt;Target&gt;::lowest ());</div>
-<div class="line"><a id="l00337" name="l00337"></a><span class="lineno">  337</span>  <span class="keywordtype">long</span> <span class="keywordtype">double</span> <span class="keyword">const</span> highest</div>
-<div class="line"><a id="l00338" name="l00338"></a><span class="lineno">  338</span>      = <span class="keyword">static_cast&lt;</span><span class="keywordtype">long</span> <span class="keywordtype">double</span><span class="keyword">&gt;</span> ((std::numeric_limits&lt;Target&gt;::max) ());</div>
-<div class="line"><a id="l00339" name="l00339"></a><span class="lineno">  339</span>  <span class="keywordtype">long</span> <span class="keywordtype">double</span> <span class="keyword">const</span> bound</div>
-<div class="line"><a id="l00340" name="l00340"></a><span class="lineno">  340</span>      = std::ldexp (1.0L, std::numeric_limits&lt;Target&gt;::digits);</div>
-<div class="line"><a id="l00341" name="l00341"></a><span class="lineno">  341</span>  <span class="keywordflow">return</span> !(v &lt; lowest) &amp;&amp; !(v &gt; highest) &amp;&amp; v &lt; bound;</div>
-<div class="line"><a id="l00342" name="l00342"></a><span class="lineno">  342</span>}</div>
-</div>
-<div class="line"><a id="l00343" name="l00343"></a><span class="lineno">  343</span></div>
-<div class="line"><a id="l00345" name="l00345"></a><span class="lineno">  345</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Target, <span class="keyword">typename</span> Source, <span class="keyword">typename</span> SourceIsIntegral&gt;</div>
-<div class="line"><a id="l00346" name="l00346"></a><span class="lineno">  346</span><span class="keywordtype">bool</span></div>
-<div class="foldopen" id="foldopen00347" data-start="{" data-end="}">
-<div class="line"><a id="l00347" name="l00347"></a><span class="lineno"><a class="line" href="a01014.html#a2a139d6b365662614852f1318c6ea5b3">  347</a></span><a class="code hl_function" href="a01014.html#a3502a023a6571d1aa9955e571d05724c">fits</a> (Source value, SourceIsIntegral, std::false_type)</div>
-<div class="line"><a id="l00348" name="l00348"></a><span class="lineno">  348</span>{</div>
-<div class="line"><a id="l00349" name="l00349"></a><span class="lineno">  349</span>  <span class="keywordtype">long</span> <span class="keywordtype">double</span> <span class="keyword">const</span> v = <span class="keyword">static_cast&lt;</span><span class="keywordtype">long</span> <span class="keywordtype">double</span><span class="keyword">&gt;</span> (value);</div>
-<div class="line"><a id="l00350" name="l00350"></a><span class="lineno">  350</span>  <span class="keywordflow">return</span> !(v</div>
-<div class="line"><a id="l00351" name="l00351"></a><span class="lineno">  351</span>           &lt; <span class="keyword">static_cast&lt;</span><span class="keywordtype">long</span> <span class="keywordtype">double</span><span class="keyword">&gt;</span> (std::numeric_limits&lt;Target&gt;::lowest ()))</div>
-<div class="line"><a id="l00352" name="l00352"></a><span class="lineno">  352</span>         &amp;&amp; !(v &gt; <span class="keyword">static_cast&lt;</span><span class="keywordtype">long</span> <span class="keywordtype">double</span><span class="keyword">&gt;</span> (</div>
-<div class="line"><a id="l00353" name="l00353"></a><span class="lineno">  353</span>                  (std::numeric_limits&lt;Target&gt;::max) ()));</div>
-<div class="line"><a id="l00354" name="l00354"></a><span class="lineno">  354</span>}</div>
-</div>
-<div class="line"><a id="l00355" name="l00355"></a><span class="lineno">  355</span> </div>
-<div class="line"><a id="l00356" name="l00356"></a><span class="lineno">  356</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Source, <span class="keyword">typename</span> Name&gt;</div>
-<div class="line"><a id="l00357" name="l00357"></a><span class="lineno">  357</span><span class="keywordtype">void</span></div>
-<div class="foldopen" id="foldopen00358" data-start="{" data-end="}">
-<div class="line"><a id="l00358" name="l00358"></a><span class="lineno"><a class="line" href="a01014.html#ade0e34f98cff83fb7a018f3243ff5195">  358</a></span><a class="code hl_function" href="a01014.html#ade0e34f98cff83fb7a018f3243ff5195">throw_if_not_finite</a> (Source value, Name <span class="keyword">const</span> &amp;fieldName, std::true_type)</div>
-<div class="line"><a id="l00359" name="l00359"></a><span class="lineno">  359</span>{</div>
-<div class="line"><a id="l00360" name="l00360"></a><span class="lineno">  360</span>  <span class="keywordflow">if</span> (!std::isfinite (value))</div>
-<div class="line"><a id="l00361" name="l00361"></a><span class="lineno">  361</span>    {</div>
-<div class="line"><a id="l00362" name="l00362"></a><span class="lineno">  362</span>      std::ostringstream oss;</div>
-<div class="line"><a id="l00363" name="l00363"></a><span class="lineno">  363</span>      oss &lt;&lt; <span class="stringliteral">&quot;Field &#39;&quot;</span> &lt;&lt; fieldName &lt;&lt; <span class="stringliteral">&quot;&#39; contains non-finite value &quot;</span> &lt;&lt; value;</div>
-<div class="line"><a id="l00364" name="l00364"></a><span class="lineno">  364</span>      <span class="keywordflow">throw</span> std::out_of_range (oss.str ());</div>
-<div class="line"><a id="l00365" name="l00365"></a><span class="lineno">  365</span>    }</div>
-<div class="line"><a id="l00366" name="l00366"></a><span class="lineno">  366</span>}</div>
-</div>
-<div class="line"><a id="l00367" name="l00367"></a><span class="lineno">  367</span> </div>
-<div class="line"><a id="l00368" name="l00368"></a><span class="lineno">  368</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Source, <span class="keyword">typename</span> Name&gt;</div>
-<div class="line"><a id="l00369" name="l00369"></a><span class="lineno">  369</span><span class="keywordtype">void</span></div>
-<div class="foldopen" id="foldopen00370" data-start="{" data-end="}">
-<div class="line"><a id="l00370" name="l00370"></a><span class="lineno"><a class="line" href="a01014.html#aa37d4508b8891f0fe8bb8de71b0a5829">  370</a></span><a class="code hl_function" href="a01014.html#ade0e34f98cff83fb7a018f3243ff5195">throw_if_not_finite</a> (Source, Name <span class="keyword">const</span> &amp;, std::false_type)</div>
-<div class="line"><a id="l00371" name="l00371"></a><span class="lineno">  371</span>{</div>
-<div class="line"><a id="l00372" name="l00372"></a><span class="lineno">  372</span>}</div>
-</div>
-<div class="line"><a id="l00373" name="l00373"></a><span class="lineno">  373</span></div>
-<div class="line"><a id="l00378" name="l00378"></a><span class="lineno">  378</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> It1, <span class="keyword">typename</span> End1, <span class="keyword">typename</span> It2, <span class="keyword">typename</span> End2&gt;</div>
-<div class="line"><a id="l00379" name="l00379"></a><span class="lineno">  379</span><span class="keywordtype">void</span></div>
-<div class="foldopen" id="foldopen00380" data-start="{" data-end="}">
-<div class="line"><a id="l00380" name="l00380"></a><span class="lineno"><a class="line" href="a01014.html#a09a7814d770820120d778770c90575e0">  380</a></span><a class="code hl_function" href="a01014.html#a09a7814d770820120d778770c90575e0">require_same_size</a> (<span class="keywordtype">char</span> <span class="keyword">const</span> *function, It1 &amp;it1, End1 <span class="keyword">const</span> &amp;last1, It2 &amp;it2,</div>
-<div class="line"><a id="l00381" name="l00381"></a><span class="lineno">  381</span>                   End2 <span class="keyword">const</span> &amp;last2, std::size_t count)</div>
-<div class="line"><a id="l00382" name="l00382"></a><span class="lineno">  382</span>{</div>
-<div class="line"><a id="l00383" name="l00383"></a><span class="lineno">  383</span>  <span class="keywordflow">if</span> (!(it1 != last1) &amp;&amp; !(it2 != last2))</div>
-<div class="line"><a id="l00384" name="l00384"></a><span class="lineno">  384</span>    <span class="keywordflow">return</span>;</div>
-<div class="line"><a id="l00385" name="l00385"></a><span class="lineno">  385</span> </div>
-<div class="line"><a id="l00386" name="l00386"></a><span class="lineno">  386</span>  std::size_t size1 = count;</div>
-<div class="line"><a id="l00387" name="l00387"></a><span class="lineno">  387</span>  std::size_t size2 = count;</div>
-<div class="line"><a id="l00388" name="l00388"></a><span class="lineno">  388</span>  <span class="keywordflow">for</span> (; it1 != last1; ++it1)</div>
-<div class="line"><a id="l00389" name="l00389"></a><span class="lineno">  389</span>    ++size1;</div>
-<div class="line"><a id="l00390" name="l00390"></a><span class="lineno">  390</span>  <span class="keywordflow">for</span> (; it2 != last2; ++it2)</div>
-<div class="line"><a id="l00391" name="l00391"></a><span class="lineno">  391</span>    ++size2;</div>
-<div class="line"><a id="l00392" name="l00392"></a><span class="lineno">  392</span>  <span class="keywordflow">throw</span> <a class="code hl_class" href="a02166.html">LumexMathSizeMismatchException</a> (</div>
-<div class="line"><a id="l00393" name="l00393"></a><span class="lineno">  393</span>      std::string (function) + <span class="stringliteral">&quot;: size of both ranges must be equal (&quot;</span></div>
-<div class="line"><a id="l00394" name="l00394"></a><span class="lineno">  394</span>      + std::to_string (size1) + <span class="stringliteral">&quot; vs &quot;</span> + std::to_string (size2) + <span class="stringliteral">&quot;)&quot;</span>);</div>
-<div class="line"><a id="l00395" name="l00395"></a><span class="lineno">  395</span>}</div>
-</div>
-<div class="line"><a id="l00396" name="l00396"></a><span class="lineno">  396</span>} <span class="comment">// namespace Detail</span></div>
-</div>
-<div class="line"><a id="l00397" name="l00397"></a><span class="lineno">  397</span></div>
-<div class="line"><a id="l00403" name="l00403"></a><span class="lineno">  403</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a id="l00404" name="l00404"></a><span class="lineno">  404</span><a class="code hl_define" href="a00353.html#af6aeadbda428235a14f147ade9783f8f">LUMEX_ATTRIBUTE_NODISCARD</a> (<span class="stringliteral">&quot;return value must be used&quot;</span>)</div>
-<div class="line"><a id="l00405" name="l00405"></a><span class="lineno">  405</span><a class="code hl_define" href="a00389.html#a1513006a1992e7dc9cc43b2e081cc33f">LUMEX_CONSTEXPR</a></div>
-<div class="line"><a id="l00406" name="l00406"></a><span class="lineno">  406</span>    typename <a class="code hl_namespace" href="a00999.html">std</a>::enable_if&lt;<a class="code hl_namespace" href="a00999.html">std</a>::is_floating_point&lt;T&gt;::value, <span class="keywordtype">bool</span>&gt;::type</div>
-<div class="foldopen" id="foldopen00407" data-start="{" data-end="}">
-<div class="line"><a id="l00407" name="l00407"></a><span class="lineno"><a class="line" href="a01012.html#acab500b6094965f38491c932461b6f03">  407</a></span>    <a class="code hl_function" href="a01012.html#acab500b6094965f38491c932461b6f03">is_nan_inf</a> (T value) <a class="code hl_define" href="a00389.html#a519cca5cda98cc22e4eaf9dea1bcca4b">LUMEX_NOEXCEPT_IF</a> (</div>
-<div class="line"><a id="l00408" name="l00408"></a><span class="lineno">  408</span>        noexcept (<a class="code hl_namespace" href="a00999.html">std</a>::isnan (value)) &amp;&amp; noexcept (<a class="code hl_namespace" href="a00999.html">std</a>::isinf (value)))</div>
-<div class="line"><a id="l00409" name="l00409"></a><span class="lineno">  409</span>{</div>
-<div class="line"><a id="l00410" name="l00410"></a><span class="lineno">  410</span>  <span class="keywordflow">return</span> std::isnan (value) || std::isinf (value);</div>
-<div class="line"><a id="l00411" name="l00411"></a><span class="lineno">  411</span>}</div>
-</div>
-<div class="line"><a id="l00412" name="l00412"></a><span class="lineno">  412</span></div>
-<div class="line"><a id="l00425" name="l00425"></a><span class="lineno">  425</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> SourceType, <span class="keyword">typename</span> TargetType, <span class="keyword">typename</span> Name&gt;</div>
-<div class="line"><a id="l00426" name="l00426"></a><span class="lineno">  426</span><a class="code hl_define" href="a00353.html#af6aeadbda428235a14f147ade9783f8f">LUMEX_ATTRIBUTE_NODISCARD</a> (<span class="stringliteral">&quot;return value must be used&quot;</span>)</div>
-<div class="line"><a id="l00427" name="l00427"></a><span class="lineno">  427</span>typename <a class="code hl_namespace" href="a00999.html">std</a>::enable_if&lt;traits::is_numeric&lt;SourceType&gt;::value</div>
-<div class="line"><a id="l00428" name="l00428"></a><span class="lineno">  428</span>                            &amp;&amp; traits::is_numeric&lt;TargetType&gt;::value,</div>
-<div class="line"><a id="l00429" name="l00429"></a><span class="lineno">  429</span>                        TargetType&gt;::type</div>
-<div class="foldopen" id="foldopen00430" data-start="{" data-end="}">
-<div class="line"><a id="l00430" name="l00430"></a><span class="lineno"><a class="line" href="a01012.html#aa1b6ddc9ee41c9002fed87698f0b5bea">  430</a></span>    <a class="code hl_function" href="a01012.html#aa1b6ddc9ee41c9002fed87698f0b5bea">checked_narrow_cast</a> (SourceType sourceValue, Name const &amp;fieldName)</div>
-<div class="line"><a id="l00431" name="l00431"></a><span class="lineno">  431</span>{</div>
-<div class="line"><a id="l00432" name="l00432"></a><span class="lineno">  432</span>  <a class="code hl_function" href="a01014.html#ade0e34f98cff83fb7a018f3243ff5195">Detail::throw_if_not_finite</a> (</div>
-<div class="line"><a id="l00433" name="l00433"></a><span class="lineno">  433</span>      sourceValue, fieldName,</div>
-<div class="line"><a id="l00434" name="l00434"></a><span class="lineno">  434</span>      std::integral_constant&lt;<span class="keywordtype">bool</span>,</div>
-<div class="line"><a id="l00435" name="l00435"></a><span class="lineno">  435</span>                             std::is_floating_point&lt;SourceType&gt;::value&gt; ());</div>
-<div class="line"><a id="l00436" name="l00436"></a><span class="lineno">  436</span> </div>
-<div class="line"><a id="l00437" name="l00437"></a><span class="lineno">  437</span>  <span class="keywordtype">bool</span> <span class="keyword">const</span> inRange = <a class="code hl_function" href="a01014.html#a3502a023a6571d1aa9955e571d05724c">Detail::fits&lt;TargetType&gt;</a> (</div>
-<div class="line"><a id="l00438" name="l00438"></a><span class="lineno">  438</span>      sourceValue,</div>
-<div class="line"><a id="l00439" name="l00439"></a><span class="lineno">  439</span>      std::integral_constant&lt;<span class="keywordtype">bool</span>, std::is_integral&lt;SourceType&gt;::value&gt; (),</div>
-<div class="line"><a id="l00440" name="l00440"></a><span class="lineno">  440</span>      std::integral_constant&lt;<span class="keywordtype">bool</span>, std::is_integral&lt;TargetType&gt;::value&gt; ());</div>
-<div class="line"><a id="l00441" name="l00441"></a><span class="lineno">  441</span>  <span class="keywordflow">if</span> (!inRange)</div>
-<div class="line"><a id="l00442" name="l00442"></a><span class="lineno">  442</span>    {</div>
-<div class="line"><a id="l00443" name="l00443"></a><span class="lineno">  443</span>      std::ostringstream oss;</div>
-<div class="line"><a id="l00444" name="l00444"></a><span class="lineno">  444</span>      oss &lt;&lt; <span class="stringliteral">&quot;Field &#39;&quot;</span> &lt;&lt; fieldName &lt;&lt; <span class="stringliteral">&quot;&#39; value &quot;</span>;</div>
-<div class="line"><a id="l00445" name="l00445"></a><span class="lineno">  445</span>      <a class="code hl_function" href="a01014.html#ab02125f45f18a96bf33bfb97c10bc6b6">Detail::print_number</a> (oss, sourceValue);</div>
-<div class="line"><a id="l00446" name="l00446"></a><span class="lineno">  446</span>      oss &lt;&lt; <span class="stringliteral">&quot; is out of range [&quot;</span>;</div>
-<div class="line"><a id="l00447" name="l00447"></a><span class="lineno">  447</span>      <a class="code hl_function" href="a01014.html#ab02125f45f18a96bf33bfb97c10bc6b6">Detail::print_number</a> (oss, std::numeric_limits&lt;TargetType&gt;::lowest ());</div>
-<div class="line"><a id="l00448" name="l00448"></a><span class="lineno">  448</span>      oss &lt;&lt; <span class="stringliteral">&quot;; &quot;</span>;</div>
-<div class="line"><a id="l00449" name="l00449"></a><span class="lineno">  449</span>      <a class="code hl_function" href="a01014.html#ab02125f45f18a96bf33bfb97c10bc6b6">Detail::print_number</a> (oss, (std::numeric_limits&lt;TargetType&gt;::max) ());</div>
-<div class="line"><a id="l00450" name="l00450"></a><span class="lineno">  450</span>      oss &lt;&lt; <span class="stringliteral">&quot;]&quot;</span>;</div>
-<div class="line"><a id="l00451" name="l00451"></a><span class="lineno">  451</span>      <span class="keywordflow">throw</span> std::out_of_range (oss.str ());</div>
-<div class="line"><a id="l00452" name="l00452"></a><span class="lineno">  452</span>    }</div>
-<div class="line"><a id="l00453" name="l00453"></a><span class="lineno">  453</span> </div>
-<div class="line"><a id="l00454" name="l00454"></a><span class="lineno">  454</span>  <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span>TargetType<span class="keyword">&gt;</span> (sourceValue);</div>
-<div class="line"><a id="l00455" name="l00455"></a><span class="lineno">  455</span>}</div>
-</div>
-<div class="line"><a id="l00456" name="l00456"></a><span class="lineno">  456</span></div>
-<div class="line"><a id="l00459" name="l00459"></a><span class="lineno">  459</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> U&gt;</div>
-<div class="line"><a id="l00460" name="l00460"></a><span class="lineno">  460</span><a class="code hl_define" href="a00389.html#a1513006a1992e7dc9cc43b2e081cc33f">LUMEX_CONSTEXPR</a> <span class="keyword">typename</span> Detail::integral_distance&lt;T, U&gt;::type</div>
-<div class="foldopen" id="foldopen00461" data-start="{" data-end="}">
-<div class="line"><a id="l00461" name="l00461"></a><span class="lineno"><a class="line" href="a01012.html#a0fd1a5acf2f1fed8edeee1309059b06f">  461</a></span><a class="code hl_function" href="a01012.html#a0fd1a5acf2f1fed8edeee1309059b06f">distance</a> (T a, U b)</div>
-<div class="line"><a id="l00462" name="l00462"></a><span class="lineno">  462</span>{</div>
-<div class="line"><a id="l00463" name="l00463"></a><span class="lineno">  463</span>  <span class="keyword">typedef</span> <span class="keyword">typename</span> <a class="code hl_struct" href="a02202.html">Detail::numeric_common&lt;T, U&gt;::type</a> CommonType;</div>
-<div class="line"><a id="l00464" name="l00464"></a><span class="lineno">  464</span>  <span class="keywordflow">return</span> (<span class="keyword">static_cast&lt;</span>CommonType<span class="keyword">&gt;</span> (a) &gt; <span class="keyword">static_cast&lt;</span>CommonType<span class="keyword">&gt;</span> (b))</div>
-<div class="line"><a id="l00465" name="l00465"></a><span class="lineno">  465</span>             ? (<span class="keyword">static_cast&lt;</span>CommonType<span class="keyword">&gt;</span> (a) - <span class="keyword">static_cast&lt;</span>CommonType<span class="keyword">&gt;</span> (b))</div>
-<div class="line"><a id="l00466" name="l00466"></a><span class="lineno">  466</span>             : (<span class="keyword">static_cast&lt;</span>CommonType<span class="keyword">&gt;</span> (b) - <span class="keyword">static_cast&lt;</span>CommonType<span class="keyword">&gt;</span> (a));</div>
-<div class="line"><a id="l00467" name="l00467"></a><span class="lineno">  467</span>}</div>
-</div>
-<div class="line"><a id="l00468" name="l00468"></a><span class="lineno">  468</span></div>
-<div class="line"><a id="l00471" name="l00471"></a><span class="lineno">  471</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> U&gt;</div>
-<div class="line"><a id="l00472" name="l00472"></a><span class="lineno">  472</span><span class="keyword">typename</span> Detail::floating_distance&lt;T, U&gt;::type</div>
-<div class="foldopen" id="foldopen00473" data-start="{" data-end="}">
-<div class="line"><a id="l00473" name="l00473"></a><span class="lineno"><a class="line" href="a01012.html#ac4e65329fd62e20e0a438c07981e46a3">  473</a></span><a class="code hl_function" href="a01012.html#a0fd1a5acf2f1fed8edeee1309059b06f">distance</a> (T a, U b)</div>
-<div class="line"><a id="l00474" name="l00474"></a><span class="lineno">  474</span>{</div>
-<div class="line"><a id="l00475" name="l00475"></a><span class="lineno">  475</span>  <span class="keyword">typedef</span> <span class="keyword">typename</span> <a class="code hl_struct" href="a02202.html">Detail::numeric_common&lt;T, U&gt;::type</a> CommonType;</div>
-<div class="line"><a id="l00476" name="l00476"></a><span class="lineno">  476</span>  <span class="keywordflow">return</span> std::abs (<span class="keyword">static_cast&lt;</span>CommonType<span class="keyword">&gt;</span> (a) - <span class="keyword">static_cast&lt;</span>CommonType<span class="keyword">&gt;</span> (b));</div>
-<div class="line"><a id="l00477" name="l00477"></a><span class="lineno">  477</span>}</div>
-</div>
-<div class="line"><a id="l00478" name="l00478"></a><span class="lineno">  478</span></div>
-<div class="line"><a id="l00481" name="l00481"></a><span class="lineno">  481</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> U&gt;</div>
-<div class="line"><a id="l00482" name="l00482"></a><span class="lineno">  482</span><a class="code hl_define" href="a00389.html#a1513006a1992e7dc9cc43b2e081cc33f">LUMEX_CONSTEXPR</a> <span class="keyword">typename</span> Detail::difference_type&lt;T, U&gt;::type</div>
-<div class="foldopen" id="foldopen00483" data-start="{" data-end="}">
-<div class="line"><a id="l00483" name="l00483"></a><span class="lineno"><a class="line" href="a01012.html#a8c77830600ff2261070b9e599fdfe916">  483</a></span><a class="code hl_function" href="a01012.html#a8c77830600ff2261070b9e599fdfe916">squared_difference</a> (T a, U b)</div>
-<div class="line"><a id="l00484" name="l00484"></a><span class="lineno">  484</span>{</div>
-<div class="line"><a id="l00485" name="l00485"></a><span class="lineno">  485</span>  <span class="keyword">typedef</span> <span class="keyword">typename</span> <a class="code hl_struct" href="a02202.html">Detail::numeric_common&lt;T, U&gt;::type</a> CommonType;</div>
-<div class="line"><a id="l00486" name="l00486"></a><span class="lineno">  486</span>  <span class="keywordflow">return</span> (<span class="keyword">static_cast&lt;</span>CommonType<span class="keyword">&gt;</span> (a) - <span class="keyword">static_cast&lt;</span>CommonType<span class="keyword">&gt;</span> (b))</div>
-<div class="line"><a id="l00487" name="l00487"></a><span class="lineno">  487</span>         * (<span class="keyword">static_cast&lt;</span>CommonType<span class="keyword">&gt;</span> (a) - <span class="keyword">static_cast&lt;</span>CommonType<span class="keyword">&gt;</span> (b));</div>
-<div class="line"><a id="l00488" name="l00488"></a><span class="lineno">  488</span>}</div>
-</div>
-<div class="line"><a id="l00489" name="l00489"></a><span class="lineno">  489</span></div>
-<div class="line"><a id="l00498" name="l00498"></a><span class="lineno">  498</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Range&gt;</div>
-<div class="line"><a id="l00499" name="l00499"></a><span class="lineno">  499</span><span class="keyword">typename</span> Detail::numeric_range_value&lt;Range&gt;::type</div>
-<div class="foldopen" id="foldopen00500" data-start="{" data-end="}">
-<div class="line"><a id="l00500" name="l00500"></a><span class="lineno"><a class="line" href="a01012.html#a795166387deab30bf98b02619bca5c5b">  500</a></span><a class="code hl_function" href="a01012.html#a795166387deab30bf98b02619bca5c5b">avg</a> (Range &amp;&amp;range)</div>
-<div class="line"><a id="l00501" name="l00501"></a><span class="lineno">  501</span>{</div>
-<div class="line"><a id="l00502" name="l00502"></a><span class="lineno">  502</span>  <span class="keyword">typedef</span> <span class="keyword">typename</span> <a class="code hl_struct" href="a02190.html">Detail::numeric_range_value&lt;Range&gt;::type</a> ValueType;</div>
-<div class="line"><a id="l00503" name="l00503"></a><span class="lineno">  503</span> </div>
-<div class="line"><a id="l00504" name="l00504"></a><span class="lineno">  504</span>  ValueType sum = ValueType (0);</div>
-<div class="line"><a id="l00505" name="l00505"></a><span class="lineno">  505</span>  std::size_t count = 0;</div>
-<div class="line"><a id="l00506" name="l00506"></a><span class="lineno">  506</span>  <span class="keyword">auto</span> it = <a class="code hl_function" href="a01014.html#abdf8ed32a58d7ef1884b0e2eb69e139b">Detail::adl_begin</a> (range);</div>
-<div class="line"><a id="l00507" name="l00507"></a><span class="lineno">  507</span>  <span class="keyword">auto</span> <span class="keyword">const</span> last = <a class="code hl_function" href="a01014.html#a39800dfb129ce7e0f3b8520f0e8ce977">Detail::adl_end</a> (range);</div>
-<div class="line"><a id="l00508" name="l00508"></a><span class="lineno">  508</span>  <span class="keywordflow">for</span> (; it != last; ++it)</div>
-<div class="line"><a id="l00509" name="l00509"></a><span class="lineno">  509</span>    {</div>
-<div class="line"><a id="l00510" name="l00510"></a><span class="lineno">  510</span>      sum += *it;</div>
-<div class="line"><a id="l00511" name="l00511"></a><span class="lineno">  511</span>      ++count;</div>
-<div class="line"><a id="l00512" name="l00512"></a><span class="lineno">  512</span>    }</div>
-<div class="line"><a id="l00513" name="l00513"></a><span class="lineno">  513</span> </div>
-<div class="line"><a id="l00514" name="l00514"></a><span class="lineno">  514</span>  <span class="keywordflow">return</span> (count == 0)</div>
-<div class="line"><a id="l00515" name="l00515"></a><span class="lineno">  515</span>             ? ValueType (0)</div>
-<div class="line"><a id="l00516" name="l00516"></a><span class="lineno">  516</span>             : <span class="keyword">static_cast&lt;</span>ValueType<span class="keyword">&gt;</span> (sum / <span class="keyword">static_cast&lt;</span>ValueType<span class="keyword">&gt;</span> (count));</div>
-<div class="line"><a id="l00517" name="l00517"></a><span class="lineno">  517</span>}</div>
-</div>
-<div class="line"><a id="l00518" name="l00518"></a><span class="lineno">  518</span></div>
-<div class="line"><a id="l00521" name="l00521"></a><span class="lineno">  521</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Range, <span class="keyword">typename</span> Predicate&gt;</div>
-<div class="line"><a id="l00522" name="l00522"></a><span class="lineno">  522</span><span class="keyword">typename</span> Detail::numeric_range_value&lt;Range&gt;::type</div>
-<div class="foldopen" id="foldopen00523" data-start="{" data-end="}">
-<div class="line"><a id="l00523" name="l00523"></a><span class="lineno"><a class="line" href="a01012.html#aedd730aefea1cc3eb2e1d00c1c758bfd">  523</a></span><a class="code hl_function" href="a01012.html#a795166387deab30bf98b02619bca5c5b">avg</a> (Range &amp;&amp;range, Predicate predicate)</div>
-<div class="line"><a id="l00524" name="l00524"></a><span class="lineno">  524</span>{</div>
-<div class="line"><a id="l00525" name="l00525"></a><span class="lineno">  525</span>  <span class="keyword">typedef</span> <span class="keyword">typename</span> <a class="code hl_struct" href="a02190.html">Detail::numeric_range_value&lt;Range&gt;::type</a> ValueType;</div>
-<div class="line"><a id="l00526" name="l00526"></a><span class="lineno">  526</span> </div>
-<div class="line"><a id="l00527" name="l00527"></a><span class="lineno">  527</span>  ValueType sum = ValueType (0);</div>
-<div class="line"><a id="l00528" name="l00528"></a><span class="lineno">  528</span>  std::size_t count = 0;</div>
-<div class="line"><a id="l00529" name="l00529"></a><span class="lineno">  529</span>  <span class="keyword">auto</span> it = <a class="code hl_function" href="a01014.html#abdf8ed32a58d7ef1884b0e2eb69e139b">Detail::adl_begin</a> (range);</div>
-<div class="line"><a id="l00530" name="l00530"></a><span class="lineno">  530</span>  <span class="keyword">auto</span> <span class="keyword">const</span> last = <a class="code hl_function" href="a01014.html#a39800dfb129ce7e0f3b8520f0e8ce977">Detail::adl_end</a> (range);</div>
-<div class="line"><a id="l00531" name="l00531"></a><span class="lineno">  531</span>  <span class="keywordflow">for</span> (; it != last; ++it)</div>
-<div class="line"><a id="l00532" name="l00532"></a><span class="lineno">  532</span>    {</div>
-<div class="line"><a id="l00533" name="l00533"></a><span class="lineno">  533</span>      ValueType <span class="keyword">const</span> value = *it;</div>
-<div class="line"><a id="l00534" name="l00534"></a><span class="lineno">  534</span>      <span class="keywordflow">if</span> (predicate (value))</div>
-<div class="line"><a id="l00535" name="l00535"></a><span class="lineno">  535</span>        {</div>
-<div class="line"><a id="l00536" name="l00536"></a><span class="lineno">  536</span>          sum += value;</div>
-<div class="line"><a id="l00537" name="l00537"></a><span class="lineno">  537</span>          ++count;</div>
-<div class="line"><a id="l00538" name="l00538"></a><span class="lineno">  538</span>        }</div>
-<div class="line"><a id="l00539" name="l00539"></a><span class="lineno">  539</span>    }</div>
-<div class="line"><a id="l00540" name="l00540"></a><span class="lineno">  540</span> </div>
-<div class="line"><a id="l00541" name="l00541"></a><span class="lineno">  541</span>  <span class="keywordflow">return</span> (count == 0)</div>
-<div class="line"><a id="l00542" name="l00542"></a><span class="lineno">  542</span>             ? ValueType (0)</div>
-<div class="line"><a id="l00543" name="l00543"></a><span class="lineno">  543</span>             : <span class="keyword">static_cast&lt;</span>ValueType<span class="keyword">&gt;</span> (sum / <span class="keyword">static_cast&lt;</span>ValueType<span class="keyword">&gt;</span> (count));</div>
-<div class="line"><a id="l00544" name="l00544"></a><span class="lineno">  544</span>}</div>
-</div>
-<div class="line"><a id="l00545" name="l00545"></a><span class="lineno">  545</span></div>
-<div class="line"><a id="l00552" name="l00552"></a><span class="lineno">  552</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Range&gt;</div>
-<div class="line"><a id="l00553" name="l00553"></a><span class="lineno">  553</span><span class="keyword">typename</span> Detail::sqrt_result&lt;</div>
-<div class="line"><a id="l00554" name="l00554"></a><span class="lineno">  554</span>    <span class="keyword">typename</span> Detail::numeric_range_value&lt;Range&gt;::type&gt;::type</div>
-<div class="foldopen" id="foldopen00555" data-start="{" data-end="}">
-<div class="line"><a id="l00555" name="l00555"></a><span class="lineno"><a class="line" href="a01012.html#ab00c52837c8e1c0898a38c85a2cce753">  555</a></span><a class="code hl_function" href="a01012.html#ab00c52837c8e1c0898a38c85a2cce753">rms</a> (Range &amp;&amp;range)</div>
-<div class="line"><a id="l00556" name="l00556"></a><span class="lineno">  556</span>{</div>
-<div class="line"><a id="l00557" name="l00557"></a><span class="lineno">  557</span>  <span class="keyword">typedef</span> <span class="keyword">typename</span> <a class="code hl_struct" href="a02190.html">Detail::numeric_range_value&lt;Range&gt;::type</a> ValueType;</div>
-<div class="line"><a id="l00558" name="l00558"></a><span class="lineno">  558</span>  <span class="keyword">typedef</span> <span class="keyword">typename</span> <a class="code hl_typedef" href="a02198.html#acbb104667bdd99e1533568c2160f1614">Detail::sqrt_result&lt;ValueType&gt;::type</a> ResultType;</div>
-<div class="line"><a id="l00559" name="l00559"></a><span class="lineno">  559</span> </div>
-<div class="line"><a id="l00560" name="l00560"></a><span class="lineno">  560</span>  ValueType sumOfSquares = ValueType (0);</div>
-<div class="line"><a id="l00561" name="l00561"></a><span class="lineno">  561</span>  std::size_t count = 0;</div>
-<div class="line"><a id="l00562" name="l00562"></a><span class="lineno">  562</span>  <span class="keyword">auto</span> it = <a class="code hl_function" href="a01014.html#abdf8ed32a58d7ef1884b0e2eb69e139b">Detail::adl_begin</a> (range);</div>
-<div class="line"><a id="l00563" name="l00563"></a><span class="lineno">  563</span>  <span class="keyword">auto</span> <span class="keyword">const</span> last = <a class="code hl_function" href="a01014.html#a39800dfb129ce7e0f3b8520f0e8ce977">Detail::adl_end</a> (range);</div>
-<div class="line"><a id="l00564" name="l00564"></a><span class="lineno">  564</span>  <span class="keywordflow">for</span> (; it != last; ++it)</div>
-<div class="line"><a id="l00565" name="l00565"></a><span class="lineno">  565</span>    {</div>
-<div class="line"><a id="l00566" name="l00566"></a><span class="lineno">  566</span>      ValueType <span class="keyword">const</span> value = *it;</div>
-<div class="line"><a id="l00567" name="l00567"></a><span class="lineno">  567</span>      sumOfSquares += value * value;</div>
-<div class="line"><a id="l00568" name="l00568"></a><span class="lineno">  568</span>      ++count;</div>
-<div class="line"><a id="l00569" name="l00569"></a><span class="lineno">  569</span>    }</div>
-<div class="line"><a id="l00570" name="l00570"></a><span class="lineno">  570</span> </div>
-<div class="line"><a id="l00571" name="l00571"></a><span class="lineno">  571</span>  <span class="keywordflow">if</span> (count == 0)</div>
-<div class="line"><a id="l00572" name="l00572"></a><span class="lineno">  572</span>    <span class="keywordflow">return</span> ResultType (0);</div>
-<div class="line"><a id="l00573" name="l00573"></a><span class="lineno">  573</span>  <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span>ResultType<span class="keyword">&gt;</span> (</div>
-<div class="line"><a id="l00574" name="l00574"></a><span class="lineno">  574</span>      std::sqrt (sumOfSquares / <span class="keyword">static_cast&lt;</span>ResultType<span class="keyword">&gt;</span> (count)));</div>
-<div class="line"><a id="l00575" name="l00575"></a><span class="lineno">  575</span>}</div>
-</div>
-<div class="line"><a id="l00576" name="l00576"></a><span class="lineno">  576</span></div>
-<div class="line"><a id="l00584" name="l00584"></a><span class="lineno">  584</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Range1, <span class="keyword">typename</span> Range2&gt;</div>
-<div class="line"><a id="l00585" name="l00585"></a><span class="lineno">  585</span><span class="keyword">typename</span> Detail::range_pair_result&lt;Range1, Range2&gt;::type</div>
-<div class="foldopen" id="foldopen00586" data-start="{" data-end="}">
-<div class="line"><a id="l00586" name="l00586"></a><span class="lineno"><a class="line" href="a01012.html#aa5e20059c5304cd10fbb9e5d64d126fb">  586</a></span><a class="code hl_function" href="a01012.html#ab00c52837c8e1c0898a38c85a2cce753">rms</a> (Range1 &amp;&amp;first, Range2 &amp;&amp;second)</div>
-<div class="line"><a id="l00587" name="l00587"></a><span class="lineno">  587</span>{</div>
-<div class="line"><a id="l00588" name="l00588"></a><span class="lineno">  588</span>  <span class="keyword">typedef</span></div>
-<div class="line"><a id="l00589" name="l00589"></a><span class="lineno">  589</span>      <span class="keyword">typename</span> <a class="code hl_struct" href="a02234.html">Detail::range_pair_result&lt;Range1, Range2&gt;::common</a> CommonType;</div>
-<div class="line"><a id="l00590" name="l00590"></a><span class="lineno">  590</span>  <span class="keyword">typedef</span> <span class="keyword">typename</span> <a class="code hl_struct" href="a02234.html">Detail::range_pair_result&lt;Range1, Range2&gt;::type</a> ResultType;</div>
-<div class="line"><a id="l00591" name="l00591"></a><span class="lineno">  591</span> </div>
-<div class="line"><a id="l00592" name="l00592"></a><span class="lineno">  592</span>  <span class="keyword">auto</span> it1 = <a class="code hl_function" href="a01014.html#abdf8ed32a58d7ef1884b0e2eb69e139b">Detail::adl_begin</a> (first);</div>
-<div class="line"><a id="l00593" name="l00593"></a><span class="lineno">  593</span>  <span class="keyword">auto</span> <span class="keyword">const</span> last1 = <a class="code hl_function" href="a01014.html#a39800dfb129ce7e0f3b8520f0e8ce977">Detail::adl_end</a> (first);</div>
-<div class="line"><a id="l00594" name="l00594"></a><span class="lineno">  594</span>  <span class="keyword">auto</span> it2 = <a class="code hl_function" href="a01014.html#abdf8ed32a58d7ef1884b0e2eb69e139b">Detail::adl_begin</a> (second);</div>
-<div class="line"><a id="l00595" name="l00595"></a><span class="lineno">  595</span>  <span class="keyword">auto</span> <span class="keyword">const</span> last2 = <a class="code hl_function" href="a01014.html#a39800dfb129ce7e0f3b8520f0e8ce977">Detail::adl_end</a> (second);</div>
-<div class="line"><a id="l00596" name="l00596"></a><span class="lineno">  596</span>  CommonType sumOfProducts = CommonType (0);</div>
-<div class="line"><a id="l00597" name="l00597"></a><span class="lineno">  597</span>  std::size_t count = 0;</div>
-<div class="line"><a id="l00598" name="l00598"></a><span class="lineno">  598</span>  <span class="keywordflow">for</span> (; it1 != last1 &amp;&amp; it2 != last2; ++it1, ++it2)</div>
-<div class="line"><a id="l00599" name="l00599"></a><span class="lineno">  599</span>    {</div>
-<div class="line"><a id="l00600" name="l00600"></a><span class="lineno">  600</span>      sumOfProducts</div>
-<div class="line"><a id="l00601" name="l00601"></a><span class="lineno">  601</span>          += <span class="keyword">static_cast&lt;</span>CommonType<span class="keyword">&gt;</span> (*it1) * <span class="keyword">static_cast&lt;</span>CommonType<span class="keyword">&gt;</span> (*it2);</div>
-<div class="line"><a id="l00602" name="l00602"></a><span class="lineno">  602</span>      ++count;</div>
-<div class="line"><a id="l00603" name="l00603"></a><span class="lineno">  603</span>    }</div>
-<div class="line"><a id="l00604" name="l00604"></a><span class="lineno">  604</span>  <a class="code hl_function" href="a01014.html#a09a7814d770820120d778770c90575e0">Detail::require_same_size</a> (<span class="stringliteral">&quot;rms&quot;</span>, it1, last1, it2, last2, count);</div>
-<div class="line"><a id="l00605" name="l00605"></a><span class="lineno">  605</span> </div>
-<div class="line"><a id="l00606" name="l00606"></a><span class="lineno">  606</span>  <span class="keywordflow">if</span> (count == 0)</div>
-<div class="line"><a id="l00607" name="l00607"></a><span class="lineno">  607</span>    <span class="keywordflow">return</span> ResultType (0);</div>
-<div class="line"><a id="l00608" name="l00608"></a><span class="lineno">  608</span>  <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span>ResultType<span class="keyword">&gt;</span> (</div>
-<div class="line"><a id="l00609" name="l00609"></a><span class="lineno">  609</span>      std::sqrt (sumOfProducts / <span class="keyword">static_cast&lt;</span>ResultType<span class="keyword">&gt;</span> (count)));</div>
-<div class="line"><a id="l00610" name="l00610"></a><span class="lineno">  610</span>}</div>
-</div>
-<div class="line"><a id="l00611" name="l00611"></a><span class="lineno">  611</span></div>
-<div class="line"><a id="l00616" name="l00616"></a><span class="lineno">  616</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Range, <span class="keyword">typename</span> Scalar&gt;</div>
-<div class="line"><a id="l00617" name="l00617"></a><span class="lineno">  617</span><span class="keyword">typename</span> Detail::range_scalar_result&lt;Range, Scalar&gt;::type</div>
-<div class="foldopen" id="foldopen00618" data-start="{" data-end="}">
-<div class="line"><a id="l00618" name="l00618"></a><span class="lineno"><a class="line" href="a01012.html#aeb97b3e1f4e91081b5a15bc768abe7ea">  618</a></span><a class="code hl_function" href="a01012.html#aeb97b3e1f4e91081b5a15bc768abe7ea">rmse</a> (Range &amp;&amp;range, Scalar <span class="keyword">const</span> &amp;scalar)</div>
-<div class="line"><a id="l00619" name="l00619"></a><span class="lineno">  619</span>{</div>
-<div class="line"><a id="l00620" name="l00620"></a><span class="lineno">  620</span>  <span class="keyword">typedef</span></div>
-<div class="line"><a id="l00621" name="l00621"></a><span class="lineno">  621</span>      <span class="keyword">typename</span> <a class="code hl_struct" href="a02242.html">Detail::range_scalar_result&lt;Range, Scalar&gt;::common</a> CommonType;</div>
-<div class="line"><a id="l00622" name="l00622"></a><span class="lineno">  622</span>  <span class="keyword">typedef</span> <span class="keyword">typename</span> <a class="code hl_struct" href="a02242.html">Detail::range_scalar_result&lt;Range, Scalar&gt;::type</a> ResultType;</div>
-<div class="line"><a id="l00623" name="l00623"></a><span class="lineno">  623</span> </div>
-<div class="line"><a id="l00624" name="l00624"></a><span class="lineno">  624</span>  CommonType sumOfSquaredDifferences = CommonType (0);</div>
-<div class="line"><a id="l00625" name="l00625"></a><span class="lineno">  625</span>  std::size_t count = 0;</div>
-<div class="line"><a id="l00626" name="l00626"></a><span class="lineno">  626</span>  <span class="keyword">auto</span> it = <a class="code hl_function" href="a01014.html#abdf8ed32a58d7ef1884b0e2eb69e139b">Detail::adl_begin</a> (range);</div>
-<div class="line"><a id="l00627" name="l00627"></a><span class="lineno">  627</span>  <span class="keyword">auto</span> <span class="keyword">const</span> last = <a class="code hl_function" href="a01014.html#a39800dfb129ce7e0f3b8520f0e8ce977">Detail::adl_end</a> (range);</div>
-<div class="line"><a id="l00628" name="l00628"></a><span class="lineno">  628</span>  <span class="keywordflow">for</span> (; it != last; ++it)</div>
-<div class="line"><a id="l00629" name="l00629"></a><span class="lineno">  629</span>    {</div>
-<div class="line"><a id="l00630" name="l00630"></a><span class="lineno">  630</span>      sumOfSquaredDifferences</div>
-<div class="line"><a id="l00631" name="l00631"></a><span class="lineno">  631</span>          += <span class="keyword">static_cast&lt;</span>CommonType<span class="keyword">&gt;</span> (<a class="code hl_function" href="a01012.html#a8c77830600ff2261070b9e599fdfe916">squared_difference</a> (*it, scalar));</div>
-<div class="line"><a id="l00632" name="l00632"></a><span class="lineno">  632</span>      ++count;</div>
-<div class="line"><a id="l00633" name="l00633"></a><span class="lineno">  633</span>    }</div>
-<div class="line"><a id="l00634" name="l00634"></a><span class="lineno">  634</span> </div>
-<div class="line"><a id="l00635" name="l00635"></a><span class="lineno">  635</span>  <span class="keywordflow">if</span> (count == 0)</div>
-<div class="line"><a id="l00636" name="l00636"></a><span class="lineno">  636</span>    <span class="keywordflow">return</span> ResultType (0);</div>
-<div class="line"><a id="l00637" name="l00637"></a><span class="lineno">  637</span>  <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span>ResultType<span class="keyword">&gt;</span> (</div>
-<div class="line"><a id="l00638" name="l00638"></a><span class="lineno">  638</span>      std::sqrt (sumOfSquaredDifferences / <span class="keyword">static_cast&lt;</span>ResultType<span class="keyword">&gt;</span> (count)));</div>
-<div class="line"><a id="l00639" name="l00639"></a><span class="lineno">  639</span>}</div>
-</div>
-<div class="line"><a id="l00640" name="l00640"></a><span class="lineno">  640</span></div>
-<div class="line"><a id="l00647" name="l00647"></a><span class="lineno">  647</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Range1, <span class="keyword">typename</span> Range2&gt;</div>
-<div class="line"><a id="l00648" name="l00648"></a><span class="lineno">  648</span><span class="keyword">typename</span> Detail::range_pair_result&lt;Range1, Range2&gt;::type</div>
-<div class="foldopen" id="foldopen00649" data-start="{" data-end="}">
-<div class="line"><a id="l00649" name="l00649"></a><span class="lineno"><a class="line" href="a01012.html#ad106a6fe4eee4867f98352f46de4259c">  649</a></span><a class="code hl_function" href="a01012.html#aeb97b3e1f4e91081b5a15bc768abe7ea">rmse</a> (Range1 &amp;&amp;first, Range2 &amp;&amp;second)</div>
-<div class="line"><a id="l00650" name="l00650"></a><span class="lineno">  650</span>{</div>
-<div class="line"><a id="l00651" name="l00651"></a><span class="lineno">  651</span>  <span class="keyword">typedef</span></div>
-<div class="line"><a id="l00652" name="l00652"></a><span class="lineno">  652</span>      <span class="keyword">typename</span> <a class="code hl_struct" href="a02234.html">Detail::range_pair_result&lt;Range1, Range2&gt;::common</a> CommonType;</div>
-<div class="line"><a id="l00653" name="l00653"></a><span class="lineno">  653</span>  <span class="keyword">typedef</span> <span class="keyword">typename</span> <a class="code hl_struct" href="a02234.html">Detail::range_pair_result&lt;Range1, Range2&gt;::type</a> ResultType;</div>
-<div class="line"><a id="l00654" name="l00654"></a><span class="lineno">  654</span> </div>
-<div class="line"><a id="l00655" name="l00655"></a><span class="lineno">  655</span>  <span class="keyword">auto</span> it1 = <a class="code hl_function" href="a01014.html#abdf8ed32a58d7ef1884b0e2eb69e139b">Detail::adl_begin</a> (first);</div>
-<div class="line"><a id="l00656" name="l00656"></a><span class="lineno">  656</span>  <span class="keyword">auto</span> <span class="keyword">const</span> last1 = <a class="code hl_function" href="a01014.html#a39800dfb129ce7e0f3b8520f0e8ce977">Detail::adl_end</a> (first);</div>
-<div class="line"><a id="l00657" name="l00657"></a><span class="lineno">  657</span>  <span class="keyword">auto</span> it2 = <a class="code hl_function" href="a01014.html#abdf8ed32a58d7ef1884b0e2eb69e139b">Detail::adl_begin</a> (second);</div>
-<div class="line"><a id="l00658" name="l00658"></a><span class="lineno">  658</span>  <span class="keyword">auto</span> <span class="keyword">const</span> last2 = <a class="code hl_function" href="a01014.html#a39800dfb129ce7e0f3b8520f0e8ce977">Detail::adl_end</a> (second);</div>
-<div class="line"><a id="l00659" name="l00659"></a><span class="lineno">  659</span>  CommonType sumOfSquaredDifferences = CommonType (0);</div>
-<div class="line"><a id="l00660" name="l00660"></a><span class="lineno">  660</span>  std::size_t count = 0;</div>
-<div class="line"><a id="l00661" name="l00661"></a><span class="lineno">  661</span>  <span class="keywordflow">for</span> (; it1 != last1 &amp;&amp; it2 != last2; ++it1, ++it2)</div>
-<div class="line"><a id="l00662" name="l00662"></a><span class="lineno">  662</span>    {</div>
-<div class="line"><a id="l00663" name="l00663"></a><span class="lineno">  663</span>      sumOfSquaredDifferences += <span class="keyword">static_cast&lt;</span>CommonType<span class="keyword">&gt;</span> (<a class="code hl_function" href="a01012.html#a8c77830600ff2261070b9e599fdfe916">squared_difference</a> (</div>
-<div class="line"><a id="l00664" name="l00664"></a><span class="lineno">  664</span>          <span class="keyword">static_cast&lt;</span>CommonType<span class="keyword">&gt;</span> (*it1), <span class="keyword">static_cast&lt;</span>CommonType<span class="keyword">&gt;</span> (*it2)));</div>
-<div class="line"><a id="l00665" name="l00665"></a><span class="lineno">  665</span>      ++count;</div>
-<div class="line"><a id="l00666" name="l00666"></a><span class="lineno">  666</span>    }</div>
-<div class="line"><a id="l00667" name="l00667"></a><span class="lineno">  667</span>  <a class="code hl_function" href="a01014.html#a09a7814d770820120d778770c90575e0">Detail::require_same_size</a> (<span class="stringliteral">&quot;rmse&quot;</span>, it1, last1, it2, last2, count);</div>
-<div class="line"><a id="l00668" name="l00668"></a><span class="lineno">  668</span> </div>
-<div class="line"><a id="l00669" name="l00669"></a><span class="lineno">  669</span>  <span class="keywordflow">if</span> (count == 0)</div>
-<div class="line"><a id="l00670" name="l00670"></a><span class="lineno">  670</span>    <span class="keywordflow">return</span> ResultType (0);</div>
-<div class="line"><a id="l00671" name="l00671"></a><span class="lineno">  671</span>  <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span>ResultType<span class="keyword">&gt;</span> (</div>
-<div class="line"><a id="l00672" name="l00672"></a><span class="lineno">  672</span>      std::sqrt (sumOfSquaredDifferences / <span class="keyword">static_cast&lt;</span>ResultType<span class="keyword">&gt;</span> (count)));</div>
-<div class="line"><a id="l00673" name="l00673"></a><span class="lineno">  673</span>}</div>
-</div>
-<div class="line"><a id="l00674" name="l00674"></a><span class="lineno">  674</span>} <span class="comment">// namespace ops</span></div>
-</div>
-<div class="line"><a id="l00675" name="l00675"></a><span class="lineno">  675</span>} <span class="comment">// namespace math</span></div>
-</div>
-<div class="line"><a id="l00676" name="l00676"></a><span class="lineno">  676</span>} <span class="comment">// namespace core</span></div>
-<div class="line"><a id="l00677" name="l00677"></a><span class="lineno">  677</span>} <span class="comment">// namespace lumex</span></div>
-<div class="line"><a id="l00678" name="l00678"></a><span class="lineno">  678</span> </div>
-<div class="line"><a id="l00679" name="l00679"></a><span class="lineno">  679</span><span class="preprocessor">#endif </span><span class="comment">// !LUMEX_CORE_MATH_OPS_HPP</span></div>
-<div class="ttc" id="aa00353_html"><div class="ttname"><a href="a00353.html">LumexAttributes.hpp</a></div><div class="ttdoc">LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P...</div></div>
-<div class="ttc" id="aa00353_html_af6aeadbda428235a14f147ade9783f8f"><div class="ttname"><a href="a00353.html#af6aeadbda428235a14f147ade9783f8f">LUMEX_ATTRIBUTE_NODISCARD</a></div><div class="ttdeci">#define LUMEX_ATTRIBUTE_NODISCARD(msg)</div><div class="ttdef"><b>Definition</b> LumexAttributes.hpp:77</div></div>
-<div class="ttc" id="aa00368_html"><div class="ttname"><a href="a00368.html">LumexCheckFeatures.hpp</a></div><div class="ttdoc">C++ language, library and attribute feature availability.</div></div>
-<div class="ttc" id="aa00386_html"><div class="ttname"><a href="a00386.html">LumexExceptionMacros.hpp</a></div><div class="ttdoc">Macros that declare an exception class in one line.</div></div>
-<div class="ttc" id="aa00386_html_ac1cf7e477c73144de8304b5a87b250a0"><div class="ttname"><a href="a00386.html#ac1cf7e477c73144de8304b5a87b250a0">LUMEX_DEFINE_EXCEPTION</a></div><div class="ttdeci">#define LUMEX_DEFINE_EXCEPTION(exception_name, inherit_from)</div><div class="ttdoc">Declares class exception_name : public inherit_from with the three message constructors and nothing e...</div><div class="ttdef"><b>Definition</b> LumexExceptionMacros.hpp:69</div></div>
-<div class="ttc" id="aa00389_html"><div class="ttname"><a href="a00389.html">LumexKeywords.hpp</a></div><div class="ttdoc">Macros that spell C++ keywords and specifiers only where the compiled standard supports them,...</div></div>
-<div class="ttc" id="aa00389_html_a1513006a1992e7dc9cc43b2e081cc33f"><div class="ttname"><a href="a00389.html#a1513006a1992e7dc9cc43b2e081cc33f">LUMEX_CONSTEXPR</a></div><div class="ttdeci">#define LUMEX_CONSTEXPR</div><div class="ttdef"><b>Definition</b> LumexKeywords.hpp:164</div></div>
-<div class="ttc" id="aa00389_html_a519cca5cda98cc22e4eaf9dea1bcca4b"><div class="ttname"><a href="a00389.html#a519cca5cda98cc22e4eaf9dea1bcca4b">LUMEX_NOEXCEPT_IF</a></div><div class="ttdeci">#define LUMEX_NOEXCEPT_IF(...)</div><div class="ttdef"><b>Definition</b> LumexKeywords.hpp:85</div></div>
-<div class="ttc" id="aa00912_html"><div class="ttname"><a href="a00912.html">lumex</a></div><div class="ttdef"><b>Definition</b> LumexCPUVectorizationCapabilities.cpp:65</div></div>
-<div class="ttc" id="aa00964_html"><div class="ttname"><a href="a00964.html">lumex::core</a></div><div class="ttdef"><b>Definition</b> LumexAtomicSharedPtr.hpp:103</div></div>
-<div class="ttc" id="aa00999_html"><div class="ttname"><a href="a00999.html">std</a></div><div class="ttdef"><b>Definition</b> LumexStacktraceEntry.hpp:452</div></div>
-<div class="ttc" id="aa01011_html"><div class="ttname"><a href="a01011.html">lumex::core::math</a></div><div class="ttdef"><b>Definition</b> LumexMath.hpp:63</div></div>
-<div class="ttc" id="aa01012_html"><div class="ttname"><a href="a01012.html">lumex::core::math::ops</a></div><div class="ttdef"><b>Definition</b> LumexMath.hpp:65</div></div>
-<div class="ttc" id="aa01012_html_a0fd1a5acf2f1fed8edeee1309059b06f"><div class="ttname"><a href="a01012.html#a0fd1a5acf2f1fed8edeee1309059b06f">lumex::core::math::ops::distance</a></div><div class="ttdeci">constexpr Detail::integral_distance&lt; T, U &gt;::type distance(T a, U b)</div><div class="ttdoc">Absolute difference |a - b| of two integers, computed without an intermediate signed underflow for un...</div><div class="ttdef"><b>Definition</b> LumexMath.hpp:461</div></div>
-<div class="ttc" id="aa01012_html_a795166387deab30bf98b02619bca5c5b"><div class="ttname"><a href="a01012.html#a795166387deab30bf98b02619bca5c5b">lumex::core::math::ops::avg</a></div><div class="ttdeci">Detail::numeric_range_value&lt; Range &gt;::type avg(Range &amp;&amp;range)</div><div class="ttdoc">Arithmetic mean of a range&#39;s elements, or ValueType{0} for an empty range.</div><div class="ttdef"><b>Definition</b> LumexMath.hpp:500</div></div>
-<div class="ttc" id="aa01012_html_a8c77830600ff2261070b9e599fdfe916"><div class="ttname"><a href="a01012.html#a8c77830600ff2261070b9e599fdfe916">lumex::core::math::ops::squared_difference</a></div><div class="ttdeci">constexpr Detail::difference_type&lt; T, U &gt;::type squared_difference(T a, U b)</div><div class="ttdoc">(a - b)^2, computed in the common type of a and b (promoted, so two short operands give an int).</div><div class="ttdef"><b>Definition</b> LumexMath.hpp:483</div></div>
-<div class="ttc" id="aa01012_html_aa1b6ddc9ee41c9002fed87698f0b5bea"><div class="ttname"><a href="a01012.html#aa1b6ddc9ee41c9002fed87698f0b5bea">lumex::core::math::ops::checked_narrow_cast</a></div><div class="ttdeci">std::enable_if&lt; traits::is_numeric&lt; SourceType &gt;::value &amp;&amp;traits::is_numeric&lt; TargetType &gt;::value, TargetType &gt;::type checked_narrow_cast(SourceType sourceValue, Name const &amp;fieldName)</div><div class="ttdoc">Casts sourceValue to TargetType, throwing if the value is non-finite (for a floating-point source) or...</div><div class="ttdef"><b>Definition</b> LumexMath.hpp:430</div></div>
-<div class="ttc" id="aa01012_html_ab00c52837c8e1c0898a38c85a2cce753"><div class="ttname"><a href="a01012.html#ab00c52837c8e1c0898a38c85a2cce753">lumex::core::math::ops::rms</a></div><div class="ttdeci">Detail::sqrt_result&lt; typenameDetail::numeric_range_value&lt; Range &gt;::type &gt;::type rms(Range &amp;&amp;range)</div><div class="ttdoc">Root Mean Square of a range&#39;s elements, or ResultType{0} for an empty range.</div><div class="ttdef"><b>Definition</b> LumexMath.hpp:555</div></div>
-<div class="ttc" id="aa01012_html_acab500b6094965f38491c932461b6f03"><div class="ttname"><a href="a01012.html#acab500b6094965f38491c932461b6f03">lumex::core::math::ops::is_nan_inf</a></div><div class="ttdeci">constexpr std::enable_if&lt; std::is_floating_point&lt; T &gt;::value, bool &gt;::type is_nan_inf(T value) noexcept(noexcept(std::isnan(value)) &amp;&amp;noexcept(std::isinf(value)))</div><div class="ttdoc">Checks whether a floating-point value is NaN or +-Infinity.</div><div class="ttdef"><b>Definition</b> LumexMath.hpp:407</div></div>
-<div class="ttc" id="aa01012_html_aeb97b3e1f4e91081b5a15bc768abe7ea"><div class="ttname"><a href="a01012.html#aeb97b3e1f4e91081b5a15bc768abe7ea">lumex::core::math::ops::rmse</a></div><div class="ttdeci">Detail::range_scalar_result&lt; Range, Scalar &gt;::type rmse(Range &amp;&amp;range, Scalar const &amp;scalar)</div><div class="ttdoc">Root Mean Squared Error of a range against a fixed scalar: sqrt( 1/N * sum (x_i - scalar)^2 )....</div><div class="ttdef"><b>Definition</b> LumexMath.hpp:618</div></div>
-<div class="ttc" id="aa01013_html"><div class="ttname"><a href="a01013.html">lumex::core::math::ops::traits</a></div><div class="ttdef"><b>Definition</b> LumexMath.hpp:72</div></div>
-<div class="ttc" id="aa01014_html"><div class="ttname"><a href="a01014.html">lumex::core::math::ops::Detail</a></div><div class="ttdef"><b>Definition</b> LumexMath.hpp:93</div></div>
-<div class="ttc" id="aa01014_html_a09a7814d770820120d778770c90575e0"><div class="ttname"><a href="a01014.html#a09a7814d770820120d778770c90575e0">lumex::core::math::ops::Detail::require_same_size</a></div><div class="ttdeci">void require_same_size(char const *function, It1 &amp;it1, End1 const &amp;last1, It2 &amp;it2, End2 const &amp;last2, std::size_t count)</div><div class="ttdoc">Called after a lockstep pass over two ranges that consumed count elements of each: throws LumexMathSi...</div><div class="ttdef"><b>Definition</b> LumexMath.hpp:380</div></div>
-<div class="ttc" id="aa01014_html_a251e77cb9662dd8266b1d6c1ba9589c9"><div class="ttname"><a href="a01014.html#a251e77cb9662dd8266b1d6c1ba9589c9">lumex::core::math::ops::Detail::cmp_less</a></div><div class="ttdeci">bool cmp_less(A a, B b, std::integral_constant&lt; int, 0 &gt;)</div><div class="ttdoc">a &lt; b for two integers of any signedness, without the usual arithmetic conversions turning a negative...</div><div class="ttdef"><b>Definition</b> LumexMath.hpp:277</div></div>
-<div class="ttc" id="aa01014_html_a3502a023a6571d1aa9955e571d05724c"><div class="ttname"><a href="a01014.html#a3502a023a6571d1aa9955e571d05724c">lumex::core::math::ops::Detail::fits</a></div><div class="ttdeci">bool fits(Source value, std::true_type, std::true_type)</div><div class="ttdoc">Integral source, integral target: exact comparison.</div><div class="ttdef"><b>Definition</b> LumexMath.hpp:319</div></div>
-<div class="ttc" id="aa01014_html_a39800dfb129ce7e0f3b8520f0e8ce977"><div class="ttname"><a href="a01014.html#a39800dfb129ce7e0f3b8520f0e8ce977">lumex::core::math::ops::Detail::adl_end</a></div><div class="ttdeci">auto adl_end(Range &amp;range) -&gt; decltype(end(range))</div><div class="ttdoc">end (range) with std::end and ADL, as a range-for does.</div><div class="ttdef"><b>Definition</b> LumexMath.hpp:113</div></div>
-<div class="ttc" id="aa01014_html_ab02125f45f18a96bf33bfb97c10bc6b6"><div class="ttname"><a href="a01014.html#ab02125f45f18a96bf33bfb97c10bc6b6">lumex::core::math::ops::Detail::print_number</a></div><div class="ttdeci">void print_number(std::ostream &amp;os, T value)</div><div class="ttdoc">Prints a value as a number: the unary plus promotes character types, so they print their code,...</div><div class="ttdef"><b>Definition</b> LumexMath.hpp:267</div></div>
-<div class="ttc" id="aa01014_html_abdf8ed32a58d7ef1884b0e2eb69e139b"><div class="ttname"><a href="a01014.html#abdf8ed32a58d7ef1884b0e2eb69e139b">lumex::core::math::ops::Detail::adl_begin</a></div><div class="ttdeci">auto adl_begin(Range &amp;range) -&gt; decltype(begin(range))</div><div class="ttdoc">begin (range) with std::begin and ADL, as a range-for does.</div><div class="ttdef"><b>Definition</b> LumexMath.hpp:105</div></div>
-<div class="ttc" id="aa01014_html_ade0e34f98cff83fb7a018f3243ff5195"><div class="ttname"><a href="a01014.html#ade0e34f98cff83fb7a018f3243ff5195">lumex::core::math::ops::Detail::throw_if_not_finite</a></div><div class="ttdeci">void throw_if_not_finite(Source value, Name const &amp;fieldName, std::true_type)</div><div class="ttdef"><b>Definition</b> LumexMath.hpp:358</div></div>
-<div class="ttc" id="aa02166_html"><div class="ttname"><a href="a02166.html">lumex::core::math::ops::LumexMathSizeMismatchException</a></div><div class="ttdoc">Thrown by the two-range rms / rmse when the ranges have different lengths, one of them empty included...</div><div class="ttdef"><b>Definition</b> LumexMath.hpp:69</div></div>
-<div class="ttc" id="aa02166_html_a796c2f399644f48028db8d583ca47a4d"><div class="ttname"><a href="a02166.html#a796c2f399644f48028db8d583ca47a4d">lumex::core::math::ops::LumexMathSizeMismatchException::LumexMathSizeMismatchException</a></div><div class="ttdeci">LumexMathSizeMismatchException(char const *message)</div><div class="ttdef"><b>Definition</b> LumexMath.hpp:69</div></div>
-<div class="ttc" id="aa02170_html"><div class="ttname"><a href="a02170.html">lumex::core::math::ops::traits::is_numeric</a></div><div class="ttdoc">A &quot;real&quot; numeric type: any integral type except bool, or any floating-point type (cv-qualifiers ignor...</div><div class="ttdef"><b>Definition</b> LumexMath.hpp:82</div></div>
-<div class="ttc" id="aa02174_html"><div class="ttname"><a href="a02174.html">lumex::core::math::ops::Detail::voider</a></div><div class="ttdef"><b>Definition</b> LumexMath.hpp:95</div></div>
-<div class="ttc" id="aa02174_html_a91e37a10c231058284bf4595337d7ed3"><div class="ttname"><a href="a02174.html#a91e37a10c231058284bf4595337d7ed3">lumex::core::math::ops::Detail::voider::type</a></div><div class="ttdeci">void type</div><div class="ttdef"><b>Definition</b> LumexMath.hpp:96</div></div>
-<div class="ttc" id="aa02178_html"><div class="ttname"><a href="a02178.html">lumex::core::math::ops::Detail::range_object</a></div><div class="ttdoc">Range without reference, as the lvalue the functions iterate.</div><div class="ttdef"><b>Definition</b> LumexMath.hpp:120</div></div>
-<div class="ttc" id="aa02178_html_a0c8e1ae34abe7b5e71943461989d9884"><div class="ttname"><a href="a02178.html#a0c8e1ae34abe7b5e71943461989d9884">lumex::core::math::ops::Detail::range_object::type</a></div><div class="ttdeci">std::remove_reference&lt; Range &gt;::type type</div><div class="ttdef"><b>Definition</b> LumexMath.hpp:121</div></div>
-<div class="ttc" id="aa02182_html"><div class="ttname"><a href="a02182.html">lumex::core::math::ops::Detail::is_numeric_range</a></div><div class="ttdoc">True when Range can be iterated as an lvalue and its elements decay to a numeric type.</div><div class="ttdef"><b>Definition</b> LumexMath.hpp:128</div></div>
-<div class="ttc" id="aa02190_html"><div class="ttname"><a href="a02190.html">lumex::core::math::ops::Detail::numeric_range_value</a></div><div class="ttdoc">The element type of a numeric range; no type otherwise, so it can sit in a return type for SFINAE.</div><div class="ttdef"><b>Definition</b> LumexMath.hpp:153</div></div>
-<div class="ttc" id="aa02194_html_a3217f4ed95f5ffe936ed903617622a2c"><div class="ttname"><a href="a02194.html#a3217f4ed95f5ffe936ed903617622a2c">lumex::core::math::ops::Detail::numeric_range_value&lt; Range, true &gt;::type</a></div><div class="ttdeci">std::decay&lt; decltype(*adl_begin(std::declval&lt; typenamerange_object&lt; Range &gt;::type &amp; &gt;()))&gt;::type type</div><div class="ttdef"><b>Definition</b> LumexMath.hpp:159</div></div>
-<div class="ttc" id="aa02198_html"><div class="ttname"><a href="a02198.html">lumex::core::math::ops::Detail::sqrt_result</a></div><div class="ttdoc">std::sqrt&#39;s result type for T (double for an integral T).</div><div class="ttdef"><b>Definition</b> LumexMath.hpp:164</div></div>
-<div class="ttc" id="aa02198_html_acbb104667bdd99e1533568c2160f1614"><div class="ttname"><a href="a02198.html#acbb104667bdd99e1533568c2160f1614">lumex::core::math::ops::Detail::sqrt_result::type</a></div><div class="ttdeci">decltype(std::sqrt(std::declval&lt; T &gt;())) type</div><div class="ttdef"><b>Definition</b> LumexMath.hpp:165</div></div>
-<div class="ttc" id="aa02202_html"><div class="ttname"><a href="a02202.html">lumex::core::math::ops::Detail::numeric_common</a></div><div class="ttdoc">std::common_type of two numeric types; no type otherwise.</div><div class="ttdef"><b>Definition</b> LumexMath.hpp:172</div></div>
-<div class="ttc" id="aa02206_html_ad680dfe8b639a539ce2dcb05796c6196"><div class="ttname"><a href="a02206.html#ad680dfe8b639a539ce2dcb05796c6196">lumex::core::math::ops::Detail::numeric_common&lt; T, U, true &gt;::type</a></div><div class="ttdeci">std::common_type&lt; T, U &gt;::type type</div><div class="ttdef"><b>Definition</b> LumexMath.hpp:177</div></div>
-<div class="ttc" id="aa02210_html"><div class="ttname"><a href="a02210.html">lumex::core::math::ops::Detail::type</a></div></div>
-<div class="ttc" id="aa02214_html_a1cdf2257e6f864b7e5b7f41c72d00dd8"><div class="ttname"><a href="a02214.html#a1cdf2257e6f864b7e5b7f41c72d00dd8">lumex::core::math::ops::Detail::difference_type&lt; T, U, true &gt;::common</a></div><div class="ttdeci">std::common_type&lt; T, U &gt;::type common</div><div class="ttdef"><b>Definition</b> LumexMath.hpp:190</div></div>
-<div class="ttc" id="aa02214_html_a93321b4ee0757354748f76a610ba6d0f"><div class="ttname"><a href="a02214.html#a93321b4ee0757354748f76a610ba6d0f">lumex::core::math::ops::Detail::difference_type&lt; T, U, true &gt;::type</a></div><div class="ttdeci">decltype(std::declval&lt; common &gt;() - std::declval&lt; common &gt;()) type</div><div class="ttdef"><b>Definition</b> LumexMath.hpp:191</div></div>
-<div class="ttc" id="aa02218_html"><div class="ttname"><a href="a02218.html">lumex::core::math::ops::Detail::integral_distance</a></div><div class="ttdoc">Result type of distance for two integers; no type otherwise. Every trait here stays SFINAE-friendly f...</div><div class="ttdef"><b>Definition</b> LumexMath.hpp:203</div></div>
-<div class="ttc" id="aa02222_html_ae4e7f10ea1f97caeac548b56ee034ee5"><div class="ttname"><a href="a02222.html#ae4e7f10ea1f97caeac548b56ee034ee5">lumex::core::math::ops::Detail::integral_distance&lt; T, U, true &gt;::type</a></div><div class="ttdeci">difference_type&lt; T, U &gt;::type type</div><div class="ttdef"><b>Definition</b> LumexMath.hpp:208</div></div>
-<div class="ttc" id="aa02226_html"><div class="ttname"><a href="a02226.html">lumex::core::math::ops::Detail::floating_distance</a></div><div class="ttdoc">Result type of distance with a floating-point operand; no type otherwise.</div><div class="ttdef"><b>Definition</b> LumexMath.hpp:218</div></div>
-<div class="ttc" id="aa02230_html_a64a711058a225bbf7a5828c263f0084a"><div class="ttname"><a href="a02230.html#a64a711058a225bbf7a5828c263f0084a">lumex::core::math::ops::Detail::floating_distance&lt; T, U, true &gt;::type</a></div><div class="ttdeci">std::common_type&lt; T, U &gt;::type type</div><div class="ttdef"><b>Definition</b> LumexMath.hpp:223</div></div>
-<div class="ttc" id="aa02234_html"><div class="ttname"><a href="a02234.html">lumex::core::math::ops::Detail::range_pair_result</a></div><div class="ttdoc">sqrt result type of the common element type of two numeric ranges; no type otherwise.</div><div class="ttdef"><b>Definition</b> LumexMath.hpp:232</div></div>
-<div class="ttc" id="aa02238_html_a20d2b558a364ca7c7a0e103872519349"><div class="ttname"><a href="a02238.html#a20d2b558a364ca7c7a0e103872519349">lumex::core::math::ops::Detail::range_pair_result&lt; Range1, Range2, true &gt;::type</a></div><div class="ttdeci">sqrt_result&lt; common &gt;::type type</div><div class="ttdef"><b>Definition</b> LumexMath.hpp:241</div></div>
-<div class="ttc" id="aa02238_html_acb4ffe16e62b909570fd454387113da1"><div class="ttname"><a href="a02238.html#acb4ffe16e62b909570fd454387113da1">lumex::core::math::ops::Detail::range_pair_result&lt; Range1, Range2, true &gt;::common</a></div><div class="ttdeci">std::common_type&lt; typenamenumeric_range_value&lt; Range1 &gt;::type, typenamenumeric_range_value&lt; Range2 &gt;::type &gt;::type common</div><div class="ttdef"><b>Definition</b> LumexMath.hpp:240</div></div>
-<div class="ttc" id="aa02242_html"><div class="ttname"><a href="a02242.html">lumex::core::math::ops::Detail::range_scalar_result</a></div><div class="ttdoc">sqrt result type of a numeric range&#39;s elements combined with a numeric scalar; no type otherwise.</div><div class="ttdef"><b>Definition</b> LumexMath.hpp:250</div></div>
-<div class="ttc" id="aa02246_html_a0ee5b4b5cbdcacb96dfed24cd181ef02"><div class="ttname"><a href="a02246.html#a0ee5b4b5cbdcacb96dfed24cd181ef02">lumex::core::math::ops::Detail::range_scalar_result&lt; Range, Scalar, true &gt;::type</a></div><div class="ttdeci">sqrt_result&lt; common &gt;::type type</div><div class="ttdef"><b>Definition</b> LumexMath.hpp:258</div></div>
-<div class="ttc" id="aa02246_html_a0f26becc9ea6f049b0886263577d5418"><div class="ttname"><a href="a02246.html#a0f26becc9ea6f049b0886263577d5418">lumex::core::math::ops::Detail::range_scalar_result&lt; Range, Scalar, true &gt;::common</a></div><div class="ttdeci">std::common_type&lt; typenamenumeric_range_value&lt; Range &gt;::type, Scalar &gt;::type common</div><div class="ttdef"><b>Definition</b> LumexMath.hpp:257</div></div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span> </div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>} <span class="comment">// namespace error</span></div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>} <span class="comment">// namespace expected</span></div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>} <span class="comment">// namespace core</span></div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>} <span class="comment">// namespace lumex</span></div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span> </div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span><span class="keyword">using </span><a class="code hl_class" href="a01921.html">lumex::core::expected::error::Unexpected</a>;</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span> </div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span><span class="preprocessor">#endif </span><span class="comment">// !LUMEX_CORE_EXPECTED_ERROR_UNEXPECTED_HPP</span></div>
+<div class="ttc" id="aa00948_html"><div class="ttname"><a href="a00948.html">lumex</a></div><div class="ttdef"><b>Definition</b> LumexCPUVectorizationCapabilities.cpp:65</div></div>
+<div class="ttc" id="aa01005_html"><div class="ttname"><a href="a01005.html">lumex::core</a></div><div class="ttdef"><b>Definition</b> LumexAtomicSharedPtr.hpp:103</div></div>
+<div class="ttc" id="aa01040_html"><div class="ttname"><a href="a01040.html">std</a></div><div class="ttdef"><b>Definition</b> LumexStacktraceEntry.hpp:452</div></div>
+<div class="ttc" id="aa01041_html"><div class="ttname"><a href="a01041.html">lumex::core::expected</a></div><div class="ttdef"><b>Definition</b> BadExpectedAccess.hpp:94</div></div>
+<div class="ttc" id="aa01042_html"><div class="ttname"><a href="a01042.html">lumex::core::expected::error</a></div><div class="ttdef"><b>Definition</b> BadExpectedAccess.hpp:96</div></div>
+<div class="ttc" id="aa01921_html"><div class="ttname"><a href="a01921.html">lumex::core::expected::error::Unexpected</a></div><div class="ttdoc">Wrapper that holds an error value for Expected.</div><div class="ttdef"><b>Definition</b> Unexpected.hpp:73</div></div>
+<div class="ttc" id="aa01921_html_a075c1367f8574a76ab9e4160d6ed521c"><div class="ttname"><a href="a01921.html#a075c1367f8574a76ab9e4160d6ed521c">lumex::core::expected::error::Unexpected::Unexpected</a></div><div class="ttdeci">Unexpected(ErrorType const &amp;error)</div><div class="ttdoc">Constructs from a const lvalue error.</div><div class="ttdef"><b>Definition</b> Unexpected.hpp:81</div></div>
+<div class="ttc" id="aa01921_html_a79082b8816166114c5ee96b83ee85319"><div class="ttname"><a href="a01921.html#a79082b8816166114c5ee96b83ee85319">lumex::core::expected::error::Unexpected::Unexpected</a></div><div class="ttdeci">Unexpected(ErrorType &amp;&amp;error)</div><div class="ttdoc">Constructs from an rvalue error.</div><div class="ttdef"><b>Definition</b> Unexpected.hpp:89</div></div>
+<div class="ttc" id="aa01921_html_a81f1dd1da8585415f1139c88f9dc58a9"><div class="ttname"><a href="a01921.html#a81f1dd1da8585415f1139c88f9dc58a9">lumex::core::expected::error::Unexpected::error</a></div><div class="ttdeci">ErrorType &amp;&amp; error() &amp;&amp;</div><div class="ttdoc">Returns an rvalue reference to the stored error.</div><div class="ttdef"><b>Definition</b> Unexpected.hpp:119</div></div>
+<div class="ttc" id="aa01921_html_ab2b13d122af5d10b0b9addbf7c70f227"><div class="ttname"><a href="a01921.html#ab2b13d122af5d10b0b9addbf7c70f227">lumex::core::expected::error::Unexpected::error</a></div><div class="ttdeci">ErrorType const &amp; error() const &amp;</div><div class="ttdoc">Returns a const lvalue reference to the stored error.</div><div class="ttdef"><b>Definition</b> Unexpected.hpp:108</div></div>
+<div class="ttc" id="aa01921_html_add04e74193f947673a08bc0dda3f6f20"><div class="ttname"><a href="a01921.html#add04e74193f947673a08bc0dda3f6f20">lumex::core::expected::error::Unexpected::error</a></div><div class="ttdeci">ErrorType &amp; error() &amp;</div><div class="ttdoc">Returns a mutable lvalue reference to the stored error.</div><div class="ttdef"><b>Definition</b> Unexpected.hpp:97</div></div>
+<div class="ttc" id="aa01921_html_aeaeb174828a6ed9cd56e17462559bacd"><div class="ttname"><a href="a01921.html#aeaeb174828a6ed9cd56e17462559bacd">lumex::core::expected::error::Unexpected::error</a></div><div class="ttdeci">ErrorType const &amp;&amp; error() const &amp;&amp;</div><div class="ttdoc">Returns a const rvalue reference to the stored error.</div><div class="ttdef"><b>Definition</b> Unexpected.hpp:130</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_d223f57be190bde72e88025a46faedd4.html">math</a></li><li class="navelem"><a class="el" href="dir_8967a426ac10414a6a429edbae396974.html">ops</a></li><li class="navelem"><a class="el" href="a00287.html">LumexMath.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_91063fb91facb4308dc4edc779d408bb.html">expected</a></li><li class="navelem"><a class="el" href="dir_d137d0eb9968c5b308dad29829b7bf65.html">error</a></li><li class="navelem"><a class="el" href="a00287.html">Unexpected.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

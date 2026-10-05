@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::core::atomic::sync::table_wait::Detail Namespace Reference</title>
+<title>LumexLib: lumex::applied::logger Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,63 +104,47 @@ $(function(){initNavTree('a00971.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#enum-members">Enumerations</a> &#124;
 <a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">lumex::core::atomic::sync::table_wait::Detail Namespace Reference</div></div>
+  <div class="headertitle"><div class="title">lumex::applied::logger Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Universal file logger, ported and kept up to date from the DChannel project's Logger.  
+<a href="#details">More...</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01278.html">BitLock</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lock in one 32-bit word that puts contended threads to sleep.  <a href="a01278.html#details">More...</a><br /></td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00972.html">logger</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01282.html">BitLockGuard</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Holds a <code><a class="el" href="a01278.html" title="Lock in one 32-bit word that puts contended threads to sleep.">BitLock</a></code> for the lifetime of the guard.  <a href="a01282.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01270.html">waiter_stripe_t</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">One stripe of the waiting table: the sleepers of every word that hashes to it share this mutex and condition variable.  <a href="a01270.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01274.html">waiter_table_t</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The whole waiting table.  <a href="a01274.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:a50817df5a1c7ef0cc99cfb1a2fd513e9" id="r_a50817df5a1c7ef0cc99cfb1a2fd513e9"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a50817df5a1c7ef0cc99cfb1a2fd513e9">logger_config_format_t</a> : std::uint8_t { <br />
+&#160;&#160;<a class="el" href="#a50817df5a1c7ef0cc99cfb1a2fd513e9a10504904240f7c7a24587ef9209b3f55">plain_text</a> = 0
+, <a class="el" href="#a50817df5a1c7ef0cc99cfb1a2fd513e9a4d90362d661461e558408e982aaa49d3">ini</a>
+, <a class="el" href="#a50817df5a1c7ef0cc99cfb1a2fd513e9a466deec76ecdf5fca6d38571f6324d54">json</a>
+, <a class="el" href="#a50817df5a1c7ef0cc99cfb1a2fd513e9a6eedc03a68a69933c763e674f2d7c42f">yaml</a>
+, <br />
+&#160;&#160;<a class="el" href="#a50817df5a1c7ef0cc99cfb1a2fd513e9a0f635d0e0f3874fff8b581c132e6c7a7">xml</a>
+<br />
+ }</td></tr>
+<tr class="memdesc:a50817df5a1c7ef0cc99cfb1a2fd513e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compile-time format of the logger enable/config file.  <a href="#a50817df5a1c7ef0cc99cfb1a2fd513e9">More...</a><br /></td></tr>
+<tr class="separator:a50817df5a1c7ef0cc99cfb1a2fd513e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a069847c28bd87c2003813e1284bcf355" id="r_a069847c28bd87c2003813e1284bcf355"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a069847c28bd87c2003813e1284bcf355">cpu_relax</a> () noexcept</td></tr>
-<tr class="memdesc:a069847c28bd87c2003813e1284bcf355"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tells the processor that the calling thread is spinning.  <br /></td></tr>
-<tr class="separator:a069847c28bd87c2003813e1284bcf355"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0ef36c77415fb5ece4adacc21cfd1d2c" id="r_a0ef36c77415fb5ece4adacc21cfd1d2c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01270.html">waiter_stripe_t</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0ef36c77415fb5ece4adacc21cfd1d2c">stripe_for</a> (void const *address) noexcept</td></tr>
-<tr class="memdesc:a0ef36c77415fb5ece4adacc21cfd1d2c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the stripe that serves the word at <code class="param">address</code>.  <br /></td></tr>
-<tr class="separator:a0ef36c77415fb5ece4adacc21cfd1d2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1639c5bbfd26c902c3942c785090b761" id="r_a1639c5bbfd26c902c3942c785090b761"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1639c5bbfd26c902c3942c785090b761">wait_until_changed</a> (std::atomic&lt; std::uint32_t &gt; const &amp;word, std::uint32_t old) noexcept</td></tr>
-<tr class="memdesc:a1639c5bbfd26c902c3942c785090b761"><td class="mdescLeft">&#160;</td><td class="mdescRight">Blocks the calling thread while <code class="param">word</code> holds <code class="param">old</code>.  <br /></td></tr>
-<tr class="separator:a1639c5bbfd26c902c3942c785090b761"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab0a372674a94f35856052c9f32a55909" id="r_ab0a372674a94f35856052c9f32a55909"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab0a372674a94f35856052c9f32a55909">notify_all</a> (std::atomic&lt; std::uint32_t &gt; &amp;word) noexcept</td></tr>
-<tr class="memdesc:ab0a372674a94f35856052c9f32a55909"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wakes every thread sleeping in <code>wait_until_changed</code> on <code class="param">word</code>.  <br /></td></tr>
-<tr class="separator:ab0a372674a94f35856052c9f32a55909"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a57da345244e75b4b313c745e12a46382" id="r_a57da345244e75b4b313c745e12a46382"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a57da345244e75b4b313c745e12a46382">notify_one</a> (std::atomic&lt; std::uint32_t &gt; &amp;word) noexcept</td></tr>
-<tr class="memdesc:a57da345244e75b4b313c745e12a46382"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wakes at least one thread sleeping in <code>wait_until_changed</code> on <code class="param">word</code>.  <br /></td></tr>
-<tr class="separator:a57da345244e75b4b313c745e12a46382"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaa48cf4ef446317fc83f672e8954ea02" id="r_aaa48cf4ef446317fc83f672e8954ea02"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aaa48cf4ef446317fc83f672e8954ea02">tsan_mutex_pre_lock</a> (void *address) noexcept</td></tr>
-<tr class="memdesc:aaa48cf4ef446317fc83f672e8954ea02"><td class="mdescLeft">&#160;</td><td class="mdescRight">ThreadSanitizer annotations of the lock word; no-ops in other builds.  <br /></td></tr>
-<tr class="separator:aaa48cf4ef446317fc83f672e8954ea02"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa411a9b6a91063b2ca57a48b5cda7e38" id="r_aa411a9b6a91063b2ca57a48b5cda7e38"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa411a9b6a91063b2ca57a48b5cda7e38">tsan_mutex_post_lock</a> (void *address) noexcept</td></tr>
-<tr class="memdesc:aa411a9b6a91063b2ca57a48b5cda7e38"><td class="mdescLeft">&#160;</td><td class="mdescRight">ThreadSanitizer annotations of the lock word; no-ops in other builds.     <br /></td></tr>
-<tr class="separator:aa411a9b6a91063b2ca57a48b5cda7e38"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae7b93d2510244fa9c6dfbd038fef1e35" id="r_ae7b93d2510244fa9c6dfbd038fef1e35"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae7b93d2510244fa9c6dfbd038fef1e35">tsan_mutex_pre_unlock</a> (void *address) noexcept</td></tr>
-<tr class="memdesc:ae7b93d2510244fa9c6dfbd038fef1e35"><td class="mdescLeft">&#160;</td><td class="mdescRight">ThreadSanitizer annotations of the lock word; no-ops in other builds.     <br /></td></tr>
-<tr class="separator:ae7b93d2510244fa9c6dfbd038fef1e35"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a45138d629081f839e7c275e9ee3a9b8c" id="r_a45138d629081f839e7c275e9ee3a9b8c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a45138d629081f839e7c275e9ee3a9b8c">tsan_mutex_post_unlock</a> (void *address) noexcept</td></tr>
-<tr class="memdesc:a45138d629081f839e7c275e9ee3a9b8c"><td class="mdescLeft">&#160;</td><td class="mdescRight">ThreadSanitizer annotations of the lock word; no-ops in other builds.     <br /></td></tr>
-<tr class="separator:a45138d629081f839e7c275e9ee3a9b8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af25ffa3720b756fbe30a7e29397ee4bd" id="r_af25ffa3720b756fbe30a7e29397ee4bd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af25ffa3720b756fbe30a7e29397ee4bd">tsan_mutex_destroy</a> (void *address) noexcept</td></tr>
-<tr class="memdesc:af25ffa3720b756fbe30a7e29397ee4bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">ThreadSanitizer annotations of the lock word; no-ops in other builds.     <br /></td></tr>
-<tr class="separator:af25ffa3720b756fbe30a7e29397ee4bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4ff8994ab54d107e5c4077786599a415" id="r_a4ff8994ab54d107e5c4077786599a415"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="#a50817df5a1c7ef0cc99cfb1a2fd513e9">logger_config_format_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4ff8994ab54d107e5c4077786599a415">configured_logger_config_format</a> () noexcept</td></tr>
+<tr class="memdesc:a4ff8994ab54d107e5c4077786599a415"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the only logger config format compiled into this target.  <br /></td></tr>
+<tr class="separator:a4ff8994ab54d107e5c4077786599a415"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="a069847c28bd87c2003813e1284bcf355" name="a069847c28bd87c2003813e1284bcf355"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a069847c28bd87c2003813e1284bcf355">&#9670;&#160;</a></span>cpu_relax()</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Universal file logger, ported and kept up to date from the DChannel project's Logger. </p>
+<p>All symbols below live in this namespace instead of the global namespace specifically to avoid name collisions in a shared library consumed by many projects (see e.g. <code>logger_stringify</code>, which would otherwise be a dangerously generic global name). </p>
+</div><h2 class="groupheader">Enumeration Type Documentation</h2>
+<a id="a50817df5a1c7ef0cc99cfb1a2fd513e9" name="a50817df5a1c7ef0cc99cfb1a2fd513e9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a50817df5a1c7ef0cc99cfb1a2fd513e9">&#9670;&#160;</a></span>logger_config_format_t</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -169,7 +153,45 @@ Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void lumex::core::atomic::sync::table_wait::Detail::cpu_relax </td>
+          <td class="memname">enum class <a class="el" href="#a50817df5a1c7ef0cc99cfb1a2fd513e9">lumex::applied::logger::logger_config_format_t</a> : std::uint8_t</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Compile-time format of the logger enable/config file. </p>
+<p>Exactly one format is selected by LUMEX_LOGGER_CONFIG_FORMAT when lumex::logger is configured. The path extension does not affect parsing. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a50817df5a1c7ef0cc99cfb1a2fd513e9a10504904240f7c7a24587ef9209b3f55" name="a50817df5a1c7ef0cc99cfb1a2fd513e9a10504904240f7c7a24587ef9209b3f55"></a>plain_text&#160;</td><td class="fielddoc"><p>Prefixed KEY=value lines (historical enable_logs). </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a50817df5a1c7ef0cc99cfb1a2fd513e9a4d90362d661461e558408e982aaa49d3" name="a50817df5a1c7ef0cc99cfb1a2fd513e9a4d90362d661461e558408e982aaa49d3"></a>ini&#160;</td><td class="fielddoc"><p>INI via <a class="el" href="a00167.html#aa4b9184a671b4fab21d16ff231591689">LumexSettingsINI</a> ([logger] section). </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a50817df5a1c7ef0cc99cfb1a2fd513e9a466deec76ecdf5fca6d38571f6324d54" name="a50817df5a1c7ef0cc99cfb1a2fd513e9a466deec76ecdf5fca6d38571f6324d54"></a>json&#160;</td><td class="fielddoc"><p>JSON via vendored nlohmann/json. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a50817df5a1c7ef0cc99cfb1a2fd513e9a6eedc03a68a69933c763e674f2d7c42f" name="a50817df5a1c7ef0cc99cfb1a2fd513e9a6eedc03a68a69933c763e674f2d7c42f"></a>yaml&#160;</td><td class="fielddoc"><p>Reserved; throws until LumexSettingsYAML exists. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a50817df5a1c7ef0cc99cfb1a2fd513e9a0f635d0e0f3874fff8b581c132e6c7a7" name="a50817df5a1c7ef0cc99cfb1a2fd513e9a0f635d0e0f3874fff8b581c132e6c7a7"></a>xml&#160;</td><td class="fielddoc"><p>XML via LumexXml (<code>&lt;logger&gt;</code> child elements). </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="a4ff8994ab54d107e5c4077786599a415" name="a4ff8994ab54d107e5c4077786599a415"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4ff8994ab54d107e5c4077786599a415">&#9670;&#160;</a></span>configured_logger_config_format()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#a50817df5a1c7ef0cc99cfb1a2fd513e9">logger_config_format_t</a> lumex::applied::logger::configured_logger_config_format </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -177,415 +199,25 @@ Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Tells the processor that the calling thread is spinning. </p>
-<p>On x86 this is the <code>pause</code> instruction, which makes a spin loop cheaper for the other hardware thread of the core and for the memory bus. Other targets give up the rest of the time slice instead. </p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00971_a069847c28bd87c2003813e1284bcf355_cgraph.png" border="0" usemap="#aa00971_a069847c28bd87c2003813e1284bcf355_cgraph" alt=""/></div>
-</div>
+<p>Returns the only logger config format compiled into this target. </p>
+<dl class="section return"><dt>Returns</dt><dd>Compile-time logger config format. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>The function is constexpr and does not inspect a file name. </dd></dl>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00971_a069847c28bd87c2003813e1284bcf355_icgraph.png" border="0" usemap="#aa00971_a069847c28bd87c2003813e1284bcf355_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="ab0a372674a94f35856052c9f32a55909" name="ab0a372674a94f35856052c9f32a55909"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab0a372674a94f35856052c9f32a55909">&#9670;&#160;</a></span>notify_all()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void lumex::core::atomic::sync::table_wait::Detail::notify_all </td>
-          <td>(</td>
-          <td class="paramtype">std::atomic&lt; std::uint32_t &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>word</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Wakes every thread sleeping in <code>wait_until_changed</code> on <code class="param">word</code>. </p>
-<p>Taking and releasing the stripe mutex before the broadcast orders the change of the word before the re-check of every sleeper that has not fallen asleep yet; the broadcast wakes the ones that have. </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">word</td><td>The word whose value the caller has just changed. </td></tr>
-  </table>
-  </dd>
-</dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00971_ab0a372674a94f35856052c9f32a55909_cgraph.png" border="0" usemap="#aa00971_ab0a372674a94f35856052c9f32a55909_cgraph" alt=""/></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00971_ab0a372674a94f35856052c9f32a55909_icgraph.png" border="0" usemap="#aa00971_ab0a372674a94f35856052c9f32a55909_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="a57da345244e75b4b313c745e12a46382" name="a57da345244e75b4b313c745e12a46382"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a57da345244e75b4b313c745e12a46382">&#9670;&#160;</a></span>notify_one()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void lumex::core::atomic::sync::table_wait::Detail::notify_one </td>
-          <td>(</td>
-          <td class="paramtype">std::atomic&lt; std::uint32_t &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>word</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Wakes at least one thread sleeping in <code>wait_until_changed</code> on <code class="param">word</code>. </p>
-<p>The stripe is shared with other words, so a single wake-up could reach a sleeper of another word and leave the sleepers of <code class="param">word</code> asleep. The call wakes the whole stripe instead. </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">word</td><td>The word whose value the caller has just changed. </td></tr>
-  </table>
-  </dd>
-</dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00971_a57da345244e75b4b313c745e12a46382_cgraph.png" border="0" usemap="#aa00971_a57da345244e75b4b313c745e12a46382_cgraph" alt=""/></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00971_a57da345244e75b4b313c745e12a46382_icgraph.png" border="0" usemap="#aa00971_a57da345244e75b4b313c745e12a46382_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="a0ef36c77415fb5ece4adacc21cfd1d2c" name="a0ef36c77415fb5ece4adacc21cfd1d2c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0ef36c77415fb5ece4adacc21cfd1d2c">&#9670;&#160;</a></span>stripe_for()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="a01270.html">waiter_stripe_t</a> &amp; lumex::core::atomic::sync::table_wait::Detail::stripe_for </td>
-          <td>(</td>
-          <td class="paramtype">void const *</td>          <td class="paramname"><span class="paramname"><em>address</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Returns the stripe that serves the word at <code class="param">address</code>. </p>
-<p>The table is built in static storage on first use and never destroyed: a thread that still sleeps while the program exits never finds a destroyed mutex, and no destructor runs at exit. </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">address</td><td>Address of the watched word. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The stripe of that word. </dd></dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00971_a0ef36c77415fb5ece4adacc21cfd1d2c_cgraph.png" border="0" usemap="#aa00971_a0ef36c77415fb5ece4adacc21cfd1d2c_cgraph" alt=""/></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00971_a0ef36c77415fb5ece4adacc21cfd1d2c_icgraph.png" border="0" usemap="#aa00971_a0ef36c77415fb5ece4adacc21cfd1d2c_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="af25ffa3720b756fbe30a7e29397ee4bd" name="af25ffa3720b756fbe30a7e29397ee4bd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af25ffa3720b756fbe30a7e29397ee4bd">&#9670;&#160;</a></span>tsan_mutex_destroy()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void lumex::core::atomic::sync::table_wait::Detail::tsan_mutex_destroy </td>
-          <td>(</td>
-          <td class="paramtype">void *</td>          <td class="paramname"><span class="paramname"><em>address</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>ThreadSanitizer annotations of the lock word; no-ops in other builds.    </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">address</td><td>Address of the lock word.    </td></tr>
-  </table>
-  </dd>
-</dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00971_af25ffa3720b756fbe30a7e29397ee4bd_cgraph.png" border="0" usemap="#aa00971_af25ffa3720b756fbe30a7e29397ee4bd_cgraph" alt=""/></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00971_af25ffa3720b756fbe30a7e29397ee4bd_icgraph.png" border="0" usemap="#aa00971_af25ffa3720b756fbe30a7e29397ee4bd_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="aa411a9b6a91063b2ca57a48b5cda7e38" name="aa411a9b6a91063b2ca57a48b5cda7e38"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa411a9b6a91063b2ca57a48b5cda7e38">&#9670;&#160;</a></span>tsan_mutex_post_lock()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void lumex::core::atomic::sync::table_wait::Detail::tsan_mutex_post_lock </td>
-          <td>(</td>
-          <td class="paramtype">void *</td>          <td class="paramname"><span class="paramname"><em>address</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>ThreadSanitizer annotations of the lock word; no-ops in other builds.    </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">address</td><td>Address of the lock word.    </td></tr>
-  </table>
-  </dd>
-</dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00971_aa411a9b6a91063b2ca57a48b5cda7e38_cgraph.png" border="0" usemap="#aa00971_aa411a9b6a91063b2ca57a48b5cda7e38_cgraph" alt=""/></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00971_aa411a9b6a91063b2ca57a48b5cda7e38_icgraph.png" border="0" usemap="#aa00971_aa411a9b6a91063b2ca57a48b5cda7e38_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="a45138d629081f839e7c275e9ee3a9b8c" name="a45138d629081f839e7c275e9ee3a9b8c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a45138d629081f839e7c275e9ee3a9b8c">&#9670;&#160;</a></span>tsan_mutex_post_unlock()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void lumex::core::atomic::sync::table_wait::Detail::tsan_mutex_post_unlock </td>
-          <td>(</td>
-          <td class="paramtype">void *</td>          <td class="paramname"><span class="paramname"><em>address</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>ThreadSanitizer annotations of the lock word; no-ops in other builds.    </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">address</td><td>Address of the lock word.    </td></tr>
-  </table>
-  </dd>
-</dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00971_a45138d629081f839e7c275e9ee3a9b8c_cgraph.png" border="0" usemap="#aa00971_a45138d629081f839e7c275e9ee3a9b8c_cgraph" alt=""/></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00971_a45138d629081f839e7c275e9ee3a9b8c_icgraph.png" border="0" usemap="#aa00971_a45138d629081f839e7c275e9ee3a9b8c_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="aaa48cf4ef446317fc83f672e8954ea02" name="aaa48cf4ef446317fc83f672e8954ea02"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaa48cf4ef446317fc83f672e8954ea02">&#9670;&#160;</a></span>tsan_mutex_pre_lock()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void lumex::core::atomic::sync::table_wait::Detail::tsan_mutex_pre_lock </td>
-          <td>(</td>
-          <td class="paramtype">void *</td>          <td class="paramname"><span class="paramname"><em>address</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>ThreadSanitizer annotations of the lock word; no-ops in other builds. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">address</td><td>Address of the lock word. </td></tr>
-  </table>
-  </dd>
-</dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00971_aaa48cf4ef446317fc83f672e8954ea02_cgraph.png" border="0" usemap="#aa00971_aaa48cf4ef446317fc83f672e8954ea02_cgraph" alt=""/></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00971_aaa48cf4ef446317fc83f672e8954ea02_icgraph.png" border="0" usemap="#aa00971_aaa48cf4ef446317fc83f672e8954ea02_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="ae7b93d2510244fa9c6dfbd038fef1e35" name="ae7b93d2510244fa9c6dfbd038fef1e35"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae7b93d2510244fa9c6dfbd038fef1e35">&#9670;&#160;</a></span>tsan_mutex_pre_unlock()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void lumex::core::atomic::sync::table_wait::Detail::tsan_mutex_pre_unlock </td>
-          <td>(</td>
-          <td class="paramtype">void *</td>          <td class="paramname"><span class="paramname"><em>address</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>ThreadSanitizer annotations of the lock word; no-ops in other builds.    </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">address</td><td>Address of the lock word.    </td></tr>
-  </table>
-  </dd>
-</dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00971_ae7b93d2510244fa9c6dfbd038fef1e35_cgraph.png" border="0" usemap="#aa00971_ae7b93d2510244fa9c6dfbd038fef1e35_cgraph" alt=""/></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00971_ae7b93d2510244fa9c6dfbd038fef1e35_icgraph.png" border="0" usemap="#aa00971_ae7b93d2510244fa9c6dfbd038fef1e35_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="a1639c5bbfd26c902c3942c785090b761" name="a1639c5bbfd26c902c3942c785090b761"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1639c5bbfd26c902c3942c785090b761">&#9670;&#160;</a></span>wait_until_changed()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void lumex::core::atomic::sync::table_wait::Detail::wait_until_changed </td>
-          <td>(</td>
-          <td class="paramtype">std::atomic&lt; std::uint32_t &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>word</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::uint32_t</td>          <td class="paramname"><span class="paramname"><em>old</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Blocks the calling thread while <code class="param">word</code> holds <code class="param">old</code>. </p>
-<p>The value is re-read under the stripe mutex, and the waking side changes the word before it takes that mutex, so a change made before the thread falls asleep is never missed. Returns once the word holds another value; wake-ups meant for other words of the stripe put the thread back to sleep. </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">word</td><td>The word to watch. </td></tr>
-    <tr><td class="paramname">old</td><td>The value the caller last saw. </td></tr>
-  </table>
-  </dd>
-</dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00971_a1639c5bbfd26c902c3942c785090b761_cgraph.png" border="0" usemap="#aa00971_a1639c5bbfd26c902c3942c785090b761_cgraph" alt=""/></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00971_a1639c5bbfd26c902c3942c785090b761_icgraph.png" border="0" usemap="#aa00971_a1639c5bbfd26c902c3942c785090b761_icgraph" alt=""/></div>
+<div class="center"><img src="a00971_a4ff8994ab54d107e5c4077786599a415_icgraph.png" border="0" usemap="#aa00971_a4ff8994ab54d107e5c4077786599a415_icgraph" alt=""/></div>
+<map name="aa00971_a4ff8994ab54d107e5c4077786599a415_icgraph" id="aa00971_a4ff8994ab54d107e5c4077786599a415_icgraph">
+<area shape="rect" title="Returns the only logger config format compiled into this target." alt="" coords="314,5,487,64"/>
+<area shape="rect" href="a01122.html#aab14961ea93b42c8867851c5113e6744" title=" " alt="" coords="103,13,266,56"/>
+<area shape="poly" title=" " alt="" coords="299,37,267,37,267,32,299,32"/>
+<area shape="rect" href="a00542.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,21,55,48"/>
+<area shape="poly" title=" " alt="" coords="87,37,55,37,55,32,87,32"/>
+</map>
 </div>
 
 </div>
@@ -595,7 +227,7 @@ Here is the caller graph for this function:</div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00912.html">lumex</a></li><li class="navelem"><a class="el" href="a00964.html">core</a></li><li class="navelem"><a class="el" href="a00965.html">atomic</a></li><li class="navelem"><a class="el" href="a00969.html">sync</a></li><li class="navelem"><a class="el" href="a00970.html">table_wait</a></li><li class="navelem"><a class="el" href="a00971.html">Detail</a></li>
+    <li class="navelem"><a class="el" href="a00948.html">lumex</a></li><li class="navelem"><a class="el" href="a00949.html">applied</a></li><li class="navelem"><a class="el" href="a00971.html">logger</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

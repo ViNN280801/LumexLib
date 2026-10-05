@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexStacktraceEntry.hpp File Reference</title>
+<title>LumexLib: DefaultPaths.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,74 +104,132 @@ $(function(){initNavTree('a00245.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
-<a href="#namespaces">Namespaces</a> &#124;
-<a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">LumexStacktraceEntry.hpp File Reference</div></div>
+<a href="#var-members">Variables</a>  </div>
+  <div class="headertitle"><div class="title">DefaultPaths.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Defines the <a class="el" href="a00239.html#a3f60ceab597bebfcc580c78610fb5712" title="Global alias for lumex::core::exceptions::stacktrace::LumexStacktraceEntry.">LumexStacktraceEntry</a> class, representing a single frame in a call stack.  
+<p>Default names used by the crash handling of <code>lumex::exceptions</code>: the crash directory and the file name prefixes.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="a00605_source.html">lumex/LumexExport.hpp</a>&quot;</code><br />
-<code>#include &lt;cstddef&gt;</code><br />
-<code>#include &lt;cstdint&gt;</code><br />
-<code>#include &lt;string&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00389_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="a00419_source.html">lumex/core/utility/macros/LumexConstantMacros.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for LumexStacktraceEntry.hpp:</div>
+Include dependency graph for DefaultPaths.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00246.png" border="0" usemap="#a_lumex_stacktrace_entry_8hpp" alt=""/></div>
+<div class="center"><img src="a00246.png" border="0" usemap="#a_default_paths_8hpp" alt=""/></div>
+<map name="a_default_paths_8hpp" id="a_default_paths_8hpp">
+<area shape="rect" title="Default names used by the crash handling of lumex::exceptions: the crash directory and the file name ..." alt="" coords="60,5,183,32"/>
+<area shape="rect" href="a00419.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="5,80,238,123"/>
+<area shape="poly" title=" " alt="" coords="124,32,124,65,119,65,119,32"/>
+<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="24,171,219,213"/>
+<area shape="poly" title=" " alt="" coords="124,123,124,155,119,155,119,123"/>
+</map>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00247.png" border="0" usemap="#a_lumex_stacktrace_entry_8hppdep" alt=""/></div>
+<div class="center"><img src="a00247.png" border="0" usemap="#a_default_paths_8hppdep" alt=""/></div>
+<map name="a_default_paths_8hppdep" id="a_default_paths_8hppdep">
+<area shape="rect" title="Default names used by the crash handling of lumex::exceptions: the crash directory and the file name ..." alt="" coords="192,5,314,32"/>
+<area shape="rect" href="a00248.html" title=" " alt="" coords="5,80,171,107"/>
+<area shape="poly" title=" " alt="" coords="212,41,118,82,116,77,209,36"/>
+<area shape="rect" href="a00905.html" title="Exceptions module: the LumexBaseException hierarchy, stack traces, a crash handler that writes minidu..." alt="" coords="194,80,312,107"/>
+<area shape="poly" title=" " alt="" coords="256,48,256,80,251,80,251,48"/>
+<area shape="rect" href="a00260.html" title=" " alt="" coords="336,80,480,107"/>
+<area shape="poly" title=" " alt="" coords="295,37,382,77,380,82,293,41"/>
+<area shape="rect" href="a00482.html" title=" " alt="" coords="81,163,247,189"/>
+<area shape="poly" title=" " alt="" coords="230,119,179,165,176,161,227,115"/>
+<area shape="rect" href="a00485.html" title=" " alt="" coords="271,155,412,197"/>
+<area shape="poly" title=" " alt="" coords="280,115,321,152,317,156,277,119"/>
+</map>
 </div>
 </div>
 <p><a href="a00245_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01826.html">lumex::core::exceptions::stacktrace::LumexStacktraceEntry</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents a single entry (frame) in a stacktrace.  <a href="a01826.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01830.html">std::hash&lt; lumex::core::exceptions::stacktrace::LumexStacktraceEntry &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Partial specialization of <code>std::hash</code> for <code><a class="el" href="a01826.html" title="Represents a single entry (frame) in a stacktrace.">lumex::core::exceptions::stacktrace::LumexStacktraceEntry</a></code>.  <a href="a01830.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
-Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00912.html">lumex</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00964.html">lumex::core</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00991.html">lumex::core::exceptions</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00997.html">lumex::core::exceptions::stacktrace</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00999.html">std</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:ac393a64f20f699be5771be27754b7764" id="r_ac393a64f20f699be5771be27754b7764"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00997.html#ac393a64f20f699be5771be27754b7764">lumex::core::exceptions::stacktrace::to_string</a> (<a class="el" href="a01826.html">LumexStacktraceEntry</a> const &amp;entry)</td></tr>
-<tr class="memdesc:ac393a64f20f699be5771be27754b7764"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts a <code><a class="el" href="a01826.html" title="Represents a single entry (frame) in a stacktrace.">LumexStacktraceEntry</a></code> object to its string representation.  <br /></td></tr>
-<tr class="separator:ac393a64f20f699be5771be27754b7764"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0bd82a52d7a211884100e7ef826da833" id="r_a0bd82a52d7a211884100e7ef826da833"><td class="memTemplParams" colspan="2">template&lt;typename CharT, typename Traits&gt; </td></tr>
-<tr class="memitem:a0bd82a52d7a211884100e7ef826da833"><td class="memTemplItemLeft" align="right" valign="top">std::basic_ostream&lt; CharT, Traits &gt; &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a00997.html#a0bd82a52d7a211884100e7ef826da833">lumex::core::exceptions::stacktrace::operator&lt;&lt;</a> (std::basic_ostream&lt; CharT, Traits &gt; &amp;oss, <a class="el" href="a01826.html">LumexStacktraceEntry</a> const &amp;entry)</td></tr>
-<tr class="memdesc:a0bd82a52d7a211884100e7ef826da833"><td class="mdescLeft">&#160;</td><td class="mdescRight">Overloads the <code>operator&lt;&lt;</code> for <code>std::basic_ostream</code> to print a <code><a class="el" href="a01826.html" title="Represents a single entry (frame) in a stacktrace.">LumexStacktraceEntry</a></code>.  <br /></td></tr>
-<tr class="separator:a0bd82a52d7a211884100e7ef826da833"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a76d3fe340fdd65a675c1306a96c4cb1b" id="r_a76d3fe340fdd65a675c1306a96c4cb1b"><td class="memItemLeft" align="right" valign="top">static constchar *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a76d3fe340fdd65a675c1306a96c4cb1b">constKDEFAULT_CRASHES_DIR_PATH</a> = &quot;crashes&quot;</td></tr>
+<tr class="separator:a76d3fe340fdd65a675c1306a96c4cb1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7065c3bba0af16ad9cec4753ab8f827d" id="r_a7065c3bba0af16ad9cec4753ab8f827d"><td class="memItemLeft" align="right" valign="top">static constchar *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7065c3bba0af16ad9cec4753ab8f827d">constKDEFAULT_MINIDUMP_PREFIX</a> = &quot;dump_&quot;</td></tr>
+<tr class="separator:a7065c3bba0af16ad9cec4753ab8f827d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac4bd42b32bfac3faf47e88519393fb1a" id="r_ac4bd42b32bfac3faf47e88519393fb1a"><td class="memItemLeft" align="right" valign="top">static constchar *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac4bd42b32bfac3faf47e88519393fb1a">constKDEFAULT_CRASH_REPORT_PREFIX</a> = &quot;crash_report_&quot;</td></tr>
+<tr class="separator:ac4bd42b32bfac3faf47e88519393fb1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Defines the <a class="el" href="a00239.html#a3f60ceab597bebfcc580c78610fb5712" title="Global alias for lumex::core::exceptions::stacktrace::LumexStacktraceEntry.">LumexStacktraceEntry</a> class, representing a single frame in a call stack. </p>
-<p>This header provides the declaration for the <code><a class="el" href="a00239.html#a3f60ceab597bebfcc580c78610fb5712" title="Global alias for lumex::core::exceptions::stacktrace::LumexStacktraceEntry.">LumexStacktraceEntry</a></code> class, which encapsulates information about one function call within a stack trace. This includes the raw memory address, and (lazily resolved) human-readable function name, source file path, and line number. It aims to provide an interface similar to the C++23 <code>std::stacktrace_entry</code>. </p>
-</div></div><!-- contents -->
+<div class="textblock"><p>Default names used by the crash handling of <code>lumex::exceptions</code>: the crash directory and the file name prefixes. </p>
+<p><code>KDEFAULT_CRASHES_DIR_PATH</code> ("crashes") is the directory next to the executable that <code><a class="el" href="a01893.html#a277f55eeecb20cecca099e0c63bd1559" title="Write a crash report to a file by pattern: &quot;crash_report_{timestamp}.txt&quot;.">LumexBaseException::to_crash_report()</a></code> writes to on every platform and that <code><a class="el" href="a00251.html#a17b15d4c3f44f0d6df60fe3d3fbdbd4c">LumexCrashHandler</a></code> writes dumps to on Windows. <code>KDEFAULT_MINIDUMP_PREFIX</code> ("dump_") starts the name of a dump file, and <code>KDEFAULT_CRASH_REPORT_PREFIX</code> ("crash_report_") the name of a crash report. The constants are declared at global scope. </p>
+</div><h2 class="groupheader">Variable Documentation</h2>
+<a id="ac4bd42b32bfac3faf47e88519393fb1a" name="ac4bd42b32bfac3faf47e88519393fb1a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac4bd42b32bfac3faf47e88519393fb1a">&#9670;&#160;</a></span>constKDEFAULT_CRASH_REPORT_PREFIX</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constchar* constKDEFAULT_CRASH_REPORT_PREFIX = &quot;crash_report_&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a76d3fe340fdd65a675c1306a96c4cb1b" name="a76d3fe340fdd65a675c1306a96c4cb1b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a76d3fe340fdd65a675c1306a96c4cb1b">&#9670;&#160;</a></span>constKDEFAULT_CRASHES_DIR_PATH</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constchar* constKDEFAULT_CRASHES_DIR_PATH = &quot;crashes&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7065c3bba0af16ad9cec4753ab8f827d" name="a7065c3bba0af16ad9cec4753ab8f827d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7065c3bba0af16ad9cec4753ab8f827d">&#9670;&#160;</a></span>constKDEFAULT_MINIDUMP_PREFIX</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constchar* constKDEFAULT_MINIDUMP_PREFIX = &quot;dump_&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_c5abfa2a5a0424f8cc91dab0edfcaee4.html">exceptions</a></li><li class="navelem"><a class="el" href="dir_a0b23f6384dc05edfed58978996640ca.html">stacktrace</a></li><li class="navelem"><a class="el" href="a00245.html">LumexStacktraceEntry.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_c5abfa2a5a0424f8cc91dab0edfcaee4.html">exceptions</a></li><li class="navelem"><a class="el" href="dir_5e607916477df1770f4b94662507e744.html">crash</a></li><li class="navelem"><a class="el" href="a00245.html">DefaultPaths.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

@@ -1,21 +1,19 @@
 var a01092 =
 [
-    [ "ast", "a01103.html", "a01103" ],
-    [ "constants", "a01104.html", "a01104" ],
-    [ "context", "a01106.html", "a01106" ],
-    [ "document", "a01107.html", "a01107" ],
-    [ "exception", "a01108.html", "a01108" ],
-    [ "memory", "a01109.html", "a01109" ],
-    [ "node", "a01093.html", "a01093" ],
-    [ "parser", "a01110.html", "a01110" ],
-    [ "query", "a01095.html", "a01095" ],
-    [ "string", "a01113.html", "a01113" ],
-    [ "utility", "a01114.html", [
-      [ "copy_xpath_variable", "a01114.html#a5664ce2a10255b6aca45326df60fcb8e", null ],
-      [ "xpath_first", "a01114.html#abb9de3a45c0762f05c942cebbd27e46a", null ],
-      [ "xpath_get_order", "a01114.html#a06d335726027c6477be96cb86f9e56ce", null ],
-      [ "xpath_sort", "a01114.html#a1cda3af8de6ebb42fc0186a350a138e1", null ]
-    ] ],
-    [ "variable", "a01094.html", "a01094" ],
-    [ "XPathQueryImpl", "a03098.html", "a03098" ]
+    [ "default_return", "a02517.html", "a02517" ],
+    [ "default_return< T * >", "a02525.html", "a02525" ],
+    [ "default_return< void >", "a02521.html", "a02521" ],
+    [ "has_type", "a02505.html", null ],
+    [ "has_type< T, void_t< typename T::type > >", "a02509.html", null ],
+    [ "indirection_of", "a02529.html", "a02529" ],
+    [ "indirection_of< T & >", "a02537.html", "a02537" ],
+    [ "indirection_of< T * >", "a02533.html", "a02533" ],
+    [ "make_void", "a02501.html", "a02501" ],
+    [ "type_identity", "a02513.html", "a02513" ],
+    [ "CleanType", "a01092.html#a05ad396a9f8ac20cc83c0a856aec1510", null ],
+    [ "CleanTypeOf", "a01092.html#adc02419d3b465284115ab8aeba6ec53d", null ],
+    [ "indirection_of_t", "a01092.html#a46f5c4d90e5f8ff4fa1fecccdf3bbb2f", null ],
+    [ "RemovePtr", "a01092.html#abd77a2242871400fb3bbb3a9ec30e895", null ],
+    [ "void_t", "a01092.html#ac89eed2501e6875f3f45fac66df7d004", null ],
+    [ "safe_cast", "a01092.html#a553ef5e6a8844ea79f5f8cef788a8388", null ]
 ];

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexOptional File Reference</title>
+<title>LumexLib: LumexSettings File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -103,34 +103,106 @@ $(function(){initNavTree('a00887.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">LumexOptional File Reference</div></div>
+  <div class="headertitle"><div class="title">LumexSettings File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Optional module: a C++11 implementation of the C++17 <code>std::optional</code>.  
+<p>Settings module: section, key and value configuration files in INI, JSON or XML behind one interface, plus a guard that restores default keys, backs up a corrupted file and validates values.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="a00290_source.html">opt/LumexOptional.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="a00173_source.html">interface/ILumexSettings.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00155_source.html">factory/LumexSettingsFactory.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00161_source.html">guard/LumexSettingsGuard.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00167_source.html">ini/LumexSettingsINI.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00170_source.html">ini/SupportedConfigExtensions.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00179_source.html">json/LumexSettingsJSON.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00185_source.html">xml/LumexSettingsXML.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for LumexOptional:</div>
+Include dependency graph for LumexSettings:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00888.png" border="0" usemap="#a_lumex_optional" alt=""/></div>
+<div class="center"><img src="a00888.png" border="0" usemap="#a_lumex_settings" alt=""/></div>
+<map name="a_lumex_settings" id="a_lumex_settings">
+<area shape="rect" title="Settings module: section, key and value configuration files in INI, JSON or XML behind one interface,..." alt="" coords="862,5,971,32"/>
+<area shape="rect" href="a00173.html" title="The interface every settings format implements: load, save, and get, add or remove a string value by ..." alt="" coords="821,163,1012,189"/>
+<area shape="poly" title=" " alt="" coords="919,33,919,147,914,147,914,33"/>
+<area shape="rect" href="a00155.html" title="Creates the ILumexSettings implementation for a configuration file format." alt="" coords="658,80,879,107"/>
+<area shape="poly" title=" " alt="" coords="892,35,809,75,807,70,890,30"/>
+<area shape="rect" href="a00170.html" title="The configuration file formats the settings module knows, used to select an implementation from Lumex..." alt="" coords="517,155,746,197"/>
+<area shape="poly" title=" " alt="" coords="863,27,739,46,683,62,662,71,648,82,639,94,634,109,630,140,625,139,629,107,635,92,644,78,659,67,681,57,738,41,862,22"/>
+<area shape="rect" href="a00161.html" title="Format&#45;agnostic backup/repair/validation layer built on top of ILumexSettings." alt="" coords="233,80,438,107"/>
+<area shape="poly" title=" " alt="" coords="862,29,453,80,452,75,862,24"/>
+<area shape="rect" href="a00167.html" title="ILumexSettings over INI files, parsed and written by the library itself." alt="" coords="954,80,1122,107"/>
+<area shape="poly" title=" " alt="" coords="939,30,1005,69,1002,74,936,35"/>
+<area shape="rect" href="a00179.html" title="ILumexSettings over JSON files, parsed and written with the vendored nlohmann/json." alt="" coords="1146,80,1343,107"/>
+<area shape="poly" title=" " alt="" coords="972,29,1173,74,1172,79,971,35"/>
+<area shape="rect" href="a00185.html" title="ILumexSettings over XML files, parsed and written with the library&#39;s own lumex::xml module." alt="" coords="1368,80,1553,107"/>
+<area shape="poly" title=" " alt="" coords="972,25,1353,75,1352,80,971,30"/>
+<area shape="rect" href="a00641.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="902,253,1064,280"/>
+<area shape="poly" title=" " alt="" coords="928,188,967,239,963,242,924,192"/>
+<area shape="rect" title=" " alt="" coords="190,253,243,280"/>
+<area shape="poly" title=" " alt="" coords="821,192,758,200,629,212,528,220,427,229,298,248,259,256,258,251,298,243,426,224,527,214,628,207,758,195,820,187"/>
+<area shape="poly" title=" " alt="" coords="793,105,882,153,879,157,791,110"/>
+<area shape="poly" title=" " alt="" coords="773,107,784,150,795,174,811,196,831,212,853,226,902,246,900,251,851,231,828,217,807,199,790,177,779,152,768,108"/>
+<area shape="rect" title=" " alt="" coords="424,163,492,189"/>
+<area shape="poly" title=" " alt="" coords="698,110,605,130,505,157,500,159,498,154,504,152,604,124,697,105"/>
+<area shape="poly" title=" " alt="" coords="749,109,681,149,678,144,746,105"/>
+<area shape="rect" title=" " alt="" coords="601,253,662,280"/>
+<area shape="poly" title=" " alt="" coords="634,198,634,238,629,238,629,198"/>
+<area shape="poly" title=" " alt="" coords="427,105,810,157,809,163,426,110"/>
+<area shape="poly" title=" " alt="" coords="343,106,368,151,388,175,413,195,438,204,482,212,607,229,887,255,886,261,607,235,481,218,436,209,410,200,384,179,364,154,338,108"/>
+<area shape="poly" title=" " alt="" coords="257,110,178,129,147,142,128,156,123,166,121,175,128,196,150,224,178,244,175,248,146,227,124,199,116,176,117,164,124,153,144,137,177,124,256,105"/>
+<area shape="poly" title=" " alt="" coords="356,105,428,152,425,156,353,109"/>
+<area shape="rect" title=" " alt="" coords="138,163,215,189"/>
+<area shape="poly" title=" " alt="" coords="312,110,216,158,214,153,309,105"/>
+<area shape="rect" title=" " alt="" coords="240,163,297,189"/>
+<area shape="poly" title=" " alt="" coords="327,109,290,153,286,149,323,105"/>
+<area shape="rect" title=" " alt="" coords="5,163,63,189"/>
+<area shape="poly" title=" " alt="" coords="269,110,180,130,83,157,77,159,76,154,81,152,179,125,268,105"/>
+<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="310,245,504,288"/>
+<area shape="poly" title=" " alt="" coords="341,106,352,147,370,196,388,231,384,234,365,198,347,149,336,108"/>
+<area shape="poly" title=" " alt="" coords="1021,109,949,156,946,152,1018,105"/>
+<area shape="poly" title=" " alt="" coords="1041,107,1038,148,1027,198,1004,242,999,239,1022,196,1033,148,1035,107"/>
+<area shape="rect" title=" " alt="" coords="1394,163,1504,189"/>
+<area shape="poly" title=" " alt="" coords="1103,105,1379,158,1378,164,1102,110"/>
+<area shape="rect" href="a00419.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="1087,155,1320,197"/>
+<area shape="poly" title=" " alt="" coords="1065,105,1149,145,1146,150,1063,110"/>
+<area shape="poly" title=" " alt="" coords="1087,193,1025,200,589,248,520,256,519,250,588,243,1024,195,1086,188"/>
+<area shape="poly" title=" " alt="" coords="1194,110,984,161,983,156,1192,105"/>
+<area shape="poly" title=" " alt="" coords="1278,105,1309,124,1323,138,1334,153,1342,177,1340,188,1333,199,1317,213,1293,225,1229,243,1154,255,1080,263,1080,257,1153,250,1228,237,1291,220,1314,208,1329,196,1335,186,1336,177,1329,156,1319,141,1305,128,1275,110"/>
+<area shape="poly" title=" " alt="" coords="1278,105,1404,154,1402,159,1276,110"/>
+<area shape="poly" title=" " alt="" coords="1241,108,1223,142,1218,140,1236,106"/>
+<area shape="poly" title=" " alt="" coords="1375,110,1018,162,1017,157,1375,105"/>
+<area shape="poly" title=" " alt="" coords="1478,105,1498,124,1516,148,1526,174,1524,187,1517,199,1495,211,1456,222,1342,240,1205,253,1080,262,1080,257,1205,248,1341,234,1455,217,1493,206,1513,195,1519,185,1520,175,1512,151,1494,128,1474,109"/>
+<area shape="poly" title=" " alt="" coords="1461,108,1455,148,1450,147,1456,107"/>
+<area shape="poly" title=" " alt="" coords="1421,110,1285,152,1283,147,1420,105"/>
+</map>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00889.png" border="0" usemap="#a_lumex_optionaldep" alt=""/></div>
+<div class="center"><img src="a00889.png" border="0" usemap="#a_lumex_settingsdep" alt=""/></div>
+<map name="a_lumex_settingsdep" id="a_lumex_settingsdep">
+<area shape="rect" title="Settings module: section, key and value configuration files in INI, JSON or XML behind one interface,..." alt="" coords="321,5,430,32"/>
+<area shape="rect" href="a00587.html" title=" " alt="" coords="5,80,154,107"/>
+<area shape="poly" title=" " alt="" coords="309,39,132,82,131,77,308,34"/>
+<area shape="rect" href="a00590.html" title=" " alt="" coords="178,80,357,107"/>
+<area shape="poly" title=" " alt="" coords="346,43,288,82,285,77,343,39"/>
+<area shape="rect" href="a00593.html" title=" " alt="" coords="382,80,588,107"/>
+<area shape="poly" title=" " alt="" coords="409,39,467,77,464,82,406,43"/>
+<area shape="rect" href="a00596.html" title=" " alt="" coords="613,80,789,107"/>
+<area shape="poly" title=" " alt="" coords="446,33,645,77,644,82,445,38"/>
+</map>
 </div>
 </div>
 <p><a href="a00887_source.html">Go to the source code of this file.</a></p>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Optional module: a C++11 implementation of the C++17 <code>std::optional</code>. </p>
-<p>Link <code>lumex::optional</code> (header-only). Works from C++11. The umbrella includes <code><a class="el" href="a00290.html" title="C++11 implementation of std::optional (C++17 feature) providing a type-safe nullable value container.">opt/LumexOptional.hpp</a></code>. </p>
+<div class="textblock"><p>Settings module: section, key and value configuration files in INI, JSON or XML behind one interface, plus a guard that restores default keys, backs up a corrupted file and validates values. </p>
+<p>Link <code>lumex::settings</code> (compiled library). Works from C++11. INI is always available; XML when <code>lumex::xml</code> is part of the build (<code>LUMEX_SETTINGS_WITH_XML</code>), JSON when the vendored nlohmann/json header is present (<code>LUMEX_SETTINGS_WITH_JSON</code>). The umbrella includes the interface (<code><a class="el" href="a00173.html" title="The interface every settings format implements: load, save, and get, add or remove a string value by ...">interface/ILumexSettings.hpp</a></code>), the factory, the guard, and the INI, JSON and XML implementations. </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_9669aebcb67621c55bde5b6a59fa609b.html">optional</a></li><li class="navelem"><a class="el" href="a00887.html">LumexOptional</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_de45db85bd98abf883bc2bd6c3907fd8.html">applied</a></li><li class="navelem"><a class="el" href="dir_9258c4c02d6a33184acee8f108260d77.html">settings</a></li><li class="navelem"><a class="el" href="a00887.html">LumexSettings</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

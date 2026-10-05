@@ -1,6 +1,6 @@
 var a00806 =
 [
-    [ "lumex::xml::xpath::string::XPathString", "a03102.html", "a03102" ],
-    [ "lumex::xml::xpath::string::convert_number_to_string", "a01113.html#a09b352423a07394eefab94c87fa06b09", null ],
-    [ "lumex::xml::xpath::string::string_value", "a01113.html#acecf345205af2a10267ea4715f789fc1", null ]
+    [ "lumex::xml::xpath::node::XPathNodeSet", "a03149.html", "a03149" ],
+    [ "lumex::xml::xpath::node::XPathNodeSetRaw", "a03153.html", "a03153" ],
+    [ "lumex::xml::xpath::node::dummy_node_set", "a01136.html#ae25bb9cdc14472d3df8176c4529130bf", null ]
 ];

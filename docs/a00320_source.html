@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexStringView.hpp Source File</title>
+<title>LumexLib: LumexMathConstants.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -103,7 +103,7 @@ $(function(){initNavTree('a00320_source.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">LumexStringView.hpp</div></div>
+  <div class="headertitle"><div class="title">LumexMathConstants.hpp</div></div>
 </div><!--header-->
 <div class="contents">
 <a href="a00320.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">/*</span></div>
@@ -144,546 +144,124 @@ $(function(){initNavTree('a00320_source.html',''); initResizable(true); });
 <div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="comment"> * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE</span></div>
 <div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="comment"> * SOFTWARE.</span></div>
 <div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="comment"> */</span></div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span></div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span><span class="preprocessor">#ifndef LUMEX_CORE_STRING_VIEW_VIEW_STRING_VIEW_HPP</span></div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="preprocessor">#define LUMEX_CORE_STRING_VIEW_VIEW_STRING_VIEW_HPP</span></div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><span class="preprocessor">#if defined(__clang__)</span></div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span><span class="preprocessor">#pragma clang diagnostic push</span></div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wpadded&quot;</span></div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wunsafe-buffer-usage&quot;</span></div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span><span class="preprocessor">#if __has_warning(&quot;-Wunsafe-buffer-usage-in-libc-call&quot;)</span></div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wunsafe-buffer-usage-in-libc-call&quot;</span></div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wcovered-switch-default&quot;</span></div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wswitch-enum&quot;</span></div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span><span class="preprocessor">#if __has_warning(&quot;-Wnrvo&quot;)</span></div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wnrvo&quot;</span></div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wheader-hygiene&quot;</span></div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wused-but-marked-unused&quot;</span></div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wundefined-var-template&quot;</span></div>
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wdeprecated-redundant-constexpr-static-def&quot;</span></div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span><span class="preprocessor">#if __has_warning(&quot;-Wvariadic-macro-arguments-omitted&quot;)</span></div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wvariadic-macro-arguments-omitted&quot;</span></div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wunused-result&quot;</span></div>
-<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wextra-semi-stmt&quot;</span></div>
-<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wexpansion-to-defined&quot;</span></div>
-<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wexit-time-destructors&quot;</span></div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wundefined-func-template&quot;</span></div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wfloat-equal&quot;</span></div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span> </div>
-<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span><span class="preprocessor">#include &quot;<a class="code" href="a00605.html">lumex/LumexExport.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span> </div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span><span class="preprocessor">#include &lt;cstddef&gt;</span>  <span class="comment">// std::size_t, std::ptrdiff_t</span></div>
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span><span class="preprocessor">#include &lt;cstring&gt;</span>  <span class="comment">// std::strlen, std::memcmp</span></div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span><span class="preprocessor">#include &lt;iterator&gt;</span> <span class="comment">// std::reverse_iterator</span></div>
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span><span class="preprocessor">#include &lt;ostream&gt;</span>  <span class="comment">// std::ostream</span></div>
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span><span class="preprocessor">#include &lt;string&gt;</span>   <span class="comment">// std::string</span></div>
-<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span> </div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span><span class="preprocessor">#include &quot;<a class="code" href="a00353.html">lumex/core/utility/attr/LumexAttributes.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span><span class="preprocessor">#include &quot;<a class="code" href="a00389.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span> </div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a00912.html">lumex</a> <span class="comment">// NOLINT(modernize-concat-nested-namespaces)</span></div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>{</div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a00964.html">core</a></div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>{</div>
-<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01028.html">string_view</a></div>
-<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>{</div>
-<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01029.html">view</a></div>
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>{</div>
-<div class="foldopen" id="foldopen00127" data-start="{" data-end="};">
-<div class="line"><a id="l00127" name="l00127"></a><span class="lineno"><a class="line" href="a02326.html">  127</a></span><span class="keyword">class </span><a class="code hl_define" href="a00605.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a> <a class="code hl_function" href="a02326.html#a19a5de629fbc720c5672939d15254aa5">LumexStringView</a></div>
-<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>{</div>
-<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span><span class="keyword">public</span>:</div>
-<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>  <span class="comment">// -- Public type aliases --</span></div>
-<div class="line"><a id="l00134" name="l00134"></a><span class="lineno"><a class="line" href="a02326.html#a1e88e631b6bb7fecbabc0013c70b7089">  134</a></span>  <span class="keyword">using </span><a class="code hl_typedef" href="a02326.html#a1e88e631b6bb7fecbabc0013c70b7089">value_type</a> = char;</div>
-<div class="line"><a id="l00138" name="l00138"></a><span class="lineno"><a class="line" href="a02326.html#af258b1cd5c488b96ab11eb840b089f87">  138</a></span>  <span class="keyword">using </span><a class="code hl_typedef" href="a02326.html#af258b1cd5c488b96ab11eb840b089f87">pointer</a> = <span class="keywordtype">char</span> <span class="keyword">const</span> *;</div>
-<div class="line"><a id="l00142" name="l00142"></a><span class="lineno"><a class="line" href="a02326.html#a213bd42f164e17b5595f615cd8fec107">  142</a></span>  <span class="keyword">using </span><a class="code hl_typedef" href="a02326.html#a213bd42f164e17b5595f615cd8fec107">const_pointer</a> = <span class="keywordtype">char</span> <span class="keyword">const</span> *;</div>
-<div class="line"><a id="l00146" name="l00146"></a><span class="lineno"><a class="line" href="a02326.html#ac381aeaf6b2826e1e10d323c088350f3">  146</a></span>  <span class="keyword">using </span><a class="code hl_typedef" href="a02326.html#ac381aeaf6b2826e1e10d323c088350f3">reference</a> = <span class="keywordtype">char</span> <span class="keyword">const</span> &amp;;</div>
-<div class="line"><a id="l00150" name="l00150"></a><span class="lineno"><a class="line" href="a02326.html#a8d3cc20492304ff97664ca64804702b3">  150</a></span>  <span class="keyword">using </span><a class="code hl_typedef" href="a02326.html#a8d3cc20492304ff97664ca64804702b3">const_reference</a> = <span class="keywordtype">char</span> <span class="keyword">const</span> &amp;;</div>
-<div class="line"><a id="l00156" name="l00156"></a><span class="lineno"><a class="line" href="a02326.html#a7a13b6b21dfec4a5adde64c4cf030b09">  156</a></span>  <span class="keyword">using </span><a class="code hl_typedef" href="a02326.html#a7a13b6b21dfec4a5adde64c4cf030b09">iterator</a> = <a class="code hl_typedef" href="a02326.html#a213bd42f164e17b5595f615cd8fec107">const_pointer</a>; <span class="comment">// iterator == const_iterator</span></div>
-<div class="line"><a id="l00160" name="l00160"></a><span class="lineno"><a class="line" href="a02326.html#a5ca00b4f78b137afee0176ad28613f5f">  160</a></span>  <span class="keyword">using </span><a class="code hl_typedef" href="a02326.html#a5ca00b4f78b137afee0176ad28613f5f">const_iterator</a> = <a class="code hl_typedef" href="a02326.html#a213bd42f164e17b5595f615cd8fec107">const_pointer</a>;</div>
-<div class="line"><a id="l00164" name="l00164"></a><span class="lineno"><a class="line" href="a02326.html#a334ab7c6f71d6ae0e38cb74f6296bf3b">  164</a></span>  <span class="keyword">using </span><a class="code hl_typedef" href="a02326.html#a334ab7c6f71d6ae0e38cb74f6296bf3b">reverse_iterator</a> = std::reverse_iterator&lt;const_pointer&gt;;</div>
-<div class="line"><a id="l00168" name="l00168"></a><span class="lineno"><a class="line" href="a02326.html#a13df646e3be5c0590c8f3ae8a670c78a">  168</a></span>  <span class="keyword">using </span><a class="code hl_typedef" href="a02326.html#a13df646e3be5c0590c8f3ae8a670c78a">const_reverse_iterator</a> = std::reverse_iterator&lt;const_pointer&gt;;</div>
-<div class="line"><a id="l00172" name="l00172"></a><span class="lineno"><a class="line" href="a02326.html#a325d72880bfc3306bcaba8043559b438">  172</a></span>  <span class="keyword">using </span><a class="code hl_typedef" href="a02326.html#a325d72880bfc3306bcaba8043559b438">size_type</a> = std::size_t;</div>
-<div class="line"><a id="l00176" name="l00176"></a><span class="lineno"><a class="line" href="a02326.html#af6b0a30e308af23d67edea2c6aa5186e">  176</a></span>  <span class="keyword">using </span><a class="code hl_typedef" href="a02326.html#af6b0a30e308af23d67edea2c6aa5186e">difference_type</a> = std::ptrdiff_t;</div>
-<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span></div>
-<div class="line"><a id="l00184" name="l00184"></a><span class="lineno"><a class="line" href="a02326.html#a68725ebaec8bb90052cdcc500c56f885">  184</a></span>  <span class="keyword">static</span> <a class="code hl_typedef" href="a02326.html#a325d72880bfc3306bcaba8043559b438">size_type</a> <span class="keyword">const</span> <a class="code hl_variable" href="a02326.html#a68725ebaec8bb90052cdcc500c56f885">npos</a> = <span class="keyword">static_cast&lt;</span><a class="code hl_typedef" href="a02326.html#a325d72880bfc3306bcaba8043559b438">size_type</a><span class="keyword">&gt;</span> (-1);</div>
-<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span> </div>
-<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>  <span class="comment">// -- Construction / assignment --</span></div>
-<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>  <a class="code hl_define" href="a00389.html#a8aac503affc067676ceedfe24f4c3357">LUMEX_CONSTEXPR_CTOR</a></div>
-<div class="line"><a id="l00194" name="l00194"></a><span class="lineno"><a class="line" href="a02326.html#a19a5de629fbc720c5672939d15254aa5">  194</a></span>  <a class="code hl_function" href="a02326.html#a19a5de629fbc720c5672939d15254aa5">LumexStringView</a> () <a class="code hl_define" href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a> : m_data (<span class="keywordtype">nullptr</span>), m_size (0) {}</div>
-<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span></div>
-<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span>  <a class="code hl_typedef" href="a00320.html#a27778c0df3cb97e862cd47d3f966ec26">LumexStringView</a> (<span class="keywordtype">char</span> <span class="keyword">const</span> *str)</div>
-<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span>      <a class="code hl_define" href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a>; <span class="comment">// NOLINT(google-explicit-constructor)</span></div>
-<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span></div>
-<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>  <a class="code hl_define" href="a00389.html#a8aac503affc067676ceedfe24f4c3357">LUMEX_CONSTEXPR_CTOR</a></div>
-<div class="foldopen" id="foldopen00225" data-start="{" data-end="}">
-<div class="line"><a id="l00225" name="l00225"></a><span class="lineno"><a class="line" href="a02326.html#a38032f1f81e9ddf8d44330b2cfe7c657">  225</a></span>  <a class="code hl_function" href="a02326.html#a38032f1f81e9ddf8d44330b2cfe7c657">LumexStringView</a> (<span class="keywordtype">char</span> <span class="keyword">const</span> *str, <a class="code hl_typedef" href="a02326.html#a325d72880bfc3306bcaba8043559b438">size_type</a> len) <a class="code hl_define" href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
-<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>      : m_data (str),</div>
-<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>        m_size (len)</div>
-<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>  {</div>
-<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span>  }</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span><span class="preprocessor">#ifndef LUMEX_CORE_MATH_CONSTANTS_HPP</span></div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span><span class="preprocessor">#define LUMEX_CORE_MATH_CONSTANTS_HPP</span></div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span></div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="comment">// 50 digits precision</span></div>
+<div class="foldopen" id="foldopen00052" data-start="" data-end="">
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno"><a class="line" href="a00320.html#a90c8706d5ca0db2bdfc18ba319992a14">   52</a></span><span class="preprocessor">#define LUMEX_MATH_CONSTANTS_PI                                               \</span></div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="preprocessor">  3.14159265358979323846264338327950288419716939937510</span></div>
 </div>
-<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span></div>
-<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span>  <a class="code hl_define" href="a00389.html#a8aac503affc067676ceedfe24f4c3357">LUMEX_CONSTEXPR_CTOR</a></div>
-<div class="line"><a id="l00240" name="l00240"></a><span class="lineno"><a class="line" href="a02326.html#a54b320087fa4cad5bddf291d173564cb">  240</a></span>  <a class="code hl_function" href="a02326.html#a54b320087fa4cad5bddf291d173564cb">LumexStringView</a> (<a class="code hl_function" href="a02326.html#a19a5de629fbc720c5672939d15254aa5">LumexStringView</a> <span class="keyword">const</span> &amp;other) <a class="code hl_define" href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a> = <span class="keywordflow">default</span>;</div>
-<div class="line"><a id="l00250" name="l00250"></a><span class="lineno"><a class="line" href="a02326.html#a6eed85535ef1f924b1ac79fe5346a4b1">  250</a></span>  <a class="code hl_function" href="a02326.html#a19a5de629fbc720c5672939d15254aa5">LumexStringView</a> &amp;operator= (<a class="code hl_function" href="a02326.html#a19a5de629fbc720c5672939d15254aa5">LumexStringView</a> <span class="keyword">const</span> &amp;other) <a class="code hl_define" href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
-<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>      = <span class="keywordflow">default</span>;</div>
-<div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span>  <a class="code hl_define" href="a00389.html#a8aac503affc067676ceedfe24f4c3357">LUMEX_CONSTEXPR_CTOR</a></div>
-<div class="line"><a id="l00261" name="l00261"></a><span class="lineno"><a class="line" href="a02326.html#a4bc32ed0ff660f6dce06a6f8b8a44d46">  261</a></span>  <a class="code hl_function" href="a02326.html#a4bc32ed0ff660f6dce06a6f8b8a44d46">LumexStringView</a> (<a class="code hl_function" href="a02326.html#a19a5de629fbc720c5672939d15254aa5">LumexStringView</a> &amp;&amp;other) <a class="code hl_define" href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a> = <span class="keywordflow">default</span>;</div>
-<div class="line"><a id="l00271" name="l00271"></a><span class="lineno"><a class="line" href="a02326.html#a0072f7fa819fa01b69a8fba1272054b8">  271</a></span>  <a class="code hl_function" href="a02326.html#a19a5de629fbc720c5672939d15254aa5">LumexStringView</a> &amp;operator= (<a class="code hl_function" href="a02326.html#a19a5de629fbc720c5672939d15254aa5">LumexStringView</a> &amp;&amp;other) <a class="code hl_define" href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
-<div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span>      = <span class="keywordflow">default</span>;</div>
-<div class="line"><a id="l00279" name="l00279"></a><span class="lineno"><a class="line" href="a02326.html#a183e1da564e68349301f2eb4d16fc4ac">  279</a></span>  <a class="code hl_function" href="a02326.html#a183e1da564e68349301f2eb4d16fc4ac">~LumexStringView</a> () = <span class="keywordflow">default</span>;</div>
-<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span> </div>
-<div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span>  <span class="comment">// -- Iterator support --</span></div>
-<div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span>  <a class="code hl_define" href="a00353.html#af6aeadbda428235a14f147ade9783f8f">LUMEX_ATTRIBUTE_NODISCARD</a> (</div>
-<div class="line"><a id="l00289" name="l00289"></a><span class="lineno">  289</span>      <span class="stringliteral">&quot;It is not recommended to ignore return value of begin()&quot;</span>)</div>
-<div class="line"><a id="l00290" name="l00290"></a><span class="lineno">  290</span>  <a class="code hl_define" href="a00389.html#a1513006a1992e7dc9cc43b2e081cc33f">LUMEX_CONSTEXPR</a> <a class="code hl_typedef" href="a02326.html#a5ca00b4f78b137afee0176ad28613f5f">const_iterator</a></div>
-<div class="foldopen" id="foldopen00291" data-start="{" data-end="}">
-<div class="line"><a id="l00291" name="l00291"></a><span class="lineno"><a class="line" href="a02326.html#acb2bdd79e0f056f9231f4127008b8866">  291</a></span>  <a class="code hl_function" href="a02326.html#acb2bdd79e0f056f9231f4127008b8866">begin</a> () const <a class="code hl_define" href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
-<div class="line"><a id="l00292" name="l00292"></a><span class="lineno">  292</span>  {</div>
-<div class="line"><a id="l00293" name="l00293"></a><span class="lineno">  293</span>    <span class="keywordflow">return</span> m_data;</div>
-<div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span>  }</div>
+<div class="foldopen" id="foldopen00054" data-start="" data-end="">
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno"><a class="line" href="a00320.html#a19da021499da8bb1b451b3fddc8fb557">   54</a></span><span class="preprocessor">#define LUMEX_MATH_CONSTANTS_EULER_NUMBER                                     \</span></div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span><span class="preprocessor">  2.71828182845904523536028747135266249775724709369995</span></div>
 </div>
-<div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span></div>
-<div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span>  <a class="code hl_define" href="a00353.html#af6aeadbda428235a14f147ade9783f8f">LUMEX_ATTRIBUTE_NODISCARD</a> (</div>
-<div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span>      <span class="stringliteral">&quot;It is not recommended to ignore return value of cbegin()&quot;</span>)</div>
-<div class="line"><a id="l00305" name="l00305"></a><span class="lineno">  305</span>  <a class="code hl_define" href="a00389.html#a1513006a1992e7dc9cc43b2e081cc33f">LUMEX_CONSTEXPR</a> const_iterator</div>
-<div class="foldopen" id="foldopen00306" data-start="{" data-end="}">
-<div class="line"><a id="l00306" name="l00306"></a><span class="lineno"><a class="line" href="a02326.html#a4b140468ae990a900e9419484f5747eb">  306</a></span>  <a class="code hl_function" href="a02326.html#a4b140468ae990a900e9419484f5747eb">cbegin</a> () const <a class="code hl_define" href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
-<div class="line"><a id="l00307" name="l00307"></a><span class="lineno">  307</span>  {</div>
-<div class="line"><a id="l00308" name="l00308"></a><span class="lineno">  308</span>    <span class="keywordflow">return</span> m_data;</div>
-<div class="line"><a id="l00309" name="l00309"></a><span class="lineno">  309</span>  }</div>
+<div class="foldopen" id="foldopen00056" data-start="" data-end="">
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno"><a class="line" href="a00320.html#ae463bd7911974e01edea620fd45b83c5">   56</a></span><span class="preprocessor">#define LUMEX_MATH_CONSTANTS_GOLDEN_RATIO                                     \</span></div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="preprocessor">  1.61803398874989484820458683436563811772030917980576</span></div>
 </div>
-<div class="line"><a id="l00310" name="l00310"></a><span class="lineno">  310</span></div>
-<div class="line"><a id="l00320" name="l00320"></a><span class="lineno">  320</span>  <a class="code hl_define" href="a00353.html#af6aeadbda428235a14f147ade9783f8f">LUMEX_ATTRIBUTE_NODISCARD</a> (</div>
-<div class="line"><a id="l00321" name="l00321"></a><span class="lineno">  321</span>      <span class="stringliteral">&quot;It is not recommended to ignore return value of end()&quot;</span>)</div>
-<div class="line"><a id="l00322" name="l00322"></a><span class="lineno">  322</span>  <a class="code hl_define" href="a00389.html#a1513006a1992e7dc9cc43b2e081cc33f">LUMEX_CONSTEXPR</a> const_iterator</div>
-<div class="foldopen" id="foldopen00323" data-start="{" data-end="}">
-<div class="line"><a id="l00323" name="l00323"></a><span class="lineno"><a class="line" href="a02326.html#aa1bc8b1cb2c1fca19b07a596bcb1471c">  323</a></span>  <a class="code hl_function" href="a02326.html#aa1bc8b1cb2c1fca19b07a596bcb1471c">end</a> () const <a class="code hl_define" href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
-<div class="line"><a id="l00324" name="l00324"></a><span class="lineno">  324</span>  {</div>
-<div class="line"><a id="l00325" name="l00325"></a><span class="lineno">  325</span>    <span class="keywordflow">return</span> m_data</div>
-<div class="line"><a id="l00326" name="l00326"></a><span class="lineno">  326</span>           + m_size; <span class="comment">// NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)</span></div>
-<div class="line"><a id="l00327" name="l00327"></a><span class="lineno">  327</span>  }</div>
+<div class="foldopen" id="foldopen00058" data-start="" data-end="">
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno"><a class="line" href="a00320.html#aba10c6bd3213d21a2c30a477b3f0c70f">   58</a></span><span class="preprocessor">#define LUMEX_MATH_CONSTANTS_SILVER_RATIO                                     \</span></div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="preprocessor">  2.41421356237309504880168872420969807856967187537694</span></div>
 </div>
-<div class="line"><a id="l00328" name="l00328"></a><span class="lineno">  328</span></div>
-<div class="line"><a id="l00337" name="l00337"></a><span class="lineno">  337</span>  <a class="code hl_define" href="a00353.html#af6aeadbda428235a14f147ade9783f8f">LUMEX_ATTRIBUTE_NODISCARD</a> (</div>
-<div class="line"><a id="l00338" name="l00338"></a><span class="lineno">  338</span>      <span class="stringliteral">&quot;It is not recommended to ignore return value of cend()&quot;</span>)</div>
-<div class="line"><a id="l00339" name="l00339"></a><span class="lineno">  339</span>  <a class="code hl_define" href="a00389.html#a1513006a1992e7dc9cc43b2e081cc33f">LUMEX_CONSTEXPR</a> const_iterator</div>
-<div class="foldopen" id="foldopen00340" data-start="{" data-end="}">
-<div class="line"><a id="l00340" name="l00340"></a><span class="lineno"><a class="line" href="a02326.html#a26506e58202dc9d20bdda5ea19ccf0ce">  340</a></span>  <a class="code hl_function" href="a02326.html#a26506e58202dc9d20bdda5ea19ccf0ce">cend</a> () const <a class="code hl_define" href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
-<div class="line"><a id="l00341" name="l00341"></a><span class="lineno">  341</span>  {</div>
-<div class="line"><a id="l00342" name="l00342"></a><span class="lineno">  342</span>    <span class="keywordflow">return</span> m_data</div>
-<div class="line"><a id="l00343" name="l00343"></a><span class="lineno">  343</span>           + m_size; <span class="comment">// NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)</span></div>
-<div class="line"><a id="l00344" name="l00344"></a><span class="lineno">  344</span>  }</div>
+<div class="foldopen" id="foldopen00060" data-start="" data-end="">
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno"><a class="line" href="a00320.html#a01815a919ddc9f8bcc22aa6f8ac19bcd">   60</a></span><span class="preprocessor">#define LUMEX_MATH_CONSTANTS_EULER_MASCHERONI                                 \</span></div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><span class="preprocessor">  0.57721566490153286060651209008240243104215933593992</span></div>
 </div>
-<div class="line"><a id="l00345" name="l00345"></a><span class="lineno">  345</span></div>
-<div class="line"><a id="l00354" name="l00354"></a><span class="lineno">  354</span>  <a class="code hl_define" href="a00353.html#af6aeadbda428235a14f147ade9783f8f">LUMEX_ATTRIBUTE_NODISCARD</a> (</div>
-<div class="line"><a id="l00355" name="l00355"></a><span class="lineno">  355</span>      <span class="stringliteral">&quot;It is not recommended to ignore return value of rbegin()&quot;</span>)</div>
-<div class="line"><a id="l00356" name="l00356"></a><span class="lineno">  356</span>  const_reverse_iterator rbegin () const <a class="code hl_define" href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a>;</div>
-<div class="line"><a id="l00357" name="l00357"></a><span class="lineno">  357</span></div>
-<div class="line"><a id="l00365" name="l00365"></a><span class="lineno">  365</span>  <a class="code hl_define" href="a00353.html#af6aeadbda428235a14f147ade9783f8f">LUMEX_ATTRIBUTE_NODISCARD</a> (</div>
-<div class="line"><a id="l00366" name="l00366"></a><span class="lineno">  366</span>      <span class="stringliteral">&quot;It is not recommended to ignore return value of crbegin()&quot;</span>)</div>
-<div class="line"><a id="l00367" name="l00367"></a><span class="lineno">  367</span>  const_reverse_iterator crbegin () const <a class="code hl_define" href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a>;</div>
-<div class="line"><a id="l00368" name="l00368"></a><span class="lineno">  368</span></div>
-<div class="line"><a id="l00379" name="l00379"></a><span class="lineno">  379</span>  <a class="code hl_define" href="a00353.html#af6aeadbda428235a14f147ade9783f8f">LUMEX_ATTRIBUTE_NODISCARD</a> (</div>
-<div class="line"><a id="l00380" name="l00380"></a><span class="lineno">  380</span>      <span class="stringliteral">&quot;It is not recommended to ignore return value of rend()&quot;</span>)</div>
-<div class="line"><a id="l00381" name="l00381"></a><span class="lineno">  381</span>  const_reverse_iterator rend () const <a class="code hl_define" href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a>;</div>
-<div class="line"><a id="l00382" name="l00382"></a><span class="lineno">  382</span></div>
-<div class="line"><a id="l00392" name="l00392"></a><span class="lineno">  392</span>  <a class="code hl_define" href="a00353.html#af6aeadbda428235a14f147ade9783f8f">LUMEX_ATTRIBUTE_NODISCARD</a> (</div>
-<div class="line"><a id="l00393" name="l00393"></a><span class="lineno">  393</span>      <span class="stringliteral">&quot;It is not recommended to ignore return value of crend()&quot;</span>)</div>
-<div class="line"><a id="l00394" name="l00394"></a><span class="lineno">  394</span>  const_reverse_iterator crend () const <a class="code hl_define" href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a>;</div>
-<div class="line"><a id="l00395" name="l00395"></a><span class="lineno">  395</span> </div>
-<div class="line"><a id="l00396" name="l00396"></a><span class="lineno">  396</span>  <span class="comment">// -- Capacity --</span></div>
-<div class="line"><a id="l00403" name="l00403"></a><span class="lineno">  403</span>  <a class="code hl_define" href="a00353.html#af6aeadbda428235a14f147ade9783f8f">LUMEX_ATTRIBUTE_NODISCARD</a> (</div>
-<div class="line"><a id="l00404" name="l00404"></a><span class="lineno">  404</span>      <span class="stringliteral">&quot;It is not recommended to ignore return value of size()&quot;</span>)</div>
-<div class="line"><a id="l00405" name="l00405"></a><span class="lineno">  405</span>  <a class="code hl_define" href="a00389.html#a1513006a1992e7dc9cc43b2e081cc33f">LUMEX_CONSTEXPR</a> size_type</div>
-<div class="foldopen" id="foldopen00406" data-start="{" data-end="}">
-<div class="line"><a id="l00406" name="l00406"></a><span class="lineno"><a class="line" href="a02326.html#a3b362d2a08291aa7660f069ca1ffe6d0">  406</a></span>  <a class="code hl_function" href="a02326.html#a3b362d2a08291aa7660f069ca1ffe6d0">size</a> () const <a class="code hl_define" href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
-<div class="line"><a id="l00407" name="l00407"></a><span class="lineno">  407</span>  {</div>
-<div class="line"><a id="l00408" name="l00408"></a><span class="lineno">  408</span>    <span class="keywordflow">return</span> m_size;</div>
-<div class="line"><a id="l00409" name="l00409"></a><span class="lineno">  409</span>  }</div>
+<div class="foldopen" id="foldopen00062" data-start="" data-end="">
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno"><a class="line" href="a00320.html#aa3bce4463ada8aec1f335bc22ea4ac37">   62</a></span><span class="preprocessor">#define LUMEX_MATH_CONSTANTS_SQRT_2                                           \</span></div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span><span class="preprocessor">  1.41421356237309504880168872420969807856967187537694</span></div>
 </div>
-<div class="line"><a id="l00410" name="l00410"></a><span class="lineno">  410</span></div>
-<div class="line"><a id="l00418" name="l00418"></a><span class="lineno">  418</span>  <a class="code hl_define" href="a00353.html#af6aeadbda428235a14f147ade9783f8f">LUMEX_ATTRIBUTE_NODISCARD</a> (</div>
-<div class="line"><a id="l00419" name="l00419"></a><span class="lineno">  419</span>      <span class="stringliteral">&quot;It is not recommended to ignore return value of length()&quot;</span>)</div>
-<div class="line"><a id="l00420" name="l00420"></a><span class="lineno">  420</span>  <a class="code hl_define" href="a00389.html#a1513006a1992e7dc9cc43b2e081cc33f">LUMEX_CONSTEXPR</a> size_type</div>
-<div class="foldopen" id="foldopen00421" data-start="{" data-end="}">
-<div class="line"><a id="l00421" name="l00421"></a><span class="lineno"><a class="line" href="a02326.html#ab9e364978cfd85cfac95f913eef0fda5">  421</a></span>  <a class="code hl_function" href="a02326.html#ab9e364978cfd85cfac95f913eef0fda5">length</a> () const <a class="code hl_define" href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
-<div class="line"><a id="l00422" name="l00422"></a><span class="lineno">  422</span>  {</div>
-<div class="line"><a id="l00423" name="l00423"></a><span class="lineno">  423</span>    <span class="keywordflow">return</span> m_size;</div>
-<div class="line"><a id="l00424" name="l00424"></a><span class="lineno">  424</span>  }</div>
+<div class="foldopen" id="foldopen00064" data-start="" data-end="">
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno"><a class="line" href="a00320.html#abe793637b3b3e52d88c1e4093a110e5f">   64</a></span><span class="preprocessor">#define LUMEX_MATH_CONSTANTS_SQRT_3                                           \</span></div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span><span class="preprocessor">  1.73205080756887729352744634150587236694280525381038</span></div>
 </div>
-<div class="line"><a id="l00425" name="l00425"></a><span class="lineno">  425</span></div>
-<div class="line"><a id="l00432" name="l00432"></a><span class="lineno">  432</span>  <a class="code hl_define" href="a00353.html#af6aeadbda428235a14f147ade9783f8f">LUMEX_ATTRIBUTE_NODISCARD</a> (</div>
-<div class="line"><a id="l00433" name="l00433"></a><span class="lineno">  433</span>      <span class="stringliteral">&quot;It is not recommended to ignore return value of empty()&quot;</span>)</div>
-<div class="line"><a id="l00434" name="l00434"></a><span class="lineno">  434</span>  <a class="code hl_define" href="a00389.html#a1513006a1992e7dc9cc43b2e081cc33f">LUMEX_CONSTEXPR</a> <span class="keywordtype">bool</span></div>
-<div class="foldopen" id="foldopen00435" data-start="{" data-end="}">
-<div class="line"><a id="l00435" name="l00435"></a><span class="lineno"><a class="line" href="a02326.html#af5361b1f3400f2c0f4eca2b185a15961">  435</a></span>  <a class="code hl_function" href="a02326.html#af5361b1f3400f2c0f4eca2b185a15961">empty</a> () const <a class="code hl_define" href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
-<div class="line"><a id="l00436" name="l00436"></a><span class="lineno">  436</span>  {</div>
-<div class="line"><a id="l00437" name="l00437"></a><span class="lineno">  437</span>    <span class="keywordflow">return</span> m_size == 0;</div>
-<div class="line"><a id="l00438" name="l00438"></a><span class="lineno">  438</span>  }</div>
+<div class="foldopen" id="foldopen00066" data-start="" data-end="">
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno"><a class="line" href="a00320.html#aaebdebb6d64cd6af2b802a2a67c6a0c9">   66</a></span><span class="preprocessor">#define LUMEX_MATH_CONSTANTS_SQRT_5                                           \</span></div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span><span class="preprocessor">  2.23606797749978969640917366873127623544061835960414</span></div>
 </div>
-<div class="line"><a id="l00439" name="l00439"></a><span class="lineno">  439</span></div>
-<div class="line"><a id="l00448" name="l00448"></a><span class="lineno">  448</span>  <span class="keyword">static</span> <a class="code hl_define" href="a00389.html#a1513006a1992e7dc9cc43b2e081cc33f">LUMEX_CONSTEXPR</a> size_type</div>
-<div class="foldopen" id="foldopen00449" data-start="{" data-end="}">
-<div class="line"><a id="l00449" name="l00449"></a><span class="lineno"><a class="line" href="a02326.html#a081bd2dbe2129dc391387ed3353c78a9">  449</a></span>  <a class="code hl_function" href="a02326.html#a081bd2dbe2129dc391387ed3353c78a9">max_size</a> () <a class="code hl_define" href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
-<div class="line"><a id="l00450" name="l00450"></a><span class="lineno">  450</span>  {</div>
-<div class="line"><a id="l00451" name="l00451"></a><span class="lineno">  451</span>    <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span><a class="code hl_typedef" href="a02326.html#a325d72880bfc3306bcaba8043559b438">size_type</a><span class="keyword">&gt;</span> (-1) / 2;</div>
-<div class="line"><a id="l00452" name="l00452"></a><span class="lineno">  452</span>  }</div>
+<div class="foldopen" id="foldopen00068" data-start="" data-end="">
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno"><a class="line" href="a00320.html#adcc545543b2bd5f761780e7b8237015c">   68</a></span><span class="preprocessor">#define LUMEX_MATH_CONSTANTS_LN_2                                             \</span></div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span><span class="preprocessor">  0.69314718055994530941723212145817656807550013436025</span></div>
 </div>
-<div class="line"><a id="l00453" name="l00453"></a><span class="lineno">  453</span> </div>
-<div class="line"><a id="l00454" name="l00454"></a><span class="lineno">  454</span>  <span class="comment">// -- Element access --</span></div>
-<div class="line"><a id="l00465" name="l00465"></a><span class="lineno">  465</span>  <a class="code hl_define" href="a00389.html#a1513006a1992e7dc9cc43b2e081cc33f">LUMEX_CONSTEXPR</a> const_reference</div>
-<div class="foldopen" id="foldopen00466" data-start="{" data-end="}">
-<div class="line"><a id="l00466" name="l00466"></a><span class="lineno"><a class="line" href="a02326.html#aec00e870c29cd4f1f2e6831d903e8d6c">  466</a></span>  operator[] (<a class="code hl_typedef" href="a02326.html#a325d72880bfc3306bcaba8043559b438">size_type</a> idx) <span class="keyword">const</span> <a class="code hl_define" href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
-<div class="line"><a id="l00467" name="l00467"></a><span class="lineno">  467</span>  {</div>
-<div class="line"><a id="l00468" name="l00468"></a><span class="lineno">  468</span>    <span class="keywordflow">return</span> m_data</div>
-<div class="line"><a id="l00469" name="l00469"></a><span class="lineno">  469</span>        [idx]; <span class="comment">// NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)</span></div>
-<div class="line"><a id="l00470" name="l00470"></a><span class="lineno">  470</span>  }</div>
+<div class="foldopen" id="foldopen00070" data-start="" data-end="">
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno"><a class="line" href="a00320.html#a92087a0c1ff74ac5a19409f9827e0c03">   70</a></span><span class="preprocessor">#define LUMEX_MATH_CONSTANTS_LN_10                                            \</span></div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span><span class="preprocessor">  2.30258509299404568401799145468436420760110148862877</span></div>
 </div>
-<div class="line"><a id="l00471" name="l00471"></a><span class="lineno">  471</span></div>
-<div class="line"><a id="l00484" name="l00484"></a><span class="lineno">  484</span>  <a class="code hl_define" href="a00353.html#af6aeadbda428235a14f147ade9783f8f">LUMEX_ATTRIBUTE_NODISCARD</a> (</div>
-<div class="line"><a id="l00485" name="l00485"></a><span class="lineno">  485</span>      <span class="stringliteral">&quot;It is not recommended to ignore return value of at(size_type)&quot;</span>)</div>
-<div class="line"><a id="l00486" name="l00486"></a><span class="lineno">  486</span>  const_reference at (size_type idx) const;</div>
-<div class="line"><a id="l00487" name="l00487"></a><span class="lineno">  487</span></div>
-<div class="line"><a id="l00495" name="l00495"></a><span class="lineno">  495</span>  <a class="code hl_define" href="a00353.html#af6aeadbda428235a14f147ade9783f8f">LUMEX_ATTRIBUTE_NODISCARD</a> (</div>
-<div class="line"><a id="l00496" name="l00496"></a><span class="lineno">  496</span>      <span class="stringliteral">&quot;It is not recommended to ignore return value of front()&quot;</span>)</div>
-<div class="line"><a id="l00497" name="l00497"></a><span class="lineno">  497</span>  <a class="code hl_define" href="a00389.html#a1513006a1992e7dc9cc43b2e081cc33f">LUMEX_CONSTEXPR</a> const_reference</div>
-<div class="foldopen" id="foldopen00498" data-start="{" data-end="}">
-<div class="line"><a id="l00498" name="l00498"></a><span class="lineno"><a class="line" href="a02326.html#a6dda2ca36f6c42193c9582c2d22f72bc">  498</a></span>  <a class="code hl_function" href="a02326.html#a6dda2ca36f6c42193c9582c2d22f72bc">front</a> () const <a class="code hl_define" href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
-<div class="line"><a id="l00499" name="l00499"></a><span class="lineno">  499</span>  {</div>
-<div class="line"><a id="l00500" name="l00500"></a><span class="lineno">  500</span>    <span class="keywordflow">return</span> m_data</div>
-<div class="line"><a id="l00501" name="l00501"></a><span class="lineno">  501</span>        [0]; <span class="comment">// NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)</span></div>
-<div class="line"><a id="l00502" name="l00502"></a><span class="lineno">  502</span>  }</div>
+<div class="foldopen" id="foldopen00072" data-start="" data-end="">
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno"><a class="line" href="a00320.html#af63c12a7f019726dcb0722629ce6f49e">   72</a></span><span class="preprocessor">#define LUMEX_MATH_CONSTANTS_APERY                                            \</span></div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span><span class="preprocessor">  1.20205690315959428539973816151144999076498629234049</span></div>
 </div>
-<div class="line"><a id="l00503" name="l00503"></a><span class="lineno">  503</span></div>
-<div class="line"><a id="l00511" name="l00511"></a><span class="lineno">  511</span>  <a class="code hl_define" href="a00353.html#af6aeadbda428235a14f147ade9783f8f">LUMEX_ATTRIBUTE_NODISCARD</a> (</div>
-<div class="line"><a id="l00512" name="l00512"></a><span class="lineno">  512</span>      <span class="stringliteral">&quot;It is not recommended to ignore return value of back()&quot;</span>)</div>
-<div class="line"><a id="l00513" name="l00513"></a><span class="lineno">  513</span>  <a class="code hl_define" href="a00389.html#a1513006a1992e7dc9cc43b2e081cc33f">LUMEX_CONSTEXPR</a> const_reference</div>
-<div class="foldopen" id="foldopen00514" data-start="{" data-end="}">
-<div class="line"><a id="l00514" name="l00514"></a><span class="lineno"><a class="line" href="a02326.html#a45bb9712ce876e808903309b89394e3d">  514</a></span>  <a class="code hl_function" href="a02326.html#a45bb9712ce876e808903309b89394e3d">back</a> () const <a class="code hl_define" href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
-<div class="line"><a id="l00515" name="l00515"></a><span class="lineno">  515</span>  {</div>
-<div class="line"><a id="l00516" name="l00516"></a><span class="lineno">  516</span>    <span class="keywordflow">return</span> m_data</div>
-<div class="line"><a id="l00517" name="l00517"></a><span class="lineno">  517</span>        [m_size</div>
-<div class="line"><a id="l00518" name="l00518"></a><span class="lineno">  518</span>         - 1]; <span class="comment">// NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)</span></div>
-<div class="line"><a id="l00519" name="l00519"></a><span class="lineno">  519</span>  }</div>
+<div class="foldopen" id="foldopen00074" data-start="" data-end="">
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno"><a class="line" href="a00320.html#a824e19d313acb83c37a4add873bd5cfe">   74</a></span><span class="preprocessor">#define LUMEX_MATH_CONSTANTS_CATALAN                                          \</span></div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span><span class="preprocessor">  0.91596559417721901505460351493238411077414937428167</span></div>
 </div>
-<div class="line"><a id="l00520" name="l00520"></a><span class="lineno">  520</span></div>
-<div class="line"><a id="l00529" name="l00529"></a><span class="lineno">  529</span>  <a class="code hl_define" href="a00353.html#af6aeadbda428235a14f147ade9783f8f">LUMEX_ATTRIBUTE_NODISCARD</a> (</div>
-<div class="line"><a id="l00530" name="l00530"></a><span class="lineno">  530</span>      <span class="stringliteral">&quot;It is not recommended to ignore return value of data()&quot;</span>)</div>
-<div class="line"><a id="l00531" name="l00531"></a><span class="lineno">  531</span>  <a class="code hl_define" href="a00389.html#a1513006a1992e7dc9cc43b2e081cc33f">LUMEX_CONSTEXPR</a> const_pointer</div>
-<div class="foldopen" id="foldopen00532" data-start="{" data-end="}">
-<div class="line"><a id="l00532" name="l00532"></a><span class="lineno"><a class="line" href="a02326.html#a9577a05436fdab9556d62016c101fa49">  532</a></span>  <a class="code hl_function" href="a02326.html#a9577a05436fdab9556d62016c101fa49">data</a> () const <a class="code hl_define" href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
-<div class="line"><a id="l00533" name="l00533"></a><span class="lineno">  533</span>  {</div>
-<div class="line"><a id="l00534" name="l00534"></a><span class="lineno">  534</span>    <span class="keywordflow">return</span> m_data;</div>
-<div class="line"><a id="l00535" name="l00535"></a><span class="lineno">  535</span>  }</div>
+<div class="foldopen" id="foldopen00076" data-start="" data-end="">
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno"><a class="line" href="a00320.html#ab08a2c1df96fa5b5b9bf6b84f29ae0a2">   76</a></span><span class="preprocessor">#define LUMEX_MATH_CONSTANTS_LEMMISCATE                                       \</span></div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span><span class="preprocessor">  5.24411510858423962092967917978223882736550990286324</span></div>
 </div>
-<div class="line"><a id="l00536" name="l00536"></a><span class="lineno">  536</span> </div>
-<div class="line"><a id="l00537" name="l00537"></a><span class="lineno">  537</span>  <span class="comment">// -- Modifiers (affecting the view, not the underlying data) --</span></div>
-<div class="line"><a id="l00544" name="l00544"></a><span class="lineno">  544</span>  <span class="keywordtype">void</span> clear () <a class="code hl_define" href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a>;</div>
-<div class="line"><a id="l00553" name="l00553"></a><span class="lineno">  553</span>  <span class="keywordtype">void</span> remove_prefix (size_type n) <a class="code hl_define" href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a>;</div>
-<div class="line"><a id="l00561" name="l00561"></a><span class="lineno">  561</span>  <span class="keywordtype">void</span> remove_suffix (size_type n) <a class="code hl_define" href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a>;</div>
-<div class="line"><a id="l00570" name="l00570"></a><span class="lineno">  570</span>  <span class="keywordtype">void</span> swap (<a class="code hl_class" href="a02326.html">LumexStringView</a> &amp;other) <a class="code hl_define" href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a>;</div>
-<div class="line"><a id="l00571" name="l00571"></a><span class="lineno">  571</span> </div>
-<div class="line"><a id="l00572" name="l00572"></a><span class="lineno">  572</span>  <span class="comment">// -- Copy out --</span></div>
-<div class="line"><a id="l00586" name="l00586"></a><span class="lineno">  586</span>  size_type copy (<span class="keywordtype">char</span> *dest, size_type count, size_type pos = 0) const;</div>
-<div class="line"><a id="l00587" name="l00587"></a><span class="lineno">  587</span> </div>
-<div class="line"><a id="l00588" name="l00588"></a><span class="lineno">  588</span>  <span class="comment">// -- Substring --</span></div>
-<div class="line"><a id="l00605" name="l00605"></a><span class="lineno">  605</span>  <a class="code hl_define" href="a00353.html#af6aeadbda428235a14f147ade9783f8f">LUMEX_ATTRIBUTE_NODISCARD</a> (<span class="stringliteral">&quot;It is not recommended to ignore return value of &quot;</span></div>
-<div class="line"><a id="l00606" name="l00606"></a><span class="lineno">  606</span>                             <span class="stringliteral">&quot;substr(size_type, size_type)&quot;</span>)</div>
-<div class="line"><a id="l00607" name="l00607"></a><span class="lineno">  607</span>  <a class="code hl_class" href="a02326.html">LumexStringView</a> substr (size_type pos = 0, size_type n = npos) const;</div>
-<div class="line"><a id="l00608" name="l00608"></a><span class="lineno">  608</span> </div>
-<div class="line"><a id="l00609" name="l00609"></a><span class="lineno">  609</span>  <span class="comment">// -- Comparison --</span></div>
-<div class="line"><a id="l00623" name="l00623"></a><span class="lineno">  623</span>  <a class="code hl_define" href="a00353.html#af6aeadbda428235a14f147ade9783f8f">LUMEX_ATTRIBUTE_NODISCARD</a> (<span class="stringliteral">&quot;It is not recommended to ignore return value of &quot;</span></div>
-<div class="line"><a id="l00624" name="l00624"></a><span class="lineno">  624</span>                             <span class="stringliteral">&quot;compare(LumexStringView)&quot;</span>)</div>
-<div class="line"><a id="l00625" name="l00625"></a><span class="lineno">  625</span>  <span class="keywordtype">int</span> compare (<a class="code hl_class" href="a02326.html">LumexStringView</a> other) const <a class="code hl_define" href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a>;</div>
-<div class="line"><a id="l00626" name="l00626"></a><span class="lineno">  626</span></div>
-<div class="line"><a id="l00643" name="l00643"></a><span class="lineno">  643</span>  <a class="code hl_define" href="a00353.html#af6aeadbda428235a14f147ade9783f8f">LUMEX_ATTRIBUTE_NODISCARD</a> (<span class="stringliteral">&quot;It is not recommended to ignore return value of &quot;</span></div>
-<div class="line"><a id="l00644" name="l00644"></a><span class="lineno">  644</span>                             <span class="stringliteral">&quot;compare(size_type, size_type, LumexStringView)&quot;</span>)</div>
-<div class="line"><a id="l00645" name="l00645"></a><span class="lineno">  645</span>  <span class="keywordtype">int</span> compare (size_type pos, size_type len, <a class="code hl_class" href="a02326.html">LumexStringView</a> other) const;</div>
-<div class="line"><a id="l00646" name="l00646"></a><span class="lineno">  646</span></div>
-<div class="line"><a id="l00658" name="l00658"></a><span class="lineno">  658</span>  <span class="keywordtype">int</span> compare (<span class="keywordtype">char</span> const *cstr) const;</div>
-<div class="line"><a id="l00659" name="l00659"></a><span class="lineno">  659</span> </div>
-<div class="line"><a id="l00660" name="l00660"></a><span class="lineno">  660</span>  <span class="comment">// -- Starts / ends / contains helpers --</span></div>
-<div class="line"><a id="l00670" name="l00670"></a><span class="lineno">  670</span>  <a class="code hl_define" href="a00353.html#af6aeadbda428235a14f147ade9783f8f">LUMEX_ATTRIBUTE_NODISCARD</a> (</div>
-<div class="line"><a id="l00671" name="l00671"></a><span class="lineno">  671</span>      <span class="stringliteral">&quot;It is not recommended to ignore return value of starts_with(char)&quot;</span>)</div>
-<div class="line"><a id="l00672" name="l00672"></a><span class="lineno">  672</span>  <span class="keywordtype">bool</span> starts_with (<span class="keywordtype">char</span> chr) const <a class="code hl_define" href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a>;</div>
-<div class="line"><a id="l00673" name="l00673"></a><span class="lineno">  673</span></div>
-<div class="line"><a id="l00684" name="l00684"></a><span class="lineno">  684</span>  <a class="code hl_define" href="a00353.html#af6aeadbda428235a14f147ade9783f8f">LUMEX_ATTRIBUTE_NODISCARD</a> (<span class="stringliteral">&quot;It is not recommended to ignore return value of &quot;</span></div>
-<div class="line"><a id="l00685" name="l00685"></a><span class="lineno">  685</span>                             <span class="stringliteral">&quot;starts_with(LumexStringView)&quot;</span>)</div>
-<div class="line"><a id="l00686" name="l00686"></a><span class="lineno">  686</span>  <span class="keywordtype">bool</span> starts_with (<a class="code hl_class" href="a02326.html">LumexStringView</a> str) const <a class="code hl_define" href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a>;</div>
-<div class="line"><a id="l00687" name="l00687"></a><span class="lineno">  687</span></div>
-<div class="line"><a id="l00697" name="l00697"></a><span class="lineno">  697</span>  <a class="code hl_define" href="a00353.html#af6aeadbda428235a14f147ade9783f8f">LUMEX_ATTRIBUTE_NODISCARD</a> (</div>
-<div class="line"><a id="l00698" name="l00698"></a><span class="lineno">  698</span>      <span class="stringliteral">&quot;It is not recommended to ignore return value of ends_with(char)&quot;</span>)</div>
-<div class="line"><a id="l00699" name="l00699"></a><span class="lineno">  699</span>  <span class="keywordtype">bool</span> ends_with (<span class="keywordtype">char</span> chr) const <a class="code hl_define" href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a>;</div>
-<div class="line"><a id="l00700" name="l00700"></a><span class="lineno">  700</span></div>
-<div class="line"><a id="l00710" name="l00710"></a><span class="lineno">  710</span>  <a class="code hl_define" href="a00353.html#af6aeadbda428235a14f147ade9783f8f">LUMEX_ATTRIBUTE_NODISCARD</a> (<span class="stringliteral">&quot;It is not recommended to ignore return value of &quot;</span></div>
-<div class="line"><a id="l00711" name="l00711"></a><span class="lineno">  711</span>                             <span class="stringliteral">&quot;ends_with(chaLumexStringViewr)&quot;</span>)</div>
-<div class="line"><a id="l00712" name="l00712"></a><span class="lineno">  712</span>  <span class="keywordtype">bool</span> ends_with (<a class="code hl_class" href="a02326.html">LumexStringView</a> str) const <a class="code hl_define" href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a>;</div>
-<div class="line"><a id="l00713" name="l00713"></a><span class="lineno">  713</span> </div>
-<div class="line"><a id="l00714" name="l00714"></a><span class="lineno">  714</span>  <span class="comment">// -- Find (simple implementations) --</span></div>
-<div class="line"><a id="l00726" name="l00726"></a><span class="lineno">  726</span>  <a class="code hl_define" href="a00353.html#af6aeadbda428235a14f147ade9783f8f">LUMEX_ATTRIBUTE_NODISCARD</a> (</div>
-<div class="line"><a id="l00727" name="l00727"></a><span class="lineno">  727</span>      <span class="stringliteral">&quot;It is not recommended to ignore return value of find(char, size_type)&quot;</span>)</div>
-<div class="line"><a id="l00728" name="l00728"></a><span class="lineno">  728</span>  size_type find (<span class="keywordtype">char</span> chr, size_type pos = 0) const <a class="code hl_define" href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a>;</div>
-<div class="line"><a id="l00729" name="l00729"></a><span class="lineno">  729</span></div>
-<div class="line"><a id="l00742" name="l00742"></a><span class="lineno">  742</span>  <a class="code hl_define" href="a00353.html#af6aeadbda428235a14f147ade9783f8f">LUMEX_ATTRIBUTE_NODISCARD</a> (<span class="stringliteral">&quot;It is not recommended to ignore return value of &quot;</span></div>
-<div class="line"><a id="l00743" name="l00743"></a><span class="lineno">  743</span>                             <span class="stringliteral">&quot;find(LumexStringView, size_type)&quot;</span>)</div>
-<div class="line"><a id="l00744" name="l00744"></a><span class="lineno">  744</span>  size_type find (<a class="code hl_class" href="a02326.html">LumexStringView</a> str, size_type pos = 0) const <a class="code hl_define" href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a>;</div>
-<div class="line"><a id="l00745" name="l00745"></a><span class="lineno">  745</span></div>
-<div class="line"><a id="l00759" name="l00759"></a><span class="lineno">  759</span>  size_type find (<span class="keywordtype">char</span> const *cstr, size_type pos,</div>
-<div class="line"><a id="l00760" name="l00760"></a><span class="lineno">  760</span>                  size_type count) const <a class="code hl_define" href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a>;</div>
-<div class="line"><a id="l00761" name="l00761"></a><span class="lineno">  761</span></div>
-<div class="line"><a id="l00774" name="l00774"></a><span class="lineno">  774</span>  size_type find (<span class="keywordtype">char</span> const *cstr, size_type pos = 0) const <a class="code hl_define" href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a>;</div>
-<div class="line"><a id="l00775" name="l00775"></a><span class="lineno">  775</span> </div>
-<div class="line"><a id="l00776" name="l00776"></a><span class="lineno">  776</span>  <span class="comment">// -- Reverse find --</span></div>
-<div class="line"><a id="l00790" name="l00790"></a><span class="lineno">  790</span>  <a class="code hl_define" href="a00353.html#af6aeadbda428235a14f147ade9783f8f">LUMEX_ATTRIBUTE_NODISCARD</a> (<span class="stringliteral">&quot;It is not recommended to ignore return value of &quot;</span></div>
-<div class="line"><a id="l00791" name="l00791"></a><span class="lineno">  791</span>                             <span class="stringliteral">&quot;rfind(LumexStringView, size_type)&quot;</span>)</div>
-<div class="line"><a id="l00792" name="l00792"></a><span class="lineno">  792</span>  size_type rfind (<a class="code hl_class" href="a02326.html">LumexStringView</a> str,</div>
-<div class="line"><a id="l00793" name="l00793"></a><span class="lineno">  793</span>                   size_type pos = npos) const <a class="code hl_define" href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a>;</div>
-<div class="line"><a id="l00794" name="l00794"></a><span class="lineno">  794</span></div>
-<div class="line"><a id="l00807" name="l00807"></a><span class="lineno">  807</span>  <a class="code hl_define" href="a00353.html#af6aeadbda428235a14f147ade9783f8f">LUMEX_ATTRIBUTE_NODISCARD</a> (</div>
-<div class="line"><a id="l00808" name="l00808"></a><span class="lineno">  808</span>      <span class="stringliteral">&quot;It is not recommended to ignore return value of rfind(char, size_type)&quot;</span>)</div>
-<div class="line"><a id="l00809" name="l00809"></a><span class="lineno">  809</span>  size_type rfind (<span class="keywordtype">char</span> chr, size_type pos = npos) const <a class="code hl_define" href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a>;</div>
-<div class="line"><a id="l00810" name="l00810"></a><span class="lineno">  810</span></div>
-<div class="line"><a id="l00823" name="l00823"></a><span class="lineno">  823</span>  size_type rfind (<span class="keywordtype">char</span> const *cstr, size_type pos,</div>
-<div class="line"><a id="l00824" name="l00824"></a><span class="lineno">  824</span>                   size_type count) const <a class="code hl_define" href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a>;</div>
-<div class="line"><a id="l00825" name="l00825"></a><span class="lineno">  825</span></div>
-<div class="line"><a id="l00839" name="l00839"></a><span class="lineno">  839</span>  size_type rfind (<span class="keywordtype">char</span> const *cstr,</div>
-<div class="line"><a id="l00840" name="l00840"></a><span class="lineno">  840</span>                   size_type pos = npos) const <a class="code hl_define" href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a>;</div>
-<div class="line"><a id="l00841" name="l00841"></a><span class="lineno">  841</span> </div>
-<div class="line"><a id="l00842" name="l00842"></a><span class="lineno">  842</span>  <span class="comment">// -- Find first of (finds any character from a set) --</span></div>
-<div class="line"><a id="l00858" name="l00858"></a><span class="lineno">  858</span>  <a class="code hl_define" href="a00353.html#af6aeadbda428235a14f147ade9783f8f">LUMEX_ATTRIBUTE_NODISCARD</a> (<span class="stringliteral">&quot;It is not recommended to ignore return value of &quot;</span></div>
-<div class="line"><a id="l00859" name="l00859"></a><span class="lineno">  859</span>                             <span class="stringliteral">&quot;find_first_of(LumexStringView, size_type)&quot;</span>)</div>
-<div class="line"><a id="l00860" name="l00860"></a><span class="lineno">  860</span>  size_type find_first_of (<a class="code hl_class" href="a02326.html">LumexStringView</a> str,</div>
-<div class="line"><a id="l00861" name="l00861"></a><span class="lineno">  861</span>                           size_type pos = 0) const <a class="code hl_define" href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a>;</div>
-<div class="line"><a id="l00862" name="l00862"></a><span class="lineno">  862</span></div>
-<div class="line"><a id="l00873" name="l00873"></a><span class="lineno">  873</span>  <a class="code hl_define" href="a00353.html#af6aeadbda428235a14f147ade9783f8f">LUMEX_ATTRIBUTE_NODISCARD</a> (<span class="stringliteral">&quot;It is not recommended to ignore return value of &quot;</span></div>
-<div class="line"><a id="l00874" name="l00874"></a><span class="lineno">  874</span>                             <span class="stringliteral">&quot;find_first_of(char, size_type)&quot;</span>)</div>
-<div class="line"><a id="l00875" name="l00875"></a><span class="lineno">  875</span>  size_type find_first_of (<span class="keywordtype">char</span> chr, size_type pos = 0) const <a class="code hl_define" href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a>;</div>
-<div class="line"><a id="l00876" name="l00876"></a><span class="lineno">  876</span></div>
-<div class="line"><a id="l00891" name="l00891"></a><span class="lineno">  891</span>  size_type find_first_of (<span class="keywordtype">char</span> const *cstr, size_type pos,</div>
-<div class="line"><a id="l00892" name="l00892"></a><span class="lineno">  892</span>                           size_type count) const <a class="code hl_define" href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a>;</div>
-<div class="line"><a id="l00893" name="l00893"></a><span class="lineno">  893</span></div>
-<div class="line"><a id="l00907" name="l00907"></a><span class="lineno">  907</span>  size_type find_first_of (<span class="keywordtype">char</span> const *cstr,</div>
-<div class="line"><a id="l00908" name="l00908"></a><span class="lineno">  908</span>                           size_type pos = 0) const <a class="code hl_define" href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a>;</div>
-<div class="line"><a id="l00909" name="l00909"></a><span class="lineno">  909</span> </div>
-<div class="line"><a id="l00910" name="l00910"></a><span class="lineno">  910</span>  <span class="comment">// -- Find last of (finds any character from a set, searching backward) --</span></div>
-<div class="line"><a id="l00927" name="l00927"></a><span class="lineno">  927</span>  <a class="code hl_define" href="a00353.html#af6aeadbda428235a14f147ade9783f8f">LUMEX_ATTRIBUTE_NODISCARD</a> (<span class="stringliteral">&quot;It is not recommended to ignore return value of &quot;</span></div>
-<div class="line"><a id="l00928" name="l00928"></a><span class="lineno">  928</span>                             <span class="stringliteral">&quot;find_last_of(LumexStringView, size_type)&quot;</span>)</div>
-<div class="line"><a id="l00929" name="l00929"></a><span class="lineno">  929</span>  size_type find_last_of (<a class="code hl_class" href="a02326.html">LumexStringView</a> str,</div>
-<div class="line"><a id="l00930" name="l00930"></a><span class="lineno">  930</span>                          size_type pos = npos) const <a class="code hl_define" href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a>;</div>
-<div class="line"><a id="l00931" name="l00931"></a><span class="lineno">  931</span></div>
-<div class="line"><a id="l00943" name="l00943"></a><span class="lineno">  943</span>  <a class="code hl_define" href="a00353.html#af6aeadbda428235a14f147ade9783f8f">LUMEX_ATTRIBUTE_NODISCARD</a> (<span class="stringliteral">&quot;It is not recommended to ignore return value of &quot;</span></div>
-<div class="line"><a id="l00944" name="l00944"></a><span class="lineno">  944</span>                             <span class="stringliteral">&quot;find_last_of(char, size_type)&quot;</span>)</div>
-<div class="line"><a id="l00945" name="l00945"></a><span class="lineno">  945</span>  size_type find_last_of (<span class="keywordtype">char</span> chr, size_type pos = npos) const <a class="code hl_define" href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a>;</div>
-<div class="line"><a id="l00946" name="l00946"></a><span class="lineno">  946</span></div>
-<div class="line"><a id="l00960" name="l00960"></a><span class="lineno">  960</span>  size_type find_last_of (<span class="keywordtype">char</span> const *cstr, size_type pos,</div>
-<div class="line"><a id="l00961" name="l00961"></a><span class="lineno">  961</span>                          size_type count) const <a class="code hl_define" href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a>;</div>
-<div class="line"><a id="l00962" name="l00962"></a><span class="lineno">  962</span></div>
-<div class="line"><a id="l00977" name="l00977"></a><span class="lineno">  977</span>  size_type find_last_of (<span class="keywordtype">char</span> const *cstr,</div>
-<div class="line"><a id="l00978" name="l00978"></a><span class="lineno">  978</span>                          size_type pos = npos) const <a class="code hl_define" href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a>;</div>
-<div class="line"><a id="l00979" name="l00979"></a><span class="lineno">  979</span> </div>
-<div class="line"><a id="l00980" name="l00980"></a><span class="lineno">  980</span>  <span class="comment">// -- Find first not of (finds first character *not* from a set) --</span></div>
-<div class="line"><a id="l00996" name="l00996"></a><span class="lineno">  996</span>  <a class="code hl_define" href="a00353.html#af6aeadbda428235a14f147ade9783f8f">LUMEX_ATTRIBUTE_NODISCARD</a> (<span class="stringliteral">&quot;It is not recommended to ignore return value of &quot;</span></div>
-<div class="line"><a id="l00997" name="l00997"></a><span class="lineno">  997</span>                             <span class="stringliteral">&quot;find_first_not_of(LumexStringView, size_type)&quot;</span>)</div>
-<div class="line"><a id="l00998" name="l00998"></a><span class="lineno">  998</span>  size_type find_first_not_of (<a class="code hl_class" href="a02326.html">LumexStringView</a> str,</div>
-<div class="line"><a id="l00999" name="l00999"></a><span class="lineno">  999</span>                               size_type pos = 0) const <a class="code hl_define" href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a>;</div>
-<div class="line"><a id="l01000" name="l01000"></a><span class="lineno"> 1000</span></div>
-<div class="line"><a id="l01014" name="l01014"></a><span class="lineno"> 1014</span>  <a class="code hl_define" href="a00353.html#af6aeadbda428235a14f147ade9783f8f">LUMEX_ATTRIBUTE_NODISCARD</a> (<span class="stringliteral">&quot;It is not recommended to ignore return value of &quot;</span></div>
-<div class="line"><a id="l01015" name="l01015"></a><span class="lineno"> 1015</span>                             <span class="stringliteral">&quot;find_first_not_of(char, size_type)&quot;</span>)</div>
-<div class="line"><a id="l01016" name="l01016"></a><span class="lineno"> 1016</span>  size_type find_first_not_of (<span class="keywordtype">char</span> chr,</div>
-<div class="line"><a id="l01017" name="l01017"></a><span class="lineno"> 1017</span>                               size_type pos = 0) const <a class="code hl_define" href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a>;</div>
-<div class="line"><a id="l01018" name="l01018"></a><span class="lineno"> 1018</span></div>
-<div class="line"><a id="l01032" name="l01032"></a><span class="lineno"> 1032</span>  size_type find_first_not_of (<span class="keywordtype">char</span> const *cstr, size_type pos,</div>
-<div class="line"><a id="l01033" name="l01033"></a><span class="lineno"> 1033</span>                               size_type count) const <a class="code hl_define" href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a>;</div>
-<div class="line"><a id="l01034" name="l01034"></a><span class="lineno"> 1034</span></div>
-<div class="line"><a id="l01048" name="l01048"></a><span class="lineno"> 1048</span>  size_type find_first_not_of (<span class="keywordtype">char</span> const *cstr,</div>
-<div class="line"><a id="l01049" name="l01049"></a><span class="lineno"> 1049</span>                               size_type pos = 0) const <a class="code hl_define" href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a>;</div>
-<div class="line"><a id="l01050" name="l01050"></a><span class="lineno"> 1050</span> </div>
-<div class="line"><a id="l01051" name="l01051"></a><span class="lineno"> 1051</span>  <span class="comment">// -- Find last not of (finds last character *not* from a set, searching</span></div>
-<div class="line"><a id="l01052" name="l01052"></a><span class="lineno"> 1052</span>  <span class="comment">// backward) --</span></div>
-<div class="line"><a id="l01069" name="l01069"></a><span class="lineno"> 1069</span>  <a class="code hl_define" href="a00353.html#af6aeadbda428235a14f147ade9783f8f">LUMEX_ATTRIBUTE_NODISCARD</a> (<span class="stringliteral">&quot;It is not recommended to ignore return value of &quot;</span></div>
-<div class="line"><a id="l01070" name="l01070"></a><span class="lineno"> 1070</span>                             <span class="stringliteral">&quot;find_last_not_of(LumexStringView, size_type)&quot;</span>)</div>
-<div class="line"><a id="l01071" name="l01071"></a><span class="lineno"> 1071</span>  size_type find_last_not_of (<a class="code hl_class" href="a02326.html">LumexStringView</a> str,</div>
-<div class="line"><a id="l01072" name="l01072"></a><span class="lineno"> 1072</span>                              size_type pos = npos) const <a class="code hl_define" href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a>;</div>
-<div class="line"><a id="l01073" name="l01073"></a><span class="lineno"> 1073</span></div>
-<div class="line"><a id="l01088" name="l01088"></a><span class="lineno"> 1088</span>  <a class="code hl_define" href="a00353.html#af6aeadbda428235a14f147ade9783f8f">LUMEX_ATTRIBUTE_NODISCARD</a> (<span class="stringliteral">&quot;It is not recommended to ignore return value of &quot;</span></div>
-<div class="line"><a id="l01089" name="l01089"></a><span class="lineno"> 1089</span>                             <span class="stringliteral">&quot;find_last_not_of(char, size_type)&quot;</span>)</div>
-<div class="line"><a id="l01090" name="l01090"></a><span class="lineno"> 1090</span>  size_type find_last_not_of (<span class="keywordtype">char</span> chr,</div>
-<div class="line"><a id="l01091" name="l01091"></a><span class="lineno"> 1091</span>                              size_type pos = npos) const <a class="code hl_define" href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a>;</div>
-<div class="line"><a id="l01092" name="l01092"></a><span class="lineno"> 1092</span></div>
-<div class="line"><a id="l01106" name="l01106"></a><span class="lineno"> 1106</span>  size_type find_last_not_of (<span class="keywordtype">char</span> const *cstr, size_type pos,</div>
-<div class="line"><a id="l01107" name="l01107"></a><span class="lineno"> 1107</span>                              size_type count) const <a class="code hl_define" href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a>;</div>
-<div class="line"><a id="l01108" name="l01108"></a><span class="lineno"> 1108</span></div>
-<div class="line"><a id="l01124" name="l01124"></a><span class="lineno"> 1124</span>  size_type find_last_not_of (<span class="keywordtype">char</span> const *cstr,</div>
-<div class="line"><a id="l01125" name="l01125"></a><span class="lineno"> 1125</span>                              size_type pos = npos) const <a class="code hl_define" href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a>;</div>
-<div class="line"><a id="l01126" name="l01126"></a><span class="lineno"> 1126</span> </div>
-<div class="line"><a id="l01127" name="l01127"></a><span class="lineno"> 1127</span>  <span class="comment">// -- Conversion back to std::string --</span></div>
-<div class="line"><a id="l01137" name="l01137"></a><span class="lineno"> 1137</span>  template &lt;class Allocator = <a class="code hl_namespace" href="a00999.html">std</a>::allocator&lt;<span class="keywordtype">char</span>&gt;&gt;</div>
-<div class="line"><a id="l01138" name="l01138"></a><span class="lineno"> 1138</span>  explicit</div>
-<div class="foldopen" id="foldopen01139" data-start="{" data-end="}">
-<div class="line"><a id="l01139" name="l01139"></a><span class="lineno"><a class="line" href="a02326.html#a69402f0008fc7006767ab82ce82b983c"> 1139</a></span>  operator <a class="code hl_namespace" href="a00999.html">std</a>::basic_string&lt;<span class="keywordtype">char</span>, <a class="code hl_namespace" href="a00999.html">std</a>::char_traits&lt;<span class="keywordtype">char</span>&gt;, Allocator&gt; ()<span class="keyword"> const</span></div>
-<div class="line"><a id="l01140" name="l01140"></a><span class="lineno"> 1140</span><span class="keyword">  </span>{</div>
-<div class="line"><a id="l01141" name="l01141"></a><span class="lineno"> 1141</span>    <span class="keywordflow">return</span> std::basic_string&lt;char, std::char_traits&lt;char&gt;, Allocator&gt; (m_data,</div>
-<div class="line"><a id="l01142" name="l01142"></a><span class="lineno"> 1142</span>                                                                       m_size);</div>
-<div class="line"><a id="l01143" name="l01143"></a><span class="lineno"> 1143</span>  }</div>
+<div class="foldopen" id="foldopen00078" data-start="" data-end="">
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno"><a class="line" href="a00320.html#a624c7000a4b4d3096d532f65a5b5166c">   78</a></span><span class="preprocessor">#define LUMEX_MATH_CONSTANTS_GAMMA_1_4                                        \</span></div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span><span class="preprocessor">  3.62560990822190831193068515586767200299516768288006</span></div>
 </div>
-<div class="line"><a id="l01144" name="l01144"></a><span class="lineno"> 1144</span></div>
-<div class="line"><a id="l01156" name="l01156"></a><span class="lineno"> 1156</span>  <span class="keyword">template</span> &lt;<span class="keyword">class</span> Allocator = std::allocator&lt;<span class="keywordtype">char</span>&gt;&gt;</div>
-<div class="line"><a id="l01157" name="l01157"></a><span class="lineno"> 1157</span>  std::basic_string&lt;char, std::char_traits&lt;char&gt;, Allocator&gt;</div>
-<div class="foldopen" id="foldopen01158" data-start="{" data-end="}">
-<div class="line"><a id="l01158" name="l01158"></a><span class="lineno"><a class="line" href="a02326.html#ae185c8585ca1ef2d0bef9d796d3c2898"> 1158</a></span>  <a class="code hl_function" href="a02326.html#ae185c8585ca1ef2d0bef9d796d3c2898">to_string</a> (Allocator <span class="keyword">const</span> &amp;alloc = Allocator ())<span class="keyword"> const</span></div>
-<div class="line"><a id="l01159" name="l01159"></a><span class="lineno"> 1159</span><span class="keyword">  </span>{</div>
-<div class="line"><a id="l01160" name="l01160"></a><span class="lineno"> 1160</span>    <span class="keywordflow">return</span> std::basic_string&lt;char, std::char_traits&lt;char&gt;, Allocator&gt; (</div>
-<div class="line"><a id="l01161" name="l01161"></a><span class="lineno"> 1161</span>        m_data, m_size, alloc);</div>
-<div class="line"><a id="l01162" name="l01162"></a><span class="lineno"> 1162</span>  }</div>
+<div class="foldopen" id="foldopen00080" data-start="" data-end="">
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno"><a class="line" href="a00320.html#a9637afd78ca1def8450057980f52325f">   80</a></span><span class="preprocessor">#define LUMEX_MATH_CONSTANTS_GAMMA_1_3                                        \</span></div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span><span class="preprocessor">  2.67893853470774763365569294097467764412868937795730</span></div>
 </div>
-<div class="line"><a id="l01163" name="l01163"></a><span class="lineno"> 1163</span></div>
-<div class="line"><a id="l01174" name="l01174"></a><span class="lineno"> 1174</span>  <span class="keyword">template</span> &lt;<span class="keyword">class</span> Allocator&gt;</div>
-<div class="foldopen" id="foldopen01175" data-start="{" data-end="}">
-<div class="line"><a id="l01175" name="l01175"></a><span class="lineno"><a class="line" href="a02326.html#aa376f55df1cdf1e1907183b6e1a82833"> 1175</a></span>  <a class="code hl_function" href="a02326.html#aa376f55df1cdf1e1907183b6e1a82833">LumexStringView</a> ( <span class="comment">// NOLINT(google-explicit-constructor)</span></div>
-<div class="line"><a id="l01176" name="l01176"></a><span class="lineno"> 1176</span>      std::basic_string&lt;<span class="keywordtype">char</span>, std::char_traits&lt;char&gt;, Allocator&gt; <span class="keyword">const</span> &amp;str)</div>
-<div class="line"><a id="l01177" name="l01177"></a><span class="lineno"> 1177</span>      <a class="code hl_define" href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a> : m_data (str.data ()),</div>
-<div class="line"><a id="l01178" name="l01178"></a><span class="lineno"> 1178</span>                       m_size (str.size ())</div>
-<div class="line"><a id="l01179" name="l01179"></a><span class="lineno"> 1179</span>  {</div>
-<div class="line"><a id="l01180" name="l01180"></a><span class="lineno"> 1180</span>  }</div>
+<div class="foldopen" id="foldopen00082" data-start="" data-end="">
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno"><a class="line" href="a00320.html#a65030713db7d289fd18c665e3eb25101">   82</a></span><span class="preprocessor">#define LUMEX_MATH_CONSTANTS_BRUNS_CONSTANT_TWIN_PRIMES                       \</span></div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span><span class="preprocessor">  1.902160583104 </span><span class="comment">// 12 digits from calculla, no 50 digit source easily</span></div>
 </div>
-<div class="line"><a id="l01181" name="l01181"></a><span class="lineno"> 1181</span></div>
-<div class="line"><a id="l01192" name="l01192"></a><span class="lineno"> 1192</span>  <a class="code hl_typedef" href="a00320.html#a27778c0df3cb97e862cd47d3f966ec26">LumexStringView</a> (std::string <span class="keyword">const</span> &amp;str)</div>
-<div class="line"><a id="l01193" name="l01193"></a><span class="lineno"> 1193</span>      <a class="code hl_define" href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a>; <span class="comment">// NOLINT(google-explicit-constructor)</span></div>
-<div class="line"><a id="l01194" name="l01194"></a><span class="lineno"> 1194</span> </div>
-<div class="line"><a id="l01195" name="l01195"></a><span class="lineno"> 1195</span><span class="keyword">private</span>:</div>
-<div class="line"><a id="l01201" name="l01201"></a><span class="lineno"> 1201</span>  <span class="keywordtype">char</span> <span class="keyword">const</span> *m_data;</div>
-<div class="line"><a id="l01206" name="l01206"></a><span class="lineno"> 1206</span>  size_type m_size;</div>
-<div class="line"><a id="l01207" name="l01207"></a><span class="lineno"> 1207</span>};</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>                 <span class="comment">// available</span></div>
+<div class="foldopen" id="foldopen00085" data-start="" data-end="">
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno"><a class="line" href="a00320.html#a0c997a0c0890aca3816782b8ef4b8b4c">   85</a></span><span class="preprocessor">#define LUMEX_MATH_CONSTANTS_PLASTIC_NUMBER                                   \</span></div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span><span class="preprocessor">  1.32471795724474602596090885447809734073440794569502</span></div>
 </div>
-<div class="line"><a id="l01208" name="l01208"></a><span class="lineno"> 1208</span> </div>
-<div class="line"><a id="l01209" name="l01209"></a><span class="lineno"> 1209</span><span class="comment">// -- Non-member relational operators --</span></div>
-<div class="line"><a id="l01220" name="l01220"></a><span class="lineno"> 1220</span><a class="code hl_define" href="a00605.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a> <span class="keyword">inline</span> <span class="keywordtype">bool</span></div>
-<div class="foldopen" id="foldopen01221" data-start="{" data-end="}">
-<div class="line"><a id="l01221" name="l01221"></a><span class="lineno"><a class="line" href="a01029.html#aab89082a02175aec57fb548e1afb041d"> 1221</a></span><a class="code hl_function" href="a01029.html#aab89082a02175aec57fb548e1afb041d">operator== </a>(<a class="code hl_class" href="a02326.html">LumexStringView</a> lhs, <a class="code hl_class" href="a02326.html">LumexStringView</a> rhs) <a class="code hl_define" href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
-<div class="line"><a id="l01222" name="l01222"></a><span class="lineno"> 1222</span>{</div>
-<div class="line"><a id="l01223" name="l01223"></a><span class="lineno"> 1223</span>  <span class="keywordflow">return</span> lhs.size () == rhs.size () &amp;&amp; lhs.compare (rhs) == 0;</div>
-<div class="line"><a id="l01224" name="l01224"></a><span class="lineno"> 1224</span>}</div>
+<div class="foldopen" id="foldopen00087" data-start="" data-end="">
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno"><a class="line" href="a00320.html#ad08c1e3d45f6bcd519583c4cf904f29f">   87</a></span><span class="preprocessor">#define LUMEX_MATH_CONSTANTS_RECIPROCAL_PI                                    \</span></div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span><span class="preprocessor">  0.31830988618379067153776752674502872406891929148091</span></div>
 </div>
-<div class="line"><a id="l01225" name="l01225"></a><span class="lineno"> 1225</span></div>
-<div class="line"><a id="l01235" name="l01235"></a><span class="lineno"> 1235</span><a class="code hl_define" href="a00605.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a> <span class="keyword">inline</span> <span class="keywordtype">bool</span></div>
-<div class="foldopen" id="foldopen01236" data-start="{" data-end="}">
-<div class="line"><a id="l01236" name="l01236"></a><span class="lineno"><a class="line" href="a01029.html#ae5d19365f08210c2968ec814a557034d"> 1236</a></span><a class="code hl_function" href="a01029.html#ae5d19365f08210c2968ec814a557034d">operator!= </a>(<a class="code hl_class" href="a02326.html">LumexStringView</a> lhs, <a class="code hl_class" href="a02326.html">LumexStringView</a> rhs) <a class="code hl_define" href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
-<div class="line"><a id="l01237" name="l01237"></a><span class="lineno"> 1237</span>{</div>
-<div class="line"><a id="l01238" name="l01238"></a><span class="lineno"> 1238</span>  <span class="keywordflow">return</span> !(lhs == rhs);</div>
-<div class="line"><a id="l01239" name="l01239"></a><span class="lineno"> 1239</span>}</div>
+<div class="foldopen" id="foldopen00089" data-start="" data-end="">
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno"><a class="line" href="a00320.html#a953dede6a9a9740fb0e4e90f22ebb1bb">   89</a></span><span class="preprocessor">#define LUMEX_MATH_CONSTANTS_SQRT_PI                                          \</span></div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span><span class="preprocessor">  1.77245385090551602729816748334114518279754945612239</span></div>
 </div>
-<div class="line"><a id="l01240" name="l01240"></a><span class="lineno"> 1240</span></div>
-<div class="foldopen" id="foldopen01250" data-start="{" data-end="}">
-<div class="line"><a id="l01250" name="l01250"></a><span class="lineno"><a class="line" href="a01029.html#ae71fc73bbe8d14776985168ff05a4fc7"> 1250</a></span><a class="code hl_define" href="a00605.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a> <span class="keyword">inline</span> <span class="keywordtype">bool</span></div>
-<div class="line"><a id="l01251" name="l01251"></a><span class="lineno"> 1251</span><a class="code hl_function" href="a01029.html#ae71fc73bbe8d14776985168ff05a4fc7">operator&lt; </a>(<a class="code hl_class" href="a02326.html">LumexStringView</a> lhs, <a class="code hl_class" href="a02326.html">LumexStringView</a> rhs) <a class="code hl_define" href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
-<div class="line"><a id="l01252" name="l01252"></a><span class="lineno"> 1252</span>{</div>
-<div class="line"><a id="l01253" name="l01253"></a><span class="lineno"> 1253</span>  <span class="keywordflow">return</span> lhs.compare (rhs) &lt; 0;</div>
-<div class="line"><a id="l01254" name="l01254"></a><span class="lineno"> 1254</span>}</div>
+<div class="foldopen" id="foldopen00091" data-start="" data-end="">
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno"><a class="line" href="a00320.html#a34e8ed5a85456096dcd3ba5c8c8526bc">   91</a></span><span class="preprocessor">#define LUMEX_MATH_CONSTANTS_INVERSE_SQRT_PI                                  \</span></div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span><span class="preprocessor">  0.56418958354775628694807945156077258584405905105952</span></div>
 </div>
-<div class="line"><a id="l01255" name="l01255"></a><span class="lineno"> 1255</span></div>
-<div class="line"><a id="l01265" name="l01265"></a><span class="lineno"> 1265</span><a class="code hl_define" href="a00605.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a> <span class="keyword">inline</span> <span class="keywordtype">bool</span></div>
-<div class="foldopen" id="foldopen01266" data-start="{" data-end="}">
-<div class="line"><a id="l01266" name="l01266"></a><span class="lineno"><a class="line" href="a01029.html#a8a9534bca9935f3a1285756690925724"> 1266</a></span><a class="code hl_function" href="a01029.html#a8a9534bca9935f3a1285756690925724">operator&gt; </a>(<a class="code hl_class" href="a02326.html">LumexStringView</a> lhs, <a class="code hl_class" href="a02326.html">LumexStringView</a> rhs) <a class="code hl_define" href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
-<div class="line"><a id="l01267" name="l01267"></a><span class="lineno"> 1267</span>{</div>
-<div class="line"><a id="l01268" name="l01268"></a><span class="lineno"> 1268</span>  <span class="keywordflow">return</span> lhs.compare (rhs) &gt; 0;</div>
-<div class="line"><a id="l01269" name="l01269"></a><span class="lineno"> 1269</span>}</div>
+<div class="foldopen" id="foldopen00093" data-start="" data-end="">
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno"><a class="line" href="a00320.html#a07299359a3e831b42a9dc68b20029f76">   93</a></span><span class="preprocessor">#define LUMEX_MATH_CONSTANTS_COPERNICUS_CONSTANT                              \</span></div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span><span class="preprocessor">  0.01745329251994329576922222222222222222222222222222 </span><span class="comment">// (pi/180)</span></div>
 </div>
-<div class="line"><a id="l01270" name="l01270"></a><span class="lineno"> 1270</span></div>
-<div class="foldopen" id="foldopen01281" data-start="{" data-end="}">
-<div class="line"><a id="l01281" name="l01281"></a><span class="lineno"><a class="line" href="a01029.html#a58a4441e1fe118ac502723a203b1df9b"> 1281</a></span><a class="code hl_define" href="a00605.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a> <span class="keyword">inline</span> <span class="keywordtype">bool</span></div>
-<div class="line"><a id="l01282" name="l01282"></a><span class="lineno"> 1282</span><a class="code hl_function" href="a01029.html#a58a4441e1fe118ac502723a203b1df9b">operator&lt;= </a>(<a class="code hl_class" href="a02326.html">LumexStringView</a> lhs, <a class="code hl_class" href="a02326.html">LumexStringView</a> rhs) <a class="code hl_define" href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
-<div class="line"><a id="l01283" name="l01283"></a><span class="lineno"> 1283</span>{</div>
-<div class="line"><a id="l01284" name="l01284"></a><span class="lineno"> 1284</span>  <span class="keywordflow">return</span> lhs.compare (rhs) &lt;= 0;</div>
-<div class="line"><a id="l01285" name="l01285"></a><span class="lineno"> 1285</span>}</div>
+<div class="foldopen" id="foldopen00095" data-start="" data-end="">
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno"><a class="line" href="a00320.html#a973ad186d224eb2b533085db9109fadb">   95</a></span><span class="preprocessor">#define LUMEX_MATH_CONSTANTS_GRAVITY_ACCELERATION                             \</span></div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span><span class="preprocessor">  9.80665000000000000000000000000000000000000000000000 </span><span class="comment">// Standard Gravity on</span></div>
 </div>
-<div class="line"><a id="l01286" name="l01286"></a><span class="lineno"> 1286</span></div>
-<div class="line"><a id="l01297" name="l01297"></a><span class="lineno"> 1297</span><a class="code hl_define" href="a00605.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a> <span class="keyword">inline</span> <span class="keywordtype">bool</span></div>
-<div class="foldopen" id="foldopen01298" data-start="{" data-end="}">
-<div class="line"><a id="l01298" name="l01298"></a><span class="lineno"><a class="line" href="a01029.html#a50e82bbcc604c5cde9e1da5300b16f2d"> 1298</a></span><a class="code hl_function" href="a01029.html#a50e82bbcc604c5cde9e1da5300b16f2d">operator&gt;= </a>(<a class="code hl_class" href="a02326.html">LumexStringView</a> lhs, <a class="code hl_class" href="a02326.html">LumexStringView</a> rhs) <a class="code hl_define" href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
-<div class="line"><a id="l01299" name="l01299"></a><span class="lineno"> 1299</span>{</div>
-<div class="line"><a id="l01300" name="l01300"></a><span class="lineno"> 1300</span>  <span class="keywordflow">return</span> lhs.compare (rhs) &gt;= 0;</div>
-<div class="line"><a id="l01301" name="l01301"></a><span class="lineno"> 1301</span>}</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>                                                       <span class="comment">// Earth (m/s^2)</span></div>
+<div class="foldopen" id="foldopen00098" data-start="" data-end="">
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno"><a class="line" href="a00320.html#ae0a9d59070a4da7ef40198827b7bae2a">   98</a></span><span class="preprocessor">#define LUMEX_MATH_CONSTANTS_LIGHT_SPEED                                      \</span></div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span><span class="preprocessor">  299792458.000000000000000000000000000000000000000000 </span><span class="comment">// Speed of Light in</span></div>
 </div>
-<div class="line"><a id="l01302" name="l01302"></a><span class="lineno"> 1302</span> </div>
-<div class="line"><a id="l01303" name="l01303"></a><span class="lineno"> 1303</span><span class="comment">// -- Stream inserter --</span></div>
-<div class="line"><a id="l01314" name="l01314"></a><span class="lineno"> 1314</span><a class="code hl_define" href="a00605.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a> std::ostream &amp;<a class="code hl_function" href="a01029.html#a20370c897abc4c8a4d3307351022aaaa">operator&lt;&lt; </a>(std::ostream &amp;ostr, <a class="code hl_typedef" href="a00320.html#a27778c0df3cb97e862cd47d3f966ec26">LumexStringView</a> sview);</div>
-<div class="line"><a id="l01315" name="l01315"></a><span class="lineno"> 1315</span>} <span class="comment">// namespace view</span></div>
-<div class="line"><a id="l01316" name="l01316"></a><span class="lineno"> 1316</span>} <span class="comment">// namespace string_view</span></div>
-<div class="line"><a id="l01317" name="l01317"></a><span class="lineno"> 1317</span>} <span class="comment">// namespace core</span></div>
-<div class="line"><a id="l01318" name="l01318"></a><span class="lineno"> 1318</span>} <span class="comment">// namespace lumex</span></div>
-<div class="line"><a id="l01319" name="l01319"></a><span class="lineno"> 1319</span></div>
-<div class="line"><a id="l01327" name="l01327"></a><span class="lineno"><a class="line" href="a00320.html#a27778c0df3cb97e862cd47d3f966ec26"> 1327</a></span><span class="keyword">using </span><a class="code hl_typedef" href="a00320.html#a27778c0df3cb97e862cd47d3f966ec26">LumexStringView</a> = <a class="code hl_class" href="a02326.html">lumex::core::string_view::view::LumexStringView</a>;</div>
-<div class="line"><a id="l01328" name="l01328"></a><span class="lineno"> 1328</span> </div>
-<div class="line"><a id="l01329" name="l01329"></a><span class="lineno"> 1329</span><span class="preprocessor">#if defined(__clang__)</span></div>
-<div class="line"><a id="l01330" name="l01330"></a><span class="lineno"> 1330</span><span class="preprocessor">#pragma clang diagnostic pop</span></div>
-<div class="line"><a id="l01331" name="l01331"></a><span class="lineno"> 1331</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l01332" name="l01332"></a><span class="lineno"> 1332</span> </div>
-<div class="line"><a id="l01333" name="l01333"></a><span class="lineno"> 1333</span><span class="preprocessor">#endif </span><span class="comment">// LUMEX_CORE_STRING_VIEW_VIEW_STRING_VIEW_HPP</span></div>
-<div class="ttc" id="aa00320_html_a27778c0df3cb97e862cd47d3f966ec26"><div class="ttname"><a href="a00320.html#a27778c0df3cb97e862cd47d3f966ec26">LumexStringView</a></div><div class="ttdeci">lumex::core::string_view::view::LumexStringView LumexStringView</div><div class="ttdoc">Global type alias for lumex::core::string_view::LumexStringView.</div><div class="ttdef"><b>Definition</b> LumexStringView.hpp:1327</div></div>
-<div class="ttc" id="aa00353_html"><div class="ttname"><a href="a00353.html">LumexAttributes.hpp</a></div><div class="ttdoc">LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P...</div></div>
-<div class="ttc" id="aa00353_html_af6aeadbda428235a14f147ade9783f8f"><div class="ttname"><a href="a00353.html#af6aeadbda428235a14f147ade9783f8f">LUMEX_ATTRIBUTE_NODISCARD</a></div><div class="ttdeci">#define LUMEX_ATTRIBUTE_NODISCARD(msg)</div><div class="ttdef"><b>Definition</b> LumexAttributes.hpp:77</div></div>
-<div class="ttc" id="aa00389_html"><div class="ttname"><a href="a00389.html">LumexKeywords.hpp</a></div><div class="ttdoc">Macros that spell C++ keywords and specifiers only where the compiled standard supports them,...</div></div>
-<div class="ttc" id="aa00389_html_a1513006a1992e7dc9cc43b2e081cc33f"><div class="ttname"><a href="a00389.html#a1513006a1992e7dc9cc43b2e081cc33f">LUMEX_CONSTEXPR</a></div><div class="ttdeci">#define LUMEX_CONSTEXPR</div><div class="ttdef"><b>Definition</b> LumexKeywords.hpp:164</div></div>
-<div class="ttc" id="aa00389_html_a8932f306494e2abfe9045da20a41e47c"><div class="ttname"><a href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div><div class="ttdeci">#define LUMEX_NOEXCEPT</div><div class="ttdef"><b>Definition</b> LumexKeywords.hpp:84</div></div>
-<div class="ttc" id="aa00389_html_a8aac503affc067676ceedfe24f4c3357"><div class="ttname"><a href="a00389.html#a8aac503affc067676ceedfe24f4c3357">LUMEX_CONSTEXPR_CTOR</a></div><div class="ttdeci">#define LUMEX_CONSTEXPR_CTOR</div><div class="ttdef"><b>Definition</b> LumexKeywords.hpp:123</div></div>
-<div class="ttc" id="aa00605_html"><div class="ttname"><a href="a00605.html">LumexExport.hpp</a></div><div class="ttdoc">Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,...</div></div>
-<div class="ttc" id="aa00605_html_aa948a1b1a43f6a954fd4c15b01ae4207"><div class="ttname"><a href="a00605.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a></div><div class="ttdeci">#define LUMEX_API</div><div class="ttdef"><b>Definition</b> LumexExport.hpp:90</div></div>
-<div class="ttc" id="aa00912_html"><div class="ttname"><a href="a00912.html">lumex</a></div><div class="ttdef"><b>Definition</b> LumexCPUVectorizationCapabilities.cpp:65</div></div>
-<div class="ttc" id="aa00964_html"><div class="ttname"><a href="a00964.html">lumex::core</a></div><div class="ttdef"><b>Definition</b> LumexAtomicSharedPtr.hpp:103</div></div>
-<div class="ttc" id="aa00999_html"><div class="ttname"><a href="a00999.html">std</a></div><div class="ttdef"><b>Definition</b> LumexStacktraceEntry.hpp:452</div></div>
-<div class="ttc" id="aa01028_html"><div class="ttname"><a href="a01028.html">lumex::core::string_view</a></div><div class="ttdoc">Core library components.</div><div class="ttdef"><b>Definition</b> LumexStringView.cpp:54</div></div>
-<div class="ttc" id="aa01029_html"><div class="ttname"><a href="a01029.html">lumex::core::string_view::view</a></div><div class="ttdef"><b>Definition</b> LumexStringView.cpp:56</div></div>
-<div class="ttc" id="aa01029_html_a20370c897abc4c8a4d3307351022aaaa"><div class="ttname"><a href="a01029.html#a20370c897abc4c8a4d3307351022aaaa">lumex::core::string_view::view::operator&lt;&lt;</a></div><div class="ttdeci">std::ostream &amp; operator&lt;&lt;(std::ostream &amp;ostr, LumexStringView sview)</div><div class="ttdoc">Overload for inserting a LumexStringView into an std::ostream.</div><div class="ttdef"><b>Definition</b> LumexStringView.cpp:475</div></div>
-<div class="ttc" id="aa01029_html_a50e82bbcc604c5cde9e1da5300b16f2d"><div class="ttname"><a href="a01029.html#a50e82bbcc604c5cde9e1da5300b16f2d">lumex::core::string_view::view::operator&gt;=</a></div><div class="ttdeci">bool operator&gt;=(LumexStringView lhs, LumexStringView rhs) noexcept</div><div class="ttdoc">Greater-than-or-equal-to comparison operator for two LumexStringView objects.</div><div class="ttdef"><b>Definition</b> LumexStringView.hpp:1298</div></div>
-<div class="ttc" id="aa01029_html_a58a4441e1fe118ac502723a203b1df9b"><div class="ttname"><a href="a01029.html#a58a4441e1fe118ac502723a203b1df9b">lumex::core::string_view::view::operator&lt;=</a></div><div class="ttdeci">bool operator&lt;=(LumexStringView lhs, LumexStringView rhs) noexcept</div><div class="ttdoc">Less-than-or-equal-to comparison operator for two LumexStringView objects.</div><div class="ttdef"><b>Definition</b> LumexStringView.hpp:1282</div></div>
-<div class="ttc" id="aa01029_html_a8a9534bca9935f3a1285756690925724"><div class="ttname"><a href="a01029.html#a8a9534bca9935f3a1285756690925724">lumex::core::string_view::view::operator&gt;</a></div><div class="ttdeci">bool operator&gt;(LumexStringView lhs, LumexStringView rhs) noexcept</div><div class="ttdoc">Greater-than comparison operator for two LumexStringView objects.</div><div class="ttdef"><b>Definition</b> LumexStringView.hpp:1266</div></div>
-<div class="ttc" id="aa01029_html_aab89082a02175aec57fb548e1afb041d"><div class="ttname"><a href="a01029.html#aab89082a02175aec57fb548e1afb041d">lumex::core::string_view::view::operator==</a></div><div class="ttdeci">bool operator==(LumexStringView lhs, LumexStringView rhs) noexcept</div><div class="ttdoc">Equality comparison operator for two LumexStringView objects.</div><div class="ttdef"><b>Definition</b> LumexStringView.hpp:1221</div></div>
-<div class="ttc" id="aa01029_html_ae5d19365f08210c2968ec814a557034d"><div class="ttname"><a href="a01029.html#ae5d19365f08210c2968ec814a557034d">lumex::core::string_view::view::operator!=</a></div><div class="ttdeci">bool operator!=(LumexStringView lhs, LumexStringView rhs) noexcept</div><div class="ttdoc">Inequality comparison operator for two LumexStringView objects.</div><div class="ttdef"><b>Definition</b> LumexStringView.hpp:1236</div></div>
-<div class="ttc" id="aa01029_html_ae71fc73bbe8d14776985168ff05a4fc7"><div class="ttname"><a href="a01029.html#ae71fc73bbe8d14776985168ff05a4fc7">lumex::core::string_view::view::operator&lt;</a></div><div class="ttdeci">bool operator&lt;(LumexStringView lhs, LumexStringView rhs) noexcept</div><div class="ttdoc">Less-than comparison operator for two LumexStringView objects.</div><div class="ttdef"><b>Definition</b> LumexStringView.hpp:1251</div></div>
-<div class="ttc" id="aa02326_html"><div class="ttname"><a href="a02326.html">lumex::core::string_view::view::LumexStringView</a></div><div class="ttdoc">A lightweight, non-owning view over a contiguous sequence of char characters.</div><div class="ttdef"><b>Definition</b> LumexStringView.hpp:128</div></div>
-<div class="ttc" id="aa02326_html_a081bd2dbe2129dc391387ed3353c78a9"><div class="ttname"><a href="a02326.html#a081bd2dbe2129dc391387ed3353c78a9">lumex::core::string_view::view::LumexStringView::max_size</a></div><div class="ttdeci">static constexpr size_type max_size() noexcept</div><div class="ttdoc">Returns the maximum possible number of characters in a LumexStringView.</div><div class="ttdef"><b>Definition</b> LumexStringView.hpp:449</div></div>
-<div class="ttc" id="aa02326_html_a13df646e3be5c0590c8f3ae8a670c78a"><div class="ttname"><a href="a02326.html#a13df646e3be5c0590c8f3ae8a670c78a">lumex::core::string_view::view::LumexStringView::const_reverse_iterator</a></div><div class="ttdeci">std::reverse_iterator&lt; const_pointer &gt; const_reverse_iterator</div><div class="ttdoc">Alias for a const reverse iterator.</div><div class="ttdef"><b>Definition</b> LumexStringView.hpp:168</div></div>
-<div class="ttc" id="aa02326_html_a183e1da564e68349301f2eb4d16fc4ac"><div class="ttname"><a href="a02326.html#a183e1da564e68349301f2eb4d16fc4ac">lumex::core::string_view::view::LumexStringView::~LumexStringView</a></div><div class="ttdeci">~LumexStringView()=default</div><div class="ttdoc">Destructor.</div></div>
-<div class="ttc" id="aa02326_html_a19a5de629fbc720c5672939d15254aa5"><div class="ttname"><a href="a02326.html#a19a5de629fbc720c5672939d15254aa5">lumex::core::string_view::view::LumexStringView::LumexStringView</a></div><div class="ttdeci">constexpr LumexStringView() noexcept</div><div class="ttdoc">Default constructor. Creates an empty LumexStringView.</div><div class="ttdef"><b>Definition</b> LumexStringView.hpp:194</div></div>
-<div class="ttc" id="aa02326_html_a1e88e631b6bb7fecbabc0013c70b7089"><div class="ttname"><a href="a02326.html#a1e88e631b6bb7fecbabc0013c70b7089">lumex::core::string_view::view::LumexStringView::value_type</a></div><div class="ttdeci">char value_type</div><div class="ttdoc">Alias for the character type (char).</div><div class="ttdef"><b>Definition</b> LumexStringView.hpp:134</div></div>
-<div class="ttc" id="aa02326_html_a213bd42f164e17b5595f615cd8fec107"><div class="ttname"><a href="a02326.html#a213bd42f164e17b5595f615cd8fec107">lumex::core::string_view::view::LumexStringView::const_pointer</a></div><div class="ttdeci">char const * const_pointer</div><div class="ttdoc">Alias for a const pointer to the character type.</div><div class="ttdef"><b>Definition</b> LumexStringView.hpp:142</div></div>
-<div class="ttc" id="aa02326_html_a26506e58202dc9d20bdda5ea19ccf0ce"><div class="ttname"><a href="a02326.html#a26506e58202dc9d20bdda5ea19ccf0ce">lumex::core::string_view::view::LumexStringView::cend</a></div><div class="ttdeci">constexpr const_iterator cend() const noexcept</div><div class="ttdoc">Returns a const iterator to the character following the last character of the view.</div><div class="ttdef"><b>Definition</b> LumexStringView.hpp:340</div></div>
-<div class="ttc" id="aa02326_html_a325d72880bfc3306bcaba8043559b438"><div class="ttname"><a href="a02326.html#a325d72880bfc3306bcaba8043559b438">lumex::core::string_view::view::LumexStringView::size_type</a></div><div class="ttdeci">std::size_t size_type</div><div class="ttdoc">Alias for the size type (std::size_t).</div><div class="ttdef"><b>Definition</b> LumexStringView.hpp:172</div></div>
-<div class="ttc" id="aa02326_html_a334ab7c6f71d6ae0e38cb74f6296bf3b"><div class="ttname"><a href="a02326.html#a334ab7c6f71d6ae0e38cb74f6296bf3b">lumex::core::string_view::view::LumexStringView::reverse_iterator</a></div><div class="ttdeci">std::reverse_iterator&lt; const_pointer &gt; reverse_iterator</div><div class="ttdoc">Alias for a reverse iterator.</div><div class="ttdef"><b>Definition</b> LumexStringView.hpp:164</div></div>
-<div class="ttc" id="aa02326_html_a38032f1f81e9ddf8d44330b2cfe7c657"><div class="ttname"><a href="a02326.html#a38032f1f81e9ddf8d44330b2cfe7c657">lumex::core::string_view::view::LumexStringView::LumexStringView</a></div><div class="ttdeci">constexpr LumexStringView(char const *str, size_type len) noexcept</div><div class="ttdoc">Constructs a LumexStringView from a pointer to character data and a specified length.</div><div class="ttdef"><b>Definition</b> LumexStringView.hpp:225</div></div>
-<div class="ttc" id="aa02326_html_a3b362d2a08291aa7660f069ca1ffe6d0"><div class="ttname"><a href="a02326.html#a3b362d2a08291aa7660f069ca1ffe6d0">lumex::core::string_view::view::LumexStringView::size</a></div><div class="ttdeci">constexpr size_type size() const noexcept</div><div class="ttdoc">Returns the number of characters in the view.</div><div class="ttdef"><b>Definition</b> LumexStringView.hpp:406</div></div>
-<div class="ttc" id="aa02326_html_a45bb9712ce876e808903309b89394e3d"><div class="ttname"><a href="a02326.html#a45bb9712ce876e808903309b89394e3d">lumex::core::string_view::view::LumexStringView::back</a></div><div class="ttdeci">constexpr const_reference back() const noexcept</div><div class="ttdoc">Returns a const reference to the last character of the view.</div><div class="ttdef"><b>Definition</b> LumexStringView.hpp:514</div></div>
-<div class="ttc" id="aa02326_html_a4b140468ae990a900e9419484f5747eb"><div class="ttname"><a href="a02326.html#a4b140468ae990a900e9419484f5747eb">lumex::core::string_view::view::LumexStringView::cbegin</a></div><div class="ttdeci">constexpr const_iterator cbegin() const noexcept</div><div class="ttdoc">Returns a const iterator to the first character of the view.</div><div class="ttdef"><b>Definition</b> LumexStringView.hpp:306</div></div>
-<div class="ttc" id="aa02326_html_a4bc32ed0ff660f6dce06a6f8b8a44d46"><div class="ttname"><a href="a02326.html#a4bc32ed0ff660f6dce06a6f8b8a44d46">lumex::core::string_view::view::LumexStringView::LumexStringView</a></div><div class="ttdeci">constexpr LumexStringView(LumexStringView &amp;&amp;other) noexcept=default</div><div class="ttdoc">Move constructor. Creates a new LumexStringView by moving from another.</div></div>
-<div class="ttc" id="aa02326_html_a54b320087fa4cad5bddf291d173564cb"><div class="ttname"><a href="a02326.html#a54b320087fa4cad5bddf291d173564cb">lumex::core::string_view::view::LumexStringView::LumexStringView</a></div><div class="ttdeci">constexpr LumexStringView(LumexStringView const &amp;other) noexcept=default</div><div class="ttdoc">Copy constructor. Creates a new LumexStringView that views the same data.</div></div>
-<div class="ttc" id="aa02326_html_a5ca00b4f78b137afee0176ad28613f5f"><div class="ttname"><a href="a02326.html#a5ca00b4f78b137afee0176ad28613f5f">lumex::core::string_view::view::LumexStringView::const_iterator</a></div><div class="ttdeci">const_pointer const_iterator</div><div class="ttdoc">Alias for a const iterator.</div><div class="ttdef"><b>Definition</b> LumexStringView.hpp:160</div></div>
-<div class="ttc" id="aa02326_html_a68725ebaec8bb90052cdcc500c56f885"><div class="ttname"><a href="a02326.html#a68725ebaec8bb90052cdcc500c56f885">lumex::core::string_view::view::LumexStringView::npos</a></div><div class="ttdeci">static size_type const npos</div><div class="ttdoc">A static constant representing &quot;not a position&quot;.</div><div class="ttdef"><b>Definition</b> LumexStringView.hpp:184</div></div>
-<div class="ttc" id="aa02326_html_a6dda2ca36f6c42193c9582c2d22f72bc"><div class="ttname"><a href="a02326.html#a6dda2ca36f6c42193c9582c2d22f72bc">lumex::core::string_view::view::LumexStringView::front</a></div><div class="ttdeci">constexpr const_reference front() const noexcept</div><div class="ttdoc">Returns a const reference to the first character of the view.</div><div class="ttdef"><b>Definition</b> LumexStringView.hpp:498</div></div>
-<div class="ttc" id="aa02326_html_a7a13b6b21dfec4a5adde64c4cf030b09"><div class="ttname"><a href="a02326.html#a7a13b6b21dfec4a5adde64c4cf030b09">lumex::core::string_view::view::LumexStringView::iterator</a></div><div class="ttdeci">const_pointer iterator</div><div class="ttdoc">Alias for a non-const iterator.</div><div class="ttdef"><b>Definition</b> LumexStringView.hpp:156</div></div>
-<div class="ttc" id="aa02326_html_a8d3cc20492304ff97664ca64804702b3"><div class="ttname"><a href="a02326.html#a8d3cc20492304ff97664ca64804702b3">lumex::core::string_view::view::LumexStringView::const_reference</a></div><div class="ttdeci">char const &amp; const_reference</div><div class="ttdoc">Alias for a const reference to the character type.</div><div class="ttdef"><b>Definition</b> LumexStringView.hpp:150</div></div>
-<div class="ttc" id="aa02326_html_a9577a05436fdab9556d62016c101fa49"><div class="ttname"><a href="a02326.html#a9577a05436fdab9556d62016c101fa49">lumex::core::string_view::view::LumexStringView::data</a></div><div class="ttdeci">constexpr const_pointer data() const noexcept</div><div class="ttdoc">Returns a pointer to the beginning of the character data.</div><div class="ttdef"><b>Definition</b> LumexStringView.hpp:532</div></div>
-<div class="ttc" id="aa02326_html_aa1bc8b1cb2c1fca19b07a596bcb1471c"><div class="ttname"><a href="a02326.html#aa1bc8b1cb2c1fca19b07a596bcb1471c">lumex::core::string_view::view::LumexStringView::end</a></div><div class="ttdeci">constexpr const_iterator end() const noexcept</div><div class="ttdoc">Returns a const iterator to the character following the last character of the view.</div><div class="ttdef"><b>Definition</b> LumexStringView.hpp:323</div></div>
-<div class="ttc" id="aa02326_html_aa376f55df1cdf1e1907183b6e1a82833"><div class="ttname"><a href="a02326.html#aa376f55df1cdf1e1907183b6e1a82833">lumex::core::string_view::view::LumexStringView::LumexStringView</a></div><div class="ttdeci">LumexStringView(std::basic_string&lt; char, std::char_traits&lt; char &gt;, Allocator &gt; const &amp;str) noexcept</div><div class="ttdoc">Constructs a LumexStringView from a std::basic_string&lt;char&gt;.</div><div class="ttdef"><b>Definition</b> LumexStringView.hpp:1175</div></div>
-<div class="ttc" id="aa02326_html_ab9e364978cfd85cfac95f913eef0fda5"><div class="ttname"><a href="a02326.html#ab9e364978cfd85cfac95f913eef0fda5">lumex::core::string_view::view::LumexStringView::length</a></div><div class="ttdeci">constexpr size_type length() const noexcept</div><div class="ttdoc">Returns the number of characters in the view.</div><div class="ttdef"><b>Definition</b> LumexStringView.hpp:421</div></div>
-<div class="ttc" id="aa02326_html_ac381aeaf6b2826e1e10d323c088350f3"><div class="ttname"><a href="a02326.html#ac381aeaf6b2826e1e10d323c088350f3">lumex::core::string_view::view::LumexStringView::reference</a></div><div class="ttdeci">char const &amp; reference</div><div class="ttdoc">Alias for a non-const reference to the character type.</div><div class="ttdef"><b>Definition</b> LumexStringView.hpp:146</div></div>
-<div class="ttc" id="aa02326_html_acb2bdd79e0f056f9231f4127008b8866"><div class="ttname"><a href="a02326.html#acb2bdd79e0f056f9231f4127008b8866">lumex::core::string_view::view::LumexStringView::begin</a></div><div class="ttdeci">constexpr const_iterator begin() const noexcept</div><div class="ttdoc">Returns a const iterator to the first character of the view.</div><div class="ttdef"><b>Definition</b> LumexStringView.hpp:291</div></div>
-<div class="ttc" id="aa02326_html_ae185c8585ca1ef2d0bef9d796d3c2898"><div class="ttname"><a href="a02326.html#ae185c8585ca1ef2d0bef9d796d3c2898">lumex::core::string_view::view::LumexStringView::to_string</a></div><div class="ttdeci">std::basic_string&lt; char, std::char_traits&lt; char &gt;, Allocator &gt; to_string(Allocator const &amp;alloc=Allocator()) const</div><div class="ttdoc">Converts the LumexStringView to a std::basic_string&lt;char&gt;.</div><div class="ttdef"><b>Definition</b> LumexStringView.hpp:1158</div></div>
-<div class="ttc" id="aa02326_html_af258b1cd5c488b96ab11eb840b089f87"><div class="ttname"><a href="a02326.html#af258b1cd5c488b96ab11eb840b089f87">lumex::core::string_view::view::LumexStringView::pointer</a></div><div class="ttdeci">char const * pointer</div><div class="ttdoc">Alias for a non-const pointer to the character type.</div><div class="ttdef"><b>Definition</b> LumexStringView.hpp:138</div></div>
-<div class="ttc" id="aa02326_html_af5361b1f3400f2c0f4eca2b185a15961"><div class="ttname"><a href="a02326.html#af5361b1f3400f2c0f4eca2b185a15961">lumex::core::string_view::view::LumexStringView::empty</a></div><div class="ttdeci">constexpr bool empty() const noexcept</div><div class="ttdoc">Checks if the view is empty (i.e., has a size of 0).</div><div class="ttdef"><b>Definition</b> LumexStringView.hpp:435</div></div>
-<div class="ttc" id="aa02326_html_af6b0a30e308af23d67edea2c6aa5186e"><div class="ttname"><a href="a02326.html#af6b0a30e308af23d67edea2c6aa5186e">lumex::core::string_view::view::LumexStringView::difference_type</a></div><div class="ttdeci">std::ptrdiff_t difference_type</div><div class="ttdoc">Alias for the difference type (std::ptrdiff_t).</div><div class="ttdef"><b>Definition</b> LumexStringView.hpp:176</div></div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>                                                       <span class="comment">// Vacuum (m/s)</span></div>
+<div class="foldopen" id="foldopen00101" data-start="" data-end="">
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno"><a class="line" href="a00320.html#aff4b7903e7fa7a3be57542688b7f3da7">  101</a></span><span class="preprocessor">#define LUMEX_MATH_CONSTANTS_PLANCK_CONSTANT                                  \</span></div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span><span class="preprocessor">  6.62607015000000000000000000000000000000000000000000 </span><span class="comment">// Planck Constant (J.s)</span></div>
+</div>
+<div class="foldopen" id="foldopen00103" data-start="" data-end="">
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno"><a class="line" href="a00320.html#a81d3814edd34efc7ab9be4e794006ccf">  103</a></span><span class="preprocessor">#define LUMEX_MATH_CONSTANTS_AVOGADRO_CONSTANT                                \</span></div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span><span class="preprocessor">  6.02214076000000000000000000000000000000000000000000 </span><span class="comment">// Avogadro Constant</span></div>
+</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>                                                       <span class="comment">// (mol^-1)</span></div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span> </div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span><span class="preprocessor">#endif </span><span class="comment">// !LUMEX_CORE_MATH_CONSTANTS_HPP</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_bbd40a496777ba5881d1b96c9f04381d.html">string_view</a></li><li class="navelem"><a class="el" href="dir_95349814814eaf45a7cf2d6bae5f3802.html">view</a></li><li class="navelem"><a class="el" href="a00320.html">LumexStringView.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_d223f57be190bde72e88025a46faedd4.html">math</a></li><li class="navelem"><a class="el" href="dir_3e6c35e348a445e7cf0fb5d49f1e3ff7.html">constants</a></li><li class="navelem"><a class="el" href="a00320.html">LumexMathConstants.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

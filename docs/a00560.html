@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: example_settings_xml.cpp File Reference</title>
+<title>LumexLib: example_math_workflow.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -105,19 +105,60 @@ $(function(){initNavTree('a00560.html',''); initResizable(true); });
 <div class="header">
   <div class="summary">
 <a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">example_settings_xml.cpp File Reference</div></div>
+  <div class="headertitle"><div class="title">example_math_workflow.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;cstdio&gt;</code><br />
-<code>#include &lt;fstream&gt;</code><br />
-<code>#include &lt;iostream&gt;</code><br />
-<code>#include &lt;memory&gt;</code><br />
-<code>#include &lt;string&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00851_source.html">lumex/applied/settings/LumexSettings</a>&quot;</code><br />
+<div class="textblock"><code>#include &lt;iostream&gt;</code><br />
+<code>#include &lt;vector&gt;</code><br />
+<code>#include &quot;<a class="el" href="a00920_source.html">lumex/core/math/LumexMath</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for example_settings_xml.cpp:</div>
+Include dependency graph for example_math_workflow.cpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00561.png" border="0" usemap="#aexample__settings__xml_8cpp" alt=""/></div>
+<div class="center"><img src="a00561.png" border="0" usemap="#aexample__math__workflow_8cpp" alt=""/></div>
+<map name="aexample__math__workflow_8cpp" id="aexample__math__workflow_8cpp">
+<area shape="rect" title=" " alt="" coords="243,5,433,32"/>
+<area shape="rect" title=" " alt="" coords="214,80,286,107"/>
+<area shape="poly" title=" " alt="" coords="324,35,279,72,275,68,321,30"/>
+<area shape="rect" title=" " alt="" coords="309,80,367,107"/>
+<area shape="poly" title=" " alt="" coords="341,33,341,64,335,64,335,33"/>
+<area shape="rect" href="a00920.html" title="Math module: mathematical constants as LUMEX_MATH_CONSTANTS_* macros, and numeric helpers such as NaN..." alt="" coords="391,80,581,107"/>
+<area shape="poly" title=" " alt="" coords="365,30,448,70,445,75,363,35"/>
+<area shape="rect" href="a00320.html" title="Mathematical constants as LUMEX_MATH_CONSTANTS_* macros." alt="" coords="262,155,497,181"/>
+<area shape="poly" title=" " alt="" coords="469,109,412,148,409,143,466,105"/>
+<area shape="rect" href="a00323.html" title="Numeric helpers: NaN/Inf checks, checked narrowing casts, distance, squared difference,..." alt="" coords="522,155,661,181"/>
+<area shape="poly" title=" " alt="" coords="506,105,562,143,559,148,503,109"/>
+<area shape="rect" title=" " alt="" coords="5,237,63,264"/>
+<area shape="poly" title=" " alt="" coords="521,182,509,184,386,194,290,197,195,205,140,215,76,232,71,233,70,228,75,227,139,210,194,200,290,192,386,189,508,179,521,177"/>
+<area shape="rect" title=" " alt="" coords="87,237,152,264"/>
+<area shape="poly" title=" " alt="" coords="522,182,509,184,411,195,335,200,259,209,164,232,159,234,157,229,163,227,258,204,334,195,411,189,508,179,521,177"/>
+<area shape="rect" title=" " alt="" coords="176,237,236,264"/>
+<area shape="poly" title=" " alt="" coords="522,183,360,210,249,232,245,233,243,228,248,227,359,205,521,178"/>
+<area shape="rect" title=" " alt="" coords="261,237,322,264"/>
+<area shape="poly" title=" " alt="" coords="522,184,432,204,335,232,330,234,329,228,333,227,431,199,521,179"/>
+<area shape="rect" title=" " alt="" coords="346,237,399,264"/>
+<area shape="poly" title=" " alt="" coords="547,184,482,205,411,232,409,233,407,228,409,227,480,200,545,179"/>
+<area shape="rect" title=" " alt="" coords="422,237,491,264"/>
+<area shape="poly" title=" " alt="" coords="572,184,492,232,489,227,569,180"/>
+<area shape="rect" title=" " alt="" coords="515,237,593,264"/>
+<area shape="poly" title=" " alt="" coords="588,183,568,225,564,222,583,181"/>
+<area shape="rect" title=" " alt="" coords="774,328,827,355"/>
+<area shape="poly" title=" " alt="" coords="599,180,620,224,637,248,657,270,681,288,708,303,760,325,758,330,706,308,678,293,654,274,633,251,616,226,594,183"/>
+<area shape="rect" title=" " alt="" coords="668,237,750,264"/>
+<area shape="poly" title=" " alt="" coords="611,180,679,226,676,231,608,184"/>
+<area shape="rect" title=" " alt="" coords="944,328,996,355"/>
+<area shape="poly" title=" " alt="" coords="662,166,758,168,867,176,918,184,964,195,1000,209,1025,228,1032,239,1034,251,1029,275,1015,298,997,319,993,315,1011,295,1024,273,1029,251,1027,241,1021,231,998,214,962,200,917,190,866,182,758,173,661,171"/>
+<area shape="rect" href="a00389.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="1086,229,1254,272"/>
+<area shape="poly" title=" " alt="" coords="662,174,846,196,1068,227,1071,227,1070,233,1067,232,845,201,661,179"/>
+<area shape="rect" href="a00404.html" title="C++ language, library and attribute feature availability." alt="" coords="1114,320,1346,363"/>
+<area shape="poly" title=" " alt="" coords="662,168,820,172,1011,182,1178,199,1236,212,1256,219,1268,228,1278,247,1277,268,1269,289,1258,308,1254,306,1265,287,1272,267,1272,248,1264,231,1253,224,1234,217,1177,205,1010,187,820,177,661,173"/>
+<area shape="rect" href="a00422.html" title="Macros that declare an exception class in one line." alt="" coords="774,229,1011,272"/>
+<area shape="poly" title=" " alt="" coords="639,179,801,222,800,227,638,184"/>
+<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="1329,229,1523,272"/>
+<area shape="poly" title=" " alt="" coords="662,170,945,190,1127,206,1310,227,1314,227,1313,232,1310,232,1127,211,945,195,661,176"/>
+<area shape="poly" title=" " alt="" coords="1186,271,1210,306,1205,309,1182,274"/>
+<area shape="poly" title=" " alt="" coords="873,274,827,319,823,315,869,270"/>
+<area shape="poly" title=" " alt="" coords="913,271,951,314,947,318,909,274"/>
+</map>
 </div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
@@ -144,6 +185,27 @@ Functions</h2></td></tr>
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="a00560_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph.png" border="0" usemap="#aa00560_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" alt=""/></div>
+<map name="aa00560_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" id="aa00560_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph">
+<area shape="rect" title=" " alt="" coords="5,113,55,140"/>
+<area shape="rect" href="a01053.html#a795166387deab30bf98b02619bca5c5b" title="Arithmetic mean of a range&#39;s elements, or ValueType{0} for an empty range." alt="" coords="103,5,237,48"/>
+<area shape="poly" title=" " alt="" coords="42,111,68,85,101,58,107,54,110,58,104,62,71,89,45,115"/>
+<area shape="rect" href="a01053.html#a0fd1a5acf2f1fed8edeee1309059b06f" title="Absolute difference |a &#45; b| of two integers, computed without an intermediate signed underflow for un..." alt="" coords="103,205,237,248"/>
+<area shape="poly" title=" " alt="" coords="45,138,71,164,104,191,110,195,107,199,101,195,68,168,42,142"/>
+<area shape="rect" href="a01053.html#ab00c52837c8e1c0898a38c85a2cce753" title="Root Mean Square of a range&#39;s elements, or ResultType{0} for an empty range." alt="" coords="103,72,237,115"/>
+<area shape="poly" title=" " alt="" coords="55,118,87,110,88,116,56,123"/>
+<area shape="rect" href="a01053.html#aeb97b3e1f4e91081b5a15bc768abe7ea" title="Root Mean Squared Error of a range against a fixed scalar: sqrt( 1/N * sum (x_i &#45; scalar)^2 )...." alt="" coords="103,139,237,181"/>
+<area shape="poly" title=" " alt="" coords="56,130,88,138,87,143,55,135"/>
+<area shape="rect" href="a01055.html#abdf8ed32a58d7ef1884b0e2eb69e139b" title="begin (range) with std::begin and ADL, as a range&#45;for does." alt="" coords="291,72,438,115"/>
+<area shape="poly" title=" " alt="" coords="235,46,287,64,285,69,233,51"/>
+<area shape="rect" href="a01055.html#a39800dfb129ce7e0f3b8520f0e8ce977" title="end (range) with std::end and ADL, as a range&#45;for does." alt="" coords="296,5,433,48"/>
+<area shape="poly" title=" " alt="" coords="237,24,281,24,281,29,237,29"/>
+<area shape="poly" title=" " alt="" coords="237,91,276,91,276,96,237,96"/>
+<area shape="poly" title=" " alt="" coords="233,69,285,51,287,56,235,74"/>
+<area shape="poly" title=" " alt="" coords="233,136,285,118,287,123,235,141"/>
+<area shape="poly" title=" " alt="" coords="219,136,235,125,250,108,258,92,267,75,283,58,288,54,291,59,287,62,272,78,263,94,254,111,239,129,223,140"/>
+<area shape="rect" href="a01053.html#a8c77830600ff2261070b9e599fdfe916" title="(a &#45; b)^2, computed in the common type of a and b (promoted, so two short operands give an int)." alt="" coords="285,139,444,181"/>
+<area shape="poly" title=" " alt="" coords="237,157,269,157,269,163,237,163"/>
+</map>
 </div>
 
 </div>
@@ -153,7 +215,7 @@ Here is the call graph for this function:</div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_e8ae4df8b8335e2a73ecf531ee4a4a97.html">examples</a></li><li class="navelem"><a class="el" href="dir_687203564ac037bfeaa905b155c4129c.html">settings</a></li><li class="navelem"><a class="el" href="a00560.html">example_settings_xml.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_e8ae4df8b8335e2a73ecf531ee4a4a97.html">examples</a></li><li class="navelem"><a class="el" href="dir_ae2a61691427ed53e2b314409aeb280c.html">math</a></li><li class="navelem"><a class="el" href="a00560.html">example_math_workflow.cpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

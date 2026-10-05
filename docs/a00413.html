@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexUtilities.hpp File Reference</title>
+<title>LumexLib: LumexCoreDumpGenerator.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,127 +104,174 @@ $(function(){initNavTree('a00413.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">LumexUtilities.hpp File Reference</div></div>
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#define-members">Macros</a>  </div>
+  <div class="headertitle"><div class="title">LumexCoreDumpGenerator.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-
-<p><code><a class="el" href="#a1ba5ecc2d6b26c1ed201070996b30997" title="Stores a POSIX file descriptor in a void * handle slot.">fd_to_ptr()</a></code> and <code><a class="el" href="#a7db0bf2ede705527a24f7207479c79b6" title="Gets back the POSIX file descriptor that fd_to_ptr() stored in a void *.">ptr_to_fd()</a></code>, which store a POSIX file descriptor in a <code>void *</code> handle slot and get it back.  
-<a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;cstdint&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00389_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="a00416_source.html">lumex/core/utility/dump/LumexCoreDumpGenerator.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for LumexUtilities.hpp:</div>
+Include dependency graph for LumexCoreDumpGenerator.cpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00414.png" border="0" usemap="#a_lumex_utilities_8hpp" alt=""/></div>
+<div class="center"><img src="a00414.png" border="0" usemap="#a_lumex_core_dump_generator_8cpp" alt=""/></div>
+<map name="a_lumex_core_dump_generator_8cpp" id="a_lumex_core_dump_generator_8cpp">
+<area shape="rect" title=" " alt="" coords="2983,5,3188,32"/>
+<area shape="rect" href="a00416.html" title="The crash dump subsystem of lumex::utility: CoreDumpGenerator, the DumpType enumeration,..." alt="" coords="2963,80,3208,123"/>
+<area shape="poly" title=" " alt="" coords="3088,32,3088,65,3083,65,3083,32"/>
+<area shape="rect" href="a00641.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="352,360,515,387"/>
+<area shape="poly" title=" " alt="" coords="2962,106,2311,112,1396,124,946,132,558,144,273,157,183,165,135,173,94,188,63,204,38,227,16,262,8,284,9,293,15,302,36,318,66,331,149,351,245,362,336,368,336,373,245,368,148,356,65,336,33,323,11,306,4,295,3,283,11,260,34,223,60,199,92,183,134,168,182,160,273,152,557,138,946,127,1396,118,2311,106,2962,101"/>
+<area shape="rect" title=" " alt="" coords="2014,179,2088,205"/>
+<area shape="poly" title=" " alt="" coords="2962,109,2755,117,2507,130,2271,149,2174,160,2101,173,2092,175,2091,170,2099,168,2174,155,2270,143,2506,125,2754,112,2962,104"/>
+<area shape="rect" title=" " alt="" coords="26,269,76,296"/>
+<area shape="poly" title=" " alt="" coords="2962,106,2329,113,1445,127,635,147,361,159,274,166,227,173,184,191,143,214,77,261,74,257,140,209,181,186,226,168,273,161,360,154,635,141,1445,121,2329,108,2962,101"/>
+<area shape="rect" title=" " alt="" coords="2113,179,2173,205"/>
+<area shape="poly" title=" " alt="" coords="2962,109,2772,117,2548,129,2337,148,2250,160,2185,173,2179,175,2178,170,2183,168,2249,154,2336,143,2547,124,2772,111,2962,104"/>
+<area shape="rect" title=" " alt="" coords="100,269,164,296"/>
+<area shape="poly" title=" " alt="" coords="2962,105,2375,105,1553,112,1141,120,777,133,494,150,395,161,329,173,280,191,234,214,161,262,158,258,231,210,278,186,327,168,394,156,494,145,777,127,1141,115,1553,107,2375,100,2962,100"/>
+<area shape="rect" title=" " alt="" coords="2197,179,2257,205"/>
+<area shape="poly" title=" " alt="" coords="2962,110,2590,132,2403,150,2327,161,2269,173,2263,175,2262,170,2267,168,2326,156,2402,145,2589,126,2962,105"/>
+<area shape="rect" title=" " alt="" coords="2281,179,2341,205"/>
+<area shape="poly" title=" " alt="" coords="2963,112,2633,135,2471,152,2354,173,2349,175,2347,170,2353,168,2470,147,2633,130,2962,106"/>
+<area shape="rect" title=" " alt="" coords="2365,179,2419,205"/>
+<area shape="poly" title=" " alt="" coords="2962,105,2848,109,2714,120,2571,140,2500,155,2431,173,2428,175,2426,169,2430,168,2499,150,2570,135,2713,114,2848,103,2962,99"/>
+<area shape="rect" title=" " alt="" coords="2443,179,2509,205"/>
+<area shape="poly" title=" " alt="" coords="2963,110,2866,117,2754,129,2637,147,2522,173,2516,175,2514,170,2521,168,2636,142,2754,123,2865,111,2962,104"/>
+<area shape="rect" title=" " alt="" coords="2534,179,2605,205"/>
+<area shape="poly" title=" " alt="" coords="2963,115,2798,136,2707,152,2618,173,2611,175,2609,170,2617,168,2706,147,2797,130,2962,109"/>
+<area shape="rect" title=" " alt="" coords="2629,179,2675,205"/>
+<area shape="poly" title=" " alt="" coords="2963,115,2828,135,2757,152,2688,173,2685,174,2683,169,2686,168,2755,147,2827,130,2962,110"/>
+<area shape="rect" title=" " alt="" coords="189,269,257,296"/>
+<area shape="poly" title=" " alt="" coords="2962,105,2396,107,1608,116,1214,124,866,136,595,152,500,162,437,173,384,191,334,215,254,263,251,258,331,210,382,186,435,168,499,157,595,147,865,131,1214,119,1608,110,2395,102,2962,100"/>
+<area shape="rect" title=" " alt="" coords="2699,179,2768,205"/>
+<area shape="poly" title=" " alt="" coords="2970,126,2877,146,2781,173,2775,175,2774,170,2779,168,2875,141,2969,121"/>
+<area shape="rect" title=" " alt="" coords="2792,179,2870,205"/>
+<area shape="poly" title=" " alt="" coords="3023,126,2884,173,2877,175,2876,170,2882,168,3021,121"/>
+<area shape="rect" title=" " alt="" coords="281,269,335,296"/>
+<area shape="poly" title=" " alt="" coords="2962,106,2421,111,1674,122,1301,131,971,142,715,156,625,164,565,173,501,191,440,215,343,264,341,259,438,210,500,186,563,168,624,159,715,151,971,137,1301,125,1674,117,2421,105,2962,101"/>
+<area shape="rect" title=" " alt="" coords="2894,179,2991,205"/>
+<area shape="poly" title=" " alt="" coords="3053,126,2977,173,2974,168,3051,121"/>
+<area shape="rect" title=" " alt="" coords="3015,179,3073,205"/>
+<area shape="poly" title=" " alt="" coords="3078,124,3059,166,3054,164,3073,122"/>
+<area shape="rect" title=" " alt="" coords="3097,179,3157,205"/>
+<area shape="poly" title=" " alt="" coords="3097,122,3117,164,3112,166,3093,124"/>
+<area shape="rect" title=" " alt="" coords="3181,179,3241,205"/>
+<area shape="poly" title=" " alt="" coords="3116,121,3182,168,3179,172,3113,125"/>
+<area shape="rect" title=" " alt="" coords="3265,179,3391,205"/>
+<area shape="poly" title=" " alt="" coords="3143,121,3280,170,3278,175,3141,126"/>
+<area shape="rect" title=" " alt="" coords="3415,179,3473,205"/>
+<area shape="poly" title=" " alt="" coords="3209,119,3305,140,3404,168,3407,170,3406,175,3402,173,3304,145,3208,125"/>
+<area shape="rect" title=" " alt="" coords="3497,179,3554,205"/>
+<area shape="poly" title=" " alt="" coords="3209,111,3344,132,3416,148,3486,168,3490,170,3488,175,3485,173,3415,153,3343,138,3208,117"/>
+<area shape="rect" title=" " alt="" coords="359,269,425,296"/>
+<area shape="poly" title=" " alt="" coords="2962,105,2501,105,1861,113,1529,121,1219,134,952,151,750,173,660,190,592,208,438,264,434,266,432,261,436,259,590,203,659,185,749,168,951,146,1219,128,1529,116,1861,108,2501,100,2962,99"/>
+<area shape="rect" href="a00404.html" title="C++ language, library and attribute feature availability." alt="" coords="1742,352,1973,395"/>
+<area shape="poly" title=" " alt="" coords="2962,109,2700,117,2390,131,2127,150,2041,161,2015,167,2003,173,1997,182,1995,191,2004,212,2026,231,2051,239,2077,239,2105,235,2133,230,2161,230,2187,239,2212,260,2221,282,2219,294,2211,306,2197,318,2176,329,2122,346,2057,358,1989,366,1988,361,2056,353,2121,341,2174,324,2194,314,2207,302,2214,292,2216,283,2207,263,2185,243,2160,236,2133,236,2106,240,2078,244,2050,244,2024,236,1999,215,1989,192,1992,180,2000,169,2014,162,2040,156,2126,144,2390,126,2700,112,2962,103"/>
+<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="816,352,1011,395"/>
+<area shape="poly" title=" " alt="" coords="2962,106,2659,109,2285,120,2106,128,1950,140,1831,155,1789,163,1763,173,1743,187,1729,203,1713,238,1696,274,1682,291,1661,306,1611,326,1542,342,1461,354,1371,363,1187,373,1026,375,1026,370,1186,367,1371,357,1460,349,1541,337,1609,321,1659,302,1679,287,1692,271,1708,236,1725,200,1739,183,1760,168,1788,158,1830,149,1949,134,2106,123,2285,114,2659,104,2962,100"/>
+<area shape="rect" href="a00437.html" title="Cross&#45;platform OS macros." alt="" coords="1774,171,1938,213"/>
+<area shape="poly" title=" " alt="" coords="2962,107,2769,113,2518,125,2239,144,1958,173,1954,174,1954,168,1957,168,2238,139,2518,119,2768,108,2962,102"/>
+<area shape="rect" href="a00446.html" title="Every general&#45;purpose type trait of LumexLib, one sub&#45;namespace of lumex::core::utility::traits per t..." alt="" coords="762,171,945,213"/>
+<area shape="poly" title=" " alt="" coords="2962,110,960,189,960,184,2962,105"/>
+<area shape="rect" title=" " alt="" coords="3578,179,3641,205"/>
+<area shape="poly" title=" " alt="" coords="3209,107,3381,127,3475,145,3567,168,3573,170,3571,175,3566,173,3474,150,3380,133,3208,113"/>
+<area shape="rect" title=" " alt="" coords="3665,179,3724,205"/>
+<area shape="poly" title=" " alt="" coords="3209,104,3306,110,3418,122,3537,141,3653,168,3658,170,3657,175,3651,173,3536,146,3418,127,3306,115,3208,109"/>
+<area shape="rect" title=" " alt="" coords="3748,179,3809,205"/>
+<area shape="poly" title=" " alt="" coords="3208,101,3322,106,3455,117,3597,137,3737,168,3742,170,3741,175,3735,173,3596,142,3454,122,3321,111,3208,106"/>
+<area shape="rect" title=" " alt="" coords="3834,179,3891,205"/>
+<area shape="poly" title=" " alt="" coords="3209,106,3540,129,3704,147,3822,168,3828,170,3826,175,3821,173,3703,152,3540,134,3209,111"/>
+<area shape="rect" title=" " alt="" coords="3915,179,3981,205"/>
+<area shape="poly" title=" " alt="" coords="3208,105,3582,127,3769,145,3846,156,3905,168,3911,170,3910,175,3903,173,3845,161,3768,151,3581,133,3208,110"/>
+<area shape="rect" title=" " alt="" coords="4004,179,4055,205"/>
+<area shape="poly" title=" " alt="" coords="3208,103,3401,109,3627,121,3840,140,3928,153,3994,168,3997,169,3996,174,3993,173,3927,158,3840,146,3627,127,3401,115,3208,108"/>
+<area shape="rect" title=" " alt="" coords="4079,179,4142,205"/>
+<area shape="poly" title=" " alt="" coords="3209,103,3416,110,3663,123,3898,142,3994,154,4067,168,4074,170,4072,175,4066,173,3993,159,3897,147,3663,128,3415,116,3208,108"/>
+<area shape="rect" title=" " alt="" coords="4166,179,4242,205"/>
+<area shape="poly" title=" " alt="" coords="3209,103,3433,110,3706,123,3966,142,4074,154,4155,168,4164,170,4162,175,4154,173,4073,159,3966,147,3706,128,3433,115,3208,108"/>
+<area shape="rect" title=" " alt="" coords="4266,179,4332,205"/>
+<area shape="poly" title=" " alt="" coords="3209,102,3453,107,3755,119,4044,138,4163,152,4254,168,4261,170,4259,175,4253,173,4163,157,4044,144,3754,124,3453,113,3208,107"/>
+<area shape="rect" title=" " alt="" coords="4356,179,4447,205"/>
+<area shape="poly" title=" " alt="" coords="3208,102,3471,109,3798,121,4115,141,4245,153,4345,168,4357,171,4355,176,4344,173,4244,159,4114,146,3798,127,3471,114,3208,108"/>
+<area shape="rect" title=" " alt="" coords="4471,179,4553,205"/>
+<area shape="poly" title=" " alt="" coords="3209,101,3493,106,3854,118,4205,137,4349,151,4459,168,4470,171,4469,176,4458,173,4349,157,4204,143,3854,123,3493,112,3209,107"/>
+<area shape="rect" title=" " alt="" coords="4577,179,4684,205"/>
+<area shape="poly" title=" " alt="" coords="3208,102,3513,108,3905,120,4287,139,4445,152,4566,168,4581,171,4580,177,4565,173,4445,158,4287,145,3904,125,3513,113,3208,107"/>
+<area shape="rect" title=" " alt="" coords="4709,179,4801,205"/>
+<area shape="poly" title=" " alt="" coords="3209,101,3538,105,3968,115,4389,135,4564,150,4697,168,4710,171,4708,176,4696,173,4563,155,4389,141,3967,121,3538,110,3208,106"/>
+<area shape="rect" title=" " alt="" coords="4824,179,4904,205"/>
+<area shape="poly" title=" " alt="" coords="3208,99,3560,101,4024,109,4261,118,4481,130,4671,146,4814,168,4823,171,4822,176,4813,173,4670,152,4481,135,4261,123,4024,115,3560,106,3208,105"/>
+<area shape="rect" title=" " alt="" coords="4927,179,5017,205"/>
+<area shape="poly" title=" " alt="" coords="3208,100,3579,101,4072,110,4325,119,4561,131,4763,147,4917,168,4929,171,4927,176,4916,173,4763,152,4561,136,4325,124,4072,115,3579,107,3208,105"/>
+<area shape="rect" title=" " alt="" coords="5041,179,5122,205"/>
+<area shape="poly" title=" " alt="" coords="3208,102,3637,110,4202,124,4726,143,4917,155,5030,168,5040,171,5039,176,5029,173,4916,160,4726,149,4202,129,3636,115,3208,107"/>
+<area shape="rect" title=" " alt="" coords="5146,179,5214,205"/>
+<area shape="poly" title=" " alt="" coords="3209,101,3658,108,4257,121,4813,140,5015,153,5135,168,5143,170,5141,175,5134,173,5015,158,4813,146,4257,126,3658,113,3209,107"/>
+<area shape="rect" href="a00389.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="1773,261,1942,304"/>
+<area shape="poly" title=" " alt="" coords="1859,214,1859,246,1854,246,1854,214"/>
+<area shape="rect" href="a00401.html" title="Compiler identification and version macros." alt="" coords="1965,261,2198,304"/>
+<area shape="poly" title=" " alt="" coords="1910,211,2015,253,2013,258,1908,216"/>
+<area shape="poly" title=" " alt="" coords="1860,304,1860,337,1855,337,1855,304"/>
+<area shape="poly" title=" " alt="" coords="761,200,600,208,406,221,221,239,146,251,89,264,85,265,83,260,87,259,145,246,220,234,405,215,599,202,761,194"/>
+<area shape="poly" title=" " alt="" coords="761,196,643,200,496,210,335,230,255,245,177,264,170,266,169,261,175,259,254,240,335,225,495,205,643,194,761,190"/>
+<area shape="poly" title=" " alt="" coords="761,199,659,205,536,216,402,235,270,264,263,266,261,261,269,259,401,230,535,211,659,199,761,193"/>
+<area shape="poly" title=" " alt="" coords="761,199,673,205,568,217,457,236,347,264,344,265,342,260,346,259,456,231,567,212,672,200,761,194"/>
+<area shape="poly" title=" " alt="" coords="762,204,609,225,523,242,438,264,433,266,431,261,437,259,521,237,608,220,761,199"/>
+<area shape="poly" title=" " alt="" coords="946,194,1116,201,1322,213,1519,232,1600,245,1661,259,1705,276,1748,297,1819,341,1816,345,1745,301,1703,280,1659,264,1599,250,1518,238,1322,219,1116,206,945,199"/>
+<area shape="poly" title=" " alt="" coords="819,216,794,236,776,263,769,283,776,303,796,325,822,343,819,347,792,329,771,305,764,283,771,260,790,233,815,212"/>
+<area shape="rect" title=" " alt="" coords="1408,269,1485,296"/>
+<area shape="poly" title=" " alt="" coords="946,195,1154,215,1276,233,1397,259,1405,261,1404,266,1395,264,1275,238,1153,220,945,200"/>
+<area shape="rect" title=" " alt="" coords="1509,269,1571,296"/>
+<area shape="poly" title=" " alt="" coords="945,191,1058,195,1197,206,1349,226,1424,241,1498,259,1504,261,1502,266,1497,264,1423,246,1348,231,1197,211,1058,200,945,196"/>
+<area shape="rect" title=" " alt="" coords="1595,269,1648,296"/>
+<area shape="poly" title=" " alt="" coords="946,195,1284,217,1458,235,1529,246,1583,259,1588,260,1586,265,1582,264,1528,252,1457,241,1283,222,945,200"/>
+<area shape="rect" title=" " alt="" coords="450,269,518,296"/>
+<area shape="poly" title=" " alt="" coords="762,210,650,232,530,264,525,266,523,261,529,259,649,227,761,205"/>
+<area shape="rect" title=" " alt="" coords="785,269,834,296"/>
+<area shape="poly" title=" " alt="" coords="846,215,825,257,820,254,841,213"/>
+<area shape="rect" title=" " alt="" coords="858,269,940,296"/>
+<area shape="poly" title=" " alt="" coords="866,213,888,254,883,257,862,215"/>
+<area shape="rect" title=" " alt="" coords="1221,269,1273,296"/>
+<area shape="poly" title=" " alt="" coords="946,201,1072,222,1141,238,1209,259,1212,260,1210,265,1207,264,1140,244,1071,228,945,206"/>
+<area shape="rect" title=" " alt="" coords="1296,269,1384,296"/>
+<area shape="poly" title=" " alt="" coords="946,200,1106,222,1197,238,1286,259,1295,261,1294,267,1285,264,1195,244,1105,227,945,205"/>
+<area shape="rect" href="a00386.html" title="Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_..." alt="" coords="542,261,709,304"/>
+<area shape="poly" title=" " alt="" coords="801,216,694,258,692,253,799,211"/>
+<area shape="rect" href="a00419.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="964,261,1196,304"/>
+<area shape="poly" title=" " alt="" coords="907,211,1014,253,1012,258,906,216"/>
+<area shape="poly" title=" " alt="" coords="581,307,476,355,474,351,579,302"/>
+<area shape="poly" title=" " alt="" coords="694,302,832,344,831,349,692,307"/>
+<area shape="poly" title=" " alt="" coords="1042,307,967,347,964,342,1040,302"/>
+</map>
 </div>
-</div><div class="textblock"><div class="dynheader">
-This graph shows which files directly or indirectly include this file:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00415.png" border="0" usemap="#a_lumex_utilities_8hppdep" alt=""/></div>
-</div>
-</div>
-<p><a href="a00413_source.html">Go to the source code of this file.</a></p>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:a1ba5ecc2d6b26c1ed201070996b30997" id="r_a1ba5ecc2d6b26c1ed201070996b30997"><td class="memItemLeft" align="right" valign="top">static void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1ba5ecc2d6b26c1ed201070996b30997">fd_to_ptr</a> (int fileDescriptor) noexcept</td></tr>
-<tr class="memdesc:a1ba5ecc2d6b26c1ed201070996b30997"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stores a POSIX file descriptor in a <code>void *</code> handle slot.  <br /></td></tr>
-<tr class="separator:a1ba5ecc2d6b26c1ed201070996b30997"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7db0bf2ede705527a24f7207479c79b6" id="r_a7db0bf2ede705527a24f7207479c79b6"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7db0bf2ede705527a24f7207479c79b6">ptr_to_fd</a> (void *pointer) noexcept</td></tr>
-<tr class="memdesc:a7db0bf2ede705527a24f7207479c79b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets back the POSIX file descriptor that <code><a class="el" href="#a1ba5ecc2d6b26c1ed201070996b30997" title="Stores a POSIX file descriptor in a void * handle slot.">fd_to_ptr()</a></code> stored in a <code>void *</code>.  <br /></td></tr>
-<tr class="separator:a7db0bf2ede705527a24f7207479c79b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00948.html">lumex</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01005.html">lumex::core</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01077.html">lumex::core::utility</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01083.html">lumex::core::utility::dump</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a07486181f1990291c2a348de8eb4c480" id="r_a07486181f1990291c2a348de8eb4c480"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a07486181f1990291c2a348de8eb4c480">LUMEX_IMPLEMENTATION</a></td></tr>
+<tr class="separator:a07486181f1990291c2a348de8eb4c480"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p><code><a class="el" href="#a1ba5ecc2d6b26c1ed201070996b30997" title="Stores a POSIX file descriptor in a void * handle slot.">fd_to_ptr()</a></code> and <code><a class="el" href="#a7db0bf2ede705527a24f7207479c79b6" title="Gets back the POSIX file descriptor that fd_to_ptr() stored in a void *.">ptr_to_fd()</a></code>, which store a POSIX file descriptor in a <code>void *</code> handle slot and get it back. </p>
-<p>The conversion goes through <code>intptr_t</code>, so a non-negative descriptor survives the round trip on 32-bit and 64-bit targets; it serves code that keeps a Windows <code>HANDLE</code> and a POSIX descriptor in the same member. Both functions are <code>static inline</code> at global scope, so every translation unit gets its own copy. </p>
-</div><h2 class="groupheader">Function Documentation</h2>
-<a id="a1ba5ecc2d6b26c1ed201070996b30997" name="a1ba5ecc2d6b26c1ed201070996b30997"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1ba5ecc2d6b26c1ed201070996b30997">&#9670;&#160;</a></span>fd_to_ptr()</h2>
+<h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a07486181f1990291c2a348de8eb4c480" name="a07486181f1990291c2a348de8eb4c480"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a07486181f1990291c2a348de8eb4c480">&#9670;&#160;</a></span>LUMEX_IMPLEMENTATION</h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static void * fd_to_ptr </td>
-          <td>(</td>
-          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>fileDescriptor</em></span></td><td>)</td>
-          <td></td>
+          <td class="memname">#define LUMEX_IMPLEMENTATION</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
-
-<p>Stores a POSIX file descriptor in a <code>void *</code> handle slot. </p>
-<p>Windows keeps a native handle as a <code>HANDLE</code>, which is a <code>void *</code>; POSIX keeps an <code>int</code> file descriptor. Code that keeps either one in the same <code>void *</code> member converts a descriptor with this function and gets it back with <code><a class="el" href="#a7db0bf2ede705527a24f7207479c79b6" title="Gets back the POSIX file descriptor that fd_to_ptr() stored in a void *.">ptr_to_fd()</a></code>.</p>
-<p>The descriptor is first widened to <code>intptr_t</code>, an integer as wide as a pointer, and then converted to <code>void *</code>. Converting an integer to a pointer is implementation-defined in C++, and on 64-bit targets an <code>int</code> is narrower than a pointer; going through <code>intptr_t</code> keeps both sides of the conversion the same width. On flat address spaces (x86, x86-64, ARM) the pointer then carries the integer value unchanged, so <code><a class="el" href="#a7db0bf2ede705527a24f7207479c79b6" title="Gets back the POSIX file descriptor that fd_to_ptr() stored in a void *.">ptr_to_fd()</a></code> restores it on 32-bit and 64-bit targets alike.</p>
-<p>The function is declared at global scope, not in a namespace, and is <code>static inline</code>, so every translation unit gets its own copy.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">fileDescriptor</td><td>POSIX file descriptor. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The descriptor as a <code>void *</code>. Descriptor 0 (standard input) gives a null pointer. </dd></dl>
-<dl class="section note"><dt>Note</dt><dd>Meant for POSIX file descriptors, which are non-negative. A negative value such as -1 also survives the round trip, but its pointer is not null. A Windows <code>HANDLE</code> is assigned to the <code>void *</code> member directly.</dd></dl>
-<dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line"><span class="preprocessor">#if LUMEX_OS_WINDOWS</span></div>
-<div class="line">  m_hInputFile = m_serialPort.native_handle(); <span class="comment">// HANDLE is a void *</span></div>
-<div class="line"><span class="preprocessor">#else</span></div>
-<div class="line">  m_hInputFile = <a class="code hl_function" href="#a1ba5ecc2d6b26c1ed201070996b30997">fd_to_ptr</a>(m_serialPort.native_handle()); <span class="comment">// int to void *</span></div>
-<div class="line"><span class="preprocessor">#endif</span></div>
-<div class="line"> </div>
-<div class="line"><span class="preprocessor">#if !LUMEX_OS_WINDOWS</span></div>
-<div class="line">  ::close(<a class="code hl_function" href="#a7db0bf2ede705527a24f7207479c79b6">ptr_to_fd</a>(m_hInputFile));</div>
-<div class="line"><span class="preprocessor">#endif</span></div>
-<div class="ttc" id="aa00413_html_a1ba5ecc2d6b26c1ed201070996b30997"><div class="ttname"><a href="#a1ba5ecc2d6b26c1ed201070996b30997">fd_to_ptr</a></div><div class="ttdeci">static void * fd_to_ptr(int fileDescriptor) noexcept</div><div class="ttdoc">Stores a POSIX file descriptor in a void * handle slot.</div><div class="ttdef"><b>Definition</b> LumexUtilities.hpp:96</div></div>
-<div class="ttc" id="aa00413_html_a7db0bf2ede705527a24f7207479c79b6"><div class="ttname"><a href="#a7db0bf2ede705527a24f7207479c79b6">ptr_to_fd</a></div><div class="ttdeci">static int ptr_to_fd(void *pointer) noexcept</div><div class="ttdoc">Gets back the POSIX file descriptor that fd_to_ptr() stored in a void *.</div><div class="ttdef"><b>Definition</b> LumexUtilities.hpp:122</div></div>
-</div><!-- fragment --> </dd></dl>
-
-</div>
-</div>
-<a id="a7db0bf2ede705527a24f7207479c79b6" name="a7db0bf2ede705527a24f7207479c79b6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7db0bf2ede705527a24f7207479c79b6">&#9670;&#160;</a></span>ptr_to_fd()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static int ptr_to_fd </td>
-          <td>(</td>
-          <td class="paramtype">void *</td>          <td class="paramname"><span class="paramname"><em>pointer</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Gets back the POSIX file descriptor that <code><a class="el" href="#a1ba5ecc2d6b26c1ed201070996b30997" title="Stores a POSIX file descriptor in a void * handle slot.">fd_to_ptr()</a></code> stored in a <code>void *</code>. </p>
-<p>Converts the pointer to <code>intptr_t</code> and truncates it to <code>int</code>. For a pointer made by <code><a class="el" href="#a1ba5ecc2d6b26c1ed201070996b30997" title="Stores a POSIX file descriptor in a void * handle slot.">fd_to_ptr()</a></code>, the bits that are dropped only repeat the sign of the descriptor, so the original value comes back. Like <code><a class="el" href="#a1ba5ecc2d6b26c1ed201070996b30997" title="Stores a POSIX file descriptor in a void * handle slot.">fd_to_ptr()</a></code>, the function is declared at global scope, not in a namespace, and is <code>static inline</code>.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">pointer</td><td>A descriptor stored by <code><a class="el" href="#a1ba5ecc2d6b26c1ed201070996b30997" title="Stores a POSIX file descriptor in a void * handle slot.">fd_to_ptr()</a></code>. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The POSIX file descriptor; 0 for a null pointer.</dd></dl>
-<dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line"><span class="keywordtype">void</span> *stored_ptr = <a class="code hl_function" href="#a1ba5ecc2d6b26c1ed201070996b30997">fd_to_ptr</a>(5); <span class="comment">// fd 5 as a void *</span></div>
-<div class="line"><span class="keywordtype">int</span> fd = <a class="code hl_function" href="#a7db0bf2ede705527a24f7207479c79b6">ptr_to_fd</a>(stored_ptr);  <span class="comment">// 5 again</span></div>
-<div class="line">assert(fd == 5);</div>
-</div><!-- fragment --> </dd></dl>
 
 </div>
 </div>
@@ -233,7 +280,7 @@ Functions</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_aaa57aed14d71e316a67f95634c796d3.html">utility</a></li><li class="navelem"><a class="el" href="dir_0deadd0aca7ea116766ab685e8e1d5bb.html">util</a></li><li class="navelem"><a class="el" href="a00413.html">LumexUtilities.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_aaa57aed14d71e316a67f95634c796d3.html">utility</a></li><li class="navelem"><a class="el" href="dir_82e46b41e01cf99ef5ab35b3165521e7.html">dump</a></li><li class="navelem"><a class="el" href="a00413.html">LumexCoreDumpGenerator.cpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

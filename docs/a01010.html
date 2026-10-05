@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::core::generators::number_generator Namespace Reference</title>
+<title>LumexLib: lumex::core::atomic::sync Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,190 +104,24 @@ $(function(){initNavTree('a01010.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
-<a href="#typedef-members">Typedefs</a> &#124;
-<a href="#enum-members">Enumerations</a>  </div>
-  <div class="headertitle"><div class="title">lumex::core::generators::number_generator Namespace Reference</div></div>
+<a href="#namespaces">Namespaces</a>  </div>
+  <div class="headertitle"><div class="title">lumex::core::atomic::sync Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02162.html">NumberGenerator</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Universal template-based number generator supporting multiple probability distributions.  <a href="a02162.html#details">More...</a><br /></td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01012.html">Detail</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
-Typedefs</h2></td></tr>
-<tr class="memitem:a11244b539c7e8e4367e95e016b2f0947" id="r_a11244b539c7e8e4367e95e016b2f0947"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a11244b539c7e8e4367e95e016b2f0947">IntGenerator</a> = <a class="el" href="a02162.html">NumberGenerator</a>&lt;int&gt;</td></tr>
-<tr class="memdesc:a11244b539c7e8e4367e95e016b2f0947"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type alias for <code><a class="el" href="a02162.html" title="Universal template-based number generator supporting multiple probability distributions.">NumberGenerator</a></code> specialized for <code>int</code>.  <br /></td></tr>
-<tr class="separator:a11244b539c7e8e4367e95e016b2f0947"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab4d46a4bde917838bd2697a7ef099521" id="r_ab4d46a4bde917838bd2697a7ef099521"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab4d46a4bde917838bd2697a7ef099521">LongGenerator</a> = <a class="el" href="a02162.html">NumberGenerator</a>&lt;long long&gt;</td></tr>
-<tr class="memdesc:ab4d46a4bde917838bd2697a7ef099521"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type alias for <code><a class="el" href="a02162.html" title="Universal template-based number generator supporting multiple probability distributions.">NumberGenerator</a></code> specialized for <code>long long</code>.  <br /></td></tr>
-<tr class="separator:ab4d46a4bde917838bd2697a7ef099521"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae6b4d2d797e9c87ed440b95a862fc526" id="r_ae6b4d2d797e9c87ed440b95a862fc526"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae6b4d2d797e9c87ed440b95a862fc526">FloatGenerator</a> = <a class="el" href="a02162.html">NumberGenerator</a>&lt;float&gt;</td></tr>
-<tr class="memdesc:ae6b4d2d797e9c87ed440b95a862fc526"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type alias for <code><a class="el" href="a02162.html" title="Universal template-based number generator supporting multiple probability distributions.">NumberGenerator</a></code> specialized for <code>float</code>.  <br /></td></tr>
-<tr class="separator:ae6b4d2d797e9c87ed440b95a862fc526"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a19a8077fb55bf01f16176c5d18f6dcb0" id="r_a19a8077fb55bf01f16176c5d18f6dcb0"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a19a8077fb55bf01f16176c5d18f6dcb0">DoubleGenerator</a> = <a class="el" href="a02162.html">NumberGenerator</a>&lt;double&gt;</td></tr>
-<tr class="memdesc:a19a8077fb55bf01f16176c5d18f6dcb0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type alias for <code><a class="el" href="a02162.html" title="Universal template-based number generator supporting multiple probability distributions.">NumberGenerator</a></code> specialized for <code>double</code>.  <br /></td></tr>
-<tr class="separator:a19a8077fb55bf01f16176c5d18f6dcb0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6ac88149259432feb94531fb1307044a" id="r_a6ac88149259432feb94531fb1307044a"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6ac88149259432feb94531fb1307044a">RealNumberGeneratorHost</a> = <a class="el" href="#a19a8077fb55bf01f16176c5d18f6dcb0">DoubleGenerator</a></td></tr>
-<tr class="memdesc:a6ac88149259432feb94531fb1307044a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Backward compatibility alias for <code><a class="el" href="#a19a8077fb55bf01f16176c5d18f6dcb0" title="Type alias for NumberGenerator specialized for double.">DoubleGenerator</a></code>.  <br /></td></tr>
-<tr class="separator:a6ac88149259432feb94531fb1307044a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
-Enumerations</h2></td></tr>
-<tr class="memitem:ac790ad052a54165bc304a20f53f7a502" id="r_ac790ad052a54165bc304a20f53f7a502"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac790ad052a54165bc304a20f53f7a502">DistributionType</a> : std::uint8_t { <br />
-&#160;&#160;<a class="el" href="#ac790ad052a54165bc304a20f53f7a502a891f35a29c3d51d02ffd42dd6dcc69b2">UNIFORM</a>
-, <a class="el" href="#ac790ad052a54165bc304a20f53f7a502a1e23852820b9154316c7c06e2b7ba051">NORMAL</a>
-, <a class="el" href="#ac790ad052a54165bc304a20f53f7a502adcd5fc33e211f31cef0cd7cb36518d31">EXPONENTIAL</a>
-, <a class="el" href="#ac790ad052a54165bc304a20f53f7a502a469bb22a9f1f560331b06cd6ef0da944">GAMMA</a>
-, <br />
-&#160;&#160;<a class="el" href="#ac790ad052a54165bc304a20f53f7a502aa9674699627bb066f514cd655979ad14">BERNOULLI</a>
-, <a class="el" href="#ac790ad052a54165bc304a20f53f7a502a8e67f0715695d58f3102fe214b1d29a3">BINOMIAL</a>
-, <a class="el" href="#ac790ad052a54165bc304a20f53f7a502a5202c67f624b4ec6ddd60f69394c80b5">GEOMETRIC</a>
-, <a class="el" href="#ac790ad052a54165bc304a20f53f7a502a92a9a9519a6a4f5edd0b2694fe1c9122">POISSON</a>
-<br />
- }</td></tr>
-<tr class="memdesc:ac790ad052a54165bc304a20f53f7a502"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumeration of supported probability distributions for random number generation.  <a href="#ac790ad052a54165bc304a20f53f7a502">More...</a><br /></td></tr>
-<tr class="separator:ac790ad052a54165bc304a20f53f7a502"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01011.html">table_wait</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Typedef Documentation</h2>
-<a id="a19a8077fb55bf01f16176c5d18f6dcb0" name="a19a8077fb55bf01f16176c5d18f6dcb0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a19a8077fb55bf01f16176c5d18f6dcb0">&#9670;&#160;</a></span>DoubleGenerator</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="#a19a8077fb55bf01f16176c5d18f6dcb0">lumex::core::generators::number_generator::DoubleGenerator</a> = <a class="el" href="a02162.html">NumberGenerator</a>&lt;double&gt;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Type alias for <code><a class="el" href="a02162.html" title="Universal template-based number generator supporting multiple probability distributions.">NumberGenerator</a></code> specialized for <code>double</code>. </p>
-<p>Provides a convenient way to declare a double-precision floating-point random number generator. </p>
-
-</div>
-</div>
-<a id="ae6b4d2d797e9c87ed440b95a862fc526" name="ae6b4d2d797e9c87ed440b95a862fc526"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae6b4d2d797e9c87ed440b95a862fc526">&#9670;&#160;</a></span>FloatGenerator</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="#ae6b4d2d797e9c87ed440b95a862fc526">lumex::core::generators::number_generator::FloatGenerator</a> = <a class="el" href="a02162.html">NumberGenerator</a>&lt;float&gt;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Type alias for <code><a class="el" href="a02162.html" title="Universal template-based number generator supporting multiple probability distributions.">NumberGenerator</a></code> specialized for <code>float</code>. </p>
-<p>Provides a convenient way to declare a single-precision floating-point random number generator. </p>
-
-</div>
-</div>
-<a id="a11244b539c7e8e4367e95e016b2f0947" name="a11244b539c7e8e4367e95e016b2f0947"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a11244b539c7e8e4367e95e016b2f0947">&#9670;&#160;</a></span>IntGenerator</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="#a11244b539c7e8e4367e95e016b2f0947">lumex::core::generators::number_generator::IntGenerator</a> = <a class="el" href="a02162.html">NumberGenerator</a>&lt;int&gt;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Type alias for <code><a class="el" href="a02162.html" title="Universal template-based number generator supporting multiple probability distributions.">NumberGenerator</a></code> specialized for <code>int</code>. </p>
-<p>Provides a convenient way to declare an integer random number generator. </p>
-
-</div>
-</div>
-<a id="ab4d46a4bde917838bd2697a7ef099521" name="ab4d46a4bde917838bd2697a7ef099521"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab4d46a4bde917838bd2697a7ef099521">&#9670;&#160;</a></span>LongGenerator</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="#ab4d46a4bde917838bd2697a7ef099521">lumex::core::generators::number_generator::LongGenerator</a> = <a class="el" href="a02162.html">NumberGenerator</a>&lt;long long&gt;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Type alias for <code><a class="el" href="a02162.html" title="Universal template-based number generator supporting multiple probability distributions.">NumberGenerator</a></code> specialized for <code>long long</code>. </p>
-<p>Provides a convenient way to declare a <code>long long</code> integer random number generator. </p>
-
-</div>
-</div>
-<a id="a6ac88149259432feb94531fb1307044a" name="a6ac88149259432feb94531fb1307044a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6ac88149259432feb94531fb1307044a">&#9670;&#160;</a></span>RealNumberGeneratorHost</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="#a6ac88149259432feb94531fb1307044a">lumex::core::generators::number_generator::RealNumberGeneratorHost</a> = <a class="el" href="#a19a8077fb55bf01f16176c5d18f6dcb0">DoubleGenerator</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Backward compatibility alias for <code><a class="el" href="#a19a8077fb55bf01f16176c5d18f6dcb0" title="Type alias for NumberGenerator specialized for double.">DoubleGenerator</a></code>. </p>
-<p>This alias is provided for compatibility with older codebases that might have used a different name for a double-precision floating-point generator. </p><dl class="deprecated"><dt><b><a class="el" href="a00911.html#_deprecated000005">Deprecated</a></b></dt><dd>Use <code><a class="el" href="#a19a8077fb55bf01f16176c5d18f6dcb0" title="Type alias for NumberGenerator specialized for double.">DoubleGenerator</a></code> directly for clarity and consistency with modern naming. </dd></dl>
-
-</div>
-</div>
-<h2 class="groupheader">Enumeration Type Documentation</h2>
-<a id="ac790ad052a54165bc304a20f53f7a502" name="ac790ad052a54165bc304a20f53f7a502"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac790ad052a54165bc304a20f53f7a502">&#9670;&#160;</a></span>DistributionType</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">enum class <a class="el" href="#ac790ad052a54165bc304a20f53f7a502">lumex::core::generators::number_generator::DistributionType</a> : std::uint8_t</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Enumeration of supported probability distributions for random number generation. </p>
-<p>This enum defines the various statistical distributions that the <code><a class="el" href="a02162.html" title="Universal template-based number generator supporting multiple probability distributions.">NumberGenerator</a></code> class can utilize to produce random numbers. Each enumerator corresponds to a specific distribution type from the C++ Standard Library's <code>&lt;random&gt;</code> header. Users can select the desired distribution when constructing or configuring a <code><a class="el" href="a02162.html" title="Universal template-based number generator supporting multiple probability distributions.">NumberGenerator</a></code> instance. </p>
-<table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ac790ad052a54165bc304a20f53f7a502a891f35a29c3d51d02ffd42dd6dcc69b2" name="ac790ad052a54165bc304a20f53f7a502a891f35a29c3d51d02ffd42dd6dcc69b2"></a>UNIFORM&#160;</td><td class="fielddoc"><p>Uniform distribution (default): All values within a given range are equally likely. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="ac790ad052a54165bc304a20f53f7a502a1e23852820b9154316c7c06e2b7ba051" name="ac790ad052a54165bc304a20f53f7a502a1e23852820b9154316c7c06e2b7ba051"></a>NORMAL&#160;</td><td class="fielddoc"><p>Normal (Gaussian) distribution: Values cluster around a mean, following a bell curve. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="ac790ad052a54165bc304a20f53f7a502adcd5fc33e211f31cef0cd7cb36518d31" name="ac790ad052a54165bc304a20f53f7a502adcd5fc33e211f31cef0cd7cb36518d31"></a>EXPONENTIAL&#160;</td><td class="fielddoc"><p>Exponential distribution: Describes the time between events in a Poisson process. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="ac790ad052a54165bc304a20f53f7a502a469bb22a9f1f560331b06cd6ef0da944" name="ac790ad052a54165bc304a20f53f7a502a469bb22a9f1f560331b06cd6ef0da944"></a>GAMMA&#160;</td><td class="fielddoc"><p>Gamma distribution: A versatile family of continuous probability distributions. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="ac790ad052a54165bc304a20f53f7a502aa9674699627bb066f514cd655979ad14" name="ac790ad052a54165bc304a20f53f7a502aa9674699627bb066f514cd655979ad14"></a>BERNOULLI&#160;</td><td class="fielddoc"><p>Bernoulli distribution (for integral types): Models a single trial with two outcomes (e.g., success/failure). </p>
-</td></tr>
-<tr><td class="fieldname"><a id="ac790ad052a54165bc304a20f53f7a502a8e67f0715695d58f3102fe214b1d29a3" name="ac790ad052a54165bc304a20f53f7a502a8e67f0715695d58f3102fe214b1d29a3"></a>BINOMIAL&#160;</td><td class="fielddoc"><p>Binomial distribution (for integral types): Models the number of successes in a fixed number of independent Bernoulli trials. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="ac790ad052a54165bc304a20f53f7a502a5202c67f624b4ec6ddd60f69394c80b5" name="ac790ad052a54165bc304a20f53f7a502a5202c67f624b4ec6ddd60f69394c80b5"></a>GEOMETRIC&#160;</td><td class="fielddoc"><p>Geometric distribution (for integral types): Models the number of Bernoulli trials needed to get one success. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="ac790ad052a54165bc304a20f53f7a502a92a9a9519a6a4f5edd0b2694fe1c9122" name="ac790ad052a54165bc304a20f53f7a502a92a9a9519a6a4f5edd0b2694fe1c9122"></a>POISSON&#160;</td><td class="fielddoc"><p>Poisson distribution (for integral types): Models the number of events in a fixed interval of time or space. </p>
-</td></tr>
-</table>
-
-</div>
-</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00912.html">lumex</a></li><li class="navelem"><a class="el" href="a00964.html">core</a></li><li class="navelem"><a class="el" href="a01009.html">generators</a></li><li class="navelem"><a class="el" href="a01010.html">number_generator</a></li>
+    <li class="navelem"><a class="el" href="a00948.html">lumex</a></li><li class="navelem"><a class="el" href="a01005.html">core</a></li><li class="navelem"><a class="el" href="a01006.html">atomic</a></li><li class="navelem"><a class="el" href="a01010.html">sync</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

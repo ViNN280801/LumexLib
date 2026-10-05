@@ -1,6 +1,5 @@
 var a00359 =
 [
-    [ "lumex::core::utility::callback::LumexCallbackSlot< Tag, Result(Args...)>", "a02358.html", "a02358" ],
-    [ "lumex::core::utility::callback::LumexCallbackSlot< Tag, Result(Args...)>::Scoped", "a02362.html", "a02362" ],
-    [ "lumex::core::utility::callback::m_slot", "a01038.html#aae9a86eeace996140fe4d3d2e2e9ed82", null ]
+    [ "LUMEX_IMPLEMENTATION", "a00359.html#a07486181f1990291c2a348de8eb4c480", null ],
+    [ "lumex::core::string_view::view::operator<<", "a01070.html#affdfaa485937702325bc3bc4525875f3", null ]
 ];

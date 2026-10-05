@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: example_expected.cpp File Reference</title>
+<title>LumexLib: example_atomic_config_reload.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -105,16 +105,97 @@ $(function(){initNavTree('a00452.html',''); initResizable(true); });
 <div class="header">
   <div class="summary">
 <a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">example_expected.cpp File Reference</div></div>
+  <div class="headertitle"><div class="title">example_atomic_config_reload.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &lt;iostream&gt;</code><br />
+<code>#include &lt;memory&gt;</code><br />
 <code>#include &lt;string&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00872_source.html">lumex/core/expected/Expected</a>&quot;</code><br />
+<code>#include &lt;thread&gt;</code><br />
+<code>#include &lt;vector&gt;</code><br />
+<code>#include &quot;<a class="el" href="a00890_source.html">lumex/core/atomic/LumexAtomic</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for example_expected.cpp:</div>
+Include dependency graph for example_atomic_config_reload.cpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00453.png" border="0" usemap="#aexample__expected_8cpp" alt=""/></div>
+<div class="center"><img src="a00453.png" border="0" usemap="#aexample__atomic__config__reload_8cpp" alt=""/></div>
+<map name="aexample__atomic__config__reload_8cpp" id="aexample__atomic__config__reload_8cpp">
+<area shape="rect" title=" " alt="" coords="1100,5,1259,48"/>
+<area shape="rect" title=" " alt="" coords="5,96,77,123"/>
+<area shape="poly" title=" " alt="" coords="1100,31,920,36,670,46,385,66,239,81,96,99,93,99,92,94,95,93,238,76,385,61,670,41,920,30,1100,26"/>
+<area shape="rect" title=" " alt="" coords="182,451,250,477"/>
+<area shape="poly" title=" " alt="" coords="1101,40,958,63,773,105,672,134,571,170,473,213,380,264,323,303,276,354,249,396,229,437,224,435,244,394,272,350,319,299,377,259,470,208,569,165,671,129,771,99,957,57,1100,34"/>
+<area shape="rect" title=" " alt="" coords="1440,96,1493,123"/>
+<area shape="poly" title=" " alt="" coords="1254,46,1425,94,1424,99,1253,51"/>
+<area shape="rect" title=" " alt="" coords="971,541,1028,568"/>
+<area shape="poly" title=" " alt="" coords="1195,47,1228,109,1246,151,1262,198,1273,248,1276,299,1271,349,1253,396,1239,413,1218,432,1162,470,1041,536,1038,532,1159,466,1215,428,1235,410,1248,393,1265,347,1271,299,1267,249,1256,200,1241,153,1223,112,1190,50"/>
+<area shape="rect" title=" " alt="" coords="1518,96,1575,123"/>
+<area shape="poly" title=" " alt="" coords="1260,40,1503,93,1502,98,1258,45"/>
+<area shape="rect" href="a00890.html" title="Atomic module: atomic_shared_ptr&lt;T&gt; and atomic_weak_ptr&lt;T&gt;, the interface of the C++20 std::atomic&lt;st..." alt="" coords="832,96,1044,123"/>
+<area shape="poly" title=" " alt="" coords="1118,51,991,93,990,88,1117,46"/>
+<area shape="rect" href="a00188.html" title="atomic_shared_ptr&lt;T&gt;: the interface of the C++20 std::atomic&lt;std::shared_ptr&lt;T&gt;&gt; for C++11 and later." alt="" coords="616,171,818,213"/>
+<area shape="poly" title=" " alt="" coords="905,126,789,167,788,162,903,121"/>
+<area shape="rect" href="a00197.html" title="atomic_weak_ptr&lt;T&gt;: the interface of the C++20 std::atomic&lt;std::weak_ptr&lt;T&gt;&gt; for C++11 and later." alt="" coords="842,171,1035,213"/>
+<area shape="poly" title=" " alt="" coords="941,123,941,155,936,155,936,123"/>
+<area shape="poly" title=" " alt="" coords="617,210,534,231,492,246,452,264,386,305,325,354,275,402,238,441,234,437,271,398,322,350,382,301,449,259,490,241,532,226,616,205"/>
+<area shape="rect" title=" " alt="" coords="803,541,863,568"/>
+<area shape="poly" title=" " alt="" coords="726,213,827,526,822,527,721,215"/>
+<area shape="rect" title=" " alt="" coords="84,541,148,568"/>
+<area shape="poly" title=" " alt="" coords="616,203,560,210,500,222,438,240,379,264,311,301,262,338,220,382,171,444,145,487,127,528,123,525,141,484,167,441,216,379,258,334,308,297,377,259,436,235,498,217,559,205,616,197"/>
+<area shape="rect" title=" " alt="" coords="1160,360,1212,387"/>
+<area shape="poly" title=" " alt="" coords="819,209,958,237,1046,259,1081,278,1114,302,1166,347,1162,351,1111,306,1078,283,1044,264,956,242,818,215"/>
+<area shape="rect" href="a00191.html" title="Storage and operations behind atomic_shared_ptr and atomic_weak_ptr: a lock&#45;based cell for every stan..." alt="" coords="806,261,1033,304"/>
+<area shape="poly" title=" " alt="" coords="766,212,859,252,857,257,763,216"/>
+<area shape="rect" href="a00194.html" title="Chooses between the standard std::atomic&lt;std::shared_ptr&lt;T&gt;&gt; and the lock&#45;based implementation,..." alt="" coords="456,352,698,395"/>
+<area shape="poly" title=" " alt="" coords="673,216,642,236,615,263,596,300,585,338,580,336,591,298,611,260,639,232,670,212"/>
+<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="1073,533,1268,576"/>
+<area shape="poly" title=" " alt="" coords="819,209,1098,259,1141,276,1175,291,1202,314,1227,351,1235,373,1238,396,1232,442,1216,485,1196,521,1191,519,1211,483,1227,441,1233,396,1230,374,1223,353,1199,317,1172,296,1139,281,1096,264,818,214"/>
+<area shape="rect" href="a00389.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="274,443,442,485"/>
+<area shape="poly" title=" " alt="" coords="641,216,583,237,519,267,456,305,427,328,402,354,379,390,367,428,362,427,375,388,398,350,424,324,453,301,516,262,581,233,639,211"/>
+<area shape="poly" title=" " alt="" coords="806,293,633,313,538,331,444,355,390,374,336,398,250,445,248,440,334,394,388,370,443,349,537,325,633,308,805,288"/>
+<area shape="poly" title=" " alt="" coords="899,306,880,328,865,353,849,399,840,446,835,526,830,525,835,445,844,397,860,351,876,325,895,303"/>
+<area shape="poly" title=" " alt="" coords="995,302,1142,349,1147,351,1145,356,1140,355,993,307"/>
+<area shape="rect" title=" " alt="" coords="887,541,947,568"/>
+<area shape="poly" title=" " alt="" coords="989,302,1022,322,1049,351,1055,373,1049,396,1028,437,1001,475,946,533,942,529,997,472,1024,435,1044,394,1050,373,1044,353,1019,326,986,307"/>
+<area shape="poly" title=" " alt="" coords="840,307,673,350,672,345,839,302"/>
+<area shape="rect" href="a00200.html" title="Blocking wait for a change of a 32&#45;bit atomic word, and the wake&#45;up that ends it, from C++11 on." alt="" coords="517,443,677,485"/>
+<area shape="poly" title=" " alt="" coords="884,307,649,437,646,433,881,302"/>
+<area shape="poly" title=" " alt="" coords="990,302,1031,322,1069,350,1103,390,1130,435,1149,480,1163,518,1158,520,1145,482,1125,438,1099,393,1066,354,1029,327,987,307"/>
+<area shape="rect" href="a00203.html" title="A lock held in one 32&#45;bit word: one bit marks it as taken, a second bit records that a thread sleeps ..." alt="" coords="874,352,1034,395"/>
+<area shape="poly" title=" " alt="" coords="930,303,943,337,938,339,925,305"/>
+<area shape="poly" title=" " alt="" coords="456,398,361,418,263,445,258,447,256,442,262,440,360,413,455,393"/>
+<area shape="poly" title=" " alt="" coords="614,393,691,440,807,529,804,534,687,445,612,397"/>
+<area shape="poly" title=" " alt="" coords="584,394,592,427,586,428,579,396"/>
+<area shape="rect" href="a00404.html" title="C++ language, library and attribute feature availability." alt="" coords="172,533,403,576"/>
+<area shape="poly" title=" " alt="" coords="557,397,456,488,412,511,368,530,366,525,410,506,453,483,553,393"/>
+<area shape="poly" title=" " alt="" coords="678,471,812,493,887,509,960,531,964,532,963,537,959,536,886,515,811,498,677,477"/>
+<area shape="poly" title=" " alt="" coords="662,483,791,531,795,532,792,537,789,536,660,488"/>
+<area shape="poly" title=" " alt="" coords="517,479,307,510,160,536,155,538,153,533,159,531,306,505,516,474"/>
+<area shape="poly" title=" " alt="" coords="678,478,774,500,877,531,880,532,879,537,875,536,773,505,677,483"/>
+<area shape="rect" title=" " alt="" coords="578,541,629,568"/>
+<area shape="poly" title=" " alt="" coords="601,486,604,525,599,526,596,486"/>
+<area shape="rect" title=" " alt="" coords="653,541,778,568"/>
+<area shape="poly" title=" " alt="" coords="626,484,688,530,685,534,623,488"/>
+<area shape="rect" title=" " alt="" coords="427,541,484,568"/>
+<area shape="poly" title=" " alt="" coords="565,488,490,535,488,530,562,484"/>
+<area shape="rect" title=" " alt="" coords="509,541,554,568"/>
+<area shape="poly" title=" " alt="" coords="584,487,552,530,548,527,580,484"/>
+<area shape="poly" title=" " alt="" coords="525,489,375,531,374,526,524,483"/>
+<area shape="poly" title=" " alt="" coords="678,475,1041,531,1058,533,1057,539,1041,536,677,480"/>
+<area shape="poly" title=" " alt="" coords="962,395,995,526,990,527,957,396"/>
+<area shape="poly" title=" " alt="" coords="943,397,852,530,848,527,938,394"/>
+<area shape="poly" title=" " alt="" coords="953,396,925,527,920,526,947,395"/>
+<area shape="poly" title=" " alt="" coords="874,397,693,442,692,437,873,392"/>
+<area shape="poly" title=" " alt="" coords="981,393,1136,521,1132,525,977,397"/>
+<area shape="poly" title=" " alt="" coords="874,389,458,451,457,445,874,384"/>
+<area shape="poly" title=" " alt="" coords="344,487,315,523,311,520,340,484"/>
+<area shape="poly" title=" " alt="" coords="842,214,831,216,684,235,568,249,515,262,460,281,402,311,337,354,318,374,300,397,246,443,243,439,296,393,314,371,334,350,399,307,458,276,513,257,567,244,684,230,830,211,841,209"/>
+<area shape="poly" title=" " alt="" coords="1036,207,1099,227,1130,242,1158,259,1198,289,1228,320,1237,338,1240,356,1238,376,1227,396,1191,440,1153,468,1114,484,1072,493,981,505,930,516,875,536,873,537,871,532,873,531,929,511,980,500,1071,488,1112,479,1151,463,1187,436,1223,393,1233,374,1235,356,1232,339,1223,323,1194,293,1156,264,1127,246,1097,232,1034,212"/>
+<area shape="poly" title=" " alt="" coords="1031,211,1079,231,1123,259,1142,279,1157,301,1179,344,1174,347,1153,304,1138,282,1119,263,1076,236,1029,216"/>
+<area shape="poly" title=" " alt="" coords="937,214,930,247,924,246,931,213"/>
+<area shape="poly" title=" " alt="" coords="895,216,796,264,631,347,629,342,793,259,893,211"/>
+<area shape="poly" title=" " alt="" coords="1036,197,1078,204,1122,217,1165,235,1204,259,1261,309,1283,335,1300,362,1311,391,1314,421,1308,453,1293,487,1273,510,1248,528,1245,524,1269,506,1288,484,1303,451,1308,421,1306,392,1296,365,1279,339,1257,313,1201,263,1163,239,1120,222,1077,210,1035,202"/>
+<area shape="poly" title=" " alt="" coords="854,217,747,244,628,279,519,317,476,336,445,354,407,391,379,431,375,428,403,387,442,350,474,331,517,312,626,274,746,239,852,211"/>
+</map>
 </div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
@@ -137,11 +218,6 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00452_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph.png" border="0" usemap="#aa00452_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" alt=""/></div>
-</div>
 
 </div>
 </div>
@@ -150,7 +226,7 @@ Here is the call graph for this function:</div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_e8ae4df8b8335e2a73ecf531ee4a4a97.html">examples</a></li><li class="navelem"><a class="el" href="dir_419ecdcaa9774932caac4165f26b2a7f.html">expected</a></li><li class="navelem"><a class="el" href="a00452.html">example_expected.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_e8ae4df8b8335e2a73ecf531ee4a4a97.html">examples</a></li><li class="navelem"><a class="el" href="dir_8e1b1d8f60798091c382b5897377990d.html">atomic</a></li><li class="navelem"><a class="el" href="a00452.html">example_atomic_config_reload.cpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

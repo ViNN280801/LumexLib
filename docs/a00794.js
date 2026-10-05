@@ -1,4 +1,5 @@
 var a00794 =
 [
-    [ "lumex::xml::xpath::parser::xpath_parse_result_t", "a03090.html", "a03090" ]
+    [ "lumex::xml::xpath::memory::XPathStack", "a03137.html", "a03137" ],
+    [ "lumex::xml::xpath::memory::XPathStackData", "a03141.html", "a03141" ]
 ];

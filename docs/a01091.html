@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::xml::memory Namespace Reference</title>
+<title>LumexLib: lumex::core::utility::traits Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,143 +104,38 @@ $(function(){initNavTree('a01091.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
-<a href="#typedef-members">Typedefs</a> &#124;
-<a href="#func-members">Functions</a> &#124;
-<a href="#var-members">Variables</a>  </div>
-  <div class="headertitle"><div class="title">lumex::xml::memory Namespace Reference</div></div>
+<a href="#namespaces">Namespaces</a>  </div>
+  <div class="headertitle"><div class="title">lumex::core::utility::traits Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02830.html">XmlAllocator</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Manages memory allocation and deallocation for XML nodes, attributes, and strings within a document.  <a href="a02830.html#details">More...</a><br /></td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01101.html">enums</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02834.html">XmlMemoryPage</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents a single fixed-size memory page used by the <code><a class="el" href="a02830.html" title="Manages memory allocation and deallocation for XML nodes, attributes, and strings within a document.">XmlAllocator</a></code>.  <a href="a02834.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01093.html">invoke</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
-Typedefs</h2></td></tr>
-<tr class="memitem:af5c331138f914028e4642100ea3e7a24" id="r_af5c331138f914028e4642100ea3e7a24"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af5c331138f914028e4642100ea3e7a24">char_t</a></td></tr>
-<tr class="separator:af5c331138f914028e4642100ea3e7a24"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:a9e2f482374d0d85e41688b19b06931c7" id="r_a9e2f482374d0d85e41688b19b06931c7"><td class="memTemplParams" colspan="2">template&lt;typename Object&gt; </td></tr>
-<tr class="memitem:a9e2f482374d0d85e41688b19b06931c7"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="a02830.html">XmlAllocator</a> &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a9e2f482374d0d85e41688b19b06931c7">get_allocator</a> (Object const *object)</td></tr>
-<tr class="memdesc:a9e2f482374d0d85e41688b19b06931c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves the <code><a class="el" href="a02830.html" title="Manages memory allocation and deallocation for XML nodes, attributes, and strings within a document.">XmlAllocator</a></code> instance that manages the memory for a given object.  <br /></td></tr>
-<tr class="separator:a9e2f482374d0d85e41688b19b06931c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
-Variables</h2></td></tr>
-<tr class="memitem:ac84ecf0eca5d2db3249e4552c2a861a4" id="r_ac84ecf0eca5d2db3249e4552c2a861a4"><td class="memItemLeft" align="right" valign="top">static std::size_t const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac84ecf0eca5d2db3249e4552c2a861a4">kdefault_xml_memory_page_size</a> = 32768 - sizeof (<a class="el" href="a02834.html">XmlMemoryPage</a>)</td></tr>
-<tr class="memdesc:ac84ecf0eca5d2db3249e4552c2a861a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines the default size of a memory page for XML allocation.  <br /></td></tr>
-<tr class="separator:ac84ecf0eca5d2db3249e4552c2a861a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01092.html">meta</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01102.html">numeric</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01097.html">range</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01095.html">stream</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01098.html">string</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01099.html">tuple</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01100.html">value</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Typedef Documentation</h2>
-<a id="af5c331138f914028e4642100ea3e7a24" name="af5c331138f914028e4642100ea3e7a24"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af5c331138f914028e4642100ea3e7a24">&#9670;&#160;</a></span>char_t</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="a01100.html#af5c331138f914028e4642100ea3e7a24">lumex::xml::types::Types::char_t</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="a9e2f482374d0d85e41688b19b06931c7" name="a9e2f482374d0d85e41688b19b06931c7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9e2f482374d0d85e41688b19b06931c7">&#9670;&#160;</a></span>get_allocator()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename Object&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="a02830.html">XmlAllocator</a> &amp; lumex::xml::memory::get_allocator </td>
-          <td>(</td>
-          <td class="paramtype">Object const *</td>          <td class="paramname"><span class="paramname"><em>object</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Retrieves the <code><a class="el" href="a02830.html" title="Manages memory allocation and deallocation for XML nodes, attributes, and strings within a document.">XmlAllocator</a></code> instance that manages the memory for a given object. </p>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">Object</td><td>The type of the object (e.g., <code><a class="el" href="a02854.html" title="Base structure representing an XML node in the document tree.">XmlNodeBase</a></code>, <code><a class="el" href="a02814.html" title="Base structure for representing an XML attribute.">XmlAttributeBase</a></code>, <code><a class="el" href="a02894.html">xml_mem_str_header_t</a></code>). </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">object</td><td>A pointer to the object for which to retrieve the allocator. Must not be <code>nullptr</code>. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>A reference to the <code><a class="el" href="a02830.html" title="Manages memory allocation and deallocation for XML nodes, attributes, and strings within a document.">XmlAllocator</a></code> that owns <code>object</code>'s memory.</dd></dl>
-<p>This function determines the <code><a class="el" href="a02834.html" title="Represents a single fixed-size memory page used by the XmlAllocator.">XmlMemoryPage</a></code> that contains <code>object</code> and then accesses the <code>allocator</code> pointer stored within that page. Since each page points back to its managing allocator (which is typically the <code><a class="el" href="a02826.html" title="Base structure representing an XML document, combining node and allocator functionalities.">XmlDocumentBase</a></code>), this provides a way to get the correct allocator for any object within an XML document. </p><dl class="exception"><dt>Exceptions</dt><dd>
-  <table class="exception">
-    <tr><td class="paramname">`LUMEX_ASSERT`</td><td>if <code>object</code> is <code>nullptr</code> (debug builds only). </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section note"><dt>Note</dt><dd>This is an internal utility function. </dd></dl>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01091_a9e2f482374d0d85e41688b19b06931c7_icgraph.png" border="0" usemap="#aa01091_a9e2f482374d0d85e41688b19b06931c7_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<h2 class="groupheader">Variable Documentation</h2>
-<a id="ac84ecf0eca5d2db3249e4552c2a861a4" name="ac84ecf0eca5d2db3249e4552c2a861a4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac84ecf0eca5d2db3249e4552c2a861a4">&#9670;&#160;</a></span>kdefault_xml_memory_page_size</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::size_t const lumex::xml::memory::kdefault_xml_memory_page_size = 32768 - sizeof (<a class="el" href="a02834.html">XmlMemoryPage</a>)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Defines the default size of a memory page for XML allocation. </p>
-<p>This constant specifies the size of the data region within an <code><a class="el" href="a02834.html" title="Represents a single fixed-size memory page used by the XmlAllocator.">XmlMemoryPage</a></code>, excluding the page's own metadata size. It is set to 32KB minus the size of <code><a class="el" href="a02834.html" title="Represents a single fixed-size memory page used by the XmlAllocator.">XmlMemoryPage</a></code> structure itself, to optimize for common system page sizes or cache lines. </p><dl class="section note"><dt>Note</dt><dd>This value can impact performance and memory footprint. Size of the memory page </dd></dl>
-
-</div>
-</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00912.html">lumex</a></li><li class="navelem"><a class="el" href="a01083.html">xml</a></li><li class="navelem"><a class="el" href="a01091.html">memory</a></li>
+    <li class="navelem"><a class="el" href="a00948.html">lumex</a></li><li class="navelem"><a class="el" href="a01005.html">core</a></li><li class="navelem"><a class="el" href="a01077.html">utility</a></li><li class="navelem"><a class="el" href="a01091.html">traits</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: example_settings_workflow.cpp File Reference</title>
+<title>LumexLib: example_math.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -105,19 +105,64 @@ $(function(){initNavTree('a00557.html',''); initResizable(true); });
 <div class="header">
   <div class="summary">
 <a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">example_settings_workflow.cpp File Reference</div></div>
+  <div class="headertitle"><div class="title">example_math.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &lt;iostream&gt;</code><br />
-<code>#include &lt;memory&gt;</code><br />
-<code>#include &lt;string&gt;</code><br />
+<code>#include &lt;limits&gt;</code><br />
+<code>#include &lt;stdexcept&gt;</code><br />
 <code>#include &lt;vector&gt;</code><br />
-<code>#include &lt;cstdio&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00851_source.html">lumex/applied/settings/LumexSettings</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00920_source.html">lumex/core/math/LumexMath</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for example_settings_workflow.cpp:</div>
+Include dependency graph for example_math.cpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00558.png" border="0" usemap="#aexample__settings__workflow_8cpp" alt=""/></div>
+<div class="center"><img src="a00558.png" border="0" usemap="#aexample__math_8cpp" alt=""/></div>
+<map name="aexample__math_8cpp" id="aexample__math_8cpp">
+<area shape="rect" title=" " alt="" coords="167,5,298,32"/>
+<area shape="rect" title=" " alt="" coords="73,80,144,107"/>
+<area shape="poly" title=" " alt="" coords="213,35,145,74,142,70,210,30"/>
+<area shape="rect" title=" " alt="" coords="5,237,58,264"/>
+<area shape="poly" title=" " alt="" coords="224,34,159,108,55,227,51,223,155,105,220,31"/>
+<area shape="rect" title=" " alt="" coords="82,237,160,264"/>
+<area shape="poly" title=" " alt="" coords="236,32,230,99,221,142,203,183,182,209,157,230,153,226,178,206,199,180,216,140,225,98,230,32"/>
+<area shape="rect" title=" " alt="" coords="598,80,655,107"/>
+<area shape="poly" title=" " alt="" coords="299,26,427,46,583,77,582,82,426,52,298,32"/>
+<area shape="rect" href="a00920.html" title="Math module: mathematical constants as LUMEX_MATH_CONSTANTS_* macros, and numeric helpers such as NaN..." alt="" coords="383,80,573,107"/>
+<area shape="poly" title=" " alt="" coords="276,30,421,73,420,78,275,35"/>
+<area shape="rect" href="a00320.html" title="Mathematical constants as LUMEX_MATH_CONSTANTS_* macros." alt="" coords="719,155,954,181"/>
+<area shape="poly" title=" " alt="" coords="542,105,760,148,759,154,541,110"/>
+<area shape="rect" href="a00323.html" title="Numeric helpers: NaN/Inf checks, checked narrowing casts, distance, squared difference,..." alt="" coords="555,155,694,181"/>
+<area shape="poly" title=" " alt="" coords="505,105,587,145,584,150,503,110"/>
+<area shape="poly" title=" " alt="" coords="555,171,458,174,336,183,203,201,136,215,71,232,67,233,65,228,69,227,134,210,202,196,336,178,458,169,555,166"/>
+<area shape="poly" title=" " alt="" coords="555,176,380,194,276,210,173,232,165,234,164,229,172,227,275,205,379,189,554,171"/>
+<area shape="rect" title=" " alt="" coords="1064,237,1122,264"/>
+<area shape="poly" title=" " alt="" coords="695,177,708,179,806,189,882,194,959,203,1054,227,1058,228,1057,233,1052,232,958,208,882,199,805,194,707,184,694,182"/>
+<area shape="rect" title=" " alt="" coords="1146,237,1210,264"/>
+<area shape="poly" title=" " alt="" coords="696,177,708,179,828,189,923,193,1017,201,1071,211,1135,227,1141,229,1139,234,1133,232,1070,216,1016,206,923,198,828,195,707,184,695,182"/>
+<area shape="rect" title=" " alt="" coords="1235,237,1295,264"/>
+<area shape="poly" title=" " alt="" coords="695,177,708,179,786,186,853,189,967,190,1081,198,1146,208,1223,227,1229,229,1227,234,1221,232,1145,214,1080,203,967,196,853,194,786,191,707,184,695,182"/>
+<area shape="rect" title=" " alt="" coords="1320,237,1381,264"/>
+<area shape="poly" title=" " alt="" coords="695,177,708,179,799,187,877,189,1010,188,1074,189,1142,194,1219,206,1308,227,1314,228,1312,234,1307,232,1218,211,1142,200,1074,195,1010,194,877,194,799,192,707,184,695,183"/>
+<area shape="rect" title=" " alt="" coords="1405,237,1474,264"/>
+<area shape="poly" title=" " alt="" coords="695,177,708,179,812,187,901,190,1053,188,1126,189,1204,193,1291,205,1393,227,1401,229,1400,234,1392,232,1290,211,1203,199,1126,194,1053,193,901,195,812,192,707,184,695,183"/>
+<area shape="rect" title=" " alt="" coords="1081,328,1134,355"/>
+<area shape="poly" title=" " alt="" coords="695,177,708,179,857,181,1107,182,1237,186,1352,194,1440,207,1470,216,1488,227,1502,247,1507,264,1504,280,1494,293,1477,304,1455,313,1400,327,1334,336,1266,341,1150,343,1150,338,1266,336,1334,331,1399,322,1453,308,1474,299,1490,289,1499,277,1502,264,1498,249,1484,231,1467,221,1439,212,1351,199,1236,191,1107,188,857,186,707,184,695,183"/>
+<area shape="rect" title=" " alt="" coords="428,237,510,264"/>
+<area shape="poly" title=" " alt="" coords="602,184,508,232,505,228,599,179"/>
+<area shape="rect" title=" " alt="" coords="553,328,606,355"/>
+<area shape="poly" title=" " alt="" coords="611,184,591,204,575,230,570,251,569,273,575,313,569,313,564,273,565,250,570,228,587,201,607,180"/>
+<area shape="rect" href="a00389.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="185,229,353,272"/>
+<area shape="poly" title=" " alt="" coords="569,185,369,230,368,224,568,179"/>
+<area shape="rect" href="a00404.html" title="C++ language, library and attribute feature availability." alt="" coords="242,320,474,363"/>
+<area shape="poly" title=" " alt="" coords="555,178,484,195,449,211,417,231,401,248,388,267,370,306,366,304,384,264,397,244,414,227,446,206,482,190,554,173"/>
+<area shape="rect" href="a00422.html" title="Macros that declare an exception class in one line." alt="" coords="585,229,822,272"/>
+<area shape="poly" title=" " alt="" coords="639,180,675,217,671,220,635,184"/>
+<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="846,229,1041,272"/>
+<area shape="poly" title=" " alt="" coords="676,179,847,222,846,228,674,185"/>
+<area shape="poly" title=" " alt="" coords="291,271,329,307,325,311,288,274"/>
+<area shape="poly" title=" " alt="" coords="799,270,1066,328,1065,334,798,275"/>
+<area shape="poly" title=" " alt="" coords="676,275,611,321,608,317,673,270"/>
+</map>
 </div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
@@ -144,6 +189,42 @@ Functions</h2></td></tr>
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="a00557_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph.png" border="0" usemap="#aa00557_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" alt=""/></div>
+<map name="aa00557_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" id="aa00557_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph">
+<area shape="rect" title=" " alt="" coords="5,205,55,232"/>
+<area shape="rect" href="a01053.html#a795166387deab30bf98b02619bca5c5b" title="Arithmetic mean of a range&#39;s elements, or ValueType{0} for an empty range." alt="" coords="124,72,258,115"/>
+<area shape="poly" title=" " alt="" coords="37,203,62,165,80,143,101,125,109,119,112,124,104,129,84,147,66,168,41,206"/>
+<area shape="rect" href="a01053.html#aa1b6ddc9ee41c9002fed87698f0b5bea" title="Casts sourceValue to TargetType, throwing if the value is non&#45;finite (for a floating&#45;point source) or..." alt="" coords="103,280,280,323"/>
+<area shape="poly" title=" " alt="" coords="56,229,136,270,134,275,54,233"/>
+<area shape="rect" href="a01053.html#a0fd1a5acf2f1fed8edeee1309059b06f" title="Absolute difference |a &#45; b| of two integers, computed without an intermediate signed underflow for un..." alt="" coords="124,347,258,389"/>
+<area shape="poly" title=" " alt="" coords="39,231,62,281,81,308,104,333,112,339,109,343,101,337,77,312,58,283,34,234"/>
+<area shape="rect" href="a01053.html#acab500b6094965f38491c932461b6f03" title="Checks whether a floating&#45;point value is NaN or +&#45;Infinity." alt="" coords="124,437,258,480"/>
+<area shape="poly" title=" " alt="" coords="36,232,57,308,77,356,105,400,135,427,131,431,101,403,72,358,52,310,31,233"/>
+<area shape="rect" href="a01053.html#ab00c52837c8e1c0898a38c85a2cce753" title="Root Mean Square of a range&#39;s elements, or ResultType{0} for an empty range." alt="" coords="124,5,258,48"/>
+<area shape="poly" title=" " alt="" coords="31,204,39,174,52,135,72,94,101,58,109,51,112,55,105,62,77,97,57,137,44,176,36,205"/>
+<area shape="rect" href="a01053.html#aeb97b3e1f4e91081b5a15bc768abe7ea" title="Root Mean Squared Error of a range against a fixed scalar: sqrt( 1/N * sum (x_i &#45; scalar)^2 )...." alt="" coords="124,139,258,181"/>
+<area shape="poly" title=" " alt="" coords="54,207,115,185,117,190,56,212"/>
+<area shape="rect" href="a01053.html#a8c77830600ff2261070b9e599fdfe916" title="(a &#45; b)^2, computed in the common type of a and b (promoted, so two short operands give an int)." alt="" coords="332,143,491,185"/>
+<area shape="poly" title=" " alt="" coords="55,215,153,207,280,191,316,184,317,189,280,196,154,212,55,220"/>
+<area shape="rect" href="a01055.html#abdf8ed32a58d7ef1884b0e2eb69e139b" title="begin (range) with std::begin and ADL, as a range&#45;for does." alt="" coords="338,8,485,51"/>
+<area shape="poly" title=" " alt="" coords="258,71,322,52,324,58,260,76"/>
+<area shape="rect" href="a01055.html#a39800dfb129ce7e0f3b8520f0e8ce977" title="end (range) with std::end and ADL, as a range&#45;for does." alt="" coords="343,75,480,117"/>
+<area shape="poly" title=" " alt="" coords="259,91,327,92,327,98,259,97"/>
+<area shape="poly" title=" " alt="" coords="160,280,159,270,164,261,175,255,191,253,209,256,220,262,217,267,207,261,191,259,176,260,168,265,164,271,165,279"/>
+<area shape="rect" href="a01055.html#a3502a023a6571d1aa9955e571d05724c" title="Integral source, integral target: exact comparison." alt="" coords="344,213,479,256"/>
+<area shape="poly" title=" " alt="" coords="263,277,329,257,330,262,265,282"/>
+<area shape="rect" href="a01055.html#ab02125f45f18a96bf33bfb97c10bc6b6" title="Prints a value as a number: the unary plus promotes character types, so they print their code,..." alt="" coords="328,280,495,323"/>
+<area shape="poly" title=" " alt="" coords="281,299,312,299,312,304,281,304"/>
+<area shape="rect" href="a01055.html#ade0e34f98cff83fb7a018f3243ff5195" title=" " alt="" coords="342,347,481,405"/>
+<area shape="poly" title=" " alt="" coords="258,321,329,345,327,350,256,326"/>
+<area shape="rect" href="a01055.html#a251e77cb9662dd8266b1d6c1ba9589c9" title="a &lt; b for two integers of any signedness, without the usual arithmetic conversions turning a negative..." alt="" coords="543,213,692,256"/>
+<area shape="poly" title=" " alt="" coords="479,232,528,232,528,237,479,237"/>
+<area shape="poly" title=" " alt="" coords="160,437,159,427,164,419,175,413,191,411,209,413,220,419,217,424,207,418,191,416,176,418,168,422,164,428,165,436"/>
+<area shape="poly" title=" " alt="" coords="259,25,322,26,322,31,259,30"/>
+<area shape="poly" title=" " alt="" coords="260,45,329,67,327,72,258,50"/>
+<area shape="poly" title=" " alt="" coords="257,137,278,125,293,109,302,94,310,77,326,61,332,57,335,61,330,65,315,80,306,96,298,112,282,129,260,142"/>
+<area shape="poly" title=" " alt="" coords="258,138,327,118,329,123,260,143"/>
+<area shape="poly" title=" " alt="" coords="259,159,316,160,316,165,259,164"/>
+</map>
 </div>
 
 </div>
@@ -153,7 +234,7 @@ Here is the call graph for this function:</div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_e8ae4df8b8335e2a73ecf531ee4a4a97.html">examples</a></li><li class="navelem"><a class="el" href="dir_687203564ac037bfeaa905b155c4129c.html">settings</a></li><li class="navelem"><a class="el" href="a00557.html">example_settings_workflow.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_e8ae4df8b8335e2a73ecf531ee4a4a97.html">examples</a></li><li class="navelem"><a class="el" href="dir_ae2a61691427ed53e2b314409aeb280c.html">math</a></li><li class="navelem"><a class="el" href="a00557.html">example_math.cpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

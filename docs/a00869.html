@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexException File Reference</title>
+<title>LumexLib: LumexHardware File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -103,40 +103,96 @@ $(function(){initNavTree('a00869.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">LumexException File Reference</div></div>
+  <div class="headertitle"><div class="title">LumexHardware File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Exceptions module: the <code><a class="el" href="a00227.html#a14cb3c521ade640b8e5a7bf4aac3c929">LumexBaseException</a></code> hierarchy, stack traces, a crash handler that writes minidumps or core dumps, and an exception-safe call wrapper.  
+<p>Hardware module: a profile of the CPU, memory and GPUs of the machine, the SIMD instruction sets the CPU supports, the MAC address and a seed for random generators.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="a00209_source.html">crash/DefaultPaths.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00215_source.html">crash/LumexCrashHandler.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00221_source.html">crash/WindowsSEHTranslator.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00227_source.html">exception/LumexException.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00239_source.html">stacktrace/LumexStacktrace.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00245_source.html">stacktrace/LumexStacktraceEntry.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00233_source.html">LumexExceptionWrapper.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="a00059_source.html">caps/LumexCPUVectorizationCapabilities.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00065_source.html">caps/LumexHardwareCapabilities.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for LumexException:</div>
+Include dependency graph for LumexHardware:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00870.png" border="0" usemap="#a_lumex_exception" alt=""/></div>
+<div class="center"><img src="a00870.png" border="0" usemap="#a_lumex_hardware" alt=""/></div>
+<map name="a_lumex_hardware" id="a_lumex_hardware">
+<area shape="rect" title="Hardware module: a profile of the CPU, memory and GPUs of the machine, the SIMD instruction sets the ..." alt="" coords="611,5,727,32"/>
+<area shape="rect" href="a00059.html" title="Run&#45;time detection of the SIMD instruction sets that the processor and the operating system support." alt="" coords="202,80,398,123"/>
+<area shape="poly" title=" " alt="" coords="612,35,410,79,409,74,610,30"/>
+<area shape="rect" href="a00065.html" title="Hardware inventory (processor, memory, graphics adapter) and the decision whether an application shou..." alt="" coords="919,88,1160,115"/>
+<area shape="poly" title=" " alt="" coords="728,30,967,82,966,87,727,35"/>
+<area shape="rect" href="a00641.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="357,179,520,205"/>
+<area shape="poly" title=" " alt="" coords="334,121,407,168,404,172,331,126"/>
+<area shape="rect" title=" " alt="" coords="5,179,56,205"/>
+<area shape="poly" title=" " alt="" coords="215,126,143,147,69,173,67,174,65,169,67,168,141,142,213,121"/>
+<area shape="rect" title=" " alt="" coords="544,179,605,205"/>
+<area shape="poly" title=" " alt="" coords="382,121,456,142,533,168,537,170,535,175,531,173,454,147,381,126"/>
+<area shape="rect" title=" " alt="" coords="189,179,242,205"/>
+<area shape="poly" title=" " alt="" coords="282,125,240,169,236,165,278,121"/>
+<area shape="rect" title=" " alt="" coords="80,179,165,205"/>
+<area shape="poly" title=" " alt="" coords="259,126,163,174,160,169,257,121"/>
+<area shape="rect" title=" " alt="" coords="266,179,334,205"/>
+<area shape="poly" title=" " alt="" coords="302,123,302,163,297,163,297,123"/>
+<area shape="poly" title=" " alt="" coords="927,118,741,141,532,173,509,178,508,172,531,168,741,136,926,113"/>
+<area shape="poly" title=" " alt="" coords="919,116,774,137,695,153,618,173,613,175,612,170,616,168,694,148,773,131,919,110"/>
+<area shape="poly" title=" " alt="" coords="919,110,753,119,562,132,383,150,311,161,255,173,251,174,250,169,254,168,310,156,383,144,561,126,752,113,919,105"/>
+<area shape="poly" title=" " alt="" coords="919,106,798,110,653,121,498,141,346,173,339,175,338,170,345,168,497,136,653,116,797,105,918,100"/>
+<area shape="rect" title=" " alt="" coords="1815,179,1880,205"/>
+<area shape="poly" title=" " alt="" coords="1161,106,1507,129,1679,147,1803,168,1810,170,1808,175,1802,173,1678,152,1506,135,1161,111"/>
+<area shape="rect" title=" " alt="" coords="1904,179,1970,205"/>
+<area shape="poly" title=" " alt="" coords="1161,104,1552,126,1750,145,1832,156,1894,168,1900,170,1899,175,1893,173,1831,161,1750,150,1552,132,1161,110"/>
+<area shape="rect" title=" " alt="" coords="1994,179,2059,205"/>
+<area shape="poly" title=" " alt="" coords="1161,103,1360,111,1597,124,1821,143,1913,154,1983,168,1990,170,1988,175,1982,173,1912,160,1820,148,1596,129,1360,116,1161,109"/>
+<area shape="rect" title=" " alt="" coords="2083,179,2151,205"/>
+<area shape="poly" title=" " alt="" coords="1161,103,1378,110,1640,123,1890,142,1993,154,2071,168,2079,170,2077,175,2070,173,1992,159,1889,147,1640,128,1378,115,1161,108"/>
+<area shape="rect" title=" " alt="" coords="628,179,686,205"/>
+<area shape="poly" title=" " alt="" coords="940,118,823,139,760,155,698,173,694,175,692,170,696,168,758,149,822,134,939,113"/>
+<area shape="rect" title=" " alt="" coords="709,179,792,205"/>
+<area shape="poly" title=" " alt="" coords="993,118,805,173,798,176,796,171,803,168,991,113"/>
+<area shape="rect" title=" " alt="" coords="816,179,888,205"/>
+<area shape="poly" title=" " alt="" coords="1014,118,893,174,891,169,1012,113"/>
+<area shape="rect" title=" " alt="" coords="912,179,973,205"/>
+<area shape="poly" title=" " alt="" coords="1028,117,969,170,966,166,1024,113"/>
+<area shape="rect" title=" " alt="" coords="997,179,1082,205"/>
+<area shape="poly" title=" " alt="" coords="1042,115,1042,163,1037,163,1037,115"/>
+<area shape="rect" title=" " alt="" coords="1107,179,1239,205"/>
+<area shape="poly" title=" " alt="" coords="1060,113,1143,167,1140,172,1057,118"/>
+<area shape="rect" title=" " alt="" coords="1263,179,1363,205"/>
+<area shape="poly" title=" " alt="" coords="1080,113,1253,168,1261,171,1260,176,1251,173,1078,118"/>
+<area shape="rect" title=" " alt="" coords="1388,179,1484,205"/>
+<area shape="poly" title=" " alt="" coords="1116,113,1239,136,1376,168,1387,171,1386,176,1375,173,1238,141,1115,118"/>
+<area shape="rect" href="a00419.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="1558,171,1791,213"/>
+<area shape="poly" title=" " alt="" coords="1136,113,1540,168,1543,168,1542,174,1539,173,1135,118"/>
+<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="1500,261,1694,304"/>
+<area shape="poly" title=" " alt="" coords="1161,109,1351,131,1437,148,1497,168,1534,201,1574,247,1570,251,1530,204,1494,173,1435,153,1350,136,1160,114"/>
+<area shape="poly" title=" " alt="" coords="1659,216,1627,251,1623,248,1655,212"/>
+</map>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00871.png" border="0" usemap="#a_lumex_exceptiondep" alt=""/></div>
+<div class="center"><img src="a00871.png" border="0" usemap="#a_lumex_hardwaredep" alt=""/></div>
+<map name="a_lumex_hardwaredep" id="a_lumex_hardwaredep">
+<area shape="rect" title="Hardware module: a profile of the CPU, memory and GPUs of the machine, the SIMD instruction sets the ..." alt="" coords="265,5,381,32"/>
+<area shape="rect" href="a00524.html" title=" " alt="" coords="5,80,185,123"/>
+<area shape="poly" title=" " alt="" coords="274,40,155,82,153,77,272,35"/>
+<area shape="rect" href="a00527.html" title=" " alt="" coords="209,88,437,115"/>
+<area shape="poly" title=" " alt="" coords="326,48,326,88,320,88,320,48"/>
+<area shape="rect" href="a00530.html" title=" " alt="" coords="460,88,674,115"/>
+<area shape="poly" title=" " alt="" coords="376,35,530,85,528,90,374,40"/>
+</map>
 </div>
 </div>
 <p><a href="a00869_source.html">Go to the source code of this file.</a></p>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Exceptions module: the <code><a class="el" href="a00227.html#a14cb3c521ade640b8e5a7bf4aac3c929">LumexBaseException</a></code> hierarchy, stack traces, a crash handler that writes minidumps or core dumps, and an exception-safe call wrapper. </p>
-<p>Link <code>lumex::exceptions</code> (compiled library). Works from C++11; the <code>std::string_view</code> constructor of <code><a class="el" href="a00227.html#a14cb3c521ade640b8e5a7bf4aac3c929">LumexBaseException</a></code> appears from C++17. The umbrella includes the crash handler with its default paths and the Windows SEH translator (<code>crash/</code>), <code><a class="el" href="a00227.html" title="LumexBaseException, the base exception of LumexLib that records the stack where it was constructed,...">exception/LumexException.hpp</a></code>, the stack trace classes (<code>stacktrace/</code>) and <code><a class="el" href="a00233.html" title="Exception-safe call wrapper: invokes a callable, catches anything it throws, reports it to std::cerr,...">LumexExceptionWrapper.hpp</a></code> (<code>LUMEX_SAFE_CALL</code> and its variants). </p>
+<div class="textblock"><p>Hardware module: a profile of the CPU, memory and GPUs of the machine, the SIMD instruction sets the CPU supports, the MAC address and a seed for random generators. </p>
+<p>Link <code>lumex::hardware</code> (compiled library). Works from C++11. The umbrella includes <code><a class="el" href="a00065.html" title="Hardware inventory (processor, memory, graphics adapter) and the decision whether an application shou...">caps/LumexHardwareCapabilities.hpp</a></code> (<code><a class="el" href="a04017.html" title="Comprehensive hardware information structure containing system specifications.">hardware_info_t</a></code>, <code><a class="el" href="a04021.html" title="Hardware detection and capability assessment utility class.">HardwareCapabilities</a></code>, <code>get_mac_address</code>, <code>generate_cryptographic_seed</code>) and <code><a class="el" href="a00059.html" title="Run-time detection of the SIMD instruction sets that the processor and the operating system support.">caps/LumexCPUVectorizationCapabilities.hpp</a></code> (<code>CPUVectorizationDetector</code>). </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_c5abfa2a5a0424f8cc91dab0edfcaee4.html">exceptions</a></li><li class="navelem"><a class="el" href="a00869.html">LumexException</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_de45db85bd98abf883bc2bd6c3907fd8.html">applied</a></li><li class="navelem"><a class="el" href="dir_67ca2fc5a6ed9c37068e27e587cd4bd5.html">hardware</a></li><li class="navelem"><a class="el" href="a00869.html">LumexHardware</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

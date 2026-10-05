@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: Member List</title>
+<title>LumexLib: lumex::xml::types::Types Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a01146.html',''); initResizable(true); });
+$(function(){initNavTree('a01143.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,21 +103,736 @@ $(function(){initNavTree('a01146.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">lumex::applied::json::schema::LumexJsonSchemaException Member List</div></div>
+  <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
+<a href="#enum-members">Enumerations</a>  </div>
+  <div class="headertitle"><div class="title">lumex::xml::types::Types Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02981.html">xml_extra_buffer</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02977.html">xml_mem_str_header_t</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:af5c331138f914028e4642100ea3e7a24" id="r_af5c331138f914028e4642100ea3e7a24"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af5c331138f914028e4642100ea3e7a24">char_t</a> = char</td></tr>
+<tr class="separator:af5c331138f914028e4642100ea3e7a24"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a684035fd005e18d771065d359ceca62f" id="r_a684035fd005e18d771065d359ceca62f"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a684035fd005e18d771065d359ceca62f">string_t</a> = std::basic_string&lt;<a class="el" href="#af5c331138f914028e4642100ea3e7a24">char_t</a>&gt;</td></tr>
+<tr class="separator:a684035fd005e18d771065d359ceca62f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acc796a34be312ace491c99cf7f191617" id="r_acc796a34be312ace491c99cf7f191617"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acc796a34be312ace491c99cf7f191617">string_view_t</a> = std::basic_string_view&lt;<a class="el" href="#af5c331138f914028e4642100ea3e7a24">char_t</a>&gt;</td></tr>
+<tr class="separator:acc796a34be312ace491c99cf7f191617"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:a54c963b7a6def6381146ead18a8753ce" id="r_a54c963b7a6def6381146ead18a8753ce"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a54c963b7a6def6381146ead18a8753ce">chartype_t</a> : std::uint8_t { <br />
+&#160;&#160;<a class="el" href="#a54c963b7a6def6381146ead18a8753cea943e484a4fff51f6828552fa2988ba15">ct_parse_pcdata</a> = 1
+, <a class="el" href="#a54c963b7a6def6381146ead18a8753ceaa17fb9280b5009c73612ab8771da1ed7">ct_parse_attr</a> = 2
+, <a class="el" href="#a54c963b7a6def6381146ead18a8753cea7c162e835ff76b5249b89de06ae0a6de">ct_parse_attr_ws</a> = 4
+, <a class="el" href="#a54c963b7a6def6381146ead18a8753ceaa8a30852435d8ed13d61d235b6b30f8a">ct_space</a> = 8
+, <br />
+&#160;&#160;<a class="el" href="#a54c963b7a6def6381146ead18a8753cea618adf38cf7574c6b8d0e64327fd61f6">ct_parse_cdata</a> = 16
+, <a class="el" href="#a54c963b7a6def6381146ead18a8753ceaed2d435e056ddd199189b210871c0ab8">ct_parse_comment</a> = 32
+, <a class="el" href="#a54c963b7a6def6381146ead18a8753cea2d8131324979e890e535bb588c7a23ed">ct_symbol</a> = 64
+, <a class="el" href="#a54c963b7a6def6381146ead18a8753ceaa48567013132b50ffa4e7178a2afbffa">ct_start_symbol</a> = 128
+<br />
+ }</td></tr>
+<tr class="separator:a54c963b7a6def6381146ead18a8753ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a355198379230c3f88efbc231a9f617b3" id="r_a355198379230c3f88efbc231a9f617b3"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a355198379230c3f88efbc231a9f617b3">chartypex_t</a> : std::uint8_t { <br />
+&#160;&#160;<a class="el" href="#a355198379230c3f88efbc231a9f617b3a8a75caa374f154ba53d1590a2f40897d">ctx_special_pcdata</a> = 1
+, <a class="el" href="#a355198379230c3f88efbc231a9f617b3a447c505d0e04e68175d5854827220ecd">ctx_special_attr</a> = 2
+, <a class="el" href="#a355198379230c3f88efbc231a9f617b3a07c4736a89a49102c568fb7d7fb35910">ctx_start_symbol</a> = 4
+, <a class="el" href="#a355198379230c3f88efbc231a9f617b3a0579bb0f657e39ea0f7c7718573a6793">ctx_digit</a> = 8
+, <br />
+&#160;&#160;<a class="el" href="#a355198379230c3f88efbc231a9f617b3aaa3f507f576fc63c89fd457cf8fc5357">ctx_symbol</a> = 16
+<br />
+ }</td></tr>
+<tr class="separator:a355198379230c3f88efbc231a9f617b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ea2ab672e10bb614a49da9b5a7f0801" id="r_a2ea2ab672e10bb614a49da9b5a7f0801"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2ea2ab672e10bb614a49da9b5a7f0801">xml_node_type</a> : std::uint8_t { <br />
+&#160;&#160;<a class="el" href="#a2ea2ab672e10bb614a49da9b5a7f0801ae5ba2eaf8292639da1b195f2148de6e7">node_null</a>
+, <a class="el" href="#a2ea2ab672e10bb614a49da9b5a7f0801a296b8402337abf2489633516f4983dc5">node_document</a>
+, <a class="el" href="#a2ea2ab672e10bb614a49da9b5a7f0801a9e883faaae0f94d812dd30609847f292">node_element</a>
+, <a class="el" href="#a2ea2ab672e10bb614a49da9b5a7f0801a33e4824ca5e65b09e091889a41fdbd4b">node_pcdata</a>
+, <br />
+&#160;&#160;<a class="el" href="#a2ea2ab672e10bb614a49da9b5a7f0801a97cc331e08bf1417ce9679a10b94d682">node_cdata</a>
+, <a class="el" href="#a2ea2ab672e10bb614a49da9b5a7f0801a99f109060a92e7a18815d2057b502349">node_comment</a>
+, <a class="el" href="#a2ea2ab672e10bb614a49da9b5a7f0801aa7cda3657ada0759a50adc332e9a1987">node_pi</a>
+, <a class="el" href="#a2ea2ab672e10bb614a49da9b5a7f0801a5dbfa1850471edd2a0eef3e444653d17">node_declaration</a>
+, <br />
+&#160;&#160;<a class="el" href="#a2ea2ab672e10bb614a49da9b5a7f0801a898917f0c9df9e775d6a2f2fff7a370a">node_doctype</a>
+<br />
+ }</td></tr>
+<tr class="separator:a2ea2ab672e10bb614a49da9b5a7f0801"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af1767ae022d3845084f92ab0bc3776a0" id="r_af1767ae022d3845084f92ab0bc3776a0"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af1767ae022d3845084f92ab0bc3776a0">xml_encoding</a> : std::uint8_t { <br />
+&#160;&#160;<a class="el" href="#af1767ae022d3845084f92ab0bc3776a0a86500d85e2a14a91063a2f19f14cbf80">encoding_auto</a>
+, <a class="el" href="#af1767ae022d3845084f92ab0bc3776a0a8f73d135c1732dad295e22b2cea1dbd3">encoding_utf8</a>
+, <a class="el" href="#af1767ae022d3845084f92ab0bc3776a0af24da3643b8c78b51189e17232a70705">encoding_utf16_le</a>
+, <a class="el" href="#af1767ae022d3845084f92ab0bc3776a0acb87e5684a8538e60dd2ecda74ef39e2">encoding_utf16_be</a>
+, <br />
+&#160;&#160;<a class="el" href="#af1767ae022d3845084f92ab0bc3776a0a292bb1b16cf3a35525d2ecedadc66dcd">encoding_utf16</a>
+, <a class="el" href="#af1767ae022d3845084f92ab0bc3776a0a2ac806579d476e3e77a3e36d2190cc22">encoding_utf32_le</a>
+, <a class="el" href="#af1767ae022d3845084f92ab0bc3776a0a4aa858911de924e5322ecce152be848d">encoding_utf32_be</a>
+, <a class="el" href="#af1767ae022d3845084f92ab0bc3776a0a76b87fb972f0a5dd51404cd696943884">encoding_utf32</a>
+, <br />
+&#160;&#160;<a class="el" href="#af1767ae022d3845084f92ab0bc3776a0a3f71c11b5b44d38b2b604ea78ec0dfaf">encoding_wchar</a>
+, <a class="el" href="#af1767ae022d3845084f92ab0bc3776a0a13b7c482cfc74974efbfaa40a0ee1868">encoding_latin1</a>
+<br />
+ }</td></tr>
+<tr class="separator:af1767ae022d3845084f92ab0bc3776a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8264dfa29bbe6720c402fec104db5408" id="r_a8264dfa29bbe6720c402fec104db5408"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8264dfa29bbe6720c402fec104db5408">xml_parse_status</a> : std::uint8_t { <br />
+&#160;&#160;<a class="el" href="#a8264dfa29bbe6720c402fec104db5408ac4fcd417ecf068859fa8b014426395df">status_ok</a> = 0
+, <a class="el" href="#a8264dfa29bbe6720c402fec104db5408a6a26ac1da139d2635e0be60299ed799a">status_file_not_found</a>
+, <a class="el" href="#a8264dfa29bbe6720c402fec104db5408a1679107e5b77ebb94832de0aa61a8f16">status_io_error</a>
+, <a class="el" href="#a8264dfa29bbe6720c402fec104db5408a0c6cb3e6dd417f8025f10581454d2a5c">status_out_of_memory</a>
+, <br />
+&#160;&#160;<a class="el" href="#a8264dfa29bbe6720c402fec104db5408aab5ea18d65dbd0457afaa3c0caae1525">status_internal_error</a>
+, <a class="el" href="#a8264dfa29bbe6720c402fec104db5408abbd4e2c3ce4ec8e107e52dfe2134fae1">status_unrecognized_tag</a>
+, <a class="el" href="#a8264dfa29bbe6720c402fec104db5408a5534b6d926433e86cfa4b63e52ccca45">status_bad_pi</a>
+, <a class="el" href="#a8264dfa29bbe6720c402fec104db5408aa5bda180b15223dbc38411cb819c9e44">status_bad_comment</a>
+, <br />
+&#160;&#160;<a class="el" href="#a8264dfa29bbe6720c402fec104db5408adac4b8a233e5cf51cc44e57366811505">status_bad_cdata</a>
+, <a class="el" href="#a8264dfa29bbe6720c402fec104db5408ab05ea0d55515e5053fc7e974350ccbd9">status_bad_doctype</a>
+, <a class="el" href="#a8264dfa29bbe6720c402fec104db5408aa281cfa1c4a5b42d20042d5f04e805a2">status_bad_pcdata</a>
+, <a class="el" href="#a8264dfa29bbe6720c402fec104db5408a34fe3aa2b1a4f4f63ab7e0c83cb1b08c">status_bad_start_element</a>
+, <br />
+&#160;&#160;<a class="el" href="#a8264dfa29bbe6720c402fec104db5408a42613777fc875966a0677eafc33988c8">status_bad_attribute</a>
+, <a class="el" href="#a8264dfa29bbe6720c402fec104db5408a1190b896bdfafb3ccc54344983fc1fbc">status_bad_end_element</a>
+, <a class="el" href="#a8264dfa29bbe6720c402fec104db5408a04f8d19a5f7b818dbb2f760eaea0e3cc">status_end_element_mismatch</a>
+, <a class="el" href="#a8264dfa29bbe6720c402fec104db5408a000f2b16b2a4488f19b3d95f585e53e3">status_append_invalid_root</a>
+, <br />
+&#160;&#160;<a class="el" href="#a8264dfa29bbe6720c402fec104db5408a3acda84f5df851a4cea50a5a3d2614cd">status_no_document_element</a>
+<br />
+ }</td></tr>
+<tr class="separator:a8264dfa29bbe6720c402fec104db5408"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab45611a4d899512e32aa65eb48a191a5" id="r_ab45611a4d899512e32aa65eb48a191a5"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab45611a4d899512e32aa65eb48a191a5">xpath_value_type</a> : std::uint8_t { <br />
+&#160;&#160;<a class="el" href="#ab45611a4d899512e32aa65eb48a191a5aef88a06e63e24db27c45d2b3c9cbddc7">xpath_type_none</a>
+, <a class="el" href="#ab45611a4d899512e32aa65eb48a191a5a1141b0c00ff38e450f1b3013c62f155f">xpath_type_node_set</a>
+, <a class="el" href="#ab45611a4d899512e32aa65eb48a191a5aab160555061f91030ebc5b20f5db6da0">xpath_type_number</a>
+, <a class="el" href="#ab45611a4d899512e32aa65eb48a191a5ad8df1fe43fb818a0c54b05207b890904">xpath_type_string</a>
+, <br />
+&#160;&#160;<a class="el" href="#ab45611a4d899512e32aa65eb48a191a5a80042feb7d0f7888e3a86fb3c6c7b641">xpath_type_boolean</a>
+<br />
+ }</td></tr>
+<tr class="separator:ab45611a4d899512e32aa65eb48a191a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0457ccbf02882197363e66845f2348f5" id="r_a0457ccbf02882197363e66845f2348f5"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0457ccbf02882197363e66845f2348f5">ast_type_t</a> : std::uint8_t { <br />
+&#160;&#160;<a class="el" href="#a0457ccbf02882197363e66845f2348f5a51ee059af47c2ad8d5ae4032f7902ae7">ast_unknown</a>
+, <a class="el" href="#a0457ccbf02882197363e66845f2348f5ab28c92845b8d41ed90b4976aff156f35">ast_op_or</a>
+, <a class="el" href="#a0457ccbf02882197363e66845f2348f5aca320b00895ccd2f64b8b09bb5ad8ff5">ast_op_and</a>
+, <a class="el" href="#a0457ccbf02882197363e66845f2348f5a065958291d0a17d194dc1b707d326000">ast_op_equal</a>
+, <br />
+&#160;&#160;<a class="el" href="#a0457ccbf02882197363e66845f2348f5a1c90a9852a8099e526d428277ce20db8">ast_op_not_equal</a>
+, <a class="el" href="#a0457ccbf02882197363e66845f2348f5af74f9b6831e3e6a1f2de1c4c2ad8629b">ast_op_less</a>
+, <a class="el" href="#a0457ccbf02882197363e66845f2348f5a7190b592265224db7e090f2553cc1f40">ast_op_greater</a>
+, <a class="el" href="#a0457ccbf02882197363e66845f2348f5a939f56e949502dfc6a9e841629d04c9d">ast_op_less_or_equal</a>
+, <br />
+&#160;&#160;<a class="el" href="#a0457ccbf02882197363e66845f2348f5a8f6053c36c9c7382e0a7004ad0231ee5">ast_op_greater_or_equal</a>
+, <a class="el" href="#a0457ccbf02882197363e66845f2348f5a3108a118684b2fdc7f1aed1578c87bde">ast_op_add</a>
+, <a class="el" href="#a0457ccbf02882197363e66845f2348f5a7c8461505e93842fa0f1f4570ba9fa3c">ast_op_subtract</a>
+, <a class="el" href="#a0457ccbf02882197363e66845f2348f5ab344afb1ca332b7c891e2927700e0dce">ast_op_multiply</a>
+, <br />
+&#160;&#160;<a class="el" href="#a0457ccbf02882197363e66845f2348f5af5419bbfb144713c784547b6900f75c4">ast_op_divide</a>
+, <a class="el" href="#a0457ccbf02882197363e66845f2348f5a1f3066bcbcc02739d804ba98be9c155d">ast_op_mod</a>
+, <a class="el" href="#a0457ccbf02882197363e66845f2348f5a71c2f37608992f35a127794fc9698e61">ast_op_negate</a>
+, <a class="el" href="#a0457ccbf02882197363e66845f2348f5a99c424d60f5fb7b025f572eceec478be">ast_op_union</a>
+, <br />
+&#160;&#160;<a class="el" href="#a0457ccbf02882197363e66845f2348f5ad604ff1d0d717180bada6e1ff41173c3">ast_predicate</a>
+, <a class="el" href="#a0457ccbf02882197363e66845f2348f5a47ea4556c20b6c9157158b38852fba7c">ast_filter</a>
+, <a class="el" href="#a0457ccbf02882197363e66845f2348f5a21ab070ded88ac125adec88a8e8e62ee">ast_string_constant</a>
+, <a class="el" href="#a0457ccbf02882197363e66845f2348f5a97efef3cf73f7f46d2895e61eafaf4af">ast_number_constant</a>
+, <br />
+&#160;&#160;<a class="el" href="#a0457ccbf02882197363e66845f2348f5a463efb35624adeef3324973cf519a001">ast_variable</a>
+, <a class="el" href="#a0457ccbf02882197363e66845f2348f5afb81748b640c0739fd281756c7ea7ced">ast_func_last</a>
+, <a class="el" href="#a0457ccbf02882197363e66845f2348f5adffb4b2e63cb20e210e4beb10cc687c8">ast_func_position</a>
+, <a class="el" href="#a0457ccbf02882197363e66845f2348f5a158a23e9ff61a841b43505f75e8e6e8b">ast_func_count</a>
+, <br />
+&#160;&#160;<a class="el" href="#a0457ccbf02882197363e66845f2348f5a4765b831cb792ba2e2bb40e98c8c7cd3">ast_func_id</a>
+, <a class="el" href="#a0457ccbf02882197363e66845f2348f5aec665e4c1089b3140ea788051ca6be74">ast_func_local_name_0</a>
+, <a class="el" href="#a0457ccbf02882197363e66845f2348f5a9635b11a2a950df7efc1cba52afae7a6">ast_func_local_name_1</a>
+, <a class="el" href="#a0457ccbf02882197363e66845f2348f5a5c5ac0b02e1e1e3d3fb50f7090274fc5">ast_func_namespace_uri_0</a>
+, <br />
+&#160;&#160;<a class="el" href="#a0457ccbf02882197363e66845f2348f5a948765a16ce51fd258c993d8594e1949">ast_func_namespace_uri_1</a>
+, <a class="el" href="#a0457ccbf02882197363e66845f2348f5a9251ea222c71e53cb49ad0a3fe8590c9">ast_func_name_0</a>
+, <a class="el" href="#a0457ccbf02882197363e66845f2348f5af7d8d62e8a4cb5b4d6d295cf03228d98">ast_func_name_1</a>
+, <a class="el" href="#a0457ccbf02882197363e66845f2348f5a06667758135165605b2aba98252ceee7">ast_func_string_0</a>
+, <br />
+&#160;&#160;<a class="el" href="#a0457ccbf02882197363e66845f2348f5a13cf254fa15bf2e7cec749592c844890">ast_func_string_1</a>
+, <a class="el" href="#a0457ccbf02882197363e66845f2348f5a6c8bf8fb49ff6cc84f72bbcc43fe406a">ast_func_concat</a>
+, <a class="el" href="#a0457ccbf02882197363e66845f2348f5aab748b6e06407ce0fbe29ee394405fbd">ast_func_starts_with</a>
+, <a class="el" href="#a0457ccbf02882197363e66845f2348f5a2672ce1bc8a6b88db7306785c1942299">ast_func_contains</a>
+, <br />
+&#160;&#160;<a class="el" href="#a0457ccbf02882197363e66845f2348f5a2e23b1987651c5f41606dc6a12ea14c6">ast_func_substring_before</a>
+, <a class="el" href="#a0457ccbf02882197363e66845f2348f5a44d120916ee66d22db3f7d80911f070d">ast_func_substring_after</a>
+, <a class="el" href="#a0457ccbf02882197363e66845f2348f5a796b248a91a1bbeb53ef03e43fb9b7ec">ast_func_substring_2</a>
+, <a class="el" href="#a0457ccbf02882197363e66845f2348f5ad77ccc7201fe4e11793182e72149b095">ast_func_substring_3</a>
+, <br />
+&#160;&#160;<a class="el" href="#a0457ccbf02882197363e66845f2348f5ad9bf7e3a0fa098f7aa0342698c04ba66">ast_func_string_length_0</a>
+, <a class="el" href="#a0457ccbf02882197363e66845f2348f5a5d99ceb74f89f8e9a1295755b19c8f5b">ast_func_string_length_1</a>
+, <a class="el" href="#a0457ccbf02882197363e66845f2348f5af676fcd6baa9c1d9dda5362cb458c485">ast_func_normalize_space_0</a>
+, <a class="el" href="#a0457ccbf02882197363e66845f2348f5a595365d6ad1ae76a992ae96ad3c5f7df">ast_func_normalize_space_1</a>
+, <br />
+&#160;&#160;<a class="el" href="#a0457ccbf02882197363e66845f2348f5a5f87d74f0e2c4027a845b5cfc4afe235">ast_func_translate</a>
+, <a class="el" href="#a0457ccbf02882197363e66845f2348f5a6b474795688be0ced9209c16bb0f39b4">ast_func_boolean</a>
+, <a class="el" href="#a0457ccbf02882197363e66845f2348f5aa349fb18f3a1fc018aa0c20774d49bb3">ast_func_not</a>
+, <a class="el" href="#a0457ccbf02882197363e66845f2348f5a4a883b47b095038e5543766263c3a7cc">ast_func_true</a>
+, <br />
+&#160;&#160;<a class="el" href="#a0457ccbf02882197363e66845f2348f5ad12d41e3187d7e2071e6fc13834a5e80">ast_func_false</a>
+, <a class="el" href="#a0457ccbf02882197363e66845f2348f5a9ca9390b36d8e0209e2585aecf200900">ast_func_lang</a>
+, <a class="el" href="#a0457ccbf02882197363e66845f2348f5a516516908b03566dbd1be54cce8b54d1">ast_func_number_0</a>
+, <a class="el" href="#a0457ccbf02882197363e66845f2348f5ad832fb8ef92a4d94f2173e58cfd1865d">ast_func_number_1</a>
+, <br />
+&#160;&#160;<a class="el" href="#a0457ccbf02882197363e66845f2348f5a1788da887727aab8fd2a9abf46f2e241">ast_func_sum</a>
+, <a class="el" href="#a0457ccbf02882197363e66845f2348f5a7c8b2687aedb6d3dc7d2838b87e4de68">ast_func_floor</a>
+, <a class="el" href="#a0457ccbf02882197363e66845f2348f5a4576b189470fc62e1098f73bd03a4b84">ast_func_ceiling</a>
+, <a class="el" href="#a0457ccbf02882197363e66845f2348f5a1d640b7fa6bae3b25140cef8c424ddf3">ast_func_round</a>
+, <br />
+&#160;&#160;<a class="el" href="#a0457ccbf02882197363e66845f2348f5aa8d575c4f55df28a60a5c3e2087098f6">ast_step</a>
+, <a class="el" href="#a0457ccbf02882197363e66845f2348f5af46bcd6460e17d86ac5ca6e4cce6a22c">ast_step_root</a>
+, <a class="el" href="#a0457ccbf02882197363e66845f2348f5a605ec3e0bca8207c648384e14e4f830d">ast_opt_translate_table</a>
+, <a class="el" href="#a0457ccbf02882197363e66845f2348f5a5ca5d773f951e143d9b5da713c02358c">ast_opt_compare_attribute</a>
+<br />
+ }</td></tr>
+<tr class="separator:a0457ccbf02882197363e66845f2348f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2458aaf725b575899a37e1c4b301af5d" id="r_a2458aaf725b575899a37e1c4b301af5d"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2458aaf725b575899a37e1c4b301af5d">axis_t</a> : std::uint8_t { <br />
+&#160;&#160;<a class="el" href="#a2458aaf725b575899a37e1c4b301af5dae259cee1b86859640bda1c16d7d7d687">axis_ancestor</a>
+, <a class="el" href="#a2458aaf725b575899a37e1c4b301af5da58db1d45e8ed558470af7f8e3af2a2c4">axis_ancestor_or_self</a>
+, <a class="el" href="#a2458aaf725b575899a37e1c4b301af5da0feeee17d74b000549b1262b0535006e">axis_attribute</a>
+, <a class="el" href="#a2458aaf725b575899a37e1c4b301af5da3c4288ba033253551ff36e81d1dae0c7">axis_child</a>
+, <br />
+&#160;&#160;<a class="el" href="#a2458aaf725b575899a37e1c4b301af5daceecb3bc180786043852a7261479e859">axis_descendant</a>
+, <a class="el" href="#a2458aaf725b575899a37e1c4b301af5da724687a14cc88c5046db9084482c0b6d">axis_descendant_or_self</a>
+, <a class="el" href="#a2458aaf725b575899a37e1c4b301af5da91f6679c843983d51ae5489727e067e1">axis_following</a>
+, <a class="el" href="#a2458aaf725b575899a37e1c4b301af5da003a90826ae0f4d9b5954fd45ef7998b">axis_following_sibling</a>
+, <br />
+&#160;&#160;<a class="el" href="#a2458aaf725b575899a37e1c4b301af5dab9056481a438556ccb7f577be89913c4">axis_namespace</a>
+, <a class="el" href="#a2458aaf725b575899a37e1c4b301af5daa9c9c0206cfe468d360228ff652bd933">axis_parent</a>
+, <a class="el" href="#a2458aaf725b575899a37e1c4b301af5da58cfb17f86dc747c5371fbbbccdca1c6">axis_preceding</a>
+, <a class="el" href="#a2458aaf725b575899a37e1c4b301af5da11da0df5222c8e648258de4335ef8b5f">axis_preceding_sibling</a>
+, <br />
+&#160;&#160;<a class="el" href="#a2458aaf725b575899a37e1c4b301af5daaee17092e97dde07d95ae0816c65063f">axis_self</a>
+<br />
+ }</td></tr>
+<tr class="separator:a2458aaf725b575899a37e1c4b301af5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab6fe030389abaaac33680a9e867b2c67" id="r_ab6fe030389abaaac33680a9e867b2c67"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab6fe030389abaaac33680a9e867b2c67">nodetest_t</a> : std::uint8_t { <br />
+&#160;&#160;<a class="el" href="#ab6fe030389abaaac33680a9e867b2c67adb0110a6af49b39c13e2f5505679647d">nodetest_none</a>
+, <a class="el" href="#ab6fe030389abaaac33680a9e867b2c67ab59ef574fb7d55a8d25a271fad71da36">nodetest_name</a>
+, <a class="el" href="#ab6fe030389abaaac33680a9e867b2c67a30c1a44139c7b2d7bf8a5124cd40aa92">nodetest_type_node</a>
+, <a class="el" href="#ab6fe030389abaaac33680a9e867b2c67a9de7266a5cd73e7b95260bb43e9ddbaa">nodetest_type_comment</a>
+, <br />
+&#160;&#160;<a class="el" href="#ab6fe030389abaaac33680a9e867b2c67afe0990b89e45673186c6e2faf463b25e">nodetest_type_pi</a>
+, <a class="el" href="#ab6fe030389abaaac33680a9e867b2c67a79cc270b7aacffa87b3ea08bbe04f8d7">nodetest_type_text</a>
+, <a class="el" href="#ab6fe030389abaaac33680a9e867b2c67a1897d453516abb2426a1fb7718630bbc">nodetest_pi</a>
+, <a class="el" href="#ab6fe030389abaaac33680a9e867b2c67a26eeae2af08d1f69dc64f571af6d532d">nodetest_all</a>
+, <br />
+&#160;&#160;<a class="el" href="#ab6fe030389abaaac33680a9e867b2c67ab216fdbfffd01004f67dc487bb5dced8">nodetest_all_in_namespace</a>
+<br />
+ }</td></tr>
+<tr class="separator:ab6fe030389abaaac33680a9e867b2c67"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae1d1a81a6bf6122f9e81f30d2ed87660" id="r_ae1d1a81a6bf6122f9e81f30d2ed87660"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae1d1a81a6bf6122f9e81f30d2ed87660">predicate_t</a> : std::uint8_t { <a class="el" href="#ae1d1a81a6bf6122f9e81f30d2ed87660ab67a7726461fe60b91cda2219bfa27c5">predicate_default</a>
+, <a class="el" href="#ae1d1a81a6bf6122f9e81f30d2ed87660a4cfa650d6ee94448929883adc9103289">predicate_posinv</a>
+, <a class="el" href="#ae1d1a81a6bf6122f9e81f30d2ed87660abd037adecc0668d2628f3f00deda5aff">predicate_constant</a>
+, <a class="el" href="#ae1d1a81a6bf6122f9e81f30d2ed87660ad6a8416d545b7163f1ebe394161b4c5b">predicate_constant_one</a>
+ }</td></tr>
+<tr class="separator:ae1d1a81a6bf6122f9e81f30d2ed87660"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae7112968d3220562527a78200ba27ca3" id="r_ae7112968d3220562527a78200ba27ca3"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae7112968d3220562527a78200ba27ca3">nodeset_eval_t</a> : std::uint8_t { <a class="el" href="#ae7112968d3220562527a78200ba27ca3a8ce3213a76508faf606e885d511f3855">nodeset_eval_all</a>
+, <a class="el" href="#ae7112968d3220562527a78200ba27ca3ac1edd4b6a67570279a6a92d6c9864764">nodeset_eval_any</a>
+, <a class="el" href="#ae7112968d3220562527a78200ba27ca3a96657672f86ed030daf074888c35c392">nodeset_eval_first</a>
+ }</td></tr>
+<tr class="separator:ae7112968d3220562527a78200ba27ca3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a63ddb262b3a90024af7c616c32245e57" id="r_a63ddb262b3a90024af7c616c32245e57"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a63ddb262b3a90024af7c616c32245e57">indent_flags_t</a> : std::uint8_t { <a class="el" href="#a63ddb262b3a90024af7c616c32245e57a136021c647e8d1f2a0b57dcce316d96c">indent_newline</a> = 1
+, <a class="el" href="#a63ddb262b3a90024af7c616c32245e57a32f1f7ce7b4c8d3a6e3e5cddcdad7830">indent_indent</a> = 2
+ }</td></tr>
+<tr class="separator:a63ddb262b3a90024af7c616c32245e57"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a076c365db3d9889789f1c289d6fa4d1e" id="r_a076c365db3d9889789f1c289d6fa4d1e"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a076c365db3d9889789f1c289d6fa4d1e">lexeme_t</a> : std::uint8_t { <br />
+&#160;&#160;<a class="el" href="#a076c365db3d9889789f1c289d6fa4d1eaaeb7aeb5f8c39763474cd21f7ff97a1f">lex_none</a> = 0
+, <a class="el" href="#a076c365db3d9889789f1c289d6fa4d1ead983a22676bbedfc24cf5b822f2c890f">lex_equal</a>
+, <a class="el" href="#a076c365db3d9889789f1c289d6fa4d1ead4800996cc580758d97d8176dcdb6136">lex_not_equal</a>
+, <a class="el" href="#a076c365db3d9889789f1c289d6fa4d1ea3692af5b4036c8d738fba2ff2b58702d">lex_less</a>
+, <br />
+&#160;&#160;<a class="el" href="#a076c365db3d9889789f1c289d6fa4d1eaa77b33b3314a99b6a4c6b0f5da0c5370">lex_greater</a>
+, <a class="el" href="#a076c365db3d9889789f1c289d6fa4d1eab667d41bc67730d5d4aaf276bf1924b6">lex_less_or_equal</a>
+, <a class="el" href="#a076c365db3d9889789f1c289d6fa4d1ea95055d1aba8e38de3386c3ea08abf80a">lex_greater_or_equal</a>
+, <a class="el" href="#a076c365db3d9889789f1c289d6fa4d1eadb07419021a05a51b1e62b70fcfe2a01">lex_plus</a>
+, <br />
+&#160;&#160;<a class="el" href="#a076c365db3d9889789f1c289d6fa4d1eafd2112c97ed8a8033a0687b9ed6aead1">lex_minus</a>
+, <a class="el" href="#a076c365db3d9889789f1c289d6fa4d1ea7fb476ad4bd62359ecd28790b0b7c352">lex_multiply</a>
+, <a class="el" href="#a076c365db3d9889789f1c289d6fa4d1ea8c42a4aa3e58f6816771d49f137bc3e9">lex_union</a>
+, <a class="el" href="#a076c365db3d9889789f1c289d6fa4d1ea73611f34a915a90a0559333024b139fc">lex_var_ref</a>
+, <br />
+&#160;&#160;<a class="el" href="#a076c365db3d9889789f1c289d6fa4d1ea0fe20cd957621f52a728f7f65c116044">lex_open_brace</a>
+, <a class="el" href="#a076c365db3d9889789f1c289d6fa4d1ea58e4afc33c5eceeec6de1159b186baec">lex_close_brace</a>
+, <a class="el" href="#a076c365db3d9889789f1c289d6fa4d1eaf57e8bf91a7a9bebfb1563cc83ef949a">lex_quoted_string</a>
+, <a class="el" href="#a076c365db3d9889789f1c289d6fa4d1ea5fc754fa69e1ecbdeb4847ac7b945b9c">lex_number</a>
+, <br />
+&#160;&#160;<a class="el" href="#a076c365db3d9889789f1c289d6fa4d1ea01b080426bf9db5d6d479727d43d6ead">lex_slash</a>
+, <a class="el" href="#a076c365db3d9889789f1c289d6fa4d1eabb14e5edb757191eeab1f42e7538dffa">lex_double_slash</a>
+, <a class="el" href="#a076c365db3d9889789f1c289d6fa4d1ea28d5604b7a4e5175798b2bfd33d10ec4">lex_open_square_brace</a>
+, <a class="el" href="#a076c365db3d9889789f1c289d6fa4d1ea102360907f084a54a44b6468b4fee36a">lex_close_square_brace</a>
+, <br />
+&#160;&#160;<a class="el" href="#a076c365db3d9889789f1c289d6fa4d1eac4b5d1ea17b5fd3ab8644e3670c56f7c">lex_string</a>
+, <a class="el" href="#a076c365db3d9889789f1c289d6fa4d1ea7d163df5349c17cfaf91914f1a1a7185">lex_comma</a>
+, <a class="el" href="#a076c365db3d9889789f1c289d6fa4d1ea08e21529c5a77905501f9e0ac48f4b5c">lex_axis_attribute</a>
+, <a class="el" href="#a076c365db3d9889789f1c289d6fa4d1eafecc2353e6452b2d7a24c6e6977ce381">lex_dot</a>
+, <br />
+&#160;&#160;<a class="el" href="#a076c365db3d9889789f1c289d6fa4d1eab335052a26915a862d2717743fc7bde1">lex_double_dot</a>
+, <a class="el" href="#a076c365db3d9889789f1c289d6fa4d1ea0d46d296f9632bfb9911969c7e2278e0">lex_double_colon</a>
+, <a class="el" href="#a076c365db3d9889789f1c289d6fa4d1ea04dec51ff0c3a5d7f84893c9629bfbec">lex_eof</a>
+<br />
+ }</td></tr>
+<tr class="separator:a076c365db3d9889789f1c289d6fa4d1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Typedef Documentation</h2>
+<a id="af5c331138f914028e4642100ea3e7a24" name="af5c331138f914028e4642100ea3e7a24"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af5c331138f914028e4642100ea3e7a24">&#9670;&#160;</a></span>char_t</h2>
 
-<p>This is the complete list of members for <a class="el" href="a01146.html">lumex::applied::json::schema::LumexJsonSchemaException</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a01146.html#aa74f7f71a6811747d910836b9a86b86f">detail</a>() const noexcept</td><td class="entry"><a class="el" href="a01146.html">lumex::applied::json::schema::LumexJsonSchemaException</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01146.html#abfc4b98915585686617dfcd922a904d1">LumexJsonSchemaException</a>(LumexJsonSchemaFailure reason, std::string path, std::string detail)</td><td class="entry"><a class="el" href="a01146.html">lumex::applied::json::schema::LumexJsonSchemaException</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01146.html#a8fb0ac0d0fefc811db309fb1680365d6">path</a>() const noexcept</td><td class="entry"><a class="el" href="a01146.html">lumex::applied::json::schema::LumexJsonSchemaException</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01146.html#aef55884f8ebc188b9390ff069b504748">reason</a>() const noexcept</td><td class="entry"><a class="el" href="a01146.html">lumex::applied::json::schema::LumexJsonSchemaException</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-</table></div><!-- contents -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="#af5c331138f914028e4642100ea3e7a24">lumex::xml::types::Types::char_t</a> = char</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a684035fd005e18d771065d359ceca62f" name="a684035fd005e18d771065d359ceca62f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a684035fd005e18d771065d359ceca62f">&#9670;&#160;</a></span>string_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="#a684035fd005e18d771065d359ceca62f">lumex::xml::types::Types::string_t</a> = std::basic_string&lt;<a class="el" href="#af5c331138f914028e4642100ea3e7a24">char_t</a>&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="acc796a34be312ace491c99cf7f191617" name="acc796a34be312ace491c99cf7f191617"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acc796a34be312ace491c99cf7f191617">&#9670;&#160;</a></span>string_view_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="#acc796a34be312ace491c99cf7f191617">lumex::xml::types::Types::string_view_t</a> = std::basic_string_view&lt;<a class="el" href="#af5c331138f914028e4642100ea3e7a24">char_t</a>&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Enumeration Type Documentation</h2>
+<a id="a0457ccbf02882197363e66845f2348f5" name="a0457ccbf02882197363e66845f2348f5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0457ccbf02882197363e66845f2348f5">&#9670;&#160;</a></span>ast_type_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="#a0457ccbf02882197363e66845f2348f5">lumex::xml::types::Types::ast_type_t</a> : std::uint8_t</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a0457ccbf02882197363e66845f2348f5a51ee059af47c2ad8d5ae4032f7902ae7" name="a0457ccbf02882197363e66845f2348f5a51ee059af47c2ad8d5ae4032f7902ae7"></a>ast_unknown&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a0457ccbf02882197363e66845f2348f5ab28c92845b8d41ed90b4976aff156f35" name="a0457ccbf02882197363e66845f2348f5ab28c92845b8d41ed90b4976aff156f35"></a>ast_op_or&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a0457ccbf02882197363e66845f2348f5aca320b00895ccd2f64b8b09bb5ad8ff5" name="a0457ccbf02882197363e66845f2348f5aca320b00895ccd2f64b8b09bb5ad8ff5"></a>ast_op_and&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a0457ccbf02882197363e66845f2348f5a065958291d0a17d194dc1b707d326000" name="a0457ccbf02882197363e66845f2348f5a065958291d0a17d194dc1b707d326000"></a>ast_op_equal&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a0457ccbf02882197363e66845f2348f5a1c90a9852a8099e526d428277ce20db8" name="a0457ccbf02882197363e66845f2348f5a1c90a9852a8099e526d428277ce20db8"></a>ast_op_not_equal&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a0457ccbf02882197363e66845f2348f5af74f9b6831e3e6a1f2de1c4c2ad8629b" name="a0457ccbf02882197363e66845f2348f5af74f9b6831e3e6a1f2de1c4c2ad8629b"></a>ast_op_less&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a0457ccbf02882197363e66845f2348f5a7190b592265224db7e090f2553cc1f40" name="a0457ccbf02882197363e66845f2348f5a7190b592265224db7e090f2553cc1f40"></a>ast_op_greater&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a0457ccbf02882197363e66845f2348f5a939f56e949502dfc6a9e841629d04c9d" name="a0457ccbf02882197363e66845f2348f5a939f56e949502dfc6a9e841629d04c9d"></a>ast_op_less_or_equal&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a0457ccbf02882197363e66845f2348f5a8f6053c36c9c7382e0a7004ad0231ee5" name="a0457ccbf02882197363e66845f2348f5a8f6053c36c9c7382e0a7004ad0231ee5"></a>ast_op_greater_or_equal&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a0457ccbf02882197363e66845f2348f5a3108a118684b2fdc7f1aed1578c87bde" name="a0457ccbf02882197363e66845f2348f5a3108a118684b2fdc7f1aed1578c87bde"></a>ast_op_add&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a0457ccbf02882197363e66845f2348f5a7c8461505e93842fa0f1f4570ba9fa3c" name="a0457ccbf02882197363e66845f2348f5a7c8461505e93842fa0f1f4570ba9fa3c"></a>ast_op_subtract&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a0457ccbf02882197363e66845f2348f5ab344afb1ca332b7c891e2927700e0dce" name="a0457ccbf02882197363e66845f2348f5ab344afb1ca332b7c891e2927700e0dce"></a>ast_op_multiply&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a0457ccbf02882197363e66845f2348f5af5419bbfb144713c784547b6900f75c4" name="a0457ccbf02882197363e66845f2348f5af5419bbfb144713c784547b6900f75c4"></a>ast_op_divide&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a0457ccbf02882197363e66845f2348f5a1f3066bcbcc02739d804ba98be9c155d" name="a0457ccbf02882197363e66845f2348f5a1f3066bcbcc02739d804ba98be9c155d"></a>ast_op_mod&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a0457ccbf02882197363e66845f2348f5a71c2f37608992f35a127794fc9698e61" name="a0457ccbf02882197363e66845f2348f5a71c2f37608992f35a127794fc9698e61"></a>ast_op_negate&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a0457ccbf02882197363e66845f2348f5a99c424d60f5fb7b025f572eceec478be" name="a0457ccbf02882197363e66845f2348f5a99c424d60f5fb7b025f572eceec478be"></a>ast_op_union&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a0457ccbf02882197363e66845f2348f5ad604ff1d0d717180bada6e1ff41173c3" name="a0457ccbf02882197363e66845f2348f5ad604ff1d0d717180bada6e1ff41173c3"></a>ast_predicate&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a0457ccbf02882197363e66845f2348f5a47ea4556c20b6c9157158b38852fba7c" name="a0457ccbf02882197363e66845f2348f5a47ea4556c20b6c9157158b38852fba7c"></a>ast_filter&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a0457ccbf02882197363e66845f2348f5a21ab070ded88ac125adec88a8e8e62ee" name="a0457ccbf02882197363e66845f2348f5a21ab070ded88ac125adec88a8e8e62ee"></a>ast_string_constant&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a0457ccbf02882197363e66845f2348f5a97efef3cf73f7f46d2895e61eafaf4af" name="a0457ccbf02882197363e66845f2348f5a97efef3cf73f7f46d2895e61eafaf4af"></a>ast_number_constant&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a0457ccbf02882197363e66845f2348f5a463efb35624adeef3324973cf519a001" name="a0457ccbf02882197363e66845f2348f5a463efb35624adeef3324973cf519a001"></a>ast_variable&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a0457ccbf02882197363e66845f2348f5afb81748b640c0739fd281756c7ea7ced" name="a0457ccbf02882197363e66845f2348f5afb81748b640c0739fd281756c7ea7ced"></a>ast_func_last&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a0457ccbf02882197363e66845f2348f5adffb4b2e63cb20e210e4beb10cc687c8" name="a0457ccbf02882197363e66845f2348f5adffb4b2e63cb20e210e4beb10cc687c8"></a>ast_func_position&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a0457ccbf02882197363e66845f2348f5a158a23e9ff61a841b43505f75e8e6e8b" name="a0457ccbf02882197363e66845f2348f5a158a23e9ff61a841b43505f75e8e6e8b"></a>ast_func_count&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a0457ccbf02882197363e66845f2348f5a4765b831cb792ba2e2bb40e98c8c7cd3" name="a0457ccbf02882197363e66845f2348f5a4765b831cb792ba2e2bb40e98c8c7cd3"></a>ast_func_id&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a0457ccbf02882197363e66845f2348f5aec665e4c1089b3140ea788051ca6be74" name="a0457ccbf02882197363e66845f2348f5aec665e4c1089b3140ea788051ca6be74"></a>ast_func_local_name_0&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a0457ccbf02882197363e66845f2348f5a9635b11a2a950df7efc1cba52afae7a6" name="a0457ccbf02882197363e66845f2348f5a9635b11a2a950df7efc1cba52afae7a6"></a>ast_func_local_name_1&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a0457ccbf02882197363e66845f2348f5a5c5ac0b02e1e1e3d3fb50f7090274fc5" name="a0457ccbf02882197363e66845f2348f5a5c5ac0b02e1e1e3d3fb50f7090274fc5"></a>ast_func_namespace_uri_0&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a0457ccbf02882197363e66845f2348f5a948765a16ce51fd258c993d8594e1949" name="a0457ccbf02882197363e66845f2348f5a948765a16ce51fd258c993d8594e1949"></a>ast_func_namespace_uri_1&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a0457ccbf02882197363e66845f2348f5a9251ea222c71e53cb49ad0a3fe8590c9" name="a0457ccbf02882197363e66845f2348f5a9251ea222c71e53cb49ad0a3fe8590c9"></a>ast_func_name_0&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a0457ccbf02882197363e66845f2348f5af7d8d62e8a4cb5b4d6d295cf03228d98" name="a0457ccbf02882197363e66845f2348f5af7d8d62e8a4cb5b4d6d295cf03228d98"></a>ast_func_name_1&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a0457ccbf02882197363e66845f2348f5a06667758135165605b2aba98252ceee7" name="a0457ccbf02882197363e66845f2348f5a06667758135165605b2aba98252ceee7"></a>ast_func_string_0&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a0457ccbf02882197363e66845f2348f5a13cf254fa15bf2e7cec749592c844890" name="a0457ccbf02882197363e66845f2348f5a13cf254fa15bf2e7cec749592c844890"></a>ast_func_string_1&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a0457ccbf02882197363e66845f2348f5a6c8bf8fb49ff6cc84f72bbcc43fe406a" name="a0457ccbf02882197363e66845f2348f5a6c8bf8fb49ff6cc84f72bbcc43fe406a"></a>ast_func_concat&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a0457ccbf02882197363e66845f2348f5aab748b6e06407ce0fbe29ee394405fbd" name="a0457ccbf02882197363e66845f2348f5aab748b6e06407ce0fbe29ee394405fbd"></a>ast_func_starts_with&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a0457ccbf02882197363e66845f2348f5a2672ce1bc8a6b88db7306785c1942299" name="a0457ccbf02882197363e66845f2348f5a2672ce1bc8a6b88db7306785c1942299"></a>ast_func_contains&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a0457ccbf02882197363e66845f2348f5a2e23b1987651c5f41606dc6a12ea14c6" name="a0457ccbf02882197363e66845f2348f5a2e23b1987651c5f41606dc6a12ea14c6"></a>ast_func_substring_before&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a0457ccbf02882197363e66845f2348f5a44d120916ee66d22db3f7d80911f070d" name="a0457ccbf02882197363e66845f2348f5a44d120916ee66d22db3f7d80911f070d"></a>ast_func_substring_after&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a0457ccbf02882197363e66845f2348f5a796b248a91a1bbeb53ef03e43fb9b7ec" name="a0457ccbf02882197363e66845f2348f5a796b248a91a1bbeb53ef03e43fb9b7ec"></a>ast_func_substring_2&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a0457ccbf02882197363e66845f2348f5ad77ccc7201fe4e11793182e72149b095" name="a0457ccbf02882197363e66845f2348f5ad77ccc7201fe4e11793182e72149b095"></a>ast_func_substring_3&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a0457ccbf02882197363e66845f2348f5ad9bf7e3a0fa098f7aa0342698c04ba66" name="a0457ccbf02882197363e66845f2348f5ad9bf7e3a0fa098f7aa0342698c04ba66"></a>ast_func_string_length_0&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a0457ccbf02882197363e66845f2348f5a5d99ceb74f89f8e9a1295755b19c8f5b" name="a0457ccbf02882197363e66845f2348f5a5d99ceb74f89f8e9a1295755b19c8f5b"></a>ast_func_string_length_1&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a0457ccbf02882197363e66845f2348f5af676fcd6baa9c1d9dda5362cb458c485" name="a0457ccbf02882197363e66845f2348f5af676fcd6baa9c1d9dda5362cb458c485"></a>ast_func_normalize_space_0&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a0457ccbf02882197363e66845f2348f5a595365d6ad1ae76a992ae96ad3c5f7df" name="a0457ccbf02882197363e66845f2348f5a595365d6ad1ae76a992ae96ad3c5f7df"></a>ast_func_normalize_space_1&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a0457ccbf02882197363e66845f2348f5a5f87d74f0e2c4027a845b5cfc4afe235" name="a0457ccbf02882197363e66845f2348f5a5f87d74f0e2c4027a845b5cfc4afe235"></a>ast_func_translate&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a0457ccbf02882197363e66845f2348f5a6b474795688be0ced9209c16bb0f39b4" name="a0457ccbf02882197363e66845f2348f5a6b474795688be0ced9209c16bb0f39b4"></a>ast_func_boolean&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a0457ccbf02882197363e66845f2348f5aa349fb18f3a1fc018aa0c20774d49bb3" name="a0457ccbf02882197363e66845f2348f5aa349fb18f3a1fc018aa0c20774d49bb3"></a>ast_func_not&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a0457ccbf02882197363e66845f2348f5a4a883b47b095038e5543766263c3a7cc" name="a0457ccbf02882197363e66845f2348f5a4a883b47b095038e5543766263c3a7cc"></a>ast_func_true&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a0457ccbf02882197363e66845f2348f5ad12d41e3187d7e2071e6fc13834a5e80" name="a0457ccbf02882197363e66845f2348f5ad12d41e3187d7e2071e6fc13834a5e80"></a>ast_func_false&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a0457ccbf02882197363e66845f2348f5a9ca9390b36d8e0209e2585aecf200900" name="a0457ccbf02882197363e66845f2348f5a9ca9390b36d8e0209e2585aecf200900"></a>ast_func_lang&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a0457ccbf02882197363e66845f2348f5a516516908b03566dbd1be54cce8b54d1" name="a0457ccbf02882197363e66845f2348f5a516516908b03566dbd1be54cce8b54d1"></a>ast_func_number_0&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a0457ccbf02882197363e66845f2348f5ad832fb8ef92a4d94f2173e58cfd1865d" name="a0457ccbf02882197363e66845f2348f5ad832fb8ef92a4d94f2173e58cfd1865d"></a>ast_func_number_1&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a0457ccbf02882197363e66845f2348f5a1788da887727aab8fd2a9abf46f2e241" name="a0457ccbf02882197363e66845f2348f5a1788da887727aab8fd2a9abf46f2e241"></a>ast_func_sum&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a0457ccbf02882197363e66845f2348f5a7c8b2687aedb6d3dc7d2838b87e4de68" name="a0457ccbf02882197363e66845f2348f5a7c8b2687aedb6d3dc7d2838b87e4de68"></a>ast_func_floor&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a0457ccbf02882197363e66845f2348f5a4576b189470fc62e1098f73bd03a4b84" name="a0457ccbf02882197363e66845f2348f5a4576b189470fc62e1098f73bd03a4b84"></a>ast_func_ceiling&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a0457ccbf02882197363e66845f2348f5a1d640b7fa6bae3b25140cef8c424ddf3" name="a0457ccbf02882197363e66845f2348f5a1d640b7fa6bae3b25140cef8c424ddf3"></a>ast_func_round&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a0457ccbf02882197363e66845f2348f5aa8d575c4f55df28a60a5c3e2087098f6" name="a0457ccbf02882197363e66845f2348f5aa8d575c4f55df28a60a5c3e2087098f6"></a>ast_step&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a0457ccbf02882197363e66845f2348f5af46bcd6460e17d86ac5ca6e4cce6a22c" name="a0457ccbf02882197363e66845f2348f5af46bcd6460e17d86ac5ca6e4cce6a22c"></a>ast_step_root&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a0457ccbf02882197363e66845f2348f5a605ec3e0bca8207c648384e14e4f830d" name="a0457ccbf02882197363e66845f2348f5a605ec3e0bca8207c648384e14e4f830d"></a>ast_opt_translate_table&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a0457ccbf02882197363e66845f2348f5a5ca5d773f951e143d9b5da713c02358c" name="a0457ccbf02882197363e66845f2348f5a5ca5d773f951e143d9b5da713c02358c"></a>ast_opt_compare_attribute&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
+<a id="a2458aaf725b575899a37e1c4b301af5d" name="a2458aaf725b575899a37e1c4b301af5d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2458aaf725b575899a37e1c4b301af5d">&#9670;&#160;</a></span>axis_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="#a2458aaf725b575899a37e1c4b301af5d">lumex::xml::types::Types::axis_t</a> : std::uint8_t</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a2458aaf725b575899a37e1c4b301af5dae259cee1b86859640bda1c16d7d7d687" name="a2458aaf725b575899a37e1c4b301af5dae259cee1b86859640bda1c16d7d7d687"></a>axis_ancestor&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a2458aaf725b575899a37e1c4b301af5da58db1d45e8ed558470af7f8e3af2a2c4" name="a2458aaf725b575899a37e1c4b301af5da58db1d45e8ed558470af7f8e3af2a2c4"></a>axis_ancestor_or_self&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a2458aaf725b575899a37e1c4b301af5da0feeee17d74b000549b1262b0535006e" name="a2458aaf725b575899a37e1c4b301af5da0feeee17d74b000549b1262b0535006e"></a>axis_attribute&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a2458aaf725b575899a37e1c4b301af5da3c4288ba033253551ff36e81d1dae0c7" name="a2458aaf725b575899a37e1c4b301af5da3c4288ba033253551ff36e81d1dae0c7"></a>axis_child&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a2458aaf725b575899a37e1c4b301af5daceecb3bc180786043852a7261479e859" name="a2458aaf725b575899a37e1c4b301af5daceecb3bc180786043852a7261479e859"></a>axis_descendant&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a2458aaf725b575899a37e1c4b301af5da724687a14cc88c5046db9084482c0b6d" name="a2458aaf725b575899a37e1c4b301af5da724687a14cc88c5046db9084482c0b6d"></a>axis_descendant_or_self&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a2458aaf725b575899a37e1c4b301af5da91f6679c843983d51ae5489727e067e1" name="a2458aaf725b575899a37e1c4b301af5da91f6679c843983d51ae5489727e067e1"></a>axis_following&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a2458aaf725b575899a37e1c4b301af5da003a90826ae0f4d9b5954fd45ef7998b" name="a2458aaf725b575899a37e1c4b301af5da003a90826ae0f4d9b5954fd45ef7998b"></a>axis_following_sibling&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a2458aaf725b575899a37e1c4b301af5dab9056481a438556ccb7f577be89913c4" name="a2458aaf725b575899a37e1c4b301af5dab9056481a438556ccb7f577be89913c4"></a>axis_namespace&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a2458aaf725b575899a37e1c4b301af5daa9c9c0206cfe468d360228ff652bd933" name="a2458aaf725b575899a37e1c4b301af5daa9c9c0206cfe468d360228ff652bd933"></a>axis_parent&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a2458aaf725b575899a37e1c4b301af5da58cfb17f86dc747c5371fbbbccdca1c6" name="a2458aaf725b575899a37e1c4b301af5da58cfb17f86dc747c5371fbbbccdca1c6"></a>axis_preceding&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a2458aaf725b575899a37e1c4b301af5da11da0df5222c8e648258de4335ef8b5f" name="a2458aaf725b575899a37e1c4b301af5da11da0df5222c8e648258de4335ef8b5f"></a>axis_preceding_sibling&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a2458aaf725b575899a37e1c4b301af5daaee17092e97dde07d95ae0816c65063f" name="a2458aaf725b575899a37e1c4b301af5daaee17092e97dde07d95ae0816c65063f"></a>axis_self&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
+<a id="a54c963b7a6def6381146ead18a8753ce" name="a54c963b7a6def6381146ead18a8753ce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a54c963b7a6def6381146ead18a8753ce">&#9670;&#160;</a></span>chartype_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="#a54c963b7a6def6381146ead18a8753ce">lumex::xml::types::Types::chartype_t</a> : std::uint8_t</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a54c963b7a6def6381146ead18a8753cea943e484a4fff51f6828552fa2988ba15" name="a54c963b7a6def6381146ead18a8753cea943e484a4fff51f6828552fa2988ba15"></a>ct_parse_pcdata&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a54c963b7a6def6381146ead18a8753ceaa17fb9280b5009c73612ab8771da1ed7" name="a54c963b7a6def6381146ead18a8753ceaa17fb9280b5009c73612ab8771da1ed7"></a>ct_parse_attr&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a54c963b7a6def6381146ead18a8753cea7c162e835ff76b5249b89de06ae0a6de" name="a54c963b7a6def6381146ead18a8753cea7c162e835ff76b5249b89de06ae0a6de"></a>ct_parse_attr_ws&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a54c963b7a6def6381146ead18a8753ceaa8a30852435d8ed13d61d235b6b30f8a" name="a54c963b7a6def6381146ead18a8753ceaa8a30852435d8ed13d61d235b6b30f8a"></a>ct_space&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a54c963b7a6def6381146ead18a8753cea618adf38cf7574c6b8d0e64327fd61f6" name="a54c963b7a6def6381146ead18a8753cea618adf38cf7574c6b8d0e64327fd61f6"></a>ct_parse_cdata&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a54c963b7a6def6381146ead18a8753ceaed2d435e056ddd199189b210871c0ab8" name="a54c963b7a6def6381146ead18a8753ceaed2d435e056ddd199189b210871c0ab8"></a>ct_parse_comment&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a54c963b7a6def6381146ead18a8753cea2d8131324979e890e535bb588c7a23ed" name="a54c963b7a6def6381146ead18a8753cea2d8131324979e890e535bb588c7a23ed"></a>ct_symbol&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a54c963b7a6def6381146ead18a8753ceaa48567013132b50ffa4e7178a2afbffa" name="a54c963b7a6def6381146ead18a8753ceaa48567013132b50ffa4e7178a2afbffa"></a>ct_start_symbol&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
+<a id="a355198379230c3f88efbc231a9f617b3" name="a355198379230c3f88efbc231a9f617b3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a355198379230c3f88efbc231a9f617b3">&#9670;&#160;</a></span>chartypex_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="#a355198379230c3f88efbc231a9f617b3">lumex::xml::types::Types::chartypex_t</a> : std::uint8_t</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a355198379230c3f88efbc231a9f617b3a8a75caa374f154ba53d1590a2f40897d" name="a355198379230c3f88efbc231a9f617b3a8a75caa374f154ba53d1590a2f40897d"></a>ctx_special_pcdata&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a355198379230c3f88efbc231a9f617b3a447c505d0e04e68175d5854827220ecd" name="a355198379230c3f88efbc231a9f617b3a447c505d0e04e68175d5854827220ecd"></a>ctx_special_attr&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a355198379230c3f88efbc231a9f617b3a07c4736a89a49102c568fb7d7fb35910" name="a355198379230c3f88efbc231a9f617b3a07c4736a89a49102c568fb7d7fb35910"></a>ctx_start_symbol&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a355198379230c3f88efbc231a9f617b3a0579bb0f657e39ea0f7c7718573a6793" name="a355198379230c3f88efbc231a9f617b3a0579bb0f657e39ea0f7c7718573a6793"></a>ctx_digit&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a355198379230c3f88efbc231a9f617b3aaa3f507f576fc63c89fd457cf8fc5357" name="a355198379230c3f88efbc231a9f617b3aaa3f507f576fc63c89fd457cf8fc5357"></a>ctx_symbol&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
+<a id="a63ddb262b3a90024af7c616c32245e57" name="a63ddb262b3a90024af7c616c32245e57"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a63ddb262b3a90024af7c616c32245e57">&#9670;&#160;</a></span>indent_flags_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="#a63ddb262b3a90024af7c616c32245e57">lumex::xml::types::Types::indent_flags_t</a> : std::uint8_t</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a63ddb262b3a90024af7c616c32245e57a136021c647e8d1f2a0b57dcce316d96c" name="a63ddb262b3a90024af7c616c32245e57a136021c647e8d1f2a0b57dcce316d96c"></a>indent_newline&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a63ddb262b3a90024af7c616c32245e57a32f1f7ce7b4c8d3a6e3e5cddcdad7830" name="a63ddb262b3a90024af7c616c32245e57a32f1f7ce7b4c8d3a6e3e5cddcdad7830"></a>indent_indent&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
+<a id="a076c365db3d9889789f1c289d6fa4d1e" name="a076c365db3d9889789f1c289d6fa4d1e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a076c365db3d9889789f1c289d6fa4d1e">&#9670;&#160;</a></span>lexeme_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="#a076c365db3d9889789f1c289d6fa4d1e">lumex::xml::types::Types::lexeme_t</a> : std::uint8_t</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a076c365db3d9889789f1c289d6fa4d1eaaeb7aeb5f8c39763474cd21f7ff97a1f" name="a076c365db3d9889789f1c289d6fa4d1eaaeb7aeb5f8c39763474cd21f7ff97a1f"></a>lex_none&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a076c365db3d9889789f1c289d6fa4d1ead983a22676bbedfc24cf5b822f2c890f" name="a076c365db3d9889789f1c289d6fa4d1ead983a22676bbedfc24cf5b822f2c890f"></a>lex_equal&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a076c365db3d9889789f1c289d6fa4d1ead4800996cc580758d97d8176dcdb6136" name="a076c365db3d9889789f1c289d6fa4d1ead4800996cc580758d97d8176dcdb6136"></a>lex_not_equal&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a076c365db3d9889789f1c289d6fa4d1ea3692af5b4036c8d738fba2ff2b58702d" name="a076c365db3d9889789f1c289d6fa4d1ea3692af5b4036c8d738fba2ff2b58702d"></a>lex_less&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a076c365db3d9889789f1c289d6fa4d1eaa77b33b3314a99b6a4c6b0f5da0c5370" name="a076c365db3d9889789f1c289d6fa4d1eaa77b33b3314a99b6a4c6b0f5da0c5370"></a>lex_greater&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a076c365db3d9889789f1c289d6fa4d1eab667d41bc67730d5d4aaf276bf1924b6" name="a076c365db3d9889789f1c289d6fa4d1eab667d41bc67730d5d4aaf276bf1924b6"></a>lex_less_or_equal&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a076c365db3d9889789f1c289d6fa4d1ea95055d1aba8e38de3386c3ea08abf80a" name="a076c365db3d9889789f1c289d6fa4d1ea95055d1aba8e38de3386c3ea08abf80a"></a>lex_greater_or_equal&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a076c365db3d9889789f1c289d6fa4d1eadb07419021a05a51b1e62b70fcfe2a01" name="a076c365db3d9889789f1c289d6fa4d1eadb07419021a05a51b1e62b70fcfe2a01"></a>lex_plus&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a076c365db3d9889789f1c289d6fa4d1eafd2112c97ed8a8033a0687b9ed6aead1" name="a076c365db3d9889789f1c289d6fa4d1eafd2112c97ed8a8033a0687b9ed6aead1"></a>lex_minus&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a076c365db3d9889789f1c289d6fa4d1ea7fb476ad4bd62359ecd28790b0b7c352" name="a076c365db3d9889789f1c289d6fa4d1ea7fb476ad4bd62359ecd28790b0b7c352"></a>lex_multiply&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a076c365db3d9889789f1c289d6fa4d1ea8c42a4aa3e58f6816771d49f137bc3e9" name="a076c365db3d9889789f1c289d6fa4d1ea8c42a4aa3e58f6816771d49f137bc3e9"></a>lex_union&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a076c365db3d9889789f1c289d6fa4d1ea73611f34a915a90a0559333024b139fc" name="a076c365db3d9889789f1c289d6fa4d1ea73611f34a915a90a0559333024b139fc"></a>lex_var_ref&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a076c365db3d9889789f1c289d6fa4d1ea0fe20cd957621f52a728f7f65c116044" name="a076c365db3d9889789f1c289d6fa4d1ea0fe20cd957621f52a728f7f65c116044"></a>lex_open_brace&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a076c365db3d9889789f1c289d6fa4d1ea58e4afc33c5eceeec6de1159b186baec" name="a076c365db3d9889789f1c289d6fa4d1ea58e4afc33c5eceeec6de1159b186baec"></a>lex_close_brace&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a076c365db3d9889789f1c289d6fa4d1eaf57e8bf91a7a9bebfb1563cc83ef949a" name="a076c365db3d9889789f1c289d6fa4d1eaf57e8bf91a7a9bebfb1563cc83ef949a"></a>lex_quoted_string&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a076c365db3d9889789f1c289d6fa4d1ea5fc754fa69e1ecbdeb4847ac7b945b9c" name="a076c365db3d9889789f1c289d6fa4d1ea5fc754fa69e1ecbdeb4847ac7b945b9c"></a>lex_number&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a076c365db3d9889789f1c289d6fa4d1ea01b080426bf9db5d6d479727d43d6ead" name="a076c365db3d9889789f1c289d6fa4d1ea01b080426bf9db5d6d479727d43d6ead"></a>lex_slash&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a076c365db3d9889789f1c289d6fa4d1eabb14e5edb757191eeab1f42e7538dffa" name="a076c365db3d9889789f1c289d6fa4d1eabb14e5edb757191eeab1f42e7538dffa"></a>lex_double_slash&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a076c365db3d9889789f1c289d6fa4d1ea28d5604b7a4e5175798b2bfd33d10ec4" name="a076c365db3d9889789f1c289d6fa4d1ea28d5604b7a4e5175798b2bfd33d10ec4"></a>lex_open_square_brace&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a076c365db3d9889789f1c289d6fa4d1ea102360907f084a54a44b6468b4fee36a" name="a076c365db3d9889789f1c289d6fa4d1ea102360907f084a54a44b6468b4fee36a"></a>lex_close_square_brace&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a076c365db3d9889789f1c289d6fa4d1eac4b5d1ea17b5fd3ab8644e3670c56f7c" name="a076c365db3d9889789f1c289d6fa4d1eac4b5d1ea17b5fd3ab8644e3670c56f7c"></a>lex_string&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a076c365db3d9889789f1c289d6fa4d1ea7d163df5349c17cfaf91914f1a1a7185" name="a076c365db3d9889789f1c289d6fa4d1ea7d163df5349c17cfaf91914f1a1a7185"></a>lex_comma&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a076c365db3d9889789f1c289d6fa4d1ea08e21529c5a77905501f9e0ac48f4b5c" name="a076c365db3d9889789f1c289d6fa4d1ea08e21529c5a77905501f9e0ac48f4b5c"></a>lex_axis_attribute&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a076c365db3d9889789f1c289d6fa4d1eafecc2353e6452b2d7a24c6e6977ce381" name="a076c365db3d9889789f1c289d6fa4d1eafecc2353e6452b2d7a24c6e6977ce381"></a>lex_dot&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a076c365db3d9889789f1c289d6fa4d1eab335052a26915a862d2717743fc7bde1" name="a076c365db3d9889789f1c289d6fa4d1eab335052a26915a862d2717743fc7bde1"></a>lex_double_dot&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a076c365db3d9889789f1c289d6fa4d1ea0d46d296f9632bfb9911969c7e2278e0" name="a076c365db3d9889789f1c289d6fa4d1ea0d46d296f9632bfb9911969c7e2278e0"></a>lex_double_colon&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a076c365db3d9889789f1c289d6fa4d1ea04dec51ff0c3a5d7f84893c9629bfbec" name="a076c365db3d9889789f1c289d6fa4d1ea04dec51ff0c3a5d7f84893c9629bfbec"></a>lex_eof&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
+<a id="ae7112968d3220562527a78200ba27ca3" name="ae7112968d3220562527a78200ba27ca3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae7112968d3220562527a78200ba27ca3">&#9670;&#160;</a></span>nodeset_eval_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="#ae7112968d3220562527a78200ba27ca3">lumex::xml::types::Types::nodeset_eval_t</a> : std::uint8_t</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ae7112968d3220562527a78200ba27ca3a8ce3213a76508faf606e885d511f3855" name="ae7112968d3220562527a78200ba27ca3a8ce3213a76508faf606e885d511f3855"></a>nodeset_eval_all&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ae7112968d3220562527a78200ba27ca3ac1edd4b6a67570279a6a92d6c9864764" name="ae7112968d3220562527a78200ba27ca3ac1edd4b6a67570279a6a92d6c9864764"></a>nodeset_eval_any&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ae7112968d3220562527a78200ba27ca3a96657672f86ed030daf074888c35c392" name="ae7112968d3220562527a78200ba27ca3a96657672f86ed030daf074888c35c392"></a>nodeset_eval_first&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
+<a id="ab6fe030389abaaac33680a9e867b2c67" name="ab6fe030389abaaac33680a9e867b2c67"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab6fe030389abaaac33680a9e867b2c67">&#9670;&#160;</a></span>nodetest_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="#ab6fe030389abaaac33680a9e867b2c67">lumex::xml::types::Types::nodetest_t</a> : std::uint8_t</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ab6fe030389abaaac33680a9e867b2c67adb0110a6af49b39c13e2f5505679647d" name="ab6fe030389abaaac33680a9e867b2c67adb0110a6af49b39c13e2f5505679647d"></a>nodetest_none&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ab6fe030389abaaac33680a9e867b2c67ab59ef574fb7d55a8d25a271fad71da36" name="ab6fe030389abaaac33680a9e867b2c67ab59ef574fb7d55a8d25a271fad71da36"></a>nodetest_name&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ab6fe030389abaaac33680a9e867b2c67a30c1a44139c7b2d7bf8a5124cd40aa92" name="ab6fe030389abaaac33680a9e867b2c67a30c1a44139c7b2d7bf8a5124cd40aa92"></a>nodetest_type_node&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ab6fe030389abaaac33680a9e867b2c67a9de7266a5cd73e7b95260bb43e9ddbaa" name="ab6fe030389abaaac33680a9e867b2c67a9de7266a5cd73e7b95260bb43e9ddbaa"></a>nodetest_type_comment&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ab6fe030389abaaac33680a9e867b2c67afe0990b89e45673186c6e2faf463b25e" name="ab6fe030389abaaac33680a9e867b2c67afe0990b89e45673186c6e2faf463b25e"></a>nodetest_type_pi&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ab6fe030389abaaac33680a9e867b2c67a79cc270b7aacffa87b3ea08bbe04f8d7" name="ab6fe030389abaaac33680a9e867b2c67a79cc270b7aacffa87b3ea08bbe04f8d7"></a>nodetest_type_text&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ab6fe030389abaaac33680a9e867b2c67a1897d453516abb2426a1fb7718630bbc" name="ab6fe030389abaaac33680a9e867b2c67a1897d453516abb2426a1fb7718630bbc"></a>nodetest_pi&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ab6fe030389abaaac33680a9e867b2c67a26eeae2af08d1f69dc64f571af6d532d" name="ab6fe030389abaaac33680a9e867b2c67a26eeae2af08d1f69dc64f571af6d532d"></a>nodetest_all&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ab6fe030389abaaac33680a9e867b2c67ab216fdbfffd01004f67dc487bb5dced8" name="ab6fe030389abaaac33680a9e867b2c67ab216fdbfffd01004f67dc487bb5dced8"></a>nodetest_all_in_namespace&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
+<a id="ae1d1a81a6bf6122f9e81f30d2ed87660" name="ae1d1a81a6bf6122f9e81f30d2ed87660"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae1d1a81a6bf6122f9e81f30d2ed87660">&#9670;&#160;</a></span>predicate_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="#ae1d1a81a6bf6122f9e81f30d2ed87660">lumex::xml::types::Types::predicate_t</a> : std::uint8_t</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ae1d1a81a6bf6122f9e81f30d2ed87660ab67a7726461fe60b91cda2219bfa27c5" name="ae1d1a81a6bf6122f9e81f30d2ed87660ab67a7726461fe60b91cda2219bfa27c5"></a>predicate_default&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ae1d1a81a6bf6122f9e81f30d2ed87660a4cfa650d6ee94448929883adc9103289" name="ae1d1a81a6bf6122f9e81f30d2ed87660a4cfa650d6ee94448929883adc9103289"></a>predicate_posinv&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ae1d1a81a6bf6122f9e81f30d2ed87660abd037adecc0668d2628f3f00deda5aff" name="ae1d1a81a6bf6122f9e81f30d2ed87660abd037adecc0668d2628f3f00deda5aff"></a>predicate_constant&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ae1d1a81a6bf6122f9e81f30d2ed87660ad6a8416d545b7163f1ebe394161b4c5b" name="ae1d1a81a6bf6122f9e81f30d2ed87660ad6a8416d545b7163f1ebe394161b4c5b"></a>predicate_constant_one&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
+<a id="af1767ae022d3845084f92ab0bc3776a0" name="af1767ae022d3845084f92ab0bc3776a0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af1767ae022d3845084f92ab0bc3776a0">&#9670;&#160;</a></span>xml_encoding</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="#af1767ae022d3845084f92ab0bc3776a0">lumex::xml::types::Types::xml_encoding</a> : std::uint8_t</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="af1767ae022d3845084f92ab0bc3776a0a86500d85e2a14a91063a2f19f14cbf80" name="af1767ae022d3845084f92ab0bc3776a0a86500d85e2a14a91063a2f19f14cbf80"></a>encoding_auto&#160;</td><td class="fielddoc"><p>Auto-detect input encoding using BOM or &lt; / &lt;? detection; use UTF8 if BOM is not found </p>
+</td></tr>
+<tr><td class="fieldname"><a id="af1767ae022d3845084f92ab0bc3776a0a8f73d135c1732dad295e22b2cea1dbd3" name="af1767ae022d3845084f92ab0bc3776a0a8f73d135c1732dad295e22b2cea1dbd3"></a>encoding_utf8&#160;</td><td class="fielddoc"><p>UTF8 encoding. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="af1767ae022d3845084f92ab0bc3776a0af24da3643b8c78b51189e17232a70705" name="af1767ae022d3845084f92ab0bc3776a0af24da3643b8c78b51189e17232a70705"></a>encoding_utf16_le&#160;</td><td class="fielddoc"><p>Little-endian UTF16. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="af1767ae022d3845084f92ab0bc3776a0acb87e5684a8538e60dd2ecda74ef39e2" name="af1767ae022d3845084f92ab0bc3776a0acb87e5684a8538e60dd2ecda74ef39e2"></a>encoding_utf16_be&#160;</td><td class="fielddoc"><p>Big-endian UTF16. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="af1767ae022d3845084f92ab0bc3776a0a292bb1b16cf3a35525d2ecedadc66dcd" name="af1767ae022d3845084f92ab0bc3776a0a292bb1b16cf3a35525d2ecedadc66dcd"></a>encoding_utf16&#160;</td><td class="fielddoc"><p>UTF16 with native endianness. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="af1767ae022d3845084f92ab0bc3776a0a2ac806579d476e3e77a3e36d2190cc22" name="af1767ae022d3845084f92ab0bc3776a0a2ac806579d476e3e77a3e36d2190cc22"></a>encoding_utf32_le&#160;</td><td class="fielddoc"><p>Little-endian UTF32. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="af1767ae022d3845084f92ab0bc3776a0a4aa858911de924e5322ecce152be848d" name="af1767ae022d3845084f92ab0bc3776a0a4aa858911de924e5322ecce152be848d"></a>encoding_utf32_be&#160;</td><td class="fielddoc"><p>Big-endian UTF32. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="af1767ae022d3845084f92ab0bc3776a0a76b87fb972f0a5dd51404cd696943884" name="af1767ae022d3845084f92ab0bc3776a0a76b87fb972f0a5dd51404cd696943884"></a>encoding_utf32&#160;</td><td class="fielddoc"><p>UTF32 with native endianness. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="af1767ae022d3845084f92ab0bc3776a0a3f71c11b5b44d38b2b604ea78ec0dfaf" name="af1767ae022d3845084f92ab0bc3776a0a3f71c11b5b44d38b2b604ea78ec0dfaf"></a>encoding_wchar&#160;</td><td class="fielddoc"><p>The same encoding wchar_t has (either UTF16 or UTF32) </p>
+</td></tr>
+<tr><td class="fieldname"><a id="af1767ae022d3845084f92ab0bc3776a0a13b7c482cfc74974efbfaa40a0ee1868" name="af1767ae022d3845084f92ab0bc3776a0a13b7c482cfc74974efbfaa40a0ee1868"></a>encoding_latin1&#160;</td><td class="fielddoc"><p>Latin1 encoding. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a id="a2ea2ab672e10bb614a49da9b5a7f0801" name="a2ea2ab672e10bb614a49da9b5a7f0801"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2ea2ab672e10bb614a49da9b5a7f0801">&#9670;&#160;</a></span>xml_node_type</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="#a2ea2ab672e10bb614a49da9b5a7f0801">lumex::xml::types::Types::xml_node_type</a> : std::uint8_t</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a2ea2ab672e10bb614a49da9b5a7f0801ae5ba2eaf8292639da1b195f2148de6e7" name="a2ea2ab672e10bb614a49da9b5a7f0801ae5ba2eaf8292639da1b195f2148de6e7"></a>node_null&#160;</td><td class="fielddoc"><p>Empty (null) node handle. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a2ea2ab672e10bb614a49da9b5a7f0801a296b8402337abf2489633516f4983dc5" name="a2ea2ab672e10bb614a49da9b5a7f0801a296b8402337abf2489633516f4983dc5"></a>node_document&#160;</td><td class="fielddoc"><p>A document tree's absolute root. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a2ea2ab672e10bb614a49da9b5a7f0801a9e883faaae0f94d812dd30609847f292" name="a2ea2ab672e10bb614a49da9b5a7f0801a9e883faaae0f94d812dd30609847f292"></a>node_element&#160;</td><td class="fielddoc"><p>Element tag, i.e. <code>&lt;node/&gt;</code> </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a2ea2ab672e10bb614a49da9b5a7f0801a33e4824ca5e65b09e091889a41fdbd4b" name="a2ea2ab672e10bb614a49da9b5a7f0801a33e4824ca5e65b09e091889a41fdbd4b"></a>node_pcdata&#160;</td><td class="fielddoc"><p>Plain character data, i.e. 'text'. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a2ea2ab672e10bb614a49da9b5a7f0801a97cc331e08bf1417ce9679a10b94d682" name="a2ea2ab672e10bb614a49da9b5a7f0801a97cc331e08bf1417ce9679a10b94d682"></a>node_cdata&#160;</td><td class="fielddoc"><p>Character data, i.e. 'text'. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a2ea2ab672e10bb614a49da9b5a7f0801a99f109060a92e7a18815d2057b502349" name="a2ea2ab672e10bb614a49da9b5a7f0801a99f109060a92e7a18815d2057b502349"></a>node_comment&#160;</td><td class="fielddoc"><p>Comment tag, i.e. ''. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a2ea2ab672e10bb614a49da9b5a7f0801aa7cda3657ada0759a50adc332e9a1987" name="a2ea2ab672e10bb614a49da9b5a7f0801aa7cda3657ada0759a50adc332e9a1987"></a>node_pi&#160;</td><td class="fielddoc"><p>Processing instruction, i.e. '&lt;?name?&gt;'. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a2ea2ab672e10bb614a49da9b5a7f0801a5dbfa1850471edd2a0eef3e444653d17" name="a2ea2ab672e10bb614a49da9b5a7f0801a5dbfa1850471edd2a0eef3e444653d17"></a>node_declaration&#160;</td><td class="fielddoc"><p>Document declaration, i.e. '&lt;?xml version="1.0"?&gt;'. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a2ea2ab672e10bb614a49da9b5a7f0801a898917f0c9df9e775d6a2f2fff7a370a" name="a2ea2ab672e10bb614a49da9b5a7f0801a898917f0c9df9e775d6a2f2fff7a370a"></a>node_doctype&#160;</td><td class="fielddoc"><p>Document type declaration, i.e. '&lt;!DOCTYPE doc&gt;'. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a id="a8264dfa29bbe6720c402fec104db5408" name="a8264dfa29bbe6720c402fec104db5408"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8264dfa29bbe6720c402fec104db5408">&#9670;&#160;</a></span>xml_parse_status</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="#a8264dfa29bbe6720c402fec104db5408">lumex::xml::types::Types::xml_parse_status</a> : std::uint8_t</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a8264dfa29bbe6720c402fec104db5408ac4fcd417ecf068859fa8b014426395df" name="a8264dfa29bbe6720c402fec104db5408ac4fcd417ecf068859fa8b014426395df"></a>status_ok&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a8264dfa29bbe6720c402fec104db5408a6a26ac1da139d2635e0be60299ed799a" name="a8264dfa29bbe6720c402fec104db5408a6a26ac1da139d2635e0be60299ed799a"></a>status_file_not_found&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a8264dfa29bbe6720c402fec104db5408a1679107e5b77ebb94832de0aa61a8f16" name="a8264dfa29bbe6720c402fec104db5408a1679107e5b77ebb94832de0aa61a8f16"></a>status_io_error&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a8264dfa29bbe6720c402fec104db5408a0c6cb3e6dd417f8025f10581454d2a5c" name="a8264dfa29bbe6720c402fec104db5408a0c6cb3e6dd417f8025f10581454d2a5c"></a>status_out_of_memory&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a8264dfa29bbe6720c402fec104db5408aab5ea18d65dbd0457afaa3c0caae1525" name="a8264dfa29bbe6720c402fec104db5408aab5ea18d65dbd0457afaa3c0caae1525"></a>status_internal_error&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a8264dfa29bbe6720c402fec104db5408abbd4e2c3ce4ec8e107e52dfe2134fae1" name="a8264dfa29bbe6720c402fec104db5408abbd4e2c3ce4ec8e107e52dfe2134fae1"></a>status_unrecognized_tag&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a8264dfa29bbe6720c402fec104db5408a5534b6d926433e86cfa4b63e52ccca45" name="a8264dfa29bbe6720c402fec104db5408a5534b6d926433e86cfa4b63e52ccca45"></a>status_bad_pi&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a8264dfa29bbe6720c402fec104db5408aa5bda180b15223dbc38411cb819c9e44" name="a8264dfa29bbe6720c402fec104db5408aa5bda180b15223dbc38411cb819c9e44"></a>status_bad_comment&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a8264dfa29bbe6720c402fec104db5408adac4b8a233e5cf51cc44e57366811505" name="a8264dfa29bbe6720c402fec104db5408adac4b8a233e5cf51cc44e57366811505"></a>status_bad_cdata&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a8264dfa29bbe6720c402fec104db5408ab05ea0d55515e5053fc7e974350ccbd9" name="a8264dfa29bbe6720c402fec104db5408ab05ea0d55515e5053fc7e974350ccbd9"></a>status_bad_doctype&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a8264dfa29bbe6720c402fec104db5408aa281cfa1c4a5b42d20042d5f04e805a2" name="a8264dfa29bbe6720c402fec104db5408aa281cfa1c4a5b42d20042d5f04e805a2"></a>status_bad_pcdata&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a8264dfa29bbe6720c402fec104db5408a34fe3aa2b1a4f4f63ab7e0c83cb1b08c" name="a8264dfa29bbe6720c402fec104db5408a34fe3aa2b1a4f4f63ab7e0c83cb1b08c"></a>status_bad_start_element&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a8264dfa29bbe6720c402fec104db5408a42613777fc875966a0677eafc33988c8" name="a8264dfa29bbe6720c402fec104db5408a42613777fc875966a0677eafc33988c8"></a>status_bad_attribute&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a8264dfa29bbe6720c402fec104db5408a1190b896bdfafb3ccc54344983fc1fbc" name="a8264dfa29bbe6720c402fec104db5408a1190b896bdfafb3ccc54344983fc1fbc"></a>status_bad_end_element&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a8264dfa29bbe6720c402fec104db5408a04f8d19a5f7b818dbb2f760eaea0e3cc" name="a8264dfa29bbe6720c402fec104db5408a04f8d19a5f7b818dbb2f760eaea0e3cc"></a>status_end_element_mismatch&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a8264dfa29bbe6720c402fec104db5408a000f2b16b2a4488f19b3d95f585e53e3" name="a8264dfa29bbe6720c402fec104db5408a000f2b16b2a4488f19b3d95f585e53e3"></a>status_append_invalid_root&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a8264dfa29bbe6720c402fec104db5408a3acda84f5df851a4cea50a5a3d2614cd" name="a8264dfa29bbe6720c402fec104db5408a3acda84f5df851a4cea50a5a3d2614cd"></a>status_no_document_element&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
+<a id="ab45611a4d899512e32aa65eb48a191a5" name="ab45611a4d899512e32aa65eb48a191a5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab45611a4d899512e32aa65eb48a191a5">&#9670;&#160;</a></span>xpath_value_type</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="#ab45611a4d899512e32aa65eb48a191a5">lumex::xml::types::Types::xpath_value_type</a> : std::uint8_t</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ab45611a4d899512e32aa65eb48a191a5aef88a06e63e24db27c45d2b3c9cbddc7" name="ab45611a4d899512e32aa65eb48a191a5aef88a06e63e24db27c45d2b3c9cbddc7"></a>xpath_type_none&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ab45611a4d899512e32aa65eb48a191a5a1141b0c00ff38e450f1b3013c62f155f" name="ab45611a4d899512e32aa65eb48a191a5a1141b0c00ff38e450f1b3013c62f155f"></a>xpath_type_node_set&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ab45611a4d899512e32aa65eb48a191a5aab160555061f91030ebc5b20f5db6da0" name="ab45611a4d899512e32aa65eb48a191a5aab160555061f91030ebc5b20f5db6da0"></a>xpath_type_number&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ab45611a4d899512e32aa65eb48a191a5ad8df1fe43fb818a0c54b05207b890904" name="ab45611a4d899512e32aa65eb48a191a5ad8df1fe43fb818a0c54b05207b890904"></a>xpath_type_string&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ab45611a4d899512e32aa65eb48a191a5a80042feb7d0f7888e3a86fb3c6c7b641" name="ab45611a4d899512e32aa65eb48a191a5a80042feb7d0f7888e3a86fb3c6c7b641"></a>xpath_type_boolean&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="a00948.html">lumex</a></li><li class="navelem"><a class="el" href="a01126.html">xml</a></li><li class="navelem"><a class="el" href="a01142.html">types</a></li><li class="navelem"><a class="el" href="a01143.html">Types</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

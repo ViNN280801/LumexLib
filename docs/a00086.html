@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexLogging.hpp File Reference</title>
+<title>LumexLib: ILumexJsonSchemaValidator.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -105,97 +105,90 @@ $(function(){initNavTree('a00086.html',''); initResizable(true); });
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
-<a href="#namespaces">Namespaces</a> &#124;
-<a href="#typedef-members">Typedefs</a> &#124;
-<a href="#enum-members">Enumerations</a>  </div>
-  <div class="headertitle"><div class="title">LumexLogging.hpp File Reference</div></div>
+<a href="#namespaces">Namespaces</a>  </div>
+  <div class="headertitle"><div class="title">ILumexJsonSchemaValidator.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>The console and file logging facade <code><a class="el" href="#a4a6909dcad3d67fe13dede37e3679899">LumexLogging</a></code> that other LumexLib modules report through.  
+<p>Contract for checking raw JSON text against a schema.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="a00605_source.html">lumex/LumexExport.hpp</a>&quot;</code><br />
-<code>#include &lt;cstdint&gt;</code><br />
-<code>#include &lt;mutex&gt;</code><br />
-<code>#include &lt;string&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00875_source.html">lumex/core/filesystem/LumexFilesystem</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00893_source.html">lumex/core/string/LumexString</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00383_source.html">lumex/core/utility/macros/LumexConstantMacros.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00389_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &lt;exception&gt;</code><br />
+<code>#include &quot;<a class="el" href="a00356_source.html">lumex/core/string_view/view/LumexStringView.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for LumexLogging.hpp:</div>
+Include dependency graph for ILumexJsonSchemaValidator.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00087.png" border="0" usemap="#a_lumex_logging_8hpp" alt=""/></div>
+<div class="center"><img src="a00087.png" border="0" usemap="#a_i_lumex_json_schema_validator_8hpp" alt=""/></div>
+<map name="a_i_lumex_json_schema_validator_8hpp" id="a_i_lumex_json_schema_validator_8hpp">
+<area shape="rect" title="Contract for checking raw JSON text against a schema." alt="" coords="255,5,470,32"/>
+<area shape="rect" title=" " alt="" coords="248,88,325,115"/>
+<area shape="poly" title=" " alt="" coords="353,34,311,79,307,75,349,31"/>
+<area shape="rect" href="a00356.html" title="C++11 lightweight, non&#45;owning view over character sequences." alt="" coords="349,80,531,123"/>
+<area shape="poly" title=" " alt="" coords="377,31,412,67,408,71,373,34"/>
+<area shape="rect" href="a00641.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="5,179,168,205"/>
+<area shape="poly" title=" " alt="" coords="358,126,153,177,151,172,356,121"/>
+<area shape="rect" title=" " alt="" coords="192,179,256,205"/>
+<area shape="poly" title=" " alt="" coords="387,126,269,173,266,174,264,170,267,168,385,121"/>
+<area shape="rect" title=" " alt="" coords="280,179,341,205"/>
+<area shape="poly" title=" " alt="" coords="411,125,343,172,340,167,408,121"/>
+<area shape="rect" title=" " alt="" coords="365,179,426,205"/>
+<area shape="poly" title=" " alt="" coords="432,124,411,166,406,164,427,122"/>
+<area shape="rect" title=" " alt="" coords="451,179,519,205"/>
+<area shape="poly" title=" " alt="" coords="453,122,474,163,469,166,448,124"/>
+<area shape="rect" title=" " alt="" coords="544,179,597,205"/>
+<area shape="poly" title=" " alt="" coords="472,121,541,167,538,172,469,125"/>
+<area shape="rect" href="a00389.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="621,171,789,213"/>
+<area shape="poly" title=" " alt="" coords="503,121,629,163,628,168,501,126"/>
+<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="813,171,1008,213"/>
+<area shape="poly" title=" " alt="" coords="532,117,799,167,798,172,531,122"/>
+<area shape="rect" href="a00404.html" title="C++ language, library and attribute feature availability." alt="" coords="590,261,821,304"/>
+<area shape="poly" title=" " alt="" coords="708,214,708,246,702,246,702,214"/>
+</map>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00088.png" border="0" usemap="#a_lumex_logging_8hppdep" alt=""/></div>
+<div class="center"><img src="a00088.png" border="0" usemap="#a_i_lumex_json_schema_validator_8hppdep" alt=""/></div>
+<map name="a_i_lumex_json_schema_validator_8hppdep" id="a_i_lumex_json_schema_validator_8hppdep">
+<area shape="rect" title="Contract for checking raw JSON text against a schema." alt="" coords="50,5,266,32"/>
+<area shape="rect" href="a00872.html" title="JSON module: non&#45;throwing helpers for JSON configuration files, and validation and normalization of a..." alt="" coords="114,155,202,181"/>
+<area shape="poly" title=" " alt="" coords="137,45,124,62,115,81,114,101,121,120,146,153,142,156,116,123,108,102,110,79,120,59,132,42"/>
+<area shape="rect" href="a00089.html" title="Validate&#45;only checker for one schema tree." alt="" coords="124,80,336,107"/>
+<area shape="poly" title=" " alt="" coords="183,41,219,78,216,81,179,45"/>
+<area shape="rect" href="a00533.html" title=" " alt="" coords="5,229,132,256"/>
+<area shape="poly" title=" " alt="" coords="132,194,86,231,82,227,129,189"/>
+<area shape="rect" href="a00536.html" title=" " alt="" coords="156,229,341,256"/>
+<area shape="poly" title=" " alt="" coords="187,189,235,227,231,231,184,193"/>
+<area shape="poly" title=" " alt="" coords="208,120,172,156,168,152,205,116"/>
+</map>
 </div>
 </div>
 <p><a href="a00086_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01178.html">lumex::applied::logging::log::LumexLogging</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Thread-safe singleton logger supporting multiple modules.  <a href="a01178.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01197.html">lumex::applied::json::validation::ILumexJsonSchemaValidator</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks raw JSON text against the schema of the implementation. Builds nothing: a conforming document just returns.  <a href="a01197.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00912.html">lumex</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00948.html">lumex</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00913.html">lumex::applied</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00949.html">lumex::applied</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00939.html">lumex::applied::logging</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00963.html">lumex::applied::json</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00940.html">lumex::applied::logging::log</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00970.html">lumex::applied::json::validation</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
-Typedefs</h2></td></tr>
-<tr class="memitem:a4a6909dcad3d67fe13dede37e3679899" id="r_a4a6909dcad3d67fe13dede37e3679899"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4a6909dcad3d67fe13dede37e3679899">LumexLogging</a> = <a class="el" href="a01178.html">lumex::applied::logging::log::LumexLogging</a></td></tr>
-<tr class="separator:a4a6909dcad3d67fe13dede37e3679899"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
-Enumerations</h2></td></tr>
-<tr class="memitem:ab89470b4db8a7dc224df84237c78270c" id="r_ab89470b4db8a7dc224df84237c78270c"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00940.html#ab89470b4db8a7dc224df84237c78270c">lumex::applied::logging::log::LumexLogLevel</a> : std::uint8_t { <br />
-&#160;&#160;<a class="el" href="a00940.html#ab89470b4db8a7dc224df84237c78270caa603905470e2a5b8c13e96b579ef0dba">lumex::applied::logging::log::Debug</a> = 10
-, <a class="el" href="a00940.html#ab89470b4db8a7dc224df84237c78270ca4059b0251f66a18cb56f544728796875">lumex::applied::logging::log::Info</a> = 20
-, <a class="el" href="a00940.html#ab89470b4db8a7dc224df84237c78270ca505a83f220c02df2f85c3810cd9ceb38">lumex::applied::logging::log::Success</a> = 25
-, <a class="el" href="a00940.html#ab89470b4db8a7dc224df84237c78270ca0eaadb4fcb48a0a0ed7bc9868be9fbaa">lumex::applied::logging::log::Warning</a> = 30
-, <br />
-&#160;&#160;<a class="el" href="a00940.html#ab89470b4db8a7dc224df84237c78270ca902b0d55fddef6f8d651fe1035b7d4bd">lumex::applied::logging::log::Error</a> = 40
-, <a class="el" href="a00940.html#ab89470b4db8a7dc224df84237c78270ca278d01e5af56273bae1bb99a98b370cd">lumex::applied::logging::log::Critical</a> = 50
-<br />
- }</td></tr>
-<tr class="memdesc:ab89470b4db8a7dc224df84237c78270c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines the severity levels for logging.  <a href="a00940.html#ab89470b4db8a7dc224df84237c78270c">More...</a><br /></td></tr>
-<tr class="separator:ab89470b4db8a7dc224df84237c78270c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>The console and file logging facade <code><a class="el" href="#a4a6909dcad3d67fe13dede37e3679899">LumexLogging</a></code> that other LumexLib modules report through. </p>
-<p><code><a class="el" href="#a4a6909dcad3d67fe13dede37e3679899">LumexLogging</a></code> has one static function per level of <code>LumexLogLevel</code> (debug, info, success, warning, error, critical); each takes a module name and any number of streamable parts. A message is printed in ANSI colors, to <code>std::clog</code> up to the warning level and to <code>std::cerr</code> above it, and then appended to one log file per run in the directory that <code>getLogsDirectory()</code> returns: <code>logs</code> next to the executable on Windows, a <code>logs</code> directory under <code>~/.local/share</code> or <code>XDG_DATA_HOME</code> on Unix-like systems. A mutex serializes the output. The class is compiled into <code>lumex::logging</code>, a module separate from the file logger <code><a class="el" href="a00080.html#a538f3e482b0ee9b4e5a7bd7e7e404a0c" title="Alias for lumex::applied::logger::logger::LumexLogger.">LumexLogger</a></code> of <code>lumex::logger</code>; the short macros are in <code><a class="el" href="a00089.html" title="Short macros over LumexLogging: lumDebug to lumCritical, and the ...FL variants that prefix the sourc...">LumexLoggingMacro.hpp</a></code>. </p>
-</div><h2 class="groupheader">Typedef Documentation</h2>
-<a id="a4a6909dcad3d67fe13dede37e3679899" name="a4a6909dcad3d67fe13dede37e3679899"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4a6909dcad3d67fe13dede37e3679899">&#9670;&#160;</a></span>LumexLogging</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="#a4a6909dcad3d67fe13dede37e3679899">LumexLogging</a> = <a class="el" href="a01178.html">lumex::applied::logging::log::LumexLogging</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-</div><!-- contents -->
+<div class="textblock"><p>Contract for checking raw JSON text against a schema. </p>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_de45db85bd98abf883bc2bd6c3907fd8.html">applied</a></li><li class="navelem"><a class="el" href="dir_281e30212518eef343610f64aa21cb60.html">logging</a></li><li class="navelem"><a class="el" href="dir_3d0c1a0e323d53b93f898c19dcf5c30c.html">log</a></li><li class="navelem"><a class="el" href="a00086.html">LumexLogging.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_de45db85bd98abf883bc2bd6c3907fd8.html">applied</a></li><li class="navelem"><a class="el" href="dir_3e92e8848bcd01e21718dfea84e9b21e.html">json</a></li><li class="navelem"><a class="el" href="dir_1fba93ce821cdd13ae0e389f6b0eec57.html">validation</a></li><li class="navelem"><a class="el" href="a00086.html">ILumexJsonSchemaValidator.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: XmlMemoryPage.cpp File Reference</title>
+<title>LumexLib: XmlAttribute.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,21 +104,125 @@ $(function(){initNavTree('a00644.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#define-members">Macros</a>  </div>
-  <div class="headertitle"><div class="title">XmlMemoryPage.cpp File Reference</div></div>
+<a href="#define-members">Macros</a> &#124;
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle"><div class="title">XmlAttribute.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;<a class="el" href="a00647_source.html">XmlMemoryPage.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="a00698_source.html">lumex/xml/node/XmlNodeBase.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00737_source.html">lumex/xml/utility/XmlUtils.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00647_source.html">XmlAttribute.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for XmlMemoryPage.cpp:</div>
+Include dependency graph for XmlAttribute.cpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00645.png" border="0" usemap="#a_xml_memory_page_8cpp" alt=""/></div>
+<div class="center"><img src="a00645.png" border="0" usemap="#a_xml_attribute_8cpp" alt=""/></div>
+<map name="a_xml_attribute_8cpp" id="a_xml_attribute_8cpp">
+<area shape="rect" title=" " alt="" coords="1358,5,1476,32"/>
+<area shape="rect" href="a00698.html" title="Internal storage of an XML node and the functions that build, link, copy and destroy the tree." alt="" coords="1304,80,1530,107"/>
+<area shape="poly" title=" " alt="" coords="1420,33,1420,64,1415,64,1415,33"/>
+<area shape="rect" href="a00737.html" title="Header&#45;only helpers of the XML implementation: transcoding, encoding detection, conversions between t..." alt="" coords="564,163,759,189"/>
+<area shape="poly" title=" " alt="" coords="1359,35,738,162,737,156,1357,30"/>
+<area shape="rect" href="a00647.html" title="XmlAttribute, the handle to one attribute of an element: read its name and value, convert the value t..." alt="" coords="1594,80,1712,107"/>
+<area shape="poly" title=" " alt="" coords="1459,30,1598,72,1597,78,1458,35"/>
+<area shape="rect" href="a00641.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="1334,435,1496,461"/>
+<area shape="poly" title=" " alt="" coords="1479,105,1517,123,1535,136,1549,153,1554,165,1554,175,1549,198,1534,293,1520,333,1494,380,1473,406,1448,427,1444,423,1469,403,1490,377,1516,331,1529,292,1544,197,1549,175,1549,166,1544,156,1531,140,1515,127,1476,110"/>
+<area shape="rect" href="a00653.html" title="Internal storage of an XML attribute and the functions that allocate, link, unlink and copy it." alt="" coords="1382,155,1535,197"/>
+<area shape="poly" title=" " alt="" coords="1426,106,1444,140,1439,142,1421,108"/>
+<area shape="rect" href="a00677.html" title="The page allocator that holds the nodes, attributes and strings of one XML document." alt="" coords="1198,253,1434,280"/>
+<area shape="poly" title=" " alt="" coords="1409,109,1373,156,1349,200,1330,240,1325,238,1344,197,1368,153,1404,105"/>
+<area shape="rect" href="a00728.html" title="The basic types and enumerations of the XML module: character and string types, node types,..." alt="" coords="867,344,1072,371"/>
+<area shape="poly" title=" " alt="" coords="1397,110,1005,338,1002,334,1394,105"/>
+<area shape="poly" title=" " alt="" coords="1467,197,1475,232,1481,278,1481,329,1471,380,1458,404,1441,425,1437,422,1453,401,1465,378,1476,329,1476,279,1470,233,1462,198"/>
+<area shape="poly" title=" " alt="" coords="1427,200,1350,247,1348,243,1424,196"/>
+<area shape="rect" href="a00683.html" title="The header of a memory page of the XML allocator, and the default page size." alt="" coords="1287,344,1433,371"/>
+<area shape="poly" title=" " alt="" coords="1463,198,1462,241,1457,266,1448,289,1426,317,1399,338,1396,333,1422,313,1443,287,1452,265,1457,241,1458,198"/>
+<area shape="poly" title=" " alt="" coords="1367,278,1411,299,1432,315,1448,335,1455,357,1453,381,1445,403,1434,423,1430,421,1440,401,1448,380,1449,358,1443,337,1428,319,1409,304,1365,283"/>
+<area shape="rect" href="a00386.html" title="Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_..." alt="" coords="1095,336,1262,379"/>
+<area shape="poly" title=" " alt="" coords="1298,283,1225,330,1222,325,1295,278"/>
+<area shape="rect" href="a00389.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="1589,592,1758,635"/>
+<area shape="poly" title=" " alt="" coords="1360,278,1415,300,1470,334,1532,394,1585,460,1628,525,1658,577,1653,579,1623,527,1581,464,1528,397,1466,338,1412,305,1358,283"/>
+<area shape="poly" title=" " alt="" coords="1267,283,1034,342,1033,337,1266,278"/>
+<area shape="poly" title=" " alt="" coords="1325,279,1349,329,1345,331,1320,282"/>
+<area shape="poly" title=" " alt="" coords="1235,377,1368,426,1366,431,1233,382"/>
+<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="626,683,820,725"/>
+<area shape="poly" title=" " alt="" coords="1168,381,1132,432,1077,501,1008,573,969,607,928,637,882,662,833,680,831,675,879,657,925,632,966,603,1004,570,1073,497,1127,429,1163,378"/>
+<area shape="rect" href="a00404.html" title="C++ language, library and attribute feature availability." alt="" coords="1558,683,1789,725"/>
+<area shape="poly" title=" " alt="" coords="1676,635,1676,667,1671,667,1671,635"/>
+<area shape="rect" title=" " alt="" coords="488,517,549,544"/>
+<area shape="poly" title=" " alt="" coords="937,374,564,515,563,510,935,369"/>
+<area shape="rect" title=" " alt="" coords="917,435,971,461"/>
+<area shape="poly" title=" " alt="" coords="968,372,954,420,949,419,963,371"/>
+<area shape="rect" href="a00734.html" title="Preprocessor macros of the XML module: the character mode, the declaration of constants,..." alt="" coords="724,517,935,544"/>
+<area shape="poly" title=" " alt="" coords="978,370,987,391,994,417,994,445,985,471,959,497,926,514,923,509,955,493,980,468,989,444,988,418,982,392,973,372"/>
+<area shape="poly" title=" " alt="" coords="936,539,1574,600,1573,605,935,545"/>
+<area shape="rect" href="a00419.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="682,592,915,635"/>
+<area shape="poly" title=" " alt="" coords="827,545,814,579,809,577,822,544"/>
+<area shape="poly" title=" " alt="" coords="783,637,752,673,748,669,779,633"/>
+<area shape="poly" title=" " alt="" coords="1370,370,1401,420,1396,422,1366,373"/>
+<area shape="rect" title=" " alt="" coords="341,435,406,461"/>
+<area shape="poly" title=" " alt="" coords="1313,374,1275,381,1145,395,1033,399,843,392,752,388,655,391,545,403,418,429,411,431,410,426,417,424,545,398,654,386,752,383,843,386,1033,394,1144,390,1274,376,1312,369"/>
+<area shape="poly" title=" " alt="" coords="756,187,1207,248,1207,253,755,193"/>
+<area shape="poly" title=" " alt="" coords="760,182,943,205,1027,222,1087,243,1110,259,1130,279,1162,321,1158,324,1126,283,1106,264,1084,248,1026,227,942,210,759,188"/>
+<area shape="poly" title=" " alt="" coords="563,179,430,182,280,191,208,200,143,212,90,228,52,248,28,270,15,294,9,321,8,356,8,532,12,553,25,572,45,590,73,606,144,634,233,655,331,672,431,684,611,696,610,702,430,689,330,677,232,661,143,639,70,611,42,594,21,576,7,555,3,532,3,356,4,320,10,292,24,267,49,243,88,223,142,207,207,195,279,186,430,176,563,174"/>
+<area shape="poly" title=" " alt="" coords="672,188,708,236,734,262,764,286,826,317,890,337,888,342,824,322,761,290,731,266,704,239,667,192"/>
+<area shape="poly" title=" " alt="" coords="667,189,682,235,695,262,713,286,736,302,760,308,784,315,795,322,806,335,827,377,836,423,838,466,836,502,830,502,833,466,831,423,821,378,802,337,792,326,781,320,759,313,734,307,709,290,690,265,677,237,661,191"/>
+<area shape="poly" title=" " alt="" coords="564,185,427,195,277,208,150,226,107,236,83,247,64,271,57,295,59,356,59,449,63,470,76,490,96,507,123,523,194,550,282,571,380,586,482,597,667,607,667,613,481,602,380,591,281,576,192,555,120,528,93,512,71,493,58,472,53,450,53,356,52,294,59,269,80,243,105,231,149,221,277,203,427,189,563,180"/>
+<area shape="poly" title=" " alt="" coords="564,185,520,192,476,204,432,222,394,247,365,276,350,305,346,337,351,378,363,419,358,421,345,379,341,337,345,303,361,273,390,243,430,218,474,199,519,187,563,179"/>
+<area shape="rect" title=" " alt="" coords="267,435,317,461"/>
+<area shape="poly" title=" " alt="" coords="564,183,493,190,415,202,333,221,254,248,188,287,155,313,134,337,128,358,134,377,158,402,188,420,221,432,252,439,251,445,220,437,186,425,155,406,130,380,122,358,130,335,151,309,185,282,252,243,331,215,414,197,493,185,563,178"/>
+<area shape="rect" title=" " alt="" coords="775,253,828,280"/>
+<area shape="poly" title=" " alt="" coords="683,188,770,243,767,247,680,192"/>
+<area shape="rect" title=" " alt="" coords="852,253,911,280"/>
+<area shape="poly" title=" " alt="" coords="698,187,841,243,844,244,841,249,839,248,696,192"/>
+<area shape="rect" title=" " alt="" coords="935,253,993,280"/>
+<area shape="poly" title=" " alt="" coords="724,187,819,210,924,243,927,244,925,249,922,248,818,215,723,193"/>
+<area shape="rect" title=" " alt="" coords="1017,253,1074,280"/>
+<area shape="poly" title=" " alt="" coords="760,187,878,209,1005,243,1009,244,1008,249,1003,248,877,214,759,193"/>
+<area shape="rect" title=" " alt="" coords="733,344,792,371"/>
+<area shape="poly" title=" " alt="" coords="661,190,658,235,661,262,670,287,693,314,722,334,719,339,689,318,666,289,656,263,653,235,656,190"/>
+<area shape="rect" title=" " alt="" coords="360,344,421,371"/>
+<area shape="poly" title=" " alt="" coords="564,185,526,192,487,205,452,222,421,247,408,265,399,286,393,329,388,328,394,285,403,263,417,244,449,218,485,200,524,187,563,180"/>
+<area shape="rect" title=" " alt="" coords="94,253,157,280"/>
+<area shape="poly" title=" " alt="" coords="564,187,382,208,279,225,177,248,169,250,167,245,175,243,278,220,382,202,563,182"/>
+<area shape="rect" href="a00659.html" title="Constants of the XML module: parse and format option flags, the masks of the node and attribute heade..." alt="" coords="144,336,286,379"/>
+<area shape="poly" title=" " alt="" coords="563,181,502,186,435,198,368,218,305,248,284,264,265,283,235,324,231,321,261,280,280,260,303,243,366,213,434,193,501,181,563,175"/>
+<area shape="rect" href="a00785.html" title="XPathAllocator, the bump allocator of the XPath engine, and XPathAllocatorCapture,..." alt="" coords="430,245,599,288"/>
+<area shape="poly" title=" " alt="" coords="642,192,563,239,560,235,639,188"/>
+<area shape="poly" title=" " alt="" coords="209,380,200,424,203,447,213,468,230,481,255,492,326,509,404,519,473,525,473,530,404,525,325,514,254,497,227,485,209,471,198,449,195,424,204,379"/>
+<area shape="poly" title=" " alt="" coords="218,379,228,425,239,448,256,467,279,477,319,485,436,501,709,521,708,526,435,506,318,491,277,482,253,471,235,451,223,427,213,380"/>
+<area shape="poly" title=" " alt="" coords="253,377,339,424,336,429,251,382"/>
+<area shape="poly" title=" " alt="" coords="235,377,273,421,269,425,231,381"/>
+<area shape="poly" title=" " alt="" coords="568,286,616,308,665,334,694,357,705,367,722,376,771,390,837,403,998,422,1171,434,1318,441,1318,446,1170,439,998,427,836,408,770,396,720,381,702,372,690,361,663,338,614,312,566,291"/>
+<area shape="poly" title=" " alt="" coords="564,286,595,307,622,334,639,363,646,387,648,447,648,532,653,584,673,633,696,669,691,672,668,636,648,586,643,532,643,447,641,388,634,365,618,338,592,311,561,291"/>
+<area shape="poly" title=" " alt="" coords="580,286,716,333,720,335,718,340,714,339,578,291"/>
+<area shape="poly" title=" " alt="" coords="487,291,422,337,419,333,484,286"/>
+<area shape="rect" href="a00788.html" title="XPathMemoryBlock, the unit of memory of the XPath allocator." alt="" coords="446,344,608,371"/>
+<area shape="poly" title=" " alt="" coords="520,288,526,328,520,329,515,289"/>
+<area shape="poly" title=" " alt="" coords="609,367,678,376,1031,412,1319,436,1318,442,1031,417,677,381,608,373"/>
+<area shape="poly" title=" " alt="" coords="506,374,410,429,407,424,503,369"/>
+<area shape="poly" title=" " alt="" coords="484,374,412,398,330,429,329,430,327,425,328,424,410,393,483,369"/>
+<area shape="rect" href="a00767.html" title="Size limits and alignment of the XPath engine." alt="" coords="430,427,608,469"/>
+<area shape="poly" title=" " alt="" coords="528,372,525,411,519,411,523,371"/>
+<area shape="poly" title=" " alt="" coords="521,470,521,501,516,501,516,470"/>
+<area shape="poly" title=" " alt="" coords="599,467,766,510,765,516,598,473"/>
+<area shape="poly" title=" " alt="" coords="1653,108,1639,155,1614,227,1576,306,1552,345,1525,380,1493,408,1459,430,1456,425,1490,404,1521,377,1548,342,1571,304,1609,224,1634,154,1648,106"/>
+<area shape="poly" title=" " alt="" coords="1624,110,1524,151,1522,146,1622,105"/>
+<area shape="poly" title=" " alt="" coords="1714,99,1772,117,1800,132,1825,153,1843,180,1851,205,1851,265,1851,449,1848,473,1840,495,1813,533,1776,564,1737,587,1734,583,1773,559,1809,529,1835,492,1843,472,1845,449,1845,265,1845,206,1838,182,1821,156,1797,136,1770,121,1712,104"/>
+<area shape="poly" title=" " alt="" coords="1657,107,1657,147,1651,198,1633,286,1613,357,1597,387,1576,416,1547,444,1509,472,1479,482,1428,492,1281,508,951,527,950,522,1280,502,1427,487,1478,477,1507,467,1544,440,1572,413,1593,385,1608,355,1627,285,1645,197,1651,147,1651,107"/>
+<area shape="rect" title=" " alt="" coords="1723,163,1810,189"/>
+<area shape="poly" title=" " alt="" coords="1673,105,1739,152,1735,156,1670,109"/>
+</map>
 </div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
 <tr class="memitem:a07486181f1990291c2a348de8eb4c480" id="r_a07486181f1990291c2a348de8eb4c480"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a07486181f1990291c2a348de8eb4c480">LUMEX_IMPLEMENTATION</a></td></tr>
 <tr class="separator:a07486181f1990291c2a348de8eb4c480"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a5b474d4a12f6ac6b94c90479ea6ac04f" id="r_a5b474d4a12f6ac6b94c90479ea6ac04f"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5b474d4a12f6ac6b94c90479ea6ac04f">unspecified_bool_xml_attribute</a> (<a class="el" href="a02893.html">XmlAttribute</a> ***)</td></tr>
+<tr class="separator:a5b474d4a12f6ac6b94c90479ea6ac04f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="a07486181f1990291c2a348de8eb4c480" name="a07486181f1990291c2a348de8eb4c480"></a>
@@ -135,12 +239,48 @@ Macros</h2></td></tr>
 
 </div>
 </div>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="a5b474d4a12f6ac6b94c90479ea6ac04f" name="a5b474d4a12f6ac6b94c90479ea6ac04f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5b474d4a12f6ac6b94c90479ea6ac04f">&#9670;&#160;</a></span>unspecified_bool_xml_attribute()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void unspecified_bool_xml_attribute </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02893.html">XmlAttribute</a> ***</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00644_a5b474d4a12f6ac6b94c90479ea6ac04f_icgraph.png" border="0" usemap="#aa00644_a5b474d4a12f6ac6b94c90479ea6ac04f_icgraph" alt=""/></div>
+<map name="aa00644_a5b474d4a12f6ac6b94c90479ea6ac04f_icgraph" id="aa00644_a5b474d4a12f6ac6b94c90479ea6ac04f_icgraph">
+<area shape="rect" title=" " alt="" coords="210,13,356,56"/>
+<area shape="rect" href="a02893.html#a09a175b2cbbf5919bf4b2c2a92e5d05b" title="Provides safe boolean conversion for XmlAttribute objects." alt="" coords="5,5,162,64"/>
+<area shape="poly" title=" " alt="" coords="194,37,162,37,162,32,194,32"/>
+</map>
+</div>
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_dfaff3bf0c138bf12cc91354825aa357.html">memory</a></li><li class="navelem"><a class="el" href="a00644.html">XmlMemoryPage.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_67864fa9b126ea0c63c4a33fb4799790.html">attribute</a></li><li class="navelem"><a class="el" href="a00644.html">XmlAttribute.cpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

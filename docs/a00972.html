@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::core::base64 Namespace Reference</title>
+<title>LumexLib: lumex::applied::logger::logger Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,36 +104,378 @@ $(function(){initNavTree('a00972.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#namespaces">Namespaces</a>  </div>
-  <div class="headertitle"><div class="title">lumex::core::base64 Namespace Reference</div></div>
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#enum-members">Enumerations</a> &#124;
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle"><div class="title">lumex::applied::logger::logger Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
-
-<p>Provides Base64 decoding functionalities.  
-<a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00973.html">codec</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00974.html">LoggerInternals</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00978.html">decode</a></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01209.html">log_entry_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Buffered log-record structure.  <a href="a01209.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00980.html">encode</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01213.html">logger_applied_config_view_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Snapshot of configuration applied at start (flags without public getters).  <a href="a01213.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00982.html">validate</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01205.html">logger_config_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Logger configuration read from the enable_logs file.  <a href="a01205.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01217.html">LumexLogger</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Singleton logger that writes messages to a file next to the executable file.  <a href="a01217.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:a8abbc573ad9bfc4d4c761d4c300a1e07" id="r_a8abbc573ad9bfc4d4c761d4c300a1e07"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8abbc573ad9bfc4d4c761d4c300a1e07">LogLevel</a> : uint8_t { <br />
+&#160;&#160;<a class="el" href="#a8abbc573ad9bfc4d4c761d4c300a1e07a30bc1791c586eae7c8573dd3373408ff">LEVEL_TRACE</a> = 0
+, <a class="el" href="#a8abbc573ad9bfc4d4c761d4c300a1e07a895f68ab8463dcefaa0968193e50c1c8">LEVEL_DEBUG</a> = 1
+, <a class="el" href="#a8abbc573ad9bfc4d4c761d4c300a1e07a2e5413f0576433bcc849905b48cf3404">LEVEL_INFO</a> = 2
+, <a class="el" href="#a8abbc573ad9bfc4d4c761d4c300a1e07ac4fc201a3d33971b0ba2c42e4cdb0503">LEVEL_SUCCESS</a> = 3
+, <br />
+&#160;&#160;<a class="el" href="#a8abbc573ad9bfc4d4c761d4c300a1e07a4bd3c3990b6dd7979ea0277ae799272e">LEVEL_WARNING</a> = 4
+, <a class="el" href="#a8abbc573ad9bfc4d4c761d4c300a1e07a584c2bd79384769a6d0407d70b8e2a11">LEVEL_ERROR</a> = 5
+, <a class="el" href="#a8abbc573ad9bfc4d4c761d4c300a1e07aa8ac9470397fc0f6b1d5bbc2bb09acb3">LEVEL_FATAL</a> = 6
+<br />
+ }</td></tr>
+<tr class="memdesc:a8abbc573ad9bfc4d4c761d4c300a1e07"><td class="mdescLeft">&#160;</td><td class="mdescRight">Log levels that classify messages by severity.  <a href="#a8abbc573ad9bfc4d4c761d4c300a1e07">More...</a><br /></td></tr>
+<tr class="separator:a8abbc573ad9bfc4d4c761d4c300a1e07"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a620d10efcad9ba3f0f1e124a0989ca01" id="r_a620d10efcad9ba3f0f1e124a0989ca01"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a620d10efcad9ba3f0f1e124a0989ca01">FunctionNameMode</a> : uint8_t { <a class="el" href="#a620d10efcad9ba3f0f1e124a0989ca01ab50339a10e1de285ac99d4c3990b8693">NONE</a> = 0
+, <a class="el" href="#a620d10efcad9ba3f0f1e124a0989ca01aa35c2b02966b1563e5bf7b81b8b0cf77">SHORT</a> = 1
+, <a class="el" href="#a620d10efcad9ba3f0f1e124a0989ca01aba7de5bc6888294e5884b024a4c894f1">FULL</a> = 2
+, <a class="el" href="#a620d10efcad9ba3f0f1e124a0989ca01a1e23852820b9154316c7c06e2b7ba051">NORMAL</a> = 3
+ }</td></tr>
+<tr class="memdesc:a620d10efcad9ba3f0f1e124a0989ca01"><td class="mdescLeft">&#160;</td><td class="mdescRight">How the function name is shown in logs.  <a href="#a620d10efcad9ba3f0f1e124a0989ca01">More...</a><br /></td></tr>
+<tr class="separator:a620d10efcad9ba3f0f1e124a0989ca01"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:ac3b769211eadb0537cfd497b72c9d94c" id="r_ac3b769211eadb0537cfd497b72c9d94c"><td class="memTemplParams" colspan="2">template&lt;typename... Args&gt; </td></tr>
+<tr class="memitem:ac3b769211eadb0537cfd497b72c9d94c"><td class="memTemplItemLeft" align="right" valign="top">std::string&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#ac3b769211eadb0537cfd497b72c9d94c">logger_stringify</a> (Args &amp;&amp;...args)</td></tr>
+<tr class="separator:ac3b769211eadb0537cfd497b72c9d94c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaf05501301a7c59a8bbcd8e648959327" id="r_aaf05501301a7c59a8bbcd8e648959327"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aaf05501301a7c59a8bbcd8e648959327">logger_stringify</a> () noexcept</td></tr>
+<tr class="separator:aaf05501301a7c59a8bbcd8e648959327"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab944acb7713bba95ceddae9897f3c225" id="r_ab944acb7713bba95ceddae9897f3c225"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab944acb7713bba95ceddae9897f3c225">logger_format_function_name_clean</a> (char const *prettyFunc) noexcept</td></tr>
+<tr class="memdesc:ab944acb7713bba95ceddae9897f3c225"><td class="mdescLeft">&#160;</td><td class="mdescRight">Formats a function name from <b>FUNCSIG</b>/__PRETTY_FUNCTION__, stripping the return type and arguments.  <br /></td></tr>
+<tr class="separator:ab944acb7713bba95ceddae9897f3c225"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6a777d3254c1603458f55b8b39089ced" id="r_a6a777d3254c1603458f55b8b39089ced"><td class="memItemLeft" align="right" valign="top">static std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6a777d3254c1603458f55b8b39089ced">log_level_to_string</a> (<a class="el" href="#a8abbc573ad9bfc4d4c761d4c300a1e07">LogLevel</a> level) noexcept</td></tr>
+<tr class="separator:a6a777d3254c1603458f55b8b39089ced"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7864ecc2658e8eb513d1aba5ffb65478" id="r_a7864ecc2658e8eb513d1aba5ffb65478"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7864ecc2658e8eb513d1aba5ffb65478">logger_format_current_thread_id</a> ()</td></tr>
+<tr class="memdesc:a7864ecc2658e8eb513d1aba5ffb65478"><td class="mdescLeft">&#160;</td><td class="mdescRight">String form of the current std::thread id for the log prefix.  <br /></td></tr>
+<tr class="separator:a7864ecc2658e8eb513d1aba5ffb65478"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Provides Base64 decoding functionalities. </p>
-<p>Provides Base64 encoding functionalities.</p>
-<p>This namespace encapsulates functions for converting Base64 strings to binary data.</p>
-<p>This namespace encapsulates functions for converting binary data to Base64 strings. </p>
-</div></div><!-- contents -->
+<h2 class="groupheader">Enumeration Type Documentation</h2>
+<a id="a620d10efcad9ba3f0f1e124a0989ca01" name="a620d10efcad9ba3f0f1e124a0989ca01"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a620d10efcad9ba3f0f1e124a0989ca01">&#9670;&#160;</a></span>FunctionNameMode</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="#a620d10efcad9ba3f0f1e124a0989ca01">lumex::applied::logger::logger::FunctionNameMode</a> : uint8_t</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>How the function name is shown in logs. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a620d10efcad9ba3f0f1e124a0989ca01ab50339a10e1de285ac99d4c3990b8693" name="a620d10efcad9ba3f0f1e124a0989ca01ab50339a10e1de285ac99d4c3990b8693"></a>NONE&#160;</td><td class="fielddoc"><p>Do not show the function name. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a620d10efcad9ba3f0f1e124a0989ca01aa35c2b02966b1563e5bf7b81b8b0cf77" name="a620d10efcad9ba3f0f1e124a0989ca01aa35c2b02966b1563e5bf7b81b8b0cf77"></a>SHORT&#160;</td><td class="fielddoc"><p>Show the short name (<b>func</b>) </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a620d10efcad9ba3f0f1e124a0989ca01aba7de5bc6888294e5884b024a4c894f1" name="a620d10efcad9ba3f0f1e124a0989ca01aba7de5bc6888294e5884b024a4c894f1"></a>FULL&#160;</td><td class="fielddoc"><p>Full signature (<b>FUNCSIG</b>/__PRETTY_FUNCTION__) </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a620d10efcad9ba3f0f1e124a0989ca01a1e23852820b9154316c7c06e2b7ba051" name="a620d10efcad9ba3f0f1e124a0989ca01a1e23852820b9154316c7c06e2b7ba051"></a>NORMAL&#160;</td><td class="fielddoc"><p>ClassName::methodName() without return type or arguments. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a id="a8abbc573ad9bfc4d4c761d4c300a1e07" name="a8abbc573ad9bfc4d4c761d4c300a1e07"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8abbc573ad9bfc4d4c761d4c300a1e07">&#9670;&#160;</a></span>LogLevel</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="#a8abbc573ad9bfc4d4c761d4c300a1e07">lumex::applied::logger::logger::LogLevel</a> : uint8_t</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Log levels that classify messages by severity. </p>
+<p>Log levels filter messages by severity. From LEVEL_TRACE (most verbose) to LEVEL_FATAL (critical error). </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a8abbc573ad9bfc4d4c761d4c300a1e07a30bc1791c586eae7c8573dd3373408ff" name="a8abbc573ad9bfc4d4c761d4c300a1e07a30bc1791c586eae7c8573dd3373408ff"></a>LEVEL_TRACE&#160;</td><td class="fielddoc"><p>Detailed debug information. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a8abbc573ad9bfc4d4c761d4c300a1e07a895f68ab8463dcefaa0968193e50c1c8" name="a8abbc573ad9bfc4d4c761d4c300a1e07a895f68ab8463dcefaa0968193e50c1c8"></a>LEVEL_DEBUG&#160;</td><td class="fielddoc"><p>Debug information. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a8abbc573ad9bfc4d4c761d4c300a1e07a2e5413f0576433bcc849905b48cf3404" name="a8abbc573ad9bfc4d4c761d4c300a1e07a2e5413f0576433bcc849905b48cf3404"></a>LEVEL_INFO&#160;</td><td class="fielddoc"><p>General information. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a8abbc573ad9bfc4d4c761d4c300a1e07ac4fc201a3d33971b0ba2c42e4cdb0503" name="a8abbc573ad9bfc4d4c761d4c300a1e07ac4fc201a3d33971b0ba2c42e4cdb0503"></a>LEVEL_SUCCESS&#160;</td><td class="fielddoc"><p>Successful completion. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a8abbc573ad9bfc4d4c761d4c300a1e07a4bd3c3990b6dd7979ea0277ae799272e" name="a8abbc573ad9bfc4d4c761d4c300a1e07a4bd3c3990b6dd7979ea0277ae799272e"></a>LEVEL_WARNING&#160;</td><td class="fielddoc"><p>Warnings. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a8abbc573ad9bfc4d4c761d4c300a1e07a584c2bd79384769a6d0407d70b8e2a11" name="a8abbc573ad9bfc4d4c761d4c300a1e07a584c2bd79384769a6d0407d70b8e2a11"></a>LEVEL_ERROR&#160;</td><td class="fielddoc"><p>Errors. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a8abbc573ad9bfc4d4c761d4c300a1e07aa8ac9470397fc0f6b1d5bbc2bb09acb3" name="a8abbc573ad9bfc4d4c761d4c300a1e07aa8ac9470397fc0f6b1d5bbc2bb09acb3"></a>LEVEL_FATAL&#160;</td><td class="fielddoc"><p>Critical errors. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="a6a777d3254c1603458f55b8b39089ced" name="a6a777d3254c1603458f55b8b39089ced"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6a777d3254c1603458f55b8b39089ced">&#9670;&#160;</a></span>log_level_to_string()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static std::string lumex::applied::logger::logger::log_level_to_string </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#a8abbc573ad9bfc4d4c761d4c300a1e07">LogLevel</a></td>          <td class="paramname"><span class="paramname"><em>level</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00972_a6a777d3254c1603458f55b8b39089ced_cgraph.png" border="0" usemap="#aa00972_a6a777d3254c1603458f55b8b39089ced_cgraph" alt=""/></div>
+<map name="aa00972_a6a777d3254c1603458f55b8b39089ced_cgraph" id="aa00972_a6a777d3254c1603458f55b8b39089ced_cgraph">
+<area shape="rect" title=" " alt="" coords="5,29,154,88"/>
+<area shape="poly" title=" " alt="" coords="49,29,50,19,55,10,65,5,80,3,96,5,105,12,102,17,93,10,79,8,67,10,59,14,55,21,55,29"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00972_a6a777d3254c1603458f55b8b39089ced_icgraph.png" border="0" usemap="#aa00972_a6a777d3254c1603458f55b8b39089ced_icgraph" alt=""/></div>
+<map name="aa00972_a6a777d3254c1603458f55b8b39089ced_icgraph" id="aa00972_a6a777d3254c1603458f55b8b39089ced_icgraph">
+<area shape="rect" title=" " alt="" coords="103,29,251,88"/>
+<area shape="poly" title=" " alt="" coords="199,17,191,10,177,8,165,10,157,14,153,21,152,29,147,29,148,19,153,10,163,5,177,3,193,5,202,12"/>
+<area shape="rect" href="a00539.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,45,55,72"/>
+<area shape="poly" title=" " alt="" coords="87,61,55,61,55,56,87,56"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a7864ecc2658e8eb513d1aba5ffb65478" name="a7864ecc2658e8eb513d1aba5ffb65478"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7864ecc2658e8eb513d1aba5ffb65478">&#9670;&#160;</a></span>logger_format_current_thread_id()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string lumex::applied::logger::logger::logger_format_current_thread_id </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>String form of the current std::thread id for the log prefix. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00972_a7864ecc2658e8eb513d1aba5ffb65478_cgraph.png" border="0" usemap="#aa00972_a7864ecc2658e8eb513d1aba5ffb65478_cgraph" alt=""/></div>
+<map name="aa00972_a7864ecc2658e8eb513d1aba5ffb65478_cgraph" id="aa00972_a7864ecc2658e8eb513d1aba5ffb65478_cgraph">
+<area shape="rect" title="String form of the current std::thread id for the log prefix." alt="" coords="5,29,157,88"/>
+<area shape="poly" title=" " alt="" coords="50,29,51,19,56,10,67,5,81,3,97,5,107,12,104,17,95,10,81,8,68,10,60,14,56,21,56,29"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00972_a7864ecc2658e8eb513d1aba5ffb65478_icgraph.png" border="0" usemap="#aa00972_a7864ecc2658e8eb513d1aba5ffb65478_icgraph" alt=""/></div>
+<map name="aa00972_a7864ecc2658e8eb513d1aba5ffb65478_icgraph" id="aa00972_a7864ecc2658e8eb513d1aba5ffb65478_icgraph">
+<area shape="rect" title="String form of the current std::thread id for the log prefix." alt="" coords="103,29,254,88"/>
+<area shape="poly" title=" " alt="" coords="201,17,192,10,178,8,166,10,158,14,154,21,154,29,148,29,149,19,154,10,164,5,178,3,194,5,204,12"/>
+<area shape="rect" href="a00539.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,45,55,72"/>
+<area shape="poly" title=" " alt="" coords="87,61,55,61,55,56,87,56"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ab944acb7713bba95ceddae9897f3c225" name="ab944acb7713bba95ceddae9897f3c225"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab944acb7713bba95ceddae9897f3c225">&#9670;&#160;</a></span>logger_format_function_name_clean()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string lumex::applied::logger::logger::logger_format_function_name_clean </td>
+          <td>(</td>
+          <td class="paramtype">char const *</td>          <td class="paramname"><span class="paramname"><em>prettyFunc</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Formats a function name from <b>FUNCSIG</b>/__PRETTY_FUNCTION__, stripping the return type and arguments. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">prettyFunc</td><td>String from LOGGER_FUNCTION_NAME (<b>FUNCSIG</b> or <b>PRETTY_FUNCTION</b>). </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>String of the form ClassName::methodName() or functionName().</dd></dl>
+<p>Examples: IN: "class nlohmann::json __cdecl SomeNamespace::SomeClass::getState()" OUT: "SomeNamespace::SomeClass::getState()" IN: "bool __cdecl lumex::applied::Something::WriteData(class ... &amp;)" OUT: "lumex::applied::Something::WriteData()" </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00972_ab944acb7713bba95ceddae9897f3c225_icgraph.png" border="0" usemap="#aa00972_ab944acb7713bba95ceddae9897f3c225_icgraph" alt=""/></div>
+<map name="aa00972_ab944acb7713bba95ceddae9897f3c225_icgraph" id="aa00972_ab944acb7713bba95ceddae9897f3c225_icgraph">
+<area shape="rect" title="Formats a function name from FUNCSIG/__PRETTY_FUNCTION__, stripping the return type and arguments." alt="" coords="103,5,254,64"/>
+<area shape="rect" href="a00539.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,21,55,48"/>
+<area shape="poly" title=" " alt="" coords="87,37,55,37,55,32,87,32"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="aaf05501301a7c59a8bbcd8e648959327" name="aaf05501301a7c59a8bbcd8e648959327"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaf05501301a7c59a8bbcd8e648959327">&#9670;&#160;</a></span>logger_stringify() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string lumex::applied::logger::logger::logger_stringify </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00972_aaf05501301a7c59a8bbcd8e648959327_icgraph.png" border="0" usemap="#aa00972_aaf05501301a7c59a8bbcd8e648959327_icgraph" alt=""/></div>
+<map name="aa00972_aaf05501301a7c59a8bbcd8e648959327_icgraph" id="aa00972_aaf05501301a7c59a8bbcd8e648959327_icgraph">
+<area shape="rect" title=" " alt="" coords="103,5,263,48"/>
+<area shape="rect" href="a00539.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,13,55,40"/>
+<area shape="poly" title=" " alt="" coords="87,29,55,29,55,24,87,24"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ac3b769211eadb0537cfd497b72c9d94c" name="ac3b769211eadb0537cfd497b72c9d94c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac3b769211eadb0537cfd497b72c9d94c">&#9670;&#160;</a></span>logger_stringify() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename... Args&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string lumex::applied::logger::logger::logger_stringify </td>
+          <td>(</td>
+          <td class="paramtype">Args &amp;&amp;...</td>          <td class="paramname"><span class="paramname"><em>args</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00972_ac3b769211eadb0537cfd497b72c9d94c_icgraph.png" border="0" usemap="#aa00972_ac3b769211eadb0537cfd497b72c9d94c_icgraph" alt=""/></div>
+<map name="aa00972_ac3b769211eadb0537cfd497b72c9d94c_icgraph" id="aa00972_ac3b769211eadb0537cfd497b72c9d94c_icgraph">
+<area shape="rect" title=" " alt="" coords="233,253,393,296"/>
+<area shape="rect" href="a01217.html#a5ee54b77c5502ee97bc96cb7998e36d9" title="Writes a LEVEL_DEBUG message." alt="" coords="20,5,170,64"/>
+<area shape="poly" title=" " alt="" coords="294,240,251,160,220,117,183,78,168,67,171,62,186,74,224,113,255,157,299,238"/>
+<area shape="rect" href="a01217.html#a2d24bc38b890ae6332580f706dfdf40d" title="Writes a LEVEL_ERROR message." alt="" coords="20,88,170,147"/>
+<area shape="poly" title=" " alt="" coords="279,244,236,202,183,161,164,149,167,145,186,156,239,198,283,240"/>
+<area shape="rect" href="a01217.html#ab69c4e42321c08ad506e53e29f5cd690" title="Writes a LEVEL_FATAL message." alt="" coords="20,171,170,229"/>
+<area shape="poly" title=" " alt="" coords="233,250,170,228,172,223,235,245"/>
+<area shape="rect" href="a01217.html#a3ac21758ce273e12f65bae4057f216fe" title="Writes a LEVEL_INFO message." alt="" coords="5,253,185,296"/>
+<area shape="poly" title=" " alt="" coords="218,277,185,277,185,272,218,272"/>
+<area shape="rect" href="a01217.html#aacec1547aab7430c4da09298b9c04ede" title="Writes a LEVEL_SUCCESS message." alt="" coords="20,320,170,379"/>
+<area shape="poly" title=" " alt="" coords="235,304,172,326,170,321,233,299"/>
+<area shape="rect" href="a01217.html#af50ae30fcac294c409da8276f67fa2c0" title="Writes a LEVEL_TRACE message." alt="" coords="20,427,170,485"/>
+<area shape="poly" title=" " alt="" coords="280,309,186,393,140,428,137,424,183,389,276,305"/>
+<area shape="rect" href="a01217.html#ad0e42cfbad353430d9bf5016978a0f4f" title="Writes a LEVEL_WARNING message." alt="" coords="20,509,170,568"/>
+<area shape="poly" title=" " alt="" coords="301,312,284,354,259,404,226,454,186,499,172,511,168,507,183,495,222,451,254,401,279,352,296,310"/>
+<area shape="poly" title=" " alt="" coords="129,414,116,408,95,405,76,407,64,412,58,418,57,427,52,426,53,416,61,408,75,402,95,400,118,403,132,409"/>
+</map>
+</div>
+
+</div>
+</div>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00912.html">lumex</a></li><li class="navelem"><a class="el" href="a00964.html">core</a></li><li class="navelem"><a class="el" href="a00972.html">base64</a></li>
+    <li class="navelem"><a class="el" href="a00948.html">lumex</a></li><li class="navelem"><a class="el" href="a00949.html">applied</a></li><li class="navelem"><a class="el" href="a00971.html">logger</a></li><li class="navelem"><a class="el" href="a00972.html">logger</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

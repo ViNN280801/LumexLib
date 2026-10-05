@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: ILumexSettings.hpp Source File</title>
+<title>LumexLib: LumexSerialTransport.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -103,142 +103,140 @@ $(function(){initNavTree('a00137_source.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">ILumexSettings.hpp</div></div>
+  <div class="headertitle"><div class="title">LumexSerialTransport.hpp</div></div>
 </div><!--header-->
 <div class="contents">
 <a href="a00137.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">/*</span></div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment"> * Copyright (c) 2026 Vladislav Semykin &lt;vladislav.semykin@gmail.com&gt;</span></div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="comment"> *</span></div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="comment"> *</span></div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="comment"> * SPDX-License-Identifier: MIT</span></div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="comment"> *</span></div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="comment"> * Permission is hereby granted, free of</span></div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="comment"> * charge, to any person obtaining a copy</span></div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="comment"> * of this software and associated</span></div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="comment"> * documentation files (the &quot;Software&quot;), to deal</span></div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="comment"> * in the Software without</span></div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="comment"> * restriction, including without limitation the rights</span></div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="comment"> * to use, copy,</span></div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="comment"> * modify, merge, publish, distribute, sublicense, and/or sell</span></div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="comment"> * copies of the</span></div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="comment"> * Software, and to permit persons to whom the Software is</span></div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="comment"> * furnished to do</span></div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="comment"> * so, subject to the following conditions:</span></div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="comment"> *</span></div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="comment"> * The above copyright notice</span></div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="comment"> * and this permission notice shall be included in</span></div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="comment"> * all copies or substantial</span></div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="comment"> * portions of the Software.</span></div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="comment"> *</span></div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="comment"> * THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT</span></div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="comment"> * WARRANTY OF ANY KIND, EXPRESS OR</span></div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="comment"> * IMPLIED, INCLUDING BUT NOT LIMITED TO</span></div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="comment"> * THE WARRANTIES OF MERCHANTABILITY,</span></div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="comment"> * FITNESS FOR A PARTICULAR PURPOSE AND</span></div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="comment"> * NONINFRINGEMENT. IN NO EVENT SHALL THE</span></div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span><span class="comment"> * AUTHORS OR COPYRIGHT HOLDERS BE</span></div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="comment"> * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER</span></div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><span class="comment"> * LIABILITY, WHETHER IN AN ACTION OF</span></div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span><span class="comment"> * CONTRACT, TORT OR OTHERWISE, ARISING FROM,</span></div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="comment"> * OUT OF OR IN CONNECTION WITH</span></div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="comment"> * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE</span></div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="comment"> * SOFTWARE.</span></div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="comment"> */</span></div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span></div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="preprocessor">#ifndef LUMEX_APPLIED_SETTINGS_INTERFACE_HPP</span></div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="preprocessor">#define LUMEX_APPLIED_SETTINGS_INTERFACE_HPP</span></div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span><span class="preprocessor">#if defined(__clang__)</span></div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span><span class="preprocessor">#pragma clang diagnostic push</span></div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wpadded&quot;</span></div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wunsafe-buffer-usage&quot;</span></div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span><span class="preprocessor">#if __has_warning(&quot;-Wunsafe-buffer-usage-in-libc-call&quot;)</span></div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wunsafe-buffer-usage-in-libc-call&quot;</span></div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wcovered-switch-default&quot;</span></div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wswitch-enum&quot;</span></div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span><span class="preprocessor">#if __has_warning(&quot;-Wnrvo&quot;)</span></div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wnrvo&quot;</span></div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wheader-hygiene&quot;</span></div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wused-but-marked-unused&quot;</span></div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wundefined-var-template&quot;</span></div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wdeprecated-redundant-constexpr-static-def&quot;</span></div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span><span class="preprocessor">#if __has_warning(&quot;-Wvariadic-macro-arguments-omitted&quot;)</span></div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wvariadic-macro-arguments-omitted&quot;</span></div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wunused-result&quot;</span></div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wextra-semi-stmt&quot;</span></div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wexpansion-to-defined&quot;</span></div>
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wexit-time-destructors&quot;</span></div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wundefined-func-template&quot;</span></div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wfloat-equal&quot;</span></div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span> </div>
-<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span><span class="preprocessor">#include &quot;<a class="code" href="a00605.html">lumex/LumexExport.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span> </div>
-<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span><span class="preprocessor">#include &lt;string&gt;</span></div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span> </div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a00912.html">lumex</a> <span class="comment">// NOLINT(modernize-concat-nested-namespaces)</span></div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>{</div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a00913.html">applied</a></div>
-<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>{</div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a00953.html">settings</a></div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>{</div>
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span><span class="comment">// Last-dir token &quot;interface&quot; is a Windows SDK macro (combaseapi.h).</span></div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span><span class="comment">// Types from lumex/applied/settings/interface stay in settings.</span></div>
-<div class="foldopen" id="foldopen00112" data-start="{" data-end="};">
-<div class="line"><a id="l00112" name="l00112"></a><span class="lineno"><a class="line" href="a01230.html">  112</a></span><span class="keyword">class </span><a class="code hl_define" href="a00605.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a> <a class="code hl_class" href="a01230.html">ILumexSettings</a></div>
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>{</div>
-<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span><span class="keyword">public</span>:</div>
-<div class="line"><a id="l00116" name="l00116"></a><span class="lineno"><a class="line" href="a01230.html#a67340373f009ef86ebf93a8c3bd15104">  116</a></span>  <span class="keyword">virtual</span> <a class="code hl_function" href="a01230.html#a67340373f009ef86ebf93a8c3bd15104">~ILumexSettings</a> () = <span class="keywordflow">default</span>;</div>
-<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span></div>
-<div class="line"><a id="l00128" name="l00128"></a><span class="lineno"><a class="line" href="a01230.html#a5e8c879f253d759120c2ef9dce35a6fe">  128</a></span>  <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="a01230.html#a5e8c879f253d759120c2ef9dce35a6fe">load</a> (std::string <span class="keyword">const</span> &amp;<a class="code hl_typedef" href="a00912.html#a45ac34be96c8025d67f85eb38698bf0e">path</a>) = 0;</div>
-<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span></div>
-<div class="line"><a id="l00137" name="l00137"></a><span class="lineno"><a class="line" href="a01230.html#a8c93c820977807fe52ac6dbbf8f3ca4c">  137</a></span>  <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="a01230.html#a8c93c820977807fe52ac6dbbf8f3ca4c">save</a> (std::string <span class="keyword">const</span> &amp;<a class="code hl_typedef" href="a00912.html#a45ac34be96c8025d67f85eb38698bf0e">path</a>) <span class="keyword">const</span> = 0;</div>
-<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span></div>
-<div class="line"><a id="l00147" name="l00147"></a><span class="lineno"><a class="line" href="a01230.html#a4dd441bfa740a2514899dfecceb4dd70">  147</a></span>  <span class="keyword">virtual</span> std::string <a class="code hl_function" href="a01230.html#a4dd441bfa740a2514899dfecceb4dd70">get</a> (std::string <span class="keyword">const</span> &amp;section,</div>
-<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>                           std::string <span class="keyword">const</span> &amp;key) <span class="keyword">const</span></div>
-<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>      = 0;</div>
-<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span></div>
-<div class="line"><a id="l00160" name="l00160"></a><span class="lineno"><a class="line" href="a01230.html#aa62d2c035f9f5262cc3ff5ed0aa090e6">  160</a></span>  <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="a01230.html#aa62d2c035f9f5262cc3ff5ed0aa090e6">add</a> (std::string <span class="keyword">const</span> &amp;section, std::string <span class="keyword">const</span> &amp;key,</div>
-<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>                    std::string <span class="keyword">const</span> &amp;value)</div>
-<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>      = 0;</div>
-<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span></div>
-<div class="line"><a id="l00170" name="l00170"></a><span class="lineno"><a class="line" href="a01230.html#a7dd9c0cca546a7b92b0250f1af966c01">  170</a></span>  <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="a01230.html#a7dd9c0cca546a7b92b0250f1af966c01">remove</a> (std::string <span class="keyword">const</span> &amp;section, std::string <span class="keyword">const</span> &amp;key) = 0;</div>
-<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>};</div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="comment"> * SPDX-License-Identifier: MIT</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="comment"> *</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="comment"> * Permission is hereby granted, free of charge, to any person obtaining a copy</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="comment"> * of this software and associated documentation files (the &quot;Software&quot;), to</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="comment"> * deal in the Software without restriction, including without limitation the</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="comment"> * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="comment"> * sell copies of the Software, and to permit persons to whom the Software is</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="comment"> * furnished to do so, subject to the following conditions:</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="comment"> *</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="comment"> * The above copyright notice and this permission notice shall be included in</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="comment"> * all copies or substantial portions of the Software.</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="comment"> *</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="comment"> * THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="comment"> * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="comment"> * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="comment"> * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="comment"> * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING</span></div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="comment"> * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS</span></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="comment"> * IN THE SOFTWARE.</span></div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="comment"> */</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span></div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="preprocessor">#ifndef LUMEX_APPLIED_SERIAL_PROBE_DETAIL_SERIAL_TRANSPORT_HPP</span></div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="preprocessor">#define LUMEX_APPLIED_SERIAL_PROBE_DETAIL_SERIAL_TRANSPORT_HPP</span></div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="preprocessor">#if defined(__clang__)</span></div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span><span class="preprocessor">#pragma clang diagnostic push</span></div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wpadded&quot;</span></div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="preprocessor">#include &lt;chrono&gt;</span></div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span><span class="preprocessor">#include &lt;cstddef&gt;</span></div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="preprocessor">#include &lt;cstdint&gt;</span></div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a00948.html">lumex</a> <span class="comment">// NOLINT(modernize-concat-nested-namespaces)</span></div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>{</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a00949.html">applied</a></div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>{</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a00981.html">serial</a></div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>{</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a00987.html">probe</a></div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>{</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a00988.html">detail</a></div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>{</div>
+<div class="foldopen" id="foldopen00061" data-start="{" data-end="};">
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno"><a class="line" href="a00988.html#a55026740a9b543238617bc39b4d797e6">   61</a></span><span class="keyword">enum class</span> <a class="code hl_enumeration" href="a00988.html#a55026740a9b543238617bc39b4d797e6">transport_status</a></div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>{</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno"><a class="line" href="a00988.html#a55026740a9b543238617bc39b4d797e6a444bcb3a3fcf8389296c49467f27e1d6">   63</a></span>  <a class="code hl_enumvalue" href="a00988.html#a55026740a9b543238617bc39b4d797e6a444bcb3a3fcf8389296c49467f27e1d6">ok</a>,                </div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno"><a class="line" href="a00988.html#a55026740a9b543238617bc39b4d797e6a3cef844c7982c2acb28d67b35e5bacc7">   64</a></span>  <a class="code hl_enumvalue" href="a00988.html#a55026740a9b543238617bc39b4d797e6a3cef844c7982c2acb28d67b35e5bacc7">deadline_exceeded</a>, </div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno"><a class="line" href="a00988.html#a55026740a9b543238617bc39b4d797e6a26934eb377001f66e37289a5c93fe284">   65</a></span>  <a class="code hl_enumvalue" href="a00988.html#a92f95b0efd4f15ba8182341d9e440978a26934eb377001f66e37289a5c93fe284">failed</a>             </div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>};</div>
 </div>
-<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>} <span class="comment">// namespace settings</span></div>
-<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>} <span class="comment">// namespace applied</span></div>
-<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>} <span class="comment">// namespace lumex</span></div>
-<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span> </div>
-<div class="line"><a id="l00176" name="l00176"></a><span class="lineno"><a class="line" href="a00137.html#a9c9dcfa5bf995afa0f8e898afaf8efcf">  176</a></span><span class="keyword">using </span><a class="code hl_typedef" href="a00137.html#a9c9dcfa5bf995afa0f8e898afaf8efcf">ILumexSettings</a> = <a class="code hl_class" href="a01230.html">lumex::applied::settings::ILumexSettings</a>;</div>
-<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span> </div>
-<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span><span class="preprocessor">#if defined(__clang__)</span></div>
-<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span><span class="preprocessor">#pragma clang diagnostic pop</span></div>
-<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span> </div>
-<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span><span class="preprocessor">#endif </span><span class="comment">// !LUMEX_APPLIED_SETTINGS_INTERFACE_HPP</span></div>
-<div class="ttc" id="aa00137_html_a9c9dcfa5bf995afa0f8e898afaf8efcf"><div class="ttname"><a href="a00137.html#a9c9dcfa5bf995afa0f8e898afaf8efcf">ILumexSettings</a></div><div class="ttdeci">lumex::applied::settings::ILumexSettings ILumexSettings</div><div class="ttdef"><b>Definition</b> ILumexSettings.hpp:176</div></div>
-<div class="ttc" id="aa00605_html"><div class="ttname"><a href="a00605.html">LumexExport.hpp</a></div><div class="ttdoc">Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,...</div></div>
-<div class="ttc" id="aa00605_html_aa948a1b1a43f6a954fd4c15b01ae4207"><div class="ttname"><a href="a00605.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a></div><div class="ttdeci">#define LUMEX_API</div><div class="ttdef"><b>Definition</b> LumexExport.hpp:90</div></div>
-<div class="ttc" id="aa00912_html"><div class="ttname"><a href="a00912.html">lumex</a></div><div class="ttdef"><b>Definition</b> LumexCPUVectorizationCapabilities.cpp:65</div></div>
-<div class="ttc" id="aa00912_html_a45ac34be96c8025d67f85eb38698bf0e"><div class="ttname"><a href="a00912.html#a45ac34be96c8025d67f85eb38698bf0e">lumex::path</a></div><div class="ttdeci">core::filesystem::fs::path path</div><div class="ttdoc">Global alias for lumex::core::filesystem::fs::lumex_filesystem::path.</div><div class="ttdef"><b>Definition</b> LumexFilesystem.hpp:2101</div></div>
-<div class="ttc" id="aa00913_html"><div class="ttname"><a href="a00913.html">lumex::applied</a></div><div class="ttdef"><b>Definition</b> LumexCPUVectorizationCapabilities.cpp:67</div></div>
-<div class="ttc" id="aa00953_html"><div class="ttname"><a href="a00953.html">lumex::applied::settings</a></div><div class="ttdef"><b>Definition</b> LumexSettingsFactory.cpp:55</div></div>
-<div class="ttc" id="aa01230_html"><div class="ttname"><a href="a01230.html">lumex::applied::settings::ILumexSettings</a></div><div class="ttdoc">Interface of a settings store kept in a configuration file.</div><div class="ttdef"><b>Definition</b> ILumexSettings.hpp:113</div></div>
-<div class="ttc" id="aa01230_html_a4dd441bfa740a2514899dfecceb4dd70"><div class="ttname"><a href="a01230.html#a4dd441bfa740a2514899dfecceb4dd70">lumex::applied::settings::ILumexSettings::get</a></div><div class="ttdeci">virtual std::string get(std::string const &amp;section, std::string const &amp;key) const =0</div><div class="ttdoc">Retrieve a setting value by section and key.</div></div>
-<div class="ttc" id="aa01230_html_a5e8c879f253d759120c2ef9dce35a6fe"><div class="ttname"><a href="a01230.html#a5e8c879f253d759120c2ef9dce35a6fe">lumex::applied::settings::ILumexSettings::load</a></div><div class="ttdeci">virtual bool load(std::string const &amp;path)=0</div><div class="ttdoc">Load settings from a configuration file.</div></div>
-<div class="ttc" id="aa01230_html_a67340373f009ef86ebf93a8c3bd15104"><div class="ttname"><a href="a01230.html#a67340373f009ef86ebf93a8c3bd15104">lumex::applied::settings::ILumexSettings::~ILumexSettings</a></div><div class="ttdeci">virtual ~ILumexSettings()=default</div><div class="ttdoc">Defaulted virtual destructor for polymorphic behavior.</div></div>
-<div class="ttc" id="aa01230_html_a7dd9c0cca546a7b92b0250f1af966c01"><div class="ttname"><a href="a01230.html#a7dd9c0cca546a7b92b0250f1af966c01">lumex::applied::settings::ILumexSettings::remove</a></div><div class="ttdeci">virtual void remove(std::string const &amp;section, std::string const &amp;key)=0</div><div class="ttdoc">Remove a setting by section and key.</div></div>
-<div class="ttc" id="aa01230_html_a8c93c820977807fe52ac6dbbf8f3ca4c"><div class="ttname"><a href="a01230.html#a8c93c820977807fe52ac6dbbf8f3ca4c">lumex::applied::settings::ILumexSettings::save</a></div><div class="ttdeci">virtual bool save(std::string const &amp;path) const =0</div><div class="ttdoc">Save settings to a configuration file.</div></div>
-<div class="ttc" id="aa01230_html_aa62d2c035f9f5262cc3ff5ed0aa090e6"><div class="ttname"><a href="a01230.html#aa62d2c035f9f5262cc3ff5ed0aa090e6">lumex::applied::settings::ILumexSettings::add</a></div><div class="ttdeci">virtual void add(std::string const &amp;section, std::string const &amp;key, std::string const &amp;value)=0</div><div class="ttdoc">Set or update a setting value.</div></div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span></div>
+<div class="foldopen" id="foldopen00071" data-start="{" data-end="};">
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno"><a class="line" href="a01237.html">   71</a></span><span class="keyword">struct </span><a class="code hl_struct" href="a01237.html">transport_result_t</a></div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>{</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno"><a class="line" href="a01237.html#af1747d0d0b35c40f490bb1e33c208234">   73</a></span>  <a class="code hl_enumeration" href="a00988.html#a55026740a9b543238617bc39b4d797e6">transport_status</a> <a class="code hl_variable" href="a01237.html#af1747d0d0b35c40f490bb1e33c208234">status</a> = <a class="code hl_enumvalue" href="a00988.html#a55026740a9b543238617bc39b4d797e6a26934eb377001f66e37289a5c93fe284">transport_status::failed</a>; </div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno"><a class="line" href="a01237.html#a056d655052f6d7a4001899c6338c9335">   74</a></span>  std::size_t <a class="code hl_variable" href="a01237.html#a056d655052f6d7a4001899c6338c9335">bytes</a> = 0U; </div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno"><a class="line" href="a01237.html#a5a9d7d3c1bcc99aa9c585ce51195783f">   75</a></span>  <span class="keywordtype">int</span> <a class="code hl_variable" href="a01237.html#a5a9d7d3c1bcc99aa9c585ce51195783f">error_code</a></div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>      = 0; </div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno"><a class="line" href="a01237.html#aaa0bd191f528b93b874d06414d035b0f">   77</a></span>  std::string <a class="code hl_variable" href="a01237.html#aaa0bd191f528b93b874d06414d035b0f">system_error</a>; </div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>};</div>
+</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span></div>
+<div class="foldopen" id="foldopen00091" data-start="{" data-end="};">
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno"><a class="line" href="a01241.html">   91</a></span><span class="keyword">class </span><a class="code hl_class" href="a01241.html">serial_transport_t</a></div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>{</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno"><a class="line" href="a01241.html#ac8d59bab1769a5513d6dd73c498a45fb">   94</a></span>  <span class="keyword">virtual</span> <a class="code hl_function" href="a01241.html#ac8d59bab1769a5513d6dd73c498a45fb">~serial_transport_t</a> () = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span></div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno"><a class="line" href="a01241.html#a03d9d7c732ecaba43e39d3dea068c656">   97</a></span>  <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="a01241.html#a03d9d7c732ecaba43e39d3dea068c656">is_open</a> () <span class="keyword">const</span> = 0;</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span></div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno"><a class="line" href="a01241.html#adc8013c9670a1b893619cd2c852108ab">  100</a></span>  <span class="keyword">virtual</span> <a class="code hl_struct" href="a01237.html">transport_result_t</a> <a class="code hl_function" href="a01241.html#adc8013c9670a1b893619cd2c852108ab">open</a> (std::chrono::milliseconds deadline) = 0;</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span></div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno"><a class="line" href="a01241.html#a441bb7416bdfcb873ff42ee284eab5e4">  103</a></span>  <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="a01241.html#a441bb7416bdfcb873ff42ee284eab5e4">close</a> () = 0;</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span></div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno"><a class="line" href="a01241.html#ac5f44687a280f415d8fd6a924e961497">  106</a></span>  <span class="keyword">virtual</span> <a class="code hl_struct" href="a01237.html">transport_result_t</a> <a class="code hl_function" href="a01241.html#ac5f44687a280f415d8fd6a924e961497">write</a> (std::uint8_t <span class="keyword">const</span> *data, std::size_t size,</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>                                    std::chrono::milliseconds deadline)</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>      = 0;</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span></div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno"><a class="line" href="a01241.html#ab8d9442067657ea5b9a0d99f85c33c02">  111</a></span>  <span class="keyword">virtual</span> <a class="code hl_struct" href="a01237.html">transport_result_t</a> <a class="code hl_function" href="a01241.html#ab8d9442067657ea5b9a0d99f85c33c02">read</a> (std::uint8_t *buffer, std::size_t capacity,</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>                                   std::chrono::milliseconds deadline)</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>      = 0;</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span></div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno"><a class="line" href="a01241.html#a9e89076cc288e82ded1f5c9c4f4a2087">  116</a></span>  <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="a01241.html#a9e89076cc288e82ded1f5c9c4f4a2087">purge</a> () = 0;</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>};</div>
+</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span> </div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>} <span class="comment">// namespace detail</span></div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>} <span class="comment">// namespace probe</span></div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>} <span class="comment">// namespace serial</span></div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>} <span class="comment">// namespace applied</span></div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>} <span class="comment">// namespace lumex</span></div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span> </div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span><span class="preprocessor">#if defined(__clang__)</span></div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span><span class="preprocessor">#pragma clang diagnostic pop</span></div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span> </div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span><span class="preprocessor">#endif </span><span class="comment">// !LUMEX_APPLIED_SERIAL_PROBE_DETAIL_SERIAL_TRANSPORT_HPP</span></div>
+<div class="ttc" id="aa00948_html"><div class="ttname"><a href="a00948.html">lumex</a></div><div class="ttdef"><b>Definition</b> LumexCPUVectorizationCapabilities.cpp:65</div></div>
+<div class="ttc" id="aa00949_html"><div class="ttname"><a href="a00949.html">lumex::applied</a></div><div class="ttdef"><b>Definition</b> LumexCPUVectorizationCapabilities.cpp:67</div></div>
+<div class="ttc" id="aa00981_html"><div class="ttname"><a href="a00981.html">lumex::applied::serial</a></div><div class="ttdoc">Cross-platform helpers for naming/resolving serial (and serial-adjacent) communication ports.</div><div class="ttdef"><b>Definition</b> LumexSerialPortEnumeration.cpp:97</div></div>
+<div class="ttc" id="aa00987_html"><div class="ttname"><a href="a00987.html">lumex::applied::serial::probe</a></div><div class="ttdoc">Bounded probing of the device behind a serial port.</div><div class="ttdef"><b>Definition</b> LumexSerialBoundedOpen.cpp:51</div></div>
+<div class="ttc" id="aa00988_html"><div class="ttname"><a href="a00988.html">lumex::applied::serial::probe::detail</a></div><div class="ttdef"><b>Definition</b> LumexSerialBoundedOpen.cpp:53</div></div>
+<div class="ttc" id="aa00988_html_a55026740a9b543238617bc39b4d797e6"><div class="ttname"><a href="a00988.html#a55026740a9b543238617bc39b4d797e6">lumex::applied::serial::probe::detail::transport_status</a></div><div class="ttdeci">transport_status</div><div class="ttdoc">Outcome of one transport operation.</div><div class="ttdef"><b>Definition</b> LumexSerialTransport.hpp:62</div></div>
+<div class="ttc" id="aa00988_html_a55026740a9b543238617bc39b4d797e6a26934eb377001f66e37289a5c93fe284"><div class="ttname"><a href="a00988.html#a55026740a9b543238617bc39b4d797e6a26934eb377001f66e37289a5c93fe284">lumex::applied::serial::probe::detail::transport_status::failed</a></div><div class="ttdeci">@ failed</div><div class="ttdoc">The platform reported an error.</div><div class="ttdef"><b>Definition</b> LumexSerialTransport.hpp:65</div></div>
+<div class="ttc" id="aa00988_html_a55026740a9b543238617bc39b4d797e6a3cef844c7982c2acb28d67b35e5bacc7"><div class="ttname"><a href="a00988.html#a55026740a9b543238617bc39b4d797e6a3cef844c7982c2acb28d67b35e5bacc7">lumex::applied::serial::probe::detail::transport_status::deadline_exceeded</a></div><div class="ttdeci">@ deadline_exceeded</div><div class="ttdoc">The deadline expired first.</div><div class="ttdef"><b>Definition</b> LumexSerialTransport.hpp:64</div></div>
+<div class="ttc" id="aa00988_html_a55026740a9b543238617bc39b4d797e6a444bcb3a3fcf8389296c49467f27e1d6"><div class="ttname"><a href="a00988.html#a55026740a9b543238617bc39b4d797e6a444bcb3a3fcf8389296c49467f27e1d6">lumex::applied::serial::probe::detail::transport_status::ok</a></div><div class="ttdeci">@ ok</div><div class="ttdoc">The operation completed.</div><div class="ttdef"><b>Definition</b> LumexSerialTransport.hpp:63</div></div>
+<div class="ttc" id="aa00988_html_a92f95b0efd4f15ba8182341d9e440978a26934eb377001f66e37289a5c93fe284"><div class="ttname"><a href="a00988.html#a92f95b0efd4f15ba8182341d9e440978a26934eb377001f66e37289a5c93fe284">lumex::applied::serial::probe::detail::open_outcome::failed</a></div><div class="ttdeci">@ failed</div><div class="ttdoc">The platform refused the open; see error_code.</div><div class="ttdef"><b>Definition</b> LumexSerialBoundedOpen.hpp:98</div></div>
+<div class="ttc" id="aa01237_html"><div class="ttname"><a href="a01237.html">lumex::applied::serial::probe::detail::transport_result_t</a></div><div class="ttdoc">Result of one transport operation.</div><div class="ttdef"><b>Definition</b> LumexSerialTransport.hpp:72</div></div>
+<div class="ttc" id="aa01237_html_a056d655052f6d7a4001899c6338c9335"><div class="ttname"><a href="a01237.html#a056d655052f6d7a4001899c6338c9335">lumex::applied::serial::probe::detail::transport_result_t::bytes</a></div><div class="ttdeci">std::size_t bytes</div><div class="ttdoc">Bytes written or read on ok.</div><div class="ttdef"><b>Definition</b> LumexSerialTransport.hpp:74</div></div>
+<div class="ttc" id="aa01237_html_a5a9d7d3c1bcc99aa9c585ce51195783f"><div class="ttname"><a href="a01237.html#a5a9d7d3c1bcc99aa9c585ce51195783f">lumex::applied::serial::probe::detail::transport_result_t::error_code</a></div><div class="ttdeci">int error_code</div><div class="ttdoc">Platform error (GetLastError / errno), 0 if none.</div><div class="ttdef"><b>Definition</b> LumexSerialTransport.hpp:76</div></div>
+<div class="ttc" id="aa01237_html_aaa0bd191f528b93b874d06414d035b0f"><div class="ttname"><a href="a01237.html#aaa0bd191f528b93b874d06414d035b0f">lumex::applied::serial::probe::detail::transport_result_t::system_error</a></div><div class="ttdeci">std::string system_error</div><div class="ttdoc">Formatted platform error; empty when none.</div><div class="ttdef"><b>Definition</b> LumexSerialTransport.hpp:77</div></div>
+<div class="ttc" id="aa01237_html_af1747d0d0b35c40f490bb1e33c208234"><div class="ttname"><a href="a01237.html#af1747d0d0b35c40f490bb1e33c208234">lumex::applied::serial::probe::detail::transport_result_t::status</a></div><div class="ttdeci">transport_status status</div><div class="ttdoc">What happened.</div><div class="ttdef"><b>Definition</b> LumexSerialTransport.hpp:73</div></div>
+<div class="ttc" id="aa01241_html"><div class="ttname"><a href="a01241.html">lumex::applied::serial::probe::detail::serial_transport_t</a></div><div class="ttdoc">Operations the probe engine needs from one port.</div><div class="ttdef"><b>Definition</b> LumexSerialTransport.hpp:92</div></div>
+<div class="ttc" id="aa01241_html_a03d9d7c732ecaba43e39d3dea068c656"><div class="ttname"><a href="a01241.html#a03d9d7c732ecaba43e39d3dea068c656">lumex::applied::serial::probe::detail::serial_transport_t::is_open</a></div><div class="ttdeci">virtual bool is_open() const =0</div><div class="ttdoc">True while the port is open.</div></div>
+<div class="ttc" id="aa01241_html_a441bb7416bdfcb873ff42ee284eab5e4"><div class="ttname"><a href="a01241.html#a441bb7416bdfcb873ff42ee284eab5e4">lumex::applied::serial::probe::detail::serial_transport_t::close</a></div><div class="ttdeci">virtual void close()=0</div><div class="ttdoc">Closes the port when it is open.</div></div>
+<div class="ttc" id="aa01241_html_a9e89076cc288e82ded1f5c9c4f4a2087"><div class="ttname"><a href="a01241.html#a9e89076cc288e82ded1f5c9c4f4a2087">lumex::applied::serial::probe::detail::serial_transport_t::purge</a></div><div class="ttdeci">virtual void purge()=0</div><div class="ttdoc">Flushes the input and output buffers.</div></div>
+<div class="ttc" id="aa01241_html_ab8d9442067657ea5b9a0d99f85c33c02"><div class="ttname"><a href="a01241.html#ab8d9442067657ea5b9a0d99f85c33c02">lumex::applied::serial::probe::detail::serial_transport_t::read</a></div><div class="ttdeci">virtual transport_result_t read(std::uint8_t *buffer, std::size_t capacity, std::chrono::milliseconds deadline)=0</div><div class="ttdoc">Reads at least one byte or stops at the deadline.</div></div>
+<div class="ttc" id="aa01241_html_ac5f44687a280f415d8fd6a924e961497"><div class="ttname"><a href="a01241.html#ac5f44687a280f415d8fd6a924e961497">lumex::applied::serial::probe::detail::serial_transport_t::write</a></div><div class="ttdeci">virtual transport_result_t write(std::uint8_t const *data, std::size_t size, std::chrono::milliseconds deadline)=0</div><div class="ttdoc">Writes size bytes or stops at the deadline.</div></div>
+<div class="ttc" id="aa01241_html_ac8d59bab1769a5513d6dd73c498a45fb"><div class="ttname"><a href="a01241.html#ac8d59bab1769a5513d6dd73c498a45fb">lumex::applied::serial::probe::detail::serial_transport_t::~serial_transport_t</a></div><div class="ttdeci">virtual ~serial_transport_t()=default</div></div>
+<div class="ttc" id="aa01241_html_adc8013c9670a1b893619cd2c852108ab"><div class="ttname"><a href="a01241.html#adc8013c9670a1b893619cd2c852108ab">lumex::applied::serial::probe::detail::serial_transport_t::open</a></div><div class="ttdeci">virtual transport_result_t open(std::chrono::milliseconds deadline)=0</div><div class="ttdoc">Bounded open with the configured settings.</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_de45db85bd98abf883bc2bd6c3907fd8.html">applied</a></li><li class="navelem"><a class="el" href="dir_9258c4c02d6a33184acee8f108260d77.html">settings</a></li><li class="navelem"><a class="el" href="dir_a55c3a6c2f1224311e2e61f490a68b21.html">interface</a></li><li class="navelem"><a class="el" href="a00137.html">ILumexSettings.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_de45db85bd98abf883bc2bd6c3907fd8.html">applied</a></li><li class="navelem"><a class="el" href="dir_9f3553d7e4d4ebb0490c2c83481c4624.html">serial</a></li><li class="navelem"><a class="el" href="dir_0eb40f4dc310d2549676f4667bcb916d.html">probe</a></li><li class="navelem"><a class="el" href="dir_717a927561f37227ea34383ea00766b8.html">detail</a></li><li class="navelem"><a class="el" href="a00137.html">LumexSerialTransport.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

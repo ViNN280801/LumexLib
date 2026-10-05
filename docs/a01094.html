@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::xml::xpath::variable Namespace Reference</title>
+<title>LumexLib: lumex::core::utility::traits::invoke::detail Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -106,371 +106,52 @@ $(function(){initNavTree('a01094.html',''); initResizable(true); });
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">lumex::xml::xpath::variable Namespace Reference</div></div>
+  <div class="headertitle"><div class="title">lumex::core::utility::traits::invoke::detail Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03110.html">xpath_variable_boolean</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents an XPath variable holding a boolean value.  <a href="a03110.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02549.html">invoke_impl</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03122.html">xpath_variable_node_set</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents an XPath variable holding a node-set value.  <a href="a03122.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02553.html">invoke_impl&lt; MT B::* &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03114.html">xpath_variable_number</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents an XPath variable holding a numeric (double) value.  <a href="a03114.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02557.html">invoke_result_impl</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03118.html">xpath_variable_string</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents an XPath variable holding a string value.  <a href="a03118.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02561.html">invoke_result_impl&lt; meta::void_t&lt; decltype(INVOKE(std::declval&lt; F &gt;(), std::declval&lt; Args &gt;()...))&gt;, F, Args... &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03106.html">XPathVariable</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Base class for all XPath variables.  <a href="a03106.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02541.html">is_reference_wrapper</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03126.html">XPathVariableSet</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Manages a collection of XPath variables.  <a href="a03126.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02545.html">is_reference_wrapper&lt; std::reference_wrapper&lt; U &gt; &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a8d071b6248d853a14d7dbc4f01968013" id="r_a8d071b6248d853a14d7dbc4f01968013"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
-<tr class="memitem:a8d071b6248d853a14d7dbc4f01968013"><td class="memTemplItemLeft" align="right" valign="top">T *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a8d071b6248d853a14d7dbc4f01968013">new_xpath_variable</a> (<a class="el" href="a01100.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *name)</td></tr>
-<tr class="memdesc:a8d071b6248d853a14d7dbc4f01968013"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factory function to create a new XPath variable of a specific type.  <br /></td></tr>
-<tr class="separator:a8d071b6248d853a14d7dbc4f01968013"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac00f497c2f418ba8cc3ced40dab14be2" id="r_ac00f497c2f418ba8cc3ced40dab14be2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a03106.html">XPathVariable</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac00f497c2f418ba8cc3ced40dab14be2">new_xpath_variable</a> (<a class="el" href="a01100.html#ab45611a4d899512e32aa65eb48a191a5">xpath_value_type</a> type, <a class="el" href="a01100.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *name)</td></tr>
-<tr class="memdesc:ac00f497c2f418ba8cc3ced40dab14be2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factory function to create a new XPath variable based on its type.  <br /></td></tr>
-<tr class="separator:ac00f497c2f418ba8cc3ced40dab14be2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0be06ec2c3c4e4250c31819d89fce85e" id="r_a0be06ec2c3c4e4250c31819d89fce85e"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
-<tr class="memitem:a0be06ec2c3c4e4250c31819d89fce85e"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a0be06ec2c3c4e4250c31819d89fce85e">delete_xpath_variable</a> (T *var)</td></tr>
-<tr class="memdesc:a0be06ec2c3c4e4250c31819d89fce85e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Frees the memory associated with a specific XPath variable type.  <br /></td></tr>
-<tr class="separator:a0be06ec2c3c4e4250c31819d89fce85e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a10c437efc4cf016b68b63e55b2fe1672" id="r_a10c437efc4cf016b68b63e55b2fe1672"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a10c437efc4cf016b68b63e55b2fe1672">delete_xpath_variable</a> (<a class="el" href="a01100.html#ab45611a4d899512e32aa65eb48a191a5">xpath_value_type</a> type, <a class="el" href="a03106.html">XPathVariable</a> *var)</td></tr>
-<tr class="memdesc:a10c437efc4cf016b68b63e55b2fe1672"><td class="mdescLeft">&#160;</td><td class="mdescRight">Frees the memory associated with an XPath variable based on its type.  <br /></td></tr>
-<tr class="separator:a10c437efc4cf016b68b63e55b2fe1672"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8c614ae14269eea0013728c7722e8f69" id="r_a8c614ae14269eea0013728c7722e8f69"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8c614ae14269eea0013728c7722e8f69">copy_xpath_variable</a> (<a class="el" href="a03106.html">XPathVariable</a> *lhs, <a class="el" href="a03106.html">XPathVariable</a> const *rhs)</td></tr>
-<tr class="memdesc:a8c614ae14269eea0013728c7722e8f69"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies the value of one XPath variable to another.  <br /></td></tr>
-<tr class="separator:a8c614ae14269eea0013728c7722e8f69"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2e440c9a87ed869364c0351b332f26e4" id="r_a2e440c9a87ed869364c0351b332f26e4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2e440c9a87ed869364c0351b332f26e4">get_variable_scratch</a> (<a class="el" href="a01100.html#af5c331138f914028e4642100ea3e7a24">char_t</a>(&amp;buffer)[32], <a class="el" href="a03126.html">XPathVariableSet</a> *set, <a class="el" href="a01100.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *begin, <a class="el" href="a01100.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *end, <a class="el" href="a03106.html">XPathVariable</a> **out_result)</td></tr>
-<tr class="memdesc:a2e440c9a87ed869364c0351b332f26e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Utility function to retrieve a variable from a set, handling scratch buffer for name.  <br /></td></tr>
-<tr class="separator:a2e440c9a87ed869364c0351b332f26e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8ba7e4193163e68cb15bccd03b229d9c" id="r_a8ba7e4193163e68cb15bccd03b229d9c"><td class="memTemplParams" colspan="2">template&lt;typename Func, typename... Args, typename FuncDecayed = typename std::decay&lt;Func&gt;::type&gt; </td></tr>
+<tr class="memitem:a8ba7e4193163e68cb15bccd03b229d9c"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a8ba7e4193163e68cb15bccd03b229d9c">INVOKE</a> (Func &amp;&amp;func, Args &amp;&amp;...args) -&gt; decltype(<a class="el" href="a02549.html">invoke_impl</a>&lt; FuncDecayed &gt;::call(std::forward&lt; Func &gt;(func), std::forward&lt; Args &gt;(args)...))</td></tr>
+<tr class="separator:a8ba7e4193163e68cb15bccd03b229d9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="a8c614ae14269eea0013728c7722e8f69" name="a8c614ae14269eea0013728c7722e8f69"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8c614ae14269eea0013728c7722e8f69">&#9670;&#160;</a></span>copy_xpath_variable()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool lumex::xml::xpath::variable::copy_xpath_variable </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a03106.html">XPathVariable</a> *</td>          <td class="paramname"><span class="paramname"><em>lhs</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="a03106.html">XPathVariable</a> const *</td>          <td class="paramname"><span class="paramname"><em>rhs</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Copies the value of one XPath variable to another. </p>
-<p>This function performs a type-aware deep copy of the value from <code>rhs</code> to <code>lhs</code>. It handles the different underlying storage mechanisms for boolean, number, string, and node-set types. </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">lhs</td><td>A pointer to the destination <code><a class="el" href="a03106.html" title="Base class for all XPath variables.">XPathVariable</a></code> to which the value will be copied. </td></tr>
-    <tr><td class="paramname">rhs</td><td>A constant pointer to the source <code><a class="el" href="a03106.html" title="Base class for all XPath variables.">XPathVariable</a></code> from which the value will be copied. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd><code>true</code> if the copy was successful, <code>false</code> otherwise (e.g., memory allocation failure for strings/node-sets). </dd></dl>
-<dl class="exception"><dt>Exceptions</dt><dd>
-  <table class="exception">
-    <tr><td class="paramname">`LUMEX_ASSERT`</td><td>if an invalid variable type is encountered. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section note"><dt>Note</dt><dd>The exported <code><a class="el" href="a01114.html#a5664ce2a10255b6aca45326df60fcb8e" title="Copies the value of one XPath variable to another.">lumex::xml::xpath::utility::copy_xpath_variable</a></code> of <a class="el" href="a00812.html" title="Document order sorting of XPath node ranges, and copying of XPath variable values.">XPathUtils.hpp</a> forwards to this function. </dd></dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01094_a8c614ae14269eea0013728c7722e8f69_cgraph.png" border="0" usemap="#aa01094_a8c614ae14269eea0013728c7722e8f69_cgraph" alt=""/></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01094_a8c614ae14269eea0013728c7722e8f69_icgraph.png" border="0" usemap="#aa01094_a8c614ae14269eea0013728c7722e8f69_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="a0be06ec2c3c4e4250c31819d89fce85e" name="a0be06ec2c3c4e4250c31819d89fce85e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0be06ec2c3c4e4250c31819d89fce85e">&#9670;&#160;</a></span>delete_xpath_variable() <span class="overload">[1/2]</span></h2>
+<a id="a8ba7e4193163e68cb15bccd03b229d9c" name="a8ba7e4193163e68cb15bccd03b229d9c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8ba7e4193163e68cb15bccd03b229d9c">&#9670;&#160;</a></span>INVOKE()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
+template&lt;typename Func, typename... Args, typename FuncDecayed = typename std::decay&lt;Func&gt;::type&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">void lumex::xml::xpath::variable::delete_xpath_variable </td>
+          <td class="memname">auto lumex::core::utility::traits::invoke::detail::INVOKE </td>
           <td>(</td>
-          <td class="paramtype">T *</td>          <td class="paramname"><span class="paramname"><em>var</em></span></td><td>)</td>
+          <td class="paramtype">Func &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>func</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">Args &amp;&amp;...</td>          <td class="paramname"><span class="paramname"><em>args</em></span>&#160;) -&gt;  decltype(<a class="el" href="a02549.html">invoke_impl</a>&lt; FuncDecayed &gt;::call(std::forward&lt; Func &gt;(func), std::forward&lt; Args &gt;(args)...))</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
-
-<p>Frees the memory associated with a specific XPath variable type. </p>
-<p>This templated function calls the destructor of the specific variable type <code>T</code> and then deallocates the memory previously allocated by <code>new_xpath_variable</code>. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">T</td><td>The specific derived <code><a class="el" href="a03106.html" title="Base class for all XPath variables.">XPathVariable</a></code> type to delete. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">var</td><td>A pointer to the variable instance to delete. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section warning"><dt>Warning</dt><dd>This function assumes <code>var</code> was allocated via <code>new_xpath_variable&lt;T&gt;</code>. </dd></dl>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01094_a0be06ec2c3c4e4250c31819d89fce85e_icgraph.png" border="0" usemap="#aa01094_a0be06ec2c3c4e4250c31819d89fce85e_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="a10c437efc4cf016b68b63e55b2fe1672" name="a10c437efc4cf016b68b63e55b2fe1672"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a10c437efc4cf016b68b63e55b2fe1672">&#9670;&#160;</a></span>delete_xpath_variable() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void lumex::xml::xpath::variable::delete_xpath_variable </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a01100.html#ab45611a4d899512e32aa65eb48a191a5">xpath_value_type</a></td>          <td class="paramname"><span class="paramname"><em>type</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="a03106.html">XPathVariable</a> *</td>          <td class="paramname"><span class="paramname"><em>var</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Frees the memory associated with an XPath variable based on its type. </p>
-<p>This overloaded function dispatches to the appropriate templated <code>delete_xpath_variable</code> function based on the <code><a class="el" href="a01100.html#ab45611a4d899512e32aa65eb48a191a5">xpath_value_type</a></code>. </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">type</td><td>The <code><a class="el" href="a01100.html#ab45611a4d899512e32aa65eb48a191a5">xpath_value_type</a></code> of the variable to delete. </td></tr>
-    <tr><td class="paramname">var</td><td>A pointer to the <code><a class="el" href="a03106.html" title="Base class for all XPath variables.">XPathVariable</a></code> instance to delete. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="exception"><dt>Exceptions</dt><dd>
-  <table class="exception">
-    <tr><td class="paramname">`LUMEX_ASSERT`</td><td>if an invalid variable type is encountered. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section warning"><dt>Warning</dt><dd>This function assumes <code>var</code> was allocated via <code>new_xpath_variable</code>. </dd></dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01094_a10c437efc4cf016b68b63e55b2fe1672_cgraph.png" border="0" usemap="#aa01094_a10c437efc4cf016b68b63e55b2fe1672_cgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="a2e440c9a87ed869364c0351b332f26e4" name="a2e440c9a87ed869364c0351b332f26e4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2e440c9a87ed869364c0351b332f26e4">&#9670;&#160;</a></span>get_variable_scratch()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool lumex::xml::xpath::variable::get_variable_scratch </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a01100.html#af5c331138f914028e4642100ea3e7a24">char_t</a>(&amp;)</td>          <td class="paramname"><span class="paramname"><em>buffer</em></span>[32], </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="a03126.html">XPathVariableSet</a> *</td>          <td class="paramname"><span class="paramname"><em>set</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="a01100.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *</td>          <td class="paramname"><span class="paramname"><em>begin</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="a01100.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *</td>          <td class="paramname"><span class="paramname"><em>end</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="a03106.html">XPathVariable</a> **</td>          <td class="paramname"><span class="paramname"><em>out_result</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Utility function to retrieve a variable from a set, handling scratch buffer for name. </p>
-<p>This function takes a variable name that might not be null-terminated (given by <code>begin</code> and <code>end</code>), copies it into a scratch buffer (or allocates temporary heap memory if needed), and then looks up the variable in the provided <code><a class="el" href="a03126.html" title="Manages a collection of XPath variables.">XPathVariableSet</a></code>. </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">buffer</td><td>A fixed-size character array used as a scratch buffer for the variable name. </td></tr>
-    <tr><td class="paramname">set</td><td>A pointer to the <code><a class="el" href="a03126.html" title="Manages a collection of XPath variables.">XPathVariableSet</a></code> to search in. </td></tr>
-    <tr><td class="paramname">begin</td><td>A pointer to the beginning of the variable name in the query string. </td></tr>
-    <tr><td class="paramname">end</td><td>A pointer to one past the end of the variable name in the query string. </td></tr>
-    <tr><td class="paramname">out_result</td><td>A pointer to an <code>XPathVariable*</code> that will receive the found variable, or <code>nullptr</code>. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd><code>true</code> if the operation was successful (including memory allocation for scratch buffer), <code>false</code> if memory allocation failed. The <code>out_result</code> should be checked to see if the variable was actually found. </dd></dl>
-<dl class="section warning"><dt>Warning</dt><dd><code>buffer</code> must be large enough to hold <code>(end - begin) + 1</code> characters. If not, a heap allocation occurs. </dd></dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01094_a2e440c9a87ed869364c0351b332f26e4_cgraph.png" border="0" usemap="#aa01094_a2e440c9a87ed869364c0351b332f26e4_cgraph" alt=""/></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01094_a2e440c9a87ed869364c0351b332f26e4_icgraph.png" border="0" usemap="#aa01094_a2e440c9a87ed869364c0351b332f26e4_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="a8d071b6248d853a14d7dbc4f01968013" name="a8d071b6248d853a14d7dbc4f01968013"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8d071b6248d853a14d7dbc4f01968013">&#9670;&#160;</a></span>new_xpath_variable() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">T * lumex::xml::xpath::variable::new_xpath_variable </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a01100.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *</td>          <td class="paramname"><span class="paramname"><em>name</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Factory function to create a new XPath variable of a specific type. </p>
-<p>This templated function allocates memory for a new <code><a class="el" href="a03106.html" title="Base class for all XPath variables.">XPathVariable</a></code> instance (of a derived type like <code><a class="el" href="a03110.html" title="Represents an XPath variable holding a boolean value.">xpath_variable_boolean</a></code>, <code>_number</code>, <code>_string</code>, or <code>_node_set</code>) and initializes its name. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">T</td><td>The specific derived <code><a class="el" href="a03106.html" title="Base class for all XPath variables.">XPathVariable</a></code> type to create. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">name</td><td>The null-terminated C-style string name of the variable. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>A pointer to the newly created variable on success, or <code>nullptr</code> if memory allocation fails or if <code>name</code> is empty. </dd></dl>
-<dl class="section warning"><dt>Warning</dt><dd>The caller is responsible for freeing the allocated memory using <code>delete_xpath_variable</code>. </dd></dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01094_a8d071b6248d853a14d7dbc4f01968013_cgraph.png" border="0" usemap="#aa01094_a8d071b6248d853a14d7dbc4f01968013_cgraph" alt=""/></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01094_a8d071b6248d853a14d7dbc4f01968013_icgraph.png" border="0" usemap="#aa01094_a8d071b6248d853a14d7dbc4f01968013_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="ac00f497c2f418ba8cc3ced40dab14be2" name="ac00f497c2f418ba8cc3ced40dab14be2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac00f497c2f418ba8cc3ced40dab14be2">&#9670;&#160;</a></span>new_xpath_variable() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="a03106.html">XPathVariable</a> * lumex::xml::xpath::variable::new_xpath_variable </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a01100.html#ab45611a4d899512e32aa65eb48a191a5">xpath_value_type</a></td>          <td class="paramname"><span class="paramname"><em>type</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="a01100.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *</td>          <td class="paramname"><span class="paramname"><em>name</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Factory function to create a new XPath variable based on its type. </p>
-<p>This overloaded function dispatches to the appropriate templated <code>new_xpath_variable</code> function based on the <code><a class="el" href="a01100.html#ab45611a4d899512e32aa65eb48a191a5">xpath_value_type</a></code>. </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">type</td><td>The <code><a class="el" href="a01100.html#ab45611a4d899512e32aa65eb48a191a5">xpath_value_type</a></code> of the variable to create. </td></tr>
-    <tr><td class="paramname">name</td><td>The null-terminated C-style string name of the variable. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>A pointer to the newly created <code><a class="el" href="a03106.html" title="Base class for all XPath variables.">XPathVariable</a></code> on success, or <code>nullptr</code> on failure. </dd></dl>
-<dl class="section warning"><dt>Warning</dt><dd>The caller is responsible for freeing the allocated memory using <code>delete_xpath_variable</code>. </dd></dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01094_ac00f497c2f418ba8cc3ced40dab14be2_cgraph.png" border="0" usemap="#aa01094_ac00f497c2f418ba8cc3ced40dab14be2_cgraph" alt=""/></div>
-</div>
 
 </div>
 </div>
@@ -479,7 +160,7 @@ Here is the call graph for this function:</div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00912.html">lumex</a></li><li class="navelem"><a class="el" href="a01083.html">xml</a></li><li class="navelem"><a class="el" href="a01092.html">xpath</a></li><li class="navelem"><a class="el" href="a01094.html">variable</a></li>
+    <li class="navelem"><a class="el" href="a00948.html">lumex</a></li><li class="navelem"><a class="el" href="a01005.html">core</a></li><li class="navelem"><a class="el" href="a01077.html">utility</a></li><li class="navelem"><a class="el" href="a01091.html">traits</a></li><li class="navelem"><a class="el" href="a01093.html">invoke</a></li><li class="navelem"><a class="el" href="a01094.html">detail</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

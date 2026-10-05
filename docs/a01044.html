@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::core::utility::dump::DumpTypeUtils Namespace Reference</title>
+<title>LumexLib: lumex::core::filesystem Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,250 +104,28 @@ $(function(){initNavTree('a01044.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#namespaces">Namespaces</a> &#124;
-<a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">lumex::core::utility::dump::DumpTypeUtils Namespace Reference</div></div>
+<a href="#namespaces">Namespaces</a>  </div>
+  <div class="headertitle"><div class="title">lumex::core::filesystem Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Contains classes and utilities for cross-platform filesystem operations.  
+<a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01046.html">CharacterConstants</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01045.html">fs</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01045.html">Constants</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:a0264a97abfedb4b6b44f8ef4e4066a0c" id="r_a0264a97abfedb4b6b44f8ef4e4066a0c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0264a97abfedb4b6b44f8ef4e4066a0c">isValid</a> (<a class="el" href="a01042.html#a8ccf1bd2864104aaf2e850d72d393c19">DumpType</a> type) noexcept</td></tr>
-<tr class="memdesc:a0264a97abfedb4b6b44f8ef4e4066a0c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if a <a class="el" href="a01042.html#a8ccf1bd2864104aaf2e850d72d393c19" title="Comprehensive enumeration of all supported crash dump types across platforms.">DumpType</a> value is valid.  <br /></td></tr>
-<tr class="separator:a0264a97abfedb4b6b44f8ef4e4066a0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae98511483c2ca2027c1b6bc0eb32173c" id="r_ae98511483c2ca2027c1b6bc0eb32173c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae98511483c2ca2027c1b6bc0eb32173c">isWindowsType</a> (<a class="el" href="a01042.html#a8ccf1bd2864104aaf2e850d72d393c19">DumpType</a> type) noexcept</td></tr>
-<tr class="memdesc:ae98511483c2ca2027c1b6bc0eb32173c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if a <a class="el" href="a01042.html#a8ccf1bd2864104aaf2e850d72d393c19" title="Comprehensive enumeration of all supported crash dump types across platforms.">DumpType</a> is a Windows-specific type.  <br /></td></tr>
-<tr class="separator:ae98511483c2ca2027c1b6bc0eb32173c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8f4e6d2e8d4b78a084bd2bec12fb8148" id="r_a8f4e6d2e8d4b78a084bd2bec12fb8148"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8f4e6d2e8d4b78a084bd2bec12fb8148">isUnixType</a> (<a class="el" href="a01042.html#a8ccf1bd2864104aaf2e850d72d393c19">DumpType</a> type) noexcept</td></tr>
-<tr class="memdesc:a8f4e6d2e8d4b78a084bd2bec12fb8148"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if a <a class="el" href="a01042.html#a8ccf1bd2864104aaf2e850d72d393c19" title="Comprehensive enumeration of all supported crash dump types across platforms.">DumpType</a> is a UNIX-specific type.  <br /></td></tr>
-<tr class="separator:a8f4e6d2e8d4b78a084bd2bec12fb8148"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaa9dfcfe446a463faba51cdba58b7e96" id="r_aaa9dfcfe446a463faba51cdba58b7e96"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aaa9dfcfe446a463faba51cdba58b7e96">isKernelType</a> (<a class="el" href="a01042.html#a8ccf1bd2864104aaf2e850d72d393c19">DumpType</a> type) noexcept</td></tr>
-<tr class="memdesc:aaa9dfcfe446a463faba51cdba58b7e96"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if a <a class="el" href="a01042.html#a8ccf1bd2864104aaf2e850d72d393c19" title="Comprehensive enumeration of all supported crash dump types across platforms.">DumpType</a> is a kernel dump type.  <br /></td></tr>
-<tr class="separator:aaa9dfcfe446a463faba51cdba58b7e96"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a672f346b71e06abd8d8966d99eebf335" id="r_a672f346b71e06abd8d8966d99eebf335"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="a01042.html#a8ccf1bd2864104aaf2e850d72d393c19">DumpType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a672f346b71e06abd8d8966d99eebf335">getMinValue</a> () noexcept</td></tr>
-<tr class="memdesc:a672f346b71e06abd8d8966d99eebf335"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the minimum valid <a class="el" href="a01042.html#a8ccf1bd2864104aaf2e850d72d393c19" title="Comprehensive enumeration of all supported crash dump types across platforms.">DumpType</a> value.  <br /></td></tr>
-<tr class="separator:a672f346b71e06abd8d8966d99eebf335"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6634d9954b5bfa72e16ac1ea026c7f4e" id="r_a6634d9954b5bfa72e16ac1ea026c7f4e"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="a01042.html#a8ccf1bd2864104aaf2e850d72d393c19">DumpType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6634d9954b5bfa72e16ac1ea026c7f4e">getMaxValue</a> () noexcept</td></tr>
-<tr class="memdesc:a6634d9954b5bfa72e16ac1ea026c7f4e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the maximum valid <a class="el" href="a01042.html#a8ccf1bd2864104aaf2e850d72d393c19" title="Comprehensive enumeration of all supported crash dump types across platforms.">DumpType</a> value.  <br /></td></tr>
-<tr class="separator:a6634d9954b5bfa72e16ac1ea026c7f4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="a6634d9954b5bfa72e16ac1ea026c7f4e" name="a6634d9954b5bfa72e16ac1ea026c7f4e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6634d9954b5bfa72e16ac1ea026c7f4e">&#9670;&#160;</a></span>getMaxValue()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="a01042.html#a8ccf1bd2864104aaf2e850d72d393c19">DumpType</a> lumex::core::utility::dump::DumpTypeUtils::getMaxValue </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Get the maximum valid <a class="el" href="a01042.html#a8ccf1bd2864104aaf2e850d72d393c19" title="Comprehensive enumeration of all supported crash dump types across platforms.">DumpType</a> value. </p>
-<dl class="section return"><dt>Returns</dt><dd>Maximum valid <a class="el" href="a01042.html#a8ccf1bd2864104aaf2e850d72d393c19" title="Comprehensive enumeration of all supported crash dump types across platforms.">DumpType</a> value </dd></dl>
-<dl class="section note"><dt>Note</dt><dd>This function is thread-safe and noexcept </dd></dl>
-
-</div>
-</div>
-<a id="a672f346b71e06abd8d8966d99eebf335" name="a672f346b71e06abd8d8966d99eebf335"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a672f346b71e06abd8d8966d99eebf335">&#9670;&#160;</a></span>getMinValue()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="a01042.html#a8ccf1bd2864104aaf2e850d72d393c19">DumpType</a> lumex::core::utility::dump::DumpTypeUtils::getMinValue </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Get the minimum valid <a class="el" href="a01042.html#a8ccf1bd2864104aaf2e850d72d393c19" title="Comprehensive enumeration of all supported crash dump types across platforms.">DumpType</a> value. </p>
-<dl class="section return"><dt>Returns</dt><dd>Minimum valid <a class="el" href="a01042.html#a8ccf1bd2864104aaf2e850d72d393c19" title="Comprehensive enumeration of all supported crash dump types across platforms.">DumpType</a> value </dd></dl>
-<dl class="section note"><dt>Note</dt><dd>This function is thread-safe and noexcept </dd></dl>
-
-</div>
-</div>
-<a id="aaa9dfcfe446a463faba51cdba58b7e96" name="aaa9dfcfe446a463faba51cdba58b7e96"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaa9dfcfe446a463faba51cdba58b7e96">&#9670;&#160;</a></span>isKernelType()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool lumex::core::utility::dump::DumpTypeUtils::isKernelType </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a01042.html#a8ccf1bd2864104aaf2e850d72d393c19">DumpType</a></td>          <td class="paramname"><span class="paramname"><em>type</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Check if a <a class="el" href="a01042.html#a8ccf1bd2864104aaf2e850d72d393c19" title="Comprehensive enumeration of all supported crash dump types across platforms.">DumpType</a> is a kernel dump type. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">type</td><td>The dump type to check </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>true if kernel dump, false otherwise </dd></dl>
-<dl class="section note"><dt>Note</dt><dd>This function is thread-safe and noexcept </dd></dl>
-
-</div>
-</div>
-<a id="a8f4e6d2e8d4b78a084bd2bec12fb8148" name="a8f4e6d2e8d4b78a084bd2bec12fb8148"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8f4e6d2e8d4b78a084bd2bec12fb8148">&#9670;&#160;</a></span>isUnixType()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool lumex::core::utility::dump::DumpTypeUtils::isUnixType </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a01042.html#a8ccf1bd2864104aaf2e850d72d393c19">DumpType</a></td>          <td class="paramname"><span class="paramname"><em>type</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Check if a <a class="el" href="a01042.html#a8ccf1bd2864104aaf2e850d72d393c19" title="Comprehensive enumeration of all supported crash dump types across platforms.">DumpType</a> is a UNIX-specific type. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">type</td><td>The dump type to check </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>true if UNIX-specific, false otherwise </dd></dl>
-<dl class="section note"><dt>Note</dt><dd>This function is thread-safe and noexcept </dd></dl>
-
-</div>
-</div>
-<a id="a0264a97abfedb4b6b44f8ef4e4066a0c" name="a0264a97abfedb4b6b44f8ef4e4066a0c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0264a97abfedb4b6b44f8ef4e4066a0c">&#9670;&#160;</a></span>isValid()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool lumex::core::utility::dump::DumpTypeUtils::isValid </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a01042.html#a8ccf1bd2864104aaf2e850d72d393c19">DumpType</a></td>          <td class="paramname"><span class="paramname"><em>type</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Check if a <a class="el" href="a01042.html#a8ccf1bd2864104aaf2e850d72d393c19" title="Comprehensive enumeration of all supported crash dump types across platforms.">DumpType</a> value is valid. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">type</td><td>The dump type to validate </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>true if valid, false otherwise </dd></dl>
-<dl class="section note"><dt>Note</dt><dd>This function is thread-safe and noexcept </dd></dl>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01044_a0264a97abfedb4b6b44f8ef4e4066a0c_icgraph.png" border="0" usemap="#aa01044_a0264a97abfedb4b6b44f8ef4e4066a0c_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="ae98511483c2ca2027c1b6bc0eb32173c" name="ae98511483c2ca2027c1b6bc0eb32173c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae98511483c2ca2027c1b6bc0eb32173c">&#9670;&#160;</a></span>isWindowsType()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool lumex::core::utility::dump::DumpTypeUtils::isWindowsType </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a01042.html#a8ccf1bd2864104aaf2e850d72d393c19">DumpType</a></td>          <td class="paramname"><span class="paramname"><em>type</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Check if a <a class="el" href="a01042.html#a8ccf1bd2864104aaf2e850d72d393c19" title="Comprehensive enumeration of all supported crash dump types across platforms.">DumpType</a> is a Windows-specific type. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">type</td><td>The dump type to check </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>true if Windows-specific, false otherwise </dd></dl>
-<dl class="section note"><dt>Note</dt><dd>This function is thread-safe and noexcept </dd></dl>
-
-</div>
-</div>
-</div><!-- contents -->
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Contains classes and utilities for cross-platform filesystem operations. </p>
+<p>This namespace provides a comprehensive set of tools for managing files and directories, designed to be a C++11 compatible alternative to <code>std::filesystem</code>. It emphasizes exception-safety and clear error reporting through <code><a class="el" href="a00948.html#a3949d82b26417e74b46290efe0816635" title="Global alias for lumex::core::filesystem::fs::lumex_filesystem::filesystem_result.">filesystem_result</a></code>. </p>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00912.html">lumex</a></li><li class="navelem"><a class="el" href="a00964.html">core</a></li><li class="navelem"><a class="el" href="a01036.html">utility</a></li><li class="navelem"><a class="el" href="a01042.html">dump</a></li><li class="navelem"><a class="el" href="a01044.html">DumpTypeUtils</a></li>
+    <li class="navelem"><a class="el" href="a00948.html">lumex</a></li><li class="navelem"><a class="el" href="a01005.html">core</a></li><li class="navelem"><a class="el" href="a01044.html">filesystem</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

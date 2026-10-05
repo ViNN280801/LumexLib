@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::applied::settings::factory::LumexSettingsFactory Class Reference</title>
+<title>LumexLib: Member List</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a01214.html',''); initResizable(true); });
+$(function(){initNavTree('a01217.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,89 +103,54 @@ $(function(){initNavTree('a01214.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="summary">
-<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
-<a href="a01211.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">lumex::applied::settings::factory::LumexSettingsFactory Class Reference</div></div>
+  <div class="headertitle"><div class="title">lumex::applied::logger::logger::LumexLogger Member List</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Factory class for creating <code><a class="el" href="a01230.html" title="Interface of a settings store kept in a configuration file.">ILumexSettings</a></code> instances.  
- <a href="#details">More...</a></p>
-
-<p><code>#include &lt;<a class="el" href="a00119_source.html">LumexSettingsFactory.hpp</a>&gt;</code></p>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
-Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a309046eb225dab34d5578b0174e711ab" id="r_a309046eb225dab34d5578b0174e711ab"><td class="memItemLeft" align="right" valign="top">static std::unique_ptr&lt; <a class="el" href="a01230.html">ILumexSettings</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a309046eb225dab34d5578b0174e711ab">create</a> (<a class="el" href="a00957.html#a1af005d4f6d6cbc1fe9b8ac0dd312222">LumexSettingsExtensions</a> ext)</td></tr>
-<tr class="memdesc:a309046eb225dab34d5578b0174e711ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a settings object for the specified file format.  <br /></td></tr>
-<tr class="separator:a309046eb225dab34d5578b0174e711ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Factory class for creating <code><a class="el" href="a01230.html" title="Interface of a settings store kept in a configuration file.">ILumexSettings</a></code> instances. </p>
-<p>Provides a static method to instantiate settings objects based on the desired configuration file format (INI, XML when <code>LUMEX_SETTINGS_WITH_XML</code> is defined, JSON when <code>LUMEX_SETTINGS_WITH_JSON</code> is defined). For a format the build does not provide, <code><a class="el" href="#a309046eb225dab34d5578b0174e711ab" title="Creates a settings object for the specified file format.">create()</a></code> returns a null pointer. </p><dl class="section note"><dt>Note</dt><dd>Thread-safe: The factory method is stateless and can be called concurrently. </dd></dl>
-</div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a309046eb225dab34d5578b0174e711ab" name="a309046eb225dab34d5578b0174e711ab"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a309046eb225dab34d5578b0174e711ab">&#9670;&#160;</a></span>create()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::unique_ptr&lt; <a class="el" href="a01230.html">ILumexSettings</a> &gt; lumex::applied::settings::factory::LumexSettingsFactory::create </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a00957.html#a1af005d4f6d6cbc1fe9b8ac0dd312222">LumexSettingsExtensions</a></td>          <td class="paramname"><span class="paramname"><em>ext</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Creates a settings object for the specified file format. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">ext</td><td>The configuration file format (e.g., <code>SupportedConfigExtensions::INI</code>). </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>A <code>std::unique_ptr</code> to the new <code><a class="el" href="a01230.html" title="Interface of a settings store kept in a configuration file.">ILumexSettings</a></code> instance, or a null pointer when the format is not available: <code>XML</code> in a build without <code>LUMEX_SETTINGS_WITH_XML</code>, <code>JSON</code> in a build without <code>LUMEX_SETTINGS_WITH_JSON</code>, or a value that is not an enumerator of <code>SupportedConfigExtensions</code>. Check the result before using it. </dd></dl>
-<dl class="exception"><dt>Exceptions</dt><dd>
-  <table class="exception">
-    <tr><td class="paramname">std::bad_alloc</td><td>If the new object cannot be allocated. An unsupported format is reported by the null pointer, not by an exception. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section warning"><dt>Warning</dt><dd>The caller assumes ownership of the returned pointer, which means:<ul>
-<li>The caller is responsible for the lifetime of the returned object.</li>
-<li>The pointer must not be manually deleted! It is managed by <code>std::unique_ptr</code>.</li>
-<li>Ownership is non-shared, see <a href="https://en.cppreference.com/w/cpp/memory/unique_ptr">https://en.cppreference.com/w/cpp/memory/unique_ptr</a>. </li>
-</ul>
-</dd></dl>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01214_a309046eb225dab34d5578b0174e711ab_icgraph.png" border="0" usemap="#aa01214_a309046eb225dab34d5578b0174e711ab_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<hr/>The documentation for this class was generated from the following files:<ul>
-<li><a class="el" href="a00119_source.html">LumexSettingsFactory.hpp</a></li>
-<li><a class="el" href="a00116.html">LumexSettingsFactory.cpp</a></li>
-</ul>
-</div><!-- contents -->
+<p>This is the complete list of members for <a class="el" href="a01217.html">lumex::applied::logger::logger::LumexLogger</a>, including all inherited members.</p>
+<table class="directory">
+  <tr class="even"><td class="entry"><a class="el" href="a01217.html#a5ee54b77c5502ee97bc96cb7998e36d9">debug</a>(Args &amp;&amp;...args)</td><td class="entry"><a class="el" href="a01217.html">lumex::applied::logger::logger::LumexLogger</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a01217.html#a4fdf7bf5d3ca6f6edefa5eda367da2c1">disable_buffering</a>()</td><td class="entry"><a class="el" href="a01217.html">lumex::applied::logger::logger::LumexLogger</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a01217.html#a2148c0720dd98838027585033f13a84e">disable_preset</a>() noexcept</td><td class="entry"><a class="el" href="a01217.html">lumex::applied::logger::logger::LumexLogger</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a01217.html#a04be1419e84ba605910fda367d5d3143">enable_buffering</a>(std::size_t bufferSize=logger_config_t::kBufferSize) noexcept</td><td class="entry"><a class="el" href="a01217.html">lumex::applied::logger::logger::LumexLogger</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a01217.html#ab5a0dfc6b5d3dc73d3d8bb656507950d">enable_preset</a>(std::unordered_set&lt; std::string &gt; const &amp;components) noexcept</td><td class="entry"><a class="el" href="a01217.html">lumex::applied::logger::logger::LumexLogger</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a01217.html#a2d24bc38b890ae6332580f706dfdf40d">error</a>(Args &amp;&amp;...args)</td><td class="entry"><a class="el" href="a01217.html">lumex::applied::logger::logger::LumexLogger</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a01217.html#ab69c4e42321c08ad506e53e29f5cd690">fatal</a>(Args &amp;&amp;...args)</td><td class="entry"><a class="el" href="a01217.html">lumex::applied::logger::logger::LumexLogger</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a01217.html#a55b6074e4a3ed8049557efa36bf2a361">flush</a>()</td><td class="entry"><a class="el" href="a01217.html">lumex::applied::logger::logger::LumexLogger</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a01217.html#a40610ba46cf2ceba6718adea740024f7">get_applied_config_view</a>() const noexcept</td><td class="entry"><a class="el" href="a01217.html">lumex::applied::logger::logger::LumexLogger</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a01217.html#ab6e4c18495758d1ef192d78221823c0f">get_buffer_size</a>() const noexcept</td><td class="entry"><a class="el" href="a01217.html">lumex::applied::logger::logger::LumexLogger</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a01217.html#aea8b0848863a0ddfe9b34b3b88c65906">get_function_name_mode</a>() const noexcept</td><td class="entry"><a class="el" href="a01217.html">lumex::applied::logger::logger::LumexLogger</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a01217.html#a36a153bd4f5449d3339821cc6494d9a3">get_instance</a>()</td><td class="entry"><a class="el" href="a01217.html">lumex::applied::logger::logger::LumexLogger</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a01217.html#a8b7f23a3a7ff6ce48360c2efffd00239">get_log_file_path</a>() const noexcept</td><td class="entry"><a class="el" href="a01217.html">lumex::applied::logger::logger::LumexLogger</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a01217.html#a655e851db11610b63e4a47b4deb498bc">get_log_level</a>() const noexcept</td><td class="entry"><a class="el" href="a01217.html">lumex::applied::logger::logger::LumexLogger</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a01217.html#a10c4c6c7a414edd7acb4e7e3b3fdec99">get_preset_components</a>() const noexcept</td><td class="entry"><a class="el" href="a01217.html">lumex::applied::logger::logger::LumexLogger</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a01217.html#a05e17ee39d5bdc5fa2c721842bc21ac0">get_trigger_file_name</a>() const noexcept</td><td class="entry"><a class="el" href="a01217.html">lumex::applied::logger::logger::LumexLogger</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a01217.html#a3ac21758ce273e12f65bae4057f216fe">info</a>(Args &amp;&amp;...args)</td><td class="entry"><a class="el" href="a01217.html">lumex::applied::logger::logger::LumexLogger</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a01217.html#a09aa20d19628d256a22cca622ad22f77">is_buffering_enabled</a>() const noexcept</td><td class="entry"><a class="el" href="a01217.html">lumex::applied::logger::logger::LumexLogger</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a01217.html#a2adca55e5a0ef712c9703fdd50b2b892">is_describe_frame_enabled</a>() const noexcept</td><td class="entry"><a class="el" href="a01217.html">lumex::applied::logger::logger::LumexLogger</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a01217.html#ab307c84f2b36ff041b3f84082b810121">is_level_enabled</a>(LogLevel level) const noexcept</td><td class="entry"><a class="el" href="a01217.html">lumex::applied::logger::logger::LumexLogger</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a01217.html#a629a05194d7c3ba505f513ab74648a5b">is_logging_enabled</a>() const noexcept</td><td class="entry"><a class="el" href="a01217.html">lumex::applied::logger::logger::LumexLogger</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a01217.html#a5fbd4d8b613d55dc4ab5b29bd510080d">is_preset_enabled</a>() const noexcept</td><td class="entry"><a class="el" href="a01217.html">lumex::applied::logger::logger::LumexLogger</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a01217.html#a0cf9bc708c53e2340ad13cca5f49d522">log</a>(LogLevel level, std::string const &amp;message)</td><td class="entry"><a class="el" href="a01217.html">lumex::applied::logger::logger::LumexLogger</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a01217.html#aef03577e7cdcbf9eb2afaaf6d125df7c">LumexLogger</a>(LumexLogger const &amp;)=delete</td><td class="entry"><a class="el" href="a01217.html">lumex::applied::logger::logger::LumexLogger</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a01217.html#a7f987e7cbc6d0f10cf8a27ad1c294536">LumexLogger</a>(LumexLogger &amp;&amp;)=delete</td><td class="entry"><a class="el" href="a01217.html">lumex::applied::logger::logger::LumexLogger</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a01217.html#adbc6804d7c9e4413af45e5eaccd087b2">operator=</a>(LumexLogger const &amp;)=delete</td><td class="entry"><a class="el" href="a01217.html">lumex::applied::logger::logger::LumexLogger</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a01217.html#aca18b843818869423652dfc5c8402256">operator=</a>(LumexLogger &amp;&amp;)=delete</td><td class="entry"><a class="el" href="a01217.html">lumex::applied::logger::logger::LumexLogger</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a01217.html#aee932e2ee3ecf51f5f8204ec9ea05130">print_logger_hint</a>() const noexcept</td><td class="entry"><a class="el" href="a01217.html">lumex::applied::logger::logger::LumexLogger</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a01217.html#a18e6ebf596904b610362cfb2257fd9b4">read_config_from_path</a>(std::string const &amp;enableFilePath)</td><td class="entry"><a class="el" href="a01217.html">lumex::applied::logger::logger::LumexLogger</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a01217.html#a2c99d1c8d13f7a27b34ecb25a71a7d7f">set_buffer_size</a>(std::size_t bufferSize) noexcept</td><td class="entry"><a class="el" href="a01217.html">lumex::applied::logger::logger::LumexLogger</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a01217.html#a640e498c73755ff4e632e4cad7fa2852">set_log_level</a>(LogLevel level) noexcept</td><td class="entry"><a class="el" href="a01217.html">lumex::applied::logger::logger::LumexLogger</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a01217.html#ade4e3f178ef4ac0cc3575c4f51194209">set_preset_components</a>(std::unordered_set&lt; std::string &gt; const &amp;components) noexcept</td><td class="entry"><a class="el" href="a01217.html">lumex::applied::logger::logger::LumexLogger</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a01217.html#a2f0ef34c15d8714311df5feeed51dacb">set_trigger_file_name</a>(std::string const &amp;fileName) noexcept</td><td class="entry"><a class="el" href="a01217.html">lumex::applied::logger::logger::LumexLogger</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a01217.html#a5d8f1e68cfb274941185dd53381c35c2">should_show_function_name</a>() const noexcept</td><td class="entry"><a class="el" href="a01217.html">lumex::applied::logger::logger::LumexLogger</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a01217.html#aacec1547aab7430c4da09298b9c04ede">success</a>(Args &amp;&amp;...args)</td><td class="entry"><a class="el" href="a01217.html">lumex::applied::logger::logger::LumexLogger</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a01217.html#af50ae30fcac294c409da8276f67fa2c0">trace</a>(Args &amp;&amp;...args)</td><td class="entry"><a class="el" href="a01217.html">lumex::applied::logger::logger::LumexLogger</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a01217.html#ad0e42cfbad353430d9bf5016978a0f4f">warning</a>(Args &amp;&amp;...args)</td><td class="entry"><a class="el" href="a01217.html">lumex::applied::logger::logger::LumexLogger</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+</table></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00912.html">lumex</a></li><li class="navelem"><a class="el" href="a00913.html">applied</a></li><li class="navelem"><a class="el" href="a00953.html">settings</a></li><li class="navelem"><a class="el" href="a00954.html">factory</a></li><li class="navelem"><a class="el" href="a01214.html">LumexSettingsFactory</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

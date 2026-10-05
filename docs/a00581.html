@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: example_time.cpp File Reference</title>
+<title>LumexLib: example_serial.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -105,16 +105,95 @@ $(function(){initNavTree('a00581.html',''); initResizable(true); });
 <div class="header">
   <div class="summary">
 <a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">example_time.cpp File Reference</div></div>
+  <div class="headertitle"><div class="title">example_serial.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;iostream&gt;</code><br />
-<code>#include &lt;sstream&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00902_source.html">lumex/core/time/LumexTime</a>&quot;</code><br />
+<div class="textblock"><code>#include &lt;chrono&gt;</code><br />
+<code>#include &lt;cstdint&gt;</code><br />
+<code>#include &lt;iostream&gt;</code><br />
+<code>#include &lt;string&gt;</code><br />
+<code>#include &lt;vector&gt;</code><br />
+<code>#include &quot;<a class="el" href="a00884_source.html">lumex/applied/serial/LumexSerialPort</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for example_time.cpp:</div>
+Include dependency graph for example_serial.cpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00582.png" border="0" usemap="#aexample__time_8cpp" alt=""/></div>
+<div class="center"><img src="a00582.png" border="0" usemap="#aexample__serial_8cpp" alt=""/></div>
+<map name="aexample__serial_8cpp" id="aexample__serial_8cpp">
+<area shape="rect" title=" " alt="" coords="722,5,855,32"/>
+<area shape="rect" title=" " alt="" coords="26,269,87,296"/>
+<area shape="poly" title=" " alt="" coords="721,25,647,30,557,40,461,57,367,83,318,101,282,120,203,173,138,219,84,261,81,257,135,215,200,168,279,116,315,96,365,77,460,52,557,35,647,25,721,19"/>
+<area shape="rect" title=" " alt="" coords="110,269,171,296"/>
+<area shape="poly" title=" " alt="" coords="722,32,628,50,512,78,387,119,326,144,267,173,237,192,208,215,163,259,160,255,205,211,234,188,264,168,323,139,385,114,511,73,627,45,721,27"/>
+<area shape="rect" title=" " alt="" coords="1353,88,1424,115"/>
+<area shape="poly" title=" " alt="" coords="856,20,1070,35,1203,52,1334,77,1344,80,1343,85,1333,83,1202,58,1070,41,855,25"/>
+<area shape="rect" title=" " alt="" coords="971,269,1024,296"/>
+<area shape="poly" title=" " alt="" coords="797,31,819,79,831,118,838,150,847,180,869,211,961,259,959,264,865,215,842,182,833,151,826,119,814,81,792,33"/>
+<area shape="rect" title=" " alt="" coords="1292,269,1349,296"/>
+<area shape="poly" title=" " alt="" coords="856,18,952,27,1009,36,1069,50,1130,69,1189,95,1243,128,1292,169,1306,188,1315,210,1323,253,1317,254,1310,212,1301,191,1288,172,1240,132,1186,100,1128,74,1068,55,1008,41,952,32,855,23"/>
+<area shape="rect" href="a00884.html" title="Serial port module: lists serial ports with device details, turns a configuration&#45;style port name int..." alt="" coords="668,80,805,123"/>
+<area shape="poly" title=" " alt="" coords="782,34,760,69,755,66,778,31"/>
+<area shape="rect" href="a00119.html" title="Enumerates serial ports and reports structured device information." alt="" coords="879,171,1071,213"/>
+<area shape="poly" title=" " alt="" coords="793,121,906,162,904,167,791,126"/>
+<area shape="rect" href="a00125.html" title="Resolves short, configuration&#45;style serial&#45;port names into the platform&#45;specific path or identifier a..." alt="" coords="278,179,446,205"/>
+<area shape="poly" title=" " alt="" coords="668,121,431,177,429,172,667,116"/>
+<area shape="rect" href="a00143.html" title="Bounded serial port probing: open a port, send a request and wait for a caller&#45;defined response insid..." alt="" coords="590,179,782,205"/>
+<area shape="poly" title=" " alt="" coords="727,124,703,166,698,164,722,122"/>
+<area shape="rect" href="a00149.html" title="Identifies the process that holds a serial port open." alt="" coords="1096,171,1278,213"/>
+<area shape="poly" title=" " alt="" coords="805,113,1081,167,1080,172,804,119"/>
+<area shape="poly" title=" " alt="" coords="983,213,993,253,988,255,978,214"/>
+<area shape="poly" title=" " alt="" coords="1072,210,1189,235,1280,259,1284,260,1282,265,1278,264,1188,240,1071,215"/>
+<area shape="rect" href="a00641.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="697,269,859,296"/>
+<area shape="poly" title=" " alt="" coords="930,216,821,265,819,260,928,212"/>
+<area shape="rect" title=" " alt="" coords="883,269,947,296"/>
+<area shape="poly" title=" " alt="" coords="963,215,934,258,930,255,959,212"/>
+<area shape="rect" title=" " alt="" coords="1373,269,1441,296"/>
+<area shape="poly" title=" " alt="" coords="1072,208,1085,211,1163,222,1225,229,1286,239,1362,259,1368,261,1366,266,1361,264,1285,244,1224,235,1162,228,1084,216,1071,214"/>
+<area shape="rect" href="a00389.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="1099,261,1267,304"/>
+<area shape="poly" title=" " alt="" coords="1025,212,1121,252,1119,257,1023,216"/>
+<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="771,443,966,485"/>
+<area shape="poly" title=" " alt="" coords="1003,212,1023,233,1039,260,1044,283,1039,305,1015,346,984,382,950,412,918,436,914,432,947,408,980,378,1011,343,1034,303,1039,283,1034,262,1019,237,999,215"/>
+<area shape="rect" href="a00404.html" title="C++ language, library and attribute feature availability." alt="" coords="1099,352,1331,395"/>
+<area shape="poly" title=" " alt="" coords="1193,303,1205,336,1200,338,1188,305"/>
+<area shape="poly" title=" " alt="" coords="331,208,191,264,186,266,184,261,189,259,329,203"/>
+<area shape="poly" title=" " alt="" coords="446,199,742,229,881,245,960,259,964,260,962,265,958,264,880,250,742,234,446,204"/>
+<area shape="poly" title=" " alt="" coords="422,203,703,263,702,268,421,209"/>
+<area shape="poly" title=" " alt="" coords="313,208,270,229,251,244,236,263,228,283,236,303,250,317,268,331,319,357,383,380,456,399,613,429,756,449,755,454,612,435,455,404,381,385,317,362,266,336,246,321,231,305,223,283,231,260,247,240,267,225,311,204"/>
+<area shape="rect" title=" " alt="" coords="476,451,554,477"/>
+<area shape="poly" title=" " alt="" coords="277,201,202,208,124,220,57,238,32,250,16,263,10,273,8,282,16,303,27,316,43,330,88,355,145,378,211,399,348,431,461,452,460,457,347,436,210,404,144,383,86,360,40,334,23,320,11,305,3,282,5,271,12,260,29,245,55,233,123,215,201,202,277,195"/>
+<area shape="rect" href="a00419.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="246,261,478,304"/>
+<area shape="poly" title=" " alt="" coords="364,206,364,246,359,246,359,206"/>
+<area shape="poly" title=" " alt="" coords="411,302,516,345,641,392,780,435,778,440,639,397,514,350,409,307"/>
+<area shape="poly" title=" " alt="" coords="590,205,303,235,173,251,98,264,94,265,92,260,97,259,172,246,303,230,589,200"/>
+<area shape="poly" title=" " alt="" coords="591,209,424,233,234,264,186,274,185,268,233,259,423,227,590,203"/>
+<area shape="poly" title=" " alt="" coords="756,203,853,226,960,259,963,260,961,265,958,264,852,231,754,209"/>
+<area shape="poly" title=" " alt="" coords="782,201,1280,259,1285,260,1283,265,1278,264,782,207"/>
+<area shape="poly" title=" " alt="" coords="701,204,755,256,752,260,697,208"/>
+<area shape="poly" title=" " alt="" coords="724,203,872,259,875,260,873,265,870,264,722,208"/>
+<area shape="poly" title=" " alt="" coords="757,203,1084,261,1083,266,756,209"/>
+<area shape="poly" title=" " alt="" coords="685,206,678,251,680,277,687,303,712,344,745,379,782,409,817,432,814,437,778,413,741,383,708,347,682,305,674,278,673,251,680,206"/>
+<area shape="poly" title=" " alt="" coords="629,208,582,229,560,244,542,263,530,283,522,305,512,353,511,398,513,435,508,436,505,398,507,352,516,304,526,281,538,260,557,240,579,224,627,203"/>
+<area shape="poly" title=" " alt="" coords="640,209,453,259,451,254,639,203"/>
+<area shape="rect" title=" " alt="" coords="553,269,621,296"/>
+<area shape="poly" title=" " alt="" coords="673,208,614,261,611,257,670,204"/>
+<area shape="poly" title=" " alt="" coords="1144,216,1040,265,1037,260,1142,212"/>
+<area shape="poly" title=" " alt="" coords="1096,216,852,268,851,263,1095,210"/>
+<area shape="poly" title=" " alt="" coords="1189,214,1187,246,1182,246,1183,214"/>
+<area shape="poly" title=" " alt="" coords="1279,194,1350,204,1414,223,1439,237,1456,256,1463,278,1456,305,1435,340,1412,363,1382,380,1344,397,1277,417,1183,433,981,456,981,451,1183,428,1276,411,1342,392,1380,375,1408,359,1431,337,1451,303,1457,278,1452,258,1436,242,1412,228,1349,209,1278,200"/>
+<area shape="rect" href="a00923.html" title="Optional module: a C++11 implementation of the C++17 std::optional." alt="" coords="1521,261,1656,304"/>
+<area shape="poly" title=" " alt="" coords="1279,211,1498,259,1506,261,1505,266,1497,264,1278,216"/>
+<area shape="rect" href="a00326.html" title="C++11 implementation of std::optional (C++17 feature) providing a type&#45;safe nullable value container." alt="" coords="1513,360,1669,387"/>
+<area shape="poly" title=" " alt="" coords="1592,304,1593,344,1588,344,1586,304"/>
+<area shape="poly" title=" " alt="" coords="1535,390,1495,397,1218,433,981,456,981,451,1218,428,1495,392,1534,385"/>
+<area shape="poly" title=" " alt="" coords="1513,384,759,445,570,461,569,456,759,440,1513,378"/>
+<area shape="rect" title=" " alt="" coords="1592,451,1689,477"/>
+<area shape="poly" title=" " alt="" coords="1600,386,1628,436,1624,438,1596,389"/>
+<area shape="rect" title=" " alt="" coords="1713,451,1792,477"/>
+<area shape="poly" title=" " alt="" coords="1615,385,1717,440,1715,445,1613,390"/>
+<area shape="rect" title=" " alt="" coords="1409,451,1491,477"/>
+<area shape="poly" title=" " alt="" coords="1572,390,1484,444,1481,440,1569,385"/>
+<area shape="rect" title=" " alt="" coords="1516,451,1568,477"/>
+<area shape="poly" title=" " alt="" coords="1586,389,1558,438,1554,436,1582,386"/>
+</map>
 </div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
@@ -141,6 +220,47 @@ Functions</h2></td></tr>
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="a00581_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph.png" border="0" usemap="#aa00581_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" alt=""/></div>
+<map name="aa00581_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" id="aa00581_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph">
+<area shape="rect" title=" " alt="" coords="5,307,55,333"/>
+<area shape="rect" href="a01269.html#aec4e0ca8a3228735b8dde7e2c5e51f7e" title="Closes the port; safe to call on a closed session." alt="" coords="120,5,264,64"/>
+<area shape="poly" title=" " alt="" coords="29,306,32,263,42,202,64,135,80,103,101,74,105,69,109,73,105,78,85,106,69,137,48,203,37,263,34,306"/>
+<area shape="rect" href="a00982.html#a4dace1c927ae9cae3eed94de871c9cb1" title="Enumerate serial port paths only." alt="" coords="107,88,276,147"/>
+<area shape="poly" title=" " alt="" coords="31,305,52,236,73,194,101,157,103,155,107,159,105,160,77,197,57,238,37,307"/>
+<area shape="rect" href="a00982.html#ae27c22d50630c732a459b88a4f0e4260" title="True when Windows registered port_name through a Bluetooth enumerator (BTHENUM / BTHLEENUM)." alt="" coords="103,171,281,229"/>
+<area shape="poly" title=" " alt="" coords="39,305,65,273,101,239,106,236,109,240,104,243,69,276,43,308"/>
+<area shape="rect" href="a01269.html#aeccb8971734d9825d958152ec2e6ed49" title="True while the port is open." alt="" coords="120,253,264,312"/>
+<area shape="poly" title=" " alt="" coords="55,312,104,300,105,305,56,317"/>
+<area shape="rect" href="a01269.html#aa345ad61b5406b3ed295788ec6ad8ffd" title="Opens the port with the configured settings inside deadline." alt="" coords="104,336,280,379"/>
+<area shape="poly" title=" " alt="" coords="56,323,89,331,88,336,55,328"/>
+<area shape="rect" href="a00982.html#a72a94a2885dc60a216e50441898ce62c" title="Write a grouped port table to os." alt="" coords="106,403,278,461"/>
+<area shape="poly" title=" " alt="" coords="45,332,71,360,104,389,110,392,107,397,101,393,67,364,41,336"/>
+<area shape="rect" href="a01269.html#a845214e6e33fa487163f38e3b13ee1ec" title="Opens the port when needed, sends request and collects the response until response_complete confirms ..." alt="" coords="120,485,264,544"/>
+<area shape="poly" title=" " alt="" coords="37,333,58,398,78,437,105,472,109,475,105,479,101,475,73,440,53,400,32,335"/>
+<area shape="rect" href="a01269.html#a2bec366a058baf6a1573254d30bce52e" title="Reads once: returns as soon as at least one byte is available or the deadline expires." alt="" coords="105,568,278,611"/>
+<area shape="poly" title=" " alt="" coords="34,334,37,376,47,435,68,498,84,528,105,554,107,557,103,560,101,558,80,531,63,500,42,436,32,376,29,334"/>
+<area shape="rect" href="a00982.html#a4bf634028bc0cb0ff4024dd920df1602" title="Enumerate serial ports with full serial_port_info_t records." alt="" coords="329,88,498,147"/>
+<area shape="poly" title=" " alt="" coords="277,115,313,115,313,120,277,120"/>
+<area shape="rect" href="a00982.html#a0a518e9f25f40fbb213907e34b881f81" title="Opens open_path so the caller never waits past deadline." alt="" coords="563,5,721,64"/>
+<area shape="poly" title=" " alt="" coords="496,85,548,66,549,71,497,90"/>
+<area shape="rect" href="a00982.html#aeda0fc72f871cf1ddc177f5c172131ea" title="Closes handle; a no&#45;op for the invalid value." alt="" coords="553,88,731,147"/>
+<area shape="poly" title=" " alt="" coords="498,115,537,115,537,120,498,120"/>
+<area shape="rect" href="a00982.html#a2baec958c3eebd588ab9cbc9bccd7e5f" title="Maps an open outcome to the enumeration state." alt="" coords="557,171,727,229"/>
+<area shape="poly" title=" " alt="" coords="497,145,546,162,544,167,496,150"/>
+<area shape="rect" href="a00988.html#aad815f0706b5da1500fbda9d64a48e88" title="Runs one bounded probe over transport." alt="" coords="331,493,496,536"/>
+<area shape="poly" title=" " alt="" coords="264,512,316,512,316,517,264,517"/>
+<area shape="rect" href="a00988.html#abfe791d5b660fa24d46ceb665e918f12" title="Milliseconds elapsed since start." alt="" coords="546,295,738,337"/>
+<area shape="poly" title=" " alt="" coords="424,492,471,421,505,382,545,347,551,343,554,347,548,351,509,385,475,425,429,495"/>
+<area shape="rect" href="a01241.html#a03d9d7c732ecaba43e39d3dea068c656" title="True while the port is open." alt="" coords="570,361,714,420"/>
+<area shape="poly" title=" " alt="" coords="445,491,545,430,555,425,557,429,548,434,448,495"/>
+<area shape="rect" href="a01241.html#adc8013c9670a1b893619cd2c852108ab" title="Bounded open with the configured settings." alt="" coords="570,444,714,503"/>
+<area shape="poly" title=" " alt="" coords="496,497,554,487,555,492,497,502"/>
+<area shape="rect" href="a01241.html#a9e89076cc288e82ded1f5c9c4f4a2087" title="Flushes the input and output buffers." alt="" coords="570,527,714,585"/>
+<area shape="poly" title=" " alt="" coords="497,527,555,538,554,543,496,532"/>
+<area shape="rect" href="a01241.html#ab8d9442067657ea5b9a0d99f85c33c02" title="Reads at least one byte or stops at the deadline." alt="" coords="570,609,714,668"/>
+<area shape="poly" title=" " alt="" coords="448,534,548,595,557,600,555,605,545,600,445,539"/>
+<area shape="rect" href="a01241.html#ac5f44687a280f415d8fd6a924e961497" title="Writes size bytes or stops at the deadline." alt="" coords="570,692,714,751"/>
+<area shape="poly" title=" " alt="" coords="430,535,477,604,510,643,548,678,558,685,555,689,545,682,506,647,472,607,425,538"/>
+</map>
 </div>
 
 </div>
@@ -150,7 +270,7 @@ Here is the call graph for this function:</div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_e8ae4df8b8335e2a73ecf531ee4a4a97.html">examples</a></li><li class="navelem"><a class="el" href="dir_17a02ba8df17e9860e9e8ae30af5f8d4.html">time</a></li><li class="navelem"><a class="el" href="a00581.html">example_time.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_e8ae4df8b8335e2a73ecf531ee4a4a97.html">examples</a></li><li class="navelem"><a class="el" href="dir_17cee27abc1c3519861fbb803c40e452.html">serial</a></li><li class="navelem"><a class="el" href="a00581.html">example_serial.cpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

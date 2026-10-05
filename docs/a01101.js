@@ -1,7 +1,5 @@
 var a01101 =
 [
-    [ "IXmlWriter", "a02974.html", "a02974" ],
-    [ "XmlBufferedWriter", "a02978.html", "a02978" ],
-    [ "XmlWriterFile", "a02986.html", "a02986" ],
-    [ "XmlWriterStream", "a02990.html", "a02990" ]
+    [ "is_reflected_enum", "a02777.html", null ],
+    [ "is_reflected_enum< T, meta::void_t< decltype(toString(std::declval< T >()))> >", "a02781.html", null ]
 ];

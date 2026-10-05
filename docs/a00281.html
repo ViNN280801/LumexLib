@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexNumberGenerator.hpp File Reference</title>
+<title>LumexLib: LumexStacktraceEntry.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -106,98 +106,106 @@ $(function(){initNavTree('a00281.html',''); initResizable(true); });
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#namespaces">Namespaces</a> &#124;
-<a href="#typedef-members">Typedefs</a> &#124;
-<a href="#enum-members">Enumerations</a>  </div>
-  <div class="headertitle"><div class="title">LumexNumberGenerator.hpp File Reference</div></div>
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle"><div class="title">LumexStacktraceEntry.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Defines the NumberGenerator template class for versatile random number generation.  
+<p>Defines the <a class="el" href="a00275.html#a3f60ceab597bebfcc580c78610fb5712" title="Global alias for lumex::core::exceptions::stacktrace::LumexStacktraceEntry.">LumexStacktraceEntry</a> class, representing a single frame in a call stack.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;cstdint&gt;</code><br />
-<code>#include &lt;ctime&gt;</code><br />
-<code>#include &lt;iostream&gt;</code><br />
-<code>#include &lt;random&gt;</code><br />
-<code>#include &lt;type_traits&gt;</code><br />
-<code>#include &lt;utility&gt;</code><br />
-<code>#include &lt;vector&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00350_source.html">lumex/core/utility/assert/LumexAssert.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00383_source.html">lumex/core/utility/macros/LumexConstantMacros.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00389_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="a00641_source.html">lumex/LumexExport.hpp</a>&quot;</code><br />
+<code>#include &lt;cstddef&gt;</code><br />
+<code>#include &lt;cstdint&gt;</code><br />
+<code>#include &lt;string&gt;</code><br />
+<code>#include &quot;<a class="el" href="a00425_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for LumexNumberGenerator.hpp:</div>
+Include dependency graph for LumexStacktraceEntry.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00282.png" border="0" usemap="#a_lumex_number_generator_8hpp" alt=""/></div>
+<div class="center"><img src="a00282.png" border="0" usemap="#a_lumex_stacktrace_entry_8hpp" alt=""/></div>
+<map name="a_lumex_stacktrace_entry_8hpp" id="a_lumex_stacktrace_entry_8hpp">
+<area shape="rect" title="Defines the LumexStacktraceEntry class, representing a single frame in a call stack." alt="" coords="221,5,400,32"/>
+<area shape="rect" href="a00641.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="5,88,168,115"/>
+<area shape="poly" title=" " alt="" coords="276,35,137,85,135,80,275,30"/>
+<area shape="rect" title=" " alt="" coords="192,88,256,115"/>
+<area shape="poly" title=" " alt="" coords="299,34,250,80,246,76,295,31"/>
+<area shape="rect" title=" " alt="" coords="280,88,341,115"/>
+<area shape="poly" title=" " alt="" coords="313,32,313,73,308,73,308,32"/>
+<area shape="rect" title=" " alt="" coords="365,88,418,115"/>
+<area shape="poly" title=" " alt="" coords="325,31,371,75,367,79,321,34"/>
+<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="443,80,637,123"/>
+<area shape="poly" title=" " alt="" coords="347,30,467,72,465,77,345,35"/>
+</map>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00283.png" border="0" usemap="#a_lumex_number_generator_8hppdep" alt=""/></div>
+<div class="center"><img src="a00283.png" border="0" usemap="#a_lumex_stacktrace_entry_8hppdep" alt=""/></div>
+<map name="a_lumex_stacktrace_entry_8hppdep" id="a_lumex_stacktrace_entry_8hppdep">
+<area shape="rect" title="Defines the LumexStacktraceEntry class, representing a single frame in a call stack." alt="" coords="195,5,373,32"/>
+<area shape="rect" href="a00905.html" title="Exceptions module: the LumexBaseException hierarchy, stack traces, a crash handler that writes minidu..." alt="" coords="117,229,235,256"/>
+<area shape="poly" title=" " alt="" coords="243,42,219,59,200,81,183,120,176,162,175,200,177,229,172,229,170,200,171,162,178,119,195,79,215,55,240,38"/>
+<area shape="rect" href="a00275.html" title="Defines the LumexBasicStacktrace class and related utilities for capturing and symbolizing call stack..." alt="" coords="210,80,358,107"/>
+<area shape="poly" title=" " alt="" coords="287,48,287,80,281,80,281,48"/>
+<area shape="rect" href="a00278.html" title=" " alt="" coords="383,80,561,107"/>
+<area shape="poly" title=" " alt="" coords="332,35,440,77,438,82,330,40"/>
+<area shape="rect" href="a00482.html" title=" " alt="" coords="5,312,171,339"/>
+<area shape="poly" title=" " alt="" coords="153,269,103,314,100,310,149,265"/>
+<area shape="rect" href="a00485.html" title=" " alt="" coords="195,304,336,347"/>
+<area shape="poly" title=" " alt="" coords="203,265,244,302,241,305,200,269"/>
+<area shape="poly" title=" " alt="" coords="260,119,226,156,201,196,184,230,179,228,197,193,222,153,257,115"/>
+<area shape="rect" href="a00263.html" title="LumexBaseException, the base exception of LumexLib that records the stack where it was constructed,..." alt="" coords="236,155,380,181"/>
+<area shape="poly" title=" " alt="" coords="296,121,306,153,301,155,290,123"/>
+<area shape="rect" href="a00272.html" title=" " alt="" coords="403,155,552,181"/>
+<area shape="poly" title=" " alt="" coords="333,110,444,152,442,157,331,115"/>
+<area shape="poly" title=" " alt="" coords="273,191,200,231,198,226,271,187"/>
+<area shape="rect" href="a00260.html" title=" " alt="" coords="259,229,402,256"/>
+<area shape="poly" title=" " alt="" coords="319,196,329,228,324,230,314,197"/>
+</map>
 </div>
 </div>
 <p><a href="a00281_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02162.html">lumex::core::generators::number_generator::NumberGenerator&lt; T &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Universal template-based number generator supporting multiple probability distributions.  <a href="a02162.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01909.html">lumex::core::exceptions::stacktrace::LumexStacktraceEntry</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents a single entry (frame) in a stacktrace.  <a href="a01909.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01913.html">std::hash&lt; lumex::core::exceptions::stacktrace::LumexStacktraceEntry &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Partial specialization of <code>std::hash</code> for <code><a class="el" href="a01909.html" title="Represents a single entry (frame) in a stacktrace.">lumex::core::exceptions::stacktrace::LumexStacktraceEntry</a></code>.  <a href="a01913.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00912.html">lumex</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00948.html">lumex</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00964.html">lumex::core</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01005.html">lumex::core</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01009.html">lumex::core::generators</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01032.html">lumex::core::exceptions</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01010.html">lumex::core::generators::number_generator</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01038.html">lumex::core::exceptions::stacktrace</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01040.html">std</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
-Typedefs</h2></td></tr>
-<tr class="memitem:a11244b539c7e8e4367e95e016b2f0947" id="r_a11244b539c7e8e4367e95e016b2f0947"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01010.html#a11244b539c7e8e4367e95e016b2f0947">lumex::core::generators::number_generator::IntGenerator</a> = <a class="el" href="a02162.html">NumberGenerator</a>&lt;int&gt;</td></tr>
-<tr class="memdesc:a11244b539c7e8e4367e95e016b2f0947"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type alias for <code><a class="el" href="a02162.html" title="Universal template-based number generator supporting multiple probability distributions.">NumberGenerator</a></code> specialized for <code>int</code>.  <br /></td></tr>
-<tr class="separator:a11244b539c7e8e4367e95e016b2f0947"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab4d46a4bde917838bd2697a7ef099521" id="r_ab4d46a4bde917838bd2697a7ef099521"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01010.html#ab4d46a4bde917838bd2697a7ef099521">lumex::core::generators::number_generator::LongGenerator</a> = <a class="el" href="a02162.html">NumberGenerator</a>&lt;long long&gt;</td></tr>
-<tr class="memdesc:ab4d46a4bde917838bd2697a7ef099521"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type alias for <code><a class="el" href="a02162.html" title="Universal template-based number generator supporting multiple probability distributions.">NumberGenerator</a></code> specialized for <code>long long</code>.  <br /></td></tr>
-<tr class="separator:ab4d46a4bde917838bd2697a7ef099521"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae6b4d2d797e9c87ed440b95a862fc526" id="r_ae6b4d2d797e9c87ed440b95a862fc526"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01010.html#ae6b4d2d797e9c87ed440b95a862fc526">lumex::core::generators::number_generator::FloatGenerator</a> = <a class="el" href="a02162.html">NumberGenerator</a>&lt;float&gt;</td></tr>
-<tr class="memdesc:ae6b4d2d797e9c87ed440b95a862fc526"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type alias for <code><a class="el" href="a02162.html" title="Universal template-based number generator supporting multiple probability distributions.">NumberGenerator</a></code> specialized for <code>float</code>.  <br /></td></tr>
-<tr class="separator:ae6b4d2d797e9c87ed440b95a862fc526"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a19a8077fb55bf01f16176c5d18f6dcb0" id="r_a19a8077fb55bf01f16176c5d18f6dcb0"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01010.html#a19a8077fb55bf01f16176c5d18f6dcb0">lumex::core::generators::number_generator::DoubleGenerator</a> = <a class="el" href="a02162.html">NumberGenerator</a>&lt;double&gt;</td></tr>
-<tr class="memdesc:a19a8077fb55bf01f16176c5d18f6dcb0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type alias for <code><a class="el" href="a02162.html" title="Universal template-based number generator supporting multiple probability distributions.">NumberGenerator</a></code> specialized for <code>double</code>.  <br /></td></tr>
-<tr class="separator:a19a8077fb55bf01f16176c5d18f6dcb0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6ac88149259432feb94531fb1307044a" id="r_a6ac88149259432feb94531fb1307044a"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01010.html#a6ac88149259432feb94531fb1307044a">lumex::core::generators::number_generator::RealNumberGeneratorHost</a> = <a class="el" href="a01010.html#a19a8077fb55bf01f16176c5d18f6dcb0">DoubleGenerator</a></td></tr>
-<tr class="memdesc:a6ac88149259432feb94531fb1307044a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Backward compatibility alias for <code><a class="el" href="a01010.html#a19a8077fb55bf01f16176c5d18f6dcb0" title="Type alias for NumberGenerator specialized for double.">DoubleGenerator</a></code>.  <br /></td></tr>
-<tr class="separator:a6ac88149259432feb94531fb1307044a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
-Enumerations</h2></td></tr>
-<tr class="memitem:ac790ad052a54165bc304a20f53f7a502" id="r_ac790ad052a54165bc304a20f53f7a502"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01010.html#ac790ad052a54165bc304a20f53f7a502">lumex::core::generators::number_generator::DistributionType</a> : std::uint8_t { <br />
-&#160;&#160;<a class="el" href="a01010.html#ac790ad052a54165bc304a20f53f7a502a891f35a29c3d51d02ffd42dd6dcc69b2">lumex::core::generators::number_generator::UNIFORM</a>
-, <a class="el" href="a01010.html#ac790ad052a54165bc304a20f53f7a502a1e23852820b9154316c7c06e2b7ba051">lumex::core::generators::number_generator::NORMAL</a>
-, <a class="el" href="a01010.html#ac790ad052a54165bc304a20f53f7a502adcd5fc33e211f31cef0cd7cb36518d31">lumex::core::generators::number_generator::EXPONENTIAL</a>
-, <a class="el" href="a01010.html#ac790ad052a54165bc304a20f53f7a502a469bb22a9f1f560331b06cd6ef0da944">lumex::core::generators::number_generator::GAMMA</a>
-, <br />
-&#160;&#160;<a class="el" href="a01010.html#ac790ad052a54165bc304a20f53f7a502aa9674699627bb066f514cd655979ad14">lumex::core::generators::number_generator::BERNOULLI</a>
-, <a class="el" href="a01010.html#ac790ad052a54165bc304a20f53f7a502a8e67f0715695d58f3102fe214b1d29a3">lumex::core::generators::number_generator::BINOMIAL</a>
-, <a class="el" href="a01010.html#ac790ad052a54165bc304a20f53f7a502a5202c67f624b4ec6ddd60f69394c80b5">lumex::core::generators::number_generator::GEOMETRIC</a>
-, <a class="el" href="a01010.html#ac790ad052a54165bc304a20f53f7a502a92a9a9519a6a4f5edd0b2694fe1c9122">lumex::core::generators::number_generator::POISSON</a>
-<br />
- }</td></tr>
-<tr class="memdesc:ac790ad052a54165bc304a20f53f7a502"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumeration of supported probability distributions for random number generation.  <a href="a01010.html#ac790ad052a54165bc304a20f53f7a502">More...</a><br /></td></tr>
-<tr class="separator:ac790ad052a54165bc304a20f53f7a502"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:ac393a64f20f699be5771be27754b7764" id="r_ac393a64f20f699be5771be27754b7764"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01038.html#ac393a64f20f699be5771be27754b7764">lumex::core::exceptions::stacktrace::to_string</a> (<a class="el" href="a01909.html">LumexStacktraceEntry</a> const &amp;entry)</td></tr>
+<tr class="memdesc:ac393a64f20f699be5771be27754b7764"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts a <code><a class="el" href="a01909.html" title="Represents a single entry (frame) in a stacktrace.">LumexStacktraceEntry</a></code> object to its string representation.  <br /></td></tr>
+<tr class="separator:ac393a64f20f699be5771be27754b7764"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0bd82a52d7a211884100e7ef826da833" id="r_a0bd82a52d7a211884100e7ef826da833"><td class="memTemplParams" colspan="2">template&lt;typename CharT, typename Traits&gt; </td></tr>
+<tr class="memitem:a0bd82a52d7a211884100e7ef826da833"><td class="memTemplItemLeft" align="right" valign="top">std::basic_ostream&lt; CharT, Traits &gt; &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01038.html#a0bd82a52d7a211884100e7ef826da833">lumex::core::exceptions::stacktrace::operator&lt;&lt;</a> (std::basic_ostream&lt; CharT, Traits &gt; &amp;oss, <a class="el" href="a01909.html">LumexStacktraceEntry</a> const &amp;entry)</td></tr>
+<tr class="memdesc:a0bd82a52d7a211884100e7ef826da833"><td class="mdescLeft">&#160;</td><td class="mdescRight">Overloads the <code>operator&lt;&lt;</code> for <code>std::basic_ostream</code> to print a <code><a class="el" href="a01909.html" title="Represents a single entry (frame) in a stacktrace.">LumexStacktraceEntry</a></code>.  <br /></td></tr>
+<tr class="separator:a0bd82a52d7a211884100e7ef826da833"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Defines the NumberGenerator template class for versatile random number generation. </p>
-<p>This header provides a robust and flexible template class, <code>NumberGenerator</code>, designed for generating random numbers of various numeric types (integral and floating-point) according to multiple common probability distributions. It encapsulates the complexities of the C++ Standard Library's <code>&lt;random&gt;</code> facilities, providing a clean, type-safe, and assertion-driven interface. The class leverages the Mersenne Twister engine (<code>std::mt19937</code>) for high-quality pseudo-random number generation, seeded by <code>std::random_device</code> for non-determinism where available, falling back to <code>std::time</code> for deterministic seeding otherwise. Special care is taken to handle type-specific distribution requirements through SFINAE (Substitution Failure Is Not An Error) techniques. </p>
+<div class="textblock"><p>Defines the <a class="el" href="a00275.html#a3f60ceab597bebfcc580c78610fb5712" title="Global alias for lumex::core::exceptions::stacktrace::LumexStacktraceEntry.">LumexStacktraceEntry</a> class, representing a single frame in a call stack. </p>
+<p>This header provides the declaration for the <code><a class="el" href="a00275.html#a3f60ceab597bebfcc580c78610fb5712" title="Global alias for lumex::core::exceptions::stacktrace::LumexStacktraceEntry.">LumexStacktraceEntry</a></code> class, which encapsulates information about one function call within a stack trace. This includes the raw memory address, and (lazily resolved) human-readable function name, source file path, and line number. It aims to provide an interface similar to the C++23 <code>std::stacktrace_entry</code>. </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_7a0b57b0bc11e31c06666ccc60c080d7.html">generators</a></li><li class="navelem"><a class="el" href="dir_f6ce0cc62b7f8f2a2acac471e4533394.html">number_generator</a></li><li class="navelem"><a class="el" href="a00281.html">LumexNumberGenerator.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_c5abfa2a5a0424f8cc91dab0edfcaee4.html">exceptions</a></li><li class="navelem"><a class="el" href="dir_a0b23f6384dc05edfed58978996640ca.html">stacktrace</a></li><li class="navelem"><a class="el" href="a00281.html">LumexStacktraceEntry.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

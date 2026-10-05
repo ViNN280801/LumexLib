@@ -1,7 +1,6 @@
 var a00245 =
 [
-    [ "lumex::core::exceptions::stacktrace::LumexStacktraceEntry", "a01826.html", "a01826" ],
-    [ "std::hash< lumex::core::exceptions::stacktrace::LumexStacktraceEntry >", "a01830.html", "a01830" ],
-    [ "lumex::core::exceptions::stacktrace::operator<<", "a00997.html#a0bd82a52d7a211884100e7ef826da833", null ],
-    [ "lumex::core::exceptions::stacktrace::to_string", "a00997.html#ac393a64f20f699be5771be27754b7764", null ]
+    [ "constKDEFAULT_CRASH_REPORT_PREFIX", "a00245.html#ac4bd42b32bfac3faf47e88519393fb1a", null ],
+    [ "constKDEFAULT_CRASHES_DIR_PATH", "a00245.html#a76d3fe340fdd65a675c1306a96c4cb1b", null ],
+    [ "constKDEFAULT_MINIDUMP_PREFIX", "a00245.html#a7065c3bba0af16ad9cec4753ab8f827d", null ]
 ];

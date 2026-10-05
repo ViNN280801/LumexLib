@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: XmlAttribute.cpp File Reference</title>
+<title>LumexLib: example_string_view_workflow.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,73 +104,77 @@ $(function(){initNavTree('a00608.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#define-members">Macros</a> &#124;
 <a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">XmlAttribute.cpp File Reference</div></div>
+  <div class="headertitle"><div class="title">example_string_view_workflow.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;<a class="el" href="a00662_source.html">lumex/xml/node/XmlNodeBase.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00701_source.html">lumex/xml/utility/XmlUtils.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00611_source.html">XmlAttribute.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &lt;iostream&gt;</code><br />
+<code>#include &lt;string&gt;</code><br />
+<code>#include &quot;<a class="el" href="a00932_source.html">lumex/core/string_view/LumexStringView</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for XmlAttribute.cpp:</div>
+Include dependency graph for example_string_view_workflow.cpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00609.png" border="0" usemap="#a_xml_attribute_8cpp" alt=""/></div>
+<div class="center"><img src="a00609.png" border="0" usemap="#aexample__string__view__workflow_8cpp" alt=""/></div>
+<map name="aexample__string__view__workflow_8cpp" id="aexample__string__view__workflow_8cpp">
+<area shape="rect" title=" " alt="" coords="43,5,186,48"/>
+<area shape="rect" title=" " alt="" coords="5,104,77,131"/>
+<area shape="poly" title=" " alt="" coords="99,50,63,94,59,90,95,47"/>
+<area shape="rect" title=" " alt="" coords="56,269,109,296"/>
+<area shape="poly" title=" " alt="" coords="114,49,88,254,83,254,109,48"/>
+<area shape="rect" href="a00932.html" title="String view module: C++11 implementations of the C++17 std::string_view and std::wstring_view." alt="" coords="194,96,349,139"/>
+<area shape="poly" title=" " alt="" coords="153,46,223,86,221,91,150,51"/>
+<area shape="rect" href="a00356.html" title="C++11 lightweight, non&#45;owning view over character sequences." alt="" coords="182,187,361,213"/>
+<area shape="poly" title=" " alt="" coords="274,139,274,171,269,171,269,139"/>
+<area shape="rect" href="a00362.html" title="C++11 lightweight, non&#45;owning view over contiguous wide character sequences." alt="" coords="385,187,577,213"/>
+<area shape="poly" title=" " alt="" coords="327,137,435,178,433,183,325,142"/>
+<area shape="poly" title=" " alt="" coords="238,216,122,264,121,264,118,260,120,259,236,212"/>
+<area shape="rect" href="a00641.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="808,269,970,296"/>
+<area shape="poly" title=" " alt="" coords="361,209,373,211,585,231,678,241,796,259,820,263,819,268,795,264,677,247,585,237,373,216,361,215"/>
+<area shape="rect" title=" " alt="" coords="994,269,1058,296"/>
+<area shape="poly" title=" " alt="" coords="361,209,373,211,466,218,545,220,680,219,745,221,814,226,892,238,983,259,990,261,988,266,982,264,891,243,814,232,745,226,680,225,545,225,466,223,373,216,361,215"/>
+<area shape="rect" title=" " alt="" coords="134,269,194,296"/>
+<area shape="poly" title=" " alt="" coords="256,216,194,262,191,258,253,212"/>
+<area shape="rect" title=" " alt="" coords="218,269,280,296"/>
+<area shape="poly" title=" " alt="" coords="271,215,259,255,254,254,266,213"/>
+<area shape="rect" title=" " alt="" coords="304,269,372,296"/>
+<area shape="poly" title=" " alt="" coords="284,212,321,256,317,259,280,216"/>
+<area shape="rect" href="a00389.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="397,261,565,304"/>
+<area shape="poly" title=" " alt="" coords="305,211,414,253,412,258,303,216"/>
+<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="589,261,784,304"/>
+<area shape="poly" title=" " alt="" coords="337,211,574,257,573,262,336,217"/>
+<area shape="rect" href="a00404.html" title="C++ language, library and attribute feature availability." alt="" coords="365,352,597,395"/>
+<area shape="poly" title=" " alt="" coords="484,304,484,337,478,337,478,304"/>
+<area shape="poly" title=" " alt="" coords="385,217,238,239,170,252,122,264,119,265,117,260,120,259,169,246,237,234,384,211"/>
+<area shape="poly" title=" " alt="" coords="550,211,796,259,817,263,816,268,795,264,549,217"/>
+<area shape="poly" title=" " alt="" coords="577,201,664,207,767,217,876,234,983,259,989,261,987,266,982,264,875,239,766,223,664,212,577,207"/>
+<area shape="poly" title=" " alt="" coords="402,217,307,236,207,264,203,265,201,260,206,259,306,231,400,211"/>
+<area shape="poly" title=" " alt="" coords="436,217,368,237,293,264,289,265,287,260,291,259,366,232,434,211"/>
+<area shape="poly" title=" " alt="" coords="460,216,375,264,373,259,457,212"/>
+<area shape="poly" title=" " alt="" coords="484,214,484,246,478,246,478,214"/>
+<area shape="poly" title=" " alt="" coords="514,211,620,253,618,258,512,216"/>
+</map>
 </div>
 </div><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
-Macros</h2></td></tr>
-<tr class="memitem:a07486181f1990291c2a348de8eb4c480" id="r_a07486181f1990291c2a348de8eb4c480"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a07486181f1990291c2a348de8eb4c480">LUMEX_IMPLEMENTATION</a></td></tr>
-<tr class="separator:a07486181f1990291c2a348de8eb4c480"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a5b474d4a12f6ac6b94c90479ea6ac04f" id="r_a5b474d4a12f6ac6b94c90479ea6ac04f"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5b474d4a12f6ac6b94c90479ea6ac04f">unspecified_bool_xml_attribute</a> (<a class="el" href="a02810.html">XmlAttribute</a> ***)</td></tr>
-<tr class="separator:a5b474d4a12f6ac6b94c90479ea6ac04f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae66f6b31b5ad750f1fe042a706a4e3d4" id="r_ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a> ()</td></tr>
+<tr class="separator:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="a07486181f1990291c2a348de8eb4c480" name="a07486181f1990291c2a348de8eb4c480"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a07486181f1990291c2a348de8eb4c480">&#9670;&#160;</a></span>LUMEX_IMPLEMENTATION</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_IMPLEMENTATION</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="a5b474d4a12f6ac6b94c90479ea6ac04f" name="a5b474d4a12f6ac6b94c90479ea6ac04f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5b474d4a12f6ac6b94c90479ea6ac04f">&#9670;&#160;</a></span>unspecified_bool_xml_attribute()</h2>
+<a id="ae66f6b31b5ad750f1fe042a706a4e3d4" name="ae66f6b31b5ad750f1fe042a706a4e3d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae66f6b31b5ad750f1fe042a706a4e3d4">&#9670;&#160;</a></span>main()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static void unspecified_bool_xml_attribute </td>
+          <td class="memname">int main </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="a02810.html">XmlAttribute</a> ***</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00608_a5b474d4a12f6ac6b94c90479ea6ac04f_icgraph.png" border="0" usemap="#aa00608_a5b474d4a12f6ac6b94c90479ea6ac04f_icgraph" alt=""/></div>
-</div>
 
 </div>
 </div>
@@ -179,7 +183,7 @@ Here is the caller graph for this function:</div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_67864fa9b126ea0c63c4a33fb4799790.html">attribute</a></li><li class="navelem"><a class="el" href="a00608.html">XmlAttribute.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_e8ae4df8b8335e2a73ecf531ee4a4a97.html">examples</a></li><li class="navelem"><a class="el" href="dir_bc782a393a6b988e43baa711f0e6ca41.html">string_view</a></li><li class="navelem"><a class="el" href="a00608.html">example_string_view_workflow.cpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

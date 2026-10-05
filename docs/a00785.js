@@ -1,5 +1,5 @@
 var a00785 =
 [
-    [ "binary_op_t", "a03082.html", "a03082" ],
-    [ "LUMEX_IMPLEMENTATION", "a00785.html#a07486181f1990291c2a348de8eb4c480", null ]
+    [ "lumex::xml::xpath::memory::XPathAllocator", "a03121.html", "a03121" ],
+    [ "lumex::xml::xpath::memory::XPathAllocatorCapture", "a03125.html", "a03125" ]
 ];

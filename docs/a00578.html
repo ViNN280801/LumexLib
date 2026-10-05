@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: example_temporary_workflow.cpp File Reference</title>
+<title>LumexLib: example_resource_monitor_workflow.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -105,16 +105,40 @@ $(function(){initNavTree('a00578.html',''); initResizable(true); });
 <div class="header">
   <div class="summary">
 <a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">example_temporary_workflow.cpp File Reference</div></div>
+  <div class="headertitle"><div class="title">example_resource_monitor_workflow.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;fstream&gt;</code><br />
+<div class="textblock"><code>#include &lt;chrono&gt;</code><br />
 <code>#include &lt;iostream&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00899_source.html">lumex/core/temporary/LumexTemporary</a>&quot;</code><br />
+<code>#include &lt;string&gt;</code><br />
+<code>#include &quot;<a class="el" href="a00881_source.html">lumex/applied/resource_monitor/LumexResourceMonitor</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for example_temporary_workflow.cpp:</div>
+Include dependency graph for example_resource_monitor_workflow.cpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00579.png" border="0" usemap="#aexample__temporary__workflow_8cpp" alt=""/></div>
+<div class="center"><img src="a00579.png" border="0" usemap="#aexample__resource__monitor__workflow_8cpp" alt=""/></div>
+<map name="aexample__resource__monitor__workflow_8cpp" id="aexample__resource__monitor__workflow_8cpp">
+<area shape="rect" title=" " alt="" coords="79,5,256,48"/>
+<area shape="rect" title=" " alt="" coords="5,269,66,296"/>
+<area shape="poly" title=" " alt="" coords="147,50,127,72,108,97,87,139,69,182,45,255,40,254,64,180,82,136,104,95,123,69,143,47"/>
+<area shape="rect" title=" " alt="" coords="370,104,442,131"/>
+<area shape="poly" title=" " alt="" coords="229,46,359,94,364,95,362,100,357,98,227,51"/>
+<area shape="rect" title=" " alt="" coords="90,269,144,296"/>
+<area shape="poly" title=" " alt="" coords="151,50,135,72,123,97,114,138,111,181,115,254,110,254,106,181,109,138,118,95,131,69,147,47"/>
+<area shape="rect" href="a00881.html" title="Resource monitor module: a background thread that samples the CPU and RAM usage of the system and app..." alt="" coords="133,96,346,139"/>
+<area shape="poly" title=" " alt="" coords="186,47,215,82,211,86,182,50"/>
+<area shape="rect" href="a00113.html" title="Background CPU/RAM usage sampler that appends one line per sample to a dated log file." alt="" coords="133,187,364,213"/>
+<area shape="poly" title=" " alt="" coords="245,139,248,171,243,172,239,140"/>
+<area shape="poly" title=" " alt="" coords="210,216,79,264,76,265,74,260,77,259,209,211"/>
+<area shape="poly" title=" " alt="" coords="230,216,152,263,149,259,227,212"/>
+<area shape="rect" href="a00641.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="168,269,330,296"/>
+<area shape="poly" title=" " alt="" coords="252,214,252,254,246,254,246,214"/>
+<area shape="rect" title=" " alt="" coords="355,269,415,296"/>
+<area shape="poly" title=" " alt="" coords="271,212,352,259,349,264,269,216"/>
+<area shape="rect" href="a00419.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="439,261,672,304"/>
+<area shape="poly" title=" " alt="" coords="298,211,463,254,461,259,296,217"/>
+<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="458,352,653,395"/>
+<area shape="poly" title=" " alt="" coords="558,304,558,337,553,337,553,304"/>
+</map>
 </div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
@@ -141,6 +165,13 @@ Functions</h2></td></tr>
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="a00578_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph.png" border="0" usemap="#aa00578_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" alt=""/></div>
+<map name="aa00578_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" id="aa00578_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph">
+<area shape="rect" title=" " alt="" coords="5,63,55,89"/>
+<area shape="rect" href="a01225.html#ac3ff6ba95f363349295d24096e2ff96f" title="Starts the background CPU/RAM sampler, unless it is already running." alt="" coords="103,5,328,64"/>
+<area shape="poly" title=" " alt="" coords="55,68,87,61,88,66,56,73"/>
+<area shape="rect" href="a01225.html#aa64dfaead93c3d4c6ceec66922405170" title="Stops the background sampler and joins its thread." alt="" coords="103,88,328,147"/>
+<area shape="poly" title=" " alt="" coords="56,79,88,86,87,91,55,84"/>
+</map>
 </div>
 
 </div>
@@ -150,7 +181,7 @@ Here is the call graph for this function:</div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_e8ae4df8b8335e2a73ecf531ee4a4a97.html">examples</a></li><li class="navelem"><a class="el" href="dir_b9112c5bd2e6810c05cd2a2fe9b7e0f4.html">temporary</a></li><li class="navelem"><a class="el" href="a00578.html">example_temporary_workflow.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_e8ae4df8b8335e2a73ecf531ee4a4a97.html">examples</a></li><li class="navelem"><a class="el" href="dir_ffa82bf6eb4c6bc4262a6337757c7be6.html">resource_monitor</a></li><li class="navelem"><a class="el" href="a00578.html">example_resource_monitor_workflow.cpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

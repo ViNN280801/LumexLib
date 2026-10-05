@@ -1,4 +1,4 @@
 var a00752 =
 [
-    [ "lumex::xml::xpath::memory::XPathMemoryBlock", "a03046.html", "a03046" ]
+    [ "lumex::xml::writer::XmlWriterFile", "a03069.html", "a03069" ]
 ];

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::core::utility::traits::string Namespace Reference</title>
+<title>LumexLib: lumex::core::optional::opt Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,30 +104,1870 @@ $(function(){initNavTree('a01057.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a>  </div>
-  <div class="headertitle"><div class="title">lumex::core::utility::traits::string Namespace Reference</div></div>
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
+  <div class="headertitle"><div class="title">lumex::core::optional::opt Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02634.html">is_any_string</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>T</code> is a string of its own <code>value_type</code> (see <code><a class="el" href="a02626.html" title="T is a contiguous string of Char: it has data() convertible to Char const *, size(),...">is_string_like</a></code>), for any character type: <code>std::string</code>, <code>std::wstring</code>, string views.  <a href="a02634.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02341.html">in_place_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A tag type used to indicate in-place construction of the contained value.  <a href="a02341.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02638.html">is_any_string&lt; T, meta::void_t&lt; typename T::value_type &gt; &gt;</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02349.html">LumexBadOptionalAccess</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exception thrown when attempting to access the value of an empty <code>optional</code>.  <a href="a02349.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02626.html">is_string_like</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>T</code> is a contiguous string of <code>Char</code>: it has <code>data()</code> convertible to <code>Char const *</code>, <code>size()</code>, <code>T::npos</code> and <code>T::value_type == Char</code>.  <a href="a02626.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02333.html">nullopt_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A tag type used to indicate the absence of a value in <code>optional</code>.  <a href="a02333.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02630.html">is_string_like&lt; T, Char, meta::void_t&lt; typename T::value_type, decltype(T::npos), decltype(std::declval&lt; T const &amp; &gt;().size()), decltype(std::declval&lt; T const &amp; &gt;().data())&gt; &gt;</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02353.html">optional</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A C++11 implementation of <code>std::optional</code> for type-safe nullable values.  <a href="a02353.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a01391f5171de036594c2ad4d151df37a" id="r_a01391f5171de036594c2ad4d151df37a"><td class="memTemplParams" colspan="2">template&lt;typename T, typename U&gt; </td></tr>
+<tr class="memitem:a01391f5171de036594c2ad4d151df37a"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a01391f5171de036594c2ad4d151df37a">operator==</a> (<a class="el" href="a02353.html">optional</a>&lt; T &gt; const &amp;lhs, <a class="el" href="a02353.html">optional</a>&lt; U &gt; const &amp;rhs)</td></tr>
+<tr class="memdesc:a01391f5171de036594c2ad4d151df37a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equality comparison operator for two <code>optional</code> objects.  <br /></td></tr>
+<tr class="separator:a01391f5171de036594c2ad4d151df37a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a71d57489827b2d427dc28ca69be9b7e8" id="r_a71d57489827b2d427dc28ca69be9b7e8"><td class="memTemplParams" colspan="2">template&lt;typename T, typename U&gt; </td></tr>
+<tr class="memitem:a71d57489827b2d427dc28ca69be9b7e8"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a71d57489827b2d427dc28ca69be9b7e8">operator!=</a> (<a class="el" href="a02353.html">optional</a>&lt; T &gt; const &amp;lhs, <a class="el" href="a02353.html">optional</a>&lt; U &gt; const &amp;rhs)</td></tr>
+<tr class="memdesc:a71d57489827b2d427dc28ca69be9b7e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inequality comparison operator for two <code>optional</code> objects.  <br /></td></tr>
+<tr class="separator:a71d57489827b2d427dc28ca69be9b7e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff230664c0625a29d6480c616fa2b960" id="r_aff230664c0625a29d6480c616fa2b960"><td class="memTemplParams" colspan="2">template&lt;typename T, typename U&gt; </td></tr>
+<tr class="memitem:aff230664c0625a29d6480c616fa2b960"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#aff230664c0625a29d6480c616fa2b960">operator&lt;</a> (<a class="el" href="a02353.html">optional</a>&lt; T &gt; const &amp;lhs, <a class="el" href="a02353.html">optional</a>&lt; U &gt; const &amp;rhs)</td></tr>
+<tr class="memdesc:aff230664c0625a29d6480c616fa2b960"><td class="mdescLeft">&#160;</td><td class="mdescRight">Less-than comparison operator for two <code>optional</code> objects.  <br /></td></tr>
+<tr class="separator:aff230664c0625a29d6480c616fa2b960"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af00abdf776f1b30910f52d5c1b27c4f6" id="r_af00abdf776f1b30910f52d5c1b27c4f6"><td class="memTemplParams" colspan="2">template&lt;typename T, typename U&gt; </td></tr>
+<tr class="memitem:af00abdf776f1b30910f52d5c1b27c4f6"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#af00abdf776f1b30910f52d5c1b27c4f6">operator&lt;=</a> (<a class="el" href="a02353.html">optional</a>&lt; T &gt; const &amp;lhs, <a class="el" href="a02353.html">optional</a>&lt; U &gt; const &amp;rhs)</td></tr>
+<tr class="memdesc:af00abdf776f1b30910f52d5c1b27c4f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Less-than-or-equal-to comparison operator for two <code>optional</code> objects.  <br /></td></tr>
+<tr class="separator:af00abdf776f1b30910f52d5c1b27c4f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a87a85b5a2474f577da30d0435171dab0" id="r_a87a85b5a2474f577da30d0435171dab0"><td class="memTemplParams" colspan="2">template&lt;typename T, typename U&gt; </td></tr>
+<tr class="memitem:a87a85b5a2474f577da30d0435171dab0"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a87a85b5a2474f577da30d0435171dab0">operator&gt;</a> (<a class="el" href="a02353.html">optional</a>&lt; T &gt; const &amp;lhs, <a class="el" href="a02353.html">optional</a>&lt; U &gt; const &amp;rhs)</td></tr>
+<tr class="memdesc:a87a85b5a2474f577da30d0435171dab0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Greater-than comparison operator for two <code>optional</code> objects.  <br /></td></tr>
+<tr class="separator:a87a85b5a2474f577da30d0435171dab0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0cc9372713b94cbe936e93fc135285a2" id="r_a0cc9372713b94cbe936e93fc135285a2"><td class="memTemplParams" colspan="2">template&lt;typename T, typename U&gt; </td></tr>
+<tr class="memitem:a0cc9372713b94cbe936e93fc135285a2"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a0cc9372713b94cbe936e93fc135285a2">operator&gt;=</a> (<a class="el" href="a02353.html">optional</a>&lt; T &gt; const &amp;lhs, <a class="el" href="a02353.html">optional</a>&lt; U &gt; const &amp;rhs)</td></tr>
+<tr class="memdesc:a0cc9372713b94cbe936e93fc135285a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Greater-than-or-equal-to comparison operator for two <code>optional</code> objects.  <br /></td></tr>
+<tr class="separator:a0cc9372713b94cbe936e93fc135285a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9243931d776cd905236a8ee353ab9371" id="r_a9243931d776cd905236a8ee353ab9371"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
+<tr class="memitem:a9243931d776cd905236a8ee353ab9371"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a9243931d776cd905236a8ee353ab9371">operator==</a> (<a class="el" href="a02353.html">optional</a>&lt; T &gt; const &amp;opt, <a class="el" href="a02333.html">nullopt_t</a>) noexcept</td></tr>
+<tr class="memdesc:a9243931d776cd905236a8ee353ab9371"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equality comparison between a <code>optional</code> and <code>nullopt</code>.  <br /></td></tr>
+<tr class="separator:a9243931d776cd905236a8ee353ab9371"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac07d066806c2c1c73412f7acd84c367c" id="r_ac07d066806c2c1c73412f7acd84c367c"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
+<tr class="memitem:ac07d066806c2c1c73412f7acd84c367c"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#ac07d066806c2c1c73412f7acd84c367c">operator==</a> (<a class="el" href="a02333.html">nullopt_t</a>, <a class="el" href="a02353.html">optional</a>&lt; T &gt; const &amp;opt) noexcept</td></tr>
+<tr class="memdesc:ac07d066806c2c1c73412f7acd84c367c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equality comparison between <code>nullopt</code> and a <code>optional</code>.  <br /></td></tr>
+<tr class="separator:ac07d066806c2c1c73412f7acd84c367c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a534a891fa74d961c004fd481bad43d6e" id="r_a534a891fa74d961c004fd481bad43d6e"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
+<tr class="memitem:a534a891fa74d961c004fd481bad43d6e"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a534a891fa74d961c004fd481bad43d6e">operator!=</a> (<a class="el" href="a02353.html">optional</a>&lt; T &gt; const &amp;opt, <a class="el" href="a02333.html">nullopt_t</a>) noexcept</td></tr>
+<tr class="memdesc:a534a891fa74d961c004fd481bad43d6e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inequality comparison between a <code>optional</code> and <code>nullopt</code>.  <br /></td></tr>
+<tr class="separator:a534a891fa74d961c004fd481bad43d6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad7a5abbd7d963e4275f9fb6600f527f9" id="r_ad7a5abbd7d963e4275f9fb6600f527f9"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
+<tr class="memitem:ad7a5abbd7d963e4275f9fb6600f527f9"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#ad7a5abbd7d963e4275f9fb6600f527f9">operator!=</a> (<a class="el" href="a02333.html">nullopt_t</a>, <a class="el" href="a02353.html">optional</a>&lt; T &gt; const &amp;opt) noexcept</td></tr>
+<tr class="memdesc:ad7a5abbd7d963e4275f9fb6600f527f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inequality comparison between <code>nullopt</code> and a <code>optional</code>.  <br /></td></tr>
+<tr class="separator:ad7a5abbd7d963e4275f9fb6600f527f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a34a869d04942b3b1743d14fc1d0ed6c3" id="r_a34a869d04942b3b1743d14fc1d0ed6c3"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
+<tr class="memitem:a34a869d04942b3b1743d14fc1d0ed6c3"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a34a869d04942b3b1743d14fc1d0ed6c3">operator&lt;</a> (<a class="el" href="a02353.html">optional</a>&lt; T &gt; const &amp;, <a class="el" href="a02333.html">nullopt_t</a>) noexcept</td></tr>
+<tr class="memdesc:a34a869d04942b3b1743d14fc1d0ed6c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Less-than comparison between a <code>optional</code> and <code>nullopt</code>.  <br /></td></tr>
+<tr class="separator:a34a869d04942b3b1743d14fc1d0ed6c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d5454e2832f87701d73a62c283d8a87" id="r_a6d5454e2832f87701d73a62c283d8a87"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
+<tr class="memitem:a6d5454e2832f87701d73a62c283d8a87"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a6d5454e2832f87701d73a62c283d8a87">operator&lt;</a> (<a class="el" href="a02333.html">nullopt_t</a>, <a class="el" href="a02353.html">optional</a>&lt; T &gt; const &amp;opt) noexcept</td></tr>
+<tr class="memdesc:a6d5454e2832f87701d73a62c283d8a87"><td class="mdescLeft">&#160;</td><td class="mdescRight">Less-than comparison between <code>nullopt</code> and a <code>optional</code>.  <br /></td></tr>
+<tr class="separator:a6d5454e2832f87701d73a62c283d8a87"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a82d427703fe629c73b2e6abc94c4ff6b" id="r_a82d427703fe629c73b2e6abc94c4ff6b"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
+<tr class="memitem:a82d427703fe629c73b2e6abc94c4ff6b"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a82d427703fe629c73b2e6abc94c4ff6b">operator&lt;=</a> (<a class="el" href="a02353.html">optional</a>&lt; T &gt; const &amp;opt, <a class="el" href="a02333.html">nullopt_t</a>) noexcept</td></tr>
+<tr class="memdesc:a82d427703fe629c73b2e6abc94c4ff6b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Less-than-or-equal-to comparison between a <code>optional</code> and <code>nullopt</code>.  <br /></td></tr>
+<tr class="separator:a82d427703fe629c73b2e6abc94c4ff6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f995f7911a26250d9b2ad9cb797213a" id="r_a2f995f7911a26250d9b2ad9cb797213a"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
+<tr class="memitem:a2f995f7911a26250d9b2ad9cb797213a"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a2f995f7911a26250d9b2ad9cb797213a">operator&lt;=</a> (<a class="el" href="a02333.html">nullopt_t</a>, <a class="el" href="a02353.html">optional</a>&lt; T &gt; const &amp;) noexcept</td></tr>
+<tr class="memdesc:a2f995f7911a26250d9b2ad9cb797213a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Less-than-or-equal-to comparison between <code>nullopt</code> and a <code>optional</code>.  <br /></td></tr>
+<tr class="separator:a2f995f7911a26250d9b2ad9cb797213a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af33967b4dbfa02f1381e1e43b443ca60" id="r_af33967b4dbfa02f1381e1e43b443ca60"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
+<tr class="memitem:af33967b4dbfa02f1381e1e43b443ca60"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#af33967b4dbfa02f1381e1e43b443ca60">operator&gt;</a> (<a class="el" href="a02353.html">optional</a>&lt; T &gt; const &amp;opt, <a class="el" href="a02333.html">nullopt_t</a>) noexcept</td></tr>
+<tr class="memdesc:af33967b4dbfa02f1381e1e43b443ca60"><td class="mdescLeft">&#160;</td><td class="mdescRight">Greater-than comparison between a <code>optional</code> and <code>nullopt</code>.  <br /></td></tr>
+<tr class="separator:af33967b4dbfa02f1381e1e43b443ca60"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a61f1b147d4cc4cef6c31114cc9b2c8d7" id="r_a61f1b147d4cc4cef6c31114cc9b2c8d7"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
+<tr class="memitem:a61f1b147d4cc4cef6c31114cc9b2c8d7"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a61f1b147d4cc4cef6c31114cc9b2c8d7">operator&gt;</a> (<a class="el" href="a02333.html">nullopt_t</a>, <a class="el" href="a02353.html">optional</a>&lt; T &gt; const &amp;) noexcept</td></tr>
+<tr class="memdesc:a61f1b147d4cc4cef6c31114cc9b2c8d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Greater-than comparison between <code>nullopt</code> and a <code>optional</code>.  <br /></td></tr>
+<tr class="separator:a61f1b147d4cc4cef6c31114cc9b2c8d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a94ccb4ddb9a3a7cd4b4cd5a99166e5" id="r_a7a94ccb4ddb9a3a7cd4b4cd5a99166e5"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
+<tr class="memitem:a7a94ccb4ddb9a3a7cd4b4cd5a99166e5"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a7a94ccb4ddb9a3a7cd4b4cd5a99166e5">operator&gt;=</a> (<a class="el" href="a02353.html">optional</a>&lt; T &gt; const &amp;, <a class="el" href="a02333.html">nullopt_t</a>) noexcept</td></tr>
+<tr class="memdesc:a7a94ccb4ddb9a3a7cd4b4cd5a99166e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Greater-than-or-equal-to comparison between a <code>optional</code> and <code>nullopt</code>.  <br /></td></tr>
+<tr class="separator:a7a94ccb4ddb9a3a7cd4b4cd5a99166e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad158818fcabfcdb36e45acc5cd43a7b1" id="r_ad158818fcabfcdb36e45acc5cd43a7b1"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
+<tr class="memitem:ad158818fcabfcdb36e45acc5cd43a7b1"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#ad158818fcabfcdb36e45acc5cd43a7b1">operator&gt;=</a> (<a class="el" href="a02333.html">nullopt_t</a>, <a class="el" href="a02353.html">optional</a>&lt; T &gt; const &amp;opt) noexcept</td></tr>
+<tr class="memdesc:ad158818fcabfcdb36e45acc5cd43a7b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Greater-than-or-equal-to comparison between <code>nullopt</code> and a <code>optional</code>.  <br /></td></tr>
+<tr class="separator:ad158818fcabfcdb36e45acc5cd43a7b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af16284bd5facae26a60c3b2c58ec0a58" id="r_af16284bd5facae26a60c3b2c58ec0a58"><td class="memTemplParams" colspan="2">template&lt;typename T, typename U&gt; </td></tr>
+<tr class="memitem:af16284bd5facae26a60c3b2c58ec0a58"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#af16284bd5facae26a60c3b2c58ec0a58">operator==</a> (<a class="el" href="a02353.html">optional</a>&lt; T &gt; const &amp;opt, U const &amp;value)</td></tr>
+<tr class="memdesc:af16284bd5facae26a60c3b2c58ec0a58"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equality comparison between a <code>optional</code> and a value.  <br /></td></tr>
+<tr class="separator:af16284bd5facae26a60c3b2c58ec0a58"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad4683f12646cd1ff0258729d3365ff96" id="r_ad4683f12646cd1ff0258729d3365ff96"><td class="memTemplParams" colspan="2">template&lt;typename T, typename U&gt; </td></tr>
+<tr class="memitem:ad4683f12646cd1ff0258729d3365ff96"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#ad4683f12646cd1ff0258729d3365ff96">operator==</a> (T const &amp;value, <a class="el" href="a02353.html">optional</a>&lt; U &gt; const &amp;opt)</td></tr>
+<tr class="memdesc:ad4683f12646cd1ff0258729d3365ff96"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equality comparison between a value and a <code>optional</code>.  <br /></td></tr>
+<tr class="separator:ad4683f12646cd1ff0258729d3365ff96"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a00c79f6d034fbbf990b88bf57e64ce64" id="r_a00c79f6d034fbbf990b88bf57e64ce64"><td class="memTemplParams" colspan="2">template&lt;typename T, typename U&gt; </td></tr>
+<tr class="memitem:a00c79f6d034fbbf990b88bf57e64ce64"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a00c79f6d034fbbf990b88bf57e64ce64">operator!=</a> (<a class="el" href="a02353.html">optional</a>&lt; T &gt; const &amp;opt, U const &amp;value)</td></tr>
+<tr class="memdesc:a00c79f6d034fbbf990b88bf57e64ce64"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inequality comparison between a <code>optional</code> and a value.  <br /></td></tr>
+<tr class="separator:a00c79f6d034fbbf990b88bf57e64ce64"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa3bbf7283aea39faff19efd9052fcef5" id="r_aa3bbf7283aea39faff19efd9052fcef5"><td class="memTemplParams" colspan="2">template&lt;typename T, typename U&gt; </td></tr>
+<tr class="memitem:aa3bbf7283aea39faff19efd9052fcef5"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#aa3bbf7283aea39faff19efd9052fcef5">operator!=</a> (T const &amp;value, <a class="el" href="a02353.html">optional</a>&lt; U &gt; const &amp;opt)</td></tr>
+<tr class="memdesc:aa3bbf7283aea39faff19efd9052fcef5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inequality comparison between a value and a <code>optional</code>.  <br /></td></tr>
+<tr class="separator:aa3bbf7283aea39faff19efd9052fcef5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3753b841da5f4bcef862dcc61d364ae2" id="r_a3753b841da5f4bcef862dcc61d364ae2"><td class="memTemplParams" colspan="2">template&lt;typename T, typename U&gt; </td></tr>
+<tr class="memitem:a3753b841da5f4bcef862dcc61d364ae2"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a3753b841da5f4bcef862dcc61d364ae2">operator&lt;</a> (<a class="el" href="a02353.html">optional</a>&lt; T &gt; const &amp;opt, U const &amp;value)</td></tr>
+<tr class="memdesc:a3753b841da5f4bcef862dcc61d364ae2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Less-than comparison between a <code>optional</code> and a value.  <br /></td></tr>
+<tr class="separator:a3753b841da5f4bcef862dcc61d364ae2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a74b21c39c3c94e3b3cc25bd933172ae6" id="r_a74b21c39c3c94e3b3cc25bd933172ae6"><td class="memTemplParams" colspan="2">template&lt;typename T, typename U&gt; </td></tr>
+<tr class="memitem:a74b21c39c3c94e3b3cc25bd933172ae6"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a74b21c39c3c94e3b3cc25bd933172ae6">operator&lt;</a> (T const &amp;value, <a class="el" href="a02353.html">optional</a>&lt; U &gt; const &amp;opt)</td></tr>
+<tr class="memdesc:a74b21c39c3c94e3b3cc25bd933172ae6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Less-than comparison between a value and a <code>optional</code>.  <br /></td></tr>
+<tr class="separator:a74b21c39c3c94e3b3cc25bd933172ae6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4857c58f759a410fa02112efb2f51b15" id="r_a4857c58f759a410fa02112efb2f51b15"><td class="memTemplParams" colspan="2">template&lt;typename T, typename U&gt; </td></tr>
+<tr class="memitem:a4857c58f759a410fa02112efb2f51b15"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a4857c58f759a410fa02112efb2f51b15">operator&lt;=</a> (<a class="el" href="a02353.html">optional</a>&lt; T &gt; const &amp;opt, U const &amp;value)</td></tr>
+<tr class="memdesc:a4857c58f759a410fa02112efb2f51b15"><td class="mdescLeft">&#160;</td><td class="mdescRight">Less-than-or-equal-to comparison between a <code>optional</code> and a value.  <br /></td></tr>
+<tr class="separator:a4857c58f759a410fa02112efb2f51b15"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a542041cdb17c1ccaddaa929dc8042ef5" id="r_a542041cdb17c1ccaddaa929dc8042ef5"><td class="memTemplParams" colspan="2">template&lt;typename T, typename U&gt; </td></tr>
+<tr class="memitem:a542041cdb17c1ccaddaa929dc8042ef5"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a542041cdb17c1ccaddaa929dc8042ef5">operator&lt;=</a> (T const &amp;value, <a class="el" href="a02353.html">optional</a>&lt; U &gt; const &amp;opt)</td></tr>
+<tr class="memdesc:a542041cdb17c1ccaddaa929dc8042ef5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Less-than-or-equal-to comparison between a value and a <code>optional</code>.  <br /></td></tr>
+<tr class="separator:a542041cdb17c1ccaddaa929dc8042ef5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a90ae1611fdc1df6d5522fe832a758b66" id="r_a90ae1611fdc1df6d5522fe832a758b66"><td class="memTemplParams" colspan="2">template&lt;typename T, typename U&gt; </td></tr>
+<tr class="memitem:a90ae1611fdc1df6d5522fe832a758b66"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a90ae1611fdc1df6d5522fe832a758b66">operator&gt;</a> (<a class="el" href="a02353.html">optional</a>&lt; T &gt; const &amp;opt, U const &amp;value)</td></tr>
+<tr class="memdesc:a90ae1611fdc1df6d5522fe832a758b66"><td class="mdescLeft">&#160;</td><td class="mdescRight">Greater-than comparison between a <code>optional</code> and a value.  <br /></td></tr>
+<tr class="separator:a90ae1611fdc1df6d5522fe832a758b66"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa518ed536e85e9423cfa1ca74d8a8c94" id="r_aa518ed536e85e9423cfa1ca74d8a8c94"><td class="memTemplParams" colspan="2">template&lt;typename T, typename U&gt; </td></tr>
+<tr class="memitem:aa518ed536e85e9423cfa1ca74d8a8c94"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#aa518ed536e85e9423cfa1ca74d8a8c94">operator&gt;</a> (T const &amp;value, <a class="el" href="a02353.html">optional</a>&lt; U &gt; const &amp;opt)</td></tr>
+<tr class="memdesc:aa518ed536e85e9423cfa1ca74d8a8c94"><td class="mdescLeft">&#160;</td><td class="mdescRight">Greater-than comparison between a value and a <code>optional</code>.  <br /></td></tr>
+<tr class="separator:aa518ed536e85e9423cfa1ca74d8a8c94"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3f8b6bcb7c3b5b948de018c57ecf6207" id="r_a3f8b6bcb7c3b5b948de018c57ecf6207"><td class="memTemplParams" colspan="2">template&lt;typename T, typename U&gt; </td></tr>
+<tr class="memitem:a3f8b6bcb7c3b5b948de018c57ecf6207"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a3f8b6bcb7c3b5b948de018c57ecf6207">operator&gt;=</a> (<a class="el" href="a02353.html">optional</a>&lt; T &gt; const &amp;opt, U const &amp;value)</td></tr>
+<tr class="memdesc:a3f8b6bcb7c3b5b948de018c57ecf6207"><td class="mdescLeft">&#160;</td><td class="mdescRight">Greater-than-or-equal-to comparison between a <code>optional</code> and a value.  <br /></td></tr>
+<tr class="separator:a3f8b6bcb7c3b5b948de018c57ecf6207"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8d421d592c3671af72ae8af907d7f1ca" id="r_a8d421d592c3671af72ae8af907d7f1ca"><td class="memTemplParams" colspan="2">template&lt;typename T, typename U&gt; </td></tr>
+<tr class="memitem:a8d421d592c3671af72ae8af907d7f1ca"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a8d421d592c3671af72ae8af907d7f1ca">operator&gt;=</a> (T const &amp;value, <a class="el" href="a02353.html">optional</a>&lt; U &gt; const &amp;opt)</td></tr>
+<tr class="memdesc:a8d421d592c3671af72ae8af907d7f1ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Greater-than-or-equal-to comparison between a value and a <code>optional</code>.  <br /></td></tr>
+<tr class="separator:a8d421d592c3671af72ae8af907d7f1ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a91711f770fb91a024ac472b2820d1c7d" id="r_a91711f770fb91a024ac472b2820d1c7d"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
+<tr class="memitem:a91711f770fb91a024ac472b2820d1c7d"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a91711f770fb91a024ac472b2820d1c7d">swap</a> (<a class="el" href="a02353.html">optional</a>&lt; T &gt; &amp;lhs, <a class="el" href="a02353.html">optional</a>&lt; T &gt; &amp;rhs) noexcept(noexcept(lhs.swap(rhs)))</td></tr>
+<tr class="memdesc:a91711f770fb91a024ac472b2820d1c7d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Swaps the contents of two <code>optional</code> objects.  <br /></td></tr>
+<tr class="separator:a91711f770fb91a024ac472b2820d1c7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5de32aed85d257997f82157f1d6ba2b6" id="r_a5de32aed85d257997f82157f1d6ba2b6"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
+<tr class="memitem:a5de32aed85d257997f82157f1d6ba2b6"><td class="memTemplItemLeft" align="right" valign="top">constexpr <a class="el" href="a02353.html">optional</a>&lt; typename std::decay&lt; T &gt;::type &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a5de32aed85d257997f82157f1d6ba2b6">make_optional</a> (T &amp;&amp;value)</td></tr>
+<tr class="memdesc:a5de32aed85d257997f82157f1d6ba2b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a <code>optional</code> object containing a copy or move of a value.  <br /></td></tr>
+<tr class="separator:a5de32aed85d257997f82157f1d6ba2b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af6d52f5bcebe8439f755b523407d2f38" id="r_af6d52f5bcebe8439f755b523407d2f38"><td class="memTemplParams" colspan="2">template&lt;typename T, typename... Args&gt; </td></tr>
+<tr class="memitem:af6d52f5bcebe8439f755b523407d2f38"><td class="memTemplItemLeft" align="right" valign="top">constexpr <a class="el" href="a02353.html">optional</a>&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#af6d52f5bcebe8439f755b523407d2f38">make_optional</a> (Args &amp;&amp;...args)</td></tr>
+<tr class="memdesc:af6d52f5bcebe8439f755b523407d2f38"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a <code>optional</code> object by in-place construction.  <br /></td></tr>
+<tr class="separator:af6d52f5bcebe8439f755b523407d2f38"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a27bcb998130bc71e6aee9a5bbffa5eab" id="r_a27bcb998130bc71e6aee9a5bbffa5eab"><td class="memTemplParams" colspan="2">template&lt;typename T, typename U, typename... Args&gt; </td></tr>
+<tr class="memitem:a27bcb998130bc71e6aee9a5bbffa5eab"><td class="memTemplItemLeft" align="right" valign="top">constexpr <a class="el" href="a02353.html">optional</a>&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a27bcb998130bc71e6aee9a5bbffa5eab">make_optional</a> (std::initializer_list&lt; U &gt; ilist, Args &amp;&amp;...args)</td></tr>
+<tr class="memdesc:a27bcb998130bc71e6aee9a5bbffa5eab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a <code>optional</code> object by in-place construction with an initializer list.  <br /></td></tr>
+<tr class="separator:a27bcb998130bc71e6aee9a5bbffa5eab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a2a333622703b36bee2d00ee4a0db592d" id="r_a2a333622703b36bee2d00ee4a0db592d"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="a02333.html">nullopt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2a333622703b36bee2d00ee4a0db592d">nullopt</a> { <a class="el" href="a02337.html">nullopt_t::init_tag</a>{} }</td></tr>
+<tr class="memdesc:a2a333622703b36bee2d00ee4a0db592d"><td class="mdescLeft">&#160;</td><td class="mdescRight">A constant of type <code><a class="el" href="a02333.html" title="A tag type used to indicate the absence of a value in optional.">nullopt_t</a></code> used to represent an empty <code>optional</code>.  <br /></td></tr>
+<tr class="separator:a2a333622703b36bee2d00ee4a0db592d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8743f2f5ccde67bb2a2a60518e23cedd" id="r_a8743f2f5ccde67bb2a2a60518e23cedd"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="a02341.html">in_place_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8743f2f5ccde67bb2a2a60518e23cedd">in_place</a> { <a class="el" href="a02345.html">in_place_t::init_tag</a>{} }</td></tr>
+<tr class="memdesc:a8743f2f5ccde67bb2a2a60518e23cedd"><td class="mdescLeft">&#160;</td><td class="mdescRight">A constant of type <code><a class="el" href="a02341.html" title="A tag type used to indicate in-place construction of the contained value.">in_place_t</a></code> used for in-place construction.  <br /></td></tr>
+<tr class="separator:a8743f2f5ccde67bb2a2a60518e23cedd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="af6d52f5bcebe8439f755b523407d2f38" name="af6d52f5bcebe8439f755b523407d2f38"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af6d52f5bcebe8439f755b523407d2f38">&#9670;&#160;</a></span>make_optional() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename... Args&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a02353.html">optional</a>&lt; T &gt; lumex::core::optional::opt::make_optional </td>
+          <td>(</td>
+          <td class="paramtype">Args &amp;&amp;...</td>          <td class="paramname"><span class="paramname"><em>args</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Creates a <code>optional</code> object by in-place construction. </p>
+<p>A factory function to conveniently construct a <code>optional</code> by directly constructing its contained value using the provided arguments. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>The type of the value to construct inside the optional. </td></tr>
+    <tr><td class="paramname">Args</td><td>Variadic template arguments for the constructor of <code>T</code>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">args</td><td>Arguments to forward to the constructor of <code>T</code>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A <code>optional</code> containing the newly constructed value. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01057_af6d52f5bcebe8439f755b523407d2f38_cgraph.png" border="0" usemap="#aa01057_af6d52f5bcebe8439f755b523407d2f38_cgraph" alt=""/></div>
+<map name="aa01057_af6d52f5bcebe8439f755b523407d2f38_cgraph" id="aa01057_af6d52f5bcebe8439f755b523407d2f38_cgraph">
+<area shape="rect" title="Creates a optional object by in&#45;place construction." alt="" coords="5,29,148,72"/>
+<area shape="rect" href="a01057.html#a5de32aed85d257997f82157f1d6ba2b6" title="Creates a optional object containing a copy or move of a value." alt="" coords="196,29,338,72"/>
+<area shape="poly" title=" " alt="" coords="148,48,180,48,180,53,148,53"/>
+<area shape="poly" title=" " alt="" coords="230,29,229,19,235,10,248,5,267,3,287,5,300,11,297,16,286,10,267,8,249,10,238,15,234,21,235,28"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a27bcb998130bc71e6aee9a5bbffa5eab" name="a27bcb998130bc71e6aee9a5bbffa5eab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a27bcb998130bc71e6aee9a5bbffa5eab">&#9670;&#160;</a></span>make_optional() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename U, typename... Args&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a02353.html">optional</a>&lt; T &gt; lumex::core::optional::opt::make_optional </td>
+          <td>(</td>
+          <td class="paramtype">std::initializer_list&lt; U &gt;</td>          <td class="paramname"><span class="paramname"><em>ilist</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Args &amp;&amp;...</td>          <td class="paramname"><span class="paramname"><em>args</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Creates a <code>optional</code> object by in-place construction with an initializer list. </p>
+<p>A factory function to conveniently construct a <code>optional</code> by directly constructing its contained value using an initializer list and additional arguments. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>The type of the value to construct inside the optional. </td></tr>
+    <tr><td class="paramname">U</td><td>The type of elements in the <code>initializer_list</code>. </td></tr>
+    <tr><td class="paramname">Args</td><td>Variadic template arguments for the constructor of <code>T</code>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ilist</td><td>An <code>std::initializer_list</code> to pass to the constructor of <code>T</code>. </td></tr>
+    <tr><td class="paramname">args</td><td>Additional arguments to forward to the constructor of <code>T</code>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A <code>optional</code> containing the newly constructed value. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01057_a27bcb998130bc71e6aee9a5bbffa5eab_cgraph.png" border="0" usemap="#aa01057_a27bcb998130bc71e6aee9a5bbffa5eab_cgraph" alt=""/></div>
+<map name="aa01057_a27bcb998130bc71e6aee9a5bbffa5eab_cgraph" id="aa01057_a27bcb998130bc71e6aee9a5bbffa5eab_cgraph">
+<area shape="rect" title="Creates a optional object by in&#45;place construction with an initializer list." alt="" coords="5,29,148,72"/>
+<area shape="rect" href="a01057.html#a5de32aed85d257997f82157f1d6ba2b6" title="Creates a optional object containing a copy or move of a value." alt="" coords="196,29,338,72"/>
+<area shape="poly" title=" " alt="" coords="148,48,180,48,180,53,148,53"/>
+<area shape="poly" title=" " alt="" coords="230,29,229,19,235,10,248,5,267,3,287,5,300,11,297,16,286,10,267,8,249,10,238,15,234,21,235,28"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a5de32aed85d257997f82157f1d6ba2b6" name="a5de32aed85d257997f82157f1d6ba2b6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5de32aed85d257997f82157f1d6ba2b6">&#9670;&#160;</a></span>make_optional() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a02353.html">optional</a>&lt; typename std::decay&lt; T &gt;::type &gt; lumex::core::optional::opt::make_optional </td>
+          <td>(</td>
+          <td class="paramtype">T &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Creates a <code>optional</code> object containing a copy or move of a value. </p>
+<p>A factory function to conveniently construct a <code>optional</code> from an existing value. It uses <code>std::decay</code> to get the underlying type and <code>std::forward</code> for perfect forwarding. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>The type of the value to store in the optional. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">value</td><td>The value to initialize the optional with. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A <code>optional</code> containing the provided value. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01057_a5de32aed85d257997f82157f1d6ba2b6_cgraph.png" border="0" usemap="#aa01057_a5de32aed85d257997f82157f1d6ba2b6_cgraph" alt=""/></div>
+<map name="aa01057_a5de32aed85d257997f82157f1d6ba2b6_cgraph" id="aa01057_a5de32aed85d257997f82157f1d6ba2b6_cgraph">
+<area shape="rect" title="Creates a optional object containing a copy or move of a value." alt="" coords="5,29,148,72"/>
+<area shape="poly" title=" " alt="" coords="48,29,47,19,52,11,62,5,77,3,92,5,102,12,99,16,90,10,76,8,64,10,56,14,53,20,54,28"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01057_a5de32aed85d257997f82157f1d6ba2b6_icgraph.png" border="0" usemap="#aa01057_a5de32aed85d257997f82157f1d6ba2b6_icgraph" alt=""/></div>
+<map name="aa01057_a5de32aed85d257997f82157f1d6ba2b6_icgraph" id="aa01057_a5de32aed85d257997f82157f1d6ba2b6_icgraph">
+<area shape="rect" title="Creates a optional object containing a copy or move of a value." alt="" coords="196,39,338,81"/>
+<area shape="poly" title=" " alt="" coords="297,25,286,20,267,17,249,19,238,24,234,30,235,38,230,39,229,29,235,20,248,14,267,12,287,14,300,21"/>
+<area shape="rect" href="a01057.html#af6d52f5bcebe8439f755b523407d2f38" title="Creates a optional object by in&#45;place construction." alt="" coords="5,5,148,48"/>
+<area shape="poly" title=" " alt="" coords="180,47,148,42,148,37,181,42"/>
+<area shape="rect" href="a01057.html#a27bcb998130bc71e6aee9a5bbffa5eab" title="Creates a optional object by in&#45;place construction with an initializer list." alt="" coords="5,72,148,115"/>
+<area shape="poly" title=" " alt="" coords="181,78,148,83,148,78,180,73"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ad7a5abbd7d963e4275f9fb6600f527f9" name="ad7a5abbd7d963e4275f9fb6600f527f9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad7a5abbd7d963e4275f9fb6600f527f9">&#9670;&#160;</a></span>operator!=() <span class="overload">[1/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::core::optional::opt::operator!= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02333.html">nullopt_t</a></td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a02353.html">optional</a>&lt; T &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>opt</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Inequality comparison between <code>nullopt</code> and a <code>optional</code>. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>Type of value in the optional. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">opt</td><td>The <code>optional</code> object. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if the optional has a value, <code>false</code> otherwise. </dd></dl>
+
+</div>
+</div>
+<a id="a71d57489827b2d427dc28ca69be9b7e8" name="a71d57489827b2d427dc28ca69be9b7e8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a71d57489827b2d427dc28ca69be9b7e8">&#9670;&#160;</a></span>operator!=() <span class="overload">[2/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename U&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::core::optional::opt::operator!= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02353.html">optional</a>&lt; T &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>lhs</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a02353.html">optional</a>&lt; U &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>rhs</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Inequality comparison operator for two <code>optional</code> objects. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>Type of value in the left-hand side optional. </td></tr>
+    <tr><td class="paramname">U</td><td>Type of value in the right-hand side optional. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">lhs</td><td>The left-hand side <code>optional</code> object. </td></tr>
+    <tr><td class="paramname">rhs</td><td>The right-hand side <code>optional</code> object. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if the optionals are not equal, <code>false</code> otherwise. </dd></dl>
+
+</div>
+</div>
+<a id="a534a891fa74d961c004fd481bad43d6e" name="a534a891fa74d961c004fd481bad43d6e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a534a891fa74d961c004fd481bad43d6e">&#9670;&#160;</a></span>operator!=() <span class="overload">[3/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::core::optional::opt::operator!= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02353.html">optional</a>&lt; T &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>opt</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a02333.html">nullopt_t</a></td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Inequality comparison between a <code>optional</code> and <code>nullopt</code>. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>Type of value in the optional. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">opt</td><td>The <code>optional</code> object. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if the optional has a value, <code>false</code> otherwise. </dd></dl>
+
+</div>
+</div>
+<a id="a00c79f6d034fbbf990b88bf57e64ce64" name="a00c79f6d034fbbf990b88bf57e64ce64"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a00c79f6d034fbbf990b88bf57e64ce64">&#9670;&#160;</a></span>operator!=() <span class="overload">[4/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename U&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::core::optional::opt::operator!= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02353.html">optional</a>&lt; T &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>opt</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">U const &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Inequality comparison between a <code>optional</code> and a value. </p>
+<p>Returns <code>true</code> if the optional is empty, or if it has a value and that value is not equal to <code>value</code>. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>Type of value in the optional. </td></tr>
+    <tr><td class="paramname">U</td><td>Type of the value to compare against. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">opt</td><td>The <code>optional</code> object. </td></tr>
+    <tr><td class="paramname">value</td><td>The value to compare with. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if not equal, <code>false</code> otherwise. </dd></dl>
+
+</div>
+</div>
+<a id="aa3bbf7283aea39faff19efd9052fcef5" name="aa3bbf7283aea39faff19efd9052fcef5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa3bbf7283aea39faff19efd9052fcef5">&#9670;&#160;</a></span>operator!=() <span class="overload">[5/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename U&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::core::optional::opt::operator!= </td>
+          <td>(</td>
+          <td class="paramtype">T const &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a02353.html">optional</a>&lt; U &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>opt</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Inequality comparison between a value and a <code>optional</code>. </p>
+<p>Returns <code>true</code> if the optional is empty, or if it has a value and <code>value</code> is not equal to that value. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>Type of the value to compare against. </td></tr>
+    <tr><td class="paramname">U</td><td>Type of value in the optional. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">value</td><td>The value to compare with. </td></tr>
+    <tr><td class="paramname">opt</td><td>The <code>optional</code> object. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if not equal, <code>false</code> otherwise. </dd></dl>
+
+</div>
+</div>
+<a id="a6d5454e2832f87701d73a62c283d8a87" name="a6d5454e2832f87701d73a62c283d8a87"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6d5454e2832f87701d73a62c283d8a87">&#9670;&#160;</a></span>operator&lt;() <span class="overload">[1/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::core::optional::opt::operator&lt; </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02333.html">nullopt_t</a></td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a02353.html">optional</a>&lt; T &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>opt</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Less-than comparison between <code>nullopt</code> and a <code>optional</code>. </p>
+<p><code>nullopt</code> is less than any <code>optional</code> that contains a value. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>Type of value in the optional. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">opt</td><td>The <code>optional</code> object. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if <code>opt</code> has a value, <code>false</code> otherwise. </dd></dl>
+
+</div>
+</div>
+<a id="a34a869d04942b3b1743d14fc1d0ed6c3" name="a34a869d04942b3b1743d14fc1d0ed6c3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a34a869d04942b3b1743d14fc1d0ed6c3">&#9670;&#160;</a></span>operator&lt;() <span class="overload">[2/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::core::optional::opt::operator&lt; </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02353.html">optional</a>&lt; T &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a02333.html">nullopt_t</a></td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Less-than comparison between a <code>optional</code> and <code>nullopt</code>. </p>
+<p>An optional with a value is never less than <code>nullopt</code>. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>Type of value in the optional. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>false</code>. </dd></dl>
+
+</div>
+</div>
+<a id="aff230664c0625a29d6480c616fa2b960" name="aff230664c0625a29d6480c616fa2b960"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aff230664c0625a29d6480c616fa2b960">&#9670;&#160;</a></span>operator&lt;() <span class="overload">[3/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename U&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::core::optional::opt::operator&lt; </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02353.html">optional</a>&lt; T &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>lhs</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a02353.html">optional</a>&lt; U &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>rhs</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Less-than comparison operator for two <code>optional</code> objects. </p>
+<ul>
+<li>Returns <code>false</code> if <code>rhs</code> is empty (nothing is less than empty).</li>
+<li>Returns <code>true</code> if <code>lhs</code> is empty and <code>rhs</code> has a value (empty is less than any value).</li>
+<li>Returns <code>true</code> if both have values and <code>*lhs &lt; *rhs</code>. <dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>Type of value in the left-hand side optional. </td></tr>
+    <tr><td class="paramname">U</td><td>Type of value in the right-hand side optional. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">lhs</td><td>The left-hand side <code>optional</code> object. </td></tr>
+    <tr><td class="paramname">rhs</td><td>The right-hand side <code>optional</code> object. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if <code>lhs</code> is less than <code>rhs</code>, <code>false</code> otherwise. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This function is not <code>constexpr</code> due to C++14 extension limitations on <code>if</code> statements. </dd></dl>
+</li>
+</ul>
+
+</div>
+</div>
+<a id="a3753b841da5f4bcef862dcc61d364ae2" name="a3753b841da5f4bcef862dcc61d364ae2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3753b841da5f4bcef862dcc61d364ae2">&#9670;&#160;</a></span>operator&lt;() <span class="overload">[4/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename U&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::core::optional::opt::operator&lt; </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02353.html">optional</a>&lt; T &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>opt</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">U const &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Less-than comparison between a <code>optional</code> and a value. </p>
+<p>Returns <code>true</code> if the optional is empty (empty is less than any value), or if it has a value and that value is less than <code>value</code>. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>Type of value in the optional. </td></tr>
+    <tr><td class="paramname">U</td><td>Type of the value to compare against. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">opt</td><td>The <code>optional</code> object. </td></tr>
+    <tr><td class="paramname">value</td><td>The value to compare with. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if less than, <code>false</code> otherwise. </dd></dl>
+
+</div>
+</div>
+<a id="a74b21c39c3c94e3b3cc25bd933172ae6" name="a74b21c39c3c94e3b3cc25bd933172ae6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a74b21c39c3c94e3b3cc25bd933172ae6">&#9670;&#160;</a></span>operator&lt;() <span class="overload">[5/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename U&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::core::optional::opt::operator&lt; </td>
+          <td>(</td>
+          <td class="paramtype">T const &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a02353.html">optional</a>&lt; U &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>opt</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Less-than comparison between a value and a <code>optional</code>. </p>
+<p>Returns <code>true</code> if the optional has a value and <code>value</code> is less than that value. Returns <code>false</code> if the optional is empty (nothing is less than empty). </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>Type of the value to compare against. </td></tr>
+    <tr><td class="paramname">U</td><td>Type of value in the optional. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">value</td><td>The value to compare with. </td></tr>
+    <tr><td class="paramname">opt</td><td>The <code>optional</code> object. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if less than, <code>false</code> otherwise. </dd></dl>
+
+</div>
+</div>
+<a id="a2f995f7911a26250d9b2ad9cb797213a" name="a2f995f7911a26250d9b2ad9cb797213a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2f995f7911a26250d9b2ad9cb797213a">&#9670;&#160;</a></span>operator&lt;=() <span class="overload">[1/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::core::optional::opt::operator&lt;= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02333.html">nullopt_t</a></td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a02353.html">optional</a>&lt; T &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Less-than-or-equal-to comparison between <code>nullopt</code> and a <code>optional</code>. </p>
+<p><code>nullopt</code> is always less than or equal to any <code>optional</code>. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>Type of value in the optional. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code>. </dd></dl>
+
+</div>
+</div>
+<a id="af00abdf776f1b30910f52d5c1b27c4f6" name="af00abdf776f1b30910f52d5c1b27c4f6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af00abdf776f1b30910f52d5c1b27c4f6">&#9670;&#160;</a></span>operator&lt;=() <span class="overload">[2/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename U&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::core::optional::opt::operator&lt;= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02353.html">optional</a>&lt; T &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>lhs</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a02353.html">optional</a>&lt; U &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>rhs</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Less-than-or-equal-to comparison operator for two <code>optional</code> objects. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>Type of value in the left-hand side optional. </td></tr>
+    <tr><td class="paramname">U</td><td>Type of value in the right-hand side optional. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">lhs</td><td>The left-hand side <code>optional</code> object. </td></tr>
+    <tr><td class="paramname">rhs</td><td>The right-hand side <code>optional</code> object. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if <code>lhs</code> is less than or equal to <code>rhs</code>, <code>false</code> otherwise. </dd></dl>
+
+</div>
+</div>
+<a id="a82d427703fe629c73b2e6abc94c4ff6b" name="a82d427703fe629c73b2e6abc94c4ff6b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a82d427703fe629c73b2e6abc94c4ff6b">&#9670;&#160;</a></span>operator&lt;=() <span class="overload">[3/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::core::optional::opt::operator&lt;= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02353.html">optional</a>&lt; T &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>opt</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a02333.html">nullopt_t</a></td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Less-than-or-equal-to comparison between a <code>optional</code> and <code>nullopt</code>. </p>
+<p>An optional with a value is never less than or equal to <code>nullopt</code>. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>Type of value in the optional. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">opt</td><td>The <code>optional</code> object. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if the optional is empty, <code>false</code> otherwise. </dd></dl>
+
+</div>
+</div>
+<a id="a4857c58f759a410fa02112efb2f51b15" name="a4857c58f759a410fa02112efb2f51b15"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4857c58f759a410fa02112efb2f51b15">&#9670;&#160;</a></span>operator&lt;=() <span class="overload">[4/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename U&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::core::optional::opt::operator&lt;= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02353.html">optional</a>&lt; T &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>opt</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">U const &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Less-than-or-equal-to comparison between a <code>optional</code> and a value. </p>
+<p>Returns <code>true</code> if the optional is empty, or if it has a value and that value is less than or equal to <code>value</code>. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>Type of value in the optional. </td></tr>
+    <tr><td class="paramname">U</td><td>Type of the value to compare against. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">opt</td><td>The <code>optional</code> object. </td></tr>
+    <tr><td class="paramname">value</td><td>The value to compare with. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if less than or equal to, <code>false</code> otherwise. </dd></dl>
+
+</div>
+</div>
+<a id="a542041cdb17c1ccaddaa929dc8042ef5" name="a542041cdb17c1ccaddaa929dc8042ef5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a542041cdb17c1ccaddaa929dc8042ef5">&#9670;&#160;</a></span>operator&lt;=() <span class="overload">[5/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename U&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::core::optional::opt::operator&lt;= </td>
+          <td>(</td>
+          <td class="paramtype">T const &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a02353.html">optional</a>&lt; U &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>opt</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Less-than-or-equal-to comparison between a value and a <code>optional</code>. </p>
+<p>Returns <code>true</code> if the optional has a value and <code>value</code> is less than or equal to that value. Returns <code>false</code> if the optional is empty. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>Type of the value to compare against. </td></tr>
+    <tr><td class="paramname">U</td><td>Type of value in the optional. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">value</td><td>The value to compare with. </td></tr>
+    <tr><td class="paramname">opt</td><td>The <code>optional</code> object. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if less than or equal to, <code>false</code> otherwise. </dd></dl>
+
+</div>
+</div>
+<a id="ac07d066806c2c1c73412f7acd84c367c" name="ac07d066806c2c1c73412f7acd84c367c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac07d066806c2c1c73412f7acd84c367c">&#9670;&#160;</a></span>operator==() <span class="overload">[1/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::core::optional::opt::operator== </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02333.html">nullopt_t</a></td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a02353.html">optional</a>&lt; T &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>opt</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Equality comparison between <code>nullopt</code> and a <code>optional</code>. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>Type of value in the optional. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">opt</td><td>The <code>optional</code> object. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if the optional is empty, <code>false</code> otherwise. </dd></dl>
+
+</div>
+</div>
+<a id="a01391f5171de036594c2ad4d151df37a" name="a01391f5171de036594c2ad4d151df37a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a01391f5171de036594c2ad4d151df37a">&#9670;&#160;</a></span>operator==() <span class="overload">[2/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename U&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::core::optional::opt::operator== </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02353.html">optional</a>&lt; T &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>lhs</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a02353.html">optional</a>&lt; U &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>rhs</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Equality comparison operator for two <code>optional</code> objects. </p>
+<ul>
+<li>Returns <code>true</code> if both optionals are empty.</li>
+<li>Returns <code>false</code> if one is empty and the other has a value.</li>
+<li>Returns <code>true</code> if both have values and their contained values are equal (<code>*lhs == *rhs</code>). <dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>Type of value in the left-hand side optional. </td></tr>
+    <tr><td class="paramname">U</td><td>Type of value in the right-hand side optional. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">lhs</td><td>The left-hand side <code>optional</code> object. </td></tr>
+    <tr><td class="paramname">rhs</td><td>The right-hand side <code>optional</code> object. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if the optionals are equal, <code>false</code> otherwise. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This function is not <code>constexpr</code> due to C++14 extension limitations on <code>if</code> statements. </dd></dl>
+</li>
+</ul>
+
+</div>
+</div>
+<a id="a9243931d776cd905236a8ee353ab9371" name="a9243931d776cd905236a8ee353ab9371"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9243931d776cd905236a8ee353ab9371">&#9670;&#160;</a></span>operator==() <span class="overload">[3/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::core::optional::opt::operator== </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02353.html">optional</a>&lt; T &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>opt</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a02333.html">nullopt_t</a></td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Equality comparison between a <code>optional</code> and <code>nullopt</code>. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>Type of value in the optional. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">opt</td><td>The <code>optional</code> object. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if the optional is empty, <code>false</code> otherwise. </dd></dl>
+
+</div>
+</div>
+<a id="af16284bd5facae26a60c3b2c58ec0a58" name="af16284bd5facae26a60c3b2c58ec0a58"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af16284bd5facae26a60c3b2c58ec0a58">&#9670;&#160;</a></span>operator==() <span class="overload">[4/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename U&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::core::optional::opt::operator== </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02353.html">optional</a>&lt; T &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>opt</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">U const &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Equality comparison between a <code>optional</code> and a value. </p>
+<p>Returns <code>true</code> if the optional has a value and that value is equal to <code>value</code>. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>Type of value in the optional. </td></tr>
+    <tr><td class="paramname">U</td><td>Type of the value to compare against. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">opt</td><td>The <code>optional</code> object. </td></tr>
+    <tr><td class="paramname">value</td><td>The value to compare with. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if equal, <code>false</code> otherwise. </dd></dl>
+
+</div>
+</div>
+<a id="ad4683f12646cd1ff0258729d3365ff96" name="ad4683f12646cd1ff0258729d3365ff96"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad4683f12646cd1ff0258729d3365ff96">&#9670;&#160;</a></span>operator==() <span class="overload">[5/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename U&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::core::optional::opt::operator== </td>
+          <td>(</td>
+          <td class="paramtype">T const &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a02353.html">optional</a>&lt; U &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>opt</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Equality comparison between a value and a <code>optional</code>. </p>
+<p>Returns <code>true</code> if the optional has a value and <code>value</code> is equal to that value. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>Type of the value to compare against. </td></tr>
+    <tr><td class="paramname">U</td><td>Type of value in the optional. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">value</td><td>The value to compare with. </td></tr>
+    <tr><td class="paramname">opt</td><td>The <code>optional</code> object. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if equal, <code>false</code> otherwise. </dd></dl>
+
+</div>
+</div>
+<a id="a61f1b147d4cc4cef6c31114cc9b2c8d7" name="a61f1b147d4cc4cef6c31114cc9b2c8d7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a61f1b147d4cc4cef6c31114cc9b2c8d7">&#9670;&#160;</a></span>operator&gt;() <span class="overload">[1/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::core::optional::opt::operator&gt; </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02333.html">nullopt_t</a></td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a02353.html">optional</a>&lt; T &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Greater-than comparison between <code>nullopt</code> and a <code>optional</code>. </p>
+<p><code>nullopt</code> is never greater than any <code>optional</code>. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>Type of value in the optional. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>false</code>. </dd></dl>
+
+</div>
+</div>
+<a id="a87a85b5a2474f577da30d0435171dab0" name="a87a85b5a2474f577da30d0435171dab0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a87a85b5a2474f577da30d0435171dab0">&#9670;&#160;</a></span>operator&gt;() <span class="overload">[2/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename U&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::core::optional::opt::operator&gt; </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02353.html">optional</a>&lt; T &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>lhs</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a02353.html">optional</a>&lt; U &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>rhs</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Greater-than comparison operator for two <code>optional</code> objects. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>Type of value in the left-hand side optional. </td></tr>
+    <tr><td class="paramname">U</td><td>Type of value in the right-hand side optional. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">lhs</td><td>The left-hand side <code>optional</code> object. </td></tr>
+    <tr><td class="paramname">rhs</td><td>The right-hand side <code>optional</code> object. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if <code>lhs</code> is greater than <code>rhs</code>, <code>false</code> otherwise. </dd></dl>
+
+</div>
+</div>
+<a id="af33967b4dbfa02f1381e1e43b443ca60" name="af33967b4dbfa02f1381e1e43b443ca60"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af33967b4dbfa02f1381e1e43b443ca60">&#9670;&#160;</a></span>operator&gt;() <span class="overload">[3/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::core::optional::opt::operator&gt; </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02353.html">optional</a>&lt; T &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>opt</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a02333.html">nullopt_t</a></td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Greater-than comparison between a <code>optional</code> and <code>nullopt</code>. </p>
+<p>A <code>optional</code> with a value is always greater than <code>nullopt</code>. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>Type of value in the optional. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">opt</td><td>The <code>optional</code> object. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if the optional has a value, <code>false</code> otherwise. </dd></dl>
+
+</div>
+</div>
+<a id="a90ae1611fdc1df6d5522fe832a758b66" name="a90ae1611fdc1df6d5522fe832a758b66"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a90ae1611fdc1df6d5522fe832a758b66">&#9670;&#160;</a></span>operator&gt;() <span class="overload">[4/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename U&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::core::optional::opt::operator&gt; </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02353.html">optional</a>&lt; T &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>opt</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">U const &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Greater-than comparison between a <code>optional</code> and a value. </p>
+<p>Returns <code>true</code> if the optional has a value and that value is greater than <code>value</code>. Returns <code>false</code> if the optional is empty. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>Type of value in the optional. </td></tr>
+    <tr><td class="paramname">U</td><td>Type of the value to compare against. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">opt</td><td>The <code>optional</code> object. </td></tr>
+    <tr><td class="paramname">value</td><td>The value to compare with. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if greater than, <code>false</code> otherwise. </dd></dl>
+
+</div>
+</div>
+<a id="aa518ed536e85e9423cfa1ca74d8a8c94" name="aa518ed536e85e9423cfa1ca74d8a8c94"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa518ed536e85e9423cfa1ca74d8a8c94">&#9670;&#160;</a></span>operator&gt;() <span class="overload">[5/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename U&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::core::optional::opt::operator&gt; </td>
+          <td>(</td>
+          <td class="paramtype">T const &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a02353.html">optional</a>&lt; U &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>opt</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Greater-than comparison between a value and a <code>optional</code>. </p>
+<p>Returns <code>true</code> if the optional is empty, or if it has a value and <code>value</code> is greater than that value. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>Type of the value to compare against. </td></tr>
+    <tr><td class="paramname">U</td><td>Type of value in the optional. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">value</td><td>The value to compare with. </td></tr>
+    <tr><td class="paramname">opt</td><td>The <code>optional</code> object. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if greater than, <code>false</code> otherwise. </dd></dl>
+
+</div>
+</div>
+<a id="ad158818fcabfcdb36e45acc5cd43a7b1" name="ad158818fcabfcdb36e45acc5cd43a7b1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad158818fcabfcdb36e45acc5cd43a7b1">&#9670;&#160;</a></span>operator&gt;=() <span class="overload">[1/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::core::optional::opt::operator&gt;= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02333.html">nullopt_t</a></td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a02353.html">optional</a>&lt; T &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>opt</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Greater-than-or-equal-to comparison between <code>nullopt</code> and a <code>optional</code>. </p>
+<p><code>nullopt</code> is greater than or equal to a <code>optional</code> only if the latter is empty. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>Type of value in the optional. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">opt</td><td>The <code>optional</code> object. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if <code>opt</code> is empty, <code>false</code> otherwise. </dd></dl>
+
+</div>
+</div>
+<a id="a7a94ccb4ddb9a3a7cd4b4cd5a99166e5" name="a7a94ccb4ddb9a3a7cd4b4cd5a99166e5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7a94ccb4ddb9a3a7cd4b4cd5a99166e5">&#9670;&#160;</a></span>operator&gt;=() <span class="overload">[2/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::core::optional::opt::operator&gt;= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02353.html">optional</a>&lt; T &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a02333.html">nullopt_t</a></td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Greater-than-or-equal-to comparison between a <code>optional</code> and <code>nullopt</code>. </p>
+<p>A <code>optional</code> is always greater than or equal to <code>nullopt</code>. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>Type of value in the optional. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code>. </dd></dl>
+
+</div>
+</div>
+<a id="a0cc9372713b94cbe936e93fc135285a2" name="a0cc9372713b94cbe936e93fc135285a2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0cc9372713b94cbe936e93fc135285a2">&#9670;&#160;</a></span>operator&gt;=() <span class="overload">[3/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename U&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::core::optional::opt::operator&gt;= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02353.html">optional</a>&lt; T &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>lhs</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a02353.html">optional</a>&lt; U &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>rhs</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Greater-than-or-equal-to comparison operator for two <code>optional</code> objects. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>Type of value in the left-hand side optional. </td></tr>
+    <tr><td class="paramname">U</td><td>Type of value in the right-hand side optional. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">lhs</td><td>The left-hand side <code>optional</code> object. </td></tr>
+    <tr><td class="paramname">rhs</td><td>The right-hand side <code>optional</code> object. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if <code>lhs</code> is greater than or equal to <code>rhs</code>, <code>false</code> otherwise. </dd></dl>
+
+</div>
+</div>
+<a id="a3f8b6bcb7c3b5b948de018c57ecf6207" name="a3f8b6bcb7c3b5b948de018c57ecf6207"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3f8b6bcb7c3b5b948de018c57ecf6207">&#9670;&#160;</a></span>operator&gt;=() <span class="overload">[4/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename U&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::core::optional::opt::operator&gt;= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02353.html">optional</a>&lt; T &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>opt</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">U const &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Greater-than-or-equal-to comparison between a <code>optional</code> and a value. </p>
+<p>Returns <code>true</code> if the optional has a value and that value is greater than or equal to <code>value</code>. Returns <code>false</code> if the optional is empty. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>Type of value in the optional. </td></tr>
+    <tr><td class="paramname">U</td><td>Type of the value to compare against. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">opt</td><td>The <code>optional</code> object. </td></tr>
+    <tr><td class="paramname">value</td><td>The value to compare with. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if greater than or equal to, <code>false</code> otherwise. </dd></dl>
+
+</div>
+</div>
+<a id="a8d421d592c3671af72ae8af907d7f1ca" name="a8d421d592c3671af72ae8af907d7f1ca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8d421d592c3671af72ae8af907d7f1ca">&#9670;&#160;</a></span>operator&gt;=() <span class="overload">[5/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename U&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::core::optional::opt::operator&gt;= </td>
+          <td>(</td>
+          <td class="paramtype">T const &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a02353.html">optional</a>&lt; U &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>opt</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Greater-than-or-equal-to comparison between a value and a <code>optional</code>. </p>
+<p>Returns <code>true</code> if the optional is empty, or if it has a value and <code>value</code> is greater than or equal to that value. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>Type of the value to compare against. </td></tr>
+    <tr><td class="paramname">U</td><td>Type of value in the optional. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">value</td><td>The value to compare with. </td></tr>
+    <tr><td class="paramname">opt</td><td>The <code>optional</code> object. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if greater than or equal to, <code>false</code> otherwise. </dd></dl>
+
+</div>
+</div>
+<a id="a91711f770fb91a024ac472b2820d1c7d" name="a91711f770fb91a024ac472b2820d1c7d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a91711f770fb91a024ac472b2820d1c7d">&#9670;&#160;</a></span>swap()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lumex::core::optional::opt::swap </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02353.html">optional</a>&lt; T &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>lhs</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a02353.html">optional</a>&lt; T &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>rhs</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Swaps the contents of two <code>optional</code> objects. </p>
+<p>This is a non-member <code>swap</code> function following the standard library pattern, which calls the member <code>swap</code> function. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>The type of value contained in the optionals. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">lhs</td><td>The first <code>optional</code> object. </td></tr>
+    <tr><td class="paramname">rhs</td><td>The second <code>optional</code> object. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>The <code>noexcept</code> specification depends on the member <code>swap</code> function. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01057_a91711f770fb91a024ac472b2820d1c7d_cgraph.png" border="0" usemap="#aa01057_a91711f770fb91a024ac472b2820d1c7d_cgraph" alt=""/></div>
+<map name="aa01057_a91711f770fb91a024ac472b2820d1c7d_cgraph" id="aa01057_a91711f770fb91a024ac472b2820d1c7d_cgraph">
+<area shape="rect" title="Swaps the contents of two optional objects." alt="" coords="5,29,148,72"/>
+<area shape="poly" title=" " alt="" coords="48,29,47,19,52,11,62,5,77,3,92,5,102,12,99,16,90,10,76,8,64,10,56,14,53,20,54,28"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01057_a91711f770fb91a024ac472b2820d1c7d_icgraph.png" border="0" usemap="#aa01057_a91711f770fb91a024ac472b2820d1c7d_icgraph" alt=""/></div>
+<map name="aa01057_a91711f770fb91a024ac472b2820d1c7d_icgraph" id="aa01057_a91711f770fb91a024ac472b2820d1c7d_icgraph">
+<area shape="rect" title="Swaps the contents of two optional objects." alt="" coords="5,29,148,72"/>
+<area shape="poly" title=" " alt="" coords="99,16,90,10,76,8,64,10,56,14,53,20,54,28,48,29,47,19,52,11,62,5,77,3,92,5,102,12"/>
+</map>
+</div>
+
+</div>
+</div>
+<h2 class="groupheader">Variable Documentation</h2>
+<a id="a8743f2f5ccde67bb2a2a60518e23cedd" name="a8743f2f5ccde67bb2a2a60518e23cedd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8743f2f5ccde67bb2a2a60518e23cedd">&#9670;&#160;</a></span>in_place</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a02341.html">in_place_t</a> lumex::core::optional::opt::in_place { <a class="el" href="a02345.html">in_place_t::init_tag</a>{} }</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>A constant of type <code><a class="el" href="a02341.html" title="A tag type used to indicate in-place construction of the contained value.">in_place_t</a></code> used for in-place construction. </p>
+<p>This global constant is used as the first argument in <code>optional</code> constructors or <code>emplace</code> calls when direct construction of the contained value is desired. </p><div class="fragment"><div class="line"><a class="code hl_class" href="a02353.html">optional&lt;MyClass&gt;</a> opt1(lumex::in_place, arg1, arg2); <span class="comment">// Constructs</span></div>
+<div class="line">MyClass(arg1, arg2) <a class="code hl_class" href="a02353.html">optional&lt;std::vector&lt;int&gt;</a>&gt; opt2(lumex::in_place,</div>
+<div class="line">{1, 2, 3}); <span class="comment">// Constructs std::vector&lt;int&gt;({1, 2, 3})</span></div>
+<div class="ttc" id="aa02353_html"><div class="ttname"><a href="a02353.html">lumex::core::optional::opt::optional</a></div><div class="ttdoc">A C++11 implementation of std::optional for type-safe nullable values.</div><div class="ttdef"><b>Definition</b> LumexOptional.hpp:248</div></div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a id="a2a333622703b36bee2d00ee4a0db592d" name="a2a333622703b36bee2d00ee4a0db592d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2a333622703b36bee2d00ee4a0db592d">&#9670;&#160;</a></span>nullopt</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a02333.html">nullopt_t</a> lumex::core::optional::opt::nullopt { <a class="el" href="a02337.html">nullopt_t::init_tag</a>{} }</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>A constant of type <code><a class="el" href="a02333.html" title="A tag type used to indicate the absence of a value in optional.">nullopt_t</a></code> used to represent an empty <code>optional</code>. </p>
+<p>This global constant is the canonical way to initialize or assign an empty state to a <code>optional</code> object. </p><div class="fragment"><div class="line"><a class="code hl_class" href="a02353.html">optional&lt;int&gt;</a> opt1 = lumex::nullopt;</div>
+<div class="line"><a class="code hl_class" href="a02353.html">optional&lt;std::string&gt;</a> opt2; <span class="comment">// Also initializes as empty</span></div>
+<div class="line">opt2 = lumex::nullopt;</div>
+</div><!-- fragment --> 
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00912.html">lumex</a></li><li class="navelem"><a class="el" href="a00964.html">core</a></li><li class="navelem"><a class="el" href="a01036.html">utility</a></li><li class="navelem"><a class="el" href="a01050.html">traits</a></li><li class="navelem"><a class="el" href="a01057.html">string</a></li>
+    <li class="navelem"><a class="el" href="a00948.html">lumex</a></li><li class="navelem"><a class="el" href="a01005.html">core</a></li><li class="navelem"><a class="el" href="a01056.html">optional</a></li><li class="navelem"><a class="el" href="a01057.html">opt</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

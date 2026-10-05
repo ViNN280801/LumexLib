@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexTextCase.hpp File Reference</title>
+<title>LumexLib: LumexFormatChrono.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,59 +104,263 @@ $(function(){initNavTree('a00311.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
 <a href="#namespaces">Namespaces</a> &#124;
 <a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">LumexTextCase.hpp File Reference</div></div>
+  <div class="headertitle"><div class="title">LumexFormatChrono.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Normalizes text for case-insensitive comparison.  
+<p><code>std::chrono::duration</code> and <code>system_clock</code> time points for LumexFormat, with the chrono specification of C++20 <code>std::format</code>.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;cctype&gt;</code><br />
+<div class="textblock"><code>#include &lt;chrono&gt;</code><br />
+<code>#include &lt;cmath&gt;</code><br />
+<code>#include &lt;cstddef&gt;</code><br />
+<code>#include &lt;ctime&gt;</code><br />
+<code>#include &lt;iterator&gt;</code><br />
+<code>#include &lt;locale&gt;</code><br />
+<code>#include &lt;ratio&gt;</code><br />
+<code>#include &lt;sstream&gt;</code><br />
 <code>#include &lt;string&gt;</code><br />
-<code>#include &lt;utility&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00368_source.html">lumex/core/utility/compiler/LumexCheckFeatures.hpp</a>&quot;</code><br />
+<code>#include &lt;type_traits&gt;</code><br />
+<code>#include &quot;<a class="el" href="a00308_source.html">lumex/core/fmt/LumexFormat.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00425_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for LumexTextCase.hpp:</div>
+Include dependency graph for LumexFormatChrono.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00312.png" border="0" usemap="#a_lumex_text_case_8hpp" alt=""/></div>
+<div class="center"><img src="a00312.png" border="0" usemap="#a_lumex_format_chrono_8hpp" alt=""/></div>
+<map name="a_lumex_format_chrono_8hpp" id="a_lumex_format_chrono_8hpp">
+<area shape="rect" title="std::chrono::duration and system_clock time points for LumexFormat, with the chrono specification of ..." alt="" coords="891,5,1060,32"/>
+<area shape="rect" title=" " alt="" coords="5,80,66,107"/>
+<area shape="poly" title=" " alt="" coords="891,24,739,28,539,37,313,55,85,83,81,83,80,78,84,77,312,49,538,32,739,22,891,18"/>
+<area shape="rect" title=" " alt="" coords="294,163,351,189"/>
+<area shape="poly" title=" " alt="" coords="899,35,661,82,516,116,371,157,365,159,363,154,369,152,514,111,660,76,898,30"/>
+<area shape="rect" title=" " alt="" coords="141,253,205,280"/>
+<area shape="poly" title=" " alt="" coords="891,26,550,46,389,63,333,72,301,82,279,98,259,116,226,159,201,203,185,240,180,238,196,201,221,156,255,113,276,94,298,78,332,67,389,57,550,41,891,21"/>
+<area shape="rect" title=" " alt="" coords="2514,80,2568,107"/>
+<area shape="poly" title=" " alt="" coords="1060,18,1362,23,1777,33,2192,51,2365,63,2496,77,2499,78,2498,83,2495,83,2365,68,2192,56,1777,39,1362,28,1060,24"/>
+<area shape="rect" title=" " alt="" coords="229,253,290,280"/>
+<area shape="poly" title=" " alt="" coords="891,24,758,29,602,40,456,57,398,68,354,82,325,96,304,110,287,129,271,156,264,176,260,197,259,238,254,238,255,197,259,175,266,154,283,125,300,106,322,91,352,78,396,63,456,51,602,34,758,24,891,19"/>
+<area shape="rect" title=" " alt="" coords="2292,163,2347,189"/>
+<area shape="poly" title=" " alt="" coords="1060,17,1275,23,1578,42,1749,59,1925,82,2102,113,2274,152,2281,154,2279,159,2272,157,2101,118,1924,88,1748,64,1577,47,1275,28,1060,23"/>
+<area shape="rect" title=" " alt="" coords="2591,80,2637,107"/>
+<area shape="poly" title=" " alt="" coords="1060,17,1371,19,1804,26,2030,34,2243,45,2430,59,2576,77,2575,83,2430,64,2243,50,2030,39,1804,32,1371,24,1060,23"/>
+<area shape="rect" title=" " alt="" coords="2371,163,2439,189"/>
+<area shape="poly" title=" " alt="" coords="1060,18,1232,22,1464,32,1728,49,1994,77,2180,104,2260,122,2360,152,2366,154,2364,159,2359,157,2258,127,2179,109,1994,83,1727,55,1463,37,1231,28,1060,24"/>
+<area shape="rect" title=" " alt="" coords="2092,253,2145,280"/>
+<area shape="poly" title=" " alt="" coords="1060,18,1392,25,1609,34,1836,46,2052,63,2240,86,2317,100,2380,115,2426,133,2453,153,2465,171,2469,187,2465,202,2456,215,2423,235,2376,249,2320,258,2262,264,2161,268,2160,263,2262,259,2320,253,2375,244,2421,230,2452,211,2461,200,2463,187,2460,173,2450,156,2423,138,2378,120,2316,105,2239,91,2052,68,1835,51,1609,39,1392,31,1060,24"/>
+<area shape="rect" title=" " alt="" coords="314,253,397,280"/>
+<area shape="poly" title=" " alt="" coords="891,26,735,36,550,58,462,75,384,97,322,124,300,139,283,156,278,167,276,178,285,201,303,223,326,242,322,246,300,227,280,203,271,178,272,165,279,153,296,135,320,119,382,92,461,70,549,53,734,31,891,20"/>
+<area shape="rect" href="a00308.html" title="std::format&#45;style text formatting from C++11 on." alt="" coords="1134,80,1351,107"/>
+<area shape="poly" title=" " alt="" coords="1023,30,1182,73,1180,78,1021,35"/>
+<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="1176,336,1370,379"/>
+<area shape="poly" title=" " alt="" coords="891,22,738,23,554,31,463,39,381,49,312,64,261,82,189,125,158,149,132,175,114,202,107,229,111,257,130,286,167,293,257,301,544,319,1160,349,1160,354,544,325,257,307,166,298,127,290,106,259,101,229,109,199,128,171,154,145,186,120,258,78,310,59,380,44,463,33,553,26,737,18,891,16"/>
+<area shape="poly" title=" " alt="" coords="1133,100,730,119,521,135,436,146,371,157,363,159,361,154,370,152,435,140,521,130,729,113,1133,95"/>
+<area shape="poly" title=" " alt="" coords="1133,96,955,98,745,106,642,113,547,124,468,139,409,157,395,166,386,177,378,188,364,200,325,219,292,228,259,235,218,248,214,249,212,244,216,243,257,230,291,223,323,214,361,195,374,184,382,173,391,162,406,152,467,133,547,119,641,108,744,100,955,92,1133,91"/>
+<area shape="poly" title=" " alt="" coords="1133,97,966,101,771,110,588,128,514,141,459,157,444,166,434,176,424,188,409,200,357,226,303,248,301,249,299,244,301,243,355,221,406,195,420,184,430,172,441,162,457,152,513,136,587,122,770,104,966,95,1133,92"/>
+<area shape="poly" title=" " alt="" coords="1351,94,1567,99,1833,109,2088,126,2193,138,2273,152,2281,154,2279,159,2272,157,2193,143,2088,132,1833,114,1567,104,1351,99"/>
+<area shape="poly" title=" " alt="" coords="1351,93,1584,97,1875,107,2156,124,2272,137,2360,152,2367,154,2366,159,2359,157,2271,142,2156,129,1875,112,1584,102,1351,98"/>
+<area shape="poly" title=" " alt="" coords="1351,95,1845,115,2071,132,2145,141,2180,153,2187,164,2190,176,2183,201,2167,224,2147,245,2143,241,2163,221,2178,198,2184,176,2182,166,2177,157,2144,147,2071,137,1844,120,1351,100"/>
+<area shape="poly" title=" " alt="" coords="1133,98,977,103,797,112,630,130,562,142,511,157,495,166,485,175,460,199,390,247,387,243,456,195,481,172,492,161,509,152,561,137,629,124,797,107,977,97,1133,93"/>
+<area shape="rect" title=" " alt="" coords="786,163,845,189"/>
+<area shape="poly" title=" " alt="" coords="1134,106,1001,124,929,139,859,157,854,159,853,154,857,152,928,134,1000,119,1133,101"/>
+<area shape="rect" title=" " alt="" coords="870,163,932,189"/>
+<area shape="poly" title=" " alt="" coords="1151,110,1051,129,944,157,940,159,938,154,943,152,1049,124,1150,105"/>
+<area shape="rect" title=" " alt="" coords="956,163,1016,189"/>
+<area shape="poly" title=" " alt="" coords="1189,110,1113,130,1030,157,1026,159,1024,154,1028,152,1111,125,1187,105"/>
+<area shape="rect" title=" " alt="" coords="1041,163,1097,189"/>
+<area shape="poly" title=" " alt="" coords="1215,110,1110,157,1109,158,1106,153,1108,152,1212,105"/>
+<area shape="rect" title=" " alt="" coords="1120,163,1180,189"/>
+<area shape="poly" title=" " alt="" coords="1230,109,1177,155,1174,151,1226,105"/>
+<area shape="rect" title=" " alt="" coords="1204,163,1281,189"/>
+<area shape="poly" title=" " alt="" coords="1245,107,1245,147,1240,147,1240,107"/>
+<area shape="rect" title=" " alt="" coords="1305,163,1376,189"/>
+<area shape="poly" title=" " alt="" coords="1259,105,1316,151,1313,155,1256,109"/>
+<area shape="rect" title=" " alt="" coords="1719,253,1771,280"/>
+<area shape="poly" title=" " alt="" coords="1351,97,1473,104,1603,116,1710,132,1746,141,1767,153,1777,174,1778,197,1772,220,1763,241,1758,239,1767,218,1772,196,1772,175,1763,157,1744,146,1709,137,1602,121,1473,110,1351,102"/>
+<area shape="rect" title=" " alt="" coords="1795,253,1863,280"/>
+<area shape="poly" title=" " alt="" coords="1351,91,1470,93,1598,102,1659,110,1713,121,1758,135,1790,153,1807,171,1819,193,1829,237,1824,239,1814,195,1803,174,1787,157,1756,140,1712,126,1658,115,1598,107,1469,99,1351,96"/>
+<area shape="rect" title=" " alt="" coords="1400,163,1479,189"/>
+<area shape="poly" title=" " alt="" coords="1274,105,1396,154,1394,159,1272,110"/>
+<area shape="rect" title=" " alt="" coords="1887,253,1939,280"/>
+<area shape="poly" title=" " alt="" coords="1351,94,1474,98,1611,108,1735,126,1785,138,1822,152,1848,170,1870,193,1902,238,1897,241,1866,196,1844,174,1820,157,1783,143,1734,131,1610,114,1474,104,1351,99"/>
+<area shape="rect" title=" " alt="" coords="1503,163,1560,189"/>
+<area shape="poly" title=" " alt="" coords="1312,105,1398,124,1491,152,1495,154,1493,159,1489,157,1397,129,1311,110"/>
+<area shape="rect" title=" " alt="" coords="421,253,508,280"/>
+<area shape="poly" title=" " alt="" coords="1133,98,988,101,824,110,673,128,612,141,567,157,541,174,517,196,482,242,478,239,513,193,537,170,565,152,611,136,672,123,824,105,988,96,1133,92"/>
+<area shape="rect" href="a00389.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="1585,155,1753,197"/>
+<area shape="poly" title=" " alt="" coords="1315,105,1570,151,1569,157,1314,110"/>
+<area shape="rect" href="a00422.html" title="Macros that declare an exception class in one line." alt="" coords="1929,155,2166,197"/>
+<area shape="poly" title=" " alt="" coords="1351,100,1607,121,1910,152,1914,152,1913,158,1910,157,1606,126,1351,105"/>
+<area shape="poly" title=" " alt="" coords="1352,95,1858,115,2091,131,2167,141,2203,153,2213,170,2214,190,2210,211,2201,232,2178,269,2158,290,2116,305,2042,318,1832,337,1592,349,1386,356,1385,351,1592,344,1832,332,2041,313,2114,300,2155,286,2174,266,2197,230,2205,210,2209,190,2207,172,2199,157,2166,146,2090,136,1857,120,1351,100"/>
+<area shape="rect" href="a00446.html" title="Every general&#45;purpose type trait of LumexLib, one sub&#45;namespace of lumex::core::utility::traits per t..." alt="" coords="578,155,762,197"/>
+<area shape="poly" title=" " alt="" coords="1133,109,970,129,777,157,777,152,969,124,1133,104"/>
+<area shape="rect" href="a00404.html" title="C++ language, library and attribute feature availability." alt="" coords="1464,245,1695,288"/>
+<area shape="poly" title=" " alt="" coords="1650,200,1613,236,1609,233,1646,196"/>
+<area shape="poly" title=" " alt="" coords="2066,196,2101,239,2097,243,2062,199"/>
+<area shape="poly" title=" " alt="" coords="2017,200,1946,247,1943,242,2014,196"/>
+<area shape="poly" title=" " alt="" coords="579,186,409,207,312,224,218,248,212,250,211,245,216,243,311,219,408,201,578,181"/>
+<area shape="poly" title=" " alt="" coords="579,190,447,212,374,228,303,248,298,249,297,244,301,243,373,223,446,207,578,185"/>
+<area shape="poly" title=" " alt="" coords="763,193,774,195,953,212,1104,222,1362,226,1621,226,1773,231,1952,243,2077,257,2076,262,1951,248,1772,236,1620,231,1362,231,1104,227,952,218,774,200,762,198"/>
+<area shape="poly" title=" " alt="" coords="583,200,410,248,403,250,401,245,408,243,581,195"/>
+<area shape="poly" title=" " alt="" coords="763,193,774,195,865,202,979,205,1243,207,1379,210,1506,215,1619,226,1708,243,1712,244,1711,249,1707,248,1618,231,1506,221,1379,215,1243,212,979,210,865,207,774,200,762,198"/>
+<area shape="poly" title=" " alt="" coords="763,193,774,195,928,208,1058,210,1282,200,1390,196,1504,199,1633,213,1784,243,1791,245,1790,250,1783,248,1633,219,1504,205,1390,202,1282,205,1059,215,928,213,774,200,762,198"/>
+<area shape="poly" title=" " alt="" coords="763,193,774,195,882,202,1016,205,1327,205,1487,207,1638,212,1771,223,1876,243,1880,244,1879,249,1875,248,1770,228,1638,217,1487,212,1327,210,1016,210,882,208,774,200,762,198"/>
+<area shape="poly" title=" " alt="" coords="623,200,509,249,507,244,621,196"/>
+<area shape="poly" title=" " alt="" coords="762,193,774,195,962,214,1109,221,1257,227,1445,243,1449,243,1448,248,1445,248,1256,232,1109,226,962,219,774,200,762,198"/>
+<area shape="poly" title=" " alt="" coords="762,193,774,195,895,199,1096,203,1200,207,1293,215,1364,226,1388,234,1403,243,1410,255,1412,266,1403,289,1383,313,1357,331,1354,327,1379,309,1399,287,1407,266,1405,257,1399,247,1386,239,1363,232,1292,220,1200,213,1096,208,895,204,774,200,762,198"/>
+<area shape="rect" title=" " alt="" coords="725,253,775,280"/>
+<area shape="poly" title=" " alt="" coords="691,196,731,240,727,244,687,200"/>
+<area shape="rect" title=" " alt="" coords="800,253,877,280"/>
+<area shape="poly" title=" " alt="" coords="711,196,802,243,799,248,708,200"/>
+<area shape="rect" title=" " alt="" coords="901,253,970,280"/>
+<area shape="poly" title=" " alt="" coords="744,195,890,243,894,245,893,250,888,248,742,201"/>
+<area shape="rect" title=" " alt="" coords="994,253,1043,280"/>
+<area shape="poly" title=" " alt="" coords="763,193,897,222,983,243,986,244,984,249,981,248,895,227,762,199"/>
+<area shape="rect" title=" " alt="" coords="1066,253,1133,280"/>
+<area shape="poly" title=" " alt="" coords="763,192,775,195,854,207,916,214,977,223,1055,243,1061,245,1059,250,1053,248,976,228,915,219,853,212,774,200,762,198"/>
+<area shape="rect" href="a00386.html" title="Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_..." alt="" coords="533,245,700,288"/>
+<area shape="poly" title=" " alt="" coords="660,199,639,234,635,231,656,196"/>
+<area shape="rect" href="a00419.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="1157,245,1389,288"/>
+<area shape="poly" title=" " alt="" coords="762,193,775,195,956,219,1141,242,1141,247,956,225,774,200,762,198"/>
+<area shape="poly" title=" " alt="" coords="701,283,713,285,952,319,1160,342,1160,348,952,324,712,291,701,289"/>
+<area shape="rect" href="a00641.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="536,344,698,371"/>
+<area shape="poly" title=" " alt="" coords="620,288,620,328,614,328,614,288"/>
+<area shape="poly" title=" " alt="" coords="1276,288,1276,321,1270,321,1270,288"/>
+</map>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00313.png" border="0" usemap="#a_lumex_text_case_8hppdep" alt=""/></div>
+<div class="center"><img src="a00313.png" border="0" usemap="#a_lumex_format_chrono_8hppdep" alt=""/></div>
+<map name="a_lumex_format_chrono_8hppdep" id="a_lumex_format_chrono_8hppdep">
+<area shape="rect" title="std::chrono::duration and system_clock time points for LumexFormat, with the chrono specification of ..." alt="" coords="471,5,639,32"/>
+<area shape="rect" href="a00914.html" title="Format module: std::format&#45;style text formatting from C++11 on, including ranges, tuples and std::chr..." alt="" coords="504,80,606,107"/>
+<area shape="poly" title=" " alt="" coords="558,48,558,80,552,80,552,48"/>
+<area shape="rect" href="a00500.html" title=" " alt="" coords="5,155,145,181"/>
+<area shape="poly" title=" " alt="" coords="490,107,145,159,145,154,489,102"/>
+<area shape="rect" href="a00503.html" title=" " alt="" coords="169,155,333,181"/>
+<area shape="poly" title=" " alt="" coords="490,113,305,157,303,152,489,108"/>
+<area shape="rect" href="a00506.html" title=" " alt="" coords="357,155,542,181"/>
+<area shape="poly" title=" " alt="" coords="526,118,470,156,467,152,523,113"/>
+<area shape="rect" href="a00509.html" title=" " alt="" coords="567,155,756,181"/>
+<area shape="poly" title=" " alt="" coords="588,113,644,152,641,156,585,118"/>
+<area shape="rect" href="a00512.html" title=" " alt="" coords="781,155,966,181"/>
+<area shape="poly" title=" " alt="" coords="622,107,818,151,817,157,621,112"/>
+<area shape="rect" href="a00515.html" title=" " alt="" coords="991,155,1188,181"/>
+<area shape="poly" title=" " alt="" coords="622,101,996,151,995,157,621,106"/>
+</map>
 </div>
 </div>
 <p><a href="a00311_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02173.html">lumex::core::fmt::Detail::civil_time_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Broken-down calendar date and time of day.  <a href="a02173.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02177.html">lumex::core::fmt::Detail::ChronoFormatter&lt; Char &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parses <code>[[fill]align][width][.precision][L][chrono-specs]</code> and pads the chrono text; base of the duration and time point formatters.  <a href="a02177.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02185.html">lumex::core::fmt::Formatter&lt; std::chrono::time_point&lt; std::chrono::system_clock, Duration &gt;, Char, typename std::enable_if&lt;!std::chrono::treat_as_floating_point&lt; typename Duration::rep &gt;::value &gt;::type &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>std::chrono::system_clock</code> time points (UTC): <code>F T</code> by default, the date only for whole-day time points.  <a href="a02185.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00912.html">lumex</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00948.html">lumex</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00964.html">lumex::core</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01005.html">lumex::core</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01024.html">lumex::core::string</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01048.html">lumex::core::fmt</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01025.html">lumex::core::string::text</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01049.html">lumex::core::fmt::Detail</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ad8f7eb93f5a0d72fd633cee8e25bd05a" id="r_ad8f7eb93f5a0d72fd633cee8e25bd05a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01025.html#ad8f7eb93f5a0d72fd633cee8e25bd05a">lumex::core::string::text::to_case_insensitive</a> (std::string &amp;str, bool need_to_remove_spaces=true)</td></tr>
-<tr class="memdesc:ad8f7eb93f5a0d72fd633cee8e25bd05a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lowercases <code>str</code> in place (ASCII <code>std::tolower</code>), so later comparisons are case-insensitive.  <br /></td></tr>
-<tr class="separator:ad8f7eb93f5a0d72fd633cee8e25bd05a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af2d09555090576cec202f328fb11ddbf" id="r_af2d09555090576cec202f328fb11ddbf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01025.html#af2d09555090576cec202f328fb11ddbf">lumex::core::string::text::to_case_insensitive</a> (std::string const &amp;orig, std::string &amp;out, bool need_to_remove_spaces=true)</td></tr>
-<tr class="memdesc:af2d09555090576cec202f328fb11ddbf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy-out overload of <code>to_case_insensitive(std::string &amp;, bool)</code>.  <br /></td></tr>
-<tr class="separator:af2d09555090576cec202f328fb11ddbf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8a3611c453003762e23f73cdf331d06a" id="r_a8a3611c453003762e23f73cdf331d06a"><td class="memItemLeft" align="right" valign="top">long long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01049.html#a8a3611c453003762e23f73cdf331d06a">lumex::core::fmt::Detail::floor_div</a> (long long value, long long divisor) noexcept</td></tr>
+<tr class="memdesc:a8a3611c453003762e23f73cdf331d06a"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>value / divisor</code> rounded toward negative infinity.  <br /></td></tr>
+<tr class="separator:a8a3611c453003762e23f73cdf331d06a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae8c7658b63539d3879a215371302723c" id="r_ae8c7658b63539d3879a215371302723c"><td class="memItemLeft" align="right" valign="top">long long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01049.html#ae8c7658b63539d3879a215371302723c">lumex::core::fmt::Detail::floor_mod</a> (long long value, long long divisor) noexcept</td></tr>
+<tr class="memdesc:ae8c7658b63539d3879a215371302723c"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>value mod divisor</code> in <code>[0, divisor)</code> for a positive divisor.  <br /></td></tr>
+<tr class="separator:ae8c7658b63539d3879a215371302723c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a365347e3849bfaedcfb56627e1ee586e" id="r_a365347e3849bfaedcfb56627e1ee586e"><td class="memItemLeft" align="right" valign="top">long long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01049.html#a365347e3849bfaedcfb56627e1ee586e">lumex::core::fmt::Detail::days_from_civil</a> (long long year_value, int month_value, int day_value) noexcept</td></tr>
+<tr class="memdesc:a365347e3849bfaedcfb56627e1ee586e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Days since 1970-01-01 of a civil date.  <br /></td></tr>
+<tr class="separator:a365347e3849bfaedcfb56627e1ee586e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abf8a964b73ead1cec0f493a86c4b9fab" id="r_abf8a964b73ead1cec0f493a86c4b9fab"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01049.html#abf8a964b73ead1cec0f493a86c4b9fab">lumex::core::fmt::Detail::civil_from_days</a> (long long day_count, <a class="el" href="a02173.html">civil_time_t</a> &amp;time) noexcept</td></tr>
+<tr class="memdesc:abf8a964b73ead1cec0f493a86c4b9fab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fills the date part of <code>time</code> from days since 1970-01-01.  <br /></td></tr>
+<tr class="separator:abf8a964b73ead1cec0f493a86c4b9fab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abf2d03bfeff88c2c87dc0258865374ca" id="r_abf2d03bfeff88c2c87dc0258865374ca"><td class="memItemLeft" align="right" valign="top">long long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01049.html#abf2d03bfeff88c2c87dc0258865374ca">lumex::core::fmt::Detail::power_of_ten</a> (int exponent) noexcept</td></tr>
+<tr class="memdesc:abf2d03bfeff88c2c87dc0258865374ca"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>10^exponent</code> for <code>exponent</code> in 0..18.  <br /></td></tr>
+<tr class="separator:abf2d03bfeff88c2c87dc0258865374ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ba235f9fcada7ece959be451804b733" id="r_a6ba235f9fcada7ece959be451804b733"><td class="memTemplParams" colspan="2">template&lt;typename Period&gt; </td></tr>
+<tr class="memitem:a6ba235f9fcada7ece959be451804b733"><td class="memTemplItemLeft" align="right" valign="top">int&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01049.html#a6ba235f9fcada7ece959be451804b733">lumex::core::fmt::Detail::fractional_digits</a> () noexcept</td></tr>
+<tr class="memdesc:a6ba235f9fcada7ece959be451804b733"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fractional second digits of <code>S</code> for <code>Period</code>: the smallest <code>n</code> (at most 18) with <code>Period * 10^n</code> whole, 6 when there is none.  <br /></td></tr>
+<tr class="separator:a6ba235f9fcada7ece959be451804b733"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a474c0fd7c9f1ace69805a5a6a099600a" id="r_a474c0fd7c9f1ace69805a5a6a099600a"><td class="memTemplParams" colspan="2">template&lt;typename Rep, typename Period&gt; </td></tr>
+<tr class="memitem:a474c0fd7c9f1ace69805a5a6a099600a"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01049.html#a474c0fd7c9f1ace69805a5a6a099600a">lumex::core::fmt::Detail::split_seconds</a> (std::chrono::duration&lt; Rep, Period &gt; const &amp;value, int digits, long long &amp;whole_seconds, long long &amp;ticks)</td></tr>
+<tr class="memdesc:a474c0fd7c9f1ace69805a5a6a099600a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Splits a non-negative duration into whole seconds and the fraction in <code>10^-digits</code> units (truncated).  <br /></td></tr>
+<tr class="separator:a474c0fd7c9f1ace69805a5a6a099600a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8436ead0f08c22325c76c607c228c592" id="r_a8436ead0f08c22325c76c607c228c592"><td class="memTemplParams" colspan="2">template&lt;typename Period&gt; </td></tr>
+<tr class="memitem:a8436ead0f08c22325c76c607c228c592"><td class="memTemplItemLeft" align="right" valign="top">std::string&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01049.html#a8436ead0f08c22325c76c607c228c592">lumex::core::fmt::Detail::unit_suffix</a> ()</td></tr>
+<tr class="memdesc:a8436ead0f08c22325c76c607c228c592"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unit suffix of <code>q</code> / <code>{}</code> for <code>Period</code>.  <br /></td></tr>
+<tr class="separator:a8436ead0f08c22325c76c607c228c592"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8ccbbce0aa0b3f54e45e28809998ecca" id="r_a8ccbbce0aa0b3f54e45e28809998ecca"><td class="memTemplParams" colspan="2">template&lt;typename Char&gt; </td></tr>
+<tr class="memitem:a8ccbbce0aa0b3f54e45e28809998ecca"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01049.html#a8ccbbce0aa0b3f54e45e28809998ecca">lumex::core::fmt::Detail::is_chrono_conversion</a> (Char conversion, Char modifier, bool is_duration) noexcept</td></tr>
+<tr class="memdesc:a8ccbbce0aa0b3f54e45e28809998ecca"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>%&lt;conversion&gt;</code> is valid for a duration / a time point.  <br /></td></tr>
+<tr class="separator:a8ccbbce0aa0b3f54e45e28809998ecca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a28ba701722fdcf7194acbbdaaa6062fd" id="r_a28ba701722fdcf7194acbbdaaa6062fd"><td class="memTemplParams" colspan="2">template&lt;typename Char&gt; </td></tr>
+<tr class="memitem:a28ba701722fdcf7194acbbdaaa6062fd"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01049.html#a28ba701722fdcf7194acbbdaaa6062fd">lumex::core::fmt::Detail::check_chrono_specs</a> (Char const *begin, Char const *end, bool is_duration)</td></tr>
+<tr class="memdesc:a28ba701722fdcf7194acbbdaaa6062fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks <code>[begin, end)</code> as chrono-specs; they must start with a conversion.  <br /></td></tr>
+<tr class="separator:a28ba701722fdcf7194acbbdaaa6062fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a50d6c5e29743cab15e1594cf58b632a7" id="r_a50d6c5e29743cab15e1594cf58b632a7"><td class="memTemplParams" colspan="2">template&lt;typename Char&gt; </td></tr>
+<tr class="memitem:a50d6c5e29743cab15e1594cf58b632a7"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01049.html#a50d6c5e29743cab15e1594cf58b632a7">lumex::core::fmt::Detail::append_ascii</a> (std::basic_string&lt; Char &gt; &amp;out, std::string const &amp;text)</td></tr>
+<tr class="separator:a50d6c5e29743cab15e1594cf58b632a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a818162ff93668f48df1c55821b00846f" id="r_a818162ff93668f48df1c55821b00846f"><td class="memTemplParams" colspan="2">template&lt;typename Char&gt; </td></tr>
+<tr class="memitem:a818162ff93668f48df1c55821b00846f"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01049.html#a818162ff93668f48df1c55821b00846f">lumex::core::fmt::Detail::append_number</a> (std::basic_string&lt; Char &gt; &amp;out, long long value, int width)</td></tr>
+<tr class="memdesc:a818162ff93668f48df1c55821b00846f"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>value</code> with at least <code>width</code> digits, zero padded, with sign.  <br /></td></tr>
+<tr class="separator:a818162ff93668f48df1c55821b00846f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a40ff57adf446dd2e2b97a65f9e817121" id="r_a40ff57adf446dd2e2b97a65f9e817121"><td class="memTemplParams" colspan="2">template&lt;typename Char&gt; </td></tr>
+<tr class="memitem:a40ff57adf446dd2e2b97a65f9e817121"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01049.html#a40ff57adf446dd2e2b97a65f9e817121">lumex::core::fmt::Detail::append_seconds</a> (std::basic_string&lt; Char &gt; &amp;out, <a class="el" href="a02173.html">civil_time_t</a> const &amp;time)</td></tr>
+<tr class="separator:a40ff57adf446dd2e2b97a65f9e817121"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3cfab9d85ccf991300e57dec088e9dac" id="r_a3cfab9d85ccf991300e57dec088e9dac"><td class="memTemplParams" colspan="2">template&lt;typename Char&gt; </td></tr>
+<tr class="memitem:a3cfab9d85ccf991300e57dec088e9dac"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01049.html#a3cfab9d85ccf991300e57dec088e9dac">lumex::core::fmt::Detail::append_localized</a> (std::basic_string&lt; Char &gt; &amp;out, <a class="el" href="a02173.html">civil_time_t</a> const &amp;time, char conversion, char modifier, std::locale const &amp;locale)</td></tr>
+<tr class="memdesc:a3cfab9d85ccf991300e57dec088e9dac"><td class="mdescLeft">&#160;</td><td class="mdescRight">One conversion through the locale's <code>std::time_put</code> (<code>L</code>).  <br /></td></tr>
+<tr class="separator:a3cfab9d85ccf991300e57dec088e9dac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeefcec729273930a28872e248746c365" id="r_aeefcec729273930a28872e248746c365"><td class="memItemLeft" align="right" valign="top">char const *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01049.html#aeefcec729273930a28872e248746c365">lumex::core::fmt::Detail::weekday_name</a> (int weekday_index, bool full) noexcept</td></tr>
+<tr class="separator:aeefcec729273930a28872e248746c365"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8add933ba8511f86512df2449d2bd4f9" id="r_a8add933ba8511f86512df2449d2bd4f9"><td class="memItemLeft" align="right" valign="top">char const *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01049.html#a8add933ba8511f86512df2449d2bd4f9">lumex::core::fmt::Detail::month_name</a> (int month_index, bool full) noexcept</td></tr>
+<tr class="separator:a8add933ba8511f86512df2449d2bd4f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9bb3e619b249d54a8889159cb394a5bd" id="r_a9bb3e619b249d54a8889159cb394a5bd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01049.html#a9bb3e619b249d54a8889159cb394a5bd">lumex::core::fmt::Detail::iso_week</a> (<a class="el" href="a02173.html">civil_time_t</a> const &amp;time, long long &amp;iso_year, int &amp;week) noexcept</td></tr>
+<tr class="memdesc:a9bb3e619b249d54a8889159cb394a5bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">ISO 8601 week-based year and week number.  <br /></td></tr>
+<tr class="separator:a9bb3e619b249d54a8889159cb394a5bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a754034de35d8ea974e37818b711109a8" id="r_a754034de35d8ea974e37818b711109a8"><td class="memTemplParams" colspan="2">template&lt;typename Char&gt; </td></tr>
+<tr class="memitem:a754034de35d8ea974e37818b711109a8"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01049.html#a754034de35d8ea974e37818b711109a8">lumex::core::fmt::Detail::write_chrono</a> (std::basic_string&lt; Char &gt; &amp;out, Char const *it, Char const *end, <a class="el" href="a02173.html">civil_time_t</a> const &amp;time, std::basic_string&lt; Char &gt; const &amp;count, std::string const &amp;unit, bool localized, std::locale const &amp;locale)</td></tr>
+<tr class="memdesc:a754034de35d8ea974e37818b711109a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes <code>time</code> following the checked chrono-specs <code>[it, end)</code>.  <br /></td></tr>
+<tr class="separator:a754034de35d8ea974e37818b711109a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad543c02880402a3b7f724bbf0650fb51" id="r_ad543c02880402a3b7f724bbf0650fb51"><td class="memTemplParams" colspan="2">template&lt;typename Char, typename Rep&gt; </td></tr>
+<tr class="memitem:ad543c02880402a3b7f724bbf0650fb51"><td class="memTemplItemLeft" align="right" valign="top">std::basic_string&lt; Char &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01049.html#ad543c02880402a3b7f724bbf0650fb51">lumex::core::fmt::Detail::duration_count</a> (Rep count, int precision)</td></tr>
+<tr class="memdesc:ad543c02880402a3b7f724bbf0650fb51"><td class="mdescLeft">&#160;</td><td class="mdescRight">Count of a duration as <code>{}</code> / <code>Q</code> print it.  <br /></td></tr>
+<tr class="separator:ad543c02880402a3b7f724bbf0650fb51"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Normalizes text for case-insensitive comparison. </p>
+<div class="textblock"><p><code>std::chrono::duration</code> and <code>system_clock</code> time points for LumexFormat, with the chrono specification of C++20 <code>std::format</code>. </p>
+<ul>
+<li><code>{}</code> of a duration prints its count and unit: <code>42s</code>, <code>1500ms</code>, <code>7us</code>, <code>3min</code>, <code>2h</code>, <code>5d</code>, <code>5[1/3]s</code>. A floating-point count prints shortest, or fixed with a precision (<code>{:.2}</code> -&gt; <code>1.56s</code>).</li>
+<li><code>{}</code> of a <code>system_clock</code> time point prints <code>F T</code> in UTC with as many fractional second digits as its duration has (<code>2026-09-25 13:04:05.007</code>); a whole-day time point prints the date only.</li>
+<li>Specification: <code>[[fill]align][width][.precision][L][chrono-specs]</code>, where chrono-specs start with a conversion (<code>H:M</code>) and may contain literal text. Durations: <code>H M S T R I p r j Q q n t %%</code>. Time points additionally: <code>Y C y m d e F D j a A b B h u w U W V G g c x X Z z</code> and the <code>E</code> / <code>O</code> modifiers the standard allows.</li>
+<li><code>S</code> shows as many fractional digits as the duration's period needs (3 for milliseconds, 7 for 100 ns ticks, 6 when no decimal is exact).</li>
+<li>A negative duration prints one <code>-</code> before everything else (<code>-01:02:05</code>).</li>
+<li>Without <code>L</code>, names (<code>a b p</code>) and <code>c x X</code> are those of the C locale (<code>c</code> = <code>a b e T Y</code>); with <code>L</code> they come from the locale's <code>std::time_put</code>.</li>
+<li>The microsecond suffix is the ASCII <code>us</code> (the standard allows it; MSVC prints it too), so the output never depends on the execution charset. </li>
+</ul>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_459f7d6cb411def697850a9e92b67c08.html">string</a></li><li class="navelem"><a class="el" href="dir_7f2a87a12e57e05b49f1824eaaf6f6a8.html">text</a></li><li class="navelem"><a class="el" href="a00311.html">LumexTextCase.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_338a3242ca58d57e3179a5eb9e6b0159.html">fmt</a></li><li class="navelem"><a class="el" href="a00311.html">LumexFormatChrono.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexFilesystem.hpp File Reference</title>
+<title>LumexLib: LumexExceptionWrapper.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,281 +104,294 @@ $(function(){initNavTree('a00269.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
 <a href="#namespaces">Namespaces</a> &#124;
+<a href="#define-members">Macros</a> &#124;
 <a href="#typedef-members">Typedefs</a> &#124;
-<a href="#enum-members">Enumerations</a> &#124;
-<a href="#func-members">Functions</a> &#124;
-<a href="#var-members">Variables</a>  </div>
-  <div class="headertitle"><div class="title">LumexFilesystem.hpp File Reference</div></div>
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle"><div class="title">LumexExceptionWrapper.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Cross-platform replacement for <code>&lt;filesystem&gt;</code> (C++17) written in pure C++11, compiled into the <code><a class="el" href="a00912.html#a77de8edea14bb4049de2fe633b6f6e4f" title="Global alias for lumex::core::filesystem::fs::lumex_filesystem::lumex_filesystem.">lumex::filesystem</a></code> library (<code><a class="el" href="a00266.html">LumexFilesystem.cpp</a></code>).  
+<p>Exception-safe call wrapper: invokes a callable, catches anything it throws, reports it to <code>std::cerr</code>, and returns a safe default value instead of letting the exception propagate.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="a00605_source.html">lumex/LumexExport.hpp</a>&quot;</code><br />
-<code>#include &lt;cstdint&gt;</code><br />
-<code>#include &lt;ctime&gt;</code><br />
-<code>#include &lt;memory&gt;</code><br />
-<code>#include &lt;ostream&gt;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="a00641_source.html">lumex/LumexExport.hpp</a>&quot;</code><br />
+<code>#include &lt;cstring&gt;</code><br />
+<code>#include &lt;iostream&gt;</code><br />
 <code>#include &lt;string&gt;</code><br />
-<code>#include &lt;vector&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00905_source.html">lumex/core/utility/LumexUtility</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00383_source.html">lumex/core/utility/macros/LumexConstantMacros.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00389_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
+<code>#include &lt;type_traits&gt;</code><br />
+<code>#include &lt;utility&gt;</code><br />
+<code>#include &quot;<a class="el" href="a00386_source.html">lumex/core/utility/assert/LumexAssert.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00425_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00428_source.html">lumex/core/utility/macros/LumexMacros.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00446_source.html">lumex/core/utility/traits/LumexTypeTraits.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for LumexFilesystem.hpp:</div>
+Include dependency graph for LumexExceptionWrapper.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00270.png" border="0" usemap="#a_lumex_filesystem_8hpp" alt=""/></div>
+<div class="center"><img src="a00270.png" border="0" usemap="#a_lumex_exception_wrapper_8hpp" alt=""/></div>
+<map name="a_lumex_exception_wrapper_8hpp" id="a_lumex_exception_wrapper_8hpp">
+<area shape="rect" title="Exception&#45;safe call wrapper: invokes a callable, catches anything it throws, reports it to std::cerr,..." alt="" coords="644,5,836,32"/>
+<area shape="rect" href="a00641.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="5,269,168,296"/>
+<area shape="poly" title=" " alt="" coords="644,28,471,46,373,61,276,83,206,96,147,105,122,112,98,125,75,144,53,172,46,192,48,214,57,236,69,256,65,258,53,238,43,216,41,192,48,169,71,140,95,120,120,107,146,99,205,90,275,77,372,56,471,40,644,23"/>
+<area shape="rect" title=" " alt="" coords="1534,88,1594,115"/>
+<area shape="poly" title=" " alt="" coords="836,21,1195,41,1380,57,1515,77,1524,80,1522,85,1514,83,1380,62,1194,46,836,26"/>
+<area shape="rect" title=" " alt="" coords="1618,88,1689,115"/>
+<area shape="poly" title=" " alt="" coords="836,20,1240,38,1453,55,1540,65,1607,77,1615,80,1613,85,1606,83,1540,70,1452,60,1240,43,836,25"/>
+<area shape="rect" title=" " alt="" coords="254,179,308,205"/>
+<area shape="poly" title=" " alt="" coords="663,35,576,54,485,82,390,127,314,172,311,168,388,122,483,78,575,49,661,30"/>
+<area shape="rect" title=" " alt="" coords="332,179,414,205"/>
+<area shape="poly" title=" " alt="" coords="700,35,640,56,574,82,483,129,407,173,405,168,480,124,572,78,638,51,698,30"/>
+<area shape="rect" title=" " alt="" coords="439,179,491,205"/>
+<area shape="poly" title=" " alt="" coords="721,35,500,172,497,168,718,30"/>
+<area shape="rect" href="a00386.html" title="Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_..." alt="" coords="63,171,230,213"/>
+<area shape="poly" title=" " alt="" coords="644,33,523,51,457,65,393,83,288,123,199,165,196,161,286,118,391,77,456,60,522,46,643,27"/>
+<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="1333,261,1528,304"/>
+<area shape="poly" title=" " alt="" coords="832,30,1521,120,1620,122,1748,121,1813,124,1871,132,1920,146,1939,156,1954,169,1961,180,1964,192,1961,204,1954,215,1934,227,1898,237,1792,254,1665,268,1543,277,1543,272,1664,262,1792,249,1897,232,1932,222,1950,211,1956,202,1959,192,1956,182,1950,172,1936,161,1918,151,1870,137,1812,130,1748,127,1620,128,1521,125,831,35"/>
+<area shape="rect" href="a00428.html" title="General preprocessor helpers: LUMEX_FUNCTION_NAME, LUMEX_STRINGIZE and LUMEX_CONCAT." alt="" coords="1713,80,1892,123"/>
+<area shape="poly" title=" " alt="" coords="836,19,1210,34,1451,51,1698,77,1697,82,1451,57,1210,40,836,24"/>
+<area shape="rect" href="a00446.html" title="Every general&#45;purpose type trait of LumexLib, one sub&#45;namespace of lumex::core::utility::traits per t..." alt="" coords="754,80,937,123"/>
+<area shape="poly" title=" " alt="" coords="758,30,808,68,805,72,755,35"/>
+<area shape="poly" title=" " alt="" coords="135,215,106,258,101,255,130,212"/>
+<area shape="poly" title=" " alt="" coords="231,209,243,211,547,243,849,263,1116,273,1318,278,1318,283,1116,279,848,268,546,248,242,216,230,214"/>
+<area shape="poly" title=" " alt="" coords="753,108,661,113,552,125,435,144,321,173,317,175,315,169,319,168,434,139,551,120,661,108,753,102"/>
+<area shape="poly" title=" " alt="" coords="753,115,600,137,513,153,427,173,419,176,417,171,426,168,512,148,599,132,753,110"/>
+<area shape="poly" title=" " alt="" coords="754,116,634,138,568,154,505,173,502,174,500,169,503,168,567,149,633,133,753,111"/>
+<area shape="poly" title=" " alt="" coords="753,113,527,136,246,173,245,168,526,130,753,108"/>
+<area shape="poly" title=" " alt="" coords="910,121,962,142,1015,168,1030,180,1040,191,1050,201,1065,211,1128,235,1193,253,1258,265,1318,273,1317,278,1257,271,1192,258,1126,240,1063,216,1047,206,1036,195,1026,184,1012,173,960,146,908,126"/>
+<area shape="rect" title=" " alt="" coords="1444,179,1494,205"/>
+<area shape="poly" title=" " alt="" coords="937,100,1041,104,1166,115,1300,135,1368,150,1433,168,1436,169,1434,174,1431,173,1366,155,1299,141,1165,120,1040,110,937,105"/>
+<area shape="rect" title=" " alt="" coords="1518,179,1583,205"/>
+<area shape="poly" title=" " alt="" coords="937,100,1053,104,1196,115,1353,135,1431,150,1507,168,1513,170,1511,175,1506,173,1430,155,1352,140,1196,120,1053,109,937,105"/>
+<area shape="rect" title=" " alt="" coords="1606,179,1684,205"/>
+<area shape="poly" title=" " alt="" coords="937,100,1067,104,1232,114,1414,134,1506,149,1595,168,1604,171,1603,176,1594,173,1505,155,1413,140,1232,119,1067,109,937,105"/>
+<area shape="rect" title=" " alt="" coords="516,179,577,205"/>
+<area shape="poly" title=" " alt="" coords="754,125,674,146,590,173,586,175,584,170,588,168,672,141,753,120"/>
+<area shape="rect" title=" " alt="" coords="602,179,654,205"/>
+<area shape="poly" title=" " alt="" coords="786,126,666,173,665,174,663,169,664,168,784,121"/>
+<area shape="rect" title=" " alt="" coords="678,179,746,205"/>
+<area shape="poly" title=" " alt="" coords="815,126,745,172,742,168,812,121"/>
+<area shape="rect" title=" " alt="" coords="770,179,838,205"/>
+<area shape="poly" title=" " alt="" coords="838,124,818,166,814,164,833,122"/>
+<area shape="rect" title=" " alt="" coords="862,179,911,205"/>
+<area shape="poly" title=" " alt="" coords="857,122,877,164,872,166,852,124"/>
+<area shape="rect" title=" " alt="" coords="935,179,1001,205"/>
+<area shape="poly" title=" " alt="" coords="875,121,940,168,937,172,872,125"/>
+<area shape="rect" title=" " alt="" coords="1076,179,1164,205"/>
+<area shape="poly" title=" " alt="" coords="910,121,1067,171,1065,176,909,126"/>
+<area shape="rect" href="a00404.html" title="C++ language, library and attribute feature availability." alt="" coords="1188,171,1420,213"/>
+<area shape="poly" title=" " alt="" coords="938,118,1182,165,1181,170,937,123"/>
+<area shape="rect" href="a00419.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="1708,171,1940,213"/>
+<area shape="poly" title=" " alt="" coords="937,105,1266,127,1477,145,1692,168,1692,173,1476,151,1266,133,937,110"/>
+<area shape="poly" title=" " alt="" coords="1732,217,1538,260,1537,255,1731,211"/>
+</map>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00271.png" border="0" usemap="#a_lumex_filesystem_8hppdep" alt=""/></div>
+<div class="center"><img src="a00271.png" border="0" usemap="#a_lumex_exception_wrapper_8hppdep" alt=""/></div>
+<map name="a_lumex_exception_wrapper_8hppdep" id="a_lumex_exception_wrapper_8hppdep">
+<area shape="rect" title="Exception&#45;safe call wrapper: invokes a callable, catches anything it throws, reports it to std::cerr,..." alt="" coords="170,5,361,32"/>
+<area shape="rect" href="a00905.html" title="Exceptions module: the LumexBaseException hierarchy, stack traces, a crash handler that writes minidu..." alt="" coords="117,80,235,107"/>
+<area shape="poly" title=" " alt="" coords="240,44,193,82,190,78,236,40"/>
+<area shape="rect" href="a00266.html" title=" " alt="" coords="259,80,450,107"/>
+<area shape="poly" title=" " alt="" coords="294,40,341,78,338,82,291,44"/>
+<area shape="rect" href="a00482.html" title=" " alt="" coords="5,163,171,189"/>
+<area shape="poly" title=" " alt="" coords="153,119,103,164,100,161,149,115"/>
+<area shape="rect" href="a00485.html" title=" " alt="" coords="195,155,336,197"/>
+<area shape="poly" title=" " alt="" coords="203,115,244,152,241,156,200,119"/>
+</map>
 </div>
 </div>
 <p><a href="a00269_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01886.html">lumex::core::filesystem::fs::filesystem_result&lt; T &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A generic result type for filesystem operations that encapsulates a value or an error.  <a href="a01886.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01890.html">lumex::core::filesystem::fs::filesystem_result&lt; void &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Specialization of <code><a class="el" href="a01886.html" title="A generic result type for filesystem operations that encapsulates a value or an error.">filesystem_result</a></code> for <code>void</code> return types.  <a href="a01890.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01894.html">lumex::core::filesystem::fs::path</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cross-platform path representation and manipulation.  <a href="a01894.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01898.html">lumex::core::filesystem::fs::file_status</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">File status information.  <a href="a01898.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01902.html">lumex::core::filesystem::fs::space_info</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Space information for a filesystem.  <a href="a01902.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01906.html">lumex::core::filesystem::fs::directory_entry</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Directory entry representation.  <a href="a01906.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01910.html">lumex::core::filesystem::fs::directory_iterator</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Directory iterator for traversing directory contents.  <a href="a01910.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01914.html">lumex::core::filesystem::fs::lumex_filesystem</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Main filesystem operations class.  <a href="a01914.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00912.html">lumex</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00948.html">lumex</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00964.html">lumex::core</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01005.html">lumex::core</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01003.html">lumex::core::filesystem</a></td></tr>
-<tr class="memdesc:a01003"><td class="mdescLeft">&#160;</td><td class="mdescRight">Contains classes and utilities for cross-platform filesystem operations. <br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01032.html">lumex::core::exceptions</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01004.html">lumex::core::filesystem::fs</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01035.html">lumex::core::exceptions::Wrapper</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01037.html">lumex::core::exceptions::Wrapper::detail</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a03ec1ac9d020fd4f7b12362a94f204e9" id="r_a03ec1ac9d020fd4f7b12362a94f204e9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a03ec1ac9d020fd4f7b12362a94f204e9">LUMEX_SAFE_CALL</a>(expr)</td></tr>
+<tr class="memdesc:a03ec1ac9d020fd4f7b12362a94f204e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Safely evaluates <code>expr</code>, with default, source-location-based diagnostic messages.  <br /></td></tr>
+<tr class="separator:a03ec1ac9d020fd4f7b12362a94f204e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a261fa5b1604d900afd08ec4e0bebacb8" id="r_a261fa5b1604d900afd08ec4e0bebacb8"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a261fa5b1604d900afd08ec4e0bebacb8">LUMEX_SAFE_CALL_MSG</a>(expr,  excMessage,  unknExcMessage)</td></tr>
+<tr class="memdesc:a261fa5b1604d900afd08ec4e0bebacb8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Safely evaluates <code>expr</code>, with caller-supplied diagnostic messages.  <br /></td></tr>
+<tr class="separator:a261fa5b1604d900afd08ec4e0bebacb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ed36355e2c324c794ddd802ade7d549" id="r_a1ed36355e2c324c794ddd802ade7d549"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1ed36355e2c324c794ddd802ade7d549">LUMEX_SAFE_CALL_LAMBDA_MSG</a>(lambda,  excMessage,  unknExcMessage)</td></tr>
+<tr class="memdesc:a1ed36355e2c324c794ddd802ade7d549"><td class="mdescLeft">&#160;</td><td class="mdescRight">Safely invokes <code>lambda</code>, with caller-supplied diagnostic messages.  <br /></td></tr>
+<tr class="separator:a1ed36355e2c324c794ddd802ade7d549"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
 Typedefs</h2></td></tr>
-<tr class="memitem:a45ac34be96c8025d67f85eb38698bf0e" id="r_a45ac34be96c8025d67f85eb38698bf0e"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00912.html#a45ac34be96c8025d67f85eb38698bf0e">lumex::path</a> = core::filesystem::fs::path</td></tr>
-<tr class="memdesc:a45ac34be96c8025d67f85eb38698bf0e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Global alias for <code>lumex::core::filesystem::fs::lumex_filesystem::path</code>.  <br /></td></tr>
-<tr class="separator:a45ac34be96c8025d67f85eb38698bf0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a03817bfe3dc516c68cf412bdd64eae24" id="r_a03817bfe3dc516c68cf412bdd64eae24"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00912.html#a03817bfe3dc516c68cf412bdd64eae24">lumex::directory_entry</a> = core::filesystem::fs::directory_entry</td></tr>
-<tr class="memdesc:a03817bfe3dc516c68cf412bdd64eae24"><td class="mdescLeft">&#160;</td><td class="mdescRight">Global alias for <code>lumex::core::filesystem::fs::lumex_filesystem::directory_entry</code>.  <br /></td></tr>
-<tr class="separator:a03817bfe3dc516c68cf412bdd64eae24"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9f07a6ef44d43b14db3ad76c82a5d387" id="r_a9f07a6ef44d43b14db3ad76c82a5d387"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00912.html#a9f07a6ef44d43b14db3ad76c82a5d387">lumex::directory_iterator</a> = core::filesystem::fs::directory_iterator</td></tr>
-<tr class="memdesc:a9f07a6ef44d43b14db3ad76c82a5d387"><td class="mdescLeft">&#160;</td><td class="mdescRight">Global alias for <code>lumex::core::filesystem::fs::lumex_filesystem::directory_iterator</code>.  <br /></td></tr>
-<tr class="separator:a9f07a6ef44d43b14db3ad76c82a5d387"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3e94cb01262971f50bc5ed5975329895" id="r_a3e94cb01262971f50bc5ed5975329895"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00912.html#a3e94cb01262971f50bc5ed5975329895">lumex::file_type</a> = core::filesystem::fs::file_type</td></tr>
-<tr class="memdesc:a3e94cb01262971f50bc5ed5975329895"><td class="mdescLeft">&#160;</td><td class="mdescRight">Global alias for <code>lumex::core::filesystem::fs::lumex_filesystem::file_type</code>.  <br /></td></tr>
-<tr class="separator:a3e94cb01262971f50bc5ed5975329895"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a04c078c93259a2479b20f764e0fb6454" id="r_a04c078c93259a2479b20f764e0fb6454"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00912.html#a04c078c93259a2479b20f764e0fb6454">lumex::file_status</a> = core::filesystem::fs::file_status</td></tr>
-<tr class="memdesc:a04c078c93259a2479b20f764e0fb6454"><td class="mdescLeft">&#160;</td><td class="mdescRight">Global alias for <code>lumex::core::filesystem::fs::lumex_filesystem::file_status</code>.  <br /></td></tr>
-<tr class="separator:a04c078c93259a2479b20f764e0fb6454"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a92e14adfb48f45e660bb8f8bcb8d8bde" id="r_a92e14adfb48f45e660bb8f8bcb8d8bde"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00912.html#a92e14adfb48f45e660bb8f8bcb8d8bde">lumex::perms</a> = core::filesystem::fs::perms</td></tr>
-<tr class="memdesc:a92e14adfb48f45e660bb8f8bcb8d8bde"><td class="mdescLeft">&#160;</td><td class="mdescRight">Global alias for <code>lumex::core::filesystem::fs::lumex_filesystem::perms</code>.  <br /></td></tr>
-<tr class="separator:a92e14adfb48f45e660bb8f8bcb8d8bde"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a047133438b431876e19f1fb9a35be223" id="r_a047133438b431876e19f1fb9a35be223"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00912.html#a047133438b431876e19f1fb9a35be223">lumex::write_mode</a> = core::filesystem::fs::write_mode</td></tr>
-<tr class="memdesc:a047133438b431876e19f1fb9a35be223"><td class="mdescLeft">&#160;</td><td class="mdescRight">Global alias for <code>lumex::core::filesystem::fs::write_mode</code>.  <br /></td></tr>
-<tr class="separator:a047133438b431876e19f1fb9a35be223"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac969d538333bc541eb7d13de1f4e1944" id="r_ac969d538333bc541eb7d13de1f4e1944"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00912.html#ac969d538333bc541eb7d13de1f4e1944">lumex::space_info</a> = core::filesystem::fs::space_info</td></tr>
-<tr class="memdesc:ac969d538333bc541eb7d13de1f4e1944"><td class="mdescLeft">&#160;</td><td class="mdescRight">Global alias for <code>lumex::core::filesystem::fs::lumex_filesystem::space_info</code>.  <br /></td></tr>
-<tr class="separator:ac969d538333bc541eb7d13de1f4e1944"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a77de8edea14bb4049de2fe633b6f6e4f" id="r_a77de8edea14bb4049de2fe633b6f6e4f"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00912.html#a77de8edea14bb4049de2fe633b6f6e4f">lumex::filesystem</a> = core::filesystem::fs::lumex_filesystem</td></tr>
-<tr class="memdesc:a77de8edea14bb4049de2fe633b6f6e4f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Global alias for <code>lumex::core::filesystem::fs::lumex_filesystem::lumex_filesystem</code>.  <br /></td></tr>
-<tr class="separator:a77de8edea14bb4049de2fe633b6f6e4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3949d82b26417e74b46290efe0816635" id="r_a3949d82b26417e74b46290efe0816635"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
-<tr class="memitem:a3949d82b26417e74b46290efe0816635"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a00912.html#a3949d82b26417e74b46290efe0816635">lumex::filesystem_result</a> = core::filesystem::fs::filesystem_result&lt;T&gt;</td></tr>
-<tr class="memdesc:a3949d82b26417e74b46290efe0816635"><td class="mdescLeft">&#160;</td><td class="mdescRight">Global alias for <code>lumex::core::filesystem::fs::lumex_filesystem::filesystem_result</code>.  <br /></td></tr>
-<tr class="separator:a3949d82b26417e74b46290efe0816635"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
-Enumerations</h2></td></tr>
-<tr class="memitem:ab64d400fe6c2cab49e4cf4c63a82cc19" id="r_ab64d400fe6c2cab49e4cf4c63a82cc19"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01004.html#ab64d400fe6c2cab49e4cf4c63a82cc19">lumex::core::filesystem::fs::file_type</a> : std::int8_t { <br />
-&#160;&#160;<a class="el" href="a01004.html#ab64d400fe6c2cab49e4cf4c63a82cc19a7500611bf7030bc99d25c354e7b64714">lumex::core::filesystem::fs::not_found</a> = -1
-, <a class="el" href="a01004.html#ab64d400fe6c2cab49e4cf4c63a82cc19a334c4a4c42fdb79d7ebc3e73b517e6f8">lumex::core::filesystem::fs::none</a> = 0
-, <a class="el" href="a01004.html#ab64d400fe6c2cab49e4cf4c63a82cc19aaf37d08ae228a87dc6b265fd1019c97d">lumex::core::filesystem::fs::regular</a> = 1
-, <a class="el" href="a01004.html#ab64d400fe6c2cab49e4cf4c63a82cc19a5f8f22b8cdbaeee8cf857673a9b6ba20">lumex::core::filesystem::fs::directory</a> = 2
-, <br />
-&#160;&#160;<a class="el" href="a01004.html#ab64d400fe6c2cab49e4cf4c63a82cc19aa978acc8a7ae15f49f58f3495f0d85ba">lumex::core::filesystem::fs::symlink</a> = 3
-, <a class="el" href="a01004.html#ab64d400fe6c2cab49e4cf4c63a82cc19a14511f2f5564650d129ca7cabc333278">lumex::core::filesystem::fs::block</a> = 4
-, <a class="el" href="a01004.html#ab64d400fe6c2cab49e4cf4c63a82cc19aa956161a69928cd130a889b88082fb6e">lumex::core::filesystem::fs::character</a> = 5
-, <a class="el" href="a01004.html#ab64d400fe6c2cab49e4cf4c63a82cc19acf54937a2330ac17aa523bf7130911a3">lumex::core::filesystem::fs::fifo</a> = 6
-, <br />
-&#160;&#160;<a class="el" href="a01004.html#ab64d400fe6c2cab49e4cf4c63a82cc19a61f2529360aec54f5dc9804b842cf3fa">lumex::core::filesystem::fs::socket</a> = 7
-, <a class="el" href="a01004.html#ab64d400fe6c2cab49e4cf4c63a82cc19aad921d60486366258809553a3db49a4a">lumex::core::filesystem::fs::unknown</a> = 8
-<br />
- }</td></tr>
-<tr class="memdesc:ab64d400fe6c2cab49e4cf4c63a82cc19"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumeration of common file types, compatible with <code>std::filesystem</code>.  <a href="a01004.html#ab64d400fe6c2cab49e4cf4c63a82cc19">More...</a><br /></td></tr>
-<tr class="separator:ab64d400fe6c2cab49e4cf4c63a82cc19"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aff3ca2c04a9619a71b70141134fff438" id="r_aff3ca2c04a9619a71b70141134fff438"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01004.html#aff3ca2c04a9619a71b70141134fff438">lumex::core::filesystem::fs::write_mode</a> : std::uint8_t { <a class="el" href="a01004.html#aff3ca2c04a9619a71b70141134fff438a1cb251ec0d568de6a929b520c4aed8d1">lumex::core::filesystem::fs::text</a>
-, <a class="el" href="a01004.html#aff3ca2c04a9619a71b70141134fff438a9d7183f16acce70658f686ae7f1a4d20">lumex::core::filesystem::fs::binary</a>
- }</td></tr>
-<tr class="memdesc:aff3ca2c04a9619a71b70141134fff438"><td class="mdescLeft">&#160;</td><td class="mdescRight">How <code>lumex_filesystem::replace_file_content</code> opens the file it writes.  <a href="a01004.html#aff3ca2c04a9619a71b70141134fff438">More...</a><br /></td></tr>
-<tr class="separator:aff3ca2c04a9619a71b70141134fff438"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab64132a6feae0925f48c883dd04ce26f" id="r_ab64132a6feae0925f48c883dd04ce26f"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01004.html#ab64132a6feae0925f48c883dd04ce26f">lumex::core::filesystem::fs::perms</a> : std::uint16_t { <br />
-&#160;&#160;<a class="el" href="a01004.html#ab64132a6feae0925f48c883dd04ce26fa334c4a4c42fdb79d7ebc3e73b517e6f8">lumex::core::filesystem::fs::none</a> = 0
-, <a class="el" href="a01004.html#ab64132a6feae0925f48c883dd04ce26fa13804bd89bd86850b7c1b3cf17148c8b">lumex::core::filesystem::fs::owner_read</a> = 0400
-, <a class="el" href="a01004.html#ab64132a6feae0925f48c883dd04ce26fa0d521a25ebf962a812b43c32fe36500e">lumex::core::filesystem::fs::owner_write</a> = 0200
-, <a class="el" href="a01004.html#ab64132a6feae0925f48c883dd04ce26fa189e890869453de458a9c5c26af8359b">lumex::core::filesystem::fs::owner_exec</a> = 0100
-, <br />
-&#160;&#160;<a class="el" href="a01004.html#ab64132a6feae0925f48c883dd04ce26fa3e6083e076d1f7125c0bbf7070df5440">lumex::core::filesystem::fs::owner_all</a> = 0700
-, <a class="el" href="a01004.html#ab64132a6feae0925f48c883dd04ce26fa25103dc0b7bf4bb70a12fdc9ae83b5dc">lumex::core::filesystem::fs::group_read</a> = 040
-, <a class="el" href="a01004.html#ab64132a6feae0925f48c883dd04ce26facf5f2e0341d3d21a4bc073c8eb8a25fa">lumex::core::filesystem::fs::group_write</a> = 020
-, <a class="el" href="a01004.html#ab64132a6feae0925f48c883dd04ce26fa314d3c6602524dddf70432b0ece937a8">lumex::core::filesystem::fs::group_exec</a> = 010
-, <br />
-&#160;&#160;<a class="el" href="a01004.html#ab64132a6feae0925f48c883dd04ce26fae177de190fd9bcd01e4f8934f58dfa5c">lumex::core::filesystem::fs::group_all</a> = 070
-, <a class="el" href="a01004.html#ab64132a6feae0925f48c883dd04ce26fae1ea303787306dda3e50a432832c998a">lumex::core::filesystem::fs::others_read</a> = 04
-, <a class="el" href="a01004.html#ab64132a6feae0925f48c883dd04ce26faf9d2b2426ee261e7ab294f317c5115bf">lumex::core::filesystem::fs::others_write</a> = 02
-, <a class="el" href="a01004.html#ab64132a6feae0925f48c883dd04ce26fa5a2e0fba544a04c9e3f47dc370c28bf2">lumex::core::filesystem::fs::others_exec</a> = 01
-, <br />
-&#160;&#160;<a class="el" href="a01004.html#ab64132a6feae0925f48c883dd04ce26fa5bea7ea33126a22add82c5809bfa6366">lumex::core::filesystem::fs::others_all</a> = 07
-, <a class="el" href="a01004.html#ab64132a6feae0925f48c883dd04ce26faa181a603769c1f98ad927e7367c7aa51">lumex::core::filesystem::fs::all</a> = 0777
-, <a class="el" href="a01004.html#ab64132a6feae0925f48c883dd04ce26fa2154ad8380cc7d3b920b3563078a50a8">lumex::core::filesystem::fs::set_uid</a> = 04000
-, <a class="el" href="a01004.html#ab64132a6feae0925f48c883dd04ce26faea8f56585bae5bd29a5cb0d29767cccb">lumex::core::filesystem::fs::set_gid</a> = 02000
-, <br />
-&#160;&#160;<a class="el" href="a01004.html#ab64132a6feae0925f48c883dd04ce26fa3a3b94501085ac7f29f89b8335e886d7">lumex::core::filesystem::fs::sticky_bit</a> = 01000
-, <a class="el" href="a01004.html#ab64132a6feae0925f48c883dd04ce26faf2ce11ebf110993621bedd8e747d7b1b">lumex::core::filesystem::fs::mask</a> = 07777
-, <a class="el" href="a01004.html#ab64132a6feae0925f48c883dd04ce26faad921d60486366258809553a3db49a4a">lumex::core::filesystem::fs::unknown</a> = 0xFFFF
-<br />
- }</td></tr>
-<tr class="memdesc:ab64132a6feae0925f48c883dd04ce26f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumeration of file permissions, compatible with POSIX <code>chmod</code> masks.  <a href="a01004.html#ab64132a6feae0925f48c883dd04ce26f">More...</a><br /></td></tr>
-<tr class="separator:ab64132a6feae0925f48c883dd04ce26f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a44e9e9da5b97d168978390c418a62b3f" id="r_a44e9e9da5b97d168978390c418a62b3f"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01035.html#a44e9e9da5b97d168978390c418a62b3f">lumex::core::exceptions::Wrapper::safe_call_report_fn</a> = void (*) (char const *message)</td></tr>
+<tr class="memdesc:a44e9e9da5b97d168978390c418a62b3f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Consumer report sink for a fully built failure line.  <br /></td></tr>
+<tr class="separator:a44e9e9da5b97d168978390c418a62b3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:afda7ab23913a8aaebab0ee9ff7bc25ee" id="r_afda7ab23913a8aaebab0ee9ff7bc25ee"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01004.html#ab64132a6feae0925f48c883dd04ce26f">perms</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01004.html#afda7ab23913a8aaebab0ee9ff7bc25ee">lumex::core::filesystem::fs::operator|</a> (<a class="el" href="a01004.html#ab64132a6feae0925f48c883dd04ce26f">perms</a> lhs, <a class="el" href="a01004.html#ab64132a6feae0925f48c883dd04ce26f">perms</a> rhs)</td></tr>
-<tr class="memdesc:afda7ab23913a8aaebab0ee9ff7bc25ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bitwise OR operator for <code>perms</code> enum.  <br /></td></tr>
-<tr class="separator:afda7ab23913a8aaebab0ee9ff7bc25ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3e46d1815221263fa06e28eeff5819ad" id="r_a3e46d1815221263fa06e28eeff5819ad"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01004.html#ab64132a6feae0925f48c883dd04ce26f">perms</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01004.html#a3e46d1815221263fa06e28eeff5819ad">lumex::core::filesystem::fs::operator&amp;</a> (<a class="el" href="a01004.html#ab64132a6feae0925f48c883dd04ce26f">perms</a> lhs, <a class="el" href="a01004.html#ab64132a6feae0925f48c883dd04ce26f">perms</a> rhs)</td></tr>
-<tr class="memdesc:a3e46d1815221263fa06e28eeff5819ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bitwise AND operator for <code>perms</code> enum.  <br /></td></tr>
-<tr class="separator:a3e46d1815221263fa06e28eeff5819ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adf3761a38972cade40cae2dd7dfc9205" id="r_adf3761a38972cade40cae2dd7dfc9205"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01004.html#ab64132a6feae0925f48c883dd04ce26f">perms</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01004.html#adf3761a38972cade40cae2dd7dfc9205">lumex::core::filesystem::fs::operator^</a> (<a class="el" href="a01004.html#ab64132a6feae0925f48c883dd04ce26f">perms</a> lhs, <a class="el" href="a01004.html#ab64132a6feae0925f48c883dd04ce26f">perms</a> rhs)</td></tr>
-<tr class="memdesc:adf3761a38972cade40cae2dd7dfc9205"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bitwise XOR operator for <code>perms</code> enum.  <br /></td></tr>
-<tr class="separator:adf3761a38972cade40cae2dd7dfc9205"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abbc1fed953cec690ccc6158ea34ef4aa" id="r_abbc1fed953cec690ccc6158ea34ef4aa"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01004.html#ab64132a6feae0925f48c883dd04ce26f">perms</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01004.html#abbc1fed953cec690ccc6158ea34ef4aa">lumex::core::filesystem::fs::operator~</a> (<a class="el" href="a01004.html#ab64132a6feae0925f48c883dd04ce26f">perms</a> rhs)</td></tr>
-<tr class="memdesc:abbc1fed953cec690ccc6158ea34ef4aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bitwise NOT operator for <code>perms</code> enum.  <br /></td></tr>
-<tr class="separator:abbc1fed953cec690ccc6158ea34ef4aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6dc0d190b5c4353edc7a196794061c5f" id="r_a6dc0d190b5c4353edc7a196794061c5f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01004.html#ab64132a6feae0925f48c883dd04ce26f">perms</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01004.html#a6dc0d190b5c4353edc7a196794061c5f">lumex::core::filesystem::fs::operator|=</a> (<a class="el" href="a01004.html#ab64132a6feae0925f48c883dd04ce26f">perms</a> &amp;lhs, <a class="el" href="a01004.html#ab64132a6feae0925f48c883dd04ce26f">perms</a> rhs)</td></tr>
-<tr class="memdesc:a6dc0d190b5c4353edc7a196794061c5f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bitwise OR assignment operator for <code>perms</code> enum.  <br /></td></tr>
-<tr class="separator:a6dc0d190b5c4353edc7a196794061c5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae98e5fe083cf25bc561d7a34573c4db1" id="r_ae98e5fe083cf25bc561d7a34573c4db1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01004.html#ab64132a6feae0925f48c883dd04ce26f">perms</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01004.html#ae98e5fe083cf25bc561d7a34573c4db1">lumex::core::filesystem::fs::operator&amp;=</a> (<a class="el" href="a01004.html#ab64132a6feae0925f48c883dd04ce26f">perms</a> &amp;lhs, <a class="el" href="a01004.html#ab64132a6feae0925f48c883dd04ce26f">perms</a> rhs)</td></tr>
-<tr class="memdesc:ae98e5fe083cf25bc561d7a34573c4db1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bitwise AND assignment operator for <code>perms</code> enum.  <br /></td></tr>
-<tr class="separator:ae98e5fe083cf25bc561d7a34573c4db1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a489198ffbc2f3cfdd38261b519fabb7a" id="r_a489198ffbc2f3cfdd38261b519fabb7a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01004.html#ab64132a6feae0925f48c883dd04ce26f">perms</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01004.html#a489198ffbc2f3cfdd38261b519fabb7a">lumex::core::filesystem::fs::operator^=</a> (<a class="el" href="a01004.html#ab64132a6feae0925f48c883dd04ce26f">perms</a> &amp;lhs, <a class="el" href="a01004.html#ab64132a6feae0925f48c883dd04ce26f">perms</a> rhs)</td></tr>
-<tr class="memdesc:a489198ffbc2f3cfdd38261b519fabb7a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bitwise XOR assignment operator for <code>perms</code> enum.  <br /></td></tr>
-<tr class="separator:a489198ffbc2f3cfdd38261b519fabb7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5f7db6087eb42d57322c23d856b59707" id="r_a5f7db6087eb42d57322c23d856b59707"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01004.html#a5f7db6087eb42d57322c23d856b59707">lumex::core::filesystem::fs::operator==</a> (<a class="el" href="a01894.html">path</a> const &amp;lhs, <a class="el" href="a01894.html">path</a> const &amp;rhs)</td></tr>
-<tr class="memdesc:a5f7db6087eb42d57322c23d856b59707"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equality comparison operator for <code>path_arg</code>.  <br /></td></tr>
-<tr class="separator:a5f7db6087eb42d57322c23d856b59707"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1111320e1e6c9eb5d0f18ec9f8f6a5df" id="r_a1111320e1e6c9eb5d0f18ec9f8f6a5df"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01004.html#a1111320e1e6c9eb5d0f18ec9f8f6a5df">lumex::core::filesystem::fs::operator!=</a> (<a class="el" href="a01894.html">path</a> const &amp;lhs, <a class="el" href="a01894.html">path</a> const &amp;rhs)</td></tr>
-<tr class="memdesc:a1111320e1e6c9eb5d0f18ec9f8f6a5df"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inequality comparison operator for <code>path</code>.  <br /></td></tr>
-<tr class="separator:a1111320e1e6c9eb5d0f18ec9f8f6a5df"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7107e51cd1d0ae71482dc0bc62e84cc2" id="r_a7107e51cd1d0ae71482dc0bc62e84cc2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01004.html#a7107e51cd1d0ae71482dc0bc62e84cc2">lumex::core::filesystem::fs::operator&lt;</a> (<a class="el" href="a01894.html">path</a> const &amp;lhs, <a class="el" href="a01894.html">path</a> const &amp;rhs)</td></tr>
-<tr class="memdesc:a7107e51cd1d0ae71482dc0bc62e84cc2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Less-than comparison operator for <code>path</code>.  <br /></td></tr>
-<tr class="separator:a7107e51cd1d0ae71482dc0bc62e84cc2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aba8ca56942ab5acbd75cf7fb36cbee22" id="r_aba8ca56942ab5acbd75cf7fb36cbee22"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01004.html#aba8ca56942ab5acbd75cf7fb36cbee22">lumex::core::filesystem::fs::operator&lt;=</a> (<a class="el" href="a01894.html">path</a> const &amp;lhs, <a class="el" href="a01894.html">path</a> const &amp;rhs)</td></tr>
-<tr class="memdesc:aba8ca56942ab5acbd75cf7fb36cbee22"><td class="mdescLeft">&#160;</td><td class="mdescRight">Less-than-or-equal comparison operator for <code>path</code>.  <br /></td></tr>
-<tr class="separator:aba8ca56942ab5acbd75cf7fb36cbee22"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a80bbe48ca85064803bc063a7a8e77d8f" id="r_a80bbe48ca85064803bc063a7a8e77d8f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01004.html#a80bbe48ca85064803bc063a7a8e77d8f">lumex::core::filesystem::fs::operator&gt;</a> (<a class="el" href="a01894.html">path</a> const &amp;lhs, <a class="el" href="a01894.html">path</a> const &amp;rhs)</td></tr>
-<tr class="memdesc:a80bbe48ca85064803bc063a7a8e77d8f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Greater-than comparison operator for <code>path</code>.  <br /></td></tr>
-<tr class="separator:a80bbe48ca85064803bc063a7a8e77d8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5d6ccb26c1e674f9a86b2a2ae87fdee4" id="r_a5d6ccb26c1e674f9a86b2a2ae87fdee4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01004.html#a5d6ccb26c1e674f9a86b2a2ae87fdee4">lumex::core::filesystem::fs::operator&gt;=</a> (<a class="el" href="a01894.html">path</a> const &amp;lhs, <a class="el" href="a01894.html">path</a> const &amp;rhs)</td></tr>
-<tr class="memdesc:a5d6ccb26c1e674f9a86b2a2ae87fdee4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Greater-than-or-equal comparison operator for <code>path</code>.  <br /></td></tr>
-<tr class="separator:a5d6ccb26c1e674f9a86b2a2ae87fdee4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af7c6d79acf35b6f382323cd933320b9a" id="r_af7c6d79acf35b6f382323cd933320b9a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01894.html">path</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01004.html#af7c6d79acf35b6f382323cd933320b9a">lumex::core::filesystem::fs::operator/</a> (<a class="el" href="a01894.html">path</a> const &amp;lhs, <a class="el" href="a01894.html">path</a> const &amp;rhs)</td></tr>
-<tr class="memdesc:af7c6d79acf35b6f382323cd933320b9a"><td class="mdescLeft">&#160;</td><td class="mdescRight">path concatenation operator.  <br /></td></tr>
-<tr class="separator:af7c6d79acf35b6f382323cd933320b9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4ff3a6d92d49abe1b8a1e9bd03c8ee2b" id="r_a4ff3a6d92d49abe1b8a1e9bd03c8ee2b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01894.html">path</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01004.html#a4ff3a6d92d49abe1b8a1e9bd03c8ee2b">lumex::core::filesystem::fs::operator/</a> (<a class="el" href="a01894.html">path</a> const &amp;lhs, std::string const &amp;rhs)</td></tr>
-<tr class="memdesc:a4ff3a6d92d49abe1b8a1e9bd03c8ee2b"><td class="mdescLeft">&#160;</td><td class="mdescRight">path concatenation operator with a <code>std::string</code>.  <br /></td></tr>
-<tr class="separator:a4ff3a6d92d49abe1b8a1e9bd03c8ee2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9971f335b87eb887d5bf815348d46419" id="r_a9971f335b87eb887d5bf815348d46419"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01894.html">path</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01004.html#a9971f335b87eb887d5bf815348d46419">lumex::core::filesystem::fs::operator/</a> (<a class="el" href="a01894.html">path</a> const &amp;lhs, char const *rhs)</td></tr>
-<tr class="memdesc:a9971f335b87eb887d5bf815348d46419"><td class="mdescLeft">&#160;</td><td class="mdescRight">path concatenation operator with a C-style string.  <br /></td></tr>
-<tr class="separator:a9971f335b87eb887d5bf815348d46419"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa59791a69de40a74ebd89d38d27889f3" id="r_aa59791a69de40a74ebd89d38d27889f3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01894.html">path</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01004.html#aa59791a69de40a74ebd89d38d27889f3">lumex::core::filesystem::fs::operator/</a> (std::string const &amp;lhs, <a class="el" href="a01894.html">path</a> const &amp;rhs)</td></tr>
-<tr class="memdesc:aa59791a69de40a74ebd89d38d27889f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">path concatenation operator with <code>std::string</code> as left operand.  <br /></td></tr>
-<tr class="separator:aa59791a69de40a74ebd89d38d27889f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af1dc5d618b983f79c3118286a2282f90" id="r_af1dc5d618b983f79c3118286a2282f90"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01894.html">path</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01004.html#af1dc5d618b983f79c3118286a2282f90">lumex::core::filesystem::fs::operator/</a> (char const *lhs, <a class="el" href="a01894.html">path</a> const &amp;rhs)</td></tr>
-<tr class="memdesc:af1dc5d618b983f79c3118286a2282f90"><td class="mdescLeft">&#160;</td><td class="mdescRight">path concatenation operator with C-style string as left operand.  <br /></td></tr>
-<tr class="separator:af1dc5d618b983f79c3118286a2282f90"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4d32104113661ba1236b3f0b6f95ac54" id="r_a4d32104113661ba1236b3f0b6f95ac54"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01004.html#a4d32104113661ba1236b3f0b6f95ac54">lumex::core::filesystem::fs::isFileExists</a> (std::string const &amp;path_arg)</td></tr>
-<tr class="memdesc:a4d32104113661ba1236b3f0b6f95ac54"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if a file exists at the specified path.  <br /></td></tr>
-<tr class="separator:a4d32104113661ba1236b3f0b6f95ac54"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad4d22be12b855bec6255dbb4f641d33b" id="r_ad4d22be12b855bec6255dbb4f641d33b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01004.html#ad4d22be12b855bec6255dbb4f641d33b">lumex::core::filesystem::fs::checkName</a> (std::string const &amp;name)</td></tr>
-<tr class="memdesc:ad4d22be12b855bec6255dbb4f641d33b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if a file or directory name is valid.  <br /></td></tr>
-<tr class="separator:ad4d22be12b855bec6255dbb4f641d33b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad620abd69e1b7b23c9590e8222585e66" id="r_ad620abd69e1b7b23c9590e8222585e66"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01004.html#ad620abd69e1b7b23c9590e8222585e66">lumex::core::filesystem::fs::sanitizeName</a> (std::string const &amp;name, std::string const &amp;defaultValue=&quot;unnamed&quot;) noexcept</td></tr>
-<tr class="memdesc:ad620abd69e1b7b23c9590e8222585e66"><td class="mdescLeft">&#160;</td><td class="mdescRight">Filters name, replacing invalid characters with '_' (noexcept wrapper)  <br /></td></tr>
-<tr class="separator:ad620abd69e1b7b23c9590e8222585e66"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac1726045894b2825de9aa258773a339c" id="r_ac1726045894b2825de9aa258773a339c"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01004.html#ac1726045894b2825de9aa258773a339c">lumex::core::filesystem::fs::operator&lt;&lt;</a> (std::ostream &amp;out, <a class="el" href="a01894.html">path</a> const &amp;path_arg)</td></tr>
-<tr class="memdesc:ac1726045894b2825de9aa258773a339c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stream insertion operator for <code><a class="el" href="a00912.html#a45ac34be96c8025d67f85eb38698bf0e" title="Global alias for lumex::core::filesystem::fs::lumex_filesystem::path.">lumex::path</a></code>.  <br /></td></tr>
-<tr class="separator:ac1726045894b2825de9aa258773a339c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5c40841e839e408f5499c2c29152a0e9" id="r_a5c40841e839e408f5499c2c29152a0e9"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01004.html#a5c40841e839e408f5499c2c29152a0e9">lumex::core::filesystem::fs::operator&lt;&lt;</a> (std::ostream &amp;out, <a class="el" href="a01906.html">directory_entry</a> const &amp;entry)</td></tr>
-<tr class="memdesc:a5c40841e839e408f5499c2c29152a0e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stream insertion operator for <code><a class="el" href="a00912.html#a03817bfe3dc516c68cf412bdd64eae24" title="Global alias for lumex::core::filesystem::fs::lumex_filesystem::directory_entry.">lumex::directory_entry</a></code>.  <br /></td></tr>
-<tr class="separator:a5c40841e839e408f5499c2c29152a0e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
-Variables</h2></td></tr>
-<tr class="memitem:a2b2acf798928484250effe218827d8bf" id="r_a2b2acf798928484250effe218827d8bf"><td class="memItemLeft" align="right" valign="top">constexpr unsigned long long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01004.html#a2b2acf798928484250effe218827d8bf">lumex::core::filesystem::fs::KDEFAULT_WINDOWS_FILETIME_TO_UNIX_EPOCH_INTERVALS</a> = 116444736000000000ULL</td></tr>
-<tr class="memdesc:a2b2acf798928484250effe218827d8bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constant representing the number of 100-nanosecond intervals between January 1, 1601 (Windows FILETIME epoch) and January 1, 1970 (Unix epoch).  <br /></td></tr>
-<tr class="separator:a2b2acf798928484250effe218827d8bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:accc2a42364c03e157dc46ce5d69885bd" id="r_accc2a42364c03e157dc46ce5d69885bd"><td class="memItemLeft" align="right" valign="top">constexpr unsigned long long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01004.html#accc2a42364c03e157dc46ce5d69885bd">lumex::core::filesystem::fs::KDEFAULT_HUNDRED_NANOSECONDS_PER_SECOND</a> = 10000000ULL</td></tr>
-<tr class="memdesc:accc2a42364c03e157dc46ce5d69885bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constant representing the number of 100-nanosecond intervals in one second.  <br /></td></tr>
-<tr class="separator:accc2a42364c03e157dc46ce5d69885bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4342cfa74b504bece8d53ff5e4583b61" id="r_a4342cfa74b504bece8d53ff5e4583b61"><td class="memItemLeft" align="right" valign="top">static constchar *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01004.html#a4342cfa74b504bece8d53ff5e4583b61">lumex::core::filesystem::fs::constKTEMPORARY_FILE_SUFFIX</a> = &quot;.tmp&quot;</td></tr>
-<tr class="memdesc:a4342cfa74b504bece8d53ff5e4583b61"><td class="mdescLeft">&#160;</td><td class="mdescRight">Suffix appended to the target path to name the temporary file that <code>lumex_filesystem::replace_file_content</code> writes first.  <br /></td></tr>
-<tr class="separator:a4342cfa74b504bece8d53ff5e4583b61"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a71d9df48ad62f6a5f94220cd14b5f70c" id="r_a71d9df48ad62f6a5f94220cd14b5f70c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01035.html#a71d9df48ad62f6a5f94220cd14b5f70c">lumex::core::exceptions::Wrapper::set_safe_call_reporter</a> (<a class="el" href="a01035.html#a44e9e9da5b97d168978390c418a62b3f">safe_call_report_fn</a> reporter) noexcept</td></tr>
+<tr class="memdesc:a71d9df48ad62f6a5f94220cd14b5f70c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Installs the process-wide report sink. <code>nullptr</code> restores <code>std::cerr</code>.  <br /></td></tr>
+<tr class="separator:a71d9df48ad62f6a5f94220cd14b5f70c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0e00681207c6fe8355e6416db22d6ee8" id="r_a0e00681207c6fe8355e6416db22d6ee8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01035.html#a44e9e9da5b97d168978390c418a62b3f">safe_call_report_fn</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01035.html#a0e00681207c6fe8355e6416db22d6ee8">lumex::core::exceptions::Wrapper::get_safe_call_reporter</a> () noexcept</td></tr>
+<tr class="memdesc:a0e00681207c6fe8355e6416db22d6ee8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the installed sink, or <code>nullptr</code> when reports go to <code>std::cerr</code>.  <br /></td></tr>
+<tr class="separator:a0e00681207c6fe8355e6416db22d6ee8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a730010fd0f524d97727a82bb42f2ddd3" id="r_a730010fd0f524d97727a82bb42f2ddd3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01037.html#a730010fd0f524d97727a82bb42f2ddd3">lumex::core::exceptions::Wrapper::detail::write_to_stderr</a> (std::string const &amp;prefix, char const *whatMsg) noexcept</td></tr>
+<tr class="memdesc:a730010fd0f524d97727a82bb42f2ddd3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes "prefix. Reason: &lt;whatMsg&gt;\n" to <code>std::cerr</code> using only <code>noexcept</code> operations.  <br /></td></tr>
+<tr class="separator:a730010fd0f524d97727a82bb42f2ddd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a92da48ec00b5194131e081ffabbbed57" id="r_a92da48ec00b5194131e081ffabbbed57"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01037.html#a92da48ec00b5194131e081ffabbbed57">lumex::core::exceptions::Wrapper::detail::write_to_stderr</a> (std::string const &amp;line) noexcept</td></tr>
+<tr class="memdesc:a92da48ec00b5194131e081ffabbbed57"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes "line\n" to <code>std::cerr</code> using only <code>noexcept</code> operations.  <br /></td></tr>
+<tr class="separator:a92da48ec00b5194131e081ffabbbed57"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab7031ff23205b8e8d31fb72ed3744806" id="r_ab7031ff23205b8e8d31fb72ed3744806"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01037.html#ab7031ff23205b8e8d31fb72ed3744806">lumex::core::exceptions::Wrapper::detail::report_line</a> (std::string const &amp;line) noexcept</td></tr>
+<tr class="memdesc:ab7031ff23205b8e8d31fb72ed3744806"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sends <code>line</code> to the installed sink. On a null sink or a throw from the sink, writes <code>line</code> to <code>std::cerr</code>.  <br /></td></tr>
+<tr class="separator:ab7031ff23205b8e8d31fb72ed3744806"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6731c24b90644c9b4b94c4c81af602dd" id="r_a6731c24b90644c9b4b94c4c81af602dd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01037.html#a6731c24b90644c9b4b94c4c81af602dd">lumex::core::exceptions::Wrapper::detail::report_exception</a> (std::string const &amp;prefix, char const *whatMsg) noexcept</td></tr>
+<tr class="memdesc:a6731c24b90644c9b4b94c4c81af602dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Builds "prefix. Reason: what" and reports it.  <br /></td></tr>
+<tr class="separator:a6731c24b90644c9b4b94c4c81af602dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a830b8d9cf501bccfb594bebd0221c287" id="r_a830b8d9cf501bccfb594bebd0221c287"><td class="memTemplParams" colspan="2">template&lt;typename Function, typename... Args&gt; </td></tr>
+<tr class="memitem:a830b8d9cf501bccfb594bebd0221c287"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01035.html#a830b8d9cf501bccfb594bebd0221c287">lumex::core::exceptions::Wrapper::ExceptionWrapper</a> (std::string const &amp;excMessage, std::string const &amp;unknownExcMessage, Function &amp;&amp;func, Args &amp;&amp;...args) noexcept(noexcept(std::declval&lt; Function &gt;()(std::declval&lt; Args &gt;()...))) -&gt; <a class="el" href="a01093.html#a18993038d7df3aedaeeb999287ff42b2">lumex::core::utility::traits::invoke::invoke_result_t</a>&lt; Function, Args... &gt;</td></tr>
+<tr class="memdesc:a830b8d9cf501bccfb594bebd0221c287"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calls <code>func(args...)</code>, catching and safely reporting any exception it throws instead of letting it propagate.  <br /></td></tr>
+<tr class="separator:a830b8d9cf501bccfb594bebd0221c287"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Cross-platform replacement for <code>&lt;filesystem&gt;</code> (C++17) written in pure C++11, compiled into the <code><a class="el" href="a00912.html#a77de8edea14bb4049de2fe633b6f6e4f" title="Global alias for lumex::core::filesystem::fs::lumex_filesystem::lumex_filesystem.">lumex::filesystem</a></code> library (<code><a class="el" href="a00266.html">LumexFilesystem.cpp</a></code>). </p>
-<p>The design goals are:</p><ol type="1">
-<li>100 % C++11-conformance – no compiler extensions or RTTI required.</li>
-<li>No dynamic memory allocation inside core operations unless unavoidable.</li>
-<li>Most operations return <code>filesystem_result&lt;T&gt;</code> instead of throwing; <code>checkName</code> throws <code>std::invalid_argument</code> for an invalid file name.</li>
-<li>SOLID-compliant implementation with clean separation of concerns.</li>
-<li><p class="startli">Thread-safety for read-only operations (stat, exists, etc.).</p>
-<div class="fragment"><div class="line">    <span class="keyword">using </span><a class="code hl_typedef" href="a00912.html#a45ac34be96c8025d67f85eb38698bf0e">lumex::path</a>;</div>
-<div class="line">    <span class="keyword">using </span><a class="code hl_typedef" href="a00912.html#a77de8edea14bb4049de2fe633b6f6e4f">lumex::filesystem</a>;</div>
-<div class="line"> </div>
-<div class="line">    <span class="comment">// create tree recursively</span></div>
-<div class="line">    filesystem::create_directories(path(<span class="stringliteral">&quot;sandbox/dir/sub&quot;</span>));</div>
-<div class="line"> </div>
-<div class="line">    <span class="comment">// iterate</span></div>
-<div class="line">    <span class="keywordflow">for</span> (<a class="code hl_typedef" href="a00912.html#a03817bfe3dc516c68cf412bdd64eae24">lumex::directory_entry</a> <span class="keyword">const</span>&amp; e :</div>
-<div class="line">filesystem::directory_contents(path(<span class="stringliteral">&quot;sandbox&quot;</span>))) { std::cout &lt;&lt;</div>
-<div class="line">e.path().string() &lt;&lt; std::endl;</div>
-<div class="line">    }</div>
-<div class="ttc" id="aa00912_html_a03817bfe3dc516c68cf412bdd64eae24"><div class="ttname"><a href="a00912.html#a03817bfe3dc516c68cf412bdd64eae24">lumex::directory_entry</a></div><div class="ttdeci">core::filesystem::fs::directory_entry directory_entry</div><div class="ttdoc">Global alias for lumex::core::filesystem::fs::lumex_filesystem::directory_entry.</div><div class="ttdef"><b>Definition</b> LumexFilesystem.hpp:2109</div></div>
-<div class="ttc" id="aa00912_html_a45ac34be96c8025d67f85eb38698bf0e"><div class="ttname"><a href="a00912.html#a45ac34be96c8025d67f85eb38698bf0e">lumex::path</a></div><div class="ttdeci">core::filesystem::fs::path path</div><div class="ttdoc">Global alias for lumex::core::filesystem::fs::lumex_filesystem::path.</div><div class="ttdef"><b>Definition</b> LumexFilesystem.hpp:2101</div></div>
-<div class="ttc" id="aa00912_html_a77de8edea14bb4049de2fe633b6f6e4f"><div class="ttname"><a href="a00912.html#a77de8edea14bb4049de2fe633b6f6e4f">lumex::filesystem</a></div><div class="ttdeci">core::filesystem::fs::lumex_filesystem filesystem</div><div class="ttdoc">Global alias for lumex::core::filesystem::fs::lumex_filesystem::lumex_filesystem.</div><div class="ttdef"><b>Definition</b> LumexFilesystem.hpp:2164</div></div>
-</div><!-- fragment --> </li>
-</ol>
-</div></div><!-- contents -->
+<div class="textblock"><p>Exception-safe call wrapper: invokes a callable, catches anything it throws, reports it to <code>std::cerr</code>, and returns a safe default value instead of letting the exception propagate. </p>
+<p>This header provides <code><a class="el" href="a01035.html#a830b8d9cf501bccfb594bebd0221c287" title="Calls func(args...), catching and safely reporting any exception it throws instead of letting it prop...">lumex::core::exceptions::Wrapper::ExceptionWrapper</a></code> plus the <code>LUMEX_SAFE_CALL</code>/<code>LUMEX_SAFE_CALL_MSG</code>/<code>LUMEX_SAFE_CALL_LAMBDA_MSG</code> convenience macros built on top of it. It is a distinct, self-contained concern from <code><a class="el" href="a00263.html" title="LumexBaseException, the base exception of LumexLib that records the stack where it was constructed,...">LumexException.hpp</a></code> (which defines the <code><a class="el" href="a00263.html#a14cb3c521ade640b8e5a7bf4aac3c929">LumexBaseException</a></code> base class and the <code>LUMEX_DEFINE_EXCEPTION</code>/<code>LUMEX_THROW_EXCEPTION</code>/ <code>LUMEX_EXCEPTION_HANDLE_BEGIN</code>/<code>END</code> machinery for <em>throwing and handling</em> exceptions) - this header instead <em>swallows</em> exceptions at a call site, which is why it lives in its own file next to <code><a class="el" href="a00263.html" title="LumexBaseException, the base exception of LumexLib that records the stack where it was constructed,...">LumexException.hpp</a></code> rather than being folded into it. </p><pre class="fragment">     Unlike `LumexBaseException`, `ExceptionWrapper` does not depend on
+</pre><p> any logging facility: <code>core/</code> must not depend on <code>lumex/applied/logging</code>. The default report sink is <code>std::cerr</code>. A consumer can install one function pointer (<code>set_safe_call_reporter</code>) so the same text goes to its own logger. If that function throws, the wrapper falls back to <code>std::cerr</code>. </p>
+</div><h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a03ec1ac9d020fd4f7b12362a94f204e9" name="a03ec1ac9d020fd4f7b12362a94f204e9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a03ec1ac9d020fd4f7b12362a94f204e9">&#9670;&#160;</a></span>LUMEX_SAFE_CALL</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_SAFE_CALL</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>expr</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">  <a class="code hl_function" href="a01035.html#a830b8d9cf501bccfb594bebd0221c287">lumex::core::exceptions::Wrapper::ExceptionWrapper</a> (                        \</div>
+<div class="line">      std::string (<span class="stringliteral">&quot;Exception in &quot;</span>) + std::string (<a class="code hl_define" href="a00428.html#aaae5674dd2d0d351d585e646e72118fd">LUMEX_FUNCTION_NAME</a>)       \</div>
+<div class="line">          + <span class="stringliteral">&quot; at &quot;</span> + std::string (__FILE__) + <span class="stringliteral">&quot;:&quot;</span>                             \</div>
+<div class="line">          + std::to_string (__LINE__),                                        \</div>
+<div class="line">      std::string (<span class="stringliteral">&quot;Unknown exception in &quot;</span>)                                   \</div>
+<div class="line">          + std::string (<a class="code hl_define" href="a00428.html#aaae5674dd2d0d351d585e646e72118fd">LUMEX_FUNCTION_NAME</a>) + <span class="stringliteral">&quot; at &quot;</span>                        \</div>
+<div class="line">          + std::string (__FILE__) + <span class="stringliteral">&quot;:&quot;</span> + std::to_string (__LINE__),         \</div>
+<div class="line">      [&amp;] () -&gt; <span class="keyword">decltype</span> (expr) { <span class="keywordflow">return</span> expr; })</div>
+<div class="ttc" id="aa00428_html_aaae5674dd2d0d351d585e646e72118fd"><div class="ttname"><a href="a00428.html#aaae5674dd2d0d351d585e646e72118fd">LUMEX_FUNCTION_NAME</a></div><div class="ttdeci">#define LUMEX_FUNCTION_NAME</div><div class="ttdef"><b>Definition</b> LumexMacros.hpp:44</div></div>
+<div class="ttc" id="aa01035_html_a830b8d9cf501bccfb594bebd0221c287"><div class="ttname"><a href="a01035.html#a830b8d9cf501bccfb594bebd0221c287">lumex::core::exceptions::Wrapper::ExceptionWrapper</a></div><div class="ttdeci">auto ExceptionWrapper(std::string const &amp;excMessage, std::string const &amp;unknownExcMessage, Function &amp;&amp;func, Args &amp;&amp;...args) noexcept(noexcept(std::declval&lt; Function &gt;()(std::declval&lt; Args &gt;()...))) -&gt; lumex::core::utility::traits::invoke::invoke_result_t&lt; Function, Args... &gt;</div><div class="ttdoc">Calls func(args...), catching and safely reporting any exception it throws instead of letting it prop...</div><div class="ttdef"><b>Definition</b> LumexExceptionWrapper.hpp:284</div></div>
+</div><!-- fragment -->
+<p>Safely evaluates <code>expr</code>, with default, source-location-based diagnostic messages. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">expr</td><td>Expression to evaluate (any callable expression or function call). </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>Captures the enclosing scope by reference (<code>[&amp;]</code>) so <code>expr</code> can use local variables. </dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>Do not use with an expression that has side effects intended to run more than once - <code>expr</code> is only evaluated once here, but is written twice into the macro expansion's lambda body only in the <code>decltype</code>/return position, not re-evaluated. </dd></dl>
+
+</div>
+</div>
+<a id="a1ed36355e2c324c794ddd802ade7d549" name="a1ed36355e2c324c794ddd802ade7d549"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1ed36355e2c324c794ddd802ade7d549">&#9670;&#160;</a></span>LUMEX_SAFE_CALL_LAMBDA_MSG</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_SAFE_CALL_LAMBDA_MSG</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>lambda</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>excMessage</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>unknExcMessage</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">  <a class="code hl_function" href="a01035.html#a830b8d9cf501bccfb594bebd0221c287">lumex::core::exceptions::Wrapper::ExceptionWrapper</a> (excMessage,             \</div>
+<div class="line">                                                      unknExcMessage, lambda)</div>
+</div><!-- fragment -->
+<p>Safely invokes <code>lambda</code>, with caller-supplied diagnostic messages. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">lambda</td><td>Callable to invoke directly (useful when the body is more than one statement, so it cannot be written as a single <code>expr</code>). </td></tr>
+    <tr><td class="paramname">excMessage</td><td>Message reported for a <code>std::exception</code>. </td></tr>
+    <tr><td class="paramname">unknExcMessage</td><td>Message reported for any other exception.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line"><a class="code hl_define" href="#a1ed36355e2c324c794ddd802ade7d549">LUMEX_SAFE_CALL_LAMBDA_MSG</a>(</div>
+<div class="line">    [&amp;]() {</div>
+<div class="line">        config = loadConfig(<span class="stringliteral">&quot;configure.txt&quot;</span>);</div>
+<div class="line">        <span class="keywordflow">if</span>(!tryApply(config)) config = defaultConfig();</div>
+<div class="line">    },</div>
+<div class="line">    <span class="stringliteral">&quot;Failed to load configure.txt&quot;</span>,</div>
+<div class="line">    <span class="stringliteral">&quot;Unknown error while loading configure.txt&quot;</span>);</div>
+<div class="ttc" id="aa00269_html_a1ed36355e2c324c794ddd802ade7d549"><div class="ttname"><a href="#a1ed36355e2c324c794ddd802ade7d549">LUMEX_SAFE_CALL_LAMBDA_MSG</a></div><div class="ttdeci">#define LUMEX_SAFE_CALL_LAMBDA_MSG(lambda, excMessage, unknExcMessage)</div><div class="ttdoc">Safely invokes lambda, with caller-supplied diagnostic messages.</div><div class="ttdef"><b>Definition</b> LumexExceptionWrapper.hpp:394</div></div>
+</div><!-- fragment --> </dd></dl>
+
+</div>
+</div>
+<a id="a261fa5b1604d900afd08ec4e0bebacb8" name="a261fa5b1604d900afd08ec4e0bebacb8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a261fa5b1604d900afd08ec4e0bebacb8">&#9670;&#160;</a></span>LUMEX_SAFE_CALL_MSG</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_SAFE_CALL_MSG</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>expr</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>excMessage</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>unknExcMessage</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">  <a class="code hl_function" href="a01035.html#a830b8d9cf501bccfb594bebd0221c287">lumex::core::exceptions::Wrapper::ExceptionWrapper</a> (                        \</div>
+<div class="line">      excMessage, unknExcMessage, [&amp;] () -&gt; <span class="keyword">decltype</span> (expr) { <span class="keywordflow">return</span> expr; })</div>
+</div><!-- fragment -->
+<p>Safely evaluates <code>expr</code>, with caller-supplied diagnostic messages. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">expr</td><td>Expression to evaluate (any callable expression or function call). </td></tr>
+    <tr><td class="paramname">excMessage</td><td>Message reported for a <code>std::exception</code>. </td></tr>
+    <tr><td class="paramname">unknExcMessage</td><td>Message reported for any other exception. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_b6ced81da085a704c96aa55af90df9df.html">filesystem</a></li><li class="navelem"><a class="el" href="dir_8c0a19d5c482b8080478387fcfc0a086.html">fs</a></li><li class="navelem"><a class="el" href="a00269.html">LumexFilesystem.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_c5abfa2a5a0424f8cc91dab0edfcaee4.html">exceptions</a></li><li class="navelem"><a class="el" href="a00269.html">LumexExceptionWrapper.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

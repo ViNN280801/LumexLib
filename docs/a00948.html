@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::applied::serial::port Namespace Reference</title>
+<title>LumexLib: lumex Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -105,88 +105,231 @@ $(function(){initNavTree('a00948.html',''); initResizable(true); });
 <div class="header">
   <div class="summary">
 <a href="#namespaces">Namespaces</a> &#124;
-<a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">lumex::applied::serial::port Namespace Reference</div></div>
+<a href="#typedef-members">Typedefs</a>  </div>
+  <div class="headertitle"><div class="title">lumex Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00950.html">Constants</a></td></tr>
-<tr class="memdesc:a00950"><td class="mdescLeft">&#160;</td><td class="mdescRight">Numeric channel-type identifiers this module understands. <br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00949.html">applied</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01005.html">core</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01121.html">examples</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01126.html">xml</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:a523de1146ace21810686af24cd7edd8f" id="r_a523de1146ace21810686af24cd7edd8f"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a523de1146ace21810686af24cd7edd8f">resolve_serial_port_path</a> (std::string const &amp;portName, std::uint32_t channelType, std::function&lt; std::string()&gt; const &amp;getIpAddressCallback=nullptr, std::function&lt; void(std::string const &amp;)&gt; const &amp;logWarningCallback=nullptr) noexcept</td></tr>
-<tr class="memdesc:a523de1146ace21810686af24cd7edd8f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts a short serial-port name into the full, platform-specific path a channel needs in order to actually open it.  <br /></td></tr>
-<tr class="separator:a523de1146ace21810686af24cd7edd8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:a45ac34be96c8025d67f85eb38698bf0e" id="r_a45ac34be96c8025d67f85eb38698bf0e"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a45ac34be96c8025d67f85eb38698bf0e">path</a> = core::filesystem::fs::path</td></tr>
+<tr class="memdesc:a45ac34be96c8025d67f85eb38698bf0e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Global alias for <code>lumex::core::filesystem::fs::lumex_filesystem::path</code>.  <br /></td></tr>
+<tr class="separator:a45ac34be96c8025d67f85eb38698bf0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a03817bfe3dc516c68cf412bdd64eae24" id="r_a03817bfe3dc516c68cf412bdd64eae24"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a03817bfe3dc516c68cf412bdd64eae24">directory_entry</a> = core::filesystem::fs::directory_entry</td></tr>
+<tr class="memdesc:a03817bfe3dc516c68cf412bdd64eae24"><td class="mdescLeft">&#160;</td><td class="mdescRight">Global alias for <code>lumex::core::filesystem::fs::lumex_filesystem::directory_entry</code>.  <br /></td></tr>
+<tr class="separator:a03817bfe3dc516c68cf412bdd64eae24"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f07a6ef44d43b14db3ad76c82a5d387" id="r_a9f07a6ef44d43b14db3ad76c82a5d387"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9f07a6ef44d43b14db3ad76c82a5d387">directory_iterator</a> = core::filesystem::fs::directory_iterator</td></tr>
+<tr class="memdesc:a9f07a6ef44d43b14db3ad76c82a5d387"><td class="mdescLeft">&#160;</td><td class="mdescRight">Global alias for <code>lumex::core::filesystem::fs::lumex_filesystem::directory_iterator</code>.  <br /></td></tr>
+<tr class="separator:a9f07a6ef44d43b14db3ad76c82a5d387"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3e94cb01262971f50bc5ed5975329895" id="r_a3e94cb01262971f50bc5ed5975329895"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3e94cb01262971f50bc5ed5975329895">file_type</a> = core::filesystem::fs::file_type</td></tr>
+<tr class="memdesc:a3e94cb01262971f50bc5ed5975329895"><td class="mdescLeft">&#160;</td><td class="mdescRight">Global alias for <code>lumex::core::filesystem::fs::lumex_filesystem::file_type</code>.  <br /></td></tr>
+<tr class="separator:a3e94cb01262971f50bc5ed5975329895"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a04c078c93259a2479b20f764e0fb6454" id="r_a04c078c93259a2479b20f764e0fb6454"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a04c078c93259a2479b20f764e0fb6454">file_status</a> = core::filesystem::fs::file_status</td></tr>
+<tr class="memdesc:a04c078c93259a2479b20f764e0fb6454"><td class="mdescLeft">&#160;</td><td class="mdescRight">Global alias for <code>lumex::core::filesystem::fs::lumex_filesystem::file_status</code>.  <br /></td></tr>
+<tr class="separator:a04c078c93259a2479b20f764e0fb6454"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a92e14adfb48f45e660bb8f8bcb8d8bde" id="r_a92e14adfb48f45e660bb8f8bcb8d8bde"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a92e14adfb48f45e660bb8f8bcb8d8bde">perms</a> = core::filesystem::fs::perms</td></tr>
+<tr class="memdesc:a92e14adfb48f45e660bb8f8bcb8d8bde"><td class="mdescLeft">&#160;</td><td class="mdescRight">Global alias for <code>lumex::core::filesystem::fs::lumex_filesystem::perms</code>.  <br /></td></tr>
+<tr class="separator:a92e14adfb48f45e660bb8f8bcb8d8bde"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a047133438b431876e19f1fb9a35be223" id="r_a047133438b431876e19f1fb9a35be223"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a047133438b431876e19f1fb9a35be223">write_mode</a> = core::filesystem::fs::write_mode</td></tr>
+<tr class="memdesc:a047133438b431876e19f1fb9a35be223"><td class="mdescLeft">&#160;</td><td class="mdescRight">Global alias for <code>lumex::core::filesystem::fs::write_mode</code>.  <br /></td></tr>
+<tr class="separator:a047133438b431876e19f1fb9a35be223"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac969d538333bc541eb7d13de1f4e1944" id="r_ac969d538333bc541eb7d13de1f4e1944"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac969d538333bc541eb7d13de1f4e1944">space_info</a> = core::filesystem::fs::space_info</td></tr>
+<tr class="memdesc:ac969d538333bc541eb7d13de1f4e1944"><td class="mdescLeft">&#160;</td><td class="mdescRight">Global alias for <code>lumex::core::filesystem::fs::lumex_filesystem::space_info</code>.  <br /></td></tr>
+<tr class="separator:ac969d538333bc541eb7d13de1f4e1944"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a77de8edea14bb4049de2fe633b6f6e4f" id="r_a77de8edea14bb4049de2fe633b6f6e4f"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a77de8edea14bb4049de2fe633b6f6e4f">filesystem</a> = core::filesystem::fs::lumex_filesystem</td></tr>
+<tr class="memdesc:a77de8edea14bb4049de2fe633b6f6e4f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Global alias for <code>lumex::core::filesystem::fs::lumex_filesystem::lumex_filesystem</code>.  <br /></td></tr>
+<tr class="separator:a77de8edea14bb4049de2fe633b6f6e4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3949d82b26417e74b46290efe0816635" id="r_a3949d82b26417e74b46290efe0816635"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
+<tr class="memitem:a3949d82b26417e74b46290efe0816635"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a3949d82b26417e74b46290efe0816635">filesystem_result</a> = core::filesystem::fs::filesystem_result&lt;T&gt;</td></tr>
+<tr class="memdesc:a3949d82b26417e74b46290efe0816635"><td class="mdescLeft">&#160;</td><td class="mdescRight">Global alias for <code>lumex::core::filesystem::fs::lumex_filesystem::filesystem_result</code>.  <br /></td></tr>
+<tr class="separator:a3949d82b26417e74b46290efe0816635"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="a523de1146ace21810686af24cd7edd8f" name="a523de1146ace21810686af24cd7edd8f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a523de1146ace21810686af24cd7edd8f">&#9670;&#160;</a></span>resolve_serial_port_path()</h2>
+<h2 class="groupheader">Typedef Documentation</h2>
+<a id="a03817bfe3dc516c68cf412bdd64eae24" name="a03817bfe3dc516c68cf412bdd64eae24"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a03817bfe3dc516c68cf412bdd64eae24">&#9670;&#160;</a></span>directory_entry</h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::string lumex::applied::serial::port::resolve_serial_port_path </td>
-          <td>(</td>
-          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>portName</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::uint32_t</td>          <td class="paramname"><span class="paramname"><em>channelType</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::function&lt; std::string()&gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>getIpAddressCallback</em></span><span class="paramdefsep"> = </span><span class="paramdefval">nullptr</span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::function&lt; void(std::string const &amp;)&gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>logWarningCallback</em></span><span class="paramdefsep"> = </span><span class="paramdefval">nullptr</span>&#160;)</td>
+          <td class="memname">using <a class="el" href="#a03817bfe3dc516c68cf412bdd64eae24">lumex::directory_entry</a> = core::filesystem::fs::directory_entry</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
-<p>Converts a short serial-port name into the full, platform-specific path a channel needs in order to actually open it. </p>
-<p>Handles several distinct name shapes:</p><ul>
-<li>Windows COM port: <code>"COM1"</code>, <code>"COM2"</code> -&gt; <code>"\\\\.\\COM1"</code>, <code>"\\\\.\\COM2"</code>.</li>
-<li>Linux tty device: <code>"ttyUSB0"</code>, <code>"ttyACM0"</code> -&gt; <code>"/dev/ttyUSB0"</code>, <code>"/dev/ttyACM0"</code>.</li>
-<li>Linux by-id device: <code>"usb-FTDI_..."</code> -&gt; <code>"/dev/serial/by-id/usb-FTDI_..."</code>.</li>
-<li>Invalid <code>"USB"</code>-style markers: <code>"USB"</code> / <code>"USB42"</code> are slot names, not device nodes. Linux guesses <code>"/dev/ttyUSB0"</code> / <code>"/dev/ttyUSB42"</code>. macOS prefixes <code>"/dev/"</code>. Windows leaves the name unchanged. Every platform reports the substitution through <code>logWarningCallback</code>.</li>
-</ul>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">portName</td><td>Short port name as it appears in configuration (e.g. <code>"COM1"</code>, <code>"ttyUSB0"</code>, <code>"USB"</code>, <code>"USB42"</code>). </td></tr>
-    <tr><td class="paramname">channelType</td><td>Channel-type identifier (see <a class="el" href="a00950.html">Constants</a>). Only used to detect a network channel, in which case the port name is not a serial port name at all and <code>getIpAddressCallback</code> is consulted instead. </td></tr>
-    <tr><td class="paramname">getIpAddressCallback</td><td>Callback used to obtain an IP address for network channels (<code><a class="el" href="a00950.html#a60c1583bdbe97272bebce16500252428" title="TCP network channel.">Constants::KNET_TCP_CHANNEL_TYPE</a></code> / <code><a class="el" href="a00950.html#a8e84e78c1d605a4e97a9690581795555" title="UDP network channel.">Constants::KNET_UDP_CHANNEL_TYPE</a></code>). May be empty; if so, <code>portName</code> itself is returned unchanged. </td></tr>
-    <tr><td class="paramname">logWarningCallback</td><td>Optional callback used to report a resolved-but-unverified fallback for an invalid <code>"USB"</code> marker. Called on every platform. May be empty.</td></tr>
+<p>Global alias for <code>lumex::core::filesystem::fs::lumex_filesystem::directory_entry</code>. </p>
+<p>This allows <code><a class="el" href="#a03817bfe3dc516c68cf412bdd64eae24" title="Global alias for lumex::core::filesystem::fs::lumex_filesystem::directory_entry.">directory_entry</a></code> to be used without full namespace qualification. </p>
+
+</div>
+</div>
+<a id="a9f07a6ef44d43b14db3ad76c82a5d387" name="a9f07a6ef44d43b14db3ad76c82a5d387"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9f07a6ef44d43b14db3ad76c82a5d387">&#9670;&#160;</a></span>directory_iterator</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="#a9f07a6ef44d43b14db3ad76c82a5d387">lumex::directory_iterator</a> = core::filesystem::fs::directory_iterator</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Global alias for <code>lumex::core::filesystem::fs::lumex_filesystem::directory_iterator</code>. </p>
+<p>This allows <code><a class="el" href="#a9f07a6ef44d43b14db3ad76c82a5d387" title="Global alias for lumex::core::filesystem::fs::lumex_filesystem::directory_iterator.">directory_iterator</a></code> to be used without full namespace qualification. </p>
+
+</div>
+</div>
+<a id="a04c078c93259a2479b20f764e0fb6454" name="a04c078c93259a2479b20f764e0fb6454"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a04c078c93259a2479b20f764e0fb6454">&#9670;&#160;</a></span>file_status</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="#a04c078c93259a2479b20f764e0fb6454">lumex::file_status</a> = core::filesystem::fs::file_status</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Global alias for <code>lumex::core::filesystem::fs::lumex_filesystem::file_status</code>. </p>
+<p>This allows <code><a class="el" href="#a04c078c93259a2479b20f764e0fb6454" title="Global alias for lumex::core::filesystem::fs::lumex_filesystem::file_status.">file_status</a></code> to be used without full namespace qualification. </p>
+
+</div>
+</div>
+<a id="a3e94cb01262971f50bc5ed5975329895" name="a3e94cb01262971f50bc5ed5975329895"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3e94cb01262971f50bc5ed5975329895">&#9670;&#160;</a></span>file_type</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="#a3e94cb01262971f50bc5ed5975329895">lumex::file_type</a> = core::filesystem::fs::file_type</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Global alias for <code>lumex::core::filesystem::fs::lumex_filesystem::file_type</code>. </p>
+<p>This allows <code><a class="el" href="#a3e94cb01262971f50bc5ed5975329895" title="Global alias for lumex::core::filesystem::fs::lumex_filesystem::file_type.">file_type</a></code> to be used without full namespace qualification. </p>
+
+</div>
+</div>
+<a id="a77de8edea14bb4049de2fe633b6f6e4f" name="a77de8edea14bb4049de2fe633b6f6e4f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a77de8edea14bb4049de2fe633b6f6e4f">&#9670;&#160;</a></span>filesystem</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="#a77de8edea14bb4049de2fe633b6f6e4f">lumex::filesystem</a> = core::filesystem::fs::lumex_filesystem</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Global alias for <code>lumex::core::filesystem::fs::lumex_filesystem::lumex_filesystem</code>. </p>
+<p>This allows <code>filesystem</code> to be used without full namespace qualification. </p>
+
+</div>
+</div>
+<a id="a3949d82b26417e74b46290efe0816635" name="a3949d82b26417e74b46290efe0816635"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3949d82b26417e74b46290efe0816635">&#9670;&#160;</a></span>filesystem_result</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="#a3949d82b26417e74b46290efe0816635">lumex::filesystem_result</a> = core::filesystem::fs::filesystem_result&lt;T&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Global alias for <code>lumex::core::filesystem::fs::lumex_filesystem::filesystem_result</code>. </p>
+<p>This allows <code><a class="el" href="#a3949d82b26417e74b46290efe0816635" title="Global alias for lumex::core::filesystem::fs::lumex_filesystem::filesystem_result.">filesystem_result</a></code> to be used without full namespace qualification. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>The type of the value held by the result. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The platform-specific path/identifier to use when opening the channel.</dd></dl>
-<dl class="section note"><dt>Note</dt><dd>For network channels, the result is whatever <code>getIpAddressCallback</code> returns.</dd>
-<dd>
-For invalid <code>"USB"</code>-style markers:<ul>
-<li>Linux: <code>"USB"</code> resolves to <code>"/dev/ttyUSB0"</code>, <code>"USB42"</code> to <code>"/dev/ttyUSB42"</code>.</li>
-<li>macOS: the name is prefixed with <code>"/dev/"</code>.</li>
-<li>Windows: the name is returned unchanged.</li>
-<li>On every platform, <code>logWarningCallback</code> (if provided) is invoked with a description of the name and the path actually returned.</li>
-</ul>
-</dd></dl>
-<dl class="section warning"><dt>Warning</dt><dd>For invalid <code>"USB"</code> markers, this function returns a <em>guessed</em> device path - it never checks whether that device actually exists or is available. If <code>/dev/ttyUSB0</code> is already used by another device, or <code>/dev/ttyUSB42</code> does not exist, opening the resulting channel will fail. Prefer real port names (<code>"ttyUSB0"</code>, <code>"usb-FTDI_..."</code>) over slot markers (<code>"USB"</code>, <code>"USB42"</code>) whenever possible. </dd></dl>
+
+</div>
+</div>
+<a id="a45ac34be96c8025d67f85eb38698bf0e" name="a45ac34be96c8025d67f85eb38698bf0e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a45ac34be96c8025d67f85eb38698bf0e">&#9670;&#160;</a></span>path</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="#a45ac34be96c8025d67f85eb38698bf0e">lumex::path</a> = core::filesystem::fs::path</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Global alias for <code>lumex::core::filesystem::fs::lumex_filesystem::path</code>. </p>
+<p>This allows <code>path</code> to be used without full namespace qualification. </p>
+
+</div>
+</div>
+<a id="a92e14adfb48f45e660bb8f8bcb8d8bde" name="a92e14adfb48f45e660bb8f8bcb8d8bde"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a92e14adfb48f45e660bb8f8bcb8d8bde">&#9670;&#160;</a></span>perms</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="#a92e14adfb48f45e660bb8f8bcb8d8bde">lumex::perms</a> = core::filesystem::fs::perms</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Global alias for <code>lumex::core::filesystem::fs::lumex_filesystem::perms</code>. </p>
+<p>This allows <code>perms</code> to be used without full namespace qualification. </p>
+
+</div>
+</div>
+<a id="ac969d538333bc541eb7d13de1f4e1944" name="ac969d538333bc541eb7d13de1f4e1944"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac969d538333bc541eb7d13de1f4e1944">&#9670;&#160;</a></span>space_info</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="#ac969d538333bc541eb7d13de1f4e1944">lumex::space_info</a> = core::filesystem::fs::space_info</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Global alias for <code>lumex::core::filesystem::fs::lumex_filesystem::space_info</code>. </p>
+<p>This allows <code><a class="el" href="#ac969d538333bc541eb7d13de1f4e1944" title="Global alias for lumex::core::filesystem::fs::lumex_filesystem::space_info.">space_info</a></code> to be used without full namespace qualification. </p>
+
+</div>
+</div>
+<a id="a047133438b431876e19f1fb9a35be223" name="a047133438b431876e19f1fb9a35be223"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a047133438b431876e19f1fb9a35be223">&#9670;&#160;</a></span>write_mode</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="#a047133438b431876e19f1fb9a35be223">lumex::write_mode</a> = core::filesystem::fs::write_mode</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Global alias for <code>lumex::core::filesystem::fs::write_mode</code>. </p>
+<p>This allows <code><a class="el" href="#a047133438b431876e19f1fb9a35be223" title="Global alias for lumex::core::filesystem::fs::write_mode.">write_mode</a></code> to be used without full namespace qualification. </p>
 
 </div>
 </div>
@@ -195,7 +338,7 @@ For invalid <code>"USB"</code>-style markers:<ul>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00912.html">lumex</a></li><li class="navelem"><a class="el" href="a00913.html">applied</a></li><li class="navelem"><a class="el" href="a00945.html">serial</a></li><li class="navelem"><a class="el" href="a00948.html">port</a></li>
+    <li class="navelem"><a class="el" href="a00948.html">lumex</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

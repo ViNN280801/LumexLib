@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexSettingsXML.hpp Source File</title>
+<title>LumexLib: LumexPortProcessResolver.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -103,7 +103,7 @@ $(function(){initNavTree('a00149_source.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">LumexSettingsXML.hpp</div></div>
+  <div class="headertitle"><div class="title">LumexPortProcessResolver.hpp</div></div>
 </div><!--header-->
 <div class="contents">
 <a href="a00149.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">/*</span></div>
@@ -130,106 +130,125 @@ $(function(){initNavTree('a00149_source.html',''); initResizable(true); });
 <div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="comment"> * IN THE SOFTWARE.</span></div>
 <div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="comment"> */</span></div>
 <div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span></div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="preprocessor">#ifndef LUMEX_APPLIED_SETTINGS_XML_SETTINGS_XML_HPP</span></div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="preprocessor">#define LUMEX_APPLIED_SETTINGS_XML_SETTINGS_XML_HPP</span></div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="preprocessor">#include &quot;<a class="code" href="a00605.html">lumex/LumexExport.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span><span class="preprocessor">#include &lt;unordered_map&gt;</span></div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="preprocessor">#include &quot;<a class="code" href="a00137.html">lumex/applied/settings/interface/ILumexSettings.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="preprocessor">#include &quot;<a class="code" href="a00383.html">lumex/core/utility/macros/LumexConstantMacros.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span><span class="preprocessor">#ifndef LUMEX_APPLIED_SERIAL_RESOLVER_HPP</span></div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span><span class="preprocessor">#define LUMEX_APPLIED_SERIAL_RESOLVER_HPP</span></div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="preprocessor">#include &quot;<a class="code" href="a00641.html">lumex/LumexExport.hpp</a>&quot;</span></div>
 <div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a00912.html">lumex</a> <span class="comment">// NOLINT(modernize-concat-nested-namespaces)</span></div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>{</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a00913.html">applied</a></div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>{</div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a00953.html">settings</a></div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>{</div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a00962.html">xml</a></div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="preprocessor">#include &quot;<a class="code" href="a00923.html">lumex/core/optional/LumexOptional</a>&quot;</span></div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span><span class="preprocessor">#include &quot;<a class="code" href="a00389.html">lumex/core/utility/attr/LumexAttributes.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="preprocessor">#include &quot;<a class="code" href="a00425.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a00948.html">lumex</a></div>
 <div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>{</div>
-<div class="foldopen" id="foldopen00053" data-start="{" data-end="}">
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno"><a class="line" href="a00963.html">   53</a></span><span class="keyword">namespace </span><a class="code hl_namespace" href="a00963.html">Constants</a></div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a00949.html">applied</a></div>
 <div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>{</div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno"><a class="line" href="a00963.html#af855e4cf1325db801e3b37d639568677">   55</a></span><a class="code hl_define" href="a00383.html#a79c537c78fd40b18154a50845e28fb61">LUMEX_CONST_STR</a> XML_FILE_EXTENSION = <span class="stringliteral">&quot;.xml&quot;</span>; </div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno"><a class="line" href="a00963.html#a9686f880e1ab09a34249727e8cb8f994">   56</a></span><a class="code hl_define" href="a00383.html#a79c537c78fd40b18154a50845e28fb61">LUMEX_CONST_STR</a> SETTINGS_ROOT_NAME</div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    = <span class="stringliteral">&quot;settings&quot;</span>; </div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>}</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a00981.html">serial</a></div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>{</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a00992.html">resolver</a></div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>{</div>
+<div class="foldopen" id="foldopen00062" data-start="{" data-end="};">
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno"><a class="line" href="a01281.html">   62</a></span><span class="keyword">struct </span><a class="code hl_struct" href="a01281.html">port_holder_info_t</a></div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>{</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno"><a class="line" href="a01281.html#ac99a422884c1120ec45b568bf7c46d1e">   64</a></span>  <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> <a class="code hl_variable" href="a01281.html#ac99a422884c1120ec45b568bf7c46d1e">pid</a>;    </div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno"><a class="line" href="a01281.html#a52bdc7b78aca6bf1128878218165b797">   65</a></span>  std::string <a class="code hl_variable" href="a01281.html#a52bdc7b78aca6bf1128878218165b797">exe_name</a>; </div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno"><a class="line" href="a01281.html#a566fd1aa31b275caad94f3620a9a1df3">   66</a></span>  std::string <a class="code hl_variable" href="a01281.html#a566fd1aa31b275caad94f3620a9a1df3">exe_path</a>; </div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno"><a class="line" href="a01281.html#a097c551f78ade1f63fe53fc0d36c2a5d">   67</a></span>  std::string <a class="code hl_variable" href="a01281.html#a097c551f78ade1f63fe53fc0d36c2a5d">cmdline</a>;  </div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>};</div>
 </div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span></div>
-<div class="foldopen" id="foldopen00087" data-start="{" data-end="};">
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno"><a class="line" href="a01238.html">   87</a></span><span class="keyword">class </span><a class="code hl_define" href="a00605.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a> <a class="code hl_class" href="a01238.html">LumexSettingsXML</a> : <span class="keyword">public</span> <a class="code hl_class" href="a01230.html">ILumexSettings</a></div>
-<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>{</div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span><span class="keyword">public</span>:</div>
-<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>  <span class="keywordtype">bool</span> <a class="code hl_function" href="a01238.html#aee36de8debc87784e6a28833736c0f88">load</a> (std::string <span class="keyword">const</span> &amp;<a class="code hl_typedef" href="a00912.html#a45ac34be96c8025d67f85eb38698bf0e">path</a>) <span class="keyword">override</span>;</div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>  <span class="keywordtype">bool</span> <a class="code hl_function" href="a01238.html#aee36de8debc87784e6a28833736c0f88">load</a> (<span class="keywordtype">char</span> <span class="keyword">const</span> *<a class="code hl_typedef" href="a00912.html#a45ac34be96c8025d67f85eb38698bf0e">path</a>);</div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span></div>
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>  <span class="keywordtype">bool</span> <a class="code hl_function" href="a01238.html#afb5ef6e05c93bdb8f76b5d059923e388">save</a> (std::string <span class="keyword">const</span> &amp;<a class="code hl_typedef" href="a00912.html#a45ac34be96c8025d67f85eb38698bf0e">path</a>) <span class="keyword">const override</span>;</div>
-<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>  <span class="keywordtype">bool</span> <a class="code hl_function" href="a01238.html#afb5ef6e05c93bdb8f76b5d059923e388">save</a> (<span class="keywordtype">char</span> <span class="keyword">const</span> *<a class="code hl_typedef" href="a00912.html#a45ac34be96c8025d67f85eb38698bf0e">path</a>) <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span></div>
-<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>  std::string <a class="code hl_function" href="a01238.html#acdd3841842f97972dcee82fca7ac1412">get</a> (std::string <span class="keyword">const</span> &amp;section,</div>
-<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>                   std::string <span class="keyword">const</span> &amp;key) <span class="keyword">const override</span>;</div>
-<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>  std::string <a class="code hl_function" href="a01238.html#acdd3841842f97972dcee82fca7ac1412">get</a> (<span class="keywordtype">char</span> <span class="keyword">const</span> *section, <span class="keywordtype">char</span> <span class="keyword">const</span> *key) <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span></div>
-<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="a01238.html#ad38af7fcdb702801b644cf27e8326a08">add</a> (std::string <span class="keyword">const</span> &amp;section, std::string <span class="keyword">const</span> &amp;key,</div>
-<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>            std::string <span class="keyword">const</span> &amp;value) <span class="keyword">override</span>;</div>
-<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="a01238.html#ad38af7fcdb702801b644cf27e8326a08">add</a> (<span class="keywordtype">char</span> <span class="keyword">const</span> *section, <span class="keywordtype">char</span> <span class="keyword">const</span> *key, <span class="keywordtype">char</span> <span class="keyword">const</span> *value);</div>
-<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span></div>
-<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="a01238.html#a38fdd47780dcb3f11faf92504e337e84">remove</a> (std::string <span class="keyword">const</span> &amp;section, std::string <span class="keyword">const</span> &amp;key) <span class="keyword">override</span>;</div>
-<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="a01238.html#a38fdd47780dcb3f11faf92504e337e84">remove</a> (<span class="keywordtype">char</span> <span class="keyword">const</span> *section, <span class="keywordtype">char</span> <span class="keyword">const</span> *key);</div>
-<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span></div>
-<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>  <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="a01238.html#ae1b637ba55ed87cd379edb2d82afdf23">is_xml_valid</a> (std::string <span class="keyword">const</span> &amp;<a class="code hl_typedef" href="a00912.html#a45ac34be96c8025d67f85eb38698bf0e">path</a>);</div>
-<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>  <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="a01238.html#ae1b637ba55ed87cd379edb2d82afdf23">is_xml_valid</a> (<span class="keywordtype">char</span> <span class="keyword">const</span> *<a class="code hl_typedef" href="a00912.html#a45ac34be96c8025d67f85eb38698bf0e">path</a>);</div>
-<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span> </div>
-<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span><span class="keyword">private</span>:</div>
-<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span><span class="preprocessor">#ifdef _WIN32</span></div>
-<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span><span class="preprocessor">#pragma warning(push)</span></div>
-<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span><span class="preprocessor">#pragma warning(disable : 4251)</span></div>
-<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>  std::unordered_map&lt;std::string, std::unordered_map&lt;std::string, std::string&gt;&gt;</div>
-<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>      _settings;</div>
-<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span><span class="preprocessor">#ifdef _WIN32</span></div>
-<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span><span class="preprocessor">#pragma warning(pop)</span></div>
-<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span></div>
+<div class="foldopen" id="foldopen00076" data-start="{" data-end="};">
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno"><a class="line" href="a01285.html">   76</a></span><span class="keyword">class </span><a class="code hl_class" href="a01285.html">system_error_formatter</a></div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>{</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno"><a class="line" href="a01285.html#a924130970db8bdd3b171b688e7355669">   79</a></span>  <span class="keyword">virtual</span> <a class="code hl_function" href="a01285.html#a924130970db8bdd3b171b688e7355669">~system_error_formatter</a> () = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span></div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>  <a class="code hl_define" href="a00389.html#af6aeadbda428235a14f147ade9783f8f">LUMEX_ATTRIBUTE_NODISCARD</a> (</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>      <span class="stringliteral">&quot;System error formatting result should be stored for diagnostics.&quot;</span>)</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno"><a class="line" href="a01285.html#a5d7c6c43b3965eb86e0dd09a6922e0af">   89</a></span>  virtual <a class="code hl_namespace" href="a01040.html">std</a>::<span class="keywordtype">string</span> <a class="code hl_function" href="a01285.html#a5d7c6c43b3965eb86e0dd09a6922e0af">format</a> (<span class="keywordtype">int</span> err_code) const <a class="code hl_define" href="a00425.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a> = 0;</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>};</div>
+</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span></div>
+<div class="foldopen" id="foldopen00098" data-start="{" data-end="};">
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno"><a class="line" href="a01289.html">   98</a></span>class <a class="code hl_class" href="a01289.html">port_holder_resolver</a></div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>{</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno"><a class="line" href="a01289.html#ace632104174bb30fea3e0396c34b9ab0">  101</a></span>  <span class="keyword">virtual</span> <a class="code hl_function" href="a01289.html#ace632104174bb30fea3e0396c34b9ab0">~port_holder_resolver</a> () = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span></div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>  <a class="code hl_define" href="a00389.html#af6aeadbda428235a14f147ade9783f8f">LUMEX_ATTRIBUTE_NODISCARD</a> (</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>      <span class="stringliteral">&quot;Port holder resolution result must be checked before dereference.&quot;</span>)</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>  virtual <a class="code hl_typedef" href="a00326.html#afbb00d6cc5e9b8ea87e69dfe4629f8ff">optional</a>&lt;<a class="code hl_struct" href="a01281.html">port_holder_info_t</a>&gt;</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno"><a class="line" href="a01289.html#a8d38f1798b25bdfdc71b73c397a801a3">  115</a></span>  <a class="code hl_function" href="a01289.html#a8d38f1798b25bdfdc71b73c397a801a3">resolve</a> (<a class="code hl_namespace" href="a01040.html">std</a>::<span class="keywordtype">string</span> const &amp;port_path,</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>           <a class="code hl_namespace" href="a01040.html">std</a>::<span class="keywordtype">string</span> const &amp;port_display_name) const <a class="code hl_define" href="a00425.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>      = 0;</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>};</div>
+</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span></div>
+<div class="foldopen" id="foldopen00127" data-start="{" data-end="};">
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno"><a class="line" href="a04029.html">  127</a></span>class <a class="code hl_define" href="a00641.html#ad1cae46ea7dbf5398bbb2a0bdd2cf917">LUMEX_PUBLIC_API</a> <a class="code hl_function" href="a04029.html#ae685f493d2c45a2730df2982e62bc22f">port_process_resolver</a> final</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>{</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno"><a class="line" href="a01293.html#ae685f493d2c45a2730df2982e62bc22f">  130</a></span>  <a class="code hl_function" href="a01293.html#ae685f493d2c45a2730df2982e62bc22f">port_process_resolver</a> (<a class="code hl_function" href="a01293.html#ae685f493d2c45a2730df2982e62bc22f">port_process_resolver</a> <span class="keyword">const</span> &amp;) = <span class="keyword">delete</span>;</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno"><a class="line" href="a01293.html#a9169f1b0edd5eb53a1bb875739aaee2a">  131</a></span>  <a class="code hl_function" href="a01293.html#ae685f493d2c45a2730df2982e62bc22f">port_process_resolver</a> &amp;operator= (<a class="code hl_function" href="a01293.html#ae685f493d2c45a2730df2982e62bc22f">port_process_resolver</a> <span class="keyword">const</span> &amp;) = <span class="keyword">delete</span>;</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span></div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>  <span class="keyword">static</span> std::string <a class="code hl_function" href="a01293.html#a87b46d54c13a2ae30c97f22a4e98fc7c">format_system_error</a> (<span class="keywordtype">int</span> err_code) <a class="code hl_define" href="a00425.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a>;</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span></div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>  <a class="code hl_define" href="a00389.html#af6aeadbda428235a14f147ade9783f8f">LUMEX_ATTRIBUTE_NODISCARD</a> (</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>      <span class="stringliteral">&quot;Port holder resolution result must be checked before dereference.&quot;</span>)</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>  static <a class="code hl_typedef" href="a00326.html#afbb00d6cc5e9b8ea87e69dfe4629f8ff">optional</a>&lt;<a class="code hl_struct" href="a01281.html">port_holder_info_t</a>&gt; <a class="code hl_function" href="a01293.html#af2176f44fbdaf7d92c2d86a43715fa45">get_process_holding_port</a> (</div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>      <a class="code hl_namespace" href="a01040.html">std</a>::<span class="keywordtype">string</span> const &amp;port_path,</div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>      <a class="code hl_namespace" href="a01040.html">std</a>::<span class="keywordtype">string</span> const &amp;port_display_name) <a class="code hl_define" href="a00425.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a>;</div>
 <div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span> </div>
-<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>  <span class="keywordtype">bool</span> _load_with_parser (std::string <span class="keyword">const</span> &amp;<a class="code hl_typedef" href="a00912.html#a45ac34be96c8025d67f85eb38698bf0e">path</a>);</div>
-<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>  <span class="keywordtype">bool</span> _save_with_parser (std::string <span class="keyword">const</span> &amp;<a class="code hl_typedef" href="a00912.html#a45ac34be96c8025d67f85eb38698bf0e">path</a>) <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>};</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>private:</div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>  <a class="code hl_function" href="a01293.html#ae685f493d2c45a2730df2982e62bc22f">port_process_resolver</a> () = default;</div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span> </div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>  static <a class="code hl_class" href="a01285.html">system_error_formatter</a> const &amp;error_formatter () <a class="code hl_define" href="a00425.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a>;</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>  static <a class="code hl_class" href="a01289.html">port_holder_resolver</a> const &amp;holder_resolver () <a class="code hl_define" href="a00425.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a>;</div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>};</div>
 </div>
-<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>} <span class="comment">// namespace xml</span></div>
-<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>} <span class="comment">// namespace settings</span></div>
-<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>} <span class="comment">// namespace applied</span></div>
-<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>} <span class="comment">// namespace lumex</span></div>
-<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span> </div>
-<div class="line"><a id="l00165" name="l00165"></a><span class="lineno"><a class="line" href="a00149.html#ab23132a5fc6ee5da8ac4aa3c6f448f27">  165</a></span><span class="keyword">using </span><a class="code hl_typedef" href="a00149.html#ab23132a5fc6ee5da8ac4aa3c6f448f27">LumexSettingsXML</a> = <a class="code hl_class" href="a01238.html">lumex::applied::settings::xml::LumexSettingsXML</a>;</div>
-<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span> </div>
-<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span><span class="preprocessor">#endif </span><span class="comment">// !LUMEX_APPLIED_SETTINGS_XML_SETTINGS_XML_HPP</span></div>
-<div class="ttc" id="aa00137_html"><div class="ttname"><a href="a00137.html">ILumexSettings.hpp</a></div><div class="ttdoc">The interface every settings format implements: load, save, and get, add or remove a string value by ...</div></div>
-<div class="ttc" id="aa00149_html_ab23132a5fc6ee5da8ac4aa3c6f448f27"><div class="ttname"><a href="a00149.html#ab23132a5fc6ee5da8ac4aa3c6f448f27">LumexSettingsXML</a></div><div class="ttdeci">lumex::applied::settings::xml::LumexSettingsXML LumexSettingsXML</div><div class="ttdef"><b>Definition</b> LumexSettingsXML.hpp:165</div></div>
-<div class="ttc" id="aa00383_html"><div class="ttname"><a href="a00383.html">LumexConstantMacros.hpp</a></div><div class="ttdoc">Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,...</div></div>
-<div class="ttc" id="aa00383_html_a79c537c78fd40b18154a50845e28fb61"><div class="ttname"><a href="a00383.html#a79c537c78fd40b18154a50845e28fb61">LUMEX_CONST_STR</a></div><div class="ttdeci">#define LUMEX_CONST_STR</div><div class="ttdef"><b>Definition</b> LumexConstantMacros.hpp:170</div></div>
-<div class="ttc" id="aa00605_html"><div class="ttname"><a href="a00605.html">LumexExport.hpp</a></div><div class="ttdoc">Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,...</div></div>
-<div class="ttc" id="aa00605_html_aa948a1b1a43f6a954fd4c15b01ae4207"><div class="ttname"><a href="a00605.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a></div><div class="ttdeci">#define LUMEX_API</div><div class="ttdef"><b>Definition</b> LumexExport.hpp:90</div></div>
-<div class="ttc" id="aa00912_html"><div class="ttname"><a href="a00912.html">lumex</a></div><div class="ttdef"><b>Definition</b> LumexCPUVectorizationCapabilities.cpp:65</div></div>
-<div class="ttc" id="aa00912_html_a45ac34be96c8025d67f85eb38698bf0e"><div class="ttname"><a href="a00912.html#a45ac34be96c8025d67f85eb38698bf0e">lumex::path</a></div><div class="ttdeci">core::filesystem::fs::path path</div><div class="ttdoc">Global alias for lumex::core::filesystem::fs::lumex_filesystem::path.</div><div class="ttdef"><b>Definition</b> LumexFilesystem.hpp:2101</div></div>
-<div class="ttc" id="aa00913_html"><div class="ttname"><a href="a00913.html">lumex::applied</a></div><div class="ttdef"><b>Definition</b> LumexCPUVectorizationCapabilities.cpp:67</div></div>
-<div class="ttc" id="aa00953_html"><div class="ttname"><a href="a00953.html">lumex::applied::settings</a></div><div class="ttdef"><b>Definition</b> LumexSettingsFactory.cpp:55</div></div>
-<div class="ttc" id="aa00962_html"><div class="ttname"><a href="a00962.html">lumex::applied::settings::xml</a></div><div class="ttdef"><b>Definition</b> LumexSettingsXML.cpp:61</div></div>
-<div class="ttc" id="aa00963_html"><div class="ttname"><a href="a00963.html">lumex::applied::settings::xml::Constants</a></div><div class="ttdef"><b>Definition</b> LumexSettingsXML.hpp:54</div></div>
-<div class="ttc" id="aa01230_html"><div class="ttname"><a href="a01230.html">lumex::applied::settings::ILumexSettings</a></div><div class="ttdoc">Interface of a settings store kept in a configuration file.</div><div class="ttdef"><b>Definition</b> ILumexSettings.hpp:113</div></div>
-<div class="ttc" id="aa01238_html"><div class="ttname"><a href="a01238.html">lumex::applied::settings::xml::LumexSettingsXML</a></div><div class="ttdoc">A lightweight, C++11-based XML settings manager.</div><div class="ttdef"><b>Definition</b> LumexSettingsXML.hpp:88</div></div>
-<div class="ttc" id="aa01238_html_a38fdd47780dcb3f11faf92504e337e84"><div class="ttname"><a href="a01238.html#a38fdd47780dcb3f11faf92504e337e84">lumex::applied::settings::xml::LumexSettingsXML::remove</a></div><div class="ttdeci">void remove(std::string const &amp;section, std::string const &amp;key) override</div><div class="ttdoc">Removes a key-value pair from a section.</div><div class="ttdef"><b>Definition</b> LumexSettingsXML.cpp:358</div></div>
-<div class="ttc" id="aa01238_html_acdd3841842f97972dcee82fca7ac1412"><div class="ttname"><a href="a01238.html#acdd3841842f97972dcee82fca7ac1412">lumex::applied::settings::xml::LumexSettingsXML::get</a></div><div class="ttdeci">std::string get(std::string const &amp;section, std::string const &amp;key) const override</div><div class="ttdoc">Retrieves a string value for a given section and key.</div><div class="ttdef"><b>Definition</b> LumexSettingsXML.cpp:311</div></div>
-<div class="ttc" id="aa01238_html_ad38af7fcdb702801b644cf27e8326a08"><div class="ttname"><a href="a01238.html#ad38af7fcdb702801b644cf27e8326a08">lumex::applied::settings::xml::LumexSettingsXML::add</a></div><div class="ttdeci">void add(std::string const &amp;section, std::string const &amp;key, std::string const &amp;value) override</div><div class="ttdoc">Adds or updates a key-value pair in a specific section.</div><div class="ttdef"><b>Definition</b> LumexSettingsXML.cpp:339</div></div>
-<div class="ttc" id="aa01238_html_ae1b637ba55ed87cd379edb2d82afdf23"><div class="ttname"><a href="a01238.html#ae1b637ba55ed87cd379edb2d82afdf23">lumex::applied::settings::xml::LumexSettingsXML::is_xml_valid</a></div><div class="ttdeci">static bool is_xml_valid(std::string const &amp;path)</div><div class="ttdoc">Checks that a path is a readable, well-formed XML file with a document element.</div><div class="ttdef"><b>Definition</b> LumexSettingsXML.cpp:110</div></div>
-<div class="ttc" id="aa01238_html_aee36de8debc87784e6a28833736c0f88"><div class="ttname"><a href="a01238.html#aee36de8debc87784e6a28833736c0f88">lumex::applied::settings::xml::LumexSettingsXML::load</a></div><div class="ttdeci">bool load(std::string const &amp;path) override</div><div class="ttdoc">Loads and parses an XML file from the given path.</div><div class="ttdef"><b>Definition</b> LumexSettingsXML.cpp:277</div></div>
-<div class="ttc" id="aa01238_html_afb5ef6e05c93bdb8f76b5d059923e388"><div class="ttname"><a href="a01238.html#afb5ef6e05c93bdb8f76b5d059923e388">lumex::applied::settings::xml::LumexSettingsXML::save</a></div><div class="ttdeci">bool save(std::string const &amp;path) const override</div><div class="ttdoc">Saves the current settings as canonical XML.</div><div class="ttdef"><b>Definition</b> LumexSettingsXML.cpp:295</div></div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span> </div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>} <span class="comment">// namespace resolver</span></div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>} <span class="comment">// namespace serial</span></div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>} <span class="comment">// namespace applied</span></div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>} <span class="comment">// namespace lumex</span></div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span> </div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span><span class="preprocessor">#endif</span></div>
+<div class="ttc" id="aa00326_html_afbb00d6cc5e9b8ea87e69dfe4629f8ff"><div class="ttname"><a href="a00326.html#afbb00d6cc5e9b8ea87e69dfe4629f8ff">optional</a></div><div class="ttdeci">lumex::core::optional::opt::optional&lt; T &gt; optional</div><div class="ttdoc">Global type alias for lumex::core::optional::opt::optional&lt;T&gt;.</div><div class="ttdef"><b>Definition</b> LumexOptional.hpp:1522</div></div>
+<div class="ttc" id="aa00389_html"><div class="ttname"><a href="a00389.html">LumexAttributes.hpp</a></div><div class="ttdoc">LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P...</div></div>
+<div class="ttc" id="aa00389_html_af6aeadbda428235a14f147ade9783f8f"><div class="ttname"><a href="a00389.html#af6aeadbda428235a14f147ade9783f8f">LUMEX_ATTRIBUTE_NODISCARD</a></div><div class="ttdeci">#define LUMEX_ATTRIBUTE_NODISCARD(msg)</div><div class="ttdef"><b>Definition</b> LumexAttributes.hpp:77</div></div>
+<div class="ttc" id="aa00425_html"><div class="ttname"><a href="a00425.html">LumexKeywords.hpp</a></div><div class="ttdoc">Macros that spell C++ keywords and specifiers only where the compiled standard supports them,...</div></div>
+<div class="ttc" id="aa00425_html_a8932f306494e2abfe9045da20a41e47c"><div class="ttname"><a href="a00425.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div><div class="ttdeci">#define LUMEX_NOEXCEPT</div><div class="ttdef"><b>Definition</b> LumexKeywords.hpp:84</div></div>
+<div class="ttc" id="aa00641_html"><div class="ttname"><a href="a00641.html">LumexExport.hpp</a></div><div class="ttdoc">Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,...</div></div>
+<div class="ttc" id="aa00641_html_ad1cae46ea7dbf5398bbb2a0bdd2cf917"><div class="ttname"><a href="a00641.html#ad1cae46ea7dbf5398bbb2a0bdd2cf917">LUMEX_PUBLIC_API</a></div><div class="ttdeci">#define LUMEX_PUBLIC_API</div><div class="ttdef"><b>Definition</b> LumexExport.hpp:130</div></div>
+<div class="ttc" id="aa00923_html"><div class="ttname"><a href="a00923.html">LumexOptional</a></div><div class="ttdoc">Optional module: a C++11 implementation of the C++17 std::optional.</div></div>
+<div class="ttc" id="aa00948_html"><div class="ttname"><a href="a00948.html">lumex</a></div><div class="ttdef"><b>Definition</b> LumexCPUVectorizationCapabilities.cpp:65</div></div>
+<div class="ttc" id="aa00949_html"><div class="ttname"><a href="a00949.html">lumex::applied</a></div><div class="ttdef"><b>Definition</b> LumexCPUVectorizationCapabilities.cpp:67</div></div>
+<div class="ttc" id="aa00981_html"><div class="ttname"><a href="a00981.html">lumex::applied::serial</a></div><div class="ttdoc">Cross-platform helpers for naming/resolving serial (and serial-adjacent) communication ports.</div><div class="ttdef"><b>Definition</b> LumexSerialPortEnumeration.cpp:97</div></div>
+<div class="ttc" id="aa00992_html"><div class="ttname"><a href="a00992.html">lumex::applied::serial::resolver</a></div><div class="ttdef"><b>Definition</b> LumexPortProcessResolver.cpp:108</div></div>
+<div class="ttc" id="aa01040_html"><div class="ttname"><a href="a01040.html">std</a></div><div class="ttdef"><b>Definition</b> LumexStacktraceEntry.hpp:452</div></div>
+<div class="ttc" id="aa01281_html"><div class="ttname"><a href="a01281.html">lumex::applied::serial::resolver::port_holder_info_t</a></div><div class="ttdoc">Process that currently holds a serial-port file descriptor or handle.</div><div class="ttdef"><b>Definition</b> LumexPortProcessResolver.hpp:63</div></div>
+<div class="ttc" id="aa01281_html_a097c551f78ade1f63fe53fc0d36c2a5d"><div class="ttname"><a href="a01281.html#a097c551f78ade1f63fe53fc0d36c2a5d">lumex::applied::serial::resolver::port_holder_info_t::cmdline</a></div><div class="ttdeci">std::string cmdline</div><div class="ttdoc">Command line when the platform exposes it.</div><div class="ttdef"><b>Definition</b> LumexPortProcessResolver.hpp:67</div></div>
+<div class="ttc" id="aa01281_html_a52bdc7b78aca6bf1128878218165b797"><div class="ttname"><a href="a01281.html#a52bdc7b78aca6bf1128878218165b797">lumex::applied::serial::resolver::port_holder_info_t::exe_name</a></div><div class="ttdeci">std::string exe_name</div><div class="ttdoc">Basename of the executable, e.g. &quot;PeakExpert&quot;.</div><div class="ttdef"><b>Definition</b> LumexPortProcessResolver.hpp:65</div></div>
+<div class="ttc" id="aa01281_html_a566fd1aa31b275caad94f3620a9a1df3"><div class="ttname"><a href="a01281.html#a566fd1aa31b275caad94f3620a9a1df3">lumex::applied::serial::resolver::port_holder_info_t::exe_path</a></div><div class="ttdeci">std::string exe_path</div><div class="ttdoc">Full path to the executable when available.</div><div class="ttdef"><b>Definition</b> LumexPortProcessResolver.hpp:66</div></div>
+<div class="ttc" id="aa01281_html_ac99a422884c1120ec45b568bf7c46d1e"><div class="ttname"><a href="a01281.html#ac99a422884c1120ec45b568bf7c46d1e">lumex::applied::serial::resolver::port_holder_info_t::pid</a></div><div class="ttdeci">unsigned long pid</div><div class="ttdoc">Process identifier.</div><div class="ttdef"><b>Definition</b> LumexPortProcessResolver.hpp:64</div></div>
+<div class="ttc" id="aa01285_html"><div class="ttname"><a href="a01285.html">lumex::applied::serial::resolver::system_error_formatter</a></div><div class="ttdoc">Formats a platform error code into a diagnostic string.</div><div class="ttdef"><b>Definition</b> LumexPortProcessResolver.hpp:77</div></div>
+<div class="ttc" id="aa01285_html_a5d7c6c43b3965eb86e0dd09a6922e0af"><div class="ttname"><a href="a01285.html#a5d7c6c43b3965eb86e0dd09a6922e0af">lumex::applied::serial::resolver::system_error_formatter::format</a></div><div class="ttdeci">virtual std::string format(int err_code) const noexcept=0</div><div class="ttdoc">Convert err_code to a human-readable string.</div></div>
+<div class="ttc" id="aa01285_html_a924130970db8bdd3b171b688e7355669"><div class="ttname"><a href="a01285.html#a924130970db8bdd3b171b688e7355669">lumex::applied::serial::resolver::system_error_formatter::~system_error_formatter</a></div><div class="ttdeci">virtual ~system_error_formatter()=default</div></div>
+<div class="ttc" id="aa01289_html"><div class="ttname"><a href="a01289.html">lumex::applied::serial::resolver::port_holder_resolver</a></div><div class="ttdoc">Locates the process that holds a given serial port.</div><div class="ttdef"><b>Definition</b> LumexPortProcessResolver.hpp:99</div></div>
+<div class="ttc" id="aa01289_html_a8d38f1798b25bdfdc71b73c397a801a3"><div class="ttname"><a href="a01289.html#a8d38f1798b25bdfdc71b73c397a801a3">lumex::applied::serial::resolver::port_holder_resolver::resolve</a></div><div class="ttdeci">virtual optional&lt; port_holder_info_t &gt; resolve(std::string const &amp;port_path, std::string const &amp;port_display_name) const noexcept=0</div><div class="ttdoc">Resolve the holder of port_path.</div></div>
+<div class="ttc" id="aa01289_html_ace632104174bb30fea3e0396c34b9ab0"><div class="ttname"><a href="a01289.html#ace632104174bb30fea3e0396c34b9ab0">lumex::applied::serial::resolver::port_holder_resolver::~port_holder_resolver</a></div><div class="ttdeci">virtual ~port_holder_resolver()=default</div></div>
+<div class="ttc" id="aa01293_html_a87b46d54c13a2ae30c97f22a4e98fc7c"><div class="ttname"><a href="a01293.html#a87b46d54c13a2ae30c97f22a4e98fc7c">lumex::applied::serial::resolver::port_process_resolver::format_system_error</a></div><div class="ttdeci">static std::string format_system_error(int err_code) noexcept</div><div class="ttdoc">Format a system error code.</div><div class="ttdef"><b>Definition</b> LumexPortProcessResolver.cpp:549</div></div>
+<div class="ttc" id="aa01293_html_ae685f493d2c45a2730df2982e62bc22f"><div class="ttname"><a href="a01293.html#ae685f493d2c45a2730df2982e62bc22f">lumex::applied::serial::resolver::port_process_resolver::port_process_resolver</a></div><div class="ttdeci">port_process_resolver(port_process_resolver const &amp;)=delete</div></div>
+<div class="ttc" id="aa01293_html_af2176f44fbdaf7d92c2d86a43715fa45"><div class="ttname"><a href="a01293.html#af2176f44fbdaf7d92c2d86a43715fa45">lumex::applied::serial::resolver::port_process_resolver::get_process_holding_port</a></div><div class="ttdeci">static optional&lt; port_holder_info_t &gt; get_process_holding_port(std::string const &amp;port_path, std::string const &amp;port_display_name) noexcept</div><div class="ttdoc">Identify the process holding port_path.</div><div class="ttdef"><b>Definition</b> LumexPortProcessResolver.cpp:555</div></div>
+<div class="ttc" id="aa04029_html_ae685f493d2c45a2730df2982e62bc22f"><div class="ttname"><a href="a04029.html#ae685f493d2c45a2730df2982e62bc22f">lumex::applied::serial::enumeration::port_process_resolver::port_process_resolver</a></div><div class="ttdeci">port_process_resolver(port_process_resolver const &amp;)=delete</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_de45db85bd98abf883bc2bd6c3907fd8.html">applied</a></li><li class="navelem"><a class="el" href="dir_9258c4c02d6a33184acee8f108260d77.html">settings</a></li><li class="navelem"><a class="el" href="dir_3df0cac0d3d934b72ac63bcfda3027b0.html">xml</a></li><li class="navelem"><a class="el" href="a00149.html">LumexSettingsXML.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_de45db85bd98abf883bc2bd6c3907fd8.html">applied</a></li><li class="navelem"><a class="el" href="dir_9f3553d7e4d4ebb0490c2c83481c4624.html">serial</a></li><li class="navelem"><a class="el" href="dir_280ba8667320f31218bd5995288a7b7b.html">resolver</a></li><li class="navelem"><a class="el" href="a00149.html">LumexPortProcessResolver.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: Member List</title>
+<title>LumexLib: lumex::xml::attribute Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a01130.html',''); initResizable(true); });
+$(function(){initNavTree('a01127.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,22 +103,599 @@ $(function(){initNavTree('a01130.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">lumex::applied::hardware::caps::HardwareCapabilities Member List</div></div>
+  <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle"><div class="title">lumex::xml::attribute Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02893.html">XmlAttribute</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents an XML attribute, providing a safe and convenient interface for accessing and modifying its name and value.  <a href="a02893.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02897.html">XmlAttributeBase</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Base structure for representing an XML attribute.  <a href="a02897.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02933.html">XmlAttributeIterator</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A bidirectional iterator for traversing attributes of an <code>XmlNode</code>.  <a href="a02933.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a4731c6a775ba12fa3d101ef50312b095" id="r_a4731c6a775ba12fa3d101ef50312b095"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4731c6a775ba12fa3d101ef50312b095">operator&amp;&amp;</a> (<a class="el" href="a02893.html">XmlAttribute</a> const &amp;lhs, bool rhs)</td></tr>
+<tr class="separator:a4731c6a775ba12fa3d101ef50312b095"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad7e6c3ff5c5fe38df2d5ccd66aa37f84" id="r_ad7e6c3ff5c5fe38df2d5ccd66aa37f84"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad7e6c3ff5c5fe38df2d5ccd66aa37f84">operator||</a> (<a class="el" href="a02893.html">XmlAttribute</a> const &amp;lhs, bool rhs)</td></tr>
+<tr class="separator:ad7e6c3ff5c5fe38df2d5ccd66aa37f84"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9574910c1eb199b109e5ef6a75692053" id="r_a9574910c1eb199b109e5ef6a75692053"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a02897.html">XmlAttributeBase</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9574910c1eb199b109e5ef6a75692053">allocate_attribute</a> (<a class="el" href="a02913.html">XmlAllocator</a> &amp;alloc)</td></tr>
+<tr class="memdesc:a9574910c1eb199b109e5ef6a75692053"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allocates a new <code><a class="el" href="a02897.html" title="Base structure for representing an XML attribute.">XmlAttributeBase</a></code> object using the provided allocator.  <br /></td></tr>
+<tr class="separator:a9574910c1eb199b109e5ef6a75692053"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a39c4f1cfa1cc6b95363c620f8c07bdea" id="r_a39c4f1cfa1cc6b95363c620f8c07bdea"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a39c4f1cfa1cc6b95363c620f8c07bdea">destroy_attribute</a> (<a class="el" href="a02897.html">XmlAttributeBase</a> *attr, <a class="el" href="a02913.html">XmlAllocator</a> &amp;alloc)</td></tr>
+<tr class="memdesc:a39c4f1cfa1cc6b95363c620f8c07bdea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroys and deallocates an <code><a class="el" href="a02897.html" title="Base structure for representing an XML attribute.">XmlAttributeBase</a></code> object.  <br /></td></tr>
+<tr class="separator:a39c4f1cfa1cc6b95363c620f8c07bdea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6b10ebb9351cdb4dcfb426ab944fa515" id="r_a6b10ebb9351cdb4dcfb426ab944fa515"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6b10ebb9351cdb4dcfb426ab944fa515">prepend_attribute</a> (<a class="el" href="a02897.html">XmlAttributeBase</a> *attr, <a class="el" href="a02937.html">node::XmlNodeBase</a> *node)</td></tr>
+<tr class="memdesc:a6b10ebb9351cdb4dcfb426ab944fa515"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prepends an <code><a class="el" href="a02897.html" title="Base structure for representing an XML attribute.">XmlAttributeBase</a></code> to the beginning of a node's attribute list.  <br /></td></tr>
+<tr class="separator:a6b10ebb9351cdb4dcfb426ab944fa515"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac009a781687ac1b076eb5408390597a9" id="r_ac009a781687ac1b076eb5408390597a9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac009a781687ac1b076eb5408390597a9">insert_attribute_after</a> (<a class="el" href="a02897.html">XmlAttributeBase</a> *attr, <a class="el" href="a02897.html">XmlAttributeBase</a> *place, <a class="el" href="a02937.html">node::XmlNodeBase</a> *node)</td></tr>
+<tr class="memdesc:ac009a781687ac1b076eb5408390597a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inserts an <code><a class="el" href="a02897.html" title="Base structure for representing an XML attribute.">XmlAttributeBase</a></code> after a specified existing attribute.  <br /></td></tr>
+<tr class="separator:ac009a781687ac1b076eb5408390597a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad8536805f9faefc21c231e0cb9dfdf5a" id="r_ad8536805f9faefc21c231e0cb9dfdf5a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad8536805f9faefc21c231e0cb9dfdf5a">insert_attribute_before</a> (<a class="el" href="a02897.html">XmlAttributeBase</a> *attr, <a class="el" href="a02897.html">XmlAttributeBase</a> *place, <a class="el" href="a02937.html">node::XmlNodeBase</a> *node)</td></tr>
+<tr class="memdesc:ad8536805f9faefc21c231e0cb9dfdf5a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inserts an <code><a class="el" href="a02897.html" title="Base structure for representing an XML attribute.">XmlAttributeBase</a></code> before a specified existing attribute.  <br /></td></tr>
+<tr class="separator:ad8536805f9faefc21c231e0cb9dfdf5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afa881ac8bc7844492c7dbf561cc2480c" id="r_afa881ac8bc7844492c7dbf561cc2480c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afa881ac8bc7844492c7dbf561cc2480c">remove_attribute</a> (<a class="el" href="a02897.html">XmlAttributeBase</a> *attr, <a class="el" href="a02937.html">node::XmlNodeBase</a> *node)</td></tr>
+<tr class="memdesc:afa881ac8bc7844492c7dbf561cc2480c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes an <code><a class="el" href="a02897.html" title="Base structure for representing an XML attribute.">XmlAttributeBase</a></code> from its parent node's attribute list.  <br /></td></tr>
+<tr class="separator:afa881ac8bc7844492c7dbf561cc2480c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a05babdf187dfa6292de80d86d7470a11" id="r_a05babdf187dfa6292de80d86d7470a11"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a05babdf187dfa6292de80d86d7470a11">node_copy_attribute</a> (<a class="el" href="a02897.html">XmlAttributeBase</a> *da_, <a class="el" href="a02897.html">XmlAttributeBase</a> *sa_)</td></tr>
+<tr class="memdesc:a05babdf187dfa6292de80d86d7470a11"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies the name and value strings from a source <code><a class="el" href="a02897.html" title="Base structure for representing an XML attribute.">XmlAttributeBase</a></code> to a destination <code><a class="el" href="a02897.html" title="Base structure for representing an XML attribute.">XmlAttributeBase</a></code>.  <br /></td></tr>
+<tr class="separator:a05babdf187dfa6292de80d86d7470a11"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="a9574910c1eb199b109e5ef6a75692053" name="a9574910c1eb199b109e5ef6a75692053"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9574910c1eb199b109e5ef6a75692053">&#9670;&#160;</a></span>allocate_attribute()</h2>
 
-<p>This is the complete list of members for <a class="el" href="a01130.html">lumex::applied::hardware::caps::HardwareCapabilities</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a01130.html#a3eaf2f4c04de9dfd7a0692f22f8c0b41">apply_optimal_rendering_settings</a>()</td><td class="entry"><a class="el" href="a01130.html">lumex::applied::hardware::caps::HardwareCapabilities</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01130.html#af3c48849b42dbcc0651429190b4a86b9">detect_hardware</a>()</td><td class="entry"><a class="el" href="a01130.html">lumex::applied::hardware::caps::HardwareCapabilities</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01130.html#ae7ff4b9ce7d8a1f9749c1f01a0e2d182">estimate_cpu_generation</a>(std::string const &amp;cpu_name)</td><td class="entry"><a class="el" href="a01130.html">lumex::applied::hardware::caps::HardwareCapabilities</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01130.html#a2947a856c7b322f8ed0f3135d34b389f">is_old_cpu</a>(std::string const &amp;cpu_name)</td><td class="entry"><a class="el" href="a01130.html">lumex::applied::hardware::caps::HardwareCapabilities</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01130.html#abe50368bd4ba1088c99e329d0fc5deb4">should_use_software_rendering</a>()</td><td class="entry"><a class="el" href="a01130.html">lumex::applied::hardware::caps::HardwareCapabilities</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-</table></div><!-- contents -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a02897.html">XmlAttributeBase</a> * lumex::xml::attribute::allocate_attribute </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02913.html">XmlAllocator</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>alloc</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Allocates a new <code><a class="el" href="a02897.html" title="Base structure for representing an XML attribute.">XmlAttributeBase</a></code> object using the provided allocator. </p>
+<p>This function allocates memory for an <code><a class="el" href="a02897.html" title="Base structure for representing an XML attribute.">XmlAttributeBase</a></code> structure from the given <code><a class="el" href="a02913.html" title="Manages memory allocation and deallocation for XML nodes, attributes, and strings within a document.">XmlAllocator</a></code> and constructs it in-place. It's the primary way to create new attribute objects within the XML memory model. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">alloc</td><td>The <code><a class="el" href="a02913.html" title="Manages memory allocation and deallocation for XML nodes, attributes, and strings within a document.">XmlAllocator</a></code> to use for memory allocation. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A pointer to the newly allocated <code><a class="el" href="a02897.html" title="Base structure for representing an XML attribute.">XmlAttributeBase</a></code> object, or <code>nullptr</code> if memory allocation fails. </dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>The returned pointer is owned by the <code><a class="el" href="a02913.html" title="Manages memory allocation and deallocation for XML nodes, attributes, and strings within a document.">XmlAllocator</a></code> and must not be <code>delete</code>d directly. </dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::bad_alloc</td><td>If the allocator runs out of memory (though the current implementation returns <code>nullptr</code> on failure). </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#a39c4f1cfa1cc6b95363c620f8c07bdea" title="Destroys and deallocates an XmlAttributeBase object.">destroy_attribute</a> </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01127_a9574910c1eb199b109e5ef6a75692053_cgraph.png" border="0" usemap="#aa01127_a9574910c1eb199b109e5ef6a75692053_cgraph" alt=""/></div>
+<map name="aa01127_a9574910c1eb199b109e5ef6a75692053_cgraph" id="aa01127_a9574910c1eb199b109e5ef6a75692053_cgraph">
+<area shape="rect" title="Allocates a new XmlAttributeBase object using the provided allocator." alt="" coords="5,13,146,56"/>
+<area shape="rect" href="a02913.html#a23666d6049ee4ccf8e92f7c2c56cf8cf" title="Allocates memory for an object from the allocator&#39;s managed pages." alt="" coords="194,5,350,64"/>
+<area shape="poly" title=" " alt="" coords="146,32,178,32,178,37,146,37"/>
+<area shape="rect" href="a02913.html#a52ba49868e2058ba6c0dbeb923c16c02" title="Allocates a block of memory from the allocator&#39;s managed pages." alt="" coords="398,5,554,64"/>
+<area shape="poly" title=" " alt="" coords="351,32,383,32,383,37,351,37"/>
+<area shape="rect" href="a02913.html#a9066c8946ee3cffc78c015c7464c6206" title="Allocates memory for large objects or strings that do not fit in the current memory page (out&#45;of&#45;band..." alt="" coords="602,5,759,64"/>
+<area shape="poly" title=" " alt="" coords="555,32,587,32,587,37,555,37"/>
+<area shape="rect" href="a02913.html#a1fb1c756bdb1dc9834c3cca336dc7090" title="Allocates a new XmlMemoryPage of a specified data size." alt="" coords="807,13,998,56"/>
+<area shape="poly" title=" " alt="" coords="759,32,791,32,791,37,759,37"/>
+<area shape="rect" href="a02917.html#a9358bd45d40685274a0b0bcbeb7030d2" title="Constructs an XmlMemoryPage object in a pre&#45;allocated memory block." alt="" coords="1046,13,1237,56"/>
+<area shape="poly" title=" " alt="" coords="999,32,1030,32,1030,37,999,37"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01127_a9574910c1eb199b109e5ef6a75692053_icgraph.png" border="0" usemap="#aa01127_a9574910c1eb199b109e5ef6a75692053_icgraph" alt=""/></div>
+<map name="aa01127_a9574910c1eb199b109e5ef6a75692053_icgraph" id="aa01127_a9574910c1eb199b109e5ef6a75692053_icgraph">
+<area shape="rect" title="Allocates a new XmlAttributeBase object using the provided allocator." alt="" coords="1594,467,1734,509"/>
+<area shape="rect" href="a02921.html#ada2567cc0764ef183d966076cb8521a5" title="Appends a new attribute with the specified name to the current node." alt="" coords="1362,67,1546,109"/>
+<area shape="poly" title=" " alt="" coords="1658,451,1651,382,1633,295,1618,249,1598,203,1574,161,1544,123,1530,112,1533,108,1548,119,1578,158,1603,201,1623,247,1638,293,1656,381,1664,451"/>
+<area shape="rect" href="a02921.html#a98517bc923b581acabf15a09a86976b7" title="append_attribute with a name of size characters at name, which need no terminating NUL (a range of a ..." alt="" coords="1362,133,1546,176"/>
+<area shape="poly" title=" " alt="" coords="1655,452,1644,395,1624,325,1591,253,1569,219,1544,190,1529,179,1532,174,1547,186,1574,216,1596,250,1629,323,1650,393,1661,451"/>
+<area shape="rect" href="a02921.html#ace7d9948e6fb922f91d513b2e7cc6655" title="Appends a copy of an existing attribute (proto) to the current node." alt="" coords="1362,200,1546,243"/>
+<area shape="poly" title=" " alt="" coords="1651,452,1636,408,1614,356,1584,303,1544,257,1528,245,1531,241,1547,253,1588,300,1619,353,1641,406,1656,451"/>
+<area shape="rect" href="a01129.html#a803330a161b229c5afdd0c16baaade86" title="Appends a newly allocated attribute to the current node." alt="" coords="1368,267,1540,309"/>
+<area shape="poly" title=" " alt="" coords="1644,454,1604,388,1576,353,1544,323,1526,312,1529,308,1547,319,1580,350,1608,385,1648,451"/>
+<area shape="rect" href="a02921.html#a1afe55c5a83f0973e3b62d4bf8a7d1c3" title="insert_attribute_after with a name of size characters at name, which need no terminating NUL (a range..." alt="" coords="1362,333,1546,376"/>
+<area shape="poly" title=" " alt="" coords="1629,458,1590,423,1544,390,1521,379,1524,374,1547,386,1594,419,1633,454"/>
+<area shape="rect" href="a02921.html#a209987dd4c7649b2062772d74c6a8bb3" title="Inserts a new attribute with the specified name after a given existing attribute." alt="" coords="1362,400,1546,443"/>
+<area shape="poly" title=" " alt="" coords="1580,464,1523,446,1524,441,1581,459"/>
+<area shape="rect" href="a02921.html#a907ba2d6ba1a4afcc1d3243b87746d68" title="insert_attribute_before with a name of size characters at name, which need no terminating NUL (a rang..." alt="" coords="1362,467,1546,509"/>
+<area shape="poly" title=" " alt="" coords="1578,491,1546,491,1546,485,1578,485"/>
+<area shape="rect" href="a02921.html#a08bd76620887844f06b8806c8ca05227" title="Inserts a new attribute with the specified name before a given existing attribute." alt="" coords="1362,533,1546,576"/>
+<area shape="poly" title=" " alt="" coords="1581,517,1524,535,1523,530,1580,512"/>
+<area shape="rect" href="a02921.html#a102eaa077981305070e0649d8286c196" title="Inserts a copy of an existing attribute (proto) after a given existing attribute (attr)." alt="" coords="1362,600,1546,643"/>
+<area shape="poly" title=" " alt="" coords="1633,522,1594,557,1547,590,1524,602,1521,597,1544,586,1590,553,1629,518"/>
+<area shape="rect" href="a02921.html#a59a0d19e40b7937c796ec7995d3b3390" title="Inserts a copy of an existing attribute (proto) before a given existing attribute (attr)." alt="" coords="1362,667,1546,709"/>
+<area shape="poly" title=" " alt="" coords="1648,525,1608,591,1580,626,1547,657,1529,668,1526,664,1544,653,1576,623,1604,588,1644,522"/>
+<area shape="rect" href="a02921.html#afc6e5a7c3b3dc02be7f5f003c5192d27" title="Prepends a new attribute with the specified name to the current node." alt="" coords="1362,733,1546,776"/>
+<area shape="poly" title=" " alt="" coords="1656,525,1641,570,1619,623,1588,676,1547,723,1531,735,1528,731,1544,719,1584,673,1614,620,1636,568,1651,524"/>
+<area shape="rect" href="a02921.html#a15e68847db6ff8e341f795e5be99f613" title="prepend_attribute with a name of size characters at name, which need no terminating NUL (a range of a..." alt="" coords="1362,800,1546,843"/>
+<area shape="poly" title=" " alt="" coords="1661,525,1650,583,1629,653,1596,726,1574,760,1547,790,1532,802,1529,797,1544,786,1569,757,1591,723,1624,651,1644,581,1655,524"/>
+<area shape="rect" href="a02921.html#a0519abe0f6488556f8a8fd22d242df12" title="Prepends a copy of an existing attribute (proto) to the current node." alt="" coords="1362,867,1546,909"/>
+<area shape="poly" title=" " alt="" coords="1664,525,1656,595,1638,683,1623,729,1603,775,1578,818,1548,857,1533,868,1530,864,1544,853,1574,815,1598,773,1618,727,1633,681,1651,594,1658,525"/>
+<area shape="rect" href="a02921.html#aed4795cbf9669bd00fcacd49e19a4447" title="Appends a new attribute with the specified name (std::string_view) to the current node." alt="" coords="1130,44,1314,87"/>
+<area shape="poly" title=" " alt="" coords="1347,80,1314,77,1314,72,1347,75"/>
+<area shape="rect" href="a00632.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="1198,111,1247,137"/>
+<area shape="poly" title=" " alt="" coords="1348,107,1248,123,1247,118,1347,102"/>
+<area shape="rect" href="a01129.html#aec8cf7d559fe456a7d4396307ffc5404" title="Copies the name and value strings and all attributes from a source XmlNodeBase to a destination XmlNo..." alt="" coords="1144,181,1301,224"/>
+<area shape="poly" title=" " alt="" coords="1378,263,1361,257,1281,227,1283,222,1363,252,1380,258"/>
+<area shape="rect" href="a02961.html#a6428c586faec7c093c2720191554582b" title="The main parsing function that constructs the XML document tree from a buffer." alt="" coords="1130,303,1314,345"/>
+<area shape="poly" title=" " alt="" coords="1354,306,1315,312,1314,307,1353,301"/>
+<area shape="rect" href="a01129.html#a11377e4dbc3c07bbcae59a081a6040b6" title="Performs a deep copy of an XML node&#39;s entire subtree (including itself, children, and attributes)." alt="" coords="911,176,1068,219"/>
+<area shape="poly" title=" " alt="" coords="1128,203,1069,202,1069,196,1128,198"/>
+<area shape="rect" href="a02921.html#affd983d76ecc8d527bff7cb6f9c13018" title="Appends a deep copy of an existing XmlNode (proto) as a child of the current node." alt="" coords="666,5,850,48"/>
+<area shape="poly" title=" " alt="" coords="960,165,911,113,881,86,848,62,827,51,830,46,851,58,884,82,915,109,964,162"/>
+<area shape="rect" href="a02921.html#ade75f490c8aafb015483a5444c1af76c" title="Inserts a deep copy of an existing XmlNode (proto) after a given existing child node." alt="" coords="666,72,850,115"/>
+<area shape="poly" title=" " alt="" coords="934,171,849,129,820,118,822,113,851,124,936,166"/>
+<area shape="rect" href="a02921.html#a35ef839927e8d9eaef5c22122c802fb1" title="Inserts a deep copy of an existing XmlNode (proto) before a given existing child node." alt="" coords="666,139,850,181"/>
+<area shape="poly" title=" " alt="" coords="896,185,850,177,851,172,896,180"/>
+<area shape="rect" href="a02921.html#acf48c85813bfecc4b524bfc0e2cb9344" title="Prepends a deep copy of an existing XmlNode (proto) as a child of the current node." alt="" coords="666,205,850,248"/>
+<area shape="poly" title=" " alt="" coords="896,212,851,218,850,212,896,207"/>
+<area shape="rect" href="a02905.html#a3be8c5ddd0fac3d0f74c85f9ce393341" title="Removes all nodes from the document, then copies the entire contents of a specified document." alt="" coords="683,272,833,315"/>
+<area shape="poly" title=" " alt="" coords="930,228,851,262,821,274,819,269,849,258,928,223"/>
+<area shape="rect" href="a02961.html#a6b411ab037cc6b67ddb6c7e3c6f74d57" title="Parses an XML buffer and builds the document tree." alt="" coords="898,328,1082,371"/>
+<area shape="poly" title=" " alt="" coords="1115,338,1083,342,1082,337,1114,333"/>
+<area shape="rect" href="a01139.html#a7355b4c5a34fafe87b02c6fd5d116775" title="Internal implementation for loading an XML document from a buffer." alt="" coords="684,339,832,381"/>
+<area shape="poly" title=" " alt="" coords="882,357,832,359,832,354,882,352"/>
+<area shape="rect" href="a02921.html#ad912c9685395afada772e08f6b4fbbf8" title="Parses an XML buffer as a document fragment and appends its root&#45;level nodes as children to the curre..." alt="" coords="435,235,618,277"/>
+<area shape="poly" title=" " alt="" coords="675,334,665,329,641,310,617,292,594,280,596,276,620,287,644,306,668,324,677,329"/>
+<area shape="rect" href="a02905.html#a2be82b4cec0c495439948d0743cf967e" title="Loads an XML document from a read&#45;only memory buffer." alt="" coords="435,301,618,344"/>
+<area shape="poly" title=" " alt="" coords="668,348,618,340,619,335,669,343"/>
+<area shape="rect" href="a02905.html#ae9e5c00e1006515a52f21ab08ff70183" title="Loads an XML document by parsing a provided memory buffer in&#45;place." alt="" coords="435,368,618,427"/>
+<area shape="poly" title=" " alt="" coords="669,377,619,385,618,380,668,372"/>
+<area shape="rect" href="a02905.html#ad5dd01b2674c63beb5ec52966f930319" title="Loads an XML document by parsing a provided memory buffer in&#45;place, with ownership transfer." alt="" coords="435,451,618,509"/>
+<area shape="poly" title=" " alt="" coords="708,392,620,441,596,453,594,448,617,436,706,387"/>
+<area shape="rect" href="a02905.html#a9e0254f783e96e70cde965a50ba9c7e0" title="Loads an XML document from a zero&#45;terminated C&#45;style string." alt="" coords="204,301,387,344"/>
+<area shape="poly" title=" " alt="" coords="420,325,388,325,388,320,420,320"/>
+<area shape="rect" href="a02905.html#a8b098069f109e13fd8bd8e02648d490f" title="DEPRECATED: Loads an XML document from a zero&#45;terminated C&#45;style string. Use load_string instead." alt="" coords="5,272,156,315"/>
+<area shape="poly" title=" " alt="" coords="188,311,156,306,157,301,189,305"/>
+<area shape="rect" href="a00629.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="56,339,105,365"/>
+<area shape="poly" title=" " alt="" coords="189,340,106,351,105,346,188,335"/>
+<area shape="rect" href="a02921.html#ab226afbbdb502d2c775736f8f2b2fca4" title="Inserts a new attribute with the specified name (std::string_view) after a given existing attribute." alt="" coords="1130,400,1314,443"/>
+<area shape="poly" title=" " alt="" coords="1347,424,1314,424,1314,419,1347,419"/>
+<area shape="rect" href="a02921.html#a715b4ab8ffbbd98d8fe0c84c68e3f28e" title="Inserts a new attribute with the specified name (std::string_view) before a given existing attribute." alt="" coords="1130,533,1314,576"/>
+<area shape="poly" title=" " alt="" coords="1347,557,1314,557,1314,552,1347,552"/>
+<area shape="rect" href="a02921.html#a59b7df394f724928ed2edcd4feba7e3b" title="Prepends a new attribute with the specified name (std::string_view) to the current node." alt="" coords="1130,733,1314,776"/>
+<area shape="poly" title=" " alt="" coords="1347,757,1314,757,1314,752,1347,752"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a39c4f1cfa1cc6b95363c620f8c07bdea" name="a39c4f1cfa1cc6b95363c620f8c07bdea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a39c4f1cfa1cc6b95363c620f8c07bdea">&#9670;&#160;</a></span>destroy_attribute()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lumex::xml::attribute::destroy_attribute </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02897.html">XmlAttributeBase</a> *</td>          <td class="paramname"><span class="paramname"><em>attr</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a02913.html">XmlAllocator</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>alloc</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Destroys and deallocates an <code><a class="el" href="a02897.html" title="Base structure for representing an XML attribute.">XmlAttributeBase</a></code> object. </p>
+<p>This function deallocates the attribute's name and value strings if they were separately allocated, and then deallocates the <code><a class="el" href="a02897.html" title="Base structure for representing an XML attribute.">XmlAttributeBase</a></code> structure itself using the provided allocator. It is crucial for proper memory cleanup within the XML memory model. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">attr</td><td>A pointer to the <code><a class="el" href="a02897.html" title="Base structure for representing an XML attribute.">XmlAttributeBase</a></code> object to destroy. This pointer must have been allocated via <code>allocate_attribute</code>. </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">alloc</td><td>The <code><a class="el" href="a02913.html" title="Manages memory allocation and deallocation for XML nodes, attributes, and strings within a document.">XmlAllocator</a></code> that was used to allocate <code>attr</code> and its associated strings. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>This function handles checking the <code>header</code> flags to determine if name/value strings need separate deallocation. </dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>Calling this on an <code>attr</code> not allocated by <code>alloc</code> or already deallocated leads to undefined behavior. </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#a9574910c1eb199b109e5ef6a75692053" title="Allocates a new XmlAttributeBase object using the provided allocator.">allocate_attribute</a> </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01127_a39c4f1cfa1cc6b95363c620f8c07bdea_cgraph.png" border="0" usemap="#aa01127_a39c4f1cfa1cc6b95363c620f8c07bdea_cgraph" alt=""/></div>
+<map name="aa01127_a39c4f1cfa1cc6b95363c620f8c07bdea_cgraph" id="aa01127_a39c4f1cfa1cc6b95363c620f8c07bdea_cgraph">
+<area shape="rect" title="Destroys and deallocates an XmlAttributeBase object." alt="" coords="5,13,146,56"/>
+<area shape="rect" href="a02913.html#a7916caf4c4f5e8e87a00f8778a3d4640" title="Deallocates a block of memory previously allocated by this allocator." alt="" coords="412,5,582,64"/>
+<area shape="poly" title=" " alt="" coords="146,26,194,24,364,24,396,25,396,31,364,29,194,29,146,32"/>
+<area shape="rect" href="a02913.html#aa83864016ef06776b8a0075a4fe42d8e" title="Deallocates a string previously allocated by allocate_string." alt="" coords="194,39,364,97"/>
+<area shape="poly" title=" " alt="" coords="146,44,179,49,178,54,145,49"/>
+<area shape="rect" href="a02913.html#a46230e854a38c3389d5b092bdd422645" title="Deallocates a memory page previously allocated by this allocator." alt="" coords="630,13,836,56"/>
+<area shape="poly" title=" " alt="" coords="583,32,615,32,615,37,583,37"/>
+<area shape="poly" title=" " alt="" coords="364,52,396,47,397,53,365,58"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01127_a39c4f1cfa1cc6b95363c620f8c07bdea_icgraph.png" border="0" usemap="#aa01127_a39c4f1cfa1cc6b95363c620f8c07bdea_icgraph" alt=""/></div>
+<map name="aa01127_a39c4f1cfa1cc6b95363c620f8c07bdea_icgraph" id="aa01127_a39c4f1cfa1cc6b95363c620f8c07bdea_icgraph">
+<area shape="rect" title="Destroys and deallocates an XmlAttributeBase object." alt="" coords="723,256,864,299"/>
+<area shape="rect" href="a01129.html#a4c2f2a89afe0c018d7c328d9bda84cb7" title="Destroys an XmlNodeBase object and recursively deallocates its children and attributes." alt="" coords="468,147,675,173"/>
+<area shape="poly" title=" " alt="" coords="737,251,598,176,600,172,740,246"/>
+<area shape="rect" href="a02921.html#a6f070ed5f320f3b771a23e57e4565492" title="Removes a specified XmlAttribute from the current node." alt="" coords="480,256,663,299"/>
+<area shape="poly" title=" " alt="" coords="708,280,664,280,664,275,708,275"/>
+<area shape="rect" href="a02921.html#a65c439391e38b67b41e324daa3d3d390" title="Removes all attributes from the current node." alt="" coords="480,323,663,365"/>
+<area shape="poly" title=" " alt="" coords="709,305,646,325,645,319,708,300"/>
+<area shape="poly" title=" " alt="" coords="610,134,597,128,572,125,548,127,536,132,533,137,539,145,534,148,527,138,532,128,547,122,572,120,598,123,612,129"/>
+<area shape="rect" href="a02921.html#ad1c60286d13be69a8220624272bbce51" title="Removes a specified child node from the current node." alt="" coords="237,72,420,115"/>
+<area shape="poly" title=" " alt="" coords="505,145,408,118,410,113,506,139"/>
+<area shape="rect" href="a02921.html#a755de6a01e5af91f33b90f9ac4022e84" title="Removes all child nodes from the current node." alt="" coords="237,139,420,181"/>
+<area shape="poly" title=" " alt="" coords="452,163,420,163,420,157,452,157"/>
+<area shape="rect" href="a00635.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title="Main function demonstrating various LumexXml functionalities." alt="" coords="72,205,122,232"/>
+<area shape="poly" title=" " alt="" coords="244,125,238,129,223,145,215,162,207,179,190,196,156,212,123,219,121,214,154,206,187,191,203,176,211,159,219,142,235,125,241,121"/>
+<area shape="rect" href="a02921.html#a398241c262e713edf78677ccced9b7dd" title="Removes the first child node with the specified name from the current node." alt="" coords="5,5,189,48"/>
+<area shape="poly" title=" " alt="" coords="237,70,173,51,175,46,238,65"/>
+<area shape="rect" href="a02921.html#aa5d1dd2641f178f3e5418d6d6c8ac01c" title="remove_child with a name of size characters at name, which need no terminating NUL (a range of a larg..." alt="" coords="5,72,189,115"/>
+<area shape="poly" title=" " alt="" coords="221,96,189,96,189,91,221,91"/>
+<area shape="rect" href="a02921.html#aeec38af035a8b9e7aab29479fb8d0f5e" title="Removes the first child node with the specified name (std::string_view) from the current node." alt="" coords="5,139,189,181"/>
+<area shape="poly" title=" " alt="" coords="238,122,175,141,173,135,237,117"/>
+<area shape="poly" title=" " alt="" coords="466,255,420,247,250,229,122,222,122,217,250,224,420,241,467,250"/>
+<area shape="rect" href="a02921.html#a91d04cb37686560b2d32e81d1403a7dd" title="Removes an attribute with the specified name from the current node." alt="" coords="237,256,420,299"/>
+<area shape="poly" title=" " alt="" coords="464,280,420,280,420,275,464,275"/>
+<area shape="rect" href="a02921.html#aebbf6ee277fe4c7e95171e8db55c1705" title="remove_attribute with a name of size characters at name, which need no terminating NUL (a range of a ..." alt="" coords="237,323,420,365"/>
+<area shape="poly" title=" " alt="" coords="477,306,410,325,408,319,476,301"/>
+<area shape="rect" href="a02921.html#a2da7fdb1ef394ec19945b7cdd906a8df" title="Removes an attribute with the specified name (std::string_view) from the current node." alt="" coords="237,389,420,432"/>
+<area shape="poly" title=" " alt="" coords="476,309,470,313,454,329,446,345,438,362,422,379,403,391,400,387,418,375,433,359,441,343,450,326,466,309,473,304"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ac009a781687ac1b076eb5408390597a9" name="ac009a781687ac1b076eb5408390597a9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac009a781687ac1b076eb5408390597a9">&#9670;&#160;</a></span>insert_attribute_after()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lumex::xml::attribute::insert_attribute_after </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02897.html">XmlAttributeBase</a> *</td>          <td class="paramname"><span class="paramname"><em>attr</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a02897.html">XmlAttributeBase</a> *</td>          <td class="paramname"><span class="paramname"><em>place</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a02937.html">node::XmlNodeBase</a> *</td>          <td class="paramname"><span class="paramname"><em>node</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Inserts an <code><a class="el" href="a02897.html" title="Base structure for representing an XML attribute.">XmlAttributeBase</a></code> after a specified existing attribute. </p>
+<p>This function inserts <code>attr</code> immediately after <code>place</code> in the attribute list of <code>node</code>. It updates the <code>next_attribute</code> and <code>prev_attribute_c</code> pointers to maintain the doubly-linked list integrity. If <code>place</code> is the last attribute, <code>attr</code> becomes the new last attribute, updating the circular link. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">attr</td><td>The <code><a class="el" href="a02897.html" title="Base structure for representing an XML attribute.">XmlAttributeBase</a></code> to insert. Must not be <code>nullptr</code>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">place</td><td>The existing <code><a class="el" href="a02897.html" title="Base structure for representing an XML attribute.">XmlAttributeBase</a></code> after which <code>attr</code> will be inserted. Must not be <code>nullptr</code>. </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">node</td><td>The <code><a class="el" href="a02937.html" title="Base structure representing an XML node in the document tree.">XmlNodeBase</a></code> whose attribute list is being modified. Must not be <code>nullptr</code>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>It is assumed that <code>attr</code> is not currently linked in any list and that <code>place</code> belongs to <code>node</code>. </dd></dl>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01127_ac009a781687ac1b076eb5408390597a9_icgraph.png" border="0" usemap="#aa01127_ac009a781687ac1b076eb5408390597a9_icgraph" alt=""/></div>
+<map name="aa01127_ac009a781687ac1b076eb5408390597a9_icgraph" id="aa01127_ac009a781687ac1b076eb5408390597a9_icgraph">
+<area shape="rect" title="Inserts an XmlAttributeBase after a specified existing attribute." alt="" coords="468,72,616,115"/>
+<area shape="rect" href="a02921.html#a1afe55c5a83f0973e3b62d4bf8a7d1c3" title="insert_attribute_after with a name of size characters at name, which need no terminating NUL (a range..." alt="" coords="237,5,420,48"/>
+<area shape="poly" title=" " alt="" coords="456,69,399,51,400,46,458,64"/>
+<area shape="rect" href="a02921.html#a209987dd4c7649b2062772d74c6a8bb3" title="Inserts a new attribute with the specified name after a given existing attribute." alt="" coords="237,72,420,115"/>
+<area shape="poly" title=" " alt="" coords="452,96,421,96,421,91,452,91"/>
+<area shape="rect" href="a02921.html#a102eaa077981305070e0649d8286c196" title="Inserts a copy of an existing attribute (proto) after a given existing attribute (attr)." alt="" coords="237,139,420,181"/>
+<area shape="poly" title=" " alt="" coords="458,122,400,141,399,135,456,117"/>
+<area shape="rect" href="a02921.html#ab226afbbdb502d2c775736f8f2b2fca4" title="Inserts a new attribute with the specified name (std::string_view) after a given existing attribute." alt="" coords="5,72,189,115"/>
+<area shape="poly" title=" " alt="" coords="221,96,189,96,189,91,221,91"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ad8536805f9faefc21c231e0cb9dfdf5a" name="ad8536805f9faefc21c231e0cb9dfdf5a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad8536805f9faefc21c231e0cb9dfdf5a">&#9670;&#160;</a></span>insert_attribute_before()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lumex::xml::attribute::insert_attribute_before </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02897.html">XmlAttributeBase</a> *</td>          <td class="paramname"><span class="paramname"><em>attr</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a02897.html">XmlAttributeBase</a> *</td>          <td class="paramname"><span class="paramname"><em>place</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a02937.html">node::XmlNodeBase</a> *</td>          <td class="paramname"><span class="paramname"><em>node</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Inserts an <code><a class="el" href="a02897.html" title="Base structure for representing an XML attribute.">XmlAttributeBase</a></code> before a specified existing attribute. </p>
+<p>This function inserts <code>attr</code> immediately before <code>place</code> in the attribute list of <code>node</code>. It updates the <code>next_attribute</code> and <code>prev_attribute_c</code> pointers to maintain the doubly-linked list integrity. If <code>place</code> is the first attribute, <code>attr</code> becomes the new first attribute of the node. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">attr</td><td>The <code><a class="el" href="a02897.html" title="Base structure for representing an XML attribute.">XmlAttributeBase</a></code> to insert. Must not be <code>nullptr</code>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">place</td><td>The existing <code><a class="el" href="a02897.html" title="Base structure for representing an XML attribute.">XmlAttributeBase</a></code> before which <code>attr</code> will be inserted. Must not be <code>nullptr</code>. </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">node</td><td>The <code><a class="el" href="a02937.html" title="Base structure representing an XML node in the document tree.">XmlNodeBase</a></code> whose attribute list is being modified. Must not be <code>nullptr</code>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>It is assumed that <code>attr</code> is not currently linked in any list and that <code>place</code> belongs to <code>node</code>. </dd></dl>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01127_ad8536805f9faefc21c231e0cb9dfdf5a_icgraph.png" border="0" usemap="#aa01127_ad8536805f9faefc21c231e0cb9dfdf5a_icgraph" alt=""/></div>
+<map name="aa01127_ad8536805f9faefc21c231e0cb9dfdf5a_icgraph" id="aa01127_ad8536805f9faefc21c231e0cb9dfdf5a_icgraph">
+<area shape="rect" title="Inserts an XmlAttributeBase before a specified existing attribute." alt="" coords="468,72,626,115"/>
+<area shape="rect" href="a02921.html#a907ba2d6ba1a4afcc1d3243b87746d68" title="insert_attribute_before with a name of size characters at name, which need no terminating NUL (a rang..." alt="" coords="237,5,420,48"/>
+<area shape="poly" title=" " alt="" coords="460,70,400,51,402,46,462,65"/>
+<area shape="rect" href="a02921.html#a08bd76620887844f06b8806c8ca05227" title="Inserts a new attribute with the specified name before a given existing attribute." alt="" coords="237,72,420,115"/>
+<area shape="poly" title=" " alt="" coords="453,96,420,96,420,91,453,91"/>
+<area shape="rect" href="a02921.html#a59a0d19e40b7937c796ec7995d3b3390" title="Inserts a copy of an existing attribute (proto) before a given existing attribute (attr)." alt="" coords="237,139,420,181"/>
+<area shape="poly" title=" " alt="" coords="462,122,402,141,400,135,460,117"/>
+<area shape="rect" href="a02921.html#a715b4ab8ffbbd98d8fe0c84c68e3f28e" title="Inserts a new attribute with the specified name (std::string_view) before a given existing attribute." alt="" coords="5,72,189,115"/>
+<area shape="poly" title=" " alt="" coords="221,96,189,96,189,91,221,91"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a05babdf187dfa6292de80d86d7470a11" name="a05babdf187dfa6292de80d86d7470a11"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a05babdf187dfa6292de80d86d7470a11">&#9670;&#160;</a></span>node_copy_attribute()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lumex::xml::attribute::node_copy_attribute </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02897.html">XmlAttributeBase</a> *</td>          <td class="paramname"><span class="paramname"><em>da_</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a02897.html">XmlAttributeBase</a> *</td>          <td class="paramname"><span class="paramname"><em>sa_</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Copies the name and value strings from a source <code><a class="el" href="a02897.html" title="Base structure for representing an XML attribute.">XmlAttributeBase</a></code> to a destination <code><a class="el" href="a02897.html" title="Base structure for representing an XML attribute.">XmlAttributeBase</a></code>. </p>
+<p>This utility function handles the string copying, taking into account whether the strings are stored in-situ or require separate memory allocation. It also optimizes by detecting if source and destination attributes share the same allocator to avoid unnecessary reallocations. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">da_</td><td>The destination <code><a class="el" href="a02897.html" title="Base structure for representing an XML attribute.">XmlAttributeBase</a></code> whose name and value will be set. Must not be <code>nullptr</code>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">sa_</td><td>The source <code><a class="el" href="a02897.html" title="Base structure for representing an XML attribute.">XmlAttributeBase</a></code> from which name and value will be copied. Must not be <code>nullptr</code>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>This function relies on internal utility functions (<code>node_copy_string</code>) for actual string manipulation. </dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>This function only copies the string content; it does not handle linking <code>da_</code> into an attribute list. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01127_a05babdf187dfa6292de80d86d7470a11_cgraph.png" border="0" usemap="#aa01127_a05babdf187dfa6292de80d86d7470a11_cgraph" alt=""/></div>
+<map name="aa01127_a05babdf187dfa6292de80d86d7470a11_cgraph" id="aa01127_a05babdf187dfa6292de80d86d7470a11_cgraph">
+<area shape="rect" title="Copies the name and value strings from a source XmlAttributeBase to a destination XmlAttributeBase." alt="" coords="5,167,152,209"/>
+<area shape="rect" href="a01134.html#a9e2f482374d0d85e41688b19b06931c7" title="Retrieves the XmlAllocator instance that manages the memory for a given object." alt="" coords="200,133,340,176"/>
+<area shape="poly" title=" " alt="" coords="152,173,184,167,185,172,153,178"/>
+<area shape="rect" href="a01128.html#a5e7ff474c20e982939860bf95d53b4a3" title=" " alt="" coords="204,200,336,243"/>
+<area shape="poly" title=" " alt="" coords="153,198,190,205,189,210,152,203"/>
+<area shape="rect" href="a01128.html#a9b9f5b80f9fb35252ff521a51e4974e6" title=" " alt="" coords="388,133,512,176"/>
+<area shape="poly" title=" " alt="" coords="328,197,375,179,377,184,330,202"/>
+<area shape="rect" href="a01128.html#aef8fee41b36e9987a5b7ed339b83ce42" title=" " alt="" coords="802,200,926,243"/>
+<area shape="poly" title=" " alt="" coords="336,220,514,223,731,223,786,221,787,227,731,228,514,228,336,226"/>
+<area shape="rect" href="a02913.html#a4f8c4e449e68d88fe5326388f967421f" title="Allocates memory for a null&#45;terminated string." alt="" coords="567,5,724,64"/>
+<area shape="poly" title=" " alt="" coords="477,131,559,74,566,69,569,74,562,78,480,135"/>
+<area shape="rect" href="a02913.html#aa83864016ef06776b8a0075a4fe42d8e" title="Deallocates a string previously allocated by allocate_string." alt="" coords="560,88,731,147"/>
+<area shape="poly" title=" " alt="" coords="512,140,544,134,545,139,513,145"/>
+<area shape="rect" href="a01128.html#ae819d654fda5c06256cef8359da83977" title=" " alt="" coords="575,171,716,213"/>
+<area shape="poly" title=" " alt="" coords="513,164,560,173,559,178,512,169"/>
+<area shape="rect" href="a02913.html#a52ba49868e2058ba6c0dbeb923c16c02" title="Allocates a block of memory from the allocator&#39;s managed pages." alt="" coords="786,5,942,64"/>
+<area shape="poly" title=" " alt="" coords="724,32,770,32,770,37,724,37"/>
+<area shape="rect" href="a02913.html#a9066c8946ee3cffc78c015c7464c6206" title="Allocates memory for large objects or strings that do not fit in the current memory page (out&#45;of&#45;band..." alt="" coords="1022,5,1178,64"/>
+<area shape="poly" title=" " alt="" coords="942,32,1006,32,1006,37,942,37"/>
+<area shape="rect" href="a02913.html#a1fb1c756bdb1dc9834c3cca336dc7090" title="Allocates a new XmlMemoryPage of a specified data size." alt="" coords="1250,13,1442,56"/>
+<area shape="poly" title=" " alt="" coords="1178,32,1235,32,1235,37,1178,37"/>
+<area shape="rect" href="a02917.html#a9358bd45d40685274a0b0bcbeb7030d2" title="Constructs an XmlMemoryPage object in a pre&#45;allocated memory block." alt="" coords="1490,13,1681,56"/>
+<area shape="poly" title=" " alt="" coords="1442,32,1474,32,1474,37,1442,37"/>
+<area shape="rect" href="a02913.html#a7916caf4c4f5e8e87a00f8778a3d4640" title="Deallocates a block of memory previously allocated by this allocator." alt="" coords="779,88,949,147"/>
+<area shape="poly" title=" " alt="" coords="731,115,763,115,763,120,731,120"/>
+<area shape="rect" href="a02913.html#a46230e854a38c3389d5b092bdd422645" title="Deallocates a memory page previously allocated by this allocator." alt="" coords="997,96,1202,139"/>
+<area shape="poly" title=" " alt="" coords="949,115,981,115,981,120,949,120"/>
+<area shape="poly" title=" " alt="" coords="717,199,787,208,786,214,716,204"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01127_a05babdf187dfa6292de80d86d7470a11_icgraph.png" border="0" usemap="#aa01127_a05babdf187dfa6292de80d86d7470a11_icgraph" alt=""/></div>
+<map name="aa01127_a05babdf187dfa6292de80d86d7470a11_icgraph" id="aa01127_a05babdf187dfa6292de80d86d7470a11_icgraph">
+<area shape="rect" title="Copies the name and value strings from a source XmlAttributeBase to a destination XmlAttributeBase." alt="" coords="237,105,383,148"/>
+<area shape="rect" href="a02921.html#ace7d9948e6fb922f91d513b2e7cc6655" title="Appends a copy of an existing attribute (proto) to the current node." alt="" coords="5,5,189,48"/>
+<area shape="poly" title=" " alt="" coords="259,100,188,62,160,51,163,46,190,58,261,95"/>
+<area shape="rect" href="a02921.html#a102eaa077981305070e0649d8286c196" title="Inserts a copy of an existing attribute (proto) after a given existing attribute (attr)." alt="" coords="5,72,189,115"/>
+<area shape="poly" title=" " alt="" coords="221,115,189,110,189,105,222,110"/>
+<area shape="rect" href="a02921.html#a59a0d19e40b7937c796ec7995d3b3390" title="Inserts a copy of an existing attribute (proto) before a given existing attribute (attr)." alt="" coords="5,139,189,181"/>
+<area shape="poly" title=" " alt="" coords="222,143,189,148,189,143,221,138"/>
+<area shape="rect" href="a02921.html#a0519abe0f6488556f8a8fd22d242df12" title="Prepends a copy of an existing attribute (proto) to the current node." alt="" coords="5,205,189,248"/>
+<area shape="poly" title=" " alt="" coords="261,158,190,196,163,207,160,202,188,191,259,154"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a4731c6a775ba12fa3d101ef50312b095" name="a4731c6a775ba12fa3d101ef50312b095"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4731c6a775ba12fa3d101ef50312b095">&#9670;&#160;</a></span>operator&amp;&amp;()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::xml::attribute::operator&amp;&amp; </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02893.html">XmlAttribute</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>lhs</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>rhs</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad7e6c3ff5c5fe38df2d5ccd66aa37f84" name="ad7e6c3ff5c5fe38df2d5ccd66aa37f84"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad7e6c3ff5c5fe38df2d5ccd66aa37f84">&#9670;&#160;</a></span>operator||()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::xml::attribute::operator|| </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02893.html">XmlAttribute</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>lhs</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>rhs</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6b10ebb9351cdb4dcfb426ab944fa515" name="a6b10ebb9351cdb4dcfb426ab944fa515"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6b10ebb9351cdb4dcfb426ab944fa515">&#9670;&#160;</a></span>prepend_attribute()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lumex::xml::attribute::prepend_attribute </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02897.html">XmlAttributeBase</a> *</td>          <td class="paramname"><span class="paramname"><em>attr</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a02937.html">node::XmlNodeBase</a> *</td>          <td class="paramname"><span class="paramname"><em>node</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Prepends an <code><a class="el" href="a02897.html" title="Base structure for representing an XML attribute.">XmlAttributeBase</a></code> to the beginning of a node's attribute list. </p>
+<p>This function inserts <code>attr</code> as the new first attribute of <code>node</code>. It correctly updates the <code>first_attribute</code> pointer of the node and maintains the doubly-linked list structure. If the node previously had attributes, <code>attr</code> becomes the new head, and the old head's <code>prev_attribute_c</code> is updated to point to <code>attr</code>. If the node had no attributes, <code>attr</code> becomes both the first and the "previous" (circularly linked) attribute to itself. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">attr</td><td>The <code><a class="el" href="a02897.html" title="Base structure for representing an XML attribute.">XmlAttributeBase</a></code> to prepend. Must not be <code>nullptr</code>. </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">node</td><td>The <code><a class="el" href="a02937.html" title="Base structure representing an XML node in the document tree.">XmlNodeBase</a></code> to which the attribute will be added. Must not be <code>nullptr</code>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>This function assumes <code>attr</code> is already allocated and not currently part of any other attribute list. </dd></dl>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01127_a6b10ebb9351cdb4dcfb426ab944fa515_icgraph.png" border="0" usemap="#aa01127_a6b10ebb9351cdb4dcfb426ab944fa515_icgraph" alt=""/></div>
+<map name="aa01127_a6b10ebb9351cdb4dcfb426ab944fa515_icgraph" id="aa01127_a6b10ebb9351cdb4dcfb426ab944fa515_icgraph">
+<area shape="rect" title="Prepends an XmlAttributeBase to the beginning of a node&#39;s attribute list." alt="" coords="468,72,608,115"/>
+<area shape="rect" href="a02921.html#afc6e5a7c3b3dc02be7f5f003c5192d27" title="Prepends a new attribute with the specified name to the current node." alt="" coords="237,5,420,48"/>
+<area shape="poly" title=" " alt="" coords="454,69,397,51,399,46,456,64"/>
+<area shape="rect" href="a02921.html#a15e68847db6ff8e341f795e5be99f613" title="prepend_attribute with a name of size characters at name, which need no terminating NUL (a range of a..." alt="" coords="237,72,420,115"/>
+<area shape="poly" title=" " alt="" coords="453,96,420,96,420,91,453,91"/>
+<area shape="rect" href="a02921.html#a0519abe0f6488556f8a8fd22d242df12" title="Prepends a copy of an existing attribute (proto) to the current node." alt="" coords="237,139,420,181"/>
+<area shape="poly" title=" " alt="" coords="456,122,399,141,397,135,454,117"/>
+<area shape="rect" href="a02921.html#a59b7df394f724928ed2edcd4feba7e3b" title="Prepends a new attribute with the specified name (std::string_view) to the current node." alt="" coords="5,5,189,48"/>
+<area shape="poly" title=" " alt="" coords="221,29,189,29,189,24,221,24"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="afa881ac8bc7844492c7dbf561cc2480c" name="afa881ac8bc7844492c7dbf561cc2480c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afa881ac8bc7844492c7dbf561cc2480c">&#9670;&#160;</a></span>remove_attribute()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lumex::xml::attribute::remove_attribute </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02897.html">XmlAttributeBase</a> *</td>          <td class="paramname"><span class="paramname"><em>attr</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a02937.html">node::XmlNodeBase</a> *</td>          <td class="paramname"><span class="paramname"><em>node</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Removes an <code><a class="el" href="a02897.html" title="Base structure for representing an XML attribute.">XmlAttributeBase</a></code> from its parent node's attribute list. </p>
+<p>This function unlinks <code>attr</code> from the doubly-linked list of attributes belonging to <code>node</code>. It correctly updates the <code>next_attribute</code> and <code>prev_attribute_c</code> pointers of its neighbors, as well as the <code>first_attribute</code> and circular <code>prev_attribute_c</code> pointers of the node if <code>attr</code> was the first or last. After removal, <code>attr</code>'s linking pointers are set to <code>nullptr</code>. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">attr</td><td>The <code><a class="el" href="a02897.html" title="Base structure for representing an XML attribute.">XmlAttributeBase</a></code> to remove. Must not be <code>nullptr</code> and must be part of <code>node</code>'s attribute list. </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">node</td><td>The <code><a class="el" href="a02937.html" title="Base structure representing an XML node in the document tree.">XmlNodeBase</a></code> from which the attribute will be removed. Must not be <code>nullptr</code>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section warning"><dt>Warning</dt><dd>The memory for <code>attr</code> itself is NOT deallocated by this function. It must be explicitly destroyed via <code>destroy_attribute</code>. </dd></dl>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01127_afa881ac8bc7844492c7dbf561cc2480c_icgraph.png" border="0" usemap="#aa01127_afa881ac8bc7844492c7dbf561cc2480c_icgraph" alt=""/></div>
+<map name="aa01127_afa881ac8bc7844492c7dbf561cc2480c_icgraph" id="aa01127_afa881ac8bc7844492c7dbf561cc2480c_icgraph">
+<area shape="rect" title="Removes an XmlAttributeBase from its parent node&#39;s attribute list." alt="" coords="468,89,608,132"/>
+<area shape="rect" href="a02921.html#a6f070ed5f320f3b771a23e57e4565492" title="Removes a specified XmlAttribute from the current node." alt="" coords="237,89,420,132"/>
+<area shape="poly" title=" " alt="" coords="453,113,420,113,420,108,453,108"/>
+<area shape="rect" href="a00635.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title="Main function demonstrating various LumexXml functionalities." alt="" coords="72,5,122,32"/>
+<area shape="poly" title=" " alt="" coords="272,84,188,46,121,27,123,22,190,42,274,80"/>
+<area shape="rect" href="a02921.html#a91d04cb37686560b2d32e81d1403a7dd" title="Removes an attribute with the specified name from the current node." alt="" coords="5,56,189,99"/>
+<area shape="poly" title=" " alt="" coords="221,98,189,93,190,88,222,93"/>
+<area shape="rect" href="a02921.html#aebbf6ee277fe4c7e95171e8db55c1705" title="remove_attribute with a name of size characters at name, which need no terminating NUL (a range of a ..." alt="" coords="5,123,189,165"/>
+<area shape="poly" title=" " alt="" coords="222,129,190,133,189,128,221,123"/>
+<area shape="rect" href="a02921.html#a2da7fdb1ef394ec19945b7cdd906a8df" title="Removes an attribute with the specified name (std::string_view) from the current node." alt="" coords="5,189,189,232"/>
+<area shape="poly" title=" " alt="" coords="272,142,190,180,161,191,159,186,188,175,270,137"/>
+</map>
+</div>
+
+</div>
+</div>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="a00948.html">lumex</a></li><li class="navelem"><a class="el" href="a01126.html">xml</a></li><li class="navelem"><a class="el" href="a01127.html">attribute</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::core::crc Namespace Reference</title>
+<title>LumexLib: lumex::applied::serial::port Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,24 +104,108 @@ $(function(){initNavTree('a00984.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#namespaces">Namespaces</a>  </div>
-  <div class="headertitle"><div class="title">lumex::core::crc Namespace Reference</div></div>
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle"><div class="title">lumex::applied::serial::port Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00985.html">catalog</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00986.html">Constants</a></td></tr>
+<tr class="memdesc:a00986"><td class="mdescLeft">&#160;</td><td class="mdescRight">Numeric channel-type identifiers this module understands. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00987.html">parametric</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a523de1146ace21810686af24cd7edd8f" id="r_a523de1146ace21810686af24cd7edd8f"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a523de1146ace21810686af24cd7edd8f">resolve_serial_port_path</a> (std::string const &amp;portName, std::uint32_t channelType, std::function&lt; std::string()&gt; const &amp;getIpAddressCallback=nullptr, std::function&lt; void(std::string const &amp;)&gt; const &amp;logWarningCallback=nullptr) noexcept</td></tr>
+<tr class="memdesc:a523de1146ace21810686af24cd7edd8f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts a short serial-port name into the full, platform-specific path a channel needs in order to actually open it.  <br /></td></tr>
+<tr class="separator:a523de1146ace21810686af24cd7edd8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="a523de1146ace21810686af24cd7edd8f" name="a523de1146ace21810686af24cd7edd8f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a523de1146ace21810686af24cd7edd8f">&#9670;&#160;</a></span>resolve_serial_port_path()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string lumex::applied::serial::port::resolve_serial_port_path </td>
+          <td>(</td>
+          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>portName</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::uint32_t</td>          <td class="paramname"><span class="paramname"><em>channelType</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::function&lt; std::string()&gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>getIpAddressCallback</em></span><span class="paramdefsep"> = </span><span class="paramdefval">nullptr</span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::function&lt; void(std::string const &amp;)&gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>logWarningCallback</em></span><span class="paramdefsep"> = </span><span class="paramdefval">nullptr</span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Converts a short serial-port name into the full, platform-specific path a channel needs in order to actually open it. </p>
+<p>Handles several distinct name shapes:</p><ul>
+<li>Windows COM port: <code>"COM1"</code>, <code>"COM2"</code> -&gt; <code>"\\\\.\\COM1"</code>, <code>"\\\\.\\COM2"</code>.</li>
+<li>Linux tty device: <code>"ttyUSB0"</code>, <code>"ttyACM0"</code> -&gt; <code>"/dev/ttyUSB0"</code>, <code>"/dev/ttyACM0"</code>.</li>
+<li>Linux by-id device: <code>"usb-FTDI_..."</code> -&gt; <code>"/dev/serial/by-id/usb-FTDI_..."</code>.</li>
+<li>Invalid <code>"USB"</code>-style markers: <code>"USB"</code> / <code>"USB42"</code> are slot names, not device nodes. Linux guesses <code>"/dev/ttyUSB0"</code> / <code>"/dev/ttyUSB42"</code>. macOS prefixes <code>"/dev/"</code>. Windows leaves the name unchanged. Every platform reports the substitution through <code>logWarningCallback</code>.</li>
+</ul>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">portName</td><td>Short port name as it appears in configuration (e.g. <code>"COM1"</code>, <code>"ttyUSB0"</code>, <code>"USB"</code>, <code>"USB42"</code>). </td></tr>
+    <tr><td class="paramname">channelType</td><td>Channel-type identifier (see <a class="el" href="a00986.html">Constants</a>). Only used to detect a network channel, in which case the port name is not a serial port name at all and <code>getIpAddressCallback</code> is consulted instead. </td></tr>
+    <tr><td class="paramname">getIpAddressCallback</td><td>Callback used to obtain an IP address for network channels (<code><a class="el" href="a00986.html#a60c1583bdbe97272bebce16500252428" title="TCP network channel.">Constants::KNET_TCP_CHANNEL_TYPE</a></code> / <code><a class="el" href="a00986.html#a8e84e78c1d605a4e97a9690581795555" title="UDP network channel.">Constants::KNET_UDP_CHANNEL_TYPE</a></code>). May be empty; if so, <code>portName</code> itself is returned unchanged. </td></tr>
+    <tr><td class="paramname">logWarningCallback</td><td>Optional callback used to report a resolved-but-unverified fallback for an invalid <code>"USB"</code> marker. Called on every platform. May be empty.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The platform-specific path/identifier to use when opening the channel.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>For network channels, the result is whatever <code>getIpAddressCallback</code> returns.</dd>
+<dd>
+For invalid <code>"USB"</code>-style markers:<ul>
+<li>Linux: <code>"USB"</code> resolves to <code>"/dev/ttyUSB0"</code>, <code>"USB42"</code> to <code>"/dev/ttyUSB42"</code>.</li>
+<li>macOS: the name is prefixed with <code>"/dev/"</code>.</li>
+<li>Windows: the name is returned unchanged.</li>
+<li>On every platform, <code>logWarningCallback</code> (if provided) is invoked with a description of the name and the path actually returned.</li>
+</ul>
+</dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>For invalid <code>"USB"</code> markers, this function returns a <em>guessed</em> device path - it never checks whether that device actually exists or is available. If <code>/dev/ttyUSB0</code> is already used by another device, or <code>/dev/ttyUSB42</code> does not exist, opening the resulting channel will fail. Prefer real port names (<code>"ttyUSB0"</code>, <code>"usb-FTDI_..."</code>) over slot markers (<code>"USB"</code>, <code>"USB42"</code>) whenever possible. </dd></dl>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00984_a523de1146ace21810686af24cd7edd8f_icgraph.png" border="0" usemap="#aa00984_a523de1146ace21810686af24cd7edd8f_icgraph" alt=""/></div>
+<map name="aa00984_a523de1146ace21810686af24cd7edd8f_icgraph" id="aa00984_a523de1146ace21810686af24cd7edd8f_icgraph">
+<area shape="rect" title="Converts a short serial&#45;port name into the full, platform&#45;specific path a channel needs in order to a..." alt="" coords="103,5,247,64"/>
+<area shape="rect" href="a00584.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,21,55,48"/>
+<area shape="poly" title=" " alt="" coords="87,37,55,37,55,32,87,32"/>
+</map>
+</div>
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00912.html">lumex</a></li><li class="navelem"><a class="el" href="a00964.html">core</a></li><li class="navelem"><a class="el" href="a00984.html">crc</a></li>
+    <li class="navelem"><a class="el" href="a00948.html">lumex</a></li><li class="navelem"><a class="el" href="a00949.html">applied</a></li><li class="navelem"><a class="el" href="a00981.html">serial</a></li><li class="navelem"><a class="el" href="a00984.html">port</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

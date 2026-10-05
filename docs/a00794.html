@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: XPathParseResult.hpp File Reference</title>
+<title>LumexLib: XPathStack.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -106,54 +106,105 @@ $(function(){initNavTree('a00794.html',''); initResizable(true); });
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#namespaces">Namespaces</a>  </div>
-  <div class="headertitle"><div class="title">XPathParseResult.hpp File Reference</div></div>
+  <div class="headertitle"><div class="title">XPathStack.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p><code>xpath_parse_result_t</code>, the outcome of compiling an XPath expression.  
+<p>The memory an XPath evaluation runs on: <code>XPathStack</code>, a pair of allocators, and <code>XPathStackData</code>, which owns them.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="a00605_source.html">lumex/LumexExport.hpp</a>&quot;</code><br />
-<code>#include &lt;cstddef&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00353_source.html">lumex/core/utility/attr/LumexAttributes.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="a00641_source.html">lumex/LumexExport.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00785_source.html">XPathAllocator.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for XPathParseResult.hpp:</div>
+Include dependency graph for XPathStack.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00795.png" border="0" usemap="#a_x_path_parse_result_8hpp" alt=""/></div>
+<div class="center"><img src="a00795.png" border="0" usemap="#a_x_path_stack_8hpp" alt=""/></div>
+<map name="a_x_path_stack_8hpp" id="a_x_path_stack_8hpp">
+<area shape="rect" title="The memory an XPath evaluation runs on: XPathStack, a pair of allocators, and XPathStackData,..." alt="" coords="36,5,153,32"/>
+<area shape="rect" href="a00641.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="5,237,168,264"/>
+<area shape="poly" title=" " alt="" coords="97,33,90,222,85,222,91,33"/>
+<area shape="rect" href="a00785.html" title="XPathAllocator, the bump allocator of the XPath engine, and XPathAllocatorCapture,..." alt="" coords="128,80,261,107"/>
+<area shape="poly" title=" " alt="" coords="113,30,166,68,163,73,110,35"/>
+<area shape="poly" title=" " alt="" coords="170,109,140,129,114,156,99,189,91,223,86,222,94,188,110,153,137,125,167,105"/>
+<area shape="rect" title=" " alt="" coords="124,155,183,181"/>
+<area shape="poly" title=" " alt="" coords="190,109,170,143,165,140,185,106"/>
+<area shape="rect" title=" " alt="" coords="207,155,267,181"/>
+<area shape="poly" title=" " alt="" coords="204,106,224,140,220,143,200,109"/>
+<area shape="rect" href="a00788.html" title="XPathMemoryBlock, the unit of memory of the XPath allocator." alt="" coords="292,155,454,181"/>
+<area shape="poly" title=" " alt="" coords="227,105,329,146,327,151,225,110"/>
+<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="467,485,661,528"/>
+<area shape="poly" title=" " alt="" coords="262,101,373,121,495,152,550,172,595,194,626,220,634,234,637,249,637,335,632,388,612,438,591,474,587,471,607,436,626,387,632,335,632,250,629,236,622,223,592,199,548,177,494,157,371,126,261,107"/>
+<area shape="poly" title=" " alt="" coords="329,184,147,235,145,230,328,179"/>
+<area shape="rect" title=" " alt="" coords="229,237,280,264"/>
+<area shape="poly" title=" " alt="" coords="356,184,287,231,284,226,353,180"/>
+<area shape="rect" title=" " alt="" coords="304,237,368,264"/>
+<area shape="poly" title=" " alt="" coords="370,183,350,225,345,222,365,181"/>
+<area shape="rect" href="a00767.html" title="Size limits and alignment of the XPath engine." alt="" coords="392,229,570,272"/>
+<area shape="poly" title=" " alt="" coords="392,180,443,218,440,222,388,184"/>
+<area shape="rect" title=" " alt="" coords="291,320,351,347"/>
+<area shape="poly" title=" " alt="" coords="441,275,361,315,359,310,439,270"/>
+<area shape="rect" href="a00734.html" title="Preprocessor macros of the XML module: the character mode, the declaration of constants,..." alt="" coords="376,320,587,347"/>
+<area shape="poly" title=" " alt="" coords="484,273,484,304,478,304,478,273"/>
+<area shape="rect" href="a00389.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="173,395,341,437"/>
+<area shape="poly" title=" " alt="" coords="447,350,330,392,328,386,445,345"/>
+<area shape="rect" href="a00419.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="365,395,597,437"/>
+<area shape="poly" title=" " alt="" coords="484,347,484,379,478,379,478,347"/>
+<area shape="rect" href="a00404.html" title="C++ language, library and attribute feature availability." alt="" coords="142,485,373,528"/>
+<area shape="poly" title=" " alt="" coords="260,438,260,470,254,470,254,438"/>
+<area shape="poly" title=" " alt="" coords="502,436,536,472,532,476,498,440"/>
+</map>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00796.png" border="0" usemap="#a_x_path_parse_result_8hppdep" alt=""/></div>
+<div class="center"><img src="a00796.png" border="0" usemap="#a_x_path_stack_8hppdep" alt=""/></div>
+<map name="a_x_path_stack_8hppdep" id="a_x_path_stack_8hppdep">
+<area shape="rect" title="The memory an XPath evaluation runs on: XPathStack, a pair of allocators, and XPathStackData,..." alt="" coords="163,5,280,32"/>
+<area shape="rect" href="a00764.html" title="XPathAstNode, the node of a compiled XPath expression tree, which evaluates itself against a context." alt="" coords="80,80,213,107"/>
+<area shape="poly" title=" " alt="" coords="199,45,161,82,158,78,196,41"/>
+<area shape="rect" href="a00791.html" title=" " alt="" coords="238,80,354,107"/>
+<area shape="poly" title=" " alt="" coords="247,41,285,78,281,82,243,45"/>
+<area shape="rect" href="a00761.html" title=" " alt="" coords="5,155,139,181"/>
+<area shape="poly" title=" " alt="" coords="125,119,87,156,83,152,121,116"/>
+<area shape="rect" href="a00824.html" title="XPathParser, the recursive descent parser that compiles an XPath 1.0 expression into a tree of XPathA..." alt="" coords="162,155,283,181"/>
+<area shape="poly" title=" " alt="" coords="173,116,211,152,208,156,169,119"/>
+<area shape="rect" href="a00821.html" title=" " alt="" coords="90,229,211,256"/>
+<area shape="poly" title=" " alt="" coords="201,194,165,231,161,227,198,191"/>
+<area shape="rect" href="a00833.html" title=" " alt="" coords="235,229,352,256"/>
+<area shape="poly" title=" " alt="" coords="247,191,283,227,279,231,244,194"/>
+</map>
 </div>
 </div>
 <p><a href="a00794_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03090.html">lumex::xml::xpath::parser::xpath_parse_result_t</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents the result of an XPath parsing operation.  <a href="a03090.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03137.html">lumex::xml::xpath::memory::XPathStack</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents a pair of XPath allocators for managing expression evaluation memory.  <a href="a03137.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03141.html">lumex::xml::xpath::memory::XPathStackData</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Manages the memory for XPath evaluation, providing dedicated allocators.  <a href="a03141.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00912.html">lumex</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00948.html">lumex</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01083.html">lumex::xml</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01126.html">lumex::xml</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01092.html">lumex::xml::xpath</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01135.html">lumex::xml::xpath</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01110.html">lumex::xml::xpath::parser</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01152.html">lumex::xml::xpath::memory</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p><code>xpath_parse_result_t</code>, the outcome of compiling an XPath expression. </p>
-<p>A result holds an error message, <code>nullptr</code> on success, and the offset of the error in the expression in <code>char_t</code> units. It converts to <code>true</code> on success, and <code>description()</code> returns the message or "No error". A default-constructed result reports an internal error. <code>XPathQuery::result()</code> and <code>XPathException::result()</code> return it. </p>
+<div class="textblock"><p>The memory an XPath evaluation runs on: <code>XPathStack</code>, a pair of allocators, and <code>XPathStackData</code>, which owns them. </p>
+<p>The <code>result</code> allocator holds the values a subexpression returns to its caller, and the <code>temp</code> allocator holds intermediate data that is dropped when the subexpression finishes. <code>XPathStackData</code> embeds the first block of each, frees the others on destruction and records an allocation failure in <code>oom</code>. Each <code>XPathQuery</code> evaluation creates its own <code>XPathStackData</code> on the stack. The file is internal to the XPath engine. </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_d38a0fae6a8e48d91b3b62673cf0c708.html">xpath</a></li><li class="navelem"><a class="el" href="dir_4c93ace1da67964a3ff55b959013373d.html">parser</a></li><li class="navelem"><a class="el" href="a00794.html">XPathParseResult.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_d38a0fae6a8e48d91b3b62673cf0c708.html">xpath</a></li><li class="navelem"><a class="el" href="dir_19857d72d820dc03d02d27eca0dc23fe.html">memory</a></li><li class="navelem"><a class="el" href="a00794.html">XPathStack.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

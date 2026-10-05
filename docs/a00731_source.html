@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: XPathConstants.hpp Source File</title>
+<title>LumexLib: XmlCleaner.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -103,7 +103,7 @@ $(function(){initNavTree('a00731_source.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">XPathConstants.hpp</div></div>
+  <div class="headertitle"><div class="title">XmlCleaner.hpp</div></div>
 </div><!--header-->
 <div class="contents">
 <a href="a00731.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">/*</span></div>
@@ -145,54 +145,68 @@ $(function(){initNavTree('a00731_source.html',''); initResizable(true); });
 <div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="comment"> * SOFTWARE.</span></div>
 <div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="comment"> */</span></div>
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span></div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span><span class="preprocessor">#ifndef LUMEX_XML_XPATH_CONSTANTS_HPP</span></div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="preprocessor">#define LUMEX_XML_XPATH_CONSTANTS_HPP</span></div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="preprocessor">#include &lt;cstdint&gt;</span></div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span><span class="preprocessor">#include &quot;<a class="code" href="a00698.html">lumex/xml/utility/XmlMacros.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a00912.html">lumex</a> <span class="comment">// NOLINT(modernize-concat-nested-namespaces)</span></div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>{</div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01083.html">xml</a></div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>{</div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01092.html">xpath</a></div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>{</div>
-<div class="foldopen" id="foldopen00063" data-start="{" data-end="}">
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno"><a class="line" href="a01104.html">   63</a></span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01104.html">constants</a></div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>{</div>
-<div class="foldopen" id="foldopen00065" data-start="{" data-end="}">
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno"><a class="line" href="a01105.html">   65</a></span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01105.html">Constants</a></div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>{</div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno"><a class="line" href="a01105.html#ad26ad5985470791d299f0bbbc18fb33d">   67</a></span><a class="code hl_define" href="a00698.html#a8330f372deff8a96000ada9d7ce1a543">LUMEX_XML_CONSTANT</a> std::size_t <a class="code hl_variable" href="a01105.html#ad26ad5985470791d299f0bbbc18fb33d">kxpath_memory_page_size</a> = 0x1000; <span class="comment">// 4 kb</span></div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno"><a class="line" href="a01105.html#a313212f487db1c0370399210a9b503ec">   68</a></span><a class="code hl_define" href="a00698.html#a8330f372deff8a96000ada9d7ce1a543">LUMEX_XML_CONSTANT</a> std::size_t <a class="code hl_variable" href="a01105.html#a313212f487db1c0370399210a9b503ec">kxpath_ast_depth_limit</a> = 0x400;   <span class="comment">// 1 kb</span></div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno"><a class="line" href="a01105.html#abc2f314e0988bdf72981959e498e258e">   69</a></span><a class="code hl_define" href="a00698.html#a8330f372deff8a96000ada9d7ce1a543">LUMEX_XML_CONSTANT</a> uintptr_t <a class="code hl_variable" href="a01105.html#abc2f314e0988bdf72981959e498e258e">kxpath_memory_block_alignment</a></div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    = <span class="keyword">sizeof</span> (double) &gt; <span class="keyword">sizeof</span> (<span class="keywordtype">void</span> *) ? <span class="keyword">sizeof</span> (double) : sizeof (void *);</div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>} <span class="comment">// namespace Constants</span></div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="preprocessor">#ifndef LUMEX_XML_UTILITY_XML_CLEANER_HPP</span></div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span><span class="preprocessor">#define LUMEX_XML_UTILITY_XML_CLEANER_HPP</span></div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="preprocessor">#include &quot;<a class="code" href="a00641.html">lumex/LumexExport.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a00948.html">lumex</a> <span class="comment">// NOLINT(modernize-concat-nested-namespaces)</span></div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>{</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01126.html">xml</a></div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>{</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01128.html">utility</a></div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>{</div>
+<div class="foldopen" id="foldopen00069" data-start="{" data-end="};">
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno"><a class="line" href="a02985.html">   69</a></span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">struct </span><a class="code hl_define" href="a00641.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a> <a class="code hl_function" href="a02985.html#a1c10030b274c9889f1f70274fda87fdf">XmlCleaner</a></div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>{ <span class="comment">// NOLINT(cppcoreguidelines-special-member-functions)</span></div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno"><a class="line" href="a02985.html#a8caa7b69f3316216d4d663b218c578c7">   72</a></span>  <span class="keyword">using </span><a class="code hl_typedef" href="a02985.html#a8caa7b69f3316216d4d663b218c578c7">D</a> = void (*) (T *);</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span></div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno"><a class="line" href="a02985.html#a1d7b92a76885fd307aa47c268d794ed3">   75</a></span>  T *<a class="code hl_variable" href="a02985.html#a1d7b92a76885fd307aa47c268d794ed3">data</a>{}; <span class="comment">// NOLINT(misc-non-private-member-variables-in-classes)</span></div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno"><a class="line" href="a02985.html#a2e5e1d091887e2da0ba8e0e8444bde4a">   77</a></span>  <a class="code hl_typedef" href="a02985.html#a8caa7b69f3316216d4d663b218c578c7">D</a> <a class="code hl_variable" href="a02985.html#a2e5e1d091887e2da0ba8e0e8444bde4a">deleter</a>{}; <span class="comment">// NOLINT(misc-non-private-member-variables-in-classes)</span></div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span></div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno"><a class="line" href="a02985.html#a1c10030b274c9889f1f70274fda87fdf">   86</a></span>  <a class="code hl_function" href="a02985.html#a1c10030b274c9889f1f70274fda87fdf">XmlCleaner</a> (T *data_, <a class="code hl_typedef" href="a02985.html#a8caa7b69f3316216d4d663b218c578c7">D</a> deleter_) : <a class="code hl_variable" href="a02985.html#a1d7b92a76885fd307aa47c268d794ed3">data</a> (data_), <a class="code hl_variable" href="a02985.html#a2e5e1d091887e2da0ba8e0e8444bde4a">deleter</a> (deleter_) {}</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span></div>
+<div class="foldopen" id="foldopen00092" data-start="{" data-end="}">
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno"><a class="line" href="a02985.html#a5bd950cc700caa327dff5d9bf07bc744">   92</a></span>  <a class="code hl_function" href="a02985.html#a5bd950cc700caa327dff5d9bf07bc744">~XmlCleaner</a> ()</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>  {</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="a02985.html#a1d7b92a76885fd307aa47c268d794ed3">data</a>)</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>      <a class="code hl_variable" href="a02985.html#a2e5e1d091887e2da0ba8e0e8444bde4a">deleter</a> (<a class="code hl_variable" href="a02985.html#a1d7b92a76885fd307aa47c268d794ed3">data</a>);</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>  }</div>
 </div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>} <span class="comment">// namespace constants</span></div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span></div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>  T *</div>
+<div class="foldopen" id="foldopen00106" data-start="{" data-end="}">
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno"><a class="line" href="a02985.html#a0aa80b59356d59d7e72cf05e99e6aa52">  106</a></span>  <a class="code hl_function" href="a02985.html#a0aa80b59356d59d7e72cf05e99e6aa52">release</a> ()</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>  {</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>    T *result = <a class="code hl_variable" href="a02985.html#a1d7b92a76885fd307aa47c268d794ed3">data</a>;</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>    <a class="code hl_variable" href="a02985.html#a1d7b92a76885fd307aa47c268d794ed3">data</a> = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>    <span class="keywordflow">return</span> result;</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>  }</div>
 </div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>} <span class="comment">// namespace xpath</span></div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>} <span class="comment">// namespace xml</span></div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>} <span class="comment">// namespace lumex</span></div>
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span> </div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span><span class="preprocessor">#endif </span><span class="comment">// !LUMEX_XML_XPATH_CONSTANTS_HPP</span></div>
-<div class="ttc" id="aa00698_html"><div class="ttname"><a href="a00698.html">XmlMacros.hpp</a></div><div class="ttdoc">Preprocessor macros of the XML module: the character mode, the declaration of constants,...</div></div>
-<div class="ttc" id="aa00698_html_a8330f372deff8a96000ada9d7ce1a543"><div class="ttname"><a href="a00698.html#a8330f372deff8a96000ada9d7ce1a543">LUMEX_XML_CONSTANT</a></div><div class="ttdeci">#define LUMEX_XML_CONSTANT</div><div class="ttdef"><b>Definition</b> XmlMacros.hpp:68</div></div>
-<div class="ttc" id="aa00912_html"><div class="ttname"><a href="a00912.html">lumex</a></div><div class="ttdef"><b>Definition</b> LumexCPUVectorizationCapabilities.cpp:65</div></div>
-<div class="ttc" id="aa01083_html"><div class="ttname"><a href="a01083.html">lumex::xml</a></div><div class="ttdef"><b>Definition</b> XmlAttribute.hpp:105</div></div>
-<div class="ttc" id="aa01092_html"><div class="ttname"><a href="a01092.html">lumex::xml::xpath</a></div><div class="ttdef"><b>Definition</b> XmlNode.hpp:133</div></div>
-<div class="ttc" id="aa01104_html"><div class="ttname"><a href="a01104.html">lumex::xml::xpath::constants</a></div><div class="ttdef"><b>Definition</b> XPathConstants.hpp:64</div></div>
-<div class="ttc" id="aa01105_html"><div class="ttname"><a href="a01105.html">lumex::xml::xpath::constants::Constants</a></div><div class="ttdef"><b>Definition</b> XPathConstants.hpp:66</div></div>
-<div class="ttc" id="aa01105_html_a313212f487db1c0370399210a9b503ec"><div class="ttname"><a href="a01105.html#a313212f487db1c0370399210a9b503ec">lumex::xml::xpath::constants::Constants::kxpath_ast_depth_limit</a></div><div class="ttdeci">static constLUMEX_CONSTINITstd::size_t kxpath_ast_depth_limit</div><div class="ttdef"><b>Definition</b> XPathConstants.hpp:68</div></div>
-<div class="ttc" id="aa01105_html_abc2f314e0988bdf72981959e498e258e"><div class="ttname"><a href="a01105.html#abc2f314e0988bdf72981959e498e258e">lumex::xml::xpath::constants::Constants::kxpath_memory_block_alignment</a></div><div class="ttdeci">static constLUMEX_CONSTINITuintptr_t kxpath_memory_block_alignment</div><div class="ttdef"><b>Definition</b> XPathConstants.hpp:70</div></div>
-<div class="ttc" id="aa01105_html_ad26ad5985470791d299f0bbbc18fb33d"><div class="ttname"><a href="a01105.html#ad26ad5985470791d299f0bbbc18fb33d">lumex::xml::xpath::constants::Constants::kxpath_memory_page_size</a></div><div class="ttdeci">static constLUMEX_CONSTINITstd::size_t kxpath_memory_page_size</div><div class="ttdef"><b>Definition</b> XPathConstants.hpp:67</div></div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>};</div>
+</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>} <span class="comment">// namespace utility</span></div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>} <span class="comment">// namespace xml</span></div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>} <span class="comment">// namespace lumex</span></div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span> </div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span><span class="preprocessor">#endif </span><span class="comment">// !LUMEX_XML_UTILITY_XML_CLEANER_HPP</span></div>
+<div class="ttc" id="aa00641_html"><div class="ttname"><a href="a00641.html">LumexExport.hpp</a></div><div class="ttdoc">Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,...</div></div>
+<div class="ttc" id="aa00641_html_aa948a1b1a43f6a954fd4c15b01ae4207"><div class="ttname"><a href="a00641.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a></div><div class="ttdeci">#define LUMEX_API</div><div class="ttdef"><b>Definition</b> LumexExport.hpp:90</div></div>
+<div class="ttc" id="aa00948_html"><div class="ttname"><a href="a00948.html">lumex</a></div><div class="ttdef"><b>Definition</b> LumexCPUVectorizationCapabilities.cpp:65</div></div>
+<div class="ttc" id="aa01126_html"><div class="ttname"><a href="a01126.html">lumex::xml</a></div><div class="ttdef"><b>Definition</b> XmlAttribute.hpp:105</div></div>
+<div class="ttc" id="aa01128_html"><div class="ttname"><a href="a01128.html">lumex::xml::utility</a></div><div class="ttdef"><b>Definition</b> XmlAttribute.hpp:869</div></div>
+<div class="ttc" id="aa02985_html_a0aa80b59356d59d7e72cf05e99e6aa52"><div class="ttname"><a href="a02985.html#a0aa80b59356d59d7e72cf05e99e6aa52">lumex::xml::utility::XmlCleaner::release</a></div><div class="ttdeci">T * release()</div><div class="ttdoc">Releases ownership of the managed data.</div><div class="ttdef"><b>Definition</b> XmlCleaner.hpp:106</div></div>
+<div class="ttc" id="aa02985_html_a1c10030b274c9889f1f70274fda87fdf"><div class="ttname"><a href="a02985.html#a1c10030b274c9889f1f70274fda87fdf">lumex::xml::utility::XmlCleaner::XmlCleaner</a></div><div class="ttdeci">XmlCleaner(T *data_, D deleter_)</div><div class="ttdoc">Constructs an XmlCleaner object, taking ownership of the provided data.</div><div class="ttdef"><b>Definition</b> XmlCleaner.hpp:86</div></div>
+<div class="ttc" id="aa02985_html_a1d7b92a76885fd307aa47c268d794ed3"><div class="ttname"><a href="a02985.html#a1d7b92a76885fd307aa47c268d794ed3">lumex::xml::utility::XmlCleaner::data</a></div><div class="ttdeci">T * data</div><div class="ttdoc">Pointer to the managed data.</div><div class="ttdef"><b>Definition</b> XmlCleaner.hpp:75</div></div>
+<div class="ttc" id="aa02985_html_a2e5e1d091887e2da0ba8e0e8444bde4a"><div class="ttname"><a href="a02985.html#a2e5e1d091887e2da0ba8e0e8444bde4a">lumex::xml::utility::XmlCleaner::deleter</a></div><div class="ttdeci">D deleter</div><div class="ttdoc">Function pointer to the deleter (e.g., free, delete[]).</div><div class="ttdef"><b>Definition</b> XmlCleaner.hpp:77</div></div>
+<div class="ttc" id="aa02985_html_a5bd950cc700caa327dff5d9bf07bc744"><div class="ttname"><a href="a02985.html#a5bd950cc700caa327dff5d9bf07bc744">lumex::xml::utility::XmlCleaner::~XmlCleaner</a></div><div class="ttdeci">~XmlCleaner()</div><div class="ttdoc">Destructor. Deallocates the managed data using the provided deleter if release() was not called.</div><div class="ttdef"><b>Definition</b> XmlCleaner.hpp:92</div></div>
+<div class="ttc" id="aa02985_html_a8caa7b69f3316216d4d663b218c578c7"><div class="ttname"><a href="a02985.html#a8caa7b69f3316216d4d663b218c578c7">lumex::xml::utility::XmlCleaner::D</a></div><div class="ttdeci">void(*)(T *) D</div><div class="ttdoc">Type alias for the deleter function pointer.</div><div class="ttdef"><b>Definition</b> XmlCleaner.hpp:72</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_d38a0fae6a8e48d91b3b62673cf0c708.html">xpath</a></li><li class="navelem"><a class="el" href="dir_cf6d8699b082a50a97245bbc6ac68abc.html">constants</a></li><li class="navelem"><a class="el" href="a00731.html">XPathConstants.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_7bfbee8fcb850e8938daf1d332a7a70b.html">utility</a></li><li class="navelem"><a class="el" href="a00731.html">XmlCleaner.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexException.cpp File Reference</title>
+<title>LumexLib: Validator.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,70 +104,123 @@ $(function(){initNavTree('a00224.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#namespaces">Namespaces</a> &#124;
-<a href="#define-members">Macros</a> &#124;
-<a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">LumexException.cpp File Reference</div></div>
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#namespaces">Namespaces</a>  </div>
+  <div class="headertitle"><div class="title">Validator.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;fstream&gt;</code><br />
-<code>#include &lt;iostream&gt;</code><br />
-<code>#include &lt;mutex&gt;</code><br />
-<code>#include &lt;sstream&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00227_source.html">LumexException.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00209_source.html">lumex/core/exceptions/crash/DefaultPaths.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00875_source.html">lumex/core/filesystem/LumexFilesystem</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00902_source.html">lumex/core/time/LumexTime</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00353_source.html">lumex/core/utility/attr/LumexAttributes.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00389_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
+
+<p>Base64 syntax check: the <code>Validator</code> class of the <code>lumex::base64</code> library.  
+<a href="#details">More...</a></p>
+<div class="textblock"><code>#include &quot;<a class="el" href="a00641_source.html">lumex/LumexExport.hpp</a>&quot;</code><br />
+<code>#include &lt;cstddef&gt;</code><br />
+<code>#include &quot;<a class="el" href="a00206_source.html">lumex/core/base64/codec/Base64.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for LumexException.cpp:</div>
+Include dependency graph for Validator.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00225.png" border="0" usemap="#a_lumex_exception_8cpp" alt=""/></div>
+<div class="center"><img src="a00225.png" border="0" usemap="#a_validator_8hpp" alt=""/></div>
+<map name="a_validator_8hpp" id="a_validator_8hpp">
+<area shape="rect" title="Base64 syntax check: the Validator class of the lumex::base64 library." alt="" coords="17,5,114,32"/>
+<area shape="rect" href="a00641.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="20,360,183,387"/>
+<area shape="poly" title=" " alt="" coords="61,34,40,80,18,148,11,187,8,226,12,266,24,303,42,329,67,349,63,353,38,332,19,305,7,267,3,227,5,186,13,147,35,78,56,31"/>
+<area shape="rect" title=" " alt="" coords="33,269,98,296"/>
+<area shape="poly" title=" " alt="" coords="68,33,68,254,63,254,63,33"/>
+<area shape="rect" href="a00206.html" title="Cross&#45;platform Base64 encoding and decoding utilities." alt="" coords="1544,80,1715,123"/>
+<area shape="poly" title=" " alt="" coords="114,20,1529,92,1529,98,114,25"/>
+<area shape="rect" title=" " alt="" coords="1566,269,1616,296"/>
+<area shape="poly" title=" " alt="" coords="1628,124,1599,255,1594,254,1622,123"/>
+<area shape="rect" title=" " alt="" coords="1640,269,1694,296"/>
+<area shape="poly" title=" " alt="" coords="1636,123,1664,254,1659,255,1631,124"/>
+<area shape="rect" title=" " alt="" coords="1718,269,1800,296"/>
+<area shape="poly" title=" " alt="" coords="1647,122,1743,255,1739,259,1642,125"/>
+<area shape="rect" title=" " alt="" coords="1825,269,1912,296"/>
+<area shape="poly" title=" " alt="" coords="1659,121,1842,258,1838,262,1655,125"/>
+<area shape="rect" href="a00386.html" title="Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_..." alt="" coords="122,261,289,304"/>
+<area shape="poly" title=" " alt="" coords="1544,109,1205,130,989,148,771,173,641,193,539,213,305,263,304,258,538,208,640,188,771,168,988,143,1205,124,1544,104"/>
+<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="1003,352,1197,395"/>
+<area shape="poly" title=" " alt="" coords="1711,121,1803,151,1848,170,1889,192,1921,217,1941,244,1945,259,1944,274,1938,290,1926,306,1912,316,1890,324,1824,338,1735,350,1631,358,1408,369,1213,374,1213,368,1408,364,1631,353,1735,344,1823,333,1888,319,1910,311,1922,302,1933,287,1939,273,1940,260,1936,247,1917,221,1886,197,1846,175,1801,156,1710,126"/>
+<area shape="rect" href="a00446.html" title="Every general&#45;purpose type trait of LumexLib, one sub&#45;namespace of lumex::core::utility::traits per t..." alt="" coords="783,171,967,213"/>
+<area shape="poly" title=" " alt="" coords="1544,115,983,181,982,175,1544,110"/>
+<area shape="poly" title=" " alt="" coords="183,306,129,352,126,348,180,302"/>
+<area shape="poly" title=" " alt="" coords="290,300,302,301,490,325,678,343,988,364,987,369,677,348,489,330,301,307,289,305"/>
+<area shape="poly" title=" " alt="" coords="783,200,428,223,243,241,168,252,110,264,104,266,102,261,109,259,167,247,242,236,427,218,782,195"/>
+<area shape="poly" title=" " alt="" coords="967,195,1280,218,1439,236,1505,247,1554,259,1558,260,1557,265,1553,264,1504,252,1439,242,1279,223,967,201"/>
+<area shape="poly" title=" " alt="" coords="967,195,1317,216,1498,235,1572,246,1629,259,1633,260,1631,265,1627,264,1571,251,1498,240,1317,222,967,200"/>
+<area shape="poly" title=" " alt="" coords="967,190,1111,193,1296,202,1501,223,1605,239,1706,259,1716,261,1715,267,1705,264,1604,244,1500,228,1295,208,1111,198,967,195"/>
+<area shape="poly" title=" " alt="" coords="967,194,1406,217,1642,236,1739,247,1813,259,1824,262,1823,267,1812,264,1738,252,1641,241,1406,222,967,200"/>
+<area shape="poly" title=" " alt="" coords="783,204,569,227,305,264,304,258,568,222,782,199"/>
+<area shape="poly" title=" " alt="" coords="847,216,824,235,806,258,797,281,798,292,804,302,831,321,876,337,931,349,988,358,987,363,930,355,875,342,829,326,800,306,793,293,791,280,801,255,821,231,843,212"/>
+<area shape="rect" title=" " alt="" coords="314,269,391,296"/>
+<area shape="poly" title=" " alt="" coords="783,203,606,224,504,241,404,264,396,266,394,261,402,259,503,236,605,218,782,198"/>
+<area shape="rect" title=" " alt="" coords="415,269,476,296"/>
+<area shape="poly" title=" " alt="" coords="783,205,643,227,565,243,489,264,484,265,483,260,487,259,564,238,642,221,782,200"/>
+<area shape="rect" title=" " alt="" coords="501,269,553,296"/>
+<area shape="poly" title=" " alt="" coords="783,209,677,231,565,264,563,265,561,260,563,259,676,226,782,204"/>
+<area shape="rect" title=" " alt="" coords="577,269,645,296"/>
+<area shape="poly" title=" " alt="" coords="802,216,657,264,653,266,651,261,655,259,800,211"/>
+<area shape="rect" title=" " alt="" coords="669,269,737,296"/>
+<area shape="poly" title=" " alt="" coords="836,216,742,264,740,259,833,212"/>
+<area shape="rect" title=" " alt="" coords="813,269,862,296"/>
+<area shape="poly" title=" " alt="" coords="869,215,851,256,846,254,864,213"/>
+<area shape="rect" title=" " alt="" coords="886,269,938,296"/>
+<area shape="poly" title=" " alt="" coords="886,213,903,254,899,256,881,215"/>
+<area shape="rect" title=" " alt="" coords="963,269,1029,296"/>
+<area shape="poly" title=" " alt="" coords="905,212,968,258,965,262,901,216"/>
+<area shape="rect" href="a00404.html" title="C++ language, library and attribute feature availability." alt="" coords="1054,261,1285,304"/>
+<area shape="poly" title=" " alt="" coords="945,211,1087,254,1085,259,943,217"/>
+<area shape="rect" href="a00419.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="1309,261,1542,304"/>
+<area shape="poly" title=" " alt="" coords="967,205,1295,258,1294,263,967,211"/>
+<area shape="poly" title=" " alt="" coords="1350,307,1192,350,1190,345,1349,302"/>
+</map>
 </div>
-</div><table class="memberdecls">
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00226.png" border="0" usemap="#a_validator_8hppdep" alt=""/></div>
+<map name="a_validator_8hppdep" id="a_validator_8hppdep">
+<area shape="rect" title="Base64 syntax check: the Validator class of the lumex::base64 library." alt="" coords="129,5,225,32"/>
+<area shape="rect" href="a00209.html" title=" " alt="" coords="5,80,101,107"/>
+<area shape="poly" title=" " alt="" coords="144,42,76,82,73,77,141,38"/>
+<area shape="rect" href="a00893.html" title="Base64 module: encoding, decoding and syntax checks of Base64 text." alt="" coords="125,80,229,107"/>
+<area shape="poly" title=" " alt="" coords="180,48,180,80,174,80,174,48"/>
+<area shape="rect" href="a00221.html" title=" " alt="" coords="253,80,349,107"/>
+<area shape="poly" title=" " alt="" coords="213,38,281,77,278,82,210,42"/>
+<area shape="rect" href="a00458.html" title=" " alt="" coords="6,155,150,181"/>
+<area shape="poly" title=" " alt="" coords="149,118,97,156,94,152,146,114"/>
+<area shape="rect" href="a00461.html" title=" " alt="" coords="174,155,377,181"/>
+<area shape="poly" title=" " alt="" coords="208,114,260,152,257,156,205,118"/>
+</map>
+</div>
+</div>
+<p><a href="a00224_source.html">Go to the source code of this file.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01381.html">lumex::core::base64::validate::Validator</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Base64 syntax check.  <a href="a01381.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00912.html">lumex</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00948.html">lumex</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00964.html">lumex::core</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01005.html">lumex::core</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00991.html">lumex::core::exceptions</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01013.html">lumex::core::base64</a></td></tr>
+<tr class="memdesc:a01013"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides Base64 decoding functionalities. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00993.html">lumex::core::exceptions::exception</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01023.html">lumex::core::base64::validate</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
-Macros</h2></td></tr>
-<tr class="memitem:a07486181f1990291c2a348de8eb4c480" id="r_a07486181f1990291c2a348de8eb4c480"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a07486181f1990291c2a348de8eb4c480">LUMEX_IMPLEMENTATION</a></td></tr>
-<tr class="separator:a07486181f1990291c2a348de8eb4c480"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:a31ed01634f7b6bd094769a42fe5f966b" id="r_a31ed01634f7b6bd094769a42fe5f966b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a00239.html#aa65ae33a9cb60c0f3fdb50f47f7a425e">LumexStacktrace</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00993.html#a31ed01634f7b6bd094769a42fe5f966b">lumex::core::exceptions::exception::LumexException_GetStackTraceTrampoline</a> (int skip_frames)</td></tr>
-<tr class="separator:a31ed01634f7b6bd094769a42fe5f966b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="a07486181f1990291c2a348de8eb4c480" name="a07486181f1990291c2a348de8eb4c480"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a07486181f1990291c2a348de8eb4c480">&#9670;&#160;</a></span>LUMEX_IMPLEMENTATION</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_IMPLEMENTATION</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-</div><!-- contents -->
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Base64 syntax check: the <code>Validator</code> class of the <code>lumex::base64</code> library. </p>
+<p><code>Validator::is_valid_base64()</code> tells whether text is well-formed Base64 without decoding it: alphabet characters followed by at most two <code>=</code>, with or without padding. The pointer and size overload is compiled into the library and has the same signature in every C++ standard; the string overload is an inline wrapper over it (<code>std::string_view</code> from C++17, <code>std::string</code> before). Like the other Base64 headers, it brings the names of the codec's <code>Types</code> namespace into the global namespace with a using-directive. </p>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_c5abfa2a5a0424f8cc91dab0edfcaee4.html">exceptions</a></li><li class="navelem"><a class="el" href="dir_4cbc0be85e48ae3eca992e23959f1e29.html">exception</a></li><li class="navelem"><a class="el" href="a00224.html">LumexException.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_8c8b73b6e18afab83ac8ebfe214770ca.html">base64</a></li><li class="navelem"><a class="el" href="dir_79d3cb47ffd0d8362dfc28041227bd61.html">validate</a></li><li class="navelem"><a class="el" href="a00224.html">Validator.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

@@ -1,5 +1,26 @@
 var a00311 =
 [
-    [ "lumex::core::string::text::to_case_insensitive", "a01025.html#ad8f7eb93f5a0d72fd633cee8e25bd05a", null ],
-    [ "lumex::core::string::text::to_case_insensitive", "a01025.html#af2d09555090576cec202f328fb11ddbf", null ]
+    [ "lumex::core::fmt::Detail::civil_time_t", "a02173.html", "a02173" ],
+    [ "lumex::core::fmt::Detail::ChronoFormatter< Char >", "a02177.html", "a02177" ],
+    [ "lumex::core::fmt::Formatter< std::chrono::duration< Rep, Period >, Char, typename std::enable_if< Detail::has_formatter< Char, Rep >() &&std::is_arithmetic< Rep >::value >::type >", "a02181.html", "a02181" ],
+    [ "lumex::core::fmt::Formatter< std::chrono::time_point< std::chrono::system_clock, Duration >, Char, typename std::enable_if<!std::chrono::treat_as_floating_point< typename Duration::rep >::value >::type >", "a02185.html", "a02185" ],
+    [ "lumex::core::fmt::Detail::append_ascii", "a01049.html#a50d6c5e29743cab15e1594cf58b632a7", null ],
+    [ "lumex::core::fmt::Detail::append_localized", "a01049.html#a3cfab9d85ccf991300e57dec088e9dac", null ],
+    [ "lumex::core::fmt::Detail::append_number", "a01049.html#a818162ff93668f48df1c55821b00846f", null ],
+    [ "lumex::core::fmt::Detail::append_seconds", "a01049.html#a40ff57adf446dd2e2b97a65f9e817121", null ],
+    [ "lumex::core::fmt::Detail::check_chrono_specs", "a01049.html#a28ba701722fdcf7194acbbdaaa6062fd", null ],
+    [ "lumex::core::fmt::Detail::civil_from_days", "a01049.html#abf8a964b73ead1cec0f493a86c4b9fab", null ],
+    [ "lumex::core::fmt::Detail::days_from_civil", "a01049.html#a365347e3849bfaedcfb56627e1ee586e", null ],
+    [ "lumex::core::fmt::Detail::duration_count", "a01049.html#ad543c02880402a3b7f724bbf0650fb51", null ],
+    [ "lumex::core::fmt::Detail::floor_div", "a01049.html#a8a3611c453003762e23f73cdf331d06a", null ],
+    [ "lumex::core::fmt::Detail::floor_mod", "a01049.html#ae8c7658b63539d3879a215371302723c", null ],
+    [ "lumex::core::fmt::Detail::fractional_digits", "a01049.html#a6ba235f9fcada7ece959be451804b733", null ],
+    [ "lumex::core::fmt::Detail::is_chrono_conversion", "a01049.html#a8ccbbce0aa0b3f54e45e28809998ecca", null ],
+    [ "lumex::core::fmt::Detail::iso_week", "a01049.html#a9bb3e619b249d54a8889159cb394a5bd", null ],
+    [ "lumex::core::fmt::Detail::month_name", "a01049.html#a8add933ba8511f86512df2449d2bd4f9", null ],
+    [ "lumex::core::fmt::Detail::power_of_ten", "a01049.html#abf2d03bfeff88c2c87dc0258865374ca", null ],
+    [ "lumex::core::fmt::Detail::split_seconds", "a01049.html#a474c0fd7c9f1ace69805a5a6a099600a", null ],
+    [ "lumex::core::fmt::Detail::unit_suffix", "a01049.html#a8436ead0f08c22325c76c607c228c592", null ],
+    [ "lumex::core::fmt::Detail::weekday_name", "a01049.html#aeefcec729273930a28872e248746c365", null ],
+    [ "lumex::core::fmt::Detail::write_chrono", "a01049.html#a754034de35d8ea974e37818b711109a8", null ]
 ];

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::core::base64::encode Namespace Reference</title>
+<title>LumexLib: lumex::applied::resource_monitor::monitor::Constants Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,23 +104,76 @@ $(function(){initNavTree('a00980.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a>  </div>
-  <div class="headertitle"><div class="title">lumex::core::base64::encode Namespace Reference</div></div>
+<a href="#var-members">Variables</a>  </div>
+  <div class="headertitle"><div class="title">lumex::applied::resource_monitor::monitor::Constants Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01294.html">Encoder</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Base64 encoder.  <a href="a01294.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a2d339c3a57f9e52e4313ff7322012a35" id="r_a2d339c3a57f9e52e4313ff7322012a35"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::int64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2d339c3a57f9e52e4313ff7322012a35">KDEFAULT_POLL_INTERVAL_MS</a> = 10000</td></tr>
+<tr class="memdesc:a2d339c3a57f9e52e4313ff7322012a35"><td class="mdescLeft">&#160;</td><td class="mdescRight">Poll interval used when the caller does not request a specific one.  <br /></td></tr>
+<tr class="separator:a2d339c3a57f9e52e4313ff7322012a35"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af9a62099ac7bcfe99416183349af1c31" id="r_af9a62099ac7bcfe99416183349af1c31"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::int64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af9a62099ac7bcfe99416183349af1c31">KSTARTUP_GRACE_PERIOD_MS</a> = 2000</td></tr>
+<tr class="memdesc:af9a62099ac7bcfe99416183349af1c31"><td class="mdescLeft">&#160;</td><td class="mdescRight">Grace period the sampler waits before taking its first sample.  <br /></td></tr>
+<tr class="separator:af9a62099ac7bcfe99416183349af1c31"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Variable Documentation</h2>
+<a id="a2d339c3a57f9e52e4313ff7322012a35" name="a2d339c3a57f9e52e4313ff7322012a35"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2d339c3a57f9e52e4313ff7322012a35">&#9670;&#160;</a></span>KDEFAULT_POLL_INTERVAL_MS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constLUMEX_CONSTINITstd::int64_t lumex::applied::resource_monitor::monitor::Constants::KDEFAULT_POLL_INTERVAL_MS = 10000</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Poll interval used when the caller does not request a specific one. </p>
+
+</div>
+</div>
+<a id="af9a62099ac7bcfe99416183349af1c31" name="af9a62099ac7bcfe99416183349af1c31"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af9a62099ac7bcfe99416183349af1c31">&#9670;&#160;</a></span>KSTARTUP_GRACE_PERIOD_MS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constLUMEX_CONSTINITstd::int64_t lumex::applied::resource_monitor::monitor::Constants::KSTARTUP_GRACE_PERIOD_MS = 2000</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Grace period the sampler waits before taking its first sample. </p>
+<p>Gives the host application time to finish initializing before any sampling starts, and keeps a thread/instrumentation sanitizer from reporting noise for activity that happens during that initialization window. </p>
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00912.html">lumex</a></li><li class="navelem"><a class="el" href="a00964.html">core</a></li><li class="navelem"><a class="el" href="a00972.html">base64</a></li><li class="navelem"><a class="el" href="a00980.html">encode</a></li>
+    <li class="navelem"><a class="el" href="a00948.html">lumex</a></li><li class="navelem"><a class="el" href="a00949.html">applied</a></li><li class="navelem"><a class="el" href="a00977.html">resource_monitor</a></li><li class="navelem"><a class="el" href="a00978.html">monitor</a></li><li class="navelem"><a class="el" href="a00980.html">Constants</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

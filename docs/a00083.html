@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexLogging.cpp File Reference</title>
+<title>LumexLib: LumexJsonSchemaTraverser.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,64 +104,167 @@ $(function(){initNavTree('a00083.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
 <a href="#namespaces">Namespaces</a> &#124;
-<a href="#define-members">Macros</a>  </div>
-  <div class="headertitle"><div class="title">LumexLogging.cpp File Reference</div></div>
+<a href="#enum-members">Enumerations</a> &#124;
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
+  <div class="headertitle"><div class="title">LumexJsonSchemaTraverser.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;fstream&gt;</code><br />
-<code>#include &lt;iomanip&gt;</code><br />
-<code>#include &lt;iostream&gt;</code><br />
-<code>#include &lt;unistd.h&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00086_source.html">LumexLogging.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00866_source.html">lumex/core/environment/LumexEnvironment</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00875_source.html">lumex/core/filesystem/LumexFilesystem</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00902_source.html">lumex/core/time/LumexTime</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00905_source.html">lumex/core/utility/LumexUtility</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00389_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
+
+<p>Recursive walker for a JSON Schema draft-7 subset.  
+<a href="#details">More...</a></p>
+<div class="textblock"><code>#include &lt;algorithm&gt;</code><br />
+<code>#include &lt;cmath&gt;</code><br />
+<code>#include &lt;cstddef&gt;</code><br />
+<code>#include &lt;cstdint&gt;</code><br />
+<code>#include &lt;string&gt;</code><br />
+<code>#include &lt;utility&gt;</code><br />
+<code>#include &lt;vector&gt;</code><br />
+<code>#include &lt;nlohmann/json.hpp&gt;</code><br />
+<code>#include &quot;<a class="el" href="a00080_source.html">lumex/applied/json/schema/LumexJsonSchemaException.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00404_source.html">lumex/core/utility/compiler/LumexCheckFeatures.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00335_source.html">lumex/core/reflection/reflected_enum/LumexReflectedEnum.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00356_source.html">lumex/core/string_view/view/LumexStringView.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00389_source.html">lumex/core/utility/attr/LumexAttributes.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for LumexLogging.cpp:</div>
+Include dependency graph for LumexJsonSchemaTraverser.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00084.png" border="0" usemap="#a_lumex_logging_8cpp" alt=""/></div>
+<div class="center"><img src="a00084.png" border="0" usemap="#a_lumex_json_schema_traverser_8hpp" alt=""/></div>
+<map name="a_lumex_json_schema_traverser_8hpp" id="a_lumex_json_schema_traverser_8hpp">
+<area shape="rect" title="Recursive walker for a JSON Schema draft&#45;7 subset." alt="" coords="557,5,773,32"/>
+<area shape="rect" title=" " alt="" coords="5,88,80,115"/>
+<area shape="poly" title=" " alt="" coords="556,25,457,30,340,41,215,58,92,83,85,85,83,80,91,77,214,52,340,35,457,25,556,20"/>
+<area shape="rect" title=" " alt="" coords="103,88,160,115"/>
+<area shape="poly" title=" " alt="" coords="557,28,379,45,279,61,181,83,173,85,172,80,179,77,278,56,378,40,556,22"/>
+<area shape="rect" title=" " alt="" coords="752,285,816,312"/>
+<area shape="poly" title=" " alt="" coords="656,34,640,55,628,81,624,101,628,122,651,170,684,212,720,248,754,274,750,278,717,252,680,216,646,173,623,124,618,101,623,79,635,52,651,31"/>
+<area shape="rect" title=" " alt="" coords="58,187,118,213"/>
+<area shape="poly" title=" " alt="" coords="557,30,368,49,282,64,221,82,206,91,197,101,175,125,115,178,111,174,171,121,193,97,203,87,219,78,280,59,367,44,556,25"/>
+<area shape="rect" title=" " alt="" coords="710,187,764,213"/>
+<area shape="poly" title=" " alt="" coords="765,30,850,49,884,62,906,78,915,101,906,124,893,139,880,149,851,158,819,162,784,173,770,181,767,176,781,168,818,156,850,152,877,144,890,135,902,121,910,101,902,82,881,67,848,54,764,35"/>
+<area shape="rect" title=" " alt="" coords="142,187,194,213"/>
+<area shape="poly" title=" " alt="" coords="557,31,398,51,327,65,277,82,248,102,223,126,185,175,181,171,219,123,245,98,275,78,325,60,397,46,556,26"/>
+<area shape="rect" title=" " alt="" coords="636,88,694,115"/>
+<area shape="poly" title=" " alt="" coords="668,32,668,73,662,73,662,32"/>
+<area shape="rect" title=" " alt="" coords="717,88,848,115"/>
+<area shape="poly" title=" " alt="" coords="685,30,753,77,750,81,682,35"/>
+<area shape="rect" href="a00080.html" title="Exception thrown by the JSON schema engine on the first violation." alt="" coords="287,80,560,123"/>
+<area shape="poly" title=" " alt="" coords="628,35,501,77,499,72,627,30"/>
+<area shape="rect" href="a00335.html" title="X&#45;macro system that generates a scoped enum together with its own compile&#45;time reflection data and a ..." alt="" coords="370,171,584,229"/>
+<area shape="poly" title=" " alt="" coords="744,30,797,44,843,63,860,75,870,90,871,106,862,124,849,133,828,141,763,157,599,185,598,180,762,152,826,136,847,128,858,121,866,105,865,92,856,79,841,68,795,49,742,35"/>
+<area shape="rect" href="a00389.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="1249,277,1417,320"/>
+<area shape="poly" title=" " alt="" coords="774,20,860,26,960,36,1065,53,1167,77,1276,103,1298,112,1318,125,1338,144,1357,169,1366,192,1366,217,1361,242,1354,264,1348,262,1356,240,1361,217,1360,194,1352,172,1334,147,1315,129,1296,117,1275,108,1166,83,1064,58,959,41,860,31,774,25"/>
+<area shape="rect" href="a00404.html" title="C++ language, library and attribute feature availability." alt="" coords="1278,368,1509,411"/>
+<area shape="poly" title=" " alt="" coords="774,21,899,28,1038,40,1165,56,1217,66,1257,78,1327,110,1353,129,1376,150,1394,175,1409,203,1432,277,1435,299,1432,321,1417,356,1412,354,1427,319,1430,299,1427,278,1404,205,1389,177,1372,154,1350,133,1324,115,1255,82,1216,71,1165,61,1037,45,898,34,774,27"/>
+<area shape="rect" href="a00356.html" title="C++11 lightweight, non&#45;owning view over character sequences." alt="" coords="973,80,1155,123"/>
+<area shape="poly" title=" " alt="" coords="728,30,958,76,957,81,727,35"/>
+<area shape="poly" title=" " alt="" coords="288,126,209,145,130,173,117,180,115,175,128,168,207,140,287,121"/>
+<area shape="poly" title=" " alt="" coords="537,121,615,141,693,168,708,176,706,181,691,173,613,146,536,126"/>
+<area shape="poly" title=" " alt="" coords="336,126,272,146,208,173,197,179,194,175,205,168,270,141,335,121"/>
+<area shape="rect" title=" " alt="" coords="218,187,296,213"/>
+<area shape="poly" title=" " alt="" coords="389,126,294,181,291,176,387,121"/>
+<area shape="poly" title=" " alt="" coords="437,122,456,156,452,158,433,124"/>
+<area shape="poly" title=" " alt="" coords="483,121,597,168,626,185,648,200,669,214,699,227,744,238,802,248,945,266,1233,289,1233,294,944,271,801,254,742,243,698,232,667,219,645,205,623,189,595,173,481,126"/>
+<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="439,368,633,411"/>
+<area shape="poly" title=" " alt="" coords="398,125,377,146,361,172,345,213,338,248,342,281,361,318,389,347,425,366,423,370,386,351,356,322,337,283,332,248,340,212,356,169,373,143,394,121"/>
+<area shape="poly" title=" " alt="" coords="585,226,662,248,741,275,745,277,743,282,739,280,660,253,584,231"/>
+<area shape="rect" title=" " alt="" coords="371,285,421,312"/>
+<area shape="poly" title=" " alt="" coords="455,231,418,275,414,272,451,228"/>
+<area shape="poly" title=" " alt="" coords="585,217,655,227,971,262,1233,286,1233,292,971,268,654,232,584,222"/>
+<area shape="rect" href="a00419.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="496,277,728,320"/>
+<area shape="poly" title=" " alt="" coords="519,228,572,266,569,270,516,232"/>
+<area shape="poly" title=" " alt="" coords="477,230,477,273,486,319,507,354,503,357,481,321,472,273,472,230"/>
+<area shape="poly" title=" " alt="" coords="1349,319,1373,354,1369,357,1345,322"/>
+<area shape="poly" title=" " alt="" coords="596,322,565,358,561,355,592,319"/>
+<area shape="poly" title=" " alt="" coords="973,124,891,146,857,159,835,173,817,195,804,220,790,271,785,269,799,218,812,192,831,169,855,154,889,141,972,118"/>
+<area shape="poly" title=" " alt="" coords="973,124,865,149,783,173,769,181,766,176,782,168,864,144,971,119"/>
+<area shape="poly" title=" " alt="" coords="1156,112,1259,134,1302,150,1330,169,1342,191,1347,215,1345,262,1339,262,1342,215,1337,193,1326,172,1300,154,1258,139,1155,117"/>
+<area shape="poly" title=" " alt="" coords="973,121,923,141,900,155,879,172,866,191,859,209,856,247,853,284,845,303,830,322,800,339,755,354,649,376,648,371,754,349,797,335,826,318,840,301,848,283,851,246,854,208,861,188,875,169,896,151,920,136,971,116"/>
+<area shape="rect" href="a00641.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="983,187,1145,213"/>
+<area shape="poly" title=" " alt="" coords="1066,123,1066,171,1061,171,1061,123"/>
+<area shape="rect" title=" " alt="" coords="1170,187,1230,213"/>
+<area shape="poly" title=" " alt="" coords="1095,121,1171,175,1168,179,1091,125"/>
+<area shape="rect" title=" " alt="" coords="1254,187,1316,213"/>
+<area shape="poly" title=" " alt="" coords="1129,121,1186,142,1244,168,1256,176,1254,180,1241,173,1184,147,1127,126"/>
+<area shape="rect" title=" " alt="" coords="890,187,958,213"/>
+<area shape="poly" title=" " alt="" coords="1035,125,956,180,953,176,1032,121"/>
+</map>
 </div>
-</div><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
-Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00912.html">lumex</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00913.html">lumex::applied</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00939.html">lumex::applied::logging</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00940.html">lumex::applied::logging::log</a></td></tr>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00085.png" border="0" usemap="#a_lumex_json_schema_traverser_8hppdep" alt=""/></div>
+<map name="a_lumex_json_schema_traverser_8hppdep" id="a_lumex_json_schema_traverser_8hppdep">
+<area shape="rect" title="Recursive walker for a JSON Schema draft&#45;7 subset." alt="" coords="50,5,266,32"/>
+<area shape="rect" href="a00872.html" title="JSON module: non&#45;throwing helpers for JSON configuration files, and validation and normalization of a..." alt="" coords="114,155,202,181"/>
+<area shape="poly" title=" " alt="" coords="89,40,59,57,36,81,31,94,33,105,39,115,50,124,80,141,114,153,112,158,78,146,47,129,35,118,28,106,26,93,32,79,56,53,87,36"/>
+<area shape="rect" href="a00077.html" title="Abstract base for per&#45;operation normalizers built on the schema walker." alt="" coords="46,80,270,107"/>
+<area shape="poly" title=" " alt="" coords="160,48,160,80,155,80,155,48"/>
+<area shape="rect" href="a00089.html" title="Validate&#45;only checker for one schema tree." alt="" coords="294,80,505,107"/>
+<area shape="poly" title=" " alt="" coords="215,34,358,77,356,82,214,39"/>
+<area shape="rect" href="a00533.html" title=" " alt="" coords="5,229,132,256"/>
+<area shape="poly" title=" " alt="" coords="132,194,86,231,82,227,129,189"/>
+<area shape="rect" href="a00536.html" title=" " alt="" coords="156,229,341,256"/>
+<area shape="poly" title=" " alt="" coords="187,189,235,227,231,231,184,193"/>
+<area shape="poly" title=" " alt="" coords="160,122,160,154,155,154,155,122"/>
+<area shape="poly" title=" " alt="" coords="343,114,201,157,199,151,342,109"/>
+</map>
+</div>
+</div>
+<p><a href="a00083_source.html">Go to the source code of this file.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01193.html">lumex::applied::json::schema::LumexJsonSchemaTraverser</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stateless schema walker. All members are static.  <a href="a01193.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
-Macros</h2></td></tr>
-<tr class="memitem:a07486181f1990291c2a348de8eb4c480" id="r_a07486181f1990291c2a348de8eb4c480"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a07486181f1990291c2a348de8eb4c480">LUMEX_IMPLEMENTATION</a></td></tr>
-<tr class="separator:a07486181f1990291c2a348de8eb4c480"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00948.html">lumex</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00949.html">lumex::applied</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00963.html">lumex::applied::json</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00969.html">lumex::applied::json::schema</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:a84e9d1e17c0e59587c9cf90e57fa7e33" id="r_a84e9d1e17c0e59587c9cf90e57fa7e33"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00969.html#a84e9d1e17c0e59587c9cf90e57fa7e33">lumex::applied::json::schema::LumexJsonSchemaCheckMode</a> : std::uint8_t { <a class="el" href="a00969.html#a84e9d1e17c0e59587c9cf90e57fa7e33a6608187b13a5d6d09880f3101d20aa99">lumex::applied::json::schema::validate_only</a>
+, <a class="el" href="a00969.html#a84e9d1e17c0e59587c9cf90e57fa7e33a138e9c1992a292764c05a30ee690b107">lumex::applied::json::schema::validate_and_normalize</a>
+ }</td></tr>
+<tr class="memdesc:a84e9d1e17c0e59587c9cf90e57fa7e33"><td class="mdescLeft">&#160;</td><td class="mdescRight">What one walk produces.  <a href="a00969.html#a84e9d1e17c0e59587c9cf90e57fa7e33">More...</a><br /></td></tr>
+<tr class="separator:a84e9d1e17c0e59587c9cf90e57fa7e33"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:ae9086db7293d94ba2032eab0ad4cff5d" id="r_ae9086db7293d94ba2032eab0ad4cff5d"><td class="memItemLeft" align="right" valign="top">static constexpr char const *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00969.html#ae9086db7293d94ba2032eab0ad4cff5d">lumex::applied::json::schema::toString</a> (<a class="el" href="a00969.html#a84e9d1e17c0e59587c9cf90e57fa7e33">LumexJsonSchemaCheckMode</a> value) noexcept</td></tr>
+<tr class="separator:ae9086db7293d94ba2032eab0ad4cff5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:af08889a31e28d3ede7b844fc31dde93c" id="r_af08889a31e28d3ede7b844fc31dde93c"><td class="memItemLeft" align="right" valign="top">static constexprstd::array&lt; <a class="el" href="a00969.html#a84e9d1e17c0e59587c9cf90e57fa7e33">LumexJsonSchemaCheckMode</a>, 2 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00969.html#af08889a31e28d3ede7b844fc31dde93c">lumex::applied::json::schema::LumexJsonSchemaCheckModeValues</a> { <a class="el" href="a00969.html#a84e9d1e17c0e59587c9cf90e57fa7e33a6608187b13a5d6d09880f3101d20aa99">LumexJsonSchemaCheckMode::validate_only</a> , <a class="el" href="a00969.html#a84e9d1e17c0e59587c9cf90e57fa7e33a138e9c1992a292764c05a30ee690b107">LumexJsonSchemaCheckMode::validate_and_normalize</a> }</td></tr>
+<tr class="separator:af08889a31e28d3ede7b844fc31dde93c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab89235ea80bc3f74c2dd50338695f356" id="r_ab89235ea80bc3f74c2dd50338695f356"><td class="memItemLeft" align="right" valign="top">static constexprLumexJsonSchemaCheckMode&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00969.html#ab89235ea80bc3f74c2dd50338695f356">lumex::applied::json::schema::LumexJsonSchemaCheckModeFirst</a> = <a class="el" href="a01062.html#a1402ab62e151b9fd9b6f014b91610bda">::lumex::core::reflection::reflected_enum::detail::first_of</a>( <a class="el" href="a00969.html#a84e9d1e17c0e59587c9cf90e57fa7e33a6608187b13a5d6d09880f3101d20aa99">LumexJsonSchemaCheckMode::validate_only</a> , <a class="el" href="a00969.html#a84e9d1e17c0e59587c9cf90e57fa7e33a138e9c1992a292764c05a30ee690b107">LumexJsonSchemaCheckMode::validate_and_normalize</a> )</td></tr>
+<tr class="separator:ab89235ea80bc3f74c2dd50338695f356"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac3c4a84172a044c313362a96ff45f511" id="r_ac3c4a84172a044c313362a96ff45f511"><td class="memItemLeft" align="right" valign="top">static constexprstd::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00969.html#ac3c4a84172a044c313362a96ff45f511">lumex::applied::json::schema::LumexJsonSchemaCheckModeSize</a> = <a class="el" href="a00969.html#af08889a31e28d3ede7b844fc31dde93c">LumexJsonSchemaCheckModeValues</a> .size()</td></tr>
+<tr class="separator:ac3c4a84172a044c313362a96ff45f511"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5dbafca3402a198602f4cb429ef923ca" id="r_a5dbafca3402a198602f4cb429ef923ca"><td class="memItemLeft" align="right" valign="top">static constexprLumexJsonSchemaCheckMode&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00969.html#a5dbafca3402a198602f4cb429ef923ca">lumex::applied::json::schema::LumexJsonSchemaCheckModeLast</a> = <a class="el" href="a01062.html#a479c8294a6863b2cbd9f422b77a46472">::lumex::core::reflection::reflected_enum::detail::last_of</a>( <a class="el" href="a00969.html#a84e9d1e17c0e59587c9cf90e57fa7e33a6608187b13a5d6d09880f3101d20aa99">LumexJsonSchemaCheckMode::validate_only</a> , <a class="el" href="a00969.html#a84e9d1e17c0e59587c9cf90e57fa7e33a138e9c1992a292764c05a30ee690b107">LumexJsonSchemaCheckMode::validate_and_normalize</a> )</td></tr>
+<tr class="separator:a5dbafca3402a198602f4cb429ef923ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="a07486181f1990291c2a348de8eb4c480" name="a07486181f1990291c2a348de8eb4c480"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a07486181f1990291c2a348de8eb4c480">&#9670;&#160;</a></span>LUMEX_IMPLEMENTATION</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_IMPLEMENTATION</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-</div><!-- contents -->
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Recursive walker for a JSON Schema draft-7 subset. </p>
+<p>Supported keywords: <code>type</code> (a string or an array of type names), <code>properties</code>, <code>required</code>, <code>items</code> (a single schema), <code>const</code>, <code>enum</code>. Everything else in the schema is ignored. The walker is API-agnostic: the validator and the normalizer base both call it. </p>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_de45db85bd98abf883bc2bd6c3907fd8.html">applied</a></li><li class="navelem"><a class="el" href="dir_281e30212518eef343610f64aa21cb60.html">logging</a></li><li class="navelem"><a class="el" href="dir_3d0c1a0e323d53b93f898c19dcf5c30c.html">log</a></li><li class="navelem"><a class="el" href="a00083.html">LumexLogging.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_de45db85bd98abf883bc2bd6c3907fd8.html">applied</a></li><li class="navelem"><a class="el" href="dir_3e92e8848bcd01e21718dfea84e9b21e.html">json</a></li><li class="navelem"><a class="el" href="dir_c76ee4d3f28d1f8510f4764386f9b4d6.html">schema</a></li><li class="navelem"><a class="el" href="a00083.html">LumexJsonSchemaTraverser.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

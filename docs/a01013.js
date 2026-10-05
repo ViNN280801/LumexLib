@@ -1,4 +1,7 @@
 var a01013 =
 [
-    [ "is_numeric", "a02170.html", null ]
+    [ "codec", "a01014.html", "a01014" ],
+    [ "decode", "a01019.html", "a01019" ],
+    [ "encode", "a01021.html", "a01021" ],
+    [ "validate", "a01023.html", "a01023" ]
 ];

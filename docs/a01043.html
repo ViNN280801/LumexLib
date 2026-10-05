@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: DumpTypeUtils Namespace Reference</title>
+<title>LumexLib: lumex::core::expected::result Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -103,20 +103,849 @@ $(function(){initNavTree('a01043.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">DumpTypeUtils Namespace Reference</div></div>
+  <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
+  <div class="headertitle"><div class="title">lumex::core::expected::result Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04041.html">BadExpectedAccess</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exception thrown when the value of an <code><a class="el" href="a01925.html" title="Class that mimics std::expected from C++23.">Expected</a></code> is read while it holds an error.  <a href="a04041.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01925.html">Expected</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class that mimics std::expected from C++23.  <a href="a01925.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01945.html">Expected&lt; void, ErrorType &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code><a class="el" href="a01925.html" title="Class that mimics std::expected from C++23.">Expected</a></code> specialization when the success value is absent (<code>void</code>).  <a href="a01945.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01961.html">failure_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Marker returned by failure(error): a failed call carrying an error.  <a href="a01961.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01933.html">in_place_tag</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">In-place construction tag; C++11 has no std::in_place.  <a href="a01933.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01953.html">success_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Marker returned by success(value): success carrying a value.  <a href="a01953.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01957.html">success_t&lt; void &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Marker returned by <a class="el" href="#acf582366ba9e45e54dfb712995539ba3" title="Creates a marker for a successful call that carries no value.">success()</a>: a successful call with no value.  <a href="a01957.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01941.html">unexpect_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">C++23-compatible tag: construct the error in place.  <a href="a01941.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04045.html">Unexpected</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wrapper that holds an error value for <code><a class="el" href="a01925.html" title="Class that mimics std::expected from C++23.">Expected</a></code>.  <a href="a04045.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01937.html">Unit</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Placeholder success type for <code><a class="el" href="a01925.html" title="Class that mimics std::expected from C++23.">Expected</a>&lt;void, ErrorType&gt;</code>.  <a href="a01937.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a7e544fe4c97ff17877fea324122f5e6b" id="r_a7e544fe4c97ff17877fea324122f5e6b"><td class="memTemplParams" colspan="2">template&lt;typename SuccessType, typename ErrorType&gt; </td></tr>
+<tr class="memitem:a7e544fe4c97ff17877fea324122f5e6b"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a7e544fe4c97ff17877fea324122f5e6b">operator==</a> (<a class="el" href="a01925.html">Expected</a>&lt; SuccessType, ErrorType &gt; const &amp;lhs, <a class="el" href="a01925.html">Expected</a>&lt; SuccessType, ErrorType &gt; const &amp;rhs)</td></tr>
+<tr class="memdesc:a7e544fe4c97ff17877fea324122f5e6b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compares two <code><a class="el" href="a01925.html" title="Class that mimics std::expected from C++23.">Expected</a>&lt;SuccessType, ErrorType&gt;</code> objects for equality.  <br /></td></tr>
+<tr class="separator:a7e544fe4c97ff17877fea324122f5e6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acd150afc868eb2217b4edf2abfd6f28c" id="r_acd150afc868eb2217b4edf2abfd6f28c"><td class="memTemplParams" colspan="2">template&lt;typename ErrorType&gt; </td></tr>
+<tr class="memitem:acd150afc868eb2217b4edf2abfd6f28c"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#acd150afc868eb2217b4edf2abfd6f28c">operator==</a> (<a class="el" href="a01925.html">Expected</a>&lt; void, ErrorType &gt; const &amp;lhs, <a class="el" href="a01925.html">Expected</a>&lt; void, ErrorType &gt; const &amp;rhs)</td></tr>
+<tr class="memdesc:acd150afc868eb2217b4edf2abfd6f28c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compares two <code><a class="el" href="a01925.html" title="Class that mimics std::expected from C++23.">Expected</a>&lt;void, ErrorType&gt;</code> objects for equality.  <br /></td></tr>
+<tr class="separator:acd150afc868eb2217b4edf2abfd6f28c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab8ffd99612a1b4a5d43fbce558bf8252" id="r_ab8ffd99612a1b4a5d43fbce558bf8252"><td class="memTemplParams" colspan="2">template&lt;typename SuccessType, typename ErrorType&gt; </td></tr>
+<tr class="memitem:ab8ffd99612a1b4a5d43fbce558bf8252"><td class="memTemplItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#ab8ffd99612a1b4a5d43fbce558bf8252">swap</a> (<a class="el" href="a01925.html">Expected</a>&lt; SuccessType, ErrorType &gt; &amp;lhs, <a class="el" href="a01925.html">Expected</a>&lt; SuccessType, ErrorType &gt; &amp;rhs) noexcept</td></tr>
+<tr class="memdesc:ab8ffd99612a1b4a5d43fbce558bf8252"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exchanges the contents of two <code><a class="el" href="a01925.html" title="Class that mimics std::expected from C++23.">Expected</a>&lt;SuccessType, ErrorType&gt;</code> objects.  <br /></td></tr>
+<tr class="separator:ab8ffd99612a1b4a5d43fbce558bf8252"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adab393ebe9e54e027d4b3138628401b8" id="r_adab393ebe9e54e027d4b3138628401b8"><td class="memTemplParams" colspan="2">template&lt;typename ErrorType&gt; </td></tr>
+<tr class="memitem:adab393ebe9e54e027d4b3138628401b8"><td class="memTemplItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#adab393ebe9e54e027d4b3138628401b8">swap</a> (<a class="el" href="a01925.html">Expected</a>&lt; void, ErrorType &gt; &amp;lhs, <a class="el" href="a01925.html">Expected</a>&lt; void, ErrorType &gt; &amp;rhs) noexcept</td></tr>
+<tr class="memdesc:adab393ebe9e54e027d4b3138628401b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exchanges the contents of two <code><a class="el" href="a01925.html" title="Class that mimics std::expected from C++23.">Expected</a>&lt;void, ErrorType&gt;</code> objects.  <br /></td></tr>
+<tr class="separator:adab393ebe9e54e027d4b3138628401b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7611ad47c426fbd956de258ccb547822" id="r_a7611ad47c426fbd956de258ccb547822"><td class="memTemplParams" colspan="2">template&lt;typename ErrorType, typename U_val&gt; </td></tr>
+<tr class="memitem:a7611ad47c426fbd956de258ccb547822"><td class="memTemplItemLeft" align="right" valign="top">constexpr <a class="el" href="a01925.html">Expected</a>&lt; typename std::decay&lt; U_val &gt;::type, ErrorType &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a7611ad47c426fbd956de258ccb547822">make_expected</a> (U_val &amp;&amp;val)</td></tr>
+<tr class="memdesc:a7611ad47c426fbd956de258ccb547822"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a successful <code><a class="el" href="a01925.html" title="Class that mimics std::expected from C++23.">Expected</a>&lt;T, ErrorType&gt;</code> from a value.  <br /></td></tr>
+<tr class="separator:a7611ad47c426fbd956de258ccb547822"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a052bdd3c2f439c4f5ee888c21e98cc8c" id="r_a052bdd3c2f439c4f5ee888c21e98cc8c"><td class="memTemplParams" colspan="2">template&lt;typename ErrorType&gt; </td></tr>
+<tr class="memitem:a052bdd3c2f439c4f5ee888c21e98cc8c"><td class="memTemplItemLeft" align="right" valign="top">constexpr <a class="el" href="a01925.html">Expected</a>&lt; void, ErrorType &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a052bdd3c2f439c4f5ee888c21e98cc8c">make_expected</a> ()</td></tr>
+<tr class="memdesc:a052bdd3c2f439c4f5ee888c21e98cc8c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a successful <code><a class="el" href="a01925.html" title="Class that mimics std::expected from C++23.">Expected</a>&lt;void, ErrorType&gt;</code> specialization.  <br /></td></tr>
+<tr class="separator:a052bdd3c2f439c4f5ee888c21e98cc8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a205b8c54dcc65f01c535eabdca5a68ca" id="r_a205b8c54dcc65f01c535eabdca5a68ca"><td class="memTemplParams" colspan="2">template&lt;typename SuccessType, typename U_err&gt; </td></tr>
+<tr class="memitem:a205b8c54dcc65f01c535eabdca5a68ca"><td class="memTemplItemLeft" align="right" valign="top">constexpr <a class="el" href="a01925.html">Expected</a>&lt; SuccessType, typename std::decay&lt; U_err &gt;::type &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a205b8c54dcc65f01c535eabdca5a68ca">make_unexpected</a> (U_err &amp;&amp;err)</td></tr>
+<tr class="memdesc:a205b8c54dcc65f01c535eabdca5a68ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an error <code><a class="el" href="a01925.html" title="Class that mimics std::expected from C++23.">Expected</a>&lt;SuccessType, E&gt;</code> from an error value.  <br /></td></tr>
+<tr class="separator:a205b8c54dcc65f01c535eabdca5a68ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abfaa3e5a5d502b59b259be6f4c8c1d85" id="r_abfaa3e5a5d502b59b259be6f4c8c1d85"><td class="memTemplParams" colspan="2">template&lt;typename ErrorType&gt; </td></tr>
+<tr class="memitem:abfaa3e5a5d502b59b259be6f4c8c1d85"><td class="memTemplItemLeft" align="right" valign="top">constexpr <a class="el" href="a01925.html">Expected</a>&lt; void, ErrorType &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#abfaa3e5a5d502b59b259be6f4c8c1d85">make_unexpected</a> (ErrorType &amp;&amp;err)</td></tr>
+<tr class="memdesc:abfaa3e5a5d502b59b259be6f4c8c1d85"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an error <code><a class="el" href="a01925.html" title="Class that mimics std::expected from C++23.">Expected</a>&lt;void, ErrorType&gt;</code> from an error value.  <br /></td></tr>
+<tr class="separator:abfaa3e5a5d502b59b259be6f4c8c1d85"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8cfeba8eaad8c1a2c5609f4b5397626d" id="r_a8cfeba8eaad8c1a2c5609f4b5397626d"><td class="memTemplParams" colspan="2">template&lt;typename E, typename... Args&gt; </td></tr>
+<tr class="memitem:a8cfeba8eaad8c1a2c5609f4b5397626d"><td class="memTemplItemLeft" align="right" valign="top">constexpr <a class="el" href="a01921.html">Unexpected</a>&lt; typename std::decay&lt; E &gt;::type &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a8cfeba8eaad8c1a2c5609f4b5397626d">make_unexpected</a> (Args &amp;&amp;...args)</td></tr>
+<tr class="memdesc:a8cfeba8eaad8c1a2c5609f4b5397626d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Standard error factory: creates <a class="el" href="a01921.html" title="Wrapper that holds an error value for Expected.">Unexpected&lt;E&gt;</a> in place.  <br /></td></tr>
+<tr class="separator:a8cfeba8eaad8c1a2c5609f4b5397626d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acf582366ba9e45e54dfb712995539ba3" id="r_acf582366ba9e45e54dfb712995539ba3"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="a01953.html">success_t</a>&lt; void &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acf582366ba9e45e54dfb712995539ba3">success</a> () noexcept</td></tr>
+<tr class="memdesc:acf582366ba9e45e54dfb712995539ba3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a marker for a successful call that carries no value.  <br /></td></tr>
+<tr class="separator:acf582366ba9e45e54dfb712995539ba3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a33ae257796f0a87a9dd7dfc572762b8c" id="r_a33ae257796f0a87a9dd7dfc572762b8c"><td class="memTemplParams" colspan="2">template&lt;typename ValueType&gt; </td></tr>
+<tr class="memitem:a33ae257796f0a87a9dd7dfc572762b8c"><td class="memTemplItemLeft" align="right" valign="top">constexpr <a class="el" href="a01953.html">success_t</a>&lt; typename std::decay&lt; ValueType &gt;::type &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a33ae257796f0a87a9dd7dfc572762b8c">success</a> (ValueType &amp;&amp;value)</td></tr>
+<tr class="memdesc:a33ae257796f0a87a9dd7dfc572762b8c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a marker for a successful call that carries a value.  <br /></td></tr>
+<tr class="separator:a33ae257796f0a87a9dd7dfc572762b8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8af150230768426fd35e631a6134e162" id="r_a8af150230768426fd35e631a6134e162"><td class="memTemplParams" colspan="2">template&lt;typename ErrorType&gt; </td></tr>
+<tr class="memitem:a8af150230768426fd35e631a6134e162"><td class="memTemplItemLeft" align="right" valign="top">constexpr <a class="el" href="a01961.html">failure_t</a>&lt; typename std::decay&lt; ErrorType &gt;::type &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a8af150230768426fd35e631a6134e162">failure</a> (ErrorType &amp;&amp;error)</td></tr>
+<tr class="memdesc:a8af150230768426fd35e631a6134e162"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a marker for a failed call that carries an error.  <br /></td></tr>
+<tr class="separator:a8af150230768426fd35e631a6134e162"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a2843a9a82731a57457a67854be6546d6" id="r_a2843a9a82731a57457a67854be6546d6"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="a01933.html">in_place_tag</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2843a9a82731a57457a67854be6546d6">in_place</a> {}</td></tr>
+<tr class="memdesc:a2843a9a82731a57457a67854be6546d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Global constant of type <code><a class="el" href="a01933.html" title="In-place construction tag; C++11 has no std::in_place.">in_place_tag</a></code>.  <br /></td></tr>
+<tr class="separator:a2843a9a82731a57457a67854be6546d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a99d7baa9c7bfa0e1e8d7ac195f1abcbc" id="r_a99d7baa9c7bfa0e1e8d7ac195f1abcbc"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="a01941.html">unexpect_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a99d7baa9c7bfa0e1e8d7ac195f1abcbc">unexpect</a> {}</td></tr>
+<tr class="memdesc:a99d7baa9c7bfa0e1e8d7ac195f1abcbc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Global tag constant (like std::unexpect).  <br /></td></tr>
+<tr class="separator:a99d7baa9c7bfa0e1e8d7ac195f1abcbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="a8af150230768426fd35e631a6134e162" name="a8af150230768426fd35e631a6134e162"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8af150230768426fd35e631a6134e162">&#9670;&#160;</a></span>failure()</h2>
 
-<p>Validation and utility functions for DumpType enum.  
-<a href="#details">More...</a></p>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Validation and utility functions for DumpType enum. </p>
-</div></div><!-- contents -->
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ErrorType&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a01961.html">failure_t</a>&lt; typename std::decay&lt; ErrorType &gt;::type &gt; lumex::core::expected::result::failure </td>
+          <td>(</td>
+          <td class="paramtype">ErrorType &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>error</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Creates a marker for a failed call that carries an error. </p>
+<p>Lets a function whose return type is an <code><a class="el" href="a01925.html" title="Class that mimics std::expected from C++23.">Expected</a></code> write <code>return failure(error);</code> instead of <code><a class="el" href="a01925.html" title="Class that mimics std::expected from C++23.">Expected</a>&lt;T, E&gt;(unexpect, error)</code>. The stored error may be the target error type itself, a type convertible to it (for example a string literal for an <code><a class="el" href="a01925.html" title="Class that mimics std::expected from C++23.">Expected</a>&lt;T, std::string&gt;</code>), or any richer error type the target error can be built from. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">ErrorType</td><td>Deduced type of the stored error; stored decayed. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">error</td><td>Error the produced <code><a class="el" href="a01925.html" title="Class that mimics std::expected from C++23.">Expected</a></code> will hold. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code><a class="el" href="a01961.html" title="Marker returned by failure(error): a failed call carrying an error.">failure_t</a>&lt;ErrorType&gt;</code> marker holding <code>error</code>. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Marked <code>[[nodiscard]]</code>: the marker is only useful when used. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01043_a8af150230768426fd35e631a6134e162_cgraph.png" border="0" usemap="#aa01043_a8af150230768426fd35e631a6134e162_cgraph" alt=""/></div>
+<map name="aa01043_a8af150230768426fd35e631a6134e162_cgraph" id="aa01043_a8af150230768426fd35e631a6134e162_cgraph">
+<area shape="rect" title="Creates a marker for a failed call that carries an error." alt="" coords="5,29,156,72"/>
+<area shape="poly" title=" " alt="" coords="51,29,50,19,55,11,65,5,81,3,97,5,107,11,104,16,95,10,80,8,67,10,59,14,55,20,56,28"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01043_a8af150230768426fd35e631a6134e162_icgraph.png" border="0" usemap="#aa01043_a8af150230768426fd35e631a6134e162_icgraph" alt=""/></div>
+<map name="aa01043_a8af150230768426fd35e631a6134e162_icgraph" id="aa01043_a8af150230768426fd35e631a6134e162_icgraph">
+<area shape="rect" title="Creates a marker for a failed call that carries an error." alt="" coords="103,29,253,72"/>
+<area shape="poly" title=" " alt="" coords="201,16,192,10,178,8,164,10,156,14,153,20,154,28,149,29,148,19,152,11,163,5,178,3,194,5,204,11"/>
+<area shape="rect" href="a00488.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,37,55,64"/>
+<area shape="poly" title=" " alt="" coords="87,53,55,53,55,48,87,48"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a052bdd3c2f439c4f5ee888c21e98cc8c" name="a052bdd3c2f439c4f5ee888c21e98cc8c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a052bdd3c2f439c4f5ee888c21e98cc8c">&#9670;&#160;</a></span>make_expected() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ErrorType&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a01925.html">Expected</a>&lt; void, ErrorType &gt; lumex::core::expected::result::make_expected </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Creates a successful <code><a class="el" href="a01925.html" title="Class that mimics std::expected from C++23.">Expected</a>&lt;void, ErrorType&gt;</code> specialization. </p>
+<p>Returns an object in the success state with no value.</p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">ErrorType</td><td>Error type. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code><a class="el" href="a01925.html" title="Class that mimics std::expected from C++23.">Expected</a>&lt;void, ErrorType&gt;</code> in the success state.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Marked <code>[[nodiscard]]</code> (via macro). Useful for APIs where success itself matters. </dd></dl>
+<dl class="section user"><dt>Exception guarantees</dt><dd>Does not throw if constructing <code><a class="el" href="a01925.html" title="Class that mimics std::expected from C++23.">Expected</a>&lt;void, ErrorType&gt;</code> does not throw. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01043_a052bdd3c2f439c4f5ee888c21e98cc8c_cgraph.png" border="0" usemap="#aa01043_a052bdd3c2f439c4f5ee888c21e98cc8c_cgraph" alt=""/></div>
+<map name="aa01043_a052bdd3c2f439c4f5ee888c21e98cc8c_cgraph" id="aa01043_a052bdd3c2f439c4f5ee888c21e98cc8c_cgraph">
+<area shape="rect" title="Creates a successful Expected&lt;void, ErrorType&gt; specialization." alt="" coords="5,29,167,72"/>
+<area shape="rect" href="a01043.html#a7611ad47c426fbd956de258ccb547822" title="Creates a successful Expected&lt;T, ErrorType&gt; from a value." alt="" coords="215,29,376,72"/>
+<area shape="poly" title=" " alt="" coords="167,48,199,48,199,53,167,53"/>
+<area shape="poly" title=" " alt="" coords="255,29,254,19,260,10,274,5,295,3,318,5,331,11,329,16,316,10,295,8,276,10,264,15,259,21,261,28"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a7611ad47c426fbd956de258ccb547822" name="a7611ad47c426fbd956de258ccb547822"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7611ad47c426fbd956de258ccb547822">&#9670;&#160;</a></span>make_expected() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ErrorType, typename U_val&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a01925.html">Expected</a>&lt; typename std::decay&lt; U_val &gt;::type, ErrorType &gt; lumex::core::expected::result::make_expected </td>
+          <td>(</td>
+          <td class="paramtype">U_val &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>val</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Creates a successful <code><a class="el" href="a01925.html" title="Class that mimics std::expected from C++23.">Expected</a>&lt;T, ErrorType&gt;</code> from a value. </p>
+<p>Constructs the success state in place, avoiding extra copies/moves.</p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">ErrorType</td><td>Error type. </td></tr>
+    <tr><td class="paramname">U_val</td><td>Input-value type; after <code>std::decay</code>, <code>T = std::decay_t&lt;U_val&gt;</code>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">val</td><td>Value used to initialize the success result. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code><a class="el" href="a01925.html" title="Class that mimics std::expected from C++23.">Expected</a>&lt;std::decay_t&lt;U_val&gt;, ErrorType&gt;</code> in the success state.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Marked <code>[[nodiscard]]</code> (via macro) so the result is not discarded. </dd></dl>
+<dl class="section user"><dt>Exception guarantees</dt><dd>May throw if constructing <code>T</code> from <code>U_val</code> throws. </dd></dl>
+<dl class="section user"><dt>Thread safety</dt><dd>Thread safety depends on <code>T</code>, <code>ErrorType</code>, and their constructors. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01043_a7611ad47c426fbd956de258ccb547822_cgraph.png" border="0" usemap="#aa01043_a7611ad47c426fbd956de258ccb547822_cgraph" alt=""/></div>
+<map name="aa01043_a7611ad47c426fbd956de258ccb547822_cgraph" id="aa01043_a7611ad47c426fbd956de258ccb547822_cgraph">
+<area shape="rect" title="Creates a successful Expected&lt;T, ErrorType&gt; from a value." alt="" coords="5,29,167,72"/>
+<area shape="poly" title=" " alt="" coords="55,29,53,19,59,11,70,5,86,3,104,5,114,11,112,16,102,10,86,8,71,10,62,14,59,20,60,28"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01043_a7611ad47c426fbd956de258ccb547822_icgraph.png" border="0" usemap="#aa01043_a7611ad47c426fbd956de258ccb547822_icgraph" alt=""/></div>
+<map name="aa01043_a7611ad47c426fbd956de258ccb547822_icgraph" id="aa01043_a7611ad47c426fbd956de258ccb547822_icgraph">
+<area shape="rect" title="Creates a successful Expected&lt;T, ErrorType&gt; from a value." alt="" coords="215,29,376,72"/>
+<area shape="poly" title=" " alt="" coords="329,16,316,10,295,8,276,10,264,15,259,21,261,28,255,29,254,19,260,10,274,5,295,3,318,5,331,11"/>
+<area shape="rect" href="a01043.html#a052bdd3c2f439c4f5ee888c21e98cc8c" title="Creates a successful Expected&lt;void, ErrorType&gt; specialization." alt="" coords="5,29,167,72"/>
+<area shape="poly" title=" " alt="" coords="199,53,167,53,167,48,199,48"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a8cfeba8eaad8c1a2c5609f4b5397626d" name="a8cfeba8eaad8c1a2c5609f4b5397626d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8cfeba8eaad8c1a2c5609f4b5397626d">&#9670;&#160;</a></span>make_unexpected() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename E, typename... Args&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a01921.html">Unexpected</a>&lt; typename std::decay&lt; E &gt;::type &gt; lumex::core::expected::result::make_unexpected </td>
+          <td>(</td>
+          <td class="paramtype">Args &amp;&amp;...</td>          <td class="paramname"><span class="paramname"><em>args</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Standard error factory: creates <a class="el" href="a01921.html" title="Wrapper that holds an error value for Expected.">Unexpected&lt;E&gt;</a> in place. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01043_a8cfeba8eaad8c1a2c5609f4b5397626d_cgraph.png" border="0" usemap="#aa01043_a8cfeba8eaad8c1a2c5609f4b5397626d_cgraph" alt=""/></div>
+<map name="aa01043_a8cfeba8eaad8c1a2c5609f4b5397626d_cgraph" id="aa01043_a8cfeba8eaad8c1a2c5609f4b5397626d_cgraph">
+<area shape="rect" title="Standard error factory: creates Unexpected&lt;E&gt; in place." alt="" coords="5,29,181,72"/>
+<area shape="rect" href="a01043.html#a205b8c54dcc65f01c535eabdca5a68ca" title="Creates an error Expected&lt;SuccessType, E&gt; from an error value." alt="" coords="229,29,404,72"/>
+<area shape="poly" title=" " alt="" coords="181,48,213,48,213,53,181,53"/>
+<area shape="poly" title=" " alt="" coords="274,29,272,19,279,10,294,5,316,3,340,5,355,11,352,16,339,10,316,8,295,10,282,15,277,21,279,28"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="abfaa3e5a5d502b59b259be6f4c8c1d85" name="abfaa3e5a5d502b59b259be6f4c8c1d85"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abfaa3e5a5d502b59b259be6f4c8c1d85">&#9670;&#160;</a></span>make_unexpected() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ErrorType&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a01925.html">Expected</a>&lt; void, ErrorType &gt; lumex::core::expected::result::make_unexpected </td>
+          <td>(</td>
+          <td class="paramtype">ErrorType &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>err</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Creates an error <code><a class="el" href="a01925.html" title="Class that mimics std::expected from C++23.">Expected</a>&lt;void, ErrorType&gt;</code> from an error value. </p>
+<p>Wraps the given error in <code><a class="el" href="a04045.html" title="Wrapper that holds an error value for Expected.">Unexpected</a>&lt;ErrorType&gt;</code> and returns <code><a class="el" href="a01925.html" title="Class that mimics std::expected from C++23.">Expected</a>&lt;void, ErrorType&gt;</code> in the error state.</p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">ErrorType</td><td>Error type. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">err</td><td>Error object (copied or moved). </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code><a class="el" href="a01925.html" title="Class that mimics std::expected from C++23.">Expected</a>&lt;void, ErrorType&gt;</code> in the error state.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Marked <code>[[nodiscard]]</code> (via macro). </dd></dl>
+<dl class="section user"><dt>Exception guarantees</dt><dd>May throw if copy/move of <code>ErrorType</code> throws. </dd></dl>
+<dl class="section user"><dt>Thread safety</dt><dd>Not thread-safe if the returned object is shared without synchronization. </dd></dl>
+<dl class="deprecated"><dt><b><a class="el" href="a00947.html#_deprecated000004">Deprecated</a></b></dt><dd>Use make_unexpected&lt;E&gt;(...) returning <a class="el" href="a01921.html" title="Wrapper that holds an error value for Expected.">Unexpected&lt;E&gt;</a> and <a class="el" href="a04049.html" title="Class that mimics std::expected from C++23.">Expected(unexpect_t, ...)</a> instead of this function. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01043_abfaa3e5a5d502b59b259be6f4c8c1d85_cgraph.png" border="0" usemap="#aa01043_abfaa3e5a5d502b59b259be6f4c8c1d85_cgraph" alt=""/></div>
+<map name="aa01043_abfaa3e5a5d502b59b259be6f4c8c1d85_cgraph" id="aa01043_abfaa3e5a5d502b59b259be6f4c8c1d85_cgraph">
+<area shape="rect" title="Creates an error Expected&lt;void, ErrorType&gt; from an error value." alt="" coords="5,29,181,72"/>
+<area shape="rect" href="a01043.html#a205b8c54dcc65f01c535eabdca5a68ca" title="Creates an error Expected&lt;SuccessType, E&gt; from an error value." alt="" coords="229,29,404,72"/>
+<area shape="poly" title=" " alt="" coords="181,48,213,48,213,53,181,53"/>
+<area shape="poly" title=" " alt="" coords="274,29,272,19,279,10,294,5,316,3,340,5,355,11,352,16,339,10,316,8,295,10,282,15,277,21,279,28"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a205b8c54dcc65f01c535eabdca5a68ca" name="a205b8c54dcc65f01c535eabdca5a68ca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a205b8c54dcc65f01c535eabdca5a68ca">&#9670;&#160;</a></span>make_unexpected() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename SuccessType, typename U_err&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a01925.html">Expected</a>&lt; SuccessType, typename std::decay&lt; U_err &gt;::type &gt; lumex::core::expected::result::make_unexpected </td>
+          <td>(</td>
+          <td class="paramtype">U_err &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>err</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Creates an error <code><a class="el" href="a01925.html" title="Class that mimics std::expected from C++23.">Expected</a>&lt;SuccessType, E&gt;</code> from an error value. </p>
+<p>Wraps the given error in <code><a class="el" href="a04045.html" title="Wrapper that holds an error value for Expected.">Unexpected</a>&lt;E&gt;</code> and returns the matching <code><a class="el" href="a01925.html" title="Class that mimics std::expected from C++23.">Expected</a></code> in the error state.</p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">SuccessType</td><td>Success-value type (parameterizes the returned <code><a class="el" href="a01925.html" title="Class that mimics std::expected from C++23.">Expected</a></code>). </td></tr>
+    <tr><td class="paramname">U_err</td><td>Input error type; the resulting error type is <code>E = std::decay_t&lt;U_err&gt;</code>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">err</td><td>Error object stored (copied or moved) inside <code><a class="el" href="a01925.html" title="Class that mimics std::expected from C++23.">Expected</a></code>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code><a class="el" href="a01925.html" title="Class that mimics std::expected from C++23.">Expected</a>&lt;SuccessType, std::decay_t&lt;U_err&gt;&gt;</code> in the error state.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Marked <code>[[nodiscard]]</code> (via macro). </dd></dl>
+<dl class="section user"><dt>Exception guarantees</dt><dd>May throw if copy/move of <code>E</code> throws. </dd></dl>
+<dl class="section user"><dt>Thread safety</dt><dd>Thread safety depends on the properties of error type <code>E</code>. </dd></dl>
+<dl class="deprecated"><dt><b><a class="el" href="a00947.html#_deprecated000003">Deprecated</a></b></dt><dd>Use make_unexpected&lt;E&gt;(...) returning <a class="el" href="a01921.html" title="Wrapper that holds an error value for Expected.">Unexpected&lt;E&gt;</a> and <a class="el" href="a04049.html" title="Class that mimics std::expected from C++23.">Expected(unexpect_t, ...)</a> instead of this function. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01043_a205b8c54dcc65f01c535eabdca5a68ca_cgraph.png" border="0" usemap="#aa01043_a205b8c54dcc65f01c535eabdca5a68ca_cgraph" alt=""/></div>
+<map name="aa01043_a205b8c54dcc65f01c535eabdca5a68ca_cgraph" id="aa01043_a205b8c54dcc65f01c535eabdca5a68ca_cgraph">
+<area shape="rect" title="Creates an error Expected&lt;SuccessType, E&gt; from an error value." alt="" coords="5,29,181,72"/>
+<area shape="poly" title=" " alt="" coords="59,29,58,19,63,10,75,5,93,3,112,5,124,11,121,16,110,10,93,8,77,10,67,14,63,20,64,28"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01043_a205b8c54dcc65f01c535eabdca5a68ca_icgraph.png" border="0" usemap="#aa01043_a205b8c54dcc65f01c535eabdca5a68ca_icgraph" alt=""/></div>
+<map name="aa01043_a205b8c54dcc65f01c535eabdca5a68ca_icgraph" id="aa01043_a205b8c54dcc65f01c535eabdca5a68ca_icgraph">
+<area shape="rect" title="Creates an error Expected&lt;SuccessType, E&gt; from an error value." alt="" coords="229,39,404,81"/>
+<area shape="poly" title=" " alt="" coords="352,26,339,20,316,17,295,19,282,24,277,30,279,38,274,39,272,29,279,20,294,14,316,12,340,14,355,21"/>
+<area shape="rect" href="a01043.html#a8cfeba8eaad8c1a2c5609f4b5397626d" title="Standard error factory: creates Unexpected&lt;E&gt; in place." alt="" coords="5,5,181,48"/>
+<area shape="poly" title=" " alt="" coords="213,47,181,42,181,37,214,42"/>
+<area shape="rect" href="a01043.html#abfaa3e5a5d502b59b259be6f4c8c1d85" title="Creates an error Expected&lt;void, ErrorType&gt; from an error value." alt="" coords="5,72,181,115"/>
+<area shape="poly" title=" " alt="" coords="214,78,181,83,181,78,213,73"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a7e544fe4c97ff17877fea324122f5e6b" name="a7e544fe4c97ff17877fea324122f5e6b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7e544fe4c97ff17877fea324122f5e6b">&#9670;&#160;</a></span>operator==() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename SuccessType, typename ErrorType&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::core::expected::result::operator== </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a01925.html">Expected</a>&lt; SuccessType, ErrorType &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>lhs</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a01925.html">Expected</a>&lt; SuccessType, ErrorType &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>rhs</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Compares two <code><a class="el" href="a01925.html" title="Class that mimics std::expected from C++23.">Expected</a>&lt;SuccessType, ErrorType&gt;</code> objects for equality. </p>
+<p>Two objects are equal if they are in the same state (both success or both error) and:</p><ul>
+<li>on success their values compare equal (<code>*lhs == *rhs</code>);</li>
+<li>on error their errors compare equal (<code>lhs.error() == rhs.error()</code>).</li>
+</ul>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">SuccessType</td><td>Success value type. </td></tr>
+    <tr><td class="paramname">ErrorType</td><td>Error type. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">lhs</td><td>Left-hand operand. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">rhs</td><td>Right-hand operand. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if the objects match in state and contents, otherwise <code>false</code>.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Requires <code>operator==</code> for both <code>SuccessType</code> and <code>ErrorType</code>. </dd></dl>
+<dl class="section user"><dt>Thread safety</dt><dd>Not thread-safe if the same instances are accessed concurrently without synchronization. </dd></dl>
+<dl class="section user"><dt>Exception guarantees</dt><dd>May throw if <code>operator==</code> of <code>SuccessType</code> or <code>ErrorType</code> throws. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01043_a7e544fe4c97ff17877fea324122f5e6b_cgraph.png" border="0" usemap="#aa01043_a7e544fe4c97ff17877fea324122f5e6b_cgraph" alt=""/></div>
+<map name="aa01043_a7e544fe4c97ff17877fea324122f5e6b_cgraph" id="aa01043_a7e544fe4c97ff17877fea324122f5e6b_cgraph">
+<area shape="rect" title="Compares two Expected&lt;SuccessType, ErrorType&gt; objects for equality." alt="" coords="5,39,156,81"/>
+<area shape="rect" href="a01925.html#a641c30a1d80474216bf0b62893b28978" title="Returns a mutable lvalue reference to the stored error." alt="" coords="220,5,378,48"/>
+<area shape="poly" title=" " alt="" coords="156,46,205,38,205,44,157,51"/>
+<area shape="rect" href="a01925.html#a25a22b73140f3ced5fe0d55cd42235cc" title="Checks whether this Expected holds a success value." alt="" coords="204,72,395,115"/>
+<area shape="poly" title=" " alt="" coords="157,69,189,74,188,79,156,74"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="acd150afc868eb2217b4edf2abfd6f28c" name="acd150afc868eb2217b4edf2abfd6f28c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acd150afc868eb2217b4edf2abfd6f28c">&#9670;&#160;</a></span>operator==() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ErrorType&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::core::expected::result::operator== </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a01925.html">Expected</a>&lt; void, ErrorType &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>lhs</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a01925.html">Expected</a>&lt; void, ErrorType &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>rhs</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Compares two <code><a class="el" href="a01925.html" title="Class that mimics std::expected from C++23.">Expected</a>&lt;void, ErrorType&gt;</code> objects for equality. </p>
+<p>Two objects are equal if:</p><ul>
+<li>both are in the success state (then they are always equal);</li>
+<li>or both hold errors that compare equal (<code>lhs.error() == rhs.error()</code>).</li>
+</ul>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">ErrorType</td><td>Error type. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">lhs</td><td>Left-hand operand. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">rhs</td><td>Right-hand operand. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if the objects match in state and (on error) error value, otherwise <code>false</code>.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Requires a correct <code>operator==</code> for <code>ErrorType</code>. </dd></dl>
+<dl class="section user"><dt>Thread safety</dt><dd>Not thread-safe under concurrent access to the same instances. </dd></dl>
+<dl class="section user"><dt>Exception guarantees</dt><dd>May throw if <code>operator==</code> of <code>ErrorType</code> throws. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01043_acd150afc868eb2217b4edf2abfd6f28c_cgraph.png" border="0" usemap="#aa01043_acd150afc868eb2217b4edf2abfd6f28c_cgraph" alt=""/></div>
+<map name="aa01043_acd150afc868eb2217b4edf2abfd6f28c_cgraph" id="aa01043_acd150afc868eb2217b4edf2abfd6f28c_cgraph">
+<area shape="rect" title="Compares two Expected&lt;void, ErrorType&gt; objects for equality." alt="" coords="5,39,156,81"/>
+<area shape="rect" href="a01925.html#a641c30a1d80474216bf0b62893b28978" title="Returns a mutable lvalue reference to the stored error." alt="" coords="220,5,378,48"/>
+<area shape="poly" title=" " alt="" coords="156,46,205,38,205,44,157,51"/>
+<area shape="rect" href="a01925.html#a25a22b73140f3ced5fe0d55cd42235cc" title="Checks whether this Expected holds a success value." alt="" coords="204,72,395,115"/>
+<area shape="poly" title=" " alt="" coords="157,69,189,74,188,79,156,74"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="acf582366ba9e45e54dfb712995539ba3" name="acf582366ba9e45e54dfb712995539ba3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acf582366ba9e45e54dfb712995539ba3">&#9670;&#160;</a></span>success() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a01953.html">success_t</a>&lt; void &gt; lumex::core::expected::result::success </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Creates a marker for a successful call that carries no value. </p>
+<p>Lets a function whose return type is an <code><a class="el" href="a01925.html" title="Class that mimics std::expected from C++23.">Expected</a></code> write <code>return <a class="el" href="#acf582366ba9e45e54dfb712995539ba3" title="Creates a marker for a successful call that carries no value.">success()</a>;</code>. It converts into <code><a class="el" href="a01925.html" title="Class that mimics std::expected from C++23.">Expected</a>&lt;void, ErrorType&gt;</code> and into <code><a class="el" href="a01925.html" title="Class that mimics std::expected from C++23.">Expected</a>&lt;Target, ErrorType&gt;</code> when <code>Target</code> is default-constructible, so one spelling covers both shapes. </p><dl class="section return"><dt>Returns</dt><dd><code><a class="el" href="a01953.html" title="Marker returned by success(value): success carrying a value.">success_t</a>&lt;void&gt;</code> marker; the target <code><a class="el" href="a01925.html" title="Class that mimics std::expected from C++23.">Expected</a></code> is built by the marker's conversion at the <code>return</code>. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Marked <code>[[nodiscard]]</code>: the marker is only useful when used. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01043_acf582366ba9e45e54dfb712995539ba3_cgraph.png" border="0" usemap="#aa01043_acf582366ba9e45e54dfb712995539ba3_cgraph" alt=""/></div>
+<map name="aa01043_acf582366ba9e45e54dfb712995539ba3_cgraph" id="aa01043_acf582366ba9e45e54dfb712995539ba3_cgraph">
+<area shape="rect" title="Creates a marker for a successful call that carries no value." alt="" coords="5,29,156,72"/>
+<area shape="poly" title=" " alt="" coords="51,29,50,19,55,11,65,5,81,3,97,5,107,11,104,16,95,10,80,8,67,10,59,14,55,20,56,28"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01043_acf582366ba9e45e54dfb712995539ba3_icgraph.png" border="0" usemap="#aa01043_acf582366ba9e45e54dfb712995539ba3_icgraph" alt=""/></div>
+<map name="aa01043_acf582366ba9e45e54dfb712995539ba3_icgraph" id="aa01043_acf582366ba9e45e54dfb712995539ba3_icgraph">
+<area shape="rect" title="Creates a marker for a successful call that carries no value." alt="" coords="204,29,354,72"/>
+<area shape="poly" title=" " alt="" coords="311,16,299,10,279,8,260,10,249,15,245,21,246,28,241,29,239,19,246,10,259,5,279,3,300,5,313,11"/>
+<area shape="rect" href="a00488.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="56,8,105,35"/>
+<area shape="poly" title=" " alt="" coords="188,40,105,28,106,22,189,35"/>
+<area shape="rect" href="a01043.html#a33ae257796f0a87a9dd7dfc572762b8c" title="Creates a marker for a successful call that carries a value." alt="" coords="5,59,156,101"/>
+<area shape="poly" title=" " alt="" coords="189,67,156,72,156,66,188,61"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a33ae257796f0a87a9dd7dfc572762b8c" name="a33ae257796f0a87a9dd7dfc572762b8c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a33ae257796f0a87a9dd7dfc572762b8c">&#9670;&#160;</a></span>success() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ValueType&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a01953.html">success_t</a>&lt; typename std::decay&lt; ValueType &gt;::type &gt; lumex::core::expected::result::success </td>
+          <td>(</td>
+          <td class="paramtype">ValueType &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Creates a marker for a successful call that carries a value. </p>
+<p>Lets a function whose return type is an <code><a class="el" href="a01925.html" title="Class that mimics std::expected from C++23.">Expected</a></code> write <code>return success(value);</code> instead of spelling the whole <code><a class="el" href="a01925.html" title="Class that mimics std::expected from C++23.">Expected</a>&lt;SuccessType, ErrorType&gt;</code> out. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">ValueType</td><td>Deduced type of the success value; stored decayed. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">value</td><td>Value the produced <code><a class="el" href="a01925.html" title="Class that mimics std::expected from C++23.">Expected</a></code> will hold. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code><a class="el" href="a01953.html" title="Marker returned by success(value): success carrying a value.">success_t</a>&lt;ValueType&gt;</code> marker holding <code>value</code>. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Marked <code>[[nodiscard]]</code>: the marker is only useful when used. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01043_a33ae257796f0a87a9dd7dfc572762b8c_cgraph.png" border="0" usemap="#aa01043_a33ae257796f0a87a9dd7dfc572762b8c_cgraph" alt=""/></div>
+<map name="aa01043_a33ae257796f0a87a9dd7dfc572762b8c_cgraph" id="aa01043_a33ae257796f0a87a9dd7dfc572762b8c_cgraph">
+<area shape="rect" title="Creates a marker for a successful call that carries a value." alt="" coords="5,29,156,72"/>
+<area shape="rect" href="a01043.html#acf582366ba9e45e54dfb712995539ba3" title="Creates a marker for a successful call that carries no value." alt="" coords="204,29,354,72"/>
+<area shape="poly" title=" " alt="" coords="156,48,188,48,188,53,156,53"/>
+<area shape="poly" title=" " alt="" coords="241,29,239,19,246,10,259,5,279,3,300,5,313,11,311,16,299,10,279,8,260,10,249,15,245,21,246,28"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ab8ffd99612a1b4a5d43fbce558bf8252" name="ab8ffd99612a1b4a5d43fbce558bf8252"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab8ffd99612a1b4a5d43fbce558bf8252">&#9670;&#160;</a></span>swap() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename SuccessType, typename ErrorType&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lumex::core::expected::result::swap </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a01925.html">Expected</a>&lt; SuccessType, ErrorType &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>lhs</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a01925.html">Expected</a>&lt; SuccessType, ErrorType &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>rhs</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Exchanges the contents of two <code><a class="el" href="a01925.html" title="Class that mimics std::expected from C++23.">Expected</a>&lt;SuccessType, ErrorType&gt;</code> objects. </p>
+<p>Calls <code>lhs.swap(rhs)</code>, delegating to the class implementation.</p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">SuccessType</td><td>Success value type. </td></tr>
+    <tr><td class="paramname">ErrorType</td><td>Error type. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">lhs</td><td>Left-hand operand of the swap. </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">rhs</td><td>Right-hand operand of the swap.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>Marked <code>noexcept</code> unconditionally via <code>LUMEX_NOEXCEPT</code>, unlike the member <code>swap</code>, whose <code>noexcept</code> depends on <code>SuccessType</code> and <code>ErrorType</code>. An exception thrown by the member <code>swap</code> therefore calls <code>std::terminate()</code>. </dd></dl>
+<dl class="section user"><dt>Thread safety</dt><dd>Not thread-safe for the same objects without external synchronization. </dd></dl>
+<dl class="section user"><dt>Performance</dt><dd>Swap is typically O(1) and does not allocate. </dd></dl>
+
+</div>
+</div>
+<a id="adab393ebe9e54e027d4b3138628401b8" name="adab393ebe9e54e027d4b3138628401b8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adab393ebe9e54e027d4b3138628401b8">&#9670;&#160;</a></span>swap() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ErrorType&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lumex::core::expected::result::swap </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a01925.html">Expected</a>&lt; void, ErrorType &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>lhs</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a01925.html">Expected</a>&lt; void, ErrorType &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>rhs</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Exchanges the contents of two <code><a class="el" href="a01925.html" title="Class that mimics std::expected from C++23.">Expected</a>&lt;void, ErrorType&gt;</code> objects. </p>
+<p>Delegates to the matching class specialization <code>swap</code>.</p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">ErrorType</td><td>Error type. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">lhs</td><td>Left-hand operand of the swap. </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">rhs</td><td>Right-hand operand of the swap.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>Marked <code>noexcept</code> unconditionally via <code>LUMEX_NOEXCEPT</code>, unlike the member <code>swap</code>, whose <code>noexcept</code> depends on <code>ErrorType</code>. An exception thrown by the member <code>swap</code> therefore calls <code>std::terminate()</code>. </dd></dl>
+<dl class="section user"><dt>Thread safety</dt><dd>Not thread-safe without external synchronization on the same instances. </dd></dl>
+
+</div>
+</div>
+<h2 class="groupheader">Variable Documentation</h2>
+<a id="a2843a9a82731a57457a67854be6546d6" name="a2843a9a82731a57457a67854be6546d6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2843a9a82731a57457a67854be6546d6">&#9670;&#160;</a></span>in_place</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a01933.html">in_place_tag</a> lumex::core::expected::result::in_place {}</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Global constant of type <code><a class="el" href="a01933.html" title="In-place construction tag; C++11 has no std::in_place.">in_place_tag</a></code>. </p>
+<p>Pass to an <code><a class="el" href="a01925.html" title="Class that mimics std::expected from C++23.">Expected</a></code> constructor to request in-place construction of the success value. </p><dl class="section note"><dt>Note</dt><dd>Analogue of <code>std::in_place</code> from C++17. </dd></dl>
+
+</div>
+</div>
+<a id="a99d7baa9c7bfa0e1e8d7ac195f1abcbc" name="a99d7baa9c7bfa0e1e8d7ac195f1abcbc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a99d7baa9c7bfa0e1e8d7ac195f1abcbc">&#9670;&#160;</a></span>unexpect</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a01941.html">unexpect_t</a> lumex::core::expected::result::unexpect {}</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Global tag constant (like std::unexpect). </p>
+
+</div>
+</div>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a01043.html">DumpTypeUtils</a></li>
+    <li class="navelem"><a class="el" href="a00948.html">lumex</a></li><li class="navelem"><a class="el" href="a01005.html">core</a></li><li class="navelem"><a class="el" href="a01041.html">expected</a></li><li class="navelem"><a class="el" href="a01043.html">result</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

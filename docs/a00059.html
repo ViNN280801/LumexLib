@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexJsonSchemaNormalizer.hpp File Reference</title>
+<title>LumexLib: LumexCPUVectorizationCapabilities.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -105,59 +105,110 @@ $(function(){initNavTree('a00059.html',''); initResizable(true); });
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
-<a href="#namespaces">Namespaces</a>  </div>
-  <div class="headertitle"><div class="title">LumexJsonSchemaNormalizer.hpp File Reference</div></div>
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#define-members">Macros</a>  </div>
+  <div class="headertitle"><div class="title">LumexCPUVectorizationCapabilities.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Abstract base for per-operation normalizers built on the schema walker.  
+<p>Run-time detection of the SIMD instruction sets that the processor and the operating system support.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;exception&gt;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="a00641_source.html">lumex/LumexExport.hpp</a>&quot;</code><br />
+<code>#include &lt;array&gt;</code><br />
+<code>#include &lt;cstdint&gt;</code><br />
 <code>#include &lt;string&gt;</code><br />
-<code>#include &lt;nlohmann/json.hpp&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00056_source.html">lumex/applied/json/normalization/ILumexJsonNormalizer.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00065_source.html">lumex/applied/json/schema/LumexJsonSchemaTraverser.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00320_source.html">lumex/core/string_view/view/LumexStringView.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00353_source.html">lumex/core/utility/attr/LumexAttributes.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00389_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
+<code>#include &lt;sys/auxv.h&gt;</code><br />
+<code>#include &lt;unistd.h&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for LumexJsonSchemaNormalizer.hpp:</div>
+Include dependency graph for LumexCPUVectorizationCapabilities.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00060.png" border="0" usemap="#a_lumex_json_schema_normalizer_8hpp" alt=""/></div>
+<div class="center"><img src="a00060.png" border="0" usemap="#a_lumex_c_p_u_vectorization_capabilities_8hpp" alt=""/></div>
+<map name="a_lumex_c_p_u_vectorization_capabilities_8hpp" id="a_lumex_c_p_u_vectorization_capabilities_8hpp">
+<area shape="rect" title="Run&#45;time detection of the SIMD instruction sets that the processor and the operating system support." alt="" coords="208,5,466,32"/>
+<area shape="rect" href="a00641.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="5,80,168,107"/>
+<area shape="poly" title=" " alt="" coords="294,35,146,78,144,73,293,30"/>
+<area shape="rect" title=" " alt="" coords="192,80,242,107"/>
+<area shape="poly" title=" " alt="" coords="318,35,252,74,250,69,315,30"/>
+<area shape="rect" title=" " alt="" coords="267,80,327,107"/>
+<area shape="poly" title=" " alt="" coords="333,34,314,68,309,65,328,31"/>
+<area shape="rect" title=" " alt="" coords="352,80,405,107"/>
+<area shape="poly" title=" " alt="" coords="347,31,366,65,362,68,342,34"/>
+<area shape="rect" title=" " alt="" coords="430,80,514,107"/>
+<area shape="poly" title=" " alt="" coords="362,30,436,70,433,75,359,35"/>
+<area shape="rect" title=" " alt="" coords="538,80,606,107"/>
+<area shape="poly" title=" " alt="" coords="379,30,524,75,522,80,377,35"/>
+</map>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00061.png" border="0" usemap="#a_lumex_json_schema_normalizer_8hppdep" alt=""/></div>
+<div class="center"><img src="a00061.png" border="0" usemap="#a_lumex_c_p_u_vectorization_capabilities_8hppdep" alt=""/></div>
+<map name="a_lumex_c_p_u_vectorization_capabilities_8hppdep" id="a_lumex_c_p_u_vectorization_capabilities_8hppdep">
+<area shape="rect" title="Run&#45;time detection of the SIMD instruction sets that the processor and the operating system support." alt="" coords="111,5,368,32"/>
+<area shape="rect" href="a00056.html" title=" " alt="" coords="5,80,263,107"/>
+<area shape="poly" title=" " alt="" coords="210,43,154,82,151,77,207,39"/>
+<area shape="rect" href="a00869.html" title="Hardware module: a profile of the CPU, memory and GPUs of the machine, the SIMD instruction sets the ..." alt="" coords="286,80,403,107"/>
+<area shape="poly" title=" " alt="" coords="272,39,328,77,325,82,269,43"/>
+<area shape="rect" href="a00524.html" title=" " alt="" coords="27,155,206,197"/>
+<area shape="poly" title=" " alt="" coords="296,115,176,157,175,151,294,110"/>
+<area shape="rect" href="a00527.html" title=" " alt="" coords="231,163,458,189"/>
+<area shape="poly" title=" " alt="" coords="347,122,347,163,342,163,342,122"/>
+<area shape="rect" href="a00530.html" title=" " alt="" coords="482,163,695,189"/>
+<area shape="poly" title=" " alt="" coords="398,109,551,160,550,165,396,114"/>
+</map>
 </div>
 </div>
 <p><a href="a00059_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01142.html">lumex::applied::json::normalization::LumexJsonSchemaNormalizer</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shares the schema walker and the strict/non-strict error policy between concrete normalizers.  <a href="a01142.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01161.html">lumex::applied::hardware::caps::cpu_vectorization_info_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Comprehensive CPU vectorization capabilities structure.  <a href="a01161.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01165.html">lumex::applied::hardware::caps::CPUVectorizationDetector</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">CPU vectorization capabilities detection utility class.  <a href="a01165.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00912.html">lumex</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00948.html">lumex</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00913.html">lumex::applied</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00949.html">lumex::applied</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00927.html">lumex::applied::json</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00950.html">lumex::applied::hardware</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00932.html">lumex::applied::json::normalization</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00951.html">lumex::applied::hardware::caps</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a284f1acc3e467f02e2b46bb9608d1788" id="r_a284f1acc3e467f02e2b46bb9608d1788"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a284f1acc3e467f02e2b46bb9608d1788">LUMEX_CPU_VECTORIZATION_INFO_ALIGNMENT</a>&#160;&#160;&#160;64</td></tr>
+<tr class="separator:a284f1acc3e467f02e2b46bb9608d1788"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Abstract base for per-operation normalizers built on the schema walker. </p>
-</div></div><!-- contents -->
+<div class="textblock"><p>Run-time detection of the SIMD instruction sets that the processor and the operating system support. </p>
+<p>Declares <code>cpu_vectorization_info_t</code>, which holds one flag per instruction set (SSE to SSE4.2, AVX, AVX2, five AVX-512 subsets, FMA3, FMA4, NEON, SVE), the widest usable SIMD register in bits and a readable summary, and <code>CPUVectorizationDetector</code>, which fills it. On x86 and x64 the detector reads CPUID and reports AVX and the later sets only when the operating system saves the extended register state (XSAVE); on ARM Linux it reads the hardware capability words of the auxiliary vector (<code>getauxval</code>). Nothing is cached: every <code>detect()</code> call queries the processor again. The implementation is compiled into the <code>lumex::hardware</code> library. </p>
+</div><h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a284f1acc3e467f02e2b46bb9608d1788" name="a284f1acc3e467f02e2b46bb9608d1788"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a284f1acc3e467f02e2b46bb9608d1788">&#9670;&#160;</a></span>LUMEX_CPU_VECTORIZATION_INFO_ALIGNMENT</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_CPU_VECTORIZATION_INFO_ALIGNMENT&#160;&#160;&#160;64</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_de45db85bd98abf883bc2bd6c3907fd8.html">applied</a></li><li class="navelem"><a class="el" href="dir_3e92e8848bcd01e21718dfea84e9b21e.html">json</a></li><li class="navelem"><a class="el" href="dir_e7e942524903e417f0871ffcf8723277.html">normalization</a></li><li class="navelem"><a class="el" href="a00059.html">LumexJsonSchemaNormalizer.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_de45db85bd98abf883bc2bd6c3907fd8.html">applied</a></li><li class="navelem"><a class="el" href="dir_67ca2fc5a6ed9c37068e27e587cd4bd5.html">hardware</a></li><li class="navelem"><a class="el" href="dir_d44df35ae1ff921f3f5bbaddfc0f5b6e.html">caps</a></li><li class="navelem"><a class="el" href="a00059.html">LumexCPUVectorizationCapabilities.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

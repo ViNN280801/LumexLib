@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: XmlObjectRange.hpp File Reference</title>
+<title>LumexLib: XmlDocumentBase.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,54 +104,95 @@ $(function(){initNavTree('a00668.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
-<a href="#namespaces">Namespaces</a>  </div>
-  <div class="headertitle"><div class="title">XmlObjectRange.hpp File Reference</div></div>
+<a href="#define-members">Macros</a>  </div>
+  <div class="headertitle"><div class="title">XmlDocumentBase.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-
-<p><code>XmlObjectRange</code>, a pair of iterators that lets range-based for loops walk the children or attributes of a node.  
-<a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="a00605_source.html">lumex/LumexExport.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00905_source.html">lumex/core/utility/LumexUtility</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00353_source.html">lumex/core/utility/attr/LumexAttributes.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="a00683_source.html">lumex/xml/memory/XmlMemoryPage.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00698_source.html">lumex/xml/node/XmlNodeBase.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00671_source.html">XmlDocumentBase.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for XmlObjectRange.hpp:</div>
+Include dependency graph for XmlDocumentBase.cpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00669.png" border="0" usemap="#a_xml_object_range_8hpp" alt=""/></div>
+<div class="center"><img src="a00669.png" border="0" usemap="#a_xml_document_base_8cpp" alt=""/></div>
+<map name="a_xml_document_base_8cpp" id="a_xml_document_base_8cpp">
+<area shape="rect" title=" " alt="" coords="181,5,340,32"/>
+<area shape="rect" href="a00683.html" title="The header of a memory page of the XML allocator, and the default page size." alt="" coords="5,395,212,437"/>
+<area shape="poly" title=" " alt="" coords="232,35,194,55,155,84,137,102,124,122,114,143,111,167,111,252,111,379,106,379,106,252,106,166,109,142,119,119,133,99,151,80,191,51,229,30"/>
+<area shape="rect" href="a00698.html" title="Internal storage of an XML node and the functions that build, link, copy and destroy the tree." alt="" coords="377,155,603,181"/>
+<area shape="poly" title=" " alt="" coords="281,30,459,144,456,148,279,35"/>
+<area shape="rect" href="a00671.html" title="Internal root record of a document: the document node and the allocator of its tree in one object." alt="" coords="181,80,340,107"/>
+<area shape="poly" title=" " alt="" coords="263,33,263,64,258,64,258,33"/>
+<area shape="rect" href="a00641.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="359,485,522,512"/>
+<area shape="poly" title=" " alt="" coords="195,435,374,479,373,484,193,441"/>
+<area shape="rect" title=" " alt="" coords="76,485,141,512"/>
+<area shape="poly" title=" " alt="" coords="111,438,111,469,106,469,106,438"/>
+<area shape="poly" title=" " alt="" coords="557,180,596,198,614,211,628,228,632,254,629,291,618,347,599,398,587,418,566,439,533,464,496,482,494,477,530,459,563,435,582,414,594,395,613,346,623,290,627,254,623,230,610,215,593,202,554,184"/>
+<area shape="rect" href="a00653.html" title="Internal storage of an XML attribute and the functions that allocate, link, unlink and copy it." alt="" coords="462,229,614,272"/>
+<area shape="poly" title=" " alt="" coords="500,180,520,215,516,217,495,183"/>
+<area shape="rect" href="a00677.html" title="The page allocator that holds the nodes, attributes and strings of one XML document." alt="" coords="348,320,584,347"/>
+<area shape="poly" title=" " alt="" coords="480,184,465,204,452,230,449,249,450,269,458,305,453,306,445,269,444,249,447,229,460,202,476,180"/>
+<area shape="rect" href="a00728.html" title="The basic types and enumerations of the XML module: character and string types, node types,..." alt="" coords="709,403,913,429"/>
+<area shape="poly" title=" " alt="" coords="579,179,637,197,665,211,691,227,731,264,762,308,787,351,803,387,798,389,782,353,758,311,727,268,688,231,663,215,635,202,577,185"/>
+<area shape="poly" title=" " alt="" coords="474,275,337,322,170,391,168,386,336,318,472,270"/>
+<area shape="poly" title=" " alt="" coords="566,271,581,286,594,305,601,326,598,348,573,389,542,426,507,456,476,479,473,474,504,452,538,422,569,386,593,346,595,327,589,308,577,290,562,274"/>
+<area shape="poly" title=" " alt="" coords="521,274,489,310,485,306,517,271"/>
+<area shape="poly" title=" " alt="" coords="410,350,216,393,215,388,409,345"/>
+<area shape="poly" title=" " alt="" coords="469,347,467,387,462,438,453,471,448,470,457,437,462,387,463,347"/>
+<area shape="rect" href="a00386.html" title="Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_..." alt="" coords="236,395,403,437"/>
+<area shape="poly" title=" " alt="" coords="444,350,371,389,369,385,442,345"/>
+<area shape="rect" href="a00389.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="710,560,878,603"/>
+<area shape="poly" title=" " alt="" coords="584,331,682,334,784,344,871,362,904,376,928,393,948,422,955,451,949,481,933,513,912,537,886,555,883,551,909,533,929,511,944,479,950,451,943,424,924,397,902,381,870,368,783,349,682,340,584,336"/>
+<area shape="poly" title=" " alt="" coords="521,345,743,396,741,401,520,350"/>
+<area shape="poly" title=" " alt="" coords="352,436,410,474,407,479,349,440"/>
+<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="342,651,536,693"/>
+<area shape="poly" title=" " alt="" coords="326,437,336,472,350,511,384,579,419,636,415,639,379,582,345,513,331,474,321,438"/>
+<area shape="rect" href="a00404.html" title="C++ language, library and attribute feature availability." alt="" coords="678,651,910,693"/>
+<area shape="poly" title=" " alt="" coords="796,603,796,635,791,635,791,603"/>
+<area shape="rect" title=" " alt="" coords="858,485,919,512"/>
+<area shape="poly" title=" " alt="" coords="825,428,868,473,865,476,821,432"/>
+<area shape="rect" title=" " alt="" coords="780,485,834,512"/>
+<area shape="poly" title=" " alt="" coords="813,430,811,470,806,470,808,430"/>
+<area shape="rect" href="a00734.html" title="Preprocessor macros of the XML module: the character mode, the declaration of constants,..." alt="" coords="546,485,757,512"/>
+<area shape="poly" title=" " alt="" coords="787,432,691,481,688,476,785,427"/>
+<area shape="poly" title=" " alt="" coords="675,510,745,550,743,554,672,515"/>
+<area shape="rect" href="a00419.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="447,560,679,603"/>
+<area shape="poly" title=" " alt="" coords="639,514,599,551,595,547,636,511"/>
+<area shape="poly" title=" " alt="" coords="536,605,482,643,479,639,533,601"/>
+<area shape="poly" title=" " alt="" coords="256,108,232,156,126,381,122,379,227,153,252,106"/>
+<area shape="poly" title=" " alt="" coords="264,107,268,150,280,212,302,281,319,315,338,345,357,361,377,368,398,375,417,393,428,411,435,431,442,469,437,470,430,433,423,414,413,396,395,380,375,373,355,366,335,348,314,317,298,283,275,213,263,151,259,107"/>
+<area shape="poly" title=" " alt="" coords="301,105,436,147,434,152,300,110"/>
+<area shape="poly" title=" " alt="" coords="273,105,447,307,443,310,269,109"/>
+<area shape="poly" title=" " alt="" coords="258,108,245,149,232,210,228,244,228,279,233,313,244,346,257,366,274,383,271,387,253,369,239,348,228,314,223,279,223,243,226,209,240,148,253,106"/>
+</map>
 </div>
-</div><div class="textblock"><div class="dynheader">
-This graph shows which files directly or indirectly include this file:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00670.png" border="0" usemap="#a_xml_object_range_8hppdep" alt=""/></div>
-</div>
-</div>
-<p><a href="a00668_source.html">Go to the source code of this file.</a></p>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02862.html">lumex::xml::range::XmlObjectRange&lt; Iterator &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Range of XML objects, providing iteration over a collection of elements.  <a href="a02862.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
-Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00912.html">lumex</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01083.html">lumex::xml</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01098.html">lumex::xml::range</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a07486181f1990291c2a348de8eb4c480" id="r_a07486181f1990291c2a348de8eb4c480"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a07486181f1990291c2a348de8eb4c480">LUMEX_IMPLEMENTATION</a></td></tr>
+<tr class="separator:a07486181f1990291c2a348de8eb4c480"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p><code>XmlObjectRange</code>, a pair of iterators that lets range-based for loops walk the children or attributes of a node. </p>
-<p>The class template stores a begin and an end iterator and exposes them through <code>begin()</code> and <code>end()</code>. <code>XmlNode::children</code> and <code>XmlNode::attributes</code> return it. The range owns nothing and is valid as long as its iterators are. Header-only. </p>
-</div></div><!-- contents -->
+<h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a07486181f1990291c2a348de8eb4c480" name="a07486181f1990291c2a348de8eb4c480"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a07486181f1990291c2a348de8eb4c480">&#9670;&#160;</a></span>LUMEX_IMPLEMENTATION</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_IMPLEMENTATION</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_968f581d25c8774543898d18d112fee1.html">range</a></li><li class="navelem"><a class="el" href="a00668.html">XmlObjectRange.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_451e7857950ad48a5f718c2083a77540.html">document</a></li><li class="navelem"><a class="el" href="a00668.html">XmlDocumentBase.cpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

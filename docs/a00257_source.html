@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: ExpectedTypes.hpp Source File</title>
+<title>LumexLib: WindowsSEHTranslator.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -103,7 +103,7 @@ $(function(){initNavTree('a00257_source.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">ExpectedTypes.hpp</div></div>
+  <div class="headertitle"><div class="title">WindowsSEHTranslator.hpp</div></div>
 </div><!--header-->
 <div class="contents">
 <a href="a00257.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">/*</span></div>
@@ -145,78 +145,43 @@ $(function(){initNavTree('a00257_source.html',''); initResizable(true); });
 <div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="comment"> * SOFTWARE.</span></div>
 <div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="comment"> */</span></div>
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span></div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="preprocessor">#ifndef LUMEX_CORE_EXPECTED_RESULT_EXPECTED_TYPES_HPP</span></div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="preprocessor">#define LUMEX_CORE_EXPECTED_RESULT_EXPECTED_TYPES_HPP</span></div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span><span class="preprocessor">#include &lt;type_traits&gt;</span></div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span><span class="preprocessor">#include &quot;<a class="code" href="a00389.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="preprocessor">#include &quot;<a class="code" href="a00410.html">lumex/core/utility/traits/LumexTypeTraits.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span><span class="preprocessor">#ifndef LUMEX_CORE_EXCEPTIONS_CRASH_WINDOWS_SEH_TRANSLATOR_HPP</span></div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span><span class="preprocessor">#define LUMEX_CORE_EXCEPTIONS_CRASH_WINDOWS_SEH_TRANSLATOR_HPP</span></div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="preprocessor">#include &quot;<a class="code" href="a00641.html">lumex/LumexExport.hpp</a>&quot;</span></div>
 <div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="comment">// ====================== Helper tags and types ======================</span></div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a00912.html">lumex</a></div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>{</div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a00964.html">core</a></div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>{</div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01000.html">expected</a></div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>{</div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01002.html">result</a></div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>{</div>
-<div class="foldopen" id="foldopen00074" data-start="{" data-end="};">
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno"><a class="line" href="a03970.html">   74</a></span><span class="keyword">struct </span><a class="code hl_struct" href="a01850.html">in_place_tag</a></div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>{</div>
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>};</div>
-</div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span></div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno"><a class="line" href="a01002.html#a2843a9a82731a57457a67854be6546d6">   84</a></span><a class="code hl_define" href="a00389.html#a1513006a1992e7dc9cc43b2e081cc33f">LUMEX_CONSTEXPR</a> <a class="code hl_struct" href="a01850.html">in_place_tag</a> <a class="code hl_variable" href="a01002.html#a2843a9a82731a57457a67854be6546d6">in_place</a>{};</div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span></div>
-<div class="foldopen" id="foldopen00093" data-start="{" data-end="};">
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno"><a class="line" href="a01854.html">   93</a></span><span class="keyword">struct </span><a class="code hl_struct" href="a01854.html">Unit</a></div>
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>{</div>
-<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>};</div>
-</div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span></div>
-<div class="foldopen" id="foldopen00098" data-start="{" data-end="};">
-<div class="line"><a id="l00098" name="l00098"></a><span class="lineno"><a class="line" href="a01858.html">   98</a></span><span class="keyword">struct </span><a class="code hl_struct" href="a01858.html">unexpect_t</a></div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>{</div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>};</div>
-</div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span></div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno"><a class="line" href="a01002.html#a99d7baa9c7bfa0e1e8d7ac195f1abcbc">  103</a></span><a class="code hl_define" href="a00389.html#a1513006a1992e7dc9cc43b2e081cc33f">LUMEX_CONSTEXPR</a> <a class="code hl_struct" href="a01858.html">unexpect_t</a> <a class="code hl_variable" href="a01002.html#a99d7baa9c7bfa0e1e8d7ac195f1abcbc">unexpect</a>{};</div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span> </div>
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span><span class="comment">// is_expected / is_expected_v / is_expected_concept live in</span></div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span><span class="comment">// lumex/core/utility/traits/LumexTypeTraits.hpp (traits::value).</span></div>
-<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span> </div>
-<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>} <span class="comment">// namespace result</span></div>
-<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>} <span class="comment">// namespace expected</span></div>
-<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>} <span class="comment">// namespace core</span></div>
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>} <span class="comment">// namespace lumex</span></div>
-<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span> </div>
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span><span class="keyword">using </span><a class="code hl_variable" href="a01002.html#a2843a9a82731a57457a67854be6546d6">lumex::core::expected::result::in_place</a>;</div>
-<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span><span class="keyword">using </span><a class="code hl_struct" href="a01850.html">lumex::core::expected::result::in_place_tag</a>;</div>
-<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span><span class="keyword">using </span><a class="code hl_variable" href="a01002.html#a99d7baa9c7bfa0e1e8d7ac195f1abcbc">lumex::core::expected::result::unexpect</a>;</div>
-<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span><span class="keyword">using </span><a class="code hl_struct" href="a01858.html">lumex::core::expected::result::unexpect_t</a>;</div>
-<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span> </div>
-<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span><span class="preprocessor">#endif </span><span class="comment">// !LUMEX_CORE_EXPECTED_RESULT_EXPECTED_TYPES_HPP</span></div>
-<div class="ttc" id="aa00389_html"><div class="ttname"><a href="a00389.html">LumexKeywords.hpp</a></div><div class="ttdoc">Macros that spell C++ keywords and specifiers only where the compiled standard supports them,...</div></div>
-<div class="ttc" id="aa00389_html_a1513006a1992e7dc9cc43b2e081cc33f"><div class="ttname"><a href="a00389.html#a1513006a1992e7dc9cc43b2e081cc33f">LUMEX_CONSTEXPR</a></div><div class="ttdeci">#define LUMEX_CONSTEXPR</div><div class="ttdef"><b>Definition</b> LumexKeywords.hpp:164</div></div>
-<div class="ttc" id="aa00410_html"><div class="ttname"><a href="a00410.html">LumexTypeTraits.hpp</a></div><div class="ttdoc">Every general-purpose type trait of LumexLib, one sub-namespace of lumex::core::utility::traits per t...</div></div>
-<div class="ttc" id="aa00912_html"><div class="ttname"><a href="a00912.html">lumex</a></div><div class="ttdef"><b>Definition</b> LumexCPUVectorizationCapabilities.cpp:65</div></div>
-<div class="ttc" id="aa00964_html"><div class="ttname"><a href="a00964.html">lumex::core</a></div><div class="ttdef"><b>Definition</b> LumexAtomicSharedPtr.hpp:103</div></div>
-<div class="ttc" id="aa01000_html"><div class="ttname"><a href="a01000.html">lumex::core::expected</a></div><div class="ttdef"><b>Definition</b> BadExpectedAccess.hpp:94</div></div>
-<div class="ttc" id="aa01002_html"><div class="ttname"><a href="a01002.html">lumex::core::expected::result</a></div><div class="ttdef"><b>Definition</b> Expected.hpp:91</div></div>
-<div class="ttc" id="aa01002_html_a2843a9a82731a57457a67854be6546d6"><div class="ttname"><a href="a01002.html#a2843a9a82731a57457a67854be6546d6">lumex::core::expected::result::in_place</a></div><div class="ttdeci">constexpr in_place_tag in_place</div><div class="ttdoc">Global constant of type in_place_tag.</div><div class="ttdef"><b>Definition</b> ExpectedTypes.hpp:84</div></div>
-<div class="ttc" id="aa01002_html_a99d7baa9c7bfa0e1e8d7ac195f1abcbc"><div class="ttname"><a href="a01002.html#a99d7baa9c7bfa0e1e8d7ac195f1abcbc">lumex::core::expected::result::unexpect</a></div><div class="ttdeci">constexpr unexpect_t unexpect</div><div class="ttdoc">Global tag constant (like std::unexpect).</div><div class="ttdef"><b>Definition</b> ExpectedTypes.hpp:103</div></div>
-<div class="ttc" id="aa01850_html"><div class="ttname"><a href="a01850.html">lumex::core::expected::result::in_place_tag</a></div><div class="ttdoc">In-place construction tag; C++11 has no std::in_place.</div><div class="ttdef"><b>Definition</b> ExpectedTypes.hpp:75</div></div>
-<div class="ttc" id="aa01854_html"><div class="ttname"><a href="a01854.html">lumex::core::expected::result::Unit</a></div><div class="ttdoc">Placeholder success type for Expected&lt;void, ErrorType&gt;.</div><div class="ttdef"><b>Definition</b> ExpectedTypes.hpp:94</div></div>
-<div class="ttc" id="aa01858_html"><div class="ttname"><a href="a01858.html">lumex::core::expected::result::unexpect_t</a></div><div class="ttdoc">C++23-compatible tag: construct the error in place.</div><div class="ttdef"><b>Definition</b> ExpectedTypes.hpp:99</div></div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="preprocessor">#if defined(_WIN32)</span></div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span><span class="preprocessor">#include &lt;Windows.h&gt;</span></div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><span class="preprocessor">#include &lt;eh.h&gt;</span></div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span><span class="preprocessor">#include &quot;<a class="code" href="a00941.html">lumex/core/utility/LumexUtility</a>&quot;</span></div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span><span class="preprocessor">#include &quot;<a class="code" href="a00389.html">lumex/core/utility/attr/LumexAttributes.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span> </div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span><span class="preprocessor">#if defined(LUMEX_OS_WINDOWS)</span><span class="preprocessor"></span></div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span><a class="code hl_define" href="a00641.html#ad1cae46ea7dbf5398bbb2a0bdd2cf917">LUMEX_PUBLIC_API</a></div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span><span class="keywordtype">void</span> seh_translator (<a class="code hl_define" href="a00389.html#a06748e501657bea60452820c04a1cb9e">LUMEX_ATTRIBUTE_MAYBE_UNUSED</a> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> code,</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>                     _EXCEPTION_POINTERS *info);</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span> </div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span><span class="preprocessor">#if defined(LUMEX_OS_WINDOWS)</span></div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span><span class="preprocessor">#define SET_SEH_TRANSLATOR _set_se_translator (seh_translator);</span></div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span><span class="preprocessor">#else</span></div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno"><a class="line" href="a00257.html#a0d7aeb5eed30cf65a5415d7bb1014f5b">   81</a></span><span class="preprocessor">#define SET_SEH_TRANSLATOR</span></div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span> </div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span><span class="preprocessor">#endif </span><span class="comment">// !LUMEX_CORE_EXCEPTIONS_CRASH_WINDOWS_SEH_TRANSLATOR_HPP</span></div>
+<div class="ttc" id="aa00389_html"><div class="ttname"><a href="a00389.html">LumexAttributes.hpp</a></div><div class="ttdoc">LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P...</div></div>
+<div class="ttc" id="aa00389_html_a06748e501657bea60452820c04a1cb9e"><div class="ttname"><a href="a00389.html#a06748e501657bea60452820c04a1cb9e">LUMEX_ATTRIBUTE_MAYBE_UNUSED</a></div><div class="ttdeci">#define LUMEX_ATTRIBUTE_MAYBE_UNUSED</div><div class="ttdef"><b>Definition</b> LumexAttributes.hpp:195</div></div>
+<div class="ttc" id="aa00641_html"><div class="ttname"><a href="a00641.html">LumexExport.hpp</a></div><div class="ttdoc">Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,...</div></div>
+<div class="ttc" id="aa00641_html_ad1cae46ea7dbf5398bbb2a0bdd2cf917"><div class="ttname"><a href="a00641.html#ad1cae46ea7dbf5398bbb2a0bdd2cf917">LUMEX_PUBLIC_API</a></div><div class="ttdeci">#define LUMEX_PUBLIC_API</div><div class="ttdef"><b>Definition</b> LumexExport.hpp:130</div></div>
+<div class="ttc" id="aa00941_html"><div class="ttname"><a href="a00941.html">LumexUtility</a></div><div class="ttdoc">Utility module, the foundation of the library: assertion, attribute, keyword and constant macros,...</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_91063fb91facb4308dc4edc779d408bb.html">expected</a></li><li class="navelem"><a class="el" href="dir_558ea4e037858a45ed7ac4d50d1489ee.html">result</a></li><li class="navelem"><a class="el" href="a00257.html">ExpectedTypes.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_c5abfa2a5a0424f8cc91dab0edfcaee4.html">exceptions</a></li><li class="navelem"><a class="el" href="dir_5e607916477df1770f4b94662507e744.html">crash</a></li><li class="navelem"><a class="el" href="a00257.html">WindowsSEHTranslator.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexString Source File</title>
+<title>LumexLib: LumexBase64 Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -103,7 +103,7 @@ $(function(){initNavTree('a00893_source.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">LumexString</div></div>
+  <div class="headertitle"><div class="title">LumexBase64</div></div>
 </div><!--header-->
 <div class="contents">
 <a href="a00893.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">/*</span></div>
@@ -145,21 +145,20 @@ $(function(){initNavTree('a00893_source.html',''); initResizable(true); });
 <div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="comment"> * SOFTWARE.</span></div>
 <div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="comment"> */</span></div>
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span></div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span><span class="preprocessor">#include &quot;<a class="code" href="a00314.html">utility/LumexStringify.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="preprocessor">#include &quot;<a class="code" href="a00305.html">text/LumexJoin.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="preprocessor">#include &quot;<a class="code" href="a00308.html">text/LumexQuote.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span><span class="preprocessor">#include &quot;<a class="code" href="a00311.html">text/LumexTextCase.hpp</a>&quot;</span></div>
-<div class="ttc" id="aa00305_html"><div class="ttname"><a href="a00305.html">LumexJoin.hpp</a></div><div class="ttdoc">Joins the elements of a range into one string.</div></div>
-<div class="ttc" id="aa00308_html"><div class="ttname"><a href="a00308.html">LumexQuote.hpp</a></div><div class="ttdoc">Joins the elements of a range with each element wrapped in quotes.</div></div>
-<div class="ttc" id="aa00311_html"><div class="ttname"><a href="a00311.html">LumexTextCase.hpp</a></div><div class="ttdoc">Normalizes text for case-insensitive comparison.</div></div>
-<div class="ttc" id="aa00314_html"><div class="ttname"><a href="a00314.html">LumexStringify.hpp</a></div><div class="ttdoc">Concatenates the operator&lt;&lt; text of any number of arguments into one std::string.</div></div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="preprocessor">#include &quot;<a class="code" href="a00206.html">codec/Base64.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span><span class="preprocessor">#include &quot;<a class="code" href="a00212.html">decode/Decoder.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="preprocessor">#include &quot;<a class="code" href="a00218.html">encode/Encoder.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="preprocessor">#include &quot;<a class="code" href="a00224.html">validate/Validator.hpp</a>&quot;</span></div>
+<div class="ttc" id="aa00206_html"><div class="ttname"><a href="a00206.html">Base64.hpp</a></div><div class="ttdoc">Cross-platform Base64 encoding and decoding utilities.</div></div>
+<div class="ttc" id="aa00212_html"><div class="ttname"><a href="a00212.html">Decoder.hpp</a></div><div class="ttdoc">Base64 decoding: the Decoder class of the lumex::base64 library.</div></div>
+<div class="ttc" id="aa00218_html"><div class="ttname"><a href="a00218.html">Encoder.hpp</a></div><div class="ttdoc">Base64 encoding: the Encoder class of the lumex::base64 library.</div></div>
+<div class="ttc" id="aa00224_html"><div class="ttname"><a href="a00224.html">Validator.hpp</a></div><div class="ttdoc">Base64 syntax check: the Validator class of the lumex::base64 library.</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_459f7d6cb411def697850a9e92b67c08.html">string</a></li><li class="navelem"><a class="el" href="a00893.html">LumexString</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_8c8b73b6e18afab83ac8ebfe214770ca.html">base64</a></li><li class="navelem"><a class="el" href="a00893.html">LumexBase64</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

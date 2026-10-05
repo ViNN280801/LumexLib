@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::core::exceptions::stacktrace::detail Namespace Reference</title>
+<title>LumexLib: lumex::applied::settings::ini Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,352 +104,56 @@ $(function(){initNavTree('a00998.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#func-members">Functions</a> &#124;
-<a href="#var-members">Variables</a>  </div>
-  <div class="headertitle"><div class="title">lumex::core::exceptions::stacktrace::detail Namespace Reference</div></div>
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#enum-members">Enumerations</a>  </div>
+  <div class="headertitle"><div class="title">lumex::applied::settings::ini Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
-
-<p>Internal detail namespace for platform-specific stacktrace functionalities.  
-<a href="#details">More...</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:a894eb6f8a719b5015744c5a76dc63b0b" id="r_a894eb6f8a719b5015744c5a76dc63b0b"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a894eb6f8a719b5015744c5a76dc63b0b">demangle_symbol</a> (char const *mangled)</td></tr>
-<tr class="memdesc:a894eb6f8a719b5015744c5a76dc63b0b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Demangles a C++ mangled symbol name on POSIX systems.  <br /></td></tr>
-<tr class="separator:a894eb6f8a719b5015744c5a76dc63b0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a80a43d351d7565fec6090e8caaed1c87" id="r_a80a43d351d7565fec6090e8caaed1c87"><td class="memItemLeft" align="right" valign="top">template&lt;&gt; </td></tr>
-<tr class="memitem:a80a43d351d7565fec6090e8caaed1c87"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="a01814.html">LumexBasicStacktrace</a>&lt; std::allocator&lt; <a class="el" href="a01826.html">LumexStacktraceEntry</a> &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a80a43d351d7565fec6090e8caaed1c87">capture_stacktrace&lt; std::allocator&lt; LumexStacktraceEntry &gt; &gt;</a> (std::size_t skip, std::size_t max_depth, std::allocator&lt; <a class="el" href="a01826.html">LumexStacktraceEntry</a> &gt; const &amp;alloc) noexcept</td></tr>
-<tr class="separator:a80a43d351d7565fec6090e8caaed1c87"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1305360782a0d1b2dede6070ae5351b4" id="r_a1305360782a0d1b2dede6070ae5351b4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1305360782a0d1b2dede6070ae5351b4">resolve_symbol_info</a> (void *address, std::string &amp;function_name, std::string &amp;source_file, std::uint32_t &amp;line_number) noexcept</td></tr>
-<tr class="memdesc:a1305360782a0d1b2dede6070ae5351b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resolves the description of a given address on POSIX systems.  <br /></td></tr>
-<tr class="separator:a1305360782a0d1b2dede6070ae5351b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8c244b845597e29151cc78cf6b44f709" id="r_a8c244b845597e29151cc78cf6b44f709"><td class="memTemplParams" colspan="2">template&lt;typename Allocator&gt; </td></tr>
-<tr class="memitem:a8c244b845597e29151cc78cf6b44f709"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="a01814.html">stacktrace::LumexBasicStacktrace</a>&lt; Allocator &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a8c244b845597e29151cc78cf6b44f709">capture_stacktrace</a> (std::size_t skip, std::size_t max_depth, Allocator const &amp;alloc) noexcept</td></tr>
-<tr class="memdesc:a8c244b845597e29151cc78cf6b44f709"><td class="mdescLeft">&#160;</td><td class="mdescRight">Platform-specific stacktrace capture implementation for POSIX systems.  <br /></td></tr>
-<tr class="separator:a8c244b845597e29151cc78cf6b44f709"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01000.html">Constants</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
-Variables</h2></td></tr>
-<tr class="memitem:a2bbab331831002e74210b6b65c536966" id="r_a2bbab331831002e74210b6b65c536966"><td class="memItemLeft" align="right" valign="top">constexpr short const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2bbab331831002e74210b6b65c536966">kHashRightShift</a> = 2</td></tr>
-<tr class="memdesc:a2bbab331831002e74210b6b65c536966"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constant for right bit shift operation in hash calculation.  <br /></td></tr>
-<tr class="separator:a2bbab331831002e74210b6b65c536966"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5bbc8ca6b36f10e40b0af4d4dfa0be4e" id="r_a5bbc8ca6b36f10e40b0af4d4dfa0be4e"><td class="memItemLeft" align="right" valign="top">constexpr short const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5bbc8ca6b36f10e40b0af4d4dfa0be4e">kHashLeftShift</a> = 6</td></tr>
-<tr class="memdesc:a5bbc8ca6b36f10e40b0af4d4dfa0be4e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constant for left bit shift operation in hash calculation.  <br /></td></tr>
-<tr class="separator:a5bbc8ca6b36f10e40b0af4d4dfa0be4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ade655d234d94b03b50e1476dcdccf660" id="r_ade655d234d94b03b50e1476dcdccf660"><td class="memItemLeft" align="right" valign="top">constexpr short const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ade655d234d94b03b50e1476dcdccf660">kDefaultAddrStrSize</a> = 32</td></tr>
-<tr class="memdesc:ade655d234d94b03b50e1476dcdccf660"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default buffer size for address string representations.  <br /></td></tr>
-<tr class="separator:ade655d234d94b03b50e1476dcdccf660"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a05aafa779f6b68a7b3fc7fb380bfdef0" id="r_a05aafa779f6b68a7b3fc7fb380bfdef0"><td class="memItemLeft" align="right" valign="top">constexpr short const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a05aafa779f6b68a7b3fc7fb380bfdef0">kDefaultMaxFrames</a> = 128</td></tr>
-<tr class="memdesc:a05aafa779f6b68a7b3fc7fb380bfdef0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default maximum number of frames to capture in a stacktrace.  <br /></td></tr>
-<tr class="separator:a05aafa779f6b68a7b3fc7fb380bfdef0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a027e66b5408342bbc05ee3d41960c830" id="r_a027e66b5408342bbc05ee3d41960c830"><td class="memItemLeft" align="right" valign="top">constexpr std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a027e66b5408342bbc05ee3d41960c830">kHashGoldenRatio</a> = 0x9e3779b9U</td></tr>
-<tr class="separator:a027e66b5408342bbc05ee3d41960c830"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01309.html">LumexSettingsINI</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A lightweight, C++11-based INI settings manager.  <a href="a01309.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:a1af005d4f6d6cbc1fe9b8ac0dd312222" id="r_a1af005d4f6d6cbc1fe9b8ac0dd312222"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1af005d4f6d6cbc1fe9b8ac0dd312222">SupportedConfigExtensions</a> : std::uint8_t { <a class="el" href="#a1af005d4f6d6cbc1fe9b8ac0dd312222a1ca736f3ae57c78e792455365acb1e43">INI</a>
+, <a class="el" href="#a1af005d4f6d6cbc1fe9b8ac0dd312222ad38d2aabee52a0cb2d5d2bc9e713baaa">XML</a>
+, <a class="el" href="#a1af005d4f6d6cbc1fe9b8ac0dd312222a65f566b1d2f043ba85cca8a07058759e">JSON</a>
+ }</td></tr>
+<tr class="memdesc:a1af005d4f6d6cbc1fe9b8ac0dd312222"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumeration of supported configuration file formats.  <a href="#a1af005d4f6d6cbc1fe9b8ac0dd312222">More...</a><br /></td></tr>
+<tr class="separator:a1af005d4f6d6cbc1fe9b8ac0dd312222"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Internal detail namespace for platform-specific stacktrace functionalities. </p>
-<p>This namespace encapsulates helper functions and constants that are used internally by <code><a class="el" href="a01814.html" title="Contains classes and utilities related to stack trace management and exception handling.">LumexBasicStacktrace</a></code> for platform-dependent operations like capturing raw frames and resolving symbol information. </p>
-</div><h2 class="groupheader">Function Documentation</h2>
-<a id="a8c244b845597e29151cc78cf6b44f709" name="a8c244b845597e29151cc78cf6b44f709"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8c244b845597e29151cc78cf6b44f709">&#9670;&#160;</a></span>capture_stacktrace()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename Allocator&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="a01814.html">stacktrace::LumexBasicStacktrace</a>&lt; Allocator &gt; lumex::core::exceptions::stacktrace::detail::capture_stacktrace </td>
-          <td>(</td>
-          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>skip</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>max_depth</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Allocator const &amp;</td>          <td class="paramname"><span class="paramname"><em>alloc</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Platform-specific stacktrace capture implementation for POSIX systems. </p>
-<p>This function captures the current call stack using the <code>backtrace</code> function. It then converts the raw addresses into a vector of <code><a class="el" href="a01826.html" title="Represents a single entry (frame) in a stacktrace.">LumexStacktraceEntry</a></code> objects. It includes logic to handle cases where optimizations might reduce frame count (e.g., Release builds). </p><dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">Allocator</td><td>The allocator type for the resulting stacktrace. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">skip</td><td>Number of frames to skip from the top of the call stack. </td></tr>
-    <tr><td class="paramname">max_depth</td><td>Maximum number of frames to capture. </td></tr>
-    <tr><td class="paramname">alloc</td><td>The allocator to use for the internal container. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>A <code><a class="el" href="a01814.html" title="Contains classes and utilities related to stack trace management and exception handling.">LumexBasicStacktrace</a></code> containing the captured frames. Returns an empty stacktrace if no frames are captured. </dd></dl>
-<dl class="section note"><dt>Note</dt><dd>This function is <code>noexcept</code> and designed to be exception-safe. </dd></dl>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00998_a8c244b845597e29151cc78cf6b44f709_icgraph.png" border="0" usemap="#aa00998_a8c244b845597e29151cc78cf6b44f709_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="a80a43d351d7565fec6090e8caaed1c87" name="a80a43d351d7565fec6090e8caaed1c87"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a80a43d351d7565fec6090e8caaed1c87">&#9670;&#160;</a></span>capture_stacktrace&lt; std::allocator&lt; LumexStacktraceEntry &gt; &gt;()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="a01814.html">LumexBasicStacktrace</a>&lt; std::allocator&lt; <a class="el" href="a01826.html">LumexStacktraceEntry</a> &gt; &gt; <a class="el" href="#a8c244b845597e29151cc78cf6b44f709">lumex::core::exceptions::stacktrace::detail::capture_stacktrace</a>&lt; std::allocator&lt; <a class="el" href="a01826.html">LumexStacktraceEntry</a> &gt; &gt; </td>
-          <td>(</td>
-          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>skip</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>max_depth</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::allocator&lt; <a class="el" href="a01826.html">LumexStacktraceEntry</a> &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>alloc</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a894eb6f8a719b5015744c5a76dc63b0b" name="a894eb6f8a719b5015744c5a76dc63b0b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a894eb6f8a719b5015744c5a76dc63b0b">&#9670;&#160;</a></span>demangle_symbol()</h2>
+<h2 class="groupheader">Enumeration Type Documentation</h2>
+<a id="a1af005d4f6d6cbc1fe9b8ac0dd312222" name="a1af005d4f6d6cbc1fe9b8ac0dd312222"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1af005d4f6d6cbc1fe9b8ac0dd312222">&#9670;&#160;</a></span>SupportedConfigExtensions</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::string lumex::core::exceptions::stacktrace::detail::demangle_symbol </td>
-          <td>(</td>
-          <td class="paramtype">char const *</td>          <td class="paramname"><span class="paramname"><em>mangled</em></span></td><td>)</td>
-          <td></td>
+          <td class="memname">enum <a class="el" href="#a1af005d4f6d6cbc1fe9b8ac0dd312222">lumex::applied::settings::ini::SupportedConfigExtensions</a> : std::uint8_t</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Demangles a C++ mangled symbol name on POSIX systems. </p>
-<p>This function uses <code>abi::__cxa_demangle</code> from the GNU C++ ABI library to convert a compiler-mangled C++ symbol name into a human-readable form. </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">mangled</td><td>The null-terminated C-string of the mangled symbol name. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>A <code>std::string</code> containing the demangled symbol name. If demangling fails, the original mangled name is returned. Returns an empty string if <code>mangled</code> is <code>nullptr</code>. </dd></dl>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00998_a894eb6f8a719b5015744c5a76dc63b0b_icgraph.png" border="0" usemap="#aa00998_a894eb6f8a719b5015744c5a76dc63b0b_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="a1305360782a0d1b2dede6070ae5351b4" name="a1305360782a0d1b2dede6070ae5351b4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1305360782a0d1b2dede6070ae5351b4">&#9670;&#160;</a></span>resolve_symbol_info()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool lumex::core::exceptions::stacktrace::detail::resolve_symbol_info </td>
-          <td>(</td>
-          <td class="paramtype">void *</td>          <td class="paramname"><span class="paramname"><em>address</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>function_name</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>source_file</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::uint32_t &amp;</td>          <td class="paramname"><span class="paramname"><em>line_number</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
+<p>Enumeration of supported configuration file formats. </p>
+<p>Defines the file formats that can be parsed or generated by the settings system. INI is always available. XML is created by the factory when <code>LUMEX_SETTINGS_WITH_XML</code> is defined (effective <code>LUMEX_BUILD_XML</code>). JSON is created when <code>LUMEX_SETTINGS_WITH_JSON</code> is defined (vendored nlohmann/json header present). YAML remains a placeholder. </p><dl class="section note"><dt>Note</dt><dd>Extend this enum when adding support for new file formats. </dd></dl>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a1af005d4f6d6cbc1fe9b8ac0dd312222a1ca736f3ae57c78e792455365acb1e43" name="a1af005d4f6d6cbc1fe9b8ac0dd312222a1ca736f3ae57c78e792455365acb1e43"></a>INI&#160;</td><td class="fielddoc"><p>INI file format (key-value pairs with sections). </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a1af005d4f6d6cbc1fe9b8ac0dd312222ad38d2aabee52a0cb2d5d2bc9e713baaa" name="a1af005d4f6d6cbc1fe9b8ac0dd312222ad38d2aabee52a0cb2d5d2bc9e713baaa"></a>XML&#160;</td><td class="fielddoc"><p>XML file format via <code><a class="el" href="a00185.html#ab23132a5fc6ee5da8ac4aa3c6f448f27">LumexSettingsXML</a></code> / <code>LumexXml</code>. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a1af005d4f6d6cbc1fe9b8ac0dd312222a65f566b1d2f043ba85cca8a07058759e" name="a1af005d4f6d6cbc1fe9b8ac0dd312222a65f566b1d2f043ba85cca8a07058759e"></a>JSON&#160;</td><td class="fielddoc"><p>JSON file format via <code><a class="el" href="a00179.html#aa919e4a6d6da15cb570e487987991a1b">LumexSettingsJSON</a></code> / nlohmann. </p>
+</td></tr>
 </table>
-</div><div class="memdoc">
-
-<p>Resolves the description of a given address on POSIX systems. </p>
-<p>An exported symbol is named through <code>dladdr</code> and demangled, and the module with the address inside it follows in parentheses ("name (libfoo.so.1+0x1A2B)"); a frame without one is described by its module and offset alone ("app+0x401234"), which addr2line or gdb resolve offline with that module or its separate debug file. No process is started and no debug information is read, so source file and line are not resolved here. </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">address</td><td>The <code>void*</code> address of the stack frame to resolve. </td></tr>
-    <tr><td class="paramname">function_name</td><td>Output parameter for the description. </td></tr>
-    <tr><td class="paramname">source_file</td><td>Output parameter for the source file path (always cleared on POSIX). </td></tr>
-    <tr><td class="paramname">line_number</td><td>Output parameter for the line number (always 0 on POSIX). </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>True if a symbol or a module holds the address, false otherwise. </dd></dl>
-<dl class="section note"><dt>Note</dt><dd>Does not throw. </dd></dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00998_a1305360782a0d1b2dede6070ae5351b4_cgraph.png" border="0" usemap="#aa00998_a1305360782a0d1b2dede6070ae5351b4_cgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<h2 class="groupheader">Variable Documentation</h2>
-<a id="ade655d234d94b03b50e1476dcdccf660" name="ade655d234d94b03b50e1476dcdccf660"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ade655d234d94b03b50e1476dcdccf660">&#9670;&#160;</a></span>kDefaultAddrStrSize</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">short const lumex::core::exceptions::stacktrace::detail::kDefaultAddrStrSize = 32</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Default buffer size for address string representations. </p>
-
-</div>
-</div>
-<a id="a05aafa779f6b68a7b3fc7fb380bfdef0" name="a05aafa779f6b68a7b3fc7fb380bfdef0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a05aafa779f6b68a7b3fc7fb380bfdef0">&#9670;&#160;</a></span>kDefaultMaxFrames</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">short const lumex::core::exceptions::stacktrace::detail::kDefaultMaxFrames = 128</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Default maximum number of frames to capture in a stacktrace. </p>
-
-</div>
-</div>
-<a id="a027e66b5408342bbc05ee3d41960c830" name="a027e66b5408342bbc05ee3d41960c830"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a027e66b5408342bbc05ee3d41960c830">&#9670;&#160;</a></span>kHashGoldenRatio</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::size_t lumex::core::exceptions::stacktrace::detail::kHashGoldenRatio = 0x9e3779b9U</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Golden ratio constant used in hash calculation to provide good distribution. </p>
-
-</div>
-</div>
-<a id="a5bbc8ca6b36f10e40b0af4d4dfa0be4e" name="a5bbc8ca6b36f10e40b0af4d4dfa0be4e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5bbc8ca6b36f10e40b0af4d4dfa0be4e">&#9670;&#160;</a></span>kHashLeftShift</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">short const lumex::core::exceptions::stacktrace::detail::kHashLeftShift = 6</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Constant for left bit shift operation in hash calculation. </p>
-
-</div>
-</div>
-<a id="a2bbab331831002e74210b6b65c536966" name="a2bbab331831002e74210b6b65c536966"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2bbab331831002e74210b6b65c536966">&#9670;&#160;</a></span>kHashRightShift</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">short const lumex::core::exceptions::stacktrace::detail::kHashRightShift = 2</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Constant for right bit shift operation in hash calculation. </p>
 
 </div>
 </div>
@@ -458,7 +162,7 @@ Here is the call graph for this function:</div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00912.html">lumex</a></li><li class="navelem"><a class="el" href="a00964.html">core</a></li><li class="navelem"><a class="el" href="a00991.html">exceptions</a></li><li class="navelem"><a class="el" href="a00997.html">stacktrace</a></li><li class="navelem"><a class="el" href="a00998.html">detail</a></li>
+    <li class="navelem"><a class="el" href="a00948.html">lumex</a></li><li class="navelem"><a class="el" href="a00949.html">applied</a></li><li class="navelem"><a class="el" href="a00994.html">settings</a></li><li class="navelem"><a class="el" href="a00998.html">ini</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

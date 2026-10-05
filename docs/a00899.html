@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexTemporary File Reference</title>
+<title>LumexLib: LumexCrc File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -103,34 +103,90 @@ $(function(){initNavTree('a00899.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">LumexTemporary File Reference</div></div>
+  <div class="headertitle"><div class="title">LumexCrc File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Temporary module: an RAII temporary directory that is removed when its owner is destroyed.  
+<p>CRC module: parametric CRC engines in the notation of the CRC RevEng catalogue, and the catalogue's named parameter sets.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="a00332_source.html">tmp/LumexTemporary.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="a00236_source.html">parametric/LumexCrcParametric.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00233_source.html">catalog/LumexCrcCatalog.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for LumexTemporary:</div>
+Include dependency graph for LumexCrc:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00900.png" border="0" usemap="#a_lumex_temporary" alt=""/></div>
+<div class="center"><img src="a00900.png" border="0" usemap="#a_lumex_crc" alt=""/></div>
+<map name="a_lumex_crc" id="a_lumex_crc">
+<area shape="rect" title="CRC module: parametric CRC engines in the notation of the CRC RevEng catalogue, and the catalogue&#39;s n..." alt="" coords="664,5,746,32"/>
+<area shape="rect" href="a00236.html" title="Header&#45;only CRC engines for every algorithm of the CRC RevEng catalogue up to 64 bits." alt="" coords="929,80,1164,107"/>
+<area shape="poly" title=" " alt="" coords="747,26,973,74,971,79,746,31"/>
+<area shape="rect" href="a00233.html" title="Run&#45;time CRC computation by catalogue index or by explicit parameters, and the process&#45;wide 8&#45;bit tra..." alt="" coords="358,80,556,107"/>
+<area shape="poly" title=" " alt="" coords="665,34,515,78,514,73,663,29"/>
+<area shape="rect" title=" " alt="" coords="1600,163,1650,189"/>
+<area shape="poly" title=" " alt="" coords="1164,92,1258,97,1365,107,1478,125,1588,152,1592,153,1591,159,1587,157,1477,130,1364,112,1257,102,1164,98"/>
+<area shape="rect" title=" " alt="" coords="800,163,864,189"/>
+<area shape="poly" title=" " alt="" coords="1008,110,877,157,873,158,871,153,875,152,1006,105"/>
+<area shape="rect" title=" " alt="" coords="888,163,948,189"/>
+<area shape="poly" title=" " alt="" coords="1028,109,953,156,950,152,1025,105"/>
+<area shape="rect" title=" " alt="" coords="1267,163,1319,189"/>
+<area shape="poly" title=" " alt="" coords="1096,105,1168,126,1249,152,1253,154,1251,159,1247,157,1167,131,1094,110"/>
+<area shape="rect" title=" " alt="" coords="1343,163,1392,189"/>
+<area shape="poly" title=" " alt="" coords="1141,105,1235,123,1333,152,1335,153,1333,158,1331,157,1234,128,1140,110"/>
+<area shape="rect" title=" " alt="" coords="1416,163,1498,189"/>
+<area shape="poly" title=" " alt="" coords="1157,105,1278,124,1406,152,1414,155,1413,160,1404,157,1277,129,1157,110"/>
+<area shape="rect" title=" " alt="" coords="1523,163,1575,189"/>
+<area shape="poly" title=" " alt="" coords="1164,96,1243,102,1330,113,1422,129,1511,152,1515,153,1513,159,1510,157,1421,134,1330,118,1242,107,1164,101"/>
+<area shape="rect" title=" " alt="" coords="462,163,519,189"/>
+<area shape="poly" title=" " alt="" coords="929,100,841,106,741,116,635,133,532,157,528,159,526,154,531,152,634,127,740,111,840,100,928,95"/>
+<area shape="rect" href="a00386.html" title="Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_..." alt="" coords="1024,155,1191,197"/>
+<area shape="poly" title=" " alt="" coords="1058,106,1085,141,1081,144,1054,109"/>
+<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="902,245,1097,288"/>
+<area shape="poly" title=" " alt="" coords="1132,105,1173,123,1191,136,1206,153,1215,176,1206,199,1187,219,1164,235,1113,256,1111,251,1162,231,1183,215,1201,196,1209,176,1201,156,1187,140,1170,127,1130,110"/>
+<area shape="rect" href="a00389.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="168,155,336,197"/>
+<area shape="poly" title=" " alt="" coords="929,109,352,167,351,162,928,104"/>
+<area shape="rect" href="a00404.html" title="C++ language, library and attribute feature availability." alt="" coords="136,245,367,288"/>
+<area shape="poly" title=" " alt="" coords="1042,109,1013,155,990,180,962,200,930,210,877,219,725,236,383,261,383,255,725,231,876,214,929,204,960,195,986,176,1009,151,1038,106"/>
+<area shape="rect" href="a00419.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="544,155,776,197"/>
+<area shape="poly" title=" " alt="" coords="986,110,775,154,774,148,985,105"/>
+<area shape="rect" href="a00641.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="608,253,770,280"/>
+<area shape="poly" title=" " alt="" coords="1024,198,764,252,763,247,1023,192"/>
+<area shape="poly" title=" " alt="" coords="1084,200,1038,237,1035,233,1081,196"/>
+<area shape="poly" title=" " alt="" coords="254,198,254,230,249,230,249,198"/>
+<area shape="poly" title=" " alt="" coords="740,195,906,238,904,243,739,201"/>
+<area shape="poly" title=" " alt="" coords="557,104,669,122,788,152,794,154,792,159,787,157,668,128,556,109"/>
+<area shape="poly" title=" " alt="" coords="556,98,709,116,793,131,876,152,882,154,880,159,875,157,792,136,708,121,556,103"/>
+<area shape="poly" title=" " alt="" coords="465,106,482,147,477,149,460,108"/>
+<area shape="poly" title=" " alt="" coords="444,109,425,128,409,150,401,174,402,185,407,196,418,206,435,215,481,231,536,243,593,252,592,258,535,248,479,236,433,220,415,210,403,199,397,187,395,174,404,148,421,124,440,105"/>
+<area shape="poly" title=" " alt="" coords="454,108,447,128,442,151,442,175,452,195,468,201,503,209,616,224,887,253,887,258,615,230,502,214,466,206,449,199,437,176,436,151,442,126,449,106"/>
+<area shape="poly" title=" " alt="" coords="426,110,320,151,318,146,424,105"/>
+<area shape="poly" title=" " alt="" coords="358,104,297,111,238,122,188,137,170,146,158,156,152,166,151,175,158,196,174,217,195,235,191,239,170,221,153,199,145,175,147,164,154,153,167,142,186,132,237,116,297,106,358,98"/>
+<area shape="poly" title=" " alt="" coords="490,105,594,146,592,151,488,110"/>
+<area shape="rect" title=" " alt="" coords="5,163,93,189"/>
+<area shape="poly" title=" " alt="" coords="364,110,244,130,112,157,100,160,99,155,111,152,243,124,364,105"/>
+</map>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00901.png" border="0" usemap="#a_lumex_temporarydep" alt=""/></div>
+<div class="center"><img src="a00901.png" border="0" usemap="#a_lumex_crcdep" alt=""/></div>
+<map name="a_lumex_crcdep" id="a_lumex_crcdep">
+<area shape="rect" title="CRC module: parametric CRC engines in the notation of the CRC RevEng catalogue, and the catalogue&#39;s n..." alt="" coords="112,5,193,32"/>
+<area shape="rect" href="a00470.html" title=" " alt="" coords="5,80,126,107"/>
+<area shape="poly" title=" " alt="" coords="127,44,82,82,79,78,124,40"/>
+<area shape="rect" href="a00473.html" title=" " alt="" coords="150,80,328,107"/>
+<area shape="poly" title=" " alt="" coords="181,40,226,78,222,82,177,44"/>
+</map>
 </div>
 </div>
 <p><a href="a00899_source.html">Go to the source code of this file.</a></p>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Temporary module: an RAII temporary directory that is removed when its owner is destroyed. </p>
-<p>Link <code>lumex::temporary</code> (compiled library). Works from C++11. The umbrella includes <code><a class="el" href="a00332.html" title="Temporary files and directories that delete themselves: TemporaryFile, TemporaryDirectory and the fac...">tmp/LumexTemporary.hpp</a></code>. </p>
+<div class="textblock"><p>CRC module: parametric CRC engines in the notation of the CRC RevEng catalogue, and the catalogue's named parameter sets. </p>
+<p>Link <code>lumex::crc</code> (compiled library). The library itself is compiled as C++14 because its catalogue tables use <code>std::make_index_sequence</code>. The umbrella includes <code><a class="el" href="a00236.html" title="Header-only CRC engines for every algorithm of the CRC RevEng catalogue up to 64 bits.">parametric/LumexCrcParametric.hpp</a></code> and <code><a class="el" href="a00233.html" title="Run-time CRC computation by catalogue index or by explicit parameters, and the process-wide 8-bit tra...">catalog/LumexCrcCatalog.hpp</a></code>. </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_bef940194bb614ff46f5518d22497697.html">temporary</a></li><li class="navelem"><a class="el" href="a00899.html">LumexTemporary</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_151da19bde5d804ceec895a888706424.html">crc</a></li><li class="navelem"><a class="el" href="a00899.html">LumexCrc</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

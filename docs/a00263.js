@@ -1,9 +1,9 @@
 var a00263 =
 [
-    [ "lumex::core::expected::result::success_t< ValueType >", "a01870.html", "a01870" ],
-    [ "lumex::core::expected::result::success_t< void >", "a01874.html", "a01874" ],
-    [ "lumex::core::expected::result::failure_t< ErrorType >", "a01878.html", "a01878" ],
-    [ "lumex::core::expected::result::failure", "a01002.html#a8af150230768426fd35e631a6134e162", null ],
-    [ "lumex::core::expected::result::success", "a01002.html#acf582366ba9e45e54dfb712995539ba3", null ],
-    [ "lumex::core::expected::result::success", "a01002.html#a33ae257796f0a87a9dd7dfc572762b8c", null ]
+    [ "lumex::core::exceptions::exception::LumexBaseException", "a01893.html", "a01893" ],
+    [ "LUMEX_EXCEPTION_HANDLE_BEGIN", "a00263.html#aa2c14643747e0675175c89004325e3c4", null ],
+    [ "LUMEX_EXCEPTION_HANDLE_END", "a00263.html#adc7a0e055f41c7602df8841a2c9ffc7e", null ],
+    [ "LUMEX_THROW_EXCEPTION", "a00263.html#a537bc5e66573ec83ae7e2f29bb6cf618", null ],
+    [ "LumexBaseException", "a00263.html#a14cb3c521ade640b8e5a7bf4aac3c929", null ],
+    [ "lumex::core::exceptions::exception::LumexException_GetStackTraceTrampoline", "a01034.html#a31ed01634f7b6bd094769a42fe5f966b", null ]
 ];

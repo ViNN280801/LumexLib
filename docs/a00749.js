@@ -1,5 +1,4 @@
 var a00749 =
 [
-    [ "lumex::xml::xpath::memory::XPathAllocator", "a03038.html", "a03038" ],
-    [ "lumex::xml::xpath::memory::XPathAllocatorCapture", "a03042.html", "a03042" ]
+    [ "LUMEX_IMPLEMENTATION", "a00749.html#a07486181f1990291c2a348de8eb4c480", null ]
 ];

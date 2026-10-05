@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexExport.hpp File Reference</title>
+<title>LumexLib: example_string_view.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,126 +104,118 @@ $(function(){initNavTree('a00605.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#define-members">Macros</a>  </div>
-  <div class="headertitle"><div class="title">LumexExport.hpp File Reference</div></div>
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle"><div class="title">example_string_view.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-
-<p>Export and linkage macros of LumexLib: <code>LUMEX_API</code>, <code>LUMEX_PUBLIC_API</code>, <code>LUMEX_PUBLIC_C_API</code>, <code>LUMEX_UTILITY_API</code>, <code>LUMEX_EXTERN_C_BEGIN</code> and <code>LUMEX_EXTERN_C_END</code>.  
-<a href="#details">More...</a></p>
-<div class="textblock"><div class="dynheader">
-This graph shows which files directly or indirectly include this file:</div>
+<div class="textblock"><code>#include &lt;iostream&gt;</code><br />
+<code>#include &lt;string&gt;</code><br />
+<code>#include &quot;<a class="el" href="a00932_source.html">lumex/core/string_view/LumexStringView</a>&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for example_string_view.cpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00607.png" border="0" usemap="#a_lumex_export_8hppdep" alt=""/></div>
+<div class="center"><img src="a00606.png" border="0" usemap="#aexample__string__view_8cpp" alt=""/></div>
+<map name="aexample__string__view_8cpp" id="aexample__string__view_8cpp">
+<area shape="rect" title=" " alt="" coords="31,5,198,32"/>
+<area shape="rect" title=" " alt="" coords="5,88,77,115"/>
+<area shape="poly" title=" " alt="" coords="105,34,64,79,60,75,101,31"/>
+<area shape="rect" title=" " alt="" coords="56,253,109,280"/>
+<area shape="poly" title=" " alt="" coords="115,33,89,238,83,238,110,32"/>
+<area shape="rect" href="a00932.html" title="String view module: C++11 implementations of the C++17 std::string_view and std::wstring_view." alt="" coords="194,80,349,123"/>
+<area shape="poly" title=" " alt="" coords="140,30,219,70,217,75,138,35"/>
+<area shape="rect" href="a00356.html" title="C++11 lightweight, non&#45;owning view over character sequences." alt="" coords="182,171,361,197"/>
+<area shape="poly" title=" " alt="" coords="274,123,274,155,269,155,269,123"/>
+<area shape="rect" href="a00362.html" title="C++11 lightweight, non&#45;owning view over contiguous wide character sequences." alt="" coords="385,171,577,197"/>
+<area shape="poly" title=" " alt="" coords="327,121,435,162,433,167,325,126"/>
+<area shape="poly" title=" " alt="" coords="238,200,122,248,121,248,118,244,120,243,236,196"/>
+<area shape="rect" href="a00641.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="808,253,970,280"/>
+<area shape="poly" title=" " alt="" coords="361,193,373,195,585,215,678,225,796,243,820,247,819,252,795,248,677,231,585,221,373,200,361,199"/>
+<area shape="rect" title=" " alt="" coords="994,253,1058,280"/>
+<area shape="poly" title=" " alt="" coords="361,193,373,195,466,202,545,204,680,203,745,205,814,210,892,222,983,243,990,245,988,250,982,248,891,227,814,216,745,210,680,209,545,209,466,207,373,200,361,199"/>
+<area shape="rect" title=" " alt="" coords="134,253,194,280"/>
+<area shape="poly" title=" " alt="" coords="256,200,194,246,191,242,253,196"/>
+<area shape="rect" title=" " alt="" coords="218,253,280,280"/>
+<area shape="poly" title=" " alt="" coords="271,199,259,239,254,238,266,197"/>
+<area shape="rect" title=" " alt="" coords="304,253,372,280"/>
+<area shape="poly" title=" " alt="" coords="284,196,321,240,317,243,280,200"/>
+<area shape="rect" href="a00389.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="397,245,565,288"/>
+<area shape="poly" title=" " alt="" coords="305,195,414,237,412,242,303,200"/>
+<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="589,245,784,288"/>
+<area shape="poly" title=" " alt="" coords="337,195,574,241,573,246,336,201"/>
+<area shape="rect" href="a00404.html" title="C++ language, library and attribute feature availability." alt="" coords="365,336,597,379"/>
+<area shape="poly" title=" " alt="" coords="484,288,484,321,478,321,478,288"/>
+<area shape="poly" title=" " alt="" coords="385,201,238,223,170,236,122,248,119,249,117,244,120,243,169,230,237,218,384,195"/>
+<area shape="poly" title=" " alt="" coords="550,195,796,243,817,247,816,252,795,248,549,201"/>
+<area shape="poly" title=" " alt="" coords="577,185,664,191,767,201,876,218,983,243,989,245,987,250,982,248,875,223,766,207,664,196,577,191"/>
+<area shape="poly" title=" " alt="" coords="402,201,307,220,207,248,203,249,201,244,206,243,306,215,400,195"/>
+<area shape="poly" title=" " alt="" coords="436,201,368,221,293,248,289,249,287,244,291,243,366,216,434,195"/>
+<area shape="poly" title=" " alt="" coords="460,200,375,248,373,243,457,196"/>
+<area shape="poly" title=" " alt="" coords="484,198,484,230,478,230,478,198"/>
+<area shape="poly" title=" " alt="" coords="514,195,620,237,618,242,512,200"/>
+</map>
 </div>
-</div>
-<p><a href="a00605_source.html">Go to the source code of this file.</a></p>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
-Macros</h2></td></tr>
-<tr class="memitem:acaff4c6bbcf06a700c96ca83292c16ac" id="r_acaff4c6bbcf06a700c96ca83292c16ac"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acaff4c6bbcf06a700c96ca83292c16ac">LUMEX_EXTERN_C_BEGIN</a></td></tr>
-<tr class="separator:acaff4c6bbcf06a700c96ca83292c16ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa5051b73e2d3303e7e2718073a3dd2f4" id="r_aa5051b73e2d3303e7e2718073a3dd2f4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa5051b73e2d3303e7e2718073a3dd2f4">LUMEX_EXTERN_C_END</a>&#160;&#160;&#160;}</td></tr>
-<tr class="separator:aa5051b73e2d3303e7e2718073a3dd2f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa948a1b1a43f6a954fd4c15b01ae4207" id="r_aa948a1b1a43f6a954fd4c15b01ae4207"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a></td></tr>
-<tr class="separator:aa948a1b1a43f6a954fd4c15b01ae4207"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2fcdc1371159ad0c9788ea500312a415" id="r_a2fcdc1371159ad0c9788ea500312a415"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2fcdc1371159ad0c9788ea500312a415">LUMEX_UTILITY_API</a></td></tr>
-<tr class="separator:a2fcdc1371159ad0c9788ea500312a415"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8605dc551b9046fdc3f9627b65fa40b0" id="r_a8605dc551b9046fdc3f9627b65fa40b0"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8605dc551b9046fdc3f9627b65fa40b0">LUMEX_PUBLIC_C_API</a>&#160;&#160;&#160;extern &quot;C&quot; <a class="el" href="#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a></td></tr>
-<tr class="memdesc:a8605dc551b9046fdc3f9627b65fa40b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macros for marking functions that should be available from outside.  <br /></td></tr>
-<tr class="separator:a8605dc551b9046fdc3f9627b65fa40b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad1cae46ea7dbf5398bbb2a0bdd2cf917" id="r_ad1cae46ea7dbf5398bbb2a0bdd2cf917"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad1cae46ea7dbf5398bbb2a0bdd2cf917">LUMEX_PUBLIC_API</a>&#160;&#160;&#160;<a class="el" href="#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a></td></tr>
-<tr class="separator:ad1cae46ea7dbf5398bbb2a0bdd2cf917"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:ae66f6b31b5ad750f1fe042a706a4e3d4" id="r_ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a> ()</td></tr>
+<tr class="separator:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Export and linkage macros of LumexLib: <code>LUMEX_API</code>, <code>LUMEX_PUBLIC_API</code>, <code>LUMEX_PUBLIC_C_API</code>, <code>LUMEX_UTILITY_API</code>, <code>LUMEX_EXTERN_C_BEGIN</code> and <code>LUMEX_EXTERN_C_END</code>. </p>
-<p><code>LUMEX_API</code> marks a class or function of a shared library: on Windows it is <code>dllexport</code> while <code>LUMEX_EXPORTS</code> is defined and <code>dllimport</code> otherwise, elsewhere it gives default visibility while <code>LUMEX_EXPORTS</code> is defined and is empty otherwise. <code>LUMEX_PUBLIC_API</code> and <code>LUMEX_PUBLIC_C_API</code> (the latter with C linkage) export unconditionally in a source file that defines <code>LUMEX_IMPLEMENTATION</code> before its includes, and equal <code>LUMEX_API</code> everywhere else. <code>LUMEX_UTILITY_API</code> exports only from the utility library itself (<code>LumexCore_utility_EXPORTS</code> defined), so classes with out-of-line static data members are not exported again by every library that includes their header. <code>LUMEX_EXTERN_C_BEGIN</code> and <code>LUMEX_EXTERN_C_END</code> open and close an <code>extern "C"</code> block when compiled as C++. </p>
-</div><h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="aa948a1b1a43f6a954fd4c15b01ae4207" name="aa948a1b1a43f6a954fd4c15b01ae4207"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa948a1b1a43f6a954fd4c15b01ae4207">&#9670;&#160;</a></span>LUMEX_API</h2>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="ae66f6b31b5ad750f1fe042a706a4e3d4" name="ae66f6b31b5ad750f1fe042a706a4e3d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae66f6b31b5ad750f1fe042a706a4e3d4">&#9670;&#160;</a></span>main()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define LUMEX_API</td>
+          <td class="memname">int main </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00605_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph.png" border="0" usemap="#aa00605_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" alt=""/></div>
+<map name="aa00605_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" id="aa00605_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph">
+<area shape="rect" title=" " alt="" coords="5,336,55,363"/>
+<area shape="rect" href="a02409.html#a02c0fdcc30b79e52f80137a4c99acb48" title="Compares this LumexStringView with another LumexStringView." alt="" coords="119,395,320,453"/>
+<area shape="poly" title=" " alt="" coords="56,359,104,380,119,386,117,391,102,385,54,363"/>
+<area shape="rect" href="a02409.html#a9577a05436fdab9556d62016c101fa49" title="Returns a pointer to the beginning of the character data." alt="" coords="103,128,336,171"/>
+<area shape="poly" title=" " alt="" coords="31,335,38,305,51,265,72,224,101,187,115,176,118,181,105,191,76,227,56,267,43,306,36,336"/>
+<area shape="rect" href="a02409.html#af5361b1f3400f2c0f4eca2b185a15961" title="Checks if the view is empty (i.e., has a size of 0)." alt="" coords="402,159,602,217"/>
+<area shape="poly" title=" " alt="" coords="33,334,55,283,75,254,101,231,123,221,152,212,224,200,306,192,386,187,387,193,306,197,224,205,153,217,125,226,104,236,79,258,60,285,38,336"/>
+<area shape="rect" href="a02409.html#a5b9bfde44da3c589e1c44e81908a6db0" title="Checks if the LumexStringView ends with a specific character." alt="" coords="119,21,320,80"/>
+<area shape="poly" title=" " alt="" coords="28,335,30,290,39,224,48,189,61,153,78,120,101,90,105,86,109,90,105,94,83,123,66,156,53,190,44,225,35,290,34,336"/>
+<area shape="rect" href="a02409.html#aee21bd045f493560f654093ac89151c2" title="Finds the first occurrence of a character within the view." alt="" coords="105,328,334,371"/>
+<area shape="poly" title=" " alt="" coords="55,347,89,347,89,352,55,352"/>
+<area shape="rect" href="a02409.html#a2a616cd04e6a496cfb0450f558ddb381" title="Finds the last occurrence of a LumexStringView within this view." alt="" coords="119,568,320,627"/>
+<area shape="poly" title=" " alt="" coords="35,363,39,400,50,451,71,506,86,532,105,554,109,558,105,562,101,558,82,535,66,509,45,453,34,401,29,363"/>
+<area shape="rect" href="a02409.html#a3b362d2a08291aa7660f069ca1ffe6d0" title="Returns the number of characters in the view." alt="" coords="103,501,336,544"/>
+<area shape="poly" title=" " alt="" coords="39,362,63,411,82,438,104,463,146,492,143,496,101,467,78,442,59,413,34,364"/>
+<area shape="rect" href="a02409.html#a7dea838c9b3eb0c7e5607b92d66b0381" title="Checks if the LumexStringView starts with a specific character." alt="" coords="119,245,320,304"/>
+<area shape="poly" title=" " alt="" coords="54,335,102,314,117,307,119,312,104,318,56,340"/>
+<area shape="rect" href="a02409.html#a448fb1b748cc583b938afd7e65cc1b4e" title="Returns a new LumexStringView representing a substring of this view." alt="" coords="119,651,320,709"/>
+<area shape="poly" title=" " alt="" coords="36,363,59,504,79,584,91,616,105,637,109,641,105,645,101,640,87,618,74,586,53,505,30,364"/>
+<area shape="rect" href="a02409.html#a19a5de629fbc720c5672939d15254aa5" title="Default constructor. Creates an empty LumexStringView." alt="" coords="402,568,602,627"/>
+<area shape="poly" title=" " alt="" coords="314,451,337,463,404,508,461,555,458,560,401,512,335,468,311,456"/>
+<area shape="poly" title=" " alt="" coords="183,128,181,118,188,109,200,103,219,101,240,104,252,110,250,115,238,109,219,107,202,109,191,113,187,119,188,127"/>
+<area shape="poly" title=" " alt="" coords="447,158,448,148,458,139,476,134,502,132,532,135,550,142,548,147,531,140,502,137,477,139,461,144,453,151,452,159"/>
+<area shape="poly" title=" " alt="" coords="311,78,337,90,443,148,441,153,335,94,308,83"/>
+<area shape="rect" href="a02409.html#a45bb9712ce876e808903309b89394e3d" title="Returns a const reference to the last character of the view." alt="" coords="384,29,620,72"/>
+<area shape="poly" title=" " alt="" coords="320,48,369,48,369,53,320,53"/>
+<area shape="poly" title=" " alt="" coords="449,29,447,19,456,10,474,5,502,3,533,5,551,11,549,16,531,10,502,8,475,10,459,15,452,21,454,28"/>
+<area shape="poly" title=" " alt="" coords="320,595,387,595,387,600,320,600"/>
+<area shape="poly" title=" " alt="" coords="183,501,181,491,188,482,200,477,219,475,240,477,252,483,250,488,238,482,219,480,202,482,191,487,187,493,188,500"/>
+<area shape="poly" title=" " alt="" coords="317,242,389,220,390,225,318,247"/>
+<area shape="rect" href="a02409.html#a6dda2ca36f6c42193c9582c2d22f72bc" title="Returns a const reference to the first character of the view." alt="" coords="402,265,602,324"/>
+<area shape="poly" title=" " alt="" coords="320,279,387,284,386,289,320,284"/>
+<area shape="poly" title=" " alt="" coords="447,265,448,255,458,246,476,241,502,239,532,241,550,249,548,253,531,247,502,244,477,246,461,251,453,257,452,265"/>
+<area shape="poly" title=" " alt="" coords="319,648,387,628,388,633,321,653"/>
+</map>
 </div>
-</div>
-<a id="acaff4c6bbcf06a700c96ca83292c16ac" name="acaff4c6bbcf06a700c96ca83292c16ac"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acaff4c6bbcf06a700c96ca83292c16ac">&#9670;&#160;</a></span>LUMEX_EXTERN_C_BEGIN</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_EXTERN_C_BEGIN</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">  <span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span>                                                                  \</div>
-<div class="line">  {</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="aa5051b73e2d3303e7e2718073a3dd2f4" name="aa5051b73e2d3303e7e2718073a3dd2f4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa5051b73e2d3303e7e2718073a3dd2f4">&#9670;&#160;</a></span>LUMEX_EXTERN_C_END</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_EXTERN_C_END&#160;&#160;&#160;}</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ad1cae46ea7dbf5398bbb2a0bdd2cf917" name="ad1cae46ea7dbf5398bbb2a0bdd2cf917"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad1cae46ea7dbf5398bbb2a0bdd2cf917">&#9670;&#160;</a></span>LUMEX_PUBLIC_API</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_PUBLIC_API&#160;&#160;&#160;<a class="el" href="#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a8605dc551b9046fdc3f9627b65fa40b0" name="a8605dc551b9046fdc3f9627b65fa40b0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8605dc551b9046fdc3f9627b65fa40b0">&#9670;&#160;</a></span>LUMEX_PUBLIC_C_API</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_PUBLIC_C_API&#160;&#160;&#160;extern &quot;C&quot; <a class="el" href="#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Macros for marking functions that should be available from outside. </p>
-
-</div>
-</div>
-<a id="a2fcdc1371159ad0c9788ea500312a415" name="a2fcdc1371159ad0c9788ea500312a415"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2fcdc1371159ad0c9788ea500312a415">&#9670;&#160;</a></span>LUMEX_UTILITY_API</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_UTILITY_API</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
 
 </div>
 </div>
@@ -232,7 +224,7 @@ Macros</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="a00605.html">LumexExport.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_e8ae4df8b8335e2a73ecf531ee4a4a97.html">examples</a></li><li class="navelem"><a class="el" href="dir_bc782a393a6b988e43baa711f0e6ca41.html">string_view</a></li><li class="navelem"><a class="el" href="a00605.html">example_string_view.cpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

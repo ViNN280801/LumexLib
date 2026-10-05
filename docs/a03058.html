@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::xml::xpath::memory::XPathStackData Struct Reference</title>
+<title>LumexLib: Member List</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a03058.html',''); initResizable(true); });
+$(function(){initNavTree('a03061.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,188 +103,45 @@ $(function(){initNavTree('a03058.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="summary">
-<a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-attribs">Public Attributes</a> &#124;
-<a href="a03055.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">lumex::xml::xpath::memory::XPathStackData Struct Reference</div></div>
+  <div class="headertitle"><div class="title">lumex::xml::writer::XmlBufferedWriter Member List</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Manages the memory for XPath evaluation, providing dedicated allocators.  
- <a href="#details">More...</a></p>
-
-<p><code>#include &lt;<a class="el" href="a00758_source.html">XPathStack.hpp</a>&gt;</code></p>
-<div class="dynheader">
-Collaboration diagram for lumex::xml::xpath::memory::XPathStackData:</div>
-<div class="dyncontent">
-<div class="center"><img src="a03056.png" border="0" usemap="#alumex_1_1xml_1_1xpath_1_1memory_1_1_x_path_stack_data_coll__map" alt="Collaboration graph"/></div>
-<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
-Public Member Functions</h2></td></tr>
-<tr class="memitem:a7bcc4a61bbb75ea07259aa17e07a3ebc" id="r_a7bcc4a61bbb75ea07259aa17e07a3ebc"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7bcc4a61bbb75ea07259aa17e07a3ebc">XPathStackData</a> ()</td></tr>
-<tr class="memdesc:a7bcc4a61bbb75ea07259aa17e07a3ebc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs an <a class="el" href="a03058.html" title="Manages the memory for XPath evaluation, providing dedicated allocators.">XPathStackData</a> object.  <br /></td></tr>
-<tr class="separator:a7bcc4a61bbb75ea07259aa17e07a3ebc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a866096ee98920943acf298664cc71818" id="r_a866096ee98920943acf298664cc71818"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a866096ee98920943acf298664cc71818">~XPathStackData</a> ()</td></tr>
-<tr class="memdesc:a866096ee98920943acf298664cc71818"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroys the <a class="el" href="a03058.html" title="Manages the memory for XPath evaluation, providing dedicated allocators.">XPathStackData</a> object.  <br /></td></tr>
-<tr class="separator:a866096ee98920943acf298664cc71818"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
-Public Attributes</h2></td></tr>
-<tr class="memitem:aa79680e21e84a51064a33d8eeea8ca2d" id="r_aa79680e21e84a51064a33d8eeea8ca2d"><td class="memItemLeft" align="right" valign="top">std::array&lt; <a class="el" href="a03046.html">XPathMemoryBlock</a>, 2 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa79680e21e84a51064a33d8eeea8ca2d">blocks</a> {}</td></tr>
-<tr class="memdesc:aa79680e21e84a51064a33d8eeea8ca2d"><td class="mdescLeft">&#160;</td><td class="mdescRight">An array containing two <code><a class="el" href="a03046.html" title="Represents a block of memory used by XPathAllocator.">XPathMemoryBlock</a></code>s used by the <code>result</code> and <code>temp</code> allocators.  <br /></td></tr>
-<tr class="separator:aa79680e21e84a51064a33d8eeea8ca2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a32d3926e9e3e45966c8c51a1933e899e" id="r_a32d3926e9e3e45966c8c51a1933e899e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a03038.html">XPathAllocator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a32d3926e9e3e45966c8c51a1933e899e">result</a></td></tr>
-<tr class="memdesc:a32d3926e9e3e45966c8c51a1933e899e"><td class="mdescLeft">&#160;</td><td class="mdescRight">The allocator for persistent XPath evaluation results.  <br /></td></tr>
-<tr class="separator:a32d3926e9e3e45966c8c51a1933e899e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6febd11354132752867f16ebf814e3ea" id="r_a6febd11354132752867f16ebf814e3ea"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a03038.html">XPathAllocator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6febd11354132752867f16ebf814e3ea">temp</a></td></tr>
-<tr class="memdesc:a6febd11354132752867f16ebf814e3ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">The allocator for temporary XPath evaluation data.  <br /></td></tr>
-<tr class="separator:a6febd11354132752867f16ebf814e3ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a02e48f909ac2e253d24f730cdee1c104" id="r_a02e48f909ac2e253d24f730cdee1c104"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a03054.html">XPathStack</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a02e48f909ac2e253d24f730cdee1c104">stack</a> {}</td></tr>
-<tr class="memdesc:a02e48f909ac2e253d24f730cdee1c104"><td class="mdescLeft">&#160;</td><td class="mdescRight">A nested <code><a class="el" href="a03054.html" title="Represents a pair of XPath allocators for managing expression evaluation memory.">XPathStack</a></code> structure holding pointers to <code>result</code> and <code>temp</code> allocators.  <br /></td></tr>
-<tr class="separator:a02e48f909ac2e253d24f730cdee1c104"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4c0a787a0450b3149d1315f2e589b673" id="r_a4c0a787a0450b3149d1315f2e589b673"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4c0a787a0450b3149d1315f2e589b673">oom</a> {}</td></tr>
-<tr class="memdesc:a4c0a787a0450b3149d1315f2e589b673"><td class="mdescLeft">&#160;</td><td class="mdescRight">A boolean flag indicating if an out-of-memory condition occurred during allocation.  <br /></td></tr>
-<tr class="separator:a4c0a787a0450b3149d1315f2e589b673"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Manages the memory for XPath evaluation, providing dedicated allocators. </p>
-<p>This class is responsible for setting up and managing the lifetime of two <code><a class="el" href="a03038.html" title="Allocator for XPath-related data structures.">XPathAllocator</a></code> instances: one for persistent results (<code>result</code>) and one for temporary scratch space (<code>temp</code>). It pre-allocates two <code><a class="el" href="a03046.html" title="Represents a block of memory used by XPathAllocator.">XPathMemoryBlock</a></code>s for these allocators and initializes their states. The <code>oom</code> flag indicates if an out-of-memory condition occurred during allocations.</p>
-<dl class="section note"><dt>Note</dt><dd>This class utilizes RAII for managing its internal <code><a class="el" href="a03038.html" title="Allocator for XPath-related data structures.">XPathAllocator</a></code>s. </dd></dl>
-<dl class="section warning"><dt>Warning</dt><dd>The <code>blocks</code> array, <code>result</code>, and <code>temp</code> allocators, <code>stack</code> member, and <code>oom</code> flag are public for direct access, which deviates from strict encapsulation but is typical in high-performance memory management components where direct access is needed for efficiency. </dd></dl>
-</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a7bcc4a61bbb75ea07259aa17e07a3ebc" name="a7bcc4a61bbb75ea07259aa17e07a3ebc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7bcc4a61bbb75ea07259aa17e07a3ebc">&#9670;&#160;</a></span>XPathStackData()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">XPathStackData::XPathStackData </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Constructs an <a class="el" href="a03058.html" title="Manages the memory for XPath evaluation, providing dedicated allocators.">XPathStackData</a> object. </p>
-<p>Initializes the two internal <code><a class="el" href="a03046.html" title="Represents a block of memory used by XPathAllocator.">XPathMemoryBlock</a></code>s, sets up the <code>result</code> and <code>temp</code> <code><a class="el" href="a03038.html" title="Allocator for XPath-related data structures.">XPathAllocator</a></code>s to use these blocks, and links the allocators to the <code>oom</code> flag for error reporting. </p>
-
-</div>
-</div>
-<a id="a866096ee98920943acf298664cc71818" name="a866096ee98920943acf298664cc71818"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a866096ee98920943acf298664cc71818">&#9670;&#160;</a></span>~XPathStackData()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">XPathStackData::~XPathStackData </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Destroys the <a class="el" href="a03058.html" title="Manages the memory for XPath evaluation, providing dedicated allocators.">XPathStackData</a> object. </p>
-<p>Releases all memory managed by the <code>result</code> and <code>temp</code> allocators, ensuring proper cleanup of all allocated XPath data. </p>
-
-</div>
-</div>
-<h2 class="groupheader">Member Data Documentation</h2>
-<a id="aa79680e21e84a51064a33d8eeea8ca2d" name="aa79680e21e84a51064a33d8eeea8ca2d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa79680e21e84a51064a33d8eeea8ca2d">&#9670;&#160;</a></span>blocks</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::array&lt;<a class="el" href="a03046.html">XPathMemoryBlock</a>, 2&gt; lumex::xml::xpath::memory::XPathStackData::blocks {}</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>An array containing two <code><a class="el" href="a03046.html" title="Represents a block of memory used by XPathAllocator.">XPathMemoryBlock</a></code>s used by the <code>result</code> and <code>temp</code> allocators. </p>
-
-</div>
-</div>
-<a id="a4c0a787a0450b3149d1315f2e589b673" name="a4c0a787a0450b3149d1315f2e589b673"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4c0a787a0450b3149d1315f2e589b673">&#9670;&#160;</a></span>oom</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool lumex::xml::xpath::memory::XPathStackData::oom {}</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>A boolean flag indicating if an out-of-memory condition occurred during allocation. </p>
-
-</div>
-</div>
-<a id="a32d3926e9e3e45966c8c51a1933e899e" name="a32d3926e9e3e45966c8c51a1933e899e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a32d3926e9e3e45966c8c51a1933e899e">&#9670;&#160;</a></span>result</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="a03038.html">XPathAllocator</a> lumex::xml::xpath::memory::XPathStackData::result</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>The allocator for persistent XPath evaluation results. </p>
-
-</div>
-</div>
-<a id="a02e48f909ac2e253d24f730cdee1c104" name="a02e48f909ac2e253d24f730cdee1c104"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a02e48f909ac2e253d24f730cdee1c104">&#9670;&#160;</a></span>stack</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="a03054.html">XPathStack</a> lumex::xml::xpath::memory::XPathStackData::stack {}</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>A nested <code><a class="el" href="a03054.html" title="Represents a pair of XPath allocators for managing expression evaluation memory.">XPathStack</a></code> structure holding pointers to <code>result</code> and <code>temp</code> allocators. </p>
-
-</div>
-</div>
-<a id="a6febd11354132752867f16ebf814e3ea" name="a6febd11354132752867f16ebf814e3ea"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6febd11354132752867f16ebf814e3ea">&#9670;&#160;</a></span>temp</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="a03038.html">XPathAllocator</a> lumex::xml::xpath::memory::XPathStackData::temp</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>The allocator for temporary XPath evaluation data. </p>
-
-</div>
-</div>
-<hr/>The documentation for this struct was generated from the following files:<ul>
-<li><a class="el" href="a00758_source.html">XPathStack.hpp</a></li>
-<li><a class="el" href="a00755.html">XPathStack.cpp</a></li>
-</ul>
-</div><!-- contents -->
+<p>This is the complete list of members for <a class="el" href="a03061.html">lumex::xml::writer::XmlBufferedWriter</a>, including all inherited members.</p>
+<table class="directory">
+  <tr class="even"><td class="entry"><a class="el" href="a03061.html#ade9f578500894990bff9f07cd5b40d09a093591aad0883164dd82a364ca46d31c">bufcapacity</a> enum value</td><td class="entry"><a class="el" href="a03061.html">lumex::xml::writer::XmlBufferedWriter</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a03061.html#ade9f578500894990bff9f07cd5b40d09a6507ee8e33faac0721c4f4c57d7cc5f2">bufcapacitybytes</a> enum value</td><td class="entry"><a class="el" href="a03061.html">lumex::xml::writer::XmlBufferedWriter</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a03061.html#a82a5b4f831a6438a20d0fff91efdb222">buffer</a></td><td class="entry"><a class="el" href="a03061.html">lumex::xml::writer::XmlBufferedWriter</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a03061.html#a3815211ef2f09f7a29ed791a56181c89">bufsize</a></td><td class="entry"><a class="el" href="a03061.html">lumex::xml::writer::XmlBufferedWriter</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a03061.html#a2f523b6487d296b15dd459940b672ac5">data_char</a></td><td class="entry"><a class="el" href="a03061.html">lumex::xml::writer::XmlBufferedWriter</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a03061.html#a09387c5c81b53196286647fcb6337a39">data_u16</a></td><td class="entry"><a class="el" href="a03061.html">lumex::xml::writer::XmlBufferedWriter</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a03061.html#af361ef6b60883c83899f5109beae27f4">data_u32</a></td><td class="entry"><a class="el" href="a03061.html">lumex::xml::writer::XmlBufferedWriter</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a03061.html#a2a98dd3ca2690bb1701f5b69eb835621">data_u8</a></td><td class="entry"><a class="el" href="a03061.html">lumex::xml::writer::XmlBufferedWriter</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a03061.html#aa16a666d619c2dfd5e6cfe5f98abf62b">encoding</a></td><td class="entry"><a class="el" href="a03061.html">lumex::xml::writer::XmlBufferedWriter</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a03061.html#aaf749c81251686e50d95927e92da078f">flush</a>()</td><td class="entry"><a class="el" href="a03061.html">lumex::xml::writer::XmlBufferedWriter</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a03061.html#a203c4b9218cb825120e9320210179523">flush</a>(char_t const *data, std::size_t size)</td><td class="entry"><a class="el" href="a03061.html">lumex::xml::writer::XmlBufferedWriter</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a03061.html#ac4956cbd36b006a6334a2b78f82891a2">kBufCapacity8</a></td><td class="entry"><a class="el" href="a03061.html">lumex::xml::writer::XmlBufferedWriter</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a03061.html#ae454dc6306a6bdb242670614635694ee">kShift5</a></td><td class="entry"><a class="el" href="a03061.html">lumex::xml::writer::XmlBufferedWriter</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a03061.html#aa5380b0f89c8dd5218b8f00bfc8d57a5">kShift6</a></td><td class="entry"><a class="el" href="a03061.html">lumex::xml::writer::XmlBufferedWriter</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a03061.html#a0344d1878971800f0d9a384eace1bfc7">operator=</a>(XmlBufferedWriter const &amp;)=delete</td><td class="entry"><a class="el" href="a03061.html">lumex::xml::writer::XmlBufferedWriter</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a03061.html#ae8d9ed02491af55337e25cfcccbe3cd2">scratch</a></td><td class="entry"><a class="el" href="a03061.html">lumex::xml::writer::XmlBufferedWriter</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a03061.html#aa79250cd92bec4267da08bb86ebe6216">write</a>(char_t d0_)</td><td class="entry"><a class="el" href="a03061.html">lumex::xml::writer::XmlBufferedWriter</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a03061.html#ad18e04ea6a10aee2c45f3278f5923f9d">write</a>(char_t d0_, char_t d1_)</td><td class="entry"><a class="el" href="a03061.html">lumex::xml::writer::XmlBufferedWriter</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a03061.html#a77426c01d2169855c2aefe2491504e58">write</a>(char_t d0_, char_t d1_, char_t d2_)</td><td class="entry"><a class="el" href="a03061.html">lumex::xml::writer::XmlBufferedWriter</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a03061.html#ad04cc078942151d127f80ccc0bddbebe">write</a>(char_t d0_, char_t d1_, char_t d2_, char_t d3_)</td><td class="entry"><a class="el" href="a03061.html">lumex::xml::writer::XmlBufferedWriter</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a03061.html#abf2ef33802de81d092017a76c5069360">write</a>(char_t d0_, char_t d1_, char_t d2_, char_t d3_, char_t d4_)</td><td class="entry"><a class="el" href="a03061.html">lumex::xml::writer::XmlBufferedWriter</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a03061.html#a329469e183cbd53fdd2418d89ea8b5f4">write</a>(char_t d0_, char_t d1_, char_t d2_, char_t d3_, char_t d4_, char_t d5_)</td><td class="entry"><a class="el" href="a03061.html">lumex::xml::writer::XmlBufferedWriter</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a03061.html#a8cd530939b0654164d288f7c4b579e51">write_buffer</a>(char_t const *data, std::size_t length)</td><td class="entry"><a class="el" href="a03061.html">lumex::xml::writer::XmlBufferedWriter</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a03061.html#a917aa0b956f485f4b87c0e77f5bc8563">write_direct</a>(char_t const *data, std::size_t length)</td><td class="entry"><a class="el" href="a03061.html">lumex::xml::writer::XmlBufferedWriter</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a03061.html#a7a6efd2746de7d9a7c614a8f8725e9e1">write_string</a>(char_t const *data)</td><td class="entry"><a class="el" href="a03061.html">lumex::xml::writer::XmlBufferedWriter</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a03061.html#a9724d7eb1949795d20c12033c346f1fc">writer</a></td><td class="entry"><a class="el" href="a03061.html">lumex::xml::writer::XmlBufferedWriter</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a03061.html#a35090221aa77b729902964f4f0327bdd">XmlBufferedWriter</a>(XmlBufferedWriter const &amp;)=delete</td><td class="entry"><a class="el" href="a03061.html">lumex::xml::writer::XmlBufferedWriter</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a03061.html#ab62fd55ad29ee83e4209f68283dd69bf">XmlBufferedWriter</a>(IXmlWriter &amp;writer_, xml_encoding user_encoding)</td><td class="entry"><a class="el" href="a03061.html">lumex::xml::writer::XmlBufferedWriter</a></td><td class="entry"></td></tr>
+</table></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00912.html">lumex</a></li><li class="navelem"><a class="el" href="a01083.html">xml</a></li><li class="navelem"><a class="el" href="a01092.html">xpath</a></li><li class="navelem"><a class="el" href="a01109.html">memory</a></li><li class="navelem"><a class="el" href="a03058.html">XPathStackData</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

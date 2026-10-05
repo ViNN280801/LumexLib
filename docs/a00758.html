@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: XPathStack.hpp File Reference</title>
+<title>LumexLib: XmlWriterStream.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -106,56 +106,81 @@ $(function(){initNavTree('a00758.html',''); initResizable(true); });
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#namespaces">Namespaces</a>  </div>
-  <div class="headertitle"><div class="title">XPathStack.hpp File Reference</div></div>
+  <div class="headertitle"><div class="title">XmlWriterStream.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>The memory an XPath evaluation runs on: <code>XPathStack</code>, a pair of allocators, and <code>XPathStackData</code>, which owns them.  
+<p><code>XmlWriterStream</code>, an <code>IXmlWriter</code> that writes to a narrow or a wide standard output stream.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="a00605_source.html">lumex/LumexExport.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00749_source.html">XPathAllocator.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="a00641_source.html">lumex/LumexExport.hpp</a>&quot;</code><br />
+<code>#include &lt;iostream&gt;</code><br />
+<code>#include &quot;<a class="el" href="a00740_source.html">IXmlWriter.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for XPathStack.hpp:</div>
+Include dependency graph for XmlWriterStream.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00759.png" border="0" usemap="#a_x_path_stack_8hpp" alt=""/></div>
+<div class="center"><img src="a00759.png" border="0" usemap="#a_xml_writer_stream_8hpp" alt=""/></div>
+<map name="a_xml_writer_stream_8hpp" id="a_xml_writer_stream_8hpp">
+<area shape="rect" title="XmlWriterStream, an IXmlWriter that writes to a narrow or a wide standard output stream." alt="" coords="5,5,151,32"/>
+<area shape="rect" href="a00641.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="17,155,179,181"/>
+<area shape="poly" title=" " alt="" coords="64,34,50,49,37,67,30,86,32,106,47,126,65,144,62,148,42,130,28,108,25,86,32,64,46,46,61,31"/>
+<area shape="rect" title=" " alt="" coords="42,80,114,107"/>
+<area shape="poly" title=" " alt="" coords="81,33,81,64,75,64,75,33"/>
+<area shape="rect" href="a00740.html" title="IXmlWriter, the output interface that XML serialization writes bytes to." alt="" coords="138,80,245,107"/>
+<area shape="poly" title=" " alt="" coords="99,30,160,69,157,74,96,35"/>
+<area shape="poly" title=" " alt="" coords="177,109,128,147,124,143,173,105"/>
+</map>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00760.png" border="0" usemap="#a_x_path_stack_8hppdep" alt=""/></div>
+<div class="center"><img src="a00760.png" border="0" usemap="#a_xml_writer_stream_8hppdep" alt=""/></div>
+<map name="a_xml_writer_stream_8hppdep" id="a_xml_writer_stream_8hppdep">
+<area shape="rect" title="XmlWriterStream, an IXmlWriter that writes to a narrow or a wide standard output stream." alt="" coords="387,5,533,32"/>
+<area shape="rect" href="a00944.html" title="XML module: a DOM tree of nodes, attributes and text, loading and saving with writers for files and s..." alt="" coords="218,80,302,107"/>
+<area shape="poly" title=" " alt="" coords="412,40,296,82,294,77,410,35"/>
+<area shape="rect" href="a00662.html" title=" " alt="" coords="326,80,455,107"/>
+<area shape="poly" title=" " alt="" coords="440,45,405,81,401,78,436,41"/>
+<area shape="rect" href="a00689.html" title=" " alt="" coords="479,80,580,107"/>
+<area shape="poly" title=" " alt="" coords="484,41,519,78,515,81,480,45"/>
+<area shape="rect" href="a00755.html" title=" " alt="" coords="603,80,749,107"/>
+<area shape="poly" title=" " alt="" coords="513,35,639,77,637,82,511,40"/>
+<area shape="rect" href="a00629.html" title=" " alt="" coords="5,155,115,181"/>
+<area shape="poly" title=" " alt="" coords="212,115,96,157,94,152,210,110"/>
+<area shape="rect" href="a00632.html" title=" " alt="" coords="139,155,248,181"/>
+<area shape="poly" title=" " alt="" coords="240,120,207,156,203,152,236,116"/>
+<area shape="rect" href="a00635.html" title=" " alt="" coords="272,155,381,181"/>
+<area shape="poly" title=" " alt="" coords="284,116,317,152,313,156,280,120"/>
+<area shape="rect" href="a00638.html" title=" " alt="" coords="405,155,515,181"/>
+<area shape="poly" title=" " alt="" coords="310,110,426,152,424,157,308,115"/>
+</map>
 </div>
 </div>
 <p><a href="a00758_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03054.html">lumex::xml::xpath::memory::XPathStack</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents a pair of XPath allocators for managing expression evaluation memory.  <a href="a03054.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03058.html">lumex::xml::xpath::memory::XPathStackData</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Manages the memory for XPath evaluation, providing dedicated allocators.  <a href="a03058.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03073.html">lumex::xml::writer::XmlWriterStream</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">An <code><a class="el" href="a03057.html" title="Abstract base interface for writing XML data to various destinations.">IXmlWriter</a></code> implementation that writes XML data to a C++ standard output stream.  <a href="a03073.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00912.html">lumex</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00948.html">lumex</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01083.html">lumex::xml</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01126.html">lumex::xml</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01092.html">lumex::xml::xpath</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01109.html">lumex::xml::xpath::memory</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01144.html">lumex::xml::writer</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>The memory an XPath evaluation runs on: <code>XPathStack</code>, a pair of allocators, and <code>XPathStackData</code>, which owns them. </p>
-<p>The <code>result</code> allocator holds the values a subexpression returns to its caller, and the <code>temp</code> allocator holds intermediate data that is dropped when the subexpression finishes. <code>XPathStackData</code> embeds the first block of each, frees the others on destruction and records an allocation failure in <code>oom</code>. Each <code>XPathQuery</code> evaluation creates its own <code>XPathStackData</code> on the stack. The file is internal to the XPath engine. </p>
+<div class="textblock"><p><code>XmlWriterStream</code>, an <code>IXmlWriter</code> that writes to a narrow or a wide standard output stream. </p>
+<p>A narrow stream receives the bytes as they are. A wide stream receives them as <code>wchar_t</code> units, so the output must be in the <code>wchar_t</code> encoding; <code>XmlDocument::save</code> and <code>XmlNode::print</code> use <code>encoding_wchar</code> for wide streams. The writer does not own the stream. Consumers include the file through <code>lumex/xml/LumexXml</code>. </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_d38a0fae6a8e48d91b3b62673cf0c708.html">xpath</a></li><li class="navelem"><a class="el" href="dir_19857d72d820dc03d02d27eca0dc23fe.html">memory</a></li><li class="navelem"><a class="el" href="a00758.html">XPathStack.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_7b089e18b7c2a92c23a9cf3b22a6463e.html">writer</a></li><li class="navelem"><a class="el" href="a00758.html">XmlWriterStream.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

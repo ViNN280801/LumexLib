@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::core::atomic::smart_ptr::lock_based_table_wait Namespace Reference</title>
+<title>LumexLib: lumex::applied::json::helper::Detail Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,32 +104,176 @@ $(function(){initNavTree('a00967.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#namespaces">Namespaces</a> &#124;
-<a href="#nested-classes">Classes</a>  </div>
-  <div class="headertitle"><div class="title">lumex::core::atomic::smart_ptr::lock_based_table_wait Namespace Reference</div></div>
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle"><div class="title">lumex::applied::json::helper::Detail Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
-Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00968.html">Detail</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01242.html">atomic_shared_ptr</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Atomic <code>std::shared_ptr&lt;T&gt;</code>, as <code>std::atomic&lt;std::shared_ptr&lt;T&gt;&gt;</code>.  <a href="a01242.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01266.html">atomic_weak_ptr</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Atomic <code>std::weak_ptr&lt;T&gt;</code>, as <code>std::atomic&lt;std::weak_ptr&lt;T&gt;&gt;</code>.  <a href="a01266.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a93440710aefc3cd89d32f3916f915f66" id="r_a93440710aefc3cd89d32f3916f915f66"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a93440710aefc3cd89d32f3916f915f66">is_empty_value</a> (std::string const &amp;value) noexcept</td></tr>
+<tr class="memdesc:a93440710aefc3cd89d32f3916f915f66"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether a value is an empty string. <code>set_value</code> refuses to store one. Non-string types are never empty.  <br /></td></tr>
+<tr class="separator:a93440710aefc3cd89d32f3916f915f66"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3ab316248d96a20a7553e2816b5db5f4" id="r_a3ab316248d96a20a7553e2816b5db5f4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3ab316248d96a20a7553e2816b5db5f4">is_empty_value</a> (char const *value) noexcept</td></tr>
+<tr class="separator:a3ab316248d96a20a7553e2816b5db5f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac03ca3e92b76a2447489e71063e2d9f4" id="r_ac03ca3e92b76a2447489e71063e2d9f4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac03ca3e92b76a2447489e71063e2d9f4">is_empty_value</a> (char *value) noexcept</td></tr>
+<tr class="separator:ac03ca3e92b76a2447489e71063e2d9f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a381fe9ef168d3f139d22480b05e94b8f" id="r_a381fe9ef168d3f139d22480b05e94b8f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a381fe9ef168d3f139d22480b05e94b8f">is_empty_value</a> (std::string_view value) noexcept</td></tr>
+<tr class="separator:a381fe9ef168d3f139d22480b05e94b8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa80e7617c79019916105d35ada3be0dd" id="r_aa80e7617c79019916105d35ada3be0dd"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
+<tr class="memitem:aa80e7617c79019916105d35ada3be0dd"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#aa80e7617c79019916105d35ada3be0dd">is_empty_value</a> (T const &amp;) noexcept</td></tr>
+<tr class="separator:aa80e7617c79019916105d35ada3be0dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="ac03ca3e92b76a2447489e71063e2d9f4" name="ac03ca3e92b76a2447489e71063e2d9f4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac03ca3e92b76a2447489e71063e2d9f4">&#9670;&#160;</a></span>is_empty_value() <span class="overload">[1/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::applied::json::helper::Detail::is_empty_value </td>
+          <td>(</td>
+          <td class="paramtype">char *</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3ab316248d96a20a7553e2816b5db5f4" name="a3ab316248d96a20a7553e2816b5db5f4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3ab316248d96a20a7553e2816b5db5f4">&#9670;&#160;</a></span>is_empty_value() <span class="overload">[2/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::applied::json::helper::Detail::is_empty_value </td>
+          <td>(</td>
+          <td class="paramtype">char const *</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a93440710aefc3cd89d32f3916f915f66" name="a93440710aefc3cd89d32f3916f915f66"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a93440710aefc3cd89d32f3916f915f66">&#9670;&#160;</a></span>is_empty_value() <span class="overload">[3/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::applied::json::helper::Detail::is_empty_value </td>
+          <td>(</td>
+          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Whether a value is an empty string. <code>set_value</code> refuses to store one. Non-string types are never empty. </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00967_a93440710aefc3cd89d32f3916f915f66_icgraph.png" border="0" usemap="#aa00967_a93440710aefc3cd89d32f3916f915f66_icgraph" alt=""/></div>
+<map name="aa00967_a93440710aefc3cd89d32f3916f915f66_icgraph" id="aa00967_a93440710aefc3cd89d32f3916f915f66_icgraph">
+<area shape="rect" title="Whether a value is an empty string. set_value refuses to store one. Non&#45;string types are never empty." alt="" coords="456,47,593,105"/>
+<area shape="rect" href="a01177.html#a17a81c641ecb11ad8159e5af5287a13b" title="Stores value under key in section (or the root), creating the section path when needed." alt="" coords="231,47,408,105"/>
+<area shape="poly" title=" " alt="" coords="441,79,408,79,408,73,441,73"/>
+<area shape="rect" href="a01177.html#a3c294a75299ef8fd653d78a68d505e1a" title="Like write_value, but only replaces a key that already exists (not null) in a non&#45;empty file." alt="" coords="5,5,183,64"/>
+<area shape="poly" title=" " alt="" coords="215,60,183,54,184,48,216,54"/>
+<area shape="rect" href="a01177.html#a8591e536f16a57221a13814d3fdff1e7" title="Loads the file (an unreadable or missing file counts as an empty object), stores value and saves it b..." alt="" coords="5,88,183,147"/>
+<area shape="poly" title=" " alt="" coords="216,98,184,104,183,98,215,92"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a381fe9ef168d3f139d22480b05e94b8f" name="a381fe9ef168d3f139d22480b05e94b8f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a381fe9ef168d3f139d22480b05e94b8f">&#9670;&#160;</a></span>is_empty_value() <span class="overload">[4/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::applied::json::helper::Detail::is_empty_value </td>
+          <td>(</td>
+          <td class="paramtype">std::string_view</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa80e7617c79019916105d35ada3be0dd" name="aa80e7617c79019916105d35ada3be0dd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa80e7617c79019916105d35ada3be0dd">&#9670;&#160;</a></span>is_empty_value() <span class="overload">[5/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::applied::json::helper::Detail::is_empty_value </td>
+          <td>(</td>
+          <td class="paramtype">T const &amp;</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00912.html">lumex</a></li><li class="navelem"><a class="el" href="a00964.html">core</a></li><li class="navelem"><a class="el" href="a00965.html">atomic</a></li><li class="navelem"><a class="el" href="a00966.html">smart_ptr</a></li><li class="navelem"><a class="el" href="a00967.html">lock_based_table_wait</a></li>
+    <li class="navelem"><a class="el" href="a00948.html">lumex</a></li><li class="navelem"><a class="el" href="a00949.html">applied</a></li><li class="navelem"><a class="el" href="a00963.html">json</a></li><li class="navelem"><a class="el" href="a00966.html">helper</a></li><li class="navelem"><a class="el" href="a00967.html">Detail</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

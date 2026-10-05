@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::core::crc::parametric::Detail Namespace Reference</title>
+<title>LumexLib: lumex::applied::serial::probe::detail Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -105,199 +105,304 @@ $(function(){initNavTree('a00988.html',''); initResizable(true); });
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
+<a href="#enum-members">Enumerations</a> &#124;
 <a href="#func-members">Functions</a> &#124;
 <a href="#var-members">Variables</a>  </div>
-  <div class="headertitle"><div class="title">lumex::core::crc::parametric::Detail Namespace Reference</div></div>
+  <div class="headertitle"><div class="title">lumex::applied::serial::probe::detail Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
-
-<p>Parametric CRC engines following the CRC RevEng catalogue (Greg Cook).  
-<a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01334.html">crc_dispatch_t</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01233.html">open_result_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Result of one bounded open.  <a href="a01233.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01326.html">mask_impl_t</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01241.html">serial_transport_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Operations the probe engine needs from one port.  <a href="a01241.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01330.html">mask_impl_t&lt; Width, typename std::enable_if&lt; Width==std::numeric_limits&lt; std::uint64_t &gt;::digits, void &gt;::type &gt;</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01237.html">transport_result_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Result of one transport operation.  <a href="a01237.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:a3ac21019735948552e6d1ef799f957e7" id="r_a3ac21019735948552e6d1ef799f957e7"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3ac21019735948552e6d1ef799f957e7">native_serial_handle_t</a> = int</td></tr>
+<tr class="memdesc:a3ac21019735948552e6d1ef799f957e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Native handle type: a file descriptor.  <br /></td></tr>
+<tr class="separator:a3ac21019735948552e6d1ef799f957e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:a92f95b0efd4f15ba8182341d9e440978" id="r_a92f95b0efd4f15ba8182341d9e440978"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a92f95b0efd4f15ba8182341d9e440978">open_outcome</a> { <a class="el" href="#a92f95b0efd4f15ba8182341d9e440978a3a50c5e41a1c3eee6dcddca9e04992e0">opened</a>
+, <a class="el" href="#a92f95b0efd4f15ba8182341d9e440978a56c27b1ab1a5a5a0eae853cabb4dc0c1">timed_out</a>
+, <a class="el" href="#a92f95b0efd4f15ba8182341d9e440978a26934eb377001f66e37289a5c93fe284">failed</a>
+ }</td></tr>
+<tr class="memdesc:a92f95b0efd4f15ba8182341d9e440978"><td class="mdescLeft">&#160;</td><td class="mdescRight">How <code>bounded_open_serial_port</code> ended.  <a href="#a92f95b0efd4f15ba8182341d9e440978">More...</a><br /></td></tr>
+<tr class="separator:a92f95b0efd4f15ba8182341d9e440978"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a55026740a9b543238617bc39b4d797e6" id="r_a55026740a9b543238617bc39b4d797e6"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a55026740a9b543238617bc39b4d797e6">transport_status</a> { <a class="el" href="#a55026740a9b543238617bc39b4d797e6a444bcb3a3fcf8389296c49467f27e1d6">ok</a>
+, <a class="el" href="#a55026740a9b543238617bc39b4d797e6a3cef844c7982c2acb28d67b35e5bacc7">deadline_exceeded</a>
+, <a class="el" href="#a55026740a9b543238617bc39b4d797e6a26934eb377001f66e37289a5c93fe284">failed</a>
+ }</td></tr>
+<tr class="memdesc:a55026740a9b543238617bc39b4d797e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Outcome of one transport operation.  <a href="#a55026740a9b543238617bc39b4d797e6">More...</a><br /></td></tr>
+<tr class="separator:a55026740a9b543238617bc39b4d797e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a5445ab3c4194b3d1a1066003047f83d5" id="r_a5445ab3c4194b3d1a1066003047f83d5"><td class="memTemplParams" colspan="2">template&lt;typename Spec&gt; </td></tr>
-<tr class="memitem:a5445ab3c4194b3d1a1066003047f83d5"><td class="memTemplItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a5445ab3c4194b3d1a1066003047f83d5">ValidateSpec</a> () noexcept</td></tr>
-<tr class="separator:a5445ab3c4194b3d1a1066003047f83d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab7ba64f9e1598aaa8eed4575b3460b0e" id="r_ab7ba64f9e1598aaa8eed4575b3460b0e"><td class="memTemplParams" colspan="2">template&lt;int Width&gt; </td></tr>
-<tr class="memitem:ab7ba64f9e1598aaa8eed4575b3460b0e"><td class="memTemplItemLeft" align="right" valign="top">constexpr std::uint64_t&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#ab7ba64f9e1598aaa8eed4575b3460b0e">Mask</a> () noexcept</td></tr>
-<tr class="separator:ab7ba64f9e1598aaa8eed4575b3460b0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaba99f39d4a7667b3a2ce6dd58f6f791" id="r_aaba99f39d4a7667b3a2ce6dd58f6f791"><td class="memItemLeft" align="right" valign="top">constexpr std::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aaba99f39d4a7667b3a2ce6dd58f6f791">Reflect</a> (std::uint64_t data, int width) noexcept</td></tr>
-<tr class="separator:aaba99f39d4a7667b3a2ce6dd58f6f791"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaf727c35c106263a18dc948017f2031a" id="r_aaf727c35c106263a18dc948017f2031a"><td class="memTemplParams" colspan="2">template&lt;int Width&gt; </td></tr>
-<tr class="memitem:aaf727c35c106263a18dc948017f2031a"><td class="memTemplItemLeft" align="right" valign="top">constexpr std::uint64_t&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#aaf727c35c106263a18dc948017f2031a">MsbTableByte</a> (std::uint64_t tableIndex, std::uint64_t poly) noexcept</td></tr>
-<tr class="separator:aaf727c35c106263a18dc948017f2031a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8058b103bca91864f8802662480d430f" id="r_a8058b103bca91864f8802662480d430f"><td class="memTemplParams" colspan="2">template&lt;int Width&gt; </td></tr>
-<tr class="memitem:a8058b103bca91864f8802662480d430f"><td class="memTemplItemLeft" align="right" valign="top">constexpr std::uint64_t&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a8058b103bca91864f8802662480d430f">LsbTableByte</a> (std::uint64_t tableIndex, std::uint64_t poly) noexcept</td></tr>
-<tr class="separator:a8058b103bca91864f8802662480d430f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a69a5738b0f4f83a2a79c86c390c53db9" id="r_a69a5738b0f4f83a2a79c86c390c53db9"><td class="memTemplParams" colspan="2">template&lt;typename Spec, std::size_t Index&gt; </td></tr>
-<tr class="memitem:a69a5738b0f4f83a2a79c86c390c53db9"><td class="memTemplItemLeft" align="right" valign="top">constexpr std::uint64_t&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a69a5738b0f4f83a2a79c86c390c53db9">LookupTableEntry</a> () noexcept</td></tr>
-<tr class="separator:a69a5738b0f4f83a2a79c86c390c53db9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a513f72c6f32beb6e9c2377d153ddb32a" id="r_a513f72c6f32beb6e9c2377d153ddb32a"><td class="memTemplParams" colspan="2">template&lt;typename Spec, std::size_t... I&gt; </td></tr>
-<tr class="memitem:a513f72c6f32beb6e9c2377d153ddb32a"><td class="memTemplItemLeft" align="right" valign="top">constexpr std::array&lt; std::uint64_t, <a class="el" href="#abd1212fc7c4da020b4206eabdab44540">kTableByteCount</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a513f72c6f32beb6e9c2377d153ddb32a">MakeLookupTableImpl</a> (std::index_sequence&lt; I... &gt;) noexcept</td></tr>
-<tr class="separator:a513f72c6f32beb6e9c2377d153ddb32a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab4a7ed5b0691c9452c4c832575c5b45b" id="r_ab4a7ed5b0691c9452c4c832575c5b45b"><td class="memTemplParams" colspan="2">template&lt;typename Spec&gt; </td></tr>
-<tr class="memitem:ab4a7ed5b0691c9452c4c832575c5b45b"><td class="memTemplItemLeft" align="right" valign="top">constexpr std::array&lt; std::uint64_t, <a class="el" href="#abd1212fc7c4da020b4206eabdab44540">kTableByteCount</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#ab4a7ed5b0691c9452c4c832575c5b45b">MakeLookupTable</a> () noexcept</td></tr>
-<tr class="separator:ab4a7ed5b0691c9452c4c832575c5b45b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae63403d09d2dba08441952871fa3610b" id="r_ae63403d09d2dba08441952871fa3610b"><td class="memTemplParams" colspan="2">template&lt;typename Spec&gt; </td></tr>
-<tr class="memitem:ae63403d09d2dba08441952871fa3610b"><td class="memTemplItemLeft" align="right" valign="top">constexpr Spec::ValueType&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#ae63403d09d2dba08441952871fa3610b">ComputeBitwise</a> (std::uint8_t const *data, std::size_t size) noexcept</td></tr>
-<tr class="separator:ae63403d09d2dba08441952871fa3610b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9785f60c39ae30e760943199d3b8f306" id="r_a9785f60c39ae30e760943199d3b8f306"><td class="memTemplParams" colspan="2">template&lt;typename Spec&gt; </td></tr>
-<tr class="memitem:a9785f60c39ae30e760943199d3b8f306"><td class="memTemplItemLeft" align="right" valign="top">constexpr Spec::ValueType&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a9785f60c39ae30e760943199d3b8f306">ComputeTableDriven</a> (std::uint8_t const *data, std::size_t size) noexcept</td></tr>
-<tr class="separator:a9785f60c39ae30e760943199d3b8f306"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a19a8c53c3b4a3f6996a6baa029afe767" id="r_a19a8c53c3b4a3f6996a6baa029afe767"><td class="memTemplParams" colspan="2">template&lt;typename Spec&gt; </td></tr>
-<tr class="memitem:a19a8c53c3b4a3f6996a6baa029afe767"><td class="memTemplItemLeft" align="right" valign="top">constexpr Spec::ValueType&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a19a8c53c3b4a3f6996a6baa029afe767">Compute</a> (std::uint8_t const *data, std::size_t size) noexcept</td></tr>
-<tr class="separator:a19a8c53c3b4a3f6996a6baa029afe767"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0a518e9f25f40fbb213907e34b881f81" id="r_a0a518e9f25f40fbb213907e34b881f81"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01233.html">open_result_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0a518e9f25f40fbb213907e34b881f81">bounded_open_serial_port</a> (std::string const &amp;open_path, std::uint32_t platform_open_flags, std::chrono::milliseconds deadline)</td></tr>
+<tr class="memdesc:a0a518e9f25f40fbb213907e34b881f81"><td class="mdescLeft">&#160;</td><td class="mdescRight">Opens <code>open_path</code> so the caller never waits past <code>deadline</code>.  <br /></td></tr>
+<tr class="separator:a0a518e9f25f40fbb213907e34b881f81"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeda0fc72f871cf1ddc177f5c172131ea" id="r_aeda0fc72f871cf1ddc177f5c172131ea"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aeda0fc72f871cf1ddc177f5c172131ea">close_serial_handle</a> (<a class="el" href="#a3ac21019735948552e6d1ef799f957e7">native_serial_handle_t</a> handle) noexcept</td></tr>
+<tr class="memdesc:aeda0fc72f871cf1ddc177f5c172131ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Closes <code>handle</code>; a no-op for the invalid value.  <br /></td></tr>
+<tr class="separator:aeda0fc72f871cf1ddc177f5c172131ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2baec958c3eebd588ab9cbc9bccd7e5f" id="r_a2baec958c3eebd588ab9cbc9bccd7e5f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a00982.html#a2833c2a4c2aca860a7fe8ecce5e59400">enumeration::serial_port_state</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2baec958c3eebd588ab9cbc9bccd7e5f">state_from_open_result</a> (<a class="el" href="a01233.html">open_result_t</a> const &amp;result) noexcept</td></tr>
+<tr class="memdesc:a2baec958c3eebd588ab9cbc9bccd7e5f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Maps an open outcome to the enumeration state.  <br /></td></tr>
+<tr class="separator:a2baec958c3eebd588ab9cbc9bccd7e5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2cf67f171039ab45a5ec960d36c054c6" id="r_a2cf67f171039ab45a5ec960d36c054c6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a3ac21019735948552e6d1ef799f957e7">native_serial_handle_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2cf67f171039ab45a5ec960d36c054c6">invalid_native_serial_handle</a> () noexcept</td></tr>
+<tr class="memdesc:a2cf67f171039ab45a5ec960d36c054c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">The platform value that means "no handle".  <br /></td></tr>
+<tr class="separator:a2cf67f171039ab45a5ec960d36c054c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abfe791d5b660fa24d46ceb665e918f12" id="r_abfe791d5b660fa24d46ceb665e918f12"><td class="memItemLeft" align="right" valign="top">std::chrono::milliseconds&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abfe791d5b660fa24d46ceb665e918f12">elapsed_since</a> (std::chrono::steady_clock::time_point start) noexcept</td></tr>
+<tr class="memdesc:abfe791d5b660fa24d46ceb665e918f12"><td class="mdescLeft">&#160;</td><td class="mdescRight">Milliseconds elapsed since <code>start</code>.  <br /></td></tr>
+<tr class="separator:abfe791d5b660fa24d46ceb665e918f12"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aad815f0706b5da1500fbda9d64a48e88" id="r_aad815f0706b5da1500fbda9d64a48e88"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01257.html">serial_probe_result_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aad815f0706b5da1500fbda9d64a48e88">run_probe</a> (<a class="el" href="a01241.html">serial_transport_t</a> &amp;transport, std::vector&lt; std::uint8_t &gt; const &amp;request, std::function&lt; bool(std::vector&lt; std::uint8_t &gt; const &amp;)&gt; const &amp;response_complete, std::chrono::milliseconds deadline, std::size_t max_response_bytes)</td></tr>
+<tr class="memdesc:aad815f0706b5da1500fbda9d64a48e88"><td class="mdescLeft">&#160;</td><td class="mdescRight">Runs one bounded probe over <code>transport</code>.  <br /></td></tr>
+<tr class="separator:aad815f0706b5da1500fbda9d64a48e88"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:ac304f704933205c047513f8294a20a23" id="r_ac304f704933205c047513f8294a20a23"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac304f704933205c047513f8294a20a23">kMaxCrcBitWidth</a> = 64</td></tr>
-<tr class="separator:ac304f704933205c047513f8294a20a23"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6c6c9dc05e14b7bf889e4ff3b35797ac" id="r_a6c6c9dc05e14b7bf889e4ff3b35797ac"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6c6c9dc05e14b7bf889e4ff3b35797ac">kBitsPerByte</a> = 8</td></tr>
-<tr class="separator:a6c6c9dc05e14b7bf889e4ff3b35797ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abd1212fc7c4da020b4206eabdab44540" id="r_abd1212fc7c4da020b4206eabdab44540"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abd1212fc7c4da020b4206eabdab44540">kTableByteCount</a> = 256U</td></tr>
-<tr class="separator:abd1212fc7c4da020b4206eabdab44540"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afb6479039a501ecd820d7357a4585887" id="r_afb6479039a501ecd820d7357a4585887"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afb6479039a501ecd820d7357a4585887">kByteMaskU8</a> = 0xFFU</td></tr>
-<tr class="separator:afb6479039a501ecd820d7357a4585887"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a22e940a3c83c980c026e83c4465e2bbf" id="r_a22e940a3c83c980c026e83c4465e2bbf"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a22e940a3c83c980c026e83c4465e2bbf">KPROBE_READ_CHUNK_BYTES</a> = 256U</td></tr>
+<tr class="memdesc:a22e940a3c83c980c026e83c4465e2bbf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read chunk of the probe loop, in bytes.  <br /></td></tr>
+<tr class="separator:a22e940a3c83c980c026e83c4465e2bbf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Parametric CRC engines following the CRC RevEng catalogue (Greg Cook). </p>
-<p>Algorithm parameters: <code>width</code>, <code>poly</code>, <code>init</code>, <code>refin</code>, <code>refout</code>, <code>xorout</code> as defined at <a href="https://reveng.sourceforge.io/crc-catalogue/all.htm">https://reveng.sourceforge.io/crc-catalogue/all.htm</a> . Catalogue <code>check</code> is the CRC of the ASCII bytes <code>123456789</code>.</p>
-<dl class="section note"><dt>Note</dt><dd>Widths 1..64 and all four RefIn/RefOut combinations are supported. Widths <code>kWidth &gt;= 8</code> use a 256-entry table; narrower widths use the bit engine (a per-byte table is incorrect for a register narrower than 8).</dd>
-<dd>
-Also see Ross Williams, "A Painless Guide to CRC Error Detection
-Algorithms", and Philip Koopman, CRC Polynomial Zoo (CMU). </dd></dl>
-</div><h2 class="groupheader">Function Documentation</h2>
-<a id="a19a8c53c3b4a3f6996a6baa029afe767" name="a19a8c53c3b4a3f6996a6baa029afe767"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a19a8c53c3b4a3f6996a6baa029afe767">&#9670;&#160;</a></span>Compute()</h2>
+<h2 class="groupheader">Typedef Documentation</h2>
+<a id="a3ac21019735948552e6d1ef799f957e7" name="a3ac21019735948552e6d1ef799f957e7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3ac21019735948552e6d1ef799f957e7">&#9670;&#160;</a></span>native_serial_handle_t</h2>
 
 <div class="memitem">
 <div class="memproto">
-<div class="memtemplate">
-template&lt;typename Spec&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="#a3ac21019735948552e6d1ef799f957e7">lumex::applied::serial::probe::detail::native_serial_handle_t</a> = int</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Native handle type: a file descriptor. </p>
+
+</div>
+</div>
+<h2 class="groupheader">Enumeration Type Documentation</h2>
+<a id="a92f95b0efd4f15ba8182341d9e440978" name="a92f95b0efd4f15ba8182341d9e440978"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a92f95b0efd4f15ba8182341d9e440978">&#9670;&#160;</a></span>open_outcome</h2>
+
+<div class="memitem">
+<div class="memproto">
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">Spec::ValueType lumex::core::crc::parametric::Detail::Compute </td>
-          <td>(</td>
-          <td class="paramtype">std::uint8_t const *</td>          <td class="paramname"><span class="paramname"><em>data</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>size</em></span>&#160;)</td>
+          <td class="memname">enum class <a class="el" href="#a92f95b0efd4f15ba8182341d9e440978">lumex::applied::serial::probe::detail::open_outcome</a></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>How <code>bounded_open_serial_port</code> ended. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a92f95b0efd4f15ba8182341d9e440978a3a50c5e41a1c3eee6dcddca9e04992e0" name="a92f95b0efd4f15ba8182341d9e440978a3a50c5e41a1c3eee6dcddca9e04992e0"></a>opened&#160;</td><td class="fielddoc"><p>The port is open; <code>handle</code> is valid. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a92f95b0efd4f15ba8182341d9e440978a56c27b1ab1a5a5a0eae853cabb4dc0c1" name="a92f95b0efd4f15ba8182341d9e440978a56c27b1ab1a5a5a0eae853cabb4dc0c1"></a>timed_out&#160;</td><td class="fielddoc"><p>The open did not return within the deadline. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a92f95b0efd4f15ba8182341d9e440978a26934eb377001f66e37289a5c93fe284" name="a92f95b0efd4f15ba8182341d9e440978a26934eb377001f66e37289a5c93fe284"></a>failed&#160;</td><td class="fielddoc"><p>The platform refused the open; see <code>error_code</code>. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a id="a55026740a9b543238617bc39b4d797e6" name="a55026740a9b543238617bc39b4d797e6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a55026740a9b543238617bc39b4d797e6">&#9670;&#160;</a></span>transport_status</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="#a55026740a9b543238617bc39b4d797e6">lumex::applied::serial::probe::detail::transport_status</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Outcome of one transport operation. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a55026740a9b543238617bc39b4d797e6a444bcb3a3fcf8389296c49467f27e1d6" name="a55026740a9b543238617bc39b4d797e6a444bcb3a3fcf8389296c49467f27e1d6"></a>ok&#160;</td><td class="fielddoc"><p>The operation completed. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a55026740a9b543238617bc39b4d797e6a3cef844c7982c2acb28d67b35e5bacc7" name="a55026740a9b543238617bc39b4d797e6a3cef844c7982c2acb28d67b35e5bacc7"></a>deadline_exceeded&#160;</td><td class="fielddoc"><p>The deadline expired first. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a55026740a9b543238617bc39b4d797e6a26934eb377001f66e37289a5c93fe284" name="a55026740a9b543238617bc39b4d797e6a26934eb377001f66e37289a5c93fe284"></a>failed&#160;</td><td class="fielddoc"><p>The platform reported an error. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="a0a518e9f25f40fbb213907e34b881f81" name="a0a518e9f25f40fbb213907e34b881f81"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0a518e9f25f40fbb213907e34b881f81">&#9670;&#160;</a></span>bounded_open_serial_port()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a01233.html">open_result_t</a> lumex::applied::serial::probe::detail::bounded_open_serial_port </td>
+          <td>(</td>
+          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>open_path</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::uint32_t</td>          <td class="paramname"><span class="paramname"><em>platform_open_flags</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::chrono::milliseconds</td>          <td class="paramname"><span class="paramname"><em>deadline</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Opens <code>open_path</code> so the caller never waits past <code>deadline</code>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">open_path</td><td>Platform path (<code>"\\\\.\\COM3"</code>, <code>"/dev/ttyUSB0"</code>). </td></tr>
+    <tr><td class="paramname">platform_open_flags</td><td><code>CreateFileA</code> <code>dwFlagsAndAttributes</code> on Windows (<code>0</code> for a classification probe, <code>FILE_FLAG_OVERLAPPED</code> for the transport); POSIX ignores it and always opens <code>O_RDWR | O_NOCTTY | O_NONBLOCK</code>. </td></tr>
+    <tr><td class="paramname">deadline</td><td>Budget for the open; a non-positive deadline reports <code>timed_out</code> without touching the port. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>opened</code> with the handle to close; <code>timed_out</code> with the timeout text (no handle is owned by the caller); <code>failed</code> with the platform error. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>On Windows a cancelled or abandoned worker closes a late handle itself, so a <code>timed_out</code> result never owns one. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00988_a0a518e9f25f40fbb213907e34b881f81_cgraph.png" border="0" usemap="#aa00988_a0a518e9f25f40fbb213907e34b881f81_cgraph" alt=""/></div>
+<map name="aa00988_a0a518e9f25f40fbb213907e34b881f81_cgraph" id="aa00988_a0a518e9f25f40fbb213907e34b881f81_cgraph">
+<area shape="rect" title="Opens open_path so the caller never waits past deadline." alt="" coords="5,47,163,105"/>
+<area shape="rect" href="a01293.html#a87b46d54c13a2ae30c97f22a4e98fc7c" title="Format a system error code." alt="" coords="211,5,413,64"/>
+<area shape="poly" title=" " alt="" coords="162,59,195,53,196,58,163,64"/>
+<area shape="rect" href="a00988.html#a2cf67f171039ab45a5ec960d36c054c6" title="The platform value that means &quot;no handle&quot;." alt="" coords="239,88,385,147"/>
+<area shape="poly" title=" " alt="" coords="163,88,224,99,223,104,162,93"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="aeda0fc72f871cf1ddc177f5c172131ea" name="aeda0fc72f871cf1ddc177f5c172131ea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeda0fc72f871cf1ddc177f5c172131ea">&#9670;&#160;</a></span>close_serial_handle()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lumex::applied::serial::probe::detail::close_serial_handle </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#a3ac21019735948552e6d1ef799f957e7">native_serial_handle_t</a></td>          <td class="paramname"><span class="paramname"><em>handle</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Closes <code>handle</code>; a no-op for the invalid value. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00988_aeda0fc72f871cf1ddc177f5c172131ea_cgraph.png" border="0" usemap="#aa00988_aeda0fc72f871cf1ddc177f5c172131ea_cgraph" alt=""/></div>
+<map name="aa00988_aeda0fc72f871cf1ddc177f5c172131ea_cgraph" id="aa00988_aeda0fc72f871cf1ddc177f5c172131ea_cgraph">
+<area shape="rect" title="Closes handle; a no&#45;op for the invalid value." alt="" coords="5,5,150,64"/>
+<area shape="rect" href="a00988.html#a2cf67f171039ab45a5ec960d36c054c6" title="The platform value that means &quot;no handle&quot;." alt="" coords="198,5,344,64"/>
+<area shape="poly" title=" " alt="" coords="150,32,182,32,182,37,150,37"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="abfe791d5b660fa24d46ceb665e918f12" name="abfe791d5b660fa24d46ceb665e918f12"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abfe791d5b660fa24d46ceb665e918f12">&#9670;&#160;</a></span>elapsed_since()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::chrono::milliseconds lumex::applied::serial::probe::detail::elapsed_since </td>
+          <td>(</td>
+          <td class="paramtype">std::chrono::steady_clock::time_point</td>          <td class="paramname"><span class="paramname"><em>start</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Milliseconds elapsed since <code>start</code>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">start</td><td>Monotonic time point the probe started at. </td></tr>
+  </table>
+  </dd>
+</dl>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00988_a19a8c53c3b4a3f6996a6baa029afe767_icgraph.png" border="0" usemap="#aa00988_a19a8c53c3b4a3f6996a6baa029afe767_icgraph" alt=""/></div>
+<div class="center"><img src="a00988_abfe791d5b660fa24d46ceb665e918f12_icgraph.png" border="0" usemap="#aa00988_abfe791d5b660fa24d46ceb665e918f12_icgraph" alt=""/></div>
+<map name="aa00988_abfe791d5b660fa24d46ceb665e918f12_icgraph" id="aa00988_abfe791d5b660fa24d46ceb665e918f12_icgraph">
+<area shape="rect" title="Milliseconds elapsed since start." alt="" coords="603,31,795,73"/>
+<area shape="rect" href="a00988.html#aad815f0706b5da1500fbda9d64a48e88" title="Runs one bounded probe over transport." alt="" coords="390,31,555,73"/>
+<area shape="poly" title=" " alt="" coords="588,55,556,55,556,49,588,49"/>
+<area shape="rect" href="a01269.html#a845214e6e33fa487163f38e3b13ee1ec" title="Opens the port when needed, sends request and collects the response until response_complete confirms ..." alt="" coords="198,23,342,81"/>
+<area shape="poly" title=" " alt="" coords="374,55,342,55,342,49,374,49"/>
+<area shape="rect" href="a00581.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="53,5,102,32"/>
+<area shape="poly" title=" " alt="" coords="182,39,102,25,103,20,183,34"/>
+<area shape="rect" href="a01269.html#aa8020d760bfd17ec23e6a1d3c0e358ad" title="Moves the session, including an open port, into other." alt="" coords="5,56,150,115"/>
+<area shape="poly" title=" " alt="" coords="183,70,150,75,149,70,182,64"/>
+</map>
 </div>
 
 </div>
 </div>
-<a id="ae63403d09d2dba08441952871fa3610b" name="ae63403d09d2dba08441952871fa3610b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae63403d09d2dba08441952871fa3610b">&#9670;&#160;</a></span>ComputeBitwise()</h2>
+<a id="a2cf67f171039ab45a5ec960d36c054c6" name="a2cf67f171039ab45a5ec960d36c054c6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2cf67f171039ab45a5ec960d36c054c6">&#9670;&#160;</a></span>invalid_native_serial_handle()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<div class="memtemplate">
-template&lt;typename Spec&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">Spec::ValueType lumex::core::crc::parametric::Detail::ComputeBitwise </td>
-          <td>(</td>
-          <td class="paramtype">std::uint8_t const *</td>          <td class="paramname"><span class="paramname"><em>data</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>size</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00988_ae63403d09d2dba08441952871fa3610b_cgraph.png" border="0" usemap="#aa00988_ae63403d09d2dba08441952871fa3610b_cgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="a9785f60c39ae30e760943199d3b8f306" name="a9785f60c39ae30e760943199d3b8f306"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9785f60c39ae30e760943199d3b8f306">&#9670;&#160;</a></span>ComputeTableDriven()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename Spec&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">Spec::ValueType lumex::core::crc::parametric::Detail::ComputeTableDriven </td>
-          <td>(</td>
-          <td class="paramtype">std::uint8_t const *</td>          <td class="paramname"><span class="paramname"><em>data</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>size</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00988_a9785f60c39ae30e760943199d3b8f306_cgraph.png" border="0" usemap="#aa00988_a9785f60c39ae30e760943199d3b8f306_cgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="a69a5738b0f4f83a2a79c86c390c53db9" name="a69a5738b0f4f83a2a79c86c390c53db9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a69a5738b0f4f83a2a79c86c390c53db9">&#9670;&#160;</a></span>LookupTableEntry()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename Spec, std::size_t Index&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::uint64_t lumex::core::crc::parametric::Detail::LookupTableEntry </td>
+          <td class="memname"><a class="el" href="#a3ac21019735948552e6d1ef799f957e7">native_serial_handle_t</a> lumex::applied::serial::probe::detail::invalid_native_serial_handle </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -305,285 +410,156 @@ template&lt;typename Spec, std::size_t Index&gt; </div>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00988_a69a5738b0f4f83a2a79c86c390c53db9_cgraph.png" border="0" usemap="#aa00988_a69a5738b0f4f83a2a79c86c390c53db9_cgraph" alt=""/></div>
-</div>
+
+<p>The platform value that means "no handle". </p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00988_a69a5738b0f4f83a2a79c86c390c53db9_icgraph.png" border="0" usemap="#aa00988_a69a5738b0f4f83a2a79c86c390c53db9_icgraph" alt=""/></div>
+<div class="center"><img src="a00988_a2cf67f171039ab45a5ec960d36c054c6_icgraph.png" border="0" usemap="#aa00988_a2cf67f171039ab45a5ec960d36c054c6_icgraph" alt=""/></div>
+<map name="aa00988_a2cf67f171039ab45a5ec960d36c054c6_icgraph" id="aa00988_a2cf67f171039ab45a5ec960d36c054c6_icgraph">
+<area shape="rect" title="The platform value that means &quot;no handle&quot;." alt="" coords="211,47,357,105"/>
+<area shape="rect" href="a00988.html#a0a518e9f25f40fbb213907e34b881f81" title="Opens open_path so the caller never waits past deadline." alt="" coords="5,5,163,64"/>
+<area shape="poly" title=" " alt="" coords="195,60,163,54,164,48,196,55"/>
+<area shape="rect" href="a00988.html#aeda0fc72f871cf1ddc177f5c172131ea" title="Closes handle; a no&#45;op for the invalid value." alt="" coords="12,88,156,147"/>
+<area shape="poly" title=" " alt="" coords="196,97,157,105,156,100,195,92"/>
+</map>
 </div>
 
 </div>
 </div>
-<a id="a8058b103bca91864f8802662480d430f" name="a8058b103bca91864f8802662480d430f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8058b103bca91864f8802662480d430f">&#9670;&#160;</a></span>LsbTableByte()</h2>
+<a id="aad815f0706b5da1500fbda9d64a48e88" name="aad815f0706b5da1500fbda9d64a48e88"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aad815f0706b5da1500fbda9d64a48e88">&#9670;&#160;</a></span>run_probe()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<div class="memtemplate">
-template&lt;int Width&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::uint64_t lumex::core::crc::parametric::Detail::LsbTableByte </td>
+          <td class="memname"><a class="el" href="a01257.html">serial_probe_result_t</a> lumex::applied::serial::probe::detail::run_probe </td>
           <td>(</td>
-          <td class="paramtype">std::uint64_t</td>          <td class="paramname"><span class="paramname"><em>tableIndex</em></span>, </td>
+          <td class="paramtype"><a class="el" href="a01241.html">serial_transport_t</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>transport</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::uint64_t</td>          <td class="paramname"><span class="paramname"><em>poly</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00988_a8058b103bca91864f8802662480d430f_cgraph.png" border="0" usemap="#aa00988_a8058b103bca91864f8802662480d430f_cgraph" alt=""/></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00988_a8058b103bca91864f8802662480d430f_icgraph.png" border="0" usemap="#aa00988_a8058b103bca91864f8802662480d430f_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="ab4a7ed5b0691c9452c4c832575c5b45b" name="ab4a7ed5b0691c9452c4c832575c5b45b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab4a7ed5b0691c9452c4c832575c5b45b">&#9670;&#160;</a></span>MakeLookupTable()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename Spec&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::array&lt; std::uint64_t, <a class="el" href="#abd1212fc7c4da020b4206eabdab44540">kTableByteCount</a> &gt; lumex::core::crc::parametric::Detail::MakeLookupTable </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00988_ab4a7ed5b0691c9452c4c832575c5b45b_cgraph.png" border="0" usemap="#aa00988_ab4a7ed5b0691c9452c4c832575c5b45b_cgraph" alt=""/></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00988_ab4a7ed5b0691c9452c4c832575c5b45b_icgraph.png" border="0" usemap="#aa00988_ab4a7ed5b0691c9452c4c832575c5b45b_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="a513f72c6f32beb6e9c2377d153ddb32a" name="a513f72c6f32beb6e9c2377d153ddb32a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a513f72c6f32beb6e9c2377d153ddb32a">&#9670;&#160;</a></span>MakeLookupTableImpl()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename Spec, std::size_t... I&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::array&lt; std::uint64_t, <a class="el" href="#abd1212fc7c4da020b4206eabdab44540">kTableByteCount</a> &gt; lumex::core::crc::parametric::Detail::MakeLookupTableImpl </td>
-          <td>(</td>
-          <td class="paramtype">std::index_sequence&lt; I... &gt;</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00988_a513f72c6f32beb6e9c2377d153ddb32a_cgraph.png" border="0" usemap="#aa00988_a513f72c6f32beb6e9c2377d153ddb32a_cgraph" alt=""/></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00988_a513f72c6f32beb6e9c2377d153ddb32a_icgraph.png" border="0" usemap="#aa00988_a513f72c6f32beb6e9c2377d153ddb32a_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="ab7ba64f9e1598aaa8eed4575b3460b0e" name="ab7ba64f9e1598aaa8eed4575b3460b0e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab7ba64f9e1598aaa8eed4575b3460b0e">&#9670;&#160;</a></span>Mask()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;int Width&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::uint64_t lumex::core::crc::parametric::Detail::Mask </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00988_ab7ba64f9e1598aaa8eed4575b3460b0e_cgraph.png" border="0" usemap="#aa00988_ab7ba64f9e1598aaa8eed4575b3460b0e_cgraph" alt=""/></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00988_ab7ba64f9e1598aaa8eed4575b3460b0e_icgraph.png" border="0" usemap="#aa00988_ab7ba64f9e1598aaa8eed4575b3460b0e_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="aaf727c35c106263a18dc948017f2031a" name="aaf727c35c106263a18dc948017f2031a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaf727c35c106263a18dc948017f2031a">&#9670;&#160;</a></span>MsbTableByte()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;int Width&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::uint64_t lumex::core::crc::parametric::Detail::MsbTableByte </td>
-          <td>(</td>
-          <td class="paramtype">std::uint64_t</td>          <td class="paramname"><span class="paramname"><em>tableIndex</em></span>, </td>
+          <td class="paramtype">std::vector&lt; std::uint8_t &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>request</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::uint64_t</td>          <td class="paramname"><span class="paramname"><em>poly</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00988_aaf727c35c106263a18dc948017f2031a_cgraph.png" border="0" usemap="#aa00988_aaf727c35c106263a18dc948017f2031a_cgraph" alt=""/></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00988_aaf727c35c106263a18dc948017f2031a_icgraph.png" border="0" usemap="#aa00988_aaf727c35c106263a18dc948017f2031a_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="aaba99f39d4a7667b3a2ce6dd58f6f791" name="aaba99f39d4a7667b3a2ce6dd58f6f791"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaba99f39d4a7667b3a2ce6dd58f6f791">&#9670;&#160;</a></span>Reflect()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::uint64_t lumex::core::crc::parametric::Detail::Reflect </td>
-          <td>(</td>
-          <td class="paramtype">std::uint64_t</td>          <td class="paramname"><span class="paramname"><em>data</em></span>, </td>
+          <td class="paramtype">std::function&lt; bool(std::vector&lt; std::uint8_t &gt; const &amp;)&gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>response_complete</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>width</em></span>&#160;)</td>
+          <td class="paramtype">std::chrono::milliseconds</td>          <td class="paramname"><span class="paramname"><em>deadline</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>max_response_bytes</em></span>&#160;)</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Runs one bounded probe over <code>transport</code>. </p>
+<p>Steps: bounded open when the transport is closed (<code>open_timeout</code> or <code>open_failed</code> stop the call); purge; write the request (<code>io_error</code> when it does not leave in full); read loop until the predicate confirms the response (<code>responded</code>), the cap is reached or the deadline expires (<code>incomplete</code> when bytes arrived, <code>no_response</code> when none did); an OS read error yields <code>io_error</code> with the bytes collected so far.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">transport</td><td>Open or closed port transport; the engine opens it when <code>is_open ()</code> is false and keeps it open afterwards. </td></tr>
+    <tr><td class="paramname">request</td><td>Request bytes; an empty vector skips the write step. </td></tr>
+    <tr><td class="paramname">response_complete</td><td>Predicate over the accumulated response, called after every read chunk and never with an empty vector. </td></tr>
+    <tr><td class="paramname">deadline</td><td>Overall budget for open, purge, write and reads. </td></tr>
+    <tr><td class="paramname">max_response_bytes</td><td>Response cap; values below 1 are clamped to 1. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The probe outcome with the collected bytes, the elapsed time and the formatted platform error. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00988_aad815f0706b5da1500fbda9d64a48e88_cgraph.png" border="0" usemap="#aa00988_aad815f0706b5da1500fbda9d64a48e88_cgraph" alt=""/></div>
+<map name="aa00988_aad815f0706b5da1500fbda9d64a48e88_cgraph" id="aa00988_aad815f0706b5da1500fbda9d64a48e88_cgraph">
+<area shape="rect" title="Runs one bounded probe over transport." alt="" coords="5,204,171,247"/>
+<area shape="rect" href="a00988.html#abfe791d5b660fa24d46ceb665e918f12" title="Milliseconds elapsed since start." alt="" coords="219,5,410,48"/>
+<area shape="poly" title=" " alt="" coords="98,202,144,132,178,92,217,58,224,53,227,58,220,62,182,96,149,135,103,205"/>
+<area shape="rect" href="a01241.html#a03d9d7c732ecaba43e39d3dea068c656" title="True while the port is open." alt="" coords="242,72,386,131"/>
+<area shape="poly" title=" " alt="" coords="119,201,217,140,227,135,229,140,220,145,122,206"/>
+<area shape="rect" href="a01241.html#adc8013c9670a1b893619cd2c852108ab" title="Bounded open with the configured settings." alt="" coords="242,155,386,213"/>
+<area shape="poly" title=" " alt="" coords="170,208,227,197,228,203,171,213"/>
+<area shape="rect" href="a01241.html#a9e89076cc288e82ded1f5c9c4f4a2087" title="Flushes the input and output buffers." alt="" coords="242,237,386,296"/>
+<area shape="poly" title=" " alt="" coords="171,238,228,248,227,253,170,243"/>
+<area shape="rect" href="a01241.html#ab8d9442067657ea5b9a0d99f85c33c02" title="Reads at least one byte or stops at the deadline." alt="" coords="242,320,386,379"/>
+<area shape="poly" title=" " alt="" coords="122,245,220,306,229,311,227,315,217,310,119,249"/>
+<area shape="rect" href="a01241.html#ac5f44687a280f415d8fd6a924e961497" title="Writes size bytes or stops at the deadline." alt="" coords="242,403,386,461"/>
+<area shape="poly" title=" " alt="" coords="104,245,150,315,183,354,220,389,230,396,227,400,217,393,179,357,145,318,99,248"/>
+</map>
+</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00988_aaba99f39d4a7667b3a2ce6dd58f6f791_icgraph.png" border="0" usemap="#aa00988_aaba99f39d4a7667b3a2ce6dd58f6f791_icgraph" alt=""/></div>
+<div class="center"><img src="a00988_aad815f0706b5da1500fbda9d64a48e88_icgraph.png" border="0" usemap="#aa00988_aad815f0706b5da1500fbda9d64a48e88_icgraph" alt=""/></div>
+<map name="aa00988_aad815f0706b5da1500fbda9d64a48e88_icgraph" id="aa00988_aad815f0706b5da1500fbda9d64a48e88_icgraph">
+<area shape="rect" title="Runs one bounded probe over transport." alt="" coords="390,31,555,73"/>
+<area shape="rect" href="a01269.html#a845214e6e33fa487163f38e3b13ee1ec" title="Opens the port when needed, sends request and collects the response until response_complete confirms ..." alt="" coords="198,23,342,81"/>
+<area shape="poly" title=" " alt="" coords="374,55,342,55,342,49,374,49"/>
+<area shape="rect" href="a00581.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="53,5,102,32"/>
+<area shape="poly" title=" " alt="" coords="182,39,102,25,103,20,183,34"/>
+<area shape="rect" href="a01269.html#aa8020d760bfd17ec23e6a1d3c0e358ad" title="Moves the session, including an open port, into other." alt="" coords="5,56,150,115"/>
+<area shape="poly" title=" " alt="" coords="183,70,150,75,149,70,182,64"/>
+</map>
 </div>
 
 </div>
 </div>
-<a id="a5445ab3c4194b3d1a1066003047f83d5" name="a5445ab3c4194b3d1a1066003047f83d5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5445ab3c4194b3d1a1066003047f83d5">&#9670;&#160;</a></span>ValidateSpec()</h2>
+<a id="a2baec958c3eebd588ab9cbc9bccd7e5f" name="a2baec958c3eebd588ab9cbc9bccd7e5f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2baec958c3eebd588ab9cbc9bccd7e5f">&#9670;&#160;</a></span>state_from_open_result()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<div class="memtemplate">
-template&lt;typename Spec&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void lumex::core::crc::parametric::Detail::ValidateSpec </td>
+          <td class="memname"><a class="el" href="a00982.html#a2833c2a4c2aca860a7fe8ecce5e59400">enumeration::serial_port_state</a> lumex::applied::serial::probe::detail::state_from_open_result </td>
           <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="a01233.html">open_result_t</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>result</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel noexcept">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00988_a5445ab3c4194b3d1a1066003047f83d5_icgraph.png" border="0" usemap="#aa00988_a5445ab3c4194b3d1a1066003047f83d5_icgraph" alt=""/></div>
-</div>
+
+<p>Maps an open outcome to the enumeration state. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">result</td><td>Result of <code>bounded_open_serial_port</code>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>available</code> for <code>opened</code>; <code>unresponsive</code> for <code>timed_out</code>; <code>busy</code> for access-denied / sharing-violation / <code>EBUSY</code> / <code>EACCES</code> failures; <code>free</code> otherwise. </dd></dl>
 
 </div>
 </div>
 <h2 class="groupheader">Variable Documentation</h2>
-<a id="a6c6c9dc05e14b7bf889e4ff3b35797ac" name="a6c6c9dc05e14b7bf889e4ff3b35797ac"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6c6c9dc05e14b7bf889e4ff3b35797ac">&#9670;&#160;</a></span>kBitsPerByte</h2>
+<a id="a22e940a3c83c980c026e83c4465e2bbf" name="a22e940a3c83c980c026e83c4465e2bbf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a22e940a3c83c980c026e83c4465e2bbf">&#9670;&#160;</a></span>KPROBE_READ_CHUNK_BYTES</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -592,7 +568,7 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constLUMEX_CONSTINITint lumex::core::crc::parametric::Detail::kBitsPerByte = 8</td>
+          <td class="memname">constLUMEX_CONSTINITstd::size_t lumex::applied::serial::probe::detail::KPROBE_READ_CHUNK_BYTES = 256U</td>
         </tr>
       </table>
   </td>
@@ -602,71 +578,7 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-</div>
-</div>
-<a id="afb6479039a501ecd820d7357a4585887" name="afb6479039a501ecd820d7357a4585887"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afb6479039a501ecd820d7357a4585887">&#9670;&#160;</a></span>kByteMaskU8</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constLUMEX_CONSTINITstd::uint8_t lumex::core::crc::parametric::Detail::kByteMaskU8 = 0xFFU</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ac304f704933205c047513f8294a20a23" name="ac304f704933205c047513f8294a20a23"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac304f704933205c047513f8294a20a23">&#9670;&#160;</a></span>kMaxCrcBitWidth</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constLUMEX_CONSTINITint lumex::core::crc::parametric::Detail::kMaxCrcBitWidth = 64</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="abd1212fc7c4da020b4206eabdab44540" name="abd1212fc7c4da020b4206eabdab44540"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abd1212fc7c4da020b4206eabdab44540">&#9670;&#160;</a></span>kTableByteCount</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constLUMEX_CONSTINITstd::size_t lumex::core::crc::parametric::Detail::kTableByteCount = 256U</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
+<p>Read chunk of the probe loop, in bytes. </p>
 
 </div>
 </div>
@@ -675,7 +587,7 @@ Here is the caller graph for this function:</div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00912.html">lumex</a></li><li class="navelem"><a class="el" href="a00964.html">core</a></li><li class="navelem"><a class="el" href="a00984.html">crc</a></li><li class="navelem"><a class="el" href="a00987.html">parametric</a></li><li class="navelem"><a class="el" href="a00988.html">Detail</a></li>
+    <li class="navelem"><a class="el" href="a00948.html">lumex</a></li><li class="navelem"><a class="el" href="a00949.html">applied</a></li><li class="navelem"><a class="el" href="a00981.html">serial</a></li><li class="navelem"><a class="el" href="a00987.html">probe</a></li><li class="navelem"><a class="el" href="a00988.html">detail</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

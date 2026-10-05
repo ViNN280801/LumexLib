@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::applied::settings::guard::lumex_settings_key_spec_t Struct Reference</title>
+<title>LumexLib: Member List</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a01218.html',''); initResizable(true); });
+$(function(){initNavTree('a01221.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,107 +103,26 @@ $(function(){initNavTree('a01218.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="summary">
-<a href="#pub-attribs">Public Attributes</a> &#124;
-<a href="a01215.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">lumex::applied::settings::guard::lumex_settings_key_spec_t Struct Reference</div></div>
+  <div class="headertitle"><div class="title">lumex::applied::logging::log::LumexLogging Member List</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Describes a single settings key that <code><a class="el" href="a01222.html#a2992a46c96ffd85535ee0aafdf6e2c5d" title="Ensures every key in specs is present and valid, restoring default_value otherwise.">LumexSettingsGuard::ensureKeysWithDefaults</a></code> must keep present and valid.  
- <a href="#details">More...</a></p>
-
-<p><code>#include &lt;<a class="el" href="a00125_source.html">LumexSettingsGuard.hpp</a>&gt;</code></p>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
-Public Attributes</h2></td></tr>
-<tr class="memitem:ae1c1a5cca9eadac719ad791cd3e83929" id="r_ae1c1a5cca9eadac719ad791cd3e83929"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae1c1a5cca9eadac719ad791cd3e83929">section</a></td></tr>
-<tr class="separator:ae1c1a5cca9eadac719ad791cd3e83929"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a65ba2700f954c1c98291a14fa43d0821" id="r_a65ba2700f954c1c98291a14fa43d0821"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a65ba2700f954c1c98291a14fa43d0821">key</a></td></tr>
-<tr class="memdesc:a65ba2700f954c1c98291a14fa43d0821"><td class="mdescLeft">&#160;</td><td class="mdescRight">Key name within the section.  <br /></td></tr>
-<tr class="separator:a65ba2700f954c1c98291a14fa43d0821"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae4d8c105ce3463d71321a0bf12382519" id="r_ae4d8c105ce3463d71321a0bf12382519"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae4d8c105ce3463d71321a0bf12382519">default_value</a></td></tr>
-<tr class="separator:ae4d8c105ce3463d71321a0bf12382519"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aabdcfebce52cca8d3f2ca2dd484eee2f" id="r_aabdcfebce52cca8d3f2ca2dd484eee2f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a00955.html#abb83c517a273434e9ce8e83640838f61">LumexSettingsValidateFn</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aabdcfebce52cca8d3f2ca2dd484eee2f">validate</a></td></tr>
-<tr class="memdesc:aabdcfebce52cca8d3f2ca2dd484eee2f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Optional; <code>nullptr</code> =&gt; validated only against "not empty".  <br /></td></tr>
-<tr class="separator:aabdcfebce52cca8d3f2ca2dd484eee2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Describes a single settings key that <code><a class="el" href="a01222.html#a2992a46c96ffd85535ee0aafdf6e2c5d" title="Ensures every key in specs is present and valid, restoring default_value otherwise.">LumexSettingsGuard::ensureKeysWithDefaults</a></code> must keep present and valid. </p>
-<p>Section, key, default value and an optional validator, in the flat string-value model of <code><a class="el" href="a01230.html" title="Interface of a settings store kept in a configuration file.">ILumexSettings</a></code>. The interface cannot tell "key
-absent" from "key present with an empty value" - <code>get()</code> returns an empty string for both - so both states are treated identically here: a key needs its default whenever <code>validate</code> rejects its current value or, when no <code>validate</code> is supplied, whenever that value is an empty string. </p>
-</div><h2 class="groupheader">Member Data Documentation</h2>
-<a id="ae4d8c105ce3463d71321a0bf12382519" name="ae4d8c105ce3463d71321a0bf12382519"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae4d8c105ce3463d71321a0bf12382519">&#9670;&#160;</a></span>default_value</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string lumex::applied::settings::guard::lumex_settings_key_spec_t::default_value</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Value written when the key is missing, empty, or invalid. </p>
-
-</div>
-</div>
-<a id="a65ba2700f954c1c98291a14fa43d0821" name="a65ba2700f954c1c98291a14fa43d0821"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a65ba2700f954c1c98291a14fa43d0821">&#9670;&#160;</a></span>key</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string lumex::applied::settings::guard::lumex_settings_key_spec_t::key</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Key name within the section. </p>
-
-</div>
-</div>
-<a id="ae1c1a5cca9eadac719ad791cd3e83929" name="ae1c1a5cca9eadac719ad791cd3e83929"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae1c1a5cca9eadac719ad791cd3e83929">&#9670;&#160;</a></span>section</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string lumex::applied::settings::guard::lumex_settings_key_spec_t::section</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Section name; the implementations in this library ignore an empty one (<code>get()</code> returns an empty string, <code>add()</code> does nothing). </p>
-
-</div>
-</div>
-<a id="aabdcfebce52cca8d3f2ca2dd484eee2f" name="aabdcfebce52cca8d3f2ca2dd484eee2f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aabdcfebce52cca8d3f2ca2dd484eee2f">&#9670;&#160;</a></span>validate</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="a00955.html#abb83c517a273434e9ce8e83640838f61">LumexSettingsValidateFn</a> lumex::applied::settings::guard::lumex_settings_key_spec_t::validate</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Optional; <code>nullptr</code> =&gt; validated only against "not empty". </p>
-
-</div>
-</div>
-<hr/>The documentation for this struct was generated from the following file:<ul>
-<li><a class="el" href="a00125_source.html">LumexSettingsGuard.hpp</a></li>
-</ul>
-</div><!-- contents -->
+<p>This is the complete list of members for <a class="el" href="a01221.html">lumex::applied::logging::log::LumexLogging</a>, including all inherited members.</p>
+<table class="directory">
+  <tr class="even"><td class="entry"><a class="el" href="a01221.html#ab45388c23b278021a8bb9e4a7b435e0c">critical</a>(char const *moduleName, Args &amp;&amp;...args)</td><td class="entry"><a class="el" href="a01221.html">lumex::applied::logging::log::LumexLogging</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a01221.html#a44ad22b8a67f4f15a9a574b3d4d5cd74">debug</a>(char const *moduleName, Args &amp;&amp;...args)</td><td class="entry"><a class="el" href="a01221.html">lumex::applied::logging::log::LumexLogging</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a01221.html#aaeebb797a274ef51607814be5801bcc4">error</a>(char const *moduleName, Args &amp;&amp;...args)</td><td class="entry"><a class="el" href="a01221.html">lumex::applied::logging::log::LumexLogging</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a01221.html#accf4de4dbcf6ed1920c2782a8b1be0fe">getLogsDirectory</a>()</td><td class="entry"><a class="el" href="a01221.html">lumex::applied::logging::log::LumexLogging</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a01221.html#aafb110cd6feeb2ab91305f27352b9118">info</a>(char const *moduleName, Args &amp;&amp;...args)</td><td class="entry"><a class="el" href="a01221.html">lumex::applied::logging::log::LumexLogging</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a01221.html#a55018631d613d230284b5f1411b9185e">setAppName</a>(std::string const &amp;appName)</td><td class="entry"><a class="el" href="a01221.html">lumex::applied::logging::log::LumexLogging</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a01221.html#a8e7bac7289460386a2e59d59c388d4b6">success</a>(char const *moduleName, Args &amp;&amp;...args)</td><td class="entry"><a class="el" href="a01221.html">lumex::applied::logging::log::LumexLogging</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a01221.html#a385a6c62d7eee3e396474410c2f4b331">toFile</a>(char const *filename, LumexLogLevel level, char const *moduleName, char const *msg, bool appendTimestamp=true)</td><td class="entry"><a class="el" href="a01221.html">lumex::applied::logging::log::LumexLogging</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a01221.html#af4fec23e76323ffee4eaf2aaf716eb15">warning</a>(char const *moduleName, Args &amp;&amp;...args)</td><td class="entry"><a class="el" href="a01221.html">lumex::applied::logging::log::LumexLogging</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
+</table></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00912.html">lumex</a></li><li class="navelem"><a class="el" href="a00913.html">applied</a></li><li class="navelem"><a class="el" href="a00953.html">settings</a></li><li class="navelem"><a class="el" href="a00955.html">guard</a></li><li class="navelem"><a class="el" href="a01218.html">lumex_settings_key_spec_t</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

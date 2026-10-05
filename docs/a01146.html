@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::applied::json::schema::LumexJsonSchemaException Class Reference</title>
+<title>LumexLib: lumex::xml::xpath::ast Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,196 +104,50 @@ $(function(){initNavTree('a01146.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="a01143.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">lumex::applied::json::schema::LumexJsonSchemaException Class Reference<span class="mlabels"><span class="mlabel final">final</span></span></div></div>
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#var-members">Variables</a>  </div>
+  <div class="headertitle"><div class="title">lumex::xml::xpath::ast Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
-
-<p>Carries the failure reason, the JSON path of the offending value (<code>$.items[2].name</code>) and a human-readable detail.  
- <a href="#details">More...</a></p>
-
-<p><code>#include &lt;<a class="el" href="a00062_source.html">LumexJsonSchemaException.hpp</a>&gt;</code></p>
-<div class="dynheader">
-Inheritance diagram for lumex::applied::json::schema::LumexJsonSchemaException:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01145.png" border="0" usemap="#alumex_1_1applied_1_1json_1_1schema_1_1_lumex_json_schema_exception_inherit__map" alt="Inheritance graph"/></div>
-<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
-<div class="dynheader">
-Collaboration diagram for lumex::applied::json::schema::LumexJsonSchemaException:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01144.png" border="0" usemap="#alumex_1_1applied_1_1json_1_1schema_1_1_lumex_json_schema_exception_coll__map" alt="Collaboration graph"/></div>
-<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
-Public Member Functions</h2></td></tr>
-<tr class="memitem:abfc4b98915585686617dfcd922a904d1" id="r_abfc4b98915585686617dfcd922a904d1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abfc4b98915585686617dfcd922a904d1">LumexJsonSchemaException</a> (<a class="el" href="a00933.html#a2384d12933d21396aa0daa63d43936e1">LumexJsonSchemaFailure</a> <a class="el" href="#aef55884f8ebc188b9390ff069b504748">reason</a>, std::string <a class="el" href="a00912.html#a45ac34be96c8025d67f85eb38698bf0e">path</a>, std::string <a class="el" href="#aa74f7f71a6811747d910836b9a86b86f">detail</a>)</td></tr>
-<tr class="separator:abfc4b98915585686617dfcd922a904d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aef55884f8ebc188b9390ff069b504748" id="r_aef55884f8ebc188b9390ff069b504748"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a00933.html#a2384d12933d21396aa0daa63d43936e1">LumexJsonSchemaFailure</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aef55884f8ebc188b9390ff069b504748">reason</a> () const noexcept</td></tr>
-<tr class="separator:aef55884f8ebc188b9390ff069b504748"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8fb0ac0d0fefc811db309fb1680365d6" id="r_a8fb0ac0d0fefc811db309fb1680365d6"><td class="memItemLeft" align="right" valign="top">std::string const &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8fb0ac0d0fefc811db309fb1680365d6">path</a> () const noexcept</td></tr>
-<tr class="separator:a8fb0ac0d0fefc811db309fb1680365d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa74f7f71a6811747d910836b9a86b86f" id="r_aa74f7f71a6811747d910836b9a86b86f"><td class="memItemLeft" align="right" valign="top">std::string const &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa74f7f71a6811747d910836b9a86b86f">detail</a> () const noexcept</td></tr>
-<tr class="separator:aa74f7f71a6811747d910836b9a86b86f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03097.html">axis_to_type</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides a static member <code>axis</code> for mapping an <code><a class="el" href="a01143.html#a2458aaf725b575899a37e1c4b301af5d">axis_t</a></code> enumeration value to a type.  <a href="a03097.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03101.html">XPathAstNode</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents a node in the XPath Abstract Syntax Tree (AST).  <a href="a03101.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a75029b40fc2dd4a2e988fc203b960cb2" id="r_a75029b40fc2dd4a2e988fc203b960cb2"><td class="memTemplParams" colspan="2">template&lt;<a class="el" href="a01143.html#a2458aaf725b575899a37e1c4b301af5d">axis_t</a> N&gt; </td></tr>
+<tr class="memitem:a75029b40fc2dd4a2e988fc203b960cb2"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="a01143.html#a2458aaf725b575899a37e1c4b301af5d">axis_t</a> const&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a75029b40fc2dd4a2e988fc203b960cb2">axis_to_type&lt; N &gt;::axis</a> = N</td></tr>
+<tr class="separator:a75029b40fc2dd4a2e988fc203b960cb2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Carries the failure reason, the JSON path of the offending value (<code>$.items[2].name</code>) and a human-readable detail. </p>
-<p><code>what()</code> is &lsquo;[<a class="el" href="a01146.html" title="Carries the failure reason, the JSON path of the offending value ($.items[2].name) and a human-readab...">LumexJsonSchemaException</a>] &lt;reason&gt; at &rsquo;&lt;path&gt;': &lt;detail&gt;`. </p>
-</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="abfc4b98915585686617dfcd922a904d1" name="abfc4b98915585686617dfcd922a904d1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abfc4b98915585686617dfcd922a904d1">&#9670;&#160;</a></span>LumexJsonSchemaException()</h2>
+<h2 class="groupheader">Variable Documentation</h2>
+<a id="a75029b40fc2dd4a2e988fc203b960cb2" name="a75029b40fc2dd4a2e988fc203b960cb2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a75029b40fc2dd4a2e988fc203b960cb2">&#9670;&#160;</a></span>axis_to_type&lt; N &gt;::axis</h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
+<div class="memtemplate">
+template&lt;<a class="el" href="a01143.html#a2458aaf725b575899a37e1c4b301af5d">axis_t</a> N&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">lumex::applied::json::schema::LumexJsonSchemaException::LumexJsonSchemaException </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a00933.html#a2384d12933d21396aa0daa63d43936e1">LumexJsonSchemaFailure</a></td>          <td class="paramname"><span class="paramname"><em>reason</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::string</td>          <td class="paramname"><span class="paramname"><em>path</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::string</td>          <td class="paramname"><span class="paramname"><em>detail</em></span>&#160;)</td>
+          <td class="memname"><a class="el" href="a01143.html#a2458aaf725b575899a37e1c4b301af5d">axis_t</a> const <a class="el" href="a03097.html">lumex::xml::xpath::ast::axis_to_type</a>&lt; N &gt;::axis = N</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01146_abfc4b98915585686617dfcd922a904d1_cgraph.png" border="0" usemap="#aa01146_abfc4b98915585686617dfcd922a904d1_cgraph" alt=""/></div>
-</div>
 
 </div>
 </div>
-<h2 class="groupheader">Member Function Documentation</h2>
-<a id="aa74f7f71a6811747d910836b9a86b86f" name="aa74f7f71a6811747d910836b9a86b86f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa74f7f71a6811747d910836b9a86b86f">&#9670;&#160;</a></span>detail()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string const  &amp; lumex::applied::json::schema::LumexJsonSchemaException::detail </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01146_aa74f7f71a6811747d910836b9a86b86f_cgraph.png" border="0" usemap="#aa01146_aa74f7f71a6811747d910836b9a86b86f_cgraph" alt=""/></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01146_aa74f7f71a6811747d910836b9a86b86f_icgraph.png" border="0" usemap="#aa01146_aa74f7f71a6811747d910836b9a86b86f_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="a8fb0ac0d0fefc811db309fb1680365d6" name="a8fb0ac0d0fefc811db309fb1680365d6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8fb0ac0d0fefc811db309fb1680365d6">&#9670;&#160;</a></span>path()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string const  &amp; lumex::applied::json::schema::LumexJsonSchemaException::path </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01146_a8fb0ac0d0fefc811db309fb1680365d6_cgraph.png" border="0" usemap="#aa01146_a8fb0ac0d0fefc811db309fb1680365d6_cgraph" alt=""/></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01146_a8fb0ac0d0fefc811db309fb1680365d6_icgraph.png" border="0" usemap="#aa01146_a8fb0ac0d0fefc811db309fb1680365d6_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="aef55884f8ebc188b9390ff069b504748" name="aef55884f8ebc188b9390ff069b504748"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aef55884f8ebc188b9390ff069b504748">&#9670;&#160;</a></span>reason()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="a00933.html#a2384d12933d21396aa0daa63d43936e1">LumexJsonSchemaFailure</a> lumex::applied::json::schema::LumexJsonSchemaException::reason </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01146_aef55884f8ebc188b9390ff069b504748_cgraph.png" border="0" usemap="#aa01146_aef55884f8ebc188b9390ff069b504748_cgraph" alt=""/></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01146_aef55884f8ebc188b9390ff069b504748_icgraph.png" border="0" usemap="#aa01146_aef55884f8ebc188b9390ff069b504748_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<hr/>The documentation for this class was generated from the following file:<ul>
-<li><a class="el" href="a00062_source.html">LumexJsonSchemaException.hpp</a></li>
-</ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00912.html">lumex</a></li><li class="navelem"><a class="el" href="a00913.html">applied</a></li><li class="navelem"><a class="el" href="a00927.html">json</a></li><li class="navelem"><a class="el" href="a00933.html">schema</a></li><li class="navelem"><a class="el" href="a01146.html">LumexJsonSchemaException</a></li>
+    <li class="navelem"><a class="el" href="a00948.html">lumex</a></li><li class="navelem"><a class="el" href="a01126.html">xml</a></li><li class="navelem"><a class="el" href="a01135.html">xpath</a></li><li class="navelem"><a class="el" href="a01146.html">ast</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

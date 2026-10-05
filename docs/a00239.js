@@ -1,26 +1,6 @@
 var a00239 =
 [
-    [ "lumex::core::exceptions::stacktrace::LumexBasicStacktrace< Allocator >", "a01814.html", "a01814" ],
-    [ "lumex::core::exceptions::stacktrace::hash< LumexBasicStacktrace< Allocator > >", "a01822.html", "a01822" ],
-    [ "lumex::core::exceptions::stacktrace::LumexStacktrace", "a00997.html#aed3df8e98fabb3aad10ed64b9c724c54", null ],
-    [ "LumexStacktrace", "a00239.html#aa65ae33a9cb60c0f3fdb50f47f7a425e", null ],
-    [ "LumexStacktraceEntry", "a00239.html#a3f60ceab597bebfcc580c78610fb5712", null ],
-    [ "lumex::core::exceptions::stacktrace::detail::capture_stacktrace", "a00998.html#a8c244b845597e29151cc78cf6b44f709", null ],
-    [ "lumex::core::exceptions::stacktrace::detail::demangle_symbol", "a00998.html#a894eb6f8a719b5015744c5a76dc63b0b", null ],
-    [ "lumex::core::exceptions::stacktrace::operator!=", "a00997.html#afa44521d7984df502e4204c3fb68ee9e", null ],
-    [ "lumex::core::exceptions::stacktrace::operator<", "a00997.html#a6a00fe7001a550a4fa9569016693a2bc", null ],
-    [ "lumex::core::exceptions::stacktrace::operator<<", "a00997.html#ab9ac8080cec6c74dc7759b980a28234b", null ],
-    [ "lumex::core::exceptions::stacktrace::operator<=", "a00997.html#a2602be9dc28893019365c2ac4f0cfc1a", null ],
-    [ "lumex::core::exceptions::stacktrace::operator==", "a00997.html#a6cd3a893f168e25bf221a4f0a46919eb", null ],
-    [ "lumex::core::exceptions::stacktrace::operator>", "a00997.html#a8aa7813b7bf75eda3f69b0f58914b60b", null ],
-    [ "lumex::core::exceptions::stacktrace::operator>=", "a00997.html#a3b3ecc202e38553af1ad3ded06aa4c7e", null ],
-    [ "lumex::core::exceptions::stacktrace::detail::resolve_symbol_info", "a00998.html#a1305360782a0d1b2dede6070ae5351b4", null ],
-    [ "lumex::core::exceptions::stacktrace::swap", "a00997.html#aa6c29be7d01b00f05c127675317c265c", null ],
-    [ "lumex::core::exceptions::stacktrace::to_string", "a00997.html#a9b962af55f800e2cbb3a49009e6676f1", null ],
-    [ "to_string", "a00239.html#a9b962af55f800e2cbb3a49009e6676f1", null ],
-    [ "lumex::core::exceptions::stacktrace::detail::kDefaultAddrStrSize", "a00998.html#ade655d234d94b03b50e1476dcdccf660", null ],
-    [ "lumex::core::exceptions::stacktrace::detail::kDefaultMaxFrames", "a00998.html#a05aafa779f6b68a7b3fc7fb380bfdef0", null ],
-    [ "lumex::core::exceptions::stacktrace::detail::kHashGoldenRatio", "a00998.html#a027e66b5408342bbc05ee3d41960c830", null ],
-    [ "lumex::core::exceptions::stacktrace::detail::kHashLeftShift", "a00998.html#a5bbc8ca6b36f10e40b0af4d4dfa0be4e", null ],
-    [ "lumex::core::exceptions::stacktrace::detail::kHashRightShift", "a00998.html#a2bbab331831002e74210b6b65c536966", null ]
+    [ "LUMEX_IMPLEMENTATION", "a00239.html#a07486181f1990291c2a348de8eb4c480", null ],
+    [ "lumex::core::environment::env::is_env_set", "a01031.html#aa4eee5d823344fc6515437ef34084b7b", null ],
+    [ "lumex::core::environment::env::is_env_truthy", "a01031.html#a664eee18841a0489fd44e19b214f7761", null ]
 ];

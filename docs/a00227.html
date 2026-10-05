@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexException.hpp File Reference</title>
+<title>LumexLib: CircularBuffer.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -106,173 +106,132 @@ $(function(){initNavTree('a00227.html',''); initResizable(true); });
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#namespaces">Namespaces</a> &#124;
-<a href="#define-members">Macros</a> &#124;
-<a href="#typedef-members">Typedefs</a> &#124;
 <a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">LumexException.hpp File Reference</div></div>
+  <div class="headertitle"><div class="title">CircularBuffer.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p><code><a class="el" href="#a14cb3c521ade640b8e5a7bf4aac3c929">LumexBaseException</a></code>, the base exception of LumexLib that records the stack where it was constructed, and the macros that throw and catch it.  
+<p><code>CircularBuffer</code>, a fixed-capacity ring buffer that overwrites its oldest element when full, modeled on Boost's <code>circular_buffer</code>.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="a00605_source.html">lumex/LumexExport.hpp</a>&quot;</code><br />
-<code>#include &lt;exception&gt;</code><br />
-<code>#include &lt;iostream&gt;</code><br />
-<code>#include &lt;string&gt;</code><br />
-<code>#include &lt;string_view&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00221_source.html">lumex/core/exceptions/crash/WindowsSEHTranslator.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00239_source.html">lumex/core/exceptions/stacktrace/LumexStacktrace.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00353_source.html">lumex/core/utility/attr/LumexAttributes.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00374_source.html">lumex/core/utility/demangle/LumexDemangle.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00386_source.html">lumex/core/utility/macros/LumexExceptionMacros.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00389_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00893_source.html">lumex/core/string/LumexString</a>&quot;</code><br />
+<div class="textblock"><code>#include &lt;algorithm&gt;</code><br />
+<code>#include &lt;cstddef&gt;</code><br />
+<code>#include &lt;iterator&gt;</code><br />
+<code>#include &lt;memory&gt;</code><br />
+<code>#include &lt;stdexcept&gt;</code><br />
+<code>#include &lt;type_traits&gt;</code><br />
+<code>#include &lt;utility&gt;</code><br />
+<code>#include &quot;<a class="el" href="a00386_source.html">lumex/core/utility/assert/LumexAssert.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00404_source.html">lumex/core/utility/compiler/LumexCheckFeatures.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00419_source.html">lumex/core/utility/macros/LumexConstantMacros.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00425_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for LumexException.hpp:</div>
+Include dependency graph for CircularBuffer.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00228.png" border="0" usemap="#a_lumex_exception_8hpp" alt=""/></div>
+<div class="center"><img src="a00228.png" border="0" usemap="#a_circular_buffer_8hpp" alt=""/></div>
+<map name="a_circular_buffer_8hpp" id="a_circular_buffer_8hpp">
+<area shape="rect" title="CircularBuffer, a fixed&#45;capacity ring buffer that overwrites its oldest element when full,..." alt="" coords="450,5,576,32"/>
+<area shape="rect" title=" " alt="" coords="5,88,80,115"/>
+<area shape="poly" title=" " alt="" coords="450,27,287,45,189,61,93,83,85,85,84,80,91,77,188,55,286,39,450,22"/>
+<area shape="rect" title=" " alt="" coords="104,88,168,115"/>
+<area shape="poly" title=" " alt="" coords="450,29,324,48,252,63,181,83,175,84,174,79,179,77,251,58,323,43,450,24"/>
+<area shape="rect" title=" " alt="" coords="192,88,253,115"/>
+<area shape="poly" title=" " alt="" coords="451,34,362,54,266,83,262,84,260,79,264,77,361,49,449,29"/>
+<area shape="rect" title=" " alt="" coords="278,88,346,115"/>
+<area shape="poly" title=" " alt="" coords="481,35,359,82,356,84,354,79,358,78,479,30"/>
+<area shape="rect" title=" " alt="" coords="370,88,448,115"/>
+<area shape="poly" title=" " alt="" coords="499,35,439,81,435,77,495,30"/>
+<area shape="rect" title=" " alt="" coords="472,88,554,115"/>
+<area shape="poly" title=" " alt="" coords="516,32,516,73,510,73,510,32"/>
+<area shape="rect" title=" " alt="" coords="579,88,631,115"/>
+<area shape="poly" title=" " alt="" coords="529,30,582,76,578,80,526,35"/>
+<area shape="rect" href="a00386.html" title="Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_..." alt="" coords="655,80,822,123"/>
+<area shape="poly" title=" " alt="" coords="549,30,667,72,665,77,547,35"/>
+<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="803,171,997,213"/>
+<area shape="poly" title=" " alt="" coords="577,23,721,43,789,58,836,78,855,94,870,114,891,155,886,157,865,117,851,98,833,82,788,63,720,48,576,28"/>
+<area shape="rect" href="a00404.html" title="C++ language, library and attribute feature availability." alt="" coords="898,80,1129,123"/>
+<area shape="poly" title=" " alt="" coords="577,27,883,76,882,82,576,33"/>
+<area shape="rect" href="a00419.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="1153,80,1385,123"/>
+<area shape="poly" title=" " alt="" coords="576,22,819,43,1138,77,1137,82,818,48,576,27"/>
+<area shape="rect" href="a00641.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="616,179,778,205"/>
+<area shape="poly" title=" " alt="" coords="731,124,712,166,707,164,726,122"/>
+<area shape="poly" title=" " alt="" coords="778,121,850,161,848,165,775,126"/>
+<area shape="poly" title=" " alt="" coords="1183,126,1002,169,1001,164,1182,121"/>
+</map>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00229.png" border="0" usemap="#a_lumex_exception_8hppdep" alt=""/></div>
+<div class="center"><img src="a00229.png" border="0" usemap="#a_circular_buffer_8hppdep" alt=""/></div>
+<map name="a_circular_buffer_8hppdep" id="a_circular_buffer_8hppdep">
+<area shape="rect" title="CircularBuffer, a fixed&#45;capacity ring buffer that overwrites its oldest element when full,..." alt="" coords="132,5,257,32"/>
+<area shape="rect" href="a00896.html" title="Circular buffer module: a fixed&#45;capacity ring buffer that overwrites its oldest element when full,..." alt="" coords="144,80,244,107"/>
+<area shape="poly" title=" " alt="" coords="197,48,197,80,192,80,192,48"/>
+<area shape="rect" href="a00464.html" title=" " alt="" coords="5,163,189,189"/>
+<area shape="poly" title=" " alt="" coords="169,119,113,165,110,160,166,115"/>
+<area shape="rect" href="a00467.html" title=" " alt="" coords="212,155,371,197"/>
+<area shape="poly" title=" " alt="" coords="223,115,268,152,265,156,219,119"/>
+</map>
 </div>
 </div>
 <p><a href="a00227_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01810.html">lumex::core::exceptions::exception::LumexBaseException</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Base exception that records the stack where it was constructed.  <a href="a01810.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01385.html">lumex::core::circular_buffer::CircularBuffer&lt; T, Allocator &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fixed-capacity circular buffer that overwrites when full (similar to Boost's <code><a class="el" href="a01024.html">circular_buffer</a></code>).  <a href="a01385.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01393.html">lumex::core::circular_buffer::CircularBuffer&lt; T, Allocator &gt;::iterator</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Random-access iterator over the logical element sequence.  <a href="a01393.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01397.html">lumex::core::circular_buffer::CircularBuffer&lt; T, Allocator &gt;::const_iterator</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Const random-access iterator.  <a href="a01397.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00912.html">lumex</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00948.html">lumex</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00964.html">lumex::core</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01005.html">lumex::core</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00991.html">lumex::core::exceptions</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01024.html">lumex::core::circular_buffer</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00993.html">lumex::core::exceptions::exception</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
-Macros</h2></td></tr>
-<tr class="memitem:a537bc5e66573ec83ae7e2f29bb6cf618" id="r_a537bc5e66573ec83ae7e2f29bb6cf618"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a537bc5e66573ec83ae7e2f29bb6cf618">LUMEX_THROW_EXCEPTION</a>(exception_name,  msg)</td></tr>
-<tr class="separator:a537bc5e66573ec83ae7e2f29bb6cf618"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa2c14643747e0675175c89004325e3c4" id="r_aa2c14643747e0675175c89004325e3c4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa2c14643747e0675175c89004325e3c4">LUMEX_EXCEPTION_HANDLE_BEGIN</a></td></tr>
-<tr class="separator:aa2c14643747e0675175c89004325e3c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adc7a0e055f41c7602df8841a2c9ffc7e" id="r_adc7a0e055f41c7602df8841a2c9ffc7e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adc7a0e055f41c7602df8841a2c9ffc7e">LUMEX_EXCEPTION_HANDLE_END</a></td></tr>
-<tr class="separator:adc7a0e055f41c7602df8841a2c9ffc7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
-Typedefs</h2></td></tr>
-<tr class="memitem:a14cb3c521ade640b8e5a7bf4aac3c929" id="r_a14cb3c521ade640b8e5a7bf4aac3c929"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a14cb3c521ade640b8e5a7bf4aac3c929">LumexBaseException</a> = <a class="el" href="a01810.html">lumex::core::exceptions::exception::LumexBaseException</a></td></tr>
-<tr class="separator:a14cb3c521ade640b8e5a7bf4aac3c929"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a31ed01634f7b6bd094769a42fe5f966b" id="r_a31ed01634f7b6bd094769a42fe5f966b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a00239.html#aa65ae33a9cb60c0f3fdb50f47f7a425e">LumexStacktrace</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00993.html#a31ed01634f7b6bd094769a42fe5f966b">lumex::core::exceptions::exception::LumexException_GetStackTraceTrampoline</a> (int skip_frames)</td></tr>
-<tr class="separator:a31ed01634f7b6bd094769a42fe5f966b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac96da0807d416d4354f8e227a54404fe" id="r_ac96da0807d416d4354f8e227a54404fe"><td class="memTemplParams" colspan="2">template&lt;class T, class Alloc&gt; </td></tr>
+<tr class="memitem:ac96da0807d416d4354f8e227a54404fe"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01024.html#ac96da0807d416d4354f8e227a54404fe">lumex::core::circular_buffer::operator==</a> (<a class="el" href="a01385.html">CircularBuffer</a>&lt; T, Alloc &gt; const &amp;lhs, <a class="el" href="a01385.html">CircularBuffer</a>&lt; T, Alloc &gt; const &amp;rhs)</td></tr>
+<tr class="memdesc:ac96da0807d416d4354f8e227a54404fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equality comparison of two <code><a class="el" href="a01385.html" title="Fixed-capacity circular buffer that overwrites when full (similar to Boost&#39;s circular_buffer).">CircularBuffer</a></code> objects.  <br /></td></tr>
+<tr class="separator:ac96da0807d416d4354f8e227a54404fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f2053ec78d256b9511bcb2ad97a7df2" id="r_a9f2053ec78d256b9511bcb2ad97a7df2"><td class="memTemplParams" colspan="2">template&lt;class T, class Alloc&gt; </td></tr>
+<tr class="memitem:a9f2053ec78d256b9511bcb2ad97a7df2"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01024.html#a9f2053ec78d256b9511bcb2ad97a7df2">lumex::core::circular_buffer::operator!=</a> (<a class="el" href="a01385.html">CircularBuffer</a>&lt; T, Alloc &gt; const &amp;lhs, <a class="el" href="a01385.html">CircularBuffer</a>&lt; T, Alloc &gt; const &amp;rhs)</td></tr>
+<tr class="memdesc:a9f2053ec78d256b9511bcb2ad97a7df2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inequality comparison of two <code><a class="el" href="a01385.html" title="Fixed-capacity circular buffer that overwrites when full (similar to Boost&#39;s circular_buffer).">CircularBuffer</a></code> objects.  <br /></td></tr>
+<tr class="separator:a9f2053ec78d256b9511bcb2ad97a7df2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a56bbfbab60073a9b1102f21f970563c9" id="r_a56bbfbab60073a9b1102f21f970563c9"><td class="memTemplParams" colspan="2">template&lt;class T, class Alloc&gt; </td></tr>
+<tr class="memitem:a56bbfbab60073a9b1102f21f970563c9"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01024.html#a56bbfbab60073a9b1102f21f970563c9">lumex::core::circular_buffer::operator&lt;</a> (<a class="el" href="a01385.html">CircularBuffer</a>&lt; T, Alloc &gt; const &amp;lhs, <a class="el" href="a01385.html">CircularBuffer</a>&lt; T, Alloc &gt; const &amp;rhs)</td></tr>
+<tr class="memdesc:a56bbfbab60073a9b1102f21f970563c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">"less" operator for two <code><a class="el" href="a01385.html" title="Fixed-capacity circular buffer that overwrites when full (similar to Boost&#39;s circular_buffer).">CircularBuffer</a></code> objects.  <br /></td></tr>
+<tr class="separator:a56bbfbab60073a9b1102f21f970563c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4f2d75691303d649ca012fbe8dda517a" id="r_a4f2d75691303d649ca012fbe8dda517a"><td class="memTemplParams" colspan="2">template&lt;class T, class Alloc&gt; </td></tr>
+<tr class="memitem:a4f2d75691303d649ca012fbe8dda517a"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01024.html#a4f2d75691303d649ca012fbe8dda517a">lumex::core::circular_buffer::operator&lt;=</a> (<a class="el" href="a01385.html">CircularBuffer</a>&lt; T, Alloc &gt; const &amp;lhs, <a class="el" href="a01385.html">CircularBuffer</a>&lt; T, Alloc &gt; const &amp;rhs)</td></tr>
+<tr class="memdesc:a4f2d75691303d649ca012fbe8dda517a"><td class="mdescLeft">&#160;</td><td class="mdescRight">"less or equal" operator for two <code><a class="el" href="a01385.html" title="Fixed-capacity circular buffer that overwrites when full (similar to Boost&#39;s circular_buffer).">CircularBuffer</a></code> objects.  <br /></td></tr>
+<tr class="separator:a4f2d75691303d649ca012fbe8dda517a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acc6a20ddca8e466131ac5c016f8db307" id="r_acc6a20ddca8e466131ac5c016f8db307"><td class="memTemplParams" colspan="2">template&lt;class T, class Alloc&gt; </td></tr>
+<tr class="memitem:acc6a20ddca8e466131ac5c016f8db307"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01024.html#acc6a20ddca8e466131ac5c016f8db307">lumex::core::circular_buffer::operator&gt;</a> (<a class="el" href="a01385.html">CircularBuffer</a>&lt; T, Alloc &gt; const &amp;lhs, <a class="el" href="a01385.html">CircularBuffer</a>&lt; T, Alloc &gt; const &amp;rhs)</td></tr>
+<tr class="memdesc:acc6a20ddca8e466131ac5c016f8db307"><td class="mdescLeft">&#160;</td><td class="mdescRight">"greater" operator for two <code><a class="el" href="a01385.html" title="Fixed-capacity circular buffer that overwrites when full (similar to Boost&#39;s circular_buffer).">CircularBuffer</a></code> objects.  <br /></td></tr>
+<tr class="separator:acc6a20ddca8e466131ac5c016f8db307"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeaf35e00dcf39d60a23f37e0e5a02048" id="r_aeaf35e00dcf39d60a23f37e0e5a02048"><td class="memTemplParams" colspan="2">template&lt;class T, class Alloc&gt; </td></tr>
+<tr class="memitem:aeaf35e00dcf39d60a23f37e0e5a02048"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01024.html#aeaf35e00dcf39d60a23f37e0e5a02048">lumex::core::circular_buffer::operator&gt;=</a> (<a class="el" href="a01385.html">CircularBuffer</a>&lt; T, Alloc &gt; const &amp;lhs, <a class="el" href="a01385.html">CircularBuffer</a>&lt; T, Alloc &gt; const &amp;rhs)</td></tr>
+<tr class="memdesc:aeaf35e00dcf39d60a23f37e0e5a02048"><td class="mdescLeft">&#160;</td><td class="mdescRight">"greater or equal" operator for two <code><a class="el" href="a01385.html" title="Fixed-capacity circular buffer that overwrites when full (similar to Boost&#39;s circular_buffer).">CircularBuffer</a></code> objects.  <br /></td></tr>
+<tr class="separator:aeaf35e00dcf39d60a23f37e0e5a02048"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p><code><a class="el" href="#a14cb3c521ade640b8e5a7bf4aac3c929">LumexBaseException</a></code>, the base exception of LumexLib that records the stack where it was constructed, and the macros that throw and catch it. </p>
-<p>The exception keeps its message and a <code><a class="el" href="a00239.html#aa65ae33a9cb60c0f3fdb50f47f7a425e" title="Global alias for lumex::core::exceptions::stacktrace::LumexStacktrace.">LumexStacktrace</a></code> captured by the constructor. <code>to_stderr()</code> prints the demangled exception type and the message; <code>to_crash_report()</code> appends the message and the stack to one <code>crash_report_&lt;timestamp&gt;.txt</code> per run in the <code>crashes</code> directory next to the executable. The constructors compiled into <code>lumex::exceptions</code> have the same signatures in every C++ standard; the <code>std::string_view</code> constructor (C++17) is an inline wrapper. The class itself is not exported, so that wrapper is not <code>dllimport</code>.</p>
-<p><code>LUMEX_THROW_EXCEPTION</code> throws an exception type with its demangled name in front of the message. <code>LUMEX_EXCEPTION_HANDLE_BEGIN</code> and <code>LUMEX_EXCEPTION_HANDLE_END</code> wrap a block in a <code>try</code> that reports a <code><a class="el" href="#a14cb3c521ade640b8e5a7bf4aac3c929">LumexBaseException</a></code>, any other <code>std::exception</code> and an unknown exception; the opening macro also installs the Windows translator through <code>SET_SEH_TRANSLATOR</code> of the included <code><a class="el" href="a00221.html" title="The Windows structured exception translator seh_translator() and the SET_SEH_TRANSLATOR macro that in...">WindowsSEHTranslator.hpp</a></code>, so the macros work with this header alone. <code>LUMEX_DEFINE_EXCEPTION</code>, which declares new exception types, comes from the included <code><a class="el" href="a00386.html" title="Macros that declare an exception class in one line.">LumexExceptionMacros.hpp</a></code>. </p>
-</div><h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="aa2c14643747e0675175c89004325e3c4" name="aa2c14643747e0675175c89004325e3c4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa2c14643747e0675175c89004325e3c4">&#9670;&#160;</a></span>LUMEX_EXCEPTION_HANDLE_BEGIN</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_EXCEPTION_HANDLE_BEGIN</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">  <span class="keywordflow">try</span>                                                                         \</div>
-<div class="line">    {                                                                         \</div>
-<div class="line">      <a class="code hl_define" href="a00221.html#a0d7aeb5eed30cf65a5415d7bb1014f5b">SET_SEH_TRANSLATOR</a></div>
-<div class="ttc" id="aa00221_html_a0d7aeb5eed30cf65a5415d7bb1014f5b"><div class="ttname"><a href="a00221.html#a0d7aeb5eed30cf65a5415d7bb1014f5b">SET_SEH_TRANSLATOR</a></div><div class="ttdeci">#define SET_SEH_TRANSLATOR</div><div class="ttdef"><b>Definition</b> WindowsSEHTranslator.hpp:81</div></div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="adc7a0e055f41c7602df8841a2c9ffc7e" name="adc7a0e055f41c7602df8841a2c9ffc7e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adc7a0e055f41c7602df8841a2c9ffc7e">&#9670;&#160;</a></span>LUMEX_EXCEPTION_HANDLE_END</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_EXCEPTION_HANDLE_END</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">  }                                                                           \</div>
-<div class="line">  catch (<a class="code hl_typedef" href="#a14cb3c521ade640b8e5a7bf4aac3c929">LumexBaseException</a> <span class="keyword">const</span> &amp;ex)                                        \</div>
-<div class="line">  {                                                                           \</div>
-<div class="line">    ex.to_stderr ();                                                          \</div>
-<div class="line">    ex.to_crash_report ();                                                    \</div>
-<div class="line">  }                                                                           \</div>
-<div class="line">  catch (std::exception <span class="keyword">const</span> &amp;ex)                                            \</div>
-<div class="line">  {                                                                           \</div>
-<div class="line">    std::cerr &lt;&lt; <span class="stringliteral">&quot;[std::exception] &quot;</span> &lt;&lt; ex.what () &lt;&lt; <span class="charliteral">&#39;\n&#39;</span>;                   \</div>
-<div class="line">    LumexBaseException (ex.what ()).to_stderr ();                             \</div>
-<div class="line">    LumexBaseException (ex.what ()).to_crash_report ();                       \</div>
-<div class="line">  }                                                                           \</div>
-<div class="line">  catch (...) { std::cerr &lt;&lt; <span class="stringliteral">&quot;[Unknown exception]\n&quot;</span>; }</div>
-<div class="ttc" id="aa00227_html_a14cb3c521ade640b8e5a7bf4aac3c929"><div class="ttname"><a href="#a14cb3c521ade640b8e5a7bf4aac3c929">LumexBaseException</a></div><div class="ttdeci">lumex::core::exceptions::exception::LumexBaseException LumexBaseException</div><div class="ttdef"><b>Definition</b> LumexException.hpp:207</div></div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="a537bc5e66573ec83ae7e2f29bb6cf618" name="a537bc5e66573ec83ae7e2f29bb6cf618"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a537bc5e66573ec83ae7e2f29bb6cf618">&#9670;&#160;</a></span>LUMEX_THROW_EXCEPTION</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_THROW_EXCEPTION</td>
-          <td>(</td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>exception_name</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>msg</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">  <span class="keywordflow">throw</span> exception_name (<a class="code hl_function" href="a01027.html#a644d51beb3d991564cc81242883fd17a">lumex::core::string::utility::stringify</a> (             \</div>
-<div class="line">      <a class="code hl_define" href="a00374.html#ad6621f383796b8a7a3dc899f94d7c0f4">lumDemangle</a> (exception_name), <span class="stringliteral">&quot;: &quot;</span>, msg));</div>
-<div class="ttc" id="aa00374_html_ad6621f383796b8a7a3dc899f94d7c0f4"><div class="ttname"><a href="a00374.html#ad6621f383796b8a7a3dc899f94d7c0f4">lumDemangle</a></div><div class="ttdeci">#define lumDemangle(type)</div><div class="ttdoc">Demangles a C++ type name for human-readable output.</div><div class="ttdef"><b>Definition</b> LumexDemangle.hpp:103</div></div>
-<div class="ttc" id="aa01027_html_a644d51beb3d991564cc81242883fd17a"><div class="ttname"><a href="a01027.html#a644d51beb3d991564cc81242883fd17a">lumex::core::string::utility::stringify</a></div><div class="ttdeci">std::string stringify(Args &amp;&amp;...args)</div><div class="ttdoc">Concatenates the streamed text of args.</div><div class="ttdef"><b>Definition</b> LumexStringify.hpp:110</div></div>
-</div><!-- fragment -->
-</div>
-</div>
-<h2 class="groupheader">Typedef Documentation</h2>
-<a id="a14cb3c521ade640b8e5a7bf4aac3c929" name="a14cb3c521ade640b8e5a7bf4aac3c929"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a14cb3c521ade640b8e5a7bf4aac3c929">&#9670;&#160;</a></span>LumexBaseException</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="#a14cb3c521ade640b8e5a7bf4aac3c929">LumexBaseException</a> = <a class="el" href="a01810.html">lumex::core::exceptions::exception::LumexBaseException</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-</div><!-- contents -->
+<div class="textblock"><p><code>CircularBuffer</code>, a fixed-capacity ring buffer that overwrites its oldest element when full, modeled on Boost's <code>circular_buffer</code>. </p>
+<p>Header-only (<code>lumex::circular_buffer</code> is an interface target) and written for C++11: the class template, its random-access iterators and the non-member comparison operators, with <code>operator&lt;=&gt;</code> added when the compiler supports three-way comparison and the standard concepts library (C++20). The class documentation lists the iterator invalidation, complexity and exception guarantees of each operation. </p>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_c5abfa2a5a0424f8cc91dab0edfcaee4.html">exceptions</a></li><li class="navelem"><a class="el" href="dir_4cbc0be85e48ae3eca992e23959f1e29.html">exception</a></li><li class="navelem"><a class="el" href="a00227.html">LumexException.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_82c4d626dd2f6730040a8639806b148e.html">circular_buffer</a></li><li class="navelem"><a class="el" href="a00227.html">CircularBuffer.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

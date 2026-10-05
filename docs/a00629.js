@@ -1,4 +1,6 @@
 var a00629 =
 [
-    [ "lumex::xml::document::XmlDocument", "a02822.html", "a02822" ]
+    [ "main", "a00629.html#ae66f6b31b5ad750f1fe042a706a4e3d4", null ],
+    [ "constkXmlContent", "a00629.html#ac156e9fd899df28d8796125c5e12bcbd", null ],
+    [ "constkXmlFilePath", "a00629.html#ac8528b14d1f0eeb8d0602d37e828fae8", null ]
 ];

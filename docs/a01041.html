@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::core::utility::demangle Namespace Reference</title>
+<title>LumexLib: lumex::core::expected Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,112 +104,24 @@ $(function(){initNavTree('a01041.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">lumex::core::utility::demangle Namespace Reference</div></div>
+<a href="#namespaces">Namespaces</a>  </div>
+  <div class="headertitle"><div class="title">lumex::core::expected Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:a5a8a6ca7779e633cf03b6e232ef67775" id="r_a5a8a6ca7779e633cf03b6e232ef67775"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5a8a6ca7779e633cf03b6e232ef67775">demangle_type_name</a> (char const *mangled)</td></tr>
-<tr class="memdesc:a5a8a6ca7779e633cf03b6e232ef67775"><td class="mdescLeft">&#160;</td><td class="mdescRight">Demangles an already-mangled C++ name (e.g. one captured from a backtrace/stack unwinder), as opposed to the <code>lumDemangle</code> macro above, which mangles a type/expression itself (via <code>typeid</code>) before demangling it.  <br /></td></tr>
-<tr class="separator:a5a8a6ca7779e633cf03b6e232ef67775"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1e0090fe289d90d428c17d265d6cfed8" id="r_a1e0090fe289d90d428c17d265d6cfed8"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1e0090fe289d90d428c17d265d6cfed8">demangle_type_name</a> (std::string const &amp;mangled)</td></tr>
-<tr class="memdesc:a1e0090fe289d90d428c17d265d6cfed8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convenience overload of <a class="el" href="#a5a8a6ca7779e633cf03b6e232ef67775">demangle_type_name</a> for <code>std::string</code> input.  <br /></td></tr>
-<tr class="separator:a1e0090fe289d90d428c17d265d6cfed8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01042.html">error</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01043.html">result</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="a5a8a6ca7779e633cf03b6e232ef67775" name="a5a8a6ca7779e633cf03b6e232ef67775"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5a8a6ca7779e633cf03b6e232ef67775">&#9670;&#160;</a></span>demangle_type_name() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string lumex::core::utility::demangle::demangle_type_name </td>
-          <td>(</td>
-          <td class="paramtype">char const *</td>          <td class="paramname"><span class="paramname"><em>mangled</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Demangles an already-mangled C++ name (e.g. one captured from a backtrace/stack unwinder), as opposed to the <code>lumDemangle</code> macro above, which mangles a type/expression itself (via <code>typeid</code>) before demangling it. </p>
-<p>Reuses the exact same low-level mechanic <code>lumDemangle</code> already uses on this platform: <code>abi::__cxa_demangle</code> on GCC/Clang (<code>__GNUG__</code>); on every other compiler (MSVC included) <code>lumDemangle</code> itself does not attempt any demangling either - it falls back to returning the name unchanged - so this function mirrors that same fallback for consistency, rather than inventing a separate mechanism (e.g. <code>UnDecorateSymbolName</code>) that the macro above does not actually use. </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">mangled</td><td>The already-mangled name to demangle (typically obtained from a backtrace symbol, not from <code>typeid(...).name()</code> computed in-place - for that case, use <code>lumDemangle</code> instead). </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The demangled name if successful, or <code>mangled</code> unchanged if:<ul>
-<li>the platform does not support demangling (non-GNU), or</li>
-<li>demangling failed, or</li>
-<li><code>mangled</code> was <code>nullptr</code>. </li>
-</ul>
-</dd></dl>
-<dl class="section note"><dt>Note</dt><dd>On GNU-compatible compilers (GCC/Clang), this uses <code>abi::__cxa_demangle</code>, which handles template instantiations, namespace qualifications, cv-qualifiers, and calling conventions. </dd></dl>
-<dl class="section warning"><dt>Warning</dt><dd>The caller must ensure <code>mangled</code> is a valid, null-terminated string when non-null. This function makes no ownership claims on the input string. </dd></dl>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01041_a5a8a6ca7779e633cf03b6e232ef67775_icgraph.png" border="0" usemap="#aa01041_a5a8a6ca7779e633cf03b6e232ef67775_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="a1e0090fe289d90d428c17d265d6cfed8" name="a1e0090fe289d90d428c17d265d6cfed8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1e0090fe289d90d428c17d265d6cfed8">&#9670;&#160;</a></span>demangle_type_name() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string lumex::core::utility::demangle::demangle_type_name </td>
-          <td>(</td>
-          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>mangled</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Convenience overload of <a class="el" href="#a5a8a6ca7779e633cf03b6e232ef67775">demangle_type_name</a> for <code>std::string</code> input. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">mangled</td><td>The already-mangled name to demangle. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>See the <code>char const *</code> overload. </dd></dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01041_a1e0090fe289d90d428c17d265d6cfed8_cgraph.png" border="0" usemap="#aa01041_a1e0090fe289d90d428c17d265d6cfed8_cgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00912.html">lumex</a></li><li class="navelem"><a class="el" href="a00964.html">core</a></li><li class="navelem"><a class="el" href="a01036.html">utility</a></li><li class="navelem"><a class="el" href="a01041.html">demangle</a></li>
+    <li class="navelem"><a class="el" href="a00948.html">lumex</a></li><li class="navelem"><a class="el" href="a01005.html">core</a></li><li class="navelem"><a class="el" href="a01041.html">expected</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

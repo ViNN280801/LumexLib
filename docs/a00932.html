@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::applied::json::normalization Namespace Reference</title>
+<title>LumexLib: LumexStringView File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -103,27 +103,75 @@ $(function(){initNavTree('a00932.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="summary">
-<a href="#nested-classes">Classes</a>  </div>
-  <div class="headertitle"><div class="title">lumex::applied::json::normalization Namespace Reference</div></div>
+  <div class="headertitle"><div class="title">LumexStringView File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01138.html">ILumexJsonNormalizer</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parses raw JSON text, checks it and returns the canonical document.  <a href="a01138.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01142.html">LumexJsonSchemaNormalizer</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shares the schema walker and the strict/non-strict error policy between concrete normalizers.  <a href="a01142.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
-</div><!-- contents -->
+
+<p>String view module: C++11 implementations of the C++17 <code>std::string_view</code> and <code>std::wstring_view</code>.  
+<a href="#details">More...</a></p>
+<div class="textblock"><code>#include &quot;<a class="el" href="a00356_source.html">view/LumexStringView.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00362_source.html">view/LumexWStringView.hpp</a>&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for LumexStringView:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00933.png" border="0" usemap="#a_lumex_string_view" alt=""/></div>
+<map name="a_lumex_string_view" id="a_lumex_string_view">
+<area shape="rect" title="String view module: C++11 implementations of the C++17 std::string_view and std::wstring_view." alt="" coords="629,5,752,32"/>
+<area shape="rect" href="a00356.html" title="C++11 lightweight, non&#45;owning view over character sequences." alt="" coords="497,80,676,107"/>
+<area shape="poly" title=" " alt="" coords="674,35,618,73,615,69,671,30"/>
+<area shape="rect" href="a00362.html" title="C++11 lightweight, non&#45;owning view over contiguous wide character sequences." alt="" coords="700,80,891,107"/>
+<area shape="poly" title=" " alt="" coords="710,30,766,69,763,73,707,35"/>
+<area shape="rect" href="a00641.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="448,163,610,189"/>
+<area shape="poly" title=" " alt="" coords="580,109,549,152,544,149,575,106"/>
+<area shape="rect" title=" " alt="" coords="634,163,698,189"/>
+<area shape="poly" title=" " alt="" coords="601,105,645,150,642,154,597,109"/>
+<area shape="rect" title=" " alt="" coords="723,163,783,189"/>
+<area shape="poly" title=" " alt="" coords="614,105,715,153,713,158,611,110"/>
+<area shape="rect" title=" " alt="" coords="808,163,869,189"/>
+<area shape="poly" title=" " alt="" coords="640,105,715,125,797,152,800,154,799,159,795,157,713,130,638,110"/>
+<area shape="rect" title=" " alt="" coords="894,163,962,189"/>
+<area shape="poly" title=" " alt="" coords="672,105,773,124,882,152,887,154,886,159,880,157,772,129,671,110"/>
+<area shape="rect" title=" " alt="" coords="986,163,1040,189"/>
+<area shape="poly" title=" " alt="" coords="677,104,855,130,975,152,979,154,977,159,974,157,854,136,676,110"/>
+<area shape="rect" href="a00389.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="37,155,205,197"/>
+<area shape="poly" title=" " alt="" coords="502,110,221,157,220,151,501,105"/>
+<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="229,155,424,197"/>
+<area shape="poly" title=" " alt="" coords="546,110,409,152,407,147,545,105"/>
+<area shape="rect" href="a00404.html" title="C++ language, library and attribute feature availability." alt="" coords="5,245,237,288"/>
+<area shape="poly" title=" " alt="" coords="124,198,124,230,118,230,118,198"/>
+<area shape="poly" title=" " alt="" coords="755,110,586,160,584,155,753,105"/>
+<area shape="poly" title=" " alt="" coords="777,109,701,157,698,152,774,105"/>
+<area shape="poly" title=" " alt="" coords="791,108,769,150,764,148,787,106"/>
+<area shape="poly" title=" " alt="" coords="805,106,827,148,822,150,800,108"/>
+<area shape="poly" title=" " alt="" coords="818,105,896,152,893,157,815,109"/>
+<area shape="poly" title=" " alt="" coords="840,105,905,125,975,152,977,153,975,158,973,157,903,130,839,110"/>
+<area shape="poly" title=" " alt="" coords="700,108,688,109,455,129,353,139,221,157,220,152,352,134,455,124,687,104,699,103"/>
+<area shape="poly" title=" " alt="" coords="718,110,439,157,438,152,717,105"/>
+</map>
+</div>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00934.png" border="0" usemap="#a_lumex_string_viewdep" alt=""/></div>
+<map name="a_lumex_string_viewdep" id="a_lumex_string_viewdep">
+<area shape="rect" title="String view module: C++11 implementations of the C++17 std::string_view and std::wstring_view." alt="" coords="117,5,240,32"/>
+<area shape="rect" href="a00605.html" title=" " alt="" coords="5,88,173,115"/>
+<area shape="poly" title=" " alt="" coords="155,44,104,90,101,86,152,40"/>
+<area shape="rect" href="a00608.html" title=" " alt="" coords="197,80,341,123"/>
+<area shape="poly" title=" " alt="" coords="205,40,248,78,244,82,202,44"/>
+</map>
+</div>
+</div>
+<p><a href="a00932_source.html">Go to the source code of this file.</a></p>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>String view module: C++11 implementations of the C++17 <code>std::string_view</code> and <code>std::wstring_view</code>. </p>
+<p>Link <code>lumex::string_view</code> (compiled library). Works from C++11. The umbrella includes <code><a class="el" href="a00356.html" title="C++11 lightweight, non-owning view over character sequences.">view/LumexStringView.hpp</a></code> and <code><a class="el" href="a00362.html" title="C++11 lightweight, non-owning view over contiguous wide character sequences.">view/LumexWStringView.hpp</a></code>. </p>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00912.html">lumex</a></li><li class="navelem"><a class="el" href="a00913.html">applied</a></li><li class="navelem"><a class="el" href="a00927.html">json</a></li><li class="navelem"><a class="el" href="a00932.html">normalization</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_bbd40a496777ba5881d1b96c9f04381d.html">string_view</a></li><li class="navelem"><a class="el" href="a00932.html">LumexStringView</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

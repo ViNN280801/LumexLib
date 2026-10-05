@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -110,6 +110,21 @@ $(function(){initNavTree('dir_46588a2def099f5c90ce8dff319725b2.html',''); initRe
 Directory dependency graph for atomic:</div>
 <div class="dyncontent">
 <div class="center"><img src="dir_46588a2def099f5c90ce8dff319725b2_dep.png" border="0" usemap="#adir__46588a2def099f5c90ce8dff319725b2__dep" alt="atomic"/></div>
+<map name="adir__46588a2def099f5c90ce8dff319725b2__dep" id="adir__46588a2def099f5c90ce8dff319725b2__dep">
+<area shape="rect" href="dir_aaa57aed14d71e316a67f95634c796d3.html" title="utility" alt="" coords="56,288,109,315"/>
+<area shape="rect" href="dir_554c46647e80ff154b2b91be60b0bc34.html" title="smart_ptr" alt="" coords="38,139,114,165"/>
+<area shape="poly" href="dir_000003_000112.html" alt="" coords="79,91,79,123,73,123,73,91"/>
+<area shape="rect" href="dir_000003_000112.html" title="2" alt="" coords="81,112,88,128"/>
+<area shape="poly" href="dir_000112_000133.html" alt="" coords="86,164,98,186,108,213,111,232,108,251,100,275,95,273,103,250,105,232,103,214,93,188,82,167"/>
+<area shape="rect" href="dir_000112_000133.html" title="6" alt="" coords="102,267,109,283"/>
+<area shape="rect" href="dir_a794f2aa14bb7adf95f9a3f4e3b55361.html" title="sync" alt="" coords="43,213,93,240"/>
+<area shape="poly" href="dir_000112_000119.html" alt="" coords="77,166,74,198,68,197,72,166"/>
+<area shape="rect" href="dir_000112_000119.html" title="3" alt="" coords="76,188,83,204"/>
+<area shape="poly" href="dir_000119_000133.html" alt="" coords="73,240,80,272,75,273,68,241"/>
+<area shape="rect" href="dir_000119_000133.html" title="4" alt="" coords="81,260,88,276"/>
+<area shape="rect" href="dir_46588a2def099f5c90ce8dff319725b2.html" alt="" coords="27,53,125,251"/>
+<area shape="rect" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html" title="core" alt="" coords="16,16,136,325"/>
+</map>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="subdirs" name="subdirs"></a>
@@ -121,15 +136,15 @@ Directories</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="files" name="files"></a>
 Files</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top"><a href="a00854_source.html"><span class="icondoc"></span></a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00854.html">LumexAtomic</a></td></tr>
-<tr class="memdesc:a00854"><td class="mdescLeft">&#160;</td><td class="mdescRight">Atomic module: <code><a class="el" href="a01242.html" title="Atomic std::shared_ptr&lt;T&gt;, as std::atomic&lt;std::shared_ptr&lt;T&gt;&gt;.">atomic_shared_ptr</a>&lt;T&gt;</code> and <code><a class="el" href="a01266.html" title="Atomic std::weak_ptr&lt;T&gt;, as std::atomic&lt;std::weak_ptr&lt;T&gt;&gt;.">atomic_weak_ptr</a>&lt;T&gt;</code>, the interface of the C++20 <code>std::atomic&lt;std::shared_ptr&lt;T&gt;&gt;</code> and <code>std::atomic&lt;std::weak_ptr&lt;T&gt;&gt;</code> from C++11 on. <br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top"><a href="a00890_source.html"><span class="icondoc"></span></a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00890.html">LumexAtomic</a></td></tr>
+<tr class="memdesc:a00890"><td class="mdescLeft">&#160;</td><td class="mdescRight">Atomic module: <code><a class="el" href="a01325.html" title="Atomic std::shared_ptr&lt;T&gt;, as std::atomic&lt;std::shared_ptr&lt;T&gt;&gt;.">atomic_shared_ptr</a>&lt;T&gt;</code> and <code><a class="el" href="a01349.html" title="Atomic std::weak_ptr&lt;T&gt;, as std::atomic&lt;std::weak_ptr&lt;T&gt;&gt;.">atomic_weak_ptr</a>&lt;T&gt;</code>, the interface of the C++20 <code>std::atomic&lt;std::shared_ptr&lt;T&gt;&gt;</code> and <code>std::atomic&lt;std::weak_ptr&lt;T&gt;&gt;</code> from C++11 on. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<p><code><a class="el" href="a00965.html">lumex::core::atomic</a></code> (target <code>lumex::atomic</code>, header-only) provides <code><a class="el" href="a01242.html" title="Atomic std::shared_ptr&lt;T&gt;, as std::atomic&lt;std::shared_ptr&lt;T&gt;&gt;.">atomic_shared_ptr</a>&lt;T&gt;</code> and <code><a class="el" href="a01266.html" title="Atomic std::weak_ptr&lt;T&gt;, as std::atomic&lt;std::weak_ptr&lt;T&gt;&gt;.">atomic_weak_ptr</a>&lt;T&gt;</code>: the interface of C++20's <code>std::atomic&lt;std::shared_ptr&lt;T&gt;&gt;</code> and <code>std::atomic&lt;std::weak_ptr&lt;T&gt;&gt;</code> (P0718R2, with LWG 3661 and LWG 3893) from C++11 on, over the ordinary <code>std::shared_ptr</code> and <code>std::weak_ptr</code> of any standard library. Where the standard library has the C++20 types, LumexAtomic wraps them; elsewhere it uses a lock-based implementation of its own.</p>
-<div class="fragment"><div class="line"><span class="preprocessor">#include &quot;<a class="code" href="a00854.html">lumex/core/atomic/LumexAtomic</a>&quot;</span></div>
+<p><code><a class="el" href="a01006.html">lumex::core::atomic</a></code> (target <code>lumex::atomic</code>, header-only) provides <code><a class="el" href="a01325.html" title="Atomic std::shared_ptr&lt;T&gt;, as std::atomic&lt;std::shared_ptr&lt;T&gt;&gt;.">atomic_shared_ptr</a>&lt;T&gt;</code> and <code><a class="el" href="a01349.html" title="Atomic std::weak_ptr&lt;T&gt;, as std::atomic&lt;std::weak_ptr&lt;T&gt;&gt;.">atomic_weak_ptr</a>&lt;T&gt;</code>: the interface of C++20's <code>std::atomic&lt;std::shared_ptr&lt;T&gt;&gt;</code> and <code>std::atomic&lt;std::weak_ptr&lt;T&gt;&gt;</code> (P0718R2, with LWG 3661 and LWG 3893) from C++11 on, over the ordinary <code>std::shared_ptr</code> and <code>std::weak_ptr</code> of any standard library. Where the standard library has the C++20 types, LumexAtomic wraps them; elsewhere it uses a lock-based implementation of its own.</p>
+<div class="fragment"><div class="line"><span class="preprocessor">#include &quot;<a class="code" href="a00890.html">lumex/core/atomic/LumexAtomic</a>&quot;</span></div>
 <div class="line"> </div>
-<div class="line"><span class="keyword">using </span><a class="code hl_class" href="a01242.html">lumex::core::atomic::smart_ptr::atomic_shared_ptr</a>;</div>
+<div class="line"><span class="keyword">using </span><a class="code hl_class" href="a01325.html">lumex::core::atomic::smart_ptr::atomic_shared_ptr</a>;</div>
 <div class="line"> </div>
 <div class="line">atomic_shared_ptr&lt;Config const&gt; g_config (std::make_shared&lt;Config const&gt; ());</div>
 <div class="line"> </div>
@@ -141,8 +156,8 @@ Files</h2></td></tr>
 <div class="line"> </div>
 <div class="line">std::shared_ptr&lt;Config const&gt; current = g_config.load ();</div>
 <div class="line">g_config.wait (current); <span class="comment">// until another configuration is stored</span></div>
-<div class="ttc" id="aa00854_html"><div class="ttname"><a href="a00854.html">LumexAtomic</a></div><div class="ttdoc">Atomic module: atomic_shared_ptr&lt;T&gt; and atomic_weak_ptr&lt;T&gt;, the interface of the C++20 std::atomic&lt;st...</div></div>
-<div class="ttc" id="aa01242_html"><div class="ttname"><a href="a01242.html">lumex::core::atomic::smart_ptr::atomic_shared_ptr</a></div><div class="ttdoc">Atomic std::shared_ptr&lt;T&gt;, as std::atomic&lt;std::shared_ptr&lt;T&gt;&gt;.</div><div class="ttdef"><b>Definition</b> LumexAtomicSharedPtr.hpp:121</div></div>
+<div class="ttc" id="aa00890_html"><div class="ttname"><a href="a00890.html">LumexAtomic</a></div><div class="ttdoc">Atomic module: atomic_shared_ptr&lt;T&gt; and atomic_weak_ptr&lt;T&gt;, the interface of the C++20 std::atomic&lt;st...</div></div>
+<div class="ttc" id="aa01325_html"><div class="ttname"><a href="a01325.html">lumex::core::atomic::smart_ptr::atomic_shared_ptr</a></div><div class="ttdoc">Atomic std::shared_ptr&lt;T&gt;, as std::atomic&lt;std::shared_ptr&lt;T&gt;&gt;.</div><div class="ttdef"><b>Definition</b> LumexAtomicSharedPtr.hpp:121</div></div>
 </div><!-- fragment --><h1><a class="anchor" id="autotoc_md11"></a>
 Origin</h1>
 <p>This module is a port of the author's own implementation of <code>std::atomic&lt;std::shared_ptr&lt;T&gt;&gt;</code> and <code>std::atomic&lt;std::weak_ptr&lt;T&gt;&gt;</code> for LLVM libc++ (Vladislav Semykin, P0718R2, llvm-project pull request 194215). That implementation has two methods, a lock-based one and a lock-free one, and both work. It is not a third-party library dropped in, and it is not derived from libstdc++, the MSVC STL or Folly; the design notes, the review discussion and the investigations behind it are summarized below.</p>
@@ -155,22 +170,22 @@ Headers</h1>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><code>lumex/core/atomic/LumexAtomic</code>   </td><td class="markdownTableBodyNone">Umbrella: both class templates    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><code><a class="el" href="a00152.html" title="atomic_shared_ptr&lt;T&gt;: the interface of the C++20 std::atomic&lt;std::shared_ptr&lt;T&gt;&gt; for C++11 and later.">lumex/core/atomic/smart_ptr/LumexAtomicSharedPtr.hpp</a></code>   </td><td class="markdownTableBodyNone"><code><a class="el" href="a01242.html" title="Atomic std::shared_ptr&lt;T&gt;, as std::atomic&lt;std::shared_ptr&lt;T&gt;&gt;.">atomic_shared_ptr</a>&lt;T&gt;</code>    </td></tr>
+<td class="markdownTableBodyNone"><code><a class="el" href="a00188.html" title="atomic_shared_ptr&lt;T&gt;: the interface of the C++20 std::atomic&lt;std::shared_ptr&lt;T&gt;&gt; for C++11 and later.">lumex/core/atomic/smart_ptr/LumexAtomicSharedPtr.hpp</a></code>   </td><td class="markdownTableBodyNone"><code><a class="el" href="a01325.html" title="Atomic std::shared_ptr&lt;T&gt;, as std::atomic&lt;std::shared_ptr&lt;T&gt;&gt;.">atomic_shared_ptr</a>&lt;T&gt;</code>    </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><code><a class="el" href="a00161.html" title="atomic_weak_ptr&lt;T&gt;: the interface of the C++20 std::atomic&lt;std::weak_ptr&lt;T&gt;&gt; for C++11 and later.">lumex/core/atomic/smart_ptr/LumexAtomicWeakPtr.hpp</a></code>   </td><td class="markdownTableBodyNone"><code><a class="el" href="a01266.html" title="Atomic std::weak_ptr&lt;T&gt;, as std::atomic&lt;std::weak_ptr&lt;T&gt;&gt;.">atomic_weak_ptr</a>&lt;T&gt;</code>    </td></tr>
+<td class="markdownTableBodyNone"><code><a class="el" href="a00197.html" title="atomic_weak_ptr&lt;T&gt;: the interface of the C++20 std::atomic&lt;std::weak_ptr&lt;T&gt;&gt; for C++11 and later.">lumex/core/atomic/smart_ptr/LumexAtomicWeakPtr.hpp</a></code>   </td><td class="markdownTableBodyNone"><code><a class="el" href="a01349.html" title="Atomic std::weak_ptr&lt;T&gt;, as std::atomic&lt;std::weak_ptr&lt;T&gt;&gt;.">atomic_weak_ptr</a>&lt;T&gt;</code>    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><code><a class="el" href="a00158.html" title="Chooses between the standard std::atomic&lt;std::shared_ptr&lt;T&gt;&gt; and the lock-based implementation,...">lumex/core/atomic/smart_ptr/LumexAtomicSmartPtrConfig.hpp</a></code>   </td><td class="markdownTableBodyNone">Which implementation a build gets (<code>LUMEX_ATOMIC_SMART_PTR_USES_STD</code>), memory order checks    </td></tr>
+<td class="markdownTableBodyNone"><code><a class="el" href="a00194.html" title="Chooses between the standard std::atomic&lt;std::shared_ptr&lt;T&gt;&gt; and the lock-based implementation,...">lumex/core/atomic/smart_ptr/LumexAtomicSmartPtrConfig.hpp</a></code>   </td><td class="markdownTableBodyNone">Which implementation a build gets (<code>LUMEX_ATOMIC_SMART_PTR_USES_STD</code>), memory order checks    </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><code><a class="el" href="a00155.html" title="Storage and operations behind atomic_shared_ptr and atomic_weak_ptr: a lock-based cell for every stan...">lumex/core/atomic/smart_ptr/LumexAtomicSmartPtrCell.hpp</a></code>   </td><td class="markdownTableBodyNone">The two cells behind the class templates: lock-based and standard    </td></tr>
+<td class="markdownTableBodyNone"><code><a class="el" href="a00191.html" title="Storage and operations behind atomic_shared_ptr and atomic_weak_ptr: a lock-based cell for every stan...">lumex/core/atomic/smart_ptr/LumexAtomicSmartPtrCell.hpp</a></code>   </td><td class="markdownTableBodyNone">The two cells behind the class templates: lock-based and standard    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><code><a class="el" href="a00167.html" title="A lock held in one 32-bit word: one bit marks it as taken, a second bit records that a thread sleeps ...">lumex/core/atomic/sync/LumexBitLock.hpp</a></code>   </td><td class="markdownTableBodyNone">The two-bit lock of the lock-based cell    </td></tr>
+<td class="markdownTableBodyNone"><code><a class="el" href="a00203.html" title="A lock held in one 32-bit word: one bit marks it as taken, a second bit records that a thread sleeps ...">lumex/core/atomic/sync/LumexBitLock.hpp</a></code>   </td><td class="markdownTableBodyNone">The two-bit lock of the lock-based cell    </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><code><a class="el" href="a00164.html" title="Blocking wait for a change of a 32-bit atomic word, and the wake-up that ends it, from C++11 on.">lumex/core/atomic/sync/LumexAtomicWait.hpp</a></code>   </td><td class="markdownTableBodyNone">Waiting for a 32-bit word to change: <code>std::atomic::wait</code> or a striped table   </td></tr>
+<td class="markdownTableBodyNone"><code><a class="el" href="a00200.html" title="Blocking wait for a change of a 32-bit atomic word, and the wake-up that ends it, from C++11 on.">lumex/core/atomic/sync/LumexAtomicWait.hpp</a></code>   </td><td class="markdownTableBodyNone">Waiting for a 32-bit word to change: <code>std::atomic::wait</code> or a striped table   </td></tr>
 </table>
 <p>Everything outside the two class templates is an implementation detail (<code>Detail</code> namespaces).</p>
 <h1><a class="anchor" id="autotoc_md13"></a>
 Interface</h1>
-<p>Both templates live in <code><a class="el" href="a00966.html">lumex::core::atomic::smart_ptr</a></code>, and only there: the module declares nothing at global scope, so a program that has its own global <code><a class="el" href="a01242.html" title="Atomic std::shared_ptr&lt;T&gt;, as std::atomic&lt;std::shared_ptr&lt;T&gt;&gt;.">atomic_shared_ptr</a></code> or <code><a class="el" href="a01266.html" title="Atomic std::weak_ptr&lt;T&gt;, as std::atomic&lt;std::weak_ptr&lt;T&gt;&gt;.">atomic_weak_ptr</a></code> keeps compiling (<code>LumexAtomicGlobalNamesTest</code> checks that). For the short names write a <code>using</code> declaration (<code>using <a class="el" href="a01242.html" title="Atomic std::shared_ptr&lt;T&gt;, as std::atomic&lt;std::shared_ptr&lt;T&gt;&gt;.">lumex::core::atomic::smart_ptr::atomic_shared_ptr</a>;</code>) in your own scope. The members follow <code>std::atomic&lt;std::shared_ptr&lt;T&gt;&gt;</code> and <code>std::atomic&lt;std::weak_ptr&lt;T&gt;&gt;</code>:</p>
+<p>Both templates live in <code><a class="el" href="a01007.html">lumex::core::atomic::smart_ptr</a></code>, and only there: the module declares nothing at global scope, so a program that has its own global <code><a class="el" href="a01325.html" title="Atomic std::shared_ptr&lt;T&gt;, as std::atomic&lt;std::shared_ptr&lt;T&gt;&gt;.">atomic_shared_ptr</a></code> or <code><a class="el" href="a01349.html" title="Atomic std::weak_ptr&lt;T&gt;, as std::atomic&lt;std::weak_ptr&lt;T&gt;&gt;.">atomic_weak_ptr</a></code> keeps compiling (<code>LumexAtomicGlobalNamesTest</code> checks that). For the short names write a <code>using</code> declaration (<code>using <a class="el" href="a01325.html" title="Atomic std::shared_ptr&lt;T&gt;, as std::atomic&lt;std::shared_ptr&lt;T&gt;&gt;.">lumex::core::atomic::smart_ptr::atomic_shared_ptr</a>;</code>) in your own scope. The members follow <code>std::atomic&lt;std::shared_ptr&lt;T&gt;&gt;</code> and <code>std::atomic&lt;std::weak_ptr&lt;T&gt;&gt;</code>:</p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
 <th class="markdownTableHeadNone">Member   </th><th class="markdownTableHeadNone">Notes    </th></tr>
@@ -217,7 +232,7 @@ Which implementation a build gets</h1>
 The lock-based implementation</h1>
 <h2><a class="anchor" id="autotoc_md16"></a>
 The lock word</h2>
-<p>The libc++ lock-based method keeps a spin lock in the two low bits of the control block pointer stored in the atomic object: a control block is at least 4-byte aligned, so bit 0 (taken) and bit 1 (a thread sleeps on the lock) are free. That works inside libc++, which owns <code>std::shared_ptr</code>. LumexAtomic works over the <code>std::shared_ptr</code> of whichever standard library the program uses and must not touch its layout, so the same two bits live in a 32-bit word of their own (<code>BitLock</code>, <code><a class="el" href="a00167.html" title="A lock held in one 32-bit word: one bit marks it as taken, a second bit records that a thread sleeps ...">sync/LumexBitLock.hpp</a></code>), next to an ordinary <code>std::shared_ptr</code> or <code>std::weak_ptr</code>:</p>
+<p>The libc++ lock-based method keeps a spin lock in the two low bits of the control block pointer stored in the atomic object: a control block is at least 4-byte aligned, so bit 0 (taken) and bit 1 (a thread sleeps on the lock) are free. That works inside libc++, which owns <code>std::shared_ptr</code>. LumexAtomic works over the <code>std::shared_ptr</code> of whichever standard library the program uses and must not touch its layout, so the same two bits live in a 32-bit word of their own (<code>BitLock</code>, <code><a class="el" href="a00203.html" title="A lock held in one 32-bit word: one bit marks it as taken, a second bit records that a thread sleeps ...">sync/LumexBitLock.hpp</a></code>), next to an ordinary <code>std::shared_ptr</code> or <code>std::weak_ptr</code>:</p>
 <ul>
 <li><code>lock ()</code>: a compare-exchange from "free" to "taken" (acquire). A thread that finds the lock taken sets the sleeper bit and sleeps until the word changes. LumexAtomic first spins briefly (12 pause instructions, then 4 yields, the spin policy of libstdc++'s <code>std::atomic::wait</code>); the libc++ method parks at once in libc++'s global wait table, while sleeping on the wait table of a C++11 build costs a mutex and a condition variable.</li>
 <li><code>unlock ()</code>: one exchange to 0 (release) clears both bits; if the sleeper bit was set, the sleepers are woken.</li>
@@ -248,7 +263,7 @@ wait and notify</h2>
 <li><code>wait</code> reads the counter (acquire), compares the current value with <code>old</code> and sleeps on the counter only while they are equivalent.</li>
 </ul>
 <p>A notify between the comparison and the sleep changes the counter, so the sleep returns at once instead of losing the wake-up. As with <code>std::atomic</code>, a store without a notify does not wake a waiter, <code>wait</code> does not see a value that came and went (A-B-A), and it may wake spuriously. (The libc++ lock-based method also wakes value waiters on every store, which the standard allows as a spurious wake-up.)</p>
-<p>Threads sleep through <code><a class="el" href="a00164.html" title="Blocking wait for a change of a 32-bit atomic word, and the wake-up that ends it, from C++11 on.">sync/LumexAtomicWait.hpp</a></code>:</p>
+<p>Threads sleep through <code><a class="el" href="a00200.html" title="Blocking wait for a change of a 32-bit atomic word, and the wake-up that ends it, from C++11 on.">sync/LumexAtomicWait.hpp</a></code>:</p>
 <ul>
 <li>From C++20, <code>wait</code> and <code>notify_*</code> of <code>std::atomic&lt;std::uint32_t&gt;</code>: a futex on Linux, <code>WaitOnAddress</code> on Windows.</li>
 <li>Before C++20 the standard has no address-keyed wait. A mutex and a condition variable in every object would add about 90 bytes to it and would make the constructors non-<code>constexpr</code> (the constructor of <code>std::condition_variable</code> is not), so <code>constinit</code> objects would be impossible. Instead one table of 64 stripes, each a <code>std::mutex</code> with a <code>std::condition_variable</code>, is keyed by the address of the word. Words that share a stripe share its condition variable: a wake-up reaches every sleeper of the stripe (<code>notify_one</code> acts as <code>notify_all</code>), and each sleeper re-checks its own word. The table is never destroyed, so objects with static storage duration can still wait and wake while the program exits. On ELF and Mach-O the table has default visibility, so one table serves the whole process even with hidden-visibility shared objects (checked by the <code>cmake.consumer_atomic_cross_module</code> fixture). A Windows DLL gets a table of its own: before C++20, a thread that sleeps through one DLL is not woken through another DLL.</li>
@@ -283,9 +298,9 @@ Examples</h1>
 <tr class="markdownTableHead">
 <th class="markdownTableHeadNone">Example   </th><th class="markdownTableHeadNone">Shows    </th></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><code><a class="el" href="a00419.html">example_atomic_smart_ptr.cpp</a></code>   </td><td class="markdownTableBodyNone">The selected implementation, <code>load</code> / <code>store</code>, <code>exchange</code>, both compare-exchanges, a copy-on-write update loop, <code><a class="el" href="a01266.html" title="Atomic std::weak_ptr&lt;T&gt;, as std::atomic&lt;std::weak_ptr&lt;T&gt;&gt;.">atomic_weak_ptr</a></code>, <code>wait</code> / <code>notify_*</code> (built at C++11)    </td></tr>
+<td class="markdownTableBodyNone"><code><a class="el" href="a00455.html">example_atomic_smart_ptr.cpp</a></code>   </td><td class="markdownTableBodyNone">The selected implementation, <code>load</code> / <code>store</code>, <code>exchange</code>, both compare-exchanges, a copy-on-write update loop, <code><a class="el" href="a01349.html" title="Atomic std::weak_ptr&lt;T&gt;, as std::atomic&lt;std::weak_ptr&lt;T&gt;&gt;.">atomic_weak_ptr</a></code>, <code>wait</code> / <code>notify_*</code> (built at C++11)    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><code><a class="el" href="a00416.html">example_atomic_config_reload.cpp</a></code>   </td><td class="markdownTableBodyNone">A reloader publishes immutable configuration snapshots with a compare-exchange loop; workers read the current snapshot and sleep in <code>wait ()</code> until <code>notify_all ()</code> announces the next one; an <code><a class="el" href="a01266.html" title="Atomic std::weak_ptr&lt;T&gt;, as std::atomic&lt;std::weak_ptr&lt;T&gt;&gt;.">atomic_weak_ptr</a></code> remembers the last snapshot without keeping it alive   </td></tr>
+<td class="markdownTableBodyNone"><code><a class="el" href="a00452.html">example_atomic_config_reload.cpp</a></code>   </td><td class="markdownTableBodyNone">A reloader publishes immutable configuration snapshots with a compare-exchange loop; workers read the current snapshot and sleep in <code>wait ()</code> until <code>notify_all ()</code> announces the next one; an <code><a class="el" href="a01349.html" title="Atomic std::weak_ptr&lt;T&gt;, as std::atomic&lt;std::weak_ptr&lt;T&gt;&gt;.">atomic_weak_ptr</a></code> remembers the last snapshot without keeping it alive   </td></tr>
 </table>
 <h1><a class="anchor" id="autotoc_md27"></a>
 How it is verified</h1>

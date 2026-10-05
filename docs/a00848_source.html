@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexSerialPort Source File</title>
+<title>LumexLib: XPathUtils.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -103,7 +103,7 @@ $(function(){initNavTree('a00848_source.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">LumexSerialPort</div></div>
+  <div class="headertitle"><div class="title">XPathUtils.hpp</div></div>
 </div><!--header-->
 <div class="contents">
 <a href="a00848.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">/*</span></div>
@@ -145,18 +145,75 @@ $(function(){initNavTree('a00848_source.html',''); initResizable(true); });
 <div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="comment"> * SOFTWARE.</span></div>
 <div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="comment"> */</span></div>
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span></div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="preprocessor">#include &quot;<a class="code" href="a00101.html">enumeration/LumexSerialPortEnumeration.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span><span class="preprocessor">#include &quot;<a class="code" href="a00107.html">port/LumexSerialPort.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="preprocessor">#include &quot;<a class="code" href="a00113.html">resolver/LumexPortProcessResolver.hpp</a>&quot;</span></div>
-<div class="ttc" id="aa00101_html"><div class="ttname"><a href="a00101.html">LumexSerialPortEnumeration.hpp</a></div><div class="ttdoc">Enumerates serial ports and reports structured device information.</div></div>
-<div class="ttc" id="aa00107_html"><div class="ttname"><a href="a00107.html">LumexSerialPort.hpp</a></div><div class="ttdoc">Resolves short, configuration-style serial-port names into the platform-specific path or identifier a...</div></div>
-<div class="ttc" id="aa00113_html"><div class="ttname"><a href="a00113.html">LumexPortProcessResolver.hpp</a></div><div class="ttdoc">Identifies the process that holds a serial port open.</div></div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="preprocessor">#ifndef LUMEX_XML_XPATH_UTILITY_HPP</span></div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="preprocessor">#define LUMEX_XML_XPATH_UTILITY_HPP</span></div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span><span class="preprocessor">#include &quot;<a class="code" href="a00641.html">lumex/LumexExport.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span><span class="preprocessor">#include &quot;<a class="code" href="a00800.html">lumex/xml/xpath/node/XPathNode.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="preprocessor">#include &quot;<a class="code" href="a00806.html">lumex/xml/xpath/node/XPathNodeSet.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a00948.html">lumex</a> <span class="comment">// NOLINT(modernize-concat-nested-namespaces)</span></div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>{</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01126.html">xml</a></div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>{</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01135.html">xpath</a></div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>{</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01137.html">variable</a></div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>{</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span><span class="keyword">class </span><a class="code hl_class" href="a03189.html">XPathVariable</a>;</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>}</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span> </div>
+<div class="foldopen" id="foldopen00070" data-start="{" data-end="}">
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno"><a class="line" href="a01157.html">   70</a></span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01157.html">utility</a></div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>{</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span><span class="keyword">using namespace </span><a class="code hl_namespace" href="a01136.html">lumex::xml::xpath::node</a>;</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span><span class="keyword">using namespace </span><a class="code hl_namespace" href="a01137.html">variable</a>;</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span></div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span><a class="code hl_define" href="a00641.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a></div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span><a class="code hl_enumeration" href="a03149.html#adb8cd64c821b92dc30490b083e5e686c">XPathNodeSet::type_t</a> <a class="code hl_function" href="a01157.html#a06d335726027c6477be96cb86f9e56ce">xpath_get_order</a> (<a class="code hl_class" href="a03145.html">XPathNode</a> <span class="keyword">const</span> *begin,</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>                                      <a class="code hl_class" href="a03145.html">XPathNode</a> <span class="keyword">const</span> *end);</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span></div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span><a class="code hl_define" href="a00641.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a></div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span><a class="code hl_enumeration" href="a03149.html#adb8cd64c821b92dc30490b083e5e686c">XPathNodeSet::type_t</a> <a class="code hl_function" href="a01157.html#a1cda3af8de6ebb42fc0186a350a138e1">xpath_sort</a> (<a class="code hl_class" href="a03145.html">XPathNode</a> *begin, <a class="code hl_class" href="a03145.html">XPathNode</a> *end,</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>                                 <a class="code hl_enumeration" href="a03149.html#adb8cd64c821b92dc30490b083e5e686c">XPathNodeSet::type_t</a> type, <span class="keywordtype">bool</span> rev);</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span></div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span><a class="code hl_define" href="a00641.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a></div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span><a class="code hl_class" href="a03145.html">XPathNode</a> <a class="code hl_function" href="a01157.html#abb9de3a45c0762f05c942cebbd27e46a">xpath_first</a> (<a class="code hl_class" href="a03145.html">XPathNode</a> <span class="keyword">const</span> *begin, <a class="code hl_class" href="a03145.html">XPathNode</a> <span class="keyword">const</span> *end,</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>                       <a class="code hl_enumeration" href="a03149.html#adb8cd64c821b92dc30490b083e5e686c">XPathNodeSet::type_t</a> type);</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span></div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span><a class="code hl_define" href="a00641.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a></div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span><span class="keywordtype">bool</span> <a class="code hl_function" href="a01157.html#a5664ce2a10255b6aca45326df60fcb8e">copy_xpath_variable</a> (<a class="code hl_class" href="a03189.html">XPathVariable</a> *lhs, <a class="code hl_class" href="a03189.html">XPathVariable</a> <span class="keyword">const</span> *rhs);</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>} <span class="comment">// namespace utility</span></div>
+</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>} <span class="comment">// namespace xpath</span></div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>} <span class="comment">// namespace xml</span></div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>} <span class="comment">// namespace lumex</span></div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span> </div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span><span class="preprocessor">#endif </span><span class="comment">// !LUMEX_XML_XPATH_UTILITY_HPP</span></div>
+<div class="ttc" id="aa00641_html"><div class="ttname"><a href="a00641.html">LumexExport.hpp</a></div><div class="ttdoc">Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,...</div></div>
+<div class="ttc" id="aa00641_html_aa948a1b1a43f6a954fd4c15b01ae4207"><div class="ttname"><a href="a00641.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a></div><div class="ttdeci">#define LUMEX_API</div><div class="ttdef"><b>Definition</b> LumexExport.hpp:90</div></div>
+<div class="ttc" id="aa00800_html"><div class="ttname"><a href="a00800.html">XPathNode.hpp</a></div><div class="ttdoc">XPathNode, an item of an XPath result: either an XML node or an attribute together with its element.</div></div>
+<div class="ttc" id="aa00806_html"><div class="ttname"><a href="a00806.html">XPathNodeSet.hpp</a></div><div class="ttdoc">XPathNodeSet, the node set an XPath query returns, and XPathNodeSetRaw, the growable array used while...</div></div>
+<div class="ttc" id="aa00948_html"><div class="ttname"><a href="a00948.html">lumex</a></div><div class="ttdef"><b>Definition</b> LumexCPUVectorizationCapabilities.cpp:65</div></div>
+<div class="ttc" id="aa01126_html"><div class="ttname"><a href="a01126.html">lumex::xml</a></div><div class="ttdef"><b>Definition</b> XmlAttribute.hpp:105</div></div>
+<div class="ttc" id="aa01135_html"><div class="ttname"><a href="a01135.html">lumex::xml::xpath</a></div><div class="ttdef"><b>Definition</b> XmlNode.hpp:133</div></div>
+<div class="ttc" id="aa01136_html"><div class="ttname"><a href="a01136.html">lumex::xml::xpath::node</a></div><div class="ttdef"><b>Definition</b> XmlNode.hpp:135</div></div>
+<div class="ttc" id="aa01137_html"><div class="ttname"><a href="a01137.html">lumex::xml::xpath::variable</a></div><div class="ttdef"><b>Definition</b> XmlNode.hpp:140</div></div>
+<div class="ttc" id="aa01157_html"><div class="ttname"><a href="a01157.html">lumex::xml::xpath::utility</a></div><div class="ttdef"><b>Definition</b> XPathUtils.hpp:71</div></div>
+<div class="ttc" id="aa01157_html_a06d335726027c6477be96cb86f9e56ce"><div class="ttname"><a href="a01157.html#a06d335726027c6477be96cb86f9e56ce">lumex::xml::xpath::utility::xpath_get_order</a></div><div class="ttdeci">XPathNodeSet::type_t xpath_get_order(XPathNode const *begin, XPathNode const *end)</div><div class="ttdoc">Determines the current document order of a range of XPath nodes.</div><div class="ttdef"><b>Definition</b> XPathUtils.cpp:59</div></div>
+<div class="ttc" id="aa01157_html_a1cda3af8de6ebb42fc0186a350a138e1"><div class="ttname"><a href="a01157.html#a1cda3af8de6ebb42fc0186a350a138e1">lumex::xml::xpath::utility::xpath_sort</a></div><div class="ttdeci">XPathNodeSet::type_t xpath_sort(XPathNode *begin, XPathNode *end, XPathNodeSet::type_t type, bool rev)</div><div class="ttdoc">Sorts a range of XPath nodes by document order.</div><div class="ttdef"><b>Definition</b> XPathUtils.cpp:79</div></div>
+<div class="ttc" id="aa01157_html_a5664ce2a10255b6aca45326df60fcb8e"><div class="ttname"><a href="a01157.html#a5664ce2a10255b6aca45326df60fcb8e">lumex::xml::xpath::utility::copy_xpath_variable</a></div><div class="ttdeci">bool copy_xpath_variable(XPathVariable *lhs, XPathVariable const *rhs)</div><div class="ttdoc">Copies the value of one XPath variable to another.</div><div class="ttdef"><b>Definition</b> XPathUtils.cpp:136</div></div>
+<div class="ttc" id="aa01157_html_abb9de3a45c0762f05c942cebbd27e46a"><div class="ttname"><a href="a01157.html#abb9de3a45c0762f05c942cebbd27e46a">lumex::xml::xpath::utility::xpath_first</a></div><div class="ttdeci">XPathNode xpath_first(XPathNode const *begin, XPathNode const *end, XPathNodeSet::type_t type)</div><div class="ttdoc">Retrieves the first node in document order from a range of XPath nodes.</div><div class="ttdef"><b>Definition</b> XPathUtils.cpp:109</div></div>
+<div class="ttc" id="aa03145_html"><div class="ttname"><a href="a03145.html">lumex::xml::xpath::node::XPathNode</a></div><div class="ttdoc">Represents a node in an XPath node-set, which can be either an XML element/document node or an XML at...</div><div class="ttdef"><b>Definition</b> XPathNode.hpp:119</div></div>
+<div class="ttc" id="aa03149_html_adb8cd64c821b92dc30490b083e5e686c"><div class="ttname"><a href="a03149.html#adb8cd64c821b92dc30490b083e5e686c">lumex::xml::xpath::node::XPathNodeSet::type_t</a></div><div class="ttdeci">type_t</div><div class="ttdoc">Enumeration defining the ordering type of the node set.</div><div class="ttdef"><b>Definition</b> XPathNodeSet.hpp:139</div></div>
+<div class="ttc" id="aa03189_html"><div class="ttname"><a href="a03189.html">lumex::xml::xpath::variable::XPathVariable</a></div><div class="ttdoc">Base class for all XPath variables.</div><div class="ttdef"><b>Definition</b> XPathVariable.hpp:124</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_de45db85bd98abf883bc2bd6c3907fd8.html">applied</a></li><li class="navelem"><a class="el" href="dir_9f3553d7e4d4ebb0490c2c83481c4624.html">serial</a></li><li class="navelem"><a class="el" href="a00848.html">LumexSerialPort</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_d38a0fae6a8e48d91b3b62673cf0c708.html">xpath</a></li><li class="navelem"><a class="el" href="dir_52cbcfdbf2c58b58307b6d105e348e3a.html">utility</a></li><li class="navelem"><a class="el" href="a00848.html">XPathUtils.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

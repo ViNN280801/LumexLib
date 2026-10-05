@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexEnvironment.cpp File Reference</title>
+<title>LumexLib: LumexBitLock.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,68 +104,137 @@ $(function(){initNavTree('a00203.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
 <a href="#namespaces">Namespaces</a> &#124;
-<a href="#define-members">Macros</a> &#124;
 <a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">LumexEnvironment.cpp File Reference</div></div>
+  <div class="headertitle"><div class="title">LumexBitLock.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;algorithm&gt;</code><br />
-<code>#include &lt;cctype&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00206_source.html">LumexEnvironment.hpp</a>&quot;</code><br />
+
+<p>A lock held in one 32-bit word: one bit marks it as taken, a second bit records that a thread sleeps on it.  
+<a href="#details">More...</a></p>
+<div class="textblock"><code>#include &lt;atomic&gt;</code><br />
+<code>#include &lt;cstdint&gt;</code><br />
+<code>#include &lt;thread&gt;</code><br />
+<code>#include &quot;<a class="el" href="a00200_source.html">lumex/core/atomic/sync/LumexAtomicWait.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00389_source.html">lumex/core/utility/attr/LumexAttributes.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00425_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for LumexEnvironment.cpp:</div>
+Include dependency graph for LumexBitLock.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00204.png" border="0" usemap="#a_lumex_environment_8cpp" alt=""/></div>
+<div class="center"><img src="a00204.png" border="0" usemap="#a_lumex_bit_lock_8hpp" alt=""/></div>
+<map name="a_lumex_bit_lock_8hpp" id="a_lumex_bit_lock_8hpp">
+<area shape="rect" title="A lock held in one 32&#45;bit word: one bit marks it as taken, a second bit records that a thread sleeps ..." alt="" coords="268,5,398,32"/>
+<area shape="rect" title=" " alt="" coords="5,179,66,205"/>
+<area shape="poly" title=" " alt="" coords="300,35,250,56,195,82,123,128,64,171,61,167,120,124,193,78,248,51,298,30"/>
+<area shape="rect" title=" " alt="" coords="89,179,150,205"/>
+<area shape="poly" title=" " alt="" coords="316,35,252,82,147,170,143,166,249,78,313,30"/>
+<area shape="rect" title=" " alt="" coords="174,179,231,205"/>
+<area shape="poly" title=" " alt="" coords="326,34,223,168,219,164,321,31"/>
+<area shape="rect" href="a00200.html" title="Blocking wait for a change of a 32&#45;bit atomic word, and the wake&#45;up that ends it, from C++11 on." alt="" coords="311,80,472,123"/>
+<area shape="poly" title=" " alt="" coords="344,31,370,66,366,69,340,34"/>
+<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="974,171,1169,213"/>
+<area shape="poly" title=" " alt="" coords="398,20,582,37,693,53,803,77,862,96,920,117,1019,161,1017,166,918,122,860,101,801,83,692,59,581,42,398,26"/>
+<area shape="rect" href="a00389.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="622,80,790,123"/>
+<area shape="poly" title=" " alt="" coords="392,30,607,76,606,81,391,35"/>
+<area shape="poly" title=" " alt="" coords="312,117,200,139,78,173,74,175,72,170,76,168,198,134,311,112"/>
+<area shape="poly" title=" " alt="" coords="312,126,238,147,162,173,159,174,157,169,160,168,237,142,310,120"/>
+<area shape="poly" title=" " alt="" coords="347,125,243,173,242,174,240,169,241,168,344,121"/>
+<area shape="rect" title=" " alt="" coords="254,179,305,205"/>
+<area shape="poly" title=" " alt="" coords="367,125,309,171,306,167,364,121"/>
+<area shape="rect" title=" " alt="" coords="329,179,454,205"/>
+<area shape="poly" title=" " alt="" coords="394,123,394,163,389,163,389,123"/>
+<area shape="rect" title=" " alt="" coords="478,179,542,205"/>
+<area shape="poly" title=" " alt="" coords="421,121,483,167,480,171,417,125"/>
+<area shape="rect" title=" " alt="" coords="567,179,624,205"/>
+<area shape="poly" title=" " alt="" coords="444,121,555,168,558,169,556,174,553,173,442,126"/>
+<area shape="rect" title=" " alt="" coords="649,179,694,205"/>
+<area shape="poly" title=" " alt="" coords="473,117,554,139,638,168,639,169,637,174,636,173,552,144,472,122"/>
+<area shape="rect" href="a00404.html" title="C++ language, library and attribute feature availability." alt="" coords="718,171,950,213"/>
+<area shape="poly" title=" " alt="" coords="473,116,716,164,715,170,472,121"/>
+<area shape="poly" title=" " alt="" coords="472,108,688,132,959,168,959,173,687,137,472,113"/>
+<area shape="poly" title=" " alt="" coords="737,121,794,159,790,164,734,125"/>
+</map>
 </div>
-</div><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
-Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00912.html">lumex</a></td></tr>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00205.png" border="0" usemap="#a_lumex_bit_lock_8hppdep" alt=""/></div>
+<map name="a_lumex_bit_lock_8hppdep" id="a_lumex_bit_lock_8hppdep">
+<area shape="rect" title="A lock held in one 32&#45;bit word: one bit marks it as taken, a second bit records that a thread sleeps ..." alt="" coords="134,5,264,32"/>
+<area shape="rect" href="a00191.html" title="Storage and operations behind atomic_shared_ptr and atomic_weak_ptr: a lock&#45;based cell for every stan..." alt="" coords="98,80,300,107"/>
+<area shape="poly" title=" " alt="" coords="202,48,202,80,196,80,196,48"/>
+<area shape="rect" href="a00188.html" title="atomic_shared_ptr&lt;T&gt;: the interface of the C++20 std::atomic&lt;std::shared_ptr&lt;T&gt;&gt; for C++11 and later." alt="" coords="5,155,190,181"/>
+<area shape="poly" title=" " alt="" coords="170,118,117,156,114,152,167,114"/>
+<area shape="rect" href="a00197.html" title="atomic_weak_ptr&lt;T&gt;: the interface of the C++20 std::atomic&lt;std::weak_ptr&lt;T&gt;&gt; for C++11 and later." alt="" coords="213,155,390,181"/>
+<area shape="poly" title=" " alt="" coords="231,114,285,152,282,156,228,118"/>
+<area shape="rect" href="a00890.html" title="Atomic module: atomic_shared_ptr&lt;T&gt; and atomic_weak_ptr&lt;T&gt;, the interface of the C++20 std::atomic&lt;st..." alt="" coords="148,229,250,256"/>
+<area shape="poly" title=" " alt="" coords="129,188,183,227,180,231,126,193"/>
+<area shape="rect" href="a00452.html" title=" " alt="" coords="29,304,187,347"/>
+<area shape="poly" title=" " alt="" coords="175,268,133,306,130,302,172,264"/>
+<area shape="rect" href="a00455.html" title=" " alt="" coords="211,304,368,347"/>
+<area shape="poly" title=" " alt="" coords="226,264,268,302,265,306,222,268"/>
+<area shape="poly" title=" " alt="" coords="273,193,218,231,215,227,270,188"/>
+</map>
+</div>
+</div>
+<p><a href="a00203_source.html">Go to the source code of this file.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01361.html">lumex::core::atomic::sync::table_wait::Detail::BitLock</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lock in one 32-bit word that puts contended threads to sleep.  <a href="a01361.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00964.html">lumex::core</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00989.html">lumex::core::environment</a></td></tr>
-<tr class="memdesc:a00989"><td class="mdescLeft">&#160;</td><td class="mdescRight">Contains classes and utilities for environment variable interaction. <br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00990.html">lumex::core::environment::env</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01365.html">lumex::core::atomic::sync::table_wait::Detail::BitLockGuard</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Holds a <code><a class="el" href="a01361.html" title="Lock in one 32-bit word that puts contended threads to sleep.">BitLock</a></code> for the lifetime of the guard.  <a href="a01365.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
-Macros</h2></td></tr>
-<tr class="memitem:a07486181f1990291c2a348de8eb4c480" id="r_a07486181f1990291c2a348de8eb4c480"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a07486181f1990291c2a348de8eb4c480">LUMEX_IMPLEMENTATION</a></td></tr>
-<tr class="separator:a07486181f1990291c2a348de8eb4c480"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00948.html">lumex</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01005.html">lumex::core</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01006.html">lumex::core::atomic</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01010.html">lumex::core::atomic::sync</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01011.html">lumex::core::atomic::sync::table_wait</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01012.html">lumex::core::atomic::sync::table_wait::Detail</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:aa4eee5d823344fc6515437ef34084b7b" id="r_aa4eee5d823344fc6515437ef34084b7b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00990.html#aa4eee5d823344fc6515437ef34084b7b">lumex::core::environment::env::is_env_set</a> (<a class="el" href="a01790.html#a5ec8246f5384f098b278e1c75d009add">LumexEnvironment::string_type</a> const &amp;name)</td></tr>
-<tr class="memdesc:aa4eee5d823344fc6515437ef34084b7b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks whether an environment variable is set to a non-empty value.  <br /></td></tr>
-<tr class="separator:aa4eee5d823344fc6515437ef34084b7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a664eee18841a0489fd44e19b214f7761" id="r_a664eee18841a0489fd44e19b214f7761"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00990.html#a664eee18841a0489fd44e19b214f7761">lumex::core::environment::env::is_env_truthy</a> (<a class="el" href="a01790.html#a5ec8246f5384f098b278e1c75d009add">LumexEnvironment::string_type</a> const &amp;name)</td></tr>
-<tr class="memdesc:a664eee18841a0489fd44e19b214f7761"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks whether an environment variable is "truthy" (enabled).  <br /></td></tr>
-<tr class="separator:a664eee18841a0489fd44e19b214f7761"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaa48cf4ef446317fc83f672e8954ea02" id="r_aaa48cf4ef446317fc83f672e8954ea02"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01012.html#aaa48cf4ef446317fc83f672e8954ea02">lumex::core::atomic::sync::table_wait::Detail::tsan_mutex_pre_lock</a> (void *address) noexcept</td></tr>
+<tr class="memdesc:aaa48cf4ef446317fc83f672e8954ea02"><td class="mdescLeft">&#160;</td><td class="mdescRight">ThreadSanitizer annotations of the lock word; no-ops in other builds.  <br /></td></tr>
+<tr class="separator:aaa48cf4ef446317fc83f672e8954ea02"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa411a9b6a91063b2ca57a48b5cda7e38" id="r_aa411a9b6a91063b2ca57a48b5cda7e38"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01012.html#aa411a9b6a91063b2ca57a48b5cda7e38">lumex::core::atomic::sync::table_wait::Detail::tsan_mutex_post_lock</a> (void *address) noexcept</td></tr>
+<tr class="memdesc:aa411a9b6a91063b2ca57a48b5cda7e38"><td class="mdescLeft">&#160;</td><td class="mdescRight">ThreadSanitizer annotations of the lock word; no-ops in other builds.     <br /></td></tr>
+<tr class="separator:aa411a9b6a91063b2ca57a48b5cda7e38"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae7b93d2510244fa9c6dfbd038fef1e35" id="r_ae7b93d2510244fa9c6dfbd038fef1e35"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01012.html#ae7b93d2510244fa9c6dfbd038fef1e35">lumex::core::atomic::sync::table_wait::Detail::tsan_mutex_pre_unlock</a> (void *address) noexcept</td></tr>
+<tr class="memdesc:ae7b93d2510244fa9c6dfbd038fef1e35"><td class="mdescLeft">&#160;</td><td class="mdescRight">ThreadSanitizer annotations of the lock word; no-ops in other builds.     <br /></td></tr>
+<tr class="separator:ae7b93d2510244fa9c6dfbd038fef1e35"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a45138d629081f839e7c275e9ee3a9b8c" id="r_a45138d629081f839e7c275e9ee3a9b8c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01012.html#a45138d629081f839e7c275e9ee3a9b8c">lumex::core::atomic::sync::table_wait::Detail::tsan_mutex_post_unlock</a> (void *address) noexcept</td></tr>
+<tr class="memdesc:a45138d629081f839e7c275e9ee3a9b8c"><td class="mdescLeft">&#160;</td><td class="mdescRight">ThreadSanitizer annotations of the lock word; no-ops in other builds.     <br /></td></tr>
+<tr class="separator:a45138d629081f839e7c275e9ee3a9b8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af25ffa3720b756fbe30a7e29397ee4bd" id="r_af25ffa3720b756fbe30a7e29397ee4bd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01012.html#af25ffa3720b756fbe30a7e29397ee4bd">lumex::core::atomic::sync::table_wait::Detail::tsan_mutex_destroy</a> (void *address) noexcept</td></tr>
+<tr class="memdesc:af25ffa3720b756fbe30a7e29397ee4bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">ThreadSanitizer annotations of the lock word; no-ops in other builds.     <br /></td></tr>
+<tr class="separator:af25ffa3720b756fbe30a7e29397ee4bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="a07486181f1990291c2a348de8eb4c480" name="a07486181f1990291c2a348de8eb4c480"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a07486181f1990291c2a348de8eb4c480">&#9670;&#160;</a></span>LUMEX_IMPLEMENTATION</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_IMPLEMENTATION</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-</div><!-- contents -->
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>A lock held in one 32-bit word: one bit marks it as taken, a second bit records that a thread sleeps on it. </p>
+<p>This is the spin lock of the lock-based <code><a class="el" href="a01325.html" title="Atomic std::shared_ptr&lt;T&gt;, as std::atomic&lt;std::shared_ptr&lt;T&gt;&gt;.">atomic_shared_ptr</a></code> and <code><a class="el" href="a01349.html" title="Atomic std::weak_ptr&lt;T&gt;, as std::atomic&lt;std::weak_ptr&lt;T&gt;&gt;.">atomic_weak_ptr</a></code>, ported from the lock-based method of the author's own libc++ implementation of <code>std::atomic&lt;std::shared_ptr&lt;T&gt;&gt;</code> (P0718R2, llvm-project pull request 194215; that implementation also has a lock-free method, which is not ported). One change: libc++ can keep the two bits in the low bits of its own control block pointer, while this library works over the <code>std::shared_ptr</code> of any standard library, whose layout it must not touch, so the bits live in a word of their own.</p>
+<p>A thread that finds the lock taken spins briefly (12 pause instructions, then 4 yields, the spin policy of libstdc++'s <code>std::atomic::wait</code>), then sets the sleeper bit and sleeps until the word changes. The spin is this port's addition: the libc++ method parks at once in libc++'s global wait table, while sleeping on the wait table of a C++11 build costs a mutex and a condition variable. The unlocking thread clears both bits in one exchange and, if the sleeper bit was set, wakes every sleeper. The woken threads race for the lock again; a thread that loses sets the sleeper bit again before it goes back to sleep. Sleeping without setting the bit again is the lost wake-up that the libc++ pull request had to fix: the next unlock would see no sleeper bit and wake nobody.</p>
+<p>The protected sections of the atomic smart pointers only move or copy a smart pointer, so the lock is held briefly; sleeping matters when the holder is preempted.</p>
+<p>Under ThreadSanitizer the lock is annotated as a mutex, so the sanitizer orders the protected accesses through the lock and can report lock order inversions that involve it.</p>
+<p>Everything here is an implementation detail of <code>lumex/core/atomic</code>. </p>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_11061250c6f9b78e671467056317b947.html">environment</a></li><li class="navelem"><a class="el" href="dir_74ef07624c3093f5dc0ef86dcc133c5f.html">env</a></li><li class="navelem"><a class="el" href="a00203.html">LumexEnvironment.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_46588a2def099f5c90ce8dff319725b2.html">atomic</a></li><li class="navelem"><a class="el" href="dir_a794f2aa14bb7adf95f9a3f4e3b55361.html">sync</a></li><li class="navelem"><a class="el" href="a00203.html">LumexBitLock.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

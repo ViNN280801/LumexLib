@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexAggregateFields.hpp File Reference</title>
+<title>LumexLib: ExpectedTypes.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -106,270 +106,188 @@ $(function(){initNavTree('a00293.html',''); initResizable(true); });
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#namespaces">Namespaces</a> &#124;
-<a href="#define-members">Macros</a> &#124;
-<a href="#func-members">Functions</a> &#124;
 <a href="#var-members">Variables</a>  </div>
-  <div class="headertitle"><div class="title">LumexAggregateFields.hpp File Reference</div></div>
+  <div class="headertitle"><div class="title">ExpectedTypes.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Non-intrusive field count, indexed access, and (from C++20) field names for simple aggregates.  
+<p>The tags and the placeholder type that <code><a class="el" href="a04049.html" title="Class that mimics std::expected from C++23.">Expected</a></code> uses: <code>in_place</code>, <code>unexpect</code> and <code>Unit</code>.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;array&gt;</code><br />
-<code>#include &lt;cstddef&gt;</code><br />
-<code>#include &lt;memory&gt;</code><br />
-<code>#include &lt;type_traits&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00350_source.html">lumex/core/utility/assert/LumexAssert.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00353_source.html">lumex/core/utility/attr/LumexAttributes.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00389_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00392_source.html">lumex/core/utility/macros/LumexMacros.hpp</a>&quot;</code><br />
-<code>#include &lt;tuple&gt;</code><br />
+<div class="textblock"><code>#include &lt;type_traits&gt;</code><br />
+<code>#include &quot;<a class="el" href="a00425_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00446_source.html">lumex/core/utility/traits/LumexTypeTraits.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for LumexAggregateFields.hpp:</div>
+Include dependency graph for ExpectedTypes.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00294.png" border="0" usemap="#a_lumex_aggregate_fields_8hpp" alt=""/></div>
+<div class="center"><img src="a00294.png" border="0" usemap="#a_expected_types_8hpp" alt=""/></div>
+<map name="a_expected_types_8hpp" id="a_expected_types_8hpp">
+<area shape="rect" title="The tags and the placeholder type that Expected uses: in_place, unexpect and Unit." alt="" coords="798,5,935,32"/>
+<area shape="rect" title=" " alt="" coords="5,179,88,205"/>
+<area shape="poly" title=" " alt="" coords="798,32,668,53,494,83,297,124,101,173,92,176,91,171,99,168,296,119,493,78,667,47,798,27"/>
+<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="1621,261,1816,304"/>
+<area shape="poly" title=" " alt="" coords="935,16,1156,19,1298,25,1447,37,1592,56,1723,83,1779,100,1828,120,1868,143,1898,169,1907,184,1908,198,1903,211,1892,222,1861,243,1820,259,1818,254,1858,238,1889,218,1898,208,1903,197,1902,185,1894,172,1865,147,1826,125,1778,105,1722,88,1592,61,1447,43,1298,31,1156,24,935,22"/>
+<area shape="rect" href="a00446.html" title="Every general&#45;purpose type trait of LumexLib, one sub&#45;namespace of lumex::core::utility::traits per t..." alt="" coords="775,80,958,123"/>
+<area shape="poly" title=" " alt="" coords="869,32,869,65,864,65,864,32"/>
+<area shape="poly" title=" " alt="" coords="774,106,641,109,473,120,286,140,192,155,100,173,91,176,90,171,99,168,191,150,285,135,472,114,641,104,774,100"/>
+<area shape="poly" title=" " alt="" coords="959,100,1170,103,1426,112,1548,121,1652,133,1730,148,1756,158,1773,169,1782,189,1779,211,1768,232,1753,251,1749,248,1764,229,1774,209,1777,190,1768,172,1754,163,1728,154,1651,138,1547,126,1426,118,1170,108,958,105"/>
+<area shape="rect" title=" " alt="" coords="1833,179,1884,205"/>
+<area shape="poly" title=" " alt="" coords="959,102,1157,110,1404,122,1642,141,1741,154,1815,168,1822,170,1820,175,1814,173,1740,159,1642,147,1403,128,1156,115,959,108"/>
+<area shape="rect" title=" " alt="" coords="304,179,368,205"/>
+<area shape="poly" title=" " alt="" coords="775,110,590,130,485,148,381,173,375,175,373,170,379,168,483,143,590,125,774,105"/>
+<area shape="rect" title=" " alt="" coords="392,179,469,205"/>
+<area shape="poly" title=" " alt="" coords="775,116,636,138,482,173,475,175,473,170,480,168,635,133,774,111"/>
+<area shape="rect" title=" " alt="" coords="493,179,554,205"/>
+<area shape="poly" title=" " alt="" coords="775,121,674,143,567,173,563,175,561,170,566,168,673,137,774,116"/>
+<area shape="rect" title=" " alt="" coords="579,179,631,205"/>
+<area shape="poly" title=" " alt="" coords="786,126,716,147,643,173,642,174,640,169,642,168,714,142,784,121"/>
+<area shape="rect" title=" " alt="" coords="655,179,723,205"/>
+<area shape="poly" title=" " alt="" coords="826,126,729,174,727,169,824,121"/>
+<area shape="rect" title=" " alt="" coords="747,179,815,205"/>
+<area shape="poly" title=" " alt="" coords="849,125,806,169,802,165,845,121"/>
+<area shape="rect" title=" " alt="" coords="840,179,893,205"/>
+<area shape="poly" title=" " alt="" coords="869,123,869,163,864,163,864,123"/>
+<area shape="rect" title=" " alt="" coords="918,179,967,205"/>
+<area shape="poly" title=" " alt="" coords="886,121,924,165,920,169,882,125"/>
+<area shape="rect" title=" " alt="" coords="991,179,1043,205"/>
+<area shape="poly" title=" " alt="" coords="903,121,984,168,981,173,900,126"/>
+<area shape="rect" title=" " alt="" coords="1068,179,1134,205"/>
+<area shape="poly" title=" " alt="" coords="928,121,1057,168,1061,170,1059,175,1055,173,927,126"/>
+<area shape="rect" title=" " alt="" coords="1159,179,1246,205"/>
+<area shape="poly" title=" " alt="" coords="959,120,1147,168,1155,171,1154,176,1146,173,958,125"/>
+<area shape="rect" href="a00386.html" title="Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_..." alt="" coords="112,171,280,213"/>
+<area shape="poly" title=" " alt="" coords="775,114,560,137,295,173,295,168,559,131,774,108"/>
+<area shape="rect" href="a00404.html" title="C++ language, library and attribute feature availability." alt="" coords="1271,171,1502,213"/>
+<area shape="poly" title=" " alt="" coords="959,116,1256,166,1256,171,958,121"/>
+<area shape="rect" href="a00419.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="1526,171,1759,213"/>
+<area shape="poly" title=" " alt="" coords="959,108,1204,132,1511,168,1511,173,1204,138,958,113"/>
+<area shape="poly" title=" " alt="" coords="280,209,292,211,478,231,668,247,1040,268,1367,277,1606,279,1606,285,1367,283,1040,274,668,253,478,237,291,216,280,214"/>
+<area shape="rect" href="a00641.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="115,269,277,296"/>
+<area shape="poly" title=" " alt="" coords="198,214,198,254,193,254,193,214"/>
+<area shape="poly" title=" " alt="" coords="1662,212,1693,248,1689,251,1658,215"/>
+</map>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00295.png" border="0" usemap="#a_lumex_aggregate_fields_8hppdep" alt=""/></div>
+<div class="center"><img src="a00295.png" border="0" usemap="#a_expected_types_8hppdep" alt=""/></div>
+<map name="a_expected_types_8hppdep" id="a_expected_types_8hppdep">
+<area shape="rect" title="The tags and the placeholder type that Expected uses: in_place, unexpect and Unit." alt="" coords="188,5,324,32"/>
+<area shape="rect" href="a00908.html" title="Expected module: Expected&lt;T, E&gt;, a value or an error after the C++23 std::expected,..." alt="" coords="149,304,225,331"/>
+<area shape="poly" title=" " alt="" coords="230,44,196,82,178,116,170,155,162,205,167,255,183,303,178,304,162,257,157,205,164,154,173,115,191,78,226,41"/>
+<area shape="rect" href="a00290.html" title="Expected&lt;SuccessType, ErrorType&gt;, an analogue of C++23 std::expected usable from C++11,..." alt="" coords="206,80,307,107"/>
+<area shape="poly" title=" " alt="" coords="259,48,259,80,254,80,254,48"/>
+<area shape="rect" href="a00299.html" title="The return markers success() and failure() for functions that return an Expected." alt="" coords="276,229,412,256"/>
+<area shape="poly" title=" " alt="" coords="286,41,321,78,344,114,358,154,360,175,359,196,351,229,346,228,353,195,355,175,352,155,340,116,317,82,282,44"/>
+<area shape="rect" href="a00488.html" title=" " alt="" coords="5,379,161,405"/>
+<area shape="poly" title=" " alt="" coords="158,342,103,380,100,376,155,337"/>
+<area shape="rect" href="a00491.html" title=" " alt="" coords="184,379,398,405"/>
+<area shape="poly" title=" " alt="" coords="219,337,274,376,271,380,216,342"/>
+<area shape="poly" title=" " alt="" coords="220,117,199,134,184,156,173,196,173,237,178,275,185,303,180,304,173,276,167,238,168,195,179,154,196,131,216,113"/>
+<area shape="rect" href="a00296.html" title="The specialization Expected&lt;void, ErrorType&gt; for operations that succeed without a value; an analogue..." alt="" coords="193,155,320,181"/>
+<area shape="poly" title=" " alt="" coords="259,122,259,154,254,154,254,122"/>
+<area shape="poly" title=" " alt="" coords="294,113,316,131,333,153,342,173,346,194,348,229,342,229,341,195,337,175,329,156,312,135,291,117"/>
+<area shape="poly" title=" " alt="" coords="246,197,195,305,190,302,242,194"/>
+<area shape="poly" title=" " alt="" coords="285,189,331,227,327,231,282,194"/>
+<area shape="poly" title=" " alt="" coords="304,265,216,306,214,301,302,260"/>
+</map>
 </div>
 </div>
 <p><a href="a00293_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02278.html">lumex::core::reflection::field_reflection::detail::index_sequence&lt; I &gt;</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01933.html">lumex::core::expected::result::in_place_tag</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">In-place construction tag; C++11 has no std::in_place.  <a href="a01933.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02282.html">lumex::core::reflection::field_reflection::detail::any_field&lt; I &gt;</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01937.html">lumex::core::expected::result::Unit</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Placeholder success type for <code><a class="el" href="a01925.html" title="Class that mimics std::expected from C++23.">Expected</a>&lt;void, ErrorType&gt;</code>.  <a href="a01937.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02286.html">lumex::core::reflection::field_reflection::detail::can_construct_n&lt; Aggregate, N &gt;</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01941.html">lumex::core::expected::result::unexpect_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">C++23-compatible tag: construct the error in place.  <a href="a01941.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02294.html">lumex::core::reflection::field_reflection::detail::count_fields_impl&lt; Aggregate, Lo, Hi, true &gt;</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04057.html">in_place_tag</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">In-place construction tag; C++11 has no std::in_place.  <a href="a04057.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02298.html">lumex::core::reflection::field_reflection::detail::count_fields_impl&lt; Aggregate, Lo, Hi, false &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02302.html">lumex::core::reflection::field_reflection::detail::aggregate_traits&lt; T &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02306.html">lumex::core::reflection::field_reflection::detail::fake_object_wrapper_t&lt; T &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02314.html">lumex::core::reflection::field_reflection::detail::names_builder&lt; Agg, index_sequence&lt; I... &gt; &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02318.html">lumex::core::reflection::field_reflection::detail::names_builder&lt; Agg, index_sequence&lt;&gt; &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02322.html">lumex::core::reflection::field_reflection::tuple_size&lt; Aggregate &gt;</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04061.html">unexpect_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">C++23-compatible tag: construct the error in place.  <a href="a04061.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00912.html">lumex</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00948.html">lumex</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00964.html">lumex::core</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01005.html">lumex::core</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01017.html">lumex::core::reflection</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01041.html">lumex::core::expected</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01018.html">lumex::core::reflection::field_reflection</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01043.html">lumex::core::expected::result</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01019.html">lumex::core::reflection::field_reflection::detail</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
-Macros</h2></td></tr>
-<tr class="memitem:a89770ba9e5eec4affabea691368b7a3c" id="r_a89770ba9e5eec4affabea691368b7a3c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a89770ba9e5eec4affabea691368b7a3c">LUMEX_AGGREGATE_FIELDS_USE_SB</a>&#160;&#160;&#160;1</td></tr>
-<tr class="separator:a89770ba9e5eec4affabea691368b7a3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad16692a7a8afa476f07b2bd8e8aa2f30" id="r_ad16692a7a8afa476f07b2bd8e8aa2f30"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad16692a7a8afa476f07b2bd8e8aa2f30">LUMEX_AF_TIE</a>(N, ...)</td></tr>
-<tr class="separator:ad16692a7a8afa476f07b2bd8e8aa2f30"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:aceb68afc866ef9a65e29384c63d03bac" id="r_aceb68afc866ef9a65e29384c63d03bac"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate, std::size_t... I&gt; </td></tr>
-<tr class="memitem:aceb68afc866ef9a65e29384c63d03bac"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01019.html#aceb68afc866ef9a65e29384c63d03bac">lumex::core::reflection::field_reflection::detail::can_construct_fn</a> (<a class="el" href="a02278.html">index_sequence</a>&lt; I... &gt;) -&gt; decltype(Aggregate{ <a class="el" href="a02282.html">any_field</a>&lt; I &gt;{}... }, std::true_type{})</td></tr>
-<tr class="separator:aceb68afc866ef9a65e29384c63d03bac"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae4ad9c78afee19bb51090917267383f5" id="r_ae4ad9c78afee19bb51090917267383f5"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:ae4ad9c78afee19bb51090917267383f5"><td class="memTemplItemLeft" align="right" valign="top">std::false_type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01019.html#ae4ad9c78afee19bb51090917267383f5">lumex::core::reflection::field_reflection::detail::can_construct_fn</a> (...)</td></tr>
-<tr class="separator:ae4ad9c78afee19bb51090917267383f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4f3e456deefe393955ca7ecdd2bc14bd" id="r_a4f3e456deefe393955ca7ecdd2bc14bd"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01019.html#a4f3e456deefe393955ca7ecdd2bc14bd">lumex::core::reflection::field_reflection::detail::is_ident_char</a> (char ch) noexcept</td></tr>
-<tr class="separator:a4f3e456deefe393955ca7ecdd2bc14bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af95c622ddb01303f143c861215726cf2" id="r_af95c622ddb01303f143c861215726cf2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01019.html#af95c622ddb01303f143c861215726cf2">lumex::core::reflection::field_reflection::detail::copy_parsed_name</a> (char *dest, std::size_t dest_size, char const *pretty) noexcept</td></tr>
-<tr class="separator:af95c622ddb01303f143c861215726cf2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4267bbe4c002bf9161d0966b40e2eb6f" id="r_a4267bbe4c002bf9161d0966b40e2eb6f"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a4267bbe4c002bf9161d0966b40e2eb6f"><td class="memTemplItemLeft" align="right" valign="top">constexpr std::tuple&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01019.html#a4267bbe4c002bf9161d0966b40e2eb6f">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;, std::integral_constant&lt; std::size_t, 0 &gt;) noexcept</td></tr>
-<tr class="separator:a4267bbe4c002bf9161d0966b40e2eb6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aded523a605caa6cfe8d50b58a1a0f11c" id="r_aded523a605caa6cfe8d50b58a1a0f11c"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:aded523a605caa6cfe8d50b58a1a0f11c"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01019.html#aded523a605caa6cfe8d50b58a1a0f11c">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 1 &gt;) noexcept</td></tr>
-<tr class="separator:aded523a605caa6cfe8d50b58a1a0f11c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a912eba9f95e61654c8b933985baa3dc3" id="r_a912eba9f95e61654c8b933985baa3dc3"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a912eba9f95e61654c8b933985baa3dc3"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01019.html#a912eba9f95e61654c8b933985baa3dc3">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 2 &gt;) noexcept</td></tr>
-<tr class="separator:a912eba9f95e61654c8b933985baa3dc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad11a5438edefb2a0bb2d9925c83b3b02" id="r_ad11a5438edefb2a0bb2d9925c83b3b02"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:ad11a5438edefb2a0bb2d9925c83b3b02"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01019.html#ad11a5438edefb2a0bb2d9925c83b3b02">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 3 &gt;) noexcept</td></tr>
-<tr class="separator:ad11a5438edefb2a0bb2d9925c83b3b02"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acad575146ddc07f284dde57c0b9109c9" id="r_acad575146ddc07f284dde57c0b9109c9"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:acad575146ddc07f284dde57c0b9109c9"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01019.html#acad575146ddc07f284dde57c0b9109c9">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 4 &gt;) noexcept</td></tr>
-<tr class="separator:acad575146ddc07f284dde57c0b9109c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a385505884887f9eb655569e19e56ff4f" id="r_a385505884887f9eb655569e19e56ff4f"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a385505884887f9eb655569e19e56ff4f"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01019.html#a385505884887f9eb655569e19e56ff4f">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 5 &gt;) noexcept</td></tr>
-<tr class="separator:a385505884887f9eb655569e19e56ff4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab95ef2fa6d12aa7cb29350878be69aa8" id="r_ab95ef2fa6d12aa7cb29350878be69aa8"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:ab95ef2fa6d12aa7cb29350878be69aa8"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01019.html#ab95ef2fa6d12aa7cb29350878be69aa8">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 6 &gt;) noexcept</td></tr>
-<tr class="separator:ab95ef2fa6d12aa7cb29350878be69aa8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae4db1b12c528a5049bbb5a943ce5953e" id="r_ae4db1b12c528a5049bbb5a943ce5953e"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:ae4db1b12c528a5049bbb5a943ce5953e"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01019.html#ae4db1b12c528a5049bbb5a943ce5953e">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 7 &gt;) noexcept</td></tr>
-<tr class="separator:ae4db1b12c528a5049bbb5a943ce5953e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a47d46b4d49e708f6de92811f3fb5e830" id="r_a47d46b4d49e708f6de92811f3fb5e830"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a47d46b4d49e708f6de92811f3fb5e830"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01019.html#a47d46b4d49e708f6de92811f3fb5e830">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 8 &gt;) noexcept</td></tr>
-<tr class="separator:a47d46b4d49e708f6de92811f3fb5e830"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a82728cefdf5c455716dc20652d5f3943" id="r_a82728cefdf5c455716dc20652d5f3943"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a82728cefdf5c455716dc20652d5f3943"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01019.html#a82728cefdf5c455716dc20652d5f3943">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 9 &gt;) noexcept</td></tr>
-<tr class="separator:a82728cefdf5c455716dc20652d5f3943"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3e6e73dbebb61b103857b7ddf8490d4f" id="r_a3e6e73dbebb61b103857b7ddf8490d4f"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a3e6e73dbebb61b103857b7ddf8490d4f"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01019.html#a3e6e73dbebb61b103857b7ddf8490d4f">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 10 &gt;) noexcept</td></tr>
-<tr class="separator:a3e6e73dbebb61b103857b7ddf8490d4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab8e02960255c1e37fd0b8333eefae5ef" id="r_ab8e02960255c1e37fd0b8333eefae5ef"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:ab8e02960255c1e37fd0b8333eefae5ef"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01019.html#ab8e02960255c1e37fd0b8333eefae5ef">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 11 &gt;) noexcept</td></tr>
-<tr class="separator:ab8e02960255c1e37fd0b8333eefae5ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0fc355207dd559f31b72b36539965e46" id="r_a0fc355207dd559f31b72b36539965e46"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a0fc355207dd559f31b72b36539965e46"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01019.html#a0fc355207dd559f31b72b36539965e46">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 12 &gt;) noexcept</td></tr>
-<tr class="separator:a0fc355207dd559f31b72b36539965e46"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a125412c6679b87475afdcd39ee146320" id="r_a125412c6679b87475afdcd39ee146320"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a125412c6679b87475afdcd39ee146320"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01019.html#a125412c6679b87475afdcd39ee146320">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 13 &gt;) noexcept</td></tr>
-<tr class="separator:a125412c6679b87475afdcd39ee146320"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaf63cffdfbe4d7419721d35f8d1ae201" id="r_aaf63cffdfbe4d7419721d35f8d1ae201"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:aaf63cffdfbe4d7419721d35f8d1ae201"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01019.html#aaf63cffdfbe4d7419721d35f8d1ae201">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 14 &gt;) noexcept</td></tr>
-<tr class="separator:aaf63cffdfbe4d7419721d35f8d1ae201"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac7f2859533a14448e2b1f034426272d5" id="r_ac7f2859533a14448e2b1f034426272d5"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:ac7f2859533a14448e2b1f034426272d5"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01019.html#ac7f2859533a14448e2b1f034426272d5">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 15 &gt;) noexcept</td></tr>
-<tr class="separator:ac7f2859533a14448e2b1f034426272d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1e3964179dc73c8e3ad39448c554ae4c" id="r_a1e3964179dc73c8e3ad39448c554ae4c"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a1e3964179dc73c8e3ad39448c554ae4c"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01019.html#a1e3964179dc73c8e3ad39448c554ae4c">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 16 &gt;) noexcept</td></tr>
-<tr class="separator:a1e3964179dc73c8e3ad39448c554ae4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a10a17d9f5e7eb688c36136acac1cff24" id="r_a10a17d9f5e7eb688c36136acac1cff24"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a10a17d9f5e7eb688c36136acac1cff24"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01019.html#a10a17d9f5e7eb688c36136acac1cff24">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 17 &gt;) noexcept</td></tr>
-<tr class="separator:a10a17d9f5e7eb688c36136acac1cff24"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a64f222c162a6cfe9f67c91b61ae14efb" id="r_a64f222c162a6cfe9f67c91b61ae14efb"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a64f222c162a6cfe9f67c91b61ae14efb"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01019.html#a64f222c162a6cfe9f67c91b61ae14efb">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 18 &gt;) noexcept</td></tr>
-<tr class="separator:a64f222c162a6cfe9f67c91b61ae14efb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2244df144c0daef5938e73d8d240433d" id="r_a2244df144c0daef5938e73d8d240433d"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a2244df144c0daef5938e73d8d240433d"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01019.html#a2244df144c0daef5938e73d8d240433d">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 19 &gt;) noexcept</td></tr>
-<tr class="separator:a2244df144c0daef5938e73d8d240433d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa17e21437a765edfd55b8ad1f00b2c76" id="r_aa17e21437a765edfd55b8ad1f00b2c76"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:aa17e21437a765edfd55b8ad1f00b2c76"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01019.html#aa17e21437a765edfd55b8ad1f00b2c76">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 20 &gt;) noexcept</td></tr>
-<tr class="separator:aa17e21437a765edfd55b8ad1f00b2c76"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a22b38dd653cb880c753508e4491fc363" id="r_a22b38dd653cb880c753508e4491fc363"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a22b38dd653cb880c753508e4491fc363"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01019.html#a22b38dd653cb880c753508e4491fc363">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 21 &gt;) noexcept</td></tr>
-<tr class="separator:a22b38dd653cb880c753508e4491fc363"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a27b5e81a3cb103132463ff12c0df95bf" id="r_a27b5e81a3cb103132463ff12c0df95bf"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a27b5e81a3cb103132463ff12c0df95bf"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01019.html#a27b5e81a3cb103132463ff12c0df95bf">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 22 &gt;) noexcept</td></tr>
-<tr class="separator:a27b5e81a3cb103132463ff12c0df95bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a51c02610ccb480c165f066d095fcf23b" id="r_a51c02610ccb480c165f066d095fcf23b"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a51c02610ccb480c165f066d095fcf23b"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01019.html#a51c02610ccb480c165f066d095fcf23b">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 23 &gt;) noexcept</td></tr>
-<tr class="separator:a51c02610ccb480c165f066d095fcf23b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a48a4300d36d120d6c2d90f338f71fdb2" id="r_a48a4300d36d120d6c2d90f338f71fdb2"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a48a4300d36d120d6c2d90f338f71fdb2"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01019.html#a48a4300d36d120d6c2d90f338f71fdb2">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 24 &gt;) noexcept</td></tr>
-<tr class="separator:a48a4300d36d120d6c2d90f338f71fdb2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2440e77d71df4498c398f9d5c792fe18" id="r_a2440e77d71df4498c398f9d5c792fe18"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a2440e77d71df4498c398f9d5c792fe18"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01019.html#a2440e77d71df4498c398f9d5c792fe18">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 25 &gt;) noexcept</td></tr>
-<tr class="separator:a2440e77d71df4498c398f9d5c792fe18"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8aaadcbed462d14db431d2803840971a" id="r_a8aaadcbed462d14db431d2803840971a"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a8aaadcbed462d14db431d2803840971a"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01019.html#a8aaadcbed462d14db431d2803840971a">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 26 &gt;) noexcept</td></tr>
-<tr class="separator:a8aaadcbed462d14db431d2803840971a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0756d6a05c6dff5124151c29b3f2ec0b" id="r_a0756d6a05c6dff5124151c29b3f2ec0b"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a0756d6a05c6dff5124151c29b3f2ec0b"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01019.html#a0756d6a05c6dff5124151c29b3f2ec0b">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 27 &gt;) noexcept</td></tr>
-<tr class="separator:a0756d6a05c6dff5124151c29b3f2ec0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2d5d2dba687cacb9dd2f72f10500f51b" id="r_a2d5d2dba687cacb9dd2f72f10500f51b"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a2d5d2dba687cacb9dd2f72f10500f51b"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01019.html#a2d5d2dba687cacb9dd2f72f10500f51b">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 28 &gt;) noexcept</td></tr>
-<tr class="separator:a2d5d2dba687cacb9dd2f72f10500f51b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a12e9775a18d15a731bfab5807259c09f" id="r_a12e9775a18d15a731bfab5807259c09f"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a12e9775a18d15a731bfab5807259c09f"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01019.html#a12e9775a18d15a731bfab5807259c09f">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 29 &gt;) noexcept</td></tr>
-<tr class="separator:a12e9775a18d15a731bfab5807259c09f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2cf7a26adc5d167e43dbeb8a7fa4e971" id="r_a2cf7a26adc5d167e43dbeb8a7fa4e971"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a2cf7a26adc5d167e43dbeb8a7fa4e971"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01019.html#a2cf7a26adc5d167e43dbeb8a7fa4e971">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 30 &gt;) noexcept</td></tr>
-<tr class="separator:a2cf7a26adc5d167e43dbeb8a7fa4e971"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9e86feeeb022466c719ff90ccb0028c9" id="r_a9e86feeeb022466c719ff90ccb0028c9"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a9e86feeeb022466c719ff90ccb0028c9"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01019.html#a9e86feeeb022466c719ff90ccb0028c9">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 31 &gt;) noexcept</td></tr>
-<tr class="separator:a9e86feeeb022466c719ff90ccb0028c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af1d88b75c54f534ea6b01d58c4b59dd5" id="r_af1d88b75c54f534ea6b01d58c4b59dd5"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:af1d88b75c54f534ea6b01d58c4b59dd5"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01019.html#af1d88b75c54f534ea6b01d58c4b59dd5">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 32 &gt;) noexcept</td></tr>
-<tr class="separator:af1d88b75c54f534ea6b01d58c4b59dd5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0b1a477a75ded890ec1241ec7224dcd6" id="r_a0b1a477a75ded890ec1241ec7224dcd6"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
-<tr class="memitem:a0b1a477a75ded890ec1241ec7224dcd6"><td class="memTemplItemLeft" align="right" valign="top">constexpr T const &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01019.html#a0b1a477a75ded890ec1241ec7224dcd6">lumex::core::reflection::field_reflection::detail::fake_object</a> () noexcept</td></tr>
-<tr class="separator:a0b1a477a75ded890ec1241ec7224dcd6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a59621e102782b53ef14881c60a98b270" id="r_a59621e102782b53ef14881c60a98b270"><td class="memTemplParams" colspan="2">template&lt;typename Agg, auto Pointer&gt; </td></tr>
-<tr class="memitem:a59621e102782b53ef14881c60a98b270"><td class="memTemplItemLeft" align="right" valign="top">char const *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01019.html#a59621e102782b53ef14881c60a98b270">lumex::core::reflection::field_reflection::detail::nttp_pretty</a> () noexcept</td></tr>
-<tr class="separator:a59621e102782b53ef14881c60a98b270"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a47c782817ce4d8502fea02a9f0da512b" id="r_a47c782817ce4d8502fea02a9f0da512b"><td class="memTemplParams" colspan="2">template&lt;typename Agg, std::size_t I&gt; </td></tr>
-<tr class="memitem:a47c782817ce4d8502fea02a9f0da512b"><td class="memTemplItemLeft" align="right" valign="top">char const *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01019.html#a47c782817ce4d8502fea02a9f0da512b">lumex::core::reflection::field_reflection::detail::field_name</a> () noexcept</td></tr>
-<tr class="separator:a47c782817ce4d8502fea02a9f0da512b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:affc4125f1c661b62d9a1011d7c589dc9" id="r_affc4125f1c661b62d9a1011d7c589dc9"><td class="memTemplParams" colspan="2">template&lt;std::size_t Index, typename Aggregate&gt; </td></tr>
-<tr class="memitem:affc4125f1c661b62d9a1011d7c589dc9"><td class="memTemplItemLeft" align="right" valign="top">decltype(auto)&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01018.html#affc4125f1c661b62d9a1011d7c589dc9">lumex::core::reflection::field_reflection::get</a> (Aggregate &amp;value) noexcept</td></tr>
-<tr class="separator:affc4125f1c661b62d9a1011d7c589dc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af734b0fe3e627e210ec21f71e86e7d5f" id="r_af734b0fe3e627e210ec21f71e86e7d5f"><td class="memTemplParams" colspan="2">template&lt;std::size_t Index, typename Aggregate&gt; </td></tr>
-<tr class="memitem:af734b0fe3e627e210ec21f71e86e7d5f"><td class="memTemplItemLeft" align="right" valign="top">decltype(auto)&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01018.html#af734b0fe3e627e210ec21f71e86e7d5f">lumex::core::reflection::field_reflection::get</a> (Aggregate const &amp;value) noexcept</td></tr>
-<tr class="separator:af734b0fe3e627e210ec21f71e86e7d5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0a8d34c9fd7381d1fb19e20251b0c67a" id="r_a0a8d34c9fd7381d1fb19e20251b0c67a"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a0a8d34c9fd7381d1fb19e20251b0c67a"><td class="memTemplItemLeft" align="right" valign="top">std::array&lt; char const *, <a class="el" href="a02322.html">tuple_size</a>&lt; Aggregate &gt;::value &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01018.html#a0a8d34c9fd7381d1fb19e20251b0c67a">lumex::core::reflection::field_reflection::names_as_array</a> () noexcept</td></tr>
-<tr class="separator:a0a8d34c9fd7381d1fb19e20251b0c67a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:a75d3fb078865f1adb49edd60c7e02fb8" id="r_a75d3fb078865f1adb49edd60c7e02fb8"><td class="memItemLeft" align="right" valign="top">constexpr std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01019.html#a75d3fb078865f1adb49edd60c7e02fb8">lumex::core::reflection::field_reflection::detail::k_max_aggregate_fields</a> = 32</td></tr>
-<tr class="separator:a75d3fb078865f1adb49edd60c7e02fb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac2df78cf2b0b28d9e1cbcb717591f276" id="r_ac2df78cf2b0b28d9e1cbcb717591f276"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
-<tr class="memitem:ac2df78cf2b0b28d9e1cbcb717591f276"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="a02306.html">fake_object_wrapper_t</a>&lt; T &gt; const&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01019.html#ac2df78cf2b0b28d9e1cbcb717591f276">lumex::core::reflection::field_reflection::detail::fake_object_storage</a></td></tr>
-<tr class="separator:ac2df78cf2b0b28d9e1cbcb717591f276"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3ce0ada95e71ecd52eaedeff52d0a902" id="r_a3ce0ada95e71ecd52eaedeff52d0a902"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a3ce0ada95e71ecd52eaedeff52d0a902"><td class="memTemplItemLeft" align="right" valign="top">constexpr std::size_t&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01018.html#a3ce0ada95e71ecd52eaedeff52d0a902">lumex::core::reflection::field_reflection::tuple_size_v</a> = <a class="el" href="a02322.html">tuple_size</a>&lt;Aggregate&gt;::value</td></tr>
-<tr class="separator:a3ce0ada95e71ecd52eaedeff52d0a902"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2843a9a82731a57457a67854be6546d6" id="r_a2843a9a82731a57457a67854be6546d6"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="a01933.html">in_place_tag</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01043.html#a2843a9a82731a57457a67854be6546d6">lumex::core::expected::result::in_place</a> {}</td></tr>
+<tr class="memdesc:a2843a9a82731a57457a67854be6546d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Global constant of type <code><a class="el" href="a01933.html" title="In-place construction tag; C++11 has no std::in_place.">in_place_tag</a></code>.  <br /></td></tr>
+<tr class="separator:a2843a9a82731a57457a67854be6546d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a99d7baa9c7bfa0e1e8d7ac195f1abcbc" id="r_a99d7baa9c7bfa0e1e8d7ac195f1abcbc"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="a01941.html">unexpect_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01043.html#a99d7baa9c7bfa0e1e8d7ac195f1abcbc">lumex::core::expected::result::unexpect</a> {}</td></tr>
+<tr class="memdesc:a99d7baa9c7bfa0e1e8d7ac195f1abcbc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Global tag constant (like std::unexpect).  <br /></td></tr>
+<tr class="separator:a99d7baa9c7bfa0e1e8d7ac195f1abcbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2843a9a82731a57457a67854be6546d6" id="r_a2843a9a82731a57457a67854be6546d6"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="a01933.html">in_place_tag</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2843a9a82731a57457a67854be6546d6">in_place</a></td></tr>
+<tr class="memdesc:a2843a9a82731a57457a67854be6546d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Global constant of type <code><a class="el" href="a04057.html" title="In-place construction tag; C++11 has no std::in_place.">in_place_tag</a></code>.  <br /></td></tr>
+<tr class="separator:a2843a9a82731a57457a67854be6546d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a99d7baa9c7bfa0e1e8d7ac195f1abcbc" id="r_a99d7baa9c7bfa0e1e8d7ac195f1abcbc"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="a01941.html">unexpect_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a99d7baa9c7bfa0e1e8d7ac195f1abcbc">unexpect</a></td></tr>
+<tr class="memdesc:a99d7baa9c7bfa0e1e8d7ac195f1abcbc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Global tag constant (like std::unexpect).  <br /></td></tr>
+<tr class="separator:a99d7baa9c7bfa0e1e8d7ac195f1abcbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Non-intrusive field count, indexed access, and (from C++20) field names for simple aggregates. </p>
-<p>Replaces the three Boost.PFR calls FieldReflection used (<code>tuple_size</code>, <code>get</code>, <code>names_as_array</code>). This header is original Lumex code (MIT), not a relicensed Boost dump.</p>
-<p>Field count is C++11: aggregate initialization against a converting placeholder, binary-searched up to 32 members. Indexed <code>get</code> is C++14: friend-injected field types (ADL <code>friend auto</code> on the tag, Boost.PFR shape) plus sequential layout offsets. Structured bindings are not used for access. C++11 has count only: a friend return type cannot be deduced without <code>auto</code>.</p>
-<p>Field names need C++20. <code>LUMEX_FUNCTION_NAME</code> embeds an identifier only when that identifier is a template argument. C++11 pointer NTTPs accept <code>&amp;Class::member</code> (the name is already known) or the address of a complete object, not a pointer to the I-th member of a static instance. C++20 <code>template&lt;auto&gt;</code> plus a structured binding into a declared- but-undefined phantom aggregate (<code>fake_object</code>) is what puts the real member name into the pretty string. A defined <code>inline T</code> instance fails on MSVC: a local reference into it is not a constant expression for the NTTP.</p>
-<p>Limit: 32 public data members. No base classes, no bit-fields, no reference members. From C++17, indexed <code>get</code> uses structured bindings (Boost.PFR core17 shape) so optional-only aggregates never hit the CWG 2118 loophole. The loophole remains for C++14 only: once-only friend body + <code>operator U&amp;() const&amp;&amp;</code> (plain <code>operator U()</code> redefines the friend for both the wrapper and the contained type -&gt; C2084; locking the contained type first then fails the layout sizeof check). </p>
-</div><h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="ad16692a7a8afa476f07b2bd8e8aa2f30" name="ad16692a7a8afa476f07b2bd8e8aa2f30"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad16692a7a8afa476f07b2bd8e8aa2f30">&#9670;&#160;</a></span>LUMEX_AF_TIE</h2>
+<div class="textblock"><p>The tags and the placeholder type that <code><a class="el" href="a04049.html" title="Class that mimics std::expected from C++23.">Expected</a></code> uses: <code>in_place</code>, <code>unexpect</code> and <code>Unit</code>. </p>
+<p><code><a class="el" href="a04057.html" title="In-place construction tag; C++11 has no std::in_place.">in_place_tag</a></code> and <code>in_place</code> request in-place construction of the value, <code><a class="el" href="a04061.html" title="C++23-compatible tag: construct the error in place.">unexpect_t</a></code> and <code>unexpect</code> in-place construction of the error, as <code>std::in_place</code> (C++17) and <code>std::unexpect</code> (C++23) do. <code>Unit</code> is the empty object that fills the success alternative of <code><a class="el" href="a04049.html" title="Class that mimics std::expected from C++23.">Expected</a>&lt;void, E&gt;</code>. The <code>is_expected</code> traits are not here but in <code><a class="el" href="a00446.html" title="Every general-purpose type trait of LumexLib, one sub-namespace of lumex::core::utility::traits per t...">LumexTypeTraits.hpp</a></code>. The tags are also visible at global scope. </p>
+</div><h2 class="groupheader">Variable Documentation</h2>
+<a id="a2843a9a82731a57457a67854be6546d6" name="a2843a9a82731a57457a67854be6546d6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2843a9a82731a57457a67854be6546d6">&#9670;&#160;</a></span>in_place</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">#define LUMEX_AF_TIE</td>
-          <td>(</td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>N</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em></em></span>...&#160;)</td>
+          <td class="memname"><a class="el" href="a01933.html">in_place_tag</a> lumex::core::expected::result::in_place</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> Aggregate&gt;                                               \</div>
-<div class="line">  <a class="code hl_define" href="a00389.html#a1513006a1992e7dc9cc43b2e081cc33f">LUMEX_CONSTEXPR</a> <span class="keyword">auto</span> as_tied (Aggregate &amp;&amp;value,                            \</div>
-<div class="line">                                std::integral_constant&lt;std::size_t, N&gt;)       \</div>
-<div class="line">      <a class="code hl_define" href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a>                                                          \</div>
-<div class="line">  {                                                                           \</div>
-<div class="line">    <span class="keyword">auto</span> &amp;&amp;[__VA_ARGS__] = value;                                             \</div>
-<div class="line">    <span class="keywordflow">return</span> std::tie (__VA_ARGS__);                                            \</div>
-<div class="line">  }</div>
-<div class="ttc" id="aa00389_html_a1513006a1992e7dc9cc43b2e081cc33f"><div class="ttname"><a href="a00389.html#a1513006a1992e7dc9cc43b2e081cc33f">LUMEX_CONSTEXPR</a></div><div class="ttdeci">#define LUMEX_CONSTEXPR</div><div class="ttdef"><b>Definition</b> LumexKeywords.hpp:164</div></div>
-<div class="ttc" id="aa00389_html_a8932f306494e2abfe9045da20a41e47c"><div class="ttname"><a href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div><div class="ttdeci">#define LUMEX_NOEXCEPT</div><div class="ttdef"><b>Definition</b> LumexKeywords.hpp:84</div></div>
-</div><!-- fragment -->
+
+<p>Global constant of type <code><a class="el" href="a04057.html" title="In-place construction tag; C++11 has no std::in_place.">in_place_tag</a></code>. </p>
+<p>Pass to an <code><a class="el" href="a04049.html" title="Class that mimics std::expected from C++23.">Expected</a></code> constructor to request in-place construction of the success value. </p><dl class="section note"><dt>Note</dt><dd>Analogue of <code>std::in_place</code> from C++17. </dd></dl>
+
 </div>
 </div>
-<a id="a89770ba9e5eec4affabea691368b7a3c" name="a89770ba9e5eec4affabea691368b7a3c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a89770ba9e5eec4affabea691368b7a3c">&#9670;&#160;</a></span>LUMEX_AGGREGATE_FIELDS_USE_SB</h2>
+<a id="a99d7baa9c7bfa0e1e8d7ac195f1abcbc" name="a99d7baa9c7bfa0e1e8d7ac195f1abcbc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a99d7baa9c7bfa0e1e8d7ac195f1abcbc">&#9670;&#160;</a></span>unexpect</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">#define LUMEX_AGGREGATE_FIELDS_USE_SB&#160;&#160;&#160;1</td>
+          <td class="memname"><a class="el" href="a01941.html">unexpect_t</a> lumex::core::expected::result::unexpect</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
+
+<p>Global tag constant (like std::unexpect). </p>
 
 </div>
 </div>
@@ -378,7 +296,7 @@ Variables</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_9f19d952725811a71a1277575cb881df.html">reflection</a></li><li class="navelem"><a class="el" href="dir_4183182a33530d5b48cdb15290070151.html">field_reflection</a></li><li class="navelem"><a class="el" href="a00293.html">LumexAggregateFields.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_91063fb91facb4308dc4edc779d408bb.html">expected</a></li><li class="navelem"><a class="el" href="dir_558ea4e037858a45ed7ac4d50d1489ee.html">result</a></li><li class="navelem"><a class="el" href="a00293.html">ExpectedTypes.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

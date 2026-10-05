@@ -1,7 +1,6 @@
 var a01146 =
 [
-    [ "LumexJsonSchemaException", "a01146.html#abfc4b98915585686617dfcd922a904d1", null ],
-    [ "detail", "a01146.html#aa74f7f71a6811747d910836b9a86b86f", null ],
-    [ "path", "a01146.html#a8fb0ac0d0fefc811db309fb1680365d6", null ],
-    [ "reason", "a01146.html#aef55884f8ebc188b9390ff069b504748", null ]
+    [ "axis_to_type", "a03097.html", "a03097" ],
+    [ "XPathAstNode", "a03101.html", "a03101" ],
+    [ "axis_to_type< N >::axis", "a01146.html#a75029b40fc2dd4a2e988fc203b960cb2", null ]
 ];

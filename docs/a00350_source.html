@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexAssert.hpp Source File</title>
+<title>LumexLib: LumexStringify.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -103,90 +103,203 @@ $(function(){initNavTree('a00350_source.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">LumexAssert.hpp</div></div>
+  <div class="headertitle"><div class="title">LumexStringify.hpp</div></div>
 </div><!--header-->
 <div class="contents">
 <a href="a00350.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">/*</span></div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment"> * Copyright (c) 2026 Vladislav Semykin &lt;vladislav.semykin@gmail.com&gt;</span></div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="comment"> *</span></div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="comment"> *</span></div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="comment"> * SPDX-License-Identifier: MIT</span></div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="comment"> *</span></div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="comment"> * Permission is hereby granted, free of</span></div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="comment"> * charge, to any person obtaining a copy</span></div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="comment"> * of this software and associated</span></div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="comment"> * documentation files (the &quot;Software&quot;), to deal</span></div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="comment"> * in the Software without</span></div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="comment"> * restriction, including without limitation the rights</span></div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="comment"> * to use, copy,</span></div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="comment"> * modify, merge, publish, distribute, sublicense, and/or sell</span></div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="comment"> * copies of the</span></div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="comment"> * Software, and to permit persons to whom the Software is</span></div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="comment"> * furnished to do</span></div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="comment"> * so, subject to the following conditions:</span></div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="comment"> *</span></div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="comment"> * The above copyright notice</span></div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="comment"> * and this permission notice shall be included in</span></div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="comment"> * all copies or substantial</span></div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="comment"> * portions of the Software.</span></div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="comment"> *</span></div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="comment"> * THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT</span></div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="comment"> * WARRANTY OF ANY KIND, EXPRESS OR</span></div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="comment"> * IMPLIED, INCLUDING BUT NOT LIMITED TO</span></div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="comment"> * THE WARRANTIES OF MERCHANTABILITY,</span></div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="comment"> * FITNESS FOR A PARTICULAR PURPOSE AND</span></div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="comment"> * NONINFRINGEMENT. IN NO EVENT SHALL THE</span></div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span><span class="comment"> * AUTHORS OR COPYRIGHT HOLDERS BE</span></div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="comment"> * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER</span></div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><span class="comment"> * LIABILITY, WHETHER IN AN ACTION OF</span></div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span><span class="comment"> * CONTRACT, TORT OR OTHERWISE, ARISING FROM,</span></div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="comment"> * OUT OF OR IN CONNECTION WITH</span></div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="comment"> * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE</span></div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="comment"> * SOFTWARE.</span></div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="comment"> */</span></div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span></div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span><span class="preprocessor">#ifndef LUMEX_CORE_UTILITY_ASSERT_HPP</span></div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span><span class="preprocessor">#define LUMEX_CORE_UTILITY_ASSERT_HPP</span></div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="preprocessor">#include &quot;<a class="code" href="a00605.html">lumex/LumexExport.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="preprocessor">#include &quot;<a class="code" href="a00389.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span><a class="code hl_define" href="a00605.html#acaff4c6bbcf06a700c96ca83292c16ac">LUMEX_EXTERN_C_BEGIN</a></div>
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span><a class="code hl_define" href="a00605.html#ad1cae46ea7dbf5398bbb2a0bdd2cf917">LUMEX_PUBLIC_API</a></div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span><span class="keywordtype">void</span> <a class="code hl_function" href="a00350.html#a5334d5477ed5cb85a010f52c4f534fd4">lumex_assert_handler</a> (<span class="keywordtype">char</span> <span class="keyword">const</span> *assertion, <span class="keywordtype">char</span> <span class="keyword">const</span> *file,</div>
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>                           <span class="keywordtype">int</span> line) <a class="code hl_define" href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a>;</div>
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span><a class="code hl_define" href="a00605.html#aa5051b73e2d3303e7e2718073a3dd2f4">LUMEX_EXTERN_C_END</a></div>
-<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span> </div>
-<div class="foldopen" id="foldopen00096" data-start="" data-end="">
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno"><a class="line" href="a00350.html#abff68c03d1bdde004eb72fe25c9c99c9">   96</a></span><span class="preprocessor">#define LUMEX_ASSERT(cond)                                                    \</span></div>
-<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span><span class="preprocessor">  ((cond) ? static_cast&lt;void&gt; (0)                                             \</span></div>
-<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span><span class="preprocessor">          : lumex_assert_handler (#cond, __FILE__, __LINE__))</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="comment"> * SPDX-License-Identifier: MIT</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="comment"> *</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="comment"> * Permission is hereby granted, free of charge, to any person obtaining a copy</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="comment"> * of this software and associated documentation files (the &quot;Software&quot;), to</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="comment"> * deal in the Software without restriction, including without limitation the</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="comment"> * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="comment"> * sell copies of the Software, and to permit persons to whom the Software is</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="comment"> * furnished to do so, subject to the following conditions:</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="comment"> *</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="comment"> * The above copyright notice and this permission notice shall be included in</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="comment"> * all copies or substantial portions of the Software.</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="comment"> *</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="comment"> * THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="comment"> * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="comment"> * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="comment"> * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="comment"> * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING</span></div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="comment"> * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS</span></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="comment"> * IN THE SOFTWARE.</span></div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="comment"> */</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span></div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span><span class="preprocessor">#ifndef LUMEX_CORE_STRING_UTILITY_STRINGIFY_HPP</span></div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span><span class="preprocessor">#define LUMEX_CORE_STRING_UTILITY_STRINGIFY_HPP</span></div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="preprocessor">#include &lt;ostream&gt;</span></div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span><span class="preprocessor">#include &lt;sstream&gt;</span></div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span><span class="preprocessor">#include &lt;type_traits&gt;</span></div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="preprocessor">#include &lt;utility&gt;</span></div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="preprocessor">#include &quot;<a class="code" href="a00386.html">lumex/core/utility/assert/LumexAssert.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span><span class="preprocessor">#include &quot;<a class="code" href="a00389.html">lumex/core/utility/attr/LumexAttributes.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="preprocessor">#include &quot;<a class="code" href="a00404.html">lumex/core/utility/compiler/LumexCheckFeatures.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="preprocessor">#include &quot;<a class="code" href="a00425.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="preprocessor">#include &quot;<a class="code" href="a00446.html">lumex/core/utility/traits/LumexTypeTraits.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a00948.html">lumex</a> <span class="comment">// NOLINT(modernize-concat-nested-namespaces)</span></div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>{</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01005.html">core</a></div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>{</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01065.html">string</a></div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>{</div>
+<div class="foldopen" id="foldopen00061" data-start="{" data-end="}">
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno"><a class="line" href="a01068.html">   61</a></span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01068.html">utility</a></div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>{</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> D&gt;</div>
+<div class="foldopen" id="foldopen00071" data-start="{" data-end="}">
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno"><a class="line" href="a01068.html#a069a5bbde352f2d95ec427f786215113">   71</a></span>std::ostream &amp;</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span><a class="code hl_function" href="a01068.html#a069a5bbde352f2d95ec427f786215113">operator&lt;&lt; </a>(std::ostream &amp;ostream, std::unique_ptr&lt;T, D&gt; <span class="keyword">const</span> &amp;ptr)</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>{</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>  <span class="keywordflow">return</span> ostream &lt;&lt; ptr.get ();</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>}</div>
 </div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span> </div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span><span class="preprocessor">#if __cplusplus &gt;= 201703L</span></div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno"><a class="line" href="a00350.html#a79cf2cecfe4fe4577a5e17138da4612f">  101</a></span><span class="preprocessor">#define LUMEX_STATIC_ASSERT(cond) static_assert (cond)</span></div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span><span class="preprocessor">#else</span></div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span><span class="preprocessor">#define LUMEX_STATIC_ASSERT(cond) static_assert (cond, #cond)</span></div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span></div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="foldopen" id="foldopen00079" data-start="{" data-end="}">
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno"><a class="line" href="a01068.html#aabd30bcdf02da92ec12422a30fd4c4f4">   79</a></span>std::ostream &amp;</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span><a class="code hl_function" href="a01068.html#a069a5bbde352f2d95ec427f786215113">operator&lt;&lt; </a>(std::ostream &amp;ostream, std::shared_ptr&lt;T&gt; <span class="keyword">const</span> &amp;ptr)</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>{</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>  <span class="keywordflow">return</span> ostream &lt;&lt; ptr.get ();</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>}</div>
+</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span></div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span><span class="preprocessor">#if LUMEX_HAS_CONCEPTS</span></div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span> </div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span><span class="keyword">template</span> &lt;</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>    lumex::core::utility::traits::stream::detail::AllStringifiable... Args&gt;</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>std::string</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span><a class="code hl_function" href="a01068.html#a6edd6a773e25b016b0dab32f38d58ff9">stringify</a> (Args &amp;&amp;...args)</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>{</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>  <a class="code hl_define" href="a00425.html#a38079da46fca9b9ae17e90b731d6ab0c">LUMEX_CONSTEXPR_IF</a> (<span class="keyword">sizeof</span>...(args) == 0) { <span class="keywordflow">return</span> <span class="stringliteral">&quot;&quot;</span>; }</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>  <span class="keywordflow">else</span></div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>  {</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>    std::ostringstream oss;</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>    ((oss &lt;&lt; std::forward&lt;Args&gt; (args)), ...);</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>    <span class="keywordflow">return</span> oss.str ();</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>  }</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>}</div>
 <div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span> </div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span><span class="comment">// Variadic so commas in template argument lists remain part of the</span></div>
-<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span><span class="comment">// static_assert declaration instead of being parsed as macro arguments.</span></div>
-<div class="line"><a id="l00108" name="l00108"></a><span class="lineno"><a class="line" href="a00350.html#a5216865b2fc83a9979ea50b2172a1dfb">  108</a></span><span class="preprocessor">#define LUMEX_STATIC_ASSERT_MSG(...) static_assert (__VA_ARGS__)</span></div>
-<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span> </div>
-<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span><span class="preprocessor">#endif </span><span class="comment">// !LUMEX_CORE_UTILITY_ASSERT_HPP</span></div>
-<div class="ttc" id="aa00350_html_a5334d5477ed5cb85a010f52c4f534fd4"><div class="ttname"><a href="a00350.html#a5334d5477ed5cb85a010f52c4f534fd4">lumex_assert_handler</a></div><div class="ttdeci">void lumex_assert_handler(char const *assertion, char const *file, int line) noexcept</div><div class="ttdoc">Handles failed assertions within the Lumex codebase.</div><div class="ttdef"><b>Definition</b> LumexAssert.cpp:49</div></div>
-<div class="ttc" id="aa00389_html"><div class="ttname"><a href="a00389.html">LumexKeywords.hpp</a></div><div class="ttdoc">Macros that spell C++ keywords and specifiers only where the compiled standard supports them,...</div></div>
-<div class="ttc" id="aa00389_html_a8932f306494e2abfe9045da20a41e47c"><div class="ttname"><a href="a00389.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div><div class="ttdeci">#define LUMEX_NOEXCEPT</div><div class="ttdef"><b>Definition</b> LumexKeywords.hpp:84</div></div>
-<div class="ttc" id="aa00605_html"><div class="ttname"><a href="a00605.html">LumexExport.hpp</a></div><div class="ttdoc">Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,...</div></div>
-<div class="ttc" id="aa00605_html_aa5051b73e2d3303e7e2718073a3dd2f4"><div class="ttname"><a href="a00605.html#aa5051b73e2d3303e7e2718073a3dd2f4">LUMEX_EXTERN_C_END</a></div><div class="ttdeci">#define LUMEX_EXTERN_C_END</div><div class="ttdef"><b>Definition</b> LumexExport.hpp:64</div></div>
-<div class="ttc" id="aa00605_html_acaff4c6bbcf06a700c96ca83292c16ac"><div class="ttname"><a href="a00605.html#acaff4c6bbcf06a700c96ca83292c16ac">LUMEX_EXTERN_C_BEGIN</a></div><div class="ttdeci">#define LUMEX_EXTERN_C_BEGIN</div><div class="ttdef"><b>Definition</b> LumexExport.hpp:61</div></div>
-<div class="ttc" id="aa00605_html_ad1cae46ea7dbf5398bbb2a0bdd2cf917"><div class="ttname"><a href="a00605.html#ad1cae46ea7dbf5398bbb2a0bdd2cf917">LUMEX_PUBLIC_API</a></div><div class="ttdeci">#define LUMEX_PUBLIC_API</div><div class="ttdef"><b>Definition</b> LumexExport.hpp:130</div></div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span><span class="preprocessor">#elif __cplusplus &gt;= 201703L</span></div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span> </div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span>... Args&gt;</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>std::string</div>
+<div class="foldopen" id="foldopen00110" data-start="{" data-end="}">
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno"><a class="line" href="a01068.html#a644d51beb3d991564cc81242883fd17a">  110</a></span><a class="code hl_function" href="a01068.html#a6edd6a773e25b016b0dab32f38d58ff9">stringify</a> (Args &amp;&amp;...args)</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>{</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>  <a class="code hl_define" href="a00386.html#a5216865b2fc83a9979ea50b2172a1dfb">LUMEX_STATIC_ASSERT_MSG</a> (</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>      <a class="code hl_variable" href="a01095.html#aab07856151ca24abf8ef42b1b065f946">lumex::core::utility::traits::stream::all_streamable_v&lt;Args...&gt;</a>,</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>      <span class="stringliteral">&quot;All arguments must be streamable&quot;</span>);</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span> </div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>  <a class="code hl_define" href="a00425.html#a38079da46fca9b9ae17e90b731d6ab0c">LUMEX_CONSTEXPR_IF</a> (<span class="keyword">sizeof</span>...(args) == 0) { <span class="keywordflow">return</span> <span class="stringliteral">&quot;&quot;</span>; }</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>  <span class="keywordflow">else</span></div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>  {</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>    std::ostringstream oss;</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>    ((oss &lt;&lt; std::forward&lt;Args&gt; (args)), ...);</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>    <span class="keywordflow">return</span> oss.str ();</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>  }</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>}</div>
+</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span> </div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span><span class="preprocessor">#elif __cplusplus &gt;= 201402L</span></div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span> </div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span>... Args&gt;</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>std::string</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span><a class="code hl_function" href="a01068.html#a6edd6a773e25b016b0dab32f38d58ff9">stringify</a> (Args &amp;&amp;...args)</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>{</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>  <a class="code hl_define" href="a00386.html#a5216865b2fc83a9979ea50b2172a1dfb">LUMEX_STATIC_ASSERT_MSG</a> (</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>      <a class="code hl_variable" href="a01095.html#aab07856151ca24abf8ef42b1b065f946">lumex::core::utility::traits::stream::all_streamable_v&lt;Args...&gt;</a>,</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>      <span class="stringliteral">&quot;All arguments must be streamable&quot;</span>);</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span> </div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>  std::ostringstream oss;</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>  <span class="keywordtype">int</span> expanded[] = { 0, ((oss &lt;&lt; std::forward&lt;Args&gt; (args)), 0)... };</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>  <a class="code hl_define" href="a00389.html#a4f7e1c4a689aff4cf2c75942d17d5ba2">LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR</a> (expanded);</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>  <span class="keywordflow">return</span> oss.str ();</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>}</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span> </div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span><span class="preprocessor">#else</span></div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span> </div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span>... Args&gt;</div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>std::string</div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span><a class="code hl_function" href="a01068.html#a6edd6a773e25b016b0dab32f38d58ff9">stringify</a> (Args &amp;&amp;...args)</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>{</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>  <a class="code hl_define" href="a00386.html#a5216865b2fc83a9979ea50b2172a1dfb">LUMEX_STATIC_ASSERT_MSG</a> (</div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>      <a class="code hl_struct" href="a02633.html">lumex::core::utility::traits::stream::all_streamable&lt;Args...&gt;::value</a>,</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>      <span class="stringliteral">&quot;All arguments must be streamable&quot;</span>);</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span> </div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>  std::ostringstream oss;</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>  <span class="keywordtype">int</span> expanded[] = { 0, ((oss &lt;&lt; std::forward&lt;Args&gt; (args)), 0)... };</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>  <a class="code hl_define" href="a00389.html#a4f7e1c4a689aff4cf2c75942d17d5ba2">LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR</a> (expanded);</div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>  <span class="keywordflow">return</span> oss.str ();</div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>}</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span> </div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span></div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span><span class="keyword">inline</span> std::string</div>
+<div class="foldopen" id="foldopen00163" data-start="{" data-end="}">
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno"><a class="line" href="a01068.html#a6edd6a773e25b016b0dab32f38d58ff9">  163</a></span><a class="code hl_function" href="a01068.html#a6edd6a773e25b016b0dab32f38d58ff9">stringify</a> () <a class="code hl_define" href="a00425.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>{</div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>  <span class="keywordflow">return</span> {};</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>}</div>
+</div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span> </div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span><span class="preprocessor">#if LUMEX_HAS_CONCEPTS</span></div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span></div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span>... Args&gt;</div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>  <span class="keyword">requires</span> lumex::core::utility::traits::stream::detail::AllStringifiable&lt;</div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>      Args...&gt;</div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>std::string</div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>stringify_v2 (Args &amp;&amp;...args)</div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>{</div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>  <a class="code hl_define" href="a00425.html#a38079da46fca9b9ae17e90b731d6ab0c">LUMEX_CONSTEXPR_IF</a> (<span class="keyword">sizeof</span>...(args) == 0) { <span class="keywordflow">return</span> {}; }</div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>  <span class="keywordflow">else</span></div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>  {</div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>    std::ostringstream oss;</div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>    ((oss &lt;&lt; std::forward&lt;Args&gt; (args)), ...);</div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>    <span class="keywordflow">return</span> oss.str ();</div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>  }</div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>}</div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span> </div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>} <span class="comment">// namespace utility</span></div>
+</div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>} <span class="comment">// namespace string</span></div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>} <span class="comment">// namespace core</span></div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>} <span class="comment">// namespace lumex</span></div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span> </div>
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span><span class="preprocessor">#endif </span><span class="comment">// !LUMEX_CORE_STRING_UTILITY_STRINGIFY_HPP</span></div>
+<div class="ttc" id="aa00386_html"><div class="ttname"><a href="a00386.html">LumexAssert.hpp</a></div><div class="ttdoc">Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_...</div></div>
+<div class="ttc" id="aa00386_html_a5216865b2fc83a9979ea50b2172a1dfb"><div class="ttname"><a href="a00386.html#a5216865b2fc83a9979ea50b2172a1dfb">LUMEX_STATIC_ASSERT_MSG</a></div><div class="ttdeci">#define LUMEX_STATIC_ASSERT_MSG(...)</div><div class="ttdef"><b>Definition</b> LumexAssert.hpp:108</div></div>
+<div class="ttc" id="aa00389_html"><div class="ttname"><a href="a00389.html">LumexAttributes.hpp</a></div><div class="ttdoc">LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P...</div></div>
+<div class="ttc" id="aa00389_html_a4f7e1c4a689aff4cf2c75942d17d5ba2"><div class="ttname"><a href="a00389.html#a4f7e1c4a689aff4cf2c75942d17d5ba2">LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR</a></div><div class="ttdeci">#define LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR(...)</div><div class="ttdef"><b>Definition</b> LumexAttributes.hpp:193</div></div>
+<div class="ttc" id="aa00404_html"><div class="ttname"><a href="a00404.html">LumexCheckFeatures.hpp</a></div><div class="ttdoc">C++ language, library and attribute feature availability.</div></div>
+<div class="ttc" id="aa00425_html"><div class="ttname"><a href="a00425.html">LumexKeywords.hpp</a></div><div class="ttdoc">Macros that spell C++ keywords and specifiers only where the compiled standard supports them,...</div></div>
+<div class="ttc" id="aa00425_html_a38079da46fca9b9ae17e90b731d6ab0c"><div class="ttname"><a href="a00425.html#a38079da46fca9b9ae17e90b731d6ab0c">LUMEX_CONSTEXPR_IF</a></div><div class="ttdeci">#define LUMEX_CONSTEXPR_IF</div><div class="ttdef"><b>Definition</b> LumexKeywords.hpp:92</div></div>
+<div class="ttc" id="aa00425_html_a8932f306494e2abfe9045da20a41e47c"><div class="ttname"><a href="a00425.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div><div class="ttdeci">#define LUMEX_NOEXCEPT</div><div class="ttdef"><b>Definition</b> LumexKeywords.hpp:84</div></div>
+<div class="ttc" id="aa00446_html"><div class="ttname"><a href="a00446.html">LumexTypeTraits.hpp</a></div><div class="ttdoc">Every general-purpose type trait of LumexLib, one sub-namespace of lumex::core::utility::traits per t...</div></div>
+<div class="ttc" id="aa00948_html"><div class="ttname"><a href="a00948.html">lumex</a></div><div class="ttdef"><b>Definition</b> LumexCPUVectorizationCapabilities.cpp:65</div></div>
+<div class="ttc" id="aa01005_html"><div class="ttname"><a href="a01005.html">lumex::core</a></div><div class="ttdef"><b>Definition</b> LumexAtomicSharedPtr.hpp:103</div></div>
+<div class="ttc" id="aa01065_html"><div class="ttname"><a href="a01065.html">lumex::core::string</a></div><div class="ttdef"><b>Definition</b> LumexJoin.hpp:67</div></div>
+<div class="ttc" id="aa01068_html"><div class="ttname"><a href="a01068.html">lumex::core::string::utility</a></div><div class="ttdef"><b>Definition</b> LumexStringify.hpp:62</div></div>
+<div class="ttc" id="aa01068_html_a069a5bbde352f2d95ec427f786215113"><div class="ttname"><a href="a01068.html#a069a5bbde352f2d95ec427f786215113">lumex::core::string::utility::operator&lt;&lt;</a></div><div class="ttdeci">std::ostream &amp; operator&lt;&lt;(std::ostream &amp;ostream, std::unique_ptr&lt; T, D &gt; const &amp;ptr)</div><div class="ttdoc">Streams the raw address held by a std::unique_ptr.</div><div class="ttdef"><b>Definition</b> LumexStringify.hpp:72</div></div>
+<div class="ttc" id="aa01068_html_a6edd6a773e25b016b0dab32f38d58ff9"><div class="ttname"><a href="a01068.html#a6edd6a773e25b016b0dab32f38d58ff9">lumex::core::string::utility::stringify</a></div><div class="ttdeci">std::string stringify() noexcept</div><div class="ttdoc">No arguments: an empty string, without creating a stream.</div><div class="ttdef"><b>Definition</b> LumexStringify.hpp:163</div></div>
+<div class="ttc" id="aa01095_html_aab07856151ca24abf8ef42b1b065f946"><div class="ttname"><a href="a01095.html#aab07856151ca24abf8ef42b1b065f946">lumex::core::utility::traits::stream::all_streamable_v</a></div><div class="ttdeci">constexpr bool all_streamable_v</div><div class="ttdoc">Shorthand for all_streamable&lt;Args...&gt;::value.</div><div class="ttdef"><b>Definition</b> LumexTypeTraits.hpp:612</div></div>
+<div class="ttc" id="aa02633_html"><div class="ttname"><a href="a02633.html">lumex::core::utility::traits::stream::all_streamable</a></div><div class="ttdoc">value is true when every type in Args (after std::decay) is streamable; true for an empty pack.</div><div class="ttdef"><b>Definition</b> LumexTypeTraits.hpp:585</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_aaa57aed14d71e316a67f95634c796d3.html">utility</a></li><li class="navelem"><a class="el" href="dir_fd463bbdb0a2c1e90e6c867fb9115cf9.html">assert</a></li><li class="navelem"><a class="el" href="a00350.html">LumexAssert.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_459f7d6cb411def697850a9e92b67c08.html">string</a></li><li class="navelem"><a class="el" href="dir_53e98c3399776e1e6db6e0ec68618ea6.html">utility</a></li><li class="navelem"><a class="el" href="a00350.html">LumexStringify.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

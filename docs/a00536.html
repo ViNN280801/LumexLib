@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: example_reflection_workflow.cpp File Reference</title>
+<title>LumexLib: example_json_workflow.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,75 +104,166 @@ $(function(){initNavTree('a00536.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#enum-members">Enumerations</a> &#124;
-<a href="#func-members">Functions</a> &#124;
-<a href="#var-members">Variables</a>  </div>
-  <div class="headertitle"><div class="title">example_reflection_workflow.cpp File Reference</div></div>
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle"><div class="title">example_json_workflow.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;cstdint&gt;</code><br />
+<div class="textblock"><code>#include &lt;exception&gt;</code><br />
 <code>#include &lt;iostream&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00890_source.html">lumex/core/reflection/LumexReflection</a>&quot;</code><br />
+<code>#include &lt;string&gt;</code><br />
+<code>#include &lt;nlohmann/json.hpp&gt;</code><br />
+<code>#include &quot;<a class="el" href="a00872_source.html">lumex/applied/json/LumexJson</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00356_source.html">lumex/core/string_view/view/LumexStringView.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for example_reflection_workflow.cpp:</div>
+Include dependency graph for example_json_workflow.cpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00537.png" border="0" usemap="#aexample__reflection__workflow_8cpp" alt=""/></div>
+<div class="center"><img src="a00537.png" border="0" usemap="#aexample__json__workflow_8cpp" alt=""/></div>
+<map name="aexample__json__workflow_8cpp" id="aexample__json__workflow_8cpp">
+<area shape="rect" title=" " alt="" coords="1568,5,1752,32"/>
+<area shape="rect" title=" " alt="" coords="584,557,661,584"/>
+<area shape="poly" title=" " alt="" coords="1568,22,1176,27,920,35,656,49,408,70,298,84,201,100,120,119,59,140,21,165,11,177,8,191,8,375,11,404,21,427,36,443,56,456,108,477,169,499,221,518,276,534,387,555,488,564,569,567,568,573,488,570,386,560,275,539,220,523,167,504,106,482,54,461,33,448,17,429,6,406,3,375,3,190,6,175,17,161,57,135,119,114,200,95,297,78,407,64,656,43,920,30,1176,22,1567,17"/>
+<area shape="rect" title=" " alt="" coords="2066,557,2137,584"/>
+<area shape="poly" title=" " alt="" coords="1752,17,2037,20,2418,28,2795,46,2952,60,3070,77,3121,84,3172,87,3266,91,3305,100,3335,117,3347,130,3356,146,3361,167,3363,191,3363,284,3360,308,3351,330,3338,351,3320,370,3270,406,3206,437,3128,464,3041,487,2946,506,2845,522,2639,546,2441,561,2153,572,2153,566,2441,556,2638,541,2845,517,2945,501,3040,481,3127,458,3204,432,3267,401,3316,366,3334,348,3347,327,3355,306,3357,284,3357,191,3356,167,3351,148,3343,133,3332,121,3303,105,3265,97,3172,92,3120,90,3069,83,2951,65,2795,51,2418,33,2037,25,1752,23"/>
+<area shape="rect" title=" " alt="" coords="2051,459,2104,485"/>
+<area shape="poly" title=" " alt="" coords="1752,17,2131,23,2379,32,2633,46,2872,67,2978,81,3072,97,3150,116,3209,137,3247,162,3258,176,3261,190,3261,284,3263,346,3256,372,3235,397,3211,409,3173,419,3062,433,2919,440,2758,443,2449,443,2264,445,2120,466,2119,461,2264,440,2449,438,2758,438,2919,435,3062,427,3172,414,3209,404,3232,393,3251,370,3258,346,3256,284,3256,191,3253,178,3244,166,3207,142,3148,121,3071,102,2977,86,2872,73,2633,51,2378,37,2131,29,1752,23"/>
+<area shape="rect" title=" " alt="" coords="2106,360,2236,387"/>
+<area shape="poly" title=" " alt="" coords="1680,30,2142,349,2139,353,1677,35"/>
+<area shape="rect" href="a00872.html" title="JSON module: non&#45;throwing helpers for JSON configuration files, and validation and normalization of a..." alt="" coords="922,80,1051,123"/>
+<area shape="poly" title=" " alt="" coords="1568,34,1067,93,1067,88,1567,28"/>
+<area shape="rect" href="a00356.html" title="C++11 lightweight, non&#45;owning view over character sequences." alt="" coords="404,352,586,395"/>
+<area shape="poly" title=" " alt="" coords="1567,28,1274,47,1092,63,910,83,753,99,631,110,511,130,442,148,361,173,259,201,240,209,222,222,205,239,188,263,178,289,183,310,201,328,229,342,264,352,304,360,388,368,388,373,304,365,263,357,227,347,198,332,179,313,173,289,183,260,200,235,218,217,237,205,258,196,359,168,440,143,510,125,630,105,753,93,909,77,1092,58,1273,42,1567,22"/>
+<area shape="rect" href="a00068.html" title="Process&#45;wide report sink for the non&#45;throwing JSON helpers." alt="" coords="1476,360,1729,387"/>
+<area shape="poly" title=" " alt="" coords="989,123,994,167,1002,191,1015,212,1047,237,1095,260,1154,282,1221,301,1365,332,1495,355,1494,360,1363,338,1220,306,1152,287,1093,265,1045,241,1011,215,997,193,989,169,983,124"/>
+<area shape="rect" href="a00071.html" title="Non&#45;throwing helpers for JSON configuration files and documents." alt="" coords="2466,269,2656,296"/>
+<area shape="poly" title=" " alt="" coords="1052,107,2394,259,2451,265,2450,271,2393,264,1052,113"/>
+<area shape="rect" href="a00074.html" title="Contract for turning raw JSON text into a canonical document." alt="" coords="624,261,797,304"/>
+<area shape="poly" title=" " alt="" coords="956,125,756,255,754,250,954,121"/>
+<area shape="rect" href="a00077.html" title="Abstract base for per&#45;operation normalizers built on the schema walker." alt="" coords="1025,171,1242,213"/>
+<area shape="poly" title=" " alt="" coords="1022,121,1088,160,1085,165,1020,126"/>
+<area shape="rect" href="a00083.html" title="Recursive walker for a JSON Schema draft&#45;7 subset." alt="" coords="1270,261,1540,304"/>
+<area shape="poly" title=" " alt="" coords="1052,109,1150,131,1204,147,1256,168,1320,207,1373,249,1370,253,1317,211,1253,173,1202,152,1149,136,1051,115"/>
+<area shape="rect" href="a00080.html" title="Exception thrown by the JSON schema engine on the first violation." alt="" coords="965,352,1238,395"/>
+<area shape="poly" title=" " alt="" coords="980,124,967,160,956,206,955,256,960,280,970,303,990,325,1016,343,1013,347,986,329,966,305,955,282,950,257,951,206,962,158,975,122"/>
+<area shape="rect" href="a00086.html" title="Contract for checking raw JSON text against a schema." alt="" coords="198,261,397,304"/>
+<area shape="poly" title=" " alt="" coords="922,108,803,116,659,129,523,148,469,160,428,173,398,189,371,209,326,252,322,248,367,205,395,185,426,168,467,155,523,143,659,124,803,111,922,103"/>
+<area shape="rect" href="a00089.html" title="Validate&#45;only checker for one schema tree." alt="" coords="438,171,634,213"/>
+<area shape="poly" title=" " alt="" coords="922,118,649,171,648,166,921,113"/>
+<area shape="poly" title=" " alt="" coords="1730,384,1834,404,1887,420,1938,440,1981,463,2020,491,2080,544,2077,548,2016,495,1978,468,1936,445,1886,425,1832,410,1729,389"/>
+<area shape="poly" title=" " alt="" coords="1688,385,1826,408,1982,440,2036,455,2035,460,1981,445,1825,413,1687,390"/>
+<area shape="rect" title=" " alt="" coords="1244,459,1305,485"/>
+<area shape="poly" title=" " alt="" coords="1528,390,1430,412,1325,445,1308,453,1306,448,1323,440,1428,407,1526,385"/>
+<area shape="rect" title=" " alt="" coords="1619,459,1688,485"/>
+<area shape="poly" title=" " alt="" coords="1612,386,1642,444,1637,446,1607,388"/>
+<area shape="rect" href="a00335.html" title="X&#45;macro system that generates a scoped enum together with its own compile&#45;time reflection data and a ..." alt="" coords="1712,443,1925,501"/>
+<area shape="poly" title=" " alt="" coords="1632,385,1742,434,1740,438,1630,390"/>
+<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="1134,640,1328,683"/>
+<area shape="poly" title=" " alt="" coords="1518,390,1443,410,1405,426,1369,445,1353,458,1343,472,1334,486,1319,503,1301,517,1286,526,1272,535,1258,551,1243,588,1235,625,1230,624,1237,586,1254,548,1268,531,1283,521,1298,513,1316,499,1330,483,1339,469,1349,454,1367,440,1402,421,1441,405,1516,385"/>
+<area shape="rect" href="a00395.html" title="Process&#45;wide slot for one consumer&#45;installed function pointer." alt="" coords="1380,451,1596,493"/>
+<area shape="poly" title=" " alt="" coords="1589,389,1526,443,1522,438,1586,385"/>
+<area shape="rect" title=" " alt="" coords="1596,557,1646,584"/>
+<area shape="poly" title=" " alt="" coords="1758,504,1660,552,1659,552,1657,547,1657,547,1756,499"/>
+<area shape="rect" title=" " alt="" coords="1977,557,2042,584"/>
+<area shape="poly" title=" " alt="" coords="1877,499,1972,548,1970,552,1874,504"/>
+<area shape="rect" href="a00389.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="1268,549,1436,592"/>
+<area shape="poly" title=" " alt="" coords="1712,501,1701,504,1452,551,1451,546,1699,499,1711,496"/>
+<area shape="rect" href="a00419.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="1670,549,1903,592"/>
+<area shape="poly" title=" " alt="" coords="1812,502,1801,536,1796,534,1807,501"/>
+<area shape="poly" title=" " alt="" coords="1869,500,1896,520,1917,544,1926,569,1924,582,1916,594,1888,609,1836,621,1684,640,1505,653,1343,660,1343,654,1505,647,1684,635,1835,616,1886,604,1913,590,1919,580,1921,569,1912,546,1892,524,1866,504"/>
+<area shape="rect" href="a00404.html" title="C++ language, library and attribute feature availability." alt="" coords="1832,640,2064,683"/>
+<area shape="poly" title=" " alt="" coords="1437,587,1448,589,1642,619,1817,642,1816,647,1641,624,1448,595,1436,593"/>
+<area shape="poly" title=" " alt="" coords="1671,593,1343,645,1343,640,1670,588"/>
+<area shape="poly" title=" " alt="" coords="1380,495,1318,504,952,544,677,568,677,563,952,539,1317,499,1379,490"/>
+<area shape="poly" title=" " alt="" coords="1570,491,1607,499,1732,513,1831,517,1930,523,1987,532,2054,547,2062,549,2060,554,2053,552,1986,537,1929,528,1831,522,1732,519,1606,504,1569,497"/>
+<area shape="poly" title=" " alt="" coords="1460,496,1395,542,1392,538,1457,492"/>
+<area shape="poly" title=" " alt="" coords="1509,492,1526,514,1540,540,1545,568,1542,581,1535,594,1523,605,1505,615,1459,631,1402,643,1344,652,1343,647,1401,638,1457,626,1503,610,1520,600,1531,590,1537,579,1540,568,1535,542,1521,517,1505,495"/>
+<area shape="rect" title=" " alt="" coords="1460,557,1521,584"/>
+<area shape="poly" title=" " alt="" coords="1491,494,1493,542,1487,542,1486,494"/>
+<area shape="poly" title=" " alt="" coords="2546,298,2476,354,2434,397,2395,444,2384,462,2377,477,2367,491,2350,504,2121,517,1615,537,677,570,677,565,1615,532,2121,512,2348,499,2364,487,2372,474,2379,459,2391,441,2430,394,2473,350,2542,294"/>
+<area shape="poly" title=" " alt="" coords="2533,299,2293,397,2120,459,2118,454,2291,392,2531,294"/>
+<area shape="poly" title=" " alt="" coords="2506,299,2242,359,2240,354,2505,294"/>
+<area shape="poly" title=" " alt="" coords="2466,295,1745,362,1744,356,2466,290"/>
+<area shape="poly" title=" " alt="" coords="2554,298,2510,354,2481,399,2461,437,2437,471,2419,488,2395,504,2348,526,2306,538,2267,542,2229,541,2150,537,2105,541,2054,552,2049,554,2047,549,2053,547,2104,536,2150,532,2229,536,2266,536,2305,533,2346,521,2392,499,2415,483,2433,468,2456,434,2476,396,2506,350,2549,295"/>
+<area shape="poly" title=" " alt="" coords="2561,297,2549,337,2526,393,2492,453,2470,480,2444,503,2406,527,2359,548,2302,567,2237,584,2091,611,1930,631,1764,645,1604,654,1343,662,1343,657,1604,649,1764,640,1929,626,2090,606,2236,579,2300,562,2357,543,2404,522,2441,499,2466,476,2487,450,2521,391,2544,336,2556,296"/>
+<area shape="rect" title=" " alt="" coords="2565,360,2630,387"/>
+<area shape="poly" title=" " alt="" coords="2569,296,2589,344,2584,346,2564,298"/>
+<area shape="rect" title=" " alt="" coords="2654,360,2720,387"/>
+<area shape="poly" title=" " alt="" coords="2581,294,2658,349,2655,353,2578,299"/>
+<area shape="rect" title=" " alt="" coords="2276,459,2337,485"/>
+<area shape="poly" title=" " alt="" coords="2657,284,2816,291,2997,303,3153,322,3206,335,3235,350,3243,362,3246,373,3243,385,3235,397,3218,407,3190,416,3108,429,3001,436,2880,440,2648,443,2508,445,2353,466,2353,461,2508,440,2647,437,2880,435,3001,431,3108,423,3189,411,3216,402,3231,393,3238,383,3240,373,3238,364,3232,354,3204,340,3152,328,2997,309,2816,296,2657,289"/>
+<area shape="rect" title=" " alt="" coords="2743,360,2801,387"/>
+<area shape="poly" title=" " alt="" coords="2596,294,2733,350,2735,350,2733,355,2731,354,2594,299"/>
+<area shape="rect" title=" " alt="" coords="2824,360,2906,387"/>
+<area shape="poly" title=" " alt="" coords="2615,294,2708,318,2814,349,2821,352,2819,357,2813,355,2707,323,2614,299"/>
+<area shape="rect" title=" " alt="" coords="2931,360,3018,387"/>
+<area shape="poly" title=" " alt="" coords="2649,294,2777,317,2919,349,2929,352,2927,357,2918,355,2776,322,2648,299"/>
+<area shape="rect" href="a00428.html" title="General preprocessor helpers: LUMEX_FUNCTION_NAME, LUMEX_STRINGIZE and LUMEX_CONCAT." alt="" coords="3042,352,3222,395"/>
+<area shape="poly" title=" " alt="" coords="2657,294,2826,317,3028,349,3027,354,2825,323,2656,299"/>
+<area shape="poly" title=" " alt="" coords="705,305,657,443,631,543,626,542,652,442,700,303"/>
+<area shape="poly" title=" " alt="" coords="798,285,1284,309,1942,349,2090,362,2090,367,1941,355,1284,315,798,291"/>
+<area shape="poly" title=" " alt="" coords="729,303,764,345,816,399,881,454,916,478,953,499,1028,528,1107,547,1184,559,1252,565,1252,570,1183,564,1106,553,1026,533,951,504,913,483,878,458,813,403,760,349,724,306"/>
+<area shape="poly" title=" " alt="" coords="661,307,560,348,558,343,659,302"/>
+<area shape="poly" title=" " alt="" coords="586,376,1938,440,2036,458,2035,463,1937,445,586,381"/>
+<area shape="poly" title=" " alt="" coords="571,393,743,440,847,473,893,487,952,499,1098,518,1221,527,1330,530,1433,528,1645,526,1769,532,1915,547,1962,555,1961,560,1914,552,1768,537,1644,531,1433,533,1330,535,1221,533,1097,524,952,504,892,492,846,478,742,445,569,398"/>
+<area shape="poly" title=" " alt="" coords="536,393,656,447,731,475,807,499,926,524,1046,543,1253,562,1252,567,1045,548,925,530,806,504,729,480,654,452,534,398"/>
+<area shape="poly" title=" " alt="" coords="404,389,302,411,261,426,235,444,227,459,224,472,227,485,235,500,260,524,293,545,335,565,384,582,498,609,626,629,762,643,894,652,1118,658,1118,663,894,657,761,648,626,635,496,614,382,587,333,570,291,550,256,528,231,503,222,487,219,472,222,457,231,441,258,422,300,406,402,384"/>
+<area shape="poly" title=" " alt="" coords="587,376,953,392,1281,402,1535,406,1790,415,2116,440,2261,460,2260,465,2116,445,1790,421,1535,411,1281,407,953,397,586,381"/>
+<area shape="rect" href="a00641.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="246,459,408,485"/>
+<area shape="poly" title=" " alt="" coords="460,398,363,453,361,448,457,393"/>
+<area shape="rect" title=" " alt="" coords="432,459,493,485"/>
+<area shape="poly" title=" " alt="" coords="490,396,474,445,469,443,485,394"/>
+<area shape="rect" title=" " alt="" coords="516,459,585,485"/>
+<area shape="poly" title=" " alt="" coords="509,394,538,444,534,447,504,396"/>
+<area shape="poly" title=" " alt="" coords="1107,216,653,550,650,546,1104,212"/>
+<area shape="poly" title=" " alt="" coords="1243,198,1504,218,1823,251,1974,272,2103,295,2199,321,2231,335,2250,350,2260,371,2257,390,2244,407,2224,422,2172,446,2120,463,2118,458,2170,441,2221,417,2240,403,2252,387,2254,371,2246,354,2228,340,2197,326,2102,301,1973,277,1822,257,1504,224,1242,203"/>
+<area shape="poly" title=" " alt="" coords="1242,199,1469,221,1601,238,1732,259,1839,281,1945,306,2115,353,2113,358,1943,311,1838,286,1732,264,1600,243,1468,226,1242,204"/>
+<area shape="poly" title=" " alt="" coords="1243,195,1654,219,1867,237,2022,259,2100,270,2165,277,2194,285,2222,298,2248,319,2274,351,2289,382,2288,410,2274,434,2251,454,2224,470,2194,484,2141,504,2078,521,1998,532,1906,538,1808,541,1612,544,1525,546,1452,552,1452,547,1525,541,1612,539,1808,536,1906,533,1998,527,2077,516,2139,499,2192,479,2221,465,2248,449,2270,431,2283,409,2284,383,2270,353,2245,323,2219,303,2192,290,2164,282,2099,275,2021,264,1866,242,1653,224,1242,201"/>
+<area shape="poly" title=" " alt="" coords="1091,216,1052,239,1010,270,971,308,941,353,935,385,936,428,943,471,954,500,993,545,1042,582,1094,611,1144,632,1142,637,1091,615,1039,586,990,549,950,503,938,472,931,429,930,384,936,351,967,305,1007,266,1049,235,1089,212"/>
+<area shape="poly" title=" " alt="" coords="1035,217,813,263,812,258,1034,211"/>
+<area shape="poly" title=" " alt="" coords="1024,202,915,211,796,224,688,241,645,252,613,264,586,280,561,300,521,342,517,338,558,296,583,275,611,259,644,247,687,236,795,219,914,206,1024,197"/>
+<area shape="poly" title=" " alt="" coords="1198,211,1328,254,1326,259,1196,217"/>
+<area shape="poly" title=" " alt="" coords="1541,290,1766,311,1869,328,1942,350,1967,365,1997,390,2056,446,2053,450,1994,394,1964,370,1940,354,1868,334,1765,317,1541,295"/>
+<area shape="poly" title=" " alt="" coords="1541,290,1795,311,1942,328,2087,349,2108,353,2107,359,2086,355,1941,333,1795,316,1541,295"/>
+<area shape="poly" title=" " alt="" coords="1416,304,1425,348,1424,373,1416,396,1397,418,1376,428,1352,434,1325,445,1311,453,1308,448,1323,440,1350,429,1374,422,1394,413,1411,393,1419,372,1420,348,1411,305"/>
+<area shape="poly" title=" " alt="" coords="1541,298,1659,320,1708,334,1743,350,1762,366,1779,386,1804,427,1799,430,1775,389,1759,370,1740,354,1706,339,1658,325,1540,303"/>
+<area shape="poly" title=" " alt="" coords="1534,302,1686,328,1781,349,1800,359,1814,370,1844,392,1871,405,1893,413,1915,423,1939,441,1960,465,1978,492,2002,542,1997,544,1973,494,1956,468,1936,445,1913,427,1891,418,1869,410,1841,397,1811,374,1797,364,1779,355,1685,334,1534,307"/>
+<area shape="poly" title=" " alt="" coords="1541,301,1547,301,1614,308,1672,309,1772,308,1819,310,1869,316,1925,328,1989,350,2118,441,2130,473,2128,488,2118,503,2103,513,2079,521,2009,532,1917,540,1811,544,1600,548,1452,552,1452,547,1600,543,1811,539,1916,534,2009,527,2078,515,2101,508,2114,499,2123,486,2125,474,2114,444,1987,354,1923,333,1868,321,1819,315,1772,314,1672,315,1614,313,1546,307,1541,306"/>
+<area shape="poly" title=" " alt="" coords="1541,301,1547,301,1622,308,1686,309,1796,306,1849,306,1904,312,1966,326,2037,350,2055,360,2067,371,2078,382,2094,392,2132,404,2168,407,2233,400,2264,398,2294,402,2323,415,2351,441,2365,461,2371,479,2372,497,2367,514,2357,530,2343,545,2303,571,2253,594,2197,613,2080,641,2078,636,2195,608,2251,589,2301,566,2339,541,2353,527,2362,512,2367,497,2366,480,2360,463,2347,444,2320,419,2292,407,2264,403,2234,405,2168,412,2131,409,2092,397,2075,386,2063,375,2052,364,2035,354,1965,331,1904,318,1849,312,1796,311,1686,314,1621,313,1546,307,1541,306"/>
+<area shape="poly" title=" " alt="" coords="1270,300,602,364,601,359,1270,294"/>
+<area shape="rect" title=" " alt="" coords="1855,360,1929,387"/>
+<area shape="poly" title=" " alt="" coords="1541,296,1684,318,1837,349,1847,352,1845,357,1835,355,1684,323,1541,301"/>
+<area shape="rect" title=" " alt="" coords="1262,360,1319,387"/>
+<area shape="poly" title=" " alt="" coords="1380,307,1320,353,1317,349,1377,302"/>
+<area shape="rect" title=" " alt="" coords="964,459,1017,485"/>
+<area shape="poly" title=" " alt="" coords="1270,288,1176,294,1083,306,1004,325,975,338,955,354,946,375,949,399,959,423,973,444,968,447,954,425,944,400,941,374,951,350,972,334,1002,320,1082,300,1176,289,1269,283"/>
+<area shape="rect" title=" " alt="" coords="1343,360,1401,387"/>
+<area shape="poly" title=" " alt="" coords="1400,305,1384,347,1380,345,1395,303"/>
+<area shape="poly" title=" " alt="" coords="1335,307,1188,350,1187,345,1333,302"/>
+<area shape="poly" title=" " alt="" coords="1239,391,1251,392,1444,407,1595,412,1745,420,1938,440,2036,458,2035,463,1937,445,1745,425,1594,418,1444,412,1250,397,1238,396"/>
+<area shape="poly" title=" " alt="" coords="1140,393,1227,440,1241,448,1238,453,1224,445,1138,397"/>
+<area shape="poly" title=" " alt="" coords="1239,391,1251,392,1375,405,1473,412,1571,422,1697,440,1696,445,1571,427,1472,418,1374,410,1250,397,1238,396"/>
+<area shape="poly" title=" " alt="" coords="1129,393,1183,441,1208,471,1234,499,1264,521,1296,540,1293,544,1261,525,1230,503,1204,475,1179,445,1126,397"/>
+<area shape="poly" title=" " alt="" coords="1094,396,1079,445,1077,473,1083,500,1103,539,1131,574,1161,604,1190,629,1187,633,1158,608,1127,578,1099,542,1077,502,1072,473,1074,444,1089,394"/>
+<area shape="poly" title=" " alt="" coords="1080,397,1018,451,1014,447,1076,393"/>
+<area shape="rect" title=" " alt="" coords="1092,459,1170,485"/>
+<area shape="poly" title=" " alt="" coords="1110,394,1125,443,1120,445,1105,396"/>
+<area shape="poly" title=" " alt="" coords="275,306,235,346,196,396,183,423,176,450,178,476,191,500,216,518,255,533,303,545,358,553,472,563,568,567,568,572,471,569,357,558,302,550,253,538,214,523,187,503,173,477,171,450,178,422,191,393,231,342,271,303"/>
+<area shape="poly" title=" " alt="" coords="345,302,436,343,433,348,343,307"/>
+<area shape="poly" title=" " alt="" coords="515,216,411,306,357,342,310,366,289,378,270,394,252,415,236,444,225,474,227,486,235,500,257,516,291,530,381,550,481,561,569,565,568,571,481,566,380,555,289,535,255,521,231,503,222,488,220,473,231,442,248,412,267,390,286,374,308,361,354,338,408,302,512,212"/>
+<area shape="poly" title=" " alt="" coords="634,195,1110,221,1366,239,1552,259,1604,268,1643,279,1733,301,1832,317,1910,325,1988,334,2087,349,2107,353,2106,359,2086,355,1987,339,1909,331,1831,322,1731,307,1642,284,1602,274,1552,264,1365,244,1109,226,634,200"/>
+<area shape="poly" title=" " alt="" coords="550,212,577,255,614,302,674,368,723,418,779,459,857,499,930,519,1034,536,1253,559,1252,565,1033,542,929,525,855,504,776,464,720,422,670,372,610,306,573,258,545,215"/>
+<area shape="poly" title=" " alt="" coords="438,201,379,209,315,221,249,239,186,264,137,284,96,303,81,314,69,329,61,348,59,372,59,473,64,511,80,537,104,553,135,564,214,575,258,580,302,589,372,604,463,616,687,635,922,647,1118,654,1118,660,922,653,686,640,462,621,371,609,301,595,257,585,213,580,134,569,102,558,76,540,59,513,53,474,53,372,56,346,64,326,77,310,94,298,135,279,184,259,247,234,314,216,379,204,438,196"/>
+<area shape="poly" title=" " alt="" coords="533,214,520,262,504,338,499,336,515,261,528,213"/>
+<area shape="poly" title=" " alt="" coords="634,201,1255,263,1255,269,634,206"/>
+<area shape="poly" title=" " alt="" coords="635,200,723,221,768,237,811,259,849,292,894,343,975,445,971,448,890,346,845,296,808,264,766,242,722,226,633,206"/>
+<area shape="poly" title=" " alt="" coords="481,216,369,258,367,253,479,211"/>
+</map>
 </div>
 </div><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
-Enumerations</h2></td></tr>
-<tr class="memitem:a7014ea31388ba91f40697a3b984ae081" id="r_a7014ea31388ba91f40697a3b984ae081"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7014ea31388ba91f40697a3b984ae081">ExampleValve</a> : std::uint8_t { <a class="el" href="#a7014ea31388ba91f40697a3b984ae081af19dbf2edb3a0bd74b0524d960ff21eb">Load</a>
-, <a class="el" href="#a7014ea31388ba91f40697a3b984ae081a3ecd85d1d84f190330a72d7ff94695b1">Inject</a>
-, <a class="el" href="#a7014ea31388ba91f40697a3b984ae081a977fe39d1cc13e3e5e6abec301be214d">Waste</a>
- }</td></tr>
-<tr class="separator:a7014ea31388ba91f40697a3b984ae081"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ad021a232cbbd1fe8e88dc6a2a40cd5d4" id="r_ad021a232cbbd1fe8e88dc6a2a40cd5d4"><td class="memItemLeft" align="right" valign="top">static constexpr char const *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad021a232cbbd1fe8e88dc6a2a40cd5d4">toString</a> (<a class="el" href="#a7014ea31388ba91f40697a3b984ae081">ExampleValve</a> value) noexcept</td></tr>
-<tr class="separator:ad021a232cbbd1fe8e88dc6a2a40cd5d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae66f6b31b5ad750f1fe042a706a4e3d4" id="r_ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a> ()</td></tr>
 <tr class="separator:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
-Variables</h2></td></tr>
-<tr class="memitem:a1cf9a5ab96b777692089d92322f2ce21" id="r_a1cf9a5ab96b777692089d92322f2ce21"><td class="memItemLeft" align="right" valign="top">static constexprstd::array&lt; <a class="el" href="#a7014ea31388ba91f40697a3b984ae081">ExampleValve</a>, 3 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1cf9a5ab96b777692089d92322f2ce21">ExampleValveValues</a> { <a class="el" href="#a7014ea31388ba91f40697a3b984ae081af19dbf2edb3a0bd74b0524d960ff21eb">ExampleValve::Load</a> , <a class="el" href="#a7014ea31388ba91f40697a3b984ae081a3ecd85d1d84f190330a72d7ff94695b1">ExampleValve::Inject</a> , <a class="el" href="#a7014ea31388ba91f40697a3b984ae081a977fe39d1cc13e3e5e6abec301be214d">ExampleValve::Waste</a> }</td></tr>
-<tr class="separator:a1cf9a5ab96b777692089d92322f2ce21"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a24fa11d261c922191c9737092074c3e9" id="r_a24fa11d261c922191c9737092074c3e9"><td class="memItemLeft" align="right" valign="top">static constexprExampleValve&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a24fa11d261c922191c9737092074c3e9">ExampleValveFirst</a> = <a class="el" href="a01021.html#a1402ab62e151b9fd9b6f014b91610bda">::lumex::core::reflection::reflected_enum::detail::first_of</a>( <a class="el" href="#a7014ea31388ba91f40697a3b984ae081af19dbf2edb3a0bd74b0524d960ff21eb">ExampleValve::Load</a> , <a class="el" href="#a7014ea31388ba91f40697a3b984ae081a3ecd85d1d84f190330a72d7ff94695b1">ExampleValve::Inject</a> , <a class="el" href="#a7014ea31388ba91f40697a3b984ae081a977fe39d1cc13e3e5e6abec301be214d">ExampleValve::Waste</a> )</td></tr>
-<tr class="separator:a24fa11d261c922191c9737092074c3e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2f92411e6b22fbee452ad4088e12a728" id="r_a2f92411e6b22fbee452ad4088e12a728"><td class="memItemLeft" align="right" valign="top">static constexprstd::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2f92411e6b22fbee452ad4088e12a728">ExampleValveSize</a> = <a class="el" href="#a1cf9a5ab96b777692089d92322f2ce21">ExampleValveValues</a> .size()</td></tr>
-<tr class="separator:a2f92411e6b22fbee452ad4088e12a728"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aad1be3aecd4621211ccd4a35c4dc49b0" id="r_aad1be3aecd4621211ccd4a35c4dc49b0"><td class="memItemLeft" align="right" valign="top">static constexprExampleValve&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aad1be3aecd4621211ccd4a35c4dc49b0">ExampleValveLast</a> = <a class="el" href="a01021.html#a479c8294a6863b2cbd9f422b77a46472">::lumex::core::reflection::reflected_enum::detail::last_of</a>( <a class="el" href="#a7014ea31388ba91f40697a3b984ae081af19dbf2edb3a0bd74b0524d960ff21eb">ExampleValve::Load</a> , <a class="el" href="#a7014ea31388ba91f40697a3b984ae081a3ecd85d1d84f190330a72d7ff94695b1">ExampleValve::Inject</a> , <a class="el" href="#a7014ea31388ba91f40697a3b984ae081a977fe39d1cc13e3e5e6abec301be214d">ExampleValve::Waste</a> )</td></tr>
-<tr class="separator:aad1be3aecd4621211ccd4a35c4dc49b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Enumeration Type Documentation</h2>
-<a id="a7014ea31388ba91f40697a3b984ae081" name="a7014ea31388ba91f40697a3b984ae081"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7014ea31388ba91f40697a3b984ae081">&#9670;&#160;</a></span>ExampleValve</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">enum class <a class="el" href="#a7014ea31388ba91f40697a3b984ae081">ExampleValve</a> : std::uint8_t</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a7014ea31388ba91f40697a3b984ae081af19dbf2edb3a0bd74b0524d960ff21eb" name="a7014ea31388ba91f40697a3b984ae081af19dbf2edb3a0bd74b0524d960ff21eb"></a>Load&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a7014ea31388ba91f40697a3b984ae081a3ecd85d1d84f190330a72d7ff94695b1" name="a7014ea31388ba91f40697a3b984ae081a3ecd85d1d84f190330a72d7ff94695b1"></a>Inject&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a7014ea31388ba91f40697a3b984ae081a977fe39d1cc13e3e5e6abec301be214d" name="a7014ea31388ba91f40697a3b984ae081a977fe39d1cc13e3e5e6abec301be214d"></a>Waste&#160;</td><td class="fielddoc"></td></tr>
-</table>
-
-</div>
-</div>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="ae66f6b31b5ad750f1fe042a706a4e3d4" name="ae66f6b31b5ad750f1fe042a706a4e3d4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae66f6b31b5ad750f1fe042a706a4e3d4">&#9670;&#160;</a></span>main()</h2>
@@ -192,126 +283,12 @@ Variables</h2></td></tr>
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="a00536_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph.png" border="0" usemap="#aa00536_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" alt=""/></div>
+<map name="aa00536_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" id="aa00536_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph">
+<area shape="rect" title=" " alt="" coords="5,13,55,40"/>
+<area shape="rect" href="a04073.html#aa895f4efd6c47529d881aa66d27621f2" title="Text of the exception held by error." alt="" coords="103,5,302,48"/>
+<area shape="poly" title=" " alt="" coords="55,24,87,24,87,29,55,29"/>
+</map>
 </div>
-
-</div>
-</div>
-<a id="ad021a232cbbd1fe8e88dc6a2a40cd5d4" name="ad021a232cbbd1fe8e88dc6a2a40cd5d4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad021a232cbbd1fe8e88dc6a2a40cd5d4">&#9670;&#160;</a></span>toString()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static constexpr char const  * toString </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="#a7014ea31388ba91f40697a3b984ae081">ExampleValve</a></td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel static">static</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00536_ad021a232cbbd1fe8e88dc6a2a40cd5d4_icgraph.png" border="0" usemap="#aa00536_ad021a232cbbd1fe8e88dc6a2a40cd5d4_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<h2 class="groupheader">Variable Documentation</h2>
-<a id="a24fa11d261c922191c9737092074c3e9" name="a24fa11d261c922191c9737092074c3e9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a24fa11d261c922191c9737092074c3e9">&#9670;&#160;</a></span>ExampleValveFirst</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexprExampleValve ExampleValveFirst = <a class="el" href="a01021.html#a1402ab62e151b9fd9b6f014b91610bda">::lumex::core::reflection::reflected_enum::detail::first_of</a>( <a class="el" href="#a7014ea31388ba91f40697a3b984ae081af19dbf2edb3a0bd74b0524d960ff21eb">ExampleValve::Load</a> , <a class="el" href="#a7014ea31388ba91f40697a3b984ae081a3ecd85d1d84f190330a72d7ff94695b1">ExampleValve::Inject</a> , <a class="el" href="#a7014ea31388ba91f40697a3b984ae081a977fe39d1cc13e3e5e6abec301be214d">ExampleValve::Waste</a> )</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aad1be3aecd4621211ccd4a35c4dc49b0" name="aad1be3aecd4621211ccd4a35c4dc49b0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aad1be3aecd4621211ccd4a35c4dc49b0">&#9670;&#160;</a></span>ExampleValveLast</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexprExampleValve ExampleValveLast = <a class="el" href="a01021.html#a479c8294a6863b2cbd9f422b77a46472">::lumex::core::reflection::reflected_enum::detail::last_of</a>( <a class="el" href="#a7014ea31388ba91f40697a3b984ae081af19dbf2edb3a0bd74b0524d960ff21eb">ExampleValve::Load</a> , <a class="el" href="#a7014ea31388ba91f40697a3b984ae081a3ecd85d1d84f190330a72d7ff94695b1">ExampleValve::Inject</a> , <a class="el" href="#a7014ea31388ba91f40697a3b984ae081a977fe39d1cc13e3e5e6abec301be214d">ExampleValve::Waste</a> )</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a2f92411e6b22fbee452ad4088e12a728" name="a2f92411e6b22fbee452ad4088e12a728"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2f92411e6b22fbee452ad4088e12a728">&#9670;&#160;</a></span>ExampleValveSize</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexprstd::size_t ExampleValveSize = <a class="el" href="#a1cf9a5ab96b777692089d92322f2ce21">ExampleValveValues</a> .size()</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a1cf9a5ab96b777692089d92322f2ce21" name="a1cf9a5ab96b777692089d92322f2ce21"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1cf9a5ab96b777692089d92322f2ce21">&#9670;&#160;</a></span>ExampleValveValues</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexprstd::array&lt;<a class="el" href="#a7014ea31388ba91f40697a3b984ae081">ExampleValve</a>, 3 &gt; ExampleValveValues { <a class="el" href="#a7014ea31388ba91f40697a3b984ae081af19dbf2edb3a0bd74b0524d960ff21eb">ExampleValve::Load</a> , <a class="el" href="#a7014ea31388ba91f40697a3b984ae081a3ecd85d1d84f190330a72d7ff94695b1">ExampleValve::Inject</a> , <a class="el" href="#a7014ea31388ba91f40697a3b984ae081a977fe39d1cc13e3e5e6abec301be214d">ExampleValve::Waste</a> }</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
 
 </div>
 </div>
@@ -320,7 +297,7 @@ Here is the caller graph for this function:</div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_e8ae4df8b8335e2a73ecf531ee4a4a97.html">examples</a></li><li class="navelem"><a class="el" href="dir_960426362f7813f6a0fb068c7ad54318.html">reflection</a></li><li class="navelem"><a class="el" href="a00536.html">example_reflection_workflow.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_e8ae4df8b8335e2a73ecf531ee4a4a97.html">examples</a></li><li class="navelem"><a class="el" href="dir_4071ad1724fa0e77f3bdca2354e6ad35.html">json</a></li><li class="navelem"><a class="el" href="a00536.html">example_json_workflow.cpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

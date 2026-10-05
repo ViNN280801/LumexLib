@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexMathConstants.hpp File Reference</title>
+<title>LumexLib: BadExpectedAccess.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,438 +104,87 @@ $(function(){initNavTree('a00284.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#define-members">Macros</a>  </div>
-  <div class="headertitle"><div class="title">LumexMathConstants.hpp File Reference</div></div>
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#namespaces">Namespaces</a>  </div>
+  <div class="headertitle"><div class="title">BadExpectedAccess.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Mathematical constants as <code>LUMEX_MATH_CONSTANTS_*</code> macros.  
+<p><code><a class="el" href="a04033.html" title="Exception thrown when the value of an Expected is read while it holds an error.">BadExpectedAccess</a></code>, the exception that <code><a class="el" href="a04049.html" title="Class that mimics std::expected from C++23.">Expected</a></code> throws when its value is read while it holds an error; an analogue of C++23 <code>std::bad_expected_access</code>.  
 <a href="#details">More...</a></p>
-<div class="textblock"><div class="dynheader">
+<div class="textblock"><code>#include &lt;exception&gt;</code><br />
+<code>#include &lt;utility&gt;</code><br />
+<code>#include &quot;<a class="el" href="a00425_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for BadExpectedAccess.hpp:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00285.png" border="0" usemap="#a_bad_expected_access_8hpp" alt=""/></div>
+<map name="a_bad_expected_access_8hpp" id="a_bad_expected_access_8hpp">
+<area shape="rect" title="BadExpectedAccess, the exception that Expected throws when its value is read while it holds an error;..." alt="" coords="49,5,218,32"/>
+<area shape="rect" title=" " alt="" coords="5,88,83,115"/>
+<area shape="poly" title=" " alt="" coords="121,34,71,80,67,76,118,31"/>
+<area shape="rect" title=" " alt="" coords="107,88,160,115"/>
+<area shape="poly" title=" " alt="" coords="136,32,136,73,131,73,131,32"/>
+<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="184,80,378,123"/>
+<area shape="poly" title=" " alt="" coords="158,30,231,70,229,75,155,35"/>
+</map>
+</div>
+</div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00286.png" border="0" usemap="#a_lumex_math_constants_8hppdep" alt=""/></div>
+<div class="center"><img src="a00286.png" border="0" usemap="#a_bad_expected_access_8hppdep" alt=""/></div>
+<map name="a_bad_expected_access_8hppdep" id="a_bad_expected_access_8hppdep">
+<area shape="rect" title="BadExpectedAccess, the exception that Expected throws when its value is read while it holds an error;..." alt="" coords="71,5,239,32"/>
+<area shape="rect" href="a00908.html" title="Expected module: Expected&lt;T, E&gt;, a value or an error after the C++23 std::expected,..." alt="" coords="149,304,225,331"/>
+<area shape="poly" title=" " alt="" coords="158,47,163,140,175,256,186,303,181,304,170,256,157,140,153,48"/>
+<area shape="rect" href="a00290.html" title="Expected&lt;SuccessType, ErrorType&gt;, an analogue of C++23 std::expected usable from C++11,..." alt="" coords="179,80,280,107"/>
+<area shape="poly" title=" " alt="" coords="181,41,219,78,215,82,177,45"/>
+<area shape="rect" href="a00488.html" title=" " alt="" coords="5,379,161,405"/>
+<area shape="poly" title=" " alt="" coords="158,342,103,380,100,376,155,337"/>
+<area shape="rect" href="a00491.html" title=" " alt="" coords="184,379,398,405"/>
+<area shape="poly" title=" " alt="" coords="219,337,274,376,271,380,216,342"/>
+<area shape="poly" title=" " alt="" coords="210,120,198,137,190,155,181,197,180,238,187,303,182,304,175,239,176,196,184,154,193,134,205,117"/>
+<area shape="rect" href="a00296.html" title="The specialization Expected&lt;void, ErrorType&gt; for operations that succeed without a value; an analogue..." alt="" coords="198,155,325,181"/>
+<area shape="poly" title=" " alt="" coords="244,120,259,153,254,155,239,122"/>
+<area shape="rect" href="a00299.html" title="The return markers success() and failure() for functions that return an Expected." alt="" coords="250,229,386,256"/>
+<area shape="poly" title=" " alt="" coords="288,111,316,128,339,153,345,173,343,195,328,230,323,228,337,193,339,174,334,156,313,132,286,116"/>
+<area shape="poly" title=" " alt="" coords="251,196,196,305,191,302,246,194"/>
+<area shape="poly" title=" " alt="" coords="283,192,310,227,306,231,279,195"/>
+<area shape="poly" title=" " alt="" coords="283,266,211,306,209,301,280,262"/>
+</map>
 </div>
 </div>
 <p><a href="a00284_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
-Macros</h2></td></tr>
-<tr class="memitem:a90c8706d5ca0db2bdfc18ba319992a14" id="r_a90c8706d5ca0db2bdfc18ba319992a14"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a90c8706d5ca0db2bdfc18ba319992a14">LUMEX_MATH_CONSTANTS_PI</a>&#160;&#160;&#160;  3.14159265358979323846264338327950288419716939937510</td></tr>
-<tr class="separator:a90c8706d5ca0db2bdfc18ba319992a14"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a19da021499da8bb1b451b3fddc8fb557" id="r_a19da021499da8bb1b451b3fddc8fb557"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a19da021499da8bb1b451b3fddc8fb557">LUMEX_MATH_CONSTANTS_EULER_NUMBER</a>&#160;&#160;&#160;  2.71828182845904523536028747135266249775724709369995</td></tr>
-<tr class="separator:a19da021499da8bb1b451b3fddc8fb557"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae463bd7911974e01edea620fd45b83c5" id="r_ae463bd7911974e01edea620fd45b83c5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae463bd7911974e01edea620fd45b83c5">LUMEX_MATH_CONSTANTS_GOLDEN_RATIO</a>&#160;&#160;&#160;  1.61803398874989484820458683436563811772030917980576</td></tr>
-<tr class="separator:ae463bd7911974e01edea620fd45b83c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aba10c6bd3213d21a2c30a477b3f0c70f" id="r_aba10c6bd3213d21a2c30a477b3f0c70f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aba10c6bd3213d21a2c30a477b3f0c70f">LUMEX_MATH_CONSTANTS_SILVER_RATIO</a>&#160;&#160;&#160;  2.41421356237309504880168872420969807856967187537694</td></tr>
-<tr class="separator:aba10c6bd3213d21a2c30a477b3f0c70f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a01815a919ddc9f8bcc22aa6f8ac19bcd" id="r_a01815a919ddc9f8bcc22aa6f8ac19bcd"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a01815a919ddc9f8bcc22aa6f8ac19bcd">LUMEX_MATH_CONSTANTS_EULER_MASCHERONI</a>&#160;&#160;&#160;  0.57721566490153286060651209008240243104215933593992</td></tr>
-<tr class="separator:a01815a919ddc9f8bcc22aa6f8ac19bcd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa3bce4463ada8aec1f335bc22ea4ac37" id="r_aa3bce4463ada8aec1f335bc22ea4ac37"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa3bce4463ada8aec1f335bc22ea4ac37">LUMEX_MATH_CONSTANTS_SQRT_2</a>&#160;&#160;&#160;  1.41421356237309504880168872420969807856967187537694</td></tr>
-<tr class="separator:aa3bce4463ada8aec1f335bc22ea4ac37"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abe793637b3b3e52d88c1e4093a110e5f" id="r_abe793637b3b3e52d88c1e4093a110e5f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abe793637b3b3e52d88c1e4093a110e5f">LUMEX_MATH_CONSTANTS_SQRT_3</a>&#160;&#160;&#160;  1.73205080756887729352744634150587236694280525381038</td></tr>
-<tr class="separator:abe793637b3b3e52d88c1e4093a110e5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaebdebb6d64cd6af2b802a2a67c6a0c9" id="r_aaebdebb6d64cd6af2b802a2a67c6a0c9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aaebdebb6d64cd6af2b802a2a67c6a0c9">LUMEX_MATH_CONSTANTS_SQRT_5</a>&#160;&#160;&#160;  2.23606797749978969640917366873127623544061835960414</td></tr>
-<tr class="separator:aaebdebb6d64cd6af2b802a2a67c6a0c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adcc545543b2bd5f761780e7b8237015c" id="r_adcc545543b2bd5f761780e7b8237015c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adcc545543b2bd5f761780e7b8237015c">LUMEX_MATH_CONSTANTS_LN_2</a>&#160;&#160;&#160;  0.69314718055994530941723212145817656807550013436025</td></tr>
-<tr class="separator:adcc545543b2bd5f761780e7b8237015c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a92087a0c1ff74ac5a19409f9827e0c03" id="r_a92087a0c1ff74ac5a19409f9827e0c03"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a92087a0c1ff74ac5a19409f9827e0c03">LUMEX_MATH_CONSTANTS_LN_10</a>&#160;&#160;&#160;  2.30258509299404568401799145468436420760110148862877</td></tr>
-<tr class="separator:a92087a0c1ff74ac5a19409f9827e0c03"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af63c12a7f019726dcb0722629ce6f49e" id="r_af63c12a7f019726dcb0722629ce6f49e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af63c12a7f019726dcb0722629ce6f49e">LUMEX_MATH_CONSTANTS_APERY</a>&#160;&#160;&#160;  1.20205690315959428539973816151144999076498629234049</td></tr>
-<tr class="separator:af63c12a7f019726dcb0722629ce6f49e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a824e19d313acb83c37a4add873bd5cfe" id="r_a824e19d313acb83c37a4add873bd5cfe"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a824e19d313acb83c37a4add873bd5cfe">LUMEX_MATH_CONSTANTS_CATALAN</a>&#160;&#160;&#160;  0.91596559417721901505460351493238411077414937428167</td></tr>
-<tr class="separator:a824e19d313acb83c37a4add873bd5cfe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab08a2c1df96fa5b5b9bf6b84f29ae0a2" id="r_ab08a2c1df96fa5b5b9bf6b84f29ae0a2"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab08a2c1df96fa5b5b9bf6b84f29ae0a2">LUMEX_MATH_CONSTANTS_LEMMISCATE</a>&#160;&#160;&#160;  5.24411510858423962092967917978223882736550990286324</td></tr>
-<tr class="separator:ab08a2c1df96fa5b5b9bf6b84f29ae0a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a624c7000a4b4d3096d532f65a5b5166c" id="r_a624c7000a4b4d3096d532f65a5b5166c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a624c7000a4b4d3096d532f65a5b5166c">LUMEX_MATH_CONSTANTS_GAMMA_1_4</a>&#160;&#160;&#160;  3.62560990822190831193068515586767200299516768288006</td></tr>
-<tr class="separator:a624c7000a4b4d3096d532f65a5b5166c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9637afd78ca1def8450057980f52325f" id="r_a9637afd78ca1def8450057980f52325f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9637afd78ca1def8450057980f52325f">LUMEX_MATH_CONSTANTS_GAMMA_1_3</a>&#160;&#160;&#160;  2.67893853470774763365569294097467764412868937795730</td></tr>
-<tr class="separator:a9637afd78ca1def8450057980f52325f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a65030713db7d289fd18c665e3eb25101" id="r_a65030713db7d289fd18c665e3eb25101"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a65030713db7d289fd18c665e3eb25101">LUMEX_MATH_CONSTANTS_BRUNS_CONSTANT_TWIN_PRIMES</a>&#160;&#160;&#160;  1.902160583104</td></tr>
-<tr class="separator:a65030713db7d289fd18c665e3eb25101"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0c997a0c0890aca3816782b8ef4b8b4c" id="r_a0c997a0c0890aca3816782b8ef4b8b4c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0c997a0c0890aca3816782b8ef4b8b4c">LUMEX_MATH_CONSTANTS_PLASTIC_NUMBER</a>&#160;&#160;&#160;  1.32471795724474602596090885447809734073440794569502</td></tr>
-<tr class="separator:a0c997a0c0890aca3816782b8ef4b8b4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad08c1e3d45f6bcd519583c4cf904f29f" id="r_ad08c1e3d45f6bcd519583c4cf904f29f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad08c1e3d45f6bcd519583c4cf904f29f">LUMEX_MATH_CONSTANTS_RECIPROCAL_PI</a>&#160;&#160;&#160;  0.31830988618379067153776752674502872406891929148091</td></tr>
-<tr class="separator:ad08c1e3d45f6bcd519583c4cf904f29f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a953dede6a9a9740fb0e4e90f22ebb1bb" id="r_a953dede6a9a9740fb0e4e90f22ebb1bb"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a953dede6a9a9740fb0e4e90f22ebb1bb">LUMEX_MATH_CONSTANTS_SQRT_PI</a>&#160;&#160;&#160;  1.77245385090551602729816748334114518279754945612239</td></tr>
-<tr class="separator:a953dede6a9a9740fb0e4e90f22ebb1bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a34e8ed5a85456096dcd3ba5c8c8526bc" id="r_a34e8ed5a85456096dcd3ba5c8c8526bc"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a34e8ed5a85456096dcd3ba5c8c8526bc">LUMEX_MATH_CONSTANTS_INVERSE_SQRT_PI</a>&#160;&#160;&#160;  0.56418958354775628694807945156077258584405905105952</td></tr>
-<tr class="separator:a34e8ed5a85456096dcd3ba5c8c8526bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a07299359a3e831b42a9dc68b20029f76" id="r_a07299359a3e831b42a9dc68b20029f76"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a07299359a3e831b42a9dc68b20029f76">LUMEX_MATH_CONSTANTS_COPERNICUS_CONSTANT</a>&#160;&#160;&#160;  0.01745329251994329576922222222222222222222222222222</td></tr>
-<tr class="separator:a07299359a3e831b42a9dc68b20029f76"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a973ad186d224eb2b533085db9109fadb" id="r_a973ad186d224eb2b533085db9109fadb"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a973ad186d224eb2b533085db9109fadb">LUMEX_MATH_CONSTANTS_GRAVITY_ACCELERATION</a>&#160;&#160;&#160;  9.80665000000000000000000000000000000000000000000000</td></tr>
-<tr class="separator:a973ad186d224eb2b533085db9109fadb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae0a9d59070a4da7ef40198827b7bae2a" id="r_ae0a9d59070a4da7ef40198827b7bae2a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae0a9d59070a4da7ef40198827b7bae2a">LUMEX_MATH_CONSTANTS_LIGHT_SPEED</a>&#160;&#160;&#160;  299792458.000000000000000000000000000000000000000000</td></tr>
-<tr class="separator:ae0a9d59070a4da7ef40198827b7bae2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aff4b7903e7fa7a3be57542688b7f3da7" id="r_aff4b7903e7fa7a3be57542688b7f3da7"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aff4b7903e7fa7a3be57542688b7f3da7">LUMEX_MATH_CONSTANTS_PLANCK_CONSTANT</a>&#160;&#160;&#160;  6.62607015000000000000000000000000000000000000000000</td></tr>
-<tr class="separator:aff4b7903e7fa7a3be57542688b7f3da7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a81d3814edd34efc7ab9be4e794006ccf" id="r_a81d3814edd34efc7ab9be4e794006ccf"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a81d3814edd34efc7ab9be4e794006ccf">LUMEX_MATH_CONSTANTS_AVOGADRO_CONSTANT</a>&#160;&#160;&#160;  6.02214076000000000000000000000000000000000000000000</td></tr>
-<tr class="separator:a81d3814edd34efc7ab9be4e794006ccf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01917.html">lumex::core::expected::error::BadExpectedAccess&lt; ErrorType &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exception thrown when the value of an <code><a class="el" href="a04049.html" title="Class that mimics std::expected from C++23.">Expected</a></code> is read while it holds an error.  <a href="a01917.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04033.html">BadExpectedAccess&lt; ErrorType &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exception thrown when the value of an <code><a class="el" href="a04049.html" title="Class that mimics std::expected from C++23.">Expected</a></code> is read while it holds an error.  <a href="a04033.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00948.html">lumex</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01005.html">lumex::core</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01041.html">lumex::core::expected</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01042.html">lumex::core::expected::error</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Mathematical constants as <code>LUMEX_MATH_CONSTANTS_*</code> macros. </p>
-<dl class="section see"><dt>See also</dt><dd><a href="https://en.wikipedia.org/wiki/List_of_mathematical_constants">https://en.wikipedia.org/wiki/List_of_mathematical_constants</a> </dd>
-<dd>
-<a href="https://calculla.com/math_constants">https://calculla.com/math_constants</a> </dd>
-<dd>
-<a href="http://www.numberworld.org/digits/">http://www.numberworld.org/digits/</a> </dd></dl>
-</div><h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="af63c12a7f019726dcb0722629ce6f49e" name="af63c12a7f019726dcb0722629ce6f49e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af63c12a7f019726dcb0722629ce6f49e">&#9670;&#160;</a></span>LUMEX_MATH_CONSTANTS_APERY</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_MATH_CONSTANTS_APERY&#160;&#160;&#160;  1.20205690315959428539973816151144999076498629234049</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a81d3814edd34efc7ab9be4e794006ccf" name="a81d3814edd34efc7ab9be4e794006ccf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a81d3814edd34efc7ab9be4e794006ccf">&#9670;&#160;</a></span>LUMEX_MATH_CONSTANTS_AVOGADRO_CONSTANT</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_MATH_CONSTANTS_AVOGADRO_CONSTANT&#160;&#160;&#160;  6.02214076000000000000000000000000000000000000000000</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a65030713db7d289fd18c665e3eb25101" name="a65030713db7d289fd18c665e3eb25101"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a65030713db7d289fd18c665e3eb25101">&#9670;&#160;</a></span>LUMEX_MATH_CONSTANTS_BRUNS_CONSTANT_TWIN_PRIMES</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_MATH_CONSTANTS_BRUNS_CONSTANT_TWIN_PRIMES&#160;&#160;&#160;  1.902160583104</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a824e19d313acb83c37a4add873bd5cfe" name="a824e19d313acb83c37a4add873bd5cfe"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a824e19d313acb83c37a4add873bd5cfe">&#9670;&#160;</a></span>LUMEX_MATH_CONSTANTS_CATALAN</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_MATH_CONSTANTS_CATALAN&#160;&#160;&#160;  0.91596559417721901505460351493238411077414937428167</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a07299359a3e831b42a9dc68b20029f76" name="a07299359a3e831b42a9dc68b20029f76"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a07299359a3e831b42a9dc68b20029f76">&#9670;&#160;</a></span>LUMEX_MATH_CONSTANTS_COPERNICUS_CONSTANT</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_MATH_CONSTANTS_COPERNICUS_CONSTANT&#160;&#160;&#160;  0.01745329251994329576922222222222222222222222222222</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a01815a919ddc9f8bcc22aa6f8ac19bcd" name="a01815a919ddc9f8bcc22aa6f8ac19bcd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a01815a919ddc9f8bcc22aa6f8ac19bcd">&#9670;&#160;</a></span>LUMEX_MATH_CONSTANTS_EULER_MASCHERONI</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_MATH_CONSTANTS_EULER_MASCHERONI&#160;&#160;&#160;  0.57721566490153286060651209008240243104215933593992</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a19da021499da8bb1b451b3fddc8fb557" name="a19da021499da8bb1b451b3fddc8fb557"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a19da021499da8bb1b451b3fddc8fb557">&#9670;&#160;</a></span>LUMEX_MATH_CONSTANTS_EULER_NUMBER</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_MATH_CONSTANTS_EULER_NUMBER&#160;&#160;&#160;  2.71828182845904523536028747135266249775724709369995</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a9637afd78ca1def8450057980f52325f" name="a9637afd78ca1def8450057980f52325f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9637afd78ca1def8450057980f52325f">&#9670;&#160;</a></span>LUMEX_MATH_CONSTANTS_GAMMA_1_3</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_MATH_CONSTANTS_GAMMA_1_3&#160;&#160;&#160;  2.67893853470774763365569294097467764412868937795730</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a624c7000a4b4d3096d532f65a5b5166c" name="a624c7000a4b4d3096d532f65a5b5166c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a624c7000a4b4d3096d532f65a5b5166c">&#9670;&#160;</a></span>LUMEX_MATH_CONSTANTS_GAMMA_1_4</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_MATH_CONSTANTS_GAMMA_1_4&#160;&#160;&#160;  3.62560990822190831193068515586767200299516768288006</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ae463bd7911974e01edea620fd45b83c5" name="ae463bd7911974e01edea620fd45b83c5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae463bd7911974e01edea620fd45b83c5">&#9670;&#160;</a></span>LUMEX_MATH_CONSTANTS_GOLDEN_RATIO</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_MATH_CONSTANTS_GOLDEN_RATIO&#160;&#160;&#160;  1.61803398874989484820458683436563811772030917980576</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a973ad186d224eb2b533085db9109fadb" name="a973ad186d224eb2b533085db9109fadb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a973ad186d224eb2b533085db9109fadb">&#9670;&#160;</a></span>LUMEX_MATH_CONSTANTS_GRAVITY_ACCELERATION</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_MATH_CONSTANTS_GRAVITY_ACCELERATION&#160;&#160;&#160;  9.80665000000000000000000000000000000000000000000000</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a34e8ed5a85456096dcd3ba5c8c8526bc" name="a34e8ed5a85456096dcd3ba5c8c8526bc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a34e8ed5a85456096dcd3ba5c8c8526bc">&#9670;&#160;</a></span>LUMEX_MATH_CONSTANTS_INVERSE_SQRT_PI</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_MATH_CONSTANTS_INVERSE_SQRT_PI&#160;&#160;&#160;  0.56418958354775628694807945156077258584405905105952</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ab08a2c1df96fa5b5b9bf6b84f29ae0a2" name="ab08a2c1df96fa5b5b9bf6b84f29ae0a2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab08a2c1df96fa5b5b9bf6b84f29ae0a2">&#9670;&#160;</a></span>LUMEX_MATH_CONSTANTS_LEMMISCATE</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_MATH_CONSTANTS_LEMMISCATE&#160;&#160;&#160;  5.24411510858423962092967917978223882736550990286324</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ae0a9d59070a4da7ef40198827b7bae2a" name="ae0a9d59070a4da7ef40198827b7bae2a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae0a9d59070a4da7ef40198827b7bae2a">&#9670;&#160;</a></span>LUMEX_MATH_CONSTANTS_LIGHT_SPEED</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_MATH_CONSTANTS_LIGHT_SPEED&#160;&#160;&#160;  299792458.000000000000000000000000000000000000000000</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a92087a0c1ff74ac5a19409f9827e0c03" name="a92087a0c1ff74ac5a19409f9827e0c03"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a92087a0c1ff74ac5a19409f9827e0c03">&#9670;&#160;</a></span>LUMEX_MATH_CONSTANTS_LN_10</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_MATH_CONSTANTS_LN_10&#160;&#160;&#160;  2.30258509299404568401799145468436420760110148862877</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="adcc545543b2bd5f761780e7b8237015c" name="adcc545543b2bd5f761780e7b8237015c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adcc545543b2bd5f761780e7b8237015c">&#9670;&#160;</a></span>LUMEX_MATH_CONSTANTS_LN_2</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_MATH_CONSTANTS_LN_2&#160;&#160;&#160;  0.69314718055994530941723212145817656807550013436025</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a90c8706d5ca0db2bdfc18ba319992a14" name="a90c8706d5ca0db2bdfc18ba319992a14"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a90c8706d5ca0db2bdfc18ba319992a14">&#9670;&#160;</a></span>LUMEX_MATH_CONSTANTS_PI</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_MATH_CONSTANTS_PI&#160;&#160;&#160;  3.14159265358979323846264338327950288419716939937510</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aff4b7903e7fa7a3be57542688b7f3da7" name="aff4b7903e7fa7a3be57542688b7f3da7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aff4b7903e7fa7a3be57542688b7f3da7">&#9670;&#160;</a></span>LUMEX_MATH_CONSTANTS_PLANCK_CONSTANT</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_MATH_CONSTANTS_PLANCK_CONSTANT&#160;&#160;&#160;  6.62607015000000000000000000000000000000000000000000</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a0c997a0c0890aca3816782b8ef4b8b4c" name="a0c997a0c0890aca3816782b8ef4b8b4c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0c997a0c0890aca3816782b8ef4b8b4c">&#9670;&#160;</a></span>LUMEX_MATH_CONSTANTS_PLASTIC_NUMBER</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_MATH_CONSTANTS_PLASTIC_NUMBER&#160;&#160;&#160;  1.32471795724474602596090885447809734073440794569502</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ad08c1e3d45f6bcd519583c4cf904f29f" name="ad08c1e3d45f6bcd519583c4cf904f29f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad08c1e3d45f6bcd519583c4cf904f29f">&#9670;&#160;</a></span>LUMEX_MATH_CONSTANTS_RECIPROCAL_PI</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_MATH_CONSTANTS_RECIPROCAL_PI&#160;&#160;&#160;  0.31830988618379067153776752674502872406891929148091</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aba10c6bd3213d21a2c30a477b3f0c70f" name="aba10c6bd3213d21a2c30a477b3f0c70f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aba10c6bd3213d21a2c30a477b3f0c70f">&#9670;&#160;</a></span>LUMEX_MATH_CONSTANTS_SILVER_RATIO</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_MATH_CONSTANTS_SILVER_RATIO&#160;&#160;&#160;  2.41421356237309504880168872420969807856967187537694</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aa3bce4463ada8aec1f335bc22ea4ac37" name="aa3bce4463ada8aec1f335bc22ea4ac37"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa3bce4463ada8aec1f335bc22ea4ac37">&#9670;&#160;</a></span>LUMEX_MATH_CONSTANTS_SQRT_2</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_MATH_CONSTANTS_SQRT_2&#160;&#160;&#160;  1.41421356237309504880168872420969807856967187537694</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="abe793637b3b3e52d88c1e4093a110e5f" name="abe793637b3b3e52d88c1e4093a110e5f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abe793637b3b3e52d88c1e4093a110e5f">&#9670;&#160;</a></span>LUMEX_MATH_CONSTANTS_SQRT_3</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_MATH_CONSTANTS_SQRT_3&#160;&#160;&#160;  1.73205080756887729352744634150587236694280525381038</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aaebdebb6d64cd6af2b802a2a67c6a0c9" name="aaebdebb6d64cd6af2b802a2a67c6a0c9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaebdebb6d64cd6af2b802a2a67c6a0c9">&#9670;&#160;</a></span>LUMEX_MATH_CONSTANTS_SQRT_5</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_MATH_CONSTANTS_SQRT_5&#160;&#160;&#160;  2.23606797749978969640917366873127623544061835960414</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a953dede6a9a9740fb0e4e90f22ebb1bb" name="a953dede6a9a9740fb0e4e90f22ebb1bb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a953dede6a9a9740fb0e4e90f22ebb1bb">&#9670;&#160;</a></span>LUMEX_MATH_CONSTANTS_SQRT_PI</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_MATH_CONSTANTS_SQRT_PI&#160;&#160;&#160;  1.77245385090551602729816748334114518279754945612239</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-</div><!-- contents -->
+<div class="textblock"><p><code><a class="el" href="a04033.html" title="Exception thrown when the value of an Expected is read while it holds an error.">BadExpectedAccess</a></code>, the exception that <code><a class="el" href="a04049.html" title="Class that mimics std::expected from C++23.">Expected</a></code> throws when its value is read while it holds an error; an analogue of C++23 <code>std::bad_expected_access</code>. </p>
+<p><code>value()</code> of an <code><a class="el" href="a04049.html" title="Class that mimics std::expected from C++23.">Expected</a></code> in the error state throws <code><a class="el" href="a04033.html" title="Exception thrown when the value of an Expected is read while it holds an error.">BadExpectedAccess</a>&lt;E&gt;</code> with a copy (or, from an rvalue, the moved value) of that error, which <code>error()</code> of the exception returns. Header-only, part of <code>lumex::expected</code> and usable from C++11; the class is also visible at global scope. </p>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_d223f57be190bde72e88025a46faedd4.html">math</a></li><li class="navelem"><a class="el" href="dir_3e6c35e348a445e7cf0fb5d49f1e3ff7.html">constants</a></li><li class="navelem"><a class="el" href="a00284.html">LumexMathConstants.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_91063fb91facb4308dc4edc779d408bb.html">expected</a></li><li class="navelem"><a class="el" href="dir_d137d0eb9968c5b308dad29829b7bf65.html">error</a></li><li class="navelem"><a class="el" href="a00284.html">BadExpectedAccess.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

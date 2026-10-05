@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: example_format_chrono.cpp File Reference</title>
+<title>LumexLib: example_crc.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -105,19 +105,71 @@ $(function(){initNavTree('a00470.html',''); initResizable(true); });
 <div class="header">
   <div class="summary">
 <a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">example_format_chrono.cpp File Reference</div></div>
+  <div class="headertitle"><div class="title">example_crc.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;chrono&gt;</code><br />
+<div class="textblock"><code>#include &lt;cstdint&gt;</code><br />
 <code>#include &lt;iostream&gt;</code><br />
-<code>#include &lt;locale&gt;</code><br />
-<code>#include &lt;ratio&gt;</code><br />
-<code>#include &lt;string&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00878_source.html">lumex/core/fmt/LumexFormat</a>&quot;</code><br />
+<code>#include &lt;vector&gt;</code><br />
+<code>#include &quot;<a class="el" href="a00899_source.html">lumex/core/crc/LumexCrc</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for example_format_chrono.cpp:</div>
+Include dependency graph for example_crc.cpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00471.png" border="0" usemap="#aexample__format__chrono_8cpp" alt=""/></div>
+<div class="center"><img src="a00471.png" border="0" usemap="#aexample__crc_8cpp" alt=""/></div>
+<map name="aexample__crc_8cpp" id="aexample__crc_8cpp">
+<area shape="rect" title=" " alt="" coords="434,5,554,32"/>
+<area shape="rect" title=" " alt="" coords="144,237,204,264"/>
+<area shape="poly" title=" " alt="" coords="452,35,396,55,337,82,285,115,240,156,212,191,191,225,186,222,208,188,236,153,281,110,334,78,394,50,450,30"/>
+<area shape="rect" title=" " alt="" coords="593,80,664,107"/>
+<area shape="poly" title=" " alt="" coords="519,30,593,70,590,75,516,35"/>
+<area shape="rect" title=" " alt="" coords="611,237,668,264"/>
+<area shape="poly" title=" " alt="" coords="504,31,626,223,621,226,500,34"/>
+<area shape="rect" href="a00899.html" title="CRC module: parametric CRC engines in the notation of the CRC RevEng catalogue, and the catalogue&#39;s n..." alt="" coords="347,80,518,107"/>
+<area shape="poly" title=" " alt="" coords="485,34,455,70,451,66,481,31"/>
+<area shape="rect" href="a00236.html" title="Header&#45;only CRC engines for every algorithm of the CRC RevEng catalogue up to 64 bits." alt="" coords="822,155,1057,181"/>
+<area shape="poly" title=" " alt="" coords="519,104,836,149,835,155,518,110"/>
+<area shape="rect" href="a00233.html" title="Run&#45;time CRC computation by catalogue index or by explicit parameters, and the process&#45;wide 8&#45;bit tra..." alt="" coords="250,155,447,181"/>
+<area shape="poly" title=" " alt="" coords="420,109,377,146,373,142,416,105"/>
+<area shape="poly" title=" " alt="" coords="822,182,589,203,318,232,220,245,219,240,318,227,589,198,822,177"/>
+<area shape="poly" title=" " alt="" coords="874,185,785,205,688,232,683,234,681,229,687,227,784,199,873,179"/>
+<area shape="rect" title=" " alt="" coords="1242,237,1293,264"/>
+<area shape="poly" title=" " alt="" coords="1023,179,1120,199,1224,227,1229,228,1227,233,1223,232,1119,204,1022,185"/>
+<area shape="rect" title=" " alt="" coords="330,237,394,264"/>
+<area shape="poly" title=" " alt="" coords="822,175,731,180,626,191,515,207,407,232,401,234,400,229,405,227,514,202,625,185,730,175,822,169"/>
+<area shape="rect" title=" " alt="" coords="1317,237,1370,264"/>
+<area shape="poly" title=" " alt="" coords="1057,177,1178,195,1243,209,1306,227,1309,228,1307,233,1304,232,1242,214,1177,200,1056,182"/>
+<area shape="rect" title=" " alt="" coords="1393,237,1443,264"/>
+<area shape="poly" title=" " alt="" coords="1057,171,1132,177,1214,188,1300,204,1383,227,1386,228,1384,233,1381,232,1299,209,1213,193,1131,182,1057,176"/>
+<area shape="rect" title=" " alt="" coords="1466,237,1549,264"/>
+<area shape="poly" title=" " alt="" coords="1057,172,1246,189,1352,205,1456,227,1465,229,1463,234,1455,232,1351,210,1245,195,1057,177"/>
+<area shape="rect" title=" " alt="" coords="1573,237,1626,264"/>
+<area shape="poly" title=" " alt="" coords="1057,173,1332,193,1465,208,1561,227,1566,228,1564,233,1560,232,1465,213,1332,198,1057,178"/>
+<area shape="rect" href="a00386.html" title="Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_..." alt="" coords="744,229,911,272"/>
+<area shape="poly" title=" " alt="" coords="923,184,870,222,867,218,920,180"/>
+<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="917,320,1111,363"/>
+<area shape="poly" title=" " alt="" coords="1041,179,1126,198,1160,211,1181,228,1189,242,1190,256,1185,269,1176,281,1146,301,1108,317,1106,312,1143,296,1172,277,1181,266,1185,255,1184,244,1177,231,1157,216,1124,203,1040,185"/>
+<area shape="rect" href="a00389.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="418,229,586,272"/>
+<area shape="poly" title=" " alt="" coords="865,185,602,232,601,226,864,179"/>
+<area shape="rect" href="a00404.html" title="C++ language, library and attribute feature availability." alt="" coords="386,320,618,363"/>
+<area shape="poly" title=" " alt="" coords="870,184,802,203,733,232,718,242,708,252,682,274,635,298,588,317,586,312,633,293,679,270,704,248,714,238,730,227,800,198,868,179"/>
+<area shape="rect" href="a00419.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="935,229,1168,272"/>
+<area shape="poly" title=" " alt="" coords="958,180,1012,218,1009,222,955,184"/>
+<area shape="rect" href="a00641.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="694,328,857,355"/>
+<area shape="poly" title=" " alt="" coords="818,274,793,316,788,313,813,271"/>
+<area shape="poly" title=" " alt="" coords="872,270,958,311,956,316,870,275"/>
+<area shape="poly" title=" " alt="" coords="505,272,505,305,499,305,499,272"/>
+<area shape="poly" title=" " alt="" coords="1045,273,1031,307,1026,305,1040,271"/>
+<area shape="poly" title=" " alt="" coords="323,184,216,233,214,228,320,179"/>
+<area shape="poly" title=" " alt="" coords="419,179,506,199,599,227,603,228,601,233,597,232,505,204,418,185"/>
+<area shape="poly" title=" " alt="" coords="353,181,360,222,355,223,348,182"/>
+<area shape="poly" title=" " alt="" coords="325,184,298,203,276,231,269,252,270,261,276,270,302,288,341,301,389,308,442,312,549,314,630,317,679,324,679,329,630,323,548,319,442,317,389,313,340,306,300,293,272,274,265,263,264,251,272,228,294,200,322,180"/>
+<area shape="poly" title=" " alt="" coords="341,183,327,203,316,226,312,250,314,261,320,270,332,278,352,284,413,295,586,308,869,317,902,321,901,327,869,323,586,313,413,300,351,289,329,282,316,274,309,263,306,250,311,224,323,200,336,180"/>
+<area shape="poly" title=" " alt="" coords="374,179,450,219,448,224,371,184"/>
+<area shape="poly" title=" " alt="" coords="250,173,154,179,107,186,65,196,33,209,13,225,9,234,9,245,13,257,23,270,45,287,77,301,118,313,165,321,269,333,371,337,371,343,269,338,165,327,117,318,76,306,42,292,19,274,8,259,3,246,4,233,9,222,30,204,64,191,106,181,153,174,249,167"/>
+<area shape="poly" title=" " alt="" coords="448,176,661,196,920,226,919,232,660,202,448,181"/>
+<area shape="rect" title=" " alt="" coords="33,237,120,264"/>
+<area shape="poly" title=" " alt="" coords="300,184,132,232,125,234,123,229,131,227,298,179"/>
+</map>
 </div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
@@ -144,6 +196,20 @@ Functions</h2></td></tr>
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="a00470_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph.png" border="0" usemap="#aa00470_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" alt=""/></div>
+<map name="aa00470_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" id="aa00470_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph">
+<area shape="rect" title=" " alt="" coords="5,96,55,123"/>
+<area shape="rect" href="a01869.html#a7fcf511f52a47824e0299d04c3bdf9c0" title=" " alt="" coords="103,5,287,64"/>
+<area shape="poly" title=" " alt="" coords="54,106,102,86,138,69,140,74,104,90,56,111"/>
+<area shape="poly" title=" " alt="" coords="42,93,87,68,90,73,44,98"/>
+<area shape="rect" href="a01026.html#a7c78d39b9bad1d190fba9e64e54d3089" title="CRC for catalogue index all_crc_specs_t (0 ... GetCrcCatalogEntryCount &#45; 1)." alt="" coords="112,88,278,131"/>
+<area shape="poly" title=" " alt="" coords="55,107,97,107,97,112,55,112"/>
+<area shape="rect" href="a01026.html#ada153a2397d11cdb757cededb803d6ba" title="Catalogue entry width in bits; &#45;1 on error." alt="" coords="112,155,278,197"/>
+<area shape="poly" title=" " alt="" coords="56,119,104,140,118,146,116,151,102,145,54,123"/>
+<area shape="rect" href="a01026.html#a4a1bf4a4033234f6ec6bd6ceb8200dca" title="Number of catalogue algorithms (order matches all_crc_specs_t)." alt="" coords="104,221,286,264"/>
+<area shape="poly" title=" " alt="" coords="40,122,65,164,83,187,104,207,110,211,107,215,101,211,79,191,60,167,36,125"/>
+<area shape="rect" href="a01026.html#ad5f7e9bf7ab382d6bea8b9c1a68acf2e" title=" " alt="" coords="335,155,504,197"/>
+<area shape="poly" title=" " alt="" coords="278,173,319,173,319,179,278,179"/>
+</map>
 </div>
 
 </div>
@@ -153,7 +219,7 @@ Here is the call graph for this function:</div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_e8ae4df8b8335e2a73ecf531ee4a4a97.html">examples</a></li><li class="navelem"><a class="el" href="dir_48f63977bcbbc0057df875ef8f8dd4ef.html">fmt</a></li><li class="navelem"><a class="el" href="a00470.html">example_format_chrono.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_e8ae4df8b8335e2a73ecf531ee4a4a97.html">examples</a></li><li class="navelem"><a class="el" href="dir_f5ee4a495815350fb57d793ab1ff875d.html">crc</a></li><li class="navelem"><a class="el" href="a00470.html">example_crc.cpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

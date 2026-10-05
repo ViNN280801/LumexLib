@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexStringify.hpp File Reference</title>
+<title>LumexLib: LumexFormatRanges.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,77 +104,237 @@ $(function(){initNavTree('a00314.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
 <a href="#namespaces">Namespaces</a> &#124;
 <a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">LumexStringify.hpp File Reference</div></div>
+  <div class="headertitle"><div class="title">LumexFormatRanges.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Concatenates the <code>operator&lt;&lt;</code> text of any number of arguments into one <code>std::string</code>.  
+<p>Ranges, <code>std::pair</code> and <code>std::tuple</code> for LumexFormat, as the C++23 range formatting of <code>std::format</code> (P2286 / P2585) defines them.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;memory&gt;</code><br />
-<code>#include &lt;ostream&gt;</code><br />
-<code>#include &lt;sstream&gt;</code><br />
+<div class="textblock"><code>#include &lt;cstddef&gt;</code><br />
+<code>#include &lt;iterator&gt;</code><br />
+<code>#include &lt;locale&gt;</code><br />
 <code>#include &lt;string&gt;</code><br />
+<code>#include &lt;tuple&gt;</code><br />
 <code>#include &lt;type_traits&gt;</code><br />
 <code>#include &lt;utility&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00350_source.html">lumex/core/utility/assert/LumexAssert.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00353_source.html">lumex/core/utility/attr/LumexAttributes.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00368_source.html">lumex/core/utility/compiler/LumexCheckFeatures.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00389_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00410_source.html">lumex/core/utility/traits/LumexTypeTraits.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00308_source.html">lumex/core/fmt/LumexFormat.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00425_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00446_source.html">lumex/core/utility/traits/LumexTypeTraits.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for LumexStringify.hpp:</div>
+Include dependency graph for LumexFormatRanges.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00315.png" border="0" usemap="#a_lumex_stringify_8hpp" alt=""/></div>
+<div class="center"><img src="a00315.png" border="0" usemap="#a_lumex_format_ranges_8hpp" alt=""/></div>
+<map name="a_lumex_format_ranges_8hpp" id="a_lumex_format_ranges_8hpp">
+<area shape="rect" title="Ranges, std::pair and std::tuple for LumexFormat, as the C++23 range formatting of std::format (P2286..." alt="" coords="421,5,592,32"/>
+<area shape="rect" title=" " alt="" coords="119,253,184,280"/>
+<area shape="poly" title=" " alt="" coords="485,35,408,82,280,172,181,246,178,242,277,167,405,78,483,30"/>
+<area shape="rect" title=" " alt="" coords="208,253,269,280"/>
+<area shape="poly" title=" " alt="" coords="494,34,264,245,261,241,491,31"/>
+<area shape="rect" title=" " alt="" coords="2507,163,2562,189"/>
+<area shape="poly" title=" " alt="" coords="593,21,973,37,1515,65,1799,84,2065,104,2294,127,2467,152,2492,158,2491,163,2466,157,2293,133,2064,110,1798,89,1515,71,972,42,592,26"/>
+<area shape="rect" title=" " alt="" coords="2105,253,2158,280"/>
+<area shape="poly" title=" " alt="" coords="592,20,1054,34,1701,62,2019,80,2290,101,2486,125,2546,138,2576,153,2584,164,2586,176,2584,188,2576,199,2555,211,2516,222,2404,240,2174,265,2173,259,2403,235,2515,216,2553,206,2572,195,2579,186,2581,176,2579,166,2573,157,2544,143,2485,130,2290,106,2018,85,1701,67,1053,39,592,25"/>
+<area shape="rect" title=" " alt="" coords="46,253,95,280"/>
+<area shape="poly" title=" " alt="" coords="474,35,366,82,289,124,215,170,101,246,98,242,212,165,287,120,364,78,472,30"/>
+<area shape="rect" title=" " alt="" coords="293,253,375,280"/>
+<area shape="poly" title=" " alt="" coords="500,34,353,243,349,240,495,31"/>
+<area shape="rect" title=" " alt="" coords="2364,253,2416,280"/>
+<area shape="poly" title=" " alt="" coords="593,19,1379,38,1840,55,2032,66,2177,77,2244,80,2305,77,2413,68,2462,70,2508,82,2554,108,2600,153,2611,176,2606,196,2589,213,2563,227,2497,249,2432,262,2431,257,2495,244,2561,223,2586,209,2602,193,2606,176,2596,156,2551,113,2506,87,2461,75,2413,73,2306,82,2244,86,2177,83,2031,71,1839,60,1379,43,592,24"/>
+<area shape="rect" href="a00308.html" title="std::format&#45;style text formatting from C++11 on." alt="" coords="1326,80,1543,107"/>
+<area shape="poly" title=" " alt="" coords="593,24,1310,80,1310,85,592,29"/>
+<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="829,336,1023,379"/>
+<area shape="poly" title=" " alt="" coords="432,35,283,68,201,93,124,122,61,156,37,175,20,195,10,216,9,238,17,261,35,286,49,296,73,304,145,319,243,331,357,340,602,350,813,353,813,358,602,355,357,345,242,336,144,325,71,310,47,300,31,290,12,264,4,239,5,215,16,192,34,171,58,152,122,117,199,88,282,63,431,30"/>
+<area shape="rect" href="a00446.html" title="Every general&#45;purpose type trait of LumexLib, one sub&#45;namespace of lumex::core::utility::traits per t..." alt="" coords="569,155,753,197"/>
+<area shape="poly" title=" " alt="" coords="521,31,632,141,628,145,517,35"/>
+<area shape="poly" title=" " alt="" coords="1325,98,1100,100,822,109,554,127,444,141,362,157,310,175,261,199,183,247,180,242,259,194,308,171,360,152,444,135,554,122,821,104,1100,95,1325,92"/>
+<area shape="poly" title=" " alt="" coords="1325,99,1125,105,883,116,651,133,556,144,484,157,424,176,366,200,273,248,271,243,364,195,422,171,483,152,556,139,651,127,882,110,1125,100,1325,94"/>
+<area shape="poly" title=" " alt="" coords="1544,93,1764,98,2036,109,2298,126,2406,138,2488,152,2495,154,2494,159,2487,157,2405,143,2298,131,2036,114,1764,104,1543,99"/>
+<area shape="poly" title=" " alt="" coords="1472,105,1522,125,1576,152,1591,164,1601,175,1612,186,1627,195,1666,208,1720,219,1850,238,2090,260,2090,265,1850,244,1719,224,1665,213,1625,200,1609,190,1598,179,1588,168,1573,157,1520,130,1470,110"/>
+<area shape="poly" title=" " alt="" coords="1325,99,1139,103,918,113,708,130,622,143,558,157,536,166,521,176,485,200,379,249,377,245,482,195,518,171,534,161,556,152,621,137,707,125,918,108,1139,98,1325,93"/>
+<area shape="poly" title=" " alt="" coords="1543,95,1787,102,2078,114,2326,130,2407,141,2432,146,2445,153,2453,164,2455,176,2450,200,2435,224,2418,244,2414,241,2431,220,2445,198,2450,176,2448,166,2442,157,2430,151,2406,146,2326,136,2077,119,1787,107,1543,100"/>
+<area shape="rect" title=" " alt="" coords="1070,163,1129,189"/>
+<area shape="poly" title=" " alt="" coords="1346,110,1248,129,1143,157,1139,159,1137,154,1141,152,1247,124,1345,105"/>
+<area shape="rect" title=" " alt="" coords="1154,163,1216,189"/>
+<area shape="poly" title=" " alt="" coords="1383,110,1309,130,1228,157,1225,159,1223,154,1227,152,1308,125,1382,105"/>
+<area shape="rect" title=" " alt="" coords="1240,163,1298,189"/>
+<area shape="poly" title=" " alt="" coords="1409,110,1310,157,1309,158,1306,153,1308,152,1407,105"/>
+<area shape="rect" title=" " alt="" coords="1321,163,1382,189"/>
+<area shape="poly" title=" " alt="" coords="1423,109,1377,154,1373,150,1419,105"/>
+<area shape="rect" title=" " alt="" coords="1406,163,1462,189"/>
+<area shape="poly" title=" " alt="" coords="1437,107,1437,147,1432,147,1432,107"/>
+<area shape="rect" title=" " alt="" coords="1638,163,1697,189"/>
+<area shape="poly" title=" " alt="" coords="1477,105,1620,152,1625,154,1623,159,1619,157,1476,110"/>
+<area shape="rect" title=" " alt="" coords="1721,163,1798,189"/>
+<area shape="poly" title=" " alt="" coords="1508,105,1604,125,1710,152,1716,154,1715,159,1708,157,1603,130,1507,110"/>
+<area shape="rect" title=" " alt="" coords="1823,163,1894,189"/>
+<area shape="poly" title=" " alt="" coords="1544,103,1673,121,1811,152,1818,154,1817,159,1810,157,1672,127,1543,108"/>
+<area shape="rect" title=" " alt="" coords="1513,253,1566,280"/>
+<area shape="poly" title=" " alt="" coords="1325,97,1236,101,1144,111,1065,129,1036,141,1016,156,1010,166,1007,176,1010,186,1016,196,1032,209,1053,219,1107,232,1173,237,1247,237,1392,233,1455,235,1503,243,1507,244,1505,249,1502,248,1454,240,1392,238,1247,242,1173,242,1106,237,1051,224,1029,213,1012,199,1005,188,1002,176,1005,164,1012,153,1033,137,1063,124,1143,106,1235,96,1325,92"/>
+<area shape="rect" title=" " alt="" coords="1589,253,1658,280"/>
+<area shape="poly" title=" " alt="" coords="1446,105,1484,146,1533,195,1594,242,1591,246,1530,199,1480,150,1442,108"/>
+<area shape="rect" title=" " alt="" coords="1917,163,1986,189"/>
+<area shape="poly" title=" " alt="" coords="1544,97,1716,114,1812,130,1907,152,1913,154,1912,159,1906,157,1811,135,1715,120,1543,102"/>
+<area shape="rect" title=" " alt="" coords="2010,163,2088,189"/>
+<area shape="poly" title=" " alt="" coords="1544,95,1641,101,1756,111,1878,128,1999,152,2008,155,2006,160,1998,157,1877,133,1755,116,1641,106,1543,100"/>
+<area shape="rect" title=" " alt="" coords="2112,163,2170,189"/>
+<area shape="poly" title=" " alt="" coords="1544,97,1844,117,1993,133,2100,152,2106,154,2104,159,2099,157,1992,138,1844,122,1543,102"/>
+<area shape="rect" title=" " alt="" coords="1733,253,1821,280"/>
+<area shape="poly" title=" " alt="" coords="1457,105,1531,153,1557,175,1584,195,1725,245,1723,250,1581,200,1553,179,1527,157,1454,109"/>
+<area shape="rect" href="a00389.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="777,155,945,197"/>
+<area shape="poly" title=" " alt="" coords="1325,109,1155,130,964,157,961,158,960,153,963,152,1154,125,1325,104"/>
+<area shape="rect" href="a00422.html" title="Macros that declare an exception class in one line." alt="" coords="2194,155,2432,197"/>
+<area shape="poly" title=" " alt="" coords="1544,98,1827,118,2179,152,2178,157,1827,124,1543,104"/>
+<area shape="poly" title=" " alt="" coords="1325,100,1247,105,1168,115,1101,132,1077,143,1060,156,1054,166,1051,176,1054,186,1060,195,1081,211,1108,221,1142,228,1180,230,1268,227,1364,219,1460,210,1549,207,1588,210,1622,216,1650,227,1672,243,1680,255,1683,267,1680,278,1672,290,1658,299,1634,307,1565,318,1474,326,1372,331,1175,335,1057,339,1039,341,1039,336,1057,333,1175,330,1372,325,1474,321,1564,313,1633,302,1655,294,1668,286,1675,276,1677,267,1675,257,1668,247,1648,232,1620,221,1587,215,1549,212,1460,215,1364,224,1268,233,1180,236,1141,233,1107,227,1078,216,1056,199,1049,188,1046,176,1049,164,1056,153,1074,139,1099,127,1167,110,1246,100,1325,94"/>
+<area shape="poly" title=" " alt="" coords="1326,104,1075,123,923,138,768,157,767,152,923,133,1074,118,1325,98"/>
+<area shape="rect" href="a00404.html" title="C++ language, library and attribute feature availability." alt="" coords="1259,245,1490,288"/>
+<area shape="poly" title=" " alt="" coords="946,191,964,195,1244,242,1243,247,963,200,945,197"/>
+<area shape="poly" title=" " alt="" coords="2272,200,2172,249,2170,244,2269,196"/>
+<area shape="poly" title=" " alt="" coords="2333,196,2371,240,2367,243,2329,200"/>
+<area shape="poly" title=" " alt="" coords="569,186,394,206,294,224,196,248,191,250,189,245,195,243,293,218,394,201,568,180"/>
+<area shape="poly" title=" " alt="" coords="569,190,432,211,356,227,282,248,277,249,275,244,280,243,355,222,431,206,568,184"/>
+<area shape="poly" title=" " alt="" coords="754,193,765,195,927,212,1064,222,1298,230,1532,232,1833,243,2090,260,2089,265,1833,248,1532,237,1298,235,1064,227,927,217,765,200,753,198"/>
+<area shape="poly" title=" " alt="" coords="569,181,472,186,355,197,231,217,108,248,105,249,103,244,107,243,230,212,355,192,471,181,569,176"/>
+<area shape="poly" title=" " alt="" coords="574,201,395,248,385,251,384,246,394,243,573,195"/>
+<area shape="poly" title=" " alt="" coords="754,193,765,195,978,215,1159,226,1318,230,1467,230,1775,229,1956,232,2170,243,2349,258,2348,263,2170,248,1956,238,1775,234,1467,236,1318,236,1159,232,978,221,765,200,753,199"/>
+<area shape="poly" title=" " alt="" coords="753,193,765,195,877,205,973,207,1137,200,1216,199,1300,203,1394,216,1503,243,1507,244,1505,249,1502,248,1393,222,1299,208,1216,204,1137,206,973,212,877,210,765,200,752,198"/>
+<area shape="poly" title=" " alt="" coords="754,193,765,195,889,206,994,209,1174,204,1261,202,1353,206,1457,218,1579,243,1586,245,1584,250,1578,248,1457,223,1353,211,1261,207,1174,209,994,214,888,211,765,200,753,198"/>
+<area shape="poly" title=" " alt="" coords="754,193,765,195,902,209,1019,216,1218,219,1416,222,1533,229,1671,243,1718,250,1718,255,1670,248,1533,234,1416,227,1218,224,1019,221,902,214,765,200,753,198"/>
+<area shape="poly" title=" " alt="" coords="753,193,765,195,898,211,1002,220,1108,228,1243,242,1243,248,1108,233,1002,225,897,216,765,200,752,198"/>
+<area shape="poly" title=" " alt="" coords="570,197,490,218,459,232,440,247,432,267,434,276,440,286,464,304,500,319,544,331,596,340,707,350,813,354,813,359,707,356,595,345,543,336,498,324,461,309,436,290,429,278,427,267,436,244,457,227,489,213,568,191"/>
+<area shape="rect" title=" " alt="" coords="450,253,501,280"/>
+<area shape="poly" title=" " alt="" coords="616,200,514,248,513,248,510,244,512,243,613,195"/>
+<area shape="rect" title=" " alt="" coords="525,253,602,280"/>
+<area shape="poly" title=" " alt="" coords="640,200,590,245,587,241,637,196"/>
+<area shape="rect" title=" " alt="" coords="627,253,695,280"/>
+<area shape="poly" title=" " alt="" coords="664,198,664,238,658,238,658,198"/>
+<area shape="rect" title=" " alt="" coords="720,253,786,280"/>
+<area shape="poly" title=" " alt="" coords="684,196,731,240,727,244,680,200"/>
+<area shape="rect" href="a00386.html" title="Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_..." alt="" coords="1067,245,1234,288"/>
+<area shape="poly" title=" " alt="" coords="753,193,765,195,1052,242,1051,247,764,200,752,198"/>
+<area shape="rect" href="a00419.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="810,245,1042,288"/>
+<area shape="poly" title=" " alt="" coords="724,195,850,237,849,242,722,200"/>
+<area shape="poly" title=" " alt="" coords="1099,291,994,332,992,327,1097,286"/>
+<area shape="rect" href="a00641.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="1069,344,1231,371"/>
+<area shape="poly" title=" " alt="" coords="1153,288,1153,328,1148,328,1148,288"/>
+<area shape="poly" title=" " alt="" coords="929,288,929,321,924,321,924,288"/>
+</map>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00316.png" border="0" usemap="#a_lumex_stringify_8hppdep" alt=""/></div>
+<div class="center"><img src="a00316.png" border="0" usemap="#a_lumex_format_ranges_8hppdep" alt=""/></div>
+<map name="a_lumex_format_ranges_8hppdep" id="a_lumex_format_ranges_8hppdep">
+<area shape="rect" title="Ranges, std::pair and std::tuple for LumexFormat, as the C++23 range formatting of std::format (P2286..." alt="" coords="469,5,641,32"/>
+<area shape="rect" href="a00914.html" title="Format module: std::format&#45;style text formatting from C++11 on, including ranges, tuples and std::chr..." alt="" coords="504,80,606,107"/>
+<area shape="poly" title=" " alt="" coords="558,48,558,80,552,80,552,48"/>
+<area shape="rect" href="a00500.html" title=" " alt="" coords="5,155,145,181"/>
+<area shape="poly" title=" " alt="" coords="490,107,145,159,145,154,489,102"/>
+<area shape="rect" href="a00503.html" title=" " alt="" coords="169,155,333,181"/>
+<area shape="poly" title=" " alt="" coords="490,113,305,157,303,152,489,108"/>
+<area shape="rect" href="a00506.html" title=" " alt="" coords="357,155,542,181"/>
+<area shape="poly" title=" " alt="" coords="526,118,470,156,467,152,523,113"/>
+<area shape="rect" href="a00509.html" title=" " alt="" coords="567,155,756,181"/>
+<area shape="poly" title=" " alt="" coords="588,113,644,152,641,156,585,118"/>
+<area shape="rect" href="a00512.html" title=" " alt="" coords="781,155,966,181"/>
+<area shape="poly" title=" " alt="" coords="622,107,818,151,817,157,621,112"/>
+<area shape="rect" href="a00515.html" title=" " alt="" coords="991,155,1188,181"/>
+<area shape="poly" title=" " alt="" coords="622,101,996,151,995,157,621,106"/>
+</map>
 </div>
 </div>
 <p><a href="a00314_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02189.html">lumex::core::fmt::Detail::range_element&lt; Range, Char, Enable &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Element type a range of <code>Range</code> is formatted as: the decayed reference type, or <code>Range::value_type</code> when only that one has a formatter (proxy references such as <code>std::vector&lt;bool&gt;</code>).  <a href="a02189.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02197.html">lumex::core::fmt::Detail::is_formattable_range&lt; Range, Char, Enable &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02201.html">lumex::core::fmt::Detail::is_formattable_range&lt; Range, Char, typename std::enable_if&lt; lumex::core::utility::traits::range::is_iterable&lt; Range &gt;::value &gt;::type &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02209.html">lumex::core::fmt::Detail::all_formattable&lt; Char &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02213.html">lumex::core::fmt::Detail::all_formattable&lt; Char, First, Rest... &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02217.html">lumex::core::fmt::Detail::tuple_each&lt; Index, Count &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02221.html">lumex::core::fmt::Detail::tuple_each&lt; Count, Count &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02225.html">lumex::core::fmt::Detail::ElementFormatter&lt; T, Char &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code><a class="el" href="a02013.html" title="Customization point: specialize Formatter&lt;T, Char&gt; with Char const *parse (BasicFormatParseContext&lt;Ch...">Formatter</a>&lt;T, Char&gt;</code> that also names the formatted type.  <a href="a02225.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02229.html">lumex::core::fmt::Detail::TupleFormatter&lt; Char, Types &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Formats a <code>std::pair</code> / <code>std::tuple</code> of <code>Types</code> as <code>(a, b)</code>; base of the public <code><a class="el" href="a02013.html" title="Customization point: specialize Formatter&lt;T, Char&gt; with Char const *parse (BasicFormatParseContext&lt;Ch...">Formatter</a></code> specializations.  <a href="a02229.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02233.html">lumex::core::fmt::Formatter&lt; std::pair&lt; First, Second &gt;, Char, typename std::enable_if&lt; Detail::all_formattable&lt; Char, First, Second &gt;::value &gt;::type &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02237.html">lumex::core::fmt::Formatter&lt; std::tuple&lt; Types... &gt;, Char, typename std::enable_if&lt; Detail::all_formattable&lt; Char, Types... &gt;::value &gt;::type &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02241.html">lumex::core::fmt::Formatter&lt; Range, Char, typename std::enable_if&lt; Detail::is_formattable_range&lt; Range, Char &gt;::value &gt;::type &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ranges: <code>[a, b]</code>, sets <code>{a, b}</code>, maps <code>{k: v}</code>; see the file description for the specification.  <a href="a02241.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00912.html">lumex</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00948.html">lumex</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00964.html">lumex::core</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01005.html">lumex::core</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01024.html">lumex::core::string</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01048.html">lumex::core::fmt</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01027.html">lumex::core::string::utility</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01049.html">lumex::core::fmt::Detail</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a069a5bbde352f2d95ec427f786215113" id="r_a069a5bbde352f2d95ec427f786215113"><td class="memTemplParams" colspan="2">template&lt;typename T, typename D&gt; </td></tr>
-<tr class="memitem:a069a5bbde352f2d95ec427f786215113"><td class="memTemplItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01027.html#a069a5bbde352f2d95ec427f786215113">lumex::core::string::utility::operator&lt;&lt;</a> (std::ostream &amp;ostream, std::unique_ptr&lt; T, D &gt; const &amp;ptr)</td></tr>
-<tr class="memdesc:a069a5bbde352f2d95ec427f786215113"><td class="mdescLeft">&#160;</td><td class="mdescRight">Streams the raw address held by a <code>std::unique_ptr</code>.  <br /></td></tr>
-<tr class="separator:a069a5bbde352f2d95ec427f786215113"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aabd30bcdf02da92ec12422a30fd4c4f4" id="r_aabd30bcdf02da92ec12422a30fd4c4f4"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
-<tr class="memitem:aabd30bcdf02da92ec12422a30fd4c4f4"><td class="memTemplItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01027.html#aabd30bcdf02da92ec12422a30fd4c4f4">lumex::core::string::utility::operator&lt;&lt;</a> (std::ostream &amp;ostream, std::shared_ptr&lt; T &gt; const &amp;ptr)</td></tr>
-<tr class="memdesc:aabd30bcdf02da92ec12422a30fd4c4f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Streams the raw address held by a <code>std::shared_ptr</code>.  <br /></td></tr>
-<tr class="separator:aabd30bcdf02da92ec12422a30fd4c4f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a644d51beb3d991564cc81242883fd17a" id="r_a644d51beb3d991564cc81242883fd17a"><td class="memTemplParams" colspan="2">template&lt;typename... Args&gt; </td></tr>
-<tr class="memitem:a644d51beb3d991564cc81242883fd17a"><td class="memTemplItemLeft" align="right" valign="top">std::string&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01027.html#a644d51beb3d991564cc81242883fd17a">lumex::core::string::utility::stringify</a> (Args &amp;&amp;...args)</td></tr>
-<tr class="memdesc:a644d51beb3d991564cc81242883fd17a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Concatenates the streamed text of <code>args</code>.  <br /></td></tr>
-<tr class="separator:a644d51beb3d991564cc81242883fd17a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6edd6a773e25b016b0dab32f38d58ff9" id="r_a6edd6a773e25b016b0dab32f38d58ff9"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01027.html#a6edd6a773e25b016b0dab32f38d58ff9">lumex::core::string::utility::stringify</a> () noexcept</td></tr>
-<tr class="memdesc:a6edd6a773e25b016b0dab32f38d58ff9"><td class="mdescLeft">&#160;</td><td class="mdescRight">No arguments: an empty string, without creating a stream.  <br /></td></tr>
-<tr class="separator:a6edd6a773e25b016b0dab32f38d58ff9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af6cfb13dc37397943f9b8060be4a9025" id="r_af6cfb13dc37397943f9b8060be4a9025"><td class="memTemplParams" colspan="2">template&lt;typename Char&gt; </td></tr>
+<tr class="memitem:af6cfb13dc37397943f9b8060be4a9025"><td class="memTemplItemLeft" align="right" valign="top">Char const *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01049.html#af6cfb13dc37397943f9b8060be4a9025">lumex::core::fmt::Detail::parse_range_fill_align_width</a> (<a class="el" href="a02009.html">BasicFormatParseContext</a>&lt; Char &gt; &amp;ctx, <a class="el" href="a02049.html">format_specs_t</a>&lt; Char &gt; &amp;specs)</td></tr>
+<tr class="memdesc:af6cfb13dc37397943f9b8060be4a9025"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>[[fill]align][width]</code> of a range / tuple specification: <code>:</code> is never a fill here (it starts the element specification), so <code>{::&gt;3}</code> right-aligns every element.  <br /></td></tr>
+<tr class="separator:af6cfb13dc37397943f9b8060be4a9025"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a850a62ba4ff1de10c8f213a64c8aa544" id="r_a850a62ba4ff1de10c8f213a64c8aa544"><td class="memTemplParams" colspan="2">template&lt;typename Char, typename T&gt; </td></tr>
+<tr class="memitem:a850a62ba4ff1de10c8f213a64c8aa544"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01049.html#a850a62ba4ff1de10c8f213a64c8aa544">lumex::core::fmt::Detail::uses_debug_by_default</a> () noexcept</td></tr>
+<tr class="memdesc:a850a62ba4ff1de10c8f213a64c8aa544"><td class="mdescLeft">&#160;</td><td class="mdescRight">Strings and characters print quoted inside ranges and tuples.  <br /></td></tr>
+<tr class="separator:a850a62ba4ff1de10c8f213a64c8aa544"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f50b7954e7a7d96e6c93d2bc753684f" id="r_a9f50b7954e7a7d96e6c93d2bc753684f"><td class="memTemplParams" colspan="2">template&lt;typename Char, typename T, typename <a class="el" href="a02225.html">ElementFormatter</a>&gt; </td></tr>
+<tr class="memitem:a9f50b7954e7a7d96e6c93d2bc753684f"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01049.html#a9f50b7954e7a7d96e6c93d2bc753684f">lumex::core::fmt::Detail::parse_default_element</a> (<a class="el" href="a02225.html">ElementFormatter</a> &amp;formatter)</td></tr>
+<tr class="memdesc:a9f50b7954e7a7d96e6c93d2bc753684f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gives an element formatter its default specification: <code>?</code> for strings / characters, empty otherwise.  <br /></td></tr>
+<tr class="separator:a9f50b7954e7a7d96e6c93d2bc753684f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1c404caf0baeb0553902cfa837cfac5b" id="r_a1c404caf0baeb0553902cfa837cfac5b"><td class="memTemplParams" colspan="2">template&lt;typename <a class="el" href="a02225.html">ElementFormatter</a>&gt; </td></tr>
+<tr class="memitem:a1c404caf0baeb0553902cfa837cfac5b"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01049.html#a1c404caf0baeb0553902cfa837cfac5b">lumex::core::fmt::Detail::use_map_element_style</a> (<a class="el" href="a02225.html">ElementFormatter</a> &amp;formatter, int) -&gt; decltype(formatter.set_brackets(std::declval&lt; <a class="el" href="a02017.html">BasicStringRef</a>&lt; char &gt; &gt;(), std::declval&lt; <a class="el" href="a02017.html">BasicStringRef</a>&lt; char &gt; &gt;()), void())</td></tr>
+<tr class="memdesc:a1c404caf0baeb0553902cfa837cfac5b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Map elements print <code>key: value</code> without brackets.  <br /></td></tr>
+<tr class="separator:a1c404caf0baeb0553902cfa837cfac5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f8f52ffb00823fa9ca9de2a174d1919" id="r_a7f8f52ffb00823fa9ca9de2a174d1919"><td class="memTemplParams" colspan="2">template&lt;typename <a class="el" href="a02225.html">ElementFormatter</a>&gt; </td></tr>
+<tr class="memitem:a7f8f52ffb00823fa9ca9de2a174d1919"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01049.html#a7f8f52ffb00823fa9ca9de2a174d1919">lumex::core::fmt::Detail::use_map_element_style</a> (<a class="el" href="a02225.html">ElementFormatter</a> &amp;formatter, long) -&gt; decltype(formatter.set_brackets(std::declval&lt; <a class="el" href="a02017.html">BasicStringRef</a>&lt; wchar_t &gt; &gt;(), std::declval&lt; <a class="el" href="a02017.html">BasicStringRef</a>&lt; wchar_t &gt; &gt;()), void())</td></tr>
+<tr class="separator:a7f8f52ffb00823fa9ca9de2a174d1919"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a67e803697d6f408fb7a7721a0767a243" id="r_a67e803697d6f408fb7a7721a0767a243"><td class="memTemplParams" colspan="2">template&lt;typename <a class="el" href="a02225.html">ElementFormatter</a>&gt; </td></tr>
+<tr class="memitem:a67e803697d6f408fb7a7721a0767a243"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01049.html#a67e803697d6f408fb7a7721a0767a243">lumex::core::fmt::Detail::use_map_element_style</a> (<a class="el" href="a02225.html">ElementFormatter</a> &amp;,...)</td></tr>
+<tr class="memdesc:a67e803697d6f408fb7a7721a0767a243"><td class="mdescLeft">&#160;</td><td class="mdescRight">A user pair formatter without <code>set_brackets</code> keeps its style.  <br /></td></tr>
+<tr class="separator:a67e803697d6f408fb7a7721a0767a243"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a27f800ad7cb71809feecd03f135b410b" id="r_a27f800ad7cb71809feecd03f135b410b"><td class="memTemplParams" colspan="2">template&lt;typename Char, typename WriteBody&gt; </td></tr>
+<tr class="memitem:a27f800ad7cb71809feecd03f135b410b"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01049.html#a27f800ad7cb71809feecd03f135b410b">lumex::core::fmt::Detail::write_with_width</a> (<a class="el" href="a02049.html">format_specs_t</a>&lt; Char &gt; const &amp;parsed, <a class="el" href="a02005.html">BasicFormatContext</a>&lt; Char &gt; &amp;ctx, WriteBody const &amp;write_body)</td></tr>
+<tr class="memdesc:a27f800ad7cb71809feecd03f135b410b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes with <code>write_body (context)</code> directly, or into a temporary text padded to the resolved width when a width is given.  <br /></td></tr>
+<tr class="separator:a27f800ad7cb71809feecd03f135b410b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Concatenates the <code>operator&lt;&lt;</code> text of any number of arguments into one <code>std::string</code>. </p>
-<p><code>stringify("channel=", 2, " flow=", 1.5)</code> returns <code>"channel=2 flow=1.5"</code>. Every argument must be streamable: a C++20 concept constraint, a <code>static_assert</code> below C++20. Below C++20, <code>std::unique_ptr</code> and <code>std::shared_ptr</code> stream their raw address.</p>
-<p>Nothing here is placed in the global namespace, so the names cannot clash with a consumer's own <code>stringify</code>. Call it qualified, or bring it in with a local <code>using <a class="el" href="a01027.html#a644d51beb3d991564cc81242883fd17a" title="Concatenates the streamed text of args.">lumex::core::string::utility::stringify</a>;</code>. </p>
+<div class="textblock"><p>Ranges, <code>std::pair</code> and <code>std::tuple</code> for LumexFormat, as the C++23 range formatting of <code>std::format</code> (P2286 / P2585) defines them. </p>
+<ul>
+<li>A range whose <code>Range const &amp;</code> can be walked (<code>std::begin</code> / <code>std::end</code>) prints as <code>[1, 2, 3]</code>; a set (it has <code>key_type</code>) as <code>{1, 2}</code>; a map (it has <code>key_type</code> and <code>mapped_type</code>) as <code>{"a": 1, "b": 2}</code>.</li>
+<li><code>std::pair</code> / <code>std::tuple</code> print as <code>(1, "a")</code>.</li>
+<li>Strings and characters inside print with the debug presentation (<code>"a\tb"</code>, &lsquo;'x&rsquo;<code>) unless an element specification is given.</code></li>
+<li><code>Range specification:</code>[[fill]align][width][n][type][:element]<code>, type one of</code>m<code>,</code>s<code>,</code>?s<code>.</code>n<code>drops the brackets,</code>m<code>prints pairs as </code>k: v<code>inside</code>{}<code>,</code>s<code>and</code>?s<code>print a range of characters as a string / debug string, and the text after</code>:<code>is the specification of every element (for example &lt;tt&gt;{\::x}&lt;/tt&gt;).</code></li>
+<li><code>Tuple specification:</code>[[fill]align][width][n or m]<code>, where</code>m<code>prints a pair as</code>k: v`.</li>
+</ul>
+<p>Built-in arguments decay, so a C array argument formats as a pointer, not as a range; pass <code>std::array</code> or a container instead. A range is walked as <code>Range const &amp;</code>, so views that cannot be iterated when const are not supported. </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_459f7d6cb411def697850a9e92b67c08.html">string</a></li><li class="navelem"><a class="el" href="dir_53e98c3399776e1e6db6e0ec68618ea6.html">utility</a></li><li class="navelem"><a class="el" href="a00314.html">LumexStringify.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_338a3242ca58d57e3179a5eb9e6b0159.html">fmt</a></li><li class="navelem"><a class="el" href="a00314.html">LumexFormatRanges.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

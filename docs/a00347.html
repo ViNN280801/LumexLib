@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexAssert.cpp File Reference</title>
+<title>LumexLib: LumexTextCase.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,104 +104,110 @@ $(function(){initNavTree('a00347.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#define-members">Macros</a> &#124;
+<a href="#namespaces">Namespaces</a> &#124;
 <a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">LumexAssert.cpp File Reference</div></div>
+  <div class="headertitle"><div class="title">LumexTextCase.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;cstdlib&gt;</code><br />
-<code>#include &lt;iostream&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00350_source.html">LumexAssert.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00389_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
+
+<p>Normalizes text for case-insensitive comparison.  
+<a href="#details">More...</a></p>
+<div class="textblock"><code>#include &lt;cctype&gt;</code><br />
+<code>#include &lt;string&gt;</code><br />
+<code>#include &lt;utility&gt;</code><br />
+<code>#include &quot;<a class="el" href="a00404_source.html">lumex/core/utility/compiler/LumexCheckFeatures.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for LumexAssert.cpp:</div>
+Include dependency graph for LumexTextCase.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00348.png" border="0" usemap="#a_lumex_assert_8cpp" alt=""/></div>
+<div class="center"><img src="a00348.png" border="0" usemap="#a_lumex_text_case_8hpp" alt=""/></div>
+<map name="a_lumex_text_case_8hpp" id="a_lumex_text_case_8hpp">
+<area shape="rect" title="Normalizes text for case&#45;insensitive comparison." alt="" coords="85,5,226,32"/>
+<area shape="rect" title=" " alt="" coords="5,88,66,115"/>
+<area shape="poly" title=" " alt="" coords="138,35,68,82,65,77,135,30"/>
+<area shape="rect" title=" " alt="" coords="90,88,144,115"/>
+<area shape="poly" title=" " alt="" coords="152,34,132,75,127,73,147,31"/>
+<area shape="rect" title=" " alt="" coords="168,88,220,115"/>
+<area shape="poly" title=" " alt="" coords="164,31,184,73,179,75,159,34"/>
+<area shape="rect" href="a00404.html" title="C++ language, library and attribute feature availability." alt="" coords="244,80,475,123"/>
+<area shape="poly" title=" " alt="" coords="188,30,294,71,292,76,186,35"/>
+</map>
 </div>
-</div><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
-Macros</h2></td></tr>
-<tr class="memitem:a07486181f1990291c2a348de8eb4c480" id="r_a07486181f1990291c2a348de8eb4c480"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a07486181f1990291c2a348de8eb4c480">LUMEX_IMPLEMENTATION</a></td></tr>
-<tr class="separator:a07486181f1990291c2a348de8eb4c480"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00349.png" border="0" usemap="#a_lumex_text_case_8hppdep" alt=""/></div>
+<map name="a_lumex_text_case_8hppdep" id="a_lumex_text_case_8hppdep">
+<area shape="rect" title="Normalizes text for case&#45;insensitive comparison." alt="" coords="645,5,786,32"/>
+<area shape="rect" href="a00929.html" title="String module: stringify, which concatenates the stream output of its arguments, joining and quoting ..." alt="" coords="668,80,762,107"/>
+<area shape="poly" title=" " alt="" coords="718,48,718,80,713,80,713,48"/>
+<area shape="rect" href="a00263.html" title="LumexBaseException, the base exception of LumexLib that records the stack where it was constructed,..." alt="" coords="380,155,523,181"/>
+<area shape="poly" title=" " alt="" coords="656,114,498,157,497,151,654,109"/>
+<area shape="rect" href="a00104.html" title="The console and file logging facade LumexLogging that other LumexLib modules report through." alt="" coords="573,155,703,181"/>
+<area shape="poly" title=" " alt="" coords="693,119,653,156,649,152,689,116"/>
+<area shape="rect" href="a00599.html" title=" " alt="" coords="727,155,861,181"/>
+<area shape="poly" title=" " alt="" coords="742,116,782,152,779,156,739,120"/>
+<area shape="rect" href="a00602.html" title=" " alt="" coords="886,155,1078,181"/>
+<area shape="poly" title=" " alt="" coords="777,109,936,151,934,157,775,114"/>
+<area shape="rect" href="a00905.html" title="Exceptions module: the LumexBaseException hierarchy, stack traces, a crash handler that writes minidu..." alt="" coords="238,229,356,256"/>
+<area shape="poly" title=" " alt="" coords="412,191,325,231,323,226,409,186"/>
+<area shape="rect" href="a00260.html" title=" " alt="" coords="380,229,523,256"/>
+<area shape="poly" title=" " alt="" coords="454,197,454,229,449,229,449,197"/>
+<area shape="rect" href="a00482.html" title=" " alt="" coords="185,312,350,339"/>
+<area shape="poly" title=" " alt="" coords="289,272,274,313,269,311,284,270"/>
+<area shape="rect" href="a00485.html" title=" " alt="" coords="374,304,515,347"/>
+<area shape="poly" title=" " alt="" coords="334,261,408,301,405,306,332,266"/>
+<area shape="rect" href="a00878.html" title="Logging module: LumexLogging, a thread&#45;safe console logger with levels from Debug to Critical,..." alt="" coords="660,312,765,339"/>
+<area shape="poly" title=" " alt="" coords="612,194,599,208,589,223,584,239,588,255,603,273,622,288,665,309,663,314,619,293,600,277,584,257,579,239,584,221,594,205,608,190"/>
+<area shape="rect" href="a00101.html" title=" " alt="" coords="598,229,728,256"/>
+<area shape="poly" title=" " alt="" coords="650,195,661,228,656,230,645,197"/>
+<area shape="rect" href="a00107.html" title="Short macros over LumexLogging: lumDebug to lumCritical, and the ...FL variants that prefix the sourc..." alt="" coords="752,229,918,256"/>
+<area shape="poly" title=" " alt="" coords="688,185,802,226,800,231,686,190"/>
+<area shape="rect" href="a00056.html" title=" " alt="" coords="5,395,263,421"/>
+<area shape="poly" title=" " alt="" coords="646,339,226,397,225,391,645,333"/>
+<area shape="rect" href="a00062.html" title=" " alt="" coords="287,395,496,421"/>
+<area shape="poly" title=" " alt="" coords="648,346,443,397,441,391,647,340"/>
+<area shape="rect" href="a00110.html" title=" " alt="" coords="520,395,705,421"/>
+<area shape="poly" title=" " alt="" coords="687,351,630,397,626,392,684,347"/>
+<area shape="rect" href="a00158.html" title=" " alt="" coords="728,395,897,421"/>
+<area shape="poly" title=" " alt="" coords="742,347,799,392,796,397,738,351"/>
+<area shape="rect" href="a00551.html" title=" " alt="" coords="921,395,1064,421"/>
+<area shape="poly" title=" " alt="" coords="772,341,949,392,948,397,770,346"/>
+<area shape="rect" href="a00554.html" title=" " alt="" coords="1088,395,1289,421"/>
+<area shape="poly" title=" " alt="" coords="781,335,1114,391,1113,397,780,341"/>
+<area shape="poly" title=" " alt="" coords="805,267,733,314,730,309,802,262"/>
+</map>
+</div>
+</div>
+<p><a href="a00347_source.html">Go to the source code of this file.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00948.html">lumex</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01005.html">lumex::core</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01065.html">lumex::core::string</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01066.html">lumex::core::string::text</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a5334d5477ed5cb85a010f52c4f534fd4" id="r_a5334d5477ed5cb85a010f52c4f534fd4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5334d5477ed5cb85a010f52c4f534fd4">lumex_assert_handler</a> (char const *assertion, char const *file, int line) noexcept</td></tr>
-<tr class="memdesc:a5334d5477ed5cb85a010f52c4f534fd4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handles failed assertions within the Lumex codebase.  <br /></td></tr>
-<tr class="separator:a5334d5477ed5cb85a010f52c4f534fd4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad8f7eb93f5a0d72fd633cee8e25bd05a" id="r_ad8f7eb93f5a0d72fd633cee8e25bd05a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01066.html#ad8f7eb93f5a0d72fd633cee8e25bd05a">lumex::core::string::text::to_case_insensitive</a> (std::string &amp;str, bool need_to_remove_spaces=true)</td></tr>
+<tr class="memdesc:ad8f7eb93f5a0d72fd633cee8e25bd05a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lowercases <code>str</code> in place (ASCII <code>std::tolower</code>), so later comparisons are case-insensitive.  <br /></td></tr>
+<tr class="separator:ad8f7eb93f5a0d72fd633cee8e25bd05a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af2d09555090576cec202f328fb11ddbf" id="r_af2d09555090576cec202f328fb11ddbf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01066.html#af2d09555090576cec202f328fb11ddbf">lumex::core::string::text::to_case_insensitive</a> (std::string const &amp;orig, std::string &amp;out, bool need_to_remove_spaces=true)</td></tr>
+<tr class="memdesc:af2d09555090576cec202f328fb11ddbf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy-out overload of <code>to_case_insensitive(std::string &amp;, bool)</code>.  <br /></td></tr>
+<tr class="separator:af2d09555090576cec202f328fb11ddbf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="a07486181f1990291c2a348de8eb4c480" name="a07486181f1990291c2a348de8eb4c480"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a07486181f1990291c2a348de8eb4c480">&#9670;&#160;</a></span>LUMEX_IMPLEMENTATION</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_IMPLEMENTATION</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="a5334d5477ed5cb85a010f52c4f534fd4" name="a5334d5477ed5cb85a010f52c4f534fd4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5334d5477ed5cb85a010f52c4f534fd4">&#9670;&#160;</a></span>lumex_assert_handler()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void lumex_assert_handler </td>
-          <td>(</td>
-          <td class="paramtype">char const *</td>          <td class="paramname"><span class="paramname"><em>assertion</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">char const *</td>          <td class="paramname"><span class="paramname"><em>file</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>line</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Handles failed assertions within the Lumex codebase. </p>
-<p>This function serves as the central handler for assertion failures. It is typically invoked by an assertion macro when a specified condition evaluates to false. The handler receives details about the failed assertion, including the assertion string itself, the source file where the failure occurred, and the exact line number.</p>
-<p>Its primary responsibility is to process the assertion failure, which might involve logging the details, breaking into a debugger, or terminating the application. Implementations should provide clear diagnostic information to aid in debugging.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">assertion</td><td>A null-terminated string representing the failed assertion expression. This pointer is caller-owned and must remain valid for the duration of the call. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">file</td><td>A null-terminated string representing the name of the source file where the assertion failed. This pointer is caller-owned. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">line</td><td>The line number within the <code>file</code> where the assertion failed. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section note"><dt>Note</dt><dd>This function does not return to the caller under normal assertion failure scenarios, as it is expected to either terminate the program or enter a debugger. </dd>
-<dd>
-This function is declared <code>noexcept</code>, indicating that it does not throw C++ exceptions. Any internal failures should be handled without propagating exceptions. </dd></dl>
-<dl class="section warning"><dt>Warning</dt><dd>Calling this function directly is typically not recommended; it is intended to be used by internal assertion macros or mechanisms. </dd></dl>
-
-</div>
-</div>
-</div><!-- contents -->
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Normalizes text for case-insensitive comparison. </p>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_aaa57aed14d71e316a67f95634c796d3.html">utility</a></li><li class="navelem"><a class="el" href="dir_fd463bbdb0a2c1e90e6c867fb9115cf9.html">assert</a></li><li class="navelem"><a class="el" href="a00347.html">LumexAssert.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_459f7d6cb411def697850a9e92b67c08.html">string</a></li><li class="navelem"><a class="el" href="dir_7f2a87a12e57e05b49f1824eaaf6f6a8.html">text</a></li><li class="navelem"><a class="el" href="a00347.html">LumexTextCase.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

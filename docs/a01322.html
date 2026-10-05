@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::core::crc::catalog::crc_params_t Struct Reference</title>
+<title>LumexLib: Member List</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a01322.html',''); initResizable(true); });
+$(function(){initNavTree('a01325.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,148 +103,38 @@ $(function(){initNavTree('a01322.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="summary">
-<a href="#pub-attribs">Public Attributes</a> &#124;
-<a href="a01319.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">lumex::core::crc::catalog::crc_params_t Struct Reference</div></div>
+  <div class="headertitle"><div class="title">lumex::core::atomic::smart_ptr::lock_based_table_wait::atomic_shared_ptr&lt; T &gt; Member List</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>CRC parameters in CRC RevEng notation (see <a class="el" href="a00200.html" title="Header-only CRC engines for every algorithm of the CRC RevEng catalogue up to 64 bits.">LumexCrcParametric.hpp</a> / Greg Cook catalogue).  
- <a href="#details">More...</a></p>
-
-<p><code>#include &lt;<a class="el" href="a00197_source.html">LumexCrcCatalog.hpp</a>&gt;</code></p>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
-Public Attributes</h2></td></tr>
-<tr class="memitem:a922850c27198d41cfbac66ae0d3ea022" id="r_a922850c27198d41cfbac66ae0d3ea022"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a922850c27198d41cfbac66ae0d3ea022">widthBits</a> {}</td></tr>
-<tr class="memdesc:a922850c27198d41cfbac66ae0d3ea022"><td class="mdescLeft">&#160;</td><td class="mdescRight">CRC width in bits (1..64).  <br /></td></tr>
-<tr class="separator:a922850c27198d41cfbac66ae0d3ea022"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a20ce03300d984746aa9bc6679d90e246" id="r_a20ce03300d984746aa9bc6679d90e246"><td class="memItemLeft" align="right" valign="top">std::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a20ce03300d984746aa9bc6679d90e246">poly</a> {}</td></tr>
-<tr class="memdesc:a20ce03300d984746aa9bc6679d90e246"><td class="mdescLeft">&#160;</td><td class="mdescRight">Polynomial without the implicit high bit (catalogue form).  <br /></td></tr>
-<tr class="separator:a20ce03300d984746aa9bc6679d90e246"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abeb40ff7bcce9217909ef1356d4e083f" id="r_abeb40ff7bcce9217909ef1356d4e083f"><td class="memItemLeft" align="right" valign="top">std::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abeb40ff7bcce9217909ef1356d4e083f">init</a> {}</td></tr>
-<tr class="memdesc:abeb40ff7bcce9217909ef1356d4e083f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initial register value.  <br /></td></tr>
-<tr class="separator:abeb40ff7bcce9217909ef1356d4e083f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4c28d3d75ce4fcb56fca7875c71c77a2" id="r_a4c28d3d75ce4fcb56fca7875c71c77a2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4c28d3d75ce4fcb56fca7875c71c77a2">refIn</a> {}</td></tr>
-<tr class="memdesc:a4c28d3d75ce4fcb56fca7875c71c77a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reflect input bytes (RefIn).  <br /></td></tr>
-<tr class="separator:a4c28d3d75ce4fcb56fca7875c71c77a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a385fb2d6379507789c485e3b6f3d0a01" id="r_a385fb2d6379507789c485e3b6f3d0a01"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a385fb2d6379507789c485e3b6f3d0a01">refOut</a> {}</td></tr>
-<tr class="memdesc:a385fb2d6379507789c485e3b6f3d0a01"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reflect output before xorOut (RefOut).  <br /></td></tr>
-<tr class="separator:a385fb2d6379507789c485e3b6f3d0a01"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad274e477a4b1f7269b2bb8d9d736cdfe" id="r_ad274e477a4b1f7269b2bb8d9d736cdfe"><td class="memItemLeft" align="right" valign="top">std::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad274e477a4b1f7269b2bb8d9d736cdfe">xorOut</a> {}</td></tr>
-<tr class="memdesc:ad274e477a4b1f7269b2bb8d9d736cdfe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Final XOR.  <br /></td></tr>
-<tr class="separator:ad274e477a4b1f7269b2bb8d9d736cdfe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>CRC parameters in CRC RevEng notation (see <a class="el" href="a00200.html" title="Header-only CRC engines for every algorithm of the CRC RevEng catalogue up to 64 bits.">LumexCrcParametric.hpp</a> / Greg Cook catalogue). </p>
-<dl class="section see"><dt>See also</dt><dd><a href="https://reveng.sourceforge.io/crc-catalogue/all.htm">https://reveng.sourceforge.io/crc-catalogue/all.htm</a> </dd></dl>
-</div><h2 class="groupheader">Member Data Documentation</h2>
-<a id="abeb40ff7bcce9217909ef1356d4e083f" name="abeb40ff7bcce9217909ef1356d4e083f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abeb40ff7bcce9217909ef1356d4e083f">&#9670;&#160;</a></span>init</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::uint64_t lumex::core::crc::catalog::crc_params_t::init {}</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Initial register value. </p>
-
-</div>
-</div>
-<a id="a20ce03300d984746aa9bc6679d90e246" name="a20ce03300d984746aa9bc6679d90e246"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a20ce03300d984746aa9bc6679d90e246">&#9670;&#160;</a></span>poly</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::uint64_t lumex::core::crc::catalog::crc_params_t::poly {}</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Polynomial without the implicit high bit (catalogue form). </p>
-
-</div>
-</div>
-<a id="a4c28d3d75ce4fcb56fca7875c71c77a2" name="a4c28d3d75ce4fcb56fca7875c71c77a2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4c28d3d75ce4fcb56fca7875c71c77a2">&#9670;&#160;</a></span>refIn</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool lumex::core::crc::catalog::crc_params_t::refIn {}</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Reflect input bytes (RefIn). </p>
-
-</div>
-</div>
-<a id="a385fb2d6379507789c485e3b6f3d0a01" name="a385fb2d6379507789c485e3b6f3d0a01"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a385fb2d6379507789c485e3b6f3d0a01">&#9670;&#160;</a></span>refOut</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool lumex::core::crc::catalog::crc_params_t::refOut {}</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Reflect output before xorOut (RefOut). </p>
-
-</div>
-</div>
-<a id="a922850c27198d41cfbac66ae0d3ea022" name="a922850c27198d41cfbac66ae0d3ea022"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a922850c27198d41cfbac66ae0d3ea022">&#9670;&#160;</a></span>widthBits</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int lumex::core::crc::catalog::crc_params_t::widthBits {}</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>CRC width in bits (1..64). </p>
-
-</div>
-</div>
-<a id="ad274e477a4b1f7269b2bb8d9d736cdfe" name="ad274e477a4b1f7269b2bb8d9d736cdfe"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad274e477a4b1f7269b2bb8d9d736cdfe">&#9670;&#160;</a></span>xorOut</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::uint64_t lumex::core::crc::catalog::crc_params_t::xorOut {}</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Final XOR. </p>
-
-</div>
-</div>
-<hr/>The documentation for this struct was generated from the following file:<ul>
-<li><a class="el" href="a00197_source.html">LumexCrcCatalog.hpp</a></li>
-</ul>
-</div><!-- contents -->
+<p>This is the complete list of members for <a class="el" href="a01325.html">lumex::core::atomic::smart_ptr::lock_based_table_wait::atomic_shared_ptr&lt; T &gt;</a>, including all inherited members.</p>
+<table class="directory">
+  <tr class="even"><td class="entry"><a class="el" href="a01325.html#a7c77f2250693a0b166217b738c94c6ab">atomic_shared_ptr</a>() noexcept</td><td class="entry"><a class="el" href="a01325.html">lumex::core::atomic::smart_ptr::lock_based_table_wait::atomic_shared_ptr&lt; T &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a01325.html#a26e456b2f60f7fdcb9cfd8e306032b40">atomic_shared_ptr</a>(std::nullptr_t) noexcept</td><td class="entry"><a class="el" href="a01325.html">lumex::core::atomic::smart_ptr::lock_based_table_wait::atomic_shared_ptr&lt; T &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a01325.html#a901966e381afca2c422919145c0ae6e9">atomic_shared_ptr</a>(value_type desired) noexcept</td><td class="entry"><a class="el" href="a01325.html">lumex::core::atomic::smart_ptr::lock_based_table_wait::atomic_shared_ptr&lt; T &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a01325.html#af5195de9d367149bd7a36ff71d428d60">atomic_shared_ptr</a>(atomic_shared_ptr const &amp;)=delete</td><td class="entry"><a class="el" href="a01325.html">lumex::core::atomic::smart_ptr::lock_based_table_wait::atomic_shared_ptr&lt; T &gt;</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a01325.html#ad4ceeae5fca9e0d08c503dbce930b355">compare_exchange_strong</a>(value_type &amp;expected, value_type desired, std::memory_order success, std::memory_order failure) noexcept</td><td class="entry"><a class="el" href="a01325.html">lumex::core::atomic::smart_ptr::lock_based_table_wait::atomic_shared_ptr&lt; T &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a01325.html#a61248f3ab31f377d172562390a4f909b">compare_exchange_strong</a>(value_type &amp;expected, value_type desired, std::memory_order order=std::memory_order_seq_cst) noexcept</td><td class="entry"><a class="el" href="a01325.html">lumex::core::atomic::smart_ptr::lock_based_table_wait::atomic_shared_ptr&lt; T &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a01325.html#a229af667673db70c777e2a7aabe7bdd4">compare_exchange_weak</a>(value_type &amp;expected, value_type desired, std::memory_order success, std::memory_order failure) noexcept</td><td class="entry"><a class="el" href="a01325.html">lumex::core::atomic::smart_ptr::lock_based_table_wait::atomic_shared_ptr&lt; T &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a01325.html#a1ca8dce02c75aa37ead0a967cec5c6cd">compare_exchange_weak</a>(value_type &amp;expected, value_type desired, std::memory_order order=std::memory_order_seq_cst) noexcept</td><td class="entry"><a class="el" href="a01325.html">lumex::core::atomic::smart_ptr::lock_based_table_wait::atomic_shared_ptr&lt; T &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a01325.html#add0e92b6778d80fd74df0223f022b2db">exchange</a>(value_type desired, std::memory_order order=std::memory_order_seq_cst) noexcept</td><td class="entry"><a class="el" href="a01325.html">lumex::core::atomic::smart_ptr::lock_based_table_wait::atomic_shared_ptr&lt; T &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a01325.html#ad14670398f5f9f88c72bcf0059942a26">is_always_lock_free</a></td><td class="entry"><a class="el" href="a01325.html">lumex::core::atomic::smart_ptr::lock_based_table_wait::atomic_shared_ptr&lt; T &gt;</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a01325.html#a8290f90e45b6f268e820cf7b2dacfda5">is_lock_free</a>() const noexcept</td><td class="entry"><a class="el" href="a01325.html">lumex::core::atomic::smart_ptr::lock_based_table_wait::atomic_shared_ptr&lt; T &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a01325.html#ab2937c078479b3a49e6041ad3c4acebc">load</a>(std::memory_order order=std::memory_order_seq_cst) const noexcept</td><td class="entry"><a class="el" href="a01325.html">lumex::core::atomic::smart_ptr::lock_based_table_wait::atomic_shared_ptr&lt; T &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a01325.html#a0bb96872a2433279417e2c22ddc299d5">notify_all</a>() noexcept</td><td class="entry"><a class="el" href="a01325.html">lumex::core::atomic::smart_ptr::lock_based_table_wait::atomic_shared_ptr&lt; T &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a01325.html#a85d0575018885b8c5648ed43d2a5b1bf">notify_one</a>() noexcept</td><td class="entry"><a class="el" href="a01325.html">lumex::core::atomic::smart_ptr::lock_based_table_wait::atomic_shared_ptr&lt; T &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a01325.html#a4fbff3b1ffd31270b2519581b28fa46f">operator value_type</a>() const noexcept</td><td class="entry"><a class="el" href="a01325.html">lumex::core::atomic::smart_ptr::lock_based_table_wait::atomic_shared_ptr&lt; T &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a01325.html#af507fa21646b957151fee4e1bc2398af">operator=</a>(atomic_shared_ptr const &amp;)=delete</td><td class="entry"><a class="el" href="a01325.html">lumex::core::atomic::smart_ptr::lock_based_table_wait::atomic_shared_ptr&lt; T &gt;</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a01325.html#a89afe2db40b62c936f9c56a72b8e20a2">operator=</a>(value_type desired) noexcept</td><td class="entry"><a class="el" href="a01325.html">lumex::core::atomic::smart_ptr::lock_based_table_wait::atomic_shared_ptr&lt; T &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a01325.html#afd459c51d005c2e12ba5483655c3c99b">operator=</a>(std::nullptr_t) noexcept</td><td class="entry"><a class="el" href="a01325.html">lumex::core::atomic::smart_ptr::lock_based_table_wait::atomic_shared_ptr&lt; T &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a01325.html#a8078002c15cceb17453ef0281cf1b17c">store</a>(value_type desired, std::memory_order order=std::memory_order_seq_cst) noexcept</td><td class="entry"><a class="el" href="a01325.html">lumex::core::atomic::smart_ptr::lock_based_table_wait::atomic_shared_ptr&lt; T &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a01325.html#af37c35f80194dafec6658c09654e6246">value_type</a> typedef</td><td class="entry"><a class="el" href="a01325.html">lumex::core::atomic::smart_ptr::lock_based_table_wait::atomic_shared_ptr&lt; T &gt;</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a01325.html#a4d4c68178efb44c27014cd2a88dc5651">wait</a>(value_type old, std::memory_order order=std::memory_order_seq_cst) const noexcept</td><td class="entry"><a class="el" href="a01325.html">lumex::core::atomic::smart_ptr::lock_based_table_wait::atomic_shared_ptr&lt; T &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+</table></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00912.html">lumex</a></li><li class="navelem"><a class="el" href="a00964.html">core</a></li><li class="navelem"><a class="el" href="a00984.html">crc</a></li><li class="navelem"><a class="el" href="a00985.html">catalog</a></li><li class="navelem"><a class="el" href="a01322.html">crc_params_t</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

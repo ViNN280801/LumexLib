@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexEnvironment.hpp File Reference</title>
+<title>LumexLib: Base64.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,100 +104,177 @@ $(function(){initNavTree('a00206.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
 <a href="#namespaces">Namespaces</a> &#124;
 <a href="#typedef-members">Typedefs</a> &#124;
-<a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">LumexEnvironment.hpp File Reference</div></div>
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
+  <div class="headertitle"><div class="title">Base64.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Defines the <a class="el" href="#a6421e7685cc78f63f88346b58e913910" title="Alias for lumex::core::environment::LumexEnvironment.">LumexEnvironment</a> class for cross-platform environment variable management.  
+<p>Cross-platform Base64 encoding and decoding utilities.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="a00605_source.html">lumex/LumexExport.hpp</a>&quot;</code><br />
-<code>#include &lt;cstdlib&gt;</code><br />
-<code>#include &lt;cstring&gt;</code><br />
-<code>#include &lt;memory&gt;</code><br />
-<code>#include &lt;mutex&gt;</code><br />
+<div class="textblock"><code>#include &lt;array&gt;</code><br />
 <code>#include &lt;string&gt;</code><br />
-<code>#include &lt;utility&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00905_source.html">lumex/core/utility/LumexUtility</a>&quot;</code><br />
+<code>#include &lt;type_traits&gt;</code><br />
+<code>#include &lt;string_view&gt;</code><br />
+<code>#include &quot;<a class="el" href="a00386_source.html">lumex/core/utility/assert/LumexAssert.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00425_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00446_source.html">lumex/core/utility/traits/LumexTypeTraits.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for LumexEnvironment.hpp:</div>
+Include dependency graph for Base64.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00207.png" border="0" usemap="#a_lumex_environment_8hpp" alt=""/></div>
+<div class="center"><img src="a00207.png" border="0" usemap="#a_base64_8hpp" alt=""/></div>
+<map name="a_base64_8hpp" id="a_base64_8hpp">
+<area shape="rect" title="Cross&#45;platform Base64 encoding and decoding utilities." alt="" coords="263,5,353,32"/>
+<area shape="rect" title=" " alt="" coords="5,179,56,205"/>
+<area shape="poly" title=" " alt="" coords="279,35,185,82,116,128,59,171,56,167,113,124,182,78,277,30"/>
+<area shape="rect" title=" " alt="" coords="80,179,133,205"/>
+<area shape="poly" title=" " alt="" coords="295,34,135,170,131,166,292,30"/>
+<area shape="rect" title=" " alt="" coords="157,179,240,205"/>
+<area shape="poly" title=" " alt="" coords="302,34,217,167,212,164,298,31"/>
+<area shape="rect" title=" " alt="" coords="264,179,352,205"/>
+<area shape="poly" title=" " alt="" coords="310,32,310,163,305,163,305,32"/>
+<area shape="rect" href="a00386.html" title="Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_..." alt="" coords="376,171,544,213"/>
+<area shape="poly" title=" " alt="" coords="321,31,434,158,430,161,317,34"/>
+<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="891,261,1085,304"/>
+<area shape="poly" title=" " alt="" coords="332,30,432,87,557,169,582,192,592,202,608,211,674,236,744,255,812,267,875,274,875,279,812,272,743,260,672,242,605,216,589,206,578,196,554,173,429,92,330,35"/>
+<area shape="rect" href="a00446.html" title="Every general&#45;purpose type trait of LumexLib, one sub&#45;namespace of lumex::core::utility::traits per t..." alt="" coords="774,80,957,123"/>
+<area shape="poly" title=" " alt="" coords="354,24,759,82,758,87,353,29"/>
+<area shape="rect" href="a00641.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="379,269,541,296"/>
+<area shape="poly" title=" " alt="" coords="462,214,462,254,457,254,457,214"/>
+<area shape="poly" title=" " alt="" coords="544,207,563,211,875,262,875,267,562,216,543,213"/>
+<area shape="poly" title=" " alt="" coords="773,109,605,116,402,129,208,148,128,160,69,173,65,174,63,169,67,168,128,154,207,143,401,124,605,111,773,103"/>
+<area shape="poly" title=" " alt="" coords="773,110,440,132,269,150,199,161,146,173,142,175,140,169,144,168,198,156,268,145,440,127,773,104"/>
+<area shape="poly" title=" " alt="" coords="773,108,666,115,535,127,393,146,252,173,243,176,242,171,251,168,392,140,535,121,666,110,773,103"/>
+<area shape="poly" title=" " alt="" coords="773,112,584,133,473,150,364,173,355,176,353,171,363,168,472,145,583,128,773,107"/>
+<area shape="poly" title=" " alt="" coords="774,125,559,172,558,167,773,120"/>
+<area shape="poly" title=" " alt="" coords="958,101,1050,107,1149,118,1235,138,1268,152,1290,169,1304,194,1301,216,1284,234,1258,248,1223,259,1184,267,1101,278,1100,273,1183,262,1222,254,1256,243,1281,229,1296,214,1298,195,1286,172,1265,156,1234,143,1148,123,1050,112,957,107"/>
+<area shape="rect" title=" " alt="" coords="1606,179,1671,205"/>
+<area shape="poly" title=" " alt="" coords="957,99,1085,101,1245,111,1421,132,1509,148,1595,168,1602,170,1600,175,1594,173,1508,153,1420,138,1244,117,1084,107,957,104"/>
+<area shape="rect" title=" " alt="" coords="1694,179,1772,205"/>
+<area shape="poly" title=" " alt="" coords="957,99,1099,101,1281,111,1482,132,1584,148,1683,168,1692,170,1691,176,1682,173,1583,153,1482,137,1280,116,1099,107,957,104"/>
+<area shape="rect" title=" " alt="" coords="1796,179,1857,205"/>
+<area shape="poly" title=" " alt="" coords="958,103,1150,110,1388,123,1618,142,1713,154,1784,168,1790,170,1789,175,1783,173,1712,159,1618,147,1388,128,1150,115,957,108"/>
+<area shape="rect" title=" " alt="" coords="1882,179,1934,205"/>
+<area shape="poly" title=" " alt="" coords="957,101,1166,107,1430,118,1685,138,1790,152,1870,168,1874,169,1872,174,1868,173,1790,157,1685,143,1430,124,1166,112,957,107"/>
+<area shape="rect" title=" " alt="" coords="619,179,687,205"/>
+<area shape="poly" title=" " alt="" coords="815,126,700,173,696,174,694,170,697,168,813,121"/>
+<area shape="rect" title=" " alt="" coords="711,179,779,205"/>
+<area shape="poly" title=" " alt="" coords="839,125,776,171,773,167,836,121"/>
+<area shape="rect" title=" " alt="" coords="803,179,852,205"/>
+<area shape="poly" title=" " alt="" coords="859,124,841,165,837,163,854,122"/>
+<area shape="rect" title=" " alt="" coords="876,179,929,205"/>
+<area shape="poly" title=" " alt="" coords="876,122,894,163,889,165,871,124"/>
+<area shape="rect" title=" " alt="" coords="953,179,1020,205"/>
+<area shape="poly" title=" " alt="" coords="895,121,959,167,955,171,892,125"/>
+<area shape="rect" href="a00404.html" title="C++ language, library and attribute feature availability." alt="" coords="1044,171,1276,213"/>
+<area shape="poly" title=" " alt="" coords="935,121,1077,163,1076,168,933,126"/>
+<area shape="rect" href="a00419.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="1350,171,1583,213"/>
+<area shape="poly" title=" " alt="" coords="958,113,1332,168,1335,168,1334,174,1331,173,957,119"/>
+<area shape="poly" title=" " alt="" coords="1355,217,1101,263,1100,258,1354,211"/>
+</map>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00208.png" border="0" usemap="#a_lumex_environment_8hppdep" alt=""/></div>
+<div class="center"><img src="a00208.png" border="0" usemap="#a_base64_8hppdep" alt=""/></div>
+<map name="a_base64_8hppdep" id="a_base64_8hppdep">
+<area shape="rect" title="Cross&#45;platform Base64 encoding and decoding utilities." alt="" coords="230,5,320,32"/>
+<area shape="rect" href="a00212.html" title="Base64 decoding: the Decoder class of the lumex::base64 library." alt="" coords="184,80,280,107"/>
+<area shape="poly" title=" " alt="" coords="262,47,242,81,237,78,257,44"/>
+<area shape="rect" href="a00893.html" title="Base64 module: encoding, decoding and syntax checks of Base64 text." alt="" coords="245,155,350,181"/>
+<area shape="poly" title=" " alt="" coords="286,46,295,80,300,154,295,154,290,80,281,47"/>
+<area shape="rect" href="a00218.html" title="Base64 encoding: the Encoder class of the lumex::base64 library." alt="" coords="354,80,449,107"/>
+<area shape="poly" title=" " alt="" coords="311,38,381,77,378,82,309,42"/>
+<area shape="rect" href="a00224.html" title="Base64 syntax check: the Validator class of the lumex::base64 library." alt="" coords="64,80,160,107"/>
+<area shape="poly" title=" " alt="" coords="234,41,142,82,140,77,232,36"/>
+<area shape="rect" href="a00209.html" title=" " alt="" coords="126,155,221,181"/>
+<area shape="poly" title=" " alt="" coords="214,121,186,156,182,153,210,117"/>
+<area shape="poly" title=" " alt="" coords="256,116,288,152,284,156,252,120"/>
+<area shape="rect" href="a00458.html" title=" " alt="" coords="127,229,271,256"/>
+<area shape="poly" title=" " alt="" coords="270,193,217,231,214,227,267,189"/>
+<area shape="rect" href="a00461.html" title=" " alt="" coords="295,229,497,256"/>
+<area shape="poly" title=" " alt="" coords="328,189,381,227,378,231,325,193"/>
+<area shape="poly" title=" " alt="" coords="373,118,317,156,314,152,370,113"/>
+<area shape="rect" href="a00215.html" title=" " alt="" coords="374,155,469,181"/>
+<area shape="poly" title=" " alt="" coords="412,121,421,154,415,155,406,122"/>
+<area shape="poly" title=" " alt="" coords="135,117,165,153,161,156,131,120"/>
+<area shape="poly" title=" " alt="" coords="159,110,266,152,264,157,157,115"/>
+<area shape="rect" href="a00221.html" title=" " alt="" coords="5,155,102,181"/>
+<area shape="poly" title=" " alt="" coords="94,121,66,156,62,153,90,117"/>
+</map>
 </div>
 </div>
 <p><a href="a00206_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01790.html">lumex::core::environment::env::LumexEnvironment</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides a cross-platform, and thread-safe way to manage environment variables.  <a href="a01790.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01794.html">lumex::core::environment::env::LumexEnvironment::EnvResult</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents the result of an environment variable operation.  <a href="a01794.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00912.html">lumex</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00948.html">lumex</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00964.html">lumex::core</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01005.html">lumex::core</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00989.html">lumex::core::environment</a></td></tr>
-<tr class="memdesc:a00989"><td class="mdescLeft">&#160;</td><td class="mdescRight">Contains classes and utilities for environment variable interaction. <br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01013.html">lumex::core::base64</a></td></tr>
+<tr class="memdesc:a01013"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides Base64 decoding functionalities. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00990.html">lumex::core::environment::env</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01014.html">lumex::core::base64::codec</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01015.html">lumex::core::base64::codec::Types</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01016.html">lumex::core::base64::codec::Constants</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01017.html">lumex::core::base64::codec::detail</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
 Typedefs</h2></td></tr>
-<tr class="memitem:a6421e7685cc78f63f88346b58e913910" id="r_a6421e7685cc78f63f88346b58e913910"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6421e7685cc78f63f88346b58e913910">LumexEnvironment</a> = <a class="el" href="a01790.html">lumex::core::environment::env::LumexEnvironment</a></td></tr>
-<tr class="memdesc:a6421e7685cc78f63f88346b58e913910"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias for lumex::core::environment::LumexEnvironment.  <br /></td></tr>
-<tr class="separator:a6421e7685cc78f63f88346b58e913910"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5e9a9660b44f2279e84d63cbdb62ffd1" id="r_a5e9a9660b44f2279e84d63cbdb62ffd1"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01015.html#a5e9a9660b44f2279e84d63cbdb62ffd1">lumex::core::base64::codec::Types::byte_type</a> = unsigned char</td></tr>
+<tr class="separator:a5e9a9660b44f2279e84d63cbdb62ffd1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae142dc1d1ee788d9633afdb8c9850c42" id="r_ae142dc1d1ee788d9633afdb8c9850c42"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01015.html#ae142dc1d1ee788d9633afdb8c9850c42">lumex::core::base64::codec::Types::string_type_t</a> = std::string_view</td></tr>
+<tr class="separator:ae142dc1d1ee788d9633afdb8c9850c42"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:aa4eee5d823344fc6515437ef34084b7b" id="r_aa4eee5d823344fc6515437ef34084b7b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00990.html#aa4eee5d823344fc6515437ef34084b7b">lumex::core::environment::env::is_env_set</a> (<a class="el" href="a01790.html#a5ec8246f5384f098b278e1c75d009add">LumexEnvironment::string_type</a> const &amp;name)</td></tr>
-<tr class="memdesc:aa4eee5d823344fc6515437ef34084b7b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks whether an environment variable is set to a non-empty value.  <br /></td></tr>
-<tr class="separator:aa4eee5d823344fc6515437ef34084b7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a664eee18841a0489fd44e19b214f7761" id="r_a664eee18841a0489fd44e19b214f7761"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00990.html#a664eee18841a0489fd44e19b214f7761">lumex::core::environment::env::is_env_truthy</a> (<a class="el" href="a01790.html#a5ec8246f5384f098b278e1c75d009add">LumexEnvironment::string_type</a> const &amp;name)</td></tr>
-<tr class="memdesc:a664eee18841a0489fd44e19b214f7761"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks whether an environment variable is "truthy" (enabled).  <br /></td></tr>
-<tr class="separator:a664eee18841a0489fd44e19b214f7761"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aed2c6635159a04fc20cc0c5a5398cf63" id="r_aed2c6635159a04fc20cc0c5a5398cf63"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01017.html#aed2c6635159a04fc20cc0c5a5398cf63">lumex::core::base64::codec::detail::_is_base64_char_impl</a> (<a class="el" href="a01015.html#a5e9a9660b44f2279e84d63cbdb62ffd1">Types::byte_type</a> chr) noexcept</td></tr>
+<tr class="memdesc:aed2c6635159a04fc20cc0c5a5398cf63"><td class="mdescLeft">&#160;</td><td class="mdescRight">Internal helper to check if a character is a valid Base64 <em>alphabet</em> character. This excludes the padding '=' character.  <br /></td></tr>
+<tr class="separator:aed2c6635159a04fc20cc0c5a5398cf63"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abda97488987b0b151816d6cc1ee24873" id="r_abda97488987b0b151816d6cc1ee24873"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
+<tr class="memitem:abda97488987b0b151816d6cc1ee24873"><td class="memTemplItemLeft" align="right" valign="top">std::string&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01017.html#abda97488987b0b151816d6cc1ee24873">lumex::core::base64::codec::detail::_encode_impl</a> (T const &amp;data_view)</td></tr>
+<tr class="memdesc:abda97488987b0b151816d6cc1ee24873"><td class="mdescLeft">&#160;</td><td class="mdescRight">Internal helper to encode binary data into a Base64 string from a view-like type.  <br /></td></tr>
+<tr class="separator:abda97488987b0b151816d6cc1ee24873"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a310994bff0f37c34e998e64ccd0d9b4a" id="r_a310994bff0f37c34e998e64ccd0d9b4a"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="a01015.html#a5e9a9660b44f2279e84d63cbdb62ffd1">Types::byte_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01016.html#a310994bff0f37c34e998e64ccd0d9b4a">lumex::core::base64::codec::Constants::kBase64DecodeInvalidChar</a> = 0xFF</td></tr>
+<tr class="separator:a310994bff0f37c34e998e64ccd0d9b4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aecebd7ba4ffe04b988126e41c33ecfea" id="r_aecebd7ba4ffe04b988126e41c33ecfea"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="a01015.html#a5e9a9660b44f2279e84d63cbdb62ffd1">Types::byte_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01016.html#aecebd7ba4ffe04b988126e41c33ecfea">lumex::core::base64::codec::Constants::kBase64MaskSixBits</a> = 0x3F</td></tr>
+<tr class="separator:aecebd7ba4ffe04b988126e41c33ecfea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0d133094b5ed0ee9e698035e63daae7f" id="r_a0d133094b5ed0ee9e698035e63daae7f"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="a01015.html#a5e9a9660b44f2279e84d63cbdb62ffd1">Types::byte_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01016.html#a0d133094b5ed0ee9e698035e63daae7f">lumex::core::base64::codec::Constants::kBase64MaskFourBits</a> = 0x0F</td></tr>
+<tr class="separator:a0d133094b5ed0ee9e698035e63daae7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abfd68edd3c78816eef9e59ff829ee8f4" id="r_abfd68edd3c78816eef9e59ff829ee8f4"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="a01015.html#a5e9a9660b44f2279e84d63cbdb62ffd1">Types::byte_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01016.html#abfd68edd3c78816eef9e59ff829ee8f4">lumex::core::base64::codec::Constants::kBase64MaskTwoBits</a> = 0x03</td></tr>
+<tr class="separator:abfd68edd3c78816eef9e59ff829ee8f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a71b364fecb88ca9458896d44cb1be5d5" id="r_a71b364fecb88ca9458896d44cb1be5d5"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="a01015.html#a5e9a9660b44f2279e84d63cbdb62ffd1">Types::byte_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01016.html#a71b364fecb88ca9458896d44cb1be5d5">lumex::core::base64::codec::Constants::kBase64RightShiftSixBits</a> = 0x06</td></tr>
+<tr class="separator:a71b364fecb88ca9458896d44cb1be5d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9d7e600219f0ee2a9f913871d1ebb0b4" id="r_a9d7e600219f0ee2a9f913871d1ebb0b4"><td class="memItemLeft" align="right" valign="top">std::array&lt; char, 64 &gt; const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01017.html#a9d7e600219f0ee2a9f913871d1ebb0b4">lumex::core::base64::codec::detail::_base64_chars</a></td></tr>
+<tr class="memdesc:a9d7e600219f0ee2a9f913871d1ebb0b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Base64 alphabet.  <br /></td></tr>
+<tr class="separator:a9d7e600219f0ee2a9f913871d1ebb0b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1532c566da2e92bae3b58e0ad551ef7e" id="r_a1532c566da2e92bae3b58e0ad551ef7e"><td class="memItemLeft" align="right" valign="top">std::array&lt; <a class="el" href="a01015.html#a5e9a9660b44f2279e84d63cbdb62ffd1">Types::byte_type</a>, 256 &gt; const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01017.html#a1532c566da2e92bae3b58e0ad551ef7e">lumex::core::base64::codec::detail::_decode_table</a></td></tr>
+<tr class="memdesc:a1532c566da2e92bae3b58e0ad551ef7e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decode table - maps ASCII chars to <a class="el" href="a01013.html" title="Provides Base64 decoding functionalities.">base64</a> values.  <br /></td></tr>
+<tr class="separator:a1532c566da2e92bae3b58e0ad551ef7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Defines the <a class="el" href="#a6421e7685cc78f63f88346b58e913910" title="Alias for lumex::core::environment::LumexEnvironment.">LumexEnvironment</a> class for cross-platform environment variable management. </p>
-<p>This header provides the declaration for the <a class="el" href="#a6421e7685cc78f63f88346b58e913910" title="Alias for lumex::core::environment::LumexEnvironment.">LumexEnvironment</a> class, which offers a unified, thread-safe, and exception-safe interface for interacting with system environment variables across different operating systems (Windows, Linux, macOS). It utilizes design patterns like Singleton and Strategy to ensure a robust and flexible architecture. </p>
-</div><h2 class="groupheader">Typedef Documentation</h2>
-<a id="a6421e7685cc78f63f88346b58e913910" name="a6421e7685cc78f63f88346b58e913910"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6421e7685cc78f63f88346b58e913910">&#9670;&#160;</a></span>LumexEnvironment</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="#a6421e7685cc78f63f88346b58e913910">LumexEnvironment</a> = <a class="el" href="a01790.html">lumex::core::environment::env::LumexEnvironment</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Alias for lumex::core::environment::LumexEnvironment. </p>
-<p>This using declaration simplifies the usage of the <a class="el" href="#a6421e7685cc78f63f88346b58e913910" title="Alias for lumex::core::environment::LumexEnvironment.">LumexEnvironment</a> class by allowing it to be referred to without its full namespace qualification. </p>
-
-</div>
-</div>
-</div><!-- contents -->
+<div class="textblock"><p>Cross-platform Base64 encoding and decoding utilities. </p>
+<dl class="section see"><dt>See also</dt><dd><a href="https://en.wikipedia.org/wiki/Base64">https://en.wikipedia.org/wiki/Base64</a> </dd>
+<dd>
+<a href="https://renenyffenegger.ch/notes/development/Base64/Encoding-and-decoding-base-64-with-cpp/">https://renenyffenegger.ch/notes/development/Base64/Encoding-and-decoding-base-64-with-cpp/</a></dd></dl>
+<p>This header provides a set of functions for converting binary data to its Base64 string representation and vice versa. The implementation adheres to standard Base64 principles, suitable for various data serialization and transmission needs. It supports encoding from raw pointers or <code>std::vector&lt;byte&gt;</code> and decoding into <code>std::vector&lt;byte&gt;</code>.</p>
+<p>IMPORTANT: If the user wants to encode/decode text in a specific encoding, the task of converting this encoding (e.g., from UTF-8 to UTF-16 or vice versa, or from std::wstring to UTF-8 bytes) must be solved before calling the Base64 encoding functions and after calling the Base64 decoding functions. This is a separate layer of logic that should not be part of the Base64 library itself. Base64 is a low-level utility for bytes. </p>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_11061250c6f9b78e671467056317b947.html">environment</a></li><li class="navelem"><a class="el" href="dir_74ef07624c3093f5dc0ef86dcc133c5f.html">env</a></li><li class="navelem"><a class="el" href="a00206.html">LumexEnvironment.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_8c8b73b6e18afab83ac8ebfe214770ca.html">base64</a></li><li class="navelem"><a class="el" href="dir_a1911271627da583236aa920db48064a.html">codec</a></li><li class="navelem"><a class="el" href="a00206.html">Base64.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

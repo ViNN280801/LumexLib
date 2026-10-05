@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexMath.hpp File Reference</title>
+<title>LumexLib: Unexpected.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -105,219 +105,80 @@ $(function(){initNavTree('a00287.html',''); initResizable(true); });
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
-<a href="#namespaces">Namespaces</a> &#124;
-<a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">LumexMath.hpp File Reference</div></div>
+<a href="#namespaces">Namespaces</a>  </div>
+  <div class="headertitle"><div class="title">Unexpected.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Numeric helpers: NaN/Inf checks, checked narrowing casts, distance, squared difference, and range-based avg/rms/rmse.  
+<p><code><a class="el" href="a04037.html" title="Wrapper that holds an error value for Expected.">Unexpected</a></code>, the wrapper that carries an error into an <code><a class="el" href="a04049.html" title="Class that mimics std::expected from C++23.">Expected</a></code>; an analogue of C++23 <code>std::unexpected</code>.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;cmath&gt;</code><br />
-<code>#include &lt;cstddef&gt;</code><br />
-<code>#include &lt;cstdint&gt;</code><br />
-<code>#include &lt;iterator&gt;</code><br />
-<code>#include &lt;limits&gt;</code><br />
-<code>#include &lt;sstream&gt;</code><br />
-<code>#include &lt;stdexcept&gt;</code><br />
-<code>#include &lt;string&gt;</code><br />
-<code>#include &lt;type_traits&gt;</code><br />
-<code>#include &lt;utility&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00353_source.html">lumex/core/utility/attr/LumexAttributes.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00368_source.html">lumex/core/utility/compiler/LumexCheckFeatures.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00386_source.html">lumex/core/utility/macros/LumexExceptionMacros.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00389_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &lt;utility&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for LumexMath.hpp:</div>
+Include dependency graph for Unexpected.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00288.png" border="0" usemap="#a_lumex_math_8hpp" alt=""/></div>
+<div class="center"><img src="a00288.png" border="0" usemap="#a_unexpected_8hpp" alt=""/></div>
+<map name="a_unexpected_8hpp" id="a_unexpected_8hpp">
+<area shape="rect" title="Unexpected, the wrapper that carries an error into an Expected; an analogue of C++23 std::unexpected." alt="" coords="5,5,122,32"/>
+<area shape="rect" title=" " alt="" coords="37,80,90,107"/>
+<area shape="poly" title=" " alt="" coords="66,33,66,64,61,64,61,33"/>
+</map>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00289.png" border="0" usemap="#a_lumex_math_8hppdep" alt=""/></div>
+<div class="center"><img src="a00289.png" border="0" usemap="#a_unexpected_8hppdep" alt=""/></div>
+<map name="a_unexpected_8hppdep" id="a_unexpected_8hppdep">
+<area shape="rect" title="Unexpected, the wrapper that carries an error into an Expected; an analogue of C++23 std::unexpected." alt="" coords="97,5,213,32"/>
+<area shape="rect" href="a00908.html" title="Expected module: Expected&lt;T, E&gt;, a value or an error after the C++23 std::expected,..." alt="" coords="149,304,225,331"/>
+<area shape="poly" title=" " alt="" coords="158,47,163,140,175,256,186,303,181,304,170,256,157,140,153,48"/>
+<area shape="rect" href="a00290.html" title="Expected&lt;SuccessType, ErrorType&gt;, an analogue of C++23 std::expected usable from C++11,..." alt="" coords="179,80,280,107"/>
+<area shape="poly" title=" " alt="" coords="181,41,219,78,215,82,177,45"/>
+<area shape="rect" href="a00488.html" title=" " alt="" coords="5,379,161,405"/>
+<area shape="poly" title=" " alt="" coords="158,342,103,380,100,376,155,337"/>
+<area shape="rect" href="a00491.html" title=" " alt="" coords="184,379,398,405"/>
+<area shape="poly" title=" " alt="" coords="219,337,274,376,271,380,216,342"/>
+<area shape="poly" title=" " alt="" coords="210,120,198,137,190,155,181,197,180,238,187,303,182,304,175,239,176,196,184,154,193,134,205,117"/>
+<area shape="rect" href="a00296.html" title="The specialization Expected&lt;void, ErrorType&gt; for operations that succeed without a value; an analogue..." alt="" coords="198,155,325,181"/>
+<area shape="poly" title=" " alt="" coords="244,120,259,153,254,155,239,122"/>
+<area shape="rect" href="a00299.html" title="The return markers success() and failure() for functions that return an Expected." alt="" coords="250,229,386,256"/>
+<area shape="poly" title=" " alt="" coords="288,111,316,128,339,153,345,173,343,195,328,230,323,228,337,193,339,174,334,156,313,132,286,116"/>
+<area shape="poly" title=" " alt="" coords="251,196,196,305,191,302,246,194"/>
+<area shape="poly" title=" " alt="" coords="283,192,310,227,306,231,279,195"/>
+<area shape="poly" title=" " alt="" coords="283,266,211,306,209,301,280,262"/>
+</map>
 </div>
 </div>
 <p><a href="a00287_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02166.html">lumex::core::math::ops::LumexMathSizeMismatchException</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Thrown by the two-range <code>rms</code> / <code>rmse</code> when the ranges have different lengths, one of them empty included. Derives from <code>std::invalid_argument</code>, so handlers of that type still catch it.  <a href="a02166.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01921.html">lumex::core::expected::error::Unexpected&lt; ErrorType &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wrapper that holds an error value for <code><a class="el" href="a04049.html" title="Class that mimics std::expected from C++23.">Expected</a></code>.  <a href="a01921.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02170.html">lumex::core::math::ops::traits::is_numeric&lt; T &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A "real" numeric type: any integral type except <code>bool</code>, or any floating-point type (cv-qualifiers ignored).  <a href="a02170.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02174.html">lumex::core::math::ops::Detail::voider&lt;... &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02178.html">lumex::core::math::ops::Detail::range_object&lt; Range &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>Range</code> without reference, as the lvalue the functions iterate.  <a href="a02178.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02182.html">lumex::core::math::ops::Detail::is_numeric_range&lt; Range, typename &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">True when <code>Range</code> can be iterated as an lvalue and its elements decay to a numeric type.  <a href="a02182.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02186.html">lumex::core::math::ops::Detail::is_numeric_range&lt; Range, typename voider&lt; decltype(adl_begin(std::declval&lt; typename range_object&lt; Range &gt;::type &amp; &gt;()) !=adl_end(std::declval&lt; typename range_object&lt; Range &gt;::type &amp; &gt;())), decltype(++std::declval&lt; decltype(adl_begin(std::declval&lt; typename range_object&lt; Range &gt;::type &amp; &gt;())) &amp; &gt;()), decltype(*adl_begin(std::declval&lt; typename range_object&lt; Range &gt;::type &amp; &gt;()))&gt;::type &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02190.html">lumex::core::math::ops::Detail::numeric_range_value&lt; Range, bool &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The element type of a numeric range; no <code>type</code> otherwise, so it can sit in a return type for SFINAE.  <a href="a02190.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02194.html">lumex::core::math::ops::Detail::numeric_range_value&lt; Range, true &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02198.html">lumex::core::math::ops::Detail::sqrt_result&lt; T &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>std::sqrt</code>'s result type for <code>T</code> (double for an integral <code>T</code>).  <a href="a02198.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02202.html">lumex::core::math::ops::Detail::numeric_common&lt; T, U, bool &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>std::common_type</code> of two numeric types; no <code>type</code> otherwise.  <a href="a02202.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02206.html">lumex::core::math::ops::Detail::numeric_common&lt; T, U, true &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02210.html">lumex::core::math::ops::Detail::difference_type&lt; T, U, bool &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type <code>a - b</code> has in the common type of T and U (promoted, so <code>short - short</code> is <code>int</code>); no <code>type</code> unless both are numeric.  <a href="a02210.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02214.html">lumex::core::math::ops::Detail::difference_type&lt; T, U, true &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02218.html">lumex::core::math::ops::Detail::integral_distance&lt; T, U, bool &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Result type of <code>distance</code> for two integers; no <code>type</code> otherwise. Every trait here stays SFINAE-friendly for any argument type, so an unqualified <code>distance (it1, it2)</code> next to <code>using namespace ops</code> still finds <code>std::distance</code>.  <a href="a02218.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02222.html">lumex::core::math::ops::Detail::integral_distance&lt; T, U, true &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02226.html">lumex::core::math::ops::Detail::floating_distance&lt; T, U, bool &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Result type of <code>distance</code> with a floating-point operand; no <code>type</code> otherwise.  <a href="a02226.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02230.html">lumex::core::math::ops::Detail::floating_distance&lt; T, U, true &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02234.html">lumex::core::math::ops::Detail::range_pair_result&lt; Range1, Range2, bool &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>sqrt</code> result type of the common element type of two numeric ranges; no <code>type</code> otherwise.  <a href="a02234.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02238.html">lumex::core::math::ops::Detail::range_pair_result&lt; Range1, Range2, true &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02242.html">lumex::core::math::ops::Detail::range_scalar_result&lt; Range, Scalar, bool &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>sqrt</code> result type of a numeric range's elements combined with a numeric scalar; no <code>type</code> otherwise.  <a href="a02242.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02246.html">lumex::core::math::ops::Detail::range_scalar_result&lt; Range, Scalar, true &gt;</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04037.html">Unexpected&lt; ErrorType &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wrapper that holds an error value for <code><a class="el" href="a04049.html" title="Class that mimics std::expected from C++23.">Expected</a></code>.  <a href="a04037.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00912.html">lumex</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00948.html">lumex</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00964.html">lumex::core</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01005.html">lumex::core</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01011.html">lumex::core::math</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01041.html">lumex::core::expected</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01012.html">lumex::core::math::ops</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01042.html">lumex::core::expected::error</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01013.html">lumex::core::math::ops::traits</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01014.html">lumex::core::math::ops::Detail</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:abdf8ed32a58d7ef1884b0e2eb69e139b" id="r_abdf8ed32a58d7ef1884b0e2eb69e139b"><td class="memTemplParams" colspan="2">template&lt;typename Range&gt; </td></tr>
-<tr class="memitem:abdf8ed32a58d7ef1884b0e2eb69e139b"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01014.html#abdf8ed32a58d7ef1884b0e2eb69e139b">lumex::core::math::ops::Detail::adl_begin</a> (Range &amp;range) -&gt; decltype(begin(range))</td></tr>
-<tr class="memdesc:abdf8ed32a58d7ef1884b0e2eb69e139b"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>begin (range)</code> with <code>std::begin</code> and ADL, as a range-for does.  <br /></td></tr>
-<tr class="separator:abdf8ed32a58d7ef1884b0e2eb69e139b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a39800dfb129ce7e0f3b8520f0e8ce977" id="r_a39800dfb129ce7e0f3b8520f0e8ce977"><td class="memTemplParams" colspan="2">template&lt;typename Range&gt; </td></tr>
-<tr class="memitem:a39800dfb129ce7e0f3b8520f0e8ce977"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01014.html#a39800dfb129ce7e0f3b8520f0e8ce977">lumex::core::math::ops::Detail::adl_end</a> (Range &amp;range) -&gt; decltype(end(range))</td></tr>
-<tr class="memdesc:a39800dfb129ce7e0f3b8520f0e8ce977"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>end (range)</code> with <code>std::end</code> and ADL, as a range-for does.  <br /></td></tr>
-<tr class="separator:a39800dfb129ce7e0f3b8520f0e8ce977"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab02125f45f18a96bf33bfb97c10bc6b6" id="r_ab02125f45f18a96bf33bfb97c10bc6b6"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
-<tr class="memitem:ab02125f45f18a96bf33bfb97c10bc6b6"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01014.html#ab02125f45f18a96bf33bfb97c10bc6b6">lumex::core::math::ops::Detail::print_number</a> (std::ostream &amp;os, T value)</td></tr>
-<tr class="memdesc:ab02125f45f18a96bf33bfb97c10bc6b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints a value as a number: the unary plus promotes character types, so they print their code, not a glyph.  <br /></td></tr>
-<tr class="separator:ab02125f45f18a96bf33bfb97c10bc6b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a251e77cb9662dd8266b1d6c1ba9589c9" id="r_a251e77cb9662dd8266b1d6c1ba9589c9"><td class="memTemplParams" colspan="2">template&lt;typename A, typename B&gt; </td></tr>
-<tr class="memitem:a251e77cb9662dd8266b1d6c1ba9589c9"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01014.html#a251e77cb9662dd8266b1d6c1ba9589c9">lumex::core::math::ops::Detail::cmp_less</a> (A a, B b, std::integral_constant&lt; int, 0 &gt;)</td></tr>
-<tr class="memdesc:a251e77cb9662dd8266b1d6c1ba9589c9"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>a &lt; b</code> for two integers of any signedness, without the usual arithmetic conversions turning a negative value into a huge unsigned one (C++20 <code>std::cmp_less</code>).  <br /></td></tr>
-<tr class="separator:a251e77cb9662dd8266b1d6c1ba9589c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad5584fe84ef9cc56ae2358c0461ab4a0" id="r_ad5584fe84ef9cc56ae2358c0461ab4a0"><td class="memTemplParams" colspan="2">template&lt;typename A, typename B&gt; </td></tr>
-<tr class="memitem:ad5584fe84ef9cc56ae2358c0461ab4a0"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01014.html#ad5584fe84ef9cc56ae2358c0461ab4a0">lumex::core::math::ops::Detail::cmp_less</a> (A a, B b, std::integral_constant&lt; int, 1 &gt;)</td></tr>
-<tr class="separator:ad5584fe84ef9cc56ae2358c0461ab4a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae404069b4af30ea78aa85553754f613b" id="r_ae404069b4af30ea78aa85553754f613b"><td class="memTemplParams" colspan="2">template&lt;typename A, typename B&gt; </td></tr>
-<tr class="memitem:ae404069b4af30ea78aa85553754f613b"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01014.html#ae404069b4af30ea78aa85553754f613b">lumex::core::math::ops::Detail::cmp_less</a> (A a, B b, std::integral_constant&lt; int, 2 &gt;)</td></tr>
-<tr class="separator:ae404069b4af30ea78aa85553754f613b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a58c65dc1b9f60791429b467d17666bee" id="r_a58c65dc1b9f60791429b467d17666bee"><td class="memTemplParams" colspan="2">template&lt;typename A, typename B&gt; </td></tr>
-<tr class="memitem:a58c65dc1b9f60791429b467d17666bee"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01014.html#a58c65dc1b9f60791429b467d17666bee">lumex::core::math::ops::Detail::cmp_less</a> (A a, B b, std::integral_constant&lt; int, 3 &gt;)</td></tr>
-<tr class="separator:a58c65dc1b9f60791429b467d17666bee"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5d655277fb34121a733a1c0c9fbd42fe" id="r_a5d655277fb34121a733a1c0c9fbd42fe"><td class="memTemplParams" colspan="2">template&lt;typename A, typename B&gt; </td></tr>
-<tr class="memitem:a5d655277fb34121a733a1c0c9fbd42fe"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01014.html#a5d655277fb34121a733a1c0c9fbd42fe">lumex::core::math::ops::Detail::cmp_less</a> (A a, B b)</td></tr>
-<tr class="separator:a5d655277fb34121a733a1c0c9fbd42fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3502a023a6571d1aa9955e571d05724c" id="r_a3502a023a6571d1aa9955e571d05724c"><td class="memTemplParams" colspan="2">template&lt;typename Target, typename Source&gt; </td></tr>
-<tr class="memitem:a3502a023a6571d1aa9955e571d05724c"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01014.html#a3502a023a6571d1aa9955e571d05724c">lumex::core::math::ops::Detail::fits</a> (Source value, std::true_type, std::true_type)</td></tr>
-<tr class="memdesc:a3502a023a6571d1aa9955e571d05724c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Integral source, integral target: exact comparison.  <br /></td></tr>
-<tr class="separator:a3502a023a6571d1aa9955e571d05724c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a07e6deea417237e89ab691949f9dc9db" id="r_a07e6deea417237e89ab691949f9dc9db"><td class="memTemplParams" colspan="2">template&lt;typename Target, typename Source&gt; </td></tr>
-<tr class="memitem:a07e6deea417237e89ab691949f9dc9db"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01014.html#a07e6deea417237e89ab691949f9dc9db">lumex::core::math::ops::Detail::fits</a> (Source value, std::false_type, std::true_type)</td></tr>
-<tr class="memdesc:a07e6deea417237e89ab691949f9dc9db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Floating-point source, integral target. The bounds are compared in <code>long double</code>, which is only <code>double</code> on MSVC: the maximum of a 64-bit target rounds up to 2^63 / 2^64 there, so the exclusive power-of-two bound <code>2^digits</code> (exact in any binary floating type) is checked as well. The lowest value (0 or -2^digits) is always exact.  <br /></td></tr>
-<tr class="separator:a07e6deea417237e89ab691949f9dc9db"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2a139d6b365662614852f1318c6ea5b3" id="r_a2a139d6b365662614852f1318c6ea5b3"><td class="memTemplParams" colspan="2">template&lt;typename Target, typename Source, typename SourceIsIntegral&gt; </td></tr>
-<tr class="memitem:a2a139d6b365662614852f1318c6ea5b3"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01014.html#a2a139d6b365662614852f1318c6ea5b3">lumex::core::math::ops::Detail::fits</a> (Source value, SourceIsIntegral, std::false_type)</td></tr>
-<tr class="memdesc:a2a139d6b365662614852f1318c6ea5b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Floating-point target: compare against its finite range.  <br /></td></tr>
-<tr class="separator:a2a139d6b365662614852f1318c6ea5b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ade0e34f98cff83fb7a018f3243ff5195" id="r_ade0e34f98cff83fb7a018f3243ff5195"><td class="memTemplParams" colspan="2">template&lt;typename Source, typename Name&gt; </td></tr>
-<tr class="memitem:ade0e34f98cff83fb7a018f3243ff5195"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01014.html#ade0e34f98cff83fb7a018f3243ff5195">lumex::core::math::ops::Detail::throw_if_not_finite</a> (Source value, Name const &amp;fieldName, std::true_type)</td></tr>
-<tr class="separator:ade0e34f98cff83fb7a018f3243ff5195"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa37d4508b8891f0fe8bb8de71b0a5829" id="r_aa37d4508b8891f0fe8bb8de71b0a5829"><td class="memTemplParams" colspan="2">template&lt;typename Source, typename Name&gt; </td></tr>
-<tr class="memitem:aa37d4508b8891f0fe8bb8de71b0a5829"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01014.html#aa37d4508b8891f0fe8bb8de71b0a5829">lumex::core::math::ops::Detail::throw_if_not_finite</a> (Source, Name const &amp;, std::false_type)</td></tr>
-<tr class="separator:aa37d4508b8891f0fe8bb8de71b0a5829"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a09a7814d770820120d778770c90575e0" id="r_a09a7814d770820120d778770c90575e0"><td class="memTemplParams" colspan="2">template&lt;typename It1, typename End1, typename It2, typename End2&gt; </td></tr>
-<tr class="memitem:a09a7814d770820120d778770c90575e0"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01014.html#a09a7814d770820120d778770c90575e0">lumex::core::math::ops::Detail::require_same_size</a> (char const *function, It1 &amp;it1, End1 const &amp;last1, It2 &amp;it2, End2 const &amp;last2, std::size_t count)</td></tr>
-<tr class="memdesc:a09a7814d770820120d778770c90575e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called after a lockstep pass over two ranges that consumed <code>count</code> elements of each: throws <a class="el" href="a02166.html" title="Thrown by the two-range rms / rmse when the ranges have different lengths, one of them empty included...">LumexMathSizeMismatchException</a> unless both ranges are exhausted. Counts what is left, so the message carries both lengths.  <br /></td></tr>
-<tr class="separator:a09a7814d770820120d778770c90575e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acab500b6094965f38491c932461b6f03" id="r_acab500b6094965f38491c932461b6f03"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
-<tr class="memitem:acab500b6094965f38491c932461b6f03"><td class="memTemplItemLeft" align="right" valign="top">constexpr std::enable_if&lt; std::is_floating_point&lt; T &gt;::value, bool &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01012.html#acab500b6094965f38491c932461b6f03">lumex::core::math::ops::is_nan_inf</a> (T value) noexcept(noexcept(std::isnan(value)) &amp;&amp;noexcept(std::isinf(value)))</td></tr>
-<tr class="memdesc:acab500b6094965f38491c932461b6f03"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks whether a floating-point value is NaN or +-Infinity.  <br /></td></tr>
-<tr class="separator:acab500b6094965f38491c932461b6f03"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa1b6ddc9ee41c9002fed87698f0b5bea" id="r_aa1b6ddc9ee41c9002fed87698f0b5bea"><td class="memTemplParams" colspan="2">template&lt;typename SourceType, typename TargetType, typename Name&gt; </td></tr>
-<tr class="memitem:aa1b6ddc9ee41c9002fed87698f0b5bea"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; <a class="el" href="a02170.html">traits::is_numeric</a>&lt; SourceType &gt;::value &amp;&amp;<a class="el" href="a02170.html">traits::is_numeric</a>&lt; TargetType &gt;::value, TargetType &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01012.html#aa1b6ddc9ee41c9002fed87698f0b5bea">lumex::core::math::ops::checked_narrow_cast</a> (SourceType sourceValue, Name const &amp;fieldName)</td></tr>
-<tr class="memdesc:aa1b6ddc9ee41c9002fed87698f0b5bea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Casts <code>sourceValue</code> to <code>TargetType</code>, throwing if the value is non-finite (for a floating-point source) or does not fit in <code>TargetType</code>'s range.  <br /></td></tr>
-<tr class="separator:aa1b6ddc9ee41c9002fed87698f0b5bea"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0fd1a5acf2f1fed8edeee1309059b06f" id="r_a0fd1a5acf2f1fed8edeee1309059b06f"><td class="memTemplParams" colspan="2">template&lt;typename T, typename U&gt; </td></tr>
-<tr class="memitem:a0fd1a5acf2f1fed8edeee1309059b06f"><td class="memTemplItemLeft" align="right" valign="top">constexpr <a class="el" href="a02218.html">Detail::integral_distance</a>&lt; T, U &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01012.html#a0fd1a5acf2f1fed8edeee1309059b06f">lumex::core::math::ops::distance</a> (T a, U b)</td></tr>
-<tr class="memdesc:a0fd1a5acf2f1fed8edeee1309059b06f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Absolute difference |a - b| of two integers, computed without an intermediate signed underflow for unsigned types.  <br /></td></tr>
-<tr class="separator:a0fd1a5acf2f1fed8edeee1309059b06f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac4e65329fd62e20e0a438c07981e46a3" id="r_ac4e65329fd62e20e0a438c07981e46a3"><td class="memTemplParams" colspan="2">template&lt;typename T, typename U&gt; </td></tr>
-<tr class="memitem:ac4e65329fd62e20e0a438c07981e46a3"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="a02226.html">Detail::floating_distance</a>&lt; T, U &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01012.html#ac4e65329fd62e20e0a438c07981e46a3">lumex::core::math::ops::distance</a> (T a, U b)</td></tr>
-<tr class="memdesc:ac4e65329fd62e20e0a438c07981e46a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Overload for at least one floating-point operand: <code>std::abs</code> of the difference in the common type.  <br /></td></tr>
-<tr class="separator:ac4e65329fd62e20e0a438c07981e46a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8c77830600ff2261070b9e599fdfe916" id="r_a8c77830600ff2261070b9e599fdfe916"><td class="memTemplParams" colspan="2">template&lt;typename T, typename U&gt; </td></tr>
-<tr class="memitem:a8c77830600ff2261070b9e599fdfe916"><td class="memTemplItemLeft" align="right" valign="top">constexpr <a class="el" href="a02210.html">Detail::difference_type</a>&lt; T, U &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01012.html#a8c77830600ff2261070b9e599fdfe916">lumex::core::math::ops::squared_difference</a> (T a, U b)</td></tr>
-<tr class="memdesc:a8c77830600ff2261070b9e599fdfe916"><td class="mdescLeft">&#160;</td><td class="mdescRight">(a - b)^2, computed in the common type of a and b (promoted, so two <code>short</code> operands give an <code>int</code>).  <br /></td></tr>
-<tr class="separator:a8c77830600ff2261070b9e599fdfe916"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a795166387deab30bf98b02619bca5c5b" id="r_a795166387deab30bf98b02619bca5c5b"><td class="memTemplParams" colspan="2">template&lt;typename Range&gt; </td></tr>
-<tr class="memitem:a795166387deab30bf98b02619bca5c5b"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="a02190.html">Detail::numeric_range_value</a>&lt; Range &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01012.html#a795166387deab30bf98b02619bca5c5b">lumex::core::math::ops::avg</a> (Range &amp;&amp;range)</td></tr>
-<tr class="memdesc:a795166387deab30bf98b02619bca5c5b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Arithmetic mean of a range's elements, or <code>ValueType{0}</code> for an empty range.  <br /></td></tr>
-<tr class="separator:a795166387deab30bf98b02619bca5c5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aedd730aefea1cc3eb2e1d00c1c758bfd" id="r_aedd730aefea1cc3eb2e1d00c1c758bfd"><td class="memTemplParams" colspan="2">template&lt;typename Range, typename Predicate&gt; </td></tr>
-<tr class="memitem:aedd730aefea1cc3eb2e1d00c1c758bfd"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="a02190.html">Detail::numeric_range_value</a>&lt; Range &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01012.html#aedd730aefea1cc3eb2e1d00c1c758bfd">lumex::core::math::ops::avg</a> (Range &amp;&amp;range, Predicate predicate)</td></tr>
-<tr class="memdesc:aedd730aefea1cc3eb2e1d00c1c758bfd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Arithmetic mean of only the elements matching <code>predicate</code>, or <code>ValueType{0}</code> if none match (or the range is empty).  <br /></td></tr>
-<tr class="separator:aedd730aefea1cc3eb2e1d00c1c758bfd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab00c52837c8e1c0898a38c85a2cce753" id="r_ab00c52837c8e1c0898a38c85a2cce753"><td class="memTemplParams" colspan="2">template&lt;typename Range&gt; </td></tr>
-<tr class="memitem:ab00c52837c8e1c0898a38c85a2cce753"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="a02198.html">Detail::sqrt_result</a>&lt; typenameDetail::numeric_range_value&lt; Range &gt;::type &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01012.html#ab00c52837c8e1c0898a38c85a2cce753">lumex::core::math::ops::rms</a> (Range &amp;&amp;range)</td></tr>
-<tr class="memdesc:ab00c52837c8e1c0898a38c85a2cce753"><td class="mdescLeft">&#160;</td><td class="mdescRight">Root Mean Square of a range's elements, or <code>ResultType{0}</code> for an empty range.  <br /></td></tr>
-<tr class="separator:ab00c52837c8e1c0898a38c85a2cce753"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa5e20059c5304cd10fbb9e5d64d126fb" id="r_aa5e20059c5304cd10fbb9e5d64d126fb"><td class="memTemplParams" colspan="2">template&lt;typename Range1, typename Range2&gt; </td></tr>
-<tr class="memitem:aa5e20059c5304cd10fbb9e5d64d126fb"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="a02234.html">Detail::range_pair_result</a>&lt; Range1, Range2 &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01012.html#aa5e20059c5304cd10fbb9e5d64d126fb">lumex::core::math::ops::rms</a> (Range1 &amp;&amp;first, Range2 &amp;&amp;second)</td></tr>
-<tr class="memdesc:aa5e20059c5304cd10fbb9e5d64d126fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Root Mean Square of the element-wise product of two equally-sized ranges: sqrt( 1/N * sum (x_i * y_i) ). <code>ResultType{0}</code> if both ranges are empty.  <br /></td></tr>
-<tr class="separator:aa5e20059c5304cd10fbb9e5d64d126fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeb97b3e1f4e91081b5a15bc768abe7ea" id="r_aeb97b3e1f4e91081b5a15bc768abe7ea"><td class="memTemplParams" colspan="2">template&lt;typename Range, typename Scalar&gt; </td></tr>
-<tr class="memitem:aeb97b3e1f4e91081b5a15bc768abe7ea"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="a02242.html">Detail::range_scalar_result</a>&lt; Range, Scalar &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01012.html#aeb97b3e1f4e91081b5a15bc768abe7ea">lumex::core::math::ops::rmse</a> (Range &amp;&amp;range, Scalar const &amp;scalar)</td></tr>
-<tr class="memdesc:aeb97b3e1f4e91081b5a15bc768abe7ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Root Mean Squared Error of a range against a fixed scalar: sqrt( 1/N * sum (x_i - scalar)^2 ). <code>ResultType{0}</code> for an empty range.  <br /></td></tr>
-<tr class="separator:aeb97b3e1f4e91081b5a15bc768abe7ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad106a6fe4eee4867f98352f46de4259c" id="r_ad106a6fe4eee4867f98352f46de4259c"><td class="memTemplParams" colspan="2">template&lt;typename Range1, typename Range2&gt; </td></tr>
-<tr class="memitem:ad106a6fe4eee4867f98352f46de4259c"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="a02234.html">Detail::range_pair_result</a>&lt; Range1, Range2 &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01012.html#ad106a6fe4eee4867f98352f46de4259c">lumex::core::math::ops::rmse</a> (Range1 &amp;&amp;first, Range2 &amp;&amp;second)</td></tr>
-<tr class="memdesc:ad106a6fe4eee4867f98352f46de4259c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Root Mean Squared Error between two equally-sized ranges: sqrt( 1/N * sum (x_i - y_i)^2 ). <code>ResultType{0}</code> if both ranges are empty.  <br /></td></tr>
-<tr class="separator:ad106a6fe4eee4867f98352f46de4259c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Numeric helpers: NaN/Inf checks, checked narrowing casts, distance, squared difference, and range-based avg/rms/rmse. </p>
-<p>Works from C++11 on. A "range" is anything <code>begin (r)</code> / <code>end (r)</code> accept (found through <code>std::begin</code> / <code>std::end</code> or ADL): standard containers, C arrays, <code>std::initializer_list</code>, and from C++20 the <code>std::views</code> adaptors, including views that are not const-iterable (<code>std::views::filter</code>) and ranges whose end is a sentinel of another type. Every range is traversed once, so the range only needs input iterators. Numeric types are the integral types except <code>bool</code>, and the floating-point types; overloads outside that set do not take part in overload resolution (SFINAE). </p>
+<div class="textblock"><p><code><a class="el" href="a04037.html" title="Wrapper that holds an error value for Expected.">Unexpected</a></code>, the wrapper that carries an error into an <code><a class="el" href="a04049.html" title="Class that mimics std::expected from C++23.">Expected</a></code>; an analogue of C++23 <code>std::unexpected</code>. </p>
+<p>Constructing an <code><a class="el" href="a04049.html" title="Class that mimics std::expected from C++23.">Expected</a></code> from an <code><a class="el" href="a04037.html" title="Wrapper that holds an error value for Expected.">Unexpected</a>&lt;E&gt;</code> puts it in the error state, and <code>make_unexpected&lt;E&gt;()</code> of <code><a class="el" href="a00290.html" title="Expected&lt;SuccessType, ErrorType&gt;, an analogue of C++23 std::expected usable from C++11,...">Expected.hpp</a></code> builds one in place. Header-only, part of <code>lumex::expected</code> and usable from C++11; the class is also visible at global scope. </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_d223f57be190bde72e88025a46faedd4.html">math</a></li><li class="navelem"><a class="el" href="dir_8967a426ac10414a6a429edbae396974.html">ops</a></li><li class="navelem"><a class="el" href="a00287.html">LumexMath.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_91063fb91facb4308dc4edc779d408bb.html">expected</a></li><li class="navelem"><a class="el" href="dir_d137d0eb9968c5b308dad29829b7bf65.html">error</a></li><li class="navelem"><a class="el" href="a00287.html">Unexpected.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

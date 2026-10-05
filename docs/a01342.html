@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::core::crc::parametric::crc5_usb_spec_t Struct Reference</title>
+<title>LumexLib: Member List</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a01342.html',''); initResizable(true); });
+$(function(){initNavTree('a01345.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,223 +103,33 @@ $(function(){initNavTree('a01342.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="summary">
-<a href="#pub-types">Public Types</a> &#124;
-<a href="#pub-static-attribs">Static Public Attributes</a> &#124;
-<a href="a01339.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">lumex::core::crc::parametric::crc5_usb_spec_t Struct Reference</div></div>
+  <div class="headertitle"><div class="title">lumex::core::atomic::smart_ptr::lock_based_table_wait::Detail::LockBasedCell&lt; Pointer &gt; Member List</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>CRC-5/USB: width=5 poly=0x05 init=0x1f refin=true refout=true xorout=0x1f.  
- <a href="#details">More...</a></p>
-
-<p><code>#include &lt;<a class="el" href="a00200_source.html">LumexCrcParametric.hpp</a>&gt;</code></p>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
-Public Types</h2></td></tr>
-<tr class="memitem:a2e2f814c4581e355cf54817b88b22aa1" id="r_a2e2f814c4581e355cf54817b88b22aa1"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2e2f814c4581e355cf54817b88b22aa1">ValueType</a> = std::uint8_t</td></tr>
-<tr class="separator:a2e2f814c4581e355cf54817b88b22aa1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-attribs" name="pub-static-attribs"></a>
-Static Public Attributes</h2></td></tr>
-<tr class="memitem:aa1d026e761a42804ae3d572c45913b5d" id="r_aa1d026e761a42804ae3d572c45913b5d"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa1d026e761a42804ae3d572c45913b5d">kWidth</a> = 5</td></tr>
-<tr class="separator:aa1d026e761a42804ae3d572c45913b5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a45eeacf99abcfd7633033ce39bce87f1" id="r_a45eeacf99abcfd7633033ce39bce87f1"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a45eeacf99abcfd7633033ce39bce87f1">kPoly</a> = 0x05U</td></tr>
-<tr class="separator:a45eeacf99abcfd7633033ce39bce87f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7c0b0efb9622027982327a787ca9decf" id="r_a7c0b0efb9622027982327a787ca9decf"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7c0b0efb9622027982327a787ca9decf">kInit</a> = 0x1FU</td></tr>
-<tr class="separator:a7c0b0efb9622027982327a787ca9decf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac5d2399ab1b0b44562c72f5e389930a0" id="r_ac5d2399ab1b0b44562c72f5e389930a0"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITbool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac5d2399ab1b0b44562c72f5e389930a0">kRefIn</a> = true</td></tr>
-<tr class="separator:ac5d2399ab1b0b44562c72f5e389930a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a89d70b27739dc9de6b9c27446a5fde55" id="r_a89d70b27739dc9de6b9c27446a5fde55"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITbool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a89d70b27739dc9de6b9c27446a5fde55">kRefOut</a> = true</td></tr>
-<tr class="separator:a89d70b27739dc9de6b9c27446a5fde55"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3358dfbf8af2c3c8f0936142257759b8" id="r_a3358dfbf8af2c3c8f0936142257759b8"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3358dfbf8af2c3c8f0936142257759b8">kXorOut</a> = 0x1FU</td></tr>
-<tr class="separator:a3358dfbf8af2c3c8f0936142257759b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa72651ebbf203542caf9f7fa935cead4" id="r_aa72651ebbf203542caf9f7fa935cead4"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa72651ebbf203542caf9f7fa935cead4">kCatalogCheck</a> = 0x19U</td></tr>
-<tr class="separator:aa72651ebbf203542caf9f7fa935cead4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>CRC-5/USB: width=5 poly=0x05 init=0x1f refin=true refout=true xorout=0x1f. </p>
-<dl class="section see"><dt>See also</dt><dd><a href="https://reveng.sourceforge.io/crc-catalogue/all.htm">https://reveng.sourceforge.io/crc-catalogue/all.htm</a> - CRC-5/USB </dd></dl>
-</div><h2 class="groupheader">Member Typedef Documentation</h2>
-<a id="a2e2f814c4581e355cf54817b88b22aa1" name="a2e2f814c4581e355cf54817b88b22aa1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2e2f814c4581e355cf54817b88b22aa1">&#9670;&#160;</a></span>ValueType</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="#a2e2f814c4581e355cf54817b88b22aa1">lumex::core::crc::parametric::crc5_usb_spec_t::ValueType</a> = std::uint8_t</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<h2 class="groupheader">Member Data Documentation</h2>
-<a id="aa72651ebbf203542caf9f7fa935cead4" name="aa72651ebbf203542caf9f7fa935cead4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa72651ebbf203542caf9f7fa935cead4">&#9670;&#160;</a></span>kCatalogCheck</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constLUMEX_CONSTINITstd::uint8_t lumex::core::crc::parametric::crc5_usb_spec_t::kCatalogCheck = 0x19U</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a7c0b0efb9622027982327a787ca9decf" name="a7c0b0efb9622027982327a787ca9decf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7c0b0efb9622027982327a787ca9decf">&#9670;&#160;</a></span>kInit</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constLUMEX_CONSTINITstd::uint64_t lumex::core::crc::parametric::crc5_usb_spec_t::kInit = 0x1FU</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a45eeacf99abcfd7633033ce39bce87f1" name="a45eeacf99abcfd7633033ce39bce87f1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a45eeacf99abcfd7633033ce39bce87f1">&#9670;&#160;</a></span>kPoly</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constLUMEX_CONSTINITstd::uint64_t lumex::core::crc::parametric::crc5_usb_spec_t::kPoly = 0x05U</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ac5d2399ab1b0b44562c72f5e389930a0" name="ac5d2399ab1b0b44562c72f5e389930a0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac5d2399ab1b0b44562c72f5e389930a0">&#9670;&#160;</a></span>kRefIn</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constLUMEX_CONSTINITbool lumex::core::crc::parametric::crc5_usb_spec_t::kRefIn = true</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a89d70b27739dc9de6b9c27446a5fde55" name="a89d70b27739dc9de6b9c27446a5fde55"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a89d70b27739dc9de6b9c27446a5fde55">&#9670;&#160;</a></span>kRefOut</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constLUMEX_CONSTINITbool lumex::core::crc::parametric::crc5_usb_spec_t::kRefOut = true</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aa1d026e761a42804ae3d572c45913b5d" name="aa1d026e761a42804ae3d572c45913b5d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa1d026e761a42804ae3d572c45913b5d">&#9670;&#160;</a></span>kWidth</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constLUMEX_CONSTINITint lumex::core::crc::parametric::crc5_usb_spec_t::kWidth = 5</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a3358dfbf8af2c3c8f0936142257759b8" name="a3358dfbf8af2c3c8f0936142257759b8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3358dfbf8af2c3c8f0936142257759b8">&#9670;&#160;</a></span>kXorOut</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constLUMEX_CONSTINITstd::uint64_t lumex::core::crc::parametric::crc5_usb_spec_t::kXorOut = 0x1FU</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<hr/>The documentation for this struct was generated from the following file:<ul>
-<li><a class="el" href="a00200_source.html">LumexCrcParametric.hpp</a></li>
-</ul>
-</div><!-- contents -->
+<p>This is the complete list of members for <a class="el" href="a01345.html">lumex::core::atomic::smart_ptr::lock_based_table_wait::Detail::LockBasedCell&lt; Pointer &gt;</a>, including all inherited members.</p>
+<table class="directory">
+  <tr class="even"><td class="entry"><a class="el" href="a01345.html#a4d11c8b99a8cea56d7fc0f88a06ac591">compare_exchange_strong</a>(Pointer &amp;expected, Pointer desired, std::memory_order, std::memory_order) noexcept</td><td class="entry"><a class="el" href="a01345.html">lumex::core::atomic::smart_ptr::lock_based_table_wait::Detail::LockBasedCell&lt; Pointer &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a01345.html#ab2b9593bee1075863ba0070272785f82">compare_exchange_strong</a>(Pointer &amp;expected, Pointer desired, std::memory_order) noexcept</td><td class="entry"><a class="el" href="a01345.html">lumex::core::atomic::smart_ptr::lock_based_table_wait::Detail::LockBasedCell&lt; Pointer &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a01345.html#ab8399fb627d542be121040701e9e714b">compare_exchange_weak</a>(Pointer &amp;expected, Pointer desired, std::memory_order, std::memory_order) noexcept</td><td class="entry"><a class="el" href="a01345.html">lumex::core::atomic::smart_ptr::lock_based_table_wait::Detail::LockBasedCell&lt; Pointer &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a01345.html#ab474b17442fa612c05371573da91ef23">compare_exchange_weak</a>(Pointer &amp;expected, Pointer desired, std::memory_order) noexcept</td><td class="entry"><a class="el" href="a01345.html">lumex::core::atomic::smart_ptr::lock_based_table_wait::Detail::LockBasedCell&lt; Pointer &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a01345.html#ad3296fa41a0bbf3f268307882b4a2dc9">exchange</a>(Pointer desired, std::memory_order) noexcept</td><td class="entry"><a class="el" href="a01345.html">lumex::core::atomic::smart_ptr::lock_based_table_wait::Detail::LockBasedCell&lt; Pointer &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a01345.html#ab78590febec49addfc4913dc474b53f9">is_always_lock_free</a></td><td class="entry"><a class="el" href="a01345.html">lumex::core::atomic::smart_ptr::lock_based_table_wait::Detail::LockBasedCell&lt; Pointer &gt;</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a01345.html#a32894ed6a94fb3a3f8e3c7ef3f968358">is_lock_free</a>() const noexcept</td><td class="entry"><a class="el" href="a01345.html">lumex::core::atomic::smart_ptr::lock_based_table_wait::Detail::LockBasedCell&lt; Pointer &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a01345.html#aa894bf236729021fa592e19be1000257">load</a>(std::memory_order) const noexcept</td><td class="entry"><a class="el" href="a01345.html">lumex::core::atomic::smart_ptr::lock_based_table_wait::Detail::LockBasedCell&lt; Pointer &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a01345.html#afffe57ec95a2da7bc1c166c221f92480">LockBasedCell</a>() noexcept</td><td class="entry"><a class="el" href="a01345.html">lumex::core::atomic::smart_ptr::lock_based_table_wait::Detail::LockBasedCell&lt; Pointer &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a01345.html#a724e3063d2623c245ac91f18713616d8">LockBasedCell</a>(Pointer desired) noexcept</td><td class="entry"><a class="el" href="a01345.html">lumex::core::atomic::smart_ptr::lock_based_table_wait::Detail::LockBasedCell&lt; Pointer &gt;</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">explicit</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a01345.html#a8645626ccfcb31acb1494918106805c2">LockBasedCell</a>(LockBasedCell const &amp;)=delete</td><td class="entry"><a class="el" href="a01345.html">lumex::core::atomic::smart_ptr::lock_based_table_wait::Detail::LockBasedCell&lt; Pointer &gt;</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a01345.html#afba323e7b7766d981566a7273f066e6a">notify_all</a>() noexcept</td><td class="entry"><a class="el" href="a01345.html">lumex::core::atomic::smart_ptr::lock_based_table_wait::Detail::LockBasedCell&lt; Pointer &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a01345.html#aef3f0a96a23f8531354daeead156b223">notify_one</a>() noexcept</td><td class="entry"><a class="el" href="a01345.html">lumex::core::atomic::smart_ptr::lock_based_table_wait::Detail::LockBasedCell&lt; Pointer &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a01345.html#a347a3db9467ccc334c78f9d6974eb62e">operator=</a>(LockBasedCell const &amp;)=delete</td><td class="entry"><a class="el" href="a01345.html">lumex::core::atomic::smart_ptr::lock_based_table_wait::Detail::LockBasedCell&lt; Pointer &gt;</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a01345.html#a710136a5930154c16ecce60f5ca1a6f5">store</a>(Pointer desired, std::memory_order) noexcept</td><td class="entry"><a class="el" href="a01345.html">lumex::core::atomic::smart_ptr::lock_based_table_wait::Detail::LockBasedCell&lt; Pointer &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="a01345.html#a84aeb1ccf8b53d74c04ab7ad5f60a24a">wait</a>(Pointer const &amp;old, std::memory_order) const noexcept</td><td class="entry"><a class="el" href="a01345.html">lumex::core::atomic::smart_ptr::lock_based_table_wait::Detail::LockBasedCell&lt; Pointer &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+</table></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00912.html">lumex</a></li><li class="navelem"><a class="el" href="a00964.html">core</a></li><li class="navelem"><a class="el" href="a00984.html">crc</a></li><li class="navelem"><a class="el" href="a00987.html">parametric</a></li><li class="navelem"><a class="el" href="a01342.html">crc5_usb_spec_t</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

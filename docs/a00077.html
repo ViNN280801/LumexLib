@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexLogger.cpp File Reference</title>
+<title>LumexLib: LumexJsonSchemaNormalizer.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,78 +104,143 @@ $(function(){initNavTree('a00077.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#namespaces">Namespaces</a> &#124;
-<a href="#define-members">Macros</a>  </div>
-  <div class="headertitle"><div class="title">LumexLogger.cpp File Reference</div></div>
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#namespaces">Namespaces</a>  </div>
+  <div class="headertitle"><div class="title">LumexJsonSchemaNormalizer.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;algorithm&gt;</code><br />
-<code>#include &lt;atomic&gt;</code><br />
-<code>#include &lt;cctype&gt;</code><br />
-<code>#include &lt;chrono&gt;</code><br />
-<code>#include &lt;cstring&gt;</code><br />
-<code>#include &lt;exception&gt;</code><br />
-<code>#include &lt;fstream&gt;</code><br />
-<code>#include &lt;iomanip&gt;</code><br />
-<code>#include &lt;iostream&gt;</code><br />
-<code>#include &lt;memory&gt;</code><br />
-<code>#include &lt;mutex&gt;</code><br />
-<code>#include &lt;sstream&gt;</code><br />
-<code>#include &lt;stdexcept&gt;</code><br />
-<code>#include &lt;dirent.h&gt;</code><br />
-<code>#include &lt;sys/stat.h&gt;</code><br />
-<code>#include &lt;sys/statvfs.h&gt;</code><br />
-<code>#include &lt;unistd.h&gt;</code><br />
-<code>#include &lt;linux/limits.h&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00080_source.html">LumexLogger.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00074_source.html">lumex/applied/logger/config/LumexLoggerConfigFormat.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00353_source.html">lumex/core/utility/attr/LumexAttributes.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00368_source.html">lumex/core/utility/compiler/LumexCheckFeatures.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00389_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
+
+<p>Abstract base for per-operation normalizers built on the schema walker.  
+<a href="#details">More...</a></p>
+<div class="textblock"><code>#include &lt;exception&gt;</code><br />
+<code>#include &lt;string&gt;</code><br />
+<code>#include &lt;nlohmann/json.hpp&gt;</code><br />
+<code>#include &quot;<a class="el" href="a00074_source.html">lumex/applied/json/normalization/ILumexJsonNormalizer.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00083_source.html">lumex/applied/json/schema/LumexJsonSchemaTraverser.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00356_source.html">lumex/core/string_view/view/LumexStringView.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00389_source.html">lumex/core/utility/attr/LumexAttributes.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00425_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for LumexLogger.cpp:</div>
+Include dependency graph for LumexJsonSchemaNormalizer.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00078.png" border="0" usemap="#a_lumex_logger_8cpp" alt=""/></div>
+<div class="center"><img src="a00078.png" border="0" usemap="#a_lumex_json_schema_normalizer_8hpp" alt=""/></div>
+<map name="a_lumex_json_schema_normalizer_8hpp" id="a_lumex_json_schema_normalizer_8hpp">
+<area shape="rect" title="Abstract base for per&#45;operation normalizers built on the schema walker." alt="" coords="593,5,818,32"/>
+<area shape="rect" title=" " alt="" coords="5,179,83,205"/>
+<area shape="poly" title=" " alt="" coords="593,28,439,46,354,61,271,83,217,102,164,126,78,173,76,168,161,122,215,97,270,77,353,56,438,41,593,23"/>
+<area shape="rect" title=" " alt="" coords="811,277,864,304"/>
+<area shape="poly" title=" " alt="" coords="716,31,744,79,793,179,829,262,824,264,788,182,739,81,711,34"/>
+<area shape="rect" title=" " alt="" coords="350,179,480,205"/>
+<area shape="poly" title=" " alt="" coords="691,34,635,76,561,125,461,175,458,170,559,120,632,72,688,30"/>
+<area shape="rect" href="a00074.html" title="Contract for turning raw JSON text into a canonical document." alt="" coords="282,80,547,123"/>
+<area shape="poly" title=" " alt="" coords="661,35,505,78,503,73,659,30"/>
+<area shape="rect" href="a00356.html" title="C++11 lightweight, non&#45;owning view over character sequences." alt="" coords="504,171,686,213"/>
+<area shape="poly" title=" " alt="" coords="700,34,618,159,614,156,695,31"/>
+<area shape="rect" href="a00389.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="817,368,986,411"/>
+<area shape="poly" title=" " alt="" coords="709,32,715,82,730,156,757,240,777,281,801,318,821,340,846,358,842,362,818,344,797,322,772,284,752,242,725,158,710,83,704,32"/>
+<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="1404,459,1598,501"/>
+<area shape="poly" title=" " alt="" coords="818,22,1108,39,1284,52,1461,70,1624,92,1758,119,1810,134,1850,151,1876,169,1883,180,1885,190,1885,292,1887,358,1880,385,1859,413,1826,427,1766,441,1614,466,1613,461,1765,436,1825,422,1856,409,1875,383,1882,357,1880,292,1880,191,1878,182,1872,173,1848,156,1809,139,1757,124,1623,97,1460,75,1284,58,1108,44,818,27"/>
+<area shape="rect" href="a00083.html" title="Recursive walker for a JSON Schema draft&#45;7 subset." alt="" coords="944,80,1214,123"/>
+<area shape="poly" title=" " alt="" coords="765,30,968,74,967,79,764,35"/>
+<area shape="poly" title=" " alt="" coords="304,126,205,147,102,173,93,176,91,171,101,168,204,142,303,121"/>
+<area shape="poly" title=" " alt="" coords="417,123,417,163,412,163,412,123"/>
+<area shape="poly" title=" " alt="" coords="458,121,540,161,538,166,456,126"/>
+<area shape="poly" title=" " alt="" coords="351,126,266,160,222,182,183,206,152,232,133,260,130,274,131,289,136,303,147,318,159,326,179,334,239,347,321,358,417,367,623,378,802,384,802,389,623,384,417,372,320,363,238,352,177,339,156,331,143,322,132,306,126,290,125,274,129,258,148,229,180,202,219,177,264,155,349,121"/>
+<area shape="poly" title=" " alt="" coords="667,211,729,232,793,259,808,267,805,271,791,264,727,237,666,216"/>
+<area shape="rect" href="a00641.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="336,277,498,304"/>
+<area shape="poly" title=" " alt="" coords="558,216,455,272,453,267,555,212"/>
+<area shape="rect" title=" " alt="" coords="1400,376,1464,403"/>
+<area shape="poly" title=" " alt="" coords="626,212,717,272,764,300,800,317,850,331,918,342,1084,362,1385,383,1384,388,1084,367,918,348,849,336,798,323,761,305,714,277,623,216"/>
+<area shape="rect" title=" " alt="" coords="574,277,634,304"/>
+<area shape="poly" title=" " alt="" coords="599,213,604,262,599,262,594,214"/>
+<area shape="rect" title=" " alt="" coords="157,277,219,304"/>
+<area shape="poly" title=" " alt="" coords="503,214,492,216,418,227,359,232,302,241,232,264,218,271,215,266,230,259,301,236,359,226,417,221,492,211,502,209"/>
+<area shape="rect" title=" " alt="" coords="243,277,312,304"/>
+<area shape="poly" title=" " alt="" coords="504,216,402,240,325,264,309,272,307,267,323,259,400,235,502,211"/>
+<area shape="poly" title=" " alt="" coords="582,215,568,239,557,266,554,294,557,307,563,318,578,331,600,341,660,359,731,371,802,379,801,384,730,377,659,364,598,346,575,335,559,322,552,309,548,294,551,265,563,236,577,212"/>
+<area shape="poly" title=" " alt="" coords="613,212,707,321,762,376,786,396,806,408,853,424,916,436,1072,456,1240,467,1389,473,1388,479,1240,473,1071,461,915,442,852,429,804,413,783,400,758,380,703,325,609,216"/>
+<area shape="rect" href="a00404.html" title="C++ language, library and attribute feature availability." alt="" coords="1720,459,1952,501"/>
+<area shape="poly" title=" " alt="" coords="986,396,1705,464,1705,469,986,401"/>
+<area shape="poly" title=" " alt="" coords="944,121,897,141,876,155,858,172,846,193,839,216,837,262,831,261,834,215,841,191,854,169,873,151,894,136,942,116"/>
+<area shape="poly" title=" " alt="" coords="944,116,731,138,611,154,492,173,474,177,473,172,492,168,610,148,730,132,943,110"/>
+<area shape="poly" title=" " alt="" coords="966,126,702,174,701,169,965,121"/>
+<area shape="poly" title=" " alt="" coords="1214,101,1309,107,1403,119,1484,138,1514,152,1535,169,1542,185,1539,207,1518,261,1484,318,1452,365,1448,362,1480,315,1513,259,1534,206,1536,186,1531,172,1511,157,1482,144,1402,124,1308,112,1214,107"/>
+<area shape="poly" title=" " alt="" coords="966,126,930,144,902,172,893,204,891,252,899,352,894,353,886,252,888,203,898,169,927,140,963,121"/>
+<area shape="poly" title=" " alt="" coords="1214,108,1450,131,1559,148,1637,168,1716,203,1748,220,1776,240,1800,263,1822,291,1841,325,1860,367,1864,387,1864,407,1855,444,1850,443,1859,406,1859,387,1855,369,1836,328,1817,294,1796,267,1772,244,1745,225,1714,208,1635,173,1558,153,1449,136,1214,114"/>
+<area shape="rect" title=" " alt="" coords="912,179,986,205"/>
+<area shape="poly" title=" " alt="" coords="1050,125,982,172,979,167,1047,121"/>
+<area shape="rect" title=" " alt="" coords="1010,179,1067,205"/>
+<area shape="poly" title=" " alt="" coords="1072,124,1053,165,1048,163,1067,122"/>
+<area shape="rect" title=" " alt="" coords="1112,277,1173,304"/>
+<area shape="poly" title=" " alt="" coords="1118,121,1144,142,1164,170,1170,194,1170,219,1158,264,1153,262,1165,218,1165,194,1159,172,1140,146,1115,125"/>
+<area shape="rect" title=" " alt="" coords="1402,277,1454,304"/>
+<area shape="poly" title=" " alt="" coords="1215,103,1303,109,1391,121,1465,140,1493,153,1513,169,1520,182,1522,196,1511,224,1488,249,1462,271,1458,266,1484,245,1506,221,1516,196,1515,184,1509,172,1490,158,1463,145,1390,126,1302,114,1214,108"/>
+<area shape="rect" title=" " alt="" coords="1091,179,1149,205"/>
+<area shape="poly" title=" " alt="" coords="1091,122,1110,164,1105,166,1086,124"/>
+<area shape="rect" href="a00080.html" title="Exception thrown by the JSON schema engine on the first violation." alt="" coords="1225,171,1498,213"/>
+<area shape="poly" title=" " alt="" coords="1146,121,1282,163,1280,168,1144,126"/>
+<area shape="rect" href="a00335.html" title="X&#45;macro system that generates a scoped enum together with its own compile&#45;time reflection data and a ..." alt="" coords="1531,261,1744,320"/>
+<area shape="poly" title=" " alt="" coords="1214,101,1325,106,1440,117,1540,137,1579,151,1607,169,1621,185,1631,205,1640,245,1634,246,1626,206,1617,188,1604,173,1577,156,1539,142,1439,123,1325,111,1214,106"/>
+<area shape="poly" title=" " alt="" coords="1249,217,880,284,879,279,1248,211"/>
+<area shape="poly" title=" " alt="" coords="1315,216,1276,237,1238,263,1223,279,1214,294,1204,308,1187,322,1142,345,1095,362,1002,382,1000,377,1093,357,1140,340,1184,318,1200,305,1209,291,1219,275,1234,259,1273,233,1313,212"/>
+<area shape="poly" title=" " alt="" coords="1361,214,1358,253,1359,304,1368,359,1377,385,1390,409,1410,431,1435,449,1431,453,1406,435,1386,412,1372,387,1363,360,1353,305,1352,253,1356,214"/>
+<area shape="poly" title=" " alt="" coords="1305,216,1193,264,1178,272,1175,267,1191,259,1303,212"/>
+<area shape="poly" title=" " alt="" coords="1378,212,1413,263,1409,266,1373,215"/>
+<area shape="rect" title=" " alt="" coords="1248,277,1326,304"/>
+<area shape="poly" title=" " alt="" coords="1348,215,1308,267,1304,263,1343,212"/>
+<area shape="poly" title=" " alt="" coords="1421,211,1542,253,1540,258,1420,216"/>
+<area shape="poly" title=" " alt="" coords="1577,323,1474,371,1471,367,1575,318"/>
+<area shape="poly" title=" " alt="" coords="1530,313,1467,323,1215,355,1001,380,1001,375,1215,350,1466,317,1530,308"/>
+<area shape="poly" title=" " alt="" coords="1581,323,1552,343,1529,369,1513,406,1506,444,1500,443,1508,404,1524,367,1549,339,1578,318"/>
+<area shape="rect" title=" " alt="" coords="1539,376,1589,403"/>
+<area shape="poly" title=" " alt="" coords="1618,322,1585,365,1580,362,1614,319"/>
+<area shape="rect" href="a00419.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="1613,368,1846,411"/>
+<area shape="poly" title=" " alt="" coords="1666,318,1702,355,1698,359,1663,322"/>
+<area shape="poly" title=" " alt="" coords="1677,414,1570,455,1568,450,1675,409"/>
+</map>
 </div>
-</div><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
-Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00912.html">lumex</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00913.html">lumex::applied</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00935.html">lumex::applied::logger</a></td></tr>
-<tr class="memdesc:a00935"><td class="mdescLeft">&#160;</td><td class="mdescRight">Universal file logger, ported and kept up to date from the DChannel project's Logger. <br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00936.html">lumex::applied::logger::logger</a></td></tr>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00079.png" border="0" usemap="#a_lumex_json_schema_normalizer_8hppdep" alt=""/></div>
+<map name="a_lumex_json_schema_normalizer_8hppdep" id="a_lumex_json_schema_normalizer_8hppdep">
+<area shape="rect" title="Abstract base for per&#45;operation normalizers built on the schema walker." alt="" coords="46,5,270,32"/>
+<area shape="rect" href="a00872.html" title="JSON module: non&#45;throwing helpers for JSON configuration files, and validation and normalization of a..." alt="" coords="114,80,202,107"/>
+<area shape="poly" title=" " alt="" coords="160,48,160,80,155,80,155,48"/>
+<area shape="rect" href="a00533.html" title=" " alt="" coords="5,155,132,181"/>
+<area shape="poly" title=" " alt="" coords="132,119,86,156,82,152,129,115"/>
+<area shape="rect" href="a00536.html" title=" " alt="" coords="156,155,341,181"/>
+<area shape="poly" title=" " alt="" coords="187,114,235,152,231,156,184,119"/>
+</map>
+</div>
+</div>
+<p><a href="a00077_source.html">Go to the source code of this file.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01185.html">lumex::applied::json::normalization::LumexJsonSchemaNormalizer</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shares the schema walker and the strict/non-strict error policy between concrete normalizers.  <a href="a01185.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
-Macros</h2></td></tr>
-<tr class="memitem:a07486181f1990291c2a348de8eb4c480" id="r_a07486181f1990291c2a348de8eb4c480"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a07486181f1990291c2a348de8eb4c480">LUMEX_IMPLEMENTATION</a></td></tr>
-<tr class="separator:a07486181f1990291c2a348de8eb4c480"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00948.html">lumex</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00949.html">lumex::applied</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00963.html">lumex::applied::json</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00968.html">lumex::applied::json::normalization</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="a07486181f1990291c2a348de8eb4c480" name="a07486181f1990291c2a348de8eb4c480"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a07486181f1990291c2a348de8eb4c480">&#9670;&#160;</a></span>LUMEX_IMPLEMENTATION</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_IMPLEMENTATION</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-</div><!-- contents -->
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Abstract base for per-operation normalizers built on the schema walker. </p>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_de45db85bd98abf883bc2bd6c3907fd8.html">applied</a></li><li class="navelem"><a class="el" href="dir_e29b5b767fb03629027b334d9196758a.html">logger</a></li><li class="navelem"><a class="el" href="dir_3946d827b2133a71d7c085baf5845a99.html">logger</a></li><li class="navelem"><a class="el" href="a00077.html">LumexLogger.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_de45db85bd98abf883bc2bd6c3907fd8.html">applied</a></li><li class="navelem"><a class="el" href="dir_3e92e8848bcd01e21718dfea84e9b21e.html">json</a></li><li class="navelem"><a class="el" href="dir_e7e942524903e417f0871ffcf8723277.html">normalization</a></li><li class="navelem"><a class="el" href="a00077.html">LumexJsonSchemaNormalizer.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

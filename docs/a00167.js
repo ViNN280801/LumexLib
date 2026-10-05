@@ -1,10 +1,12 @@
 var a00167 =
 [
-    [ "lumex::core::atomic::sync::table_wait::Detail::BitLock", "a01278.html", "a01278" ],
-    [ "lumex::core::atomic::sync::table_wait::Detail::BitLockGuard", "a01282.html", "a01282" ],
-    [ "lumex::core::atomic::sync::table_wait::Detail::tsan_mutex_destroy", "a00971.html#af25ffa3720b756fbe30a7e29397ee4bd", null ],
-    [ "lumex::core::atomic::sync::table_wait::Detail::tsan_mutex_post_lock", "a00971.html#aa411a9b6a91063b2ca57a48b5cda7e38", null ],
-    [ "lumex::core::atomic::sync::table_wait::Detail::tsan_mutex_post_unlock", "a00971.html#a45138d629081f839e7c275e9ee3a9b8c", null ],
-    [ "lumex::core::atomic::sync::table_wait::Detail::tsan_mutex_pre_lock", "a00971.html#aaa48cf4ef446317fc83f672e8954ea02", null ],
-    [ "lumex::core::atomic::sync::table_wait::Detail::tsan_mutex_pre_unlock", "a00971.html#ae7b93d2510244fa9c6dfbd038fef1e35", null ]
+    [ "lumex::applied::settings::ini::LumexSettingsINI", "a01309.html", "a01309" ],
+    [ "LumexSettingsINI", "a00167.html#aa4b9184a671b4fab21d16ff231591689", null ],
+    [ "lumex::applied::settings::ini::Constants::constINI_FILE_EXTENSION", "a01000.html#aa18449bc96f7bd5804e8447c03120e80", null ],
+    [ "lumex::applied::settings::ini::Constants::constREGEX_KEY_VALUE", "a01000.html#ac95d67b8609bff0d7abb6c11ee2fcce7", null ],
+    [ "lumex::applied::settings::ini::Constants::constREGEX_SECTION", "a01000.html#a009497e5f5d3e4d3c76320b3234ea36d", null ],
+    [ "lumex::applied::settings::ini::Constants::UTF8_BOM_0", "a01000.html#adf3415d3845c4ea235f627a3df924205", null ],
+    [ "lumex::applied::settings::ini::Constants::UTF8_BOM_1", "a01000.html#a2f8ea731325aad3daa70bac3b24be9ee", null ],
+    [ "lumex::applied::settings::ini::Constants::UTF8_BOM_2", "a01000.html#aeb9d88a513b1206987f43f086ca6bdf3", null ],
+    [ "lumex::applied::settings::ini::Constants::UTF8_BOM_SIZE", "a01000.html#a59643899f141f82cbd7f2f5e44178a9b", null ]
 ];

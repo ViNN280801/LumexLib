@@ -1,14 +1,27 @@
 var a00233 =
 [
-    [ "LUMEX_SAFE_CALL", "a00233.html#a03ec1ac9d020fd4f7b12362a94f204e9", null ],
-    [ "LUMEX_SAFE_CALL_LAMBDA_MSG", "a00233.html#a1ed36355e2c324c794ddd802ade7d549", null ],
-    [ "LUMEX_SAFE_CALL_MSG", "a00233.html#a261fa5b1604d900afd08ec4e0bebacb8", null ],
-    [ "lumex::core::exceptions::Wrapper::safe_call_report_fn", "a00994.html#a44e9e9da5b97d168978390c418a62b3f", null ],
-    [ "lumex::core::exceptions::Wrapper::ExceptionWrapper", "a00994.html#a830b8d9cf501bccfb594bebd0221c287", null ],
-    [ "lumex::core::exceptions::Wrapper::get_safe_call_reporter", "a00994.html#a0e00681207c6fe8355e6416db22d6ee8", null ],
-    [ "lumex::core::exceptions::Wrapper::detail::report_exception", "a00996.html#a6731c24b90644c9b4b94c4c81af602dd", null ],
-    [ "lumex::core::exceptions::Wrapper::detail::report_line", "a00996.html#ab7031ff23205b8e8d31fb72ed3744806", null ],
-    [ "lumex::core::exceptions::Wrapper::set_safe_call_reporter", "a00994.html#a71d9df48ad62f6a5f94220cd14b5f70c", null ],
-    [ "lumex::core::exceptions::Wrapper::detail::write_to_stderr", "a00996.html#a92da48ec00b5194131e081ffabbbed57", null ],
-    [ "lumex::core::exceptions::Wrapper::detail::write_to_stderr", "a00996.html#a730010fd0f524d97727a82bb42f2ddd3", null ]
+    [ "lumex::core::crc::catalog::crc_params_t", "a01405.html", "a01405" ],
+    [ "lumex::core::crc::catalog::TransportCrcMode", "a01026.html#a550c04492ccdbe76b3c82f02ac7c3dc0", [
+      [ "lumex::core::crc::catalog::TransportCrcMode::Default", "a01026.html#a550c04492ccdbe76b3c82f02ac7c3dc0a7a1920d61156abc05a60135aefe8bc67", null ],
+      [ "lumex::core::crc::catalog::TransportCrcMode::Catalog", "a01026.html#a550c04492ccdbe76b3c82f02ac7c3dc0ac32516babc5b6c47eb8ce1bfc223253c", null ],
+      [ "lumex::core::crc::catalog::TransportCrcMode::Custom", "a01026.html#a550c04492ccdbe76b3c82f02ac7c3dc0a90589c47f06eb971d548591f23c285af", null ]
+    ] ],
+    [ "lumex::core::crc::catalog::AppendCrcLeastSignificantByteFirst", "a01026.html#ad26845155259094a4897715c623b4be5", null ],
+    [ "lumex::core::crc::catalog::ComputeCrcCatalog", "a01026.html#ace302d42cc62d3b81d86167084a9f33b", null ],
+    [ "lumex::core::crc::catalog::ComputeCrcCatalog", "a01026.html#a7c78d39b9bad1d190fba9e64e54d3089", null ],
+    [ "lumex::core::crc::catalog::ComputeCrcCatalog", "a01026.html#a9d4fb6c53d3709d14fb93e835b24e431", null ],
+    [ "lumex::core::crc::catalog::ComputeCrcWithRevEngParams", "a01026.html#a6dc94db852a33c1da5da63658df092e1", null ],
+    [ "lumex::core::crc::catalog::ComputeCrcWithRevEngParams", "a01026.html#a07dc7d6ce7dae828a9174ed5c61a53cd", null ],
+    [ "lumex::core::crc::catalog::ComputeTransportChecksum", "a01026.html#add9426471847b4c3cee375c3f12cd548", null ],
+    [ "lumex::core::crc::catalog::CrcCatalogLegacyIndex", "a01026.html#ad5f7e9bf7ab382d6bea8b9c1a68acf2e", null ],
+    [ "lumex::core::crc::catalog::CrcTransportUsesCustomSpecSentinel", "a01026.html#a994dcaacfb446400b417d59b23ae129d", null ],
+    [ "lumex::core::crc::catalog::GetCrcCatalogBitWidth", "a01026.html#ada153a2397d11cdb757cededb803d6ba", null ],
+    [ "lumex::core::crc::catalog::GetCrcCatalogEntryCount", "a01026.html#a4a1bf4a4033234f6ec6bd6ceb8200dca", null ],
+    [ "lumex::core::crc::catalog::GetTransportCrcCatalogIndex", "a01026.html#adfb9a54377d70e075c97d7034dd2d497", null ],
+    [ "lumex::core::crc::catalog::GetTransportCrcMode", "a01026.html#ae18a771d574e0ab1591e77d45799348c", null ],
+    [ "lumex::core::crc::catalog::SetTransportCrcCatalogIndex", "a01026.html#a695b6caf304fee0eef53bd8331b01579", null ],
+    [ "lumex::core::crc::catalog::SetTransportCrcDefault", "a01026.html#a1895c5276e88e178fd50ae5ff29b22a7", null ],
+    [ "lumex::core::crc::catalog::SetTransportCrcRevEngParams", "a01026.html#a803339a9a4d83bf460e3d6c07b66e837", null ],
+    [ "lumex::core::crc::catalog::TryGetTransportCrcRevEngParams", "a01026.html#a445977ae97a478e402f139ef37cce13a", null ],
+    [ "lumex::core::crc::catalog::ValidateCrcRevEngParams", "a01026.html#a10782f1d322cae0727ac0ee7f52e6f95", null ]
 ];

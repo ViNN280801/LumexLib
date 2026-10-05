@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: XPathAllocator.cpp File Reference</title>
+<title>LumexLib: XmlBufferedWriter.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,45 +104,175 @@ $(function(){initNavTree('a00746.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#define-members">Macros</a>  </div>
-  <div class="headertitle"><div class="title">XPathAllocator.cpp File Reference</div></div>
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#namespaces">Namespaces</a>  </div>
+  <div class="headertitle"><div class="title">XmlBufferedWriter.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;<a class="el" href="a00350_source.html">lumex/core/utility/assert/LumexAssert.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00389_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00749_source.html">XPathAllocator.hpp</a>&quot;</code><br />
+
+<p>Internal output buffer of the serializer: it collects characters, converts them to the target encoding and passes blocks to an <code>IXmlWriter</code>.  
+<a href="#details">More...</a></p>
+<div class="textblock"><code>#include &quot;<a class="el" href="a00641_source.html">lumex/LumexExport.hpp</a>&quot;</code><br />
+<code>#include &lt;array&gt;</code><br />
+<code>#include &lt;cstddef&gt;</code><br />
+<code>#include &quot;<a class="el" href="a00740_source.html">IXmlWriter.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00419_source.html">lumex/core/utility/macros/LumexConstantMacros.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00728_source.html">lumex/xml/types/XmlTypes.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for XPathAllocator.cpp:</div>
+Include dependency graph for XmlBufferedWriter.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00747.png" border="0" usemap="#a_x_path_allocator_8cpp" alt=""/></div>
+<div class="center"><img src="a00747.png" border="0" usemap="#a_xml_buffered_writer_8hpp" alt=""/></div>
+<map name="a_xml_buffered_writer_8hpp" id="a_xml_buffered_writer_8hpp">
+<area shape="rect" title="Internal output buffer of the serializer: it collects characters, converts them to the target encodin..." alt="" coords="109,5,260,32"/>
+<area shape="rect" href="a00641.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="18,155,180,181"/>
+<area shape="poly" title=" " alt="" coords="109,29,82,36,56,47,32,62,13,82,9,90,8,99,17,116,35,132,57,145,55,150,32,136,13,119,3,100,4,89,9,78,29,57,53,42,80,31,108,24"/>
+<area shape="rect" title=" " alt="" coords="23,80,73,107"/>
+<area shape="poly" title=" " alt="" coords="162,35,87,75,84,70,159,30"/>
+<area shape="rect" title=" " alt="" coords="97,80,162,107"/>
+<area shape="poly" title=" " alt="" coords="177,34,150,69,146,66,173,31"/>
+<area shape="rect" href="a00740.html" title="IXmlWriter, the output interface that XML serialization writes bytes to." alt="" coords="185,80,293,107"/>
+<area shape="poly" title=" " alt="" coords="196,31,222,66,218,69,192,34"/>
+<area shape="rect" href="a00419.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="248,229,480,272"/>
+<area shape="poly" title=" " alt="" coords="229,30,269,49,289,62,306,78,329,111,345,147,362,213,357,215,340,148,324,113,302,82,286,66,267,54,227,35"/>
+<area shape="rect" href="a00728.html" title="The basic types and enumerations of the XML module: character and string types, node types,..." alt="" coords="373,80,577,107"/>
+<area shape="poly" title=" " alt="" coords="236,30,410,73,409,78,235,35"/>
+<area shape="poly" title=" " alt="" coords="216,110,138,149,136,145,213,105"/>
+<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="267,320,461,363"/>
+<area shape="poly" title=" " alt="" coords="367,272,367,305,362,305,362,272"/>
+<area shape="rect" title=" " alt="" coords="367,155,428,181"/>
+<area shape="poly" title=" " alt="" coords="463,109,424,146,420,142,460,105"/>
+<area shape="rect" title=" " alt="" coords="452,155,506,181"/>
+<area shape="poly" title=" " alt="" coords="478,107,480,139,475,139,473,107"/>
+<area shape="rect" href="a00734.html" title="Preprocessor macros of the XML module: the character mode, the declaration of constants,..." alt="" coords="529,155,741,181"/>
+<area shape="poly" title=" " alt="" coords="504,105,594,145,592,150,502,110"/>
+<area shape="poly" title=" " alt="" coords="593,184,449,227,448,222,592,179"/>
+<area shape="rect" href="a00389.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="551,229,719,272"/>
+<area shape="poly" title=" " alt="" coords="638,182,638,214,632,214,632,182"/>
+<area shape="rect" href="a00404.html" title="C++ language, library and attribute feature availability." alt="" coords="519,320,751,363"/>
+<area shape="poly" title=" " alt="" coords="638,272,638,305,632,305,632,272"/>
+</map>
 </div>
-</div><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
-Macros</h2></td></tr>
-<tr class="memitem:a07486181f1990291c2a348de8eb4c480" id="r_a07486181f1990291c2a348de8eb4c480"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a07486181f1990291c2a348de8eb4c480">LUMEX_IMPLEMENTATION</a></td></tr>
-<tr class="separator:a07486181f1990291c2a348de8eb4c480"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00748.png" border="0" usemap="#a_xml_buffered_writer_8hppdep" alt=""/></div>
+<map name="a_xml_buffered_writer_8hppdep" id="a_xml_buffered_writer_8hppdep">
+<area shape="rect" title="Internal output buffer of the serializer: it collects characters, converts them to the target encodin..." alt="" coords="119,5,270,32"/>
+<area shape="rect" href="a00743.html" title=" " alt="" coords="5,80,157,107"/>
+<area shape="poly" title=" " alt="" coords="163,43,102,82,99,77,160,38"/>
+<area shape="rect" href="a00689.html" title=" " alt="" coords="223,453,323,480"/>
+<area shape="poly" title=" " alt="" coords="197,48,197,167,197,318,204,359,222,396,243,428,263,451,259,455,239,431,217,399,199,360,192,319,192,167,192,48"/>
+<area shape="rect" href="a00692.html" title="XmlNode, the handle to a node of a document tree, with the iterators over its children and attributes..." alt="" coords="1039,80,1139,107"/>
+<area shape="poly" title=" " alt="" coords="286,25,1039,85,1038,91,286,30"/>
+<area shape="poly" title=" " alt="" coords="1024,102,818,119,560,149,440,168,339,190,301,203,272,215,254,229,248,242,248,319,250,357,257,395,272,452,266,454,251,396,245,358,242,319,242,241,249,225,269,211,299,198,338,185,439,163,560,143,818,114,1023,96"/>
+<area shape="rect" href="a00944.html" title="XML module: a DOM tree of nodes, attributes and text, loading and saving with writers for files and s..." alt="" coords="973,453,1056,480"/>
+<area shape="poly" title=" " alt="" coords="1155,93,1263,97,1390,107,1509,124,1556,137,1590,152,1615,170,1632,189,1642,211,1645,241,1645,319,1640,341,1625,361,1602,379,1572,394,1495,419,1403,438,1304,451,1208,460,1057,467,1056,462,1207,454,1303,446,1402,433,1493,414,1570,389,1599,374,1621,358,1635,339,1640,318,1640,241,1637,213,1628,192,1612,174,1588,157,1554,142,1508,129,1390,112,1263,102,1155,98"/>
+<area shape="rect" href="a00800.html" title="XPathNode, an item of an XPath result: either an XML node or an attribute together with its element." alt="" coords="798,155,911,181"/>
+<area shape="poly" title=" " alt="" coords="1035,114,896,157,895,151,1033,109"/>
+<area shape="rect" href="a00656.html" title=" " alt="" coords="615,155,774,181"/>
+<area shape="poly" title=" " alt="" coords="1024,109,764,157,763,151,1023,104"/>
+<area shape="rect" href="a00662.html" title=" " alt="" coords="1464,229,1594,256"/>
+<area shape="poly" title=" " alt="" coords="1155,96,1398,115,1509,131,1547,141,1568,153,1576,173,1570,194,1558,214,1544,231,1540,227,1554,211,1566,192,1571,173,1564,156,1545,146,1508,137,1397,120,1155,101"/>
+<area shape="rect" href="a00665.html" title="XmlDocument, the owner of an XML tree: loading from files, streams, strings and memory buffers,..." alt="" coords="935,155,1064,181"/>
+<area shape="poly" title=" " alt="" coords="1063,119,1017,156,1013,152,1060,115"/>
+<area shape="rect" href="a00686.html" title=" " alt="" coords="1088,155,1271,181"/>
+<area shape="poly" title=" " alt="" coords="1118,114,1166,152,1162,156,1115,119"/>
+<area shape="rect" href="a00701.html" title=" " alt="" coords="1296,155,1437,181"/>
+<area shape="poly" title=" " alt="" coords="1152,108,1318,151,1317,157,1151,113"/>
+<area shape="rect" href="a00719.html" title=" " alt="" coords="1460,155,1555,181"/>
+<area shape="poly" title=" " alt="" coords="1155,102,1449,152,1461,154,1460,159,1449,157,1154,108"/>
+<area shape="rect" href="a00629.html" title=" " alt="" coords="816,528,925,555"/>
+<area shape="poly" title=" " alt="" coords="977,490,897,530,894,525,974,485"/>
+<area shape="rect" href="a00632.html" title=" " alt="" coords="949,528,1058,555"/>
+<area shape="poly" title=" " alt="" coords="1013,496,1008,528,1003,527,1008,495"/>
+<area shape="rect" href="a00635.html" title=" " alt="" coords="1082,528,1192,555"/>
+<area shape="poly" title=" " alt="" coords="1050,486,1117,525,1114,530,1047,491"/>
+<area shape="rect" href="a00638.html" title=" " alt="" coords="1216,528,1325,555"/>
+<area shape="poly" title=" " alt="" coords="1072,481,1226,525,1225,530,1070,487"/>
+<area shape="poly" title=" " alt="" coords="783,185,523,232,424,255,385,272,343,306,315,343,296,385,284,424,278,454,272,452,279,423,291,383,311,340,339,302,382,268,423,250,522,227,782,180"/>
+<area shape="poly" title=" " alt="" coords="926,179,1028,181,1148,182,1206,186,1258,193,1301,207,1331,227,1363,253,1376,264,1383,278,1380,297,1364,323,1331,359,1280,407,1263,418,1240,428,1181,444,1057,463,1056,458,1180,438,1238,423,1261,413,1277,403,1328,355,1359,320,1375,295,1378,279,1372,267,1359,257,1327,231,1299,212,1257,199,1205,191,1147,188,1028,187,926,184"/>
+<area shape="rect" href="a00770.html" title="XPathContext, the context node, position and size that XPath evaluation passes to every subexpression..." alt="" coords="384,304,512,331"/>
+<area shape="poly" title=" " alt="" coords="783,186,658,212,577,232,543,249,512,269,464,306,460,301,509,264,541,244,575,227,657,206,782,181"/>
+<area shape="rect" href="a00776.html" title="Comparison of XPath nodes by document order, used to sort node sets." alt="" coords="745,229,988,256"/>
+<area shape="poly" title=" " alt="" coords="862,196,867,228,862,229,856,197"/>
+<area shape="rect" href="a00797.html" title=" " alt="" coords="1011,229,1124,256"/>
+<area shape="poly" title=" " alt="" coords="907,184,1031,226,1029,231,905,189"/>
+<area shape="rect" href="a00806.html" title="XPathNodeSet, the node set an XPath query returns, and XPathNodeSetRaw, the growable array used while..." alt="" coords="588,229,721,256"/>
+<area shape="poly" title=" " alt="" coords="806,189,690,231,689,226,805,184"/>
+<area shape="rect" href="a00848.html" title="Document order sorting of XPath node ranges, and copying of XPath variable values." alt="" coords="1157,304,1266,331"/>
+<area shape="poly" title=" " alt="" coords="927,179,1054,204,1108,217,1138,227,1161,244,1180,265,1207,302,1203,305,1176,268,1157,248,1136,232,1107,222,1053,210,926,185"/>
+<area shape="rect" href="a00839.html" title=" " alt="" coords="1200,229,1316,256"/>
+<area shape="poly" title=" " alt="" coords="927,180,1200,228,1199,233,926,185"/>
+<area shape="rect" href="a00764.html" title="XPathAstNode, the node of a compiled XPath expression tree, which evaluates itself against a context." alt="" coords="384,379,517,405"/>
+<area shape="poly" title=" " alt="" coords="451,346,453,378,447,378,446,347"/>
+<area shape="rect" href="a00761.html" title=" " alt="" coords="348,453,481,480"/>
+<area shape="poly" title=" " alt="" coords="440,420,423,454,418,452,435,418"/>
+<area shape="rect" href="a00824.html" title="XPathParser, the recursive descent parser that compiles an XPath 1.0 expression into a tree of XPathA..." alt="" coords="556,453,676,480"/>
+<area shape="poly" title=" " alt="" coords="494,410,588,450,586,455,492,414"/>
+<area shape="rect" href="a00821.html" title=" " alt="" coords="500,528,620,555"/>
+<area shape="poly" title=" " alt="" coords="599,494,571,529,567,526,595,491"/>
+<area shape="rect" href="a00833.html" title=" " alt="" coords="664,528,780,555"/>
+<area shape="poly" title=" " alt="" coords="648,487,705,525,702,530,645,491"/>
+<area shape="rect" href="a00773.html" title=" " alt="" coords="890,304,1133,331"/>
+<area shape="poly" title=" " alt="" coords="906,261,987,301,985,306,904,266"/>
+<area shape="rect" href="a00845.html" title=" " alt="" coords="1157,379,1266,405"/>
+<area shape="poly" title=" " alt="" coords="994,256,1177,280,1247,292,1280,302,1286,313,1287,324,1276,346,1256,365,1235,380,1232,376,1253,361,1272,343,1282,323,1281,315,1277,306,1246,297,1176,285,993,261"/>
+<area shape="poly" title=" " alt="" coords="573,256,457,277,407,290,373,306,351,328,340,351,331,376,317,407,284,454,280,451,312,404,327,374,335,349,347,325,370,302,405,285,456,271,572,251"/>
+<area shape="poly" title=" " alt="" coords="697,261,778,302,898,376,1000,451,997,455,896,381,776,306,694,265"/>
+<area shape="poly" title=" " alt="" coords="626,267,469,380,466,376,623,263"/>
+<area shape="rect" href="a00803.html" title=" " alt="" coords="984,379,1117,405"/>
+<area shape="poly" title=" " alt="" coords="708,259,822,302,879,328,1012,376,1010,381,877,333,820,306,706,264"/>
+<area shape="poly" title=" " alt="" coords="737,254,943,277,1145,301,1157,303,1156,308,1145,307,942,282,736,259"/>
+<area shape="rect" href="a00854.html" title="XPathVariable, a named and typed XPath variable, its four concrete kinds, and the functions that crea..." alt="" coords="637,304,765,331"/>
+<area shape="poly" title=" " alt="" coords="673,268,695,302,691,305,668,271"/>
+<area shape="rect" href="a00860.html" title="XPathVariableSet, the named variables an XPath expression can refer to, and the lookup helper the par..." alt="" coords="542,379,690,405"/>
+<area shape="poly" title=" " alt="" coords="642,271,628,305,620,345,618,378,613,378,615,344,622,303,637,268"/>
+<area shape="poly" title=" " alt="" coords="1214,346,1214,378,1209,378,1209,346"/>
+<area shape="poly" title=" " alt="" coords="1171,340,1080,380,1078,376,1169,335"/>
+<area shape="poly" title=" " alt="" coords="752,334,855,376,933,416,994,450,992,455,930,420,853,381,750,339"/>
+<area shape="poly" title=" " alt="" coords="643,338,495,381,494,375,642,333"/>
+<area shape="poly" title=" " alt="" coords="781,327,1129,376,1157,380,1156,385,1129,381,780,332"/>
+<area shape="rect" href="a00851.html" title=" " alt="" coords="714,379,842,405"/>
+<area shape="poly" title=" " alt="" coords="727,340,767,376,763,380,724,343"/>
+<area shape="poly" title=" " alt="" coords="676,343,632,380,629,376,673,339"/>
+<area shape="poly" title=" " alt="" coords="541,412,324,457,323,452,540,406"/>
+<area shape="poly" title=" " alt="" coords="701,406,973,455,972,460,700,411"/>
+<area shape="poly" title=" " alt="" coords="618,421,618,453,613,453,613,421"/>
+<area shape="poly" title=" " alt="" coords="580,416,561,433,546,454,542,473,543,493,555,527,550,529,538,494,536,473,541,452,557,430,577,412"/>
+<area shape="poly" title=" " alt="" coords="701,406,803,428,842,440,863,451,870,466,869,479,862,490,851,501,818,517,780,530,778,525,816,513,848,496,858,487,864,477,865,467,859,455,840,445,801,434,700,411"/>
+<area shape="rect" href="a00857.html" title=" " alt="" coords="700,453,848,480"/>
+<area shape="poly" title=" " alt="" coords="658,410,748,450,745,455,656,415"/>
+<area shape="poly" title=" " alt="" coords="1080,179,1374,227,1404,272,1411,295,1414,317,1411,340,1404,362,1375,407,1353,424,1319,437,1232,455,1137,464,1056,467,1056,462,1136,459,1231,449,1318,432,1350,419,1371,404,1399,360,1406,339,1408,317,1406,296,1399,275,1372,232,1080,185"/>
+<area shape="poly" title=" " alt="" coords="1080,179,1464,231,1464,236,1079,185"/>
+</map>
+</div>
+</div>
+<p><a href="a00746_source.html">Go to the source code of this file.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03061.html">lumex::xml::writer::XmlBufferedWriter</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A buffered writer for XML output, optimizing write operations by accumulating data in a buffer.  <a href="a03061.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00948.html">lumex</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01126.html">lumex::xml</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01144.html">lumex::xml::writer</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="a07486181f1990291c2a348de8eb4c480" name="a07486181f1990291c2a348de8eb4c480"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a07486181f1990291c2a348de8eb4c480">&#9670;&#160;</a></span>LUMEX_IMPLEMENTATION</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_IMPLEMENTATION</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-</div><!-- contents -->
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Internal output buffer of the serializer: it collects characters, converts them to the target encoding and passes blocks to an <code>IXmlWriter</code>. </p>
+<p><code>XmlBufferedWriter</code> keeps its buffers inside the object (10 KiB in total for the characters and the conversion scratch area), so buffering allocates no memory. Its <code>write</code> overloads for one to six characters let the serializer (<code>node_output</code> in <code><a class="el" href="a00692.html" title="XmlNode, the handle to a node of a document tree, with the iterators over its children and attributes...">XmlNode.hpp</a></code>) emit markup without measuring strings. The owner calls <code>flush()</code> after the last write; <code>XmlDocument::save</code> and <code>XmlNode::print</code> do. </p>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_d38a0fae6a8e48d91b3b62673cf0c708.html">xpath</a></li><li class="navelem"><a class="el" href="dir_19857d72d820dc03d02d27eca0dc23fe.html">memory</a></li><li class="navelem"><a class="el" href="a00746.html">XPathAllocator.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_7b089e18b7c2a92c23a9cf3b22a6463e.html">writer</a></li><li class="navelem"><a class="el" href="a00746.html">XmlBufferedWriter.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

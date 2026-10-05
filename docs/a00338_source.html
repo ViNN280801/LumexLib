@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexTime.hpp Source File</title>
+<title>LumexLib: LumexVarInfo.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -103,7 +103,7 @@ $(function(){initNavTree('a00338_source.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">LumexTime.hpp</div></div>
+  <div class="headertitle"><div class="title">LumexVarInfo.hpp</div></div>
 </div><!--header-->
 <div class="contents">
 <a href="a00338.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">/*</span></div>
@@ -145,146 +145,194 @@ $(function(){initNavTree('a00338_source.html',''); initResizable(true); });
 <div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="comment"> * SOFTWARE.</span></div>
 <div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="comment"> */</span></div>
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span></div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="preprocessor">#ifndef LUMEX_CORE_TIME_CLOCK_HPP</span></div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="preprocessor">#define LUMEX_CORE_TIME_CLOCK_HPP</span></div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span><span class="preprocessor">#include &quot;<a class="code" href="a00605.html">lumex/LumexExport.hpp</a>&quot;</span> <span class="comment">// For LUMEX_API and LUMEX_EXTERN_C_BEGIN/END</span></div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span><span class="preprocessor">#include &lt;chrono&gt;</span> <span class="comment">// For std::chrono::system_clock::time_point</span></div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="preprocessor">#include &lt;ctime&gt;</span>  <span class="comment">// For std::time_t, std::time</span></div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span><span class="preprocessor">#include &lt;string&gt;</span> <span class="comment">// For std::string</span></div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span> </div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span><span class="preprocessor">#include &quot;<a class="code" href="a00905.html">lumex/core/utility/LumexUtility</a>&quot;</span> <span class="comment">// Potentially for LUMEX_ATTRIBUTE_NODISCARD, etc.</span></div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><span class="preprocessor">#include &quot;<a class="code" href="a00353.html">lumex/core/utility/attr/LumexAttributes.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span><span class="preprocessor">#include &quot;<a class="code" href="a00389.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><span class="preprocessor">#ifndef LUMEX_CORE_REFLECTION_VAR_INFO_HPP</span></div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span><span class="preprocessor">#define LUMEX_CORE_REFLECTION_VAR_INFO_HPP</span></div>
 <div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span><a class="code hl_define" href="a00605.html#acaff4c6bbcf06a700c96ca83292c16ac">LUMEX_EXTERN_C_BEGIN</a></div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span> </div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a00912.html">lumex</a> <span class="comment">// NOLINT(modernize-concat-nested-namespaces)</span></div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>{</div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a00964.html">core</a></div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>{</div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01032.html">time</a></div>
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>{</div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01033.html">clock</a></div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>{</div>
-<div class="foldopen" id="foldopen00086" data-start="{" data-end="}">
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno"><a class="line" href="a01034.html">   86</a></span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01034.html">Constants</a></div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>{</div>
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno"><a class="line" href="a01034.html#a671e67abbc9991b141ccb6ea913b6170">   94</a></span><a class="code hl_define" href="a00389.html#a1513006a1992e7dc9cc43b2e081cc33f">LUMEX_CONSTEXPR</a> <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> <a class="code hl_variable" href="a01034.html#a671e67abbc9991b141ccb6ea913b6170">KDEFAULT_DATETIME_BUF_SIZE</a> = 128UL;</div>
-<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span></div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno"><a class="line" href="a01034.html#a92520332f10f7de93c03c8fa00ec3ece">  100</a></span><a class="code hl_define" href="a00389.html#a1513006a1992e7dc9cc43b2e081cc33f">LUMEX_CONSTEXPR</a> <span class="keywordtype">int</span> <a class="code hl_variable" href="a01034.html#a92520332f10f7de93c03c8fa00ec3ece">K_MICROSECONDS_IN_MILLISECOND</a> = 1000;</div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span></div>
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno"><a class="line" href="a01034.html#a05f374ba4164eff86a94ac72a7f76f90">  105</a></span><a class="code hl_define" href="a00389.html#a1513006a1992e7dc9cc43b2e081cc33f">LUMEX_CONSTEXPR</a> <span class="keywordtype">long</span> <span class="keywordtype">long</span> <a class="code hl_variable" href="a01034.html#a05f374ba4164eff86a94ac72a7f76f90">NS_IN_MCS</a> = 1000LL;</div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span></div>
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno"><a class="line" href="a01034.html#aae41865849d544e2b2065c79ad5d04a3">  111</a></span><a class="code hl_define" href="a00389.html#a1513006a1992e7dc9cc43b2e081cc33f">LUMEX_CONSTEXPR</a> <span class="keywordtype">long</span> <span class="keywordtype">long</span> <a class="code hl_variable" href="a01034.html#aae41865849d544e2b2065c79ad5d04a3">NS_IN_MS</a> = 1000LL * <a class="code hl_variable" href="a01034.html#a05f374ba4164eff86a94ac72a7f76f90">NS_IN_MCS</a>;</div>
-<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span></div>
-<div class="line"><a id="l00117" name="l00117"></a><span class="lineno"><a class="line" href="a01034.html#ab23f024fdea559a5db8d58650e206481">  117</a></span><a class="code hl_define" href="a00389.html#a1513006a1992e7dc9cc43b2e081cc33f">LUMEX_CONSTEXPR</a> <span class="keywordtype">long</span> <span class="keywordtype">long</span> <a class="code hl_variable" href="a01034.html#ab23f024fdea559a5db8d58650e206481">NS_IN_S</a> = 1000LL * <a class="code hl_variable" href="a01034.html#aae41865849d544e2b2065c79ad5d04a3">NS_IN_MS</a>;</div>
-<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span></div>
-<div class="line"><a id="l00123" name="l00123"></a><span class="lineno"><a class="line" href="a01034.html#aa3bb1731becc79770defd32979ecd592">  123</a></span><a class="code hl_define" href="a00389.html#a1513006a1992e7dc9cc43b2e081cc33f">LUMEX_CONSTEXPR</a> <span class="keywordtype">long</span> <span class="keywordtype">long</span> <a class="code hl_variable" href="a01034.html#aa3bb1731becc79770defd32979ecd592">NS_IN_MIN</a> = 60LL * <a class="code hl_variable" href="a01034.html#ab23f024fdea559a5db8d58650e206481">NS_IN_S</a>;</div>
-<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span></div>
-<div class="line"><a id="l00129" name="l00129"></a><span class="lineno"><a class="line" href="a01034.html#aee175c5f761ca33e9daa712038466e46">  129</a></span><a class="code hl_define" href="a00389.html#a1513006a1992e7dc9cc43b2e081cc33f">LUMEX_CONSTEXPR</a> <span class="keywordtype">long</span> <span class="keywordtype">long</span> <a class="code hl_variable" href="a01034.html#aee175c5f761ca33e9daa712038466e46">NS_IN_H</a> = 60LL * <a class="code hl_variable" href="a01034.html#aa3bb1731becc79770defd32979ecd592">NS_IN_MIN</a>;</div>
-<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span></div>
-<div class="line"><a id="l00135" name="l00135"></a><span class="lineno"><a class="line" href="a01034.html#a9a09901f0cb2371836aea56749964be6">  135</a></span><a class="code hl_define" href="a00389.html#a1513006a1992e7dc9cc43b2e081cc33f">LUMEX_CONSTEXPR</a> <span class="keywordtype">long</span> <span class="keywordtype">long</span> <a class="code hl_variable" href="a01034.html#a9a09901f0cb2371836aea56749964be6">NS_IN_D</a> = 24LL * <a class="code hl_variable" href="a01034.html#aee175c5f761ca33e9daa712038466e46">NS_IN_H</a>;</div>
-<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span></div>
-<div class="line"><a id="l00141" name="l00141"></a><span class="lineno"><a class="line" href="a01034.html#a204ae22b890f0382c080e185412f2233">  141</a></span><a class="code hl_define" href="a00389.html#a1513006a1992e7dc9cc43b2e081cc33f">LUMEX_CONSTEXPR</a> <span class="keywordtype">long</span> <span class="keywordtype">long</span> <a class="code hl_variable" href="a01034.html#a204ae22b890f0382c080e185412f2233">NS_IN_W</a> = 7LL * <a class="code hl_variable" href="a01034.html#a9a09901f0cb2371836aea56749964be6">NS_IN_D</a>;</div>
-<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span></div>
-<div class="line"><a id="l00149" name="l00149"></a><span class="lineno"><a class="line" href="a01034.html#ae4851dee738c69b971cd8ef30d1bde23">  149</a></span><a class="code hl_define" href="a00389.html#a1513006a1992e7dc9cc43b2e081cc33f">LUMEX_CONSTEXPR</a> <span class="keywordtype">long</span> <span class="keywordtype">long</span> <a class="code hl_variable" href="a01034.html#ae4851dee738c69b971cd8ef30d1bde23">NS_IN_M</a> = 30LL * <a class="code hl_variable" href="a01034.html#a9a09901f0cb2371836aea56749964be6">NS_IN_D</a>; <span class="comment">// Approximation</span></div>
-<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span></div>
-<div class="line"><a id="l00156" name="l00156"></a><span class="lineno"><a class="line" href="a01034.html#adb9e9c4c5982bb75a94a3e06f58d1540">  156</a></span><a class="code hl_define" href="a00389.html#a1513006a1992e7dc9cc43b2e081cc33f">LUMEX_CONSTEXPR</a> <span class="keywordtype">long</span> <span class="keywordtype">long</span> <a class="code hl_variable" href="a01034.html#adb9e9c4c5982bb75a94a3e06f58d1540">NS_IN_Y</a> = 365LL * <a class="code hl_variable" href="a01034.html#a9a09901f0cb2371836aea56749964be6">NS_IN_D</a>; <span class="comment">// Approximation</span></div>
-<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>} <span class="comment">// namespace Constants</span></div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span><span class="preprocessor">#include &lt;sstream&gt;</span></div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span><span class="preprocessor">#include &lt;type_traits&gt;</span></div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span><span class="preprocessor">#include &lt;typeinfo&gt;</span></div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span><span class="preprocessor">#include &lt;utility&gt;</span></div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span><span class="preprocessor">#if __cplusplus &gt; 201703L &amp;&amp; defined(__has_include)</span></div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span><span class="preprocessor">#if __has_include(&lt;source_location&gt;)</span></div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span><span class="preprocessor">#include &lt;source_location&gt;</span></div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span> </div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span><span class="preprocessor">#include &quot;<a class="code" href="a00404.html">lumex/core/utility/compiler/LumexCheckFeatures.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span><span class="preprocessor">#include &quot;<a class="code" href="a00410.html">lumex/core/utility/demangle/LumexDemangle.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span><span class="preprocessor">#include &quot;<a class="code" href="a00425.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span><span class="preprocessor">#include &quot;<a class="code" href="a00446.html">lumex/core/utility/traits/LumexTypeTraits.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span> </div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a00948.html">lumex</a></div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>{</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01005.html">core</a></div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>{</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01058.html">reflection</a></div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>{</div>
+<div class="foldopen" id="foldopen00087" data-start="{" data-end="}">
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno"><a class="line" href="a01063.html">   87</a></span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01063.html">var_info</a></div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>{</div>
+<div class="foldopen" id="foldopen00089" data-start="{" data-end="}">
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno"><a class="line" href="a01064.html">   89</a></span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01064.html">VarInfoDetail</a></div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>{</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span> </div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span><span class="preprocessor">#if __cplusplus &gt;= 201703L</span></div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span><span class="comment">// C++17+: if constexpr instead of a pair of enable_if overloads - one</span></div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span><span class="comment">// function instead of two, with the condition visible right in the</span></div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span><span class="comment">// body instead of split across two signatures.</span></div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>std::string</div>
+<div class="foldopen" id="foldopen00130" data-start="{" data-end="}">
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno"><a class="line" href="a01064.html#a6e6e131055190b5e44baf4d465cc4837">  130</a></span><a class="code hl_function" href="a01064.html#a6e6e131055190b5e44baf4d465cc4837">FormatValue</a> (T <span class="keyword">const</span> &amp;value)</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>{</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span><span class="preprocessor">#if LUMEX_HAS_CONCEPTS</span></div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>  <a class="code hl_define" href="a00425.html#a38079da46fca9b9ae17e90b731d6ab0c">LUMEX_CONSTEXPR_IF</a> (lumex::core::utility::traits::stream::Streamable&lt;</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>                      <span class="keyword">typename</span> std::decay&lt;T&gt;::type <span class="keyword">const</span> &amp;&gt;)</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span><span class="preprocessor">#else</span></div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>  <a class="code hl_define" href="a00425.html#a38079da46fca9b9ae17e90b731d6ab0c">LUMEX_CONSTEXPR_IF</a> (<a class="code hl_struct" href="a02613.html">lumex::core::utility::traits::stream::is_ostreamable</a>&lt;</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>                      <span class="keyword">typename</span> std::decay&lt;T&gt;::type <span class="keyword">const</span> &amp;&gt;::value)</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>  {</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>    std::ostringstream oss;</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>    oss &lt;&lt; value;</div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>    <span class="keywordflow">return</span> oss.str ();</div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>  }</div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>  <span class="keywordflow">else</span></div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>  {</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>    <span class="comment">// The type is visible separately (typeid+demangle always work),</span></div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>    <span class="comment">// so a value with no operator&lt;&lt; only needs a placeholder,</span></div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>    <span class="comment">// without failing the build.</span></div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>    <span class="keywordflow">return</span> <span class="stringliteral">&quot;&lt;no operator&lt;&lt;&gt;&quot;</span>;</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>  }</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>}</div>
 </div>
-<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span></div>
-<div class="foldopen" id="foldopen00169" data-start="{" data-end="};">
-<div class="line"><a id="l00169" name="l00169"></a><span class="lineno"><a class="line" href="a02346.html">  169</a></span><span class="keyword">class </span><a class="code hl_define" href="a00605.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a> <a class="code hl_class" href="a02346.html">LumexTime</a></div>
-<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>{</div>
-<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span><span class="keyword">public</span>:</div>
-<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>  <span class="keyword">static</span> std::string <a class="code hl_function" href="a02346.html#a113d414febebf7c1d733970164ffba75">get_current_datetime</a> (<span class="keywordtype">char</span> <span class="keyword">const</span> *format</div>
-<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>                                           = <span class="stringliteral">&quot;%d.%m.%Y_%H:%M:%S&quot;</span>);</div>
-<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span></div>
-<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>  <span class="keyword">static</span> std::string</div>
-<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>  <a class="code hl_function" href="a02346.html#a2bf93fba614d8f13ac35b08457ed07d1">get_timestamp_ns</a> (); </div>
-<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>  <span class="keyword">static</span> std::string</div>
-<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span>  <a class="code hl_function" href="a02346.html#a37a120aff3a2294bdac0446db2a90e5d">get_timestamp_mcs</a> (); </div>
-<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>  <span class="keyword">static</span> std::string</div>
-<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span>  <a class="code hl_function" href="a02346.html#ab1b8dd603822728c1ef65b58fec526bf">get_timestamp_ms</a> (); </div>
-<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span>  <span class="keyword">static</span> std::string <a class="code hl_function" href="a02346.html#aed7b3234ba99f194a8fc31fa1a5d992a">get_timestamp_s</a> (); </div>
-<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span>  <span class="keyword">static</span> std::string</div>
-<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>  <a class="code hl_function" href="a02346.html#a4b39855693d9e9daf565907c1fbf752c">get_timestamp_min</a> (); </div>
-<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span>  <span class="keyword">static</span> std::string <a class="code hl_function" href="a02346.html#afc08904ddc164f29e744f08ff28d8c79">get_timestamp_h</a> (); </div>
-<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>  <span class="keyword">static</span> std::string <a class="code hl_function" href="a02346.html#a13caacb06c4736489e2b3b81a2efc288">get_timestamp_d</a> (); </div>
-<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span>  <span class="keyword">static</span> std::string <a class="code hl_function" href="a02346.html#af0d828c26f339865ffc62279d09bb09c">get_timestamp_w</a> (); </div>
-<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>  <span class="keyword">static</span> std::string <a class="code hl_function" href="a02346.html#a70738f9566fd61152180d1d9fa21a5d2">get_timestamp_m</a> (); </div>
-<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>  <span class="keyword">static</span> std::string <a class="code hl_function" href="a02346.html#a4f8a7283c43e7fc3a131c65d64063e5f">get_timestamp_y</a> (); </div>
-<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span></div>
-<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>  <span class="keyword">static</span> std::string <a class="code hl_function" href="a02346.html#a7bf10aa4f7ec3937d4783ae43494a031">timestamp</a> (std::time_t time_ = std::time (<span class="keyword">nullptr</span>),</div>
-<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span>                                std::string <span class="keyword">const</span> &amp;<a class="code hl_namespace" href="a01007.html">fmt</a> = <span class="stringliteral">&quot;%Y%m%d-%H%M%S&quot;</span>);</div>
-<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span></div>
-<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span>  <span class="keyword">static</span> std::string <a class="code hl_function" href="a02346.html#ab5a0ca1367afae776201d218eb7389cd">timestamp_ms</a> (std::chrono::system_clock::time_point tp</div>
-<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span>                                   = std::chrono::system_clock::now (),</div>
-<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span>                                   std::string <span class="keyword">const</span> &amp;<a class="code hl_namespace" href="a01007.html">fmt</a></div>
-<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span>                                   = <span class="stringliteral">&quot;%Y-%m-%d %H:%M:%S&quot;</span>);</div>
-<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span> </div>
-<div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span><span class="keyword">private</span>:</div>
-<div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span>  <span class="keyword">static</span> std::string _get_timestamp (<span class="keywordtype">long</span> <span class="keywordtype">long</span> divisor);</div>
-<div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span>};</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span><span class="preprocessor">#else</span></div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span><span class="comment">// C++11/14: if constexpr is unavailable (C++17) - classic</span></div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span><span class="comment">// enable_if dispatch between two overloads, selected via SFINAE.</span></div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span><span class="keyword">typename</span> std::enable_if&lt;<a class="code hl_struct" href="a02613.html">lumex::core::utility::traits::stream::is_ostreamable</a>&lt;</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>                            <span class="keyword">typename</span> std::decay&lt;T&gt;::type <span class="keyword">const</span> &amp;&gt;::value,</div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>                        std::string&gt;::type</div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span><a class="code hl_function" href="a01064.html#a6e6e131055190b5e44baf4d465cc4837">FormatValue</a> (T <span class="keyword">const</span> &amp;value)</div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>{</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>  std::ostringstream oss;</div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>  oss &lt;&lt; value;</div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>  <span class="keywordflow">return</span> oss.str ();</div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>}</div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span></div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span><span class="keyword">typename</span> std::enable_if&lt;!<a class="code hl_struct" href="a02613.html">lumex::core::utility::traits::stream::is_ostreamable</a>&lt;</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>                            <span class="keyword">typename</span> std::decay&lt;T&gt;::type <span class="keyword">const</span> &amp;&gt;::value,</div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>                        std::string&gt;::type</div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span><a class="code hl_function" href="a01064.html#a6e6e131055190b5e44baf4d465cc4837">FormatValue</a> (T <span class="keyword">const</span> &amp;)</div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>{</div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>  <span class="keywordflow">return</span> <span class="stringliteral">&quot;&lt;no operator&lt;&lt;&gt;&quot;</span>;</div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>}</div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>} <span class="comment">// namespace VarInfoDetail</span></div>
 </div>
-<div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span>} <span class="comment">// namespace clock</span></div>
-<div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span>} <span class="comment">// namespace time</span></div>
-<div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span>} <span class="comment">// namespace core</span></div>
-<div class="line"><a id="l00300" name="l00300"></a><span class="lineno">  300</span>} <span class="comment">// namespace lumex</span></div>
-<div class="line"><a id="l00301" name="l00301"></a><span class="lineno">  301</span></div>
-<div class="line"><a id="l00308" name="l00308"></a><span class="lineno"><a class="line" href="a00338.html#a024e88e94b38af283e9a316260061ba1">  308</a></span><span class="keyword">using </span><a class="code hl_typedef" href="a00338.html#a024e88e94b38af283e9a316260061ba1">LumexTime</a> = <a class="code hl_class" href="a02346.html">lumex::core::time::clock::LumexTime</a>;</div>
-<div class="line"><a id="l00309" name="l00309"></a><span class="lineno">  309</span> </div>
-<div class="line"><a id="l00310" name="l00310"></a><span class="lineno">  310</span><a class="code hl_define" href="a00605.html#aa5051b73e2d3303e7e2718073a3dd2f4">LUMEX_EXTERN_C_END</a></div>
-<div class="line"><a id="l00311" name="l00311"></a><span class="lineno">  311</span> </div>
-<div class="line"><a id="l00312" name="l00312"></a><span class="lineno">  312</span><span class="preprocessor">#endif </span><span class="comment">// !LUMEX_CORE_TIME_CLOCK_HPP</span></div>
-<div class="ttc" id="aa00338_html_a024e88e94b38af283e9a316260061ba1"><div class="ttname"><a href="a00338.html#a024e88e94b38af283e9a316260061ba1">LumexTime</a></div><div class="ttdeci">lumex::core::time::clock::LumexTime LumexTime</div><div class="ttdoc">Global type alias for lumex::core::time::LumexTime.</div><div class="ttdef"><b>Definition</b> LumexTime.hpp:308</div></div>
-<div class="ttc" id="aa00353_html"><div class="ttname"><a href="a00353.html">LumexAttributes.hpp</a></div><div class="ttdoc">LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P...</div></div>
-<div class="ttc" id="aa00389_html"><div class="ttname"><a href="a00389.html">LumexKeywords.hpp</a></div><div class="ttdoc">Macros that spell C++ keywords and specifiers only where the compiled standard supports them,...</div></div>
-<div class="ttc" id="aa00389_html_a1513006a1992e7dc9cc43b2e081cc33f"><div class="ttname"><a href="a00389.html#a1513006a1992e7dc9cc43b2e081cc33f">LUMEX_CONSTEXPR</a></div><div class="ttdeci">#define LUMEX_CONSTEXPR</div><div class="ttdef"><b>Definition</b> LumexKeywords.hpp:164</div></div>
-<div class="ttc" id="aa00605_html"><div class="ttname"><a href="a00605.html">LumexExport.hpp</a></div><div class="ttdoc">Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,...</div></div>
-<div class="ttc" id="aa00605_html_aa5051b73e2d3303e7e2718073a3dd2f4"><div class="ttname"><a href="a00605.html#aa5051b73e2d3303e7e2718073a3dd2f4">LUMEX_EXTERN_C_END</a></div><div class="ttdeci">#define LUMEX_EXTERN_C_END</div><div class="ttdef"><b>Definition</b> LumexExport.hpp:64</div></div>
-<div class="ttc" id="aa00605_html_aa948a1b1a43f6a954fd4c15b01ae4207"><div class="ttname"><a href="a00605.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a></div><div class="ttdeci">#define LUMEX_API</div><div class="ttdef"><b>Definition</b> LumexExport.hpp:90</div></div>
-<div class="ttc" id="aa00605_html_acaff4c6bbcf06a700c96ca83292c16ac"><div class="ttname"><a href="a00605.html#acaff4c6bbcf06a700c96ca83292c16ac">LUMEX_EXTERN_C_BEGIN</a></div><div class="ttdeci">#define LUMEX_EXTERN_C_BEGIN</div><div class="ttdef"><b>Definition</b> LumexExport.hpp:61</div></div>
-<div class="ttc" id="aa00905_html"><div class="ttname"><a href="a00905.html">LumexUtility</a></div><div class="ttdoc">Utility module, the foundation of the library: assertion, attribute, keyword and constant macros,...</div></div>
-<div class="ttc" id="aa00912_html"><div class="ttname"><a href="a00912.html">lumex</a></div><div class="ttdef"><b>Definition</b> LumexCPUVectorizationCapabilities.cpp:65</div></div>
-<div class="ttc" id="aa00964_html"><div class="ttname"><a href="a00964.html">lumex::core</a></div><div class="ttdef"><b>Definition</b> LumexAtomicSharedPtr.hpp:103</div></div>
-<div class="ttc" id="aa01007_html"><div class="ttname"><a href="a01007.html">lumex::core::fmt</a></div><div class="ttdef"><b>Definition</b> LumexFormat.hpp:142</div></div>
-<div class="ttc" id="aa01032_html"><div class="ttname"><a href="a01032.html">lumex::core::time</a></div><div class="ttdoc">Core library components.</div><div class="ttdef"><b>Definition</b> LumexTime.cpp:56</div></div>
-<div class="ttc" id="aa01033_html"><div class="ttname"><a href="a01033.html">lumex::core::time::clock</a></div><div class="ttdef"><b>Definition</b> LumexTime.cpp:58</div></div>
-<div class="ttc" id="aa01034_html"><div class="ttname"><a href="a01034.html">lumex::core::time::clock::Constants</a></div><div class="ttdoc">Contains compile-time constants related to time calculations.</div><div class="ttdef"><b>Definition</b> LumexTime.hpp:87</div></div>
-<div class="ttc" id="aa01034_html_a05f374ba4164eff86a94ac72a7f76f90"><div class="ttname"><a href="a01034.html#a05f374ba4164eff86a94ac72a7f76f90">lumex::core::time::clock::Constants::NS_IN_MCS</a></div><div class="ttdeci">constexpr long long NS_IN_MCS</div><div class="ttdoc">Number of nanoseconds in one microsecond.</div><div class="ttdef"><b>Definition</b> LumexTime.hpp:105</div></div>
-<div class="ttc" id="aa01034_html_a204ae22b890f0382c080e185412f2233"><div class="ttname"><a href="a01034.html#a204ae22b890f0382c080e185412f2233">lumex::core::time::clock::Constants::NS_IN_W</a></div><div class="ttdeci">constexpr long long NS_IN_W</div><div class="ttdoc">Number of nanoseconds in one week.</div><div class="ttdef"><b>Definition</b> LumexTime.hpp:141</div></div>
-<div class="ttc" id="aa01034_html_a671e67abbc9991b141ccb6ea913b6170"><div class="ttname"><a href="a01034.html#a671e67abbc9991b141ccb6ea913b6170">lumex::core::time::clock::Constants::KDEFAULT_DATETIME_BUF_SIZE</a></div><div class="ttdeci">constexpr unsigned long KDEFAULT_DATETIME_BUF_SIZE</div><div class="ttdoc">Default buffer size for date and time strings.</div><div class="ttdef"><b>Definition</b> LumexTime.hpp:94</div></div>
-<div class="ttc" id="aa01034_html_a92520332f10f7de93c03c8fa00ec3ece"><div class="ttname"><a href="a01034.html#a92520332f10f7de93c03c8fa00ec3ece">lumex::core::time::clock::Constants::K_MICROSECONDS_IN_MILLISECOND</a></div><div class="ttdeci">constexpr int K_MICROSECONDS_IN_MILLISECOND</div><div class="ttdoc">Number of microseconds in one millisecond.</div><div class="ttdef"><b>Definition</b> LumexTime.hpp:100</div></div>
-<div class="ttc" id="aa01034_html_a9a09901f0cb2371836aea56749964be6"><div class="ttname"><a href="a01034.html#a9a09901f0cb2371836aea56749964be6">lumex::core::time::clock::Constants::NS_IN_D</a></div><div class="ttdeci">constexpr long long NS_IN_D</div><div class="ttdoc">Number of nanoseconds in one day.</div><div class="ttdef"><b>Definition</b> LumexTime.hpp:135</div></div>
-<div class="ttc" id="aa01034_html_aa3bb1731becc79770defd32979ecd592"><div class="ttname"><a href="a01034.html#aa3bb1731becc79770defd32979ecd592">lumex::core::time::clock::Constants::NS_IN_MIN</a></div><div class="ttdeci">constexpr long long NS_IN_MIN</div><div class="ttdoc">Number of nanoseconds in one minute.</div><div class="ttdef"><b>Definition</b> LumexTime.hpp:123</div></div>
-<div class="ttc" id="aa01034_html_aae41865849d544e2b2065c79ad5d04a3"><div class="ttname"><a href="a01034.html#aae41865849d544e2b2065c79ad5d04a3">lumex::core::time::clock::Constants::NS_IN_MS</a></div><div class="ttdeci">constexpr long long NS_IN_MS</div><div class="ttdoc">Number of nanoseconds in one millisecond.</div><div class="ttdef"><b>Definition</b> LumexTime.hpp:111</div></div>
-<div class="ttc" id="aa01034_html_ab23f024fdea559a5db8d58650e206481"><div class="ttname"><a href="a01034.html#ab23f024fdea559a5db8d58650e206481">lumex::core::time::clock::Constants::NS_IN_S</a></div><div class="ttdeci">constexpr long long NS_IN_S</div><div class="ttdoc">Number of nanoseconds in one second.</div><div class="ttdef"><b>Definition</b> LumexTime.hpp:117</div></div>
-<div class="ttc" id="aa01034_html_adb9e9c4c5982bb75a94a3e06f58d1540"><div class="ttname"><a href="a01034.html#adb9e9c4c5982bb75a94a3e06f58d1540">lumex::core::time::clock::Constants::NS_IN_Y</a></div><div class="ttdeci">constexpr long long NS_IN_Y</div><div class="ttdoc">Approximate number of nanoseconds in one year.</div><div class="ttdef"><b>Definition</b> LumexTime.hpp:156</div></div>
-<div class="ttc" id="aa01034_html_ae4851dee738c69b971cd8ef30d1bde23"><div class="ttname"><a href="a01034.html#ae4851dee738c69b971cd8ef30d1bde23">lumex::core::time::clock::Constants::NS_IN_M</a></div><div class="ttdeci">constexpr long long NS_IN_M</div><div class="ttdoc">Approximate number of nanoseconds in one month.</div><div class="ttdef"><b>Definition</b> LumexTime.hpp:149</div></div>
-<div class="ttc" id="aa01034_html_aee175c5f761ca33e9daa712038466e46"><div class="ttname"><a href="a01034.html#aee175c5f761ca33e9daa712038466e46">lumex::core::time::clock::Constants::NS_IN_H</a></div><div class="ttdeci">constexpr long long NS_IN_H</div><div class="ttdoc">Number of nanoseconds in one hour.</div><div class="ttdef"><b>Definition</b> LumexTime.hpp:129</div></div>
-<div class="ttc" id="aa02346_html"><div class="ttname"><a href="a02346.html">lumex::core::time::clock::LumexTime</a></div><div class="ttdoc">Provides static utility methods for time and date handling.</div><div class="ttdef"><b>Definition</b> LumexTime.hpp:170</div></div>
-<div class="ttc" id="aa02346_html_a113d414febebf7c1d733970164ffba75"><div class="ttname"><a href="a02346.html#a113d414febebf7c1d733970164ffba75">lumex::core::time::clock::LumexTime::get_current_datetime</a></div><div class="ttdeci">static std::string get_current_datetime(char const *format=&quot;%d.%m.%Y_%H:%M:%S&quot;)</div><div class="ttdoc">Retrieves the current date and time formatted as a string.</div><div class="ttdef"><b>Definition</b> LumexTime.cpp:61</div></div>
-<div class="ttc" id="aa02346_html_a13caacb06c4736489e2b3b81a2efc288"><div class="ttname"><a href="a02346.html#a13caacb06c4736489e2b3b81a2efc288">lumex::core::time::clock::LumexTime::get_timestamp_d</a></div><div class="ttdeci">static std::string get_timestamp_d()</div><div class="ttdoc">Gets the current timestamp in days since epoch.</div><div class="ttdef"><b>Definition</b> LumexTime.cpp:215</div></div>
-<div class="ttc" id="aa02346_html_a2bf93fba614d8f13ac35b08457ed07d1"><div class="ttname"><a href="a02346.html#a2bf93fba614d8f13ac35b08457ed07d1">lumex::core::time::clock::LumexTime::get_timestamp_ns</a></div><div class="ttdeci">static std::string get_timestamp_ns()</div><div class="ttdoc">Gettters for the time since epoch in different time units.</div><div class="ttdef"><b>Definition</b> LumexTime.cpp:173</div></div>
-<div class="ttc" id="aa02346_html_a37a120aff3a2294bdac0446db2a90e5d"><div class="ttname"><a href="a02346.html#a37a120aff3a2294bdac0446db2a90e5d">lumex::core::time::clock::LumexTime::get_timestamp_mcs</a></div><div class="ttdeci">static std::string get_timestamp_mcs()</div><div class="ttdoc">Gets the current timestamp in microseconds since epoch.</div><div class="ttdef"><b>Definition</b> LumexTime.cpp:180</div></div>
-<div class="ttc" id="aa02346_html_a4b39855693d9e9daf565907c1fbf752c"><div class="ttname"><a href="a02346.html#a4b39855693d9e9daf565907c1fbf752c">lumex::core::time::clock::LumexTime::get_timestamp_min</a></div><div class="ttdeci">static std::string get_timestamp_min()</div><div class="ttdoc">Gets the current timestamp in minutes since epoch.</div><div class="ttdef"><b>Definition</b> LumexTime.cpp:201</div></div>
-<div class="ttc" id="aa02346_html_a4f8a7283c43e7fc3a131c65d64063e5f"><div class="ttname"><a href="a02346.html#a4f8a7283c43e7fc3a131c65d64063e5f">lumex::core::time::clock::LumexTime::get_timestamp_y</a></div><div class="ttdeci">static std::string get_timestamp_y()</div><div class="ttdoc">Gets the current timestamp in years (approx.) since epoch.</div><div class="ttdef"><b>Definition</b> LumexTime.cpp:236</div></div>
-<div class="ttc" id="aa02346_html_a70738f9566fd61152180d1d9fa21a5d2"><div class="ttname"><a href="a02346.html#a70738f9566fd61152180d1d9fa21a5d2">lumex::core::time::clock::LumexTime::get_timestamp_m</a></div><div class="ttdeci">static std::string get_timestamp_m()</div><div class="ttdoc">Gets the current timestamp in months (approx.) since epoch.</div><div class="ttdef"><b>Definition</b> LumexTime.cpp:229</div></div>
-<div class="ttc" id="aa02346_html_a7bf10aa4f7ec3937d4783ae43494a031"><div class="ttname"><a href="a02346.html#a7bf10aa4f7ec3937d4783ae43494a031">lumex::core::time::clock::LumexTime::timestamp</a></div><div class="ttdeci">static std::string timestamp(std::time_t time_=std::time(nullptr), std::string const &amp;fmt=&quot;%Y%m%d-%H%M%S&quot;)</div><div class="ttdoc">Formats a point in time as a local-time string, with a robust fallback chain.</div><div class="ttdef"><b>Definition</b> LumexTime.cpp:243</div></div>
-<div class="ttc" id="aa02346_html_ab1b8dd603822728c1ef65b58fec526bf"><div class="ttname"><a href="a02346.html#ab1b8dd603822728c1ef65b58fec526bf">lumex::core::time::clock::LumexTime::get_timestamp_ms</a></div><div class="ttdeci">static std::string get_timestamp_ms()</div><div class="ttdoc">Gets the current timestamp in milliseconds since epoch.</div><div class="ttdef"><b>Definition</b> LumexTime.cpp:187</div></div>
-<div class="ttc" id="aa02346_html_ab5a0ca1367afae776201d218eb7389cd"><div class="ttname"><a href="a02346.html#ab5a0ca1367afae776201d218eb7389cd">lumex::core::time::clock::LumexTime::timestamp_ms</a></div><div class="ttdeci">static std::string timestamp_ms(std::chrono::system_clock::time_point tp=std::chrono::system_clock::now(), std::string const &amp;fmt=&quot;%Y-%m-%d %H:%M:%S&quot;)</div><div class="ttdoc">Formats a point in time as a local-time string with a millisecond suffix.</div><div class="ttdef"><b>Definition</b> LumexTime.cpp:272</div></div>
-<div class="ttc" id="aa02346_html_aed7b3234ba99f194a8fc31fa1a5d992a"><div class="ttname"><a href="a02346.html#aed7b3234ba99f194a8fc31fa1a5d992a">lumex::core::time::clock::LumexTime::get_timestamp_s</a></div><div class="ttdeci">static std::string get_timestamp_s()</div><div class="ttdoc">Gets the current timestamp in seconds since epoch.</div><div class="ttdef"><b>Definition</b> LumexTime.cpp:194</div></div>
-<div class="ttc" id="aa02346_html_af0d828c26f339865ffc62279d09bb09c"><div class="ttname"><a href="a02346.html#af0d828c26f339865ffc62279d09bb09c">lumex::core::time::clock::LumexTime::get_timestamp_w</a></div><div class="ttdeci">static std::string get_timestamp_w()</div><div class="ttdoc">Gets the current timestamp in weeks since epoch.</div><div class="ttdef"><b>Definition</b> LumexTime.cpp:222</div></div>
-<div class="ttc" id="aa02346_html_afc08904ddc164f29e744f08ff28d8c79"><div class="ttname"><a href="a02346.html#afc08904ddc164f29e744f08ff28d8c79">lumex::core::time::clock::LumexTime::get_timestamp_h</a></div><div class="ttdeci">static std::string get_timestamp_h()</div><div class="ttdoc">Gets the current timestamp in hours since epoch.</div><div class="ttdef"><b>Definition</b> LumexTime.cpp:208</div></div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span></div>
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>std::string</div>
+<div class="foldopen" id="foldopen00223" data-start="{" data-end="}">
+<div class="line"><a id="l00223" name="l00223"></a><span class="lineno"><a class="line" href="a01063.html#a20aaee909dd3b3e785c2c7a3e6d76e66">  223</a></span><a class="code hl_function" href="a01063.html#a20aaee909dd3b3e785c2c7a3e6d76e66">VarInfo</a> (<span class="keywordtype">char</span> <span class="keyword">const</span> *exprText, T &amp;&amp;value, <span class="keywordtype">bool</span> isExprNoexcept,</div>
+<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>         <span class="keywordtype">char</span> <span class="keyword">const</span> *file, <span class="keywordtype">int</span> line)</div>
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>{</div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>  <span class="comment">// The address reuses exactly the pointer type addressof returned</span></div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>  <span class="comment">// (via decltype), not one rebuilt from decay&lt;T&gt; - for an</span></div>
+<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>  <span class="comment">// array/string literal, addressof yields a pointer TO THE ARRAY</span></div>
+<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span>  <span class="comment">// (e.g. int(*)[5]), while decay&lt;T&gt;* would give int** - a completely</span></div>
+<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span>  <span class="comment">// different, incompatible pointer structure (const_cast between them</span></div>
+<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span>  <span class="comment">// is ill-formed, not merely imprecise). remove_pointer+remove_cv</span></div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span>  <span class="comment">// strips the qualification while keeping the original (possibly</span></div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>  <span class="comment">// array) structure, and that structure - not the decay-simplified</span></div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>  <span class="comment">// one - is the one valid for a static_cast to an object pointer -&gt;</span></div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span>  <span class="comment">// void* ([conv.ptr] requires a pointer-to-object-type, which</span></div>
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span>  <span class="comment">// pointer-to-array is, unlike the incompatible &quot;pointer to element&quot;).</span></div>
+<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span>  <span class="comment">// typename ...::type, not remove_cv_t/remove_pointer_t: this function</span></div>
+<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span>  <span class="comment">// (unlike VarInfoDetail::FormatValue above) is the common C++11</span></div>
+<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span>  <span class="comment">// baseline, and the _t aliases only appeared in C++14.</span></div>
+<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span>  <span class="keyword">using </span>AddressPointerType = <span class="keyword">decltype</span> (std::addressof (value));</div>
+<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span>  <span class="keyword">using </span>RawPointerType = <span class="keyword">typename</span> std::remove_cv&lt;</div>
+<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span>      <span class="keyword">typename</span> std::remove_pointer&lt;AddressPointerType&gt;::type&gt;::type *;</div>
+<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span>  <span class="keywordtype">void</span> <span class="keyword">const</span> *addr = <span class="keyword">static_cast&lt;</span><span class="keywordtype">void</span> <span class="keyword">const </span>*<span class="keyword">&gt;</span> (</div>
+<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span>      <span class="keyword">const_cast&lt;</span>RawPointerType<span class="keyword">&gt;</span> (std::addressof (value)));</div>
+<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span> </div>
+<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span>  <span class="comment">// sizeof(value), not sizeof(decay&lt;T&gt;::type): for an array, decay</span></div>
+<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span>  <span class="comment">// would collapse the type into a pointer and sizeof would return the</span></div>
+<div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span>  <span class="comment">// pointer&#39;s size (8 bytes), not the array&#39;s real size - sizeof on a</span></div>
+<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span>  <span class="comment">// reference parameter transparently gives the size of what it refers to.</span></div>
+<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span>  std::ostringstream oss;</div>
+<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>  oss &lt;&lt; exprText &lt;&lt; <span class="stringliteral">&quot; = &quot;</span> &lt;&lt; <a class="code hl_function" href="a01064.html#a6e6e131055190b5e44baf4d465cc4837">VarInfoDetail::FormatValue</a> (value) &lt;&lt; <span class="stringliteral">&quot; [type=&quot;</span></div>
+<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span>      &lt;&lt; <a class="code hl_function" href="a01082.html#a5a8a6ca7779e633cf03b6e232ef67775">::lumex::core::utility::demangle::demangle_type_name</a> (</div>
+<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span>             <span class="keyword">typeid</span> (value).name ())</div>
+<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span>      &lt;&lt; (std::is_const&lt;typename std::remove_reference&lt;T&gt;::type&gt;::value</div>
+<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span>              ? <span class="stringliteral">&quot; const&quot;</span></div>
+<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span>              : <span class="stringliteral">&quot;&quot;</span>)</div>
+<div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span>      &lt;&lt; (std::is_volatile&lt;<span class="keyword">typename</span> std::remove_reference&lt;T&gt;::type&gt;::value</div>
+<div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span>              ? <span class="stringliteral">&quot; volatile&quot;</span></div>
+<div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span>              : <span class="stringliteral">&quot;&quot;</span>)</div>
+<div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span>      &lt;&lt; <span class="stringliteral">&quot;, size=&quot;</span> &lt;&lt; <span class="keyword">sizeof</span> (value) &lt;&lt; <span class="stringliteral">&quot; bytes, addr=&quot;</span> &lt;&lt; addr</div>
+<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span>      &lt;&lt; <span class="stringliteral">&quot;, noexcept=&quot;</span> &lt;&lt; (isExprNoexcept ? <span class="stringliteral">&quot;true&quot;</span> : <span class="stringliteral">&quot;false&quot;</span>) &lt;&lt; <span class="stringliteral">&quot;, at &quot;</span></div>
+<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span>      &lt;&lt; file &lt;&lt; <span class="stringliteral">&quot;:&quot;</span> &lt;&lt; line &lt;&lt; <span class="stringliteral">&quot;]&quot;</span>;</div>
+<div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span>  <span class="keywordflow">return</span> oss.str ();</div>
+<div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span>}</div>
+</div>
+<div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span> </div>
+<div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span><span class="preprocessor">#if LUMEX_HAS_STD_SOURCE_LOCATION</span><span class="preprocessor"></span></div>
+<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span>std::string</div>
+<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span><a class="code hl_function" href="a01063.html#a20aaee909dd3b3e785c2c7a3e6d76e66">VarInfo</a> (<span class="keywordtype">char</span> <span class="keyword">const</span> *exprText, T &amp;&amp;value, <span class="keywordtype">bool</span> isExprNoexcept,</div>
+<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span>         std::source_location <span class="keyword">const</span> &amp;loc = std::source_location::current ())</div>
+<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span>{</div>
+<div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="a01063.html#a20aaee909dd3b3e785c2c7a3e6d76e66">VarInfo</a> (exprText, std::forward&lt;T&gt; (value), isExprNoexcept,</div>
+<div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span>                  loc.file_name (), <span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span> (loc.line ()));</div>
+<div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span>}</div>
+<div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00285" name="l00285"></a><span class="lineno">  285</span>} <span class="comment">// namespace var_info</span></div>
+</div>
+<div class="line"><a id="l00286" name="l00286"></a><span class="lineno">  286</span>} <span class="comment">// namespace reflection</span></div>
+<div class="line"><a id="l00287" name="l00287"></a><span class="lineno">  287</span>} <span class="comment">// namespace core</span></div>
+<div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span>} <span class="comment">// namespace lumex</span></div>
+<div class="line"><a id="l00289" name="l00289"></a><span class="lineno">  289</span></div>
+<div class="line"><a id="l00311" name="l00311"></a><span class="lineno">  311</span><span class="preprocessor">#if LUMEX_HAS_STD_SOURCE_LOCATION</span></div>
+<div class="line"><a id="l00312" name="l00312"></a><span class="lineno">  312</span>  <span class="comment">// NOLINTNEXTLINE(cppcoreguidelines-macro-usage)</span></div>
+<div class="line"><a id="l00313" name="l00313"></a><span class="lineno">  313</span><span class="preprocessor">#define LUMEX_VARINFO(...)                                                    \</span></div>
+<div class="line"><a id="l00314" name="l00314"></a><span class="lineno">  314</span><span class="preprocessor">  ::lumex::core::reflection::var_info::VarInfo (                              \</span></div>
+<div class="line"><a id="l00315" name="l00315"></a><span class="lineno">  315</span><span class="preprocessor">      #__VA_ARGS__, (__VA_ARGS__), LUMEX_NOEXCEPT_IF (__VA_ARGS__))</span></div>
+<div class="line"><a id="l00316" name="l00316"></a><span class="lineno">  316</span><span class="preprocessor">#else</span></div>
+<div class="line"><a id="l00317" name="l00317"></a><span class="lineno">  317</span>  <span class="comment">// NOLINTNEXTLINE(cppcoreguidelines-macro-usage)</span></div>
+<div class="foldopen" id="foldopen00318" data-start="" data-end="">
+<div class="line"><a id="l00318" name="l00318"></a><span class="lineno"><a class="line" href="a00338.html#a3129a944f3128bf66e8c14dc9dd42323">  318</a></span><span class="preprocessor">#define LUMEX_VARINFO(...)                                                    \</span></div>
+<div class="line"><a id="l00319" name="l00319"></a><span class="lineno">  319</span><span class="preprocessor">  ::lumex::core::reflection::var_info::VarInfo (                              \</span></div>
+<div class="line"><a id="l00320" name="l00320"></a><span class="lineno">  320</span><span class="preprocessor">      #__VA_ARGS__, (__VA_ARGS__), LUMEX_NOEXCEPT_IF (__VA_ARGS__), __FILE__, \</span></div>
+<div class="line"><a id="l00321" name="l00321"></a><span class="lineno">  321</span><span class="preprocessor">      __LINE__)</span></div>
+</div>
+<div class="line"><a id="l00322" name="l00322"></a><span class="lineno">  322</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00323" name="l00323"></a><span class="lineno">  323</span> </div>
+<div class="line"><a id="l00324" name="l00324"></a><span class="lineno">  324</span><span class="preprocessor">#endif </span><span class="comment">// !LUMEX_CORE_REFLECTION_VAR_INFO_HPP</span></div>
+<div class="ttc" id="aa00404_html"><div class="ttname"><a href="a00404.html">LumexCheckFeatures.hpp</a></div><div class="ttdoc">C++ language, library and attribute feature availability.</div></div>
+<div class="ttc" id="aa00410_html"><div class="ttname"><a href="a00410.html">LumexDemangle.hpp</a></div><div class="ttdoc">Readable C++ type names: the lumDemangle macro for a type or an expression and demangle_type_name() f...</div></div>
+<div class="ttc" id="aa00425_html"><div class="ttname"><a href="a00425.html">LumexKeywords.hpp</a></div><div class="ttdoc">Macros that spell C++ keywords and specifiers only where the compiled standard supports them,...</div></div>
+<div class="ttc" id="aa00425_html_a38079da46fca9b9ae17e90b731d6ab0c"><div class="ttname"><a href="a00425.html#a38079da46fca9b9ae17e90b731d6ab0c">LUMEX_CONSTEXPR_IF</a></div><div class="ttdeci">#define LUMEX_CONSTEXPR_IF</div><div class="ttdef"><b>Definition</b> LumexKeywords.hpp:92</div></div>
+<div class="ttc" id="aa00446_html"><div class="ttname"><a href="a00446.html">LumexTypeTraits.hpp</a></div><div class="ttdoc">Every general-purpose type trait of LumexLib, one sub-namespace of lumex::core::utility::traits per t...</div></div>
+<div class="ttc" id="aa00948_html"><div class="ttname"><a href="a00948.html">lumex</a></div><div class="ttdef"><b>Definition</b> LumexCPUVectorizationCapabilities.cpp:65</div></div>
+<div class="ttc" id="aa01005_html"><div class="ttname"><a href="a01005.html">lumex::core</a></div><div class="ttdef"><b>Definition</b> LumexAtomicSharedPtr.hpp:103</div></div>
+<div class="ttc" id="aa01058_html"><div class="ttname"><a href="a01058.html">lumex::core::reflection</a></div><div class="ttdef"><b>Definition</b> LumexAggregateFields.hpp:121</div></div>
+<div class="ttc" id="aa01063_html"><div class="ttname"><a href="a01063.html">lumex::core::reflection::var_info</a></div><div class="ttdef"><b>Definition</b> LumexVarInfo.hpp:88</div></div>
+<div class="ttc" id="aa01063_html_a20aaee909dd3b3e785c2c7a3e6d76e66"><div class="ttname"><a href="a01063.html#a20aaee909dd3b3e785c2c7a3e6d76e66">lumex::core::reflection::var_info::VarInfo</a></div><div class="ttdeci">std::string VarInfo(char const *exprText, T &amp;&amp;value, bool isExprNoexcept, char const *file, int line)</div><div class="ttdoc">Builds a diagnostic string about an arbitrary expression: name, value (if the type supports operator&lt;...</div><div class="ttdef"><b>Definition</b> LumexVarInfo.hpp:223</div></div>
+<div class="ttc" id="aa01064_html"><div class="ttname"><a href="a01064.html">lumex::core::reflection::var_info::VarInfoDetail</a></div><div class="ttdef"><b>Definition</b> LumexVarInfo.hpp:90</div></div>
+<div class="ttc" id="aa01064_html_a6e6e131055190b5e44baf4d465cc4837"><div class="ttname"><a href="a01064.html#a6e6e131055190b5e44baf4d465cc4837">lumex::core::reflection::var_info::VarInfoDetail::FormatValue</a></div><div class="ttdeci">std::string FormatValue(T const &amp;value)</div><div class="ttdoc">Detects whether std::ostream::operator&lt;&lt;(T) exists for a type T.</div><div class="ttdef"><b>Definition</b> LumexVarInfo.hpp:130</div></div>
+<div class="ttc" id="aa01082_html_a5a8a6ca7779e633cf03b6e232ef67775"><div class="ttname"><a href="a01082.html#a5a8a6ca7779e633cf03b6e232ef67775">lumex::core::utility::demangle::demangle_type_name</a></div><div class="ttdeci">std::string demangle_type_name(char const *mangled)</div><div class="ttdoc">Demangles an already-mangled C++ name (e.g. one captured from a backtrace/stack unwinder),...</div><div class="ttdef"><b>Definition</b> LumexDemangle.hpp:143</div></div>
+<div class="ttc" id="aa02613_html"><div class="ttname"><a href="a02613.html">lumex::core::utility::traits::stream::is_ostreamable</a></div><div class="ttdoc">std::declval&lt;std::ostream &amp;&gt;() &lt;&lt; std::declval&lt;T&gt;() is well-formed: exactly what the standard library...</div><div class="ttdef"><b>Definition</b> LumexTypeTraits.hpp:465</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_8786171c8ada75f0c8eb758679ce883c.html">time</a></li><li class="navelem"><a class="el" href="dir_7b60dddb4228172836ee80f11304f4ca.html">clock</a></li><li class="navelem"><a class="el" href="a00338.html">LumexTime.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_9f19d952725811a71a1277575cb881df.html">reflection</a></li><li class="navelem"><a class="el" href="dir_3600afe05226af4db4cf813badb70ae6.html">var_info</a></li><li class="navelem"><a class="el" href="a00338.html">LumexVarInfo.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

@@ -1,28 +1,5 @@
 var a00284 =
 [
-    [ "LUMEX_MATH_CONSTANTS_APERY", "a00284.html#af63c12a7f019726dcb0722629ce6f49e", null ],
-    [ "LUMEX_MATH_CONSTANTS_AVOGADRO_CONSTANT", "a00284.html#a81d3814edd34efc7ab9be4e794006ccf", null ],
-    [ "LUMEX_MATH_CONSTANTS_BRUNS_CONSTANT_TWIN_PRIMES", "a00284.html#a65030713db7d289fd18c665e3eb25101", null ],
-    [ "LUMEX_MATH_CONSTANTS_CATALAN", "a00284.html#a824e19d313acb83c37a4add873bd5cfe", null ],
-    [ "LUMEX_MATH_CONSTANTS_COPERNICUS_CONSTANT", "a00284.html#a07299359a3e831b42a9dc68b20029f76", null ],
-    [ "LUMEX_MATH_CONSTANTS_EULER_MASCHERONI", "a00284.html#a01815a919ddc9f8bcc22aa6f8ac19bcd", null ],
-    [ "LUMEX_MATH_CONSTANTS_EULER_NUMBER", "a00284.html#a19da021499da8bb1b451b3fddc8fb557", null ],
-    [ "LUMEX_MATH_CONSTANTS_GAMMA_1_3", "a00284.html#a9637afd78ca1def8450057980f52325f", null ],
-    [ "LUMEX_MATH_CONSTANTS_GAMMA_1_4", "a00284.html#a624c7000a4b4d3096d532f65a5b5166c", null ],
-    [ "LUMEX_MATH_CONSTANTS_GOLDEN_RATIO", "a00284.html#ae463bd7911974e01edea620fd45b83c5", null ],
-    [ "LUMEX_MATH_CONSTANTS_GRAVITY_ACCELERATION", "a00284.html#a973ad186d224eb2b533085db9109fadb", null ],
-    [ "LUMEX_MATH_CONSTANTS_INVERSE_SQRT_PI", "a00284.html#a34e8ed5a85456096dcd3ba5c8c8526bc", null ],
-    [ "LUMEX_MATH_CONSTANTS_LEMMISCATE", "a00284.html#ab08a2c1df96fa5b5b9bf6b84f29ae0a2", null ],
-    [ "LUMEX_MATH_CONSTANTS_LIGHT_SPEED", "a00284.html#ae0a9d59070a4da7ef40198827b7bae2a", null ],
-    [ "LUMEX_MATH_CONSTANTS_LN_10", "a00284.html#a92087a0c1ff74ac5a19409f9827e0c03", null ],
-    [ "LUMEX_MATH_CONSTANTS_LN_2", "a00284.html#adcc545543b2bd5f761780e7b8237015c", null ],
-    [ "LUMEX_MATH_CONSTANTS_PI", "a00284.html#a90c8706d5ca0db2bdfc18ba319992a14", null ],
-    [ "LUMEX_MATH_CONSTANTS_PLANCK_CONSTANT", "a00284.html#aff4b7903e7fa7a3be57542688b7f3da7", null ],
-    [ "LUMEX_MATH_CONSTANTS_PLASTIC_NUMBER", "a00284.html#a0c997a0c0890aca3816782b8ef4b8b4c", null ],
-    [ "LUMEX_MATH_CONSTANTS_RECIPROCAL_PI", "a00284.html#ad08c1e3d45f6bcd519583c4cf904f29f", null ],
-    [ "LUMEX_MATH_CONSTANTS_SILVER_RATIO", "a00284.html#aba10c6bd3213d21a2c30a477b3f0c70f", null ],
-    [ "LUMEX_MATH_CONSTANTS_SQRT_2", "a00284.html#aa3bce4463ada8aec1f335bc22ea4ac37", null ],
-    [ "LUMEX_MATH_CONSTANTS_SQRT_3", "a00284.html#abe793637b3b3e52d88c1e4093a110e5f", null ],
-    [ "LUMEX_MATH_CONSTANTS_SQRT_5", "a00284.html#aaebdebb6d64cd6af2b802a2a67c6a0c9", null ],
-    [ "LUMEX_MATH_CONSTANTS_SQRT_PI", "a00284.html#a953dede6a9a9740fb0e4e90f22ebb1bb", null ]
+    [ "lumex::core::expected::error::BadExpectedAccess< ErrorType >", "a01917.html", "a01917" ],
+    [ "BadExpectedAccess< ErrorType >", "a04033.html", "a04033" ]
 ];

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexFieldReflection.hpp File Reference</title>
+<title>LumexLib: ExpectedVoid.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,74 +104,141 @@ $(function(){initNavTree('a00296.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#namespaces">Namespaces</a> &#124;
-<a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">LumexFieldReflection.hpp File Reference</div></div>
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#namespaces">Namespaces</a>  </div>
+  <div class="headertitle"><div class="title">ExpectedVoid.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Serializes a simple aggregate (no constructors, no private members, no base classes) to JSON by walking its fields.  
+<p>The specialization <code><a class="el" href="a04049.html" title="Class that mimics std::expected from C++23.">Expected</a>&lt;void, ErrorType&gt;</code> for operations that succeed without a value; an analogue of C++23 <code>std::expected&lt;void, E&gt;</code>.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;array&gt;</code><br />
-<code>#include &lt;cstddef&gt;</code><br />
-<code>#include &lt;type_traits&gt;</code><br />
-<code>#include &lt;utility&gt;</code><br />
-<code>#include &lt;nlohmann/json.hpp&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00293_source.html">lumex/core/reflection/field_reflection/LumexAggregateFields.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00389_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00410_source.html">lumex/core/utility/traits/LumexTypeTraits.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="a00290_source.html">Expected.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00386_source.html">lumex/core/utility/assert/LumexAssert.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00389_source.html">lumex/core/utility/attr/LumexAttributes.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00404_source.html">lumex/core/utility/compiler/LumexCheckFeatures.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00425_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for LumexFieldReflection.hpp:</div>
+Include dependency graph for ExpectedVoid.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00297.png" border="0" usemap="#a_lumex_field_reflection_8hpp" alt=""/></div>
+<div class="center"><img src="a00297.png" border="0" usemap="#a_expected_void_8hpp" alt=""/></div>
+<map name="a_expected_void_8hpp" id="a_expected_void_8hpp">
+<area shape="rect" title="The specialization Expected&lt;void, ErrorType&gt; for operations that succeed without a value; an analogue..." alt="" coords="1876,5,2003,32"/>
+<area shape="rect" href="a00290.html" title="Expected&lt;SuccessType, ErrorType&gt;, an analogue of C++23 std::expected usable from C++11,..." alt="" coords="514,80,616,107"/>
+<area shape="poly" title=" " alt="" coords="1876,26,632,91,631,86,1876,21"/>
+<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="432,427,626,469"/>
+<area shape="poly" title=" " alt="" coords="1941,33,1939,64,1940,106,1948,153,1967,196,1982,214,2000,230,2043,256,2091,275,2137,291,2177,307,2203,325,2210,336,2210,349,2204,364,2191,381,2168,391,2123,400,1976,415,1772,427,1532,435,1030,445,642,449,642,444,1030,440,1532,430,1772,421,1976,410,2122,395,2166,386,2187,377,2200,361,2205,348,2205,338,2199,328,2174,311,2136,296,2089,280,2041,260,1997,234,1978,218,1963,199,1943,154,1935,107,1933,64,1935,32"/>
+<area shape="rect" href="a00386.html" title="Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_..." alt="" coords="5,336,173,379"/>
+<area shape="poly" title=" " alt="" coords="1876,24,1201,42,798,59,630,70,503,83,403,91,324,97,288,103,250,114,210,131,164,157,136,176,118,194,104,216,92,246,85,284,86,321,80,321,79,284,86,245,99,213,114,190,133,171,161,152,207,127,249,109,287,98,324,92,403,86,502,77,629,65,797,54,1200,36,1876,19"/>
+<area shape="rect" href="a00404.html" title="C++ language, library and attribute feature availability." alt="" coords="1945,336,2177,379"/>
+<area shape="poly" title=" " alt="" coords="1984,30,2028,47,2077,73,2123,108,2143,129,2159,153,2168,177,2169,201,2165,225,2155,248,2128,291,2097,327,2093,323,2123,288,2150,246,2159,223,2164,200,2163,178,2155,156,2139,133,2120,112,2074,78,2026,52,1982,35"/>
+<area shape="rect" href="a00389.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="1977,155,2145,197"/>
+<area shape="poly" title=" " alt="" coords="1952,31,2038,141,2034,144,1947,34"/>
+<area shape="rect" title=" " alt="" coords="438,163,502,189"/>
+<area shape="poly" title=" " alt="" coords="552,109,498,155,495,151,548,105"/>
+<area shape="rect" title=" " alt="" coords="388,344,440,371"/>
+<area shape="poly" title=" " alt="" coords="567,107,565,141,557,189,542,241,516,290,488,319,455,340,452,336,485,315,512,286,537,239,552,187,559,141,562,107"/>
+<area shape="rect" href="a00293.html" title="The tags and the placeholder type that Expected uses: in_place, unexpect and Unit." alt="" coords="858,163,994,189"/>
+<area shape="poly" title=" " alt="" coords="617,103,855,156,854,161,615,109"/>
+<area shape="poly" title=" " alt="" coords="570,106,575,147,574,198,532,337,529,375,529,411,524,411,523,375,526,335,569,197,570,147,565,107"/>
+<area shape="poly" title=" " alt="" coords="514,98,426,106,373,115,318,129,262,148,208,174,159,206,116,247,106,264,98,283,92,321,86,320,93,281,101,261,112,244,155,202,205,169,260,143,316,124,372,110,426,101,514,93"/>
+<area shape="poly" title=" " alt="" coords="616,98,790,120,1007,152,1272,198,1534,247,1948,330,1947,335,1533,252,1271,203,1006,157,789,125,616,103"/>
+<area shape="rect" href="a00284.html" title="BadExpectedAccess, the exception that Expected throws when its value is read while it holds an error;..." alt="" coords="126,245,329,288"/>
+<area shape="poly" title=" " alt="" coords="528,110,472,130,410,157,336,198,271,239,269,234,333,194,408,152,470,125,526,105"/>
+<area shape="rect" href="a00287.html" title="Unexpected, the wrapper that carries an error into an Expected; an analogue of C++23 std::unexpected." alt="" coords="352,245,503,288"/>
+<area shape="poly" title=" " alt="" coords="515,105,467,123,446,137,429,156,421,173,418,192,420,230,415,230,412,192,416,172,424,153,442,133,464,118,513,100"/>
+<area shape="poly" title=" " alt="" coords="616,94,1091,116,1780,152,1962,164,1961,170,1780,157,1091,121,616,99"/>
+<area shape="rect" title=" " alt="" coords="1838,344,1921,371"/>
+<area shape="poly" title=" " alt="" coords="996,186,1342,244,1570,287,1800,333,1824,339,1822,344,1799,339,1569,292,1341,250,995,191"/>
+<area shape="poly" title=" " alt="" coords="885,193,803,219,704,256,614,297,579,318,556,338,546,354,538,373,532,412,526,411,533,372,541,352,552,334,576,313,611,292,702,251,801,214,883,187"/>
+<area shape="rect" href="a00446.html" title="Every general&#45;purpose type trait of LumexLib, one sub&#45;namespace of lumex::core::utility::traits per t..." alt="" coords="987,245,1170,288"/>
+<area shape="poly" title=" " alt="" coords="949,188,1031,235,1029,240,947,192"/>
+<area shape="poly" title=" " alt="" coords="987,282,555,339,457,352,456,347,554,333,986,277"/>
+<area shape="poly" title=" " alt="" coords="1171,267,1299,272,1462,284,1641,303,1820,333,1832,336,1831,342,1819,339,1641,308,1462,289,1299,278,1171,272"/>
+<area shape="poly" title=" " alt="" coords="1171,268,1336,274,1526,286,1690,305,1746,318,1777,334,1785,346,1788,357,1785,369,1777,381,1761,389,1729,396,1624,408,1306,427,940,440,642,447,641,442,940,435,1306,422,1624,403,1728,390,1759,384,1774,377,1781,367,1783,357,1780,348,1774,338,1745,323,1689,311,1525,291,1335,279,1170,273"/>
+<area shape="rect" title=" " alt="" coords="1013,344,1064,371"/>
+<area shape="poly" title=" " alt="" coords="1071,290,1053,331,1048,329,1067,287"/>
+<area shape="rect" title=" " alt="" coords="1088,344,1152,371"/>
+<area shape="poly" title=" " alt="" coords="1090,287,1110,329,1105,331,1086,290"/>
+<area shape="rect" title=" " alt="" coords="1176,344,1253,371"/>
+<area shape="poly" title=" " alt="" coords="1112,286,1184,333,1181,338,1109,291"/>
+<area shape="rect" title=" " alt="" coords="1277,344,1338,371"/>
+<area shape="poly" title=" " alt="" coords="1140,286,1266,334,1269,335,1267,340,1264,338,1138,291"/>
+<area shape="rect" title=" " alt="" coords="1363,344,1415,371"/>
+<area shape="poly" title=" " alt="" coords="1171,283,1259,304,1351,333,1354,335,1352,340,1349,339,1258,309,1170,288"/>
+<area shape="rect" title=" " alt="" coords="1439,344,1507,371"/>
+<area shape="poly" title=" " alt="" coords="1171,278,1294,300,1428,333,1434,335,1432,340,1427,339,1293,305,1170,283"/>
+<area shape="rect" title=" " alt="" coords="567,344,635,371"/>
+<area shape="poly" title=" " alt="" coords="987,279,827,300,737,317,648,339,642,341,640,335,647,333,736,311,826,294,986,273"/>
+<area shape="rect" title=" " alt="" coords="660,344,713,371"/>
+<area shape="poly" title=" " alt="" coords="987,281,862,303,794,319,727,339,723,340,722,335,725,333,792,314,861,298,986,276"/>
+<area shape="rect" title=" " alt="" coords="738,344,787,371"/>
+<area shape="poly" title=" " alt="" coords="987,286,895,308,799,339,797,339,795,334,797,333,894,303,986,281"/>
+<area shape="rect" title=" " alt="" coords="810,344,877,371"/>
+<area shape="poly" title=" " alt="" coords="1018,291,890,338,886,340,884,335,888,334,1016,286"/>
+<area shape="rect" title=" " alt="" coords="901,344,989,371"/>
+<area shape="poly" title=" " alt="" coords="1049,291,978,338,975,333,1046,286"/>
+<area shape="poly" title=" " alt="" coords="987,274,640,293,417,312,189,338,188,333,417,306,640,287,986,268"/>
+<area shape="poly" title=" " alt="" coords="1170,270,1501,293,1713,311,1930,333,1930,338,1713,316,1501,298,1170,276"/>
+<area shape="rect" href="a00419.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="1532,336,1764,379"/>
+<area shape="poly" title=" " alt="" coords="1171,280,1516,333,1516,338,1170,285"/>
+<area shape="poly" title=" " alt="" coords="174,374,186,376,417,422,416,427,184,381,173,379"/>
+<area shape="rect" href="a00641.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="8,435,170,461"/>
+<area shape="poly" title=" " alt="" coords="92,379,92,419,86,419,86,379"/>
+<area shape="poly" title=" " alt="" coords="1531,380,1520,381,1275,405,1031,423,642,445,642,439,1031,418,1274,400,1519,376,1531,375"/>
+<area shape="poly" title=" " alt="" coords="273,286,375,334,373,339,270,291"/>
+<area shape="poly" title=" " alt="" coords="253,286,308,330,377,376,462,418,460,423,374,381,305,334,250,291"/>
+<area shape="rect" title=" " alt="" coords="197,344,274,371"/>
+<area shape="poly" title=" " alt="" coords="232,288,236,328,230,329,227,289"/>
+<area shape="poly" title=" " alt="" coords="427,289,421,329,416,328,422,288"/>
+<area shape="poly" title=" " alt="" coords="2064,198,2064,320,2058,320,2058,198"/>
+</map>
+</div>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00298.png" border="0" usemap="#a_expected_void_8hppdep" alt=""/></div>
+<map name="a_expected_void_8hppdep" id="a_expected_void_8hppdep">
+<area shape="rect" title="The specialization Expected&lt;void, ErrorType&gt; for operations that succeed without a value; an analogue..." alt="" coords="124,5,250,32"/>
+<area shape="rect" href="a00908.html" title="Expected module: Expected&lt;T, E&gt;, a value or an error after the C++23 std::expected,..." alt="" coords="149,155,225,181"/>
+<area shape="poly" title=" " alt="" coords="175,46,164,75,163,106,171,132,182,153,177,155,166,134,158,107,159,74,170,45"/>
+<area shape="rect" href="a00299.html" title="The return markers success() and failure() for functions that return an Expected." alt="" coords="172,80,308,107"/>
+<area shape="poly" title=" " alt="" coords="207,43,233,78,229,81,203,46"/>
+<area shape="rect" href="a00488.html" title=" " alt="" coords="5,229,161,256"/>
+<area shape="poly" title=" " alt="" coords="158,192,103,231,100,227,155,188"/>
+<area shape="rect" href="a00491.html" title=" " alt="" coords="184,229,398,256"/>
+<area shape="poly" title=" " alt="" coords="219,188,274,227,271,231,216,192"/>
+<area shape="poly" title=" " alt="" coords="224,121,198,156,194,153,220,118"/>
+</map>
 </div>
 </div>
 <p><a href="a00296_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
-Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00912.html">lumex</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00964.html">lumex::core</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01017.html">lumex::core::reflection</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01018.html">lumex::core::reflection::field_reflection</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01019.html">lumex::core::reflection::field_reflection::detail</a></td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01945.html">lumex::core::expected::result::Expected&lt; void, ErrorType &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code><a class="el" href="a01925.html" title="Class that mimics std::expected from C++23.">Expected</a></code> specialization when the success value is absent (<code>void</code>).  <a href="a01945.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:a17d49d12b7bbd1233be03ebe79837a0a" id="r_a17d49d12b7bbd1233be03ebe79837a0a"><td class="memTemplParams" colspan="2">template&lt;typename... T&gt; </td></tr>
-<tr class="memitem:a17d49d12b7bbd1233be03ebe79837a0a"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01019.html#a17d49d12b7bbd1233be03ebe79837a0a">lumex::core::reflection::field_reflection::detail::swallow</a> (T const &amp;...) noexcept</td></tr>
-<tr class="separator:a17d49d12b7bbd1233be03ebe79837a0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8cd209ad1a1778e47a6305485be9e311" id="r_a8cd209ad1a1778e47a6305485be9e311"><td class="memTemplParams" colspan="2">template&lt;typename U&gt; </td></tr>
-<tr class="memitem:a8cd209ad1a1778e47a6305485be9e311"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01019.html#a8cd209ad1a1778e47a6305485be9e311">lumex::core::reflection::field_reflection::detail::append_one</a> (nlohmann::json &amp;j, char const *name, U const &amp;field, typename std::enable_if&lt; <a class="el" href="a02686.html">lumex::core::utility::traits::value::is_optional_like</a>&lt; U &gt;::value, int &gt;::type=0)</td></tr>
-<tr class="separator:a8cd209ad1a1778e47a6305485be9e311"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6ccfa808b640814a57c069c6ba330c50" id="r_a6ccfa808b640814a57c069c6ba330c50"><td class="memTemplParams" colspan="2">template&lt;typename U&gt; </td></tr>
-<tr class="memitem:a6ccfa808b640814a57c069c6ba330c50"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01019.html#a6ccfa808b640814a57c069c6ba330c50">lumex::core::reflection::field_reflection::detail::append_one</a> (nlohmann::json &amp;j, char const *name, U const &amp;field, typename std::enable_if&lt; !<a class="el" href="a02686.html">lumex::core::utility::traits::value::is_optional_like</a>&lt; U &gt;::value, int &gt;::type=0)</td></tr>
-<tr class="separator:a6ccfa808b640814a57c069c6ba330c50"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0f41e924cf040d1f629bd894cf8de99d" id="r_a0f41e924cf040d1f629bd894cf8de99d"><td class="memTemplParams" colspan="2">template&lt;typename Struct, std::size_t I&gt; </td></tr>
-<tr class="memitem:a0f41e924cf040d1f629bd894cf8de99d"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01019.html#a0f41e924cf040d1f629bd894cf8de99d">lumex::core::reflection::field_reflection::detail::append_field</a> (nlohmann::json &amp;j, Struct const &amp;obj, char const *name)</td></tr>
-<tr class="separator:a0f41e924cf040d1f629bd894cf8de99d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af756bcf608cd4a96e0fba1b0d9251147" id="r_af756bcf608cd4a96e0fba1b0d9251147"><td class="memTemplParams" colspan="2">template&lt;typename Struct, std::size_t... I&gt; </td></tr>
-<tr class="memitem:af756bcf608cd4a96e0fba1b0d9251147"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01019.html#af756bcf608cd4a96e0fba1b0d9251147">lumex::core::reflection::field_reflection::detail::append_all</a> (nlohmann::json &amp;j, Struct const &amp;obj, std::array&lt; char const *, sizeof...(I)&gt; const &amp;names, <a class="el" href="a02278.html">index_sequence</a>&lt; I... &gt;)</td></tr>
-<tr class="separator:af756bcf608cd4a96e0fba1b0d9251147"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adf61047afd5b3dcf759431721bae5a13" id="r_adf61047afd5b3dcf759431721bae5a13"><td class="memTemplParams" colspan="2">template&lt;typename Struct&gt; </td></tr>
-<tr class="memitem:adf61047afd5b3dcf759431721bae5a13"><td class="memTemplItemLeft" align="right" valign="top">nlohmann::json&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01018.html#adf61047afd5b3dcf759431721bae5a13">lumex::core::reflection::field_reflection::to_json</a> (Struct const &amp;obj)</td></tr>
-<tr class="memdesc:adf61047afd5b3dcf759431721bae5a13"><td class="mdescLeft">&#160;</td><td class="mdescRight">Serializes a simple aggregate to JSON, visiting every field.  <br /></td></tr>
-<tr class="separator:adf61047afd5b3dcf759431721bae5a13"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00948.html">lumex</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01005.html">lumex::core</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01041.html">lumex::core::expected</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01043.html">lumex::core::expected::result</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Serializes a simple aggregate (no constructors, no private members, no base classes) to JSON by walking its fields. </p>
-<p>The header parses as C++11 (<code>tuple_size</code>). Indexed <code>get</code> is C++14 (friend-injected field types). <code>to_json</code> needs field names, which <code><a class="el" href="a00293.html" title="Non-intrusive field count, indexed access, and (from C++20) field names for simple aggregates.">LumexAggregateFields.hpp</a></code> can recover only from C++20 (<code>LUMEX_FUNCTION_NAME</code> of a pointer NTTP). JSON is vendored nlohmann 3.12.0 at <code>3rdparty/nlohmann/json.hpp</code>. Optional-like fields (<code>has_value</code> plus unary <code>*</code>) are omitted when empty, so both <code>std::optional</code> and <code>optional</code> work. </p>
+<div class="textblock"><p>The specialization <code><a class="el" href="a04049.html" title="Class that mimics std::expected from C++23.">Expected</a>&lt;void, ErrorType&gt;</code> for operations that succeed without a value; an analogue of C++23 <code>std::expected&lt;void, E&gt;</code>. </p>
+<p>It keeps the interface of the primary template where it applies to an absent value: <code>has_value()</code>, <code>value()</code> (which only checks the state and throws <code><a class="el" href="a04033.html" title="Exception thrown when the value of an Expected is read while it holds an error.">BadExpectedAccess</a></code> on an error), <code>error()</code>, <code>error_or()</code>, <code>emplace()</code>, <code>emplace_error()</code>, <code>swap()</code> and the monadic operations. The header includes <code><a class="el" href="a00290.html" title="Expected&lt;SuccessType, ErrorType&gt;, an analogue of C++23 std::expected usable from C++11,...">Expected.hpp</a></code>, so it is enough for both forms. </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_9f19d952725811a71a1277575cb881df.html">reflection</a></li><li class="navelem"><a class="el" href="dir_4183182a33530d5b48cdb15290070151.html">field_reflection</a></li><li class="navelem"><a class="el" href="a00296.html">LumexFieldReflection.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_91063fb91facb4308dc4edc779d408bb.html">expected</a></li><li class="navelem"><a class="el" href="dir_558ea4e037858a45ed7ac4d50d1489ee.html">result</a></li><li class="navelem"><a class="el" href="a00296.html">ExpectedVoid.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

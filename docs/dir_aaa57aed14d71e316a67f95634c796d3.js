@@ -17,5 +17,5 @@ var dir_aaa57aed14d71e316a67f95634c796d3 =
     [ "ranges", "dir_744eb6191250a2578639062ac2c20809.html", "dir_744eb6191250a2578639062ac2c20809" ],
     [ "traits", "dir_ff11623c7d0e1bf06b7d828827ccbe0f.html", "dir_ff11623c7d0e1bf06b7d828827ccbe0f" ],
     [ "util", "dir_0deadd0aca7ea116766ab685e8e1d5bb.html", "dir_0deadd0aca7ea116766ab685e8e1d5bb" ],
-    [ "LumexUtility", "a00905.html", null ]
+    [ "LumexUtility", "a00941.html", null ]
 ];

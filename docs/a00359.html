@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexCallbackSlot.hpp File Reference</title>
+<title>LumexLib: LumexWStringView.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.2.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,77 +104,94 @@ $(function(){initNavTree('a00359.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
 <a href="#namespaces">Namespaces</a> &#124;
-<a href="#var-members">Variables</a>  </div>
-  <div class="headertitle"><div class="title">LumexCallbackSlot.hpp File Reference</div></div>
+<a href="#define-members">Macros</a> &#124;
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle"><div class="title">LumexWStringView.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-
-<p>Process-wide slot for one consumer-installed function pointer.  
-<a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;atomic&gt;</code><br />
-<code>#include &lt;exception&gt;</code><br />
-<code>#include &lt;iostream&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00353_source.html">lumex/core/utility/attr/LumexAttributes.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00389_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &lt;algorithm&gt;</code><br />
+<code>#include &lt;stdexcept&gt;</code><br />
+<code>#include &quot;<a class="el" href="a00362_source.html">LumexWStringView.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00425_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for LumexCallbackSlot.hpp:</div>
+Include dependency graph for LumexWStringView.cpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00360.png" border="0" usemap="#a_lumex_callback_slot_8hpp" alt=""/></div>
+<div class="center"><img src="a00360.png" border="0" usemap="#a_lumex_w_string_view_8cpp" alt=""/></div>
+<map name="a_lumex_w_string_view_8cpp" id="a_lumex_w_string_view_8cpp">
+<area shape="rect" title=" " alt="" coords="333,5,493,32"/>
+<area shape="rect" title=" " alt="" coords="204,80,278,107"/>
+<area shape="poly" title=" " alt="" coords="384,35,286,76,284,71,382,30"/>
+<area shape="rect" title=" " alt="" coords="302,80,380,107"/>
+<area shape="poly" title=" " alt="" coords="403,34,366,71,362,67,399,31"/>
+<area shape="rect" href="a00362.html" title="C++11 lightweight, non&#45;owning view over contiguous wide character sequences." alt="" coords="405,80,565,107"/>
+<area shape="poly" title=" " alt="" coords="428,31,464,67,460,71,424,34"/>
+<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="813,155,1008,197"/>
+<area shape="poly" title=" " alt="" coords="455,30,831,147,829,152,453,35"/>
+<area shape="rect" href="a00641.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="5,163,168,189"/>
+<area shape="poly" title=" " alt="" coords="420,110,180,157,160,161,159,156,179,152,419,105"/>
+<area shape="rect" title=" " alt="" coords="192,163,256,189"/>
+<area shape="poly" title=" " alt="" coords="431,110,354,130,269,157,264,159,262,154,267,152,352,125,430,105"/>
+<area shape="rect" title=" " alt="" coords="280,163,341,189"/>
+<area shape="poly" title=" " alt="" coords="458,110,354,157,352,158,350,153,352,152,456,105"/>
+<area shape="rect" title=" " alt="" coords="365,163,426,189"/>
+<area shape="poly" title=" " alt="" coords="473,109,423,154,419,150,469,105"/>
+<area shape="rect" title=" " alt="" coords="451,163,519,189"/>
+<area shape="poly" title=" " alt="" coords="488,107,488,147,482,147,482,107"/>
+<area shape="rect" title=" " alt="" coords="544,163,597,189"/>
+<area shape="poly" title=" " alt="" coords="500,105,548,150,545,154,497,109"/>
+<area shape="rect" href="a00389.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="621,155,789,197"/>
+<area shape="poly" title=" " alt="" coords="520,105,635,146,633,151,519,110"/>
+<area shape="poly" title=" " alt="" coords="553,105,798,151,797,156,552,110"/>
+<area shape="rect" href="a00404.html" title="C++ language, library and attribute feature availability." alt="" coords="590,245,821,288"/>
+<area shape="poly" title=" " alt="" coords="708,198,708,230,702,230,702,198"/>
+</map>
 </div>
-</div><div class="textblock"><div class="dynheader">
-This graph shows which files directly or indirectly include this file:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00361.png" border="0" usemap="#a_lumex_callback_slot_8hppdep" alt=""/></div>
-</div>
-</div>
-<p><a href="a00359_source.html">Go to the source code of this file.</a></p>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02358.html">lumex::core::utility::callback::LumexCallbackSlot&lt; Tag, Result(Args...)&gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02362.html">lumex::core::utility::callback::LumexCallbackSlot&lt; Tag, Result(Args...)&gt;::Scoped</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Installs a function for the lifetime of the object and restores the previous one on destruction.  <a href="a02362.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
+</div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00912.html">lumex</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00948.html">lumex</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00964.html">lumex::core</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01005.html">lumex::core</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01036.html">lumex::core::utility</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01069.html">lumex::core::string_view</a></td></tr>
+<tr class="memdesc:a01069"><td class="mdescLeft">&#160;</td><td class="mdescRight">Core library components. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01038.html">lumex::core::utility::callback</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01070.html">lumex::core::string_view::view</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
-Variables</h2></td></tr>
-<tr class="memitem:aae9a86eeace996140fe4d3d2e2e9ed82" id="r_aae9a86eeace996140fe4d3d2e2e9ed82"><td class="memTemplParams" colspan="2">template&lt;typename Tag, typename Result, typename... Args&gt; </td></tr>
-<tr class="memitem:aae9a86eeace996140fe4d3d2e2e9ed82"><td class="memTemplItemLeft" align="right" valign="top">std::atomic&lt; Result(*)(Args...)&gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01038.html#aae9a86eeace996140fe4d3d2e2e9ed82">lumex::core::utility::callback::LumexCallbackSlot&lt; Tag, Result(Args...)&gt;::m_slot</a> { nullptr }</td></tr>
-<tr class="separator:aae9a86eeace996140fe4d3d2e2e9ed82"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a07486181f1990291c2a348de8eb4c480" id="r_a07486181f1990291c2a348de8eb4c480"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a07486181f1990291c2a348de8eb4c480">LUMEX_IMPLEMENTATION</a></td></tr>
+<tr class="separator:a07486181f1990291c2a348de8eb4c480"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:affdfaa485937702325bc3bc4525875f3" id="r_affdfaa485937702325bc3bc4525875f3"><td class="memItemLeft" align="right" valign="top">std::wostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01070.html#affdfaa485937702325bc3bc4525875f3">lumex::core::string_view::view::operator&lt;&lt;</a> (std::wostream &amp;wostr, <a class="el" href="a02413.html">LumexWStringView</a> wsview)</td></tr>
+<tr class="memdesc:affdfaa485937702325bc3bc4525875f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Overload for inserting a <code><a class="el" href="a02413.html" title="A lightweight, non-owning view over a contiguous sequence of wchar_t characters.">LumexWStringView</a></code> into an <code>std::wostream</code>.  <br /></td></tr>
+<tr class="separator:affdfaa485937702325bc3bc4525875f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Process-wide slot for one consumer-installed function pointer. </p>
-<p>A library that must not depend on a logging facility (or on any other consumer policy) exposes a hook instead: the consumer installs a plain function pointer, the library calls it, and falls back to its own default when nothing is installed or the installed function throws. <code>LumexCallbackSlot</code> is that hook, written once:</p>
-<div class="fragment"><div class="line"><span class="keyword">struct </span>my_reporter_tag_t;</div>
-<div class="line"><span class="keyword">using </span>MyReporterSlot</div>
-<div class="line">    = <a class="code hl_class" href="a02354.html">lumex::core::utility::callback::LumexCallbackSlot</a>&lt;</div>
-<div class="line">        my_reporter_tag_t, void (<span class="keywordtype">char</span> <span class="keyword">const</span> *)&gt;;</div>
-<div class="line"> </div>
-<div class="line">MyReporterSlot::set (&amp;write_to_my_log);</div>
-<div class="line">MyReporterSlot::invoke_or (&amp;write_to_stderr, <span class="stringliteral">&quot;message&quot;</span>);</div>
-<div class="ttc" id="aa02354_html"><div class="ttname"><a href="a02354.html">lumex::core::utility::callback::LumexCallbackSlot</a></div><div class="ttdoc">Primary template; only the function-type specialization below is defined.</div><div class="ttdef"><b>Definition</b> LumexCallbackSlot.hpp:79</div></div>
-</div><!-- fragment --><p><code>Tag</code> keeps two slots with the same signature apart; it may stay an incomplete type. The stored pointer is a <code>std::atomic</code>, so <code>set</code> and <code>invoke_or</code> may race freely.</p>
-<p>Storage is a static data member of the class template. Each binary (executable or shared library) that instantiates a slot has its own copy on Windows. For one slot shared by an executable and a shared library, touch the slot only from a compiled source file of that library and export plain <code>set</code> / <code>get</code> wrapper functions from it. </p>
-</div></div><!-- contents -->
+<h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a07486181f1990291c2a348de8eb4c480" name="a07486181f1990291c2a348de8eb4c480"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a07486181f1990291c2a348de8eb4c480">&#9670;&#160;</a></span>LUMEX_IMPLEMENTATION</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_IMPLEMENTATION</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_aaa57aed14d71e316a67f95634c796d3.html">utility</a></li><li class="navelem"><a class="el" href="dir_9ae9aee2db8d9e1997c83480d7d6ec5f.html">callback</a></li><li class="navelem"><a class="el" href="a00359.html">LumexCallbackSlot.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_bbd40a496777ba5881d1b96c9f04381d.html">string_view</a></li><li class="navelem"><a class="el" href="dir_95349814814eaf45a7cf2d6bae5f3802.html">view</a></li><li class="navelem"><a class="el" href="a00359.html">LumexWStringView.cpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>
