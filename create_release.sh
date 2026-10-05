@@ -420,7 +420,7 @@ for i in "${!JOB_CXX[@]}"; do
 done
 [[ "${KEEP_WORK}" -eq 1 ]] || rmdir "${WORK_ROOT}" 2>/dev/null || true
 
-# quality-gates section 4: a release needs a dated [vX.Y.Z.W] section.
+# A release needs a dated [vX.Y.Z.W] section in CHANGELOG.md.
 if grep -qE "^## \[v${VERSION//./\\.}\].*в разработке" "${REPO_ROOT}/CHANGELOG.md" 2>/dev/null; then
   echo "Warning: CHANGELOG.md section [v${VERSION}] is still marked as in development (not dated)" >&2
 fi
