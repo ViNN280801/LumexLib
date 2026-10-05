@@ -44,6 +44,14 @@
 
 **Проверено:** оба вида вызова дают один и тот же список (сборка `msvc2026` с некавыченным `-Formats zip,exe` выше); `-Help`, пустой `-Compilers`, неизвестный формат и неверный `MAKENSIS_EXE` завершаются с exit 1 и внятным сообщением; ошибка привязки воспроизводилась в Windows PowerShell 5.1 и pwsh 7.6.6.
 
+##### dev-каталог с линковочными файлами и отладочными символами
+
+**Файлы:** `cmake/LumexModules.cmake`, `CMakeLists.txt`, `lumex/tests/cmake/cases/dev_artifacts.cmake` (новый), `lumex/tests/cmake/CMakeLists.txt`, `create_release.ps1`, `create_release.sh`
+
+**Суть:** в установочном дереве появился каталог `dev/`: `lumex_install_dev_artifacts` обходит реальные цели из `LUMEX_SHARED_LIBRARY_CANDIDATES` и кладет туда для каждой библиотеки импортный `.lib`, `.exp` и `.pdb` (MSVC; clang-cl тоже, он выставляет `MSVC=TRUE`) либо `<файл>.debug` (GCC/Clang на ELF - тот, что линковочный лаунчер `configure_optimization_level` вырезает из релизного бинаря). Правила - `install(FILES ... OPTIONAL)`: чего платформа не производит (`.exp` на ELF, PDB у MinGW), просто не попадает в пакет, интерфейсные модули пропускаются. Каталог едет со всем остальным деревом, то есть попадает и в `zip`/`tar.gz`, и в deb/rpm, и в NSIS-инсталлятор; импортные `.lib` остаются и в `lib/` - на них ссылаются экспортированные цели CMake. Кейс `cmake.dev_artifacts` фиксирует правила и вызов из корневого файла.
+
+**Проверено:** `cmake.dev_artifacts` и `cmake.cpack_nsis` (через `cmake -P`) зеленые; прогон `create_release.ps1 -Compilers v145 -Formats zip,exe`: в `LumexLib-1.0.3.1_win_x64_msvc2026.zip` 262 записи (214 до правки), из них 48 в `dev/` (16 PDB, 16 импортных `.lib`, 16 `.exp`), zip 10.8 МБ вместо 1.6, инсталлятор 7.27 МБ вместо 1.53; `project.nsi` в CPack-стейджинге перечисляет те же 48 файлов. Что clang-cl получает те же файлы, подтверждено сборкой (его `build/bin` несет PDB, `build/lib` - `.lib`/`.exp`) и тем, что clang-cl выставляет `MSVC=TRUE` (проверено мини-конфигурацией: `MSVC_VAR=1`, `SIMULATE_ID=MSVC`). Прогон на Linux - за пользователем: правила те же, `.debug` пишет сплиттер CMakeRoutines.
+
 ---
 
 ## [v1.0.3.0] - в разработке

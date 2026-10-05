@@ -49,6 +49,8 @@ Notes:
     libraries get RUNPATH $ORIGIN.
   * <repo>/x64 is removed after every package, so that published build
     output never lands in a later archive.
+  * dev/ carries the .debug files of every library, split out next to the
+    release binaries by the CMakeRoutines linker launcher.
 EOF
 }
 

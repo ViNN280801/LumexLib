@@ -280,6 +280,11 @@ if(LUMEX_INSTALL)
         LumexXml
     )
 
+    # The developer files of every library go to dev/: the import .lib, the
+    # .exp and the PDB (MSVC, cl.exe and clang-cl) or the .debug split out of
+    # the release binary (GCC/Clang on ELF). cmake/LumexModules.cmake.
+    lumex_install_dev_artifacts()
+
     write_basic_package_version_file(
         "${CMAKE_CURRENT_BINARY_DIR}/LumexLibConfigVersion.cmake"
         VERSION ${PROJECT_VERSION}
