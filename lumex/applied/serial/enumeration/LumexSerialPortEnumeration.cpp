@@ -40,6 +40,7 @@
 #include <algorithm>
 #include <array>
 #include <cerrno>
+#include <chrono>
 #include <cstring>
 #include <fstream>
 #include <map>
@@ -60,6 +61,8 @@
 
 #include "lumex/applied/serial/enumeration/LumexSerialPortEnumeration.hpp"
 #include "lumex/applied/serial/port/LumexSerialPort.hpp"
+#include "lumex/applied/serial/probe/LumexSerialProber.hpp"
+#include "lumex/applied/serial/probe/detail/LumexSerialBoundedOpen.hpp"
 #include "lumex/applied/serial/resolver/LumexPortProcessResolver.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 #include "lumex/core/utility/os/LumexCheckOS.hpp"
@@ -95,6 +98,10 @@ namespace serial
 namespace enumeration
 {
 using lumex::applied::serial::port::resolve_serial_port_path;
+using lumex::applied::serial::probe::detail::bounded_open_serial_port;
+using lumex::applied::serial::probe::detail::close_serial_handle;
+using lumex::applied::serial::probe::detail::open_result_t;
+using lumex::applied::serial::probe::detail::state_from_open_result;
 using lumex::applied::serial::resolver::port_process_resolver;
 using namespace lumex::applied::serial::port;
 
@@ -283,6 +290,8 @@ serial_port_state_to_string (serial_port_state state) LUMEX_NOEXCEPT
       return "Busy";
     case serial_port_state::free:
       return "Free";
+    case serial_port_state::unresponsive:
+      return "Unresponsive";
     default:
       return "Unknown";
     }
@@ -703,32 +712,29 @@ enumerate_serial_ports_detailed (std::string const &connected_port,
       std::string const &port = *it;
       serial_port_info_t &info = port_info_map[port];
       // Bluetooth SPP/LE virtual COM ports stay in the list when the filter
-      // is off, but CreateFileA on a paired-and-disconnected device blocks
-      // in the radio stack. Classify from SetupAPI presence only.
+      // is off; opening a paired-and-disconnected device blocks in the
+      // radio stack, so they are classified from SetupAPI presence only.
+      // Every other port is open-probed through the bounded open, which
+      // never waits past the probe deadline.
       if (starts_with (info.bus_info, "BTH"))
         {
           info.state = serial_port_state::available;
           continue;
         }
       std::string const open_path = path_for_open (port);
-      HANDLE handle
-          = ::CreateFileA (open_path.c_str (), GENERIC_READ | GENERIC_WRITE, 0,
-                           nullptr, OPEN_EXISTING, 0, nullptr);
-      if (handle != INVALID_HANDLE_VALUE)
+      open_result_t const opened = bounded_open_serial_port (
+          open_path, 0U,
+          std::chrono::milliseconds (
+              probe::Constants::KDEFAULT_PROBE_DEADLINE_MS));
+      info.state = state_from_open_result (opened);
+      if (info.state == serial_port_state::available)
         {
-          ::CloseHandle (handle);
-          info.state = serial_port_state::available;
+          close_serial_handle (opened.handle);
         }
       else
         {
-          DWORD const err = ::GetLastError ();
-          info.state
-              = (err == ERROR_ACCESS_DENIED || err == ERROR_SHARING_VIOLATION)
-                    ? serial_port_state::busy
-                    : serial_port_state::free;
-          if (err != ERROR_FILE_NOT_FOUND)
-            info.system_error = port_process_resolver::format_system_error (
-                static_cast<int> (err));
+          if (opened.error_code != ERROR_FILE_NOT_FOUND)
+            info.system_error = opened.system_error;
           if (info.state == serial_port_state::busy)
             {
               if (!connected_port.empty () && port == connected_port)
@@ -769,43 +775,41 @@ enumerate_serial_ports_detailed (std::string const &connected_port,
         {
           std::string port_name = "COM" + std::to_string (i);
           std::string const open_path = path_for_open (port_name);
-          HANDLE handle = ::CreateFileA (open_path.c_str (),
-                                         GENERIC_READ | GENERIC_WRITE, 0,
-                                         nullptr, OPEN_EXISTING, 0, nullptr);
-          if (handle != INVALID_HANDLE_VALUE)
+          open_result_t const opened = bounded_open_serial_port (
+              open_path, 0U,
+              std::chrono::milliseconds (
+                  probe::Constants::KDEFAULT_PROBE_DEADLINE_MS));
+          serial_port_state const state = state_from_open_result (opened);
+          if (state == serial_port_state::available)
             {
-              ::CloseHandle (handle);
+              close_serial_handle (opened.handle);
               serial_port_info_t info;
               info.path = port_name;
-              info.state = serial_port_state::available;
+              info.state = state;
               result.push_back (info);
             }
-          else
+          else if (state == serial_port_state::busy
+                   || state == serial_port_state::unresponsive)
             {
-              DWORD const err = ::GetLastError ();
-              if (err == ERROR_ACCESS_DENIED || err == ERROR_SHARING_VIOLATION)
+              serial_port_info_t info;
+              info.path = port_name;
+              info.state = state;
+              info.system_error = opened.system_error;
+              if (state == serial_port_state::busy && !connected_port.empty ()
+                  && port_name == connected_port)
                 {
-                  serial_port_info_t info;
-                  info.path = port_name;
-                  info.state = serial_port_state::busy;
-                  info.system_error
-                      = port_process_resolver::format_system_error (
-                          static_cast<int> (err));
-                  if (!connected_port.empty () && port_name == connected_port)
-                    {
-                      std::string holder
-                          = "PID="
-                            + std::to_string (static_cast<unsigned long> (
-                                ::GetCurrentProcessId ()));
-                      std::string exe_name = get_current_process_exe_name ();
-                      if (!exe_name.empty ())
-                        holder += " " + exe_name;
-                      info.holder_process_info = holder;
-                    }
-                  else
-                    info.holder_process_info = k_busy_port_hint;
-                  result.push_back (info);
+                  std::string holder
+                      = "PID="
+                        + std::to_string (static_cast<unsigned long> (
+                            ::GetCurrentProcessId ()));
+                  std::string exe_name = get_current_process_exe_name ();
+                  if (!exe_name.empty ())
+                    holder += " " + exe_name;
+                  info.holder_process_info = holder;
                 }
+              else if (state == serial_port_state::busy)
+                info.holder_process_info = k_busy_port_hint;
+              result.push_back (info);
             }
         }
     }
@@ -846,16 +850,18 @@ enumerate_serial_ports_detailed (std::string const &connected_port,
 
           serial_port_info_t info;
           info.path = dev_path;
-          int fd = ::open (dev_path.c_str (), O_RDWR | O_NOCTTY | O_NONBLOCK);
-          if (fd >= 0)
+          open_result_t const opened = bounded_open_serial_port (
+              dev_path, 0U,
+              std::chrono::milliseconds (
+                  probe::Constants::KDEFAULT_PROBE_DEADLINE_MS));
+          info.state = state_from_open_result (opened);
+          if (info.state == serial_port_state::available)
             {
-              ::close (fd);
-              info.state = serial_port_state::available;
+              close_serial_handle (opened.handle);
               read_linux_device_attributes (name, info);
             }
-          else if (errno == EBUSY || errno == EACCES)
+          else if (info.state == serial_port_state::busy)
             {
-              info.state = serial_port_state::busy;
               read_linux_device_attributes (name, info);
               if (!connected_port.empty () && dev_path == connected_port)
                 info.holder_process_info
@@ -865,9 +871,7 @@ enumerate_serial_ports_detailed (std::string const &connected_port,
             }
           else
             {
-              info.state = serial_port_state::free;
-              info.system_error
-                  = port_process_resolver::format_system_error (errno);
+              info.system_error = opened.system_error;
             }
           result.push_back (info);
         }
@@ -896,17 +900,18 @@ enumerate_serial_ports_detailed (std::string const &connected_port,
 
               serial_port_info_t info;
               info.path = dev_path;
-              int fd
-                  = ::open (dev_path.c_str (), O_RDWR | O_NOCTTY | O_NONBLOCK);
-              if (fd >= 0)
+              open_result_t const opened = bounded_open_serial_port (
+                  dev_path, 0U,
+                  std::chrono::milliseconds (
+                      probe::Constants::KDEFAULT_PROBE_DEADLINE_MS));
+              info.state = state_from_open_result (opened);
+              if (info.state == serial_port_state::available)
                 {
-                  ::close (fd);
-                  info.state = serial_port_state::available;
+                  close_serial_handle (opened.handle);
                   read_linux_device_attributes (name, info);
                 }
-              else if (errno == EBUSY || errno == EACCES)
+              else if (info.state == serial_port_state::busy)
                 {
-                  info.state = serial_port_state::busy;
                   read_linux_device_attributes (name, info);
                   if (!connected_port.empty () && dev_path == connected_port)
                     info.holder_process_info
@@ -916,9 +921,7 @@ enumerate_serial_ports_detailed (std::string const &connected_port,
                 }
               else
                 {
-                  info.state = serial_port_state::free;
-                  info.system_error
-                      = port_process_resolver::format_system_error (errno);
+                  info.system_error = opened.system_error;
                 }
               result.push_back (info);
             }

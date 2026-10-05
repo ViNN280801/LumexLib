@@ -56,6 +56,16 @@ if(NOT _rc EQUAL 0)
     message(FATAL_ERROR "consumer ${CASE}: configure failed (${_rc})\n${_out}")
 endif()
 
+# A fixture may report a platform it does not cover while configuring (for
+# example atomic_cross_module on Windows); echo the configure output so
+# CTest's SKIP_REGULAR_EXPRESSION sees the marker instead of running the
+# build below.
+string(FIND "${_out}" "LUMEX_CONSUMER_SKIP" _skip_pos)
+if(_skip_pos GREATER -1)
+    message("${_out}")
+    return()
+endif()
+
 # Fixtures that check everything while configuring (try_compile) stop here;
 # their output is echoed so CTest can match LUMEX_CONSUMER_SKIP.
 if(CONFIGURE_ONLY)

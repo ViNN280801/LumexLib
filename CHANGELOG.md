@@ -12,6 +12,44 @@
 
 ---
 
+## [v1.0.3.0] - в разработке
+
+> Изменения поверх `v1.0.2.0`.
+
+### [v1.0.3.0]
+
+#### Добавлено
+
+##### Опрос последовательного порта с общим дедлайном (`SerialProber`)
+
+**Файлы:** `lumex/applied/serial/probe/LumexSerialProber.hpp`, `lumex/applied/serial/probe/LumexSerialProber.cpp`, `lumex/applied/serial/probe/detail/LumexSerialTransport.hpp`, `lumex/applied/serial/probe/detail/LumexSerialProbeEngine.hpp`, `lumex/applied/serial/probe/detail/LumexSerialBoundedOpen.hpp`, `lumex/applied/serial/probe/detail/LumexSerialBoundedOpen.cpp`, `lumex/applied/serial/LumexSerialPort` (зонтичный заголовок), `lumex/tests/applied/serial/LumexSerialProbeEngine.cxx11.tests.cpp`, `lumex/tests/applied/serial/LumexSerialProber.cxx11.tests.cpp`, `lumex/tests/applied/serial/LumexSerialProberPty.cxx11.tests.cpp`, `lumex/examples/serial/example_serial.cpp`, `lumex/examples/serial/example_serial_workflow.cpp`
+
+**Суть:** класс `SerialProber` (пространство имен `lumex::applied::serial::probe`): конструктор от пути и `serial_port_settings_t` (по умолчанию 9600, 8 бит данных, без паритета, один стоп-бит, без flow control); `open` с ограниченным по времени открытием (по умолчанию 500 мс); `probe (request, response_complete, deadline = 500 мс, max_response_bytes = 8192)` открывает порт при необходимости, чистит буферы, пишет запрос и читает до подтверждения предикатом, лимита или дедлайна; `read`/`write` с дедлайном. Шесть исходов: `responded`, `incomplete`, `no_response`, `open_timeout`, `open_failed`, `io_error`; настройки, недоступные на платформе, дают `open_failed` с текстом. На Windows открытие выполняется в рабочем потоке и при просрочке отменяется через `CancelSynchronousIo` (зависший Bluetooth-порт не блокирует вызывающего дольше дедлайна), обмен - overlapped-вызовы с `CancelIoEx`; на POSIX - `O_NONBLOCK` и `poll`. Класс перемещаемый, не потокобезопасный, ошибки - статусами, без исключений; примеры дополнены безопасной демонстрацией на заведомо отсутствующем порту.
+
+#### Изменено
+
+##### Перечисление портов больше не может зависнуть
+
+**Файлы:** `lumex/applied/serial/enumeration/LumexSerialPortEnumeration.hpp`, `lumex/applied/serial/enumeration/LumexSerialPortEnumeration.cpp`, `lumex/tests/applied/serial/LumexSerialPortEnumeration.cxx11.tests.cpp`, `lumex/tests/cmake/cases/source_enumeration_uses_bounded_open.cmake`, `lumex/tests/cmake/CMakeLists.txt`
+
+**Суть:** каждая открывающая проба (классификация порта и брутфорс `COM1`..`COM255`) переведена на общий ограниченный `bounded_open_serial_port` с дедлайном 500 мс; новое состояние `serial_port_state::unresponsive` (строка `"Unresponsive"`) для открытий, не уложившихся в дедлайн, с текстом таймаута в `system_error`; `print_serial_ports_info` печатает отдельную секцию unresponsive. Bluetooth-порты по-прежнему не открываются, значения по умолчанию флагов не изменились. Исходный кейс `source_enumeration_uses_bounded_open` запрещает прямые открытия в файле перечисления и требует наличия `CancelSynchronousIo` и `CancelIoEx`.
+
+#### Исправлено
+
+##### Заголовки utility переживают макросы `min` и `max` из `windows.h`
+
+**Файлы:** `lumex/core/utility/numeric/LumexSafeNumericComparator.hpp`, `lumex/tests/core/utility/LumexUtilityMinMaxMacros.cxx11.tests.cpp`
+
+**Суть:** 58 вызовов `std::numeric_limits<...>::min ()` и `max ()` заменены на идиому `(std::numeric_limits<...>::max) ()` - то же правило, что уже действует в `core/fmt` и закреплено тестом `LumexFormatMinMaxMacros.cxx11.tests.cpp`. Потребитель, который подключает `LumexUtility` после `windows.h` без `NOMINMAX` (так делает потребительская фикстура `consumer_standard_mismatch_*`), снова компилируется; новый `LumexUtilityMinMaxMacros.cxx11.tests.cpp` фиксирует это, определяя макросы до включения умбреллы.
+
+##### Раннер потребительских CMake-кейсов распознает скип при конфигурации
+
+**Файлы:** `lumex/tests/cmake/consumer/run_consumer.cmake`
+
+**Суть:** фикстура, которая печатает `LUMEX_CONSUMER_SKIP` и завершает конфигурацию (например, `atomic_cross_module` на Windows), теперь пропускается CTest, а не падает с "executable not found": раннер проверяет вывод конфигурации на маркер до сборки, а не только в ветке `CONFIGURE_ONLY`.
+
+---
+
 ## [v1.0.2.0] - в разработке
 
 > Изменения поверх `v1.0.1.1` (ветка `feat/atomic-shared-ptr`). Версия в `CMakeLists.txt` поднята до `1.0.2.0`; дату секции ставит релизный коммит.

@@ -1,3 +1,4 @@
+#include <cerrno>
 #include <cstddef>
 #include <sstream>
 #include <string>
@@ -6,6 +7,7 @@
 #include <gtest/gtest.h>
 
 #include "lumex/applied/serial/LumexSerialPort"
+#include "lumex/applied/serial/probe/detail/LumexSerialBoundedOpen.hpp"
 #if defined(__clang__)
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wglobal-constructors"
@@ -14,6 +16,7 @@
 
 using namespace lumex::applied::serial::port;
 using namespace lumex::applied::serial::enumeration;
+using namespace lumex::applied::serial::probe::detail;
 using namespace lumex::applied::serial::resolver;
 
 TEST (LumexSerialPortEnumeration, StateToStringCoversEveryEnumerator)
@@ -125,3 +128,61 @@ TEST (LumexSerialPortEnumeration, EnumerateBothBluetoothFlagValues)
 // NtQuerySystemInformation. That can block for a long time on a busy
 // Windows host, so it is not called from this suite. Enumeration reports
 // a busy-hint string instead of invoking the resolver.
+
+TEST (LumexSerialPortEnumeration, StateFromOpenResultMapsEveryOutcome)
+{
+  open_result_t result;
+  result.outcome = open_outcome::opened;
+  EXPECT_EQ (state_from_open_result (result), serial_port_state::available);
+
+  result = open_result_t ();
+  result.outcome = open_outcome::timed_out;
+  EXPECT_EQ (state_from_open_result (result), serial_port_state::unresponsive);
+
+  result = open_result_t ();
+  result.outcome = open_outcome::failed;
+#if defined(_WIN32)
+  result.error_code = 5; // ERROR_ACCESS_DENIED
+  EXPECT_EQ (state_from_open_result (result), serial_port_state::busy);
+  result.error_code = 32; // ERROR_SHARING_VIOLATION
+  EXPECT_EQ (state_from_open_result (result), serial_port_state::busy);
+  result.error_code = 2; // ERROR_FILE_NOT_FOUND
+#else
+  result.error_code = EBUSY;
+  EXPECT_EQ (state_from_open_result (result), serial_port_state::busy);
+  result.error_code = EACCES;
+  EXPECT_EQ (state_from_open_result (result), serial_port_state::busy);
+  result.error_code = ENOENT;
+#endif
+  EXPECT_EQ (state_from_open_result (result), serial_port_state::free);
+}
+
+TEST (LumexSerialPortEnumeration, StateToString_WhenUnresponsive_ThenToken)
+{
+  EXPECT_STREQ (serial_port_state_to_string (serial_port_state::unresponsive),
+                "Unresponsive");
+}
+
+TEST (LumexSerialPortEnumeration, PrintGroupsUnresponsiveInfos)
+{
+  std::vector<serial_port_info_t> infos (2);
+  infos[0].path = "COM1";
+  infos[0].state = serial_port_state::available;
+  infos[1].path = "COM9";
+  infos[1].state = serial_port_state::unresponsive;
+  infos[1].system_error = "open timed out after 500 ms";
+
+  std::ostringstream out;
+  print_serial_ports_info (out, infos);
+  std::string const text = out.str ();
+
+  std::size_t const section
+      = text.find ("=== Ports: unresponsive (open timed out) ===");
+  ASSERT_NE (section, std::string::npos);
+  std::size_t const row = text.find ("COM9");
+  ASSERT_NE (row, std::string::npos);
+  EXPECT_LT (section, row);
+  EXPECT_NE (text.find ("open timed out after 500 ms"), std::string::npos);
+  EXPECT_LT (text.find ("COM9"), text.find ("=== Ports: free"));
+  EXPECT_NE (text.find ("(total: 2)"), std::string::npos);
+}
