@@ -1,14 +1,15 @@
 ﻿# create_release.ps1 - build LumexLib with every given compiler and
 # architecture and package each build as
-#   LumexLib-<version>_win_<ISA>_<compiler>.<zip|tar.gz>
+#   LumexLib-<version>_win_<ISA>_<compiler>.<zip|tar.gz|exe>
 # where <compiler> is msvc<year> (the MSVC toolset of that Visual Studio,
-# for example msvc2026) or clang-cl-<major.minor.patch>.
+# for example msvc2026) or clang-cl-<major.minor.patch>; the exe is the NSIS
+# installer CPack builds through compile.py -i.
 #
 # The Windows counterpart of create_release.sh: the same options where the
 # platform has them, the same order of work and the same package layout.
 # Every check (python, cmake, ninja for clang-cl, the installed toolsets, the
-# clang-cl compilers, tar for tar.gz) runs before the first build, so a
-# missing piece stops the script before any work is done.
+# clang-cl compilers, NSIS for exe, tar for tar.gz) runs before the first
+# build, so a missing piece stops the script before any work is done.
 #
 # Run with -Help for the options.
 #Requires -Version 5.1
@@ -59,8 +60,10 @@ Required:
 Options:
   -Arch LIST         x64 (default), x86. Comma-separated, for example
                      -Arch x64,x86. x86 needs the same compiler's x86 tools.
-  -Formats LIST      zip (default), tar.gz. tar.gz needs tar in PATH
-                     (shipped with Windows 10 and later).
+  -Formats LIST      zip (default), tar.gz, exe. tar.gz needs tar in PATH
+                     (shipped with Windows 10 and later); exe is the NSIS
+                     installer built by CPack (compile.py -i) and needs NSIS
+                     (makensis), in PATH or its standard location.
   -Std N             C++ standard for every build (11, 14, 17, 20, 23).
                      Default: the compile.py default (20); pass -Std 17 for a
                      compiler without C++20, for example the v141 toolset.
@@ -75,6 +78,10 @@ Options:
 Notes:
   * The MSVC runtime is not bundled: the consumer needs the matching
     redistributable, as in every previous Windows package.
+  * The exe installs per machine into
+    <Program Files>\LumexLib\<version>_<compiler>, with an uninstall entry
+    in Add/Remove Programs; zip and tar.gz carry the same install tree as
+    archives.
   * <repo>/x64 is removed after every package, so that published build
     output never lands in a later archive.
   * A release needs the dated [vX.Y.Z.W] section in CHANGELOG.md; the script
@@ -122,8 +129,8 @@ foreach ($isa in $ArchList) {
     }
 }
 foreach ($format in $FormatList) {
-    if ($format -ne 'zip' -and $format -ne 'tar.gz') {
-        Die "unknown format '$format' (use zip, tar.gz)"
+    if ($format -notin @('zip', 'tar.gz', 'exe')) {
+        Die "unknown format '$format' (use zip, tar.gz, exe)"
     }
 }
 if ($Std -ne 0 -and @(11, 14, 17, 20, 23) -notcontains $Std) {
@@ -142,6 +149,32 @@ if (-not (Get-Command cmake -ErrorAction SilentlyContinue)) { Die "'cmake' is no
 if ($FormatList -contains 'tar.gz') {
     if (-not (Get-Command tar -ErrorAction SilentlyContinue)) {
         Die "tar.gz needs 'tar' in PATH (shipped with Windows 10 and later)"
+    }
+}
+
+# makensis, the way CPack finds it: PATH, the NSIS registry key, or the
+# standard installation directory.
+function Get-NSISMaker {
+    $command = Get-Command makensis -ErrorAction SilentlyContinue
+    if ($command) { return $command.Source }
+    foreach ($key in @('HKLM:\SOFTWARE\NSIS', 'HKLM:\SOFTWARE\WOW6432Node\NSIS')) {
+        try {
+            $installDir = (Get-ItemProperty -LiteralPath $key -ErrorAction Stop).InstallDir
+            if ($installDir) {
+                $candidate = Join-Path $installDir 'makensis.exe'
+                if (Test-Path -LiteralPath $candidate) { return $candidate }
+            }
+        }
+        catch { }
+    }
+    $fallback = 'C:\Program Files (x86)\NSIS\makensis.exe'
+    if (Test-Path -LiteralPath $fallback) { return $fallback }
+    return $null
+}
+
+if ($FormatList -contains 'exe') {
+    if (-not (Get-NSISMaker)) {
+        Die "exe needs NSIS ('makensis'): install NSIS or drop exe from -Formats"
     }
 }
 
@@ -379,6 +412,17 @@ foreach ($job in $Jobs) {
         else {
             $compileArgs += @('--compiler-c', $job.Compiler, '--compiler-cpp', $job.Compiler, '--use-ninja')
         }
+        if ($FormatList -contains 'exe') {
+            # CPack builds the NSIS installer from the same build; the compiler
+            # suffix keeps installs of several compilers side by side, like
+            # /opt/LumexLib/<version>_<compiler> on Linux.
+            $compileArgs += '-i'
+            $compileArgs += (
+                '--cmake-args=-DCPACK_PACKAGE_INSTALL_DIRECTORY=LumexLib/' + $EffectiveVersion + '_' + $job.Label +
+                ';-DCPACK_PACKAGE_INSTALL_REGISTRY_KEY=LumexLib_' + $EffectiveVersion + '_' + $job.Label +
+                ';-DCPACK_NSIS_DISPLAY_NAME=LumexLib ' + $EffectiveVersion + ' (' + $job.Label + ')'
+            )
+        }
         if ($Std -ne 0) {
             $compileArgs += @('--stdcxx', $Std)
         }
@@ -394,6 +438,18 @@ foreach ($job in $Jobs) {
             Die "build failed, see $buildLog"
         }
 
+        $installerPath = ''
+        if ($FormatList -contains 'exe') {
+            $installer = @(
+                Get-ChildItem -LiteralPath (Join-Path $RepoRoot 'build') -File -ErrorAction SilentlyContinue |
+                    Where-Object { $_.Name -like "LumexLib-${EffectiveVersion}-win_${isa}_*_cpp*.exe" }
+            )
+            if ($installer.Count -ne 1) {
+                Die "expected 1 NSIS installer in $RepoRoot\build, found $($installer.Count); see $buildLog"
+            }
+            $installerPath = $installer[0].FullName
+        }
+
         $installedDirs = @(Get-ChildItem -LiteralPath $prefix -Directory -ErrorAction SilentlyContinue)
         if ($installedDirs.Count -ne 1) {
             Die "expected 1 install folder under $prefix, found $($installedDirs.Count); see $buildLog"
@@ -407,8 +463,10 @@ foreach ($job in $Jobs) {
         # the Linux script stages its tar tree.
         $stageRoot = Join-Path $work 'stage'
         $tree = Join-Path $stageRoot $base
-        New-Item -ItemType Directory -Force -Path $tree | Out-Null
-        Copy-Item -Path (Join-Path $installDir '*') -Destination $tree -Recurse -Force
+        if ($FormatList -contains 'zip' -or $FormatList -contains 'tar.gz') {
+            New-Item -ItemType Directory -Force -Path $tree | Out-Null
+            Copy-Item -Path (Join-Path $installDir '*') -Destination $tree -Recurse -Force
+        }
 
         foreach ($format in $FormatList) {
             $out = Join-Path $OutputDir "$base.$format"
@@ -431,6 +489,9 @@ foreach ($job in $Jobs) {
                     if ($tarExit -ne 0) {
                         Die "tar failed for $out, see $tarLog"
                     }
+                }
+                'exe' {
+                    Copy-Item -LiteralPath $installerPath -Destination $out -Force
                 }
             }
             Remove-X64

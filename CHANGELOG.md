@@ -28,6 +28,14 @@
 
 Проверено локально: `-Compilers v145` дает `LumexLib-1.0.3.1_win_x64_msvc2026.zip` (1 мин 34 с), `-Compilers D:\local\LLVM\bin\clang-cl.exe` - `LumexLib-1.0.3.1_win_x64_clang-cl-21.1.5.zip` (1 мин 30 с); в обоих архивах 214 записей, верхняя папка - имя пакета.
 
+##### Установщик Windows (`.exe`) на CPack/NSIS
+
+**Файлы:** `CMakeLists.txt`, `lumex/tests/cmake/cases/cpack_nsis.cmake` (новый), `lumex/tests/cmake/CMakeLists.txt`, `create_release.ps1`
+
+**Суть:** корневой `CMakeLists.txt` получил блок CPack (только для top-level сборки с `LUMEX_INSTALL`): генератор `NSIS` на Windows и `TGZ` на остальных платформах, имя, версия из `project(LumexLib VERSION)`, контакт, имя файла `LumexLib-<версия>-win`, каталог установки по умолчанию `LumexLib/<версия>` и запись в Add/Remove Programs; `CPACK_PACKAGE_INSTALL_DIRECTORY`, `CPACK_PACKAGE_INSTALL_REGISTRY_KEY` и `CPACK_NSIS_DISPLAY_NAME` объявлены CACHE-переменными, чтобы релизный скрипт дописывал суффикс компилятора. `create_release.ps1` получил формат `exe`: к сборке добавляется `compile.py -i` (CPack строит NSIS-инсталлятор из того же install-дерева, `--cmake-args` передает `LumexLib/<версия>_<компилятор>` в каталог установки, реестр и Add/Remove), готовый `build/LumexLib-<версия>-win_<ISA>_*_cpp*.exe` копируется в `release/LumexLib-<версия>_win_<ISA>_<компилятор>.exe`; проверка NSIS (`makensis` в PATH, ключ реестра или стандартный путь) выполняется до первой сборки, zip/tar.gz собираются из того же прогона. Инсталлятор ставит дерево в `%ProgramFiles%\LumexLib\<версия>_<компилятор>` (сборки разных компиляторов стоят рядом, как `/opt/LumexLib/...` на Linux) и оставляет uninstaller с записью в Add/Remove Programs. Кейс `cmake.cpack_nsis` фиксирует строки подключения CPack.
+
+**Проверено:** кейс `cmake.cpack_nsis` (через `cmake -P`), два прогона `create_release.ps1 -Formats zip,exe` - `msvc2026` (1 мин 34 с) и `clang-cl-21.1.5` (1 мин 16 с); оба инсталлятора несут сигнатуру NSIS (`Nullsoft Install System`), 1.53 и 1.56 МБ. Установку и удаление прогоняет пользователь: инсталлятор требует прав администратора (per-machine, как у продуктов).
+
 ---
 
 ## [v1.0.3.0] - в разработке
