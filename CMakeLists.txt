@@ -313,6 +313,15 @@ if(LUMEX_INSTALL)
         DESTINATION
         ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}
     )
+
+    # The compiler runtime the libraries link against goes next to them in the
+    # installed bin/ (Windows): the package runs on a machine that never
+    # installed the MSVC redistributable, as <platform>/Distr<Config> already
+    # does through publish_distr. Registered last on purpose - the hook walks
+    # the INSTALLED DLLs (cmake/InstallBinRuntime.cmake).
+    if(WIN32)
+        install(SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/cmake/InstallBinRuntime.cmake")
+    endif()
 endif()
 
 # ==============================================================================

@@ -52,6 +52,14 @@
 
 **Проверено:** `cmake.dev_artifacts` и `cmake.cpack_nsis` (через `cmake -P`) зеленые; прогон `create_release.ps1 -Compilers v145 -Formats zip,exe`: в `LumexLib-1.0.3.1_win_x64_msvc2026.zip` 262 записи (214 до правки), из них 48 в `dev/` (16 PDB, 16 импортных `.lib`, 16 `.exp`), zip 10.8 МБ вместо 1.6, инсталлятор 7.27 МБ вместо 1.53; `project.nsi` в CPack-стейджинге перечисляет те же 48 файлов. Что clang-cl получает те же файлы, подтверждено сборкой (его `build/bin` несет PDB, `build/lib` - `.lib`/`.exp`) и тем, что clang-cl выставляет `MSVC=TRUE` (проверено мини-конфигурацией: `MSVC_VAR=1`, `SIMULATE_ID=MSVC`). Прогон на Linux - за пользователем: правила те же, `.debug` пишет сплиттер CMakeRoutines.
 
+##### MSVC-рантайм в bin/ релизных пакетов
+
+**Файлы:** `cmake/InstallBinRuntime.cmake` (новый), `CMakeLists.txt`, `create_release.ps1`, `lumex/tests/cmake/cases/install_bin_runtime.cmake` (новый), `lumex/tests/cmake/CMakeLists.txt`
+
+**Суть:** в установочное дерево добавлен install-хук (только Windows): после раскладки файлов `cmake/InstallBinRuntime.cmake` берет первые `Lumex*.dll` из `bin/` и прогоняет их через `file(GET_RUNTIME_DEPENDENCIES)` в `CMakeRoutines/deployment/CopyRuntimeDependencies.cmake` с дефолтным набором имен Windows - тот же механизм и тот же набор (`msvcp140.dll`, `vcruntime140*.dll`), что `publish_distr` уже стейджит в `<platform>/Distr<Config>`. Раньше пакет нес только Lumex-DLL, и потребителю требовался отдельно установленный распространяемый пакет MSVC; теперь библиотеки грузятся на машине без него. Хук попадает и в zip (дерево собирает `compile.py --install-prefix`), и в NSIS-инсталлятор (CPack прогоняет те же install-правила); на ELF скрипт сразу выходит, и раскладка рантайма остается за `create_release.sh` (его набор не меняется). Кейс `cmake.install_bin_runtime` фиксирует обвязку.
+
+**Проверено:** кейс падал до обвязки и зелен после; прогон `create_release.ps1 -Compilers v145 -Formats zip,exe` (2 мин 47 с): в `LumexLib-1.0.3.1_win_x64_msvc2026.zip` 265 записей (было 262), `bin/` - 19 файлов (было 16): + `msvcp140.dll`, `vcruntime140.dll`, `vcruntime140_1.dll`; те же три файла в CPack-стейджинге и в `project.nsi` инсталлятора. Linux-сторона не затронута: хук под `if(WIN32)`, скрипт выходит при `NOT WIN32`.
+
 ---
 
 ## [v1.0.3.0] - в разработке
