@@ -15,9 +15,11 @@
 #Requires -Version 5.1
 [CmdletBinding()]
 param(
-    [string] $Compilers = '',
-    [string] $Arch      = 'x64',
-    [string] $Formats   = 'zip',
+    # List parameters take the usual PowerShell comma lists (-Formats zip,exe)
+    # as well as single comma-separated strings (-Formats 'zip,exe').
+    [string[]] $Compilers = @(),
+    [string[]] $Arch      = @('x64'),
+    [string[]] $Formats   = @('zip'),
     [int]    $Std       = 0,
     [string] $OutputDir = '',
     [string] $Version   = '',
@@ -63,7 +65,9 @@ Options:
   -Formats LIST      zip (default), tar.gz, exe. tar.gz needs tar in PATH
                      (shipped with Windows 10 and later); exe is the NSIS
                      installer built by CPack (compile.py -i) and needs NSIS
-                     (makensis), in PATH or its standard location.
+                     (makensis): MAKENSIS_EXE, PATH, the NSIS registry key,
+                     the machine/user PATH values or the usual install
+                     directories.
   -Std N             C++ standard for every build (11, 14, 17, 20, 23).
                      Default: the compile.py default (20); pass -Std 17 for a
                      compiler without C++20, for example the v141 toolset.
@@ -82,6 +86,9 @@ Notes:
     <Program Files>\LumexLib\<version>_<compiler>, with an uninstall entry
     in Add/Remove Programs; zip and tar.gz carry the same install tree as
     archives.
+  * The found makensis directory goes in front of PATH, so CPack runs the
+    same makensis; MAKENSIS_EXE overrides the search (a wrong value stops
+    the script).
   * <repo>/x64 is removed after every package, so that published build
     output never lands in a later archive.
   * A release needs the dated [vX.Y.Z.W] section in CHANGELOG.md; the script
@@ -105,20 +112,18 @@ if ($Help) {
     Write-Usage
     exit 0
 }
-if ([string]::IsNullOrWhiteSpace($Compilers)) {
-    Write-Usage
-    Die '-Compilers is required'
-}
-
-function Split-List([string] $Value) {
-    @($Value -split ',' | ForEach-Object { $_.Trim() } | Where-Object { $_ -ne '' })
+function Split-List([string[]] $Value) {
+    @(($Value -join ',') -split ',' | ForEach-Object { $_.Trim() } | Where-Object { $_ -ne '' })
 }
 
 $CompilerList = @(Split-List $Compilers)
 $ArchList     = @(Split-List $Arch)
 $FormatList   = @(Split-List $Formats)
 
-if ($CompilerList.Count -eq 0) { Die '-Compilers is empty' }
+if ($CompilerList.Count -eq 0) {
+    Write-Usage
+    Die '-Compilers is required'
+}
 if ($ArchList.Count -eq 0) { Die '-Arch is empty' }
 if ($FormatList.Count -eq 0) { Die '-Formats is empty' }
 
@@ -152,12 +157,24 @@ if ($FormatList -contains 'tar.gz') {
     }
 }
 
-# makensis, the way CPack finds it: PATH, the NSIS registry key, or the
-# standard installation directory.
+# makensis, in the order a release machine uses it: the explicit
+# MAKENSIS_EXE override, PATH, the NSIS registry key, the machine and user
+# PATH values from the registry (a session whose PATH is stale after
+# installing NSIS), the usual installation directories and the package
+# managers' locations. The found directory goes in front of PATH, so CPack
+# runs the same makensis this check approved.
 function Get-NSISMaker {
+    if ($env:MAKENSIS_EXE) {
+        if (Test-Path -LiteralPath $env:MAKENSIS_EXE -PathType Leaf) {
+            return (Resolve-Path -LiteralPath $env:MAKENSIS_EXE).Path
+        }
+        Die "MAKENSIS_EXE points to '$env:MAKENSIS_EXE', which does not exist"
+    }
+
     $command = Get-Command makensis -ErrorAction SilentlyContinue
     if ($command) { return $command.Source }
-    foreach ($key in @('HKLM:\SOFTWARE\NSIS', 'HKLM:\SOFTWARE\WOW6432Node\NSIS')) {
+
+    foreach ($key in @('HKLM:\SOFTWARE\NSIS', 'HKLM:\SOFTWARE\WOW6432Node\NSIS', 'HKCU:\SOFTWARE\NSIS')) {
         try {
             $installDir = (Get-ItemProperty -LiteralPath $key -ErrorAction Stop).InstallDir
             if ($installDir) {
@@ -167,14 +184,54 @@ function Get-NSISMaker {
         }
         catch { }
     }
-    $fallback = 'C:\Program Files (x86)\NSIS\makensis.exe'
-    if (Test-Path -LiteralPath $fallback) { return $fallback }
+
+    $registeredPath = @()
+    foreach ($key in @('HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Environment', 'HKCU:\Environment')) {
+        try {
+            $value = (Get-ItemProperty -LiteralPath $key -ErrorAction Stop).Path
+            if ($value) { $registeredPath += $value }
+        }
+        catch { }
+    }
+    foreach ($entry in (($registeredPath -join ';') -split ';')) {
+        $dir = $entry.Trim()
+        if (-not $dir) { continue }
+        $candidate = Join-Path $dir 'makensis.exe'
+        if (Test-Path -LiteralPath $candidate) { return $candidate }
+    }
+
+    $programFiles = [Environment]::GetEnvironmentVariable('ProgramFiles')
+    $programFilesX86 = [Environment]::GetEnvironmentVariable('ProgramFiles(x86)')
+    $userProfile = [Environment]::GetEnvironmentVariable('USERPROFILE')
+    $chocolatey = [Environment]::GetEnvironmentVariable('ChocolateyInstall')
+    if (-not $chocolatey) { $chocolatey = 'C:\ProgramData\chocolatey' }
+
+    $usualDirs = @()
+    if ($programFilesX86) { $usualDirs += (Join-Path $programFilesX86 'NSIS') }
+    if ($programFiles) { $usualDirs += (Join-Path $programFiles 'NSIS') }
+    $usualDirs += (Join-Path $chocolatey 'bin')
+    $usualDirs += (Join-Path $chocolatey 'lib\nsis\tools')
+    if ($userProfile) {
+        $usualDirs += (Join-Path $userProfile 'scoop\shims')
+        $usualDirs += (Join-Path $userProfile 'scoop\apps\nsis\current')
+    }
+    foreach ($dir in $usualDirs) {
+        $candidate = Join-Path $dir 'makensis.exe'
+        if (Test-Path -LiteralPath $candidate) { return $candidate }
+    }
     return $null
 }
 
+$NSISMaker = $null
 if ($FormatList -contains 'exe') {
-    if (-not (Get-NSISMaker)) {
-        Die "exe needs NSIS ('makensis'): install NSIS or drop exe from -Formats"
+    $NSISMaker = Get-NSISMaker
+    if (-not $NSISMaker) {
+        Die "exe needs NSIS ('makensis'): install NSIS, set MAKENSIS_EXE or drop exe from -Formats"
+    }
+    $makensisDir = (Split-Path -Parent $NSISMaker).TrimEnd('\')
+    $pathEntries = @($env:PATH -split ';' | ForEach-Object { $_.Trim().TrimEnd('\') })
+    if ($pathEntries -notcontains $makensisDir) {
+        $env:PATH = "$makensisDir;$env:PATH"
     }
 }
 
@@ -355,6 +412,9 @@ $Artifacts = @()
 
 $stdTextForBanner = if ($Std -ne 0) { "C++$Std" } else { 'C++default' }
 Write-Host "LumexLib $EffectiveVersion, formats: $($FormatList -join ', ')"
+if ($null -ne $NSISMaker) {
+    Write-Host "  NSIS: $NSISMaker"
+}
 foreach ($job in $Jobs) {
     foreach ($isa in $ArchList) {
         $detail = if ($job.Kind -eq 'msvc') { $job.Toolset } else { $job.Compiler }

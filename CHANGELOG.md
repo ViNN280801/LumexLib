@@ -1,4 +1,4 @@
-# Changelog LumexLib
+﻿# Changelog LumexLib
 
 <!-- markdownlint-disable MD022 MD024 MD032 -->
 
@@ -32,9 +32,17 @@
 
 **Файлы:** `CMakeLists.txt`, `lumex/tests/cmake/cases/cpack_nsis.cmake` (новый), `lumex/tests/cmake/CMakeLists.txt`, `create_release.ps1`
 
-**Суть:** корневой `CMakeLists.txt` получил блок CPack (только для top-level сборки с `LUMEX_INSTALL`): генератор `NSIS` на Windows и `TGZ` на остальных платформах, имя, версия из `project(LumexLib VERSION)`, контакт, имя файла `LumexLib-<версия>-win`, каталог установки по умолчанию `LumexLib/<версия>` и запись в Add/Remove Programs; `CPACK_PACKAGE_INSTALL_DIRECTORY`, `CPACK_PACKAGE_INSTALL_REGISTRY_KEY` и `CPACK_NSIS_DISPLAY_NAME` объявлены CACHE-переменными, чтобы релизный скрипт дописывал суффикс компилятора. `create_release.ps1` получил формат `exe`: к сборке добавляется `compile.py -i` (CPack строит NSIS-инсталлятор из того же install-дерева, `--cmake-args` передает `LumexLib/<версия>_<компилятор>` в каталог установки, реестр и Add/Remove), готовый `build/LumexLib-<версия>-win_<ISA>_*_cpp*.exe` копируется в `release/LumexLib-<версия>_win_<ISA>_<компилятор>.exe`; проверка NSIS (`makensis` в PATH, ключ реестра или стандартный путь) выполняется до первой сборки, zip/tar.gz собираются из того же прогона. Инсталлятор ставит дерево в `%ProgramFiles%\LumexLib\<версия>_<компилятор>` (сборки разных компиляторов стоят рядом, как `/opt/LumexLib/...` на Linux) и оставляет uninstaller с записью в Add/Remove Programs. Кейс `cmake.cpack_nsis` фиксирует строки подключения CPack.
+**Суть:** корневой `CMakeLists.txt` получил блок CPack (только для top-level сборки с `LUMEX_INSTALL`): генератор `NSIS` на Windows и `TGZ` на остальных платформах, имя, версия из `project(LumexLib VERSION)`, контакт, имя файла `LumexLib-<версия>-win`, каталог установки по умолчанию `LumexLib/<версия>` и запись в Add/Remove Programs; `CPACK_PACKAGE_INSTALL_DIRECTORY`, `CPACK_PACKAGE_INSTALL_REGISTRY_KEY` и `CPACK_NSIS_DISPLAY_NAME` объявлены CACHE-переменными, чтобы релизный скрипт дописывал суффикс компилятора. `create_release.ps1` получил формат `exe`: к сборке добавляется `compile.py -i` (CPack строит NSIS-инсталлятор из того же install-дерева, `--cmake-args` передает `LumexLib/<версия>_<компилятор>` в каталог установки, реестр и Add/Remove), готовый `build/LumexLib-<версия>-win_<ISA>_*_cpp*.exe` копируется в `release/LumexLib-<версия>_win_<ISA>_<компилятор>.exe`; проверка NSIS выполняется до первой сборки: `makensis` ищется через переменную окружения `MAKENSIS_EXE`, PATH, ключ реестра NSIS, значения PATH из реестра (машинный и пользовательский) и обычные каталоги установки (в том числе Chocolatey и Scoop), а найденный каталог ставится в начало PATH для CPack, чтобы он взял тот же бинарь; zip/tar.gz собираются из того же прогона. Инсталлятор ставит дерево в `%ProgramFiles%\LumexLib\<версия>_<компилятор>` (сборки разных компиляторов стоят рядом, как `/opt/LumexLib/...` на Linux) и оставляет uninstaller с записью в Add/Remove Programs. Кейс `cmake.cpack_nsis` фиксирует строки подключения CPack.
 
-**Проверено:** кейс `cmake.cpack_nsis` (через `cmake -P`), два прогона `create_release.ps1 -Formats zip,exe` - `msvc2026` (1 мин 34 с) и `clang-cl-21.1.5` (1 мин 16 с); оба инсталлятора несут сигнатуру NSIS (`Nullsoft Install System`), 1.53 и 1.56 МБ. Установку и удаление прогоняет пользователь: инсталлятор требует прав администратора (per-machine, как у продуктов).
+**Проверено:** кейс `cmake.cpack_nsis` (через `cmake -P`), два прогона `create_release.ps1 -Formats zip,exe` - `msvc2026` (1 мин 34 с) и `clang-cl-21.1.5` (1 мин 16 с); оба инсталлятора несут сигнатуру NSIS (`Nullsoft Install System`), 1.53 и 1.56 МБ. Установку и удаление прогоняет пользователь: инсталлятор требует прав администратора (per-machine, как у продуктов). Повторный прогон `msvc2026` после расширенного поиска `makensis` - 2 мин 02 с.
+
+##### Перечисления в параметрах релизного скрипта
+
+**Файлы:** `create_release.ps1`
+
+**Суть:** `-Compilers`, `-Arch` и `-Formats` объявлены `[string[]]` и склеиваются в строку перед разбором: работают и обычное перечисление PowerShell (`-Formats zip,exe`), и одна строка с запятыми (`-Formats 'zip,exe'`). Раньше без кавычек перечисление падало с ошибкой привязки аргументов (`Cannot convert value to type System.String`), то есть пример из `-Help` (`-Compilers v143,D:\local\LLVM\bin\clang-cl.exe`) в таком виде не работал.
+
+**Проверено:** оба вида вызова дают один и тот же список (сборка `msvc2026` с некавыченным `-Formats zip,exe` выше); `-Help`, пустой `-Compilers`, неизвестный формат и неверный `MAKENSIS_EXE` завершаются с exit 1 и внятным сообщением; ошибка привязки воспроизводилась в Windows PowerShell 5.1 и pwsh 7.6.6.
 
 ---
 
