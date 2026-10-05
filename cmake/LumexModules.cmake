@@ -217,6 +217,40 @@ set(LUMEX_SHARED_LIBRARY_CANDIDATES
     LumexXml
 )
 
+# The developer corner of an installed package: for every real library of
+# LUMEX_SHARED_LIBRARY_CANDIDATES everything a developer links and debugs
+# with lands in dev/.
+#   * MSVC, cl.exe and clang-cl: the import .lib, the .exp next to it and
+#     the PDB configure_optimization_level produces for /Zi + /DEBUG.
+#   * GCC/Clang on ELF: the <file>.debug configure_optimization_level's
+#     linker launcher splits out of the release binary (with the
+#     .gnu_debuglink left in the binary), the ELF counterpart of the PDB.
+# OPTIONAL: whatever a toolchain does not produce (the .exp on ELF, the PDB
+# of a MinGW build) is skipped instead of failing the install.
+function(lumex_install_dev_artifacts)
+    foreach(_lumex_dev_target ${LUMEX_SHARED_LIBRARY_CANDIDATES})
+        if(NOT TARGET ${_lumex_dev_target})
+            continue()
+        endif()
+        get_target_property(_lumex_dev_type ${_lumex_dev_target} TYPE)
+        if(NOT _lumex_dev_type MATCHES "^(SHARED|STATIC)_LIBRARY$")
+            continue()
+        endif()
+        if(MSVC)
+            install(FILES "$<TARGET_LINKER_FILE:${_lumex_dev_target}>"
+                DESTINATION dev OPTIONAL)
+            install(FILES
+                "$<TARGET_LINKER_FILE_DIR:${_lumex_dev_target}>/$<TARGET_FILE_BASE_NAME:${_lumex_dev_target}>.exp"
+                DESTINATION dev OPTIONAL)
+            install(FILES "$<TARGET_PDB_FILE:${_lumex_dev_target}>"
+                DESTINATION dev OPTIONAL)
+        else()
+            install(FILES "$<TARGET_FILE:${_lumex_dev_target}>.debug"
+                DESTINATION dev OPTIONAL)
+        endif()
+    endforeach()
+endfunction()
+
 # POST_BUILD-style Distr folder, same shape as PeakExpertCE:
 #   <LumexLib>/<platform>/Distr<Config>
 # Copies only Lumex shared libraries (and CRT next to them). Test and

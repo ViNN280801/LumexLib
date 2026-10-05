@@ -86,6 +86,8 @@ Notes:
     <Program Files>\LumexLib\<version>_<compiler>, with an uninstall entry
     in Add/Remove Programs; zip and tar.gz carry the same install tree as
     archives.
+  * dev/ carries the developer files of every library: the import .lib
+    files, the .exp files and the PDBs next to the release binaries.
   * The found makensis directory goes in front of PATH, so CPack runs the
     same makensis; MAKENSIS_EXE overrides the search (a wrong value stops
     the script).
