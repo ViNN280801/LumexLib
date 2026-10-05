@@ -900,11 +900,11 @@ struct safe_compare_impl_helper<
 #ifdef LUMEXLUMEX_SFNC_ARCH_X86
         using UnsignedT = typename std::make_unsigned<clean_T>::type;
         if (static_cast<UnsignedT> (other)
-            > static_cast<UnsignedT> (std::numeric_limits<clean_T>::max ()))
+            > static_cast<UnsignedT> ((std::numeric_limits<clean_T>::max) ()))
           return false;
 #else
         if (other > static_cast<typename std::make_unsigned<clean_T>::type> (
-                std::numeric_limits<clean_T>::max ()))
+                (std::numeric_limits<clean_T>::max) ()))
           return false;
 #endif
       }
@@ -921,12 +921,12 @@ struct safe_compare_impl_helper<
 #ifdef LUMEXLUMEX_SFNC_ARCH_X86
         using UnsignedU = typename std::make_unsigned<clean_U>::type;
         if (static_cast<UnsignedU> (other)
-            > static_cast<UnsignedU> (std::numeric_limits<clean_T>::max ()))
+            > static_cast<UnsignedU> ((std::numeric_limits<clean_T>::max) ()))
           return false;
 #else
         using UnsignedU = typename std::make_unsigned<clean_U>::type;
         if (static_cast<UnsignedU> (other)
-            > static_cast<UnsignedU> (std::numeric_limits<clean_T>::max ()))
+            > static_cast<UnsignedU> ((std::numeric_limits<clean_T>::max) ()))
           return false;
 #endif
       }
@@ -936,15 +936,15 @@ struct safe_compare_impl_helper<
 #ifdef LUMEXLUMEX_SFNC_ARCH_X86
         // On 32-bit architectures use explicit casts to silence C4018
         if (static_cast<CommonType> (other)
-            > static_cast<CommonType> (std::numeric_limits<clean_T>::max ()))
+            > static_cast<CommonType> ((std::numeric_limits<clean_T>::max) ()))
           return false;
         if (static_cast<CommonType> (other)
-            < static_cast<CommonType> (std::numeric_limits<clean_T>::min ()))
+            < static_cast<CommonType> ((std::numeric_limits<clean_T>::min) ()))
           return true;
 #else
-        if (other > std::numeric_limits<clean_T>::max ())
+        if (other > (std::numeric_limits<clean_T>::max) ())
           return false;
-        if (other < std::numeric_limits<clean_T>::min ())
+        if (other < (std::numeric_limits<clean_T>::min) ())
           return true;
 #endif
       }
@@ -988,11 +988,11 @@ struct safe_compare_impl_helper<
 #ifdef LUMEXLUMEX_SFNC_ARCH_X86
         using UnsignedT = typename std::make_unsigned<clean_T>::type;
         if (static_cast<UnsignedT> (other)
-            > static_cast<UnsignedT> (std::numeric_limits<clean_T>::max ()))
+            > static_cast<UnsignedT> ((std::numeric_limits<clean_T>::max) ()))
           return true;
 #else
         if (other > static_cast<typename std::make_unsigned<clean_T>::type> (
-                std::numeric_limits<clean_T>::max ()))
+                (std::numeric_limits<clean_T>::max) ()))
           return true;
 #endif
       }
@@ -1006,12 +1006,12 @@ struct safe_compare_impl_helper<
 #ifdef LUMEXLUMEX_SFNC_ARCH_X86
         using UnsignedU = typename std::make_unsigned<clean_U>::type;
         if (static_cast<UnsignedU> (other)
-            > static_cast<UnsignedU> (std::numeric_limits<clean_T>::max ()))
+            > static_cast<UnsignedU> ((std::numeric_limits<clean_T>::max) ()))
           return true;
 #else
         using UnsignedU = typename std::make_unsigned<clean_U>::type;
         if (static_cast<UnsignedU> (other)
-            > static_cast<UnsignedU> (std::numeric_limits<clean_T>::max ()))
+            > static_cast<UnsignedU> ((std::numeric_limits<clean_T>::max) ()))
           return true;
 #endif
       }
@@ -1020,15 +1020,15 @@ struct safe_compare_impl_helper<
 #ifdef LUMEXLUMEX_SFNC_ARCH_X86
         // On 32-bit architectures use explicit casts to silence C4018
         if (static_cast<CommonType> (other)
-            > static_cast<CommonType> (std::numeric_limits<clean_T>::max ()))
+            > static_cast<CommonType> ((std::numeric_limits<clean_T>::max) ()))
           return true;
         if (static_cast<CommonType> (other)
-            < static_cast<CommonType> (std::numeric_limits<clean_T>::min ()))
+            < static_cast<CommonType> ((std::numeric_limits<clean_T>::min) ()))
           return false;
 #else
-        if (other > std::numeric_limits<clean_T>::max ())
+        if (other > (std::numeric_limits<clean_T>::max) ())
           return true;
-        if (other < std::numeric_limits<clean_T>::min ())
+        if (other < (std::numeric_limits<clean_T>::min) ())
           return false;
 #endif
       }
@@ -1060,11 +1060,11 @@ struct safe_compare_impl_helper<
 #ifdef LUMEXLUMEX_SFNC_ARCH_X86
         using UnsignedT = typename std::make_unsigned<clean_T>::type;
         if (static_cast<UnsignedT> (other)
-            > static_cast<UnsignedT> (std::numeric_limits<clean_T>::max ()))
+            > static_cast<UnsignedT> ((std::numeric_limits<clean_T>::max) ()))
           return true;
 #else
         if (other > static_cast<typename std::make_unsigned<clean_T>::type> (
-                std::numeric_limits<clean_T>::max ()))
+                (std::numeric_limits<clean_T>::max) ()))
           return true;
 #endif
       }
@@ -1078,12 +1078,12 @@ struct safe_compare_impl_helper<
 #ifdef LUMEXLUMEX_SFNC_ARCH_X86
         using UnsignedU = typename std::make_unsigned<clean_U>::type;
         if (static_cast<UnsignedU> (other)
-            > static_cast<UnsignedU> (std::numeric_limits<clean_T>::max ()))
+            > static_cast<UnsignedU> ((std::numeric_limits<clean_T>::max) ()))
           return true;
 #else
         using UnsignedU = typename std::make_unsigned<clean_U>::type;
         if (static_cast<UnsignedU> (other)
-            > static_cast<UnsignedU> (std::numeric_limits<clean_T>::max ()))
+            > static_cast<UnsignedU> ((std::numeric_limits<clean_T>::max) ()))
           return true;
 #endif
       }
@@ -1092,15 +1092,15 @@ struct safe_compare_impl_helper<
 #ifdef LUMEXLUMEX_SFNC_ARCH_X86
         // On 32-bit architectures use explicit casts to silence C4018
         if (static_cast<CommonType> (other)
-            > static_cast<CommonType> (std::numeric_limits<clean_T>::max ()))
+            > static_cast<CommonType> ((std::numeric_limits<clean_T>::max) ()))
           return true;
         if (static_cast<CommonType> (other)
-            < static_cast<CommonType> (std::numeric_limits<clean_T>::min ()))
+            < static_cast<CommonType> ((std::numeric_limits<clean_T>::min) ()))
           return false;
 #else
-        if (other > std::numeric_limits<clean_T>::max ())
+        if (other > (std::numeric_limits<clean_T>::max) ())
           return true;
-        if (other < std::numeric_limits<clean_T>::min ())
+        if (other < (std::numeric_limits<clean_T>::min) ())
           return false;
 #endif
       }
@@ -1131,11 +1131,11 @@ struct safe_compare_impl_helper<
 #ifdef LUMEXLUMEX_SFNC_ARCH_X86
         using UnsignedT = typename std::make_unsigned<clean_T>::type;
         if (static_cast<UnsignedT> (other)
-            > static_cast<UnsignedT> (std::numeric_limits<clean_T>::max ()))
+            > static_cast<UnsignedT> ((std::numeric_limits<clean_T>::max) ()))
           return false;
 #else
         if (other > static_cast<typename std::make_unsigned<clean_T>::type> (
-                std::numeric_limits<clean_T>::max ()))
+                (std::numeric_limits<clean_T>::max) ()))
           return false;
 #endif
       }
@@ -1149,12 +1149,12 @@ struct safe_compare_impl_helper<
 #ifdef LUMEXLUMEX_SFNC_ARCH_X86
         using UnsignedU = typename std::make_unsigned<clean_U>::type;
         if (static_cast<UnsignedU> (other)
-            > static_cast<UnsignedU> (std::numeric_limits<clean_T>::max ()))
+            > static_cast<UnsignedU> ((std::numeric_limits<clean_T>::max) ()))
           return false;
 #else
         using UnsignedU = typename std::make_unsigned<clean_U>::type;
         if (static_cast<UnsignedU> (other)
-            > static_cast<UnsignedU> (std::numeric_limits<clean_T>::max ()))
+            > static_cast<UnsignedU> ((std::numeric_limits<clean_T>::max) ()))
           return false;
 #endif
       }
@@ -1163,15 +1163,15 @@ struct safe_compare_impl_helper<
 #ifdef LUMEXLUMEX_SFNC_ARCH_X86
         // On 32-bit architectures use explicit casts to silence C4018
         if (static_cast<CommonType> (other)
-            > static_cast<CommonType> (std::numeric_limits<clean_T>::max ()))
+            > static_cast<CommonType> ((std::numeric_limits<clean_T>::max) ()))
           return false;
         if (static_cast<CommonType> (other)
-            < static_cast<CommonType> (std::numeric_limits<clean_T>::min ()))
+            < static_cast<CommonType> ((std::numeric_limits<clean_T>::min) ()))
           return true;
 #else
-        if (other > std::numeric_limits<clean_T>::max ())
+        if (other > (std::numeric_limits<clean_T>::max) ())
           return false;
-        if (other < std::numeric_limits<clean_T>::min ())
+        if (other < (std::numeric_limits<clean_T>::min) ())
           return true;
 #endif
       }
@@ -1201,11 +1201,11 @@ struct safe_compare_impl_helper<
 #ifdef LUMEXLUMEX_SFNC_ARCH_X86
         using UnsignedT = typename std::make_unsigned<clean_T>::type;
         if (static_cast<UnsignedT> (other)
-            > static_cast<UnsignedT> (std::numeric_limits<clean_T>::max ()))
+            > static_cast<UnsignedT> ((std::numeric_limits<clean_T>::max) ()))
           return false;
 #else
         if (other > static_cast<typename std::make_unsigned<clean_T>::type> (
-                std::numeric_limits<clean_T>::max ()))
+                (std::numeric_limits<clean_T>::max) ()))
           return false;
 #endif
       }
@@ -1219,22 +1219,22 @@ struct safe_compare_impl_helper<
 #ifdef LUMEXLUMEX_SFNC_ARCH_X86
         using UnsignedU = typename std::make_unsigned<clean_U>::type;
         if (static_cast<UnsignedU> (other)
-            > static_cast<UnsignedU> (std::numeric_limits<clean_T>::max ()))
+            > static_cast<UnsignedU> ((std::numeric_limits<clean_T>::max) ()))
           return false;
 #else
         using UnsignedU = typename std::make_unsigned<clean_U>::type;
         if (static_cast<UnsignedU> (other)
-            > static_cast<UnsignedU> (std::numeric_limits<clean_T>::max ()))
+            > static_cast<UnsignedU> ((std::numeric_limits<clean_T>::max) ()))
           return false;
 #endif
       }
     else
       {
         if (static_cast<CommonType> (other)
-            > static_cast<CommonType> (std::numeric_limits<clean_T>::max ()))
+            > static_cast<CommonType> ((std::numeric_limits<clean_T>::max) ()))
           return false;
         if (static_cast<CommonType> (other)
-            < static_cast<CommonType> (std::numeric_limits<clean_T>::min ()))
+            < static_cast<CommonType> ((std::numeric_limits<clean_T>::min) ()))
           return false;
       }
     return static_cast<CommonType> (current)
@@ -1264,11 +1264,11 @@ struct safe_compare_impl_helper<
 #ifdef LUMEXLUMEX_SFNC_ARCH_X86
         using UnsignedT = typename std::make_unsigned<clean_T>::type;
         if (static_cast<UnsignedT> (other)
-            > static_cast<UnsignedT> (std::numeric_limits<clean_T>::max ()))
+            > static_cast<UnsignedT> ((std::numeric_limits<clean_T>::max) ()))
           return true;
 #else
         if (other > static_cast<typename std::make_unsigned<clean_T>::type> (
-                std::numeric_limits<clean_T>::max ()))
+                (std::numeric_limits<clean_T>::max) ()))
           return true;
 #endif
       }
@@ -1282,12 +1282,12 @@ struct safe_compare_impl_helper<
 #ifdef LUMEXLUMEX_SFNC_ARCH_X86
         using UnsignedU = typename std::make_unsigned<clean_U>::type;
         if (static_cast<UnsignedU> (other)
-            > static_cast<UnsignedU> (std::numeric_limits<clean_T>::max ()))
+            > static_cast<UnsignedU> ((std::numeric_limits<clean_T>::max) ()))
           return true;
 #else
         using UnsignedU = typename std::make_unsigned<clean_U>::type;
         if (static_cast<UnsignedU> (other)
-            > static_cast<UnsignedU> (std::numeric_limits<clean_T>::max ()))
+            > static_cast<UnsignedU> ((std::numeric_limits<clean_T>::max) ()))
           return true;
 #endif
       }
@@ -1296,15 +1296,15 @@ struct safe_compare_impl_helper<
 #ifdef LUMEXLUMEX_SFNC_ARCH_X86
         // On 32-bit architectures use explicit casts to silence C4018
         if (static_cast<CommonType> (other)
-            > static_cast<CommonType> (std::numeric_limits<clean_T>::max ()))
+            > static_cast<CommonType> ((std::numeric_limits<clean_T>::max) ()))
           return true;
         if (static_cast<CommonType> (other)
-            < static_cast<CommonType> (std::numeric_limits<clean_T>::min ()))
+            < static_cast<CommonType> ((std::numeric_limits<clean_T>::min) ()))
           return true;
 #else
-        if (other > std::numeric_limits<clean_T>::max ())
+        if (other > (std::numeric_limits<clean_T>::max) ())
           return true;
-        if (other < std::numeric_limits<clean_T>::min ())
+        if (other < (std::numeric_limits<clean_T>::min) ())
           return true;
 #endif
       }
@@ -1336,11 +1336,11 @@ struct safe_compare_impl_helper<
 #ifdef LUMEXLUMEX_SFNC_ARCH_X86
         using UnsignedT = typename std::make_unsigned<clean_T>::type;
         if (static_cast<UnsignedT> (other)
-            > static_cast<UnsignedT> (std::numeric_limits<clean_T>::max ()))
+            > static_cast<UnsignedT> ((std::numeric_limits<clean_T>::max) ()))
           return std::strong_ordering::less;
 #else
         if (other > static_cast<typename std::make_unsigned<clean_T>::type> (
-                std::numeric_limits<clean_T>::max ()))
+                (std::numeric_limits<clean_T>::max) ()))
           return std::strong_ordering::less;
 #endif
       }
@@ -1354,12 +1354,12 @@ struct safe_compare_impl_helper<
 #ifdef LUMEXLUMEX_SFNC_ARCH_X86
         using UnsignedU = typename std::make_unsigned<clean_U>::type;
         if (static_cast<UnsignedU> (other)
-            > static_cast<UnsignedU> (std::numeric_limits<clean_T>::max ()))
+            > static_cast<UnsignedU> ((std::numeric_limits<clean_T>::max) ()))
           return std::strong_ordering::less;
 #else
         using UnsignedU = typename std::make_unsigned<clean_U>::type;
         if (static_cast<UnsignedU> (other)
-            > static_cast<UnsignedU> (std::numeric_limits<clean_T>::max ()))
+            > static_cast<UnsignedU> ((std::numeric_limits<clean_T>::max) ()))
           return std::strong_ordering::less;
 #endif
       }
@@ -1368,15 +1368,15 @@ struct safe_compare_impl_helper<
 #ifdef LUMEXLUMEX_SFNC_ARCH_X86
         // On 32-bit architectures use explicit casts to silence C4018
         if (static_cast<CommonType> (other)
-            > static_cast<CommonType> (std::numeric_limits<clean_T>::max ()))
+            > static_cast<CommonType> ((std::numeric_limits<clean_T>::max) ()))
           return std::strong_ordering::less;
         if (static_cast<CommonType> (other)
-            < static_cast<CommonType> (std::numeric_limits<clean_T>::min ()))
+            < static_cast<CommonType> ((std::numeric_limits<clean_T>::min) ()))
           return std::strong_ordering::greater;
 #else
-        if (other > std::numeric_limits<clean_T>::max ())
+        if (other > (std::numeric_limits<clean_T>::max) ())
           return std::strong_ordering::less;
-        if (other < std::numeric_limits<clean_T>::min ())
+        if (other < (std::numeric_limits<clean_T>::min) ())
           return std::strong_ordering::greater;
 #endif
       }
@@ -2933,8 +2933,8 @@ fits_in_type (SourceType value) LUMEX_NOEXCEPT
 
   if (std::is_integral<clean_target>::value
       && std::is_integral<clean_source>::value)
-    return value >= std::numeric_limits<clean_target>::min ()
-           && value <= std::numeric_limits<clean_target>::max ();
+    return value >= (std::numeric_limits<clean_target>::min) ()
+           && value <= (std::numeric_limits<clean_target>::max) ();
   if (std::is_floating_point<clean_target>::value
       && std::is_floating_point<clean_source>::value)
     return !std::isnan (value) && !std::isinf (value);
@@ -2945,8 +2945,8 @@ fits_in_type (SourceType value) LUMEX_NOEXCEPT
     {
       if (std::isnan (value) || std::isinf (value))
         return false;
-      return value >= std::numeric_limits<clean_target>::min ()
-             && value <= std::numeric_limits<clean_target>::max ();
+      return value >= (std::numeric_limits<clean_target>::min) ()
+             && value <= (std::numeric_limits<clean_target>::max) ();
     }
 
   // floating-point to integral

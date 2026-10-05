@@ -38,8 +38,8 @@
  * - POSIX: `/sys/class/tty` with USB sysfs attributes, then `/dev`.
  *
  * Enumeration is not thread-safe against a concurrent scan of the same
- * device set. Opening each port to classify its state can be slow on
- * Windows when many COM names exist.
+ * device set. Every open it performs is bounded by the probe deadline, so
+ * an unresponsive port cannot stall the scan.
  *
  * Bluetooth SPP/LE virtual COM ports (`BTHENUM` / `BTHLEENUM`) sit in the
  * same SetupAPI `"Ports"` class as real serial devices. Opening a paired
@@ -106,17 +106,22 @@ namespace enumeration
  * - `busy`: `ERROR_ACCESS_DENIED` / `ERROR_SHARING_VIOLATION` / `EBUSY` /
  *   `EACCES`.
  * - `free`: the device is absent or another error occurred.
+ * - `unresponsive`: the bounded open did not return within the probe
+ *   deadline; the port is likely a virtual or unresponsive device and its
+ *   `system_error` carries the timeout text.
  */
 enum class serial_port_state
 {
   free,
   busy,
-  available
+  available,
+  unresponsive
 };
 
 /**
  * @brief Convert `state` to a stable ASCII token.
- * @return `"Available"`, `"Busy"`, `"Free"`, or `"Unknown"`.
+ * @return `"Available"`, `"Busy"`, `"Free"`, `"Unresponsive"`, or
+ * `"Unknown"`.
  */
 LUMEX_ATTRIBUTE_NODISCARD (
     "Serial port state string is required for logging and diagnostics.")
@@ -159,10 +164,12 @@ struct serial_port_info_t
  * walk is empty. POSIX walks `/sys/class/tty` (prefixes `ttyS`, `ttyUSB`,
  * `ttyACM`, `ttyAMA`, `ttyXRUSB`, `ttyO`) and falls back to `/dev`.
  *
- * Each non-Bluetooth port is opened to classify `state`. `connected_port`
- * is treated as held by this process so Windows does not call
- * `NtQuerySystemInformation` against a handle this process already owns.
- * Bluetooth ports that remain after the filter are not opened.
+ * Each non-Bluetooth port is open-probed through the bounded open to
+ * classify `state`; an open that does not return within the probe deadline
+ * marks the port `unresponsive`. `connected_port` is treated as held by
+ * this process so Windows does not call `NtQuerySystemInformation` against
+ * a handle this process already owns. Bluetooth ports that remain after
+ * the filter are not opened.
  *
  * @param connected_port Short name or path of a port this process already
  * has open. Empty means none.
@@ -205,8 +212,9 @@ is_bluetooth_enumerated_port (std::string const &port_name) LUMEX_NOEXCEPT;
 /**
  * @brief Write a grouped port table to `os`.
  *
- * Sections: available, busy, free. Busy rows append `holder_process_info`
- * when it is non-empty.
+ * Sections: available, busy, unresponsive, free. Busy rows append
+ * `holder_process_info` when it is non-empty; unresponsive rows append
+ * `system_error`.
  */
 template <typename CharT, typename Traits>
 void print_serial_ports_info (std::basic_ostream<CharT, Traits> &os,
@@ -220,6 +228,7 @@ print_serial_ports_info (std::basic_ostream<CharT, Traits> &os,
   std::vector<serial_port_info_t const *> by_free;
   std::vector<serial_port_info_t const *> by_busy;
   std::vector<serial_port_info_t const *> by_available;
+  std::vector<serial_port_info_t const *> by_unresponsive;
 
   for (std::vector<serial_port_info_t>::const_iterator it = infos.begin ();
        it != infos.end (); ++it)
@@ -228,6 +237,8 @@ print_serial_ports_info (std::basic_ostream<CharT, Traits> &os,
         by_free.push_back (&(*it));
       else if (it->state == serial_port_state::busy)
         by_busy.push_back (&(*it));
+      else if (it->state == serial_port_state::unresponsive)
+        by_unresponsive.push_back (&(*it));
       else
         by_available.push_back (&(*it));
     }
@@ -268,6 +279,18 @@ print_serial_ports_info (std::basic_ostream<CharT, Traits> &os,
         os << "  [" << info.friendly_name.c_str () << "]";
       if (!info.holder_process_info.empty ())
         os << "  | " << info.holder_process_info.c_str ();
+      os << "\n";
+    }
+
+  os << "\n=== Ports: unresponsive (open timed out) ===\n";
+  for (std::size_t i = 0; i < by_unresponsive.size (); ++i)
+    {
+      serial_port_info_t const &info = *by_unresponsive[i];
+      os << "  " << info.path.c_str ();
+      if (!info.friendly_name.empty ())
+        os << "  [" << info.friendly_name.c_str () << "]";
+      if (!info.system_error.empty ())
+        os << "  " << info.system_error.c_str ();
       os << "\n";
     }
 
