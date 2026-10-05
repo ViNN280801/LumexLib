@@ -104,19 +104,19 @@ Uncontended, in nanoseconds (lock-free / lock-based): `load ()` 36.1 / 20.5, `st
 
 ## MSVC STL
 
-The same four series on Windows. The charts above stay the libstdc++ run; these are only the MSVC run.
+The same four series on Windows. The charts above stay the libstdc++ run; these are only the MSVC run. The files carry the `msvc_` prefix so the Doxygen image names stay unique.
 
-![Baseline](results/msvc/atomic_benchmark_baseline.svg)
+![Baseline](results/msvc/msvc_atomic_benchmark_baseline.svg)
 
-![load () under contention](results/msvc/atomic_benchmark_load.svg)
+![load () under contention](results/msvc/msvc_atomic_benchmark_load.svg)
 
-![store () under contention](results/msvc/atomic_benchmark_store.svg)
+![store () under contention](results/msvc/msvc_atomic_benchmark_store.svg)
 
-![exchange () under contention](results/msvc/atomic_benchmark_exchange.svg)
+![exchange () under contention](results/msvc/msvc_atomic_benchmark_exchange.svg)
 
-![compare_exchange_strong () under contention](results/msvc/atomic_benchmark_compare_exchange_strong.svg)
+![compare_exchange_strong () under contention](results/msvc/msvc_atomic_benchmark_compare_exchange_strong.svg)
 
-![Uncontended](results/msvc/atomic_benchmark_uncontended.svg)
+![Uncontended](results/msvc/msvc_atomic_benchmark_uncontended.svg)
 
 The numbers: [results/msvc/atomic_benchmark.md](results/msvc/atomic_benchmark.md) (medians and quartiles: [results/msvc/atomic_benchmark.csv](results/msvc/atomic_benchmark.csv)).
 

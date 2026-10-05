@@ -150,7 +150,7 @@ struct LUMEX_API XmlParser
    * (e.g., `>`).
    * @return A pointer to the position in the buffer after the parsed
    * exclamation construct, or `nullptr` on error.
-   * @details This function dispatches parsing for comments (`<!--`), CDATA
+   * @details This function dispatches parsing for comments (`&lt;!--`), CDATA
    * sections (`<![CDATA[`), and DOCTYPE declarations (`<!DOCTYPE`).
    */
   char_t *parse_exclamation (char_t *str, XmlNodeBase *cursor,

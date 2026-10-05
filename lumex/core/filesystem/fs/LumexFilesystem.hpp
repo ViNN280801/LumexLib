@@ -401,7 +401,7 @@ public:
    * @brief Retrieves the encapsulated value if successful, or a provided
    * default value if unsuccessful.
    * @param default_value The value to return if the operation failed.
-   * @return The actual value if `success()` is true, otherwise
+   * @details Returns the actual value if `success()` is true, otherwise
    * `default_value`.
    */
   T
