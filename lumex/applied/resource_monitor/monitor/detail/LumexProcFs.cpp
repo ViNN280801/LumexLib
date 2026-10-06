@@ -44,11 +44,8 @@ namespace monitor
 {
 namespace detail
 {
-namespace
-{
-// The value of a `Key:   <number> kB` line of /proc/meminfo, in bytes.
-std::optional<std::uint64_t>
-meminfo_value (std::string_view text, std::string_view key)
+LUMEX_PUBLIC_API std::optional<std::uint64_t>
+parse_kib_field (std::string_view text, std::string_view key)
 {
   std::size_t at = 0;
   while (at < text.size ())
@@ -75,7 +72,6 @@ meminfo_value (std::string_view text, std::string_view key)
     }
   return std::nullopt;
 }
-} // namespace
 
 LUMEX_PUBLIC_API std::optional<proc_stat_cpu_t>
 parse_proc_stat_cpu (std::string_view text)
@@ -104,9 +100,10 @@ parse_proc_stat_cpu (std::string_view text)
 LUMEX_PUBLIC_API std::optional<proc_meminfo_t>
 parse_proc_meminfo (std::string_view text)
 {
-  std::optional<std::uint64_t> const total = meminfo_value (text, "MemTotal");
+  std::optional<std::uint64_t> const total
+      = parse_kib_field (text, "MemTotal");
   std::optional<std::uint64_t> const available
-      = meminfo_value (text, "MemAvailable");
+      = parse_kib_field (text, "MemAvailable");
   if (!total || !available)
     return std::nullopt;
   proc_meminfo_t memory;

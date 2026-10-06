@@ -80,6 +80,18 @@ struct proc_meminfo_t
 };
 
 /**
+ * @brief The value of a `Key:   <number> kB` line, as `/proc/meminfo` and
+ * `/proc/<pid>/status` write them.
+ * @param text The file text.
+ * @param key The key without the colon; a longer key that starts with it does
+ * not match.
+ * @return The value in bytes (the number times 1024 when the unit is `kB`),
+ * or nothing when no line has the key or its value is not a number.
+ */
+LUMEX_API std::optional<std::uint64_t> parse_kib_field (std::string_view text,
+                                                        std::string_view key);
+
+/**
  * @brief Parses the text of `/proc/stat`.
  * @param text The file text; only its first line is read.
  * @return The CPU times, or nothing when the first line is not the aggregate

@@ -171,6 +171,8 @@ lumex_add_cmake_fail_test(require_fail_logging_without_string
     "LUMEX_BUILD_LOGGING is enabled but requires LUMEX_BUILD_STRING")
 lumex_add_cmake_fail_test(require_fail_hardware_without_logging
     "LUMEX_BUILD_HARDWARE is enabled but requires LUMEX_BUILD_LOGGING")
+lumex_add_cmake_fail_test(require_fail_resource_monitor_without_expected
+    "LUMEX_BUILD_RESOURCE_MONITOR is enabled but requires LUMEX_BUILD_EXPECTED")
 lumex_add_cmake_fail_test(require_fail_resource_monitor_without_logging
     "LUMEX_BUILD_RESOURCE_MONITOR is enabled but requires LUMEX_BUILD_LOGGING")
 lumex_add_cmake_fail_test(require_fail_settings_without_logging
