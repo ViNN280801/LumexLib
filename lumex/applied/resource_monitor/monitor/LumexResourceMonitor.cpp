@@ -38,7 +38,7 @@
  */
 
 #define LUMEX_IMPLEMENTATION
-#include <atomic>
+#include <condition_variable>
 #include <cstdint>
 #include <filesystem>
 #include <fstream>
@@ -106,8 +106,22 @@ namespace
 {
 std::mutex g_mutex;
 std::thread g_thread;
-std::atomic_bool g_stop{ false };
 bool g_started{ false };
+
+// stop () wakes the sampler through these instead of letting it sleep out the
+// startup pause or the poll interval.
+std::mutex g_wake_mutex;
+std::condition_variable g_wake;
+bool g_stop_requested{ false };
+
+// Waits for `duration`, or less when stop () asks the sampler to end. Returns
+// true when the sampler must end.
+bool
+wait_or_stop (std::chrono::milliseconds duration)
+{
+  std::unique_lock<std::mutex> lock (g_wake_mutex);
+  return g_wake.wait_for (lock, duration, [] { return g_stop_requested; });
+}
 
 std::chrono::milliseconds
 sanitizePollInterval (std::chrono::milliseconds requested)
@@ -256,12 +270,8 @@ workerLoop (std::string const &logFilePath, std::chrono::milliseconds interval)
     return;
 #endif
 
-  while (!g_stop.load (std::memory_order_relaxed))
+  while (!wait_or_stop (interval))
     {
-      std::this_thread::sleep_for (interval);
-      if (g_stop.load (std::memory_order_relaxed))
-        break;
-
 #if defined(_WIN32) || defined(_WIN64)
       std::uint64_t idle1{};
       std::uint64_t total1{};
@@ -330,7 +340,10 @@ lumex::applied::resource_monitor::monitor::LumexResourceMonitor::
       = sanitizePollInterval (pollInterval);
   std::string const path = makeLogFilePath (logDirectory);
 
-  g_stop.store (false, std::memory_order_relaxed);
+  {
+    std::lock_guard<std::mutex> wake_lock (g_wake_mutex);
+    g_stop_requested = false;
+  }
   g_thread = std::thread (
       [path, interval] ()
         {
@@ -338,8 +351,9 @@ lumex::applied::resource_monitor::monitor::LumexResourceMonitor::
           // sampling starts, and avoid reporting noise from a
           // thread/instrumentation sanitizer for activity happening during
           // that window.
-          std::this_thread::sleep_for (
-              std::chrono::milliseconds (Constants::KSTARTUP_GRACE_PERIOD_MS));
+          if (wait_or_stop (std::chrono::milliseconds (
+                  Constants::KSTARTUP_GRACE_PERIOD_MS)))
+            return;
           workerLoop (path, interval);
         });
   g_started = true;
@@ -355,7 +369,11 @@ lumex::applied::resource_monitor::monitor::LumexResourceMonitor::stop ()
   std::lock_guard<std::mutex> lock (g_mutex);
   if (!g_started)
     return;
-  g_stop.store (true, std::memory_order_relaxed);
+  {
+    std::lock_guard<std::mutex> wake_lock (g_wake_mutex);
+    g_stop_requested = true;
+  }
+  g_wake.notify_all ();
   if (g_thread.joinable ())
     g_thread.join ();
   g_started = false;

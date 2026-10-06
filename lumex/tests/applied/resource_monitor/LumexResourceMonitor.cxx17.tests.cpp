@@ -135,6 +135,37 @@ TEST_F (LumexResourceMonitorTest, RestartAfterStopStartsANewSamplerInstance)
   EXPECT_TRUE (std::filesystem::exists (secondDir));
 }
 
+// stop () wakes the sampler: it neither sleeps out the startup pause (2 s) nor
+// the rest of a poll interval. The budget is far below both.
+TEST_F (LumexResourceMonitorTest, StopDuringTheStartupPauseReturnsAtOnce)
+{
+  scratchDir = makeScratchDir ("StopDuringPause");
+  LumexResourceMonitor::startIfEnabled (scratchDir.string (),
+                                        std::chrono::seconds (60));
+
+  auto const begin = std::chrono::steady_clock::now ();
+  LumexResourceMonitor::stop ();
+  auto const elapsed = std::chrono::duration_cast<std::chrono::milliseconds> (
+      std::chrono::steady_clock::now () - begin);
+  EXPECT_LT (elapsed.count (), 1000);
+}
+
+TEST_F (LumexResourceMonitorTest, StopBetweenSamplesReturnsAtOnce)
+{
+  scratchDir = makeScratchDir ("StopBetweenSamples");
+  LumexResourceMonitor::startIfEnabled (scratchDir.string (),
+                                        std::chrono::seconds (60));
+  // Past the startup pause: the sampler now waits for its first interval.
+  std::this_thread::sleep_for (
+      std::chrono::milliseconds (Constants::KSTARTUP_GRACE_PERIOD_MS + 500));
+
+  auto const begin = std::chrono::steady_clock::now ();
+  LumexResourceMonitor::stop ();
+  auto const elapsed = std::chrono::duration_cast<std::chrono::milliseconds> (
+      std::chrono::steady_clock::now () - begin);
+  EXPECT_LT (elapsed.count (), 1000);
+}
+
 // Slower, end-to-end test: waits out the sampler's fixed startup grace period
 // plus one poll interval and checks that a real sample line landed in the log
 // file. Mirrors the style of the hardware module's own opt-in timing test (a

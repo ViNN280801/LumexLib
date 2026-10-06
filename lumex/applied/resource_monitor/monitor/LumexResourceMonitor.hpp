@@ -125,6 +125,8 @@ public:
 
   /**
    * @brief Stops the background sampler and joins its thread.
+   * @details Wakes the sampler at once: the call does not wait for the startup
+   * pause or the rest of the poll interval.
    * @note No-op if the sampler is not currently running.
    */
   static void stop ();
