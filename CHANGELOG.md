@@ -28,6 +28,14 @@
 
 **Проверено:** новые тесты `StopDuringTheStartupPauseReturnsAtOnce` и `StopBetweenSamplesReturnsAtOnce` (интервал 60 с, бюджет 1 с) падают на прежнем коде (2 с и 62 с) и проходят на новом; весь набор модуля - 5,6 с вместо 21 с (GCC 13.2, Release).
 
+##### Занятая память и загрузка CPU в журнале монитора на Linux
+
+**Файлы:** `lumex/applied/resource_monitor/monitor/LumexResourceMonitor.cpp`, `lumex/applied/resource_monitor/monitor/detail/LumexProcFs.hpp` (новый), `lumex/applied/resource_monitor/monitor/detail/LumexProcFs.cpp` (новый), `lumex/tests/applied/resource_monitor/LumexProcFs.cxx17.tests.cpp` (новый)
+
+**Суть:** занятая память на Linux считалась как `totalram - freeram` из `sysinfo()`, то есть вместе со страничным кэшем; теперь это `MemTotal - MemAvailable` из `/proc/meminfo`, как на Windows (`ullAvailPhys`), а `sysinfo()` остался запасным путем для ядер без `MemAvailable` (до 3.14). В загрузке CPU время `iowait` считалось занятостью, а `guest` и `guest_nice` входили в общее время второй раз (они уже есть в `user` и `nice`); теперь простой - `idle + iowait`, а общее время - восемь полей без гостевых. Разбор `/proc/stat` и `/proc/meminfo` вынесен в функции `detail::parse_proc_stat_cpu` и `detail::parse_proc_meminfo`, которые принимают текст файла.
+
+**Проверено:** 11 новых тестов разбора (полная строка `cpu`, старое ядро с четырьмя полями, строки не того вида, ключи с общим префиксом, нет `MemAvailable`, живые `/proc` машины); три мутации разбора (простой без `iowait`, общее время с гостевыми полями, ключи по префиксу) ловятся. На машине с 31,11 ГиБ журнал показывает 12,41 ГиБ занятой памяти, ровно `MemTotal - MemAvailable`; прежняя формула дала бы 21,89 ГиБ.
+
 ---
 
 ## [v1.0.3.1] - в разработке
