@@ -44,7 +44,7 @@
 #include <fstream>
 #include <iomanip>
 #include <mutex>
-#include <sstream>
+#include <optional>
 #include <string>
 #include <system_error>
 #include <thread>
@@ -56,6 +56,7 @@
 #endif
 
 #include "LumexResourceMonitor.hpp"
+#include "detail/LumexProcFs.hpp"
 #include "lumex/applied/logging/LumexLogging"
 #include "lumex/core/time/LumexTime"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
@@ -199,36 +200,41 @@ sampleRamWin (double &usedGbOut, double &totalGbOut)
 bool
 sampleCpuLinux (std::uint64_t &idleOut, std::uint64_t &totalOut)
 {
-  std::ifstream statFile ("/proc/stat");
-  std::string line;
-  if (!std::getline (statFile, line))
+  std::optional<std::string> const text
+      = detail::read_whole_file ("/proc/stat");
+  if (!text)
     return false;
-  if (line.size () < 5 || line.compare (0, 4, "cpu ") != 0)
+  std::optional<detail::proc_stat_cpu_t> const cpu
+      = detail::parse_proc_stat_cpu (*text);
+  if (!cpu)
     return false;
-  std::istringstream iss (line);
-  std::string cpuLabel;
-  iss >> cpuLabel;
-  std::uint64_t value{};
-  std::uint64_t sum{};
-  std::uint64_t idle{};
-  int idx = 0;
-  while (iss >> value)
-    {
-      sum += value;
-      if (idx == 3)
-        idle = value;
-      ++idx;
-    }
-  if (idx < 4)
-    return false;
-  idleOut = idle;
-  totalOut = sum;
+  idleOut = cpu->idle;
+  totalOut = cpu->total;
   return true;
 }
 
 void
 sampleRamLinux (double &usedGbOut, double &totalGbOut)
 {
+  LUMEX_CONSTEXPR double gibi = 1024. * 1024. * 1024.;
+  // Used = total - available, as on Windows: the page cache that can be
+  // dropped is not "used". sysinfo () has no such figure, so it is only the
+  // fallback for kernels without MemAvailable (before 3.14).
+  std::optional<std::string> const text
+      = detail::read_whole_file ("/proc/meminfo");
+  std::optional<detail::proc_meminfo_t> const memory
+      = text ? detail::parse_proc_meminfo (*text) : std::nullopt;
+  if (memory)
+    {
+      std::uint64_t const used
+          = memory->total_bytes > memory->available_bytes
+                ? memory->total_bytes - memory->available_bytes
+                : 0;
+      totalGbOut = static_cast<double> (memory->total_bytes) / gibi;
+      usedGbOut = static_cast<double> (used) / gibi;
+      return;
+    }
+
   struct sysinfo si{};
   if (sysinfo (&si) != 0)
     {
@@ -241,7 +247,6 @@ sampleRamLinux (double &usedGbOut, double &totalGbOut)
   unsigned long long const freeRam
       = static_cast<unsigned long long> (si.freeram) * si.mem_unit;
   unsigned long long const used = (total > freeRam) ? (total - freeRam) : 0;
-  LUMEX_CONSTEXPR double gibi = 1024. * 1024. * 1024.;
   totalGbOut = static_cast<double> (total) / gibi;
   usedGbOut = static_cast<double> (used) / gibi;
 }
