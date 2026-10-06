@@ -27,6 +27,7 @@ target_include_directories(${LUMEX_RESOURCE_MONITOR_NAME} PUBLIC
 )
 
 target_link_libraries(${LUMEX_RESOURCE_MONITOR_NAME} PUBLIC
+    lumex::expected
     lumex::logging
     lumex::time
 )

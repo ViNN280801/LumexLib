@@ -127,6 +127,7 @@ function(lumex_check_module_dependencies)
     lumex_require_module(LUMEX_BUILD_HARDWARE LUMEX_BUILD_LOGGING)
     lumex_require_module(LUMEX_BUILD_HARDWARE LUMEX_BUILD_UTILITY)
 
+    lumex_require_module(LUMEX_BUILD_RESOURCE_MONITOR LUMEX_BUILD_EXPECTED)
     lumex_require_module(LUMEX_BUILD_RESOURCE_MONITOR LUMEX_BUILD_LOGGING)
     lumex_require_module(LUMEX_BUILD_RESOURCE_MONITOR LUMEX_BUILD_TIME)
 

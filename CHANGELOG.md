@@ -18,6 +18,16 @@
 
 ### [v1.0.4.0]
 
+#### Добавлено
+
+##### CPU и память отдельных процессов: `LumexProcessMonitor`
+
+**Файлы:** `lumex/applied/resource_monitor/process/LumexProcessMonitor.hpp` (новый), `lumex/applied/resource_monitor/process/LumexProcessMonitor.cpp` (новый), `lumex/applied/resource_monitor/process/detail/LumexProcessDetail.hpp` (новый), `lumex/applied/resource_monitor/process/detail/LumexProcessDetail.cpp` (новый), `lumex/applied/resource_monitor/monitor/detail/LumexProcFs.hpp`, `lumex/applied/resource_monitor/monitor/detail/LumexProcFs.cpp`, `lumex/applied/resource_monitor/LumexResourceMonitor`, `lumex/applied/resource_monitor/CMakeLists.txt`, `cmake/LumexModules.cmake`, `conanfile.py`, `lumex/tests/cmake/CMakeLists.txt`, `lumex/tests/cmake/cases/require_fail_resource_monitor_without_expected.cmake` (новый), `lumex/tests/applied/resource_monitor/LumexProcessDetail.cxx17.tests.cpp` (новый), `lumex/tests/applied/resource_monitor/LumexProcessMonitor.cxx17.tests.cpp` (новый)
+
+**Суть:** `lumex::applied::resource_monitor::process::LumexProcessMonitor` замеряет процессы по запросу: `sample(pid)` возвращает `Expected<process_usage_t, process_query_error>` (`not_found`, `access_denied`, `read_failed`, `unsupported`), `sample_by_name(name)` - по замеру на каждый процесс с таким именем исполняемого файла, `find_by_name`, `current_process_id`, `forget_exited`; `total()` складывает замеры. В `process_usage_t`: доля CPU всей машины (0-100 %) с предыдущего замера этого процесса этим монитором (пусто при первом), суммарное время CPU, число логических процессоров, резидентная и частная память. Повторно выданный системой PID распознается по времени старта процесса. Имя на Linux - имя файла `/proc/<pid>/exe`, иначе первого аргумента, иначе `comm` (15 символов `comm` совпадают и с более длинным запрошенным именем). Модуль теперь зависит от `expected` (`lumex_require_module`, компонент Conan, кейс `cmake.require_fail_resource_monitor_without_expected`). В этом изменении - Linux; на других платформах запрос возвращает `unsupported`.
+
+**Проверено:** 26 тестов (разбор `/proc/<pid>/stat` с `comm` со скобками и пробелами, `status` без `RssAnon` и без `VmRSS`, правила имен; живые: свой процесс, доля CPU после нагрузки, несуществующий и завершившийся процесс, поиск по имени, имя файла против `argv[0]`, `total`), GCC 13.2 Release; шесть мутаций реализации (нет доли CPU, имя только из `comm`, `ENOENT` не как `not_found`, частная память при неизвестной, правило `comm` без условия, `forget_exited` забывает все) ловятся. Распознавание повторного PID тестом не покрыто: повтор PID в тесте не воспроизвести надежно.
+
 #### Исправлено
 
 ##### `LumexResourceMonitor::stop()` не ждет конца паузы
