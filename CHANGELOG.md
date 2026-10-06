@@ -12,6 +12,24 @@
 
 ---
 
+## [v1.0.4.0] - в разработке
+
+> Изменения поверх `v1.0.3.1`.
+
+### [v1.0.4.0]
+
+#### Исправлено
+
+##### `LumexResourceMonitor::stop()` не ждет конца паузы
+
+**Файлы:** `lumex/applied/resource_monitor/monitor/LumexResourceMonitor.cpp`, `lumex/applied/resource_monitor/monitor/LumexResourceMonitor.hpp`, `lumex/tests/applied/resource_monitor/LumexResourceMonitor.cxx17.tests.cpp`
+
+**Суть:** поток семплера спал через `std::this_thread::sleep_for` и в стартовой паузе (2 с), и между замерами, а `stop()` ждал его `join`: остановка хоста задерживалась до конца паузы или интервала (по умолчанию до 10 с). Теперь обе паузы - ожидание на `std::condition_variable`, и `stop()` будит поток сразу.
+
+**Проверено:** новые тесты `StopDuringTheStartupPauseReturnsAtOnce` и `StopBetweenSamplesReturnsAtOnce` (интервал 60 с, бюджет 1 с) падают на прежнем коде (2 с и 62 с) и проходят на новом; весь набор модуля - 5,6 с вместо 21 с (GCC 13.2, Release).
+
+---
+
 ## [v1.0.3.1] - в разработке
 
 > Изменения поверх `v1.0.3.0`.
