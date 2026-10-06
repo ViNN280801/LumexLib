@@ -73,7 +73,7 @@ else()
 endif()
 
 project(LumexLib
-    VERSION 1.0.3.1
+    VERSION 1.0.4.0
     LANGUAGES CXX
 )
 # The resource compiler only exists on Windows (version .rc files of the
