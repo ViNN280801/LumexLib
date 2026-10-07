@@ -21,7 +21,7 @@ param(
     [string[]] $Compilers = @(),
     [string[]] $Arch      = @('x64'),
     [string[]] $Formats   = @('zip'),
-    [int]    $Std       = 0,
+    [string[]] $Std     = @(),
     [string] $OutputDir = '',
     [string] $Version   = '',
     [string] $Tag       = '',
@@ -70,11 +70,12 @@ Options:
                      (makensis): MAKENSIS_EXE, PATH, the NSIS registry key,
                      the machine/user PATH values or the usual install
                      directories.
-  -Std N             C++ standard for every build (11, 14, 17, 20, 23).
-                     Default: the compile.py default (20); pass -Std 17 for a
-                     compiler without C++20, for example the v141 toolset.
-                     The standard ends the name of the package (..._cxx17.zip;
-                     cxx20 when -Std is not given).
+  -Std LIST          C++ standards to build, comma-separated (11, 14, 17, 20,
+                     23), for example -Std 17,20: every compiler is built
+                     once per standard. Default: the compile.py default (20);
+                     pass -Std 17 for a compiler without C++20, for example
+                     the v141 toolset. The standard ends the name of the
+                     package (..._cxx17.zip; cxx20 when -Std is not given).
   -OutputDir DIR     Where the packages go (default: <repo>/release).
   -Version V         Override the version read from project(LumexLib
                      VERSION); it changes the artifact names only, the
@@ -158,8 +159,16 @@ foreach ($format in $FormatList) {
         Die "unknown format '$format' (use zip, tar.gz, exe)"
     }
 }
-if ($Std -ne 0 -and @(11, 14, 17, 20, 23) -notcontains $Std) {
-    Die "-Std must be one of 11, 14, 17, 20, 23, got '$Std'"
+# -Std is a list too; 0 stands for "not given": the compile.py default.
+$StdList = @(Split-List $Std | Select-Object -Unique)
+foreach ($item in $StdList) {
+    if (@('11', '14', '17', '20', '23') -notcontains $item) {
+        Die "-Std must be a list of 11, 14, 17, 20, 23, got '$($Std -join ',')'"
+    }
+}
+$StdList = @($StdList | ForEach-Object { [int] $_ })
+if ($StdList.Count -eq 0) {
+    $StdList = @(0)
 }
 
 # ---------------------------------------------------------------------------
@@ -496,137 +505,150 @@ if (-not [string]::IsNullOrWhiteSpace($Version)) {
     }
 }
 
-$stdTextForBanner = if ($Std -ne 0) { "C++$Std" } else { 'C++default' }
-# The standard of the build, as the package name shows it: compile.py builds
-# with --stdcxx 20 when none is given.
-$stdTag = if ($Std -ne 0) { "$Std" } else { '20' }
 Write-Host "LumexLib $EffectiveVersion, formats: $($FormatList -join ', ')"
 if ($null -ne $NSISMaker) {
     Write-Host "  NSIS: $NSISMaker"
 }
 foreach ($job in $Jobs) {
     foreach ($isa in $ArchList) {
-        $detail = if ($job.Kind -eq 'msvc') { $job.Toolset } else { $job.Compiler }
-        Write-Host "  $($job.Label) $isa $stdTextForBanner ($detail)"
+        foreach ($stdItem in $StdList) {
+            $detail = if ($job.Kind -eq 'msvc') { $job.Toolset } else { $job.Compiler }
+            $stdText = if ($stdItem -ne 0) { "C++$stdItem" } else { 'C++default' }
+            Write-Host "  $($job.Label) $isa $stdText ($detail)"
+        }
     }
 }
 
-foreach ($job in $Jobs) {
-    foreach ($isa in $ArchList) {
-        $base = "LumexLib-${EffectiveVersion}_win_${isa}_$($job.Label)_cxx${stdTag}"
-        $work = Join-Path $WorkRoot "$($job.Label)_${isa}"
-        if (Test-Path -LiteralPath $work) {
-            Remove-Item -LiteralPath $work -Recurse -Force
+$Builds = @(
+    foreach ($job in $Jobs) {
+        foreach ($isa in $ArchList) {
+            foreach ($stdItem in $StdList) {
+                [pscustomobject]@{ Job = $job; Isa = $isa; Std = $stdItem }
+            }
         }
-        New-Item -ItemType Directory -Force -Path $work | Out-Null
-        $prefix = Join-Path $work 'prefix'
-        New-Item -ItemType Directory -Force -Path $prefix | Out-Null
+    }
+)
+foreach ($build in $Builds) {
+    $job = $build.Job
+    $isa = $build.Isa
+    $stdItem = $build.Std
+    $stdTextForBanner = if ($stdItem -ne 0) { "C++$stdItem" } else { 'C++default' }
+    # The standard of the build as the package name shows it: compile.py builds
+    # with --stdcxx 20 when none is given.
+    $stdTag = if ($stdItem -ne 0) { "$stdItem" } else { '20' }
+    $base = "LumexLib-${EffectiveVersion}_win_${isa}_$($job.Label)_cxx${stdTag}"
+    $work = Join-Path $WorkRoot "$($job.Label)_${isa}_cxx${stdTag}"
+    if (Test-Path -LiteralPath $work) {
+        Remove-Item -LiteralPath $work -Recurse -Force
+    }
+    New-Item -ItemType Directory -Force -Path $work | Out-Null
+    $prefix = Join-Path $work 'prefix'
+    New-Item -ItemType Directory -Force -Path $prefix | Out-Null
 
-        Write-Host "== $base ($stdTextForBanner)"
+    Write-Host "== $base ($stdTextForBanner)"
 
-        $compileArgs = @(
-            'compile.py', 'Release',
-            '-m', $isa,
-            '--shared-libs',
-            '--clean',
-            '--install-prefix', $prefix
+    $compileArgs = @(
+        'compile.py', 'Release',
+        '-m', $isa,
+        '--shared-libs',
+        '--clean',
+        '--install-prefix', $prefix
+    )
+    if ($job.Kind -eq 'msvc') {
+        $compileArgs += @('--toolset', $job.Toolset)
+    }
+    else {
+        $compileArgs += @('--compiler-c', $job.Compiler, '--compiler-cpp', $job.Compiler, '--use-ninja')
+    }
+    if ($FormatList -contains 'exe') {
+        # CPack builds the NSIS installer from the same build; the compiler
+        # suffix keeps installs of several compilers side by side, like
+        # /opt/LumexLib/<version>_<compiler> on Linux.
+        $compileArgs += '-i'
+        $compileArgs += (
+            '--cmake-args=-DCPACK_PACKAGE_INSTALL_DIRECTORY=LumexLib/' + $EffectiveVersion + '_' + $job.Label +
+            ';-DCPACK_PACKAGE_INSTALL_REGISTRY_KEY=LumexLib_' + $EffectiveVersion + '_' + $job.Label +
+            ';-DCPACK_NSIS_DISPLAY_NAME=LumexLib ' + $EffectiveVersion + ' (' + $job.Label + ')'
         )
-        if ($job.Kind -eq 'msvc') {
-            $compileArgs += @('--toolset', $job.Toolset)
-        }
-        else {
-            $compileArgs += @('--compiler-c', $job.Compiler, '--compiler-cpp', $job.Compiler, '--use-ninja')
-        }
-        if ($FormatList -contains 'exe') {
-            # CPack builds the NSIS installer from the same build; the compiler
-            # suffix keeps installs of several compilers side by side, like
-            # /opt/LumexLib/<version>_<compiler> on Linux.
-            $compileArgs += '-i'
-            $compileArgs += (
-                '--cmake-args=-DCPACK_PACKAGE_INSTALL_DIRECTORY=LumexLib/' + $EffectiveVersion + '_' + $job.Label +
-                ';-DCPACK_PACKAGE_INSTALL_REGISTRY_KEY=LumexLib_' + $EffectiveVersion + '_' + $job.Label +
-                ';-DCPACK_NSIS_DISPLAY_NAME=LumexLib ' + $EffectiveVersion + ' (' + $job.Label + ')'
-            )
-        }
-        if ($Std -ne 0) {
-            $compileArgs += @('--stdcxx', $Std)
-        }
-        $buildLog = Join-Path $work 'build.log'
-        Push-Location -LiteralPath $BuildRoot
-        try {
-            $buildExit = Invoke-NativeRedirected 'python' $compileArgs $buildLog
-        }
-        finally {
-            Pop-Location
-        }
-        if ($buildExit -ne 0) {
-            Die "build failed, see $buildLog"
-        }
+    }
+    if ($stdItem -ne 0) {
+        $compileArgs += @('--stdcxx', $stdItem)
+    }
+    $buildLog = Join-Path $work 'build.log'
+    Push-Location -LiteralPath $BuildRoot
+    try {
+        $buildExit = Invoke-NativeRedirected 'python' $compileArgs $buildLog
+    }
+    finally {
+        Pop-Location
+    }
+    if ($buildExit -ne 0) {
+        Die "build failed, see $buildLog"
+    }
 
-        $installerPath = ''
-        if ($FormatList -contains 'exe') {
-            $installer = @(
-                Get-ChildItem -LiteralPath (Join-Path $BuildRoot 'build') -File -ErrorAction SilentlyContinue |
-                    Where-Object { $_.Name -like "LumexLib-${EffectiveVersion}-win_${isa}_*_cpp*.exe" }
-            )
-            if ($installer.Count -ne 1) {
-                Die "expected 1 NSIS installer in $RepoRoot\build, found $($installer.Count); see $buildLog"
+    $installerPath = ''
+    if ($FormatList -contains 'exe') {
+        $installer = @(
+            Get-ChildItem -LiteralPath (Join-Path $BuildRoot 'build') -File -ErrorAction SilentlyContinue |
+                Where-Object { $_.Name -like "LumexLib-${EffectiveVersion}-win_${isa}_*_cpp*.exe" }
+        )
+        if ($installer.Count -ne 1) {
+            Die "expected 1 NSIS installer in $RepoRoot\build, found $($installer.Count); see $buildLog"
+        }
+        $installerPath = $installer[0].FullName
+    }
+
+    $installedDirs = @(Get-ChildItem -LiteralPath $prefix -Directory -ErrorAction SilentlyContinue)
+    if ($installedDirs.Count -ne 1) {
+        Die "expected 1 install folder under $prefix, found $($installedDirs.Count); see $buildLog"
+    }
+    $installDir = $installedDirs[0].FullName
+    if (-not (Test-Path -LiteralPath (Join-Path $installDir 'lib'))) {
+        Die "the install produced no lib/ under $installDir; see $buildLog"
+    }
+
+    # One top folder per package, named after the artifact, exactly like
+    # the Linux script stages its tar tree.
+    $stageRoot = Join-Path $work 'stage'
+    $tree = Join-Path $stageRoot $base
+    if ($FormatList -contains 'zip' -or $FormatList -contains 'tar.gz') {
+        New-Item -ItemType Directory -Force -Path $tree | Out-Null
+        Copy-Item -Path (Join-Path $installDir '*') -Destination $tree -Recurse -Force
+    }
+
+    foreach ($format in $FormatList) {
+        $out = Join-Path $OutputDir "$base.$format"
+        if (Test-Path -LiteralPath $out) {
+            Remove-Item -LiteralPath $out -Force
+        }
+        switch ($format) {
+            'zip' {
+                Compress-Archive -Path $tree -DestinationPath $out -Force
             }
-            $installerPath = $installer[0].FullName
-        }
-
-        $installedDirs = @(Get-ChildItem -LiteralPath $prefix -Directory -ErrorAction SilentlyContinue)
-        if ($installedDirs.Count -ne 1) {
-            Die "expected 1 install folder under $prefix, found $($installedDirs.Count); see $buildLog"
-        }
-        $installDir = $installedDirs[0].FullName
-        if (-not (Test-Path -LiteralPath (Join-Path $installDir 'lib'))) {
-            Die "the install produced no lib/ under $installDir; see $buildLog"
-        }
-
-        # One top folder per package, named after the artifact, exactly like
-        # the Linux script stages its tar tree.
-        $stageRoot = Join-Path $work 'stage'
-        $tree = Join-Path $stageRoot $base
-        if ($FormatList -contains 'zip' -or $FormatList -contains 'tar.gz') {
-            New-Item -ItemType Directory -Force -Path $tree | Out-Null
-            Copy-Item -Path (Join-Path $installDir '*') -Destination $tree -Recurse -Force
-        }
-
-        foreach ($format in $FormatList) {
-            $out = Join-Path $OutputDir "$base.$format"
-            if (Test-Path -LiteralPath $out) {
-                Remove-Item -LiteralPath $out -Force
-            }
-            switch ($format) {
-                'zip' {
-                    Compress-Archive -Path $tree -DestinationPath $out -Force
+            'tar.gz' {
+                $tarLog = Join-Path $work 'tar.log'
+                Push-Location -LiteralPath $stageRoot
+                try {
+                    $tarExit = Invoke-NativeRedirected 'tar' @('-czf', $out, $base) $tarLog
                 }
-                'tar.gz' {
-                    $tarLog = Join-Path $work 'tar.log'
-                    Push-Location -LiteralPath $stageRoot
-                    try {
-                        $tarExit = Invoke-NativeRedirected 'tar' @('-czf', $out, $base) $tarLog
-                    }
-                    finally {
-                        Pop-Location
-                    }
-                    if ($tarExit -ne 0) {
-                        Die "tar failed for $out, see $tarLog"
-                    }
+                finally {
+                    Pop-Location
                 }
-                'exe' {
-                    Copy-Item -LiteralPath $installerPath -Destination $out -Force
+                if ($tarExit -ne 0) {
+                    Die "tar failed for $out, see $tarLog"
                 }
             }
-            Remove-X64
-            $Artifacts += $out
-            Write-Host "  -> $(Split-Path -Leaf $out)"
+            'exe' {
+                Copy-Item -LiteralPath $installerPath -Destination $out -Force
+            }
         }
+        Remove-X64
+        $Artifacts += $out
+        Write-Host "  -> $(Split-Path -Leaf $out)"
+    }
 
-        if (-not $KeepWork) {
-            Remove-Item -LiteralPath $work -Recurse -Force
-        }
+    if (-not $KeepWork) {
+        Remove-Item -LiteralPath $work -Recurse -Force
     }
 }
 $keepWorkRoot = $false
