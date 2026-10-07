@@ -95,7 +95,9 @@ Options:
                      come from the tag. The worktree is removed at the end (kept
                      with --keep-work; on an early stop remove it with:
                      git worktree remove --force <path>; git worktree prune).
-  --jobs N           Parallel build jobs (default: nproc).
+  -j N, --jobs N, --parallel N
+                     Parallel build jobs, passed to cmake --build --parallel
+                     (default: nproc). -jN, --jobs=N and --parallel=N work too.
   --keep-work        Keep the build, staging and packaging trees under
                      <output-dir>/.work (removed by default).
   -h, --help         Show this help.
@@ -260,8 +262,9 @@ while [[ $# -gt 0 ]]; do
     --version=*) VERSION_ARG="${1#*=}"; shift ;;
     --tag) need_value "$@"; TAG_ARG="$2"; shift 2 ;;
     --tag=*) TAG_ARG="${1#*=}"; shift ;;
-    --jobs) need_value "$@"; JOBS="$2"; shift 2 ;;
-    --jobs=*) JOBS="${1#*=}"; shift ;;
+    -j | --jobs | --parallel) need_value "$@"; JOBS="$2"; shift 2 ;;
+    --jobs=* | --parallel=*) JOBS="${1#*=}"; shift ;;
+    -j[0-9]*) JOBS="${1#-j}"; shift ;;
     --keep-work) KEEP_WORK=1; shift ;;
     --dry-run) DRY_RUN=1; shift ;;
     --quiet) QUIET=1; shift ;;
@@ -277,7 +280,7 @@ done
 [[ "${COLOR_ARG}" =~ ^(auto|always|never)$ ]] || die "--color must be auto, always or never, got '${COLOR_ARG}'"
 setup_colors "${COLOR_ARG}"
 [[ -n "${COMPILERS_ARG}" ]] || { usage >&2; die "--compilers is required"; }
-[[ "${JOBS}" =~ ^[1-9][0-9]*$ ]] || die "--jobs must be a positive number, got '${JOBS}'"
+[[ "${JOBS}" =~ ^[1-9][0-9]*$ ]] || die "-j / --jobs / --parallel must be a positive number, got '${JOBS}'"
 
 split_list() { # split_list <comma list> -> one item per line, no empties
   tr ',' '\n' <<<"$1" | sed 's/^[[:space:]]*//; s/[[:space:]]*$//' | sed '/^$/d'
