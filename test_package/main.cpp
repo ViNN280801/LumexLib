@@ -3,6 +3,7 @@
 
 #include "lumex/core/fmt/LumexFormat"
 #include "lumex/core/string/LumexString"
+#include "lumex/core/unicode/LumexUnicode"
 
 #include "lumex/xml/LumexXml"
 
@@ -24,6 +25,14 @@ main ()
     {
       std::cerr << "stringify: '" << joined << "'\n";
       return 2;
+    }
+
+  if (lumex::core::unicode::convert::to_utf8 (
+          lumex::core::unicode::convert::to_wide ("\xC3\xA9"))
+      != "\xC3\xA9")
+    {
+      std::cerr << "unicode round trip failed\n";
+      return 4;
     }
 
   lumex::xml::document::XmlDocument document;

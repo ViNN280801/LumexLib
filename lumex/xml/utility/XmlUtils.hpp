@@ -39,19 +39,21 @@
 
 /**
  * @file XmlUtils.hpp
- * @brief Header-only helpers of the XML implementation: transcoding, encoding
- * detection, conversions between text and numbers, and the storage of names
- * and values.
- * @details The decoders, writers and counters convert between UTF-8, UTF-16,
- * UTF-32, Latin-1 and `wchar_t`, with byte swapping for the other endianness.
- * On top of them the file detects the encoding of an input buffer (byte order
- * mark, first characters, `encoding` attribute of the declaration), converts
- * input to the native `char_t` and output to the target encoding, and provides
- * `as_utf8` and `as_wide`. The `get_value_*` and `set_value_*` functions
- * convert attribute and text values to and from numbers, and `strcpy_insitu`
- * stores a new name or value, reusing the old storage when it is large enough.
- * The rest serves the XPath engine: number formatting and parsing,
- * `normalize-space`, `translate`, NaN handling and a pointer hash set.
+ * @brief Header-only helpers of the XML implementation: encoding detection
+ * and buffer conversion, conversions between text and numbers, and the
+ * storage of names and values.
+ * @details The file detects the encoding of an input buffer (byte order mark,
+ * first characters, `encoding` attribute of the declaration), converts input
+ * to the native `char_t` and output to the target encoding. The decoders,
+ * writers and counters it drives are those of the `unicode` module
+ * (`lumex::core::unicode::utf`), reached here through the namespace alias
+ * `utf`; the byte swap and the byte order probe come from
+ * `lumex/core/utility/bit/LumexBit.hpp`. The `get_value_*` and `set_value_*`
+ * functions convert attribute and text values to and from numbers, and
+ * `strcpy_insitu` stores a new name or value, reusing the old storage when it
+ * is large enough. The rest serves the XPath engine: number formatting and
+ * parsing, `normalize-space`, `translate`, NaN handling and a pointer hash
+ * set.
  *
  * The functions are undocumented implementation details shared by the parser,
  * the writers, the handles and the XPath engine. The umbrella header
@@ -98,6 +100,7 @@
 #include <cstring>
 #include <cwchar>
 
+#include "lumex/core/unicode/utf/LumexUtf.hpp"
 #include "lumex/core/utility/assert/LumexAssert.hpp"
 #include "lumex/core/utility/bit/LumexBit.hpp"
 #include "lumex/core/utility/macros/LumexConstantMacros.hpp"
@@ -121,6 +124,8 @@ using namespace lumex::xml::types;
 using namespace lumex::xml::types::Types;
 using namespace lumex::xml::xpath::memory;
 
+namespace utf = ::lumex::core::unicode::utf;
+
 struct opt_false
 {
   enum : std::uint8_t
@@ -134,442 +139,6 @@ struct opt_true
   {
     value = 1
   };
-};
-struct utf16_counter
-{
-  using value_type = std::size_t;
-
-  static value_type
-  low (value_type result, uint32_t /* unused */)
-  {
-    return result + 1;
-  }
-
-  static value_type
-  high (value_type result, uint32_t /* unused */)
-  {
-    return result + 2;
-  }
-};
-template <typename opt_swap> struct utf16_decoder
-{
-  using type = uint16_t;
-
-  template <typename Traits>
-  static typename Traits::value_type
-  process (uint16_t const *data, std::size_t size,
-           typename Traits::value_type result, Traits /*unused*/)
-  {
-    while (size)
-      {
-        uint16_t lead = opt_swap::value
-                            ? ::lumex::core::utility::bit::byte_swap (*data)
-                            : *data;
-
-        // U+0000..U+D7FF
-        if (lead < 0xD800)
-          { // NOLINT(bugprone-branch-clone)
-            result = Traits::low (result, lead);
-            data += 1;
-            size -= 1;
-          }
-        // U+E000..U+FFFF
-        else if (static_cast<unsigned int> (lead - 0xE000) < 0x2000)
-          {
-            result = Traits::low (result, lead);
-            data += 1;
-            size -= 1;
-          }
-        // surrogate pair lead
-        else if (static_cast<unsigned int> (lead - 0xD800) < 0x400
-                 && size >= 2)
-          {
-            uint16_t next
-                = opt_swap::value
-                      ? ::lumex::core::utility::bit::byte_swap (data[1])
-                      : data[1];
-
-            if (static_cast<unsigned int> (next - 0xDC00) < 0x400)
-              {
-                result = Traits::high (
-                    result,
-                    static_cast<uint32_t> (0x10000 + ((lead & 0x3ff) << 10)
-                                           + (next & 0x3ff)));
-                data += 2;
-                size -= 2;
-              }
-            else
-              {
-                data += 1;
-                size -= 1;
-              }
-          }
-        else
-          {
-            data += 1;
-            size -= 1;
-          }
-      }
-
-    return result;
-  }
-};
-
-template <typename opt_swap> struct utf32_decoder
-{
-  using type = uint32_t;
-
-  template <typename Traits>
-  static typename Traits::value_type
-  process (uint32_t const *data, std::size_t size,
-           typename Traits::value_type result, Traits /* unused */)
-  {
-    while (size)
-      {
-        uint32_t lead = opt_swap::value
-                            ? ::lumex::core::utility::bit::byte_swap (*data)
-                            : *data;
-
-        // U+0000..U+FFFF
-        if (lead < 0x10000)
-          {
-            result = Traits::low (result, lead);
-            data += 1;
-            size -= 1;
-          }
-        // U+10000..U+10FFFF
-        else
-          {
-            result = Traits::high (result, lead);
-            data += 1;
-            size -= 1;
-          }
-      }
-
-    return result;
-  }
-};
-
-struct latin1_decoder
-{
-  using type = uint8_t;
-
-  template <typename Traits>
-  static typename Traits::value_type
-  process (uint8_t const *data, std::size_t size,
-           typename Traits::value_type result, Traits /* unused */)
-  {
-    while (size)
-      {
-        result = Traits::low (result, *data);
-        data += 1;
-        size -= 1;
-      }
-
-    return result;
-  }
-};
-struct utf8_counter
-{
-  using value_type = std::size_t;
-
-  static value_type
-  low (value_type result,
-       uint32_t chr) // NOLINT(bugprone-easily-swappable-parameters)
-  {
-    // U+0000..U+007F
-    if (chr < 0x80)
-      return result + 1;
-
-    // U+0080..U+07FF
-    if (chr < 0x800)
-      return result + 2;
-
-    // U+0800..U+FFFF
-    return result + 3;
-  }
-
-  static value_type
-  high (value_type result, uint32_t /* unused */)
-  {
-    // U+10000..U+10FFFF
-    return result + 4;
-  }
-};
-
-struct utf8_writer
-{
-  using value_type = uint8_t *;
-
-  static value_type
-  low (value_type result,
-       uint32_t chr) // NOLINT(bugprone-easily-swappable-parameters)
-  {
-    // U+0000..U+007F
-    if (chr < 0x80)
-      {
-        *result = static_cast<uint8_t> (chr);
-        return result + 1;
-      }
-    // U+0080..U+07FF
-    if (chr < 0x800)
-      {
-        result[0] = static_cast<uint8_t> (0xC0 | (chr >> 6));
-        result[1] = static_cast<uint8_t> (0x80 | (chr & 0x3F));
-        return result + 2;
-      }
-    // U+0800..U+FFFF
-    result[0] = static_cast<uint8_t> (0xE0 | (chr >> 12));
-    result[1] = static_cast<uint8_t> (0x80 | ((chr >> 6) & 0x3F));
-    result[2] = static_cast<uint8_t> (0x80 | (chr & 0x3F));
-    return result + 3;
-  }
-
-  static value_type
-  high (value_type result, uint32_t chr)
-  {
-    // U+10000..U+10FFFF
-    result[0] = static_cast<uint8_t> (0xF0 | (chr >> 18));
-    result[1] = static_cast<uint8_t> (0x80 | ((chr >> 12) & 0x3F));
-    result[2] = static_cast<uint8_t> (0x80 | ((chr >> 6) & 0x3F));
-    result[3] = static_cast<uint8_t> (0x80 | (chr & 0x3F));
-    return result + 4;
-  }
-
-  static value_type
-  any (value_type result, uint32_t chr)
-  {
-    return (chr < 0x10000) ? low (result, chr) : high (result, chr);
-  }
-};
-struct utf16_writer
-{
-  using value_type = uint16_t *;
-
-  static value_type
-  low (value_type result,
-       uint32_t chr) // NOLINT(bugprone-easily-swappable-parameters)
-  {
-    *result = static_cast<uint16_t> (chr);
-
-    return result + 1;
-  }
-
-  static value_type
-  high (value_type result,
-        uint32_t chr) // NOLINT(bugprone-easily-swappable-parameters)
-  {
-    uint32_t msh = (chr - 0x10000U) >> 10;
-    uint32_t lsh = (chr - 0x10000U) & 0x3ff;
-
-    result[0] = static_cast<uint16_t> (0xD800 + msh);
-    result[1] = static_cast<uint16_t> (0xDC00 + lsh);
-
-    return result + 2;
-  }
-
-  static value_type
-  any (value_type result,
-       uint32_t chr) // NOLINT(bugprone-easily-swappable-parameters)
-  {
-    return (chr < 0x10000) ? low (result, chr) : high (result, chr);
-  }
-};
-
-struct utf32_counter
-{
-  using value_type = std::size_t;
-
-  static value_type
-  low (value_type result, uint32_t /* unused */)
-  {
-    return result + 1;
-  }
-
-  static value_type
-  high (value_type result, uint32_t /* unused */)
-  {
-    return result + 1;
-  }
-};
-
-struct utf32_writer
-{
-  using value_type = uint32_t *;
-
-  static value_type
-  low (value_type result, uint32_t chr)
-  {
-    *result = chr;
-
-    return result + 1;
-  }
-
-  static value_type
-  high (value_type result, uint32_t chr)
-  {
-    *result = chr;
-
-    return result + 1;
-  }
-
-  static value_type
-  any (value_type result, uint32_t chr)
-  {
-    *result = chr;
-
-    return result + 1;
-  }
-};
-
-struct latin1_writer
-{
-  using value_type = uint8_t *;
-
-  static value_type
-  low (value_type result, uint32_t chr)
-  {
-    *result = static_cast<uint8_t> (chr > 255 ? '?' : chr);
-
-    return result + 1;
-  }
-
-  static value_type
-  high (value_type result, uint32_t chr)
-  {
-    (void)chr;
-
-    *result = '?';
-
-    return result + 1;
-  }
-};
-template <std::size_t size> struct wchar_selector;
-template <> struct wchar_selector<2>
-{
-  using type = uint16_t;
-  using counter = utf16_counter;
-  using writer = utf16_writer;
-  using decoder = utf16_decoder<opt_false>;
-};
-
-template <> struct wchar_selector<4>
-{
-  using type = uint32_t;
-  using counter = utf32_counter;
-  using writer = utf32_writer;
-  using decoder = utf32_decoder<opt_false>;
-};
-
-using wchar_counter = wchar_selector<sizeof (wchar_t)>::counter;
-using wchar_writer = wchar_selector<sizeof (wchar_t)>::writer;
-
-struct wchar_decoder
-{
-  using type = wchar_t;
-
-  template <typename Traits>
-  static typename Traits::value_type
-  process (wchar_t const *data, std::size_t size,
-           typename Traits::value_type result, Traits traits)
-  {
-    using decoder = wchar_selector<sizeof (wchar_t)>::decoder;
-
-    return decoder::process (
-        reinterpret_cast<typename decoder::type const *> (data), size, result,
-        traits);
-  }
-};
-struct utf8_decoder
-{
-  using type = uint8_t;
-
-  template <typename Traits>
-  static typename Traits::value_type
-  process (uint8_t const *data, std::size_t size,
-           typename Traits::value_type result, Traits /* unused */)
-  {
-    uint8_t const utf8_byte_mask = 0x3f;
-
-    while (size)
-      {
-        uint8_t lead = *data;
-
-        // 0xxxxxxx -> U+0000..U+007F
-        if (lead < 0x80)
-          {
-            result = Traits::low (result, lead);
-            data += 1;
-            size -= 1;
-
-            // process aligned single-byte (ascii) blocks
-            if ((reinterpret_cast<uintptr_t> (data) & 3) == 0)
-              {
-                // round-trip through void* to silence 'cast increases required
-                // alignment of target type' warnings
-                while (
-                    size >= 4
-                    && (*static_cast<uint32_t const *> (
-                            static_cast< // NOLINT(bugprone-casting-through-void)
-                                void const *> (data))
-                        & 0x80808080)
-                           == 0)
-                  {
-                    result = Traits::low (result, data[0]);
-                    result = Traits::low (result, data[1]);
-                    result = Traits::low (result, data[2]);
-                    result = Traits::low (result, data[3]);
-                    data += 4;
-                    size -= 4;
-                  }
-              }
-          }
-        // 110xxxxx -> U+0080..U+07FF
-        else if (static_cast<unsigned int> (lead - 0xC0) < 0x20 && size >= 2
-                 && (data[1] & 0xc0) == 0x80)
-          {
-            result = Traits::low (
-                result, static_cast<uint32_t> (((lead & ~0xC0) << 6)
-                                               | (data[1] & utf8_byte_mask)));
-            data += 2;
-            size -= 2;
-          }
-        // 1110xxxx -> U+0800-U+FFFF
-        else if (static_cast<unsigned int> (lead - 0xE0) < 0x10 && size >= 3
-                 && (data[1] & 0xc0) == 0x80 && (data[2] & 0xc0) == 0x80)
-          {
-            result = Traits::low (
-                result,
-                static_cast<uint32_t> (((lead & ~0xE0) << 12)
-                                       | ((data[1] & utf8_byte_mask) << 6)
-                                       | (data[2] & utf8_byte_mask)));
-            data += 3;
-            size -= 3;
-          }
-        // 11110xxx -> U+10000..U+10FFFF
-        else if (static_cast<unsigned int> (lead - 0xF0) < 0x08 && size >= 4
-                 && (data[1] & 0xc0) == 0x80 && (data[2] & 0xc0) == 0x80
-                 && (data[3] & 0xc0) == 0x80)
-          {
-            result = Traits::high (
-                result,
-                static_cast<uint32_t> (((lead & ~0xF0) << 18)
-                                       | ((data[1] & utf8_byte_mask) << 12)
-                                       | ((data[2] & utf8_byte_mask) << 6)
-                                       | (data[3] & utf8_byte_mask)));
-            data += 4;
-            size -= 4;
-          }
-        // 10xxxxxx or 11111xxx -> invalid
-        else
-          {
-            data += 1;
-            size -= 1;
-          }
-      }
-
-    return result;
-  }
 };
 template <typename U>
 inline U
@@ -703,7 +272,7 @@ convert_wchar_endian_swap (wchar_t *result, wchar_t const *data,
 {
   for (std::size_t i = 0; i < length; ++i)
     result[i] = static_cast<wchar_t> (::lumex::core::utility::bit::byte_swap (
-        static_cast<wchar_selector<sizeof (wchar_t)>::type> (data[i])));
+        static_cast<utf::wchar_selector<sizeof (wchar_t)>::type> (data[i])));
 }
 #endif
 
@@ -874,22 +443,6 @@ strequalrange (char_t const *lhs, char_t const *rhs, std::size_t count)
       return false;
 
   return lhs[count] == 0;
-}
-
-// Get length of wide string, even if CRT lacks wide character support
-inline std::size_t
-strlength_wide (wchar_t const *str)
-{
-  LUMEX_ASSERT (str);
-
-#ifdef LUMEX_XML_WCHAR_MODE
-  return wcslen (str);
-#else
-  const wchar_t *end = str;
-  while (*end != 0)
-    end++;
-  return static_cast<std::size_t> (end - str);
-#endif
 }
 
 template <typename U>
@@ -1416,7 +969,8 @@ convert_buffer_generic (char_t *&out_buffer, std::size_t &out_length,
   std::size_t data_length = size / sizeof (typename D::type);
 
   // first pass: get length in wchar_t units
-  std::size_t length = D::process (data, data_length, 0, wchar_counter ());
+  std::size_t length
+      = D::process (data, data_length, 0, utf::wchar_counter ());
 
   // allocate buffer of suitable length
   auto *buffer
@@ -1427,10 +981,10 @@ convert_buffer_generic (char_t *&out_buffer, std::size_t &out_length,
     return false;
 
   // second pass: convert utf16 input to wchar_t
-  wchar_writer::value_type obegin
-      = reinterpret_cast<wchar_writer::value_type> (buffer);
-  wchar_writer::value_type oend
-      = D::process (data, data_length, obegin, wchar_writer ());
+  utf::wchar_writer::value_type obegin
+      = reinterpret_cast<utf::wchar_writer::value_type> (buffer);
+  utf::wchar_writer::value_type oend
+      = D::process (data, data_length, obegin, utf::wchar_writer ());
 
   LUMEX_ASSERT (oend == obegin + length);
   *oend = 0;
@@ -1462,7 +1016,7 @@ convert_buffer (char_t *&out_buffer, std::size_t &out_length,
   // source encoding is utf8
   if (encoding == encoding_utf8)
     return convert_buffer_generic (out_buffer, out_length, contents, size,
-                                   utf8_decoder ());
+                                   utf::utf8_decoder ());
 
   // source encoding is utf16
   if (encoding == encoding_utf16_be || encoding == encoding_utf16_le)
@@ -1474,9 +1028,9 @@ convert_buffer (char_t *&out_buffer, std::size_t &out_length,
 
       return (native_encoding == encoding)
                  ? convert_buffer_generic (out_buffer, out_length, contents,
-                                           size, utf16_decoder<opt_false> ())
+                                           size, utf::utf16_decoder<false> ())
                  : convert_buffer_generic (out_buffer, out_length, contents,
-                                           size, utf16_decoder<opt_true> ());
+                                           size, utf::utf16_decoder<true> ());
     }
 
   // source encoding is utf32
@@ -1489,15 +1043,15 @@ convert_buffer (char_t *&out_buffer, std::size_t &out_length,
 
       return (native_encoding == encoding)
                  ? convert_buffer_generic (out_buffer, out_length, contents,
-                                           size, utf32_decoder<opt_false> ())
+                                           size, utf::utf32_decoder<false> ())
                  : convert_buffer_generic (out_buffer, out_length, contents,
-                                           size, utf32_decoder<opt_true> ());
+                                           size, utf::utf32_decoder<true> ());
     }
 
   // source encoding is latin1
   if (encoding == encoding_latin1)
     return convert_buffer_generic (out_buffer, out_length, contents, size,
-                                   latin1_decoder ());
+                                   utf::latin1_decoder ());
 
   LUMEX_ASSERT (false && "Invalid encoding"); // unreachable
   return false;
@@ -1513,7 +1067,7 @@ convert_buffer_generic (char_t *&out_buffer, std::size_t &out_length,
   std::size_t data_length = size / sizeof (typename D::type);
 
   // first pass: get length in utf8 units
-  std::size_t length = D::process (data, data_length, 0, utf8_counter ());
+  std::size_t length = D::process (data, data_length, 0, utf::utf8_counter ());
 
   // allocate buffer of suitable length
   auto *buffer
@@ -1525,7 +1079,7 @@ convert_buffer_generic (char_t *&out_buffer, std::size_t &out_length,
 
   // second pass: convert utf16 input to utf8
   uint8_t *obegin = reinterpret_cast<uint8_t *> (buffer);
-  uint8_t *oend = D::process (data, data_length, obegin, utf8_writer ());
+  uint8_t *oend = D::process (data, data_length, obegin, utf::utf8_writer ());
 
   LUMEX_ASSERT (oend == obegin + length);
   *oend = 0;
@@ -1568,8 +1122,8 @@ convert_buffer_latin1 (char_t *&out_buffer, std::size_t &out_length,
 
   // first pass: get length in utf8 units
   std::size_t length = prefix_length
-                       + latin1_decoder::process (postfix, postfix_length, 0,
-                                                  utf8_counter ());
+                       + utf::latin1_decoder::process (
+                           postfix, postfix_length, 0, utf::utf8_counter ());
 
   // allocate buffer of suitable length
   auto *buffer = // NOLINT(cppcoreguidelines-owning-memory)
@@ -1583,8 +1137,8 @@ convert_buffer_latin1 (char_t *&out_buffer, std::size_t &out_length,
   memcpy (buffer, data, prefix_length);
 
   uint8_t *obegin = reinterpret_cast<uint8_t *> (buffer);
-  uint8_t *oend = latin1_decoder::process (
-      postfix, postfix_length, obegin + prefix_length, utf8_writer ());
+  uint8_t *oend = utf::latin1_decoder::process (
+      postfix, postfix_length, obegin + prefix_length, utf::utf8_writer ());
 
   LUMEX_ASSERT (oend == obegin + length);
   *oend = 0;
@@ -1615,9 +1169,9 @@ convert_buffer (char_t *&out_buffer, std::size_t &out_length,
 
       return (native_encoding == encoding)
                  ? convert_buffer_generic (out_buffer, out_length, contents,
-                                           size, utf16_decoder<opt_false> ())
+                                           size, utf::utf16_decoder<false> ())
                  : convert_buffer_generic (out_buffer, out_length, contents,
-                                           size, utf16_decoder<opt_true> ());
+                                           size, utf::utf16_decoder<true> ());
     }
 
   // source encoding is utf32
@@ -1630,9 +1184,9 @@ convert_buffer (char_t *&out_buffer, std::size_t &out_length,
 
       return (native_encoding == encoding)
                  ? convert_buffer_generic (out_buffer, out_length, contents,
-                                           size, utf32_decoder<opt_false> ())
+                                           size, utf::utf32_decoder<false> ())
                  : convert_buffer_generic (out_buffer, out_length, contents,
-                                           size, utf32_decoder<opt_true> ());
+                                           size, utf::utf32_decoder<true> ());
     }
 
   // source encoding is latin1
@@ -1644,98 +1198,6 @@ convert_buffer (char_t *&out_buffer, std::size_t &out_length,
   return false;
 }
 #endif
-
-inline std::size_t
-as_utf8_begin (const wchar_t *str, std::size_t length)
-{
-  // get length in utf8 characters
-  return wchar_decoder::process (str, length, 0, utf8_counter ());
-}
-
-inline void
-as_utf8_end (char *buffer, std::size_t size, wchar_t const *str,
-             std::size_t length)
-{
-  // convert to utf8
-  uint8_t *begin = reinterpret_cast<uint8_t *> (buffer);
-  uint8_t *end = wchar_decoder::process (str, length, begin, utf8_writer ());
-
-  LUMEX_ASSERT (begin + size == end);
-  (void)(end == nullptr);
-  (void)(size == 0U);
-}
-
-inline std::string
-as_utf8_impl (wchar_t const *str, std::size_t length)
-{
-  // first pass: get length in utf8 characters
-  std::size_t size = as_utf8_begin (str, length);
-
-  // allocate resulting string
-  std::string result;
-  result.resize (size);
-
-  // second pass: convert to utf8
-  if (size > 0)
-    as_utf8_end (&result[0], size, str, length);
-
-  return result;
-}
-
-inline std::basic_string<wchar_t>
-as_wide_impl (char const *str, std::size_t size)
-{
-  uint8_t const *data = reinterpret_cast<uint8_t const *> (str);
-
-  // first pass: get length in wchar_t units
-  std::size_t length = utf8_decoder::process (data, size, 0, wchar_counter ());
-
-  // allocate resulting string
-  std::basic_string<wchar_t> result;
-  result.resize (length);
-
-  // second pass: convert to wchar_t
-  if (length > 0)
-    {
-      wchar_writer::value_type begin
-          = reinterpret_cast<wchar_writer::value_type> (&result[0]);
-      wchar_writer::value_type end
-          = utf8_decoder::process (data, size, begin, wchar_writer ());
-
-      LUMEX_ASSERT (begin + length == end);
-      (void)(end == nullptr);
-    }
-
-  return result;
-}
-
-inline std::string
-as_utf8 (wchar_t const *str)
-{
-  LUMEX_ASSERT (str);
-
-  return as_utf8_impl (str, strlength_wide (str));
-}
-
-inline std::string
-as_utf8 (std::basic_string<wchar_t> const &str)
-{
-  return as_utf8_impl (str.c_str (), str.size ());
-}
-
-inline std::basic_string<wchar_t>
-as_wide (char const *str)
-{
-  LUMEX_ASSERT (str);
-
-  return as_wide_impl (str, strlen (str));
-}
-
-inline std::basic_string<wchar_t>
-as_wide (std::string const &str)
-{
-  return as_wide_impl (str.c_str (), str.size ());
-}
 
 template <typename D, typename T>
 inline std::size_t
@@ -1800,8 +1262,8 @@ convert_buffer_output (char_t const *r_char, uint8_t *r_u8, uint16_t *r_u16,
 
   // convert to utf8
   if (encoding == encoding_utf8)
-    return convert_buffer_output_generic (r_u8, data, length, wchar_decoder (),
-                                          utf8_writer ());
+    return convert_buffer_output_generic (
+        r_u8, data, length, utf::wchar_decoder (), utf::utf8_writer ());
 
   // convert to utf16
   if (encoding == encoding_utf16_be || encoding == encoding_utf16_le)
@@ -1811,9 +1273,9 @@ convert_buffer_output (char_t const *r_char, uint8_t *r_u8, uint16_t *r_u16,
                 ? encoding_utf16_le
                 : encoding_utf16_be;
 
-      return convert_buffer_output_generic (r_u16, data, length,
-                                            wchar_decoder (), utf16_writer (),
-                                            native_encoding != encoding);
+      return convert_buffer_output_generic (
+          r_u16, data, length, utf::wchar_decoder (), utf::utf16_writer (),
+          native_encoding != encoding);
     }
 
   // convert to utf32
@@ -1824,15 +1286,15 @@ convert_buffer_output (char_t const *r_char, uint8_t *r_u8, uint16_t *r_u16,
                 ? encoding_utf32_le
                 : encoding_utf32_be;
 
-      return convert_buffer_output_generic (r_u32, data, length,
-                                            wchar_decoder (), utf32_writer (),
-                                            native_encoding != encoding);
+      return convert_buffer_output_generic (
+          r_u32, data, length, utf::wchar_decoder (), utf::utf32_writer (),
+          native_encoding != encoding);
     }
 
   // convert to latin1
   if (encoding == encoding_latin1)
-    return convert_buffer_output_generic (r_u8, data, length, wchar_decoder (),
-                                          latin1_writer ());
+    return convert_buffer_output_generic (
+        r_u8, data, length, utf::wchar_decoder (), utf::latin1_writer ());
 
   LUMEX_ASSERT (false && "Invalid encoding"); // unreachable
   return 0;
@@ -1870,9 +1332,9 @@ convert_buffer_output (char_t * /* r_char */, uint8_t *r_u8, uint16_t *r_u16,
                 ? encoding_utf16_le
                 : encoding_utf16_be;
 
-      return convert_buffer_output_generic (r_u16, data, length,
-                                            utf8_decoder (), utf16_writer (),
-                                            native_encoding != encoding);
+      return convert_buffer_output_generic (
+          r_u16, data, length, utf::utf8_decoder (), utf::utf16_writer (),
+          native_encoding != encoding);
     }
 
   if (encoding == encoding_utf32_be || encoding == encoding_utf32_le)
@@ -1882,14 +1344,14 @@ convert_buffer_output (char_t * /* r_char */, uint8_t *r_u8, uint16_t *r_u16,
                 ? encoding_utf32_le
                 : encoding_utf32_be;
 
-      return convert_buffer_output_generic (r_u32, data, length,
-                                            utf8_decoder (), utf32_writer (),
-                                            native_encoding != encoding);
+      return convert_buffer_output_generic (
+          r_u32, data, length, utf::utf8_decoder (), utf::utf32_writer (),
+          native_encoding != encoding);
     }
 
   if (encoding == encoding_latin1)
-    return convert_buffer_output_generic (r_u8, data, length, utf8_decoder (),
-                                          latin1_writer ());
+    return convert_buffer_output_generic (
+        r_u8, data, length, utf::utf8_decoder (), utf::latin1_writer ());
 
   LUMEX_ASSERT (false && "Invalid encoding"); // unreachable
   return 0;
