@@ -26,19 +26,27 @@
  * @file LumexBit.hpp
  * @brief Bit helpers. `count_leading_zeros` (C++11) counts the leading zeros
  * of an unsigned integer of 1, 2, 4 or 8 bytes, an analogue of C++20
- * `std::countl_zero`. `byte_swap` (C++20) reverses the byte order of an
- * integral value and is usable in a constant expression, an analogue of
- * C++23 `std::byteswap`.
+ * `std::countl_zero`. `byte_swap` (C++11) reverses the byte order of an
+ * integral value, an analogue of C++23 `std::byteswap`. `is_little_endian`
+ * (C++11) tells whether the machine stores the least significant byte first.
  * @details `count_leading_zeros` uses `_BitScanReverse` with MSVC (including
  * clang-cl) and `__builtin_clz` / `__builtin_clzll` with GCC and Clang. A
  * zero value returns the width; those intrinsics do not define that case.
- * `byte_swap` uses the compiler's byte swap builtin for 2, 4 and 8 bytes
- * (`__builtin_bswap*` with GCC and Clang, `_byteswap_*` with MSVC) at run
- * time, and reverses the bytes of a `std::bit_cast` copy in a constant
- * expression and for other sizes.
- * @warning `byte_swap` needs C++20 (concepts, `std::bit_cast`, `std::ranges`
- * and `std::is_constant_evaluated`). With an older standard only
- * `count_leading_zeros` is declared.
+ * `byte_swap` accepts every integral type except `bool` whose size is 1, 2, 4
+ * or 8 bytes. From C++20, where concepts, `std::bit_cast`, `std::ranges` and
+ * `std::is_constant_evaluated` exist, it uses the compiler's byte swap
+ * builtin for 2, 4 and 8 bytes (`__builtin_bswap*` with GCC and Clang,
+ * `_byteswap_*` with MSVC) at run time and reverses the bytes of a
+ * `std::bit_cast` copy in a constant expression. Below C++20 it is written
+ * with shifts and masks, so it is `constexpr` from C++11 and compilers turn
+ * it into one byte swap instruction. Both forms give the same result for the
+ * same value.
+ *
+ * The byte swap and the byte-order probe serve code that reads or writes data
+ * of a fixed byte order, such as the UTF-16 and UTF-32 transcoders of the
+ * `unicode` module. `byte_swap` below C++20 and `is_little_endian` replace
+ * helpers of the XML module, which are derived from pugixml (MIT, Copyright
+ * (c) 2006-2026 Arseny Kapoulkine); the notice is in `THIRD-PARTY-NOTICES.md`.
  */
 
 // NOLINTBEGIN(readability-identifier-length,
@@ -56,7 +64,8 @@
 #endif
 #include <cstddef> // for std::byte
 #include <cstdint>
-#include <memory> // for std::addressof
+#include <cstring> // for std::memcpy
+#include <memory>  // for std::addressof
 #include <type_traits>
 
 #if defined(_MSC_VER)
@@ -276,7 +285,109 @@ byte_swap (T value) LUMEX_NOEXCEPT
   }
 }
 
+#else // no C++20 byte_swap
+
+namespace Detail
+{
+/// @brief One-byte value: nothing to reverse.
+template <typename Unsigned>
+LUMEX_CONSTEXPR Unsigned
+swap_bytes (Unsigned value,
+            std::integral_constant<std::size_t, 1> /* size */) LUMEX_NOEXCEPT
+{
+  return value;
+}
+
+/// @brief Reverses the two bytes of an unsigned value.
+template <typename Unsigned>
+LUMEX_CONSTEXPR Unsigned
+swap_bytes (Unsigned value,
+            std::integral_constant<std::size_t, 2> /* size */) LUMEX_NOEXCEPT
+{
+  return static_cast<Unsigned> (
+      static_cast<Unsigned> (static_cast<Unsigned> (value & 0xFFU) << 8)
+      | static_cast<Unsigned> (static_cast<Unsigned> (value >> 8) & 0xFFU));
+}
+
+/// @brief Reverses the four bytes of an unsigned value.
+template <typename Unsigned>
+LUMEX_CONSTEXPR Unsigned
+swap_bytes (Unsigned value,
+            std::integral_constant<std::size_t, 4> /* size */) LUMEX_NOEXCEPT
+{
+  return static_cast<Unsigned> (
+      static_cast<Unsigned> (static_cast<Unsigned> (value & 0xFFU) << 24)
+      | static_cast<Unsigned> (static_cast<Unsigned> (value & 0xFF00U) << 8)
+      | static_cast<Unsigned> (static_cast<Unsigned> (value >> 8) & 0xFF00U)
+      | static_cast<Unsigned> (value >> 24));
+}
+
+/// @brief Reverses the eight bytes of an unsigned value.
+template <typename Unsigned>
+LUMEX_CONSTEXPR Unsigned
+swap_bytes (Unsigned value,
+            std::integral_constant<std::size_t, 8> /* size */) LUMEX_NOEXCEPT
+{
+  return static_cast<Unsigned> (
+      (static_cast<Unsigned> (value & 0xFFULL) << 56)
+      | (static_cast<Unsigned> (value & 0xFF00ULL) << 40)
+      | (static_cast<Unsigned> (value & 0xFF0000ULL) << 24)
+      | (static_cast<Unsigned> (value & 0xFF000000ULL) << 8)
+      | (static_cast<Unsigned> (value >> 8) & 0xFF000000ULL)
+      | (static_cast<Unsigned> (value >> 24) & 0xFF0000ULL)
+      | (static_cast<Unsigned> (value >> 40) & 0xFF00ULL)
+      | static_cast<Unsigned> (value >> 56));
+}
+} // namespace Detail
+
+/**
+ * @brief Reverses the byte order of an integral value (byte swap / endianness
+ * reverse), C++11 form.
+ * @details Analogue of C++23 `std::byteswap`. The value is converted to the
+ * unsigned type of the same size, the bytes are reversed with shifts and
+ * masks, and the result is converted back, so signed values keep the bit
+ * pattern of the swapped bytes. It is `constexpr` and `noexcept`. From C++20
+ * the same function name is the `std::bit_cast` and builtin based template;
+ * both give the same value.
+ * @tparam T Integral type other than `bool`, of 1, 2, 4 or 8 bytes.
+ * @param[in] value Input value.
+ * @return `value` with its byte order reversed; a one-byte value is returned
+ * unchanged.
+ * @see https://en.cppreference.com/w/cpp/numeric/byteswap.html
+ */
+template <typename T>
+LUMEX_CONSTEXPR
+    typename std::enable_if<std::is_integral<T>::value
+                                && !std::is_same<T, bool>::value
+                                && (sizeof (T) == 1 || sizeof (T) == 2
+                                    || sizeof (T) == 4 || sizeof (T) == 8),
+                            T>::type
+    byte_swap (T value) LUMEX_NOEXCEPT
+{
+  return static_cast<T> (Detail::swap_bytes (
+      static_cast<typename std::make_unsigned<T>::type> (value),
+      std::integral_constant<std::size_t, sizeof (T)> ()));
+}
+
 #endif // LUMEX_HAS_CONCEPTS && ...
+
+/**
+ * @brief Tells whether the machine stores the least significant byte of an
+ * integer first (little endian).
+ * @details Reads the first byte of the object representation of the 32-bit
+ * value 1 through `std::memcpy`, so it has no undefined behavior. A middle
+ * endian machine counts as not little endian.
+ * @return `true` on a little endian machine (x86, x86-64 and, in practice,
+ * ARM and every Windows target), `false` otherwise.
+ */
+inline bool
+is_little_endian () LUMEX_NOEXCEPT
+{
+  std::uint32_t const probe = 1U;
+  unsigned char first = 0;
+  std::memcpy (&first, &probe, 1);
+  return first == 1;
+}
 
 } // namespace bit
 } // namespace utility
