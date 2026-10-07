@@ -564,6 +564,15 @@
 
 **Проверено:** предупреждений xml после правки 0 на GCC 8.3, GCC 13.2, Clang 23.1.0 и MinGW 8.3 (C++11 и C++20); все 426 тестов `xml` проходят; 11 новых тестов `XPathNumbersTest` (булево и строка из числа, `floor` и `ceiling` от NaN, числовой предикат, `=` и `!=`) проходят и на прежнем коде, то есть поведение не изменилось, а при замене `==` на `!=` в `exactly_equal` 6 из 11 падают (до правки мутация не ловилась ни одним тестом).
 
+
+##### serial: предупреждения `-Wswitch-default`, `-Wsign-conversion`, `-Wcast-function-type`, `-Wold-style-cast`
+
+**Файлы:** `lumex/applied/serial/probe/LumexSerialProber.cpp`, `lumex/applied/serial/probe/detail/LumexSerialBoundedOpen.cpp`, `lumex/applied/serial/resolver/LumexPortProcessResolver.cpp`
+
+**Суть:** (1) У девяти `switch` по `enum class` (четность, стоп-биты, управление потоком, статус транспорта, исход открытия) не было ветки `default`. Теперь она есть: для настроек порта значение вне перечисления означает неверную настройку и дает `false`, для статуса транспорта и исхода открытия оно считается ошибкой, как значение `failed`. (2) Маски `termios` (`c_iflag`, `c_oflag`, `c_lflag`, `c_cflag`) считались как `~(int)`, то есть отрицательное число, и неявно превращались в `tcflag_t`; теперь приведение явное, набор битов тот же. (3) Только на Windows: адреса функций `ntdll` приводились из `FARPROC` напрямую (`-Wcast-function-type`), теперь через функцию `exported_function`, а запасной `NT_SUCCESS` использует `static_cast`.
+
+**Проверено:** предупреждений в `serial` после правки 0 на GCC 8.3, GCC 13.2 и MinGW 8.3, у Clang 23.1.0 остались 2 из другого модуля (`logger`); тесты `serial` на GCC 13.2: 49 из 50, не проходит `LumexSerialProberPty.GivenPreWrittenResponse_WhenProbe_ThenResponded`, он не проходил и до правок (6 запусков из 6 на сборке до переименования); Windows-ветка собрана MinGW, не запускалась.
+
 ---
 
 ## [v1.0.3.1] - в разработке

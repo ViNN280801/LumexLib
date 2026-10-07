@@ -408,6 +408,8 @@ private:
       case serial_parity::space:
         dcb.Parity = SPACEPARITY;
         break;
+      default:
+        return false;
       }
     switch (settings_.stop_bits)
       {
@@ -420,6 +422,8 @@ private:
       case serial_stop_bits::two:
         dcb.StopBits = TWOSTOPBITS;
         break;
+      default:
+        return false;
       }
 
     dcb.fOutxCtsFlow = FALSE;
@@ -441,6 +445,8 @@ private:
         dcb.fOutxCtsFlow = TRUE;
         dcb.fRtsControl = RTS_CONTROL_HANDSHAKE;
         break;
+      default:
+        return false;
       }
 
     if (::SetCommState (handle, &dcb) == 0)
@@ -728,11 +734,14 @@ private:
     if (::tcgetattr (fd_, &attributes) != 0)
       return false;
 
-    attributes.c_iflag &= ~(IGNBRK | BRKINT | PARMRK | ISTRIP | INLCR | IGNCR
-                            | ICRNL | IXON | IXOFF | IXANY);
-    attributes.c_oflag &= ~OPOST;
-    attributes.c_lflag &= ~(ECHO | ECHONL | ICANON | ISIG | IEXTEN);
-    attributes.c_cflag &= ~(CSIZE | PARENB | PARODD | CSTOPB);
+    attributes.c_iflag
+        &= static_cast<tcflag_t> (~(IGNBRK | BRKINT | PARMRK | ISTRIP | INLCR
+                                    | IGNCR | ICRNL | IXON | IXOFF | IXANY));
+    attributes.c_oflag &= static_cast<tcflag_t> (~OPOST);
+    attributes.c_lflag
+        &= static_cast<tcflag_t> (~(ECHO | ECHONL | ICANON | ISIG | IEXTEN));
+    attributes.c_cflag
+        &= static_cast<tcflag_t> (~(CSIZE | PARENB | PARODD | CSTOPB));
 #if defined(CRTSCTS)
     attributes.c_cflag &= ~CRTSCTS;
 #endif
@@ -779,6 +788,8 @@ private:
 #else
         return false;
 #endif
+      default:
+        return false;
       }
 
     if (settings_.stop_bits == serial_stop_bits::two)
@@ -798,6 +809,8 @@ private:
 #else
         return false;
 #endif
+      default:
+        return false;
       }
 
     attributes.c_cc[VMIN] = 0;
@@ -896,6 +909,7 @@ SerialProber::open (std::chrono::milliseconds deadline)
       result.status = serial_io_status::deadline_exceeded;
       break;
     case detail::transport_status::failed:
+    default:
       result.status = serial_io_status::failed;
       break;
     }
@@ -961,6 +975,7 @@ SerialProber::write (std::vector<std::uint8_t> const &data,
       result.status = serial_io_status::deadline_exceeded;
       break;
     case detail::transport_status::failed:
+    default:
       result.status = serial_io_status::failed;
       break;
     }
@@ -991,6 +1006,7 @@ SerialProber::read (std::chrono::milliseconds deadline)
       result.status = serial_io_status::deadline_exceeded;
       break;
     case detail::transport_status::failed:
+    default:
       result.status = serial_io_status::failed;
       break;
     }

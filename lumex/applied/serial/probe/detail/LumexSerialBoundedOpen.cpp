@@ -264,6 +264,7 @@ state_from_open_result (open_result_t const &result) LUMEX_NOEXCEPT
     case open_outcome::timed_out:
       return enumeration::serial_port_state::unresponsive;
     case open_outcome::failed:
+    default:
       break;
     }
 
