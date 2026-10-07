@@ -14,7 +14,8 @@ set(_script "${LUMEX_SOURCE_DIR}/Scripts/ReleaseTools/extract_diagnostics.py")
 set(_fixtures "${LUMEX_SOURCE_DIR}/lumex/tests/cmake/fixtures/release_diagnostics")
 set(_work "${CMAKE_CURRENT_BINARY_DIR}/release_diagnostics_work")
 
-# _check(<fixture> <failed 0|1> <warnings> <errors> <warn file 0|1> <err file 0|1>)
+# _check(<fixture> <failed 0|1> <warnings> <errors> <warn file 0|1> <err file 0|1>
+#         [<text the warning file must not contain>...])
 function(_check fixture failed warnings errors warn_file err_file)
     file(REMOVE_RECURSE "${_work}")
     file(MAKE_DIRECTORY "${_work}")
@@ -44,6 +45,15 @@ function(_check fixture failed warnings errors warn_file err_file)
             message(FATAL_ERROR "${fixture}: ${_kind}.log was written, it should not exist")
         endif()
     endforeach()
+    if(warn_file)
+        file(READ "${_work}/warn.log" _warn_text)
+        foreach(_text IN LISTS ARGN)
+            string(FIND "${_warn_text}" "${_text}" _pos)
+            if(NOT _pos EQUAL -1)
+                message(FATAL_ERROR "${fixture}: warn.log contains '${_text}':\n${_warn_text}")
+            endif()
+        endforeach()
+    endif()
 endfunction()
 
 # The same warning from a header that two sources include counts once.
@@ -57,5 +67,11 @@ _check(real_errors 1 1 3 1 1)
 # A failure without any diagnostic keeps the end of the log.
 _check(plain_failure 1 0 1 0 1)
 _check(clean 0 0 0 0 0)
+# make (the default generator of create_release.sh) prints "[ 20%] Linking ...",
+# "Built target" and "make[2]: *** ... Error 1" between the diagnostics: none of
+# it belongs in the warnings, and the make "Error" lines are not errors.
+# (No square brackets in the texts: they would be read as list syntax.)
+_check(gcc_make_warnings 0 10 0 1 0 "Linking CXX shared library" "Built target" "Building CXX object")
+_check(gcc_make_werror 1 8 0 1 0 "Error 1" "not remade because of errors")
 
 file(REMOVE_RECURSE "${_work}")
