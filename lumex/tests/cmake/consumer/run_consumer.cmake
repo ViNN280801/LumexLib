@@ -4,7 +4,10 @@
 # Optional: BUILD_TYPE (default Release), EXTRA_ARGS (;-list of -D...),
 # CONFIGURE_ONLY (stop after a successful configure), CXX_FLAGS and
 # CLANG_STDLIB (the calling tree's CMAKE_CXX_FLAGS and LUMEX_CLANG_STDLIB,
-# forwarded when set).
+# forwarded when set), BUILD_RPATH (the directories of the compiler's own C++
+# runtime when it lies outside the system paths, forwarded as
+# CMAKE_BUILD_RPATH: the fixture's executable is not configured by LumexLib,
+# and without them it would load the older runtime of the system).
 #
 # The nested build uses the compiler environment of the calling ctest. On
 # MSVC that means a developer shell (INCLUDE/LIB set); without it the case
@@ -38,6 +41,13 @@ if(NOT "${CXX_FLAGS}" STREQUAL "")
 endif()
 if(NOT "${CLANG_STDLIB}" STREQUAL "")
     list(APPEND _forwarded "-DLUMEX_CLANG_STDLIB=${CLANG_STDLIB}")
+endif()
+
+if(NOT "${BUILD_RPATH}" STREQUAL "")
+    # One argument that holds a list: the separators are escaped so that the
+    # expansion below does not split it.
+    string(REPLACE ";" "\\;" _build_rpath "${BUILD_RPATH}")
+    list(APPEND _forwarded "-DCMAKE_BUILD_RPATH=${_build_rpath}")
 endif()
 
 execute_process(
@@ -114,8 +124,15 @@ else()
     set(ENV{PATH} "${_joined}:$ENV{PATH}")
 endif()
 
+# On ELF hosts the executable finds the runtime of the compiler through the
+# RUNPATH it was linked with, not through the caller's LD_LIBRARY_PATH.
+if(UNIX)
+    set(_run "${CMAKE_COMMAND}" -E env --unset=LD_LIBRARY_PATH "${_exe}")
+else()
+    set(_run "${_exe}")
+endif()
 execute_process(
-    COMMAND "${_exe}"
+    COMMAND ${_run}
     RESULT_VARIABLE _rc
     OUTPUT_VARIABLE _out
     ERROR_VARIABLE _out

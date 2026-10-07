@@ -121,6 +121,7 @@ lumex_add_cmake_test(wiring_gtest_cxx_stdlib)
 lumex_add_cmake_test(wiring_embedding)
 lumex_add_cmake_test(wiring_include_order_ctest)
 lumex_add_cmake_test(wiring_clang_stdlib)
+lumex_add_cmake_test(wiring_toolchain_rpath)
 lumex_add_cmake_test(asan_clang_cl_runtime_library)
 lumex_add_cmake_test(gtest_discovery_does_not_lock_exe)
 lumex_add_cmake_test(wiring_atomic)
@@ -202,10 +203,18 @@ lumex_add_cmake_fail_test(require_fail_logger_invalid_format
 # case is reported as skipped).
 set(_LUMEX_CONSUMER_RUN "${CMAKE_CURRENT_SOURCE_DIR}/consumer/run_consumer.cmake")
 
+# A compiler outside the system paths keeps its C++ runtime (libstdc++ and
+# libgcc_s, or libc++, libc++abi and libunwind) outside the loader's
+# directories. The fixture's own executable is not configured by LumexBuild, so
+# the nested build gets the directories as CMAKE_BUILD_RPATH; both libraries,
+# because a fixture that links a Lumex library takes libc++ from it and one that
+# links header-only modules keeps the compiler's default.
+get_toolchain_runtime_directories(_LUMEX_CONSUMER_RPATH STDLIB libstdc++ libc++)
+
 function(lumex_add_consumer_test name fixture)
     # The nested build uses this tree's C++ flags (a --gcc-toolchain, for
     # example) and its Clang standard library choice, so it builds like the
-    # tree that runs it.
+    # tree that runs it, and runs with the runtime of this tree's compiler.
     lumex_test_name(_ctest_name ${name})
     add_test(NAME ${_ctest_name}
         COMMAND ${CMAKE_COMMAND}
@@ -216,6 +225,7 @@ function(lumex_add_consumer_test name fixture)
             -DCXX_COMPILER=${CMAKE_CXX_COMPILER}
             "-DCXX_FLAGS=${CMAKE_CXX_FLAGS}"
             -DCLANG_STDLIB=${LUMEX_CLANG_STDLIB}
+            "-DBUILD_RPATH=${_LUMEX_CONSUMER_RPATH}"
             -DBUILD_TYPE=Release
             "-DEXTRA_ARGS=${ARGN}"
             -P ${_LUMEX_CONSUMER_RUN}
