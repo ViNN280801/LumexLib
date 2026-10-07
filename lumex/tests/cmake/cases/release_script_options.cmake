@@ -47,3 +47,16 @@ _require_text("create_release.sh" "show_cmd()")
 _require_text("create_release.sh" "run_logged()")
 _require_text("create_release.sh" "--use-ninja) USE_NINJA=1")
 _require_text("create_release.sh" "-j | --jobs | --parallel) need_value")
+# create_release.ps1 has the same --dry-run, --quiet and colour options as the
+# shell script (-DryRun, -Quiet, -NoColor). Windows PowerShell is not run by
+# this case: the strings only keep the pieces from being dropped.
+_require_text("create_release.ps1" "[switch] $DryRun")
+_require_text("create_release.ps1" "[switch] $Quiet")
+_require_text("create_release.ps1" "[switch] $NoColor")
+_require_text("create_release.ps1" "function Write-CommandLine")
+_require_text("create_release.ps1" "function Format-CommandLine")
+_require_text("create_release.ps1" "function Invoke-NativeRedirectedIn")
+_require_text("create_release.ps1" "function Get-TreeFileText")
+_require_text("create_release.ps1" "-ForegroundColor $Color")
+_require_text("create_release.ps1" "(would be created)")
+_require_text("create_release.ps1" "Dry run finished:")
