@@ -2751,10 +2751,11 @@ core_dump_generator::_windows_exception_handler (
                 {
                   // Create DACL with full access for owner and administrators
                   PACL dacl = nullptr;
-                  DWORD daclSize = sizeof (ACL)
-                                   + 2 * sizeof (ACCESS_ALLOWED_ACE)
-                                   + GetLengthSid (ownerSid)
-                                   + GetLengthSid (administratorsGroup);
+                  DWORD daclSize
+                      = static_cast<DWORD> (sizeof (ACL)
+                                            + 2 * sizeof (ACCESS_ALLOWED_ACE))
+                        + GetLengthSid (ownerSid)
+                        + GetLengthSid (administratorsGroup);
                   dacl = static_cast<PACL> (LocalAlloc (LPTR, daclSize));
 
                   if (dacl && InitializeAcl (dacl, daclSize, ACL_REVISION))
@@ -2951,10 +2952,11 @@ core_dump_generator::_create_windows_dump (std::string const &filename,
                 {
                   // Create DACL with full access for owner and administrators
                   PACL dacl = nullptr;
-                  DWORD daclSize = sizeof (ACL)
-                                   + 2 * sizeof (ACCESS_ALLOWED_ACE)
-                                   + GetLengthSid (ownerSid)
-                                   + GetLengthSid (administratorsGroup);
+                  DWORD daclSize
+                      = static_cast<DWORD> (sizeof (ACL)
+                                            + 2 * sizeof (ACCESS_ALLOWED_ACE))
+                        + GetLengthSid (ownerSid)
+                        + GetLengthSid (administratorsGroup);
                   dacl = static_cast<PACL> (LocalAlloc (LPTR, daclSize));
 
                   if (dacl && InitializeAcl (dacl, daclSize, ACL_REVISION))
@@ -3113,6 +3115,11 @@ core_dump_generator::_get_minidump_type (DumpType type) noexcept
           | MiniDumpWithHandleData | MiniDumpWithUnloadedModules
           | MiniDumpWithProcessThreadData);
 
+    // The Unix dump type (DEFAULT_UNIX has the same value) and the platform
+    // auto-detection have no mini-dump equivalent; they are listed so that
+    // -Wswitch-enum sees them handled, and take the default.
+    case DumpType::CORE_DUMP_FULL:
+    case DumpType::DEFAULT_AUTO:
     // Default fallback
     default:
       return MiniDumpNormal;
@@ -3835,7 +3842,7 @@ core_dump_generator::_convert_wide_string_to_narrow (
       if (size <= 0)
         return "";
 
-      std::string narrowStr (size - 1, 0);
+      std::string narrowStr (static_cast<std::size_t> (size - 1), 0);
       int result = WideCharToMultiByte (CP_UTF8, 0, wideStr.c_str (), -1,
                                         &narrowStr[0], size, nullptr, nullptr);
       if (result == 0)

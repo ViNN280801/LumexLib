@@ -154,7 +154,7 @@ get_file_size (std::string const &filePath) LUMEX_NOEXCEPT
 
       LARGE_INTEGER fileSize{};
       fileSize.LowPart = fileData.nFileSizeLow;
-      fileSize.HighPart = fileData.nFileSizeHigh;
+      fileSize.HighPart = static_cast<LONG> (fileData.nFileSizeHigh);
       return static_cast<int64_t> (fileSize.QuadPart);
 #else
       struct stat fileStat{};
@@ -265,7 +265,7 @@ get_directory_size (std::string const &directoryPath) LUMEX_NOEXCEPT
             {
               LARGE_INTEGER fileSize{};
               fileSize.LowPart = findData.nFileSizeLow;
-              fileSize.HighPart = findData.nFileSizeHigh;
+              fileSize.HighPart = static_cast<LONG> (findData.nFileSizeHigh);
               totalSize += static_cast<int64_t> (fileSize.QuadPart);
             }
         }
@@ -328,6 +328,10 @@ std::string
 capture_stack_trace (int skip_frames = 1, int max_frames = 16) LUMEX_NOEXCEPT
 {
   LUMEX_CONSTEXPR int kMaxStackFrames = 64;
+  // A platform without a stack walker (MinGW) uses none of these.
+  LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR (skip_frames);
+  LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR (max_frames);
+  LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR (kMaxStackFrames);
   std::string result;
 
   try

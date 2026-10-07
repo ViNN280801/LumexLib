@@ -93,7 +93,7 @@ HardwareCapabilities::detect_hardware ()
   int cpuInfo[4] = { -1 };
   char cpuBrandString[Constants::KCPU_INFO_BUFFER_SIZE] = { 0 };
 
-  __cpuid (cpuInfo, Constants::KCPUID_EXTENDED_FEATURES);
+  __cpuid (cpuInfo, static_cast<int> (Constants::KCPUID_EXTENDED_FEATURES));
   int nExIds = cpuInfo[0];
 
   for (auto i = Constants::KCPUID_EXTENDED_FEATURES;
@@ -101,7 +101,7 @@ HardwareCapabilities::detect_hardware ()
        && i <= Constants::KCPUID_BRAND_STRING_3;
        ++i)
     {
-      __cpuid (cpuInfo, i);
+      __cpuid (cpuInfo, static_cast<int> (i));
       if (i == Constants::KCPUID_BRAND_STRING_1)
         memcpy (cpuBrandString, cpuInfo, sizeof (cpuInfo));
       else if (i == Constants::KCPUID_BRAND_STRING_2)
@@ -122,8 +122,8 @@ HardwareCapabilities::detect_hardware ()
                      KEY_READ, &hKey)
       == ERROR_SUCCESS)
     {
-      RegQueryValueExA (hKey, "~MHz", nullptr, nullptr, (LPBYTE)&dwMHz,
-                        &dwSize);
+      RegQueryValueExA (hKey, "~MHz", nullptr, nullptr,
+                        reinterpret_cast<LPBYTE> (&dwMHz), &dwSize);
       RegCloseKey (hKey);
     }
   info.cpu_frequency_mhz = dwMHz;
@@ -138,8 +138,8 @@ HardwareCapabilities::detect_hardware ()
   // Check for discrete GPU using DXGI
   info.has_discrete_gpu = false;
   IDXGIFactory *pFactory = nullptr;
-  if (SUCCEEDED (
-          CreateDXGIFactory (__uuidof (IDXGIFactory), (void **)&pFactory)))
+  if (SUCCEEDED (CreateDXGIFactory (__uuidof (IDXGIFactory),
+                                    reinterpret_cast<void **> (&pFactory))))
     {
       IDXGIAdapter *pAdapter = nullptr;
       UINT adapterIndex = 0;
@@ -155,7 +155,7 @@ HardwareCapabilities::detect_hardware ()
                                              nullptr, 0, nullptr, nullptr);
               if (len > 0)
                 {
-                  std::vector<char> buffer (len);
+                  std::vector<char> buffer (static_cast<std::size_t> (len));
                   WideCharToMultiByte (CP_UTF8, 0, desc.Description, -1,
                                        buffer.data (), len, nullptr, nullptr);
                   gpu_name = std::string (buffer.data ());
