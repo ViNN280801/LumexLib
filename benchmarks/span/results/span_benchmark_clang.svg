@@ -1,0 +1,259 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="868" viewBox="0 0 980 868" font-family="Segoe UI, Arial, sans-serif" font-size="11">
+<rect width="100%" height="100%" fill="#ffffff"/>
+<text x="250" y="22" font-size="15" font-weight="bold">span, time relative to lumex C++11 (clang)</text>
+<text x="250" y="40" fill="#555">Clang 23.1.0; 12th Gen Intel(R) Core(TM) i7-12700K</text>
+<circle cx="255" cy="55" r="4.5" fill="#1b6ca8"/>
+<text x="264" y="59">lumex C++11</text>
+<circle cx="347" cy="55" r="4.5" fill="#6fb1e0"/>
+<text x="356" y="59">lumex C++20</text>
+<circle cx="439" cy="55" r="4.5" fill="#d9822b"/>
+<text x="448" y="59">std::span C++20</text>
+<circle cx="556" cy="55" r="4.5" fill="#3c9d4a"/>
+<text x="565" y="59">boost::span C++11</text>
+<circle cx="685" cy="55" r="4.5" fill="#8fd19a"/>
+<text x="694" y="59">boost::span C++20</text>
+<line x1="250.0" y1="64" x2="250.0" y2="790" stroke="#ddd"/>
+<text x="250.0" y="804" text-anchor="middle" fill="#555">0.5x</text>
+<line x1="419.9" y1="64" x2="419.9" y2="790" stroke="#ddd"/>
+<text x="419.9" y="804" text-anchor="middle" fill="#555">0.7x</text>
+<line x1="600.0" y1="64" x2="600.0" y2="790" stroke="#444"/>
+<text x="600.0" y="804" text-anchor="middle" fill="#555">1x</text>
+<line x1="769.9" y1="64" x2="769.9" y2="790" stroke="#ddd"/>
+<text x="769.9" y="804" text-anchor="middle" fill="#555">1.4x</text>
+<line x1="950.0" y1="64" x2="950.0" y2="790" stroke="#ddd"/>
+<text x="950.0" y="804" text-anchor="middle" fill="#555">2x</text>
+<text x="600" y="824" text-anchor="middle" fill="#555">time relative to lumex C++11 (log scale, clipped at 0.5x and 2x; left is faster)</text>
+<text x="600" y="840" text-anchor="middle" fill="#555">a hollow dot: the processes of that executable disagree by more than 25 % (code and stack placement), read it as noise</text>
+<rect x="0" y="70.0" width="980" height="20" fill="#f6f8fa"/>
+<text x="242" y="84.0" text-anchor="end">ctor_ptr_size (1,024)</text>
+<circle cx="600.0" cy="80.0" r="4" fill="none" stroke="#1b6ca8" stroke-width="1.6"><title>lumex C++11: 0.37 ns, 1.00x (unstable)</title></circle>
+<circle cx="559.4" cy="80.0" r="4" fill="none" stroke="#6fb1e0" stroke-width="1.6"><title>lumex C++20: 0.34 ns, 0.92x (unstable)</title></circle>
+<circle cx="568.1" cy="80.0" r="4" fill="none" stroke="#d9822b" stroke-width="1.6"><title>std::span C++20: 0.35 ns, 0.94x (unstable)</title></circle>
+<circle cx="566.8" cy="80.0" r="4" fill="none" stroke="#3c9d4a" stroke-width="1.6"><title>boost::span C++11: 0.35 ns, 0.94x (unstable)</title></circle>
+<circle cx="564.2" cy="80.0" r="4" fill="none" stroke="#8fd19a" stroke-width="1.6"><title>boost::span C++20: 0.35 ns, 0.93x (unstable)</title></circle>
+<text x="242" y="104.0" text-anchor="end">ctor_c_array</text>
+<circle cx="600.0" cy="100.0" r="4" fill="none" stroke="#1b6ca8" stroke-width="1.6"><title>lumex C++11: 0.37 ns, 1.00x (unstable)</title></circle>
+<circle cx="554.9" cy="100.0" r="4" fill="none" stroke="#6fb1e0" stroke-width="1.6"><title>lumex C++20: 0.34 ns, 0.91x (unstable)</title></circle>
+<circle cx="559.4" cy="100.0" r="4" fill="none" stroke="#d9822b" stroke-width="1.6"><title>std::span C++20: 0.35 ns, 0.92x (unstable)</title></circle>
+<circle cx="565.7" cy="100.0" r="4" fill="none" stroke="#3c9d4a" stroke-width="1.6"><title>boost::span C++11: 0.35 ns, 0.93x (unstable)</title></circle>
+<circle cx="562.2" cy="100.0" r="4" fill="none" stroke="#8fd19a" stroke-width="1.6"><title>boost::span C++20: 0.35 ns, 0.93x (unstable)</title></circle>
+<rect x="0" y="110.0" width="980" height="20" fill="#f6f8fa"/>
+<text x="242" y="124.0" text-anchor="end">ctor_std_array</text>
+<circle cx="600.0" cy="120.0" r="4" fill="none" stroke="#1b6ca8" stroke-width="1.6"><title>lumex C++11: 0.37 ns, 1.00x (unstable)</title></circle>
+<circle cx="556.0" cy="120.0" r="4" fill="none" stroke="#6fb1e0" stroke-width="1.6"><title>lumex C++20: 0.34 ns, 0.92x (unstable)</title></circle>
+<circle cx="560.1" cy="120.0" r="4" fill="none" stroke="#d9822b" stroke-width="1.6"><title>std::span C++20: 0.35 ns, 0.92x (unstable)</title></circle>
+<circle cx="569.1" cy="120.0" r="4" fill="none" stroke="#3c9d4a" stroke-width="1.6"><title>boost::span C++11: 0.35 ns, 0.94x (unstable)</title></circle>
+<circle cx="563.7" cy="120.0" r="4" fill="none" stroke="#8fd19a" stroke-width="1.6"><title>boost::span C++20: 0.35 ns, 0.93x (unstable)</title></circle>
+<text x="242" y="144.0" text-anchor="end">ctor_vector</text>
+<circle cx="600.0" cy="140.0" r="4" fill="#1b6ca8" fill-opacity="0.9"><title>lumex C++11: 0.58 ns, 1.00x</title></circle>
+<circle cx="543.0" cy="140.0" r="4" fill="none" stroke="#6fb1e0" stroke-width="1.6"><title>lumex C++20: 0.52 ns, 0.89x (unstable)</title></circle>
+<circle cx="598.7" cy="140.0" r="4" fill="#d9822b" fill-opacity="0.9"><title>std::span C++20: 0.58 ns, 1.00x</title></circle>
+<circle cx="539.2" cy="140.0" r="4" fill="none" stroke="#3c9d4a" stroke-width="1.6"><title>boost::span C++11: 0.51 ns, 0.89x (unstable)</title></circle>
+<circle cx="535.2" cy="140.0" r="4" fill="none" stroke="#8fd19a" stroke-width="1.6"><title>boost::span C++20: 0.51 ns, 0.88x (unstable)</title></circle>
+<rect x="0" y="150.0" width="980" height="20" fill="#f6f8fa"/>
+<text x="242" y="164.0" text-anchor="end">ctor_static_array</text>
+<circle cx="600.0" cy="160.0" r="4" fill="#1b6ca8" fill-opacity="0.9"><title>lumex C++11: 0.34 ns, 1.00x</title></circle>
+<circle cx="593.4" cy="160.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++20: 0.34 ns, 0.99x</title></circle>
+<circle cx="593.6" cy="160.0" r="4" fill="#d9822b" fill-opacity="0.9"><title>std::span C++20: 0.34 ns, 0.99x</title></circle>
+<circle cx="586.2" cy="160.0" r="4" fill="#3c9d4a" fill-opacity="0.9"><title>boost::span C++11: 0.33 ns, 0.97x</title></circle>
+<circle cx="590.3" cy="160.0" r="4" fill="#8fd19a" fill-opacity="0.9"><title>boost::span C++20: 0.33 ns, 0.98x</title></circle>
+<text x="242" y="184.0" text-anchor="end">copy (1,024)</text>
+<circle cx="600.0" cy="180.0" r="4" fill="none" stroke="#1b6ca8" stroke-width="1.6"><title>lumex C++11: 0.36 ns, 1.00x (unstable)</title></circle>
+<circle cx="573.8" cy="180.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++20: 0.34 ns, 0.95x</title></circle>
+<circle cx="576.9" cy="180.0" r="4" fill="#d9822b" fill-opacity="0.9"><title>std::span C++20: 0.35 ns, 0.96x</title></circle>
+<circle cx="569.4" cy="180.0" r="4" fill="#3c9d4a" fill-opacity="0.9"><title>boost::span C++11: 0.34 ns, 0.94x</title></circle>
+<circle cx="569.0" cy="180.0" r="4" fill="#8fd19a" fill-opacity="0.9"><title>boost::span C++20: 0.34 ns, 0.94x</title></circle>
+<rect x="0" y="190.0" width="980" height="20" fill="#f6f8fa"/>
+<text x="242" y="204.0" text-anchor="end">sum_range_for (8)</text>
+<circle cx="600.0" cy="200.0" r="4" fill="#1b6ca8" fill-opacity="0.9"><title>lumex C++11: 3.09 ns, 1.00x</title></circle>
+<circle cx="593.4" cy="200.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++20: 3.05 ns, 0.99x</title></circle>
+<circle cx="600.5" cy="200.0" r="4" fill="#d9822b" fill-opacity="0.9"><title>std::span C++20: 3.09 ns, 1.00x</title></circle>
+<circle cx="603.2" cy="200.0" r="4" fill="#3c9d4a" fill-opacity="0.9"><title>boost::span C++11: 3.11 ns, 1.01x</title></circle>
+<circle cx="600.0" cy="200.0" r="4" fill="#8fd19a" fill-opacity="0.9"><title>boost::span C++20: 3.09 ns, 1.00x</title></circle>
+<text x="242" y="224.0" text-anchor="end">sum_range_for (1,024)</text>
+<circle cx="600.0" cy="220.0" r="4" fill="#1b6ca8" fill-opacity="0.9"><title>lumex C++11: 138.7 ns, 1.00x</title></circle>
+<circle cx="655.7" cy="220.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++20: 154.9 ns, 1.12x</title></circle>
+<circle cx="675.0" cy="220.0" r="4" fill="#d9822b" fill-opacity="0.9"><title>std::span C++20: 161.0 ns, 1.16x</title></circle>
+<circle cx="597.7" cy="220.0" r="4" fill="#3c9d4a" fill-opacity="0.9"><title>boost::span C++11: 138.1 ns, 1.00x</title></circle>
+<circle cx="652.3" cy="220.0" r="4" fill="#8fd19a" fill-opacity="0.9"><title>boost::span C++20: 153.9 ns, 1.11x</title></circle>
+<rect x="0" y="230.0" width="980" height="20" fill="#f6f8fa"/>
+<text x="242" y="244.0" text-anchor="end">sum_range_for (1,000,000)</text>
+<circle cx="600.0" cy="240.0" r="4" fill="#1b6ca8" fill-opacity="0.9"><title>lumex C++11: 140549 ns, 1.00x</title></circle>
+<circle cx="600.4" cy="240.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++20: 140673 ns, 1.00x</title></circle>
+<circle cx="604.9" cy="240.0" r="4" fill="#d9822b" fill-opacity="0.9"><title>std::span C++20: 141932 ns, 1.01x</title></circle>
+<circle cx="600.0" cy="240.0" r="4" fill="#3c9d4a" fill-opacity="0.9"><title>boost::span C++11: 140537 ns, 1.00x</title></circle>
+<circle cx="600.7" cy="240.0" r="4" fill="#8fd19a" fill-opacity="0.9"><title>boost::span C++20: 140744 ns, 1.00x</title></circle>
+<text x="242" y="264.0" text-anchor="end">sum_index (8)</text>
+<circle cx="600.0" cy="260.0" r="4" fill="#1b6ca8" fill-opacity="0.9"><title>lumex C++11: 3.09 ns, 1.00x</title></circle>
+<circle cx="600.8" cy="260.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++20: 3.10 ns, 1.00x</title></circle>
+<circle cx="593.5" cy="260.0" r="4" fill="#d9822b" fill-opacity="0.9"><title>std::span C++20: 3.05 ns, 0.99x</title></circle>
+<circle cx="604.9" cy="260.0" r="4" fill="#3c9d4a" fill-opacity="0.9"><title>boost::span C++11: 3.12 ns, 1.01x</title></circle>
+<circle cx="596.5" cy="260.0" r="4" fill="#8fd19a" fill-opacity="0.9"><title>boost::span C++20: 3.07 ns, 0.99x</title></circle>
+<rect x="0" y="270.0" width="980" height="20" fill="#f6f8fa"/>
+<text x="242" y="284.0" text-anchor="end">sum_index (1,024)</text>
+<circle cx="600.0" cy="280.0" r="4" fill="#1b6ca8" fill-opacity="0.9"><title>lumex C++11: 137.4 ns, 1.00x</title></circle>
+<circle cx="634.6" cy="280.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++20: 147.2 ns, 1.07x</title></circle>
+<circle cx="631.2" cy="280.0" r="4" fill="#d9822b" fill-opacity="0.9"><title>std::span C++20: 146.2 ns, 1.06x</title></circle>
+<circle cx="591.3" cy="280.0" r="4" fill="#3c9d4a" fill-opacity="0.9"><title>boost::span C++11: 135.1 ns, 0.98x</title></circle>
+<circle cx="627.1" cy="280.0" r="4" fill="#8fd19a" fill-opacity="0.9"><title>boost::span C++20: 145.0 ns, 1.06x</title></circle>
+<text x="242" y="304.0" text-anchor="end">sum_index (1,000,000)</text>
+<circle cx="600.0" cy="300.0" r="4" fill="#1b6ca8" fill-opacity="0.9"><title>lumex C++11: 140354 ns, 1.00x</title></circle>
+<circle cx="606.5" cy="300.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++20: 142169 ns, 1.01x</title></circle>
+<circle cx="606.3" cy="300.0" r="4" fill="#d9822b" fill-opacity="0.9"><title>std::span C++20: 142113 ns, 1.01x</title></circle>
+<circle cx="597.4" cy="300.0" r="4" fill="#3c9d4a" fill-opacity="0.9"><title>boost::span C++11: 139635 ns, 0.99x</title></circle>
+<circle cx="600.9" cy="300.0" r="4" fill="#8fd19a" fill-opacity="0.9"><title>boost::span C++20: 140592 ns, 1.00x</title></circle>
+<rect x="0" y="310.0" width="980" height="20" fill="#f6f8fa"/>
+<text x="242" y="324.0" text-anchor="end">sum_iterators (8)</text>
+<circle cx="600.0" cy="320.0" r="4" fill="#1b6ca8" fill-opacity="0.9"><title>lumex C++11: 3.06 ns, 1.00x</title></circle>
+<circle cx="608.8" cy="320.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++20: 3.11 ns, 1.02x</title></circle>
+<circle cx="607.1" cy="320.0" r="4" fill="#d9822b" fill-opacity="0.9"><title>std::span C++20: 3.10 ns, 1.01x</title></circle>
+<circle cx="610.5" cy="320.0" r="4" fill="#3c9d4a" fill-opacity="0.9"><title>boost::span C++11: 3.12 ns, 1.02x</title></circle>
+<circle cx="606.1" cy="320.0" r="4" fill="#8fd19a" fill-opacity="0.9"><title>boost::span C++20: 3.09 ns, 1.01x</title></circle>
+<text x="242" y="344.0" text-anchor="end">sum_iterators (1,024)</text>
+<circle cx="600.0" cy="340.0" r="4" fill="#1b6ca8" fill-opacity="0.9"><title>lumex C++11: 131.6 ns, 1.00x</title></circle>
+<circle cx="616.5" cy="340.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++20: 136.0 ns, 1.03x</title></circle>
+<circle cx="622.8" cy="340.0" r="4" fill="#d9822b" fill-opacity="0.9"><title>std::span C++20: 137.7 ns, 1.05x</title></circle>
+<circle cx="698.2" cy="340.0" r="4" fill="#3c9d4a" fill-opacity="0.9"><title>boost::span C++11: 159.9 ns, 1.21x</title></circle>
+<circle cx="618.0" cy="340.0" r="4" fill="#8fd19a" fill-opacity="0.9"><title>boost::span C++20: 136.4 ns, 1.04x</title></circle>
+<rect x="0" y="350.0" width="980" height="20" fill="#f6f8fa"/>
+<text x="242" y="364.0" text-anchor="end">sum_iterators (1,000,000)</text>
+<circle cx="600.0" cy="360.0" r="4" fill="#1b6ca8" fill-opacity="0.9"><title>lumex C++11: 139883 ns, 1.00x</title></circle>
+<circle cx="602.2" cy="360.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++20: 140480 ns, 1.00x</title></circle>
+<circle cx="601.2" cy="360.0" r="4" fill="#d9822b" fill-opacity="0.9"><title>std::span C++20: 140221 ns, 1.00x</title></circle>
+<circle cx="606.3" cy="360.0" r="4" fill="#3c9d4a" fill-opacity="0.9"><title>boost::span C++11: 141632 ns, 1.01x</title></circle>
+<circle cx="600.6" cy="360.0" r="4" fill="#8fd19a" fill-opacity="0.9"><title>boost::span C++20: 140059 ns, 1.00x</title></circle>
+<text x="242" y="384.0" text-anchor="end">sum_static_range_for</text>
+<circle cx="600.0" cy="380.0" r="4" fill="#1b6ca8" fill-opacity="0.9"><title>lumex C++11: 2.16 ns, 1.00x</title></circle>
+<circle cx="603.3" cy="380.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++20: 2.18 ns, 1.01x</title></circle>
+<circle cx="603.3" cy="380.0" r="4" fill="#d9822b" fill-opacity="0.9"><title>std::span C++20: 2.18 ns, 1.01x</title></circle>
+<circle cx="605.6" cy="380.0" r="4" fill="#3c9d4a" fill-opacity="0.9"><title>boost::span C++11: 2.19 ns, 1.01x</title></circle>
+<circle cx="604.1" cy="380.0" r="4" fill="#8fd19a" fill-opacity="0.9"><title>boost::span C++20: 2.18 ns, 1.01x</title></circle>
+<rect x="0" y="390.0" width="980" height="20" fill="#f6f8fa"/>
+<text x="242" y="404.0" text-anchor="end">first (1,024)</text>
+<circle cx="600.0" cy="400.0" r="4" fill="#1b6ca8" fill-opacity="0.9"><title>lumex C++11: 0.69 ns, 1.00x</title></circle>
+<circle cx="607.0" cy="400.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++20: 0.70 ns, 1.01x</title></circle>
+<circle cx="602.4" cy="400.0" r="4" fill="#d9822b" fill-opacity="0.9"><title>std::span C++20: 0.69 ns, 1.00x</title></circle>
+<circle cx="605.1" cy="400.0" r="4" fill="#3c9d4a" fill-opacity="0.9"><title>boost::span C++11: 0.69 ns, 1.01x</title></circle>
+<circle cx="612.4" cy="400.0" r="4" fill="#8fd19a" fill-opacity="0.9"><title>boost::span C++20: 0.70 ns, 1.02x</title></circle>
+<text x="242" y="424.0" text-anchor="end">last (1,024)</text>
+<circle cx="600.0" cy="420.0" r="4" fill="#1b6ca8" fill-opacity="0.9"><title>lumex C++11: 0.78 ns, 1.00x</title></circle>
+<circle cx="597.3" cy="420.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++20: 0.77 ns, 0.99x</title></circle>
+<circle cx="636.3" cy="420.0" r="4" fill="#d9822b" fill-opacity="0.9"><title>std::span C++20: 0.84 ns, 1.07x</title></circle>
+<circle cx="603.3" cy="420.0" r="4" fill="#3c9d4a" fill-opacity="0.9"><title>boost::span C++11: 0.78 ns, 1.01x</title></circle>
+<circle cx="590.2" cy="420.0" r="4" fill="#8fd19a" fill-opacity="0.9"><title>boost::span C++20: 0.76 ns, 0.98x</title></circle>
+<rect x="0" y="430.0" width="980" height="20" fill="#f6f8fa"/>
+<text x="242" y="444.0" text-anchor="end">subspan (1,024)</text>
+<circle cx="600.0" cy="440.0" r="4" fill="#1b6ca8" fill-opacity="0.9"><title>lumex C++11: 0.69 ns, 1.00x</title></circle>
+<circle cx="610.6" cy="440.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++20: 0.70 ns, 1.02x</title></circle>
+<circle cx="610.0" cy="440.0" r="4" fill="#d9822b" fill-opacity="0.9"><title>std::span C++20: 0.70 ns, 1.02x</title></circle>
+<circle cx="608.8" cy="440.0" r="4" fill="#3c9d4a" fill-opacity="0.9"><title>boost::span C++11: 0.70 ns, 1.02x</title></circle>
+<circle cx="604.3" cy="440.0" r="4" fill="#8fd19a" fill-opacity="0.9"><title>boost::span C++20: 0.69 ns, 1.01x</title></circle>
+<text x="242" y="464.0" text-anchor="end">subspan_rest (1,024)</text>
+<circle cx="600.0" cy="460.0" r="4" fill="#1b6ca8" fill-opacity="0.9"><title>lumex C++11: 0.85 ns, 1.00x</title></circle>
+<circle cx="600.4" cy="460.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++20: 0.85 ns, 1.00x</title></circle>
+<circle cx="588.8" cy="460.0" r="4" fill="#d9822b" fill-opacity="0.9"><title>std::span C++20: 0.83 ns, 0.98x</title></circle>
+<circle cx="595.1" cy="460.0" r="4" fill="#3c9d4a" fill-opacity="0.9"><title>boost::span C++11: 0.84 ns, 0.99x</title></circle>
+<circle cx="589.6" cy="460.0" r="4" fill="#8fd19a" fill-opacity="0.9"><title>boost::span C++20: 0.83 ns, 0.98x</title></circle>
+<rect x="0" y="470.0" width="980" height="20" fill="#f6f8fa"/>
+<text x="242" y="484.0" text-anchor="end">static_first</text>
+<circle cx="600.0" cy="480.0" r="4" fill="#1b6ca8" fill-opacity="0.9"><title>lumex C++11: 0.46 ns, 1.00x</title></circle>
+<circle cx="608.6" cy="480.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++20: 0.47 ns, 1.02x</title></circle>
+<circle cx="604.4" cy="480.0" r="4" fill="#d9822b" fill-opacity="0.9"><title>std::span C++20: 0.46 ns, 1.01x</title></circle>
+<circle cx="659.2" cy="480.0" r="4" fill="#3c9d4a" fill-opacity="0.9"><title>boost::span C++11: 0.52 ns, 1.12x</title></circle>
+<circle cx="603.4" cy="480.0" r="4" fill="#8fd19a" fill-opacity="0.9"><title>boost::span C++20: 0.46 ns, 1.01x</title></circle>
+<text x="242" y="504.0" text-anchor="end">static_subspan</text>
+<circle cx="600.0" cy="500.0" r="4" fill="#1b6ca8" fill-opacity="0.9"><title>lumex C++11: 0.54 ns, 1.00x</title></circle>
+<circle cx="635.1" cy="500.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++20: 0.58 ns, 1.07x</title></circle>
+<circle cx="639.2" cy="500.0" r="4" fill="#d9822b" fill-opacity="0.9"><title>std::span C++20: 0.58 ns, 1.08x</title></circle>
+<circle cx="601.4" cy="500.0" r="4" fill="#3c9d4a" fill-opacity="0.9"><title>boost::span C++11: 0.54 ns, 1.00x</title></circle>
+<circle cx="632.7" cy="500.0" r="4" fill="#8fd19a" fill-opacity="0.9"><title>boost::span C++20: 0.58 ns, 1.07x</title></circle>
+<rect x="0" y="510.0" width="980" height="20" fill="#f6f8fa"/>
+<text x="242" y="524.0" text-anchor="end">static_first_of_dynamic (1,024)</text>
+<circle cx="600.0" cy="520.0" r="4" fill="#1b6ca8" fill-opacity="0.9"><title>lumex C++11: 0.48 ns, 1.00x</title></circle>
+<circle cx="581.5" cy="520.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++20: 0.46 ns, 0.96x</title></circle>
+<circle cx="584.9" cy="520.0" r="4" fill="#d9822b" fill-opacity="0.9"><title>std::span C++20: 0.47 ns, 0.97x</title></circle>
+<circle cx="584.6" cy="520.0" r="4" fill="#3c9d4a" fill-opacity="0.9"><title>boost::span C++11: 0.47 ns, 0.97x</title></circle>
+<circle cx="578.0" cy="520.0" r="4" fill="#8fd19a" fill-opacity="0.9"><title>boost::span C++20: 0.46 ns, 0.96x</title></circle>
+<text x="242" y="544.0" text-anchor="end">static_to_dynamic</text>
+<circle cx="600.0" cy="540.0" r="4" fill="none" stroke="#1b6ca8" stroke-width="1.6"><title>lumex C++11: 0.41 ns, 1.00x (unstable)</title></circle>
+<circle cx="610.4" cy="540.0" r="4" fill="none" stroke="#6fb1e0" stroke-width="1.6"><title>lumex C++20: 0.42 ns, 1.02x (unstable)</title></circle>
+<circle cx="612.7" cy="540.0" r="4" fill="none" stroke="#d9822b" stroke-width="1.6"><title>std::span C++20: 0.42 ns, 1.03x (unstable)</title></circle>
+<circle cx="614.8" cy="540.0" r="4" fill="none" stroke="#3c9d4a" stroke-width="1.6"><title>boost::span C++11: 0.42 ns, 1.03x (unstable)</title></circle>
+<circle cx="610.1" cy="540.0" r="4" fill="none" stroke="#8fd19a" stroke-width="1.6"><title>boost::span C++20: 0.42 ns, 1.02x (unstable)</title></circle>
+<rect x="0" y="550.0" width="980" height="20" fill="#f6f8fa"/>
+<text x="242" y="564.0" text-anchor="end">dynamic_to_static</text>
+<circle cx="600.0" cy="560.0" r="4" fill="#1b6ca8" fill-opacity="0.9"><title>lumex C++11: 0.33 ns, 1.00x</title></circle>
+<circle cx="603.5" cy="560.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++20: 0.34 ns, 1.01x</title></circle>
+<circle cx="600.2" cy="560.0" r="4" fill="#d9822b" fill-opacity="0.9"><title>std::span C++20: 0.33 ns, 1.00x</title></circle>
+<circle cx="605.4" cy="560.0" r="4" fill="#3c9d4a" fill-opacity="0.9"><title>boost::span C++11: 0.34 ns, 1.01x</title></circle>
+<circle cx="605.6" cy="560.0" r="4" fill="#8fd19a" fill-opacity="0.9"><title>boost::span C++20: 0.34 ns, 1.01x</title></circle>
+<text x="242" y="584.0" text-anchor="end">mutable_to_const (1,024)</text>
+<circle cx="600.0" cy="580.0" r="4" fill="none" stroke="#1b6ca8" stroke-width="1.6"><title>lumex C++11: 0.35 ns, 1.00x (unstable)</title></circle>
+<circle cx="714.0" cy="580.0" r="4" fill="none" stroke="#6fb1e0" stroke-width="1.6"><title>lumex C++20: 0.44 ns, 1.25x (unstable)</title></circle>
+<circle cx="731.3" cy="580.0" r="4" fill="none" stroke="#d9822b" stroke-width="1.6"><title>std::span C++20: 0.46 ns, 1.30x (unstable)</title></circle>
+<circle cx="594.8" cy="580.0" r="4" fill="none" stroke="#3c9d4a" stroke-width="1.6"><title>boost::span C++11: 0.35 ns, 0.99x (unstable)</title></circle>
+<circle cx="738.1" cy="580.0" r="4" fill="none" stroke="#8fd19a" stroke-width="1.6"><title>boost::span C++20: 0.46 ns, 1.31x (unstable)</title></circle>
+<rect x="0" y="590.0" width="980" height="20" fill="#f6f8fa"/>
+<text x="242" y="604.0" text-anchor="end">pass_noinline (1,024)</text>
+<circle cx="600.0" cy="600.0" r="4" fill="#1b6ca8" fill-opacity="0.9"><title>lumex C++11: 0.69 ns, 1.00x</title></circle>
+<circle cx="593.8" cy="600.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++20: 0.68 ns, 0.99x</title></circle>
+<circle cx="605.4" cy="600.0" r="4" fill="#d9822b" fill-opacity="0.9"><title>std::span C++20: 0.70 ns, 1.01x</title></circle>
+<circle cx="603.2" cy="600.0" r="4" fill="#3c9d4a" fill-opacity="0.9"><title>boost::span C++11: 0.70 ns, 1.01x</title></circle>
+<circle cx="603.0" cy="600.0" r="4" fill="#8fd19a" fill-opacity="0.9"><title>boost::span C++20: 0.70 ns, 1.01x</title></circle>
+<text x="242" y="624.0" text-anchor="end">pass_inline (1,024)</text>
+<circle cx="600.0" cy="620.0" r="4" fill="#1b6ca8" fill-opacity="0.9"><title>lumex C++11: 0.68 ns, 1.00x</title></circle>
+<circle cx="607.3" cy="620.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++20: 0.69 ns, 1.01x</title></circle>
+<circle cx="603.2" cy="620.0" r="4" fill="#d9822b" fill-opacity="0.9"><title>std::span C++20: 0.68 ns, 1.01x</title></circle>
+<circle cx="601.1" cy="620.0" r="4" fill="#3c9d4a" fill-opacity="0.9"><title>boost::span C++11: 0.68 ns, 1.00x</title></circle>
+<circle cx="608.9" cy="620.0" r="4" fill="#8fd19a" fill-opacity="0.9"><title>boost::span C++20: 0.69 ns, 1.02x</title></circle>
+<rect x="0" y="630.0" width="980" height="20" fill="#f6f8fa"/>
+<text x="242" y="644.0" text-anchor="end">pass_static_noinline</text>
+<circle cx="600.0" cy="640.0" r="4" fill="#1b6ca8" fill-opacity="0.9"><title>lumex C++11: 0.50 ns, 1.00x</title></circle>
+<circle cx="610.5" cy="640.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++20: 0.51 ns, 1.02x</title></circle>
+<circle cx="601.8" cy="640.0" r="4" fill="#d9822b" fill-opacity="0.9"><title>std::span C++20: 0.50 ns, 1.00x</title></circle>
+<circle cx="582.4" cy="640.0" r="4" fill="#3c9d4a" fill-opacity="0.9"><title>boost::span C++11: 0.48 ns, 0.97x</title></circle>
+<circle cx="612.2" cy="640.0" r="4" fill="#8fd19a" fill-opacity="0.9"><title>boost::span C++20: 0.51 ns, 1.02x</title></circle>
+<text x="242" y="664.0" text-anchor="end">divide_and_conquer (8)</text>
+<circle cx="600.0" cy="660.0" r="4" fill="#1b6ca8" fill-opacity="0.9"><title>lumex C++11: 20.21 ns, 1.00x</title></circle>
+<circle cx="580.2" cy="660.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++20: 19.44 ns, 0.96x</title></circle>
+<circle cx="571.2" cy="660.0" r="4" fill="#d9822b" fill-opacity="0.9"><title>std::span C++20: 19.09 ns, 0.94x</title></circle>
+<circle cx="601.7" cy="660.0" r="4" fill="#3c9d4a" fill-opacity="0.9"><title>boost::span C++11: 20.28 ns, 1.00x</title></circle>
+<circle cx="583.2" cy="660.0" r="4" fill="#8fd19a" fill-opacity="0.9"><title>boost::span C++20: 19.55 ns, 0.97x</title></circle>
+<rect x="0" y="670.0" width="980" height="20" fill="#f6f8fa"/>
+<text x="242" y="684.0" text-anchor="end">divide_and_conquer (1,024)</text>
+<circle cx="600.0" cy="680.0" r="4" fill="#1b6ca8" fill-opacity="0.9"><title>lumex C++11: 2635 ns, 1.00x</title></circle>
+<circle cx="588.0" cy="680.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++20: 2573 ns, 0.98x</title></circle>
+<circle cx="586.5" cy="680.0" r="4" fill="#d9822b" fill-opacity="0.9"><title>std::span C++20: 2566 ns, 0.97x</title></circle>
+<circle cx="613.7" cy="680.0" r="4" fill="#3c9d4a" fill-opacity="0.9"><title>boost::span C++11: 2708 ns, 1.03x</title></circle>
+<circle cx="582.5" cy="680.0" r="4" fill="#8fd19a" fill-opacity="0.9"><title>boost::span C++20: 2545 ns, 0.97x</title></circle>
+<text x="242" y="704.0" text-anchor="end">divide_and_conquer (1,000,000)</text>
+<circle cx="600.0" cy="700.0" r="4" fill="#1b6ca8" fill-opacity="0.9"><title>lumex C++11: 2560030 ns, 1.00x</title></circle>
+<circle cx="612.8" cy="700.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++20: 2625840 ns, 1.03x</title></circle>
+<circle cx="618.3" cy="700.0" r="4" fill="#d9822b" fill-opacity="0.9"><title>std::span C++20: 2654420 ns, 1.04x</title></circle>
+<circle cx="630.9" cy="700.0" r="4" fill="#3c9d4a" fill-opacity="0.9"><title>boost::span C++11: 2721520 ns, 1.06x</title></circle>
+<circle cx="613.2" cy="700.0" r="4" fill="#8fd19a" fill-opacity="0.9"><title>boost::span C++20: 2627910 ns, 1.03x</title></circle>
+<rect x="0" y="710.0" width="980" height="20" fill="#f6f8fa"/>
+<text x="242" y="724.0" text-anchor="end">bytes_sum (1,024)</text>
+<circle cx="600.0" cy="720.0" r="4" fill="#1b6ca8" fill-opacity="0.9"><title>lumex C++11: 707.6 ns, 1.00x</title></circle>
+<circle cx="599.5" cy="720.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++20: 706.9 ns, 1.00x</title></circle>
+<circle cx="599.3" cy="720.0" r="4" fill="#d9822b" fill-opacity="0.9"><title>std::span C++20: 706.7 ns, 1.00x</title></circle>
+<circle cx="602.3" cy="720.0" r="4" fill="#8fd19a" fill-opacity="0.9"><title>boost::span C++20: 710.9 ns, 1.00x</title></circle>
+<text x="242" y="744.0" text-anchor="end">bytes_sum (1,000,000)</text>
+<circle cx="600.0" cy="740.0" r="4" fill="#1b6ca8" fill-opacity="0.9"><title>lumex C++11: 691955 ns, 1.00x</title></circle>
+<circle cx="608.9" cy="740.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++20: 704319 ns, 1.02x</title></circle>
+<circle cx="605.4" cy="740.0" r="4" fill="#d9822b" fill-opacity="0.9"><title>std::span C++20: 699376 ns, 1.01x</title></circle>
+<circle cx="602.1" cy="740.0" r="4" fill="#8fd19a" fill-opacity="0.9"><title>boost::span C++20: 694857 ns, 1.00x</title></circle>
+<rect x="0" y="750.0" width="980" height="20" fill="#f6f8fa"/>
+<text x="242" y="764.0" text-anchor="end">size_bytes (1,024)</text>
+<circle cx="600.0" cy="760.0" r="4" fill="#1b6ca8" fill-opacity="0.9"><title>lumex C++11: 0.67 ns, 1.00x</title></circle>
+<circle cx="594.9" cy="760.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++20: 0.66 ns, 0.99x</title></circle>
+<circle cx="602.0" cy="760.0" r="4" fill="#d9822b" fill-opacity="0.9"><title>std::span C++20: 0.67 ns, 1.00x</title></circle>
+<circle cx="593.3" cy="760.0" r="4" fill="#3c9d4a" fill-opacity="0.9"><title>boost::span C++11: 0.66 ns, 0.99x</title></circle>
+<circle cx="596.1" cy="760.0" r="4" fill="#8fd19a" fill-opacity="0.9"><title>boost::span C++20: 0.66 ns, 0.99x</title></circle>
+<text x="242" y="784.0" text-anchor="end">front_back (1,024)</text>
+<circle cx="600.0" cy="780.0" r="4" fill="#1b6ca8" fill-opacity="0.9"><title>lumex C++11: 0.46 ns, 1.00x</title></circle>
+<circle cx="598.7" cy="780.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++20: 0.46 ns, 1.00x</title></circle>
+<circle cx="609.3" cy="780.0" r="4" fill="#d9822b" fill-opacity="0.9"><title>std::span C++20: 0.47 ns, 1.02x</title></circle>
+<circle cx="605.5" cy="780.0" r="4" fill="#3c9d4a" fill-opacity="0.9"><title>boost::span C++11: 0.47 ns, 1.01x</title></circle>
+<circle cx="610.1" cy="780.0" r="4" fill="#8fd19a" fill-opacity="0.9"><title>boost::span C++20: 0.47 ns, 1.02x</title></circle>
+</svg>
