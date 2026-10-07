@@ -600,6 +600,15 @@
 
 **Проверено:** MinGW 8.3 с `LUMEX_WERROR=ON` до правки падает на этом файле, после проходит; GCC 13.2 с `LUMEX_WERROR=ON` проходит (Linux использует тот же путь, что и раньше); значения CPUID на Windows не сверялись.
 
+
+##### Установка без DLL, если задан только `CMAKE_INSTALL_LIBDIR`
+
+**Файлы:** `CMakeLists.txt`, `lumex/tests/cmake/cases/wiring_install_dirs_order.cmake` (новый), `lumex/tests/cmake/CMakeLists.txt`
+
+**Суть:** `include(GNUInstallDirs)` стоял в корневом `CMakeLists.txt` после `add_subdirectory(lumex)`. Правила установки модулей читают `CMAKE_INSTALL_BINDIR` при обработке своей папки, поэтому при конфигурации, где задан только `-DCMAKE_INSTALL_LIBDIR=lib` (так вызывает `create_release.sh`), `BINDIR` был пуст и CMake молча отбрасывал правило `RUNTIME`, то есть сами DLL не попадали в `install`. На Linux это не видно (библиотеки `.so` ставятся по `LIBRARY`), на Windows и MinGW установка не содержала ни одной DLL. Теперь `include(GNUInstallDirs)` стоит перед `add_subdirectory(lumex)`.
+
+**Проверено:** первая конфигурация под MinGW 8.3 с `-DCMAKE_INSTALL_PREFIX=/LumexLib -DCMAKE_INSTALL_LIBDIR=lib`: правил установки DLL было 0, стало 16 (без аргументов и с одним `LIBDIR` тоже 16); сгенерированные правила установки на Linux (GCC 13.2, те же аргументы) совпадают построчно до и после; новый кейс `cmake.wiring_install_dirs_order` падает, если вернуть `include` после `add_subdirectory`.
+
 ---
 
 ## [v1.0.3.1] - в разработке
