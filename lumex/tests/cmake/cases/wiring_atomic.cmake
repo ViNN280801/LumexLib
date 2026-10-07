@@ -1,11 +1,13 @@
 # core/atomic wiring: a header-only target that links Threads::Threads, five
-# test suites (C++11, C++17, C++20, and C++20 with the forced lock-based
-# implementation or the forced wait table) built by lumex_add_standard_suites
-# from the table of lumex/tests/LumexTestStandards.cmake under the CTest
-# prefix "atomic." (derived from the directory, pinned by wiring_test_names),
-# the test that keeps the module's names out of the global namespace in a
-# C++11 file (so every suite compiles it), the examples, the package config
-# alias and umbrella, the Conan component and the documented switches.
+# test suites per test directory (C++11, C++17, C++20, and C++20 with the
+# forced lock-based implementation or the forced wait table) built by
+# lumex_add_standard_suites from the table of
+# lumex/tests/LumexTestStandards.cmake under the CTest prefixes "atomic.",
+# "atomic.smart_ptr." and "atomic.sync." (derived from the directory, pinned by
+# wiring_test_names), the test that keeps the module's names out of the global
+# namespace in a C++11 file (so every suite compiles it), the examples, the
+# package config alias and umbrella, the Conan component and the documented
+# switches.
 
 function(_require_text path needle)
     file(READ "${LUMEX_SOURCE_DIR}/${path}" _txt)
@@ -23,20 +25,33 @@ _require_text("${_module}" "Threads::Threads")
 _require_text("${_module}" "if(LUMEX_INSTALL)")
 _require_text("${_module}" "PATTERN \"LumexAtomic\"")
 
-set(_tests "lumex/tests/core/atomic/CMakeLists.txt")
-_require_text("${_tests}" "lumex_add_standard_suites(Atomic")
-_require_text("${_tests}" "MODULE atomic")
-_require_text("${_tests}" "LINK lumex::atomic")
-_require_text("${_tests}"
-    "VARIANT lock_based DEFINITIONS LUMEX_ATOMIC_SMART_PTR_FORCE_LOCK_BASED")
-_require_text("${_tests}"
-    "VARIANT wait_table DEFINITIONS LUMEX_ATOMIC_WAIT_FORCE_TABLE")
-_require_text("${_tests}" "PROPERTIES TIMEOUT")
+# The tests follow the source tree: the module's directory (the global names
+# test) and the directories smart_ptr and sync each build the suites of the
+# table, the forcing variants included.
+_require_text("lumex/tests/core/atomic/CMakeLists.txt" "add_subdirectory(smart_ptr)")
+_require_text("lumex/tests/core/atomic/CMakeLists.txt" "add_subdirectory(sync)")
+foreach(_directory "" "smart_ptr/" "sync/")
+    set(_tests "lumex/tests/core/atomic/${_directory}CMakeLists.txt")
+    _require_text("${_tests}" "lumex_add_standard_suites(Atomic")
+    _require_text("${_tests}" "MODULE atomic")
+    _require_text("${_tests}" "LINK lumex::atomic")
+    _require_text("${_tests}"
+        "VARIANT lock_based DEFINITIONS LUMEX_ATOMIC_SMART_PTR_FORCE_LOCK_BASED")
+    _require_text("${_tests}"
+        "VARIANT wait_table DEFINITIONS LUMEX_ATOMIC_WAIT_FORCE_TABLE")
+    _require_text("${_tests}" "PROPERTIES TIMEOUT")
+endforeach()
 if(NOT EXISTS
    "${LUMEX_SOURCE_DIR}/lumex/tests/core/atomic/LumexAtomicGlobalNames.cxx11.tests.cpp")
     message(FATAL_ERROR
         "lumex/tests/core/atomic has no LumexAtomicGlobalNames.cxx11.tests.cpp")
 endif()
+foreach(_file smart_ptr/LumexAtomicSharedPtr.cxx11.tests.cpp
+              sync/LumexAtomicWait.cxx11.tests.cpp)
+    if(NOT EXISTS "${LUMEX_SOURCE_DIR}/lumex/tests/core/atomic/${_file}")
+        message(FATAL_ERROR "lumex/tests/core/atomic has no ${_file}")
+    endif()
+endforeach()
 
 # The standards of the suites: C++11, C++17 and C++20, the two forcing
 # variants at C++20 only.
