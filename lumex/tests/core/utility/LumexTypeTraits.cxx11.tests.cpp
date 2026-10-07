@@ -256,9 +256,7 @@ TEST (LumexTypeTraitsTest, GivenFunctorAndArgs_WhenIsCallable_ThenTrue)
   LUMEX_STATIC_ASSERT_MSG ((is_callable<Functor, int>::value),
                            "Functor must be callable with an int");
   EXPECT_TRUE ((is_callable<Functor, int>::value));
-  EXPECT_TRUE ((is_callable_v<Functor, int>));
   EXPECT_TRUE ((is_invocable<Functor, int>::value));
-  EXPECT_TRUE ((is_invocable_v<Functor, int>));
 }
 
 TEST (LumexTypeTraitsTest, GivenFreeFunction_WhenIsCallable_ThenTrue)
@@ -329,7 +327,7 @@ TEST (LumexTypeTraitsTest, GivenPlainPointer_WhenIsCallable_ThenFalse)
   LUMEX_STATIC_ASSERT_MSG ((!is_callable<int *, int>::value),
                            "a plain pointer is not Callable");
   EXPECT_FALSE ((is_callable<int *, int>::value));
-  EXPECT_FALSE ((is_invocable_v<int *, int>));
+  EXPECT_FALSE ((is_invocable<int *, int>::value));
 }
 
 TEST (LumexTypeTraitsTest, GivenOtherFunctor_WhenWrongArgs_ThenFalse)
@@ -486,26 +484,26 @@ TEST (LumexTypeTraitsTest, GivenLumexOptional_WhenIsOptional_ThenTrue)
 {
   LUMEX_STATIC_ASSERT_MSG ((is_optional<optional<int>>::value),
                            "optional<int> must be recognized");
-  EXPECT_TRUE ((is_optional_v<optional<int>>));
-  EXPECT_TRUE ((is_optional_v<optional<int> const>));
-  EXPECT_FALSE ((is_optional_v<optional<int> *>));
+  EXPECT_TRUE ((is_optional<optional<int>>::value));
+  EXPECT_TRUE ((is_optional<optional<int> const>::value));
+  EXPECT_FALSE ((is_optional<optional<int> *>::value));
 }
 
 TEST (LumexTypeTraitsTest, GivenNonOptionalType_WhenIsOptional_ThenFalse)
 {
   LUMEX_STATIC_ASSERT_MSG ((!is_optional<int>::value),
                            "int is not an optional");
-  EXPECT_FALSE (is_optional_v<int>);
-  EXPECT_FALSE (is_optional_v<int const>);
-  EXPECT_FALSE ((is_optional_v<std::string>));
-  EXPECT_FALSE ((is_optional_v<MyClass>));
+  EXPECT_FALSE (is_optional<int>::value);
+  EXPECT_FALSE (is_optional<int const>::value);
+  EXPECT_FALSE ((is_optional<std::string>::value));
+  EXPECT_FALSE ((is_optional<MyClass>::value));
 }
 
 TEST (LumexTypeTraitsTest, GivenLambda_WhenIsCallable_ThenMatchesArity)
 {
   auto add_one = [] (int x) { return x + 1; };
   EXPECT_TRUE ((is_callable<decltype (add_one), int>::value));
-  EXPECT_TRUE ((is_invocable_v<decltype (add_one), int>));
+  EXPECT_TRUE ((is_invocable<decltype (add_one), int>::value));
   EXPECT_FALSE ((is_callable<decltype (add_one), std::string>::value));
   EXPECT_FALSE ((is_callable<decltype (add_one)>::value));
 }
@@ -583,10 +581,10 @@ TEST (LumexTypeTraitsTest,
 TEST (LumexTypeTraitsTest,
       GivenLumexOptionalCvVariants_WhenIsOptional_ThenStripsCvNotRef)
 {
-  EXPECT_TRUE ((is_optional_v<optional<int> volatile>));
-  EXPECT_TRUE ((is_optional_v<optional<int> const volatile>));
-  EXPECT_FALSE ((is_optional_v<optional<int> &>));
-  EXPECT_FALSE ((is_optional_v<optional<int> const &>));
+  EXPECT_TRUE ((is_optional<optional<int> volatile>::value));
+  EXPECT_TRUE ((is_optional<optional<int> const volatile>::value));
+  EXPECT_FALSE ((is_optional<optional<int> &>::value));
+  EXPECT_FALSE ((is_optional<optional<int> const &>::value));
 }
 
 TEST (LumexTypeTraitsTest, GivenVoidTPack_WhenAppliedToManyTypes_ThenVoid)
@@ -754,3 +752,18 @@ TEST (LumexTypeTraitsTest, GivenOtherTypes_WhenIsReflectedEnum_ThenFalse)
   EXPECT_FALSE ((is_reflected_enum<int>::value));
   EXPECT_FALSE ((is_reflected_enum<std::string>::value));
 }
+
+#if LUMEX_HAS_VARIABLE_TEMPLATES
+// The C++14 shorthands read the same value as the ::value forms above; in
+// C++11 they do not exist, so the library itself writes ::value.
+TEST (LumexTypeTraitsTest, GivenVariableTemplates_WhenRead_ThenEqualToValue)
+{
+  EXPECT_TRUE ((is_invocable_v<Functor, int>));
+  EXPECT_FALSE ((is_invocable_v<int *, int>));
+  EXPECT_TRUE ((is_callable_v<Functor, int>));
+  EXPECT_FALSE ((is_callable_v<int *, int>));
+  EXPECT_TRUE ((is_optional_v<optional<int>>));
+  EXPECT_FALSE ((is_optional_v<int>));
+  EXPECT_FALSE ((is_expected_v<int>));
+}
+#endif
