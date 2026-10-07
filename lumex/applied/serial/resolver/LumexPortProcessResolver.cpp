@@ -60,7 +60,7 @@
 
 #if defined(LUMEX_OS_WINDOWS)
 #ifndef NT_SUCCESS
-#define NT_SUCCESS(Status) (((NTSTATUS)(Status)) >= 0)
+#define NT_SUCCESS(Status) (static_cast<NTSTATUS> (Status) >= 0)
 #endif
 
 typedef LONG NTSTATUS;
@@ -109,6 +109,23 @@ namespace resolver
 #if defined(LUMEX_OS_WINDOWS)
 namespace
 {
+/**
+ * @brief The address of a function exported by a module, as a pointer to its
+ * real type.
+ * @details GetProcAddress returns a generic FARPROC. Casting that straight to
+ * a pointer to another function type makes GCC warn
+ * (-Wcast-function-type); void (*) () is the type GCC treats as compatible
+ * with every function type, so the cast through it states that the new type
+ * is meant.
+ */
+template <typename Function>
+Function
+exported_function (HMODULE module, char const *name)
+{
+  return reinterpret_cast<Function> (
+      reinterpret_cast<void (*) ()> (::GetProcAddress (module, name)));
+}
+
 std::string
 convert_wide_to_utf8 (std::wstring const &wide) LUMEX_NOEXCEPT
 {
@@ -238,13 +255,12 @@ public:
     if (ntdll == nullptr)
       return optional<port_holder_info_t> ();
     NtQuerySystemInformation_t const query_system
-        = reinterpret_cast<NtQuerySystemInformation_t> (
-            ::GetProcAddress (ntdll, "NtQuerySystemInformation"));
+        = exported_function<NtQuerySystemInformation_t> (
+            ntdll, "NtQuerySystemInformation");
     NtDuplicateObject_t const duplicate_object
-        = reinterpret_cast<NtDuplicateObject_t> (
-            ::GetProcAddress (ntdll, "NtDuplicateObject"));
-    NtQueryObject_t const query_object = reinterpret_cast<NtQueryObject_t> (
-        ::GetProcAddress (ntdll, "NtQueryObject"));
+        = exported_function<NtDuplicateObject_t> (ntdll, "NtDuplicateObject");
+    NtQueryObject_t const query_object
+        = exported_function<NtQueryObject_t> (ntdll, "NtQueryObject");
     if (query_system == nullptr || duplicate_object == nullptr
         || query_object == nullptr)
       return optional<port_holder_info_t> ();
