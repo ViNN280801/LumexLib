@@ -10,12 +10,10 @@ lumex_example_executable(
   SOURCE example_resource_monitor.cpp
   LINK lumex::resource_monitor
   REQUIRE_TARGET lumex::resource_monitor
-  CXX_STANDARD 17
 )
 lumex_example_executable(
   NAME LumexResourceMonitorExampleWorkflow
   SOURCE example_resource_monitor_workflow.cpp
   LINK lumex::resource_monitor
   REQUIRE_TARGET lumex::resource_monitor
-  CXX_STANDARD 17
 )
