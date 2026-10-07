@@ -1,8 +1,9 @@
 // LumexMath.cxx11.tests.cpp
 //
 // LumexMath works from C++11 on: the suite of every standard
-// (LumexMathCxx11Tests, LumexMathCxx17Tests, LumexMathCxx20Tests) runs this
-// file. LumexMath.cxx20.tests.cpp adds the std::views cases at C++20.
+// (LumexMathOpsCxx11Tests, LumexMathOpsCxx17Tests, LumexMathOpsCxx20Tests)
+// runs this file. LumexMath.cxx20.tests.cpp adds the std::views cases at
+// C++20.
 #include <cmath>
 #include <cstdint>
 #include <iterator>
