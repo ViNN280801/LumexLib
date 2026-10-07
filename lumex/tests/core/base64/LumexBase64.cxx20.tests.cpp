@@ -47,7 +47,7 @@ using namespace lumex::core::base64::validate;
 using namespace lumex::core::base64::codec::Types;
 
 // ==========================================================================
-// Encoder
+// encoder
 // ==========================================================================
 
 TEST_F (Base64EncoderTest, GivenSpan_WhenEncode_ThenProducesCorrectOutput)
@@ -55,7 +55,7 @@ TEST_F (Base64EncoderTest, GivenSpan_WhenEncode_ThenProducesCorrectOutput)
 #if LUMEX_HAS_STD_SPAN
   std::vector<byte_type> data = { 'T', 'e', 's', 't' };
   std::span<byte_type const> span_data (data);
-  std::string result = Encoder::encode (span_data);
+  std::string result = encoder::encode (span_data);
   EXPECT_EQ (result, "VGVzdA==");
 #else
   GTEST_SKIP () << "the standard library has no std::span";
@@ -67,8 +67,8 @@ TEST_F (Base64EncoderTest, GivenSubSpan_WhenEncode_ThenOnlyTheSpanIsEncoded)
 #if LUMEX_HAS_STD_SPAN
   std::vector<byte_type> const data = { 'x', 'H', 'i', 'y' };
   std::span<byte_type const> const whole (data);
-  EXPECT_EQ (Encoder::encode (whole.subspan (1, 2)), "SGk=");
-  EXPECT_TRUE (Encoder::encode (std::span<byte_type const> ()).empty ());
+  EXPECT_EQ (encoder::encode (whole.subspan (1, 2)), "SGk=");
+  EXPECT_TRUE (encoder::encode (std::span<byte_type const> ()).empty ());
 #else
   GTEST_SKIP () << "the standard library has no std::span";
 #endif

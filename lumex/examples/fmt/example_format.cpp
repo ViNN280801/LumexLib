@@ -137,7 +137,7 @@ main ()
 #if __cplusplus >= 201703L
   show (fmt::format ("{}", std::string_view ("std::string_view")));
 #endif
-  show (fmt::format ("{}", lumex::core::string_view::view::LumexStringView (
+  show (fmt::format ("{}", lumex::core::string_view::view::lumex_string_view (
                                "LumexStringView")));
   show (fmt::format ("{:?} {:?}", "tab\there \"quoted\"", '\n')); // debug
   show (fmt::format ("{} {:c} {:d} {:#x}", 'x', 'y', 'z', 'z'));

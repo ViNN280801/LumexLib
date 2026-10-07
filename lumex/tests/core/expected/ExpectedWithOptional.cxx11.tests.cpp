@@ -14,7 +14,7 @@
 
 namespace
 {
-using ResultType = lumex::core::expected::result::Expected<int, std::string>;
+using ResultType = lumex::core::expected::result::expected<int, std::string>;
 using lumex::core::expected::result::unexpect;
 } // namespace
 
@@ -49,7 +49,7 @@ TEST (ExpectedWithOptional, AnExpectedLivesInAnOptional)
 TEST (ExpectedWithOptional, AnOptionalLivesInAnExpected)
 {
   using Inner = lumex::core::optional::opt::optional<int>;
-  lumex::core::expected::result::Expected<Inner, std::string> const result (
+  lumex::core::expected::result::expected<Inner, std::string> const result (
       lumex::core::expected::result::in_place,
       lumex::core::optional::opt::in_place, 3);
   ASSERT_TRUE (result.has_value ());

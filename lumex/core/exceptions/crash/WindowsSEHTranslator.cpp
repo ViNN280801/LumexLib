@@ -49,7 +49,7 @@ void
 seh_translator (LUMEX_ATTRIBUTE_MAYBE_UNUSED unsigned int code,
                 _EXCEPTION_POINTERS *info)
 {
-  LumexCrashHandler::instance ()._handleSEHException (info);
+  lumex_crash_handler::instance ()._handle_seh_exception (info);
   TerminateProcess (GetCurrentProcess (), code);
 }
 #endif // LUMEX_OS_WINDOWS

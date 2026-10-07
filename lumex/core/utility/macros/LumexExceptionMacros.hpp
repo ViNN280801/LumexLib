@@ -46,7 +46,7 @@
  * arguments (functions, data members with default initializers, access
  * specifiers). The class body starts in the `public` section.
  * @details `inherit_from` must be constructible from `std::string`
- * (`std::runtime_error`, `std::logic_error`, `LumexBaseException`, ...).
+ * (`std::runtime_error`, `std::logic_error`, `lumex_base_exception`, ...).
  * The macro expands to a complete declaration including the trailing `;`.
  */
 #define LUMEX_DEFINE_EXCEPTION_WITH_BODY(exception_name, inherit_from, ...)   \

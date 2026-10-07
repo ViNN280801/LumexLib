@@ -50,11 +50,11 @@
  * thread-safety for concurrent read-only access. It is a zero-overhead
  * abstraction that avoids dynamic memory allocation.
  *
- * @note This `LumexWStringView` class does not manage the lifetime of the wide
- * character data it views. It is the user's responsibility to ensure that the
- * underlying wide character sequence outlives the `LumexWStringView` instance.
- * Using a `LumexWStringView` that refers to destroyed or out-of-scope data
- *       will lead to undefined behavior.
+ * @note This `lumex_wstring_view` class does not manage the lifetime of the
+ * wide character data it views. It is the user's responsibility to ensure that
+ * the underlying wide character sequence outlives the `lumex_wstring_view`
+ * instance. Using a `lumex_wstring_view` that refers to destroyed or
+ * out-of-scope data will lead to undefined behavior.
  */
 #ifndef LUMEX_CORE_STRING_VIEW_VIEW_WSTRING_VIEW_HPP
 #define LUMEX_CORE_STRING_VIEW_VIEW_WSTRING_VIEW_HPP
@@ -113,21 +113,21 @@ namespace view
 /**
  * @brief A lightweight, non-owning view over a contiguous sequence of
  * `wchar_t` characters.
- * @details `LumexWStringView` provides a safe and efficient way to pass wide
+ * @details `lumex_wstring_view` provides a safe and efficient way to pass wide
  * string data around without incurring the cost of copying or dynamic
  * allocation. It holds a pointer to the beginning of a wide character sequence
  * and its length. It is an immutable view, meaning its contents cannot be
- * modified through the `LumexWStringView` itself, only the view's bounds can
+ * modified through the `lumex_wstring_view` itself, only the view's bounds can
  * be adjusted. This class is intended as a C++11 compatible alternative to
  * `std::wstring_view`.
  *
  * @tparam wchar_t The wide character type (fixed to `wchar_t` for this class).
  * @warning This class does not own the wide character data. The user must
  * ensure that the underlying wide character array outlives the
- * `LumexWStringView` instance. Dangling `LumexWStringView`s lead to undefined
- * behavior.
+ * `lumex_wstring_view` instance. Dangling `lumex_wstring_view`s lead to
+ * undefined behavior.
  */
-class LUMEX_API LumexWStringView
+class LUMEX_API lumex_wstring_view
 {
 public:
   // -- Public type aliases --
@@ -154,7 +154,7 @@ public:
   /**
    * @brief Alias for a non-const iterator.
    * @details `iterator` and `const_iterator` are the same for
-   * `LumexWStringView` as the view itself is constant (non-mutable).
+   * `lumex_wstring_view` as the view itself is constant (non-mutable).
    */
   using iterator = const_pointer; // iterator == const_iterator
   /**
@@ -188,20 +188,20 @@ public:
 
   // -- Construction / assignment --
   /**
-   * @brief Default constructor. Creates an empty `LumexWStringView`.
+   * @brief Default constructor. Creates an empty `lumex_wstring_view`.
    * @details Initializes the view with a `nullptr` data pointer and a size of
    * 0.
    * @post `empty()` is `true`, `size()` is `0`, `data()` is `nullptr`.
    */
   LUMEX_CONSTEXPR_CTOR
-  LumexWStringView () LUMEX_NOEXCEPT : m_data (nullptr), m_size (0) {}
+  lumex_wstring_view () LUMEX_NOEXCEPT : m_data (nullptr), m_size (0) {}
 
   /**
-   * @brief Constructs a `LumexWStringView` from a null-terminated C-style wide
-   * string.
+   * @brief Constructs a `lumex_wstring_view` from a null-terminated C-style
+   * wide string.
    * @details The view will encompass the characters from `str` up to, but not
    * including, the null terminator. If `str` is `nullptr`, the
-   * `LumexWStringView` will be empty.
+   * `lumex_wstring_view` will be empty.
    * @param str A pointer to a null-terminated C-style wide string (`wchar_t
    * const *`).
    * @note Implicit, like `std::wstring_view`, so a literal or a string can be
@@ -211,11 +211,11 @@ public:
    * @note Complexity: O(N) where N is the length of the string, due to
    * `std::wcslen`.
    */
-  LumexWStringView (wchar_t const *str)
+  lumex_wstring_view (wchar_t const *str)
       LUMEX_NOEXCEPT; // NOLINT(google-explicit-constructor)
 
   /**
-   * @brief Constructs a `LumexWStringView` from a pointer to wide character
+   * @brief Constructs a `lumex_wstring_view` from a pointer to wide character
    * data and a specified length.
    * @details The view will encompass `len` characters starting from `str`.
    * @param str A pointer to the beginning of the wide character sequence.
@@ -226,25 +226,25 @@ public:
    * @note Complexity: O(1).
    */
   LUMEX_CONSTEXPR_CTOR
-  LumexWStringView (wchar_t const *str, size_type len) LUMEX_NOEXCEPT
+  lumex_wstring_view (wchar_t const *str, size_type len) LUMEX_NOEXCEPT
       : m_data (str),
         m_size (len)
   {
   }
 
   /**
-   * @brief Constructs a `LumexWStringView` from a
+   * @brief Constructs a `lumex_wstring_view` from a
    * `std::basic_string<wchar_t>`.
    * @details Creates a view over the internal wide character data of the
    * provided `std::basic_string`.
    * @tparam Allocator The allocator type of the `std::basic_string`.
    * @param str The `std::basic_string` to view.
-   * @note The `LumexWStringView` does not own the string data; `str` must
+   * @note The `lumex_wstring_view` does not own the string data; `str` must
    * outlive the view.
    * @note Complexity: O(1).
    */
   template <class Allocator>
-  LumexWStringView ( // NOLINT(google-explicit-constructor)
+  lumex_wstring_view ( // NOLINT(google-explicit-constructor)
       std::basic_string<wchar_t, std::char_traits<wchar_t>, Allocator> const
           &str) LUMEX_NOEXCEPT : m_data (str.data ()),
                                  m_size (str.size ())
@@ -252,67 +252,71 @@ public:
   }
 
   /**
-   * @brief Constructs a `LumexWStringView` from a `std::wstring`.
+   * @brief Constructs a `lumex_wstring_view` from a `std::wstring`.
    * @details Enables implicit instantiation of the default allocator for
    * `std::wstring`. Creates a view over the internal wide character data of
    * the provided `std::wstring`.
    * @param str The `std::wstring` to view.
-   * @note The `LumexWStringView` does not own the string data; `str` must
+   * @note The `lumex_wstring_view` does not own the string data; `str` must
    * outlive the view.
    * @note Complexity: O(1).
    */
-  LumexWStringView (std::wstring const &str)
+  lumex_wstring_view (std::wstring const &str)
       LUMEX_NOEXCEPT; // NOLINT(google-explicit-constructor)
 
   /**
-   * @brief Copy constructor. Creates a new `LumexWStringView` that views the
+   * @brief Copy constructor. Creates a new `lumex_wstring_view` that views the
    * same data.
-   * @details Performs a shallow copy. The new `LumexWStringView` will point to
-   * the same wide character data as `other`, and have the same size.
-   * @param other The `LumexWStringView` to copy.
+   * @details Performs a shallow copy. The new `lumex_wstring_view` will point
+   * to the same wide character data as `other`, and have the same size.
+   * @param other The `lumex_wstring_view` to copy.
    * @note Complexity: O(1).
    */
   LUMEX_CONSTEXPR_CTOR
-  LumexWStringView (LumexWStringView const &other) LUMEX_NOEXCEPT = default;
-  /**
-   * @brief Copy assignment operator. Assigns the view of another
-   * `LumexWStringView`.
-   * @details Performs a shallow copy. This `LumexWStringView` will point to
-   * the same wide character data as `other`, and have the same size.
-   * @param other The `LumexWStringView` to assign from.
-   * @return A reference to `*this`.
-   * @note Complexity: O(1).
-   */
-  LumexWStringView &operator= (LumexWStringView const &other) LUMEX_NOEXCEPT
+  lumex_wstring_view (lumex_wstring_view const &other) LUMEX_NOEXCEPT
       = default;
   /**
-   * @brief Move constructor. Creates a new `LumexWStringView` by moving from
-   * another.
-   * @details Performs a shallow copy. Since `LumexWStringView` is a non-owning
-   * type, move operations are effectively equivalent to copy operations.
-   * @param other The `LumexWStringView` to move from.
-   * @note Complexity: O(1).
-   */
-  LUMEX_CONSTEXPR_CTOR
-  LumexWStringView (LumexWStringView &&other) LUMEX_NOEXCEPT = default;
-  /**
-   * @brief Move assignment operator. Assigns the view of another
-   * `LumexWStringView` by moving.
-   * @details Performs a shallow copy. Since `LumexWStringView` is a non-owning
-   * type, move operations are effectively equivalent to copy operations.
-   * @param other The `LumexWStringView` to assign from.
+   * @brief Copy assignment operator. Assigns the view of another
+   * `lumex_wstring_view`.
+   * @details Performs a shallow copy. This `lumex_wstring_view` will point to
+   * the same wide character data as `other`, and have the same size.
+   * @param other The `lumex_wstring_view` to assign from.
    * @return A reference to `*this`.
    * @note Complexity: O(1).
    */
-  LumexWStringView &operator= (LumexWStringView &&other) LUMEX_NOEXCEPT
+  lumex_wstring_view &
+  operator= (lumex_wstring_view const &other) LUMEX_NOEXCEPT
+      = default;
+  /**
+   * @brief Move constructor. Creates a new `lumex_wstring_view` by moving from
+   * another.
+   * @details Performs a shallow copy. Since `lumex_wstring_view` is a
+   * non-owning type, move operations are effectively equivalent to copy
+   * operations.
+   * @param other The `lumex_wstring_view` to move from.
+   * @note Complexity: O(1).
+   */
+  LUMEX_CONSTEXPR_CTOR
+  lumex_wstring_view (lumex_wstring_view &&other) LUMEX_NOEXCEPT = default;
+  /**
+   * @brief Move assignment operator. Assigns the view of another
+   * `lumex_wstring_view` by moving.
+   * @details Performs a shallow copy. Since `lumex_wstring_view` is a
+   * non-owning type, move operations are effectively equivalent to copy
+   * operations.
+   * @param other The `lumex_wstring_view` to assign from.
+   * @return A reference to `*this`.
+   * @note Complexity: O(1).
+   */
+  lumex_wstring_view &operator= (lumex_wstring_view &&other) LUMEX_NOEXCEPT
       = default;
   /**
    * @brief Destructor.
-   * @details Does nothing as `LumexWStringView` does not own the wide
+   * @details Does nothing as `lumex_wstring_view` does not own the wide
    * character data.
    * @note Complexity: O(1).
    */
-  ~LumexWStringView () = default;
+  ~lumex_wstring_view () = default;
 
   // -- Iterator support --
   /**
@@ -476,7 +480,7 @@ public:
 
   /**
    * @brief Returns the maximum possible number of wide characters in a
-   * `LumexWStringView`.
+   * `lumex_wstring_view`.
    * @details This is typically the largest possible value for `size_type`
    * divided by 2, representing a practical limit on the view's length.
    * @return The maximum size.
@@ -601,10 +605,10 @@ public:
    * another.
    * @details This is an efficient, non-throwing swap operation that reassigns
    *          the views without touching the underlying wide character data.
-   * @param other The `LumexWStringView` to swap with.
+   * @param other The `lumex_wstring_view` to swap with.
    * @note Complexity: O(1).
    */
-  void swap (LumexWStringView &other) LUMEX_NOEXCEPT;
+  void swap (lumex_wstring_view &other) LUMEX_NOEXCEPT;
 
   // -- Copy out --
   /**
@@ -614,8 +618,8 @@ public:
    * is the smaller of `count` and `size() - pos`.
    * @param dest The destination wide character array to copy into.
    * @param count The maximum number of wide characters to copy.
-   * @param pos The starting position in this `LumexWStringView` from which to
-   * copy. Defaults to 0.
+   * @param pos The starting position in this `lumex_wstring_view` from which
+   * to copy. Defaults to 0.
    * @return The number of wide characters actually copied.
    * @throws std::out_of_range If `pos > size()`.
    * @note Complexity: O(N) where N is the number of wide characters copied.
@@ -624,7 +628,7 @@ public:
 
   // -- Substring --
   /**
-   * @brief Returns a new `LumexWStringView` representing a substring of this
+   * @brief Returns a new `lumex_wstring_view` representing a substring of this
    * view.
    * @details The new view will start at `pos` and extend for `n` wide
    * characters. If `pos` is out of bounds, an exception is thrown. If `n`
@@ -635,21 +639,22 @@ public:
    * @param pos The starting position of the substring. Defaults to 0.
    * @param n The length of the substring. Defaults to `npos` (until the end of
    * the view).
-   * @return A new `LumexWStringView` object.
+   * @return A new `lumex_wstring_view` object.
    * @throws std::out_of_range If `pos > size()`.
    * @note Complexity: O(1).
    */
   LUMEX_ATTRIBUTE_NODISCARD ("It is not recommended to ignore return value of "
                              "substr(size_type, size_type)")
-  LumexWStringView substr (size_type pos = 0, size_type n = npos) const;
+  lumex_wstring_view substr (size_type pos = 0, size_type n = npos) const;
 
   // -- Comparison --
   /**
-   * @brief Compares this `LumexWStringView` with another `LumexWStringView`.
+   * @brief Compares this `lumex_wstring_view` with another
+   * `lumex_wstring_view`.
    * @details Performs a lexicographical comparison.
    * @warning It is not recommended to ignore the return value of
-   * `compare(LumexWStringView)`.
-   * @param other The `LumexWStringView` to compare with.
+   * `compare(lumex_wstring_view)`.
+   * @param other The `lumex_wstring_view` to compare with.
    * @return An integer representing the comparison result:
    *         - Less than 0 if `*this` is lexicographically less than `other`.
    *         - 0 if `*this` is lexicographically equal to `other`.
@@ -659,36 +664,36 @@ public:
    */
   LUMEX_ATTRIBUTE_NODISCARD ("It is not recommended to ignore return value of "
                              "compare(LumexWStringView)")
-  int compare (LumexWStringView other) const LUMEX_NOEXCEPT;
+  int compare (lumex_wstring_view other) const LUMEX_NOEXCEPT;
 
   /**
-   * @brief Compares a substring of this `LumexWStringView` with another
-   * `LumexWStringView`.
+   * @brief Compares a substring of this `lumex_wstring_view` with another
+   * `lumex_wstring_view`.
    * @details Extracts a substring from `*this` starting at `pos` with length
    * `len`, and then compares that substring lexicographically with `other`.
    * @warning It is not recommended to ignore the return value of
-   * `compare(size_type, size_type, LumexWStringView)`.
+   * `compare(size_type, size_type, lumex_wstring_view)`.
    * @param pos The starting position of the substring in `*this`.
    * @param len The length of the substring in `*this`.
-   * @param other The `LumexWStringView` to compare with.
+   * @param other The `lumex_wstring_view` to compare with.
    * @return An integer representing the comparison result (see
-   * `compare(LumexWStringView)`).
+   * `compare(lumex_wstring_view)`).
    * @throws std::out_of_range If `pos > size()`.
    * @note Complexity: O(N) where N is the minimum length of the compared
    * substring and `other`.
    */
   LUMEX_ATTRIBUTE_NODISCARD ("It is not recommended to ignore return value of "
                              "compare(size_type, size_type, LumexWStringView)")
-  int compare (size_type pos, size_type len, LumexWStringView other) const;
+  int compare (size_type pos, size_type len, lumex_wstring_view other) const;
 
   /**
-   * @brief Compares this `LumexWStringView` with a null-terminated C-style
+   * @brief Compares this `lumex_wstring_view` with a null-terminated C-style
    * wide string.
-   * @details Converts `cstr` to a `LumexWStringView` internally and then
+   * @details Converts `cstr` to a `lumex_wstring_view` internally and then
    * performs a comparison.
    * @param cstr The null-terminated C-style wide string to compare with.
    * @return An integer representing the comparison result (see
-   * `compare(LumexWStringView)`).
+   * `compare(lumex_wstring_view)`).
    * @note Complexity: O(N) where N is the minimum length of `*this` and
    * `cstr`.
    */
@@ -697,7 +702,7 @@ public:
   // -- Starts / ends / contains helpers (non-standard extensions but useful)
   // --
   /**
-   * @brief Checks if the `LumexWStringView` starts with a specific wide
+   * @brief Checks if the `lumex_wstring_view` starts with a specific wide
    * character.
    * @warning It is not recommended to ignore the return value of
    * `starts_with(wchar_t)`.
@@ -711,21 +716,21 @@ public:
   bool starts_with (wchar_t chr) const LUMEX_NOEXCEPT;
 
   /**
-   * @brief Checks if the `LumexWStringView` starts with a specific
-   * `LumexWStringView`.
+   * @brief Checks if the `lumex_wstring_view` starts with a specific
+   * `lumex_wstring_view`.
    * @warning It is not recommended to ignore the return value of
-   * `starts_with(LumexWStringView)`.
-   * @param str The `LumexWStringView` to check for at the beginning of the
+   * `starts_with(lumex_wstring_view)`.
+   * @param str The `lumex_wstring_view` to check for at the beginning of the
    * view.
    * @return `true` if the view has `str` as a prefix, `false` otherwise.
    * @note Complexity: O(N) where N is `str.size()`.
    */
   LUMEX_ATTRIBUTE_NODISCARD ("It is not recommended to ignore return value of "
                              "starts_with(LumexWStringView)")
-  bool starts_with (LumexWStringView str) const LUMEX_NOEXCEPT;
+  bool starts_with (lumex_wstring_view str) const LUMEX_NOEXCEPT;
 
   /**
-   * @brief Checks if the `LumexWStringView` ends with a specific wide
+   * @brief Checks if the `lumex_wstring_view` ends with a specific wide
    * character.
    * @warning It is not recommended to ignore the return value of
    * `ends_with(wchar_t)`.
@@ -739,17 +744,17 @@ public:
   bool ends_with (wchar_t chr) const LUMEX_NOEXCEPT;
 
   /**
-   * @brief Checks if the `LumexWStringView` ends with a specific
-   * `LumexWStringView`.
+   * @brief Checks if the `lumex_wstring_view` ends with a specific
+   * `lumex_wstring_view`.
    * @warning It is not recommended to ignore the return value of
-   * `ends_with(LumexWStringView)`.
-   * @param str The `LumexWStringView` to check for at the end of the view.
+   * `ends_with(lumex_wstring_view)`.
+   * @param str The `lumex_wstring_view` to check for at the end of the view.
    * @return `true` if the view has `str` as a suffix, `false` otherwise.
    * @note Complexity: O(N) where N is `str.size()`.
    */
   LUMEX_ATTRIBUTE_NODISCARD ("It is not recommended to ignore return value of "
                              "ends_with(LumexWStringView)")
-  bool ends_with (LumexWStringView str) const LUMEX_NOEXCEPT;
+  bool ends_with (lumex_wstring_view str) const LUMEX_NOEXCEPT;
 
   // -- Find (simple implementations) --
   /**
@@ -768,12 +773,12 @@ public:
   size_type find (wchar_t chr, size_type pos = 0) const LUMEX_NOEXCEPT;
 
   /**
-   * @brief Finds the first occurrence of a `LumexWStringView` within this
+   * @brief Finds the first occurrence of a `lumex_wstring_view` within this
    * view.
    * @details Searches for `str` starting from `pos`.
    * @warning It is not recommended to ignore the return value of
-   * `find(LumexWStringView, size_type)`.
-   * @param str The `LumexWStringView` to search for.
+   * `find(lumex_wstring_view, size_type)`.
+   * @param str The `lumex_wstring_view` to search for.
    * @param pos The starting position for the search. Defaults to 0.
    * @return The zero-based index of the first occurrence of `str`, or `npos`
    * if not found.
@@ -782,7 +787,7 @@ public:
    */
   LUMEX_ATTRIBUTE_NODISCARD ("It is not recommended to ignore return value of "
                              "find(LumexWStringView, size_type)")
-  size_type find (LumexWStringView str,
+  size_type find (lumex_wstring_view str,
                   size_type pos = 0) const LUMEX_NOEXCEPT;
 
   /**
@@ -818,11 +823,12 @@ public:
 
   // -- Reverse find --
   /**
-   * @brief Finds the last occurrence of a `LumexWStringView` within this view.
+   * @brief Finds the last occurrence of a `lumex_wstring_view` within this
+   * view.
    * @details Searches backward for `str` starting from `pos`.
    * @warning It is not recommended to ignore the return value of
-   * `rfind(LumexWStringView, size_type)`.
-   * @param str The `LumexWStringView` to search for.
+   * `rfind(lumex_wstring_view, size_type)`.
+   * @param str The `lumex_wstring_view` to search for.
    * @param pos The starting position for the reverse search. Defaults to
    * `npos` (end of view).
    * @return The zero-based index of the last occurrence of `str`, or `npos` if
@@ -832,7 +838,7 @@ public:
    */
   LUMEX_ATTRIBUTE_NODISCARD ("It is not recommended to ignore return value of "
                              "rfind(LumexWStringView, size_type)")
-  size_type rfind (LumexWStringView str,
+  size_type rfind (lumex_wstring_view str,
                    size_type pos = npos) const LUMEX_NOEXCEPT;
 
   /**
@@ -890,8 +896,8 @@ public:
    * @details Searches for the first wide character in `*this` that matches any
    * wide character in `str`, starting from `pos`.
    * @warning It is not recommended to ignore the return value of
-   * `find_first_of(LumexWStringView, size_type)`.
-   * @param str A `LumexWStringView` containing the set of wide characters to
+   * `find_first_of(lumex_wstring_view, size_type)`.
+   * @param str A `lumex_wstring_view` containing the set of wide characters to
    * search for.
    * @param pos The starting position for the search. Defaults to 0.
    * @return The zero-based index of the first match, or `npos` if no wide
@@ -901,7 +907,7 @@ public:
    */
   LUMEX_ATTRIBUTE_NODISCARD ("It is not recommended to ignore return value of "
                              "find_first_of(LumexWStringView, size_type)")
-  size_type find_first_of (LumexWStringView str,
+  size_type find_first_of (lumex_wstring_view str,
                            size_type pos = 0) const LUMEX_NOEXCEPT;
 
   /**
@@ -960,8 +966,8 @@ public:
    * @details Searches backward for the last wide character in `*this` that
    * matches any wide character in `str`, starting from `pos`.
    * @warning It is not recommended to ignore the return value of
-   * `find_last_of(LumexWStringView, size_type)`.
-   * @param str A `LumexWStringView` containing the set of wide characters to
+   * `find_last_of(lumex_wstring_view, size_type)`.
+   * @param str A `lumex_wstring_view` containing the set of wide characters to
    * search for.
    * @param pos The starting position for the reverse search. Defaults to
    * `npos`.
@@ -972,7 +978,7 @@ public:
    */
   LUMEX_ATTRIBUTE_NODISCARD ("It is not recommended to ignore return value of "
                              "find_last_of(LumexWStringView, size_type)")
-  size_type find_last_of (LumexWStringView str,
+  size_type find_last_of (lumex_wstring_view str,
                           size_type pos = npos) const LUMEX_NOEXCEPT;
 
   /**
@@ -1033,8 +1039,8 @@ public:
    * @details Searches for the first wide character in `*this` that does *not*
    * match any wide character in `str`, starting from `pos`.
    * @warning It is not recommended to ignore the return value of
-   * `find_first_not_of(LumexWStringView, size_type)`.
-   * @param str A `LumexWStringView` containing the set of wide characters to
+   * `find_first_not_of(lumex_wstring_view, size_type)`.
+   * @param str A `lumex_wstring_view` containing the set of wide characters to
    * exclude.
    * @param pos The starting position for the search. Defaults to 0.
    * @return The zero-based index of the first non-matching wide character, or
@@ -1044,7 +1050,7 @@ public:
    */
   LUMEX_ATTRIBUTE_NODISCARD ("It is not recommended to ignore return value of "
                              "find_first_not_of(LumexWStringView, size_type)")
-  size_type find_first_not_of (LumexWStringView str,
+  size_type find_first_not_of (lumex_wstring_view str,
                                size_type pos = 0) const LUMEX_NOEXCEPT;
 
   /**
@@ -1108,8 +1114,8 @@ public:
    * @details Searches backward for the last wide character in `*this` that
    * does *not* match any wide character in `str`, starting from `pos`.
    * @warning It is not recommended to ignore the return value of
-   * `find_last_not_of(LumexWStringView, size_type)`.
-   * @param str A `LumexWStringView` containing the set of wide characters to
+   * `find_last_not_of(lumex_wstring_view, size_type)`.
+   * @param str A `lumex_wstring_view` containing the set of wide characters to
    * exclude.
    * @param pos The starting position for the reverse search. Defaults to
    * `npos`.
@@ -1120,7 +1126,7 @@ public:
    */
   LUMEX_ATTRIBUTE_NODISCARD ("It is not recommended to ignore return value of "
                              "find_last_not_of(LumexWStringView, size_type)")
-  size_type find_last_not_of (LumexWStringView str,
+  size_type find_last_not_of (lumex_wstring_view str,
                               size_type pos = npos) const LUMEX_NOEXCEPT;
 
   /**
@@ -1182,7 +1188,7 @@ public:
    * @brief Explicit conversion operator to `std::basic_string<wchar_t>`.
    * @details Constructs a new `std::basic_string` (or `std::wstring`)
    * containing a copy of the wide characters viewed by this
-   * `LumexWStringView`.
+   * `lumex_wstring_view`.
    * @tparam Allocator The allocator type for the `std::basic_string`. Defaults
    * to `std::allocator<wchar_t>`.
    * @return A new `std::basic_string` object.
@@ -1198,10 +1204,11 @@ public:
   }
 
   /**
-   * @brief Converts the `LumexWStringView` to a `std::basic_string<wchar_t>`.
+   * @brief Converts the `lumex_wstring_view` to a
+   * `std::basic_string<wchar_t>`.
    * @details Constructs a new `std::basic_string` (or `std::wstring`)
    * containing a copy of the wide characters viewed by this
-   * `LumexWStringView`.
+   * `lumex_wstring_view`.
    * @tparam Allocator The allocator type for the `std::basic_string`. Defaults
    * to `std::allocator<wchar_t>`.
    * @param alloc An allocator object to use for the new wide string. Defaults
@@ -1233,124 +1240,126 @@ private:
 
 // -- Non-member relational operators --
 /**
- * @brief Equality comparison operator for two `LumexWStringView` objects.
- * @details Compares two `LumexWStringView` objects for lexicographical
+ * @brief Equality comparison operator for two `lumex_wstring_view` objects.
+ * @details Compares two `lumex_wstring_view` objects for lexicographical
  * equality.
- * @param lhs The left-hand side `LumexWStringView`.
- * @param rhs The right-hand side `LumexWStringView`.
+ * @param lhs The left-hand side `lumex_wstring_view`.
+ * @param rhs The right-hand side `lumex_wstring_view`.
  * @return `true` if both views are of the same size and their contents are
  * identical, `false` otherwise.
  * @note Complexity: O(N) where N is the minimum length of the two views.
  */
 LUMEX_API inline bool
-operator== (LumexWStringView lhs, LumexWStringView rhs) LUMEX_NOEXCEPT
+operator== (lumex_wstring_view lhs, lumex_wstring_view rhs) LUMEX_NOEXCEPT
 {
   return lhs.size () == rhs.size () && lhs.compare (rhs) == 0;
 }
 
 /**
- * @brief Inequality comparison operator for two `LumexWStringView` objects.
- * @details Checks if two `LumexWStringView` objects are not lexicographically
- * equal.
- * @param lhs The left-hand side `LumexWStringView`.
- * @param rhs The right-hand side `LumexWStringView`.
+ * @brief Inequality comparison operator for two `lumex_wstring_view` objects.
+ * @details Checks if two `lumex_wstring_view` objects are not
+ * lexicographically equal.
+ * @param lhs The left-hand side `lumex_wstring_view`.
+ * @param rhs The right-hand side `lumex_wstring_view`.
  * @return `true` if the views are not equal, `false` otherwise.
  * @note Complexity: O(N) where N is the minimum length of the two views.
  */
 LUMEX_API inline bool
-operator!= (LumexWStringView lhs, LumexWStringView rhs) LUMEX_NOEXCEPT
+operator!= (lumex_wstring_view lhs, lumex_wstring_view rhs) LUMEX_NOEXCEPT
 {
   return !(lhs == rhs);
 }
 
 /**
- * @brief Less-than comparison operator for two `LumexWStringView` objects.
- * @details Compares two `LumexWStringView` objects lexicographically.
- * @param lhs The left-hand side `LumexWStringView`.
- * @param rhs The right-hand side `LumexWStringView`.
+ * @brief Less-than comparison operator for two `lumex_wstring_view` objects.
+ * @details Compares two `lumex_wstring_view` objects lexicographically.
+ * @param lhs The left-hand side `lumex_wstring_view`.
+ * @param rhs The right-hand side `lumex_wstring_view`.
  * @return `true` if `lhs` is lexicographically less than `rhs`, `false`
  * otherwise.
  * @note Complexity: O(N) where N is the minimum length of the two views.
  */
 LUMEX_API inline bool
-operator< (LumexWStringView lhs, LumexWStringView rhs) LUMEX_NOEXCEPT
+operator< (lumex_wstring_view lhs, lumex_wstring_view rhs) LUMEX_NOEXCEPT
 {
   return lhs.compare (rhs) < 0;
 }
 
 /**
- * @brief Greater-than comparison operator for two `LumexWStringView` objects.
- * @details Compares two `LumexWStringView` objects lexicographically.
- * @param lhs The left-hand side `LumexWStringView`.
- * @param rhs The right-hand side `LumexWStringView`.
+ * @brief Greater-than comparison operator for two `lumex_wstring_view`
+ * objects.
+ * @details Compares two `lumex_wstring_view` objects lexicographically.
+ * @param lhs The left-hand side `lumex_wstring_view`.
+ * @param rhs The right-hand side `lumex_wstring_view`.
  * @return `true` if `lhs` is lexicographically greater than `rhs`, `false`
  * otherwise.
  * @note Complexity: O(N) where N is the minimum length of the two views.
  */
 LUMEX_API inline bool
-operator> (LumexWStringView lhs, LumexWStringView rhs) LUMEX_NOEXCEPT
+operator> (lumex_wstring_view lhs, lumex_wstring_view rhs) LUMEX_NOEXCEPT
 {
   return lhs.compare (rhs) > 0;
 }
 
 /**
- * @brief Less-than-or-equal-to comparison operator for two `LumexWStringView`
- * objects.
- * @details Compares two `LumexWStringView` objects lexicographically.
- * @param lhs The left-hand side `LumexWStringView`.
- * @param rhs The right-hand side `LumexWStringView`.
+ * @brief Less-than-or-equal-to comparison operator for two
+ * `lumex_wstring_view` objects.
+ * @details Compares two `lumex_wstring_view` objects lexicographically.
+ * @param lhs The left-hand side `lumex_wstring_view`.
+ * @param rhs The right-hand side `lumex_wstring_view`.
  * @return `true` if `lhs` is lexicographically less than or equal to `rhs`,
  * `false` otherwise.
  * @note Complexity: O(N) where N is the minimum length of the two views.
  */
 LUMEX_API inline bool
-operator<= (LumexWStringView lhs, LumexWStringView rhs) LUMEX_NOEXCEPT
+operator<= (lumex_wstring_view lhs, lumex_wstring_view rhs) LUMEX_NOEXCEPT
 {
   return lhs.compare (rhs) <= 0;
 }
 
 /**
  * @brief Greater-than-or-equal-to comparison operator for two
- * `LumexWStringView` objects.
- * @details Compares two `LumexWStringView` objects lexicographically.
- * @param lhs The left-hand side `LumexWStringView`.
- * @param rhs The right-hand side `LumexWStringView`.
+ * `lumex_wstring_view` objects.
+ * @details Compares two `lumex_wstring_view` objects lexicographically.
+ * @param lhs The left-hand side `lumex_wstring_view`.
+ * @param rhs The right-hand side `lumex_wstring_view`.
  * @return `true` if `lhs` is lexicographically greater than or equal to `rhs`,
  * `false` otherwise.
  * @note Complexity: O(N) where N is the minimum length of the two views.
  */
 LUMEX_API inline bool
-operator>= (LumexWStringView lhs, LumexWStringView rhs) LUMEX_NOEXCEPT
+operator>= (lumex_wstring_view lhs, lumex_wstring_view rhs) LUMEX_NOEXCEPT
 {
   return lhs.compare (rhs) >= 0;
 }
 
 // -- Stream inserter --
 /**
- * @brief Overload for inserting a `LumexWStringView` into an `std::wostream`.
- * @details This operator allows `LumexWStringView` objects to be printed
+ * @brief Overload for inserting a `lumex_wstring_view` into an
+ * `std::wostream`.
+ * @details This operator allows `lumex_wstring_view` objects to be printed
  * directly to wide standard output streams. It writes the viewed wide
  * character data to the stream.
  * @param wostr The wide output stream.
- * @param wsview The `LumexWStringView` to insert.
+ * @param wsview The `lumex_wstring_view` to insert.
  * @return A reference to the wide output stream.
  * @note Complexity: O(N) where N is `wsview.size()`.
  */
 LUMEX_API std::wostream &operator<< (std::wostream &wostr,
-                                     LumexWStringView wsview);
+                                     lumex_wstring_view wsview);
 } // namespace view
 } // namespace string_view
 } // namespace core
 } // namespace lumex
 
 /**
- * @brief Global type alias for `lumex::core::string_view::LumexWStringView`.
- * @details This `using` declaration brings `LumexWStringView` into the global
- * namespace (or enclosing namespace where it's included), allowing for more
- * convenient usage without full namespace qualification, similar to
+ * @brief Global type alias for `lumex::core::string_view::lumex_wstring_view`.
+ * @details This `using` declaration brings `lumex_wstring_view` into the
+ * global namespace (or enclosing namespace where it's included), allowing for
+ * more convenient usage without full namespace qualification, similar to
  * `std::wstring_view`.
  */
-using LumexWStringView = lumex::core::string_view::view::LumexWStringView;
+using lumex_wstring_view = lumex::core::string_view::view::lumex_wstring_view;
 
 #if defined(__clang__)
 #pragma clang diagnostic pop

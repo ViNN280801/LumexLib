@@ -11,7 +11,7 @@
 #include "lumex/core/string_view/view/LumexStringView.hpp"
 
 using lumex::applied::json::normalization::LumexJsonSchemaNormalizer;
-using lumex::core::string_view::view::LumexStringView;
+using lumex::core::string_view::view::lumex_string_view;
 
 namespace
 {
@@ -30,14 +30,14 @@ public:
   }
 
   nlohmann::json
-  normalize (LumexStringView raw) const override
+  normalize (lumex_string_view raw) const override
   {
     std::exception_ptr ignored;
     return normalize (raw, ignored);
   }
 
   nlohmann::json
-  normalize (LumexStringView raw, std::exception_ptr &error) const override
+  normalize (lumex_string_view raw, std::exception_ptr &error) const override
   {
     error = nullptr;
     try
@@ -52,14 +52,14 @@ public:
   }
 
   void
-  validate (LumexStringView raw) const override
+  validate (lumex_string_view raw) const override
   {
     std::exception_ptr ignored;
     validate (raw, ignored);
   }
 
   void
-  validate (LumexStringView raw, std::exception_ptr &error) const override
+  validate (lumex_string_view raw, std::exception_ptr &error) const override
   {
     error = nullptr;
     try
@@ -107,7 +107,7 @@ main ()
       std::string const raw (request);
       std::exception_ptr error;
       nlohmann::json const result
-          = normalizer.normalize (LumexStringView (raw), error);
+          = normalizer.normalize (lumex_string_view (raw), error);
       if (error)
         {
           ++rejected;

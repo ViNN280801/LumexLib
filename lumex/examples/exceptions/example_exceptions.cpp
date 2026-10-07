@@ -6,7 +6,7 @@
 using namespace lumex::core::exceptions::exception;
 using namespace lumex::core::exceptions::stacktrace;
 
-LUMEX_DEFINE_EXCEPTION (ExampleInstrumentError, LumexBaseException)
+LUMEX_DEFINE_EXCEPTION (ExampleInstrumentError, lumex_base_exception)
 
 int
 main ()
@@ -16,12 +16,12 @@ main ()
   std::cout << "--- 1. LumexBaseException::what ---\n";
   try
     {
-      throw LumexBaseException ("pump pressure out of range");
+      throw lumex_base_exception ("pump pressure out of range");
     }
-  catch (LumexBaseException const &ex)
+  catch (lumex_base_exception const &ex)
     {
       std::cout << "caught: " << ex.what () << '\n';
-      LumexStacktrace const frames = ex.getStackTrace ();
+      lumex_stacktrace const frames = ex.get_stack_trace ();
       std::cout << "stack_frames=" << frames.size ()
                 << " empty=" << (frames.empty () ? "yes" : "no") << '\n';
     }
@@ -38,7 +38,7 @@ main ()
     }
 
   std::cout << "\n--- 3. LumexStacktrace::current ---\n";
-  LumexStacktrace const now = LumexStacktrace::current (0);
+  lumex_stacktrace const now = lumex_stacktrace::current (0);
   std::string const text = to_string (now);
   std::cout << "current_frames=" << now.size ()
             << " to_string_chars=" << text.size () << '\n';

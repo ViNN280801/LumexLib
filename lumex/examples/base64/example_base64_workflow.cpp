@@ -22,19 +22,19 @@ main ()
   std::string const plaintext = blob.str ();
 
   std::vector<byte_type> bytes (plaintext.begin (), plaintext.end ());
-  std::string const wire = Encoder::encode (bytes);
+  std::string const wire = encoder::encode (bytes);
   std::cout << "plaintext_bytes=" << bytes.size ()
             << " wire_chars=" << wire.size () << '\n';
   std::cout << "wire=" << wire << '\n';
 
-  if (!Validator::is_valid_base64 (wire))
+  if (!validator::is_valid_base64 (wire))
     {
       std::cerr << "encoded payload failed Validator::is_valid_base64\n";
       return 1;
     }
 
   std::vector<byte_type> recovered;
-  if (!Decoder::decode (wire, recovered))
+  if (!decoder::decode (wire, recovered))
     {
       std::cerr << "decode failed on a validator-accepted string\n";
       return 1;

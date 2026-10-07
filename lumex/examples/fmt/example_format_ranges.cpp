@@ -48,10 +48,10 @@ namespace fmt
  * Reuses the range formatter of std::vector<int> and changes its brackets
  * and separator; the element specification still works (`{::#x}`).
  */
-template <> class Formatter<pipe_list_t>
+template <> class formatter<pipe_list_t>
 {
 public:
-  Formatter ()
+  formatter ()
   {
     _range.set_brackets ("<", ">");
     _range.set_separator (" | ");
@@ -63,20 +63,20 @@ public:
     return _range.parse (ctx);
   }
 
-  BasicAppender<char>
+  basic_appender<char>
   format (pipe_list_t const &list, FormatContext &ctx) const
   {
     return _range.format (list.values, ctx);
   }
 
 private:
-  Formatter<std::vector<int>> _range;
+  formatter<std::vector<int>> _range;
 };
 /**
  * Keeps the range options of the field (brackets, width, `n`) and gives the
  * element formatter its own fixed specification through underlying ().
  */
-template <> class Formatter<register_dump_t>
+template <> class formatter<register_dump_t>
 {
 public:
   char const *
@@ -88,14 +88,14 @@ public:
     return end;
   }
 
-  BasicAppender<char>
+  basic_appender<char>
   format (register_dump_t const &dump, FormatContext &ctx) const
   {
     return _range.format (dump.values, ctx);
   }
 
 private:
-  Formatter<std::vector<int>> _range;
+  formatter<std::vector<int>> _range;
 };
 } // namespace fmt
 } // namespace core

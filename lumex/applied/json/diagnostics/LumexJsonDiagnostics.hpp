@@ -61,7 +61,7 @@ namespace diagnostics
 {
 /**
  * @brief Severity of a diagnostic message.
- * @details `toString()` returns the enumerator name (`"warning"`).
+ * @details `to_string()` returns the enumerator name (`"warning"`).
  */
 LUMEX_DEFINE_REFLECTED_ENUM (LumexJsonDiagnosticLevel, std::uint8_t, (debug),
                              (info), (warning), (error))
@@ -131,7 +131,7 @@ write_to_stderr (LumexJsonDiagnosticLevel level,
     return;
   try
     {
-      std::cerr << '[' << toString (level) << "] " << message << '\n';
+      std::cerr << '[' << to_string (level) << "] " << message << '\n';
       std::cerr.flush ();
     }
   catch (...)

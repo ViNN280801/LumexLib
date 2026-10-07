@@ -44,7 +44,7 @@
  * @details On Windows `SET_SEH_TRANSLATOR` calls
  * `_set_se_translator(seh_translator)`, which applies to the calling thread
  * only. When a structured exception (an access violation, for example) then
- * occurs in that thread, the translator lets `LumexCrashHandler` write a
+ * occurs in that thread, the translator lets `lumex_crash_handler` write a
  * minidump and terminates the process with the exception code. MSVC expects
  * the code that installs a translator to be compiled with `/EHa` (warning
  * C4535 otherwise). `LUMEX_EXCEPTION_HANDLE_BEGIN` of `LumexException.hpp`
@@ -57,8 +57,8 @@
 #include "lumex/LumexExport.hpp"
 
 #if defined(_WIN32)
-#include <windows.h>
 #include <eh.h>
+#include <windows.h>
 #endif
 
 #include "lumex/core/utility/LumexUtility"

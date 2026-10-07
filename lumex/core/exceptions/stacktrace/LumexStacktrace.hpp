@@ -39,7 +39,7 @@
 
 /**
  * @file LumexStacktrace.hpp
- * @brief Defines the LumexBasicStacktrace class and related utilities for
+ * @brief Defines the lumex_basic_stacktrace class and related utilities for
  * capturing and symbolizing call stacks.
  * @details This header provides a cross-platform mechanism for generating and
  * manipulating stack traces, which are crucial for debugging, error reporting,
@@ -47,8 +47,8 @@
  *          implementations for Windows (using DbgHelp) and POSIX systems
  * (using backtrace and dladdr; a frame without an exported symbol is named by
  * its module and the address inside it, for offline symbolization). The core
- * `LumexBasicStacktrace`
- * template class provides a container for `LumexStacktraceEntry` objects,
+ * `lumex_basic_stacktrace`
+ * template class provides a container for `lumex_stacktrace_entry` objects,
  * representing individual frames in the call stack. It is designed to be
  * allocator-aware and exception-safe.
  */
@@ -131,13 +131,13 @@ namespace stacktrace
  * and representing call stacks within the LumexCore library, providing tools
  * essential for diagnostics and error reporting.
  */
-template <typename Allocator> class LumexBasicStacktrace;
+template <typename Allocator> class lumex_basic_stacktrace;
 
 /**
  * @brief Internal detail namespace for platform-specific stacktrace
  * functionalities.
  * @details This namespace encapsulates helper functions and constants that are
- *          used internally by `LumexBasicStacktrace` for platform-dependent
+ *          used internally by `lumex_basic_stacktrace` for platform-dependent
  *          operations like capturing raw frames and resolving symbol
  * information.
  */
@@ -167,11 +167,11 @@ extern std::mutex
  * @brief Helper class for RAII-style initialization and deinitialization of
  * DbgHelp.
  * @details This class ensures that `SymInitialize` is called once when the
- * first `DbgHelpInitializer` object is created, and symbol options are set. It
- * uses a static flag `s_initialized` and `g_dbghelp_mutex` to ensure
+ * first `dbg_help_initializer` object is created, and symbol options are set.
+ * It uses a static flag `s_initialized` and `g_dbghelp_mutex` to ensure
  *          thread-safe, one-time initialization.
  */
-class DbgHelpInitializer
+class dbg_help_initializer
 {
 private:
   /// @brief Static flag indicating if DbgHelp has been initialized.
@@ -179,45 +179,45 @@ private:
 
 public:
   /**
-   * @brief Constructs a `DbgHelpInitializer` object.
+   * @brief Constructs a `dbg_help_initializer` object.
    * @details Attempts to initialize DbgHelp if it hasn't been initialized yet.
    *          This operation is thread-safe, protected by `g_dbghelp_mutex`.
    * @note This constructor is responsible for calling `SymInitialize` and
    * `SymSetOptions`.
    */
-  DbgHelpInitializer ();
+  dbg_help_initializer ();
 
   /**
-   * @brief Default destructor for `DbgHelpInitializer`.
+   * @brief Default destructor for `dbg_help_initializer`.
    * @details No explicit deinitialization of DbgHelp is performed here as
    * `SymCleanup` is usually called at process exit or when the last DbgHelp
    * user is done.
    */
-  ~DbgHelpInitializer () = default;
+  ~dbg_help_initializer () = default;
 
   /**
-   * @brief Copy constructor for `DbgHelpInitializer`.
-   * @details Performs a shallow copy of the `DbgHelpInitializer` object.
+   * @brief Copy constructor for `dbg_help_initializer`.
+   * @details Performs a shallow copy of the `dbg_help_initializer` object.
    */
-  DbgHelpInitializer (DbgHelpInitializer const &) = default;
+  dbg_help_initializer (dbg_help_initializer const &) = default;
 
   /**
-   * @brief Move constructor for `DbgHelpInitializer`.
-   * @details Performs a move of the `DbgHelpInitializer` object.
+   * @brief Move constructor for `dbg_help_initializer`.
+   * @details Performs a move of the `dbg_help_initializer` object.
    */
-  DbgHelpInitializer (DbgHelpInitializer &&) LUMEX_NOEXCEPT = default;
+  dbg_help_initializer (dbg_help_initializer &&) LUMEX_NOEXCEPT = default;
 
   /**
-   * @brief Copy assignment operator for `DbgHelpInitializer`.
-   * @details Performs a copy assignment of the `DbgHelpInitializer` object.
+   * @brief Copy assignment operator for `dbg_help_initializer`.
+   * @details Performs a copy assignment of the `dbg_help_initializer` object.
    */
-  DbgHelpInitializer &operator= (DbgHelpInitializer const &) = default;
+  dbg_help_initializer &operator= (dbg_help_initializer const &) = default;
 
   /**
-   * @brief Move assignment operator for `DbgHelpInitializer`.
-   * @details Performs a move assignment of the `DbgHelpInitializer` object.
+   * @brief Move assignment operator for `dbg_help_initializer`.
+   * @details Performs a move assignment of the `dbg_help_initializer` object.
    */
-  DbgHelpInitializer &operator= (DbgHelpInitializer &&) LUMEX_NOEXCEPT
+  dbg_help_initializer &operator= (dbg_help_initializer &&) LUMEX_NOEXCEPT
       = default;
 
   /**
@@ -232,18 +232,18 @@ public:
  * @brief Platform-specific stacktrace capture implementation for Windows.
  * @details This function captures the current call stack using
  * `CaptureStackBackTrace` Win32 API function. It then converts the raw
- * addresses into a vector of `LumexStacktraceEntry` objects.
+ * addresses into a vector of `lumex_stacktrace_entry` objects.
  * @tparam Allocator The allocator type for the resulting stacktrace.
  * @param skip Number of frames to skip from the top of the call stack (e.g.,
  * `capture_stacktrace` itself).
  * @param max_depth Maximum number of frames to capture.
  * @param alloc The allocator to use for the internal container.
- * @return A `LumexBasicStacktrace` containing the captured frames. Returns an
- * empty stacktrace if DbgHelp is not initialized or no frames are captured.
+ * @return A `lumex_basic_stacktrace` containing the captured frames. Returns
+ * an empty stacktrace if DbgHelp is not initialized or no frames are captured.
  * @note This function is `noexcept` and designed to be exception-safe.
  */
 template <typename Allocator>
-stacktrace::LumexBasicStacktrace<Allocator>
+stacktrace::lumex_basic_stacktrace<Allocator>
 capture_stacktrace (std::size_t skip, std::size_t max_depth,
                     Allocator const &alloc) LUMEX_NOEXCEPT;
 
@@ -285,19 +285,19 @@ std::string demangle_symbol (char const *mangled);
  * systems.
  * @details This function captures the current call stack using the `backtrace`
  *          function. It then converts the raw addresses into a vector of
- *          `LumexStacktraceEntry` objects. It includes logic to handle cases
+ *          `lumex_stacktrace_entry` objects. It includes logic to handle cases
  *          where optimizations might reduce frame count (e.g., Release
  * builds).
  * @tparam Allocator The allocator type for the resulting stacktrace.
  * @param skip Number of frames to skip from the top of the call stack.
  * @param max_depth Maximum number of frames to capture.
  * @param alloc The allocator to use for the internal container.
- * @return A `LumexBasicStacktrace` containing the captured frames. Returns an
- * empty stacktrace if no frames are captured.
+ * @return A `lumex_basic_stacktrace` containing the captured frames. Returns
+ * an empty stacktrace if no frames are captured.
  * @note This function is `noexcept` and designed to be exception-safe.
  */
 template <typename Allocator>
-stacktrace::LumexBasicStacktrace<Allocator>
+stacktrace::lumex_basic_stacktrace<Allocator>
 capture_stacktrace (std::size_t skip, std::size_t max_depth,
                     Allocator const &alloc) LUMEX_NOEXCEPT;
 
@@ -340,38 +340,38 @@ bool resolve_symbol_info (void *address, std::string &function_name,
 /**
  * @brief A basic, allocator-aware class for representing a call stack
  * (stacktrace).
- * @details This template class provides a collection of `LumexStacktraceEntry`
- * objects, each representing a single frame in a call stack. It supports
- * custom allocators and provides standard container-like accessors (iterators,
- * size, element access). The actual stack capture is delegated to
- * platform-specific helper functions.
+ * @details This template class provides a collection of
+ * `lumex_stacktrace_entry` objects, each representing a single frame in a call
+ * stack. It supports custom allocators and provides standard container-like
+ * accessors (iterators, size, element access). The actual stack capture is
+ * delegated to platform-specific helper functions.
  * @tparam Allocator The allocator type to use for managing the underlying
- * container of `LumexStacktraceEntry` objects. Defaults to
- * `std::allocator<LumexStacktraceEntry>`.
+ * container of `lumex_stacktrace_entry` objects. Defaults to
+ * `std::allocator<lumex_stacktrace_entry>`.
  * @note This class is non-copyable if the allocator is not copyable, but
  * standard allocators are typically copyable. Move semantics are fully
  * supported.
  */
-template <typename Allocator = std::allocator<LumexStacktraceEntry>>
-class LumexBasicStacktrace
+template <typename Allocator = std::allocator<lumex_stacktrace_entry>>
+class lumex_basic_stacktrace
 {
   /**
    * @brief Friend declaration for the `detail::capture_stacktrace` function.
    * @details This allows the `capture_stacktrace` function to access the
-   * private constructor `LumexBasicStacktrace(container_type &&entries)` to
-   * efficiently construct a `LumexBasicStacktrace` object from a rvalue
+   * private constructor `lumex_basic_stacktrace(container_type &&entries)` to
+   * efficiently construct a `lumex_basic_stacktrace` object from a rvalue
    * reference to its internal container.
    * @tparam A The allocator type used by the friendly function.
    */
   template <typename A>
-  friend LumexBasicStacktrace<A>
+  friend lumex_basic_stacktrace<A>
   detail::capture_stacktrace (std::size_t, std::size_t,
                               A const &) LUMEX_NOEXCEPT;
 
 public:
   /// @brief The type of elements stored in the stacktrace, which is
-  /// `LumexStacktraceEntry`.
-  using value_type = LumexStacktraceEntry;
+  /// `lumex_stacktrace_entry`.
+  using value_type = lumex_stacktrace_entry;
   /// @brief The allocator type used by this stacktrace container.
   using allocator_type = Allocator;
   /// @brief The unsigned integer type used for sizes and counts.
@@ -410,77 +410,77 @@ private:
   container_type m_entries;
 
   /**
-   * @brief Private constructor for `LumexBasicStacktrace`.
+   * @brief Private constructor for `lumex_basic_stacktrace`.
    * @details This constructor is used by `detail::capture_stacktrace` to
    * efficiently initialize the stacktrace object by moving a pre-populated
    * container of entries.
    * @param[in] entries An rvalue reference to a `container_type` holding the
    * stacktrace entries.
    */
-  explicit LumexBasicStacktrace (container_type &&entries)
+  explicit lumex_basic_stacktrace (container_type &&entries)
       : m_entries (std::move (entries))
   {
   }
 
 public:
   /**
-   * @brief Default constructor for `LumexBasicStacktrace`.
+   * @brief Default constructor for `lumex_basic_stacktrace`.
    * @details Constructs an empty stacktrace. The `noexcept` specification
    *          depends on the `container_type`'s default constructor.
    */
-  LumexBasicStacktrace () LUMEX_NOEXCEPT_IF (noexcept (container_type ()))
+  lumex_basic_stacktrace () LUMEX_NOEXCEPT_IF (noexcept (container_type ()))
       = default;
 
   /**
-   * @brief Constructs a `LumexBasicStacktrace` with a specific allocator.
+   * @brief Constructs a `lumex_basic_stacktrace` with a specific allocator.
    * @details Constructs an empty stacktrace using the provided allocator.
    * @param[in] alloc The allocator to use for the internal container.
    * @note This constructor is `noexcept` because `std::vector`'s
    * allocator-aware constructor is `noexcept`.
    */
-  explicit LumexBasicStacktrace (allocator_type const &alloc) LUMEX_NOEXCEPT
+  explicit lumex_basic_stacktrace (allocator_type const &alloc) LUMEX_NOEXCEPT
       : m_entries (alloc)
   {
   }
 
   /**
-   * @brief Copy constructor for `LumexBasicStacktrace`.
+   * @brief Copy constructor for `lumex_basic_stacktrace`.
    * @details Performs a deep copy of the `m_entries` container.
    */
-  LumexBasicStacktrace (LumexBasicStacktrace const &) = default;
+  lumex_basic_stacktrace (lumex_basic_stacktrace const &) = default;
   /**
-   * @brief Move constructor for `LumexBasicStacktrace`.
+   * @brief Move constructor for `lumex_basic_stacktrace`.
    * @details Efficiently moves the resources from another
-   * `LumexBasicStacktrace` object.
+   * `lumex_basic_stacktrace` object.
    * @note This constructor is `noexcept` because `std::vector`'s move
    * constructor is `noexcept`.
    */
-  LumexBasicStacktrace (LumexBasicStacktrace &&) LUMEX_NOEXCEPT = default;
+  lumex_basic_stacktrace (lumex_basic_stacktrace &&) LUMEX_NOEXCEPT = default;
   /**
-   * @brief Copy assignment operator for `LumexBasicStacktrace`.
-   * @details Assigns the contents of another `LumexBasicStacktrace` via deep
+   * @brief Copy assignment operator for `lumex_basic_stacktrace`.
+   * @details Assigns the contents of another `lumex_basic_stacktrace` via deep
    * copy.
    */
-  LumexBasicStacktrace &operator= (LumexBasicStacktrace const &) = default;
+  lumex_basic_stacktrace &operator= (lumex_basic_stacktrace const &) = default;
   /**
-   * @brief Move assignment operator for `LumexBasicStacktrace`.
+   * @brief Move assignment operator for `lumex_basic_stacktrace`.
    * @details Efficiently moves the resources from another
-   * `LumexBasicStacktrace` object.
+   * `lumex_basic_stacktrace` object.
    * @note This operator is `noexcept` because `std::vector`'s move assignment
    * operator is `noexcept`.
    */
-  LumexBasicStacktrace &operator= (LumexBasicStacktrace &&) LUMEX_NOEXCEPT
+  lumex_basic_stacktrace &operator= (lumex_basic_stacktrace &&) LUMEX_NOEXCEPT
       = default;
   /**
-   * @brief Default destructor for `LumexBasicStacktrace`.
+   * @brief Default destructor for `lumex_basic_stacktrace`.
    * @details Destroys the internal `m_entries` container, releasing all
    * allocated resources.
    */
-  ~LumexBasicStacktrace () = default;
+  ~lumex_basic_stacktrace () = default;
 
   /**
    * @brief Captures the current call stack.
-   * @details This static factory method creates a `LumexBasicStacktrace`
+   * @details This static factory method creates a `lumex_basic_stacktrace`
    * object representing the current call stack. It delegates the actual
    * capture to the platform-specific `detail::capture_stacktrace` function,
    *          automatically skipping the `current` function itself and
@@ -490,12 +490,12 @@ public:
    * @param max_depth The maximum number of frames to capture. Defaults to all
    * available frames.
    * @param alloc The allocator to use for the new stacktrace object. Defaults
-   * to `std::allocator<LumexStacktraceEntry>()`.
-   * @return A `LumexBasicStacktrace` object containing the captured frames.
+   * to `std::allocator<lumex_stacktrace_entry>()`.
+   * @return A `lumex_basic_stacktrace` object containing the captured frames.
    * @note This method is `noexcept` as `detail::capture_stacktrace` is
    * `noexcept`.
    */
-  static LumexBasicStacktrace
+  static lumex_basic_stacktrace
   current (size_type skip = 1,
            size_type max_depth = static_cast<size_type> (-1),
            allocator_type const &alloc = allocator_type ()) LUMEX_NOEXCEPT
@@ -516,7 +516,7 @@ public:
 
   /**
    * @brief Returns a constant iterator to the beginning of the stacktrace.
-   * @return A `const_iterator` pointing to the first `LumexStacktraceEntry`.
+   * @return A `const_iterator` pointing to the first `lumex_stacktrace_entry`.
    * @note This method is `noexcept`.
    */
   const_iterator
@@ -527,7 +527,7 @@ public:
   /**
    * @brief Returns a constant iterator to the end of the stacktrace.
    * @return A `const_iterator` pointing one past the last
-   * `LumexStacktraceEntry`.
+   * `lumex_stacktrace_entry`.
    * @note This method is `noexcept`.
    */
   const_iterator
@@ -538,7 +538,7 @@ public:
   /**
    * @brief Returns a constant iterator to the beginning of the stacktrace
    * (C++11 alias).
-   * @return A `const_iterator` pointing to the first `LumexStacktraceEntry`.
+   * @return A `const_iterator` pointing to the first `lumex_stacktrace_entry`.
    * @note This method is `noexcept`.
    */
   const_iterator
@@ -550,7 +550,7 @@ public:
    * @brief Returns a constant iterator to the end of the stacktrace (C++11
    * alias).
    * @return A `const_iterator` pointing one past the last
-   * `LumexStacktraceEntry`.
+   * `lumex_stacktrace_entry`.
    * @note This method is `noexcept`.
    */
   const_iterator
@@ -562,7 +562,7 @@ public:
    * @brief Returns a constant reverse iterator to the reverse beginning of the
    * stacktrace.
    * @return A `const_reverse_iterator` pointing to the last
-   * `LumexStacktraceEntry`.
+   * `lumex_stacktrace_entry`.
    * @note This method is `noexcept`.
    */
   const_reverse_iterator
@@ -574,7 +574,7 @@ public:
    * @brief Returns a constant reverse iterator to the reverse end of the
    * stacktrace.
    * @return A `const_reverse_iterator` pointing one before the first
-   * `LumexStacktraceEntry`.
+   * `lumex_stacktrace_entry`.
    * @note This method is `noexcept`.
    */
   const_reverse_iterator
@@ -586,7 +586,7 @@ public:
    * @brief Returns a constant reverse iterator to the reverse beginning of the
    * stacktrace (C++11 alias).
    * @return A `const_reverse_iterator` pointing to the last
-   * `LumexStacktraceEntry`.
+   * `lumex_stacktrace_entry`.
    * @note This method is `noexcept`.
    */
   const_reverse_iterator
@@ -598,7 +598,7 @@ public:
    * @brief Returns a constant reverse iterator to the reverse end of the
    * stacktrace (C++11 alias).
    * @return A `const_reverse_iterator` pointing one before the first
-   * `LumexStacktraceEntry`.
+   * `lumex_stacktrace_entry`.
    * @note This method is `noexcept`.
    */
   const_reverse_iterator
@@ -619,7 +619,7 @@ public:
   }
   /**
    * @brief Returns the number of entries in the stacktrace.
-   * @return The number of `LumexStacktraceEntry` objects in the stacktrace.
+   * @return The number of `lumex_stacktrace_entry` objects in the stacktrace.
    * @note This method is `noexcept`.
    */
   size_type
@@ -642,7 +642,7 @@ public:
   /**
    * @brief Provides constant access to the element at the specified position.
    * @param pos The zero-based index of the element to access.
-   * @return A constant reference to the `LumexStacktraceEntry` at `pos`.
+   * @return A constant reference to the `lumex_stacktrace_entry` at `pos`.
    * @warning No bounds checking is performed; accessing elements out of range
    *          results in undefined behavior.
    */
@@ -655,7 +655,7 @@ public:
    * @brief Provides constant access to the element at the specified position
    * with bounds checking.
    * @param pos The zero-based index of the element to access.
-   * @return A constant reference to the `LumexStacktraceEntry` at `pos`.
+   * @return A constant reference to the `lumex_stacktrace_entry` at `pos`.
    * @throws std::out_of_range If `pos` is greater than or equal to `size()`.
    */
   const_reference
@@ -666,13 +666,13 @@ public:
 
   /**
    * @brief Exchanges the contents of the stacktrace with another stacktrace.
-   * @param other The other `LumexBasicStacktrace` object to swap contents
+   * @param other The other `lumex_basic_stacktrace` object to swap contents
    * with.
    * @note This operation is `noexcept` if the `container_type`'s `swap` method
    * is `noexcept`.
    */
   void
-  swap (LumexBasicStacktrace &other)
+  swap (lumex_basic_stacktrace &other)
       LUMEX_NOEXCEPT_IF (noexcept (m_entries.swap (other.m_entries)))
   {
     m_entries.swap (other.m_entries);
@@ -684,29 +684,30 @@ public:
 #endif
 
 /**
- * @brief Alias for `LumexBasicStacktrace` using the default `std::allocator`.
+ * @brief Alias for `lumex_basic_stacktrace` using the default
+ * `std::allocator`.
  * @details This provides a convenient type name for the most common use case
  *          of the stacktrace class.
  */
-using LumexStacktrace
-    = LumexBasicStacktrace<std::allocator<LumexStacktraceEntry>>;
+using lumex_stacktrace
+    = lumex_basic_stacktrace<std::allocator<lumex_stacktrace_entry>>;
 
 /**
- * @brief Compares two `LumexBasicStacktrace` objects for equality.
+ * @brief Compares two `lumex_basic_stacktrace` objects for equality.
  * @details Two stacktraces are considered equal if they have the same number
  * of entries and all corresponding entries are equal (based on
- * `LumexStacktraceEntry::operator==`).
+ * `lumex_stacktrace_entry::operator==`).
  * @tparam Allocator1 The allocator type of the left-hand side stacktrace.
  * @tparam Allocator2 The allocator type of the right-hand side stacktrace.
- * @param lhs The left-hand side `LumexBasicStacktrace` object.
- * @param rhs The right-hand side `LumexBasicStacktrace` object.
+ * @param lhs The left-hand side `lumex_basic_stacktrace` object.
+ * @param rhs The right-hand side `lumex_basic_stacktrace` object.
  * @return True if the stacktraces are equal, false otherwise.
  * @note This operator is `noexcept`.
  */
 template <typename Allocator1, typename Allocator2>
 bool
-operator== (LumexBasicStacktrace<Allocator1> const &lhs,
-            LumexBasicStacktrace<Allocator2> const &rhs) LUMEX_NOEXCEPT
+operator== (lumex_basic_stacktrace<Allocator1> const &lhs,
+            lumex_basic_stacktrace<Allocator2> const &rhs) LUMEX_NOEXCEPT
 {
   if (lhs.size () != rhs.size ())
     return false;
@@ -714,135 +715,135 @@ operator== (LumexBasicStacktrace<Allocator1> const &lhs,
 }
 
 /**
- * @brief Compares two `LumexBasicStacktrace` objects for inequality.
+ * @brief Compares two `lumex_basic_stacktrace` objects for inequality.
  * @details This is the logical negation of `operator==`.
  * @tparam Allocator1 The allocator type of the left-hand side stacktrace.
  * @tparam Allocator2 The allocator type of the right-hand side stacktrace.
- * @param lhs The left-hand side `LumexBasicStacktrace` object.
- * @param rhs The right-hand side `LumexBasicStacktrace` object.
+ * @param lhs The left-hand side `lumex_basic_stacktrace` object.
+ * @param rhs The right-hand side `lumex_basic_stacktrace` object.
  * @return True if the stacktraces are not equal, false otherwise.
  * @note This operator is `noexcept`.
  */
 template <typename Allocator1, typename Allocator2>
 bool
-operator!= (LumexBasicStacktrace<Allocator1> const &lhs,
-            LumexBasicStacktrace<Allocator2> const &rhs) LUMEX_NOEXCEPT
+operator!= (lumex_basic_stacktrace<Allocator1> const &lhs,
+            lumex_basic_stacktrace<Allocator2> const &rhs) LUMEX_NOEXCEPT
 {
   return !(lhs == rhs);
 }
 
 /**
- * @brief Lexicographically compares two `LumexBasicStacktrace` objects.
+ * @brief Lexicographically compares two `lumex_basic_stacktrace` objects.
  * @details Compares stacktraces element by element using
- * `LumexStacktraceEntry::operator<`.
+ * `lumex_stacktrace_entry::operator<`.
  * @tparam Allocator1 The allocator type of the left-hand side stacktrace.
  * @tparam Allocator2 The allocator type of the right-hand side stacktrace.
- * @param lhs The left-hand side `LumexBasicStacktrace` object.
- * @param rhs The right-hand side `LumexBasicStacktrace` object.
+ * @param lhs The left-hand side `lumex_basic_stacktrace` object.
+ * @param rhs The right-hand side `lumex_basic_stacktrace` object.
  * @return True if `lhs` is lexicographically less than `rhs`, false otherwise.
  * @note This operator is `noexcept`.
  */
 template <typename Allocator1, typename Allocator2>
 bool
-operator< (LumexBasicStacktrace<Allocator1> const &lhs,
-           LumexBasicStacktrace<Allocator2> const &rhs) LUMEX_NOEXCEPT
+operator< (lumex_basic_stacktrace<Allocator1> const &lhs,
+           lumex_basic_stacktrace<Allocator2> const &rhs) LUMEX_NOEXCEPT
 {
   return std::lexicographical_compare (lhs.begin (), lhs.end (), rhs.begin (),
                                        rhs.end ());
 }
 
 /**
- * @brief Compares two `LumexBasicStacktrace` objects for less than or equal
+ * @brief Compares two `lumex_basic_stacktrace` objects for less than or equal
  * to.
  * @details This is the logical negation of `operator>`.
  * @tparam Allocator1 The allocator type of the left-hand side stacktrace.
  * @tparam Allocator2 The allocator type of the right-hand side stacktrace.
- * @param lhs The left-hand side `LumexBasicStacktrace` object.
- * @param rhs The right-hand side `LumexBasicStacktrace` object.
+ * @param lhs The left-hand side `lumex_basic_stacktrace` object.
+ * @param rhs The right-hand side `lumex_basic_stacktrace` object.
  * @return True if `lhs` is lexicographically less than or equal to `rhs`,
  * false otherwise.
  * @note This operator is `noexcept`.
  */
 template <typename Allocator1, typename Allocator2>
 bool
-operator<= (LumexBasicStacktrace<Allocator1> const &lhs,
-            LumexBasicStacktrace<Allocator2> const &rhs) LUMEX_NOEXCEPT
+operator<= (lumex_basic_stacktrace<Allocator1> const &lhs,
+            lumex_basic_stacktrace<Allocator2> const &rhs) LUMEX_NOEXCEPT
 {
   return !(rhs < lhs);
 }
 
 /**
- * @brief Compares two `LumexBasicStacktrace` objects for greater than.
+ * @brief Compares two `lumex_basic_stacktrace` objects for greater than.
  * @details This is equivalent to `rhs < lhs`.
  * @tparam Allocator1 The allocator type of the left-hand side stacktrace.
  * @tparam Allocator2 The allocator type of the right-hand side stacktrace.
- * @param lhs The left-hand side `LumexBasicStacktrace` object.
- * @param rhs The right-hand side `LumexBasicStacktrace` object.
+ * @param lhs The left-hand side `lumex_basic_stacktrace` object.
+ * @param rhs The right-hand side `lumex_basic_stacktrace` object.
  * @return True if `lhs` is lexicographically greater than `rhs`, false
  * otherwise.
  * @note This operator is `noexcept`.
  */
 template <typename Allocator1, typename Allocator2>
 bool
-operator> (LumexBasicStacktrace<Allocator1> const &lhs,
-           LumexBasicStacktrace<Allocator2> const &rhs) LUMEX_NOEXCEPT
+operator> (lumex_basic_stacktrace<Allocator1> const &lhs,
+           lumex_basic_stacktrace<Allocator2> const &rhs) LUMEX_NOEXCEPT
 {
   return rhs < lhs;
 }
 
 /**
- * @brief Compares two `LumexBasicStacktrace` objects for greater than or equal
- * to.
+ * @brief Compares two `lumex_basic_stacktrace` objects for greater than or
+ * equal to.
  * @details This is the logical negation of `operator<`.
  * @tparam Allocator1 The allocator type of the left-hand side stacktrace.
  * @tparam Allocator2 The allocator type of the right-hand side stacktrace.
- * @param lhs The left-hand side `LumexBasicStacktrace` object.
- * @param rhs The right-hand side `LumexBasicStacktrace` object.
+ * @param lhs The left-hand side `lumex_basic_stacktrace` object.
+ * @param rhs The right-hand side `lumex_basic_stacktrace` object.
  * @return True if `lhs` is lexicographically greater than or equal to `rhs`,
  * false otherwise.
  * @note This operator is `noexcept`.
  */
 template <typename Allocator1, typename Allocator2>
 bool
-operator>= (LumexBasicStacktrace<Allocator1> const &lhs,
-            LumexBasicStacktrace<Allocator2> const &rhs) LUMEX_NOEXCEPT
+operator>= (lumex_basic_stacktrace<Allocator1> const &lhs,
+            lumex_basic_stacktrace<Allocator2> const &rhs) LUMEX_NOEXCEPT
 {
   return !(lhs < rhs);
 }
 
 /**
- * @brief Global `swap` function for `LumexBasicStacktrace`.
+ * @brief Global `swap` function for `lumex_basic_stacktrace`.
  * @details This non-member `swap` function provides an efficient way to
- * exchange the contents of two `LumexBasicStacktrace` objects, utilizing the
+ * exchange the contents of two `lumex_basic_stacktrace` objects, utilizing the
  *          member `swap` function of the underlying container.
  * @tparam Allocator The allocator type of the stacktrace objects.
- * @param lhs The first `LumexBasicStacktrace` object.
- * @param rhs The second `LumexBasicStacktrace` object.
+ * @param lhs The first `lumex_basic_stacktrace` object.
+ * @param rhs The second `lumex_basic_stacktrace` object.
  * @note This function is `noexcept` if the underlying container's `swap` is
  * `noexcept`.
  */
 template <typename Allocator>
 void
-swap (LumexBasicStacktrace<Allocator> &lhs,
-      LumexBasicStacktrace<Allocator> &rhs)
+swap (lumex_basic_stacktrace<Allocator> &lhs,
+      lumex_basic_stacktrace<Allocator> &rhs)
     LUMEX_NOEXCEPT_IF (noexcept (lhs.swap (rhs)))
 {
   lhs.swap (rhs);
 }
 
 /**
- * @brief Converts a `LumexBasicStacktrace` object to its string
+ * @brief Converts a `lumex_basic_stacktrace` object to its string
  * representation.
  * @details This function iterates through each entry in the stacktrace and
  *          formats it into a multi-line string, with each line representing
  *          a stack frame, prefixed with its frame number.
  * @tparam Allocator The allocator type of the stacktrace.
- * @param stacktrace The `LumexBasicStacktrace` object to convert.
+ * @param stacktrace The `lumex_basic_stacktrace` object to convert.
  * @return A `std::string` containing the formatted stacktrace.
  */
 template <typename Allocator>
 std::string
-to_string (LumexBasicStacktrace<Allocator> const &stacktrace)
+to_string (lumex_basic_stacktrace<Allocator> const &stacktrace)
 {
   std::string result;
   result.reserve (stacktrace.size ()
@@ -861,28 +862,28 @@ to_string (LumexBasicStacktrace<Allocator> const &stacktrace)
 
 /**
  * @brief Overloads the `operator<<` for `std::basic_ostream` to print a
- * `LumexBasicStacktrace`.
- * @details This allows `LumexBasicStacktrace` objects to be easily printed to
- *          any `std::basic_ostream` (e.g., `std::cout`, `std::cerr`) using
- *          the `to_string` conversion.
+ * `lumex_basic_stacktrace`.
+ * @details This allows `lumex_basic_stacktrace` objects to be easily printed
+ * to any `std::basic_ostream` (e.g., `std::cout`, `std::cerr`) using the
+ * `to_string` conversion.
  * @tparam CharT The character type of the output stream.
  * @tparam Traits The character traits of the output stream.
  * @tparam Allocator The allocator type of the stacktrace.
  * @param ostream The output stream to write to.
- * @param stacktrace The `LumexBasicStacktrace` object to print.
+ * @param stacktrace The `lumex_basic_stacktrace` object to print.
  * @return A reference to the output stream.
  */
 template <typename CharT, typename Traits, typename Allocator>
 std::basic_ostream<CharT, Traits> &
 operator<< (std::basic_ostream<CharT, Traits> &ostream,
-            LumexBasicStacktrace<Allocator> const &stacktrace)
+            lumex_basic_stacktrace<Allocator> const &stacktrace)
 {
   return ostream << to_string (stacktrace);
 }
 
 /**
- * @brief Partial specialization of `std::hash` for `LumexBasicStacktrace`.
- * @details This struct provides a hash function for `LumexBasicStacktrace`
+ * @brief Partial specialization of `std::hash` for `lumex_basic_stacktrace`.
+ * @details This struct provides a hash function for `lumex_basic_stacktrace`
  * objects, enabling their use in hash-based containers like
  * `std::unordered_set` and `std::unordered_map`. The hash is computed based on
  * the native handles (addresses) of the stack entries, combined using a golden
@@ -891,16 +892,16 @@ operator<< (std::basic_ostream<CharT, Traits> &ostream,
  */
 template <typename Allocator> struct hash;
 
-template <typename Allocator> struct hash<LumexBasicStacktrace<Allocator>>
+template <typename Allocator> struct hash<lumex_basic_stacktrace<Allocator>>
 {
   /**
-   * @brief Computes the hash value for a `LumexBasicStacktrace` object.
-   * @param stacktrace The `LumexBasicStacktrace` object to hash.
+   * @brief Computes the hash value for a `lumex_basic_stacktrace` object.
+   * @param stacktrace The `lumex_basic_stacktrace` object to hash.
    * @return A `std::size_t` representing the hash value of the stacktrace.
    * @note This operator is `noexcept`.
    */
   std::size_t
-  operator() (LumexBasicStacktrace<Allocator> const &stacktrace) const
+  operator() (lumex_basic_stacktrace<Allocator> const &stacktrace) const
       LUMEX_NOEXCEPT
   {
     std::size_t seed = 0;
@@ -921,26 +922,26 @@ template <typename Allocator> struct hash<LumexBasicStacktrace<Allocator>>
 // Global type aliases for convenience
 /**
  * @brief Global alias for
- * `lumex::core::exceptions::stacktrace::LumexStacktrace`.
+ * `lumex::core::exceptions::stacktrace::lumex_stacktrace`.
  * @details This provides a simplified name for the default stacktrace type,
  *          making it easier to use without full namespace qualification.
  */
-using LumexStacktrace = lumex::core::exceptions::stacktrace::LumexStacktrace;
+using lumex_stacktrace = lumex::core::exceptions::stacktrace::lumex_stacktrace;
 /**
  * @brief Global alias for
- * `lumex::core::exceptions::stacktrace::LumexStacktraceEntry`.
+ * `lumex::core::exceptions::stacktrace::lumex_stacktrace_entry`.
  * @details This provides a simplified name for the stacktrace entry type,
  *          making it easier to use without full namespace qualification.
  */
-using LumexStacktraceEntry
-    = lumex::core::exceptions::stacktrace::LumexStacktraceEntry;
+using lumex_stacktrace_entry
+    = lumex::core::exceptions::stacktrace::lumex_stacktrace_entry;
 
 // Bring key functions into global namespace for convenience
 /**
  * @brief Brings `lumex::core::exceptions::stacktrace::to_string` into the
  * global namespace.
  * @details This allows `to_string` to be called without full namespace
- * qualification when used with `LumexStacktrace` objects, improving
+ * qualification when used with `lumex_stacktrace` objects, improving
  * readability.
  */
 using lumex::core::exceptions::stacktrace::to_string;

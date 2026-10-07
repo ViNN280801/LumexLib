@@ -1,6 +1,6 @@
 // LumexStringViewImplicit.cxx11.tests.cpp
 //
-// LumexStringView / LumexWStringView convert implicitly from C strings and
+// lumex_string_view / lumex_wstring_view convert implicitly from C strings and
 // std::basic_string, like std::string_view; the conversion back to a string
 // stays explicit.
 #include <cstddef>
@@ -11,19 +11,19 @@
 
 #include "lumex/core/string_view/LumexStringView"
 
-using lumex::core::string_view::view::LumexStringView;
-using lumex::core::string_view::view::LumexWStringView;
+using lumex::core::string_view::view::lumex_string_view;
+using lumex::core::string_view::view::lumex_wstring_view;
 
 namespace
 {
 std::size_t
-narrow_length (LumexStringView view)
+narrow_length (lumex_string_view view)
 {
   return view.size ();
 }
 
 std::size_t
-wide_length (LumexWStringView view)
+wide_length (lumex_wstring_view view)
 {
   return view.size ();
 }
@@ -37,7 +37,7 @@ pick (char const *)
 }
 
 int
-pick (LumexStringView)
+pick (lumex_string_view)
 {
   return 2;
 }
@@ -46,21 +46,22 @@ pick (LumexStringView)
 TEST (LumexStringViewImplicitTest,
       GivenTypes_WhenConvertibility_ThenMatchesDesign)
 {
-  EXPECT_TRUE ((std::is_convertible<char const *, LumexStringView>::value));
+  EXPECT_TRUE ((std::is_convertible<char const *, lumex_string_view>::value));
   EXPECT_TRUE (
-      (std::is_convertible<char const (&)[4], LumexStringView>::value));
-  EXPECT_TRUE ((std::is_convertible<std::string, LumexStringView>::value));
+      (std::is_convertible<char const (&)[4], lumex_string_view>::value));
+  EXPECT_TRUE ((std::is_convertible<std::string, lumex_string_view>::value));
   EXPECT_TRUE (
-      (std::is_convertible<std::string const &, LumexStringView>::value));
-  EXPECT_FALSE ((std::is_convertible<LumexStringView, std::string>::value));
-  EXPECT_FALSE ((std::is_convertible<int, LumexStringView>::value));
-  EXPECT_FALSE ((std::is_convertible<std::wstring, LumexStringView>::value));
+      (std::is_convertible<std::string const &, lumex_string_view>::value));
+  EXPECT_FALSE ((std::is_convertible<lumex_string_view, std::string>::value));
+  EXPECT_FALSE ((std::is_convertible<int, lumex_string_view>::value));
+  EXPECT_FALSE ((std::is_convertible<std::wstring, lumex_string_view>::value));
 
   EXPECT_TRUE (
-      (std::is_convertible<wchar_t const *, LumexWStringView>::value));
-  EXPECT_TRUE ((std::is_convertible<std::wstring, LumexWStringView>::value));
-  EXPECT_FALSE ((std::is_convertible<LumexWStringView, std::wstring>::value));
-  EXPECT_FALSE ((std::is_convertible<std::string, LumexWStringView>::value));
+      (std::is_convertible<wchar_t const *, lumex_wstring_view>::value));
+  EXPECT_TRUE ((std::is_convertible<std::wstring, lumex_wstring_view>::value));
+  EXPECT_FALSE (
+      (std::is_convertible<lumex_wstring_view, std::wstring>::value));
+  EXPECT_FALSE ((std::is_convertible<std::string, lumex_wstring_view>::value));
 }
 
 TEST (LumexStringViewImplicitTest, GivenLiteral_WhenPassedAsView_ThenViewsIt)
@@ -72,13 +73,13 @@ TEST (LumexStringViewImplicitTest, GivenLiteral_WhenPassedAsView_ThenViewsIt)
 TEST (LumexStringViewImplicitTest, GivenString_WhenPassedAsView_ThenSameData)
 {
   std::string const text ("abc");
-  LumexStringView const view = text;
+  lumex_string_view const view = text;
   EXPECT_EQ (view.data (), text.data ());
   EXPECT_EQ (view.size (), 3u);
   EXPECT_EQ (narrow_length (text), 3u);
 
   std::wstring const wide (L"abcd");
-  LumexWStringView const wide_view = wide;
+  lumex_wstring_view const wide_view = wide;
   EXPECT_EQ (wide_view.data (), wide.data ());
   EXPECT_EQ (wide_length (wide), 4u);
 }
@@ -95,7 +96,7 @@ TEST (LumexStringViewImplicitTest, GivenEmptyInputs_WhenConverted_ThenEmpty)
 TEST (LumexStringViewImplicitTest,
       GivenView_WhenComparedWithLiteral_ThenBothWays)
 {
-  LumexStringView const view ("abc");
+  lumex_string_view const view ("abc");
   EXPECT_TRUE (view == "abc");
   EXPECT_TRUE ("abc" == view);
   EXPECT_TRUE (view != "abd");
@@ -107,7 +108,7 @@ TEST (LumexStringViewImplicitTest,
       GivenView_WhenComparedWithString_ThenBothWays)
 {
   std::string const text ("abc");
-  LumexStringView const view ("abc");
+  lumex_string_view const view ("abc");
   EXPECT_TRUE (view == text);
   EXPECT_TRUE (text == view);
   EXPECT_FALSE (view != text);
@@ -117,13 +118,13 @@ TEST (LumexStringViewImplicitTest,
       GivenCharPointerOverload_WhenLiteral_ThenExact)
 {
   EXPECT_EQ (pick ("x"), 1);
-  EXPECT_EQ (pick (LumexStringView ("x")), 2);
+  EXPECT_EQ (pick (lumex_string_view ("x")), 2);
   EXPECT_EQ (pick (std::string ("x")), 2);
 }
 
 TEST (LumexStringViewImplicitTest, GivenView_WhenToString_ThenStillExplicit)
 {
-  LumexStringView const view ("abc");
+  lumex_string_view const view ("abc");
   std::string const copy = static_cast<std::string> (view);
   EXPECT_EQ (copy, "abc");
 }

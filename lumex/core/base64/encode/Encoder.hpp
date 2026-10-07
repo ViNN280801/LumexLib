@@ -24,8 +24,8 @@
 
 /**
  * @file Encoder.hpp
- * @brief Base64 encoding: the `Encoder` class of the `lumex::base64` library.
- * @details `Encoder::encode()` turns bytes into Base64 text in the standard
+ * @brief Base64 encoding: the `encoder` class of the `lumex::base64` library.
+ * @details `encoder::encode()` turns bytes into Base64 text in the standard
  * alphabet (with `+` and `/`), padded with `=` to a multiple of four
  * characters. The pointer and size overload and the `std::vector` overload are
  * compiled into the library and have the same signature in every C++ standard;
@@ -108,7 +108,7 @@ using namespace lumex::core::base64::codec::Types;
  * an import for an inline member it does not inline, and the library does
  * not provide the standard-dependent overload.
  */
-class Encoder final
+class encoder final
 {
 public:
   /**

@@ -15,7 +15,7 @@
 
 namespace
 {
-LUMEX_DEFINE_EXCEPTION (HeaderOnlyException, LumexBaseException);
+LUMEX_DEFINE_EXCEPTION (HeaderOnlyException, lumex_base_exception);
 
 // Redirects std::cerr for the lifetime of the object.
 class HeaderCerrCapture

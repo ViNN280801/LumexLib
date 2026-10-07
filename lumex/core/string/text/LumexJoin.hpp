@@ -30,7 +30,7 @@
  * included) and a `std::string_view` separator. C++11 to C++17: `join` takes
  * anything a range-based `for` can walk (containers, C arrays,
  * `std::initializer_list`) and any separator `operator<<` can write
- * (`"literal"`, `std::string`, `LumexStringView`, C++17 `std::string_view`,
+ * (`"literal"`, `std::string`, `lumex_string_view`, C++17 `std::string_view`,
  * `char`). Both produce the same text for the same elements.
  *
  * C++20 takes the range as `input_range auto const &`: a view that is not

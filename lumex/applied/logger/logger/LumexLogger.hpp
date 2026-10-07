@@ -1372,7 +1372,7 @@ AddressToHexLogString (T integralValue)
  * @brief Alias for lumex::applied::logger::logger::LumexLogger.
  * @details Simplifies usage of the LumexLogger singleton by allowing it to be
  * referred to without its full namespace qualification, matching the
- * convention used by LumexEnvironment and LumexLogging.
+ * convention used by lumex_environment and LumexLogging.
  */
 using LumexLogger = lumex::applied::logger::logger::LumexLogger;
 

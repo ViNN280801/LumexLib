@@ -63,7 +63,7 @@ sextet (char chr)
 
 LUMEX_PUBLIC_API
 bool
-Decoder::decode (char const *encoded, std::size_t size,
+decoder::decode (char const *encoded, std::size_t size,
                  std::vector<byte_type> &out)
 {
   out.clear ();
@@ -73,7 +73,7 @@ Decoder::decode (char const *encoded, std::size_t size,
     return true;
 
   // Length, invalid characters, and padding position and amount.
-  if (!Validator::is_valid_base64 (encoded, size))
+  if (!validator::is_valid_base64 (encoded, size))
     return false;
 
   // Padding only ends the input, so the data characters are a prefix. The
@@ -120,7 +120,7 @@ Decoder::decode (char const *encoded, std::size_t size,
 
 LUMEX_PUBLIC_API
 std::vector<byte_type>
-Decoder::decode (char const *encoded, std::size_t size)
+decoder::decode (char const *encoded, std::size_t size)
 {
   std::vector<byte_type> result;
   decode (encoded, size, result);

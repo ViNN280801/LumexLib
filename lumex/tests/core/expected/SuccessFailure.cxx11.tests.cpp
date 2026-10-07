@@ -4,14 +4,14 @@
  *
  * WHAT:  unit tests for the success_t<ValueType> and failure_t<ErrorType>
  * markers and for the success() / failure(error) factories that produce them.
- * WHY:   a marker is implicitly converted into Expected at the `return`, so a
+ * WHY:   a marker is implicitly converted into expected at the `return`, so a
  * wrong conversion (or a missing SFINAE guard) silently changes the value or
  * the error a function reports instead of failing to compile. VERIFIES: both
  * factories, both conversion paths (rvalue and const lvalue marker),
- *        conversion into Expected<T, E> and Expected<void, E>, conversion of
+ *        conversion into expected<T, E> and expected<void, E>, conversion of
  * the stored error into another target error type, SFINAE removal for
  *        incompatible targets, marker accessors, move-only value and error
- * types, interop with the monadic operations of Expected, and the boundary /
+ * types, interop with the monadic operations of expected, and the boundary /
  *        adversarial inputs (empty error, embedded NUL, very long error,
  * throwing default constructor). REASONING: asserting the literal result of a
  * conversion proves nothing about the implicit conversion itself; the
@@ -19,7 +19,7 @@
  * GoogleTest, one behaviour per TEST, Arrange-Act-Assert, plus a block of
  *        static_assert compile-time checks for the conversion contract.
  * IMPACT: without this suite a marker could drop the stored value, pick the
- * wrong Expected specialization, or start compiling where it must not, and
+ * wrong expected specialization, or start compiling where it must not, and
  * every caller of the factories would keep the wrong behaviour unnoticed.
  *
  * FILES: this file holds the tests that compile from C++11 (every expected
@@ -65,7 +65,7 @@ struct ThrowingDefault
   ThrowingDefault () { throw std::runtime_error ("ThrowingDefault ctor"); }
 };
 
-// Move-only error type: failure() must move it into Expected, never copy it.
+// Move-only error type: failure() must move it into expected, never copy it.
 struct MoveOnlyError
 {
   explicit MoveOnlyError (int c) : code (c) {}
@@ -77,13 +77,13 @@ struct MoveOnlyError
 };
 
 // Success helpers that return through the factories, the way call sites do.
-Expected<void, std::string>
+expected<void, std::string>
 ConfigureOk ()
 {
   return success ();
 }
 
-Expected<void, std::string>
+expected<void, std::string>
 ConfigureBad ()
 {
   return failure (
@@ -91,14 +91,14 @@ ConfigureBad ()
 }
 
 template <typename ValueType>
-Expected<ValueType, std::string>
+expected<ValueType, std::string>
 ValueOk (ValueType value)
 {
   return success (value);
 }
 
 template <typename ValueType>
-Expected<ValueType, std::string>
+expected<ValueType, std::string>
 ValueBad (std::string const &why)
 {
   return failure (why);
@@ -108,61 +108,61 @@ ValueBad (std::string const &why)
 // === Compile-time contract (template API tests) =============================
 // A marker must be usable exactly where it is convertible, and nowhere else.
 
-// success() covers Expected<void, E> and Expected<T, E> with a
+// success() covers expected<void, E> and expected<T, E> with a
 // default-constructible T.
 static_assert (
-    std::is_convertible<success_t<void>, Expected<void, std::string>>::value,
+    std::is_convertible<success_t<void>, expected<void, std::string>>::value,
     "success() must convert into Expected<void, E>");
 static_assert (
-    std::is_convertible<success_t<void>, Expected<int, std::string>>::value,
+    std::is_convertible<success_t<void>, expected<int, std::string>>::value,
     "success() must convert into Expected<T, E> for a default-constructible "
     "T");
 static_assert (
-    !std::is_convertible<success_t<void>, Expected<NonDefaultConstructible,
+    !std::is_convertible<success_t<void>, expected<NonDefaultConstructible,
                                                    std::string>>::value,
     "success() must not fabricate a value type without a default constructor");
 static_assert (
-    std::is_convertible<success_t<void>, Expected<std::string, int>>::value,
+    std::is_convertible<success_t<void>, expected<std::string, int>>::value,
     "success() covers any error type when the success type is "
     "default-constructible");
 static_assert (
     !std::is_convertible<success_t<std::string>,
-                         Expected<void, std::string>>::value,
+                         expected<void, std::string>>::value,
     "a value-carrying success() must not convert into Expected<void, E>");
 static_assert (std::is_convertible<success_t<std::string>,
-                                   Expected<std::string, int>>::value,
+                                   expected<std::string, int>>::value,
                "success(value) must convert when the target success type "
                "accepts the value");
 static_assert (
-    !std::is_convertible<success_t<int>, Expected<std::string, int>>::value,
+    !std::is_convertible<success_t<int>, expected<std::string, int>>::value,
     "success(value) must not convert when the target success type rejects the "
     "value");
 
 // failure(error) covers every target error type constructible from the stored
 // error.
 static_assert (std::is_convertible<failure_t<std::string>,
-                                   Expected<void, std::string>>::value,
+                                   expected<void, std::string>>::value,
                "failure(error) must convert into Expected<void, E>");
 static_assert (std::is_convertible<failure_t<std::string>,
-                                   Expected<int, std::string>>::value,
+                                   expected<int, std::string>>::value,
                "failure(error) must convert into Expected<T, E>");
 static_assert (
     std::is_convertible<failure_t<char const *>,
-                        Expected<void, std::string>>::value,
+                        expected<void, std::string>>::value,
     "failure(literal) must convert when E is constructible from the literal");
 static_assert (std::is_convertible<failure_t<std::string>,
-                                   Expected<void, RichError>>::value,
+                                   expected<void, RichError>>::value,
                "failure(error) must convert when the target error type "
                "accepts the error");
 static_assert (
-    !std::is_convertible<failure_t<int>, Expected<void, std::string>>::value,
+    !std::is_convertible<failure_t<int>, expected<void, std::string>>::value,
     "failure(error) must not convert when the target error type rejects the "
     "error");
 static_assert (
-    !std::is_convertible<failure_t<std::string>, Expected<int, int>>::value,
+    !std::is_convertible<failure_t<std::string>, expected<int, int>>::value,
     "failure(error) must not ignore the target error type");
 static_assert (std::is_convertible<failure_t<MoveOnlyError>,
-                                   Expected<void, MoveOnlyError>>::value,
+                                   expected<void, MoveOnlyError>>::value,
                "failure(error) must convert for a move-only error type");
 static_assert (!std::is_copy_constructible<failure_t<MoveOnlyError>>::value,
                "the marker must not make a move-only error copyable");
@@ -185,7 +185,7 @@ static_assert (
 // ============== Every pair of the matrix runs the same four contracts: the
 // factories produce the right state, the stored value / error survives the
 // conversion, the marker itself behaves under copy and move, and the produced
-// Expected keeps working with the monadic operations of the module. The matrix
+// expected keeps working with the monadic operations of the module. The matrix
 // is 99 x 99 types, so the assertions compare with operator== instead of gtest
 // printers - the pair under test is already in the test name.
 template <typename PairType>
@@ -194,7 +194,7 @@ class SuccessFailureMatrixTest : public ::testing::Test
 protected:
   using SuccessType = typename PairType::Success;
   using ErrorType = typename PairType::Error;
-  using ResultType = Expected<SuccessType, ErrorType>;
+  using ResultType = expected<SuccessType, ErrorType>;
 };
 
 TEST (SuccessFailure, Matrix_EveryCxx11Pair_ThenEveryContractHolds)
@@ -251,12 +251,12 @@ TEST (SuccessFailure, SuccessWithMoveOnlyValue_ThenValueIsMovedIntoExpected)
 {
   // 1. WHAT: success(value) with a move-only payload.
   // 2. WHY: owning buffers are returned as successes, never copied.
-  // 3. VERIFIES: the payload reaches the Expected without a copy.
+  // 3. VERIFIES: the payload reaches the expected without a copy.
   // 4. WHY VERIFY: a copy-based conversion would not compile for such types.
   // 5. METHOD: return a unique_ptr through the factory and dereference it.
   // 6. IMPACT: owning payloads could not be returned through the marker at
   // all.
-  Expected<std::unique_ptr<int>, std::string> const result
+  expected<std::unique_ptr<int>, std::string> const result
       = success (std::unique_ptr<int> (new int (11)));
 
   ASSERT_TRUE (result.has_value ());
@@ -269,11 +269,11 @@ TEST (SuccessFailure, FailureWithMoveOnlyError_ThenErrorIsMovedIntoExpected)
   // 1. WHAT: failure(error) with a move-only error type.
   // 2. WHY: error types may own resources (handles, buffers, codes with
   // payload).
-  // 3. VERIFIES: the error reaches the Expected without a copy.
+  // 3. VERIFIES: the error reaches the expected without a copy.
   // 4. WHY VERIFY: a copy-based conversion would not compile for such types.
   // 5. METHOD: return a MoveOnlyError through the factory and read its code.
   // 6. IMPACT: move-only error types could not be reported through the marker.
-  Expected<void, MoveOnlyError> const result = failure (MoveOnlyError (5));
+  expected<void, MoveOnlyError> const result = failure (MoveOnlyError (5));
 
   ASSERT_FALSE (result.has_value ());
   EXPECT_EQ (result.error ().code, 5);
@@ -288,7 +288,7 @@ TEST (SuccessFailure,
   // 4. WHY VERIFY: swallowing the throw would hand out a half-built value.
   // 5. METHOD: convert the marker inside EXPECT_THROW.
   // 6. IMPACT: a resource-allocating value type would be silently invalid.
-  using ThrowingResult = Expected<ThrowingDefault, std::string>;
+  using ThrowingResult = expected<ThrowingDefault, std::string>;
 
   EXPECT_THROW ((void)static_cast<ThrowingResult> (success ()),
                 std::runtime_error);
@@ -303,7 +303,7 @@ TEST (SuccessFailure, FailureWithEmptyError_ThenStillAnErrorState)
   // 5. METHOD: convert an empty std::string and check the state and the
   // payload.
   // 6. IMPACT: silent failures would read as successes.
-  Expected<void, std::string> const result = failure (std::string ());
+  expected<void, std::string> const result = failure (std::string ());
 
   ASSERT_FALSE (result.has_value ());
   EXPECT_TRUE (result.error ().empty ());
@@ -324,7 +324,7 @@ TEST (SuccessFailure,
   payload[0] = '\0';
   payload[9999] = '\0';
 
-  Expected<void, std::string> const result = failure (payload);
+  expected<void, std::string> const result = failure (payload);
 
   ASSERT_FALSE (result.has_value ());
   ASSERT_EQ (result.error ().size (), payload.size ());
@@ -349,7 +349,7 @@ TEST (SuccessFailure, HelpersReturningThroughTheFactories_ThenStatesMatch)
   auto const value = ValueOk (7);
   auto const failed = ValueBad<int> ("why");
 
-  auto const parse = [] (int input) -> Expected<int, std::string>
+  auto const parse = [] (int input) -> expected<int, std::string>
     {
       if (input < 0)
         return failure (std::string ("negative"));

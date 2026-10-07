@@ -39,9 +39,9 @@
 
 /**
  * @file LumexEnvironment.hpp
- * @brief Defines the LumexEnvironment class for cross-platform environment
+ * @brief Defines the lumex_environment class for cross-platform environment
  * variable management.
- * @details This header provides the declaration for the LumexEnvironment
+ * @details This header provides the declaration for the lumex_environment
  * class, which offers a unified, thread-safe, and exception-safe interface for
  * interacting with system environment variables across different operating
  * systems (Windows, Linux, macOS). It utilizes design patterns like Singleton
@@ -127,7 +127,7 @@ namespace env
  * @par Example
  * @code
  * // Basic usage:
- * LumexEnvironment::EnvResult path_result = LumexEnvironment::get("PATH");
+ * lumex_environment::EnvResult path_result = lumex_environment::get("PATH");
  * if (path_result.success) {
  *     std::cout << "PATH: " << path_result.value << std::endl;
  * } else {
@@ -137,23 +137,23 @@ namespace env
  * }
  *
  * // Getting with a default fallback value:
- * std::string home_dir = LumexEnvironment::get_or("HOME", "/default/home");
+ * std::string home_dir = lumex_environment::get_or("HOME", "/default/home");
  * std::cout << "Home directory: " << home_dir << std::endl;
  *
  * // Setting an environment variable:
- * if (LumexEnvironment::set("MY_APP_VAR", "my_value")) {
+ * if (lumex_environment::set("MY_APP_VAR", "my_value")) {
  *     std::cout << "MY_APP_VAR set successfully." << std::endl;
  * } else {
  *     std::cerr << "Failed to set MY_APP_VAR." << std::endl;
  * }
  *
  * // Checking if an environment variable exists:
- * if (LumexEnvironment::has("TEMP")) {
+ * if (lumex_environment::has("TEMP")) {
  *     std::cout << "TEMP variable exists." << std::endl;
  * }
  * @endcode
  */
-class LUMEX_API LumexEnvironment
+class LUMEX_API lumex_environment
 {
 public:
   /// @brief Type alias for std::size_t, used for buffer sizes and lengths.
@@ -177,8 +177,8 @@ public:
    *
    * @par Example
    * @code
-   * LumexEnvironment::EnvResult result =
-   * LumexEnvironment::get("NON_EXISTENT_VAR"); if (!result) { // Implicit
+   * lumex_environment::EnvResult result =
+   * lumex_environment::get("NON_EXISTENT_VAR"); if (!result) { // Implicit
    * conversion to bool for convenience std::cerr << "Variable not found. Error
    * code: " << result.error_code << std::endl; std::string fallback =
    * result.get_value_or("DEFAULT_FALLBACK"); std::cout << "Using fallback
@@ -257,13 +257,13 @@ private:
    * @brief Abstract base class for environment variable access strategies.
    * @details This interface defines the contract for OS-specific
    * implementations of environment variable operations. It is a key component
-   * of the Strategy pattern, allowing LumexEnvironment to delegate
+   * of the Strategy pattern, allowing lumex_environment to delegate
    * platform-dependent behavior without exposing implementation details.
    * @note This class handles basic C-string arguments and does not throw
    * exceptions.
    */
   class LUMEX_API
-      EnvironmentStrategy // NOLINT(cppcoreguidelines-special-member-functions)
+      environment_strategy // NOLINT(cppcoreguidelines-special-member-functions)
   {
   public:
     /**
@@ -271,7 +271,7 @@ private:
      * classes.
      * @note Adheres to the Rule of Zero/Five for polymorphic base classes.
      */
-    virtual ~EnvironmentStrategy () = default;
+    virtual ~environment_strategy () = default;
     /**
      * @brief Pure virtual method to retrieve the value of an environment
      * variable.
@@ -302,14 +302,14 @@ private:
 
 #if defined(LUMEX_OS_WINDOWS)
   /**
-   * @brief Windows-specific implementation of the EnvironmentStrategy.
+   * @brief Windows-specific implementation of the environment_strategy.
    * @details This class provides the concrete implementation for environment
    *          variable operations on Windows, utilizing Win32 API functions
    *          like `_dupenv_s` and `SetEnvironmentVariableA`.
-   * @note This class inherits from `EnvironmentStrategy` to provide a
+   * @note This class inherits from `environment_strategy` to provide a
    * polymorphic interface.
    */
-  class LUMEX_API WindowsEnvironmentStrategy : public EnvironmentStrategy
+  class LUMEX_API windows_environment_strategy : public environment_strategy
   {
   public:
     /**
@@ -353,15 +353,15 @@ private:
 
 #else
   /**
-   * @brief POSIX-compliant implementation of the EnvironmentStrategy.
+   * @brief POSIX-compliant implementation of the environment_strategy.
    * @details This class provides the concrete implementation for environment
    *          variable operations on POSIX-compliant systems (Linux, macOS,
    * Unix), utilizing standard C library functions like `getenv`, `setenv`, and
    * `unsetenv`.
-   * @note This class inherits from `EnvironmentStrategy` to provide a
+   * @note This class inherits from `environment_strategy` to provide a
    * polymorphic interface.
    */
-  class LUMEX_API PosixEnvironmentStrategy : public EnvironmentStrategy
+  class LUMEX_API posix_environment_strategy : public environment_strategy
   {
   public:
     /**
@@ -419,82 +419,82 @@ private:
   ///          as locking does not logically modify the object's observable
   ///          state.
   mutable std::mutex m_mutex;
-  /// @brief Unique pointer to the concrete `EnvironmentStrategy`
+  /// @brief Unique pointer to the concrete `environment_strategy`
   /// implementation.
   /// @details This member holds the OS-specific strategy, ensuring proper
   /// lifetime
   ///          management through `std::unique_ptr` (RAII). It is initialized
-  ///          once during the `LumexEnvironment` singleton's creation.
-  std::unique_ptr<EnvironmentStrategy> m_strategy;
+  ///          once during the `lumex_environment` singleton's creation.
+  std::unique_ptr<environment_strategy> m_strategy;
 #ifdef _WIN32
 #pragma warning(pop)
 #endif
 
   /**
-   * @brief Private constructor for the `LumexEnvironment` class.
+   * @brief Private constructor for the `lumex_environment` class.
    * @details This constructor is private to enforce the Singleton pattern,
    *          ensuring that only the `instance()` method can create a
-   * `LumexEnvironment` object. It initializes the appropriate
-   * `EnvironmentStrategy` based on the operating system.
+   * `lumex_environment` object. It initializes the appropriate
+   * `environment_strategy` based on the operating system.
    */
-  LumexEnvironment () : m_strategy (create_strategy ()) {}
+  lumex_environment () : m_strategy (create_strategy ()) {}
 
   /**
-   * @brief Factory method for creating the appropriate `EnvironmentStrategy`
+   * @brief Factory method for creating the appropriate `environment_strategy`
    * based on the operating system.
    * @details This static method determines whether to instantiate
-   * `WindowsEnvironmentStrategy` or `PosixEnvironmentStrategy` at compile
+   * `windows_environment_strategy` or `posix_environment_strategy` at compile
    * time, based on the `LUMEX_OS_WINDOWS` macro.
-   * @return A `std::unique_ptr` to the newly created `EnvironmentStrategy`
+   * @return A `std::unique_ptr` to the newly created `environment_strategy`
    * instance.
    */
-  static std::unique_ptr<EnvironmentStrategy>
+  static std::unique_ptr<environment_strategy>
   create_strategy ()
   {
 #if defined(LUMEX_OS_WINDOWS)
-    return std::unique_ptr<EnvironmentStrategy> (
-        new WindowsEnvironmentStrategy ());
+    return std::unique_ptr<environment_strategy> (
+        new windows_environment_strategy ());
 #else
-    return std::unique_ptr<EnvironmentStrategy> (
-        new PosixEnvironmentStrategy ());
+    return std::unique_ptr<environment_strategy> (
+        new posix_environment_strategy ());
 #endif
   }
 
 public:
   /**
    * @brief Provides the single, globally accessible instance of
-   * LumexEnvironment.
+   * lumex_environment.
    * @details This method implements the thread-safe Singleton pattern (using
    *          C++11 static initialization magic) to ensure only one instance
    *          of the environment manager exists throughout the application's
    * lifetime.
-   * @return A reference to the singleton LumexEnvironment instance.
+   * @return A reference to the singleton lumex_environment instance.
    * @note The instance is lazily initialized upon the first call to this
    * method.
    *
    * @par Example
    * @code
-   * LumexEnvironment& env_instance = LumexEnvironment::instance();
+   * lumex_environment& env_instance = lumex_environment::instance();
    * // Now use env_instance to call non-static methods if preferred
-   * LumexEnvironment::EnvResult path_res =
+   * lumex_environment::EnvResult path_res =
    * env_instance.get_environment_variable("PATH");
    * @endcode
    */
-  static LumexEnvironment &instance ();
+  static lumex_environment &instance ();
 
   /**
    * @brief Deleted copy constructor.
-   * @details Ensures that LumexEnvironment objects cannot be copied,
+   * @details Ensures that lumex_environment objects cannot be copied,
    *          maintaining the integrity of the singleton pattern.
    */
-  LumexEnvironment (LumexEnvironment const &) = delete;
+  lumex_environment (lumex_environment const &) = delete;
 
   /**
    * @brief Deleted copy assignment operator.
-   * @details Ensures that LumexEnvironment objects cannot be assigned,
+   * @details Ensures that lumex_environment objects cannot be assigned,
    *          maintaining the integrity of the singleton pattern.
    */
-  LumexEnvironment &operator= (LumexEnvironment const &) = delete;
+  lumex_environment &operator= (lumex_environment const &) = delete;
 
   /**
    * @brief Default destructor.
@@ -502,21 +502,21 @@ public:
    *          adherence to the Rule of Five. It will automatically deallocate
    *          the `m_strategy` unique pointer.
    */
-  ~LumexEnvironment () = default;
+  ~lumex_environment () = default;
 
   /**
    * @brief Deleted move constructor.
-   * @details Ensures that LumexEnvironment objects cannot be moved,
+   * @details Ensures that lumex_environment objects cannot be moved,
    *          maintaining the integrity of the singleton pattern.
    */
-  LumexEnvironment (LumexEnvironment &&) = delete;
+  lumex_environment (lumex_environment &&) = delete;
 
   /**
    * @brief Deleted move assignment operator.
-   * @details Ensures that LumexEnvironment objects cannot be move-assigned,
+   * @details Ensures that lumex_environment objects cannot be move-assigned,
    *          maintaining the integrity of the singleton pattern.
    */
-  LumexEnvironment &operator= (LumexEnvironment &&) = delete;
+  lumex_environment &operator= (lumex_environment &&) = delete;
 
   /**
    * @brief Retrieves the value of a specified environment variable in a
@@ -536,8 +536,8 @@ public:
    *
    * @par Example
    * @code
-   * LumexEnvironment::EnvResult user_result =
-   * LumexEnvironment::instance().get_environment_variable("USER"); if
+   * lumex_environment::EnvResult user_result =
+   * lumex_environment::instance().get_environment_variable("USER"); if
    * (user_result.success) { std::cout << "Current user: " << user_result.value
    * << std::endl; } else { std::cerr << "Could not get USER variable. Error: "
    * << user_result.error_code << std::endl;
@@ -586,18 +586,18 @@ public:
    *
    * @par Example
    * @code
-   * if (LumexEnvironment::instance().set_environment_variable("LOG_LEVEL",
+   * if (lumex_environment::instance().set_environment_variable("LOG_LEVEL",
    * "DEBUG")) { std::cout << "LOG_LEVEL set to DEBUG." << std::endl; } else {
    *     std::cerr << "Failed to set LOG_LEVEL." << std::endl;
    * }
    *
    * // Unsetting a variable:
-   * if (LumexEnvironment::instance().set_environment_variable("OLD_VAR",
+   * if (lumex_environment::instance().set_environment_variable("OLD_VAR",
    * nullptr)) { std::cout << "OLD_VAR unset successfully." << std::endl;
    * }
    *
    * // Setting only if not already present:
-   * LumexEnvironment::instance().set_environment_variable("CONFIG_PATH",
+   * lumex_environment::instance().set_environment_variable("CONFIG_PATH",
    * "/default/path", false);
    * @endcode
    */
@@ -638,9 +638,8 @@ public:
    *
    * @par Example
    * @code
-   * if (LumexEnvironment::instance().unset_environment_variable("TEMP_VAR")) {
-   *     std::cout << "TEMP_VAR unset successfully." << std::endl;
-   * } else {
+   * if (lumex_environment::instance().unset_environment_variable("TEMP_VAR"))
+   * { std::cout << "TEMP_VAR unset successfully." << std::endl; } else {
    *     std::cerr << "Failed to unset TEMP_VAR." << std::endl;
    * }
    * @endcode
@@ -665,8 +664,8 @@ public:
    * @par Example
    * @code
    * std::string editor =
-   * LumexEnvironment::instance().get_environment_variable_or("EDITOR", "vim");
-   * std::cout << "Preferred editor: " << editor << std::endl;
+   * lumex_environment::instance().get_environment_variable_or("EDITOR",
+   * "vim"); std::cout << "Preferred editor: " << editor << std::endl;
    * @endcode
    */
   string_type
@@ -689,7 +688,8 @@ public:
    *
    * @par Example
    * @code
-   * if (LumexEnvironment::instance().has_environment_variable("PROGRAMFILES"))
+   * if
+   * (lumex_environment::instance().has_environment_variable("PROGRAMFILES"))
    * { std::cout << "PROGRAMFILES variable is present." << std::endl;
    * }
    * @endcode
@@ -712,7 +712,7 @@ public:
    * @par Example
    * @code
    * if
-   * (LumexEnvironment::instance().is_environment_variable_truthy("FEATURE_X"))
+   * (lumex_environment::instance().is_environment_variable_truthy("FEATURE_X"))
    * { std::cout << "Feature X is enabled." << std::endl;
    * }
    * @endcode
@@ -723,9 +723,9 @@ public:
   /**
    * @brief Static convenience method to retrieve an environment variable.
    * @details This is a shortcut for
-   * `LumexEnvironment::instance().get_environment_variable(name)`. It provides
-   * a global access point for reading environment variables without needing to
-   * explicitly get the `LumexEnvironment` singleton instance.
+   * `lumex_environment::instance().get_environment_variable(name)`. It
+   * provides a global access point for reading environment variables without
+   * needing to explicitly get the `lumex_environment` singleton instance.
    * @param name The null-terminated C-string name of the environment variable.
    * @return An EnvResult object containing the variable's value and operation
    * status.
@@ -734,7 +734,7 @@ public:
    *
    * @par Example
    * @code
-   * auto locale_result = LumexEnvironment::get("LANG");
+   * auto locale_result = lumex_environment::get("LANG");
    * if (locale_result) {
    *     std::cout << "System language: " << locale_result.value << std::endl;
    * }
@@ -746,7 +746,7 @@ public:
    * @brief Static convenience method to retrieve an environment variable with
    * a default fallback.
    * @details This is a shortcut for
-   * `LumexEnvironment::instance().get_environment_variable_or(name,
+   * `lumex_environment::instance().get_environment_variable_or(name,
    * default_value)`. It provides a simple way to read an environment variable
    * with a default value if the variable is not found or cannot be retrieved.
    * @param name The null-terminated C-string name of the environment variable.
@@ -759,7 +759,7 @@ public:
    *
    * @par Example
    * @code
-   * std::string temp_path = LumexEnvironment::get_or("TMP", "/tmp");
+   * std::string temp_path = lumex_environment::get_or("TMP", "/tmp");
    * std::cout << "Temporary path: " << temp_path << std::endl;
    * @endcode
    */
@@ -769,7 +769,7 @@ public:
   /**
    * @brief Static convenience method to set an environment variable.
    * @details This is a shortcut for
-   * `LumexEnvironment::instance().set_environment_variable(name, value,
+   * `lumex_environment::instance().set_environment_variable(name, value,
    * overwrite)`. It provides a global access point for setting environment
    * variables.
    * @param name The null-terminated C-string name of the environment variable.
@@ -783,7 +783,7 @@ public:
    *
    * @par Example
    * @code
-   * if (LumexEnvironment::set("APP_MODE", "PRODUCTION")) {
+   * if (lumex_environment::set("APP_MODE", "PRODUCTION")) {
    *     std::cout << "App mode set to PRODUCTION." << std::endl;
    * }
    * @endcode
@@ -794,8 +794,9 @@ public:
    * @brief Static convenience method to check if an environment variable
    * exists.
    * @details This is a shortcut for
-   * `LumexEnvironment::instance().has_environment_variable(name)`. It provides
-   * a quick global check for the existence of an environment variable.
+   * `lumex_environment::instance().has_environment_variable(name)`. It
+   * provides a quick global check for the existence of an environment
+   * variable.
    * @param name The null-terminated C-string name of the environment variable.
    * @return True if the variable exists, false otherwise.
    * @note This method is thread-safe.
@@ -803,7 +804,7 @@ public:
    *
    * @par Example
    * @code
-   * if (LumexEnvironment::has("HOME")) {
+   * if (lumex_environment::has("HOME")) {
    *     std::cout << "HOME variable is defined." << std::endl;
    * }
    * @endcode
@@ -814,7 +815,7 @@ public:
    * @brief Static convenience method to check whether an environment variable
    * is truthy (enabled).
    * @details This is a shortcut for
-   * `LumexEnvironment::instance().is_environment_variable_truthy(name)`. See
+   * `lumex_environment::instance().is_environment_variable_truthy(name)`. See
    * that method for the exact truthy/falsy value semantics.
    * @param name The null-terminated C-string name of the environment variable.
    * @return True if the variable is set to a truthy value, false otherwise.
@@ -823,7 +824,7 @@ public:
    *
    * @par Example
    * @code
-   * if (LumexEnvironment::is_truthy("FEATURE_X")) {
+   * if (lumex_environment::is_truthy("FEATURE_X")) {
    *     std::cout << "Feature X is enabled." << std::endl;
    * }
    * @endcode
@@ -834,38 +835,38 @@ public:
 /**
  * @brief Checks whether an environment variable is set to a non-empty value.
  * @details A small free-function helper, equivalent to
- *          <tt>!LumexEnvironment\::get_or(name, {}).empty()</tt>: true only
+ *          <tt>!lumex_environment\::get_or(name, {}).empty()</tt>: true only
  * when the variable exists and its value is not an empty string.
  * @param name Name of the environment variable to check.
  * @return True if the variable exists and is non-empty, false otherwise.
- * @note This function is thread-safe (delegates to `LumexEnvironment`).
+ * @note This function is thread-safe (delegates to `lumex_environment`).
  * @note Does not throw.
  */
-LUMEX_API bool is_env_set (LumexEnvironment::string_type const &name);
+LUMEX_API bool is_env_set (lumex_environment::string_type const &name);
 
 /**
  * @brief Checks whether an environment variable is "truthy" (enabled).
  * @details A small free-function helper, equivalent to
- * `LumexEnvironment::is_truthy(name)`. A variable is truthy unless it is
+ * `lumex_environment::is_truthy(name)`. A variable is truthy unless it is
  * unset, empty, or equal to "0"/"false" once lower-cased.
  * @param name Name of the environment variable to check.
  * @return True if the variable is truthy, false otherwise.
- * @note This function is thread-safe (delegates to `LumexEnvironment`).
+ * @note This function is thread-safe (delegates to `lumex_environment`).
  * @note Does not throw.
  */
-LUMEX_API bool is_env_truthy (LumexEnvironment::string_type const &name);
+LUMEX_API bool is_env_truthy (lumex_environment::string_type const &name);
 } // namespace env
 } // namespace environment
 } // namespace core
 } // namespace lumex
 
 /**
- * @brief Alias for lumex::core::environment::LumexEnvironment.
- * @details This using declaration simplifies the usage of the LumexEnvironment
- * class by allowing it to be referred to without its full namespace
- * qualification.
+ * @brief Alias for lumex::core::environment::lumex_environment.
+ * @details This using declaration simplifies the usage of the
+ * lumex_environment class by allowing it to be referred to without its full
+ * namespace qualification.
  */
-using LumexEnvironment = lumex::core::environment::env::LumexEnvironment;
+using lumex_environment = lumex::core::environment::env::lumex_environment;
 
 #if defined(__clang__)
 #pragma clang diagnostic pop

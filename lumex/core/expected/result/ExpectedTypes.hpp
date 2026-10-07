@@ -39,12 +39,12 @@
 
 /**
  * @file ExpectedTypes.hpp
- * @brief The tags and the placeholder type that `Expected` uses: `in_place`,
+ * @brief The tags and the placeholder type that `expected` uses: `in_place`,
  * `unexpect` and `Unit`.
  * @details `in_place_tag` and `in_place` request in-place construction of the
  * value, `unexpect_t` and `unexpect` in-place construction of the error, as
  * `std::in_place` (C++17) and `std::unexpect` (C++23) do. `Unit` is the empty
- * object that fills the success alternative of `Expected<void, E>`. The
+ * object that fills the success alternative of `expected<void, E>`. The
  * `is_expected` traits are not here but in `LumexTypeTraits.hpp`. The tags are
  * also visible at global scope.
  */
@@ -68,7 +68,7 @@ namespace result
 {
 /**
  * @brief In-place construction tag; C++11 has no std::in_place.
- * @details Directly constructs the contained value inside `Expected`, avoiding
+ * @details Directly constructs the contained value inside `expected`, avoiding
  * extra copies or moves. Analogue of `std::in_place_t` from C++17.
  */
 struct in_place_tag
@@ -77,17 +77,17 @@ struct in_place_tag
 
 /**
  * @brief Global constant of type `in_place_tag`.
- * @details Pass to an `Expected` constructor to request in-place construction
+ * @details Pass to an `expected` constructor to request in-place construction
  * of the success value.
  * @note Analogue of `std::in_place` from C++17.
  */
 LUMEX_CONSTEXPR in_place_tag in_place{};
 
 /**
- * @brief Placeholder success type for `Expected<void, ErrorType>`.
- * @details Represents an empty successful value when `Expected` holds no data
+ * @brief Placeholder success type for `expected<void, ErrorType>`.
+ * @details Represents an empty successful value when `expected` holds no data
  * but is in the success state. Enables a C++23-like `std::expected<void, E>`.
- * @note Used as the success-type stub in the `Expected<void, ErrorType>`
+ * @note Used as the success-type stub in the `expected<void, ErrorType>`
  * specialization.
  */
 struct Unit

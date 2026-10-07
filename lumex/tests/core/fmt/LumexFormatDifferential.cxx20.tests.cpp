@@ -125,7 +125,7 @@ with_lumex (std::string const &spec, T const &value)
       return outcome_t{ false,
                         fmt::vformat (spec, fmt::make_format_args (value)) };
     }
-  catch (fmt::FormatError const &)
+  catch (fmt::format_error const &)
     {
       return outcome_t{ true, std::string () };
     }

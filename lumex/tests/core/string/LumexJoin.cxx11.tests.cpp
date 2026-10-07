@@ -168,7 +168,7 @@ TEST (LumexJoinTest, GivenCharSeparator_WhenJoinPreCxx20_ThenUsed)
 TEST (LumexJoinTest, GivenLumexStringViewSeparator_WhenJoinPreCxx20_ThenUsed)
 {
   std::vector<int> const numbers = { 1, 2 };
-  lumex::core::string_view::view::LumexStringView const separator (" | ", 3);
+  lumex::core::string_view::view::lumex_string_view const separator (" | ", 3);
   EXPECT_EQ (join (numbers, separator), "1 | 2");
 }
 

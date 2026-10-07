@@ -53,53 +53,53 @@ namespace string_view
 {
 namespace view
 {
-LUMEX_PUBLIC_API LumexWStringView::size_type const LumexWStringView::npos;
+LUMEX_PUBLIC_API lumex_wstring_view::size_type const lumex_wstring_view::npos;
 
 LUMEX_PUBLIC_API
-LumexWStringView::LumexWStringView (wchar_t const *str) LUMEX_NOEXCEPT
+lumex_wstring_view::lumex_wstring_view (wchar_t const *str) LUMEX_NOEXCEPT
     : m_data (str),
       m_size (str != nullptr ? std::wcslen (str) : 0)
 {
 }
 
 LUMEX_PUBLIC_API
-LumexWStringView::LumexWStringView (std::wstring const &str) LUMEX_NOEXCEPT
+lumex_wstring_view::lumex_wstring_view (std::wstring const &str) LUMEX_NOEXCEPT
     : m_data (str.data ()),
       m_size (str.size ())
 {
 }
 
 LUMEX_PUBLIC_API
-LumexWStringView::const_reverse_iterator
-LumexWStringView::rbegin () const LUMEX_NOEXCEPT
+lumex_wstring_view::const_reverse_iterator
+lumex_wstring_view::rbegin () const LUMEX_NOEXCEPT
 {
   return const_reverse_iterator (end ());
 }
 
 LUMEX_PUBLIC_API
-LumexWStringView::const_reverse_iterator
-LumexWStringView::crbegin () const LUMEX_NOEXCEPT
+lumex_wstring_view::const_reverse_iterator
+lumex_wstring_view::crbegin () const LUMEX_NOEXCEPT
 {
   return const_reverse_iterator (end ());
 }
 
 LUMEX_PUBLIC_API
-LumexWStringView::const_reverse_iterator
-LumexWStringView::rend () const LUMEX_NOEXCEPT
+lumex_wstring_view::const_reverse_iterator
+lumex_wstring_view::rend () const LUMEX_NOEXCEPT
 {
   return const_reverse_iterator (begin ());
 }
 
 LUMEX_PUBLIC_API
-LumexWStringView::const_reverse_iterator
-LumexWStringView::crend () const LUMEX_NOEXCEPT
+lumex_wstring_view::const_reverse_iterator
+lumex_wstring_view::crend () const LUMEX_NOEXCEPT
 {
   return const_reverse_iterator (begin ());
 }
 
 LUMEX_PUBLIC_API
-LumexWStringView::const_reference
-LumexWStringView::at (size_type idx) const
+lumex_wstring_view::const_reference
+lumex_wstring_view::at (size_type idx) const
 {
   if (idx >= m_size)
     throw std::out_of_range ("LumexWStringView::at() out of range");
@@ -108,7 +108,7 @@ LumexWStringView::at (size_type idx) const
 
 LUMEX_PUBLIC_API
 void
-LumexWStringView::clear () LUMEX_NOEXCEPT
+lumex_wstring_view::clear () LUMEX_NOEXCEPT
 {
   m_data = nullptr;
   m_size = 0;
@@ -116,7 +116,7 @@ LumexWStringView::clear () LUMEX_NOEXCEPT
 
 LUMEX_PUBLIC_API
 void
-LumexWStringView::remove_prefix (size_type n) LUMEX_NOEXCEPT
+lumex_wstring_view::remove_prefix (size_type n) LUMEX_NOEXCEPT
 {
   n = std::min (n, m_size);
   m_data += n;
@@ -125,7 +125,7 @@ LumexWStringView::remove_prefix (size_type n) LUMEX_NOEXCEPT
 
 LUMEX_PUBLIC_API
 void
-LumexWStringView::remove_suffix (size_type n) LUMEX_NOEXCEPT
+lumex_wstring_view::remove_suffix (size_type n) LUMEX_NOEXCEPT
 {
   n = std::min (n, m_size);
   m_size -= n;
@@ -133,15 +133,15 @@ LumexWStringView::remove_suffix (size_type n) LUMEX_NOEXCEPT
 
 LUMEX_PUBLIC_API
 void
-LumexWStringView::swap (LumexWStringView &other) LUMEX_NOEXCEPT
+lumex_wstring_view::swap (lumex_wstring_view &other) LUMEX_NOEXCEPT
 {
   std::swap (m_data, other.m_data);
   std::swap (m_size, other.m_size);
 }
 
 LUMEX_PUBLIC_API
-LumexWStringView::size_type
-LumexWStringView::copy (wchar_t *dest, size_type count, size_type pos) const
+lumex_wstring_view::size_type
+lumex_wstring_view::copy (wchar_t *dest, size_type count, size_type pos) const
 {
   if (pos > m_size)
     throw std::out_of_range ("LumexWStringView::copy() pos > size");
@@ -152,19 +152,19 @@ LumexWStringView::copy (wchar_t *dest, size_type count, size_type pos) const
 
 // — Substring —
 LUMEX_PUBLIC_API
-LumexWStringView
-LumexWStringView::substr (size_type pos, size_type n) const
+lumex_wstring_view
+lumex_wstring_view::substr (size_type pos, size_type n) const
 {
   if (pos > m_size)
     throw std::out_of_range ("LumexWStringView::substr() pos > size");
   n = std::min (n, m_size - pos);
-  return LumexWStringView (m_data + pos, n);
+  return lumex_wstring_view (m_data + pos, n);
 }
 
 // — Comparison —
 LUMEX_PUBLIC_API
 int
-LumexWStringView::compare (LumexWStringView other) const LUMEX_NOEXCEPT
+lumex_wstring_view::compare (lumex_wstring_view other) const LUMEX_NOEXCEPT
 {
   int const cmp
       = std::wmemcmp (m_data, other.m_data, std::min (m_size, other.m_size));
@@ -178,30 +178,30 @@ LumexWStringView::compare (LumexWStringView other) const LUMEX_NOEXCEPT
 // convenience overloads
 LUMEX_PUBLIC_API
 int
-LumexWStringView::compare (size_type pos, size_type len,
-                           LumexWStringView other) const
+lumex_wstring_view::compare (size_type pos, size_type len,
+                             lumex_wstring_view other) const
 {
   return substr (pos, len).compare (other);
 }
 
 LUMEX_PUBLIC_API
 int
-LumexWStringView::compare (wchar_t const *cstr) const
+lumex_wstring_view::compare (wchar_t const *cstr) const
 {
-  return compare (LumexWStringView (cstr));
+  return compare (lumex_wstring_view (cstr));
 }
 
 // — Starts / ends / contains helpers — (non-standard extensions but useful)
 LUMEX_PUBLIC_API
 bool
-LumexWStringView::starts_with (wchar_t chr) const LUMEX_NOEXCEPT
+lumex_wstring_view::starts_with (wchar_t chr) const LUMEX_NOEXCEPT
 {
   return !empty () && front () == chr;
 }
 
 LUMEX_PUBLIC_API
 bool
-LumexWStringView::starts_with (LumexWStringView str) const LUMEX_NOEXCEPT
+lumex_wstring_view::starts_with (lumex_wstring_view str) const LUMEX_NOEXCEPT
 {
   return m_size >= str.m_size
          && std::wmemcmp (m_data, str.m_data, str.m_size) == 0;
@@ -209,14 +209,14 @@ LumexWStringView::starts_with (LumexWStringView str) const LUMEX_NOEXCEPT
 
 LUMEX_PUBLIC_API
 bool
-LumexWStringView::ends_with (wchar_t chr) const LUMEX_NOEXCEPT
+lumex_wstring_view::ends_with (wchar_t chr) const LUMEX_NOEXCEPT
 {
   return !empty () && back () == chr;
 }
 
 LUMEX_PUBLIC_API
 bool
-LumexWStringView::ends_with (LumexWStringView str) const LUMEX_NOEXCEPT
+lumex_wstring_view::ends_with (lumex_wstring_view str) const LUMEX_NOEXCEPT
 {
   return m_size >= str.m_size
          && std::wmemcmp (m_data + m_size - str.m_size, str.m_data, str.m_size)
@@ -225,8 +225,8 @@ LumexWStringView::ends_with (LumexWStringView str) const LUMEX_NOEXCEPT
 
 // — Find (simple implementations) —
 LUMEX_PUBLIC_API
-LumexWStringView::size_type
-LumexWStringView::find (wchar_t chr, size_type pos) const LUMEX_NOEXCEPT
+lumex_wstring_view::size_type
+lumex_wstring_view::find (wchar_t chr, size_type pos) const LUMEX_NOEXCEPT
 {
   if (pos >= m_size)
     return npos;
@@ -236,9 +236,9 @@ LumexWStringView::find (wchar_t chr, size_type pos) const LUMEX_NOEXCEPT
 }
 
 LUMEX_PUBLIC_API
-LumexWStringView::size_type
-LumexWStringView::find (LumexWStringView str,
-                        size_type pos) const LUMEX_NOEXCEPT
+lumex_wstring_view::size_type
+lumex_wstring_view::find (lumex_wstring_view str,
+                          size_type pos) const LUMEX_NOEXCEPT
 {
   if (str.empty ())
     return pos <= m_size ? pos : npos;
@@ -256,26 +256,26 @@ LumexWStringView::find (LumexWStringView str,
 }
 
 LUMEX_PUBLIC_API
-LumexWStringView::size_type
-LumexWStringView::find (wchar_t const *cstr, size_type pos,
-                        size_type count) const LUMEX_NOEXCEPT
+lumex_wstring_view::size_type
+lumex_wstring_view::find (wchar_t const *cstr, size_type pos,
+                          size_type count) const LUMEX_NOEXCEPT
 {
-  return find (LumexWStringView (cstr, count), pos);
+  return find (lumex_wstring_view (cstr, count), pos);
 }
 
 LUMEX_PUBLIC_API
-LumexWStringView::size_type
-LumexWStringView::find (wchar_t const *cstr,
-                        size_type pos) const LUMEX_NOEXCEPT
+lumex_wstring_view::size_type
+lumex_wstring_view::find (wchar_t const *cstr,
+                          size_type pos) const LUMEX_NOEXCEPT
 {
-  return find (LumexWStringView (cstr), pos);
+  return find (lumex_wstring_view (cstr), pos);
 }
 
 // — Reverse find —
 LUMEX_PUBLIC_API
-LumexWStringView::size_type
-LumexWStringView::rfind (LumexWStringView str,
-                         size_type pos) const LUMEX_NOEXCEPT
+lumex_wstring_view::size_type
+lumex_wstring_view::rfind (lumex_wstring_view str,
+                           size_type pos) const LUMEX_NOEXCEPT
 {
   if (str.empty ())
     return std::min (pos, m_size);
@@ -292,8 +292,8 @@ LumexWStringView::rfind (LumexWStringView str,
 }
 
 LUMEX_PUBLIC_API
-LumexWStringView::size_type
-LumexWStringView::rfind (wchar_t chr, size_type pos) const LUMEX_NOEXCEPT
+lumex_wstring_view::size_type
+lumex_wstring_view::rfind (wchar_t chr, size_type pos) const LUMEX_NOEXCEPT
 {
   if (empty ())
     return npos;
@@ -306,26 +306,26 @@ LumexWStringView::rfind (wchar_t chr, size_type pos) const LUMEX_NOEXCEPT
 }
 
 LUMEX_PUBLIC_API
-LumexWStringView::size_type
-LumexWStringView::rfind (wchar_t const *cstr, size_type pos,
-                         size_type count) const LUMEX_NOEXCEPT
+lumex_wstring_view::size_type
+lumex_wstring_view::rfind (wchar_t const *cstr, size_type pos,
+                           size_type count) const LUMEX_NOEXCEPT
 {
-  return rfind (LumexWStringView (cstr, count), pos);
+  return rfind (lumex_wstring_view (cstr, count), pos);
 }
 
 LUMEX_PUBLIC_API
-LumexWStringView::size_type
-LumexWStringView::rfind (wchar_t const *cstr,
-                         size_type pos) const LUMEX_NOEXCEPT
+lumex_wstring_view::size_type
+lumex_wstring_view::rfind (wchar_t const *cstr,
+                           size_type pos) const LUMEX_NOEXCEPT
 {
-  return rfind (LumexWStringView (cstr), pos);
+  return rfind (lumex_wstring_view (cstr), pos);
 }
 
 // — Find first of —
 LUMEX_PUBLIC_API
-LumexWStringView::size_type
-LumexWStringView::find_first_of (LumexWStringView str,
-                                 size_type pos) const LUMEX_NOEXCEPT
+lumex_wstring_view::size_type
+lumex_wstring_view::find_first_of (lumex_wstring_view str,
+                                   size_type pos) const LUMEX_NOEXCEPT
 {
   for (size_type i = pos; i < m_size; ++i)
     {
@@ -337,34 +337,34 @@ LumexWStringView::find_first_of (LumexWStringView str,
 }
 
 LUMEX_PUBLIC_API
-LumexWStringView::size_type
-LumexWStringView::find_first_of (wchar_t chr,
-                                 size_type pos) const LUMEX_NOEXCEPT
+lumex_wstring_view::size_type
+lumex_wstring_view::find_first_of (wchar_t chr,
+                                   size_type pos) const LUMEX_NOEXCEPT
 {
   return find (chr, pos);
 }
 
 LUMEX_PUBLIC_API
-LumexWStringView::size_type
-LumexWStringView::find_first_of (wchar_t const *cstr, size_type pos,
-                                 size_type count) const LUMEX_NOEXCEPT
+lumex_wstring_view::size_type
+lumex_wstring_view::find_first_of (wchar_t const *cstr, size_type pos,
+                                   size_type count) const LUMEX_NOEXCEPT
 {
-  return find_first_of (LumexWStringView (cstr, count), pos);
+  return find_first_of (lumex_wstring_view (cstr, count), pos);
 }
 
 LUMEX_PUBLIC_API
-LumexWStringView::size_type
-LumexWStringView::find_first_of (wchar_t const *cstr,
-                                 size_type pos) const LUMEX_NOEXCEPT
+lumex_wstring_view::size_type
+lumex_wstring_view::find_first_of (wchar_t const *cstr,
+                                   size_type pos) const LUMEX_NOEXCEPT
 {
-  return find_first_of (LumexWStringView (cstr), pos);
+  return find_first_of (lumex_wstring_view (cstr), pos);
 }
 
 // — Find last of —
 LUMEX_PUBLIC_API
-LumexWStringView::size_type
-LumexWStringView::find_last_of (LumexWStringView str,
-                                size_type pos) const LUMEX_NOEXCEPT
+lumex_wstring_view::size_type
+lumex_wstring_view::find_last_of (lumex_wstring_view str,
+                                  size_type pos) const LUMEX_NOEXCEPT
 {
   if (empty () || str.empty ())
     return npos;
@@ -381,34 +381,34 @@ LumexWStringView::find_last_of (LumexWStringView str,
 }
 
 LUMEX_PUBLIC_API
-LumexWStringView::size_type
-LumexWStringView::find_last_of (wchar_t chr,
-                                size_type pos) const LUMEX_NOEXCEPT
+lumex_wstring_view::size_type
+lumex_wstring_view::find_last_of (wchar_t chr,
+                                  size_type pos) const LUMEX_NOEXCEPT
 {
   return rfind (chr, pos);
 }
 
 LUMEX_PUBLIC_API
-LumexWStringView::size_type
-LumexWStringView::find_last_of (wchar_t const *cstr, size_type pos,
-                                size_type count) const LUMEX_NOEXCEPT
+lumex_wstring_view::size_type
+lumex_wstring_view::find_last_of (wchar_t const *cstr, size_type pos,
+                                  size_type count) const LUMEX_NOEXCEPT
 {
-  return find_last_of (LumexWStringView (cstr, count), pos);
+  return find_last_of (lumex_wstring_view (cstr, count), pos);
 }
 
 LUMEX_PUBLIC_API
-LumexWStringView::size_type
-LumexWStringView::find_last_of (wchar_t const *cstr,
-                                size_type pos) const LUMEX_NOEXCEPT
+lumex_wstring_view::size_type
+lumex_wstring_view::find_last_of (wchar_t const *cstr,
+                                  size_type pos) const LUMEX_NOEXCEPT
 {
-  return find_last_of (LumexWStringView (cstr), pos);
+  return find_last_of (lumex_wstring_view (cstr), pos);
 }
 
 // — Find first not of —
 LUMEX_PUBLIC_API
-LumexWStringView::size_type
-LumexWStringView::find_first_not_of (LumexWStringView str,
-                                     size_type pos) const LUMEX_NOEXCEPT
+lumex_wstring_view::size_type
+lumex_wstring_view::find_first_not_of (lumex_wstring_view str,
+                                       size_type pos) const LUMEX_NOEXCEPT
 {
   for (size_type i = pos; i < m_size; ++i)
     {
@@ -428,9 +428,9 @@ LumexWStringView::find_first_not_of (LumexWStringView str,
 }
 
 LUMEX_PUBLIC_API
-LumexWStringView::size_type
-LumexWStringView::find_first_not_of (wchar_t chr,
-                                     size_type pos) const LUMEX_NOEXCEPT
+lumex_wstring_view::size_type
+lumex_wstring_view::find_first_not_of (wchar_t chr,
+                                       size_type pos) const LUMEX_NOEXCEPT
 {
   for (size_type i = pos; i < m_size; ++i)
     if (m_data[i] != chr)
@@ -439,26 +439,26 @@ LumexWStringView::find_first_not_of (wchar_t chr,
 }
 
 LUMEX_PUBLIC_API
-LumexWStringView::size_type
-LumexWStringView::find_first_not_of (wchar_t const *cstr, size_type pos,
-                                     size_type count) const LUMEX_NOEXCEPT
+lumex_wstring_view::size_type
+lumex_wstring_view::find_first_not_of (wchar_t const *cstr, size_type pos,
+                                       size_type count) const LUMEX_NOEXCEPT
 {
-  return find_first_not_of (LumexWStringView (cstr, count), pos);
+  return find_first_not_of (lumex_wstring_view (cstr, count), pos);
 }
 
 LUMEX_PUBLIC_API
-LumexWStringView::size_type
-LumexWStringView::find_first_not_of (wchar_t const *cstr,
-                                     size_type pos) const LUMEX_NOEXCEPT
+lumex_wstring_view::size_type
+lumex_wstring_view::find_first_not_of (wchar_t const *cstr,
+                                       size_type pos) const LUMEX_NOEXCEPT
 {
-  return find_first_not_of (LumexWStringView (cstr), pos);
+  return find_first_not_of (lumex_wstring_view (cstr), pos);
 }
 
 // — Find last not of —
 LUMEX_PUBLIC_API
-LumexWStringView::size_type
-LumexWStringView::find_last_not_of (LumexWStringView str,
-                                    size_type pos) const LUMEX_NOEXCEPT
+lumex_wstring_view::size_type
+lumex_wstring_view::find_last_not_of (lumex_wstring_view str,
+                                      size_type pos) const LUMEX_NOEXCEPT
 {
   if (empty ())
     return npos;
@@ -483,9 +483,9 @@ LumexWStringView::find_last_not_of (LumexWStringView str,
 }
 
 LUMEX_PUBLIC_API
-LumexWStringView::size_type
-LumexWStringView::find_last_not_of (wchar_t chr,
-                                    size_type pos) const LUMEX_NOEXCEPT
+lumex_wstring_view::size_type
+lumex_wstring_view::find_last_not_of (wchar_t chr,
+                                      size_type pos) const LUMEX_NOEXCEPT
 {
   if (empty ())
     return npos;
@@ -498,24 +498,24 @@ LumexWStringView::find_last_not_of (wchar_t chr,
 }
 
 LUMEX_PUBLIC_API
-LumexWStringView::size_type
-LumexWStringView::find_last_not_of (wchar_t const *cstr, size_type pos,
-                                    size_type count) const LUMEX_NOEXCEPT
+lumex_wstring_view::size_type
+lumex_wstring_view::find_last_not_of (wchar_t const *cstr, size_type pos,
+                                      size_type count) const LUMEX_NOEXCEPT
 {
-  return find_last_not_of (LumexWStringView (cstr, count), pos);
+  return find_last_not_of (lumex_wstring_view (cstr, count), pos);
 }
 
 LUMEX_PUBLIC_API
-LumexWStringView::size_type
-LumexWStringView::find_last_not_of (wchar_t const *cstr,
-                                    size_type pos) const LUMEX_NOEXCEPT
+lumex_wstring_view::size_type
+lumex_wstring_view::find_last_not_of (wchar_t const *cstr,
+                                      size_type pos) const LUMEX_NOEXCEPT
 {
-  return find_last_not_of (LumexWStringView (cstr), pos);
+  return find_last_not_of (lumex_wstring_view (cstr), pos);
 }
 
 LUMEX_PUBLIC_API
 std::wostream &
-operator<< (std::wostream &wostr, LumexWStringView wsview)
+operator<< (std::wostream &wostr, lumex_wstring_view wsview)
 {
   return wostr.write (wsview.data (),
                       static_cast<std::streamsize> (wsview.size ()));

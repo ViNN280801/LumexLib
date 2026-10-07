@@ -89,8 +89,8 @@ struct proc_meminfo_t
  * @return The value in bytes (the number times 1024 when the unit is `kB`),
  * or nothing when no line has the key or its value is not a number.
  */
-LUMEX_API optional<std::uint64_t> parse_kib_field (LumexStringView text,
-                                                   LumexStringView key);
+LUMEX_API optional<std::uint64_t> parse_kib_field (lumex_string_view text,
+                                                   lumex_string_view key);
 
 /**
  * @brief Parses the text of `/proc/stat`.
@@ -98,7 +98,8 @@ LUMEX_API optional<std::uint64_t> parse_kib_field (LumexStringView text,
  * @return The CPU times, or nothing when the first line is not the aggregate
  * `cpu` line with at least the four fields `user nice system idle`.
  */
-LUMEX_API optional<proc_stat_cpu_t> parse_proc_stat_cpu (LumexStringView text);
+LUMEX_API optional<proc_stat_cpu_t>
+parse_proc_stat_cpu (lumex_string_view text);
 
 /**
  * @brief Parses the text of `/proc/meminfo`.
@@ -106,7 +107,7 @@ LUMEX_API optional<proc_stat_cpu_t> parse_proc_stat_cpu (LumexStringView text);
  * @return Total and available memory, or nothing when `MemTotal` or
  * `MemAvailable` is missing (`MemAvailable` exists since Linux 3.14).
  */
-LUMEX_API optional<proc_meminfo_t> parse_proc_meminfo (LumexStringView text);
+LUMEX_API optional<proc_meminfo_t> parse_proc_meminfo (lumex_string_view text);
 
 /**
  * @brief Reads a whole file, including a `/proc` file whose size is reported

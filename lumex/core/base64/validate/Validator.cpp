@@ -101,7 +101,7 @@ validate_padding_correctness (
 
 LUMEX_PUBLIC_API
 bool
-Validator::is_valid_base64 (char const *str, std::size_t size)
+validator::is_valid_base64 (char const *str, std::size_t size)
 {
   if (str == nullptr)
     return false;

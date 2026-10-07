@@ -43,18 +43,18 @@
  * throws, reports it to `std::cerr`, and returns a safe default value instead
  * of letting the exception propagate.
  * @details This header provides
- * `lumex::core::exceptions::Wrapper::ExceptionWrapper` plus the
+ * `lumex::core::exceptions::Wrapper::exception_wrapper` plus the
  *          `LUMEX_SAFE_CALL`/`LUMEX_SAFE_CALL_MSG`/`LUMEX_SAFE_CALL_LAMBDA_MSG`
  * convenience macros built on top of it. It is a distinct, self-contained
- * concern from `LumexException.hpp` (which defines the `LumexBaseException`
+ * concern from `LumexException.hpp` (which defines the `lumex_base_exception`
  * base class and the `LUMEX_DEFINE_EXCEPTION`/`LUMEX_THROW_EXCEPTION`/
  *          `LUMEX_EXCEPTION_HANDLE_BEGIN`/`END` machinery for *throwing and
  * handling* exceptions) - this header instead *swallows* exceptions at a call
  * site, which is why it lives in its own file next to `LumexException.hpp`
  * rather than being folded into it.
  *
- *          Unlike `LumexBaseException`, `ExceptionWrapper` does not depend on
- * any logging facility: `core/` must not depend on `lumex/applied/logging`.
+ *          Unlike `lumex_base_exception`, `exception_wrapper` does not depend
+ * on any logging facility: `core/` must not depend on `lumex/applied/logging`.
  * The default report sink is `std::cerr`. A consumer can install one function
  * pointer (`set_safe_call_reporter`) so the same text goes to its own logger.
  * If that function throws, the wrapper falls back to `std::cerr`.
@@ -117,7 +117,7 @@ namespace Wrapper
 /**
  * @brief Consumer report sink for a fully built failure line.
  * @param message Non-owning, null-terminated text. Valid only for the call.
- * The function may throw; `ExceptionWrapper` then writes the same line to
+ * The function may throw; `exception_wrapper` then writes the same line to
  * `std::cerr`.
  */
 using safe_call_report_fn = void (*) (char const *message);
@@ -281,7 +281,7 @@ report_exception (std::string const &prefix,
  */
 template <typename Function, typename... Args>
 auto
-ExceptionWrapper (
+exception_wrapper (
     std::string const
         &excMessage, // NOLINT(bugprone-easily-swappable-parameters)
     std::string const &unknownExcMessage, Function &&func, Args &&...args)
@@ -353,7 +353,7 @@ ExceptionWrapper (
 // capture __FILE__/__LINE__ and build a `[&]`-capturing lambda around an
 // arbitrary caller expression.
 #define LUMEX_SAFE_CALL(expr)                                                 \
-  lumex::core::exceptions::Wrapper::ExceptionWrapper (                        \
+  lumex::core::exceptions::Wrapper::exception_wrapper (                       \
       std::string ("Exception in ") + std::string (LUMEX_FUNCTION_NAME)       \
           + " at " + std::string (__FILE__) + ":"                             \
           + std::to_string (__LINE__),                                        \
@@ -370,7 +370,7 @@ ExceptionWrapper (
  * @param unknExcMessage Message reported for any other exception.
  */
 #define LUMEX_SAFE_CALL_MSG(expr, excMessage, unknExcMessage)                 \
-  lumex::core::exceptions::Wrapper::ExceptionWrapper (                        \
+  lumex::core::exceptions::Wrapper::exception_wrapper (                       \
       excMessage, unknExcMessage, [&] () -> decltype (expr) { return expr; })
 
 /**
@@ -392,8 +392,8 @@ ExceptionWrapper (
  * @endcode
  */
 #define LUMEX_SAFE_CALL_LAMBDA_MSG(lambda, excMessage, unknExcMessage)        \
-  lumex::core::exceptions::Wrapper::ExceptionWrapper (excMessage,             \
-                                                      unknExcMessage, lambda)
+  lumex::core::exceptions::Wrapper::exception_wrapper (                       \
+      excMessage, unknExcMessage, lambda)
 // NOLINTEND(cppcoreguidelines-macro-usage)
 
 #if defined(__clang__)

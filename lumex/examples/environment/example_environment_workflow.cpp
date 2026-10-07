@@ -12,14 +12,14 @@ main ()
 
   char const *flag = "LUMEX_EXAMPLE_VERBOSE_SESSION";
   std::string const session
-      = LumexEnvironment::get_or ("LUMEX_EXAMPLE_SESSION_ID", "local-dev");
+      = lumex_environment::get_or ("LUMEX_EXAMPLE_SESSION_ID", "local-dev");
 
-  if (!LumexEnvironment::has (flag))
-    LumexEnvironment::set (flag, "true");
+  if (!lumex_environment::has (flag))
+    lumex_environment::set (flag, "true");
 
   std::cout << "session_id=" << session
             << " verbose=" << (is_env_set (flag) ? "yes" : "no") << '\n';
 
-  LumexEnvironment::set (flag, nullptr);
+  lumex_environment::set (flag, nullptr);
   return 0;
 }

@@ -59,7 +59,7 @@ public:
    * implementations only.
    */
   virtual void
-  validate (lumex::core::string_view::view::LumexStringView raw) const
+  validate (lumex::core::string_view::view::lumex_string_view raw) const
       = 0;
 
   /**
@@ -69,7 +69,7 @@ public:
    * stores the violation here (`std::current_exception()`) and returns
    * normally. A strict implementation ignores it and throws.
    */
-  virtual void validate (lumex::core::string_view::view::LumexStringView raw,
+  virtual void validate (lumex::core::string_view::view::lumex_string_view raw,
                          std::exception_ptr &error) const
       = 0;
 };

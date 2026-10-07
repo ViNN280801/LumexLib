@@ -399,12 +399,12 @@ TEST (LumexFormatTypesTest, GivenStdString_WhenFormat_ThenText)
 
 TEST (LumexFormatTypesTest, GivenLumexStringView_WhenFormat_ThenText)
 {
-  using lumex::core::string_view::view::LumexStringView;
-  EXPECT_EQ (fmt::format ("{}", LumexStringView ("test")), "test");
-  EXPECT_EQ (fmt::format ("{:>6}", LumexStringView ("test")), "  test");
-  EXPECT_EQ (fmt::format ("{}", LumexStringView ("test", 2)), "te");
-  EXPECT_EQ (fmt::format ("{}", LumexStringView ()), "");
-  EXPECT_EQ (fmt::format ("{:?}", LumexStringView ("t\nst")), "\"t\\nst\"");
+  using lumex::core::string_view::view::lumex_string_view;
+  EXPECT_EQ (fmt::format ("{}", lumex_string_view ("test")), "test");
+  EXPECT_EQ (fmt::format ("{:>6}", lumex_string_view ("test")), "  test");
+  EXPECT_EQ (fmt::format ("{}", lumex_string_view ("test", 2)), "te");
+  EXPECT_EQ (fmt::format ("{}", lumex_string_view ()), "");
+  EXPECT_EQ (fmt::format ("{:?}", lumex_string_view ("t\nst")), "\"t\\nst\"");
 }
 
 TEST (LumexFormatTypesTest, GivenStringDebug_WhenFormat_ThenQuotedEscaped)

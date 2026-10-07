@@ -59,34 +59,34 @@ namespace exceptions
 namespace exception
 {
 LUMEX_PUBLIC_API
-LumexBaseException::LumexBaseException (char const *message)
-    : m_message (message), m_stacktrace (LumexStacktrace::current (1))
+lumex_base_exception::lumex_base_exception (char const *message)
+    : m_message (message), m_stacktrace (lumex_stacktrace::current (1))
 {
 }
 
 LUMEX_PUBLIC_API
-LumexBaseException::LumexBaseException (std::string const &message)
-    : m_message (message), m_stacktrace (LumexStacktrace::current (1))
+lumex_base_exception::lumex_base_exception (std::string const &message)
+    : m_message (message), m_stacktrace (lumex_stacktrace::current (1))
 {
 }
 
 LUMEX_PUBLIC_API
-LumexBaseException::LumexBaseException (std::string &&message)
+lumex_base_exception::lumex_base_exception (std::string &&message)
     : m_message (std::move (message)),
-      m_stacktrace (LumexStacktrace::current (1))
+      m_stacktrace (lumex_stacktrace::current (1))
 {
 }
 
 LUMEX_PUBLIC_API
 void
-LumexBaseException::to_stderr () const LUMEX_NOEXCEPT
+lumex_base_exception::to_stderr () const LUMEX_NOEXCEPT
 {
   std::cerr << "[" << lumDemangle (*this) << "]:" << what () << "\n";
 }
 
 LUMEX_PUBLIC_API
 void
-LumexBaseException::to_crash_report () const
+lumex_base_exception::to_crash_report () const
 {
   // Single initialization: creating a folder, a file and locking the directory
   static std::once_flag initFlag;
@@ -110,7 +110,7 @@ LumexBaseException::to_crash_report () const
               s_crashDir);
 
           // 3. Generate a file name once
-          auto tsEpoch = LumexTime::get_timestamp_ns ();
+          auto tsEpoch = lumex_time::get_timestamp_ns ();
           s_reportFile
               = (s_crashDir / ("crash_report_" + tsEpoch + ".txt")).string ();
 
@@ -122,7 +122,7 @@ LumexBaseException::to_crash_report () const
   // 5. Form the text of the report
   std::ostringstream oss;
   oss << "\n========== Crash Report ==========\n"
-      << "Time         : " << LumexTime::get_current_datetime ()
+      << "Time         : " << lumex_time::get_current_datetime ()
       << "\nMessage    : " << what () << "\nStack trace:\n";
   for (std::size_t i = 0; i < m_stacktrace.size (); ++i)
     {
@@ -139,13 +139,13 @@ LumexBaseException::to_crash_report () const
 
 LUMEX_PUBLIC_API
 LUMEX_ATTRIBUTE_NOINLINE
-LumexStacktrace
-LumexException_GetStackTraceTrampoline (int skip_frames)
+lumex_stacktrace
+lumex_exception_get_stack_trace_trampoline (int skip_frames)
 {
   // This function acts as a trampoline to get a consistent stack trace.
   // It skips its own frame (the trampoline) and then adjusts for the requested
   // skip.
-  return LumexStacktrace::current (static_cast<LumexStacktrace::size_type> (
+  return lumex_stacktrace::current (static_cast<lumex_stacktrace::size_type> (
       skip_frames + 1)); // +1 to skip this trampoline function itself
 }
 } // namespace exception

@@ -66,7 +66,8 @@ namespace ops
 /// @brief Thrown by the two-range `rms` / `rmse` when the ranges have
 /// different lengths, one of them empty included. Derives from
 /// `std::invalid_argument`, so handlers of that type still catch it.
-LUMEX_DEFINE_EXCEPTION (LumexMathSizeMismatchException, std::invalid_argument)
+LUMEX_DEFINE_EXCEPTION (lumex_math_size_mismatch_exception,
+                        std::invalid_argument)
 
 namespace traits
 {
@@ -372,7 +373,7 @@ throw_if_not_finite (Source, Name const &, std::false_type)
 }
 
 /// @brief Called after a lockstep pass over two ranges that consumed `count`
-/// elements of each: throws LumexMathSizeMismatchException unless both
+/// elements of each: throws lumex_math_size_mismatch_exception unless both
 /// ranges are exhausted. Counts what is left, so the message carries both
 /// lengths.
 template <typename It1, typename End1, typename It2, typename End2>
@@ -389,7 +390,7 @@ require_same_size (char const *function, It1 &it1, End1 const &last1, It2 &it2,
     ++size1;
   for (; it2 != last2; ++it2)
     ++size2;
-  throw LumexMathSizeMismatchException (
+  throw lumex_math_size_mismatch_exception (
       std::string (function) + ": size of both ranges must be equal ("
       + std::to_string (size1) + " vs " + std::to_string (size2) + ")");
 }
@@ -577,7 +578,7 @@ rms (Range &&range)
 /// @brief Root Mean Square of the element-wise product of two equally-sized
 /// ranges: sqrt( 1/N * sum (x_i * y_i) ). `ResultType{0}` if both ranges are
 /// empty.
-/// @throws LumexMathSizeMismatchException if `first` and `second` have
+/// @throws lumex_math_size_mismatch_exception if `first` and `second` have
 ///         different lengths (one of them empty included).
 /// @note The sum is divided by N in `ResultType`, so integer ranges are not
 ///       truncated before the square root.
@@ -640,7 +641,7 @@ rmse (Range &&range, Scalar const &scalar)
 
 /// @brief Root Mean Squared Error between two equally-sized ranges:
 /// sqrt( 1/N * sum (x_i - y_i)^2 ). `ResultType{0}` if both ranges are empty.
-/// @throws LumexMathSizeMismatchException if `first` and `second` have
+/// @throws lumex_math_size_mismatch_exception if `first` and `second` have
 ///         different lengths (one of them empty included).
 /// @note Returns `decltype(std::sqrt(CommonType{}))` for the same reason
 ///       @ref rms does; the sum is divided by N in that type.

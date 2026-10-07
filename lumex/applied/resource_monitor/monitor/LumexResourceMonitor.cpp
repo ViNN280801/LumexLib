@@ -144,7 +144,7 @@ makeLogFilePath (std::string const &logDirectory)
                   "': error code ", created.error_code ());
     }
   std::string const timestamp
-      = LumexTime::get_current_datetime ("%Y-%m-%d_%H-%M-%S");
+      = lumex_time::get_current_datetime ("%Y-%m-%d_%H-%M-%S");
   return (lumex::path (logDirectory)
           / ("system_resource_usage_" + timestamp + ".log"))
       .string ();

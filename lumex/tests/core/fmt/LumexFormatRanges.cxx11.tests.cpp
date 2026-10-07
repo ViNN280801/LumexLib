@@ -189,17 +189,17 @@ TEST (LumexFormatRangesTest, GivenWideFormat_WhenRange_ThenWideOutput)
 TEST (LumexFormatRangesTest, GivenElementTypes_WhenFormattable_ThenTraitsAgree)
 {
   EXPECT_TRUE ((
-      std::is_default_constructible<fmt::Formatter<std::vector<int>>>::value));
+      std::is_default_constructible<fmt::formatter<std::vector<int>>>::value));
   EXPECT_TRUE (
       (std::is_default_constructible<
-          fmt::Formatter<std::map<std::string, std::vector<int>>>>::value));
+          fmt::formatter<std::map<std::string, std::vector<int>>>>::value));
   EXPECT_TRUE ((std::is_default_constructible<
-                fmt::Formatter<std::pair<int, int>>>::value));
+                fmt::formatter<std::pair<int, int>>>::value));
   // Unformattable elements make the container unformattable.
   EXPECT_FALSE ((std::is_default_constructible<
-                 fmt::Formatter<std::vector<opaque_t>>>::value));
+                 fmt::formatter<std::vector<opaque_t>>>::value));
   EXPECT_FALSE ((std::is_default_constructible<
-                 fmt::Formatter<std::pair<int, opaque_t>>>::value));
+                 fmt::formatter<std::pair<int, opaque_t>>>::value));
   // Strings stay strings.
   EXPECT_EQ (fmt::format ("{}", std::string ("text")), "text");
 }

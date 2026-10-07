@@ -47,7 +47,7 @@
  *   1. 100 % C++11-conformance – no compiler extensions or RTTI required.
  *   2. No dynamic memory allocation inside core operations unless unavoidable.
  *   3. Most operations return `filesystem_result<T>` instead of throwing;
- * `checkName` throws `std::invalid_argument` for an invalid file name.
+ * `check_name` throws `std::invalid_argument` for an invalid file name.
  *   4. SOLID-compliant implementation with clean separation of concerns.
  *   5. Thread-safety for read-only operations (stat, exists, etc.).
  *
@@ -1311,11 +1311,11 @@ public:
   bool operator!= (directory_iterator const &rhs) const;
 
 private:
-  class Impl; ///< Forward declaration for the private implementation details.
+  class impl; ///< Forward declaration for the private implementation details.
               /*
                 Warning C4251
                 'lumex::core::filesystem::fs::lumex_filesystem::directory_iterator::m_impl':
-                'std::shared_ptr<lumex::core::filesystem::fs::lumex_filesystem::directory_iterator::Impl>'
+                'std::shared_ptr<lumex::core::filesystem::fs::lumex_filesystem::directory_iterator::impl>'
                 needs to have dll-interface to be used by clients of
                 'lumex::core::filesystem::fs::lumex_filesystem::directory_iterator' appears
                 on MSVC,             because directory_iterator is exported from DLL
@@ -1333,7 +1333,7 @@ private:
 #pragma warning(push)
 #pragma warning(disable : 4251)
 #endif
-  std::shared_ptr<Impl>
+  std::shared_ptr<impl>
       m_impl; ///< Pointer to the private implementation details (PIMPL idiom).
 #ifdef _WIN32
 #pragma warning(pop)
@@ -2033,7 +2033,7 @@ operator/ (char const *lhs, path const &rhs)
  * @return True if the file exists, false otherwise
  */
 LUMEX_PUBLIC_API
-bool isFileExists (std::string const &path_arg);
+bool is_file_exists (std::string const &path_arg);
 
 /**
  * @brief Checks if a file or directory name is valid
@@ -2041,7 +2041,7 @@ bool isFileExists (std::string const &path_arg);
  * @throws std::invalid_argument if the name contains invalid characters or is
  * reserved
  */
-LUMEX_PUBLIC_API void checkName (std::string const &name);
+LUMEX_PUBLIC_API void check_name (std::string const &name);
 
 /**
  * @brief Filters name, replacing invalid characters with '_' (noexcept
@@ -2050,7 +2050,7 @@ LUMEX_PUBLIC_API void checkName (std::string const &name);
  * @param defaultValue Returned if name is empty or completely invalid
  * @return Sanitized name or defaultValue
  */
-LUMEX_PUBLIC_API std::string sanitizeName (
+LUMEX_PUBLIC_API std::string sanitize_name (
     std::string const &name, // NOLINT(bugprone-easily-swappable-parameters)
     std::string const &defaultValue = "unnamed") LUMEX_NOEXCEPT;
 /**

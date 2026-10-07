@@ -39,7 +39,7 @@
 
 /**
  * @file LumexCrashHandler.hpp
- * @brief `LumexCrashHandler`, the singleton that writes a dump when the
+ * @brief `lumex_crash_handler`, the singleton that writes a dump when the
  * process crashes.
  * @details `initialize()` creates the crash directory and, on Unix-like
  * systems, marks the process dumpable, lifts the core file size limit and
@@ -97,7 +97,7 @@ namespace exceptions
 namespace crash
 {
 /**
- * @class LumexCrashHandler
+ * @class lumex_crash_handler
  * @brief Handles application crashes by generating crash dumps (minidumps on
  * Windows, core dumps on Unix).
  *
@@ -105,19 +105,19 @@ namespace crash
  * and notify the UI. It supports both structured exception handling (SEH) on
  * Windows and signal handling on Unix.
  */
-class LUMEX_API LumexCrashHandler
+class LUMEX_API lumex_crash_handler
 {
 public:
-  LumexCrashHandler (LumexCrashHandler const &) = delete;
-  LumexCrashHandler &operator= (LumexCrashHandler const &) = delete;
-  LumexCrashHandler (LumexCrashHandler &&) = delete;
-  LumexCrashHandler &operator= (LumexCrashHandler &&) = delete;
+  lumex_crash_handler (lumex_crash_handler const &) = delete;
+  lumex_crash_handler &operator= (lumex_crash_handler const &) = delete;
+  lumex_crash_handler (lumex_crash_handler &&) = delete;
+  lumex_crash_handler &operator= (lumex_crash_handler &&) = delete;
 
   /**
    * @brief Returns the singleton instance of the crash handler.
    * @return Reference to the singleton instance.
    */
-  static LumexCrashHandler &instance ();
+  static lumex_crash_handler &instance ();
 
   /**
    * @brief Initializes the crash handler.
@@ -134,22 +134,22 @@ public:
    * @param pExInfo Pointer to exception information.
    * @return Execution disposition (always `EXCEPTION_EXECUTE_HANDLER`).
    */
-  static LONG WINAPI _onWindowsCrashHandler (PEXCEPTION_POINTERS pExInfo);
+  static LONG WINAPI _on_windows_crash_handler (PEXCEPTION_POINTERS pExInfo);
 
   /**
    * @brief Wrapper for the Windows crash handler.
    * @param pExInfo Pointer to exception information.
    */
   void
-  _handleSEHException (PEXCEPTION_POINTERS pExInfo)
+  _handle_seh_exception (PEXCEPTION_POINTERS pExInfo)
   {
-    _onWindowsCrashHandler (pExInfo);
+    _on_windows_crash_handler (pExInfo);
   }
 #endif
 
 private:
-  LumexCrashHandler () = default;
-  ~LumexCrashHandler () = default;
+  lumex_crash_handler () = default;
+  ~lumex_crash_handler () = default;
 
 #ifdef _WIN32
 #pragma warning(push)
@@ -173,7 +173,7 @@ private:
    * @brief Notifies the UI and logs crash details.
    * @param errorMessage The error message to log and notify.
    */
-  static void _notifyAndLog (std::string const &errorMessage);
+  static void _notify_and_log (std::string const &errorMessage);
 
 #if defined(LUMEX_OS_UNIX) && LUMEX_OS_UNIX
   /// @brief Generates a core dump on Unix systems.
@@ -183,7 +183,7 @@ private:
    * @brief Signal handler for Unix systems.
    * @param signum The signal number.
    */
-  static void _signalHandler (int signum);
+  static void _signal_handler (int signum);
 
   /// @brief Sets up signal handlers for Unix systems.
   static void _setup_signal_handlers ();
@@ -197,6 +197,7 @@ private:
 } // namespace core
 } // namespace lumex
 
-using LumexCrashHandler = lumex::core::exceptions::crash::LumexCrashHandler;
+using lumex_crash_handler
+    = lumex::core::exceptions::crash::lumex_crash_handler;
 
 #endif // !LUMEX_CORE_EXCEPTIONS_CRASH_CRASH_HANDLER_HPP

@@ -15,7 +15,7 @@
 
 using namespace lumex::core::exceptions;
 
-using lumex::core::exceptions::Wrapper::ExceptionWrapper;
+using lumex::core::exceptions::Wrapper::exception_wrapper;
 
 // Helper to capture stderr output for the duration of a scope (mirrors
 // LumexException.cxx11.tests.cpp's own StderrCapture, kept as a distinct type
@@ -42,11 +42,11 @@ private:
   std::ostringstream m_capturedBuf;
 };
 
-// --- ExceptionWrapper: success path -------------------------------------
+// --- exception_wrapper: success path -------------------------------------
 
 TEST (LumexExceptionWrapperTest, SuccessfulCall_ReturnsFunctionResult)
 {
-  int result = ExceptionWrapper (
+  int result = exception_wrapper (
       "exc", "unk", [] (int a, int b) { return a + b; }, 2, 3);
   EXPECT_EQ (result, 5);
 }
@@ -54,7 +54,7 @@ TEST (LumexExceptionWrapperTest, SuccessfulCall_ReturnsFunctionResult)
 TEST (LumexExceptionWrapperTest, SuccessfulCall_WritesNothingToStderr)
 {
   WrapperStderrCapture capture;
-  int result = ExceptionWrapper ("exc", "unk", [] () { return 42; });
+  int result = exception_wrapper ("exc", "unk", [] () { return 42; });
   EXPECT_EQ (result, 42);
   EXPECT_TRUE (capture.output ().empty ());
 }
@@ -64,24 +64,24 @@ TEST (LumexExceptionWrapperTest,
 {
   bool called = false;
   EXPECT_NO_THROW (
-      ExceptionWrapper ("exc", "unk", [&called] () { called = true; }));
+      exception_wrapper ("exc", "unk", [&called] () { called = true; }));
   EXPECT_TRUE (called);
 }
 
-// --- ExceptionWrapper: std::exception path -------------------------------
+// --- exception_wrapper: std::exception path -------------------------------
 
 TEST (LumexExceptionWrapperTest, StdException_ReturnsDefaultConstructedValue)
 {
-  int result = ExceptionWrapper ("exc message", "unk message", [] () -> int
-                                   { throw std::runtime_error ("boom"); });
+  int result = exception_wrapper ("exc message", "unk message", [] () -> int
+                                    { throw std::runtime_error ("boom"); });
   EXPECT_EQ (result, 0);
 }
 
 TEST (LumexExceptionWrapperTest, StdException_ReportsExcMessageAndWhatToStderr)
 {
   WrapperStderrCapture capture;
-  ExceptionWrapper ("Failed to compute", "unused", [] () -> int
-                      { throw std::runtime_error ("disk on fire"); });
+  exception_wrapper ("Failed to compute", "unused", [] () -> int
+                       { throw std::runtime_error ("disk on fire"); });
 
   std::string output = capture.output ();
   EXPECT_NE (output.find ("Failed to compute"), std::string::npos);
@@ -90,24 +90,24 @@ TEST (LumexExceptionWrapperTest, StdException_ReportsExcMessageAndWhatToStderr)
 
 TEST (LumexExceptionWrapperTest, StdException_DefaultString_IsEmpty)
 {
-  std::string result = ExceptionWrapper (
+  std::string result = exception_wrapper (
       "exc", "unk", [] () -> std::string { throw std::logic_error ("nope"); });
   EXPECT_TRUE (result.empty ());
 }
 
 TEST (LumexExceptionWrapperTest, StdException_DefaultPointer_IsNull)
 {
-  int *result = ExceptionWrapper ("exc", "unk", [] () -> int *
-                                    { throw std::runtime_error ("bad ptr"); });
+  int *result = exception_wrapper (
+      "exc", "unk", [] () -> int * { throw std::runtime_error ("bad ptr"); });
   EXPECT_EQ (result, nullptr);
 }
 
-// --- ExceptionWrapper: unknown (non-std::exception) path -----------------
+// --- exception_wrapper: unknown (non-std::exception) path -----------------
 
 TEST (LumexExceptionWrapperTest,
       UnknownException_ReturnsDefaultConstructedValue)
 {
-  int result = ExceptionWrapper ("exc", "unk", [] () -> int { throw 1337; });
+  int result = exception_wrapper ("exc", "unk", [] () -> int { throw 1337; });
   EXPECT_EQ (result, 0);
 }
 
@@ -115,8 +115,8 @@ TEST (LumexExceptionWrapperTest,
       UnknownException_ReportsUnknownMessageToStderr)
 {
   WrapperStderrCapture capture;
-  ExceptionWrapper ("unused", "Unknown failure in widget",
-                    [] () -> int { throw 7; });
+  exception_wrapper ("unused", "Unknown failure in widget",
+                     [] () -> int { throw 7; });
 
   std::string output = capture.output ();
   EXPECT_NE (output.find ("Unknown failure in widget"), std::string::npos);
@@ -125,8 +125,8 @@ TEST (LumexExceptionWrapperTest,
 TEST (LumexExceptionWrapperTest, UnknownException_DoesNotUseExcMessage)
 {
   WrapperStderrCapture capture;
-  ExceptionWrapper ("should not appear", "unknown branch", [] () -> int
-                      { throw std::string ("not a std::exception"); });
+  exception_wrapper ("should not appear", "unknown branch", [] () -> int
+                       { throw std::string ("not a std::exception"); });
 
   std::string output = capture.output ();
   EXPECT_EQ (output.find ("should not appear"), std::string::npos);
@@ -140,15 +140,15 @@ TEST (LumexExceptionWrapperTest, ForwardsMultipleArgumentsByValueAndReference)
   std::string accumulator;
   auto append
       = [] (std::string &acc, std::string const &piece) { acc += piece; };
-  ExceptionWrapper ("exc", "unk", append, accumulator, std::string ("hello"));
+  exception_wrapper ("exc", "unk", append, accumulator, std::string ("hello"));
   EXPECT_EQ (accumulator, "hello");
 }
 
 TEST (LumexExceptionWrapperTest, ForwardsMoveOnlyArgument)
 {
   auto holdsUnique = [] (std::unique_ptr<int> ptr) { return *ptr; };
-  int result = ExceptionWrapper ("exc", "unk", holdsUnique,
-                                 std::unique_ptr<int> (new int (99)));
+  int result = exception_wrapper ("exc", "unk", holdsUnique,
+                                  std::unique_ptr<int> (new int (99)));
   EXPECT_EQ (result, 99);
 }
 
@@ -236,11 +236,11 @@ TEST (LumexExceptionWrapperTest, NoexceptCallable_MakesWrapperCallNoexcept)
   std::string const unkMsg = "unk";
   auto noexceptLambda = [] () noexcept -> int { return 5; };
   LUMEX_STATIC_ASSERT_MSG (
-      noexcept (ExceptionWrapper (excMsg, unkMsg, noexceptLambda)),
+      noexcept (exception_wrapper (excMsg, unkMsg, noexceptLambda)),
       "ExceptionWrapper must be noexcept when the wrapped callable "
       "is noexcept.");
 
-  EXPECT_EQ (ExceptionWrapper (excMsg, unkMsg, noexceptLambda), 5);
+  EXPECT_EQ (exception_wrapper (excMsg, unkMsg, noexceptLambda), 5);
 }
 
 TEST (LumexExceptionWrapperTest,
@@ -250,11 +250,11 @@ TEST (LumexExceptionWrapperTest,
   std::string const unkMsg = "unk";
   auto throwingLambda = [] () -> int { return 5; }; // not marked noexcept
   LUMEX_STATIC_ASSERT_MSG (
-      !noexcept (ExceptionWrapper (excMsg, unkMsg, throwingLambda)),
+      !noexcept (exception_wrapper (excMsg, unkMsg, throwingLambda)),
       "ExceptionWrapper must not be noexcept when the wrapped "
       "callable is not noexcept.");
 
-  EXPECT_EQ (ExceptionWrapper (excMsg, unkMsg, throwingLambda), 5);
+  EXPECT_EQ (exception_wrapper (excMsg, unkMsg, throwingLambda), 5);
 }
 
 // --- Type trait reuse -------------------------------------------------------
@@ -293,8 +293,8 @@ TEST (LumexExceptionWrapperTest, InstalledReporter_ReceivesReasonLine)
   g_safe_call_report.clear ();
   SafeCallReporterGuard const guard (&capture_safe_call_report);
   WrapperStderrCapture capture;
-  ExceptionWrapper ("Failed to compute", "unused", [] () -> int
-                      { throw std::runtime_error ("disk on fire"); });
+  exception_wrapper ("Failed to compute", "unused", [] () -> int
+                       { throw std::runtime_error ("disk on fire"); });
 
   EXPECT_NE (g_safe_call_report.find ("Failed to compute"), std::string::npos);
   EXPECT_NE (g_safe_call_report.find (". Reason: "), std::string::npos);
@@ -306,8 +306,8 @@ TEST (LumexExceptionWrapperTest, ThrowingReporter_FallsBackToStderr)
 {
   SafeCallReporterGuard const guard (&throwing_safe_call_report);
   WrapperStderrCapture capture;
-  ExceptionWrapper ("sink failed", "unused",
-                    [] () -> int { throw std::runtime_error ("boom"); });
+  exception_wrapper ("sink failed", "unused",
+                     [] () -> int { throw std::runtime_error ("boom"); });
 
   std::string output = capture.output ();
   EXPECT_NE (output.find ("sink failed"), std::string::npos);

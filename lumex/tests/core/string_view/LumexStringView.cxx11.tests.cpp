@@ -103,7 +103,7 @@ protected:
 
 TEST_F (LumexStringViewTest, DefaultConstruction)
 {
-  LumexStringView sv;
+  lumex_string_view sv;
 
   EXPECT_EQ (sv.size (), 0);
   EXPECT_EQ (sv.length (), 0);
@@ -115,7 +115,7 @@ TEST_F (LumexStringViewTest, DefaultConstruction)
 TEST_F (LumexStringViewTest, ValidCStringConstruction)
 {
   char const *cstr = "Hello, World!";
-  LumexStringView sv (cstr);
+  lumex_string_view sv (cstr);
 
   EXPECT_EQ (sv.size (), std::strlen (cstr));
   EXPECT_EQ (sv.data (), cstr);
@@ -125,7 +125,7 @@ TEST_F (LumexStringViewTest, ValidCStringConstruction)
 
 TEST_F (LumexStringViewTest, NullptrConstruction)
 {
-  LumexStringView sv (nullptr);
+  lumex_string_view sv (nullptr);
 
   EXPECT_EQ (sv.size (), 0);
   EXPECT_TRUE (sv.empty ());
@@ -136,7 +136,7 @@ TEST_F (LumexStringViewTest, PointerLengthConstruction)
 {
   char const *str = "Hello, World!";
   std::size_t len = 5; // Only "Hello"
-  LumexStringView sv (str, len);
+  lumex_string_view sv (str, len);
 
   EXPECT_EQ (sv.size (), len);
   EXPECT_EQ (sv.data (), str);
@@ -146,7 +146,7 @@ TEST_F (LumexStringViewTest, PointerLengthConstruction)
 TEST_F (LumexStringViewTest, ZeroLengthWithValidPointer)
 {
   char const *str = "Not empty";
-  LumexStringView sv (str, 0);
+  lumex_string_view sv (str, 0);
 
   EXPECT_EQ (sv.size (), 0);
   EXPECT_TRUE (sv.empty ());
@@ -155,7 +155,7 @@ TEST_F (LumexStringViewTest, ZeroLengthWithValidPointer)
 
 TEST_F (LumexStringViewTest, StdStringConstruction)
 {
-  LumexStringView sv (test_string);
+  lumex_string_view sv (test_string);
 
   EXPECT_EQ (sv.size (), test_string.size ());
   EXPECT_EQ (sv.data (), test_string.data ());
@@ -164,7 +164,7 @@ TEST_F (LumexStringViewTest, StdStringConstruction)
 
 TEST_F (LumexStringViewTest, EmptyStdStringConstruction)
 {
-  LumexStringView sv (empty_string);
+  lumex_string_view sv (empty_string);
 
   EXPECT_TRUE (sv.empty ());
   EXPECT_EQ (sv.size (), 0);
@@ -174,8 +174,8 @@ TEST_F (LumexStringViewTest, EmptyStdStringConstruction)
 
 TEST_F (LumexStringViewTest, CopyConstruction)
 {
-  LumexStringView original (test_string);
-  LumexStringView copy (original);
+  lumex_string_view original (test_string);
+  lumex_string_view copy (original);
 
   EXPECT_EQ (copy.size (), original.size ());
   EXPECT_EQ (copy.data (), original.data ());
@@ -184,8 +184,8 @@ TEST_F (LumexStringViewTest, CopyConstruction)
 
 TEST_F (LumexStringViewTest, Assignment)
 {
-  LumexStringView sv1 (test_string);
-  LumexStringView sv2 ("Different");
+  lumex_string_view sv1 (test_string);
+  lumex_string_view sv2 ("Different");
 
   sv2 = sv1;
 
@@ -198,7 +198,7 @@ TEST_F (LumexStringViewTest, Assignment)
 
 TEST_F (LumexStringViewTest, ForwardIteration)
 {
-  LumexStringView sv (test_string);
+  lumex_string_view sv (test_string);
 
   std::string reconstructed;
   for (auto it = sv.begin (); it != sv.end (); ++it)
@@ -211,7 +211,7 @@ TEST_F (LumexStringViewTest, ForwardIteration)
 
 TEST_F (LumexStringViewTest, ReverseIteration)
 {
-  LumexStringView sv ("abc");
+  lumex_string_view sv ("abc");
 
   std::string reversed;
   for (auto it = sv.rbegin (); it != sv.rend (); ++it)
@@ -224,7 +224,7 @@ TEST_F (LumexStringViewTest, ReverseIteration)
 
 TEST_F (LumexStringViewTest, EmptyStringIteration)
 {
-  LumexStringView sv;
+  lumex_string_view sv;
 
   EXPECT_EQ (sv.begin (), sv.end ());
   EXPECT_EQ (sv.rbegin (), sv.rend ());
@@ -239,7 +239,7 @@ TEST_F (LumexStringViewTest, EmptyStringIteration)
 
 TEST_F (LumexStringViewTest, CapacityMethods)
 {
-  LumexStringView sv (test_string);
+  lumex_string_view sv (test_string);
 
   EXPECT_EQ (sv.size (), test_string.size ());
   EXPECT_EQ (sv.length (), test_string.size ());
@@ -250,7 +250,7 @@ TEST_F (LumexStringViewTest, CapacityMethods)
 
 TEST_F (LumexStringViewTest, EmptyCapacity)
 {
-  LumexStringView sv;
+  lumex_string_view sv;
 
   EXPECT_EQ (sv.size (), 0);
   EXPECT_EQ (sv.length (), 0);
@@ -259,7 +259,7 @@ TEST_F (LumexStringViewTest, EmptyCapacity)
 
 TEST_F (LumexStringViewTest, LargeStringCapacity)
 {
-  LumexStringView sv (long_string);
+  lumex_string_view sv (long_string);
 
   EXPECT_EQ (sv.size (), long_string.size ());
   EXPECT_FALSE (sv.empty ());
@@ -270,7 +270,7 @@ TEST_F (LumexStringViewTest, LargeStringCapacity)
 
 TEST_F (LumexStringViewTest, ElementAccess)
 {
-  LumexStringView sv ("Hello");
+  lumex_string_view sv ("Hello");
 
   EXPECT_EQ (sv[0], 'H');
   EXPECT_EQ (sv[1], 'e');
@@ -281,7 +281,7 @@ TEST_F (LumexStringViewTest, ElementAccess)
 
 TEST_F (LumexStringViewTest, AtMethodValid)
 {
-  LumexStringView sv ("Test");
+  lumex_string_view sv ("Test");
 
   EXPECT_EQ (sv.at (0), 'T');
   EXPECT_EQ (sv.at (3), 't');
@@ -289,7 +289,7 @@ TEST_F (LumexStringViewTest, AtMethodValid)
 
 TEST_F (LumexStringViewTest, AtMethodInvalid)
 {
-  LumexStringView sv ("Test");
+  lumex_string_view sv ("Test");
 
   EXPECT_THROW (sv.at (4), std::out_of_range);
   EXPECT_THROW (sv.at (100), std::out_of_range);
@@ -297,7 +297,7 @@ TEST_F (LumexStringViewTest, AtMethodInvalid)
 
 TEST_F (LumexStringViewTest, EmptyStringElementAccess)
 {
-  LumexStringView sv;
+  lumex_string_view sv;
 
   EXPECT_THROW (sv.at (0), std::out_of_range);
 }
@@ -305,7 +305,7 @@ TEST_F (LumexStringViewTest, EmptyStringElementAccess)
 TEST_F (LumexStringViewTest, DataMethod)
 {
   char const *str = "DataTest";
-  LumexStringView sv (str);
+  lumex_string_view sv (str);
 
   EXPECT_EQ (sv.data (), str);
   EXPECT_NE (sv.data (), nullptr);
@@ -315,7 +315,7 @@ TEST_F (LumexStringViewTest, DataMethod)
 
 TEST_F (LumexStringViewTest, Clear)
 {
-  LumexStringView sv (test_string);
+  lumex_string_view sv (test_string);
   ASSERT_FALSE (sv.empty ());
 
   sv.clear ();
@@ -327,7 +327,7 @@ TEST_F (LumexStringViewTest, Clear)
 
 TEST_F (LumexStringViewTest, RemovePrefix)
 {
-  LumexStringView sv ("Hello, World!");
+  lumex_string_view sv ("Hello, World!");
   char const *original_data = sv.data ();
 
   sv.remove_prefix (7); // Remove "Hello, "
@@ -339,7 +339,7 @@ TEST_F (LumexStringViewTest, RemovePrefix)
 
 TEST_F (LumexStringViewTest, RemovePrefixTooMuch)
 {
-  LumexStringView sv ("Short");
+  lumex_string_view sv ("Short");
 
   sv.remove_prefix (100);
 
@@ -349,7 +349,7 @@ TEST_F (LumexStringViewTest, RemovePrefixTooMuch)
 
 TEST_F (LumexStringViewTest, RemoveSuffix)
 {
-  LumexStringView sv ("Hello, World!");
+  lumex_string_view sv ("Hello, World!");
   char const *original_data = sv.data ();
 
   sv.remove_suffix (8); // Remove ", World!"
@@ -361,7 +361,7 @@ TEST_F (LumexStringViewTest, RemoveSuffix)
 
 TEST_F (LumexStringViewTest, RemoveSuffixTooMuch)
 {
-  LumexStringView sv ("Short");
+  lumex_string_view sv ("Short");
 
   sv.remove_suffix (100);
 
@@ -371,8 +371,8 @@ TEST_F (LumexStringViewTest, RemoveSuffixTooMuch)
 
 TEST_F (LumexStringViewTest, Swap)
 {
-  LumexStringView sv1 ("First");
-  LumexStringView sv2 ("Second");
+  lumex_string_view sv1 ("First");
+  lumex_string_view sv2 ("Second");
   char const *data1 = sv1.data ();
   char const *data2 = sv2.data ();
 
@@ -388,7 +388,7 @@ TEST_F (LumexStringViewTest, Swap)
 
 TEST_F (LumexStringViewTest, CopyMethod)
 {
-  LumexStringView sv ("Hello, World!");
+  lumex_string_view sv ("Hello, World!");
   char buffer[20] = { 0 };
 
   std::size_t copied
@@ -400,7 +400,7 @@ TEST_F (LumexStringViewTest, CopyMethod)
 
 TEST_F (LumexStringViewTest, CopyBeyondEnd)
 {
-  LumexStringView sv ("Test");
+  lumex_string_view sv ("Test");
   char buffer[10] = { 0 };
 
   std::size_t copied = sv.copy (buffer, 10, 2); // Request 10 chars from pos 2
@@ -411,7 +411,7 @@ TEST_F (LumexStringViewTest, CopyBeyondEnd)
 
 TEST_F (LumexStringViewTest, CopyInvalidPos)
 {
-  LumexStringView sv ("Test");
+  lumex_string_view sv ("Test");
   char buffer[10];
 
   EXPECT_THROW (sv.copy (buffer, 5, 10), std::out_of_range);
@@ -421,9 +421,9 @@ TEST_F (LumexStringViewTest, CopyInvalidPos)
 
 TEST_F (LumexStringViewTest, Substr)
 {
-  LumexStringView sv ("Hello, World!");
+  lumex_string_view sv ("Hello, World!");
 
-  LumexStringView sub = sv.substr (7, 5); // "World"
+  lumex_string_view sub = sv.substr (7, 5); // "World"
 
   EXPECT_EQ (sub.size (), 5);
   EXPECT_EQ (std::string (sub.data (), sub.size ()), "World");
@@ -432,25 +432,25 @@ TEST_F (LumexStringViewTest, Substr)
 
 TEST_F (LumexStringViewTest, SubstrToEnd)
 {
-  LumexStringView sv ("Hello, World!");
+  lumex_string_view sv ("Hello, World!");
 
-  LumexStringView sub = sv.substr (7); // From pos 7 to end
+  lumex_string_view sub = sv.substr (7); // From pos 7 to end
 
   EXPECT_EQ (std::string (sub.data (), sub.size ()), "World!");
 }
 
 TEST_F (LumexStringViewTest, SubstrBeyondLength)
 {
-  LumexStringView sv ("Short");
+  lumex_string_view sv ("Short");
 
-  LumexStringView sub = sv.substr (2, 100); // Request more than available
+  lumex_string_view sub = sv.substr (2, 100); // Request more than available
 
   EXPECT_EQ (std::string (sub.data (), sub.size ()), "ort");
 }
 
 TEST_F (LumexStringViewTest, SubstrInvalidPos)
 {
-  LumexStringView sv ("Test");
+  lumex_string_view sv ("Test");
 
   EXPECT_THROW (sv.substr (10), std::out_of_range);
 }
@@ -459,8 +459,8 @@ TEST_F (LumexStringViewTest, SubstrInvalidPos)
 
 TEST_F (LumexStringViewTest, CompareEqual)
 {
-  LumexStringView sv1 ("Hello");
-  LumexStringView sv2 ("Hello");
+  lumex_string_view sv1 ("Hello");
+  lumex_string_view sv2 ("Hello");
 
   EXPECT_EQ (sv1.compare (sv2), 0);
   EXPECT_TRUE (sv1 == sv2);
@@ -473,8 +473,8 @@ TEST_F (LumexStringViewTest, CompareEqual)
 
 TEST_F (LumexStringViewTest, CompareDifferent)
 {
-  LumexStringView sv1 ("abc");
-  LumexStringView sv2 ("def");
+  lumex_string_view sv1 ("abc");
+  lumex_string_view sv2 ("def");
 
   EXPECT_LT (sv1.compare (sv2), 0);
   EXPECT_GT (sv2.compare (sv1), 0);
@@ -485,8 +485,8 @@ TEST_F (LumexStringViewTest, CompareDifferent)
 
 TEST_F (LumexStringViewTest, CompareDifferentLengths)
 {
-  LumexStringView sv1 ("abc");
-  LumexStringView sv2 ("abcd");
+  lumex_string_view sv1 ("abc");
+  lumex_string_view sv2 ("abcd");
 
   EXPECT_LT (sv1.compare (sv2), 0);
   EXPECT_TRUE (sv1 < sv2);
@@ -494,7 +494,7 @@ TEST_F (LumexStringViewTest, CompareDifferentLengths)
 
 TEST_F (LumexStringViewTest, CompareWithCString)
 {
-  LumexStringView sv ("Hello");
+  lumex_string_view sv ("Hello");
 
   EXPECT_EQ (sv.compare ("Hello"), 0);
   EXPECT_LT (sv.compare ("World"), 0);
@@ -503,8 +503,8 @@ TEST_F (LumexStringViewTest, CompareWithCString)
 
 TEST_F (LumexStringViewTest, PartialCompare)
 {
-  LumexStringView sv ("Hello, World!");
-  LumexStringView target ("World");
+  lumex_string_view sv ("Hello, World!");
+  lumex_string_view target ("World");
 
   EXPECT_EQ (sv.compare (7, 5, target), 0); // Compare "World" portion
 }
@@ -513,38 +513,38 @@ TEST_F (LumexStringViewTest, PartialCompare)
 
 TEST_F (LumexStringViewTest, StartsWith)
 {
-  LumexStringView sv ("Hello, World!");
+  lumex_string_view sv ("Hello, World!");
 
   EXPECT_TRUE (sv.starts_with ('H'));
   EXPECT_FALSE (sv.starts_with ('W'));
-  EXPECT_TRUE (sv.starts_with (LumexStringView ("Hello")));
-  EXPECT_FALSE (sv.starts_with (LumexStringView ("World")));
+  EXPECT_TRUE (sv.starts_with (lumex_string_view ("Hello")));
+  EXPECT_FALSE (sv.starts_with (lumex_string_view ("World")));
 }
 
 TEST_F (LumexStringViewTest, EndsWith)
 {
-  LumexStringView sv ("Hello, World!");
+  lumex_string_view sv ("Hello, World!");
 
   EXPECT_TRUE (sv.ends_with ('!'));
   EXPECT_FALSE (sv.ends_with ('H'));
-  EXPECT_TRUE (sv.ends_with (LumexStringView ("World!")));
-  EXPECT_FALSE (sv.ends_with (LumexStringView ("Hello")));
+  EXPECT_TRUE (sv.ends_with (lumex_string_view ("World!")));
+  EXPECT_FALSE (sv.ends_with (lumex_string_view ("Hello")));
 }
 
 TEST_F (LumexStringViewTest, EmptyStringStartsEndsWith)
 {
-  LumexStringView sv;
+  lumex_string_view sv;
 
   EXPECT_FALSE (sv.starts_with ('A'));
   EXPECT_FALSE (sv.ends_with ('A'));
-  EXPECT_FALSE (sv.starts_with (LumexStringView ("test")));
-  EXPECT_FALSE (sv.ends_with (LumexStringView ("test")));
+  EXPECT_FALSE (sv.starts_with (lumex_string_view ("test")));
+  EXPECT_FALSE (sv.ends_with (lumex_string_view ("test")));
 }
 
 TEST_F (LumexStringViewTest, StartsEndsWithLongerString)
 {
-  LumexStringView sv ("Hi");
-  LumexStringView longer ("Hello");
+  lumex_string_view sv ("Hi");
+  lumex_string_view longer ("Hello");
 
   EXPECT_FALSE (sv.starts_with (longer));
   EXPECT_FALSE (sv.ends_with (longer));
@@ -554,61 +554,61 @@ TEST_F (LumexStringViewTest, StartsEndsWithLongerString)
 
 TEST_F (LumexStringViewTest, FindChar)
 {
-  LumexStringView sv ("Hello, World!");
+  lumex_string_view sv ("Hello, World!");
 
   EXPECT_EQ (sv.find ('H'), 0);
   EXPECT_EQ (sv.find ('o'), 4); // First 'o' in "Hello"
   EXPECT_EQ (sv.find ('!'), 12);
-  EXPECT_EQ (sv.find ('X'), LumexStringView::npos);
+  EXPECT_EQ (sv.find ('X'), lumex_string_view::npos);
 }
 
 TEST_F (LumexStringViewTest, FindCharFromPosition)
 {
-  LumexStringView sv ("Hello, World!");
+  lumex_string_view sv ("Hello, World!");
 
   EXPECT_EQ (sv.find ('o', 5), 8); // Second 'o' in "World"
-  EXPECT_EQ (sv.find ('H', 1), LumexStringView::npos);
+  EXPECT_EQ (sv.find ('H', 1), lumex_string_view::npos);
 }
 
 // --- Find String Tests - String Processing Expert role ---
 
 TEST_F (LumexStringViewTest, FindSubstring)
 {
-  LumexStringView sv ("Hello, World!");
+  lumex_string_view sv ("Hello, World!");
 
-  EXPECT_EQ (sv.find (LumexStringView ("Hello")), 0);
-  EXPECT_EQ (sv.find (LumexStringView ("World")), 7);
-  EXPECT_EQ (sv.find (LumexStringView ("xyz")), LumexStringView::npos);
+  EXPECT_EQ (sv.find (lumex_string_view ("Hello")), 0);
+  EXPECT_EQ (sv.find (lumex_string_view ("World")), 7);
+  EXPECT_EQ (sv.find (lumex_string_view ("xyz")), lumex_string_view::npos);
 }
 
 TEST_F (LumexStringViewTest, Find_WhenFound_ThenIndex)
 {
-  LumexStringView const sv ("Hello, World!");
-  EXPECT_EQ (sv.find (LumexStringView ("World")), 7U);
+  lumex_string_view const sv ("Hello, World!");
+  EXPECT_EQ (sv.find (lumex_string_view ("World")), 7U);
 }
 
 TEST_F (LumexStringViewTest, Find_WhenUnfound_ThenNpos)
 {
-  LumexStringView const sv ("Hello, World!");
-  EXPECT_EQ (sv.find (LumexStringView ("xyz")), LumexStringView::npos);
+  lumex_string_view const sv ("Hello, World!");
+  EXPECT_EQ (sv.find (lumex_string_view ("xyz")), lumex_string_view::npos);
 }
 
 TEST_F (LumexStringViewTest, FindEmptyString)
 {
-  LumexStringView sv ("Hello");
-  LumexStringView empty;
+  lumex_string_view sv ("Hello");
+  lumex_string_view empty;
 
   EXPECT_EQ (sv.find (empty), 0); // Empty string found at any valid position
   EXPECT_EQ (sv.find (empty, 3), 3);
-  EXPECT_EQ (sv.find (empty, 10), LumexStringView::npos); // Beyond string
+  EXPECT_EQ (sv.find (empty, 10), lumex_string_view::npos); // Beyond string
 }
 
 TEST_F (LumexStringViewTest, FindCString)
 {
-  LumexStringView sv ("Hello, World!");
+  lumex_string_view sv ("Hello, World!");
 
   EXPECT_EQ (sv.find ("World"), 7);
-  EXPECT_EQ (sv.find ("xyz"), LumexStringView::npos);
+  EXPECT_EQ (sv.find ("xyz"), lumex_string_view::npos);
   EXPECT_EQ (sv.find ("Hello", 0, 2), 0); // Find "He" with count=2
 }
 
@@ -616,8 +616,8 @@ TEST_F (LumexStringViewTest, FindCString)
 
 TEST_F (LumexStringViewTest, RFind)
 {
-  LumexStringView sv ("Hello, World!");
-  LumexStringView target ("o");
+  lumex_string_view sv ("Hello, World!");
+  lumex_string_view target ("o");
 
   EXPECT_EQ (sv.rfind (target), 8); // Last 'o' in "World"
   EXPECT_EQ (sv.rfind ('o'), 8);
@@ -625,10 +625,10 @@ TEST_F (LumexStringViewTest, RFind)
 
 TEST_F (LumexStringViewTest, RFindNotFound)
 {
-  LumexStringView sv ("Hello");
+  lumex_string_view sv ("Hello");
 
-  EXPECT_EQ (sv.rfind ('X'), LumexStringView::npos);
-  EXPECT_EQ (sv.rfind (LumexStringView ("xyz")), LumexStringView::npos);
+  EXPECT_EQ (sv.rfind ('X'), lumex_string_view::npos);
+  EXPECT_EQ (sv.rfind (lumex_string_view ("xyz")), lumex_string_view::npos);
 }
 
 // --- Unicode and Special Character Tests - Platform Compatibility Engineer
@@ -637,7 +637,7 @@ TEST_F (LumexStringViewTest, RFindNotFound)
 TEST_F (LumexStringViewTest, UTF8Handling)
 {
   char const *utf8_str = "Héllo"; // 'é' is 2 bytes in UTF-8
-  LumexStringView sv (utf8_str);
+  lumex_string_view sv (utf8_str);
 
   EXPECT_EQ (sv.size (),
              std::strlen (utf8_str)); // Byte count, not character count
@@ -648,7 +648,7 @@ TEST_F (LumexStringViewTest, UTF8Handling)
 TEST_F (LumexStringViewTest, StringWithNullBytes)
 {
   char const data[] = { 'H', 'i', '\0', 'B', 'y', 'e' };
-  LumexStringView sv (data, sizeof (data));
+  lumex_string_view sv (data, sizeof (data));
 
   EXPECT_EQ (sv.size (), 6);
   EXPECT_EQ (sv[2], '\0');
@@ -661,7 +661,7 @@ TEST_F (LumexStringViewTest, StringWithNullBytes)
 
 TEST_F (LumexStringViewTest, ToStringConversion)
 {
-  LumexStringView sv ("Hello");
+  lumex_string_view sv ("Hello");
 
   std::string converted = sv.to_string ();
   EXPECT_EQ (converted, "Hello");
@@ -675,7 +675,7 @@ TEST_F (LumexStringViewTest, ToStringConversion)
 
 TEST_F (LumexStringViewTest, SelfSwap)
 {
-  LumexStringView sv ("test");
+  lumex_string_view sv ("test");
   sv.swap (sv);
 
   EXPECT_EQ (std::string (sv.data (), sv.size ()), "test");
@@ -683,7 +683,7 @@ TEST_F (LumexStringViewTest, SelfSwap)
 
 TEST_F (LumexStringViewTest, LargeStringOperations)
 {
-  LumexStringView sv (long_string);
+  lumex_string_view sv (long_string);
 
   // Test operations on large string
   EXPECT_EQ (sv.find ('A'), 0);
@@ -697,7 +697,7 @@ TEST_F (LumexStringViewTest, LargeStringOperations)
 TEST_F (LumexStringViewTest, PerformanceOperations)
 {
   int const iterations = 1000;
-  LumexStringView sv (test_string);
+  lumex_string_view sv (test_string);
 
   // Test performance of common operations
   for (int i = 0; i < iterations; ++i)
@@ -719,7 +719,7 @@ TEST_F (LumexStringViewTest, PerformanceOperations)
 
 TEST_F (LumexStringViewTest, ThreadSafeReads)
 {
-  LumexStringView sv (test_string);
+  lumex_string_view sv (test_string);
   std::vector<std::thread> threads;
   std::vector<bool> results (10, false);
 

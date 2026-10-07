@@ -58,7 +58,7 @@ namespace clock
 {
 LUMEX_PUBLIC_API
 std::string
-LumexTime::get_current_datetime (char const *format)
+lumex_time::get_current_datetime (char const *format)
 {
   try
     {
@@ -170,77 +170,77 @@ LumexTime::get_current_datetime (char const *format)
 
 LUMEX_PUBLIC_API
 std::string
-LumexTime::get_timestamp_ns ()
+lumex_time::get_timestamp_ns ()
 {
   return _get_timestamp (1LL);
 }
 
 LUMEX_PUBLIC_API
 std::string
-LumexTime::get_timestamp_mcs ()
+lumex_time::get_timestamp_mcs ()
 {
   return _get_timestamp (Constants::NS_IN_MCS);
 }
 
 LUMEX_PUBLIC_API
 std::string
-LumexTime::get_timestamp_ms ()
+lumex_time::get_timestamp_ms ()
 {
   return _get_timestamp (Constants::NS_IN_MS);
 }
 
 LUMEX_PUBLIC_API
 std::string
-LumexTime::get_timestamp_s ()
+lumex_time::get_timestamp_s ()
 {
   return _get_timestamp (Constants::NS_IN_S);
 }
 
 LUMEX_PUBLIC_API
 std::string
-LumexTime::get_timestamp_min ()
+lumex_time::get_timestamp_min ()
 {
   return _get_timestamp (Constants::NS_IN_MIN);
 }
 
 LUMEX_PUBLIC_API
 std::string
-LumexTime::get_timestamp_h ()
+lumex_time::get_timestamp_h ()
 {
   return _get_timestamp (Constants::NS_IN_H);
 }
 
 LUMEX_PUBLIC_API
 std::string
-LumexTime::get_timestamp_d ()
+lumex_time::get_timestamp_d ()
 {
   return _get_timestamp (Constants::NS_IN_D);
 }
 
 LUMEX_PUBLIC_API
 std::string
-LumexTime::get_timestamp_w ()
+lumex_time::get_timestamp_w ()
 {
   return _get_timestamp (Constants::NS_IN_W);
 }
 
 LUMEX_PUBLIC_API
 std::string
-LumexTime::get_timestamp_m ()
+lumex_time::get_timestamp_m ()
 {
   return _get_timestamp (Constants::NS_IN_M);
 }
 
 LUMEX_PUBLIC_API
 std::string
-LumexTime::get_timestamp_y ()
+lumex_time::get_timestamp_y ()
 {
   return _get_timestamp (Constants::NS_IN_Y);
 }
 
 LUMEX_PUBLIC_API
 std::string
-LumexTime::timestamp (std::time_t time_, std::string const &fmt)
+lumex_time::timestamp (std::time_t time_, std::string const &fmt)
 {
   std::tm tm_snapshot{};
   bool tm_ok = false;
@@ -269,8 +269,8 @@ LumexTime::timestamp (std::time_t time_, std::string const &fmt)
 
 LUMEX_PUBLIC_API
 std::string
-LumexTime::timestamp_ms (std::chrono::system_clock::time_point tp,
-                         std::string const &fmt)
+lumex_time::timestamp_ms (std::chrono::system_clock::time_point tp,
+                          std::string const &fmt)
 {
   std::time_t tt = std::chrono::system_clock::to_time_t (tp);
   std::tm tm_snapshot{};
@@ -305,7 +305,7 @@ LumexTime::timestamp_ms (std::chrono::system_clock::time_point tp,
 
 LUMEX_PUBLIC_API
 std::string
-LumexTime::_get_timestamp (long long divisor)
+lumex_time::_get_timestamp (long long divisor)
 {
   /*  Guarantees monotonicity even if two calls happen within the
       same millisecond/second/... (tests expect the second call to be

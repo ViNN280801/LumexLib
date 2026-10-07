@@ -44,8 +44,8 @@
 #include <sstream>
 
 #if defined(_WIN32)
-#include <windows.h>
 #include <process.h>
+#include <windows.h>
 #elif defined(__unix__) || defined(__APPLE__)
 #include <sys/types.h>
 #include <unistd.h>
@@ -65,23 +65,23 @@ namespace tmp
 {
 using lumex_filesystem = lumex::filesystem;
 
-// RAII TemporaryDirectory implementation
+// RAII temporary_directory implementation
 LUMEX_PUBLIC_API
-TemporaryDirectory::TemporaryDirectory (lumex::path const &path)
+temporary_directory::temporary_directory (lumex::path const &path)
     : m_path (path), m_valid (lumex_filesystem::exists (path)
                               && lumex_filesystem::is_directory (path))
 {
 }
 
 LUMEX_PUBLIC_API
-TemporaryDirectory::~TemporaryDirectory ()
+temporary_directory::~temporary_directory ()
 {
   if (m_valid)
-    LumexTemporary::remove_temp_directory (m_path);
+    lumex_temporary::remove_temp_directory (m_path);
 }
 
 LUMEX_PUBLIC_API
-TemporaryDirectory::TemporaryDirectory (TemporaryDirectory &&other)
+temporary_directory::temporary_directory (temporary_directory &&other)
     LUMEX_NOEXCEPT : m_path (std::move (other.m_path)),
                      m_valid (other.m_valid)
 {
@@ -89,14 +89,14 @@ TemporaryDirectory::TemporaryDirectory (TemporaryDirectory &&other)
 }
 
 LUMEX_PUBLIC_API
-TemporaryDirectory &
-TemporaryDirectory::operator= (TemporaryDirectory &&other) LUMEX_NOEXCEPT
+temporary_directory &
+temporary_directory::operator= (temporary_directory &&other) LUMEX_NOEXCEPT
 {
   if (this != &other)
     {
       // Clean up current directory if valid
       if (m_valid)
-        LumexTemporary::remove_temp_directory (m_path);
+        lumex_temporary::remove_temp_directory (m_path);
 
       // Take ownership of other's path
       m_path = std::move (other.m_path);
@@ -110,28 +110,28 @@ TemporaryDirectory::operator= (TemporaryDirectory &&other) LUMEX_NOEXCEPT
 
 LUMEX_PUBLIC_API
 void
-TemporaryDirectory::release ()
+temporary_directory::release ()
 {
   m_valid = false;
 }
 
-// RAII TemporaryFile implementation
+// RAII temporary_file implementation
 LUMEX_PUBLIC_API
-TemporaryFile::TemporaryFile (lumex::path const &path)
+temporary_file::temporary_file (lumex::path const &path)
     : m_path (path), m_valid (lumex_filesystem::exists (path)
                               && lumex_filesystem::is_regular_file (path))
 {
 }
 
 LUMEX_PUBLIC_API
-TemporaryFile::~TemporaryFile ()
+temporary_file::~temporary_file ()
 {
   if (m_valid)
-    LumexTemporary::remove_temp_file (m_path);
+    lumex_temporary::remove_temp_file (m_path);
 }
 
 LUMEX_PUBLIC_API
-TemporaryFile::TemporaryFile (TemporaryFile &&other) LUMEX_NOEXCEPT
+temporary_file::temporary_file (temporary_file &&other) LUMEX_NOEXCEPT
     : m_path (std::move (other.m_path)),
       m_valid (other.m_valid)
 {
@@ -139,14 +139,14 @@ TemporaryFile::TemporaryFile (TemporaryFile &&other) LUMEX_NOEXCEPT
 }
 
 LUMEX_PUBLIC_API
-TemporaryFile &
-TemporaryFile::operator= (TemporaryFile &&other) LUMEX_NOEXCEPT
+temporary_file &
+temporary_file::operator= (temporary_file &&other) LUMEX_NOEXCEPT
 {
   if (this != &other)
     {
       // Clean up current file if valid
       if (m_valid)
-        LumexTemporary::remove_temp_file (m_path);
+        lumex_temporary::remove_temp_file (m_path);
 
       // Take ownership of other's path
       m_path = std::move (other.m_path);
@@ -160,15 +160,15 @@ TemporaryFile::operator= (TemporaryFile &&other) LUMEX_NOEXCEPT
 
 LUMEX_PUBLIC_API
 void
-TemporaryFile::release ()
+temporary_file::release ()
 {
   m_valid = false;
 }
 
-// Main LumexTemporary implementation
+// Main lumex_temporary implementation
 LUMEX_PUBLIC_API
 lumex::path
-LumexTemporary::get_temp_directory_path ()
+lumex_temporary::get_temp_directory_path ()
 {
 #if defined(LUMEX_OS_WINDOWS)
   // On Windows, always use system temp directory (original behavior)
@@ -180,7 +180,7 @@ LumexTemporary::get_temp_directory_path ()
   return tmp;
 #else
   // On Linux, check if running as AppImage
-  std::string appImagePath = LumexEnvironment::get ("APPIMAGE").value;
+  std::string appImagePath = lumex_environment::get ("APPIMAGE").value;
   if (!appImagePath.empty ())
     {
       // If running as AppImage, use the system's default temporary directory
@@ -193,7 +193,7 @@ LumexTemporary::get_temp_directory_path ()
     }
 
   // Otherwise, create a temporary directory in the user's home directory
-  std::string homeDir = LumexEnvironment::get ("HOME").value;
+  std::string homeDir = lumex_environment::get ("HOME").value;
 
   if (homeDir.empty ())
     throw std::runtime_error (
@@ -208,7 +208,7 @@ LumexTemporary::get_temp_directory_path ()
 
 LUMEX_PUBLIC_API
 std::string
-LumexTemporary::_generate_random_suffix ()
+lumex_temporary::_generate_random_suffix ()
 {
   auto const nullHex = 0x00;
   auto const maxHex = 0x0F;
@@ -251,7 +251,7 @@ LumexTemporary::_generate_random_suffix ()
 
 LUMEX_PUBLIC_API
 std::string
-LumexTemporary::generate_temp_name (std::string const &prefix)
+lumex_temporary::generate_temp_name (std::string const &prefix)
 {
   std::string name;
   if (!prefix.empty ())
@@ -262,7 +262,7 @@ LumexTemporary::generate_temp_name (std::string const &prefix)
 
 LUMEX_PUBLIC_API
 bool
-LumexTemporary::_ensure_temp_directory_exists (lumex::path const &temp_dir)
+lumex_temporary::_ensure_temp_directory_exists (lumex::path const &temp_dir)
 {
   if (lumex_filesystem::exists (temp_dir))
     return lumex_filesystem::is_directory (temp_dir);
@@ -272,15 +272,15 @@ LumexTemporary::_ensure_temp_directory_exists (lumex::path const &temp_dir)
 }
 
 LUMEX_PUBLIC_API
-lumex::filesystem_result<TemporaryDirectory>
-LumexTemporary::create_temp_directory (std::string const &name)
+lumex::filesystem_result<temporary_directory>
+lumex_temporary::create_temp_directory (std::string const &name)
 {
   lumex::path temp_base = get_temp_directory_path ();
 
   // Ensure base temp directory exists
   if (!_ensure_temp_directory_exists (temp_base))
-    return lumex::filesystem_result<TemporaryDirectory>::err (
-        -1, TemporaryDirectory (lumex::path ()));
+    return lumex::filesystem_result<temporary_directory>::err (
+        -1, temporary_directory (lumex::path ()));
 
   // Generate unique directory name
   std::string dir_name = generate_temp_name (name.empty () ? "tmp_dir" : name);
@@ -296,10 +296,10 @@ LumexTemporary::create_temp_directory (std::string const &name)
         {
           auto result = lumex_filesystem::create_directory (temp_dir_path);
           if (result.success ())
-            return lumex::filesystem_result<TemporaryDirectory>::ok (
-                TemporaryDirectory (temp_dir_path));
-          return lumex::filesystem_result<TemporaryDirectory>::err (
-              result.error_code (), TemporaryDirectory (lumex::path ()));
+            return lumex::filesystem_result<temporary_directory>::ok (
+                temporary_directory (temp_dir_path));
+          return lumex::filesystem_result<temporary_directory>::err (
+              result.error_code (), temporary_directory (lumex::path ()));
         }
 
       // Name collision, try with new suffix
@@ -309,13 +309,13 @@ LumexTemporary::create_temp_directory (std::string const &name)
     }
 
   // Too many collisions
-  return lumex::filesystem_result<TemporaryDirectory>::err (
-      -2, TemporaryDirectory (lumex::path ()));
+  return lumex::filesystem_result<temporary_directory>::err (
+      -2, temporary_directory (lumex::path ()));
 }
 
 LUMEX_PUBLIC_API
 lumex::filesystem_result<void>
-LumexTemporary::remove_temp_directory (lumex::path const &path)
+lumex_temporary::remove_temp_directory (lumex::path const &path)
 {
   if (!lumex_filesystem::exists (path))
     return lumex::filesystem_result<void>::ok (); // Already removed, success
@@ -331,15 +331,15 @@ LumexTemporary::remove_temp_directory (lumex::path const &path)
 }
 
 LUMEX_PUBLIC_API
-lumex::filesystem_result<TemporaryFile>
-LumexTemporary::create_temp_file (std::string const &name)
+lumex::filesystem_result<temporary_file>
+lumex_temporary::create_temp_file (std::string const &name)
 {
   lumex::path temp_base = get_temp_directory_path ();
 
   // Ensure base temp directory exists
   if (!_ensure_temp_directory_exists (temp_base))
-    return lumex::filesystem_result<TemporaryFile>::err (
-        -1, TemporaryFile (lumex::path ()));
+    return lumex::filesystem_result<temporary_file>::err (
+        -1, temporary_file (lumex::path ()));
 
   // Generate unique file name
   std::string file_name
@@ -360,12 +360,12 @@ LumexTemporary::create_temp_file (std::string const &name)
             {
               file.close ();
               if (lumex_filesystem::exists (temp_file_path))
-                return lumex::filesystem_result<TemporaryFile>::ok (
-                    TemporaryFile (temp_file_path));
+                return lumex::filesystem_result<temporary_file>::ok (
+                    temporary_file (temp_file_path));
             }
           // File creation failed
-          return lumex::filesystem_result<TemporaryFile>::err (
-              -3, TemporaryFile (lumex::path ()));
+          return lumex::filesystem_result<temporary_file>::err (
+              -3, temporary_file (lumex::path ()));
         }
 
       // Name collision, try with new suffix
@@ -375,13 +375,13 @@ LumexTemporary::create_temp_file (std::string const &name)
     }
 
   // Too many collisions
-  return lumex::filesystem_result<TemporaryFile>::err (
-      -2, TemporaryFile (lumex::path ()));
+  return lumex::filesystem_result<temporary_file>::err (
+      -2, temporary_file (lumex::path ()));
 }
 
 LUMEX_PUBLIC_API
 lumex::filesystem_result<void>
-LumexTemporary::remove_temp_file (lumex::path const &path)
+lumex_temporary::remove_temp_file (lumex::path const &path)
 {
   if (!lumex_filesystem::exists (path))
     return lumex::filesystem_result<void>::ok (); // Already removed, success

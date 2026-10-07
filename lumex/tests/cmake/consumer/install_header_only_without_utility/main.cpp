@@ -43,7 +43,7 @@ main ()
   check (LUMEX_MATH_CONSTANTS_PI > 3.14 && LUMEX_MATH_CONSTANTS_PI < 3.15,
          "math: constants");
 
-  lumex::core::generators::number_generator::NumberGenerator<int> dice (1, 6);
+  lumex::core::generators::number_generator::number_generator<int> dice (1, 6);
   int const roll = dice ();
   check (roll >= 1 && roll <= 6, "generators: NumberGenerator");
 

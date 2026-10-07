@@ -24,10 +24,10 @@ stat_line (std::string const &comm)
 // A string literal with embedded NULs as a view of its whole length (the
 // terminating NUL left out); a C++11 stand-in for the "..."s literal.
 template <std::size_t N>
-LumexStringView
+lumex_string_view
 with_nuls (char const (&text)[N])
 {
-  return LumexStringView (text, N - 1);
+  return lumex_string_view (text, N - 1);
 }
 } // namespace
 

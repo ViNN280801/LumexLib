@@ -128,7 +128,7 @@ LumexSettingsGuard::backup (std::string const &filename) LUMEX_NOEXCEPT
 
       std::string const dst
           = filename + ".bak."
-            + LumexTime::get_current_datetime ("%Y%m%d-%H%M%S");
+            + lumex_time::get_current_datetime ("%Y%m%d-%H%M%S");
 
       auto const result
           = lumex::core::filesystem::fs::lumex_filesystem::copy_file (

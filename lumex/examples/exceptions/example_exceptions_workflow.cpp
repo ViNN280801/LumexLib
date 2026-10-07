@@ -5,7 +5,7 @@
 
 using namespace lumex::core::exceptions::exception;
 
-LUMEX_DEFINE_EXCEPTION (ExampleSequenceAbort, LumexBaseException)
+LUMEX_DEFINE_EXCEPTION (ExampleSequenceAbort, lumex_base_exception)
 
 namespace
 {
@@ -24,10 +24,10 @@ main ()
     {
       arm_injector ();
     }
-  catch (LumexBaseException const &ex)
+  catch (lumex_base_exception const &ex)
     {
       std::cout << "abort_reason=" << ex.what ()
-                << " frames=" << ex.getStackTrace ().size () << '\n';
+                << " frames=" << ex.get_stack_trace ().size () << '\n';
     }
   return 0;
 }
