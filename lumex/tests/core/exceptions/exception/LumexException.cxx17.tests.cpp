@@ -39,7 +39,7 @@
 
 #include "lumex/core/exceptions/LumexException"
 
-#include "lumex/tests/core/exceptions/LumexExceptionTestFixtures.hpp"
+#include "lumex/tests/core/exceptions/exception/LumexExceptionTestFixtures.hpp"
 
 using lumex::core::exceptions::exception::lumex_base_exception;
 
