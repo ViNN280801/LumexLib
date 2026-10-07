@@ -35,6 +35,8 @@ endfunction()
 # The examples of the decision, one per kind of directory.
 _expect_prefix("core/crc" "crc.")
 _expect_prefix("core/string_view" "string_view.")
+_expect_prefix("core/span" "span.")
+_expect_prefix("core/span/view" "span.view.")
 _expect_prefix("applied/json" "json.")
 _expect_prefix("xml" "xml.")
 _expect_prefix("core/generators/number_generator" "generators.number_generator.")
