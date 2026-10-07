@@ -297,6 +297,26 @@ struct constructs_from_expected
 {
 };
 
+// ====================== Comparison ====================== //
+
+template <typename L, typename R, typename = void>
+struct is_equality_comparable : std::false_type
+{
+};
+
+/// @brief `lhs == rhs` is well-formed for a `L const &` and a `R const &` and
+/// its result converts to `bool`.
+template <typename L, typename R>
+struct is_equality_comparable<
+    L, R,
+    traits::meta::void_t<decltype (std::declval<L const &> ()
+                                   == std::declval<R const &> ())>>
+    : std::is_convertible<decltype (std::declval<L const &> ()
+                                    == std::declval<R const &> ()),
+                          bool>
+{
+};
+
 // ====================== INVOKE ====================== //
 
 #if __cplusplus >= 201703L
