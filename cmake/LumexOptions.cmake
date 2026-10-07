@@ -7,7 +7,7 @@
 # LUMEX_ENABLE_LTO / LUMEX_DEBUG_SYMBOLS /
 # LUMEX_USE_ASAN / LUMEX_USE_UBSAN / LUMEX_USE_TSAN /
 # LUMEX_USE_CLANG_TIDY / LUMEX_USE_CPPCHECK /
-# LUMEX_MAXIMUM_STANDARD_COMPLIANCE /
+# LUMEX_MAXIMUM_STANDARD_COMPLIANCE / LUMEX_WERROR /
 # LUMEX_BUILD_TIMING / LUMEX_GENERATE_BUILD_INFO /
 # LUMEX_BUILD_INFO_FORMAT / LUMEX_LOGGER_CONFIG_FORMAT cache variables.
 #
@@ -160,6 +160,10 @@ set(LUMEX_STATIC_ANALYSIS_PROFILE "default" CACHE STRING
 set_property(CACHE LUMEX_STATIC_ANALYSIS_PROFILE PROPERTY STRINGS
     default memory undefined thread security full)
 option(LUMEX_MAXIMUM_STANDARD_COMPLIANCE "Apply CMakeRoutines maximum_standard_compliance_configure to targets that already pin CXX_STANDARD" ON)
+# Default OFF. ON adds -Werror (/WX on MSVC and clang-cl) to the library
+# targets, so a new warning fails the build. Tests and examples have their
+# warnings switched off and are not affected. create_release.sh turns it ON.
+option(LUMEX_WERROR "Treat compiler warnings of the Lumex library targets as errors" OFF)
 
 # ==============================================================================
 # BUILD UTILS (CMakeRoutines utils/)
