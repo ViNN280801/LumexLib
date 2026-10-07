@@ -172,7 +172,7 @@ TEST (LumexProcessMonitorTest, SampleByNameGivesOneSamplePerProcess)
 {
   LumexProcessMonitor monitor;
   std::vector<process_usage_t> const usages
-      = monitor.sample_by_name (own_executable_name ());
+      = monitor.sample_by_name (own_executable_name (), false);
   ASSERT_FALSE (usages.empty ());
   std::string const own = own_executable_name ();
   bool has_self = false;
@@ -330,6 +330,8 @@ TEST (LumexProcessMonitorTest, AZombieIsNotListedByName)
       = LumexProcessMonitor::find_by_name (own_executable_name ());
   LumexProcessMonitor monitor;
   std::vector<process_usage_t> const sampled
+      = monitor.sample_by_name (own_executable_name (), false);
+  std::vector<process_usage_t> const trees
       = monitor.sample_by_name (own_executable_name ());
   int status = 0;
   ::waitpid (child, &status, 0);
@@ -338,8 +340,218 @@ TEST (LumexProcessMonitorTest, AZombieIsNotListedByName)
   EXPECT_EQ (std::find (found.begin (), found.end (), zombie), found.end ());
   for (process_usage_t const &usage : sampled)
     EXPECT_NE (usage.pid, zombie);
+  for (process_usage_t const &usage : trees)
+    {
+      EXPECT_NE (usage.pid, zombie);
+      for (process_member_t const &member : usage.members)
+        EXPECT_NE (member.pid, zombie);
+    }
+}
+
+namespace
+{
+// Ends a test child and collects it.
+void
+reap (pid_t child)
+{
+  ::kill (child, SIGKILL);
+  int status = 0;
+  ::waitpid (child, &status, 0);
+}
+
+bool
+contains (std::vector<process_id_t> const &ids, pid_t value)
+{
+  return std::find (ids.begin (), ids.end (),
+                    static_cast<process_id_t> (value))
+         != ids.end ();
+}
+} // namespace
+
+TEST (LumexProcessMonitorTest, AChildIsFoundBelowItsParent)
+{
+  pid_t const child = ::fork ();
+  ASSERT_GE (child, 0);
+  if (child == 0)
+    {
+      ::pause ();
+      ::_exit (0);
+    }
+  std::vector<process_id_t> const below
+      = LumexProcessMonitor::find_descendants (
+          LumexProcessMonitor::current_process_id ());
+  std::vector<process_id_t> const own_below
+      = LumexProcessMonitor::find_descendants (
+          static_cast<process_id_t> (child));
+  reap (child);
+
+  EXPECT_TRUE (contains (below, child));
+  EXPECT_TRUE (own_below.empty ());
+}
+
+// The child forks a grandchild and tells its ID through a pipe.
+TEST (LumexProcessMonitorTest, AGrandchildIsFoundAfterTheChild)
+{
+  int fds[2];
+  ASSERT_EQ (::pipe (fds), 0);
+  pid_t const child = ::fork ();
+  ASSERT_GE (child, 0);
+  if (child == 0)
+    {
+      ::close (fds[0]);
+      pid_t const grandchild = ::fork ();
+      if (grandchild == 0)
+        {
+          ::close (fds[1]);
+          ::pause ();
+          ::_exit (0);
+        }
+      ssize_t const written
+          = ::write (fds[1], &grandchild, sizeof (grandchild));
+      ::close (fds[1]);
+      ::pause ();
+      ::_exit (written == static_cast<ssize_t> (sizeof (grandchild)) ? 0 : 1);
+    }
+  ::close (fds[1]);
+  pid_t grandchild = 0;
+  ASSERT_EQ (::read (fds[0], &grandchild, sizeof (grandchild)),
+             static_cast<ssize_t> (sizeof (grandchild)));
+  ::close (fds[0]);
+
+  std::vector<process_id_t> const below
+      = LumexProcessMonitor::find_descendants (
+          LumexProcessMonitor::current_process_id ());
+  LumexProcessMonitor monitor;
+  LumexProcessMonitor::result_t const usage = monitor.sample (
+      LumexProcessMonitor::current_process_id (), true, true);
+  reap (grandchild);
+  reap (child);
+
+  ASSERT_TRUE (contains (below, child));
+  ASSERT_TRUE (contains (below, grandchild));
+  // Nearest first: the child before the grandchild.
+  EXPECT_LT (std::find (below.begin (), below.end (),
+                        static_cast<process_id_t> (child)),
+             std::find (below.begin (), below.end (),
+                        static_cast<process_id_t> (grandchild)));
+  ASSERT_TRUE (usage.has_value ());
+  EXPECT_GE (usage->process_count, 3U);
+}
+
+TEST (LumexProcessMonitorTest, ASampleAddsTheProcessesBelowIt)
+{
+  pid_t const child = ::fork ();
+  ASSERT_GE (child, 0);
+  if (child == 0)
+    {
+      ::pause ();
+      ::_exit (0);
+    }
+  process_id_t const self = LumexProcessMonitor::current_process_id ();
+  LumexProcessMonitor monitor;
+  LumexProcessMonitor::result_t const alone = monitor.sample (self, false);
+  LumexProcessMonitor::result_t const with_children = monitor.sample (self);
+  LumexProcessMonitor::result_t const child_alone
+      = monitor.sample (static_cast<process_id_t> (child), false);
+  reap (child);
+
+  ASSERT_TRUE (alone.has_value ());
+  ASSERT_TRUE (with_children.has_value ());
+  ASSERT_TRUE (child_alone.has_value ());
+  EXPECT_EQ (alone->process_count, 1U);
+  EXPECT_TRUE (alone->members.empty ());
+  EXPECT_GE (with_children->process_count, 2U);
+  EXPECT_EQ (with_children->pid, self);
+  EXPECT_EQ (with_children->name, own_executable_name ());
+  EXPECT_GE (with_children->resident_bytes, child_alone->resident_bytes);
+  EXPECT_GE (with_children->cpu_time, alone->cpu_time);
+  // Without the breakdown asked for, the sum lists no process.
+  EXPECT_TRUE (with_children->members.empty ());
+}
+
+TEST (LumexProcessMonitorTest, TheBreakdownListsEveryProcessBehindTheSum)
+{
+  pid_t const child = ::fork ();
+  ASSERT_GE (child, 0);
+  if (child == 0)
+    {
+      ::pause ();
+      ::_exit (0);
+    }
+  process_id_t const self = LumexProcessMonitor::current_process_id ();
+  LumexProcessMonitor monitor;
+  LumexProcessMonitor::result_t const usage
+      = monitor.sample (self, true, true);
+  LumexProcessMonitor::result_t const single
+      = monitor.sample (self, false, true);
+  reap (child);
+
+  ASSERT_TRUE (usage.has_value ());
+  ASSERT_EQ (usage->members.size (), usage->process_count);
+  EXPECT_EQ (usage->members.front ().pid, self);
+  bool has_child = false;
+  std::uint64_t resident = 0;
+  for (process_member_t const &member : usage->members)
+    {
+      has_child = has_child || member.pid == static_cast<process_id_t> (child);
+      resident += member.resident_bytes;
+    }
+  EXPECT_TRUE (has_child);
+  EXPECT_EQ (resident, usage->resident_bytes);
+  // One process alone has nothing to break down.
+  ASSERT_TRUE (single.has_value ());
+  EXPECT_TRUE (single->members.empty ());
+}
+
+// A child that is a copy of this binary has the same name: by name it is part
+// of this process's tree, not another sample.
+TEST (LumexProcessMonitorTest, ANameCountsATreeOnce)
+{
+  pid_t const child = ::fork ();
+  ASSERT_GE (child, 0);
+  if (child == 0)
+    {
+      ::pause ();
+      ::_exit (0);
+    }
+  process_id_t const self = LumexProcessMonitor::current_process_id ();
+  LumexProcessMonitor monitor;
+  std::vector<process_usage_t> const trees
+      = monitor.sample_by_name (own_executable_name ());
+  std::vector<process_usage_t> const each
+      = monitor.sample_by_name (own_executable_name (), false);
+  reap (child);
+
+  process_usage_t const *own_tree = nullptr;
+  for (process_usage_t const &usage : trees)
+    {
+      EXPECT_NE (usage.pid, static_cast<process_id_t> (child));
+      if (usage.pid == self)
+        own_tree = &usage;
+    }
+  ASSERT_NE (own_tree, nullptr);
+  EXPECT_GE (own_tree->process_count, 2U);
+
+  bool each_has_child = false;
+  for (process_usage_t const &usage : each)
+    {
+      EXPECT_EQ (usage.process_count, 1U);
+      each_has_child
+          = each_has_child || usage.pid == static_cast<process_id_t> (child);
+    }
+  EXPECT_TRUE (each_has_child);
 }
 #endif
+
+TEST (LumexProcessMonitorTest, AProcessAloneHasNothingBelowIt)
+{
+  EXPECT_TRUE (
+      LumexProcessMonitor::find_descendants (KNO_SUCH_PROCESS).empty ());
+  LumexProcessMonitor monitor;
+  LumexProcessMonitor::result_t const gone = monitor.sample (KNO_SUCH_PROCESS);
+  ASSERT_FALSE (gone.has_value ());
+  EXPECT_EQ (gone.error (), process_query_error::not_found);
+}
 
 TEST (LumexProcessMonitorTest, TotalAddsSamplesUp)
 {

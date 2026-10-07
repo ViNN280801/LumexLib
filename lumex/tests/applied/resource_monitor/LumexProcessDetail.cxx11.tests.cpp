@@ -1,5 +1,7 @@
 #include <cstdint>
+#include <initializer_list>
 #include <string>
+#include <vector>
 
 #include <gtest/gtest.h>
 
@@ -41,6 +43,19 @@ TEST (LumexProcessDetailTest, StatGivesTheCpuTicksAndTheStartTime)
   EXPECT_EQ (stat->utime_ticks, 1500U);
   EXPECT_EQ (stat->stime_ticks, 500U);
   EXPECT_EQ (stat->start_ticks, 987654U);
+}
+
+TEST (LumexProcessDetailTest, StatGivesTheParentProcessId)
+{
+  // Field 4 follows the state: "... S 1 4242 ..." is parent 1, group 4242.
+  EXPECT_EQ (parse_proc_pid_stat (stat_line ("app"))->parent_pid, 1U);
+
+  std::string line = stat_line ("app");
+  line.replace (line.find (") S 1 ") + 4, 1, "9001");
+  optional<proc_pid_stat_t> const stat = parse_proc_pid_stat (line);
+  ASSERT_TRUE (stat.has_value ());
+  EXPECT_EQ (stat->parent_pid, 9001U);
+  EXPECT_EQ (stat->utime_ticks, 1500U);
 }
 
 TEST (LumexProcessDetailTest, StatGivesTheStateOfAZombie)
@@ -158,4 +173,143 @@ TEST (LumexProcessDetailTest, WindowsNamesIgnoreCaseAndExe)
       windows_name_matches ("PeakExpertWeb.ex", "PeakExpertWeb.exe"));
   EXPECT_FALSE (windows_name_matches ("", "a.exe"));
   EXPECT_FALSE (windows_name_matches (".exe", "a.exe"));
+}
+
+namespace
+{
+process_link_t
+edge (process_id_t pid, process_id_t parent, std::uint64_t started = 0)
+{
+  process_link_t value;
+  value.pid = pid;
+  value.parent_pid = parent;
+  value.start_time = started;
+  return value;
+}
+
+std::vector<process_id_t>
+ids (std::initializer_list<process_id_t> list)
+{
+  return std::vector<process_id_t> (list);
+}
+} // namespace
+
+TEST (LumexProcessDetailTest,
+      DescendantsAreChildrenThenTheirChildrenNearestFirst)
+{
+  // 10 -> 11, 12; 11 -> 13, 14; 13 -> 15. Other trees and an unrelated 20.
+  std::vector<process_link_t> const links
+      = { edge (1, 0),   edge (10, 1),  edge (11, 10),
+          edge (12, 10), edge (13, 11), edge (14, 11),
+          edge (15, 13), edge (20, 1),  edge (21, 20) };
+  EXPECT_EQ (descendants_of (10, links), ids ({ 11, 12, 13, 14, 15 }));
+  EXPECT_EQ (descendants_of (11, links), ids ({ 13, 14, 15 }));
+  EXPECT_EQ (descendants_of (15, links), ids ({}));
+  EXPECT_EQ (descendants_of (20, links), ids ({ 21 }));
+}
+
+TEST (LumexProcessDetailTest, DescendantsOfAProcessNobodyKnowsAreNone)
+{
+  EXPECT_TRUE (descendants_of (10, {}).empty ());
+  EXPECT_TRUE (descendants_of (10, { edge (11, 5) }).empty ());
+}
+
+TEST (LumexProcessDetailTest, DescendantsOfAnUnlistedRootAreStillFound)
+{
+  // The root is not in the list (it may not be readable), its children are.
+  EXPECT_EQ (descendants_of (10, { edge (11, 10), edge (12, 11) }),
+             ids ({ 11, 12 }));
+}
+
+TEST (LumexProcessDetailTest, AChildOlderThanItsParentIsAStaleLink)
+{
+  // 11 started before 10: the ID 10 was reused after the real parent exited,
+  // so 11 and 12 below it do not belong to 10. 13 started after it and does.
+  std::vector<process_link_t> const links
+      = { edge (10, 1, 500), edge (11, 10, 100), edge (12, 11, 700),
+          edge (13, 10, 600) };
+  EXPECT_EQ (descendants_of (10, links), ids ({ 13 }));
+}
+
+TEST (LumexProcessDetailTest, AnUnknownStartTimeNeverMakesALinkStale)
+{
+  std::vector<process_link_t> const links
+      = { edge (10, 1, 500), edge (11, 10, 0), edge (12, 11, 0),
+          edge (13, 10, 600) };
+  EXPECT_EQ (descendants_of (10, links), ids ({ 11, 13, 12 }));
+  // The root's own start time unknown: nothing to compare with.
+  EXPECT_EQ (descendants_of (10, { edge (10, 1, 0), edge (11, 10, 5) }),
+             ids ({ 11 }));
+}
+
+TEST (LumexProcessDetailTest, AProcessThatIsItsOwnParentIsNotListedBelowItself)
+{
+  // Windows' idle process: ID 0, parent 0; the System process 4 is below it.
+  std::vector<process_link_t> const links = { edge (0, 0), edge (4, 0) };
+  EXPECT_EQ (descendants_of (0, links), ids ({ 4 }));
+  EXPECT_TRUE (descendants_of (4, links).empty ());
+}
+
+TEST (LumexProcessDetailTest, ALoopInTheLinksEndsAndCountsEachProcessOnce)
+{
+  // 10 -> 11 -> 12 -> 10 (stale links that close a circle).
+  std::vector<process_link_t> const links
+      = { edge (10, 12), edge (11, 10), edge (12, 11) };
+  EXPECT_EQ (descendants_of (10, links), ids ({ 11, 12 }));
+}
+
+TEST (LumexProcessDetailTest, TreesDropARootThatLiesBelowAnotherRoot)
+{
+  // 10 -> 11 -> 12 and 10 -> 13; 20 alone. Roots 10, 12 and 20: 12 is part
+  // of 10.
+  std::vector<process_link_t> const links
+      = { edge (10, 1), edge (11, 10), edge (12, 11), edge (13, 10),
+          edge (20, 1) };
+  std::vector<process_tree_t> const trees
+      = process_trees (ids ({ 20, 12, 10 }), links);
+  ASSERT_EQ (trees.size (), 2U);
+  EXPECT_EQ (trees[0].root, 10U);
+  EXPECT_EQ (trees[0].descendants, ids ({ 11, 13, 12 }));
+  EXPECT_EQ (trees[1].root, 20U);
+  EXPECT_TRUE (trees[1].descendants.empty ());
+}
+
+TEST (LumexProcessDetailTest, TreesKeepARootBelowANonRootOfTheSameTree)
+{
+  // 10 (root) -> 11 (not a root) -> 12 (root): 12 is below root 10.
+  std::vector<process_link_t> const links
+      = { edge (10, 1), edge (11, 10), edge (12, 11) };
+  std::vector<process_tree_t> const trees
+      = process_trees (ids ({ 12, 10 }), links);
+  ASSERT_EQ (trees.size (), 1U);
+  EXPECT_EQ (trees[0].root, 10U);
+  EXPECT_EQ (trees[0].descendants, ids ({ 11, 12 }));
+}
+
+TEST (LumexProcessDetailTest, TreesCountARepeatedRootOnce)
+{
+  std::vector<process_tree_t> const trees
+      = process_trees (ids ({ 10, 10 }), { edge (10, 1), edge (11, 10) });
+  ASSERT_EQ (trees.size (), 1U);
+  EXPECT_EQ (trees[0].root, 10U);
+}
+
+TEST (LumexProcessDetailTest,
+      TreesOfTwoRootsInEachOthersBranchesKeepTheSmaller)
+{
+  // Stale links make 10 and 12 each other's descendants: one survives.
+  std::vector<process_link_t> const links
+      = { edge (10, 12), edge (11, 10), edge (12, 11) };
+  std::vector<process_tree_t> const trees
+      = process_trees (ids ({ 12, 10 }), links);
+  ASSERT_EQ (trees.size (), 1U);
+  EXPECT_EQ (trees[0].root, 10U);
+}
+
+TEST (LumexProcessDetailTest, TreesOfNothingAreNothing)
+{
+  EXPECT_TRUE (process_trees ({}, { edge (10, 1) }).empty ());
+  std::vector<process_tree_t> const lone = process_trees (ids ({ 7 }), {});
+  ASSERT_EQ (lone.size (), 1U);
+  EXPECT_TRUE (lone[0].descendants.empty ());
 }
