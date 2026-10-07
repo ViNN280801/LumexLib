@@ -413,14 +413,18 @@ CheckOptions:
   readability-function-size.ParameterThreshold: 8
   readability-function-size.NestingThreshold: 4
   # STL / C / Python snake_case. Template parameters stay CamelCase (Allocator, Traits).
+  # Functions and methods are snake_case in every module. A leading underscore marks
+  # a private helper and may precede a snake_case name (the *IgnoredRegexp options).
   readability-identifier-naming.ClassCase: lower_case
   readability-identifier-naming.ClassMemberCase: lower_case
   readability-identifier-naming.ConstexprVariableCase: lower_case
   readability-identifier-naming.EnumCase: lower_case
   readability-identifier-naming.EnumConstantCase: lower_case
   readability-identifier-naming.FunctionCase: lower_case
+  readability-identifier-naming.FunctionIgnoredRegexp: "^_+[a-z0-9]+(_[a-z0-9]+)*$"
   readability-identifier-naming.GlobalConstantCase: lower_case
   readability-identifier-naming.GlobalFunctionCase: lower_case
+  readability-identifier-naming.GlobalFunctionIgnoredRegexp: "^_+[a-z0-9]+(_[a-z0-9]+)*$"
   readability-identifier-naming.GlobalVariableCase: lower_case
   readability-identifier-naming.IgnoreMainLikeFunctions: true
   readability-identifier-naming.LocalConstantCase: lower_case
@@ -431,6 +435,7 @@ CheckOptions:
   readability-identifier-naming.NamespaceCase: lower_case
   readability-identifier-naming.ParameterCase: lower_case
   readability-identifier-naming.PrivateMethodCase: lower_case
+  readability-identifier-naming.PrivateMethodIgnoredRegexp: "^_+[a-z0-9]+(_[a-z0-9]+)*$"
   readability-identifier-naming.PublicMemberCase: lower_case
   readability-identifier-naming.StaticConstantCase: lower_case
   readability-identifier-naming.StaticVariableCase: lower_case
