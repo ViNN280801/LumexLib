@@ -5,7 +5,10 @@
 # command is shown after a "$", and the colours are on only when asked for
 # (--color always) or when a terminal is there (here none: the output is a pipe).
 
-if(NOT CMAKE_HOST_UNIX)
+# The script reads the glibc version (getconf GNU_LIBC_VERSION) and builds ELF
+# packages: Linux only, not Windows, macOS, MSYS2 or Cygwin (CMAKE_HOST_UNIX is
+# true on the last two).
+if(NOT CMAKE_HOST_SYSTEM_NAME STREQUAL "Linux")
     message(STATUS "Skipping release_script_dry_run: create_release.sh is a Linux script")
     return()
 endif()
