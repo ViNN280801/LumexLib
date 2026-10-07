@@ -309,7 +309,7 @@ TEST (LumexTypeTraitsTopicsTest, GivenTypes_WhenIsExpected_ThenOnlyExpected)
   EXPECT_TRUE (traits::value::is_expected<void_expected>::value);
   EXPECT_FALSE (traits::value::is_expected<int>::value);
   EXPECT_FALSE ((traits::value::is_expected<std::pair<int, int>>::value));
-  EXPECT_TRUE (traits::value::is_expected_v<expected_type>);
+  EXPECT_TRUE (traits::value::is_expected<expected_type>::value);
 #if __cplusplus >= 202002L
   EXPECT_TRUE (traits::value::is_expected_concept<expected_type>);
   EXPECT_FALSE (traits::value::is_expected_concept<int>);
