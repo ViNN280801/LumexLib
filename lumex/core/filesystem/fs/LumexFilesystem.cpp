@@ -49,7 +49,7 @@
 
 #include <sys/stat.h>
 #if defined(_WIN32)
-#include <Shlwapi.h>
+#include <shlwapi.h>
 #include <windows.h>
 #include <winnt.h>
 #else
@@ -88,7 +88,6 @@ static std::array<std::string, 22> const kReservedNames
     = { "CON",  "PRN",  "AUX",  "NUL",  "COM1", "COM2", "COM3", "COM4",
         "COM5", "COM6", "COM7", "COM8", "COM9", "LPT1", "LPT2", "LPT3",
         "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9" };
-LUMEX_CONST_NUM std::size_t kReservedNamesCount = kReservedNames.size ();
 
 static inline bool
 is_forbidden (char chr) LUMEX_NOEXCEPT
@@ -104,8 +103,8 @@ is_reserved_name (std::string const &name) LUMEX_NOEXCEPT
                   [] (unsigned char ch)
                     { return static_cast<char> (::toupper (ch)); });
 
-  for (std::size_t i = 0; i < kReservedNamesCount; ++i)
-    if (upperName == kReservedNames.at (i))
+  for (std::string const &reserved : kReservedNames)
+    if (upperName == reserved)
       return true;
   return false;
 }
