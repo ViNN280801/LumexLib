@@ -30,8 +30,8 @@
 // standard: whether a text::join / quote call with a given range and
 // separator is viable.
 
-#ifndef LUMEX_TESTS_CORE_STRING_TEXT_CONSTRAINTS_TEST_HELPERS_HPP
-#define LUMEX_TESTS_CORE_STRING_TEXT_CONSTRAINTS_TEST_HELPERS_HPP
+#ifndef LUMEX_TESTS_CORE_STRING_TEXT_HPP
+#define LUMEX_TESTS_CORE_STRING_TEXT_HPP
 
 #include <type_traits>
 #include <utility>
@@ -82,4 +82,4 @@ struct can_quote<
 };
 } // namespace text_constraints_test_helpers
 
-#endif // !LUMEX_TESTS_CORE_STRING_TEXT_CONSTRAINTS_TEST_HELPERS_HPP
+#endif // !LUMEX_TESTS_CORE_STRING_TEXT_HPP

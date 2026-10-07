@@ -17,7 +17,7 @@
 
 #include <gtest/gtest.h>
 
-#include "lumex/tests/core/string/LumexTextConstraintsTestHelpers.hpp"
+#include "lumex/tests/core/string/text/LumexTextConstraintsTestHelpers.hpp"
 
 using text_constraints_test_helpers::can_join;
 using text_constraints_test_helpers::can_quote;
@@ -154,7 +154,7 @@ TEST (LumexTextConstraintsTest, GivenStreamableNonStringSeparator_ThenViable)
 
 // The traits behind these checks (range_reference, has_streamable_elements,
 // has_elements_convertible_to, is_streamable) are tested in
-// lumex/tests/core/utility/LumexRangeTraits.tests.cpp and
-// LumexStreamTraits.tests.cpp.
+// lumex/tests/core/utility/traits/LumexRangeTraits.cxx11.tests.cpp and
+// LumexStreamTraits.cxx11.tests.cpp.
 
 #endif
