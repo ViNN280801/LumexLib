@@ -414,12 +414,12 @@ struct LUMEX_CPU_VECTORIZATION_INFO_ALIGNED LUMEX_API cpu_vectorization_info_t
    * @note Automatically generated during detection
    * @note Empty string if no vectorization support detected
    */
-#ifdef _WIN32
+#ifdef _MSC_VER
 #pragma warning(push)
 #pragma warning(disable : 4251)
 #endif
   std::string supported_technologies;
-#ifdef _WIN32
+#ifdef _MSC_VER
 #pragma warning(pop)
 #endif
 };

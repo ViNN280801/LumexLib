@@ -84,7 +84,7 @@
 #include "lumex/core/utility/LumexUtility"
 #include "lumex/core/utility/attr/LumexAttributes.hpp"
 
-#if defined(_WIN32)
+#if defined(_MSC_VER)
 #pragma comment(lib, "dbghelp.lib")
 #endif
 
@@ -151,13 +151,13 @@ private:
   lumex_crash_handler () = default;
   ~lumex_crash_handler () = default;
 
-#ifdef _WIN32
+#ifdef _MSC_VER
 #pragma warning(push)
 #pragma warning(disable                                                       \
                 : 4251) // Suppress C4251 for STL members in DLL interface
 #endif
   static std::string s_appName; ///< The name of the application.
-#ifdef _WIN32
+#ifdef _MSC_VER
 #pragma warning(pop)
 #endif
   static char const *s_defaultAppName;

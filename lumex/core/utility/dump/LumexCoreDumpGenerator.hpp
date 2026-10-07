@@ -134,8 +134,11 @@
 #include <tchar.h>
 #include <wincrypt.h>
 
+// GCC ignores these pragmas; MinGW links the libraries from CMake.
+#if defined(_MSC_VER)
 #pragma comment(lib, "dbghelp.lib")
 #pragma comment(lib, "shlwapi.lib")
+#endif
 #endif
 
 // UNIX-specific includes
@@ -157,6 +160,21 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
+#endif
+
+// MinGW (GCC) warns for every member that is defined outside the class after
+// a member function has used it, when the class itself is dllimport
+// ("redeclared without dllimport attribute"), and no flag or pragma turns
+// that warning off. Every member function of the two classes below is inline;
+// the .cpp defines only the static data members. So under MinGW the export
+// attribute sits on those data members; MSVC, clang-cl and ELF keep it on the
+// class.
+#if defined(__MINGW32__)
+#define LUMEX_DUMP_CLASS_API
+#define LUMEX_DUMP_DATA_API LUMEX_UTILITY_API
+#else
+#define LUMEX_DUMP_CLASS_API LUMEX_UTILITY_API
+#define LUMEX_DUMP_DATA_API
 #endif
 
 namespace lumex
@@ -854,7 +872,7 @@ dump_configuration::operator!= (dump_configuration const &other) const noexcept
  * @see dump_configuration
  * @see core_dump_generator
  */
-class LUMEX_UTILITY_API dump_factory
+class LUMEX_DUMP_CLASS_API dump_factory
 {
 public:
   /**
@@ -930,9 +948,10 @@ private:
   static dump_configuration create_unix_configuration (DumpType type);
 
   // Registry of dump type descriptions
-  static std::map<DumpType, std::string> const s_descriptions;
-  static std::map<DumpType, size_t> const s_estimatedSizes;
-  static std::map<DumpType, bool> const s_platformSupport;
+  LUMEX_DUMP_DATA_API static std::map<DumpType, std::string> const
+      s_descriptions;
+  LUMEX_DUMP_DATA_API static std::map<DumpType, size_t> const s_estimatedSizes;
+  LUMEX_DUMP_DATA_API static std::map<DumpType, bool> const s_platformSupport;
 };
 
 /**
@@ -985,7 +1004,7 @@ private:
  * auto& generator = core_dump_generator::instance();
  * ```
  */
-class LUMEX_UTILITY_API core_dump_generator
+class LUMEX_DUMP_CLASS_API core_dump_generator
 {
 public:
   // The size constants are plain `static const` members defined in
@@ -994,12 +1013,15 @@ public:
   // C++11 / C++14 consumer that binds one to a reference (EXPECT_EQ does)
   // would not link. An ordinary definition exists in every standard, and
   // the members are still constant expressions.
-  static std::size_t const KB_32 = 32ULL * 1024ULL;   // 32KB
-  static std::size_t const KB_64 = 64ULL * 1024ULL;   // 64KB
-  static std::size_t const KB_128 = 128ULL * 1024ULL; // 128KB
-  static std::size_t const KB_256 = 256ULL * 1024ULL; // 256KB
-  static std::size_t const KB_512 = 512ULL * 1024ULL; // 512KB
-  static std::size_t const MB_1 = 1024ULL * 1024ULL;  // 1MB
+  LUMEX_DUMP_DATA_API static std::size_t const KB_32 = 32ULL * 1024ULL; // 32KB
+  LUMEX_DUMP_DATA_API static std::size_t const KB_64 = 64ULL * 1024ULL; // 64KB
+  LUMEX_DUMP_DATA_API static std::size_t const KB_128
+      = 128ULL * 1024ULL; // 128KB
+  LUMEX_DUMP_DATA_API static std::size_t const KB_256
+      = 256ULL * 1024ULL; // 256KB
+  LUMEX_DUMP_DATA_API static std::size_t const KB_512
+      = 512ULL * 1024ULL; // 512KB
+  LUMEX_DUMP_DATA_API static std::size_t const MB_1 = 1024ULL * 1024ULL; // 1MB
 
   core_dump_generator (core_dump_generator const &) = delete;
   core_dump_generator &operator= (core_dump_generator const &) = delete;
@@ -1378,37 +1400,39 @@ private:
   }
 
   // Member variables
-  static std::unique_ptr<core_dump_generator> s_instance;
-  static std::mutex s_mutex;
+  LUMEX_DUMP_DATA_API static std::unique_ptr<core_dump_generator> s_instance;
+  LUMEX_DUMP_DATA_API static std::mutex s_mutex;
 #if __cplusplus >= 201103L
-  static std::once_flag s_initFlag;
+  LUMEX_DUMP_DATA_API static std::once_flag s_initFlag;
 #endif
-  static std::string s_dumpDirectory;
+  LUMEX_DUMP_DATA_API static std::string s_dumpDirectory;
 #if __cplusplus >= 201103L
-  static std::atomic_bool s_initialized;
+  LUMEX_DUMP_DATA_API static std::atomic_bool s_initialized;
 #else
-  static bool s_initialized;
+  LUMEX_DUMP_DATA_API static bool s_initialized;
 #endif
-  static dump_configuration s_currentConfig;
-  static std::string s_originalCorePattern;
+  LUMEX_DUMP_DATA_API static dump_configuration s_currentConfig;
+  LUMEX_DUMP_DATA_API static std::string s_originalCorePattern;
 
 #if (LUMEX_OS_IS_UNIX() || LUMEX_OS_IS_ANDROID())
   // Instant systemd-coredump monitor thread (for IMMEDIATE extraction)
-  static std::atomic_bool s_monitorThreadShouldStop;
-  static std::thread s_monitorThread;
-  static pid_t s_applicationPid; // Store PID for filtering core dumps
-  static std::string s_adminGroupName;
+  LUMEX_DUMP_DATA_API static std::atomic_bool s_monitorThreadShouldStop;
+  LUMEX_DUMP_DATA_API static std::thread s_monitorThread;
+  LUMEX_DUMP_DATA_API static pid_t
+      s_applicationPid; // Store PID for filtering core dumps
+  LUMEX_DUMP_DATA_API static std::string s_adminGroupName;
 #endif
 
   // Custom signal handlers for graceful shutdown
-  static std::map<int, void (*) (int)> s_customSignalHandlers;
-  static std::mutex s_customHandlersMutex;
+  LUMEX_DUMP_DATA_API static std::map<int, void (*) (int)>
+      s_customSignalHandlers;
+  LUMEX_DUMP_DATA_API static std::mutex s_customHandlersMutex;
 #if LUMEX_OS_IS_WINDOWS()
-  static BOOL (WINAPI *s_customConsoleHandler) (DWORD);
+  LUMEX_DUMP_DATA_API static BOOL (WINAPI *s_customConsoleHandler) (DWORD);
 #endif
 #if (LUMEX_OS_IS_UNIX() || LUMEX_OS_IS_ANDROID())
-  static void (*s_unixConsoleHandler) ();
-  static std::atomic_bool s_posixSigThreadStarted;
+  LUMEX_DUMP_DATA_API static void (*s_unixConsoleHandler) ();
+  LUMEX_DUMP_DATA_API static std::atomic_bool s_posixSigThreadStarted;
 #endif
 
   // Instance member variables
@@ -1434,9 +1458,9 @@ private:
 
   // Concurrency control
   static constexpr size_t MAX_CONCURRENT_OPERATIONS = 4;
-  static std::atomic<size_t> s_activeOperations;
-  static std::condition_variable s_operationCondition;
-  static std::mutex s_operationMutex;
+  LUMEX_DUMP_DATA_API static std::atomic<size_t> s_activeOperations;
+  LUMEX_DUMP_DATA_API static std::condition_variable s_operationCondition;
+  LUMEX_DUMP_DATA_API static std::mutex s_operationMutex;
 
   // Platform-specific initialization
   static void _platform_initialize ();

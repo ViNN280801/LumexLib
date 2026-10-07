@@ -409,7 +409,7 @@ private:
   };
 #endif
 
-#ifdef _WIN32
+#ifdef _MSC_VER
 #pragma warning(push)
 #pragma warning(disable : 4251)
 #endif
@@ -426,7 +426,7 @@ private:
   ///          management through `std::unique_ptr` (RAII). It is initialized
   ///          once during the `lumex_environment` singleton's creation.
   std::unique_ptr<environment_strategy> m_strategy;
-#ifdef _WIN32
+#ifdef _MSC_VER
 #pragma warning(pop)
 #endif
 

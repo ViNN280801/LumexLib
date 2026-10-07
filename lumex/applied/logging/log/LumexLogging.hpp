@@ -187,7 +187,7 @@ private:
       = "log";                          ///< Default log file name.
   LUMEX_CONST_NUM short KLOG_WIDTH = 8; ///< The width of the log level.
 
-#ifdef _WIN32
+#ifdef _MSC_VER
 #pragma warning(push)
 #pragma warning(disable                                                       \
                 : 4251) // Suppress C4251 for STL members in DLL interface
@@ -198,7 +198,7 @@ private:
   static lumex::path s_logsDirectory; ///< The directory for storing logs.
   static std::string
       s_launchTimestamp; ///< The timestamp when the application was launched.
-#ifdef _WIN32
+#ifdef _MSC_VER
 #pragma warning(pop)
 #endif
 

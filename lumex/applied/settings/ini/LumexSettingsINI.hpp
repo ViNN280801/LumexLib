@@ -179,13 +179,13 @@ private:
    *              Key - setting name
    *              Value - setting value
    */
-#ifdef _WIN32
+#ifdef _MSC_VER
 #pragma warning(push)
 #pragma warning(disable : 4251)
 #endif
   std::unordered_map<std::string, std::unordered_map<std::string, std::string>>
       m_settings;
-#ifdef _WIN32
+#ifdef _MSC_VER
 #pragma warning(pop)
 #endif
 

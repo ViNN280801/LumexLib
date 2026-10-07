@@ -300,7 +300,7 @@ resolve_symbol_info (void *address, std::string &function_name,
 } // namespace lumex
 
 // Suppress C4251 warnings for explicit template instantiation
-#ifdef _WIN32
+#ifdef _MSC_VER
 #pragma warning(push)
 #pragma warning(disable : 4251)
 #endif
@@ -310,6 +310,6 @@ template class LUMEX_API
     lumex::core::exceptions::stacktrace::lumex_basic_stacktrace<std::allocator<
         lumex::core::exceptions::stacktrace::lumex_stacktrace_entry>>;
 
-#ifdef _WIN32
+#ifdef _MSC_VER
 #pragma warning(pop)
 #endif
