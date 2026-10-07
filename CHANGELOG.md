@@ -591,6 +591,15 @@
 
 **Проверено:** все 16 комбинаций сборки библиотеки (GCC 8.3, GCC 13.2, Clang 23.1.0, MinGW 8.3, C++11, 14, 17, 20, `LUMEX_WERROR=OFF`): 0 предупреждений и 0 ошибок (до серии правок: 11-13 у Clang, 76-78 у GCC, 192 у MinGW); GCC 13.2: группы `logger`, `logging`, `utility`, `filesystem`, `hardware`, `exceptions` - 8833 теста, 0 падений, `lint.*` 5 из 5; Windows-ветки собраны MinGW и не запускались.
 
+
+##### Определение возможностей процессора: `__cpuid` выбирается по компилятору, а не по системе
+
+**Файлы:** `lumex/applied/hardware/caps/LumexCPUVectorizationCapabilities.cpp`
+
+**Суть:** файл подключал `<intrin.h>` и вызывал `__cpuid` по условию `_WIN32` / `LUMEX_OS_WINDOWS`. `<intrin.h>` из MinGW-w64 заново объявляет встроенные функции GCC (`__builtin_ia32_crc32*`), и GCC печатает `redundant redeclaration ... [-Wredundant-decls]` без номера строки (место `<built-in>`); с `-Werror` сборка MinGW падала. Теперь `<intrin.h>` и `__cpuid` только у MSVC и clang-cl (`_MSC_VER`), у GCC, в том числе на Windows, `<cpuid.h>` и `__cpuid_count`, как на Linux.
+
+**Проверено:** MinGW 8.3 с `LUMEX_WERROR=ON` до правки падает на этом файле, после проходит; GCC 13.2 с `LUMEX_WERROR=ON` проходит (Linux использует тот же путь, что и раньше); значения CPUID на Windows не сверялись.
+
 ---
 
 ## [v1.0.3.1] - в разработке
