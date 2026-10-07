@@ -320,26 +320,26 @@ void
 check_chrono_specs (Char const *begin, Char const *end, bool is_duration)
 {
   if (begin != end && *begin != static_cast<Char> ('%'))
-    throw FormatError ("invalid format specifier");
+    throw format_error ("invalid format specifier");
   for (Char const *it = begin; it != end; ++it)
     {
       if (*it == static_cast<Char> ('{'))
-        throw FormatError ("invalid format string");
+        throw format_error ("invalid format string");
       if (*it != static_cast<Char> ('%'))
         continue;
       ++it;
       if (it == end)
-        throw FormatError ("invalid format string");
+        throw format_error ("invalid format string");
       Char modifier = Char ();
       if (*it == static_cast<Char> ('E') || *it == static_cast<Char> ('O'))
         {
           modifier = *it;
           ++it;
           if (it == end)
-            throw FormatError ("invalid format string");
+            throw format_error ("invalid format string");
         }
       if (!is_chrono_conversion (*it, modifier, is_duration))
-        throw FormatError ("invalid format specifier");
+        throw format_error ("invalid format specifier");
     }
 }
 
@@ -638,24 +638,24 @@ write_chrono (std::basic_string<Char> &out, Char const *it, Char const *end,
           append_ascii (out, modifier != '\0' ? "+00:00" : "+0000");
           break;
         default:
-          throw FormatError ("invalid format specifier");
+          throw format_error ("invalid format specifier");
         }
     }
 }
 
 /**
- * @class ChronoFormatter
+ * @class chrono_formatter
  * @brief Parses `[[fill]align][width][.precision][L][chrono-specs]` and pads
  * the chrono text; base of the duration and time point formatters.
  */
-template <typename Char> class ChronoFormatter
+template <typename Char> class chrono_formatter
 {
 public:
-  ChronoFormatter () : _specs (), _chrono () {}
+  chrono_formatter () : _specs (), _chrono () {}
 
 protected:
   Char const *
-  parse_chrono (BasicFormatParseContext<Char> &ctx, bool is_duration,
+  parse_chrono (basic_format_parse_context<Char> &ctx, bool is_duration,
                 bool allows_precision)
   {
     _specs = format_specs_t<Char> (); // a second parse starts from scratch
@@ -665,14 +665,14 @@ protected:
     if (it != end && *it == static_cast<Char> ('.'))
       {
         if (!allows_precision)
-          throw FormatError ("invalid format specifier");
+          throw format_error ("invalid format specifier");
         ++it;
         if (it != end && is_digit (*it))
           _specs.precision = parse_nonnegative_int (it, end);
         else if (it != end && *it == static_cast<Char> ('{'))
           _specs.precision_ref = parse_dynamic_ref (it, end, ctx);
         else
-          throw FormatError ("invalid precision");
+          throw format_error ("invalid precision");
       }
     if (it != end && *it == static_cast<Char> ('L'))
       {
@@ -689,13 +689,13 @@ protected:
 
   /** @brief Precision (resolved) or -1. */
   int
-  precision (BasicFormatContext<Char> const &ctx) const
+  precision (basic_format_context<Char> const &ctx) const
   {
     return resolve_dynamic (_specs.precision_ref, _specs.precision, ctx);
   }
 
   void
-  write (BasicFormatContext<Char> &ctx,
+  write (basic_format_context<Char> &ctx,
          std::basic_string<Char> const &text) const
   {
     format_specs_t<Char> specs = _specs;
@@ -732,7 +732,7 @@ std::basic_string<Char>
 duration_count (Rep count, int precision)
 {
   std::basic_string<Char> text;
-  StringBuffer<Char> buffer (text);
+  string_buffer<Char> buffer (text);
   std::basic_string<Char> spec;
   if (std::is_floating_point<Rep>::value && precision >= 0)
     {
@@ -741,12 +741,12 @@ duration_count (Rep count, int precision)
       spec.push_back (static_cast<Char> ('f'));
     }
   spec.push_back (static_cast<Char> ('}'));
-  Formatter<Rep, Char> formatter;
-  BasicFormatParseContext<Char> parse_ctx (
-      BasicStringRef<Char> (spec.data (), spec.size ()));
+  formatter<Rep, Char> formatter;
+  basic_format_parse_context<Char> parse_ctx (
+      basic_string_ref<Char> (spec.data (), spec.size ()));
   formatter.parse (parse_ctx);
-  BasicFormatArgs<Char> const args;
-  BasicFormatContext<Char> ctx (buffer, args, nullptr);
+  basic_format_args<Char> const args;
+  basic_format_context<Char> ctx (buffer, args, nullptr);
   formatter.format (count, ctx);
   return text;
 }
@@ -758,22 +758,22 @@ duration_count (Rep count, int precision)
 
 /** @brief `std::chrono::duration`: `42ms`, or chrono-specs such as `%T`. */
 template <typename Rep, typename Period, typename Char>
-class Formatter<
+class formatter<
     std::chrono::duration<Rep, Period>, Char,
     typename std::enable_if<Detail::has_formatter<Char, Rep> ()
                             && std::is_arithmetic<Rep>::value>::type>
-    : public Detail::ChronoFormatter<Char>
+    : public Detail::chrono_formatter<Char>
 {
 public:
   Char const *
-  parse (BasicFormatParseContext<Char> &ctx)
+  parse (basic_format_parse_context<Char> &ctx)
   {
     return this->parse_chrono (ctx, true, std::is_floating_point<Rep>::value);
   }
 
-  BasicAppender<Char>
+  basic_appender<Char>
   format (std::chrono::duration<Rep, Period> const &value,
-          BasicFormatContext<Char> &ctx) const
+          basic_format_context<Char> &ctx) const
   {
     int const precision = this->precision (ctx);
     std::basic_string<Char> text;
@@ -794,7 +794,7 @@ public:
                       value)
                       .count ();
             if (!(std::fabs (seconds) < 9.2e18))
-              throw FormatError ("duration is out of range for chrono-specs");
+              throw format_error ("duration is out of range for chrono-specs");
           }
         Detail::civil_time_t time = Detail::civil_time_t ();
         time.negative = negative;
@@ -834,23 +834,23 @@ public:
  * the date only for whole-day time points.
  */
 template <typename Duration, typename Char>
-class Formatter<std::chrono::time_point<std::chrono::system_clock, Duration>,
+class formatter<std::chrono::time_point<std::chrono::system_clock, Duration>,
                 Char,
                 typename std::enable_if<!std::chrono::treat_as_floating_point<
                     typename Duration::rep>::value>::type>
-    : public Detail::ChronoFormatter<Char>
+    : public Detail::chrono_formatter<Char>
 {
 public:
   Char const *
-  parse (BasicFormatParseContext<Char> &ctx)
+  parse (basic_format_parse_context<Char> &ctx)
   {
     return this->parse_chrono (ctx, false, false);
   }
 
-  BasicAppender<Char>
+  basic_appender<Char>
   format (std::chrono::time_point<std::chrono::system_clock, Duration> const
               &value,
-          BasicFormatContext<Char> &ctx) const
+          basic_format_context<Char> &ctx) const
   {
     typedef std::chrono::duration<long long, std::ratio<86400>> days_type;
     typedef typename std::common_type<Duration, days_type,

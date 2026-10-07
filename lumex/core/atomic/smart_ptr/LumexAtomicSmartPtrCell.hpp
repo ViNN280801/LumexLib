@@ -45,16 +45,16 @@
  * @details The public class templates forward every operation to one of the
  * cells below; `LUMEX_ATOMIC_SMART_PTR_USES_STD` selects which.
  *
- * `LockBasedCell` is the port of the lock-based method of the author's own
+ * `lock_based_cell` is the port of the lock-based method of the author's own
  * libc++ implementation (llvm-project pull request 194215; see
  * `LumexAtomicSmartPtrConfig.hpp`). It keeps an ordinary `std::shared_ptr` or
- * `std::weak_ptr` behind a `BitLock`. Every operation holds the lock only to
+ * `std::weak_ptr` behind a `bit_lock`. Every operation holds the lock only to
  * move, swap or copy the smart pointer; a previous value is released after the
  * lock, so a deleter that uses the same atomic object does not deadlock. All
  * operations are serialized by the lock and therefore behave as `seq_cst`; the
  * memory order arguments are accepted and not needed.
  *
- * `StdBackedCell` forwards loads, stores, exchanges and comparisons to
+ * `std_backed_cell` forwards loads, stores, exchanges and comparisons to
  * `std::atomic<std::shared_ptr<T>>` or `std::atomic<std::weak_ptr<T>>`. Its
  * `wait` and `notify_*` do not forward. The standard `wait` must return only
  * after it observes a value that is not equivalent to the old one, and it
@@ -182,27 +182,27 @@ template <typename T> struct smart_ptr_traits_t<std::weak_ptr<T>>
  * @brief Lock-based atomic cell over an ordinary smart pointer.
  * @tparam Pointer `std::shared_ptr<T>` or `std::weak_ptr<T>`.
  */
-template <typename Pointer> class LockBasedCell
+template <typename Pointer> class lock_based_cell
 {
   using traits_type = smart_ptr_traits_t<Pointer>;
   using probe_type = typename traits_type::probe_t;
-  using lock_guard_type = sync::Detail::BitLockGuard;
+  using lock_guard_type = sync::Detail::bit_lock_guard;
 
 public:
   static LUMEX_CONSTEXPR bool is_always_lock_free = false;
 
   LUMEX_CONSTEXPR
-  LockBasedCell () LUMEX_NOEXCEPT : lock_ (), epoch_ (0u), value_ () {}
+  lock_based_cell () LUMEX_NOEXCEPT : lock_ (), epoch_ (0u), value_ () {}
 
-  explicit LockBasedCell (Pointer desired) LUMEX_NOEXCEPT
+  explicit lock_based_cell (Pointer desired) LUMEX_NOEXCEPT
       : lock_ (),
         epoch_ (0u),
         value_ (std::move (desired))
   {
   }
 
-  LockBasedCell (LockBasedCell const &) = delete;
-  LockBasedCell &operator= (LockBasedCell const &) = delete;
+  lock_based_cell (lock_based_cell const &) = delete;
+  lock_based_cell &operator= (lock_based_cell const &) = delete;
 
   bool
   is_lock_free () const LUMEX_NOEXCEPT
@@ -329,14 +329,14 @@ private:
     return traits_type::equivalent (value_, old, old_probe, current_probe);
   }
 
-  sync::Detail::BitLock lock_;
+  sync::Detail::bit_lock lock_;
   std::atomic<std::uint32_t> epoch_;
   Pointer value_;
 };
 
 #if __cplusplus < 201703L
 template <typename Pointer>
-LUMEX_CONSTEXPR bool LockBasedCell<Pointer>::is_always_lock_free;
+LUMEX_CONSTEXPR bool lock_based_cell<Pointer>::is_always_lock_free;
 #endif
 
 #if LUMEX_ATOMIC_SMART_PTR_USES_STD
@@ -346,7 +346,7 @@ LUMEX_CONSTEXPR bool LockBasedCell<Pointer>::is_always_lock_free;
  * `std::atomic<std::weak_ptr<T>>`, with a conforming `wait`.
  * @tparam Pointer `std::shared_ptr<T>` or `std::weak_ptr<T>`.
  */
-template <typename Pointer> class StdBackedCell
+template <typename Pointer> class std_backed_cell
 {
   using traits_type = smart_ptr_traits_t<Pointer>;
   using probe_type = typename traits_type::probe_t;
@@ -356,16 +356,16 @@ public:
       = std::atomic<Pointer>::is_always_lock_free;
 
   LUMEX_CONSTEXPR
-  StdBackedCell () LUMEX_NOEXCEPT : value_ (), epoch_ (0u) {}
+  std_backed_cell () LUMEX_NOEXCEPT : value_ (), epoch_ (0u) {}
 
-  explicit StdBackedCell (Pointer desired) LUMEX_NOEXCEPT
+  explicit std_backed_cell (Pointer desired) LUMEX_NOEXCEPT
       : value_ (std::move (desired)),
         epoch_ (0u)
   {
   }
 
-  StdBackedCell (StdBackedCell const &) = delete;
-  StdBackedCell &operator= (StdBackedCell const &) = delete;
+  std_backed_cell (std_backed_cell const &) = delete;
+  std_backed_cell &operator= (std_backed_cell const &) = delete;
 
   bool
   is_lock_free () const LUMEX_NOEXCEPT
@@ -468,14 +468,14 @@ private:
 /**
  * @brief The cell selected by `LUMEX_ATOMIC_SMART_PTR_USES_STD`.
  */
-template <typename Pointer> using Cell = StdBackedCell<Pointer>;
+template <typename Pointer> using Cell = std_backed_cell<Pointer>;
 
 #else // !LUMEX_ATOMIC_SMART_PTR_USES_STD
 
 /**
  * @brief The cell selected by `LUMEX_ATOMIC_SMART_PTR_USES_STD`.
  */
-template <typename Pointer> using Cell = LockBasedCell<Pointer>;
+template <typename Pointer> using Cell = lock_based_cell<Pointer>;
 
 #endif // LUMEX_ATOMIC_SMART_PTR_USES_STD
 

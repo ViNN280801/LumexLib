@@ -23,18 +23,18 @@ main ()
   std::cout << LUMEX_VARINFO (instrument) << '\n';
 
   std::cout << "\n--- 2. Reflected enum toString / values ---\n";
-  std::cout << "Idle=" << toString (ExampleRunState::Idle)
-            << " Injecting=" << toString (ExampleRunState::Injecting)
+  std::cout << "Idle=" << to_string (ExampleRunState::Idle)
+            << " Injecting=" << to_string (ExampleRunState::Injecting)
             << " numeric_injecting="
             << static_cast<int> (ExampleRunState::Injecting) << '\n';
   std::cout << "size=" << ExampleRunStateSize
-            << " first=" << toString (ExampleRunStateFirst)
-            << " last=" << toString (ExampleRunStateLast) << '\n';
+            << " first=" << to_string (ExampleRunStateFirst)
+            << " last=" << to_string (ExampleRunStateLast) << '\n';
   for (ExampleRunState const state : ExampleRunStateValues)
-    std::cout << "  " << toString (state) << '\n';
+    std::cout << "  " << to_string (state) << '\n';
 
   std::cout << "\n--- 3. Unknown enumerator ---\n";
-  std::cout << "unknown=" << toString (static_cast<ExampleRunState> (99))
+  std::cout << "unknown=" << to_string (static_cast<ExampleRunState> (99))
             << '\n';
 
   std::cout << "\n=== Reflection example finished ===\n";

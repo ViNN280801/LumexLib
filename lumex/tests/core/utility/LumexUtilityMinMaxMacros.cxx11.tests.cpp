@@ -72,7 +72,7 @@ using namespace lumex::core::utility::numeric;
 TEST (LumexUtilityMinMaxMacrosTest,
       GivenMinMaxMacros_WhenComparing_ThenHeadersWork)
 {
-  SafeComparator<int> const comparator (42);
+  safe_comparator<int> const comparator (42);
   EXPECT_TRUE (comparator.safe_equal (42));
   EXPECT_TRUE (comparator.safe_less (100));
   EXPECT_FALSE (comparator.safe_greater (100));

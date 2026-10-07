@@ -27,12 +27,12 @@
  * @brief Run-time CRC computation by catalogue index or by explicit
  * parameters, and the process-wide 8-bit transport checksum.
  * @details The functions are compiled into the `lumex::crc` library and take
- * parameters known only at run time: `ComputeCrcCatalog()` takes an index into
- * `all_crc_specs_t` of `LumexCrcParametric.hpp` (112 algorithms ordered by
- * width, so index 0 is CRC-3/GSM), and `ComputeCrcWithRevEngParams()` takes a
- * `crc_params_t` in CRC RevEng notation (width 1 to 64). The transport
+ * parameters known only at run time: `compute_crc_catalog()` takes an index
+ * into `all_crc_specs_t` of `LumexCrcParametric.hpp` (112 algorithms ordered
+ * by width, so index 0 is CRC-3/GSM), and `compute_crc_with_rev_eng_params()`
+ * takes a `crc_params_t` in CRC RevEng notation (width 1 to 64). The transport
  * functions keep one process-global, mutex-protected setting that
- * `ComputeTransportChecksum()` uses for a one-byte frame checksum:
+ * `compute_transport_checksum()` uses for a one-byte frame checksum:
  * CRC-8/MAXIM-DOW by default, an 8-bit catalogue entry, or caller-supplied
  * 8-bit parameters. The overloads for `std::vector` (every standard),
  * `std::string_view` (C++17) and `std::span` (C++20) are inline wrappers over
@@ -126,15 +126,15 @@ enum class TransportCrcMode : std::uint8_t
 // --- Sentinel values for the process-global transport mode ---
 
 inline std::uint32_t
-CrcCatalogLegacyIndex () LUMEX_NOEXCEPT
+crc_catalog_legacy_index () LUMEX_NOEXCEPT
 {
   return 0xFFFFFFFFU; // NOLINT(*-magic-numbers)
 }
 
-/** @brief Value of @ref GetTransportCrcCatalogIndex when the mode is @c
+/** @brief Value of @ref get_transport_crc_catalog_index when the mode is @c
  * Custom. */
 inline std::uint32_t
-CrcTransportUsesCustomSpecSentinel () LUMEX_NOEXCEPT
+crc_transport_uses_custom_spec_sentinel () LUMEX_NOEXCEPT
 {
   return 0xFFFFFFFEU; // NOLINT(*-magic-numbers)
 }
@@ -143,7 +143,7 @@ CrcTransportUsesCustomSpecSentinel () LUMEX_NOEXCEPT
  * @brief Validates parameters before computation (width 1..64).
  */
 LUMEX_PUBLIC_API bool
-ValidateCrcRevEngParams (crc_params_t const &params) LUMEX_NOEXCEPT;
+validate_crc_rev_eng_params (crc_params_t const &params) LUMEX_NOEXCEPT;
 
 /**
  * @brief Computes a CRC from explicit RevEng parameters (bit engine,
@@ -152,74 +152,75 @@ ValidateCrcRevEngParams (crc_params_t const &params) LUMEX_NOEXCEPT;
  */
 LUMEX_ATTRIBUTE_NODISCARD ("CRC result is required for integrity checks.")
 LUMEX_PUBLIC_API std::uint64_t
-ComputeCrcWithRevEngParams (crc_params_t const &params,
-                            std::uint8_t const *data,
-                            std::size_t byteCount) LUMEX_NOEXCEPT;
+compute_crc_with_rev_eng_params (crc_params_t const &params,
+                                 std::uint8_t const *data,
+                                 std::size_t byteCount) LUMEX_NOEXCEPT;
 
 /**
  * @brief CRC for catalogue index @c all_crc_specs_t (0 ... @ref
- * GetCrcCatalogEntryCount - 1).
+ * get_crc_catalog_entry_count - 1).
  */
 LUMEX_ATTRIBUTE_NODISCARD ("CRC result is required for integrity checks.")
 LUMEX_PUBLIC_API std::uint64_t
-ComputeCrcCatalog (std::uint32_t catalogIndex, std::uint8_t const *data,
-                   std::size_t byteCount) LUMEX_NOEXCEPT;
+compute_crc_catalog (std::uint32_t catalogIndex, std::uint8_t const *data,
+                     std::size_t byteCount) LUMEX_NOEXCEPT;
 
 /**
  * @brief Number of catalogue algorithms (order matches @c all_crc_specs_t).
  */
 LUMEX_ATTRIBUTE_NODISCARD ("Caller may need to validate catalog indices.")
-LUMEX_PUBLIC_API std::uint32_t GetCrcCatalogEntryCount () LUMEX_NOEXCEPT;
+LUMEX_PUBLIC_API std::uint32_t get_crc_catalog_entry_count () LUMEX_NOEXCEPT;
 
 /**
  * @brief Catalogue entry width in bits; -1 on error.
- * @note @ref CrcCatalogLegacyIndex returns 8 (built-in transport CRC-8).
+ * @note @ref crc_catalog_legacy_index returns 8 (built-in transport CRC-8).
  */
 LUMEX_PUBLIC_API int
-GetCrcCatalogBitWidth (std::uint32_t catalogIndex) LUMEX_NOEXCEPT;
+get_crc_catalog_bit_width (std::uint32_t catalogIndex) LUMEX_NOEXCEPT;
 
-// ---------- Transport (process-global; thread-safe) ----------
+// ---------- transport (process-global; thread-safe) ----------
 
 /** @brief Restore the default CRC-8/MAXIM-DOW transport mode. */
-LUMEX_PUBLIC_API void SetTransportCrcDefault () LUMEX_NOEXCEPT;
+LUMEX_PUBLIC_API void set_transport_crc_default () LUMEX_NOEXCEPT;
 
 /**
  * @brief Transport: 8-bit catalogue entry by index.
  * @return false if the index is out of range or the width is not 8 bits.
  */
 LUMEX_PUBLIC_API bool
-SetTransportCrcCatalogIndex (std::uint32_t catalogIndex) LUMEX_NOEXCEPT;
+set_transport_crc_catalog_index (std::uint32_t catalogIndex) LUMEX_NOEXCEPT;
 
 /**
  * @brief Transport: caller-defined 8-bit CRC (must match the peer).
  * @return false if @c widthBits != 8 or the parameters are invalid.
  */
 LUMEX_PUBLIC_API bool
-SetTransportCrcRevEngParams (crc_params_t const &params) LUMEX_NOEXCEPT;
+set_transport_crc_rev_eng_params (crc_params_t const &params) LUMEX_NOEXCEPT;
 
 LUMEX_ATTRIBUTE_NODISCARD (
     "Caller may need transport CRC mode for logging or tests.")
-LUMEX_PUBLIC_API TransportCrcMode GetTransportCrcMode () LUMEX_NOEXCEPT;
+LUMEX_PUBLIC_API TransportCrcMode get_transport_crc_mode () LUMEX_NOEXCEPT;
 
 /**
  * @brief Catalogue index in @c Catalog mode; otherwise @ref
- * CrcCatalogLegacyIndex or
- *        @ref CrcTransportUsesCustomSpecSentinel.
+ * crc_catalog_legacy_index or
+ *        @ref crc_transport_uses_custom_spec_sentinel.
  */
-LUMEX_PUBLIC_API std::uint32_t GetTransportCrcCatalogIndex () LUMEX_NOEXCEPT;
+LUMEX_PUBLIC_API std::uint32_t
+get_transport_crc_catalog_index () LUMEX_NOEXCEPT;
 
 /** @brief Writes @p out in @c Custom mode; otherwise leaves @p out unchanged.
  * @return true if Custom. */
 LUMEX_PUBLIC_API bool
-TryGetTransportCrcRevEngParams (crc_params_t &out) LUMEX_NOEXCEPT;
+try_get_transport_crc_rev_eng_params (crc_params_t &out) LUMEX_NOEXCEPT;
 
 /**
  * @brief 8-bit transport checksum for the current process-global mode.
  */
 LUMEX_ATTRIBUTE_NODISCARD ("Checksum is required for transport framing.")
 LUMEX_PUBLIC_API std::uint8_t
-ComputeTransportChecksum (std::uint8_t const *data,
-                          std::size_t byteCount) LUMEX_NOEXCEPT;
+compute_transport_checksum (std::uint8_t const *data,
+                            std::size_t byteCount) LUMEX_NOEXCEPT;
 
 // ---------- Convenience overloads ----------
 
@@ -229,33 +230,33 @@ ComputeTransportChecksum (std::uint8_t const *data,
  *        pair. Empty vector is the same as a zero-length buffer.
  */
 inline std::uint64_t
-ComputeCrcCatalog (std::uint32_t catalogIndex,
-                   std::vector<std::uint8_t> const &bytes) LUMEX_NOEXCEPT
+compute_crc_catalog (std::uint32_t catalogIndex,
+                     std::vector<std::uint8_t> const &bytes) LUMEX_NOEXCEPT
 {
-  return ComputeCrcCatalog (catalogIndex, bytes.data (), bytes.size ());
+  return compute_crc_catalog (catalogIndex, bytes.data (), bytes.size ());
 }
 
 #if __cplusplus >= 201703L
 /** @brief Catalogue CRC of an ASCII/UTF-8 string (no trailing '\\0'). */
 inline std::uint64_t
-ComputeCrcCatalog (std::uint32_t catalogIndex,
-                   std::string_view text) LUMEX_NOEXCEPT
+compute_crc_catalog (std::uint32_t catalogIndex,
+                     std::string_view text) LUMEX_NOEXCEPT
 {
   if (text.empty ())
     return 0;
-  return ComputeCrcCatalog (
+  return compute_crc_catalog (
       catalogIndex, reinterpret_cast<std::uint8_t const *> (text.data ()),
       text.size ());
 }
 
 /** @brief RevEng-parameter CRC of a string (raw bytes, no trailing '\\0'). */
 inline std::uint64_t
-ComputeCrcWithRevEngParams (crc_params_t const &params,
-                            std::string_view text) LUMEX_NOEXCEPT
+compute_crc_with_rev_eng_params (crc_params_t const &params,
+                                 std::string_view text) LUMEX_NOEXCEPT
 {
   if (text.empty ())
     return 0;
-  return ComputeCrcWithRevEngParams (
+  return compute_crc_with_rev_eng_params (
       params, reinterpret_cast<std::uint8_t const *> (text.data ()),
       text.size ());
 }
@@ -267,12 +268,12 @@ ComputeCrcWithRevEngParams (crc_params_t const &params,
  *          Number of appended bytes = @c (widthBits + 7) / 8 .
  */
 inline void
-AppendCrcLeastSignificantByteFirst (crc_params_t const &params,
-                                    std::vector<std::uint8_t> &buffer)
+append_crc_least_significant_byte_first (crc_params_t const &params,
+                                         std::vector<std::uint8_t> &buffer)
     LUMEX_NOEXCEPT
 {
-  std::uint64_t const value
-      = ComputeCrcWithRevEngParams (params, buffer.data (), buffer.size ());
+  std::uint64_t const value = compute_crc_with_rev_eng_params (
+      params, buffer.data (), buffer.size ());
   int const numBytes = (params.widthBits + 7) / 8;
   for (int i = 0; i < numBytes; ++i)
     buffer.push_back (static_cast<std::uint8_t> ((value >> (8 * i)) & 0xFFU));
@@ -281,17 +282,19 @@ AppendCrcLeastSignificantByteFirst (crc_params_t const &params,
 
 #if LUMEX_HAS_STD_SPAN
 inline std::uint64_t
-ComputeCrcCatalog (std::uint32_t catalogIndex,
-                   std::span<std::uint8_t const> bytes) LUMEX_NOEXCEPT
+compute_crc_catalog (std::uint32_t catalogIndex,
+                     std::span<std::uint8_t const> bytes) LUMEX_NOEXCEPT
 {
-  return ComputeCrcCatalog (catalogIndex, bytes.data (), bytes.size ());
+  return compute_crc_catalog (catalogIndex, bytes.data (), bytes.size ());
 }
 
 inline std::uint64_t
-ComputeCrcWithRevEngParams (crc_params_t const &params,
-                            std::span<std::uint8_t const> bytes) LUMEX_NOEXCEPT
+compute_crc_with_rev_eng_params (crc_params_t const &params,
+                                 std::span<std::uint8_t const> bytes)
+    LUMEX_NOEXCEPT
 {
-  return ComputeCrcWithRevEngParams (params, bytes.data (), bytes.size ());
+  return compute_crc_with_rev_eng_params (params, bytes.data (),
+                                          bytes.size ());
 }
 #endif
 

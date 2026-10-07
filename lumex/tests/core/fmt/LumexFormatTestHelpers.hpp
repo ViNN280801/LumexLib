@@ -61,7 +61,7 @@ runtime_wformat (std::wstring const &text, Args const &...args)
 }
 
 /**
- * @brief Message of the `FormatError` thrown for `text` / `args`, or
+ * @brief Message of the `format_error` thrown for `text` / `args`, or
  * `"<no error>"` when formatting succeeds.
  */
 template <typename... Args>
@@ -72,7 +72,7 @@ format_error (std::string const &text, Args const &...args)
     {
       (void)runtime_format (text, args...);
     }
-  catch (lumex::core::fmt::FormatError const &error)
+  catch (lumex::core::fmt::format_error const &error)
     {
       return error.what ();
     }

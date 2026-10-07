@@ -40,15 +40,15 @@ struct error_info_t
 
 } // namespace
 
-// === or_else of Expected<T, E> with another error type ===================
+// === or_else of expected<T, E> with another error type ===================
 
 TEST (ExpectedMonadicTest, OrElseLValue_NewErrorType_ErrorPathCallsFunction)
 {
-  using ResultType = Expected<int, std::string>;
+  using ResultType = expected<int, std::string>;
   auto func = [] (int &error)
     { return ResultType (unexpect, describe ("lvalue", error)); };
 
-  Expected<int, int> uut (unexpect, kError);
+  expected<int, int> uut (unexpect, kError);
   auto result = uut.or_else (func);
 
   static_assert (std::is_same<decltype (result), ResultType>::value,
@@ -59,7 +59,7 @@ TEST (ExpectedMonadicTest, OrElseLValue_NewErrorType_ErrorPathCallsFunction)
 
 TEST (ExpectedMonadicTest, OrElseLValue_NewErrorType_SuccessPathKeepsValue)
 {
-  using ResultType = Expected<int, std::string>;
+  using ResultType = expected<int, std::string>;
   int calls = 0;
   auto func = [&calls] (int &error)
     {
@@ -67,7 +67,7 @@ TEST (ExpectedMonadicTest, OrElseLValue_NewErrorType_SuccessPathKeepsValue)
       return ResultType (unexpect, describe ("lvalue", error));
     };
 
-  Expected<int, int> uut (kValue);
+  expected<int, int> uut (kValue);
   auto result = uut.or_else (func);
 
   static_assert (std::is_same<decltype (result), ResultType>::value,
@@ -80,11 +80,11 @@ TEST (ExpectedMonadicTest, OrElseLValue_NewErrorType_SuccessPathKeepsValue)
 TEST (ExpectedMonadicTest,
       OrElseConstLValue_NewErrorType_ErrorPathCallsFunction)
 {
-  using ResultType = Expected<int, std::string>;
+  using ResultType = expected<int, std::string>;
   auto func = [] (int const &error)
     { return ResultType (unexpect, describe ("const_lvalue", error)); };
 
-  Expected<int, int> const uut (unexpect, kError);
+  expected<int, int> const uut (unexpect, kError);
   auto result = uut.or_else (func);
 
   static_assert (std::is_same<decltype (result), ResultType>::value,
@@ -96,7 +96,7 @@ TEST (ExpectedMonadicTest,
 TEST (ExpectedMonadicTest,
       OrElseConstLValue_NewErrorType_SuccessPathKeepsValue)
 {
-  using ResultType = Expected<int, std::string>;
+  using ResultType = expected<int, std::string>;
   int calls = 0;
   auto func = [&calls] (int const &error)
     {
@@ -104,7 +104,7 @@ TEST (ExpectedMonadicTest,
       return ResultType (unexpect, describe ("const_lvalue", error));
     };
 
-  Expected<int, int> const uut (kValue);
+  expected<int, int> const uut (kValue);
   auto result = uut.or_else (func);
 
   static_assert (std::is_same<decltype (result), ResultType>::value,
@@ -116,11 +116,11 @@ TEST (ExpectedMonadicTest,
 
 TEST (ExpectedMonadicTest, OrElseRValue_NewErrorType_ErrorPathCallsFunction)
 {
-  using ResultType = Expected<int, std::string>;
+  using ResultType = expected<int, std::string>;
   auto func = [] (int &&error)
     { return ResultType (unexpect, describe ("rvalue", error)); };
 
-  Expected<int, int> uut (unexpect, kError);
+  expected<int, int> uut (unexpect, kError);
   auto result = std::move (uut).or_else (func);
 
   static_assert (std::is_same<decltype (result), ResultType>::value,
@@ -131,7 +131,7 @@ TEST (ExpectedMonadicTest, OrElseRValue_NewErrorType_ErrorPathCallsFunction)
 
 TEST (ExpectedMonadicTest, OrElseRValue_NewErrorType_SuccessPathKeepsValue)
 {
-  using ResultType = Expected<std::string, std::string>;
+  using ResultType = expected<std::string, std::string>;
   int calls = 0;
   auto func = [&calls] (int &&error)
     {
@@ -139,7 +139,7 @@ TEST (ExpectedMonadicTest, OrElseRValue_NewErrorType_SuccessPathKeepsValue)
       return ResultType (unexpect, describe ("rvalue", error));
     };
 
-  Expected<std::string, int> uut (std::string ("value"));
+  expected<std::string, int> uut (std::string ("value"));
   auto result = std::move (uut).or_else (func);
 
   static_assert (std::is_same<decltype (result), ResultType>::value,
@@ -152,11 +152,11 @@ TEST (ExpectedMonadicTest, OrElseRValue_NewErrorType_SuccessPathKeepsValue)
 TEST (ExpectedMonadicTest,
       OrElseConstRValue_NewErrorType_ErrorPathCallsFunction)
 {
-  using ResultType = Expected<int, std::string>;
+  using ResultType = expected<int, std::string>;
   auto func = [] (int const &&error)
     { return ResultType (unexpect, describe ("const_rvalue", error)); };
 
-  Expected<int, int> const uut (unexpect, kError);
+  expected<int, int> const uut (unexpect, kError);
   auto result = std::move (uut).or_else (func);
 
   static_assert (std::is_same<decltype (result), ResultType>::value,
@@ -168,7 +168,7 @@ TEST (ExpectedMonadicTest,
 TEST (ExpectedMonadicTest,
       OrElseConstRValue_NewErrorType_SuccessPathKeepsValue)
 {
-  using ResultType = Expected<int, std::string>;
+  using ResultType = expected<int, std::string>;
   int calls = 0;
   auto func = [&calls] (int const &&error)
     {
@@ -176,7 +176,7 @@ TEST (ExpectedMonadicTest,
       return ResultType (unexpect, describe ("const_rvalue", error));
     };
 
-  Expected<int, int> const uut (kValue);
+  expected<int, int> const uut (kValue);
   auto result = std::move (uut).or_else (func);
 
   static_assert (std::is_same<decltype (result), ResultType>::value,
@@ -186,11 +186,11 @@ TEST (ExpectedMonadicTest,
   EXPECT_EQ (calls, 0);
 }
 
-// === or_else of Expected<void, E> with another error type ================
+// === or_else of expected<void, E> with another error type ================
 
 TEST (ExpectedMonadicTest, VoidOrElse_NewErrorType_BothPathsInEveryCategory)
 {
-  using ResultType = Expected<void, std::string>;
+  using ResultType = expected<void, std::string>;
   auto lvalue = [] (int &error)
     { return ResultType (unexpect, describe ("lvalue", error)); };
   auto const_lvalue = [] (int const &error)
@@ -200,10 +200,10 @@ TEST (ExpectedMonadicTest, VoidOrElse_NewErrorType_BothPathsInEveryCategory)
   auto const_rvalue = [] (int const &&error)
     { return ResultType (unexpect, describe ("const_rvalue", error)); };
 
-  Expected<void, int> failed (unexpect, kError);
-  Expected<void, int> const const_failed (unexpect, kError);
-  Expected<void, int> succeeded;
-  Expected<void, int> const const_succeeded;
+  expected<void, int> failed (unexpect, kError);
+  expected<void, int> const const_failed (unexpect, kError);
+  expected<void, int> succeeded;
+  expected<void, int> const const_succeeded;
 
   EXPECT_EQ (failed.or_else (lvalue).error (), "lvalue:42");
   EXPECT_EQ (const_failed.or_else (const_lvalue).error (), "const_lvalue:42");
@@ -218,11 +218,11 @@ TEST (ExpectedMonadicTest, VoidOrElse_NewErrorType_BothPathsInEveryCategory)
   EXPECT_TRUE (std::move (succeeded).or_else (rvalue).has_value ());
 }
 
-// === transform of Expected<T, E> to another value type ===================
+// === transform of expected<T, E> to another value type ===================
 
 TEST (ExpectedMonadicTest, TransformLValue_IntToString_BothPaths)
 {
-  using ResultType = Expected<std::string, int>;
+  using ResultType = expected<std::string, int>;
   int calls = 0;
   auto func = [&calls] (int &value)
     {
@@ -230,14 +230,14 @@ TEST (ExpectedMonadicTest, TransformLValue_IntToString_BothPaths)
       return describe ("lvalue", value);
     };
 
-  Expected<int, int> succeeded (kValue);
+  expected<int, int> succeeded (kValue);
   auto result_s = succeeded.transform (func);
   static_assert (std::is_same<decltype (result_s), ResultType>::value,
                  "transform must return Expected<U, E>");
   ASSERT_TRUE (result_s.has_value ());
   EXPECT_EQ (*result_s, "lvalue:7");
 
-  Expected<int, int> failed (unexpect, kError);
+  expected<int, int> failed (unexpect, kError);
   auto result_e = failed.transform (func);
   static_assert (std::is_same<decltype (result_e), ResultType>::value,
                  "transform must return Expected<U, E>");
@@ -248,7 +248,7 @@ TEST (ExpectedMonadicTest, TransformLValue_IntToString_BothPaths)
 
 TEST (ExpectedMonadicTest, TransformConstLValue_IntToString_BothPaths)
 {
-  using ResultType = Expected<std::string, int>;
+  using ResultType = expected<std::string, int>;
   int calls = 0;
   auto func = [&calls] (int const &value)
     {
@@ -256,14 +256,14 @@ TEST (ExpectedMonadicTest, TransformConstLValue_IntToString_BothPaths)
       return describe ("const_lvalue", value);
     };
 
-  Expected<int, int> const succeeded (kValue);
+  expected<int, int> const succeeded (kValue);
   auto result_s = succeeded.transform (func);
   static_assert (std::is_same<decltype (result_s), ResultType>::value,
                  "transform must return Expected<U, E>");
   ASSERT_TRUE (result_s.has_value ());
   EXPECT_EQ (*result_s, "const_lvalue:7");
 
-  Expected<int, int> const failed (unexpect, kError);
+  expected<int, int> const failed (unexpect, kError);
   auto result_e = failed.transform (func);
   static_assert (std::is_same<decltype (result_e), ResultType>::value,
                  "transform must return Expected<U, E>");
@@ -274,7 +274,7 @@ TEST (ExpectedMonadicTest, TransformConstLValue_IntToString_BothPaths)
 
 TEST (ExpectedMonadicTest, TransformRValue_IntToString_BothPaths)
 {
-  using ResultType = Expected<std::string, int>;
+  using ResultType = expected<std::string, int>;
   int calls = 0;
   auto func = [&calls] (int &&value)
     {
@@ -282,14 +282,14 @@ TEST (ExpectedMonadicTest, TransformRValue_IntToString_BothPaths)
       return describe ("rvalue", value);
     };
 
-  Expected<int, int> succeeded (kValue);
+  expected<int, int> succeeded (kValue);
   auto result_s = std::move (succeeded).transform (func);
   static_assert (std::is_same<decltype (result_s), ResultType>::value,
                  "transform must return Expected<U, E>");
   ASSERT_TRUE (result_s.has_value ());
   EXPECT_EQ (*result_s, "rvalue:7");
 
-  Expected<int, int> failed (unexpect, kError);
+  expected<int, int> failed (unexpect, kError);
   auto result_e = std::move (failed).transform (func);
   static_assert (std::is_same<decltype (result_e), ResultType>::value,
                  "transform must return Expected<U, E>");
@@ -300,7 +300,7 @@ TEST (ExpectedMonadicTest, TransformRValue_IntToString_BothPaths)
 
 TEST (ExpectedMonadicTest, TransformConstRValue_IntToString_BothPaths)
 {
-  using ResultType = Expected<std::string, int>;
+  using ResultType = expected<std::string, int>;
   int calls = 0;
   auto func = [&calls] (int const &&value)
     {
@@ -308,14 +308,14 @@ TEST (ExpectedMonadicTest, TransformConstRValue_IntToString_BothPaths)
       return describe ("const_rvalue", value);
     };
 
-  Expected<int, int> const succeeded (kValue);
+  expected<int, int> const succeeded (kValue);
   auto result_s = std::move (succeeded).transform (func);
   static_assert (std::is_same<decltype (result_s), ResultType>::value,
                  "transform must return Expected<U, E>");
   ASSERT_TRUE (result_s.has_value ());
   EXPECT_EQ (*result_s, "const_rvalue:7");
 
-  Expected<int, int> const failed (unexpect, kError);
+  expected<int, int> const failed (unexpect, kError);
   auto result_e = std::move (failed).transform (func);
   static_assert (std::is_same<decltype (result_e), ResultType>::value,
                  "transform must return Expected<U, E>");
@@ -326,14 +326,14 @@ TEST (ExpectedMonadicTest, TransformConstRValue_IntToString_BothPaths)
 
 TEST (ExpectedMonadicTest, TransformRValue_StringToSize_MovesTheValueIn)
 {
-  using ResultType = Expected<std::size_t, int>;
+  using ResultType = expected<std::size_t, int>;
   auto func = [] (std::string &&value)
     {
       std::string const taken (std::move (value));
       return taken.size ();
     };
 
-  Expected<std::string, int> succeeded (std::string ("eleven char"));
+  expected<std::string, int> succeeded (std::string ("eleven char"));
   auto result = std::move (succeeded).transform (func);
   static_assert (std::is_same<decltype (result), ResultType>::value,
                  "transform must return Expected<U, E>");
@@ -341,11 +341,11 @@ TEST (ExpectedMonadicTest, TransformRValue_StringToSize_MovesTheValueIn)
   EXPECT_EQ (*result, 11u);
 }
 
-// === transform_error of Expected<T, E> to another error type =============
+// === transform_error of expected<T, E> to another error type =============
 
 TEST (ExpectedMonadicTest, TransformErrorLValue_IntToStruct_BothPaths)
 {
-  using ResultType = Expected<int, error_info_t>;
+  using ResultType = expected<int, error_info_t>;
   int calls = 0;
   auto func = [&calls] (int &error)
     {
@@ -353,7 +353,7 @@ TEST (ExpectedMonadicTest, TransformErrorLValue_IntToStruct_BothPaths)
       return error_info_t{ "lvalue", error };
     };
 
-  Expected<int, int> failed (unexpect, kError);
+  expected<int, int> failed (unexpect, kError);
   auto result_e = failed.transform_error (func);
   static_assert (std::is_same<decltype (result_e), ResultType>::value,
                  "transform_error must return Expected<T, G>");
@@ -361,7 +361,7 @@ TEST (ExpectedMonadicTest, TransformErrorLValue_IntToStruct_BothPaths)
   EXPECT_EQ (result_e.error ().category, "lvalue");
   EXPECT_EQ (result_e.error ().code, kError);
 
-  Expected<int, int> succeeded (kValue);
+  expected<int, int> succeeded (kValue);
   auto result_s = succeeded.transform_error (func);
   static_assert (std::is_same<decltype (result_s), ResultType>::value,
                  "transform_error must return Expected<T, G>");
@@ -372,7 +372,7 @@ TEST (ExpectedMonadicTest, TransformErrorLValue_IntToStruct_BothPaths)
 
 TEST (ExpectedMonadicTest, TransformErrorConstLValue_IntToStruct_BothPaths)
 {
-  using ResultType = Expected<int, error_info_t>;
+  using ResultType = expected<int, error_info_t>;
   int calls = 0;
   auto func = [&calls] (int const &error)
     {
@@ -380,7 +380,7 @@ TEST (ExpectedMonadicTest, TransformErrorConstLValue_IntToStruct_BothPaths)
       return error_info_t{ "const_lvalue", error };
     };
 
-  Expected<int, int> const failed (unexpect, kError);
+  expected<int, int> const failed (unexpect, kError);
   auto result_e = failed.transform_error (func);
   static_assert (std::is_same<decltype (result_e), ResultType>::value,
                  "transform_error must return Expected<T, G>");
@@ -388,7 +388,7 @@ TEST (ExpectedMonadicTest, TransformErrorConstLValue_IntToStruct_BothPaths)
   EXPECT_EQ (result_e.error ().category, "const_lvalue");
   EXPECT_EQ (result_e.error ().code, kError);
 
-  Expected<int, int> const succeeded (kValue);
+  expected<int, int> const succeeded (kValue);
   auto result_s = succeeded.transform_error (func);
   static_assert (std::is_same<decltype (result_s), ResultType>::value,
                  "transform_error must return Expected<T, G>");
@@ -399,7 +399,7 @@ TEST (ExpectedMonadicTest, TransformErrorConstLValue_IntToStruct_BothPaths)
 
 TEST (ExpectedMonadicTest, TransformErrorRValue_IntToStruct_BothPaths)
 {
-  using ResultType = Expected<int, error_info_t>;
+  using ResultType = expected<int, error_info_t>;
   int calls = 0;
   auto func = [&calls] (int &&error)
     {
@@ -407,7 +407,7 @@ TEST (ExpectedMonadicTest, TransformErrorRValue_IntToStruct_BothPaths)
       return error_info_t{ "rvalue", error };
     };
 
-  Expected<int, int> failed (unexpect, kError);
+  expected<int, int> failed (unexpect, kError);
   auto result_e = std::move (failed).transform_error (func);
   static_assert (std::is_same<decltype (result_e), ResultType>::value,
                  "transform_error must return Expected<T, G>");
@@ -415,7 +415,7 @@ TEST (ExpectedMonadicTest, TransformErrorRValue_IntToStruct_BothPaths)
   EXPECT_EQ (result_e.error ().category, "rvalue");
   EXPECT_EQ (result_e.error ().code, kError);
 
-  Expected<int, int> succeeded (kValue);
+  expected<int, int> succeeded (kValue);
   auto result_s = std::move (succeeded).transform_error (func);
   static_assert (std::is_same<decltype (result_s), ResultType>::value,
                  "transform_error must return Expected<T, G>");
@@ -426,7 +426,7 @@ TEST (ExpectedMonadicTest, TransformErrorRValue_IntToStruct_BothPaths)
 
 TEST (ExpectedMonadicTest, TransformErrorConstRValue_IntToStruct_BothPaths)
 {
-  using ResultType = Expected<int, error_info_t>;
+  using ResultType = expected<int, error_info_t>;
   int calls = 0;
   auto func = [&calls] (int const &&error)
     {
@@ -434,7 +434,7 @@ TEST (ExpectedMonadicTest, TransformErrorConstRValue_IntToStruct_BothPaths)
       return error_info_t{ "const_rvalue", error };
     };
 
-  Expected<int, int> const failed (unexpect, kError);
+  expected<int, int> const failed (unexpect, kError);
   auto result_e = std::move (failed).transform_error (func);
   static_assert (std::is_same<decltype (result_e), ResultType>::value,
                  "transform_error must return Expected<T, G>");
@@ -442,7 +442,7 @@ TEST (ExpectedMonadicTest, TransformErrorConstRValue_IntToStruct_BothPaths)
   EXPECT_EQ (result_e.error ().category, "const_rvalue");
   EXPECT_EQ (result_e.error ().code, kError);
 
-  Expected<int, int> const succeeded (kValue);
+  expected<int, int> const succeeded (kValue);
   auto result_s = std::move (succeeded).transform_error (func);
   static_assert (std::is_same<decltype (result_s), ResultType>::value,
                  "transform_error must return Expected<T, G>");
@@ -451,11 +451,11 @@ TEST (ExpectedMonadicTest, TransformErrorConstRValue_IntToStruct_BothPaths)
   EXPECT_EQ (calls, 1);
 }
 
-// === transform of Expected<void, E> to a value ===========================
+// === transform of expected<void, E> to a value ===========================
 
 TEST (ExpectedMonadicTest, VoidTransform_VoidToString_BothPathsInEveryCategory)
 {
-  using ResultType = Expected<std::string, int>;
+  using ResultType = expected<std::string, int>;
   int calls = 0;
   auto func = [&calls] ()
     {
@@ -463,10 +463,10 @@ TEST (ExpectedMonadicTest, VoidTransform_VoidToString_BothPathsInEveryCategory)
       return std::string ("made");
     };
 
-  Expected<void, int> succeeded;
-  Expected<void, int> const const_succeeded;
-  Expected<void, int> failed (unexpect, kError);
-  Expected<void, int> const const_failed (unexpect, kError);
+  expected<void, int> succeeded;
+  expected<void, int> const const_succeeded;
+  expected<void, int> failed (unexpect, kError);
+  expected<void, int> const const_failed (unexpect, kError);
 
   static_assert (
       std::is_same<decltype (succeeded.transform (func)), ResultType>::value,

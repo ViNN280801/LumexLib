@@ -47,7 +47,7 @@ using namespace lumex::core::base64::validate;
 using namespace lumex::core::base64::codec::Types;
 
 // ==========================================================================
-// Encoder
+// encoder
 // ==========================================================================
 
 struct LifetimeTracker
@@ -117,18 +117,18 @@ protected:
 TEST_F (Base64EncoderTest, GivenEmptyData_WhenEncode_ThenReturnsEmptyString)
 {
   // Empty input should produce empty output
-  std::string result = Encoder::encode (empty_data);
+  std::string result = encoder::encode (empty_data);
   EXPECT_TRUE (result.empty ());
 
   // Verify with raw pointer interface
-  result = Encoder::encode (nullptr, 0);
+  result = encoder::encode (nullptr, 0);
   EXPECT_TRUE (result.empty ());
 }
 
 TEST_F (Base64EncoderTest, GivenSingleByte_WhenEncode_ThenReturnsCorrectBase64)
 {
   // Single byte 0x42 ('B') should encode to "Qg=="
-  std::string result = Encoder::encode (single_byte);
+  std::string result = encoder::encode (single_byte);
   EXPECT_EQ (result, "Qg==");
   EXPECT_EQ (result.length (), 4); // Base64 always produces multiples of 4
 }
@@ -160,7 +160,7 @@ TEST_F (Base64EncoderTest,
 
   for (auto const &vector : vectors)
     {
-      std::string result = Encoder::encode (vector.input);
+      std::string result = encoder::encode (vector.input);
       EXPECT_EQ (result, vector.expected)
           << "Failed for input size: " << vector.input.size ();
     }
@@ -171,12 +171,12 @@ TEST_F (Base64EncoderTest,
 {
   // Test raw pointer interface with various sizes
   char const *text = "Hello";
-  std::string result = Encoder::encode (text, 5);
+  std::string result = encoder::encode (text, 5);
   EXPECT_EQ (result, "SGVsbG8=");
 
   // Test with binary data
   byte_type binary[] = { 0x00, 0x01, 0x02 };
-  result = Encoder::encode (binary, sizeof (binary));
+  result = encoder::encode (binary, sizeof (binary));
   EXPECT_EQ (result, "AAEC");
 }
 
@@ -184,7 +184,7 @@ TEST_F (Base64EncoderTest,
         GivenRangeInsideLargerBuffer_WhenEncode_ThenOnlyTheRangeIsEncoded)
 {
   char const buffer[] = "xxHiyy";
-  EXPECT_EQ (Encoder::encode (buffer + 2, 2), "SGk=");
+  EXPECT_EQ (encoder::encode (buffer + 2, 2), "SGk=");
 }
 
 // --- Edge & Corner Cases -----------------------------------------------
@@ -193,7 +193,7 @@ TEST_F (Base64EncoderTest,
         GivenAllPossibleBytes_WhenEncode_ThenHandlesCorrectly)
 {
   // Verify all 256 possible byte values can be encoded
-  std::string result = Encoder::encode (all_bytes);
+  std::string result = encoder::encode (all_bytes);
   EXPECT_FALSE (result.empty ());
   EXPECT_EQ (result.length (), ((all_bytes.size () + 2) / 3) * 4);
 
@@ -210,7 +210,7 @@ TEST_F (Base64EncoderTest,
 TEST_F (Base64EncoderTest, GivenLargeData_WhenEncode_ThenHandlesEfficiently)
 {
   // Test with large data to verify no performance issues
-  std::string result = Encoder::encode (large_data);
+  std::string result = encoder::encode (large_data);
   EXPECT_FALSE (result.empty ());
 
   // Verify correct length calculation
@@ -221,14 +221,14 @@ TEST_F (Base64EncoderTest, GivenLargeData_WhenEncode_ThenHandlesEfficiently)
 TEST_F (Base64EncoderTest, GivenNullPointer_WhenEncode_ThenReturnsEmptyString)
 {
   // Null pointer should be handled gracefully
-  std::string result = Encoder::encode (nullptr, 100);
+  std::string result = encoder::encode (nullptr, 100);
   EXPECT_TRUE (result.empty ());
 }
 
 TEST_F (Base64EncoderTest, GivenZeroSize_WhenEncode_ThenReturnsEmptyString)
 {
   byte_type dummy = 0x42;
-  std::string result = Encoder::encode (&dummy, 0);
+  std::string result = encoder::encode (&dummy, 0);
   EXPECT_TRUE (result.empty ());
 }
 
@@ -247,7 +247,7 @@ TEST_F (Base64EncoderTest,
   EndianTest test;
   test.value = 0x01020304;
 
-  std::string result = Encoder::encode (test.bytes, 4);
+  std::string result = encoder::encode (test.bytes, 4);
   EXPECT_FALSE (result.empty ());
   EXPECT_EQ (result.length (), 8); // 4 bytes -> 8 Base64 chars (with padding)
 }
@@ -263,7 +263,7 @@ TEST_F (Base64EncoderTest,
       reinterpret_cast<byte_type const *> (wide_text.data ())
           + wide_text.size () * sizeof (wchar_t));
 
-  std::string result = Encoder::encode (bytes);
+  std::string result = encoder::encode (bytes);
   EXPECT_FALSE (result.empty ());
 }
 #endif
@@ -272,7 +272,7 @@ TEST_F (Base64EncoderTest,
 
 TEST_F (Base64EncoderTest, ThreadSafety_SimultaneousEncoding)
 {
-  // Encoder should be thread-safe for simultaneous operations
+  // encoder should be thread-safe for simultaneous operations
   constexpr int num_threads = 10;
   std::vector<std::thread> threads;
   std::vector<std::string> results (num_threads);
@@ -282,7 +282,7 @@ TEST_F (Base64EncoderTest, ThreadSafety_SimultaneousEncoding)
 
   for (int i = 0; i < num_threads; ++i)
     threads.emplace_back ([&results, &test_data, i] ()
-                            { results[i] = Encoder::encode (test_data); });
+                            { results[i] = encoder::encode (test_data); });
 
   for (auto &t : threads)
     t.join ();
@@ -308,7 +308,7 @@ TEST_F (Base64EncoderTest, Perf_LargeDataEncoding)
     very_large_data[i] = static_cast<byte_type> (i % 256);
 
   auto start = std::chrono::high_resolution_clock::now ();
-  std::string result = Encoder::encode (very_large_data);
+  std::string result = encoder::encode (very_large_data);
   auto duration = std::chrono::duration_cast<std::chrono::milliseconds> (
       std::chrono::high_resolution_clock::now () - start);
 
@@ -329,7 +329,7 @@ TEST_F (Base64EncoderTest, Stress_RepeatedEncodingOperations)
 
   for (int i = 0; i < iterations; ++i)
     {
-      std::string result = Encoder::encode (test_data);
+      std::string result = encoder::encode (test_data);
       EXPECT_EQ (result, "U3RyZXNz") << "Failed at iteration " << i;
     }
 }
@@ -340,7 +340,7 @@ TEST_F (Base64EncoderLifetimeTest, MemorySafety_NoLeaksWithLargeData)
 {
   {
     std::vector<byte_type> large_data (100000, 0x55);
-    std::string result = Encoder::encode (large_data);
+    std::string result = encoder::encode (large_data);
     EXPECT_FALSE (result.empty ());
   } // large_data goes out of scope here
 
@@ -354,7 +354,7 @@ TEST_F (Base64EncoderTest, BoundaryConditions_MaxSizeHandling)
   std::vector<byte_type> boundary_data (boundary_size, 0x88);
 
   EXPECT_NO_THROW ({
-    std::string result = Encoder::encode (boundary_data);
+    std::string result = encoder::encode (boundary_data);
     EXPECT_FALSE (result.empty ());
   });
 }
@@ -365,22 +365,22 @@ TEST_F (Base64EncoderTest, InputValidation_VariousInputTypes)
 {
   // Test with std::vector
   std::vector<byte_type> vec_data = { 'V', 'e', 'c', 't', 'o', 'r' };
-  std::string vec_result = Encoder::encode (vec_data);
+  std::string vec_result = encoder::encode (vec_data);
   EXPECT_FALSE (vec_result.empty ());
 
   // Test with raw array
   byte_type array_data[] = { 'A', 'r', 'r', 'a', 'y' };
-  std::string array_result = Encoder::encode (array_data, sizeof (array_data));
+  std::string array_result = encoder::encode (array_data, sizeof (array_data));
   EXPECT_FALSE (array_result.empty ());
 
   // Test with string literal cast
   char const *str = "String";
-  std::string str_result = Encoder::encode (str, std::strlen (str));
+  std::string str_result = encoder::encode (str, std::strlen (str));
   EXPECT_FALSE (str_result.empty ());
 }
 
 // ==========================================================================
-// Decoder
+// decoder
 // ==========================================================================
 
 struct DecodeLifetimeTracker
@@ -426,13 +426,13 @@ TEST_F (Base64DecoderTest, GivenEmptyString_WhenDecode_ThenReturnsEmpty)
 {
   // Empty input should produce empty output
   std::vector<byte_type> result;
-  bool success = Decoder::decode (valid_empty, result);
+  bool success = decoder::decode (valid_empty, result);
 
   EXPECT_TRUE (success);
   EXPECT_TRUE (result.empty ());
 
   // Test return-by-value variant
-  auto result2 = Decoder::decode (valid_empty);
+  auto result2 = decoder::decode (valid_empty);
   EXPECT_TRUE (result2.empty ());
 }
 
@@ -447,7 +447,7 @@ TEST_F (Base64DecoderTest, GivenValidBase64_WhenDecode_ThenReturnsCorrectData)
       std::string const &expected = it->second;
 
       std::vector<byte_type> result;
-      bool success = Decoder::decode (encoded, result);
+      bool success = decoder::decode (encoded, result);
 
       EXPECT_TRUE (success) << "Failed to decode: " << encoded.c_str ();
 
@@ -457,7 +457,7 @@ TEST_F (Base64DecoderTest, GivenValidBase64_WhenDecode_ThenReturnsCorrectData)
           << expected.c_str () << "', got: '" << result_str.c_str () << "'";
 
       // Test return-by-value variant
-      auto result2 = Decoder::decode (encoded);
+      auto result2 = decoder::decode (encoded);
       std::string result2_str (result2.begin (), result2.end ());
       EXPECT_EQ (result2_str, expected);
     }
@@ -482,7 +482,7 @@ TEST_F (Base64DecoderTest,
   for (auto const &test : padding_tests)
     {
       std::vector<byte_type> result;
-      bool success = Decoder::decode (test.input, result);
+      bool success = decoder::decode (test.input, result);
 
       EXPECT_TRUE (success) << "Failed to decode: " << test.input.c_str ();
       EXPECT_EQ (result, test.expected);
@@ -496,32 +496,32 @@ TEST_F (Base64DecoderTest,
 {
   // nullptr is checked before the size: (nullptr, 0) is not an empty input.
   std::vector<byte_type> out (3, 0x7F);
-  EXPECT_FALSE (Decoder::decode (nullptr, 0, out));
+  EXPECT_FALSE (decoder::decode (nullptr, 0, out));
   EXPECT_TRUE (out.empty ());
-  EXPECT_TRUE (Decoder::decode (nullptr, 0).empty ());
+  EXPECT_TRUE (decoder::decode (nullptr, 0).empty ());
 }
 
 TEST_F (Base64DecoderTest,
         GivenNullPointerAndNonZeroSize_WhenDecode_ThenFalseAndOutputCleared)
 {
   std::vector<byte_type> out (3, 0x7F);
-  EXPECT_FALSE (Decoder::decode (nullptr, 1, out));
+  EXPECT_FALSE (decoder::decode (nullptr, 1, out));
   EXPECT_TRUE (out.empty ());
   out.assign (3, 0x7F);
-  EXPECT_FALSE (Decoder::decode (nullptr, 8, out));
+  EXPECT_FALSE (decoder::decode (nullptr, 8, out));
   EXPECT_TRUE (out.empty ());
-  EXPECT_TRUE (Decoder::decode (nullptr, 8).empty ());
+  EXPECT_TRUE (decoder::decode (nullptr, 8).empty ());
 }
 
 TEST_F (Base64DecoderTest,
         GivenEmptyNonNullRange_WhenDecode_ThenTrueAndOutputCleared)
 {
   std::vector<byte_type> out (3, 0x7F);
-  EXPECT_TRUE (Decoder::decode ("", 0, out));
+  EXPECT_TRUE (decoder::decode ("", 0, out));
   EXPECT_TRUE (out.empty ());
   // Size 0 over a non-empty buffer is an empty input as well.
   out.assign (3, 0x7F);
-  EXPECT_TRUE (Decoder::decode ("SGk=", 0, out));
+  EXPECT_TRUE (decoder::decode ("SGk=", 0, out));
   EXPECT_TRUE (out.empty ());
 }
 
@@ -530,12 +530,12 @@ TEST_F (Base64DecoderTest,
 {
   char const buffer[] = "xxSGVsbG8=yy";
   std::vector<byte_type> out;
-  ASSERT_TRUE (Decoder::decode (buffer + 2, 8, out));
+  ASSERT_TRUE (decoder::decode (buffer + 2, 8, out));
   EXPECT_EQ (std::string (out.begin (), out.end ()), "Hello");
-  std::vector<byte_type> const bytes = Decoder::decode (buffer + 2, 8);
+  std::vector<byte_type> const bytes = decoder::decode (buffer + 2, 8);
   EXPECT_EQ (std::string (bytes.begin (), bytes.end ()), "Hello");
   // The same buffer with its invalid neighbours is rejected.
-  EXPECT_FALSE (Decoder::decode (buffer, 12, out));
+  EXPECT_FALSE (decoder::decode (buffer, 12, out));
   EXPECT_TRUE (out.empty ());
 }
 
@@ -546,7 +546,7 @@ TEST_F (Base64DecoderTest,
   // become a third byte.
   char const buffer[] = "SGkA";
   std::vector<byte_type> out;
-  ASSERT_TRUE (Decoder::decode (buffer, 3, out));
+  ASSERT_TRUE (decoder::decode (buffer, 3, out));
   EXPECT_EQ (std::string (out.begin (), out.end ()), "Hi");
 }
 
@@ -566,7 +566,7 @@ TEST_F (Base64DecoderTest, GivenUnpaddedInput_WhenDecode_ThenDecodesLastGroup)
   for (auto const &test : cases)
     {
       std::vector<byte_type> out;
-      EXPECT_TRUE (Decoder::decode (test.input, out)) << test.input;
+      EXPECT_TRUE (decoder::decode (test.input, out)) << test.input;
       EXPECT_EQ (std::string (out.begin (), out.end ()), test.expected)
           << test.input;
     }
@@ -576,17 +576,17 @@ TEST_F (Base64DecoderTest, GivenEmbeddedNul_WhenDecode_ThenFalse)
 {
   std::string const encoded ("SG\0k", 4);
   std::vector<byte_type> out (2, 0x7F);
-  EXPECT_FALSE (Decoder::decode (encoded.data (), encoded.size (), out));
+  EXPECT_FALSE (decoder::decode (encoded.data (), encoded.size (), out));
   EXPECT_TRUE (out.empty ());
-  EXPECT_FALSE (Decoder::decode (encoded, out));
-  EXPECT_TRUE (Decoder::decode (encoded).empty ());
+  EXPECT_FALSE (decoder::decode (encoded, out));
+  EXPECT_TRUE (decoder::decode (encoded).empty ());
 }
 
 TEST_F (Base64DecoderTest, GivenRangeOfOneDataCharacter_WhenDecode_ThenFalse)
 {
   // One character cannot hold a byte; the '=' after it is outside the range.
   std::vector<byte_type> out;
-  EXPECT_FALSE (Decoder::decode ("S===", 1, out));
+  EXPECT_FALSE (decoder::decode ("S===", 1, out));
   EXPECT_TRUE (out.empty ());
 }
 
@@ -614,7 +614,7 @@ TEST_F (Base64DecoderTest, GivenInvalidCharacters_WhenDecode_ThenReturnsFalse)
   for (auto const &invalid : invalid_chars)
     {
       std::vector<byte_type> result;
-      bool success = Decoder::decode (invalid, result);
+      bool success = decoder::decode (invalid, result);
 
       EXPECT_FALSE (success)
           << "Should reject invalid character in: " << invalid;
@@ -636,7 +636,7 @@ TEST_F (Base64DecoderTest, GivenInvalidPadding_WhenDecode_ThenReturnsFalse)
   for (auto const &invalid : invalid_padding)
     {
       std::vector<byte_type> result;
-      bool success = Decoder::decode (invalid, result);
+      bool success = decoder::decode (invalid, result);
 
       EXPECT_FALSE (success) << "Should reject invalid padding: " << invalid;
     }
@@ -651,7 +651,7 @@ TEST_F (Base64DecoderTest, GivenAllValidCharacters_WhenDecode_ThenWorks)
       = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
   std::vector<byte_type> result;
-  bool success = Decoder::decode (all_chars, result);
+  bool success = decoder::decode (all_chars, result);
 
   EXPECT_TRUE (success);
   EXPECT_FALSE (result.empty ());
@@ -666,10 +666,10 @@ TEST_F (Base64DecoderTest, GivenMaximalPadding_WhenDecode_ThenHandlesCorrectly)
 
   std::vector<byte_type> result1, result2;
 
-  EXPECT_TRUE (Decoder::decode (two_pad, result1));
+  EXPECT_TRUE (decoder::decode (two_pad, result1));
   EXPECT_EQ (result1.size (), 1);
 
-  EXPECT_TRUE (Decoder::decode (one_pad, result2));
+  EXPECT_TRUE (decoder::decode (one_pad, result2));
   EXPECT_EQ (result2.size (), 2);
 }
 
@@ -687,7 +687,7 @@ TEST_F (Base64DecoderTest, GivenBinaryData_WhenDecode_ThenPreservesAllBytes)
         "g4eLj5OXm5+jp6uvs7e7v8PHy8/T19vf4+fr7/P3+/w==";
 
   std::vector<byte_type> result;
-  bool success = Decoder::decode (encoded_all_bytes, result);
+  bool success = decoder::decode (encoded_all_bytes, result);
 
   EXPECT_TRUE (success);
   EXPECT_EQ (result.size (), 256);
@@ -715,7 +715,7 @@ TEST_F (Base64DecoderTest,
   for (auto const &input : with_linebreaks)
     {
       std::vector<byte_type> result;
-      bool success = Decoder::decode (input, result);
+      bool success = decoder::decode (input, result);
 
       EXPECT_FALSE (success) << "Should reject line breaks in: " << input;
     }
@@ -733,7 +733,7 @@ TEST_F (Base64DecoderTest,
     narrow_input.push_back (static_cast<char> (ch));
 
   std::vector<byte_type> result;
-  bool success = Decoder::decode (narrow_input, result);
+  bool success = decoder::decode (narrow_input, result);
 
   EXPECT_TRUE (success);
   std::string decoded (result.begin (), result.end ());
@@ -745,7 +745,7 @@ TEST_F (Base64DecoderTest,
 
 TEST_F (Base64DecoderTest, ThreadSafety_SimultaneousDecoding)
 {
-  // Decoder should be thread-safe for read-only operations
+  // decoder should be thread-safe for read-only operations
   constexpr int num_threads = 10;
   std::vector<std::thread> threads;
   std::vector<std::pair<bool, std::vector<byte_type>>> results (num_threads);
@@ -758,7 +758,7 @@ TEST_F (Base64DecoderTest, ThreadSafety_SimultaneousDecoding)
           [&results, &test_input, i] ()
             {
               results[i].first
-                  = Decoder::decode (test_input, results[i].second);
+                  = decoder::decode (test_input, results[i].second);
             });
     }
 
@@ -789,11 +789,11 @@ TEST_F (Base64DecoderTest, Perf_LargeDataDecoding)
     original_data[i] = static_cast<byte_type> (i % 256);
 
   // First encode to get valid Base64 string
-  std::string encoded = Encoder::encode (original_data);
+  std::string encoded = encoder::encode (original_data);
 
   auto start = std::chrono::high_resolution_clock::now ();
   std::vector<byte_type> decoded;
-  bool success = Decoder::decode (encoded, decoded);
+  bool success = decoder::decode (encoded, decoded);
   auto duration = std::chrono::duration_cast<std::chrono::milliseconds> (
       std::chrono::high_resolution_clock::now () - start);
 
@@ -816,7 +816,7 @@ TEST_F (Base64DecoderTest, Stress_RepeatedDecodingOperations)
   for (int i = 0; i < iterations; ++i)
     {
       std::vector<byte_type> result;
-      bool success = Decoder::decode (test_input, result);
+      bool success = decoder::decode (test_input, result);
 
       EXPECT_TRUE (success) << "Failed at iteration " << i;
 
@@ -834,7 +834,7 @@ TEST_F (Base64DecoderLifetimeTest, MemorySafety_OutputVectorLifetime)
 
   {
     std::vector<byte_type> result;
-    bool success = Decoder::decode (input, result);
+    bool success = decoder::decode (input, result);
     EXPECT_TRUE (success);
     EXPECT_FALSE (result.empty ());
   } // result goes out of scope here - should not cause issues
@@ -852,7 +852,7 @@ TEST_F (Base64DecoderTest, BoundaryConditions_EmptyAndMinimalInputs)
   for (auto const &input : boundary_inputs)
     {
       std::vector<byte_type> result;
-      bool success = Decoder::decode (input, result);
+      bool success = decoder::decode (input, result);
 
       if (input.empty ())
         {
@@ -888,9 +888,9 @@ TEST_F (Base64DecoderTest, RoundTrip_EncodeDecodeCycle)
 
   for (auto const &original : test_datasets)
     {
-      std::string encoded = Encoder::encode (original);
+      std::string encoded = encoder::encode (original);
       std::vector<byte_type> decoded;
-      bool success = Decoder::decode (encoded, decoded);
+      bool success = decoder::decode (encoded, decoded);
 
       EXPECT_TRUE (success)
           << "Decode failed for data size: " << original.size ();
@@ -900,7 +900,7 @@ TEST_F (Base64DecoderTest, RoundTrip_EncodeDecodeCycle)
 }
 
 // ==========================================================================
-// Validator
+// validator
 // ==========================================================================
 
 // --- API Contract Verifier Tests ---------------------------------------
@@ -910,7 +910,7 @@ TEST_F (Base64ValidatorTest, GivenValidBase64_WhenValidate_ThenReturnsTrue)
   // All valid Base64 strings should pass validation
   for (auto const &valid : valid_inputs)
     {
-      bool result = Validator::is_valid_base64 (valid);
+      bool result = validator::is_valid_base64 (valid);
       EXPECT_TRUE (result) << "Failed to validate valid input: '" << valid
                            << "'";
     }
@@ -919,7 +919,7 @@ TEST_F (Base64ValidatorTest, GivenValidBase64_WhenValidate_ThenReturnsTrue)
 TEST_F (Base64ValidatorTest, GivenEmptyString_WhenValidate_ThenReturnsTrue)
 {
   // Empty string is valid Base64 (encodes empty data)
-  bool result = Validator::is_valid_base64 ("");
+  bool result = validator::is_valid_base64 ("");
   EXPECT_TRUE (result);
 }
 
@@ -943,7 +943,7 @@ TEST_F (Base64ValidatorTest,
 
   for (auto const &test : padding_tests)
     {
-      bool result = Validator::is_valid_base64 (test.input);
+      bool result = validator::is_valid_base64 (test.input);
       EXPECT_TRUE (result) << "Failed for " << test.description << ": "
                            << test.input;
     }
@@ -955,34 +955,34 @@ TEST_F (Base64ValidatorTest,
         GivenNullPointerAndZeroSize_WhenValidate_ThenReturnsFalse)
 {
   // nullptr is checked before the size: (nullptr, 0) is not an empty input.
-  EXPECT_FALSE (Validator::is_valid_base64 (nullptr, 0));
+  EXPECT_FALSE (validator::is_valid_base64 (nullptr, 0));
 }
 
 TEST_F (Base64ValidatorTest,
         GivenNullPointerAndNonZeroSize_WhenValidate_ThenReturnsFalse)
 {
-  EXPECT_FALSE (Validator::is_valid_base64 (nullptr, 1));
-  EXPECT_FALSE (Validator::is_valid_base64 (nullptr, 4));
-  EXPECT_FALSE (Validator::is_valid_base64 (nullptr, 1024));
+  EXPECT_FALSE (validator::is_valid_base64 (nullptr, 1));
+  EXPECT_FALSE (validator::is_valid_base64 (nullptr, 4));
+  EXPECT_FALSE (validator::is_valid_base64 (nullptr, 1024));
 }
 
 TEST_F (Base64ValidatorTest,
         GivenEmptyNonNullRange_WhenValidate_ThenReturnsTrue)
 {
-  EXPECT_TRUE (Validator::is_valid_base64 ("", 0));
+  EXPECT_TRUE (validator::is_valid_base64 ("", 0));
   // Size 0 over a buffer of invalid characters is an empty input as well.
-  EXPECT_TRUE (Validator::is_valid_base64 ("@@@@", 0));
+  EXPECT_TRUE (validator::is_valid_base64 ("@@@@", 0));
 }
 
 TEST_F (Base64ValidatorTest,
         GivenRangeInsideLargerBuffer_WhenValidate_ThenOnlyTheRangeIsChecked)
 {
   char const buffer[] = "@@SGVsbG8=@@";
-  EXPECT_TRUE (Validator::is_valid_base64 (buffer + 2, 8));
+  EXPECT_TRUE (validator::is_valid_base64 (buffer + 2, 8));
   // The same buffer with its invalid neighbours included is rejected.
-  EXPECT_FALSE (Validator::is_valid_base64 (buffer, 12));
-  EXPECT_FALSE (Validator::is_valid_base64 (buffer + 1, 9));
-  EXPECT_FALSE (Validator::is_valid_base64 (buffer + 2, 9));
+  EXPECT_FALSE (validator::is_valid_base64 (buffer, 12));
+  EXPECT_FALSE (validator::is_valid_base64 (buffer + 1, 9));
+  EXPECT_FALSE (validator::is_valid_base64 (buffer + 2, 9));
 }
 
 TEST_F (Base64ValidatorTest,
@@ -991,16 +991,16 @@ TEST_F (Base64ValidatorTest,
   // The '=' after the range is not part of it: "SGk" is valid unpadded
   // Base64, "S" (one data character) is not.
   char const buffer[] = "SGk=";
-  EXPECT_TRUE (Validator::is_valid_base64 (buffer, 3));
-  EXPECT_TRUE (Validator::is_valid_base64 (buffer, 4));
-  EXPECT_FALSE (Validator::is_valid_base64 (buffer, 1));
+  EXPECT_TRUE (validator::is_valid_base64 (buffer, 3));
+  EXPECT_TRUE (validator::is_valid_base64 (buffer, 4));
+  EXPECT_FALSE (validator::is_valid_base64 (buffer, 1));
 }
 
 TEST_F (Base64ValidatorTest, GivenEmbeddedNul_WhenValidate_ThenReturnsFalse)
 {
   std::string const text ("SG\0k", 4);
-  EXPECT_FALSE (Validator::is_valid_base64 (text.data (), text.size ()));
-  EXPECT_FALSE (Validator::is_valid_base64 (text));
+  EXPECT_FALSE (validator::is_valid_base64 (text.data (), text.size ()));
+  EXPECT_FALSE (validator::is_valid_base64 (text));
 }
 
 // --- Error Detection Tests ---------------------------------------------
@@ -1011,7 +1011,7 @@ TEST_F (Base64ValidatorTest,
   // Only Base64 alphabet characters and padding should be accepted
   for (auto const &invalid : invalid_characters)
     {
-      bool result = Validator::is_valid_base64 (invalid);
+      bool result = validator::is_valid_base64 (invalid);
       EXPECT_FALSE (result)
           << "Should reject invalid character in: '" << invalid << "'";
     }
@@ -1019,12 +1019,12 @@ TEST_F (Base64ValidatorTest,
 
 TEST_F (Base64ValidatorTest, Alphabet_WhenFound_ThenTrue)
 {
-  EXPECT_TRUE (Validator::is_valid_base64 ("SGVsbG8="));
+  EXPECT_TRUE (validator::is_valid_base64 ("SGVsbG8="));
 }
 
 TEST_F (Base64ValidatorTest, Alphabet_WhenUnfound_ThenFalse)
 {
-  EXPECT_FALSE (Validator::is_valid_base64 ("SGVsbG8!"));
+  EXPECT_FALSE (validator::is_valid_base64 ("SGVsbG8!"));
 }
 
 TEST_F (Base64ValidatorTest, GivenInvalidPadding_WhenValidate_ThenReturnsFalse)
@@ -1032,7 +1032,7 @@ TEST_F (Base64ValidatorTest, GivenInvalidPadding_WhenValidate_ThenReturnsFalse)
   // Padding must only appear at end and in correct amounts
   for (auto const &invalid : invalid_padding)
     {
-      bool result = Validator::is_valid_base64 (invalid);
+      bool result = validator::is_valid_base64 (invalid);
       EXPECT_FALSE (result)
           << "Should reject invalid padding: '" << invalid << "'";
     }
@@ -1058,7 +1058,7 @@ TEST_F (Base64ValidatorTest,
 
   for (auto const &test : control_chars)
     {
-      bool result = Validator::is_valid_base64 (test);
+      bool result = validator::is_valid_base64 (test);
       EXPECT_FALSE (result)
           << "Should reject control character in: (contains ASCII "
           << static_cast<int> (test[2]) << ")";
@@ -1074,7 +1074,7 @@ TEST_F (Base64ValidatorTest,
   std::string all_chars
       = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
-  bool result = Validator::is_valid_base64 (all_chars);
+  bool result = validator::is_valid_base64 (all_chars);
   EXPECT_TRUE (result);
   EXPECT_EQ (all_chars.length () % 4, 0)
       << "Test string should be multiple of 4";
@@ -1086,7 +1086,7 @@ TEST_F (Base64ValidatorTest,
   // Test with very large valid string to check performance
   std::string large_valid (4000, 'A'); // 4000 'A' characters (valid length)
 
-  bool result = Validator::is_valid_base64 (large_valid);
+  bool result = validator::is_valid_base64 (large_valid);
   EXPECT_TRUE (result);
 }
 
@@ -1096,7 +1096,7 @@ TEST_F (Base64ValidatorTest,
   // Test with large invalid string
   std::string large_invalid (4001, 'A'); // 4001 characters (invalid length)
 
-  bool result = Validator::is_valid_base64 (large_invalid);
+  bool result = validator::is_valid_base64 (large_invalid);
   EXPECT_FALSE (result);
 }
 
@@ -1123,7 +1123,7 @@ TEST_F (Base64ValidatorTest,
 
   for (auto const &test : boundary_tests)
     {
-      bool result = Validator::is_valid_base64 (test.input);
+      bool result = validator::is_valid_base64 (test.input);
       EXPECT_EQ (result, test.should_be_valid)
           << test.description << " - input: '" << test.input << "'";
     }
@@ -1138,16 +1138,16 @@ TEST_F (Base64ValidatorTest,
   std::string test_input = "SGVsbG8=";
 
   // Test with string literal
-  bool result1 = Validator::is_valid_base64 ("SGVsbG8=");
+  bool result1 = validator::is_valid_base64 ("SGVsbG8=");
   EXPECT_TRUE (result1);
 
   // Test with std::string
-  bool result2 = Validator::is_valid_base64 (test_input);
+  bool result2 = validator::is_valid_base64 (test_input);
   EXPECT_TRUE (result2);
 
   // Test with constructed string
   std::string constructed = std::string ("SGVs") + "bG8=";
-  bool result3 = Validator::is_valid_base64 (constructed);
+  bool result3 = validator::is_valid_base64 (constructed);
   EXPECT_TRUE (result3);
 
   // All should be equal
@@ -1166,7 +1166,7 @@ TEST_F (Base64ValidatorTest,
   for (wchar_t ch : wide_input)
     narrow_input.push_back (static_cast<char> (ch));
 
-  bool result = Validator::is_valid_base64 (narrow_input);
+  bool result = validator::is_valid_base64 (narrow_input);
   EXPECT_TRUE (result);
 }
 #endif
@@ -1181,7 +1181,7 @@ TEST_F (Base64ValidatorTest, Perf_LargeStringValidation)
   std::string large_valid (large_size, 'A');
 
   auto start = std::chrono::high_resolution_clock::now ();
-  bool result = Validator::is_valid_base64 (large_valid);
+  bool result = validator::is_valid_base64 (large_valid);
   auto duration = std::chrono::duration_cast<std::chrono::microseconds> (
       std::chrono::high_resolution_clock::now () - start);
 
@@ -1208,11 +1208,11 @@ TEST_F (Base64ValidatorTest, CharacterSet_AllValidCharsAccepted)
       test_string += c;
       test_string += "Q";
 
-      bool result = Validator::is_valid_base64 (test_string);
+      bool result = validator::is_valid_base64 (test_string);
       EXPECT_TRUE (result) << "Valid character '" << c << "' was rejected";
     }
 
   // Test padding character
-  bool padding_result = Validator::is_valid_base64 ("QQ==");
+  bool padding_result = validator::is_valid_base64 ("QQ==");
   EXPECT_TRUE (padding_result);
 }

@@ -69,7 +69,8 @@ TEST (LumexFormatMinMaxMacrosTest,
   // Paths that use numeric limits: {:c} range check, dynamic width
   // limits, floats, chrono, ranges.
   EXPECT_EQ (fmt::format ("{:c}", 65), "A");
-  EXPECT_THROW (fmt::format (fmt::runtime ("{:c}"), 100000), fmt::FormatError);
+  EXPECT_THROW (fmt::format (fmt::runtime ("{:c}"), 100000),
+                fmt::format_error);
   EXPECT_EQ (fmt::format ("{:{}}", 1, 3), "  1");
   EXPECT_EQ (fmt::format ("{}", 1e300), "1e+300");
   EXPECT_EQ (fmt::format ("{:%T}", std::chrono::seconds (61)), "00:01:01");

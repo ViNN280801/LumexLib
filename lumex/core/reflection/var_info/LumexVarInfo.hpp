@@ -43,16 +43,16 @@
  *        (if printable), demangled type, cv-qualifiers, size, address,
  *        noexcept-status, and call site.
  * @details `LUMEX_VARINFO(expr)` expands to a call into
- * `lumex::core::reflection::VarInfo`, capturing `expr`'s source text, value,
+ * `lumex::core::reflection::var_info`, capturing `expr`'s source text, value,
  * and `noexcept(expr)` at the call site.
  *
  * @note Philosophy difference from
  * `lumex/core/string/utility/LumexStringify.hpp`'s `stringify()`:
  * `stringify()` uses a hard `static_assert` to reject any non-streamable type
  * at compile time - the absence of `operator<<` is treated as a caller bug
- * that should fail the build. `FormatValue` below instead degrades gracefully
+ * that should fail the build. `format_value` below instead degrades gracefully
  * to a `"<no operator<<>"` placeholder for a non-streamable type, because
- * `LUMEX_VARINFO`/`VarInfo` is a debug-printing tool meant to be dropped onto
+ * `LUMEX_VARINFO`/`var_info` is a debug-printing tool meant to be dropped onto
  * *any* expression while investigating something - failing to compile because
  * one field along the way happens to lack `operator<<` would defeat that
  * purpose. These two headers intentionally do not share one policy; do not try
@@ -127,7 +127,7 @@ namespace VarInfoDetail
 // body instead of split across two signatures.
 template <typename T>
 std::string
-FormatValue (T const &value)
+format_value (T const &value)
 {
 #if LUMEX_HAS_CONCEPTS
   LUMEX_CONSTEXPR_IF (lumex::core::utility::traits::stream::Streamable<
@@ -156,7 +156,7 @@ template <typename T>
 typename std::enable_if<lumex::core::utility::traits::stream::is_ostreamable<
                             typename std::decay<T>::type const &>::value,
                         std::string>::type
-FormatValue (T const &value)
+format_value (T const &value)
 {
   std::ostringstream oss;
   oss << value;
@@ -170,7 +170,7 @@ template <typename T>
 typename std::enable_if<!lumex::core::utility::traits::stream::is_ostreamable<
                             typename std::decay<T>::type const &>::value,
                         std::string>::type
-FormatValue (T const &)
+format_value (T const &)
 {
   return "<no operator<<>";
 }
@@ -220,8 +220,8 @@ FormatValue (T const &)
  */
 template <typename T>
 std::string
-VarInfo (char const *exprText, T &&value, bool isExprNoexcept,
-         char const *file, int line)
+var_info (char const *exprText, T &&value, bool isExprNoexcept,
+          char const *file, int line)
 {
   // The address reuses exactly the pointer type addressof returned
   // (via decltype), not one rebuilt from decay<T> - for an
@@ -235,7 +235,7 @@ VarInfo (char const *exprText, T &&value, bool isExprNoexcept,
   // void* ([conv.ptr] requires a pointer-to-object-type, which
   // pointer-to-array is, unlike the incompatible "pointer to element").
   // typename ...::type, not remove_cv_t/remove_pointer_t: this function
-  // (unlike VarInfoDetail::FormatValue above) is the common C++11
+  // (unlike VarInfoDetail::format_value above) is the common C++11
   // baseline, and the _t aliases only appeared in C++14.
   using AddressPointerType = decltype (std::addressof (value));
   using RawPointerType = typename std::remove_cv<
@@ -248,7 +248,7 @@ VarInfo (char const *exprText, T &&value, bool isExprNoexcept,
   // pointer's size (8 bytes), not the array's real size - sizeof on a
   // reference parameter transparently gives the size of what it refers to.
   std::ostringstream oss;
-  oss << exprText << " = " << VarInfoDetail::FormatValue (value) << " [type="
+  oss << exprText << " = " << VarInfoDetail::format_value (value) << " [type="
       << ::lumex::core::utility::demangle::demangle_type_name (
              typeid (value).name ())
       << (std::is_const<typename std::remove_reference<T>::type>::value
@@ -275,11 +275,11 @@ VarInfo (char const *exprText, T &&value, bool isExprNoexcept,
  */
 template <typename T>
 std::string
-VarInfo (char const *exprText, T &&value, bool isExprNoexcept,
-         std::source_location const &loc = std::source_location::current ())
+var_info (char const *exprText, T &&value, bool isExprNoexcept,
+          std::source_location const &loc = std::source_location::current ())
 {
-  return VarInfo (exprText, std::forward<T> (value), isExprNoexcept,
-                  loc.file_name (), static_cast<int> (loc.line ()));
+  return var_info (exprText, std::forward<T> (value), isExprNoexcept,
+                   loc.file_name (), static_cast<int> (loc.line ()));
 }
 #endif
 } // namespace var_info
@@ -293,7 +293,7 @@ VarInfo (char const *exprText, T &&value, bool isExprNoexcept,
  * @note `noexcept(expr)` is evaluated here, in the macro itself, over the
  *       original expression text - `noexcept()` does not evaluate its
  *       operand, so `expr` is not executed twice. Evaluating it inside
- *       `VarInfo()` would be too late: by the time it gets there, `expr` has
+ *       `var_info()` would be too late: by the time it gets there, `expr` has
  *       already become just a named parameter.
  * @note Variadic (`...`/`__VA_ARGS__`), not a single `expr` parameter: the
  *       preprocessor does not understand template angle brackets - only
@@ -306,17 +306,17 @@ VarInfo (char const *exprText, T &&value, bool isExprNoexcept,
  *       before the expression is parsed again by the compiler (which does
  *       understand angle brackets), so
  * `LUMEX_VARINFO(std::pair<int,int>(1,2))` works without a wrapper.
- * @see lumex::core::reflection::VarInfo
+ * @see lumex::core::reflection::var_info
  */
 #if LUMEX_HAS_STD_SOURCE_LOCATION
   // NOLINTNEXTLINE(cppcoreguidelines-macro-usage)
 #define LUMEX_VARINFO(...)                                                    \
-  ::lumex::core::reflection::var_info::VarInfo (                              \
+  ::lumex::core::reflection::var_info::var_info (                             \
       #__VA_ARGS__, (__VA_ARGS__), LUMEX_NOEXCEPT_IF (__VA_ARGS__))
 #else
   // NOLINTNEXTLINE(cppcoreguidelines-macro-usage)
 #define LUMEX_VARINFO(...)                                                    \
-  ::lumex::core::reflection::var_info::VarInfo (                              \
+  ::lumex::core::reflection::var_info::var_info (                             \
       #__VA_ARGS__, (__VA_ARGS__), LUMEX_NOEXCEPT_IF (__VA_ARGS__), __FILE__, \
       __LINE__)
 #endif

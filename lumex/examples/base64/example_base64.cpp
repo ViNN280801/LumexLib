@@ -37,23 +37,23 @@ main ()
   std::cout << "--- 1. Encode a C string (pointer + size) ---\n";
   char const *payload = "Hello, Lumex!";
   std::string const encoded_ptr
-      = Encoder::encode (payload, std::char_traits<char>::length (payload));
+      = encoder::encode (payload, std::char_traits<char>::length (payload));
   std::cout << "input=\"" << payload << "\" encoded=" << encoded_ptr << '\n';
 
   std::cout << "\n--- 2. Encode a vector of bytes ---\n";
   std::vector<byte_type> const raw = { 0x00, 0x01, 0xFE, 0xFF, 'A', 'B', 'C' };
-  std::string const encoded_vec = Encoder::encode (raw);
+  std::string const encoded_vec = encoder::encode (raw);
   print_bytes ("raw", raw);
   std::cout << "encoded=" << encoded_vec << '\n';
 
   std::cout << "\n--- 3. Decode into an output vector (clears `out`) ---\n";
   std::vector<byte_type> decoded;
-  bool const ok_out = Decoder::decode (encoded_ptr, decoded);
+  bool const ok_out = decoder::decode (encoded_ptr, decoded);
   std::cout << "decode(out) ok=" << (ok_out ? "yes" : "no") << '\n';
   print_bytes ("decoded", decoded);
 
   std::cout << "\n--- 4. Decode as a returned vector ---\n";
-  std::vector<byte_type> const roundtrip = Decoder::decode (encoded_vec);
+  std::vector<byte_type> const roundtrip = decoder::decode (encoded_vec);
   print_bytes ("roundtrip", roundtrip);
   std::cout << "matches_raw=" << (roundtrip == raw ? "yes" : "no") << '\n';
 
@@ -65,28 +65,28 @@ main ()
   char const *bad_len = "SGVsb";
   char const *bad_char = "SGVs$G8=";
   std::cout << "is_valid(\"" << good
-            << "\")=" << (Validator::is_valid_base64 (good) ? "yes" : "no")
+            << "\")=" << (validator::is_valid_base64 (good) ? "yes" : "no")
             << '\n';
   std::cout << "is_valid(\"" << unpadded
-            << "\")=" << (Validator::is_valid_base64 (unpadded) ? "yes" : "no")
+            << "\")=" << (validator::is_valid_base64 (unpadded) ? "yes" : "no")
             << '\n';
   std::cout << "is_valid(\"" << bad_len
-            << "\")=" << (Validator::is_valid_base64 (bad_len) ? "yes" : "no")
+            << "\")=" << (validator::is_valid_base64 (bad_len) ? "yes" : "no")
             << '\n';
   std::cout << "is_valid(\"" << bad_char
-            << "\")=" << (Validator::is_valid_base64 (bad_char) ? "yes" : "no")
+            << "\")=" << (validator::is_valid_base64 (bad_char) ? "yes" : "no")
             << '\n';
 
   std::cout << "\n--- 6. Empty / null inputs ---\n";
-  std::string const empty_enc = Encoder::encode (nullptr, 0);
-  std::vector<byte_type> const empty_dec = Decoder::decode (empty_enc);
+  std::string const empty_enc = encoder::encode (nullptr, 0);
+  std::vector<byte_type> const empty_dec = decoder::decode (empty_enc);
   std::cout << "encode(nullptr,0) empty="
             << (empty_enc.empty () ? "yes" : "no")
             << " decode(\"\") size=" << empty_dec.size () << '\n';
 
   std::cout << "\n--- 7. Invalid decode must fail cleanly ---\n";
   std::vector<byte_type> junk;
-  bool const bad_ok = Decoder::decode (std::string ("@@@@"), junk);
+  bool const bad_ok = decoder::decode (std::string ("@@@@"), junk);
   std::cout << "decode(\"@@@@\") ok=" << (bad_ok ? "yes" : "no")
             << " out_size=" << junk.size () << '\n';
 

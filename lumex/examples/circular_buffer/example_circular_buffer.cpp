@@ -8,13 +8,13 @@ using namespace lumex::core::circular_buffer;
 namespace
 {
 void
-print_buffer (char const *label, CircularBuffer<int> const &buf)
+print_buffer (char const *label, circular_buffer<int> const &buf)
 {
   std::cout << label << " size=" << buf.size ()
             << " capacity=" << buf.capacity ()
             << " empty=" << (buf.empty () ? "yes" : "no")
             << " full=" << (buf.full () ? "yes" : "no") << " values=";
-  for (CircularBuffer<int>::size_type i = 0; i < buf.size (); ++i)
+  for (circular_buffer<int>::size_type i = 0; i < buf.size (); ++i)
     {
       std::cout << buf[i];
       if (i + 1U < buf.size ())
@@ -30,7 +30,7 @@ main ()
   std::cout << "=== CircularBuffer: ring overwrite and iteration ===\n\n";
 
   std::cout << "--- 1. Fixed capacity, push until full ---\n";
-  CircularBuffer<int> samples (4);
+  circular_buffer<int> samples (4);
   samples.push_back (10);
   samples.push_back (20);
   samples.push_back (30);
@@ -55,7 +55,7 @@ main ()
   print_buffer ("after push_front(1)", samples);
 
   std::cout << "\n--- 5. emplace_back for a non-trivial type ---\n";
-  CircularBuffer<std::string> names (3);
+  circular_buffer<std::string> names (3);
   names.emplace_back ("alpha");
   names.emplace_back (std::string ("beta"));
   names.push_back ("gamma");
@@ -64,8 +64,8 @@ main ()
             << " size=" << names.size () << '\n';
 
   std::cout << "\n--- 6. Lexicographical compare and clear ---\n";
-  CircularBuffer<int> a (3);
-  CircularBuffer<int> b (3);
+  circular_buffer<int> a (3);
+  circular_buffer<int> b (3);
   a.push_back (1);
   a.push_back (2);
   b.push_back (1);

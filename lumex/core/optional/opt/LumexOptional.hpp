@@ -48,13 +48,13 @@
  * sentinel values. The implementation adheres strictly to C++11 standards,
  * utilizing advanced template metaprogramming (SFINAE, `std::aligned_storage`,
  * `std::type_traits`) and move semantics for efficiency. It is designed to be
- * exception-safe, providing a custom exception type `LumexBadOptionalAccess`
- * for invalid access attempts. The class supports various constructors
- * (default, copy, move, in-place, value-based), assignment operators,
- * observers (`has_value`, `value`, `value_or`, `operator*`, `operator->`), and
- * modifiers (`swap`, `reset`, `emplace`). Non-member comparison operators and
- * `std::hash` specialization are also provided for full compatibility and
- * usability.
+ * exception-safe, providing a custom exception type
+ * `lumex_bad_optional_access` for invalid access attempts. The class supports
+ * various constructors (default, copy, move, in-place, value-based),
+ * assignment operators, observers (`has_value`, `value`, `value_or`,
+ * `operator*`, `operator->`), and modifiers (`swap`, `reset`, `emplace`).
+ * Non-member comparison operators and `std::hash` specialization are also
+ * provided for full compatibility and usability.
  */
 #ifndef LUMEX_CORE_OPTIONAL_OPT_HPP
 #define LUMEX_CORE_OPTIONAL_OPT_HPP
@@ -193,32 +193,32 @@ LUMEX_CONSTEXPR in_place_t in_place{ in_place_t::init_tag{} };
  * dereference an optional object that does not currently hold a value.
  * @note This exception is consistent with `std::bad_optional_access` in C++17.
  */
-class LumexBadOptionalAccess : public std::logic_error
+class lumex_bad_optional_access : public std::logic_error
 {
 public:
   /**
-   * @brief Constructs a `LumexBadOptionalAccess` exception with a default
+   * @brief Constructs a `lumex_bad_optional_access` exception with a default
    * message.
    */
-  LumexBadOptionalAccess ()
+  lumex_bad_optional_access ()
       : std::logic_error ("LumexBadOptionalAccess: Bad optional access")
   {
   }
   /**
-   * @brief Constructs a `LumexBadOptionalAccess` exception with a custom
+   * @brief Constructs a `lumex_bad_optional_access` exception with a custom
    * C-style string message.
    * @param what_arg A C-style string describing the error.
    */
-  explicit LumexBadOptionalAccess (char const *what_arg)
+  explicit lumex_bad_optional_access (char const *what_arg)
       : std::logic_error (what_arg)
   {
   }
   /**
-   * @brief Constructs a `LumexBadOptionalAccess` exception with a custom
+   * @brief Constructs a `lumex_bad_optional_access` exception with a custom
    * `std::string` message.
    * @param what_arg A `std::string` describing the error.
    */
-  explicit LumexBadOptionalAccess (std::string const &what_arg)
+  explicit lumex_bad_optional_access (std::string const &what_arg)
       : std::logic_error (what_arg)
   {
   }
@@ -716,63 +716,67 @@ public:
 
   /**
    * @brief Returns a non-const lvalue reference to the contained value.
-   * @details If `has_value()` is `false`, throws `LumexBadOptionalAccess`.
+   * @details If `has_value()` is `false`, throws `lumex_bad_optional_access`.
    *          Otherwise, returns a reference to the contained value.
    * @return A non-const lvalue reference to the contained object of type `T`.
-   * @throws LumexBadOptionalAccess If the optional does not contain a value.
+   * @throws lumex_bad_optional_access If the optional does not contain a
+   * value.
    */
   T &
   value () &
   {
     if (!m_has_value)
-      throw LumexBadOptionalAccess ();
+      throw lumex_bad_optional_access ();
     return *get_ptr ();
   }
 
   /**
    * @brief Returns a const lvalue reference to the contained value.
-   * @details If `has_value()` is `false`, throws `LumexBadOptionalAccess`.
+   * @details If `has_value()` is `false`, throws `lumex_bad_optional_access`.
    *          Otherwise, returns a const reference to the contained value.
    * @return A const lvalue reference to the contained object of type `T`.
-   * @throws LumexBadOptionalAccess If the optional does not contain a value.
+   * @throws lumex_bad_optional_access If the optional does not contain a
+   * value.
    */
   T const &
   value () const &
   {
     if (!m_has_value)
-      throw LumexBadOptionalAccess ();
+      throw lumex_bad_optional_access ();
     return *get_ptr ();
   }
 
   /**
    * @brief Returns a non-const rvalue reference to the contained value.
-   * @details If `has_value()` is `false`, throws `LumexBadOptionalAccess`.
+   * @details If `has_value()` is `false`, throws `lumex_bad_optional_access`.
    *          Otherwise, returns an rvalue reference to the contained value,
    *          enabling moving out the value.
    * @return A non-const rvalue reference to the contained object of type `T`.
-   * @throws LumexBadOptionalAccess If the optional does not contain a value.
+   * @throws lumex_bad_optional_access If the optional does not contain a
+   * value.
    */
   T &&
   value () &&
   {
     if (!m_has_value)
-      throw LumexBadOptionalAccess ();
+      throw lumex_bad_optional_access ();
     return std::move (*get_ptr ());
   }
 
   /**
    * @brief Returns a const rvalue reference to the contained value.
-   * @details If `has_value()` is `false`, throws `LumexBadOptionalAccess`.
+   * @details If `has_value()` is `false`, throws `lumex_bad_optional_access`.
    *          Otherwise, returns a const rvalue reference to the contained
    * value.
    * @return A const rvalue reference to the contained object of type `T`.
-   * @throws LumexBadOptionalAccess If the optional does not contain a value.
+   * @throws lumex_bad_optional_access If the optional does not contain a
+   * value.
    */
   T const &&
   value () const &&
   {
     if (!m_has_value)
-      throw LumexBadOptionalAccess ();
+      throw lumex_bad_optional_access ();
     return std::move (*get_ptr ());
   }
 
@@ -1488,17 +1492,17 @@ make_optional (std::initializer_list<U> ilist, Args &&...args)
 } // namespace core
 } // namespace lumex
 
-// `in_place` has no global alias: `Expected` has its own `in_place`, and two
+// `in_place` has no global alias: `expected` has its own `in_place`, and two
 // global names for two objects would stop a file from including both modules.
 // Write `lumex::core::optional::opt::in_place`.
 
 /**
  * @brief Global alias for
- * `lumex::core::optional::opt::LumexBadOptionalAccess`.
- * @details This allows `LumexBadOptionalAccess` to be used without full
+ * `lumex::core::optional::opt::lumex_bad_optional_access`.
+ * @details This allows `lumex_bad_optional_access` to be used without full
  * namespace qualification.
  */
-using lumex::core::optional::opt::LumexBadOptionalAccess;
+using lumex::core::optional::opt::lumex_bad_optional_access;
 /**
  * @brief Global alias for `lumex::core::optional::opt::make_optional`.
  * @details This allows `make_optional` to be used without full namespace

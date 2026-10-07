@@ -154,7 +154,7 @@ struct all_formattable<Char, First, Rest...>
  */
 template <typename Char>
 Char const *
-parse_range_fill_align_width (BasicFormatParseContext<Char> &ctx,
+parse_range_fill_align_width (basic_format_parse_context<Char> &ctx,
                               format_specs_t<Char> &specs)
 {
   return parse_fill_align_width (ctx, specs, false);
@@ -181,7 +181,7 @@ parse_default_element (ElementFormatter &formatter)
   static Char const debug_spec[]
       = { static_cast<Char> ('?'), static_cast<Char> ('}'), Char () };
   static Char const empty_spec[] = { static_cast<Char> ('}'), Char () };
-  BasicFormatParseContext<Char> ctx (BasicStringRef<Char> (
+  basic_format_parse_context<Char> ctx (basic_string_ref<Char> (
       uses_debug_by_default<Char, T> () ? debug_spec : empty_spec));
   formatter.parse (ctx);
 }
@@ -196,26 +196,26 @@ template <typename ElementFormatter>
 auto
 use_map_element_style (ElementFormatter &formatter, int)
     -> decltype (formatter.set_brackets (
-                     std::declval<BasicStringRef<char>> (),
-                     std::declval<BasicStringRef<char>> ()),
+                     std::declval<basic_string_ref<char>> (),
+                     std::declval<basic_string_ref<char>> ()),
                  void ())
 {
-  formatter.set_brackets (BasicStringRef<char> (""),
-                          BasicStringRef<char> (""));
-  formatter.set_separator (BasicStringRef<char> (": "));
+  formatter.set_brackets (basic_string_ref<char> (""),
+                          basic_string_ref<char> (""));
+  formatter.set_separator (basic_string_ref<char> (": "));
 }
 
 template <typename ElementFormatter>
 auto
 use_map_element_style (ElementFormatter &formatter, long)
     -> decltype (formatter.set_brackets (
-                     std::declval<BasicStringRef<wchar_t>> (),
-                     std::declval<BasicStringRef<wchar_t>> ()),
+                     std::declval<basic_string_ref<wchar_t>> (),
+                     std::declval<basic_string_ref<wchar_t>> ()),
                  void ())
 {
-  formatter.set_brackets (BasicStringRef<wchar_t> (L""),
-                          BasicStringRef<wchar_t> (L""));
-  formatter.set_separator (BasicStringRef<wchar_t> (L": "));
+  formatter.set_brackets (basic_string_ref<wchar_t> (L""),
+                          basic_string_ref<wchar_t> (L""));
+  formatter.set_separator (basic_string_ref<wchar_t> (L": "));
 }
 
 /** @brief A user pair formatter without `set_brackets` keeps its style. */
@@ -232,7 +232,7 @@ use_map_element_style (ElementFormatter &, ...)
 template <typename Char, typename WriteBody>
 void
 write_with_width (format_specs_t<Char> const &parsed,
-                  BasicFormatContext<Char> &ctx, WriteBody const &write_body)
+                  basic_format_context<Char> &ctx, WriteBody const &write_body)
 {
   format_specs_t<Char> specs = parsed;
   specs.width = resolve_dynamic (specs.width_ref, specs.width, ctx);
@@ -242,9 +242,9 @@ write_with_width (format_specs_t<Char> const &parsed,
       return;
     }
   std::basic_string<Char> text;
-  StringBuffer<Char> buffer (text);
+  string_buffer<Char> buffer (text);
   std::locale const locale = ctx.locale ();
-  BasicFormatContext<Char> inner (buffer, ctx.args (), &locale);
+  basic_format_context<Char> inner (buffer, ctx.args (), &locale);
   write_body (inner);
   write_padded (ctx.out ().buffer (), specs, Align::left, text);
 }
@@ -270,7 +270,7 @@ template <std::size_t Index, std::size_t Count> struct tuple_each
   static void
   format (Formatters const &formatters, Tuple const &value,
           std::basic_string<Char> const &separator,
-          BasicFormatContext<Char> &ctx)
+          basic_format_context<Char> &ctx)
   {
     if (Index > 0)
       ctx.out ().buffer ().append (separator);
@@ -290,28 +290,28 @@ template <std::size_t Count> struct tuple_each<Count, Count>
   template <typename Char, typename Formatters, typename Tuple>
   static void
   format (Formatters const &, Tuple const &, std::basic_string<Char> const &,
-          BasicFormatContext<Char> &)
+          basic_format_context<Char> &)
   {
   }
 };
 
-/** @brief `Formatter<T, Char>` that also names the formatted type. */
+/** @brief `formatter<T, Char>` that also names the formatted type. */
 template <typename T, typename Char>
-class ElementFormatter : public Formatter<T, Char>
+class element_formatter : public formatter<T, Char>
 {
 public:
   using value_type = T;
 };
 
 /**
- * @class TupleFormatter
+ * @class tuple_formatter
  * @brief Formats a `std::pair` / `std::tuple` of `Types` as `(a, b)`; base
- * of the public `Formatter` specializations.
+ * of the public `formatter` specializations.
  */
-template <typename Char, typename... Types> class TupleFormatter
+template <typename Char, typename... Types> class tuple_formatter
 {
 public:
-  TupleFormatter ()
+  tuple_formatter ()
       : _specs (), _separator (widen<Char> (", ")), _open (widen<Char> ("(")),
         _close (widen<Char> (")"))
   {
@@ -319,21 +319,21 @@ public:
 
   /** @brief Text between elements (`", "` by default). */
   void
-  set_separator (BasicStringRef<Char> separator)
+  set_separator (basic_string_ref<Char> separator)
   {
     _separator.assign (separator.begin (), separator.end ());
   }
 
   /** @brief Text around the elements (`"("` and `")"` by default). */
   void
-  set_brackets (BasicStringRef<Char> open, BasicStringRef<Char> close)
+  set_brackets (basic_string_ref<Char> open, basic_string_ref<Char> close)
   {
     _open.assign (open.begin (), open.end ());
     _close.assign (close.begin (), close.end ());
   }
 
   Char const *
-  parse (BasicFormatParseContext<Char> &ctx)
+  parse (basic_format_parse_context<Char> &ctx)
   {
     _specs = format_specs_t<Char> (); // brackets set by the user stay
     Char const *it = parse_range_fill_align_width (ctx, _specs);
@@ -347,25 +347,25 @@ public:
     else if (it != end && *it == static_cast<Char> ('m'))
       {
         if (sizeof...(Types) != 2)
-          throw FormatError ("invalid format specifier");
+          throw format_error ("invalid format specifier");
         _open.clear ();
         _close.clear ();
         _separator = widen<Char> (": ");
         ++it;
       }
     if (it != end && *it != static_cast<Char> ('}'))
-      throw FormatError ("invalid format specifier");
+      throw format_error ("invalid format specifier");
     tuple_each<0, sizeof...(Types)>::template parse<Char> (_formatters);
     return it;
   }
 
   template <typename Tuple>
-  BasicAppender<Char>
-  format (Tuple const &value, BasicFormatContext<Char> &ctx) const
+  basic_appender<Char>
+  format (Tuple const &value, basic_format_context<Char> &ctx) const
   {
-    TupleFormatter const &self = *this;
+    tuple_formatter const &self = *this;
     write_with_width (_specs, ctx,
-                      [&self, &value] (BasicFormatContext<Char> &out)
+                      [&self, &value] (basic_format_context<Char> &out)
                         {
                           out.out ().buffer ().append (self._open);
                           tuple_each<0, sizeof...(Types)>::format (
@@ -380,7 +380,7 @@ private:
   std::basic_string<Char> _separator;
   std::basic_string<Char> _open;
   std::basic_string<Char> _close;
-  std::tuple<ElementFormatter<
+  std::tuple<element_formatter<
       lumex::core::utility::traits::meta::CleanType<Types>, Char>...>
       _formatters;
 };
@@ -391,18 +391,18 @@ private:
 // ----------------------------------------------------------------------
 
 template <typename First, typename Second, typename Char>
-class Formatter<std::pair<First, Second>, Char,
+class formatter<std::pair<First, Second>, Char,
                 typename std::enable_if<
                     Detail::all_formattable<Char, First, Second>::value>::type>
-    : public Detail::TupleFormatter<Char, First, Second>
+    : public Detail::tuple_formatter<Char, First, Second>
 {
 };
 
 template <typename... Types, typename Char>
-class Formatter<std::tuple<Types...>, Char,
+class formatter<std::tuple<Types...>, Char,
                 typename std::enable_if<
                     Detail::all_formattable<Char, Types...>::value>::type>
-    : public Detail::TupleFormatter<Char, Types...>
+    : public Detail::tuple_formatter<Char, Types...>
 {
 };
 
@@ -411,14 +411,14 @@ class Formatter<std::tuple<Types...>, Char,
  * description for the specification.
  */
 template <typename Range, typename Char>
-class Formatter<Range, Char,
+class formatter<Range, Char,
                 typename std::enable_if<
                     Detail::is_formattable_range<Range, Char>::value>::type>
 {
 public:
   using element_type = typename Detail::range_element<Range, Char>::type;
 
-  Formatter ()
+  formatter ()
       : _specs (), _presentation (default_presentation ()),
         _separator (Detail::widen<Char> (", ")), _open (), _close (),
         _underlying ()
@@ -428,29 +428,29 @@ public:
 
   /** @brief Text between elements (`", "` by default). */
   void
-  set_separator (Detail::BasicStringRef<Char> separator)
+  set_separator (Detail::basic_string_ref<Char> separator)
   {
     _separator.assign (separator.begin (), separator.end ());
   }
 
   /** @brief Text around the elements (`[` `]`, or `{` `}` for sets / maps). */
   void
-  set_brackets (Detail::BasicStringRef<Char> open,
-                Detail::BasicStringRef<Char> close)
+  set_brackets (Detail::basic_string_ref<Char> open,
+                Detail::basic_string_ref<Char> close)
   {
     _open.assign (open.begin (), open.end ());
     _close.assign (close.begin (), close.end ());
   }
 
   /** @brief The formatter of one element, to customize it further. */
-  Formatter<element_type, Char> &
+  formatter<element_type, Char> &
   underlying () LUMEX_NOEXCEPT
   {
     return _underlying;
   }
 
   Char const *
-  parse (BasicFormatParseContext<Char> &ctx)
+  parse (basic_format_parse_context<Char> &ctx)
   {
     _specs = Detail::format_specs_t<Char> (); // user brackets stay
     Char const *it = Detail::parse_range_fill_align_width (ctx, _specs);
@@ -465,7 +465,7 @@ public:
       {
         if (!lumex::core::utility::traits::tuple::is_pair_like<
                 element_type>::value)
-          throw FormatError ("invalid format specifier");
+          throw format_error ("invalid format specifier");
         if (!_open.empty ())
           {
             _open = Detail::widen<Char> ("{");
@@ -477,7 +477,7 @@ public:
     else if (it != end && *it == static_cast<Char> ('s'))
       {
         if (!std::is_same<element_type, Char>::value)
-          throw FormatError ("invalid format specifier");
+          throw format_error ("invalid format specifier");
         _presentation = presentation::text;
         ++it;
       }
@@ -485,7 +485,7 @@ public:
              && it[1] == static_cast<Char> ('s'))
       {
         if (!std::is_same<element_type, Char>::value)
-          throw FormatError ("invalid format specifier");
+          throw format_error ("invalid format specifier");
         _presentation = presentation::debug_text;
         it += 2;
       }
@@ -493,25 +493,25 @@ public:
       {
         if (_presentation == presentation::text
             || _presentation == presentation::debug_text)
-          throw FormatError ("invalid format specifier");
+          throw format_error ("invalid format specifier");
         ctx.advance_to (it + 1);
         it = _underlying.parse (ctx);
       }
     else
       Detail::parse_default_element<Char, element_type> (_underlying);
     if (it != end && *it != static_cast<Char> ('}'))
-      throw FormatError ("invalid format specifier");
+      throw format_error ("invalid format specifier");
     if (_presentation == presentation::map)
       Detail::use_map_element_style (_underlying, 0);
     return it;
   }
 
-  BasicAppender<Char>
-  format (Range const &range, BasicFormatContext<Char> &ctx) const
+  basic_appender<Char>
+  format (Range const &range, basic_format_context<Char> &ctx) const
   {
-    Formatter const &self = *this;
+    formatter const &self = *this;
     Detail::write_with_width (_specs, ctx,
-                              [&self, &range] (BasicFormatContext<Char> &out)
+                              [&self, &range] (basic_format_context<Char> &out)
                                 { self.write_body (range, out); });
     return ctx.out ();
   }
@@ -551,7 +551,7 @@ private:
 
   /** @brief `s` / `?s`: the characters as one (debug) string. */
   void
-  write_text (Range const &range, Detail::Buffer<Char> &buffer,
+  write_text (Range const &range, Detail::buffer<Char> &buffer,
               std::true_type) const
   {
     std::basic_string<Char> text;
@@ -566,14 +566,14 @@ private:
 
   /** @brief Unreachable: `parse` accepts `s` only for character ranges. */
   void
-  write_text (Range const &, Detail::Buffer<Char> &, std::false_type) const
+  write_text (Range const &, Detail::buffer<Char> &, std::false_type) const
   {
   }
 
   void
-  write_body (Range const &range, BasicFormatContext<Char> &ctx) const
+  write_body (Range const &range, basic_format_context<Char> &ctx) const
   {
-    Detail::Buffer<Char> &buffer = ctx.out ().buffer ();
+    Detail::buffer<Char> &buffer = ctx.out ().buffer ();
     if (_presentation == presentation::text
         || _presentation == presentation::debug_text)
       {
@@ -597,7 +597,7 @@ private:
   std::basic_string<Char> _separator;
   std::basic_string<Char> _open;
   std::basic_string<Char> _close;
-  Formatter<element_type, Char> _underlying;
+  formatter<element_type, Char> _underlying;
 };
 } // namespace fmt
 } // namespace core

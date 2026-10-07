@@ -62,7 +62,7 @@ public:
    */
   LUMEX_ATTRIBUTE_NODISCARD ("the normalized document is the result")
   virtual nlohmann::json
-  normalize (lumex::core::string_view::view::LumexStringView raw) const
+  normalize (lumex::core::string_view::view::lumex_string_view raw) const
       = 0;
 
   /**
@@ -75,7 +75,7 @@ public:
    */
   LUMEX_ATTRIBUTE_NODISCARD ("the normalized document is the result")
   virtual nlohmann::json
-  normalize (lumex::core::string_view::view::LumexStringView raw,
+  normalize (lumex::core::string_view::view::lumex_string_view raw,
              std::exception_ptr &error) const
       = 0;
 };

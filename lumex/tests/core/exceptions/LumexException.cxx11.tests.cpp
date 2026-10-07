@@ -55,8 +55,8 @@ using namespace lumex::core::exceptions::crash;
 using namespace lumex::core::exceptions::stacktrace;
 
 // Define a custom exception for testing purposes
-LUMEX_DEFINE_EXCEPTION (TestException, LumexBaseException);
-LUMEX_DEFINE_EXCEPTION (AnotherTestException, LumexBaseException);
+LUMEX_DEFINE_EXCEPTION (TestException, lumex_base_exception);
+LUMEX_DEFINE_EXCEPTION (AnotherTestException, lumex_base_exception);
 
 // Helper to capture stderr output
 class StderrCapture
@@ -75,7 +75,7 @@ public:
   }
 
   std::string
-  getOutput ()
+  get_output ()
   {
     return new_cerr_buf.str ();
   }
@@ -85,7 +85,7 @@ private:
   std::ostringstream new_cerr_buf;
 };
 
-// --- LumexBaseException Tests -------------------------------------------
+// --- lumex_base_exception Tests -------------------------------------------
 
 // API Contract Verifier: Test default constructor message
 TEST_F (LumexExceptionTest,
@@ -95,18 +95,18 @@ TEST_F (LumexExceptionTest,
   std::string expected_message = "Test exception message";
 
   // Act
-  LumexBaseException ex (expected_message);
+  lumex_base_exception ex (expected_message);
 
   // Assert
   EXPECT_EQ (ex.what (), expected_message);
 
 #if LUMEX_OS_WINDOWS
-  EXPECT_FALSE (ex.getStackTrace ().empty ());
+  EXPECT_FALSE (ex.get_stack_trace ().empty ());
 #else
   // On Linux Release builds, stack traces might be limited due to
   // optimizations Just verify that the stacktrace mechanism works (doesn't
   // crash)
-  auto st = ex.getStackTrace ();
+  auto st = ex.get_stack_trace ();
   std::cout << "Stack trace size: " << st.size () << std::endl;
 #endif
 }
@@ -116,22 +116,22 @@ TEST_F (LumexExceptionTest, LumexBaseException_What_ReturnsCorrectMessage)
 {
   // Arrange
   std::string msg = "Another message";
-  LumexBaseException ex (msg);
+  lumex_base_exception ex (msg);
 
   // Act & Assert
   EXPECT_STREQ (ex.what (), msg.c_str ());
 }
 
-// API Contract Verifier: Test `getStackTrace()` returns a non-empty stack
+// API Contract Verifier: Test `get_stack_trace()` returns a non-empty stack
 // trace
 TEST_F (LumexExceptionTest,
         LumexBaseException_GetStackTrace_ReturnsValidStackTrace)
 {
   // Arrange
-  LumexBaseException ex ("Stack trace test");
+  lumex_base_exception ex ("Stack trace test");
 
   // Act
-  LumexStacktrace st = ex.getStackTrace ();
+  lumex_stacktrace st = ex.get_stack_trace ();
 
   std::string what = "Stack trace test";
   EXPECT_EQ (what, ex.what ());
@@ -164,7 +164,7 @@ TEST_F (LumexExceptionTest, LumexBaseException_ToStderr_OutputsCorrectFormat)
 
   // Act
   ex.to_stderr ();
-  std::string output = capture.getOutput ();
+  std::string output = capture.get_output ();
 
   // Assert
   std::string expected_prefix
@@ -180,7 +180,7 @@ TEST_F (LumexExceptionTest,
 {
   // Arrange
   std::string msg = "Crash report test message";
-  LumexBaseException ex (msg);
+  lumex_base_exception ex (msg);
 
   // Act
   ex.to_crash_report ();
@@ -246,7 +246,7 @@ TEST_F (LumexExceptionTest, LumexBaseException_ToCrashReport_ThreadSafe)
 
   int const num_threads = 5;
   std::vector<std::thread> threads;
-  std::vector<LumexBaseException> exceptions;
+  std::vector<lumex_base_exception> exceptions;
   for (int i = 0; i < num_threads; ++i)
     exceptions.emplace_back ("Concurrent crash message " + std::to_string (i));
 
@@ -299,11 +299,11 @@ TEST (LumexExceptionMacroTest, LUMEX_DEFINE_EXCEPTION_CreatesNewExceptionType)
   EXPECT_EQ (ex.what (), std::string ("Macro defined exception"));
 
 #if LUMEX_OS_WINDOWS
-  EXPECT_FALSE (ex.getStackTrace ().empty ());
+  EXPECT_FALSE (ex.get_stack_trace ().empty ());
 #else
   // On Linux Release builds, stack traces might be limited due to
   // optimizations Just verify that the mechanism works without crashing
-  auto st = ex.getStackTrace ();
+  auto st = ex.get_stack_trace ();
   std::cout << "Stack trace size: " << st.size () << std::endl;
 #endif
 }
@@ -351,7 +351,7 @@ TEST_F (LumexExceptionTest, LUMEX_EXCEPTION_HANDLE_BLOCK_CatchesLumexException)
   LUMEX_EXCEPTION_HANDLE_END
 
   // Assert
-  std::string output = capture.getOutput ();
+  std::string output = capture.get_output ();
   // The message returned by what() already contains the demangled name and ":
   // ". The expected output in stderr should now directly match what() with a
   // newline.
@@ -385,7 +385,7 @@ TEST_F (LumexExceptionTest, LUMEX_EXCEPTION_HANDLE_BLOCK_CatchesStdException)
   LUMEX_EXCEPTION_HANDLE_END
 
   // Assert
-  std::string output = capture.getOutput ();
+  std::string output = capture.get_output ();
   EXPECT_TRUE (output.find ("[std::exception] " + msg) != std::string::npos);
 }
 
@@ -401,41 +401,41 @@ TEST_F (LumexExceptionTest,
   LUMEX_EXCEPTION_HANDLE_END
 
   // Assert
-  std::string output = capture.getOutput ();
+  std::string output = capture.get_output ();
   EXPECT_TRUE (output.find ("[Unknown exception]") != std::string::npos);
 }
 
-// --- LumexStacktrace Tests ----------------------------------------------
+// --- lumex_stacktrace Tests ----------------------------------------------
 
 // Helper static functions to prevent inlining for stack trace tests
 // External linkage (not static): Release without /Zi still exports the name
 // so DbgHelp can match it. static + /O2 + ICF left only TestBody on the walk.
 LUMEX_ATTRIBUTE_NOINLINE
-LumexStacktrace
+lumex_stacktrace
 StacktraceTest_func_a ()
 {
-  return LumexStacktrace::current (0); // Skip 0 frames from capture itself
+  return lumex_stacktrace::current (0); // Skip 0 frames from capture itself
 }
 
 LUMEX_ATTRIBUTE_NOINLINE
-LumexStacktrace
+lumex_stacktrace
 StacktraceTest_func_b ()
 {
   return StacktraceTest_func_a ();
 }
 
 LUMEX_ATTRIBUTE_NOINLINE
-LumexStacktrace
+lumex_stacktrace
 StacktraceTest_func_c ()
 {
   return StacktraceTest_func_b ();
 }
 
 LUMEX_ATTRIBUTE_NOINLINE
-LumexStacktrace
+lumex_stacktrace
 StacktraceTest_func_other ()
 {
-  return LumexStacktrace::current (0);
+  return lumex_stacktrace::current (0);
 }
 
 // API Contract Verifier: Stacktrace capture depth
@@ -446,7 +446,7 @@ TEST (LumexStacktraceTest, Stacktrace_Current_CapturesCorrectDepth)
   // inlining and ensure their frames appear in the stack trace.
 
   // Act
-  LumexStacktrace st = StacktraceTest_func_c ();
+  lumex_stacktrace st = StacktraceTest_func_c ();
 
   // Assert
   // Exact depth is hard to predict due to compiler optimizations and base
@@ -489,23 +489,23 @@ TEST (LumexStacktraceTest, Stacktrace_Current_CapturesCorrectDepth)
 
 // Helper static functions for skipping test
 LUMEX_ATTRIBUTE_NOINLINE
-static LumexStacktrace
+static lumex_stacktrace
 StacktraceTest_inner_func ()
 {
-  return LumexStacktrace::current (
+  return lumex_stacktrace::current (
       0); // Should capture 'StacktraceTest_inner_func' at index 0
 }
 
 // API Contract Verifier: Stacktrace empty if capture fails or max_depth is 0
 TEST (LumexStacktraceTest, Stacktrace_InnerFunc_CapturesFrame)
 {
-  LumexStacktrace st = StacktraceTest_inner_func ();
+  lumex_stacktrace st = StacktraceTest_inner_func ();
   EXPECT_FALSE (st.empty ());
 }
 
 TEST (LumexStacktraceTest, Stacktrace_Empty_ForZeroMaxDepth)
 {
-  LumexStacktrace st = LumexStacktrace::current (0, 0); // Max depth 0
+  lumex_stacktrace st = lumex_stacktrace::current (0, 0); // Max depth 0
   EXPECT_TRUE (st.empty ());
 }
 
@@ -513,7 +513,7 @@ TEST (LumexStacktraceTest, Stacktrace_Empty_ForZeroMaxDepth)
 TEST (LumexStacktraceTest, Stacktrace_IterationAndAccess_WorksCorrectly)
 {
   // Arrange
-  LumexStacktrace st = LumexStacktrace::current (0);
+  lumex_stacktrace st = lumex_stacktrace::current (0);
 
 #if LUMEX_OS_WINDOWS
   ASSERT_FALSE (st.empty ());
@@ -545,20 +545,20 @@ TEST (LumexStacktraceTest, Stacktrace_IterationAndAccess_WorksCorrectly)
 // API Contract Verifier: Stacktrace comparison
 TEST (LumexStacktraceTest, Stacktrace_Comparison_WorksCorrectly)
 {
-  LumexStacktrace st1 = LumexStacktrace::current (0);
-  LumexStacktrace st2 = LumexStacktrace::current (0);
+  lumex_stacktrace st1 = lumex_stacktrace::current (0);
+  lumex_stacktrace st2 = lumex_stacktrace::current (0);
   // These should be equal if called consecutively from the same point, but
   // sometimes a slight difference might occur depending on compiler/OS.
   // For robust testing, we test against copied stacktraces or specific
   // handles.
 
-  LumexStacktrace st1_copy = st1;
+  lumex_stacktrace st1_copy = st1;
   EXPECT_EQ (st1, st1_copy);
   EXPECT_FALSE (st1 != st1_copy);
 
   // Named noinline callee: a lambda is inlined in Release and both traces
   // then start at TestBody, so EXPECT_NE is false for the wrong reason.
-  LumexStacktrace st_different = StacktraceTest_func_other ();
+  lumex_stacktrace st_different = StacktraceTest_func_other ();
 
 #if LUMEX_OS_WINDOWS
   EXPECT_NE (st1, st_different);
@@ -579,7 +579,7 @@ TEST (LumexStacktraceTest, Stacktrace_Comparison_WorksCorrectly)
 #endif
 }
 
-// --- LumexStacktraceEntry Tests -----------------------------------------
+// --- lumex_stacktrace_entry Tests -----------------------------------------
 
 // API Contract Verifier: StacktraceEntry construction and basic properties
 TEST (LumexStacktraceEntryTest,
@@ -587,7 +587,7 @@ TEST (LumexStacktraceEntryTest,
 {
   void *test_addr
       = reinterpret_cast<void *> (static_cast<std::uintptr_t> (0xDEADBEEF));
-  LumexStacktraceEntry entry (test_addr);
+  lumex_stacktrace_entry entry (test_addr);
 
   EXPECT_EQ (entry.native_handle (), test_addr);
   EXPECT_TRUE (static_cast<bool> (entry)); // Operator bool should be true
@@ -599,7 +599,7 @@ TEST (LumexStacktraceEntryTest,
 TEST (LumexStacktraceEntryTest,
       StacktraceEntry_DefaultConstructor_CreatesInvalidEntry)
 {
-  LumexStacktraceEntry entry;
+  lumex_stacktrace_entry entry;
   EXPECT_EQ (entry.native_handle (), nullptr);
   EXPECT_FALSE (static_cast<bool> (entry));
   EXPECT_TRUE (entry.description ().empty ()
@@ -613,9 +613,9 @@ TEST (LumexStacktraceEntryTest,
       StacktraceEntry_Description_ReturnsFunctionName)
 {
   // Arrange
-  LumexStacktrace st = LumexStacktrace::current (0);
+  lumex_stacktrace st = lumex_stacktrace::current (0);
   ASSERT_FALSE (st.empty ());
-  LumexStacktraceEntry entry = st[0]; // Get the first entry
+  lumex_stacktrace_entry entry = st[0]; // Get the first entry
 
   // Act
   std::string desc = entry.description ();
@@ -633,9 +633,9 @@ TEST (LumexStacktraceEntryTest,
       StacktraceEntry_SourceInfo_ReturnsValidDataIfAvailable)
 {
   // Arrange
-  LumexStacktrace st = LumexStacktrace::current (0);
+  lumex_stacktrace st = lumex_stacktrace::current (0);
   ASSERT_FALSE (st.empty ());
-  LumexStacktraceEntry entry = st[0];
+  lumex_stacktrace_entry entry = st[0];
 
   // Act
   std::string file = entry.source_file ();
@@ -669,14 +669,14 @@ TEST (LumexStacktraceTest, Perf_StacktraceCapture_IsEfficient)
 #if LUMEX_PERF_WALL_CLOCK_ENABLED
   // Arrange
   int const N = 1000; // Number of stack trace captures
-  std::vector<LumexStacktrace> traces;
+  std::vector<lumex_stacktrace> traces;
   traces.reserve (N);
 
   auto start = std::chrono::high_resolution_clock::now ();
 
   // Act
   for (int i = 0; i < N; ++i)
-    traces.emplace_back (LumexStacktrace::current (0)); // Capture stacktrace
+    traces.emplace_back (lumex_stacktrace::current (0)); // Capture stacktrace
 
   auto end = std::chrono::high_resolution_clock::now ();
   auto duration
@@ -707,10 +707,10 @@ TEST (LumexStacktraceTest, Perf_StacktraceCapture_IsEfficient)
 #if defined(LUMEX_OS_LINUX)
 namespace
 {
-LUMEX_ATTRIBUTE_NOINLINE LumexStacktrace
+LUMEX_ATTRIBUTE_NOINLINE lumex_stacktrace
 stacktrace_from_unexported_function ()
 {
-  return LumexStacktrace::current (0);
+  return lumex_stacktrace::current (0);
 }
 
 // Internal linkage: never in the executable's dynamic symbol table, even
@@ -780,7 +780,7 @@ TEST (
     LumexStacktraceEntryTest,
     GivenAStack_WhenItsFramesAreDescribed_ThenSymbolOrModuleAndOffsetAndNoSource)
 {
-  LumexStacktrace const st = stacktrace_from_unexported_function ();
+  lumex_stacktrace const st = stacktrace_from_unexported_function ();
   ASSERT_FALSE (st.empty ());
 
   for (std::size_t i = 0; i < st.size (); ++i)
@@ -810,7 +810,7 @@ TEST (LumexStacktraceEntryTest,
       GivenAnUnexportedFunction_WhenDescribed_ThenItIsItsModuleAndOffset)
 {
   void *address = reinterpret_cast<void *> (&unexported_probe);
-  LumexStacktraceEntry const entry (address);
+  lumex_stacktrace_entry const entry (address);
 
   std::string const location
       = lumex::core::utility::debug::Detail::describe_module_address (address);
@@ -828,7 +828,7 @@ TEST (LumexStacktraceEntryTest,
 {
   StandInAddr2line const stand_in;
   ASSERT_TRUE (stand_in.valid ());
-  LumexStacktrace const st = stacktrace_from_unexported_function ();
+  lumex_stacktrace const st = stacktrace_from_unexported_function ();
   ASSERT_FALSE (st.empty ());
 
   for (std::size_t i = 0; i < st.size (); ++i)

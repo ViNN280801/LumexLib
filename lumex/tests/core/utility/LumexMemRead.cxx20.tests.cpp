@@ -41,7 +41,7 @@
 
 using namespace lumex::core::utility::mem;
 
-using lumex::core::utility::mem::As;
+using lumex::core::utility::mem::as;
 
 namespace
 {
@@ -62,13 +62,13 @@ struct FakeDataSource
   std::vector<unsigned char> bytes;
 
   void const *
-  GetData () const
+  get_data () const
   {
     return bytes.data ();
   }
 
   int
-  GetDataSize () const
+  get_data_size () const
   {
     return static_cast<int> (bytes.size ());
   }
@@ -79,13 +79,13 @@ struct NegativeSizeSource
   std::uint32_t value = 0xAABBCCDDu;
 
   void const *
-  GetData () const
+  get_data () const
   {
     return &value;
   }
 
   int
-  GetDataSize () const
+  get_data_size () const
   {
     return -1;
   }
@@ -94,13 +94,13 @@ struct NegativeSizeSource
 struct NullDataSource
 {
   void const *
-  GetData () const
+  get_data () const
   {
     return nullptr;
   }
 
   int
-  GetDataSize () const
+  get_data_size () const
   {
     return 16;
   }
@@ -114,7 +114,7 @@ struct EmptyLayout
 TEST (LumexMemReadTest, GivenSufficientBuffer_WhenAs_ThenDecodesValue)
 {
   std::uint32_t const value = 0xDEADBEEF;
-  auto const result = As<std::uint32_t> (&value, sizeof (value));
+  auto const result = as<std::uint32_t> (&value, sizeof (value));
   ASSERT_TRUE (result.has_value ());
   EXPECT_EQ (*result, value);
 }
@@ -122,13 +122,13 @@ TEST (LumexMemReadTest, GivenSufficientBuffer_WhenAs_ThenDecodesValue)
 TEST (LumexMemReadTest, GivenTooSmallBuffer_WhenAs_ThenReturnsNullopt)
 {
   std::uint16_t const value = 0x1234;
-  auto const result = As<std::uint32_t> (&value, sizeof (value));
+  auto const result = as<std::uint32_t> (&value, sizeof (value));
   EXPECT_FALSE (result.has_value ());
 }
 
 TEST (LumexMemReadTest, GivenNullptrBuffer_WhenAs_ThenReturnsNullopt)
 {
-  auto const result = As<std::uint32_t> (nullptr, 4);
+  auto const result = as<std::uint32_t> (nullptr, 4);
   EXPECT_FALSE (result.has_value ());
 }
 
@@ -138,7 +138,7 @@ TEST (LumexMemReadTest, GivenUnalignedBuffer_WhenAs_ThenDecodesValueCorrectly)
   std::uint32_t const value = 0x01020304;
   std::memcpy (buffer.data () + 1, &value, sizeof (value));
 
-  auto const result = As<std::uint32_t> (buffer.data () + 1, sizeof (value));
+  auto const result = as<std::uint32_t> (buffer.data () + 1, sizeof (value));
   ASSERT_TRUE (result.has_value ());
   EXPECT_EQ (*result, value);
 }
@@ -146,7 +146,7 @@ TEST (LumexMemReadTest, GivenUnalignedBuffer_WhenAs_ThenDecodesValueCorrectly)
 TEST (LumexMemReadTest, GivenStructType_WhenAs_ThenDecodesStructCorrectly)
 {
   Point const point{ 42, -7 };
-  auto const result = As<Point> (&point, sizeof (point));
+  auto const result = as<Point> (&point, sizeof (point));
   ASSERT_TRUE (result.has_value ());
   EXPECT_EQ (*result, point);
 }
@@ -158,7 +158,7 @@ TEST (LumexMemReadTest, GivenDataSourceObject_WhenAs_ThenDecodesFromSource)
   source.bytes.resize (sizeof (value));
   std::memcpy (source.bytes.data (), &value, sizeof (value));
 
-  auto const result = As<std::uint32_t> (source);
+  auto const result = as<std::uint32_t> (source);
   ASSERT_TRUE (result.has_value ());
   EXPECT_EQ (*result, value);
 }
@@ -168,7 +168,7 @@ TEST (LumexMemReadTest, GivenTooSmallDataSource_WhenAs_ThenReturnsNullopt)
   FakeDataSource source;
   source.bytes = { 0x01, 0x02 };
 
-  auto const result = As<std::uint32_t> (source);
+  auto const result = as<std::uint32_t> (source);
   EXPECT_FALSE (result.has_value ());
 }
 
@@ -179,7 +179,7 @@ TEST (LumexMemReadTest, GivenByteSpan_WhenAs_ThenDecodesValue)
   std::memcpy (buffer.data (), &value, sizeof (value));
 
   std::span<std::byte const> const span (buffer);
-  auto const result = As<std::uint32_t> (span);
+  auto const result = as<std::uint32_t> (span);
   ASSERT_TRUE (result.has_value ());
   EXPECT_EQ (*result, value);
 }
@@ -189,25 +189,25 @@ TEST (LumexMemReadTest, GivenCharSpanTooSmall_WhenAs_ThenReturnsNullopt)
   std::array<char, 2> buffer{ 'a', 'b' };
   std::span<char const> const span (buffer);
 
-  auto const result = As<std::uint32_t> (span);
+  auto const result = as<std::uint32_t> (span);
   EXPECT_FALSE (result.has_value ());
 }
 
 TEST (LumexMemReadTest, GivenZeroSize_WhenAs_ThenReturnsNullopt)
 {
   std::uint32_t const value = 1;
-  EXPECT_FALSE (As<std::uint32_t> (&value, 0).has_value ());
+  EXPECT_FALSE (as<std::uint32_t> (&value, 0).has_value ());
 }
 
 TEST (LumexMemReadTest, GivenNullAndZeroSize_WhenAs_ThenReturnsNullopt)
 {
-  EXPECT_FALSE (As<std::uint32_t> (nullptr, 0).has_value ());
+  EXPECT_FALSE (as<std::uint32_t> (nullptr, 0).has_value ());
 }
 
 TEST (LumexMemReadTest, GivenSizeOneLessThanNeeded_WhenAs_ThenReturnsNullopt)
 {
   std::array<unsigned char, sizeof (std::uint64_t)> buffer{};
-  EXPECT_FALSE (As<std::uint64_t> (buffer.data (), sizeof (std::uint64_t) - 1)
+  EXPECT_FALSE (as<std::uint64_t> (buffer.data (), sizeof (std::uint64_t) - 1)
                     .has_value ());
 }
 
@@ -215,7 +215,7 @@ TEST (LumexMemReadTest, GivenExtraTrailingBytes_WhenAs_ThenDecodesOnlyPrefix)
 {
   std::array<unsigned char, 8> buffer{ 0x11, 0x22, 0x33, 0x44,
                                        0x55, 0x66, 0x77, 0x88 };
-  auto const result = As<std::uint32_t> (buffer.data (), buffer.size ());
+  auto const result = as<std::uint32_t> (buffer.data (), buffer.size ());
   ASSERT_TRUE (result.has_value ());
   std::uint32_t expected = 0;
   std::memcpy (&expected, buffer.data (), sizeof (expected));
@@ -226,8 +226,8 @@ TEST (LumexMemReadTest, GivenUint8AndUint64_WhenAs_ThenDecodesEachWidth)
 {
   std::uint8_t const u8 = 0xAB;
   std::uint64_t const u64 = 0x0102030405060708ULL;
-  auto const r8 = As<std::uint8_t> (&u8, sizeof (u8));
-  auto const r64 = As<std::uint64_t> (&u64, sizeof (u64));
+  auto const r8 = as<std::uint8_t> (&u8, sizeof (u8));
+  auto const r64 = as<std::uint64_t> (&u64, sizeof (u64));
   ASSERT_TRUE (r8.has_value ());
   ASSERT_TRUE (r64.has_value ());
   EXPECT_EQ (*r8, u8);
@@ -238,8 +238,8 @@ TEST (LumexMemReadTest, GivenFloatAndDouble_WhenAs_ThenPreservesIeeeBits)
 {
   float const f = 3.14159f;
   double const d = -2.5;
-  auto const rf = As<float> (&f, sizeof (f));
-  auto const rd = As<double> (&d, sizeof (d));
+  auto const rf = as<float> (&f, sizeof (f));
+  auto const rd = as<double> (&d, sizeof (d));
   ASSERT_TRUE (rf.has_value ());
   ASSERT_TRUE (rd.has_value ());
   EXPECT_FLOAT_EQ (*rf, f);
@@ -250,8 +250,8 @@ TEST (LumexMemReadTest, GivenBoolTrueAndFalse_WhenAs_ThenDecodesBool)
 {
   bool const yes = true;
   bool const no = false;
-  auto const ry = As<bool> (&yes, sizeof (yes));
-  auto const rn = As<bool> (&no, sizeof (no));
+  auto const ry = as<bool> (&yes, sizeof (yes));
+  auto const rn = as<bool> (&no, sizeof (no));
   ASSERT_TRUE (ry.has_value ());
   ASSERT_TRUE (rn.has_value ());
   EXPECT_EQ (*ry, true);
@@ -261,7 +261,7 @@ TEST (LumexMemReadTest, GivenBoolTrueAndFalse_WhenAs_ThenDecodesBool)
 TEST (LumexMemReadTest, GivenEmptyStandardLayoutType_WhenAs_ThenSucceeds)
 {
   EmptyLayout empty{};
-  auto const result = As<EmptyLayout> (&empty, sizeof (empty));
+  auto const result = as<EmptyLayout> (&empty, sizeof (empty));
   EXPECT_TRUE (result.has_value ());
 }
 
@@ -269,19 +269,19 @@ TEST (LumexMemReadTest,
       GivenNegativeGetDataSize_WhenAsFromSource_ThenReturnsNullopt)
 {
   NegativeSizeSource source;
-  EXPECT_FALSE (As<std::uint32_t> (source).has_value ());
+  EXPECT_FALSE (as<std::uint32_t> (source).has_value ());
 }
 
 TEST (LumexMemReadTest, GivenNullGetData_WhenAsFromSource_ThenReturnsNullopt)
 {
   NullDataSource source;
-  EXPECT_FALSE (As<std::uint32_t> (source).has_value ());
+  EXPECT_FALSE (as<std::uint32_t> (source).has_value ());
 }
 
 TEST (LumexMemReadTest, GivenEmptyDataSource_WhenAs_ThenReturnsNullopt)
 {
   FakeDataSource source;
-  EXPECT_FALSE (As<std::uint32_t> (source).has_value ());
+  EXPECT_FALSE (as<std::uint32_t> (source).has_value ());
 }
 
 TEST (LumexMemReadTest, GivenUnsignedCharSpan_WhenAs_ThenDecodesValue)
@@ -290,7 +290,7 @@ TEST (LumexMemReadTest, GivenUnsignedCharSpan_WhenAs_ThenDecodesValue)
   std::array<unsigned char, sizeof (value)> buffer{};
   std::memcpy (buffer.data (), &value, sizeof (value));
   std::span<unsigned char const> const span (buffer);
-  auto const result = As<std::uint16_t> (span);
+  auto const result = as<std::uint16_t> (span);
   ASSERT_TRUE (result.has_value ());
   EXPECT_EQ (*result, value);
 }
@@ -301,7 +301,7 @@ TEST (LumexMemReadTest, GivenCharSpanExactSize_WhenAs_ThenDecodesValue)
   std::array<char, sizeof (value)> buffer{};
   std::memcpy (buffer.data (), &value, sizeof (value));
   std::span<char const> const span (buffer);
-  auto const result = As<std::uint16_t> (span);
+  auto const result = as<std::uint16_t> (span);
   ASSERT_TRUE (result.has_value ());
   EXPECT_EQ (*result, value);
 }
@@ -309,7 +309,7 @@ TEST (LumexMemReadTest, GivenCharSpanExactSize_WhenAs_ThenDecodesValue)
 TEST (LumexMemReadTest, GivenEmptyByteSpan_WhenAs_ThenReturnsNullopt)
 {
   std::span<std::byte const> const span;
-  EXPECT_FALSE (As<std::uint32_t> (span).has_value ());
+  EXPECT_FALSE (as<std::uint32_t> (span).has_value ());
 }
 
 TEST (LumexMemReadTest,
@@ -318,7 +318,7 @@ TEST (LumexMemReadTest,
   std::array<unsigned char, sizeof (std::uint32_t) + 3> buffer{};
   std::uint32_t const value = 0xA1B2C3D4u;
   std::memcpy (buffer.data () + 3, &value, sizeof (value));
-  auto const result = As<std::uint32_t> (buffer.data () + 3, sizeof (value));
+  auto const result = as<std::uint32_t> (buffer.data () + 3, sizeof (value));
   ASSERT_TRUE (result.has_value ());
   EXPECT_EQ (*result, value);
 }
@@ -326,7 +326,7 @@ TEST (LumexMemReadTest,
 TEST (LumexMemReadTest, GivenSignedInteger_WhenAs_ThenPreservesTwoComplement)
 {
   std::int32_t const value = -123456;
-  auto const result = As<std::int32_t> (&value, sizeof (value));
+  auto const result = as<std::int32_t> (&value, sizeof (value));
   ASSERT_TRUE (result.has_value ());
   EXPECT_EQ (*result, value);
 }

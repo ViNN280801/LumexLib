@@ -25,14 +25,14 @@
 /**
  * @file SuccessFailure.hpp
  * @brief The return markers `success()` and `failure()` for functions that
- * return an `Expected`.
+ * return an `expected`.
  * @details `return success();`, `return success(value);` and
  * `return failure(error);` produce `success_t` and `failure_t` objects that
- * convert implicitly into the `Expected<T, E>` the function returns, so the
+ * convert implicitly into the `expected<T, E>` the function returns, so the
  * return statement need not spell that type. A conversion takes part in
  * overload resolution only when the target value or error type can be
  * constructed from what the marker holds; `success()` without an argument
- * converts into `Expected<void, E>` or into an `Expected` whose value type is
+ * converts into `expected<void, E>` or into an `expected` whose value type is
  * default-constructible.
  */
 #ifndef LUMEX_CORE_EXPECTED_RESULT_SUCCESS_FAILURE_HPP
@@ -49,10 +49,10 @@
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 
 // ====================== success() / failure() markers ======================
-// Sugar for `return` in a function whose return type is already an Expected:
+// Sugar for `return` in a function whose return type is already an expected:
 // `return success();`, `return success(value);`, `return failure(error);`.
-// A marker carries what it was given and converts into any Expected the target
-// declaration accepts; nothing about the marker is tied to one Expected type.
+// A marker carries what it was given and converts into any expected the target
+// declaration accepts; nothing about the marker is tied to one expected type.
 
 namespace lumex
 {
@@ -122,36 +122,36 @@ template <typename ValueType> struct success_t
   }
 
   /**
-   * @brief Implicit conversion into a successful `Expected` (rvalue marker).
-   * @tparam Target Success type of the produced `Expected`.
-   * @tparam ErrorType Error type of the produced `Expected`.
-   * @return `Expected<Target, ErrorType>` holding the stored value.
+   * @brief Implicit conversion into a successful `expected` (rvalue marker).
+   * @tparam Target Success type of the produced `expected`.
+   * @tparam ErrorType Error type of the produced `expected`.
+   * @return `expected<Target, ErrorType>` holding the stored value.
    * @note Removed by SFINAE when `Target` cannot be built from `ValueType &&`;
    * use the const overload for a named marker.
    */
   template <typename Target, typename ErrorType,
             typename = typename std::enable_if<
                 std::is_constructible<Target, ValueType &&>::value>::type>
-  operator Expected<Target, ErrorType> () &&
+  operator expected<Target, ErrorType> () &&
   {
-    return Expected<Target, ErrorType> (std::move (m_value));
+    return expected<Target, ErrorType> (std::move (m_value));
   }
 
   /**
-   * @brief Implicit conversion into a successful `Expected` (const lvalue
+   * @brief Implicit conversion into a successful `expected` (const lvalue
    * marker).
-   * @tparam Target Success type of the produced `Expected`.
-   * @tparam ErrorType Error type of the produced `Expected`.
-   * @return `Expected<Target, ErrorType>` holding a copy of the stored value.
+   * @tparam Target Success type of the produced `expected`.
+   * @tparam ErrorType Error type of the produced `expected`.
+   * @return `expected<Target, ErrorType>` holding a copy of the stored value.
    * @note Removed by SFINAE when `Target` cannot be built from
    * `ValueType const &`.
    */
   template <typename Target, typename ErrorType,
             typename = typename std::enable_if<
                 std::is_constructible<Target, ValueType const &>::value>::type>
-  operator Expected<Target, ErrorType> () const &
+  operator expected<Target, ErrorType> () const &
   {
-    return Expected<Target, ErrorType> (m_value);
+    return expected<Target, ErrorType> (m_value);
   }
 
 private:
@@ -160,8 +160,8 @@ private:
 
 /**
  * @brief Marker returned by success(): a successful call with no value.
- * @details Converts into `Expected<void, ErrorType>` (success without a value)
- * or into `Expected<Target, ErrorType>` when `Target` is
+ * @details Converts into `expected<void, ErrorType>` (success without a value)
+ * or into `expected<Target, ErrorType>` when `Target` is
  * default-constructible; the `void` success type is what keeps the two
  * conversions from competing.
  * @note Stateless: it carries no data.
@@ -169,32 +169,32 @@ private:
 template <> struct success_t<void>
 {
   /**
-   * @brief Implicit conversion into a successful `Expected<Target,
+   * @brief Implicit conversion into a successful `expected<Target,
    * ErrorType>`.
    * @tparam Target Success type; must be default-constructible.
-   * @tparam ErrorType Error type of the produced `Expected`.
-   * @return `Expected<Target, ErrorType>` in the success state, holding a
+   * @tparam ErrorType Error type of the produced `expected`.
+   * @return `expected<Target, ErrorType>` in the success state, holding a
    * default-constructed value.
    * @note Removed by SFINAE when `Target` is not default-constructible (`void`
-   * included), which sends `Expected<void, E>` to the overload below.
+   * included), which sends `expected<void, E>` to the overload below.
    */
   template <typename Target, typename ErrorType,
             typename = typename std::enable_if<
                 std::is_default_constructible<Target>::value>::type>
-  operator Expected<Target, ErrorType> () const
+  operator expected<Target, ErrorType> () const
   {
-    return Expected<Target, ErrorType> ();
+    return expected<Target, ErrorType> ();
   }
 
   /**
-   * @brief Implicit conversion into a successful `Expected<void, ErrorType>`.
-   * @tparam ErrorType Error type of the produced `Expected`.
-   * @return `Expected<void, ErrorType>` in the success state.
+   * @brief Implicit conversion into a successful `expected<void, ErrorType>`.
+   * @tparam ErrorType Error type of the produced `expected`.
+   * @return `expected<void, ErrorType>` in the success state.
    */
   template <typename ErrorType>
-  operator Expected<void, ErrorType> () const
+  operator expected<void, ErrorType> () const
   {
-    return Expected<void, ErrorType> ();
+    return expected<void, ErrorType> ();
   }
 };
 
@@ -248,35 +248,35 @@ template <typename ErrorType> struct failure_t
   }
 
   /**
-   * @brief Implicit conversion into a failed `Expected` (rvalue marker).
-   * @tparam Target Success type of the produced `Expected`.
-   * @tparam TargetError Error type of the produced `Expected`.
-   * @return `Expected<Target, TargetError>` in the error state.
+   * @brief Implicit conversion into a failed `expected` (rvalue marker).
+   * @tparam Target Success type of the produced `expected`.
+   * @tparam TargetError Error type of the produced `expected`.
+   * @return `expected<Target, TargetError>` in the error state.
    * @note Removed by SFINAE when `TargetError` cannot be built from
    * `ErrorType &&`; use the const overload for a named marker.
    */
   template <typename Target, typename TargetError,
             typename = typename std::enable_if<
                 std::is_constructible<TargetError, ErrorType &&>::value>::type>
-  operator Expected<Target, TargetError> () &&
+  operator expected<Target, TargetError> () &&
   {
-    return Expected<Target, TargetError> (unexpect, std::move (m_error));
+    return expected<Target, TargetError> (unexpect, std::move (m_error));
   }
 
   /**
-   * @brief Implicit conversion into a failed `Expected` (const lvalue marker).
-   * @tparam Target Success type of the produced `Expected`.
-   * @tparam TargetError Error type of the produced `Expected`.
-   * @return `Expected<Target, TargetError>` in the error state.
+   * @brief Implicit conversion into a failed `expected` (const lvalue marker).
+   * @tparam Target Success type of the produced `expected`.
+   * @tparam TargetError Error type of the produced `expected`.
+   * @return `expected<Target, TargetError>` in the error state.
    * @note Removed by SFINAE when `TargetError` cannot be built from
    * `ErrorType const &`.
    */
   template <typename Target, typename TargetError,
             typename = typename std::enable_if<std::is_constructible<
                 TargetError, ErrorType const &>::value>::type>
-  operator Expected<Target, TargetError> () const &
+  operator expected<Target, TargetError> () const &
   {
-    return Expected<Target, TargetError> (unexpect, m_error);
+    return expected<Target, TargetError> (unexpect, m_error);
   }
 
 private:
@@ -285,11 +285,11 @@ private:
 
 /**
  * @brief Creates a marker for a successful call that carries no value.
- * @details Lets a function whose return type is an `Expected` write
- * `return success();`. It converts into `Expected<void, ErrorType>` and into
- * `Expected<Target, ErrorType>` when `Target` is default-constructible, so one
+ * @details Lets a function whose return type is an `expected` write
+ * `return success();`. It converts into `expected<void, ErrorType>` and into
+ * `expected<Target, ErrorType>` when `Target` is default-constructible, so one
  * spelling covers both shapes.
- * @return `success_t<void>` marker; the target `Expected` is built by the
+ * @return `success_t<void>` marker; the target `expected` is built by the
  * marker's conversion at the `return`.
  * @note Marked `[[nodiscard]]`: the marker is only useful when used.
  */
@@ -303,11 +303,11 @@ success () LUMEX_NOEXCEPT
 
 /**
  * @brief Creates a marker for a successful call that carries a value.
- * @details Lets a function whose return type is an `Expected` write
+ * @details Lets a function whose return type is an `expected` write
  * `return success(value);` instead of spelling the whole
- * `Expected<SuccessType, ErrorType>` out.
+ * `expected<SuccessType, ErrorType>` out.
  * @tparam ValueType Deduced type of the success value; stored decayed.
- * @param[in] value Value the produced `Expected` will hold.
+ * @param[in] value Value the produced `expected` will hold.
  * @return `success_t<ValueType>` marker holding `value`.
  * @note Marked `[[nodiscard]]`: the marker is only useful when used.
  */
@@ -323,13 +323,13 @@ LUMEX_CONSTEXPR_FUNCTION
 
 /**
  * @brief Creates a marker for a failed call that carries an error.
- * @details Lets a function whose return type is an `Expected` write
- * `return failure(error);` instead of `Expected<T, E>(unexpect, error)`. The
+ * @details Lets a function whose return type is an `expected` write
+ * `return failure(error);` instead of `expected<T, E>(unexpect, error)`. The
  * stored error may be the target error type itself, a type convertible to it
- * (for example a string literal for an `Expected<T, std::string>`), or any
+ * (for example a string literal for an `expected<T, std::string>`), or any
  * richer error type the target error can be built from.
  * @tparam ErrorType Deduced type of the stored error; stored decayed.
- * @param[in] error Error the produced `Expected` will hold.
+ * @param[in] error Error the produced `expected` will hold.
  * @return `failure_t<ErrorType>` marker holding `error`.
  * @note Marked `[[nodiscard]]`: the marker is only useful when used.
  */

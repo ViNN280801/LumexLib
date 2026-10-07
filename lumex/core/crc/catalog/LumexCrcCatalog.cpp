@@ -105,19 +105,19 @@ using ComputeFn = std::uint64_t (*) (std::uint8_t const *, std::size_t);
 
 template <std::size_t I>
 std::uint64_t
-ComputeEntry (std::uint8_t const *data, std::size_t size) LUMEX_NOEXCEPT
+compute_entry (std::uint8_t const *data, std::size_t size) LUMEX_NOEXCEPT
 {
   using Spec = typename std::tuple_element<I, CatalogTuple>::type;
   return static_cast<std::uint64_t> (
-      CrcParametric<Spec>::calculate (data, size));
+      crc_parametric<Spec>::calculate (data, size));
 }
 
 template <std::size_t... I>
 std::array<ComputeFn, sizeof...(I)>
-MakeComputeTable (std::index_sequence<I...> /*unusedIndexSequence*/)
+make_compute_table (std::index_sequence<I...> /*unusedIndexSequence*/)
     LUMEX_NOEXCEPT
 {
-  return std::array<ComputeFn, sizeof...(I)>{ { &ComputeEntry<I>... } };
+  return std::array<ComputeFn, sizeof...(I)>{ { &compute_entry<I>... } };
 }
 
 #if __cplusplus >= 201402L
@@ -128,11 +128,11 @@ using CatalogIndexSequence =
 #endif
 
 std::array<ComputeFn, kCatalogSize> const kComputeTable
-    = MakeComputeTable (CatalogIndexSequence{});
+    = make_compute_table (CatalogIndexSequence{});
 
 template <std::size_t I>
 LUMEX_CONSTEXPR_FUNCTION int
-WidthEntry () LUMEX_NOEXCEPT
+width_entry () LUMEX_NOEXCEPT
 {
   using Spec = typename std::tuple_element<I, CatalogTuple>::type;
   return Spec::kWidth;
@@ -140,17 +140,17 @@ WidthEntry () LUMEX_NOEXCEPT
 
 template <std::size_t... I>
 LUMEX_CONSTEXPR_FUNCTION std::array<int, sizeof...(I)>
-MakeWidthTable (std::index_sequence<I...> /*unusedIndexSequence*/)
+make_width_table (std::index_sequence<I...> /*unusedIndexSequence*/)
     LUMEX_NOEXCEPT
 {
-  return std::array<int, sizeof...(I)>{ { WidthEntry<I> ()... } };
+  return std::array<int, sizeof...(I)>{ { width_entry<I> ()... } };
 }
 
 LUMEX_CONST_NUM std::array<int, kCatalogSize> kWidthTable
-    = MakeWidthTable (CatalogIndexSequence{});
+    = make_width_table (CatalogIndexSequence{});
 
 std::uint64_t
-MaskForWidth (int widthBits) LUMEX_NOEXCEPT
+mask_for_width (int widthBits) LUMEX_NOEXCEPT
 {
   if (widthBits <= 0 || widthBits > Detail::kMaxCrcBitWidth)
     return 0;
@@ -166,19 +166,19 @@ struct transport_state_t
   TransportCrcMode mode{ TransportCrcMode::Default };
   std::uint32_t catalogIndex{
     0xFFFFFFFFU
-  }; // NOLINT(*-magic-numbers) - CrcCatalogLegacyIndex()
+  }; // NOLINT(*-magic-numbers) - crc_catalog_legacy_index()
   crc_params_t custom{};
 };
 
 std::mutex &
-TransportMutex () LUMEX_NOEXCEPT
+transport_mutex () LUMEX_NOEXCEPT
 {
   static std::mutex transport_mutex;
   return transport_mutex;
 }
 
 transport_state_t &
-Transport () LUMEX_NOEXCEPT
+transport () LUMEX_NOEXCEPT
 {
   static transport_state_t transport_state;
   return transport_state;
@@ -187,28 +187,28 @@ Transport () LUMEX_NOEXCEPT
 } // namespace
 
 bool
-ValidateCrcRevEngParams (crc_params_t const &params) LUMEX_NOEXCEPT
+validate_crc_rev_eng_params (crc_params_t const &params) LUMEX_NOEXCEPT
 {
   return params.widthBits >= 1 && params.widthBits <= Detail::kMaxCrcBitWidth;
 }
 
 std::uint64_t
-ComputeCrcWithRevEngParams (crc_params_t const &params,
-                            std::uint8_t const *data,
-                            std::size_t byteCount) LUMEX_NOEXCEPT
+compute_crc_with_rev_eng_params (crc_params_t const &params,
+                                 std::uint8_t const *data,
+                                 std::size_t byteCount) LUMEX_NOEXCEPT
 {
-  if (!ValidateCrcRevEngParams (params))
+  if (!validate_crc_rev_eng_params (params))
     return 0;
   if (data == nullptr || byteCount == 0U)
     return 0;
 
   int const widthBits = params.widthBits;
-  std::uint64_t const mask = MaskForWidth (widthBits);
+  std::uint64_t const mask = mask_for_width (widthBits);
   std::uint64_t const polyMasked = params.poly & mask;
   std::uint64_t const polyReflected
-      = Detail::Reflect (polyMasked, widthBits) & mask;
+      = Detail::reflect (polyMasked, widthBits) & mask;
   std::uint64_t crcRegister
-      = (params.refIn ? Detail::Reflect (params.init, widthBits) : params.init)
+      = (params.refIn ? Detail::reflect (params.init, widthBits) : params.init)
         & mask;
 
   for (std::size_t offset = 0; offset < byteCount; ++offset)
@@ -246,21 +246,21 @@ ComputeCrcWithRevEngParams (crc_params_t const &params,
         }
     }
   if (!params.refIn && params.refOut)
-    crcRegister = Detail::Reflect (crcRegister, widthBits) & mask;
+    crcRegister = Detail::reflect (crcRegister, widthBits) & mask;
   crcRegister = (crcRegister ^ params.xorOut) & mask;
   return crcRegister;
 }
 
 std::uint32_t
-GetCrcCatalogEntryCount () LUMEX_NOEXCEPT
+get_crc_catalog_entry_count () LUMEX_NOEXCEPT
 {
   return static_cast<std::uint32_t> (kCatalogSize);
 }
 
 int
-GetCrcCatalogBitWidth (std::uint32_t catalogIndex) LUMEX_NOEXCEPT
+get_crc_catalog_bit_width (std::uint32_t catalogIndex) LUMEX_NOEXCEPT
 {
-  if (catalogIndex == CrcCatalogLegacyIndex ())
+  if (catalogIndex == crc_catalog_legacy_index ())
     return kTransportFrameCrcBitWidth;
   if (catalogIndex >= kCatalogSize)
     return -1;
@@ -268,8 +268,8 @@ GetCrcCatalogBitWidth (std::uint32_t catalogIndex) LUMEX_NOEXCEPT
 }
 
 std::uint64_t
-ComputeCrcCatalog (std::uint32_t catalogIndex, std::uint8_t const *data,
-                   std::size_t byteCount) LUMEX_NOEXCEPT
+compute_crc_catalog (std::uint32_t catalogIndex, std::uint8_t const *data,
+                     std::size_t byteCount) LUMEX_NOEXCEPT
 {
   if (data == nullptr || byteCount == 0U)
     return 0;
@@ -279,82 +279,82 @@ ComputeCrcCatalog (std::uint32_t catalogIndex, std::uint8_t const *data,
 }
 
 void
-SetTransportCrcDefault () LUMEX_NOEXCEPT
+set_transport_crc_default () LUMEX_NOEXCEPT
 {
-  std::lock_guard<std::mutex> lock (TransportMutex ());
-  Transport ().mode = TransportCrcMode::Default;
-  Transport ().catalogIndex = CrcCatalogLegacyIndex ();
+  std::lock_guard<std::mutex> lock (transport_mutex ());
+  transport ().mode = TransportCrcMode::Default;
+  transport ().catalogIndex = crc_catalog_legacy_index ();
 }
 
 bool
-SetTransportCrcCatalogIndex (std::uint32_t catalogIndex) LUMEX_NOEXCEPT
+set_transport_crc_catalog_index (std::uint32_t catalogIndex) LUMEX_NOEXCEPT
 {
-  if (catalogIndex == CrcCatalogLegacyIndex ())
+  if (catalogIndex == crc_catalog_legacy_index ())
     {
-      SetTransportCrcDefault ();
+      set_transport_crc_default ();
       return true;
     }
   if (catalogIndex >= kCatalogSize)
     return false;
   if (kWidthTable.at (catalogIndex) != kTransportFrameCrcBitWidth)
     return false;
-  std::lock_guard<std::mutex> lock (TransportMutex ());
-  Transport ().mode = TransportCrcMode::Catalog;
-  Transport ().catalogIndex = catalogIndex;
+  std::lock_guard<std::mutex> lock (transport_mutex ());
+  transport ().mode = TransportCrcMode::Catalog;
+  transport ().catalogIndex = catalogIndex;
   return true;
 }
 
 bool
-SetTransportCrcRevEngParams (crc_params_t const &params) LUMEX_NOEXCEPT
+set_transport_crc_rev_eng_params (crc_params_t const &params) LUMEX_NOEXCEPT
 {
-  if (!ValidateCrcRevEngParams (params))
+  if (!validate_crc_rev_eng_params (params))
     return false;
   if (params.widthBits != kTransportFrameCrcBitWidth)
     return false;
-  std::lock_guard<std::mutex> lock (TransportMutex ());
-  Transport ().mode = TransportCrcMode::Custom;
-  Transport ().custom = params;
+  std::lock_guard<std::mutex> lock (transport_mutex ());
+  transport ().mode = TransportCrcMode::Custom;
+  transport ().custom = params;
   return true;
 }
 
 TransportCrcMode
-GetTransportCrcMode () LUMEX_NOEXCEPT
+get_transport_crc_mode () LUMEX_NOEXCEPT
 {
-  std::lock_guard<std::mutex> lock (TransportMutex ());
-  return Transport ().mode;
+  std::lock_guard<std::mutex> lock (transport_mutex ());
+  return transport ().mode;
 }
 
 std::uint32_t
-GetTransportCrcCatalogIndex () LUMEX_NOEXCEPT
+get_transport_crc_catalog_index () LUMEX_NOEXCEPT
 {
-  std::lock_guard<std::mutex> lock (TransportMutex ());
-  if (Transport ().mode == TransportCrcMode::Default)
-    return CrcCatalogLegacyIndex ();
-  if (Transport ().mode == TransportCrcMode::Custom)
-    return CrcTransportUsesCustomSpecSentinel ();
-  return Transport ().catalogIndex;
+  std::lock_guard<std::mutex> lock (transport_mutex ());
+  if (transport ().mode == TransportCrcMode::Default)
+    return crc_catalog_legacy_index ();
+  if (transport ().mode == TransportCrcMode::Custom)
+    return crc_transport_uses_custom_spec_sentinel ();
+  return transport ().catalogIndex;
 }
 
 bool
-TryGetTransportCrcRevEngParams (crc_params_t &out) LUMEX_NOEXCEPT
+try_get_transport_crc_rev_eng_params (crc_params_t &out) LUMEX_NOEXCEPT
 {
-  std::lock_guard<std::mutex> lock (TransportMutex ());
-  if (Transport ().mode != TransportCrcMode::Custom)
+  std::lock_guard<std::mutex> lock (transport_mutex ());
+  if (transport ().mode != TransportCrcMode::Custom)
     return false;
-  out = Transport ().custom;
+  out = transport ().custom;
   return true;
 }
 
 std::uint8_t
-ComputeTransportChecksum (std::uint8_t const *data,
-                          std::size_t byteCount) LUMEX_NOEXCEPT
+compute_transport_checksum (std::uint8_t const *data,
+                            std::size_t byteCount) LUMEX_NOEXCEPT
 {
   if (data == nullptr || byteCount == 0U)
     return 0;
   transport_state_t local;
   {
-    std::lock_guard<std::mutex> lock (TransportMutex ());
-    local = Transport ();
+    std::lock_guard<std::mutex> lock (transport_mutex ());
+    local = transport ();
   }
   switch (local.mode)
     {
@@ -373,7 +373,7 @@ ComputeTransportChecksum (std::uint8_t const *data,
       }
     case TransportCrcMode::Custom:
       return static_cast<std::uint8_t> (
-          ComputeCrcWithRevEngParams (local.custom, data, byteCount)
+          compute_crc_with_rev_eng_params (local.custom, data, byteCount)
           & static_cast<std::uint64_t> (
               std::numeric_limits<std::uint8_t>::max ()));
     default:

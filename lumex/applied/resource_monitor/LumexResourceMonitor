@@ -45,7 +45,7 @@
  * request.
  * @details Link <tt>%lumex::resource_monitor</tt> (compiled library). The
  * library compiles from C++11 and uses the library's own `optional`,
- * `LumexStringView` and `filesystem`. The umbrella includes
+ * `lumex_string_view` and `filesystem`. The umbrella includes
  * `monitor/LumexResourceMonitor.hpp` and `process/LumexProcessMonitor.hpp`.
  */
 #include "monitor/LumexResourceMonitor.hpp"

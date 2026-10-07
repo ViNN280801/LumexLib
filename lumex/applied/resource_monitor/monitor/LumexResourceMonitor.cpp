@@ -123,7 +123,7 @@ wait_or_stop (std::chrono::milliseconds duration)
 }
 
 std::chrono::milliseconds
-sanitizePollInterval (std::chrono::milliseconds requested)
+sanitize_poll_interval (std::chrono::milliseconds requested)
 {
   if (requested.count () <= 0)
     return std::chrono::milliseconds (
@@ -133,7 +133,7 @@ sanitizePollInterval (std::chrono::milliseconds requested)
 }
 
 std::string
-makeLogFilePath (std::string const &logDirectory)
+make_log_file_path (std::string const &logDirectory)
 {
   lumex::filesystem_result<bool> const created
       = lumex::filesystem::create_directories (lumex::path (logDirectory));
@@ -144,7 +144,7 @@ makeLogFilePath (std::string const &logDirectory)
                   "': error code ", created.error_code ());
     }
   std::string const timestamp
-      = LumexTime::get_current_datetime ("%Y-%m-%d_%H-%M-%S");
+      = lumex_time::get_current_datetime ("%Y-%m-%d_%H-%M-%S");
   return (lumex::path (logDirectory)
           / ("system_resource_usage_" + timestamp + ".log"))
       .string ();
@@ -152,7 +152,7 @@ makeLogFilePath (std::string const &logDirectory)
 
 #if defined(_WIN32) || defined(_WIN64)
 std::uint64_t
-fileTimeToUint64 (FILETIME const &ft)
+file_time_to_uint64 (FILETIME const &ft)
 {
   ULARGE_INTEGER u;
   u.LowPart = ft.dwLowDateTime;
@@ -161,23 +161,23 @@ fileTimeToUint64 (FILETIME const &ft)
 }
 
 bool
-sampleCpuWin (std::uint64_t &idleOut, std::uint64_t &totalOut)
+sample_cpu_win (std::uint64_t &idleOut, std::uint64_t &totalOut)
 {
   FILETIME idleFt{};
   FILETIME kernelFt{};
   FILETIME userFt{};
   if (GetSystemTimes (&idleFt, &kernelFt, &userFt) == 0)
     return false;
-  std::uint64_t const idle = fileTimeToUint64 (idleFt);
-  std::uint64_t const kernel = fileTimeToUint64 (kernelFt);
-  std::uint64_t const user = fileTimeToUint64 (userFt);
+  std::uint64_t const idle = file_time_to_uint64 (idleFt);
+  std::uint64_t const kernel = file_time_to_uint64 (kernelFt);
+  std::uint64_t const user = file_time_to_uint64 (userFt);
   idleOut = idle;
   totalOut = idle + kernel + user;
   return true;
 }
 
 void
-sampleRamWin (double &usedGbOut, double &totalGbOut)
+sample_ram_win (double &usedGbOut, double &totalGbOut)
 {
   MEMORYSTATUSEX ms{};
   ms.dwLength = sizeof (ms);
@@ -196,7 +196,7 @@ sampleRamWin (double &usedGbOut, double &totalGbOut)
 }
 #else
 bool
-sampleCpuLinux (std::uint64_t &idleOut, std::uint64_t &totalOut)
+sample_cpu_linux (std::uint64_t &idleOut, std::uint64_t &totalOut)
 {
   optional<std::string> const text = detail::read_whole_file ("/proc/stat");
   if (!text)
@@ -211,7 +211,7 @@ sampleCpuLinux (std::uint64_t &idleOut, std::uint64_t &totalOut)
 }
 
 void
-sampleRamLinux (double &usedGbOut, double &totalGbOut)
+sample_ram_linux (double &usedGbOut, double &totalGbOut)
 {
   LUMEX_CONSTEXPR double gibi = 1024. * 1024. * 1024.;
   // Used = total - available, as on Windows: the page cache that can be
@@ -250,7 +250,8 @@ sampleRamLinux (double &usedGbOut, double &totalGbOut)
 #endif
 
 void
-workerLoop (std::string const &logFilePath, std::chrono::milliseconds interval)
+worker_loop (std::string const &logFilePath,
+             std::chrono::milliseconds interval)
 {
   std::ofstream out (logFilePath, std::ios::out | std::ios::app);
   if (!out)
@@ -263,12 +264,12 @@ workerLoop (std::string const &logFilePath, std::chrono::milliseconds interval)
 #if defined(_WIN32) || defined(_WIN64)
   std::uint64_t idle0{};
   std::uint64_t total0{};
-  if (!sampleCpuWin (idle0, total0))
+  if (!sample_cpu_win (idle0, total0))
     return;
 #else
   std::uint64_t idle0{};
   std::uint64_t total0{};
-  if (!sampleCpuLinux (idle0, total0))
+  if (!sample_cpu_linux (idle0, total0))
     return;
 #endif
 
@@ -277,19 +278,19 @@ workerLoop (std::string const &logFilePath, std::chrono::milliseconds interval)
 #if defined(_WIN32) || defined(_WIN64)
       std::uint64_t idle1{};
       std::uint64_t total1{};
-      if (!sampleCpuWin (idle1, total1))
+      if (!sample_cpu_win (idle1, total1))
         continue;
       double usedRamGb{};
       double totalRamGb{};
-      sampleRamWin (usedRamGb, totalRamGb);
+      sample_ram_win (usedRamGb, totalRamGb);
 #else
       std::uint64_t idle1{};
       std::uint64_t total1{};
-      if (!sampleCpuLinux (idle1, total1))
+      if (!sample_cpu_linux (idle1, total1))
         continue;
       double usedRamGb{};
       double totalRamGb{};
-      sampleRamLinux (usedRamGb, totalRamGb);
+      sample_ram_linux (usedRamGb, totalRamGb);
 #endif
       std::uint64_t const did = idle1 - idle0;
       std::uint64_t const dtot = total1 - total0;
@@ -327,8 +328,8 @@ workerLoop (std::string const &logFilePath, std::chrono::milliseconds interval)
 LUMEX_PUBLIC_API
 void
 lumex::applied::resource_monitor::monitor::LumexResourceMonitor::
-    startIfEnabled (std::string const &logDirectory,
-                    std::chrono::milliseconds pollInterval)
+    start_if_enabled (std::string const &logDirectory,
+                      std::chrono::milliseconds pollInterval)
 {
   std::lock_guard<std::mutex> lock (g_mutex);
   if (g_started)
@@ -339,8 +340,8 @@ lumex::applied::resource_monitor::monitor::LumexResourceMonitor::
     }
 
   std::chrono::milliseconds const interval
-      = sanitizePollInterval (pollInterval);
-  std::string const path = makeLogFilePath (logDirectory);
+      = sanitize_poll_interval (pollInterval);
+  std::string const path = make_log_file_path (logDirectory);
 
   {
     std::lock_guard<std::mutex> wake_lock (g_wake_mutex);
@@ -356,7 +357,7 @@ lumex::applied::resource_monitor::monitor::LumexResourceMonitor::
           if (wait_or_stop (std::chrono::milliseconds (
                   Constants::KSTARTUP_GRACE_PERIOD_MS)))
             return;
-          workerLoop (path, interval);
+          worker_loop (path, interval);
         });
   g_started = true;
 

@@ -91,7 +91,7 @@ main ()
 
       std::cout << "\n--- 5. Preset API ---\n";
       logger.enable_preset ({ "NetworkManager", "Detector" });
-      logger.set_preset_components ({ "Storage", "Transport" });
+      logger.set_preset_components ({ "Storage", "transport" });
       std::cout << "preset=" << (logger.is_preset_enabled () ? "yes" : "no")
                 << " components=" << logger.get_preset_components ().size ()
                 << '\n';

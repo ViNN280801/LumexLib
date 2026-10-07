@@ -53,8 +53,8 @@ namespace env
 {
 #if defined(LUMEX_OS_WINDOWS)
 LUMEX_PUBLIC_API
-LumexEnvironment::EnvResult
-LumexEnvironment::WindowsEnvironmentStrategy::get_variable (
+lumex_environment::EnvResult
+lumex_environment::windows_environment_strategy::get_variable (
     char const *name) const
 {
   if (name == nullptr
@@ -106,7 +106,7 @@ LumexEnvironment::WindowsEnvironmentStrategy::get_variable (
 
 LUMEX_PUBLIC_API
 bool
-LumexEnvironment::WindowsEnvironmentStrategy::set_variable (
+lumex_environment::windows_environment_strategy::set_variable (
     char const *name, char const *value) const
 {
   if (name == nullptr || name[0] == '\0')
@@ -116,7 +116,7 @@ LumexEnvironment::WindowsEnvironmentStrategy::set_variable (
 
 LUMEX_PUBLIC_API
 bool
-LumexEnvironment::WindowsEnvironmentStrategy::unset_variable (
+lumex_environment::windows_environment_strategy::unset_variable (
     char const *name) const
 {
   if (name == nullptr || name[0] == '\0')
@@ -127,8 +127,8 @@ LumexEnvironment::WindowsEnvironmentStrategy::unset_variable (
 #else
 
 LUMEX_PUBLIC_API
-LumexEnvironment::EnvResult
-LumexEnvironment::PosixEnvironmentStrategy::get_variable (
+lumex_environment::EnvResult
+lumex_environment::posix_environment_strategy::get_variable (
     char const *name) const
 {
   if (name == nullptr || name[0] == '\0')
@@ -158,7 +158,7 @@ LumexEnvironment::PosixEnvironmentStrategy::get_variable (
 
 LUMEX_PUBLIC_API
 bool
-LumexEnvironment::PosixEnvironmentStrategy::set_variable (
+lumex_environment::posix_environment_strategy::set_variable (
     char const *name, char const *value) const
 {
   if (name == nullptr || name[0] == '\0')
@@ -196,7 +196,7 @@ LumexEnvironment::PosixEnvironmentStrategy::set_variable (
 
 LUMEX_PUBLIC_API
 bool
-LumexEnvironment::PosixEnvironmentStrategy::unset_variable (
+lumex_environment::posix_environment_strategy::unset_variable (
     char const *name) const
 {
   if (name == nullptr || name[0] == '\0')
@@ -212,16 +212,16 @@ LumexEnvironment::PosixEnvironmentStrategy::unset_variable (
 #endif
 
 LUMEX_PUBLIC_API
-LumexEnvironment &
-LumexEnvironment::instance ()
+lumex_environment &
+lumex_environment::instance ()
 {
-  static LumexEnvironment instance;
+  static lumex_environment instance;
   return instance;
 }
 
 LUMEX_PUBLIC_API
-LumexEnvironment::EnvResult
-LumexEnvironment::get_environment_variable (char const *name) const
+lumex_environment::EnvResult
+lumex_environment::get_environment_variable (char const *name) const
 {
   if (name == nullptr)
     return { -1 };
@@ -231,17 +231,17 @@ LumexEnvironment::get_environment_variable (char const *name) const
 }
 
 LUMEX_PUBLIC_API
-LumexEnvironment::EnvResult
-LumexEnvironment::get_environment_variable (string_type const &name) const
+lumex_environment::EnvResult
+lumex_environment::get_environment_variable (string_type const &name) const
 {
   return get_environment_variable (name.c_str ());
 }
 
 LUMEX_PUBLIC_API
 bool
-LumexEnvironment::set_environment_variable (char const *name,
-                                            char const *value,
-                                            bool overwrite) const
+lumex_environment::set_environment_variable (char const *name,
+                                             char const *value,
+                                             bool overwrite) const
 {
   if (name == nullptr)
     return false;
@@ -261,16 +261,16 @@ LumexEnvironment::set_environment_variable (char const *name,
 
 LUMEX_PUBLIC_API
 bool
-LumexEnvironment::set_environment_variable (string_type const &name,
-                                            string_type const &value,
-                                            bool overwrite) const
+lumex_environment::set_environment_variable (string_type const &name,
+                                             string_type const &value,
+                                             bool overwrite) const
 {
   return set_environment_variable (name.c_str (), value.c_str (), overwrite);
 }
 
 LUMEX_PUBLIC_API
 bool
-LumexEnvironment::unset_environment_variable (char const *name) const
+lumex_environment::unset_environment_variable (char const *name) const
 {
   if (name == nullptr)
     return false;
@@ -280,8 +280,8 @@ LumexEnvironment::unset_environment_variable (char const *name) const
 }
 
 LUMEX_PUBLIC_API
-LumexEnvironment::string_type
-LumexEnvironment::get_environment_variable_or (
+lumex_environment::string_type
+lumex_environment::get_environment_variable_or (
     char const *name, string_type const &default_value) const
 {
   EnvResult result = get_environment_variable (name);
@@ -290,14 +290,14 @@ LumexEnvironment::get_environment_variable_or (
 
 LUMEX_PUBLIC_API
 bool
-LumexEnvironment::has_environment_variable (char const *name) const
+lumex_environment::has_environment_variable (char const *name) const
 {
   return get_environment_variable (name).success;
 }
 
 LUMEX_PUBLIC_API
 bool
-LumexEnvironment::is_environment_variable_truthy (char const *name) const
+lumex_environment::is_environment_variable_truthy (char const *name) const
 {
   string_type value = get_environment_variable_or (name, string_type ());
 
@@ -310,54 +310,54 @@ LumexEnvironment::is_environment_variable_truthy (char const *name) const
 }
 
 LUMEX_PUBLIC_API
-LumexEnvironment::EnvResult
-LumexEnvironment::get (char const *name)
+lumex_environment::EnvResult
+lumex_environment::get (char const *name)
 {
   return instance ().get_environment_variable (name);
 }
 
 LUMEX_PUBLIC_API
-LumexEnvironment::string_type
-LumexEnvironment::get_or (char const *name, string_type const &default_value)
+lumex_environment::string_type
+lumex_environment::get_or (char const *name, string_type const &default_value)
 {
   return instance ().get_environment_variable_or (name, default_value);
 }
 
 LUMEX_PUBLIC_API
 bool
-LumexEnvironment::set (char const *name, char const *value, bool overwrite)
+lumex_environment::set (char const *name, char const *value, bool overwrite)
 {
   return instance ().set_environment_variable (name, value, overwrite);
 }
 
 LUMEX_PUBLIC_API
 bool
-LumexEnvironment::has (char const *name)
+lumex_environment::has (char const *name)
 {
   return instance ().has_environment_variable (name);
 }
 
 LUMEX_PUBLIC_API
 bool
-LumexEnvironment::is_truthy (char const *name)
+lumex_environment::is_truthy (char const *name)
 {
   return instance ().is_environment_variable_truthy (name);
 }
 
 LUMEX_PUBLIC_API
 bool
-is_env_set (LumexEnvironment::string_type const &name)
+is_env_set (lumex_environment::string_type const &name)
 {
-  return !LumexEnvironment::get_or (name.c_str (),
-                                    LumexEnvironment::string_type ())
+  return !lumex_environment::get_or (name.c_str (),
+                                     lumex_environment::string_type ())
               .empty ();
 }
 
 LUMEX_PUBLIC_API
 bool
-is_env_truthy (LumexEnvironment::string_type const &name)
+is_env_truthy (lumex_environment::string_type const &name)
 {
-  return LumexEnvironment::is_truthy (name.c_str ());
+  return lumex_environment::is_truthy (name.c_str ());
 }
 } // namespace env
 } // namespace environment

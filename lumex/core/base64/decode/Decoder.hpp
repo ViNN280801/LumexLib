@@ -39,8 +39,8 @@
 
 /**
  * @file Decoder.hpp
- * @brief Base64 decoding: the `Decoder` class of the `lumex::base64` library.
- * @details `Decoder::decode()` turns Base64 text in the standard alphabet
+ * @brief Base64 decoding: the `decoder` class of the `lumex::base64` library.
+ * @details `decoder::decode()` turns Base64 text in the standard alphabet
  * (with `+` and `/`, padding optional) into bytes, either into a caller's
  * vector with a success flag or as a returned vector that is empty for invalid
  * input. The overloads that take a pointer and a size are compiled into the
@@ -118,7 +118,7 @@ using namespace lumex::core::base64::codec::Types;
  * class makes clang-cl emit an import for an inline member it does not
  * inline, and the library does not provide the standard-dependent overload.
  */
-class Decoder final
+class decoder final
 {
 public:
   /**

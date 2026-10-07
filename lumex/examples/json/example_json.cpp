@@ -15,14 +15,15 @@ using lumex::applied::json::normalization::LumexJsonSchemaNormalizer;
 using lumex::applied::json::schema::LumexJsonSchemaException;
 using lumex::applied::json::schema::LumexJsonSchemaTraverser;
 using lumex::applied::json::validation::LumexJsonSchemaValidator;
-using lumex::core::string_view::view::LumexStringView;
+using lumex::core::string_view::view::lumex_string_view;
 
 namespace
 {
 void
 print_diagnostic (LumexJsonDiagnosticLevel level, char const *message)
 {
-  std::cout << "  (diagnostic " << toString (level) << ") " << message << '\n';
+  std::cout << "  (diagnostic " << to_string (level) << ") " << message
+            << '\n';
 }
 } // namespace
 
@@ -68,11 +69,11 @@ main ()
   LumexJsonSchemaValidator const strict (schema);
   std::string const good ("{\"id\": 1, \"name\": \"pump\", \"x\": true}");
   std::string const bad ("{\"id\": \"one\", \"name\": \"pump\"}");
-  strict.validate (LumexStringView (good));
+  strict.validate (lumex_string_view (good));
   std::cout << "good document passed\n";
   try
     {
-      strict.validate (LumexStringView (bad));
+      strict.validate (lumex_string_view (bad));
     }
   catch (LumexJsonSchemaException const &exc)
     {
@@ -80,7 +81,7 @@ main ()
     }
   LumexJsonSchemaValidator const lenient (schema, false);
   std::exception_ptr error;
-  lenient.validate (LumexStringView (bad), error);
+  lenient.validate (lumex_string_view (bad), error);
   std::cout << "lenient: "
             << LumexJsonSchemaNormalizer::get_exception_message (error)
             << '\n';

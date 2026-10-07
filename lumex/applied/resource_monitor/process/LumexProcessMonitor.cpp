@@ -77,7 +77,7 @@ struct reading_t
 };
 
 using reading_result_t
-    = lumex::core::expected::result::Expected<reading_t, process_query_error>;
+    = lumex::core::expected::result::expected<reading_t, process_query_error>;
 
 #if defined(_WIN32) || defined(_WIN64)
 // ----------------------------------------------------------------- Windows --

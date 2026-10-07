@@ -80,7 +80,7 @@ using LumexSettingsCreateFn = std::function<bool (void)>;
 
 /**
  * @brief Describes a single settings key that
- * `LumexSettingsGuard::ensureKeysWithDefaults` must keep present and valid.
+ * `LumexSettingsGuard::ensure_keys_with_defaults` must keep present and valid.
  * @details Section, key, default value and an optional validator, in the flat
  * string-value model of `ILumexSettings`. The interface cannot tell "key
  * absent" from "key present with an empty value" - `get()` returns an empty
@@ -105,7 +105,7 @@ struct lumex_settings_key_spec_t
  * `ILumexSettings` instance.
  * @details Adds three behaviors on top of any settings file, working through
  * `ILumexSettings` alone:
- *            - `ensureExistsWithDefaults` / `repairIfCorrupted`: if the
+ *            - `ensure_exists_with_defaults` / `repair_if_corrupted`: if the
  * guarded file is missing or fails to `load()`, back it up (when it exists)
  * and regenerate it via a caller-supplied `LumexSettingsCreateFn`, then
  * re-validate.
@@ -113,7 +113,7 @@ struct lumex_settings_key_spec_t
  *              `<filename>.bak.<YYYYMMDD-HHMMSS>`, implemented purely against
  *              `lumex::filesystem`/`lumex::path` (no dependency on any
  * concrete `ILumexSettings` implementation).
- *            - `ensureKeysWithDefaults`: walks a list of
+ *            - `ensure_keys_with_defaults`: walks a list of
  * `lumex_settings_key_spec_t` and restores each key's default value whenever
  * it is missing, empty, or fails its own `validate` callback. The class owns
  * no settings storage itself - it composes an existing
@@ -172,11 +172,11 @@ public:
    * @return `true` if the file exists and loads successfully after this call,
    * `false` otherwise, including when the settings object threw.
    */
-  bool ensureExistsWithDefaults (LumexSettingsCreateFn const &createDefault)
+  bool ensure_exists_with_defaults (LumexSettingsCreateFn const &createDefault)
       LUMEX_NOEXCEPT;
 
   /**
-   * @brief Identical repair behavior to `ensureExistsWithDefaults`, without
+   * @brief Identical repair behavior to `ensure_exists_with_defaults`, without
    * the final error-level log.
    * @details Provided as a separate entry point for callers that want to
    * probe/repair a file without that
@@ -189,7 +189,7 @@ public:
    * @return `true` if the file exists and loads successfully after this call,
    * `false` otherwise, including when the settings object threw.
    */
-  bool repairIfCorrupted (LumexSettingsCreateFn const &createDefault)
+  bool repair_if_corrupted (LumexSettingsCreateFn const &createDefault)
       LUMEX_NOEXCEPT;
 
   /**
@@ -197,12 +197,12 @@ public:
    * `default_value` otherwise.
    * @details Loads no file itself - it validates/repairs whatever is currently
    * held by the guarded `ILumexSettings` instance (typically populated by a
-   * prior `load()` or by `ensureExistsWithDefaults`), then persists the result
-   * via `save(filename)` if, and only if, at least one key needed its default.
-   * A key needs its default when `validate` rejects its current value or, with
-   * no `validate`, when that value is empty; the default is then passed to
-   * `add()`, which the implementations in this library ignore for an empty
-   * section, key or default. If the guarded settings object throws from
+   * prior `load()` or by `ensure_exists_with_defaults`), then persists the
+   * result via `save(filename)` if, and only if, at least one key needed its
+   * default. A key needs its default when `validate` rejects its current value
+   * or, with no `validate`, when that value is empty; the default is then
+   * passed to `add()`, which the implementations in this library ignore for an
+   * empty section, key or default. If the guarded settings object throws from
    * `get()`, `add()` or `save()`, the call logs the exception at warning
    * level, the same level as a failed save, and returns `false`; nothing is
    * saved after the exception.
@@ -211,7 +211,7 @@ public:
    * succeeded; `false` if no key needed it, if saving failed, or if the
    * settings object threw.
    */
-  bool ensureKeysWithDefaults (
+  bool ensure_keys_with_defaults (
       std::vector<lumex_settings_key_spec_t> const &specs) LUMEX_NOEXCEPT;
 
   /**
@@ -246,7 +246,7 @@ public:
 private:
   /**
    * @brief Shared implementation for
-   * `ensureExistsWithDefaults`/`repairIfCorrupted`.
+   * `ensure_exists_with_defaults`/`repair_if_corrupted`.
    * @details Takes the guard's mutex. An exception from the guarded settings
    * object is logged (at error level when `logOnFinalFailure` is `true`, at
    * warning level otherwise) and ends the call with `false`.
@@ -257,8 +257,8 @@ private:
    * @return `true` if the file loads successfully by the end of this call,
    * `false` otherwise.
    */
-  bool _ensureOrRepairImpl (LumexSettingsCreateFn const &createDefault,
-                            bool logOnFinalFailure) LUMEX_NOEXCEPT;
+  bool _ensure_or_repair_impl (LumexSettingsCreateFn const &createDefault,
+                               bool logOnFinalFailure) LUMEX_NOEXCEPT;
 
 #ifdef _WIN32
 #pragma warning(push)

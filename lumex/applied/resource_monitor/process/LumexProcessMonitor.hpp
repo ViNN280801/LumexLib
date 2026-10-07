@@ -164,7 +164,7 @@ class LUMEX_API LumexProcessMonitor
 public:
   /// @brief The result of a query: a sample, or why there is none.
   using result_t
-      = lumex::core::expected::result::Expected<process_usage_t,
+      = lumex::core::expected::result::expected<process_usage_t,
                                                 process_query_error>;
 
   LumexProcessMonitor ();

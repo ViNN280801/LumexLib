@@ -25,13 +25,13 @@
 /**
  * @file LumexReflectedEnum.hpp
  * @brief X-macro system that generates a scoped enum together with its own
- *        compile-time reflection data and a `toString()` function.
+ *        compile-time reflection data and a `to_string()` function.
  * @details `LUMEX_DEFINE_REFLECTED_ENUM(EnumName, UnderlyingType, (A), (B, 5),
  * (C))` expands to an `enum class EnumName : UnderlyingType { A, B = 5, C
  * };` plus four `constexpr` companions declared right next to it -
  *          `EnumNameValues` (a `std::array` of every enumerator, in
  *          declaration order), `EnumNameFirst`, `EnumNameSize`, and
- *          `EnumNameLast` - and a `toString(EnumName)` function.
+ *          `EnumNameLast` - and a `to_string(EnumName)` function.
  */
 #ifndef LUMEX_CORE_REFLECTION_REFLECTED_ENUM_HPP
 #define LUMEX_CORE_REFLECTION_REFLECTED_ENUM_HPP
@@ -101,14 +101,14 @@ last_of (T, Next next, Rest... rest) LUMEX_NOEXCEPT
 // The wrapping parens make every entry ONE macro argument regardless of an
 // internal comma, so LUMEX_PP_ARG_COUNT below counts entries, not tokens.
 //
-// LUMEX_DEFINE_REFLECTED_ENUM always emits toString(EnumName). Display strings
-// default to the enumerator identifiers (#Name): toString(Foo::B) == "B".
+// LUMEX_DEFINE_REFLECTED_ENUM always emits to_string(EnumName). Display strings
+// default to the enumerator identifiers (#Name): to_string(Foo::B) == "B".
 //
 // Custom strings: do NOT also call LUMEX_DEFINE_REFLECTED_ENUM (that would define
-// toString twice). Use LUMEX_DEFINE_REFLECTED_ENUM_TO_STRING instead:
+// to_string twice). Use LUMEX_DEFINE_REFLECTED_ENUM_TO_STRING instead:
 //   #define FOO_STRINGS(ENTRY) ENTRY(A, "alpha") ENTRY(B, "beta") ENTRY(C, "charlie")
 //   LUMEX_DEFINE_REFLECTED_ENUM_TO_STRING(Foo, std::uint8_t, FOO_STRINGS, (A), (B, 5), (C))
-//   char const* s = toString(Foo::B); // "beta"
+//   char const* s = to_string(Foo::B); // "beta"
 // There must be no comma between ENTRY(...) entries. Do not name the X-macro
 // parameter after an enumerator (ENTRY(X, "ex") is fine; X(X, "ex") is not:
 // the preprocessor would replace both identifiers). Unlisted enumerators and
@@ -274,7 +274,7 @@ last_of (T, Next next, Rest... rest) LUMEX_NOEXCEPT
     return str;
 
 #define LUMEX_PP_DEFINE_TO_STRING_FN(EnumName, SwitchBody)                                       \
-  LUMEX_ATTRIBUTE_NODISCARD ("return value must be used") LUMEX_ATTRIBUTE_MAYBE_UNUSED static LUMEX_CONSTEXPR_CXX14 char const * toString(EnumName value) LUMEX_NOEXCEPT  \
+  LUMEX_ATTRIBUTE_NODISCARD ("return value must be used") LUMEX_ATTRIBUTE_MAYBE_UNUSED static LUMEX_CONSTEXPR_CXX14 char const * to_string(EnumName value) LUMEX_NOEXCEPT  \
   {                                                                                               \
     using LumexToStringEnum_ = EnumName;                                                         \
     switch(value)                                                                                \

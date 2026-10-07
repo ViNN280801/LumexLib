@@ -54,49 +54,49 @@ namespace string_view
 {
 namespace view
 {
-LUMEX_PUBLIC_API LumexStringView::size_type const LumexStringView::npos;
+LUMEX_PUBLIC_API lumex_string_view::size_type const lumex_string_view::npos;
 
 LUMEX_PUBLIC_API
-LumexStringView::LumexStringView (char const *str) LUMEX_NOEXCEPT
+lumex_string_view::lumex_string_view (char const *str) LUMEX_NOEXCEPT
     : m_data (str),
       m_size (str != nullptr ? std::strlen (str) : 0)
 {
 }
 
 LUMEX_PUBLIC_API
-LumexStringView::LumexStringView (std::string const &str) LUMEX_NOEXCEPT
+lumex_string_view::lumex_string_view (std::string const &str) LUMEX_NOEXCEPT
     : m_data (str.data ()),
       m_size (str.size ())
 {
 }
 
-LUMEX_PUBLIC_API LumexStringView::const_reverse_iterator
-LumexStringView::rbegin () const LUMEX_NOEXCEPT
+LUMEX_PUBLIC_API lumex_string_view::const_reverse_iterator
+lumex_string_view::rbegin () const LUMEX_NOEXCEPT
 {
   return const_reverse_iterator (end ());
 }
 
-LUMEX_PUBLIC_API LumexStringView::const_reverse_iterator
-LumexStringView::crbegin () const LUMEX_NOEXCEPT
+LUMEX_PUBLIC_API lumex_string_view::const_reverse_iterator
+lumex_string_view::crbegin () const LUMEX_NOEXCEPT
 {
   return const_reverse_iterator (end ());
 }
 
-LUMEX_PUBLIC_API LumexStringView::const_reverse_iterator
-LumexStringView::rend () const LUMEX_NOEXCEPT
+LUMEX_PUBLIC_API lumex_string_view::const_reverse_iterator
+lumex_string_view::rend () const LUMEX_NOEXCEPT
 {
   return const_reverse_iterator (begin ());
 }
 
-LUMEX_PUBLIC_API LumexStringView::const_reverse_iterator
-LumexStringView::crend () const LUMEX_NOEXCEPT
+LUMEX_PUBLIC_API lumex_string_view::const_reverse_iterator
+lumex_string_view::crend () const LUMEX_NOEXCEPT
 {
   return const_reverse_iterator (begin ());
 }
 
 // -- Element access --
-LUMEX_PUBLIC_API LumexStringView::const_reference
-LumexStringView::at (size_type idx) const
+LUMEX_PUBLIC_API lumex_string_view::const_reference
+lumex_string_view::at (size_type idx) const
 {
   if (idx >= m_size)
     throw std::out_of_range ("LumexStringView::at() out of range");
@@ -105,14 +105,14 @@ LumexStringView::at (size_type idx) const
 
 // -- Modifiers --
 LUMEX_PUBLIC_API void
-LumexStringView::clear () LUMEX_NOEXCEPT
+lumex_string_view::clear () LUMEX_NOEXCEPT
 {
   m_data = nullptr;
   m_size = 0;
 }
 
 LUMEX_PUBLIC_API void
-LumexStringView::remove_prefix (size_type n) LUMEX_NOEXCEPT
+lumex_string_view::remove_prefix (size_type n) LUMEX_NOEXCEPT
 {
   n = std::min (n, m_size);
   m_data += n;
@@ -120,22 +120,22 @@ LumexStringView::remove_prefix (size_type n) LUMEX_NOEXCEPT
 }
 
 LUMEX_PUBLIC_API void
-LumexStringView::remove_suffix (size_type n) LUMEX_NOEXCEPT
+lumex_string_view::remove_suffix (size_type n) LUMEX_NOEXCEPT
 {
   n = std::min (n, m_size);
   m_size -= n;
 }
 
 LUMEX_PUBLIC_API void
-LumexStringView::swap (LumexStringView &other) LUMEX_NOEXCEPT
+lumex_string_view::swap (lumex_string_view &other) LUMEX_NOEXCEPT
 {
   std::swap (m_data, other.m_data);
   std::swap (m_size, other.m_size);
 }
 
 // -- Copy out --
-LUMEX_PUBLIC_API LumexStringView::size_type
-LumexStringView::copy (char *dest, size_type count, size_type pos) const
+LUMEX_PUBLIC_API lumex_string_view::size_type
+lumex_string_view::copy (char *dest, size_type count, size_type pos) const
 {
   if (pos > m_size)
     throw std::out_of_range ("LumexStringView::copy() pos > size");
@@ -145,18 +145,18 @@ LumexStringView::copy (char *dest, size_type count, size_type pos) const
 }
 
 // -- Substring --
-LUMEX_PUBLIC_API LumexStringView
-LumexStringView::substr (size_type pos, size_type n) const
+LUMEX_PUBLIC_API lumex_string_view
+lumex_string_view::substr (size_type pos, size_type n) const
 {
   if (pos > m_size)
     throw std::out_of_range ("LumexStringView::substr() pos > size");
   n = std::min (n, m_size - pos);
-  return LumexStringView (m_data + pos, n);
+  return lumex_string_view (m_data + pos, n);
 }
 
 // -- Comparison --
 LUMEX_PUBLIC_API int
-LumexStringView::compare (LumexStringView other) const LUMEX_NOEXCEPT
+lumex_string_view::compare (lumex_string_view other) const LUMEX_NOEXCEPT
 {
   int const cmp
       = std::memcmp (m_data, other.m_data, std::min (m_size, other.m_size));
@@ -168,40 +168,40 @@ LumexStringView::compare (LumexStringView other) const LUMEX_NOEXCEPT
 }
 
 LUMEX_PUBLIC_API int
-LumexStringView::compare (size_type pos, size_type len,
-                          LumexStringView other) const
+lumex_string_view::compare (size_type pos, size_type len,
+                            lumex_string_view other) const
 {
   return substr (pos, len).compare (other);
 }
 
 LUMEX_PUBLIC_API int
-LumexStringView::compare (char const *cstr) const
+lumex_string_view::compare (char const *cstr) const
 {
-  return compare (LumexStringView (cstr));
+  return compare (lumex_string_view (cstr));
 }
 
 // -- Starts / ends / contains helpers --
 LUMEX_PUBLIC_API bool
-LumexStringView::starts_with (char chr) const LUMEX_NOEXCEPT
+lumex_string_view::starts_with (char chr) const LUMEX_NOEXCEPT
 {
   return !empty () && front () == chr;
 }
 
 LUMEX_PUBLIC_API bool
-LumexStringView::starts_with (LumexStringView str) const LUMEX_NOEXCEPT
+lumex_string_view::starts_with (lumex_string_view str) const LUMEX_NOEXCEPT
 {
   return m_size >= str.m_size
          && std::memcmp (m_data, str.m_data, str.m_size) == 0;
 }
 
 LUMEX_PUBLIC_API bool
-LumexStringView::ends_with (char chr) const LUMEX_NOEXCEPT
+lumex_string_view::ends_with (char chr) const LUMEX_NOEXCEPT
 {
   return !empty () && back () == chr;
 }
 
 LUMEX_PUBLIC_API bool
-LumexStringView::ends_with (LumexStringView str) const LUMEX_NOEXCEPT
+lumex_string_view::ends_with (lumex_string_view str) const LUMEX_NOEXCEPT
 {
   return m_size >= str.m_size
          && std::memcmp (m_data + m_size - str.m_size, str.m_data, str.m_size)
@@ -209,8 +209,8 @@ LumexStringView::ends_with (LumexStringView str) const LUMEX_NOEXCEPT
 }
 
 // -- Find (simple implementations) --
-LUMEX_PUBLIC_API LumexStringView::size_type
-LumexStringView::find (char chr, size_type pos) const LUMEX_NOEXCEPT
+LUMEX_PUBLIC_API lumex_string_view::size_type
+lumex_string_view::find (char chr, size_type pos) const LUMEX_NOEXCEPT
 {
   if (pos >= m_size)
     return npos;
@@ -219,8 +219,9 @@ LumexStringView::find (char chr, size_type pos) const LUMEX_NOEXCEPT
   return ptr != nullptr ? static_cast<size_type> (ptr - m_data) : npos;
 }
 
-LUMEX_PUBLIC_API LumexStringView::size_type
-LumexStringView::find (LumexStringView str, size_type pos) const LUMEX_NOEXCEPT
+LUMEX_PUBLIC_API lumex_string_view::size_type
+lumex_string_view::find (lumex_string_view str,
+                         size_type pos) const LUMEX_NOEXCEPT
 {
   if (str.empty ())
     return pos <= m_size ? pos : npos;
@@ -237,23 +238,23 @@ LumexStringView::find (LumexStringView str, size_type pos) const LUMEX_NOEXCEPT
   return npos;
 }
 
-LUMEX_PUBLIC_API LumexStringView::size_type
-LumexStringView::find (char const *cstr, size_type pos,
-                       size_type count) const LUMEX_NOEXCEPT
+LUMEX_PUBLIC_API lumex_string_view::size_type
+lumex_string_view::find (char const *cstr, size_type pos,
+                         size_type count) const LUMEX_NOEXCEPT
 {
-  return find (LumexStringView (cstr, count), pos);
+  return find (lumex_string_view (cstr, count), pos);
 }
 
-LUMEX_PUBLIC_API LumexStringView::size_type
-LumexStringView::find (char const *cstr, size_type pos) const LUMEX_NOEXCEPT
+LUMEX_PUBLIC_API lumex_string_view::size_type
+lumex_string_view::find (char const *cstr, size_type pos) const LUMEX_NOEXCEPT
 {
-  return find (LumexStringView (cstr), pos);
+  return find (lumex_string_view (cstr), pos);
 }
 
 // -- Reverse find --
-LUMEX_PUBLIC_API LumexStringView::size_type
-LumexStringView::rfind (LumexStringView str,
-                        size_type pos) const LUMEX_NOEXCEPT
+LUMEX_PUBLIC_API lumex_string_view::size_type
+lumex_string_view::rfind (lumex_string_view str,
+                          size_type pos) const LUMEX_NOEXCEPT
 {
   if (str.empty ())
     return std::min (pos, m_size);
@@ -269,8 +270,8 @@ LumexStringView::rfind (LumexStringView str,
   return npos;
 }
 
-LUMEX_PUBLIC_API LumexStringView::size_type
-LumexStringView::rfind (char chr, size_type pos) const LUMEX_NOEXCEPT
+LUMEX_PUBLIC_API lumex_string_view::size_type
+lumex_string_view::rfind (char chr, size_type pos) const LUMEX_NOEXCEPT
 {
   if (empty ())
     return npos;
@@ -282,23 +283,23 @@ LumexStringView::rfind (char chr, size_type pos) const LUMEX_NOEXCEPT
   return npos;
 }
 
-LUMEX_PUBLIC_API LumexStringView::size_type
-LumexStringView::rfind (char const *cstr, size_type pos,
-                        size_type count) const LUMEX_NOEXCEPT
+LUMEX_PUBLIC_API lumex_string_view::size_type
+lumex_string_view::rfind (char const *cstr, size_type pos,
+                          size_type count) const LUMEX_NOEXCEPT
 {
-  return rfind (LumexStringView (cstr, count), pos);
+  return rfind (lumex_string_view (cstr, count), pos);
 }
 
-LUMEX_PUBLIC_API LumexStringView::size_type
-LumexStringView::rfind (char const *cstr, size_type pos) const LUMEX_NOEXCEPT
+LUMEX_PUBLIC_API lumex_string_view::size_type
+lumex_string_view::rfind (char const *cstr, size_type pos) const LUMEX_NOEXCEPT
 {
-  return rfind (LumexStringView (cstr), pos);
+  return rfind (lumex_string_view (cstr), pos);
 }
 
 // -- Find first of --
-LUMEX_PUBLIC_API LumexStringView::size_type
-LumexStringView::find_first_of (LumexStringView str,
-                                size_type pos) const LUMEX_NOEXCEPT
+LUMEX_PUBLIC_API lumex_string_view::size_type
+lumex_string_view::find_first_of (lumex_string_view str,
+                                  size_type pos) const LUMEX_NOEXCEPT
 {
   for (size_type i = pos; i < m_size; ++i)
     {
@@ -309,30 +310,30 @@ LumexStringView::find_first_of (LumexStringView str,
   return npos;
 }
 
-LUMEX_PUBLIC_API LumexStringView::size_type
-LumexStringView::find_first_of (char chr, size_type pos) const LUMEX_NOEXCEPT
+LUMEX_PUBLIC_API lumex_string_view::size_type
+lumex_string_view::find_first_of (char chr, size_type pos) const LUMEX_NOEXCEPT
 {
   return find (chr, pos);
 }
 
-LUMEX_PUBLIC_API LumexStringView::size_type
-LumexStringView::find_first_of (char const *cstr, size_type pos,
-                                size_type count) const LUMEX_NOEXCEPT
+LUMEX_PUBLIC_API lumex_string_view::size_type
+lumex_string_view::find_first_of (char const *cstr, size_type pos,
+                                  size_type count) const LUMEX_NOEXCEPT
 {
-  return find_first_of (LumexStringView (cstr, count), pos);
+  return find_first_of (lumex_string_view (cstr, count), pos);
 }
 
-LUMEX_PUBLIC_API LumexStringView::size_type
-LumexStringView::find_first_of (char const *cstr,
-                                size_type pos) const LUMEX_NOEXCEPT
+LUMEX_PUBLIC_API lumex_string_view::size_type
+lumex_string_view::find_first_of (char const *cstr,
+                                  size_type pos) const LUMEX_NOEXCEPT
 {
-  return find_first_of (LumexStringView (cstr), pos);
+  return find_first_of (lumex_string_view (cstr), pos);
 }
 
 // -- Find last of --
-LUMEX_PUBLIC_API LumexStringView::size_type
-LumexStringView::find_last_of (LumexStringView str,
-                               size_type pos) const LUMEX_NOEXCEPT
+LUMEX_PUBLIC_API lumex_string_view::size_type
+lumex_string_view::find_last_of (lumex_string_view str,
+                                 size_type pos) const LUMEX_NOEXCEPT
 {
   if (empty () || str.empty ())
     return npos;
@@ -348,30 +349,30 @@ LumexStringView::find_last_of (LumexStringView str,
   return npos;
 }
 
-LUMEX_PUBLIC_API LumexStringView::size_type
-LumexStringView::find_last_of (char chr, size_type pos) const LUMEX_NOEXCEPT
+LUMEX_PUBLIC_API lumex_string_view::size_type
+lumex_string_view::find_last_of (char chr, size_type pos) const LUMEX_NOEXCEPT
 {
   return rfind (chr, pos);
 }
 
-LUMEX_PUBLIC_API LumexStringView::size_type
-LumexStringView::find_last_of (char const *cstr, size_type pos,
-                               size_type count) const LUMEX_NOEXCEPT
+LUMEX_PUBLIC_API lumex_string_view::size_type
+lumex_string_view::find_last_of (char const *cstr, size_type pos,
+                                 size_type count) const LUMEX_NOEXCEPT
 {
-  return find_last_of (LumexStringView (cstr, count), pos);
+  return find_last_of (lumex_string_view (cstr, count), pos);
 }
 
-LUMEX_PUBLIC_API LumexStringView::size_type
-LumexStringView::find_last_of (char const *cstr,
-                               size_type pos) const LUMEX_NOEXCEPT
+LUMEX_PUBLIC_API lumex_string_view::size_type
+lumex_string_view::find_last_of (char const *cstr,
+                                 size_type pos) const LUMEX_NOEXCEPT
 {
-  return find_last_of (LumexStringView (cstr), pos);
+  return find_last_of (lumex_string_view (cstr), pos);
 }
 
 // -- Find first not of --
-LUMEX_PUBLIC_API LumexStringView::size_type
-LumexStringView::find_first_not_of (LumexStringView str,
-                                    size_type pos) const LUMEX_NOEXCEPT
+LUMEX_PUBLIC_API lumex_string_view::size_type
+lumex_string_view::find_first_not_of (lumex_string_view str,
+                                      size_type pos) const LUMEX_NOEXCEPT
 {
   for (size_type i = pos; i < m_size; ++i)
     {
@@ -390,9 +391,9 @@ LumexStringView::find_first_not_of (LumexStringView str,
   return npos;
 }
 
-LUMEX_PUBLIC_API LumexStringView::size_type
-LumexStringView::find_first_not_of (char chr,
-                                    size_type pos) const LUMEX_NOEXCEPT
+LUMEX_PUBLIC_API lumex_string_view::size_type
+lumex_string_view::find_first_not_of (char chr,
+                                      size_type pos) const LUMEX_NOEXCEPT
 {
   for (size_type i = pos; i < m_size; ++i)
     if (m_data[i] != chr)
@@ -400,24 +401,24 @@ LumexStringView::find_first_not_of (char chr,
   return npos;
 }
 
-LUMEX_PUBLIC_API LumexStringView::size_type
-LumexStringView::find_first_not_of (char const *cstr, size_type pos,
-                                    size_type count) const LUMEX_NOEXCEPT
+LUMEX_PUBLIC_API lumex_string_view::size_type
+lumex_string_view::find_first_not_of (char const *cstr, size_type pos,
+                                      size_type count) const LUMEX_NOEXCEPT
 {
-  return find_first_not_of (LumexStringView (cstr, count), pos);
+  return find_first_not_of (lumex_string_view (cstr, count), pos);
 }
 
-LUMEX_PUBLIC_API LumexStringView::size_type
-LumexStringView::find_first_not_of (char const *cstr,
-                                    size_type pos) const LUMEX_NOEXCEPT
+LUMEX_PUBLIC_API lumex_string_view::size_type
+lumex_string_view::find_first_not_of (char const *cstr,
+                                      size_type pos) const LUMEX_NOEXCEPT
 {
-  return find_first_not_of (LumexStringView (cstr), pos);
+  return find_first_not_of (lumex_string_view (cstr), pos);
 }
 
 // -- Find last not of --
-LUMEX_PUBLIC_API LumexStringView::size_type
-LumexStringView::find_last_not_of (LumexStringView str,
-                                   size_type pos) const LUMEX_NOEXCEPT
+LUMEX_PUBLIC_API lumex_string_view::size_type
+lumex_string_view::find_last_not_of (lumex_string_view str,
+                                     size_type pos) const LUMEX_NOEXCEPT
 {
   if (empty ())
     return npos;
@@ -441,9 +442,9 @@ LumexStringView::find_last_not_of (LumexStringView str,
   return npos;
 }
 
-LUMEX_PUBLIC_API LumexStringView::size_type
-LumexStringView::find_last_not_of (char chr,
-                                   size_type pos) const LUMEX_NOEXCEPT
+LUMEX_PUBLIC_API lumex_string_view::size_type
+lumex_string_view::find_last_not_of (char chr,
+                                     size_type pos) const LUMEX_NOEXCEPT
 {
   if (empty ())
     return npos;
@@ -455,24 +456,24 @@ LumexStringView::find_last_not_of (char chr,
   return npos;
 }
 
-LUMEX_PUBLIC_API LumexStringView::size_type
-LumexStringView::find_last_not_of (char const *cstr, size_type pos,
-                                   size_type count) const LUMEX_NOEXCEPT
+LUMEX_PUBLIC_API lumex_string_view::size_type
+lumex_string_view::find_last_not_of (char const *cstr, size_type pos,
+                                     size_type count) const LUMEX_NOEXCEPT
 {
-  return find_last_not_of (LumexStringView (cstr, count), pos);
+  return find_last_not_of (lumex_string_view (cstr, count), pos);
 }
 
-LUMEX_PUBLIC_API LumexStringView::size_type
-LumexStringView::find_last_not_of (char const *cstr,
-                                   size_type pos) const LUMEX_NOEXCEPT
+LUMEX_PUBLIC_API lumex_string_view::size_type
+lumex_string_view::find_last_not_of (char const *cstr,
+                                     size_type pos) const LUMEX_NOEXCEPT
 {
-  return find_last_not_of (LumexStringView (cstr), pos);
+  return find_last_not_of (lumex_string_view (cstr), pos);
 }
 
 // -- Stream inserter --
 LUMEX_PUBLIC_API
 std::ostream &
-operator<< (std::ostream &ostr, LumexStringView sview)
+operator<< (std::ostream &ostr, lumex_string_view sview)
 {
   return ostr.write (sview.data (),
                      static_cast<std::streamsize> (sview.size ()));

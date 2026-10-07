@@ -41,14 +41,15 @@ namespace monitor
 namespace detail
 {
 LUMEX_PUBLIC_API optional<std::uint64_t>
-parse_kib_field (LumexStringView text, LumexStringView key)
+parse_kib_field (lumex_string_view text, lumex_string_view key)
 {
   std::size_t at = 0;
   while (at < text.size ())
     {
       std::size_t const end = text.find ('\n', at);
-      LumexStringView const line = text.substr (
-          at, end == LumexStringView::npos ? LumexStringView::npos : end - at);
+      lumex_string_view const line = text.substr (
+          at,
+          end == lumex_string_view::npos ? lumex_string_view::npos : end - at);
       if (line.size () > key.size () && line.compare (0, key.size (), key) == 0
           && line[key.size ()] == ':')
         {
@@ -61,7 +62,7 @@ parse_kib_field (LumexStringView text, LumexStringView key)
           fields >> unit;
           return unit == "kB" ? value * 1024U : value;
         }
-      if (end == LumexStringView::npos)
+      if (end == lumex_string_view::npos)
         break;
       at = end + 1;
     }
@@ -69,9 +70,9 @@ parse_kib_field (LumexStringView text, LumexStringView key)
 }
 
 LUMEX_PUBLIC_API optional<proc_stat_cpu_t>
-parse_proc_stat_cpu (LumexStringView text)
+parse_proc_stat_cpu (lumex_string_view text)
 {
-  LumexStringView const line = text.substr (0, text.find ('\n'));
+  lumex_string_view const line = text.substr (0, text.find ('\n'));
   if (line.size () < 4 || line.compare (0, 4, "cpu ") != 0)
     return nullopt;
 
@@ -93,7 +94,7 @@ parse_proc_stat_cpu (LumexStringView text)
 }
 
 LUMEX_PUBLIC_API optional<proc_meminfo_t>
-parse_proc_meminfo (LumexStringView text)
+parse_proc_meminfo (lumex_string_view text)
 {
   optional<std::uint64_t> const total = parse_kib_field (text, "MemTotal");
   optional<std::uint64_t> const available

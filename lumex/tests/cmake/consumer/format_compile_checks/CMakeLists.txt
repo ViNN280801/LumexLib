@@ -1,7 +1,7 @@
 # Compile-check fixture for cmake.format_compile_checks.
 #
 # LumexFormat checks a literal format string against the argument types at
-# compile time from C++20 on (consteval constructor of BasicFormatString).
+# compile time from C++20 on (consteval constructor of basic_format_string).
 # Every LUMEX_FORMAT_BAD_CASE in check.cpp must fail to compile and every
 # LUMEX_FORMAT_GOOD_CASE must compile. The whole check runs at configure
 # time (try_compile); there is nothing to build afterwards. A compiler

@@ -29,13 +29,13 @@ namespace core
 {
 namespace fmt
 {
-template <> class Formatter<area_t> : public Formatter<double>
+template <> class formatter<area_t> : public formatter<double>
 {
 public:
-  BasicAppender<char>
+  basic_appender<char>
   format (area_t const &area, FormatContext &ctx) const
   {
-    return Formatter<double>::format (area.value, ctx);
+    return formatter<double>::format (area.value, ctx);
   }
 };
 } // namespace fmt

@@ -11,7 +11,7 @@ main ()
   std::cout << "=== NumberGenerator ranges and sequences ===\n\n";
 
   std::cout << "--- 1. Default d6 ---\n";
-  NumberGenerator<int> d6 (1, 6);
+  number_generator<int> d6 (1, 6);
   std::cout << "d6=" << d6 () << " again=" << d6.get_number () << '\n';
 
   std::cout << "\n--- 2. On-the-fly bounds ---\n";
@@ -33,7 +33,7 @@ main ()
   std::cout << '\n';
 
   std::cout << "\n--- 5. Normal distribution around a setpoint ---\n";
-  NumberGenerator<double> noise (0.0, 1.0, DistributionType::NORMAL);
+  number_generator<double> noise (0.0, 1.0, DistributionType::NORMAL);
   noise.set_distribution (DistributionType::NORMAL);
   std::cout << "normal=" << noise (1.0, 0.1, DistributionType::NORMAL) << '\n';
 

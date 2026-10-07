@@ -39,9 +39,9 @@
 
 /**
  * @file Unexpected.hpp
- * @brief `Unexpected`, the wrapper that carries an error into an `Expected`;
+ * @brief `unexpected`, the wrapper that carries an error into an `expected`;
  * an analogue of C++23 `std::unexpected`.
- * @details Constructing an `Expected` from an `Unexpected<E>` puts it in the
+ * @details Constructing an `expected` from an `unexpected<E>` puts it in the
  * error state, and `make_unexpected<E>()` of `Expected.hpp` builds one in
  * place. Header-only, part of `lumex::expected` and usable from C++11; the
  * class is also visible at global scope.
@@ -51,7 +51,7 @@
 
 #include <utility>
 
-// ====================== Unexpected class (C++23 analogue)
+// ====================== unexpected class (C++23 analogue)
 // ======================
 
 namespace lumex
@@ -63,13 +63,13 @@ namespace expected
 namespace error
 {
 /**
- * @brief Wrapper that holds an error value for `Expected`.
- * @details Used to construct an `Expected` in the error state. Analogue of
+ * @brief Wrapper that holds an error value for `expected`.
+ * @details Used to construct an `expected` in the error state. Analogue of
  * `std::unexpected` from C++23.
  * @tparam ErrorType Type of the stored error value.
- * @note An `Unexpected` object is always in the error state.
+ * @note An `unexpected` object is always in the error state.
  */
-template <typename ErrorType> class Unexpected
+template <typename ErrorType> class unexpected
 {
 public:
   /**
@@ -78,7 +78,7 @@ public:
    * @note Not declared `noexcept`; throws whatever the copy constructor of
    * `ErrorType` throws.
    */
-  explicit Unexpected (ErrorType const &error) : m_error (error) {}
+  explicit unexpected (ErrorType const &error) : m_error (error) {}
 
   /**
    * @brief Constructs from an rvalue error.
@@ -86,7 +86,7 @@ public:
    * @note Not declared `noexcept`; throws whatever the move constructor of
    * `ErrorType` throws.
    */
-  explicit Unexpected (ErrorType &&error) : m_error (std::move (error)) {}
+  explicit unexpected (ErrorType &&error) : m_error (std::move (error)) {}
 
   /**
    * @brief Returns a mutable lvalue reference to the stored error.
@@ -145,6 +145,6 @@ private:
 } // namespace core
 } // namespace lumex
 
-using lumex::core::expected::error::Unexpected;
+using lumex::core::expected::error::unexpected;
 
 #endif // !LUMEX_CORE_EXPECTED_ERROR_UNEXPECTED_HPP

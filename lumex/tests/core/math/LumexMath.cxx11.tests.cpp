@@ -320,8 +320,8 @@ TEST (LumexMathTest,
   // mismatch like any other.
   std::vector<double> const empty{};
   std::vector<double> const values{ 1.0, 2.0 };
-  EXPECT_THROW (rms (empty, values), LumexMathSizeMismatchException);
-  EXPECT_THROW (rmse (values, empty), LumexMathSizeMismatchException);
+  EXPECT_THROW (rms (empty, values), lumex_math_size_mismatch_exception);
+  EXPECT_THROW (rmse (values, empty), lumex_math_size_mismatch_exception);
 }
 
 TEST (LumexMathTest, GivenTwoEmptyRanges_WhenRMSTwoArg_ThenReturnsZero)
@@ -343,8 +343,9 @@ TEST (LumexMathTest,
     }
   catch (std::invalid_argument const &ex)
     {
-      EXPECT_NE (dynamic_cast<LumexMathSizeMismatchException const *> (&ex),
-                 nullptr);
+      EXPECT_NE (
+          dynamic_cast<lumex_math_size_mismatch_exception const *> (&ex),
+          nullptr);
       EXPECT_STREQ (ex.what (),
                     "rmse: size of both ranges must be equal (2 vs 4)");
     }

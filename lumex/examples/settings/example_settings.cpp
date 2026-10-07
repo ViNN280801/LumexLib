@@ -61,7 +61,7 @@ main ()
   missing.default_value = "40";
   missing.validate = nullptr;
   specs.push_back (missing);
-  bool const filled = guard.ensureKeysWithDefaults (specs);
+  bool const filled = guard.ensure_keys_with_defaults (specs);
   shared->load (path);
   std::cout << "ensureKeys changed=" << (filled ? "yes" : "no")
             << " oven=" << shared->get ("oven", "temperature") << '\n';

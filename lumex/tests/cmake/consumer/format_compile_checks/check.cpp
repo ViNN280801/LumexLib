@@ -20,7 +20,7 @@ namespace core
 {
 namespace fmt
 {
-template <> class Formatter<date_t>
+template <> class formatter<date_t>
 {
 public:
   char const *
@@ -32,7 +32,7 @@ public:
     return it;
   }
 
-  BasicAppender<char>
+  basic_appender<char>
   format (date_t const &date, FormatContext &ctx) const
   {
     return fmt::format_to (ctx.out (), "{}", date.year);

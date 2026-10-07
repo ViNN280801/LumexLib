@@ -200,7 +200,7 @@ unique_settings_guard_dir ()
 
 // filesystem fixture, mirroring LumexSettingsINITest's own setup, for tests
 // that need real files on disk (backup(), and end-to-end
-// ensureExistsWithDefaults() with LumexSettingsINI).
+// ensure_exists_with_defaults() with LumexSettingsINI).
 class LumexSettingsGuardFileTest : public ::testing::Test
 {
 protected:
@@ -299,7 +299,7 @@ TEST (
   LumexSettingsGuard guard (nullptr, "whatever.ini");
   bool createCalled = false;
 
-  EXPECT_FALSE (guard.ensureExistsWithDefaults (
+  EXPECT_FALSE (guard.ensure_exists_with_defaults (
       [&] ()
         {
           createCalled = true;
@@ -312,7 +312,7 @@ TEST (LumexSettingsGuardTest,
       GivenNullSettings_WhenRepairIfCorrupted_ThenReturnsFalse)
 {
   LumexSettingsGuard guard (nullptr, "whatever.ini");
-  EXPECT_FALSE (guard.repairIfCorrupted ([] () { return true; }));
+  EXPECT_FALSE (guard.repair_if_corrupted ([] () { return true; }));
 }
 
 TEST (LumexSettingsGuardTest,
@@ -321,10 +321,11 @@ TEST (LumexSettingsGuardTest,
   LumexSettingsGuard guard (nullptr, "whatever.ini");
   std::vector<lumex_settings_key_spec_t> specs{ { "section", "key", "default",
                                                   nullptr } };
-  EXPECT_FALSE (guard.ensureKeysWithDefaults (specs));
+  EXPECT_FALSE (guard.ensure_keys_with_defaults (specs));
 }
 
-// --- ensureExistsWithDefaults() control flow (FakeLumexSettings) -----------
+// --- ensure_exists_with_defaults() control flow (FakeLumexSettings)
+// -----------
 
 TEST (
     LumexSettingsGuardTest,
@@ -335,7 +336,7 @@ TEST (
   LumexSettingsGuard guard (fake, "file.ini");
   bool createCalled = false;
 
-  EXPECT_TRUE (guard.ensureExistsWithDefaults (
+  EXPECT_TRUE (guard.ensure_exists_with_defaults (
       [&] ()
         {
           createCalled = true;
@@ -354,7 +355,7 @@ TEST (
   LumexSettingsGuard guard (fake, "file.ini");
   int createCallCount = 0;
 
-  bool const result = guard.ensureExistsWithDefaults (
+  bool const result = guard.ensure_exists_with_defaults (
       [&] ()
         {
           ++createCallCount;
@@ -377,7 +378,7 @@ TEST (
   fake->loadResult = false;
   LumexSettingsGuard guard (fake, "file.ini");
 
-  EXPECT_FALSE (guard.ensureExistsWithDefaults ([] () { return false; }));
+  EXPECT_FALSE (guard.ensure_exists_with_defaults ([] () { return false; }));
   EXPECT_EQ (fake->loadCallCount,
              1); // no point retrying load() if repair itself failed
 }
@@ -391,7 +392,7 @@ TEST (
   LumexSettingsGuard guard (fake, "file.ini");
 
   LumexSettingsCreateFn empty; // default-constructed std::function is falsy
-  EXPECT_FALSE (guard.ensureExistsWithDefaults (empty));
+  EXPECT_FALSE (guard.ensure_exists_with_defaults (empty));
 }
 
 TEST (
@@ -402,7 +403,7 @@ TEST (
   fake->loadResult = false;
   LumexSettingsGuard guard (fake, "file.ini");
 
-  EXPECT_FALSE (guard.ensureExistsWithDefaults (
+  EXPECT_FALSE (guard.ensure_exists_with_defaults (
       [] () -> bool { throw std::runtime_error ("boom"); }));
 }
 
@@ -414,11 +415,12 @@ TEST (
   fake->loadResult = false; // never recovers
   LumexSettingsGuard guard (fake, "file.ini");
 
-  EXPECT_FALSE (guard.ensureExistsWithDefaults ([] () { return true; }));
+  EXPECT_FALSE (guard.ensure_exists_with_defaults ([] () { return true; }));
   EXPECT_EQ (fake->loadCallCount, 2);
 }
 
-// --- repairIfCorrupted() mirrors ensureExistsWithDefaults's control flow ---
+// --- repair_if_corrupted() mirrors ensure_exists_with_defaults's control flow
+// ---
 
 TEST (
     LumexSettingsGuardTest,
@@ -429,7 +431,7 @@ TEST (
   LumexSettingsGuard guard (fake, "file.ini");
   bool createCalled = false;
 
-  EXPECT_TRUE (guard.repairIfCorrupted (
+  EXPECT_TRUE (guard.repair_if_corrupted (
       [&] ()
         {
           createCalled = true;
@@ -446,7 +448,7 @@ TEST (
   fake->loadResult = false;
   LumexSettingsGuard guard (fake, "file.ini");
 
-  EXPECT_TRUE (guard.repairIfCorrupted (
+  EXPECT_TRUE (guard.repair_if_corrupted (
       [&] ()
         {
           fake->loadResult = true;
@@ -486,7 +488,8 @@ TEST_F (LumexSettingsGuardFileTest,
   EXPECT_EQ (content, "[section]\nkey=value\n");
 }
 
-// --- ensureExistsWithDefaults() end-to-end with a real LumexSettingsINI ----
+// --- ensure_exists_with_defaults() end-to-end with a real LumexSettingsINI
+// ----
 
 TEST_F (
     LumexSettingsGuardFileTest,
@@ -500,7 +503,7 @@ TEST_F (
   LumexSettingsGuard guard (ini, _test_file.string ());
 
   lumex::path const targetFile = _test_file;
-  bool const result = guard.ensureExistsWithDefaults (
+  bool const result = guard.ensure_exists_with_defaults (
       [targetFile] ()
         {
           std::ofstream out (targetFile.string ());
@@ -522,7 +525,7 @@ TEST_F (
   LumexSettingsGuard guard (ini, _test_file.string ());
 
   lumex::path const targetFile = _test_file;
-  bool const result = guard.ensureExistsWithDefaults (
+  bool const result = guard.ensure_exists_with_defaults (
       [targetFile] ()
         {
           std::ofstream out (targetFile.string ());
@@ -535,7 +538,8 @@ TEST_F (
   EXPECT_FALSE (has_backup_of (_test_file)); // nothing existed to back up
 }
 
-// --- ensureKeysWithDefaults() control flow (FakeLumexSettings) -------------
+// --- ensure_keys_with_defaults() control flow (FakeLumexSettings)
+// -------------
 
 TEST (LumexSettingsGuardTest,
       GivenMissingKey_WhenEnsureKeysWithDefaults_ThenSetsDefaultAndReturnsTrue)
@@ -545,7 +549,7 @@ TEST (LumexSettingsGuardTest,
   std::vector<lumex_settings_key_spec_t> specs{ { "section", "key",
                                                   "default_value", nullptr } };
 
-  EXPECT_TRUE (guard.ensureKeysWithDefaults (specs));
+  EXPECT_TRUE (guard.ensure_keys_with_defaults (specs));
   EXPECT_EQ (fake->get ("section", "key"), "default_value");
   EXPECT_EQ (fake->saveCallCount, 1);
 }
@@ -560,7 +564,7 @@ TEST (
   std::vector<lumex_settings_key_spec_t> specs{ { "section", "key",
                                                   "default_value", nullptr } };
 
-  EXPECT_TRUE (guard.ensureKeysWithDefaults (specs));
+  EXPECT_TRUE (guard.ensure_keys_with_defaults (specs));
   EXPECT_EQ (fake->get ("section", "key"), "default_value");
 }
 
@@ -574,7 +578,7 @@ TEST (
   std::vector<lumex_settings_key_spec_t> specs{ { "section", "key",
                                                   "default_value", nullptr } };
 
-  EXPECT_FALSE (guard.ensureKeysWithDefaults (specs));
+  EXPECT_FALSE (guard.ensure_keys_with_defaults (specs));
   EXPECT_EQ (fake->get ("section", "key"), "existing_value");
   EXPECT_EQ (fake->saveCallCount, 0);
 }
@@ -596,7 +600,7 @@ TEST (
         } }
   };
 
-  EXPECT_TRUE (guard.ensureKeysWithDefaults (specs));
+  EXPECT_TRUE (guard.ensure_keys_with_defaults (specs));
   EXPECT_EQ (fake->get ("section", "key"), "42");
 }
 
@@ -616,7 +620,7 @@ TEST (LumexSettingsGuardTest,
         } }
   };
 
-  EXPECT_FALSE (guard.ensureKeysWithDefaults (specs));
+  EXPECT_FALSE (guard.ensure_keys_with_defaults (specs));
   EXPECT_EQ (fake->get ("section", "key"), "123");
 }
 
@@ -632,7 +636,7 @@ TEST (
       [] (std::string const &) -> bool { throw std::runtime_error ("boom"); } }
   };
 
-  EXPECT_TRUE (guard.ensureKeysWithDefaults (specs));
+  EXPECT_TRUE (guard.ensure_keys_with_defaults (specs));
   EXPECT_EQ (fake->get ("section", "key"), "default_value");
 }
 
@@ -646,7 +650,7 @@ TEST (
   std::vector<lumex_settings_key_spec_t> specs{ { "section", "key",
                                                   "default_value", nullptr } };
 
-  EXPECT_FALSE (guard.ensureKeysWithDefaults (specs));
+  EXPECT_FALSE (guard.ensure_keys_with_defaults (specs));
   EXPECT_EQ (fake->get ("section", "key"),
              "default_value"); // still applied in memory
 }
@@ -664,14 +668,15 @@ TEST (
     { "section2", "missing", "created", nullptr },
   };
 
-  EXPECT_TRUE (guard.ensureKeysWithDefaults (specs));
+  EXPECT_TRUE (guard.ensure_keys_with_defaults (specs));
   EXPECT_EQ (fake->get ("section", "good"), "keep_me");
   EXPECT_EQ (fake->get ("section", "empty"), "filled");
   EXPECT_EQ (fake->get ("section2", "missing"), "created");
   EXPECT_EQ (fake->saveCallCount, 1);
 }
 
-// --- ensureKeysWithDefaults() end-to-end with a real LumexSettingsINI ------
+// --- ensure_keys_with_defaults() end-to-end with a real LumexSettingsINI
+// ------
 
 TEST_F (
     LumexSettingsGuardFileTest,
@@ -687,7 +692,7 @@ TEST_F (
     { "section", "key", "restored_default", nullptr }
   };
 
-  EXPECT_TRUE (guard.ensureKeysWithDefaults (specs));
+  EXPECT_TRUE (guard.ensure_keys_with_defaults (specs));
 
   LumexSettingsINI reloaded;
   ASSERT_TRUE (reloaded.load (_test_file));
@@ -714,7 +719,7 @@ TEST (
   std::string log;
   {
     StreamCapture capture (std::clog);
-    result = guard.ensureKeysWithDefaults (specs);
+    result = guard.ensure_keys_with_defaults (specs);
     log = capture.text ();
   }
 
@@ -738,7 +743,7 @@ TEST (
   std::string log;
   {
     StreamCapture capture (std::clog);
-    result = guard.ensureKeysWithDefaults (specs);
+    result = guard.ensure_keys_with_defaults (specs);
     log = capture.text ();
   }
 
@@ -759,7 +764,7 @@ TEST (LumexSettingsGuardTest,
   std::string log;
   {
     StreamCapture capture (std::clog);
-    result = guard.ensureKeysWithDefaults (specs);
+    result = guard.ensure_keys_with_defaults (specs);
     log = capture.text ();
   }
 
@@ -790,7 +795,7 @@ TEST (
   std::string log;
   {
     StreamCapture capture (std::clog);
-    result = guard.ensureKeysWithDefaults (specs);
+    result = guard.ensure_keys_with_defaults (specs);
     log = capture.text ();
   }
 
@@ -814,12 +819,12 @@ TEST (
                                                   "default_value", nullptr } };
   {
     StreamCapture capture (std::clog);
-    EXPECT_FALSE (guard.ensureKeysWithDefaults (specs));
+    EXPECT_FALSE (guard.ensure_keys_with_defaults (specs));
   }
 
   fake->saveThrows = ThrowKind::NONE;
   fake->remove ("section", "key");
-  EXPECT_TRUE (guard.ensureKeysWithDefaults (specs));
+  EXPECT_TRUE (guard.ensure_keys_with_defaults (specs));
   EXPECT_EQ (fake->saveCallCount, 2);
   EXPECT_EQ (fake->lastSavePath, FAKE_FILE);
 }
@@ -837,7 +842,7 @@ TEST (
   std::string log;
   {
     StreamCapture capture (std::cerr);
-    result = guard.ensureExistsWithDefaults (
+    result = guard.ensure_exists_with_defaults (
         [&] ()
           {
             createCalled = true;
@@ -865,7 +870,7 @@ TEST (
   std::string log;
   {
     StreamCapture capture (std::cerr);
-    result = guard.ensureExistsWithDefaults (
+    result = guard.ensure_exists_with_defaults (
         [&] ()
           {
             fake->loadThrows = ThrowKind::NON_STD_EXCEPTION;
@@ -890,7 +895,7 @@ TEST (LumexSettingsGuardTest,
   std::string log;
   {
     StreamCapture capture (std::clog);
-    result = guard.repairIfCorrupted ([] () { return true; });
+    result = guard.repair_if_corrupted ([] () { return true; });
     log = capture.text ();
   }
 
@@ -906,11 +911,11 @@ TEST (LumexSettingsGuardTest,
   LumexSettingsGuard guard (fake, FAKE_FILE);
   {
     StreamCapture capture (std::cerr);
-    EXPECT_FALSE (guard.ensureExistsWithDefaults ([] () { return true; }));
+    EXPECT_FALSE (guard.ensure_exists_with_defaults ([] () { return true; }));
   }
 
   fake->loadThrows = ThrowKind::NONE;
-  EXPECT_TRUE (guard.ensureExistsWithDefaults ([] () { return true; }));
+  EXPECT_TRUE (guard.ensure_exists_with_defaults ([] () { return true; }));
   EXPECT_EQ (fake->loadCallCount, 2);
 }
 
@@ -933,7 +938,7 @@ TEST_F (
   std::string log;
   {
     StreamCapture capture (std::clog);
-    result = guard.ensureKeysWithDefaults (specs);
+    result = guard.ensure_keys_with_defaults (specs);
     log = capture.text ();
   }
 

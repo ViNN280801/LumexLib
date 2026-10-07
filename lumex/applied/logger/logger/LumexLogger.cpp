@@ -553,7 +553,7 @@ capture_stack_trace (int skip_frames = 1, int max_frames = 16) LUMEX_NOEXCEPT
  * @note Does not throw.
  */
 std::string
-_normalizeString (std::string const &str) LUMEX_NOEXCEPT
+_normalize_string (std::string const &str) LUMEX_NOEXCEPT
 {
   try
     {
@@ -596,7 +596,7 @@ _normalizeString (std::string const &str) LUMEX_NOEXCEPT
  * @note Does not throw.
  */
 bool
-_createDirectoryIfNotExists (std::string const &dirPath) LUMEX_NOEXCEPT
+_create_directory_if_not_exists (std::string const &dirPath) LUMEX_NOEXCEPT
 {
   try
     {
@@ -673,8 +673,8 @@ _createDirectoryIfNotExists (std::string const &dirPath) LUMEX_NOEXCEPT
  * @note Does not throw.
  */
 std::string
-_parsePrefixedValue (std::string const &line,
-                     std::string const &prefix) LUMEX_NOEXCEPT
+_parse_prefixed_value (std::string const &line,
+                       std::string const &prefix) LUMEX_NOEXCEPT
 {
   try
     {
@@ -682,8 +682,8 @@ _parsePrefixedValue (std::string const &line,
         return "";
 
       // Look for the prefix at the start of the line (case-insensitive)
-      std::string normalizedLine = _normalizeString (line);
-      std::string normalizedPrefix = _normalizeString (prefix);
+      std::string normalizedLine = _normalize_string (line);
+      std::string normalizedPrefix = _normalize_string (prefix);
 
       if (normalizedLine.length () <= normalizedPrefix.length ())
         return "";
@@ -720,20 +720,20 @@ _parsePrefixedValue (std::string const &line,
  * @return true if the line has the form "PREFIX=...", even if the value
  * after '=' is empty.
  * @note Does not throw.
- * @note The previous _parsePrefixedValue implementation returned false for
+ * @note The previous _parse_prefixed_value implementation returned false for
  * "PRESET=" (empty value), so the line fell through to the fallback
  * old format and overwrote log_level with LEVEL_INFO.
  */
 bool
-_hasPrefix (std::string const &line, std::string const &prefix) LUMEX_NOEXCEPT
+_has_prefix (std::string const &line, std::string const &prefix) LUMEX_NOEXCEPT
 {
   try
     {
       if (line.empty () || prefix.empty ())
         return false;
 
-      std::string normalizedLine = _normalizeString (line);
-      std::string normalizedPrefix = _normalizeString (prefix);
+      std::string normalizedLine = _normalize_string (line);
+      std::string normalizedPrefix = _normalize_string (prefix);
 
       if (normalizedLine.length () < normalizedPrefix.length () + 1)
         return false;
@@ -1063,10 +1063,10 @@ LumexLogger::LumexLogger ()
 {
   try
     {
-      executable_directory = _getExecutableDirectory ();
+      executable_directory = _get_executable_directory ();
 
       // Check whether the logging-enable file exists
-      logging_enabled = _isLoggingEnabledFileExists ();
+      logging_enabled = _is_logging_enabled_file_exists ();
       if (!logging_enabled)
         {
           // Logging is disabled; do not create a log file
@@ -1075,7 +1075,7 @@ LumexLogger::LumexLogger ()
 
       // Read configuration from the file (log level, function-name
       // mode, timestamped logs, stacktrace, preset)
-      auto config = _readConfigFromFile ();
+      auto config = _read_config_from_file ();
       current_log_level = config.log_level;
       function_name_mode = config.func_name_mode;
       use_timestamped_logs = config.use_timestamped_logs;
@@ -1149,7 +1149,7 @@ LumexLogger::LumexLogger ()
             }
         }
 
-      log_file_path = _createLogFilePath ();
+      log_file_path = _create_log_file_path ();
 
       // Open the file for writing, overwriting existing contents
       log_file.open (log_file_path, std::ios::out | std::ios::trunc);
@@ -1164,7 +1164,7 @@ LumexLogger::LumexLogger ()
       // Write the log header
       log_file << "=== Log start of the program ===\n";
       log_file_start_time = std::chrono::system_clock::now ();
-      log_file << "Time start: " << _formatTimestamp () << '\n';
+      log_file << "Time start: " << _format_timestamp () << '\n';
       log_file << "Path to executable file: " << executable_directory << '\n';
       log_file << "Logging enabled by file: " << trigger_file_name << '\n';
       log_file << "Log level from trigger-file: "
@@ -1233,11 +1233,11 @@ LumexLogger::~LumexLogger ()
           // (previous behavior)
           if (buffering_enabled && !log_buffer.empty ()
               && !buffering_trigger_configured)
-            _flushBuffer ();
+            _flush_buffer ();
 
           log_file << "=== End of the program ============" << '\n';
           log_file_end_time = std::chrono::system_clock::now ();
-          log_file << "Time end: " << _formatTimestamp () << '\n';
+          log_file << "Time end: " << _format_timestamp () << '\n';
 
           auto activeTime = log_file_end_time - log_file_start_time;
           auto activeSeconds
@@ -1316,7 +1316,7 @@ LumexLogger::log (LogLevel level, std::string const &message)
       // First flush the accumulated buffer (if there is a
       // trigger-level message)
       if (buffering_enabled && isCriticalLevel && !log_buffer.empty ())
-        _flushBuffer ();
+        _flush_buffer ();
 
       // A trigger-level message is always written after the buffer flush
       // (the preset does NOT filter critical levels - that is the key
@@ -1351,8 +1351,8 @@ LumexLogger::log (LogLevel level, std::string const &message)
                       << "Warning: Unknown error during capture stacktrace\n";
                 }
             }
-          if (_canWriteLog (fullMessage.length ()))
-            _writeLog (level, fullMessage);
+          if (_can_write_log (fullMessage.length ()))
+            _write_log (level, fullMessage);
           else
             {
               std::string warningMsg
@@ -1366,13 +1366,13 @@ LumexLogger::log (LogLevel level, std::string const &message)
                             : get_file_size (log_file_path))
                     + ", Free space: "
                     + _format_size (get_free_disk_space (log_file_path));
-              _writeLog (LogLevel::LEVEL_WARNING, warningMsg);
+              _write_log (LogLevel::LEVEL_WARNING, warningMsg);
             }
           return;
         }
 
       // Non-critical level: the preset filters buffer insert and write
-      if (!_shouldLogByPreset (message))
+      if (!_should_log_by_preset (message))
         return;
 
       std::string fullMessage = message;
@@ -1410,9 +1410,9 @@ LumexLogger::log (LogLevel level, std::string const &message)
           return;
         }
 
-      if (_canWriteLog (fullMessage.length ()))
+      if (_can_write_log (fullMessage.length ()))
         {
-          _writeLog (level, fullMessage);
+          _write_log (level, fullMessage);
         }
       else
         {
@@ -1427,7 +1427,7 @@ LumexLogger::log (LogLevel level, std::string const &message)
                         : get_file_size (log_file_path))
                 + ", Free space: "
                 + _format_size (get_free_disk_space (log_file_path));
-          _writeLog (LogLevel::LEVEL_WARNING, warningMsg);
+          _write_log (LogLevel::LEVEL_WARNING, warningMsg);
         }
     }
 }
@@ -1494,7 +1494,7 @@ LumexLogger::flush ()
 
   std::lock_guard<std::mutex> lock (log_mutex);
   if (buffering_enabled && !log_buffer.empty ())
-    _flushBuffer ();
+    _flush_buffer ();
   if (log_file.is_open ())
     log_file.flush ();
 }
@@ -1528,7 +1528,7 @@ LumexLogger::disable_buffering ()
 
   // Write every buffered record before disable
   if (!log_buffer.empty ())
-    _flushBuffer ();
+    _flush_buffer ();
 
   buffering_enabled = false;
   log_buffer.clear ();
@@ -1670,7 +1670,7 @@ LumexLogger::_parse_preset_components (std::string const &componentsStr)
 // cppcoreguidelines-pro-type-reinterpret-cast)
 
 std::string
-LumexLogger::_getExecutableDirectory () const
+LumexLogger::_get_executable_directory () const
 {
 #if defined(_WIN32) || defined(_WIN64)
   // Windows: use GetModuleFileName to get the DLL/EXE path
@@ -1683,12 +1683,12 @@ LumexLogger::_getExecutableDirectory () const
                           reinterpret_cast<LPCSTR> (this), &hModule))
     {
       if (GetModuleFileNameA (hModule, path, LOGGER_MAX_PATH) > 0)
-        return _extractDirectoryFromPath (path);
+        return _extract_directory_from_path (path);
     }
 
   // Fallback: use GetModuleFileName with nullptr
   if (GetModuleFileNameA (nullptr, path, LOGGER_MAX_PATH) > 0)
-    return _extractDirectoryFromPath (path);
+    return _extract_directory_from_path (path);
 
   throw std::runtime_error ("Can't get executable directory on Windows");
 
@@ -1699,7 +1699,7 @@ LumexLogger::_getExecutableDirectory () const
   if (len != -1)
     {
       path[len] = '\0';
-      return _extractDirectoryFromPath (path);
+      return _extract_directory_from_path (path);
     }
 
   // Fallback: use getcwd
@@ -1714,7 +1714,7 @@ LumexLogger::_getExecutableDirectory () const
   char path[LOGGER_MAX_PATH];
   std::uint32_t size = sizeof (path);
   if (_NSGetExecutablePath (path, &size) == 0)
-    return _extractDirectoryFromPath (path);
+    return _extract_directory_from_path (path);
 
   // Fallback: use getcwd
   char cwd[LOGGER_MAX_PATH];
@@ -1739,15 +1739,15 @@ LumexLogger::_getExecutableDirectory () const
 // cppcoreguidelines-pro-type-reinterpret-cast)
 
 std::string
-LumexLogger::_createLogFilePath () const
+LumexLogger::_create_log_file_path () const
 {
   if (use_timestamped_logs)
-    return _createTimestampedLogFilePath ();
-  return _createSingleLogFilePath ();
+    return _create_timestamped_log_file_path ();
+  return _create_single_log_file_path ();
 }
 
 std::string
-LumexLogger::_createSingleLogFilePath () const
+LumexLogger::_create_single_log_file_path () const
 {
   std::string logPath = executable_directory;
 
@@ -1761,7 +1761,7 @@ LumexLogger::_createSingleLogFilePath () const
 }
 
 std::string
-LumexLogger::_createTimestampedLogFilePath () const
+LumexLogger::_create_timestamped_log_file_path () const
 {
   std::string logDir = executable_directory;
 
@@ -1774,18 +1774,18 @@ LumexLogger::_createTimestampedLogFilePath () const
   logDir += kLogDirectoryName;
 
   // Create the directory if it does not exist
-  if (!_createDirectoryIfNotExists (logDir))
+  if (!_create_directory_if_not_exists (logDir))
     {
       // If the directory cannot be created, return the ordinary log-file
       // path. Fallback when the directory cannot be created
-      return _createSingleLogFilePath ();
+      return _create_single_log_file_path ();
     }
 
   // Append a path separator to the directory
   logDir += LOGGER_FILE_SEPARATOR;
 
   // Generate a timestamped file name
-  std::string timestamp = _formatTimestampForFilename ();
+  std::string timestamp = _format_timestamp_for_filename ();
   std::string filename
       = kDefaultLogFilePrefix + std::string ("_") + timestamp + ".log";
 
@@ -1799,7 +1799,7 @@ LumexLogger::_createTimestampedLogFilePath () const
       // If a file cannot be created in the timestamped directory, fall back to
       // the ordinary file
       testFile.close ();
-      return _createSingleLogFilePath ();
+      return _create_single_log_file_path ();
     }
   testFile.close ();
 
@@ -1810,7 +1810,7 @@ LumexLogger::_createTimestampedLogFilePath () const
 }
 
 std::string
-LumexLogger::_formatTimestampForFilename ()
+LumexLogger::_format_timestamp_for_filename ()
 {
   auto now = std::chrono::system_clock::now ();
   auto raw_time = std::chrono::system_clock::to_time_t (now);
@@ -1840,7 +1840,7 @@ LumexLogger::_formatTimestampForFilename ()
 }
 
 std::string
-LumexLogger::_formatTimestamp ()
+LumexLogger::_format_timestamp ()
 {
   auto now = std::chrono::system_clock::now ();
   // Rename the variable to avoid shadowing the global
@@ -1895,7 +1895,7 @@ LumexLogger::_level_to_string (LogLevel level)
 }
 
 void
-LumexLogger::_writeLog (LogLevel level, std::string const &message)
+LumexLogger::_write_log (LogLevel level, std::string const &message)
 {
   // Lock already held by caller
 
@@ -1903,7 +1903,7 @@ LumexLogger::_writeLog (LogLevel level, std::string const &message)
     {
       try
         {
-          log_file << "[" << _formatTimestamp () << "] "
+          log_file << "[" << _format_timestamp () << "] "
                    << "[" << _level_to_string (level) << "] " << message
                    << '\n';
 
@@ -1932,7 +1932,7 @@ LumexLogger::_writeLog (LogLevel level, std::string const &message)
 }
 
 std::string
-LumexLogger::_extractDirectoryFromPath (std::string const &fullPath)
+LumexLogger::_extract_directory_from_path (std::string const &fullPath)
 {
   // Check for an empty string
   if (fullPath.empty ())
@@ -1956,7 +1956,7 @@ LumexLogger::_extractDirectoryFromPath (std::string const &fullPath)
 }
 
 bool
-LumexLogger::_isLoggingEnabledFileExists () const LUMEX_NOEXCEPT
+LumexLogger::_is_logging_enabled_file_exists () const LUMEX_NOEXCEPT
 {
   try
     {
@@ -1988,7 +1988,7 @@ LumexLogger::_isLoggingEnabledFileExists () const LUMEX_NOEXCEPT
 }
 
 logger_config_t
-LumexLogger::_readConfigFromFile () const
+LumexLogger::_read_config_from_file () const
 {
   std::string enableFilePath = executable_directory;
 
@@ -2039,7 +2039,7 @@ LumexLogger::
 
           char const *const value = node.text ().get ();
           if (value != nullptr && value[0] != '\0')
-            _applyLoggerConfigKey (config, key, value);
+            _apply_logger_config_key (config, key, value);
         }
       return config;
 #elif defined(LUMEX_LOGGER_CONFIG_FORMAT_INI)
@@ -2058,7 +2058,7 @@ LumexLogger::
         {
           std::string const value = ini.get (kLoggerSection, key);
           if (!value.empty ())
-            _applyLoggerConfigKey (config, key, value);
+            _apply_logger_config_key (config, key, value);
         }
       return config;
 #elif defined(LUMEX_LOGGER_CONFIG_FORMAT_JSON)
@@ -2096,7 +2096,7 @@ LumexLogger::
           else
             value = std::to_string (item.value ().get<double> ());
 
-          _applyLoggerConfigKey (config, item.key (), value);
+          _apply_logger_config_key (config, item.key (), value);
         }
       return config;
 #else
@@ -2115,73 +2115,74 @@ LumexLogger::
           if (line.empty () || line[0] == '#')
             continue;
 
-          if (_hasPrefix (line, "LEVEL"))
+          if (_has_prefix (line, "LEVEL"))
             {
-              std::string value = _parsePrefixedValue (line, "LEVEL");
+              std::string value = _parse_prefixed_value (line, "LEVEL");
               if (!value.empty ())
-                _applyLoggerConfigKey (config, "LEVEL", value);
+                _apply_logger_config_key (config, "LEVEL", value);
             }
-          else if (_hasPrefix (line, "FUNCNAME"))
+          else if (_has_prefix (line, "FUNCNAME"))
             {
-              std::string value = _parsePrefixedValue (line, "FUNCNAME");
+              std::string value = _parse_prefixed_value (line, "FUNCNAME");
               if (!value.empty ())
-                _applyLoggerConfigKey (config, "FUNCNAME", value);
+                _apply_logger_config_key (config, "FUNCNAME", value);
             }
-          else if (_hasPrefix (line, "TIMESTAMPED"))
+          else if (_has_prefix (line, "TIMESTAMPED"))
             {
-              std::string value = _parsePrefixedValue (line, "TIMESTAMPED");
+              std::string value = _parse_prefixed_value (line, "TIMESTAMPED");
               if (!value.empty ())
-                _applyLoggerConfigKey (config, "TIMESTAMPED", value);
+                _apply_logger_config_key (config, "TIMESTAMPED", value);
             }
-          else if (_hasPrefix (line, "STACKTRACE_FRAMES"))
+          else if (_has_prefix (line, "STACKTRACE_FRAMES"))
             {
               std::string value
-                  = _parsePrefixedValue (line, "STACKTRACE_FRAMES");
+                  = _parse_prefixed_value (line, "STACKTRACE_FRAMES");
               if (!value.empty ())
-                _applyLoggerConfigKey (config, "STACKTRACE_FRAMES", value);
+                _apply_logger_config_key (config, "STACKTRACE_FRAMES", value);
             }
-          else if (_hasPrefix (line, "STACKTRACE"))
+          else if (_has_prefix (line, "STACKTRACE"))
             {
-              std::string value = _parsePrefixedValue (line, "STACKTRACE");
+              std::string value = _parse_prefixed_value (line, "STACKTRACE");
               if (!value.empty ())
-                _applyLoggerConfigKey (config, "STACKTRACE", value);
+                _apply_logger_config_key (config, "STACKTRACE", value);
             }
-          else if (_hasPrefix (line, "HINT"))
+          else if (_has_prefix (line, "HINT"))
             {
-              std::string value = _parsePrefixedValue (line, "HINT");
+              std::string value = _parse_prefixed_value (line, "HINT");
               if (!value.empty ())
-                _applyLoggerConfigKey (config, "HINT", value);
+                _apply_logger_config_key (config, "HINT", value);
             }
-          else if (_hasPrefix (line, "PRESET"))
+          else if (_has_prefix (line, "PRESET"))
             {
-              std::string value = _parsePrefixedValue (line, "PRESET");
+              std::string value = _parse_prefixed_value (line, "PRESET");
               if (!value.empty ())
-                _applyLoggerConfigKey (config, "PRESET", value);
+                _apply_logger_config_key (config, "PRESET", value);
             }
-          else if (_hasPrefix (line, "BUFFERING_TRIGGER"))
+          else if (_has_prefix (line, "BUFFERING_TRIGGER"))
             {
               std::string value
-                  = _parsePrefixedValue (line, "BUFFERING_TRIGGER");
+                  = _parse_prefixed_value (line, "BUFFERING_TRIGGER");
               if (!value.empty ())
-                _applyLoggerConfigKey (config, "BUFFERING_TRIGGER", value);
+                _apply_logger_config_key (config, "BUFFERING_TRIGGER", value);
             }
-          else if (_hasPrefix (line, "BUFFERING"))
+          else if (_has_prefix (line, "BUFFERING"))
             {
-              std::string value = _parsePrefixedValue (line, "BUFFERING");
+              std::string value = _parse_prefixed_value (line, "BUFFERING");
               if (!value.empty ())
-                _applyLoggerConfigKey (config, "BUFFERING", value);
+                _apply_logger_config_key (config, "BUFFERING", value);
             }
-          else if (_hasPrefix (line, "DESCRIBE_FRAME"))
+          else if (_has_prefix (line, "DESCRIBE_FRAME"))
             {
-              std::string value = _parsePrefixedValue (line, "DESCRIBE_FRAME");
+              std::string value
+                  = _parse_prefixed_value (line, "DESCRIBE_FRAME");
               if (!value.empty ())
-                _applyLoggerConfigKey (config, "DESCRIBE_FRAME", value);
+                _apply_logger_config_key (config, "DESCRIBE_FRAME", value);
             }
-          else if (_hasPrefix (line, "BUFFER_SIZE"))
+          else if (_has_prefix (line, "BUFFER_SIZE"))
             {
-              std::string value = _parsePrefixedValue (line, "BUFFER_SIZE");
+              std::string value = _parse_prefixed_value (line, "BUFFER_SIZE");
               if (!value.empty ())
-                _applyLoggerConfigKey (config, "BUFFER_SIZE", value);
+                _apply_logger_config_key (config, "BUFFER_SIZE", value);
             }
           else
             {
@@ -2193,11 +2194,11 @@ LumexLogger::
               oldFormatLineNumber++;
 
               if (oldFormatLineNumber == 1)
-                _applyLoggerConfigKey (config, "LEVEL", line);
+                _apply_logger_config_key (config, "LEVEL", line);
               else if (oldFormatLineNumber == 2)
-                _applyLoggerConfigKey (config, "FUNCNAME", line);
+                _apply_logger_config_key (config, "FUNCNAME", line);
               else if (oldFormatLineNumber == 3)
-                _applyLoggerConfigKey (config, "TIMESTAMPED", line);
+                _apply_logger_config_key (config, "TIMESTAMPED", line);
             }
         }
 
@@ -2212,21 +2213,21 @@ LumexLogger::
 }
 
 void
-LumexLogger::_applyLoggerConfigKey (logger_config_t &config,
-                                    std::string const &key,
-                                    std::string const &value) LUMEX_NOEXCEPT
+LumexLogger::_apply_logger_config_key (logger_config_t &config,
+                                       std::string const &key,
+                                       std::string const &value) LUMEX_NOEXCEPT
 {
   try
     {
-      std::string const normalized = _normalizeString (key);
+      std::string const normalized = _normalize_string (key);
       if (normalized == "LEVEL")
         config.log_level = _string_to_log_level (value);
       else if (normalized == "FUNCNAME")
-        config.func_name_mode = _parseFunctionNameMode (value);
+        config.func_name_mode = _parse_function_name_mode (value);
       else if (normalized == "TIMESTAMPED")
-        config.use_timestamped_logs = _shouldUseTimestampedLogs (value);
+        config.use_timestamped_logs = _should_use_timestamped_logs (value);
       else if (normalized == "STACKTRACE_FRAMES")
-        config.stack_trace_max_frames = _parseStackTraceFrames (
+        config.stack_trace_max_frames = _parse_stack_trace_frames (
             value, logger_config_t ().kMaxStackTraceFrames);
       else if (normalized == "STACKTRACE")
         config.show_stack_trace = _should_show_stack_trace (value);
@@ -2270,7 +2271,7 @@ LumexLogger::_string_to_log_level (std::string const &levelStr) LUMEX_NOEXCEPT
   try
     {
       // Normalize the string (uppercase + strip spaces)
-      std::string normalizedStr = _normalizeString (levelStr);
+      std::string normalizedStr = _normalize_string (levelStr);
 
       // Compare with the known levels
       if (normalizedStr == "TRACE")
@@ -2298,13 +2299,13 @@ LumexLogger::_string_to_log_level (std::string const &levelStr) LUMEX_NOEXCEPT
 }
 
 FunctionNameMode
-LumexLogger::_parseFunctionNameMode (std::string const &funcNameStr)
+LumexLogger::_parse_function_name_mode (std::string const &funcNameStr)
     LUMEX_NOEXCEPT
 {
   try
     {
       // Normalize the string (uppercase + strip spaces)
-      std::string normalizedStr = _normalizeString (funcNameStr);
+      std::string normalizedStr = _normalize_string (funcNameStr);
 
       // Parse the variants (case-insensitive). signature -> FULL for
       // backward compatibility
@@ -2328,10 +2329,10 @@ LumexLogger::_parseFunctionNameMode (std::string const &funcNameStr)
 }
 
 bool
-LumexLogger::_shouldShowFunctionName (std::string const &funcNameStr)
+LumexLogger::_should_show_function_name (std::string const &funcNameStr)
     LUMEX_NOEXCEPT
 {
-  return _parseFunctionNameMode (funcNameStr) != FunctionNameMode::NONE;
+  return _parse_function_name_mode (funcNameStr) != FunctionNameMode::NONE;
 }
 
 bool
@@ -2341,7 +2342,7 @@ LumexLogger::_should_show_stack_trace (std::string const &stackTraceStr)
   try
     {
       // Normalize the string (uppercase + strip spaces)
-      std::string normalizedStr = _normalizeString (stackTraceStr);
+      std::string normalizedStr = _normalize_string (stackTraceStr);
 
       // Check the various "true" spellings
       return (normalizedStr == "TRUE" || normalizedStr == "YES"
@@ -2355,8 +2356,8 @@ LumexLogger::_should_show_stack_trace (std::string const &stackTraceStr)
 }
 
 short
-LumexLogger::_parseStackTraceFrames (std::string const &framesStr,
-                                     short defaultFrames) LUMEX_NOEXCEPT
+LumexLogger::_parse_stack_trace_frames (std::string const &framesStr,
+                                        short defaultFrames) LUMEX_NOEXCEPT
 {
   try
     {
@@ -2393,13 +2394,13 @@ LumexLogger::_parseStackTraceFrames (std::string const &framesStr,
 }
 
 bool
-LumexLogger::_shouldUseTimestampedLogs (std::string const &timestampedStr)
+LumexLogger::_should_use_timestamped_logs (std::string const &timestampedStr)
     LUMEX_NOEXCEPT
 {
   try
     {
       // Normalize the string (uppercase + strip spaces)
-      std::string normalizedStr = _normalizeString (timestampedStr);
+      std::string normalizedStr = _normalize_string (timestampedStr);
 
       // Check the various "true" spellings
       return (normalizedStr == "TIMESTAMPED" || normalizedStr == "TRUE"
@@ -2413,7 +2414,7 @@ LumexLogger::_shouldUseTimestampedLogs (std::string const &timestampedStr)
 }
 
 bool
-LumexLogger::_checkLogSizeLimits () const LUMEX_NOEXCEPT
+LumexLogger::_check_log_size_limits () const LUMEX_NOEXCEPT
 {
   try
     {
@@ -2430,7 +2431,7 @@ LumexLogger::_checkLogSizeLimits () const LUMEX_NOEXCEPT
 
       // Compute the maximum allowed size
       int64_t maxAllowedSize
-          = _calculateMaxAllowedSize (freeSpace, isDirectory);
+          = _calculate_max_allowed_size (freeSpace, isDirectory);
 
       // Get the current size
       int64_t currentSize = 0;
@@ -2466,7 +2467,7 @@ LumexLogger::_checkLogSizeLimits () const LUMEX_NOEXCEPT
           LUMEX_CONSTEXPR double kCleanupRatio = 0.8; // Leave 80% of the limit
           int64_t targetSize = static_cast<int64_t> (
               static_cast<double> (maxAllowedSize) * kCleanupRatio);
-          return _cleanupOldLogs (logPath, targetSize);
+          return _cleanup_old_logs (logPath, targetSize);
         }
 
       return true;
@@ -2479,8 +2480,8 @@ LumexLogger::_checkLogSizeLimits () const LUMEX_NOEXCEPT
 }
 
 int64_t
-LumexLogger::_calculateMaxAllowedSize (int64_t freeSpace,
-                                       bool isDirectory) LUMEX_NOEXCEPT
+LumexLogger::_calculate_max_allowed_size (int64_t freeSpace,
+                                          bool isDirectory) LUMEX_NOEXCEPT
 {
   try
     {
@@ -2519,8 +2520,8 @@ LumexLogger::_calculateMaxAllowedSize (int64_t freeSpace,
 }
 
 bool
-LumexLogger::_cleanupOldLogs (std::string const &logPath,
-                              int64_t targetSize) LUMEX_NOEXCEPT
+LumexLogger::_cleanup_old_logs (std::string const &logPath,
+                                int64_t targetSize) LUMEX_NOEXCEPT
 {
   try
     {
@@ -2542,7 +2543,7 @@ LumexLogger::_cleanupOldLogs (std::string const &logPath,
 
       // This is a folder - list files and delete the oldest
       std::vector<std::pair<std::string, std::time_t>> logFiles
-          = _getLogFilesSortedByTime (logPath);
+          = _get_log_files_sorted_by_time (logPath);
 
       int64_t totalSize = get_directory_size (logPath);
       if (totalSize < 0)
@@ -2573,7 +2574,7 @@ LumexLogger::_cleanupOldLogs (std::string const &logPath,
 // NOLINTBEGIN(cppcoreguidelines-avoid-do-while,
 // cppcoreguidelines-pro-bounds-array-to-pointer-decay)
 std::vector<std::pair<std::string, std::time_t>>
-LumexLogger::_getLogFilesSortedByTime (std::string const &directoryPath)
+LumexLogger::_get_log_files_sorted_by_time (std::string const &directoryPath)
     LUMEX_NOEXCEPT
 {
   std::vector<std::pair<std::string, std::time_t>> result;
@@ -2669,7 +2670,7 @@ LumexLogger::_getLogFilesSortedByTime (std::string const &directoryPath)
 // cppcoreguidelines-pro-bounds-array-to-pointer-decay)
 
 bool
-LumexLogger::_canWriteLog (std::size_t messageSize) const LUMEX_NOEXCEPT
+LumexLogger::_can_write_log (std::size_t messageSize) const LUMEX_NOEXCEPT
 {
   try
     {
@@ -2677,7 +2678,7 @@ LumexLogger::_canWriteLog (std::size_t messageSize) const LUMEX_NOEXCEPT
         return false;
 
       // Check the current limits
-      if (!_checkLogSizeLimits ())
+      if (!_check_log_size_limits ())
         return false;
 
       // Extra check: if the message is very large (> 1 MB),
@@ -2741,7 +2742,7 @@ LumexLogger::_format_size (int64_t sizeInBytes) LUMEX_NOEXCEPT
 }
 
 void
-LumexLogger::_flushBuffer ()
+LumexLogger::_flush_buffer ()
 {
   // Lock already held by caller
 
@@ -2796,7 +2797,8 @@ LumexLogger::_flushBuffer ()
 }
 
 std::string
-LumexLogger::_extractComponentName (std::string const &message) LUMEX_NOEXCEPT
+LumexLogger::_extract_component_name (std::string const &message)
+    LUMEX_NOEXCEPT
 {
   try
     {
@@ -2843,7 +2845,7 @@ LumexLogger::_extractComponentName (std::string const &message) LUMEX_NOEXCEPT
 }
 
 std::string
-LumexLogger::_getShortFormFromComponent (std::string const &component)
+LumexLogger::_get_short_form_from_component (std::string const &component)
     LUMEX_NOEXCEPT
 {
   try
@@ -2876,7 +2878,7 @@ LumexLogger::_getShortFormFromComponent (std::string const &component)
 }
 
 std::string
-LumexLogger::_getNormalFormFromComponent (std::string const &component)
+LumexLogger::_get_normal_form_from_component (std::string const &component)
     LUMEX_NOEXCEPT
 {
   try
@@ -2902,7 +2904,7 @@ LumexLogger::_getNormalFormFromComponent (std::string const &component)
 }
 
 bool
-LumexLogger::_presetMatchesComponent (
+LumexLogger::_preset_matches_component (
     std::string const &preset, std::string const &component) LUMEX_NOEXCEPT
 {
   try
@@ -2913,8 +2915,9 @@ LumexLogger::_presetMatchesComponent (
       if (component == preset)
         return true;
 
-      std::string const shortComp = _getShortFormFromComponent (component);
-      std::string const normalComp = _getNormalFormFromComponent (component);
+      std::string const shortComp = _get_short_form_from_component (component);
+      std::string const normalComp
+          = _get_normal_form_from_component (component);
 
       std::string presetTrim = preset;
       if (presetTrim.size () >= 2 && presetTrim[presetTrim.size () - 2] == '('
@@ -2942,7 +2945,7 @@ LumexLogger::_presetMatchesComponent (
 }
 
 bool
-LumexLogger::_shouldLogByPreset (std::string const &message) const
+LumexLogger::_should_log_by_preset (std::string const &message) const
     LUMEX_NOEXCEPT
 {
   try
@@ -2952,12 +2955,12 @@ LumexLogger::_shouldLogByPreset (std::string const &message) const
       if (preset_components.empty ())
         return false;
 
-      std::string componentName = _extractComponentName (message);
+      std::string componentName = _extract_component_name (message);
       if (componentName.empty ())
         return false;
 
       for (auto const &preset : preset_components)
-        if (_presetMatchesComponent (preset, componentName))
+        if (_preset_matches_component (preset, componentName))
           return true;
       return false;
     }
