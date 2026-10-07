@@ -147,13 +147,13 @@ public:
   static bool is_json_valid (char const *path);
 
 private:
-#ifdef _WIN32
+#ifdef _MSC_VER
 #pragma warning(push)
 #pragma warning(disable : 4251)
 #endif
   std::unordered_map<std::string, std::unordered_map<std::string, std::string>>
       _settings;
-#ifdef _WIN32
+#ifdef _MSC_VER
 #pragma warning(pop)
 #endif
 
