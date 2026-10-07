@@ -39,9 +39,11 @@
 
 #define LUMEX_IMPLEMENTATION
 
+#include <cstdlib>
+#include <memory>
+
 #include "lumex/xml/document/XmlDocumentBase.hpp"
 #include "lumex/xml/text/XmlParser.hpp"
-#include "lumex/xml/utility/XmlCleaner.hpp"
 #include "lumex/xml/utility/XmlUtils.hpp"
 
 #include "XmlParseResult.hpp"
@@ -140,7 +142,8 @@ lumex::xml::text::load_buffer_impl ( // NOLINT(misc-use-internal-linkage)
 
   // if convert_buffer below throws bad_alloc, we still need to deallocate
   // contents if we own it
-  XmlCleaner<void> contents_guard (own ? contents : nullptr, free);
+  std::unique_ptr<void, void (*) (void *)> contents_guard (
+      own ? contents : nullptr, &std::free);
 
   // early-out for empty documents to avoid buffer allocation overhead
   if (size == 0)

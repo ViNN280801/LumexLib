@@ -40,7 +40,9 @@
 #define LUMEX_IMPLEMENTATION
 
 #include <cstdio>
+#include <cstdlib>
 #include <iostream>
+#include <memory>
 #include <new>
 #include <string>
 
@@ -53,7 +55,6 @@
 #include "lumex/core/utility/assert/LumexAssert.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 #include "lumex/xml/node/XmlNode.hpp"
-#include "lumex/xml/utility/XmlCleaner.hpp"
 #include "lumex/xml/utility/XmlUtils.hpp"
 #include "lumex/xml/writer/XmlWriterFile.hpp"
 #include "lumex/xml/writer/XmlWriterStream.hpp"
@@ -94,14 +95,14 @@ load_stream_data_seek (std::basic_istream<T> &stream, void **out_buffer,
 
   // read stream data into memory (guard against stream exceptions with buffer
   // holder)
-  utility::XmlCleaner<void> buffer (
+  std::unique_ptr<void, void (*) (void *)> buffer (
       malloc ( // NOLINT(cppcoreguidelines-no-malloc)
           (read_length * sizeof (T)) + max_suffix_size),
-      free);
-  if (!buffer.data)
+      &std::free);
+  if (!buffer)
     return status_out_of_memory;
 
-  stream.read (static_cast<T *> (buffer.data),
+  stream.read (static_cast<T *> (buffer.get ()),
                static_cast<std::streamsize> (read_length));
 
   // read may set failbit | eofbit in case gcount() is less than read_length
@@ -167,8 +168,8 @@ inline xml_parse_status
 load_stream_data_noseek (std::basic_istream<T> &stream, void **out_buffer,
                          std::size_t *out_size)
 {
-  XmlCleaner<xml_stream_chunk<T>> chunks (nullptr,
-                                          xml_stream_chunk<T>::destroy);
+  std::unique_ptr<xml_stream_chunk<T>, void (*) (xml_stream_chunk<T> *)>
+      chunks (nullptr, &xml_stream_chunk<T>::destroy);
 
   // read file to a chunk list
   std::size_t total = 0;
@@ -185,7 +186,10 @@ load_stream_data_noseek (std::basic_istream<T> &stream, void **out_buffer,
       if (last)
         last = last->next = chunk;
       else
-        chunks.data = last = chunk;
+        {
+          chunks.reset (chunk);
+          last = chunk;
+        }
 
       // read data to chunk
       stream.read (
@@ -218,7 +222,7 @@ load_stream_data_noseek (std::basic_istream<T> &stream, void **out_buffer,
 
   char *write = buffer;
 
-  for (xml_stream_chunk<T> *chunk = chunks.data; chunk; chunk = chunk->next)
+  for (xml_stream_chunk<T> *chunk = chunks.get (); chunk; chunk = chunk->next)
     {
       LUMEX_ASSERT (write + chunk->size <= buffer + total);
       memcpy (
@@ -751,12 +755,13 @@ XmlDocument::load_file (char const *path_, unsigned int options,
 {
   reset ();
 
-  XmlCleaner<FILE> file (open_file (path_, "rb"), close_file);
+  std::unique_ptr<FILE, void (*) (FILE *)> file (open_file (path_, "rb"),
+                                                 &close_file);
 
   return load_file_impl (
       static_cast< // NOLINT(cppcoreguidelines-pro-type-static-cast-downcast)
           XmlDocumentBase *> (m_root),
-      file.data, options, encoding, &m_buffer);
+      file.get (), options, encoding, &m_buffer);
 }
 
 LUMEX_PUBLIC_API
@@ -766,12 +771,13 @@ XmlDocument::load_file (wchar_t const *path_, unsigned int options,
 {
   reset ();
 
-  XmlCleaner<FILE> file (open_file_wide (path_, L"rb"), close_file);
+  std::unique_ptr<FILE, void (*) (FILE *)> file (open_file_wide (path_, L"rb"),
+                                                 &close_file);
 
   return load_file_impl (
       static_cast< // NOLINT(cppcoreguidelines-pro-type-static-cast-downcast)
           XmlDocumentBase *> (m_root),
-      file.data, options, encoding, &m_buffer);
+      file.get (), options, encoding, &m_buffer);
 }
 
 LUMEX_PUBLIC_API
@@ -900,12 +906,12 @@ XmlDocument::save_file (
     char_t const *indent, // NOLINT(bugprone-easily-swappable-parameters)
     unsigned int flags, xml_encoding encoding) const
 {
-  XmlCleaner<FILE> file (
+  std::unique_ptr<FILE, void (*) (FILE *)> file (
       open_file (path_, ((flags & Constants::kformat_save_file_text) != 0)
                             ? "w"
                             : "wb"),
-      close_file);
-  return save_file_impl (*this, file.data, indent, flags, encoding)
+      &close_file);
+  return save_file_impl (*this, file.get (), indent, flags, encoding)
          && fclose (file.release ())
                 == 0; // NOLINT(cppcoreguidelines-owning-memory)
 }
@@ -915,12 +921,12 @@ bool
 XmlDocument::save_file (wchar_t const *path_, char_t const *indent,
                         unsigned int flags, xml_encoding encoding) const
 {
-  XmlCleaner<FILE> file (
+  std::unique_ptr<FILE, void (*) (FILE *)> file (
       open_file_wide (path_, ((flags & Constants::kformat_save_file_text) != 0)
                                  ? L"w"
                                  : L"wb"),
-      close_file);
-  return save_file_impl (*this, file.data, indent, flags, encoding)
+      &close_file);
+  return save_file_impl (*this, file.get (), indent, flags, encoding)
          && fclose (file.release ())
                 == 0; // NOLINT(cppcoreguidelines-owning-memory)
 }

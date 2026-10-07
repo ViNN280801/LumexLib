@@ -4,10 +4,15 @@
 #   LumexXmlXpathQueryCxx11Tests  LumexXmlXPathNumbers.cxx11.tests.cpp: the
 #                                 exact double comparisons of the XPath number
 #                                 rules (the library writes them through one
-#                                 helper, XmlUtils.hpp exactly_equal, so the
-#                                 compiler's -Wfloat-equal stays quiet)
-#   LumexXmlXpathQueryCxx17Tests  the same file at C++17
-#   LumexXmlXpathQueryCxx20Tests  the same file at C++20
+#                                 helper, core/math exactly_equal, so the
+#                                 compiler's -Wfloat-equal stays quiet);
+#                                 LumexXmlXPathRelational.cxx11.tests.cpp:
+#                                 the operators <, <=, > and >= on numbers,
+#                                 strings, booleans and node-sets;
+#                                 LumexXmlXPathNaN.cxx11.tests.cpp: the places
+#                                 that produce a NaN
+#   LumexXmlXpathQueryCxx17Tests  the same files at C++17
+#   LumexXmlXpathQueryCxx20Tests  the same files at C++20
 # LumexXmlTestFixtures.hpp of the module's directory holds the fixture.
 lumex_add_standard_suites(XmlXpathQuery
     MODULE xml

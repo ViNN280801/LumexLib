@@ -248,7 +248,7 @@ strconv_escape (char_t *s, gap &g)
 
 typedef char_t *(*strconv_attribute_t) (char_t *, char_t);
 
-template <typename opt_escape> struct strconv_attribute_impl
+template <bool Escape> struct strconv_attribute_impl
 {
   static char_t *
   parse_wnorm (char_t *str, char_t end_quote)
@@ -295,7 +295,7 @@ template <typename opt_escape> struct strconv_attribute_impl
                 g.push (str, static_cast<std::size_t> (tmp - str));
               }
           }
-        else if (opt_escape::value && *str == '&')
+        else if (Escape && *str == '&')
           {
             str = strconv_escape (str, g);
           }
@@ -336,7 +336,7 @@ template <typename opt_escape> struct strconv_attribute_impl
             else
               *str++ = ' ';
           }
-        else if (opt_escape::value && *str == '&')
+        else if (Escape && *str == '&')
           {
             str = strconv_escape (str, g);
           }
@@ -372,7 +372,7 @@ template <typename opt_escape> struct strconv_attribute_impl
             if (*str == '\n')
               g.push (str, 1);
           }
-        else if (opt_escape::value && *str == '&')
+        else if (Escape && *str == '&')
           {
             str = strconv_escape (str, g);
           }
@@ -401,7 +401,7 @@ template <typename opt_escape> struct strconv_attribute_impl
 
             return str + 1;
           }
-        else if (opt_escape::value && *str == '&')
+        else if (Escape && *str == '&')
           {
             str = strconv_escape (str, g);
           }
@@ -427,37 +427,37 @@ get_strconv_attribute (unsigned int optmask)
                 // simultaneously checks 4 options from LUMEX_ASSERTion above
     {
     case 0:
-      return strconv_attribute_impl<opt_false>::parse_simple;
+      return strconv_attribute_impl<false>::parse_simple;
     case 1:
-      return strconv_attribute_impl<opt_true>::parse_simple;
+      return strconv_attribute_impl<true>::parse_simple;
     case 2:
-      return strconv_attribute_impl<opt_false>::parse_eol;
+      return strconv_attribute_impl<false>::parse_eol;
     case 3:
-      return strconv_attribute_impl<opt_true>::parse_eol;
+      return strconv_attribute_impl<true>::parse_eol;
     case 4:
-      return strconv_attribute_impl<opt_false>::parse_wconv;
+      return strconv_attribute_impl<false>::parse_wconv;
     case 5:
-      return strconv_attribute_impl<opt_true>::parse_wconv;
+      return strconv_attribute_impl<true>::parse_wconv;
     case 6:
-      return strconv_attribute_impl<opt_false>::parse_wconv;
+      return strconv_attribute_impl<false>::parse_wconv;
     case 7:
-      return strconv_attribute_impl<opt_true>::parse_wconv;
+      return strconv_attribute_impl<true>::parse_wconv;
     case 8:
-      return strconv_attribute_impl<opt_false>::parse_wnorm;
+      return strconv_attribute_impl<false>::parse_wnorm;
     case 9:
-      return strconv_attribute_impl<opt_true>::parse_wnorm;
+      return strconv_attribute_impl<true>::parse_wnorm;
     case 10:
-      return strconv_attribute_impl<opt_false>::parse_wnorm;
+      return strconv_attribute_impl<false>::parse_wnorm;
     case 11:
-      return strconv_attribute_impl<opt_true>::parse_wnorm;
+      return strconv_attribute_impl<true>::parse_wnorm;
     case 12:
-      return strconv_attribute_impl<opt_false>::parse_wnorm;
+      return strconv_attribute_impl<false>::parse_wnorm;
     case 13:
-      return strconv_attribute_impl<opt_true>::parse_wnorm;
+      return strconv_attribute_impl<true>::parse_wnorm;
     case 14:
-      return strconv_attribute_impl<opt_false>::parse_wnorm;
+      return strconv_attribute_impl<false>::parse_wnorm;
     case 15:
-      return strconv_attribute_impl<opt_true>::parse_wnorm;
+      return strconv_attribute_impl<true>::parse_wnorm;
     default:
       LUMEX_ASSERT (false);
       return nullptr; // unreachable
@@ -531,8 +531,7 @@ strconv_cdata (char_t *str, char_t endch)
 
 typedef char_t *(*strconv_pcdata_t) (char_t *);
 
-template <typename opt_trim, typename opt_eol, typename opt_escape>
-struct strconv_pcdata_impl
+template <bool Trim, bool Eol, bool Escape> struct strconv_pcdata_impl
 {
   static char_t *
   parse (char_t *str)
@@ -550,7 +549,7 @@ struct strconv_pcdata_impl
           {
             char_t *end = g.flush (str);
 
-            if (opt_trim::value)
+            if (Trim)
               while (end > begin && LUMEX_XML_IS_CHARTYPE (end[-1], ct_space))
                 --end;
 
@@ -558,15 +557,14 @@ struct strconv_pcdata_impl
 
             return str + 1;
           }
-        else if (opt_eol::value
-                 && *str == '\r') // Either a single 0x0d or 0x0d 0x0a pair
+        else if (Eol && *str == '\r') // Either a single 0x0d or 0x0d 0x0a pair
           {
             *str++ = '\n'; // replace first one with 0x0a
 
             if (*str == '\n')
               g.push (str, 1);
           }
-        else if (opt_escape::value && *str == '&')
+        else if (Escape && *str == '&')
           {
             str = strconv_escape (str, g);
           }
@@ -574,7 +572,7 @@ struct strconv_pcdata_impl
           {
             char_t *end = g.flush (str);
 
-            if (opt_trim::value)
+            if (Trim)
               while (
                   end > begin
                   && LUMEX_XML_IS_CHARTYPE ( // NOLINT(cppcoreguidelines-pro-bounds-constant-array-index)
@@ -605,21 +603,21 @@ get_strconv_pcdata (unsigned int optmask)
                // checks 3 options from LUMEX_ASSERTion above
     {
     case 0:
-      return strconv_pcdata_impl<opt_false, opt_false, opt_false>::parse;
+      return strconv_pcdata_impl<false, false, false>::parse;
     case 1:
-      return strconv_pcdata_impl<opt_false, opt_false, opt_true>::parse;
+      return strconv_pcdata_impl<false, false, true>::parse;
     case 2:
-      return strconv_pcdata_impl<opt_false, opt_true, opt_false>::parse;
+      return strconv_pcdata_impl<false, true, false>::parse;
     case 3:
-      return strconv_pcdata_impl<opt_false, opt_true, opt_true>::parse;
+      return strconv_pcdata_impl<false, true, true>::parse;
     case 4:
-      return strconv_pcdata_impl<opt_true, opt_false, opt_false>::parse;
+      return strconv_pcdata_impl<true, false, false>::parse;
     case 5:
-      return strconv_pcdata_impl<opt_true, opt_false, opt_true>::parse;
+      return strconv_pcdata_impl<true, false, true>::parse;
     case 6:
-      return strconv_pcdata_impl<opt_true, opt_true, opt_false>::parse;
+      return strconv_pcdata_impl<true, true, false>::parse;
     case 7:
-      return strconv_pcdata_impl<opt_true, opt_true, opt_true>::parse;
+      return strconv_pcdata_impl<true, true, true>::parse;
     default:
       LUMEX_ASSERT (false);
       return nullptr; // unreachable

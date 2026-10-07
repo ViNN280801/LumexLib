@@ -39,6 +39,9 @@
 
 #define LUMEX_IMPLEMENTATION
 
+#include <cmath>
+#include <functional>
+
 #include "lumex/core/math/ops/LumexMath.hpp"
 
 #include "XPathAstNode.hpp"
@@ -77,25 +80,6 @@ struct not_equal_to
 #pragma GCC diagnostic pop
 #endif
 
-struct less
-{
-  template <typename T>
-  bool
-  operator() (T const &lhs, T const &rhs) const
-  {
-    return lhs < rhs;
-  }
-};
-
-struct less_equal
-{
-  template <typename T>
-  bool
-  operator() (T const &lhs, T const &rhs) const
-  {
-    return lhs <= rhs;
-  }
-};
 struct namespace_uri_predicate
 {
   char_t const
@@ -581,13 +565,15 @@ XPathAstNode::eval_boolean ( // NOLINT(misc-no-recursion,
     case ast_op_not_equal:
       return compare_eq (m_left, m_right, ctx, stack, not_equal_to ());
     case ast_op_less:
-      return compare_rel (m_left, m_right, ctx, stack, less ());
+      return compare_rel (m_left, m_right, ctx, stack, std::less<double> ());
     case ast_op_greater:
-      return compare_rel (m_right, m_left, ctx, stack, less ());
+      return compare_rel (m_right, m_left, ctx, stack, std::less<double> ());
     case ast_op_less_or_equal:
-      return compare_rel (m_left, m_right, ctx, stack, less_equal ());
+      return compare_rel (m_left, m_right, ctx, stack,
+                          std::less_equal<double> ());
     case ast_op_greater_or_equal:
-      return compare_rel (m_right, m_left, ctx, stack, less_equal ());
+      return compare_rel (m_right, m_left, ctx, stack,
+                          std::less_equal<double> ());
 
     case ast_func_starts_with:
       {
@@ -806,13 +792,13 @@ XPathAstNode::eval_number (
     case ast_func_floor:
       {
         double r_val = m_left->eval_number (ctx, stack);
-        return !lumex::xml::utility::is_nan (r_val) ? floor (r_val) : r_val;
+        return !std::isnan (r_val) ? floor (r_val) : r_val;
       }
 
     case ast_func_ceiling:
       {
         double r_val = m_left->eval_number (ctx, stack);
-        return !lumex::xml::utility::is_nan (r_val) ? ceil (r_val) : r_val;
+        return !std::isnan (r_val) ? ceil (r_val) : r_val;
       }
 
     case ast_func_round:
@@ -1037,7 +1023,7 @@ XPathAstNode::eval_string ( // NOLINT(misc-no-recursion,
 
         double first = round_nearest (m_right->eval_number (ctx, stack));
 
-        if (is_nan (first))
+        if (std::isnan (first))
           return {}; // NaN // NOLINT(bugprone-branch-clone)
         if (first >= static_cast<double> (s_length + 1))
           return {};
@@ -1067,7 +1053,7 @@ XPathAstNode::eval_string ( // NOLINT(misc-no-recursion,
             = first
               + round_nearest (m_right->m_next->eval_number (ctx, stack));
 
-        if (is_nan (first) || is_nan (last))
+        if (std::isnan (first) || std::isnan (last))
           return {};
         if (first >= static_cast<double> (s_length + 1))
           return {};
