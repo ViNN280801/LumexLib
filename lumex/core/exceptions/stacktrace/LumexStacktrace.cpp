@@ -305,8 +305,16 @@ resolve_symbol_info (void *address, std::string &function_name,
 #pragma warning(disable : 4251)
 #endif
 
+// GCC on Windows (MinGW) ignores, and warns about, an export attribute on an
+// explicit instantiation of a class that was defined with it already.
+#if defined(__MINGW32__)
+#define LUMEX_STACKTRACE_INSTANTIATION_API
+#else
+#define LUMEX_STACKTRACE_INSTANTIATION_API LUMEX_API
+#endif
+
 // Explicit template instantiation
-template class LUMEX_API
+template class LUMEX_STACKTRACE_INSTANTIATION_API
     lumex::core::exceptions::stacktrace::lumex_basic_stacktrace<std::allocator<
         lumex::core::exceptions::stacktrace::lumex_stacktrace_entry>>;
 

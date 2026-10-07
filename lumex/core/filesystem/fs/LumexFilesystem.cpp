@@ -839,8 +839,8 @@ apply_perms_to_windows_attributes (DWORD existing_attrs, perms prms)
   if ((prms & perms::owner_write) == perms::none)
     new_attrs |= FILE_ATTRIBUTE_READONLY; // If write not allowed, set readonly
   else
-    new_attrs
-        &= ~FILE_ATTRIBUTE_READONLY; // If write allowed, ensure not readonly
+    new_attrs &= static_cast<DWORD> (
+        ~FILE_ATTRIBUTE_READONLY); // If write allowed, ensure not readonly
   return new_attrs;
 }
 #else
@@ -859,12 +859,11 @@ filesystem_result<file_status>
 lumex_filesystem::get_file_status_windows (path const &path_arg, bool follow)
 {
   WIN32_FILE_ATTRIBUTE_DATA data;
-  BOOL ok_
-      = follow
-            ? GetFileAttributesExA (path_arg.c_str (), GetFileExInfoStandard,
-                                    std::addressof (data))
-            : GetFileAttributesExA (path_arg.c_str (), GetFileExInfoStandard,
-                                    std::addressof (data));
+  // GetFileAttributesEx describes the link itself and never its target, so
+  // follow changes nothing here; the parameter keeps the POSIX signature.
+  LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR (follow);
+  BOOL ok_ = GetFileAttributesExA (path_arg.c_str (), GetFileExInfoStandard,
+                                   std::addressof (data));
   if (!static_cast<bool> (ok_))
     return filesystem_result<file_status>::err (
         static_cast<int> (GetLastError ()),
@@ -1143,7 +1142,9 @@ lumex_filesystem::remove (path const &path_arg)
   if (attrs != INVALID_FILE_ATTRIBUTES
       && (attrs & FILE_ATTRIBUTE_READONLY) != 0U)
     {
-      SetFileAttributesA (path_arg.c_str (), attrs & ~FILE_ATTRIBUTE_READONLY);
+      SetFileAttributesA (path_arg.c_str (),
+                          attrs
+                              & static_cast<DWORD> (~FILE_ATTRIBUTE_READONLY));
     }
   if (is_directory (path_arg))
     {
@@ -2070,11 +2071,11 @@ lumex_filesystem::to_wide_string (std::string const &str)
 #if defined(LUMEX_OS_WINDOWS)
   if (str.empty ())
     return {};
-  int size_needed = MultiByteToWideChar (CP_UTF8, 0, str.c_str (),
-                                         (int)str.size (), nullptr, 0);
-  std::wstring wstr (size_needed, 0);
-  MultiByteToWideChar (CP_UTF8, 0, str.c_str (), (int)str.size (), &wstr[0],
-                       size_needed);
+  int size_needed = MultiByteToWideChar (
+      CP_UTF8, 0, str.c_str (), static_cast<int> (str.size ()), nullptr, 0);
+  std::wstring wstr (static_cast<std::size_t> (size_needed), 0);
+  MultiByteToWideChar (CP_UTF8, 0, str.c_str (),
+                       static_cast<int> (str.size ()), &wstr[0], size_needed);
   return wstr;
 #else
   if (str.empty ())
@@ -2095,12 +2096,13 @@ lumex_filesystem::from_wide_string (std::wstring const &wstr)
 #if defined(LUMEX_OS_WINDOWS)
   if (wstr.empty ())
     return {};
-  int size_needed
-      = WideCharToMultiByte (CP_UTF8, 0, wstr.c_str (), (int)wstr.size (),
-                             nullptr, 0, nullptr, nullptr);
-  std::string str (size_needed, 0);
-  WideCharToMultiByte (CP_UTF8, 0, wstr.c_str (), (int)wstr.size (), &str[0],
-                       size_needed, nullptr, nullptr);
+  int size_needed = WideCharToMultiByte (CP_UTF8, 0, wstr.c_str (),
+                                         static_cast<int> (wstr.size ()),
+                                         nullptr, 0, nullptr, nullptr);
+  std::string str (static_cast<std::size_t> (size_needed), 0);
+  WideCharToMultiByte (CP_UTF8, 0, wstr.c_str (),
+                       static_cast<int> (wstr.size ()), &str[0], size_needed,
+                       nullptr, nullptr);
   return str;
 #else
   if (wstr.empty ())
@@ -2122,8 +2124,8 @@ lumex_filesystem::get_exe_path ()
     {
 #if defined(LUMEX_OS_WINDOWS)
       std::array<wchar_t, MAX_PATH> buf{};
-      DWORD len
-          = GetModuleFileNameW (nullptr, buf.data (), (DWORD)buf.size ());
+      DWORD len = GetModuleFileNameW (nullptr, buf.data (),
+                                      static_cast<DWORD> (buf.size ()));
       if (len == 0 || len > buf.size ())
         return {};
       std::wstring wpath (buf.data (), len);

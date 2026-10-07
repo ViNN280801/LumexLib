@@ -203,7 +203,7 @@ make_unique (std::size_t n)
 }
 
 template <class T, class U = T>
-LUMEX_CONSTEXPR_FUNCTION T
+T
 exchange (T &obj, U &&new_value)
     LUMEX_NOEXCEPT_IF (std::is_nothrow_move_constructible<T>::value
                            &&std::is_nothrow_assignable<T &, U>::value)
