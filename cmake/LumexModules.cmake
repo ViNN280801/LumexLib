@@ -112,6 +112,7 @@ function(lumex_check_module_dependencies)
     lumex_require_module(LUMEX_BUILD_UNICODE LUMEX_BUILD_UTILITY)
     lumex_require_module(LUMEX_BUILD_XML LUMEX_BUILD_UTILITY)
     lumex_require_module(LUMEX_BUILD_XML LUMEX_BUILD_UNICODE)
+    lumex_require_module(LUMEX_BUILD_XML LUMEX_BUILD_MATH)
 
     lumex_require_module(LUMEX_BUILD_TEMPORARY LUMEX_BUILD_ENVIRONMENT)
     lumex_require_module(LUMEX_BUILD_TEMPORARY LUMEX_BUILD_FILESYSTEM)
