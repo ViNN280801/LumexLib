@@ -1,9 +1,10 @@
 ﻿# create_release.ps1 - build LumexLib with every given compiler and
 # architecture and package each build as
-#   LumexLib-<version>_win_<ISA>_<compiler>.<zip|tar.gz|exe>
+#   LumexLib-<version>_win_<ISA>_<compiler>_cxx<std>.<zip|tar.gz|exe>
 # where <compiler> is msvc<year> (the MSVC toolset of that Visual Studio,
-# for example msvc2026) or clang-cl-<major.minor.patch>; the exe is the NSIS
-# installer CPack builds through compile.py -i.
+# for example msvc2026) or clang-cl-<major.minor.patch>, and <std> is the C++
+# standard of the build (it is part of what a consumer must match); the exe is
+# the NSIS installer CPack builds through compile.py -i.
 #
 # The Windows counterpart of create_release.sh: the same options where the
 # platform has them, the same order of work and the same package layout.
@@ -42,9 +43,9 @@ Usage: ./create_release.ps1 -Compilers <v143,D:\local\LLVM\bin\clang-cl.exe> [op
 
 Builds LumexLib (Release, shared libraries, no tests, no documentation) once
 per compiler and ISA, installs it under <output-dir>/.work and packages each
-build as LumexLib-<version>_win_<ISA>_<compiler>.<format>, for example
-LumexLib-1.0.3.1_win_x64_msvc2026.zip or
-LumexLib-1.0.3.1_win_x64_clang-cl-21.1.5.zip.
+build as LumexLib-<version>_win_<ISA>_<compiler>_cxx<std>.<format>, for
+example LumexLib-2.0.0.0_win_x64_msvc2026_cxx20.zip or
+LumexLib-2.0.0.0_win_x64_clang-cl-21.1.5_cxx17.zip.
 
 Required:
   -Compilers LIST    Comma-separated compilers. Each entry is either
@@ -72,6 +73,8 @@ Options:
   -Std N             C++ standard for every build (11, 14, 17, 20, 23).
                      Default: the compile.py default (20); pass -Std 17 for a
                      compiler without C++20, for example the v141 toolset.
+                     The standard ends the name of the package (..._cxx17.zip;
+                     cxx20 when -Std is not given).
   -OutputDir DIR     Where the packages go (default: <repo>/release).
   -Version V         Override the version read from project(LumexLib
                      VERSION); it changes the artifact names only, the
@@ -494,6 +497,9 @@ if (-not [string]::IsNullOrWhiteSpace($Version)) {
 }
 
 $stdTextForBanner = if ($Std -ne 0) { "C++$Std" } else { 'C++default' }
+# The standard of the build, as the package name shows it: compile.py builds
+# with --stdcxx 20 when none is given.
+$stdTag = if ($Std -ne 0) { "$Std" } else { '20' }
 Write-Host "LumexLib $EffectiveVersion, formats: $($FormatList -join ', ')"
 if ($null -ne $NSISMaker) {
     Write-Host "  NSIS: $NSISMaker"
@@ -507,7 +513,7 @@ foreach ($job in $Jobs) {
 
 foreach ($job in $Jobs) {
     foreach ($isa in $ArchList) {
-        $base = "LumexLib-${EffectiveVersion}_win_${isa}_$($job.Label)"
+        $base = "LumexLib-${EffectiveVersion}_win_${isa}_$($job.Label)_cxx${stdTag}"
         $work = Join-Path $WorkRoot "$($job.Label)_${isa}"
         if (Test-Path -LiteralPath $work) {
             Remove-Item -LiteralPath $work -Recurse -Force
