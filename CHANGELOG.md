@@ -582,6 +582,15 @@
 
 **Проверено:** MinGW 8.3, C++11: 115 предупреждений до правки, 27 после (все 56 `-Wunknown-pragmas` и 32 `redeclared` ушли; остаток другой природы, он в следующих записях); проверка на дереве релиза находит ровно 56 прагм, на этой ветке 0; если в проверке убрать правило про `||`, кейс на фикстурах падает; GCC 13.2, Release: все 4079 теста C++11 проходят, кроме `LumexSerialProberPty.GivenPreWrittenResponse...`, который не проходил и до правок; на MSVC не собиралось (на других компиляторах макросы раскрываются в прежний текст).
 
+
+##### Остальные предупреждения Windows-веток и логгера на MinGW и Clang
+
+**Файлы:** `lumex/applied/hardware/caps/LumexHardwareCapabilities.cpp`, `lumex/applied/logger/logger/LumexLogger.cpp`, `lumex/applied/logger/logger/LumexLogger.hpp`, `lumex/core/exceptions/stacktrace/LumexStacktrace.cpp`, `lumex/core/filesystem/fs/LumexFilesystem.cpp`, `lumex/core/utility/dump/LumexCoreDumpGenerator.hpp`
+
+**Суть:** (1) Запасная `std::exchange` логгера для стандартов до C++14 была объявлена `constexpr` при двух операторах в теле, что Clang на C++11 принимает только как расширение (`-Wc++14-extensions`, 2 предупреждения); теперь она обычная шаблонная функция. (2) В Windows-ветках неявные преобразования знаков и размеров (`DWORD` в `LONG`, `int` в `size_t`, `size_t` в `DWORD` при расчете DACL, маска `~FILE_ATTRIBUTE_READONLY`) и приведения в стиле C заменены на `static_cast` и `reinterpret_cast`; значения те же. (3) `get_file_status_windows` вызывал одну и ту же `GetFileAttributesExA` в обеих ветках тернарного оператора по `follow`; вызов один, параметр помечен неиспользуемым с пояснением (функция описывает сам файл или ссылку). (4) `_get_minidump_type` перечисляет `CORE_DUMP_FULL` и `DEFAULT_AUTO` перед `default` (`-Wswitch-enum`), `DEFAULT_UNIX` равен `CORE_DUMP_FULL`. (5) У явного инстанцирования `lumex_basic_stacktrace` под MinGW нет атрибута экспорта: GCC его игнорирует с предупреждением, класс уже объявлен с ним. (6) `capture_stack_trace` логгера явно использует параметры и константу, которые не нужны на платформе без обхода стека.
+
+**Проверено:** все 16 комбинаций сборки библиотеки (GCC 8.3, GCC 13.2, Clang 23.1.0, MinGW 8.3, C++11, 14, 17, 20, `LUMEX_WERROR=OFF`): 0 предупреждений и 0 ошибок (до серии правок: 11-13 у Clang, 76-78 у GCC, 192 у MinGW); GCC 13.2: группы `logger`, `logging`, `utility`, `filesystem`, `hardware`, `exceptions` - 8833 теста, 0 падений, `lint.*` 5 из 5; Windows-ветки собраны MinGW и не запускались.
+
 ---
 
 ## [v1.0.3.1] - в разработке
