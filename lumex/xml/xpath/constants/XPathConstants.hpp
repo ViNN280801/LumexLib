@@ -52,7 +52,7 @@
 
 #include <cstdint>
 
-#include "lumex/xml/utility/XmlMacros.hpp"
+#include "lumex/core/utility/macros/LumexConstantMacros.hpp"
 
 namespace lumex // NOLINT(modernize-concat-nested-namespaces)
 {
@@ -64,9 +64,9 @@ namespace constants
 {
 namespace Constants
 {
-LUMEX_XML_CONSTANT std::size_t kxpath_memory_page_size = 0x1000; // 4 kb
-LUMEX_XML_CONSTANT std::size_t kxpath_ast_depth_limit = 0x400;   // 1 kb
-LUMEX_XML_CONSTANT uintptr_t kxpath_memory_block_alignment
+LUMEX_CONSTINIT_CONSTANT std::size_t kxpath_memory_page_size = 0x1000; // 4 kb
+LUMEX_CONSTINIT_CONSTANT std::size_t kxpath_ast_depth_limit = 0x400;   // 1 kb
+LUMEX_CONSTINIT_CONSTANT uintptr_t kxpath_memory_block_alignment
     = sizeof (double) > sizeof (void *) ? sizeof (double) : sizeof (void *);
 } // namespace Constants
 } // namespace constants

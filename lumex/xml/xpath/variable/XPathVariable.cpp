@@ -39,6 +39,8 @@
 
 #define LUMEX_IMPLEMENTATION
 
+#include <limits>
+
 #include "lumex/core/utility/assert/LumexAssert.hpp"
 
 #include "lumex/xml/utility/XmlUtils.hpp"
@@ -114,7 +116,7 @@ XPathVariable::get_number () const
              ? static_cast< // NOLINT(cppcoreguidelines-pro-type-static-cast-downcast)
                    xpath_variable_number const *> (this)
                    ->value
-             : utility::gen_nan ();
+             : std::numeric_limits<double>::quiet_NaN ();
 }
 
 LUMEX_PUBLIC_API
