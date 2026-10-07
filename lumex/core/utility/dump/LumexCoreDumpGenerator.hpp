@@ -1747,6 +1747,14 @@ format_time (char const *format)
   if (localtime_s (&timeInfo, &now) != 0)
     return "unknown_time";
   auto &timeStruct = timeInfo;
+#elif defined(__MINGW32__)
+  // localtime_r is POSIX and MinGW's headers do not declare it; the mutex
+  // above makes std::localtime safe to use here.
+  std::tm const *local = std::localtime (&now);
+  if (local == nullptr)
+    return "unknown_time";
+  struct tm timeInfo = *local;
+  auto &timeStruct = timeInfo;
 #else
   struct tm timeInfo = {};
   if (localtime_r (&now, &timeInfo) == nullptr)
@@ -1835,6 +1843,17 @@ dump_type_to_string (DumpType type)
       return "unknown_dump_type";
     }
 }
+
+#if defined(_WIN32)
+// GetCurrentProcessToken is an inline of the Windows 8 SDK that older
+// MinGW-w64 headers do not have. It returns this documented pseudo handle, so
+// the library spells it itself and builds with any SDK.
+HANDLE
+current_process_token ()
+{
+  return reinterpret_cast<HANDLE> (static_cast<LONG_PTR> (-4));
+}
+#endif
 } // namespace
 
 inline void
@@ -2680,12 +2699,12 @@ core_dump_generator::_windows_exception_handler (
           // Set owner to current user
           PSID ownerSid = nullptr;
           DWORD ownerSidSize = 0;
-          GetTokenInformation (GetCurrentProcessToken (), TokenUser, nullptr,
-                               0, &ownerSidSize);
+          GetTokenInformation (current_process_token (), TokenUser, nullptr, 0,
+                               &ownerSidSize);
           if (ownerSidSize > 0)
             {
               std::vector<BYTE> tokenInfo (ownerSidSize);
-              if (GetTokenInformation (GetCurrentProcessToken (), TokenUser,
+              if (GetTokenInformation (current_process_token (), TokenUser,
                                        tokenInfo.data (), ownerSidSize,
                                        &ownerSidSize))
                 {
@@ -2880,12 +2899,12 @@ core_dump_generator::_create_windows_dump (std::string const &filename,
           // Set owner to current user
           PSID ownerSid = nullptr;
           DWORD ownerSidSize = 0;
-          GetTokenInformation (GetCurrentProcessToken (), TokenUser, nullptr,
-                               0, &ownerSidSize);
+          GetTokenInformation (current_process_token (), TokenUser, nullptr, 0,
+                               &ownerSidSize);
           if (ownerSidSize > 0)
             {
               std::vector<BYTE> tokenInfo (ownerSidSize);
-              if (GetTokenInformation (GetCurrentProcessToken (), TokenUser,
+              if (GetTokenInformation (current_process_token (), TokenUser,
                                        tokenInfo.data (), ownerSidSize,
                                        &ownerSidSize))
                 {

@@ -96,6 +96,17 @@
 
 #define LUMEX_CPU_VECTORIZATION_INFO_ALIGNMENT 64
 
+// GCC 8 rejects alignas followed by a GNU attribute in a class head, and the
+// export attribute LUMEX_API is one on ELF and MinGW. The GNU aligned
+// attribute can stand next to it; MSVC and clang-cl keep alignas.
+#if defined(_MSC_VER)
+#define LUMEX_CPU_VECTORIZATION_INFO_ALIGNED                                  \
+  alignas (LUMEX_CPU_VECTORIZATION_INFO_ALIGNMENT)
+#else
+#define LUMEX_CPU_VECTORIZATION_INFO_ALIGNED                                  \
+  __attribute__ ((aligned (LUMEX_CPU_VECTORIZATION_INFO_ALIGNMENT)))
+#endif
+
 namespace lumex // NOLINT(modernize-concat-nested-namespaces)
 {
 namespace applied
@@ -142,8 +153,7 @@ namespace caps
  * }
  * @endcode
  */
-struct alignas (LUMEX_CPU_VECTORIZATION_INFO_ALIGNMENT) LUMEX_API
-    cpu_vectorization_info_t
+struct LUMEX_CPU_VECTORIZATION_INFO_ALIGNED LUMEX_API cpu_vectorization_info_t
 { // NOLINT(cppcoreguidelines-pro-type-member-init,
   // misc-non-private-member-variables-in-classes,
   // readability-identifier-naming)
