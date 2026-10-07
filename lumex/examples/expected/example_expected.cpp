@@ -62,6 +62,53 @@ main ()
             << " factory_err=" << failedFactory.error ()
             << " factory_void=" << (voidFactory ? "yes" : "no") << '\n';
 
+  std::cout << "\n--- 6. transform, and_then, or_else, transform_error ---\n";
+  expected<int, std::string> const channel = parse_channel ("5");
+  expected<int, std::string> const missing = parse_channel ("x");
+
+  // A function that returns void gives expected<void, E>.
+  int visited = 0;
+  expected<void, std::string> const seen
+      = channel.transform ([&visited] (int value) { visited = value; });
+
+  // A function that returns an expected gives an expected of that expected:
+  // the outer one says the channel parsed, the inner one that the port is
+  // free.
+  expected<expected<std::string, int>, std::string> const port
+      = channel.transform (
+          [] (int value) -> expected<std::string, int>
+            {
+              if (value > 3)
+                return unexpected<int> (value);
+              return std::string ("COM") + std::to_string (value);
+            });
+
+  expected<int, std::string> const chained = channel.and_then (
+      [] (int value) { return parse_channel (value < 9 ? "9" : "1"); });
+  expected<int, std::string> const recovered = missing.or_else (
+      [] (std::string const &) { return expected<int, std::string> (0); });
+  expected<int, int> const code = missing.transform_error (
+      [] (std::string const &why) { return static_cast<int> (why.size ()); });
+  std::cout << "seen=" << (seen ? "yes" : "no") << " visited=" << visited
+            << " port_parsed=" << (port ? "yes" : "no")
+            << " port_free=" << (port.value () ? "yes" : "no")
+            << " port_busy_on=" << port.value ().error () << '\n';
+  std::cout << "chained=" << chained.value_or (-1)
+            << " recovered=" << recovered.value_or (-1)
+            << " error_code=" << code.error () << '\n';
+
+  std::cout << "\n--- 7. unexpected, conversion, comparison ---\n";
+  // unexpected converts implicitly, like std::unexpected.
+  expected<int, std::string> const refused
+      = unexpected<std::string> (std::string ("refused"));
+  expected<long, std::string> const wide = channel; // converting constructor
+  std::cout << "refused=" << refused.error () << " wide=" << wide.value ()
+            << " channel==5: " << (channel == 5)
+            << " wide==5L: " << (wide == 5L) << " missing==unexpected: "
+            << (missing
+                == unexpected<std::string> (std::string ("not a digit")))
+            << '\n';
+
   std::cout << "\n=== Expected example finished ===\n";
   return 0;
 }
