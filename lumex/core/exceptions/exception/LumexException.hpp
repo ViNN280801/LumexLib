@@ -39,11 +39,11 @@
 
 /**
  * @file LumexException.hpp
- * @brief `LumexBaseException`, the base exception of LumexLib that records the
- * stack where it was constructed, and the macros that throw and catch it.
- * @details The exception keeps its message and a `LumexStacktrace` captured by
- * the constructor. `to_stderr()` prints the demangled exception type and the
- * message; `to_crash_report()` appends the message and the stack to one
+ * @brief `lumex_base_exception`, the base exception of LumexLib that records
+ * the stack where it was constructed, and the macros that throw and catch it.
+ * @details The exception keeps its message and a `lumex_stacktrace` captured
+ * by the constructor. `to_stderr()` prints the demangled exception type and
+ * the message; `to_crash_report()` appends the message and the stack to one
  * `crash_report_<timestamp>.txt` per run in the `crashes` directory next to
  * the executable. The constructors compiled into `lumex::exceptions` have
  * the same signatures in every C++ standard; the `std::string_view`
@@ -53,7 +53,7 @@
  * `LUMEX_THROW_EXCEPTION` throws an exception type with its demangled name in
  * front of the message. `LUMEX_EXCEPTION_HANDLE_BEGIN` and
  * `LUMEX_EXCEPTION_HANDLE_END` wrap a block in a `try` that reports a
- * `LumexBaseException`, any other `std::exception` and an unknown exception;
+ * `lumex_base_exception`, any other `std::exception` and an unknown exception;
  * the opening macro also installs the Windows translator through
  * `SET_SEH_TRANSLATOR` of the included `WindowsSEHTranslator.hpp`, so the
  * macros work with this header alone.
@@ -99,7 +99,7 @@ namespace exception
 #endif
 /**
  * @brief Base exception that records the stack where it was constructed.
- * @details `LumexBaseException(char const *)`, both `std::string`
+ * @details `lumex_base_exception(char const *)`, both `std::string`
  * constructors, `to_stderr` and `to_crash_report` are exported and have the
  * same signature in every C++ standard, so a consumer built at another
  * standard than the library links. The `std::string_view` constructor
@@ -108,37 +108,37 @@ namespace exception
  * inline member it does not inline, and the library does not provide the
  * standard-dependent constructor.
  */
-class LumexBaseException : public std::exception
+class lumex_base_exception : public std::exception
 {
 public:
   /**
-   * @brief Constructs a `LumexBaseException` with a message.
+   * @brief Constructs a `lumex_base_exception` with a message.
    * @param message The error message.
    */
-  LUMEX_API LumexBaseException (char const *message);
+  LUMEX_API lumex_base_exception (char const *message);
 
   /**
-   * @brief Constructs a `LumexBaseException` with a message.
+   * @brief Constructs a `lumex_base_exception` with a message.
    * @param message The error message.
    */
-  LUMEX_API LumexBaseException (std::string const &message);
+  LUMEX_API lumex_base_exception (std::string const &message);
 
   /**
-   * @brief Constructs a `LumexBaseException` with a message.
+   * @brief Constructs a `lumex_base_exception` with a message.
    * @param message The error message.
    */
-  LUMEX_API LumexBaseException (std::string &&message);
+  LUMEX_API lumex_base_exception (std::string &&message);
 
 #if __cplusplus >= 201703L
   /**
-   * @brief Constructs a `LumexBaseException` with a message.
+   * @brief Constructs a `lumex_base_exception` with a message.
    * @details Inline and delegating to the `std::string &&` constructor, so
    * the library exports the same constructors in every C++ standard and a
    * consumer built at another standard links.
    * @param message The error message; may contain NUL characters.
    */
-  LumexBaseException (std::string_view message)
-      : LumexBaseException (std::string (message))
+  lumex_base_exception (std::string_view message)
+      : lumex_base_exception (std::string (message))
   {
   }
 #endif
@@ -163,8 +163,8 @@ public:
    * @return The stack trace of the error.
    * @note This method is `noexcept` because it only returns a member variable.
    */
-  LumexStacktrace
-  getStackTrace () const LUMEX_NOEXCEPT
+  lumex_stacktrace
+  get_stack_trace () const LUMEX_NOEXCEPT
   {
     return m_stacktrace;
   }
@@ -189,23 +189,23 @@ public:
   LUMEX_API void to_crash_report () const;
 
 private:
-  std::string m_message;        ///< The custom error message to be displayed.
-  LumexStacktrace m_stacktrace; ///< The stack trace of the error.
+  std::string m_message;         ///< The custom error message to be displayed.
+  lumex_stacktrace m_stacktrace; ///< The stack trace of the error.
 };
 #ifdef _WIN32
 #pragma warning(pop)
 #endif
 
 // Declare the trampoline function
-LUMEX_PUBLIC_API LUMEX_ATTRIBUTE_NOINLINE LumexStacktrace
-LumexException_GetStackTraceTrampoline (int skip_frames);
+LUMEX_PUBLIC_API LUMEX_ATTRIBUTE_NOINLINE lumex_stacktrace
+lumex_exception_get_stack_trace_trampoline (int skip_frames);
 } // namespace exception
 } // namespace exceptions
 } // namespace core
 } // namespace lumex
 
-using LumexBaseException
-    = lumex::core::exceptions::exception::LumexBaseException;
+using lumex_base_exception
+    = lumex::core::exceptions::exception::lumex_base_exception;
 
 // ================================================================== //
 // ====================== Lumex Exception Macro ===================== //
@@ -233,7 +233,7 @@ using LumexBaseException
 
 #define LUMEX_EXCEPTION_HANDLE_END                                            \
   }                                                                           \
-  catch (LumexBaseException const &ex)                                        \
+  catch (lumex_base_exception const &ex)                                      \
   {                                                                           \
     ex.to_stderr ();                                                          \
     ex.to_crash_report ();                                                    \
@@ -241,8 +241,8 @@ using LumexBaseException
   catch (std::exception const &ex)                                            \
   {                                                                           \
     std::cerr << "[std::exception] " << ex.what () << '\n';                   \
-    LumexBaseException (ex.what ()).to_stderr ();                             \
-    LumexBaseException (ex.what ()).to_crash_report ();                       \
+    lumex_base_exception (ex.what ()).to_stderr ();                           \
+    lumex_base_exception (ex.what ()).to_crash_report ();                     \
   }                                                                           \
   catch (...) { std::cerr << "[Unknown exception]\n"; }
 

@@ -12,14 +12,14 @@ main ()
   std::cout << "=== Time stamps and measurement ===\n\n";
 
   std::cout << "--- 1. Formatted now ---\n";
-  std::cout << "datetime=" << LumexTime::get_current_datetime () << '\n';
+  std::cout << "datetime=" << lumex_time::get_current_datetime () << '\n';
   std::cout << "custom="
-            << LumexTime::get_current_datetime ("%Y-%m-%d %H:%M:%S") << '\n';
+            << lumex_time::get_current_datetime ("%Y-%m-%d %H:%M:%S") << '\n';
 
   std::cout << "\n--- 2. Epoch stamps ---\n";
-  std::cout << "ns=" << LumexTime::get_timestamp_ns () << '\n';
-  std::cout << "ms=" << LumexTime::get_timestamp_ms () << '\n';
-  std::cout << "s=" << LumexTime::get_timestamp_s () << '\n';
+  std::cout << "ns=" << lumex_time::get_timestamp_ns () << '\n';
+  std::cout << "ms=" << lumex_time::get_timestamp_ms () << '\n';
+  std::cout << "s=" << lumex_time::get_timestamp_s () << '\n';
 
   std::cout << "\n--- 3. measure_execution_time ---\n";
   long long const ms = measure_execution_time (

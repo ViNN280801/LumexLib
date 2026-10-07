@@ -83,7 +83,7 @@ struct byte_range_t
 
 LUMEX_PUBLIC_API
 std::string
-Encoder::encode (void const *data, std::size_t size)
+encoder::encode (void const *data, std::size_t size)
 {
   if (data == nullptr || size == 0)
     return {};
@@ -94,7 +94,7 @@ Encoder::encode (void const *data, std::size_t size)
 
 LUMEX_PUBLIC_API
 std::string
-Encoder::encode (std::vector<byte_type> const &data)
+encoder::encode (std::vector<byte_type> const &data)
 {
   return detail::_encode_impl (data);
 }

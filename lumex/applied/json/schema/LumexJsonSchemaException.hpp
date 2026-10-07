@@ -104,7 +104,7 @@ private:
                    std::string const &detail)
   {
     std::string message ("[LumexJsonSchemaException] ");
-    message += toString (reason);
+    message += to_string (reason);
     message += " at '";
     message += path;
     message += "': ";

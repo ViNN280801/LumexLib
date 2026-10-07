@@ -490,7 +490,7 @@ TEST_F (LumexLoggingTest, GivenAppName_WhenSet_ThenLogsDirectoryReflectsIt)
   lumex::path logsDir = LumexLogging::getLogsDirectory ();
 
 #if LUMEX_OS_UNIX
-  std::string homeDir = LumexEnvironment::get ("HOME").value;
+  std::string homeDir = lumex_environment::get ("HOME").value;
   lumex::path expectedPath = lumex::path (homeDir) / lumex::path (".local")
                              / lumex::path ("share") / lumex::path (appName)
                              / lumex::path ("logs");
@@ -932,7 +932,7 @@ TEST_F (LumexLoggingTest, Platform_GetLogsDirectoryCorrectlyIdentifiesPath)
 {
   // Call getLogsDirectory -> verify path corresponds to expected OS-specific
   // location. This test now explicitly relies on
-  // `LumexLogging::getLogsDirectory()` which internally uses LumexEnvironment
+  // `LumexLogging::getLogsDirectory()` which internally uses lumex_environment
   // to determine the path, and ensures it's cleaned by the fixture.
   lumex::path logsDir = LumexLogging::getLogsDirectory ();
 
@@ -943,14 +943,14 @@ TEST_F (LumexLoggingTest, Platform_GetLogsDirectoryCorrectlyIdentifiesPath)
         / lumex::path ("logs") / lumex::path (_appName);
   EXPECT_EQ (logsDir.string (), expectedPath.string ());
 #else
-  std::string homeDir = LumexEnvironment::get ("HOME").value;
+  std::string homeDir = lumex_environment::get ("HOME").value;
   lumex::path expectedPath;
 
-  std::string appImagePath = LumexEnvironment::get ("APPIMAGE").value;
+  std::string appImagePath = lumex_environment::get ("APPIMAGE").value;
 
   if (!appImagePath.empty ())
     {
-      std::string xdgDataHome = LumexEnvironment::get ("XDG_DATA_HOME").value;
+      std::string xdgDataHome = lumex_environment::get ("XDG_DATA_HOME").value;
       if (!xdgDataHome.empty ())
         expectedPath = lumex::path (xdgDataHome) / lumex::path (_appName)
                        / lumex::path ("logs");

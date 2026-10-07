@@ -1,7 +1,7 @@
 // example_format_custom.cpp
-// LumexFormat, part 5: user types. Formatter specializations that reuse a
-// built-in specification, parse their own, write through BasicAppender,
-// support wchar_t; types formatted through operator<< (OstreamFormatter,
+// LumexFormat, part 5: user types. formatter specializations that reuse a
+// built-in specification, parse their own, write through basic_appender,
+// support wchar_t; types formatted through operator<< (ostream_formatter,
 // streamed); reflected enums.
 #include <iostream>
 #include <ostream>
@@ -32,7 +32,7 @@ struct date_t
   int day;
 };
 
-/** Has operator<<; formatted through OstreamFormatter. */
+/** Has operator<<; formatted through ostream_formatter. */
 struct point_t
 {
   int x;
@@ -45,7 +45,7 @@ operator<< (std::ostream &stream, point_t const &point)
   return stream << '(' << point.x << ", " << point.y << ')';
 }
 
-/** Has operator<< and no Formatter: formatted through streamed (). */
+/** Has operator<< and no formatter: formatted through streamed (). */
 struct legacy_t
 {
   std::string name;
@@ -70,38 +70,38 @@ namespace core
 {
 namespace fmt
 {
-template <> class Formatter<pressure_t> : public Formatter<double>
+template <> class formatter<pressure_t> : public formatter<double>
 {
 public:
-  BasicAppender<char>
+  basic_appender<char>
   format (pressure_t const &value, FormatContext &ctx) const
   {
-    BasicAppender<char> out = Formatter<double>::format (value.bar, ctx);
+    basic_appender<char> out = formatter<double>::format (value.bar, ctx);
     return fmt::format_to (out, " bar");
   }
 };
 
 /** The same type for wide format strings. */
 template <>
-class Formatter<pressure_t, wchar_t> : public Formatter<double, wchar_t>
+class formatter<pressure_t, wchar_t> : public formatter<double, wchar_t>
 {
 public:
   wchar_t const *
   parse (WFormatParseContext &ctx)
   {
-    return Formatter<double, wchar_t>::parse (ctx);
+    return formatter<double, wchar_t>::parse (ctx);
   }
 
-  BasicAppender<wchar_t>
+  basic_appender<wchar_t>
   format (pressure_t const &value, WFormatContext &ctx) const
   {
-    BasicAppender<wchar_t> out
-        = Formatter<double, wchar_t>::format (value.bar, ctx);
+    basic_appender<wchar_t> out
+        = formatter<double, wchar_t>::format (value.bar, ctx);
     return fmt::format_to (out, L" bar");
   }
 };
 
-template <> class Formatter<date_t>
+template <> class formatter<date_t>
 {
 public:
   char const *
@@ -114,11 +114,11 @@ public:
         it += 3;
       }
     if (it != ctx.end () && *it != '}')
-      throw FormatError ("date_t: expected {} or {:iso}");
+      throw format_error ("date_t: expected {} or {:iso}");
     return it;
   }
 
-  BasicAppender<char>
+  basic_appender<char>
   format (date_t const &date, FormatContext &ctx) const
   {
     if (_iso)
@@ -132,28 +132,28 @@ private:
   bool _iso = false;
 };
 
-template <> class Formatter<point_t> : public OstreamFormatter<char>
+template <> class formatter<point_t> : public ostream_formatter<char>
 {
 };
 
 /**
- * One template for every character type: BasicFormatParseContext<Char> and
- * BasicFormatContext<Char> are what FormatParseContext / FormatContext
+ * One template for every character type: basic_format_parse_context<Char> and
+ * basic_format_context<Char> are what FormatParseContext / FormatContext
  * (char) and WFormatParseContext / WFormatContext (wchar_t) name.
  */
-template <typename Char> class Formatter<stars_t, Char>
+template <typename Char> class formatter<stars_t, Char>
 {
 public:
   Char const *
-  parse (BasicFormatParseContext<Char> &ctx)
+  parse (basic_format_parse_context<Char> &ctx)
   {
     return ctx.begin (); // no options
   }
 
-  BasicAppender<Char>
-  format (stars_t const &stars, BasicFormatContext<Char> &ctx) const
+  basic_appender<Char>
+  format (stars_t const &stars, basic_format_context<Char> &ctx) const
   {
-    BasicAppender<Char> out = ctx.out ();
+    basic_appender<Char> out = ctx.out ();
     for (int i = 0; i < stars.count; ++i)
       *out++ = static_cast<Char> ('*');
     return out;
@@ -182,7 +182,7 @@ main ()
     {
       (void)fmt::format (fmt::runtime ("{:us}"), date);
     }
-  catch (fmt::FormatError const &error)
+  catch (fmt::format_error const &error)
     {
       std::cout << "rejected: " << error.what () << '\n';
     }

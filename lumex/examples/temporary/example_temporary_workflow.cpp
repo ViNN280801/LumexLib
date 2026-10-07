@@ -10,8 +10,8 @@ main ()
 {
   std::cout << "=== Workflow: stage an export in a temp directory ===\n\n";
 
-  lumex::filesystem_result<TemporaryDirectory> dir
-      = LumexTemporary::create_temp_directory ("export");
+  lumex::filesystem_result<temporary_directory> dir
+      = lumex_temporary::create_temp_directory ("export");
   if (!dir || !dir.value ().is_valid ())
     {
       std::cerr << "cannot create export directory\n";

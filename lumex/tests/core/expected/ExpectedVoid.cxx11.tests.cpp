@@ -1,4 +1,4 @@
-// Expected<void, E> tests. They compile from C++11, so every expected suite
+// expected<void, E> tests. They compile from C++11, so every expected suite
 // (C++11, C++17, C++20) runs them.
 
 #include <chrono>
@@ -47,7 +47,7 @@
 using namespace lumex::core::expected::result;
 using namespace lumex::core::expected::error;
 
-// The LUMEX_ASSERT messages of Expected<void, E>, as death test patterns.
+// The LUMEX_ASSERT messages of expected<void, E>, as death test patterns.
 constexpr char const *kVoidErrorWithoutErrorPattern
     = "error\\(\\) called on an Expected<void> that holds no error";
 constexpr char const *kVoidDereferenceOnErrorPattern
@@ -114,7 +114,7 @@ TYPED_TEST_SUITE (ExpectedVoidTest, ExpectedVoidTestTypes);
 // === API Contract Verifier Tests =========================================
 
 /**
- * Verifies default-constructing Expected<void>
+ * Verifies default-constructing expected<void>
  * Asserts: The object is created in the success state with a void value
  * Method: Construct with no arguments and check has_value() == true
  */
@@ -122,13 +122,13 @@ TYPED_TEST (ExpectedVoidTest, DefaultConstructor_CreatesExpectedWithVoidValue)
 {
   using ErrorType = typename TestFixture::ErrorType;
 
-  Expected<void, ErrorType> uut;
+  expected<void, ErrorType> uut;
   EXPECT_TRUE (uut.has_value ());
   EXPECT_NO_THROW (uut.value ());
 }
 
 /**
- * Verifies constructing Expected<void> with the in-place constructor
+ * Verifies constructing expected<void> with the in-place constructor
  * Asserts: The object is created in the success state with a void value
  * Method: Use the in-place constructor and check the state
  */
@@ -136,30 +136,30 @@ TYPED_TEST (ExpectedVoidTest, InPlaceConstructor_CreatesExpectedWithVoidValue)
 {
   using ErrorType = typename TestFixture::ErrorType;
 
-  Expected<void, ErrorType> uut (in_place);
+  expected<void, ErrorType> uut (in_place);
   EXPECT_TRUE (uut.has_value ());
   EXPECT_NO_THROW (uut.value ());
 }
 
 /**
- * Verifies constructing Expected<void> from Unexpected<ErrorType>
+ * Verifies constructing expected<void> from unexpected<ErrorType>
  * Asserts: The object enters the error state with the given value
- * Method: Construct Unexpected and check has_value() == false
+ * Method: Construct unexpected and check has_value() == false
  */
 TYPED_TEST (ExpectedVoidTest,
             Constructor_FromUnexpected_CreatesExpectedWithError)
 {
   using ErrorType = typename TestFixture::ErrorType;
 
-  Unexpected<ErrorType> unexp (this->error_val1);
-  Expected<void, ErrorType> uut (unexp);
+  unexpected<ErrorType> unexp (this->error_val1);
+  expected<void, ErrorType> uut (unexp);
 
   EXPECT_FALSE (uut.has_value ());
   EXPECT_EQ (uut.error (), this->error_val1);
 }
 
 /**
- * Verifies move semantics when constructing from Unexpected<ErrorType>
+ * Verifies move semantics when constructing from unexpected<ErrorType>
  * Asserts: The error is moved, not copied
  * Method: Use std::move and check the state
  */
@@ -168,15 +168,15 @@ TYPED_TEST (ExpectedVoidTest, Constructor_FromUnexpectedRValue_MovesError)
   using ErrorType = typename TestFixture::ErrorType;
 
   ErrorType original_error = this->error_val1;
-  Unexpected<ErrorType> unexp (std::move (original_error));
-  Expected<void, ErrorType> uut (std::move (unexp));
+  unexpected<ErrorType> unexp (std::move (original_error));
+  expected<void, ErrorType> uut (std::move (unexp));
 
   EXPECT_FALSE (uut.has_value ());
   EXPECT_EQ (uut.error (), this->error_val1);
 }
 
 /**
- * Verifies copying Expected<void>
+ * Verifies copying expected<void>
  * Asserts: State and contents are copied
  * Method: Copy the object and compare states
  */
@@ -185,22 +185,22 @@ TYPED_TEST (ExpectedVoidTest, CopyConstructor_CopiesStateAndContent)
   using ErrorType = typename TestFixture::ErrorType;
 
   // Success case
-  Expected<void, ErrorType> original_success;
-  Expected<void, ErrorType> copied_success = original_success;
+  expected<void, ErrorType> original_success;
+  expected<void, ErrorType> copied_success = original_success;
   EXPECT_TRUE (copied_success.has_value ());
   EXPECT_EQ (copied_success, original_success);
 
   // Error case
-  Expected<void, ErrorType> original_error (
-      Unexpected<ErrorType> (this->error_val1));
-  Expected<void, ErrorType> copied_error = original_error;
+  expected<void, ErrorType> original_error (
+      unexpected<ErrorType> (this->error_val1));
+  expected<void, ErrorType> copied_error = original_error;
   EXPECT_FALSE (copied_error.has_value ());
   EXPECT_EQ (copied_error.error (), this->error_val1);
   EXPECT_EQ (copied_error, original_error);
 }
 
 /**
- * Verifies moving Expected<void>
+ * Verifies moving expected<void>
  * Asserts: State and contents are moved
  * Method: Use std::move and check both states
  */
@@ -209,15 +209,15 @@ TYPED_TEST (ExpectedVoidTest, MoveConstructor_MovesStateAndContent)
   using ErrorType = typename TestFixture::ErrorType;
 
   // Success case
-  Expected<void, ErrorType> original_success;
-  Expected<void, ErrorType> moved_success = std::move (original_success);
+  expected<void, ErrorType> original_success;
+  expected<void, ErrorType> moved_success = std::move (original_success);
   EXPECT_TRUE (moved_success.has_value ());
 
   // Error case
   ErrorType original_error_val = this->error_val1;
-  Expected<void, ErrorType> original_error (
-      Unexpected<ErrorType> (std::move (original_error_val)));
-  Expected<void, ErrorType> moved_error = std::move (original_error);
+  expected<void, ErrorType> original_error (
+      unexpected<ErrorType> (std::move (original_error_val)));
+  expected<void, ErrorType> moved_error = std::move (original_error);
   EXPECT_FALSE (moved_error.has_value ());
   EXPECT_EQ (moved_error.error (), this->error_val1);
 }
@@ -234,7 +234,7 @@ TYPED_TEST (ExpectedVoidTest, Destructor_ProperlyDestroysErrorWhenPresent)
   using ErrorType = typename TestFixture::ErrorType;
 
   // Simple test that works for all error types
-  Expected<void, ErrorType> uut (Unexpected<ErrorType> (this->error_val1));
+  expected<void, ErrorType> uut (unexpected<ErrorType> (this->error_val1));
   EXPECT_FALSE (uut.has_value ());
   EXPECT_EQ (uut.error (), this->error_val1);
 
@@ -242,7 +242,7 @@ TYPED_TEST (ExpectedVoidTest, Destructor_ProperlyDestroysErrorWhenPresent)
 }
 
 /**
- * Verifies assigning Expected<void>
+ * Verifies assigning expected<void>
  * Asserts: Every state combination is handled
  * Method: Exercise every state transition
  */
@@ -251,34 +251,34 @@ TYPED_TEST (ExpectedVoidTest, CopyAssignment_CopiesStateAndContent)
   using ErrorType = typename TestFixture::ErrorType;
 
   // Success -> Success
-  Expected<void, ErrorType> src_s;
-  Expected<void, ErrorType> dst_s;
+  expected<void, ErrorType> src_s;
+  expected<void, ErrorType> dst_s;
   dst_s = src_s;
   EXPECT_TRUE (dst_s.has_value ());
 
   // Error -> Error
-  Expected<void, ErrorType> src_e (Unexpected<ErrorType> (this->error_val1));
-  Expected<void, ErrorType> dst_e (Unexpected<ErrorType> (this->error_val2));
+  expected<void, ErrorType> src_e (unexpected<ErrorType> (this->error_val1));
+  expected<void, ErrorType> dst_e (unexpected<ErrorType> (this->error_val2));
   dst_e = src_e;
   EXPECT_FALSE (dst_e.has_value ());
   EXPECT_EQ (dst_e.error (), this->error_val1);
 
   // Success -> Error
-  Expected<void, ErrorType> src_s2;
-  Expected<void, ErrorType> dst_e2 (Unexpected<ErrorType> (this->error_val2));
+  expected<void, ErrorType> src_s2;
+  expected<void, ErrorType> dst_e2 (unexpected<ErrorType> (this->error_val2));
   dst_e2 = src_s2;
   EXPECT_TRUE (dst_e2.has_value ());
 
   // Error -> Success
-  Expected<void, ErrorType> src_e3 (Unexpected<ErrorType> (this->error_val1));
-  Expected<void, ErrorType> dst_s3;
+  expected<void, ErrorType> src_e3 (unexpected<ErrorType> (this->error_val1));
+  expected<void, ErrorType> dst_s3;
   dst_s3 = src_e3;
   EXPECT_FALSE (dst_s3.has_value ());
   EXPECT_EQ (dst_s3.error (), this->error_val1);
 }
 
 /**
- * Verifies move-assigning Expected<void>
+ * Verifies move-assigning expected<void>
  * Asserts: The move does not copy resources
  * Method: Use std::move and check both states
  */
@@ -287,29 +287,29 @@ TYPED_TEST (ExpectedVoidTest, MoveAssignment_MovesStateAndContent)
   using ErrorType = typename TestFixture::ErrorType;
 
   // Success -> Success
-  Expected<void, ErrorType> src_s;
-  Expected<void, ErrorType> dst_s;
+  expected<void, ErrorType> src_s;
+  expected<void, ErrorType> dst_s;
   dst_s = std::move (src_s);
   EXPECT_TRUE (dst_s.has_value ());
 
   // Error -> Error
   ErrorType e1_val = this->error_val1;
-  Expected<void, ErrorType> src_e{ Unexpected<ErrorType> (e1_val) };
-  Expected<void, ErrorType> dst_e (Unexpected<ErrorType> (this->error_val2));
+  expected<void, ErrorType> src_e{ unexpected<ErrorType> (e1_val) };
+  expected<void, ErrorType> dst_e (unexpected<ErrorType> (this->error_val2));
   dst_e = std::move (src_e);
   EXPECT_FALSE (dst_e.has_value ());
   EXPECT_EQ (dst_e.error (), e1_val);
 
   // Success -> Error
-  Expected<void, ErrorType> src_s2;
-  Expected<void, ErrorType> dst_e2 (Unexpected<ErrorType> (this->error_val2));
+  expected<void, ErrorType> src_s2;
+  expected<void, ErrorType> dst_e2 (unexpected<ErrorType> (this->error_val2));
   dst_e2 = std::move (src_s2);
   EXPECT_TRUE (dst_e2.has_value ());
 
   // Error -> Success
   ErrorType e2_val = this->error_val2;
-  Expected<void, ErrorType> src_e3{ Unexpected<ErrorType> (e2_val) };
-  Expected<void, ErrorType> dst_s3;
+  expected<void, ErrorType> src_e3{ unexpected<ErrorType> (e2_val) };
+  expected<void, ErrorType> dst_s3;
   dst_s3 = std::move (src_e3);
   EXPECT_FALSE (dst_s3.has_value ());
   EXPECT_EQ (dst_s3.error (), e2_val);
@@ -327,15 +327,15 @@ TYPED_TEST (ExpectedVoidTest, Swap_ExchangesContentsCorrectly)
   using ErrorType = typename TestFixture::ErrorType;
 
   // Success <-> Success
-  Expected<void, ErrorType> exp1_s;
-  Expected<void, ErrorType> exp2_s;
+  expected<void, ErrorType> exp1_s;
+  expected<void, ErrorType> exp2_s;
   exp1_s.swap (exp2_s);
   EXPECT_TRUE (exp1_s.has_value ());
   EXPECT_TRUE (exp2_s.has_value ());
 
   // Error <-> Error
-  Expected<void, ErrorType> exp1_e (Unexpected<ErrorType> (this->error_val1));
-  Expected<void, ErrorType> exp2_e (Unexpected<ErrorType> (this->error_val2));
+  expected<void, ErrorType> exp1_e (unexpected<ErrorType> (this->error_val1));
+  expected<void, ErrorType> exp2_e (unexpected<ErrorType> (this->error_val2));
   exp1_e.swap (exp2_e);
   EXPECT_FALSE (exp1_e.has_value ());
   EXPECT_EQ (exp1_e.error (), this->error_val2);
@@ -343,9 +343,9 @@ TYPED_TEST (ExpectedVoidTest, Swap_ExchangesContentsCorrectly)
   EXPECT_EQ (exp2_e.error (), this->error_val1);
 
   // Success <-> Error
-  Expected<void, ErrorType> exp_s_to_e;
-  Expected<void, ErrorType> exp_e_to_s (
-      Unexpected<ErrorType> (this->error_val1));
+  expected<void, ErrorType> exp_s_to_e;
+  expected<void, ErrorType> exp_e_to_s (
+      unexpected<ErrorType> (this->error_val1));
   exp_s_to_e.swap (exp_e_to_s);
   EXPECT_FALSE (exp_s_to_e.has_value ());
   EXPECT_EQ (exp_s_to_e.error (), this->error_val1);
@@ -373,13 +373,13 @@ TYPED_TEST (ExpectedVoidTest, ThreadSafety_MultipleIndependentInstances)
             {
               if (i % 2 == 0)
                 {
-                  Expected<void, ErrorType> uut;
+                  expected<void, ErrorType> uut;
                   EXPECT_TRUE (uut.has_value ());
                 }
               else
                 {
-                  Expected<void, ErrorType> uut (
-                      Unexpected<ErrorType> (ErrorType{}));
+                  expected<void, ErrorType> uut (
+                      unexpected<ErrorType> (ErrorType{}));
                   EXPECT_FALSE (uut.has_value ());
                 }
             });
@@ -411,13 +411,13 @@ TYPED_TEST (ExpectedVoidTest, Perf_ConstructionAndAccess)
     {
       if (i % 2 == 0)
         {
-          Expected<void, ErrorType> uut;
+          expected<void, ErrorType> uut;
           EXPECT_TRUE (uut.has_value ());
         }
       else
         {
           // Use default-constructed error value
-          Expected<void, ErrorType> uut (Unexpected<ErrorType> (ErrorType{}));
+          expected<void, ErrorType> uut (unexpected<ErrorType> (ErrorType{}));
           EXPECT_FALSE (uut.has_value ());
           LUMEX_ATTRIBUTE_MAYBE_UNUSED auto &err = uut.error ();
         }
@@ -460,16 +460,16 @@ TYPED_TEST (ExpectedVoidTest,
   using ErrorType = typename TestFixture::ErrorType;
 
   // Success case
-  Expected<void, ErrorType> success_uut;
-  auto func = [&] () { return Expected<int, ErrorType> (42); };
+  expected<void, ErrorType> success_uut;
+  auto func = [&] () { return expected<int, ErrorType> (42); };
   auto result = success_uut.and_then (func);
 
   EXPECT_TRUE (result.has_value ());
   EXPECT_EQ (result.value (), 42);
 
   // Error case
-  Expected<void, ErrorType> error_uut (
-      Unexpected<ErrorType> (this->error_val1));
+  expected<void, ErrorType> error_uut (
+      unexpected<ErrorType> (this->error_val1));
   auto result_e = error_uut.and_then (func);
 
   EXPECT_FALSE (result_e.has_value ());
@@ -487,16 +487,16 @@ TYPED_TEST (ExpectedVoidTest,
   using ErrorType = typename TestFixture::ErrorType;
 
   // Success case
-  Expected<void, ErrorType> const success_uut;
-  auto func = [&] () { return Expected<int, ErrorType> (42); };
+  expected<void, ErrorType> const success_uut;
+  auto func = [&] () { return expected<int, ErrorType> (42); };
   auto result = success_uut.and_then (func);
 
   EXPECT_TRUE (result.has_value ());
   EXPECT_EQ (result.value (), 42);
 
   // Error case
-  Expected<void, ErrorType> const error_uut (
-      Unexpected<ErrorType> (this->error_val1));
+  expected<void, ErrorType> const error_uut (
+      unexpected<ErrorType> (this->error_val1));
   auto result_e = error_uut.and_then (func);
 
   EXPECT_FALSE (result_e.has_value ());
@@ -514,16 +514,16 @@ TYPED_TEST (ExpectedVoidTest,
   using ErrorType = typename TestFixture::ErrorType;
 
   // Success case
-  Expected<void, ErrorType> success_uut;
-  auto func = [&] () { return Expected<int, ErrorType> (42); };
+  expected<void, ErrorType> success_uut;
+  auto func = [&] () { return expected<int, ErrorType> (42); };
   auto result = std::move (success_uut).and_then (func);
 
   EXPECT_TRUE (result.has_value ());
   EXPECT_EQ (result.value (), 42);
 
   // Error case
-  Expected<void, ErrorType> error_uut (
-      Unexpected<ErrorType> (this->error_val1));
+  expected<void, ErrorType> error_uut (
+      unexpected<ErrorType> (this->error_val1));
   auto result_e = std::move (error_uut).and_then (func);
 
   EXPECT_FALSE (result_e.has_value ());
@@ -541,16 +541,16 @@ TYPED_TEST (ExpectedVoidTest,
   using ErrorType = typename TestFixture::ErrorType;
 
   // Success case
-  Expected<void, ErrorType> const success_uut;
-  auto func = [&] () { return Expected<int, ErrorType> (42); };
+  expected<void, ErrorType> const success_uut;
+  auto func = [&] () { return expected<int, ErrorType> (42); };
   auto result = std::move (success_uut).and_then (func);
 
   EXPECT_TRUE (result.has_value ());
   EXPECT_EQ (result.value (), 42);
 
   // Error case
-  Expected<void, ErrorType> const error_uut (
-      Unexpected<ErrorType> (this->error_val1));
+  expected<void, ErrorType> const error_uut (
+      unexpected<ErrorType> (this->error_val1));
   auto result_e = std::move (error_uut).and_then (func);
 
   EXPECT_FALSE (result_e.has_value ());
@@ -568,7 +568,7 @@ TYPED_TEST (ExpectedVoidTest,
   using ErrorType = typename TestFixture::ErrorType;
 
   // Success case - transform to non-void
-  Expected<void, ErrorType> success_uut;
+  expected<void, ErrorType> success_uut;
   auto func = [&] () -> int { return 42; };
   auto result = success_uut.transform (func);
 
@@ -582,8 +582,8 @@ TYPED_TEST (ExpectedVoidTest,
   EXPECT_TRUE (void_result.has_value ());
 
   // Error case
-  Expected<void, ErrorType> error_uut (
-      Unexpected<ErrorType> (this->error_val1));
+  expected<void, ErrorType> error_uut (
+      unexpected<ErrorType> (this->error_val1));
   auto result_e = error_uut.transform (func);
 
   EXPECT_FALSE (result_e.has_value ());
@@ -601,7 +601,7 @@ TYPED_TEST (ExpectedVoidTest,
   using ErrorType = typename TestFixture::ErrorType;
 
   // Success case - transform to non-void
-  Expected<void, ErrorType> const success_uut;
+  expected<void, ErrorType> const success_uut;
   auto func = [&] () -> int { return 42; };
   auto result = success_uut.transform (func);
 
@@ -615,8 +615,8 @@ TYPED_TEST (ExpectedVoidTest,
   EXPECT_TRUE (void_result.has_value ());
 
   // Error case
-  Expected<void, ErrorType> const error_uut (
-      Unexpected<ErrorType> (this->error_val1));
+  expected<void, ErrorType> const error_uut (
+      unexpected<ErrorType> (this->error_val1));
   auto result_e = error_uut.transform (func);
 
   EXPECT_FALSE (result_e.has_value ());
@@ -634,7 +634,7 @@ TYPED_TEST (ExpectedVoidTest,
   using ErrorType = typename TestFixture::ErrorType;
 
   // Success case - transform to non-void
-  Expected<void, ErrorType> success_uut;
+  expected<void, ErrorType> success_uut;
   auto func = [&] () -> int { return 42; };
   auto result = std::move (success_uut).transform (func);
 
@@ -642,15 +642,15 @@ TYPED_TEST (ExpectedVoidTest,
   EXPECT_EQ (result.value (), 42);
 
   // Success case - transform to void
-  Expected<void, ErrorType> success_uut2;
+  expected<void, ErrorType> success_uut2;
   auto void_func = [&] () {};
   auto void_result = std::move (success_uut2).transform (void_func);
 
   EXPECT_TRUE (void_result.has_value ());
 
   // Error case
-  Expected<void, ErrorType> error_uut (
-      Unexpected<ErrorType> (this->error_val1));
+  expected<void, ErrorType> error_uut (
+      unexpected<ErrorType> (this->error_val1));
   auto result_e = std::move (error_uut).transform (func);
 
   EXPECT_FALSE (result_e.has_value ());
@@ -668,7 +668,7 @@ TYPED_TEST (ExpectedVoidTest,
   using ErrorType = typename TestFixture::ErrorType;
 
   // Success case - transform to non-void
-  Expected<void, ErrorType> const success_uut;
+  expected<void, ErrorType> const success_uut;
   auto func = [&] () -> int { return 42; };
   auto result = std::move (success_uut).transform (func);
 
@@ -676,15 +676,15 @@ TYPED_TEST (ExpectedVoidTest,
   EXPECT_EQ (result.value (), 42);
 
   // Success case - transform to void
-  Expected<void, ErrorType> const success_uut2;
+  expected<void, ErrorType> const success_uut2;
   auto void_func = [&] () {};
   auto void_result = std::move (success_uut2).transform (void_func);
 
   EXPECT_TRUE (void_result.has_value ());
 
   // Error case
-  Expected<void, ErrorType> const error_uut (
-      Unexpected<ErrorType> (this->error_val1));
+  expected<void, ErrorType> const error_uut (
+      unexpected<ErrorType> (this->error_val1));
   auto result_e = std::move (error_uut).transform (func);
 
   EXPECT_FALSE (result_e.has_value ());
@@ -702,17 +702,17 @@ TYPED_TEST (ExpectedVoidTest,
   using ErrorType = typename TestFixture::ErrorType;
 
   // Error case
-  Expected<void, ErrorType> error_uut (
-      Unexpected<ErrorType> (this->error_val1));
+  expected<void, ErrorType> error_uut (
+      unexpected<ErrorType> (this->error_val1));
   auto func = [&] (ErrorType &)
-    { return Expected<void, ErrorType> (unexpect_t (), this->error_val2); };
+    { return expected<void, ErrorType> (unexpect_t (), this->error_val2); };
   auto result = error_uut.or_else (func);
 
   EXPECT_FALSE (result.has_value ());
   EXPECT_EQ (result.error (), this->error_val2);
 
   // Success case
-  Expected<void, ErrorType> success_uut;
+  expected<void, ErrorType> success_uut;
   auto result_s = success_uut.or_else (func);
 
   EXPECT_TRUE (result_s.has_value ());
@@ -729,17 +729,17 @@ TYPED_TEST (ExpectedVoidTest,
   using ErrorType = typename TestFixture::ErrorType;
 
   // Error case
-  Expected<void, ErrorType> const error_uut (
-      Unexpected<ErrorType> (this->error_val1));
+  expected<void, ErrorType> const error_uut (
+      unexpected<ErrorType> (this->error_val1));
   auto func = [&] (ErrorType const &)
-    { return Expected<void, ErrorType> (unexpect_t (), this->error_val2); };
+    { return expected<void, ErrorType> (unexpect_t (), this->error_val2); };
   auto result = error_uut.or_else (func);
 
   EXPECT_FALSE (result.has_value ());
   EXPECT_EQ (result.error (), this->error_val2);
 
   // Success case
-  Expected<void, ErrorType> const success_uut;
+  expected<void, ErrorType> const success_uut;
   auto result_s = success_uut.or_else (func);
 
   EXPECT_TRUE (result_s.has_value ());
@@ -756,17 +756,17 @@ TYPED_TEST (ExpectedVoidTest,
   using ErrorType = typename TestFixture::ErrorType;
 
   // Error case
-  Expected<void, ErrorType> error_uut (
-      Unexpected<ErrorType> (this->error_val1));
+  expected<void, ErrorType> error_uut (
+      unexpected<ErrorType> (this->error_val1));
   auto func = [&] (ErrorType &&)
-    { return Expected<void, ErrorType> (unexpect_t (), this->error_val2); };
+    { return expected<void, ErrorType> (unexpect_t (), this->error_val2); };
   auto result = std::move (error_uut).or_else (func);
 
   EXPECT_FALSE (result.has_value ());
   EXPECT_EQ (result.error (), this->error_val2);
 
   // Success case
-  Expected<void, ErrorType> success_uut;
+  expected<void, ErrorType> success_uut;
   auto result_s = std::move (success_uut).or_else (func);
 
   EXPECT_TRUE (result_s.has_value ());
@@ -783,17 +783,17 @@ TYPED_TEST (ExpectedVoidTest,
   using ErrorType = typename TestFixture::ErrorType;
 
   // Error case
-  Expected<void, ErrorType> const error_uut (
-      Unexpected<ErrorType> (this->error_val1));
+  expected<void, ErrorType> const error_uut (
+      unexpected<ErrorType> (this->error_val1));
   auto func = [&] (ErrorType const &&)
-    { return Expected<void, ErrorType> (unexpect_t (), this->error_val2); };
+    { return expected<void, ErrorType> (unexpect_t (), this->error_val2); };
   auto result = std::move (error_uut).or_else (func);
 
   EXPECT_FALSE (result.has_value ());
   EXPECT_EQ (result.error (), this->error_val2);
 
   // Success case
-  Expected<void, ErrorType> const success_uut;
+  expected<void, ErrorType> const success_uut;
   auto result_s = std::move (success_uut).or_else (func);
 
   EXPECT_TRUE (result_s.has_value ());
@@ -809,7 +809,7 @@ TYPED_TEST (ExpectedVoidTest,
             TransformErrorLValue_TransformsErrorOrPropagatesVoid)
 {
   using ErrorType = typename TestFixture::ErrorType;
-  using ResultType = Expected<void, wrapped_error_t<ErrorType>>;
+  using ResultType = expected<void, wrapped_error_t<ErrorType>>;
 
   int calls = 0;
   auto func = [&calls] (ErrorType &error)
@@ -819,8 +819,8 @@ TYPED_TEST (ExpectedVoidTest,
     };
 
   // Error case
-  Expected<void, ErrorType> error_uut (
-      Unexpected<ErrorType> (this->error_val1));
+  expected<void, ErrorType> error_uut (
+      unexpected<ErrorType> (this->error_val1));
   auto result_e = error_uut.transform_error (func);
   static_assert (std::is_same<decltype (result_e), ResultType>::value,
                  "transform_error must return Expected<void, G>");
@@ -831,7 +831,7 @@ TYPED_TEST (ExpectedVoidTest,
   EXPECT_EQ (calls, 1);
 
   // Success case
-  Expected<void, ErrorType> success_uut;
+  expected<void, ErrorType> success_uut;
   auto result_s = success_uut.transform_error (func);
   static_assert (std::is_same<decltype (result_s), ResultType>::value,
                  "transform_error must return Expected<void, G>");
@@ -850,7 +850,7 @@ TYPED_TEST (ExpectedVoidTest,
             TransformErrorConstLValue_TransformsErrorOrPropagatesVoid)
 {
   using ErrorType = typename TestFixture::ErrorType;
-  using ResultType = Expected<void, wrapped_error_t<ErrorType>>;
+  using ResultType = expected<void, wrapped_error_t<ErrorType>>;
 
   int calls = 0;
   auto func = [&calls] (ErrorType const &error)
@@ -861,8 +861,8 @@ TYPED_TEST (ExpectedVoidTest,
     };
 
   // Error case
-  Expected<void, ErrorType> const error_uut (
-      Unexpected<ErrorType> (this->error_val1));
+  expected<void, ErrorType> const error_uut (
+      unexpected<ErrorType> (this->error_val1));
   auto result_e = error_uut.transform_error (func);
   static_assert (std::is_same<decltype (result_e), ResultType>::value,
                  "transform_error must return Expected<void, G>");
@@ -872,7 +872,7 @@ TYPED_TEST (ExpectedVoidTest,
   EXPECT_EQ (calls, 1);
 
   // Success case
-  Expected<void, ErrorType> const success_uut;
+  expected<void, ErrorType> const success_uut;
   auto result_s = success_uut.transform_error (func);
   static_assert (std::is_same<decltype (result_s), ResultType>::value,
                  "transform_error must return Expected<void, G>");
@@ -891,7 +891,7 @@ TYPED_TEST (ExpectedVoidTest,
             TransformErrorRValue_TransformsErrorOrPropagatesVoid)
 {
   using ErrorType = typename TestFixture::ErrorType;
-  using ResultType = Expected<void, wrapped_error_t<ErrorType>>;
+  using ResultType = expected<void, wrapped_error_t<ErrorType>>;
 
   int calls = 0;
   auto func = [&calls] (ErrorType &&error)
@@ -902,8 +902,8 @@ TYPED_TEST (ExpectedVoidTest,
     };
 
   // Error case
-  Expected<void, ErrorType> error_uut (
-      Unexpected<ErrorType> (this->error_val1));
+  expected<void, ErrorType> error_uut (
+      unexpected<ErrorType> (this->error_val1));
   auto result_e = std::move (error_uut).transform_error (func);
   static_assert (std::is_same<decltype (result_e), ResultType>::value,
                  "transform_error must return Expected<void, G>");
@@ -913,7 +913,7 @@ TYPED_TEST (ExpectedVoidTest,
   EXPECT_EQ (calls, 1);
 
   // Success case
-  Expected<void, ErrorType> success_uut;
+  expected<void, ErrorType> success_uut;
   auto result_s = std::move (success_uut).transform_error (func);
   static_assert (std::is_same<decltype (result_s), ResultType>::value,
                  "transform_error must return Expected<void, G>");
@@ -932,7 +932,7 @@ TYPED_TEST (ExpectedVoidTest,
             TransformErrorConstRValue_TransformsErrorOrPropagatesVoid)
 {
   using ErrorType = typename TestFixture::ErrorType;
-  using ResultType = Expected<void, wrapped_error_t<ErrorType>>;
+  using ResultType = expected<void, wrapped_error_t<ErrorType>>;
 
   int calls = 0;
   auto func = [&calls] (ErrorType const &&error)
@@ -943,8 +943,8 @@ TYPED_TEST (ExpectedVoidTest,
     };
 
   // Error case
-  Expected<void, ErrorType> const error_uut (
-      Unexpected<ErrorType> (this->error_val1));
+  expected<void, ErrorType> const error_uut (
+      unexpected<ErrorType> (this->error_val1));
   auto result_e = std::move (error_uut).transform_error (func);
   static_assert (std::is_same<decltype (result_e), ResultType>::value,
                  "transform_error must return Expected<void, G>");
@@ -955,7 +955,7 @@ TYPED_TEST (ExpectedVoidTest,
   EXPECT_EQ (calls, 1);
 
   // Success case
-  Expected<void, ErrorType> const success_uut;
+  expected<void, ErrorType> const success_uut;
   auto result_s = std::move (success_uut).transform_error (func);
   static_assert (std::is_same<decltype (result_s), ResultType>::value,
                  "transform_error must return Expected<void, G>");
@@ -975,7 +975,7 @@ TYPED_TEST (ExpectedVoidTest, Emplace_ConstructsVoidInPlace)
   using ErrorType = typename TestFixture::ErrorType;
 
   // From error state
-  Expected<void, ErrorType> uut (Unexpected<ErrorType> (this->error_val1));
+  expected<void, ErrorType> uut (unexpected<ErrorType> (this->error_val1));
   EXPECT_FALSE (uut.has_value ());
 
   uut.emplace ();
@@ -983,7 +983,7 @@ TYPED_TEST (ExpectedVoidTest, Emplace_ConstructsVoidInPlace)
   EXPECT_NO_THROW (uut.value ());
 
   // From success state
-  Expected<void, ErrorType> uut2;
+  expected<void, ErrorType> uut2;
   EXPECT_TRUE (uut2.has_value ());
 
   uut2.emplace ();
@@ -1001,7 +1001,7 @@ TYPED_TEST (ExpectedVoidTest, EmplaceError_ConstructsErrorInPlace)
   using ErrorType = typename TestFixture::ErrorType;
 
   // From success state
-  Expected<void, ErrorType> uut;
+  expected<void, ErrorType> uut;
   EXPECT_TRUE (uut.has_value ());
 
   uut.emplace_error (this->error_val2);
@@ -1009,7 +1009,7 @@ TYPED_TEST (ExpectedVoidTest, EmplaceError_ConstructsErrorInPlace)
   EXPECT_EQ (uut.error (), this->error_val2);
 
   // From error state
-  Expected<void, ErrorType> uut2 (Unexpected<ErrorType> (this->error_val1));
+  expected<void, ErrorType> uut2 (unexpected<ErrorType> (this->error_val1));
   EXPECT_FALSE (uut2.has_value ());
 
   uut2.emplace_error (this->error_val2);
@@ -1029,13 +1029,13 @@ TYPED_TEST (ExpectedVoidTest, HasValueAndOperatorBool_ReflectsState)
   using ErrorType = typename TestFixture::ErrorType;
 
   // Success case
-  Expected<void, ErrorType> success_uut;
+  expected<void, ErrorType> success_uut;
   EXPECT_TRUE (success_uut.has_value ());
   EXPECT_TRUE (static_cast<bool> (success_uut));
 
   // Error case
-  Expected<void, ErrorType> error_uut (
-      Unexpected<ErrorType> (this->error_val1));
+  expected<void, ErrorType> error_uut (
+      unexpected<ErrorType> (this->error_val1));
   EXPECT_FALSE (error_uut.has_value ());
   EXPECT_FALSE (static_cast<bool> (error_uut));
 }
@@ -1050,12 +1050,12 @@ TYPED_TEST (ExpectedVoidTest, ValueLValueRef_ThrowsOnError)
   using ErrorType = typename TestFixture::ErrorType;
 
   // Success case
-  Expected<void, ErrorType> success_uut;
+  expected<void, ErrorType> success_uut;
   EXPECT_NO_THROW (success_uut.value ());
 
   // Error case
-  Expected<void, ErrorType> error_uut (
-      Unexpected<ErrorType> (this->error_val1));
+  expected<void, ErrorType> error_uut (
+      unexpected<ErrorType> (this->error_val1));
 
 #if _WIN32
 #pragma warning(push)
@@ -1065,11 +1065,11 @@ TYPED_TEST (ExpectedVoidTest, ValueLValueRef_ThrowsOnError)
   EXPECT_THROW (
       try {
         error_uut.value ();
-      } catch (BadExpectedAccess<ErrorType> const &e) {
+      } catch (bad_expected_access<ErrorType> const &e) {
         EXPECT_EQ (e.error (), this->error_val1);
         throw;
       },
-      BadExpectedAccess<ErrorType>);
+      bad_expected_access<ErrorType>);
 
 #if _WIN32
 #pragma warning(pop)
@@ -1086,12 +1086,12 @@ TYPED_TEST (ExpectedVoidTest, ValueConstLValueRef_ThrowsOnError)
   using ErrorType = typename TestFixture::ErrorType;
 
   // Success case
-  Expected<void, ErrorType> const success_uut;
+  expected<void, ErrorType> const success_uut;
   EXPECT_NO_THROW (success_uut.value ());
 
   // Error case
-  Expected<void, ErrorType> const error_uut (
-      Unexpected<ErrorType> (this->error_val1));
+  expected<void, ErrorType> const error_uut (
+      unexpected<ErrorType> (this->error_val1));
 
 #if _WIN32
 #pragma warning(push)
@@ -1101,11 +1101,11 @@ TYPED_TEST (ExpectedVoidTest, ValueConstLValueRef_ThrowsOnError)
   EXPECT_THROW (
       try {
         error_uut.value ();
-      } catch (BadExpectedAccess<ErrorType> const &e) {
+      } catch (bad_expected_access<ErrorType> const &e) {
         EXPECT_EQ (e.error (), this->error_val1);
         throw;
       },
-      BadExpectedAccess<ErrorType>);
+      bad_expected_access<ErrorType>);
 
 #if _WIN32
 #pragma warning(pop)
@@ -1122,12 +1122,12 @@ TYPED_TEST (ExpectedVoidTest, ValueRValueRef_ThrowsOnError)
   using ErrorType = typename TestFixture::ErrorType;
 
   // Success case
-  Expected<void, ErrorType> success_uut;
+  expected<void, ErrorType> success_uut;
   EXPECT_NO_THROW (std::move (success_uut).value ());
 
   // Error case
-  Expected<void, ErrorType> error_uut (
-      Unexpected<ErrorType> (this->error_val1));
+  expected<void, ErrorType> error_uut (
+      unexpected<ErrorType> (this->error_val1));
 
 #if _WIN32
 #pragma warning(push)
@@ -1137,11 +1137,11 @@ TYPED_TEST (ExpectedVoidTest, ValueRValueRef_ThrowsOnError)
   EXPECT_THROW (
       try {
         std::move (error_uut).value ();
-      } catch (BadExpectedAccess<ErrorType> const &e) {
+      } catch (bad_expected_access<ErrorType> const &e) {
         EXPECT_EQ (e.error (), this->error_val1);
         throw;
       },
-      BadExpectedAccess<ErrorType>);
+      bad_expected_access<ErrorType>);
 
 #if _WIN32
 #pragma warning(pop)
@@ -1158,12 +1158,12 @@ TYPED_TEST (ExpectedVoidTest, ValueConstRValueRef_ThrowsOnError)
   using ErrorType = typename TestFixture::ErrorType;
 
   // Success case
-  Expected<void, ErrorType> const success_uut;
+  expected<void, ErrorType> const success_uut;
   EXPECT_NO_THROW (std::move (success_uut).value ());
 
   // Error case
-  Expected<void, ErrorType> const error_uut (
-      Unexpected<ErrorType> (this->error_val1));
+  expected<void, ErrorType> const error_uut (
+      unexpected<ErrorType> (this->error_val1));
 
 #if _WIN32
 #pragma warning(push)
@@ -1173,11 +1173,11 @@ TYPED_TEST (ExpectedVoidTest, ValueConstRValueRef_ThrowsOnError)
   EXPECT_THROW (
       try {
         std::move (error_uut).value ();
-      } catch (BadExpectedAccess<ErrorType> const &e) {
+      } catch (bad_expected_access<ErrorType> const &e) {
         EXPECT_EQ (e.error (), this->error_val1);
         throw;
       },
-      BadExpectedAccess<ErrorType>);
+      bad_expected_access<ErrorType>);
 
 #if _WIN32
 #pragma warning(pop)
@@ -1194,8 +1194,8 @@ TYPED_TEST (ExpectedVoidTest, ErrorLValueRef_ReturnsErrorWhenPresent)
   using ErrorType = typename TestFixture::ErrorType;
 
   // Error case
-  Expected<void, ErrorType> error_uut (
-      Unexpected<ErrorType> (this->error_val1));
+  expected<void, ErrorType> error_uut (
+      unexpected<ErrorType> (this->error_val1));
   EXPECT_EQ (error_uut.error (), this->error_val1);
 
   // Modify through error() reference
@@ -1214,8 +1214,8 @@ TYPED_TEST (ExpectedVoidTest, ErrorConstLValueRef_ReturnsErrorWhenPresent)
   using ErrorType = typename TestFixture::ErrorType;
 
   // Error case
-  Expected<void, ErrorType> const error_uut (
-      Unexpected<ErrorType> (this->error_val1));
+  expected<void, ErrorType> const error_uut (
+      unexpected<ErrorType> (this->error_val1));
   EXPECT_EQ (error_uut.error (), this->error_val1);
 }
 
@@ -1229,8 +1229,8 @@ TYPED_TEST (ExpectedVoidTest, ErrorRValueRef_ReturnsErrorWhenPresent)
   using ErrorType = typename TestFixture::ErrorType;
 
   // Error case
-  Expected<void, ErrorType> error_uut (
-      Unexpected<ErrorType> (this->error_val1));
+  expected<void, ErrorType> error_uut (
+      unexpected<ErrorType> (this->error_val1));
   EXPECT_FALSE (error_uut.has_value ());
   EXPECT_EQ (error_uut.error (), this->error_val1);
 }
@@ -1245,8 +1245,8 @@ TYPED_TEST (ExpectedVoidTest, ErrorConstRValueRef_ReturnsErrorWhenPresent)
   using ErrorType = typename TestFixture::ErrorType;
 
   // Error case
-  Expected<void, ErrorType> const error_uut (
-      Unexpected<ErrorType> (this->error_val1));
+  expected<void, ErrorType> const error_uut (
+      unexpected<ErrorType> (this->error_val1));
   EXPECT_FALSE (error_uut.has_value ());
   EXPECT_EQ (error_uut.error (), this->error_val1);
 }
@@ -1261,12 +1261,12 @@ TYPED_TEST (ExpectedVoidTest, ErrorOrLValue_ReturnsErrorOrDefault)
   using ErrorType = typename TestFixture::ErrorType;
 
   // Error case
-  Expected<void, ErrorType> error_uut (
-      Unexpected<ErrorType> (this->error_val1));
+  expected<void, ErrorType> error_uut (
+      unexpected<ErrorType> (this->error_val1));
   EXPECT_EQ (error_uut.error_or (this->error_val2), this->error_val1);
 
   // Success case
-  Expected<void, ErrorType> success_uut;
+  expected<void, ErrorType> success_uut;
   EXPECT_EQ (success_uut.error_or (this->error_val2), this->error_val2);
 
   // With temporary default
@@ -1284,13 +1284,13 @@ TYPED_TEST (ExpectedVoidTest, ErrorOrRValue_ReturnsErrorOrDefault)
   using ErrorType = typename TestFixture::ErrorType;
 
   // Error case
-  Expected<void, ErrorType> error_uut (
-      Unexpected<ErrorType> (this->error_val1));
+  expected<void, ErrorType> error_uut (
+      unexpected<ErrorType> (this->error_val1));
   EXPECT_EQ (std::move (error_uut).error_or (this->error_val2),
              this->error_val1);
 
   // Success case
-  Expected<void, ErrorType> success_uut;
+  expected<void, ErrorType> success_uut;
   EXPECT_EQ (std::move (success_uut).error_or (this->error_val2),
              this->error_val2);
 }
@@ -1304,8 +1304,8 @@ TYPED_TEST (ExpectedVoidTest, DereferenceOperatorLValueRef_WorksOnSuccess)
 {
   using ErrorType = typename TestFixture::ErrorType;
 
-  // Success case - operator* returns void for Expected<void>
-  Expected<void, ErrorType> success_uut;
+  // Success case - operator* returns void for expected<void>
+  expected<void, ErrorType> success_uut;
   EXPECT_NO_THROW (*success_uut);
 
   // With an error it aborts: see ExpectedVoidDeathTest.
@@ -1320,8 +1320,8 @@ TYPED_TEST (ExpectedVoidTest, DereferenceOperatorConstLValueRef_WorksOnSuccess)
 {
   using ErrorType = typename TestFixture::ErrorType;
 
-  // Success case - operator* returns void for Expected<void>
-  Expected<void, ErrorType> const success_uut;
+  // Success case - operator* returns void for expected<void>
+  expected<void, ErrorType> const success_uut;
   EXPECT_NO_THROW (*success_uut);
 }
 
@@ -1334,8 +1334,8 @@ TYPED_TEST (ExpectedVoidTest, DereferenceOperatorRValueRef_WorksOnSuccess)
 {
   using ErrorType = typename TestFixture::ErrorType;
 
-  // Success case - operator* returns void for Expected<void>
-  Expected<void, ErrorType> success_uut;
+  // Success case - operator* returns void for expected<void>
+  expected<void, ErrorType> success_uut;
   EXPECT_NO_THROW (*std::move (success_uut));
 }
 
@@ -1348,8 +1348,8 @@ TYPED_TEST (ExpectedVoidTest, DereferenceOperatorConstRValueRef_WorksOnSuccess)
 {
   using ErrorType = typename TestFixture::ErrorType;
 
-  // Success case - operator* returns void for Expected<void>
-  Expected<void, ErrorType> const success_uut;
+  // Success case - operator* returns void for expected<void>
+  expected<void, ErrorType> const success_uut;
   EXPECT_NO_THROW (*std::move (success_uut));
 }
 
@@ -1361,8 +1361,8 @@ TEST (ExpectedVoidDeathTest, Error_WhenNoErrorPresent_AbortsWithMessage)
 {
 #if GTEST_HAS_DEATH_TEST
   GTEST_FLAG_SET (death_test_style, "threadsafe");
-  Expected<void, int> uut;
-  Expected<void, int> const const_uut;
+  expected<void, int> uut;
+  expected<void, int> const const_uut;
 
   EXPECT_DEATH (LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR (uut.error ()),
                 kVoidErrorWithoutErrorPattern);
@@ -1382,8 +1382,8 @@ TEST (ExpectedVoidDeathTest, Dereference_WhenErrorPresent_AbortsWithMessage)
 {
 #if GTEST_HAS_DEATH_TEST
   GTEST_FLAG_SET (death_test_style, "threadsafe");
-  Expected<void, int> uut (unexpect, 2);
-  Expected<void, int> const const_uut (unexpect, 2);
+  expected<void, int> uut (unexpect, 2);
+  expected<void, int> const const_uut (unexpect, 2);
 
   EXPECT_DEATH (*uut, kVoidDereferenceOnErrorPattern);
   EXPECT_DEATH (*const_uut, kVoidDereferenceOnErrorPattern);

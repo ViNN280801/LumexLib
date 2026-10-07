@@ -63,7 +63,7 @@ using namespace lumex::core::generators::number_generator;
 bool
 test_uniform_int_generation ()
 {
-  NumberGenerator<int> gen (1, 10);
+  number_generator<int> gen (1, 10);
 
   // Generate multiple numbers and check bounds
   for (int i = 0; i < 100; ++i)
@@ -86,7 +86,7 @@ test_uniform_int_generation ()
 bool
 test_uniform_double_generation ()
 {
-  NumberGenerator<double> gen (0.0, 1.0);
+  number_generator<double> gen (0.0, 1.0);
 
   // Generate multiple numbers and check bounds
   for (int i = 0; i < 100; ++i)
@@ -109,7 +109,7 @@ test_uniform_double_generation ()
 bool
 test_normal_distribution ()
 {
-  NumberGenerator<double> gen (0.0, 1.0, DistributionType::NORMAL);
+  number_generator<double> gen (0.0, 1.0, DistributionType::NORMAL);
 
   // Generate sequence and check that values are reasonable
   std::vector<double> values;
@@ -135,7 +135,7 @@ test_bernoulli_distribution ()
 {
   // For Bernoulli, we need to use get_number() with probability directly
   // Using constructor with default bounds and setting distribution type
-  NumberGenerator<double> gen;
+  number_generator<double> gen;
   gen.set_distribution (DistributionType::BERNOULLI);
 
   int zeros = 0, ones = 0;
@@ -166,7 +166,7 @@ test_bernoulli_distribution ()
 bool
 test_sequence_generation ()
 {
-  NumberGenerator<int> gen (1, 100);
+  number_generator<int> gen (1, 100);
 
   // Test uniform sequence
   auto sequence = gen.get_sequence (50, 1, 10, DistributionType::UNIFORM);
@@ -186,7 +186,7 @@ test_sequence_generation ()
 bool
 test_setters_getters ()
 {
-  NumberGenerator<double> gen;
+  number_generator<double> gen;
 
   // Test default values
   TEST_ASSERT (gen.get_distribution () == DistributionType::UNIFORM);
@@ -236,17 +236,17 @@ bool
 test_constructors ()
 {
   // Default constructor
-  NumberGenerator<int> gen1;
+  number_generator<int> gen1;
   TEST_ASSERT (gen1.get_distribution () == DistributionType::UNIFORM);
 
   // Constructor with bounds
-  NumberGenerator<int> gen2 (10, 20);
+  number_generator<int> gen2 (10, 20);
   TEST_ASSERT (gen2.get_lower_bound () == 10);
   TEST_ASSERT (gen2.get_upper_bound () == 20);
   TEST_ASSERT (gen2.get_distribution () == DistributionType::UNIFORM);
 
   // Constructor with bounds and distribution
-  NumberGenerator<int> gen3 (0, 1, DistributionType::BERNOULLI);
+  number_generator<int> gen3 (0, 1, DistributionType::BERNOULLI);
   TEST_ASSERT (gen3.get_distribution () == DistributionType::BERNOULLI);
 
   return true;
@@ -258,7 +258,7 @@ test_exponential_distribution ()
 {
   // from is lambda. The unused `to` may be smaller; UNIFORM-style min/max
   // swap must not rewrite lambda to 0 (MSVC Debug then asserts).
-  NumberGenerator<double> gen (1.0, 0.0, DistributionType::EXPONENTIAL);
+  number_generator<double> gen (1.0, 0.0, DistributionType::EXPONENTIAL);
   TEST_ASSERT (gen.get_lower_bound () == 1.0);
   TEST_ASSERT (gen.get_upper_bound () == 0.0);
 
@@ -271,13 +271,13 @@ test_exponential_distribution ()
 
   // Default bounds are 0..1. After set_distribution(EXPONENTIAL) the
   // stored from is 0; generation must not abort.
-  NumberGenerator<double> default_bounds;
+  number_generator<double> default_bounds;
   default_bounds.set_distribution (DistributionType::EXPONENTIAL);
   for (int i = 0; i < 20; ++i)
     TEST_ASSERT (default_bounds () >= 0.0);
 
-  NumberGenerator<double> zero_lambda (0.0, 1.0,
-                                       DistributionType::EXPONENTIAL);
+  number_generator<double> zero_lambda (0.0, 1.0,
+                                        DistributionType::EXPONENTIAL);
   for (int i = 0; i < 20; ++i)
     TEST_ASSERT (zero_lambda () >= 0.0);
 
@@ -287,7 +287,7 @@ test_exponential_distribution ()
 bool
 test_uniform_ctor_swaps_unordered_bounds ()
 {
-  NumberGenerator<int> gen (20, 10);
+  number_generator<int> gen (20, 10);
   TEST_ASSERT (gen.get_lower_bound () == 10);
   TEST_ASSERT (gen.get_upper_bound () == 20);
   return true;
@@ -298,10 +298,10 @@ bool
 test_different_types ()
 {
   // Test various numeric types with uniform distribution only
-  NumberGenerator<short> short_gen (-10, 10);
-  NumberGenerator<unsigned int> uint_gen (0, 100);
-  NumberGenerator<float> float_gen (0.0f, 1.0f);
-  NumberGenerator<long long> long_gen (-1000, 1000);
+  number_generator<short> short_gen (-10, 10);
+  number_generator<unsigned int> uint_gen (0, 100);
+  number_generator<float> float_gen (0.0f, 1.0f);
+  number_generator<long long> long_gen (-1000, 1000);
 
   // Generate some values to test compilation
   short short_val = short_gen ();

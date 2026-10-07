@@ -39,14 +39,14 @@
 
 /**
  * @file BadExpectedAccess.hpp
- * @brief `BadExpectedAccess`, the exception that `Expected` throws when its
+ * @brief `bad_expected_access`, the exception that `expected` throws when its
  * value is read while it holds an error; an analogue of C++23
  * `std::bad_expected_access`.
- * @details `value()` of an `Expected` in the error state throws
- * `BadExpectedAccess<E>` with a copy (or, from an rvalue, the moved value) of
- * that error, which `error()` of the exception returns. Header-only, part of
- * `lumex::expected` and usable from C++11; the class is also visible at global
- * scope.
+ * @details `value()` of an `expected` in the error state throws
+ * `bad_expected_access<E>` with a copy (or, from an rvalue, the moved value)
+ * of that error, which `error()` of the exception returns. Header-only, part
+ * of `lumex::expected` and usable from C++11; the class is also visible at
+ * global scope.
  */
 #ifndef LUMEX_CORE_EXPECTED_ERROR_BAD_EXPECTED_ACCESS_HPP
 #define LUMEX_CORE_EXPECTED_ERROR_BAD_EXPECTED_ACCESS_HPP
@@ -83,7 +83,7 @@
 
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 
-// ====================== BadExpectedAccess class (C++23 analogue)
+// ====================== bad_expected_access class (C++23 analogue)
 // ======================
 
 namespace lumex
@@ -95,18 +95,18 @@ namespace expected
 namespace error
 {
 /**
- * @brief Exception thrown when the value of an `Expected` is read while it
+ * @brief Exception thrown when the value of an `expected` is read while it
  * holds an error.
  * @details Analogue of `std::bad_expected_access` from C++23. Thrown only by
- * `value()` of an `Expected` that holds an error; it carries that error.
- * `error()` of `Expected` does not throw it: called without an error, it
+ * `value()` of an `expected` that holds an error; it carries that error.
+ * `error()` of `expected` does not throw it: called without an error, it
  * fails `LUMEX_ASSERT` and aborts the program.
  * @tparam ErrorType Error type stored in and retrievable from the exception.
  * @note Not thread-safe unless `ErrorType` itself is thread-safe.
- * @warning Constructing `BadExpectedAccess` can be expensive if `ErrorType`
+ * @warning Constructing `bad_expected_access` can be expensive if `ErrorType`
  * has a heavy constructor or allocates.
  */
-template <typename ErrorType> class BadExpectedAccess : public std::exception
+template <typename ErrorType> class bad_expected_access : public std::exception
 {
 public:
   /**
@@ -115,7 +115,9 @@ public:
    * @note Not declared `noexcept`; copying or moving the argument into the
    * parameter and moving it into the object may throw.
    */
-  explicit BadExpectedAccess (ErrorType error) : m_error (std::move (error)) {}
+  explicit bad_expected_access (ErrorType error) : m_error (std::move (error))
+  {
+  }
   /**
    * @brief Returns a textual description of the exception.
    * @return C-string `"Bad expected access"`.
@@ -184,7 +186,7 @@ private:
 } // namespace core
 } // namespace lumex
 
-using lumex::core::expected::error::BadExpectedAccess;
+using lumex::core::expected::error::bad_expected_access;
 
 #if defined(__clang__)
 #pragma clang diagnostic pop

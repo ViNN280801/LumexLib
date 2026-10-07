@@ -49,11 +49,11 @@
  * thread-safety (concurrent read-only access), and does not perform dynamic
  * allocation.
  *
- * @note This `LumexStringView` class does not manage the lifetime of the
+ * @note This `lumex_string_view` class does not manage the lifetime of the
  * character data it views. It is the user's responsibility to ensure that the
- * underlying character sequence outlives the `LumexStringView` instance. Using
- * a `LumexStringView` that refers to destroyed or out-of-scope data will lead
- * to undefined behavior.
+ * underlying character sequence outlives the `lumex_string_view` instance.
+ * Using a `lumex_string_view` that refers to destroyed or out-of-scope data
+ * will lead to undefined behavior.
  */
 #ifndef LUMEX_CORE_STRING_VIEW_VIEW_STRING_VIEW_HPP
 #define LUMEX_CORE_STRING_VIEW_VIEW_STRING_VIEW_HPP
@@ -112,19 +112,21 @@ namespace view
 /**
  * @brief A lightweight, non-owning view over a contiguous sequence of `char`
  * characters.
- * @details `LumexStringView` provides a safe and efficient way to pass string
- * data around without incurring the cost of copying or dynamic allocation. It
- * holds a pointer to the beginning of a character sequence and its length. It
- * is an immutable view, meaning its contents cannot be modified through the
- * `LumexStringView` itself, only the view's bounds can be adjusted. This class
- * is intended as a C++11 compatible alternative to `std::string_view`.
+ * @details `lumex_string_view` provides a safe and efficient way to pass
+ * string data around without incurring the cost of copying or dynamic
+ * allocation. It holds a pointer to the beginning of a character sequence and
+ * its length. It is an immutable view, meaning its contents cannot be modified
+ * through the `lumex_string_view` itself, only the view's bounds can be
+ * adjusted. This class is intended as a C++11 compatible alternative to
+ * `std::string_view`.
  *
  * @tparam char The character type (fixed to `char` for this class).
  * @warning This class does not own the character data. The user must ensure
- *          that the underlying character array outlives the `LumexStringView`
- * instance. Dangling `LumexStringView`s lead to undefined behavior.
+ *          that the underlying character array outlives the
+ * `lumex_string_view` instance. Dangling `lumex_string_view`s lead to
+ * undefined behavior.
  */
-class LUMEX_API LumexStringView
+class LUMEX_API lumex_string_view
 {
 public:
   // -- Public type aliases --
@@ -151,7 +153,7 @@ public:
   /**
    * @brief Alias for a non-const iterator.
    * @details `iterator` and `const_iterator` are the same for
-   * `LumexStringView` as the view itself is constant (non-mutable).
+   * `lumex_string_view` as the view itself is constant (non-mutable).
    */
   using iterator = const_pointer; // iterator == const_iterator
   /**
@@ -185,20 +187,20 @@ public:
 
   // -- Construction / assignment --
   /**
-   * @brief Default constructor. Creates an empty `LumexStringView`.
+   * @brief Default constructor. Creates an empty `lumex_string_view`.
    * @details Initializes the view with a `nullptr` data pointer and a size of
    * 0.
    * @post `empty()` is `true`, `size()` is `0`, `data()` is `nullptr`.
    */
   LUMEX_CONSTEXPR_CTOR
-  LumexStringView () LUMEX_NOEXCEPT : m_data (nullptr), m_size (0) {}
+  lumex_string_view () LUMEX_NOEXCEPT : m_data (nullptr), m_size (0) {}
 
   /**
-   * @brief Constructs a `LumexStringView` from a null-terminated C-style
+   * @brief Constructs a `lumex_string_view` from a null-terminated C-style
    * string.
    * @details The view will encompass the characters from `str` up to, but not
    * including, the null terminator. If `str` is `nullptr`, the
-   * `LumexStringView` will be empty.
+   * `lumex_string_view` will be empty.
    * @param str A pointer to a null-terminated C-style string (`char const *`).
    * @note Implicit, like `std::string_view`, so a literal or a string can be
    * passed where a view is expected. The view does not own the characters:
@@ -207,12 +209,12 @@ public:
    * @note Complexity: O(N) where N is the length of the string, due to
    * `std::strlen`.
    */
-  LumexStringView (char const *str)
+  lumex_string_view (char const *str)
       LUMEX_NOEXCEPT; // NOLINT(google-explicit-constructor)
 
   /**
-   * @brief Constructs a `LumexStringView` from a pointer to character data and
-   * a specified length.
+   * @brief Constructs a `lumex_string_view` from a pointer to character data
+   * and a specified length.
    * @details The view will encompass `len` characters starting from `str`.
    * @param str A pointer to the beginning of the character sequence.
    * @param len The number of characters in the sequence.
@@ -222,61 +224,63 @@ public:
    * @note Complexity: O(1).
    */
   LUMEX_CONSTEXPR_CTOR
-  LumexStringView (char const *str, size_type len) LUMEX_NOEXCEPT
+  lumex_string_view (char const *str, size_type len) LUMEX_NOEXCEPT
       : m_data (str),
         m_size (len)
   {
   }
 
   /**
-   * @brief Copy constructor. Creates a new `LumexStringView` that views the
+   * @brief Copy constructor. Creates a new `lumex_string_view` that views the
    * same data.
-   * @details Performs a shallow copy. The new `LumexStringView` will point to
-   * the same character data as `other`, and have the same size.
-   * @param other The `LumexStringView` to copy.
+   * @details Performs a shallow copy. The new `lumex_string_view` will point
+   * to the same character data as `other`, and have the same size.
+   * @param other The `lumex_string_view` to copy.
    * @note Complexity: O(1).
    */
   LUMEX_CONSTEXPR_CTOR
-  LumexStringView (LumexStringView const &other) LUMEX_NOEXCEPT = default;
+  lumex_string_view (lumex_string_view const &other) LUMEX_NOEXCEPT = default;
   /**
    * @brief Copy assignment operator. Assigns the view of another
-   * `LumexStringView`.
-   * @details Performs a shallow copy. This `LumexStringView` will point to the
-   * same character data as `other`, and have the same size.
-   * @param other The `LumexStringView` to assign from.
+   * `lumex_string_view`.
+   * @details Performs a shallow copy. This `lumex_string_view` will point to
+   * the same character data as `other`, and have the same size.
+   * @param other The `lumex_string_view` to assign from.
    * @return A reference to `*this`.
    * @note Complexity: O(1).
    */
-  LumexStringView &operator= (LumexStringView const &other) LUMEX_NOEXCEPT
+  lumex_string_view &operator= (lumex_string_view const &other) LUMEX_NOEXCEPT
       = default;
   /**
-   * @brief Move constructor. Creates a new `LumexStringView` by moving from
+   * @brief Move constructor. Creates a new `lumex_string_view` by moving from
    * another.
-   * @details Performs a shallow copy. Since `LumexStringView` is a non-owning
-   * type, move operations are effectively equivalent to copy operations.
-   * @param other The `LumexStringView` to move from.
+   * @details Performs a shallow copy. Since `lumex_string_view` is a
+   * non-owning type, move operations are effectively equivalent to copy
+   * operations.
+   * @param other The `lumex_string_view` to move from.
    * @note Complexity: O(1).
    */
   LUMEX_CONSTEXPR_CTOR
-  LumexStringView (LumexStringView &&other) LUMEX_NOEXCEPT = default;
+  lumex_string_view (lumex_string_view &&other) LUMEX_NOEXCEPT = default;
   /**
    * @brief Move assignment operator. Assigns the view of another
-   * `LumexStringView` by moving.
-   * @details Performs a shallow copy. Since `LumexStringView` is a non-owning
-   * type, move operations are effectively equivalent to copy operations.
-   * @param other The `LumexStringView` to assign from.
+   * `lumex_string_view` by moving.
+   * @details Performs a shallow copy. Since `lumex_string_view` is a
+   * non-owning type, move operations are effectively equivalent to copy
+   * operations.
+   * @param other The `lumex_string_view` to assign from.
    * @return A reference to `*this`.
    * @note Complexity: O(1).
    */
-  LumexStringView &operator= (LumexStringView &&other) LUMEX_NOEXCEPT
+  lumex_string_view &operator= (lumex_string_view &&other) LUMEX_NOEXCEPT
       = default;
   /**
    * @brief Destructor.
-   * @details Does nothing as `LumexStringView` does not own the character
+   * @details Does nothing as `lumex_string_view` does not own the character
    * data.
    * @note Complexity: O(1).
    */
-  ~LumexStringView () = default;
+  ~lumex_string_view () = default;
 
   // -- Iterator support --
   /**
@@ -439,7 +443,7 @@ public:
 
   /**
    * @brief Returns the maximum possible number of characters in a
-   * `LumexStringView`.
+   * `lumex_string_view`.
    * @details This is typically the largest possible value for `size_type`
    * divided by 2, representing a practical limit on the view's length.
    * @return The maximum size.
@@ -564,10 +568,10 @@ public:
    * another.
    * @details This is an efficient, non-throwing swap operation that reassigns
    *          the views without touching the underlying character data.
-   * @param other The `LumexStringView` to swap with.
+   * @param other The `lumex_string_view` to swap with.
    * @note Complexity: O(1).
    */
-  void swap (LumexStringView &other) LUMEX_NOEXCEPT;
+  void swap (lumex_string_view &other) LUMEX_NOEXCEPT;
 
   // -- Copy out --
   /**
@@ -577,7 +581,7 @@ public:
    *          the smaller of `count` and `size() - pos`.
    * @param dest The destination character array to copy into.
    * @param count The maximum number of characters to copy.
-   * @param pos The starting position in this `LumexStringView` from which to
+   * @param pos The starting position in this `lumex_string_view` from which to
    * copy. Defaults to 0.
    * @return The number of characters actually copied.
    * @throws std::out_of_range If `pos > size()`.
@@ -587,7 +591,7 @@ public:
 
   // -- Substring --
   /**
-   * @brief Returns a new `LumexStringView` representing a substring of this
+   * @brief Returns a new `lumex_string_view` representing a substring of this
    * view.
    * @details The new view will start at `pos` and extend for `n` characters.
    *          If `pos` is out of bounds, an exception is thrown. If `n` extends
@@ -598,21 +602,21 @@ public:
    * @param pos The starting position of the substring. Defaults to 0.
    * @param n The length of the substring. Defaults to `npos` (until the end of
    * the view).
-   * @return A new `LumexStringView` object.
+   * @return A new `lumex_string_view` object.
    * @throws std::out_of_range If `pos > size()`.
    * @note Complexity: O(1).
    */
   LUMEX_ATTRIBUTE_NODISCARD ("It is not recommended to ignore return value of "
                              "substr(size_type, size_type)")
-  LumexStringView substr (size_type pos = 0, size_type n = npos) const;
+  lumex_string_view substr (size_type pos = 0, size_type n = npos) const;
 
   // -- Comparison --
   /**
-   * @brief Compares this `LumexStringView` with another `LumexStringView`.
+   * @brief Compares this `lumex_string_view` with another `lumex_string_view`.
    * @details Performs a lexicographical comparison.
    * @warning It is not recommended to ignore the return value of
-   * `compare(LumexStringView)`.
-   * @param other The `LumexStringView` to compare with.
+   * `compare(lumex_string_view)`.
+   * @param other The `lumex_string_view` to compare with.
    * @return An integer representing the comparison result:
    *         - Less than 0 if `*this` is lexicographically less than `other`.
    *         - 0 if `*this` is lexicographically equal to `other`.
@@ -622,36 +626,36 @@ public:
    */
   LUMEX_ATTRIBUTE_NODISCARD ("It is not recommended to ignore return value of "
                              "compare(LumexStringView)")
-  int compare (LumexStringView other) const LUMEX_NOEXCEPT;
+  int compare (lumex_string_view other) const LUMEX_NOEXCEPT;
 
   /**
-   * @brief Compares a substring of this `LumexStringView` with another
-   * `LumexStringView`.
+   * @brief Compares a substring of this `lumex_string_view` with another
+   * `lumex_string_view`.
    * @details Extracts a substring from `*this` starting at `pos` with length
    * `len`, and then compares that substring lexicographically with `other`.
    * @warning It is not recommended to ignore the return value of
-   * `compare(size_type, size_type, LumexStringView)`.
+   * `compare(size_type, size_type, lumex_string_view)`.
    * @param pos The starting position of the substring in `*this`.
    * @param len The length of the substring in `*this`.
-   * @param other The `LumexStringView` to compare with.
+   * @param other The `lumex_string_view` to compare with.
    * @return An integer representing the comparison result (see
-   * `compare(LumexStringView)`).
+   * `compare(lumex_string_view)`).
    * @throws std::out_of_range If `pos > size()`.
    * @note Complexity: O(N) where N is the minimum length of the compared
    * substring and `other`.
    */
   LUMEX_ATTRIBUTE_NODISCARD ("It is not recommended to ignore return value of "
                              "compare(size_type, size_type, LumexStringView)")
-  int compare (size_type pos, size_type len, LumexStringView other) const;
+  int compare (size_type pos, size_type len, lumex_string_view other) const;
 
   /**
-   * @brief Compares this `LumexStringView` with a null-terminated C-style
+   * @brief Compares this `lumex_string_view` with a null-terminated C-style
    * string.
-   * @details Converts `cstr` to a `LumexStringView` internally and then
+   * @details Converts `cstr` to a `lumex_string_view` internally and then
    * performs a comparison.
    * @param cstr The null-terminated C-style string to compare with.
    * @return An integer representing the comparison result (see
-   * `compare(LumexStringView)`).
+   * `compare(lumex_string_view)`).
    * @note Complexity: O(N) where N is the minimum length of `*this` and
    * `cstr`.
    */
@@ -659,7 +663,7 @@ public:
 
   // -- Starts / ends / contains helpers --
   /**
-   * @brief Checks if the `LumexStringView` starts with a specific character.
+   * @brief Checks if the `lumex_string_view` starts with a specific character.
    * @warning It is not recommended to ignore the return value of
    * `starts_with(char)`.
    * @param chr The character to check for at the beginning of the view.
@@ -672,21 +676,21 @@ public:
   bool starts_with (char chr) const LUMEX_NOEXCEPT;
 
   /**
-   * @brief Checks if the `LumexStringView` starts with a specific
-   * `LumexStringView`.
+   * @brief Checks if the `lumex_string_view` starts with a specific
+   * `lumex_string_view`.
    * @warning It is not recommended to ignore the return value of
-   * `starts_with(LumexStringView)`.
-   * @param str The `LumexStringView` to check for at the beginning of the
+   * `starts_with(lumex_string_view)`.
+   * @param str The `lumex_string_view` to check for at the beginning of the
    * view.
    * @return `true` if the view has `str` as a prefix, `false` otherwise.
    * @note Complexity: O(N) where N is `str.size()`.
    */
   LUMEX_ATTRIBUTE_NODISCARD ("It is not recommended to ignore return value of "
                              "starts_with(LumexStringView)")
-  bool starts_with (LumexStringView str) const LUMEX_NOEXCEPT;
+  bool starts_with (lumex_string_view str) const LUMEX_NOEXCEPT;
 
   /**
-   * @brief Checks if the `LumexStringView` ends with a specific character.
+   * @brief Checks if the `lumex_string_view` ends with a specific character.
    * @warning It is not recommended to ignore the return value of
    * `ends_with(char)`.
    * @param chr The character to check for at the end of the view.
@@ -699,17 +703,17 @@ public:
   bool ends_with (char chr) const LUMEX_NOEXCEPT;
 
   /**
-   * @brief Checks if the `LumexStringView` ends with a specific
-   * `LumexStringView`.
+   * @brief Checks if the `lumex_string_view` ends with a specific
+   * `lumex_string_view`.
    * @warning It is not recommended to ignore the return value of
-   * `ends_with(LumexStringView)`.
-   * @param str The `LumexStringView` to check for at the end of the view.
+   * `ends_with(lumex_string_view)`.
+   * @param str The `lumex_string_view` to check for at the end of the view.
    * @return `true` if the view has `str` as a suffix, `false` otherwise.
    * @note Complexity: O(N) where N is `str.size()`.
    */
   LUMEX_ATTRIBUTE_NODISCARD ("It is not recommended to ignore return value of "
                              "ends_with(chaLumexStringViewr)")
-  bool ends_with (LumexStringView str) const LUMEX_NOEXCEPT;
+  bool ends_with (lumex_string_view str) const LUMEX_NOEXCEPT;
 
   // -- Find (simple implementations) --
   /**
@@ -728,11 +732,12 @@ public:
   size_type find (char chr, size_type pos = 0) const LUMEX_NOEXCEPT;
 
   /**
-   * @brief Finds the first occurrence of a `LumexStringView` within this view.
+   * @brief Finds the first occurrence of a `lumex_string_view` within this
+   * view.
    * @details Searches for `str` starting from `pos`.
    * @warning It is not recommended to ignore the return value of
-   * `find(LumexStringView, size_type)`.
-   * @param str The `LumexStringView` to search for.
+   * `find(lumex_string_view, size_type)`.
+   * @param str The `lumex_string_view` to search for.
    * @param pos The starting position for the search. Defaults to 0.
    * @return The zero-based index of the first occurrence of `str`, or `npos`
    * if not found.
@@ -741,7 +746,8 @@ public:
    */
   LUMEX_ATTRIBUTE_NODISCARD ("It is not recommended to ignore return value of "
                              "find(LumexStringView, size_type)")
-  size_type find (LumexStringView str, size_type pos = 0) const LUMEX_NOEXCEPT;
+  size_type find (lumex_string_view str,
+                  size_type pos = 0) const LUMEX_NOEXCEPT;
 
   /**
    * @brief Finds the first occurrence of a C-style string within this view
@@ -775,11 +781,12 @@ public:
 
   // -- Reverse find --
   /**
-   * @brief Finds the last occurrence of a `LumexStringView` within this view.
+   * @brief Finds the last occurrence of a `lumex_string_view` within this
+   * view.
    * @details Searches backward for `str` starting from `pos`.
    * @warning It is not recommended to ignore the return value of
-   * `rfind(LumexStringView, size_type)`.
-   * @param str The `LumexStringView` to search for.
+   * `rfind(lumex_string_view, size_type)`.
+   * @param str The `lumex_string_view` to search for.
    * @param pos The starting position for the reverse search. Defaults to
    * `npos` (end of view).
    * @return The zero-based index of the last occurrence of `str`, or `npos` if
@@ -789,7 +796,7 @@ public:
    */
   LUMEX_ATTRIBUTE_NODISCARD ("It is not recommended to ignore return value of "
                              "rfind(LumexStringView, size_type)")
-  size_type rfind (LumexStringView str,
+  size_type rfind (lumex_string_view str,
                    size_type pos = npos) const LUMEX_NOEXCEPT;
 
   /**
@@ -846,9 +853,9 @@ public:
    * @details Searches for the first character in `*this` that matches any
    * character in `str`, starting from `pos`.
    * @warning It is not recommended to ignore the return value of
-   * `find_first_of(LumexStringView, size_type)`.
-   * @param str A `LumexStringView` containing the set of characters to search
-   * for.
+   * `find_first_of(lumex_string_view, size_type)`.
+   * @param str A `lumex_string_view` containing the set of characters to
+   * search for.
    * @param pos The starting position for the search. Defaults to 0.
    * @return The zero-based index of the first match, or `npos` if no character
    * is found.
@@ -857,7 +864,7 @@ public:
    */
   LUMEX_ATTRIBUTE_NODISCARD ("It is not recommended to ignore return value of "
                              "find_first_of(LumexStringView, size_type)")
-  size_type find_first_of (LumexStringView str,
+  size_type find_first_of (lumex_string_view str,
                            size_type pos = 0) const LUMEX_NOEXCEPT;
 
   /**
@@ -914,9 +921,9 @@ public:
    * @details Searches backward for the last character in `*this` that matches
    * any character in `str`, starting from `pos`.
    * @warning It is not recommended to ignore the return value of
-   * `find_last_of(LumexStringView, size_type)`.
-   * @param str A `LumexStringView` containing the set of characters to search
-   * for.
+   * `find_last_of(lumex_string_view, size_type)`.
+   * @param str A `lumex_string_view` containing the set of characters to
+   * search for.
    * @param pos The starting position for the reverse search. Defaults to
    * `npos`.
    * @return The zero-based index of the last match, or `npos` if no character
@@ -926,7 +933,7 @@ public:
    */
   LUMEX_ATTRIBUTE_NODISCARD ("It is not recommended to ignore return value of "
                              "find_last_of(LumexStringView, size_type)")
-  size_type find_last_of (LumexStringView str,
+  size_type find_last_of (lumex_string_view str,
                           size_type pos = npos) const LUMEX_NOEXCEPT;
 
   /**
@@ -984,8 +991,8 @@ public:
    * @details Searches for the first character in `*this` that does *not* match
    * any character in `str`, starting from `pos`.
    * @warning It is not recommended to ignore the return value of
-   * `find_first_not_of(LumexStringView, size_type)`.
-   * @param str A `LumexStringView` containing the set of characters to
+   * `find_first_not_of(lumex_string_view, size_type)`.
+   * @param str A `lumex_string_view` containing the set of characters to
    * exclude.
    * @param pos The starting position for the search. Defaults to 0.
    * @return The zero-based index of the first non-matching character, or
@@ -995,7 +1002,7 @@ public:
    */
   LUMEX_ATTRIBUTE_NODISCARD ("It is not recommended to ignore return value of "
                              "find_first_not_of(LumexStringView, size_type)")
-  size_type find_first_not_of (LumexStringView str,
+  size_type find_first_not_of (lumex_string_view str,
                                size_type pos = 0) const LUMEX_NOEXCEPT;
 
   /**
@@ -1056,8 +1063,8 @@ public:
    * @details Searches backward for the last character in `*this` that does
    * *not* match any character in `str`, starting from `pos`.
    * @warning It is not recommended to ignore the return value of
-   * `find_last_not_of(LumexStringView, size_type)`.
-   * @param str A `LumexStringView` containing the set of characters to
+   * `find_last_not_of(lumex_string_view, size_type)`.
+   * @param str A `lumex_string_view` containing the set of characters to
    * exclude.
    * @param pos The starting position for the reverse search. Defaults to
    * `npos`.
@@ -1068,7 +1075,7 @@ public:
    */
   LUMEX_ATTRIBUTE_NODISCARD ("It is not recommended to ignore return value of "
                              "find_last_not_of(LumexStringView, size_type)")
-  size_type find_last_not_of (LumexStringView str,
+  size_type find_last_not_of (lumex_string_view str,
                               size_type pos = npos) const LUMEX_NOEXCEPT;
 
   /**
@@ -1128,7 +1135,7 @@ public:
   /**
    * @brief Explicit conversion operator to `std::basic_string<char>`.
    * @details Constructs a new `std::basic_string` (or `std::string`)
-   * containing a copy of the characters viewed by this `LumexStringView`.
+   * containing a copy of the characters viewed by this `lumex_string_view`.
    * @tparam Allocator The allocator type for the `std::basic_string`. Defaults
    * to `std::allocator<char>`.
    * @return A new `std::basic_string` object.
@@ -1143,9 +1150,9 @@ public:
   }
 
   /**
-   * @brief Converts the `LumexStringView` to a `std::basic_string<char>`.
+   * @brief Converts the `lumex_string_view` to a `std::basic_string<char>`.
    * @details Constructs a new `std::basic_string` (or `std::string`)
-   * containing a copy of the characters viewed by this `LumexStringView`.
+   * containing a copy of the characters viewed by this `lumex_string_view`.
    * @tparam Allocator The allocator type for the `std::basic_string`. Defaults
    * to `std::allocator<char>`.
    * @param alloc An allocator object to use for the new string. Defaults to a
@@ -1162,17 +1169,17 @@ public:
   }
 
   /**
-   * @brief Constructs a `LumexStringView` from a `std::basic_string<char>`.
+   * @brief Constructs a `lumex_string_view` from a `std::basic_string<char>`.
    * @details Creates a view over the internal character data of the provided
    * `std::basic_string`.
    * @tparam Allocator The allocator type of the `std::basic_string`.
    * @param str The `std::basic_string` to view.
-   * @note The `LumexStringView` does not own the string data; `str` must
+   * @note The `lumex_string_view` does not own the string data; `str` must
    * outlive the view.
    * @note Complexity: O(1).
    */
   template <class Allocator>
-  LumexStringView ( // NOLINT(google-explicit-constructor)
+  lumex_string_view ( // NOLINT(google-explicit-constructor)
       std::basic_string<char, std::char_traits<char>, Allocator> const &str)
       LUMEX_NOEXCEPT : m_data (str.data ()),
                        m_size (str.size ())
@@ -1180,16 +1187,16 @@ public:
   }
 
   /**
-   * @brief Constructs a `LumexStringView` from a `std::string`.
+   * @brief Constructs a `lumex_string_view` from a `std::string`.
    * @details Enables implicit instantiation of the default allocator for
    * `std::string`. Creates a view over the internal character data of the
    * provided `std::string`.
    * @param str The `std::string` to view.
-   * @note The `LumexStringView` does not own the string data; `str` must
+   * @note The `lumex_string_view` does not own the string data; `str` must
    * outlive the view.
    * @note Complexity: O(1).
    */
-  LumexStringView (std::string const &str)
+  lumex_string_view (std::string const &str)
       LUMEX_NOEXCEPT; // NOLINT(google-explicit-constructor)
 
 private:
@@ -1208,123 +1215,124 @@ private:
 
 // -- Non-member relational operators --
 /**
- * @brief Equality comparison operator for two `LumexStringView` objects.
- * @details Compares two `LumexStringView` objects for lexicographical
+ * @brief Equality comparison operator for two `lumex_string_view` objects.
+ * @details Compares two `lumex_string_view` objects for lexicographical
  * equality.
- * @param lhs The left-hand side `LumexStringView`.
- * @param rhs The right-hand side `LumexStringView`.
+ * @param lhs The left-hand side `lumex_string_view`.
+ * @param rhs The right-hand side `lumex_string_view`.
  * @return `true` if both views are of the same size and their contents are
  * identical, `false` otherwise.
  * @note Complexity: O(N) where N is the minimum length of the two views.
  */
 LUMEX_API inline bool
-operator== (LumexStringView lhs, LumexStringView rhs) LUMEX_NOEXCEPT
+operator== (lumex_string_view lhs, lumex_string_view rhs) LUMEX_NOEXCEPT
 {
   return lhs.size () == rhs.size () && lhs.compare (rhs) == 0;
 }
 
 /**
- * @brief Inequality comparison operator for two `LumexStringView` objects.
- * @details Checks if two `LumexStringView` objects are not lexicographically
+ * @brief Inequality comparison operator for two `lumex_string_view` objects.
+ * @details Checks if two `lumex_string_view` objects are not lexicographically
  * equal.
- * @param lhs The left-hand side `LumexStringView`.
- * @param rhs The right-hand side `LumexStringView`.
+ * @param lhs The left-hand side `lumex_string_view`.
+ * @param rhs The right-hand side `lumex_string_view`.
  * @return `true` if the views are not equal, `false` otherwise.
  * @note Complexity: O(N) where N is the minimum length of the two views.
  */
 LUMEX_API inline bool
-operator!= (LumexStringView lhs, LumexStringView rhs) LUMEX_NOEXCEPT
+operator!= (lumex_string_view lhs, lumex_string_view rhs) LUMEX_NOEXCEPT
 {
   return !(lhs == rhs);
 }
 
 /**
- * @brief Less-than comparison operator for two `LumexStringView` objects.
- * @details Compares two `LumexStringView` objects lexicographically.
- * @param lhs The left-hand side `LumexStringView`.
- * @param rhs The right-hand side `LumexStringView`.
+ * @brief Less-than comparison operator for two `lumex_string_view` objects.
+ * @details Compares two `lumex_string_view` objects lexicographically.
+ * @param lhs The left-hand side `lumex_string_view`.
+ * @param rhs The right-hand side `lumex_string_view`.
  * @return `true` if `lhs` is lexicographically less than `rhs`, `false`
  * otherwise.
  * @note Complexity: O(N) where N is the minimum length of the two views.
  */
 LUMEX_API inline bool
-operator< (LumexStringView lhs, LumexStringView rhs) LUMEX_NOEXCEPT
+operator< (lumex_string_view lhs, lumex_string_view rhs) LUMEX_NOEXCEPT
 {
   return lhs.compare (rhs) < 0;
 }
 
 /**
- * @brief Greater-than comparison operator for two `LumexStringView` objects.
- * @details Compares two `LumexStringView` objects lexicographically.
- * @param lhs The left-hand side `LumexStringView`.
- * @param rhs The right-hand side `LumexStringView`.
+ * @brief Greater-than comparison operator for two `lumex_string_view` objects.
+ * @details Compares two `lumex_string_view` objects lexicographically.
+ * @param lhs The left-hand side `lumex_string_view`.
+ * @param rhs The right-hand side `lumex_string_view`.
  * @return `true` if `lhs` is lexicographically greater than `rhs`, `false`
  * otherwise.
  * @note Complexity: O(N) where N is the minimum length of the two views.
  */
 LUMEX_API inline bool
-operator> (LumexStringView lhs, LumexStringView rhs) LUMEX_NOEXCEPT
+operator> (lumex_string_view lhs, lumex_string_view rhs) LUMEX_NOEXCEPT
 {
   return lhs.compare (rhs) > 0;
 }
 
 /**
- * @brief Less-than-or-equal-to comparison operator for two `LumexStringView`
+ * @brief Less-than-or-equal-to comparison operator for two `lumex_string_view`
  * objects.
- * @details Compares two `LumexStringView` objects lexicographically.
- * @param lhs The left-hand side `LumexStringView`.
- * @param rhs The right-hand side `LumexStringView`.
+ * @details Compares two `lumex_string_view` objects lexicographically.
+ * @param lhs The left-hand side `lumex_string_view`.
+ * @param rhs The right-hand side `lumex_string_view`.
  * @return `true` if `lhs` is lexicographically less than or equal to `rhs`,
  * `false` otherwise.
  * @note Complexity: O(N) where N is the minimum length of the two views.
  */
 LUMEX_API inline bool
-operator<= (LumexStringView lhs, LumexStringView rhs) LUMEX_NOEXCEPT
+operator<= (lumex_string_view lhs, lumex_string_view rhs) LUMEX_NOEXCEPT
 {
   return lhs.compare (rhs) <= 0;
 }
 
 /**
  * @brief Greater-than-or-equal-to comparison operator for two
- * `LumexStringView` objects.
- * @details Compares two `LumexStringView` objects lexicographically.
- * @param lhs The left-hand side `LumexStringView`.
- * @param rhs The right-hand side `LumexStringView`.
+ * `lumex_string_view` objects.
+ * @details Compares two `lumex_string_view` objects lexicographically.
+ * @param lhs The left-hand side `lumex_string_view`.
+ * @param rhs The right-hand side `lumex_string_view`.
  * @return `true` if `lhs` is lexicographically greater than or equal to `rhs`,
  * `false` otherwise.
  * @note Complexity: O(N) where N is the minimum length of the two views.
  */
 LUMEX_API inline bool
-operator>= (LumexStringView lhs, LumexStringView rhs) LUMEX_NOEXCEPT
+operator>= (lumex_string_view lhs, lumex_string_view rhs) LUMEX_NOEXCEPT
 {
   return lhs.compare (rhs) >= 0;
 }
 
 // -- Stream inserter --
 /**
- * @brief Overload for inserting a `LumexStringView` into an `std::ostream`.
- * @details This operator allows `LumexStringView` objects to be printed
+ * @brief Overload for inserting a `lumex_string_view` into an `std::ostream`.
+ * @details This operator allows `lumex_string_view` objects to be printed
  * directly to standard output streams. It writes the viewed character data to
  * the stream.
  * @param ostr The output stream.
- * @param sview The `LumexStringView` to insert.
+ * @param sview The `lumex_string_view` to insert.
  * @return A reference to the output stream.
  * @note Complexity: O(N) where N is `sview.size()`.
  */
-LUMEX_API std::ostream &operator<< (std::ostream &ostr, LumexStringView sview);
+LUMEX_API std::ostream &operator<< (std::ostream &ostr,
+                                    lumex_string_view sview);
 } // namespace view
 } // namespace string_view
 } // namespace core
 } // namespace lumex
 
 /**
- * @brief Global type alias for `lumex::core::string_view::LumexStringView`.
- * @details This `using` declaration brings `LumexStringView` into the global
+ * @brief Global type alias for `lumex::core::string_view::lumex_string_view`.
+ * @details This `using` declaration brings `lumex_string_view` into the global
  * namespace (or enclosing namespace where it's included), allowing for more
  * convenient usage without full namespace qualification, similar to
  * `std::string_view`.
  */
-using LumexStringView = lumex::core::string_view::view::LumexStringView;
+using lumex_string_view = lumex::core::string_view::view::lumex_string_view;
 
 #if defined(__clang__)
 #pragma clang diagnostic pop

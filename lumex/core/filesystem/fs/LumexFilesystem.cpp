@@ -91,13 +91,13 @@ static std::array<std::string, 22> const kReservedNames
 LUMEX_CONST_NUM std::size_t kReservedNamesCount = kReservedNames.size ();
 
 static inline bool
-isForbidden (char chr) LUMEX_NOEXCEPT
+is_forbidden (char chr) LUMEX_NOEXCEPT
 {
   return std::string (kForbiddenChars).find (chr) != std::string::npos;
 }
 
 static inline bool
-isReservedName (std::string const &name) LUMEX_NOEXCEPT
+is_reserved_name (std::string const &name) LUMEX_NOEXCEPT
 {
   std::string upperName = name;
   std::transform (upperName.begin (), upperName.end (), upperName.begin (),
@@ -111,7 +111,7 @@ isReservedName (std::string const &name) LUMEX_NOEXCEPT
 }
 
 static inline bool
-hasInvalidEnding (std::string const &name) LUMEX_NOEXCEPT
+has_invalid_ending (std::string const &name) LUMEX_NOEXCEPT
 {
   return !name.empty () && (name.back () == '.' || name.back () == ' ');
 }
@@ -121,14 +121,14 @@ LUMEX_CONST_STR kForbiddenChars = ":/";
 LUMEX_CONST_STR kProblematicChars = "*?|\"'";
 
 static inline bool
-isForbidden (char chr) LUMEX_NOEXCEPT
+is_forbidden (char chr) LUMEX_NOEXCEPT
 {
   return std::string (kForbiddenChars).find (chr) != std::string::npos
          || std::string (kProblematicChars).find (chr) != std::string::npos;
 }
 
 static inline bool
-isReservedName (std::string const &name) LUMEX_NOEXCEPT
+is_reserved_name (std::string const &name) LUMEX_NOEXCEPT
 {
   std::string upperName = name;
   std::transform (upperName.begin (), upperName.end (), upperName.begin (),
@@ -148,7 +148,7 @@ isReservedName (std::string const &name) LUMEX_NOEXCEPT
 }
 
 static inline bool
-hasInvalidEnding (std::string const &) LUMEX_NOEXCEPT
+has_invalid_ending (std::string const &) LUMEX_NOEXCEPT
 {
   return false;
 }
@@ -158,20 +158,20 @@ LUMEX_CONST_STR kForbiddenChars = "/";
 LUMEX_CONST_STR kProblematicChars = "&;|*?'\"`[]()$<>{}^#\\%!";
 
 static inline bool
-isForbidden (char chr) LUMEX_NOEXCEPT
+is_forbidden (char chr) LUMEX_NOEXCEPT
 {
   return std::string (kForbiddenChars).find (chr) != std::string::npos
          || std::string (kProblematicChars).find (chr) != std::string::npos;
 }
 
 static inline bool
-isReservedName (std::string const & /*name*/) LUMEX_NOEXCEPT
+is_reserved_name (std::string const & /*name*/) LUMEX_NOEXCEPT
 {
   return false;
 }
 
 static inline bool
-hasInvalidEnding (std::string const &name) LUMEX_NOEXCEPT
+has_invalid_ending (std::string const &name) LUMEX_NOEXCEPT
 {
   return !name.empty () && name.front () == '-';
 }
@@ -180,18 +180,18 @@ hasInvalidEnding (std::string const &name) LUMEX_NOEXCEPT
 LUMEX_CONST_STR kForbiddenChars = "/<>:\"\\|*?";
 
 static inline bool
-isForbidden (char chr) LUMEX_NOEXCEPT
+is_forbidden (char chr) LUMEX_NOEXCEPT
 {
   return std::string (kForbiddenChars).find (chr) != std::string::npos;
 }
 
 static inline bool
-isReservedName (std::string const &) LUMEX_NOEXCEPT
+is_reserved_name (std::string const &) LUMEX_NOEXCEPT
 {
   return false;
 }
 static inline bool
-hasInvalidEnding (std::string const &) LUMEX_NOEXCEPT
+has_invalid_ending (std::string const &) LUMEX_NOEXCEPT
 {
   return false;
 }
@@ -1378,7 +1378,7 @@ lumex_filesystem::space (path const &path_arg)
 }
 
 // -------------- directory listing ----------------------
-class directory_iterator::Impl
+class directory_iterator::impl
 {
 public:
 #if defined(LUMEX_OS_WINDOWS)
@@ -1395,7 +1395,7 @@ public:
 
 LUMEX_PUBLIC_API
 directory_iterator::directory_iterator (path const &path_arg)
-    : m_impl (new Impl)
+    : m_impl (new impl)
 {
   m_impl->base = path_arg;
 #if defined(LUMEX_OS_WINDOWS)
@@ -2315,7 +2315,7 @@ lumex_filesystem::is_accessible (path const &path_arg)
 
 LUMEX_PUBLIC_API
 bool
-isFileExists (std::string const &path_arg)
+is_file_exists (std::string const &path_arg)
 {
   std::ifstream ifs (path_arg.c_str ());
   return ifs.good ();
@@ -2323,7 +2323,7 @@ isFileExists (std::string const &path_arg)
 
 LUMEX_PUBLIC_API
 void
-checkName (std::string const &name)
+check_name (std::string const &name)
 {
   using namespace Detail;
 
@@ -2333,24 +2333,24 @@ checkName (std::string const &name)
 
   // Checking forbidden characters (predicate)
   for (char chr : name)
-    if (Detail::isForbidden (chr))
+    if (Detail::is_forbidden (chr))
       throw std::invalid_argument (
           "Name of the file contains forbidden character: "
           + std::string (1, chr));
 
   // Checking reserved names
-  if (Detail::isReservedName (name))
+  if (Detail::is_reserved_name (name))
     throw std::invalid_argument ("Name of the file is reserved by the system: "
                                  + name);
 
   // Checking invalid endings/beginnings
-  if (Detail::hasInvalidEnding (name))
+  if (Detail::has_invalid_ending (name))
     throw std::invalid_argument (
         "Name of the file has invalid ending/beginning");
 }
 
 LUMEX_PUBLIC_API std::string
-sanitizeName (
+sanitize_name (
     std::string const &name, // NOLINT(bugprone-easily-swappable-parameters)
     std::string const &defaultValue) LUMEX_NOEXCEPT
 {
@@ -2361,7 +2361,7 @@ sanitizeName (
 
   try
     {
-      checkName (name);
+      check_name (name);
       return name; // Already valid
     }
   catch (...)
@@ -2370,11 +2370,11 @@ sanitizeName (
 
       // Replacing invalid characters through predicate
       for (char &chr : sanitized)
-        if (Detail::isForbidden (chr))
+        if (Detail::is_forbidden (chr))
           chr = '_';
 
       // Handling reserved names
-      if (Detail::isReservedName (sanitized))
+      if (Detail::is_reserved_name (sanitized))
         return defaultValue + "_file";
 
       // Cleaning invalid endings/beginnings

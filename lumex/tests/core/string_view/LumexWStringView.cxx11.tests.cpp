@@ -111,7 +111,7 @@ protected:
 
 TEST_F (LumexWStringViewTest, DefaultConstruction)
 {
-  LumexWStringView wsv;
+  lumex_wstring_view wsv;
 
   EXPECT_EQ (wsv.size (), 0);
   EXPECT_EQ (wsv.length (), 0);
@@ -123,7 +123,7 @@ TEST_F (LumexWStringViewTest, DefaultConstruction)
 TEST_F (LumexWStringViewTest, ValidCWStringConstruction)
 {
   wchar_t const *cwstr = L"Hello, World!";
-  LumexWStringView wsv (cwstr);
+  lumex_wstring_view wsv (cwstr);
 
   EXPECT_EQ (wsv.size (), std::wcslen (cwstr));
   EXPECT_EQ (wsv.data (), cwstr);
@@ -133,7 +133,7 @@ TEST_F (LumexWStringViewTest, ValidCWStringConstruction)
 
 TEST_F (LumexWStringViewTest, NullptrConstruction)
 {
-  LumexWStringView wsv (nullptr);
+  lumex_wstring_view wsv (nullptr);
 
   EXPECT_EQ (wsv.size (), 0);
   EXPECT_TRUE (wsv.empty ());
@@ -144,7 +144,7 @@ TEST_F (LumexWStringViewTest, PointerLengthConstruction)
 {
   wchar_t const *wstr = L"Hello, World!";
   std::size_t len = 5; // Only "Hello"
-  LumexWStringView wsv (wstr, len);
+  lumex_wstring_view wsv (wstr, len);
 
   EXPECT_EQ (wsv.size (), len);
   EXPECT_EQ (wsv.data (), wstr);
@@ -154,7 +154,7 @@ TEST_F (LumexWStringViewTest, PointerLengthConstruction)
 TEST_F (LumexWStringViewTest, ZeroLengthWithValidPointer)
 {
   wchar_t const *wstr = L"Not empty";
-  LumexWStringView wsv (wstr, 0);
+  lumex_wstring_view wsv (wstr, 0);
 
   EXPECT_EQ (wsv.size (), 0);
   EXPECT_TRUE (wsv.empty ());
@@ -163,7 +163,7 @@ TEST_F (LumexWStringViewTest, ZeroLengthWithValidPointer)
 
 TEST_F (LumexWStringViewTest, StdWStringConstruction)
 {
-  LumexWStringView wsv (test_wstring);
+  lumex_wstring_view wsv (test_wstring);
 
   EXPECT_EQ (wsv.size (), test_wstring.size ());
   EXPECT_EQ (wsv.data (), test_wstring.data ());
@@ -172,7 +172,7 @@ TEST_F (LumexWStringViewTest, StdWStringConstruction)
 
 TEST_F (LumexWStringViewTest, EmptyStdWStringConstruction)
 {
-  LumexWStringView wsv (empty_wstring);
+  lumex_wstring_view wsv (empty_wstring);
 
   EXPECT_TRUE (wsv.empty ());
   EXPECT_EQ (wsv.size (), 0);
@@ -182,8 +182,8 @@ TEST_F (LumexWStringViewTest, EmptyStdWStringConstruction)
 
 TEST_F (LumexWStringViewTest, CopyConstruction)
 {
-  LumexWStringView original (test_wstring);
-  LumexWStringView copy (original);
+  lumex_wstring_view original (test_wstring);
+  lumex_wstring_view copy (original);
 
   EXPECT_EQ (copy.size (), original.size ());
   EXPECT_EQ (copy.data (), original.data ());
@@ -192,8 +192,8 @@ TEST_F (LumexWStringViewTest, CopyConstruction)
 
 TEST_F (LumexWStringViewTest, Assignment)
 {
-  LumexWStringView wsv1 (test_wstring);
-  LumexWStringView wsv2 (L"Different");
+  lumex_wstring_view wsv1 (test_wstring);
+  lumex_wstring_view wsv2 (L"Different");
 
   wsv2 = wsv1;
 
@@ -206,7 +206,7 @@ TEST_F (LumexWStringViewTest, Assignment)
 
 TEST_F (LumexWStringViewTest, ForwardIteration)
 {
-  LumexWStringView wsv (test_wstring);
+  lumex_wstring_view wsv (test_wstring);
 
   std::wstring reconstructed;
   for (auto it = wsv.begin (); it != wsv.end (); ++it)
@@ -219,7 +219,7 @@ TEST_F (LumexWStringViewTest, ForwardIteration)
 
 TEST_F (LumexWStringViewTest, ReverseIteration)
 {
-  LumexWStringView wsv (L"abc");
+  lumex_wstring_view wsv (L"abc");
 
   std::wstring reversed;
   for (auto it = wsv.rbegin (); it != wsv.rend (); ++it)
@@ -232,7 +232,7 @@ TEST_F (LumexWStringViewTest, ReverseIteration)
 
 TEST_F (LumexWStringViewTest, EmptyWStringIteration)
 {
-  LumexWStringView wsv;
+  lumex_wstring_view wsv;
 
   EXPECT_EQ (wsv.begin (), wsv.end ());
   EXPECT_EQ (wsv.rbegin (), wsv.rend ());
@@ -247,7 +247,7 @@ TEST_F (LumexWStringViewTest, EmptyWStringIteration)
 
 TEST_F (LumexWStringViewTest, CapacityMethods)
 {
-  LumexWStringView wsv (test_wstring);
+  lumex_wstring_view wsv (test_wstring);
 
   EXPECT_EQ (wsv.size (), test_wstring.size ());
   EXPECT_EQ (wsv.length (), test_wstring.size ());
@@ -258,7 +258,7 @@ TEST_F (LumexWStringViewTest, CapacityMethods)
 
 TEST_F (LumexWStringViewTest, EmptyCapacity)
 {
-  LumexWStringView wsv;
+  lumex_wstring_view wsv;
 
   EXPECT_EQ (wsv.size (), 0);
   EXPECT_EQ (wsv.length (), 0);
@@ -267,7 +267,7 @@ TEST_F (LumexWStringViewTest, EmptyCapacity)
 
 TEST_F (LumexWStringViewTest, LargeWStringCapacity)
 {
-  LumexWStringView wsv (long_wstring);
+  lumex_wstring_view wsv (long_wstring);
 
   EXPECT_EQ (wsv.size (), long_wstring.size ());
   EXPECT_FALSE (wsv.empty ());
@@ -278,7 +278,7 @@ TEST_F (LumexWStringViewTest, LargeWStringCapacity)
 
 TEST_F (LumexWStringViewTest, ElementAccess)
 {
-  LumexWStringView wsv (L"Hello");
+  lumex_wstring_view wsv (L"Hello");
 
   EXPECT_EQ (wsv[0], L'H');
   EXPECT_EQ (wsv[1], L'e');
@@ -289,7 +289,7 @@ TEST_F (LumexWStringViewTest, ElementAccess)
 
 TEST_F (LumexWStringViewTest, AtMethodValid)
 {
-  LumexWStringView wsv (L"Test");
+  lumex_wstring_view wsv (L"Test");
 
   EXPECT_EQ (wsv.at (0), L'T');
   EXPECT_EQ (wsv.at (3), L't');
@@ -297,7 +297,7 @@ TEST_F (LumexWStringViewTest, AtMethodValid)
 
 TEST_F (LumexWStringViewTest, AtMethodInvalid)
 {
-  LumexWStringView wsv (L"Test");
+  lumex_wstring_view wsv (L"Test");
 
   EXPECT_THROW (wsv.at (4), std::out_of_range);
   EXPECT_THROW (wsv.at (100), std::out_of_range);
@@ -305,7 +305,7 @@ TEST_F (LumexWStringViewTest, AtMethodInvalid)
 
 TEST_F (LumexWStringViewTest, EmptyWStringElementAccess)
 {
-  LumexWStringView wsv;
+  lumex_wstring_view wsv;
 
   EXPECT_THROW (wsv.at (0), std::out_of_range);
 }
@@ -313,7 +313,7 @@ TEST_F (LumexWStringViewTest, EmptyWStringElementAccess)
 TEST_F (LumexWStringViewTest, DataMethod)
 {
   wchar_t const *wstr = L"DataTest";
-  LumexWStringView wsv (wstr);
+  lumex_wstring_view wsv (wstr);
 
   EXPECT_EQ (wsv.data (), wstr);
   EXPECT_NE (wsv.data (), nullptr);
@@ -323,7 +323,7 @@ TEST_F (LumexWStringViewTest, DataMethod)
 
 TEST_F (LumexWStringViewTest, Clear)
 {
-  LumexWStringView wsv (test_wstring);
+  lumex_wstring_view wsv (test_wstring);
   ASSERT_FALSE (wsv.empty ());
 
   wsv.clear ();
@@ -335,7 +335,7 @@ TEST_F (LumexWStringViewTest, Clear)
 
 TEST_F (LumexWStringViewTest, RemovePrefix)
 {
-  LumexWStringView wsv (L"Hello, World!");
+  lumex_wstring_view wsv (L"Hello, World!");
   wchar_t const *original_data = wsv.data ();
 
   wsv.remove_prefix (7); // Remove "Hello, "
@@ -347,7 +347,7 @@ TEST_F (LumexWStringViewTest, RemovePrefix)
 
 TEST_F (LumexWStringViewTest, RemovePrefixTooMuch)
 {
-  LumexWStringView wsv (L"Short");
+  lumex_wstring_view wsv (L"Short");
 
   wsv.remove_prefix (100);
 
@@ -357,7 +357,7 @@ TEST_F (LumexWStringViewTest, RemovePrefixTooMuch)
 
 TEST_F (LumexWStringViewTest, RemoveSuffix)
 {
-  LumexWStringView wsv (L"Hello, World!");
+  lumex_wstring_view wsv (L"Hello, World!");
   wchar_t const *original_data = wsv.data ();
 
   wsv.remove_suffix (8); // Remove ", World!"
@@ -369,7 +369,7 @@ TEST_F (LumexWStringViewTest, RemoveSuffix)
 
 TEST_F (LumexWStringViewTest, RemoveSuffixTooMuch)
 {
-  LumexWStringView wsv (L"Short");
+  lumex_wstring_view wsv (L"Short");
 
   wsv.remove_suffix (100);
 
@@ -379,8 +379,8 @@ TEST_F (LumexWStringViewTest, RemoveSuffixTooMuch)
 
 TEST_F (LumexWStringViewTest, Swap)
 {
-  LumexWStringView wsv1 (L"First");
-  LumexWStringView wsv2 (L"Second");
+  lumex_wstring_view wsv1 (L"First");
+  lumex_wstring_view wsv2 (L"Second");
   wchar_t const *data1 = wsv1.data ();
   wchar_t const *data2 = wsv2.data ();
 
@@ -396,7 +396,7 @@ TEST_F (LumexWStringViewTest, Swap)
 
 TEST_F (LumexWStringViewTest, CopyMethod)
 {
-  LumexWStringView wsv (L"Hello, World!");
+  lumex_wstring_view wsv (L"Hello, World!");
   wchar_t buffer[20] = { 0 };
 
   std::size_t copied
@@ -408,7 +408,7 @@ TEST_F (LumexWStringViewTest, CopyMethod)
 
 TEST_F (LumexWStringViewTest, CopyBeyondEnd)
 {
-  LumexWStringView wsv (L"Test");
+  lumex_wstring_view wsv (L"Test");
   wchar_t buffer[10] = { 0 };
 
   std::size_t copied = wsv.copy (buffer, 10, 2); // Request 10 chars from pos 2
@@ -419,7 +419,7 @@ TEST_F (LumexWStringViewTest, CopyBeyondEnd)
 
 TEST_F (LumexWStringViewTest, CopyInvalidPos)
 {
-  LumexWStringView wsv (L"Test");
+  lumex_wstring_view wsv (L"Test");
   wchar_t buffer[10];
 
   EXPECT_THROW (wsv.copy (buffer, 5, 10), std::out_of_range);
@@ -429,9 +429,9 @@ TEST_F (LumexWStringViewTest, CopyInvalidPos)
 
 TEST_F (LumexWStringViewTest, Substr)
 {
-  LumexWStringView wsv (L"Hello, World!");
+  lumex_wstring_view wsv (L"Hello, World!");
 
-  LumexWStringView sub = wsv.substr (7, 5); // "World"
+  lumex_wstring_view sub = wsv.substr (7, 5); // "World"
 
   EXPECT_EQ (sub.size (), 5);
   EXPECT_EQ (std::wstring (sub.data (), sub.size ()), L"World");
@@ -440,25 +440,25 @@ TEST_F (LumexWStringViewTest, Substr)
 
 TEST_F (LumexWStringViewTest, SubstrToEnd)
 {
-  LumexWStringView wsv (L"Hello, World!");
+  lumex_wstring_view wsv (L"Hello, World!");
 
-  LumexWStringView sub = wsv.substr (7); // From pos 7 to end
+  lumex_wstring_view sub = wsv.substr (7); // From pos 7 to end
 
   EXPECT_EQ (std::wstring (sub.data (), sub.size ()), L"World!");
 }
 
 TEST_F (LumexWStringViewTest, SubstrBeyondLength)
 {
-  LumexWStringView wsv (L"Short");
+  lumex_wstring_view wsv (L"Short");
 
-  LumexWStringView sub = wsv.substr (2, 100); // Request more than available
+  lumex_wstring_view sub = wsv.substr (2, 100); // Request more than available
 
   EXPECT_EQ (std::wstring (sub.data (), sub.size ()), L"ort");
 }
 
 TEST_F (LumexWStringViewTest, SubstrInvalidPos)
 {
-  LumexWStringView wsv (L"Test");
+  lumex_wstring_view wsv (L"Test");
 
   EXPECT_THROW (wsv.substr (10), std::out_of_range);
 }
@@ -467,8 +467,8 @@ TEST_F (LumexWStringViewTest, SubstrInvalidPos)
 
 TEST_F (LumexWStringViewTest, CompareEqual)
 {
-  LumexWStringView wsv1 (L"Hello");
-  LumexWStringView wsv2 (L"Hello");
+  lumex_wstring_view wsv1 (L"Hello");
+  lumex_wstring_view wsv2 (L"Hello");
 
   EXPECT_EQ (wsv1.compare (wsv2), 0);
   EXPECT_TRUE (wsv1 == wsv2);
@@ -481,8 +481,8 @@ TEST_F (LumexWStringViewTest, CompareEqual)
 
 TEST_F (LumexWStringViewTest, CompareDifferent)
 {
-  LumexWStringView wsv1 (L"abc");
-  LumexWStringView wsv2 (L"def");
+  lumex_wstring_view wsv1 (L"abc");
+  lumex_wstring_view wsv2 (L"def");
 
   EXPECT_LT (wsv1.compare (wsv2), 0);
   EXPECT_GT (wsv2.compare (wsv1), 0);
@@ -493,8 +493,8 @@ TEST_F (LumexWStringViewTest, CompareDifferent)
 
 TEST_F (LumexWStringViewTest, CompareDifferentLengths)
 {
-  LumexWStringView wsv1 (L"abc");
-  LumexWStringView wsv2 (L"abcd");
+  lumex_wstring_view wsv1 (L"abc");
+  lumex_wstring_view wsv2 (L"abcd");
 
   EXPECT_LT (wsv1.compare (wsv2), 0);
   EXPECT_TRUE (wsv1 < wsv2);
@@ -502,7 +502,7 @@ TEST_F (LumexWStringViewTest, CompareDifferentLengths)
 
 TEST_F (LumexWStringViewTest, CompareWithCWString)
 {
-  LumexWStringView wsv (L"Hello");
+  lumex_wstring_view wsv (L"Hello");
 
   EXPECT_EQ (wsv.compare (L"Hello"), 0);
   EXPECT_LT (wsv.compare (L"World"), 0);
@@ -511,8 +511,8 @@ TEST_F (LumexWStringViewTest, CompareWithCWString)
 
 TEST_F (LumexWStringViewTest, PartialCompare)
 {
-  LumexWStringView wsv (L"Hello, World!");
-  LumexWStringView target (L"World");
+  lumex_wstring_view wsv (L"Hello, World!");
+  lumex_wstring_view target (L"World");
 
   EXPECT_EQ (wsv.compare (7, 5, target), 0); // Compare "World" portion
 }
@@ -521,38 +521,38 @@ TEST_F (LumexWStringViewTest, PartialCompare)
 
 TEST_F (LumexWStringViewTest, StartsWith)
 {
-  LumexWStringView wsv (L"Hello, World!");
+  lumex_wstring_view wsv (L"Hello, World!");
 
   EXPECT_TRUE (wsv.starts_with (L'H'));
   EXPECT_FALSE (wsv.starts_with (L'W'));
-  EXPECT_TRUE (wsv.starts_with (LumexWStringView (L"Hello")));
-  EXPECT_FALSE (wsv.starts_with (LumexWStringView (L"World")));
+  EXPECT_TRUE (wsv.starts_with (lumex_wstring_view (L"Hello")));
+  EXPECT_FALSE (wsv.starts_with (lumex_wstring_view (L"World")));
 }
 
 TEST_F (LumexWStringViewTest, EndsWith)
 {
-  LumexWStringView wsv (L"Hello, World!");
+  lumex_wstring_view wsv (L"Hello, World!");
 
   EXPECT_TRUE (wsv.ends_with (L'!'));
   EXPECT_FALSE (wsv.ends_with (L'H'));
-  EXPECT_TRUE (wsv.ends_with (LumexWStringView (L"World!")));
-  EXPECT_FALSE (wsv.ends_with (LumexWStringView (L"Hello")));
+  EXPECT_TRUE (wsv.ends_with (lumex_wstring_view (L"World!")));
+  EXPECT_FALSE (wsv.ends_with (lumex_wstring_view (L"Hello")));
 }
 
 TEST_F (LumexWStringViewTest, EmptyWStringStartsEndsWith)
 {
-  LumexWStringView wsv;
+  lumex_wstring_view wsv;
 
   EXPECT_FALSE (wsv.starts_with (L'A'));
   EXPECT_FALSE (wsv.ends_with (L'A'));
-  EXPECT_FALSE (wsv.starts_with (LumexWStringView (L"test")));
-  EXPECT_FALSE (wsv.ends_with (LumexWStringView (L"test")));
+  EXPECT_FALSE (wsv.starts_with (lumex_wstring_view (L"test")));
+  EXPECT_FALSE (wsv.ends_with (lumex_wstring_view (L"test")));
 }
 
 TEST_F (LumexWStringViewTest, StartsEndsWithLongerWString)
 {
-  LumexWStringView wsv (L"Hi");
-  LumexWStringView longer (L"Hello");
+  lumex_wstring_view wsv (L"Hi");
+  lumex_wstring_view longer (L"Hello");
 
   EXPECT_FALSE (wsv.starts_with (longer));
   EXPECT_FALSE (wsv.ends_with (longer));
@@ -562,61 +562,61 @@ TEST_F (LumexWStringViewTest, StartsEndsWithLongerWString)
 
 TEST_F (LumexWStringViewTest, FindWChar)
 {
-  LumexWStringView wsv (L"Hello, World!");
+  lumex_wstring_view wsv (L"Hello, World!");
 
   EXPECT_EQ (wsv.find (L'H'), 0);
   EXPECT_EQ (wsv.find (L'o'), 4); // First 'o' in "Hello"
   EXPECT_EQ (wsv.find (L'!'), 12);
-  EXPECT_EQ (wsv.find (L'X'), LumexWStringView::npos);
+  EXPECT_EQ (wsv.find (L'X'), lumex_wstring_view::npos);
 }
 
 TEST_F (LumexWStringViewTest, FindWCharFromPosition)
 {
-  LumexWStringView wsv (L"Hello, World!");
+  lumex_wstring_view wsv (L"Hello, World!");
 
   EXPECT_EQ (wsv.find (L'o', 5), 8); // Second 'o' in "World"
-  EXPECT_EQ (wsv.find (L'H', 1), LumexWStringView::npos);
+  EXPECT_EQ (wsv.find (L'H', 1), lumex_wstring_view::npos);
 }
 
 // --- Find WString Tests
 
 TEST_F (LumexWStringViewTest, FindSubwstring)
 {
-  LumexWStringView wsv (L"Hello, World!");
+  lumex_wstring_view wsv (L"Hello, World!");
 
-  EXPECT_EQ (wsv.find (LumexWStringView (L"Hello")), 0);
-  EXPECT_EQ (wsv.find (LumexWStringView (L"World")), 7);
-  EXPECT_EQ (wsv.find (LumexWStringView (L"xyz")), LumexWStringView::npos);
+  EXPECT_EQ (wsv.find (lumex_wstring_view (L"Hello")), 0);
+  EXPECT_EQ (wsv.find (lumex_wstring_view (L"World")), 7);
+  EXPECT_EQ (wsv.find (lumex_wstring_view (L"xyz")), lumex_wstring_view::npos);
 }
 
 TEST_F (LumexWStringViewTest, Find_WhenFound_ThenIndex)
 {
-  LumexWStringView const wsv (L"Hello, World!");
-  EXPECT_EQ (wsv.find (LumexWStringView (L"World")), 7U);
+  lumex_wstring_view const wsv (L"Hello, World!");
+  EXPECT_EQ (wsv.find (lumex_wstring_view (L"World")), 7U);
 }
 
 TEST_F (LumexWStringViewTest, Find_WhenUnfound_ThenNpos)
 {
-  LumexWStringView const wsv (L"Hello, World!");
-  EXPECT_EQ (wsv.find (LumexWStringView (L"xyz")), LumexWStringView::npos);
+  lumex_wstring_view const wsv (L"Hello, World!");
+  EXPECT_EQ (wsv.find (lumex_wstring_view (L"xyz")), lumex_wstring_view::npos);
 }
 
 TEST_F (LumexWStringViewTest, FindEmptyWString)
 {
-  LumexWStringView wsv (L"Hello");
-  LumexWStringView empty;
+  lumex_wstring_view wsv (L"Hello");
+  lumex_wstring_view empty;
 
   EXPECT_EQ (wsv.find (empty), 0); // Empty string found at any valid position
   EXPECT_EQ (wsv.find (empty, 3), 3);
-  EXPECT_EQ (wsv.find (empty, 10), LumexWStringView::npos); // Beyond string
+  EXPECT_EQ (wsv.find (empty, 10), lumex_wstring_view::npos); // Beyond string
 }
 
 TEST_F (LumexWStringViewTest, FindCWString)
 {
-  LumexWStringView wsv (L"Hello, World!");
+  lumex_wstring_view wsv (L"Hello, World!");
 
   EXPECT_EQ (wsv.find (L"World"), 7);
-  EXPECT_EQ (wsv.find (L"xyz"), LumexWStringView::npos);
+  EXPECT_EQ (wsv.find (L"xyz"), lumex_wstring_view::npos);
   EXPECT_EQ (wsv.find (L"Hello", 0, 2), 0); // Find "He" with count=2
 }
 
@@ -624,8 +624,8 @@ TEST_F (LumexWStringViewTest, FindCWString)
 
 TEST_F (LumexWStringViewTest, RFind)
 {
-  LumexWStringView wsv (L"Hello, World!");
-  LumexWStringView target (L"o");
+  lumex_wstring_view wsv (L"Hello, World!");
+  lumex_wstring_view target (L"o");
 
   EXPECT_EQ (wsv.rfind (target), 8); // Last 'o' in "World"
   EXPECT_EQ (wsv.rfind (L'o'), 8);
@@ -633,10 +633,11 @@ TEST_F (LumexWStringViewTest, RFind)
 
 TEST_F (LumexWStringViewTest, RFindNotFound)
 {
-  LumexWStringView wsv (L"Hello");
+  lumex_wstring_view wsv (L"Hello");
 
-  EXPECT_EQ (wsv.rfind (L'X'), LumexWStringView::npos);
-  EXPECT_EQ (wsv.rfind (LumexWStringView (L"xyz")), LumexWStringView::npos);
+  EXPECT_EQ (wsv.rfind (L'X'), lumex_wstring_view::npos);
+  EXPECT_EQ (wsv.rfind (lumex_wstring_view (L"xyz")),
+             lumex_wstring_view::npos);
 }
 
 // --- Unicode and Special Character Tests
@@ -644,7 +645,7 @@ TEST_F (LumexWStringViewTest, RFindNotFound)
 TEST_F (LumexWStringViewTest, UnicodeHandling)
 {
   wchar_t const *unicode_wstr = L"Héllo 🌍"; // Multi-byte Unicode characters
-  LumexWStringView wsv (unicode_wstr);
+  lumex_wstring_view wsv (unicode_wstr);
 
   EXPECT_EQ (wsv.size (), std::wcslen (unicode_wstr));
   EXPECT_EQ (wsv.data (), unicode_wstr);
@@ -657,7 +658,7 @@ TEST_F (LumexWStringViewTest, UnicodeHandling)
 TEST_F (LumexWStringViewTest, WStringWithNullBytes)
 {
   wchar_t const data[] = { L'H', L'i', L'\0', L'B', L'y', L'e' };
-  LumexWStringView wsv (data, sizeof (data) / sizeof (wchar_t));
+  lumex_wstring_view wsv (data, sizeof (data) / sizeof (wchar_t));
 
   EXPECT_EQ (wsv.size (), 6);
   EXPECT_EQ (wsv[2], L'\0');
@@ -668,7 +669,7 @@ TEST_F (LumexWStringViewTest, WStringWithNullBytes)
 
 TEST_F (LumexWStringViewTest, ToWStringConversion)
 {
-  LumexWStringView wsv (L"Hello");
+  lumex_wstring_view wsv (L"Hello");
 
   std::wstring converted = wsv.to_string ();
   EXPECT_EQ (converted, L"Hello");
@@ -682,7 +683,7 @@ TEST_F (LumexWStringViewTest, ToWStringConversion)
 
 TEST_F (LumexWStringViewTest, SelfSwap)
 {
-  LumexWStringView wsv (L"test");
+  lumex_wstring_view wsv (L"test");
   wsv.swap (wsv);
 
   EXPECT_EQ (std::wstring (wsv.data (), wsv.size ()), L"test");
@@ -690,7 +691,7 @@ TEST_F (LumexWStringViewTest, SelfSwap)
 
 TEST_F (LumexWStringViewTest, LargeWStringOperations)
 {
-  LumexWStringView wsv (long_wstring);
+  lumex_wstring_view wsv (long_wstring);
 
   // Test operations on large string
   EXPECT_EQ (wsv.find (L'A'), 0);
@@ -704,7 +705,7 @@ TEST_F (LumexWStringViewTest, LargeWStringOperations)
 TEST_F (LumexWStringViewTest, PerformanceOperations)
 {
   int const iterations = 1000;
-  LumexWStringView wsv (test_wstring);
+  lumex_wstring_view wsv (test_wstring);
 
   // Test performance of common operations
   for (int i = 0; i < iterations; ++i)
@@ -722,7 +723,7 @@ TEST_F (LumexWStringViewTest, PerformanceOperations)
 
 TEST_F (LumexWStringViewTest, ThreadSafeReads)
 {
-  LumexWStringView wsv (test_wstring);
+  lumex_wstring_view wsv (test_wstring);
   std::vector<std::thread> threads;
   std::vector<bool> results (10, false);
 
@@ -749,7 +750,7 @@ TEST_F (LumexWStringViewTest, ThreadSafeReads)
 TEST_F (LumexWStringViewTest, PlatformSpecificWideChars)
 {
   // Test platform-specific wide character behavior
-  LumexWStringView wsv (L"Test");
+  lumex_wstring_view wsv (L"Test");
 
   // wchar_t size varies by platform (2 bytes on Windows, 4 bytes on Linux/Mac)
   EXPECT_GT (sizeof (wchar_t), 0);
@@ -768,18 +769,18 @@ TEST_F (LumexWStringViewTest, PlatformSpecificWideChars)
 
 TEST_F (LumexWStringViewTest, FindFirstOf)
 {
-  LumexWStringView wsv (L"Hello, World!");
-  LumexWStringView chars (L"aeiou");
+  lumex_wstring_view wsv (L"Hello, World!");
+  lumex_wstring_view chars (L"aeiou");
 
   EXPECT_EQ (wsv.find_first_of (chars), 1); // 'e' in "Hello"
   EXPECT_EQ (wsv.find_first_of (L'o'), 4);
-  EXPECT_EQ (wsv.find_first_of (L"xyz"), LumexWStringView::npos);
+  EXPECT_EQ (wsv.find_first_of (L"xyz"), lumex_wstring_view::npos);
 }
 
 TEST_F (LumexWStringViewTest, FindLastOf)
 {
-  LumexWStringView wsv (L"Hello, World!");
-  LumexWStringView chars (L"aeiou");
+  lumex_wstring_view wsv (L"Hello, World!");
+  lumex_wstring_view chars (L"aeiou");
 
   EXPECT_EQ (wsv.find_last_of (chars), 8); // 'o' in "World"
   EXPECT_EQ (wsv.find_last_of (L'o'), 8);
@@ -787,8 +788,8 @@ TEST_F (LumexWStringViewTest, FindLastOf)
 
 TEST_F (LumexWStringViewTest, FindFirstNotOf)
 {
-  LumexWStringView wsv (L"aaeHello");
-  LumexWStringView chars (L"ae");
+  lumex_wstring_view wsv (L"aaeHello");
+  lumex_wstring_view chars (L"ae");
 
   EXPECT_EQ (wsv.find_first_not_of (chars), 3); // 'H' at position 3
   EXPECT_EQ (wsv.find_first_not_of (L'a'), 2);  // 'e' at position 2
@@ -796,8 +797,8 @@ TEST_F (LumexWStringViewTest, FindFirstNotOf)
 
 TEST_F (LumexWStringViewTest, FindLastNotOf)
 {
-  LumexWStringView wsv (L"Helloaaa");
-  LumexWStringView chars (L"a");
+  lumex_wstring_view wsv (L"Helloaaa");
+  lumex_wstring_view chars (L"a");
 
   EXPECT_EQ (wsv.find_last_not_of (chars), 4); // 'o' at position 4
   EXPECT_EQ (wsv.find_last_not_of (L'a'), 4);

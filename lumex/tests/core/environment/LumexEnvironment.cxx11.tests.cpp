@@ -55,7 +55,7 @@ protected:
   SetUp () override
   {
     // Ensure the singleton instance is ready
-    env = &LumexEnvironment::instance ();
+    env = &lumex_environment::instance ();
   }
 
   // Not strictly necessary for this class as it doesn't allocate external
@@ -95,7 +95,7 @@ protected:
     env->unset_environment_variable ("LUMEX_FOUND_UNFOUND_VAR");
   }
 
-  LumexEnvironment *env; // Pointer to the singleton instance
+  lumex_environment *env; // Pointer to the singleton instance
 };
 
 // --- API Contract Verifier Tests ----------------------------------------
@@ -106,7 +106,7 @@ TEST_F (
 {
   // CoT: Request a variable that definitely doesn't exist -> expect
   // unsuccessful result.
-  LumexEnvironment::EnvResult result
+  lumex_environment::EnvResult result
       = env->get_environment_variable ("NON_EXISTENT_LUMEX_VAR_12345");
   EXPECT_FALSE (result.success);
   EXPECT_FALSE (result); // Implicit bool conversion
@@ -118,7 +118,7 @@ TEST_F (
   EXPECT_EQ (result.error_code, 203);
 #else
   // POSIX getenv returns nullptr, which is mapped to -2 (Not found) in
-  // LumexEnvironment.
+  // lumex_environment.
   EXPECT_EQ (result.error_code, -2);
 #endif
 }
@@ -131,7 +131,7 @@ TEST_F (
   // correct value.
   ASSERT_TRUE (env->set_environment_variable ("LUMEX_TEST_VAR", "HelloLumex"));
 
-  LumexEnvironment::EnvResult result
+  lumex_environment::EnvResult result
       = env->get_environment_variable ("LUMEX_TEST_VAR");
   EXPECT_TRUE (result.success);
   EXPECT_TRUE (result);
@@ -143,7 +143,7 @@ TEST_F (LumexEnvironmentTest, Get_WhenFound_ThenSuccessAndValue)
 {
   ASSERT_TRUE (
       env->set_environment_variable ("LUMEX_FOUND_UNFOUND_VAR", "present"));
-  LumexEnvironment::EnvResult const result
+  lumex_environment::EnvResult const result
       = env->get_environment_variable ("LUMEX_FOUND_UNFOUND_VAR");
   EXPECT_TRUE (result.success);
   EXPECT_EQ (result.value, "present");
@@ -151,7 +151,7 @@ TEST_F (LumexEnvironmentTest, Get_WhenFound_ThenSuccessAndValue)
 
 TEST_F (LumexEnvironmentTest, Get_WhenUnfound_ThenEmptyAndUnsuccessful)
 {
-  LumexEnvironment::EnvResult const result
+  lumex_environment::EnvResult const result
       = env->get_environment_variable ("LUMEX_UNFOUND_VAR_9F3A2C1B");
   EXPECT_FALSE (result.success);
   EXPECT_TRUE (result.value.empty ());
@@ -172,7 +172,7 @@ TEST_F (
   // exist but be empty.
   ASSERT_TRUE (env->set_environment_variable ("LUMEX_EMPTY_VAR", ""));
 
-  LumexEnvironment::EnvResult result
+  lumex_environment::EnvResult result
       = env->get_environment_variable ("LUMEX_EMPTY_VAR");
   EXPECT_TRUE (result.success);
   EXPECT_TRUE (result);
@@ -249,8 +249,8 @@ TEST_F (
 TEST_F (LumexEnvironmentTest, GivenStaticGet_WhenCalled_ThenWorksCorrectly)
 {
   // Test static get() convenience method
-  LumexEnvironment::set ("LUMEX_STATIC_VAR", "StaticValue");
-  auto result = LumexEnvironment::get ("LUMEX_STATIC_VAR");
+  lumex_environment::set ("LUMEX_STATIC_VAR", "StaticValue");
+  auto result = lumex_environment::get ("LUMEX_STATIC_VAR");
   EXPECT_TRUE (result);
   EXPECT_EQ (result.value, "StaticValue");
 }
@@ -259,11 +259,12 @@ TEST_F (LumexEnvironmentTest,
         GivenStaticSetAndHas_WhenCalled_ThenWorksCorrectly)
 {
   // Test static set() and has() convenience methods
-  EXPECT_TRUE (LumexEnvironment::set ("LUMEX_STATIC_SET_VAR", "StaticSetVal"));
-  EXPECT_TRUE (LumexEnvironment::has ("LUMEX_STATIC_SET_VAR"));
-  EXPECT_TRUE (LumexEnvironment::set (
+  EXPECT_TRUE (
+      lumex_environment::set ("LUMEX_STATIC_SET_VAR", "StaticSetVal"));
+  EXPECT_TRUE (lumex_environment::has ("LUMEX_STATIC_SET_VAR"));
+  EXPECT_TRUE (lumex_environment::set (
       "LUMEX_STATIC_SET_VAR", nullptr)); // Unset via set(name, nullptr)
-  EXPECT_FALSE (LumexEnvironment::has ("LUMEX_STATIC_SET_VAR"));
+  EXPECT_FALSE (lumex_environment::has ("LUMEX_STATIC_SET_VAR"));
 }
 
 // --- set_environment_variable overwrite parameter Tests -----------------
@@ -325,10 +326,11 @@ TEST_F (
     LumexEnvironmentTest,
     GivenStaticSetWithOverwriteFalse_WhenVariableAlreadySet_ThenKeepsOriginalValue)
 {
-  ASSERT_TRUE (LumexEnvironment::set ("LUMEX_OVERWRITE_VAR", "original"));
+  ASSERT_TRUE (lumex_environment::set ("LUMEX_OVERWRITE_VAR", "original"));
 
-  EXPECT_TRUE (LumexEnvironment::set ("LUMEX_OVERWRITE_VAR", "new", false));
-  EXPECT_EQ (LumexEnvironment::get_or ("LUMEX_OVERWRITE_VAR", ""), "original");
+  EXPECT_TRUE (lumex_environment::set ("LUMEX_OVERWRITE_VAR", "new", false));
+  EXPECT_EQ (lumex_environment::get_or ("LUMEX_OVERWRITE_VAR", ""),
+             "original");
 }
 
 // --- is_environment_variable_truthy / is_truthy / is_env_* Tests --------
@@ -375,10 +377,10 @@ TEST_F (LumexEnvironmentTest,
         GivenStaticIsTruthy_WhenCalled_ThenMatchesInstanceMethod)
 {
   ASSERT_TRUE (env->set_environment_variable ("LUMEX_TRUTHY_VAR", "0"));
-  EXPECT_FALSE (LumexEnvironment::is_truthy ("LUMEX_TRUTHY_VAR"));
+  EXPECT_FALSE (lumex_environment::is_truthy ("LUMEX_TRUTHY_VAR"));
 
   ASSERT_TRUE (env->set_environment_variable ("LUMEX_TRUTHY_VAR", "1"));
-  EXPECT_TRUE (LumexEnvironment::is_truthy ("LUMEX_TRUTHY_VAR"));
+  EXPECT_TRUE (lumex_environment::is_truthy ("LUMEX_TRUTHY_VAR"));
 }
 
 TEST_F (LumexEnvironmentTest,
@@ -413,16 +415,17 @@ TEST_F (
 TEST_F (LumexEnvironmentTest,
         GivenNullName_WhenGetEnvironmentVariable_ThenReturnsUnsuccessful)
 {
-  LumexEnvironment::EnvResult result = env->get_environment_variable (nullptr);
+  lumex_environment::EnvResult result
+      = env->get_environment_variable (nullptr);
   EXPECT_FALSE (result.success);
   EXPECT_TRUE (result.value.empty ());
 #if LUMEX_OS_WINDOWS
   // Windows GetEnvironmentVariableA returns 0 for null, GetLastError might be
   // ERROR_INVALID_PARAMETER (87) or ERROR_BAD_ENVIRONMENT (10), but
-  // LumexEnvironment maps null to -1.
+  // lumex_environment maps null to -1.
   EXPECT_EQ (result.error_code, -1);
 #else
-  // POSIX getenv with nullptr should not happen, but LumexEnvironment maps it
+  // POSIX getenv with nullptr should not happen, but lumex_environment maps it
   // to -1.
   EXPECT_EQ (result.error_code, -1);
 #endif
@@ -431,16 +434,16 @@ TEST_F (LumexEnvironmentTest,
 TEST_F (LumexEnvironmentTest,
         GivenEmptyName_WhenGetEnvironmentVariable_ThenReturnsUnsuccessful)
 {
-  LumexEnvironment::EnvResult result = env->get_environment_variable ("");
+  lumex_environment::EnvResult result = env->get_environment_variable ("");
   EXPECT_FALSE (result.success);
   EXPECT_TRUE (result.value.empty ());
 #if LUMEX_OS_WINDOWS
   // _dupenv_s handles "" as invalid, GetEnvironmentVariableA might return
-  // success with empty string, but LumexEnvironment maps it to
+  // success with empty string, but lumex_environment maps it to
   // ERROR_INVALID_PARAMETER (87).
   EXPECT_EQ (result.error_code, ERROR_INVALID_PARAMETER);
 #else
-  // getenv("") is undefined behavior, LumexEnvironment maps it to -1.
+  // getenv("") is undefined behavior, lumex_environment maps it to -1.
   EXPECT_EQ (result.error_code, -1);
 #endif
 }
@@ -474,17 +477,17 @@ TEST_F (LumexEnvironmentTest,
 {
   // Test setting and retrieving a very long environment variable value.
   // MAX_ENV_BUFFER_SIZE is 32767. Let's use something close to it.
-  std::string long_value (LumexEnvironment::MAX_ENV_BUFFER_SIZE - 100, 'X');
+  std::string long_value (lumex_environment::MAX_ENV_BUFFER_SIZE - 100, 'X');
   ASSERT_TRUE (
       env->set_environment_variable ("LUMEX_LONG_VAR", long_value.c_str ()));
 
-  LumexEnvironment::EnvResult result
+  lumex_environment::EnvResult result
       = env->get_environment_variable ("LUMEX_LONG_VAR");
   EXPECT_TRUE (result.success);
   EXPECT_EQ (result.value, long_value);
 
   // Test with value exactly at max size
-  std::string max_value (LumexEnvironment::MAX_ENV_BUFFER_SIZE - 1,
+  std::string max_value (lumex_environment::MAX_ENV_BUFFER_SIZE - 1,
                          'Y'); // Null terminator counts for Windows
   ASSERT_TRUE (
       env->set_environment_variable ("LUMEX_MAX_VAR", max_value.c_str ()));
@@ -494,7 +497,7 @@ TEST_F (LumexEnvironmentTest,
 
 #if LUMEX_OS_WINDOWS
   // On Windows, if GetEnvironmentVariableA returns size > MAX_ENV_BUFFER_SIZE,
-  // LumexEnvironment returns ERROR_BUFFER_OVERFLOW. Test this scenario if
+  // lumex_environment returns ERROR_BUFFER_OVERFLOW. Test this scenario if
   // possible. However, directly testing overflow is hard without external
   // manipulation or a mock. The current implementation guards against local
   // buffer overflow, but not the system's limit.
@@ -537,7 +540,7 @@ TEST_F (LumexEnvironmentTest, ThreadSafety_SimultaneousReads)
       threads.emplace_back (
           [this, i, &results, &successes] ()
             {
-              LumexEnvironment::EnvResult res
+              lumex_environment::EnvResult res
                   = env->get_environment_variable ("LUMEX_CONCURRENCY_READ");
               successes[i] = res.success;
               if (res.success)
@@ -561,7 +564,7 @@ TEST_F (LumexEnvironmentTest, ThreadSafety_SimultaneousWritesAndReads)
   // Test concurrent writes and reads. While set/unset are mutex-protected,
   // reading system-wide environment variables can still have race conditions
   // with other processes or non-mutexed calls. This test verifies the mutex
-  // within LumexEnvironment.
+  // within lumex_environment.
   constexpr int num_threads = 20;
   std::vector<std::thread> threads;
 
@@ -578,7 +581,7 @@ TEST_F (LumexEnvironmentTest, ThreadSafety_SimultaneousWritesAndReads)
               EXPECT_TRUE (env->set_environment_variable (var_name.c_str (),
                                                           var_value.c_str ()));
               // Read
-              LumexEnvironment::EnvResult res
+              lumex_environment::EnvResult res
                   = env->get_environment_variable (var_name.c_str ());
               EXPECT_TRUE (res.success) << "Failed to read " << var_name;
               EXPECT_EQ (res.value, var_value)
@@ -608,7 +611,7 @@ TEST_F (LumexEnvironmentTest, Perf_RepeatedGetOperations)
   auto start = std::chrono::high_resolution_clock::now ();
   for (int i = 0; i < iterations; ++i)
     {
-      LumexEnvironment::EnvResult result
+      lumex_environment::EnvResult result
           = env->get_environment_variable ("LUMEX_PERF_VAR");
       // Minimal assertion to avoid skewing performance, but ensure correctness
       EXPECT_TRUE (result.success);
@@ -667,7 +670,7 @@ TEST_F (LumexEnvironmentTest, MemorySafety_EnvResultDestructorCalled)
   // Ensure EnvResult objects are properly destructed when going out of scope.
   // This is implicitly tested by normal usage, but we can make it explicit.
   {
-    LumexEnvironment::EnvResult result
+    lumex_environment::EnvResult result
         = env->get_environment_variable ("PATH");
     // result goes out of scope here. No manual delete needed.
   }

@@ -123,7 +123,7 @@ public:
    */
   LUMEX_ATTRIBUTE_NODISCARD ("the parsed document is the result")
   static nlohmann::json
-  parse (lumex::core::string_view::view::LumexStringView raw)
+  parse (lumex::core::string_view::view::lumex_string_view raw)
   {
     try
       {

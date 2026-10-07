@@ -59,7 +59,7 @@
 
 namespace
 {
-using lumex::core::expected::result::Expected;
+using lumex::core::expected::result::expected;
 using lumex::core::expected::result::failure;
 using lumex::core::expected::result::failure_t;
 using lumex::core::expected::result::success;
@@ -538,7 +538,7 @@ using MatrixTypesCxx11 = TypeList<
 
 // Every pair of the matrix runs the same four contracts: the factories produce
 // the right state, the stored value and error survive the conversion, and the
-// produced Expected keeps working with copy, move and the monadic operations.
+// produced expected keeps working with copy, move and the monadic operations.
 // Comparing with operator== instead of the gtest printers keeps the
 // instantiation cost down for the 625 pairs; the label names the pair in the
 // failure text.
@@ -546,7 +546,7 @@ template <typename SuccessType, typename ErrorType>
 void
 CheckPair (std::string const &label)
 {
-  using ResultType = Expected<SuccessType, ErrorType>;
+  using ResultType = expected<SuccessType, ErrorType>;
 
   ResultType const defaultResult = success ();
   ASSERT_TRUE (defaultResult.has_value ()) << label;

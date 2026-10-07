@@ -57,22 +57,22 @@ namespace exceptions
 {
 namespace crash
 {
-LUMEX_PUBLIC_API char const *LumexCrashHandler::s_defaultAppName
+LUMEX_PUBLIC_API char const *lumex_crash_handler::s_defaultAppName
     = "UnknownApp";
-LUMEX_PUBLIC_API std::string LumexCrashHandler::s_appName
-    = LumexCrashHandler::s_defaultAppName;
+LUMEX_PUBLIC_API std::string lumex_crash_handler::s_appName
+    = lumex_crash_handler::s_defaultAppName;
 
 LUMEX_PUBLIC_API
-LumexCrashHandler &
-LumexCrashHandler::instance ()
+lumex_crash_handler &
+lumex_crash_handler::instance ()
 {
-  static LumexCrashHandler instance;
+  static lumex_crash_handler instance;
   return instance;
 }
 
 LUMEX_PUBLIC_API
 void
-LumexCrashHandler::initialize (
+lumex_crash_handler::initialize (
     LUMEX_ATTRIBUTE_MAYBE_UNUSED std::string const &appName)
 {
   s_appName = appName.empty () ? s_defaultAppName : appName;
@@ -80,7 +80,7 @@ LumexCrashHandler::initialize (
   try
     {
 #if defined(LUMEX_OS_UNIX)
-      std::string homeDir = LumexEnvironment::get ("HOME").value;
+      std::string homeDir = lumex_environment::get ("HOME").value;
       if (homeDir.empty ())
         {
           std::cerr << "Error: HOME environment variable not set, cannot "
@@ -91,7 +91,7 @@ LumexCrashHandler::initialize (
       lumex::path crashesDir;
       // Check for the standard AppImage environment variable to detect if
       // running as an AppImage.
-      std::string appImagePath = LumexEnvironment::get ("APPIMAGE").value;
+      std::string appImagePath = lumex_environment::get ("APPIMAGE").value;
 
       if (!appImagePath.empty ())
         {
@@ -99,7 +99,7 @@ LumexCrashHandler::initialize (
           // data directory. Prioritize XDG_DATA_HOME as per XDG Base Directory
           // Specification, otherwise fallback to ~/.local/share.
           std::string xdgDataHome
-              = LumexEnvironment::get ("XDG_DATA_HOME").value;
+              = lumex_environment::get ("XDG_DATA_HOME").value;
           if (!xdgDataHome.empty ())
             {
               crashesDir = lumex::path (xdgDataHome) / lumex::path (s_appName)
@@ -162,7 +162,7 @@ LumexCrashHandler::initialize (
 
 LUMEX_PUBLIC_API
 void
-LumexCrashHandler::_notifyAndLog (std::string const &errorMessage)
+lumex_crash_handler::_notify_and_log (std::string const &errorMessage)
 {
   // Log to stderr
   std::cerr << "CRASH: " << errorMessage << "\n";
@@ -176,16 +176,16 @@ LumexCrashHandler::_notifyAndLog (std::string const &errorMessage)
 
 LUMEX_PUBLIC_API
 std::string
-LumexCrashHandler::_generate_dump_filename (std::string const &prefix)
+lumex_crash_handler::_generate_dump_filename (std::string const &prefix)
 {
 #if defined(LUMEX_OS_UNIX)
   lumex::path dir;
 
   // Check if we're running in AppImage mode
   std::string appImageMode
-      = LumexEnvironment::get ("LUMEX_APPIMAGE_MODE").value;
+      = lumex_environment::get ("LUMEX_APPIMAGE_MODE").value;
   std::string externalCrashesDir
-      = LumexEnvironment::get ("LUMEX_EXTERNAL_CRASHES_DIR").value;
+      = lumex_environment::get ("LUMEX_EXTERNAL_CRASHES_DIR").value;
 
   if (!appImageMode.empty () && appImageMode == "1"
       && !externalCrashesDir.empty ())
@@ -196,7 +196,7 @@ LumexCrashHandler::_generate_dump_filename (std::string const &prefix)
   else
     {
       // Default behavior for non-AppImage: use user's local data directory
-      std::string homeDir = LumexEnvironment::get ("HOME").value;
+      std::string homeDir = lumex_environment::get ("HOME").value;
       if (homeDir.empty ())
         {
           // Fallback for _generate_dump_filename, as initialize() should have
@@ -212,7 +212,7 @@ LumexCrashHandler::_generate_dump_filename (std::string const &prefix)
           // Prioritize XDG_DATA_HOME if set, otherwise fallback to
           // ~/.local/share.
           std::string xdgDataHome
-              = LumexEnvironment::get ("XDG_DATA_HOME").value;
+              = lumex_environment::get ("XDG_DATA_HOME").value;
           if (!xdgDataHome.empty ())
             {
               dir = lumex::path (xdgDataHome) / lumex::path (s_appName)
@@ -237,7 +237,7 @@ LumexCrashHandler::_generate_dump_filename (std::string const &prefix)
 
   lumex::core::filesystem::fs::lumex_filesystem::create_directory (dir);
 
-  std::string timestamp = LumexTime::get_current_datetime ();
+  std::string timestamp = lumex_time::get_current_datetime ();
   lumex::path dumpPath = dir
                          / lumex::path ((std::string (prefix) + timestamp
 #if defined(LUMEX_OS_WINDOWS)
@@ -252,7 +252,7 @@ LumexCrashHandler::_generate_dump_filename (std::string const &prefix)
 #if defined(LUMEX_OS_WINDOWS)
 LUMEX_PUBLIC_API
 LONG WINAPI
-LumexCrashHandler::_onWindowsCrashHandler (PEXCEPTION_POINTERS pExInfo)
+lumex_crash_handler::_on_windows_crash_handler (PEXCEPTION_POINTERS pExInfo)
 {
   std::clog << "Windows crash handler called.\n";
   std::string filename (_generate_dump_filename (KDEFAULT_MINIDUMP_PREFIX));
@@ -372,14 +372,14 @@ LumexCrashHandler::_onWindowsCrashHandler (PEXCEPTION_POINTERS pExInfo)
           += " - Unknown Exception Code: " + std::to_string (exceptionCode);
     }
 
-  _notifyAndLog (errorMessage);
+  _notify_and_log (errorMessage);
 
   return EXCEPTION_EXECUTE_HANDLER;
 }
 #else
 LUMEX_PUBLIC_API
 void
-LumexCrashHandler::_generate_core_dump ()
+lumex_crash_handler::_generate_core_dump ()
 {
   std::string filename = _generate_dump_filename (KDEFAULT_MINIDUMP_PREFIX);
 
@@ -410,7 +410,7 @@ LumexCrashHandler::_generate_core_dump ()
           if (crashInfo.is_open ())
             {
               crashInfo << "Crash occurred at: "
-                        << LumexTime::get_current_datetime () << "\n";
+                        << lumex_time::get_current_datetime () << "\n";
               crashInfo << "Process ID: " << getpid () << "\n";
               crashInfo << "Note: Core dump may be in system default location "
                            "due to permission restrictions\n";
@@ -427,7 +427,7 @@ LumexCrashHandler::_generate_core_dump ()
 
 LUMEX_PUBLIC_API
 void
-LumexCrashHandler::_signalHandler (int signum)
+lumex_crash_handler::_signal_handler (int signum)
 {
   // Use async-signal-safe functions only in signal handlers
   char const *signalName = "Unknown";
@@ -479,7 +479,7 @@ LumexCrashHandler::_signalHandler (int signum)
 
   try
     {
-      _notifyAndLog (errorMessage);
+      _notify_and_log (errorMessage);
     }
   catch (...)
     {
@@ -493,10 +493,10 @@ LumexCrashHandler::_signalHandler (int signum)
 
 LUMEX_PUBLIC_API
 void
-LumexCrashHandler::_setup_signal_handlers ()
+lumex_crash_handler::_setup_signal_handlers ()
 {
   struct sigaction sigAct;
-  sigAct.sa_handler = _signalHandler;
+  sigAct.sa_handler = _signal_handler;
   sigemptyset (&sigAct.sa_mask);
   sigAct.sa_flags = static_cast<int> (SA_RESETHAND);
 
@@ -508,7 +508,7 @@ LumexCrashHandler::_setup_signal_handlers ()
 
 LUMEX_PUBLIC_API
 void
-LumexCrashHandler::_setup_core_dump_settings ()
+lumex_crash_handler::_setup_core_dump_settings ()
 {
   prctl (PR_SET_DUMPABLE, 1, 0, 0, 0);
 

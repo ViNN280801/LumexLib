@@ -118,7 +118,7 @@ TEST (LumexQuoteTest, GivenCharSeparator_WhenQuotePreCxx20_ThenUsed)
 TEST (LumexQuoteTest, GivenLumexStringViewSeparator_WhenQuotePreCxx20_ThenUsed)
 {
   std::vector<std::string> const parts = { "a", "b" };
-  lumex::core::string_view::view::LumexStringView const separator ("; ", 2);
+  lumex::core::string_view::view::lumex_string_view const separator ("; ", 2);
   EXPECT_EQ (quote_double (parts, separator), "\"a\"; \"b\"");
 }
 

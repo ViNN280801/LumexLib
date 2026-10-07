@@ -27,9 +27,9 @@
  */
 
 // CRC tests of the std::string_view overloads of the catalogue (C++17):
-// ComputeCrcCatalog, ComputeCrcWithRevEngParams and
-// AppendCrcLeastSignificantByteFirst. The C++17 and C++20 suites compile this
-// file together with LumexCrc.cxx14.tests.cpp.
+// compute_crc_catalog, compute_crc_with_rev_eng_params and
+// append_crc_least_significant_byte_first. The C++17 and C++20 suites compile
+// this file together with LumexCrc.cxx14.tests.cpp.
 
 #include <cstdint>
 #include <string_view>
@@ -70,35 +70,36 @@ bytes_of (std::string_view text)
 
 TEST (CrcCatalog, ComputeCrcCatalogStringView_WhenFound_ThenMatchesPointerForm)
 {
-  EXPECT_EQ (ComputeCrcCatalog (0, kCheckMessage),
+  EXPECT_EQ (compute_crc_catalog (0, kCheckMessage),
              static_cast<std::uint64_t> (crc3_gsm_spec_t::kCatalogCheck));
-  EXPECT_EQ (
-      ComputeCrcCatalog (0, kCheckMessage),
-      ComputeCrcCatalog (0, bytes_of (kCheckMessage), kCheckMessage.size ()));
+  EXPECT_EQ (compute_crc_catalog (0, kCheckMessage),
+             compute_crc_catalog (0, bytes_of (kCheckMessage),
+                                  kCheckMessage.size ()));
 }
 
 TEST (CrcCatalog, ComputeCrcCatalogStringView_WhenUnfound_ThenZero)
 {
-  EXPECT_EQ (ComputeCrcCatalog (0, std::string_view ()), 0U);
-  EXPECT_EQ (ComputeCrcCatalog (GetCrcCatalogEntryCount (), kCheckMessage),
-             0U);
+  EXPECT_EQ (compute_crc_catalog (0, std::string_view ()), 0U);
+  EXPECT_EQ (
+      compute_crc_catalog (get_crc_catalog_entry_count (), kCheckMessage), 0U);
 }
 
 TEST (CrcCatalog, RevEngParamsStringView_WhenFound_ThenMatchesPointerForm)
 {
   crc_params_t const params = params_of<crc8_maxim_dow_spec_t> ();
   EXPECT_EQ (
-      ComputeCrcWithRevEngParams (params, kCheckMessage),
+      compute_crc_with_rev_eng_params (params, kCheckMessage),
       static_cast<std::uint64_t> (crc8_maxim_dow_spec_t::kCatalogCheck));
-  EXPECT_EQ (ComputeCrcWithRevEngParams (params, kCheckMessage),
-             ComputeCrcWithRevEngParams (params, bytes_of (kCheckMessage),
-                                         kCheckMessage.size ()));
+  EXPECT_EQ (compute_crc_with_rev_eng_params (params, kCheckMessage),
+             compute_crc_with_rev_eng_params (params, bytes_of (kCheckMessage),
+                                              kCheckMessage.size ()));
 }
 
 TEST (CrcCatalog, RevEngParamsStringView_WhenEmpty_ThenZero)
 {
   crc_params_t const params = params_of<crc8_maxim_dow_spec_t> ();
-  EXPECT_EQ (ComputeCrcWithRevEngParams (params, std::string_view ()), 0U);
+  EXPECT_EQ (compute_crc_with_rev_eng_params (params, std::string_view ()),
+             0U);
 }
 
 TEST (CrcCatalog, AppendCrcLeastSignificantByteFirst_AppendsTheCheckBytes)
@@ -106,16 +107,16 @@ TEST (CrcCatalog, AppendCrcLeastSignificantByteFirst_AppendsTheCheckBytes)
   std::vector<std::uint8_t> frame8 (bytes_of (kCheckMessage),
                                     bytes_of (kCheckMessage)
                                         + kCheckMessage.size ());
-  AppendCrcLeastSignificantByteFirst (params_of<crc8_maxim_dow_spec_t> (),
-                                      frame8);
+  append_crc_least_significant_byte_first (params_of<crc8_maxim_dow_spec_t> (),
+                                           frame8);
   ASSERT_EQ (frame8.size (), kCheckMessage.size () + 1U);
   EXPECT_EQ (frame8.back (), crc8_maxim_dow_spec_t::kCatalogCheck);
 
   std::vector<std::uint8_t> frame16 (bytes_of (kCheckMessage),
                                      bytes_of (kCheckMessage)
                                          + kCheckMessage.size ());
-  AppendCrcLeastSignificantByteFirst (params_of<crc16_modbus_spec_t> (),
-                                      frame16);
+  append_crc_least_significant_byte_first (params_of<crc16_modbus_spec_t> (),
+                                           frame16);
   ASSERT_EQ (frame16.size (), kCheckMessage.size () + 2U);
   EXPECT_EQ (
       frame16[kCheckMessage.size ()],

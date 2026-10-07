@@ -149,10 +149,10 @@ TEST_F (LumexJsonDiagnosticsTest,
 
 TEST_F (LumexJsonDiagnosticsTest, GivenLevels_WhenToString_ThenNames)
 {
-  EXPECT_STREQ (toString (LumexJsonDiagnosticLevel::debug), "debug");
-  EXPECT_STREQ (toString (LumexJsonDiagnosticLevel::info), "info");
-  EXPECT_STREQ (toString (LumexJsonDiagnosticLevel::warning), "warning");
-  EXPECT_STREQ (toString (LumexJsonDiagnosticLevel::error), "error");
+  EXPECT_STREQ (to_string (LumexJsonDiagnosticLevel::debug), "debug");
+  EXPECT_STREQ (to_string (LumexJsonDiagnosticLevel::info), "info");
+  EXPECT_STREQ (to_string (LumexJsonDiagnosticLevel::warning), "warning");
+  EXPECT_STREQ (to_string (LumexJsonDiagnosticLevel::error), "error");
 }
 
 TEST_F (LumexJsonDiagnosticsTest, GivenApi_WhenInspected_ThenNoexcept)

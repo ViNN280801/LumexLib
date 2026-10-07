@@ -175,7 +175,7 @@ tsan_mutex_destroy (void *address) LUMEX_NOEXCEPT
  * @details `lock ()` and `unlock ()` are `const`, so a `const` member
  * function of the owner (such as `load ()`) can take the lock.
  */
-class BitLock
+class bit_lock
 {
 public:
   /**
@@ -194,15 +194,15 @@ public:
    * @brief Creates a released lock.
    */
   LUMEX_CONSTEXPR
-  BitLock () LUMEX_NOEXCEPT : word_ (0u) {}
+  bit_lock () LUMEX_NOEXCEPT : word_ (0u) {}
 
   /**
    * @brief Destroys the lock. It must not be taken.
    */
-  ~BitLock () { tsan_mutex_destroy (static_cast<void *> (&word_)); }
+  ~bit_lock () { tsan_mutex_destroy (static_cast<void *> (&word_)); }
 
-  BitLock (BitLock const &) = delete;
-  BitLock &operator= (BitLock const &) = delete;
+  bit_lock (bit_lock const &) = delete;
+  bit_lock &operator= (bit_lock const &) = delete;
 
   /**
    * @brief Takes the lock, sleeping while another thread holds it.
@@ -289,16 +289,16 @@ private:
 };
 
 /**
- * @brief Holds a `BitLock` for the lifetime of the guard.
+ * @brief Holds a `bit_lock` for the lifetime of the guard.
  */
-class BitLockGuard
+class bit_lock_guard
 {
 public:
   /**
    * @brief Takes @p lock.
    * @param lock The lock to hold; it must outlive the guard.
    */
-  explicit BitLockGuard (BitLock const &lock) LUMEX_NOEXCEPT : lock_ (lock)
+  explicit bit_lock_guard (bit_lock const &lock) LUMEX_NOEXCEPT : lock_ (lock)
   {
     lock_.lock ();
   }
@@ -306,13 +306,13 @@ public:
   /**
    * @brief Releases the lock.
    */
-  ~BitLockGuard () { lock_.unlock (); }
+  ~bit_lock_guard () { lock_.unlock (); }
 
-  BitLockGuard (BitLockGuard const &) = delete;
-  BitLockGuard &operator= (BitLockGuard const &) = delete;
+  bit_lock_guard (bit_lock_guard const &) = delete;
+  bit_lock_guard &operator= (bit_lock_guard const &) = delete;
 
 private:
-  BitLock const &lock_;
+  bit_lock const &lock_;
 };
 
 } // namespace Detail

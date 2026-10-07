@@ -31,14 +31,14 @@ TEST (LumexAtomicWaitTest,
 #if LUMEX_ATOMIC_WAIT_USES_STD
   static_assert (
       std::is_same<
-          sync_detail::BitLock,
-          lumex::core::atomic::sync::std_wait::Detail::BitLock>::value,
+          sync_detail::bit_lock,
+          lumex::core::atomic::sync::std_wait::Detail::bit_lock>::value,
       "std::atomic::wait");
 #else
   static_assert (
       std::is_same<
-          sync_detail::BitLock,
-          lumex::core::atomic::sync::table_wait::Detail::BitLock>::value,
+          sync_detail::bit_lock,
+          lumex::core::atomic::sync::table_wait::Detail::bit_lock>::value,
       "striped table");
   std::atomic<std::uint32_t> word (0u);
   EXPECT_EQ (&sync_detail::stripe_for (&word),
@@ -189,28 +189,29 @@ TEST (LumexAtomicWaitTest,
 TEST (LumexBitLockTest,
       GivenAReleasedLock_WhenLockedAndUnlocked_ThenTheLockBitToggles)
 {
-  sync_detail::BitLock lock;
+  sync_detail::bit_lock lock;
   EXPECT_EQ (lock.state (), 0u);
   lock.lock ();
   EXPECT_EQ (lock.state (),
-             static_cast<std::uint32_t> (sync_detail::BitLock::lock_bit));
+             static_cast<std::uint32_t> (sync_detail::bit_lock::lock_bit));
   lock.unlock ();
   EXPECT_EQ (lock.state (), 0u);
 
   static_assert (
-      std::is_nothrow_default_constructible<sync_detail::BitLock>::value, "");
-  static_assert (!std::is_copy_constructible<sync_detail::BitLock>::value, "");
-  static_assert (!std::is_copy_assignable<sync_detail::BitLock>::value, "");
+      std::is_nothrow_default_constructible<sync_detail::bit_lock>::value, "");
+  static_assert (!std::is_copy_constructible<sync_detail::bit_lock>::value,
+                 "");
+  static_assert (!std::is_copy_assignable<sync_detail::bit_lock>::value, "");
   static_assert (noexcept (lock.lock ()), "noexcept");
   static_assert (noexcept (lock.unlock ()), "noexcept");
 }
 
 TEST (LumexBitLockTest, GivenAGuard_WhenItsScopeEnds_ThenTheLockIsReleased)
 {
-  sync_detail::BitLock const lock;
+  sync_detail::bit_lock const lock;
   {
-    sync_detail::BitLockGuard const guard (lock);
-    EXPECT_NE (lock.state () & sync_detail::BitLock::lock_bit, 0u);
+    sync_detail::bit_lock_guard const guard (lock);
+    EXPECT_NE (lock.state () & sync_detail::bit_lock::lock_bit, 0u);
   }
   EXPECT_EQ (lock.state (), 0u);
 }
@@ -219,7 +220,7 @@ TEST (LumexBitLockTest,
       GivenAHeldLock_WhenAContenderSleeps_ThenItSetsTheNotifyBitAndWakes)
 {
   Watchdog const dog ("GivenAHeldLock_WhenAContenderSleeps");
-  sync_detail::BitLock lock;
+  sync_detail::bit_lock lock;
   lock.lock ();
   std::atomic<bool> acquired (false);
   std::thread contender (
@@ -230,7 +231,7 @@ TEST (LumexBitLockTest,
           lock.unlock ();
         });
   std::uint32_t const armed
-      = sync_detail::BitLock::lock_bit | sync_detail::BitLock::notify_bit;
+      = sync_detail::bit_lock::lock_bit | sync_detail::bit_lock::notify_bit;
   std::chrono::steady_clock::time_point const deadline
       = std::chrono::steady_clock::now () + std::chrono::seconds (30);
   while (lock.state () != armed
@@ -252,7 +253,7 @@ TEST (LumexBitLockTest,
   for (std::size_t c = 0; c < counts.size (); ++c)
     {
       int const iterations = stress_iterations (20000);
-      sync_detail::BitLock lock;
+      sync_detail::bit_lock lock;
       long counter = 0; // plain: only the lock protects it
       std::vector<std::thread> threads;
       for (int t = 0; t < counts[c]; ++t)
@@ -261,7 +262,7 @@ TEST (LumexBitLockTest,
               {
                 for (int i = 0; i < iterations; ++i)
                   {
-                    sync_detail::BitLockGuard const guard (lock);
+                    sync_detail::bit_lock_guard const guard (lock);
                     ++counter;
                   }
               }));
@@ -284,7 +285,7 @@ TEST (LumexBitLockTest,
     {
       int const threads_count = std::max (3, counts[c]);
       int const iterations = stress_iterations (400);
-      sync_detail::BitLock lock;
+      sync_detail::bit_lock lock;
       long counter = 0;
       std::vector<std::thread> threads;
       for (int t = 0; t < threads_count; ++t)
@@ -293,7 +294,7 @@ TEST (LumexBitLockTest,
               {
                 for (int i = 0; i < iterations; ++i)
                   {
-                    sync_detail::BitLockGuard const guard (lock);
+                    sync_detail::bit_lock_guard const guard (lock);
                     ++counter;
                     if ((i + t) % 16 == 0)
                       std::this_thread::sleep_for (

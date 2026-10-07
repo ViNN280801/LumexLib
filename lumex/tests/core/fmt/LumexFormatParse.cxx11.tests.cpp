@@ -214,7 +214,7 @@ TEST (LumexFormatParseTest, GivenErrorInLaterField_WhenFormat_ThenPositionSet)
       (void)runtime_format ("ab {} {:d}", 1, "x");
       FAIL () << "no exception";
     }
-  catch (fmt::FormatError const &error)
+  catch (fmt::format_error const &error)
     {
       EXPECT_STREQ (error.what (), "invalid format specifier");
       EXPECT_EQ (error.position (), 6u);
@@ -224,5 +224,5 @@ TEST (LumexFormatParseTest, GivenErrorInLaterField_WhenFormat_ThenPositionSet)
 TEST (LumexFormatParseTest, GivenFormatError_WhenCaughtAsBase_ThenRuntimeError)
 {
   EXPECT_THROW ((void)runtime_format ("{"), std::runtime_error);
-  EXPECT_THROW ((void)runtime_format ("{"), fmt::FormatError);
+  EXPECT_THROW ((void)runtime_format ("{"), fmt::format_error);
 }

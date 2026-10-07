@@ -26,9 +26,10 @@
  * @file LumexTimer.hpp
  * @brief High-resolution stopwatch, callable timing helpers, and a thin
  * `LUMEX_MEASURE_TIME` macro.
- * @details Defines `LumexTimer` (start/stop/elapsed), `extract_function_name`,
- * `measure_execution_time`, gated `measure_time` (ostream sink, optional env
- * gate), and `LUMEX_MEASURE_TIME` which expands to that C++ API.
+ * @details Defines `lumex_timer` (start/stop/elapsed),
+ * `extract_function_name`, `measure_execution_time`, gated `measure_time`
+ * (ostream sink, optional env gate), and `LUMEX_MEASURE_TIME` which expands to
+ * that C++ API.
  */
 #ifndef LUMEX_CORE_TIME_TIMER_HPP
 #define LUMEX_CORE_TIME_TIMER_HPP
@@ -93,25 +94,25 @@ default_measure_time_env_name () LUMEX_NOEXCEPT
 /**
  * @brief A high-resolution stopwatch for measuring elapsed wall-clock time.
  * @details Wraps `std::chrono::high_resolution_clock` behind a small
- * start/stop/elapsed interface. A single `LumexTimer` instance is meant to be
+ * start/stop/elapsed interface. A single `lumex_timer` instance is meant to be
  * started and stopped from one thread at a time; it is not internally
  * synchronized.
  *
  * @par Example
  * @code
- * LumexTimer timer;
+ * lumex_timer timer;
  * timer.start_timer();
  * doSomeWork();
  * timer.stop_timer();
  * std::cout << "Elapsed: " << timer.elapsed_time_ms() << "ms" << std::endl;
  * @endcode
  */
-class LUMEX_API LumexTimer
+class LUMEX_API lumex_timer
 {
 public:
   /// @brief Defaulted constructor; the timer measures zero elapsed time until
   /// started/stopped.
-  LumexTimer () = default;
+  lumex_timer () = default;
 
   /**
    * @brief Starts (or restarts) the timer.
@@ -199,7 +200,7 @@ measure_execution_time (Callable &&callable, Args &&...args)
       lumex::core::utility::traits::invoke::is_callable_v<Callable, Args...>,
       "Callable must be invocable with Args");
 
-  LumexTimer timer;
+  lumex_timer timer;
   timer.start_timer ();
   std::forward<Callable> (callable) (std::forward<Args> (args)...);
   timer.stop_timer ();
@@ -258,9 +259,9 @@ measure_time (Callable &&callable, std::string const &message,
 } // namespace lumex
 
 /**
- * @brief Alias for lumex::core::time::timer::LumexTimer.
+ * @brief Alias for lumex::core::time::timer::lumex_timer.
  */
-using LumexTimer = lumex::core::time::timer::LumexTimer;
+using lumex_timer = lumex::core::time::timer::lumex_timer;
 
 // NOLINTBEGIN(cppcoreguidelines-macro-usage) - thin wrappers over the C++ API;
 // argument count dispatch and `#expr` stringify require the preprocessor.

@@ -40,8 +40,8 @@
 /**
  * @file LumexTemporary.hpp
  * @brief Temporary files and directories that delete themselves:
- * `TemporaryFile`, `TemporaryDirectory` and the factory `LumexTemporary`.
- * @details `LumexTemporary::create_temp_file()` and `create_temp_directory()`
+ * `temporary_file`, `temporary_directory` and the factory `lumex_temporary`.
+ * @details `lumex_temporary::create_temp_file()` and `create_temp_directory()`
  * create an entry with a unique name (prefix, time, process id, random
  * hexadecimal digits and a counter) and return it in a `filesystem_result`.
  * The returned object can be moved but not copied, and it deletes the entry
@@ -103,19 +103,19 @@ namespace tmp
  * @brief RAII wrapper for temporary directory management
  * @details Automatically removes temporary directory when destroyed
  */
-class LUMEX_API TemporaryDirectory
+class LUMEX_API temporary_directory
 {
 public:
-  TemporaryDirectory () : m_valid (false) {}
-  explicit TemporaryDirectory (lumex::path const &path);
-  ~TemporaryDirectory ();
+  temporary_directory () : m_valid (false) {}
+  explicit temporary_directory (lumex::path const &path);
+  ~temporary_directory ();
 
   // Non-copyable, movable
-  TemporaryDirectory (TemporaryDirectory const &) = delete;
-  TemporaryDirectory &operator= (TemporaryDirectory const &) = delete;
+  temporary_directory (temporary_directory const &) = delete;
+  temporary_directory &operator= (temporary_directory const &) = delete;
 
-  TemporaryDirectory (TemporaryDirectory &&other) LUMEX_NOEXCEPT;
-  TemporaryDirectory &operator= (TemporaryDirectory &&other) LUMEX_NOEXCEPT;
+  temporary_directory (temporary_directory &&other) LUMEX_NOEXCEPT;
+  temporary_directory &operator= (temporary_directory &&other) LUMEX_NOEXCEPT;
 
   lumex::path const &
   path () const
@@ -138,19 +138,19 @@ private:
  * @brief RAII wrapper for temporary file management
  * @details Automatically removes temporary file when destroyed
  */
-class LUMEX_API TemporaryFile
+class LUMEX_API temporary_file
 {
 public:
-  TemporaryFile () : m_valid (false) {}
-  explicit TemporaryFile (lumex::path const &path);
-  ~TemporaryFile ();
+  temporary_file () : m_valid (false) {}
+  explicit temporary_file (lumex::path const &path);
+  ~temporary_file ();
 
   // Non-copyable, movable
-  TemporaryFile (TemporaryFile const &) = delete;
-  TemporaryFile &operator= (TemporaryFile const &) = delete;
+  temporary_file (temporary_file const &) = delete;
+  temporary_file &operator= (temporary_file const &) = delete;
 
-  TemporaryFile (TemporaryFile &&other) LUMEX_NOEXCEPT;
-  TemporaryFile &operator= (TemporaryFile &&other) LUMEX_NOEXCEPT;
+  temporary_file (temporary_file &&other) LUMEX_NOEXCEPT;
+  temporary_file &operator= (temporary_file &&other) LUMEX_NOEXCEPT;
 
   lumex::path const &
   path () const
@@ -169,7 +169,7 @@ private:
   bool m_valid;
 };
 
-class LUMEX_API LumexTemporary
+class LUMEX_API lumex_temporary
 {
 public:
   /**
@@ -181,9 +181,9 @@ public:
   /**
    * @brief Creates a temporary directory with optional name prefix
    * @param name Prefix for directory name (can be empty)
-   * @return filesystem_result containing TemporaryDirectory on success
+   * @return filesystem_result containing temporary_directory on success
    */
-  static lumex::filesystem_result<TemporaryDirectory>
+  static lumex::filesystem_result<temporary_directory>
   create_temp_directory (std::string const &name = std::string ());
 
   /**
@@ -197,9 +197,9 @@ public:
   /**
    * @brief Creates a temporary file with optional name prefix
    * @param name Prefix for file name (can be empty)
-   * @return filesystem_result containing TemporaryFile on success
+   * @return filesystem_result containing temporary_file on success
    */
-  static lumex::filesystem_result<TemporaryFile>
+  static lumex::filesystem_result<temporary_file>
   create_temp_file (std::string const &name = std::string ());
 
   /**
@@ -228,10 +228,10 @@ private:
 } // namespace temporary
 } // namespace lumex
 
-using TemporaryFile = lumex::core::temporary::tmp::TemporaryFile;
-using TemporaryDirectory = lumex::core::temporary::tmp::TemporaryDirectory;
+using temporary_file = lumex::core::temporary::tmp::temporary_file;
+using temporary_directory = lumex::core::temporary::tmp::temporary_directory;
 
-using LumexTemporary = lumex::core::temporary::tmp::LumexTemporary;
+using lumex_temporary = lumex::core::temporary::tmp::lumex_temporary;
 
 #if defined(__clang__)
 #pragma clang diagnostic pop

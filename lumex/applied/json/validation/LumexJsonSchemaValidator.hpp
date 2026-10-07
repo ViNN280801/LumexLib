@@ -92,14 +92,15 @@ public:
    * mode only.
    */
   void
-  validate (lumex::core::string_view::view::LumexStringView raw) const override
+  validate (
+      lumex::core::string_view::view::lumex_string_view raw) const override
   {
     std::exception_ptr ignored;
     validate (raw, ignored);
   }
 
   void
-  validate (lumex::core::string_view::view::LumexStringView raw,
+  validate (lumex::core::string_view::view::lumex_string_view raw,
             std::exception_ptr &error) const override
   {
     error = nullptr;
@@ -117,7 +118,7 @@ public:
 
 private:
   void
-  _check (lumex::core::string_view::view::LumexStringView raw) const
+  _check (lumex::core::string_view::view::lumex_string_view raw) const
   {
     using lumex::applied::json::schema::LumexJsonSchemaCheckMode;
     using lumex::applied::json::schema::LumexJsonSchemaTraverser;

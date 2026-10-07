@@ -39,9 +39,9 @@
 
 /**
  * @file Validator.hpp
- * @brief Base64 syntax check: the `Validator` class of the `lumex::base64`
+ * @brief Base64 syntax check: the `validator` class of the `lumex::base64`
  * library.
- * @details `Validator::is_valid_base64()` tells whether text is well-formed
+ * @details `validator::is_valid_base64()` tells whether text is well-formed
  * Base64 without decoding it: alphabet characters followed by at most two `=`,
  * with or without padding. The pointer and size overload is compiled into the
  * library and has the same signature in every C++ standard; the string
@@ -106,7 +106,7 @@ using namespace lumex::core::base64::codec::Types;
  * does not inline, and the library does not provide the standard-dependent
  * overload.
  */
-class Validator final
+class validator final
 {
 public:
   /**

@@ -52,7 +52,7 @@ namespace timer
 {
 LUMEX_PUBLIC_API
 void
-LumexTimer::start_timer ()
+lumex_timer::start_timer ()
 {
   m_is_started = true;
   m_start_tp = std::chrono::high_resolution_clock::now ();
@@ -60,7 +60,7 @@ LumexTimer::start_timer ()
 
 LUMEX_PUBLIC_API
 void
-LumexTimer::stop_timer ()
+lumex_timer::stop_timer ()
 {
   m_is_started = false;
   m_end_tp = std::chrono::high_resolution_clock::now ();
@@ -68,7 +68,7 @@ LumexTimer::stop_timer ()
 
 LUMEX_PUBLIC_API
 long long
-LumexTimer::elapsed_time_ms () const
+lumex_timer::elapsed_time_ms () const
 {
   auto elapsed = m_end_tp - m_start_tp;
   return std::chrono::duration_cast<std::chrono::milliseconds> (elapsed)

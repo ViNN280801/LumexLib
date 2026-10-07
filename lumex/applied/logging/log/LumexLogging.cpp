@@ -80,7 +80,7 @@ LumexLogging::_log (LumexLogLevel level, std::string const &moduleName,
     if (level >= LumexLogLevel::Debug && level <= LumexLogLevel::Warning)
       {
         std::clog << _level_to_color (level) << "["
-                  << LumexTime::get_current_datetime () << "] "
+                  << lumex_time::get_current_datetime () << "] "
                   << "|" << std::setw (KLOG_WIDTH) << _level_to_string (level)
                   << "| " << moduleName << " : " << msg << "\033[0m"
                   << "\n";
@@ -88,7 +88,7 @@ LumexLogging::_log (LumexLogLevel level, std::string const &moduleName,
     else
       {
         std::cerr << _level_to_color (level) << "["
-                  << LumexTime::get_current_datetime () << "] "
+                  << lumex_time::get_current_datetime () << "] "
                   << "|" << std::setw (KLOG_WIDTH) << _level_to_string (level)
                   << "| " << moduleName << " : " << msg << "\033[0m"
                   << "\n";
@@ -150,7 +150,7 @@ LumexLogging::getLogsDirectory ()
   try
     {
 #if defined(LUMEX_OS_UNIX)
-      std::string homeDir = LumexEnvironment::get ("HOME").value;
+      std::string homeDir = lumex_environment::get ("HOME").value;
       if (homeDir.empty ())
         {
           std::cerr << "Error: HOME environment variable not set, cannot "
@@ -166,7 +166,7 @@ LumexLogging::getLogsDirectory ()
       lumex::path logsDir;
       // Check for the standard AppImage environment variable to detect if
       // running as an AppImage.
-      std::string appImagePath = LumexEnvironment::get ("APPIMAGE").value;
+      std::string appImagePath = lumex_environment::get ("APPIMAGE").value;
 
       if (!appImagePath.empty ())
         {
@@ -174,7 +174,7 @@ LumexLogging::getLogsDirectory ()
           // directory. Prioritize XDG_DATA_HOME as per XDG Base Directory
           // Specification, otherwise fallback to ~/.local/share.
           std::string xdgDataHome
-              = LumexEnvironment::get ("XDG_DATA_HOME").value;
+              = lumex_environment::get ("XDG_DATA_HOME").value;
           if (!xdgDataHome.empty ())
             {
               if (s_appName.empty ())
@@ -257,7 +257,7 @@ LumexLogging::toFile (char const *filename, LumexLogLevel level,
       if (appendTimestamp)
         {
           if (s_launchTimestamp.empty ())
-            s_launchTimestamp = LumexTime::get_timestamp_ns ();
+            s_launchTimestamp = lumex_time::get_timestamp_ns ();
 
           fullFilename = fullFilename + "_" + s_launchTimestamp + ".log";
         }
@@ -274,7 +274,7 @@ LumexLogging::toFile (char const *filename, LumexLogLevel level,
           return false;
         }
 
-      file << "[" << LumexTime::get_current_datetime () << "] "
+      file << "[" << lumex_time::get_current_datetime () << "] "
            << "|" << std::setw (KLOG_WIDTH) << _level_to_string (level) << "| "
            << moduleName << " : " << msg << "\n";
       file.flush ();

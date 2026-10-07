@@ -28,14 +28,14 @@ API = [
     "fmt::format_to_n (", "fmt::formatted_size (", "fmt::vformat (",
     "fmt::vformat_to (", "fmt::make_format_args (", "fmt::make_wformat_args (",
     "fmt::arg (", "fmt::runtime (", "fmt::try_format (", "fmt::print (",
-    "fmt::println (", "fmt::streamed (", "fmt::FormatError", ".position ()",
-    "FormatError::no_position ()", "Formatter<", "OstreamFormatter<",
-    "BasicAppender<", "FormatContext", "WFormatContext", "FormatParseContext",
-    "WFormatParseContext", "BasicFormatContext<", "BasicFormatParseContext<",
+    "fmt::println (", "fmt::streamed (", "fmt::format_error", ".position ()",
+    "format_error::no_position ()", "formatter<", "ostream_formatter<",
+    "basic_appender<", "FormatContext", "WFormatContext", "FormatParseContext",
+    "WFormatParseContext", "basic_format_context<", "basic_format_parse_context<",
     "fmt::FormatArgs", "fmt::WFormatArgs", "fmt::FormatString<",
     "fmt::WFormatString<", "fmt::format_to_n_result_t<",
     "fmt::try_format_result_t<", ".set_separator (", ".set_brackets (",
-    ".underlying ()", "LumexStringView", "std::string_view", "std::locale",
+    ".underlying ()", "lumex_string_view", "std::string_view", "std::locale",
 ]
 
 # Format-string features: a regular expression over the example sources.

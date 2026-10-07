@@ -40,9 +40,9 @@
 /**
  * @file LumexTime.hpp
  * @brief Provides cross-platform utilities for time and date manipulation.
- * @details This header defines the `LumexTime` class, offering a set of static
- * methods for retrieving current date and time in various formats, as well as
- *          timestamps in different time units (nanoseconds, microseconds,
+ * @details This header defines the `lumex_time` class, offering a set of
+ * static methods for retrieving current date and time in various formats, as
+ * well as timestamps in different time units (nanoseconds, microseconds,
  * milliseconds, seconds, minutes, hours, days, weeks, months, years). It also
  * includes a `Constants` namespace with frequently used time-related numerical
  * constants. The implementation aims for cross-platform compatibility and ease
@@ -80,7 +80,7 @@ namespace clock
  * @brief Contains compile-time constants related to time calculations.
  * @details This namespace provides a collection of `constexpr` unsigned long
  * and long long constants that represent various time unit conversions and
- * buffer sizes. These are used internally by `LumexTime` for precision and
+ * buffer sizes. These are used internally by `lumex_time` for precision and
  * efficiency in timestamp calculations and formatting.
  */
 namespace Constants
@@ -158,7 +158,7 @@ LUMEX_CONSTEXPR long long NS_IN_Y = 365LL * NS_IN_D; // Approximation
 
 /**
  * @brief Provides static utility methods for time and date handling.
- * @details The `LumexTime` class offers a convenient, static interface
+ * @details The `lumex_time` class offers a convenient, static interface
  *          for common time-related operations. It abstracts away
  *          platform-specific details and provides a consistent API
  *          for retrieving current date/time strings and timestamps
@@ -166,7 +166,7 @@ LUMEX_CONSTEXPR long long NS_IN_Y = 365LL * NS_IN_D; // Approximation
  *          thread-safe as they primarily involve reading system time
  *          and performing calculations without shared mutable state.
  */
-class LUMEX_API LumexTime
+class LUMEX_API lumex_time
 {
 public:
   /**
@@ -244,8 +244,9 @@ public:
    *
    * @par Example
    * @code
-   * std::string log_stamp = LumexTime::timestamp();
-   * std::string custom = LumexTime::timestamp(std::time(nullptr), "%Y-%m-%d");
+   * std::string log_stamp = lumex_time::timestamp();
+   * std::string custom = lumex_time::timestamp(std::time(nullptr),
+   * "%Y-%m-%d");
    * @endcode
    */
   static std::string timestamp (std::time_t time_ = std::time (nullptr),
@@ -270,7 +271,7 @@ public:
    *
    * @par Example
    * @code
-   * std::string log_stamp = LumexTime::timestamp_ms();
+   * std::string log_stamp = lumex_time::timestamp_ms();
    * @endcode
    */
   static std::string timestamp_ms (std::chrono::system_clock::time_point tp
@@ -300,12 +301,12 @@ private:
 } // namespace lumex
 
 /**
- * @brief Global type alias for `lumex::core::time::LumexTime`.
- * @details This `using` declaration brings `LumexTime` into the global
+ * @brief Global type alias for `lumex::core::time::lumex_time`.
+ * @details This `using` declaration brings `lumex_time` into the global
  * namespace (or enclosing namespace where it's included), allowing for more
  * convenient usage without full namespace qualification.
  */
-using LumexTime = lumex::core::time::clock::LumexTime;
+using lumex_time = lumex::core::time::clock::lumex_time;
 
 LUMEX_EXTERN_C_END
 

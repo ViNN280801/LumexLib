@@ -101,14 +101,14 @@ public:
    * mode only.
    */
   virtual void
-  validate (lumex::core::string_view::view::LumexStringView raw) const
+  validate (lumex::core::string_view::view::lumex_string_view raw) const
       = 0;
 
   /**
    * @brief Same check with a non-throwing option; see
    * `ILumexJsonNormalizer::normalize` for the meaning of `error`.
    */
-  virtual void validate (lumex::core::string_view::view::LumexStringView raw,
+  virtual void validate (lumex::core::string_view::view::lumex_string_view raw,
                          std::exception_ptr &error) const
       = 0;
 
@@ -152,7 +152,7 @@ protected:
    */
   LUMEX_ATTRIBUTE_NODISCARD ("the parsed document is the result")
   static nlohmann::json
-  parse (lumex::core::string_view::view::LumexStringView raw)
+  parse (lumex::core::string_view::view::lumex_string_view raw)
   {
     return lumex::applied::json::schema::LumexJsonSchemaTraverser::parse (raw);
   }

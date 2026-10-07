@@ -76,7 +76,7 @@ namespace core
 namespace fmt
 {
 /** Throws something that is not a std::exception. */
-template <> class Formatter<throws_int_t>
+template <> class formatter<throws_int_t>
 {
 public:
   char const *
@@ -85,14 +85,14 @@ public:
     return ctx.begin ();
   }
 
-  BasicAppender<char>
+  basic_appender<char>
   format (throws_int_t, FormatContext &) const
   {
     throw 42;
   }
 };
 
-template <> class Formatter<throws_std_t>
+template <> class formatter<throws_std_t>
 {
 public:
   char const *
@@ -101,7 +101,7 @@ public:
     return ctx.begin ();
   }
 
-  BasicAppender<char>
+  basic_appender<char>
   format (throws_std_t, FormatContext &) const
   {
     throw std::logic_error ("from the user formatter");
@@ -330,7 +330,7 @@ TEST (LumexFormatEdgeCasesTest,
   // A range formatter parses its element formatter with the default
   // specification first; a user formatter may then give the element
   // formatter its own specification. Nothing of the first parse may leak.
-  fmt::Formatter<std::vector<int>> range;
+  fmt::formatter<std::vector<int>> range;
   fmt::FormatParseContext first (">8}");
   range.parse (first);
   fmt::FormatParseContext element_first ("*>9}");
@@ -339,7 +339,7 @@ TEST (LumexFormatEdgeCasesTest,
   range.underlying ().parse (element_second);
 
   std::string text;
-  fmt::Detail::StringBuffer<char> buffer (text);
+  fmt::Detail::string_buffer<char> buffer (text);
   fmt::FormatArgs const no_args;
   fmt::FormatContext ctx (buffer, no_args, nullptr);
   range.format (std::vector<int>{ 10, 11 }, ctx);

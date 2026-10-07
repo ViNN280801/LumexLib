@@ -1,4 +1,4 @@
-// Unexpected<E> tests. They compile from C++11, so every expected suite
+// unexpected<E> tests. They compile from C++11, so every expected suite
 // (C++11, C++17, C++20) runs them.
 
 #include <chrono>
@@ -46,11 +46,11 @@ using namespace lumex::core::expected::error;
 
 // === Per-type steps of these tests ==========================================
 // The shared steps live in ExpectedTestTypes.hpp; these are the ones only the
-// Unexpected tests take.
+// unexpected tests take.
 
 namespace
 {
-// Changes the source after Unexpected copied it; false when the type has no
+// Changes the source after unexpected copied it; false when the type has no
 // change worth observing here.
 bool
 ChangeSource (int &source)
@@ -73,10 +73,10 @@ ChangeSource (T &)
   return false;
 }
 
-// Writes through the reference error() & returned and checks Unexpected sees
+// Writes through the reference error() & returned and checks unexpected sees
 // the change.
 void
-MutateThroughReference (int &error_ref, Unexpected<int> const &uut)
+MutateThroughReference (int &error_ref, unexpected<int> const &uut)
 {
   error_ref = 555;
   EXPECT_EQ (uut.error (), 555);
@@ -84,7 +84,7 @@ MutateThroughReference (int &error_ref, Unexpected<int> const &uut)
 
 void
 MutateThroughReference (std::string &error_ref,
-                        Unexpected<std::string> const &uut)
+                        unexpected<std::string> const &uut)
 {
   error_ref = "New Message";
   EXPECT_EQ (uut.error (), "New Message");
@@ -92,7 +92,7 @@ MutateThroughReference (std::string &error_ref,
 
 void
 MutateThroughReference (ComplexError &error_ref,
-                        Unexpected<ComplexError> const &uut)
+                        unexpected<ComplexError> const &uut)
 {
   error_ref.code = 777;
   EXPECT_EQ (uut.error ().code, 777);
@@ -100,7 +100,7 @@ MutateThroughReference (ComplexError &error_ref,
 
 template <typename T>
 void
-MutateThroughReference (T &, Unexpected<T> const &)
+MutateThroughReference (T &, unexpected<T> const &)
 {
 }
 
@@ -113,7 +113,7 @@ CheckComplexErrorLifetime (TypeTag<ComplexError>)
   int *original_resource_ptr = initial_error.resource.get ();
   // Act and assert (no leaks when leaving the scope)
   {
-    Unexpected<ComplexError> uut (std::move (initial_error));
+    unexpected<ComplexError> uut (std::move (initial_error));
     EXPECT_NE (uut.error ().resource, nullptr);
     EXPECT_EQ (uut.error ().resource.get (), original_resource_ptr);
   } // uut is destroyed here; the unique_ptr resource must be released.
@@ -163,7 +163,7 @@ AssignThreadError (T &error, int)
 
 // Inside a thread: ComplexError carries the index in its code.
 void
-CheckThreadError (Unexpected<ComplexError> const &uut, int i)
+CheckThreadError (unexpected<ComplexError> const &uut, int i)
 {
   EXPECT_EQ (uut.error ().code,
              400 + i); // Check a specific ComplexError field
@@ -171,18 +171,18 @@ CheckThreadError (Unexpected<ComplexError> const &uut, int i)
 
 template <typename T>
 void
-CheckThreadError (Unexpected<T> const &, int)
+CheckThreadError (unexpected<T> const &, int)
 {
   // For simple types, uut.error() still holds the original value because
   // copy/move does not empty the source for those types. After std::move(),
   // the source may be unspecified for std::string, so it cannot be compared
-  // to uut.error() here. This test mainly checks that Unexpected was created
+  // to uut.error() here. This test mainly checks that unexpected was created
   // and error() works: if not ComplexError, just assert there is no crash.
   SUCCEED ();
 }
 } // namespace
 
-// === Fixture for Unexpected ================================================
+// === Fixture for unexpected ================================================
 template <typename ErrorType> class UnexpectedTest : public ::testing::Test
 {
 protected:
@@ -208,33 +208,33 @@ TYPED_TEST_SUITE (UnexpectedTest, ErrorTypes);
 
 // === API contract verifier tests ========================================
 
-// Check that the copy constructor initializes Unexpected correctly.
-// Assert that the given value was copied into Unexpected.
+// Check that the copy constructor initializes unexpected correctly.
+// Assert that the given value was copied into unexpected.
 TYPED_TEST (UnexpectedTest, Constructor_LValueRef_CopiesErrorCorrectly)
 {
   // Arrange
   TypeParam initial_error = this->error_val1;
   // Act
-  Unexpected<TypeParam> uut (
+  unexpected<TypeParam> uut (
       initial_error); // Call the constructor from const &
   // Assert
   EXPECT_EQ (uut.error (), initial_error);
-  // Mutating the source must not affect Unexpected
+  // Mutating the source must not affect unexpected
   if (ChangeSource (initial_error))
     {
       EXPECT_NE (uut.error (), initial_error);
     }
 }
 
-// Check that the move constructor initializes Unexpected correctly.
-// Assert that the rvalue was moved into Unexpected.
+// Check that the move constructor initializes unexpected correctly.
+// Assert that the rvalue was moved into unexpected.
 TYPED_TEST (UnexpectedTest, Constructor_RValueRef_MovesErrorCorrectly)
 {
   // Arrange
   TypeParam initial_error = this->error_val1;
   TypeParam expected_error = initial_error; // Copy for comparison
   // Act
-  Unexpected<TypeParam> uut (
+  unexpected<TypeParam> uut (
       std::move (initial_error)); // Call the constructor from &&
   // Assert
   EXPECT_EQ (uut.error (), expected_error);
@@ -248,7 +248,7 @@ TYPED_TEST (UnexpectedTest, ErrorLValueRefReturnsMutableReference)
 {
   // Arrange
   TypeParam initial_error = this->error_val1;
-  Unexpected<TypeParam> uut (std::move (initial_error));
+  unexpected<TypeParam> uut (std::move (initial_error));
   // Act
   auto &error_ref = uut.error ();
   // Assert
@@ -265,8 +265,8 @@ TYPED_TEST (UnexpectedTest, ConstErrorLValueRefReturnsImmutableReference)
 {
   // Arrange
   TypeParam initial_error = this->error_val1;
-  Unexpected<TypeParam> uut (std::move (initial_error));
-  Unexpected<TypeParam> const &const_uut = uut;
+  unexpected<TypeParam> uut (std::move (initial_error));
+  unexpected<TypeParam> const &const_uut = uut;
   // Act
   auto &error_ref = const_uut.error ();
   // Assert
@@ -277,13 +277,13 @@ TYPED_TEST (UnexpectedTest, ConstErrorLValueRefReturnsImmutableReference)
 }
 
 // Check that error() as an rvalue returns an rvalue reference and moves the
-// contents. Assert that Unexpected contents were moved after the call.
+// contents. Assert that unexpected contents were moved after the call.
 TYPED_TEST (UnexpectedTest, ErrorRValueRefReturnsRValueAndMovesContent)
 {
   // Arrange
   TypeParam initial_error = this->error_val1;
   TypeParam expected_error = initial_error;
-  Unexpected<TypeParam> uut (std::move (initial_error));
+  unexpected<TypeParam> uut (std::move (initial_error));
   // Act
   TypeParam moved_error = std::move (uut).error (); // Call error() &&
   // Assert
@@ -293,18 +293,18 @@ TYPED_TEST (UnexpectedTest, ErrorRValueRefReturnsRValueAndMovesContent)
 }
 
 // Check that const error() as an rvalue returns a const rvalue reference and
-//      does not change Unexpected (it copies).
-// Assert that the source Unexpected is unchanged.
+//      does not change unexpected (it copies).
+// Assert that the source unexpected is unchanged.
 TYPED_TEST (UnexpectedTest,
             ConstErrorRValueRefReturnsConstRValueAndDoesNotModifySource)
 {
   // Arrange
   TypeParam initial_error = this->error_val1;
   TypeParam expected_error = initial_error;
-  Unexpected<TypeParam> uut (std::move (initial_error));
+  unexpected<TypeParam> uut (std::move (initial_error));
   // Act
   TypeParam const_moved_error
-      = std::move (static_cast<Unexpected<TypeParam> const &> (uut)).error ();
+      = std::move (static_cast<unexpected<TypeParam> const &> (uut)).error ();
   // Assert
   EXPECT_EQ (const_moved_error, expected_error);
   // For ComplexError, the resource inside uut must not be moved.
@@ -313,7 +313,7 @@ TYPED_TEST (UnexpectedTest,
 
 // === Memory and lifetime tests =======================================
 
-// Check that creating and destroying Unexpected with ComplexError
+// Check that creating and destroying unexpected with ComplexError
 //      does not leak and releases resources.
 // ComplexError uses unique_ptr to track ownership.
 TYPED_TEST (UnexpectedTest, MemorySafety_ComplexErrorDestructorCalled)
@@ -323,9 +323,9 @@ TYPED_TEST (UnexpectedTest, MemorySafety_ComplexErrorDestructorCalled)
 
 // === Thread-safety tests (independent instances) =============
 
-// Check that concurrent construction and access to distinct Unexpected
+// Check that concurrent construction and access to distinct unexpected
 //      instances is correct.
-// Each thread must construct its Unexpected and read the correct error.
+// Each thread must construct its unexpected and read the correct error.
 TYPED_TEST (UnexpectedTest, ThreadSafety_MultipleIndependentInstances)
 {
   constexpr int num_threads = 10;
@@ -342,8 +342,8 @@ TYPED_TEST (UnexpectedTest, ThreadSafety_MultipleIndependentInstances)
       threads.emplace_back (
           [&, i] ()
             {
-              // Each thread constructs its Unexpected (moving its error)
-              Unexpected<TypeParam> uut (std::move (initial_errors[i]));
+              // Each thread constructs its unexpected (moving its error)
+              unexpected<TypeParam> uut (std::move (initial_errors[i]));
               // and checks its value
               // Note: initial_errors[i] is moved-from; compare against the
               // expected value (the value from before the move)
@@ -364,7 +364,7 @@ TYPED_TEST (UnexpectedTest, ThreadSafety_MultipleIndependentInstances)
 TYPED_TEST (UnexpectedTest, Perf_ConstructionAndAccess)
 {
 #if LUMEX_PERF_WALL_CLOCK_ENABLED
-  // Precondition: construct and access Unexpected many times.
+  // Precondition: construct and access unexpected many times.
   // Action: time construction and error() access.
   // Expected state: the operation finishes in acceptable time.
   // Benchmark constructors and error() to find bottlenecks.
@@ -377,8 +377,8 @@ TYPED_TEST (UnexpectedTest, Perf_ConstructionAndAccess)
       TypeParam error_data;
       AssignPerfError (error_data, i);
 
-      // Construct Unexpected. error_data is moved here.
-      Unexpected<TypeParam> uut (std::move (error_data));
+      // Construct unexpected. error_data is moved here.
+      unexpected<TypeParam> uut (std::move (error_data));
       // Call error() to simulate use
       LUMEX_ATTRIBUTE_MAYBE_UNUSED auto &err = uut.error ();
     }
