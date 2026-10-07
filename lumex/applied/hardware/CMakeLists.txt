@@ -21,6 +21,12 @@ target_link_libraries(${LUMEX_HARDWARE_NAME} PUBLIC
     lumex::utility
 )
 
+# The sources link these with #pragma comment(lib), which MSVC and clang-cl
+# honour and GCC ignores; MinGW names them here.
+if(MINGW)
+    target_link_libraries(${LUMEX_HARDWARE_NAME} PRIVATE iphlpapi d3d11 dxgi)
+endif()
+
 lumex_apply_library_versioning(${LUMEX_HARDWARE_NAME} "Lumex Hardware Capabilities Library")
 
 if(LUMEX_INSTALL)

@@ -314,9 +314,18 @@ function(apply_library_versioning TARGET_NAME)
       message(FATAL_ERROR "apply_library_versioning: CMAKE_RC_COMPILER is empty")
     endif()
     set(VERSION_RES "${CMAKE_CURRENT_BINARY_DIR}/${TARGET_NAME}_version.rc.res")
+    # rc.exe (MSVC, clang-cl) and GNU windres (MinGW, native or cross) take
+    # different arguments; windres writes a COFF object that ld links.
+    if(MINGW)
+      set(_version_rc_command
+        "${CMAKE_RC_COMPILER}" -O coff -i "${VERSION_RC}" -o "${VERSION_RES}")
+    else()
+      set(_version_rc_command
+        "${CMAKE_RC_COMPILER}" /nologo "/fo${VERSION_RES}" "${VERSION_RC}")
+    endif()
     add_custom_command(
       OUTPUT "${VERSION_RES}"
-      COMMAND "${CMAKE_RC_COMPILER}" /nologo "/fo${VERSION_RES}" "${VERSION_RC}"
+      COMMAND ${_version_rc_command}
       DEPENDS "${VERSION_RC}"
       COMMENT "Compiling ${TARGET_NAME} version resource"
       VERBATIM
