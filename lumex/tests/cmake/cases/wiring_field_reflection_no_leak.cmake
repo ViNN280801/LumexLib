@@ -5,8 +5,8 @@
 # macro is defined, while lumex::reflection deliberately carries no nlohmann
 # include directory. An INTERFACE definition therefore broke every umbrella
 # consumer without its own nlohmann (the reflection tests, the reflection
-# examples) as soon as the option was ON. The field-reflection test sources
-# opt in themselves: a definition on those sources plus the in-tree nlohmann
+# examples) as soon as the option was ON. The field-reflection test suites
+# opt in themselves: a definition on those suites plus the in-tree nlohmann
 # target.
 
 file(READ "${LUMEX_SOURCE_DIR}/lumex/core/reflection/CMakeLists.txt" _module)
@@ -35,15 +35,19 @@ if(_nlohmann_leak)
         "shadow the consumer's own nlohmann/json.hpp")
 endif()
 
-file(READ "${LUMEX_SOURCE_DIR}/lumex/tests/core/reflection/CMakeLists.txt"
+# The field reflection tests live in a directory of their own (they follow the
+# source tree) and opt in themselves: the suites of that directory define the
+# macro and link the in-tree nlohmann target. The directory is added only when
+# the option and the target are there.
+file(READ "${LUMEX_SOURCE_DIR}/lumex/tests/core/reflection/field_reflection/CMakeLists.txt"
     _tests)
 string(REGEX MATCH
-    "set_property[ \t\r\n]*\\([ \t\r\n]*SOURCE[^)]*COMPILE_DEFINITIONS[ \t\r\n]+LUMEX_WITH_FIELD_REFLECTION"
+    "(^|[^A-Z_])DEFINITIONS[ \t\r\n]+LUMEX_WITH_FIELD_REFLECTION"
     _opt_in "${_tests}")
 if(NOT _opt_in)
     message(FATAL_ERROR
-        "field-reflection test sources must define LUMEX_WITH_FIELD_REFLECTION "
-        "themselves (set_property(SOURCE ... COMPILE_DEFINITIONS ...))")
+        "the field-reflection test suites must define LUMEX_WITH_FIELD_REFLECTION "
+        "themselves (DEFINITIONS LUMEX_WITH_FIELD_REFLECTION)")
 endif()
 string(FIND "${_tests}" "nlohmann_json::nlohmann_json" _links_nlohmann)
 if(_links_nlohmann EQUAL -1)
@@ -51,25 +55,34 @@ if(_links_nlohmann EQUAL -1)
         "field-reflection test suites must link nlohmann_json::nlohmann_json")
 endif()
 
-# The VarInfo and ReflectedEnum tests share the suites of the
-# field-reflection tests but must include the umbrella without the macro, as
-# a consumer without nlohmann does: no definition for a whole suite, and the
-# source property names only the field-reflection sources. The reflection
-# examples must build from lumex::reflection alone, without nlohmann.
-string(REGEX MATCH
-    "(^|[^A-Z_])DEFINITIONS[ \t\r\n]+LUMEX_WITH_FIELD_REFLECTION|target_compile_definitions[ \t\r\n]*\\([^)]*LUMEX_WITH_FIELD_REFLECTION"
-    _suite_wide "${_tests}")
-if(_suite_wide)
+# The VarInfo and ReflectedEnum tests must include the umbrella without the
+# macro, as a consumer without nlohmann does: their directories name neither the
+# macro nor nlohmann, and the module's directory adds the field reflection
+# directory under the option and the target only. The reflection examples must
+# build from lumex::reflection alone, without nlohmann.
+foreach(_directory reflected_enum var_info)
+    file(READ "${LUMEX_SOURCE_DIR}/lumex/tests/core/reflection/${_directory}/CMakeLists.txt"
+        _plain)
+    string(REGEX REPLACE "(^|\n)[ \t]*#[^\n]*" "\\1" _plain_code "${_plain}")
+    foreach(_forbidden LUMEX_WITH_FIELD_REFLECTION nlohmann)
+        string(FIND "${_plain_code}" "${_forbidden}" _found)
+        if(NOT _found EQUAL -1)
+            message(FATAL_ERROR
+                "lumex/tests/core/reflection/${_directory}/CMakeLists.txt "
+                "mentions ${_forbidden}; the tests of that directory include "
+                "the umbrella without field reflection")
+        endif()
+    endforeach()
+endforeach()
+file(READ "${LUMEX_SOURCE_DIR}/lumex/tests/core/reflection/CMakeLists.txt" _root)
+string(FIND "${_root}"
+    "if(LUMEX_WITH_FIELD_REFLECTION AND TARGET nlohmann_json::nlohmann_json)"
+    _gated)
+string(FIND "${_root}" "add_subdirectory(field_reflection)" _added)
+if(_gated EQUAL -1 OR _added EQUAL -1 OR _added LESS _gated)
     message(FATAL_ERROR
-        "the reflection test suites define LUMEX_WITH_FIELD_REFLECTION for "
-        "every source; define it on the field-reflection sources only")
-endif()
-string(FIND "${_tests}" "\"\${CMAKE_CURRENT_SOURCE_DIR}/LumexFieldReflection*.cxx*.tests.cpp\""
-    _field_glob)
-if(_field_glob EQUAL -1)
-    message(FATAL_ERROR
-        "the field-reflection sources of the reflection tests are not "
-        "selected by LumexFieldReflection*.cxx*.tests.cpp")
+        "the field_reflection test directory must be added under "
+        "if(LUMEX_WITH_FIELD_REFLECTION AND TARGET nlohmann_json::nlohmann_json)")
 endif()
 file(READ "${LUMEX_SOURCE_DIR}/lumex/examples/reflection/CMakeLists.txt"
     _examples)

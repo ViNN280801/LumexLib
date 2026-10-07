@@ -32,8 +32,8 @@
 // get<I> helpers, and the typed fixture LumexFieldArityTest. The test files
 // include it only when LUMEX_WITH_FIELD_REFLECTION is defined.
 
-#ifndef LUMEX_TESTS_CORE_REFLECTION_FIELD_REFLECTION_TEST_FIXTURES_HPP
-#define LUMEX_TESTS_CORE_REFLECTION_FIELD_REFLECTION_TEST_FIXTURES_HPP
+#ifndef LUMEX_TESTS_CORE_REFLECTION_FIELD_REFLECTION_HPP
+#define LUMEX_TESTS_CORE_REFLECTION_FIELD_REFLECTION_HPP
 
 #include <array>
 #include <cstddef>
@@ -467,4 +467,4 @@ template <typename T> class LumexFieldArityTest : public ::testing::Test
 TYPED_TEST_SUITE (LumexFieldArityTest,
                   lumex_field_reflection_tests::FieldArityTypes);
 
-#endif // !LUMEX_TESTS_CORE_REFLECTION_FIELD_REFLECTION_TEST_FIXTURES_HPP
+#endif // !LUMEX_TESTS_CORE_REFLECTION_FIELD_REFLECTION_HPP
