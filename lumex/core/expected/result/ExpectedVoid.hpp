@@ -62,7 +62,14 @@
 #pragma clang diagnostic ignored "-Wfloat-equal"
 #endif
 
+#include <initializer_list>
+#include <memory>
+#include <new>
+#include <type_traits>
+#include <utility>
+
 #include "Expected.hpp"
+#include "ExpectedDetail.hpp"
 #include "lumex/core/utility/assert/LumexAssert.hpp"
 #include "lumex/core/utility/attr/LumexAttributes.hpp"
 #include "lumex/core/utility/compiler/LumexCheckFeatures.hpp"
@@ -717,913 +724,722 @@ public:
   }
 
   // ====================== Monadic Operations ======================
+  // Each operation exists for the four value categories of the object. The
+  // function is taken as a forwarding reference and called as by std::invoke,
+  // the constraint is written once in detail:: and used as a requires-clause
+  // from C++20 and as std::enable_if before. A function of the success state
+  // takes no arguments.
+
   /**
-   * @brief Applies `func` with no arguments to the success state if present
-   * (lvalue).
-   * @details If `expected` is in the success (void) state, `func` is called
-   * with no arguments, and the result of `func` is returned. `func` must
-   * return `expected<U, ErrorType>` specialization. If `expected` holds an
-   * error, `func` is not called, and a new `expected` holding the current
-   * error is returned.
-   * @tparam FunctionType Function type that takes `void` (no arguments) and
-   * returns `expected<U, ErrorType>` specialization.
-   * @param[in] func Function to apply.
-   * @return `expected<U, ErrorType>` holding the result of `func` or the
-   * current error.
-   * @note This overload lets `and_then` be used on lvalue `expected<void,
-   * ErrorType>` objects.
-   * @throws May throw if `func` throws or the constructor
-   * of `expected` from an error throws.
+   * @brief Calls `func` if this `expected<void, ErrorType>` is a success
+   * (lvalue), and returns its `expected`.
+   * @details If the object is in the success state, `func` is called with no
+   * arguments and its result is returned. If it holds an error, `func` is not
+   * called and an `expected` of the result type that holds the current error
+   * is returned.
+   * @tparam FunctionType Type of `func`, forwarded and called as by
+   * `std::invoke`.
+   * @param[in] func Function without parameters that returns an `expected`
+   * with the same error type as this object.
+   * @return The result of `func` or the current error, as an
+   * `expected<U, ErrorType>` without `const`, `volatile` and reference.
+   * @note The overload exists only when `func` can be called and returns an
+   * `expected`, and `ErrorType` can be copied or moved the way the lvalue
+   * call needs; an `expected` with another error type fails a
+   * `static_assert`.
+   * @throws May throw if `func` throws or if copying or moving the error
+   * throws.
    */
-#if LUMEX_HAS_STD_CONCEPTS
+#if LUMEX_HAS_CONCEPTS
   template <typename FunctionType>
-    requires std::invocable<FunctionType>
-             && lumex::core::utility::traits::value::is_expected_concept<
-                 std::invoke_result_t<FunctionType>>
-  LUMEX_CONSTEXPR_CXX14 auto
-  and_then (FunctionType func) & -> std::invoke_result_t<FunctionType>
-  {
-    if (m_has_value)
-      return func ();
-    return std::invoke_result_t<FunctionType> (
-        unexpected<ErrorType> (m_storage.m_error));
-  }
+    requires (
+        detail::can_and_then<FunctionType, ErrorType, ErrorType &>::value)
 #else
   template <typename FunctionType,
-            typename ResultOfFunc = typename std::result_of<
-                FunctionType ()>::type, // Func is called with no arguments
-            typename = typename std::enable_if<
-                lumex::core::utility::traits::value::is_expected<
-                    ResultOfFunc>::value>::type>
-  LUMEX_CONSTEXPR_CXX14 auto
-  and_then (FunctionType func) & -> ResultOfFunc
-  {
-    if (m_has_value)
-      return func ();
-    return ResultOfFunc (unexpected<ErrorType> (m_storage.m_error));
-  }
+            typename = typename std::enable_if<detail::can_and_then<
+                FunctionType, ErrorType, ErrorType &>::value>::type>
 #endif
+  LUMEX_CONSTEXPR_CXX14 auto
+  and_then (FunctionType &&func) & -> detail::result_clean_t<FunctionType>
+  {
+    using ResultType = detail::result_clean_t<FunctionType>;
+    LUMEX_STATIC_ASSERT_MSG (
+        std::is_same<typename ResultType::error_type, ErrorType>::value,
+        "and_then: the function must return an expected with the "
+        "error type of the object it is called on");
+    if (m_has_value)
+      return detail::invoke_call (std::forward<FunctionType> (func));
+    return ResultType (unexpect, m_storage.m_error);
+  }
 
   /**
-   * @brief Applies `func` with no arguments to the success state (const
-   * lvalue) if present.
-   * @details If `expected` is in the success (void) state, `func` is called
-   * with no arguments, and the result of `func` is returned. `func` must
-   * return `expected<U, ErrorType>` specialization. If `expected` holds an
-   * error, `func` is not called, and a new `expected` holding the current
-   * error is returned.
-   * @tparam FunctionType Function type that takes `void` (no arguments) and
-   * returns `expected<U, ErrorType>` specialization.
-   * @param[in] func Function to apply.
-   * @return `expected<U, ErrorType>` holding the result of `func` or the
-   * current error.
-   * @note This overload lets `and_then` be used on const lvalue
-   * `expected<void, ErrorType>` objects.
-   * @throws May throw if `func` throws or the constructor
-   * of `expected` from an error throws.
+   * @brief Calls `func` if this `expected<void, ErrorType>` is a success
+   * (const lvalue), and returns its `expected`.
+   * @details If the object is in the success state, `func` is called with no
+   * arguments and its result is returned. If it holds an error, `func` is not
+   * called and an `expected` of the result type that holds the current error
+   * is returned.
+   * @tparam FunctionType Type of `func`, forwarded and called as by
+   * `std::invoke`.
+   * @param[in] func Function without parameters that returns an `expected`
+   * with the same error type as this object.
+   * @return The result of `func` or the current error, as an
+   * `expected<U, ErrorType>` without `const`, `volatile` and reference.
+   * @note The overload exists only when `func` can be called and returns an
+   * `expected`, and `ErrorType` can be copied or moved the way the const
+   * lvalue call needs; an `expected` with another error type fails a
+   * `static_assert`.
+   * @throws May throw if `func` throws or if copying or moving the error
+   * throws.
    */
-#if LUMEX_HAS_STD_CONCEPTS
+#if LUMEX_HAS_CONCEPTS
   template <typename FunctionType>
-    requires std::invocable<FunctionType>
-             && lumex::core::utility::traits::value::is_expected_concept<
-                 std::invoke_result_t<FunctionType>>
-  LUMEX_CONSTEXPR_CXX14 auto
-  and_then (FunctionType func) const & -> std::invoke_result_t<FunctionType>
-  {
-    if (m_has_value)
-      return func ();
-    return std::invoke_result_t<FunctionType> (
-        unexpected<ErrorType> (m_storage.m_error));
-  }
+    requires (detail::can_and_then<FunctionType, ErrorType,
+                                   ErrorType const &>::value)
 #else
-  template <
-      typename FunctionType,
-      typename ResultOfFunc = typename std::result_of<FunctionType ()>::type,
-      typename
-      = typename std::enable_if<lumex::core::utility::traits::value::
-                                    is_expected<ResultOfFunc>::value>::type>
-  LUMEX_CONSTEXPR_CXX14 auto
-  and_then (FunctionType func) const & -> ResultOfFunc
-  {
-    if (m_has_value)
-      return func ();
-    return ResultOfFunc (unexpected<ErrorType> (m_storage.m_error));
-  }
+  template <typename FunctionType,
+            typename = typename std::enable_if<detail::can_and_then<
+                FunctionType, ErrorType, ErrorType const &>::value>::type>
 #endif
+  LUMEX_CONSTEXPR_CXX14 auto
+  and_then (
+      FunctionType &&func) const & -> detail::result_clean_t<FunctionType>
+  {
+    using ResultType = detail::result_clean_t<FunctionType>;
+    LUMEX_STATIC_ASSERT_MSG (
+        std::is_same<typename ResultType::error_type, ErrorType>::value,
+        "and_then: the function must return an expected with the "
+        "error type of the object it is called on");
+    if (m_has_value)
+      return detail::invoke_call (std::forward<FunctionType> (func));
+    return ResultType (unexpect, m_storage.m_error);
+  }
 
   /**
-   * @brief Applies `func` with no arguments to the success state (rvalue) if
-   * present.
-   * @details If `expected` is in the success (void) state, `func` is called
-   * with no arguments, and the result of `func` is returned. `func` must
-   * return `expected<U, ErrorType>` specialization. If `expected` holds an
-   * error, `func` is not called, and a new `expected` holding the current
-   * error is returned.
-   * @tparam FunctionType Function type that takes `void` (no arguments) and
-   * returns `expected<U, ErrorType>` specialization.
-   * @param[in] func Function to apply.
-   * @return `expected<U, ErrorType>` holding the result of `func` or the
-   * current error.
-   * @note This overload lets `and_then` be used on rvalue `expected` objects,
-   * providing move semantics.
-   * @throws May throw if `func` throws or the constructor
-   * of `expected` from an error throws.
+   * @brief Calls `func` if this `expected<void, ErrorType>` is a success
+   * (rvalue), and returns its `expected`.
+   * @details If the object is in the success state, `func` is called with no
+   * arguments and its result is returned. If it holds an error, `func` is not
+   * called and an `expected` of the result type that holds the current error
+   * is returned.
+   * @tparam FunctionType Type of `func`, forwarded and called as by
+   * `std::invoke`.
+   * @param[in] func Function without parameters that returns an `expected`
+   * with the same error type as this object.
+   * @return The result of `func` or the current error, as an
+   * `expected<U, ErrorType>` without `const`, `volatile` and reference.
+   * @note The overload exists only when `func` can be called and returns an
+   * `expected`, and `ErrorType` can be copied or moved the way the rvalue
+   * call needs; an `expected` with another error type fails a
+   * `static_assert`.
+   * @throws May throw if `func` throws or if copying or moving the error
+   * throws.
    */
-#if LUMEX_HAS_STD_CONCEPTS
+#if LUMEX_HAS_CONCEPTS
   template <typename FunctionType>
-    requires std::invocable<FunctionType>
-             && lumex::core::utility::traits::value::is_expected_concept<
-                 std::invoke_result_t<FunctionType>>
-  LUMEX_CONSTEXPR_CXX14 auto
-  and_then (FunctionType func) && -> std::invoke_result_t<FunctionType>
-  {
-    if (m_has_value)
-      return func ();
-    return std::invoke_result_t<FunctionType> (
-        unexpected<ErrorType> (std::move (m_storage.m_error)));
-  }
+    requires (
+        detail::can_and_then<FunctionType, ErrorType, ErrorType &&>::value)
 #else
-  template <
-      typename FunctionType,
-      typename ResultOfFunc = typename std::result_of<FunctionType ()>::type,
-      typename
-      = typename std::enable_if<lumex::core::utility::traits::value::
-                                    is_expected<ResultOfFunc>::value>::type>
-  LUMEX_CONSTEXPR_CXX14 auto
-  and_then (FunctionType func) && -> ResultOfFunc
-  {
-    if (m_has_value)
-      return func ();
-    return ResultOfFunc (
-        unexpected<ErrorType> (std::move (m_storage.m_error)));
-  }
+  template <typename FunctionType,
+            typename = typename std::enable_if<detail::can_and_then<
+                FunctionType, ErrorType, ErrorType &&>::value>::type>
 #endif
+  LUMEX_CONSTEXPR_CXX14 auto
+  and_then (FunctionType &&func) && -> detail::result_clean_t<FunctionType>
+  {
+    using ResultType = detail::result_clean_t<FunctionType>;
+    LUMEX_STATIC_ASSERT_MSG (
+        std::is_same<typename ResultType::error_type, ErrorType>::value,
+        "and_then: the function must return an expected with the "
+        "error type of the object it is called on");
+    if (m_has_value)
+      return detail::invoke_call (std::forward<FunctionType> (func));
+    return ResultType (unexpect, std::move (m_storage.m_error));
+  }
 
   /**
-   * @brief Applies `func` with no arguments to the success state (const
-   * rvalue) if present.
-   * @details If `expected` is in the success (void) state, `func` is called
-   * with no arguments, and the result of `func` is returned. `func` must
-   * return `expected<U, ErrorType>` specialization. If `expected` holds an
-   * error, `func` is not called, and a new `expected` holding the current
-   * error is returned.
-   * @tparam FunctionType Function type that takes `void` (no arguments) and
-   * returns `expected<U, ErrorType>` specialization.
-   * @param[in] func Function to apply.
-   * @return `expected<U, ErrorType>` holding the result of `func` or the
-   * current error.
-   * @note This overload lets `and_then` be used on const rvalue `expected`
-   * objects.
-   * @throws May throw if `func` throws or the constructor
-   * of `expected` from an error throws.
+   * @brief Calls `func` if this `expected<void, ErrorType>` is a success
+   * (const rvalue), and returns its `expected`.
+   * @details If the object is in the success state, `func` is called with no
+   * arguments and its result is returned. If it holds an error, `func` is not
+   * called and an `expected` of the result type that holds the current error
+   * is returned.
+   * @tparam FunctionType Type of `func`, forwarded and called as by
+   * `std::invoke`.
+   * @param[in] func Function without parameters that returns an `expected`
+   * with the same error type as this object.
+   * @return The result of `func` or the current error, as an
+   * `expected<U, ErrorType>` without `const`, `volatile` and reference.
+   * @note The overload exists only when `func` can be called and returns an
+   * `expected`, and `ErrorType` can be copied or moved the way the const
+   * rvalue call needs; an `expected` with another error type fails a
+   * `static_assert`.
+   * @throws May throw if `func` throws or if copying or moving the error
+   * throws.
    */
-#if LUMEX_HAS_STD_CONCEPTS
+#if LUMEX_HAS_CONCEPTS
   template <typename FunctionType>
-    requires std::invocable<FunctionType>
-             && lumex::core::utility::traits::value::is_expected_concept<
-                 std::invoke_result_t<FunctionType>>
-  LUMEX_CONSTEXPR_CXX14 auto
-  and_then (FunctionType func) const && -> std::invoke_result_t<FunctionType>
-  {
-    if (m_has_value)
-      return func ();
-    return std::invoke_result_t<FunctionType> (
-        unexpected<ErrorType> (std::move (m_storage.m_error)));
-  }
+    requires (detail::can_and_then<FunctionType, ErrorType,
+                                   ErrorType const &&>::value)
 #else
-  template <
-      typename FunctionType,
-      typename ResultOfFunc = typename std::result_of<FunctionType ()>::type,
-      typename
-      = typename std::enable_if<lumex::core::utility::traits::value::
-                                    is_expected<ResultOfFunc>::value>::type>
-  LUMEX_CONSTEXPR_CXX14 auto
-  and_then (FunctionType func) const && -> ResultOfFunc
-  {
-    if (m_has_value)
-      return func ();
-    return ResultOfFunc (
-        unexpected<ErrorType> (std::move (m_storage.m_error)));
-  }
+  template <typename FunctionType,
+            typename = typename std::enable_if<detail::can_and_then<
+                FunctionType, ErrorType, ErrorType const &&>::value>::type>
 #endif
+  LUMEX_CONSTEXPR_CXX14 auto
+  and_then (
+      FunctionType &&func) const && -> detail::result_clean_t<FunctionType>
+  {
+    using ResultType = detail::result_clean_t<FunctionType>;
+    LUMEX_STATIC_ASSERT_MSG (
+        std::is_same<typename ResultType::error_type, ErrorType>::value,
+        "and_then: the function must return an expected with the "
+        "error type of the object it is called on");
+    if (m_has_value)
+      return detail::invoke_call (std::forward<FunctionType> (func));
+    return ResultType (unexpect, std::move (m_storage.m_error));
+  }
 
   /**
-   * @brief Applies `func` with no arguments to the success state (lvalue) if
-   * present, and transforms it into a new `expected` with a non-void result.
-   * @details If `expected<void, ErrorType>` is in the success state, `func` is
-   * called with no arguments, and its non-void result constructs a new
-   * `expected<ResultOfFunc, ErrorType>` specialization. If `expected` holds an
-   * error, `func` is not called and the current error is forwarded into a new
-   * `expected<ResultOfFunc, ErrorType>` specialization.
-   * @tparam FunctionType Function type that takes `void` (no arguments) and
-   * returns `ResultOfFunc` (not `void`).
-   * @tparam ResultOfFunc Return type of `func`.
-   * @param[in] func Function to apply.
-   * @return `expected<ResultOfFunc, ErrorType>` holding the transformed value
-   * or the current error.
-   * @note This overload lets `transform` be used on lvalue `expected<void,
-   * ErrorType>` objects to produce an `expected` with a concrete value.
-   * @throws May throw if `func` throws or the constructor
-   *         `expected` from a value/error throws.
-   */
-#if LUMEX_HAS_STD_CONCEPTS
-  template <typename FunctionType>
-    requires std::invocable<FunctionType>
-             && (!std::is_void_v<std::invoke_result_t<FunctionType>>)
-             && (!lumex::core::utility::traits::value::is_expected_concept<
-                 std::invoke_result_t<FunctionType>>)
-  LUMEX_CONSTEXPR_CXX14 auto
-  transform (FunctionType func)
-      & -> expected<std::invoke_result_t<FunctionType>, ErrorType>
-  {
-    if (m_has_value)
-      return expected<std::invoke_result_t<FunctionType>, ErrorType> (in_place,
-                                                                      func ());
-    return expected<std::invoke_result_t<FunctionType>, ErrorType> (
-        unexpected<ErrorType> (m_storage.m_error));
-  }
-#else
-  template <
-      typename FunctionType,
-      typename ResultOfFunc = typename std::result_of<FunctionType ()>::type,
-      typename ReturnType = expected<ResultOfFunc, ErrorType>,
-      typename
-      = typename std::enable_if<!std::is_void<ResultOfFunc>::value
-                                && !lumex::core::utility::traits::value::
-                                       is_expected<ResultOfFunc>::value>::type>
-  LUMEX_CONSTEXPR_CXX14 auto
-  transform (FunctionType func) & -> ReturnType
-  {
-    if (m_has_value)
-      return ReturnType (in_place, func ());
-    return ReturnType (unexpected<ErrorType> (m_storage.m_error));
-  }
-#endif
-
-  /**
-   * @brief Applies `func` with no arguments to the success state (lvalue) if
-   * present, and transforms it into a new `expected` with a void result.
-   * @details If `expected<void, ErrorType>` is in the success state, `func` is
-   * called with no arguments. Its void result (no value) is used to create a
-   * new `expected<void, ErrorType>` in the success state. If `expected` holds
-   * an error, `func` is not called and the current error is forwarded into a
-   * new `expected<void, ErrorType>` specialization.
-   * @tparam FunctionType Function type that takes `void` (no arguments) and
-   * returns `void`.
-   * @param[in] func Function to apply.
-   * @return `expected<void, ErrorType>` holding the success (void) state or
-   * the current error.
-   * @note This overload lets `transform` be used on lvalue `expected<void,
-   * ErrorType>` objects to keep `expected` in the `void` specialization.
-   * @throws May throw if `func` throws or the constructor
-   *         of `expected` from an error throws.
-   */
-#if LUMEX_HAS_STD_CONCEPTS
-  template <typename FunctionType>
-    requires std::invocable<FunctionType>
-             && std::is_void_v<std::invoke_result_t<FunctionType>>
-  LUMEX_CONSTEXPR_CXX14 auto
-  transform (FunctionType func) & -> expected<void, ErrorType>
-  {
-    if (m_has_value)
-      {
-        func ();
-        return expected<void, ErrorType> (in_place);
-      }
-    return expected<void, ErrorType> (
-        unexpected<ErrorType> (m_storage.m_error));
-  }
-#else
-  template <
-      typename FunctionType, typename ReturnType = expected<void, ErrorType>,
-      typename = typename std::enable_if<std::is_void<typename std::result_of<
-          FunctionType ()>::type>::value>::type> // If func returns void
-  LUMEX_CONSTEXPR_CXX14 auto
-  transform (
-      FunctionType func) & -> ReturnType // transform into expected<void, E>
-  {
-    if (m_has_value)
-      {
-        func ();
-        return ReturnType (in_place);
-      }
-    return ReturnType (unexpected<ErrorType> (m_storage.m_error));
-  }
-#endif
-
-  /**
-   * @brief Applies `func` with no arguments and transforms the result into a
-   * new `expected`.
-   * @details Used when `func` returns a non-void value.
-   *          If the object is in the success state (`m_has_value == true`),
-   *          `func()` is called and the result is packed into a new
-   * `expected<ResultOfFunc, ErrorType>` specialization. If the object holds an
-   * error, an `expected` holding the current error is returned.
-   *
-   * @tparam FunctionType Type of the called function (no arguments).
-   * @tparam ResultOfFunc Type returned by `func`.
-   * @tparam ReturnType Final return type (`expected<ResultOfFunc,
-   * ErrorType>`).
-   * @return A new `expected` holding the result of `func` or the current
-   * error.
-   *
-   * @note This overload is for lvalue references.
+   * @brief Calls `func` with the contained error (lvalue) if present, and
+   * returns its `expected`.
+   * @details If the object holds an error, `func` is called with an lvalue
+   * reference to it and its result is returned. If it is a success, `func` is
+   * not called and an `expected<void, G>` in the success state is returned.
+   * @tparam FunctionType Type of `func`, forwarded and called as by
+   * `std::invoke`.
+   * @param[in] func Function that takes the error and returns an
+   * `expected<void, G>`; the error type `G` may differ from `ErrorType`.
+   * @return The result of `func` or a success, as an `expected<void, G>`
+   * without `const`, `volatile` and reference.
+   * @note The overload exists only when `func` can be called with the error
+   * and returns an `expected`; an `expected` with a value type other than
+   * `void` fails a `static_assert`.
    * @throws May throw if `func` throws.
    */
-#if LUMEX_HAS_STD_CONCEPTS
+#if LUMEX_HAS_CONCEPTS
   template <typename FunctionType>
-    requires std::invocable<FunctionType>
-             && (!std::is_void_v<std::invoke_result_t<FunctionType>>)
-             && (!lumex::core::utility::traits::value::is_expected_concept<
-                 std::invoke_result_t<FunctionType>>)
-  LUMEX_CONSTEXPR_CXX14 auto
-  transform (FunctionType func)
-      const & -> expected<std::invoke_result_t<FunctionType>, ErrorType>
-  {
-    if (m_has_value)
-      return expected<std::invoke_result_t<FunctionType>, ErrorType> (in_place,
-                                                                      func ());
-    return expected<std::invoke_result_t<FunctionType>, ErrorType> (
-        unexpected<ErrorType> (m_storage.m_error));
-  }
-#else
-  template <
-      typename FunctionType,
-      typename ResultOfFunc = typename std::result_of<FunctionType ()>::type,
-      typename ReturnType = expected<ResultOfFunc, ErrorType>,
-      typename
-      = typename std::enable_if<!std::is_void<ResultOfFunc>::value
-                                && !lumex::core::utility::traits::value::
-                                       is_expected<ResultOfFunc>::value>::type>
-  LUMEX_CONSTEXPR_CXX14 auto
-  transform (FunctionType func) const & -> ReturnType
-  {
-    if (m_has_value)
-      return ReturnType (in_place, func ());
-    return ReturnType (unexpected<ErrorType> (m_storage.m_error));
-  }
-#endif
-
-  /**
-   * @brief Applies `func` with no arguments returning `void`, and transforms
-   * the result into `expected<void, ErrorType>` specialization.
-   * @details If the object is in the success state, `func()` is called and
-   * `expected<void, ErrorType>` in the success state is returned. If the
-   * object holds an error, an `expected` holding that error is returned.
-   *
-   * @tparam FunctionType Type of the called function (no arguments) that
-   * returns `void`.
-   * @tparam ReturnType Final return type (`expected<void, ErrorType>`).
-   * @return `expected<void, ErrorType>` indicating success or an error.
-   *
-   * @note This overload is used for functions that return no value.
-   */
-#if LUMEX_HAS_STD_CONCEPTS
-  template <typename FunctionType>
-    requires std::invocable<FunctionType>
-             && std::is_void_v<std::invoke_result_t<FunctionType>>
-  LUMEX_CONSTEXPR_CXX14 auto
-  transform (FunctionType func) const & -> expected<void, ErrorType>
-  {
-    if (m_has_value)
-      {
-        func ();
-        return expected<void, ErrorType> (in_place);
-      }
-    return expected<void, ErrorType> (
-        unexpected<ErrorType> (m_storage.m_error));
-  }
+    requires (
+        detail::can_or_else<FunctionType, void, void, ErrorType &>::value)
 #else
   template <typename FunctionType,
-            typename ReturnType = expected<void, ErrorType>,
-            typename = typename std::enable_if<std::is_void<
-                typename std::result_of<FunctionType ()>::type>::value>::type>
-  LUMEX_CONSTEXPR_CXX14 auto
-  transform (FunctionType func) const & -> ReturnType
-  {
-    if (m_has_value)
-      {
-        func ();
-        return ReturnType (in_place);
-      }
-    return ReturnType (unexpected<ErrorType> (m_storage.m_error));
-  }
+            typename = typename std::enable_if<detail::can_or_else<
+                FunctionType, void, void, ErrorType &>::value>::type>
 #endif
+  LUMEX_CONSTEXPR_CXX14 auto
+  or_else (FunctionType &&func)
+      & -> detail::result_clean_t<FunctionType, ErrorType &>
+  {
+    using ResultType = detail::result_clean_t<FunctionType, ErrorType &>;
+    LUMEX_STATIC_ASSERT_MSG (
+        std::is_same<typename ResultType::value_type, void>::value,
+        "or_else: the function must return an expected with the "
+        "value type of the object it is called on");
+    if (m_has_value)
+      return ResultType ();
+    return detail::invoke_call (std::forward<FunctionType> (func),
+                                m_storage.m_error);
+  }
 
   /**
-   * @brief `transform` overload for an rvalue reference and functions that
-   * return a non-void value.
-   * @details Lets `func()` run on temporary `expected` objects. If a value is
-   * present, the result is wrapped in `expected<ResultOfFunc, ErrorType>`
-   * specialization. If the object holds an error, an `expected` holding it
-   * is returned.
-   *
-   * @tparam FunctionType Type of the called function.
-   * @tparam ResultOfFunc Type returned by `func`.
-   * @tparam ReturnType Final return type.
-   * @return A new `expected` holding the result of `func` or the current
-   * error.
-   */
-#if LUMEX_HAS_STD_CONCEPTS
-  template <typename FunctionType>
-    requires std::invocable<FunctionType>
-             && (!std::is_void_v<std::invoke_result_t<FunctionType>>)
-             && (!lumex::core::utility::traits::value::is_expected_concept<
-                 std::invoke_result_t<FunctionType>>)
-  LUMEX_CONSTEXPR_CXX14 auto
-  transform (FunctionType func)
-      && -> expected<std::invoke_result_t<FunctionType>, ErrorType>
-  {
-    if (m_has_value)
-      return expected<std::invoke_result_t<FunctionType>, ErrorType> (in_place,
-                                                                      func ());
-    return expected<std::invoke_result_t<FunctionType>, ErrorType> (
-        unexpected<ErrorType> (std::move (m_storage.m_error)));
-  }
-#else
-  template <
-      typename FunctionType,
-      typename ResultOfFunc = typename std::result_of<FunctionType ()>::type,
-      typename ReturnType = expected<ResultOfFunc, ErrorType>,
-      typename
-      = typename std::enable_if<!std::is_void<ResultOfFunc>::value
-                                && !lumex::core::utility::traits::value::
-                                       is_expected<ResultOfFunc>::value>::type>
-  LUMEX_CONSTEXPR_CXX14 auto
-  transform (FunctionType func) && -> ReturnType
-  {
-    if (m_has_value)
-      return ReturnType (in_place, func ());
-    return ReturnType (unexpected<ErrorType> (std::move (m_storage.m_error)));
-  }
-#endif
-
-  /**
-   * @brief `transform` overload for an rvalue reference and functions that
-   * return `void`.
-   * @details If the object is in the success state, `func()` is called and
-   *          `expected<void, ErrorType>` in the success state is returned.
-   * Otherwise the error is returned.
-   *
-   * @tparam FunctionType Type of the called function.
-   * @tparam ReturnType Final return type.
-   * @return A new `expected` indicating success or an error.
-   */
-#if LUMEX_HAS_STD_CONCEPTS
-  template <typename FunctionType>
-    requires std::invocable<FunctionType>
-             && std::is_void_v<std::invoke_result_t<FunctionType>>
-  LUMEX_CONSTEXPR_CXX14 auto
-  transform (FunctionType func) && -> expected<void, ErrorType>
-  {
-    if (m_has_value)
-      {
-        func ();
-        return expected<void, ErrorType> (in_place);
-      }
-    return expected<void, ErrorType> (
-        unexpected<ErrorType> (std::move (m_storage.m_error)));
-  }
-#else
-  template <typename FunctionType,
-            typename ReturnType = expected<void, ErrorType>,
-            typename = typename std::enable_if<std::is_void<
-                typename std::result_of<FunctionType ()>::type>::value>::type>
-  LUMEX_CONSTEXPR_CXX14 auto
-  transform (FunctionType func) && -> ReturnType
-  {
-    if (m_has_value)
-      {
-        func ();
-        return ReturnType (in_place);
-      }
-    return ReturnType (unexpected<ErrorType> (std::move (m_storage.m_error)));
-  }
-#endif
-
-  /**
-   * @brief `transform` overload for a const rvalue reference and functions
-   * that return a non-void value.
-   * @details Lets temporary const objects be transformed. If `m_has_value ==
-   * true`, `func()` is called and the result is wrapped in `expected`.
-   * Otherwise the error is returned.
-   *
-   * @tparam FunctionType Type of the called function.
-   * @tparam ResultOfFunc Result type of `func`.
-   * @tparam ReturnType Final return type.
-   * @return A new `expected` with the result of `func` or an error.
-   */
-#if LUMEX_HAS_STD_CONCEPTS
-  template <typename FunctionType>
-    requires std::invocable<FunctionType>
-             && (!std::is_void_v<std::invoke_result_t<FunctionType>>)
-             && (!lumex::core::utility::traits::value::is_expected_concept<
-                 std::invoke_result_t<FunctionType>>)
-  LUMEX_CONSTEXPR_CXX14 auto
-  transform (FunctionType func)
-      const && -> expected<std::invoke_result_t<FunctionType>, ErrorType>
-  {
-    if (m_has_value)
-      return expected<std::invoke_result_t<FunctionType>, ErrorType> (in_place,
-                                                                      func ());
-    return expected<std::invoke_result_t<FunctionType>, ErrorType> (
-        unexpected<ErrorType> (std::move (m_storage.m_error)));
-  }
-#else
-  template <
-      typename FunctionType,
-      typename ResultOfFunc = typename std::result_of<FunctionType ()>::type,
-      typename ReturnType = expected<ResultOfFunc, ErrorType>,
-      typename
-      = typename std::enable_if<!std::is_void<ResultOfFunc>::value
-                                && !lumex::core::utility::traits::value::
-                                       is_expected<ResultOfFunc>::value>::type>
-  LUMEX_CONSTEXPR_CXX14 auto
-  transform (FunctionType func) const && -> ReturnType
-  {
-    if (m_has_value)
-      return ReturnType (in_place, func ());
-    return ReturnType (unexpected<ErrorType> (std::move (m_storage.m_error)));
-  }
-#endif
-
-  /**
-   * @brief `transform` overload for a const rvalue reference and functions
-   * that return `void`.
-   * @details If the object is in the success state, `func()` is called and
-   *          `expected<void, ErrorType>` in the success state is returned. If
-   * the object holds an error, an `expected` holding that error is returned.
-   *
-   * @tparam FunctionType Type of the called function.
-   * @tparam ReturnType Final return type.
-   * @return A new `expected` indicating success or an error.
-   */
-#if LUMEX_HAS_STD_CONCEPTS
-  template <typename FunctionType>
-    requires std::invocable<FunctionType>
-             && std::is_void_v<std::invoke_result_t<FunctionType>>
-  LUMEX_CONSTEXPR_CXX14 auto
-  transform (FunctionType func) const && -> expected<void, ErrorType>
-  {
-    if (m_has_value)
-      {
-        func ();
-        return expected<void, ErrorType> (in_place);
-      }
-    return expected<void, ErrorType> (
-        unexpected<ErrorType> (std::move (m_storage.m_error)));
-  }
-#else
-  template <typename FunctionType,
-            typename ReturnType = expected<void, ErrorType>,
-            typename = typename std::enable_if<std::is_void<
-                typename std::result_of<FunctionType ()>::type>::value>::type>
-  LUMEX_CONSTEXPR_CXX14 auto
-  transform (FunctionType func) const && -> ReturnType
-  {
-    if (m_has_value)
-      {
-        func ();
-        return ReturnType (in_place);
-      }
-    return ReturnType (unexpected<ErrorType> (std::move (m_storage.m_error)));
-  }
-#endif
-
-  /**
-   * @brief Handles the error if present by calling `func`.
-   * @details If the object holds an error, `func(error)` is called and its
-   * result is returned. If the object is in the success state, an empty
-   * success `expected` is returned.
-   *
-   * @tparam FunctionType Function type that takes a reference to `ErrorType`.
-   * @tparam ResultOfFunc Function result type.
-   * @return Result of `func` or an empty `expected`.
-   */
-#if LUMEX_HAS_STD_CONCEPTS
-  template <typename FunctionType>
-    requires std::invocable<FunctionType, ErrorType &>
-             && lumex::core::utility::traits::value::is_expected_concept<
-                 std::invoke_result_t<FunctionType, ErrorType &>>
-  LUMEX_CONSTEXPR_CXX14 auto
-  or_else (
-      FunctionType func) & -> std::invoke_result_t<FunctionType, ErrorType &>
-  {
-    if (m_has_value)
-      return std::invoke_result_t<FunctionType, ErrorType &> (in_place);
-    return func (m_storage.m_error);
-  }
-#else
-  template <typename FunctionType,
-            typename ResultOfFunc
-            = typename std::result_of<FunctionType (ErrorType &)>::type,
-            typename = typename std::enable_if<
-                lumex::core::utility::traits::value::is_expected<
-                    ResultOfFunc>::value>::type>
-  LUMEX_CONSTEXPR_CXX14 auto
-  or_else (FunctionType func) & -> ResultOfFunc
-  {
-    if (m_has_value)
-      return ResultOfFunc (in_place);
-    return func (m_storage.m_error);
-  }
-#endif
-
-  /**
-   * @brief Handles the error (const lvalue) if present.
-   * @details If the object holds an error, `func(const ErrorType&)` is called.
-   *          On success an empty `expected` is returned.
-   *
-   * @tparam FunctionType Function type.
-   * @tparam ResultOfFunc Result type.
-   * @return Result of `func` or an empty `expected`.
-   */
-#if LUMEX_HAS_STD_CONCEPTS
-  template <typename FunctionType>
-    requires std::invocable<FunctionType, const ErrorType &>
-             && lumex::core::utility::traits::value::is_expected_concept<
-                 std::invoke_result_t<FunctionType, const ErrorType &>>
-  LUMEX_CONSTEXPR_CXX14 auto
-  or_else (FunctionType func)
-      const & -> std::invoke_result_t<FunctionType, const ErrorType &>
-  {
-    if (m_has_value)
-      return std::invoke_result_t<FunctionType, ErrorType const &> (in_place);
-    return func (m_storage.m_error);
-  }
-#else
-  template <typename FunctionType,
-            typename ResultOfFunc
-            = typename std::result_of<FunctionType (ErrorType const &)>::type,
-            typename = typename std::enable_if<
-                lumex::core::utility::traits::value::is_expected<
-                    ResultOfFunc>::value>::type>
-  LUMEX_CONSTEXPR_CXX14 auto
-  or_else (FunctionType func) const & -> ResultOfFunc
-  {
-    if (m_has_value)
-      return ResultOfFunc (in_place);
-    return func (m_storage.m_error);
-  }
-#endif
-
-  /**
-   * @brief Handles the error (rvalue) if present.
-   * @details If the object holds an error, `func(ErrorType&&)` is called.
-   *          On success an empty `expected` is returned.
-   *
-   * @tparam FunctionType Function type.
-   * @tparam ResultOfFunc Result type.
-   * @return Result of `func` or an empty `expected`.
-   */
-#if LUMEX_HAS_STD_CONCEPTS
-  template <typename FunctionType>
-    requires std::invocable<FunctionType, ErrorType &&>
-             && lumex::core::utility::traits::value::is_expected_concept<
-                 std::invoke_result_t<FunctionType, ErrorType &&>>
-  LUMEX_CONSTEXPR_CXX14 auto
-  or_else (
-      FunctionType func) && -> std::invoke_result_t<FunctionType, ErrorType &&>
-  {
-    if (m_has_value)
-      return std::invoke_result_t<FunctionType, ErrorType &&> (in_place);
-    return func (std::move (m_storage.m_error));
-  }
-#else
-  template <typename FunctionType,
-            typename ResultOfFunc
-            = typename std::result_of<FunctionType (ErrorType &&)>::type,
-            typename = typename std::enable_if<
-                lumex::core::utility::traits::value::is_expected<
-                    ResultOfFunc>::value>::type>
-  LUMEX_CONSTEXPR_CXX14 auto
-  or_else (FunctionType func) && -> ResultOfFunc
-  {
-    if (m_has_value)
-      return ResultOfFunc (in_place);
-    return func (std::move (m_storage.m_error));
-  }
-#endif
-
-  /**
-   * @brief Handles the error (const rvalue) if present.
-   * @details If the object holds an error, `func(const ErrorType&&)` is
-   * called. On success an empty `expected` is returned.
-   *
-   * @tparam FunctionType Function type.
-   * @tparam ResultOfFunc Result type.
-   * @return Result of `func` or an empty `expected`.
-   */
-#if LUMEX_HAS_STD_CONCEPTS
-  template <typename FunctionType>
-    requires std::invocable<FunctionType, const ErrorType &&>
-             && lumex::core::utility::traits::value::is_expected_concept<
-                 std::invoke_result_t<FunctionType, const ErrorType &&>>
-  LUMEX_CONSTEXPR_CXX14 auto
-  or_else (FunctionType func)
-      const && -> std::invoke_result_t<FunctionType, const ErrorType &&>
-  {
-    if (m_has_value)
-      return std::invoke_result_t<FunctionType, ErrorType const &&> (in_place);
-    return func (std::move (m_storage.m_error));
-  }
-#else
-  template <typename FunctionType,
-            typename ResultOfFunc
-            = typename std::result_of<FunctionType (ErrorType const &&)>::type,
-            typename = typename std::enable_if<
-                lumex::core::utility::traits::value::is_expected<
-                    ResultOfFunc>::value>::type>
-  LUMEX_CONSTEXPR_CXX14 auto
-  or_else (FunctionType func) const && -> ResultOfFunc
-  {
-    if (m_has_value)
-      return ResultOfFunc (in_place);
-    return func (std::move (m_storage.m_error));
-  }
-#endif
-
-  /**
-   * @brief Transforms the error if present by applying `func`.
-   * @details If the object holds an error, `func(error)` is called and a new
-   *          `expected<void, ResultOfFunc>` is returned. If the object is in
-   * the success state, `expected<void, ResultOfFunc>` without an error is
+   * @brief Calls `func` with the contained error (const lvalue) if present,
+   * and returns its `expected`.
+   * @details If the object holds an error, `func` is called with a const
+   * lvalue reference to it and its result is returned. If it is a success,
+   * `func` is not called and an `expected<void, G>` in the success state is
    * returned.
-   *
-   * @tparam FunctionType Function type that takes `ErrorType`.
-   * @tparam ResultOfFunc Function result type.
-   * @tparam ReturnType Resulting type `expected<void, ResultOfFunc>`.
-   * @return A new `expected` with the transformed error, or without one.
+   * @tparam FunctionType Type of `func`, forwarded and called as by
+   * `std::invoke`.
+   * @param[in] func Function that takes the error and returns an
+   * `expected<void, G>`; the error type `G` may differ from `ErrorType`.
+   * @return The result of `func` or a success, as an `expected<void, G>`
+   * without `const`, `volatile` and reference.
+   * @note The overload exists only when `func` can be called with the error
+   * and returns an `expected`; an `expected` with a value type other than
+   * `void` fails a `static_assert`.
+   * @throws May throw if `func` throws.
    */
-#if LUMEX_HAS_STD_CONCEPTS
+#if LUMEX_HAS_CONCEPTS
   template <typename FunctionType>
-    requires std::invocable<FunctionType, ErrorType &>
-             && (!std::is_void_v<
-                 std::invoke_result_t<FunctionType, ErrorType &>>)
-             && (!lumex::core::utility::traits::value::is_expected_concept<
-                 std::invoke_result_t<FunctionType, ErrorType &>>)
-  LUMEX_CONSTEXPR_CXX14 auto
-  transform_error (FunctionType func)
-      & -> expected<void, std::invoke_result_t<FunctionType, ErrorType &>>
-  {
-    if (m_has_value)
-      return expected<void, std::invoke_result_t<FunctionType, ErrorType &>> (
-          in_place);
-    return expected<void, std::invoke_result_t<FunctionType, ErrorType &>> (
-        unexpected<std::invoke_result_t<FunctionType, ErrorType &>> (
-            func (m_storage.m_error)));
-  }
+    requires (detail::can_or_else<FunctionType, void, void,
+                                  ErrorType const &>::value)
 #else
   template <typename FunctionType,
-            typename ResultOfFunc
-            = typename std::result_of<FunctionType (ErrorType &)>::type,
-            typename ReturnType = expected<void, ResultOfFunc>,
-            typename = typename std::enable_if<
-                !std::is_void<ResultOfFunc>::value
-                && !lumex::core::utility::traits::value::is_expected<
-                    ResultOfFunc>::value>::type>
-  LUMEX_CONSTEXPR_CXX14 auto
-  transform_error (FunctionType func) & -> ReturnType
-  {
-    if (m_has_value)
-      return ReturnType (in_place);
-    return ReturnType (unexpected<ResultOfFunc> (func (m_storage.m_error)));
-  }
+            typename = typename std::enable_if<detail::can_or_else<
+                FunctionType, void, void, ErrorType const &>::value>::type>
 #endif
+  LUMEX_CONSTEXPR_CXX14 auto
+  or_else (FunctionType &&func)
+      const & -> detail::result_clean_t<FunctionType, ErrorType const &>
+  {
+    using ResultType = detail::result_clean_t<FunctionType, ErrorType const &>;
+    LUMEX_STATIC_ASSERT_MSG (
+        std::is_same<typename ResultType::value_type, void>::value,
+        "or_else: the function must return an expected with the "
+        "value type of the object it is called on");
+    if (m_has_value)
+      return ResultType ();
+    return detail::invoke_call (std::forward<FunctionType> (func),
+                                m_storage.m_error);
+  }
 
   /**
-   * @brief Transforms the error (const lvalue).
-   * @details If the object holds an error, `func(const ErrorType&)` is called.
-   *          If the object is in the success state, `expected<void,
-   * ResultOfFunc>` without an error is returned.
+   * @brief Calls `func` with the contained error (rvalue) if present, and
+   * returns its `expected`.
+   * @details If the object holds an error, `func` is called with an rvalue
+   * reference to it (so the callee can move from it) and its result is
+   * returned. If it is a success, `func` is not called and an `expected<void,
+   * G>` in the success state is returned.
+   * @tparam FunctionType Type of `func`, forwarded and called as by
+   * `std::invoke`.
+   * @param[in] func Function that takes the error and returns an
+   * `expected<void, G>`; the error type `G` may differ from `ErrorType`.
+   * @return The result of `func` or a success, as an `expected<void, G>`
+   * without `const`, `volatile` and reference.
+   * @note The overload exists only when `func` can be called with the error
+   * and returns an `expected`; an `expected` with a value type other than
+   * `void` fails a `static_assert`.
+   * @throws May throw if `func` throws.
    */
-#if LUMEX_HAS_STD_CONCEPTS
+#if LUMEX_HAS_CONCEPTS
   template <typename FunctionType>
-    requires std::invocable<FunctionType, const ErrorType &>
-             && (!std::is_void_v<
-                 std::invoke_result_t<FunctionType, const ErrorType &>>)
-             && (!lumex::core::utility::traits::value::is_expected_concept<
-                 std::invoke_result_t<FunctionType, const ErrorType &>>)
-  LUMEX_CONSTEXPR_CXX14 auto
-  transform_error (FunctionType func) const & -> expected<
-      void, std::invoke_result_t<FunctionType, const ErrorType &>>
-  {
-    if (m_has_value)
-      return expected<void,
-                      std::invoke_result_t<FunctionType, ErrorType const &>> (
-          in_place);
-    return expected<void,
-                    std::invoke_result_t<FunctionType, ErrorType const &>> (
-        unexpected<std::invoke_result_t<FunctionType, ErrorType const &>> (
-            func (m_storage.m_error)));
-  }
+    requires (
+        detail::can_or_else<FunctionType, void, void, ErrorType &&>::value)
 #else
   template <typename FunctionType,
-            typename ResultOfFunc
-            = typename std::result_of<FunctionType (ErrorType const &)>::type,
-            typename ReturnType = expected<void, ResultOfFunc>,
-            typename = typename std::enable_if<
-                !std::is_void<ResultOfFunc>::value
-                && !lumex::core::utility::traits::value::is_expected<
-                    ResultOfFunc>::value>::type>
-  LUMEX_CONSTEXPR_CXX14 auto
-  transform_error (FunctionType func) const & -> ReturnType
-  {
-    if (m_has_value)
-      return ReturnType (in_place);
-    return ReturnType (unexpected<ResultOfFunc> (func (m_storage.m_error)));
-  }
+            typename = typename std::enable_if<detail::can_or_else<
+                FunctionType, void, void, ErrorType &&>::value>::type>
 #endif
+  LUMEX_CONSTEXPR_CXX14 auto
+  or_else (FunctionType &&func)
+      && -> detail::result_clean_t<FunctionType, ErrorType &&>
+  {
+    using ResultType = detail::result_clean_t<FunctionType, ErrorType &&>;
+    LUMEX_STATIC_ASSERT_MSG (
+        std::is_same<typename ResultType::value_type, void>::value,
+        "or_else: the function must return an expected with the "
+        "value type of the object it is called on");
+    if (m_has_value)
+      return ResultType ();
+    return detail::invoke_call (std::forward<FunctionType> (func),
+                                std::move (m_storage.m_error));
+  }
 
   /**
-   * @brief Transforms the error (rvalue).
-   * @details If the object holds an error, `func(ErrorType&&)` is called.
-   *          If the object is in the success state, `expected<void,
-   * ResultOfFunc>` without an error is returned.
+   * @brief Calls `func` with the contained error (const rvalue) if present,
+   * and returns its `expected`.
+   * @details If the object holds an error, `func` is called with a const
+   * rvalue reference to it and its result is returned. If it is a success,
+   * `func` is not called and an `expected<void, G>` in the success state is
+   * returned.
+   * @tparam FunctionType Type of `func`, forwarded and called as by
+   * `std::invoke`.
+   * @param[in] func Function that takes the error and returns an
+   * `expected<void, G>`; the error type `G` may differ from `ErrorType`.
+   * @return The result of `func` or a success, as an `expected<void, G>`
+   * without `const`, `volatile` and reference.
+   * @note The overload exists only when `func` can be called with the error
+   * and returns an `expected`; an `expected` with a value type other than
+   * `void` fails a `static_assert`.
+   * @throws May throw if `func` throws.
    */
-#if LUMEX_HAS_STD_CONCEPTS
+#if LUMEX_HAS_CONCEPTS
   template <typename FunctionType>
-    requires std::invocable<FunctionType, ErrorType &&>
-             && (!std::is_void_v<
-                 std::invoke_result_t<FunctionType, ErrorType &&>>)
-             && (!lumex::core::utility::traits::value::is_expected_concept<
-                 std::invoke_result_t<FunctionType, ErrorType &&>>)
-  LUMEX_CONSTEXPR_CXX14 auto
-  transform_error (FunctionType func)
-      && -> expected<void, std::invoke_result_t<FunctionType, ErrorType &&>>
-  {
-    if (m_has_value)
-      return expected<void, std::invoke_result_t<FunctionType, ErrorType &&>> (
-          in_place);
-    return expected<void, std::invoke_result_t<FunctionType, ErrorType &&>> (
-        unexpected<std::invoke_result_t<FunctionType, ErrorType &&>> (
-            func (std::move (m_storage.m_error))));
-  }
+    requires (detail::can_or_else<FunctionType, void, void,
+                                  ErrorType const &&>::value)
 #else
   template <typename FunctionType,
-            typename ResultOfFunc
-            = typename std::result_of<FunctionType (ErrorType &&)>::type,
-            typename ReturnType = expected<void, ResultOfFunc>,
-            typename = typename std::enable_if<
-                !std::is_void<ResultOfFunc>::value
-                && !lumex::core::utility::traits::value::is_expected<
-                    ResultOfFunc>::value>::type>
-  LUMEX_CONSTEXPR_CXX14 auto
-  transform_error (FunctionType func) && -> ReturnType
-  {
-    if (m_has_value)
-      return ReturnType (in_place);
-    return ReturnType (
-        unexpected<ResultOfFunc> (func (std::move (m_storage.m_error))));
-  }
+            typename = typename std::enable_if<detail::can_or_else<
+                FunctionType, void, void, ErrorType const &&>::value>::type>
 #endif
+  LUMEX_CONSTEXPR_CXX14 auto
+  or_else (FunctionType &&func)
+      const && -> detail::result_clean_t<FunctionType, ErrorType const &&>
+  {
+    using ResultType
+        = detail::result_clean_t<FunctionType, ErrorType const &&>;
+    LUMEX_STATIC_ASSERT_MSG (
+        std::is_same<typename ResultType::value_type, void>::value,
+        "or_else: the function must return an expected with the "
+        "value type of the object it is called on");
+    if (m_has_value)
+      return ResultType ();
+    return detail::invoke_call (std::forward<FunctionType> (func),
+                                std::move (m_storage.m_error));
+  }
 
   /**
-   * @brief Transforms the error (const rvalue).
-   * @details If the object holds an error, `func(const ErrorType&&)` is
-   * called. If the object is in the success state, `expected<void,
-   * ResultOfFunc>` without an error is returned.
+   * @brief Calls `func` if this `expected<void, ErrorType>` is a success
+   * (lvalue), and wraps the result in an `expected`.
+   * @details If the object is in the success state, `func` is called with no
+   * arguments and an `expected` holding its result is returned; a `void`
+   * result gives an `expected<void, ErrorType>` in the success state. If it
+   * holds an error, `func` is not called and an `expected` holding the current
+   * error is returned.
+   * @tparam FunctionType Type of `func`, forwarded and called as by
+   * `std::invoke`.
+   * @param[in] func Function without parameters; its result may be any type:
+   * `void`, a value, or an `expected` (which gives an `expected` of an
+   * `expected`, as in `std::expected`).
+   * @return `expected<U, ErrorType>` where `U` is the result type of `func`
+   * without `const` and `volatile`.
+   * @note The overload exists only when `func` can be called and `ErrorType`
+   * can be copied or moved the way the lvalue call needs. A result type that
+   * `expected` cannot hold (a reference, an array, `in_place_tag`,
+   * `unexpect_t`, an `unexpected`) fails the `static_assert` of `expected`.
+   * @throws May throw if `func` throws or if constructing the result throws.
    */
-#if LUMEX_HAS_STD_CONCEPTS
+#if LUMEX_HAS_CONCEPTS
   template <typename FunctionType>
-    requires std::invocable<FunctionType, const ErrorType &&>
-             && (!std::is_void_v<
-                 std::invoke_result_t<FunctionType, const ErrorType &&>>)
-             && (!lumex::core::utility::traits::value::is_expected_concept<
-                 std::invoke_result_t<FunctionType, const ErrorType &&>>)
-  LUMEX_CONSTEXPR_CXX14 auto
-  transform_error (FunctionType func) const && -> expected<
-      void, std::invoke_result_t<FunctionType, const ErrorType &&>>
-  {
-    if (m_has_value)
-      return expected<void,
-                      std::invoke_result_t<FunctionType, ErrorType const &&>> (
-          in_place);
-    return expected<void,
-                    std::invoke_result_t<FunctionType, ErrorType const &&>> (
-        unexpected<std::invoke_result_t<FunctionType, ErrorType const &&>> (
-            func (std::move (m_storage.m_error))));
-  }
+    requires (
+        detail::can_transform<FunctionType, ErrorType, ErrorType &>::value)
 #else
   template <typename FunctionType,
-            typename ResultOfFunc
-            = typename std::result_of<FunctionType (ErrorType const &&)>::type,
-            typename ReturnType = expected<void, ResultOfFunc>,
-            typename = typename std::enable_if<
-                !std::is_void<ResultOfFunc>::value
-                && !lumex::core::utility::traits::value::is_expected<
-                    ResultOfFunc>::value>::type>
-  LUMEX_CONSTEXPR_CXX14 auto
-  transform_error (FunctionType func) const && -> ReturnType
-  {
-    if (m_has_value)
-      return ReturnType (in_place);
-    return ReturnType (
-        unexpected<ResultOfFunc> (func (std::move (m_storage.m_error))));
-  }
+            typename = typename std::enable_if<detail::can_transform<
+                FunctionType, ErrorType, ErrorType &>::value>::type>
 #endif
+  LUMEX_CONSTEXPR_CXX14 auto
+  transform (FunctionType &&func)
+      & -> expected<detail::result_xform_t<FunctionType>, ErrorType>
+  {
+    using ResultType
+        = expected<detail::result_xform_t<FunctionType>, ErrorType>;
+    if (m_has_value)
+      return ResultType (detail::invoke_value_tag (),
+                         std::forward<FunctionType> (func));
+    return ResultType (unexpect, m_storage.m_error);
+  }
+
+  /**
+   * @brief Calls `func` if this `expected<void, ErrorType>` is a success
+   * (const lvalue), and wraps the result in an `expected`.
+   * @details If the object is in the success state, `func` is called with no
+   * arguments and an `expected` holding its result is returned; a `void`
+   * result gives an `expected<void, ErrorType>` in the success state. If it
+   * holds an error, `func` is not called and an `expected` holding the current
+   * error is returned.
+   * @tparam FunctionType Type of `func`, forwarded and called as by
+   * `std::invoke`.
+   * @param[in] func Function without parameters; its result may be any type:
+   * `void`, a value, or an `expected` (which gives an `expected` of an
+   * `expected`, as in `std::expected`).
+   * @return `expected<U, ErrorType>` where `U` is the result type of `func`
+   * without `const` and `volatile`.
+   * @note The overload exists only when `func` can be called and `ErrorType`
+   * can be copied or moved the way the const lvalue call needs. A result type
+   * that `expected` cannot hold (a reference, an array, `in_place_tag`,
+   * `unexpect_t`, an `unexpected`) fails the `static_assert` of `expected`.
+   * @throws May throw if `func` throws or if constructing the result throws.
+   */
+#if LUMEX_HAS_CONCEPTS
+  template <typename FunctionType>
+    requires (detail::can_transform<FunctionType, ErrorType,
+                                    ErrorType const &>::value)
+#else
+  template <typename FunctionType,
+            typename = typename std::enable_if<detail::can_transform<
+                FunctionType, ErrorType, ErrorType const &>::value>::type>
+#endif
+  LUMEX_CONSTEXPR_CXX14 auto
+  transform (FunctionType &&func)
+      const & -> expected<detail::result_xform_t<FunctionType>, ErrorType>
+  {
+    using ResultType
+        = expected<detail::result_xform_t<FunctionType>, ErrorType>;
+    if (m_has_value)
+      return ResultType (detail::invoke_value_tag (),
+                         std::forward<FunctionType> (func));
+    return ResultType (unexpect, m_storage.m_error);
+  }
+
+  /**
+   * @brief Calls `func` if this `expected<void, ErrorType>` is a success
+   * (rvalue), and wraps the result in an `expected`.
+   * @details If the object is in the success state, `func` is called with no
+   * arguments and an `expected` holding its result is returned; a `void`
+   * result gives an `expected<void, ErrorType>` in the success state. If it
+   * holds an error, `func` is not called and an `expected` holding the current
+   * error is returned.
+   * @tparam FunctionType Type of `func`, forwarded and called as by
+   * `std::invoke`.
+   * @param[in] func Function without parameters; its result may be any type:
+   * `void`, a value, or an `expected` (which gives an `expected` of an
+   * `expected`, as in `std::expected`).
+   * @return `expected<U, ErrorType>` where `U` is the result type of `func`
+   * without `const` and `volatile`.
+   * @note The overload exists only when `func` can be called and `ErrorType`
+   * can be copied or moved the way the rvalue call needs. A result type that
+   * `expected` cannot hold (a reference, an array, `in_place_tag`,
+   * `unexpect_t`, an `unexpected`) fails the `static_assert` of `expected`.
+   * @throws May throw if `func` throws or if constructing the result throws.
+   */
+#if LUMEX_HAS_CONCEPTS
+  template <typename FunctionType>
+    requires (
+        detail::can_transform<FunctionType, ErrorType, ErrorType &&>::value)
+#else
+  template <typename FunctionType,
+            typename = typename std::enable_if<detail::can_transform<
+                FunctionType, ErrorType, ErrorType &&>::value>::type>
+#endif
+  LUMEX_CONSTEXPR_CXX14 auto
+  transform (FunctionType &&func)
+      && -> expected<detail::result_xform_t<FunctionType>, ErrorType>
+  {
+    using ResultType
+        = expected<detail::result_xform_t<FunctionType>, ErrorType>;
+    if (m_has_value)
+      return ResultType (detail::invoke_value_tag (),
+                         std::forward<FunctionType> (func));
+    return ResultType (unexpect, std::move (m_storage.m_error));
+  }
+
+  /**
+   * @brief Calls `func` if this `expected<void, ErrorType>` is a success
+   * (const rvalue), and wraps the result in an `expected`.
+   * @details If the object is in the success state, `func` is called with no
+   * arguments and an `expected` holding its result is returned; a `void`
+   * result gives an `expected<void, ErrorType>` in the success state. If it
+   * holds an error, `func` is not called and an `expected` holding the current
+   * error is returned.
+   * @tparam FunctionType Type of `func`, forwarded and called as by
+   * `std::invoke`.
+   * @param[in] func Function without parameters; its result may be any type:
+   * `void`, a value, or an `expected` (which gives an `expected` of an
+   * `expected`, as in `std::expected`).
+   * @return `expected<U, ErrorType>` where `U` is the result type of `func`
+   * without `const` and `volatile`.
+   * @note The overload exists only when `func` can be called and `ErrorType`
+   * can be copied or moved the way the const rvalue call needs. A result type
+   * that `expected` cannot hold (a reference, an array, `in_place_tag`,
+   * `unexpect_t`, an `unexpected`) fails the `static_assert` of `expected`.
+   * @throws May throw if `func` throws or if constructing the result throws.
+   */
+#if LUMEX_HAS_CONCEPTS
+  template <typename FunctionType>
+    requires (detail::can_transform<FunctionType, ErrorType,
+                                    ErrorType const &&>::value)
+#else
+  template <typename FunctionType,
+            typename = typename std::enable_if<detail::can_transform<
+                FunctionType, ErrorType, ErrorType const &&>::value>::type>
+#endif
+  LUMEX_CONSTEXPR_CXX14 auto
+  transform (FunctionType &&func)
+      const && -> expected<detail::result_xform_t<FunctionType>, ErrorType>
+  {
+    using ResultType
+        = expected<detail::result_xform_t<FunctionType>, ErrorType>;
+    if (m_has_value)
+      return ResultType (detail::invoke_value_tag (),
+                         std::forward<FunctionType> (func));
+    return ResultType (unexpect, std::move (m_storage.m_error));
+  }
+
+  /**
+   * @brief Calls `func` with the contained error (lvalue) if present, and
+   * wraps the result in the error of a new `expected`.
+   * @details If the object holds an error, `func` is called with an lvalue
+   * reference to it and an `expected<void, G>` holding its result as the error
+   * is returned. If it is a success, `func` is not called and an
+   * `expected<void, G>` in the success state is returned.
+   * @tparam FunctionType Type of `func`, forwarded and called as by
+   * `std::invoke`.
+   * @param[in] func Function that takes the error and returns the new error
+   * (any type except `void`; an `expected` is allowed).
+   * @return `expected<void, G>` where `G` is the result type of `func`
+   * without `const` and `volatile`.
+   * @note The overload exists only when `func` can be called with the error
+   * and does not return `void`. An error type that `expected` cannot hold (a
+   * reference, an array, an `unexpected`) fails the `static_assert` of
+   * `expected`.
+   * @throws May throw if `func` throws or if constructing the result throws.
+   */
+#if LUMEX_HAS_CONCEPTS
+  template <typename FunctionType>
+    requires (detail::can_transform_error<FunctionType, void, void,
+                                          ErrorType &>::value)
+#else
+  template <typename FunctionType,
+            typename = typename std::enable_if<detail::can_transform_error<
+                FunctionType, void, void, ErrorType &>::value>::type>
+#endif
+  LUMEX_CONSTEXPR_CXX14 auto
+  transform_error (FunctionType &&func)
+      & -> expected<void, detail::result_xform_t<FunctionType, ErrorType &>>
+  {
+    using ResultType
+        = expected<void, detail::result_xform_t<FunctionType, ErrorType &>>;
+    if (m_has_value)
+      return ResultType ();
+    return ResultType (detail::invoke_error_tag (),
+                       std::forward<FunctionType> (func), m_storage.m_error);
+  }
+
+  /**
+   * @brief Calls `func` with the contained error (const lvalue) if present,
+   * and wraps the result in the error of a new `expected`.
+   * @details If the object holds an error, `func` is called with a const
+   * lvalue reference to it and an `expected<void, G>` holding its result as
+   * the error is returned. If it is a success, `func` is not called and an
+   * `expected<void, G>` in the success state is returned.
+   * @tparam FunctionType Type of `func`, forwarded and called as by
+   * `std::invoke`.
+   * @param[in] func Function that takes the error and returns the new error
+   * (any type except `void`; an `expected` is allowed).
+   * @return `expected<void, G>` where `G` is the result type of `func`
+   * without `const` and `volatile`.
+   * @note The overload exists only when `func` can be called with the error
+   * and does not return `void`. An error type that `expected` cannot hold (a
+   * reference, an array, an `unexpected`) fails the `static_assert` of
+   * `expected`.
+   * @throws May throw if `func` throws or if constructing the result throws.
+   */
+#if LUMEX_HAS_CONCEPTS
+  template <typename FunctionType>
+    requires (detail::can_transform_error<FunctionType, void, void,
+                                          ErrorType const &>::value)
+#else
+  template <typename FunctionType,
+            typename = typename std::enable_if<detail::can_transform_error<
+                FunctionType, void, void, ErrorType const &>::value>::type>
+#endif
+  LUMEX_CONSTEXPR_CXX14 auto
+  transform_error (FunctionType &&func) const & -> expected<
+      void, detail::result_xform_t<FunctionType, ErrorType const &>>
+  {
+    using ResultType
+        = expected<void,
+                   detail::result_xform_t<FunctionType, ErrorType const &>>;
+    if (m_has_value)
+      return ResultType ();
+    return ResultType (detail::invoke_error_tag (),
+                       std::forward<FunctionType> (func), m_storage.m_error);
+  }
+
+  /**
+   * @brief Calls `func` with the contained error (rvalue) if present, and
+   * wraps the result in the error of a new `expected`.
+   * @details If the object holds an error, `func` is called with an rvalue
+   * reference to it (so the callee can move from it) and an `expected<void,
+   * G>` holding its result as the error is returned. If it is a success,
+   * `func` is not called and an `expected<void, G>` in the success state is
+   * returned.
+   * @tparam FunctionType Type of `func`, forwarded and called as by
+   * `std::invoke`.
+   * @param[in] func Function that takes the error and returns the new error
+   * (any type except `void`; an `expected` is allowed).
+   * @return `expected<void, G>` where `G` is the result type of `func`
+   * without `const` and `volatile`.
+   * @note The overload exists only when `func` can be called with the error
+   * and does not return `void`. An error type that `expected` cannot hold (a
+   * reference, an array, an `unexpected`) fails the `static_assert` of
+   * `expected`.
+   * @throws May throw if `func` throws or if constructing the result throws.
+   */
+#if LUMEX_HAS_CONCEPTS
+  template <typename FunctionType>
+    requires (detail::can_transform_error<FunctionType, void, void,
+                                          ErrorType &&>::value)
+#else
+  template <typename FunctionType,
+            typename = typename std::enable_if<detail::can_transform_error<
+                FunctionType, void, void, ErrorType &&>::value>::type>
+#endif
+  LUMEX_CONSTEXPR_CXX14 auto
+  transform_error (FunctionType &&func)
+      && -> expected<void, detail::result_xform_t<FunctionType, ErrorType &&>>
+  {
+    using ResultType
+        = expected<void, detail::result_xform_t<FunctionType, ErrorType &&>>;
+    if (m_has_value)
+      return ResultType ();
+    return ResultType (detail::invoke_error_tag (),
+                       std::forward<FunctionType> (func),
+                       std::move (m_storage.m_error));
+  }
+
+  /**
+   * @brief Calls `func` with the contained error (const rvalue) if present,
+   * and wraps the result in the error of a new `expected`.
+   * @details If the object holds an error, `func` is called with a const
+   * rvalue reference to it and an `expected<void, G>` holding its result as
+   * the error is returned. If it is a success, `func` is not called and an
+   * `expected<void, G>` in the success state is returned.
+   * @tparam FunctionType Type of `func`, forwarded and called as by
+   * `std::invoke`.
+   * @param[in] func Function that takes the error and returns the new error
+   * (any type except `void`; an `expected` is allowed).
+   * @return `expected<void, G>` where `G` is the result type of `func`
+   * without `const` and `volatile`.
+   * @note The overload exists only when `func` can be called with the error
+   * and does not return `void`. An error type that `expected` cannot hold (a
+   * reference, an array, an `unexpected`) fails the `static_assert` of
+   * `expected`.
+   * @throws May throw if `func` throws or if constructing the result throws.
+   */
+#if LUMEX_HAS_CONCEPTS
+  template <typename FunctionType>
+    requires (detail::can_transform_error<FunctionType, void, void,
+                                          ErrorType const &&>::value)
+#else
+  template <typename FunctionType,
+            typename = typename std::enable_if<detail::can_transform_error<
+                FunctionType, void, void, ErrorType const &&>::value>::type>
+#endif
+  LUMEX_CONSTEXPR_CXX14 auto
+  transform_error (FunctionType &&func) const && -> expected<
+      void, detail::result_xform_t<FunctionType, ErrorType const &&>>
+  {
+    using ResultType
+        = expected<void,
+                   detail::result_xform_t<FunctionType, ErrorType const &&>>;
+    if (m_has_value)
+      return ResultType ();
+    return ResultType (detail::invoke_error_tag (),
+                       std::forward<FunctionType> (func),
+                       std::move (m_storage.m_error));
+  }
 
 private:
+  template <typename, typename> friend class expected;
+
+  /**
+   * @brief Builds the success state from a call.
+   * @details Used by the monadic operations: `detail::invoke_call (fn,
+   * args...)` is called and its result, if any, dropped, which leaves the
+   * object in the success state.
+   * @tparam Fn Type of the function.
+   * @tparam Args Types of its arguments.
+   * @param[in] fn The function.
+   * @param[in] args Arguments of the call.
+   */
+  template <typename Fn, typename... Args>
+  LUMEX_CONSTEXPR_CXX14 explicit expected (detail::invoke_value_tag /*unused*/,
+                                           Fn &&fn, Args &&...args)
+      : m_has_value (true)
+  {
+    detail::invoke_call (std::forward<Fn> (fn), std::forward<Args> (args)...);
+  }
+
+  /**
+   * @brief Builds an error from the result of a call.
+   * @details Counterpart of the constructor above for `transform_error`: the
+   * stored error is initialized with the result of the call itself.
+   * @tparam Fn Type of the function.
+   * @tparam Args Types of its arguments.
+   * @param[in] fn The function.
+   * @param[in] args Arguments of the call.
+   */
+  template <typename Fn, typename... Args>
+  LUMEX_CONSTEXPR_CXX14 explicit expected (detail::invoke_error_tag /*unused*/,
+                                           Fn &&fn, Args &&...args)
+      : m_has_value (false)
+  {
+    new (std::addressof (m_storage.m_error)) ErrorType (detail::invoke_call (
+        std::forward<Fn> (fn), std::forward<Args> (args)...));
+  }
+
   /**
    * @brief Internal union that stores `expected<void, ErrorType>` state.
    * @details The union saves memory because only one member is active at a

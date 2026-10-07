@@ -17,7 +17,9 @@
 #                                  monadic operations
 # SuccessFailureTestSupport.hpp holds the type matrix the files of several
 # standards share; ExpectedTestTypes.hpp of the module's directory the error
-# types shared with error/.
+# types shared with error/; ExpectedParitySupport.hpp the tracked and move-only
+# types and the detection traits of the std::expected parity tests of both
+# directories.
 # ExpectedWithOptional.cxx11.tests.cpp includes both value-holding modules, so
 # it is built only where the optional module is.
 set(_expected_link lumex::expected)
@@ -32,6 +34,7 @@ endif()
 lumex_add_standard_suites(ExpectedResult
     MODULE expected
     LINK ${_expected_link}
-    SOURCES ../ExpectedTestTypes.hpp SuccessFailureTestSupport.hpp
+    SOURCES ../ExpectedTestTypes.hpp ../ExpectedParitySupport.hpp
+    SuccessFailureTestSupport.hpp
     EXCLUDE ${_expected_exclude}
 )
