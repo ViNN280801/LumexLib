@@ -42,6 +42,14 @@ _expect_prefix("cmake" "cmake.")
 _expect_prefix("core/atomic" "atomic.")
 # A later split of a module directory keeps the module as the first part.
 _expect_prefix("core/math/constants" "math.constants.")
+# The test tree follows the source tree: one directory per source directory,
+# nested ones included.
+_expect_prefix("core/math/ops" "math.ops.")
+_expect_prefix("core/utility/traits" "utility.traits.")
+_expect_prefix("applied/json/schema" "json.schema.")
+_expect_prefix("applied/resource_monitor/monitor/detail"
+    "resource_monitor.monitor.detail.")
+_expect_prefix("xml/xpath/query" "xml.xpath.query.")
 # Only the leading group is dropped, and only as a whole path component.
 _expect_prefix("xml/core" "xml.core.")
 _expect_prefix("applied/serial/core" "serial.core.")
