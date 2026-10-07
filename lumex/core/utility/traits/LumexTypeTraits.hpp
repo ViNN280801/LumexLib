@@ -328,7 +328,13 @@ template <typename B, typename MT> struct invoke_impl<MT B::*>
       -> decltype ((invoke_impl::get (std::forward<T> (arg))
                     .*pmf) (std::forward<Args> (args)...));
 
-  template <typename T>
+  // Pointers to data members only: for a pointer to a member function
+  // `obj.*pmd` is not a value, yet MinGW GCC 8 accepts `decltype` of it, so
+  // the overload would also match there and give the function type as the
+  // call result.
+  template <typename T, typename Member = MT,
+            typename
+            = typename std::enable_if<!std::is_function<Member>::value>::type>
   static auto call (MT B::*pmd, T &&arg)
       -> decltype (invoke_impl::get (std::forward<T> (arg)).*pmd);
 };
