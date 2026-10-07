@@ -1,0 +1,70 @@
+[  6%] Building CXX object lumex/core/utility/CMakeFiles/LumexCore_utility.dir/assert/LumexAssert.cpp.o
+[ 13%] Building CXX object lumex/core/utility/CMakeFiles/LumexCore_utility.dir/dump/LumexCoreDumpGenerator.cpp.o
+In file included from /src/LumexLib/lumex/core/utility/dump/LumexCoreDumpGenerator.cpp:41:
+/src/LumexLib/lumex/core/utility/dump/LumexCoreDumpGenerator.hpp:580:15: warning: padding struct to align 'lumex::core::utility::dump::dump_configuration::m_filename' [-Wpadded]
+   std::string m_filename;  ///< Custom filename (empty for auto-generated)
+               ^~~~~~~~~~
+/src/LumexLib/lumex/core/utility/dump/LumexCoreDumpGenerator.hpp:587:27: warning: padding struct to align 'lumex::core::utility::dump::dump_configuration::m_maxSizeBytes' [-Wpadded]
+   size_t m_maxSizeBytes = 0; ///< Maximum size in bytes (0 = unlimited)
+                           ^
+/src/LumexLib/lumex/core/utility/dump/LumexCoreDumpGenerator.hpp:421:7: warning: padding struct size to alignment boundary [-Wpadded]
+ class dump_configuration
+       ^~~~~~~~~~~~~~~~~~
+/src/LumexLib/lumex/core/utility/dump/LumexCoreDumpGenerator.hpp:1642:10: warning: padding struct size to alignment boundary [-Wpadded]
+   struct PerformanceMetrics
+          ^~~~~~~~~~~~~~~~~~
+/src/LumexLib/lumex/core/utility/dump/LumexCoreDumpGenerator.hpp:1442:22: warning: padding struct to align 'lumex::core::utility::dump::core_dump_generator::m_instanceMutex' [-Wpadded]
+   mutable std::mutex m_instanceMutex;
+                      ^~~~~~~~~~~~~~~
+/src/LumexLib/lumex/core/utility/dump/LumexCoreDumpGenerator.hpp:1446:23: warning: padding struct to align 'lumex::core::utility::dump::core_dump_generator::m_cachedDumpDirectory' [-Wpadded]
+   mutable std::string m_cachedDumpDirectory;
+                       ^~~~~~~~~~~~~~~~~~~~~
+/src/LumexLib/lumex/core/utility/dump/LumexCoreDumpGenerator.hpp:1456:22: warning: padding struct to align 'lumex::core::utility::dump::core_dump_generator::m_sharedMutex' [-Wpadded]
+   mutable std::mutex m_sharedMutex;
+                      ^~~~~~~~~~~~~
+/src/LumexLib/lumex/core/utility/dump/LumexCoreDumpGenerator.hpp:1007:28: warning: padding struct size to alignment boundary [-Wpadded]
+ class LUMEX_DUMP_CLASS_API core_dump_generator
+                            ^~~~~~~~~~~~~~~~~~~
+[ 20%] Linking CXX shared library ../../../bin/libLumexCore_utility.so
+[ 20%] Built target LumexCore_utility
+[ 26%] Building CXX object lumex/core/filesystem/CMakeFiles/LumexCore_filesystem.dir/fs/LumexFilesystem.cpp.o
+[ 33%] Building CXX object lumex/core/environment/CMakeFiles/LumexCore_environment.dir/env/LumexEnvironment.cpp.o
+In file included from /src/LumexLib/lumex/core/utility/LumexUtility:56,
+                 from /src/LumexLib/lumex/core/environment/env/LumexEnvironment.hpp:93,
+                 from /src/LumexLib/lumex/core/environment/env/LumexEnvironment.cpp:44:
+/src/LumexLib/lumex/core/utility/debug/LumexDebug.hpp:277:8: warning: padding struct size to alignment boundary [-Wpadded]
+ struct module_address_t
+        ^~~~~~~~~~~~~~~~
+In file included from /src/LumexLib/lumex/core/utility/LumexUtility:58,
+                 from /src/LumexLib/lumex/core/environment/env/LumexEnvironment.hpp:93,
+                 from /src/LumexLib/lumex/core/environment/env/LumexEnvironment.cpp:44:
+/src/LumexLib/lumex/core/utility/dump/LumexCoreDumpGenerator.hpp:580:15: warning: padding struct to align 'lumex::core::utility::dump::dump_configuration::m_filename' [-Wpadded]
+   std::string m_filename;  ///< Custom filename (empty for auto-generated)
+               ^~~~~~~~~~
+/src/LumexLib/lumex/core/utility/dump/LumexCoreDumpGenerator.hpp:587:27: warning: padding struct to align 'lumex::core::utility::dump::dump_configuration::m_maxSizeBytes' [-Wpadded]
+   size_t m_maxSizeBytes = 0; ///< Maximum size in bytes (0 = unlimited)
+                           ^
+/src/LumexLib/lumex/core/utility/dump/LumexCoreDumpGenerator.hpp:421:7: warning: padding struct size to alignment boundary [-Wpadded]
+ class dump_configuration
+       ^~~~~~~~~~~~~~~~~~
+/src/LumexLib/lumex/core/utility/dump/LumexCoreDumpGenerator.hpp:1642:10: warning: padding struct size to alignment boundary [-Wpadded]
+   struct PerformanceMetrics
+          ^~~~~~~~~~~~~~~~~~
+/src/LumexLib/lumex/core/utility/dump/LumexCoreDumpGenerator.hpp:1442:22: warning: padding struct to align 'lumex::core::utility::dump::core_dump_generator::m_instanceMutex' [-Wpadded]
+   mutable std::mutex m_instanceMutex;
+                      ^~~~~~~~~~~~~~~
+/src/LumexLib/lumex/core/utility/dump/LumexCoreDumpGenerator.hpp:1446:23: warning: padding struct to align 'lumex::core::utility::dump::core_dump_generator::m_cachedDumpDirectory' [-Wpadded]
+   mutable std::string m_cachedDumpDirectory;
+                       ^~~~~~~~~~~~~~~~~~~~~
+/src/LumexLib/lumex/core/utility/dump/LumexCoreDumpGenerator.hpp:1456:22: warning: padding struct to align 'lumex::core::utility::dump::core_dump_generator::m_sharedMutex' [-Wpadded]
+   mutable std::mutex m_sharedMutex;
+                      ^~~~~~~~~~~~~
+/src/LumexLib/lumex/core/utility/dump/LumexCoreDumpGenerator.hpp:1007:28: warning: padding struct size to alignment boundary [-Wpadded]
+ class LUMEX_DUMP_CLASS_API core_dump_generator
+                            ^~~~~~~~~~~~~~~~~~~
+In file included from /src/LumexLib/lumex/core/environment/env/LumexEnvironment.cpp:44:
+/src/LumexLib/lumex/core/environment/env/LumexEnvironment.hpp:199:9: warning: padding struct to align 'lumex::core::environment::env::lumex_environment::EnvResult::error_code' [-Wpadded]
+     int error_code; // NOLINT(misc-non-private-member-variables-in-classes)
+         ^~~~~~~~~~
+[ 40%] Linking CXX shared library ../../../bin/libLumexCore_environment.so
+[ 40%] Built target LumexCore_environment
