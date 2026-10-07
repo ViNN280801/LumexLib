@@ -11,22 +11,41 @@
 #
 # Terms
 # -----
-# Module key: the CTest prefix of the test directory without its trailing
-#   dot (cmake/LumexTestNames.cmake): lumex/tests/core/base64 -> base64,
-#   lumex/tests/core/generators/number_generator ->
+# Module: what the table has one entry for: a directory of lumex/core or
+#   lumex/applied (math, utility, ...), lumex/xml, and
+#   generators/number_generator (generators is not a module of its own).
+# Module key: the CTest prefix of the module's own test directory without its
+#   trailing dot (cmake/LumexTestNames.cmake): lumex/tests/core/base64 ->
+#   base64, lumex/tests/core/generators/number_generator ->
 #   generators.number_generator, lumex/tests/xml -> xml.
-# Test source of a standard: <Stem>.cxx<std>.tests.cpp in the module
-#   directory, for example LumexBase64.cxx17.tests.cpp. <Stem> is a letter
+# Test directory: the test tree follows the source tree. lumex/tests/<path>
+#   holds the tests of lumex/<path>: lumex/tests/core/math/ops tests
+#   lumex/core/math/ops, lumex/tests/core/utility/traits tests
+#   lumex/core/utility/traits. The CTest prefix is the directory's own
+#   (math.ops., utility.traits.), so `ctest -R '^math\.ops\.'` selects one
+#   source directory and `ctest -R '^math\.'` the module. A module's own
+#   directory keeps the tests of its umbrella and of files that sit beside
+#   the umbrella, which belong to no subdirectory. Every directory with
+#   tests belongs to the module whose key its prefix begins with, and builds
+#   the module's standards.
+# Test source of a standard: <Stem>.cxx<std>.tests.cpp in the test directory,
+#   for example LumexBase64Encoder.cxx17.tests.cpp. <Stem> is a letter
 #   followed by letters, digits or underscores (no dots); <std> is one of the
 #   module's standards.
-# Suite of a standard: the executable Lumex<Component>Cxx<std>Tests. It
-#   compiles the test sources of its own standard and of every lower standard
-#   of the module, so the C++20 suite of base64 (11 17 20) runs the .cxx11,
-#   .cxx17 and .cxx20 files. Its CTest names end in .cxx<std>, also at the
-#   lowest standard: base64.Base64EncoderTest.GivenSpan_WhenEncode_...cxx20.
+# Suite of a standard: the executable Lumex<Component>Cxx<std>Tests of one
+#   test directory. It compiles the test sources of its own standard and of
+#   every lower standard of the module, so the C++20 suite of base64.encode
+#   (11 17 20) runs the .cxx11, .cxx17 and .cxx20 files of that directory.
+#   Its CTest names end in .cxx<std>, also at the lowest standard:
+#   base64.encode.Base64EncoderTest.GivenSpan_WhenEncode_...cxx20.
+#   A directory has no suite of a standard below its lowest file: the only
+#   test file of utility.cast is a .cxx20 one, so it has the suites from C++20
+#   on, as that file ran in the C++20 and higher suites of utility before the
+#   tests were split by directory.
 # Variant: an extra suite on the same sources with compile definitions, at
 #   the standards declared for it here: Lumex<Component><Variant>Cxx<std>Tests
 #   and the CTest suffix .<variant>.cxx<std> (atomic: lock_based, wait_table).
+#   Every directory of the module builds its variants.
 # Standards above LUMEX_TEST_STANDARDS_OPTIONAL_ABOVE (20) are built only
 #   when the compiler supports them (cxx_std_<std> in
 #   CMAKE_CXX_COMPILE_FEATURES); otherwise the suite is skipped with a STATUS
@@ -35,8 +54,11 @@
 # How to convert a module
 # -----------------------
 # 1. Find the module key and its standards in the table below.
-# 2. Rename and split the test sources: the tests that compile at the lowest
-#    standard go into <Stem>.cxx<lowest>.tests.cpp. A test under
+# 2. Put every test source in the directory of the lumex/ directory it tests
+#    (git mv; a file that tests several directories is split by test suite,
+#    with what the parts share in a header in the module's own test
+#    directory), and rename and split it by standard: the tests that compile
+#    at the lowest standard go into <Stem>.cxx<lowest>.tests.cpp. A test under
 #    `#if __cplusplus >= 201703L` (or 202002L, ...) moves into
 #    <Stem>.cxx17.tests.cpp (or .cxx20, ...) without the #if; a standard
 #    header included only for it (<string_view>, <span>) moves with it,
@@ -49,10 +71,10 @@
 #    (for example LumexBase64TestFixtures.hpp), passed through SOURCES.
 #    Suite and test names stay as they were: only the CTest suffix changes.
 # 3. A standard of the table may have no file of its own: its suite then runs
-#    the files of the lower standards. The lowest standard must have files.
-#    Rename every *.tests.cpp of the directory into the scheme, also the
-#    sources of other components in the same directory: they all go into the
-#    one executable per standard (see "Several components" below).
+#    the files of the lower standards. A directory has no suite below its
+#    lowest file. Rename every *.tests.cpp of the directory into the scheme,
+#    also the sources of other components in the same directory: they all go
+#    into the one executable per standard (see "Several components" below).
 # 4. Replace the add_executable / lumex_test_use_gtest /
 #    lumex_gtest_discover_tests block of the module CMakeLists.txt with one
 #    call (all arguments but <Component> and MODULE are optional):
@@ -66,21 +88,28 @@
 #          TARGETS_VAR <var>            # receives the created target names
 #          VARIANT <name> DEFINITIONS <defs...>   # repeatable
 #      )
+#    The module's own test directory has a CMakeLists.txt that adds its
+#    subdirectories (and calls the function too when it has test sources of
+#    its own); a directory below it calls the function with the module's key:
+#    MODULE base64 in lumex/tests/core/base64/encode, where the CTest prefix
+#    is base64.encode.
 #    Examples:
-#      One standard (environment: 11):
-#        lumex_add_standard_suites(Environment MODULE environment
+#      One standard (environment: 11, directory env):
+#        lumex_add_standard_suites(EnvironmentEnv MODULE environment
 #            LINK lumex::environment)
-#      Several standards (base64: 11 17 20):
-#        lumex_add_standard_suites(Base64 MODULE base64 LINK lumex::base64
-#            SOURCES LumexBase64TestFixtures.hpp)
-#      Several components in one directory (utility): every
-#        LumexTypeTraits.cxx11.tests.cpp, LumexCheckOS.cxx11.tests.cpp,
-#        LumexBit.cxx20.tests.cpp, ... goes into LumexUtilityCxx<std>Tests:
-#        lumex_add_standard_suites(Utility MODULE utility LINK lumex::utility
-#            "$<$<PLATFORM_ID:Windows>:dbghelp>"
+#      Several standards (base64: 11 17 20, directory encode):
+#        lumex_add_standard_suites(Base64Encode MODULE base64
+#            LINK lumex::base64 SOURCES ../LumexBase64TestFixtures.hpp)
+#      Several components in one directory (utility/traits): every
+#        LumexTypeTraits.cxx11.tests.cpp, LumexStreamTraits.cxx14.tests.cpp,
+#        ... goes into LumexUtilityTraitsCxx<std>Tests:
+#        lumex_add_standard_suites(UtilityTraits MODULE utility
+#            LINK lumex::utility "$<$<PLATFORM_ID:Windows>:dbghelp>"
 #            DISCOVER_ARGS DISCOVERY_TIMEOUT 60)
-#      Variants (atomic: lock_based and wait_table, declared below):
-#        lumex_add_standard_suites(Atomic MODULE atomic LINK lumex::atomic
+#      Variants (atomic: lock_based and wait_table, declared below; every
+#        directory of atomic passes them):
+#        lumex_add_standard_suites(AtomicSmartPtr MODULE atomic
+#            LINK lumex::atomic
 #            DISCOVER_ARGS PROPERTIES TIMEOUT 300
 #            VARIANT lock_based
 #                DEFINITIONS LUMEX_ATOMIC_SMART_PTR_FORCE_LOCK_BASED
@@ -91,43 +120,50 @@
 #            MODULE generators.number_generator
 #            LINK lumex::number_generator PLAIN_EXECUTABLE)
 #      Options per target (exceptions: -g, -rdynamic):
-#        lumex_add_standard_suites(Exceptions MODULE exceptions
+#        lumex_add_standard_suites(ExceptionsException MODULE exceptions
 #            LINK lumex::exceptions TARGETS_VAR _exceptions_targets)
 #        foreach(_target IN LISTS _exceptions_targets)
 #          target_link_options(${_target} PRIVATE -rdynamic)
 #        endforeach()
-#    <Component> is the executable name part without the Lumex prefix
-#    (Base64 -> LumexBase64Cxx11Tests). One call per directory: the helper
-#    stops with an error on a second call, a file outside the scheme, a file
-#    of a standard the table does not list for the module, or a module key
-#    or variant missing from the table.
+#    <Component> is the executable name part without the Lumex prefix, the
+#    module's name and the directory below it in CamelCase (Base64Encode ->
+#    LumexBase64EncodeCxx11Tests); it is unique in the tree. One call per
+#    directory: the helper stops with an error on a second call, a directory
+#    without a test source, a file outside the scheme, a file of a standard
+#    the table does not list for the module, a MODULE that does not begin the
+#    directory's CTest prefix, or a module key or variant missing from the
+#    table.
 # 5. Configure and run `ctest -R '^<key>\.'` and `ctest -L cmake`. Compare the test names
 #    before and after: every old name must still exist with the suffix of
-#    its suite (an old unsuffixed name gets .cxx<lowest>), and new suites
+#    its suite (an old unsuffixed name gets .cxx<lowest>) and the directory
+#    segment of its source directory after the module key, and new suites
 #    may only add names.
 #
 # Several components in one directory
 # -----------------------------------
 # The helper takes every *.cxx<std>.tests.cpp of the directory, whatever its
-# stem, so a directory with several components (utility: TypeTraits,
-# CheckOS, CallbackSlot, Process, SafeNumericComparator, ...) still builds
-# ONE executable per standard, named after the module's <Component>
-# (LumexUtilityCxx11Tests, LumexUtilityCxx14Tests, ...). There is no second
-# call and no per-component executable.
+# stem, so a directory with several components (utility/traits: TypeTraits,
+# TypeTraitsTopics, RangeTraits, StreamTraits) still builds ONE executable
+# per standard, named after the directory's <Component>
+# (LumexUtilityTraitsCxx11Tests, LumexUtilityTraitsCxx14Tests, ...). There is
+# no second call and no per-component executable.
 #
 # What cmake.wiring_standard_suites checks
 # ----------------------------------------
 # - Every test directory (a directory under lumex/tests with *.tests.cpp,
-#   other than cmake/ and support/) has a table entry, and every entry has a
-#   directory.
-# - Every test directory calls
-#   lumex_add_standard_suites exactly once with MODULE <its key>, and calls
-#   none of add_executable, add_test, lumex_test_use_gtest and
-#   lumex_gtest_discover_tests itself.
+#   other than cmake/ and support/) belongs to a table entry (the longest
+#   module key its CTest prefix begins with), and every entry has a test
+#   directory of its own or below it.
+# - The test tree follows the source tree: every test directory has a
+#   directory of the same path under lumex/.
+# - Every test directory calls lumex_add_standard_suites exactly once with
+#   MODULE <the key of its entry>, and calls none of add_executable, add_test,
+#   lumex_test_use_gtest and lumex_gtest_discover_tests itself.
 # - Every *.tests.cpp of a converted directory follows the scheme with a
-#   standard of the module's entry, and the lowest standard has a file.
-# - Every variant of the table is passed as VARIANT <name> in the module's
-#   CMakeLists.txt, and every VARIANT there is in the table.
+#   standard of the module's entry, and some directory of the module has a
+#   file of the module's lowest standard.
+# - Every variant of the table is passed as VARIANT <name> in the CMakeLists.txt
+#   of every directory of the module, and every VARIANT there is in the table.
 
 # Every C++ standard a test suite may name, in ascending order.
 set(LUMEX_TEST_STANDARDS_KNOWN 11 14 17 20 23 26)
@@ -257,11 +293,12 @@ endfunction()
 
 # lumex_test_standards_select(<out_var> <key> <std> [<file>...])
 #
-# Given every *.tests.cpp file of the directory of module <key>, stores in
+# Given every *.tests.cpp file of a test directory of module <key>, stores in
 # <out_var> the files the suite of standard <std> compiles: those of <std>
 # and of every lower standard, lower standards first, by name within a
-# standard. Fails on a file outside the scheme or of a standard that is not
-# one of the module's, and when the selection is empty.
+# standard. The result is empty when the directory has no file of <std> or a
+# lower standard (no suite). Fails on a file outside the scheme or of a
+# standard that is not one of the module's.
 function(lumex_test_standards_select out_var key std)
   lumex_test_standards_get(_standards "${key}")
   set(_bad "")
@@ -289,11 +326,6 @@ function(lumex_test_standards_select out_var key std)
     list(SORT _files_${_level})
     list(APPEND _selected ${_files_${_level}})
   endforeach()
-  if(NOT _selected)
-    message(FATAL_ERROR
-      "The C++${std} suite of '${key}' has no test source: the lowest "
-      "standard (${_standards}) needs a <Stem>.cxx<std>.tests.cpp file")
-  endif()
   set(${out_var} ${_selected} PARENT_SCOPE)
 endfunction()
 
