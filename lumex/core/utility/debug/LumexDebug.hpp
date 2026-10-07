@@ -39,18 +39,18 @@
 
 /**
  * @file LumexDebug.hpp
- * @brief Header-only call stack capture for diagnostics: `captureStackTrace()`
- * and the `LUMEX_CAPTURE_CALLER_INFO()` macro.
- * @details `captureStackTrace()` returns the current stack as text, one frame
- * per line, and never throws. On Windows it resolves names, files and lines in
- * the process through DbgHelp, with the calls serialized by a mutex. With GCC
- * or Clang elsewhere it collects the addresses with `backtrace()` and names
- * exported symbols with `dladdr()`; on Linux every frame also gets its module
- * and the offset inside it (`libfoo.so.1+0x1A2B`), so `addr2line` or `gdb` can
- * symbolize the stack later from the module's debug file. It starts no process
- * and reads no debug information, but it allocates, so it must not be called
- * from a signal handler. `LUMEX_CAPTURE_CALLER_INFO()` formats the function,
- * file and line of the place where it is written.
+ * @brief Header-only call stack capture for diagnostics:
+ * `capture_stack_trace()` and the `LUMEX_CAPTURE_CALLER_INFO()` macro.
+ * @details `capture_stack_trace()` returns the current stack as text, one
+ * frame per line, and never throws. On Windows it resolves names, files and
+ * lines in the process through DbgHelp, with the calls serialized by a mutex.
+ * With GCC or Clang elsewhere it collects the addresses with `backtrace()` and
+ * names exported symbols with `dladdr()`; on Linux every frame also gets its
+ * module and the offset inside it (`libfoo.so.1+0x1A2B`), so `addr2line` or
+ * `gdb` can symbolize the stack later from the module's debug file. It starts
+ * no process and reads no debug information, but it allocates, so it must not
+ * be called from a signal handler. `LUMEX_CAPTURE_CALLER_INFO()` formats the
+ * function, file and line of the place where it is written.
  */
 #ifndef LUMEX_CORE_UTILITY_DEBUG_HPP
 #define LUMEX_CORE_UTILITY_DEBUG_HPP
@@ -169,7 +169,7 @@ namespace Detail
 // avoids relying on it - std::ostringstream + std::hex gives the exact same
 // output without adding a new external dependency.
 static inline std::string
-formatHex (std::uintptr_t value)
+format_hex (std::uintptr_t value)
 {
   std::ostringstream oss;
   oss << std::hex << std::uppercase << value;
@@ -179,7 +179,7 @@ formatHex (std::uintptr_t value)
 #if defined(LUMEX_OS_WINDOWS)
 // Thread-safe DbgHelp mutex (Windows requires external synchronization)
 static inline std::mutex &
-getDbgHelpMutex () LUMEX_NOEXCEPT
+get_dbg_help_mutex () LUMEX_NOEXCEPT
 {
   static std::mutex mtx;
   return mtx;
@@ -192,7 +192,7 @@ getDbgHelpMutex () LUMEX_NOEXCEPT
 // CMakeLists.txt), so utility must not depend back on filesystem - that would
 // create a circular module dependency in the build graph.
 static inline std::string
-getExeDirectory () LUMEX_NOEXCEPT
+get_exe_directory () LUMEX_NOEXCEPT
 {
   try
     {
@@ -214,7 +214,7 @@ getExeDirectory () LUMEX_NOEXCEPT
 
 // Lazy initialization for SymInitialize (amortize overhead)
 static inline bool
-ensureSymbolsInitialized (HANDLE process) LUMEX_NOEXCEPT
+ensure_symbols_initialized (HANDLE process) LUMEX_NOEXCEPT
 {
   static std::atomic_bool initialized{ false };
   static std::once_flag init_flag;
@@ -225,12 +225,12 @@ ensureSymbolsInitialized (HANDLE process) LUMEX_NOEXCEPT
   std::call_once (init_flag,
                   [process] ()
                     {
-                      std::lock_guard<std::mutex> lock (getDbgHelpMutex ());
+                      std::lock_guard<std::mutex> lock (get_dbg_help_mutex ());
                       // SymSetOptions MUST be called BEFORE SymInitialize
                       // (MSDN)
                       SymSetOptions (SYMOPT_LOAD_LINES | SYMOPT_UNDNAME
                                      | SYMOPT_DEFERRED_LOADS);
-                      std::string const exeDir = getExeDirectory ();
+                      std::string const exeDir = get_exe_directory ();
                       char const *searchPath
                           = exeDir.empty () ? nullptr : exeDir.c_str ();
                       if (SymInitialize (process, searchPath, TRUE))
@@ -246,7 +246,7 @@ ensureSymbolsInitialized (HANDLE process) LUMEX_NOEXCEPT
 #elif defined(__GNUC__) || defined(__clang__)
 // Demangle C++ symbols on POSIX systems
 static inline std::string
-demangleSymbol (char const *mangled) LUMEX_NOEXCEPT
+demangle_symbol (char const *mangled) LUMEX_NOEXCEPT
 {
   if (!mangled)
     return "??";
@@ -404,17 +404,17 @@ describe_module_address (void const *address)
   if (!where.found)
     return std::string ();
   return lumex::core::string::utility::stringify (where.module, "+0x",
-                                                  formatHex (where.offset));
+                                                  format_hex (where.offset));
 }
 
-// One frame of captureStackTrace: "  #N: <symbol> +<offset>
+// One frame of capture_stack_trace: "  #N: <symbol> +<offset>
 // (<module>+0x<offset in module>) [0x<address>]" for an exported symbol, " #N:
 // <module>+0x<offset in module> [0x<address>]" otherwise.
 static inline std::string
 format_frame (int index, void *address)
 {
   std::string const hex
-      = formatHex (reinterpret_cast<std::uintptr_t> (address));
+      = format_hex (reinterpret_cast<std::uintptr_t> (address));
   std::string const location = describe_module_address (address);
 #if __has_include(<dlfcn.h>)
   Dl_info info;
@@ -423,7 +423,7 @@ format_frame (int index, void *address)
       std::ptrdiff_t const offset = static_cast<char *> (address)
                                     - static_cast<char *> (info.dli_saddr);
       return lumex::core::string::utility::stringify (
-          "  #", index, ": ", demangleSymbol (info.dli_sname), " +", offset,
+          "  #", index, ": ", demangle_symbol (info.dli_sname), " +", offset,
           location.empty () ? std::string () : " (" + location + ")", " [0x",
           hex, "]\n");
     }
@@ -472,7 +472,7 @@ format_frame (int index, void *address)
  * - Thread-safe in all modes
  *
  * @param skip_frames Number of frames to skip (default 1 - itself
- * captureStackTrace)
+ * capture_stack_trace)
  * @param max_frames Maximum number of frames to capture (default 16)
  *
  * @return std::string Formatted stack trace, each frame on a new line.
@@ -495,8 +495,8 @@ format_frame (int index, void *address)
  * @par Example
  * @code
  * void resetConfig() {
- *   std::string trace = lumex::core::utility::debug::captureStackTrace(1, 5);
- *   std::cerr << "Config reset. Call stack:\n" << trace;
+ *   std::string trace = lumex::core::utility::debug::capture_stack_trace(1,
+ * 5); std::cerr << "Config reset. Call stack:\n" << trace;
  *   // Windows:
  *   //   #0: loadConfig (config.cpp:140) [0x7FF6A2B41234]
  *   // Linux (offsets for addr2line or gdb with app and libc.so.6):
@@ -506,7 +506,7 @@ format_frame (int index, void *address)
  * @endcode
  */
 static inline std::string
-captureStackTrace (int skip_frames = 1, int max_frames = 16) LUMEX_NOEXCEPT
+capture_stack_trace (int skip_frames = 1, int max_frames = 16) LUMEX_NOEXCEPT
 {
   LUMEX_CONSTEXPR int kMaxStackFrames = 64;
   std::string result;
@@ -520,7 +520,7 @@ captureStackTrace (int skip_frames = 1, int max_frames = 16) LUMEX_NOEXCEPT
       HANDLE process = GetCurrentProcess ();
 
       // Thread-safe symbol initialization (lazy, once)
-      if (!Detail::ensureSymbolsInitialized (process))
+      if (!Detail::ensure_symbols_initialized (process))
         {
           // Fallback: only addresses without symbols
           WORD frames = CaptureStackBackTrace (
@@ -530,7 +530,7 @@ captureStackTrace (int skip_frames = 1, int max_frames = 16) LUMEX_NOEXCEPT
           for (WORD i = 0; i < frames; ++i)
             result += lumex::core::string::utility::stringify (
                 "  #", i, ": [0x",
-                Detail::formatHex (reinterpret_cast<uintptr_t> (stack[i])),
+                Detail::format_hex (reinterpret_cast<uintptr_t> (stack[i])),
                 "]\n");
           return result.empty ()
                      ? "  Stack trace unavailable (SymInitialize failed)\n"
@@ -558,7 +558,7 @@ captureStackTrace (int skip_frames = 1, int max_frames = 16) LUMEX_NOEXCEPT
       symbol_buffer->SizeOfStruct = sizeof (SYMBOL_INFO);
 
       // Thread-safe symbol resolution
-      std::lock_guard<std::mutex> lock (Detail::getDbgHelpMutex ());
+      std::lock_guard<std::mutex> lock (Detail::get_dbg_help_mutex ());
 
       // Refresh module list to include DLLs loaded after SymInitialize (e.g.
       // plugins loaded at runtime). Ensures SymFromAddr can resolve addresses
@@ -585,14 +585,14 @@ captureStackTrace (int skip_frames = 1, int max_frames = 16) LUMEX_NOEXCEPT
                   result += lumex::core::string::utility::stringify (
                       "  #", i, ": ", symbol_buffer->Name, " (", line.FileName,
                       ":", line.LineNumber, ") [0x",
-                      Detail::formatHex (address), "]\n");
+                      Detail::format_hex (address), "]\n");
                 }
               else
                 {
                   // Only function name + address (no line info)
                   result += lumex::core::string::utility::stringify (
                       "  #", i, ": ", symbol_buffer->Name, " [0x",
-                      Detail::formatHex (address), "]\n");
+                      Detail::format_hex (address), "]\n");
                 }
             }
           else
@@ -606,13 +606,13 @@ captureStackTrace (int skip_frames = 1, int max_frames = 16) LUMEX_NOEXCEPT
                   DWORD64 const offset = address - moduleInfo.BaseOfImage;
                   result += lumex::core::string::utility::stringify (
                       "  #", i, ": ", moduleInfo.ModuleName, "+0x",
-                      Detail::formatHex (offset), " [0x",
-                      Detail::formatHex (address), "]\n");
+                      Detail::format_hex (offset), " [0x",
+                      Detail::format_hex (address), "]\n");
                 }
               else
                 {
                   result += lumex::core::string::utility::stringify (
-                      "  #", i, ": [0x", Detail::formatHex (address), "]\n");
+                      "  #", i, ": [0x", Detail::format_hex (address), "]\n");
                 }
             }
         }
@@ -677,8 +677,8 @@ captureStackTrace (int skip_frames = 1, int max_frames = 16) LUMEX_NOEXCEPT
  * calling function).
  */
 static inline std::string
-captureCallerInfoImpl (char const *caller_function, char const *caller_file,
-                       int caller_line) LUMEX_NOEXCEPT
+capture_caller_info_impl (char const *caller_function, char const *caller_file,
+                          int caller_line) LUMEX_NOEXCEPT
 {
   try
     {
@@ -700,16 +700,16 @@ captureCallerInfoImpl (char const *caller_function, char const *caller_file,
 // Macro wrapper to capture caller context portably at the call site
 #if defined(__clang__) || defined(__GNUC__)
 #define LUMEX_CAPTURE_CALLER_INFO()                                           \
-  ::lumex::core::utility::debug::captureCallerInfoImpl (                      \
+  ::lumex::core::utility::debug::capture_caller_info_impl (                   \
       __builtin_FUNCTION (), __builtin_FILE (), __builtin_LINE ())
 #elif defined(_MSC_VER)
 #define LUMEX_CAPTURE_CALLER_INFO()                                           \
-  ::lumex::core::utility::debug::captureCallerInfoImpl (__FUNCSIG__,          \
-                                                        __FILE__, __LINE__)
+  ::lumex::core::utility::debug::capture_caller_info_impl (                   \
+      __FUNCSIG__, __FILE__, __LINE__)
 #else
 #define LUMEX_CAPTURE_CALLER_INFO()                                           \
-  ::lumex::core::utility::debug::captureCallerInfoImpl ("<unknown>",          \
-                                                        "<unknown>", 0)
+  ::lumex::core::utility::debug::capture_caller_info_impl ("<unknown>",       \
+                                                           "<unknown>", 0)
 #endif
 // NOLINTEND(cppcoreguidelines-pro-bounds-array-to-pointer-decay,
 // cppcoreguidelines-avoid-c-arrays,

@@ -24,13 +24,13 @@
 
 /**
  * @file LumexMemRead.hpp
- * @brief `As<T>()`, which reads a trivially copyable value out of a raw byte
+ * @brief `as<T>()`, which reads a trivially copyable value out of a raw byte
  * buffer through `std::memcpy`, so unaligned data is read without undefined
  * behavior.
  * @details It returns `std::nullopt` for a null pointer or a buffer shorter
  * than `sizeof(T)`. The overloads take a pointer and a size, a `std::span` of
- * `std::byte`, `char` or `unsigned char`, or an object with `GetData()` and
- * `GetDataSize()`. The value type must satisfy `Extractible` of
+ * `std::byte`, `char` or `unsigned char`, or an object with `get_data()` and
+ * `get_data_size()`. The value type must satisfy `Extractible` of
  * `LumexTypeTraits.hpp`: trivially copyable, standard layout, and neither a
  * pointer nor a reference.
  * @warning Requires C++20 (concepts and `<span>`); with an older standard the
@@ -106,8 +106,8 @@ namespace Detail
 {
 template <typename TSource>
 concept DataSource = requires (TSource const &source) {
-  { source.GetData () } -> std::convertible_to<void const *>;
-  { source.GetDataSize () } -> std::convertible_to<int>;
+  { source.get_data () } -> std::convertible_to<void const *>;
+  { source.get_data_size () } -> std::convertible_to<int>;
 };
 
 } // namespace Detail
@@ -127,7 +127,7 @@ concept DataSource = requires (TSource const &source) {
  */
 template <traits::meta::Extractible T>
 LUMEX_ATTRIBUTE_NODISCARD ("return value must be used")
-std::optional<T> As (void const *data, std::size_t size) LUMEX_NOEXCEPT
+std::optional<T> as (void const *data, std::size_t size) LUMEX_NOEXCEPT
 {
   if ((data == nullptr) || (size < sizeof (T)))
     return std::nullopt;
@@ -138,29 +138,29 @@ std::optional<T> As (void const *data, std::size_t size) LUMEX_NOEXCEPT
 }
 
 /**
- * @brief Overload of As() that reads from a source object exposing
- * GetData()/GetDataSize().
- * @tparam TSource Type satisfying the DataSource concept (GetData() -> const
- * void*, GetDataSize() -> int).
+ * @brief Overload of as() that reads from a source object exposing
+ * get_data()/GetDataSize().
+ * @tparam TSource Type satisfying the DataSource concept (get_data() -> const
+ * void*, get_data_size() -> int).
  */
 template <traits::meta::Extractible T, Detail::DataSource TSource>
 LUMEX_ATTRIBUTE_NODISCARD ("return value must be used")
-std::optional<T> As (TSource const &source) LUMEX_NOEXCEPT
+std::optional<T> as (TSource const &source) LUMEX_NOEXCEPT
 {
-  int const rawSize{ source.GetDataSize () };
+  int const rawSize{ source.get_data_size () };
   if (rawSize < 0)
     return std::nullopt;
-  return As<T> (source.GetData (), static_cast<std::size_t> (rawSize));
+  return as<T> (source.get_data (), static_cast<std::size_t> (rawSize));
 }
 
 /**
- * @brief Overload of As() that reads from a std::span of byte-like elements.
+ * @brief Overload of as() that reads from a std::span of byte-like elements.
  */
 template <traits::meta::Extractible T, traits::meta::ByteLike ByteType>
 LUMEX_ATTRIBUTE_NODISCARD ("return value must be used")
-std::optional<T> As (std::span<ByteType const> span) LUMEX_NOEXCEPT
+std::optional<T> as (std::span<ByteType const> span) LUMEX_NOEXCEPT
 {
-  return As<T> (span.data (), span.size ());
+  return as<T> (span.data (), span.size ());
 }
 } // namespace mem
 } // namespace utility

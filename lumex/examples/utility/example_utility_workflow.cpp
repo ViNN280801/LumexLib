@@ -12,7 +12,7 @@ main ()
   std::cout
       << "=== Workflow: reject an oversized packet length safely ===\n\n";
 
-  SafeComparator<unsigned int> received (50U);
+  safe_comparator<unsigned int> received (50U);
   int const max_payload = 40;
   if (received.safe_compare (max_payload))
     std::cout << "accept length; pid=" << get_current_pid () << '\n';

@@ -7,7 +7,7 @@
 # <Component>.cxx<std>.tests.cpp files of that standard and of every lower
 # one:
 #   .cxx11  every component that works from C++11: Attributes, CallbackSlot,
-#           CheckOS, CoreDumpGenerator, Debug, Demangle, ExceptionMacros,
+#           CheckOS, core_dump_generator, Debug, Demangle, ExceptionMacros,
 #           Macros (and the MinGW simulation), Process, RangeTraits,
 #           SafeNumericComparator, StreamTraits, TypeTraits, TypeTraitsTopics,
 #           Utilities, and Bit's count_leading_zeros
@@ -19,7 +19,7 @@
 # A test of a feature the toolchain lacks (GCC 8 accepts -std=c++2a without
 # concepts, <span>, <ranges> or <compare>) reports GTEST_SKIP.
 # LumexStreamTraitsTestTypes.hpp holds the types the stream trait tests of
-# several standards share. LumexDebug.hpp's captureStackTrace () uses the
+# several standards share. LumexDebug.hpp's capture_stack_trace () uses the
 # DbgHelp API on Windows.
 lumex_add_standard_suites(Utility
     MODULE utility

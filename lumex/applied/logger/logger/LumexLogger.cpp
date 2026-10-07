@@ -1063,7 +1063,7 @@ LumexLogger::LumexLogger ()
 {
   try
     {
-      executable_directory = _getExecutableDirectory ();
+      executable_directory = _get_executable_directory ();
 
       // Check whether the logging-enable file exists
       logging_enabled = _isLoggingEnabledFileExists ();
@@ -1670,7 +1670,7 @@ LumexLogger::_parse_preset_components (std::string const &componentsStr)
 // cppcoreguidelines-pro-type-reinterpret-cast)
 
 std::string
-LumexLogger::_getExecutableDirectory () const
+LumexLogger::_get_executable_directory () const
 {
 #if defined(_WIN32) || defined(_WIN64)
   // Windows: use GetModuleFileName to get the DLL/EXE path

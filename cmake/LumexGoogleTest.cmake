@@ -98,7 +98,7 @@ function(lumex_test_use_gtest target)
     target_link_libraries(${target} PRIVATE lumex::gtest_main_cxx17)
   endif()
 
-  # TYPED_TEST_SUITE Cartesian products (SafeComparator mixed pairs,
+  # TYPED_TEST_SUITE Cartesian products (safe_comparator mixed pairs,
   # FieldReflection arity 1-32) exceed the default COFF section limit
   # (MSVC C1128). clang-cl accepts the same /bigobj switch. MinGW gas
   # needs the equivalent assembler flag.

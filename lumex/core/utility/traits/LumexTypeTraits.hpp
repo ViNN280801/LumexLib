@@ -957,7 +957,7 @@ namespace numeric
 {
 /**
  * @brief Both types (without cv / reference) are arithmetic with a
- * specialized `std::numeric_limits`, so `SafeComparator` can compare them.
+ * specialized `std::numeric_limits`, so `safe_comparator` can compare them.
  * @details Derived from `std::integral_constant` like the standard traits:
  * the standard library defines `value` in every standard, while a plain
  * in-class `static const` member fails to link once it is odr-used

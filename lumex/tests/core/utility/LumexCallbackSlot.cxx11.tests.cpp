@@ -11,7 +11,7 @@
 
 #include "lumex/core/utility/callback/LumexCallbackSlot.hpp"
 
-using lumex::core::utility::callback::LumexCallbackSlot;
+using lumex::core::utility::callback::lumex_callback_slot;
 
 namespace
 {
@@ -19,9 +19,10 @@ struct text_tag_t;
 struct other_text_tag_t;
 struct sum_tag_t;
 
-using TextSlot = LumexCallbackSlot<text_tag_t, void (char const *)>;
-using OtherTextSlot = LumexCallbackSlot<other_text_tag_t, void (char const *)>;
-using SumSlot = LumexCallbackSlot<sum_tag_t, int (int, int)>;
+using TextSlot = lumex_callback_slot<text_tag_t, void (char const *)>;
+using OtherTextSlot
+    = lumex_callback_slot<other_text_tag_t, void (char const *)>;
+using SumSlot = lumex_callback_slot<sum_tag_t, int (int, int)>;
 
 std::string g_primary_text;
 std::string g_secondary_text;
@@ -221,7 +222,7 @@ TEST_F (LumexCallbackSlotTest,
 {
   TextSlot::set (&primary_sink);
   {
-    TextSlot::Scoped const scoped (&secondary_sink);
+    TextSlot::scoped const scoped (&secondary_sink);
     EXPECT_EQ (TextSlot::get (), &secondary_sink);
   }
   EXPECT_EQ (TextSlot::get (), &primary_sink);
@@ -231,7 +232,7 @@ TEST_F (LumexCallbackSlotTest,
         GivenEmptySlot_WhenScopedEnds_ThenSlotIsEmptyAgain)
 {
   {
-    TextSlot::Scoped const scoped (&primary_sink);
+    TextSlot::scoped const scoped (&primary_sink);
     EXPECT_TRUE (TextSlot::is_set ());
   }
   EXPECT_FALSE (TextSlot::is_set ());
@@ -240,9 +241,9 @@ TEST_F (LumexCallbackSlotTest,
 TEST_F (LumexCallbackSlotTest, GivenNestedScoped_WhenUnwound_ThenLifoRestore)
 {
   {
-    TextSlot::Scoped const outer (&primary_sink);
+    TextSlot::scoped const outer (&primary_sink);
     {
-      TextSlot::Scoped const inner (&secondary_sink);
+      TextSlot::scoped const inner (&secondary_sink);
       EXPECT_EQ (TextSlot::get (), &secondary_sink);
     }
     EXPECT_EQ (TextSlot::get (), &primary_sink);
@@ -254,7 +255,7 @@ TEST_F (LumexCallbackSlotTest, GivenScopedNull_WhenInScope_ThenSlotIsEmpty)
 {
   TextSlot::set (&primary_sink);
   {
-    TextSlot::Scoped const scoped (nullptr);
+    TextSlot::scoped const scoped (nullptr);
     EXPECT_FALSE (TextSlot::is_set ());
   }
   EXPECT_EQ (TextSlot::get (), &primary_sink);
@@ -270,7 +271,7 @@ TEST_F (LumexCallbackSlotTest, GivenSlotType_WhenInspected_ThenContractHolds)
       "function_type keeps the result type");
   static_assert (!std::is_default_constructible<TextSlot>::value,
                  "the slot is a static-only type");
-  static_assert (!std::is_copy_constructible<TextSlot::Scoped>::value,
+  static_assert (!std::is_copy_constructible<TextSlot::scoped>::value,
                  "Scoped is not copyable");
   static_assert (noexcept (TextSlot::set (nullptr)), "set is noexcept");
   static_assert (noexcept (TextSlot::get ()), "get is noexcept");

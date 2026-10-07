@@ -976,7 +976,7 @@ private:
    * @return Path of the directory that contains the executable.
    * @throws std::runtime_error if path resolution fails.
    */
-  std::string _getExecutableDirectory () const;
+  std::string _get_executable_directory () const;
 
   /**
    * @brief Builds the full log-file path.

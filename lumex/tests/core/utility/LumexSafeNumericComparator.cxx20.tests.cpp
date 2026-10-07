@@ -1,5 +1,5 @@
 // LumexSafeNumericComparator.cxx20.tests.cpp
-// The three-way comparison of SafeComparator and the ordering helpers
+// The three-way comparison of safe_comparator and the ordering helpers
 // (is_less, is_equal, ...). The header declares them only where the compiler
 // and the standard library have operator<=> and <compare>
 // (LUMEX_HAS_THREE_WAY_COMPARISON): GCC 8 accepts -std=c++2a without them,
@@ -23,7 +23,7 @@ TEST (SafeComparatorCpp20Tests,
       GivenThreeWayCompare_WhenIntegral_ThenStrongOrdering)
 {
 #if LUMEX_HAS_THREE_WAY_COMPARISON
-  SafeComparator<int> comparator (42);
+  safe_comparator<int> comparator (42);
   int const other_value = 50;
 
   auto const result = comparator.safe_three_way_compare (other_value);
@@ -40,7 +40,7 @@ TEST (SafeComparatorCpp20Tests,
       GivenThreeWayCompare_WhenFloating_ThenPartialOrdering)
 {
 #if LUMEX_HAS_THREE_WAY_COMPARISON
-  SafeComparator<float> comparator (3.14f);
+  safe_comparator<float> comparator (3.14f);
   float const other_value = 2.71f;
 
   auto const result = comparator.safe_three_way_compare (other_value);
@@ -57,7 +57,7 @@ TEST (SafeComparatorCpp20Tests, GivenThreeWayCompare_WhenNaN_ThenUnordered)
 {
 #if LUMEX_HAS_THREE_WAY_COMPARISON
   float const nan_value = std::numeric_limits<float>::quiet_NaN ();
-  SafeComparator<float> comparator (nan_value);
+  safe_comparator<float> comparator (nan_value);
   float const normal_value = 1.0f;
 
   auto const result = comparator.safe_three_way_compare (normal_value);
@@ -74,7 +74,7 @@ TEST (SafeComparatorCpp20Tests,
       GivenUtilityFunctions_WhenCalled_ThenWorkCorrectly)
 {
 #if LUMEX_HAS_THREE_WAY_COMPARISON
-  SafeComparator<int> comparator (42);
+  safe_comparator<int> comparator (42);
   int const smaller_value = 30;
   int const larger_value = 50;
   int const equal_value = 42;
