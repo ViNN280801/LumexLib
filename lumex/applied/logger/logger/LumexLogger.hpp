@@ -67,6 +67,7 @@
 #include "lumex/core/utility/compiler/LumexCheckFeatures.hpp"
 #include "lumex/core/utility/macros/LumexConstantMacros.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
+#include "lumex/core/utility/macros/LumexMacros.hpp"
 #include "lumex/core/utility/traits/LumexTypeTraits.hpp"
 // ============= OS Detection Macros =============
 // Cross-platform OS macros for detecting operating systems
@@ -168,14 +169,9 @@
 
 // ============= Function Name Macros =============
 
-#if defined(_WIN32) || defined(__WIN32__) || defined(__WIN64__)               \
-    || defined(__MINGW32__) || defined(__MINGW64__)
-#define LOGGER_FUNCTION_NAME __FUNCSIG__
-#elif defined(__GNUC__) || defined(__clang__)
-#define LOGGER_FUNCTION_NAME __PRETTY_FUNCTION__
-#else
-#define LOGGER_FUNCTION_NAME __func__
-#endif
+// Chosen by compiler, not by target: __FUNCSIG__ exists only in MSVC and
+// clang-cl, so MinGW (GCC on Windows) takes __PRETTY_FUNCTION__.
+#define LOGGER_FUNCTION_NAME LUMEX_FUNCTION_NAME
 
 // Short function name (just function name without signature) - standard
 // __func__ (C99/C++11)

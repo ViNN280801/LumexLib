@@ -179,6 +179,22 @@ TEST (LoggerFormatFunctionNameCleanTest,
   EXPECT_EQ (logger_format_function_name_clean (prettySig), "compute()");
 }
 
+// The spelling of the full signature depends on the compiler, not on the
+// target: __FUNCSIG__ exists only in MSVC and clang-cl, so GCC and Clang on
+// Windows (MinGW) must get __PRETTY_FUNCTION__.
+TEST (LoggerFunctionNameMacroTest, FollowsTheCompilerAndNotTheTarget)
+{
+#if defined(_MSC_VER)
+  char const *const expected = "__FUNCSIG__";
+#elif defined(__GNUC__) || defined(__clang__)
+  char const *const expected = "__PRETTY_FUNCTION__";
+#else
+  char const *const expected = "__func__";
+#endif
+
+  EXPECT_STREQ (expected, LUMEX_STRINGIZE (LOGGER_FUNCTION_NAME));
+}
+
 // --- Disabled-state default getters (also exercises the new item-2 methods) -
 
 // CoT: if some unexpected environment already has an `enable_logs` file next

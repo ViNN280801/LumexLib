@@ -38,9 +38,11 @@
 #endif
 #include <cwchar>
 
+#include <windows.h>
+
+// MinGW's psapi.h and tlhelp32.h need the types of windows.h declared first.
 #include <psapi.h>
 #include <tlhelp32.h>
-#include <windows.h>
 #elif defined(__linux__)
 #include <cerrno>
 
