@@ -48,7 +48,10 @@
 #include <fstream>
 #endif
 
-#if defined(_WIN32)
+// MSVC and clang-cl have __cpuid in <intrin.h>. GCC (MinGW included) has
+// __cpuid_count in <cpuid.h>; the <intrin.h> of MinGW-w64 redeclares builtins
+// of GCC and trips -Wredundant-decls.
+#if defined(_MSC_VER)
 #include <intrin.h>
 #elif defined(__GNUC__) || defined(__clang__)
 #include <cpuid.h>
@@ -192,7 +195,7 @@ void
 CPUVectorizationDetector::_execute_cpuid (uint32_t function,
                                           std::array<uint32_t, 4> &regs)
 {
-#if defined(LUMEX_OS_WINDOWS)
+#if defined(_MSC_VER)
   int cpuInfo[4] = {
     0
   }; // NOLINT(cppcoreguidelines-avoid-c-arrays, modernize-avoid-c-arrays)
