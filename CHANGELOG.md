@@ -531,7 +531,7 @@
 
 ##### Несовместимо: утилиты xml перенесены в модули ядра
 
-**Файлы:** `lumex/core/utility/bit/LumexBit.hpp`, `lumex/xml/utility/XmlUtils.hpp`, `lumex/tests/core/utility/bit/LumexBit.cxx11.tests.cpp`, `THIRD-PARTY-NOTICES.md`
+**Файлы:** `lumex/core/utility/bit/LumexBit.hpp`, `lumex/core/unicode/**` (новый модуль), `lumex/xml/utility/XmlUtils.hpp`, `lumex/xml/text/XmlParser.cpp`, `lumex/xml/document/XmlDocument.cpp`, `lumex/xml/CMakeLists.txt`, `lumex/xml/LumexXml`, `cmake/LumexOptions.cmake`, `cmake/LumexModules.cmake`, `cmake/LumexLibConfig.cmake.in`, `CMakeLists.txt`, `conanfile.py`, `test_package/**`, `lumex/core/CMakeLists.txt`, `lumex/examples/unicode/**`, `lumex/examples/CMakeLists.txt`, `lumex/tests/core/unicode/**`, `lumex/tests/core/utility/bit/LumexBit.cxx11.tests.cpp`, `lumex/tests/xml/LumexXmlEncodings.cxx11.tests.cpp`, `lumex/tests/LumexTestStandards.cmake`, `lumex/tests/core/CMakeLists.txt`, `lumex/tests/cmake/**`, `THIRD-PARTY-NOTICES.md`
 
 **Суть:** модуль xml держал внутри себя код, который с XML не связан: перекодировку UTF-8, UTF-16, UTF-32 и Latin-1, перестановку байтов и проверку порядка байтов, диапазон из пары итераторов, сравнение чисел с плавающей точкой без допуска, собственного владельца указателя и копии средств стандартной библиотеки. Этот код переносится в модули, которым он принадлежит, а xml зависит от них. Классы и функции, ушедшие из xml, подчиняются правилам ядра (классы и функции в snake_case, приставки `Xml` и `Object` у ушедших классов нет), поэтому имена меняются в том же коммите, что и место. Старые имена не оставлены ни синонимами, ни псевдонимами в xml, как и в записи про snake_case выше: потребитель переходит на новые имена по таблице ниже, это несовместимое изменение API в релизе `2.0.0.0`. Внутри xml эти имена были деталями реализации (правило потребителя называет `XmlUtils.hpp` и `memory/` не публичным API); ни PeakExpertWeb, ни PeakExpertCE не обращаются к ним (в обоих репозиториях нет ни одного вхождения `lumex::xml` в C++-коде).
 
@@ -540,6 +540,7 @@
 По модулям:
 
 - `core/utility` (`bit`): `byte_swap` работает с C++11 (раньше только с C++20), добавлена `is_little_endian`; `endian_swap` и `is_little_endian` из xml заменены ими.
+- `core/unicode` (новый модуль, только заголовки, C++11, цель `lumex::unicode`, параметр `LUMEX_BUILD_UNICODE`): счетчики, писатели и декодеры UTF-8, UTF-16, UTF-32, Latin-1 и `wchar_t` (`utf/LumexUtf.hpp`) и строковые преобразования `to_utf8` и `to_wide` (`convert/LumexUnicodeConvert.hpp`). `lumex::xml` линкует `lumex::unicode` как PUBLIC, `LUMEX_BUILD_XML` требует `LUMEX_BUILD_UNICODE`, сам `unicode` требует `utility`. В xml остались определение кодировки по метке порядка байтов и объявлению и преобразования буферов (`convert_buffer*`, `convert_buffer_output*`): они зависят от `xml_encoding` и `char_t`. Шаблонный параметр `opt_swap` (типы `opt_true` и `opt_false`) заменен параметром `bool SwapBytes`.
 
 Таблица "было -> стало" по модулям (вид: класс, функция, макрос):
 
@@ -550,7 +551,36 @@
 | функция | `lumex::xml::utility::endian_swap` (для `uint16_t` и `uint32_t`) | `lumex::core::utility::bit::byte_swap` (целые типы размером 1, 2, 4 и 8 байт, кроме `bool`) |
 | функция | `lumex::xml::utility::is_little_endian` | `lumex::core::utility::bit::is_little_endian` |
 
-**Проверено:** `bit`: набор `UtilityBit` на GCC 13.2, Release, `-Werror`: сборка без предупреждений, на C++11 17 тестов `LumexBitTest` (было 4), на C++20 37; `byte_swap` ниже C++20 сверяется с обратным порядком байтов, записанным вручную через `memcpy`, на 512 псевдослучайных значениях для каждого из шести типов размером 2, 4 и 8 байт, знаковых и беззнаковых, и вычисляется в константном выражении. Проверка правкой: шесть порч (сдвиг 4-байтового обмена, сдвиг 8-байтового, маска 8-байтового, сдвиг 2-байтового, инверсия `is_little_endian`, потеря знакового преобразования) каждая роняет набор.
+**core/unicode (utf)**, пространство имен `lumex::core::unicode::utf` (раньше `lumex::xml::utility`)
+
+| Вид | Было | Стало |
+| --- | --- | --- |
+| класс | `utf8_counter` | `utf8_counter` |
+| класс | `utf16_counter` | `utf16_counter` |
+| класс | `utf32_counter` | `utf32_counter` |
+| класс | `utf8_writer` | `utf8_writer` |
+| класс | `utf16_writer` | `utf16_writer` |
+| класс | `utf32_writer` | `utf32_writer` |
+| класс | `latin1_writer` | `latin1_writer` |
+| класс | `utf8_decoder` | `utf8_decoder` |
+| класс | `utf16_decoder<opt_swap>` (`opt_true` / `opt_false`) | `utf16_decoder<SwapBytes>` (`true` / `false`) |
+| класс | `utf32_decoder<opt_swap>` (`opt_true` / `opt_false`) | `utf32_decoder<SwapBytes>` (`true` / `false`) |
+| класс | `latin1_decoder` | `latin1_decoder` |
+| класс | `wchar_decoder` | `wchar_decoder` |
+| класс | `wchar_selector<size>` | `wchar_selector<Size>` |
+| псевдоним | `wchar_counter` | `wchar_counter` |
+| псевдоним | `wchar_writer` | `wchar_writer` |
+
+**core/unicode (convert)**, пространство имен `lumex::core::unicode::convert`
+
+| Вид | Было | Стало |
+| --- | --- | --- |
+| функция | `lumex::xml::utility::as_utf8` (`wchar_t const *`, `std::basic_string<wchar_t> const &`) | `to_utf8` (те же две формы и новая `(wchar_t const *, std::size_t)`) |
+| функция | `lumex::xml::utility::as_wide` (`char const *`, `std::string const &`) | `to_wide` (те же две формы и новая `(char const *, std::size_t)`) |
+| функция | `lumex::xml::utility::as_utf8_begin`, `as_utf8_end`, `as_utf8_impl`, `as_wide_impl` | убраны; их роль у `to_utf8 (wchar_t const *, std::size_t)` и `to_wide (char const *, std::size_t)` |
+| функция | `lumex::xml::utility::strlength_wide` | убрана (`to_utf8` берет длину из `std::wcslen`) |
+
+**Проверено:** `bit`: набор `UtilityBit` на GCC 13.2, Release, `-Werror`: сборка без предупреждений, на C++11 17 тестов `LumexBitTest` (было 4), на C++20 37; `byte_swap` ниже C++20 сверяется с обратным порядком байтов, записанным вручную через `memcpy`, на 512 псевдослучайных значениях для каждого из шести типов размером 2, 4 и 8 байт, знаковых и беззнаковых, и вычисляется в константном выражении. Проверка правкой: шесть порч (сдвиг 4-байтового обмена, сдвиг 8-байтового, маска 8-байтового, сдвиг 2-байтового, инверсия `is_little_endian`, потеря знакового преобразования) каждая роняет набор. `unicode`: наборы `LumexUnicodeCxx11Tests`, `LumexUnicodeUtfCxx11Tests` и `LumexUnicodeConvertCxx11Tests` на GCC 13.2, Release, `-Werror`, всего 64 теста (политики, преобразования, глобальные имена, `wchar_selector<2>` и `<4>` на любом хосте, 1 000 000 символов туда и обратно). Те же 57 тестов политик и преобразований проходят на реализации до переноса (через временный слой имен), поэтому поведение не изменилось; 20 новых тестов `XmlEncodingTest` (UTF-16 и UTF-32 в обоих порядках, Latin-1, метка порядка байтов, определение кодировки по первым байтам и по объявлению, вывод длиннее буфера сериализатора) проходят и до переноса, и после. Набор xml: 148 -> 168 тестов на C++11, 170 на C++17 и C++20. Проверка правкой: 27 порч заголовков `unicode` (счетчики, писатели, границы, быстрый путь ASCII, пары суррогатов, перестановка байтов) и 10 порч кода xml (определение кодировки, выбор порядка байтов, обрезка последовательности на границе буфера) роняют тесты, 3 порчи сначала выжили и закрыты тестами `GivenALengthThatCutsASequence...`, `GivenAStrayByteInsideAsciiRuns...`, `GivenAHighSurrogateBeforeANonLowSurrogate...`; одна порча (метка UTF-8) не меняет поведение. CMake: два новых случая (`require_fail_xml_without_unicode`, `require_fail_unicode_without_utility`), `cmake.*` и `lint.*` проходят, кроме двух, которые падали и до изменения (`require_ok_independents_off`, `require_fail_json_without_string_view`: в них у `resource_monitor` остаются включенными `expected` и `string_view`). Оба примера `unicode` завершаются с кодом 0.
 
 ##### Шаблоны переменных `is_invocable_v`, `is_callable_v`, `is_optional_v`, `is_expected_v` есть только с C++14
 

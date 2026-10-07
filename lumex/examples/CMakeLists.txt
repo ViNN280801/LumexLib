@@ -104,6 +104,12 @@ else()
     message(STATUS "Skipping time examples (LUMEX_BUILD_CORE or LUMEX_BUILD_TIME is OFF)")
 endif()
 
+if(LUMEX_BUILD_CORE AND LUMEX_BUILD_UNICODE)
+    add_subdirectory(unicode)
+else()
+    message(STATUS "Skipping unicode examples (LUMEX_BUILD_CORE or LUMEX_BUILD_UNICODE is OFF)")
+endif()
+
 if(LUMEX_BUILD_CORE AND LUMEX_BUILD_UTILITY)
     add_subdirectory(utility)
 else()

@@ -158,6 +158,7 @@ class LumexLibConan(ConanFile):
         self._component("core_circular_buffer", "circular_buffer",
                         requires=["core_utility"])
         self._component("core_expected", "expected", requires=["core_utility"])
+        self._component("core_unicode", "unicode", requires=["core_utility"])
         self._component("core_fmt", "fmt", requires=["core_utility"])
         self._component("core_reflection", "reflection",
                         requires=["core_utility"])
@@ -201,7 +202,9 @@ class LumexLibConan(ConanFile):
             exceptions.system_libs.append("execinfo")
 
         # ================= XML =================
-        xml = self._component("xml", "xml", ["LumexXml"], ["core_utility"])
+        xml = self._component(
+            "xml", "xml", ["LumexXml"], ["core_unicode", "core_utility"]
+        )
         xml.includedirs = ["include", os.path.join("include", "lumex", "xml")]
 
         # ================= Applied components =================

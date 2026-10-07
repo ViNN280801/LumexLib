@@ -271,6 +271,7 @@ if(LUMEX_INSTALL)
         LumexCore_string_view
         LumexCore_temporary
         LumexCore_time
+        LumexCore_unicode
         LumexCore_utility
     )
 

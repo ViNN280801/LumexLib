@@ -30,6 +30,7 @@ set(LUMEX_CORE_MODULE_OPTIONS
     LUMEX_BUILD_STRING_VIEW
     LUMEX_BUILD_TEMPORARY
     LUMEX_BUILD_TIME
+    LUMEX_BUILD_UNICODE
     LUMEX_BUILD_UTILITY
 )
 
@@ -108,7 +109,9 @@ function(lumex_check_module_dependencies)
     lumex_require_module(LUMEX_BUILD_FMT LUMEX_BUILD_UTILITY)
     lumex_require_module(LUMEX_BUILD_REFLECTION LUMEX_BUILD_UTILITY)
     lumex_require_module(LUMEX_BUILD_SERIAL LUMEX_BUILD_UTILITY)
+    lumex_require_module(LUMEX_BUILD_UNICODE LUMEX_BUILD_UTILITY)
     lumex_require_module(LUMEX_BUILD_XML LUMEX_BUILD_UTILITY)
+    lumex_require_module(LUMEX_BUILD_XML LUMEX_BUILD_UNICODE)
 
     lumex_require_module(LUMEX_BUILD_TEMPORARY LUMEX_BUILD_ENVIRONMENT)
     lumex_require_module(LUMEX_BUILD_TEMPORARY LUMEX_BUILD_FILESYSTEM)
@@ -210,6 +213,7 @@ set(LUMEX_SHARED_LIBRARY_CANDIDATES
     LumexCore_string_view
     LumexCore_temporary
     LumexCore_time
+    LumexCore_unicode
     LumexCore_utility
     LumexApplied_hardware
     LumexApplied_json

@@ -60,7 +60,7 @@ foreach(_tgt
         LumexCore_filesystem LumexCore_number_generator LumexCore_math
         LumexCore_optional LumexCore_reflection LumexCore_string LumexCore_fmt
         LumexCore_string_view LumexCore_temporary LumexCore_time
-        LumexCore_utility
+        LumexCore_unicode LumexCore_utility
         LumexApplied_hardware LumexApplied_json LumexApplied_logger
         LumexApplied_logging
         LumexApplied_resource_monitor LumexApplied_serial LumexApplied_settings
