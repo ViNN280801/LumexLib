@@ -76,6 +76,7 @@
 #pragma clang diagnostic ignored "-Wexit-time-destructors"
 #pragma clang diagnostic ignored "-Wundefined-func-template"
 #pragma clang diagnostic ignored "-Wfloat-equal"
+#pragma clang diagnostic ignored "-Wweak-vtables"
 #endif
 
 #include <exception>
@@ -94,19 +95,64 @@ namespace expected
 {
 namespace error
 {
+template <typename ErrorType> class bad_expected_access;
+
+/**
+ * @brief Base of every `bad_expected_access<ErrorType>`: catch it to handle
+ * the failed `value()` of any `expected` without naming the error type.
+ * @details Analogue of `std::bad_expected_access<void>` from C++23. It holds
+ * no error and cannot be constructed by itself (its constructors are
+ * protected); `what()` is defined here.
+ */
+template <> class bad_expected_access<void> : public std::exception
+{
+protected:
+  /// @brief Constructs the base; only a derived class can.
+  bad_expected_access () LUMEX_NOEXCEPT {}
+
+  /// @brief Copy constructor, for the derived classes.
+  bad_expected_access (bad_expected_access const &) = default;
+
+  /// @brief Move constructor, for the derived classes.
+  bad_expected_access (bad_expected_access &&) = default;
+
+  /// @brief Copy assignment, for the derived classes.
+  bad_expected_access &operator= (bad_expected_access const &) = default;
+
+  /// @brief Move assignment, for the derived classes.
+  bad_expected_access &operator= (bad_expected_access &&) = default;
+
+  /// @brief Destructor, for the derived classes.
+  ~bad_expected_access () override = default;
+
+public:
+  /**
+   * @brief Returns a textual description of the exception.
+   * @return C-string `"Bad expected access"`.
+   * @note Guaranteed not to throw (`noexcept`).
+   */
+  char const *
+  what () const LUMEX_NOEXCEPT override
+  {
+    return "Bad expected access";
+  }
+};
+
 /**
  * @brief Exception thrown when the value of an `expected` is read while it
  * holds an error.
  * @details Analogue of `std::bad_expected_access` from C++23. Thrown only by
- * `value()` of an `expected` that holds an error; it carries that error.
- * `error()` of `expected` does not throw it: called without an error, it
- * fails `LUMEX_ASSERT` and aborts the program.
+ * `value()` of an `expected` that holds an error; it carries that error. It
+ * derives from `bad_expected_access<void>`, so one `catch` of that base takes
+ * the exception of every error type. `error()` of `expected` does not throw
+ * it: called without an error, it fails `LUMEX_ASSERT` and aborts the program.
  * @tparam ErrorType Error type stored in and retrievable from the exception.
  * @note Not thread-safe unless `ErrorType` itself is thread-safe.
  * @warning Constructing `bad_expected_access` can be expensive if `ErrorType`
  * has a heavy constructor or allocates.
  */
-template <typename ErrorType> class bad_expected_access : public std::exception
+template <typename ErrorType>
+class bad_expected_access : public bad_expected_access<void>
 {
 public:
   /**
@@ -118,16 +164,6 @@ public:
   explicit bad_expected_access (ErrorType error) : m_error (std::move (error))
   {
   }
-  /**
-   * @brief Returns a textual description of the exception.
-   * @return C-string `"Bad expected access"`.
-   * @note Guaranteed not to throw (`noexcept`).
-   */
-  char const *
-  what () const LUMEX_NOEXCEPT override
-  {
-    return "Bad expected access";
-  }
 
   /**
    * @brief Returns a mutable lvalue reference to the stored error.
@@ -135,7 +171,8 @@ public:
    * @note This function does not throw.
    */
   ErrorType &
-  error () &
+      error ()
+      & LUMEX_NOEXCEPT
   {
     return m_error;
   }
@@ -146,7 +183,7 @@ public:
    * @note This function does not throw.
    */
   ErrorType const &
-  error () const &
+  error () const &LUMEX_NOEXCEPT
   {
     return m_error;
   }
@@ -157,7 +194,8 @@ public:
    * @note This function does not throw.
    */
   ErrorType &&
-  error () &&
+      error ()
+      && LUMEX_NOEXCEPT
   {
     return std::move (m_error);
   }
@@ -168,7 +206,7 @@ public:
    * @note This function does not throw.
    */
   ErrorType const &&
-  error () const &&
+  error () const &&LUMEX_NOEXCEPT
   {
     return std::move (m_error);
   }
