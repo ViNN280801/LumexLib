@@ -1,4 +1,4 @@
-// lumex/tests/core/filesystem/LumexFilesystemReplaceFileContent.cxx11.tests.cpp
+// lumex/tests/core/filesystem/fs/LumexFilesystemReplaceFileContent.cxx11.tests.cpp
 #include <cerrno>
 #include <fstream>
 #include <iostream>
