@@ -260,7 +260,7 @@ private:
   bool _ensure_or_repair_impl (LumexSettingsCreateFn const &createDefault,
                                bool logOnFinalFailure) LUMEX_NOEXCEPT;
 
-#ifdef _WIN32
+#ifdef _MSC_VER
 #pragma warning(push)
 #pragma warning(disable : 4251) // Suppress C4251 for STL/shared_ptr members in
                                 // DLL interface
@@ -270,7 +270,7 @@ private:
   std::string m_filename; ///< Path this guard loads/saves/backs up.
   std::recursive_mutex
       m_mutex; ///< Serializes calls made through this instance.
-#ifdef _WIN32
+#ifdef _MSC_VER
 #pragma warning(pop)
 #endif
 };

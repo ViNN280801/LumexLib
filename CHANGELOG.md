@@ -573,6 +573,15 @@
 
 **Проверено:** предупреждений в `serial` после правки 0 на GCC 8.3, GCC 13.2 и MinGW 8.3, у Clang 23.1.0 остались 2 из другого модуля (`logger`); тесты `serial` на GCC 13.2: 49 из 50, не проходит `LumexSerialProberPty.GivenPreWrittenResponse_WhenProbe_ThenResponded`, он не проходил и до правок (6 запусков из 6 на сборке до переименования); Windows-ветка собрана MinGW, не запускалась.
 
+
+##### MinGW: MSVC-прагмы под `_MSC_VER` и класс генератора дампов без `dllimport`
+
+**Файлы:** 17 файлов `lumex/applied/` и `lumex/core/` с `#pragma warning` и `#pragma comment` (`LumexHardwareCapabilities.hpp/.cpp`, `LumexCPUVectorizationCapabilities.hpp`, `LumexLogging.hpp`, `LumexSettingsGuard.hpp`, `LumexSettingsINI.hpp`, `LumexSettingsJSON.hpp`, `LumexSettingsXML.hpp`, `LumexEnvironment.hpp`, `LumexCrashHandler.hpp`, `LumexException.hpp`, `LumexStacktrace.hpp/.cpp`, `LumexStacktraceEntry.hpp`, `LumexFilesystem.hpp/.cpp`), `lumex/core/utility/dump/LumexCoreDumpGenerator.hpp`, `Scripts/CodeTools/check_msvc_pragmas.py` (новый), `lumex/tests/CMakeLists.txt`, `lumex/tests/cmake/CMakeLists.txt`, `lumex/tests/cmake/cases/lint_msvc_pragmas_script.cmake` (новый), `lumex/tests/cmake/fixtures/msvc_pragmas/` (новые)
+
+**Суть:** (1) `#pragma warning` и `#pragma comment(lib)` есть только у MSVC и clang-cl (оба задают `_MSC_VER`); для GCC это неизвестные прагмы, и сборка с `-Werror` останавливалась на первой из 56. Они были под `_WIN32`, который задает и MinGW. Теперь все 56 стоят под `_MSC_VER`. (2) Классы `dump_factory` и `core_dump_generator` целиком были помечены `LUMEX_UTILITY_API` (`dllimport` у потребителей), а все их методы inline и определены вне класса; GCC на MinGW для каждого метода, которым пользуются в теле класса, выдает `redeclared without dllimport attribute after being referenced`, и это предупреждение нельзя отключить ни флагом, ни `pragma` (32 места). Под MinGW атрибут теперь стоит только на статических данных-членах, которые определяет `.cpp` (макросы `LUMEX_DUMP_CLASS_API` и `LUMEX_DUMP_DATA_API`); на MSVC, clang-cl и ELF все как было. (3) Новая проверка `lint.msvc_pragmas` (`check_msvc_pragmas.py`) находит прагму вне `_MSC_VER`, в ветке `#else` или в условии с `||`; кейс `cmake.lint_msvc_pragmas_script` проверяет саму проверку на двух фикстурах.
+
+**Проверено:** MinGW 8.3, C++11: 115 предупреждений до правки, 27 после (все 56 `-Wunknown-pragmas` и 32 `redeclared` ушли; остаток другой природы, он в следующих записях); проверка на дереве релиза находит ровно 56 прагм, на этой ветке 0; если в проверке убрать правило про `||`, кейс на фикстурах падает; GCC 13.2, Release: все 4079 теста C++11 проходят, кроме `LumexSerialProberPty.GivenPreWrittenResponse...`, который не проходил и до правок; на MSVC не собиралось (на других компиляторах макросы раскрываются в прежний текст).
+
 ---
 
 ## [v1.0.3.1] - в разработке

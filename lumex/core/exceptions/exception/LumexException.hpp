@@ -93,7 +93,7 @@ namespace exception
 {
 // Suppress C4275 warning for std::exception base class not having DLL
 // interface
-#ifdef _WIN32
+#ifdef _MSC_VER
 #pragma warning(push)
 #pragma warning(disable : 4275 4251)
 #endif
@@ -192,7 +192,7 @@ private:
   std::string m_message;         ///< The custom error message to be displayed.
   lumex_stacktrace m_stacktrace; ///< The stack trace of the error.
 };
-#ifdef _WIN32
+#ifdef _MSC_VER
 #pragma warning(pop)
 #endif
 

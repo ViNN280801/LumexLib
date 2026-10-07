@@ -64,7 +64,7 @@
 #include "lumex/core/utility/LumexUtility"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 
-#if defined(_WIN32)
+#if defined(_MSC_VER)
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "dxgi.lib")
 #endif
