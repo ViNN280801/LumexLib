@@ -125,6 +125,7 @@ lumex_add_cmake_test(wiring_toolchain_rpath)
 lumex_add_cmake_test(asan_clang_cl_runtime_library)
 lumex_add_cmake_test(gtest_discovery_does_not_lock_exe)
 lumex_add_cmake_test(wiring_atomic)
+lumex_add_cmake_test(wiring_span)
 lumex_add_cmake_test(wiring_test_names)
 lumex_add_cmake_test(wiring_standard_suites)
 lumex_add_cmake_test(wiring_exception_crash_lock)
@@ -260,7 +261,7 @@ lumex_add_consumer_test(consumer_standard_mismatch_lib20_consumer11
 # function-local static; two shared libraries built with hidden visibility
 # must share it (skipped on Windows, where DLLs cannot).
 lumex_add_consumer_test(consumer_atomic_cross_module atomic_cross_module)
-# The header-only modules (string, math, generators, optional, atomic) compile
+# The header-only modules (string, math, generators, optional, atomic, span) compile
 # from an install prefix built with LUMEX_BUILD_UTILITY OFF: the core/utility
 # headers they include are installed whatever that option says.
 lumex_add_consumer_test(install_header_only_without_utility
@@ -299,6 +300,30 @@ add_test(NAME ${_ctest_name}
         -DCASE=atomic_compile_checks
         -DLUMEX_SOURCE_DIR=${LumexLib_SOURCE_DIR}
         -DWORK_DIR=${CMAKE_CURRENT_BINARY_DIR}/consumer/atomic_compile_checks
+        -DGENERATOR=${CMAKE_GENERATOR}
+        -DCXX_COMPILER=${CMAKE_CXX_COMPILER}
+        "-DCXX_FLAGS=${CMAKE_CXX_FLAGS}"
+        -DCLANG_STDLIB=${LUMEX_CLANG_STDLIB}
+        -DBUILD_TYPE=Release
+        -DCONFIGURE_ONLY=ON
+        -P ${_LUMEX_CONSUMER_RUN}
+)
+set_tests_properties(${_ctest_name} PROPERTIES
+    LABELS "cmake;consumer"
+    TIMEOUT 900
+    SKIP_REGULAR_EXPRESSION "LUMEX_CONSUMER_SKIP"
+)
+
+# span compile-time checks: the uses std::span rejects (a discarded result,
+# a constructor its constraints remove, an out-of-range static subview, an
+# implicit conversion the standard makes explicit) must not compile with
+# warnings as errors; valid use must.
+lumex_test_name(_ctest_name span_compile_checks)
+add_test(NAME ${_ctest_name}
+    COMMAND ${CMAKE_COMMAND}
+        -DCASE=span_compile_checks
+        -DLUMEX_SOURCE_DIR=${LumexLib_SOURCE_DIR}
+        -DWORK_DIR=${CMAKE_CURRENT_BINARY_DIR}/consumer/span_compile_checks
         -DGENERATOR=${CMAKE_GENERATOR}
         -DCXX_COMPILER=${CMAKE_CXX_COMPILER}
         "-DCXX_FLAGS=${CMAKE_CXX_FLAGS}"

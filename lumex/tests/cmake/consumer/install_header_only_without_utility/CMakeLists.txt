@@ -2,12 +2,12 @@
 #
 # While configuring, installs LumexLib into a prefix under this build tree
 # with LUMEX_BUILD_UTILITY OFF, every module that requires utility OFF and the
-# five header-only modules (string, math, generators, optional, atomic) ON.
+# six header-only modules (string, math, generators, optional, atomic, span) ON.
 # Then finds that prefix with find_package(LumexLib) and builds main.cpp
 # against the installed targets only: at C++11 (the executable that runs) and,
 # when the compiler has it, at C++20.
 #
-# The five modules are INTERFACE targets, so the nested LumexLib tree is
+# The six modules are INTERFACE targets, so the nested LumexLib tree is
 # configured and installed without a build: building it would also run its
 # ALL targets that write into the LumexLib checkout (publish_distr,
 # lumex_copy_compile_commands).
@@ -19,7 +19,7 @@ if(NOT LUMEX_SOURCE_DIR)
     message(FATAL_ERROR "pass -DLUMEX_SOURCE_DIR=<LumexLib checkout>")
 endif()
 
-set(_header_only_modules ATOMIC GENERATORS MATH OPTIONAL STRING)
+set(_header_only_modules ATOMIC GENERATORS MATH OPTIONAL SPAN STRING)
 # Every other core module: UTILITY itself, and the modules that require it
 # directly or through another module (cmake/LumexModules.cmake). The applied
 # and XML groups are switched off as a whole.
@@ -94,7 +94,8 @@ if(TARGET lumex::utility OR EXISTS "${_lumex_prefix}/include/lumex/core/utility/
 endif()
 
 set(_targets
-    lumex::atomic lumex::math lumex::number_generator lumex::optional lumex::string)
+    lumex::atomic lumex::math lumex::number_generator lumex::optional
+    lumex::span lumex::string)
 foreach(_target IN LISTS _targets)
     if(NOT TARGET ${_target})
         message(FATAL_ERROR "find_package(LumexLib) did not provide ${_target}")
