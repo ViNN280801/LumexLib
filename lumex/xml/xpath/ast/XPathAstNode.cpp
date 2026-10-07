@@ -45,6 +45,13 @@ using namespace lumex::xml::xpath::ast;
 
 namespace
 {
+// The XPath = and != on numbers are IEEE comparisons by definition, so the two
+// functors compare exactly; they are templates, so this stays here instead of
+// going through utility::exactly_equal.
+#if defined(__GNUC__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wfloat-equal"
+#endif
 struct equal_to
 {
   template <typename T>
@@ -64,6 +71,9 @@ struct not_equal_to
     return lhs != rhs;
   }
 };
+#if defined(__GNUC__)
+#pragma GCC diagnostic pop
+#endif
 
 struct less
 {
@@ -241,7 +251,8 @@ XPathAstNode::apply_predicate_number (
     {
       XPathContext ctx (*it, idx, size);
 
-      if (expr->eval_number (ctx, stack) == static_cast<double> (idx))
+      if (lumex::xml::utility::exactly_equal (expr->eval_number (ctx, stack),
+                                              static_cast<double> (idx)))
         {
           *last++ = *it;
 
@@ -275,7 +286,7 @@ XPathAstNode::apply_predicate_number_const (
     {
       auto eri = static_cast<std::size_t> (er_);
 
-      if (er_ == static_cast<double> (eri))
+      if (lumex::xml::utility::exactly_equal (er_, static_cast<double> (eri)))
         {
           XPathNode r_node = last[eri - 1];
           *last++ = r_node;
@@ -792,13 +803,13 @@ XPathAstNode::eval_number (
     case ast_func_floor:
       {
         double r_val = m_left->eval_number (ctx, stack);
-        return r_val == r_val ? floor (r_val) : r_val;
+        return !lumex::xml::utility::is_nan (r_val) ? floor (r_val) : r_val;
       }
 
     case ast_func_ceiling:
       {
         double r_val = m_left->eval_number (ctx, stack);
-        return r_val == r_val ? ceil (r_val) : r_val;
+        return !lumex::xml::utility::is_nan (r_val) ? ceil (r_val) : r_val;
       }
 
     case ast_func_round:
@@ -1376,8 +1387,9 @@ XPathAstNode::optimize_self (
       LUMEX_ASSERT (m_test == predicate_default);
 
       if (m_right->m_type == ast_number_constant
-          && m_right->m_data.number
-                 == 1.0) // NOLINT(cppcoreguidelines-pro-type-union-access)
+          && lumex::xml::utility::exactly_equal (
+              m_right->m_data.number,
+              1.0)) // NOLINT(cppcoreguidelines-pro-type-union-access)
         m_test = predicate_constant_one;
       else if (m_right->m_rettype == xpath_type_number
                && (m_right->m_type == ast_number_constant

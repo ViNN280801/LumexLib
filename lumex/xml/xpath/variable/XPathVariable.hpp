@@ -479,6 +479,7 @@ new_xpath_variable (xpath_value_type type, char_t const *name)
       return new_xpath_variable<xpath_variable_string> (name);
     case xpath_type_boolean:
       return new_xpath_variable<xpath_variable_boolean> (name);
+    case xpath_type_none:
     default:
       return nullptr;
     }
@@ -539,6 +540,7 @@ delete_xpath_variable (xpath_value_type type, XPathVariable *var)
               xpath_variable_boolean *> (var));
       break;
 
+    case xpath_type_none:
     default:
       LUMEX_ASSERT (false && "Invalid variable type"); // unreachable
     }
@@ -585,6 +587,7 @@ copy_xpath_variable (XPathVariable *lhs, XPathVariable const *rhs)
           static_cast< // NOLINT(cppcoreguidelines-pro-type-static-cast-downcast)
               xpath_variable_boolean const *> (rhs)
               ->value);
+    case xpath_type_none:
     default:
       LUMEX_ASSERT (false && "Invalid variable type"); // unreachable
       return false;

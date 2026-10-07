@@ -273,6 +273,11 @@ lumex::xml::xpath::string::string_value (
           }
         return result;
       }
+    // node_null, node_declaration and node_doctype have no string value; they
+    // are listed so that -Wswitch-enum sees them handled.
+    case node_null:
+    case node_declaration:
+    case node_doctype:
     default:
       return {};
     }
