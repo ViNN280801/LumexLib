@@ -12,7 +12,7 @@
 
 #include "lumex/core/utility/traits/LumexTypeTraits.hpp"
 
-#include "lumex/tests/core/utility/LumexStreamTraitsTestTypes.hpp"
+#include "lumex/tests/core/utility/traits/LumexStreamTraitsTestTypes.hpp"
 
 using lumex_stream_traits_test::custom_streamable_t;
 using lumex_stream_traits_test::derived_streamable_t;
