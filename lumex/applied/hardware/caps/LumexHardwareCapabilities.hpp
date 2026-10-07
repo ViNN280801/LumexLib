@@ -116,7 +116,7 @@
 #include "lumex/core/utility/macros/LumexConstantMacros.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 
-#if defined(_WIN32) || defined(WIN32)
+#if defined(_MSC_VER)
 #pragma comment(lib, "iphlpapi.lib")
 #endif
 
@@ -381,12 +381,12 @@ struct LUMEX_API hardware_info_t
    * - `"Intel(R) Core(TM) i7-8700K CPU @ 3.70GHz"`
    * - `"AMD Ryzen 5 3600 6-Core Processor"`
    */
-#ifdef _WIN32
+#ifdef _MSC_VER
 #pragma warning(push)
 #pragma warning(disable : 4251)
 #endif
   std::string cpu_name;
-#ifdef _WIN32
+#ifdef _MSC_VER
 #pragma warning(pop)
 #endif
 
@@ -454,12 +454,12 @@ struct LUMEX_API hardware_info_t
    * - `"Intel UHD Graphics 630"`
    * @note May indicate integrated graphics even when discrete GPU is present
    */
-#ifdef _WIN32
+#ifdef _MSC_VER
 #pragma warning(push)
 #pragma warning(disable : 4251)
 #endif
   std::string gpu_name;
-#ifdef _WIN32
+#ifdef _MSC_VER
 #pragma warning(pop)
 #endif
 

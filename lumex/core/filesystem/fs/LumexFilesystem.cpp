@@ -67,7 +67,7 @@
 #include "lumex/core/utility/macros/LumexConstantMacros.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 
-#if defined(_WIN32)
+#if defined(_MSC_VER)
 #pragma comment(lib, "shlwapi.lib")
 #endif
 

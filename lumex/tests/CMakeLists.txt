@@ -49,6 +49,20 @@ else()
         "Skipping lint.header_using_directives: no Python 3 interpreter")
 endif()
 
+# No `#pragma warning` or `#pragma comment` outside _MSC_VER: GCC and MinGW
+# report them as unknown pragmas, which stops a -Werror build. Same Python
+# 3.7+ interpreter as above.
+if(Python3_Interpreter_FOUND)
+    add_test(NAME lint.msvc_pragmas
+        COMMAND ${Python3_EXECUTABLE}
+            ${LumexLib_SOURCE_DIR}/Scripts/CodeTools/check_msvc_pragmas.py
+            --check --dir ${LumexLib_SOURCE_DIR}/lumex
+    )
+    set_tests_properties(lint.msvc_pragmas PROPERTIES LABELS "lint")
+else()
+    message(STATUS "Skipping lint.msvc_pragmas: no Python 3 interpreter")
+endif()
+
 # Every public source file under lumex/ starts with the MIT notice in a plain
 # /* comment: a Doxygen /** comment would copy the license onto every page.
 if(Python3_Interpreter_FOUND)

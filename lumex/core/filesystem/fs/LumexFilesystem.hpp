@@ -940,13 +940,13 @@ public:
                          path const &rhs); ///< path concatenation.
 
 private:
-#ifdef _WIN32
+#ifdef _MSC_VER
 #pragma warning(push)
 #pragma warning(disable                                                       \
                 : 4251) // Suppress C4251 for STL members in DLL interface
 #endif
   std::string m_path; ///< The internal string storing the path.
-#ifdef _WIN32
+#ifdef _MSC_VER
 #pragma warning(pop)
 #endif
 
@@ -1329,13 +1329,13 @@ private:
                 Definition Rule) issues if the std::shared_ptr implementation differs
                 between DLL and client code.
               */
-#ifdef _WIN32
+#ifdef _MSC_VER
 #pragma warning(push)
 #pragma warning(disable : 4251)
 #endif
   std::shared_ptr<impl>
       m_impl; ///< Pointer to the private implementation details (PIMPL idiom).
-#ifdef _WIN32
+#ifdef _MSC_VER
 #pragma warning(pop)
 #endif
 };

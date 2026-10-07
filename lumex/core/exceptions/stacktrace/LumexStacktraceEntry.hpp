@@ -133,7 +133,7 @@ private:
 // STL containers) is a member of a class exported from a DLL, because
 // `std::string` itself is not exported. It's usually safe to ignore if the
 // client code is also compiled with the same C++ standard library version.
-#ifdef _WIN32
+#ifdef _MSC_VER
 #pragma warning(push)
 #pragma warning(disable : 4251)
 #endif
@@ -147,7 +147,7 @@ private:
   mutable std::uint32_t m_cached_source_line;
   /// @brief Flag indicating whether cached symbol information is valid.
   mutable bool m_cache_valid;
-#ifdef _WIN32
+#ifdef _MSC_VER
 #pragma warning(pop)
 #endif
 

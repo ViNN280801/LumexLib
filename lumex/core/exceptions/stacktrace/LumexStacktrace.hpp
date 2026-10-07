@@ -110,7 +110,7 @@
 #include "lumex/core/utility/LumexUtility"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 
-#if defined(_WIN32)
+#if defined(_MSC_VER)
 #pragma comment(lib, "dbghelp.lib")
 #endif
 
@@ -332,7 +332,7 @@ bool resolve_symbol_info (void *address, std::string &function_name,
 // a DLL, because `std::vector` itself is not exported. It's usually safe to
 // ignore if the client code is also compiled with the same C++ standard
 // library version.
-#ifdef _WIN32
+#ifdef _MSC_VER
 #pragma warning(push)
 #pragma warning(disable : 4251)
 #endif
@@ -679,7 +679,7 @@ public:
   }
 };
 
-#ifdef _WIN32
+#ifdef _MSC_VER
 #pragma warning(pop)
 #endif
 
