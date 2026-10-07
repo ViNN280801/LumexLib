@@ -1,7 +1,8 @@
 # lumex/tests/core/utility/bit/CMakeLists.txt
 
-# The tests of lumex/core/utility/bit: count_leading_zeros from C++11 (.cxx11),
-# byte_swap and the C++20 helpers (.cxx20), std::byteswap at C++23 (.cxx23).
+# The tests of lumex/core/utility/bit: count_leading_zeros, byte_swap (the
+# form without bit_cast) and is_little_endian from C++11 (.cxx11), the C++20
+# byte_swap (.cxx20), std::byteswap at C++23 (.cxx23).
 # One suite per standard of the module (lumex/tests/LumexTestStandards.cmake),
 # LumexUtilityBitCxx11Tests, ...Cxx14Tests, ...Cxx17Tests, ...Cxx20Tests
 # (C++23 and C++26 only where the compiler has them), each built from the
