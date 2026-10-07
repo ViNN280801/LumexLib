@@ -1,15 +1,21 @@
-# One test suite per C++ standard (lumex/tests/LumexTestStandards.cmake):
-# every test directory against the table of standards.
+# One test suite per C++ standard (lumex/tests/LumexTestStandards.cmake) and
+# one test directory per source directory: every test directory against the
+# table of standards and against the source tree.
 #
 # - Every directory under lumex/tests with *.tests.cpp files (other than
-#   cmake/ and support/) has a table entry under its module key (its CTest
-#   prefix without the trailing dot), and every entry has such a directory.
-# - A converted directory calls lumex_add_standard_suites exactly once, with
-#   MODULE <its key>, calls none of add_executable, add_test,
+#   cmake/ and support/) belongs to a table entry, the longest module key its
+#   CTest prefix begins with (core/math/ops -> math.ops. -> math), and every
+#   entry has a test directory of its own or below it.
+# - The test tree follows the source tree: lumex/tests/<path> with tests has a
+#   lumex/<path> directory, so the CTest prefix of a test names the source
+#   directory it tests (math.ops., utility.traits., json.schema.).
+# - A test directory calls lumex_add_standard_suites exactly once, with
+#   MODULE <the key of its entry>, calls none of add_executable, add_test,
 #   lumex_test_use_gtest and lumex_gtest_discover_tests itself, names every
 #   test source <Stem>.cxx<std>.tests.cpp with <std> a standard of its entry,
-#   has a file of its lowest standard, and passes VARIANT <name> for exactly
-#   the variants of its entry.
+#   and passes VARIANT <name> for exactly the variants of its entry. Some
+#   directory of the module has a file of the module's lowest standard; a
+#   directory itself has suites from its lowest file on only.
 # - The helper and the table functions behave as documented.
 
 include("${LUMEX_SOURCE_DIR}/cmake/LumexTestNames.cmake")
@@ -24,8 +30,6 @@ if(DEFINED LUMEX_STANDARD_SUITES_EXPECT_FAIL)
     elseif(LUMEX_STANDARD_SUITES_EXPECT_FAIL STREQUAL "standard_of_other_module")
         lumex_test_standards_select(_out base64 20
             LumexBase64.cxx11.tests.cpp LumexBase64.cxx14.tests.cpp)
-    elseif(LUMEX_STANDARD_SUITES_EXPECT_FAIL STREQUAL "no_lowest_file")
-        lumex_test_standards_select(_out base64 11 LumexBase64.cxx17.tests.cpp)
     elseif(LUMEX_STANDARD_SUITES_EXPECT_FAIL STREQUAL "unknown_module")
         lumex_test_standards_get(_out no_such_module)
     elseif(LUMEX_STANDARD_SUITES_EXPECT_FAIL STREQUAL "unknown_variant")
@@ -84,11 +88,18 @@ _expect_equal("C++20 selection" "${_selected}"
 # A standard without files of its own inherits the lower ones.
 lumex_test_standards_select(_selected base64 20 A.cxx11.tests.cpp)
 _expect_equal("C++20 selection without own files" "${_selected}" "A.cxx11.tests.cpp")
+# A directory has no suite below its lowest file: the selection is empty, the
+# helper builds nothing for that standard.
+lumex_test_standards_select(_selected base64 11 A.cxx17.tests.cpp)
+_expect_equal("C++11 selection of a C++17 file" "${_selected}" "")
+lumex_test_standards_select(_selected base64 17 A.cxx17.tests.cpp)
+_expect_equal("C++17 selection of a C++17 file" "${_selected}" "A.cxx17.tests.cpp")
+lumex_test_standards_select(_selected base64 20 A.cxx17.tests.cpp)
+_expect_equal("C++20 selection of a C++17 file" "${_selected}" "A.cxx17.tests.cpp")
 
 foreach(_case
         "outside_scheme|outside the scheme"
         "standard_of_other_module|outside the scheme"
-        "no_lowest_file|has no test source"
         "unknown_module|has no module 'no_such_module'"
         "unknown_variant|has no variant 'lock_based' of 'base64'"
         "descending|not strictly ascending"
@@ -137,6 +148,13 @@ _require_text("${_gtest}" "NOT \"cxx_std_\${_std}\" IN_LIST CMAKE_CXX_COMPILE_FE
 _require_text("${_gtest}" "lumex_test_standards_select(_sources \"\${ARG_MODULE}\" \${_std} \${_found})")
 _require_text("${_gtest}" "lumex_test_use_gtest(\${_target} CXX_STANDARD \${_std})")
 _require_text("${_gtest}" "CONFIGURE_DEPENDS")
+# The module of a directory begins the directory's own CTest prefix, a suite
+# without a test source is skipped, and a directory that builds none fails.
+_require_text("${_gtest}" "lumex_test_name(_directory_prefix \"\")")
+_require_text("${_gtest}" "if(NOT _directory_head STREQUAL \"\${ARG_MODULE}.\")")
+_require_text("${_gtest}" "Skipping \${_target}: no test source of C++\${_std} or lower in")
+_require_text("${_gtest}" "if(NOT _targets AND _unsupported EQUAL 0)")
+_require_text("${_gtest}" "no *.tests.cpp in")
 
 # --- Every test directory against the table ---------------------------------
 
@@ -166,16 +184,57 @@ function(_read_code out_var path)
     set(${out_var} "${_code}" PARENT_SCOPE)
 endfunction()
 
+# The module of a directory: the longest key of the table that its CTest
+# prefix begins with (math.ops. -> math), or empty.
+function(_module_of_prefix out_var prefix)
+    set(_best "")
+    foreach(_candidate IN LISTS LUMEX_TEST_STANDARD_MODULES)
+        string(LENGTH "${_candidate}." _length)
+        string(SUBSTRING "${prefix}" 0 ${_length} _head)
+        string(LENGTH "${_best}" _best_length)
+        if(_head STREQUAL "${_candidate}." AND _length GREATER _best_length)
+            set(_best "${_candidate}")
+        endif()
+    endforeach()
+    set(${out_var} "${_best}" PARENT_SCOPE)
+endfunction()
+
+# The module of every test directory, for the lowest-standard check.
+set(_module_lowest_files "")
 set(_seen_keys "")
 foreach(_dir IN LISTS _dirs)
     file(RELATIVE_PATH _rel "${_tests}" "${_dir}")
     lumex_test_name_prefix(_prefix "${_dir}" "${_tests}")
-    string(REGEX REPLACE "\\.$" "" _key "${_prefix}")
-    list(APPEND _seen_keys "${_key}")
-    if(NOT _key IN_LIST LUMEX_TEST_STANDARD_MODULES)
+    _module_of_prefix(_key "${_prefix}")
+    if(_key STREQUAL "")
+        string(REGEX REPLACE "\\.$" "" _own "${_prefix}")
         string(APPEND _errors
-            "  lumex/tests/${_rel}: no entry '${_key}' in LumexTestStandards.cmake\n")
+            "  lumex/tests/${_rel}: no module of '${_own}' in "
+            "LumexTestStandards.cmake\n")
         continue()
+    endif()
+    list(APPEND _seen_keys "${_key}")
+
+    # The test tree follows the source tree.
+    if(NOT IS_DIRECTORY "${LUMEX_SOURCE_DIR}/lumex/${_rel}")
+        string(APPEND _errors
+            "  lumex/tests/${_rel}: there is no lumex/${_rel}; a test directory "
+            "has the path of the source directory it tests\n")
+    endif()
+
+    # The parent directory adds it (a directory nobody adds registers no test).
+    get_filename_component(_name "${_dir}" NAME)
+    get_filename_component(_parent "${_dir}" DIRECTORY)
+    if(NOT EXISTS "${_parent}/CMakeLists.txt")
+        string(APPEND _errors "  lumex/tests/${_rel}: its parent has no CMakeLists.txt\n")
+    else()
+        _read_code(_parent_code "${_parent}/CMakeLists.txt")
+        if(NOT _parent_code MATCHES
+           "(add_subdirectory[ \t]*\\(|lumex_add_subdirectory_if[ \t]*\\([A-Za-z0-9_]+[ \t]+)${_name}[ \t]*\\)")
+            string(APPEND _errors
+                "  lumex/tests/${_rel}: the CMakeLists.txt of its parent does "
+                "not add_subdirectory (${_name})\n")
+        endif()
     endif()
 
     set(_list "${_dir}/CMakeLists.txt")
@@ -261,7 +320,6 @@ foreach(_dir IN LISTS _dirs)
     lumex_test_standards_get(_standards "${_key}")
     list(GET _standards 0 _lowest)
     file(GLOB _files RELATIVE "${_dir}" "${_dir}/*.tests.cpp")
-    set(_has_lowest FALSE)
     foreach(_file IN LISTS _files)
         lumex_test_standards_of_file(_std "${_file}")
         if(_std STREQUAL "" OR NOT _std IN_LIST _standards)
@@ -269,20 +327,21 @@ foreach(_dir IN LISTS _dirs)
                 "  lumex/tests/${_rel}/${_file}: not <Stem>.cxx<std>.tests.cpp "
                 "with <std> one of ${_standards}\n")
         elseif(_std STREQUAL _lowest)
-            set(_has_lowest TRUE)
+            list(APPEND _module_lowest_files "${_key}")
         endif()
     endforeach()
-    if(NOT _has_lowest)
-        string(APPEND _errors
-            "  lumex/tests/${_rel}: no test source of its lowest standard "
-            "(<Stem>.cxx${_lowest}.tests.cpp)\n")
-    endif()
 endforeach()
 
 foreach(_key IN LISTS LUMEX_TEST_STANDARD_MODULES)
     if(NOT _key IN_LIST _seen_keys)
         string(APPEND _errors
             "  LumexTestStandards.cmake: module '${_key}' has no test directory\n")
+    elseif(NOT _key IN_LIST _module_lowest_files)
+        lumex_test_standards_get(_standards "${_key}")
+        list(GET _standards 0 _lowest)
+        string(APPEND _errors
+            "  module '${_key}': no test directory has a test source of its "
+            "lowest standard (<Stem>.cxx${_lowest}.tests.cpp)\n")
     endif()
 endforeach()
 
