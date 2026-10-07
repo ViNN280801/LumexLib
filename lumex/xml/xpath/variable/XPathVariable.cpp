@@ -81,6 +81,7 @@ XPathVariable::name () const
                  xpath_variable_boolean const *> (this)
           ->name;
 
+    case xpath_type_none:
     default:
       LUMEX_ASSERT (false && "Invalid variable type"); // unreachable
       return nullptr;

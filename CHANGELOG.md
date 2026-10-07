@@ -555,6 +555,15 @@
 
 **Проверено:** MinGW-w64 GCC 8.3 posix, C++11, Release, `-DCMAKE_TOOLCHAIN_FILE` (Linux): все 16 библиотек собраны, ошибок нет (`package` не собирается: ему нужен CPack); GCC 13.2, Release: наборы `hardware`, `logger`, `filesystem`, `environment`, `serial`, `exceptions`, `resource_monitor`, `utility` - 8674 теста, падают только `ToCrashReport_ThreadSafe` и `LumexSerialProberPty.GivenPreWrittenResponse...` (обе падали и до правок); GCC 8.3 на Linux: `LumexCPUVectorizationCapabilities.cpp` на дереве релиза не компилируется (`expected identifier before __attribute__`), на этой ветке компилируется; новые тесты `CpuVectorizationInfoTest.IsAlignedToACacheLine` и `LoggerFunctionNameMacroTest.FollowsTheCompilerAndNotTheTarget` проходят; запуск полученных DLL на Windows не проверялся.
 
+
+##### xml: предупреждения `-Wswitch-enum` и `-Wfloat-equal` GCC
+
+**Файлы:** `lumex/xml/node/XmlNode.cpp`, `lumex/xml/utility/XmlUtils.hpp`, `lumex/xml/xpath/ast/XPathAstNode.cpp`, `lumex/xml/xpath/ast/XPathAstNode.hpp`, `lumex/xml/xpath/parser/XPathParser.cpp`, `lumex/xml/xpath/string/XPathString.cpp`, `lumex/xml/xpath/variable/XPathVariable.cpp`, `lumex/xml/xpath/variable/XPathVariable.hpp`, `lumex/tests/xml/LumexXmlXPathNumbers.cxx11.tests.cpp` (новый), `lumex/tests/xml/CMakeLists.txt`
+
+**Суть:** сборка с закрепленным стандартом (так делает `create_release.sh`) давала на GCC 8 и 13 по 66-68 предупреждений в `xml`: 11 `switch` по перечислениям с `default`, но без всех значений (`-Wswitch-enum`, GCC печатает по строке на каждое пропущенное значение), и 12 точных сравнений `double` (`-Wfloat-equal`). В `switch` недостающие значения теперь перечислены перед `default` и ведут в ту же ветку, поведение не меняется. Сравнения с нулем, NaN и бесконечностью идут через одну функцию `utility::exactly_equal`, где отключено только это предупреждение; операторы XPath `=` и `!=` для чисел (они по определению сравнивают точно) остались шаблонными функторами в `XPathAstNode.cpp` под своим `pragma`. Проверка на NaN в `floor` и `ceiling` теперь вызывает `utility::is_nan`.
+
+**Проверено:** предупреждений xml после правки 0 на GCC 8.3, GCC 13.2, Clang 23.1.0 и MinGW 8.3 (C++11 и C++20); все 426 тестов `xml` проходят; 11 новых тестов `XPathNumbersTest` (булево и строка из числа, `floor` и `ceiling` от NaN, числовой предикат, `=` и `!=`) проходят и на прежнем коде, то есть поведение не изменилось, а при замене `==` на `!=` в `exactly_equal` 6 из 11 падают (до правки мутация не ловилась ни одним тестом).
+
 ---
 
 ## [v1.0.3.1] - в разработке
