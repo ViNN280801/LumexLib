@@ -24,8 +24,9 @@
 
 /**
  * @file LumexMath.hpp
- * @brief Numeric helpers: NaN/Inf checks, checked narrowing casts, distance,
- *        squared difference, and range-based avg/rms/rmse.
+ * @brief Numeric helpers: NaN/Inf checks, exact floating-point comparison,
+ *        checked narrowing casts, distance, squared difference, and
+ *        range-based avg/rms/rmse.
  * @details Works from C++11 on. A "range" is anything `begin (r)` / `end (r)`
  *          accept (found through `std::begin` / `std::end` or ADL): standard
  *          containers, C arrays, `std::initializer_list`, and from C++20 the
@@ -409,6 +410,38 @@ LUMEX_CONSTEXPR
         noexcept (std::isnan (value)) && noexcept (std::isinf (value)))
 {
   return std::isnan (value) || std::isinf (value);
+}
+
+/**
+ * @brief Exact comparison of two floating-point numbers, as `==` defines it.
+ * @details For code whose rules are IEEE equality, not a tolerance: a test
+ * for zero, the XPath number comparisons, a check against a value that was
+ * stored and read back unchanged. `0.0` and `-0.0` are equal, two infinities
+ * of the same sign are equal, and a NaN is equal to nothing, itself included.
+ * This is the one place that tells the compiler's `-Wfloat-equal` the
+ * comparison is intended, so a caller does not need a pragma of its own.
+ * Both arguments have the same type and are taken by value, so a `volatile`
+ * operand is read once. Mixed types and integers do not take part in overload
+ * resolution; for approximate comparison use a tolerance of your own.
+ * @tparam T A floating-point type.
+ * @param[in] lhs The first number.
+ * @param[in] rhs The second number.
+ * @return `true` if `lhs == rhs`.
+ */
+template <typename T>
+LUMEX_ATTRIBUTE_NODISCARD ("return value must be used")
+LUMEX_CONSTEXPR
+    typename std::enable_if<std::is_floating_point<T>::value, bool>::type
+    exactly_equal (T lhs, T rhs) LUMEX_NOEXCEPT
+{
+#if defined(__GNUC__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wfloat-equal"
+#endif
+  return lhs == rhs;
+#if defined(__GNUC__)
+#pragma GCC diagnostic pop
+#endif
 }
 
 /**

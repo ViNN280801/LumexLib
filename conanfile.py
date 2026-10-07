@@ -203,7 +203,7 @@ class LumexLibConan(ConanFile):
 
         # ================= XML =================
         xml = self._component(
-            "xml", "xml", ["LumexXml"], ["core_unicode", "core_utility"]
+            "xml", "xml", ["LumexXml"], ["core_math", "core_unicode", "core_utility"]
         )
         xml.includedirs = ["include", os.path.join("include", "lumex", "xml")]
 

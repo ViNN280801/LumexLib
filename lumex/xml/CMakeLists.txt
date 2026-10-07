@@ -102,6 +102,7 @@ target_include_directories(${LUMEX_XML_NAME} PUBLIC
 )
 
 target_link_libraries(${LUMEX_XML_NAME} PUBLIC
+    lumex::math
     lumex::unicode
     lumex::utility
 )

@@ -39,6 +39,8 @@
 
 #define LUMEX_IMPLEMENTATION
 
+#include "lumex/core/math/ops/LumexMath.hpp"
+
 #include "XPathAstNode.hpp"
 
 using namespace lumex::xml::xpath::ast;
@@ -47,7 +49,7 @@ namespace
 {
 // The XPath = and != on numbers are IEEE comparisons by definition, so the two
 // functors compare exactly; they are templates, so this stays here instead of
-// going through utility::exactly_equal.
+// going through lumex::core::math::ops::exactly_equal.
 #if defined(__GNUC__)
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wfloat-equal"
@@ -251,8 +253,8 @@ XPathAstNode::apply_predicate_number (
     {
       XPathContext ctx (*it, idx, size);
 
-      if (lumex::xml::utility::exactly_equal (expr->eval_number (ctx, stack),
-                                              static_cast<double> (idx)))
+      if (::lumex::core::math::ops::exactly_equal (
+              expr->eval_number (ctx, stack), static_cast<double> (idx)))
         {
           *last++ = *it;
 
@@ -286,7 +288,8 @@ XPathAstNode::apply_predicate_number_const (
     {
       auto eri = static_cast<std::size_t> (er_);
 
-      if (lumex::xml::utility::exactly_equal (er_, static_cast<double> (eri)))
+      if (::lumex::core::math::ops::exactly_equal (er_,
+                                                   static_cast<double> (eri)))
         {
           XPathNode r_node = last[eri - 1];
           *last++ = r_node;
@@ -1387,7 +1390,7 @@ XPathAstNode::optimize_self (
       LUMEX_ASSERT (m_test == predicate_default);
 
       if (m_right->m_type == ast_number_constant
-          && lumex::xml::utility::exactly_equal (
+          && ::lumex::core::math::ops::exactly_equal (
               m_right->m_data.number,
               1.0)) // NOLINT(cppcoreguidelines-pro-type-union-access)
         m_test = predicate_constant_one;
