@@ -111,3 +111,37 @@ _require_text("${_config_in}" "optional reflection span string")
 _require_text("conanfile.py" "\"core_span\", \"span\"")
 _require_text("CMakeLists.txt" "LumexCore_span")
 _require_text("cmake/LumexModules.cmake" "LumexCore_span")
+
+# The benchmark (benchmarks/span): registered behind LUMEX_BUILD_BENCHMARKS and
+# the span module, one executable per implementation and standard, Boost
+# optional and header-only (an include directory or find_package, never
+# vendored), the driver, the plotter and the committed results.
+_require_text("CMakeLists.txt"
+    "LUMEX_BUILD_BENCHMARKS AND LUMEX_BUILD_CORE AND LUMEX_BUILD_SPAN")
+_require_text("CMakeLists.txt" "add_subdirectory(benchmarks/span)")
+set(_bench "benchmarks/span/CMakeLists.txt")
+_require_text("${_bench}" "LUMEX_BENCH_BOOST_INCLUDE_DIR")
+_require_text("${_bench}" "find_package(Boost 1.78 QUIET CONFIG)")
+_require_text("${_bench}" "the boost variants are skipped")
+_require_text("${_bench}" "BENCH_SPAN_IMPL=\${_id}")
+_require_text("${_bench}" "lumex_span_bench_variant(lumex 11)")
+_require_text("${_bench}" "lumex_span_bench_variant(lumex 20)")
+_require_text("${_bench}" "lumex_span_bench_variant(std 20)")
+_require_text("${_bench}" "lumex_span_bench_variant(boost 11)")
+_require_text("${_bench}" "lumex_span_bench_variant(boost 20)")
+_require_text("${_bench}" "LumexSpanBenchmarkRun")
+file(READ "${LUMEX_SOURCE_DIR}/${_bench}" _bench_text)
+string(FIND "${_bench_text}" "FetchContent" _fetch)
+if(NOT _fetch EQUAL -1)
+    message(FATAL_ERROR "${_bench} must not download Boost")
+endif()
+foreach(_file bench_span.cpp bench_span_impl.hpp compile_time.cpp
+              run_benchmark.py plot_results.py README.md
+              results/span_benchmark.csv results/span_benchmark.md
+              results/span_benchmark_gcc.svg results/span_benchmark_clang.svg
+              results/compile_time.csv results/compile_time.svg)
+    if(NOT EXISTS "${LUMEX_SOURCE_DIR}/benchmarks/span/${_file}")
+        message(FATAL_ERROR "benchmarks/span has no ${_file}")
+    endif()
+endforeach()
+_require_text("benchmarks/span/run_benchmark.py" "DEFAULT_BOOST = \"/opt/boost-1.92.0/include\"")
