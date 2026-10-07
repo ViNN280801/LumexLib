@@ -114,11 +114,11 @@ TEST (SuccessFailure, Matrix_EveryPair_ThenEveryContractHolds)
   // 1. WHAT: every success type of the matrix with every error type of it.
   // 2. WHY: the conversion contract is per type pair; partial coverage hides
   // bugs.
-  // 3. VERIFIES: the four contracts of CheckPair for all 625 matrix pairs.
+  // 3. VERIFIES: the four contracts of check_pair for all 625 matrix pairs.
   // 4. WHY VERIFY: a typed suite cannot take that many type parameters (the
   // gtest machinery exceeds the template instantiation depth), so the full
   // matrix runs as one test with a per-pair label.
-  // 5. METHOD: pack-expand the type product and run CheckPair for each pair.
+  // 5. METHOD: pack-expand the type product and run check_pair for each pair.
   // 6. IMPACT: a pair used by a single caller would stay untested.
-  RunMatrix (typename Product<MatrixTypes, MatrixTypes>::type ());
+  run_matrix (typename Product<MatrixTypes, MatrixTypes>::type ());
 }

@@ -69,13 +69,13 @@ public:
   }
 
   std::string
-  getCerrOutput () const
+  get_cerr_output () const
   {
     return _ossCerr.str ();
   }
 
   std::string
-  getClogOutput () const
+  get_clog_output () const
   {
     return _ossClog.str ();
   }
@@ -160,7 +160,7 @@ TEST_F (LumexLoggingTest, GivenMessage_WhenDebug_ThenLogsToClogAndFile)
 
   LumexLogging::debug (module.c_str (), message);
 
-  std::string clogOutput = capture.getClogOutput ();
+  std::string clogOutput = capture.get_clog_output ();
   // Expect a line in clog with DEBUG and the message
   EXPECT_TRUE (clogOutput.find ("DEBUG") != std::string::npos);
   EXPECT_TRUE (clogOutput.find (module + " : " + message)
@@ -218,7 +218,7 @@ TEST_F (LumexLoggingTest, GivenMessage_WhenInfo_ThenLogsToClogAndFile)
 
   LumexLogging::info (module.c_str (), message);
 
-  std::string clogOutput = capture.getClogOutput ();
+  std::string clogOutput = capture.get_clog_output ();
   EXPECT_TRUE (clogOutput.find ("INFO") != std::string::npos);
   EXPECT_TRUE (clogOutput.find (module + " : " + message)
                != std::string::npos);
@@ -268,7 +268,7 @@ TEST_F (LumexLoggingTest, GivenMessage_WhenSuccess_ThenLogsToClogAndFile)
 
   LumexLogging::success (module.c_str (), message);
 
-  std::string clogOutput = capture.getClogOutput ();
+  std::string clogOutput = capture.get_clog_output ();
   EXPECT_TRUE (clogOutput.find ("SUCCESS") != std::string::npos);
   EXPECT_TRUE (clogOutput.find (module + " : " + message)
                != std::string::npos);
@@ -318,7 +318,7 @@ TEST_F (LumexLoggingTest, GivenMessage_WhenWarning_ThenLogsToClogAndFile)
 
   LumexLogging::warning (module.c_str (), message);
 
-  std::string clogOutput = capture.getClogOutput ();
+  std::string clogOutput = capture.get_clog_output ();
   EXPECT_TRUE (clogOutput.find ("WARNING") != std::string::npos);
   EXPECT_TRUE (clogOutput.find (module + " : " + message)
                != std::string::npos);
@@ -368,7 +368,7 @@ TEST_F (LumexLoggingTest, GivenMessage_WhenError_ThenLogsToCerrAndFile)
 
   LumexLogging::error (module.c_str (), message);
 
-  std::string cerrOutput = capture.getCerrOutput ();
+  std::string cerrOutput = capture.get_cerr_output ();
   EXPECT_TRUE (cerrOutput.find ("ERROR") != std::string::npos);
   EXPECT_TRUE (cerrOutput.find (module + " : " + message)
                != std::string::npos);
@@ -418,7 +418,7 @@ TEST_F (LumexLoggingTest, GivenMessage_WhenCritical_ThenLogsToCerrAndFile)
 
   LumexLogging::critical (module.c_str (), message);
 
-  std::string cerrOutput = capture.getCerrOutput ();
+  std::string cerrOutput = capture.get_cerr_output ();
   EXPECT_TRUE (cerrOutput.find ("CRITICAL") != std::string::npos);
   EXPECT_TRUE (cerrOutput.find (module + " : " + message)
                != std::string::npos);
@@ -475,7 +475,7 @@ TEST_F (LumexLoggingTest,
                       ", Double: ", double_val, ", Bool: ", bool_val,
                       ", C-str: ", c_str_val, ", Std-str: ", std_str_val);
 
-  std::string clogOutput = capture.getClogOutput ();
+  std::string clogOutput = capture.get_clog_output ();
   EXPECT_TRUE (clogOutput.find ("Int: 123, Double: 45.67, Bool: 1, C-str: "
                                 "C-string, Std-str: Std-string")
                != std::string::npos);
@@ -550,7 +550,7 @@ TEST_F (LumexLoggingTest, GivenEmptyMessage_WhenLogging_ThenLogsEmptyString)
   std::string const module = "EmptyMsgModule";
   LumexLogging::info (module.c_str (), "");
 
-  std::string clogOutput = capture.getClogOutput ();
+  std::string clogOutput = capture.get_clog_output ();
   EXPECT_TRUE (
       clogOutput.find (module + " : ")
       != std::string::npos); // Should contain empty message after colon
@@ -598,7 +598,7 @@ TEST_F (LumexLoggingTest,
   std::string const message = "Message with empty module.";
   LumexLogging::error (module.c_str (), message);
 
-  std::string cerrOutput = capture.getCerrOutput ();
+  std::string cerrOutput = capture.get_cerr_output ();
   EXPECT_TRUE (
       cerrOutput.find (" : " + message)
       != std::string::npos); // Should contain empty module before colon
@@ -645,7 +645,7 @@ TEST_F (LumexLoggingTest, GivenLongMessage_WhenLogging_ThenLogsFullMessage)
   std::string longMessage (2000, 'A'); // A long message
   LumexLogging::debug (module.c_str (), longMessage);
 
-  std::string clogOutput = capture.getClogOutput ();
+  std::string clogOutput = capture.get_clog_output ();
   EXPECT_TRUE (clogOutput.find (longMessage) != std::string::npos);
 
   lumex::path logsDir = LumexLogging::get_logs_directory ();
@@ -715,13 +715,13 @@ TEST_F (LumexLoggingTest,
   // fallback in _level_to_string and _level_to_color is internal logic for
   // `switch` which is hard to test directly.
   LumexLogging::debug (module.c_str (), message);
-  std::string clogOutput = capture.getClogOutput ();
+  std::string clogOutput = capture.get_clog_output ();
   EXPECT_TRUE (clogOutput.find ("\033[36m")
                != std::string::npos); // Cyan for Debug
   capture.clear ();                   // Reset capture for next check
 
   LumexLogging::info (module.c_str (), message);
-  clogOutput = capture.getClogOutput ();
+  clogOutput = capture.get_clog_output ();
   EXPECT_TRUE (clogOutput.find ("\033[37m")
                != std::string::npos); // White for Info
 }

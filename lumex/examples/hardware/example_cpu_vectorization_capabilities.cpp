@@ -14,7 +14,7 @@ namespace
  */
 inline std::string
 // NOLINTNEXTLINE(readability-identifier-naming)
-_boolToYesNo (bool value)
+_bool_to_yes_no (bool value)
 {
   return value ? "Yes" : "No";
 }
@@ -37,40 +37,41 @@ main ()
 
   // Display SSE family support
   std::cout << "SSE Family Support:\n";
-  std::cout << "  SSE:     " << _boolToYesNo (caps.supports_sse) << "\n";
-  std::cout << "  SSE2:    " << _boolToYesNo (caps.supports_sse2) << "\n";
-  std::cout << "  SSE3:    " << _boolToYesNo (caps.supports_sse3) << "\n";
-  std::cout << "  SSSE3:   " << _boolToYesNo (caps.supports_ssse3) << "\n";
-  std::cout << "  SSE4.1:  " << _boolToYesNo (caps.supports_sse41) << "\n";
-  std::cout << "  SSE4.2:  " << _boolToYesNo (caps.supports_sse42) << "\n\n";
+  std::cout << "  SSE:     " << _bool_to_yes_no (caps.supports_sse) << "\n";
+  std::cout << "  SSE2:    " << _bool_to_yes_no (caps.supports_sse2) << "\n";
+  std::cout << "  SSE3:    " << _bool_to_yes_no (caps.supports_sse3) << "\n";
+  std::cout << "  SSSE3:   " << _bool_to_yes_no (caps.supports_ssse3) << "\n";
+  std::cout << "  SSE4.1:  " << _bool_to_yes_no (caps.supports_sse41) << "\n";
+  std::cout << "  SSE4.2:  " << _bool_to_yes_no (caps.supports_sse42)
+            << "\n\n";
 
   // Display AVX family support
   std::cout << "AVX Family Support:\n";
-  std::cout << "  AVX:     " << _boolToYesNo (caps.supports_avx) << "\n";
-  std::cout << "  AVX2:    " << _boolToYesNo (caps.supports_avx2) << "\n\n";
+  std::cout << "  AVX:     " << _bool_to_yes_no (caps.supports_avx) << "\n";
+  std::cout << "  AVX2:    " << _bool_to_yes_no (caps.supports_avx2) << "\n\n";
 
   // Display AVX-512 support
   std::cout << "AVX-512 Family Support:\n";
-  std::cout << "  AVX-512 Foundation: " << _boolToYesNo (caps.supports_avx512f)
-            << "\n";
-  std::cout << "  AVX-512 CD:        " << _boolToYesNo (caps.supports_avx512cd)
-            << "\n";
-  std::cout << "  AVX-512 BW:        " << _boolToYesNo (caps.supports_avx512bw)
-            << "\n";
-  std::cout << "  AVX-512 DQ:        " << _boolToYesNo (caps.supports_avx512dq)
-            << "\n";
-  std::cout << "  AVX-512 VL:        " << _boolToYesNo (caps.supports_avx512vl)
-            << "\n\n";
+  std::cout << "  AVX-512 Foundation: "
+            << _bool_to_yes_no (caps.supports_avx512f) << "\n";
+  std::cout << "  AVX-512 CD:        "
+            << _bool_to_yes_no (caps.supports_avx512cd) << "\n";
+  std::cout << "  AVX-512 BW:        "
+            << _bool_to_yes_no (caps.supports_avx512bw) << "\n";
+  std::cout << "  AVX-512 DQ:        "
+            << _bool_to_yes_no (caps.supports_avx512dq) << "\n";
+  std::cout << "  AVX-512 VL:        "
+            << _bool_to_yes_no (caps.supports_avx512vl) << "\n\n";
 
   // Display FMA support
   std::cout << "FMA Support:\n";
-  std::cout << "  FMA3:   " << _boolToYesNo (caps.supports_fma3) << "\n";
-  std::cout << "  FMA4:   " << _boolToYesNo (caps.supports_fma4) << "\n\n";
+  std::cout << "  FMA3:   " << _bool_to_yes_no (caps.supports_fma3) << "\n";
+  std::cout << "  FMA4:   " << _bool_to_yes_no (caps.supports_fma4) << "\n\n";
 
   // Display ARM support
   std::cout << "ARM SIMD Support:\n";
-  std::cout << "  NEON:   " << _boolToYesNo (caps.supports_neon) << "\n";
-  std::cout << "  SVE:    " << _boolToYesNo (caps.supports_sve) << "\n\n";
+  std::cout << "  NEON:   " << _bool_to_yes_no (caps.supports_neon) << "\n";
+  std::cout << "  SVE:    " << _bool_to_yes_no (caps.supports_sve) << "\n\n";
 
   // Display summary
   std::cout << "--- Summary ---\n";

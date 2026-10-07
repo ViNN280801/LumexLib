@@ -78,13 +78,13 @@ struct MoveOnlyError
 
 // Success helpers that return through the factories, the way call sites do.
 expected<void, std::string>
-ConfigureOk ()
+configure_ok ()
 {
   return success ();
 }
 
 expected<void, std::string>
-ConfigureBad ()
+configure_bad ()
 {
   return failure (
       std::string ("'Computed' requires 'enableSpectrumRecording=true'"));
@@ -92,14 +92,14 @@ ConfigureBad ()
 
 template <typename ValueType>
 expected<ValueType, std::string>
-ValueOk (ValueType value)
+value_ok (ValueType value)
 {
   return success (value);
 }
 
 template <typename ValueType>
 expected<ValueType, std::string>
-ValueBad (std::string const &why)
+value_bad (std::string const &why)
 {
   return failure (why);
 }
@@ -203,14 +203,14 @@ TEST (SuccessFailure, Matrix_EveryCxx11Pair_ThenEveryContractHolds)
   // it.
   // 2. WHY: the conversion contract is per type pair, and the C++11 suite has
   // to prove it without the C++17 types of the full matrix.
-  // 3. VERIFIES: the four contracts of CheckPair for all 400 C++11 matrix
+  // 3. VERIFIES: the four contracts of check_pair for all 400 C++11 matrix
   // pairs.
   // 4. WHY VERIFY: the full matrix (Matrix_EveryPair_ThenEveryContractHolds)
   // needs std::optional, std::string_view and std::variant, so it starts at
   // the C++17 suite.
-  // 5. METHOD: pack-expand the type product and run CheckPair for each pair.
+  // 5. METHOD: pack-expand the type product and run check_pair for each pair.
   // 6. IMPACT: a pair used by a single C++11 caller would stay untested.
-  RunMatrix (typename Product<MatrixTypesCxx11, MatrixTypesCxx11>::type ());
+  run_matrix (typename Product<MatrixTypesCxx11, MatrixTypesCxx11>::type ());
 }
 
 // A representative slice also runs as a typed suite, so a failure carries a
@@ -237,8 +237,8 @@ TYPED_TEST (SuccessFailureMatrixTest, EveryContract_ThenConversionHolds)
   // 4. WHY VERIFY: the full matrix TEST reports its pair only through a label.
   // 5. METHOD: delegate to the shared checker the matrix TEST also uses.
   // 6. IMPACT: a failure inside the full matrix would be harder to attribute.
-  CheckPair<typename TestFixture::SuccessType,
-            typename TestFixture::ErrorType> ("typed matrix pair");
+  check_pair<typename TestFixture::SuccessType,
+             typename TestFixture::ErrorType> ("typed matrix pair");
 }
 
 // === Edge cases outside the matrix ==========================================
@@ -344,10 +344,10 @@ TEST (SuccessFailure, HelpersReturningThroughTheFactories_ThenStatesMatch)
   // works.
   // 5. METHOD: call the helpers, then a lambda with an explicit return type.
   // 6. IMPACT: the migration from boost.outcome idioms would not be usable.
-  auto const ok = ConfigureOk ();
-  auto const bad = ConfigureBad ();
-  auto const value = ValueOk (7);
-  auto const failed = ValueBad<int> ("why");
+  auto const ok = configure_ok ();
+  auto const bad = configure_bad ();
+  auto const value = value_ok (7);
+  auto const failed = value_bad<int> ("why");
 
   auto const parse = [] (int input) -> expected<int, std::string>
     {

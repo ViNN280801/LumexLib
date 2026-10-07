@@ -75,7 +75,7 @@ public:
   }
 
   std::string
-  getOutput ()
+  get_output ()
   {
     return new_cerr_buf.str ();
   }
@@ -164,7 +164,7 @@ TEST_F (LumexExceptionTest, LumexBaseException_ToStderr_OutputsCorrectFormat)
 
   // Act
   ex.to_stderr ();
-  std::string output = capture.getOutput ();
+  std::string output = capture.get_output ();
 
   // Assert
   std::string expected_prefix
@@ -351,7 +351,7 @@ TEST_F (LumexExceptionTest, LUMEX_EXCEPTION_HANDLE_BLOCK_CatchesLumexException)
   LUMEX_EXCEPTION_HANDLE_END
 
   // Assert
-  std::string output = capture.getOutput ();
+  std::string output = capture.get_output ();
   // The message returned by what() already contains the demangled name and ":
   // ". The expected output in stderr should now directly match what() with a
   // newline.
@@ -385,7 +385,7 @@ TEST_F (LumexExceptionTest, LUMEX_EXCEPTION_HANDLE_BLOCK_CatchesStdException)
   LUMEX_EXCEPTION_HANDLE_END
 
   // Assert
-  std::string output = capture.getOutput ();
+  std::string output = capture.get_output ();
   EXPECT_TRUE (output.find ("[std::exception] " + msg) != std::string::npos);
 }
 
@@ -401,7 +401,7 @@ TEST_F (LumexExceptionTest,
   LUMEX_EXCEPTION_HANDLE_END
 
   // Assert
-  std::string output = capture.getOutput ();
+  std::string output = capture.get_output ();
   EXPECT_TRUE (output.find ("[Unknown exception]") != std::string::npos);
 }
 
