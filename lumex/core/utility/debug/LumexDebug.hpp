@@ -637,7 +637,7 @@ capture_stack_trace (int skip_frames = 1, int max_frames = 16) LUMEX_NOEXCEPT
       if (frame_count <= skip_frames)
         return "  Stack trace empty (insufficient frames)\n";
 
-      int actual_frames = std::min (frame_count - skip_frames, max_frames);
+      int actual_frames = (std::min)(frame_count - skip_frames, max_frames);
 
       for (int i = 0; i < actual_frames; ++i)
         result += Detail::format_frame (i, addresses[i + skip_frames]);
