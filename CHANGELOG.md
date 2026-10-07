@@ -496,6 +496,14 @@
 
 **Проверено:** сборка наборов `Utility`, `Exceptions`, `Expected`, `Time`, `Optional` на C++11: Clang 23.1.0 и GCC 13.2 до правки давали по 4 предупреждения, после - 0; использование `is_optional_v` на C++11 дает ошибку компиляции, на C++14 компилируется (обе проверки на обоих компиляторах); новый тест `GivenVariableTemplates_WhenRead_ThenEqualToValue` проходит на C++14, 17, 20; наборы C++11 проходят (2176 тестов, кроме плавающего `ToCrashReport_ThreadSafe`).
 
+##### Примеры `resource_monitor` показывают `LumexProcessMonitor`
+
+**Файлы:** `lumex/examples/resource_monitor/example_resource_monitor.cpp`, `lumex/examples/resource_monitor/example_resource_monitor_workflow.cpp`, `lumex/examples/resource_monitor/CMakeLists.txt`
+
+**Суть:** оба примера показывали только `start_if_enabled` и `stop`, а заголовки в тексте еще писали `startIfEnabled`. Теперь `LumexResourceMonitorExample` проходит по шести шагам: `stop` без запуска, `start_if_enabled` и `stop`, один процесс по номеру (первый замер без доли CPU, второй с долей), процессы по имени (`find_by_name`, `sample_by_name`, `total`), номер несуществующего процесса (`process_query_error`), `forget_exited`. `LumexResourceMonitorExampleWorkflow` измеряет стоимость куска работы: замер до, 32 МиБ данных и сложение около 150 мс, замер после (рост резидентной памяти и доля CPU). Привязка `CXX_STANDARD 17` в `CMakeLists.txt` убрана: модуль собирается с C++11, примеры написаны на C++11.
+
+**Проверено:** `examples.resource_monitor.*` проходят в CTest (GCC 13.2, Release); разбор обоих файлов с `-Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wshadow` без предупреждений: GCC 13.2 и Clang 23.1.0 на C++11, 14, 17, 20, GCC 8.3 и MinGW (GCC 8.3-posix) на C++11, 14, 17; сборка и запуск на Windows не проверялись.
+
 #### Исправлено
 
 ##### `LumexResourceMonitor::stop()` не ждет конца паузы
