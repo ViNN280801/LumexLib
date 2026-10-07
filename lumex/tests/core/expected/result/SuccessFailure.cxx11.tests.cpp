@@ -43,7 +43,7 @@
 
 #include "lumex/core/expected/Expected"
 
-#include "lumex/tests/core/expected/SuccessFailureTestSupport.hpp"
+#include "lumex/tests/core/expected/result/SuccessFailureTestSupport.hpp"
 
 using namespace lumex::core::expected::error;
 using namespace lumex::core::expected::result;
