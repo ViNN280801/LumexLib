@@ -55,7 +55,7 @@
  * The bidirectional iterators `XmlNodeIterator` and `XmlNamedNodeIterator`
  * walk the children of a node, all of them or those with one name, and
  * `attribute::XmlAttributeIterator` walks its attributes; `children()` and
- * `attributes()` wrap them in an `XmlObjectRange` for range-based for loops.
+ * `attributes()` wrap them in an `iterator_range` for range-based for loops.
  * The name passed to `children(name)` is stored, not copied, and must outlive
  * the range. The XPath functions that take a query string compile it on every
  * call and throw `XPathException` if it is malformed; compile an `XPathQuery`
@@ -100,9 +100,9 @@
 #include "XmlNodeBase.hpp"
 #include "lumex/core/utility/LumexUtility"
 #include "lumex/core/utility/attr/LumexAttributes.hpp"
+#include "lumex/core/utility/ranges/LumexIteratorRange.hpp"
 #include "lumex/xml/attribute/XmlAttribute.hpp"
 #include "lumex/xml/constants/XmlConstants.hpp"
-#include "lumex/xml/range/XmlObjectRange.hpp"
 #include "lumex/xml/text/XmlParseResult.hpp"
 #include "lumex/xml/writer/IXmlWriter.hpp"
 #include "lumex/xml/writer/XmlBufferedWriter.hpp"
@@ -1953,25 +1953,28 @@ public:
                              "negates the purpose of iteration.")
   /**
    * @brief Provides a range object for iterating over all direct child nodes.
-   * @return An `XmlObjectRange` suitable for use in a range-based for loop,
+   * @return An `iterator_range` suitable for use in a range-based for loop,
    * iterating over `XmlNodeIterator`.
    * @details This method simplifies iterating through all children: `for
    * (XmlNode child : node.children()) { ...
    * }`.
    */
-  LUMEX_API range::XmlObjectRange<XmlNodeIterator> children () const;
+  LUMEX_API ::lumex::core::utility::ranges::iterator_range<XmlNodeIterator>
+  children () const;
 
   LUMEX_ATTRIBUTE_NODISCARD ("The returned range object should be used for "
                              "iterating over attributes; discarding "
                              "it negates the purpose of iteration.")
   /**
    * @brief Provides a range object for iterating over all attributes.
-   * @return An `XmlObjectRange` suitable for use in a range-based for loop,
+   * @return An `iterator_range` suitable for use in a range-based for loop,
    * iterating over `XmlAttributeIterator`.
    * @details This method simplifies iterating through all attributes: `for
    * (XmlAttribute attr : node.attributes()) { ... }`.
    */
-  LUMEX_API range::XmlObjectRange<XmlAttributeIterator> attributes () const;
+  LUMEX_API ::lumex::core::utility::ranges::iterator_range<
+      XmlAttributeIterator>
+  attributes () const;
 
   // Range-based for support for all children with the specified name
   // Note: name pointer must have a longer lifetime than the returned object;
@@ -1984,14 +1987,15 @@ public:
    * a specific name.
    * @param[in] name A null-terminated C-style string representing the name of
    * the children to iterate over.
-   * @return An `XmlObjectRange` suitable for use in a range-based for loop,
+   * @return An `iterator_range` suitable for use in a range-based for loop,
    * iterating over `XmlNamedNodeIterator`.
    * @details This method simplifies iterating through specific named children:
    * `for (XmlNode child : node.children("tag")) { ... }`.
    * @note The `name` pointer must have a longer lifetime than the returned
-   * `XmlObjectRange` object, as it is stored by the iterator.
+   * `iterator_range` object, as it is stored by the iterator.
    */
-  LUMEX_API range::XmlObjectRange<XmlNamedNodeIterator>
+  LUMEX_API ::lumex::core::utility::ranges::iterator_range<
+      XmlNamedNodeIterator>
   children (char_t const *name) const;
 
   // Get node offset in parsed file/string (in char_t units) for debugging
@@ -2548,25 +2552,28 @@ public:
 // Inline implementations of template methods - now that all types are defined
 namespace node
 {
-inline range::XmlObjectRange<XmlNodeIterator>
+inline ::lumex::core::utility::ranges::iterator_range<XmlNodeIterator>
 XmlNode::children () const
 {
-  return range::XmlObjectRange<XmlNodeIterator> (begin (), end ());
+  return ::lumex::core::utility::ranges::iterator_range<XmlNodeIterator> (
+      begin (), end ());
 }
 
-inline range::XmlObjectRange<XmlNamedNodeIterator>
+inline ::lumex::core::utility::ranges::iterator_range<XmlNamedNodeIterator>
 XmlNode::children (char_t const *name_) const
 {
-  return range::XmlObjectRange<XmlNamedNodeIterator> (
+  return ::lumex::core::utility::ranges::iterator_range<XmlNamedNodeIterator> (
       XmlNamedNodeIterator (child (name_).m_root, m_root, name_),
       XmlNamedNodeIterator (nullptr, m_root, name_));
 }
 
-inline range::XmlObjectRange<attribute::XmlAttributeIterator>
+inline ::lumex::core::utility::ranges::iterator_range<
+    attribute::XmlAttributeIterator>
 XmlNode::attributes () const
 {
-  return range::XmlObjectRange<attribute::XmlAttributeIterator> (
-      attributes_begin (), attributes_end ());
+  return ::lumex::core::utility::ranges::iterator_range<
+      attribute::XmlAttributeIterator> (attributes_begin (),
+                                        attributes_end ());
 }
 } // namespace node
 } // namespace xml

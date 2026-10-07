@@ -50,8 +50,8 @@
  * @warning Requires C++20 (concepts and `<ranges>`); with an older standard
  * the header declares nothing.
  */
-#ifndef LUMEX_CORE_UTILITY_RANGES_HPP
-#define LUMEX_CORE_UTILITY_RANGES_HPP
+#ifndef LUMEX_CORE_UTILITY_RANGES_RANGES_HPP
+#define LUMEX_CORE_UTILITY_RANGES_RANGES_HPP
 
 #if defined(__clang__)
 #pragma clang diagnostic push
@@ -200,4 +200,4 @@ LUMEX_CONSTEXPR std::ranges::borrowed_iterator_t<RangeType> get_nearest_to (
 #pragma clang diagnostic pop
 #endif
 
-#endif // !LUMEX_CORE_UTILITY_RANGES_HPP
+#endif // !LUMEX_CORE_UTILITY_RANGES_RANGES_HPP

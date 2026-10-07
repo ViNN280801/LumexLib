@@ -9,7 +9,9 @@
 #                       LumexXmlEncodings.cxx11.tests.cpp (UTF-16, UTF-32 and
 #                       Latin-1 through load_buffer, load and save: the byte
 #                       order mark, the detection of the encoding, output
-#                       longer than the serializer's buffer)
+#                       longer than the serializer's buffer) and
+#                       LumexXmlRanges.cxx11.tests.cpp (XmlNode::children and
+#                       attributes return an iterator_range)
 #   LumexXmlCxx17Tests  + LumexXml.cxx17.tests.cpp: the std::string_view
 #                       overloads
 #   LumexXmlCxx20Tests  the same files at C++20. LumexXml is a C++11 library,
