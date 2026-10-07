@@ -44,7 +44,7 @@ own_value_t const status_ok{};
 own_value_t const kparse_default{};
 own_value_t const kxpath_memory_page_size{};
 
-// lumex::xml::memory, attribute, node, text, writer, utility, tree.
+// lumex::xml::memory, attribute, node, text, writer, tree.
 struct XmlAllocator : own_name_t
 {
 };
@@ -61,9 +61,6 @@ struct xml_parse_result_t : own_name_t
 {
 };
 struct XmlBufferedWriter : own_name_t
-{
-};
-struct XmlCleaner : own_name_t
 {
 };
 struct XmlTreeWalker : own_name_t
@@ -153,7 +150,6 @@ TEST (XmlGlobalNames,
   EXPECT_TRUE (is_own_name<XmlText> ());
   EXPECT_TRUE (is_own_name<xml_parse_result_t> ());
   EXPECT_TRUE (is_own_name<XmlBufferedWriter> ());
-  EXPECT_TRUE (is_own_name<XmlCleaner> ());
   EXPECT_TRUE (is_own_name<XmlTreeWalker> ());
 }
 

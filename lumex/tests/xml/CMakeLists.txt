@@ -11,7 +11,9 @@
 #                       order mark, the detection of the encoding, output
 #                       longer than the serializer's buffer) and
 #                       LumexXmlRanges.cxx11.tests.cpp (XmlNode::children and
-#                       attributes return an iterator_range)
+#                       attributes return an iterator_range) and
+#                       LumexXmlParserOptions.cxx11.tests.cpp (the parse
+#                       options that select a string conversion of the parser)
 #   LumexXmlCxx17Tests  + LumexXml.cxx17.tests.cpp: the std::string_view
 #                       overloads
 #   LumexXmlCxx20Tests  the same files at C++20. LumexXml is a C++11 library,

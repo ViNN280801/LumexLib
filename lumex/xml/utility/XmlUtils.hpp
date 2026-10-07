@@ -52,8 +52,7 @@
  * functions convert attribute and text values to and from numbers, and
  * `strcpy_insitu` stores a new name or value, reusing the old storage when it
  * is large enough. The rest serves the XPath engine: number formatting and
- * parsing, `normalize-space`, `translate`, NaN handling and a pointer hash
- * set.
+ * parsing, `normalize-space`, `translate` and a pointer hash set.
  *
  * The functions are undocumented implementation details shared by the parser,
  * the writers, the handles and the XPath engine. The umbrella header
@@ -127,20 +126,6 @@ using namespace lumex::xml::xpath::memory;
 
 namespace utf = ::lumex::core::unicode::utf;
 
-struct opt_false
-{
-  enum : std::uint8_t
-  {
-    value = 0
-  };
-};
-struct opt_true
-{
-  enum : std::uint8_t
-  {
-    value = 1
-  };
-};
 template <typename U>
 inline U
 string_to_integer (
@@ -515,9 +500,9 @@ set_value_convert (
   LUMEX_CONSTEXPR std::size_t kBufSize = 128U;
   char_t buf[kBufSize]; // NOLINT(cppcoreguidelines-avoid-c-arrays,
                         // modernize-avoid-c-arrays)
-  LUMEX_XML_SNPRINTF (  // NOLINT (cppcoreguidelines-pro-type-vararg)
+  std::snprintf (       // NOLINT(cppcoreguidelines-pro-type-vararg)
       buf, // NOLINT(cppcoreguidelines-pro-bounds-array-to-pointer-decay)
-      "%.*g", precision, double (value));
+      sizeof (buf), "%.*g", precision, double (value));
 
   return set_value_ascii (dest, header, header_mask, buf);
 }
@@ -532,7 +517,9 @@ set_value_convert (
   LUMEX_CONSTEXPR std::size_t kBufSize = 128U;
   char_t buf[kBufSize]; // NOLINT(cppcoreguidelines-avoid-c-arrays,
                         // modernize-avoid-c-arrays)
-  LUMEX_XML_SNPRINTF (buf, "%.*g", precision, value);
+  std::snprintf (       // NOLINT(cppcoreguidelines-pro-type-vararg)
+      buf, // NOLINT(cppcoreguidelines-pro-bounds-array-to-pointer-decay)
+      sizeof (buf), "%.*g", precision, value);
   return set_value_ascii (dest, header, header_mask, buf);
 }
 
@@ -545,21 +532,6 @@ set_value_bool (String &dest, Header &header, uintptr_t header_mask,
                         value ? LUMEX_XML_TEXT ("true")
                               : LUMEX_XML_TEXT ("false"),
                         value ? kTrueStringLength : kFalseStringLength);
-}
-
-inline double
-gen_nan ()
-{
-  double const volatile zero = 0.0;
-  return zero
-         / zero; // NOLINT(bugprone-divide-by-zero, misc-redundant-expression
-}
-
-inline bool
-is_nan (double value)
-{
-  double const volatile val = value;
-  return !::lumex::core::math::ops::exactly_equal (val, val);
 }
 
 inline bool
@@ -1198,14 +1170,14 @@ template <typename D, typename T>
 inline std::size_t
 convert_buffer_output_generic (typename T::value_type dest, char_t const *data,
                                std::size_t length, D /* unused */,
-                               T /* unused */, bool opt_swap)
+                               T /* unused */, bool swap_bytes)
 {
   LUMEX_STATIC_ASSERT (sizeof (char_t) == sizeof (typename D::type));
 
   typename T::value_type end = D::process (
       reinterpret_cast<typename D::type const *> (data), length, dest, T ());
 
-  if (opt_swap)
+  if (swap_bytes)
     for (typename T::value_type i = dest; i != end; ++i)
       *i = ::lumex::core::utility::bit::byte_swap (*i);
 
@@ -1445,7 +1417,7 @@ convert_string_to_number (char_t const *string)
 {
   // check string format
   if (!check_string_to_number_format (string))
-    return gen_nan ();
+    return std::numeric_limits<double>::quiet_NaN ();
 
 // parse string
 #ifdef LUMEX_XML_WCHAR_MODE
@@ -1561,7 +1533,7 @@ inline bool
 convert_number_to_boolean (double value)
 {
   return (!::lumex::core::math::ops::exactly_equal (value, 0.0)
-          && !is_nan (value));
+          && !std::isnan (value));
 }
 
 inline void

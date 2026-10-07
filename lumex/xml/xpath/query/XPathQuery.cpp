@@ -39,8 +39,11 @@
 
 #define LUMEX_IMPLEMENTATION
 
+#include <limits>
+#include <memory>
+#include <new>
+
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
-#include "lumex/xml/utility/XmlCleaner.hpp"
 #include "lumex/xml/xpath/exception/XPathException.hpp"
 
 #include "lumex/xml/xpath/parser/XPathParser.hpp"
@@ -130,7 +133,8 @@ XPathQuery::XPathQuery (char_t const *query,
   if (qimpl == nullptr)
     throw std::bad_alloc ();
 
-  XmlCleaner<XPathQueryImpl> impl (qimpl, XPathQueryImpl::destroy);
+  std::unique_ptr<XPathQueryImpl, void (*) (XPathQueryImpl *)> impl (
+      qimpl, &XPathQueryImpl::destroy);
 
   qimpl->root
       = XPathParser::parse (query, variables, &qimpl->alloc, &m_result);
@@ -220,7 +224,7 @@ double
 XPathQuery::evaluate_number (XPathNode const &n) const
 {
   if (m_impl == nullptr)
-    return gen_nan ();
+    return std::numeric_limits<double>::quiet_NaN ();
 
   XPathContext ctx (n, 1, 1);
   XPathStackData stack_data;

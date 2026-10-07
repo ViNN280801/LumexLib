@@ -45,8 +45,7 @@
  * `std::string_view` overloads appear from C++17 as inline wrappers over the
  * exported functions. The umbrella includes the DOM classes, the writer
  * interface and its file and stream implementations, the parse result, the
- * XPath classes, the common types and constants, and `XmlCleaner` and
- * `XmlUtils`. Linking it also links <tt>%lumex::unicode</tt>, whose UTF
+ * XPath classes, the common types and constants, and `XmlUtils`. Linking it also links <tt>%lumex::unicode</tt>, whose UTF
  * transcoders the parser and the buffer conversions use.
  *
  * The module is derived from pugixml (https://github.com/zeux/pugixml,
@@ -85,7 +84,6 @@
 
 // While not strictly necessary for every public function, these provide
 // fundamental utilities that might be exposed or used by exported classes.
-#include "utility/XmlCleaner.hpp"
 #include "utility/XmlUtils.hpp"
 
 #endif // !LUMEX_XML_HPP

@@ -4,9 +4,9 @@
 // and number to string conversions (zero, NaN, infinity), floor and ceiling
 // of NaN, the numeric predicate (`item[2]`, `item[last()]`, `item[1.5]`) and
 // the = and != operators on numbers. The library writes these comparisons
-// through one helper (XmlUtils.hpp exactly_equal) so the compiler's
-// -Wfloat-equal stays quiet; these tests fail when that helper or one of its
-// callers changes what a comparison means.
+// through one helper (lumex::core::math::ops::exactly_equal) so the
+// compiler's -Wfloat-equal stays quiet; these tests fail when that helper or
+// one of its callers changes what a comparison means.
 #include <cmath>
 #include <string>
 
