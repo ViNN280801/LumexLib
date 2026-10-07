@@ -29,8 +29,12 @@
  * @details It keeps the interface of the primary template where it applies to
  * an absent value: `has_value()`, `value()` (which only checks the state and
  * throws `bad_expected_access` on an error), `error()`, `error_or()`,
- * `emplace()`, `emplace_error()`, `swap()` and the monadic operations. The
- * header includes `Expected.hpp`, so it is enough for both forms.
+ * `emplace()`, `emplace_error()`, `swap()`, the converting constructors from
+ * an `expected<void, G>`, the assignment from an `unexpected`, and the monadic
+ * operations, whose functions take no arguments in the success state. The
+ * header includes `Expected.hpp`, so it is enough for both forms. The
+ * differences from `std::expected` listed at the class `expected` in
+ * `Expected.hpp` apply here too.
  */
 #ifndef LUMEX_CORE_EXPECTED_RESULT_EXPECTED_VOID_HPP
 #define LUMEX_CORE_EXPECTED_RESULT_EXPECTED_VOID_HPP
@@ -107,6 +111,16 @@ public:
                            "Expected<void,E>: E must not be a reference");
   LUMEX_STATIC_ASSERT_MSG (!std::is_function<ErrorType>::value,
                            "Expected<void,E>: E must not be a function type");
+  LUMEX_STATIC_ASSERT_MSG (!std::is_void<ErrorType>::value,
+                           "Expected<void,E>: E must not be void");
+  LUMEX_STATIC_ASSERT_MSG (!std::is_array<ErrorType>::value,
+                           "Expected<void,E>: E must not be an array type");
+  LUMEX_STATIC_ASSERT_MSG (!std::is_const<ErrorType>::value
+                               && !std::is_volatile<ErrorType>::value,
+                           "Expected<void,E>: E must not be cv-qualified");
+  LUMEX_STATIC_ASSERT_MSG (
+      !detail::is_unexpected<ErrorType>::value,
+      "Expected<void,E>: E must not be a specialization of unexpected");
 
   // ====================== Aliases ====================== //
   using value_type = void;
@@ -188,10 +202,18 @@ public:
 
   /**
    * @brief Constructs the error in place via unexpect (void specialization).
+   * @tparam Args Argument types forwarded to the `ErrorType` constructor.
+   * @param[in] args Arguments forwarded to the `ErrorType` constructor.
+   * @note Takes part in overload resolution only when `ErrorType` is
+   * constructible from `Args`; `noexcept` when that construction is.
    */
-  template <typename... Args>
+  template <typename... Args,
+            typename = typename std::enable_if<
+                std::is_constructible<ErrorType, Args...>::value>::type>
   LUMEX_CONSTEXPR_CXX14 explicit expected (unexpect_t /*unused*/,
                                            Args &&...args)
+      LUMEX_NOEXCEPT_IF (
+          std::is_nothrow_constructible<ErrorType, Args...>::value)
       : m_has_value (false)
   {
     new (std::addressof (m_storage.m_error))
@@ -199,52 +221,239 @@ public:
   }
 
   /**
-   * @brief Constructor from `unexpected` (copy) for the `expected<void,
-   * ErrorType>` specialization.
-   * @details Creates an `expected` in the error state (`m_has_value = false`),
-   * copying the error from `unexp`. Used when `expected` must hold an error
-   * and has no success value (`SuccessType` is `void`).
-   * @tparam Err Error type convertible to `ErrorType`.
-   * @param[in] unexp Const reference to an `unexpected` that holds an error.
-   * @note Participates in SFINAE to avoid conflicts.
-   * @throws May throw if the copy constructor of `ErrorType` throws.
+   * @brief Constructs the error in place from an initializer list.
+   * @tparam U Element type of the initializer list.
+   * @tparam Args Argument types forwarded after the list.
+   * @param[in] list Initializer list passed to the `ErrorType` constructor.
+   * @param[in] args Arguments forwarded after the list.
+   * @note Takes part in overload resolution only when `ErrorType` is
+   * constructible from the list and `Args`.
    */
-  template <
-      typename Err = ErrorType,
-      // SFINAE: enable only if ErrorType is constructible from Err
-      typename = typename std::enable_if<
-          std::is_constructible<ErrorType, Err const &>::value
-          && !std::is_same<typename std::decay<Err>::type, in_place_tag>::value
-          && !std::is_same<typename std::decay<Err>::type,
-                           unexpect_t>::value>::type>
-  LUMEX_CONSTEXPR_CXX14 explicit expected (unexpected<Err> const &unexp)
+  template <typename U, typename... Args,
+            typename = typename std::enable_if<std::is_constructible<
+                ErrorType, std::initializer_list<U> &, Args...>::value>::type>
+  LUMEX_CONSTEXPR_CXX14 explicit expected (unexpect_t /*unused*/,
+                                           std::initializer_list<U> list,
+                                           Args &&...args)
+      LUMEX_NOEXCEPT_IF (
+          std::is_nothrow_constructible<ErrorType, std::initializer_list<U> &,
+                                        Args...>::value)
       : m_has_value (false)
   {
-    new (std::addressof (m_storage.m_error)) ErrorType (unexp.error ());
+    new (std::addressof (m_storage.m_error))
+        ErrorType (list, std::forward<Args> (args)...);
+  }
+
+  /**
+   * @brief Converting constructor from an `expected<void, G>` (copy,
+   * implicit).
+   * @details Creates an `expected<void, ErrorType>` with the state of `other`,
+   * copying the error into one of this type. Implicit when `G const &`
+   * converts to `ErrorType`.
+   * @tparam U Success type of `other`; only `void` takes part.
+   * @tparam G Error type of `other`.
+   * @param[in] other `expected<void, G>` to convert.
+   * @note Takes part in overload resolution only when `ErrorType` can be
+   * constructed from `G const &` and `other` cannot be converted as a whole.
+   * @throws May throw if the conversion of the error throws.
+   */
+  template <
+      typename U, typename G,
+      typename std::enable_if<
+          std::is_void<U>::value
+              && std::is_constructible<ErrorType, G const &>::value
+              && !detail::unexpected_from_expected<ErrorType, U, G>::value
+              && std::is_convertible<G const &, ErrorType>::value,
+          int>::type
+      = 0>
+  LUMEX_CONSTEXPR_CXX14
+  expected (expected<U, G> const &other) LUMEX_NOEXCEPT_IF (
+      std::is_nothrow_constructible<ErrorType, G const &>::value)
+      : m_has_value (other.m_has_value)
+  {
+    if (!m_has_value)
+      new (std::addressof (m_storage.m_error))
+          ErrorType (other.m_storage.m_error);
+  }
+
+  /**
+   * @brief Converting constructor from an `expected<void, G>` (copy,
+   * explicit).
+   * @details As the implicit one, for a `G` that converts to `ErrorType` only
+   * explicitly.
+   * @tparam U Success type of `other`; only `void` takes part.
+   * @tparam G Error type of `other`.
+   * @param[in] other `expected<void, G>` to convert.
+   * @throws May throw if the conversion of the error throws.
+   */
+  template <
+      typename U, typename G,
+      typename std::enable_if<
+          std::is_void<U>::value
+              && std::is_constructible<ErrorType, G const &>::value
+              && !detail::unexpected_from_expected<ErrorType, U, G>::value
+              && !std::is_convertible<G const &, ErrorType>::value,
+          int>::type
+      = 0>
+  LUMEX_CONSTEXPR_CXX14 explicit expected (expected<U, G> const &other)
+      LUMEX_NOEXCEPT_IF (
+          std::is_nothrow_constructible<ErrorType, G const &>::value)
+      : m_has_value (other.m_has_value)
+  {
+    if (!m_has_value)
+      new (std::addressof (m_storage.m_error))
+          ErrorType (other.m_storage.m_error);
+  }
+
+  /**
+   * @brief Converting constructor from an `expected<void, G>` (move,
+   * implicit).
+   * @details Creates an `expected<void, ErrorType>` with the state of `other`,
+   * moving the error into one of this type. Implicit when `G` converts to
+   * `ErrorType`.
+   * @tparam U Success type of `other`; only `void` takes part.
+   * @tparam G Error type of `other`.
+   * @param[in] other `expected<void, G>` to convert; its error is moved from.
+   * @throws May throw if the conversion of the error throws.
+   */
+  template <
+      typename U, typename G,
+      typename std::enable_if<
+          std::is_void<U>::value && std::is_constructible<ErrorType, G>::value
+              && !detail::unexpected_from_expected<ErrorType, U, G>::value
+              && std::is_convertible<G, ErrorType>::value,
+          int>::type
+      = 0>
+  LUMEX_CONSTEXPR_CXX14
+  expected (expected<U, G> &&other)
+      LUMEX_NOEXCEPT_IF (std::is_nothrow_constructible<ErrorType, G>::value)
+      : m_has_value (other.m_has_value)
+  {
+    if (!m_has_value)
+      new (std::addressof (m_storage.m_error))
+          ErrorType (std::move (other.m_storage.m_error));
+  }
+
+  /**
+   * @brief Converting constructor from an `expected<void, G>` (move,
+   * explicit).
+   * @details As the implicit one, for a `G` that converts to `ErrorType` only
+   * explicitly.
+   * @tparam U Success type of `other`; only `void` takes part.
+   * @tparam G Error type of `other`.
+   * @param[in] other `expected<void, G>` to convert; its error is moved from.
+   * @throws May throw if the conversion of the error throws.
+   */
+  template <
+      typename U, typename G,
+      typename std::enable_if<
+          std::is_void<U>::value && std::is_constructible<ErrorType, G>::value
+              && !detail::unexpected_from_expected<ErrorType, U, G>::value
+              && !std::is_convertible<G, ErrorType>::value,
+          int>::type
+      = 0>
+  LUMEX_CONSTEXPR_CXX14 explicit expected (expected<U, G> &&other)
+      LUMEX_NOEXCEPT_IF (std::is_nothrow_constructible<ErrorType, G>::value)
+      : m_has_value (other.m_has_value)
+  {
+    if (!m_has_value)
+      new (std::addressof (m_storage.m_error))
+          ErrorType (std::move (other.m_storage.m_error));
+  }
+
+  /**
+   * @brief Constructor from `unexpected<G>` (copy, implicit) for the
+   * `expected<void, ErrorType>` specialization.
+   * @details Creates an `expected` in the error state by copying the error
+   * from `unex`, so a function that returns an `expected<void, E>` can write
+   * `return unexpected<E> (error);`. Implicit when `G const &` converts to
+   * `ErrorType`.
+   * @tparam G Error type of `unex`; `ErrorType` is constructible from it.
+   * @param[in] unex Const reference to an `unexpected` that holds an error.
+   * @throws May throw if the copy constructor of `ErrorType` throws.
+   */
+  template <typename G = ErrorType,
+            typename std::enable_if<
+                std::is_constructible<ErrorType, G const &>::value
+                    && std::is_convertible<G const &, ErrorType>::value,
+                int>::type
+            = 0>
+  LUMEX_CONSTEXPR_CXX14
+  expected (unexpected<G> const &unex) LUMEX_NOEXCEPT_IF (
+      std::is_nothrow_constructible<ErrorType, G const &>::value)
+      : m_has_value (false)
+  {
+    new (std::addressof (m_storage.m_error)) ErrorType (unex.error ());
+  }
+
+  /**
+   * @brief Constructor from `unexpected<G>` (copy, explicit) for the
+   * `expected<void, ErrorType>` specialization.
+   * @details As the implicit one, for a `G` that `ErrorType` is constructible
+   * from but not convertible from, so the conversion must be written out.
+   * @tparam G Error type of `unex`.
+   * @param[in] unex Const reference to an `unexpected` that holds an error.
+   * @throws May throw if the copy constructor of `ErrorType` throws.
+   */
+  template <typename G = ErrorType,
+            typename std::enable_if<
+                std::is_constructible<ErrorType, G const &>::value
+                    && !std::is_convertible<G const &, ErrorType>::value,
+                int>::type
+            = 0>
+  LUMEX_CONSTEXPR_CXX14 explicit expected (unexpected<G> const &unex)
+      LUMEX_NOEXCEPT_IF (
+          std::is_nothrow_constructible<ErrorType, G const &>::value)
+      : m_has_value (false)
+  {
+    new (std::addressof (m_storage.m_error)) ErrorType (unex.error ());
   }
 
   /**
    * @brief Constructs an `expected<void, ErrorType>` in the error state from
-   * an `unexpected` rvalue.
-   * @details Move-constructs the stored error from `unexp.error()`.
-   * @param[in] unexp The `unexpected` whose error is moved from.
-   * @note This constructor is conditionally `noexcept` if the `ErrorType` move
-   * constructor does not throw.
+   * an `unexpected` rvalue (implicit).
+   * @details Move-constructs the stored error from `unex.error()`. Implicit
+   * when `G` converts to `ErrorType`.
+   * @tparam G Error type of `unex`; `ErrorType` is constructible from it.
+   * @param[in] unex The `unexpected` whose error is moved from.
    * @throws May throw if the `ErrorType` move constructor throws.
    */
   template <
-      typename Err = ErrorType,
-      typename = typename std::enable_if<
-          std::is_constructible<ErrorType, Err &&>::value
-          && !std::is_same<typename std::decay<Err>::type, in_place_tag>::value
-          && !std::is_same<typename std::decay<Err>::type,
-                           unexpect_t>::value>::type>
-  LUMEX_CONSTEXPR_CXX14 explicit expected (unexpected<Err> &&unexp)
-      LUMEX_NOEXCEPT_IF (std::is_nothrow_move_constructible<ErrorType>::value)
+      typename G = ErrorType,
+      typename std::enable_if<std::is_constructible<ErrorType, G>::value
+                                  && std::is_convertible<G, ErrorType>::value,
+                              int>::type
+      = 0>
+  LUMEX_CONSTEXPR_CXX14
+  expected (unexpected<G> &&unex)
+      LUMEX_NOEXCEPT_IF (std::is_nothrow_constructible<ErrorType, G>::value)
       : m_has_value (false)
   {
     new (std::addressof (m_storage.m_error))
-        ErrorType (std::move (unexp).error ());
+        ErrorType (std::move (unex).error ());
+  }
+
+  /**
+   * @brief Constructs an `expected<void, ErrorType>` in the error state from
+   * an `unexpected` rvalue (explicit).
+   * @details As the implicit one, for a `G` that `ErrorType` is constructible
+   * from but not convertible from.
+   * @tparam G Error type of `unex`.
+   * @param[in] unex The `unexpected` whose error is moved from.
+   * @throws May throw if the `ErrorType` move constructor throws.
+   */
+  template <
+      typename G = ErrorType,
+      typename std::enable_if<std::is_constructible<ErrorType, G>::value
+                                  && !std::is_convertible<G, ErrorType>::value,
+                              int>::type
+      = 0>
+  LUMEX_CONSTEXPR_CXX14 explicit expected (unexpected<G> &&unex)
+      LUMEX_NOEXCEPT_IF (std::is_nothrow_constructible<ErrorType, G>::value)
+      : m_has_value (false)
+  {
+    new (std::addressof (m_storage.m_error))
+        ErrorType (std::move (unex).error ());
   }
 
   /**
@@ -293,12 +502,63 @@ public:
    * @param[in] other `expected<void, ErrorType>` object moved from.
    * @return Reference to this object `expected<void, ErrorType>`
    * specialization.
-   * @note Guaranteed not to throw (`noexcept`).
+   * @note `noexcept` when moving and move-assigning `ErrorType` do not throw,
+   * like `std::expected`.
    */
   LUMEX_CONSTEXPR_CXX14 expected &
-  operator= (expected &&other) LUMEX_NOEXCEPT
+  operator= (expected &&other) LUMEX_NOEXCEPT_IF (
+      std::is_nothrow_move_constructible<ErrorType>::value
+          &&std::is_nothrow_move_assignable<ErrorType>::value)
   {
     swap (other);
+    return *this;
+  }
+
+  /**
+   * @brief Replaces the contents with an error (copy).
+   * @details The error is copied into a temporary `expected` in the error
+   * state, which is then swapped in; if the copy throws, this object keeps its
+   * previous contents.
+   * @tparam G Error type of `unex`; `ErrorType` is constructible and
+   * assignable from it.
+   * @param[in] unex The new error.
+   * @return Reference to this `expected`, now in the error state.
+   * @throws May throw if copying the error throws.
+   */
+  template <typename G,
+            typename std::enable_if<
+                std::is_constructible<ErrorType, G const &>::value
+                    && std::is_assignable<ErrorType &, G const &>::value,
+                int>::type
+            = 0>
+  LUMEX_CONSTEXPR_CXX14 expected &
+  operator= (unexpected<G> const &unex)
+  {
+    expected temp (unexpect, unex.error ());
+    swap (temp);
+    return *this;
+  }
+
+  /**
+   * @brief Replaces the contents with an error (move).
+   * @details The error is moved into a temporary `expected` in the error
+   * state, which is then swapped in.
+   * @tparam G Error type of `unex`; `ErrorType` is constructible and
+   * assignable from it.
+   * @param[in] unex The new error; it is moved from.
+   * @return Reference to this `expected`, now in the error state.
+   * @throws May throw if moving the error throws.
+   */
+  template <typename G, typename std::enable_if<
+                            std::is_constructible<ErrorType, G>::value
+                                && std::is_assignable<ErrorType &, G>::value,
+                            int>::type
+                        = 0>
+  LUMEX_CONSTEXPR_CXX14 expected &
+  operator= (unexpected<G> &&unex)
+  {
+    expected temp (unexpect, std::move (unex).error ());
+    swap (temp);
     return *this;
   }
 
@@ -313,7 +573,7 @@ public:
    */
   LUMEX_ATTRIBUTE_NODISCARD (
       "Return value indicates state; should always be used.")
-  bool
+  LUMEX_CONSTEXPR_FUNCTION bool
   has_value () const LUMEX_NOEXCEPT
   {
     return m_has_value;
@@ -514,7 +774,7 @@ public:
    * -> ErrorType` may throw.
    * @note Use `[[nodiscard]]` to ensure handling of the returned value.
    */
-  template <typename U>
+  template <typename U = ErrorType>
   LUMEX_ATTRIBUTE_NODISCARD ("Return value is the contained error or a "
                              "default; should always be used.")
   LUMEX_CONSTEXPR_FUNCTION ErrorType error_or (U &&default_error) const &
@@ -678,19 +938,16 @@ public:
    * an error, contents are moved so both objects change state.
    * @param[in,out] other The other `expected<void, ErrorType>` to swap with.
    * @note The noexcept guarantee depends on
-   * `std::is_nothrow_move_constructible` and, from C++17,
-   * `std::is_nothrow_swappable` for `ErrorType`.
+   * `std::is_nothrow_move_constructible` and on whether swapping two
+   * `ErrorType` objects is `noexcept` (a `swap` found by argument-dependent
+   * lookup, or `std::swap`), in every standard.
    * @throws May throw if move constructors or `std::swap` of
    *         `ErrorType` throw.
    */
   LUMEX_CONSTEXPR_CXX14 void
   swap (expected &other)
-#if __cplusplus >= 201703L
       LUMEX_NOEXCEPT_IF (std::is_nothrow_move_constructible<ErrorType>::value
-                             &&std::is_nothrow_swappable<ErrorType>::value)
-#else
-      LUMEX_NOEXCEPT_IF (std::is_nothrow_move_constructible<ErrorType>::value)
-#endif
+                             &&detail::is_nothrow_swappable<ErrorType>::value)
   {
     if (this == &other)
       return;

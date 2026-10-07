@@ -242,6 +242,61 @@ struct can_transform_error
 {
 };
 
+// ====================== Converting constructors ====================== //
+
+/// @brief `unexpected<ErrorType>` can be built from an `expected<U, G>` in any
+/// of its four value categories (the standard's `__cons_from_expected` for the
+/// error part).
+template <typename ErrorType, typename U, typename G>
+struct unexpected_from_expected
+    : std::integral_constant<
+          bool, std::is_constructible<error::unexpected<ErrorType>,
+                                      expected<U, G> &>::value
+                    || std::is_constructible<error::unexpected<ErrorType>,
+                                             expected<U, G>>::value
+                    || std::is_constructible<error::unexpected<ErrorType>,
+                                             expected<U, G> const &>::value
+                    || std::is_constructible<error::unexpected<ErrorType>,
+                                             expected<U, G> const>::value>
+{
+};
+
+/// @brief `ValueType` can be built from, or converted from, an `expected<U,
+/// G>` in any of its four value categories (the standard's
+/// `converts-from-any-cvref`).
+template <typename ValueType, typename U, typename G>
+struct value_from_expected
+    : std::integral_constant<
+          bool,
+          std::is_constructible<ValueType, expected<U, G> &>::value
+              || std::is_constructible<ValueType, expected<U, G>>::value
+              || std::is_constructible<ValueType,
+                                       expected<U, G> const &>::value
+              || std::is_constructible<ValueType, expected<U, G> const>::value
+              || std::is_convertible<expected<U, G> &, ValueType>::value
+              || std::is_convertible<expected<U, G>, ValueType>::value
+              || std::is_convertible<expected<U, G> const &, ValueType>::value
+              || std::is_convertible<expected<U, G> const, ValueType>::value>
+{
+};
+
+/// @brief The converting constructors of `expected` step aside: `ValueType` or
+/// `unexpected<ErrorType>` can be built from the whole `expected<U, G>`, so
+/// the value constructor converts it instead. A `bool` value type never counts
+/// the value side: `expected<int, E>` is constructible into `bool` through its
+/// `operator bool`, yet `expected<bool, E>` still converts the value inside
+/// (the resolution of LWG 3836, which the value constructor backs by refusing
+/// every `expected` for a `bool`).
+template <typename ValueType, typename ErrorType, typename U, typename G>
+struct constructs_from_expected
+    : std::integral_constant<
+          bool,
+          (!std::is_same<typename std::remove_cv<ValueType>::type, bool>::value
+           && value_from_expected<ValueType, U, G>::value)
+              || unexpected_from_expected<ErrorType, U, G>::value>
+{
+};
+
 // ====================== INVOKE ====================== //
 
 #if __cplusplus >= 201703L
