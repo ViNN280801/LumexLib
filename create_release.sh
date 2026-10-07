@@ -59,6 +59,12 @@ Options:
                      -DLUMEX_WERROR=ON, so a warning fails the build. A --tag
                      older than 2.0.0.0 has no such option and builds as it
                      was released.
+  --use-ninja        Configure with -G Ninja (needs ninja in PATH). Without it
+                     CMake picks its own generator: $CMAKE_GENERATOR if set,
+                     else Unix Makefiles (needs make). The packages are the
+                     same; after a failure Ninja has built more (make leaves
+                     out the libraries that depend on a failed one), so one
+                     failed run lists more diagnostics.
   --dry-run          Show what would run, run nothing: no build tree, no log,
                      no package, no worktree. The compiler checks that decide
                      the plan (do they run, link, support the standard) still
@@ -228,6 +234,7 @@ JOBS="$(nproc 2>/dev/null || echo 4)"
 KEEP_WORK=0
 WERROR=1
 NO_PACKAGE=0
+USE_NINJA=0
 DRY_RUN=0
 QUIET=0
 COLOR_ARG="auto"
@@ -261,6 +268,7 @@ while [[ $# -gt 0 ]]; do
     --color) need_value "$@"; COLOR_ARG="$2"; shift 2 ;;
     --color=*) COLOR_ARG="${1#*=}"; shift ;;
     --no-werror) WERROR=0; shift ;;
+    --use-ninja) USE_NINJA=1; shift ;;
     --no-package) NO_PACKAGE=1; shift ;;
     *) die "unknown parameter: $1 (see --help)" ;;
   esac
@@ -305,9 +313,14 @@ has_format() {
 # Tools, version, glibc
 # ---------------------------------------------------------------------------
 
-for tool in cmake ninja python3; do
+for tool in cmake python3; do
   command -v "$tool" >/dev/null || die "'$tool' is not in PATH"
 done
+if [[ "${USE_NINJA}" -eq 1 ]]; then
+  command -v ninja >/dev/null || die "--use-ninja needs 'ninja' in PATH"
+elif [[ -z "${CMAKE_GENERATOR:-}" ]]; then
+  command -v make >/dev/null || die "'make' is not in PATH (or pass --use-ninja)"
+fi
 EXTRACTOR="${REPO_ROOT}/Scripts/ReleaseTools/extract_diagnostics.py"
 [[ -f "${EXTRACTOR}" ]] || die "missing ${EXTRACTOR}"
 if [[ "${NO_PACKAGE}" -eq 0 ]]; then
@@ -819,8 +832,10 @@ for i in "${!JOB_CXX[@]}"; do
   echo "${C_BOLD}== [$((i + 1))/${#JOB_CXX[@]}] ${base} (C++${std:-default})${C_RESET}"
 
   flags="$(arch_flags "$isa")"
-  cmake_args=(
-    -G Ninja -S "${BUILD_ROOT}" -B "${build}" --no-warn-unused-cli
+  cmake_args=()
+  [[ "${USE_NINJA}" -eq 0 ]] || cmake_args+=(-G Ninja)
+  cmake_args+=(
+    -S "${BUILD_ROOT}" -B "${build}" --no-warn-unused-cli
     -DCMAKE_BUILD_TYPE=Release
     -DLUMEX_BUILD_SHARED_LIBS=ON -DLUMEX_BUILD_TESTS=OFF -DLUMEX_BUILD_DOCUMENTATION=OFF
     -DLUMEX_INSTALL=ON
@@ -850,20 +865,44 @@ for i in "${!JOB_CXX[@]}"; do
     continue
   fi
 
+  # The generator that configured the tree decides how its targets are listed
+  # and how the build tool keeps going after an error.
+  if [[ "${DRY_RUN}" -eq 1 ]]; then
+    generator="$([[ "${USE_NINJA}" -eq 1 ]] && echo Ninja || echo "${CMAKE_GENERATOR:-Unix Makefiles}")"
+  else
+    generator="$(sed -n 's/^CMAKE_GENERATOR:INTERNAL=//p' "${build}/CMakeCache.txt")"
+  fi
   # Library targets only: publish_distr and lumex_copy_compile_commands
   # write into the checkout (x64/, compile_commands.json); package and
   # package_source run CPack, which a library build does not need.
-  if [[ "${DRY_RUN}" -eq 1 ]]; then
-    targets=("<library-targets>")
-  else
-    mapfile -t targets < <(cd "${build}" && ninja -t targets all | grep -oE '^[A-Za-z0-9_]+: phony' | sed 's/: phony//' \
-      | grep -vE '^(all|clean|help|edit_cache|rebuild_cache|install|install/local|install/strip|list_install_components|package|package_source|publish_distr|lumex_copy_compile_commands|generate_documentation|test)$' \
-      | grep -v '^cmake_object_order_depends_target_' | sort -u)
-    [[ ${#targets[@]} -gt 0 ]] || die "no targets found in ${build}"
-  fi
-  # -k 0: keep going after an error, so one run lists every diagnostic.
+  not_library='^(all|clean|depend|help|edit_cache|rebuild_cache|install|install/local|install/strip|list_install_components|package|package_source|publish_distr|lumex_copy_compile_commands|generate_documentation|test)$'
+  case "${generator}" in
+    Ninja*)
+      # -k 0: keep going after an error, so one run lists every diagnostic.
+      build_tool_args=(-k 0)
+      if [[ "${DRY_RUN}" -eq 1 ]]; then
+        targets=("<library-targets>")
+      else
+        mapfile -t targets < <(cd "${build}" && ninja -t targets all | grep -oE '^[A-Za-z0-9_]+: phony' | sed 's/: phony//' \
+          | grep -vE "${not_library}" | grep -v '^cmake_object_order_depends_target_' | sort -u)
+      fi
+      ;;
+    *Makefiles)
+      # -O target: a job's output is printed whole, parallel jobs do not
+      # interleave the lines of a diagnostic.
+      build_tool_args=(-k -Otarget)
+      if [[ "${DRY_RUN}" -eq 1 ]]; then
+        targets=("<library-targets>")
+      else
+        mapfile -t targets < <(cmake --build "${build}" --target help | sed -n 's/^\.\.\. \([A-Za-z0-9_]*\)$/\1/p' \
+          | grep -vE "${not_library}" | sort -u)
+      fi
+      ;;
+    *) die "the generator '${generator}' is not supported: use --use-ninja or Unix Makefiles" ;;
+  esac
+  [[ "${DRY_RUN}" -eq 1 || ${#targets[@]} -gt 0 ]] || die "no targets found in ${build}"
   build_rc=0
-  run_logged "${work}/build.log" cmake --build "${build}" --parallel "${JOBS}" --target "${targets[@]}" -- -k 0 \
+  run_logged "${work}/build.log" cmake --build "${build}" --parallel "${JOBS}" --target "${targets[@]}" -- "${build_tool_args[@]}" \
     || build_rc=$?
   if [[ "${DRY_RUN}" -eq 1 ]]; then
     note "warnings and errors are sorted into ${WARN_DIR}/${tag}_warn.log and _err.log, written only when there are any"
