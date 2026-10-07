@@ -391,3 +391,14 @@ TEST_F (HardwareCapabilitiesTest, Perf_DetectHardware)
       << "wall-clock Perf_* thresholds are Release-only (no sanitizers)";
 #endif
 }
+
+// The alignment is spelled alignas on MSVC and with the GNU aligned attribute
+// elsewhere (GCC 8 rejects alignas next to the export attribute); both must
+// give the same layout.
+TEST (CpuVectorizationInfoTest, IsAlignedToACacheLine)
+{
+  EXPECT_EQ (
+      static_cast<std::size_t> (LUMEX_CPU_VECTORIZATION_INFO_ALIGNMENT),
+      alignof (lumex::applied::hardware::caps::cpu_vectorization_info_t));
+  EXPECT_EQ (64U, LUMEX_CPU_VECTORIZATION_INFO_ALIGNMENT);
+}
