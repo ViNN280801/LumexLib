@@ -227,6 +227,47 @@ find_processes (std::string const &name)
   return found;
 }
 
+// When the process was created; 0 when it cannot be read (no access, or it
+// is gone).
+std::uint64_t
+creation_time_of (process_id_t pid)
+{
+  handle_t const process (
+      OpenProcess (PROCESS_QUERY_LIMITED_INFORMATION, FALSE, pid));
+  if (process.value == nullptr)
+    return 0;
+  FILETIME creation{};
+  FILETIME exit_time{};
+  FILETIME kernel{};
+  FILETIME user{};
+  if (GetProcessTimes (process.value, &creation, &exit_time, &kernel, &user)
+      == 0)
+    return 0;
+  return file_time_value (creation);
+}
+
+// Every process with its parent, from one Toolhelp32 snapshot.
+std::vector<detail::process_link_t>
+read_process_links ()
+{
+  std::vector<detail::process_link_t> links;
+  handle_t const snapshot (CreateToolhelp32Snapshot (TH32CS_SNAPPROCESS, 0));
+  if (snapshot.value == INVALID_HANDLE_VALUE)
+    return links;
+  PROCESSENTRY32W entry{};
+  entry.dwSize = sizeof (entry);
+  for (BOOL more = Process32FirstW (snapshot.value, &entry); more != 0;
+       more = Process32NextW (snapshot.value, &entry))
+    {
+      detail::process_link_t link;
+      link.pid = entry.th32ProcessID;
+      link.parent_pid = entry.th32ParentProcessID;
+      link.start_time = creation_time_of (link.pid);
+      links.push_back (link);
+    }
+  return links;
+}
+
 bool
 process_exists (process_id_t pid)
 {
@@ -360,10 +401,11 @@ read_process (process_id_t pid)
   return reading;
 }
 
+// The IDs of the /proc/<digits> entries.
 std::vector<process_id_t>
-find_processes (std::string const &name)
+list_process_ids ()
 {
-  std::vector<process_id_t> found;
+  std::vector<process_id_t> ids;
   for (lumex::directory_iterator it (lumex::path ("/proc")), end; it != end;
        ++it)
     {
@@ -372,15 +414,48 @@ find_processes (std::string const &name)
           || !std::all_of (entry.begin (), entry.end (),
                            [] (char c) { return c >= '0' && c <= '9'; }))
         continue;
-      process_id_t pid{};
       try
         {
-          pid = static_cast<process_id_t> (std::stoul (entry));
+          ids.push_back (static_cast<process_id_t> (std::stoul (entry)));
         }
       catch (std::exception const &)
         {
           continue;
         }
+    }
+  return ids;
+}
+
+// Every live process with its parent; zombies (exited, not reaped) are left
+// out, they have no children and use nothing.
+std::vector<detail::process_link_t>
+read_process_links ()
+{
+  std::vector<detail::process_link_t> links;
+  for (process_id_t const pid : list_process_ids ())
+    {
+      proc_text_t const stat_text = read_proc_file (pid, "stat");
+      if (!stat_text.text)
+        continue;
+      optional<detail::proc_pid_stat_t> const stat
+          = detail::parse_proc_pid_stat (*stat_text.text);
+      if (!stat || stat->state == 'Z' || stat->state == 'X')
+        continue;
+      detail::process_link_t link;
+      link.pid = pid;
+      link.parent_pid = static_cast<process_id_t> (stat->parent_pid);
+      link.start_time = stat->start_ticks;
+      links.push_back (link);
+    }
+  return links;
+}
+
+std::vector<process_id_t>
+find_processes (std::string const &name)
+{
+  std::vector<process_id_t> found;
+  for (process_id_t const pid : list_process_ids ())
+    {
       proc_text_t const stat_text = read_proc_file (pid, "stat");
       if (!stat_text.text)
         continue;
@@ -429,6 +504,12 @@ find_processes (std::string const &)
   return {};
 }
 
+std::vector<detail::process_link_t>
+read_process_links ()
+{
+  return {};
+}
+
 bool
 process_exists (process_id_t)
 {
@@ -470,7 +551,7 @@ LumexProcessMonitor::operator= (LumexProcessMonitor &&) LUMEX_NOEXCEPT
     = default;
 
 LUMEX_PUBLIC_API LumexProcessMonitor::result_t
-LumexProcessMonitor::sample (process_id_t pid)
+LumexProcessMonitor::sample_one (process_id_t pid)
 {
   reading_result_t reading = read_process (pid);
   if (!reading.has_value ())
@@ -501,17 +582,88 @@ LumexProcessMonitor::sample (process_id_t pid)
   return usage;
 }
 
-LUMEX_PUBLIC_API std::vector<process_usage_t>
-LumexProcessMonitor::sample_by_name (std::string const &name)
+namespace
 {
+process_member_t
+member_of (process_usage_t const &usage)
+{
+  process_member_t member;
+  member.pid = usage.pid;
+  member.name = usage.name;
+  member.cpu_percent = usage.cpu_percent;
+  member.cpu_time = usage.cpu_time;
+  member.resident_bytes = usage.resident_bytes;
+  member.private_bytes = usage.private_bytes;
+  return member;
+}
+} // namespace
+
+LUMEX_PUBLIC_API LumexProcessMonitor::result_t
+LumexProcessMonitor::sample_tree (process_id_t pid,
+                                  std::vector<process_id_t> const &below,
+                                  bool breakdown)
+{
+  result_t top = sample_one (pid);
+  if (!top.has_value () || below.empty ())
+    return top;
   std::vector<process_usage_t> usages;
-  for (process_id_t const pid : find_processes (name))
+  usages.push_back (*top);
+  for (process_id_t const child : below)
     {
-      result_t usage = sample (pid);
+      result_t usage = sample_one (child);
+      if (usage.has_value ())
+        usages.push_back (std::move (*usage));
+    }
+  if (usages.size () == 1)
+    return top;
+  process_usage_t sum = total (usages);
+  sum.pid = top->pid;
+  sum.name = top->name;
+  if (breakdown)
+    for (process_usage_t const &usage : usages)
+      sum.members.push_back (member_of (usage));
+  return sum;
+}
+
+LUMEX_PUBLIC_API LumexProcessMonitor::result_t
+LumexProcessMonitor::sample (process_id_t pid, bool include_children,
+                             bool breakdown)
+{
+  if (!include_children)
+    return sample_one (pid);
+  return sample_tree (pid, find_descendants (pid), breakdown);
+}
+
+LUMEX_PUBLIC_API std::vector<process_usage_t>
+LumexProcessMonitor::sample_by_name (std::string const &name,
+                                     bool include_children, bool breakdown)
+{
+  std::vector<process_id_t> const found = find_processes (name);
+  std::vector<process_usage_t> usages;
+  if (!include_children)
+    {
+      for (process_id_t const pid : found)
+        {
+          result_t usage = sample_one (pid);
+          if (usage.has_value ())
+            usages.push_back (std::move (*usage));
+        }
+      return usages;
+    }
+  for (detail::process_tree_t const &tree :
+       detail::process_trees (found, read_process_links ()))
+    {
+      result_t usage = sample_tree (tree.root, tree.descendants, breakdown);
       if (usage.has_value ())
         usages.push_back (std::move (*usage));
     }
   return usages;
+}
+
+LUMEX_PUBLIC_API std::vector<process_id_t>
+LumexProcessMonitor::find_descendants (process_id_t pid)
+{
+  return detail::descendants_of (pid, read_process_links ());
 }
 
 LUMEX_PUBLIC_API std::vector<process_id_t>

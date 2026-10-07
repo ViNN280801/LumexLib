@@ -25,11 +25,13 @@
 /**
  * @file LumexProcessMonitor.hpp
  * @brief CPU and RAM of single processes, by process ID or by executable
- * name.
+ * name, with the processes they started.
  * @details `LumexProcessMonitor` samples processes on request: each sample
  * gives the process's resident and private memory, its total CPU time, and its
  * share of the whole machine's CPU since the monitor's previous sample of the
- * same process. Windows and Linux; elsewhere every query reports
+ * same process. By default the processes below the asked one (its children,
+ * their children, ...) are added to the sample, and the breakdown by process
+ * can be asked for. Windows and Linux; elsewhere every query reports
  * `process_query_error::unsupported`.
  */
 #ifndef LUMEX_APPLIED_RESOURCE_MONITOR_PROCESS_HPP
@@ -78,14 +80,39 @@ enum class process_query_error : std::uint8_t
 };
 
 /**
- * @brief One sample of one process, or the sum of several (see @ref total).
+ * @brief One process inside a sum: what @ref process_usage_t::members lists.
+ */
+struct process_member_t
+{
+  /// @brief The process ID.
+  process_id_t pid{};
+  /// @brief The executable's file name without its directory.
+  std::string name;
+  /// @brief Share of the whole machine's CPU, 0-100, since this monitor's
+  /// previous sample of the process; empty on its first sample.
+  lumex::core::optional::opt::optional<double> cpu_percent;
+  /// @brief CPU time (user and kernel) since the process started.
+  std::chrono::nanoseconds cpu_time{};
+  /// @brief Memory in RAM now, shared libraries included.
+  std::uint64_t resident_bytes{};
+  /// @brief Memory that belongs to this process only; empty when the system
+  /// does not tell.
+  lumex::core::optional::opt::optional<std::uint64_t> private_bytes;
+};
+
+/**
+ * @brief One sample of one process, the sum of a process and the processes
+ * below it, or the sum of several (see @ref total).
  */
 struct process_usage_t
 {
-  /// @brief The process ID; 0 in a sum.
+  /// @brief The process ID; 0 in a sum made by @ref total. For a process with
+  /// the processes below it, the ID of the top one.
   process_id_t pid{};
   /// @brief The executable's file name without its directory (Windows: with
-  /// `.exe`). In a sum, the name the summed processes share, or empty.
+  /// `.exe`). In a sum made by @ref total, the name the summed processes
+  /// share, or empty. For a process with the processes below it, the name of
+  /// the top one.
   std::string name;
   /// @brief Share of the whole machine's CPU (all logical processors), 0-100,
   /// since this monitor's previous sample of the same process. Empty on the
@@ -101,8 +128,14 @@ struct process_usage_t
   /// @brief Memory that belongs to this process only (Linux `RssAnon`,
   /// Windows `PrivateUsage`). Empty on Linux kernels before 4.5.
   lumex::core::optional::opt::optional<std::uint64_t> private_bytes;
-  /// @brief How many processes this value covers: 1 for a sample.
+  /// @brief How many processes this value covers: 1 for a sample of one
+  /// process, more for a sum.
   std::size_t process_count{ 1 };
+  /// @brief The processes behind a sum, the top one first and then the ones
+  /// below it. Filled only when the breakdown was asked for and the value
+  /// covers more than one process; empty otherwise, and in a sum made by
+  /// @ref total.
+  std::vector<process_member_t> members;
 };
 
 /**
@@ -116,6 +149,12 @@ struct watch_list_t
   /// @brief Executable names, compared as @ref
   /// LumexProcessMonitor::sample_by_name compares them.
   std::vector<std::string> names;
+  /// @brief Whether the processes below each one are counted with it (its
+  /// children, their children, ...). See @ref LumexProcessMonitor::sample.
+  bool include_children{ true };
+  /// @brief Whether the log lists every process behind a sum, one line each.
+  /// Off by default: one sum per item is logged.
+  bool breakdown{ false };
 };
 
 /**
@@ -175,22 +214,40 @@ public:
   LumexProcessMonitor &operator= (LumexProcessMonitor &&) LUMEX_NOEXCEPT;
 
   /**
-   * @brief Samples one process.
+   * @brief Samples one process, with the processes below it.
    * @param pid The process ID.
+   * @param include_children Whether the processes below it (its children,
+   * their children, ...) are added up with it: CPU time, CPU share and memory
+   * are sums, `process_count` counts them, `pid` and `name` are the top
+   * process's. A process below it that exits, or may not be read, while it is
+   * being sampled is left out. A process that started after the previous
+   * sample has no CPU share yet, so the share of a sum counts the processes
+   * that have one.
+   * @param breakdown Whether `members` lists every process behind the sum. It
+   * stays empty when there is only one.
    * @return The sample, or `not_found`, `access_denied`, `read_failed` or
-   * `unsupported`.
+   * `unsupported` for the top process.
    */
-  result_t sample (process_id_t pid);
+  result_t sample (process_id_t pid, bool include_children = true,
+                   bool breakdown = false);
 
   /**
-   * @brief Samples every process with this executable name.
+   * @brief Samples the processes with this executable name, with the
+   * processes below them.
    * @param name The executable's file name without its directory.
-   * @return One sample per process, in no particular order; empty when no
-   * process has the name. Processes that exit, or may not be read, while they
-   * are being sampled are left out, and so are Linux zombies (exited, not yet
-   * reaped by their parent).
+   * @param include_children Whether the processes below each one are added up
+   * with it, as @ref sample does. Every process is counted once: a process of
+   * this name that lies below another one is part of that one's sum, so the
+   * result has one sample per tree. `false`: one sample per process.
+   * @param breakdown As in @ref sample, for every sample of the result.
+   * @return The samples, in no particular order; empty when no process has the
+   * name. Processes that exit, or may not be read, while they are being
+   * sampled are left out, and so are Linux zombies (exited, not yet reaped by
+   * their parent).
    */
-  std::vector<process_usage_t> sample_by_name (std::string const &name);
+  std::vector<process_usage_t> sample_by_name (std::string const &name,
+                                               bool include_children = true,
+                                               bool breakdown = false);
 
   /**
    * @brief Finds the processes with this executable name, without sampling
@@ -200,6 +257,17 @@ public:
    * reaped by their parent) are left out.
    */
   static std::vector<process_id_t> find_by_name (std::string const &name);
+
+  /**
+   * @brief Finds every process below one process: its children, their
+   * children, and so on.
+   * @param pid The process ID.
+   * @return Their IDs, nearest first, each once; empty when it has none or
+   * does not exist. A process whose parent link is stale (the parent's ID was
+   * reused after the parent exited) is not listed, and Linux zombies are left
+   * out.
+   */
+  static std::vector<process_id_t> find_descendants (process_id_t pid);
 
   /// @brief The ID of the calling process.
   static process_id_t current_process_id ();
@@ -212,6 +280,12 @@ public:
 
 private:
   struct impl_t;
+  // One process, without the processes below it.
+  result_t sample_one (process_id_t pid);
+  // A top process and the processes below it, added up.
+  result_t sample_tree (process_id_t pid,
+                        std::vector<process_id_t> const &below,
+                        bool breakdown);
   std::unique_ptr<impl_t> impl_;
 };
 } // namespace process
