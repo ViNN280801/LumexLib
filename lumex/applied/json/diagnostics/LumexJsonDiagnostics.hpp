@@ -35,7 +35,7 @@
  * `info` messages are dropped.
  *
  * The module is header-only, so the reporter lives in a
- * `LumexCallbackSlot` instantiated by every binary that includes this
+ * `lumex_callback_slot` instantiated by every binary that includes this
  * header. On Windows each executable or shared library has its own slot:
  * install the reporter from the binary that calls the helpers.
  */
@@ -81,7 +81,7 @@ struct json_diagnostic_tag_t;
 
 /** @brief The slot that holds the installed reporter (one per binary). */
 using LumexJsonDiagnosticSlot
-    = lumex::core::utility::callback::LumexCallbackSlot<
+    = lumex::core::utility::callback::lumex_callback_slot<
         Detail::json_diagnostic_tag_t,
         void (LumexJsonDiagnosticLevel, char const *)>;
 

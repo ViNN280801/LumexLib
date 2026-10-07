@@ -39,7 +39,7 @@
 
 /**
  * @file LumexRanges.hpp
- * @brief `GetNearestTo()`, which finds the element of a sorted range whose
+ * @brief `get_nearest_to()`, which finds the element of a sorted range whose
  * value is numerically nearest to a given value.
  * @details It searches with `std::ranges::lower_bound` and then compares the
  * element found with its predecessor, so the range must be sorted by the same
@@ -114,8 +114,8 @@ namespace Detail
 {
 // NumericConcept/distance now come from the real lumex::core::Math module (see
 // lumex/core/math/LumexMath) - this used to be a self-contained duplicate
-// here because that module did not exist yet at the time GetNearestTo() below
-// was written.
+// here because that module did not exist yet at the time get_nearest_to()
+// below was written.
 using lumex::core::math::ops::distance;
 using lumex::core::math::ops::traits::NumericConcept;
 } // namespace Detail
@@ -145,8 +145,8 @@ template <std::bidirectional_iterator IteratorType,
   requires Detail::NumericConcept<ValueType>
 LUMEX_ATTRIBUTE_NODISCARD ("return value must be used")
 LUMEX_CONSTEXPR IteratorType
-    GetNearestTo (IteratorType first, Sentinel last, ValueType const &value,
-                  Predicate pred = {}, Projection proj = {})
+    get_nearest_to (IteratorType first, Sentinel last, ValueType const &value,
+                    Predicate pred = {}, Projection proj = {})
 {
   if (first == last)
     return last;
@@ -169,7 +169,7 @@ LUMEX_CONSTEXPR IteratorType
 }
 
 /**
- * @brief Range-based overload of GetNearestTo().
+ * @brief Range-based overload of get_nearest_to().
  */
 template <std::ranges::bidirectional_range RangeType, typename ValueType,
           typename Projection = std::identity,
@@ -180,13 +180,13 @@ template <std::ranges::bidirectional_range RangeType, typename ValueType,
           = std::ranges::less>
   requires Detail::NumericConcept<ValueType>
 LUMEX_ATTRIBUTE_NODISCARD ("return value must be used")
-LUMEX_CONSTEXPR std::ranges::borrowed_iterator_t<RangeType> GetNearestTo (
+LUMEX_CONSTEXPR std::ranges::borrowed_iterator_t<RangeType> get_nearest_to (
     RangeType &&range, ValueType const &value, Predicate pred = {},
     Projection proj = {})
 {
-  return GetNearestTo (std::ranges::begin (std::forward<RangeType> (range)),
-                       std::ranges::end (std::forward<RangeType> (range)),
-                       value, pred, proj);
+  return get_nearest_to (std::ranges::begin (std::forward<RangeType> (range)),
+                         std::ranges::end (std::forward<RangeType> (range)),
+                         value, pred, proj);
 }
 } // namespace Algorithm
 } // namespace ranges

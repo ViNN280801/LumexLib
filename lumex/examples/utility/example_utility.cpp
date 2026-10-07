@@ -32,7 +32,7 @@ main ()
 #endif
 
   std::cout << "\n--- 3. SafeComparator across signed/unsigned ---\n";
-  SafeComparator<unsigned char> packet (200);
+  safe_comparator<unsigned char> packet (200);
   int const limit = 300;
   std::cout << "200u8 >= 300=" << (packet.safe_compare (limit) ? "yes" : "no")
             << " 200u8 < 300=" << (packet.safe_less (limit) ? "yes" : "no")

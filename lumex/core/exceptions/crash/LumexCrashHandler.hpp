@@ -167,7 +167,7 @@ private:
    * @param prefix Prefix for the dump filename.
    * @return Full path to the dump file.
    */
-  static std::string _generateDumpFilename (std::string const &prefix);
+  static std::string _generate_dump_filename (std::string const &prefix);
 
   /**
    * @brief Notifies the UI and logs crash details.
@@ -177,7 +177,7 @@ private:
 
 #if defined(LUMEX_OS_UNIX) && LUMEX_OS_UNIX
   /// @brief Generates a core dump on Unix systems.
-  static void _generateCoreDump ();
+  static void _generate_core_dump ();
 
   /**
    * @brief Signal handler for Unix systems.
@@ -186,10 +186,10 @@ private:
   static void _signalHandler (int signum);
 
   /// @brief Sets up signal handlers for Unix systems.
-  static void _setupSignalHandlers ();
+  static void _setup_signal_handlers ();
 
   /// @brief Configures core dump settings on Unix systems.
-  static void _setupCoreDumpSettings ();
+  static void _setup_core_dump_settings ();
 #endif
 };
 } // namespace crash

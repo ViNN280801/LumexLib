@@ -39,7 +39,7 @@
 
 #define LUMEX_IMPLEMENTATION
 #include <cstring>
-#include <fstream> // used in _generateCoreDump() (Unix)
+#include <fstream> // used in _generate_core_dump() (Unix)
 #include <iostream>
 
 #include "DefaultPaths.hpp"
@@ -144,8 +144,8 @@ LumexCrashHandler::initialize (
       std::cout << "Windows crash handler installed\n";
 #else
       // Set up Linux signal handlers and core dump settings
-      _setupCoreDumpSettings ();
-      _setupSignalHandlers ();
+      _setup_core_dump_settings ();
+      _setup_signal_handlers ();
       std::cout << "Linux crash handler installed" << std::endl;
 #endif
     }
@@ -176,7 +176,7 @@ LumexCrashHandler::_notifyAndLog (std::string const &errorMessage)
 
 LUMEX_PUBLIC_API
 std::string
-LumexCrashHandler::_generateDumpFilename (std::string const &prefix)
+LumexCrashHandler::_generate_dump_filename (std::string const &prefix)
 {
 #if defined(LUMEX_OS_UNIX)
   lumex::path dir;
@@ -199,7 +199,7 @@ LumexCrashHandler::_generateDumpFilename (std::string const &prefix)
       std::string homeDir = LumexEnvironment::get ("HOME").value;
       if (homeDir.empty ())
         {
-          // Fallback for _generateDumpFilename, as initialize() should have
+          // Fallback for _generate_dump_filename, as initialize() should have
           // already handled this If homeDir is empty, use temp_directory_path
           // as a last resort, and include s_appName to avoid generic paths.
           dir = lumex::core::filesystem::fs::lumex_filesystem::
@@ -255,7 +255,7 @@ LONG WINAPI
 LumexCrashHandler::_onWindowsCrashHandler (PEXCEPTION_POINTERS pExInfo)
 {
   std::clog << "Windows crash handler called.\n";
-  std::string filename (_generateDumpFilename (KDEFAULT_MINIDUMP_PREFIX));
+  std::string filename (_generate_dump_filename (KDEFAULT_MINIDUMP_PREFIX));
   std::string errorMessage ("Critical application error. Crash dump saved to: "
                             + filename);
   std::clog << ("Attempting to create dump file: " + filename + "\n").c_str ();
@@ -379,9 +379,9 @@ LumexCrashHandler::_onWindowsCrashHandler (PEXCEPTION_POINTERS pExInfo)
 #else
 LUMEX_PUBLIC_API
 void
-LumexCrashHandler::_generateCoreDump ()
+LumexCrashHandler::_generate_core_dump ()
 {
-  std::string filename = _generateDumpFilename (KDEFAULT_MINIDUMP_PREFIX);
+  std::string filename = _generate_dump_filename (KDEFAULT_MINIDUMP_PREFIX);
 
   // Set core dump size limit to infinite
   struct rlimit core_limit;
@@ -463,7 +463,7 @@ LumexCrashHandler::_signalHandler (int signum)
   // Try to generate core dump, but don't let it crash the handler
   try
     {
-      _generateCoreDump ();
+      _generate_core_dump ();
     }
   catch (...)
     {
@@ -493,7 +493,7 @@ LumexCrashHandler::_signalHandler (int signum)
 
 LUMEX_PUBLIC_API
 void
-LumexCrashHandler::_setupSignalHandlers ()
+LumexCrashHandler::_setup_signal_handlers ()
 {
   struct sigaction sigAct;
   sigAct.sa_handler = _signalHandler;
@@ -508,7 +508,7 @@ LumexCrashHandler::_setupSignalHandlers ()
 
 LUMEX_PUBLIC_API
 void
-LumexCrashHandler::_setupCoreDumpSettings ()
+LumexCrashHandler::_setup_core_dump_settings ()
 {
   prctl (PR_SET_DUMPABLE, 1, 0, 0, 0);
 

@@ -55,8 +55,9 @@ namespace
 // Only this translation unit touches the slot, so the executable and the
 // exceptions shared library see one reporter through the exported wrappers.
 struct safe_call_reporter_tag_t;
-using SafeCallReporterSlot = lumex::core::utility::callback::LumexCallbackSlot<
-    safe_call_reporter_tag_t, void (char const *)>;
+using SafeCallReporterSlot
+    = lumex::core::utility::callback::lumex_callback_slot<
+        safe_call_reporter_tag_t, void (char const *)>;
 } // namespace
 
 LUMEX_PUBLIC_API
