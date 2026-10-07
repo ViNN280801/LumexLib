@@ -102,7 +102,10 @@ target_include_directories(${LUMEX_XML_NAME} PUBLIC
     $<BUILD_INTERFACE:${LumexLib_SOURCE_DIR}/lumex/core/utility>
 )
 
-target_link_libraries(${LUMEX_XML_NAME} PUBLIC lumex::utility)
+target_link_libraries(${LUMEX_XML_NAME} PUBLIC
+    lumex::unicode
+    lumex::utility
+)
 
 if(NOT WIN32)
     set_target_properties(${LUMEX_XML_NAME} PROPERTIES

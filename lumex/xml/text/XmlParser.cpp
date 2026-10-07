@@ -40,6 +40,7 @@
 // NOLINTBEGIN
 #define LUMEX_IMPLEMENTATION
 
+#include "lumex/core/unicode/utf/LumexUtf.hpp"
 #include "lumex/core/utility/assert/LumexAssert.hpp"
 
 #include "lumex/xml/constants/XmlConstants.hpp"
@@ -158,11 +159,11 @@ strconv_escape (char_t *s, gap &g)
           }
 
 #ifdef LUMEX_XML_WCHAR_MODE
-        s = reinterpret_cast<char_t *> (wchar_writer::any (
-            reinterpret_cast<wchar_writer::value_type> (s), ucsc));
+        s = reinterpret_cast<char_t *> (utf::wchar_writer::any (
+            reinterpret_cast<utf::wchar_writer::value_type> (s), ucsc));
 #else
         s = reinterpret_cast<char_t *> (
-            utf8_writer::any (reinterpret_cast<uint8_t *> (s), ucsc));
+            utf::utf8_writer::any (reinterpret_cast<uint8_t *> (s), ucsc));
 #endif
 
         g.push (s, static_cast<std::size_t> (stre - s));
