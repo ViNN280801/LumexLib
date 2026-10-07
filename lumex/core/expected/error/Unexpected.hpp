@@ -43,13 +43,25 @@
  * an analogue of C++23 `std::unexpected`.
  * @details Constructing an `expected` from an `unexpected<E>` puts it in the
  * error state, and `make_unexpected<E>()` of `Expected.hpp` builds one in
- * place. Header-only, part of `lumex::expected` and usable from C++11; the
- * class is also visible at global scope.
+ * place. The class has the members of `std::unexpected`: the converting and
+ * in-place constructors (also from an `std::initializer_list`), `error()` in
+ * the four value categories, `swap()`, the non-member `swap()` and the
+ * comparisons `==` and `!=` between `unexpected` objects, and, from C++17, the
+ * deduction guide. Header-only, part of `lumex::expected` and usable from
+ * C++11; the class is also visible at global scope.
  */
 #ifndef LUMEX_CORE_EXPECTED_ERROR_UNEXPECTED_HPP
 #define LUMEX_CORE_EXPECTED_ERROR_UNEXPECTED_HPP
 
+#include <initializer_list>
+#include <type_traits>
 #include <utility>
+
+#include "lumex/core/expected/result/ExpectedTypes.hpp"
+#include "lumex/core/utility/assert/LumexAssert.hpp"
+#include "lumex/core/utility/compiler/LumexCheckFeatures.hpp"
+#include "lumex/core/utility/macros/LumexKeywords.hpp"
+#include "lumex/core/utility/traits/LumexTypeTraits.hpp"
 
 // ====================== unexpected class (C++23 analogue)
 // ======================
@@ -62,6 +74,63 @@ namespace expected
 {
 namespace error
 {
+template <typename ErrorType> class unexpected;
+
+namespace detail
+{
+/// @brief `T` is a specialization of `unexpected`.
+template <typename T> struct is_unexpected : std::false_type
+{
+};
+
+template <typename ErrorType>
+struct is_unexpected<unexpected<ErrorType>> : std::true_type
+{
+};
+
+namespace swap_adl
+{
+using std::swap;
+
+template <typename T, typename = void>
+struct is_swappable_impl : std::false_type
+{
+};
+
+template <typename T>
+struct is_swappable_impl<
+    T, lumex::core::utility::traits::meta::void_t<decltype (swap (
+           std::declval<T &> (), std::declval<T &> ()))>> : std::true_type
+{
+};
+
+template <typename T, bool Swappable = is_swappable_impl<T>::value>
+struct is_nothrow_swappable_impl : std::false_type
+{
+};
+
+template <typename T>
+struct is_nothrow_swappable_impl<T, true>
+    : std::integral_constant<bool,
+                             LUMEX_NOEXCEPT_IF (swap (std::declval<T &> (),
+                                                      std::declval<T &> ()))>
+{
+};
+} // namespace swap_adl
+
+/// @brief `swap (a, b)` found by argument-dependent lookup (or `std::swap`)
+/// is well-formed for two `T` lvalues (`std::is_swappable`, C++17).
+template <typename T> struct is_swappable : swap_adl::is_swappable_impl<T>
+{
+};
+
+/// @brief Such a `swap` is `noexcept` (`std::is_nothrow_swappable`, C++17).
+template <typename T>
+struct is_nothrow_swappable : swap_adl::is_nothrow_swappable_impl<T>
+{
+};
+} // namespace detail
+
 /**
  * @brief Wrapper that holds an error value for `expected`.
  * @details Used to construct an `expected` in the error state. Analogue of
