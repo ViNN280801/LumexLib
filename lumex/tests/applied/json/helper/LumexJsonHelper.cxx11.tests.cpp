@@ -23,7 +23,7 @@
 #include <nlohmann/json.hpp>
 
 #include "lumex/applied/json/LumexJson"
-#include "lumex/tests/applied/json/LumexJsonHelperTestFixture.hpp"
+#include "lumex/tests/applied/json/helper/LumexJsonHelperTestFixture.hpp"
 #include "lumex/tests/support/LumexPerfSkip.hpp"
 
 using lumex::applied::json::diagnostics::LumexJsonDiagnosticLevel;

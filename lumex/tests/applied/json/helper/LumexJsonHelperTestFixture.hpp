@@ -26,8 +26,8 @@
  * IN THE SOFTWARE.
  */
 
-#ifndef LUMEX_TESTS_APPLIED_JSON_HPP
-#define LUMEX_TESTS_APPLIED_JSON_HPP
+#ifndef LUMEX_TESTS_APPLIED_JSON_HELPER_HPP
+#define LUMEX_TESTS_APPLIED_JSON_HELPER_HPP
 
 #include <cerrno>
 #include <cstddef>
@@ -193,4 +193,4 @@ protected:
   }
 };
 
-#endif // !LUMEX_TESTS_APPLIED_JSON_HPP
+#endif // !LUMEX_TESTS_APPLIED_JSON_HELPER_HPP
