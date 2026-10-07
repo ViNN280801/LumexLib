@@ -39,7 +39,7 @@
 
 /**
  * @file LumexGenerators
- * @brief Generators module: `NumberGenerator`, random integral and
+ * @brief Generators module: `number_generator`, random integral and
  * floating-point numbers from the uniform, normal, exponential, gamma,
  * Bernoulli, binomial, geometric or Poisson distribution.
  * @details Link <tt>%lumex::number_generator</tt> (header-only). Works from

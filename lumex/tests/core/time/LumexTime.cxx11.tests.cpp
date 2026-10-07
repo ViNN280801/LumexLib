@@ -41,7 +41,7 @@
 using namespace lumex::core::time::clock;
 using namespace lumex::core::time::timer;
 
-// Test fixture for LumexTime to provide a clean state if needed (though not
+// Test fixture for lumex_time to provide a clean state if needed (though not
 // strictly necessary for static functions).
 class LumexTimeTest : public ::testing::Test
 {
@@ -51,7 +51,7 @@ class LumexTimeTest : public ::testing::Test
 
 TEST_F (LumexTimeTest, GetCurrentDatetime_DefaultFormat_Clean)
 {
-  std::string datetime_str = LumexTime::get_current_datetime ();
+  std::string datetime_str = lumex_time::get_current_datetime ();
   // Expect a non-empty string of a certain minimum length, e.g.,
   // "DD.MM.YYYY_HH:MM:SS" is 19 chars
   ASSERT_FALSE (datetime_str.empty ());
@@ -68,7 +68,7 @@ TEST_F (LumexTimeTest, GetCurrentDatetime_ISO8601Format_Clean)
 {
   std::string format_str = "%Y-%m-%dT%H:%M:%S"; // ISO 8601-like
   std::string datetime_str
-      = LumexTime::get_current_datetime (format_str.c_str ());
+      = lumex_time::get_current_datetime (format_str.c_str ());
   ASSERT_FALSE (datetime_str.empty ());
   ASSERT_GE (datetime_str.length (), format_str.length ());
 
@@ -94,7 +94,7 @@ TEST_F (LumexTimeTest, GetCurrentDatetime_ISO8601Format_Clean)
 
 TEST_F (LumexTimeTest, GetCurrentDatetime_EmptyFormat_Dirty)
 {
-  std::string datetime_str = LumexTime::get_current_datetime ("");
+  std::string datetime_str = lumex_time::get_current_datetime ("");
   ASSERT_TRUE (datetime_str.empty ()); // Expect empty string for empty format
 }
 
@@ -102,9 +102,9 @@ TEST_F (LumexTimeTest, GetCurrentDatetime_InvalidFormat_Dirty)
 {
   // %Q is an invalid format specifier for strftime
   std::string datetime_str
-      = LumexTime::get_current_datetime ("%Y-%m-%d %Q %H:%M:%S");
+      = lumex_time::get_current_datetime ("%Y-%m-%d %Q %H:%M:%S");
   // strftime might return an empty string or partial string depending on
-  // implementation A robust LumexTime should handle this gracefully (e.g.,
+  // implementation A robust lumex_time should handle this gracefully (e.g.,
   // return empty)
   ASSERT_TRUE (datetime_str.empty ());
 }
@@ -119,7 +119,7 @@ TEST_F (LumexTimeTest, GetCurrentDatetime_ThreadSafety_Dirty)
     {
       threads.emplace_back (
           [&results, i] ()
-            { results[i] = LumexTime::get_current_datetime (); });
+            { results[i] = lumex_time::get_current_datetime (); });
     }
 
   for (auto &th : threads)
@@ -156,7 +156,7 @@ safe_stoll (std::string const &s)
 #define TEST_TIMESTAMP_FUNCTION(Func, ExpectedMinLength, DivisorNsToUnit)     \
   TEST_F (LumexTimeTest, GetTimestamp_##Func##_Clean)                         \
   {                                                                           \
-    std::string timestamp_str = LumexTime::Func ();                           \
+    std::string timestamp_str = lumex_time::Func ();                          \
     ASSERT_FALSE (timestamp_str.empty ());                                    \
     ASSERT_TRUE (std::all_of (timestamp_str.begin (), timestamp_str.end (),   \
                               ::isdigit))                                     \
@@ -164,7 +164,7 @@ safe_stoll (std::string const &s)
     ASSERT_GE (timestamp_str.length (), ExpectedMinLength);                   \
                                                                               \
     /* Verify increasing value */                                             \
-    std::string timestamp_str2 = LumexTime::Func ();                          \
+    std::string timestamp_str2 = lumex_time::Func ();                         \
     ASSERT_GT (safe_stoll (timestamp_str2), safe_stoll (timestamp_str));      \
   }
 
@@ -195,7 +195,7 @@ TEST_F (LumexTimeTest, GetTimestamp_Performance_Dirty)
   int const num_iterations = 100000;
   ASSERT_NO_FATAL_FAILURE ({
     for (int i = 0; i < num_iterations; ++i)
-      LumexTime::get_timestamp_ns ();
+      lumex_time::get_timestamp_ns ();
   }) << "get_timestamp_ns took too long for "
      << num_iterations << " iterations.";
 }
@@ -211,7 +211,7 @@ TEST_F (LumexTimeTest, GetTimestamp_ExceptionFallback_Dirty)
   // an acknowledgment of the existing handling. If `_get_timestamp` was
   // refactored to allow injecting a throwing component, this would be
   // expanded.
-  std::string result = LumexTime::get_timestamp_ns ();
+  std::string result = lumex_time::get_timestamp_ns ();
   ASSERT_FALSE (result.empty ())
       << "Expected a valid timestamp under normal conditions.";
 }
@@ -222,7 +222,7 @@ TEST_F (LumexTimeTest, GetTimestamp_ExceptionFallback_Dirty)
 
 TEST_F (LumexTimeTest, Timestamp_DefaultFormat_Clean)
 {
-  std::string stamp = LumexTime::timestamp ();
+  std::string stamp = lumex_time::timestamp ();
   // Default format "%Y%m%d-%H%M%S" -> "YYYYMMDD-HHMMSS", exactly 15
   // characters.
   ASSERT_EQ (stamp.size (), 15u);
@@ -233,7 +233,7 @@ TEST_F (LumexTimeTest, Timestamp_DefaultFormat_Clean)
 
 TEST_F (LumexTimeTest, Timestamp_CustomFormat_Clean)
 {
-  std::string stamp = LumexTime::timestamp (std::time (nullptr), "%Y-%m-%d");
+  std::string stamp = lumex_time::timestamp (std::time (nullptr), "%Y-%m-%d");
   ASSERT_EQ (stamp.size (), 10u);
   EXPECT_EQ (stamp[4], '-');
   EXPECT_EQ (stamp[7], '-');
@@ -244,7 +244,7 @@ TEST_F (LumexTimeTest, Timestamp_EmptyFormat_WhenUnfound_ThenNotDefaultLayout)
   // Found path: default "%Y%m%d-%H%M%S" is 15 characters. An empty format
   // is the unfound-format branch: put_time writes nothing when localtime
   // succeeds, or the raw epoch digits when the tm snapshot cannot be taken.
-  std::string const stamp = LumexTime::timestamp (std::time (nullptr), "");
+  std::string const stamp = lumex_time::timestamp (std::time (nullptr), "");
   EXPECT_NE (stamp.size (), 15u);
   if (!stamp.empty ())
     {
@@ -257,8 +257,8 @@ TEST_F (LumexTimeTest,
         Timestamp_UnknownConversion_WhenUnfound_ThenDiffersFromKnownFormat)
 {
   std::time_t const now = std::time (nullptr);
-  std::string const found = LumexTime::timestamp (now, "%Y%m%d-%H%M%S");
-  std::string const unfound = LumexTime::timestamp (now, "%Q");
+  std::string const found = lumex_time::timestamp (now, "%Y%m%d-%H%M%S");
+  std::string const unfound = lumex_time::timestamp (now, "%Q");
   ASSERT_EQ (found.size (), 15u);
   EXPECT_NE (unfound, found);
 }
@@ -269,7 +269,7 @@ TEST_F (LumexTimeTest, Timestamp_FixedEpoch_ProducesNonEmptyResult)
   // fallback chain (localtime -> gmtime -> raw epoch seconds) must produce a
   // non-empty string either way.
   std::string stamp
-      = LumexTime::timestamp (static_cast<std::time_t> (0), "%Y");
+      = lumex_time::timestamp (static_cast<std::time_t> (0), "%Y");
   EXPECT_FALSE (stamp.empty ());
 }
 
@@ -281,7 +281,7 @@ TEST_F (LumexTimeTest, Timestamp_ThreadSafety_Dirty)
   for (int i = 0; i < 50; ++i)
     {
       threads.emplace_back ([&results, i] ()
-                              { results[i] = LumexTime::timestamp (); });
+                              { results[i] = lumex_time::timestamp (); });
     }
   for (auto &th : threads)
     if (th.joinable ())
@@ -295,7 +295,7 @@ TEST_F (LumexTimeTest, Timestamp_ThreadSafety_Dirty)
 
 TEST_F (LumexTimeTest, TimestampMs_DefaultFormat_Clean)
 {
-  std::string stamp = LumexTime::timestamp_ms ();
+  std::string stamp = lumex_time::timestamp_ms ();
   // Default format "%Y-%m-%d %H:%M:%S" (19 chars) + "." + 3-digit ms suffix =
   // 23 chars.
   ASSERT_EQ (stamp.size (), 23u);
@@ -305,7 +305,7 @@ TEST_F (LumexTimeTest, TimestampMs_DefaultFormat_Clean)
 
 TEST_F (LumexTimeTest, TimestampMs_CustomFormat_Clean)
 {
-  std::string stamp = LumexTime::timestamp_ms (
+  std::string stamp = lumex_time::timestamp_ms (
       std::chrono::system_clock::now (), "%H:%M:%S");
   // "HH:MM:SS" (8 chars) + "." + 3-digit ms suffix = 12 chars.
   ASSERT_EQ (stamp.size (), 12u);
@@ -320,7 +320,7 @@ TEST_F (LumexTimeTest,
   // platform/timezone.
   auto tp = std::chrono::system_clock::time_point (
       std::chrono::milliseconds (500));
-  std::string stamp = LumexTime::timestamp_ms (tp, "%Y");
+  std::string stamp = lumex_time::timestamp_ms (tp, "%Y");
   // The calendar year portion is timezone-dependent (could read 1969 or 1970
   // depending on the machine's local offset around the epoch), but
   // time_since_epoch() itself is not: the ".500" millisecond suffix must
@@ -330,7 +330,7 @@ TEST_F (LumexTimeTest,
       << "full stamp: " << stamp;
 }
 
-// --- LumexTimer Tests ------------------------------------------------------
+// --- lumex_timer Tests ------------------------------------------------------
 
 class LumexTimerTest : public ::testing::Test
 {
@@ -338,13 +338,13 @@ class LumexTimerTest : public ::testing::Test
 
 TEST_F (LumexTimerTest, DefaultConstructed_ElapsedIsZero)
 {
-  LumexTimer timer;
+  lumex_timer timer;
   EXPECT_EQ (timer.elapsed_time_ms (), 0);
 }
 
 TEST_F (LumexTimerTest, StartThenStop_MeasuresNonNegativeElapsed)
 {
-  LumexTimer timer;
+  lumex_timer timer;
   timer.start_timer ();
   std::this_thread::sleep_for (std::chrono::milliseconds (20));
   timer.stop_timer ();
@@ -355,7 +355,7 @@ TEST_F (LumexTimerTest, StartThenStop_MeasuresNonNegativeElapsed)
 
 TEST_F (LumexTimerTest, RestartingTimer_UpdatesStartPoint)
 {
-  LumexTimer timer;
+  lumex_timer timer;
   timer.start_timer ();
   std::this_thread::sleep_for (std::chrono::milliseconds (5));
   timer.stop_timer ();
@@ -471,9 +471,9 @@ TEST (MeasureTimeTest, GivenGateOff_ThenAlwaysReportsToStream)
 
 TEST (MeasureTimeTest, GivenGateOnAndEnvUnset_ThenRunsWithoutReport)
 {
-  using lumex::core::environment::env::LumexEnvironment;
+  using lumex::core::environment::env::lumex_environment;
   char const *const env_name = "LUMEX_TEST_MEASURE_TIME_GATE_UNSET";
-  ASSERT_TRUE (LumexEnvironment::set (env_name, nullptr));
+  ASSERT_TRUE (lumex_environment::set (env_name, nullptr));
 
   std::ostringstream oss;
   int calls = 0;
@@ -487,16 +487,16 @@ TEST (MeasureTimeTest, GivenGateOnAndEnvUnset_ThenRunsWithoutReport)
 
 TEST (MeasureTimeTest, GivenGateOnAndEnvSet_ThenReportsToStream)
 {
-  using lumex::core::environment::env::LumexEnvironment;
+  using lumex::core::environment::env::lumex_environment;
   char const *const env_name = "LUMEX_TEST_MEASURE_TIME_GATE_SET";
-  ASSERT_TRUE (LumexEnvironment::set (env_name, "1"));
+  ASSERT_TRUE (lumex_environment::set (env_name, "1"));
 
   std::ostringstream oss;
   int calls = 0;
   bool const reported = measure_time ([&calls] () { ++calls; }, "gated", oss,
                                       /*need_to_gate_via_env=*/true, env_name);
 
-  ASSERT_TRUE (LumexEnvironment::set (env_name, nullptr));
+  ASSERT_TRUE (lumex_environment::set (env_name, nullptr));
 
   EXPECT_TRUE (reported);
   EXPECT_EQ (calls, 1);
@@ -514,9 +514,9 @@ TEST (MeasureTimeMacroTest, GivenGateOffViaApi_WhenMacroWouldGate_ThenNoOpPath)
 {
   // Macro uses default env gate; verify the 2-arg form compiles and runs the
   // expression when the default env is unset (no report required here).
-  using lumex::core::environment::env::LumexEnvironment;
+  using lumex::core::environment::env::lumex_environment;
   ASSERT_TRUE (
-      LumexEnvironment::set (default_measure_time_env_name (), nullptr));
+      lumex_environment::set (default_measure_time_env_name (), nullptr));
 
   int calls = 0;
   LUMEX_MEASURE_TIME (++calls);

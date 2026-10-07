@@ -40,7 +40,7 @@ using namespace lumex::core::base64::validate;
 using namespace lumex::core::base64::codec::Types;
 
 // ==========================================================================
-// Encoder
+// encoder
 // ==========================================================================
 
 TEST_F (Base64EncoderTest,
@@ -48,7 +48,7 @@ TEST_F (Base64EncoderTest,
 {
   std::string text = "Test string";
   std::string_view view (text);
-  std::string result = Encoder::encode (view);
+  std::string result = encoder::encode (view);
   EXPECT_EQ (result, "VGVzdCBzdHJpbmc=");
 }
 
@@ -57,25 +57,25 @@ TEST_F (Base64EncoderTest,
 {
   // The view is sized: its NUL is a byte, not the end of the input.
   std::string_view const view ("a\0b", 3);
-  EXPECT_EQ (Encoder::encode (view), "YQBi");
+  EXPECT_EQ (encoder::encode (view), "YQBi");
 }
 
 TEST_F (Base64EncoderTest,
         GivenStringViewSubRange_WhenEncode_ThenOnlyTheViewIsEncoded)
 {
   std::string const longer = "xxHiyy";
-  EXPECT_EQ (Encoder::encode (std::string_view (longer).substr (2, 2)),
+  EXPECT_EQ (encoder::encode (std::string_view (longer).substr (2, 2)),
              "SGk=");
 }
 
 TEST_F (Base64EncoderTest,
         GivenDefaultConstructedStringView_WhenEncode_ThenReturnsEmptyString)
 {
-  EXPECT_TRUE (Encoder::encode (std::string_view ()).empty ());
+  EXPECT_TRUE (encoder::encode (std::string_view ()).empty ());
 }
 
 // ==========================================================================
-// Decoder
+// decoder
 // ==========================================================================
 
 TEST_F (Base64DecoderTest,
@@ -86,9 +86,9 @@ TEST_F (Base64DecoderTest,
   std::string_view const empty_view;
   ASSERT_EQ (empty_view.data (), nullptr);
   std::vector<byte_type> out (3, 0x7F);
-  EXPECT_TRUE (Decoder::decode (empty_view, out));
+  EXPECT_TRUE (decoder::decode (empty_view, out));
   EXPECT_TRUE (out.empty ());
-  EXPECT_TRUE (Decoder::decode (empty_view).empty ());
+  EXPECT_TRUE (decoder::decode (empty_view).empty ());
 }
 
 TEST_F (Base64DecoderTest,
@@ -96,15 +96,15 @@ TEST_F (Base64DecoderTest,
 {
   std::string const longer = "xxSGk=yy";
   std::string_view const view = std::string_view (longer).substr (2, 4);
-  std::vector<byte_type> const bytes = Decoder::decode (view);
+  std::vector<byte_type> const bytes = decoder::decode (view);
   EXPECT_EQ (std::string (bytes.begin (), bytes.end ()), "Hi");
   // Without the padding the view is still valid unpadded Base64.
-  std::vector<byte_type> const unpadded = Decoder::decode (view.substr (0, 3));
+  std::vector<byte_type> const unpadded = decoder::decode (view.substr (0, 3));
   EXPECT_EQ (std::string (unpadded.begin (), unpadded.end ()), "Hi");
 }
 
 // ==========================================================================
-// Validator
+// validator
 // ==========================================================================
 
 TEST_F (Base64ValidatorTest,
@@ -114,7 +114,7 @@ TEST_F (Base64ValidatorTest,
   // unlike the pointer and size core called with nullptr.
   std::string_view const empty_view;
   ASSERT_EQ (empty_view.data (), nullptr);
-  EXPECT_TRUE (Validator::is_valid_base64 (empty_view));
+  EXPECT_TRUE (validator::is_valid_base64 (empty_view));
 }
 
 TEST_F (Base64ValidatorTest, GivenStringView_WhenValidate_ThenWorksCorrectly)
@@ -123,13 +123,13 @@ TEST_F (Base64ValidatorTest, GivenStringView_WhenValidate_ThenWorksCorrectly)
   std::string base_string = "VGVzdERhdGE=";
   std::string_view view (base_string);
 
-  bool result = Validator::is_valid_base64 (view);
+  bool result = validator::is_valid_base64 (view);
   EXPECT_TRUE (result);
 
   // Test substring view
   std::string longer = "PrefixVGVzdERhdGE=Suffix";
   std::string_view sub_view (longer.data () + 6, 12); // Extract "VGVzdERhdGE="
 
-  bool result2 = Validator::is_valid_base64 (sub_view);
+  bool result2 = validator::is_valid_base64 (sub_view);
   EXPECT_TRUE (result2);
 }

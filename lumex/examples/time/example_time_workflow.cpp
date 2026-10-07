@@ -10,8 +10,8 @@ main ()
 {
   std::cout << "=== Workflow: stamp a run start and time a dummy loop ===\n\n";
 
-  std::cout << "run_id=" << LumexTime::get_timestamp_ms () << '\n';
-  std::cout << "started=" << LumexTime::get_current_datetime () << '\n';
+  std::cout << "run_id=" << lumex_time::get_timestamp_ms () << '\n';
+  std::cout << "started=" << lumex_time::get_current_datetime () << '\n';
   long long const ms = measure_execution_time (
       [] ()
         {

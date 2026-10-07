@@ -30,12 +30,12 @@
  * other consumer policy) exposes a hook instead: the consumer installs a
  * plain function pointer, the library calls it, and falls back to its own
  * default when nothing is installed or the installed function throws.
- * `LumexCallbackSlot` is that hook, written once:
+ * `lumex_callback_slot` is that hook, written once:
  *
  * @code
  * struct my_reporter_tag_t;
  * using MyReporterSlot
- *     = lumex::core::utility::callback::LumexCallbackSlot<
+ *     = lumex::core::utility::callback::lumex_callback_slot<
  *         my_reporter_tag_t, void (char const *)>;
  *
  * MyReporterSlot::set (&write_to_my_log);
@@ -76,16 +76,16 @@ namespace callback
  * @tparam Tag Any type, used only to tell slots apart.
  * @tparam Signature A function type such as `void (char const *)`.
  */
-template <typename Tag, typename Signature> class LumexCallbackSlot;
+template <typename Tag, typename Signature> class lumex_callback_slot;
 
 template <typename Tag, typename Result, typename... Args>
-class LumexCallbackSlot<Tag, Result (Args...)>
+class lumex_callback_slot<Tag, Result (Args...)>
 {
 public:
   /** @brief The stored pointer type. */
   using function_type = Result (*) (Args...);
 
-  LumexCallbackSlot () = delete;
+  lumex_callback_slot () = delete;
 
   /** @brief Installs `function`; `nullptr` clears the slot. */
   static void
@@ -157,22 +157,22 @@ public:
   }
 
   /**
-   * @class Scoped
+   * @class scoped
    * @brief Installs a function for the lifetime of the object and restores
    *        the previous one on destruction.
    */
-  class Scoped
+  class scoped
   {
   public:
-    explicit Scoped (function_type function) LUMEX_NOEXCEPT
+    explicit scoped (function_type function) LUMEX_NOEXCEPT
         : _previous (exchange (function))
     {
     }
 
-    ~Scoped () { set (_previous); }
+    ~scoped () { set (_previous); }
 
-    Scoped (Scoped const &) = delete;
-    Scoped &operator= (Scoped const &) = delete;
+    scoped (scoped const &) = delete;
+    scoped &operator= (scoped const &) = delete;
 
   private:
     function_type _previous;
@@ -184,7 +184,7 @@ private:
 
 template <typename Tag, typename Result, typename... Args>
 std::atomic<Result (*) (Args...)>
-    LumexCallbackSlot<Tag, Result (Args...)>::m_slot{ nullptr };
+    lumex_callback_slot<Tag, Result (Args...)>::m_slot{ nullptr };
 } // namespace callback
 } // namespace utility
 } // namespace core

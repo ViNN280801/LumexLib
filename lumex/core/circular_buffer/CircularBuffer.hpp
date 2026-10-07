@@ -24,7 +24,7 @@
 
 /**
  * @file CircularBuffer.hpp
- * @brief `CircularBuffer`, a fixed-capacity ring buffer that overwrites its
+ * @brief `circular_buffer`, a fixed-capacity ring buffer that overwrites its
  * oldest element when full, modeled on Boost's `circular_buffer`.
  * @details Header-only (`lumex::circular_buffer` is an interface target) and
  * written for C++11: the class template, its random-access iterators and the
@@ -165,7 +165,7 @@ namespace circular_buffer
  * <tt>std::allocator_traits\<Allocator\>\::propagate_on_container_swap\::value</tt>
  * is `true`. Otherwise they are assumed equivalent; elements do not move.
  */
-template <class T, class Allocator = std::allocator<T>> class CircularBuffer
+template <class T, class Allocator = std::allocator<T>> class circular_buffer
 {
   using alloc_traits = std::allocator_traits<Allocator>;
 
@@ -216,7 +216,7 @@ public:
   /**
    * @brief Random-access iterator over the logical element sequence.
    *
-   * This iterator walks CircularBuffer elements
+   * This iterator walks circular_buffer elements
    * with random access. It behaves like ordinary pointers or iterators
    * of standard containers such as `std::vector`.
    */
@@ -445,21 +445,24 @@ public:
     }
 
   private:
-    friend class CircularBuffer;
+    friend class circular_buffer;
 
     /// @brief Private constructor.
-    /// @param buf Pointer to the CircularBuffer that owns the iterator.
+    /// @param buf Pointer to the circular_buffer that owns the iterator.
     /// @param idx Logical element index.
-    iterator (CircularBuffer *buf, size_type idx) : m_buf (buf), m_idx (idx) {}
+    iterator (circular_buffer *buf, size_type idx) : m_buf (buf), m_idx (idx)
+    {
+    }
 
-    CircularBuffer *m_buf{}; ///< Pointer to the buffer owned by this iterator.
-    size_type m_idx{};       ///< Logical element index in the buffer.
+    circular_buffer
+        *m_buf{};      ///< Pointer to the buffer owned by this iterator.
+    size_type m_idx{}; ///< Logical element index in the buffer.
   };
 
   /**
    * @brief Const random-access iterator.
    *
-   * This iterator walks CircularBuffer elements
+   * This iterator walks circular_buffer elements
    * with random access, but it cannot modify elements.
    * It behaves like `const` pointers or iterators of standard containers.
    */
@@ -697,17 +700,17 @@ public:
     }
 
   private:
-    friend class CircularBuffer;
+    friend class circular_buffer;
 
     /// @brief Private constructor.
-    /// @param buf Pointer to the const CircularBuffer that owns the iterator.
+    /// @param buf Pointer to the const circular_buffer that owns the iterator.
     /// @param idx Logical element index.
-    const_iterator (CircularBuffer const *buf, size_type idx)
+    const_iterator (circular_buffer const *buf, size_type idx)
         : m_buf (buf), m_idx (idx)
     {
     }
 
-    CircularBuffer const
+    circular_buffer const
         *m_buf;      ///< Pointer to the const buffer owned by this iterator.
     size_type m_idx; ///< Logical element index in the buffer.
   };
@@ -729,8 +732,8 @@ public:
    * buffer is not allowed.
    * @note The buffer starts empty; elements are added later.
    */
-  explicit CircularBuffer (size_type capacity,
-                           allocator_type const &alloc = allocator_type ())
+  explicit circular_buffer (size_type capacity,
+                            allocator_type const &alloc = allocator_type ())
       : m_allocator (alloc), m_slots_alloc (m_allocator), m_capacity (capacity)
   {
     if (m_capacity == 0)
@@ -749,7 +752,7 @@ public:
    * @param other Buffer copied from.
    * @throws Exceptions thrown by `T` copy constructors or the allocator.
    */
-  CircularBuffer (CircularBuffer const &other)
+  circular_buffer (circular_buffer const &other)
       : m_allocator (alloc_traits::select_on_container_copy_construction (
             other.m_allocator)),
         m_slots_alloc (m_allocator), // Initialize from the new m_allocator
@@ -769,15 +772,15 @@ public:
    *
    * @param other Buffer assigned from.
    * @return Reference to this buffer.
-   * @throws Exceptions thrown by the `CircularBuffer` copy constructor or the
+   * @throws Exceptions thrown by the `circular_buffer` copy constructor or the
    * allocator.
    */
-  CircularBuffer &
-  operator= (CircularBuffer const &other)
+  circular_buffer &
+  operator= (circular_buffer const &other)
   {
     if (this == &other)
       return *this;
-    CircularBuffer tmp (other);
+    circular_buffer tmp (other);
     swap (tmp);
     return *this;
   }
@@ -791,7 +794,7 @@ public:
    * @param other Buffer whose resources are moved.
    * @note This constructor is `noexcept` so move is well-behaved.
    */
-  CircularBuffer (CircularBuffer &&other) LUMEX_NOEXCEPT
+  circular_buffer (circular_buffer &&other) LUMEX_NOEXCEPT
       : m_allocator (std::move (other.m_allocator)),
         m_slots_alloc (std::move (other.m_slots_alloc)),
         m_slots (other.m_slots),
@@ -816,8 +819,8 @@ public:
    * @return Reference to this buffer.
    * @note This operator is `noexcept` so move is well-behaved.
    */
-  CircularBuffer &
-  operator= (CircularBuffer &&other) LUMEX_NOEXCEPT
+  circular_buffer &
+  operator= (circular_buffer &&other) LUMEX_NOEXCEPT
   {
     if (this == &other)
       return *this;
@@ -841,7 +844,7 @@ public:
    *
    * Destroys every element and releases allocated memory.
    */
-  ~CircularBuffer ()
+  ~circular_buffer ()
   {
     clear ();
     deallocate_storage ();
@@ -1351,7 +1354,7 @@ public:
    * @note This function is `noexcept` under allocator-dependent conditions.
    */
   void
-  swap (CircularBuffer &other) LUMEX_NOEXCEPT_IF (is_swap_noexcept)
+  swap (circular_buffer &other) LUMEX_NOEXCEPT_IF (is_swap_noexcept)
   {
     if (std::allocator_traits<Allocator>::propagate_on_container_swap::value)
       {
@@ -1381,7 +1384,7 @@ public:
   /**
    * @brief Non-member `swap` that exchanges two buffers.
    *
-   * Free `swap` overload for `CircularBuffer` that
+   * Free `swap` overload for `circular_buffer` that
    * exchanges two buffers efficiently.
    *
    * @param other_1 First buffer.
@@ -1389,7 +1392,7 @@ public:
    * @note This function is `noexcept` under allocator-dependent conditions.
    */
   friend void
-  swap (CircularBuffer &other_1, CircularBuffer &other_2)
+  swap (circular_buffer &other_1, circular_buffer &other_2)
       LUMEX_NOEXCEPT_IF (is_swap_noexcept)
   {
     other_1.swap (other_2);
@@ -1701,22 +1704,22 @@ private:
 // ============= non-member comparison operators =============
 
 /**
- * @brief Equality comparison of two `CircularBuffer` objects.
+ * @brief Equality comparison of two `circular_buffer` objects.
  *
- * Compares two `CircularBuffer` objects element-wise. They are equal
+ * Compares two `circular_buffer` objects element-wise. They are equal
  * if they have the same size and every logical element compares equal.
  *
  * @tparam T Element type in the buffer.
  * @tparam Alloc Buffer allocator type.
- * @param lhs First `CircularBuffer`.
- * @param rhs Second `CircularBuffer`.
+ * @param lhs First `circular_buffer`.
+ * @param rhs Second `circular_buffer`.
  * @return `true` if the buffers are equal, otherwise `false`.
  * @note Uses `std::equal` for element-wise comparison.
  */
 template <class T, class Alloc>
 inline bool
-operator== (CircularBuffer<T, Alloc> const &lhs,
-            CircularBuffer<T, Alloc> const &rhs)
+operator== (circular_buffer<T, Alloc> const &lhs,
+            circular_buffer<T, Alloc> const &rhs)
 {
   if (lhs.size () != rhs.size ())
     return false;
@@ -1724,116 +1727,117 @@ operator== (CircularBuffer<T, Alloc> const &lhs,
 }
 
 /**
- * @brief Inequality comparison of two `CircularBuffer` objects.
+ * @brief Inequality comparison of two `circular_buffer` objects.
  *
- * Compares two `CircularBuffer` objects for inequality. They are unequal
+ * Compares two `circular_buffer` objects for inequality. They are unequal
  * if sizes differ or any logical element differs.
  *
  * @tparam T Element type in the buffer.
  * @tparam Alloc Buffer allocator type.
- * @param lhs First `CircularBuffer`.
- * @param rhs Second `CircularBuffer`.
+ * @param lhs First `circular_buffer`.
+ * @param rhs Second `circular_buffer`.
  * @return `true` if the buffers are unequal, otherwise `false`.
  */
 template <class T, class Alloc>
 inline bool
-operator!= (CircularBuffer<T, Alloc> const &lhs,
-            CircularBuffer<T, Alloc> const &rhs)
+operator!= (circular_buffer<T, Alloc> const &lhs,
+            circular_buffer<T, Alloc> const &rhs)
 {
   return !(lhs == rhs);
 }
 
 /**
- * @brief "less" operator for two `CircularBuffer` objects.
+ * @brief "less" operator for two `circular_buffer` objects.
  *
- * Lexicographical comparison of two `CircularBuffer` objects.
+ * Lexicographical comparison of two `circular_buffer` objects.
  *
  * @tparam T Element type in the buffer.
  * @tparam Alloc Buffer allocator type.
- * @param lhs First `CircularBuffer`.
- * @param rhs Second `CircularBuffer`.
+ * @param lhs First `circular_buffer`.
+ * @param rhs Second `circular_buffer`.
  * @return `true` if `lhs` is lexicographically less than `rhs`, otherwise
  * `false`.
  * @note Uses `std::lexicographical_compare`.
  */
 template <class T, class Alloc>
 inline bool
-operator< (CircularBuffer<T, Alloc> const &lhs,
-           CircularBuffer<T, Alloc> const &rhs)
+operator< (circular_buffer<T, Alloc> const &lhs,
+           circular_buffer<T, Alloc> const &rhs)
 {
   return std::lexicographical_compare (lhs.begin (), lhs.end (), rhs.begin (),
                                        rhs.end ());
 }
 
 /**
- * @brief "less or equal" operator for two `CircularBuffer` objects.
+ * @brief "less or equal" operator for two `circular_buffer` objects.
  *
- * Lexicographical comparison of two `CircularBuffer` objects.
+ * Lexicographical comparison of two `circular_buffer` objects.
  *
  * @tparam T Element type in the buffer.
  * @tparam Alloc Buffer allocator type.
- * @param lhs First `CircularBuffer`.
- * @param rhs Second `CircularBuffer`.
+ * @param lhs First `circular_buffer`.
+ * @param rhs Second `circular_buffer`.
  * @return `true` if `lhs` is lexicographically less or equal to `rhs`,
  * otherwise `false`.
  */
 template <class T, class Alloc>
 inline bool
-operator<= (CircularBuffer<T, Alloc> const &lhs,
-            CircularBuffer<T, Alloc> const &rhs)
+operator<= (circular_buffer<T, Alloc> const &lhs,
+            circular_buffer<T, Alloc> const &rhs)
 {
   return !(rhs < lhs);
 }
 
 /**
- * @brief "greater" operator for two `CircularBuffer` objects.
+ * @brief "greater" operator for two `circular_buffer` objects.
  *
- * Lexicographical comparison of two `CircularBuffer` objects.
+ * Lexicographical comparison of two `circular_buffer` objects.
  *
  * @tparam T Element type in the buffer.
  * @tparam Alloc Buffer allocator type.
- * @param lhs First `CircularBuffer`.
- * @param rhs Second `CircularBuffer`.
+ * @param lhs First `circular_buffer`.
+ * @param rhs Second `circular_buffer`.
  * @return `true` if `lhs` is lexicographically greater than `rhs`, otherwise
  * `false`.
  */
 template <class T, class Alloc>
 inline bool
-operator> (CircularBuffer<T, Alloc> const &lhs,
-           CircularBuffer<T, Alloc> const &rhs)
+operator> (circular_buffer<T, Alloc> const &lhs,
+           circular_buffer<T, Alloc> const &rhs)
 {
   return rhs < lhs;
 }
 
 /**
- * @brief "greater or equal" operator for two `CircularBuffer` objects.
+ * @brief "greater or equal" operator for two `circular_buffer` objects.
  *
- * Lexicographical comparison of two `CircularBuffer` objects.
+ * Lexicographical comparison of two `circular_buffer` objects.
  *
  * @tparam T Element type in the buffer.
  * @tparam Alloc Buffer allocator type.
- * @param lhs First `CircularBuffer`.
- * @param rhs Second `CircularBuffer`.
+ * @param lhs First `circular_buffer`.
+ * @param rhs Second `circular_buffer`.
  * @return `true` if `lhs` is lexicographically greater or equal to `rhs`,
  * otherwise `false`.
  */
 template <class T, class Alloc>
 inline bool
-operator>= (CircularBuffer<T, Alloc> const &lhs,
-            CircularBuffer<T, Alloc> const &rhs)
+operator>= (circular_buffer<T, Alloc> const &lhs,
+            circular_buffer<T, Alloc> const &rhs)
 {
   return !(lhs < rhs);
 }
 
 #if LUMEX_HAS_THREE_WAY_COMPARISON && LUMEX_HAS_STD_CONCEPTS
 /**
- * @brief Three-way comparison (`<=>`) of two `CircularBuffer` objects (C++20).
+ * @brief Three-way comparison (`<=>`) of two `circular_buffer` objects
+ * (C++20).
  *
  * Lexicographical comparison using `std::strong_ordering`.
  *
  * @tparam Alloc Buffer allocator type.
- * @param lhs First `CircularBuffer`.
- * @param rhs Second `CircularBuffer`.
+ * @param lhs First `circular_buffer`.
+ * @param rhs Second `circular_buffer`.
  * @return Comparison result `std::strong_ordering::less`,
  * `std::strong_ordering::equal`, or `std::strong_ordering::greater`.
  * @note This operator is available only in C++20 and later.
@@ -1841,8 +1845,8 @@ operator>= (CircularBuffer<T, Alloc> const &lhs,
 template <class T, class Alloc>
   requires std::three_way_comparable<T>
 inline std::strong_ordering
-operator<=> (CircularBuffer<T, Alloc> const &lhs,
-             CircularBuffer<T, Alloc> const &rhs)
+operator<=> (circular_buffer<T, Alloc> const &lhs,
+             circular_buffer<T, Alloc> const &rhs)
 {
   // Implementation based on pairwise lexicographical element comparison
   auto it1 = lhs.begin ();

@@ -36,7 +36,7 @@ using namespace lumex::core::reflection;
 
 namespace
 {
-// LUMEX_DEFINE_REFLECTED_ENUM: default toString() from the enumerator
+// LUMEX_DEFINE_REFLECTED_ENUM: default to_string() from the enumerator
 // identifiers.
 LUMEX_DEFINE_REFLECTED_ENUM (Color, std::uint8_t, (Red), (Green, 5), (Blue))
 
@@ -97,9 +97,9 @@ TEST (LumexReflectedEnumTest,
 TEST (LumexReflectedEnumTest,
       GivenDefaultReflectedEnum_WhenToString_ThenReturnsEnumeratorIdentifier)
 {
-  EXPECT_STREQ (toString (Color::Red), "Red");
-  EXPECT_STREQ (toString (Color::Green), "Green");
-  EXPECT_STREQ (toString (Color::Blue), "Blue");
+  EXPECT_STREQ (to_string (Color::Red), "Red");
+  EXPECT_STREQ (to_string (Color::Green), "Green");
+  EXPECT_STREQ (to_string (Color::Blue), "Blue");
 }
 
 TEST (
@@ -107,17 +107,17 @@ TEST (
     GivenDefaultReflectedEnum_WhenToStringOnUnknownValue_ThenReturnsUnknownPlaceholder)
 {
   auto const unknown = static_cast<Color> (123);
-  EXPECT_STREQ (toString (unknown), "<Unknown>");
+  EXPECT_STREQ (to_string (unknown), "<Unknown>");
 }
 
 TEST (LumexReflectedEnumTest, ToString_WhenFound_ThenEnumeratorName)
 {
-  EXPECT_STREQ (toString (Color::Red), "Red");
+  EXPECT_STREQ (to_string (Color::Red), "Red");
 }
 
 TEST (LumexReflectedEnumTest, ToString_WhenUnfound_ThenUnknownPlaceholder)
 {
-  EXPECT_STREQ (toString (static_cast<Color> (123)), "<Unknown>");
+  EXPECT_STREQ (to_string (static_cast<Color> (123)), "<Unknown>");
 }
 
 TEST (
@@ -136,9 +136,9 @@ TEST (
 TEST (LumexReflectedEnumTest,
       GivenToStringVariant_WhenToString_ThenReturnsCustomString)
 {
-  EXPECT_STREQ (toString (Shape::Circle), "circle");
-  EXPECT_STREQ (toString (Shape::Square), "square");
-  EXPECT_STREQ (toString (Shape::Triangle), "triangle");
+  EXPECT_STREQ (to_string (Shape::Circle), "circle");
+  EXPECT_STREQ (to_string (Shape::Square), "square");
+  EXPECT_STREQ (to_string (Shape::Triangle), "triangle");
 }
 
 TEST (
@@ -156,7 +156,7 @@ TEST (
 {
   EXPECT_EQ (static_cast<int> (Wrapper::Nested::A), 0);
   EXPECT_EQ (static_cast<int> (Wrapper::Nested::B), 1);
-  EXPECT_STREQ (Wrapper::toString (Wrapper::Nested::B), "B");
+  EXPECT_STREQ (Wrapper::to_string (Wrapper::Nested::B), "B");
   EXPECT_EQ (Wrapper::NestedSize, 2u);
 }
 
@@ -195,22 +195,22 @@ TEST (LumexReflectedEnumTest,
       GivenToStringResult_WhenCalled_ThenNeverReturnsNull)
 {
   // The public contract explicitly promises a never-null pointer.
-  ASSERT_NE (toString (Color::Red), nullptr);
-  ASSERT_NE (toString (static_cast<Color> (200)), nullptr);
+  ASSERT_NE (to_string (Color::Red), nullptr);
+  ASSERT_NE (to_string (static_cast<Color> (200)), nullptr);
 }
 
 TEST (LumexReflectedEnumTest,
       GivenCustomEmptyDisplayString_WhenToString_ThenReturnsEmptyNotUnknown)
 {
-  EXPECT_STREQ (toString (Status::Empty), "");
-  EXPECT_STRNE (toString (Status::Empty), "<Unknown>");
+  EXPECT_STREQ (to_string (Status::Empty), "");
+  EXPECT_STRNE (to_string (Status::Empty), "<Unknown>");
 }
 
 TEST (
     LumexReflectedEnumTest,
     GivenEnumeratorOmittedFromXMacro_WhenToString_ThenReturnsUnknownPlaceholder)
 {
-  EXPECT_STREQ (toString (Status::Hidden), "<Unknown>");
+  EXPECT_STREQ (to_string (Status::Hidden), "<Unknown>");
 }
 
 TEST (LumexReflectedEnumTest,
@@ -219,5 +219,5 @@ TEST (LumexReflectedEnumTest,
   EXPECT_EQ (SingleSize, 1u);
   EXPECT_EQ (SingleFirst, Single::Only);
   EXPECT_EQ (SingleLast, Single::Only);
-  EXPECT_STREQ (toString (Single::Only), "Only");
+  EXPECT_STREQ (to_string (Single::Only), "Only");
 }

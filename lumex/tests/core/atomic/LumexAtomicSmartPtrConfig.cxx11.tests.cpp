@@ -118,12 +118,12 @@ TEST (LumexAtomicSmartPtrConfigTest,
 {
   namespace sync = lumex::core::atomic::sync;
 #if LUMEX_ATOMIC_WAIT_USES_STD
-  static_assert (std::is_same<sync::Detail::BitLock,
-                              sync::std_wait::Detail::BitLock>::value,
+  static_assert (std::is_same<sync::Detail::bit_lock,
+                              sync::std_wait::Detail::bit_lock>::value,
                  "std::atomic::wait");
 #else
-  static_assert (std::is_same<sync::Detail::BitLock,
-                              sync::table_wait::Detail::BitLock>::value,
+  static_assert (std::is_same<sync::Detail::bit_lock,
+                              sync::table_wait::Detail::bit_lock>::value,
                  "striped table");
 #endif
   SUCCEED ();

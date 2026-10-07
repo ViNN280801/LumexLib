@@ -279,45 +279,45 @@ struct ThrowingConstructorType
   }
 };
 
-// === CircularBuffer tests with int =================================
+// === circular_buffer tests with int =================================
 
 /**
- * @brief Tests for CircularBuffer<int>
+ * @brief Tests for circular_buffer<int>
  */
 class CircularBufferIntTest : public ::testing::Test
 {
 protected:
-  using BufferType = CircularBuffer<int>;
+  using BufferType = circular_buffer<int>;
 
   int val1 = 1;
   int val2 = 2;
   int val3 = 3;
 };
 
-// === CircularBuffer tests with std::string =========================
+// === circular_buffer tests with std::string =========================
 
 /**
- * @brief Tests for CircularBuffer<std::string>
+ * @brief Tests for circular_buffer<std::string>
  */
 class CircularBufferStringTest : public ::testing::Test
 {
 protected:
-  using BufferType = CircularBuffer<std::string>;
+  using BufferType = circular_buffer<std::string>;
 
   std::string val1 = "First";
   std::string val2 = "Second";
   std::string val3 = "Third";
 };
 
-// === CircularBuffer tests with SimpleType =========================
+// === circular_buffer tests with SimpleType =========================
 
 /**
- * @brief Tests for CircularBuffer<SimpleType>
+ * @brief Tests for circular_buffer<SimpleType>
  */
 class CircularBufferSimpleTypeTest : public ::testing::Test
 {
 protected:
-  using BufferType = CircularBuffer<SimpleType>;
+  using BufferType = circular_buffer<SimpleType>;
 
   SimpleType val1 = SimpleType (1);
   SimpleType val2 = SimpleType (2);
@@ -336,7 +336,7 @@ protected:
 TEST_F (CircularBufferIntTest,
         Constructor_WithCapacity_CreatesEmptyBufferWithCorrectCapacity)
 {
-  using BufferType = CircularBuffer<int>;
+  using BufferType = circular_buffer<int>;
 
   // Arrange & Act
   BufferType buffer (5);
@@ -356,7 +356,7 @@ TEST_F (CircularBufferIntTest,
  */
 TEST_F (CircularBufferIntTest, Constructor_ZeroCapacity_ThrowsLengthError)
 {
-  using BufferType = CircularBuffer<int>;
+  using BufferType = circular_buffer<int>;
 
   // Act & Assert
   EXPECT_THROW (BufferType buffer (0), std::length_error);
@@ -369,7 +369,7 @@ TEST_F (CircularBufferIntTest, Constructor_ZeroCapacity_ThrowsLengthError)
  */
 TEST_F (CircularBufferIntTest, CopyConstructor_CopiesStateAndContentCorrectly)
 {
-  using BufferType = CircularBuffer<int>;
+  using BufferType = circular_buffer<int>;
 
   // Arrange
   BufferType original (3);
@@ -392,7 +392,7 @@ TEST_F (CircularBufferIntTest, CopyConstructor_CopiesStateAndContentCorrectly)
  */
 TEST_F (CircularBufferIntTest, MoveConstructor_MovesStateAndContentCorrectly)
 {
-  using BufferType = CircularBuffer<int>;
+  using BufferType = circular_buffer<int>;
 
   // Arrange
   BufferType original (3);
@@ -422,7 +422,7 @@ TEST_F (CircularBufferIntTest, MoveConstructor_MovesStateAndContentCorrectly)
  */
 TEST_F (CircularBufferIntTest, Destructor_ProperlyDestroysAllElements)
 {
-  using BufferType = CircularBuffer<int>;
+  using BufferType = circular_buffer<int>;
 
   // Arrange
   {
@@ -447,7 +447,7 @@ TEST_F (CircularBufferIntTest, Destructor_ProperlyDestroysAllElements)
  */
 TEST_F (CircularBufferIntTest, CopyAssignment_CopiesStateAndContentCorrectly)
 {
-  using BufferType = CircularBuffer<int>;
+  using BufferType = circular_buffer<int>;
 
   // Arrange
   BufferType source (3);
@@ -479,7 +479,7 @@ TEST_F (CircularBufferIntTest, CopyAssignment_CopiesStateAndContentCorrectly)
  */
 TEST_F (CircularBufferIntTest, MoveAssignment_MovesStateAndContentCorrectly)
 {
-  using BufferType = CircularBuffer<int>;
+  using BufferType = circular_buffer<int>;
 
   // Arrange
   BufferType source (3);
@@ -512,7 +512,7 @@ TEST_F (CircularBufferIntTest, MoveAssignment_MovesStateAndContentCorrectly)
  */
 TEST_F (CircularBufferIntTest, Swap_ExchangesContentsCorrectly)
 {
-  using BufferType = CircularBuffer<int>;
+  using BufferType = circular_buffer<int>;
 
   // Arrange
   BufferType buffer1 (3);
@@ -538,11 +538,11 @@ TEST_F (CircularBufferIntTest, Swap_ExchangesContentsCorrectly)
  * @details Asserts: member and ADL swap stay noexcept when
  *          `is_swap_noexcept` is computed via
  *          `LUMEX_NOEXCEPT_IF`
- * @details Method: `noexcept` operator on `CircularBuffer<int>` swap
+ * @details Method: `noexcept` operator on `circular_buffer<int>` swap
  */
 TEST_F (CircularBufferIntTest, Swap_IsNoexceptForDefaultAllocator)
 {
-  using BufferType = CircularBuffer<int>;
+  using BufferType = circular_buffer<int>;
 
   EXPECT_TRUE (noexcept (
       std::declval<BufferType &> ().swap (std::declval<BufferType &> ())));
@@ -557,7 +557,7 @@ TEST_F (CircularBufferIntTest, Swap_IsNoexceptForDefaultAllocator)
  */
 TEST_F (CircularBufferIntTest, GlobalSwap_ExchangesContentsCorrectly)
 {
-  using BufferType = CircularBuffer<int>;
+  using BufferType = circular_buffer<int>;
 
   // Arrange
   BufferType buffer1 (3);
@@ -587,7 +587,7 @@ TEST_F (CircularBufferIntTest, GlobalSwap_ExchangesContentsCorrectly)
  */
 TEST_F (CircularBufferIntTest, ThreadSafety_MultipleIndependentInstances)
 {
-  using BufferType = CircularBuffer<int>;
+  using BufferType = circular_buffer<int>;
 
   constexpr int num_threads = 10;
   std::vector<std::thread> threads;
@@ -634,7 +634,7 @@ TEST_F (CircularBufferIntTest, ThreadSafety_MultipleIndependentInstances)
 TEST_F (CircularBufferIntTest, Perf_InsertionAndAccessOperations)
 {
 #if LUMEX_PERF_WALL_CLOCK_ENABLED
-  using BufferType = CircularBuffer<int>;
+  using BufferType = circular_buffer<int>;
   using TypeParam = int;
 
   constexpr int N = 100000;
@@ -693,7 +693,7 @@ TEST_F (CircularBufferIntTest, Perf_InsertionAndAccessOperations)
  */
 TEST_F (CircularBufferIntTest, OperatorBracket_ReturnsCorrectElements)
 {
-  using BufferType = CircularBuffer<int>;
+  using BufferType = circular_buffer<int>;
 
   // Arrange
   BufferType buffer (3);
@@ -714,7 +714,7 @@ TEST_F (CircularBufferIntTest, OperatorBracket_ReturnsCorrectElements)
  */
 TEST_F (CircularBufferIntTest, At_ThrowsOutOfRangeForInvalidIndex)
 {
-  using BufferType = CircularBuffer<int>;
+  using BufferType = circular_buffer<int>;
 
   // Arrange
   BufferType buffer (3);
@@ -733,7 +733,7 @@ TEST_F (CircularBufferIntTest, At_ThrowsOutOfRangeForInvalidIndex)
  */
 TEST_F (CircularBufferIntTest, FrontAndBack_ReturnCorrectElements)
 {
-  using BufferType = CircularBuffer<int>;
+  using BufferType = circular_buffer<int>;
 
   // Arrange
   BufferType buffer (3);
@@ -752,7 +752,7 @@ TEST_F (CircularBufferIntTest, FrontAndBack_ReturnCorrectElements)
  */
 TEST_F (CircularBufferIntTest, FrontSafeAndBackSafe_ThrowOnEmptyBuffer)
 {
-  using BufferType = CircularBuffer<int>;
+  using BufferType = circular_buffer<int>;
 
   // Arrange
   BufferType buffer (3);
@@ -776,7 +776,7 @@ TEST_F (CircularBufferIntTest, FrontSafeAndBackSafe_ThrowOnEmptyBuffer)
  */
 TEST_F (CircularBufferIntTest, PushBack_AddsElementsToEnd)
 {
-  using BufferType = CircularBuffer<int>;
+  using BufferType = circular_buffer<int>;
 
   // Arrange
   BufferType buffer (3);
@@ -799,7 +799,7 @@ TEST_F (CircularBufferIntTest, PushBack_AddsElementsToEnd)
  */
 TEST_F (CircularBufferIntTest, PushBack_OverwritesOldestWhenFull)
 {
-  using BufferType = CircularBuffer<int>;
+  using BufferType = circular_buffer<int>;
 
   // Arrange
   BufferType buffer (2);
@@ -824,7 +824,7 @@ TEST_F (CircularBufferIntTest, PushBack_OverwritesOldestWhenFull)
  */
 TEST_F (CircularBufferIntTest, PushFront_AddsElementsToBeginning)
 {
-  using BufferType = CircularBuffer<int>;
+  using BufferType = circular_buffer<int>;
 
   // Arrange
   BufferType buffer (3);
@@ -846,7 +846,7 @@ TEST_F (CircularBufferIntTest, PushFront_AddsElementsToBeginning)
  */
 TEST_F (CircularBufferIntTest, PushFront_OverwritesNewestWhenFull)
 {
-  using BufferType = CircularBuffer<int>;
+  using BufferType = circular_buffer<int>;
 
   // Arrange
   BufferType buffer (2);
@@ -871,7 +871,7 @@ TEST_F (CircularBufferIntTest, PushFront_OverwritesNewestWhenFull)
  */
 TEST_F (CircularBufferIntTest, EmplaceBack_ConstructsElementsInPlace)
 {
-  using BufferType = CircularBuffer<int>;
+  using BufferType = circular_buffer<int>;
   using TypeParam = int;
 
   // Arrange
@@ -893,7 +893,7 @@ TEST_F (CircularBufferIntTest, EmplaceBack_ConstructsElementsInPlace)
 TEST_F (CircularBufferIntTest,
         EmplaceFront_ConstructsElementsInPlaceAtBeginning)
 {
-  using BufferType = CircularBuffer<int>;
+  using BufferType = circular_buffer<int>;
   using TypeParam = int;
 
   // Arrange
@@ -914,7 +914,7 @@ TEST_F (CircularBufferIntTest,
  */
 TEST_F (CircularBufferIntTest, PopFront_RemovesFirstElement)
 {
-  using BufferType = CircularBuffer<int>;
+  using BufferType = circular_buffer<int>;
 
   // Arrange
   BufferType buffer (3);
@@ -938,7 +938,7 @@ TEST_F (CircularBufferIntTest, PopFront_RemovesFirstElement)
  */
 TEST_F (CircularBufferIntTest, PopBack_RemovesLastElement)
 {
-  using BufferType = CircularBuffer<int>;
+  using BufferType = circular_buffer<int>;
 
   // Arrange
   BufferType buffer (3);
@@ -962,7 +962,7 @@ TEST_F (CircularBufferIntTest, PopBack_RemovesLastElement)
  */
 TEST_F (CircularBufferIntTest, Clear_RemovesAllElements)
 {
-  using BufferType = CircularBuffer<int>;
+  using BufferType = circular_buffer<int>;
 
   // Arrange
   BufferType buffer (3);
@@ -989,7 +989,7 @@ TEST_F (CircularBufferIntTest, Clear_RemovesAllElements)
 TEST_F (CircularBufferIntTest,
         Iterators_BeginAndEnd_TraverseElementsInLogicalOrder)
 {
-  using BufferType = CircularBuffer<int>;
+  using BufferType = circular_buffer<int>;
   using TypeParam = int;
 
   // Arrange
@@ -1016,7 +1016,7 @@ TEST_F (CircularBufferIntTest,
  */
 TEST_F (CircularBufferIntTest, RangeBasedFor_TraversesElementsCorrectly)
 {
-  using BufferType = CircularBuffer<int>;
+  using BufferType = circular_buffer<int>;
   using TypeParam = int;
 
   // Arrange
@@ -1043,7 +1043,7 @@ TEST_F (CircularBufferIntTest, RangeBasedFor_TraversesElementsCorrectly)
  */
 TEST_F (CircularBufferIntTest, ConstIterators_ProvideReadOnlyAccess)
 {
-  using BufferType = CircularBuffer<int>;
+  using BufferType = circular_buffer<int>;
   using TypeParam = int;
 
   // Arrange
@@ -1072,7 +1072,7 @@ TEST_F (CircularBufferIntTest, ConstIterators_ProvideReadOnlyAccess)
  */
 TEST_F (CircularBufferIntTest, OperatorEquality_ReturnsTrueForIdenticalBuffers)
 {
-  using BufferType = CircularBuffer<int>;
+  using BufferType = circular_buffer<int>;
 
   // Arrange
   BufferType buffer1 (3);
@@ -1096,7 +1096,7 @@ TEST_F (CircularBufferIntTest, OperatorEquality_ReturnsTrueForIdenticalBuffers)
 TEST_F (CircularBufferIntTest,
         OperatorInequality_ReturnsTrueForDifferentBuffers)
 {
-  using BufferType = CircularBuffer<int>;
+  using BufferType = circular_buffer<int>;
 
   // Arrange
   BufferType buffer1 (3);
@@ -1119,7 +1119,7 @@ TEST_F (CircularBufferIntTest,
  */
 TEST_F (CircularBufferIntTest, LexicographicalComparison_WorksCorrectly)
 {
-  using BufferType = CircularBuffer<int>;
+  using BufferType = circular_buffer<int>;
 
   // Arrange
   BufferType buffer1 (3);
@@ -1144,7 +1144,7 @@ TEST_F (CircularBufferIntTest, LexicographicalComparison_WorksCorrectly)
  */
 TEST_F (CircularBufferIntTest, SingleElementBuffer_HandlesOverwriteCorrectly)
 {
-  using BufferType = CircularBuffer<int>;
+  using BufferType = circular_buffer<int>;
 
   // Arrange
   BufferType buffer (1);
@@ -1168,7 +1168,7 @@ TEST_F (CircularBufferIntTest, SingleElementBuffer_HandlesOverwriteCorrectly)
  */
 TEST_F (CircularBufferIntTest, MultipleOverwrites_HandleCorrectly)
 {
-  using BufferType = CircularBuffer<int>;
+  using BufferType = circular_buffer<int>;
   using TypeParam = int;
 
   // Arrange
@@ -1197,7 +1197,7 @@ TEST_F (CircularBufferIntTest, MultipleOverwrites_HandleCorrectly)
  */
 TEST_F (CircularBufferIntTest, EmptyBuffer_HandlesAllOperationsCorrectly)
 {
-  using BufferType = CircularBuffer<int>;
+  using BufferType = circular_buffer<int>;
 
   // Arrange
   BufferType buffer (3);
@@ -1226,7 +1226,7 @@ TEST_F (CircularBufferIntTest, EmptyBuffer_HandlesAllOperationsCorrectly)
  */
 TEST_F (CircularBufferIntTest, ExceptionSafety_StrongGuaranteeForNonFullBuffer)
 {
-  using BufferType = CircularBuffer<int>;
+  using BufferType = circular_buffer<int>;
   using TypeParam = int;
 
   // Arrange
@@ -1260,7 +1260,7 @@ TEST_F (CircularBufferIntTest, ExceptionSafety_StrongGuaranteeForNonFullBuffer)
  */
 TEST_F (CircularBufferIntTest, ExceptionSafety_BasicGuaranteeForOverwrite)
 {
-  using BufferType = CircularBuffer<int>;
+  using BufferType = circular_buffer<int>;
   using TypeParam = int;
 
   // Arrange
@@ -1293,7 +1293,7 @@ TEST_F (CircularBufferIntTest, ExceptionSafety_BasicGuaranteeForOverwrite)
 TEST_F (CircularBufferIntTest,
         ExceptionSafety_EmplaceBack_StrongGuaranteeForNonFullBuffer)
 {
-  using BufferType = CircularBuffer<int>;
+  using BufferType = circular_buffer<int>;
   using TypeParam = int;
 
   // Arrange
@@ -1329,7 +1329,7 @@ TEST_F (CircularBufferIntTest,
 TEST_F (CircularBufferIntTest,
         ExceptionSafety_EmplaceFront_StrongGuaranteeForNonFullBuffer)
 {
-  using BufferType = CircularBuffer<int>;
+  using BufferType = circular_buffer<int>;
   using TypeParam = int;
 
   // Arrange
@@ -1367,7 +1367,7 @@ TEST_F (CircularBufferIntTest,
 TEST_F (CircularBufferIntTest,
         ExceptionSafety_CopyConstructor_HandlesExceptionsCorrectly)
 {
-  using BufferType = CircularBuffer<int>;
+  using BufferType = circular_buffer<int>;
   using TypeParam = int;
 
   // Arrange

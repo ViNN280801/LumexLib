@@ -52,7 +52,7 @@ ascii_lower (char c)
 }
 
 bool
-equal_ignoring_ascii_case (LumexStringView a, LumexStringView b)
+equal_ignoring_ascii_case (lumex_string_view a, lumex_string_view b)
 {
   if (a.size () != b.size ())
     return false;
@@ -62,10 +62,10 @@ equal_ignoring_ascii_case (LumexStringView a, LumexStringView b)
   return true;
 }
 
-LumexStringView
-without_exe_suffix (LumexStringView name)
+lumex_string_view
+without_exe_suffix (lumex_string_view name)
 {
-  LumexStringView const exe (KEXE_SUFFIX);
+  lumex_string_view const exe (KEXE_SUFFIX);
   if (name.size () > exe.size ()
       && equal_ignoring_ascii_case (name.substr (name.size () - exe.size ()),
                                     exe))
@@ -73,20 +73,20 @@ without_exe_suffix (LumexStringView name)
   return name;
 }
 
-LumexStringView
-after_last_slash (LumexStringView path)
+lumex_string_view
+after_last_slash (lumex_string_view path)
 {
   std::size_t const slash = path.rfind ('/');
-  return slash == LumexStringView::npos ? path : path.substr (slash + 1);
+  return slash == lumex_string_view::npos ? path : path.substr (slash + 1);
 }
 } // namespace
 
 LUMEX_PUBLIC_API optional<proc_pid_stat_t>
-parse_proc_pid_stat (LumexStringView text)
+parse_proc_pid_stat (lumex_string_view text)
 {
   std::size_t const open = text.find ('(');
   std::size_t const close = text.rfind (')');
-  if (open == LumexStringView::npos || close == LumexStringView::npos
+  if (open == lumex_string_view::npos || close == lumex_string_view::npos
       || close < open)
     return nullopt;
 
@@ -116,7 +116,7 @@ parse_proc_pid_stat (LumexStringView text)
 }
 
 LUMEX_PUBLIC_API proc_pid_status_t
-parse_proc_pid_status (LumexStringView text)
+parse_proc_pid_status (lumex_string_view text)
 {
   proc_pid_status_t status;
   status.resident_bytes = monitor::detail::parse_kib_field (text, "VmRSS");
@@ -125,26 +125,26 @@ parse_proc_pid_status (LumexStringView text)
 }
 
 LUMEX_PUBLIC_API std::string
-executable_name (LumexStringView link_target)
+executable_name (lumex_string_view link_target)
 {
-  LumexStringView const deleted (KDELETED_SUFFIX);
+  lumex_string_view const deleted (KDELETED_SUFFIX);
   if (link_target.ends_with (deleted))
     link_target.remove_suffix (deleted.size ());
   return std::string (after_last_slash (link_target));
 }
 
 LUMEX_PUBLIC_API optional<std::string>
-first_argument_name (LumexStringView cmdline)
+first_argument_name (lumex_string_view cmdline)
 {
-  LumexStringView const first = cmdline.substr (0, cmdline.find ('\0'));
-  LumexStringView const name = after_last_slash (first);
+  lumex_string_view const first = cmdline.substr (0, cmdline.find ('\0'));
+  lumex_string_view const name = after_last_slash (first);
   if (name.empty ())
     return nullopt;
   return std::string (name);
 }
 
 LUMEX_PUBLIC_API bool
-linux_name_matches (LumexStringView requested, LumexStringView name,
+linux_name_matches (lumex_string_view requested, lumex_string_view name,
                     bool name_is_comm)
 {
   if (requested.empty ())
@@ -157,7 +157,7 @@ linux_name_matches (LumexStringView requested, LumexStringView name,
 }
 
 LUMEX_PUBLIC_API bool
-windows_name_matches (LumexStringView requested, LumexStringView name)
+windows_name_matches (lumex_string_view requested, lumex_string_view name)
 {
   if (requested.empty ())
     return false;

@@ -16,6 +16,6 @@ main ()
 
   ExampleValve const position = ExampleValve::Inject;
   std::cout << LUMEX_VARINFO (position) << '\n';
-  std::cout << "display=" << toString (position) << '\n';
+  std::cout << "display=" << to_string (position) << '\n';
   return 0;
 }

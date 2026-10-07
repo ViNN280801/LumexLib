@@ -54,45 +54,45 @@ namespace dump
 // a C++17 inline variable defined in one translation unit only is emitted
 // there only when that unit odr-uses it, and ELF shared libraries then
 // export no symbol for the constant-initialized members.
-std::unique_ptr<CoreDumpGenerator> CoreDumpGenerator::s_instance = nullptr;
-std::size_t const CoreDumpGenerator::KB_32;
-std::size_t const CoreDumpGenerator::KB_64;
-std::size_t const CoreDumpGenerator::KB_128;
-std::size_t const CoreDumpGenerator::KB_256;
-std::size_t const CoreDumpGenerator::KB_512;
-std::size_t const CoreDumpGenerator::MB_1;
-std::mutex CoreDumpGenerator::s_mutex;
-std::condition_variable CoreDumpGenerator::s_operationCondition;
-std::mutex CoreDumpGenerator::s_operationMutex;
-std::atomic<std::size_t> CoreDumpGenerator::s_activeOperations{};
+std::unique_ptr<core_dump_generator> core_dump_generator::s_instance = nullptr;
+std::size_t const core_dump_generator::KB_32;
+std::size_t const core_dump_generator::KB_64;
+std::size_t const core_dump_generator::KB_128;
+std::size_t const core_dump_generator::KB_256;
+std::size_t const core_dump_generator::KB_512;
+std::size_t const core_dump_generator::MB_1;
+std::mutex core_dump_generator::s_mutex;
+std::condition_variable core_dump_generator::s_operationCondition;
+std::mutex core_dump_generator::s_operationMutex;
+std::atomic<std::size_t> core_dump_generator::s_activeOperations{};
 #if __cplusplus >= 201103L
-std::once_flag CoreDumpGenerator::s_initFlag;
+std::once_flag core_dump_generator::s_initFlag;
 #endif
-std::string CoreDumpGenerator::s_dumpDirectory = "DumpCreatorCrashDump";
+std::string core_dump_generator::s_dumpDirectory = "DumpCreatorCrashDump";
 #if __cplusplus >= 201103L
-std::atomic_bool CoreDumpGenerator::s_initialized{};
+std::atomic_bool core_dump_generator::s_initialized{};
 #else
-bool CoreDumpGenerator::s_initialized = false;
+bool core_dump_generator::s_initialized = false;
 #endif
-std::string CoreDumpGenerator::s_originalCorePattern;
-DumpConfiguration CoreDumpGenerator::s_currentConfig;
+std::string core_dump_generator::s_originalCorePattern;
+dump_configuration core_dump_generator::s_currentConfig;
 
-std::map<int, void (*) (int)> CoreDumpGenerator::s_customSignalHandlers;
-std::mutex CoreDumpGenerator::s_customHandlersMutex;
+std::map<int, void (*) (int)> core_dump_generator::s_customSignalHandlers;
+std::mutex core_dump_generator::s_customHandlersMutex;
 
 #if (LUMEX_OS_IS_UNIX() || LUMEX_OS_IS_ANDROID())
-std::atomic_bool CoreDumpGenerator::s_monitorThreadShouldStop{ false };
-std::thread CoreDumpGenerator::s_monitorThread;
-pid_t CoreDumpGenerator::s_applicationPid = getpid ();
-std::string CoreDumpGenerator::s_adminGroupName;
-void (*CoreDumpGenerator::s_unixConsoleHandler) () = nullptr;
-std::atomic_bool CoreDumpGenerator::s_posixSigThreadStarted{};
+std::atomic_bool core_dump_generator::s_monitorThreadShouldStop{ false };
+std::thread core_dump_generator::s_monitorThread;
+pid_t core_dump_generator::s_applicationPid = getpid ();
+std::string core_dump_generator::s_adminGroupName;
+void (*core_dump_generator::s_unixConsoleHandler) () = nullptr;
+std::atomic_bool core_dump_generator::s_posixSigThreadStarted{};
 #endif
 #if LUMEX_OS_IS_WINDOWS()
-BOOL (WINAPI *CoreDumpGenerator::s_customConsoleHandler) (DWORD) = nullptr;
+BOOL (WINAPI *core_dump_generator::s_customConsoleHandler) (DWORD) = nullptr;
 #endif
 
-std::map<DumpType, std::string> const DumpFactory::s_descriptions = {
+std::map<DumpType, std::string> const dump_factory::s_descriptions = {
   { DumpType::MINI_DUMP_NORMAL, "Basic mini-dump (64KB)" },
   { DumpType::MINI_DUMP_WITH_DATA_SEGS, "Mini-dump with data segments" },
   { DumpType::MINI_DUMP_WITH_FULL_MEMORY, "Full memory mini-dump (largest)" },
@@ -137,7 +137,7 @@ std::map<DumpType, std::string> const DumpFactory::s_descriptions = {
   { DumpType::DEFAULT_AUTO, "Auto-detect based on platform" }
 };
 
-std::map<DumpType, bool> const DumpFactory::s_platformSupport = {
+std::map<DumpType, bool> const dump_factory::s_platformSupport = {
   { DumpType::MINI_DUMP_NORMAL, LUMEX_OS_IS_WINDOWS () },
   { DumpType::MINI_DUMP_WITH_DATA_SEGS, LUMEX_OS_IS_WINDOWS () },
   { DumpType::MINI_DUMP_WITH_FULL_MEMORY, LUMEX_OS_IS_WINDOWS () },
@@ -172,30 +172,31 @@ std::map<DumpType, bool> const DumpFactory::s_platformSupport = {
   { DumpType::DEFAULT_AUTO, true }
 };
 
-std::map<DumpType, std::size_t> const DumpFactory::s_estimatedSizes = {
-  { DumpType::MINI_DUMP_NORMAL, CoreDumpGenerator::KB_64 },
-  { DumpType::MINI_DUMP_WITH_DATA_SEGS, CoreDumpGenerator::KB_128 },
+std::map<DumpType, std::size_t> const dump_factory::s_estimatedSizes = {
+  { DumpType::MINI_DUMP_NORMAL, core_dump_generator::KB_64 },
+  { DumpType::MINI_DUMP_WITH_DATA_SEGS, core_dump_generator::KB_128 },
   { DumpType::MINI_DUMP_WITH_FULL_MEMORY, 0 },
-  { DumpType::MINI_DUMP_WITH_HANDLE_DATA, CoreDumpGenerator::KB_256 },
-  { DumpType::MINI_DUMP_FILTER_MEMORY, CoreDumpGenerator::KB_64 },
-  { DumpType::MINI_DUMP_SCAN_MEMORY, CoreDumpGenerator::KB_128 },
-  { DumpType::MINI_DUMP_WITH_UNLOADED_MODULES, CoreDumpGenerator::KB_512 },
+  { DumpType::MINI_DUMP_WITH_HANDLE_DATA, core_dump_generator::KB_256 },
+  { DumpType::MINI_DUMP_FILTER_MEMORY, core_dump_generator::KB_64 },
+  { DumpType::MINI_DUMP_SCAN_MEMORY, core_dump_generator::KB_128 },
+  { DumpType::MINI_DUMP_WITH_UNLOADED_MODULES, core_dump_generator::KB_512 },
   { DumpType::MINI_DUMP_WITH_INDIRECTLY_REFERENCED_MEMORY, 0 },
-  { DumpType::MINI_DUMP_FILTER_MODULE_PATHS, CoreDumpGenerator::KB_64 },
-  { DumpType::MINI_DUMP_WITH_PROCESS_THREAD_DATA, CoreDumpGenerator::MB_1 },
+  { DumpType::MINI_DUMP_FILTER_MODULE_PATHS, core_dump_generator::KB_64 },
+  { DumpType::MINI_DUMP_WITH_PROCESS_THREAD_DATA, core_dump_generator::MB_1 },
   { DumpType::MINI_DUMP_WITH_PRIVATE_READ_WRITE_MEMORY, 0 },
-  { DumpType::MINI_DUMP_WITHOUT_OPTIONAL_DATA, CoreDumpGenerator::KB_32 },
+  { DumpType::MINI_DUMP_WITHOUT_OPTIONAL_DATA, core_dump_generator::KB_32 },
   { DumpType::MINI_DUMP_WITH_FULL_MEMORY_INFO, 0 },
-  { DumpType::MINI_DUMP_WITH_THREAD_INFO, CoreDumpGenerator::KB_256 },
-  { DumpType::MINI_DUMP_WITH_CODE_SEGMENTS, CoreDumpGenerator::KB_512 },
-  { DumpType::MINI_DUMP_WITHOUT_AUXILIARY_STATE, CoreDumpGenerator::KB_64 },
-  { DumpType::MINI_DUMP_WITH_FULL_AUXILIARY_STATE, CoreDumpGenerator::MB_1 },
+  { DumpType::MINI_DUMP_WITH_THREAD_INFO, core_dump_generator::KB_256 },
+  { DumpType::MINI_DUMP_WITH_CODE_SEGMENTS, core_dump_generator::KB_512 },
+  { DumpType::MINI_DUMP_WITHOUT_AUXILIARY_STATE, core_dump_generator::KB_64 },
+  { DumpType::MINI_DUMP_WITH_FULL_AUXILIARY_STATE, core_dump_generator::MB_1 },
   { DumpType::MINI_DUMP_WITH_PRIVATE_WRITE_COPY_MEMORY, 0 },
-  { DumpType::MINI_DUMP_IGNORE_INACCESSIBLE_MEMORY, CoreDumpGenerator::KB_64 },
-  { DumpType::MINI_DUMP_WITH_TOKEN_INFORMATION, CoreDumpGenerator::KB_128 },
+  { DumpType::MINI_DUMP_IGNORE_INACCESSIBLE_MEMORY,
+    core_dump_generator::KB_64 },
+  { DumpType::MINI_DUMP_WITH_TOKEN_INFORMATION, core_dump_generator::KB_128 },
   { DumpType::KERNEL_FULL_DUMP, 0 },
   { DumpType::KERNEL_KERNEL_DUMP, 0 },
-  { DumpType::KERNEL_SMALL_DUMP, CoreDumpGenerator::KB_64 },
+  { DumpType::KERNEL_SMALL_DUMP, core_dump_generator::KB_64 },
   { DumpType::KERNEL_AUTOMATIC_DUMP, 0 },
   { DumpType::KERNEL_ACTIVE_DUMP, 0 },
   { DumpType::CORE_DUMP_FULL, 0 },

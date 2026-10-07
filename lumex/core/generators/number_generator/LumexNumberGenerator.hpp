@@ -39,13 +39,13 @@
 
 /**
  * @file LumexNumberGenerator.hpp
- * @brief Defines the NumberGenerator template class for versatile random
+ * @brief Defines the number_generator template class for versatile random
  * number generation.
  * @details This header provides a robust and flexible template class,
- * `NumberGenerator`, designed for generating random numbers of various numeric
- * types (integral and floating-point) according to multiple common probability
- * distributions. It encapsulates the complexities of the C++ Standard
- * Library's `<random>` facilities, providing a clean, type-safe, and
+ * `number_generator`, designed for generating random numbers of various
+ * numeric types (integral and floating-point) according to multiple common
+ * probability distributions. It encapsulates the complexities of the C++
+ * Standard Library's `<random>` facilities, providing a clean, type-safe, and
  * assertion-driven interface. The class leverages the Mersenne Twister engine
  * (`std::mt19937`) for high-quality pseudo-random number generation, seeded by
  * `std::random_device` for non-determinism where available, falling back to
@@ -107,10 +107,10 @@ namespace number_generator
  * @brief Enumeration of supported probability distributions for random number
  * generation.
  * @details This enum defines the various statistical distributions that the
- * `NumberGenerator` class can utilize to produce random numbers. Each
+ * `number_generator` class can utilize to produce random numbers. Each
  * enumerator corresponds to a specific distribution type from the C++ Standard
  * Library's `<random>` header. Users can select the desired distribution when
- * constructing or configuring a `NumberGenerator` instance.
+ * constructing or configuring a `number_generator` instance.
  */
 enum class DistributionType : std::uint8_t
 {
@@ -154,7 +154,7 @@ enum class DistributionType : std::uint8_t
  * ensure proper behavior and thread safety when dealing with random number
  * engines. Instances should be moved or passed by reference.
  */
-template <typename T> class NumberGenerator final
+template <typename T> class number_generator final
 {
   LUMEX_STATIC_ASSERT_MSG (
       std::is_arithmetic<T>::value && !std::is_same<T, bool>::value
@@ -762,7 +762,7 @@ private:
 
 public:
   /**
-   * @brief Constructs a `NumberGenerator` with default bounds and uniform
+   * @brief Constructs a `number_generator` with default bounds and uniform
    * distribution.
    * @details Initializes the generator to produce numbers within default
    * bounds (0 to `m_default_count` for integral types, 0.0 to 1.0 for
@@ -771,7 +771,7 @@ public:
    * non-determinism; if `std::random_device` does not provide entropy, it
    * falls back to seeding with the current time.
    */
-  NumberGenerator ()
+  number_generator ()
       : m_from (get_default_min ()), m_to (get_default_max ()),
         m_distribution_type (DistributionType::UNIFORM),
         m_engine (
@@ -782,7 +782,7 @@ public:
   }
 
   /**
-   * @brief Constructs a `NumberGenerator` with specified bounds and an
+   * @brief Constructs a `number_generator` with specified bounds and an
    * optional distribution type.
    * @details Initializes the generator with custom lower (`from_val`) and
    * upper (`to_val`) bounds. For `UNIFORM` only, if `from_val` is greater
@@ -808,8 +808,8 @@ public:
    *       Refer to the `get_number()` overloads or individual `generate_`
    * methods for explicit parameter meanings for each distribution.
    */
-  NumberGenerator (T from_val, T to_val,
-                   DistributionType dist_type = DistributionType::UNIFORM)
+  number_generator (T from_val, T to_val,
+                    DistributionType dist_type = DistributionType::UNIFORM)
       : m_from (from_val), m_to (to_val), m_distribution_type (dist_type),
         m_engine (
             m_rdm_dev.entropy () > 0.0
@@ -822,22 +822,22 @@ public:
 
   /**
    * @brief Default destructor.
-   * @details Cleans up any resources held by the `NumberGenerator` instance.
+   * @details Cleans up any resources held by the `number_generator` instance.
    */
-  ~NumberGenerator () = default;
+  ~number_generator () = default;
 
   // Delete copy constructor and assignment operator for thread safety
-  NumberGenerator (NumberGenerator const &) = delete;
-  NumberGenerator &operator= (NumberGenerator const &) = delete;
+  number_generator (number_generator const &) = delete;
+  number_generator &operator= (number_generator const &) = delete;
 
   // Delete move constructor and assignment operator
-  NumberGenerator (NumberGenerator &&) LUMEX_NOEXCEPT = delete;
-  NumberGenerator &operator= (NumberGenerator &&) LUMEX_NOEXCEPT = delete;
+  number_generator (number_generator &&) LUMEX_NOEXCEPT = delete;
+  number_generator &operator= (number_generator &&) LUMEX_NOEXCEPT = delete;
 
   /**
    * @brief Function call operator to generate a random number using configured
    * bounds and distribution.
-   * @details This operator allows the `NumberGenerator` object to be called
+   * @details This operator allows the `number_generator` object to be called
    * like a function. It generates a single random number using the bounds
    * (`m_from`, `m_to`) and `m_distribution_type` currently configured in the
    * generator.
@@ -1060,29 +1060,29 @@ public:
 };
 
 /**
- * @brief Type alias for `NumberGenerator` specialized for `int`.
+ * @brief Type alias for `number_generator` specialized for `int`.
  * @details Provides a convenient way to declare an integer random number
  * generator.
  */
-using IntGenerator = NumberGenerator<int>;
+using IntGenerator = number_generator<int>;
 /**
- * @brief Type alias for `NumberGenerator` specialized for `long long`.
+ * @brief Type alias for `number_generator` specialized for `long long`.
  * @details Provides a convenient way to declare a `long long` integer random
  * number generator.
  */
-using LongGenerator = NumberGenerator<long long>;
+using LongGenerator = number_generator<long long>;
 /**
- * @brief Type alias for `NumberGenerator` specialized for `float`.
+ * @brief Type alias for `number_generator` specialized for `float`.
  * @details Provides a convenient way to declare a single-precision
  * floating-point random number generator.
  */
-using FloatGenerator = NumberGenerator<float>;
+using FloatGenerator = number_generator<float>;
 /**
- * @brief Type alias for `NumberGenerator` specialized for `double`.
+ * @brief Type alias for `number_generator` specialized for `double`.
  * @details Provides a convenient way to declare a double-precision
  * floating-point random number generator.
  */
-using DoubleGenerator = NumberGenerator<double>;
+using DoubleGenerator = number_generator<double>;
 
 /**
  * @brief Backward compatibility alias for `DoubleGenerator`.

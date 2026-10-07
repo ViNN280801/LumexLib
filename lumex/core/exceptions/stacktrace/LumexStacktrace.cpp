@@ -54,13 +54,13 @@ namespace detail
 {
 #if defined(LUMEX_OS_WINDOWS)
 // Static member definition
-bool DbgHelpInitializer::s_initialized = false;
+bool dbg_help_initializer::s_initialized = false;
 
 // Static mutex definition
 std::mutex g_dbghelp_mutex;
 
-// DbgHelpInitializer implementation
-DbgHelpInitializer::DbgHelpInitializer ()
+// dbg_help_initializer implementation
+dbg_help_initializer::dbg_help_initializer ()
 {
   std::lock_guard<std::mutex> lock (g_dbghelp_mutex);
   if (!s_initialized)
@@ -73,23 +73,24 @@ DbgHelpInitializer::DbgHelpInitializer ()
 }
 
 bool
-DbgHelpInitializer::is_initialized () const LUMEX_NOEXCEPT
+dbg_help_initializer::is_initialized () const LUMEX_NOEXCEPT
 {
   return s_initialized;
 }
 
 // Template specialization for capture_stacktrace
 template <>
-LUMEX_PUBLIC_API LumexBasicStacktrace<std::allocator<LumexStacktraceEntry>>
-capture_stacktrace<std::allocator<LumexStacktraceEntry>> (
+LUMEX_PUBLIC_API lumex_basic_stacktrace<std::allocator<lumex_stacktrace_entry>>
+capture_stacktrace<std::allocator<lumex_stacktrace_entry>> (
     std::size_t skip, std::size_t max_depth,
-    std::allocator<LumexStacktraceEntry> const &alloc) LUMEX_NOEXCEPT
+    std::allocator<lumex_stacktrace_entry> const &alloc) LUMEX_NOEXCEPT
 {
   // Ensure DbgHelp is initialized
-  static DbgHelpInitializer dbghelp_init;
+  static dbg_help_initializer dbghelp_init;
 
   if (!dbghelp_init.is_initialized ())
-    return LumexBasicStacktrace<std::allocator<LumexStacktraceEntry>> (alloc);
+    return lumex_basic_stacktrace<std::allocator<lumex_stacktrace_entry>> (
+        alloc);
 
   // Capture raw addresses
   std::size_t const max_frames = 128;
@@ -99,9 +100,9 @@ capture_stacktrace<std::allocator<LumexStacktraceEntry>> (
       static_cast<DWORD> (skip + 1),
       static_cast<DWORD> ((std::min)(max_depth, max_frames)), frames, nullptr);
 
-  // Convert to LumexStacktraceEntry vector
-  using container_type = typename LumexBasicStacktrace<
-      std::allocator<LumexStacktraceEntry>>::container_type;
+  // Convert to lumex_stacktrace_entry vector
+  using container_type = typename lumex_basic_stacktrace<
+      std::allocator<lumex_stacktrace_entry>>::container_type;
   container_type entries (alloc);
   entries.reserve (frame_count);
 
@@ -109,7 +110,7 @@ capture_stacktrace<std::allocator<LumexStacktraceEntry>> (
     if (frames[i] != nullptr)
       entries.emplace_back (frames[i]);
 
-  return LumexBasicStacktrace<std::allocator<LumexStacktraceEntry>> (
+  return lumex_basic_stacktrace<std::allocator<lumex_stacktrace_entry>> (
       std::move (entries));
 }
 
@@ -210,10 +211,10 @@ demangle_symbol (char const *mangled)
 }
 
 template <>
-LUMEX_PUBLIC_API LumexBasicStacktrace<std::allocator<LumexStacktraceEntry>>
-capture_stacktrace<std::allocator<LumexStacktraceEntry>> (
+LUMEX_PUBLIC_API lumex_basic_stacktrace<std::allocator<lumex_stacktrace_entry>>
+capture_stacktrace<std::allocator<lumex_stacktrace_entry>> (
     std::size_t skip, std::size_t max_depth,
-    std::allocator<LumexStacktraceEntry> const &alloc) LUMEX_NOEXCEPT
+    std::allocator<lumex_stacktrace_entry> const &alloc) LUMEX_NOEXCEPT
 {
   // Capture raw addresses
   std::size_t const max_frames = 128;
@@ -224,10 +225,11 @@ capture_stacktrace<std::allocator<LumexStacktraceEntry>> (
 
   // If we have no frames at all, return empty
   if (frame_count <= 0)
-    return LumexBasicStacktrace<std::allocator<LumexStacktraceEntry>> (alloc);
+    return lumex_basic_stacktrace<std::allocator<lumex_stacktrace_entry>> (
+        alloc);
 
-  using container_type = typename LumexBasicStacktrace<
-      std::allocator<LumexStacktraceEntry>>::container_type;
+  using container_type = typename lumex_basic_stacktrace<
+      std::allocator<lumex_stacktrace_entry>>::container_type;
   container_type entries (alloc);
 
   // In Release builds, we might only get 1 frame due to optimizations
@@ -236,7 +238,8 @@ capture_stacktrace<std::allocator<LumexStacktraceEntry>> (
   int actual_count = std::max (0, frame_count - start_index);
 
   if (actual_count <= 0)
-    return LumexBasicStacktrace<std::allocator<LumexStacktraceEntry>> (alloc);
+    return lumex_basic_stacktrace<std::allocator<lumex_stacktrace_entry>> (
+        alloc);
 
   entries.reserve (static_cast<container_type::size_type> (actual_count));
 
@@ -246,7 +249,7 @@ capture_stacktrace<std::allocator<LumexStacktraceEntry>> (
         entries.emplace_back (frames[i]);
     }
 
-  return LumexBasicStacktrace<std::allocator<LumexStacktraceEntry>> (
+  return lumex_basic_stacktrace<std::allocator<lumex_stacktrace_entry>> (
       std::move (entries));
 }
 
@@ -304,8 +307,8 @@ resolve_symbol_info (void *address, std::string &function_name,
 
 // Explicit template instantiation
 template class LUMEX_API
-    lumex::core::exceptions::stacktrace::LumexBasicStacktrace<std::allocator<
-        lumex::core::exceptions::stacktrace::LumexStacktraceEntry>>;
+    lumex::core::exceptions::stacktrace::lumex_basic_stacktrace<std::allocator<
+        lumex::core::exceptions::stacktrace::lumex_stacktrace_entry>>;
 
 #ifdef _WIN32
 #pragma warning(pop)

@@ -19,7 +19,7 @@ using lumex::applied::json::schema::LumexJsonSchemaFailure;
 using lumex::applied::json::schema::LumexJsonSchemaTraverser;
 using lumex::applied::json::validation::ILumexJsonSchemaValidator;
 using lumex::applied::json::validation::LumexJsonSchemaValidator;
-using lumex::core::string_view::view::LumexStringView;
+using lumex::core::string_view::view::lumex_string_view;
 
 namespace
 {
@@ -92,14 +92,14 @@ public:
   }
 
   nlohmann::json
-  normalize (LumexStringView raw) const override
+  normalize (lumex_string_view raw) const override
   {
     std::exception_ptr ignored;
     return normalize (raw, ignored);
   }
 
   nlohmann::json
-  normalize (LumexStringView raw, std::exception_ptr &error) const override
+  normalize (lumex_string_view raw, std::exception_ptr &error) const override
   {
     error = nullptr;
     try
@@ -115,14 +115,14 @@ public:
   }
 
   void
-  validate (LumexStringView raw) const override
+  validate (lumex_string_view raw) const override
   {
     std::exception_ptr ignored;
     validate (raw, ignored);
   }
 
   void
-  validate (LumexStringView raw, std::exception_ptr &error) const override
+  validate (lumex_string_view raw, std::exception_ptr &error) const override
   {
     error = nullptr;
     try
@@ -430,7 +430,7 @@ TEST (LumexJsonSchemaTraverserTest,
 TEST (LumexJsonSchemaTraverserTest, GivenValidText_WhenParse_ThenDocument)
 {
   std::string const raw ("{\"a\":[1,2]}");
-  EXPECT_EQ (LumexJsonSchemaTraverser::parse (LumexStringView (raw)),
+  EXPECT_EQ (LumexJsonSchemaTraverser::parse (lumex_string_view (raw)),
              nlohmann::json::parse (raw));
 }
 
@@ -439,7 +439,7 @@ TEST (LumexJsonSchemaTraverserTest,
 {
   std::string const raw ("[1] trailing garbage");
   EXPECT_EQ (
-      LumexJsonSchemaTraverser::parse (LumexStringView (raw.data (), 3)),
+      LumexJsonSchemaTraverser::parse (lumex_string_view (raw.data (), 3)),
       nlohmann::json::array ({ 1 }));
 }
 
@@ -449,7 +449,7 @@ TEST (LumexJsonSchemaTraverserTest,
   try
     {
       LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR (
-          LumexJsonSchemaTraverser::parse (LumexStringView ("{", 1)));
+          LumexJsonSchemaTraverser::parse (lumex_string_view ("{", 1)));
       FAIL () << "expected an exception";
     }
   catch (LumexJsonSchemaException const &exc)
@@ -458,7 +458,7 @@ TEST (LumexJsonSchemaTraverserTest,
       EXPECT_EQ (exc.path (), "$");
     }
   EXPECT_THROW (LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR (
-                    LumexJsonSchemaTraverser::parse (LumexStringView ())),
+                    LumexJsonSchemaTraverser::parse (lumex_string_view ())),
                 LumexJsonSchemaException);
 }
 
@@ -480,14 +480,15 @@ TEST (LumexJsonSchemaExceptionTest,
 
 TEST (LumexJsonSchemaExceptionTest, GivenEveryFailure_WhenToString_ThenName)
 {
-  EXPECT_STREQ (toString (LumexJsonSchemaFailure::parse_error), "parse_error");
-  EXPECT_STREQ (toString (LumexJsonSchemaFailure::missing_required),
+  EXPECT_STREQ (to_string (LumexJsonSchemaFailure::parse_error),
+                "parse_error");
+  EXPECT_STREQ (to_string (LumexJsonSchemaFailure::missing_required),
                 "missing_required");
-  EXPECT_STREQ (toString (LumexJsonSchemaFailure::type_mismatch),
+  EXPECT_STREQ (to_string (LumexJsonSchemaFailure::type_mismatch),
                 "type_mismatch");
-  EXPECT_STREQ (toString (LumexJsonSchemaFailure::const_mismatch),
+  EXPECT_STREQ (to_string (LumexJsonSchemaFailure::const_mismatch),
                 "const_mismatch");
-  EXPECT_STREQ (toString (LumexJsonSchemaFailure::enum_mismatch),
+  EXPECT_STREQ (to_string (LumexJsonSchemaFailure::enum_mismatch),
                 "enum_mismatch");
   EXPECT_EQ (lumex::applied::json::schema::LumexJsonSchemaFailureSize, 5u);
 }
@@ -498,7 +499,7 @@ TEST (LumexJsonSchemaValidatorTest, GivenValidText_WhenValidate_ThenNoThrow)
 {
   LumexJsonSchemaValidator const validator (person_schema ());
   std::string const raw = text (valid_person ());
-  EXPECT_NO_THROW (validator.validate (LumexStringView (raw)));
+  EXPECT_NO_THROW (validator.validate (lumex_string_view (raw)));
   EXPECT_TRUE (validator.is_strict ());
   EXPECT_EQ (validator.schema (), person_schema ());
 }
@@ -511,7 +512,7 @@ TEST (LumexJsonSchemaValidatorTest,
   input["age"] = "old";
   std::string const raw = text (input);
   std::exception_ptr error = std::make_exception_ptr (std::logic_error ("x"));
-  EXPECT_THROW (validator.validate (LumexStringView (raw), error),
+  EXPECT_THROW (validator.validate (lumex_string_view (raw), error),
                 LumexJsonSchemaException);
   EXPECT_FALSE (error);
 }
@@ -524,7 +525,7 @@ TEST (LumexJsonSchemaValidatorTest,
   input["age"] = "old";
   std::string const raw = text (input);
   std::exception_ptr error;
-  EXPECT_NO_THROW (validator.validate (LumexStringView (raw), error));
+  EXPECT_NO_THROW (validator.validate (lumex_string_view (raw), error));
   ASSERT_TRUE (error);
   EXPECT_NE (LumexJsonSchemaNormalizer::get_exception_message (error).find (
                  "type_mismatch at '$.age'"),
@@ -537,7 +538,7 @@ TEST (LumexJsonSchemaValidatorTest,
   LumexJsonSchemaValidator const validator (person_schema (), false);
   std::string const raw = text (valid_person ());
   std::exception_ptr error = std::make_exception_ptr (std::logic_error ("x"));
-  validator.validate (LumexStringView (raw), error);
+  validator.validate (lumex_string_view (raw), error);
   EXPECT_FALSE (error);
 }
 
@@ -545,22 +546,22 @@ TEST (LumexJsonSchemaValidatorTest,
       GivenNonStrictAndViolation_WhenValidateWithoutError_ThenDoesNotThrow)
 {
   LumexJsonSchemaValidator const validator (person_schema (), false);
-  EXPECT_NO_THROW (validator.validate (LumexStringView ("[]", 2)));
+  EXPECT_NO_THROW (validator.validate (lumex_string_view ("[]", 2)));
 }
 
 TEST (LumexJsonSchemaValidatorTest,
       GivenNonStrictAndUnparsable_WhenValidateWithoutError_ThenDoesNotThrow)
 {
   LumexJsonSchemaValidator const validator (person_schema (), false);
-  EXPECT_NO_THROW (validator.validate (LumexStringView ("{", 1)));
-  EXPECT_NO_THROW (validator.validate (LumexStringView ()));
+  EXPECT_NO_THROW (validator.validate (lumex_string_view ("{", 1)));
+  EXPECT_NO_THROW (validator.validate (lumex_string_view ()));
 }
 
 TEST (LumexJsonSchemaValidatorTest,
       GivenStrictAndViolation_WhenValidateWithoutError_ThenThrows)
 {
   LumexJsonSchemaValidator const validator (person_schema (), true);
-  EXPECT_THROW (validator.validate (LumexStringView ("[]", 2)),
+  EXPECT_THROW (validator.validate (lumex_string_view ("[]", 2)),
                 LumexJsonSchemaException);
 }
 
@@ -569,7 +570,7 @@ TEST (LumexJsonSchemaValidatorTest,
 {
   LumexJsonSchemaValidator const validator (person_schema (), false);
   ILumexJsonSchemaValidator const &base = validator;
-  EXPECT_NO_THROW (base.validate (LumexStringView ("{}", 2)));
+  EXPECT_NO_THROW (base.validate (lumex_string_view ("{}", 2)));
 }
 
 TEST (LumexJsonSchemaValidatorTest,
@@ -578,7 +579,7 @@ TEST (LumexJsonSchemaValidatorTest,
   LumexJsonSchemaValidator const validator (person_schema ());
   try
     {
-      validator.validate (LumexStringView ("not json", 8));
+      validator.validate (lumex_string_view ("not json", 8));
       FAIL () << "expected an exception";
     }
   catch (LumexJsonSchemaException const &exc)
@@ -593,7 +594,7 @@ TEST (LumexJsonSchemaValidatorTest,
   LumexJsonSchemaValidator const validator (person_schema (), false);
   ILumexJsonSchemaValidator const &base = validator;
   std::exception_ptr error;
-  base.validate (LumexStringView ("{}", 2), error);
+  base.validate (lumex_string_view ("{}", 2), error);
   EXPECT_TRUE (error);
   EXPECT_TRUE ((std::is_polymorphic<ILumexJsonSchemaValidator>::value));
   EXPECT_TRUE (
@@ -610,7 +611,7 @@ TEST (LumexJsonSchemaNormalizerTest,
   input.erase ("name");
   input["fullName"] = "Bob";
   std::string const raw = text (input);
-  nlohmann::json const result = normalizer.normalize (LumexStringView (raw));
+  nlohmann::json const result = normalizer.normalize (lumex_string_view (raw));
   EXPECT_EQ (result["name"], "Bob");
   EXPECT_FALSE (result.contains ("fullName"));
   EXPECT_FALSE (result.contains ("ignored"));
@@ -622,7 +623,7 @@ TEST (LumexJsonSchemaNormalizerTest,
   PersonNormalizer const normalizer (true);
   std::exception_ptr error;
   EXPECT_THROW (LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR (
-                    normalizer.normalize (LumexStringView ("{}", 2), error)),
+                    normalizer.normalize (lumex_string_view ("{}", 2), error)),
                 LumexJsonSchemaException);
   EXPECT_FALSE (error);
   EXPECT_TRUE (normalizer.is_strict ());
@@ -634,7 +635,7 @@ TEST (LumexJsonSchemaNormalizerTest,
   PersonNormalizer const normalizer (false);
   std::exception_ptr error;
   nlohmann::json const result
-      = normalizer.normalize (LumexStringView ("{}", 2), error);
+      = normalizer.normalize (lumex_string_view ("{}", 2), error);
   EXPECT_TRUE (result.is_null ());
   ASSERT_TRUE (error);
   EXPECT_NE (LumexJsonSchemaNormalizer::get_exception_message (error).find (
@@ -647,7 +648,7 @@ TEST (LumexJsonSchemaNormalizerTest,
 {
   PersonNormalizer const normalizer (false);
   std::exception_ptr error;
-  normalizer.validate (LumexStringView ("{", 1), error);
+  normalizer.validate (lumex_string_view ("{", 1), error);
   ASSERT_TRUE (error);
   EXPECT_NE (LumexJsonSchemaNormalizer::get_exception_message (error).find (
                  "parse_error"),
@@ -660,9 +661,9 @@ TEST (LumexJsonSchemaNormalizerTest,
   PersonNormalizer const normalizer (false);
   std::string const raw = text (valid_person ());
   std::exception_ptr error = std::make_exception_ptr (std::logic_error ("x"));
-  normalizer.validate (LumexStringView (raw), error);
+  normalizer.validate (lumex_string_view (raw), error);
   EXPECT_FALSE (error);
-  EXPECT_NO_THROW (normalizer.validate (LumexStringView (raw)));
+  EXPECT_NO_THROW (normalizer.validate (lumex_string_view (raw)));
 }
 
 TEST (LumexJsonSchemaNormalizerTest,
@@ -695,10 +696,11 @@ TEST (LumexJsonSchemaNormalizerTest,
       GivenNonStrictAndViolation_WhenOneArgOverloads_ThenNoThrowAndNull)
 {
   PersonNormalizer const normalizer (false);
-  EXPECT_NO_THROW (normalizer.validate (LumexStringView ("{}", 2)));
-  EXPECT_NO_THROW (normalizer.validate (LumexStringView ("{", 1)));
+  EXPECT_NO_THROW (normalizer.validate (lumex_string_view ("{}", 2)));
+  EXPECT_NO_THROW (normalizer.validate (lumex_string_view ("{", 1)));
   nlohmann::json result;
-  EXPECT_NO_THROW (result = normalizer.normalize (LumexStringView ("{}", 2)));
+  EXPECT_NO_THROW (result
+                   = normalizer.normalize (lumex_string_view ("{}", 2)));
   EXPECT_TRUE (result.is_null ());
 }
 
@@ -706,10 +708,10 @@ TEST (LumexJsonSchemaNormalizerTest,
       GivenStrictAndViolation_WhenOneArgOverloads_ThenThrow)
 {
   PersonNormalizer const normalizer (true);
-  EXPECT_THROW (normalizer.validate (LumexStringView ("{}", 2)),
+  EXPECT_THROW (normalizer.validate (lumex_string_view ("{}", 2)),
                 LumexJsonSchemaException);
   EXPECT_THROW (LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR (
-                    normalizer.normalize (LumexStringView ("{", 1))),
+                    normalizer.normalize (lumex_string_view ("{", 1))),
                 LumexJsonSchemaException);
 }
 
@@ -733,7 +735,7 @@ TEST (LumexJsonSchemaNormalizerTest,
   PersonNormalizer const normalizer (true);
   ILumexJsonNormalizer const &base = normalizer;
   std::string const raw = text (valid_person ());
-  EXPECT_EQ (base.normalize (LumexStringView (raw))["name"], "Ann");
+  EXPECT_EQ (base.normalize (lumex_string_view (raw))["name"], "Ann");
   EXPECT_TRUE ((std::is_abstract<LumexJsonSchemaNormalizer>::value));
   EXPECT_TRUE ((std::has_virtual_destructor<ILumexJsonNormalizer>::value));
 }

@@ -33,22 +33,22 @@ operator<< (std::ostream &os, Streamable const &s)
 
 // LUMEX_VARINFO/VarInfo captures its argument by forwarding reference
 // (T&&), which cannot bind to a void expression - these two return int
-// rather than void so they can be used as a VarInfo argument at all, the
+// rather than void so they can be used as a var_info argument at all, the
 // same constraint the ported original design has.
 int
-NoexceptFunction () noexcept
+noexcept_function () noexcept
 {
   return 1;
 }
 
 int
-ThrowingFunction ()
+throwing_function ()
 {
   return 2;
 }
 } // namespace
 
-// --- stream detection (traits::stream) / FormatValue -----------------------
+// --- stream detection (traits::stream) / format_value -----------------------
 
 TEST (LumexVarInfoTest, GivenStreamableType_WhenIsOstreamable_ThenValueIsTrue)
 {
@@ -70,8 +70,8 @@ TEST (LumexVarInfoTest,
 TEST (LumexVarInfoTest,
       GivenStreamableValue_WhenFormatValue_ThenReturnsStreamedRepresentation)
 {
-  EXPECT_EQ (VarInfoDetail::FormatValue (42), "42");
-  EXPECT_EQ (VarInfoDetail::FormatValue (Streamable{ 7 }), "Streamable(7)");
+  EXPECT_EQ (VarInfoDetail::format_value (42), "42");
+  EXPECT_EQ (VarInfoDetail::format_value (Streamable{ 7 }), "Streamable(7)");
 }
 
 TEST (
@@ -81,10 +81,10 @@ TEST (
   // This is the key philosophy difference from LumexStringify.hpp's
   // stringify(): a missing operator<< degrades gracefully here instead of
   // triggering a static_assert.
-  EXPECT_EQ (VarInfoDetail::FormatValue (NoStreamable{}), "<no operator<<>");
+  EXPECT_EQ (VarInfoDetail::format_value (NoStreamable{}), "<no operator<<>");
 }
 
-// --- LUMEX_VARINFO / VarInfo ---------------------------------------------
+// --- LUMEX_VARINFO / var_info ---------------------------------------------
 
 TEST (LumexVarInfoTest,
       GivenNamedVariable_WhenVarInfo_ThenMessageContainsExprValueAndLocation)
@@ -101,14 +101,14 @@ TEST (LumexVarInfoTest,
 TEST (LumexVarInfoTest,
       GivenNoexceptExpression_WhenVarInfo_ThenReportsNoexceptTrue)
 {
-  std::string info = LUMEX_VARINFO (NoexceptFunction ());
+  std::string info = LUMEX_VARINFO (noexcept_function ());
   EXPECT_NE (info.find ("noexcept=true"), std::string::npos) << info;
 }
 
 TEST (LumexVarInfoTest,
       GivenPotentiallyThrowingExpression_WhenVarInfo_ThenReportsNoexceptFalse)
 {
-  std::string info = LUMEX_VARINFO (ThrowingFunction ());
+  std::string info = LUMEX_VARINFO (throwing_function ());
   EXPECT_NE (info.find ("noexcept=false"), std::string::npos) << info;
 }
 

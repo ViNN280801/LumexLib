@@ -141,14 +141,15 @@ main ()
     {
       (void)fmt::format (fmt::runtime ("{} and {:d}"), 1, "not a number");
     }
-  catch (fmt::FormatError const &error)
+  catch (fmt::format_error const &error)
     {
       std::cout << "FormatError: " << error.what () << " at offset "
                 << error.position () << '\n';
     }
-  fmt::FormatError const plain ("no offset");
+  fmt::format_error const plain ("no offset");
   std::cout << "no_position: "
-            << (plain.position () == fmt::FormatError::no_position ()) << '\n';
+            << (plain.position () == fmt::format_error::no_position ())
+            << '\n';
   fmt::try_format_result_t<char> const good = fmt::try_format ("{:>5}", 1);
   fmt::try_format_result_t<char> const bad
       = fmt::try_format (fmt::runtime ("{} {}"), 1);

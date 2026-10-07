@@ -10,8 +10,8 @@ main ()
 {
   std::cout << "=== Workflow: jitter vial positions for a plate map ===\n\n";
 
-  NumberGenerator<int> rows (1, 8);
-  NumberGenerator<int> cols (1, 12);
+  number_generator<int> rows (1, 8);
+  number_generator<int> cols (1, 12);
   std::vector<int> const row_picks = rows.get_sequence (5, 1, 8);
   std::vector<int> const col_picks = cols.get_sequence (5, 1, 12);
 

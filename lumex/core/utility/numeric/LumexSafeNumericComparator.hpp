@@ -135,15 +135,15 @@ namespace numeric
  * - Potential security vulnerabilities
  * - Difficult debugging
  *
- * @section solution Solution: SafeComparator
+ * @section solution Solution: safe_comparator
  *
- * SafeComparator addresses these problems by:
+ * safe_comparator addresses these problems by:
  *
  * @subsection range_checking Range checking
  * Before comparing, checks whether the value fits the target type range:
  *
  * @code
- * // SAFE with SafeComparator
+ * // SAFE with safe_comparator
  * SafeUCharComparator safe_size(200);
  * if (safe_size.safe_compare(300)) {
  *   // Algorithm:
@@ -175,7 +175,7 @@ namespace numeric
  *
  * @section examples Practical examples
  *
- * @subsection bad_example Example WITHOUT SafeComparator (unsafe)
+ * @subsection bad_example Example WITHOUT safe_comparator (unsafe)
  *
  * @code
  * // Problematic code
@@ -200,7 +200,7 @@ namespace numeric
  * }
  * @endcode
  *
- * @subsection good_example Example WITH SafeComparator (safe)
+ * @subsection good_example Example WITH safe_comparator (safe)
  *
  * @code
  * // Safe code
@@ -215,7 +215,7 @@ namespace numeric
  *     // SAFE!
  *     SafeUCharComparator safeSize(block.m_Size);
  *     if (safeSize.safe_compare(maxPacketSize)) {
- *         // SafeComparator algorithm:
+ *         // safe_comparator algorithm:
  *         // 1. Check: maxPacketSize(1000) > 255 (max unsigned char) = true
  *         // 2. Return: false (correct!)
  *         // Result: processSmallPacket() is called correctly
@@ -288,7 +288,7 @@ namespace numeric
  *
  * @subsection why_it_works Why this works
  *
- * SafeComparator uses the following algorithm for unsigned char >= int:
+ * safe_comparator uses the following algorithm for unsigned char >= int:
  *
  * @code
  * bool safe_compare(unsigned char current, int other) {
@@ -312,7 +312,7 @@ namespace numeric
  *
  * @section usage When to use
  *
- * Use SafeComparator when:
+ * Use safe_comparator when:
  * - comparing variables of different types
  * - handling user input
  * - building critical systems
@@ -321,16 +321,16 @@ namespace numeric
  *
  * @section performance Performance
  *
- * SafeComparator is optimized for performance:
+ * safe_comparator is optimized for performance:
  * - Compile-time dispatch (zero-cost abstractions)
  * - Same-type specializations (direct comparison)
  * - Minimal overhead for the checks
  * - Lock-free operations for atomic versions
  *
- * @section algorithm Full SafeComparator algorithm
+ * @section algorithm Full safe_comparator algorithm
  *
  * @subsection algorithm_overview Algorithm overview
- * SafeComparator uses a deterministic algorithm for safe comparison of any
+ * safe_comparator uses a deterministic algorithm for safe comparison of any
  * arithmetic types. The algorithm runs in a fixed order :
  *
  * **INPUT**: current (type T), other (type U)
@@ -469,7 +469,7 @@ namespace numeric
  *
  * @subsection practical_examples Practical examples with code
  *
- * **EXAMPLE 1: WITHOUT SafeComparator (unsafe)**
+ * **EXAMPLE 1: WITHOUT safe_comparator (unsafe)**
  * @code
  * unsigned char block_size = 252;  // Range: 0-255
  * int packet_size = 1652;          // Range: -2,147,483,648 to 2,147,483,647
@@ -489,15 +489,15 @@ namespace numeric
  * **Result**: 252 >= 116 = true (incorrect!)
  * **Consequence**: Incorrect program logic
  *
- * **EXAMPLE 2: WITH SafeComparator (safe)**
+ * **EXAMPLE 2: WITH safe_comparator (safe)**
  * @code
  * unsigned char block_size = 252;  // Range: 0-255
  * int packet_size = 1652;          // Range: -2,147,483,648 to 2,147,483,647
  *
- * // SAFE! Use SafeComparator
+ * // SAFE! Use safe_comparator
  * SafeUCharComparator safe_size(block_size);
  * if (safe_size.safe_compare(packet_size)) {
- *     // SafeComparator algorithm:
+ *     // safe_comparator algorithm:
  *     // 1. Classification: unsigned char vs int -> both_integral = true
  *     // 2. Choice: ALGORITHM B (integer types)
  *     // 3. ACTION B.1: max_T = 255
@@ -509,7 +509,7 @@ namespace numeric
  * }
  * @endcode
  *
- * **SafeComparator algorithm**:
+ * **safe_comparator algorithm**:
  * 1. **Type classification**: unsigned char vs int -> both_integral = true
  * 2. **Algorithm choice**: ALGORITHM B (integer types)
  * 3. **ACTION B.1**: max_T = 255 (maximum unsigned char)
@@ -519,9 +519,9 @@ namespace numeric
  * **Result**: processSmallPacket() is called correctly!
  *
  * **Result comparison**:
- * - **Without SafeComparator**: 252 >= 116 = true (incorrect)
- * - **With SafeComparator**: 252 >= 1652 = false (correct)
- * - **Difference**: SafeComparator prevents overflow and yields the correct
+ * - **Without safe_comparator**: 252 >= 116 = true (incorrect)
+ * - **With safe_comparator**: 252 >= 1652 = false (correct)
+ * - **Difference**: safe_comparator prevents overflow and yields the correct
  * result
  *
  * @subsection algorithm_properties Algorithm properties
@@ -1876,14 +1876,14 @@ struct safe_compare_impl_helper<
  * @par Example
  * @code
  * // Thread-safe version for multithreading
- * SafeComparator<int, true> atomic_counter(0);
+ * safe_comparator<int, true> atomic_counter(0);
  * atomic_counter.update(100);
  * if (atomic_counter.safe_compare(50)) {
  *   // Safe comparison int >= int
  * }
  *
  * // High-performance single-threaded version
- * SafeComparator<unsigned char, false> fast_size(200);
+ * safe_comparator<unsigned char, false> fast_size(200);
  * if (fast_size.safe_compare(300)) {
  *   // Safe comparison unsigned char >= int without overflow
  * }
@@ -1892,7 +1892,7 @@ struct safe_compare_impl_helper<
  * @since C++11
  * @note Fully C++11 compatible; uses C++20 concepts when available
  */
-template <typename T, bool Atomic = false> class SafeComparator
+template <typename T, bool Atomic = false> class safe_comparator
 {
   using clean_T = traits::meta::CleanType<T>;
   LUMEX_STATIC_ASSERT_MSG (std::is_arithmetic<clean_T>::value,
@@ -1976,7 +1976,7 @@ public:
    *          For atomic types this is a thread-safe operation.
    * @note No-throw; thread-safe when Atomic=true
    */
-  SafeComparator () LUMEX_NOEXCEPT : m_value{} {}
+  safe_comparator () LUMEX_NOEXCEPT : m_value{} {}
 
   /**
    * @brief Constructor with an initial value
@@ -1985,7 +1985,7 @@ public:
    *          For atomic types, initialization is atomic.
    * @note No-throw; thread-safe when Atomic=true
    */
-  explicit SafeComparator (T value) LUMEX_NOEXCEPT
+  explicit safe_comparator (T value) LUMEX_NOEXCEPT
       : m_value (static_cast<clean_T> (value))
   {
   }
@@ -1997,7 +1997,7 @@ public:
    *          For atomic types, copy uses an atomic load.
    * @note No-throw; thread-safe when Atomic=true
    */
-  SafeComparator (SafeComparator const &other) LUMEX_NOEXCEPT
+  safe_comparator (safe_comparator const &other) LUMEX_NOEXCEPT
       : m_value (other.atomic_load ())
   {
   }
@@ -2011,7 +2011,7 @@ public:
    * (std::atomic cannot be moved, and std::exchange is C++14).
    * @note No-throw, maximum performance
    */
-  SafeComparator (SafeComparator &&other) LUMEX_NOEXCEPT
+  safe_comparator (safe_comparator &&other) LUMEX_NOEXCEPT
       : m_value (other.atomic_load ())
   {
     other.atomic_store (clean_T{});
@@ -2025,8 +2025,8 @@ public:
    *          Guards against self-assignment.
    * @note No-throw; thread-safe when Atomic=true
    */
-  SafeComparator &
-  operator= (SafeComparator const &other) LUMEX_NOEXCEPT
+  safe_comparator &
+  operator= (safe_comparator const &other) LUMEX_NOEXCEPT
   {
     if (this != &other)
       atomic_store (other.atomic_load ());
@@ -2041,8 +2041,8 @@ public:
    * object. Guards against self-assignment.
    * @note No-throw, maximum performance
    */
-  SafeComparator &
-  operator= (SafeComparator &&other) LUMEX_NOEXCEPT
+  safe_comparator &
+  operator= (safe_comparator &&other) LUMEX_NOEXCEPT
   {
     if (this != &other)
       {
@@ -2059,7 +2059,7 @@ public:
    *          For atomic types, destruction is thread-safe.
    * @note No-throw; implicitly generated by the compiler
    */
-  ~SafeComparator () = default;
+  ~safe_comparator () = default;
 
   // === Safe comparison operations ===
 
@@ -2341,7 +2341,7 @@ public:
    *          For atomic types the operation is thread-safe.
    * @note Thread-safe when Atomic=true; no-throw
    */
-  SafeComparator &
+  safe_comparator &
   operator= (T value) LUMEX_NOEXCEPT
   {
     atomic_store (static_cast<clean_T> (value));
@@ -2358,36 +2358,37 @@ public:
  * @note Use in multithreaded applications
  */
 using AtomicCharComparator
-    = SafeComparator<char, true>; ///< Atomic comparator for char
+    = safe_comparator<char, true>; ///< Atomic comparator for char
 using AtomicUCharComparator
-    = SafeComparator<unsigned char,
-                     true>; ///< Atomic comparator for unsigned char
+    = safe_comparator<unsigned char,
+                      true>; ///< Atomic comparator for unsigned char
 using AtomicShortComparator
-    = SafeComparator<short, true>; ///< Atomic comparator for short
+    = safe_comparator<short, true>; ///< Atomic comparator for short
 using AtomicUShortComparator
-    = SafeComparator<unsigned short,
-                     true>; ///< Atomic comparator for unsigned short
+    = safe_comparator<unsigned short,
+                      true>; ///< Atomic comparator for unsigned short
 using AtomicIntComparator
-    = SafeComparator<int, true>; ///< Atomic comparator for int
+    = safe_comparator<int, true>; ///< Atomic comparator for int
 using AtomicUIntComparator
-    = SafeComparator<unsigned int,
-                     true>; ///< Atomic comparator for unsigned int
+    = safe_comparator<unsigned int,
+                      true>; ///< Atomic comparator for unsigned int
 using AtomicLongComparator
-    = SafeComparator<long, true>; ///< Atomic comparator for long
+    = safe_comparator<long, true>; ///< Atomic comparator for long
 using AtomicULongComparator
-    = SafeComparator<unsigned long,
-                     true>; ///< Atomic comparator for unsigned long
+    = safe_comparator<unsigned long,
+                      true>; ///< Atomic comparator for unsigned long
 using AtomicLongLongComparator
-    = SafeComparator<long long, true>; ///< Atomic comparator for long long
+    = safe_comparator<long long, true>; ///< Atomic comparator for long long
 using AtomicULongLongComparator
-    = SafeComparator<unsigned long long,
-                     true>; ///< Atomic comparator for unsigned long long
+    = safe_comparator<unsigned long long,
+                      true>; ///< Atomic comparator for unsigned long long
 using AtomicFloatComparator
-    = SafeComparator<float, true>; ///< Atomic comparator for float
+    = safe_comparator<float, true>; ///< Atomic comparator for float
 using AtomicDoubleComparator
-    = SafeComparator<double, true>; ///< Atomic comparator for double
+    = safe_comparator<double, true>; ///< Atomic comparator for double
 using AtomicLongDoubleComparator
-    = SafeComparator<long double, true>; ///< Atomic comparator for long double
+    = safe_comparator<long double,
+                      true>; ///< Atomic comparator for long double
 
 /**
  * @brief Aliases for non-atomic versions (higher performance)
@@ -2396,36 +2397,36 @@ using AtomicLongDoubleComparator
  * @note Use only in a single-threaded context
  */
 using FastCharComparator
-    = SafeComparator<char, false>; ///< Fast comparator for char
+    = safe_comparator<char, false>; ///< Fast comparator for char
 using FastUCharComparator
-    = SafeComparator<unsigned char,
-                     false>; ///< Fast comparator for unsigned char
+    = safe_comparator<unsigned char,
+                      false>; ///< Fast comparator for unsigned char
 using FastShortComparator
-    = SafeComparator<short, false>; ///< Fast comparator for short
+    = safe_comparator<short, false>; ///< Fast comparator for short
 using FastUShortComparator
-    = SafeComparator<unsigned short,
-                     false>; ///< Fast comparator for unsigned short
+    = safe_comparator<unsigned short,
+                      false>; ///< Fast comparator for unsigned short
 using FastIntComparator
-    = SafeComparator<int, false>; ///< Fast comparator for int
+    = safe_comparator<int, false>; ///< Fast comparator for int
 using FastUIntComparator
-    = SafeComparator<unsigned int,
-                     false>; ///< Fast comparator for unsigned int
+    = safe_comparator<unsigned int,
+                      false>; ///< Fast comparator for unsigned int
 using FastLongComparator
-    = SafeComparator<long, false>; ///< Fast comparator for long
+    = safe_comparator<long, false>; ///< Fast comparator for long
 using FastULongComparator
-    = SafeComparator<unsigned long,
-                     false>; ///< Fast comparator for unsigned long
+    = safe_comparator<unsigned long,
+                      false>; ///< Fast comparator for unsigned long
 using FastLongLongComparator
-    = SafeComparator<long long, false>; ///< Fast comparator for long long
+    = safe_comparator<long long, false>; ///< Fast comparator for long long
 using FastULongLongComparator
-    = SafeComparator<unsigned long long,
-                     false>; ///< Fast comparator for unsigned long long
+    = safe_comparator<unsigned long long,
+                      false>; ///< Fast comparator for unsigned long long
 using FastFloatComparator
-    = SafeComparator<float, false>; ///< Fast comparator for float
+    = safe_comparator<float, false>; ///< Fast comparator for float
 using FastDoubleComparator
-    = SafeComparator<double, false>; ///< Fast comparator for double
+    = safe_comparator<double, false>; ///< Fast comparator for double
 using FastLongDoubleComparator
-    = SafeComparator<long double, false>; ///< Fast comparator for long double
+    = safe_comparator<long double, false>; ///< Fast comparator for long double
 
 /**
  * @brief Default aliases (non-atomic for better performance)
@@ -2433,30 +2434,30 @@ using FastLongDoubleComparator
  *          Use non-atomic versions for maximum performance.
  * @note Recommended for most uses
  */
-using SafeCharComparator = SafeComparator<char>; ///< Safe comparator for char
+using SafeCharComparator = safe_comparator<char>; ///< Safe comparator for char
 using SafeUCharComparator
-    = SafeComparator<unsigned char>; ///< Safe comparator for unsigned char
+    = safe_comparator<unsigned char>; ///< Safe comparator for unsigned char
 using SafeShortComparator
-    = SafeComparator<short>; ///< Safe comparator for short
+    = safe_comparator<short>; ///< Safe comparator for short
 using SafeUShortComparator
-    = SafeComparator<unsigned short>; ///< Safe comparator for unsigned short
-using SafeIntComparator = SafeComparator<int>; ///< Safe comparator for int
+    = safe_comparator<unsigned short>; ///< Safe comparator for unsigned short
+using SafeIntComparator = safe_comparator<int>; ///< Safe comparator for int
 using SafeUIntComparator
-    = SafeComparator<unsigned int>; ///< Safe comparator for unsigned int
-using SafeLongComparator = SafeComparator<long>; ///< Safe comparator for long
+    = safe_comparator<unsigned int>; ///< Safe comparator for unsigned int
+using SafeLongComparator = safe_comparator<long>; ///< Safe comparator for long
 using SafeULongComparator
-    = SafeComparator<unsigned long>; ///< Safe comparator for unsigned long
+    = safe_comparator<unsigned long>; ///< Safe comparator for unsigned long
 using SafeLongLongComparator
-    = SafeComparator<long long>; ///< Safe comparator for long long
+    = safe_comparator<long long>; ///< Safe comparator for long long
 using SafeULongLongComparator
-    = SafeComparator<unsigned long long>; ///< Safe comparator for unsigned
-                                          ///< long long
+    = safe_comparator<unsigned long long>; ///< Safe comparator for unsigned
+                                           ///< long long
 using SafeFloatComparator
-    = SafeComparator<float>; ///< Safe comparator for float
+    = safe_comparator<float>; ///< Safe comparator for float
 using SafeDoubleComparator
-    = SafeComparator<double>; ///< Safe comparator for double
+    = safe_comparator<double>; ///< Safe comparator for double
 using SafeLongDoubleComparator
-    = SafeComparator<long double>; ///< Safe comparator for long double
+    = safe_comparator<long double>; ///< Safe comparator for long double
 
 // === Three-way comparison and utilities ===
 
@@ -2956,7 +2957,7 @@ fits_in_type (SourceType value) LUMEX_NOEXCEPT
 // === Usage examples ===
 
 /*
- * @brief SafeComparator usage examples for various scenarios
+ * @brief safe_comparator usage examples for various scenarios
  * @details Shows the main capabilities of the safe comparison:
  *          - Safe comparison of different types
  *          - Thread-safe operations
@@ -2973,7 +2974,7 @@ int packet_size = 300;
 // Unsafe: may overflow
 // if (block_size >= packet_size) // Problem!
 
-// Safe: use SafeComparator
+// Safe: use safe_comparator
 SafeUCharComparator safe_size(block_size);
 if (safe_size.safe_compare(packet_size)) {
   // Safe comparison done
@@ -3105,7 +3106,7 @@ threshold) { SafeUCharComparator safe_packet_size(packet_size);
 } // namespace core
 } // namespace lumex
 
-using lumex::core::utility::numeric::SafeComparator;
+using lumex::core::utility::numeric::safe_comparator;
 
 #if defined(__clang__)
 #pragma clang diagnostic pop

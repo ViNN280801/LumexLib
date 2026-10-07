@@ -664,33 +664,33 @@ struct PlatformHelper
 {
 #ifdef _WIN32
   static std::string
-  getPlatformName ()
+  get_platform_name ()
   {
     return "Windows";
   }
   static bool
-  isWindows ()
+  is_windows ()
   {
     return true;
   }
   static bool
-  isUnix ()
+  is_unix ()
   {
     return false;
   }
 #else
   static std::string
-  getPlatformName ()
+  get_platform_name ()
   {
     return "Unix/Linux";
   }
   static bool
-  isWindows ()
+  is_windows ()
   {
     return false;
   }
   static bool
-  isUnix ()
+  is_unix ()
   {
     return true;
   }
@@ -699,7 +699,7 @@ struct PlatformHelper
   friend std::ostream &
   operator<< (std::ostream &os, const PlatformHelper &)
   {
-    return os << getPlatformName ();
+    return os << get_platform_name ();
   }
 };
 
@@ -710,10 +710,10 @@ TEST_F (LumexStringifyTest, PlatformSpecific_Dirty)
 
 #ifdef _WIN32
   EXPECT_EQ (platform_str, "Platform: Windows");
-  EXPECT_TRUE (PlatformHelper::isWindows ());
+  EXPECT_TRUE (PlatformHelper::is_windows ());
 #else
   EXPECT_EQ (platform_str, "Platform: Unix/Linux");
-  EXPECT_TRUE (PlatformHelper::isUnix ());
+  EXPECT_TRUE (PlatformHelper::is_unix ());
 #endif
 }
 

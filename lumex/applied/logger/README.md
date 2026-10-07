@@ -4,7 +4,7 @@
 
 **LumexLogger** - это универсальная система логирования для C++ приложений, реализованная как потокобезопасный синглтон. Логгер автоматически создает файлы журналов рядом с исполняемым файлом и предоставляет гибкие возможности настройки через конфигурационные файлы.
 
-Класс живет в пространстве имен `lumex::applied::logger::logger` (файл `LumexLogger.hpp`, полное имя `lumex::applied::logger::logger::LumexLogger`), а для удобства использования в глобальном пространстве имен объявлен алиас `LumexLogger` (по аналогии с `LumexEnvironment` и `LumexLogging`). В коде достаточно писать `LumexLogger::getInstance()`, не указывая полный путь пространства имен.
+Класс живет в пространстве имен `lumex::applied::logger::logger` (файл `LumexLogger.hpp`, полное имя `lumex::applied::logger::logger::LumexLogger`), а для удобства использования в глобальном пространстве имен объявлен алиас `LumexLogger` (по аналогии с `lumex_environment` и `LumexLogging`). В коде достаточно писать `LumexLogger::getInstance()`, не указывая полный путь пространства имен.
 
 Этот модуль (`lumex/applied/logger/`) - это отдельный, самостоятельный механизм логирования, синхронизированный по функциональности с `Logger` из проекта DChannel. Он **не связан** с `lumex/applied/logging/` (`LumexLogging`) - другим, независимо используемым внутри самой LumexLib логирующим фасадом (см. `LumexHardwareCapabilities.cpp`, `LumexResourceMonitor.cpp`, `LumexSettingsGuard.cpp`). Не путайте эти два модуля.
 

@@ -616,7 +616,7 @@ enum class Reflected
 };
 
 inline char const *
-toString (Reflected value)
+to_string (Reflected value)
 {
   return value == Reflected::first ? "first" : "second";
 }
@@ -632,7 +632,7 @@ enum class WrongReturn
 };
 
 inline int
-toString (WrongReturn)
+to_string (WrongReturn)
 {
   return 0;
 }
@@ -642,7 +642,7 @@ struct NotAnEnum
 };
 
 inline char const *
-toString (NotAnEnum)
+to_string (NotAnEnum)
 {
   return "struct";
 }
@@ -739,13 +739,13 @@ TEST (LumexTypeTraitsTest, GivenOtherTypes_WhenIsStringLike_ThenFalse)
 TEST (LumexTypeTraitsTest, GivenEnumWithAdlToString_WhenIsReflected_ThenTrue)
 {
   EXPECT_TRUE ((is_reflected_enum<type_traits_test_enums::Reflected>::value));
-  EXPECT_STREQ (toString (type_traits_test_enums::Reflected::second),
+  EXPECT_STREQ (to_string (type_traits_test_enums::Reflected::second),
                 "second");
 }
 
 TEST (LumexTypeTraitsTest, GivenOtherTypes_WhenIsReflectedEnum_ThenFalse)
 {
-  // No toString, toString returning a non-string, not an enum, builtins.
+  // No to_string, to_string returning a non-string, not an enum, builtins.
   EXPECT_FALSE (
       (is_reflected_enum<type_traits_test_enums::NotReflected>::value));
   EXPECT_FALSE (

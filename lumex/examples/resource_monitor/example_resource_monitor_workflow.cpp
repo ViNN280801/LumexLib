@@ -11,8 +11,8 @@ main ()
 {
   std::cout << "=== Workflow: sample once around a dummy run ===\n\n";
 
-  LumexResourceMonitor::startIfEnabled (std::string ("."),
-                                        std::chrono::milliseconds (500));
+  LumexResourceMonitor::start_if_enabled (std::string ("."),
+                                          std::chrono::milliseconds (500));
   std::cout << "run placeholder\n";
   LumexResourceMonitor::stop ();
   return 0;

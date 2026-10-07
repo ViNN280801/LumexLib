@@ -40,13 +40,13 @@ main ()
                                            check_ascii + sizeof (check_ascii));
 
   std::cout << "--- 1. Catalogue size and first few bit widths ---\n";
-  std::uint32_t const count = GetCrcCatalogEntryCount ();
+  std::uint32_t const count = get_crc_catalog_entry_count ();
   std::cout << "catalog_entries=" << count << '\n';
   std::uint32_t const preview = count < 8U ? count : 8U;
   for (std::uint32_t i = 0; i < preview; ++i)
     {
-      std::cout << "  [" << i << "] width=" << GetCrcCatalogBitWidth (i)
-                << " crc=" << ComputeCrcCatalog (i, payload) << '\n';
+      std::cout << "  [" << i << "] width=" << get_crc_catalog_bit_width (i)
+                << " crc=" << compute_crc_catalog (i, payload) << '\n';
     }
 
   std::cout << "\n--- 2. CRC-32/ISO-HDLC (Ethernet / ZIP / PNG) ---\n";
@@ -70,7 +70,7 @@ main ()
 
   std::cout << "\n--- 5. Out-of-range catalogue index ---\n";
   std::uint64_t const bogus
-      = ComputeCrcCatalog (count + 100U, check_ascii, sizeof (check_ascii));
+      = compute_crc_catalog (count + 100U, check_ascii, sizeof (check_ascii));
   std::cout << "crc[count+100]=" << bogus << '\n';
 
   std::cout << "\n=== CRC example finished ===\n";

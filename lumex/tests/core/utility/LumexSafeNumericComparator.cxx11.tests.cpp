@@ -96,7 +96,7 @@ TYPED_TEST (SafeComparatorSameTypeTest,
   using Type = typename TestFixture::Type;
 
   Type const test_value = static_cast<Type> (42);
-  SafeComparator<Type> comparator (test_value);
+  safe_comparator<Type> comparator (test_value);
 
   EXPECT_TRUE (comparator.safe_equal (test_value))
       << "SafeComparator<" << typeid (Type).name ()
@@ -110,7 +110,7 @@ TYPED_TEST (SafeComparatorSameTypeTest,
 
   Type const test_value = static_cast<Type> (42);
   Type const different_value = static_cast<Type> (100);
-  SafeComparator<Type> comparator (test_value);
+  safe_comparator<Type> comparator (test_value);
 
   EXPECT_TRUE (comparator.safe_not_equal (different_value))
       << "SafeComparator<" << typeid (Type).name ()
@@ -124,7 +124,7 @@ TYPED_TEST (SafeComparatorSameTypeTest,
 
   Type const smaller_value = static_cast<Type> (10);
   Type const larger_value = static_cast<Type> (20);
-  SafeComparator<Type> comparator (smaller_value);
+  safe_comparator<Type> comparator (smaller_value);
 
   EXPECT_TRUE (comparator.safe_less (larger_value))
       << "SafeComparator<" << typeid (Type).name ()
@@ -138,7 +138,7 @@ TYPED_TEST (SafeComparatorSameTypeTest,
 
   Type const larger_value = static_cast<Type> (20);
   Type const smaller_value = static_cast<Type> (10);
-  SafeComparator<Type> comparator (larger_value);
+  safe_comparator<Type> comparator (larger_value);
 
   EXPECT_TRUE (comparator.safe_greater (smaller_value))
       << "SafeComparator<" << typeid (Type).name ()
@@ -151,7 +151,7 @@ TYPED_TEST (SafeComparatorSameTypeTest,
   using Type = typename TestFixture::Type;
 
   Type const test_value = static_cast<Type> (15);
-  SafeComparator<Type> comparator (test_value);
+  safe_comparator<Type> comparator (test_value);
 
   EXPECT_TRUE (comparator.safe_less_equal (static_cast<Type> (20)))
       << "SafeComparator<" << typeid (Type).name ()
@@ -168,7 +168,7 @@ TYPED_TEST (SafeComparatorSameTypeTest,
   using Type = typename TestFixture::Type;
 
   Type const test_value = static_cast<Type> (15);
-  SafeComparator<Type> comparator (test_value);
+  safe_comparator<Type> comparator (test_value);
 
   EXPECT_TRUE (comparator.safe_greater_equal (static_cast<Type> (10)))
       << "SafeComparator<" << typeid (Type).name ()
@@ -185,7 +185,7 @@ TYPED_TEST (SafeComparatorSameTypeTest,
   using Type = typename TestFixture::Type;
 
   Type const test_value = static_cast<Type> (42);
-  SafeComparator<Type> comparator (test_value);
+  safe_comparator<Type> comparator (test_value);
 
   EXPECT_TRUE (comparator.safe_compare (test_value))
       << "SafeComparator<" << typeid (Type).name ()
@@ -198,7 +198,7 @@ TYPED_TEST (SafeComparatorSameTypeTest,
   using Type = typename TestFixture::Type;
 
   Type const min_value = this->template get_min_value<Type> ();
-  SafeComparator<Type> comparator (min_value);
+  safe_comparator<Type> comparator (min_value);
 
   EXPECT_TRUE (comparator.safe_equal (min_value))
       << "SafeComparator<" << typeid (Type).name ()
@@ -216,7 +216,7 @@ TYPED_TEST (SafeComparatorSameTypeTest,
   using Type = typename TestFixture::Type;
 
   Type const max_value = this->template get_max_value<Type> ();
-  SafeComparator<Type> comparator (max_value);
+  safe_comparator<Type> comparator (max_value);
 
   EXPECT_TRUE (comparator.safe_equal (max_value))
       << "SafeComparator<" << typeid (Type).name ()
@@ -242,7 +242,7 @@ TYPED_TEST (SafeComparatorSameTypeTest,
   using Type = typename TestFixture::Type;
 
   Type const zero_value = static_cast<Type> (0);
-  SafeComparator<Type> comparator (zero_value);
+  safe_comparator<Type> comparator (zero_value);
 
   EXPECT_TRUE (comparator.safe_equal (zero_value))
       << "SafeComparator<" << typeid (Type).name ()
@@ -273,7 +273,7 @@ TYPED_TEST (SafeComparatorSameTypeTest,
     }
 
   Type const negative_value = static_cast<Type> (-10);
-  SafeComparator<Type> comparator (negative_value);
+  safe_comparator<Type> comparator (negative_value);
 
   EXPECT_TRUE (comparator.safe_equal (negative_value))
       << "SafeComparator<" << typeid (Type).name ()
@@ -296,7 +296,7 @@ TYPED_TEST (SafeComparatorSameTypeTest,
   using Type = typename TestFixture::Type;
 
   Type const positive_value = static_cast<Type> (25);
-  SafeComparator<Type> comparator (positive_value);
+  safe_comparator<Type> comparator (positive_value);
 
   EXPECT_TRUE (comparator.safe_equal (positive_value))
       << "SafeComparator<" << typeid (Type).name ()
@@ -449,7 +449,7 @@ TYPED_TEST (SafeComparatorMixedTypesTest,
   FirstType const first_value = static_cast<FirstType> (42);
   SecondType const second_value = static_cast<SecondType> (42);
 
-  SafeComparator<FirstType> comparator (first_value);
+  safe_comparator<FirstType> comparator (first_value);
 
   EXPECT_TRUE (comparator.safe_equal (second_value))
       << "SafeComparator<" << typeid (FirstType).name ()
@@ -466,7 +466,7 @@ TYPED_TEST (SafeComparatorMixedTypesTest,
   FirstType const first_value = static_cast<FirstType> (10);
   SecondType const second_value = static_cast<SecondType> (20);
 
-  SafeComparator<FirstType> comparator (first_value);
+  safe_comparator<FirstType> comparator (first_value);
 
   EXPECT_TRUE (comparator.safe_not_equal (second_value))
       << "SafeComparator<" << typeid (FirstType).name ()
@@ -483,7 +483,7 @@ TYPED_TEST (SafeComparatorMixedTypesTest,
   FirstType const first_value = static_cast<FirstType> (10);
   SecondType const second_value = static_cast<SecondType> (20);
 
-  SafeComparator<FirstType> comparator (first_value);
+  safe_comparator<FirstType> comparator (first_value);
 
   EXPECT_TRUE (comparator.safe_less (second_value))
       << "SafeComparator<" << typeid (FirstType).name ()
@@ -500,7 +500,7 @@ TYPED_TEST (SafeComparatorMixedTypesTest,
   FirstType const first_value = static_cast<FirstType> (30);
   SecondType const second_value = static_cast<SecondType> (20);
 
-  SafeComparator<FirstType> comparator (first_value);
+  safe_comparator<FirstType> comparator (first_value);
 
   EXPECT_TRUE (comparator.safe_greater (second_value))
       << "SafeComparator<" << typeid (FirstType).name ()
@@ -515,7 +515,7 @@ TYPED_TEST (SafeComparatorMixedTypesTest,
   using SecondType = typename TestFixture::SecondType;
 
   FirstType const first_value = static_cast<FirstType> (15);
-  SafeComparator<FirstType> comparator (first_value);
+  safe_comparator<FirstType> comparator (first_value);
 
   SecondType const larger_value = static_cast<SecondType> (20);
   EXPECT_TRUE (comparator.safe_less_equal (larger_value))
@@ -537,7 +537,7 @@ TYPED_TEST (SafeComparatorMixedTypesTest,
   using SecondType = typename TestFixture::SecondType;
 
   FirstType const first_value = static_cast<FirstType> (25);
-  SafeComparator<FirstType> comparator (first_value);
+  safe_comparator<FirstType> comparator (first_value);
 
   SecondType const smaller_value = static_cast<SecondType> (20);
   EXPECT_TRUE (comparator.safe_greater_equal (smaller_value))
@@ -561,7 +561,7 @@ TYPED_TEST (SafeComparatorMixedTypesTest,
   FirstType const first_value = static_cast<FirstType> (30);
   SecondType const second_value = static_cast<SecondType> (20);
 
-  SafeComparator<FirstType> comparator (first_value);
+  safe_comparator<FirstType> comparator (first_value);
 
   EXPECT_TRUE (comparator.safe_compare (second_value))
       << "SafeComparator<" << typeid (FirstType).name ()
@@ -649,10 +649,10 @@ TEST (SafeComparatorDocumentedCases,
 TEST (SafeComparatorClassMethods,
       GivenDefaultConstructor_WhenCreated_ThenValueIsZero)
 {
-  SafeComparator<int> comparator;
+  safe_comparator<int> comparator;
   EXPECT_EQ (comparator.get (), 0);
 
-  SafeComparator<float> float_comparator;
+  safe_comparator<float> float_comparator;
   EXPECT_FLOAT_EQ (float_comparator.get (), 0.0f);
 }
 
@@ -660,11 +660,11 @@ TEST (SafeComparatorClassMethods,
       GivenValueConstructor_WhenCreated_ThenValueIsSet)
 {
   int const test_value = 42;
-  SafeComparator<int> comparator (test_value);
+  safe_comparator<int> comparator (test_value);
   EXPECT_EQ (comparator.get (), test_value);
 
   float const float_value = 3.14f;
-  SafeComparator<float> float_comparator (float_value);
+  safe_comparator<float> float_comparator (float_value);
   EXPECT_FLOAT_EQ (float_comparator.get (), float_value);
 }
 
@@ -672,8 +672,8 @@ TEST (SafeComparatorClassMethods,
       GivenCopyConstructor_WhenCopied_ThenValuesCopied)
 {
   int const original_value = 100;
-  SafeComparator<int> original (original_value);
-  SafeComparator<int> copy (original);
+  safe_comparator<int> original (original_value);
+  safe_comparator<int> copy (original);
 
   EXPECT_EQ (original.get (), original_value);
   EXPECT_EQ (copy.get (), original_value);
@@ -684,8 +684,8 @@ TEST (SafeComparatorClassMethods,
       GivenMoveConstructor_WhenMoved_ThenStateIsTransferred)
 {
   int const original_value = 200;
-  SafeComparator<int> original (original_value);
-  SafeComparator<int> moved (std::move (original));
+  safe_comparator<int> original (original_value);
+  safe_comparator<int> moved (std::move (original));
 
   EXPECT_EQ (moved.get (), original_value);
   EXPECT_NO_THROW (original.get ());
@@ -697,8 +697,8 @@ TEST (SafeComparatorClassMethods,
   int const source_value = 150;
   int const target_value = 50;
 
-  SafeComparator<int> source (source_value);
-  SafeComparator<int> target (target_value);
+  safe_comparator<int> source (source_value);
+  safe_comparator<int> target (target_value);
 
   target = source;
 
@@ -712,8 +712,8 @@ TEST (SafeComparatorClassMethods,
   int const source_value = 250;
   int const target_value = 75;
 
-  SafeComparator<int> source (source_value);
-  SafeComparator<int> target (target_value);
+  safe_comparator<int> source (source_value);
+  safe_comparator<int> target (target_value);
 
   target = std::move (source);
 
@@ -725,9 +725,9 @@ TEST (SafeComparatorClassMethods,
       GivenSelfAssignment_WhenAssigned_ThenNoChange)
 {
   int const test_value = 300;
-  SafeComparator<int> comparator (test_value);
+  safe_comparator<int> comparator (test_value);
 
-  SafeComparator<int> &ref = comparator;
+  safe_comparator<int> &ref = comparator;
   ref = comparator;
 
   EXPECT_EQ (comparator.get (), test_value);
@@ -738,7 +738,7 @@ TEST (SafeComparatorClassMethods, GivenUpdate_WhenCalled_ThenValueUpdated)
   int const initial_value = 10;
   int const new_value = 20;
 
-  SafeComparator<int> comparator (initial_value);
+  safe_comparator<int> comparator (initial_value);
   EXPECT_EQ (comparator.get (), initial_value);
 
   comparator.update (new_value);
@@ -748,7 +748,7 @@ TEST (SafeComparatorClassMethods, GivenUpdate_WhenCalled_ThenValueUpdated)
 TEST (SafeComparatorClassMethods, GivenGet_WhenCalled_ThenReturnsCurrentValue)
 {
   int const test_value = 42;
-  SafeComparator<int> comparator (test_value);
+  safe_comparator<int> comparator (test_value);
 
   EXPECT_EQ (comparator.get (), test_value);
   EXPECT_EQ (comparator.get (), test_value);
@@ -761,7 +761,7 @@ TEST (SafeComparatorClassMethods,
   int const expected_value = 100;
   int const desired_value = 200;
 
-  SafeComparator<int> comparator (initial_value);
+  safe_comparator<int> comparator (initial_value);
 
   bool const result
       = comparator.compare_and_set (expected_value, desired_value);
@@ -777,7 +777,7 @@ TEST (SafeComparatorClassMethods,
   int const expected_value = 50;
   int const desired_value = 200;
 
-  SafeComparator<int> comparator (initial_value);
+  safe_comparator<int> comparator (initial_value);
 
   bool const result
       = comparator.compare_and_set (expected_value, desired_value);
@@ -790,7 +790,7 @@ TEST (SafeComparatorClassMethods,
       GivenImplicitConversion_WhenUsed_ThenReturnsValue)
 {
   int const test_value = 42;
-  SafeComparator<int> comparator (test_value);
+  safe_comparator<int> comparator (test_value);
 
   int const direct_value = comparator;
   EXPECT_EQ (direct_value, test_value);
@@ -806,7 +806,7 @@ TEST (SafeComparatorClassMethods,
   int const initial_value = 10;
   int const new_value = 30;
 
-  SafeComparator<int> comparator (initial_value);
+  safe_comparator<int> comparator (initial_value);
   EXPECT_EQ (comparator.get (), initial_value);
 
   comparator = new_value;
@@ -818,8 +818,8 @@ TEST (SafeComparatorAtomicTests,
 {
   int const test_value = 42;
 
-  SafeComparator<int, false> non_atomic (test_value);
-  SafeComparator<int, true> atomic (test_value);
+  safe_comparator<int, false> non_atomic (test_value);
+  safe_comparator<int, true> atomic (test_value);
 
   EXPECT_EQ (non_atomic.get (), atomic.get ());
 
@@ -839,7 +839,7 @@ TEST (SafeComparatorAtomicTests,
 TEST (SafeComparatorAtomicTests,
       GivenAtomicComparator_WhenUsed_ThenDoesNotCrash)
 {
-  SafeComparator<int, true> atomic_comparator (0);
+  safe_comparator<int, true> atomic_comparator (0);
 
   int const num_threads = 4;
   int const operations_per_thread = 1000;
@@ -911,7 +911,7 @@ TEST (SafeComparatorFitsInType,
 TEST (LumexSafeNumericComparatorCxx11Test,
       MemberMixedTypeComparisonsCompileAndReturnExpectedResults)
 {
-  SafeComparator<int> value (42);
+  safe_comparator<int> value (42);
 
   EXPECT_TRUE (value.safe_compare (42U));
   EXPECT_TRUE (value.safe_greater_equal (41U));

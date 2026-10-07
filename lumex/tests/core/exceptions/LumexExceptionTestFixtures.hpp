@@ -39,7 +39,7 @@
 #include "lumex/core/filesystem/LumexFilesystem"
 #include "lumex/core/time/LumexTime"
 
-// Fixture of the LumexBaseException tests. The test sources of every
+// Fixture of the lumex_base_exception tests. The test sources of every
 // standard (LumexException.cxx11.tests.cpp, .cxx17) add tests to the same
 // GoogleTest suite, and every test of a suite must use one fixture class.
 
@@ -56,7 +56,7 @@ protected:
     test_crash_dir
         = lumex::core::filesystem::fs::lumex_filesystem::temp_directory_path ()
               .value ()
-          / ("LumexTestCrashes_" + LumexTime::get_timestamp_ns ());
+          / ("LumexTestCrashes_" + lumex_time::get_timestamp_ns ());
     lumex::core::filesystem::fs::lumex_filesystem::create_directories (
         test_crash_dir);
 

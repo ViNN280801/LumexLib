@@ -8,16 +8,16 @@ using namespace lumex::core::expected::error;
 
 namespace
 {
-Expected<double, std::string>
+expected<double, std::string>
 flow_or_error (double ml_min)
 {
   if (ml_min <= 0.0)
-    return Expected<double, std::string> (
+    return expected<double, std::string> (
         unexpect, std::string ("flow must be positive"));
   if (ml_min > 10.0)
-    return Expected<double, std::string> (
+    return expected<double, std::string> (
         unexpect, std::string ("flow exceeds pump limit"));
-  return Expected<double, std::string> (ml_min);
+  return expected<double, std::string> (ml_min);
 }
 }
 
@@ -29,7 +29,7 @@ main ()
   double const candidates[] = { 1.0, 0.0, 12.5 };
   for (double const flow : candidates)
     {
-      Expected<double, std::string> const result = flow_or_error (flow);
+      expected<double, std::string> const result = flow_or_error (flow);
       if (result)
         std::cout << "accepted flow=" << result.value () << '\n';
       else

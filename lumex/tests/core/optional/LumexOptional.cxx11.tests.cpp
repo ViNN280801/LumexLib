@@ -8,7 +8,7 @@
 // Include the public header as a user of the library would
 #include "lumex/core/optional/LumexOptional"
 
-// `in_place` has no global alias (Expected has its own).
+// `in_place` has no global alias (expected has its own).
 using lumex::core::optional::opt::in_place;
 
 #if defined(__clang__)
@@ -429,14 +429,14 @@ TEST_F (LumexOptionalTest, Dirty_AccessValueWhenEmptyThrows)
 {
   optional<int> opt;
   ASSERT_THROW (opt.value (),
-                lumex::core::optional::opt::LumexBadOptionalAccess);
+                lumex::core::optional::opt::lumex_bad_optional_access);
 }
 
 TEST_F (LumexOptionalTest, Dirty_AccessConstValueWhenEmptyThrows)
 {
   optional<int> const opt;
   ASSERT_THROW (opt.value (),
-                lumex::core::optional::opt::LumexBadOptionalAccess);
+                lumex::core::optional::opt::lumex_bad_optional_access);
 }
 
 // Dereferencing a disengaged optional is UB. We cannot reliably test it.

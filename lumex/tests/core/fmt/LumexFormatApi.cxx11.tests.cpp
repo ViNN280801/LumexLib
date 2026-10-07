@@ -1,7 +1,7 @@
 // LumexFormatApi.cxx11.tests.cpp
 // Output API (format_to, format_to_n, formatted_size, vformat, vformat_to,
 // try_format, print, println), wide strings, locales, and the extension
-// points: reflected enums, user Formatter specializations, OstreamFormatter
+// points: reflected enums, user formatter specializations, ostream_formatter
 // and streamed(). Cases partly ported from fmt's format-test.cc
 // (format_to*, formatted_size, output_iterators, vformat_to, format_custom,
 // format_to_custom, print, format_examples, format_locale).
@@ -126,18 +126,18 @@ namespace core
 namespace fmt
 {
 /** Reuses the int specification: `{:04}` pads the number. */
-template <> class Formatter<answer_t> : public Formatter<int>
+template <> class formatter<answer_t> : public formatter<int>
 {
 public:
-  BasicAppender<char>
+  basic_appender<char>
   format (answer_t, FormatContext &ctx) const
   {
-    return Formatter<int>::format (42, ctx);
+    return formatter<int>::format (42, ctx);
   }
 };
 
 /** Own specification: empty or `iso`. */
-template <> class Formatter<date_t>
+template <> class formatter<date_t>
 {
 public:
   char const *
@@ -148,16 +148,16 @@ public:
     if (it != ctx.end () && *it == 'i')
       {
         if (ctx.end () - it < 3 || it[1] != 's' || it[2] != 'o')
-          throw FormatError ("unknown format specifier");
+          throw format_error ("unknown format specifier");
         _iso = true;
         it += 3;
       }
     if (it != ctx.end () && *it != '}')
-      throw FormatError ("unknown format specifier");
+      throw format_error ("unknown format specifier");
     return it;
   }
 
-  BasicAppender<char>
+  basic_appender<char>
   format (date_t const &date, FormatContext &ctx) const
   {
     if (_iso)
@@ -171,7 +171,7 @@ private:
   bool _iso = false;
 };
 
-template <> class Formatter<point_t> : public OstreamFormatter<char>
+template <> class formatter<point_t> : public ostream_formatter<char>
 {
 };
 } // namespace fmt
@@ -418,8 +418,8 @@ TEST (LumexFormatApiTest, GivenWideFormatString_WhenFormat_ThenWideString)
 
 TEST (LumexFormatApiTest, GivenWideErrors_WhenFormat_ThenFormatError)
 {
-  EXPECT_THROW (runtime_wformat (L"{"), fmt::FormatError);
-  EXPECT_THROW (runtime_wformat (L"{:d}", L"x"), fmt::FormatError);
+  EXPECT_THROW (runtime_wformat (L"{"), fmt::format_error);
+  EXPECT_THROW (runtime_wformat (L"{:d}", L"x"), fmt::format_error);
   EXPECT_EQ (runtime_wformat (L"{0}{0}", 5), L"55");
 }
 
@@ -549,11 +549,11 @@ TEST (LumexFormatApiTest, GivenStreamedWrapper_WhenFormat_ThenOperatorUsed)
 
 TEST (LumexFormatApiTest, GivenTypeTraits_WhenFormattable_ThenFormatterUsable)
 {
-  EXPECT_TRUE ((std::is_default_constructible<fmt::Formatter<int>>::value));
+  EXPECT_TRUE ((std::is_default_constructible<fmt::formatter<int>>::value));
   EXPECT_TRUE (
-      (std::is_default_constructible<fmt::Formatter<answer_t>>::value));
+      (std::is_default_constructible<fmt::formatter<answer_t>>::value));
   EXPECT_FALSE (
-      (std::is_default_constructible<fmt::Formatter<unformattable_t>>::value));
+      (std::is_default_constructible<fmt::formatter<unformattable_t>>::value));
 }
 
 // ---------------------------------------------------------------------------
@@ -562,15 +562,15 @@ TEST (LumexFormatApiTest, GivenTypeTraits_WhenFormattable_ThenFormatterUsable)
 
 TEST (LumexFormatApiTest, GivenFormatError_WhenConstructed_ThenMessageAndPos)
 {
-  fmt::FormatError const plain ("plain");
+  fmt::format_error const plain ("plain");
   EXPECT_STREQ (plain.what (), "plain");
-  EXPECT_EQ (plain.position (), fmt::FormatError::no_position ());
+  EXPECT_EQ (plain.position (), fmt::format_error::no_position ());
 
-  fmt::FormatError const positioned (std::string ("at"), 3u);
+  fmt::format_error const positioned (std::string ("at"), 3u);
   EXPECT_STREQ (positioned.what (), "at");
   EXPECT_EQ (positioned.position (), 3u);
 
   std::string moved = "moved";
-  fmt::FormatError const from_rvalue (std::move (moved));
+  fmt::format_error const from_rvalue (std::move (moved));
   EXPECT_STREQ (from_rvalue.what (), "moved");
 }

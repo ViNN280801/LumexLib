@@ -72,7 +72,7 @@ namespace stacktrace
 {
 LUMEX_PUBLIC_API
 void
-LumexStacktraceEntry::ensure_cache_valid () const
+lumex_stacktrace_entry::ensure_cache_valid () const
 {
   if (m_cache_valid || m_address == nullptr)
     return;
@@ -85,7 +85,7 @@ LumexStacktraceEntry::ensure_cache_valid () const
 
 LUMEX_PUBLIC_API
 std::string
-LumexStacktraceEntry::description () const
+lumex_stacktrace_entry::description () const
 {
   ensure_cache_valid ();
   return m_cached_description;
@@ -93,7 +93,7 @@ LumexStacktraceEntry::description () const
 
 LUMEX_PUBLIC_API
 std::string
-LumexStacktraceEntry::source_file () const
+lumex_stacktrace_entry::source_file () const
 {
   ensure_cache_valid ();
   return m_cached_source_file;
@@ -101,7 +101,7 @@ LumexStacktraceEntry::source_file () const
 
 LUMEX_PUBLIC_API
 std::uint32_t
-LumexStacktraceEntry::source_line () const
+lumex_stacktrace_entry::source_line () const
 {
   ensure_cache_valid ();
   return m_cached_source_line;

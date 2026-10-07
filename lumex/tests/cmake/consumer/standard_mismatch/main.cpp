@@ -31,33 +31,33 @@ int
 check_base64 ()
 {
   using lumex::core::base64::codec::Types::byte_type;
-  using lumex::core::base64::decode::Decoder;
-  using lumex::core::base64::encode::Encoder;
-  using lumex::core::base64::validate::Validator;
+  using lumex::core::base64::decode::decoder;
+  using lumex::core::base64::encode::encoder;
+  using lumex::core::base64::validate::validator;
 
   int failures = 0;
   std::string const encoded = "SGVsbG8=";
   std::vector<byte_type> bytes;
-  failures += check (Decoder::decode (encoded, bytes),
+  failures += check (decoder::decode (encoded, bytes),
                      "Decoder::decode (text, out)");
   failures += check (std::string (bytes.begin (), bytes.end ()) == "Hello",
                      "decoded bytes");
-  failures += check (Decoder::decode (encoded).size () == 5u,
+  failures += check (decoder::decode (encoded).size () == 5u,
                      "Decoder::decode (text)");
-  failures += check (Validator::is_valid_base64 (encoded),
+  failures += check (validator::is_valid_base64 (encoded),
                      "Validator::is_valid_base64 (text)");
-  failures += check (!Validator::is_valid_base64 (nullptr, 0),
+  failures += check (!validator::is_valid_base64 (nullptr, 0),
                      "Validator::is_valid_base64 (nullptr, 0)");
-  failures += check (Encoder::encode ("Hello", 5) == encoded,
+  failures += check (encoder::encode ("Hello", 5) == encoded,
                      "Encoder::encode (pointer, size)");
-  failures += check (Encoder::encode (bytes) == encoded,
+  failures += check (encoder::encode (bytes) == encoded,
                      "Encoder::encode (vector)");
 #if __cplusplus >= 201703L
-  failures += check (Encoder::encode (std::string_view ("Hello")) == encoded,
+  failures += check (encoder::encode (std::string_view ("Hello")) == encoded,
                      "Encoder::encode (string_view)");
 #endif
 #if __cplusplus >= 202002L
-  failures += check (Encoder::encode (std::span<byte_type const> (bytes))
+  failures += check (encoder::encode (std::span<byte_type const> (bytes))
                          == encoded,
                      "Encoder::encode (span)");
 #endif
@@ -105,13 +105,13 @@ check_xml ()
 int
 check_exceptions ()
 {
-  using lumex::core::exceptions::exception::LumexBaseException;
+  using lumex::core::exceptions::exception::lumex_base_exception;
 
   int failures = 0;
 #if __cplusplus >= 201703L
-  LumexBaseException const ex (std::string_view ("boom!").substr (0, 4));
+  lumex_base_exception const ex (std::string_view ("boom!").substr (0, 4));
 #else
-  LumexBaseException const ex (std::string ("boom"));
+  lumex_base_exception const ex (std::string ("boom"));
 #endif
   failures += check (std::string (ex.what ()) == "boom",
                      "LumexBaseException (text)");

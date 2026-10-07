@@ -12,6 +12,6 @@ main ()
   // The option must not reach consumers that did not opt in.
   return 2;
 #else
-  return std::strcmp (toString (SmokeColor::green), "green") == 0 ? 0 : 1;
+  return std::strcmp (to_string (SmokeColor::green), "green") == 0 ? 0 : 1;
 #endif
 }

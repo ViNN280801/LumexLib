@@ -1,8 +1,8 @@
 # lumex/tests/core/expected/CMakeLists.txt
 
 # One suite per standard of the module (lumex/tests/LumexTestStandards.cmake):
-#   LumexExpectedCxx11Tests  every *.cxx11.tests.cpp: Expected<T, E>,
-#                            Expected<void, E>, Unexpected, BadExpectedAccess,
+#   LumexExpectedCxx11Tests  every *.cxx11.tests.cpp: expected<T, E>,
+#                            expected<void, E>, unexpected, bad_expected_access,
 #                            the monadic operations, success () / failure ()
 #                            and the type matrix over the C++11 types, and
 #                            ExpectedWithOptional (both modules in one file)

@@ -66,7 +66,7 @@
 
 /**
  * @file LumexCrcTestHelpers.hpp
- * @brief Independent bitwise CRC reference used to cross-check CrcParametric.
+ * @brief Independent bitwise CRC reference used to cross-check crc_parametric.
  * @details Intentionally does not share code with the production table/bitwise
  *          engine. Agreement on random and hand-written vectors is therefore
  *          evidence of correctness, not self-consistency.

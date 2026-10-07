@@ -28,7 +28,7 @@
  * catalogue up to 64 bits.
  * @details A specification structure (`..._spec_t`) carries the catalogue
  * parameters (width, polynomial, initial value, input and output reflection,
- * final XOR) and the catalogue check value; `CrcParametric<Spec>` computes
+ * final XOR) and the catalogue check value; `crc_parametric<Spec>` computes
  * that CRC over a buffer, and the aliases from `Crc3Gsm` to `Crc64Xz` name one
  * engine per catalogue entry. `all_crc_specs_t` and `all_crc_algorithms_t`
  * list all 112 in the same order, which is also the index order of
@@ -140,7 +140,7 @@ LUMEX_CONST_NUM std::uint8_t kByteMaskU8 = 0xFFU;
 #if __cplusplus >= 201402L
 template <typename Spec>
 LUMEX_CONSTEXPR_FUNCTION void
-ValidateSpec () LUMEX_NOEXCEPT
+validate_spec () LUMEX_NOEXCEPT
 {
   LUMEX_STATIC_ASSERT_MSG (Spec::kWidth > 0 && Spec::kWidth <= kMaxCrcBitWidth,
                            "Spec::kWidth must be 1..64");
@@ -154,7 +154,7 @@ ValidateSpec () LUMEX_NOEXCEPT
 #else
 template <typename Spec>
 inline void
-ValidateSpec () LUMEX_NOEXCEPT
+validate_spec () LUMEX_NOEXCEPT
 {
   struct validator_t
   {
@@ -177,7 +177,7 @@ ValidateSpec () LUMEX_NOEXCEPT
 template <int Width, typename Enable = void> struct mask_impl_t
 {
   static LUMEX_CRC_DETAIL_CONSTEXPR std::uint64_t
-  Value () LUMEX_NOEXCEPT
+  value () LUMEX_NOEXCEPT
   {
     return (std::uint64_t{ 1 } << static_cast<unsigned> (Width))
            - std::uint64_t{ 1 };
@@ -191,7 +191,7 @@ struct mask_impl_t<
         Width == std::numeric_limits<std::uint64_t>::digits, void>::type>
 {
   static LUMEX_CRC_DETAIL_CONSTEXPR std::uint64_t
-  Value () LUMEX_NOEXCEPT
+  value () LUMEX_NOEXCEPT
   {
     return ~std::uint64_t{};
   }
@@ -203,13 +203,13 @@ Mask () LUMEX_NOEXCEPT
 {
   LUMEX_STATIC_ASSERT_MSG (Width > 0 && Width <= kMaxCrcBitWidth,
                            "CRC width must be in 1..64");
-  return mask_impl_t<Width>::Value ();
+  return mask_impl_t<Width>::value ();
 }
 
 // NOLINTBEGIN(bugprone-easily-swappable-parameters) - signatures match RevEng
 // notation (data, width / index, poly)
 LUMEX_CRC_DETAIL_CONSTEXPR std::uint64_t
-Reflect (std::uint64_t data, int width) LUMEX_NOEXCEPT
+reflect (std::uint64_t data, int width) LUMEX_NOEXCEPT
 {
   std::uint64_t reflected = 0;
   for (int bitIndex = 0; bitIndex < width; ++bitIndex)
@@ -220,7 +220,7 @@ Reflect (std::uint64_t data, int width) LUMEX_NOEXCEPT
 
 template <int Width>
 LUMEX_CRC_DETAIL_CONSTEXPR std::uint64_t
-MsbTableByte (std::uint64_t tableIndex, std::uint64_t poly) LUMEX_NOEXCEPT
+msb_table_byte (std::uint64_t tableIndex, std::uint64_t poly) LUMEX_NOEXCEPT
 {
   LUMEX_STATIC_ASSERT_MSG (Width >= kBitsPerByte,
                            "MSB table entries assume width >= 8");
@@ -237,10 +237,10 @@ MsbTableByte (std::uint64_t tableIndex, std::uint64_t poly) LUMEX_NOEXCEPT
 
 template <int Width>
 LUMEX_CRC_DETAIL_CONSTEXPR std::uint64_t
-LsbTableByte (std::uint64_t tableIndex, std::uint64_t poly) LUMEX_NOEXCEPT
+lsb_table_byte (std::uint64_t tableIndex, std::uint64_t poly) LUMEX_NOEXCEPT
 {
   std::uint64_t const mask = Mask<Width> ();
-  std::uint64_t const reflectedPoly = Reflect (poly, Width) & mask;
+  std::uint64_t const reflectedPoly = reflect (poly, Width) & mask;
   std::uint64_t registerValue = tableIndex;
   for (int step = 0; step < kBitsPerByte; ++step)
     if ((registerValue & 1U) != 0U)
@@ -255,36 +255,35 @@ LsbTableByte (std::uint64_t tableIndex, std::uint64_t poly) LUMEX_NOEXCEPT
 // C++14: non-const std::array::operator[]/at are not constexpr; build the
 // table via index_sequence
 //        and aggregate initialization instead of a mutating loop inside
-//        constexpr MakeLookupTable.
+//        constexpr make_lookup_table.
 #if __cplusplus >= 201402L
 template <typename Spec, std::size_t Index>
 LUMEX_CONSTEXPR_FUNCTION std::uint64_t
-LookupTableEntry () LUMEX_NOEXCEPT
+lookup_table_entry () LUMEX_NOEXCEPT
 {
-  return Spec::kRefIn
-             ? LsbTableByte<Spec::kWidth> (static_cast<std::uint64_t> (Index),
-                                           Spec::kPoly)
-             : MsbTableByte<Spec::kWidth> (static_cast<std::uint64_t> (Index),
-                                           Spec::kPoly);
+  return Spec::kRefIn ? lsb_table_byte<Spec::kWidth> (
+                            static_cast<std::uint64_t> (Index), Spec::kPoly)
+                      : msb_table_byte<Spec::kWidth> (
+                            static_cast<std::uint64_t> (Index), Spec::kPoly);
 }
 
 template <typename Spec, std::size_t... I>
 LUMEX_CONSTEXPR_FUNCTION std::array<std::uint64_t, kTableByteCount>
-MakeLookupTableImpl (std::index_sequence<I...>) LUMEX_NOEXCEPT
+make_lookup_table_impl (std::index_sequence<I...>) LUMEX_NOEXCEPT
 {
   return std::array<std::uint64_t, kTableByteCount>{
-    { LookupTableEntry<Spec, I> ()... }
+    { lookup_table_entry<Spec, I> ()... }
   };
 }
 #endif
 
 template <typename Spec>
 LUMEX_CRC_DETAIL_CONSTEXPR std::array<std::uint64_t, kTableByteCount>
-MakeLookupTable () LUMEX_NOEXCEPT
+make_lookup_table () LUMEX_NOEXCEPT
 {
-  ValidateSpec<Spec> ();
+  validate_spec<Spec> ();
 #if __cplusplus >= 201402L
-  return MakeLookupTableImpl<Spec> (
+  return make_lookup_table_impl<Spec> (
       std::make_index_sequence<kTableByteCount>{});
 #else
   std::array<std::uint64_t, kTableByteCount> lookupTable{};
@@ -293,10 +292,10 @@ MakeLookupTable () LUMEX_NOEXCEPT
     {
       std::size_t const entry = static_cast<std::size_t> (tableIndex);
       LUMEX_CONSTEXPR_IF (Spec::kRefIn)
-      LUMEX_CRC_ARRAY_REF (lookupTable, entry) = LsbTableByte<Spec::kWidth> (
+      LUMEX_CRC_ARRAY_REF (lookupTable, entry) = lsb_table_byte<Spec::kWidth> (
           static_cast<std::uint64_t> (tableIndex), Spec::kPoly);
       else LUMEX_CRC_ARRAY_REF (lookupTable, entry)
-          = MsbTableByte<Spec::kWidth> (
+          = msb_table_byte<Spec::kWidth> (
               static_cast<std::uint64_t> (tableIndex), Spec::kPoly);
     }
   return lookupTable;
@@ -305,15 +304,15 @@ MakeLookupTable () LUMEX_NOEXCEPT
 
 template <typename Spec>
 LUMEX_CRC_DETAIL_CONSTEXPR typename Spec::ValueType
-ComputeBitwise (std::uint8_t const *data, std::size_t size) LUMEX_NOEXCEPT
+compute_bitwise (std::uint8_t const *data, std::size_t size) LUMEX_NOEXCEPT
 {
-  ValidateSpec<Spec> ();
+  validate_spec<Spec> ();
   std::uint64_t const mask = Mask<Spec::kWidth> ();
   std::uint64_t const polyMasked = Spec::kPoly & mask;
   std::uint64_t const polyReflected
-      = Reflect (polyMasked, Spec::kWidth) & mask;
+      = reflect (polyMasked, Spec::kWidth) & mask;
   std::uint64_t crcRegister
-      = (Spec::kRefIn ? Reflect (Spec::kInit, Spec::kWidth) : Spec::kInit)
+      = (Spec::kRefIn ? reflect (Spec::kInit, Spec::kWidth) : Spec::kInit)
         & mask;
 
   if (data == nullptr || size == 0UL)
@@ -357,26 +356,27 @@ ComputeBitwise (std::uint8_t const *data, std::size_t size) LUMEX_NOEXCEPT
 
   // RefIn=true: same as zlib / RevEng tables - no final Reflect before xorout.
   LUMEX_CONSTEXPR_IF (!Spec::kRefIn && Spec::kRefOut)
-  crcRegister = Reflect (crcRegister, Spec::kWidth) & mask;
+  crcRegister = reflect (crcRegister, Spec::kWidth) & mask;
   crcRegister = (crcRegister ^ Spec::kXorOut) & mask;
   return static_cast<typename Spec::ValueType> (crcRegister);
 }
 
 template <typename Spec>
 LUMEX_CRC_DETAIL_CONSTEXPR typename Spec::ValueType
-ComputeTableDriven (std::uint8_t const *data, std::size_t size) LUMEX_NOEXCEPT
+compute_table_driven (std::uint8_t const *data,
+                      std::size_t size) LUMEX_NOEXCEPT
 {
-  ValidateSpec<Spec> ();
+  validate_spec<Spec> ();
 #if __cplusplus >= 201402L
   LUMEX_CONSTEXPR std::array<std::uint64_t, kTableByteCount> kByteLookupTable
-      = MakeLookupTable<Spec> ();
+      = make_lookup_table<Spec> ();
 #else
   static std::array<std::uint64_t, kTableByteCount> const kByteLookupTable
-      = MakeLookupTable<Spec> ();
+      = make_lookup_table<Spec> ();
 #endif
   std::uint64_t const mask = Mask<Spec::kWidth> ();
   std::uint64_t crcRegister
-      = (Spec::kRefIn ? Reflect (Spec::kInit, Spec::kWidth) : Spec::kInit)
+      = (Spec::kRefIn ? reflect (Spec::kInit, Spec::kWidth) : Spec::kInit)
         & mask;
 
   if (data == nullptr || size == 0UL)
@@ -411,7 +411,7 @@ ComputeTableDriven (std::uint8_t const *data, std::size_t size) LUMEX_NOEXCEPT
         crcRegister &= mask;
       }
     LUMEX_CONSTEXPR_IF (Spec::kRefOut)
-    crcRegister = Reflect (crcRegister, Spec::kWidth) & mask;
+    crcRegister = reflect (crcRegister, Spec::kWidth) & mask;
   }
   // NOLINTEND(cppcoreguidelines-pro-bounds-pointer-arithmetic)
 
@@ -429,9 +429,9 @@ struct crc_dispatch_t<
     Spec, typename std::enable_if<(Spec::kWidth < kBitsPerByte), void>::type>
 {
   static LUMEX_CRC_DETAIL_CONSTEXPR typename Spec::ValueType
-  Run (std::uint8_t const *data, std::size_t size) LUMEX_NOEXCEPT
+  run (std::uint8_t const *data, std::size_t size) LUMEX_NOEXCEPT
   {
-    return ComputeBitwise<Spec> (data, size);
+    return compute_bitwise<Spec> (data, size);
   }
 };
 
@@ -440,18 +440,18 @@ struct crc_dispatch_t<
     Spec, typename std::enable_if<(Spec::kWidth >= kBitsPerByte), void>::type>
 {
   static LUMEX_CRC_DETAIL_CONSTEXPR typename Spec::ValueType
-  Run (std::uint8_t const *data, std::size_t size) LUMEX_NOEXCEPT
+  run (std::uint8_t const *data, std::size_t size) LUMEX_NOEXCEPT
   {
-    return ComputeTableDriven<Spec> (data, size);
+    return compute_table_driven<Spec> (data, size);
   }
 };
 /// @endcond
 
 template <typename Spec>
 LUMEX_CRC_DETAIL_CONSTEXPR typename Spec::ValueType
-Compute (std::uint8_t const *data, std::size_t size) LUMEX_NOEXCEPT
+compute (std::uint8_t const *data, std::size_t size) LUMEX_NOEXCEPT
 {
-  return crc_dispatch_t<Spec>::Run (data, size);
+  return crc_dispatch_t<Spec>::run (data, size);
 }
 
 #undef LUMEX_CRC_DETAIL_CONSTEXPR
@@ -2366,7 +2366,7 @@ struct crc64_xz_spec_t
 
 // CRC-82/DARC (width=82) is not in this catalogue: its polynomial does not
 // fit in std::uint64_t, and kMaxCrcBitWidth is 64. Every other RevEng entry
-// is a specification here and a named engine after CrcParametric.
+// is a specification here and a named engine after crc_parametric.
 
 /**
  * @brief Every RevEng catalogue specification of width 3..64 (112 entries).
@@ -2448,17 +2448,17 @@ using all_crc_specs_t = std::tuple<
  * @tparam Spec Structure with `ValueType`, `kWidth`, `kPoly`, `kInit`,
  * `kRefIn`, `kRefOut`, `kXorOut`.
  */
-template <typename Spec> class CrcParametric
+template <typename Spec> class crc_parametric
 {
 public:
   using ValueType = typename Spec::ValueType;
 
-  CrcParametric () = delete;
-  CrcParametric (CrcParametric const &) = delete;
-  CrcParametric (CrcParametric &&) = delete;
-  CrcParametric &operator= (CrcParametric const &) = delete;
-  CrcParametric &operator= (CrcParametric &&) = delete;
-  ~CrcParametric () = default;
+  crc_parametric () = delete;
+  crc_parametric (crc_parametric const &) = delete;
+  crc_parametric (crc_parametric &&) = delete;
+  crc_parametric &operator= (crc_parametric const &) = delete;
+  crc_parametric &operator= (crc_parametric &&) = delete;
+  ~crc_parametric () = default;
 
   /**
    * @brief Computes the CRC of a buffer.
@@ -2469,7 +2469,7 @@ public:
   static ValueType
   calculate (std::uint8_t const *data, std::size_t size) LUMEX_NOEXCEPT
   {
-    return Detail::Compute<Spec> (data, size);
+    return Detail::compute<Spec> (data, size);
   }
 
   LUMEX_ATTRIBUTE_NODISCARD (
@@ -2478,8 +2478,8 @@ public:
   calculate (std::vector<std::uint8_t> const &data) LUMEX_NOEXCEPT
   {
     if (data.empty ())
-      return Detail::Compute<Spec> (nullptr, 0);
-    return Detail::Compute<Spec> (data.data (), data.size ());
+      return Detail::compute<Spec> (nullptr, 0);
+    return Detail::compute<Spec> (data.data (), data.size ());
   }
 
 #if LUMEX_HAS_STD_SPAN
@@ -2488,350 +2488,350 @@ public:
   static ValueType
   calculate (std::span<std::uint8_t const> data) LUMEX_NOEXCEPT
   {
-    return Detail::Compute<Spec> (data.data (), data.size ());
+    return Detail::compute<Spec> (data.data (), data.size ());
   }
 #endif
 };
 
 /** @brief CRC-3/GSM. */
-using Crc3Gsm = CrcParametric<crc3_gsm_spec_t>;
+using Crc3Gsm = crc_parametric<crc3_gsm_spec_t>;
 
 /** @brief CRC-3/ROHC. */
-using Crc3Rohc = CrcParametric<crc3_rohc_spec_t>;
+using Crc3Rohc = crc_parametric<crc3_rohc_spec_t>;
 
 /** @brief CRC-4/G-704. */
-using Crc4G704 = CrcParametric<crc4_g704_spec_t>;
+using Crc4G704 = crc_parametric<crc4_g704_spec_t>;
 
 /** @brief CRC-4/INTERLAKEN. */
-using Crc4Interlaken = CrcParametric<crc4_interlaken_spec_t>;
+using Crc4Interlaken = crc_parametric<crc4_interlaken_spec_t>;
 
 /** @brief CRC-5/USB. */
-using Crc5Usb = CrcParametric<crc5_usb_spec_t>;
+using Crc5Usb = crc_parametric<crc5_usb_spec_t>;
 
 /** @brief CRC-5/EPC-C1G2. */
-using Crc5EpcC1G2 = CrcParametric<crc5_epc_c1_g2_spec_t>;
+using Crc5EpcC1G2 = crc_parametric<crc5_epc_c1_g2_spec_t>;
 
 /** @brief CRC-5/G-704. */
-using Crc5G704 = CrcParametric<crc5_g704_spec_t>;
+using Crc5G704 = crc_parametric<crc5_g704_spec_t>;
 
 /** @brief CRC-6/CDMA2000-A. */
-using Crc6Cdma2000A = CrcParametric<crc6_cdma2000_a_spec_t>;
+using Crc6Cdma2000A = crc_parametric<crc6_cdma2000_a_spec_t>;
 
 /** @brief CRC-6/CDMA2000-B. */
-using Crc6Cdma2000B = CrcParametric<crc6_cdma2000_b_spec_t>;
+using Crc6Cdma2000B = crc_parametric<crc6_cdma2000_b_spec_t>;
 
 /** @brief CRC-6/DARC. */
-using Crc6Darc = CrcParametric<crc6_darc_spec_t>;
+using Crc6Darc = crc_parametric<crc6_darc_spec_t>;
 
 /** @brief CRC-6/G-704. */
-using Crc6G704 = CrcParametric<crc6_g704_spec_t>;
+using Crc6G704 = crc_parametric<crc6_g704_spec_t>;
 
 /** @brief CRC-6/GSM. */
-using Crc6Gsm = CrcParametric<crc6_gsm_spec_t>;
+using Crc6Gsm = crc_parametric<crc6_gsm_spec_t>;
 
 /** @brief CRC-7/MMC. */
-using Crc7Mmc = CrcParametric<crc7_mmc_spec_t>;
+using Crc7Mmc = crc_parametric<crc7_mmc_spec_t>;
 
 /** @brief CRC-7/ROHC. */
-using Crc7Rohc = CrcParametric<crc7_rohc_spec_t>;
+using Crc7Rohc = crc_parametric<crc7_rohc_spec_t>;
 
 /** @brief CRC-7/UMTS. */
-using Crc7Umts = CrcParametric<crc7_umts_spec_t>;
+using Crc7Umts = crc_parametric<crc7_umts_spec_t>;
 
 /** @brief CRC-8/MAXIM-DOW. */
-using Crc8MaximDow = CrcParametric<crc8_maxim_dow_spec_t>;
+using Crc8MaximDow = crc_parametric<crc8_maxim_dow_spec_t>;
 
 /** @brief CRC-8/CDMA2000. */
-using Crc8Cdma2000 = CrcParametric<crc8_cdma2000_spec_t>;
+using Crc8Cdma2000 = crc_parametric<crc8_cdma2000_spec_t>;
 
 /** @brief CRC-8/AUTOSAR. */
-using Crc8Autosar = CrcParametric<crc8_autosar_spec_t>;
+using Crc8Autosar = crc_parametric<crc8_autosar_spec_t>;
 
 /** @brief CRC-8/BLUETOOTH. */
-using Crc8Bluetooth = CrcParametric<crc8_bluetooth_spec_t>;
+using Crc8Bluetooth = crc_parametric<crc8_bluetooth_spec_t>;
 
 /** @brief CRC-8/DARC. */
-using Crc8Darc = CrcParametric<crc8_darc_spec_t>;
+using Crc8Darc = crc_parametric<crc8_darc_spec_t>;
 
 /** @brief CRC-8/DVB-S2. */
-using Crc8DvbS2 = CrcParametric<crc8_dvb_s2_spec_t>;
+using Crc8DvbS2 = crc_parametric<crc8_dvb_s2_spec_t>;
 
 /** @brief CRC-8/GSM-A. */
-using Crc8GsmA = CrcParametric<crc8_gsm_a_spec_t>;
+using Crc8GsmA = crc_parametric<crc8_gsm_a_spec_t>;
 
 /** @brief CRC-8/GSM-B. */
-using Crc8GsmB = CrcParametric<crc8_gsm_b_spec_t>;
+using Crc8GsmB = crc_parametric<crc8_gsm_b_spec_t>;
 
 /** @brief CRC-8/HITAG. */
-using Crc8Hitag = CrcParametric<crc8_hitag_spec_t>;
+using Crc8Hitag = crc_parametric<crc8_hitag_spec_t>;
 
 /** @brief CRC-8/I-432-1. */
-using Crc8I4321 = CrcParametric<crc8_i4321_spec_t>;
+using Crc8I4321 = crc_parametric<crc8_i4321_spec_t>;
 
 /** @brief CRC-8/I-CODE. */
-using Crc8ICode = CrcParametric<crc8_i_code_spec_t>;
+using Crc8ICode = crc_parametric<crc8_i_code_spec_t>;
 
 /** @brief CRC-8/LTE. */
-using Crc8Lte = CrcParametric<crc8_lte_spec_t>;
+using Crc8Lte = crc_parametric<crc8_lte_spec_t>;
 
 /** @brief CRC-8/MIFARE-MAD. */
-using Crc8MifareMad = CrcParametric<crc8_mifare_mad_spec_t>;
+using Crc8MifareMad = crc_parametric<crc8_mifare_mad_spec_t>;
 
 /** @brief CRC-8/NRSC-5. */
-using Crc8Nrsc5 = CrcParametric<crc8_nrsc5_spec_t>;
+using Crc8Nrsc5 = crc_parametric<crc8_nrsc5_spec_t>;
 
 /** @brief CRC-8/OPENSAFETY. */
-using Crc8Opensafety = CrcParametric<crc8_opensafety_spec_t>;
+using Crc8Opensafety = crc_parametric<crc8_opensafety_spec_t>;
 
 /** @brief CRC-8/ROHC. */
-using Crc8Rohc = CrcParametric<crc8_rohc_spec_t>;
+using Crc8Rohc = crc_parametric<crc8_rohc_spec_t>;
 
 /** @brief CRC-8/SAE-J1850. */
-using Crc8SaeJ1850 = CrcParametric<crc8_sae_j1850_spec_t>;
+using Crc8SaeJ1850 = crc_parametric<crc8_sae_j1850_spec_t>;
 
 /** @brief CRC-8/SMBUS. */
-using Crc8Smbus = CrcParametric<crc8_smbus_spec_t>;
+using Crc8Smbus = crc_parametric<crc8_smbus_spec_t>;
 
 /** @brief CRC-8/TECH-3250. */
-using Crc8Tech3250 = CrcParametric<crc8_tech3250_spec_t>;
+using Crc8Tech3250 = crc_parametric<crc8_tech3250_spec_t>;
 
 /** @brief CRC-8/WCDMA. */
-using Crc8Wcdma = CrcParametric<crc8_wcdma_spec_t>;
+using Crc8Wcdma = crc_parametric<crc8_wcdma_spec_t>;
 
 /** @brief CRC-10/CDMA2000. */
-using Crc10Cdma2000 = CrcParametric<crc10_cdma2000_spec_t>;
+using Crc10Cdma2000 = crc_parametric<crc10_cdma2000_spec_t>;
 
 /** @brief CRC-10/ATM. */
-using Crc10Atm = CrcParametric<crc10_atm_spec_t>;
+using Crc10Atm = crc_parametric<crc10_atm_spec_t>;
 
 /** @brief CRC-10/GSM. */
-using Crc10Gsm = CrcParametric<crc10_gsm_spec_t>;
+using Crc10Gsm = crc_parametric<crc10_gsm_spec_t>;
 
 /** @brief CRC-11/FLEXRAY. */
-using Crc11Flexray = CrcParametric<crc11_flexray_spec_t>;
+using Crc11Flexray = crc_parametric<crc11_flexray_spec_t>;
 
 /** @brief CRC-11/UMTS. */
-using Crc11Umts = CrcParametric<crc11_umts_spec_t>;
+using Crc11Umts = crc_parametric<crc11_umts_spec_t>;
 
 /** @brief CRC-12/CDMA2000. */
-using Crc12Cdma2000 = CrcParametric<crc12_cdma2000_spec_t>;
+using Crc12Cdma2000 = crc_parametric<crc12_cdma2000_spec_t>;
 
 /** @brief CRC-12/DECT. */
-using Crc12Dect = CrcParametric<crc12_dect_spec_t>;
+using Crc12Dect = crc_parametric<crc12_dect_spec_t>;
 
 /** @brief CRC-12/GSM. */
-using Crc12Gsm = CrcParametric<crc12_gsm_spec_t>;
+using Crc12Gsm = crc_parametric<crc12_gsm_spec_t>;
 
 /** @brief CRC-12/UMTS. */
-using Crc12Umts = CrcParametric<crc12_umts_spec_t>;
+using Crc12Umts = crc_parametric<crc12_umts_spec_t>;
 
 /** @brief CRC-13/BBC. */
-using Crc13Bbc = CrcParametric<crc13_bbc_spec_t>;
+using Crc13Bbc = crc_parametric<crc13_bbc_spec_t>;
 
 /** @brief CRC-14/DARC. */
-using Crc14Darc = CrcParametric<crc14_darc_spec_t>;
+using Crc14Darc = crc_parametric<crc14_darc_spec_t>;
 
 /** @brief CRC-14/GSM. */
-using Crc14Gsm = CrcParametric<crc14_gsm_spec_t>;
+using Crc14Gsm = crc_parametric<crc14_gsm_spec_t>;
 
 /** @brief CRC-15/CAN. */
-using Crc15Can = CrcParametric<crc15_can_spec_t>;
+using Crc15Can = crc_parametric<crc15_can_spec_t>;
 
 /** @brief CRC-15/MPT1327. */
-using Crc15Mpt1327 = CrcParametric<crc15_mpt1327_spec_t>;
+using Crc15Mpt1327 = crc_parametric<crc15_mpt1327_spec_t>;
 
 /** @brief CRC-16/CDMA2000. */
-using Crc16Cdma2000 = CrcParametric<crc16_cdma2000_spec_t>;
+using Crc16Cdma2000 = crc_parametric<crc16_cdma2000_spec_t>;
 
 /** @brief CRC-16/IBM-3740. */
-using Crc16Ibm3740 = CrcParametric<crc16_ibm3740_spec_t>;
+using Crc16Ibm3740 = crc_parametric<crc16_ibm3740_spec_t>;
 
 /** @brief CRC-16/KERMIT. */
-using Crc16Kermit = CrcParametric<crc16_kermit_spec_t>;
+using Crc16Kermit = crc_parametric<crc16_kermit_spec_t>;
 
 /** @brief CRC-16/MODBUS. */
-using Crc16Modbus = CrcParametric<crc16_modbus_spec_t>;
+using Crc16Modbus = crc_parametric<crc16_modbus_spec_t>;
 
 /** @brief CRC-16/ARC. */
-using Crc16Arc = CrcParametric<crc16_arc_spec_t>;
+using Crc16Arc = crc_parametric<crc16_arc_spec_t>;
 
 /** @brief CRC-16/CMS. */
-using Crc16Cms = CrcParametric<crc16_cms_spec_t>;
+using Crc16Cms = crc_parametric<crc16_cms_spec_t>;
 
 /** @brief CRC-16/DDS-110. */
-using Crc16Dds110 = CrcParametric<crc16_dds110_spec_t>;
+using Crc16Dds110 = crc_parametric<crc16_dds110_spec_t>;
 
 /** @brief CRC-16/DECT-R. */
-using Crc16DectR = CrcParametric<crc16_dect_r_spec_t>;
+using Crc16DectR = crc_parametric<crc16_dect_r_spec_t>;
 
 /** @brief CRC-16/DECT-X. */
-using Crc16DectX = CrcParametric<crc16_dect_x_spec_t>;
+using Crc16DectX = crc_parametric<crc16_dect_x_spec_t>;
 
 /** @brief CRC-16/DNP. */
-using Crc16Dnp = CrcParametric<crc16_dnp_spec_t>;
+using Crc16Dnp = crc_parametric<crc16_dnp_spec_t>;
 
 /** @brief CRC-16/EN-13757. */
-using Crc16En13757 = CrcParametric<crc16_en13757_spec_t>;
+using Crc16En13757 = crc_parametric<crc16_en13757_spec_t>;
 
 /** @brief CRC-16/GENIBUS. */
-using Crc16Genibus = CrcParametric<crc16_genibus_spec_t>;
+using Crc16Genibus = crc_parametric<crc16_genibus_spec_t>;
 
 /** @brief CRC-16/GSM. */
-using Crc16Gsm = CrcParametric<crc16_gsm_spec_t>;
+using Crc16Gsm = crc_parametric<crc16_gsm_spec_t>;
 
 /** @brief CRC-16/IBM-SDLC. */
-using Crc16IbmSdlc = CrcParametric<crc16_ibm_sdlc_spec_t>;
+using Crc16IbmSdlc = crc_parametric<crc16_ibm_sdlc_spec_t>;
 
 /** @brief CRC-16/ISO-IEC-14443-3-A. */
-using Crc16IsoIec144433A = CrcParametric<crc16_iso_iec14443_3_a_spec_t>;
+using Crc16IsoIec144433A = crc_parametric<crc16_iso_iec14443_3_a_spec_t>;
 
 /** @brief CRC-16/LJ1200. */
-using Crc16Lj1200 = CrcParametric<crc16_lj1200_spec_t>;
+using Crc16Lj1200 = crc_parametric<crc16_lj1200_spec_t>;
 
 /** @brief CRC-16/M17. */
-using Crc16M17 = CrcParametric<crc16_m17_spec_t>;
+using Crc16M17 = crc_parametric<crc16_m17_spec_t>;
 
 /** @brief CRC-16/MAXIM-DOW. */
-using Crc16MaximDow = CrcParametric<crc16_maxim_dow_spec_t>;
+using Crc16MaximDow = crc_parametric<crc16_maxim_dow_spec_t>;
 
 /** @brief CRC-16/MCRF4XX. */
-using Crc16Mcrf4xx = CrcParametric<crc16_mcrf4xx_spec_t>;
+using Crc16Mcrf4xx = crc_parametric<crc16_mcrf4xx_spec_t>;
 
 /** @brief CRC-16/NRSC-5. */
-using Crc16Nrsc5 = CrcParametric<crc16_nrsc5_spec_t>;
+using Crc16Nrsc5 = crc_parametric<crc16_nrsc5_spec_t>;
 
 /** @brief CRC-16/OPENSAFETY-A. */
-using Crc16OpensafetyA = CrcParametric<crc16_opensafety_a_spec_t>;
+using Crc16OpensafetyA = crc_parametric<crc16_opensafety_a_spec_t>;
 
 /** @brief CRC-16/OPENSAFETY-B. */
-using Crc16OpensafetyB = CrcParametric<crc16_opensafety_b_spec_t>;
+using Crc16OpensafetyB = crc_parametric<crc16_opensafety_b_spec_t>;
 
 /** @brief CRC-16/PROFIBUS. */
-using Crc16Profibus = CrcParametric<crc16_profibus_spec_t>;
+using Crc16Profibus = crc_parametric<crc16_profibus_spec_t>;
 
 /** @brief CRC-16/RIELLO. */
-using Crc16Riello = CrcParametric<crc16_riello_spec_t>;
+using Crc16Riello = crc_parametric<crc16_riello_spec_t>;
 
 /** @brief CRC-16/SPI-FUJITSU. */
-using Crc16SpiFujitsu = CrcParametric<crc16_spi_fujitsu_spec_t>;
+using Crc16SpiFujitsu = crc_parametric<crc16_spi_fujitsu_spec_t>;
 
 /** @brief CRC-16/T10-DIF. */
-using Crc16T10Dif = CrcParametric<crc16_t10_dif_spec_t>;
+using Crc16T10Dif = crc_parametric<crc16_t10_dif_spec_t>;
 
 /** @brief CRC-16/TELEDISK. */
-using Crc16Teledisk = CrcParametric<crc16_teledisk_spec_t>;
+using Crc16Teledisk = crc_parametric<crc16_teledisk_spec_t>;
 
 /** @brief CRC-16/TMS37157. */
-using Crc16Tms37157 = CrcParametric<crc16_tms37157_spec_t>;
+using Crc16Tms37157 = crc_parametric<crc16_tms37157_spec_t>;
 
 /** @brief CRC-16/UMTS. */
-using Crc16Umts = CrcParametric<crc16_umts_spec_t>;
+using Crc16Umts = crc_parametric<crc16_umts_spec_t>;
 
 /** @brief CRC-16/USB. */
-using Crc16Usb = CrcParametric<crc16_usb_spec_t>;
+using Crc16Usb = crc_parametric<crc16_usb_spec_t>;
 
 /** @brief CRC-16/XMODEM. */
-using Crc16Xmodem = CrcParametric<crc16_xmodem_spec_t>;
+using Crc16Xmodem = crc_parametric<crc16_xmodem_spec_t>;
 
 /** @brief CRC-17/CAN-FD. */
-using Crc17CanFd = CrcParametric<crc17_can_fd_spec_t>;
+using Crc17CanFd = crc_parametric<crc17_can_fd_spec_t>;
 
 /** @brief CRC-21/CAN-FD. */
-using Crc21CanFd = CrcParametric<crc21_can_fd_spec_t>;
+using Crc21CanFd = crc_parametric<crc21_can_fd_spec_t>;
 
 /** @brief CRC-24/OPENPGP. */
-using Crc24OpenPgp = CrcParametric<crc24_open_pgp_spec_t>;
+using Crc24OpenPgp = crc_parametric<crc24_open_pgp_spec_t>;
 
 /** @brief CRC-24/BLE. */
-using Crc24Ble = CrcParametric<crc24_ble_spec_t>;
+using Crc24Ble = crc_parametric<crc24_ble_spec_t>;
 
 /** @brief CRC-24/FLEXRAY-A. */
-using Crc24FlexrayA = CrcParametric<crc24_flexray_a_spec_t>;
+using Crc24FlexrayA = crc_parametric<crc24_flexray_a_spec_t>;
 
 /** @brief CRC-24/FLEXRAY-B. */
-using Crc24FlexrayB = CrcParametric<crc24_flexray_b_spec_t>;
+using Crc24FlexrayB = crc_parametric<crc24_flexray_b_spec_t>;
 
 /** @brief CRC-24/INTERLAKEN. */
-using Crc24Interlaken = CrcParametric<crc24_interlaken_spec_t>;
+using Crc24Interlaken = crc_parametric<crc24_interlaken_spec_t>;
 
 /** @brief CRC-24/LTE-A. */
-using Crc24LteA = CrcParametric<crc24_lte_a_spec_t>;
+using Crc24LteA = crc_parametric<crc24_lte_a_spec_t>;
 
 /** @brief CRC-24/LTE-B. */
-using Crc24LteB = CrcParametric<crc24_lte_b_spec_t>;
+using Crc24LteB = crc_parametric<crc24_lte_b_spec_t>;
 
 /** @brief CRC-24/OS-9. */
-using Crc24Os9 = CrcParametric<crc24_os9_spec_t>;
+using Crc24Os9 = crc_parametric<crc24_os9_spec_t>;
 
 /** @brief CRC-30/CDMA. */
-using Crc30Cdma = CrcParametric<crc30_cdma_spec_t>;
+using Crc30Cdma = crc_parametric<crc30_cdma_spec_t>;
 
 /** @brief CRC-31/PHILIPS. */
-using Crc31Philips = CrcParametric<crc31_philips_spec_t>;
+using Crc31Philips = crc_parametric<crc31_philips_spec_t>;
 
 /** @brief CRC-32/ISO-HDLC. */
-using Crc32IsoHdlc = CrcParametric<crc32_iso_hdlc_spec_t>;
+using Crc32IsoHdlc = crc_parametric<crc32_iso_hdlc_spec_t>;
 
 /** @brief CRC-32/ISCSI. */
-using Crc32Iscsi = CrcParametric<crc32_iscsi_spec_t>;
+using Crc32Iscsi = crc_parametric<crc32_iscsi_spec_t>;
 
 /** @brief CRC-32/AIXM. */
-using Crc32Aixm = CrcParametric<crc32_aixm_spec_t>;
+using Crc32Aixm = crc_parametric<crc32_aixm_spec_t>;
 
 /** @brief CRC-32/AUTOSAR. */
-using Crc32Autosar = CrcParametric<crc32_autosar_spec_t>;
+using Crc32Autosar = crc_parametric<crc32_autosar_spec_t>;
 
 /** @brief CRC-32/BASE91-D. */
-using Crc32Base91D = CrcParametric<crc32_base91_d_spec_t>;
+using Crc32Base91D = crc_parametric<crc32_base91_d_spec_t>;
 
 /** @brief CRC-32/BZIP2. */
-using Crc32Bzip2 = CrcParametric<crc32_bzip2_spec_t>;
+using Crc32Bzip2 = crc_parametric<crc32_bzip2_spec_t>;
 
 /** @brief CRC-32/CD-ROM-EDC. */
-using Crc32CdRomEdc = CrcParametric<crc32_cd_rom_edc_spec_t>;
+using Crc32CdRomEdc = crc_parametric<crc32_cd_rom_edc_spec_t>;
 
 /** @brief CRC-32/CKSUM. */
-using Crc32Cksum = CrcParametric<crc32_cksum_spec_t>;
+using Crc32Cksum = crc_parametric<crc32_cksum_spec_t>;
 
 /** @brief CRC-32/JAMCRC. */
-using Crc32Jamcrc = CrcParametric<crc32_jamcrc_spec_t>;
+using Crc32Jamcrc = crc_parametric<crc32_jamcrc_spec_t>;
 
 /** @brief CRC-32/MEF. */
-using Crc32Mef = CrcParametric<crc32_mef_spec_t>;
+using Crc32Mef = crc_parametric<crc32_mef_spec_t>;
 
 /** @brief CRC-32/MPEG-2. */
-using Crc32Mpeg2 = CrcParametric<crc32_mpeg2_spec_t>;
+using Crc32Mpeg2 = crc_parametric<crc32_mpeg2_spec_t>;
 
 /** @brief CRC-32/XFER. */
-using Crc32Xfer = CrcParametric<crc32_xfer_spec_t>;
+using Crc32Xfer = crc_parametric<crc32_xfer_spec_t>;
 
 /** @brief CRC-40/GSM. */
-using Crc40Gsm = CrcParametric<crc40_gsm_spec_t>;
+using Crc40Gsm = crc_parametric<crc40_gsm_spec_t>;
 
 /** @brief CRC-64/ECMA-182. */
-using Crc64Ecma182 = CrcParametric<crc64_ecma182_spec_t>;
+using Crc64Ecma182 = crc_parametric<crc64_ecma182_spec_t>;
 
 /** @brief CRC-64/GO-ISO. */
-using Crc64GoIso = CrcParametric<crc64_go_iso_spec_t>;
+using Crc64GoIso = crc_parametric<crc64_go_iso_spec_t>;
 
 /** @brief CRC-64/MS. */
-using Crc64Ms = CrcParametric<crc64_ms_spec_t>;
+using Crc64Ms = crc_parametric<crc64_ms_spec_t>;
 
 /** @brief CRC-64/NVME. */
-using Crc64Nvme = CrcParametric<crc64_nvme_spec_t>;
+using Crc64Nvme = crc_parametric<crc64_nvme_spec_t>;
 
 /** @brief CRC-64/REDIS. */
-using Crc64Redis = CrcParametric<crc64_redis_spec_t>;
+using Crc64Redis = crc_parametric<crc64_redis_spec_t>;
 
 /** @brief CRC-64/WE. */
-using Crc64We = CrcParametric<crc64_we_spec_t>;
+using Crc64We = crc_parametric<crc64_we_spec_t>;
 
 /** @brief CRC-64/XZ. */
-using Crc64Xz = CrcParametric<crc64_xz_spec_t>;
+using Crc64Xz = crc_parametric<crc64_xz_spec_t>;
 
 /**
  * @brief Named CRC engines in the same order as @ref all_crc_specs_t.
- *        Each name is @c CrcParametric of the matching specification.
+ *        Each name is @c crc_parametric of the matching specification.
  */
 using all_crc_algorithms_t = std::tuple<
     // Width 3

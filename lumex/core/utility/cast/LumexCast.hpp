@@ -25,12 +25,12 @@
 /**
  * @file LumexCast.hpp
  * @brief `downcast()`, a checked `dynamic_cast` from a polymorphic base to a
- * derived class that throws `BadDownCast` on a type mismatch, and the
+ * derived class that throws `bad_down_cast` on a type mismatch, and the
  * non-throwing `downcast_noexcept()`.
  * @details The constraints accept only a real downcast: pointer to pointer or
  * lvalue reference to lvalue reference, complete class types, a polymorphic
  * source, a target derived from the source and no loss of cv-qualifiers. A
- * null pointer converts to a null pointer without an error. `BadDownCast`
+ * null pointer converts to a null pointer without an error. `bad_down_cast`
  * derives from `std::bad_cast` and names both types in its message.
  * @warning Requires C++20 (concepts and `<concepts>`); with an older standard
  * the header declares nothing.
@@ -97,17 +97,17 @@ concept ValidDownCast
  * @brief Exception thrown by downcast() when the runtime type does not match
  * the requested target type.
  */
-class BadDownCast : public std::bad_cast
+class bad_down_cast : public std::bad_cast
 {
 public:
-  BadDownCast (std::type_info const &from, std::type_info const &to)
+  bad_down_cast (std::type_info const &from, std::type_info const &to)
       : m_message (std::string ("downcast failed: dynamic type '")
                    + from.name () + "' is not a '" + to.name () + "'")
   {
   }
 
-  BadDownCast (std::type_info const &from, std::type_info const &to,
-               char const *details)
+  bad_down_cast (std::type_info const &from, std::type_info const &to,
+                 char const *details)
       : m_message (std::string ("downcast failed: dynamic type '")
                    + from.name () + "' is not a '" + to.name ()
                    + "'. Details: " + details)
@@ -127,12 +127,12 @@ private:
 
 /**
  * @brief Safe downcast helper (pointer form): performs a `dynamic_cast` and
- * throws BadDownCast on failure.
+ * throws bad_down_cast on failure.
  * @tparam Derived Target pointer type to downcast to.
  * @tparam Base Source pointer type, deduced from the argument.
  * @param base Pointer to downcast.
  * @return The downcast pointer.
- * @throws BadDownCast if `base` does not actually point to a `Derived`.
+ * @throws bad_down_cast if `base` does not actually point to a `Derived`.
  * @note A null pointer input returns a null pointer (not treated as a cast
  * failure).
  * @note Split from the reference-form overload below rather than a single `if
@@ -153,21 +153,21 @@ Derived downcast (Base base)
 
   Derived result = dynamic_cast<Derived> (base);
   if (result == nullptr)
-    throw BadDownCast (typeid (*base),
-                       typeid (std::remove_pointer_t<Derived>));
+    throw bad_down_cast (typeid (*base),
+                         typeid (std::remove_pointer_t<Derived>));
   return result;
 }
 
 /**
  * @brief Safe downcast helper (reference form): performs a `dynamic_cast` and
- * throws BadDownCast on failure.
+ * throws bad_down_cast on failure.
  * @tparam Derived Target lvalue reference type to downcast to.
  * @tparam Base Source type (deduced, unreferenced) - wrapped back into `Base
  * &` before being checked against `Detail::ValidDownCast`, see the
  * pointer-form overload's note above.
  * @param base Reference to downcast.
  * @return The downcast reference.
- * @throws BadDownCast if `base` does not actually refer to a `Derived`.
+ * @throws bad_down_cast if `base` does not actually refer to a `Derived`.
  */
 template <typename Derived, typename Base>
   requires std::is_lvalue_reference_v<Derived>
@@ -182,15 +182,15 @@ Derived downcast (Base &base)
     }
   catch (std::bad_cast const &bc_exc)
     {
-      throw BadDownCast (typeid (base),
-                         typeid (std::remove_reference_t<Derived>),
-                         bc_exc.what ());
+      throw bad_down_cast (typeid (base),
+                           typeid (std::remove_reference_t<Derived>),
+                           bc_exc.what ());
     }
 }
 
 /**
  * @brief Non-throwing variant of downcast(): returns nullptr instead of
- * throwing BadDownCast.
+ * throwing bad_down_cast.
  * @tparam Derived Target pointer type to downcast to (reference forms still
  * throw from dynamic_cast on catastrophic failure paths outside our control,
  * so this overload is primarily useful for pointer downcasts).
@@ -205,7 +205,7 @@ Derived downcast_noexcept (Base base) LUMEX_NOEXCEPT
     {
       return downcast<Derived> (base);
     }
-  catch (BadDownCast const &)
+  catch (bad_down_cast const &)
     {
       return nullptr;
     }

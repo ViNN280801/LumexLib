@@ -19,7 +19,7 @@ main ()
       LumexSettingsFactory::create (LumexSettingsExtensions::INI));
   LumexSettingsGuard guard (settings, path);
 
-  bool const created = guard.ensureExistsWithDefaults (
+  bool const created = guard.ensure_exists_with_defaults (
       [&path, settings] ()
         {
           settings->add ("method", "name", "isocratic");
@@ -32,7 +32,7 @@ main ()
   specs[0].key = "wavelength";
   specs[0].default_value = "254";
   specs[0].validate = nullptr;
-  guard.ensureKeysWithDefaults (specs);
+  guard.ensure_keys_with_defaults (specs);
   settings->load (path);
 
   std::cout << "created=" << (created ? "yes" : "no")

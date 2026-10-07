@@ -36,7 +36,7 @@
 
 using namespace lumex::core::utility::cast;
 
-using lumex::core::utility::cast::BadDownCast;
+using lumex::core::utility::cast::bad_down_cast;
 using lumex::core::utility::cast::downcast;
 using lumex::core::utility::cast::downcast_noexcept;
 
@@ -121,7 +121,7 @@ TEST (LumexCastTest, GivenMismatchedPointer_WhenDowncast_ThenThrowsBadDownCast)
   Other other;
   Base *base = &other;
 
-  EXPECT_THROW ({ (void)downcast<Derived *> (base); }, BadDownCast);
+  EXPECT_THROW ({ (void)downcast<Derived *> (base); }, bad_down_cast);
 }
 
 TEST (LumexCastTest,
@@ -140,7 +140,7 @@ TEST (LumexCastTest,
   Other other;
   Base &base = other;
 
-  EXPECT_THROW ({ (void)downcast<Derived &> (base); }, BadDownCast);
+  EXPECT_THROW ({ (void)downcast<Derived &> (base); }, bad_down_cast);
 }
 
 TEST (LumexCastTest,
@@ -194,7 +194,7 @@ TEST (LumexCastTest,
       (void)downcast<Derived *> (base);
       FAIL () << "Expected BadDownCast to be thrown";
     }
-  catch (BadDownCast const &exc)
+  catch (bad_down_cast const &exc)
     {
       std::string const message = exc.what ();
       EXPECT_NE (message.find ("downcast failed"), std::string::npos);
@@ -247,7 +247,7 @@ TEST (LumexCastTest, GivenMismatchedConstReference_WhenDowncast_ThenThrows)
 {
   Other other;
   Base const &base = other;
-  EXPECT_THROW ({ (void)downcast<Derived const &> (base); }, BadDownCast);
+  EXPECT_THROW ({ (void)downcast<Derived const &> (base); }, bad_down_cast);
 }
 
 TEST (LumexCastTest, GivenBadDownCast_WhenCaughtAsStdBadCast_ThenIsABase)
@@ -260,7 +260,7 @@ TEST (LumexCastTest, GivenBadDownCast_WhenCaughtAsStdBadCast_ThenIsABase)
 TEST (LumexCastTest,
       GivenDetailsConstructor_WhenWhatCalled_ThenIncludesDetailsSuffix)
 {
-  BadDownCast const exc (typeid (Other), typeid (Derived), "unit-test");
+  bad_down_cast const exc (typeid (Other), typeid (Derived), "unit-test");
   std::string const message = exc.what ();
   EXPECT_NE (message.find ("downcast failed"), std::string::npos);
   EXPECT_NE (message.find ("Details: unit-test"), std::string::npos);
@@ -269,7 +269,7 @@ TEST (LumexCastTest,
 TEST (LumexCastTest,
       GivenTwoArgConstructor_WhenWhatCalled_ThenContainsFromAndToNames)
 {
-  BadDownCast const exc (typeid (Other), typeid (Derived));
+  bad_down_cast const exc (typeid (Other), typeid (Derived));
   std::string const message = exc.what ();
   EXPECT_NE (message.find ("downcast failed"), std::string::npos);
   EXPECT_FALSE (message.empty ());
@@ -314,7 +314,7 @@ TEST (LumexCastTest,
       (void)downcast<Derived &> (base);
       FAIL () << "Expected BadDownCast";
     }
-  catch (BadDownCast const &exc)
+  catch (bad_down_cast const &exc)
     {
       EXPECT_NE (std::string (exc.what ()).find ("downcast failed"),
                  std::string::npos);

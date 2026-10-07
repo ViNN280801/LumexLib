@@ -73,7 +73,7 @@ expect_catalog_check ()
 {
   byte const *data = reinterpret_cast<byte const *> (kRevEngCheckMessage);
   typename Spec::ValueType const actual
-      = CrcParametric<Spec>::calculate (data, kRevEngCheckSize);
+      = crc_parametric<Spec>::calculate (data, kRevEngCheckSize);
   EXPECT_EQ (actual, Spec::kCatalogCheck);
 }
 
@@ -94,7 +94,7 @@ expect_named_engine_matches_spec ()
 {
   using Spec = typename std::tuple_element<I, all_crc_specs_t>::type;
   using Engine = typename std::tuple_element<I, all_crc_algorithms_t>::type;
-  static_assert (std::is_same<Engine, CrcParametric<Spec>>::value,
+  static_assert (std::is_same<Engine, crc_parametric<Spec>>::value,
                  "named engine must be CrcParametric of the paired spec");
   byte const *data = reinterpret_cast<byte const *> (kRevEngCheckMessage);
   EXPECT_EQ (Engine::calculate (data, kRevEngCheckSize), Spec::kCatalogCheck);
@@ -124,13 +124,13 @@ params_from_maxim_dow ()
 std::uint32_t
 first_width8_catalog_index ()
 {
-  std::uint32_t const count = GetCrcCatalogEntryCount ();
+  std::uint32_t const count = get_crc_catalog_entry_count ();
   for (std::uint32_t index = 0; index < count; ++index)
     {
-      if (GetCrcCatalogBitWidth (index) == 8)
+      if (get_crc_catalog_bit_width (index) == 8)
         return index;
     }
-  return CrcCatalogLegacyIndex ();
+  return crc_catalog_legacy_index ();
 }
 } // namespace
 
@@ -356,7 +356,7 @@ INSTANTIATE_TEST_SUITE_P (AllByteValues_0_255, Crc8SingleByteParamTest,
 TEST (CrcCatalog, EntryCountMatchesAllCrcSpecsTuple)
 {
   EXPECT_EQ (
-      GetCrcCatalogEntryCount (),
+      get_crc_catalog_entry_count (),
       static_cast<std::uint32_t> (std::tuple_size<all_crc_specs_t>::value));
 }
 
@@ -378,19 +378,19 @@ TEST (CrcCatalog, RepresentativeSpecsMatchPublishedCheckValues)
 {
   byte const *data = reinterpret_cast<byte const *> (kRevEngCheckMessage);
   EXPECT_EQ (
-      CrcParametric<crc3_gsm_spec_t>::calculate (data, kRevEngCheckSize),
+      crc_parametric<crc3_gsm_spec_t>::calculate (data, kRevEngCheckSize),
       crc3_gsm_spec_t::kCatalogCheck);
+  EXPECT_EQ (crc_parametric<crc8_maxim_dow_spec_t>::calculate (
+                 data, kRevEngCheckSize),
+             crc8_maxim_dow_spec_t::kCatalogCheck);
   EXPECT_EQ (
-      CrcParametric<crc8_maxim_dow_spec_t>::calculate (data, kRevEngCheckSize),
-      crc8_maxim_dow_spec_t::kCatalogCheck);
-  EXPECT_EQ (
-      CrcParametric<crc16_modbus_spec_t>::calculate (data, kRevEngCheckSize),
+      crc_parametric<crc16_modbus_spec_t>::calculate (data, kRevEngCheckSize),
       crc16_modbus_spec_t::kCatalogCheck);
+  EXPECT_EQ (crc_parametric<crc32_iso_hdlc_spec_t>::calculate (
+                 data, kRevEngCheckSize),
+             crc32_iso_hdlc_spec_t::kCatalogCheck);
   EXPECT_EQ (
-      CrcParametric<crc32_iso_hdlc_spec_t>::calculate (data, kRevEngCheckSize),
-      crc32_iso_hdlc_spec_t::kCatalogCheck);
-  EXPECT_EQ (
-      CrcParametric<crc64_ecma182_spec_t>::calculate (data, kRevEngCheckSize),
+      crc_parametric<crc64_ecma182_spec_t>::calculate (data, kRevEngCheckSize),
       crc64_ecma182_spec_t::kCatalogCheck);
 }
 
@@ -413,7 +413,7 @@ TEST (CrcCatalog, SpecConstantsBoundToReferencesLinkBeforeCxx17)
 TEST (CrcCatalog, ComputeCrcCatalogIndexZeroMatchesCrc3Gsm)
 {
   byte const *data = reinterpret_cast<byte const *> (kRevEngCheckMessage);
-  EXPECT_EQ (ComputeCrcCatalog (0, data, kRevEngCheckSize),
+  EXPECT_EQ (compute_crc_catalog (0, data, kRevEngCheckSize),
              static_cast<std::uint64_t> (crc3_gsm_spec_t::kCatalogCheck));
 }
 
@@ -424,39 +424,41 @@ TEST (CrcCatalog, ComputeCrcCatalogLastIndexMatchesLastSpec)
                                   all_crc_specs_t>::type;
   byte const *data = reinterpret_cast<byte const *> (kRevEngCheckMessage);
   std::uint32_t const last
-      = GetCrcCatalogEntryCount () - static_cast<std::uint32_t> (1);
-  EXPECT_EQ (ComputeCrcCatalog (last, data, kRevEngCheckSize),
+      = get_crc_catalog_entry_count () - static_cast<std::uint32_t> (1);
+  EXPECT_EQ (compute_crc_catalog (last, data, kRevEngCheckSize),
              static_cast<std::uint64_t> (LastSpec::kCatalogCheck));
 }
 
 TEST (CrcCatalog, ComputeCrcCatalogRejectsNullAndOutOfRange)
 {
   byte sample = 0x42;
-  EXPECT_EQ (ComputeCrcCatalog (0, nullptr, 1), 0U);
-  EXPECT_EQ (ComputeCrcCatalog (0, &sample, 0), 0U);
-  EXPECT_EQ (ComputeCrcCatalog (GetCrcCatalogEntryCount (), &sample, 1), 0U);
+  EXPECT_EQ (compute_crc_catalog (0, nullptr, 1), 0U);
+  EXPECT_EQ (compute_crc_catalog (0, &sample, 0), 0U);
+  EXPECT_EQ (compute_crc_catalog (get_crc_catalog_entry_count (), &sample, 1),
+             0U);
 }
 
 TEST (CrcCatalog, GetCrcCatalogBitWidth_WhenFound_ThenPositiveWidth)
 {
-  EXPECT_GT (GetCrcCatalogBitWidth (0), 0);
-  EXPECT_EQ (GetCrcCatalogBitWidth (CrcCatalogLegacyIndex ()), 8);
+  EXPECT_GT (get_crc_catalog_bit_width (0), 0);
+  EXPECT_EQ (get_crc_catalog_bit_width (crc_catalog_legacy_index ()), 8);
 }
 
 TEST (CrcCatalog, GetCrcCatalogBitWidth_WhenUnfound_ThenMinusOne)
 {
-  EXPECT_EQ (GetCrcCatalogBitWidth (GetCrcCatalogEntryCount ()), -1);
-  EXPECT_EQ (GetCrcCatalogBitWidth (GetCrcCatalogEntryCount () + 1U), -1);
+  EXPECT_EQ (get_crc_catalog_bit_width (get_crc_catalog_entry_count ()), -1);
+  EXPECT_EQ (get_crc_catalog_bit_width (get_crc_catalog_entry_count () + 1U),
+             -1);
 }
 
 TEST (CrcCatalog, ComputeCrcCatalogVectorMatchesPointerForm)
 {
   byte const *data = reinterpret_cast<byte const *> (kRevEngCheckMessage);
   std::vector<std::uint8_t> const payload (data, data + kRevEngCheckSize);
-  EXPECT_EQ (ComputeCrcCatalog (0, payload),
-             ComputeCrcCatalog (0, data, kRevEngCheckSize));
+  EXPECT_EQ (compute_crc_catalog (0, payload),
+             compute_crc_catalog (0, data, kRevEngCheckSize));
   std::vector<std::uint8_t> const empty;
-  EXPECT_EQ (ComputeCrcCatalog (0, empty), 0U);
+  EXPECT_EQ (compute_crc_catalog (0, empty), 0U);
 }
 
 TEST (CrcCatalog, RevEngParamsMatchParametricForMaximDow)
@@ -464,11 +466,11 @@ TEST (CrcCatalog, RevEngParamsMatchParametricForMaximDow)
   byte const *data = reinterpret_cast<byte const *> (kRevEngCheckMessage);
   crc_params_t const params = params_from_maxim_dow ();
   EXPECT_EQ (
-      ComputeCrcWithRevEngParams (params, data, kRevEngCheckSize),
+      compute_crc_with_rev_eng_params (params, data, kRevEngCheckSize),
       static_cast<std::uint64_t> (crc8_maxim_dow_spec_t::kCatalogCheck));
-  EXPECT_EQ (ComputeCrcWithRevEngParams (params, data, kRevEngCheckSize),
+  EXPECT_EQ (compute_crc_with_rev_eng_params (params, data, kRevEngCheckSize),
              static_cast<std::uint64_t> (
-                 CrcParametric<crc8_maxim_dow_spec_t>::calculate (
+                 crc_parametric<crc8_maxim_dow_spec_t>::calculate (
                      data, kRevEngCheckSize)));
 }
 
@@ -476,11 +478,11 @@ TEST (CrcCatalog, RevEngParamsRejectInvalidWidth)
 {
   crc_params_t params = params_from_maxim_dow ();
   params.widthBits = 0;
-  EXPECT_FALSE (ValidateCrcRevEngParams (params));
+  EXPECT_FALSE (validate_crc_rev_eng_params (params));
   byte sample = 0x01;
-  EXPECT_EQ (ComputeCrcWithRevEngParams (params, &sample, 1), 0U);
+  EXPECT_EQ (compute_crc_with_rev_eng_params (params, &sample, 1), 0U);
   params.widthBits = 65;
-  EXPECT_FALSE (ValidateCrcRevEngParams (params));
+  EXPECT_FALSE (validate_crc_rev_eng_params (params));
 }
 
 class CrcTransportTest : public ::testing::Test
@@ -489,63 +491,65 @@ protected:
   void
   TearDown () override
   {
-    SetTransportCrcDefault ();
+    set_transport_crc_default ();
   }
 };
 
 TEST_F (CrcTransportTest, DefaultModeUsesCrc8MaximDow)
 {
-  SetTransportCrcDefault ();
-  EXPECT_EQ (GetTransportCrcMode (), TransportCrcMode::Default);
-  EXPECT_EQ (GetTransportCrcCatalogIndex (), CrcCatalogLegacyIndex ());
+  set_transport_crc_default ();
+  EXPECT_EQ (get_transport_crc_mode (), TransportCrcMode::Default);
+  EXPECT_EQ (get_transport_crc_catalog_index (), crc_catalog_legacy_index ());
   std::vector<byte> data = { 0x01, 0x02, 0x03, 0x04 };
-  EXPECT_EQ (ComputeTransportChecksum (data.data (), data.size ()),
+  EXPECT_EQ (compute_transport_checksum (data.data (), data.size ()),
              Crc8MaximDow::calculate (data));
 }
 
 TEST_F (CrcTransportTest, CatalogModeUsesFirstWidth8Entry)
 {
   std::uint32_t const index = first_width8_catalog_index ();
-  ASSERT_NE (index, CrcCatalogLegacyIndex ());
-  ASSERT_TRUE (SetTransportCrcCatalogIndex (index));
-  EXPECT_EQ (GetTransportCrcMode (), TransportCrcMode::Catalog);
-  EXPECT_EQ (GetTransportCrcCatalogIndex (), index);
+  ASSERT_NE (index, crc_catalog_legacy_index ());
+  ASSERT_TRUE (set_transport_crc_catalog_index (index));
+  EXPECT_EQ (get_transport_crc_mode (), TransportCrcMode::Catalog);
+  EXPECT_EQ (get_transport_crc_catalog_index (), index);
 
   byte const *data = reinterpret_cast<byte const *> (kRevEngCheckMessage);
   EXPECT_EQ (
-      ComputeTransportChecksum (data, kRevEngCheckSize),
-      static_cast<byte> (ComputeCrcCatalog (index, data, kRevEngCheckSize)));
+      compute_transport_checksum (data, kRevEngCheckSize),
+      static_cast<byte> (compute_crc_catalog (index, data, kRevEngCheckSize)));
 }
 
 TEST_F (CrcTransportTest, CustomModeUsesRevEngParams)
 {
   crc_params_t const params = params_from_maxim_dow ();
-  ASSERT_TRUE (SetTransportCrcRevEngParams (params));
-  EXPECT_EQ (GetTransportCrcMode (), TransportCrcMode::Custom);
-  EXPECT_EQ (GetTransportCrcCatalogIndex (),
-             CrcTransportUsesCustomSpecSentinel ());
+  ASSERT_TRUE (set_transport_crc_rev_eng_params (params));
+  EXPECT_EQ (get_transport_crc_mode (), TransportCrcMode::Custom);
+  EXPECT_EQ (get_transport_crc_catalog_index (),
+             crc_transport_uses_custom_spec_sentinel ());
 
   crc_params_t stored{};
-  ASSERT_TRUE (TryGetTransportCrcRevEngParams (stored));
+  ASSERT_TRUE (try_get_transport_crc_rev_eng_params (stored));
   EXPECT_EQ (stored.widthBits, params.widthBits);
   EXPECT_EQ (stored.poly, params.poly);
 
   byte const *data = reinterpret_cast<byte const *> (kRevEngCheckMessage);
-  EXPECT_EQ (ComputeTransportChecksum (data, kRevEngCheckSize),
+  EXPECT_EQ (compute_transport_checksum (data, kRevEngCheckSize),
              crc8_maxim_dow_spec_t::kCatalogCheck);
 }
 
 TEST_F (CrcTransportTest, CatalogIndexRejectsNon8BitWidth)
 {
-  EXPECT_FALSE (SetTransportCrcCatalogIndex (0));
-  EXPECT_EQ (GetTransportCrcMode (), TransportCrcMode::Default);
+  EXPECT_FALSE (set_transport_crc_catalog_index (0));
+  EXPECT_EQ (get_transport_crc_mode (), TransportCrcMode::Default);
 }
 
 TEST_F (CrcTransportTest, CatalogIndex_WhenOutOfRange_ThenUnfoundFalse)
 {
-  EXPECT_FALSE (SetTransportCrcCatalogIndex (GetCrcCatalogEntryCount ()));
-  EXPECT_FALSE (SetTransportCrcCatalogIndex (GetCrcCatalogEntryCount () + 1U));
-  EXPECT_EQ (GetTransportCrcMode (), TransportCrcMode::Default);
+  EXPECT_FALSE (
+      set_transport_crc_catalog_index (get_crc_catalog_entry_count ()));
+  EXPECT_FALSE (
+      set_transport_crc_catalog_index (get_crc_catalog_entry_count () + 1U));
+  EXPECT_EQ (get_transport_crc_mode (), TransportCrcMode::Default);
 }
 
 TEST_F (CrcTransportTest, CustomRejectsNon8BitWidth)
@@ -557,8 +561,8 @@ TEST_F (CrcTransportTest, CustomRejectsNon8BitWidth)
   params.refIn = crc16_modbus_spec_t::kRefIn;
   params.refOut = crc16_modbus_spec_t::kRefOut;
   params.xorOut = crc16_modbus_spec_t::kXorOut;
-  EXPECT_FALSE (SetTransportCrcRevEngParams (params));
-  EXPECT_EQ (GetTransportCrcMode (), TransportCrcMode::Default);
+  EXPECT_FALSE (set_transport_crc_rev_eng_params (params));
+  EXPECT_EQ (get_transport_crc_mode (), TransportCrcMode::Default);
 }
 
 template <typename Tuple> struct TupleToTestingTypes;
@@ -584,8 +588,8 @@ TYPED_TEST (CrcParametricTest, CatalogCheck)
   static LUMEX_CONSTEXPR std::uint8_t kMsg[]
       = { 0x31U, 0x32U, 0x33U, 0x34U, 0x35U, 0x36U, 0x37U, 0x38U, 0x39U };
 
-  auto const raw = CrcParametric<Spec>::calculate (kMsg, sizeof (kMsg));
-  auto const vec = CrcParametric<Spec>::calculate (
+  auto const raw = crc_parametric<Spec>::calculate (kMsg, sizeof (kMsg));
+  auto const vec = crc_parametric<Spec>::calculate (
       std::vector<std::uint8_t> (std::begin (kMsg), std::end (kMsg)));
 
   EXPECT_EQ (raw, Spec::kCatalogCheck)
@@ -594,9 +598,9 @@ TYPED_TEST (CrcParametricTest, CatalogCheck)
       << "vector CRC of \"123456789\" != kCatalogCheck";
   EXPECT_EQ (raw, vec) << "raw ptr and vector overloads disagree";
 
-  EXPECT_EQ (CrcParametric<Spec>::calculate (nullptr, 0U), V{ 0 });
-  EXPECT_EQ (CrcParametric<Spec>::calculate (nullptr, 42U), V{ 0 });
-  EXPECT_EQ (CrcParametric<Spec>::calculate (std::vector<std::uint8_t>{}),
+  EXPECT_EQ (crc_parametric<Spec>::calculate (nullptr, 0U), V{ 0 });
+  EXPECT_EQ (crc_parametric<Spec>::calculate (nullptr, 42U), V{ 0 });
+  EXPECT_EQ (crc_parametric<Spec>::calculate (std::vector<std::uint8_t>{}),
              V{ 0 });
 }
 
@@ -617,8 +621,8 @@ TYPED_TEST (CrcParametricTest, RandomVectors)
 
       auto const expected = LumexCrcTestHelpers::reference_crc<Spec> (data);
       auto const actualRaw
-          = CrcParametric<Spec>::calculate (data.data (), data.size ());
-      auto const actualVec = CrcParametric<Spec>::calculate (data);
+          = crc_parametric<Spec>::calculate (data.data (), data.size ());
+      auto const actualVec = crc_parametric<Spec>::calculate (data);
 
       ASSERT_EQ (actualRaw, expected)
           << "raw ptr mismatch: case " << i << " len=" << data.size ();
@@ -626,7 +630,7 @@ TYPED_TEST (CrcParametricTest, RandomVectors)
           << "vector mismatch: case " << i << " len=" << data.size ();
 
 #if __cplusplus >= 202002L
-      auto const actualSpan = CrcParametric<Spec>::calculate (
+      auto const actualSpan = crc_parametric<Spec>::calculate (
           std::span<std::uint8_t const>{ data });
       ASSERT_EQ (actualSpan, expected)
           << "span mismatch: case " << i << " len=" << data.size ();
@@ -642,12 +646,12 @@ TYPED_TEST (CrcParametricTest, ManualCases)
     {
       auto const ref = LumexCrcTestHelpers::reference_crc<Spec> (data);
       auto const raw
-          = CrcParametric<Spec>::calculate (data.data (), data.size ());
-      auto const vec = CrcParametric<Spec>::calculate (data);
+          = crc_parametric<Spec>::calculate (data.data (), data.size ());
+      auto const vec = crc_parametric<Spec>::calculate (data);
       EXPECT_EQ (raw, ref);
       EXPECT_EQ (vec, ref);
 #if __cplusplus >= 202002L
-      EXPECT_EQ (CrcParametric<Spec>::calculate (
+      EXPECT_EQ (crc_parametric<Spec>::calculate (
                      std::span<std::uint8_t const>{ data }),
                  ref);
 #endif

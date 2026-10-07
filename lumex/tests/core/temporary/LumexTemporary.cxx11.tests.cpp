@@ -93,13 +93,13 @@ protected:
   }
 };
 
-// --- LumexTemporary Static Methods Tests ----------------------------------
+// --- lumex_temporary Static Methods Tests ----------------------------------
 
 // --- get_temp_directory_path Tests ---
 
 TEST_F (LumexTemporaryTest, GetTempDirectoryPath_ReturnsValidPath)
 {
-  lumex::path temp_path = LumexTemporary::get_temp_directory_path ();
+  lumex::path temp_path = lumex_temporary::get_temp_directory_path ();
 
   EXPECT_FALSE (temp_path.empty ());
   EXPECT_TRUE (temp_path.is_absolute ()
@@ -108,8 +108,8 @@ TEST_F (LumexTemporaryTest, GetTempDirectoryPath_ReturnsValidPath)
 
 TEST_F (LumexTemporaryTest, GetTempDirectoryPath_ConsistentAcrossCalls)
 {
-  lumex::path path1 = LumexTemporary::get_temp_directory_path ();
-  lumex::path path2 = LumexTemporary::get_temp_directory_path ();
+  lumex::path path1 = lumex_temporary::get_temp_directory_path ();
+  lumex::path path2 = lumex_temporary::get_temp_directory_path ();
 
   EXPECT_EQ (path1, path2);
 }
@@ -117,7 +117,7 @@ TEST_F (LumexTemporaryTest, GetTempDirectoryPath_ConsistentAcrossCalls)
 #if LUMEX_OS_WINDOWS
 TEST_F (LumexTemporaryPlatformTest, GetTempDirectoryPath_WindowsUsesSystemTemp)
 {
-  lumex::path temp_path = LumexTemporary::get_temp_directory_path ();
+  lumex::path temp_path = lumex_temporary::get_temp_directory_path ();
 
   // On Windows, should use system temp directory
   EXPECT_TRUE (temp_path.string ().find ("Lumex") != std::string::npos);
@@ -127,7 +127,7 @@ TEST_F (LumexTemporaryPlatformTest, GetTempDirectoryPath_WindowsUsesSystemTemp)
 #elif LUMEX_OS_UNIX
 TEST_F (LumexTemporaryPlatformTest, GetTempDirectoryPath_UnixChecksAppImage)
 {
-  lumex::path temp_path = LumexTemporary::get_temp_directory_path ();
+  lumex::path temp_path = lumex_temporary::get_temp_directory_path ();
 
   // Should return a valid path regardless of AppImage status
   EXPECT_FALSE (temp_path.empty ());
@@ -139,7 +139,7 @@ TEST_F (LumexTemporaryPlatformTest, GetTempDirectoryPath_UnixChecksAppImage)
 
 TEST_F (LumexTemporaryTest, GenerateTempName_WithPrefix)
 {
-  std::string name = LumexTemporary::generate_temp_name ("test");
+  std::string name = lumex_temporary::generate_temp_name ("test");
 
   EXPECT_FALSE (name.empty ());
   EXPECT_TRUE (name.find ("test_") == 0);
@@ -148,7 +148,7 @@ TEST_F (LumexTemporaryTest, GenerateTempName_WithPrefix)
 
 TEST_F (LumexTemporaryTest, GenerateTempName_WithoutPrefix)
 {
-  std::string name = LumexTemporary::generate_temp_name ();
+  std::string name = lumex_temporary::generate_temp_name ();
 
   EXPECT_FALSE (name.empty ());
   EXPECT_GT (name.length (), 10);
@@ -156,7 +156,7 @@ TEST_F (LumexTemporaryTest, GenerateTempName_WithoutPrefix)
 
 TEST_F (LumexTemporaryTest, GenerateTempName_EmptyPrefix)
 {
-  std::string name = LumexTemporary::generate_temp_name ("");
+  std::string name = lumex_temporary::generate_temp_name ("");
 
   EXPECT_FALSE (name.empty ());
   EXPECT_GT (name.length (), 10);
@@ -164,15 +164,15 @@ TEST_F (LumexTemporaryTest, GenerateTempName_EmptyPrefix)
 
 TEST_F (LumexTemporaryTest, GenerateTempName_UniqueNames)
 {
-  std::string name1 = LumexTemporary::generate_temp_name ("test");
-  std::string name2 = LumexTemporary::generate_temp_name ("test");
+  std::string name1 = lumex_temporary::generate_temp_name ("test");
+  std::string name2 = lumex_temporary::generate_temp_name ("test");
 
   EXPECT_NE (name1, name2);
 }
 
 TEST_F (LumexTemporaryTest, GenerateTempName_ContainsTimestamp)
 {
-  std::string name = LumexTemporary::generate_temp_name ("test");
+  std::string name = lumex_temporary::generate_temp_name ("test");
 
   // Should contain hex timestamp (current time)
   EXPECT_TRUE (name.find ("test_") == 0);
@@ -183,7 +183,7 @@ TEST_F (LumexTemporaryTest, GenerateTempName_ContainsTimestamp)
 
 TEST_F (LumexTemporaryTest, CreateTempDirectory_WithName)
 {
-  auto result = LumexTemporary::create_temp_directory ("test_dir");
+  auto result = lumex_temporary::create_temp_directory ("test_dir");
 
   EXPECT_TRUE (result.success ());
   EXPECT_TRUE (result.value ().is_valid ());
@@ -195,7 +195,7 @@ TEST_F (LumexTemporaryTest, CreateTempDirectory_WithName)
 
 TEST_F (LumexTemporaryTest, CreateTempDirectory_WithoutName)
 {
-  auto result = LumexTemporary::create_temp_directory ();
+  auto result = lumex_temporary::create_temp_directory ();
 
   EXPECT_TRUE (result.success ());
   EXPECT_TRUE (result.value ().is_valid ());
@@ -207,7 +207,7 @@ TEST_F (LumexTemporaryTest, CreateTempDirectory_WithoutName)
 
 TEST_F (LumexTemporaryTest, CreateTempDirectory_EmptyName)
 {
-  auto result = LumexTemporary::create_temp_directory ("");
+  auto result = lumex_temporary::create_temp_directory ("");
 
   EXPECT_TRUE (result.success ());
   EXPECT_TRUE (result.value ().is_valid ());
@@ -219,8 +219,8 @@ TEST_F (LumexTemporaryTest, CreateTempDirectory_EmptyName)
 
 TEST_F (LumexTemporaryTest, CreateTempDirectory_UniquePaths)
 {
-  auto result1 = LumexTemporary::create_temp_directory ("test");
-  auto result2 = LumexTemporary::create_temp_directory ("test");
+  auto result1 = lumex_temporary::create_temp_directory ("test");
+  auto result2 = lumex_temporary::create_temp_directory ("test");
 
   EXPECT_TRUE (result1.success ());
   EXPECT_TRUE (result2.success ());
@@ -229,7 +229,7 @@ TEST_F (LumexTemporaryTest, CreateTempDirectory_UniquePaths)
 
 TEST_F (LumexTemporaryTest, CreateTempDirectory_WithSpecialCharacters)
 {
-  auto result = LumexTemporary::create_temp_directory ("test-dir_123");
+  auto result = lumex_temporary::create_temp_directory ("test-dir_123");
 
   EXPECT_TRUE (result.success ());
   EXPECT_TRUE (result.value ().is_valid ());
@@ -241,7 +241,7 @@ TEST_F (LumexTemporaryTest, CreateTempDirectory_WithSpecialCharacters)
 
 TEST_F (LumexTemporaryTest, CreateTempFile_WithName)
 {
-  auto result = LumexTemporary::create_temp_file ("test_file");
+  auto result = lumex_temporary::create_temp_file ("test_file");
 
   EXPECT_TRUE (result.success ());
   EXPECT_TRUE (result.value ().is_valid ());
@@ -253,7 +253,7 @@ TEST_F (LumexTemporaryTest, CreateTempFile_WithName)
 
 TEST_F (LumexTemporaryTest, CreateTempFile_WithoutName)
 {
-  auto result = LumexTemporary::create_temp_file ();
+  auto result = lumex_temporary::create_temp_file ();
 
   EXPECT_TRUE (result.success ());
   EXPECT_TRUE (result.value ().is_valid ());
@@ -265,7 +265,7 @@ TEST_F (LumexTemporaryTest, CreateTempFile_WithoutName)
 
 TEST_F (LumexTemporaryTest, CreateTempFile_EmptyName)
 {
-  auto result = LumexTemporary::create_temp_file ("");
+  auto result = lumex_temporary::create_temp_file ("");
 
   EXPECT_TRUE (result.success ());
   EXPECT_TRUE (result.value ().is_valid ());
@@ -277,8 +277,8 @@ TEST_F (LumexTemporaryTest, CreateTempFile_EmptyName)
 
 TEST_F (LumexTemporaryTest, CreateTempFile_UniquePaths)
 {
-  auto result1 = LumexTemporary::create_temp_file ("test");
-  auto result2 = LumexTemporary::create_temp_file ("test");
+  auto result1 = lumex_temporary::create_temp_file ("test");
+  auto result2 = lumex_temporary::create_temp_file ("test");
 
   EXPECT_TRUE (result1.success ());
   EXPECT_TRUE (result2.success ());
@@ -287,7 +287,7 @@ TEST_F (LumexTemporaryTest, CreateTempFile_UniquePaths)
 
 TEST_F (LumexTemporaryTest, CreateTempFile_CanWriteToFile)
 {
-  auto result = LumexTemporary::create_temp_file ("writable");
+  auto result = lumex_temporary::create_temp_file ("writable");
 
   EXPECT_TRUE (result.success ());
 
@@ -306,11 +306,11 @@ TEST_F (LumexTemporaryTest, CreateTempFile_CanWriteToFile)
 
 TEST_F (LumexTemporaryTest, RemoveTempDirectory_ExistingDirectory)
 {
-  auto create_result = LumexTemporary::create_temp_directory ("to_remove");
+  auto create_result = lumex_temporary::create_temp_directory ("to_remove");
   EXPECT_TRUE (create_result.success ());
 
-  auto remove_result
-      = LumexTemporary::remove_temp_directory (create_result.value ().path ());
+  auto remove_result = lumex_temporary::remove_temp_directory (
+      create_result.value ().path ());
   EXPECT_TRUE (remove_result.success ());
   EXPECT_FALSE (lumex::core::filesystem::fs::lumex_filesystem::exists (
       create_result.value ().path ()));
@@ -319,7 +319,7 @@ TEST_F (LumexTemporaryTest, RemoveTempDirectory_ExistingDirectory)
 TEST_F (LumexTemporaryTest, RemoveTempDirectory_NonExistentDirectory)
 {
   lumex::path non_existent_path = lumex::path ("/non/existent/path");
-  auto result = LumexTemporary::remove_temp_directory (non_existent_path);
+  auto result = lumex_temporary::remove_temp_directory (non_existent_path);
 
   EXPECT_TRUE (result.success ()); // Should succeed even if doesn't exist
 }
@@ -327,17 +327,17 @@ TEST_F (LumexTemporaryTest, RemoveTempDirectory_NonExistentDirectory)
 TEST_F (LumexTemporaryTest, RemoveTempDirectory_WhenUnfound_ThenStillSuccess)
 {
   lumex::path const missing ("lumex_temp_unfound_dir_9f3a");
-  auto const result = LumexTemporary::remove_temp_directory (missing);
+  auto const result = lumex_temporary::remove_temp_directory (missing);
   EXPECT_TRUE (result.success ());
 }
 
 TEST_F (LumexTemporaryTest, RemoveTempDirectory_NotADirectory)
 {
-  auto file_result = LumexTemporary::create_temp_file ("not_a_dir");
+  auto file_result = lumex_temporary::create_temp_file ("not_a_dir");
   EXPECT_TRUE (file_result.success ());
 
   auto remove_result
-      = LumexTemporary::remove_temp_directory (file_result.value ().path ());
+      = lumex_temporary::remove_temp_directory (file_result.value ().path ());
   EXPECT_FALSE (remove_result.success ());
   EXPECT_TRUE (lumex::core::filesystem::fs::lumex_filesystem::exists (
       file_result.value ().path ()));
@@ -345,7 +345,7 @@ TEST_F (LumexTemporaryTest, RemoveTempDirectory_NotADirectory)
 
 TEST_F (LumexTemporaryTest, RemoveTempDirectory_WithContents)
 {
-  auto dir_result = LumexTemporary::create_temp_directory ("with_contents");
+  auto dir_result = lumex_temporary::create_temp_directory ("with_contents");
   EXPECT_TRUE (dir_result.success ());
 
   // Create a file inside the directory
@@ -355,7 +355,7 @@ TEST_F (LumexTemporaryTest, RemoveTempDirectory_WithContents)
   file.close ();
 
   auto remove_result
-      = LumexTemporary::remove_temp_directory (dir_result.value ().path ());
+      = lumex_temporary::remove_temp_directory (dir_result.value ().path ());
   EXPECT_TRUE (remove_result.success ());
   EXPECT_FALSE (lumex::core::filesystem::fs::lumex_filesystem::exists (
       dir_result.value ().path ()));
@@ -365,11 +365,11 @@ TEST_F (LumexTemporaryTest, RemoveTempDirectory_WithContents)
 
 TEST_F (LumexTemporaryTest, RemoveTempFile_ExistingFile)
 {
-  auto create_result = LumexTemporary::create_temp_file ("to_remove");
+  auto create_result = lumex_temporary::create_temp_file ("to_remove");
   EXPECT_TRUE (create_result.success ());
 
   auto remove_result
-      = LumexTemporary::remove_temp_file (create_result.value ().path ());
+      = lumex_temporary::remove_temp_file (create_result.value ().path ());
   EXPECT_TRUE (remove_result.success ());
   EXPECT_FALSE (lumex::core::filesystem::fs::lumex_filesystem::exists (
       create_result.value ().path ()));
@@ -378,34 +378,34 @@ TEST_F (LumexTemporaryTest, RemoveTempFile_ExistingFile)
 TEST_F (LumexTemporaryTest, RemoveTempFile_NonExistentFile)
 {
   lumex::path non_existent_path = lumex::path ("/non/existent/file.txt");
-  auto result = LumexTemporary::remove_temp_file (non_existent_path);
+  auto result = lumex_temporary::remove_temp_file (non_existent_path);
 
   EXPECT_TRUE (result.success ()); // Should succeed even if doesn't exist
 }
 
 TEST_F (LumexTemporaryTest, RemoveTempFile_NotAFile)
 {
-  auto dir_result = LumexTemporary::create_temp_directory ("not_a_file");
+  auto dir_result = lumex_temporary::create_temp_directory ("not_a_file");
   EXPECT_TRUE (dir_result.success ());
 
   auto remove_result
-      = LumexTemporary::remove_temp_file (dir_result.value ().path ());
+      = lumex_temporary::remove_temp_file (dir_result.value ().path ());
   EXPECT_FALSE (remove_result.success ());
   EXPECT_TRUE (lumex::core::filesystem::fs::lumex_filesystem::exists (
       dir_result.value ().path ()));
 }
 
-// --- TemporaryDirectory RAII Tests ---------------------------------------
+// --- temporary_directory RAII Tests ---------------------------------------
 
 TEST_F (LumexTemporaryLifetimeTest, TemporaryDirectory_Constructor)
 {
-  auto create_result = LumexTemporary::create_temp_directory ("raii_test");
+  auto create_result = lumex_temporary::create_temp_directory ("raii_test");
   EXPECT_TRUE (create_result.success ());
 
   lumex::path path = create_result.value ().path ();
   create_result.value ().release (); // Prevent auto-cleanup
 
-  TemporaryDirectory temp_dir (path);
+  temporary_directory temp_dir (path);
   EXPECT_EQ (temp_dir.path (), path);
   EXPECT_TRUE (temp_dir.is_valid ());
   EXPECT_TRUE (lumex::core::filesystem::fs::lumex_filesystem::exists (path));
@@ -415,14 +415,14 @@ TEST_F (LumexTemporaryLifetimeTest,
         TemporaryDirectory_DestructorRemovesDirectory)
 {
   auto create_result
-      = LumexTemporary::create_temp_directory ("destructor_test");
+      = lumex_temporary::create_temp_directory ("destructor_test");
   EXPECT_TRUE (create_result.success ());
 
   lumex::path path = create_result.value ().path ();
   create_result.value ().release (); // Prevent auto-cleanup
 
   {
-    TemporaryDirectory temp_dir (path);
+    temporary_directory temp_dir (path);
     EXPECT_TRUE (lumex::core::filesystem::fs::lumex_filesystem::exists (path));
   } // temp_dir goes out of scope here
 
@@ -431,14 +431,14 @@ TEST_F (LumexTemporaryLifetimeTest,
 
 TEST_F (LumexTemporaryLifetimeTest, TemporaryDirectory_MoveConstructor)
 {
-  auto create_result = LumexTemporary::create_temp_directory ("move_test");
+  auto create_result = lumex_temporary::create_temp_directory ("move_test");
   EXPECT_TRUE (create_result.success ());
 
   lumex::path path = create_result.value ().path ();
   create_result.value ().release ();
 
-  TemporaryDirectory original (path);
-  TemporaryDirectory moved (std::move (original));
+  temporary_directory original (path);
+  temporary_directory moved (std::move (original));
 
   EXPECT_FALSE (original.is_valid ());
   EXPECT_TRUE (moved.is_valid ());
@@ -448,8 +448,10 @@ TEST_F (LumexTemporaryLifetimeTest, TemporaryDirectory_MoveConstructor)
 
 TEST_F (LumexTemporaryLifetimeTest, TemporaryDirectory_MoveAssignment)
 {
-  auto create_result1 = LumexTemporary::create_temp_directory ("move_assign1");
-  auto create_result2 = LumexTemporary::create_temp_directory ("move_assign2");
+  auto create_result1
+      = lumex_temporary::create_temp_directory ("move_assign1");
+  auto create_result2
+      = lumex_temporary::create_temp_directory ("move_assign2");
   EXPECT_TRUE (create_result1.success ());
   EXPECT_TRUE (create_result2.success ());
 
@@ -458,8 +460,8 @@ TEST_F (LumexTemporaryLifetimeTest, TemporaryDirectory_MoveAssignment)
   create_result1.value ().release ();
   create_result2.value ().release ();
 
-  TemporaryDirectory dir1 (path1);
-  TemporaryDirectory dir2 (path2);
+  temporary_directory dir1 (path1);
+  temporary_directory dir2 (path2);
 
   dir2 = std::move (dir1);
 
@@ -473,13 +475,13 @@ TEST_F (LumexTemporaryLifetimeTest, TemporaryDirectory_MoveAssignment)
 
 TEST_F (LumexTemporaryLifetimeTest, TemporaryDirectory_Release)
 {
-  auto create_result = LumexTemporary::create_temp_directory ("release_test");
+  auto create_result = lumex_temporary::create_temp_directory ("release_test");
   EXPECT_TRUE (create_result.success ());
 
   lumex::path path = create_result.value ().path ();
   create_result.value ().release ();
 
-  TemporaryDirectory temp_dir (path);
+  temporary_directory temp_dir (path);
   EXPECT_TRUE (temp_dir.is_valid ());
 
   temp_dir.release ();
@@ -490,31 +492,31 @@ TEST_F (LumexTemporaryLifetimeTest, TemporaryDirectory_Release)
 
 TEST_F (LumexTemporaryLifetimeTest, TemporaryDirectory_CopyConstructorDeleted)
 {
-  auto create_result = LumexTemporary::create_temp_directory ("copy_test");
+  auto create_result = lumex_temporary::create_temp_directory ("copy_test");
   EXPECT_TRUE (create_result.success ());
 
   lumex::path path = create_result.value ().path ();
   create_result.value ().release ();
 
-  TemporaryDirectory original (path);
+  temporary_directory original (path);
 
   // This should not compile, but we can test that copy assignment is deleted
   // by checking that move operations work correctly
-  TemporaryDirectory moved (std::move (original));
+  temporary_directory moved (std::move (original));
   EXPECT_TRUE (moved.is_valid ());
 }
 
-// --- TemporaryFile RAII Tests --------------------------------------------
+// --- temporary_file RAII Tests --------------------------------------------
 
 TEST_F (LumexTemporaryLifetimeTest, TemporaryFile_Constructor)
 {
-  auto create_result = LumexTemporary::create_temp_file ("raii_test");
+  auto create_result = lumex_temporary::create_temp_file ("raii_test");
   EXPECT_TRUE (create_result.success ());
 
   lumex::path path = create_result.value ().path ();
   create_result.value ().release ();
 
-  TemporaryFile temp_file (path);
+  temporary_file temp_file (path);
   EXPECT_EQ (temp_file.path (), path);
   EXPECT_TRUE (temp_file.is_valid ());
   EXPECT_TRUE (lumex::core::filesystem::fs::lumex_filesystem::exists (path));
@@ -522,14 +524,14 @@ TEST_F (LumexTemporaryLifetimeTest, TemporaryFile_Constructor)
 
 TEST_F (LumexTemporaryLifetimeTest, TemporaryFile_DestructorRemovesFile)
 {
-  auto create_result = LumexTemporary::create_temp_file ("destructor_test");
+  auto create_result = lumex_temporary::create_temp_file ("destructor_test");
   EXPECT_TRUE (create_result.success ());
 
   lumex::path path = create_result.value ().path ();
   create_result.value ().release ();
 
   {
-    TemporaryFile temp_file (path);
+    temporary_file temp_file (path);
     EXPECT_TRUE (lumex::core::filesystem::fs::lumex_filesystem::exists (path));
   } // temp_file goes out of scope here
 
@@ -538,14 +540,14 @@ TEST_F (LumexTemporaryLifetimeTest, TemporaryFile_DestructorRemovesFile)
 
 TEST_F (LumexTemporaryLifetimeTest, TemporaryFile_MoveConstructor)
 {
-  auto create_result = LumexTemporary::create_temp_file ("move_test");
+  auto create_result = lumex_temporary::create_temp_file ("move_test");
   EXPECT_TRUE (create_result.success ());
 
   lumex::path path = create_result.value ().path ();
   create_result.value ().release ();
 
-  TemporaryFile original (path);
-  TemporaryFile moved (std::move (original));
+  temporary_file original (path);
+  temporary_file moved (std::move (original));
 
   EXPECT_FALSE (original.is_valid ());
   EXPECT_TRUE (moved.is_valid ());
@@ -555,8 +557,8 @@ TEST_F (LumexTemporaryLifetimeTest, TemporaryFile_MoveConstructor)
 
 TEST_F (LumexTemporaryLifetimeTest, TemporaryFile_MoveAssignment)
 {
-  auto create_result1 = LumexTemporary::create_temp_file ("move_assign1");
-  auto create_result2 = LumexTemporary::create_temp_file ("move_assign2");
+  auto create_result1 = lumex_temporary::create_temp_file ("move_assign1");
+  auto create_result2 = lumex_temporary::create_temp_file ("move_assign2");
   EXPECT_TRUE (create_result1.success ());
   EXPECT_TRUE (create_result2.success ());
 
@@ -565,8 +567,8 @@ TEST_F (LumexTemporaryLifetimeTest, TemporaryFile_MoveAssignment)
   create_result1.value ().release ();
   create_result2.value ().release ();
 
-  TemporaryFile file1 (path1);
-  TemporaryFile file2 (path2);
+  temporary_file file1 (path1);
+  temporary_file file2 (path2);
 
   file2 = std::move (file1);
 
@@ -580,13 +582,13 @@ TEST_F (LumexTemporaryLifetimeTest, TemporaryFile_MoveAssignment)
 
 TEST_F (LumexTemporaryLifetimeTest, TemporaryFile_Release)
 {
-  auto create_result = LumexTemporary::create_temp_file ("release_test");
+  auto create_result = lumex_temporary::create_temp_file ("release_test");
   EXPECT_TRUE (create_result.success ());
 
   lumex::path path = create_result.value ().path ();
   create_result.value ().release ();
 
-  TemporaryFile temp_file (path);
+  temporary_file temp_file (path);
   EXPECT_TRUE (temp_file.is_valid ());
 
   temp_file.release ();
@@ -601,10 +603,10 @@ TEST_F (LumexTemporaryTest, CreateTempDirectory_TooManyAttempts)
 {
   // This test is difficult to trigger reliably, but we can test the retry
   // logic by creating many directories rapidly
-  std::vector<lumex::filesystem_result<TemporaryDirectory>> results;
+  std::vector<lumex::filesystem_result<temporary_directory>> results;
 
   for (int i = 0; i < 50; ++i)
-    results.push_back (LumexTemporary::create_temp_directory ("stress_test"));
+    results.push_back (lumex_temporary::create_temp_directory ("stress_test"));
 
   // All should succeed due to timestamp + random suffix
   for (auto const &result : results)
@@ -613,10 +615,10 @@ TEST_F (LumexTemporaryTest, CreateTempDirectory_TooManyAttempts)
 
 TEST_F (LumexTemporaryTest, CreateTempFile_TooManyAttempts)
 {
-  std::vector<lumex::filesystem_result<TemporaryFile>> results;
+  std::vector<lumex::filesystem_result<temporary_file>> results;
 
   for (int i = 0; i < 50; ++i)
-    results.push_back (LumexTemporary::create_temp_file ("stress_test"));
+    results.push_back (lumex_temporary::create_temp_file ("stress_test"));
 
   // All should succeed due to timestamp + random suffix
   for (auto const &result : results)
@@ -637,7 +639,7 @@ TEST_F (LumexTemporaryTest, GenerateTempName_ThreadSafety)
               for (int j = 0; j < 100; ++j)
                 {
                   std::string name
-                      = LumexTemporary::generate_temp_name ("thread_test");
+                      = lumex_temporary::generate_temp_name ("thread_test");
                   std::lock_guard<std::mutex> lock (names_mutex);
                   names.push_back (name);
                 }
@@ -657,17 +659,18 @@ TEST_F (LumexTemporaryTest, GenerateTempName_ThreadSafety)
 
 TEST_F (LumexTemporaryTest, ConcurrentTempDirectoryCreation)
 {
-  std::vector<std::future<lumex::filesystem_result<TemporaryDirectory>>>
+  std::vector<std::future<lumex::filesystem_result<temporary_directory>>>
       futures;
 
   for (int i = 0; i < 20; ++i)
     {
-      futures.push_back (std::async (
-          std::launch::async,
-          [] ()
-            {
-              return LumexTemporary::create_temp_directory ("concurrent_test");
-            }));
+      futures.push_back (
+          std::async (std::launch::async,
+                      [] ()
+                        {
+                          return lumex_temporary::create_temp_directory (
+                              "concurrent_test");
+                        }));
     }
 
   std::vector<lumex::path> paths;
@@ -686,13 +689,16 @@ TEST_F (LumexTemporaryTest, ConcurrentTempDirectoryCreation)
 
 TEST_F (LumexTemporaryTest, ConcurrentTempFileCreation)
 {
-  std::vector<std::future<lumex::filesystem_result<TemporaryFile>>> futures;
+  std::vector<std::future<lumex::filesystem_result<temporary_file>>> futures;
 
   for (int i = 0; i < 20; ++i)
     {
       futures.push_back (std::async (
-          std::launch::async, [] ()
-            { return LumexTemporary::create_temp_file ("concurrent_test"); }));
+          std::launch::async,
+          [] ()
+            {
+              return lumex_temporary::create_temp_file ("concurrent_test");
+            }));
     }
 
   std::vector<lumex::path> paths;
@@ -717,10 +723,10 @@ TEST_F (LumexTemporaryTest, Perf_TempDirectoryCreation)
   int const N = 1000;
   auto start = std::chrono::high_resolution_clock::now ();
 
-  std::vector<TemporaryDirectory> dirs;
+  std::vector<temporary_directory> dirs;
   for (int i = 0; i < N; ++i)
     {
-      auto result = LumexTemporary::create_temp_directory ("perf_test");
+      auto result = lumex_temporary::create_temp_directory ("perf_test");
       EXPECT_TRUE (result.success ());
       dirs.push_back (std::move (result.value ()));
     }
@@ -743,10 +749,10 @@ TEST_F (LumexTemporaryTest, Perf_TempFileCreation)
   int const N = 1000;
   auto start = std::chrono::high_resolution_clock::now ();
 
-  std::vector<TemporaryFile> files;
+  std::vector<temporary_file> files;
   for (int i = 0; i < N; ++i)
     {
-      auto result = LumexTemporary::create_temp_file ("perf_test");
+      auto result = lumex_temporary::create_temp_file ("perf_test");
       EXPECT_TRUE (result.success ());
       files.push_back (std::move (result.value ()));
     }
@@ -771,7 +777,7 @@ TEST_F (LumexTemporaryTest, Perf_NameGeneration)
 
   for (int i = 0; i < N; ++i)
     {
-      std::string name = LumexTemporary::generate_temp_name ("perf_test");
+      std::string name = lumex_temporary::generate_temp_name ("perf_test");
       EXPECT_FALSE (name.empty ());
     }
 
@@ -792,7 +798,7 @@ TEST_F (LumexTemporaryTest, Perf_NameGeneration)
 #if LUMEX_OS_WINDOWS
 TEST_F (LumexTemporaryPlatformTest, WindowsPathSeparators)
 {
-  lumex::path temp_path = LumexTemporary::get_temp_directory_path ();
+  lumex::path temp_path = lumex_temporary::get_temp_directory_path ();
 
   // Windows should use backslashes or forward slashes
   std::string path_str = temp_path.string ();
@@ -802,7 +808,7 @@ TEST_F (LumexTemporaryPlatformTest, WindowsPathSeparators)
 
 TEST_F (LumexTemporaryPlatformTest, WindowsProcessIdInName)
 {
-  std::string name = LumexTemporary::generate_temp_name ("win_test");
+  std::string name = lumex_temporary::generate_temp_name ("win_test");
 
   // Should contain process ID on Windows
   EXPECT_TRUE (name.find ("win_test_") == 0);
@@ -811,7 +817,7 @@ TEST_F (LumexTemporaryPlatformTest, WindowsProcessIdInName)
 #elif LUMEX_OS_UNIX
 TEST_F (LumexTemporaryPlatformTest, UnixPathSeparators)
 {
-  lumex::path temp_path = LumexTemporary::get_temp_directory_path ();
+  lumex::path temp_path = lumex_temporary::get_temp_directory_path ();
 
   // Unix should use forward slashes
   std::string path_str = temp_path.string ();
@@ -820,7 +826,7 @@ TEST_F (LumexTemporaryPlatformTest, UnixPathSeparators)
 
 TEST_F (LumexTemporaryPlatformTest, UnixProcessIdInName)
 {
-  std::string name = LumexTemporary::generate_temp_name ("unix_test");
+  std::string name = lumex_temporary::generate_temp_name ("unix_test");
 
   // Should contain process ID on Unix
   EXPECT_TRUE (name.find ("unix_test_") == 0);
@@ -832,7 +838,8 @@ TEST_F (LumexTemporaryPlatformTest, UnixProcessIdInName)
 
 TEST_F (LumexTemporaryTest, Integration_TempFileInTempDirectory)
 {
-  auto dir_result = LumexTemporary::create_temp_directory ("integration_test");
+  auto dir_result
+      = lumex_temporary::create_temp_directory ("integration_test");
   EXPECT_TRUE (dir_result.success ());
 
   // Create a file inside the temporary directory
@@ -853,14 +860,14 @@ TEST_F (LumexTemporaryTest, Integration_TempFileInTempDirectory)
 
 TEST_F (LumexTemporaryTest, Integration_MultipleTempObjects)
 {
-  std::vector<TemporaryDirectory> dirs;
-  std::vector<TemporaryFile> files;
+  std::vector<temporary_directory> dirs;
+  std::vector<temporary_file> files;
 
   // Create multiple temporary objects
   for (int i = 0; i < 5; ++i)
     {
-      auto dir_result = LumexTemporary::create_temp_directory ("multi_test");
-      auto file_result = LumexTemporary::create_temp_file ("multi_test");
+      auto dir_result = lumex_temporary::create_temp_directory ("multi_test");
+      auto file_result = lumex_temporary::create_temp_file ("multi_test");
 
       EXPECT_TRUE (dir_result.success ());
       EXPECT_TRUE (file_result.success ());
@@ -885,13 +892,13 @@ TEST_F (LumexTemporaryTest, Integration_MultipleTempObjects)
 TEST_F (LumexTemporaryTest, Stress_ManyTempObjects)
 {
   int const N = 100;
-  std::vector<TemporaryDirectory> dirs;
-  std::vector<TemporaryFile> files;
+  std::vector<temporary_directory> dirs;
+  std::vector<temporary_file> files;
 
   for (int i = 0; i < N; ++i)
     {
-      auto dir_result = LumexTemporary::create_temp_directory ("stress_test");
-      auto file_result = LumexTemporary::create_temp_file ("stress_test");
+      auto dir_result = lumex_temporary::create_temp_directory ("stress_test");
+      auto file_result = lumex_temporary::create_temp_file ("stress_test");
 
       EXPECT_TRUE (dir_result.success ());
       EXPECT_TRUE (file_result.success ());
@@ -911,8 +918,8 @@ TEST_F (LumexTemporaryTest, Stress_RapidCreationAndDestruction)
 {
   for (int i = 0; i < 50; ++i)
     {
-      auto dir_result = LumexTemporary::create_temp_directory ("rapid_test");
-      auto file_result = LumexTemporary::create_temp_file ("rapid_test");
+      auto dir_result = lumex_temporary::create_temp_directory ("rapid_test");
+      auto file_result = lumex_temporary::create_temp_file ("rapid_test");
 
       EXPECT_TRUE (dir_result.success ());
       EXPECT_TRUE (file_result.success ());
@@ -925,8 +932,8 @@ TEST_F (LumexTemporaryTest, Stress_RapidCreationAndDestruction)
  * Self-Evaluation - Confidence Scores (1-100):
  * - Static method tests: 98 - Comprehensive coverage of all public static
  * methods
- * - RAII tests: 97 - Complete lifecycle testing for TemporaryDirectory and
- * TemporaryFile
+ * - RAII tests: 97 - Complete lifecycle testing for temporary_directory and
+ * temporary_file
  * - Edge case tests: 95 - Covers retry logic, thread safety, and error
  * conditions
  * - Concurrency tests: 94 - Tests concurrent creation and thread safety
@@ -938,6 +945,6 @@ TEST_F (LumexTemporaryTest, Stress_RapidCreationAndDestruction)
  * - Memory safety: 98 - RAII behavior and cleanup verification
  *
  * Overall confidence: 95 - Industry-grade comprehensive test suite covering
- * all aspects of the LumexTemporary functionality with platform-specific
+ * all aspects of the lumex_temporary functionality with platform-specific
  * considerations
  */

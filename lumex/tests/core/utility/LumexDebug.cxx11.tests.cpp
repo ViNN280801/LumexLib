@@ -27,28 +27,29 @@
 
 using namespace lumex::core::utility::debug;
 
-// --- Detail::formatHex
+// --- Detail::format_hex
 // ---------------------------------------------------------------------
-// Regression coverage for the bug fixed in this change: captureStackTrace()
+// Regression coverage for the bug fixed in this change: capture_stack_trace()
 // used to embed addresses via `stringify(..., "[0x", address, "]", ...)`,
 // which streams `address` through the default (decimal) operator<<, producing
-// e.g. "[0x6810300]" instead of real hex. formatHex() is the helper introduced
-// to fix this; it is tested directly here because a real captureStackTrace()
-// address is randomized (ASLR) and won't reliably contain a hex letter to
-// distinguish decimal from hex output at the string level.
+// e.g. "[0x6810300]" instead of real hex. format_hex() is the helper
+// introduced to fix this; it is tested directly here because a real
+// capture_stack_trace() address is randomized (ASLR) and won't reliably
+// contain a hex letter to distinguish decimal from hex output at the string
+// level.
 
 TEST (
     LumexDebugTest,
     GivenAddressWithHexLetters_WhenFormatHex_ThenProducesUppercaseHexWithoutPrefix)
 {
-  EXPECT_EQ (lumex::core::utility::debug::Detail::formatHex (
+  EXPECT_EQ (lumex::core::utility::debug::Detail::format_hex (
                  static_cast<std::uintptr_t> (0x1A2B3CULL)),
              "1A2B3C");
 }
 
 TEST (LumexDebugTest, GivenZeroAddress_WhenFormatHex_ThenProducesZero)
 {
-  EXPECT_EQ (lumex::core::utility::debug::Detail::formatHex (
+  EXPECT_EQ (lumex::core::utility::debug::Detail::format_hex (
                  static_cast<std::uintptr_t> (0)),
              "0");
 }
@@ -56,24 +57,24 @@ TEST (LumexDebugTest, GivenZeroAddress_WhenFormatHex_ThenProducesZero)
 TEST (LumexDebugTest,
       GivenLargeAddress_WhenFormatHex_ThenMatchesManualHexConversion)
 {
-  EXPECT_EQ (lumex::core::utility::debug::Detail::formatHex (
+  EXPECT_EQ (lumex::core::utility::debug::Detail::format_hex (
                  static_cast<std::uintptr_t> (0xDEADBEEFULL)),
              "DEADBEEF");
 }
 
 TEST (LumexDebugTest, GivenSingleDigitAddress_WhenFormatHex_ThenHasNoPadding)
 {
-  EXPECT_EQ (lumex::core::utility::debug::Detail::formatHex (
+  EXPECT_EQ (lumex::core::utility::debug::Detail::format_hex (
                  static_cast<std::uintptr_t> (1)),
              "1");
-  EXPECT_EQ (lumex::core::utility::debug::Detail::formatHex (
+  EXPECT_EQ (lumex::core::utility::debug::Detail::format_hex (
                  static_cast<std::uintptr_t> (0xF)),
              "F");
 }
 
 TEST (LumexDebugTest, GivenPowerOfSixteen_WhenFormatHex_ThenKeepsTrailingZero)
 {
-  EXPECT_EQ (lumex::core::utility::debug::Detail::formatHex (
+  EXPECT_EQ (lumex::core::utility::debug::Detail::format_hex (
                  static_cast<std::uintptr_t> (0x10)),
              "10");
 }
@@ -83,7 +84,7 @@ TEST (
     GivenDefaultArgs_WhenCaptureStackTrace_ThenReturnsNonEmptyStringWithFirstFrame)
 {
   std::string const trace
-      = lumex::core::utility::debug::captureStackTrace (0, 5);
+      = lumex::core::utility::debug::capture_stack_trace (0, 5);
   EXPECT_FALSE (trace.empty ());
   EXPECT_NE (trace.find ("#0"), std::string::npos);
 }
@@ -93,7 +94,7 @@ TEST (LumexDebugTest,
 {
   EXPECT_NO_THROW ({
     std::string const trace
-        = lumex::core::utility::debug::captureStackTrace (0, 0);
+        = lumex::core::utility::debug::capture_stack_trace (0, 0);
     (void)trace;
   });
 }
@@ -103,7 +104,7 @@ TEST (LumexDebugTest,
 {
   EXPECT_NO_THROW ({
     std::string const trace
-        = lumex::core::utility::debug::captureStackTrace (10000, 4);
+        = lumex::core::utility::debug::capture_stack_trace (10000, 4);
     (void)trace;
   });
 }
@@ -117,28 +118,28 @@ TEST (LumexDebugTest,
 
 TEST (LumexDebugTest, GivenLowerHexLetters_WhenFormatHex_ThenEmitsUppercase)
 {
-  EXPECT_EQ (lumex::core::utility::debug::Detail::formatHex (
+  EXPECT_EQ (lumex::core::utility::debug::Detail::format_hex (
                  static_cast<std::uintptr_t> (0xabcdefULL)),
              "ABCDEF");
 }
 
 TEST (LumexDebugTest, GivenTen_WhenFormatHex_ThenIsA)
 {
-  EXPECT_EQ (lumex::core::utility::debug::Detail::formatHex (
+  EXPECT_EQ (lumex::core::utility::debug::Detail::format_hex (
                  static_cast<std::uintptr_t> (0xA)),
              "A");
 }
 
 TEST (LumexDebugTest, GivenTwoFiftyFive_WhenFormatHex_ThenIsFF)
 {
-  EXPECT_EQ (lumex::core::utility::debug::Detail::formatHex (
+  EXPECT_EQ (lumex::core::utility::debug::Detail::format_hex (
                  static_cast<std::uintptr_t> (0xFF)),
              "FF");
 }
 
 TEST (LumexDebugTest, GivenMaxUintptr_WhenFormatHex_ThenIsAllF)
 {
-  std::string const hex = lumex::core::utility::debug::Detail::formatHex (
+  std::string const hex = lumex::core::utility::debug::Detail::format_hex (
       std::numeric_limits<std::uintptr_t>::max ());
   EXPECT_FALSE (hex.empty ());
   EXPECT_EQ (hex.find_first_not_of ("0123456789ABCDEF"), std::string::npos);
@@ -149,7 +150,7 @@ TEST (LumexDebugTest,
       GivenSingleFrame_WhenCaptureStackTrace_ThenHasHashZeroNotHashOne)
 {
   std::string const trace
-      = lumex::core::utility::debug::captureStackTrace (0, 1);
+      = lumex::core::utility::debug::capture_stack_trace (0, 1);
   EXPECT_NE (trace.find ("#0"), std::string::npos);
   EXPECT_EQ (trace.find ("#1"), std::string::npos);
 }
@@ -158,7 +159,7 @@ TEST (LumexDebugTest,
       GivenCapturedTrace_WhenInspected_ThenContainsHexAddressMarker)
 {
   std::string const trace
-      = lumex::core::utility::debug::captureStackTrace (0, 8);
+      = lumex::core::utility::debug::capture_stack_trace (0, 8);
   EXPECT_NE (trace.find ("[0x"), std::string::npos);
 }
 
@@ -166,11 +167,11 @@ TEST (LumexDebugTest,
       GivenCaptureCallerInfoImpl_WhenPassedPath_ThenKeepsOnlyBasename)
 {
   std::string const win
-      = captureCallerInfoImpl ("foo", "C:\\dir\\sub\\file.cpp", 12);
+      = capture_caller_info_impl ("foo", "C:\\dir\\sub\\file.cpp", 12);
   EXPECT_NE (win.find ("foo() at file.cpp:12"), std::string::npos);
 
   std::string const posix
-      = captureCallerInfoImpl ("bar", "/usr/src/other.cpp", 99);
+      = capture_caller_info_impl ("bar", "/usr/src/other.cpp", 99);
   EXPECT_NE (posix.find ("bar() at other.cpp:99"), std::string::npos);
 }
 
@@ -178,7 +179,7 @@ TEST (LumexDebugTest,
       GivenNullFunction_WhenCaptureCallerInfoImpl_ThenUsesUnknownPlaceholder)
 {
   std::string const info
-      = captureCallerInfoImpl (nullptr, "LumexDebug.tests.cpp", 1);
+      = capture_caller_info_impl (nullptr, "LumexDebug.tests.cpp", 1);
   EXPECT_NE (info.find ("<unknown>() at LumexDebug.tests.cpp:1"),
              std::string::npos);
 }
@@ -194,7 +195,7 @@ TEST (LumexDebugTest,
 TEST (LumexDebugTest, GivenCaptureStackTrace_WhenCalled_ThenIsNoexcept)
 {
   EXPECT_TRUE (
-      noexcept (lumex::core::utility::debug::captureStackTrace (0, 1)));
+      noexcept (lumex::core::utility::debug::capture_stack_trace (0, 1)));
 }
 
 TEST (LumexDebugTest, GivenRepeatedCapture_WhenCalled_ThenEachResultIsNonEmpty)
@@ -202,7 +203,7 @@ TEST (LumexDebugTest, GivenRepeatedCapture_WhenCalled_ThenEachResultIsNonEmpty)
   for (int i = 0; i < 3; ++i)
     {
       std::string const trace
-          = lumex::core::utility::debug::captureStackTrace (0, 3);
+          = lumex::core::utility::debug::capture_stack_trace (0, 3);
       EXPECT_FALSE (trace.empty ()) << "iteration " << i;
     }
 }
@@ -211,9 +212,9 @@ TEST (LumexDebugTest, GivenRepeatedCapture_WhenCalled_ThenEachResultIsNonEmpty)
 // ------------------------------- A frame without an exported symbol is named
 // by its module and the address inside that module's image: the address
 // addr2line and gdb take with the module or its separate debug file.
-// captureStackTrace symbolizes nothing in-process and starts no process: with
-// a separate debug file next to the module, the addr2line it used to start per
-// frame read the whole file each time (seconds per stack).
+// capture_stack_trace symbolizes nothing in-process and starts no process:
+// with a separate debug file next to the module, the addr2line it used to
+// start per frame read the whole file each time (seconds per stack).
 
 #if defined(LUMEX_OS_LINUX)
 namespace
@@ -400,8 +401,8 @@ TEST (
 
   EXPECT_EQ (Detail::format_frame (2, address),
              "  #2: " + file_name_of (own_executable_path ()) + "+0x"
-                 + Detail::formatHex (expected_executable_offset (value))
-                 + " [0x" + Detail::formatHex (value) + "]\n");
+                 + Detail::format_hex (expected_executable_offset (value))
+                 + " [0x" + Detail::format_hex (value) + "]\n");
 }
 
 TEST (
@@ -422,7 +423,7 @@ TEST (
              std::string::npos)
       << frame;
   EXPECT_NE (frame.find (") [0x"
-                         + Detail::formatHex (
+                         + Detail::format_hex (
                              reinterpret_cast<std::uintptr_t> (address))
                          + "]\n"),
              std::string::npos)
@@ -435,7 +436,7 @@ TEST (LumexDebugTest,
   StandInAddr2line const stand_in;
   ASSERT_TRUE (stand_in.valid ());
 
-  std::string const trace = lumex::core::utility::debug::captureStackTrace (
+  std::string const trace = lumex::core::utility::debug::capture_stack_trace (
       0, unexported_probe (5));
 
   EXPECT_FALSE (trace.empty ());
@@ -451,7 +452,7 @@ TEST (LumexDebugTest, Perf_CaptureStackTrace_TakesMicrosecondsPerStack)
 
   std::size_t total = 0;
   for (int i = 0; i < stacks; ++i)
-    total += lumex::core::utility::debug::captureStackTrace (0, 16).size ();
+    total += lumex::core::utility::debug::capture_stack_trace (0, 16).size ();
 
   auto const elapsed = std::chrono::duration_cast<std::chrono::milliseconds> (
       std::chrono::steady_clock::now () - start);

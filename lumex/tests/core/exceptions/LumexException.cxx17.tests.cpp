@@ -28,7 +28,7 @@
 
 // LumexException.cxx17.tests.cpp
 //
-// LumexBaseException tests of the std::string_view constructor (C++17). The
+// lumex_base_exception tests of the std::string_view constructor (C++17). The
 // C++17 and C++20 suites compile this file together with the .cxx11 files of
 // this directory.
 
@@ -41,7 +41,7 @@
 
 #include "lumex/tests/core/exceptions/LumexExceptionTestFixtures.hpp"
 
-using lumex::core::exceptions::exception::LumexBaseException;
+using lumex::core::exceptions::exception::lumex_base_exception;
 
 // API Contract Verifier: the std::string_view constructor (an inline wrapper
 // over the exported std::string one) copies exactly the view
@@ -49,7 +49,7 @@ TEST_F (LumexExceptionTest, LumexBaseException_StringViewCtor_CopiesTheView)
 {
   std::string const text = "prefix:message:suffix";
   std::string_view const view = std::string_view (text).substr (7, 7);
-  LumexBaseException const ex (view);
+  lumex_base_exception const ex (view);
   EXPECT_STREQ (ex.what (), "message");
 }
 
@@ -57,10 +57,10 @@ TEST_F (LumexExceptionTest,
         LumexBaseException_StringViewCtor_EmptyAndEmbeddedNulKept)
 {
   std::string_view const empty_view;
-  LumexBaseException const empty (empty_view);
+  lumex_base_exception const empty (empty_view);
   EXPECT_STREQ (empty.what (), "");
 
   std::string_view const with_nul ("a\0b", 3);
-  LumexBaseException const ex (with_nul);
+  lumex_base_exception const ex (with_nul);
   EXPECT_EQ (std::string (ex.what (), 3), std::string (with_nul));
 }

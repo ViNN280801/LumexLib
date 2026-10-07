@@ -97,14 +97,15 @@ struct proc_pid_status_t
  * @return The fields, or nothing when the text is not a stat line with at
  * least 22 fields.
  */
-LUMEX_API optional<proc_pid_stat_t> parse_proc_pid_stat (LumexStringView text);
+LUMEX_API optional<proc_pid_stat_t>
+parse_proc_pid_stat (lumex_string_view text);
 
 /**
  * @brief Parses the text of `/proc/<pid>/status`.
  * @param text The file text.
  * @return The fields that are present.
  */
-LUMEX_API proc_pid_status_t parse_proc_pid_status (LumexStringView text);
+LUMEX_API proc_pid_status_t parse_proc_pid_status (lumex_string_view text);
 
 /**
  * @brief The file name of a `/proc/<pid>/exe` link target.
@@ -112,7 +113,7 @@ LUMEX_API proc_pid_status_t parse_proc_pid_status (LumexStringView text);
  * replaced or removed after the start) is dropped.
  * @return The part after the last `/`; empty for an empty target.
  */
-LUMEX_API std::string executable_name (LumexStringView link_target);
+LUMEX_API std::string executable_name (lumex_string_view link_target);
 
 /**
  * @brief The file name of the first argument in a `/proc/<pid>/cmdline` text.
@@ -120,7 +121,8 @@ LUMEX_API std::string executable_name (LumexStringView link_target);
  * @return The part of the first argument after its last `/`, or nothing when
  * the first argument is empty (kernel threads, zombies).
  */
-LUMEX_API optional<std::string> first_argument_name (LumexStringView cmdline);
+LUMEX_API optional<std::string>
+first_argument_name (lumex_string_view cmdline);
 
 /**
  * @brief The Linux name rule: does a process named @p name match the
@@ -132,8 +134,8 @@ LUMEX_API optional<std::string> first_argument_name (LumexStringView cmdline);
  * @ref KCOMM_LENGTH characters then also matches a longer requested name that
  * starts with it.
  */
-LUMEX_API bool linux_name_matches (LumexStringView requested,
-                                   LumexStringView name, bool name_is_comm);
+LUMEX_API bool linux_name_matches (lumex_string_view requested,
+                                   lumex_string_view name, bool name_is_comm);
 
 /**
  * @brief The Windows name rule: equal without regard to ASCII case, with or
@@ -142,8 +144,8 @@ LUMEX_API bool linux_name_matches (LumexStringView requested,
  * @param name The process's executable name (Toolhelp32 gives it with
  * `.exe`).
  */
-LUMEX_API bool windows_name_matches (LumexStringView requested,
-                                     LumexStringView name);
+LUMEX_API bool windows_name_matches (lumex_string_view requested,
+                                     lumex_string_view name);
 } // namespace detail
 } // namespace process
 } // namespace resource_monitor

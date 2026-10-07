@@ -35,12 +35,12 @@
  *   `arg ("name", value)`), dynamic width / precision `{:{}.{}}`.
  * - Built-in types: every integer type (plus `__int128` where available),
  *   `bool`, the character type, `float` / `double` / `long double`, C strings,
- *   `std::basic_string`, `std::basic_string_view`, `LumexStringView`,
+ *   `std::basic_string`, `std::basic_string_view`, `lumex_string_view`,
  *   `void const *` / `std::nullptr_t`, and enums declared with
  *   `LUMEX_DEFINE_REFLECTED_ENUM` (name by default, number with an integer
  *   presentation type).
- * - User types: specialize `Formatter<T, Char>`; types with `operator<<`
- *   opt in through `OstreamFormatter` or `streamed (value)`.
+ * - User types: specialize `formatter<T, Char>`; types with `operator<<`
+ *   opt in through `ostream_formatter` or `streamed (value)`.
  * - `char` and `wchar_t` format strings (`format (L"{}", 1)` returns
  *   `std::wstring`).
  * - `L` uses the grouping, decimal point and bool names of `std::locale`
@@ -51,7 +51,7 @@
  * - C++20: the format string is checked at compile time against the
  *   argument types (`consteval`); a string known only at run time goes
  *   through `runtime (str)` or `vformat`. Below C++20 the same checks run at
- *   run time. Every failure throws `FormatError`; `try_format` never throws.
+ *   run time. Every failure throws `format_error`; `try_format` never throws.
  *
  * Ranges / tuples live in `LumexFormatRanges.hpp`, chrono types in
  * `LumexFormatChrono.hpp`; the umbrella `lumex/core/fmt/LumexFormat`
@@ -141,7 +141,7 @@ namespace core
 namespace fmt
 {
 /**
- * @class FormatError
+ * @class format_error
  * @brief Thrown for an invalid format string, a format specification that
  * does not fit its argument, or a missing argument.
  * @details `position()` is the offset of the replacement field (or of the
@@ -149,9 +149,9 @@ namespace fmt
  * `no_position()`.
  */
 LUMEX_DEFINE_EXCEPTION_WITH_BODY (
-    FormatError, std::runtime_error,
-    FormatError (std::string const &message,
-                 std::size_t position) : std::runtime_error (message),
+    format_error, std::runtime_error,
+    format_error (std::string const &message,
+                  std::size_t position) : std::runtime_error (message),
     _position (position) {}
 
     // Value of position () when the offset is unknown.
@@ -164,26 +164,27 @@ LUMEX_DEFINE_EXCEPTION_WITH_BODY (
     private : std::size_t _position
     = static_cast<std::size_t> (-1);)
 
-template <typename Char> class BasicFormatContext;
-template <typename Char> class BasicFormatParseContext;
+template <typename Char> class basic_format_context;
+template <typename Char> class basic_format_parse_context;
 
 /**
- * @class Formatter
- * @brief Customization point: specialize `Formatter<T, Char>` with
- * `Char const *parse (BasicFormatParseContext<Char> &)` and
- * `BasicAppender<Char> format (T const &, BasicFormatContext<Char> &) const`.
+ * @class formatter
+ * @brief Customization point: specialize `formatter<T, Char>` with
+ * `Char const *parse (basic_format_parse_context<Char> &)` and
+ * `basic_appender<Char> format (T const &, basic_format_context<Char> &)
+ * const`.
  * @details The primary template is disabled (deleted constructor), so
- * `std::is_default_constructible<Formatter<T, Char>>` tells whether `T` is
+ * `std::is_default_constructible<formatter<T, Char>>` tells whether `T` is
  * formattable. Built-in types have specializations a user formatter can
  * inherit from to reuse the standard specification.
  */
 template <typename T, typename Char = char, typename Enable = void>
-class Formatter
+class formatter
 {
 public:
-  Formatter () = delete;
-  Formatter (Formatter const &) = delete;
-  Formatter &operator= (Formatter const &) = delete;
+  formatter () = delete;
+  formatter (formatter const &) = delete;
+  formatter &operator= (formatter const &) = delete;
 };
 
 namespace Detail
@@ -204,32 +205,32 @@ c_string_length (Char const *text) LUMEX_NOEXCEPT
 }
 
 /**
- * @class BasicStringRef
+ * @class basic_string_ref
  * @brief Non-owning `(pointer, size)` view used for format strings; converts
  * from C strings, `std::basic_string` and `std::basic_string_view`.
  */
-template <typename Char> class BasicStringRef
+template <typename Char> class basic_string_ref
 {
 public:
   LUMEX_CONSTEXPR_CTOR
-  BasicStringRef () LUMEX_NOEXCEPT : _data (nullptr), _size (0) {}
+  basic_string_ref () LUMEX_NOEXCEPT : _data (nullptr), _size (0) {}
 
   LUMEX_CONSTEXPR_CTOR
-  BasicStringRef (Char const *data, std::size_t size) LUMEX_NOEXCEPT
+  basic_string_ref (Char const *data, std::size_t size) LUMEX_NOEXCEPT
       : _data (data),
         _size (size)
   {
   }
 
   LUMEX_FORMAT_CONSTEXPR
-  BasicStringRef (Char const *text) LUMEX_NOEXCEPT
+  basic_string_ref (Char const *text) LUMEX_NOEXCEPT
       : _data (text),
         _size (c_string_length (text))
   {
   }
 
   template <typename Traits, typename Allocator>
-  BasicStringRef (std::basic_string<Char, Traits, Allocator> const &text)
+  basic_string_ref (std::basic_string<Char, Traits, Allocator> const &text)
       LUMEX_NOEXCEPT : _data (text.data ()),
                        _size (text.size ())
   {
@@ -237,7 +238,7 @@ public:
 
 #if __cplusplus >= 201703L
   LUMEX_CONSTEXPR_CTOR
-  BasicStringRef (std::basic_string_view<Char> text) LUMEX_NOEXCEPT
+  basic_string_ref (std::basic_string_view<Char> text) LUMEX_NOEXCEPT
       : _data (text.data ()),
         _size (text.size ())
   {
@@ -274,14 +275,14 @@ private:
 };
 
 /**
- * @class Buffer
+ * @class buffer
  * @brief Output sink the formatting engine writes to; the concrete buffers
  * write into a string, an output iterator, a counter or a bounded iterator.
  */
-template <typename Char> class Buffer
+template <typename Char> class buffer
 {
 public:
-  virtual ~Buffer () = default;
+  virtual ~buffer () = default;
 
   virtual void push_back (Char value) = 0;
 
@@ -299,10 +300,12 @@ public:
   }
 };
 
-template <typename Char> class StringBuffer final : public Buffer<Char>
+template <typename Char> class string_buffer final : public buffer<Char>
 {
 public:
-  explicit StringBuffer (std::basic_string<Char> &target) : _target (target) {}
+  explicit string_buffer (std::basic_string<Char> &target) : _target (target)
+  {
+  }
 
   void
   push_back (Char value) override
@@ -321,10 +324,10 @@ private:
 };
 
 template <typename Char, typename OutputIt>
-class IteratorBuffer final : public Buffer<Char>
+class iterator_buffer final : public buffer<Char>
 {
 public:
-  explicit IteratorBuffer (OutputIt out) : _out (out) {}
+  explicit iterator_buffer (OutputIt out) : _out (out) {}
 
   void
   push_back (Char value) override
@@ -343,7 +346,7 @@ private:
   OutputIt _out;
 };
 
-template <typename Char> class CountingBuffer final : public Buffer<Char>
+template <typename Char> class counting_buffer final : public buffer<Char>
 {
 public:
   void
@@ -369,10 +372,10 @@ private:
 };
 
 template <typename Char, typename OutputIt>
-class TruncatingBuffer final : public Buffer<Char>
+class truncating_buffer final : public buffer<Char>
 {
 public:
-  TruncatingBuffer (OutputIt out, std::size_t limit)
+  truncating_buffer (OutputIt out, std::size_t limit)
       : _out (out), _limit (limit)
   {
   }
@@ -408,11 +411,11 @@ private:
 } // namespace Detail
 
 /**
- * @class BasicAppender
- * @brief Output iterator of `BasicFormatContext`: every assignment appends
+ * @class basic_appender
+ * @brief Output iterator of `basic_format_context`: every assignment appends
  * one character to the formatting buffer.
  */
-template <typename Char> class BasicAppender
+template <typename Char> class basic_appender
 {
 public:
   using iterator_category = std::output_iterator_tag;
@@ -421,45 +424,45 @@ public:
   using pointer = void;
   using reference = void;
 
-  explicit BasicAppender (Detail::Buffer<Char> &buffer) LUMEX_NOEXCEPT
+  explicit basic_appender (Detail::buffer<Char> &buffer) LUMEX_NOEXCEPT
       : _buffer (&buffer)
   {
   }
 
-  BasicAppender &
+  basic_appender &
   operator= (Char value)
   {
     _buffer->push_back (value);
     return *this;
   }
 
-  BasicAppender &
+  basic_appender &
   operator* () LUMEX_NOEXCEPT
   {
     return *this;
   }
 
-  BasicAppender &
+  basic_appender &
   operator++ () LUMEX_NOEXCEPT
   {
     return *this;
   }
 
-  BasicAppender
+  basic_appender
   operator++ (int) LUMEX_NOEXCEPT
   {
     return *this;
   }
 
   /** @brief The buffer this appender writes to. */
-  Detail::Buffer<Char> &
+  Detail::buffer<Char> &
   buffer () const LUMEX_NOEXCEPT
   {
     return *_buffer;
   }
 
 private:
-  Detail::Buffer<Char> *_buffer;
+  Detail::buffer<Char> *_buffer;
 };
 
 namespace Detail
@@ -681,17 +684,17 @@ builtin_kind () LUMEX_NOEXCEPT
              : ArgKind::none;
 }
 
-/** @brief `Formatter<T, Char>` is enabled. */
+/** @brief `formatter<T, Char>` is enabled. */
 template <typename Char, typename T>
 LUMEX_CONSTEXPR bool
 has_formatter () LUMEX_NOEXCEPT
 {
-  return std::is_default_constructible<Formatter<T, Char>>::value;
+  return std::is_default_constructible<formatter<T, Char>>::value;
 }
 
 /**
  * @brief Storage kind of an argument of type `T` (after decay and after
- * unwrapping a named argument): built in, custom (has a `Formatter`) or none.
+ * unwrapping a named argument): built in, custom (has a `formatter`) or none.
  */
 template <typename Char, typename T>
 LUMEX_CONSTEXPR ArgKind
@@ -786,7 +789,7 @@ parse_nonnegative_int (Char const *&it, Char const *end)
       value
           = value * 10 + static_cast<unsigned> (*it - static_cast<Char> ('0'));
       if (value > static_cast<unsigned long long> (INT_MAX))
-        throw FormatError ("number is too big");
+        throw format_error ("number is too big");
       ++it;
     }
   return static_cast<int> (value);
@@ -804,7 +807,7 @@ parse_arg_id (Char const *&it, Char const *end)
   if (it != end && is_digit (*it))
     {
       if (*it == static_cast<Char> ('0') && it + 1 != end && is_digit (it[1]))
-        throw FormatError ("invalid format string");
+        throw format_error ("invalid format string");
       // An index above INT_MAX cannot name an argument: saturate, so the
       // lookup reports "argument not found" rather than a number error.
       unsigned long long value = 0;
@@ -831,24 +834,24 @@ parse_arg_id (Char const *&it, Char const *end)
       ref.name_size = static_cast<std::size_t> (it - start);
       return ref;
     }
-  throw FormatError ("invalid format string");
+  throw format_error ("invalid format string");
 }
 } // namespace Detail
 
 /**
- * @class BasicFormatParseContext
+ * @class basic_format_parse_context
  * @brief The format specification being parsed and the automatic /
  * manual argument numbering state (as `std::basic_format_parse_context`).
  */
-template <typename Char> class BasicFormatParseContext
+template <typename Char> class basic_format_parse_context
 {
 public:
   using char_type = Char;
   using iterator = Char const *;
   using const_iterator = Char const *;
 
-  LUMEX_FORMAT_CONSTEXPR explicit BasicFormatParseContext (
-      Detail::BasicStringRef<Char> text, int arg_count = 0,
+  LUMEX_FORMAT_CONSTEXPR explicit basic_format_parse_context (
+      Detail::basic_string_ref<Char> text, int arg_count = 0,
       Detail::ArgKind const *kinds = nullptr,
       bool has_named = false) LUMEX_NOEXCEPT : _begin (text.begin ()),
                                                _end (text.end ()),
@@ -882,11 +885,11 @@ public:
   next_arg_id ()
   {
     if (_next_arg_id < 0)
-      throw FormatError (
+      throw format_error (
           "cannot switch from manual to automatic argument indexing");
     int const id = _next_arg_id++;
     if (_kinds != nullptr && id >= _arg_count)
-      throw FormatError ("argument not found");
+      throw format_error ("argument not found");
     return id;
   }
 
@@ -895,11 +898,11 @@ public:
   check_arg_id (int id)
   {
     if (_next_arg_id > 0)
-      throw FormatError (
+      throw format_error (
           "cannot switch from automatic to manual argument indexing");
     _next_arg_id = -1;
     if (_kinds != nullptr && id >= _arg_count)
-      throw FormatError ("argument not found");
+      throw format_error ("argument not found");
   }
 
   /**
@@ -913,7 +916,7 @@ public:
     if (_next_arg_id == 0)
       _next_arg_id = -1;
     if (_kinds != nullptr && !_has_named)
-      throw FormatError ("argument not found");
+      throw format_error ("argument not found");
   }
 
   /** @brief Compile-time check only: argument `id` is an integer. */
@@ -922,7 +925,7 @@ public:
   {
     if (_kinds != nullptr && id < _arg_count
         && !Detail::is_integral_kind (_kinds[id]))
-      throw FormatError ("width/precision is not integer");
+      throw format_error ("width/precision is not integer");
   }
 
 private:
@@ -940,7 +943,7 @@ namespace Detail
 template <typename Char>
 LUMEX_FORMAT_CONSTEXPR arg_ref_t<Char>
 parse_dynamic_ref (Char const *&it, Char const *end,
-                   BasicFormatParseContext<Char> &ctx)
+                   basic_format_parse_context<Char> &ctx)
 {
   ++it; // '{'
   arg_ref_t<Char> ref;
@@ -962,7 +965,7 @@ parse_dynamic_ref (Char const *&it, Char const *end,
         ctx.check_named_arg ();
     }
   if (it == end || *it != static_cast<Char> ('}'))
-    throw FormatError ("invalid format string");
+    throw format_error ("invalid format string");
   ++it;
   return ref;
 }
@@ -1008,7 +1011,7 @@ validate_specs (format_specs_t<Char> const &specs, SpecKind kind)
     case SpecKind::integer:
       if (type != Char () && type != static_cast<Char> ('c')
           && !is_integer_presentation (type))
-        throw FormatError ("invalid format specifier");
+        throw format_error ("invalid format specifier");
       numeric = type != static_cast<Char> ('c');
       allows_localized = numeric;
       allows_zero = numeric;
@@ -1017,7 +1020,7 @@ validate_specs (format_specs_t<Char> const &specs, SpecKind kind)
       if (type != Char () && type != static_cast<Char> ('c')
           && type != static_cast<Char> ('?')
           && !is_integer_presentation (type))
-        throw FormatError ("invalid format specifier");
+        throw format_error ("invalid format specifier");
       numeric = is_integer_presentation (type);
       allows_localized = numeric;
       allows_zero = numeric;
@@ -1025,14 +1028,14 @@ validate_specs (format_specs_t<Char> const &specs, SpecKind kind)
     case SpecKind::boolean:
       if (type != Char () && type != static_cast<Char> ('s')
           && !is_integer_presentation (type))
-        throw FormatError ("invalid format specifier");
+        throw format_error ("invalid format specifier");
       numeric = is_integer_presentation (type);
       allows_localized = true;
       allows_zero = numeric;
       break;
     case SpecKind::floating:
       if (type != Char () && !is_float_presentation (type))
-        throw FormatError ("invalid format specifier");
+        throw format_error ("invalid format specifier");
       numeric = true;
       allows_precision = true;
       allows_localized = true;
@@ -1041,20 +1044,20 @@ validate_specs (format_specs_t<Char> const &specs, SpecKind kind)
     case SpecKind::string:
       if (type != Char () && type != static_cast<Char> ('s')
           && type != static_cast<Char> ('?'))
-        throw FormatError ("invalid format specifier");
+        throw format_error ("invalid format specifier");
       allows_precision = true;
       break;
     case SpecKind::pointer:
       if (type != Char () && type != static_cast<Char> ('p')
           && type != static_cast<Char> ('P'))
-        throw FormatError ("invalid format specifier");
+        throw format_error ("invalid format specifier");
       // P2510 (a defect report against C++20): zeros pad after "0x".
       allows_zero = true;
       break;
     case SpecKind::enumeration:
       if (type != Char () && type != static_cast<Char> ('s')
           && !is_integer_presentation (type))
-        throw FormatError ("invalid format specifier");
+        throw format_error ("invalid format specifier");
       numeric = is_integer_presentation (type);
       allows_precision = !numeric;
       allows_localized = numeric;
@@ -1062,16 +1065,16 @@ validate_specs (format_specs_t<Char> const &specs, SpecKind kind)
       break;
     }
   if ((specs.sign != Sign::none || specs.alternate) && !numeric)
-    throw FormatError (invalid);
+    throw format_error (invalid);
   if (specs.zero_pad && !allows_zero)
-    throw FormatError (kind == SpecKind::character
-                           ? invalid
-                           : "format specifier requires numeric argument");
+    throw format_error (kind == SpecKind::character
+                            ? invalid
+                            : "format specifier requires numeric argument");
   if ((specs.precision >= 0 || specs.precision_ref.kind != ArgRefKind::none)
       && !allows_precision)
-    throw FormatError ("invalid format specifier");
+    throw format_error ("invalid format specifier");
   if (specs.localized && !allows_localized)
-    throw FormatError ("invalid format specifier");
+    throw format_error ("invalid format specifier");
 }
 
 /**
@@ -1081,7 +1084,7 @@ validate_specs (format_specs_t<Char> const &specs, SpecKind kind)
  */
 template <typename Char>
 LUMEX_FORMAT_CONSTEXPR Char const *
-parse_std_specs (BasicFormatParseContext<Char> &ctx,
+parse_std_specs (basic_format_parse_context<Char> &ctx,
                  format_specs_t<Char> &specs, SpecKind kind)
 {
   Char const *it = ctx.begin ();
@@ -1098,9 +1101,9 @@ parse_std_specs (BasicFormatParseContext<Char> &ctx,
       && is_align (it[fill_length]))
     {
       if (*it == static_cast<Char> ('{'))
-        throw FormatError ("invalid fill character '{'");
+        throw format_error ("invalid fill character '{'");
       if (*it == static_cast<Char> ('}'))
-        throw FormatError ("invalid fill character '}'");
+        throw format_error ("invalid fill character '}'");
       for (std::size_t i = 0; i < fill_length; ++i)
         specs.fill[i] = it[i];
       specs.fill_size = static_cast<unsigned char> (fill_length);
@@ -1140,7 +1143,7 @@ parse_std_specs (BasicFormatParseContext<Char> &ctx,
       // The width that may follow starts with a nonzero digit (`{:00}`
       // is an error, as in std::format).
       if (it != end && *it == static_cast<Char> ('0'))
-        throw FormatError ("invalid format specifier");
+        throw format_error ("invalid format specifier");
     }
 
   // [width]
@@ -1158,9 +1161,9 @@ parse_std_specs (BasicFormatParseContext<Char> &ctx,
       else if (it != end && *it == static_cast<Char> ('{'))
         specs.precision_ref = parse_dynamic_ref (it, end, ctx);
       else if (it == end)
-        throw FormatError ("invalid precision");
+        throw format_error ("invalid precision");
       else
-        throw FormatError ("invalid format string");
+        throw format_error ("invalid format string");
     }
 
   // [L]
@@ -1178,7 +1181,7 @@ parse_std_specs (BasicFormatParseContext<Char> &ctx,
     }
 
   if (it != end && *it != static_cast<Char> ('}'))
-    throw FormatError ("invalid format specifier");
+    throw format_error ("invalid format specifier");
   validate_specs (specs, kind);
   return it;
 }
@@ -1223,7 +1226,7 @@ parse_format_string (Char const *begin, Char const *end, Handler &handler)
           handler.on_field_start (static_cast<std::size_t> (it - begin));
           ++it;
           if (it == end)
-            throw FormatError ("invalid format string");
+            throw format_error ("invalid format string");
           if (*it == static_cast<Char> ('{'))
             {
               handler.on_text (it, it + 1);
@@ -1242,16 +1245,16 @@ parse_format_string (Char const *begin, Char const *end, Handler &handler)
                 handler.on_name_arg (ref.name, ref.name_size);
             }
           if (it == end)
-            throw FormatError ("invalid format string");
+            throw format_error ("invalid format string");
           if (*it == static_cast<Char> (':'))
             ++it;
           else if (*it != static_cast<Char> ('}'))
-            throw FormatError ("invalid format string");
+            throw format_error ("invalid format string");
           it = handler.on_format_specs (it, end);
           if (it == end)
-            throw FormatError ("missing '}' in format string");
+            throw format_error ("missing '}' in format string");
           if (*it != static_cast<Char> ('}'))
-            throw FormatError ("unknown format specifier");
+            throw format_error ("unknown format specifier");
           ++it;
           text = it;
         }
@@ -1261,7 +1264,7 @@ parse_format_string (Char const *begin, Char const *end, Handler &handler)
           handler.on_field_start (static_cast<std::size_t> (it - begin));
           ++it;
           if (it == end || *it != static_cast<Char> ('}'))
-            throw FormatError ("unmatched '}' in format string");
+            throw format_error ("unmatched '}' in format string");
           handler.on_text (it, it + 1);
           ++it;
           text = it;
@@ -1285,8 +1288,8 @@ template <typename Char> struct string_arg_t
 template <typename Char> struct custom_arg_t
 {
   void const *value;
-  void (*format) (void const *, BasicFormatParseContext<Char> &,
-                  BasicFormatContext<Char> &);
+  void (*format) (void const *, basic_format_parse_context<Char> &,
+                  basic_format_context<Char> &);
 };
 
 /** @brief One argument: a kind tag plus the value (or a pointer to it). */
@@ -1332,22 +1335,22 @@ struct format_arg_store_t
 } // namespace Detail
 
 /**
- * @class BasicFormatArgs
+ * @class basic_format_args
  * @brief Non-owning view of the arguments of one formatting call (as
  * `std::basic_format_args`); built from `make_format_args`.
  */
-template <typename Char> class BasicFormatArgs
+template <typename Char> class basic_format_args
 {
 public:
-  BasicFormatArgs () LUMEX_NOEXCEPT : _args (nullptr),
-                                      _count (0),
-                                      _named (nullptr),
-                                      _named_count (0)
+  basic_format_args () LUMEX_NOEXCEPT : _args (nullptr),
+                                        _count (0),
+                                        _named (nullptr),
+                                        _named_count (0)
   {
   }
 
   template <std::size_t N, std::size_t M>
-  BasicFormatArgs (Detail::format_arg_store_t<Char, N, M> const &store)
+  basic_format_args (Detail::format_arg_store_t<Char, N, M> const &store)
       LUMEX_NOEXCEPT : _args (store.args),
                        _count (static_cast<int> (N)),
                        _named (store.named),
@@ -1392,23 +1395,23 @@ private:
   int _named_count;
 };
 
-using FormatArgs = BasicFormatArgs<char>;
-using WFormatArgs = BasicFormatArgs<wchar_t>;
+using FormatArgs = basic_format_args<char>;
+using WFormatArgs = basic_format_args<wchar_t>;
 
 /**
- * @class BasicFormatContext
+ * @class basic_format_context
  * @brief The output and the arguments of one formatting call (as
  * `std::basic_format_context`).
  */
-template <typename Char> class BasicFormatContext
+template <typename Char> class basic_format_context
 {
 public:
   using char_type = Char;
-  using iterator = BasicAppender<Char>;
+  using iterator = basic_appender<Char>;
 
-  BasicFormatContext (Detail::Buffer<Char> &buffer,
-                      BasicFormatArgs<Char> const &args,
-                      std::locale const *locale) LUMEX_NOEXCEPT
+  basic_format_context (Detail::buffer<Char> &buffer,
+                        basic_format_args<Char> const &args,
+                        std::locale const *locale) LUMEX_NOEXCEPT
       : _buffer (&buffer),
         _args (args),
         _locale (locale)
@@ -1438,7 +1441,7 @@ public:
     return _args.find (name, size);
   }
 
-  BasicFormatArgs<Char> const &
+  basic_format_args<Char> const &
   args () const LUMEX_NOEXCEPT
   {
     return _args;
@@ -1452,15 +1455,15 @@ public:
   }
 
 private:
-  Detail::Buffer<Char> *_buffer;
-  BasicFormatArgs<Char> _args;
+  Detail::buffer<Char> *_buffer;
+  basic_format_args<Char> _args;
   std::locale const *_locale;
 };
 
-using FormatContext = BasicFormatContext<char>;
-using WFormatContext = BasicFormatContext<wchar_t>;
-using FormatParseContext = BasicFormatParseContext<char>;
-using WFormatParseContext = BasicFormatParseContext<wchar_t>;
+using FormatContext = basic_format_context<char>;
+using WFormatContext = basic_format_context<wchar_t>;
+using FormatParseContext = basic_format_parse_context<char>;
+using WFormatParseContext = basic_format_parse_context<wchar_t>;
 
 namespace Detail
 {
@@ -1818,7 +1821,7 @@ truncate_to_width (Char const *it, Char const *end,
 
 template <typename Char>
 void
-write_fill (Buffer<Char> &buffer, format_specs_t<Char> const &specs,
+write_fill (buffer<Char> &buffer, format_specs_t<Char> const &specs,
             std::size_t count)
 {
   for (std::size_t i = 0; i < count; ++i)
@@ -1828,7 +1831,7 @@ write_fill (Buffer<Char> &buffer, format_specs_t<Char> const &specs,
 /** @brief Writes `[first, stop)` padded to `specs.width`. */
 template <typename Char>
 void
-write_padded (Buffer<Char> &buffer, format_specs_t<Char> const &specs,
+write_padded (buffer<Char> &buffer, format_specs_t<Char> const &specs,
               Align default_align, Char const *first, Char const *stop)
 {
   if (specs.width <= 0)
@@ -1850,7 +1853,7 @@ write_padded (Buffer<Char> &buffer, format_specs_t<Char> const &specs,
 
 template <typename Char>
 void
-write_padded (Buffer<Char> &buffer, format_specs_t<Char> const &specs,
+write_padded (buffer<Char> &buffer, format_specs_t<Char> const &specs,
               Align default_align, std::basic_string<Char> const &text)
 {
   write_padded (buffer, specs, default_align, text.data (),
@@ -1864,7 +1867,7 @@ write_padded (Buffer<Char> &buffer, format_specs_t<Char> const &specs,
  */
 template <typename Char>
 void
-write_number (Buffer<Char> &buffer, format_specs_t<Char> const &specs,
+write_number (buffer<Char> &buffer, format_specs_t<Char> const &specs,
               std::basic_string<Char> const &prefix,
               std::basic_string<Char> const &digits, bool allow_zero_pad)
 {
@@ -2126,15 +2129,15 @@ sign_text (bool negative, Sign sign)
 }
 
 template <typename Char>
-void write_character (Buffer<Char> &buffer, format_specs_t<Char> const &specs,
+void write_character (buffer<Char> &buffer, format_specs_t<Char> const &specs,
                       Char value);
 
 /** @brief Writes an integer given as sign + magnitude. */
 template <typename Char, typename UInt>
 void
-write_integer (Buffer<Char> &buffer, format_specs_t<Char> const &specs,
+write_integer (buffer<Char> &buffer, format_specs_t<Char> const &specs,
                bool negative, UInt magnitude,
-               BasicFormatContext<Char> const &ctx)
+               basic_format_context<Char> const &ctx)
 {
   Char const type = specs.type;
   if (type == static_cast<Char> ('c'))
@@ -2152,7 +2155,7 @@ write_integer (Buffer<Char> &buffer, format_specs_t<Char> const &specs,
                 : 0ull;
       if (magnitude
           > static_cast<UInt> (negative ? max_negative : max_positive))
-        throw FormatError ("character out of range");
+        throw format_error ("character out of range");
       unsigned long long const bits
           = static_cast<unsigned long long> (magnitude);
       Char const value
@@ -2276,7 +2279,7 @@ escape (Char const *it, Char const *end, Char quote)
 
 template <typename Char>
 void
-write_character (Buffer<Char> &buffer, format_specs_t<Char> const &specs,
+write_character (buffer<Char> &buffer, format_specs_t<Char> const &specs,
                  Char value)
 {
   if (specs.type == static_cast<Char> ('?'))
@@ -2290,7 +2293,7 @@ write_character (Buffer<Char> &buffer, format_specs_t<Char> const &specs,
 
 template <typename Char>
 void
-write_string (Buffer<Char> &buffer, format_specs_t<Char> const &specs,
+write_string (buffer<Char> &buffer, format_specs_t<Char> const &specs,
               Char const *first, Char const *stop)
 {
   if (specs.type == static_cast<Char> ('?'))
@@ -2312,8 +2315,8 @@ write_string (Buffer<Char> &buffer, format_specs_t<Char> const &specs,
 
 template <typename Char>
 void
-write_bool (Buffer<Char> &buffer, format_specs_t<Char> const &specs,
-            bool value, BasicFormatContext<Char> const &ctx)
+write_bool (buffer<Char> &buffer, format_specs_t<Char> const &specs,
+            bool value, basic_format_context<Char> const &ctx)
 {
   if (is_integer_presentation (specs.type))
     {
@@ -2334,7 +2337,7 @@ write_bool (Buffer<Char> &buffer, format_specs_t<Char> const &specs,
 
 template <typename Char>
 void
-write_pointer (Buffer<Char> &buffer, format_specs_t<Char> const &specs,
+write_pointer (buffer<Char> &buffer, format_specs_t<Char> const &specs,
                void const *value)
 {
   bool const upper = specs.type == static_cast<Char> ('P');
@@ -2429,7 +2432,7 @@ printf_float (char const *pattern, int precision, F value)
   promoted_type const promoted = static_cast<promoted_type> (value);
   int const size = std::snprintf (nullptr, 0, pattern, precision, promoted);
   if (size < 0)
-    throw FormatError ("floating-point conversion failed");
+    throw format_error ("floating-point conversion failed");
   std::vector<char> text (static_cast<std::size_t> (size) + 1);
   std::snprintf (text.data (), text.size (), pattern, precision, promoted);
   return std::string (text.data (), static_cast<std::size_t> (size));
@@ -2663,8 +2666,8 @@ float_body (F value, FloatStyle style, int precision, bool alternate,
 
 template <typename Char, typename F>
 void
-write_float (Buffer<Char> &buffer, format_specs_t<Char> const &specs, F value,
-             BasicFormatContext<Char> const &ctx)
+write_float (buffer<Char> &buffer, format_specs_t<Char> const &specs, F value,
+             basic_format_context<Char> const &ctx)
 {
   Char const type = specs.type;
   bool const upper
@@ -2710,7 +2713,7 @@ write_float (Buffer<Char> &buffer, format_specs_t<Char> const &specs, F value,
   // cannot be represented rather than trying to allocate it.
   if ((style == FloatStyle::fixed || style == FloatStyle::scientific)
       && precision > INT_MAX - 1024)
-    throw FormatError ("number is too big");
+    throw format_error ("number is too big");
   // Past the number of significant digits a value can have, a larger
   // general precision prints the same text; cap it to bound the buffer.
   int const general_cap = std::numeric_limits<F>::digits
@@ -2756,7 +2759,7 @@ write_float (Buffer<Char> &buffer, format_specs_t<Char> const &specs, F value,
  */
 template <typename Char>
 Char const *
-parse_fill_align_width (BasicFormatParseContext<Char> &ctx,
+parse_fill_align_width (basic_format_parse_context<Char> &ctx,
                         format_specs_t<Char> &specs, bool colon_is_fill)
 {
   Char const *it = ctx.begin ();
@@ -2769,7 +2772,7 @@ parse_fill_align_width (BasicFormatParseContext<Char> &ctx,
       && is_align (it[fill_length]))
     {
       if (*it == static_cast<Char> ('{'))
-        throw FormatError ("invalid fill character '{'");
+        throw format_error ("invalid fill character '{'");
       for (std::size_t i = 0; i < fill_length; ++i)
         specs.fill[i] = it[i];
       specs.fill_size = static_cast<unsigned char> (fill_length);
@@ -2792,7 +2795,7 @@ parse_fill_align_width (BasicFormatParseContext<Char> &ctx,
 template <typename Char>
 int
 resolve_dynamic (arg_ref_t<Char> const &ref, int value,
-                 BasicFormatContext<Char> const &ctx)
+                 basic_format_context<Char> const &ctx)
 {
   if (ref.kind == ArgRefKind::none)
     return value;
@@ -2804,46 +2807,46 @@ resolve_dynamic (arg_ref_t<Char> const &ref, int value,
     {
     case ArgKind::signed_int:
       if (arg.signed_value < 0 || arg.signed_value > INT_MAX)
-        throw FormatError ("width/precision is out of range");
+        throw format_error ("width/precision is out of range");
       return static_cast<int> (arg.signed_value);
     case ArgKind::unsigned_int:
       if (arg.unsigned_value > static_cast<unsigned long long> (INT_MAX))
-        throw FormatError ("width/precision is out of range");
+        throw format_error ("width/precision is out of range");
       return static_cast<int> (arg.unsigned_value);
 #if LUMEX_FORMAT_HAS_INT128
     case ArgKind::signed_int128:
       if (arg.int128_value < 0 || arg.int128_value > INT_MAX)
-        throw FormatError ("width/precision is out of range");
+        throw format_error ("width/precision is out of range");
       return static_cast<int> (arg.int128_value);
     case ArgKind::unsigned_int128:
       if (arg.uint128_value > static_cast<unsigned __int128> (INT_MAX))
-        throw FormatError ("width/precision is out of range");
+        throw format_error ("width/precision is out of range");
       return static_cast<int> (arg.uint128_value);
 #endif
     case ArgKind::none:
-      throw FormatError ("argument not found");
+      throw format_error ("argument not found");
     default:
-      throw FormatError ("width/precision is not integer");
+      throw format_error ("width/precision is not integer");
     }
 }
 
 /**
- * @class BuiltinFormatter
+ * @class builtin_formatter
  * @brief Parses a standard specification for one `SpecKind` and writes a
- * built-in argument with it. Base of the public built-in `Formatter`
+ * built-in argument with it. Base of the public built-in `formatter`
  * specializations.
  */
-template <typename Char> class BuiltinFormatter
+template <typename Char> class builtin_formatter
 {
 public:
-  LUMEX_FORMAT_CONSTEXPR explicit BuiltinFormatter (SpecKind kind)
+  LUMEX_FORMAT_CONSTEXPR explicit builtin_formatter (SpecKind kind)
       LUMEX_NOEXCEPT : _kind (kind),
                        _specs ()
   {
   }
 
   LUMEX_FORMAT_CONSTEXPR Char const *
-  parse (BasicFormatParseContext<Char> &ctx)
+  parse (basic_format_parse_context<Char> &ctx)
   {
     _specs = format_specs_t<Char> (); // a second parse starts from scratch
     return parse_std_specs (ctx, _specs, _kind);
@@ -2851,7 +2854,7 @@ public:
 
   /** @brief The specification with dynamic width / precision resolved. */
   format_specs_t<Char>
-  resolved_specs (BasicFormatContext<Char> const &ctx) const
+  resolved_specs (basic_format_context<Char> const &ctx) const
   {
     format_specs_t<Char> specs = _specs;
     specs.width = resolve_dynamic (specs.width_ref, specs.width, ctx);
@@ -2860,12 +2863,12 @@ public:
     return specs;
   }
 
-  BasicAppender<Char>
+  basic_appender<Char>
   format_arg (format_arg_t<Char> const &arg,
-              BasicFormatContext<Char> &ctx) const
+              basic_format_context<Char> &ctx) const
   {
     format_specs_t<Char> const specs = resolved_specs (ctx);
-    Buffer<Char> &buffer = ctx.out ().buffer ();
+    buffer<Char> &buffer = ctx.out ().buffer ();
     switch (arg.kind)
       {
       case ArgKind::signed_int:
@@ -2919,7 +2922,7 @@ public:
         break;
       case ArgKind::c_string:
         if (arg.c_string == nullptr)
-          throw FormatError ("string pointer is null");
+          throw format_error ("string pointer is null");
         write_string (buffer, specs, arg.c_string,
                       arg.c_string + c_string_length (arg.c_string));
         break;
@@ -2931,7 +2934,7 @@ public:
         write_pointer (buffer, specs, arg.pointer);
         break;
       default:
-        throw FormatError ("argument not found");
+        throw format_error ("argument not found");
       }
     return ctx.out ();
   }
@@ -2953,10 +2956,10 @@ private:
 
 template <typename Char, typename T>
 void
-format_custom_arg (void const *value, BasicFormatParseContext<Char> &pctx,
-                   BasicFormatContext<Char> &fctx)
+format_custom_arg (void const *value, basic_format_parse_context<Char> &pctx,
+                   basic_format_context<Char> &fctx)
 {
-  Formatter<T, Char> formatter;
+  formatter<T, Char> formatter;
   pctx.advance_to (formatter.parse (pctx));
   fctx.advance_to (formatter.format (*static_cast<T const *> (value), fctx));
 }
@@ -3121,7 +3124,7 @@ store_arg (format_arg_store_t<Char, N, M> &store, std::size_t index,
         && std::char_traits<Char>::compare (store.named[i].name, value.name,
                                             length)
                == 0)
-      throw FormatError ("duplicate named arg");
+      throw format_error ("duplicate named arg");
   store.named[store.named_count].name = value.name;
   store.named[store.named_count].index = static_cast<int> (index);
   ++store.named_count;
@@ -3147,14 +3150,15 @@ store_args (Store &store, std::size_t index, First const &first,
 // ----------------------------------------------------------------------
 
 /** @brief `parse_format_string` handler that formats into a buffer. */
-template <typename Char> class FormatHandler
+template <typename Char> class format_handler
 {
 public:
-  FormatHandler (Buffer<Char> &buffer, BasicStringRef<Char> text,
-                 BasicFormatArgs<Char> const &args, std::locale const *locale)
+  format_handler (buffer<Char> &buffer, basic_string_ref<Char> text,
+                  basic_format_args<Char> const &args,
+                  std::locale const *locale)
       : _buffer (buffer), _parse_ctx (text, args.size ()),
         _format_ctx (buffer, args, locale), _args (args),
-        _field_start (FormatError::no_position ())
+        _field_start (format_error::no_position ())
   {
   }
 
@@ -3189,7 +3193,7 @@ public:
     _parse_ctx.check_named_arg ();
     int const id = _args.find (name, size);
     if (id < 0)
-      throw FormatError ("argument not found");
+      throw format_error ("argument not found");
     _arg = _args.get (id);
   }
 
@@ -3197,13 +3201,13 @@ public:
   on_format_specs (Char const *it, Char const *)
   {
     if (_arg.kind == ArgKind::none)
-      throw FormatError ("argument not found");
+      throw format_error ("argument not found");
     _parse_ctx.advance_to (it);
     if (_arg.kind == ArgKind::custom)
       _arg.custom.format (_arg.custom.value, _parse_ctx, _format_ctx);
     else
       {
-        BuiltinFormatter<Char> formatter (spec_kind_of (_arg.kind));
+        builtin_formatter<Char> formatter (spec_kind_of (_arg.kind));
         _parse_ctx.advance_to (formatter.parse (_parse_ctx));
         formatter.format_arg (_arg, _format_ctx);
       }
@@ -3217,10 +3221,10 @@ public:
   }
 
 private:
-  Buffer<Char> &_buffer;
-  BasicFormatParseContext<Char> _parse_ctx;
-  BasicFormatContext<Char> _format_ctx;
-  BasicFormatArgs<Char> _args;
+  buffer<Char> &_buffer;
+  basic_format_parse_context<Char> _parse_ctx;
+  basic_format_context<Char> _format_ctx;
+  basic_format_args<Char> _args;
   format_arg_t<Char> _arg;
   std::size_t _field_start;
 };
@@ -3228,30 +3232,30 @@ private:
 /** @brief Formats into `buffer`; adds the field offset to errors. */
 template <typename Char>
 void
-vformat_to_buffer (Buffer<Char> &buffer, BasicStringRef<Char> text,
-                   BasicFormatArgs<Char> const &args,
+vformat_to_buffer (buffer<Char> &buffer, basic_string_ref<Char> text,
+                   basic_format_args<Char> const &args,
                    std::locale const *locale)
 {
-  FormatHandler<Char> handler (buffer, text, args, locale);
+  format_handler<Char> handler (buffer, text, args, locale);
   try
     {
       parse_format_string (text.begin (), text.end (), handler);
     }
-  catch (FormatError const &error)
+  catch (format_error const &error)
     {
-      if (error.position () != FormatError::no_position ())
+      if (error.position () != format_error::no_position ())
         throw;
-      throw FormatError (error.what (), handler.field_start ());
+      throw format_error (error.what (), handler.field_start ());
     }
 }
 
 #if LUMEX_FORMAT_HAS_CONSTEVAL
 /** @brief `parse_format_string` handler that only validates (consteval). */
-template <typename Char> class FormatStringChecker
+template <typename Char> class format_string_checker
 {
 public:
-  constexpr FormatStringChecker (BasicStringRef<Char> text, int arg_count,
-                                 ArgKind const *kinds, bool has_named)
+  constexpr format_string_checker (basic_string_ref<Char> text, int arg_count,
+                                   ArgKind const *kinds, bool has_named)
       : _ctx (text, arg_count, kinds, has_named), _kinds (kinds), _current (-1)
   {
   }
@@ -3292,27 +3296,27 @@ public:
     if (_current < 0 || _kinds[_current] == ArgKind::custom)
       return skip_specs (it, end);
     _ctx.advance_to (it);
-    BuiltinFormatter<Char> formatter (spec_kind_of (_kinds[_current]));
+    builtin_formatter<Char> formatter (spec_kind_of (_kinds[_current]));
     return formatter.parse (_ctx);
   }
 
 private:
-  BasicFormatParseContext<Char> _ctx;
+  basic_format_parse_context<Char> _ctx;
   ArgKind const *_kinds;
   int _current;
 };
 
 template <typename Char, typename... Args>
 consteval void
-check_format_string (BasicStringRef<Char> text)
+check_format_string (basic_string_ref<Char> text)
 {
   constexpr ArgKind kinds[]
       = { arg_kind_of<Char, typename std::decay<Args>::type> ()...,
           ArgKind::none };
   constexpr bool has_named
       = count_named<typename std::decay<Args>::type...>::value > 0;
-  FormatStringChecker<Char> checker (text, static_cast<int> (sizeof...(Args)),
-                                     kinds, has_named);
+  format_string_checker<Char> checker (
+      text, static_cast<int> (sizeof...(Args)), kinds, has_named);
   parse_format_string (text.begin (), text.end (), checker);
 }
 #endif
@@ -3325,69 +3329,69 @@ check_format_string (BasicStringRef<Char> text)
 /** @brief A format string that is only checked at run time. */
 template <typename Char> struct runtime_format_string_t
 {
-  Detail::BasicStringRef<Char> text;
+  Detail::basic_string_ref<Char> text;
 };
 
 /** @brief Skips the compile-time check; the string is checked when used. */
 inline runtime_format_string_t<char>
-runtime (Detail::BasicStringRef<char> text) LUMEX_NOEXCEPT
+runtime (Detail::basic_string_ref<char> text) LUMEX_NOEXCEPT
 {
   return runtime_format_string_t<char>{ text };
 }
 
 inline runtime_format_string_t<wchar_t>
-runtime (Detail::BasicStringRef<wchar_t> text) LUMEX_NOEXCEPT
+runtime (Detail::basic_string_ref<wchar_t> text) LUMEX_NOEXCEPT
 {
   return runtime_format_string_t<wchar_t>{ text };
 }
 
 /**
- * @class BasicFormatString
+ * @class basic_format_string
  * @brief Format string for arguments `Args...`: checked against them at
  * compile time from C++20 on (`consteval` constructor), at run time before.
  */
-template <typename Char, typename... Args> class BasicFormatString
+template <typename Char, typename... Args> class basic_format_string
 {
 public:
 #if LUMEX_FORMAT_HAS_CONSTEVAL
   template <typename Text,
             typename = typename std::enable_if<std::is_convertible<
-                Text const &, Detail::BasicStringRef<Char>>::value>::type>
-  consteval BasicFormatString (Text const &text) : _text (text)
+                Text const &, Detail::basic_string_ref<Char>>::value>::type>
+  consteval basic_format_string (Text const &text) : _text (text)
   {
     Detail::check_format_string<Char, Args...> (_text);
   }
 #else
   template <typename Text,
             typename = typename std::enable_if<std::is_convertible<
-                Text const &, Detail::BasicStringRef<Char>>::value>::type>
-  BasicFormatString (Text const &text) : _text (text)
+                Text const &, Detail::basic_string_ref<Char>>::value>::type>
+  basic_format_string (Text const &text) : _text (text)
   {
   }
 #endif
 
-  BasicFormatString (runtime_format_string_t<Char> text) LUMEX_NOEXCEPT
+  basic_format_string (runtime_format_string_t<Char> text) LUMEX_NOEXCEPT
       : _text (text.text)
   {
   }
 
-  LUMEX_CONSTEXPR Detail::BasicStringRef<Char>
+  LUMEX_CONSTEXPR Detail::basic_string_ref<Char>
   get () const LUMEX_NOEXCEPT
   {
     return _text;
   }
 
 private:
-  Detail::BasicStringRef<Char> _text;
+  Detail::basic_string_ref<Char> _text;
 };
 
 template <typename... Args>
-using FormatString = BasicFormatString<
+using FormatString = basic_format_string<
     char,
     typename lumex::core::utility::traits::meta::type_identity<Args>::type...>;
 
 template <typename... Args>
-using WFormatString = BasicFormatString<
+using WFormatString = basic_format_string<
     wchar_t,
     typename lumex::core::utility::traits::meta::type_identity<Args>::type...>;
 
@@ -3443,31 +3447,31 @@ make_wformat_args (Args const &...args)
 // ----------------------------------------------------------------------
 
 /**
- * @brief Standard formatter of a built-in type; a user `Formatter` can
+ * @brief Standard formatter of a built-in type; a user `formatter` can
  * inherit it to accept the standard specification.
  */
 template <typename T, typename Char>
-class Formatter<T, Char,
+class formatter<T, Char,
                 typename std::enable_if<
                     Detail::builtin_kind<Char, typename std::decay<T>::type> ()
                     != Detail::ArgKind::none>::type>
 {
 public:
   LUMEX_FORMAT_CONSTEXPR
-  Formatter () LUMEX_NOEXCEPT
+  formatter () LUMEX_NOEXCEPT
       : _impl (Detail::spec_kind_of (
             Detail::builtin_kind<Char, typename std::decay<T>::type> ()))
   {
   }
 
   LUMEX_FORMAT_CONSTEXPR Char const *
-  parse (BasicFormatParseContext<Char> &ctx)
+  parse (basic_format_parse_context<Char> &ctx)
   {
     return _impl.parse (ctx);
   }
 
-  BasicAppender<Char>
-  format (T const &value, BasicFormatContext<Char> &ctx) const
+  basic_appender<Char>
+  format (T const &value, basic_format_context<Char> &ctx) const
   {
     Detail::format_arg_t<Char> arg;
     Detail::make_arg (arg, value);
@@ -3475,7 +3479,7 @@ public:
   }
 
 private:
-  Detail::BuiltinFormatter<Char> _impl;
+  Detail::builtin_formatter<Char> _impl;
 };
 
 /**
@@ -3484,26 +3488,26 @@ private:
  * integer presentation type (`{:d}`, `{:#x}`, ...).
  */
 template <typename Enum, typename Char>
-class Formatter<
+class formatter<
     Enum, Char,
     typename std::enable_if<lumex::core::utility::traits::enums::
                                 is_reflected_enum<Enum>::value>::type>
 {
 public:
   LUMEX_FORMAT_CONSTEXPR
-  Formatter () LUMEX_NOEXCEPT : _impl (Detail::SpecKind::enumeration) {}
+  formatter () LUMEX_NOEXCEPT : _impl (Detail::SpecKind::enumeration) {}
 
   LUMEX_FORMAT_CONSTEXPR Char const *
-  parse (BasicFormatParseContext<Char> &ctx)
+  parse (basic_format_parse_context<Char> &ctx)
   {
     return _impl.parse (ctx);
   }
 
-  BasicAppender<Char>
-  format (Enum value, BasicFormatContext<Char> &ctx) const
+  basic_appender<Char>
+  format (Enum value, basic_format_context<Char> &ctx) const
   {
     Detail::format_specs_t<Char> const specs = _impl.resolved_specs (ctx);
-    Detail::Buffer<Char> &buffer = ctx.out ().buffer ();
+    Detail::buffer<Char> &buffer = ctx.out ().buffer ();
     typedef typename std::underlying_type<Enum>::type underlying_type;
     if (Detail::is_integer_presentation (specs.type))
       {
@@ -3518,7 +3522,7 @@ public:
     else
       {
         std::basic_string<Char> const name
-            = Detail::widen<Char> (std::string (toString (value)));
+            = Detail::widen<Char> (std::string (to_string (value)));
         Detail::write_string (buffer, specs, name.data (),
                               name.data () + name.size ());
       }
@@ -3526,30 +3530,30 @@ public:
   }
 
 private:
-  Detail::BuiltinFormatter<Char> _impl;
+  Detail::builtin_formatter<Char> _impl;
 };
 
 /**
- * @class OstreamFormatter
+ * @class ostream_formatter
  * @brief Base for formatters of types that have `operator<<`: the value is
  * streamed, then written with the string specification (fill, align, width,
  * precision).
  */
-template <typename Char> class OstreamFormatter
+template <typename Char> class ostream_formatter
 {
 public:
   LUMEX_FORMAT_CONSTEXPR
-  OstreamFormatter () LUMEX_NOEXCEPT : _impl (Detail::SpecKind::string) {}
+  ostream_formatter () LUMEX_NOEXCEPT : _impl (Detail::SpecKind::string) {}
 
   LUMEX_FORMAT_CONSTEXPR Char const *
-  parse (BasicFormatParseContext<Char> &ctx)
+  parse (basic_format_parse_context<Char> &ctx)
   {
     return _impl.parse (ctx);
   }
 
   template <typename T>
-  BasicAppender<Char>
-  format (T const &value, BasicFormatContext<Char> &ctx) const
+  basic_appender<Char>
+  format (T const &value, basic_format_context<Char> &ctx) const
   {
     std::basic_ostringstream<Char> stream;
     stream << value;
@@ -3560,7 +3564,7 @@ public:
   }
 
 private:
-  Detail::BuiltinFormatter<Char> _impl;
+  Detail::builtin_formatter<Char> _impl;
 };
 
 /** @brief Wraps a value so it is formatted through its `operator<<`. */
@@ -3578,13 +3582,13 @@ streamed (T const &value) LUMEX_NOEXCEPT
 }
 
 template <typename T, typename Char>
-class Formatter<streamed_t<T>, Char, void> : public OstreamFormatter<Char>
+class formatter<streamed_t<T>, Char, void> : public ostream_formatter<Char>
 {
 public:
-  BasicAppender<Char>
-  format (streamed_t<T> const &value, BasicFormatContext<Char> &ctx) const
+  basic_appender<Char>
+  format (streamed_t<T> const &value, basic_format_context<Char> &ctx) const
   {
-    return OstreamFormatter<Char>::format (value.value, ctx);
+    return ostream_formatter<Char>::format (value.value, ctx);
   }
 };
 
@@ -3610,58 +3614,58 @@ template <typename Char> struct try_format_result_t
 };
 
 inline std::string
-vformat (Detail::BasicStringRef<char> text, FormatArgs args)
+vformat (Detail::basic_string_ref<char> text, FormatArgs args)
 {
   std::string result;
-  Detail::StringBuffer<char> buffer (result);
+  Detail::string_buffer<char> buffer (result);
   Detail::vformat_to_buffer (buffer, text, args, nullptr);
   return result;
 }
 
 inline std::wstring
-vformat (Detail::BasicStringRef<wchar_t> text, WFormatArgs args)
+vformat (Detail::basic_string_ref<wchar_t> text, WFormatArgs args)
 {
   std::wstring result;
-  Detail::StringBuffer<wchar_t> buffer (result);
+  Detail::string_buffer<wchar_t> buffer (result);
   Detail::vformat_to_buffer (buffer, text, args, nullptr);
   return result;
 }
 
 inline std::string
-vformat (std::locale const &locale, Detail::BasicStringRef<char> text,
+vformat (std::locale const &locale, Detail::basic_string_ref<char> text,
          FormatArgs args)
 {
   std::string result;
-  Detail::StringBuffer<char> buffer (result);
+  Detail::string_buffer<char> buffer (result);
   Detail::vformat_to_buffer (buffer, text, args, &locale);
   return result;
 }
 
 inline std::wstring
-vformat (std::locale const &locale, Detail::BasicStringRef<wchar_t> text,
+vformat (std::locale const &locale, Detail::basic_string_ref<wchar_t> text,
          WFormatArgs args)
 {
   std::wstring result;
-  Detail::StringBuffer<wchar_t> buffer (result);
+  Detail::string_buffer<wchar_t> buffer (result);
   Detail::vformat_to_buffer (buffer, text, args, &locale);
   return result;
 }
 
 template <typename OutputIt>
 OutputIt
-vformat_to (OutputIt out, Detail::BasicStringRef<char> text, FormatArgs args)
+vformat_to (OutputIt out, Detail::basic_string_ref<char> text, FormatArgs args)
 {
-  Detail::IteratorBuffer<char, OutputIt> buffer (out);
+  Detail::iterator_buffer<char, OutputIt> buffer (out);
   Detail::vformat_to_buffer (buffer, text, args, nullptr);
   return buffer.out ();
 }
 
 template <typename OutputIt>
 OutputIt
-vformat_to (OutputIt out, Detail::BasicStringRef<wchar_t> text,
+vformat_to (OutputIt out, Detail::basic_string_ref<wchar_t> text,
             WFormatArgs args)
 {
-  Detail::IteratorBuffer<wchar_t, OutputIt> buffer (out);
+  Detail::iterator_buffer<wchar_t, OutputIt> buffer (out);
   Detail::vformat_to_buffer (buffer, text, args, nullptr);
   return buffer.out ();
 }
@@ -3722,7 +3726,7 @@ OutputIt
 format_to (OutputIt out, std::locale const &locale, FormatString<Args...> text,
            Args &&...args)
 {
-  Detail::IteratorBuffer<char, OutputIt> buffer (out);
+  Detail::iterator_buffer<char, OutputIt> buffer (out);
   Detail::vformat_to_buffer (
       buffer, text.get (),
       FormatArgs (::lumex::core::fmt::make_format_args (args...)), &locale);
@@ -3735,7 +3739,7 @@ format_to_n_result_t<OutputIt>
 format_to_n (OutputIt out, std::ptrdiff_t limit, FormatString<Args...> text,
              Args &&...args)
 {
-  Detail::TruncatingBuffer<char, OutputIt> buffer (
+  Detail::truncating_buffer<char, OutputIt> buffer (
       out, limit > 0 ? static_cast<std::size_t> (limit) : 0);
   Detail::vformat_to_buffer (
       buffer, text.get (),
@@ -3750,7 +3754,7 @@ format_to_n_result_t<OutputIt>
 format_to_n (OutputIt out, std::ptrdiff_t limit, WFormatString<Args...> text,
              Args &&...args)
 {
-  Detail::TruncatingBuffer<wchar_t, OutputIt> buffer (
+  Detail::truncating_buffer<wchar_t, OutputIt> buffer (
       out, limit > 0 ? static_cast<std::size_t> (limit) : 0);
   Detail::vformat_to_buffer (
       buffer, text.get (),
@@ -3765,7 +3769,7 @@ template <typename... Args>
 std::size_t
 formatted_size (FormatString<Args...> text, Args &&...args)
 {
-  Detail::CountingBuffer<char> buffer;
+  Detail::counting_buffer<char> buffer;
   Detail::vformat_to_buffer (
       buffer, text.get (),
       FormatArgs (::lumex::core::fmt::make_format_args (args...)), nullptr);
@@ -3776,7 +3780,7 @@ template <typename... Args>
 std::size_t
 formatted_size (WFormatString<Args...> text, Args &&...args)
 {
-  Detail::CountingBuffer<wchar_t> buffer;
+  Detail::counting_buffer<wchar_t> buffer;
   Detail::vformat_to_buffer (
       buffer, text.get (),
       WFormatArgs (::lumex::core::fmt::make_wformat_args (args...)), nullptr);
