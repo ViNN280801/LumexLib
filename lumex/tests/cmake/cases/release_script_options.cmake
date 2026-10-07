@@ -30,3 +30,10 @@ _require_text("create_release.sh" "x86_64-w64-mingw32-g++-posix")
 # package and package_source run CPack: not a library build.
 _require_text("create_release.sh" "|package|package_source|")
 _require_text("Scripts/ReleaseTools/extract_diagnostics.py" "-Werror")
+# The C++ standard is in the package name and --std / -Std take a list.
+_require_text("create_release.sh" "_cxx\${stdtag}")
+_require_text("create_release.sh" "STD_ITEMS")
+_require_text("create_release.sh" "std_tag_for")
+_require_text("create_release.ps1" "_cxx${stdTag}")
+_require_text("create_release.ps1" "$StdList")
+_require_text("create_release.ps1" "[string[]] $Std")
