@@ -110,7 +110,9 @@ LUMEX_CONSTEXPR unexpect_t unexpect{};
 } // namespace core
 } // namespace lumex
 
-using lumex::core::expected::result::in_place;
+// `in_place` has no global alias: `optional` has its own `in_place`, and two
+// global names for two objects would stop a file from including both modules.
+// Write `lumex::core::expected::result::in_place`.
 using lumex::core::expected::result::in_place_tag;
 using lumex::core::expected::result::unexpect;
 using lumex::core::expected::result::unexpect_t;

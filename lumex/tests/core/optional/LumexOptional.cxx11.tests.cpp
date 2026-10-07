@@ -7,6 +7,10 @@
 
 // Include the public header as a user of the library would
 #include "lumex/core/optional/LumexOptional"
+
+// `in_place` has no global alias (Expected has its own).
+using lumex::core::optional::opt::in_place;
+
 #if defined(__clang__)
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wglobal-constructors"
