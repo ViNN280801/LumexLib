@@ -32,7 +32,16 @@
 #include <utility>
 #include <vector>
 
-#if defined(__linux__)
+#if defined(_WIN32) || defined(_WIN64)
+#ifndef PSAPI_VERSION
+#define PSAPI_VERSION 2
+#endif
+#include <cwchar>
+
+#include <psapi.h>
+#include <tlhelp32.h>
+#include <windows.h>
+#elif defined(__linux__)
 #include <cerrno>
 
 #include <fcntl.h>
@@ -70,7 +79,173 @@ struct reading_t
 using reading_result_t
     = lumex::core::expected::result::Expected<reading_t, process_query_error>;
 
-#if defined(__linux__)
+#if defined(_WIN32) || defined(_WIN64)
+// ----------------------------------------------------------------- Windows --
+#if defined(__clang__)
+// clang-cl: the Win32 calls take raw buffers (the image path, UTF-16 text).
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunsafe-buffer-usage"
+#endif
+
+std::uint64_t
+file_time_value (FILETIME const &time)
+{
+  ULARGE_INTEGER value;
+  value.LowPart = time.dwLowDateTime;
+  value.HighPart = time.dwHighDateTime;
+  return value.QuadPart;
+}
+
+std::string
+to_utf8 (wchar_t const *text, int length)
+{
+  if (length <= 0)
+    return std::string ();
+  int const size = WideCharToMultiByte (CP_UTF8, 0, text, length, nullptr, 0,
+                                        nullptr, nullptr);
+  std::string out (static_cast<std::size_t> (size > 0 ? size : 0), '\0');
+  if (size > 0)
+    WideCharToMultiByte (CP_UTF8, 0, text, length, &out[0], size, nullptr,
+                         nullptr);
+  return out;
+}
+
+process_query_error
+error_of_last_call ()
+{
+  switch (GetLastError ())
+    {
+    case ERROR_INVALID_PARAMETER:
+      return process_query_error::not_found;
+    case ERROR_ACCESS_DENIED:
+      return process_query_error::access_denied;
+    default:
+      return process_query_error::read_failed;
+    }
+}
+
+std::uint32_t
+logical_processors ()
+{
+  DWORD const count = GetActiveProcessorCount (ALL_PROCESSOR_GROUPS);
+  return count > 0 ? static_cast<std::uint32_t> (count) : 1U;
+}
+
+// Closes the process handle on every path.
+struct handle_t
+{
+  HANDLE value{ nullptr };
+  handle_t () = default;
+  explicit handle_t (HANDLE h) : value (h) {}
+  handle_t (handle_t const &) = delete;
+  handle_t &operator= (handle_t const &) = delete;
+  ~handle_t ()
+  {
+    if (value != nullptr && value != INVALID_HANDLE_VALUE)
+      CloseHandle (value);
+  }
+};
+
+bool
+is_running (HANDLE process)
+{
+  DWORD code = 0;
+  return GetExitCodeProcess (process, &code) != 0 && code == STILL_ACTIVE;
+}
+
+reading_result_t
+read_process (process_id_t pid)
+{
+  handle_t const process (OpenProcess (
+      PROCESS_QUERY_LIMITED_INFORMATION | PROCESS_VM_READ, FALSE, pid));
+  if (process.value == nullptr)
+    return reading_result_t (unexpect, error_of_last_call ());
+  // A handle to a process that has exited can still be opened while another
+  // handle keeps the process object alive.
+  if (!is_running (process.value))
+    return reading_result_t (unexpect, process_query_error::not_found);
+
+  FILETIME creation{};
+  FILETIME exit_time{};
+  FILETIME kernel{};
+  FILETIME user{};
+  if (GetProcessTimes (process.value, &creation, &exit_time, &kernel, &user)
+      == 0)
+    return reading_result_t (unexpect, error_of_last_call ());
+
+  PROCESS_MEMORY_COUNTERS_EX memory{};
+  memory.cb = sizeof (memory);
+  if (GetProcessMemoryInfo (
+          process.value, reinterpret_cast<PROCESS_MEMORY_COUNTERS *> (&memory),
+          sizeof (memory))
+      == 0)
+    return reading_result_t (unexpect, error_of_last_call ());
+
+  wchar_t path[MAX_PATH * 4]{};
+  DWORD length = static_cast<DWORD> (sizeof (path) / sizeof (path[0]));
+  std::string name;
+  if (QueryFullProcessImageNameW (process.value, 0, path, &length) != 0)
+    {
+      std::string const full = to_utf8 (path, static_cast<int> (length));
+      std::size_t const slash = full.find_last_of ("\\/");
+      name = slash == std::string::npos ? full : full.substr (slash + 1);
+    }
+
+  reading_t reading;
+  reading.usage.pid = pid;
+  reading.usage.name = name;
+  // FILETIME counts 100 ns units.
+  reading.usage.cpu_time
+      = std::chrono::nanoseconds (static_cast<std::int64_t> (
+          (file_time_value (kernel) + file_time_value (user)) * 100U));
+  reading.usage.logical_processors = logical_processors ();
+  reading.usage.resident_bytes = memory.WorkingSetSize;
+  reading.usage.private_bytes = memory.PrivateUsage;
+  reading.start_time = file_time_value (creation);
+  return reading;
+}
+
+std::vector<process_id_t>
+find_processes (std::string const &name)
+{
+  std::vector<process_id_t> found;
+  handle_t const snapshot (CreateToolhelp32Snapshot (TH32CS_SNAPPROCESS, 0));
+  if (snapshot.value == INVALID_HANDLE_VALUE)
+    return found;
+  PROCESSENTRY32W entry{};
+  entry.dwSize = sizeof (entry);
+  for (BOOL more = Process32FirstW (snapshot.value, &entry); more != 0;
+       more = Process32NextW (snapshot.value, &entry))
+    {
+      std::string const exe = to_utf8 (
+          entry.szExeFile, static_cast<int> (wcslen (entry.szExeFile)));
+      if (detail::windows_name_matches (name, exe))
+        found.push_back (entry.th32ProcessID);
+    }
+  return found;
+}
+
+bool
+process_exists (process_id_t pid)
+{
+  handle_t const process (
+      OpenProcess (PROCESS_QUERY_LIMITED_INFORMATION, FALSE, pid));
+  if (process.value == nullptr)
+    return GetLastError () == ERROR_ACCESS_DENIED;
+  return is_running (process.value);
+}
+
+process_id_t
+own_process_id ()
+{
+  return static_cast<process_id_t> (GetCurrentProcessId ());
+}
+
+#if defined(__clang__)
+#pragma clang diagnostic pop
+#endif
+
+#elif defined(__linux__)
 // ------------------------------------------------------------------- Linux --
 
 struct proc_text_t
