@@ -11,6 +11,7 @@
 #include <iterator>
 #include <limits>
 #include <map>
+#include <ostream>
 #include <set>
 #include <sstream>
 #include <string>
@@ -252,6 +253,18 @@ struct BoolCase
   char const *s;
   bool expected;
 };
+
+// ctest names a value-parameterized test after the text GoogleTest prints for
+// its parameter. Without this operator the text is the bytes of the object,
+// which hold the address of the string literal and change with every build, so
+// the ctest names of AttrBoolParamTest were not stable.
+std::ostream &
+operator<< (std::ostream &os, BoolCase const &item)
+{
+  return os << "s=" << item.s
+            << ",expected=" << (item.expected ? "true" : "false");
+}
+
 class AttrBoolParamTest : public XmlFixture,
                           public ::testing::WithParamInterface<BoolCase>
 {
@@ -272,6 +285,14 @@ INSTANTIATE_TEST_SUITE_P (
                        BoolCase{ "Y", true }, BoolCase{ "Yup", true },
                        BoolCase{ "false", false }, BoolCase{ "no", false },
                        BoolCase{ "n", false }, BoolCase{ "", false }));
+
+TEST (BoolCaseNameTest, GivenCase_WhenPrinted_ThenTheTextNamesTheCase)
+{
+  EXPECT_EQ (::testing::PrintToString (BoolCase{ "yes", true }),
+             "s=yes,expected=true");
+  EXPECT_EQ (::testing::PrintToString (BoolCase{ "", false }),
+             "s=,expected=false");
+}
 
 TEST_F (XmlFixture,
         GivenAttribute_WhenSetValueVariousScalars_ThenAsXReturnsExpected)
