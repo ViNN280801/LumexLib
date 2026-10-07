@@ -45,8 +45,9 @@
  * (debug, info, success, warning, error, critical); each takes a module name
  * and any number of streamable parts. A message is printed in ANSI colors, to
  * `std::clog` up to the warning level and to `std::cerr` above it, and then
- * appended to one log file per run in the directory that `getLogsDirectory()`
- * returns: `logs` next to the executable on Windows, a `logs` directory under
+ * appended to one log file per run in the directory that
+ * `get_logs_directory()` returns: `logs` next to the executable on Windows, a
+ * `logs` directory under
  * `~/.local/share` or `XDG_DATA_HOME` on Unix-like systems. A mutex serializes
  * the output. The class is compiled into `lumex::logging`, a module separate
  * from the file logger `LumexLogger` of `lumex::logger`; the short macros are
@@ -165,21 +166,21 @@ public:
    * @param appendTimestamp Whether to add a timestamp to the file name
    * @return true in case of success, false otherwise
    */
-  static bool toFile (char const *filename, LumexLogLevel level,
-                      char const *moduleName, char const *msg,
-                      bool appendTimestamp = true);
+  static bool to_file (char const *filename, LumexLogLevel level,
+                       char const *moduleName, char const *msg,
+                       bool appendTimestamp = true);
 
   /**
    * @brief Get the path to the logs directory
    * @return The path to the logs directory
    */
-  static lumex::path getLogsDirectory ();
+  static lumex::path get_logs_directory ();
 
   /**
    * @brief Set the name of the application
    * @param appName The name of the application
    */
-  static void setAppName (std::string const &appName);
+  static void set_app_name (std::string const &appName);
 
 private:
   LUMEX_CONSTEXPR LUMEX_CONST_STR KDEFAULT_LOG_FILE_NAME

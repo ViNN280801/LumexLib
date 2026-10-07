@@ -17,7 +17,8 @@ main ()
 
   std::cout << "\n--- 2. startIfEnabled then stop ---\n";
   std::string const dir (".");
-  LumexResourceMonitor::startIfEnabled (dir, std::chrono::milliseconds (250));
+  LumexResourceMonitor::start_if_enabled (dir,
+                                          std::chrono::milliseconds (250));
   std::cout << "startIfEnabled(\".\") returned\n";
   LumexResourceMonitor::stop ();
   std::cout << "stop() after start ok\n";

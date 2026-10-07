@@ -110,24 +110,24 @@ protected:
   // For each test, reset static members to a known state to prevent
   // interference. Note: Due to constraints, direct manipulation of private
   // static members like s_launchTimestamp and s_logsDirectory is not possible
-  // via public API. Tests will therefore rely on `setAppName` and
-  // `getLogsDirectory` directly, and some static state (like s_launchTimestamp
-  // after first log) may persist.
+  // via public API. Tests will therefore rely on `set_app_name` and
+  // `get_logs_directory` directly, and some static state (like
+  // s_launchTimestamp after first log) may persist.
   void
   SetUp () override
   {
     // gtest_discover_tests is one process per case. A shared logs/ directory
     // plus remove_all races with other ctest processes (file exists, no
-    // ERROR). Isolate via setAppName so each case owns logs/<suite>_<name>/.
+    // ERROR). Isolate via set_app_name so each case owns logs/<suite>_<name>/.
     ::testing::TestInfo const *info
         = ::testing::UnitTest::GetInstance ()->current_test_info ();
     _appName = "LumexLogging_";
     _appName += info->test_suite_name ();
     _appName += "_";
     _appName += info->name ();
-    LumexLogging::setAppName (_appName);
+    LumexLogging::set_app_name (_appName);
 
-    _testLogsPath = LumexLogging::getLogsDirectory ();
+    _testLogsPath = LumexLogging::get_logs_directory ();
     if (lumex::core::filesystem::fs::lumex_filesystem::exists (_testLogsPath))
       lumex::core::filesystem::fs::lumex_filesystem::remove_all (
           _testLogsPath);
@@ -141,7 +141,7 @@ protected:
     if (lumex::core::filesystem::fs::lumex_filesystem::exists (_testLogsPath))
       lumex::core::filesystem::fs::lumex_filesystem::remove_all (
           _testLogsPath);
-    LumexLogging::setAppName ("");
+    LumexLogging::set_app_name ("");
   }
 
   std::string _appName;
@@ -170,7 +170,7 @@ TEST_F (LumexLoggingTest, GivenMessage_WhenDebug_ThenLogsToClogAndFile)
   // Get the actual timestamp from the file contents since s_launchTimestamp is
   // private. This makes the test less direct but still verifies the file
   // creation. The file name will be `log_<timestamp>.log`.
-  lumex::path logsDir = LumexLogging::getLogsDirectory ();
+  lumex::path logsDir = LumexLogging::get_logs_directory ();
   // Find the log file by listing contents and regex matching
   lumex::filesystem_result<std::vector<lumex::path>> result
       = lumex::core::filesystem::fs::lumex_filesystem::directory_paths (
@@ -223,7 +223,7 @@ TEST_F (LumexLoggingTest, GivenMessage_WhenInfo_ThenLogsToClogAndFile)
   EXPECT_TRUE (clogOutput.find (module + " : " + message)
                != std::string::npos);
 
-  lumex::path logsDir = LumexLogging::getLogsDirectory ();
+  lumex::path logsDir = LumexLogging::get_logs_directory ();
   lumex::filesystem_result<std::vector<lumex::path>> result
       = lumex::core::filesystem::fs::lumex_filesystem::directory_paths (
           logsDir);
@@ -273,7 +273,7 @@ TEST_F (LumexLoggingTest, GivenMessage_WhenSuccess_ThenLogsToClogAndFile)
   EXPECT_TRUE (clogOutput.find (module + " : " + message)
                != std::string::npos);
 
-  lumex::path logsDir = LumexLogging::getLogsDirectory ();
+  lumex::path logsDir = LumexLogging::get_logs_directory ();
   lumex::filesystem_result<std::vector<lumex::path>> result
       = lumex::core::filesystem::fs::lumex_filesystem::directory_paths (
           logsDir);
@@ -323,7 +323,7 @@ TEST_F (LumexLoggingTest, GivenMessage_WhenWarning_ThenLogsToClogAndFile)
   EXPECT_TRUE (clogOutput.find (module + " : " + message)
                != std::string::npos);
 
-  lumex::path logsDir = LumexLogging::getLogsDirectory ();
+  lumex::path logsDir = LumexLogging::get_logs_directory ();
   lumex::filesystem_result<std::vector<lumex::path>> result
       = lumex::core::filesystem::fs::lumex_filesystem::directory_paths (
           logsDir);
@@ -373,7 +373,7 @@ TEST_F (LumexLoggingTest, GivenMessage_WhenError_ThenLogsToCerrAndFile)
   EXPECT_TRUE (cerrOutput.find (module + " : " + message)
                != std::string::npos);
 
-  lumex::path logsDir = LumexLogging::getLogsDirectory ();
+  lumex::path logsDir = LumexLogging::get_logs_directory ();
   lumex::filesystem_result<std::vector<lumex::path>> result
       = lumex::core::filesystem::fs::lumex_filesystem::directory_paths (
           logsDir);
@@ -423,7 +423,7 @@ TEST_F (LumexLoggingTest, GivenMessage_WhenCritical_ThenLogsToCerrAndFile)
   EXPECT_TRUE (cerrOutput.find (module + " : " + message)
                != std::string::npos);
 
-  lumex::path logsDir = LumexLogging::getLogsDirectory ();
+  lumex::path logsDir = LumexLogging::get_logs_directory ();
   lumex::filesystem_result<std::vector<lumex::path>> result
       = lumex::core::filesystem::fs::lumex_filesystem::directory_paths (
           logsDir);
@@ -485,9 +485,9 @@ TEST_F (LumexLoggingTest, GivenAppName_WhenSet_ThenLogsDirectoryReflectsIt)
 {
   // Set app name -> get logs directory -> verify path includes app name.
   std::string const appName = "MyTestApp";
-  LumexLogging::setAppName (appName);
+  LumexLogging::set_app_name (appName);
 
-  lumex::path logsDir = LumexLogging::getLogsDirectory ();
+  lumex::path logsDir = LumexLogging::get_logs_directory ();
 
 #if LUMEX_OS_UNIX
   std::string homeDir = lumex_environment::get ("HOME").value;
@@ -509,7 +509,7 @@ TEST_F (LumexLoggingTest, GivenAppName_WhenSet_ThenLogsDirectoryReflectsIt)
   LumexLogging::info (module.c_str (), message);
 
   lumex::path logsDirAfterLog
-      = LumexLogging::getLogsDirectory (); // Get again after logging
+      = LumexLogging::get_logs_directory (); // Get again after logging
 
   // Find the log file by listing contents and regex matching
   lumex::filesystem_result<std::vector<lumex::path>> result
@@ -555,7 +555,7 @@ TEST_F (LumexLoggingTest, GivenEmptyMessage_WhenLogging_ThenLogsEmptyString)
       clogOutput.find (module + " : ")
       != std::string::npos); // Should contain empty message after colon
 
-  lumex::path logsDir = LumexLogging::getLogsDirectory ();
+  lumex::path logsDir = LumexLogging::get_logs_directory ();
   lumex::filesystem_result<std::vector<lumex::path>> result
       = lumex::core::filesystem::fs::lumex_filesystem::directory_paths (
           logsDir);
@@ -603,7 +603,7 @@ TEST_F (LumexLoggingTest,
       cerrOutput.find (" : " + message)
       != std::string::npos); // Should contain empty module before colon
 
-  lumex::path logsDir = LumexLogging::getLogsDirectory ();
+  lumex::path logsDir = LumexLogging::get_logs_directory ();
   lumex::filesystem_result<std::vector<lumex::path>> result
       = lumex::core::filesystem::fs::lumex_filesystem::directory_paths (
           logsDir);
@@ -648,7 +648,7 @@ TEST_F (LumexLoggingTest, GivenLongMessage_WhenLogging_ThenLogsFullMessage)
   std::string clogOutput = capture.getClogOutput ();
   EXPECT_TRUE (clogOutput.find (longMessage) != std::string::npos);
 
-  lumex::path logsDir = LumexLogging::getLogsDirectory ();
+  lumex::path logsDir = LumexLogging::get_logs_directory ();
   lumex::filesystem_result<std::vector<lumex::path>> result
       = lumex::core::filesystem::fs::lumex_filesystem::directory_paths (
           logsDir);
@@ -690,11 +690,11 @@ TEST_F (LumexLoggingTest,
   std::string const message = "No timestamp here.";
   char const *filename = "no_timestamp_log";
 
-  LumexLogging::toFile (filename,
-                        lumex::applied::logging::log::LumexLogLevel::Info,
-                        module.c_str (), message.c_str (), false);
+  LumexLogging::to_file (filename,
+                         lumex::applied::logging::log::LumexLogLevel::Info,
+                         module.c_str (), message.c_str (), false);
 
-  lumex::path logsDir = LumexLogging::getLogsDirectory ();
+  lumex::path logsDir = LumexLogging::get_logs_directory ();
   lumex::path logFile
       = logsDir / lumex::path (std::string (filename) + ".log");
 
@@ -759,7 +759,7 @@ TEST_F (LumexLoggingTest, ThreadSafety_SimultaneousConsoleAndFileLogging)
                   LumexLogging::info (module.c_str (), message);
 
                   // Also log to a specific file to check file integrity
-                  LumexLogging::toFile (
+                  LumexLogging::to_file (
                       filename.c_str (),
                       lumex::applied::logging::log::LumexLogLevel::Debug,
                       module.c_str (), message.c_str (), true);
@@ -776,7 +776,7 @@ TEST_F (LumexLoggingTest, ThreadSafety_SimultaneousConsoleAndFileLogging)
   EXPECT_EQ (total_messages.load (), num_threads * messages_per_thread);
 
   // Read the special concurrency log file and verify content
-  lumex::path logsDir = LumexLogging::getLogsDirectory ();
+  lumex::path logsDir = LumexLogging::get_logs_directory ();
   lumex::filesystem_result<std::vector<lumex::path>> result
       = lumex::core::filesystem::fs::lumex_filesystem::directory_paths (
           logsDir);
@@ -873,9 +873,9 @@ TEST_F (LumexLoggingTest, Perf_HighVolumeFileOnlyLogging)
 
   auto start = std::chrono::high_resolution_clock::now ();
   for (int i = 0; i < iterations; ++i)
-    LumexLogging::toFile (filename,
-                          lumex::applied::logging::log::LumexLogLevel::Info,
-                          module.c_str (), message.c_str (), true);
+    LumexLogging::to_file (filename,
+                           lumex::applied::logging::log::LumexLogLevel::Info,
+                           module.c_str (), message.c_str (), true);
   auto duration = std::chrono::duration_cast<std::chrono::milliseconds> (
       std::chrono::high_resolution_clock::now () - start);
 
@@ -889,7 +889,7 @@ TEST_F (LumexLoggingTest, Perf_HighVolumeFileOnlyLogging)
 
   // Verify the file exists and has some content (don't read all for
   // performance reasons)
-  lumex::path logsDir = LumexLogging::getLogsDirectory ();
+  lumex::path logsDir = LumexLogging::get_logs_directory ();
   lumex::filesystem_result<std::vector<lumex::path>> result
       = lumex::core::filesystem::fs::lumex_filesystem::directory_paths (
           logsDir);
@@ -930,11 +930,12 @@ TEST_F (LumexLoggingTest, Perf_HighVolumeFileOnlyLogging)
 
 TEST_F (LumexLoggingTest, Platform_GetLogsDirectoryCorrectlyIdentifiesPath)
 {
-  // Call getLogsDirectory -> verify path corresponds to expected OS-specific
+  // Call get_logs_directory -> verify path corresponds to expected OS-specific
   // location. This test now explicitly relies on
-  // `LumexLogging::getLogsDirectory()` which internally uses lumex_environment
-  // to determine the path, and ensures it's cleaned by the fixture.
-  lumex::path logsDir = LumexLogging::getLogsDirectory ();
+  // `LumexLogging::get_logs_directory()` which internally uses
+  // lumex_environment to determine the path, and ensures it's cleaned by the
+  // fixture.
+  lumex::path logsDir = LumexLogging::get_logs_directory ();
 
 #if LUMEX_OS_WINDOWS
   lumex::path expectedPath
