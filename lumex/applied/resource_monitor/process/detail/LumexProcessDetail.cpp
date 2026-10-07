@@ -23,7 +23,11 @@
  */
 
 #define LUMEX_IMPLEMENTATION
+#include <algorithm>
+#include <map>
+#include <set>
 #include <sstream>
+#include <utility>
 #include <vector>
 
 #include "LumexProcessDetail.hpp"
@@ -104,6 +108,7 @@ parse_proc_pid_stat (lumex_string_view text)
   stat.state = tokens.at (0).front ();
   try
     {
+      stat.parent_pid = std::stoull (tokens.at (1));
       stat.utime_ticks = std::stoull (tokens.at (11));
       stat.stime_ticks = std::stoull (tokens.at (12));
       stat.start_ticks = std::stoull (tokens.at (19));
@@ -154,6 +159,92 @@ linux_name_matches (lumex_string_view requested, lumex_string_view name,
   return name_is_comm && name.size () == KCOMM_LENGTH
          && requested.size () > KCOMM_LENGTH
          && requested.substr (0, KCOMM_LENGTH) == name;
+}
+
+LUMEX_PUBLIC_API std::vector<process_id_t>
+descendants_of (process_id_t root, std::vector<process_link_t> const &links)
+{
+  std::map<process_id_t, std::vector<process_link_t const *>> children;
+  std::map<process_id_t, std::uint64_t> start_times;
+  for (process_link_t const &link : links)
+    {
+      start_times[link.pid] = link.start_time;
+      if (link.pid != link.parent_pid)
+        children[link.parent_pid].push_back (&link);
+    }
+
+  std::vector<process_id_t> found;
+  std::set<process_id_t> seen;
+  seen.insert (root);
+  // Breadth first: `found` is the queue, read from `next`.
+  std::vector<process_id_t> queue (1, root);
+  for (std::size_t next = 0; next < queue.size (); ++next)
+    {
+      process_id_t const parent = queue[next];
+      auto const parent_start = start_times.find (parent);
+      std::uint64_t const parent_started
+          = parent_start == start_times.end () ? 0U : parent_start->second;
+      auto const below = children.find (parent);
+      if (below == children.end ())
+        continue;
+      for (process_link_t const *child : below->second)
+        {
+          if (seen.count (child->pid) != 0)
+            continue;
+          if (parent_started != 0 && child->start_time != 0
+              && child->start_time < parent_started)
+            continue;
+          seen.insert (child->pid);
+          found.push_back (child->pid);
+          queue.push_back (child->pid);
+        }
+    }
+  return found;
+}
+
+LUMEX_PUBLIC_API std::vector<process_tree_t>
+process_trees (std::vector<process_id_t> const &roots,
+               std::vector<process_link_t> const &links)
+{
+  std::vector<process_id_t> sorted = roots;
+  std::sort (sorted.begin (), sorted.end ());
+  sorted.erase (std::unique (sorted.begin (), sorted.end ()), sorted.end ());
+
+  std::vector<process_tree_t> all;
+  for (process_id_t const root : sorted)
+    {
+      process_tree_t tree;
+      tree.root = root;
+      tree.descendants = descendants_of (root, links);
+      all.push_back (std::move (tree));
+    }
+
+  // A tree whose root lies in the descendants of another tree is part of it.
+  // When two roots lie in each other's descendants (stale links), the one with
+  // the smaller ID stays, so that something is always counted.
+  std::vector<process_tree_t> kept;
+  for (std::size_t i = 0; i < all.size (); ++i)
+    {
+      bool inside_other = false;
+      for (std::size_t j = 0; j < all.size () && !inside_other; ++j)
+        {
+          if (i == j)
+            continue;
+          auto const &below = all[j].descendants;
+          bool const in_j
+              = std::find (below.begin (), below.end (), all[i].root)
+                != below.end ();
+          if (!in_j)
+            continue;
+          auto const &own = all[i].descendants;
+          bool const j_in_i = std::find (own.begin (), own.end (), all[j].root)
+                              != own.end ();
+          inside_other = !j_in_i || j < i;
+        }
+      if (!inside_other)
+        kept.push_back (all[i]);
+    }
+  return kept;
 }
 
 LUMEX_PUBLIC_API bool

@@ -24,11 +24,11 @@
 
 /**
  * @file LumexProcessDetail.hpp
- * @brief Text parsers for Linux `/proc/<pid>` files and the executable name
- * rules of `LumexProcessMonitor`.
- * @details Pure functions on text, so they work, and are tested, on any
- * platform; the monitor applies the Linux ones on Linux and the Windows one on
- * Windows.
+ * @brief Text parsers for Linux `/proc/<pid>` files, the executable name
+ * rules and the process tree rules of `LumexProcessMonitor`.
+ * @details Pure functions on text and on lists of process links, so they work,
+ * and are tested, on any platform; the monitor applies the Linux ones on Linux
+ * and the Windows one on Windows.
  */
 #ifndef LUMEX_APPLIED_RESOURCE_MONITOR_PROCESS_DETAIL_HPP
 #define LUMEX_APPLIED_RESOURCE_MONITOR_PROCESS_DETAIL_HPP
@@ -38,6 +38,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <string>
+#include <vector>
 
 #include "lumex/core/optional/LumexOptional"
 #include "lumex/core/string_view/LumexStringView"
@@ -70,6 +71,9 @@ struct proc_pid_stat_t
   /// @brief Field 3, the state: `R`, `S`, `D`, `T`, `Z` (zombie: exited, not
   /// yet reaped by its parent), `X` (dead), ...
   char state{};
+  /// @brief Field 4, the ID of the parent process (0 for the first process and
+  /// for a process whose parent is outside its PID namespace).
+  std::uint64_t parent_pid{};
   /// @brief Field 14, user CPU time, in clock ticks.
   std::uint64_t utime_ticks{};
   /// @brief Field 15, kernel CPU time, in clock ticks.
@@ -88,6 +92,36 @@ struct proc_pid_status_t
   optional<std::uint64_t> resident_bytes;
   /// @brief `RssAnon`; empty before Linux 4.5.
   optional<std::uint64_t> anonymous_bytes;
+};
+
+/// @brief A process ID (`DWORD` on Windows, `pid_t` on POSIX).
+using process_id_t = std::uint32_t;
+
+/**
+ * @brief One process and its parent, as the process tree rules need them.
+ */
+struct process_link_t
+{
+  /// @brief The process ID.
+  process_id_t pid{};
+  /// @brief The ID of its parent process.
+  process_id_t parent_pid{};
+  /// @brief When the process started, in any unit that grows with time (Linux:
+  /// clock ticks after boot, Windows: the creation `FILETIME`); 0 when it is
+  /// not known.
+  std::uint64_t start_time{};
+};
+
+/**
+ * @brief A process and every process below it.
+ */
+struct process_tree_t
+{
+  /// @brief The top process of the tree.
+  process_id_t root{};
+  /// @brief The processes below it, nearest first (children, then their
+  /// children, ...).
+  std::vector<process_id_t> descendants;
 };
 
 /**
@@ -136,6 +170,33 @@ first_argument_name (lumex_string_view cmdline);
  */
 LUMEX_API bool linux_name_matches (lumex_string_view requested,
                                    lumex_string_view name, bool name_is_comm);
+
+/**
+ * @brief Every process below one process: its children, their children, and
+ * so on.
+ * @param root The process ID to start from. It does not have to be in
+ * @p links.
+ * @param links The processes that exist, with their parents.
+ * @return The IDs below @p root, nearest first, each once. A process is left
+ * out (with everything below it) when it started before its parent: the
+ * parent's ID was then reused by another process, and the link is stale. A
+ * process that is its own parent (Windows' idle process) has no children of
+ * its own.
+ */
+LUMEX_API std::vector<process_id_t>
+descendants_of (process_id_t root, std::vector<process_link_t> const &links);
+
+/**
+ * @brief Groups processes into trees, so that every process is counted once.
+ * @param roots Processes, for example every process with one name.
+ * @param links The processes that exist, with their parents.
+ * @return A tree for every process of @p roots that is not below another
+ * process of @p roots, in ascending order of the root ID. A repeated ID gives
+ * one tree.
+ */
+LUMEX_API std::vector<process_tree_t>
+process_trees (std::vector<process_id_t> const &roots,
+               std::vector<process_link_t> const &links);
 
 /**
  * @brief The Windows name rule: equal without regard to ASCII case, with or
