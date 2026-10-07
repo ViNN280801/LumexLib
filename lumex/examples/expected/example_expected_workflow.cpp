@@ -19,6 +19,14 @@ flow_or_error (double ml_min)
         unexpect, std::string ("flow exceeds pump limit"));
   return expected<double, std::string> (ml_min);
 }
+
+/// Turns a validated flow into the pump speed. Any failure keeps its text.
+expected<int, std::string>
+speed_for (double ml_min)
+{
+  return flow_or_error (ml_min).transform (
+      [] (double flow) { return static_cast<int> (flow * 60.0); });
+}
 }
 
 int
@@ -36,5 +44,32 @@ main ()
         std::cout << "rejected flow=" << flow << " reason=" << result.error ()
                   << '\n';
     }
+
+  std::cout << "\n--- the same checks as a pipeline ---\n";
+  int started = 0;
+  for (double const flow : candidates)
+    {
+      // transform turns a good flow into a speed, then or_else logs a refusal
+      // and passes it on, and the last transform (its function returns void)
+      // only counts the start, so a refused flow is never counted.
+      expected<void, std::string> const start
+          = speed_for (flow)
+                .or_else (
+                    [flow] (std::string const &why)
+                      {
+                        std::cout << "flow=" << flow << " refused: " << why
+                                  << '\n';
+                        return expected<int, std::string> (unexpect, why);
+                      })
+                .transform (
+                    [&started] (int speed)
+                      {
+                        ++started;
+                        std::cout << "speed=" << speed << " started\n";
+                      });
+      if (!start)
+        std::cout << "  not started: " << start.error () << '\n';
+    }
+  std::cout << "started " << started << " of 3\n";
   return 0;
 }
