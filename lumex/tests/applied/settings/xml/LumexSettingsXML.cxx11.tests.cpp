@@ -1,4 +1,4 @@
-// lumex/tests/applied/settings/LumexSettingsXML.cxx11.tests.cpp
+// lumex/tests/applied/settings/xml/LumexSettingsXML.cxx11.tests.cpp
 #include <fstream>
 #include <iostream>
 #include <memory>

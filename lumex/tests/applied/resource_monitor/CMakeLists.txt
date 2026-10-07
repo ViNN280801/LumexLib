@@ -1,10 +1,7 @@
 # lumex/tests/applied/resource_monitor/CMakeLists.txt
 
-# resource_monitor has one standard in lumex/tests/LumexTestStandards.cmake,
-# C++11: LumexResourceMonitorCxx11Tests builds every *.cxx11.tests.cpp of this
-# directory.
-lumex_add_standard_suites(ResourceMonitor
-    MODULE resource_monitor
-    LINK
-        lumex::resource_monitor
-)
+# The tests follow the source tree (lumex/applied/resource_monitor): monitor/
+# and monitor/detail/ test the system sampler and the watch log, process/ and
+# process/detail/ the process monitor.
+add_subdirectory(monitor)
+add_subdirectory(process)
