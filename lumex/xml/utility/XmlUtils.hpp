@@ -99,6 +99,7 @@
 #include <cwchar>
 
 #include "lumex/core/utility/assert/LumexAssert.hpp"
+#include "lumex/core/utility/bit/LumexBit.hpp"
 #include "lumex/core/utility/macros/LumexConstantMacros.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 #include "lumex/xml/constants/XmlConstants.hpp"
@@ -150,18 +151,6 @@ struct utf16_counter
     return result + 2;
   }
 };
-inline uint16_t
-endian_swap (uint16_t value)
-{
-  return static_cast<uint16_t> (((value & 0xff) << 8) | (value >> 8));
-}
-
-inline uint32_t
-endian_swap (uint32_t value)
-{
-  return ((value & 0xff) << 24) | ((value & 0xff00) << 8)
-         | ((value & 0xff0000) >> 8) | (value >> 24);
-}
 template <typename opt_swap> struct utf16_decoder
 {
   using type = uint16_t;
@@ -173,7 +162,9 @@ template <typename opt_swap> struct utf16_decoder
   {
     while (size)
       {
-        uint16_t lead = opt_swap::value ? endian_swap (*data) : *data;
+        uint16_t lead = opt_swap::value
+                            ? ::lumex::core::utility::bit::byte_swap (*data)
+                            : *data;
 
         // U+0000..U+D7FF
         if (lead < 0xD800)
@@ -193,7 +184,10 @@ template <typename opt_swap> struct utf16_decoder
         else if (static_cast<unsigned int> (lead - 0xD800) < 0x400
                  && size >= 2)
           {
-            uint16_t next = opt_swap::value ? endian_swap (data[1]) : data[1];
+            uint16_t next
+                = opt_swap::value
+                      ? ::lumex::core::utility::bit::byte_swap (data[1])
+                      : data[1];
 
             if (static_cast<unsigned int> (next - 0xDC00) < 0x400)
               {
@@ -232,7 +226,9 @@ template <typename opt_swap> struct utf32_decoder
   {
     while (size)
       {
-        uint32_t lead = opt_swap::value ? endian_swap (*data) : *data;
+        uint32_t lead = opt_swap::value
+                            ? ::lumex::core::utility::bit::byte_swap (*data)
+                            : *data;
 
         // U+0000..U+FFFF
         if (lead < 0x10000)
@@ -706,7 +702,7 @@ convert_wchar_endian_swap (wchar_t *result, wchar_t const *data,
                            std::size_t length)
 {
   for (std::size_t i = 0; i < length; ++i)
-    result[i] = static_cast<wchar_t> (endian_swap (
+    result[i] = static_cast<wchar_t> (::lumex::core::utility::bit::byte_swap (
         static_cast<wchar_selector<sizeof (wchar_t)>::type> (data[i])));
 }
 #endif
@@ -1101,22 +1097,17 @@ hash_string (char_t const *str)
   return result;
 }
 
-inline bool
-is_little_endian ()
-{
-  unsigned int chr = 1;
-
-  return *reinterpret_cast<unsigned char *> (std::addressof (chr)) == 1;
-}
-
 inline xml_encoding
 get_wchar_encoding ()
 {
   LUMEX_STATIC_ASSERT (sizeof (wchar_t) == 2 || sizeof (wchar_t) == 4);
 
   if (sizeof (wchar_t) == 2)
-    return is_little_endian () ? encoding_utf16_le : encoding_utf16_be;
-  return is_little_endian () ? encoding_utf32_le : encoding_utf32_be;
+    return ::lumex::core::utility::bit::is_little_endian ()
+               ? encoding_utf16_le
+               : encoding_utf16_be;
+  return ::lumex::core::utility::bit::is_little_endian () ? encoding_utf32_le
+                                                          : encoding_utf32_be;
 }
 
 inline bool
@@ -1273,11 +1264,15 @@ get_buffer_encoding (xml_encoding encoding, void const *contents,
 
   // replace utf16 encoding with utf16 with specific endianness
   if (encoding == encoding_utf16)
-    return is_little_endian () ? encoding_utf16_le : encoding_utf16_be;
+    return ::lumex::core::utility::bit::is_little_endian ()
+               ? encoding_utf16_le
+               : encoding_utf16_be;
 
   // replace utf32 encoding with utf32 with specific endianness
   if (encoding == encoding_utf32)
-    return is_little_endian () ? encoding_utf32_le : encoding_utf32_be;
+    return ::lumex::core::utility::bit::is_little_endian ()
+               ? encoding_utf32_le
+               : encoding_utf32_be;
 
   // only do autodetection if no explicit encoding is requested
   if (encoding != encoding_auto)
@@ -1343,11 +1338,15 @@ get_write_encoding (xml_encoding encoding)
 
   // replace utf16 encoding with utf16 with specific endianness
   if (encoding == encoding_utf16)
-    return is_little_endian () ? encoding_utf16_le : encoding_utf16_be;
+    return ::lumex::core::utility::bit::is_little_endian ()
+               ? encoding_utf16_le
+               : encoding_utf16_be;
 
   // replace utf32 encoding with utf32 with specific endianness
   if (encoding == encoding_utf32)
-    return is_little_endian () ? encoding_utf32_le : encoding_utf32_be;
+    return ::lumex::core::utility::bit::is_little_endian ()
+               ? encoding_utf32_le
+               : encoding_utf32_be;
 
   // only do autodetection if no explicit encoding is requested
   if (encoding != encoding_auto)
@@ -1469,7 +1468,9 @@ convert_buffer (char_t *&out_buffer, std::size_t &out_length,
   if (encoding == encoding_utf16_be || encoding == encoding_utf16_le)
     {
       xml_encoding native_encoding
-          = is_little_endian () ? encoding_utf16_le : encoding_utf16_be;
+          = ::lumex::core::utility::bit::is_little_endian ()
+                ? encoding_utf16_le
+                : encoding_utf16_be;
 
       return (native_encoding == encoding)
                  ? convert_buffer_generic (out_buffer, out_length, contents,
@@ -1482,7 +1483,9 @@ convert_buffer (char_t *&out_buffer, std::size_t &out_length,
   if (encoding == encoding_utf32_be || encoding == encoding_utf32_le)
     {
       xml_encoding native_encoding
-          = is_little_endian () ? encoding_utf32_le : encoding_utf32_be;
+          = ::lumex::core::utility::bit::is_little_endian ()
+                ? encoding_utf32_le
+                : encoding_utf32_be;
 
       return (native_encoding == encoding)
                  ? convert_buffer_generic (out_buffer, out_length, contents,
@@ -1606,7 +1609,9 @@ convert_buffer (char_t *&out_buffer, std::size_t &out_length,
   if (encoding == encoding_utf16_be || encoding == encoding_utf16_le)
     {
       xml_encoding native_encoding
-          = is_little_endian () ? encoding_utf16_le : encoding_utf16_be;
+          = ::lumex::core::utility::bit::is_little_endian ()
+                ? encoding_utf16_le
+                : encoding_utf16_be;
 
       return (native_encoding == encoding)
                  ? convert_buffer_generic (out_buffer, out_length, contents,
@@ -1619,7 +1624,9 @@ convert_buffer (char_t *&out_buffer, std::size_t &out_length,
   if (encoding == encoding_utf32_be || encoding == encoding_utf32_le)
     {
       xml_encoding native_encoding
-          = is_little_endian () ? encoding_utf32_le : encoding_utf32_be;
+          = ::lumex::core::utility::bit::is_little_endian ()
+                ? encoding_utf32_le
+                : encoding_utf32_be;
 
       return (native_encoding == encoding)
                  ? convert_buffer_generic (out_buffer, out_length, contents,
@@ -1757,7 +1764,7 @@ convert_buffer_output_generic (typename T::value_type dest, char_t const *data,
 
   if (opt_swap)
     for (typename T::value_type i = dest; i != end; ++i)
-      *i = endian_swap (*i);
+      *i = ::lumex::core::utility::bit::byte_swap (*i);
 
   return static_cast<std::size_t> (end - dest) * sizeof (*dest);
 }
@@ -1800,7 +1807,9 @@ convert_buffer_output (char_t const *r_char, uint8_t *r_u8, uint16_t *r_u16,
   if (encoding == encoding_utf16_be || encoding == encoding_utf16_le)
     {
       xml_encoding native_encoding
-          = is_little_endian () ? encoding_utf16_le : encoding_utf16_be;
+          = ::lumex::core::utility::bit::is_little_endian ()
+                ? encoding_utf16_le
+                : encoding_utf16_be;
 
       return convert_buffer_output_generic (r_u16, data, length,
                                             wchar_decoder (), utf16_writer (),
@@ -1811,7 +1820,9 @@ convert_buffer_output (char_t const *r_char, uint8_t *r_u8, uint16_t *r_u16,
   if (encoding == encoding_utf32_be || encoding == encoding_utf32_le)
     {
       xml_encoding native_encoding
-          = is_little_endian () ? encoding_utf32_le : encoding_utf32_be;
+          = ::lumex::core::utility::bit::is_little_endian ()
+                ? encoding_utf32_le
+                : encoding_utf32_be;
 
       return convert_buffer_output_generic (r_u32, data, length,
                                             wchar_decoder (), utf32_writer (),
@@ -1855,7 +1866,9 @@ convert_buffer_output (char_t * /* r_char */, uint8_t *r_u8, uint16_t *r_u16,
   if (encoding == encoding_utf16_be || encoding == encoding_utf16_le)
     {
       xml_encoding native_encoding
-          = is_little_endian () ? encoding_utf16_le : encoding_utf16_be;
+          = ::lumex::core::utility::bit::is_little_endian ()
+                ? encoding_utf16_le
+                : encoding_utf16_be;
 
       return convert_buffer_output_generic (r_u16, data, length,
                                             utf8_decoder (), utf16_writer (),
@@ -1865,7 +1878,9 @@ convert_buffer_output (char_t * /* r_char */, uint8_t *r_u8, uint16_t *r_u16,
   if (encoding == encoding_utf32_be || encoding == encoding_utf32_le)
     {
       xml_encoding native_encoding
-          = is_little_endian () ? encoding_utf32_le : encoding_utf32_be;
+          = ::lumex::core::utility::bit::is_little_endian ()
+                ? encoding_utf32_le
+                : encoding_utf32_be;
 
       return convert_buffer_output_generic (r_u32, data, length,
                                             utf8_decoder (), utf32_writer (),
