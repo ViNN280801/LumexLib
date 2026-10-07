@@ -35,7 +35,7 @@
 #include <gtest/gtest.h>
 
 #include "lumex/applied/json/LumexJson"
-#include "lumex/tests/applied/json/LumexJsonHelperTestFixture.hpp"
+#include "lumex/tests/applied/json/helper/LumexJsonHelperTestFixture.hpp"
 
 TEST_F (LumexJsonHelperTest, GivenStdStringView_WhenEmpty_ThenIsEmptyValue)
 {
