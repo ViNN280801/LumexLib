@@ -28,8 +28,8 @@
 
 // LumexMath.cxx20.tests.cpp
 //
-// LumexMath over C++20 views. The C++20 suite (LumexMathCxx20Tests) compiles
-// this file together with LumexMath.cxx11.tests.cpp. The views need
+// LumexMath over C++20 views. The C++20 suite (LumexMathOpsCxx20Tests)
+// compiles this file together with LumexMath.cxx11.tests.cpp. The views need
 // std::ranges (LUMEX_HAS_STD_RANGES): libstdc++ 8 has no <ranges> even with
 // -std=c++2a, so there the tests skip.
 
