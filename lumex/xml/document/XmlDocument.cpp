@@ -41,13 +41,15 @@
 
 #include <cstdio>
 #include <iostream>
-#include <memory>
+#include <new>
+#include <string>
 
 #if defined(__linux__) || defined(__APPLE__)
 #include <sys/stat.h> // struct stat, S_ISREG
 #include <unistd.h>   // fstat
 #endif
 
+#include "lumex/core/unicode/convert/LumexUnicodeConvert.hpp"
 #include "lumex/core/utility/assert/LumexAssert.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 #include "lumex/xml/node/XmlNode.hpp"
@@ -674,31 +676,6 @@ open_file_wide (const wchar_t *path, const wchar_t *mode)
 #endif
 }
 #else
-inline char *
-convert_path_heap (const wchar_t *str)
-{
-  LUMEX_ASSERT (str);
-
-  // first pass: get length in utf8 characters
-  std::size_t length = strlength_wide (str);
-  std::size_t size = as_utf8_begin (str, length);
-
-  // allocate resulting string
-  char *result // NOLINT(cppcoreguidelines-owning-memory)
-      = static_cast<char *> (
-          malloc (size + 1)); // NOLINT(cppcoreguidelines-no-malloc)
-  if (result == nullptr)
-    return nullptr;
-
-  // second pass: convert to utf8
-  as_utf8_end (result, size, str, length);
-
-  // zero-terminate
-  result[size] = 0;
-
-  return result;
-}
-
 inline FILE *
 open_file_wide (
     wchar_t const *path,
@@ -706,10 +683,15 @@ open_file_wide (
 {
   // there is no standard function to open wide paths, so our best bet is to
   // try utf8 path
-  std::unique_ptr<char, decltype (&std::free)> path_utf8 (
-      convert_path_heap (path), &std::free);
-  if (!path_utf8)
-    return nullptr;
+  std::string path_utf8;
+  try
+    {
+      path_utf8 = ::lumex::core::unicode::convert::to_utf8 (path);
+    }
+  catch (std::bad_alloc const &)
+    {
+      return nullptr;
+    }
 
   // convert mode to ASCII (we mirror _wfopen interface)
   char mode_ascii[4] = {
@@ -724,13 +706,13 @@ open_file_wide (
 #ifdef _WIN32
   // Use fopen_s on Windows for secure file opening
   if (fopen_s (
-          &result, path_utf8.get (),
+          &result, path_utf8.c_str (),
           mode_ascii) // NOLINT(cppcoreguidelines-pro-bounds-array-to-pointer-decay)
       != 0)
     result = nullptr; // Ensure result is null on error
 #else
   // Use standard fopen on other platforms
-  result = std::fopen (path_utf8.get (), mode_ascii);
+  result = std::fopen (path_utf8.c_str (), mode_ascii);
 #endif
 
   return result;

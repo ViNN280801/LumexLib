@@ -4,8 +4,12 @@
 # that exercise the document, node, attribute and writer classes together
 # through the umbrella, and xpath/query holds the XPath number rules. One suite
 # per standard of the module (lumex/tests/LumexTestStandards.cmake):
-#   LumexXmlCxx11Tests  LumexXml.cxx11.tests.cpp and
-#                       LumexXmlGlobalNames.cxx11.tests.cpp
+#   LumexXmlCxx11Tests  LumexXml.cxx11.tests.cpp,
+#                       LumexXmlGlobalNames.cxx11.tests.cpp and
+#                       LumexXmlEncodings.cxx11.tests.cpp (UTF-16, UTF-32 and
+#                       Latin-1 through load_buffer, load and save: the byte
+#                       order mark, the detection of the encoding, output
+#                       longer than the serializer's buffer)
 #   LumexXmlCxx17Tests  + LumexXml.cxx17.tests.cpp: the std::string_view
 #                       overloads
 #   LumexXmlCxx20Tests  the same files at C++20. LumexXml is a C++11 library,

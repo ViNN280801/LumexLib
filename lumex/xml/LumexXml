@@ -46,7 +46,8 @@
  * exported functions. The umbrella includes the DOM classes, the writer
  * interface and its file and stream implementations, the parse result, the
  * XPath classes, the common types and constants, and `XmlCleaner` and
- * `XmlUtils`.
+ * `XmlUtils`. Linking it also links <tt>%lumex::unicode</tt>, whose UTF
+ * transcoders the parser and the buffer conversions use.
  *
  * The module is derived from pugixml (https://github.com/zeux/pugixml,
  * MIT, Copyright (c) 2006-2026 Arseny Kapoulkine); its notice is in
