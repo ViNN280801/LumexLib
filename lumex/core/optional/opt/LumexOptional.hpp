@@ -171,13 +171,15 @@ struct in_place_t
 };
 /**
  * @brief A constant of type `in_place_t` used for in-place construction.
- * @details This global constant is used as the first argument in
- * `optional` constructors or `emplace` calls when direct construction of
- * the contained value is desired.
+ * @details This constant is used as the first argument in `optional`
+ * constructors when direct construction of the contained value is desired.
+ * It has no global alias: write `lumex::core::optional::opt::in_place`.
  * @code
- * optional<MyClass> opt1(lumex::in_place, arg1, arg2); // Constructs
- * MyClass(arg1, arg2) optional<std::vector<int>> opt2(lumex::in_place,
- * {1, 2, 3}); // Constructs std::vector<int>({1, 2, 3})
+ * using lumex::core::optional::opt::in_place;
+ * // Constructs MyClass (arg1, arg2) in the optional's storage.
+ * optional<MyClass> opt1 (in_place, arg1, arg2);
+ * // Constructs std::vector<int> ({1, 2, 3}).
+ * optional<std::vector<int>> opt2 (in_place, { 1, 2, 3 });
  * @endcode
  */
 LUMEX_CONSTEXPR in_place_t in_place{ in_place_t::init_tag{} };
@@ -1486,12 +1488,10 @@ make_optional (std::initializer_list<U> ilist, Args &&...args)
 } // namespace core
 } // namespace lumex
 
-/**
- * @brief Global alias for `lumex::core::optional::opt::in_place`.
- * @details This allows `in_place` to be used without full namespace
- * qualification, improving readability and mimicking `std::in_place`.
- */
-using lumex::core::optional::opt::in_place;
+// `in_place` has no global alias: `Expected` has its own `in_place`, and two
+// global names for two objects would stop a file from including both modules.
+// Write `lumex::core::optional::opt::in_place`.
+
 /**
  * @brief Global alias for
  * `lumex::core::optional::opt::LumexBadOptionalAccess`.

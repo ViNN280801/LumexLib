@@ -28,6 +28,16 @@
 
 **Проверено:** 26 тестов (разбор `/proc/<pid>/stat` с `comm` со скобками и пробелами, `status` без `RssAnon` и без `VmRSS`, правила имен; живые: свой процесс, доля CPU после нагрузки, несуществующий и завершившийся процесс, поиск по имени, имя файла против `argv[0]`, `total`), GCC 13.2 Release; шесть мутаций реализации (нет доли CPU, имя только из `comm`, `ENOENT` не как `not_found`, частная память при неизвестной, правило `comm` без условия, `forget_exited` забывает все) ловятся. Распознавание повторного PID тестом не покрыто: повтор PID в тесте не воспроизвести надежно.
 
+#### Изменено
+
+##### Несовместимо: у `optional` и `Expected` нет глобального `in_place`
+
+**Файлы:** `lumex/core/optional/opt/LumexOptional.hpp`, `lumex/core/expected/result/ExpectedTypes.hpp`, `lumex/tests/core/optional/LumexOptional.cxx11.tests.cpp`, `lumex/tests/core/expected/CMakeLists.txt`, `lumex/tests/core/expected/ExpectedWithOptional.cxx11.tests.cpp` (новый)
+
+**Суть:** с `v1.0.0.0` оба модуля выносили свой `in_place` в глобальное пространство имен (`using lumex::core::optional::opt::in_place;` и `using lumex::core::expected::result::in_place;`). Это два разных объекта (`in_place_t` и `in_place_tag`) под одним именем, поэтому файл, включающий оба umbrella, не компилировался ни на одном стандарте. Оба глобальных `using` удалены: писать нужно `lumex::core::optional::opt::in_place` и `lumex::core::expected::result::in_place` или собственное `using`-объявление. Остальные глобальные имена (`optional`, `nullopt`, `make_optional`, `LumexBadOptionalAccess`, `in_place_tag`, `unexpect`, `unexpect_t`) не менялись. Это несовместимое изменение API, поэтому по `VERSIONING.md` релиз получает номер `2.0.0.0`. В исходниках на C++ PeakExpertWeb, PeakExpertCE и DChannel `in_place` не используется. Комментарий к `in_place` в `LumexOptional.hpp` больше не называет несуществовавшее `lumex::in_place`.
+
+**Проверено:** новый набор `ExpectedWithOptional` (3 теста на каждом из стандартов 11, 17, 20) подключает оба umbrella в одном файле, строит `optional` из `Expected` и наоборот; возврат обоих `using` дает прежнюю ошибку компиляции; 1293 теста `expected` и `optional` проходят (GCC 13.2, `-DCMAKE_CXX_STANDARD=11`).
+
 #### Исправлено
 
 ##### `LumexResourceMonitor::stop()` не ждет конца паузы
