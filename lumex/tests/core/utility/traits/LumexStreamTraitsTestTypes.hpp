@@ -26,8 +26,8 @@
  * IN THE SOFTWARE.
  */
 
-#ifndef LUMEX_TESTS_CORE_UTILITY_HPP
-#define LUMEX_TESTS_CORE_UTILITY_HPP
+#ifndef LUMEX_TESTS_CORE_UTILITY_TRAITS_HPP
+#define LUMEX_TESTS_CORE_UTILITY_TRAITS_HPP
 
 #include <ostream>
 
@@ -70,4 +70,4 @@ struct derived_streamable_t : custom_streamable_t
 };
 } // namespace lumex_stream_traits_test
 
-#endif // !LUMEX_TESTS_CORE_UTILITY_HPP
+#endif // !LUMEX_TESTS_CORE_UTILITY_TRAITS_HPP

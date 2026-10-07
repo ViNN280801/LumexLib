@@ -7,7 +7,7 @@
 
 #include "lumex/core/utility/traits/LumexTypeTraits.hpp"
 
-#include "lumex/tests/core/utility/LumexStreamTraitsTestTypes.hpp"
+#include "lumex/tests/core/utility/traits/LumexStreamTraitsTestTypes.hpp"
 
 using lumex::core::utility::traits::stream::all_streamable_v;
 using lumex::core::utility::traits::stream::is_streamable_v;
