@@ -231,6 +231,13 @@ if(LUMEX_IS_TOP_LEVEL)
     )
 endif()
 
+# The install rules of the modules read CMAKE_INSTALL_BINDIR, _LIBDIR and
+# _INCLUDEDIR when their directory is processed, so GNUInstallDirs comes first.
+# Behind add_subdirectory, a configure that gave only -DCMAKE_INSTALL_LIBDIR
+# (create_release.sh does) left BINDIR empty and CMake dropped the RUNTIME
+# (DLL) rule of every shared library.
+include(GNUInstallDirs)
+
 add_subdirectory(lumex)
 
 if(LUMEX_BUILD_XML)
@@ -241,7 +248,6 @@ if(LUMEX_BUILD_XML)
     message(STATUS "Building with Xml enabled")
 endif()
 
-include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)
 
 # LUMEX_INSTALL (cmake/LumexOptions.cmake) defaults to ON only when LumexLib
