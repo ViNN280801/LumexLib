@@ -529,6 +529,29 @@
 
 **Проверено:** GCC 13.2, Release, `-DLUMEX_BUILD_TESTS=ON`: сборка без ошибок и предупреждений, 17980 тестов (столько же, сколько до переименования; имена совпадают), падают те же 91 тест, что и до него (79 `reflection` с именами полей при GCC Release, 9 `fmt`, 2 `cmake`, 1 `serial`), плюс нестабильное семейство `ToCrashReport_ThreadSafe` (до переименования падало в 16 прогонах из 25, после - в 19 из 25); все примеры (`examples.*`, в том числе `examples.fmt.LumexFormatExamplesCoverage`) и `lint.*` проходят. `Scripts/CodeTools/format.py` с clang-format 21.1.7: 432 файла соответствуют, дважды. Библиотека с `-DCMAKE_CXX_STANDARD=11`: GCC 13.2 - без предупреждений, Clang 23.1.0 - те же 177 предупреждений, что и до переименования (`-Wc++14-extensions` в `LumexTypeTraits.hpp` и несколько других). Код Windows (DbgHelp, SEH, `LumexCoreDumpGenerator`, монитор ресурсов, окружение, файловая система): MinGW-w64 GCC 8.3, `-fsyntax-only` для 69 `.cpp` библиотеки на C++11, 17 и 2a - набор ошибок такой же, как до переименования (209 ошибок из-за заголовков MinGW 8.3, например `GetCurrentProcessToken`), новых нет; ветки тестов под Windows не собирались, их 22 измененные строки просмотрены глазами. До переименования не собирается `LumexUtilityMinMaxMacros.cxx11.tests.cpp` (`std::min` в `LumexDebug.hpp` под макросом `min`), а с ним пять утилитных наборов тестов; для сравнения в обоих деревьях применена временная правка `(std::min)`, в коммиты она не входит.
 
+##### Несовместимо: утилиты xml перенесены в модули ядра
+
+**Файлы:** `lumex/core/utility/bit/LumexBit.hpp`, `lumex/xml/utility/XmlUtils.hpp`, `lumex/tests/core/utility/bit/LumexBit.cxx11.tests.cpp`, `THIRD-PARTY-NOTICES.md`
+
+**Суть:** модуль xml держал внутри себя код, который с XML не связан: перекодировку UTF-8, UTF-16, UTF-32 и Latin-1, перестановку байтов и проверку порядка байтов, диапазон из пары итераторов, сравнение чисел с плавающей точкой без допуска, собственного владельца указателя и копии средств стандартной библиотеки. Этот код переносится в модули, которым он принадлежит, а xml зависит от них. Классы и функции, ушедшие из xml, подчиняются правилам ядра (классы и функции в snake_case, приставки `Xml` и `Object` у ушедших классов нет), поэтому имена меняются в том же коммите, что и место. Старые имена не оставлены ни синонимами, ни псевдонимами в xml, как и в записи про snake_case выше: потребитель переходит на новые имена по таблице ниже, это несовместимое изменение API в релизе `2.0.0.0`. Внутри xml эти имена были деталями реализации (правило потребителя называет `XmlUtils.hpp` и `memory/` не публичным API); ни PeakExpertWeb, ни PeakExpertCE не обращаются к ним (в обоих репозиториях нет ни одного вхождения `lumex::xml` в C++-коде).
+
+Код ведет начало от pugixml (MIT, Copyright (c) 2006-2026 Arseny Kapoulkine). Уведомление pugixml теперь идет не только с `lumex::xml`, но и с каждым потребителем перенесенного кода (`byte_swap`, `is_little_endian`, далее `unicode` и `iterator_range`), в том числе с PeakExpertWeb и PeakExpertCE: они xml не поставляют и по решению от 2026-10-04 уведомления pugixml не несли. Это решение пользователя от 2026-10-07: перенесенный код остается с указанием происхождения, `THIRD-PARTY-NOTICES.md` описывает "модуль XML и код, перенесенный из него".
+
+По модулям:
+
+- `core/utility` (`bit`): `byte_swap` работает с C++11 (раньше только с C++20), добавлена `is_little_endian`; `endian_swap` и `is_little_endian` из xml заменены ими.
+
+Таблица "было -> стало" по модулям (вид: класс, функция, макрос):
+
+**core/utility (bit)**
+
+| Вид | Было | Стало |
+| --- | --- | --- |
+| функция | `lumex::xml::utility::endian_swap` (для `uint16_t` и `uint32_t`) | `lumex::core::utility::bit::byte_swap` (целые типы размером 1, 2, 4 и 8 байт, кроме `bool`) |
+| функция | `lumex::xml::utility::is_little_endian` | `lumex::core::utility::bit::is_little_endian` |
+
+**Проверено:** `bit`: набор `UtilityBit` на GCC 13.2, Release, `-Werror`: сборка без предупреждений, на C++11 17 тестов `LumexBitTest` (было 4), на C++20 37; `byte_swap` ниже C++20 сверяется с обратным порядком байтов, записанным вручную через `memcpy`, на 512 псевдослучайных значениях для каждого из шести типов размером 2, 4 и 8 байт, знаковых и беззнаковых, и вычисляется в константном выражении. Проверка правкой: шесть порч (сдвиг 4-байтового обмена, сдвиг 8-байтового, маска 8-байтового, сдвиг 2-байтового, инверсия `is_little_endian`, потеря знакового преобразования) каждая роняет набор.
+
 ##### Шаблоны переменных `is_invocable_v`, `is_callable_v`, `is_optional_v`, `is_expected_v` есть только с C++14
 
 **Файлы:** `lumex/core/utility/traits/LumexTypeTraits.hpp`, `lumex/core/expected/result/Expected.hpp`, `lumex/core/exceptions/LumexExceptionWrapper.hpp`, `lumex/core/time/timer/LumexTimer.hpp`, `lumex/tests/core/utility/LumexTypeTraits.cxx11.tests.cpp`, `lumex/tests/core/utility/LumexTypeTraitsTopics.cxx11.tests.cpp`, `lumex/tests/core/exceptions/LumexExceptionWrapper.cxx11.tests.cpp`
