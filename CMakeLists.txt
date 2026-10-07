@@ -267,6 +267,7 @@ if(LUMEX_INSTALL)
         LumexCore_math
         LumexCore_optional
         LumexCore_reflection
+        LumexCore_span
         LumexCore_string
         LumexCore_string_view
         LumexCore_temporary

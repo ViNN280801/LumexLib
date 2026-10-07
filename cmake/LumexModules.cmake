@@ -26,6 +26,7 @@ set(LUMEX_CORE_MODULE_OPTIONS
     LUMEX_BUILD_MATH
     LUMEX_BUILD_OPTIONAL
     LUMEX_BUILD_REFLECTION
+    LUMEX_BUILD_SPAN
     LUMEX_BUILD_STRING
     LUMEX_BUILD_STRING_VIEW
     LUMEX_BUILD_TEMPORARY
@@ -210,6 +211,7 @@ set(LUMEX_SHARED_LIBRARY_CANDIDATES
     LumexCore_math
     LumexCore_optional
     LumexCore_reflection
+    LumexCore_span
     LumexCore_string
     LumexCore_string_view
     LumexCore_temporary
