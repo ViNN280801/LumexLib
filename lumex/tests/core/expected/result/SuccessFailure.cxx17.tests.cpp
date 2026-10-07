@@ -48,7 +48,7 @@
 
 #include "lumex/core/expected/Expected"
 
-#include "lumex/tests/core/expected/SuccessFailureTestSupport.hpp"
+#include "lumex/tests/core/expected/result/SuccessFailureTestSupport.hpp"
 
 namespace
 {
