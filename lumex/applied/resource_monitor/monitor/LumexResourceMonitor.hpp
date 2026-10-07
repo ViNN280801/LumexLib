@@ -25,13 +25,16 @@
 /**
  * @file LumexResourceMonitor.hpp
  * @brief Background CPU/RAM usage sampler that appends one line per sample to
- * a dated log file.
+ * a dated log file, optionally with the usage of watched processes.
  * @details Provides an opt-in resource-usage sampler a host application can
  * start on demand. The library itself owns no configuration policy (no
  * environment-variable name, no hardcoded "is this enabled" switch) - a caller
  * decides whether to start it at all, and with what poll interval, purely
  * through @ref
  * lumex::applied::resource_monitor::monitor::LumexResourceMonitor::start_if_enabled
+ *          and
+ * @ref
+ * lumex::applied::resource_monitor::monitor::LumexResourceMonitor::start_with_watch_list
  *          arguments.
  */
 #ifndef LUMEX_APPLIED_RESOURCE_MONITOR_MONITOR_HPP
@@ -43,6 +46,7 @@
 #include <cstdint>
 #include <string>
 
+#include "lumex/applied/resource_monitor/process/LumexProcessMonitor.hpp"
 #include "lumex/core/utility/macros/LumexConstantMacros.hpp"
 
 namespace lumex // NOLINT(modernize-concat-nested-namespaces)
@@ -87,6 +91,17 @@ LUMEX_CONST_STR KMODULE_NAME = "ResourceMonitor";
  * thread can run at a time, started and stopped through the static methods
  *          below.
  *
+ * With a watch list (@ref start_with_watch_list) every line carries, after
+ * the system part, one ` | ` entry per watched process or name: `name[pid]
+ * 3.1% 210.4Mb` (CPU share of the whole machine, resident memory), with the
+ * processes below it added up (`name[pid +2]`) unless the list says
+ * otherwise; `name[x6] ...` for the sum of the six processes with a name;
+ * `777 exited`, `777 access denied` for a process that cannot be read and
+ * `name[x0] not running` for a name nothing has. With the breakdown on, the
+ * lines below the sample line list every process behind a sum, as `pid name
+ * 3.1% 210.4Mb`. The first line already has the CPU shares: the sampler takes
+ * a baseline of the watched processes together with the system baseline.
+ *
  * @note All methods are static and thread-safe.
  *
  * @par Example
@@ -120,6 +135,24 @@ public:
    */
   static void start_if_enabled (
       std::string const &logDirectory,
+      std::chrono::milliseconds pollInterval
+      = std::chrono::milliseconds (Constants::KDEFAULT_POLL_INTERVAL_MS));
+
+  /**
+   * @brief Starts the background sampler like @ref start_if_enabled, and adds
+   * the CPU and RAM of watched processes to every line.
+   * @param logDirectory As in @ref start_if_enabled.
+   * @param watchList The processes to follow: by process ID and by executable
+   * name, with the processes below them (`include_children`, on by default)
+   * and the breakdown by process (`breakdown`, off by default). See
+   * @ref lumex::applied::resource_monitor::process::LumexProcessMonitor for
+   * what a name matches and how the processes below one are found.
+   * @param pollInterval As in @ref start_if_enabled.
+   * @note No-op if the sampler is already running, like @ref start_if_enabled.
+   * An empty watch list logs the same lines as @ref start_if_enabled.
+   */
+  static void start_with_watch_list (
+      std::string const &logDirectory, process::watch_list_t const &watchList,
       std::chrono::milliseconds pollInterval
       = std::chrono::milliseconds (Constants::KDEFAULT_POLL_INTERVAL_MS));
 
