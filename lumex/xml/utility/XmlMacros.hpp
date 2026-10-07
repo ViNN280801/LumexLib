@@ -40,17 +40,15 @@
 /**
  * @file XmlMacros.hpp
  * @brief Preprocessor macros of the XML module: the character mode, the
- * declaration of constants, the decoding of header words and the scanning
- * macros of the parser.
+ * decoding of header words and the scanning macros of the parser.
  * @details `LUMEX_XML_CHAR` and `LUMEX_XML_TEXT` select `char` or `wchar_t`
- * (with the `L` prefix for literals) depending on `LUMEX_XML_WCHAR_MODE`, and
- * `LUMEX_XML_CONSTANT` declares the module's constants. Every node and
- * attribute starts with a header word that holds the byte distance from its
- * memory page, shifted left by 8 bits, and flags in the low 8 bits;
- * `LUMEX_XML_GETHEADER_IMPL` builds that word, `LUMEX_XML_GETPAGE` recovers
- * the page and `LUMEX_XML_NODETYPE` the node type. `LUMEX_XML_IS_CHARTYPE` and
- * `LUMEX_XML_IS_CHARTYPEX` test a character against the class tables of
- * `XmlConstants.hpp`.
+ * (with the `L` prefix for literals) depending on `LUMEX_XML_WCHAR_MODE`.
+ * Every node and attribute starts with a header word that holds the byte
+ * distance from its memory page, shifted left by 8 bits, and flags in the low
+ * 8 bits; `LUMEX_XML_GETHEADER_IMPL` builds that word, `LUMEX_XML_GETPAGE`
+ * recovers the page and `LUMEX_XML_NODETYPE` the node type.
+ * `LUMEX_XML_IS_CHARTYPE` and `LUMEX_XML_IS_CHARTYPEX` test a character
+ * against the class tables of `XmlConstants.hpp`.
  *
  * The scanning macros (`LUMEX_XML_SKIPWS`, `LUMEX_XML_SCANFOR`,
  * `LUMEX_XML_PUSHNODE`, `LUMEX_XML_THROW_ERROR` and the others) are written
@@ -63,9 +61,6 @@
 #define LUMEX_XML_UTILITY_XML_MACROS_HPP
 
 #include "lumex/core/utility/attr/LumexAttributes.hpp"
-#include "lumex/core/utility/macros/LumexConstantMacros.hpp"
-
-#define LUMEX_XML_CONSTANT LUMEX_CONSTINIT_CONSTANT
 
 #ifdef LUMEX_XML_WCHAR_MODE
 #define LUMEX_XML_TEXT(t) L##t
@@ -75,30 +70,10 @@
 #define LUMEX_XML_CHAR char
 #endif
 
-#if defined(__GNUC__) && !defined(__c2__)
-#define LUMEX_XML_UNLIKELY(cond) __builtin_expect (cond, 0)
-#else
-#define LUMEX_XML_UNLIKELY(cond) (cond)
-#endif
-
 #if defined(_MSC_VER) && !defined(__S3E__) && !defined(_WIN32_WCE)
 #define LUMEX_XML_MSVC_CRT_VERSION _MSC_VER
 #elif defined(_WIN32_WCE)
 #define LUMEX_XML_MSVC_CRT_VERSION 1310 // MSVC7.1
-#endif
-
-#if __cplusplus >= 201103
-#define LUMEX_XML_SNPRINTF(buf, ...) snprintf (buf, sizeof (buf), __VA_ARGS__)
-#elif defined(LUMEX_XML_MSVC_CRT_VERSION) && LUMEX_XML_MSVC_CRT_VERSION >= 1400
-#define LUMEX_XML_SNPRINTF(buf, ...)                                          \
-  _snprintf_s (buf, _countof (buf), _TRUNCATE, __VA_ARGS__)
-#elif defined(__APPLE__)                                                      \
-    && __clang_major__ >= 14 // Xcode 14 marks sprintf as deprecated while
-                             // still using C++98 by default
-#define LUMEX_XML_SNPRINTF(buf, fmt, arg1, arg2)                              \
-  snprintf (buf, sizeof (buf), fmt, arg1, arg2)
-#else
-#define LUMEX_XML_SNPRINTF sprintf
 #endif
 
 /* ===== For these 4 macros, we need to use the constants from:
@@ -184,24 +159,24 @@ LumexXmlMemoryPage.hpp, LumexXmlTypes.hpp, LumexXmlConstants.hpp ===== */
     for (;;)                                                                  \
       {                                                                       \
         LUMEX_ATTRIBUTE_MAYBE_UNUSED char_t ss = str[0];                      \
-        if (LUMEX_XML_UNLIKELY (!(X)))                                        \
+        if (LUMEX_ATTRIBUTE_UNLIKELY_COND (!(X)))                             \
           {                                                                   \
             break;                                                            \
           }                                                                   \
         ss = str[1];                                                          \
-        if (LUMEX_XML_UNLIKELY (!(X)))                                        \
+        if (LUMEX_ATTRIBUTE_UNLIKELY_COND (!(X)))                             \
           {                                                                   \
             str += 1;                                                         \
             break;                                                            \
           }                                                                   \
         ss = str[2];                                                          \
-        if (LUMEX_XML_UNLIKELY (!(X)))                                        \
+        if (LUMEX_ATTRIBUTE_UNLIKELY_COND (!(X)))                             \
           {                                                                   \
             str += 2;                                                         \
             break;                                                            \
           }                                                                   \
         ss = str[3];                                                          \
-        if (LUMEX_XML_UNLIKELY (!(X)))                                        \
+        if (LUMEX_ATTRIBUTE_UNLIKELY_COND (!(X)))                             \
           {                                                                   \
             str += 3;                                                         \
             break;                                                            \
