@@ -173,16 +173,28 @@ endfunction()
 # before (lumex/tests/CMakeLists.txt does). That file also explains the
 # scheme and how to convert a module; in short:
 #
+# - The test tree follows the source tree: a test directory is lumex/tests/
+#   plus the path of a directory of lumex/ (core/math/ops tests
+#   lumex/core/math/ops), and every directory with tests calls this function
+#   once. MODULE <key> is the module the directory belongs to, the CTest
+#   prefix of the module's own test directory without the trailing dot
+#   (math, utility, generators.number_generator); the directory itself may be
+#   that directory or any directory below it, and its CTest prefix is the
+#   directory's own (math.ops.).
 # - The test sources are every <Stem>.cxx<std>.tests.cpp of the calling
 #   directory, whatever the stem, so a directory with several components
 #   still gets one executable per standard. The suite of a standard compiles
 #   the files of that standard and of every lower standard of the module.
-#   A *.tests.cpp outside the scheme, or of a standard the module does not
-#   list, is an error. EXCLUDE leaves named scheme files out of every suite
-#   (for sources that need an optional dependency).
+#   A directory has no suite of a standard below its lowest file: tests that
+#   need C++20 get suites from C++20 on, as they did in the module's
+#   directory. A *.tests.cpp outside the scheme, or of a standard the module
+#   does not list, is an error. EXCLUDE leaves named scheme files out of every
+#   suite (for sources that need an optional dependency).
 # - Executables are Lumex<Component>Cxx<std>Tests; <Component> is given
-#   without the Lumex prefix. CTest names get the directory prefix
-#   (lumex_test_name) and the suffix .cxx<std>, at every standard.
+#   without the Lumex prefix and is unique in the tree (a module and the
+#   directory below it: MathOps, Base64Encode). CTest names get the
+#   directory's prefix (lumex_test_name) and the suffix .cxx<std>, at every
+#   standard.
 # - A standard above LUMEX_TEST_STANDARDS_OPTIONAL_ABOVE is built only when
 #   CMAKE_CXX_COMPILE_FEATURES has cxx_std_<std>; otherwise it is skipped
 #   with a STATUS message.
@@ -275,6 +287,17 @@ function(lumex_add_standard_suites component)
     message(FATAL_ERROR
       "lumex_add_standard_suites(${component}): MODULE <key> is required")
   endif()
+  # The calling directory is the module's own test directory or one below it.
+  lumex_test_name(_directory_prefix "")
+  string(LENGTH "${ARG_MODULE}." _module_prefix_length)
+  string(SUBSTRING "${_directory_prefix}" 0 ${_module_prefix_length}
+    _directory_head)
+  if(NOT _directory_head STREQUAL "${ARG_MODULE}.")
+    message(FATAL_ERROR
+      "lumex_add_standard_suites(${component}): MODULE ${ARG_MODULE} is not "
+      "the module of ${CMAKE_CURRENT_SOURCE_DIR}: its CTest prefix is "
+      "'${_directory_prefix}', which must begin with '${ARG_MODULE}.'")
+  endif()
   if("TEST_SUFFIX" IN_LIST ARG_DISCOVER_ARGS)
     message(FATAL_ERROR
       "lumex_add_standard_suites(${component}): TEST_SUFFIX is set by the "
@@ -314,6 +337,11 @@ function(lumex_add_standard_suites component)
 
   file(GLOB _found RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" CONFIGURE_DEPENDS
     "${CMAKE_CURRENT_SOURCE_DIR}/*.tests.cpp")
+  if(NOT _found)
+    message(FATAL_ERROR
+      "lumex_add_standard_suites(${component}): no *.tests.cpp in "
+      "${CMAKE_CURRENT_SOURCE_DIR}")
+  endif()
   foreach(_excluded IN LISTS ARG_EXCLUDE)
     if(NOT _excluded IN_LIST _found)
       message(FATAL_ERROR
@@ -323,6 +351,7 @@ function(lumex_add_standard_suites component)
   endforeach()
 
   set(_targets "")
+  set(_unsupported 0)
   foreach(_suite IN ITEMS _main ${_variants})
     if(_suite STREQUAL "_main")
       set(_standards ${_module_standards})
@@ -351,17 +380,21 @@ function(lumex_add_standard_suites component)
           "Skipping ${_target}: ${CMAKE_CXX_COMPILER_ID} "
           "${CMAKE_CXX_COMPILER_VERSION} has no C++${_std} "
           "(cxx_std_${_std} is not in CMAKE_CXX_COMPILE_FEATURES)")
+        math(EXPR _unsupported "${_unsupported} + 1")
         continue()
       endif()
 
+      # The files of this standard and of the lower ones; none, or none left
+      # after EXCLUDE, means the directory has no suite of this standard.
       lumex_test_standards_select(_sources "${ARG_MODULE}" ${_std} ${_found})
-      if(ARG_EXCLUDE)
+      if(ARG_EXCLUDE AND _sources)
         list(REMOVE_ITEM _sources ${ARG_EXCLUDE})
-        if(NOT _sources)
-          message(FATAL_ERROR
-            "lumex_add_standard_suites(${component}): EXCLUDE leaves "
-            "${_target} without a test source")
-        endif()
+      endif()
+      if(NOT _sources)
+        message(VERBOSE
+          "Skipping ${_target}: no test source of C++${_std} or lower in "
+          "${CMAKE_CURRENT_SOURCE_DIR}")
+        continue()
       endif()
 
       add_executable(${_target} ${_sources} ${ARG_SOURCES})
@@ -385,6 +418,13 @@ function(lumex_add_standard_suites component)
       list(APPEND _targets ${_target})
     endforeach()
   endforeach()
+
+  if(NOT _targets AND _unsupported EQUAL 0)
+    message(FATAL_ERROR
+      "lumex_add_standard_suites(${component}): no suite was built in "
+      "${CMAKE_CURRENT_SOURCE_DIR}; every test source is excluded or newer "
+      "than every standard of the module")
+  endif()
 
   if(ARG_TARGETS_VAR)
     set(${ARG_TARGETS_VAR} ${_targets} PARENT_SCOPE)
