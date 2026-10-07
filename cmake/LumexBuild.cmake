@@ -288,6 +288,13 @@ function(lumex_configure_target target_name)
     configure_compiler_flags("${target_name}" WARNINGS OFF)
   else()
     configure_compiler_flags("${target_name}" WARNINGS HIGH)
+    if(LUMEX_WERROR)
+      if(MSVC)
+        target_compile_options("${target_name}" PRIVATE /WX)
+      else()
+        target_compile_options("${target_name}" PRIVATE -Werror)
+      endif()
+    endif()
   endif()
   configure_optimization_level("${target_name}"
     LEVEL "${LUMEX_OPTIMIZATION_LEVEL}"
