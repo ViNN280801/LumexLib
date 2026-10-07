@@ -39,11 +39,15 @@ _require_text("${_agg_hdr}" "k_max_aggregate_fields")
 _forbid_text("${_agg_hdr}" "boost/pfr")
 _forbid_text("${_agg_hdr}" "boost::pfr")
 
-file(READ "${LUMEX_SOURCE_DIR}/lumex/tests/core/reflection/CMakeLists.txt" _tcmake)
-foreach(_suite "lumex_add_standard_suites(Reflection"
-               "LumexFieldReflection*.cxx*.tests.cpp")
-    string(FIND "${_tcmake}" "${_suite}" _tp)
-    if(_tp EQUAL -1)
-        message(FATAL_ERROR "reflection tests omit ${_suite}")
-    endif()
-endforeach()
+# The reflection tests follow the source tree: the field reflection tests have
+# a directory of their own, added only with the option and the nlohmann target.
+_require_text("lumex/tests/core/reflection/CMakeLists.txt"
+    "if(LUMEX_WITH_FIELD_REFLECTION AND TARGET nlohmann_json::nlohmann_json)")
+_require_text("lumex/tests/core/reflection/CMakeLists.txt"
+    "add_subdirectory(field_reflection)")
+_require_text("lumex/tests/core/reflection/field_reflection/CMakeLists.txt"
+    "lumex_add_standard_suites(ReflectionFieldReflection")
+_require_text("lumex/tests/core/reflection/reflected_enum/CMakeLists.txt"
+    "lumex_add_standard_suites(ReflectionReflectedEnum")
+_require_text("lumex/tests/core/reflection/var_info/CMakeLists.txt"
+    "lumex_add_standard_suites(ReflectionVarInfo")
