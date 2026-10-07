@@ -262,7 +262,7 @@ report_exception (std::string const &prefix,
  *       `lumex::core::utility::traits::invoke::detail::INVOKE` - that helper
  * only has a `decltype`-computed trailing return type (no function body)
  * because it exists solely to drive `invoke_result`/ `is_callable` at compile
- * time, not to be called at runtime. `invoke_result_t`/`is_callable_v` (built
+ * time, not to be called at runtime. `invoke_result_t`/`is_callable` (built
  * on top of it) remain the right tools for return-type deduction and the
  *       Callable-Named-Requirement check below.
  *
@@ -297,7 +297,8 @@ exception_wrapper (
                                                               Args...>;
 
   LUMEX_STATIC_ASSERT_MSG (
-      lumex::core::utility::traits::invoke::is_callable_v<Function, Args...>,
+      lumex::core::utility::traits::invoke::is_callable<Function,
+                                                        Args...>::value,
       "Function must be callable with the supplied arguments. Check:\n"
       "1) Function type is correct\n"
       "2) Number of arguments matches\n"

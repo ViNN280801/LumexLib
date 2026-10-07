@@ -197,7 +197,8 @@ long long
 measure_execution_time (Callable &&callable, Args &&...args)
 {
   LUMEX_STATIC_ASSERT_MSG (
-      lumex::core::utility::traits::invoke::is_callable_v<Callable, Args...>,
+      lumex::core::utility::traits::invoke::is_callable<Callable,
+                                                        Args...>::value,
       "Callable must be invocable with Args");
 
   lumex_timer timer;
@@ -231,7 +232,7 @@ measure_time (Callable &&callable, std::string const &message,
               = default_measure_time_env_name ())
 {
   LUMEX_STATIC_ASSERT_MSG (
-      lumex::core::utility::traits::invoke::is_callable_v<Callable>,
+      lumex::core::utility::traits::invoke::is_callable<Callable>::value,
       "Callable must be nullary-invocable");
 
   if (need_to_gate_via_env)

@@ -381,8 +381,13 @@ struct is_invocable : meta::has_type<invoke_result<Func, Args...>>
 {
 };
 
+// Variable templates exist from C++14; C++11 code writes
+// is_invocable<Func, Args...>::value (the same holds for is_callable_v,
+// is_optional_v and is_expected_v below).
+#if LUMEX_HAS_VARIABLE_TEMPLATES
 template <typename Func, typename... Args>
 LUMEX_CONSTEXPR bool is_invocable_v = is_invocable<Func, Args...>::value;
+#endif
 
 // Signature-based callable check (e.g. is_callable_signature<Functor(int)>).
 // NOTE: kept distinct from is_callable<Func, Args...> below (variadic-args
@@ -408,12 +413,10 @@ struct is_callable : meta::has_type<invoke_result<Func, Args...>>
 {
 };
 
-// Variable templates are formally a C++14 feature, but this stays ungated:
-// LumexExceptionWrapper.hpp (whose own tests are pinned to CXX_STANDARD 11)
-// already relies on is_callable_v, and every compiler this library targets
-// accepts it under -std=c++11 as a tolerated extension.
+#if LUMEX_HAS_VARIABLE_TEMPLATES
 template <typename Func, typename... Args>
 LUMEX_CONSTEXPR bool is_callable_v = is_callable<Func, Args...>::value;
+#endif
 } // namespace invoke
 
 // ---------------------------------------------------------------------
@@ -486,7 +489,7 @@ struct all_ostreamable<First, Rest...>
 {
 };
 
-#if __cplusplus >= 201402L
+#if LUMEX_HAS_VARIABLE_TEMPLATES
 /**
  * @brief Shorthand for
  * <tt>is_ostreamable\<std::decay_t\<T\>\>\::value</tt>.
@@ -599,7 +602,7 @@ struct all_streamable<First, Rest...>
 {
 };
 
-#if __cplusplus >= 201402L
+#if LUMEX_HAS_VARIABLE_TEMPLATES
 /**
  * @brief Shorthand for
  * <tt>is_streamable\<std::decay_t\<T\>\>\::value</tt>.
@@ -883,8 +886,10 @@ template <typename T> struct is_optional<std::optional<T>> : std::true_type
 };
 #endif
 
+#if LUMEX_HAS_VARIABLE_TEMPLATES
 template <typename T>
 LUMEX_CONSTEXPR bool is_optional_v = is_optional<T>::value;
+#endif
 
 /** @brief `T` is a `lumex::core::expected::result::expected<S, E>`. */
 template <typename T> struct is_expected : std::false_type
@@ -897,8 +902,10 @@ struct is_expected<lumex::core::expected::result::expected<S, E>>
 {
 };
 
+#if LUMEX_HAS_VARIABLE_TEMPLATES
 template <typename T>
 LUMEX_CONSTEXPR bool is_expected_v = is_expected<T>::value;
+#endif
 
 #if LUMEX_HAS_CONCEPTS
 /** @brief Concept form of `is_expected`. */
