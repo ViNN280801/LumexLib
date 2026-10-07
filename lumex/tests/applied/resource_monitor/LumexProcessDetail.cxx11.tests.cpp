@@ -1,10 +1,11 @@
 #include <cstdint>
-#include <optional>
 #include <string>
 
 #include <gtest/gtest.h>
 
 #include "lumex/applied/resource_monitor/process/detail/LumexProcessDetail.hpp"
+#include "lumex/core/optional/LumexOptional"
+#include "lumex/core/string_view/LumexStringView"
 
 using namespace lumex::applied::resource_monitor::process::detail;
 
@@ -19,22 +20,42 @@ stat_line (std::string const &comm)
          + ") S 1 4242 4242 0 -1 4194560 100 0 0 0 1500 500 0 0 20 0 3 0 "
            "987654 123456789 2500 18446744073709551615";
 }
+
+// A string literal with embedded NULs as a view of its whole length (the
+// terminating NUL left out); a C++11 stand-in for the "..."s literal.
+template <std::size_t N>
+LumexStringView
+with_nuls (char const (&text)[N])
+{
+  return LumexStringView (text, N - 1);
+}
 } // namespace
 
 TEST (LumexProcessDetailTest, StatGivesTheCpuTicksAndTheStartTime)
 {
-  std::optional<proc_pid_stat_t> const stat
+  optional<proc_pid_stat_t> const stat
       = parse_proc_pid_stat (stat_line ("PeakExpertHPLCE"));
   ASSERT_TRUE (stat.has_value ());
   EXPECT_EQ (stat->comm, "PeakExpertHPLCE");
+  EXPECT_EQ (stat->state, 'S');
   EXPECT_EQ (stat->utime_ticks, 1500U);
   EXPECT_EQ (stat->stime_ticks, 500U);
   EXPECT_EQ (stat->start_ticks, 987654U);
 }
 
+TEST (LumexProcessDetailTest, StatGivesTheStateOfAZombie)
+{
+  std::string line = stat_line ("defunct");
+  line.replace (line.find (") S ") + 2, 1, "Z");
+  optional<proc_pid_stat_t> const stat = parse_proc_pid_stat (line);
+  ASSERT_TRUE (stat.has_value ());
+  EXPECT_EQ (stat->state, 'Z');
+  EXPECT_EQ (stat->comm, "defunct");
+}
+
 TEST (LumexProcessDetailTest, StatCommMayHoldSpacesAndParentheses)
 {
-  std::optional<proc_pid_stat_t> const stat
+  optional<proc_pid_stat_t> const stat
       = parse_proc_pid_stat (stat_line ("my (odd) name) x"));
   ASSERT_TRUE (stat.has_value ());
   EXPECT_EQ (stat->comm, "my (odd) name) x");
@@ -91,15 +112,15 @@ TEST (LumexProcessDetailTest, ExecutableNameIsTheLastPathPart)
 
 TEST (LumexProcessDetailTest, FirstArgumentNameOfACommandLine)
 {
-  using namespace std::string_literals;
-  EXPECT_EQ (first_argument_name ("/usr/bin/electron\0--type=gpu\0"s),
-             std::optional<std::string> ("electron"));
-  EXPECT_EQ (first_argument_name ("sleep\0"
-                                  "30\0"s),
-             std::optional<std::string> ("sleep"));
+  EXPECT_EQ (
+      first_argument_name (with_nuls ("/usr/bin/electron\0--type=gpu\0")),
+      optional<std::string> ("electron"));
+  EXPECT_EQ (first_argument_name (with_nuls ("sleep\0"
+                                             "30\0")),
+             optional<std::string> ("sleep"));
   EXPECT_FALSE (first_argument_name ("").has_value ());
-  EXPECT_FALSE (first_argument_name ("\0"s).has_value ());
-  EXPECT_FALSE (first_argument_name ("/usr/bin/\0"s).has_value ());
+  EXPECT_FALSE (first_argument_name (with_nuls ("\0")).has_value ());
+  EXPECT_FALSE (first_argument_name (with_nuls ("/usr/bin/\0")).has_value ());
 }
 
 // The Linux rule: exact names; a 15-character comm stands for any longer name

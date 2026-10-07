@@ -7,16 +7,6 @@ file(GLOB_RECURSE SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
 add_library(${LUMEX_RESOURCE_MONITOR_NAME} ${SOURCES})
 add_library(lumex::resource_monitor ALIAS ${LUMEX_RESOURCE_MONITOR_NAME})
 
-# LumexResourceMonitor.cpp uses std::filesystem unconditionally (C++17) - there is no project-wide
-# CMAKE_CXX_STANDARD default (see root CMakeLists.txt's own comment), so this must be pinned
-# explicitly here, matching LumexResourceMonitorTests' own CXX_STANDARD 17 pin.
-set_target_properties(${LUMEX_RESOURCE_MONITOR_NAME} PROPERTIES
-    CXX_STANDARD 17
-    CXX_STANDARD_REQUIRED ON
-    # lumex_configure_target links stdc++fs / c++fs where the toolchain needs it (GCC 8).
-    LUMEX_USES_STD_FILESYSTEM ON
-)
-
 if(BUILD_SHARED_LIBS AND WIN32)
     target_compile_definitions(${LUMEX_RESOURCE_MONITOR_NAME} PRIVATE LUMEX_EXPORTS)
 endif()
@@ -28,7 +18,10 @@ target_include_directories(${LUMEX_RESOURCE_MONITOR_NAME} PUBLIC
 
 target_link_libraries(${LUMEX_RESOURCE_MONITOR_NAME} PUBLIC
     lumex::expected
+    lumex::filesystem
     lumex::logging
+    lumex::optional
+    lumex::string_view
     lumex::time
 )
 

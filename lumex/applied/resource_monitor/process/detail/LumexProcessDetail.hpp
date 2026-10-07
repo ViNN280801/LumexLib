@@ -37,9 +37,11 @@
 
 #include <cstddef>
 #include <cstdint>
-#include <optional>
 #include <string>
-#include <string_view>
+
+#include "lumex/core/optional/LumexOptional"
+#include "lumex/core/string_view/LumexStringView"
+#include "lumex/core/utility/macros/LumexConstantMacros.hpp"
 
 namespace lumex // NOLINT(modernize-concat-nested-namespaces)
 {
@@ -56,7 +58,7 @@ namespace process
 namespace detail
 {
 /// @brief The length the Linux kernel cuts a process's `comm` to.
-constexpr std::size_t KCOMM_LENGTH = 15;
+LUMEX_CONST_NUM std::size_t KCOMM_LENGTH = 15;
 
 /**
  * @brief The fields of `/proc/<pid>/stat` the monitor needs.
@@ -65,6 +67,9 @@ struct proc_pid_stat_t
 {
   /// @brief Field 2, `comm`, without its parentheses.
   std::string comm;
+  /// @brief Field 3, the state: `R`, `S`, `D`, `T`, `Z` (zombie: exited, not
+  /// yet reaped by its parent), `X` (dead), ...
+  char state{};
   /// @brief Field 14, user CPU time, in clock ticks.
   std::uint64_t utime_ticks{};
   /// @brief Field 15, kernel CPU time, in clock ticks.
@@ -80,9 +85,9 @@ struct proc_pid_status_t
 {
   /// @brief `VmRSS`; empty for kernel threads, which have no memory of their
   /// own.
-  std::optional<std::uint64_t> resident_bytes;
+  optional<std::uint64_t> resident_bytes;
   /// @brief `RssAnon`; empty before Linux 4.5.
-  std::optional<std::uint64_t> anonymous_bytes;
+  optional<std::uint64_t> anonymous_bytes;
 };
 
 /**
@@ -92,15 +97,14 @@ struct proc_pid_status_t
  * @return The fields, or nothing when the text is not a stat line with at
  * least 22 fields.
  */
-LUMEX_API std::optional<proc_pid_stat_t>
-parse_proc_pid_stat (std::string_view text);
+LUMEX_API optional<proc_pid_stat_t> parse_proc_pid_stat (LumexStringView text);
 
 /**
  * @brief Parses the text of `/proc/<pid>/status`.
  * @param text The file text.
  * @return The fields that are present.
  */
-LUMEX_API proc_pid_status_t parse_proc_pid_status (std::string_view text);
+LUMEX_API proc_pid_status_t parse_proc_pid_status (LumexStringView text);
 
 /**
  * @brief The file name of a `/proc/<pid>/exe` link target.
@@ -108,7 +112,7 @@ LUMEX_API proc_pid_status_t parse_proc_pid_status (std::string_view text);
  * replaced or removed after the start) is dropped.
  * @return The part after the last `/`; empty for an empty target.
  */
-LUMEX_API std::string executable_name (std::string_view link_target);
+LUMEX_API std::string executable_name (LumexStringView link_target);
 
 /**
  * @brief The file name of the first argument in a `/proc/<pid>/cmdline` text.
@@ -116,8 +120,7 @@ LUMEX_API std::string executable_name (std::string_view link_target);
  * @return The part of the first argument after its last `/`, or nothing when
  * the first argument is empty (kernel threads, zombies).
  */
-LUMEX_API std::optional<std::string>
-first_argument_name (std::string_view cmdline);
+LUMEX_API optional<std::string> first_argument_name (LumexStringView cmdline);
 
 /**
  * @brief The Linux name rule: does a process named @p name match the
@@ -129,8 +132,8 @@ first_argument_name (std::string_view cmdline);
  * @ref KCOMM_LENGTH characters then also matches a longer requested name that
  * starts with it.
  */
-LUMEX_API bool linux_name_matches (std::string_view requested,
-                                   std::string_view name, bool name_is_comm);
+LUMEX_API bool linux_name_matches (LumexStringView requested,
+                                   LumexStringView name, bool name_is_comm);
 
 /**
  * @brief The Windows name rule: equal without regard to ASCII case, with or
@@ -139,8 +142,8 @@ LUMEX_API bool linux_name_matches (std::string_view requested,
  * @param name The process's executable name (Toolhelp32 gives it with
  * `.exe`).
  */
-LUMEX_API bool windows_name_matches (std::string_view requested,
-                                     std::string_view name);
+LUMEX_API bool windows_name_matches (LumexStringView requested,
+                                     LumexStringView name);
 } // namespace detail
 } // namespace process
 } // namespace resource_monitor

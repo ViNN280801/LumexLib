@@ -35,9 +35,10 @@
 #include "lumex/LumexExport.hpp"
 
 #include <cstdint>
-#include <optional>
 #include <string>
-#include <string_view>
+
+#include "lumex/core/optional/LumexOptional"
+#include "lumex/core/string_view/LumexStringView"
 
 namespace lumex // NOLINT(modernize-concat-nested-namespaces)
 {
@@ -88,8 +89,8 @@ struct proc_meminfo_t
  * @return The value in bytes (the number times 1024 when the unit is `kB`),
  * or nothing when no line has the key or its value is not a number.
  */
-LUMEX_API std::optional<std::uint64_t> parse_kib_field (std::string_view text,
-                                                        std::string_view key);
+LUMEX_API optional<std::uint64_t> parse_kib_field (LumexStringView text,
+                                                   LumexStringView key);
 
 /**
  * @brief Parses the text of `/proc/stat`.
@@ -97,8 +98,7 @@ LUMEX_API std::optional<std::uint64_t> parse_kib_field (std::string_view text,
  * @return The CPU times, or nothing when the first line is not the aggregate
  * `cpu` line with at least the four fields `user nice system idle`.
  */
-LUMEX_API std::optional<proc_stat_cpu_t>
-parse_proc_stat_cpu (std::string_view text);
+LUMEX_API optional<proc_stat_cpu_t> parse_proc_stat_cpu (LumexStringView text);
 
 /**
  * @brief Parses the text of `/proc/meminfo`.
@@ -106,8 +106,7 @@ parse_proc_stat_cpu (std::string_view text);
  * @return Total and available memory, or nothing when `MemTotal` or
  * `MemAvailable` is missing (`MemAvailable` exists since Linux 3.14).
  */
-LUMEX_API std::optional<proc_meminfo_t>
-parse_proc_meminfo (std::string_view text);
+LUMEX_API optional<proc_meminfo_t> parse_proc_meminfo (LumexStringView text);
 
 /**
  * @brief Reads a whole file, including a `/proc` file whose size is reported
@@ -115,7 +114,7 @@ parse_proc_meminfo (std::string_view text);
  * @param path The file to read.
  * @return The text, or nothing when the file cannot be opened.
  */
-LUMEX_API std::optional<std::string> read_whole_file (std::string const &path);
+LUMEX_API optional<std::string> read_whole_file (std::string const &path);
 } // namespace detail
 } // namespace monitor
 } // namespace resource_monitor

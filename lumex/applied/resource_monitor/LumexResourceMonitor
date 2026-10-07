@@ -44,9 +44,9 @@
  * sample to a dated log file, and the CPU and RAM of single processes on
  * request.
  * @details Link <tt>%lumex::resource_monitor</tt> (compiled library). The
- * library itself is compiled as C++17 because its implementation uses
- * `std::filesystem`. The umbrella includes `monitor/LumexResourceMonitor.hpp`
- * and `process/LumexProcessMonitor.hpp`.
+ * library compiles from C++11 and uses the library's own `optional`,
+ * `LumexStringView` and `filesystem`. The umbrella includes
+ * `monitor/LumexResourceMonitor.hpp` and `process/LumexProcessMonitor.hpp`.
  */
 #include "monitor/LumexResourceMonitor.hpp"
 #include "process/LumexProcessMonitor.hpp"

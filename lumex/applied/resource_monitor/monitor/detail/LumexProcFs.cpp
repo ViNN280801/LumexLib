@@ -24,13 +24,9 @@
 
 #define LUMEX_IMPLEMENTATION
 #include <array>
-#include <cstdint>
 #include <fstream>
 #include <iterator>
-#include <optional>
 #include <sstream>
-#include <string>
-#include <string_view>
 
 #include "LumexProcFs.hpp"
 
@@ -44,16 +40,15 @@ namespace monitor
 {
 namespace detail
 {
-LUMEX_PUBLIC_API std::optional<std::uint64_t>
-parse_kib_field (std::string_view text, std::string_view key)
+LUMEX_PUBLIC_API optional<std::uint64_t>
+parse_kib_field (LumexStringView text, LumexStringView key)
 {
   std::size_t at = 0;
   while (at < text.size ())
     {
       std::size_t const end = text.find ('\n', at);
-      std::string_view const line = text.substr (
-          at,
-          end == std::string_view::npos ? std::string_view::npos : end - at);
+      LumexStringView const line = text.substr (
+          at, end == LumexStringView::npos ? LumexStringView::npos : end - at);
       if (line.size () > key.size () && line.compare (0, key.size (), key) == 0
           && line[key.size ()] == ':')
         {
@@ -62,23 +57,23 @@ parse_kib_field (std::string_view text, std::string_view key)
           std::uint64_t value{};
           std::string unit;
           if (!(fields >> value))
-            return std::nullopt;
+            return nullopt;
           fields >> unit;
           return unit == "kB" ? value * 1024U : value;
         }
-      if (end == std::string_view::npos)
+      if (end == LumexStringView::npos)
         break;
       at = end + 1;
     }
-  return std::nullopt;
+  return nullopt;
 }
 
-LUMEX_PUBLIC_API std::optional<proc_stat_cpu_t>
-parse_proc_stat_cpu (std::string_view text)
+LUMEX_PUBLIC_API optional<proc_stat_cpu_t>
+parse_proc_stat_cpu (LumexStringView text)
 {
-  std::string_view const line = text.substr (0, text.find ('\n'));
+  LumexStringView const line = text.substr (0, text.find ('\n'));
   if (line.size () < 4 || line.compare (0, 4, "cpu ") != 0)
-    return std::nullopt;
+    return nullopt;
 
   // user nice system idle iowait irq softirq steal guest guest_nice
   std::istringstream fields (std::string (line.substr (4)));
@@ -88,7 +83,7 @@ parse_proc_stat_cpu (std::string_view text)
   while (count < values.size () && fields >> value)
     values.at (count++) = value;
   if (count < 4)
-    return std::nullopt;
+    return nullopt;
 
   proc_stat_cpu_t cpu;
   cpu.idle = values.at (3) + values.at (4);
@@ -97,27 +92,26 @@ parse_proc_stat_cpu (std::string_view text)
   return cpu;
 }
 
-LUMEX_PUBLIC_API std::optional<proc_meminfo_t>
-parse_proc_meminfo (std::string_view text)
+LUMEX_PUBLIC_API optional<proc_meminfo_t>
+parse_proc_meminfo (LumexStringView text)
 {
-  std::optional<std::uint64_t> const total
-      = parse_kib_field (text, "MemTotal");
-  std::optional<std::uint64_t> const available
+  optional<std::uint64_t> const total = parse_kib_field (text, "MemTotal");
+  optional<std::uint64_t> const available
       = parse_kib_field (text, "MemAvailable");
   if (!total || !available)
-    return std::nullopt;
+    return nullopt;
   proc_meminfo_t memory;
   memory.total_bytes = *total;
   memory.available_bytes = *available;
   return memory;
 }
 
-LUMEX_PUBLIC_API std::optional<std::string>
+LUMEX_PUBLIC_API optional<std::string>
 read_whole_file (std::string const &path)
 {
   std::ifstream in (path, std::ios::in | std::ios::binary);
   if (!in)
-    return std::nullopt;
+    return nullopt;
   return std::string (std::istreambuf_iterator<char> (in),
                       std::istreambuf_iterator<char> ());
 }

@@ -28,15 +28,12 @@
 #include <cstdint>
 #include <map>
 #include <mutex>
-#include <optional>
 #include <string>
 #include <utility>
 #include <vector>
 
 #if defined(__linux__)
 #include <cerrno>
-#include <filesystem>
-#include <system_error>
 
 #include <fcntl.h>
 #include <unistd.h>
@@ -46,6 +43,7 @@
 #include "detail/LumexProcessDetail.hpp"
 #if defined(__linux__)
 #include "lumex/applied/resource_monitor/monitor/detail/LumexProcFs.hpp"
+#include "lumex/core/filesystem/LumexFilesystem"
 #endif
 
 namespace lumex
@@ -77,7 +75,7 @@ using reading_result_t
 
 struct proc_text_t
 {
-  std::optional<std::string> text;
+  optional<std::string> text;
   process_query_error error{ process_query_error::read_failed };
 };
 
@@ -132,18 +130,18 @@ logical_processors ()
 std::pair<std::string, bool>
 process_name (process_id_t pid, std::string const &comm)
 {
-  std::error_code ec;
-  std::filesystem::path const target = std::filesystem::read_symlink (
-      "/proc/" + std::to_string (pid) + "/exe", ec);
-  if (!ec)
+  lumex::filesystem_result<lumex::path> const target
+      = lumex::filesystem::read_symlink (
+          lumex::path ("/proc/" + std::to_string (pid) + "/exe"));
+  if (target)
     {
-      std::string name = detail::executable_name (target.string ());
+      std::string name = detail::executable_name (target.value ().string ());
       if (!name.empty ())
         return { std::move (name), false };
     }
   proc_text_t const cmdline = read_proc_file (pid, "cmdline");
   if (cmdline.text)
-    if (std::optional<std::string> name
+    if (optional<std::string> name
         = detail::first_argument_name (*cmdline.text))
       return { std::move (*name), false };
   return { comm, true };
@@ -155,7 +153,7 @@ read_process (process_id_t pid)
   proc_text_t const stat_text = read_proc_file (pid, "stat");
   if (!stat_text.text)
     return reading_result_t (unexpect, stat_text.error);
-  std::optional<detail::proc_pid_stat_t> const stat
+  optional<detail::proc_pid_stat_t> const stat
       = detail::parse_proc_pid_stat (*stat_text.text);
   if (!stat)
     return reading_result_t (unexpect, process_query_error::read_failed);
@@ -189,9 +187,8 @@ std::vector<process_id_t>
 find_processes (std::string const &name)
 {
   std::vector<process_id_t> found;
-  std::error_code ec;
-  for (std::filesystem::directory_iterator it ("/proc", ec), end;
-       !ec && it != end; it.increment (ec))
+  for (lumex::directory_iterator it (lumex::path ("/proc")), end; it != end;
+       ++it)
     {
       std::string const entry = it->path ().filename ().string ();
       if (entry.empty ()
@@ -210,9 +207,14 @@ find_processes (std::string const &name)
       proc_text_t const stat_text = read_proc_file (pid, "stat");
       if (!stat_text.text)
         continue;
-      std::optional<detail::proc_pid_stat_t> const stat
+      optional<detail::proc_pid_stat_t> const stat
           = detail::parse_proc_pid_stat (*stat_text.text);
       if (!stat)
+        continue;
+      // An exited process that its parent has not reaped yet has no memory,
+      // no readable executable and only the kernel's cut comm for a name: it
+      // would be listed under a truncated name and consume nothing.
+      if (stat->state == 'Z' || stat->state == 'X')
         continue;
       std::pair<std::string, bool> const resolved
           = process_name (pid, stat->comm);
@@ -225,8 +227,8 @@ find_processes (std::string const &name)
 bool
 process_exists (process_id_t pid)
 {
-  std::error_code ec;
-  return std::filesystem::exists ("/proc/" + std::to_string (pid), ec);
+  return lumex::filesystem::exists (
+      lumex::path ("/proc/" + std::to_string (pid)));
 }
 
 process_id_t
@@ -311,8 +313,9 @@ LumexProcessMonitor::sample (process_id_t pid)
           = std::chrono::duration<double> (usage.cpu_time - before.cpu_time)
                 .count ();
       if (wall > 0. && usage.logical_processors > 0)
-        usage.cpu_percent = std::clamp (
-            100. * cpu / (wall * usage.logical_processors), 0., 100.);
+        usage.cpu_percent = std::min (
+            std::max (100. * cpu / (wall * usage.logical_processors), 0.),
+            100.);
     }
   previous_t &state = impl_->previous[pid];
   state.start_time = reading->start_time;

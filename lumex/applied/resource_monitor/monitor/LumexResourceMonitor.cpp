@@ -40,17 +40,14 @@
 #define LUMEX_IMPLEMENTATION
 #include <condition_variable>
 #include <cstdint>
-#include <filesystem>
 #include <fstream>
 #include <iomanip>
 #include <mutex>
-#include <optional>
 #include <string>
-#include <system_error>
 #include <thread>
 
 #if defined(_WIN32) || defined(_WIN64)
-#include <Windows.h>
+#include <windows.h>
 #else
 #include <sys/sysinfo.h>
 #endif
@@ -58,6 +55,7 @@
 #include "LumexResourceMonitor.hpp"
 #include "detail/LumexProcFs.hpp"
 #include "lumex/applied/logging/LumexLogging"
+#include "lumex/core/filesystem/LumexFilesystem"
 #include "lumex/core/time/LumexTime"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 
@@ -137,17 +135,17 @@ sanitizePollInterval (std::chrono::milliseconds requested)
 std::string
 makeLogFilePath (std::string const &logDirectory)
 {
-  std::error_code ec;
-  std::filesystem::create_directories (logDirectory, ec);
-  if (ec)
+  lumex::filesystem_result<bool> const created
+      = lumex::filesystem::create_directories (lumex::path (logDirectory));
+  if (!created)
     {
       lumWarning (lumex::applied::resource_monitor::monitor::KMODULE_NAME,
                   "Failed to create log directory '", logDirectory,
-                  "': ", ec.message ());
+                  "': error code ", created.error_code ());
     }
   std::string const timestamp
       = LumexTime::get_current_datetime ("%Y-%m-%d_%H-%M-%S");
-  return (std::filesystem::path (logDirectory)
+  return (lumex::path (logDirectory)
           / ("system_resource_usage_" + timestamp + ".log"))
       .string ();
 }
@@ -200,11 +198,10 @@ sampleRamWin (double &usedGbOut, double &totalGbOut)
 bool
 sampleCpuLinux (std::uint64_t &idleOut, std::uint64_t &totalOut)
 {
-  std::optional<std::string> const text
-      = detail::read_whole_file ("/proc/stat");
+  optional<std::string> const text = detail::read_whole_file ("/proc/stat");
   if (!text)
     return false;
-  std::optional<detail::proc_stat_cpu_t> const cpu
+  optional<detail::proc_stat_cpu_t> const cpu
       = detail::parse_proc_stat_cpu (*text);
   if (!cpu)
     return false;
@@ -220,10 +217,10 @@ sampleRamLinux (double &usedGbOut, double &totalGbOut)
   // Used = total - available, as on Windows: the page cache that can be
   // dropped is not "used". sysinfo () has no such figure, so it is only the
   // fallback for kernels without MemAvailable (before 3.14).
-  std::optional<std::string> const text
-      = detail::read_whole_file ("/proc/meminfo");
-  std::optional<detail::proc_meminfo_t> const memory
-      = text ? detail::parse_proc_meminfo (*text) : std::nullopt;
+  optional<std::string> const text = detail::read_whole_file ("/proc/meminfo");
+  optional<detail::proc_meminfo_t> memory;
+  if (text)
+    memory = detail::parse_proc_meminfo (*text);
   if (memory)
     {
       std::uint64_t const used

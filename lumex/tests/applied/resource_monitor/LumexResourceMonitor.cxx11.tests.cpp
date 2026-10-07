@@ -1,5 +1,4 @@
 #include <chrono>
-#include <filesystem>
 #include <fstream>
 #include <sstream>
 #include <string>
@@ -8,6 +7,7 @@
 #include <gtest/gtest.h>
 
 #include "lumex/applied/resource_monitor/LumexResourceMonitor"
+#include "lumex/core/filesystem/LumexFilesystem"
 #if defined(__clang__)
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wglobal-constructors"
@@ -22,26 +22,26 @@ namespace
 {
 // One unique scratch directory per test, so tests never step on each other's
 // log files.
-std::filesystem::path
+lumex::path
 makeScratchDir (std::string const &testName)
 {
-  auto const dir = std::filesystem::temp_directory_path ()
-                   / ("LumexResourceMonitorTests_" + testName + "_"
-                      + std::to_string (std::chrono::steady_clock::now ()
-                                            .time_since_epoch ()
-                                            .count ()));
-  std::filesystem::create_directories (dir);
+  lumex::path const dir
+      = lumex::filesystem::temp_directory_path ().value ()
+        / ("LumexResourceMonitorTests_" + testName + "_"
+           + std::to_string (std::chrono::steady_clock::now ()
+                                 .time_since_epoch ()
+                                 .count ()));
+  lumex::filesystem::create_directories (dir);
   return dir;
 }
 
 bool
-directoryHasAnyFile (std::filesystem::path const &dir)
+directoryHasAnyFile (lumex::path const &dir)
 {
-  std::error_code ec;
-  if (!std::filesystem::exists (dir, ec))
+  if (!lumex::filesystem::exists (dir))
     return false;
-  for (auto const &entry : std::filesystem::directory_iterator (dir, ec))
-    if (entry.is_regular_file ())
+  for (lumex::directory_iterator it (dir), end; it != end; ++it)
+    if (it->is_regular_file ())
       return true;
   return false;
 }
@@ -56,12 +56,11 @@ protected:
     // Always leave the singleton sampler stopped, regardless of what the test
     // did with it.
     LumexResourceMonitor::stop ();
-    std::error_code ec;
     if (!scratchDir.empty ())
-      std::filesystem::remove_all (scratchDir, ec);
+      lumex::filesystem::remove_all (scratchDir);
   }
 
-  std::filesystem::path scratchDir;
+  lumex::path scratchDir;
 };
 
 TEST_F (LumexResourceMonitorTest, StopWithoutStartIsNoOp)
@@ -75,12 +74,12 @@ TEST_F (LumexResourceMonitorTest, StartIfEnabledCreatesTheLogDirectory)
 {
   scratchDir = makeScratchDir ("CreatesDir");
   auto const nestedDir = scratchDir / "nested" / "logs";
-  ASSERT_FALSE (std::filesystem::exists (nestedDir));
+  ASSERT_FALSE (lumex::filesystem::exists (nestedDir));
 
   LumexResourceMonitor::startIfEnabled (nestedDir.string (),
                                         std::chrono::milliseconds (50));
 
-  EXPECT_TRUE (std::filesystem::exists (nestedDir));
+  EXPECT_TRUE (lumex::filesystem::exists (nestedDir));
 }
 
 TEST_F (LumexResourceMonitorTest, SecondStartWhileRunningIsIgnored)
@@ -132,7 +131,7 @@ TEST_F (LumexResourceMonitorTest, RestartAfterStopStartsANewSamplerInstance)
   auto const secondDir = scratchDir / "second";
   LumexResourceMonitor::startIfEnabled (secondDir.string (),
                                         std::chrono::milliseconds (50));
-  EXPECT_TRUE (std::filesystem::exists (secondDir));
+  EXPECT_TRUE (lumex::filesystem::exists (secondDir));
 }
 
 // stop () wakes the sampler: it neither sleeps out the startup pause (2 s) nor
@@ -185,11 +184,11 @@ TEST_F (LumexResourceMonitorTest, ProducesAtLeastOneSampleLineAfterGracePeriod)
   ASSERT_TRUE (directoryHasAnyFile (scratchDir));
 
   bool foundNonEmptyLine = false;
-  for (auto const &entry : std::filesystem::directory_iterator (scratchDir))
+  for (lumex::directory_iterator it (scratchDir), end; it != end; ++it)
     {
-      if (!entry.is_regular_file ())
+      if (!it->is_regular_file ())
         continue;
-      std::ifstream in (entry.path ());
+      std::ifstream in (it->path ().string ());
       std::string line;
       while (std::getline (in, line))
         {
