@@ -39,9 +39,9 @@
 
 /**
  * @file Expected
- * @brief Expected module: `Expected<T, E>`, a value or an error after the C++23
- * `std::expected`, with its `void` specialization, `Unexpected`,
- * `BadExpectedAccess` and the `success` / `failure` markers.
+ * @brief Expected module: `expected<T, E>`, a value or an error after the
+ * C++23 `std::expected`, with its `void` specialization, `unexpected`,
+ * `bad_expected_access` and the `success` / `failure` markers.
  * @details Link <tt>%lumex::expected</tt> (header-only; it brings
  * <tt>%lumex::utility</tt> for `LUMEX_ASSERT`). Works from C++11. The umbrella
  * includes the error types (`error/`) and the result types (`result/`).

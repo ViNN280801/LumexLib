@@ -39,11 +39,11 @@
 
 /**
  * @file LumexException
- * @brief Exceptions module: the `LumexBaseException` hierarchy, stack traces, a
- * crash handler that writes minidumps or core dumps, and an exception-safe call
- * wrapper.
+ * @brief Exceptions module: the `lumex_base_exception` hierarchy, stack
+ * traces, a crash handler that writes minidumps or core dumps, and an
+ * exception-safe call wrapper.
  * @details Link <tt>%lumex::exceptions</tt> (compiled library). Works from
- * C++11; the `std::string_view` constructor of `LumexBaseException` appears
+ * C++11; the `std::string_view` constructor of `lumex_base_exception` appears
  * from C++17. The umbrella includes the crash handler with its default paths
  * and the Windows SEH translator (`crash/`), `exception/LumexException.hpp`,
  * the stack trace classes (`stacktrace/`) and `LumexExceptionWrapper.hpp`
