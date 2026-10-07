@@ -39,7 +39,7 @@
 
 #include <gtest/gtest.h>
 
-#include "lumex/tests/core/string/LumexTextConstraintsTestHelpers.hpp"
+#include "lumex/tests/core/string/text/LumexTextConstraintsTestHelpers.hpp"
 
 using text_constraints_test_helpers::can_join;
 using text_constraints_test_helpers::can_quote;

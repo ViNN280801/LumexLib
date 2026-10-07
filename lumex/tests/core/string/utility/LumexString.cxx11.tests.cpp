@@ -1,7 +1,8 @@
 // LumexString.cxx11.tests.cpp
-// format::stringify and text::to_case_insensitive from C++11. Every suite of
-// the module compiles this file; the C++20 cases are in
-// LumexString.cxx20.tests.cpp.
+// format::stringify from C++11 (lumex/core/string/utility). Every suite of
+// this directory compiles this file; the C++20 cases are in
+// LumexString.cxx20.tests.cpp. text::to_case_insensitive is tested in
+// LumexTextCase.cxx11.tests.cpp of the text directory.
 #include <array>
 #include <atomic>
 #include <codecvt>
@@ -1189,71 +1190,4 @@ TEST_F (LumexStringifyTest, FinalIntegration_Dirty)
   EXPECT_NE (integration_result.find ("3.14159"), std::string::npos);
   EXPECT_NE (integration_result.find ("42"), std::string::npos);
   EXPECT_NE (integration_result.find ("End"), std::string::npos);
-}
-
-// === text::to_case_insensitive Tests ===
-// text::join and quote* are covered by LumexJoin.cxx*.tests.cpp and
-// LumexQuote.cxx*.tests.cpp in every standard.
-
-TEST_F (LumexStringifyTest,
-        ToCaseInsensitive_InPlace_LowercasesAndRemovesSpacesByDefault)
-{
-  std::string str = "Hello WORLD Test";
-  lumex::core::string::text::to_case_insensitive (str);
-  EXPECT_EQ (str, "helloworldtest");
-}
-
-TEST_F (LumexStringifyTest, ToCaseInsensitive_InPlace_KeepsSpacesWhenRequested)
-{
-  std::string str = "Hello WORLD";
-  lumex::core::string::text::to_case_insensitive (str, false);
-  EXPECT_EQ (str, "hello world");
-}
-
-TEST_F (LumexStringifyTest, ToCaseInsensitive_InPlace_EmptyString_StaysEmpty)
-{
-  std::string str;
-  lumex::core::string::text::to_case_insensitive (str);
-  EXPECT_TRUE (str.empty ());
-}
-
-TEST_F (LumexStringifyTest,
-        ToCaseInsensitive_InPlace_AlreadyLowercase_Unchanged)
-{
-  std::string str = "already";
-  lumex::core::string::text::to_case_insensitive (str, false);
-  EXPECT_EQ (str, "already");
-}
-
-TEST_F (LumexStringifyTest, ToCaseInsensitive_CopyOut_DoesNotModifyOriginal)
-{
-  std::string const orig = "Hello WORLD";
-  std::string out;
-  lumex::core::string::text::to_case_insensitive (orig, out);
-  EXPECT_EQ (orig, "Hello WORLD");
-  EXPECT_EQ (out, "helloworld");
-}
-
-TEST_F (LumexStringifyTest,
-        ToCaseInsensitive_CopyOut_RespectsNeedToRemoveSpacesFalse)
-{
-  std::string const orig = "Hello WORLD";
-  std::string out;
-  lumex::core::string::text::to_case_insensitive (orig, out, false);
-  EXPECT_EQ (out, "hello world");
-}
-
-TEST_F (LumexStringifyTest, ToCaseInsensitive_CopyOut_DefaultRemovesSpaces)
-{
-  std::string const orig = "A B C";
-  std::string out;
-  lumex::core::string::text::to_case_insensitive (orig, out);
-  EXPECT_EQ (out, "abc");
-}
-
-TEST_F (LumexStringifyTest, ToCaseInsensitive_HandlesTabsAndNewlinesAsSpaces)
-{
-  std::string str = "A\tB\nC";
-  lumex::core::string::text::to_case_insensitive (str);
-  EXPECT_EQ (str, "abc");
 }
