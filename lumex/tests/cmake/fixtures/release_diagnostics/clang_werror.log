@@ -1,0 +1,8 @@
+[1/2] Building CXX object a/A.cpp.o
+FAILED: [code=1] a/A.cpp.o
+/opt/llvm/bin/clang++ -Wall -Werror -c /src/lumex/a/A.cpp -o a/A.cpp.o
+/src/lumex/a/A.cpp:5:7: error: unused variable 'y' [-Werror,-Wunused-variable]
+    5 |   int y;
+      |       ^
+1 error generated.
+ninja: build stopped: subcommand failed.
