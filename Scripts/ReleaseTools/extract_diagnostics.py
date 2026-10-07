@@ -40,7 +40,12 @@ TOOL_ERROR = re.compile(r"^(?P<where>[\w+.\-]+):\s+(?P<kind>fatal error|error):\
 # the linker's own message
 LINK_ERROR = re.compile(r"(undefined reference to|multiple definition of|cannot find -l)")
 PREFIX = re.compile(r"^(In file included from |\s+from |[^\s:][^:]*: In .*:$)")
-STATUS = re.compile(r"^(\[\d+/\d+\]|FAILED:|ninja:|-- )")
+# The progress and bookkeeping lines of Ninja ("[3/90]", "FAILED:", "ninja:") and of
+# make ("[ 20%] Building", "make[2]: *** ... Error 1", "Scanning dependencies").
+STATUS = re.compile(
+    r"^(\[\d+/\d+\]|\[\s*\d+%\]|FAILED:|ninja:|-- |g?make(?:\[\d+\])?: "
+    r"|Scanning dependencies of target |Consolidate compiler generated dependencies of target )"
+)
 # End of a block, nothing to keep: GCC's note that -Werror is why a build stopped,
 # Clang's "1 warning generated." summaries.
 NOISE = re.compile(
