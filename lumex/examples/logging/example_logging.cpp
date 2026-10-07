@@ -9,7 +9,7 @@ main ()
 {
   std::cout << "=== LumexLogging console + file ===\n\n";
 
-  LumexLogging::setAppName ("LumexLoggingExample");
+  LumexLogging::set_app_name ("LumexLoggingExample");
 
   std::cout << "--- 1. Severity helpers ---\n";
   LumexLogging::debug ("example", "debug probe");
@@ -20,11 +20,11 @@ main ()
   LumexLogging::critical ("example", "abort sequence");
 
   std::cout << "\n--- 2. Logs directory ---\n";
-  std::cout << "logs_dir=" << LumexLogging::getLogsDirectory ().string ()
+  std::cout << "logs_dir=" << LumexLogging::get_logs_directory ().string ()
             << '\n';
 
   std::cout << "\n--- 3. toFile ---\n";
-  bool const wrote = LumexLogging::toFile (
+  bool const wrote = LumexLogging::to_file (
       "lumex_logging_example", LumexLogLevel::Info, "example",
       "file sink line", /*appendTimestamp=*/true);
   std::cout << "toFile ok=" << (wrote ? "yes" : "no") << '\n';

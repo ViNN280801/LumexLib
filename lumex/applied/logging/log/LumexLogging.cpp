@@ -93,8 +93,8 @@ LumexLogging::_log (LumexLogLevel level, std::string const &moduleName,
                   << "| " << moduleName << " : " << msg << "\033[0m"
                   << "\n";
       }
-  } // unlock mutex, because `toFile` locking it => avoid deadlock
-  toFile (KDEFAULT_LOG_FILE_NAME, level, moduleName.c_str (), msg.c_str ());
+  } // unlock mutex, because `to_file` locking it => avoid deadlock
+  to_file (KDEFAULT_LOG_FILE_NAME, level, moduleName.c_str (), msg.c_str ());
 }
 
 LUMEX_PUBLIC_API
@@ -145,7 +145,7 @@ LumexLogging::_level_to_color (LumexLogLevel level) LUMEX_NOEXCEPT
 
 LUMEX_PUBLIC_API
 lumex::path
-LumexLogging::getLogsDirectory ()
+LumexLogging::get_logs_directory ()
 {
   try
     {
@@ -237,21 +237,21 @@ LumexLogging::getLogsDirectory ()
 
 LUMEX_PUBLIC_API
 void
-LumexLogging::setAppName (std::string const &appName)
+LumexLogging::set_app_name (std::string const &appName)
 {
   s_appName = appName;
 }
 
 LUMEX_PUBLIC_API
 bool
-LumexLogging::toFile (char const *filename, LumexLogLevel level,
-                      char const *moduleName, char const *msg,
-                      bool appendTimestamp)
+LumexLogging::to_file (char const *filename, LumexLogLevel level,
+                       char const *moduleName, char const *msg,
+                       bool appendTimestamp)
 {
   try
     {
       std::lock_guard<std::mutex> lock (s_mutex);
-      std::string logPath = getLogsDirectory ();
+      std::string logPath = get_logs_directory ();
       std::string fullFilename = std::string (filename);
 
       if (appendTimestamp)

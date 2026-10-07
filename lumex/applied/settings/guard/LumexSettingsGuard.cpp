@@ -67,14 +67,14 @@ LUMEX_CONST_STR GUARD_LOG_MODULE = "LumexSettingsGuard";
 /// `std::exception`.
 LUMEX_CONST_STR UNKNOWN_EXCEPTION = "unknown exception";
 
-/// Operation name logged for `ensureKeysWithDefaults`.
-LUMEX_CONST_STR ENSURE_KEYS_NAME = "ensureKeysWithDefaults";
+/// Operation name logged for `ensure_keys_with_defaults`.
+LUMEX_CONST_STR ENSURE_KEYS_NAME = "ensure_keys_with_defaults";
 
-/// Operation name logged for `ensureExistsWithDefaults`.
-LUMEX_CONST_STR ENSURE_EXISTS_NAME = "ensureExistsWithDefaults";
+/// Operation name logged for `ensure_exists_with_defaults`.
+LUMEX_CONST_STR ENSURE_EXISTS_NAME = "ensure_exists_with_defaults";
 
-/// Operation name logged for `repairIfCorrupted`.
-LUMEX_CONST_STR REPAIR_NAME = "repairIfCorrupted";
+/// Operation name logged for `repair_if_corrupted`.
+LUMEX_CONST_STR REPAIR_NAME = "repair_if_corrupted";
 
 /**
  * @brief Logs that an operation of the guard ended with an exception.
@@ -164,23 +164,23 @@ LumexSettingsGuard::backup (std::string const &filename) LUMEX_NOEXCEPT
 
 LUMEX_PUBLIC_API
 bool
-LumexSettingsGuard::ensureExistsWithDefaults (
+LumexSettingsGuard::ensure_exists_with_defaults (
     LumexSettingsCreateFn const &createDefault) LUMEX_NOEXCEPT
 {
-  return _ensureOrRepairImpl (createDefault, /*logOnFinalFailure=*/true);
+  return _ensure_or_repair_impl (createDefault, /*logOnFinalFailure=*/true);
 }
 
 LUMEX_PUBLIC_API
 bool
-LumexSettingsGuard::repairIfCorrupted (
+LumexSettingsGuard::repair_if_corrupted (
     LumexSettingsCreateFn const &createDefault) LUMEX_NOEXCEPT
 {
-  return _ensureOrRepairImpl (createDefault, /*logOnFinalFailure=*/false);
+  return _ensure_or_repair_impl (createDefault, /*logOnFinalFailure=*/false);
 }
 
 LUMEX_PUBLIC_API
 bool
-LumexSettingsGuard::_ensureOrRepairImpl (
+LumexSettingsGuard::_ensure_or_repair_impl (
     LumexSettingsCreateFn const &createDefault,
     bool logOnFinalFailure) LUMEX_NOEXCEPT
 {
@@ -247,10 +247,11 @@ LumexSettingsGuard::_ensureOrRepairImpl (
 
 LUMEX_PUBLIC_API
 bool
-LumexSettingsGuard::ensureKeysWithDefaults (
+LumexSettingsGuard::ensure_keys_with_defaults (
     std::vector<lumex_settings_key_spec_t> const &specs) LUMEX_NOEXCEPT
 {
-  // As in `_ensureOrRepairImpl`: an exception from the guarded settings object
+  // As in `_ensure_or_repair_impl`: an exception from the guarded settings
+  // object
   // (`get`, `add` or `save`) ends the call as a failure. Defaults already
   // added in memory stay there; nothing is saved after the exception.
   try

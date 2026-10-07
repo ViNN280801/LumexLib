@@ -982,32 +982,32 @@ private:
    * @brief Builds the full log-file path.
    * @return Full log-file path.
    */
-  std::string _createLogFilePath () const;
+  std::string _create_log_file_path () const;
 
   /**
    * @brief Builds the path of the ordinary (overwrite) log file.
    * @return Full path of the ordinary log file.
    */
-  std::string _createSingleLogFilePath () const;
+  std::string _create_single_log_file_path () const;
 
   /**
    * @brief Builds the path of a timestamped log file in Logger_logs/.
    * @return Full path of the timestamped log file.
    */
-  std::string _createTimestampedLogFilePath () const;
+  std::string _create_timestamped_log_file_path () const;
 
   /**
    * @brief Formats the current time for a file name as
    * DD.MM.YYYY-hh:mm:ss.
    * @return Formatted time string for a file name.
    */
-  static std::string _formatTimestampForFilename ();
+  static std::string _format_timestamp_for_filename ();
 
   /**
    * @brief Formats the current time for a log record.
    * @return Formatted time string.
    */
-  static std::string _formatTimestamp ();
+  static std::string _format_timestamp ();
 
   /**
    * @brief Converts a log level to a string.
@@ -1022,7 +1022,7 @@ private:
    * @param message Message to write.
    * @throws std::ios_base::failure if writing to the file fails.
    */
-  void _writeLog (LogLevel level, std::string const &message);
+  void _write_log (LogLevel level, std::string const &message);
 
   /**
    * @brief Extracts the directory from a full file path.
@@ -1030,7 +1030,8 @@ private:
    * @return Path of the directory that contains the file.
    * @note Cross-platform implementation without std::filesystem.
    */
-  static std::string _extractDirectoryFromPath (std::string const &fullPath);
+  static std::string
+  _extract_directory_from_path (std::string const &fullPath);
 
   /**
    * @brief Checks that the logging-enable file exists and reads
@@ -1039,7 +1040,7 @@ private:
    * false otherwise.
    * @note Does not throw.
    */
-  bool _isLoggingEnabledFileExists () const LUMEX_NOEXCEPT;
+  bool _is_logging_enabled_file_exists () const LUMEX_NOEXCEPT;
 
   /**
    * @brief Reads configuration from the logging-enable file next to the
@@ -1049,7 +1050,7 @@ private:
    *         (LumexSettingsYAML is not implemented yet). Other parse
    *         failures yield defaults.
    */
-  logger_config_t _readConfigFromFile () const;
+  logger_config_t _read_config_from_file () const;
 
   /**
    * @brief Applies one KEY/value pair onto a logger_config_t.
@@ -1059,9 +1060,9 @@ private:
    * @note Used by the compiled reader (plain text, INI, JSON, XML).
    *       Does not throw. YAML throws before this helper is reached.
    */
-  static void _applyLoggerConfigKey (logger_config_t &config,
-                                     std::string const &key,
-                                     std::string const &value) LUMEX_NOEXCEPT;
+  static void
+  _apply_logger_config_key (logger_config_t &config, std::string const &key,
+                            std::string const &value) LUMEX_NOEXCEPT;
 
   /**
    * @brief Converts a string to a log level.
@@ -1080,20 +1081,20 @@ private:
    * @note Does not throw.
    */
   static FunctionNameMode
-  _parseFunctionNameMode (std::string const &funcNameStr) LUMEX_NOEXCEPT;
+  _parse_function_name_mode (std::string const &funcNameStr) LUMEX_NOEXCEPT;
 
   /**
    * @brief Checks whether the function name should be shown.
    * @param funcNameStr Setting string (case-insensitive).
    * @return true if the function name should be shown, false if NO_FUNCNAME.
    * @note Does not throw.
-   * @deprecated Use _parseFunctionNameMode() instead.
+   * @deprecated Use _parse_function_name_mode() instead.
    */
   LUMEX_ATTRIBUTE_DEPRECATED_MSG (
       "Use _parseFunctionNameMode() instead, this method kept for backward "
       "compatibility")
   static bool
-  _shouldShowFunctionName (std::string const &funcNameStr) LUMEX_NOEXCEPT;
+  _should_show_function_name (std::string const &funcNameStr) LUMEX_NOEXCEPT;
 
   /**
    * @brief Parses a string into a stacktrace-enable value.
@@ -1112,8 +1113,8 @@ private:
    * @return Number of stacktrace frames.
    * @note Does not throw.
    */
-  static short _parseStackTraceFrames (std::string const &framesStr,
-                                       short defaultFrames) LUMEX_NOEXCEPT;
+  static short _parse_stack_trace_frames (std::string const &framesStr,
+                                          short defaultFrames) LUMEX_NOEXCEPT;
 
   /**
    * @brief Checks whether timestamped logs should be used.
@@ -1122,8 +1123,8 @@ private:
    * otherwise.
    * @note Does not throw.
    */
-  static bool
-  _shouldUseTimestampedLogs (std::string const &timestampedStr) LUMEX_NOEXCEPT;
+  static bool _should_use_timestamped_logs (std::string const &timestampedStr)
+      LUMEX_NOEXCEPT;
 
   /**
    * @brief Checks whether log size stays within allowed limits.
@@ -1132,7 +1133,7 @@ private:
    * @return true if the size is within limits, false if the limit is exceeded.
    * @note Does not throw.
    */
-  bool _checkLogSizeLimits () const LUMEX_NOEXCEPT;
+  bool _check_log_size_limits () const LUMEX_NOEXCEPT;
 
   /**
    * @brief Computes the maximum allowed log size from free
@@ -1144,8 +1145,8 @@ private:
    * @return Maximum allowed size in bytes.
    * @note Does not throw.
    */
-  static int64_t _calculateMaxAllowedSize (int64_t freeSpace,
-                                           bool isDirectory) LUMEX_NOEXCEPT;
+  static int64_t _calculate_max_allowed_size (int64_t freeSpace,
+                                              bool isDirectory) LUMEX_NOEXCEPT;
 
   /**
    * @brief Removes old logs when limits are exceeded.
@@ -1155,8 +1156,8 @@ private:
    * @return true if cleanup succeeded, false otherwise.
    * @note Does not throw.
    */
-  static bool _cleanupOldLogs (std::string const &logPath,
-                               int64_t targetSize) LUMEX_NOEXCEPT;
+  static bool _cleanup_old_logs (std::string const &logPath,
+                                 int64_t targetSize) LUMEX_NOEXCEPT;
 
   /**
    * @brief Returns log files sorted by creation time.
@@ -1166,7 +1167,8 @@ private:
    * @note Does not throw.
    */
   static std::vector<std::pair<std::string, std::time_t>>
-  _getLogFilesSortedByTime (std::string const &directoryPath) LUMEX_NOEXCEPT;
+  _get_log_files_sorted_by_time (std::string const &directoryPath)
+      LUMEX_NOEXCEPT;
 
   /**
    * @brief Checks whether a log can be written without exceeding limits.
@@ -1175,7 +1177,7 @@ private:
    * @return true if the write is allowed, false if the limit is exceeded.
    * @note Does not throw.
    */
-  bool _canWriteLog (std::size_t messageSize) const LUMEX_NOEXCEPT;
+  bool _can_write_log (std::size_t messageSize) const LUMEX_NOEXCEPT;
 
   /**
    * @brief Formats a byte size into a readable string.
@@ -1192,7 +1194,7 @@ private:
    * @throws std::ios_base::failure if writing to the file fails.
    * @note Called only while the mutex is locked.
    */
-  void _flushBuffer ();
+  void _flush_buffer ();
 
   /**
    * @brief Extracts the component name from a message.
@@ -1202,7 +1204,7 @@ private:
    * @note Does not throw.
    */
   static std::string
-  _extractComponentName (std::string const &message) LUMEX_NOEXCEPT;
+  _extract_component_name (std::string const &message) LUMEX_NOEXCEPT;
 
   /**
    * @brief Returns the short name form (method name only, without class or
@@ -1211,14 +1213,14 @@ private:
    * signature).
    */
   static std::string
-  _getShortFormFromComponent (std::string const &component) LUMEX_NOEXCEPT;
+  _get_short_form_from_component (std::string const &component) LUMEX_NOEXCEPT;
 
   /**
    * @brief Returns the normal name form (ClassName::methodName()).
    * @param component Extracted component name.
    */
-  static std::string
-  _getNormalFormFromComponent (std::string const &component) LUMEX_NOEXCEPT;
+  static std::string _get_normal_form_from_component (
+      std::string const &component) LUMEX_NOEXCEPT;
 
   /**
    * @brief Checks whether one preset string matches the component name from
@@ -1226,8 +1228,8 @@ private:
    * normal (Class::method), and the full signature.
    */
   static bool
-  _presetMatchesComponent (std::string const &preset,
-                           std::string const &component) LUMEX_NOEXCEPT;
+  _preset_matches_component (std::string const &preset,
+                             std::string const &component) LUMEX_NOEXCEPT;
 
   /**
    * @brief Checks whether the log should be written according to the preset.
@@ -1236,7 +1238,7 @@ private:
    * @note If the preset is disabled, always returns true.
    * @note Does not throw.
    */
-  bool _shouldLogByPreset (std::string const &message) const LUMEX_NOEXCEPT;
+  bool _should_log_by_preset (std::string const &message) const LUMEX_NOEXCEPT;
 
   /**
    * @brief Parses a comma-separated component list for the preset.
@@ -1326,26 +1328,26 @@ logger_format_current_thread_id ()
 namespace LoggerInternals
 {
 inline std::string
-AddressToHexLogString (std::nullptr_t)
+address_to_hex_log_string (std::nullptr_t)
 {
   return "<0x0>";
 }
 
 inline std::string
-AddressToHexLogString (std::uintptr_t uintValue)
+address_to_hex_log_string (std::uintptr_t uintValue)
 {
   return "<0x" + std::to_string (uintValue) + ">";
 }
 
 inline std::string
-AddressToHexLogString (std::intptr_t intValue)
+address_to_hex_log_string (std::intptr_t intValue)
 {
   return "<0x" + std::to_string (static_cast<std::uintptr_t> (intValue)) + ">";
 }
 
 template <typename T>
 inline typename std::enable_if<std::is_pointer<T>::value, std::string>::type
-AddressToHexLogString (T pointerValue)
+address_to_hex_log_string (T pointerValue)
 {
   return "<0x"
          + std::to_string (reinterpret_cast<std::uintptr_t> (pointerValue))
@@ -1357,7 +1359,7 @@ inline typename std::enable_if<std::is_integral<T>::value
                                    && !std::is_same<T, std::uintptr_t>::value
                                    && !std::is_same<T, std::intptr_t>::value,
                                std::string>::type
-AddressToHexLogString (T integralValue)
+address_to_hex_log_string (T integralValue)
 {
   return "<0x" + std::to_string (static_cast<std::uintptr_t> (integralValue))
          + ">";
@@ -1487,8 +1489,8 @@ using LumexLogger = lumex::applied::logger::logger::LumexLogger;
                  __VA_ARGS__)
 
 #define LOGGER_ADDRESS_TO_STRING(address)                                     \
-  (::lumex::applied::logger::logger::LoggerInternals::AddressToHexLogString ( \
-      (address)))
+  (::lumex::applied::logger::logger::LoggerInternals::                        \
+       address_to_hex_log_string ((address)))
 
 #define LOGGER_LOG_ADDRESS_TRACE(message, address)                            \
   LOGGER_LOG_IF (::lumex::applied::logger::logger::LogLevel::LEVEL_TRACE,     \

@@ -76,8 +76,8 @@ TEST_F (LumexResourceMonitorTest, StartIfEnabledCreatesTheLogDirectory)
   auto const nestedDir = scratchDir / "nested" / "logs";
   ASSERT_FALSE (lumex::filesystem::exists (nestedDir));
 
-  LumexResourceMonitor::startIfEnabled (nestedDir.string (),
-                                        std::chrono::milliseconds (50));
+  LumexResourceMonitor::start_if_enabled (nestedDir.string (),
+                                          std::chrono::milliseconds (50));
 
   EXPECT_TRUE (lumex::filesystem::exists (nestedDir));
 }
@@ -86,10 +86,10 @@ TEST_F (LumexResourceMonitorTest, SecondStartWhileRunningIsIgnored)
 {
   scratchDir = makeScratchDir ("DoubleStart");
 
-  LumexResourceMonitor::startIfEnabled (scratchDir.string (),
-                                        std::chrono::milliseconds (50));
+  LumexResourceMonitor::start_if_enabled (scratchDir.string (),
+                                          std::chrono::milliseconds (50));
   // Must not crash, deadlock, or replace the already-running sampler.
-  EXPECT_NO_FATAL_FAILURE (LumexResourceMonitor::startIfEnabled (
+  EXPECT_NO_FATAL_FAILURE (LumexResourceMonitor::start_if_enabled (
       scratchDir.string (), std::chrono::milliseconds (50)));
 }
 
@@ -98,7 +98,7 @@ TEST_F (LumexResourceMonitorTest, NonPositivePollIntervalDoesNotCrash)
   scratchDir = makeScratchDir ("NonPositiveInterval");
   // Zero/negative intervals are documented as falling back to the default
   // rather than busy-looping or misbehaving.
-  EXPECT_NO_FATAL_FAILURE (LumexResourceMonitor::startIfEnabled (
+  EXPECT_NO_FATAL_FAILURE (LumexResourceMonitor::start_if_enabled (
       scratchDir.string (), std::chrono::milliseconds (0)));
 }
 
@@ -107,14 +107,14 @@ TEST_F (LumexResourceMonitorTest, DefaultPollIntervalArgumentCompilesAndRuns)
   scratchDir = makeScratchDir ("DefaultInterval");
   // No explicit interval - exercises Constants::KDEFAULT_POLL_INTERVAL_MS.
   EXPECT_NO_FATAL_FAILURE (
-      LumexResourceMonitor::startIfEnabled (scratchDir.string ()));
+      LumexResourceMonitor::start_if_enabled (scratchDir.string ()));
 }
 
 TEST_F (LumexResourceMonitorTest, StopIsSafeToCallRepeatedly)
 {
   scratchDir = makeScratchDir ("RepeatedStop");
-  LumexResourceMonitor::startIfEnabled (scratchDir.string (),
-                                        std::chrono::milliseconds (50));
+  LumexResourceMonitor::start_if_enabled (scratchDir.string (),
+                                          std::chrono::milliseconds (50));
   LumexResourceMonitor::stop ();
   EXPECT_NO_FATAL_FAILURE (LumexResourceMonitor::stop ());
 }
@@ -122,15 +122,15 @@ TEST_F (LumexResourceMonitorTest, StopIsSafeToCallRepeatedly)
 TEST_F (LumexResourceMonitorTest, RestartAfterStopStartsANewSamplerInstance)
 {
   scratchDir = makeScratchDir ("Restart");
-  LumexResourceMonitor::startIfEnabled (scratchDir.string (),
-                                        std::chrono::milliseconds (50));
+  LumexResourceMonitor::start_if_enabled (scratchDir.string (),
+                                          std::chrono::milliseconds (50));
   LumexResourceMonitor::stop ();
 
   // A second logDirectory - starting again after a clean stop must work, not
   // be silently ignored.
   auto const secondDir = scratchDir / "second";
-  LumexResourceMonitor::startIfEnabled (secondDir.string (),
-                                        std::chrono::milliseconds (50));
+  LumexResourceMonitor::start_if_enabled (secondDir.string (),
+                                          std::chrono::milliseconds (50));
   EXPECT_TRUE (lumex::filesystem::exists (secondDir));
 }
 
@@ -139,8 +139,8 @@ TEST_F (LumexResourceMonitorTest, RestartAfterStopStartsANewSamplerInstance)
 TEST_F (LumexResourceMonitorTest, StopDuringTheStartupPauseReturnsAtOnce)
 {
   scratchDir = makeScratchDir ("StopDuringPause");
-  LumexResourceMonitor::startIfEnabled (scratchDir.string (),
-                                        std::chrono::seconds (60));
+  LumexResourceMonitor::start_if_enabled (scratchDir.string (),
+                                          std::chrono::seconds (60));
 
   auto const begin = std::chrono::steady_clock::now ();
   LumexResourceMonitor::stop ();
@@ -152,8 +152,8 @@ TEST_F (LumexResourceMonitorTest, StopDuringTheStartupPauseReturnsAtOnce)
 TEST_F (LumexResourceMonitorTest, StopBetweenSamplesReturnsAtOnce)
 {
   scratchDir = makeScratchDir ("StopBetweenSamples");
-  LumexResourceMonitor::startIfEnabled (scratchDir.string (),
-                                        std::chrono::seconds (60));
+  LumexResourceMonitor::start_if_enabled (scratchDir.string (),
+                                          std::chrono::seconds (60));
   // Past the startup pause: the sampler now waits for its first interval.
   std::this_thread::sleep_for (
       std::chrono::milliseconds (Constants::KSTARTUP_GRACE_PERIOD_MS + 500));
@@ -174,8 +174,8 @@ TEST_F (LumexResourceMonitorTest, ProducesAtLeastOneSampleLineAfterGracePeriod)
 {
   scratchDir = makeScratchDir ("ProducesSample");
 
-  LumexResourceMonitor::startIfEnabled (scratchDir.string (),
-                                        std::chrono::milliseconds (200));
+  LumexResourceMonitor::start_if_enabled (scratchDir.string (),
+                                          std::chrono::milliseconds (200));
 
   // Fixed ~2s startup grace period (see LumexResourceMonitor.cpp) + one poll
   // interval + slack.

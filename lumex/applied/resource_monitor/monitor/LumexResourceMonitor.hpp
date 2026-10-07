@@ -31,7 +31,7 @@
  * environment-variable name, no hardcoded "is this enabled" switch) - a caller
  * decides whether to start it at all, and with what poll interval, purely
  * through @ref
- * lumex::applied::resource_monitor::monitor::LumexResourceMonitor::startIfEnabled
+ * lumex::applied::resource_monitor::monitor::LumexResourceMonitor::start_if_enabled
  *          arguments.
  */
 #ifndef LUMEX_APPLIED_RESOURCE_MONITOR_MONITOR_HPP
@@ -94,7 +94,7 @@ LUMEX_CONST_STR KMODULE_NAME = "ResourceMonitor";
  * // Host application decides whether to enable it and at what interval - the
  * library does not. if (hostConfig.resourceLoggingEnabled)
  * {
- *   lumex::applied::resource_monitor::monitor::LumexResourceMonitor::startIfEnabled(
+ *   lumex::applied::resource_monitor::monitor::LumexResourceMonitor::start_if_enabled(
  *     hostConfig.logDirectory, hostConfig.resourceLogPollInterval);
  * }
  * // ... later, at shutdown:
@@ -118,7 +118,7 @@ public:
    * caller's decision; this class does not read any environment variable to
    * decide it.
    */
-  static void startIfEnabled (
+  static void start_if_enabled (
       std::string const &logDirectory,
       std::chrono::milliseconds pollInterval
       = std::chrono::milliseconds (Constants::KDEFAULT_POLL_INTERVAL_MS));
