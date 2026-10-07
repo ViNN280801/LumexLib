@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
 # create_release.sh - build LumexLib with every given compiler and ISA and
 # package each build as
-#   LumexLib-<version>_linux_<ISA>_<compiler>_glibc<glibc>.<deb|rpm|tar.xz|tar.gz>
+#   LumexLib-<version>_linux_<ISA>_<compiler>_glibc<glibc>_cxx<std>.<deb|rpm|tar.xz|tar.gz>
 # or, for a MinGW cross compiler,
-#   LumexLib-<version>_win_x64_<compiler>.zip
+#   LumexLib-<version>_win_x64_<compiler>_cxx<std>.zip
+# The C++ standard is in the name because it is part of what a consumer must
+# match (the ABI of the standard library types changes with it).
 #
 # Run with --help for the options. Every check (tools, compilers, the
 # 32-bit toolchain) runs before the first build, so a missing piece stops
@@ -47,7 +49,10 @@ Options:
                      -std=c++20 gives __cplusplus >= 202002L), otherwise the
                      compiler's default standard. GCC 8 and MinGW 8.3 have no
                      C++20 (only the draft -std=c++2a, __cplusplus 201709L):
-                     --std 20 builds that draft there and says so.
+                     --std 20 builds that draft there and says so. The
+                     standard of the build ends the name of the package:
+                     ..._cxx17.tar.gz (cxx2a for the draft, and the compiler's
+                     own default when no standard was set).
   --no-werror        Build without -Werror. By default the script passes
                      -DLUMEX_WERROR=ON, so a warning fails the build. A --tag
                      older than 2.0.0.0 has no such option and builds as it
@@ -385,7 +390,37 @@ std_note() {
   echo "C++${std} is -std=${draft} here (__cplusplus ${macro}); the library sees the older standard"
 }
 
-declare -a JOB_C JOB_CXX JOB_LABEL JOB_ISA JOB_STD JOB_KIND JOB_NOTE
+# std_tag_for <c++ compiler> <isa> <std> -> the standard of the build as it goes
+# into the package name: 11, 14, 17, 20, 23; 2a or 2b where only the draft
+# exists; with no standard given, the one the compiler uses by default.
+std_tag_for() {
+  local cxx="$1" isa="$2" std="$3" flags macro
+  flags="$(arch_flags "$isa")"
+  if [[ -n "$std" ]]; then
+    if [[ "$std" == 20 || "$std" == 23 ]]; then
+      # shellcheck disable=SC2086
+      if ! "$cxx" $flags -std="c++${std}" -x c++ -fsyntax-only /dev/null >/dev/null 2>&1; then
+        [[ "$std" == 20 ]] && echo 2a || echo 2b
+        return
+      fi
+    fi
+    echo "$std"
+    return
+  fi
+  # shellcheck disable=SC2086
+  macro="$("$cxx" $flags -x c++ -dM -E /dev/null 2>/dev/null | awk '$2 == "__cplusplus" {print $3}')"
+  case "$macro" in
+    199711L) echo 98 ;;
+    201103L) echo 11 ;;
+    201402L) echo 14 ;;
+    201703L) echo 17 ;;
+    202002L) echo 20 ;;
+    202302L) echo 23 ;;
+    *) die "cannot tell the default C++ standard of '$cxx' (__cplusplus ${macro:-unknown}); pass --std" ;;
+  esac
+}
+
+declare -a JOB_C JOB_CXX JOB_LABEL JOB_ISA JOB_STD JOB_KIND JOB_NOTE JOB_STDTAG
 for path in "${COMPILER_PATHS[@]}"; do
   [[ -x "$path" ]] || die "compiler '$path' does not exist or is not executable"
   pair="$(pair_for "$path")"
@@ -408,6 +443,7 @@ for path in "${COMPILER_PATHS[@]}"; do
     JOB_KIND+=("$kind")
     job_std="$(std_for "$cxx" "$isa")"
     JOB_STD+=("${job_std}")
+    JOB_STDTAG+=("$(std_tag_for "$cxx" "$isa" "${job_std}")")
     JOB_NOTE+=("$([[ -n "${STD_ARG}" ]] && std_note "$cxx" "$isa" "${STD_ARG}" || true)")
   done
 done
@@ -558,17 +594,17 @@ EOF
 
 for i in "${!JOB_CXX[@]}"; do
   c="${JOB_C[$i]}"; cxx="${JOB_CXX[$i]}"; label="${JOB_LABEL[$i]}"; isa="${JOB_ISA[$i]}"; std="${JOB_STD[$i]}"
-  kind="${JOB_KIND[$i]}"
+  kind="${JOB_KIND[$i]}"; stdtag="${JOB_STDTAG[$i]}"
   isa_tag=""; [[ "$isa" == "x86" ]] && isa_tag="_x86"
   tag="${label}${isa_tag}_c++${std:-default}"
   warn_log="${WARN_DIR}/${tag}_warn.log"
   err_log="${WARN_DIR}/${tag}_err.log"
   rm -f "${warn_log}" "${err_log}"
   if [[ "$kind" == "windows" ]]; then
-    base="LumexLib-${VERSION}_win_x64_${label}"
+    base="LumexLib-${VERSION}_win_x64_${label}_cxx${stdtag}"
     INSTALL_PREFIX="/LumexLib"
   else
-    base="LumexLib-${VERSION}_linux_${isa}_${label}_glibc${GLIBC_VERSION}"
+    base="LumexLib-${VERSION}_linux_${isa}_${label}_glibc${GLIBC_VERSION}_cxx${stdtag}"
     INSTALL_PREFIX="/opt/LumexLib/${VERSION}_${label}"
   fi
   work="${WORK_ROOT}/${label}_${isa}"
