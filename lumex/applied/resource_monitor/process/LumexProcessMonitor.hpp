@@ -41,11 +41,11 @@
 #include <cstddef>
 #include <cstdint>
 #include <memory>
-#include <optional>
 #include <string>
 #include <vector>
 
 #include "lumex/core/expected/Expected"
+#include "lumex/core/optional/LumexOptional"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 
 namespace lumex // NOLINT(modernize-concat-nested-namespaces)
@@ -90,7 +90,7 @@ struct process_usage_t
   /// @brief Share of the whole machine's CPU (all logical processors), 0-100,
   /// since this monitor's previous sample of the same process. Empty on the
   /// first sample of a process.
-  std::optional<double> cpu_percent;
+  lumex::core::optional::opt::optional<double> cpu_percent;
   /// @brief CPU time (user and kernel) since the process started.
   std::chrono::nanoseconds cpu_time{};
   /// @brief Logical processors the share is counted against.
@@ -100,7 +100,7 @@ struct process_usage_t
   std::uint64_t resident_bytes{};
   /// @brief Memory that belongs to this process only (Linux `RssAnon`,
   /// Windows `PrivateUsage`). Empty on Linux kernels before 4.5.
-  std::optional<std::uint64_t> private_bytes;
+  lumex::core::optional::opt::optional<std::uint64_t> private_bytes;
   /// @brief How many processes this value covers: 1 for a sample.
   std::size_t process_count{ 1 };
 };
@@ -187,7 +187,8 @@ public:
    * @param name The executable's file name without its directory.
    * @return One sample per process, in no particular order; empty when no
    * process has the name. Processes that exit, or may not be read, while they
-   * are being sampled are left out.
+   * are being sampled are left out, and so are Linux zombies (exited, not yet
+   * reaped by their parent).
    */
   std::vector<process_usage_t> sample_by_name (std::string const &name);
 
@@ -195,7 +196,8 @@ public:
    * @brief Finds the processes with this executable name, without sampling
    * them.
    * @param name The executable's file name without its directory.
-   * @return Their IDs, in no particular order.
+   * @return Their IDs, in no particular order; Linux zombies (exited, not yet
+   * reaped by their parent) are left out.
    */
   static std::vector<process_id_t> find_by_name (std::string const &name);
 

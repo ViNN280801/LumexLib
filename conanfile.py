@@ -216,7 +216,8 @@ class LumexLibConan(ConanFile):
         self._component(
             "applied_resource_monitor", "resource_monitor",
             ["LumexApplied_resource_monitor"],
-            ["core_expected", "applied_logging", "core_time"],
+            ["core_expected", "core_filesystem", "applied_logging",
+             "core_optional", "core_string_view", "core_time"],
         )
         serial = self._component(
             "applied_serial", "serial", ["LumexApplied_serial"],

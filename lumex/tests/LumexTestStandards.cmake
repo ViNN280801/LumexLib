@@ -321,7 +321,7 @@ lumex_test_standards_declare(math 11 17 20)
 lumex_test_standards_declare(circular_buffer 11 20)
 lumex_test_standards_declare(filesystem 11 20)
 
-lumex_test_standards_declare(resource_monitor 17)
+lumex_test_standards_declare(resource_monitor 11)
 
 lumex_test_standards_declare(environment 11)
 lumex_test_standards_declare(generators.number_generator 11)

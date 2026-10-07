@@ -1,16 +1,16 @@
 #include <algorithm>
+#include <cctype>
 #include <chrono>
+#include <csignal>
 #include <cstdint>
-#include <filesystem>
 #include <string>
-#include <system_error>
 #include <thread>
 #include <utility>
 #include <vector>
 
-#if defined(__linux__)
-#include <csignal>
-
+#if defined(_WIN32)
+#include <windows.h>
+#elif defined(__linux__)
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
@@ -19,6 +19,8 @@
 #include <gtest/gtest.h>
 
 #include "lumex/applied/resource_monitor/LumexResourceMonitor"
+#include "lumex/core/filesystem/LumexFilesystem"
+#include "lumex/core/optional/LumexOptional"
 
 using namespace lumex::applied::resource_monitor::process;
 
@@ -42,14 +44,17 @@ burn_cpu (std::chrono::milliseconds duration)
 std::string
 own_executable_name ()
 {
-  // The test binary is named after its target on every platform.
-  return "LumexResourceMonitorCxx17Tests.exe";
+  char buffer[MAX_PATH * 4];
+  DWORD const length = GetModuleFileNameA (
+      nullptr, buffer, static_cast<DWORD> (sizeof (buffer)));
+  return lumex::path (std::string (buffer, length)).filename ().string ();
 }
 #else
 std::string
 own_executable_name ()
 {
-  return std::filesystem::read_symlink ("/proc/self/exe")
+  return lumex::filesystem::read_symlink (lumex::path ("/proc/self/exe"))
+      .value ()
       .filename ()
       .string ();
 }
@@ -57,7 +62,7 @@ own_executable_name ()
 
 process_usage_t
 usage_of (process_id_t pid, double cpu, std::uint64_t resident,
-          std::optional<std::uint64_t> private_bytes)
+          optional<std::uint64_t> private_bytes)
 {
   process_usage_t usage;
   usage.pid = pid;
@@ -169,15 +174,52 @@ TEST (LumexProcessMonitorTest, SampleByNameGivesOneSamplePerProcess)
   std::vector<process_usage_t> const usages
       = monitor.sample_by_name (own_executable_name ());
   ASSERT_FALSE (usages.empty ());
+  std::string const own = own_executable_name ();
   bool has_self = false;
   for (process_usage_t const &usage : usages)
     {
-      EXPECT_EQ (usage.name, own_executable_name ());
+      // Another process of this executable (a parallel test run) that is
+      // exiting has no readable executable or command line any more, and then
+      // the kernel's comm, cut to 15 characters, is its whole name.
+      bool const is_cut_comm
+          = usage.name.size () == 15 && own.compare (0, 15, usage.name) == 0;
+      EXPECT_TRUE (usage.name == own || is_cut_comm) << usage.name;
       has_self = has_self
                  || usage.pid == LumexProcessMonitor::current_process_id ();
     }
   EXPECT_TRUE (has_self);
 }
+
+// Both sides of the platform name rule: Windows ignores case and ".exe",
+// Linux compares names exactly.
+#if defined(_WIN32)
+TEST (LumexProcessMonitorTest, OnWindowsANameIgnoresCaseAndExe)
+{
+  std::string name = own_executable_name ();
+  name.erase (name.size () - 4); // without ".exe"
+  std::transform (name.begin (), name.end (), name.begin (),
+                  [] (unsigned char c)
+                    { return static_cast<char> (std::toupper (c)); });
+  std::vector<process_id_t> const found
+      = LumexProcessMonitor::find_by_name (name);
+  EXPECT_NE (std::find (found.begin (), found.end (),
+                        LumexProcessMonitor::current_process_id ()),
+             found.end ());
+}
+#else
+TEST (LumexProcessMonitorTest, OnLinuxANameMatchesOnlyWithItsCase)
+{
+  std::string name = own_executable_name ();
+  std::transform (name.begin (), name.end (), name.begin (),
+                  [] (unsigned char c)
+                    { return static_cast<char> (std::toupper (c)); });
+  std::vector<process_id_t> const found
+      = LumexProcessMonitor::find_by_name (name);
+  EXPECT_EQ (std::find (found.begin (), found.end (),
+                        LumexProcessMonitor::current_process_id ()),
+             found.end ());
+}
+#endif
 
 TEST (LumexProcessMonitorTest, AnUnknownNameFindsNothing)
 {
@@ -228,8 +270,8 @@ TEST (LumexProcessMonitorTest, AnExitedProcessIsNotFound)
 // to anything: a child runs /bin/sleep under another argv[0].
 TEST (LumexProcessMonitorTest, ExecutableNameWinsOverTheFirstArgument)
 {
-  std::filesystem::path const sleep
-      = std::filesystem::canonical ("/bin/sleep");
+  lumex::path const sleep
+      = lumex::filesystem::canonical (lumex::path ("/bin/sleep"));
   std::string const renamed = "renamed-by-test";
   pid_t const child = ::fork ();
   ASSERT_GE (child, 0);
@@ -244,8 +286,9 @@ TEST (LumexProcessMonitorTest, ExecutableNameWinsOverTheFirstArgument)
   // Until exec has happened, the child is still a copy of this binary.
   for (int i = 0; i < 200; ++i)
     {
-      std::error_code ec;
-      if (std::filesystem::read_symlink (exe_link, ec) == sleep)
+      lumex::filesystem_result<lumex::path> const link
+          = lumex::filesystem::read_symlink (lumex::path (exe_link));
+      if (link && link.value () == sleep)
         break;
       std::this_thread::sleep_for (std::chrono::milliseconds (10));
     }
@@ -265,6 +308,36 @@ TEST (LumexProcessMonitorTest, ExecutableNameWinsOverTheFirstArgument)
   EXPECT_NE (std::find (by_exe.begin (), by_exe.end (), pid), by_exe.end ());
   EXPECT_EQ (std::find (by_argument.begin (), by_argument.end (), pid),
              by_argument.end ());
+}
+
+// An exited child that its parent has not reaped is a zombie: no memory, an
+// unreadable executable and only the kernel's cut comm for a name. Searching
+// by name must not list it (it matched the cut comm of a long name, and was
+// sampled under that truncated name).
+TEST (LumexProcessMonitorTest, AZombieIsNotListedByName)
+{
+  pid_t const child = ::fork ();
+  ASSERT_GE (child, 0);
+  if (child == 0)
+    ::_exit (0);
+  // Wait until the child has exited, without reaping it.
+  siginfo_t info;
+  ASSERT_EQ (
+      ::waitid (P_PID, static_cast<id_t> (child), &info, WEXITED | WNOWAIT),
+      0);
+
+  std::vector<process_id_t> const found
+      = LumexProcessMonitor::find_by_name (own_executable_name ());
+  LumexProcessMonitor monitor;
+  std::vector<process_usage_t> const sampled
+      = monitor.sample_by_name (own_executable_name ());
+  int status = 0;
+  ::waitpid (child, &status, 0);
+
+  process_id_t const zombie = static_cast<process_id_t> (child);
+  EXPECT_EQ (std::find (found.begin (), found.end (), zombie), found.end ());
+  for (process_usage_t const &usage : sampled)
+    EXPECT_NE (usage.pid, zombie);
 }
 #endif
 
@@ -288,7 +361,7 @@ TEST (LumexProcessMonitorTest, TotalAddsSamplesUp)
 TEST (LumexProcessMonitorTest, TotalLeavesUnknownValuesUnknown)
 {
   std::vector<process_usage_t> usages{ usage_of (1, -1., 100, 40),
-                                       usage_of (2, -1., 300, std::nullopt) };
+                                       usage_of (2, -1., 300, nullopt) };
   usages.at (1).name = "other";
   process_usage_t const sum = total (usages);
   EXPECT_FALSE (sum.cpu_percent.has_value ());

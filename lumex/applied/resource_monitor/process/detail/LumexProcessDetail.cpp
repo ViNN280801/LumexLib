@@ -23,16 +23,11 @@
  */
 
 #define LUMEX_IMPLEMENTATION
-#include <cstddef>
-#include <cstdint>
-#include <exception>
-#include <optional>
 #include <sstream>
-#include <string>
-#include <string_view>
 #include <vector>
 
 #include "LumexProcessDetail.hpp"
+
 #include "lumex/applied/resource_monitor/monitor/detail/LumexProcFs.hpp"
 
 namespace lumex
@@ -47,8 +42,8 @@ namespace detail
 {
 namespace
 {
-constexpr std::string_view KDELETED_SUFFIX = " (deleted)";
-constexpr std::string_view KEXE_SUFFIX = ".exe";
+LUMEX_CONST_STR KDELETED_SUFFIX = " (deleted)";
+LUMEX_CONST_STR KEXE_SUFFIX = ".exe";
 
 char
 ascii_lower (char c)
@@ -57,7 +52,7 @@ ascii_lower (char c)
 }
 
 bool
-equal_ignoring_ascii_case (std::string_view a, std::string_view b)
+equal_ignoring_ascii_case (LumexStringView a, LumexStringView b)
 {
   if (a.size () != b.size ())
     return false;
@@ -67,32 +62,33 @@ equal_ignoring_ascii_case (std::string_view a, std::string_view b)
   return true;
 }
 
-std::string_view
-without_exe_suffix (std::string_view name)
+LumexStringView
+without_exe_suffix (LumexStringView name)
 {
-  if (name.size () > KEXE_SUFFIX.size ()
-      && equal_ignoring_ascii_case (
-          name.substr (name.size () - KEXE_SUFFIX.size ()), KEXE_SUFFIX))
-    return name.substr (0, name.size () - KEXE_SUFFIX.size ());
+  LumexStringView const exe (KEXE_SUFFIX);
+  if (name.size () > exe.size ()
+      && equal_ignoring_ascii_case (name.substr (name.size () - exe.size ()),
+                                    exe))
+    return name.substr (0, name.size () - exe.size ());
   return name;
 }
 
-std::string_view
-after_last_slash (std::string_view path)
+LumexStringView
+after_last_slash (LumexStringView path)
 {
   std::size_t const slash = path.rfind ('/');
-  return slash == std::string_view::npos ? path : path.substr (slash + 1);
+  return slash == LumexStringView::npos ? path : path.substr (slash + 1);
 }
 } // namespace
 
-LUMEX_PUBLIC_API std::optional<proc_pid_stat_t>
-parse_proc_pid_stat (std::string_view text)
+LUMEX_PUBLIC_API optional<proc_pid_stat_t>
+parse_proc_pid_stat (LumexStringView text)
 {
   std::size_t const open = text.find ('(');
   std::size_t const close = text.rfind (')');
-  if (open == std::string_view::npos || close == std::string_view::npos
+  if (open == LumexStringView::npos || close == LumexStringView::npos
       || close < open)
-    return std::nullopt;
+    return nullopt;
 
   // Field 3 (state) is the first token after "comm)"; field N is token N - 3.
   std::istringstream fields (std::string (text.substr (close + 1)));
@@ -101,10 +97,11 @@ parse_proc_pid_stat (std::string_view text)
   while (tokens.size () < 20 && fields >> token)
     tokens.push_back (token);
   if (tokens.size () < 20)
-    return std::nullopt;
+    return nullopt;
 
   proc_pid_stat_t stat;
   stat.comm = std::string (text.substr (open + 1, close - open - 1));
+  stat.state = tokens.at (0).front ();
   try
     {
       stat.utime_ticks = std::stoull (tokens.at (11));
@@ -113,13 +110,13 @@ parse_proc_pid_stat (std::string_view text)
     }
   catch (std::exception const &)
     {
-      return std::nullopt;
+      return nullopt;
     }
   return stat;
 }
 
 LUMEX_PUBLIC_API proc_pid_status_t
-parse_proc_pid_status (std::string_view text)
+parse_proc_pid_status (LumexStringView text)
 {
   proc_pid_status_t status;
   status.resident_bytes = monitor::detail::parse_kib_field (text, "VmRSS");
@@ -128,27 +125,26 @@ parse_proc_pid_status (std::string_view text)
 }
 
 LUMEX_PUBLIC_API std::string
-executable_name (std::string_view link_target)
+executable_name (LumexStringView link_target)
 {
-  if (link_target.size () >= KDELETED_SUFFIX.size ()
-      && link_target.substr (link_target.size () - KDELETED_SUFFIX.size ())
-             == KDELETED_SUFFIX)
-    link_target.remove_suffix (KDELETED_SUFFIX.size ());
+  LumexStringView const deleted (KDELETED_SUFFIX);
+  if (link_target.ends_with (deleted))
+    link_target.remove_suffix (deleted.size ());
   return std::string (after_last_slash (link_target));
 }
 
-LUMEX_PUBLIC_API std::optional<std::string>
-first_argument_name (std::string_view cmdline)
+LUMEX_PUBLIC_API optional<std::string>
+first_argument_name (LumexStringView cmdline)
 {
-  std::string_view const first = cmdline.substr (0, cmdline.find ('\0'));
-  std::string_view const name = after_last_slash (first);
+  LumexStringView const first = cmdline.substr (0, cmdline.find ('\0'));
+  LumexStringView const name = after_last_slash (first);
   if (name.empty ())
-    return std::nullopt;
+    return nullopt;
   return std::string (name);
 }
 
 LUMEX_PUBLIC_API bool
-linux_name_matches (std::string_view requested, std::string_view name,
+linux_name_matches (LumexStringView requested, LumexStringView name,
                     bool name_is_comm)
 {
   if (requested.empty ())
@@ -161,7 +157,7 @@ linux_name_matches (std::string_view requested, std::string_view name,
 }
 
 LUMEX_PUBLIC_API bool
-windows_name_matches (std::string_view requested, std::string_view name)
+windows_name_matches (LumexStringView requested, LumexStringView name)
 {
   if (requested.empty ())
     return false;

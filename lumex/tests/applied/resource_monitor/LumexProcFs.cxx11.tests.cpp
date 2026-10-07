@@ -1,10 +1,10 @@
 #include <cstdint>
-#include <optional>
 #include <string>
 
 #include <gtest/gtest.h>
 
 #include "lumex/applied/resource_monitor/monitor/detail/LumexProcFs.hpp"
+#include "lumex/core/optional/LumexOptional"
 
 using namespace lumex::applied::resource_monitor::monitor::detail;
 
@@ -25,8 +25,7 @@ constexpr char const *KMEMINFO = "MemTotal:       32615420 kB\n"
 
 TEST (LumexProcFsTest, ProcStatCountsIowaitAsIdle)
 {
-  std::optional<proc_stat_cpu_t> const cpu
-      = parse_proc_stat_cpu (KFULL_PROC_STAT);
+  optional<proc_stat_cpu_t> const cpu = parse_proc_stat_cpu (KFULL_PROC_STAT);
   ASSERT_TRUE (cpu.has_value ());
   EXPECT_EQ (cpu->idle, 400U + 50U);
 }
@@ -34,16 +33,14 @@ TEST (LumexProcFsTest, ProcStatCountsIowaitAsIdle)
 TEST (LumexProcFsTest, ProcStatTotalLeavesGuestTimeOut)
 {
   // guest and guest_nice are already part of user and nice.
-  std::optional<proc_stat_cpu_t> const cpu
-      = parse_proc_stat_cpu (KFULL_PROC_STAT);
+  optional<proc_stat_cpu_t> const cpu = parse_proc_stat_cpu (KFULL_PROC_STAT);
   ASSERT_TRUE (cpu.has_value ());
   EXPECT_EQ (cpu->total, 100U + 20U + 30U + 400U + 50U + 6U + 7U + 8U);
 }
 
 TEST (LumexProcFsTest, ProcStatOfAnOldKernelWithFourFields)
 {
-  std::optional<proc_stat_cpu_t> const cpu
-      = parse_proc_stat_cpu ("cpu  1 2 3 4\n");
+  optional<proc_stat_cpu_t> const cpu = parse_proc_stat_cpu ("cpu  1 2 3 4\n");
   ASSERT_TRUE (cpu.has_value ());
   EXPECT_EQ (cpu->idle, 4U);
   EXPECT_EQ (cpu->total, 10U);
@@ -51,8 +48,7 @@ TEST (LumexProcFsTest, ProcStatOfAnOldKernelWithFourFields)
 
 TEST (LumexProcFsTest, ProcStatWithoutTheLastNewline)
 {
-  std::optional<proc_stat_cpu_t> const cpu
-      = parse_proc_stat_cpu ("cpu  1 2 3 4 5");
+  optional<proc_stat_cpu_t> const cpu = parse_proc_stat_cpu ("cpu  1 2 3 4 5");
   ASSERT_TRUE (cpu.has_value ());
   EXPECT_EQ (cpu->idle, 9U);
   EXPECT_EQ (cpu->total, 15U);
@@ -74,7 +70,7 @@ TEST (LumexProcFsTest, ProcStatRejectsAFirstLineThatIsNotTheAggregate)
 
 TEST (LumexProcFsTest, MeminfoGivesTotalAndAvailableInBytes)
 {
-  std::optional<proc_meminfo_t> const memory = parse_proc_meminfo (KMEMINFO);
+  optional<proc_meminfo_t> const memory = parse_proc_meminfo (KMEMINFO);
   ASSERT_TRUE (memory.has_value ());
   EXPECT_EQ (memory->total_bytes, std::uint64_t{ 32615420 } * 1024U);
   EXPECT_EQ (memory->available_bytes, std::uint64_t{ 20971520 } * 1024U);
@@ -91,7 +87,7 @@ TEST (LumexProcFsTest, MeminfoWithoutMemAvailableGivesNothing)
 
 TEST (LumexProcFsTest, MeminfoMatchesWholeKeysOnly)
 {
-  std::optional<proc_meminfo_t> const memory
+  optional<proc_meminfo_t> const memory
       = parse_proc_meminfo ("MemTotalX:  1 kB\n"
                             "MemAvailableSoon: 2 kB\n"
                             "MemAvailable: 300 kB\n"
@@ -112,15 +108,15 @@ TEST (LumexProcFsTest, ReadWholeFileOfAMissingFileGivesNothing)
 // sampler reads no /proc).
 TEST (LumexProcFsTest, LiveProcStatAndMeminfoParse)
 {
-  std::optional<std::string> const stat = read_whole_file ("/proc/stat");
+  optional<std::string> const stat = read_whole_file ("/proc/stat");
   ASSERT_TRUE (stat.has_value ());
-  std::optional<proc_stat_cpu_t> const cpu = parse_proc_stat_cpu (*stat);
+  optional<proc_stat_cpu_t> const cpu = parse_proc_stat_cpu (*stat);
   ASSERT_TRUE (cpu.has_value ());
   EXPECT_GT (cpu->total, cpu->idle);
 
-  std::optional<std::string> const meminfo = read_whole_file ("/proc/meminfo");
+  optional<std::string> const meminfo = read_whole_file ("/proc/meminfo");
   ASSERT_TRUE (meminfo.has_value ());
-  std::optional<proc_meminfo_t> const memory = parse_proc_meminfo (*meminfo);
+  optional<proc_meminfo_t> const memory = parse_proc_meminfo (*meminfo);
   ASSERT_TRUE (memory.has_value ());
   EXPECT_GT (memory->total_bytes, 0U);
   EXPECT_LE (memory->available_bytes, memory->total_bytes);
