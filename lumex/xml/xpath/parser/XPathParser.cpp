@@ -549,6 +549,30 @@ XPathParser::
             args); // NOLINT(cppcoreguidelines-pro-bounds-array-to-pointer-decay)
       }
 
+    // These lexemes cannot start a primary expression; they are listed so
+    // that -Wswitch-enum sees them handled.
+    case lex_none:
+    case lex_equal:
+    case lex_not_equal:
+    case lex_less:
+    case lex_greater:
+    case lex_less_or_equal:
+    case lex_greater_or_equal:
+    case lex_plus:
+    case lex_minus:
+    case lex_multiply:
+    case lex_union:
+    case lex_close_brace:
+    case lex_slash:
+    case lex_double_slash:
+    case lex_open_square_brace:
+    case lex_close_square_brace:
+    case lex_comma:
+    case lex_axis_attribute:
+    case lex_dot:
+    case lex_double_dot:
+    case lex_double_colon:
+    case lex_eof:
     default:
       return error ("Unrecognizable primary expression");
     }
@@ -1021,6 +1045,24 @@ struct binary_op_t
         return { ast_op_multiply, xpath_type_number, 6 };
       case lex_union:
         return { ast_op_union, xpath_type_node_set, 7 };
+      // These lexemes are not binary operators; they are listed so that
+      // -Wswitch-enum sees them handled.
+      case lex_none:
+      case lex_var_ref:
+      case lex_open_brace:
+      case lex_close_brace:
+      case lex_quoted_string:
+      case lex_number:
+      case lex_slash:
+      case lex_double_slash:
+      case lex_open_square_brace:
+      case lex_close_square_brace:
+      case lex_comma:
+      case lex_axis_attribute:
+      case lex_dot:
+      case lex_double_dot:
+      case lex_double_colon:
+      case lex_eof:
       default:
         return {};
       }

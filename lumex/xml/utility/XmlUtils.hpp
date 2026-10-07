@@ -1005,11 +1005,31 @@ gen_nan ()
          / zero; // NOLINT(bugprone-divide-by-zero, misc-redundant-expression
 }
 
+/**
+ * @brief Exact comparison of two doubles.
+ * @details Zero, NaN and infinity tests and the XPath number comparisons need
+ * IEEE equality, not a tolerance. This is the one place that says so to the
+ * compiler's -Wfloat-equal. The arguments are taken by value so that a
+ * volatile double is read once per argument.
+ */
+inline bool
+exactly_equal (double lhs, double rhs)
+{
+#if defined(__GNUC__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wfloat-equal"
+#endif
+  return lhs == rhs;
+#if defined(__GNUC__)
+#pragma GCC diagnostic pop
+#endif
+}
+
 inline bool
 is_nan (double value)
 {
   double const volatile val = value;
-  return val != val;
+  return !exactly_equal (val, val);
 }
 
 inline bool
@@ -2082,7 +2102,7 @@ is_xpath_attribute (char_t const *name)
 inline bool
 convert_number_to_boolean (double value)
 {
-  return (value != 0 && !is_nan (value));
+  return (!exactly_equal (value, 0.0) && !is_nan (value));
 }
 
 inline void
@@ -2235,11 +2255,11 @@ convert_number_to_string_special (double value)
 {
   double const volatile val = value;
 
-  if (val == 0)
+  if (exactly_equal (val, 0.0))
     return LUMEX_XML_TEXT ("0");
-  if (val != val)
+  if (!exactly_equal (val, val))
     return LUMEX_XML_TEXT ("NaN");
-  if (val * 2 == val)
+  if (exactly_equal (val * 2, val))
     return value > 0 ? LUMEX_XML_TEXT ("Infinity")
                      : LUMEX_XML_TEXT ("-Infinity");
   return nullptr;

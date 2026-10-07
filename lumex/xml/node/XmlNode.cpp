@@ -1705,6 +1705,7 @@ XmlNode::offset_debug () const
                  ? m_root->value - doc.buffer
                  : -1;
 
+    case node_null:
     default:
       LUMEX_ASSERT (false && "Invalid node type"); // unreachable
       return -1;
@@ -2124,6 +2125,9 @@ node_output_simple (
       writer.write ('>');
       break;
 
+    case node_null:
+    case node_document:
+    case node_element:
     default:
       LUMEX_ASSERT (false && "Invalid node type"); // unreachable
     }

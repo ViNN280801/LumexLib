@@ -1001,6 +1001,9 @@ private:
           break;
         }
 
+      // axis_namespace has no step; it is listed so that -Wswitch-enum sees it
+      // handled, and shares the default branch.
+      case axis_namespace:
       default:
         LUMEX_ASSERT (false && "Unimplemented axis"); // unreachable
       }
@@ -1114,6 +1117,14 @@ private:
           break;
         }
 
+      // The axes below have no step for an attribute; they are listed so that
+      // -Wswitch-enum sees them handled, and share the default branch.
+      case axis_attribute:
+      case axis_child:
+      case axis_descendant:
+      case axis_following_sibling:
+      case axis_namespace:
+      case axis_preceding_sibling:
       default:
         LUMEX_ASSERT (false && "Unimplemented axis"); // unreachable
       }
