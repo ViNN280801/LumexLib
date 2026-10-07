@@ -1,4 +1,4 @@
-// lumex/tests/applied/settings/LumexSettingsJSON.cxx11.tests.cpp
+// lumex/tests/applied/settings/json/LumexSettingsJSON.cxx11.tests.cpp
 #include <fstream>
 #include <iostream>
 #include <iterator>
