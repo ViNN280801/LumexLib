@@ -1,4 +1,4 @@
-// cmake.install_header_only_without_utility: the five header-only
+// cmake.install_header_only_without_utility: the six header-only
 // modules compile and work from an install prefix that has no core/utility
 // module. Their umbrellas include core/utility headers, which LumexLib
 // installs whatever LUMEX_BUILD_UTILITY says. Exit code 0 on success, 1 when
@@ -13,6 +13,7 @@
 #include "lumex/core/generators/LumexGenerators"
 #include "lumex/core/math/LumexMath"
 #include "lumex/core/optional/LumexOptional"
+#include "lumex/core/span/LumexSpan"
 #include "lumex/core/string/LumexString"
 
 namespace
@@ -56,6 +57,13 @@ main ()
       std::make_shared<int> (1));
   cell.store (std::make_shared<int> (2));
   check (*cell.load () == 2, "atomic: atomic_shared_ptr");
+
+  std::vector<int> const span_source = { 4, 5, 6, 7 };
+  lumex::core::span::view::span<int const> const view (span_source);
+  check (view.size () == 4 && view.subspan (1, 2).back () == 6,
+         "span: subspan");
+  check (lumex::core::span::view::as_bytes (view).size () == 4 * sizeof (int),
+         "span: as_bytes");
 
   std::printf ("header-only modules from the install prefix: %d failure(s)\n",
                failures);

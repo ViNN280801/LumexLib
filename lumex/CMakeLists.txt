@@ -4,12 +4,12 @@
 # utility / environment / string (ALIAS targets must already exist).
 
 # The core/utility headers (relative to this directory) that the header-only
-# modules string, math, generators, optional and atomic include, directly or
+# modules string, math, generators, optional, atomic and span include, directly or
 # through each other. Those modules have no configure-time dependency on
 # utility (utility itself requires math, so the edge would be a cycle). Every
 # header here is header-only: LumexAssert.hpp declares the compiled assert
 # handler, but the modules only use LUMEX_STATIC_ASSERT_MSG. Keep the list
-# equal to the include closure of the five modules' headers.
+# equal to the include closure of the six modules' headers.
 set(LUMEX_UTILITY_HEADERS_FOR_HEADER_ONLY_MODULES
     core/utility/assert/LumexAssert.hpp
     core/utility/attr/LumexAttributes.hpp

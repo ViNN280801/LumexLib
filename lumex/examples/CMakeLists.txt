@@ -80,6 +80,12 @@ else()
     message(STATUS "Skipping reflection examples (LUMEX_BUILD_CORE or LUMEX_BUILD_REFLECTION is OFF)")
 endif()
 
+if(LUMEX_BUILD_CORE AND LUMEX_BUILD_SPAN)
+    add_subdirectory(span)
+else()
+    message(STATUS "Skipping span examples (LUMEX_BUILD_CORE or LUMEX_BUILD_SPAN is OFF)")
+endif()
+
 if(LUMEX_BUILD_CORE AND LUMEX_BUILD_STRING)
     add_subdirectory(string)
 else()

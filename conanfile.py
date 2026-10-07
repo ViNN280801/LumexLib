@@ -138,6 +138,7 @@ class LumexLibConan(ConanFile):
         # Header-only (CMake INTERFACE targets): no libs.
         self._component("core_math", "math")
         self._component("core_optional", "optional")
+        self._component("core_span", "span")
         atomic = self._component("core_atomic", "atomic")
         if not windows:
             # As CMake's Threads::Threads: the lock-based implementation uses
