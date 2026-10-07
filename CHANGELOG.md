@@ -46,6 +46,448 @@
 
 **Проверено:** новый набор `ExpectedWithOptional` (3 теста на каждом из стандартов 11, 17, 20) подключает оба umbrella в одном файле, строит `optional` из `Expected` и наоборот; возврат обоих `using` дает прежнюю ошибку компиляции; 1293 теста `expected` и `optional` проходят (GCC 13.2, `-DCMAKE_CXX_STANDARD=11`).
 
+##### Несовместимо: функции, методы и классы ядра в snake_case
+
+**Файлы:** `lumex/core/**`, `lumex/applied/**`, `lumex/tests/**`, `lumex/examples/**`, `lumex/core/atomic/README.md`, `lumex/core/fmt/README.md`, `lumex/applied/logger/README.md`, `cmake/LumexGoogleTest.cmake`, `Scripts/CodeTools/check_fmt_examples_coverage.py`
+
+**Суть:** все функции и методы библиотеки (модули core, applied и xml, статические и свободные функции тоже) и все классы модулей core записаны в snake_case; приставка `Lumex` у классов осталась (`LumexTime` -> `lumex_time`, `LumexStringView` -> `lumex_string_view`, `BitLockGuard` -> `bit_lock_guard`, `Expected` -> `expected`, `Unexpected` -> `unexpected`), глобальные псевдонимы классов (`using LumexStringView = ...`) переименованы так же. Закрытые функции и методы с префиксом `_` сохраняют его (`_logMessage` -> `_log_message`). Старые имена не оставлены ни синонимами, ни устаревшими псевдонимами: потребитель переходит на новые имена по таблице ниже, а экспортируемые символы скомпонованных модулей меняются вместе с ними; поэтому это несовместимое изменение API и ABI в релизе `2.0.0.0`. Всего переименовано 322 имени: 60 классов и один псевдоним класса (`LumexStacktrace`), 223 функции и метода библиотеки и 38 вспомогательных функций тестов и примеров. В модуле xml функций в camelCase не было. `toString`, которую `LUMEX_DEFINE_REFLECTED_ENUM` создает для перечисления, стала `to_string`: ее находят по ADL трейт `is_reflected_enum`, форматирование `fmt` и помощники JSON и логирования, поэтому собственная функция пользователя для этого трейта тоже должна называться `to_string`. Концепт `DataSource` из `LumexMemRead.hpp` требует от типа пользователя методы `get_data` и `get_data_size` (было `GetData`, `GetDataSize`). `LumexWStringView` стал `lumex_wstring_view`, как `std::wstring_view`. Не переименованы: `Mask` (в `crc`, новое имя `mask` уже занято локальной переменной тех же функций), `INVOKE` (в `LumexTypeTraits.hpp`, `invoke` по ADL столкнулся бы с `std::invoke`), `Get` и пять функций `StacktraceTest_*` в тестах (имена сверяются с текстом стека вызовов). Остались без изменений: классы модулей applied и xml, структуры, перечисления, пространства имен, элементы перечислений, параметры шаблонов, макросы (в том числе `lumDebug`, `lumDemangle`), члены данных, параметры функций, локальные переменные, имена файлов и зонтичных заголовков, строковые литералы (кроме названий операций `lumex_settings_guard`: `ensure_keys_with_defaults`, `ensure_exists_with_defaults`, `repair_if_corrupted`), а также псевдонимы вроде `FormatArgs` и `IntGenerator`, которые не являются глобальным псевдонимом класса.
+
+Таблица "было -> стало" по модулям (вид: класс, псевдоним, функция, метод):
+
+**core/atomic**
+
+| Вид | Было | Стало |
+| --- | --- | --- |
+| класс | `BitLock` | `bit_lock` |
+| класс | `BitLockGuard` | `bit_lock_guard` |
+| класс | `LockBasedCell` | `lock_based_cell` |
+| класс | `StdBackedCell` | `std_backed_cell` |
+
+**core/base64**
+
+| Вид | Было | Стало |
+| --- | --- | --- |
+| класс | `Decoder` | `decoder` |
+| класс | `Encoder` | `encoder` |
+| класс | `Validator` | `validator` |
+
+**core/circular_buffer**
+
+| Вид | Было | Стало |
+| --- | --- | --- |
+| класс | `CircularBuffer` | `circular_buffer` |
+
+**core/crc**
+
+| Вид | Было | Стало |
+| --- | --- | --- |
+| класс | `CrcParametric` | `crc_parametric` |
+| функция | `AppendCrcLeastSignificantByteFirst` | `append_crc_least_significant_byte_first` |
+| функция | `Compute` | `compute` |
+| функция | `ComputeBitwise` | `compute_bitwise` |
+| функция | `ComputeCrcCatalog` | `compute_crc_catalog` |
+| функция | `ComputeCrcWithRevEngParams` | `compute_crc_with_rev_eng_params` |
+| функция | `ComputeEntry` | `compute_entry` |
+| функция | `ComputeTableDriven` | `compute_table_driven` |
+| функция | `ComputeTransportChecksum` | `compute_transport_checksum` |
+| функция | `CrcCatalogLegacyIndex` | `crc_catalog_legacy_index` |
+| функция | `CrcTransportUsesCustomSpecSentinel` | `crc_transport_uses_custom_spec_sentinel` |
+| функция | `GetCrcCatalogBitWidth` | `get_crc_catalog_bit_width` |
+| функция | `GetCrcCatalogEntryCount` | `get_crc_catalog_entry_count` |
+| функция | `GetTransportCrcCatalogIndex` | `get_transport_crc_catalog_index` |
+| функция | `GetTransportCrcMode` | `get_transport_crc_mode` |
+| функция | `LookupTableEntry` | `lookup_table_entry` |
+| функция | `LsbTableByte` | `lsb_table_byte` |
+| функция | `MakeComputeTable` | `make_compute_table` |
+| функция | `MakeLookupTable` | `make_lookup_table` |
+| функция | `MakeLookupTableImpl` | `make_lookup_table_impl` |
+| функция | `MakeWidthTable` | `make_width_table` |
+| функция | `MaskForWidth` | `mask_for_width` |
+| функция | `MsbTableByte` | `msb_table_byte` |
+| функция | `Reflect` | `reflect` |
+| метод | `Run` | `run` |
+| функция | `SetTransportCrcCatalogIndex` | `set_transport_crc_catalog_index` |
+| функция | `SetTransportCrcDefault` | `set_transport_crc_default` |
+| функция | `SetTransportCrcRevEngParams` | `set_transport_crc_rev_eng_params` |
+| функция | `Transport` | `transport` |
+| функция | `TransportMutex` | `transport_mutex` |
+| функция | `TryGetTransportCrcRevEngParams` | `try_get_transport_crc_rev_eng_params` |
+| функция | `ValidateCrcRevEngParams` | `validate_crc_rev_eng_params` |
+| функция | `ValidateSpec` | `validate_spec` |
+| метод | `Value` | `value` |
+| функция | `WidthEntry` | `width_entry` |
+
+**core/environment**
+
+| Вид | Было | Стало |
+| --- | --- | --- |
+| класс | `EnvironmentStrategy` | `environment_strategy` |
+| класс | `LumexEnvironment` | `lumex_environment` |
+| класс | `PosixEnvironmentStrategy` | `posix_environment_strategy` |
+| класс | `WindowsEnvironmentStrategy` | `windows_environment_strategy` |
+
+**core/exceptions**
+
+| Вид | Было | Стало |
+| --- | --- | --- |
+| класс | `DbgHelpInitializer` | `dbg_help_initializer` |
+| класс | `LumexBaseException` | `lumex_base_exception` |
+| класс | `LumexBasicStacktrace` | `lumex_basic_stacktrace` |
+| класс | `LumexCrashHandler` | `lumex_crash_handler` |
+| псевдоним | `LumexStacktrace` | `lumex_stacktrace` |
+| класс | `LumexStacktraceEntry` | `lumex_stacktrace_entry` |
+| функция | `ExceptionWrapper` | `exception_wrapper` |
+| метод (также core/utility) | `_generateCoreDump` | `_generate_core_dump` |
+| метод (также core/utility) | `_generateDumpFilename` | `_generate_dump_filename` |
+| метод | `getStackTrace` | `get_stack_trace` |
+| функция | `_handleSEHException` | `_handle_seh_exception` |
+| функция | `LumexException_GetStackTraceTrampoline` | `lumex_exception_get_stack_trace_trampoline` |
+| метод | `_notifyAndLog` | `_notify_and_log` |
+| функция | `_onWindowsCrashHandler` | `_on_windows_crash_handler` |
+| метод (также core/utility) | `_setupCoreDumpSettings` | `_setup_core_dump_settings` |
+| метод (также core/utility) | `_setupSignalHandlers` | `_setup_signal_handlers` |
+| метод | `_signalHandler` | `_signal_handler` |
+
+**core/expected**
+
+| Вид | Было | Стало |
+| --- | --- | --- |
+| класс | `BadExpectedAccess` | `bad_expected_access` |
+| класс | `Expected` | `expected` |
+| класс | `Unexpected` | `unexpected` |
+
+**core/filesystem**
+
+| Вид | Было | Стало |
+| --- | --- | --- |
+| класс | `Impl` | `impl` |
+| функция | `checkName` | `check_name` |
+| функция | `hasInvalidEnding` | `has_invalid_ending` |
+| функция | `isFileExists` | `is_file_exists` |
+| функция | `isForbidden` | `is_forbidden` |
+| функция | `isReservedName` | `is_reserved_name` |
+| функция | `sanitizeName` | `sanitize_name` |
+
+**core/fmt**
+
+| Вид | Было | Стало |
+| --- | --- | --- |
+| класс | `BasicAppender` | `basic_appender` |
+| класс | `BasicFormatArgs` | `basic_format_args` |
+| класс | `BasicFormatContext` | `basic_format_context` |
+| класс | `BasicFormatParseContext` | `basic_format_parse_context` |
+| класс | `BasicFormatString` | `basic_format_string` |
+| класс | `BasicStringRef` | `basic_string_ref` |
+| класс | `Buffer` | `buffer` |
+| класс | `BuiltinFormatter` | `builtin_formatter` |
+| класс | `ChronoFormatter` | `chrono_formatter` |
+| класс | `CountingBuffer` | `counting_buffer` |
+| класс | `ElementFormatter` | `element_formatter` |
+| класс | `FormatError` | `format_error` |
+| класс | `FormatHandler` | `format_handler` |
+| класс | `FormatStringChecker` | `format_string_checker` |
+| класс | `Formatter` | `formatter` |
+| класс | `IteratorBuffer` | `iterator_buffer` |
+| класс | `OstreamFormatter` | `ostream_formatter` |
+| класс | `StringBuffer` | `string_buffer` |
+| класс | `TruncatingBuffer` | `truncating_buffer` |
+| класс | `TupleFormatter` | `tuple_formatter` |
+
+**core/generators**
+
+| Вид | Было | Стало |
+| --- | --- | --- |
+| класс | `NumberGenerator` | `number_generator` |
+
+**core/math**
+
+| Вид | Было | Стало |
+| --- | --- | --- |
+| класс | `LumexMathSizeMismatchException` | `lumex_math_size_mismatch_exception` |
+
+**core/optional**
+
+| Вид | Было | Стало |
+| --- | --- | --- |
+| класс | `LumexBadOptionalAccess` | `lumex_bad_optional_access` |
+
+**core/reflection**
+
+| Вид | Было | Стало |
+| --- | --- | --- |
+| функция | `FormatValue` | `format_value` |
+| функция | `toString` | `to_string` |
+| функция | `VarInfo` | `var_info` |
+
+**core/string_view**
+
+| Вид | Было | Стало |
+| --- | --- | --- |
+| класс | `LumexStringView` | `lumex_string_view` |
+| класс | `LumexWStringView` | `lumex_wstring_view` |
+
+**core/temporary**
+
+| Вид | Было | Стало |
+| --- | --- | --- |
+| класс | `LumexTemporary` | `lumex_temporary` |
+| класс | `TemporaryDirectory` | `temporary_directory` |
+| класс | `TemporaryFile` | `temporary_file` |
+
+**core/time**
+
+| Вид | Было | Стало |
+| --- | --- | --- |
+| класс | `LumexTime` | `lumex_time` |
+| класс | `LumexTimer` | `lumex_timer` |
+
+**core/utility**
+
+| Вид | Было | Стало |
+| --- | --- | --- |
+| класс | `BadDownCast` | `bad_down_cast` |
+| класс | `CoreDumpGenerator` | `core_dump_generator` |
+| класс | `DumpConfiguration` | `dump_configuration` |
+| класс | `DumpFactory` | `dump_factory` |
+| класс | `LumexCallbackSlot` | `lumex_callback_slot` |
+| класс | `OperationGuard` | `operation_guard` |
+| класс | `SafeComparator` | `safe_comparator` |
+| класс | `Scoped` | `scoped` |
+| метод | `_acquireOperationSlot` | `_acquire_operation_slot` |
+| метод | `addMemoryFilter` | `add_memory_filter` |
+| функция | `As` | `as` |
+| метод | `_blockDefaultShutdownSignals` | `_block_default_shutdown_signals` |
+| функция | `captureCallerInfoImpl` | `capture_caller_info_impl` |
+| функция | `captureStackTrace` | `capture_stack_trace` |
+| метод | `clearMemoryFilters` | `clear_memory_filters` |
+| функция | `_convertWideStringToNarrow` | `_convert_wide_string_to_narrow` |
+| метод | `createConfiguration` | `create_configuration` |
+| метод | `_createDirectoryAtomically` | `_create_directory_atomically` |
+| метод | `_createDirectoryRecursive` | `_create_directory_recursive` |
+| метод | `_createFileAtomically` | `_create_file_atomically` |
+| метод | `_createManualCoreDump` | `_create_manual_core_dump` |
+| метод | `createUnixConfiguration` | `create_unix_configuration` |
+| метод | `createWindowsConfiguration` | `create_windows_configuration` |
+| функция | `_createWindowsDump` | `_create_windows_dump` |
+| метод | `_customSignalHandlerWrapper` | `_custom_signal_handler_wrapper` |
+| функция | `demangleSymbol` | `demangle_symbol` |
+| функция | `dumpTypeToString` | `dump_type_to_string` |
+| метод | `_endPerformanceMonitoring` | `_end_performance_monitoring` |
+| функция | `ensureSymbolsInitialized` | `ensure_symbols_initialized` |
+| функция | `formatHex` | `format_hex` |
+| функция | `formatTime` | `format_time` |
+| метод | `generateDump` | `generate_dump` |
+| метод | `_generateFallbackRandomComponent` | `_generate_fallback_random_component` |
+| метод | `generateInstanceDump` | `generate_instance_dump` |
+| метод | `_generateSecureRandomComponent` | `_generate_secure_random_component` |
+| метод | `getCurrentConfiguration` | `get_current_configuration` |
+| метод | `getCurrentDumpType` | `get_current_dump_type` |
+| метод | `GetData` | `get_data` |
+| метод | `GetDataSize` | `get_data_size` |
+| функция | `getDbgHelpMutex` | `get_dbg_help_mutex` |
+| метод | `getDefaultDumpType` | `get_default_dump_type` |
+| метод | `getDescription` | `get_description` |
+| метод | `getDirectory` | `get_directory` |
+| метод | `getDumpDirectory` | `get_dump_directory` |
+| метод | `getDumpDirectoryIfSet` | `get_dump_directory_if_set` |
+| метод | `getEstimatedSize` | `get_estimated_size` |
+| метод (также applied/logger) | `_getExecutableDirectory` | `_get_executable_directory` |
+| функция | `getExeDirectory` | `get_exe_directory` |
+| метод | `getFilename` | `get_filename` |
+| метод | `getInstanceConfiguration` | `get_instance_configuration` |
+| метод | `getInstanceDumpDirectory` | `get_instance_dump_directory` |
+| метод | `getMaxSizeBytes` | `get_max_size_bytes` |
+| функция | `getMaxValue` | `get_max_value` |
+| метод | `getMemoryFilters` | `get_memory_filters` |
+| метод | `getMemoryFiltersRange` | `get_memory_filters_range` |
+| функция | `_getMinidumpType` | `_get_minidump_type` |
+| функция | `getMinValue` | `get_min_value` |
+| функция | `GetNearestTo` | `get_nearest_to` |
+| метод | `getOptionalDumpDirectory` | `get_optional_dump_directory` |
+| метод | `getSupportedTypes` | `get_supported_types` |
+| метод | `getType` | `get_type` |
+| метод | `getValidationError` | `get_validation_error` |
+| метод | `_instantSystemdMonitor` | `_instant_systemd_monitor` |
+| метод | `_invalidateCache` | `_invalidate_cache` |
+| метод | `isAcquired` | `is_acquired` |
+| функция | `_isAdminPrivileges` | `_is_admin_privileges` |
+| метод | `isAdminPrivileges` | `is_admin_privileges` |
+| метод | `isCompress` | `is_compress` |
+| функция | `_isElevatedProcess` | `_is_elevated_process` |
+| метод | `isEnableSourceInfo` | `is_enable_source_info` |
+| метод | `isEnableSymbols` | `is_enable_symbols` |
+| метод | `isIncludeHandleData` | `is_include_handle_data` |
+| метод | `isIncludeProcessData` | `is_include_process_data` |
+| метод | `isIncludeThreadInfo` | `is_include_thread_info` |
+| метод | `isIncludeUnloadedModules` | `is_include_unloaded_modules` |
+| метод | `isInitialized` | `is_initialized` |
+| метод | `isInstanceInitialized` | `is_instance_initialized` |
+| функция | `isKernelType` | `is_kernel_type` |
+| метод | `isSupported` | `is_supported` |
+| функция | `isUnixType` | `is_unix_type` |
+| функция и метод | `isValid` | `is_valid` |
+| метод | `isValidDirectory` | `is_valid_directory` |
+| метод | `isValidFilename` | `is_valid_filename` |
+| метод | `isValidMemoryFilter` | `is_valid_memory_filter` |
+| функция | `_isValidMinidumpType` | `_is_valid_minidump_type` |
+| функция | `isWindowsType` | `is_windows_type` |
+| метод | `_logCoreDumpSize` | `_log_core_dump_size` |
+| метод | `_logDumpCreationSuccess` | `_log_dump_creation_success` |
+| метод | `_logMessage` | `_log_message` |
+| метод | `_logPerformanceMetrics` | `_log_performance_metrics` |
+| метод | `_monitorAndCopyCoreDumps` | `_monitor_and_copy_core_dumps` |
+| метод | `_platformInitialize` | `_platform_initialize` |
+| метод | `_posixSigwaitThread` | `_posix_sigwait_thread` |
+| функция | `_redirectedSetUnhandledExceptionFilter` | `_redirected_set_unhandled_exception_filter` |
+| метод | `registerCustomConsoleHandler` | `register_custom_console_handler` |
+| метод | `registerCustomSignalHandler` | `register_custom_signal_handler` |
+| метод | `_releaseOperationSlot` | `_release_operation_slot` |
+| метод | `renameCoreFiles` | `rename_core_files` |
+| метод | `_restoreCorePattern` | `_restore_core_pattern` |
+| метод | `_sanitizeFilenameComponent` | `_sanitize_filename_component` |
+| метод | `_sanitizeLogMessage` | `_sanitize_log_message` |
+| метод | `_sanitizeLogMessageForAdmin` | `_sanitize_log_message_for_admin` |
+| метод | `_sanitizePath` | `_sanitize_path` |
+| метод | `setAdminGroupName` | `set_admin_group_name` |
+| метод | `setCompress` | `set_compress` |
+| метод | `setCorePatternForCrash` | `set_core_pattern_for_crash` |
+| метод | `setDirectory` | `set_directory` |
+| метод | `setDumpType` | `set_dump_type` |
+| метод | `setEnableSourceInfo` | `set_enable_source_info` |
+| метод | `setEnableSymbols` | `set_enable_symbols` |
+| метод | `setFilename` | `set_filename` |
+| метод | `setIncludeHandleData` | `set_include_handle_data` |
+| метод | `setIncludeProcessData` | `set_include_process_data` |
+| метод | `setIncludeThreadInfo` | `set_include_thread_info` |
+| метод | `setIncludeUnloadedModules` | `set_include_unloaded_modules` |
+| метод | `setMaxSizeBytes` | `set_max_size_bytes` |
+| метод | `setType` | `set_type` |
+| метод | `_setupCorePattern` | `_setup_core_pattern` |
+| метод | `_setupExceptionHandling` | `_setup_exception_handling` |
+| метод | `_setupPosixGracefulShutdown` | `_setup_posix_graceful_shutdown` |
+| функция | `_setupWindowsHandlers` | `_setup_windows_handlers` |
+| метод | `_startPerformanceMonitoring` | `_start_performance_monitoring` |
+| метод | `_unhandledExceptionHandler` | `_unhandled_exception_handler` |
+| метод | `_unixSignalHandler` | `_unix_signal_handler` |
+| метод | `_updateCache` | `_update_cache` |
+| метод | `validateConfiguration` | `validate_configuration` |
+| метод | `_validateDirectory` | `_validate_directory` |
+| метод | `_validateFilename` | `_validate_filename` |
+| метод | `_waitForOperationSlot` | `_wait_for_operation_slot` |
+| функция | `_windowsConsoleHandler` | `_windows_console_handler` |
+| функция | `_windowsExceptionHandler` | `_windows_exception_handler` |
+
+**applied/logger**
+
+| Вид | Было | Стало |
+| --- | --- | --- |
+| функция | `AddressToHexLogString` | `address_to_hex_log_string` |
+| метод | `_applyLoggerConfigKey` | `_apply_logger_config_key` |
+| метод | `_calculateMaxAllowedSize` | `_calculate_max_allowed_size` |
+| метод | `_canWriteLog` | `_can_write_log` |
+| метод | `_checkLogSizeLimits` | `_check_log_size_limits` |
+| метод | `_cleanupOldLogs` | `_cleanup_old_logs` |
+| функция | `_createDirectoryIfNotExists` | `_create_directory_if_not_exists` |
+| метод | `_createLogFilePath` | `_create_log_file_path` |
+| метод | `_createSingleLogFilePath` | `_create_single_log_file_path` |
+| метод | `_createTimestampedLogFilePath` | `_create_timestamped_log_file_path` |
+| метод | `_extractComponentName` | `_extract_component_name` |
+| метод | `_extractDirectoryFromPath` | `_extract_directory_from_path` |
+| метод | `_flushBuffer` | `_flush_buffer` |
+| метод | `_formatTimestamp` | `_format_timestamp` |
+| метод | `_formatTimestampForFilename` | `_format_timestamp_for_filename` |
+| метод | `_getLogFilesSortedByTime` | `_get_log_files_sorted_by_time` |
+| метод | `_getNormalFormFromComponent` | `_get_normal_form_from_component` |
+| метод | `_getShortFormFromComponent` | `_get_short_form_from_component` |
+| функция | `_hasPrefix` | `_has_prefix` |
+| метод | `_isLoggingEnabledFileExists` | `_is_logging_enabled_file_exists` |
+| функция | `_normalizeString` | `_normalize_string` |
+| метод | `_parseFunctionNameMode` | `_parse_function_name_mode` |
+| функция | `_parsePrefixedValue` | `_parse_prefixed_value` |
+| метод | `_parseStackTraceFrames` | `_parse_stack_trace_frames` |
+| метод | `_presetMatchesComponent` | `_preset_matches_component` |
+| метод | `_readConfigFromFile` | `_read_config_from_file` |
+| метод | `_shouldLogByPreset` | `_should_log_by_preset` |
+| метод | `_shouldShowFunctionName` | `_should_show_function_name` |
+| метод | `_shouldUseTimestampedLogs` | `_should_use_timestamped_logs` |
+| метод | `_writeLog` | `_write_log` |
+
+**applied/logging**
+
+| Вид | Было | Стало |
+| --- | --- | --- |
+| метод | `getLogsDirectory` | `get_logs_directory` |
+| метод | `setAppName` | `set_app_name` |
+| метод | `toFile` | `to_file` |
+
+**applied/resource_monitor**
+
+| Вид | Было | Стало |
+| --- | --- | --- |
+| функция | `fileTimeToUint64` | `file_time_to_uint64` |
+| функция | `makeLogFilePath` | `make_log_file_path` |
+| функция | `sampleCpuLinux` | `sample_cpu_linux` |
+| функция | `sampleCpuWin` | `sample_cpu_win` |
+| функция | `sampleRamLinux` | `sample_ram_linux` |
+| функция | `sampleRamWin` | `sample_ram_win` |
+| функция | `sanitizePollInterval` | `sanitize_poll_interval` |
+| метод | `startIfEnabled` | `start_if_enabled` |
+| функция | `workerLoop` | `worker_loop` |
+
+**applied/settings**
+
+| Вид | Было | Стало |
+| --- | --- | --- |
+| метод | `ensureExistsWithDefaults` | `ensure_exists_with_defaults` |
+| метод | `ensureKeysWithDefaults` | `ensure_keys_with_defaults` |
+| метод | `_ensureOrRepairImpl` | `_ensure_or_repair_impl` |
+| метод | `repairIfCorrupted` | `repair_if_corrupted` |
+
+**тесты и примеры (вспомогательные функции)**
+
+| Вид | Было | Стало |
+| --- | --- | --- |
+| функция | `AssignPerfError` | `assign_perf_error` |
+| функция | `AssignThreadError` | `assign_thread_error` |
+| функция | `_boolToYesNo` | `_bool_to_yes_no` |
+| функция | `ChangeSource` | `change_source` |
+| функция | `CheckComplexErrorLifetime` | `check_complex_error_lifetime` |
+| функция | `CheckCopyAfterCopyAssignment` | `check_copy_after_copy_assignment` |
+| функция | `CheckCopyAfterCopyConstruction` | `check_copy_after_copy_construction` |
+| функция | `CheckPair` | `check_pair` |
+| функция | `CheckThreadError` | `check_thread_error` |
+| функция | `ConfigureBad` | `configure_bad` |
+| функция | `ConfigureOk` | `configure_ok` |
+| метод | `convertToInt` | `convert_to_int` |
+| функция | `directoryHasAnyFile` | `directory_has_any_file` |
+| функция | `ExpectEqualComplex` | `expect_equal_complex` |
+| функция | `ExpectIndependentCopy` | `expect_independent_copy` |
+| функция | `ExpectMovedFrom` | `expect_moved_from` |
+| функция | `ExpectTransformed` | `expect_transformed` |
+| функция | `formatCPUFrequency` | `format_cpu_frequency` |
+| функция | `formatMemorySize` | `format_memory_size` |
+| метод | `getCerrOutput` | `get_cerr_output` |
+| метод | `getClogOutput` | `get_clog_output` |
+| метод | `getOutput` | `get_output` |
+| метод | `getPlatformName` | `get_platform_name` |
+| функция | `InitErrorPair` | `init_error_pair` |
+| метод | `isUnix` | `is_unix` |
+| метод | `isWindows` | `is_windows` |
+| функция | `makeScratchDir` | `make_scratch_dir` |
+| функция | `MutateThroughError` | `mutate_through_error` |
+| функция | `MutateThroughReference` | `mutate_through_reference` |
+| функция | `NoexceptFunction` | `noexcept_function` |
+| функция | `PerfThresholdMs` | `perf_threshold_ms` |
+| функция | `RunMatrix` | `run_matrix` |
+| функция | `ThrowingFunction` | `throwing_function` |
+| функция | `TransformSuccess` | `transform_success` |
+| функция | `TypeLabel` | `type_label` |
+| функция | `TypeName` | `type_name` |
+| функция | `ValueBad` | `value_bad` |
+| функция | `ValueOk` | `value_ok` |
+
+**Проверено:** GCC 13.2, Release, `-DLUMEX_BUILD_TESTS=ON`: сборка без ошибок и предупреждений, 17980 тестов (столько же, сколько до переименования; имена совпадают), падают те же 91 тест, что и до него (79 `reflection` с именами полей при GCC Release, 9 `fmt`, 2 `cmake`, 1 `serial`), плюс нестабильное семейство `ToCrashReport_ThreadSafe` (до переименования падало в 16 прогонах из 25, после - в 19 из 25); все примеры (`examples.*`, в том числе `examples.fmt.LumexFormatExamplesCoverage`) и `lint.*` проходят. `Scripts/CodeTools/format.py` с clang-format 21.1.7: 432 файла соответствуют, дважды. Библиотека с `-DCMAKE_CXX_STANDARD=11`: GCC 13.2 - без предупреждений, Clang 23.1.0 - те же 177 предупреждений, что и до переименования (`-Wc++14-extensions` в `LumexTypeTraits.hpp` и несколько других). Код Windows (DbgHelp, SEH, `LumexCoreDumpGenerator`, монитор ресурсов, окружение, файловая система): MinGW-w64 GCC 8.3, `-fsyntax-only` для 69 `.cpp` библиотеки на C++11, 17 и 2a - набор ошибок такой же, как до переименования (209 ошибок из-за заголовков MinGW 8.3, например `GetCurrentProcessToken`), новых нет; ветки тестов под Windows не собирались, их 22 измененные строки просмотрены глазами. До переименования не собирается `LumexUtilityMinMaxMacros.cxx11.tests.cpp` (`std::min` в `LumexDebug.hpp` под макросом `min`), а с ним пять утилитных наборов тестов; для сравнения в обоих деревьях применена временная правка `(std::min)`, в коммиты она не входит.
+
 #### Исправлено
 
 ##### `LumexResourceMonitor::stop()` не ждет конца паузы
