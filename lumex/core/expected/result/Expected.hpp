@@ -1175,8 +1175,8 @@ public:
     requires requires (FunctionType &&f, SuccessType &val) {
       std::forward<FunctionType> (f) (val);
     } && (!std::is_void_v<std::invoke_result_t<FunctionType, SuccessType &>>)
-             && (!lumex::core::utility::traits::value::is_expected_v<
-                 std::invoke_result_t<FunctionType, SuccessType &>>)
+             && (!lumex::core::utility::traits::value::is_expected<
+                 std::invoke_result_t<FunctionType, SuccessType &>>::value)
   LUMEX_CONSTEXPR_CXX14 auto
   transform (FunctionType func) & -> expected<
       std::invoke_result_t<FunctionType, SuccessType &>, ErrorType>
@@ -1229,8 +1229,9 @@ public:
     }
              && (!std::is_void_v<
                  std::invoke_result_t<FunctionType, const SuccessType &>>)
-             && (!lumex::core::utility::traits::value::is_expected_v<
-                 std::invoke_result_t<FunctionType, const SuccessType &>>)
+             && (!lumex::core::utility::traits::value::is_expected<
+                 std::invoke_result_t<FunctionType,
+                                      const SuccessType &>>::value)
   LUMEX_CONSTEXPR_CXX14 auto
   transform (FunctionType func) const & -> expected<
       std::invoke_result_t<FunctionType, const SuccessType &>, ErrorType>
@@ -1288,8 +1289,8 @@ public:
     requires requires (FunctionType &&f, SuccessType &&val) {
       std::forward<FunctionType> (f) (std::move (val));
     } && (!std::is_void_v<std::invoke_result_t<FunctionType, SuccessType &&>>)
-             && (!lumex::core::utility::traits::value::is_expected_v<
-                 std::invoke_result_t<FunctionType, SuccessType &&>>)
+             && (!lumex::core::utility::traits::value::is_expected<
+                 std::invoke_result_t<FunctionType, SuccessType &&>>::value)
   LUMEX_CONSTEXPR_CXX14 auto
   transform (FunctionType func) && -> expected<
       std::invoke_result_t<FunctionType, SuccessType &&>, ErrorType>
@@ -1344,8 +1345,9 @@ public:
     }
              && (!std::is_void_v<
                  std::invoke_result_t<FunctionType, const SuccessType &&>>)
-             && (!lumex::core::utility::traits::value::is_expected_v<
-                 std::invoke_result_t<FunctionType, const SuccessType &&>>)
+             && (!lumex::core::utility::traits::value::is_expected<
+                 std::invoke_result_t<FunctionType,
+                                      const SuccessType &&>>::value)
   LUMEX_CONSTEXPR_CXX14 auto
   transform (FunctionType func) const && -> expected<
       std::invoke_result_t<FunctionType, const SuccessType &&>, ErrorType>
@@ -1585,8 +1587,8 @@ public:
     requires requires (FunctionType &&f, ErrorType &err) {
       std::forward<FunctionType> (f) (err);
     } && (!std::is_void_v<std::invoke_result_t<FunctionType, ErrorType &>>)
-             && (!lumex::core::utility::traits::value::is_expected_v<
-                 std::invoke_result_t<FunctionType, ErrorType &>>)
+             && (!lumex::core::utility::traits::value::is_expected<
+                 std::invoke_result_t<FunctionType, ErrorType &>>::value)
   LUMEX_CONSTEXPR_CXX14 auto
   transform_error (FunctionType func) & -> expected<
       SuccessType, std::invoke_result_t<FunctionType, ErrorType &>>
@@ -1642,8 +1644,8 @@ public:
     }
              && (!std::is_void_v<
                  std::invoke_result_t<FunctionType, const ErrorType &>>)
-             && (!lumex::core::utility::traits::value::is_expected_v<
-                 std::invoke_result_t<FunctionType, const ErrorType &>>)
+             && (!lumex::core::utility::traits::value::is_expected<
+                 std::invoke_result_t<FunctionType, const ErrorType &>>::value)
   LUMEX_CONSTEXPR_CXX14 auto
   transform_error (FunctionType func) const & -> expected<
       SuccessType, std::invoke_result_t<FunctionType, const ErrorType &>>
@@ -1697,8 +1699,8 @@ public:
     requires requires (FunctionType &&f, ErrorType &&err) {
       std::forward<FunctionType> (f) (std::move (err));
     } && (!std::is_void_v<std::invoke_result_t<FunctionType, ErrorType &&>>)
-             && (!lumex::core::utility::traits::value::is_expected_v<
-                 std::invoke_result_t<FunctionType, ErrorType &&>>)
+             && (!lumex::core::utility::traits::value::is_expected<
+                 std::invoke_result_t<FunctionType, ErrorType &&>>::value)
   LUMEX_CONSTEXPR_CXX14 auto
   transform_error (FunctionType func) && -> expected<
       SuccessType, std::invoke_result_t<FunctionType, ErrorType &&>>
@@ -1755,8 +1757,9 @@ public:
     }
              && (!std::is_void_v<
                  std::invoke_result_t<FunctionType, const ErrorType &&>>)
-             && (!lumex::core::utility::traits::value::is_expected_v<
-                 std::invoke_result_t<FunctionType, const ErrorType &&>>)
+             && (!lumex::core::utility::traits::value::is_expected<
+                 std::invoke_result_t<FunctionType,
+                                      const ErrorType &&>>::value)
   LUMEX_CONSTEXPR_CXX14 auto
   transform_error (FunctionType func) const && -> expected<
       SuccessType, std::invoke_result_t<FunctionType, const ErrorType &&>>
