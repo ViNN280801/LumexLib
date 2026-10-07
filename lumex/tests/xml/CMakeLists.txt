@@ -1,10 +1,11 @@
 # lumex/tests/xml/CMakeLists.txt
 
-# One suite per standard of the module (lumex/tests/LumexTestStandards.cmake):
-#   LumexXmlCxx11Tests  LumexXml.cxx11.tests.cpp,
-#                       LumexXmlGlobalNames.cxx11.tests.cpp and
-#                       LumexXmlXPathNumbers.cxx11.tests.cpp (the exact double
-#                       comparisons of the number rules)
+# The tests follow the source tree (lumex/xml): this directory keeps the tests
+# that exercise the document, node, attribute and writer classes together
+# through the umbrella, and xpath/query holds the XPath number rules. One suite
+# per standard of the module (lumex/tests/LumexTestStandards.cmake):
+#   LumexXmlCxx11Tests  LumexXml.cxx11.tests.cpp and
+#                       LumexXmlGlobalNames.cxx11.tests.cpp
 #   LumexXmlCxx17Tests  + LumexXml.cxx17.tests.cpp: the std::string_view
 #                       overloads
 #   LumexXmlCxx20Tests  the same files at C++20. LumexXml is a C++11 library,
@@ -31,3 +32,5 @@ lumex_add_standard_suites(Xml
 foreach(_suite IN LISTS _xml_suites)
     target_link_options(${_suite} PRIVATE -Wl,--no-as-needed)
 endforeach()
+
+add_subdirectory(xpath)

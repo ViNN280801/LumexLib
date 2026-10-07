@@ -1,4 +1,4 @@
-// lumex/tests/xml/LumexXmlXPathNumbers.cxx11.tests.cpp
+// lumex/tests/xml/xpath/query/LumexXmlXPathNumbers.cxx11.tests.cpp
 //
 // The rules of XPath 1.0 that compare doubles exactly: the number to boolean
 // and number to string conversions (zero, NaN, infinity), floor and ceiling
