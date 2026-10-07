@@ -55,7 +55,7 @@ using lumex::core::string::utility::stringify;
 #endif
 
 #endif
-#include <Windows.h>
+#include <windows.h>
 #include <winnls.h>
 #ifdef min
 #undef min

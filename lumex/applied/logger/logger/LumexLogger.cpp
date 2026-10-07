@@ -59,9 +59,9 @@
 // Platform headers are gated on compiler macros so they can precede the
 // project headers (LOGGER_OS_WINDOWS comes from LumexLogger.hpp).
 #if defined(_WIN32)
-#include <Windows.h>
+#include <windows.h>
 #ifdef _MSC_VER
-#include <DbgHelp.h>
+#include <dbghelp.h>
 #endif
 #else
 #include <dirent.h>

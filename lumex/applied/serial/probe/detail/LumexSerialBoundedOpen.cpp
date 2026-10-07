@@ -32,7 +32,7 @@
 #include <thread>
 
 #if defined(_WIN32)
-#include <Windows.h>
+#include <windows.h>
 #else
 #include <fcntl.h>
 #include <unistd.h>
