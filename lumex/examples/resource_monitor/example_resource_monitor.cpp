@@ -10,9 +10,11 @@
 using lumex::applied::resource_monitor::monitor::LumexResourceMonitor;
 using lumex::applied::resource_monitor::process::LumexProcessMonitor;
 using lumex::applied::resource_monitor::process::process_id_t;
+using lumex::applied::resource_monitor::process::process_member_t;
 using lumex::applied::resource_monitor::process::process_query_error;
 using lumex::applied::resource_monitor::process::process_usage_t;
 using lumex::applied::resource_monitor::process::total;
+using lumex::applied::resource_monitor::process::watch_list_t;
 
 namespace
 {
@@ -118,7 +120,44 @@ main ()
             << " sample(s): " << sum.resident_bytes / 1024
             << " KiB resident\n";
 
-  std::cout << "\n--- 5. A process that does not exist ---\n";
+  std::cout << "\n--- 5. The processes below a process ---\n";
+  // By default a sample adds up the process and every process below it
+  // (children, their children, ...); include_children = false samples the
+  // process alone, and the breakdown lists every process behind the sum.
+  std::vector<process_id_t> const below
+      = LumexProcessMonitor::find_descendants (self);
+  std::cout << below.size () << " process(es) below this one\n";
+  LumexProcessMonitor::result_t const alone = monitor.sample (self, false);
+  LumexProcessMonitor::result_t const together
+      = monitor.sample (self, true, true);
+  if (alone.has_value () && together.has_value ())
+    {
+      std::cout << "alone: " << alone->process_count << " process(es), "
+                << alone->resident_bytes / 1024 << " KiB resident\n";
+      std::cout << "with the processes below: " << together->process_count
+                << " process(es), " << together->resident_bytes / 1024
+                << " KiB resident\n";
+      for (process_member_t const &member : together->members)
+        std::cout << "    " << member.pid << " \"" << member.name << "\" "
+                  << member.resident_bytes / 1024 << " KiB\n";
+    }
+
+  std::cout << "\n--- 6. A watch list for the background sampler ---\n";
+  watch_list_t watch;
+  watch.pids.push_back (self);
+  watch.names.push_back (name);
+  // watch.include_children = true;  // the default: add the processes below
+  // watch.breakdown = true;         // off by default: a line per process
+  LumexResourceMonitor::start_with_watch_list (
+      dir, watch, std::chrono::milliseconds (250));
+  LumexResourceMonitor::stop ();
+  std::cout << "start_with_watch_list(...) returned; after its 2 s startup "
+               "pause every line of the log gets one entry per item, for "
+               "example\n  ... | "
+            << name << "[" << self << "] 3.1% 210.4Mb | " << name
+            << "[x2] 3.4% 410.0Mb\n";
+
+  std::cout << "\n--- 7. A process that does not exist ---\n";
   process_id_t const absent = 0x7FFFFFFEU;
   LumexProcessMonitor::result_t const missing = monitor.sample (absent);
   if (!missing.has_value ())
@@ -127,7 +166,7 @@ main ()
   else
     std::cout << "sample(" << absent << ") found a process\n";
 
-  std::cout << "\n--- 6. forget_exited ---\n";
+  std::cout << "\n--- 8. forget_exited ---\n";
   monitor.forget_exited ();
   std::cout << "forget_exited() dropped what was remembered about processes "
                "that are gone\n";

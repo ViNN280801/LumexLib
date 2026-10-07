@@ -43,8 +43,10 @@
 #include <fstream>
 #include <iomanip>
 #include <mutex>
+#include <sstream>
 #include <string>
 #include <thread>
+#include <vector>
 
 #if defined(_WIN32) || defined(_WIN64)
 #include <windows.h>
@@ -54,6 +56,7 @@
 
 #include "LumexResourceMonitor.hpp"
 #include "detail/LumexProcFs.hpp"
+#include "detail/LumexWatchLog.hpp"
 #include "lumex/applied/logging/LumexLogging"
 #include "lumex/core/filesystem/LumexFilesystem"
 #include "lumex/core/time/LumexTime"
@@ -251,7 +254,8 @@ sample_ram_linux (double &usedGbOut, double &totalGbOut)
 
 void
 worker_loop (std::string const &logFilePath,
-             std::chrono::milliseconds interval)
+             std::chrono::milliseconds interval,
+             process::watch_list_t const &watchList)
 {
   std::ofstream out (logFilePath, std::ios::out | std::ios::app);
   if (!out)
@@ -272,6 +276,13 @@ worker_loop (std::string const &logFilePath,
   if (!sample_cpu_linux (idle0, total0))
     return;
 #endif
+
+  // The watched processes get their baseline together with the system, so the
+  // first line has CPU shares too.
+  process::LumexProcessMonitor processMonitor;
+  bool const watching = !watchList.pids.empty () || !watchList.names.empty ();
+  if (watching)
+    detail::collect_watch_entries (processMonitor, watchList);
 
   while (!wait_or_stop (interval))
     {
@@ -314,28 +325,32 @@ worker_loop (std::string const &logFilePath,
 #else
       localtime_r (&tt, &tmBuf);
 #endif
-      out << std::put_time (&tmBuf, "%Y-%m-%d %H:%M:%S") << ' ';
-      out.setf (std::ios::fixed);
-      out << std::setprecision (1) << cpuPct << "%/100%, "
-          << std::setprecision (2) << usedRamGb << "Gb/"
-          << std::setprecision (2) << totalRamGb << "Gb\n";
+      std::ostringstream prefix;
+      prefix << std::put_time (&tmBuf, "%Y-%m-%d %H:%M:%S") << ' ';
+      prefix.setf (std::ios::fixed);
+      prefix << std::setprecision (1) << cpuPct << "%/100%, "
+             << std::setprecision (2) << usedRamGb << "Gb/"
+             << std::setprecision (2) << totalRamGb << "Gb";
+      std::vector<detail::watch_entry_t> entries;
+      if (watching)
+        entries = detail::collect_watch_entries (processMonitor, watchList);
+      out << detail::compose_log_line (prefix.str (), entries);
       out.flush ();
     }
 }
 
-} // namespace
-
-LUMEX_PUBLIC_API
+// Starts the sampler thread unless it runs; `watchList` may be empty.
 void
-lumex::applied::resource_monitor::monitor::LumexResourceMonitor::
-    start_if_enabled (std::string const &logDirectory,
-                      std::chrono::milliseconds pollInterval)
+start_sampler (std::string const &logDirectory,
+               std::chrono::milliseconds pollInterval,
+               process::watch_list_t const &watchList)
 {
   std::lock_guard<std::mutex> lock (g_mutex);
   if (g_started)
     {
-      lumWarning (KMODULE_NAME, "startIfEnabled() called while the sampler is "
-                                "already running; ignoring");
+      lumWarning (KMODULE_NAME, "start_if_enabled() / start_with_watch_list() "
+                                "called while the sampler is already "
+                                "running; ignoring");
       return;
     }
 
@@ -348,7 +363,7 @@ lumex::applied::resource_monitor::monitor::LumexResourceMonitor::
     g_stop_requested = false;
   }
   g_thread = std::thread (
-      [path, interval] ()
+      [path, interval, watchList] ()
         {
           // Give the host application time to finish initializing before
           // sampling starts, and avoid reporting noise from a
@@ -357,12 +372,33 @@ lumex::applied::resource_monitor::monitor::LumexResourceMonitor::
           if (wait_or_stop (std::chrono::milliseconds (
                   Constants::KSTARTUP_GRACE_PERIOD_MS)))
             return;
-          worker_loop (path, interval);
+          worker_loop (path, interval, watchList);
         });
   g_started = true;
 
   lumInfo (KMODULE_NAME, "Started, logging to '", path, "' every ",
            std::to_string (interval.count ()), " ms");
+}
+
+} // namespace
+
+LUMEX_PUBLIC_API
+void
+lumex::applied::resource_monitor::monitor::LumexResourceMonitor::
+    start_if_enabled (std::string const &logDirectory,
+                      std::chrono::milliseconds pollInterval)
+{
+  start_sampler (logDirectory, pollInterval, process::watch_list_t ());
+}
+
+LUMEX_PUBLIC_API
+void
+lumex::applied::resource_monitor::monitor::LumexResourceMonitor::
+    start_with_watch_list (std::string const &logDirectory,
+                           process::watch_list_t const &watchList,
+                           std::chrono::milliseconds pollInterval)
+{
+  start_sampler (logDirectory, pollInterval, watchList);
 }
 
 LUMEX_PUBLIC_API
