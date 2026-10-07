@@ -26,8 +26,8 @@
  * IN THE SOFTWARE.
  */
 
-#ifndef LUMEX_TESTS_CORE_CRC_HPP
-#define LUMEX_TESTS_CORE_CRC_HPP
+#ifndef LUMEX_TESTS_CORE_CRC_PARAMETRIC_HPP
+#define LUMEX_TESTS_CORE_CRC_PARAMETRIC_HPP
 
 #if defined(__clang__)
 #pragma clang diagnostic push
@@ -451,4 +451,4 @@ manual_crc_cases ()
 #pragma clang diagnostic pop
 #endif
 
-#endif // !LUMEX_TESTS_CORE_CRC_HPP
+#endif // !LUMEX_TESTS_CORE_CRC_PARAMETRIC_HPP
