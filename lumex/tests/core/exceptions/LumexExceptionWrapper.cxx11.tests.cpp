@@ -318,9 +318,9 @@ TEST (LumexExceptionWrapperTest, IsCallable_ReusesLumexTypeTraits)
 {
   auto fn = [] (int) { return 1; };
   EXPECT_TRUE (
-      (lumex::core::utility::traits::invoke::is_callable_v<decltype (fn),
-                                                           int>));
+      (lumex::core::utility::traits::invoke::is_callable<decltype (fn),
+                                                         int>::value));
   EXPECT_FALSE (
-      (lumex::core::utility::traits::invoke::is_callable_v<decltype (fn),
-                                                           std::string>));
+      (lumex::core::utility::traits::invoke::is_callable<decltype (fn),
+                                                         std::string>::value));
 }
