@@ -50,7 +50,7 @@
 #include <sys/stat.h>
 #if defined(_WIN32)
 #include <Shlwapi.h>
-#include <Windows.h>
+#include <windows.h>
 #include <winnt.h>
 #else
 #include <dirent.h>

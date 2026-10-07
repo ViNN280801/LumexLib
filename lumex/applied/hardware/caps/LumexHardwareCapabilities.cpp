@@ -49,7 +49,7 @@
 // Platform headers are gated on compiler macros so they can precede the
 // project headers (the code below still branches on LUMEX_OS_*).
 #if defined(_WIN32)
-#include <Windows.h>
+#include <windows.h>
 
 #include <intrin.h>
 

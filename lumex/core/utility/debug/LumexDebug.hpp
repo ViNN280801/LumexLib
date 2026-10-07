@@ -122,9 +122,9 @@
 // Platform headers are gated on compiler macros so they can precede the
 // project headers (the code below still branches on LUMEX_OS_*).
 #if defined(_WIN32)
-#include <Windows.h>
+#include <windows.h>
 
-#include <DbgHelp.h>
+#include <dbghelp.h>
 #else
 #include <unistd.h>
 #if defined(__linux__) && __has_include(<link.h>)
