@@ -335,6 +335,9 @@ template <typename B, typename MT> struct invoke_impl<MT B::*>
 
 template <typename Func, typename... Args,
           typename FuncDecayed = typename std::decay<Func>::type>
+// The exposition-only name of the standard INVOKE; a lower-case invoke would
+// be found by ADL together with std::invoke and make calls ambiguous.
+// NOLINTNEXTLINE(readability-identifier-naming)
 auto INVOKE (Func &&func, Args &&...args)
     -> decltype (invoke_impl<FuncDecayed>::call (
         std::forward<Func> (func), std::forward<Args> (args)...));
