@@ -135,35 +135,96 @@ struct is_nothrow_swappable : swap_adl::is_nothrow_swappable_impl<T>
  * @brief Wrapper that holds an error value for `expected`.
  * @details Used to construct an `expected` in the error state. Analogue of
  * `std::unexpected` from C++23.
- * @tparam ErrorType Type of the stored error value.
+ * @tparam ErrorType Type of the stored error value: an object type that is
+ * not an array, not cv-qualified and not a specialization of `unexpected`.
  * @note An `unexpected` object is always in the error state.
  */
 template <typename ErrorType> class unexpected
 {
+  LUMEX_STATIC_ASSERT_MSG (std::is_object<ErrorType>::value,
+                           "unexpected<E>: E must be an object type (not a "
+                           "reference, a function or void)");
+  LUMEX_STATIC_ASSERT_MSG (!std::is_array<ErrorType>::value,
+                           "unexpected<E>: E must not be an array type");
+  LUMEX_STATIC_ASSERT_MSG (!detail::is_unexpected<ErrorType>::value,
+                           "unexpected<E>: E must not be a specialization of "
+                           "unexpected");
+  LUMEX_STATIC_ASSERT_MSG (!std::is_const<ErrorType>::value
+                               && !std::is_volatile<ErrorType>::value,
+                           "unexpected<E>: E must not be cv-qualified");
+
 public:
   /**
-   * @brief Constructs from a const lvalue error.
-   * @param[in] error Const reference to the error to store.
-   * @note Not declared `noexcept`; throws whatever the copy constructor of
-   * `ErrorType` throws.
+   * @brief Constructs the error from one argument.
+   * @tparam Err Type of the argument; defaults to `ErrorType`.
+   * @param[in] error Value the stored error is constructed from.
+   * @note The constructor is `explicit` and takes anything `ErrorType` can be
+   * constructed from, so `unexpected<std::string> ("text")` and a move-only
+   * error both work. Not selected for an `unexpected` (that is the copy or
+   * move constructor) and for the `in_place` tag.
+   * @note `noexcept` when the construction of `ErrorType` is.
    */
-  explicit unexpected (ErrorType const &error) : m_error (error) {}
+  template <
+      typename Err = ErrorType,
+      typename = typename std::enable_if<
+          !std::is_same<lumex::core::utility::traits::meta::CleanType<Err>,
+                        unexpected>::value
+          && !std::is_same<lumex::core::utility::traits::meta::CleanType<Err>,
+                           lumex::core::expected::result::in_place_tag>::value
+          && std::is_constructible<ErrorType, Err>::value>::type>
+  LUMEX_CONSTEXPR_CTOR explicit unexpected (Err &&error)
+      LUMEX_NOEXCEPT_IF (std::is_nothrow_constructible<ErrorType, Err>::value)
+      : m_error (std::forward<Err> (error))
+  {
+  }
 
   /**
-   * @brief Constructs from an rvalue error.
-   * @param[in] error Rvalue reference to the error to store.
-   * @note Not declared `noexcept`; throws whatever the move constructor of
-   * `ErrorType` throws.
+   * @brief Constructs the error in place from several arguments.
+   * @tparam Args Argument types forwarded to the `ErrorType` constructor.
+   * @param[in] args Arguments forwarded to the `ErrorType` constructor.
+   * @note `noexcept` when the construction of `ErrorType` is.
    */
-  explicit unexpected (ErrorType &&error) : m_error (std::move (error)) {}
+  template <typename... Args,
+            typename = typename std::enable_if<
+                std::is_constructible<ErrorType, Args...>::value>::type>
+  LUMEX_CONSTEXPR_CTOR explicit unexpected (
+      lumex::core::expected::result::in_place_tag /* unused */, Args &&...args)
+      LUMEX_NOEXCEPT_IF (
+          std::is_nothrow_constructible<ErrorType, Args...>::value)
+      : m_error (std::forward<Args> (args)...)
+  {
+  }
+
+  /**
+   * @brief Constructs the error in place from an initializer list and further
+   * arguments.
+   * @tparam U Element type of the initializer list.
+   * @tparam Args Argument types forwarded after the list.
+   * @param[in] list Initializer list passed to the `ErrorType` constructor.
+   * @param[in] args Arguments forwarded after the list.
+   * @note `noexcept` when the construction of `ErrorType` is.
+   */
+  template <typename U, typename... Args,
+            typename = typename std::enable_if<std::is_constructible<
+                ErrorType, std::initializer_list<U> &, Args...>::value>::type>
+  LUMEX_CONSTEXPR_CTOR explicit unexpected (
+      lumex::core::expected::result::in_place_tag /* unused */,
+      std::initializer_list<U> list, Args &&...args)
+      LUMEX_NOEXCEPT_IF (
+          std::is_nothrow_constructible<ErrorType, std::initializer_list<U> &,
+                                        Args...>::value)
+      : m_error (list, std::forward<Args> (args)...)
+  {
+  }
 
   /**
    * @brief Returns a mutable lvalue reference to the stored error.
    * @return Reference to the `ErrorType` error.
    * @note This function does not throw.
    */
-  ErrorType &
-  error () &
+  LUMEX_CONSTEXPR_CXX14 ErrorType &
+      error ()
+      & LUMEX_NOEXCEPT
   {
     return m_error;
   }
@@ -173,8 +234,8 @@ public:
    * @return Const reference to the `ErrorType` error.
    * @note This function does not throw.
    */
-  ErrorType const &
-  error () const &
+  LUMEX_CONSTEXPR_FUNCTION ErrorType const &
+  error () const &LUMEX_NOEXCEPT
   {
     return m_error;
   }
@@ -184,8 +245,9 @@ public:
    * @return Rvalue reference to the `ErrorType` error.
    * @note This function does not throw.
    */
-  ErrorType &&
-  error () &&
+  LUMEX_CONSTEXPR_CXX14 ErrorType &&
+      error ()
+      && LUMEX_NOEXCEPT
   {
     return std::move (m_error);
   }
@@ -195,10 +257,23 @@ public:
    * @return Const rvalue reference to the `ErrorType` error.
    * @note This function does not throw.
    */
-  ErrorType const &&
-  error () const &&
+  LUMEX_CONSTEXPR_CXX14 ErrorType const &&
+  error () const &&LUMEX_NOEXCEPT
   {
     return std::move (m_error);
+  }
+
+  /**
+   * @brief Exchanges the stored error with the one of `other`.
+   * @param[in,out] other The `unexpected` to swap with.
+   * @note `noexcept` when swapping two `ErrorType` objects is.
+   */
+  LUMEX_CONSTEXPR_CXX14 void
+  swap (unexpected &other)
+      LUMEX_NOEXCEPT_IF (detail::is_nothrow_swappable<ErrorType>::value)
+  {
+    using std::swap;
+    swap (m_error, other.m_error);
   }
 
 private:
@@ -208,6 +283,78 @@ private:
    */
   ErrorType m_error; ///< Stored error value.
 };
+
+/**
+ * @brief Exchanges two `unexpected` objects.
+ * @tparam ErrorType Error type; must be swappable.
+ * @param[in,out] lhs First object.
+ * @param[in,out] rhs Second object.
+ * @note Takes part in overload resolution only when `ErrorType` is
+ * swappable.
+ */
+template <typename ErrorType>
+LUMEX_CONSTEXPR_CXX14
+    typename std::enable_if<detail::is_swappable<ErrorType>::value>::type
+    swap (unexpected<ErrorType> &lhs, unexpected<ErrorType> &rhs)
+        LUMEX_NOEXCEPT_IF (detail::is_nothrow_swappable<ErrorType>::value)
+{
+  lhs.swap (rhs);
+}
+
+/**
+ * @brief Compares the errors of two `unexpected` objects.
+ * @tparam ErrorType Error type of the left operand.
+ * @tparam OtherError Error type of the right operand; the two errors must be
+ * comparable with `==`.
+ * @param[in] lhs Left operand.
+ * @param[in] rhs Right operand.
+ * @return `lhs.error () == rhs.error ()`.
+ * @note Takes part in overload resolution only when the two errors can be
+ * compared with `==`.
+ */
+template <typename ErrorType, typename OtherError>
+LUMEX_CONSTEXPR_FUNCTION typename std::enable_if<
+    std::is_convertible<decltype (std::declval<ErrorType const &> ()
+                                  == std::declval<OtherError const &> ()),
+                        bool>::value,
+    bool>::type
+operator== (unexpected<ErrorType> const &lhs,
+            unexpected<OtherError> const &rhs)
+{
+  return static_cast<bool> (lhs.error () == rhs.error ());
+}
+
+#if !LUMEX_HAS_IMPL_THREE_WAY_COMPARISON
+/**
+ * @brief Compares the errors of two `unexpected` objects for inequality.
+ * @tparam ErrorType Error type of the left operand.
+ * @tparam OtherError Error type of the right operand.
+ * @param[in] lhs Left operand.
+ * @param[in] rhs Right operand.
+ * @return `!(lhs == rhs)`.
+ * @note Before C++20 only: from C++20 the compiler rewrites `a != b` from
+ * `operator==`, as it does for `std::unexpected`. Takes part in overload
+ * resolution only when the two errors can be compared with `==`.
+ */
+template <typename ErrorType, typename OtherError>
+LUMEX_CONSTEXPR_FUNCTION typename std::enable_if<
+    std::is_convertible<decltype (std::declval<ErrorType const &> ()
+                                  == std::declval<OtherError const &> ()),
+                        bool>::value,
+    bool>::type
+operator!= (unexpected<ErrorType> const &lhs,
+            unexpected<OtherError> const &rhs)
+{
+  return !static_cast<bool> (lhs.error () == rhs.error ());
+}
+#endif
+
+// `__cplusplus`, not LUMEX_HAS_DEDUCTION_GUIDES: GCC 8 supports the guide but
+// reports `__cpp_deduction_guides` 201606L at C++17.
+#if __cplusplus >= 201703L
+/// @brief `unexpected (error)` deduces `unexpected<decltype (error)>` (C++17).
+template <typename ErrorType> unexpected (ErrorType) -> unexpected<ErrorType>;
+#endif
 
 } // namespace error
 } // namespace expected
