@@ -1,6 +1,6 @@
-// Base64 encoder tests of the std::string_view wrappers (C++17). The C++17
+// Base64 validator tests of the std::string_view wrappers (C++17). The C++17
 // and C++20 suites of this directory compile this file together with
-// LumexBase64Encoder.cxx11.tests.cpp.
+// LumexBase64Validator.cxx11.tests.cpp.
 
 #include <string>
 #include <string_view>
@@ -39,33 +39,29 @@ using namespace lumex::core::base64::encode;
 using namespace lumex::core::base64::validate;
 using namespace lumex::core::base64::codec::Types;
 
-TEST_F (Base64EncoderTest,
-        GivenStringView_WhenEncode_ThenProducesCorrectOutput)
+TEST_F (Base64ValidatorTest,
+        GivenDefaultConstructedStringView_WhenValidate_ThenReturnsTrue)
 {
-  std::string text = "Test string";
-  std::string_view view (text);
-  std::string result = encoder::encode (view);
-  EXPECT_EQ (result, "VGVzdCBzdHJpbmc=");
+  // A default-constructed view has no data pointer but is an empty input,
+  // unlike the pointer and size core called with nullptr.
+  std::string_view const empty_view;
+  ASSERT_EQ (empty_view.data (), nullptr);
+  EXPECT_TRUE (validator::is_valid_base64 (empty_view));
 }
 
-TEST_F (Base64EncoderTest,
-        GivenStringViewWithEmbeddedNul_WhenEncode_ThenEncodesTheWholeView)
+TEST_F (Base64ValidatorTest, GivenStringView_WhenValidate_ThenWorksCorrectly)
 {
-  // The view is sized: its NUL is a byte, not the end of the input.
-  std::string_view const view ("a\0b", 3);
-  EXPECT_EQ (encoder::encode (view), "YQBi");
-}
+  // Test C++17 string_view interface
+  std::string base_string = "VGVzdERhdGE=";
+  std::string_view view (base_string);
 
-TEST_F (Base64EncoderTest,
-        GivenStringViewSubRange_WhenEncode_ThenOnlyTheViewIsEncoded)
-{
-  std::string const longer = "xxHiyy";
-  EXPECT_EQ (encoder::encode (std::string_view (longer).substr (2, 2)),
-             "SGk=");
-}
+  bool result = validator::is_valid_base64 (view);
+  EXPECT_TRUE (result);
 
-TEST_F (Base64EncoderTest,
-        GivenDefaultConstructedStringView_WhenEncode_ThenReturnsEmptyString)
-{
-  EXPECT_TRUE (encoder::encode (std::string_view ()).empty ());
+  // Test substring view
+  std::string longer = "PrefixVGVzdERhdGE=Suffix";
+  std::string_view sub_view (longer.data () + 6, 12); // Extract "VGVzdERhdGE="
+
+  bool result2 = validator::is_valid_base64 (sub_view);
+  EXPECT_TRUE (result2);
 }

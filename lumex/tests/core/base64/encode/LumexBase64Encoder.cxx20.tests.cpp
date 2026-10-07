@@ -1,6 +1,7 @@
-// Base64 tests of the std::span wrappers (C++20). The C++20 suite compiles
-// this file together with LumexBase64.cxx11.tests.cpp and
-// LumexBase64.cxx17.tests.cpp. Encoder.hpp declares the std::span overload
+// Base64 encoder tests of the std::span wrappers (C++20). The C++20 suite of
+// this directory compiles this file together with
+// LumexBase64Encoder.cxx11.tests.cpp and LumexBase64Encoder.cxx17.tests.cpp.
+// Encoder.hpp declares the std::span overload
 // only when the standard library has std::span (LUMEX_HAS_STD_SPAN):
 // libstdc++ 8 has no <span> even with -std=c++2a, so there the tests skip.
 

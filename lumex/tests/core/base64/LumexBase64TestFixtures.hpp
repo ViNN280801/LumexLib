@@ -38,9 +38,10 @@
 
 #include "lumex/core/base64/LumexBase64"
 
-// Fixtures of the base64 tests. The test sources of every standard
-// (LumexBase64.cxx11.tests.cpp, .cxx17, .cxx20) add tests to the same
-// GoogleTest suites, and every test of a suite must use one fixture class.
+// Fixtures of the base64 tests. The test sources of every standard (the
+// .cxx11, .cxx17 and .cxx20 files of encode/, decode/ and validate/) add
+// tests to the same GoogleTest suites, and every test of a suite must use
+// one fixture class.
 
 class Base64EncoderTest : public ::testing::Test
 {

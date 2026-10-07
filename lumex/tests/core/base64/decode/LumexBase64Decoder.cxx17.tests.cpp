@@ -1,9 +1,10 @@
-// Base64 encoder tests of the std::string_view wrappers (C++17). The C++17
+// Base64 decoder tests of the std::string_view wrappers (C++17). The C++17
 // and C++20 suites of this directory compile this file together with
-// LumexBase64Encoder.cxx11.tests.cpp.
+// LumexBase64Decoder.cxx11.tests.cpp.
 
 #include <string>
 #include <string_view>
+#include <vector>
 
 #include <gtest/gtest.h>
 
@@ -39,33 +40,27 @@ using namespace lumex::core::base64::encode;
 using namespace lumex::core::base64::validate;
 using namespace lumex::core::base64::codec::Types;
 
-TEST_F (Base64EncoderTest,
-        GivenStringView_WhenEncode_ThenProducesCorrectOutput)
+TEST_F (Base64DecoderTest,
+        GivenDefaultConstructedStringView_WhenDecode_ThenTrueAndEmpty)
 {
-  std::string text = "Test string";
-  std::string_view view (text);
-  std::string result = encoder::encode (view);
-  EXPECT_EQ (result, "VGVzdCBzdHJpbmc=");
+  // A default-constructed view has no data pointer but is an empty input,
+  // unlike the pointer and size core called with nullptr.
+  std::string_view const empty_view;
+  ASSERT_EQ (empty_view.data (), nullptr);
+  std::vector<byte_type> out (3, 0x7F);
+  EXPECT_TRUE (decoder::decode (empty_view, out));
+  EXPECT_TRUE (out.empty ());
+  EXPECT_TRUE (decoder::decode (empty_view).empty ());
 }
 
-TEST_F (Base64EncoderTest,
-        GivenStringViewWithEmbeddedNul_WhenEncode_ThenEncodesTheWholeView)
+TEST_F (Base64DecoderTest,
+        GivenStringViewSubRange_WhenDecode_ThenOnlyTheViewIsRead)
 {
-  // The view is sized: its NUL is a byte, not the end of the input.
-  std::string_view const view ("a\0b", 3);
-  EXPECT_EQ (encoder::encode (view), "YQBi");
-}
-
-TEST_F (Base64EncoderTest,
-        GivenStringViewSubRange_WhenEncode_ThenOnlyTheViewIsEncoded)
-{
-  std::string const longer = "xxHiyy";
-  EXPECT_EQ (encoder::encode (std::string_view (longer).substr (2, 2)),
-             "SGk=");
-}
-
-TEST_F (Base64EncoderTest,
-        GivenDefaultConstructedStringView_WhenEncode_ThenReturnsEmptyString)
-{
-  EXPECT_TRUE (encoder::encode (std::string_view ()).empty ());
+  std::string const longer = "xxSGk=yy";
+  std::string_view const view = std::string_view (longer).substr (2, 4);
+  std::vector<byte_type> const bytes = decoder::decode (view);
+  EXPECT_EQ (std::string (bytes.begin (), bytes.end ()), "Hi");
+  // Without the padding the view is still valid unpadded Base64.
+  std::vector<byte_type> const unpadded = decoder::decode (view.substr (0, 3));
+  EXPECT_EQ (std::string (unpadded.begin (), unpadded.end ()), "Hi");
 }
