@@ -26,6 +26,9 @@ param(
     [string] $Version   = '',
     [string] $Tag       = '',
     [switch] $KeepWork,
+    [switch] $DryRun,
+    [switch] $Quiet,
+    [switch] $NoColor,
     [switch] $Help
 )
 
@@ -92,6 +95,16 @@ Options:
                      git worktree remove --force <path>; git worktree prune).
   -KeepWork          Keep the build, staging and packaging trees under
                      <output-dir>/.work (removed by default).
+  -DryRun            Show what would run, run nothing: no build tree, no log,
+                     no package, no worktree. The checks that decide the plan
+                     (the toolsets, the compilers, NSIS, tar, the tag) still
+                     run.
+  -Quiet             Do not show the output of the commands, only the commands
+                     and the packages. The output is in the logs under
+                     <output-dir>/.work/<build>/ either way.
+  -NoColor           No colours (NO_COLOR is honoured too). Every command the
+                     script runs is shown in cyan after a "$"; its output
+                     keeps the colour of the console.
   -Help              Show this help.
 
 Notes:
@@ -123,6 +136,79 @@ The Linux counterpart is ./create_release.sh; -Compilers is its --compilers
 function Die([string] $Message) {
     [Console]::Error.WriteLine("Error: $Message")
     exit 1
+}
+
+# Colours: Write-Host colours the console and leaves a redirected output plain.
+$UseColor = (-not $NoColor) -and [string]::IsNullOrEmpty($env:NO_COLOR)
+
+function Write-Colored([string] $Text, [string] $Color, [switch] $NoNewline) {
+    if ($UseColor -and $NoNewline) {
+        Write-Host $Text -ForegroundColor $Color -NoNewline
+    }
+    elseif ($UseColor) {
+        Write-Host $Text -ForegroundColor $Color
+    }
+    elseif ($NoNewline) {
+        Write-Host $Text -NoNewline
+    }
+    else {
+        Write-Host $Text
+    }
+}
+
+# A dim line for what a dry run would do without a command to show.
+function Write-Note([string] $Text) {
+    Write-Colored "# $Text" 'DarkGray'
+}
+
+# One argument as one could type it: quoted unless it is plain.
+function ConvertTo-ShownArgument([string] $Argument) {
+    if ($Argument -match '^[A-Za-z0-9_.,:=+@%/\\-]+$') {
+        return $Argument
+    }
+    return '"' + ($Argument -replace '"', '\"') + '"'
+}
+
+# The command line as one could type it; a long one gets one option with its
+# value per line (a PowerShell line continuation is the backtick).
+function Format-CommandLine([string] $FilePath, [string[]] $ArgumentList) {
+    $words = @($FilePath)
+    foreach ($argument in $ArgumentList) {
+        $words += [string] $argument
+    }
+    $shown = @()
+    foreach ($word in $words) {
+        $shown += (ConvertTo-ShownArgument $word)
+    }
+    $line = $shown -join ' '
+    if ($line.Length -le 110) {
+        return $line
+    }
+    # The command and its leading plain words (python compile.py Release)
+    # stay on the first line.
+    $parts = @()
+    $head = $shown[0]
+    $i = 1
+    while ($i -lt $words.Count -and -not $words[$i].StartsWith('-')) {
+        $head += ' ' + $shown[$i]
+        $i++
+    }
+    $parts += $head
+    while ($i -lt $words.Count) {
+        $part = $shown[$i]
+        if ($words[$i].StartsWith('-') -and $words[$i] -notlike '*=*' -and ($i + 1) -lt $words.Count -and -not $words[$i + 1].StartsWith('-')) {
+            $part += ' ' + $shown[$i + 1]
+            $i++
+        }
+        $parts += $part
+        $i++
+    }
+    return ($parts -join (' `' + [Environment]::NewLine + '    '))
+}
+
+# The command, in cyan after a "$".
+function Write-CommandLine([string] $FilePath, [string[]] $ArgumentList) {
+    Write-Colored ('$ ' + (Format-CommandLine $FilePath $ArgumentList)) 'Cyan'
 }
 
 # ---------------------------------------------------------------------------
@@ -411,8 +497,14 @@ if ($needsNinja -and -not (Get-Command ninja -ErrorAction SilentlyContinue)) {
 if ([string]::IsNullOrWhiteSpace($OutputDir)) {
     $OutputDir = Join-Path $RepoRoot 'release'
 }
-New-Item -ItemType Directory -Force -Path $OutputDir | Out-Null
-$OutputDir = (Resolve-Path -LiteralPath $OutputDir).Path
+if ($DryRun) {
+    # Nothing is made: the path is only made absolute.
+    $OutputDir = $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($OutputDir)
+}
+else {
+    New-Item -ItemType Directory -Force -Path $OutputDir | Out-Null
+    $OutputDir = (Resolve-Path -LiteralPath $OutputDir).Path
+}
 $WorkRoot = Join-Path $OutputDir '.work'
 
 $Stopwatch = [System.Diagnostics.Stopwatch]::StartNew()
@@ -426,7 +518,18 @@ function Remove-X64 {
     }
 }
 
-function Invoke-NativeRedirected([string] $FilePath, [string[]] $ArgumentList, [string] $LogPath) {
+# Shows the command, runs it and keeps its output in the log; unless -Quiet the
+# output is on the console too, in the console's own colour. With -DryRun it
+# only shows the command and returns 0. -Check is a read-only check that the
+# plan depends on: it is not shown, it runs in a dry run too and its output
+# goes to the log only.
+function Invoke-NativeRedirected([string] $FilePath, [string[]] $ArgumentList, [string] $LogPath, [switch] $Check) {
+    if (-not $Check) {
+        Write-CommandLine $FilePath $ArgumentList
+        if ($DryRun) {
+            return 0
+        }
+    }
     # Windows PowerShell turns a native command's stderr output into a
     # terminating error while ErrorActionPreference is Stop, and compile.py
     # writes its INFO lines to stderr; the preference is relaxed around the
@@ -434,11 +537,66 @@ function Invoke-NativeRedirected([string] $FilePath, [string[]] $ArgumentList, [
     $previous = $ErrorActionPreference
     $ErrorActionPreference = 'Continue'
     try {
-        & $FilePath @ArgumentList *> $LogPath
+        if ($Quiet -or $Check) {
+            & $FilePath @ArgumentList *> $LogPath
+        }
+        else {
+            & $FilePath @ArgumentList 2>&1 | ForEach-Object { "$_" } | Tee-Object -FilePath $LogPath | Out-Host
+        }
         return $LASTEXITCODE
     }
     finally {
         $ErrorActionPreference = $previous
+    }
+}
+
+# Invoke-NativeRedirected in another directory. A dry run does not go there
+# (the directory of a tag worktree does not exist): it says where.
+function Invoke-NativeRedirectedIn([string] $Directory, [string] $FilePath, [string[]] $ArgumentList, [string] $LogPath) {
+    if ($DryRun) {
+        Write-Note "in $Directory"
+        return (Invoke-NativeRedirected $FilePath $ArgumentList $LogPath)
+    }
+    Push-Location -LiteralPath $Directory
+    try {
+        return (Invoke-NativeRedirected $FilePath $ArgumentList $LogPath)
+    }
+    finally {
+        Pop-Location
+    }
+}
+
+# The text of a file of the tree that is built. A dry run has no tag worktree,
+# so it asks git for the file of the tag; the console is read as UTF-8 for it.
+function Get-TreeFileText([string] $Name) {
+    if (-not ($DryRun -and $TagWorktree)) {
+        return (Get-Content -LiteralPath (Join-Path $BuildRoot $Name) -Raw -Encoding UTF8)
+    }
+    $previousEncoding = [Console]::OutputEncoding
+    try {
+        try {
+            [Console]::OutputEncoding = New-Object System.Text.UTF8Encoding($false)
+        }
+        catch {
+            $null = $_
+        }
+        $previousPreference = $ErrorActionPreference
+        $ErrorActionPreference = 'Continue'
+        try {
+            $lines = & git -C $RepoRoot show "refs/tags/${Tag}:$Name" 2>$null
+        }
+        finally {
+            $ErrorActionPreference = $previousPreference
+        }
+        return (@($lines) -join "`n")
+    }
+    finally {
+        try {
+            [Console]::OutputEncoding = $previousEncoding
+        }
+        catch {
+            $null = $_
+        }
     }
 }
 
@@ -454,9 +612,14 @@ if (-not [string]::IsNullOrWhiteSpace($Tag)) {
     }
     # The log and the worktree live under the work root, which the per-job
     # staging would create only later.
-    New-Item -ItemType Directory -Force -Path $WorkRoot | Out-Null
-    $tagLog = Join-Path $WorkRoot 'worktree.log'
-    if ((Invoke-NativeRedirected 'git' @('-C', $RepoRoot, 'rev-parse', '--verify', '--quiet', "refs/tags/$Tag^{commit}") $tagLog) -ne 0) {
+    if ($DryRun) {
+        $tagLog = Join-Path ([System.IO.Path]::GetTempPath()) 'lumexlib-release-tag-check.log'
+    }
+    else {
+        New-Item -ItemType Directory -Force -Path $WorkRoot | Out-Null
+        $tagLog = Join-Path $WorkRoot 'worktree.log'
+    }
+    if ((Invoke-NativeRedirected 'git' @('-C', $RepoRoot, 'rev-parse', '--verify', '--quiet', "refs/tags/$Tag^{commit}") $tagLog -Check) -ne 0) {
         Die "tag '$Tag' is not in this repository; fetch it first (git fetch --tags)"
     }
     $TagWorktree = Join-Path $WorkRoot ('src-' + ($Tag -replace '[^A-Za-z0-9._-]', '_'))
@@ -483,15 +646,18 @@ if (-not [string]::IsNullOrWhiteSpace($Tag)) {
     Write-Host "Tag: $Tag (build tree: $BuildRoot; removed at the end unless -KeepWork)"
 }
 
-if (-not (Test-Path -LiteralPath (Join-Path $BuildRoot 'compile.py'))) {
-    Die "compile.py is not in the build tree ($BuildRoot)"
+# A dry run of a tag has no worktree to look into.
+if (-not ($DryRun -and $TagWorktree)) {
+    if (-not (Test-Path -LiteralPath (Join-Path $BuildRoot 'compile.py'))) {
+        Die "compile.py is not in the build tree ($BuildRoot)"
+    }
 }
 
 # ---------------------------------------------------------------------------
 # Version
 # ---------------------------------------------------------------------------
 
-$CmakeText = Get-Content -LiteralPath (Join-Path $BuildRoot 'CMakeLists.txt') -Raw -Encoding UTF8
+$CmakeText = Get-TreeFileText 'CMakeLists.txt'
 $versionMatch = [regex]::Match($CmakeText, 'project\(\s*LumexLib[^)]*?VERSION\s+([0-9]+(?:\.[0-9]+){1,3})', 'Singleline')
 if (-not $versionMatch.Success) {
     Die 'cannot read project(LumexLib VERSION ...) from CMakeLists.txt'
@@ -506,6 +672,9 @@ if (-not [string]::IsNullOrWhiteSpace($Version)) {
 }
 
 Write-Host "LumexLib $EffectiveVersion, formats: $($FormatList -join ', ')"
+if ($DryRun) {
+    Write-Colored 'Dry run: the commands are shown, nothing is built, installed or written.' 'Yellow'
+}
 if ($null -ne $NSISMaker) {
     Write-Host "  NSIS: $NSISMaker"
 }
@@ -519,6 +688,7 @@ foreach ($job in $Jobs) {
     }
 }
 
+$BuildNumber = 0
 $Builds = @(
     foreach ($job in $Jobs) {
         foreach ($isa in $ArchList) {
@@ -538,14 +708,18 @@ foreach ($build in $Builds) {
     $stdTag = if ($stdItem -ne 0) { "$stdItem" } else { '20' }
     $base = "LumexLib-${EffectiveVersion}_win_${isa}_$($job.Label)_cxx${stdTag}"
     $work = Join-Path $WorkRoot "$($job.Label)_${isa}_cxx${stdTag}"
-    if (Test-Path -LiteralPath $work) {
-        Remove-Item -LiteralPath $work -Recurse -Force
-    }
-    New-Item -ItemType Directory -Force -Path $work | Out-Null
     $prefix = Join-Path $work 'prefix'
-    New-Item -ItemType Directory -Force -Path $prefix | Out-Null
+    if (-not $DryRun) {
+        if (Test-Path -LiteralPath $work) {
+            Remove-Item -LiteralPath $work -Recurse -Force
+        }
+        New-Item -ItemType Directory -Force -Path $work | Out-Null
+        New-Item -ItemType Directory -Force -Path $prefix | Out-Null
+    }
 
-    Write-Host "== $base ($stdTextForBanner)"
+    Write-Host ''
+    Write-Host "== [$($BuildNumber + 1)/$($Builds.Count)] $base ($stdTextForBanner)"
+    $BuildNumber++
 
     $compileArgs = @(
         'compile.py', 'Release',
@@ -575,84 +749,95 @@ foreach ($build in $Builds) {
         $compileArgs += @('--stdcxx', $stdItem)
     }
     $buildLog = Join-Path $work 'build.log'
-    Push-Location -LiteralPath $BuildRoot
-    try {
-        $buildExit = Invoke-NativeRedirected 'python' $compileArgs $buildLog
-    }
-    finally {
-        Pop-Location
-    }
+    $buildExit = Invoke-NativeRedirectedIn $BuildRoot 'python' $compileArgs $buildLog
     if ($buildExit -ne 0) {
         Die "build failed, see $buildLog"
     }
 
     $installerPath = ''
-    if ($FormatList -contains 'exe') {
-        $installer = @(
-            Get-ChildItem -LiteralPath (Join-Path $BuildRoot 'build') -File -ErrorAction SilentlyContinue |
-                Where-Object { $_.Name -like "LumexLib-${EffectiveVersion}-win_${isa}_*_cpp*.exe" }
-        )
-        if ($installer.Count -ne 1) {
-            Die "expected 1 NSIS installer in $RepoRoot\build, found $($installer.Count); see $buildLog"
+    $installDir = ''
+    if ($DryRun) {
+        if ($FormatList -contains 'exe') {
+            # The installer of CPack is found only after the build.
+            $installerPath = "$BuildRoot\build\LumexLib-${EffectiveVersion}-win_${isa}_*_cpp*.exe"
         }
-        $installerPath = $installer[0].FullName
     }
+    else {
+        if ($FormatList -contains 'exe') {
+            $installer = @(
+                Get-ChildItem -LiteralPath (Join-Path $BuildRoot 'build') -File -ErrorAction SilentlyContinue |
+                    Where-Object { $_.Name -like "LumexLib-${EffectiveVersion}-win_${isa}_*_cpp*.exe" }
+            )
+            if ($installer.Count -ne 1) {
+                Die "expected 1 NSIS installer in $RepoRoot\build, found $($installer.Count); see $buildLog"
+            }
+            $installerPath = $installer[0].FullName
+        }
 
-    $installedDirs = @(Get-ChildItem -LiteralPath $prefix -Directory -ErrorAction SilentlyContinue)
-    if ($installedDirs.Count -ne 1) {
-        Die "expected 1 install folder under $prefix, found $($installedDirs.Count); see $buildLog"
-    }
-    $installDir = $installedDirs[0].FullName
-    if (-not (Test-Path -LiteralPath (Join-Path $installDir 'lib'))) {
-        Die "the install produced no lib/ under $installDir; see $buildLog"
+        $installedDirs = @(Get-ChildItem -LiteralPath $prefix -Directory -ErrorAction SilentlyContinue)
+        if ($installedDirs.Count -ne 1) {
+            Die "expected 1 install folder under $prefix, found $($installedDirs.Count); see $buildLog"
+        }
+        $installDir = $installedDirs[0].FullName
+        if (-not (Test-Path -LiteralPath (Join-Path $installDir 'lib'))) {
+            Die "the install produced no lib/ under $installDir; see $buildLog"
+        }
     }
 
     # One top folder per package, named after the artifact, exactly like
     # the Linux script stages its tar tree.
     $stageRoot = Join-Path $work 'stage'
     $tree = Join-Path $stageRoot $base
-    if ($FormatList -contains 'zip' -or $FormatList -contains 'tar.gz') {
+    if (($FormatList -contains 'zip' -or $FormatList -contains 'tar.gz') -and -not $DryRun) {
         New-Item -ItemType Directory -Force -Path $tree | Out-Null
         Copy-Item -Path (Join-Path $installDir '*') -Destination $tree -Recurse -Force
     }
 
     foreach ($format in $FormatList) {
         $out = Join-Path $OutputDir "$base.$format"
-        if (Test-Path -LiteralPath $out) {
+        if (-not $DryRun -and (Test-Path -LiteralPath $out)) {
             Remove-Item -LiteralPath $out -Force
         }
         switch ($format) {
             'zip' {
-                Compress-Archive -Path $tree -DestinationPath $out -Force
+                Write-CommandLine 'Compress-Archive' @('-Path', $tree, '-DestinationPath', $out, '-Force')
+                if (-not $DryRun) {
+                    Compress-Archive -Path $tree -DestinationPath $out -Force
+                }
             }
             'tar.gz' {
                 $tarLog = Join-Path $work 'tar.log'
-                Push-Location -LiteralPath $stageRoot
-                try {
-                    $tarExit = Invoke-NativeRedirected 'tar' @('-czf', $out, $base) $tarLog
-                }
-                finally {
-                    Pop-Location
-                }
+                $tarExit = Invoke-NativeRedirectedIn $stageRoot 'tar' @('-czf', $out, $base) $tarLog
                 if ($tarExit -ne 0) {
                     Die "tar failed for $out, see $tarLog"
                 }
             }
             'exe' {
-                Copy-Item -LiteralPath $installerPath -Destination $out -Force
+                Write-CommandLine 'Copy-Item' @('-LiteralPath', $installerPath, '-Destination', $out, '-Force')
+                if (-not $DryRun) {
+                    Copy-Item -LiteralPath $installerPath -Destination $out -Force
+                }
             }
         }
-        Remove-X64
+        if (-not $DryRun) {
+            Remove-X64
+        }
         $Artifacts += $out
-        Write-Host "  -> $(Split-Path -Leaf $out)"
+        $wouldBe = ''
+        if ($DryRun) {
+            $wouldBe = ' (would be created)'
+        }
+        Write-Host '  ' -NoNewline
+        Write-Colored '->' 'Green' -NoNewline
+        Write-Host " $(Split-Path -Leaf $out)$wouldBe"
     }
 
-    if (-not $KeepWork) {
+    if (-not $KeepWork -and -not $DryRun) {
         Remove-Item -LiteralPath $work -Recurse -Force
     }
 }
 $keepWorkRoot = $false
-if ($TagWorktree) {
+if ($TagWorktree -and -not $DryRun) {
     if ($KeepWork) {
         Write-Host "Tag worktree kept (-KeepWork): $TagWorktree"
     }
@@ -672,21 +857,33 @@ if ($TagWorktree) {
         }
     }
 }
-if (-not $KeepWork -and -not $keepWorkRoot -and (Test-Path -LiteralPath $WorkRoot)) {
+if (-not $DryRun -and -not $KeepWork -and -not $keepWorkRoot -and (Test-Path -LiteralPath $WorkRoot)) {
     Remove-Item -LiteralPath $WorkRoot -Recurse -Force -ErrorAction SilentlyContinue
 }
 
 # A release needs the dated [vX.Y.Z.W] section in CHANGELOG.md; warn while
 # the section is still marked as in development.
-$changelog = Join-Path $BuildRoot 'CHANGELOG.md'
-if (Test-Path -LiteralPath $changelog) {
+$changelogText = ''
+if (($DryRun -and $TagWorktree) -or (Test-Path -LiteralPath (Join-Path $BuildRoot 'CHANGELOG.md'))) {
+    $changelogText = Get-TreeFileText 'CHANGELOG.md'
+}
+if ($changelogText) {
     $escapedVersion = [regex]::Escape($EffectiveVersion)
-    $changelogText = Get-Content -LiteralPath $changelog -Raw -Encoding UTF8
     if ($changelogText -match "(?m)^## \[v$escapedVersion\].*в разработке") {
         [Console]::Error.WriteLine("Warning: CHANGELOG.md section [v$EffectiveVersion] is still marked as in development (not dated)")
     }
 }
 
+if ($DryRun) {
+    Write-Host ''
+    Write-Host "Dry run finished: $($Builds.Count) build(s) shown, $($Artifacts.Count) package(s) would be created in ${OutputDir}"
+    foreach ($artifact in $Artifacts) {
+        Write-Host "  $(Split-Path -Leaf $artifact)"
+    }
+    exit 0
+}
+
+Write-Host ''
 Write-Host "Packages in ${OutputDir}:"
 foreach ($artifact in $Artifacts) {
     Write-Host "  $(Split-Path -Leaf $artifact)"
