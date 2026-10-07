@@ -169,6 +169,8 @@ message(STATUS
 message(STATUS
     "Maximum standard compliance: ${LUMEX_MAXIMUM_STANDARD_COMPLIANCE}")
 message(STATUS
+    "Warnings as errors: ${LUMEX_WERROR}")
+message(STATUS
     "Build timing: ${LUMEX_BUILD_TIMING}")
 message(STATUS
     "Generate build info: ${LUMEX_GENERATE_BUILD_INFO} "
