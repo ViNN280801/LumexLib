@@ -183,6 +183,8 @@ operator== (NumericUnion const &lhs, NumericUnion const &rhs)
 // specializations give a distinct value so the "value / error is preserved"
 // checks are not vacuous. Composite and nested types rely on the fallback: for
 // them the storage round trip is what matters.
+// The helper is called Get in every specialization of the block.
+// NOLINTBEGIN(readability-identifier-naming)
 template <typename T> struct Sample
 {
   static T
@@ -456,6 +458,7 @@ template <> struct Sample<NumericUnion>
     return value;
   }
 };
+// NOLINTEND(readability-identifier-naming)
 
 // === Nested composite aliases (one per nesting level)
 // ======================== Levels 2-5 prove the conversion machinery is

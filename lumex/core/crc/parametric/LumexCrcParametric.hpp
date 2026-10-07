@@ -199,6 +199,9 @@ struct mask_impl_t<
 
 template <int Width>
 LUMEX_CRC_DETAIL_CONSTEXPR std::uint64_t
+// A lower-case name would be hidden by the local variable `mask` of the
+// functions that call this template.
+// NOLINTNEXTLINE(readability-identifier-naming)
 Mask () LUMEX_NOEXCEPT
 {
   LUMEX_STATIC_ASSERT_MSG (Width > 0 && Width <= kMaxCrcBitWidth,

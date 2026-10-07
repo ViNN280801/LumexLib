@@ -410,6 +410,8 @@ TEST_F (LumexExceptionTest,
 // Helper static functions to prevent inlining for stack trace tests
 // External linkage (not static): Release without /Zi still exports the name
 // so DbgHelp can match it. static + /O2 + ICF left only TestBody on the walk.
+// The tests search the captured trace text for these names, so they keep them.
+// NOLINTBEGIN(readability-identifier-naming)
 LUMEX_ATTRIBUTE_NOINLINE
 lumex_stacktrace
 StacktraceTest_func_a ()
@@ -437,6 +439,7 @@ StacktraceTest_func_other ()
 {
   return lumex_stacktrace::current (0);
 }
+// NOLINTEND(readability-identifier-naming)
 
 // API Contract Verifier: Stacktrace capture depth
 TEST (LumexStacktraceTest, Stacktrace_Current_CapturesCorrectDepth)
@@ -490,6 +493,8 @@ TEST (LumexStacktraceTest, Stacktrace_Current_CapturesCorrectDepth)
 // Helper static functions for skipping test
 LUMEX_ATTRIBUTE_NOINLINE
 static lumex_stacktrace
+// The test searches the captured trace text for this name.
+// NOLINTNEXTLINE(readability-identifier-naming)
 StacktraceTest_inner_func ()
 {
   return lumex_stacktrace::current (
