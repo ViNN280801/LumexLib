@@ -44,10 +44,12 @@ Options:
                      rpmbuild (package "rpm"), deb needs dpkg-deb and fakeroot.
                      A MinGW compiler always gives a zip (needs "zip");
                      --formats does not apply to it.
-  --std N            C++ standard for every build (11, 14, 17, 20, 23).
-                     Default: 20 where the compiler supports it (probe:
-                     -std=c++20 gives __cplusplus >= 202002L), otherwise the
-                     compiler's default standard. GCC 8 and MinGW 8.3 have no
+  --std LIST         C++ standards to build, comma-separated (11, 14, 17, 20,
+                     23), for example --std 11,14,17,20: every compiler is
+                     built once per standard. Default: 20 where the compiler
+                     supports it (probe: -std=c++20 gives __cplusplus >=
+                     202002L), otherwise the compiler's default standard.
+                     GCC 8 and MinGW 8.3 have no
                      C++20 (only the draft -std=c++2a, __cplusplus 201709L):
                      --std 20 builds that draft there and says so. The
                      standard of the build ends the name of the package:
@@ -58,8 +60,8 @@ Options:
                      older than 2.0.0.0 has no such option and builds as it
                      was released.
   --no-package       Build only: no install, no packages, no packaging tools
-                     needed. The warnings of the build are still collected.
-                     Run it once per --std to check all four standards.
+                     needed. The warnings of the build are still collected;
+                     with --std 11,14,17,20 one run checks all four standards.
   --output-dir DIR   Where the packages go (default: <repo>/release). The
                      diagnostics of every build go to <output-dir>/warns/:
                      <compiler>_c++<std>_warn.log and _err.log (x86 builds:
@@ -150,9 +152,6 @@ done
 
 [[ -n "${COMPILERS_ARG}" ]] || { usage >&2; die "--compilers is required"; }
 [[ "${JOBS}" =~ ^[1-9][0-9]*$ ]] || die "--jobs must be a positive number, got '${JOBS}'"
-if [[ -n "${STD_ARG}" && ! "${STD_ARG}" =~ ^(11|14|17|20|23)$ ]]; then
-  die "--std must be one of 11, 14, 17, 20, 23, got '${STD_ARG}'"
-fi
 
 split_list() { # split_list <comma list> -> one item per line, no empties
   tr ',' '\n' <<<"$1" | sed 's/^[[:space:]]*//; s/[[:space:]]*$//' | sed '/^$/d'
@@ -161,6 +160,12 @@ split_list() { # split_list <comma list> -> one item per line, no empties
 mapfile -t ARCHES < <(split_list "${ARCH_ARG}")
 mapfile -t FORMATS < <(split_list "${FORMATS_ARG}")
 mapfile -t COMPILER_PATHS < <(split_list "${COMPILERS_ARG}")
+# --std is a list too; no --std gives one empty item: the default standard.
+mapfile -t STD_ITEMS < <(split_list "${STD_ARG}" | awk '!seen[$0]++')
+for s in "${STD_ITEMS[@]}"; do
+  [[ "$s" =~ ^(11|14|17|20|23)$ ]] || die "--std must be a list of 11, 14, 17, 20, 23, got '${STD_ARG}'"
+done
+[[ ${#STD_ITEMS[@]} -gt 0 ]] || STD_ITEMS=("")
 [[ ${#ARCHES[@]} -gt 0 ]] || die "--arch is empty"
 [[ ${#FORMATS[@]} -gt 0 ]] || die "--formats is empty"
 [[ ${#COMPILER_PATHS[@]} -gt 0 ]] || die "--compilers is empty"
@@ -362,10 +367,11 @@ probe_link() {
   rm -rf "$dir"
 }
 
-# std_for <c++ compiler> <isa> -> the -DCMAKE_CXX_STANDARD value, or empty
+# std_for <c++ compiler> <isa> <std from --std or empty> -> the
+# -DCMAKE_CXX_STANDARD value, or empty
 std_for() {
-  local cxx="$1" isa="$2" flags
-  if [[ -n "${STD_ARG}" ]]; then echo "${STD_ARG}"; return; fi
+  local cxx="$1" isa="$2" asked="$3" flags
+  if [[ -n "${asked}" ]]; then echo "${asked}"; return; fi
   flags="$(arch_flags "$isa")"
   # shellcheck disable=SC2086
   if printf '#if __cplusplus < 202002L\n#error no C++20\n#endif\n' \
@@ -439,12 +445,14 @@ for path in "${COMPILER_PATHS[@]}"; do
       check_mingw "$cxx" "$isa"
     fi
     probe_link "$cxx" "$isa"
-    JOB_C+=("$c"); JOB_CXX+=("$cxx"); JOB_LABEL+=("$label"); JOB_ISA+=("$isa")
-    JOB_KIND+=("$kind")
-    job_std="$(std_for "$cxx" "$isa")"
-    JOB_STD+=("${job_std}")
-    JOB_STDTAG+=("$(std_tag_for "$cxx" "$isa" "${job_std}")")
-    JOB_NOTE+=("$([[ -n "${STD_ARG}" ]] && std_note "$cxx" "$isa" "${STD_ARG}" || true)")
+    for std_item in "${STD_ITEMS[@]}"; do
+      JOB_C+=("$c"); JOB_CXX+=("$cxx"); JOB_LABEL+=("$label"); JOB_ISA+=("$isa")
+      JOB_KIND+=("$kind")
+      job_std="$(std_for "$cxx" "$isa" "$std_item")"
+      JOB_STD+=("${job_std}")
+      JOB_STDTAG+=("$(std_tag_for "$cxx" "$isa" "${job_std}")")
+      JOB_NOTE+=("$([[ -n "${std_item}" ]] && std_note "$cxx" "$isa" "${std_item}" || true)")
+    done
   done
 done
 
@@ -607,7 +615,7 @@ for i in "${!JOB_CXX[@]}"; do
     base="LumexLib-${VERSION}_linux_${isa}_${label}_glibc${GLIBC_VERSION}_cxx${stdtag}"
     INSTALL_PREFIX="/opt/LumexLib/${VERSION}_${label}"
   fi
-  work="${WORK_ROOT}/${label}_${isa}"
+  work="${WORK_ROOT}/${label}_${isa}_cxx${stdtag}"
   build="${work}/build"
   stage="${work}/stage"
   rm -rf "${work}"
