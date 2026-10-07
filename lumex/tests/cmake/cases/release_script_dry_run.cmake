@@ -104,6 +104,22 @@ if(_ninja)
     _expect_no_text("${ninja_OUT}" "-Otarget" "use-ninja")
 endif()
 
+# The number of jobs: -j N, -jN, --jobs N, --parallel N and the = forms all end
+# in cmake --build --parallel N.
+foreach(_form "-j;3" "-j4" "--jobs;5" "--jobs=6" "--parallel;7" "--parallel=8")
+    string(REGEX REPLACE "^[^0-9]*" "" _count "${_form}")
+    _run(jobs --dry-run --std 11 --no-package --color never ${_form})
+    if(NOT jobs_CODE EQUAL 0)
+        message(FATAL_ERROR "'${_form}' exited with ${jobs_CODE}:\n${jobs_OUT}\n${jobs_ERR}")
+    endif()
+    _expect_text("${jobs_OUT}" "--parallel ${_count}" "jobs ${_form}")
+endforeach()
+_run(bad_jobs --dry-run -j0)
+if(bad_jobs_CODE EQUAL 0)
+    message(FATAL_ERROR "-j0 was accepted")
+endif()
+_expect_text("${bad_jobs_ERR}" "must be a positive number" "-j0")
+
 # A wrong --color is refused.
 _run(bad --dry-run --color purple)
 if(bad_CODE EQUAL 0)
