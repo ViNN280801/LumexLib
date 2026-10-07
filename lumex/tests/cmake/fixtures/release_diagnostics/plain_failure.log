@@ -1,0 +1,4 @@
+[1/2] Run CPack packaging tool...
+FAILED: [code=1] CMakeFiles/package.util
+cd /build && /usr/bin/cpack --config ./CPackConfig.cmake
+ninja: build stopped: subcommand failed.
