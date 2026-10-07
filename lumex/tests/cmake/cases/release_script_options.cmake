@@ -37,3 +37,10 @@ _require_text("create_release.sh" "std_tag_for")
 _require_text("create_release.ps1" "_cxx${stdTag}")
 _require_text("create_release.ps1" "$StdList")
 _require_text("create_release.ps1" "[string[]] $Std")
+# --dry-run, --quiet and --color: the commands shown after a "$", the output
+# of a command in the terminal's own colour. The behaviour is in release_script_dry_run.
+_require_text("create_release.sh" "--dry-run) DRY_RUN=1")
+_require_text("create_release.sh" "--quiet) QUIET=1")
+_require_text("create_release.sh" "--color) need_value")
+_require_text("create_release.sh" "show_cmd()")
+_require_text("create_release.sh" "run_logged()")
