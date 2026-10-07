@@ -53,14 +53,14 @@ namespace
 // Changes the source after unexpected copied it; false when the type has no
 // change worth observing here.
 bool
-ChangeSource (int &source)
+change_source (int &source)
 {
   source = 999;
   return true;
 }
 
 bool
-ChangeSource (std::string &source)
+change_source (std::string &source)
 {
   source = "Changed Original";
   return true;
@@ -68,7 +68,7 @@ ChangeSource (std::string &source)
 
 template <typename T>
 bool
-ChangeSource (T &)
+change_source (T &)
 {
   return false;
 }
@@ -76,23 +76,23 @@ ChangeSource (T &)
 // Writes through the reference error() & returned and checks unexpected sees
 // the change.
 void
-MutateThroughReference (int &error_ref, unexpected<int> const &uut)
+mutate_through_reference (int &error_ref, unexpected<int> const &uut)
 {
   error_ref = 555;
   EXPECT_EQ (uut.error (), 555);
 }
 
 void
-MutateThroughReference (std::string &error_ref,
-                        unexpected<std::string> const &uut)
+mutate_through_reference (std::string &error_ref,
+                          unexpected<std::string> const &uut)
 {
   error_ref = "New Message";
   EXPECT_EQ (uut.error (), "New Message");
 }
 
 void
-MutateThroughReference (ComplexError &error_ref,
-                        unexpected<ComplexError> const &uut)
+mutate_through_reference (ComplexError &error_ref,
+                          unexpected<ComplexError> const &uut)
 {
   error_ref.code = 777;
   EXPECT_EQ (uut.error ().code, 777);
@@ -100,13 +100,13 @@ MutateThroughReference (ComplexError &error_ref,
 
 template <typename T>
 void
-MutateThroughReference (T &, unexpected<T> const &)
+mutate_through_reference (T &, unexpected<T> const &)
 {
 }
 
 // The lifetime check only applies to ComplexError (it owns a resource).
 void
-CheckComplexErrorLifetime (TypeTag<ComplexError>)
+check_complex_error_lifetime (TypeTag<ComplexError>)
 {
   // Arrange
   ComplexError initial_error ("Memory Test Error", 200);
@@ -123,32 +123,32 @@ CheckComplexErrorLifetime (TypeTag<ComplexError>)
 
 template <typename T>
 void
-CheckComplexErrorLifetime (TypeTag<T>)
+check_complex_error_lifetime (TypeTag<T>)
 {
   SUCCEED () << "Test not applicable for non-ComplexError types.";
 }
 
 // A distinct error per thread index.
 void
-AssignThreadError (int &error, int i)
+assign_thread_error (int &error, int i)
 {
   error = i + 1;
 }
 
 void
-AssignThreadError (std::string &error, int i)
+assign_thread_error (std::string &error, int i)
 {
   error = "Thread Error " + std::to_string (i + 1);
 }
 
 void
-AssignThreadError (SimpleError &error, int i)
+assign_thread_error (SimpleError &error, int i)
 {
   error = static_cast<SimpleError> ((i % 3) + 1);
 }
 
 void
-AssignThreadError (ComplexError &error, int i)
+assign_thread_error (ComplexError &error, int i)
 {
   error = ComplexError ("Complex Thread Error " + std::to_string (i + 1),
                         400 + i);
@@ -156,14 +156,14 @@ AssignThreadError (ComplexError &error, int i)
 
 template <typename T>
 void
-AssignThreadError (T &error, int)
+assign_thread_error (T &error, int)
 {
   error = T (); // Default value for other types
 }
 
 // Inside a thread: ComplexError carries the index in its code.
 void
-CheckThreadError (unexpected<ComplexError> const &uut, int i)
+check_thread_error (unexpected<ComplexError> const &uut, int i)
 {
   EXPECT_EQ (uut.error ().code,
              400 + i); // Check a specific ComplexError field
@@ -171,7 +171,7 @@ CheckThreadError (unexpected<ComplexError> const &uut, int i)
 
 template <typename T>
 void
-CheckThreadError (unexpected<T> const &, int)
+check_thread_error (unexpected<T> const &, int)
 {
   // For simple types, uut.error() still holds the original value because
   // copy/move does not empty the source for those types. After std::move(),
@@ -194,7 +194,7 @@ protected:
   {
     // SimpleError and ComplexError get known values; other types use the
     // default constructor.
-    InitErrorPair (error_val1, error_val2);
+    init_error_pair (error_val1, error_val2);
   }
 
   ErrorType error_val1;
@@ -220,7 +220,7 @@ TYPED_TEST (UnexpectedTest, Constructor_LValueRef_CopiesErrorCorrectly)
   // Assert
   EXPECT_EQ (uut.error (), initial_error);
   // Mutating the source must not affect unexpected
-  if (ChangeSource (initial_error))
+  if (change_source (initial_error))
     {
       EXPECT_NE (uut.error (), initial_error);
     }
@@ -239,7 +239,7 @@ TYPED_TEST (UnexpectedTest, Constructor_RValueRef_MovesErrorCorrectly)
   // Assert
   EXPECT_EQ (uut.error (), expected_error);
   // For ComplexError, the source must be in the moved-from state.
-  ExpectMovedFrom (initial_error);
+  expect_moved_from (initial_error);
 }
 
 // Check that error() as an lvalue returns a mutable reference to the stored
@@ -255,7 +255,7 @@ TYPED_TEST (UnexpectedTest, ErrorLValueRefReturnsMutableReference)
   EXPECT_EQ (error_ref, this->error_val1); // Check the original value
 
   // Mutate through the reference and check that uut changed
-  MutateThroughReference (error_ref, uut);
+  mutate_through_reference (error_ref, uut);
 }
 
 // Check that const error() as an lvalue returns a const reference to the
@@ -289,7 +289,7 @@ TYPED_TEST (UnexpectedTest, ErrorRValueRefReturnsRValueAndMovesContent)
   // Assert
   EXPECT_EQ (moved_error, expected_error);
   // For ComplexError, the resource inside uut must be moved.
-  ExpectMovedFrom (uut.error ());
+  expect_moved_from (uut.error ());
 }
 
 // Check that const error() as an rvalue returns a const rvalue reference and
@@ -308,7 +308,7 @@ TYPED_TEST (UnexpectedTest,
   // Assert
   EXPECT_EQ (const_moved_error, expected_error);
   // For ComplexError, the resource inside uut must not be moved.
-  ExpectEqualComplex (uut.error (), expected_error);
+  expect_equal_complex (uut.error (), expected_error);
 }
 
 // === Memory and lifetime tests =======================================
@@ -318,7 +318,7 @@ TYPED_TEST (UnexpectedTest,
 // ComplexError uses unique_ptr to track ownership.
 TYPED_TEST (UnexpectedTest, MemorySafety_ComplexErrorDestructorCalled)
 {
-  CheckComplexErrorLifetime (TypeTag<TypeParam> ());
+  check_complex_error_lifetime (TypeTag<TypeParam> ());
 }
 
 // === Thread-safety tests (independent instances) =============
@@ -334,7 +334,7 @@ TYPED_TEST (UnexpectedTest, ThreadSafety_MultipleIndependentInstances)
 
   // Arrange: unique errors per thread
   for (int i = 0; i < num_threads; ++i)
-    AssignThreadError (initial_errors[i], i);
+    assign_thread_error (initial_errors[i], i);
 
   // Act
   for (int i = 0; i < num_threads; ++i)
@@ -347,7 +347,7 @@ TYPED_TEST (UnexpectedTest, ThreadSafety_MultipleIndependentInstances)
               // and checks its value
               // Note: initial_errors[i] is moved-from; compare against the
               // expected value (the value from before the move)
-              CheckThreadError (uut, i);
+              check_thread_error (uut, i);
             });
     }
 
@@ -375,7 +375,7 @@ TYPED_TEST (UnexpectedTest, Perf_ConstructionAndAccess)
   for (int i = 0; i < N; ++i)
     {
       TypeParam error_data;
-      AssignPerfError (error_data, i);
+      assign_perf_error (error_data, i);
 
       // Construct unexpected. error_data is moved here.
       unexpected<TypeParam> uut (std::move (error_data));
@@ -388,11 +388,11 @@ TYPED_TEST (UnexpectedTest, Perf_ConstructionAndAccess)
 
   // Expected time depends heavily on ErrorType.
   // Use a higher threshold for ComplexError.
-  long long const threshold = PerfThresholdMs (TypeTag<TypeParam> ()); // ms
+  long long const threshold = perf_threshold_ms (TypeTag<TypeParam> ()); // ms
 
   EXPECT_LT (dur.count (), threshold)
       << "Construction and access for " << N << " Unexpected<"
-      << TypeLabel (TypeTag<TypeParam> ()) << "> too slow: " << dur.count ()
+      << type_label (TypeTag<TypeParam> ()) << "> too slow: " << dur.count ()
       << "ms (Threshold: " << threshold << "ms)";
 #else
   GTEST_SKIP ()

@@ -36,13 +36,13 @@ operator<< (std::ostream &os, Streamable const &s)
 // rather than void so they can be used as a var_info argument at all, the
 // same constraint the ported original design has.
 int
-NoexceptFunction () noexcept
+noexcept_function () noexcept
 {
   return 1;
 }
 
 int
-ThrowingFunction ()
+throwing_function ()
 {
   return 2;
 }
@@ -101,14 +101,14 @@ TEST (LumexVarInfoTest,
 TEST (LumexVarInfoTest,
       GivenNoexceptExpression_WhenVarInfo_ThenReportsNoexceptTrue)
 {
-  std::string info = LUMEX_VARINFO (NoexceptFunction ());
+  std::string info = LUMEX_VARINFO (noexcept_function ());
   EXPECT_NE (info.find ("noexcept=true"), std::string::npos) << info;
 }
 
 TEST (LumexVarInfoTest,
       GivenPotentiallyThrowingExpression_WhenVarInfo_ThenReportsNoexceptFalse)
 {
-  std::string info = LUMEX_VARINFO (ThrowingFunction ());
+  std::string info = LUMEX_VARINFO (throwing_function ());
   EXPECT_NE (info.find ("noexcept=false"), std::string::npos) << info;
 }
 

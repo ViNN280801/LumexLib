@@ -30,7 +30,7 @@ LUMEX_CONSTEXPR int kLongCpuNamePrefix
  */
 inline std::string
 // NOLINTNEXTLINE(readability-identifier-naming)
-_boolToYesNo (bool value)
+_bool_to_yes_no (bool value)
 {
   return value ? "Yes" : "No";
 }
@@ -41,7 +41,7 @@ _boolToYesNo (bool value)
  * @return Formatted string (e.g., "8.0 GB")
  */
 inline std::string
-formatMemorySize (uint64_t sizeMB)
+format_memory_size (uint64_t sizeMB)
 {
   if (sizeMB >= kMBToGBFactor)
     {
@@ -60,7 +60,7 @@ formatMemorySize (uint64_t sizeMB)
  * @return Formatted string (e.g., "3.7 GHz")
  */
 inline std::string
-formatCPUFrequency (uint32_t freqMHz)
+format_cpu_frequency (uint32_t freqMHz)
 {
   if (freqMHz >= kMHzToGHzFactor)
     {
@@ -92,11 +92,11 @@ main ()
   std::cout << "  CPU Name:        " << hwInfo.cpu_name << "\n";
   std::cout << "  CPU Cores:       " << hwInfo.cpu_core_count << "\n";
   std::cout << "  CPU Frequency:   "
-            << formatCPUFrequency (hwInfo.cpu_frequency_mhz) << "\n";
+            << format_cpu_frequency (hwInfo.cpu_frequency_mhz) << "\n";
   std::cout << "  Total Memory:    "
-            << formatMemorySize (hwInfo.total_memory_mb) << "\n";
-  std::cout << "  Has Discrete GPU: " << _boolToYesNo (hwInfo.has_discrete_gpu)
-            << "\n";
+            << format_memory_size (hwInfo.total_memory_mb) << "\n";
+  std::cout << "  Has Discrete GPU: "
+            << _bool_to_yes_no (hwInfo.has_discrete_gpu) << "\n";
   std::cout << "  GPU Name:        "
             << (hwInfo.gpu_name.empty () ? "N/A" : hwInfo.gpu_name) << "\n";
   std::cout << "  CPU Generation:  ~" << hwInfo.cpu_generation << "\n";
@@ -176,7 +176,7 @@ main ()
     {
       bool isOld = HardwareCapabilities::is_old_cpu (cpu_name);
       std::cout << "  " << std::setw (kColumnWidth) << std::left << cpu_name
-                << " -> Is Old: " << _boolToYesNo (isOld) << "\n";
+                << " -> Is Old: " << _bool_to_yes_no (isOld) << "\n";
     }
   std::cout << "\n";
 
@@ -197,13 +197,14 @@ main ()
   // Display threshold values for reference
   std::cout << "Threshold Values Used:\n";
   std::cout << "  Minimum Memory:        "
-            << formatMemorySize (Constants::KMIN_MEMORY_MB) << "\n";
+            << format_memory_size (Constants::KMIN_MEMORY_MB) << "\n";
   std::cout << "  Minimum CPU Cores:     " << Constants::KMIN_CPU_CORES
             << "\n";
   std::cout << "  Minimum CPU Generation: " << Constants::KMIN_CPU_GENERATION
             << "\n";
   std::cout << "  High Memory Threshold: "
-            << formatMemorySize (Constants::KHIGH_MEMORY_THRESHOLD_MB) << "\n";
+            << format_memory_size (Constants::KHIGH_MEMORY_THRESHOLD_MB)
+            << "\n";
   std::cout << "  High CPU Cores:        " << Constants::KHIGH_CPU_CORES
             << "\n";
   std::cout << "\n";
@@ -265,7 +266,7 @@ main ()
   uint32_t genEmpty = HardwareCapabilities::estimate_cpu_generation ("");
   bool isOldEmpty = HardwareCapabilities::is_old_cpu ("");
   std::cout << "  Empty CPU name -> Generation: ~" << genEmpty
-            << ", Is Old: " << _boolToYesNo (isOldEmpty) << "\n";
+            << ", Is Old: " << _bool_to_yes_no (isOldEmpty) << "\n";
 
   // Test with very long CPU name
   std::string longCpuName (static_cast<std::size_t> (kLongCpuNamePrefix), 'A');
@@ -285,9 +286,9 @@ main ()
   bool isOldLower = HardwareCapabilities::is_old_cpu (lowerCase);
   bool isOldUpper = HardwareCapabilities::is_old_cpu (upperCase);
   std::cout << "  Lowercase -> Generation: ~" << genLower
-            << ", Is Old: " << _boolToYesNo (isOldLower) << "\n";
+            << ", Is Old: " << _bool_to_yes_no (isOldLower) << "\n";
   std::cout << "  Uppercase -> Generation: ~" << genUpper
-            << ", Is Old: " << _boolToYesNo (isOldUpper) << "\n";
+            << ", Is Old: " << _bool_to_yes_no (isOldUpper) << "\n";
   std::cout << "\n";
 
   // ============================================================================
@@ -346,7 +347,7 @@ main ()
                                        : "Hardware Rendering")
             << "\n";
   std::cout << "   System meets minimum requirements: "
-            << _boolToYesNo (!needsSoftwareRendering) << "\n";
+            << _bool_to_yes_no (!needsSoftwareRendering) << "\n";
   std::cout << "\n";
 
   // ============================================================================

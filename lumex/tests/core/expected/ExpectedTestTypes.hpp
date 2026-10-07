@@ -124,14 +124,14 @@ template <typename T> struct TypeTag
 // Two distinct known error values for a fixture: SimpleError and
 // ComplexError get their own, the other types the default constructor.
 inline void
-InitErrorPair (SimpleError &first, SimpleError &second)
+init_error_pair (SimpleError &first, SimpleError &second)
 {
   first = SimpleError::InvalidInput;
   second = SimpleError::NetworkFailure;
 }
 
 inline void
-InitErrorPair (ComplexError &first, ComplexError &second)
+init_error_pair (ComplexError &first, ComplexError &second)
 {
   first = ComplexError ("Test Error 1", 101);
   second = ComplexError ("Test Error 2", 102);
@@ -139,7 +139,7 @@ InitErrorPair (ComplexError &first, ComplexError &second)
 
 template <typename T>
 void
-InitErrorPair (T &first, T &second)
+init_error_pair (T &first, T &second)
 {
   first = T ();
   second = T ();
@@ -148,7 +148,7 @@ InitErrorPair (T &first, T &second)
 // A moved-from ComplexError has code 0 and no resource; the other types make
 // no promise about their moved-from state.
 inline void
-ExpectMovedFrom (ComplexError const &error)
+expect_moved_from (ComplexError const &error)
 {
   EXPECT_EQ (error.code, 0);
   EXPECT_EQ (error.resource, nullptr);
@@ -156,104 +156,104 @@ ExpectMovedFrom (ComplexError const &error)
 
 template <typename T>
 void
-ExpectMovedFrom (T const &)
+expect_moved_from (T const &)
 {
 }
 
 // Only ComplexError is compared: the other types are not checked at the call
 // sites that use this step.
 inline void
-ExpectEqualComplex (ComplexError const &actual, ComplexError const &expected)
+expect_equal_complex (ComplexError const &actual, ComplexError const &expected)
 {
   EXPECT_EQ (actual, expected);
 }
 
 template <typename T>
 void
-ExpectEqualComplex (T const &, T const &)
+expect_equal_complex (T const &, T const &)
 {
 }
 
 // Payload of one iteration of a Perf_ loop.
 inline void
-AssignPerfError (int &error, int i)
+assign_perf_error (int &error, int i)
 {
   error = i;
 }
 
 inline void
-AssignPerfError (std::string &error, int i)
+assign_perf_error (std::string &error, int i)
 {
   error = "Error" + std::to_string (i);
 }
 
 inline void
-AssignPerfError (SimpleError &error, int i)
+assign_perf_error (SimpleError &error, int i)
 {
   error = static_cast<SimpleError> (i % 3 + 1);
 }
 
 inline void
-AssignPerfError (ComplexError &error, int i)
+assign_perf_error (ComplexError &error, int i)
 {
   error = ComplexError ("Perf Error", i);
 }
 
 template <typename T>
 void
-AssignPerfError (T &, int)
+assign_perf_error (T &, int)
 {
 }
 
 // Wall-clock budget of a Perf_ loop over the error type, in milliseconds:
 // ComplexError is much slower because of unique_ptr and std::string.
 inline long long
-PerfThresholdMs (TypeTag<ComplexError>)
+perf_threshold_ms (TypeTag<ComplexError>)
 {
   return 1000;
 }
 
 inline long long
-PerfThresholdMs (TypeTag<std::string>)
+perf_threshold_ms (TypeTag<std::string>)
 {
   return 200;
 }
 
 template <typename T>
 long long
-PerfThresholdMs (TypeTag<T>)
+perf_threshold_ms (TypeTag<T>)
 {
   return 100;
 }
 
 // Name of the error type in failure messages.
 inline char const *
-TypeLabel (TypeTag<int>)
+type_label (TypeTag<int>)
 {
   return "int";
 }
 
 inline char const *
-TypeLabel (TypeTag<std::string>)
+type_label (TypeTag<std::string>)
 {
   return "string";
 }
 
 inline char const *
-TypeLabel (TypeTag<SimpleError>)
+type_label (TypeTag<SimpleError>)
 {
   return "SimpleError";
 }
 
 inline char const *
-TypeLabel (TypeTag<ComplexError>)
+type_label (TypeTag<ComplexError>)
 {
   return "ComplexError";
 }
 
 template <typename T>
 char const *
-TypeLabel (TypeTag<T>)
+type_label (TypeTag<T>)
 {
   return "Unknown";
 }

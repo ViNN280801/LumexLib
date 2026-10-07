@@ -544,7 +544,7 @@ using MatrixTypesCxx11 = TypeList<
 // failure text.
 template <typename SuccessType, typename ErrorType>
 void
-CheckPair (std::string const &label)
+check_pair (std::string const &label)
 {
   using ResultType = expected<SuccessType, ErrorType>;
 
@@ -584,32 +584,32 @@ CheckPair (std::string const &label)
 #if defined(__cpp_rtti) || defined(_CPPRTTI)
 template <typename T>
 std::string
-TypeName ()
+type_name ()
 {
   return typeid (T).name ();
 }
 #else
 template <typename T>
 std::string
-TypeName ()
+type_name ()
 {
   return "<unnamed>";
 }
 #endif
 
-// Runs CheckPair for every pair of the list, labelled with its position in
+// Runs check_pair for every pair of the list, labelled with its position in
 // the list and the type names. The elements of a braced list are evaluated in
 // order, so the index counts the pairs in list order.
 template <typename... PairTypes>
 void
-RunMatrix (TypeList<PairTypes...>)
+run_matrix (TypeList<PairTypes...>)
 {
   std::size_t index = 0;
   int unused[]
-      = { (CheckPair<typename PairTypes::Success, typename PairTypes::Error> (
+      = { (check_pair<typename PairTypes::Success, typename PairTypes::Error> (
                "matrix pair " + std::to_string (index++) + " ["
-               + TypeName<typename PairTypes::Success> () + " | "
-               + TypeName<typename PairTypes::Error> () + "]"),
+               + type_name<typename PairTypes::Success> () + " | "
+               + type_name<typename PairTypes::Error> () + "]"),
            0)...,
           0 };
   LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR (unused);

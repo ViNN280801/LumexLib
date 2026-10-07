@@ -129,7 +129,7 @@ struct ComplexSuccess
   }
 
   int
-  convertToInt () const
+  convert_to_int () const
   {
     return *data;
   }
@@ -143,25 +143,25 @@ struct ComplexSuccess
 namespace
 {
 int
-TransformSuccess (int const &value)
+transform_success (int const &value)
 {
   return value + 1;
 }
 
 std::string
-TransformSuccess (std::string const &value)
+transform_success (std::string const &value)
 {
   return value + "_transformed";
 }
 
 SimpleSuccess
-TransformSuccess (SimpleSuccess const &value)
+transform_success (SimpleSuccess const &value)
 {
   return SimpleSuccess (value.value + 1);
 }
 
 ComplexSuccess
-TransformSuccess (ComplexSuccess const &value)
+transform_success (ComplexSuccess const &value)
 {
   ComplexSuccess result = value;
   result.name += "_transformed";
@@ -170,32 +170,32 @@ TransformSuccess (ComplexSuccess const &value)
 
 template <typename T>
 T
-TransformSuccess (T const &value)
+transform_success (T const &value)
 {
   return value; // fallback - return unchanged
 }
 
 void
-ExpectTransformed (int const &actual, int const &original)
+expect_transformed (int const &actual, int const &original)
 {
   EXPECT_EQ (actual, original + 1);
 }
 
 void
-ExpectTransformed (std::string const &actual, std::string const &original)
+expect_transformed (std::string const &actual, std::string const &original)
 {
   EXPECT_EQ (actual, original + "_transformed");
 }
 
 void
-ExpectTransformed (SimpleSuccess const &actual, SimpleSuccess const &original)
+expect_transformed (SimpleSuccess const &actual, SimpleSuccess const &original)
 {
   EXPECT_EQ (actual, SimpleSuccess (original.value + 1));
 }
 
 void
-ExpectTransformed (ComplexSuccess const &actual,
-                   ComplexSuccess const &original)
+expect_transformed (ComplexSuccess const &actual,
+                    ComplexSuccess const &original)
 {
   ComplexSuccess expected = original;
   expected.name += "_transformed";
@@ -204,7 +204,7 @@ ExpectTransformed (ComplexSuccess const &actual,
 
 template <typename T>
 void
-ExpectTransformed (T const &, T const &)
+expect_transformed (T const &, T const &)
 {
 }
 } // namespace
@@ -1157,13 +1157,13 @@ TYPED_TEST (ExpectedTest, TransformLValue_TransformsValueOrPropagatesError)
 
   // Act: apply a function that maps SuccessType to the same type
   auto func = [&] (SuccessType &val) -> SuccessType
-    { return TransformSuccess (val); };
+    { return transform_success (val); };
 
   ResultType result_s = success_uut.transform (func);
 
   // Assert
   EXPECT_TRUE (result_s.has_value ());
-  ExpectTransformed (result_s.value (), this->s_val1);
+  expect_transformed (result_s.value (), this->s_val1);
 
   // Arrange: expected holding an error
   expected<SuccessType, ErrorType> error_uut (
@@ -1190,13 +1190,13 @@ TYPED_TEST (ExpectedTest,
 
   // Act: apply the function
   auto func = [&] (SuccessType const &val) -> SuccessType
-    { return TransformSuccess (val); };
+    { return transform_success (val); };
 
   ResultType result_s = success_uut.transform (func);
 
   // Assert
   EXPECT_TRUE (result_s.has_value ());
-  ExpectTransformed (result_s.value (), this->s_val1);
+  expect_transformed (result_s.value (), this->s_val1);
 
   // Arrange: expected holding an error
   expected<SuccessType, ErrorType> const error_uut (
