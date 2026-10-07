@@ -62,7 +62,10 @@ lumex_environment::windows_environment_strategy::get_variable (
              == '\0') // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
     return { ERROR_INVALID_PARAMETER };
 
-  // First try _dupenv_s for security (preferred on Windows)
+#if !defined(__MINGW32__)
+  // First try _dupenv_s for security (preferred on Windows). MinGW's default
+  // C runtime has no _dupenv_s, so it goes straight to the Windows API below,
+  // which returns the same values.
   char *buffer = nullptr;
   std::size_t buffer_size = 0;
   errno_t result = _dupenv_s (std::addressof (buffer),
@@ -75,6 +78,7 @@ lumex_environment::windows_environment_strategy::get_variable (
           buffer, std::addressof (free));
       return EnvResult (string_type (buffer));
     }
+#endif
 
   // Fallback to GetEnvironmentVariableA
   DWORD size = GetEnvironmentVariableA (name, nullptr, 0);

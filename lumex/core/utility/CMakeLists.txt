@@ -29,6 +29,13 @@ target_link_libraries(${LUMEX_UTILITY_NAME} PUBLIC
     ${CMAKE_DL_LIBS}
 )
 
+# The dump header links dbghelp and shlwapi with #pragma comment(lib), which
+# MSVC and clang-cl honour and GCC ignores. MinGW names them here, PUBLIC
+# because the inline code of the header calls them in every consumer.
+if(MINGW)
+    target_link_libraries(${LUMEX_UTILITY_NAME} PUBLIC dbghelp shlwapi)
+endif()
+
 lumex_apply_library_versioning(${LUMEX_UTILITY_NAME} "Lumex Utility Library")
 
 if(LUMEX_INSTALL)

@@ -33,6 +33,9 @@
 
 #if defined(_WIN32)
 #include <windows.h>
+#if defined(__MINGW32__)
+#include <pthread.h>
+#endif
 #else
 #include <fcntl.h>
 #include <unistd.h>
@@ -69,6 +72,23 @@ open_timed_out_text (std::chrono::milliseconds deadline)
  * abandoned.
  */
 std::chrono::milliseconds const KCANCEL_GRACE_MS (50);
+
+/**
+ * @brief The Win32 handle of a running thread.
+ * @param worker The thread.
+ * @details With the MSVC library `native_handle ()` is the handle itself; with
+ * winpthreads (MinGW) it is a `pthread_t` that `pthread_gethandle` turns into
+ * one.
+ */
+HANDLE
+worker_win32_handle (std::thread &worker)
+{
+#if defined(__MINGW32__)
+  return static_cast<HANDLE> (pthread_gethandle (worker.native_handle ()));
+#else
+  return static_cast<HANDLE> (worker.native_handle ());
+#endif
+}
 
 /**
  * @brief State shared between the caller and the open worker.
@@ -168,7 +188,7 @@ bounded_open_serial_port (std::string const &open_path,
 
   // The deadline expired inside a blocking driver call; ask Windows to
   // cancel it, then allow a short grace period for the worker to unwind.
-  ::CancelSynchronousIo (static_cast<HANDLE> (worker.native_handle ()));
+  ::CancelSynchronousIo (worker_win32_handle (worker));
 
   {
     std::unique_lock<std::mutex> lock (state->mutex);
