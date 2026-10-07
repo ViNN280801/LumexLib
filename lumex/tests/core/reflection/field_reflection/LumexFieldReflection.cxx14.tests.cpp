@@ -41,7 +41,7 @@
 
 #include "lumex/core/reflection/LumexReflection"
 
-#include "lumex/tests/core/reflection/LumexFieldReflectionTestFixtures.hpp"
+#include "lumex/tests/core/reflection/field_reflection/LumexFieldReflectionTestFixtures.hpp"
 
 using namespace lumex::core::reflection::field_reflection;
 using namespace lumex_field_reflection_tests;
