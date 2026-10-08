@@ -16,6 +16,7 @@
 #include <gtest/gtest.h>
 
 #include "lumex/core/base64/LumexBase64"
+#include "lumex/core/utility/compiler/LumexCheckFeatures.hpp"
 
 #include "lumex/tests/core/base64/LumexBase64TestFixtures.hpp"
 

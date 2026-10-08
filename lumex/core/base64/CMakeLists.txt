@@ -18,6 +18,7 @@ target_include_directories(${LUMEX_BASE64_NAME} PUBLIC
 
 target_link_libraries(${LUMEX_BASE64_NAME} PUBLIC
     lumex::utility
+    lumex::span
 )
 
 lumex_apply_library_versioning(${LUMEX_BASE64_NAME} "Lumex Base64 Library")
