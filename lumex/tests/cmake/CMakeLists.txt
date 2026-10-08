@@ -125,6 +125,7 @@ lumex_add_cmake_test(wiring_toolchain_rpath)
 lumex_add_cmake_test(asan_clang_cl_runtime_library)
 lumex_add_cmake_test(gtest_discovery_does_not_lock_exe)
 lumex_add_cmake_test(wiring_atomic)
+lumex_add_cmake_test(wiring_ordering)
 lumex_add_cmake_test(wiring_span)
 lumex_add_cmake_test(wiring_string_view)
 lumex_add_cmake_test(wiring_optional)
@@ -296,6 +297,32 @@ add_test(NAME ${_ctest_name}
         -DCASE=format_compile_checks
         -DLUMEX_SOURCE_DIR=${LumexLib_SOURCE_DIR}
         -DWORK_DIR=${CMAKE_CURRENT_BINARY_DIR}/consumer/format_compile_checks
+        -DGENERATOR=${CMAKE_GENERATOR}
+        -DCXX_COMPILER=${CMAKE_CXX_COMPILER}
+        "-DCXX_FLAGS=${CMAKE_CXX_FLAGS}"
+        -DCLANG_STDLIB=${LUMEX_CLANG_STDLIB}
+        -DBUILD_TYPE=Release
+        -DCONFIGURE_ONLY=ON
+        -P ${_LUMEX_CONSUMER_RUN}
+)
+set_tests_properties(${_ctest_name} PROPERTIES
+    LABELS "cmake;consumer"
+    TIMEOUT 900
+    SKIP_REGULAR_EXPRESSION "LUMEX_CONSUMER_SKIP"
+)
+
+# Ordering classes (LumexOrdering.hpp) and the three-way part of the safe
+# comparator compile-time checks: the uses the standard orderings reject (a
+# default constructor, a relational operator between two orderings or against
+# a number other than the literal 0, a conversion to a stronger category) and
+# the static assertions of the comparator must not compile with warnings as
+# errors; valid use must.
+lumex_test_name(_ctest_name ordering_compile_checks)
+add_test(NAME ${_ctest_name}
+    COMMAND ${CMAKE_COMMAND}
+        -DCASE=ordering_compile_checks
+        -DLUMEX_SOURCE_DIR=${LumexLib_SOURCE_DIR}
+        -DWORK_DIR=${CMAKE_CURRENT_BINARY_DIR}/consumer/ordering_compile_checks
         -DGENERATOR=${CMAKE_GENERATOR}
         -DCXX_COMPILER=${CMAKE_CXX_COMPILER}
         "-DCXX_FLAGS=${CMAKE_CXX_FLAGS}"
