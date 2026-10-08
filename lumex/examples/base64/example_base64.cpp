@@ -36,11 +36,17 @@ main ()
 {
   std::cout << "=== Base64 encode / decode / validate ===\n\n";
 
-  std::cout << "--- 1. Encode a C string (pointer + size) ---\n";
+  std::cout << "--- 1. Encode a C string (as text, or pointer + size) ---\n";
   char const *payload = "Hello, Lumex!";
-  std::string const encoded_ptr
+  // A literal, a char const * and a std::string convert to the text type of
+  // the string overload: std::string_view from C++17, the lumex_string_view
+  // of lumex::string_view below it.
+  std::string const encoded_ptr = encoder::encode (payload);
+  std::string const encoded_sized
       = encoder::encode (payload, std::char_traits<char>::length (payload));
-  std::cout << "input=\"" << payload << "\" encoded=" << encoded_ptr << '\n';
+  std::cout << "input=\"" << payload << "\" encoded=" << encoded_ptr
+            << " same_as_pointer_and_size="
+            << (encoded_ptr == encoded_sized ? "yes" : "no") << '\n';
 
   std::cout << "\n--- 2. Encode a vector of bytes ---\n";
   std::vector<byte_type> const raw = { 0x00, 0x01, 0xFE, 0xFF, 'A', 'B', 'C' };

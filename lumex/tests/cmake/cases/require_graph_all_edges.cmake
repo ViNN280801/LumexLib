@@ -11,6 +11,7 @@ foreach(_edge
         "lumex_require_module(LUMEX_BUILD_EXPECTED LUMEX_BUILD_UTILITY)"
         "lumex_require_module(LUMEX_BUILD_BASE64 LUMEX_BUILD_UTILITY)"
         "lumex_require_module(LUMEX_BUILD_BASE64 LUMEX_BUILD_SPAN)"
+        "lumex_require_module(LUMEX_BUILD_BASE64 LUMEX_BUILD_STRING_VIEW)"
         "lumex_require_module(LUMEX_BUILD_CRC LUMEX_BUILD_UTILITY)"
         "lumex_require_module(LUMEX_BUILD_CRC LUMEX_BUILD_SPAN)"
         "lumex_require_module(LUMEX_BUILD_ENVIRONMENT LUMEX_BUILD_UTILITY)"

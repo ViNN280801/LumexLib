@@ -167,7 +167,7 @@ class LumexLibConan(ConanFile):
 
         self._component(
             "core_base64", "base64", ["LumexCore_base64"],
-            ["core_utility", "core_span"],
+            ["core_utility", "core_span", "core_string_view"],
         )
         self._component("core_crc", "crc", ["LumexCore_crc"],
                         ["core_utility", "core_span"])
