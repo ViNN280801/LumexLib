@@ -38,10 +38,11 @@
 #   (11 17 20) runs the .cxx11, .cxx17 and .cxx20 files of that directory.
 #   Its CTest names end in .cxx<std>, also at the lowest standard:
 #   base64.encode.Base64EncoderTest.GivenSpan_WhenEncode_...cxx20.
-#   A directory has no suite of a standard below its lowest file: the only
-#   test file of utility.cast is a .cxx20 one, so it has the suites from C++20
-#   on, as that file ran in the C++20 and higher suites of utility before the
-#   tests were split by directory.
+#   A directory has no suite of a standard below its lowest file: a directory
+#   whose lowest file is a .cxx20 one has the suites from C++20 on. Every
+#   directory of utility has a .cxx11 file now (utility.cast and
+#   utility.ranges included, since both work from C++11), so each builds all
+#   the standards of the module.
 # Variant: an extra suite on the same sources with compile definitions, at
 #   the standards declared for it here: Lumex<Component><Variant>Cxx<std>Tests
 #   and the CTest suffix .<variant>.cxx<std> (atomic: lock_based, wait_table).
