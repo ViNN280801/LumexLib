@@ -141,6 +141,25 @@
 
 #### Изменено
 
+##### Несовместимо: `LUMEX_DEFINE_ENUM_TRAITS` и `lumex_enum_traits_t` удалены, перечисления описывает `LUMEX_DEFINE_REFLECTED_ENUM`
+
+**Файлы:** `lumex/core/utility/traits/LumexTypeTraits.hpp`, `lumex/core/reflection/reflected_enum/LumexReflectedEnum.hpp` (комментарий), `lumex/tests/core/utility/traits/LumexTypeTraits.cxx20.tests.cpp` (удален), `lumex/tests/core/utility/traits/LumexTypeTraits.cxx11.tests.cpp` (комментарий)
+
+**Суть:** макрос `LUMEX_DEFINE_ENUM_TRAITS (Имя, Тип, A, B)` и шаблон `lumex_enum_traits_t<Имя>` с полями `values`, `first`, `last`, `size` не компилировались ни на одном стандарте ниже C++20 (`using enum` и `std::array{...}` с выводом аргументов в лямбде), лежали в глобальном пространстве имен, требовали вызова только в нем, и у них был один тест (три случая, пропускавшиеся без `using enum`). То же и больше дает `LUMEX_DEFINE_REFLECTED_ENUM`, который работает с C++11: перечислитель и значение пишутся в скобках, вызывается в любом пространстве имен и внутри класса, дает `to_string` и константы `ИмяValues` (`std::array`), `ИмяFirst`, `ИмяLast`, `ИмяSize`, все они константные выражения; его тесты уже проверяют размер, первый, последний, перебор значений и один перечислитель, и других пользователей у макроса не было ни в `lumex/`, ни в тестах, ни в примерах. Старое имя не оставлено ни синонимом, ни псевдонимом; это несовместимое изменение API (релиз `2.0.0.0`). Комментарий в `LumexReflectedEnum.hpp` больше не называет удаленное имя. Генерированная справка `docs/` обновится при выпуске.
+
+Таблица "было -> стало":
+
+| Вид | Было | Стало |
+| --- | --- | --- |
+| макрос | `LUMEX_DEFINE_ENUM_TRAITS (Color, unsigned char, Red, Green, Blue)` (C++20, глобальное пространство имен) | `LUMEX_DEFINE_REFLECTED_ENUM (Color, unsigned char, (Red), (Green), (Blue))` (C++11, любое пространство имен или класс) |
+| класс | `lumex_enum_traits_t<Color>` | константы рядом с перечислением: `ColorValues`, `ColorFirst`, `ColorLast`, `ColorSize` |
+| поле | `lumex_enum_traits_t<Color>::values` | `ColorValues` |
+| поле | `lumex_enum_traits_t<Color>::first` | `ColorFirst` |
+| поле | `lumex_enum_traits_t<Color>::last` | `ColorLast` |
+| поле | `lumex_enum_traits_t<Color>::size` | `ColorSize` |
+
+**Проверено:** `rg LUMEX_DEFINE_ENUM_TRAITS lumex_enum_traits_t` по `lumex/`, примерам, бенчмаркам и CMake - нет совпадений (кроме исторических записей этого файла и сгенерированного `docs/`). GCC 13.2 Release: `utility.` 9953 из 9953 (в том числе `utility.traits.`: 102, 104, 105, 122 и 122 теста на C++11, 14, 17, 20, 23 - три теста макроса на C++20 и C++23 удалены), `string.` 441 из 441, `reflection.reflected_enum.` 60 из 60, `reflection.var_info.` 56 из 56, примеры `utility` и `reflection` проходят; `fmt.` 798 тестов, падают 9 (`GivenHexTypeAtLimits_WhenFormat_ThenExactBits` на C++17 и C++20 и 7 сравнений со `std::format` на C++20), то есть те самые "9 `fmt`", что названы в записях о переименовании ниже; `cmake.*` и `lint.*` (в том числе `lint.headers_standalone`) 148 из 148. По всей серии из четырех записей: `create_release.sh` с GCC 8.3, GCC 13.2, Clang 23.1.0 и MinGW 8.3 на C++11 и C++20: 8 сборок, 0 предупреждений, 0 ошибок; `format.py --check` (548 файлов) и пять `check_*.py` без замечаний.
+
 ##### Несовместимо: у `Expected` нет глобального `unexpected`
 
 **Файлы:** `lumex/core/expected/error/Unexpected.hpp`, `lumex/core/expected/Expected`, `lumex/core/expected/result/Expected.hpp`, `lumex/core/expected/result/ExpectedTypes.hpp`, `lumex/examples/expected/example_expected.cpp`, `lumex/tests/core/expected/error/ExpectedGlobalNames.cxx11.tests.cpp` (новый), `lumex/tests/cmake/consumer/expected_compile_checks/` (новый: `CMakeLists.txt`, `check.cpp`), `lumex/tests/cmake/cases/wiring_expected_global_names.cmake` (новый), `lumex/tests/cmake/CMakeLists.txt`
