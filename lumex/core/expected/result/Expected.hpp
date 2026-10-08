@@ -39,11 +39,10 @@
  * are constrained with concepts from C++20 and with SFINAE before. The header
  * also declares the non-member `operator==` (with another `expected`, a value
  * or an `unexpected`; `!=` and the reversed forms before C++20) and `swap()`,
- * `make_expected()` and `make_unexpected<E>()`; the overloads of
- * `make_unexpected()` that return an `expected` are deprecated. The
- * specialization for a `void` value is in `ExpectedVoid.hpp`. Header-only,
- * part of `lumex::expected`; `expected` and `make_unexpected` are also visible
- * at global scope, `unexpected` is not.
+ * `make_expected()` and `make_unexpected<E>()`, which returns an
+ * `unexpected<E>`. The specialization for a `void` value is in
+ * `ExpectedVoid.hpp`. Header-only, part of `lumex::expected`; `expected` and
+ * `make_unexpected` are also visible at global scope, `unexpected` is not.
  */
 #ifndef LUMEX_CORE_EXPECTED_RESULT_EXPECTED_HPP
 #define LUMEX_CORE_EXPECTED_RESULT_EXPECTED_HPP
@@ -2593,69 +2592,20 @@ LUMEX_CONSTEXPR_FUNCTION expected<void, ErrorType> make_expected ()
 }
 
 /**
- * @brief Creates an error `expected<SuccessType, E>` from an error value.
- * @details Wraps the given error in `unexpected<E>` and returns the matching
- * `expected` in the error state.
- *
- * @tparam SuccessType Success-value type (parameterizes the returned
- * `expected`).
- * @tparam U_err       Input error type; the resulting error type is `E =
- * std::decay_t<U_err>`.
- * @param[in] err      Error object stored (copied or moved) inside `expected`.
- * @return `expected<SuccessType, std::decay_t<U_err>>` in the error state.
- *
- * @note Marked `[[nodiscard]]` (via macro).
- * @par Exception guarantees
- *      May throw if copy/move of `E` throws.
- * @par Thread safety
- *      Thread safety depends on the properties of error type `E`.
- * @deprecated Use make_unexpected<E>(...) returning unexpected<E> and
- * expected(unexpect_t, ...) instead of this function.
- */
-template <typename SuccessType, typename U_err>
-LUMEX_ATTRIBUTE_DEPRECATED_MSG (
-    "Use make_unexpected<E>(...) returning Unexpected<E> and "
-    "Expected(unexpect_t, ...) instead.")
-LUMEX_CONSTEXPR_FUNCTION
-    expected<SuccessType, typename std::decay<U_err>::type> make_unexpected (
-        U_err &&err)
-{
-  return expected<SuccessType, typename std::decay<U_err>::type> (
-      unexpected<typename std::decay<U_err>::type> (
-          std::forward<U_err> (err)));
-}
-
-/**
- * @brief Creates an error `expected<void, ErrorType>` from an error value.
- * @details Wraps the given error in `unexpected<ErrorType>` and returns
- * `expected<void, ErrorType>` in the error state.
- *
- * @tparam ErrorType Error type.
- * @param[in] err Error object (copied or moved).
- * @return `expected<void, ErrorType>` in the error state.
- *
- * @note Marked `[[nodiscard]]` (via macro).
- * @par Exception guarantees
- *      May throw if copy/move of `ErrorType` throws.
- * @par Thread safety
- *      Not thread-safe if the returned object is shared without
- * synchronization.
- * @deprecated Use make_unexpected<E>(...) returning unexpected<E> and
- * expected(unexpect_t, ...) instead of this function.
- */
-template <typename ErrorType>
-LUMEX_ATTRIBUTE_DEPRECATED_MSG (
-    "Use make_unexpected<E>(...) returning Unexpected<E> and "
-    "Expected(unexpect_t, ...) instead.")
-LUMEX_CONSTEXPR_FUNCTION expected<void, ErrorType> make_unexpected (
-    ErrorType &&err)
-{
-  return expected<void, ErrorType> (
-      unexpected<ErrorType> (std::forward<ErrorType> (err)));
-}
-
-/**
- * @brief Standard error factory: creates unexpected<E> in place.
+ * @brief Creates an `unexpected<E>` from the arguments of its error.
+ * @details `make_unexpected<E> (args...)` builds `E` from `args...` and wraps
+ * it: `make_unexpected<int> (1)` and `make_unexpected<std::string> (3u, 'z')`
+ * are both well-formed. The result converts to an `expected<T, E>` in the
+ * error state (`return make_unexpected<E> (args...);`).
+ * @tparam E Error type; the result is `unexpected<std::decay_t<E>>`.
+ * @tparam Args Types of the arguments `E` is constructed from.
+ * @param[in] args Arguments `E` is constructed from.
+ * @return The `unexpected` that holds the new error.
+ * @note There is no overload that returns an `expected`: the overloads
+ * `make_unexpected<T> (error)` and `make_unexpected (error)` of 1.x, which
+ * returned an `expected<T, E>` and `expected<void, E>`, were removed because
+ * they made `make_unexpected<int> (1)` ambiguous. Write
+ * `expected<T, E> (unexpect, error)` or `unexpected<E> (error)` instead.
  */
 template <typename E, typename... Args>
 LUMEX_ATTRIBUTE_NODISCARD (
