@@ -69,14 +69,10 @@
 #include <exception>
 #include <iostream>
 #include <string>
-#if __cplusplus >= 201703L
-#include <string_view>
-#else
-#include "lumex/core/string_view/view/LumexStringView.hpp"
-#endif
 
 #include "lumex/core/exceptions/crash/WindowsSEHTranslator.hpp"
 #include "lumex/core/exceptions/stacktrace/LumexStacktrace.hpp"
+#include "lumex/core/string_view/view/LumexPortableStringView.hpp"
 #include "lumex/core/utility/attr/LumexAttributes.hpp"
 #include "lumex/core/utility/demangle/LumexDemangle.hpp"
 #include "lumex/core/utility/macros/LumexExceptionMacros.hpp"
@@ -133,35 +129,22 @@ public:
    */
   LUMEX_API lumex_base_exception (std::string &&message);
 
-#if __cplusplus >= 201703L
   /**
    * @brief Constructs a `lumex_base_exception` with a message.
    * @details Inline and delegating to the `std::string &&` constructor, so
    * the library exports the same constructors in every C++ standard and a
-   * consumer built at another standard links. Below C++17 the parameter is
-   * the `lumex_string_view` of `lumex::string_view` instead (a `char const *`
-   * and a `std::string` still take their own constructors above).
-   * @param message The error message; may contain NUL characters.
-   */
-  lumex_base_exception (std::string_view message)
-      : lumex_base_exception (std::string (message))
-  {
-  }
-#else
-  /**
-   * @brief Constructs a `lumex_base_exception` with a message.
-   * @details Inline and delegating to the `std::string &&` constructor, so
-   * the library exports the same constructors in every C++ standard and a
-   * consumer built at another standard links. From C++17 the parameter is a
-   * `std::string_view` instead.
+   * consumer built at another standard links. The parameter is the
+   * `portable_string_view_t` of `lumex::string_view`: `std::string_view` from
+   * C++17 and `lumex_string_view` below it; a `lumex_string_view` is accepted
+   * in every standard (a `char const *` and a `std::string` still take their
+   * own constructors above).
    * @param message The error message; may contain NUL characters.
    */
   lumex_base_exception (
-      lumex::core::string_view::view::lumex_string_view message)
+      lumex::core::string_view::view::portable_string_view_t message)
       : lumex_base_exception (std::string (message.data (), message.size ()))
   {
   }
-#endif
 
   /**
    * @brief Returns the error message as a C-string.
