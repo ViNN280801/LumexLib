@@ -28,11 +28,11 @@
  * buffer through `std::memcpy`, so unaligned data is read without undefined
  * behavior.
  * @details It returns `std::nullopt` for a null pointer or a buffer shorter
- * than `sizeof(T)`. The overloads take a pointer and a size, a `std::span` of
- * `std::byte`, `char` or `unsigned char`, or an object with `get_data()` and
- * `get_data_size()`. The value type must satisfy `Extractible` of
- * `LumexTypeTraits.hpp`: trivially copyable, standard layout, and neither a
- * pointer nor a reference.
+ * than `sizeof(T)`. The overloads take a pointer and a size, a `std::span` or
+ * a `lumex::core::span::view::span` of `std::byte`, `char` or `unsigned char`,
+ * or an object with `get_data()` and `get_data_size()`. The value type must
+ * satisfy `Extractible` of `LumexTypeTraits.hpp`: trivially copyable, standard
+ * layout, and neither a pointer nor a reference.
  * @warning Requires C++20 (concepts and `<span>`); with an older standard the
  * header declares nothing.
  */
@@ -85,6 +85,11 @@
 #endif
 #include <type_traits>
 
+// The header declares nothing before C++20, so the span of this library is
+// not parsed for the translation units of the older standards.
+#if __cplusplus > 201703L
+#include "lumex/core/span/LumexSpan"
+#endif
 #include "lumex/core/utility/attr/LumexAttributes.hpp"
 #include "lumex/core/utility/compiler/LumexCheckFeatures.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
@@ -159,6 +164,21 @@ std::optional<T> as (TSource const &source) LUMEX_NOEXCEPT
 template <traits::meta::Extractible T, traits::meta::ByteLike ByteType>
 LUMEX_ATTRIBUTE_NODISCARD ("return value must be used")
 std::optional<T> as (std::span<ByteType const> span) LUMEX_NOEXCEPT
+{
+  return as<T> (span.data (), span.size ());
+}
+
+/**
+ * @brief Overload of as() that reads from a `span` of this library (the
+ * `lumex::core::span` module) of byte-like elements.
+ * @details A template deduces the element type from the exact type, so a
+ * `std::span` takes the overload above and a `std::vector` or a `std::array`
+ * takes neither: pass its `data ()` and `size ()`, or make a `span` first.
+ */
+template <traits::meta::Extractible T, traits::meta::ByteLike ByteType>
+LUMEX_ATTRIBUTE_NODISCARD ("return value must be used")
+std::optional<T> as (core::span::view::span<ByteType const> span)
+    LUMEX_NOEXCEPT
 {
   return as<T> (span.data (), span.size ());
 }
