@@ -352,7 +352,7 @@ lumex_test_standards_declare(math 11 17 20)
 lumex_test_standards_declare(span 11 17 20)
 
 lumex_test_standards_declare(circular_buffer 11 20)
-lumex_test_standards_declare(filesystem 11 20)
+lumex_test_standards_declare(filesystem 11 17 20)
 
 lumex_test_standards_declare(resource_monitor 11)
 

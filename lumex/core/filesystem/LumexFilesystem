@@ -42,6 +42,9 @@
  * @brief Filesystem module: paths, directory iteration and file operations in
  * the shape of C++17 `<filesystem>`, written in C++11.
  * @details Link <tt>%lumex::filesystem</tt> (compiled library). Works from
- * C++11. The umbrella includes `fs/LumexFilesystem.hpp`.
+ * C++11. From C++17, where `<filesystem>` exists, `path` converts implicitly
+ * to and from `std::filesystem::path` (`LUMEX_HAS_STD_PATH_CONVERSION`), through
+ * member templates that are not part of the exported interface. The umbrella
+ * includes `fs/LumexFilesystem.hpp`.
  */
 #include "fs/LumexFilesystem.hpp"
