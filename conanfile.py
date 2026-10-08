@@ -171,6 +171,13 @@ class LumexLibConan(ConanFile):
         )
         self._component("core_crc", "crc", ["LumexCore_crc"],
                         ["core_utility", "core_span", "core_string_view"])
+        hazard_pointer = self._component(
+            "core_hazard_pointer", "hazard_pointer",
+            ["LumexCore_hazard_pointer"], ["core_utility", "core_span"],
+        )
+        if not windows:
+            # The slot cache is released by a pthread key destructor.
+            hazard_pointer.system_libs.append("pthread")
         self._component(
             "core_environment", "environment", ["LumexCore_environment"],
             ["core_utility"],

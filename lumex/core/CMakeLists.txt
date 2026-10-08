@@ -10,6 +10,8 @@ lumex_add_subdirectory_if(LUMEX_BUILD_UTILITY utility)
 lumex_add_subdirectory_if(LUMEX_BUILD_UNICODE unicode)
 # string_view is linked by base64, crc, exceptions and xml: add it before them.
 lumex_add_subdirectory_if(LUMEX_BUILD_STRING_VIEW string_view)
+# hazard_pointer links utility and span: add it after them.
+lumex_add_subdirectory_if(LUMEX_BUILD_HAZARD_POINTER hazard_pointer)
 lumex_add_subdirectory_if(LUMEX_BUILD_ATOMIC atomic)
 lumex_add_subdirectory_if(LUMEX_BUILD_CIRCULAR_BUFFER circular_buffer)
 lumex_add_subdirectory_if(LUMEX_BUILD_EXPECTED expected)
