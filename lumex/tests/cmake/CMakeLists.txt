@@ -363,6 +363,31 @@ set_tests_properties(${_ctest_name} PROPERTIES
     SKIP_REGULAR_EXPRESSION "LUMEX_CONSUMER_SKIP"
 )
 
+# LUMEX_DEFINE_FIELD_NAMES compile-time checks: a registration that does not
+# match the aggregate (a wrong number of names, a name that is no member, an
+# array member, a second registration) and a use of names, get or to_json
+# without the registration where the standard gives no automatic source must
+# be refused with the message of their own check; valid use must compile.
+lumex_test_name(_ctest_name field_names_compile_checks)
+add_test(NAME ${_ctest_name}
+    COMMAND ${CMAKE_COMMAND}
+        -DCASE=field_names_compile_checks
+        -DLUMEX_SOURCE_DIR=${LumexLib_SOURCE_DIR}
+        -DWORK_DIR=${CMAKE_CURRENT_BINARY_DIR}/consumer/field_names_compile_checks
+        -DGENERATOR=${CMAKE_GENERATOR}
+        -DCXX_COMPILER=${CMAKE_CXX_COMPILER}
+        "-DCXX_FLAGS=${CMAKE_CXX_FLAGS}"
+        -DCLANG_STDLIB=${LUMEX_CLANG_STDLIB}
+        -DBUILD_TYPE=Release
+        -DCONFIGURE_ONLY=ON
+        -P ${_LUMEX_CONSUMER_RUN}
+)
+set_tests_properties(${_ctest_name} PROPERTIES
+    LABELS "cmake;consumer"
+    TIMEOUT 900
+    SKIP_REGULAR_EXPRESSION "LUMEX_CONSUMER_SKIP"
+)
+
 # span compile-time checks: the uses std::span rejects (a discarded result,
 # a constructor its constraints remove, an out-of-range static subview, an
 # implicit conversion the standard makes explicit) must not compile with
