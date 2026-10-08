@@ -170,9 +170,9 @@ template <typename T, typename U> struct integer_pair_check
   }
 };
 
-// Floating-point values of the same type: <=> is the reference. Of two types
-// the reference is <=> where no infinity is involved (an infinity against
-// another type is unordered, as in LumexSafeThreeWayCompare.cxx11).
+// Floating-point values of two types: <=> on the values widened to long double
+// is the reference. An infinity is ordered by its sign for every pair of types
+// (see LumexSafeInfinityOrder.cxx11).
 template <typename F, typename G> struct float_pair_check
 {
   static void
@@ -192,19 +192,13 @@ template <typename F, typename G> struct float_pair_check
           G const b = rhs[j];
           std::partial_ordering const actual
               = own::safe_three_way_compare (a, b);
-          bool const comparable
-              = std::is_same_v<F, G> || (!std::isinf (a) && !std::isinf (b));
-          if (comparable)
-            {
-              std::partial_ordering const expected
-                  = static_cast<long double> (a)
-                    <=> static_cast<long double> (b);
-              add_if_differs (report, "<=>", a, b, actual != expected, actual);
-              add_if_differs (report, "own class", a, b,
-                              zero_signature (to_own (expected))
-                                  != zero_signature (actual),
-                              actual);
-            }
+          std::partial_ordering const expected
+              = static_cast<long double> (a) <=> static_cast<long double> (b);
+          add_if_differs (report, "<=>", a, b, actual != expected, actual);
+          add_if_differs (report, "own class", a, b,
+                          zero_signature (to_own (expected))
+                              != zero_signature (actual),
+                          actual);
           check_helpers (report, a, b, actual);
         }
   }
@@ -231,8 +225,6 @@ template <typename I, typename F> struct mixed_pair_check
         {
           I const a = integers[i];
           F const b = floats[j];
-          if (std::isinf (b))
-            continue; // unordered here, see the C++11 characterization
           std::partial_ordering const expected
               = static_cast<long double> (a) <=> static_cast<long double> (b);
           std::partial_ordering const forward

@@ -171,6 +171,27 @@ namespace numeric
  * }
  * @endcode
  *
+ * @subsection infinity_order Infinities
+ * An infinity is ordered by its sign for every pair of arithmetic types, in
+ * the three-way compare and in the six comparisons alike: -inf is below every
+ * finite value, +inf is above every finite value, +inf equals +inf and -inf
+ * equals -inf, whatever the types are (an integer against a floating-point
+ * type, a floating-point type against another one, `long double` included).
+ * An integer never equals an infinity. NaN stays unordered: every comparison
+ * with it is false except `safe_not_equal`, and the three-way result is
+ * `unordered`.
+ *
+ * @code
+ * float finf = std::numeric_limits<float>::infinity();
+ * double dinf = std::numeric_limits<double>::infinity();
+ * safe_less(7, dinf);                // true
+ * safe_greater(finf, 1.0);           // true
+ * safe_equal(finf, dinf);            // true
+ * safe_three_way_compare(7, dinf);   // less (it was unordered before 2.0.0.0)
+ * safe_three_way_compare(-finf, 1.0); // less (it was unordered before)
+ * safe_less(1.0f, dinf);             // true (it was false before)
+ * @endcode
+ *
  * @subsection compile_time Compile-time optimizations
  * Uses SFINAE to select the optimal comparison algorithm:
  * - Same types: direct comparison (fastest)
@@ -393,9 +414,8 @@ namespace numeric
  * ```
  * ACTION C.1: IF std::isnan(current) == true OR std::isnan(other) == true:
  *     ACTION C.1.1: Return false
- * ACTION C.2: IF std::isinf(current) == true OR std::isinf(other) == true:
- *     ACTION C.2.1: Compare: result = (current == other)
- *     ACTION C.2.2: Return result
+ * ACTION C.2: (no special case: an infinity keeps its sign in the common type
+ *     and the built-in comparison orders it, -inf < finite < +inf)
  * ACTION C.3: Get CommonType = std::common_type<T, U>::type
  * ACTION C.4: Convert: current_common = static_cast<CommonType>(current)
  * ACTION C.5: Convert: other_common = static_cast<CommonType>(other)
@@ -1432,9 +1452,6 @@ struct safe_compare_impl_helper<
   {
     if (std::isnan (current) || std::isnan (other))
       return false;
-    if (std::isinf (current) || std::isinf (other))
-      return ::lumex::core::math::ops::exactly_equal (
-          static_cast<CommonType> (current), static_cast<CommonType> (other));
     return static_cast<CommonType> (current)
            >= static_cast<CommonType> (other);
   }
@@ -1464,9 +1481,6 @@ struct safe_compare_impl_helper<
   {
     if (std::isnan (current) || std::isnan (other))
       return false;
-    if (std::isinf (current) || std::isinf (other))
-      return ::lumex::core::math::ops::exactly_equal (
-          static_cast<CommonType> (current), static_cast<CommonType> (other));
     return static_cast<CommonType> (current)
            <= static_cast<CommonType> (other);
   }
@@ -1484,8 +1498,6 @@ struct safe_compare_impl_helper<
   {
     if (std::isnan (current) || std::isnan (other))
       return false;
-    if (std::isinf (current) || std::isinf (other))
-      return false; // infinity == infinity, not <
     return static_cast<CommonType> (current) < static_cast<CommonType> (other);
   }
 
@@ -1502,8 +1514,6 @@ struct safe_compare_impl_helper<
   {
     if (std::isnan (current) || std::isnan (other))
       return false;
-    if (std::isinf (current) || std::isinf (other))
-      return false; // infinity == infinity, not >
     return static_cast<CommonType> (current) > static_cast<CommonType> (other);
   }
 
@@ -1520,9 +1530,6 @@ struct safe_compare_impl_helper<
   {
     if (std::isnan (current) || std::isnan (other))
       return false;
-    if (std::isinf (current) || std::isinf (other))
-      return ::lumex::core::math::ops::exactly_equal (
-          static_cast<CommonType> (current), static_cast<CommonType> (other));
     return ::lumex::core::math::ops::exactly_equal (
         static_cast<CommonType> (current), static_cast<CommonType> (other));
   }
@@ -1540,9 +1547,6 @@ struct safe_compare_impl_helper<
   {
     if (std::isnan (current) || std::isnan (other))
       return true;
-    if (std::isinf (current) || std::isinf (other))
-      return !::lumex::core::math::ops::exactly_equal (
-          static_cast<CommonType> (current), static_cast<CommonType> (other));
     return !::lumex::core::math::ops::exactly_equal (
         static_cast<CommonType> (current), static_cast<CommonType> (other));
   }
@@ -1561,15 +1565,6 @@ struct safe_compare_impl_helper<
   {
     if (std::isnan (current) || std::isnan (other))
       return partial_ordering_t::unordered;
-    if (std::isinf (current) || std::isinf (other))
-      {
-        if (::lumex::core::math::ops::exactly_equal (
-                static_cast<CommonType> (current),
-                static_cast<CommonType> (other)))
-          return partial_ordering_t::equivalent;
-        return partial_ordering_t::unordered;
-      }
-
     auto const current_common = static_cast<CommonType> (current);
     auto const other_common = static_cast<CommonType> (other);
 
@@ -1815,7 +1810,12 @@ struct safe_compare_impl_helper<
         if (std::isnan (other))
           return partial_ordering_t::unordered;
         if (std::isinf (other))
-          return partial_ordering_t::unordered;
+          {
+            // An integer is below +inf and above -inf.
+            if (other > 0)
+              return partial_ordering_t::less;
+            return partial_ordering_t::greater;
+          }
 
         auto const current_common = static_cast<CommonType> (current);
         auto const other_common = static_cast<CommonType> (other);
@@ -1830,7 +1830,12 @@ struct safe_compare_impl_helper<
     if (std::isnan (current))
       return partial_ordering_t::unordered;
     if (std::isinf (current))
-      return partial_ordering_t::unordered;
+      {
+        // +inf is above an integer and -inf below it.
+        if (current > 0)
+          return partial_ordering_t::greater;
+        return partial_ordering_t::less;
+      }
 
     auto const current_common = static_cast<CommonType> (current);
     auto const other_common = static_cast<CommonType> (other);
@@ -1935,6 +1940,10 @@ using three_way_comparison_result_t =
  *
  * @since C++11
  * @note Fully C++11 compatible; uses C++20 concepts when available
+ * @note `safe_comparator<long double, true>` is a `std::atomic<long double>`,
+ * which is 16 bytes on x86-64 GCC and needs `libatomic` (`__atomic_load_16`
+ * and the like): a program that uses it links with `-latomic`. The other
+ * atomic comparators need nothing of the kind on x86-64.
  */
 template <typename T, bool Atomic = false> class safe_comparator
 {
