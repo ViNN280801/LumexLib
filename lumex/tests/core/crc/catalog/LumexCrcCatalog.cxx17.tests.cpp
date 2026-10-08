@@ -38,6 +38,7 @@
 #include <gtest/gtest.h>
 
 #include "lumex/core/crc/LumexCrc"
+#include "lumex/core/string_view/LumexStringView"
 
 using namespace lumex::core::crc::catalog;
 using namespace lumex::core::crc::parametric;
@@ -99,5 +100,25 @@ TEST (CrcCatalog, RevEngParamsStringView_WhenEmpty_ThenZero)
 {
   crc_params_t const params = params_of<crc8_maxim_dow_spec_t> ();
   EXPECT_EQ (compute_crc_with_rev_eng_params (params, std::string_view ()),
+             0U);
+}
+
+TEST (CrcCatalog, LumexStringView_WhenCatalogCrc_ThenSameAsStdStringView)
+{
+  // The view of the library converts to std::string_view, so it is accepted
+  // next to the std::string, char const * and span overloads.
+  lumex_string_view const view ("123456789");
+  EXPECT_EQ (compute_crc_catalog (0, view),
+             static_cast<std::uint64_t> (crc3_gsm_spec_t::kCatalogCheck));
+  EXPECT_EQ (compute_crc_catalog (0, view),
+             compute_crc_catalog (0, kCheckMessage));
+  EXPECT_EQ (compute_crc_catalog (0, view.substr (0, 4)),
+             compute_crc_catalog (0, kCheckMessage.substr (0, 4)));
+  EXPECT_EQ (compute_crc_catalog (0, lumex_string_view ()), 0U);
+  crc_params_t const params = params_of<crc8_maxim_dow_spec_t> ();
+  EXPECT_EQ (
+      compute_crc_with_rev_eng_params (params, view),
+      static_cast<std::uint64_t> (crc8_maxim_dow_spec_t::kCatalogCheck));
+  EXPECT_EQ (compute_crc_with_rev_eng_params (params, lumex_string_view ()),
              0U);
 }

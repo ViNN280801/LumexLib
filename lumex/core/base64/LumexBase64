@@ -46,7 +46,8 @@
  * string overloads are available in every standard, as inline wrappers over
  * the exported functions. The string overloads take a `std::string_view` from
  * C++17 and the `lumex_string_view` of `lumex::string_view` below it (a string
- * literal, a `char const *` and a `std::string` convert to either). The
+ * literal, a `char const *` and a `std::string` convert to either, and from
+ * C++17 a `lumex_string_view` converts to `std::string_view`). The
  * umbrella includes `codec/Base64.hpp`, `decode/Decoder.hpp`,
  * `encode/Encoder.hpp` and `validate/Validator.hpp`.
  */
