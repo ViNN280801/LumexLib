@@ -20,6 +20,16 @@
 
 #### Добавлено
 
+##### `stringify_v2` работает с C++11
+
+**Файлы:** `lumex/core/string/utility/LumexStringify.hpp`, `lumex/tests/core/string/utility/` (`LumexStringifyV2.cxx11.tests.cpp` - новый, `LumexString.cxx20.tests.cpp`, `CMakeLists.txt`)
+
+**Суть:** `stringify_v2` существовала только при `LUMEX_HAS_CONCEPTS` (ограничение `requires` над концептом `AllStringifiable`). Теперь она объявлена с C++11, возвращает тот же текст, что и `stringify` (тело вызывает `stringify` с полным именем, чтобы ADL не подхватила чужую функцию), а ограничение - одна форма `std::enable_if` над условием `detail::are_stringifiable<Args...>`: с C++20 это концепт `AllStringifiable`, тот же, что ограничивает `stringify`, ниже - признак `traits::stream::all_streamable`, то есть то же, что проверяет `static_assert` в `stringify`. Отличие от `stringify`: аргумент, который нельзя вывести в поток, не находит перегрузки во всех стандартах (у `stringify` ниже C++20 это `static_assert` в теле), так что вызов обнаруживается SFINAE. `stringify` не менялась. C++20-частей, которые пришлось бы оставить за защитой, не осталось (`std::format` не нужен).
+
+Найдено при сравнении признака с концептом: `traits::stream::is_streamable<wchar_t>` истинно по явной специализации (тест `LumexStreamTraits` требует этого на всех стандартах), а с C++20 `operator<<` узкого потока для `wchar_t` в стандартной библиотеке удален (libstdc++ 13): концепт `AllStringifiable<wchar_t>` ложен, а `all_streamable<wchar_t>` истинно. Поэтому условие `stringify_v2` с C++20 берется у концепта, а не у признака, и вызов с `wchar_t` не находит перегрузки в одном ряду с `stringify`; признак не менялся (вопрос к пользователю: убрать ли специализацию `wchar_t`).
+
+**Проверено:** GCC 13.2 Release, `string.utility.`: 58 тестов на C++11, 14 и 17, 60 на C++20 (14 новых тестов `LumexStringifyV2Test` на каждом стандарте и 2 на C++20: сравнение условия, концепта, признака и самого вызова на 30 списках аргументов, отдельная проверка `wchar_t`); все проходят. 5 мутаций реализации, все пойманы падением тестов: `stringify_v2` возвращает пустую строку или не использует аргументы, ограничение убрано, условие всегда истинно (оба варианта), условие C++20 взято у `all_streamable`. GCC 8.3: 58 тестов на C++11, 14, 17 и `-std=c++2a` проходят (без `<concepts>` условие - признак); Clang 23.1.0 с libc++ и с libstdc++ 13 и ASan с UBSan (GCC 13.2, Debug) на C++11, 14, 17, 20: все проходят; 12 отдельных компиляций тестов со строгими предупреждениями без диагностик.
+
 ##### `ranges::Algorithm::get_nearest_to` работает с C++11
 
 **Файлы:** `lumex/core/utility/ranges/LumexRanges.hpp`, `lumex/core/utility/LumexUtility`, `lumex/tests/core/utility/ranges/` (`LumexRanges.cxx11.tests.cpp` - перенесен из `.cxx20`; `LumexRanges.cxx20.tests.cpp` - переписан под C++20; новые `LumexRangesProjection.cxx11.tests.cpp`, `LumexRangesConstraints.cxx11.tests.cpp`, `LumexRangesOracle.cxx11.tests.cpp`)
