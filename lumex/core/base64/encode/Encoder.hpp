@@ -29,10 +29,11 @@
  * alphabet (with `+` and `/`), padded with `=` to a multiple of four
  * characters. The pointer and size overload and the `std::vector` overload are
  * compiled into the library and have the same signature in every C++ standard;
- * the `std::string_view` (C++17) and `std::span` (C++20) overloads are inline
- * wrappers over the pointer one. Like the other Base64 headers, it brings the
- * names of the codec's `Types` namespace (`byte_type`, `string_type_t`) into
- * the global namespace with a using-directive.
+ * the overload for `lumex::core::span::view::span` (every standard; a
+ * `std::span` converts to it) and the `std::string_view` overload (C++17) are
+ * inline wrappers over the pointer one. Like the other Base64 headers, it
+ * brings the names of the codec's `Types` namespace (`byte_type`,
+ * `string_type_t`) into the global namespace with a using-directive.
  */
 #ifndef LUMEX_CORE_BASE64_ENCODE_HPP
 #define LUMEX_CORE_BASE64_ENCODE_HPP
@@ -72,14 +73,9 @@
 #if __cplusplus >= 201703L
 #include <string_view>
 #endif
-#if __cplusplus > 201703L && defined(__has_include)
-#if __has_include(<span>)
-#include <span>
-#endif
-#endif
 
 #include "lumex/core/base64/codec/Base64.hpp"
-#include "lumex/core/utility/compiler/LumexCheckFeatures.hpp"
+#include "lumex/core/span/LumexSpan"
 
 namespace lumex // NOLINT(modernize-concat-nested-namespaces)
 {
@@ -102,8 +98,9 @@ using namespace lumex::core::base64::codec::Types;
  * @details `encode (void const *, std::size_t)` and
  * `encode (std::vector<byte_type> const &)` are exported and have the same
  * signature in every C++ standard, so a consumer built at another standard
- * than the library links. The `std::string_view` (C++17) and `std::span`
- * (C++20) overloads are inline wrappers over the pointer and size one.
+ * than the library links. The `span` overload (every standard) and the
+ * `std::string_view` (C++17) overload are inline wrappers over the pointer and
+ * size one.
  * The class itself is not exported: a dllimport class makes clang-cl emit
  * an import for an inline member it does not inline, and the library does
  * not provide the standard-dependent overload.
@@ -163,26 +160,26 @@ public:
   }
 #endif
 
-#if LUMEX_HAS_STD_SPAN
   /**
-   * @brief Encodes binary data from a `std::span<const byte_type>` into a
-   * Base64 string.
+   * @brief Encodes binary data from a `span<byte_type const>` into a Base64
+   * string.
    *
-   * This overload offers the most generic and efficient way to encode
-   * contiguous sequences of bytes without ownership, suitable for C++20 and
-   * later.
+   * This overload takes any contiguous bytes without ownership: a
+   * `std::array`, a built-in array, a `std::vector` (when no better overload
+   * exists), a subview of another span, and, from C++20, a `std::span`
+   * (it converts to the `span` of this library implicitly). It is available
+   * in every C++ standard.
    *
-   * @param[in] data A `std::span<const byte_type>` containing the binary data
-   * to be encoded.
+   * @param[in] data A `lumex::core::span::view::span<byte_type const>`
+   * containing the binary data to be encoded.
    * @return A `std::string` containing the Base64-encoded representation of
    * the input data. Returns an empty string if the input `span` is empty.
    */
   static std::string
-  encode (std::span<byte_type const> data)
+  encode (lumex::core::span::view::span<byte_type const> data)
   {
     return encode (data.data (), data.size ());
   }
-#endif
 };
 } // namespace encode
 } // namespace base64
