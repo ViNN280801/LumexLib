@@ -42,11 +42,15 @@
  * @brief XML module: a DOM tree of nodes, attributes and text, loading and
  * saving with writers for files and streams, and XPath queries with variables.
  * @details Link <tt>%lumex::xml</tt> (shared library). Works from C++11; the
- * `std::string_view` overloads appear from C++17 as inline wrappers over the
- * exported functions. The umbrella includes the DOM classes, the writer
- * interface and its file and stream implementations, the parse result, the
- * XPath classes, the common types and constants, and `XmlUtils`. Linking it also links <tt>%lumex::unicode</tt>, whose UTF
- * transcoders the parser and the buffer conversions use.
+ * `string_view_t` overloads exist in every standard as inline wrappers over
+ * the exported functions: they take a `std::basic_string_view<char_t>` from
+ * C++17 and the `lumex_string_view` of `lumex::string_view` below it (a
+ * string literal, a `char const *` and a `std::string` convert to either).
+ * The umbrella includes the DOM classes, the writer interface and its file and
+ * stream implementations, the parse result, the XPath classes, the common
+ * types and constants, and `XmlUtils`. Linking it also links
+ * <tt>%lumex::unicode</tt>, whose UTF transcoders the parser and the buffer
+ * conversions use, and <tt>%lumex::string_view</tt>.
  *
  * The module is derived from pugixml (https://github.com/zeux/pugixml,
  * MIT, Copyright (c) 2006-2026 Arseny Kapoulkine); its notice is in

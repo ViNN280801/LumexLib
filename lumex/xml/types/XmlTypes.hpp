@@ -44,9 +44,12 @@
  * enumerations of the parser and the XPath engine.
  * @details Everything is in `lumex::xml::types::Types`. `char_t` is `char`, or
  * `wchar_t` when the library is built with `LUMEX_XML_WCHAR_MODE` (a CMake
- * option of the same name); `string_t` and, from C++17, `string_view_t` are
- * built on it. The enumerations consumers meet are `xml_node_type`,
- * `xml_encoding`, `xml_parse_status` and `xpath_value_type`.
+ * option of the same name); `string_t` and `string_view_t` are built on it.
+ * `string_view_t` is `std::basic_string_view<char_t>` from C++17; below it is
+ * the `lumex_string_view` of `lumex::string_view` (the `lumex_wstring_view`
+ * in the wide-character mode), which converts implicitly from `char_t const *`
+ * and `std::basic_string<char_t>`. The enumerations consumers meet are
+ * `xml_node_type`, `xml_encoding`, `xml_parse_status` and `xpath_value_type`.
  *
  * The other types belong to the implementation: the character class bits
  * `chartype_t` and `chartypex_t`, the string header `xml_mem_str_header_t`,
@@ -59,6 +62,13 @@
 
 #include <cstdint>
 #include <string>
+#if __cplusplus >= 201703L
+#include <string_view>
+#elif defined(LUMEX_XML_WCHAR_MODE)
+#include "lumex/core/string_view/view/LumexWStringView.hpp"
+#else
+#include "lumex/core/string_view/view/LumexStringView.hpp"
+#endif
 
 #include "lumex/xml/utility/XmlMacros.hpp"
 
@@ -74,6 +84,10 @@ using char_t = LUMEX_XML_CHAR;
 using string_t = std::basic_string<char_t>;
 #if __cplusplus >= 201703L
 using string_view_t = std::basic_string_view<char_t>;
+#elif defined(LUMEX_XML_WCHAR_MODE)
+using string_view_t = lumex::core::string_view::view::lumex_wstring_view;
+#else
+using string_view_t = lumex::core::string_view::view::lumex_string_view;
 #endif
 
 enum chartype_t : std::uint8_t
