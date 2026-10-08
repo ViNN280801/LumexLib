@@ -48,7 +48,9 @@
  * the four value categories, `swap()`, the non-member `swap()` and the
  * comparisons `==` and `!=` between `unexpected` objects, and, from C++17, the
  * deduction guide. Header-only, part of `lumex::expected` and usable from
- * C++11; the class is also visible at global scope.
+ * C++11. The class has no global alias: write
+ * `lumex::core::expected::error::unexpected` or a using-declaration of your
+ * own.
  */
 #ifndef LUMEX_CORE_EXPECTED_ERROR_UNEXPECTED_HPP
 #define LUMEX_CORE_EXPECTED_ERROR_UNEXPECTED_HPP
@@ -361,6 +363,10 @@ template <typename ErrorType> unexpected (ErrorType) -> unexpected<ErrorType>;
 } // namespace core
 } // namespace lumex
 
-using lumex::core::expected::error::unexpected;
+// `unexpected` has no global alias: the MinGW runtime declares a global
+// function `unexpected` in <eh.h>, and a global name for the class would stop
+// a file from including both. Write
+// `lumex::core::expected::error::unexpected`; the namespace
+// `lumex::core::expected::result` has `using error::unexpected`.
 
 #endif // !LUMEX_CORE_EXPECTED_ERROR_UNEXPECTED_HPP
