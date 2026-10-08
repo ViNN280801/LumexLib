@@ -10,7 +10,7 @@ lumex_example_executable(
   SOURCE example_utility.cpp
   LINK lumex::utility
   REQUIRE_TARGET lumex::utility
-  CXX_STANDARD 20
+  CXX_STANDARD 11
 )
 lumex_example_executable(
   NAME LumexUtilityExampleWorkflow
