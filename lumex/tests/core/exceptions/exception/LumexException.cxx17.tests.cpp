@@ -38,6 +38,7 @@
 #include <gtest/gtest.h>
 
 #include "lumex/core/exceptions/LumexException"
+#include "lumex/core/string_view/LumexStringView"
 
 #include "lumex/tests/core/exceptions/exception/LumexExceptionTestFixtures.hpp"
 
@@ -63,4 +64,22 @@ TEST_F (LumexExceptionTest,
   std::string_view const with_nul ("a\0b", 3);
   lumex_base_exception const ex (with_nul);
   EXPECT_EQ (std::string (ex.what (), 3), std::string (with_nul));
+}
+
+// The view of the library converts to std::string_view, so the same
+// constructor takes it; the char const *, std::string and literal
+// constructors keep their calls.
+TEST_F (LumexExceptionTest, LumexBaseException_LumexStringView_CopiesTheView)
+{
+  std::string const text = "prefix:message:suffix";
+  lumex_string_view const view = lumex_string_view (text).substr (7, 7);
+  lumex_base_exception const ex (view);
+  EXPECT_STREQ (ex.what (), "message");
+  lumex_base_exception const empty (lumex_string_view{});
+  EXPECT_STREQ (empty.what (), "");
+  std::string const zeros ("a\0b", 3);
+  lumex_base_exception const with_nul{ lumex_string_view (zeros) };
+  EXPECT_EQ (std::string (with_nul.what (), 3), zeros);
+  EXPECT_STREQ (lumex_base_exception ("literal").what (), "literal");
+  EXPECT_STREQ (lumex_base_exception (text).what (), text.c_str ());
 }
