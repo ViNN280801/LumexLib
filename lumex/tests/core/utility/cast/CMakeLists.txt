@@ -1,7 +1,8 @@
 # lumex/tests/core/utility/cast/CMakeLists.txt
 
-# The tests of lumex/core/utility/cast: the casts of LumexCast.hpp, which need
-# C++20: the directory has suites from C++20 on only.
+# The tests of lumex/core/utility/cast: downcast, downcast_noexcept and
+# bad_down_cast of LumexCast.hpp from C++11 (.cxx11), and the C++20 files that
+# tie the SFINAE constraints to the concepts they replaced (.cxx20).
 # One suite per standard of the module (lumex/tests/LumexTestStandards.cmake),
 # LumexUtilityCastCxx11Tests, ...Cxx14Tests, ...Cxx17Tests, ...Cxx20Tests
 # (C++23 and C++26 only where the compiler has them), each built from the

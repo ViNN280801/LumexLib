@@ -49,10 +49,11 @@
  * <tt>%lumex::math</tt>, <tt>%lumex::optional</tt> and <tt>%lumex::span</tt>).
  * Works from C++11. The umbrella also includes `bit/`, `cast/`, `mem/` and
  * `ranges/`. In them `count_leading_zeros`, `byte_swap`, `is_little_endian`,
+ * `downcast`, `downcast_noexcept` and `bad_down_cast`,
  * `iterator_range` and `mem::as` (reads a value out of raw bytes; the result is
  * `std::optional` from C++17 and the optional of `lumex::optional` before it,
- * `mem::optional_t`) work from C++11; the rest needs C++20, and each header
- * checks its own features and declares nothing where the toolchain lacks them.
+ * `mem::optional_t`) work from C++11; the C++20 parts of `ranges` check their
+ * own features and declare nothing where the toolchain lacks them.
  * `functional/` (`functional::identity`, `functional::less`) and `sequence/`
  * (`sequence::integer_sequence`, `index_sequence`, `make_integer_sequence`,
  * `make_index_sequence`, `index_sequence_for`) work from C++11: the standard
