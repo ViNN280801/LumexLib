@@ -45,8 +45,8 @@
  * The byte swap and the byte-order probe serve code that reads or writes data
  * of a fixed byte order, such as the UTF-16 and UTF-32 transcoders of the
  * `unicode` module. `byte_swap` below C++20 and `is_little_endian` replace
- * helpers of the XML module, which are derived from pugixml (MIT, Copyright
- * (c) 2006-2026 Arseny Kapoulkine); the notice is in `THIRD-PARTY-NOTICES.md`.
+ * helpers of the XML module; both functions are Lumex's own code (the XML
+ * module itself is derived from pugixml, see `THIRD-PARTY-NOTICES.md`).
  */
 
 // NOLINTBEGIN(readability-identifier-length,
