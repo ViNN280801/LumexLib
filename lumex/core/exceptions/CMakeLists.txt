@@ -25,6 +25,7 @@ target_link_libraries(${LUMEX_EXCEPTIONS_NAME} PUBLIC
     lumex::environment
     lumex::filesystem
     lumex::string
+    lumex::string_view
     lumex::time
     lumex::utility
 )

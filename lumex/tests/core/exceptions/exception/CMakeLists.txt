@@ -2,12 +2,15 @@
 
 # One suite per standard of the module (lumex/tests/LumexTestStandards.cmake):
 #   LumexExceptionsExceptionCxx11Tests  the .cxx11.tests.cpp files:
-#                                       LumexException and
-#                                       LumexExceptionHeader
-#   LumexExceptionsExceptionCxx17Tests  + LumexException.cxx17.tests.cpp: the
-#                                       std::string_view constructor, an inline
-#                                       wrapper over the exported std::string
-#                                       one
+#                                       LumexException,
+#                                       LumexExceptionHeader and
+#                                       LumexExceptionStringView (the string
+#                                       view constructor, an inline wrapper
+#                                       over the exported std::string one:
+#                                       lumex_string_view below C++17,
+#                                       std::string_view from C++17)
+#   LumexExceptionsExceptionCxx17Tests  + LumexException.cxx17.tests.cpp:
+#                                       std::string_view arguments
 #   LumexExceptionsExceptionCxx20Tests  the same files at C++20
 # LumexExceptionTestFixtures.hpp holds the fixture the files of every standard
 # share. The exception suites share bin/crashes with the other directories of
