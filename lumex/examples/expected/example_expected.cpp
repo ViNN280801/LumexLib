@@ -3,6 +3,8 @@
 
 #include "lumex/core/expected/Expected"
 
+// `unexpected` and `in_place` have no global alias (the MinGW runtime declares
+// its own global `unexpected`): the using-directives bring in the module's.
 using namespace lumex::core::expected::result;
 using namespace lumex::core::expected::error;
 
