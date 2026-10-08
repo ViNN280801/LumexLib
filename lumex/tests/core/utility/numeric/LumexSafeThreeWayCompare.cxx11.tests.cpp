@@ -77,12 +77,10 @@ check_atomic_member (mismatch_report &, T, U, int, std::false_type)
 }
 
 // Everything the three-way part says about one pair, against the code of the
-// exact order (-1, 0, 1, or 2 for unordered). `all_booleans` is false where
-// the boolean functions are known to order differently (infinities).
+// exact order (-1, 0, 1, or 2 for unordered).
 template <typename T, typename U>
 void
-check_one_pair (mismatch_report &report, T lhs, U rhs, int expected,
-                bool all_booleans)
+check_one_pair (mismatch_report &report, T lhs, U rhs, int expected)
 {
   typedef three_way_comparison_result_t<T, U> Result;
 
@@ -119,8 +117,6 @@ check_one_pair (mismatch_report &report, T lhs, U rhs, int expected,
   expect_flag (report, "result == 0", lhs, rhs, want_equal, free_result == 0);
   expect_flag (report, "result > 0", lhs, rhs, want_greater, free_result > 0);
 
-  if (!all_booleans)
-    return;
   // The boolean functions, which were tested before the three-way part.
   expect_flag (report, "safe_less", lhs, rhs, want_less, safe_less (lhs, rhs));
   expect_flag (report, "safe_equal", lhs, rhs, want_equal,
@@ -153,26 +149,10 @@ template <typename T, typename U> struct integer_pair_check
     std::vector<U> const rhs = integer_samples<U> ();
     for (std::size_t i = 0; i < lhs.size (); ++i)
       for (std::size_t j = 0; j < rhs.size (); ++j)
-        check_one_pair (report, lhs[i], rhs[j], integer_order (lhs[i], rhs[j]),
-                        true);
+        check_one_pair (report, lhs[i], rhs[j],
+                        integer_order (lhs[i], rhs[j]));
   }
 };
-
-// What the three-way comparison of two floating-point values answers. The
-// order is exact; it differs from it, as it did when the part existed only
-// from C++20, where an infinity meets another floating-point type: the
-// comparison then answers unordered unless both are the same infinity.
-template <typename F, typename G>
-int
-expected_float_code (F lhs, G rhs)
-{
-  int const order = float_order (lhs, rhs);
-  if (std::is_same<F, G>::value || order == 2)
-    return order;
-  if (std::isinf (lhs) || std::isinf (rhs))
-    return order == 0 ? 0 : 2;
-  return order;
-}
 
 // Floating-point against floating-point, every sample of both types.
 template <typename F, typename G> struct float_pair_check
@@ -189,21 +169,17 @@ template <typename F, typename G> struct float_pair_check
     for (std::size_t i = 0; i < lhs.size (); ++i)
       for (std::size_t j = 0; j < rhs.size (); ++j)
         {
-          int const expected = expected_float_code (lhs[i], rhs[j]);
-          // The boolean functions order an infinity by its sign for another
-          // floating-point type, so they are compared where that cannot
-          // matter: the same type, or no infinity.
-          bool const booleans
-              = std::is_same<F, G>::value
-                || (!std::isinf (lhs[i]) && !std::isinf (rhs[j]));
-          check_one_pair (report, lhs[i], rhs[j], expected, booleans);
+          // An infinity is ordered by its sign for every pair of types, so
+          // the order of the widened values is the answer (see also
+          // LumexSafeInfinityOrder.cxx11.tests.cpp).
+          int const expected = float_order (lhs[i], rhs[j]);
+          check_one_pair (report, lhs[i], rhs[j], expected);
         }
   }
 };
 
 // Integer against floating-point and floating-point against integer. An
-// infinity is unordered, as it was when the part existed only from C++20 (the
-// boolean functions order it by sign).
+// infinity is ordered by its sign, NaN is unordered.
 template <typename I, typename F> struct mixed_pair_check
 {
   static void
@@ -221,17 +197,12 @@ template <typename I, typename F> struct mixed_pair_check
     for (std::size_t i = 0; i < integers.size (); ++i)
       for (std::size_t j = 0; j < floats.size (); ++j)
         {
-          bool const special
-              = std::isnan (floats[j]) || std::isinf (floats[j]);
-          int const forward
-              = special ? 2
-                        : float_order (static_cast<long double> (integers[i]),
-                                       floats[j]);
-          int const backward = (special || forward == 2) ? 2 : -forward;
-          check_one_pair (report, integers[i], floats[j], forward,
-                          !std::isinf (floats[j]));
-          check_one_pair (report, floats[j], integers[i], backward,
-                          !std::isinf (floats[j]));
+          // float_order answers 2 for NaN and orders an infinity by its sign.
+          int const forward = float_order (
+              static_cast<long double> (integers[i]), floats[j]);
+          int const backward = forward == 2 ? 2 : -forward;
+          check_one_pair (report, integers[i], floats[j], forward);
+          check_one_pair (report, floats[j], integers[i], backward);
         }
   }
 };
@@ -397,35 +368,32 @@ TEST (LumexSafeThreeWayCases,
   EXPECT_TRUE (safe_three_way_compare (0u, -0.5) > 0);
 }
 
-// What the comparison answers today for the cases its boolean siblings order
-// differently. The expectations pin the behavior of the part as it was when
-// it existed only from C++20, so that moving it to C++11 changed nothing; a
-// change of the behavior itself has to change these tests on purpose.
-TEST (
-    LumexSafeThreeWayCharacterization,
-    GivenInfinityAgainstAnotherType_WhenCompared_ThenUnorderedUnlessTheSameInfinity)
+// An infinity is ordered by its sign for every pair of types, and the boolean
+// siblings (safe_less, ...) say the same. Before 2.0.0.0 the comparison
+// answered unordered here unless both were the same infinity, and safe_less
+// and safe_greater gave an infinity no order against another floating-point
+// type. The whole table is LumexSafeInfinityOrder.cxx11.tests.cpp.
+TEST (LumexSafeThreeWayCases,
+      GivenInfinityAgainstAnotherType_WhenCompared_ThenOrderedBySign)
 {
   float const finf = std::numeric_limits<float>::infinity ();
   double const dinf = std::numeric_limits<double>::infinity ();
 
   EXPECT_TRUE (safe_three_way_compare (finf, 1.0)
-               == partial_ordering_t::unordered);
+               == partial_ordering_t::greater);
   EXPECT_TRUE (safe_three_way_compare (-finf, 1.0)
-               == partial_ordering_t::unordered);
+               == partial_ordering_t::less);
   EXPECT_TRUE (safe_three_way_compare (1.0f, dinf)
-               == partial_ordering_t::unordered);
+               == partial_ordering_t::less);
   EXPECT_TRUE (safe_three_way_compare (finf, dinf)
                == partial_ordering_t::equivalent);
   EXPECT_TRUE (safe_three_way_compare (-finf, dinf)
-               == partial_ordering_t::unordered);
-  EXPECT_TRUE (safe_three_way_compare (7, dinf)
-               == partial_ordering_t::unordered);
+               == partial_ordering_t::less);
+  EXPECT_TRUE (safe_three_way_compare (7, dinf) == partial_ordering_t::less);
   EXPECT_TRUE (safe_three_way_compare (finf, 7)
-               == partial_ordering_t::unordered);
-  // Two floating-point types: the boolean functions give an infinity no order
-  // either. An integer against an infinity: they order it by its sign.
-  EXPECT_FALSE (safe_greater (finf, 1.0));
-  EXPECT_FALSE (safe_less (-finf, 1.0));
+               == partial_ordering_t::greater);
+  EXPECT_TRUE (safe_greater (finf, 1.0));
+  EXPECT_TRUE (safe_less (-finf, 1.0));
   EXPECT_TRUE (safe_less (7, dinf));
   EXPECT_TRUE (safe_greater (finf, 7));
 }
