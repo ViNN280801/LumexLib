@@ -49,13 +49,14 @@
  * `first_attribute`, `append_attribute` and the attribute iterators declared
  * in `XmlNode.hpp`).
  *
- * The `std::string_view` overloads exist only when the including code is
- * compiled as C++17 or later. They are inline wrappers over the exported
- * pointer-and-size functions, so the library binary does not depend on the
- * standard of its consumer. The class is not exported, so those wrappers
- * are not `dllimport`. The file also declares the logical AND and OR
- * operators with a `bool` and `utility::is_attribute_of`. Consumers include it
- * through `lumex/xml/LumexXml`.
+ * The `string_view_t` overloads (`std::basic_string_view<char_t>` from C++17,
+ * the `lumex_string_view` of `lumex::string_view` below) exist in every C++
+ * standard. They are inline wrappers over the exported pointer-and-size
+ * functions, so the library binary does not depend on the standard of its
+ * consumer. The class is not exported, so those wrappers are not
+ * `dllimport`. The file also declares the logical AND and OR operators with a
+ * `bool` and `utility::is_attribute_of`. Consumers include it through
+ * `lumex/xml/LumexXml`.
  */
 #ifndef LUMEX_XML_ATTRIBUTE_XML_ATTRIBUTE_HPP
 #define LUMEX_XML_ATTRIBUTE_XML_ATTRIBUTE_HPP
@@ -88,10 +89,6 @@
 #endif
 
 #include "lumex/LumexExport.hpp"
-
-#if __cplusplus >= 201703L
-#include <string_view>
-#endif
 
 #include "lumex/core/utility/attr/LumexAttributes.hpp"
 
@@ -440,24 +437,22 @@ public:
    */
   LUMEX_API bool set_name (char_t const *rhs, std::size_t size);
 
-#if __cplusplus >= 201703L
   /**
-   * @brief Sets the name of the XML attribute from a `std::string_view`.
+   * @brief Sets the name of the XML attribute from a `string_view_t`.
    * @details This function attempts to copy the provided string view's content
    * into the attribute's name buffer. It returns `false` if the attribute is
    * empty or if there isn't enough memory to allocate the new name.
-   * @param[in] rhs The new name for the attribute as a `std::string_view`.
+   * @param[in] rhs The new name for the attribute as a `string_view_t`.
    * @return `true` if the name was successfully set, `false` otherwise.
    * @note The underlying memory for the name might be reallocated if the new
    * name is larger than the current buffer.
-   * @note Available only when compiled with C++17 or later.
    */
   bool
   set_name (string_view_t rhs)
   {
     return set_name (rhs.data (), rhs.size ());
   }
-#endif
+
   /**
    * @brief Sets the value of the XML attribute from a null-terminated C-style
    * string.
@@ -486,24 +481,21 @@ public:
    */
   LUMEX_API bool set_value (char_t const *rhs, std::size_t size);
 
-#if __cplusplus >= 201703L
   /**
-   * @brief Sets the value of the XML attribute from a `std::string_view`.
+   * @brief Sets the value of the XML attribute from a `string_view_t`.
    * @details This function attempts to copy the provided string view's content
    * into the attribute's value buffer. It returns `false` if the attribute is
    * empty or if there isn't enough memory to allocate the new value.
-   * @param[in] rhs The new value for the attribute as a `std::string_view`.
+   * @param[in] rhs The new value for the attribute as a `string_view_t`.
    * @return `true` if the value was successfully set, `false` otherwise.
    * @note The underlying memory for the value might be reallocated if the new
    * value is larger than the current buffer.
-   * @note Available only when compiled with C++17 or later.
    */
   bool
   set_value (string_view_t rhs)
   {
     return set_value (rhs.data (), rhs.size ());
   }
-#endif
 
   // Set attribute value with type conversion (numbers are converted to
   // strings, boolean is converted to "true"/"false")
@@ -745,16 +737,14 @@ public:
    */
   LUMEX_API XmlAttribute &operator= (bool rhs);
 
-#if __cplusplus >= 201703L
   /**
-   * @brief Assigns a `std::string_view` as the attribute's value.
+   * @brief Assigns a `string_view_t` as the attribute's value.
    * @details This operator is equivalent to `set_value(rhs)` but without
    * explicit error checking. It assumes the underlying `XmlAttributeBase` is
    * valid and memory operations will succeed.
-   * @param[in] rhs The new `std::string_view` value for the attribute.
+   * @param[in] rhs The new `string_view_t` value for the attribute.
    * @return A reference to the current `XmlAttribute` object.
    * @note Prefer `set_value` for robust error handling.
-   * @note Available only when compiled with C++17 or later.
    */
   XmlAttribute &
   operator= (string_view_t rhs)
@@ -762,7 +752,6 @@ public:
     set_value (rhs.data (), rhs.size ());
     return *this;
   }
-#endif
 
   /**
    * @brief Assigns a `long long` as the attribute's value, converting it to a

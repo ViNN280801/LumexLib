@@ -410,7 +410,6 @@ sized_strequal (char_t const *src, std::size_t srclen, char_t const *dst)
   return srclen == 0 && *dst == 0;
 }
 
-#if __cplusplus >= 201703L
 // Check if the null-terminated dst string is equal to the entire contents of
 // srcview
 inline bool
@@ -418,7 +417,6 @@ stringview_equal (string_view_t srcview, char_t const *dst)
 {
   return sized_strequal (srcview.data (), srcview.size (), dst);
 }
-#endif
 
 // Compare lhs with [rhs_begin, rhs_end)
 inline bool

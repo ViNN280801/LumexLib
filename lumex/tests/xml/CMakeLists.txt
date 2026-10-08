@@ -14,8 +14,13 @@
 #                       attributes return an iterator_range) and
 #                       LumexXmlParserOptions.cxx11.tests.cpp (the parse
 #                       options that select a string conversion of the parser)
-#   LumexXmlCxx17Tests  + LumexXml.cxx17.tests.cpp: the std::string_view
-#                       overloads
+#                       and LumexXmlStringView.cxx11.tests.cpp (the
+#                       string_view_t overloads: lumex_string_view below
+#                       C++17, std::basic_string_view from C++17, so
+#                       std::string and sized-view arguments work in every
+#                       suite)
+#   LumexXmlCxx17Tests  + LumexXml.cxx17.tests.cpp: std::string_view
+#                       arguments
 #   LumexXmlCxx20Tests  the same files at C++20. LumexXml is a C++11 library,
 #                       but consumers compile its headers (and, when
 #                       embedded, its .cpp files) at C++20: a block-scope
