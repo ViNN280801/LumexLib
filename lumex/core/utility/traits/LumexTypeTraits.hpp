@@ -241,6 +241,48 @@ template <typename T> struct indirection_of<T &>
 template <typename T>
 using indirection_of_t = typename indirection_of<T>::type;
 
+/**
+ * @brief `T` is a value that can be copied out of raw bytes: trivially
+ * copyable, standard layout, neither a pointer nor a reference (the C++11
+ * form of the concept `Extractible`).
+ * @details Derived from `std::integral_constant` like the standard traits.
+ */
+template <typename T>
+struct is_extractible
+    : std::integral_constant<bool, std::is_trivially_copyable<T>::value
+                                       && std::is_standard_layout<T>::value
+                                       && !std::is_pointer<T>::value
+                                       && !std::is_reference<T>::value>
+{
+};
+
+#if LUMEX_HAS_STD_BYTE
+/**
+ * @brief `T` is `std::byte` (C++17), `char` or `unsigned char`, without
+ * `const` or `volatile` (the C++11 form of the concept `ByteLike`).
+ */
+template <typename T>
+struct is_byte_like
+    : std::integral_constant<bool,
+                             std::is_same<T, std::byte>::value
+                                 || std::is_same<T, char>::value
+                                 || std::is_same<T, unsigned char>::value>
+{
+};
+#else
+/**
+ * @brief `T` is `char` or `unsigned char`, without `const` or `volatile`
+ * (`std::byte` is C++17; the C++11 form of the concept `ByteLike`).
+ */
+template <typename T>
+struct is_byte_like
+    : std::integral_constant<bool,
+                             std::is_same<T, char>::value
+                                 || std::is_same<T, unsigned char>::value>
+{
+};
+#endif
+
 #if LUMEX_HAS_STD_CONCEPTS
 /** @brief A pointer to a class type. */
 template <typename T>

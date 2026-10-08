@@ -149,6 +149,8 @@ lumex_add_cmake_fail_test(require_fail_crc_without_utility
 # (cmake.wiring_span pins the other two).
 lumex_add_cmake_fail_test(require_fail_utility_without_span
     "LUMEX_BUILD_UTILITY is enabled but requires LUMEX_BUILD_SPAN")
+lumex_add_cmake_fail_test(require_fail_utility_without_optional
+    "LUMEX_BUILD_UTILITY is enabled but requires LUMEX_BUILD_OPTIONAL")
 lumex_add_cmake_fail_test(require_fail_environment_without_utility
     "LUMEX_BUILD_ENVIRONMENT is enabled but requires LUMEX_BUILD_UTILITY")
 lumex_add_cmake_fail_test(require_fail_filesystem_without_utility

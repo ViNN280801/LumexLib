@@ -25,6 +25,7 @@ find_package(Threads REQUIRED)
 
 target_link_libraries(${LUMEX_UTILITY_NAME} PUBLIC
     lumex::math
+    lumex::optional
     lumex::span
     Threads::Threads
     ${CMAKE_DL_LIBS}

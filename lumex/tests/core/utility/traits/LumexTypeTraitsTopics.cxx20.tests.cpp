@@ -92,6 +92,44 @@ TEST (LumexTypeTraitsTopicsTest, GivenTypes_WhenExtractible_ThenPodValuesOnly)
 #endif
 }
 
+namespace
+{
+struct concept_pair_t
+{
+  std::int16_t low;
+  std::int16_t high;
+};
+
+using concept_array_t = std::array<char, 4>;
+} // namespace
+
+TEST (LumexTypeTraitsTopicsTest, GivenTypes_WhenTraitAndConcept_ThenTheyAgree)
+{
+#if LUMEX_HAS_STD_CONCEPTS
+  // The C++11 traits are the same sets as the concepts (the concepts stay for
+  // their users, LumexMemRead.hpp uses the traits in every standard).
+#define LUMEX_TRAITS_AGREE(TRAIT, CONCEPT, TYPE)                              \
+  EXPECT_EQ (traits::meta::TRAIT<TYPE>::value, traits::meta::CONCEPT<TYPE>)
+  LUMEX_TRAITS_AGREE (is_extractible, Extractible, int);
+  LUMEX_TRAITS_AGREE (is_extractible, Extractible, double);
+  LUMEX_TRAITS_AGREE (is_extractible, Extractible, concept_pair_t);
+  LUMEX_TRAITS_AGREE (is_extractible, Extractible, int *);
+  LUMEX_TRAITS_AGREE (is_extractible, Extractible, int &);
+  LUMEX_TRAITS_AGREE (is_extractible, Extractible, std::string);
+  LUMEX_TRAITS_AGREE (is_extractible, Extractible, base_t);
+  LUMEX_TRAITS_AGREE (is_extractible, Extractible, concept_array_t);
+  LUMEX_TRAITS_AGREE (is_byte_like, ByteLike, std::byte);
+  LUMEX_TRAITS_AGREE (is_byte_like, ByteLike, char);
+  LUMEX_TRAITS_AGREE (is_byte_like, ByteLike, unsigned char);
+  LUMEX_TRAITS_AGREE (is_byte_like, ByteLike, signed char);
+  LUMEX_TRAITS_AGREE (is_byte_like, ByteLike, std::uint16_t);
+  LUMEX_TRAITS_AGREE (is_byte_like, ByteLike, char const);
+#undef LUMEX_TRAITS_AGREE
+#else
+  GTEST_SKIP () << "the standard library has no <concepts>";
+#endif
+}
+
 TEST (LumexTypeTraitsTopicsTest, GivenTypes_WhenByteLike_ThenOnlyByteTypes)
 {
 #if LUMEX_HAS_STD_CONCEPTS

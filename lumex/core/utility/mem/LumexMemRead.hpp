@@ -27,14 +27,20 @@
  * @brief `as<T>()`, which reads a trivially copyable value out of a raw byte
  * buffer through `std::memcpy`, so unaligned data is read without undefined
  * behavior.
- * @details It returns `std::nullopt` for a null pointer or a buffer shorter
- * than `sizeof(T)`. The overloads take a pointer and a size, a `std::span` or
- * a `lumex::core::span::view::span` of `std::byte`, `char` or `unsigned char`,
- * or an object with `get_data()` and `get_data_size()`. The value type must
- * satisfy `Extractible` of `LumexTypeTraits.hpp`: trivially copyable, standard
- * layout, and neither a pointer nor a reference.
- * @warning Requires C++20 (concepts and `<span>`); with an older standard the
- * header declares nothing.
+ * @details It works from C++11. It returns an empty optional for a null
+ * pointer or a buffer shorter than `sizeof(T)`. `optional_t<T>` is
+ * `std::optional<T>` from C++17 and `lumex::core::optional::opt::optional<T>`
+ * (the optional module) before it; the header does not put `optional` or
+ * `nullopt` at global scope, test the result with `has_value ()`. The
+ * overloads take a pointer and a size, a `lumex::core::span::view::span` of
+ * `char`, `unsigned char`, `std::byte` (C++17) or the `byte` of the span
+ * module (before C++17), a `std::span` of the same element types (C++20), or
+ * an object with `get_data()` and `get_data_size()`. The value type must
+ * satisfy `traits::meta::is_extractible` of `LumexTypeTraits.hpp`: trivially
+ * copyable, standard layout, and neither a pointer nor a reference; any other
+ * type finds no overload. The constraints are the same SFINAE form in every
+ * standard (the concepts `Extractible` and `ByteLike` of C++20 stay in
+ * `LumexTypeTraits.hpp` for their other users).
  */
 #ifndef LUMEX_CORE_UTILITY_MEM_HPP
 #define LUMEX_CORE_UTILITY_MEM_HPP
@@ -67,14 +73,10 @@
 #endif
 
 #include <cassert>
-#if __cplusplus > 201703L && defined(__has_include)
-#if __has_include(<concepts>)
-#include <concepts>
-#endif
-#endif
-#include <cstddef> // std::byte, std::size_t
+#include <cstddef> // std::size_t
 #include <cstdint> // for std::uintptr_t
 #include <cstring>
+#include <memory> // std::addressof
 #if __cplusplus >= 201703L
 #include <optional>
 #endif
@@ -84,20 +86,19 @@
 #endif
 #endif
 #include <type_traits>
+#include <utility> // std::declval
 
-// The header declares nothing before C++20, so the span of this library is
-// not parsed for the translation units of the older standards.
-#if __cplusplus > 201703L
-#include "lumex/core/span/LumexSpan"
+// Before C++17 the result is the optional of this library; its types header
+// declares nothing at global scope (LumexOptional.hpp is the umbrella with the
+// global aliases).
+#if __cplusplus < 201703L
+#include "lumex/core/optional/opt/LumexOptional.hpp"
 #endif
+#include "lumex/core/span/LumexSpan"
 #include "lumex/core/utility/attr/LumexAttributes.hpp"
 #include "lumex/core/utility/compiler/LumexCheckFeatures.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 #include "lumex/core/utility/traits/LumexTypeTraits.hpp"
-
-// Needs C++20 <concepts> and <span>; without them the header declares
-// nothing.
-#if LUMEX_HAS_STD_CONCEPTS && LUMEX_HAS_STD_SPAN
 
 namespace lumex
 {
@@ -107,14 +108,60 @@ namespace utility
 {
 namespace mem
 {
+#if __cplusplus >= 201703L
+/**
+ * @brief The result of `as`: `std::optional<T>` from C++17, the optional of
+ * this library (`lumex::core::optional::opt::optional<T>`) before it.
+ */
+template <typename T> using optional_t = std::optional<T>;
+#else
+/**
+ * @brief The result of `as`: `std::optional<T>` from C++17, the optional of
+ * this library (`lumex::core::optional::opt::optional<T>`) before it.
+ */
+template <typename T>
+using optional_t = lumex::core::optional::opt::optional<T>;
+#endif
+
 namespace Detail
 {
-template <typename TSource>
-concept DataSource = requires (TSource const &source) {
-  { source.get_data () } -> std::convertible_to<void const *>;
-  { source.get_data_size () } -> std::convertible_to<int>;
+/**
+ * @brief `TSource` has `get_data ()` convertible to `void const *` and
+ * `get_data_size ()` convertible to `int`, both callable on a const object.
+ */
+template <typename TSource, typename = void>
+struct is_data_source : std::false_type
+{
 };
 
+template <typename TSource>
+struct is_data_source<
+    TSource, traits::meta::void_t<
+                 decltype (std::declval<TSource const &> ().get_data ()),
+                 decltype (std::declval<TSource const &> ().get_data_size ())>>
+    : std::integral_constant<
+          bool,
+          std::is_convertible<
+              decltype (std::declval<TSource const &> ().get_data ()),
+              void const *>::value
+              && std::is_convertible<
+                  decltype (std::declval<TSource const &> ().get_data_size ()),
+                  int>::value>
+{
+};
+
+/**
+ * @brief An element type of a byte span that `as` accepts: `char`,
+ * `unsigned char`, `std::byte` (C++17) or the `byte` of the span module (which
+ * is `std::byte` from C++17 and an own enumeration before it).
+ */
+template <typename ByteType>
+struct is_byte_element
+    : std::integral_constant<
+          bool, traits::meta::is_byte_like<ByteType>::value
+                    || std::is_same<ByteType, core::span::view::byte>::value>
+{
+};
 } // namespace Detail
 
 /**
@@ -124,70 +171,89 @@ concept DataSource = requires (TSource const &source) {
  * @param data Pointer to the source bytes (may be unaligned; memcpy handles
  * that correctly).
  * @param size Number of bytes available at `data`.
- * @return `T` decoded from the first `sizeof(T)` bytes, or `std::nullopt` if
- * `data` is null or `size < sizeof(T)`.
+ * @return `T` decoded from the first `sizeof(T)` bytes, or an empty
+ * `optional_t<T>` if `data` is null or `size < sizeof(T)`.
  * @note Unaligned pointers are expected for binary protocols coming from
  * external devices/wire formats, so no alignment assertion is performed -
  * memcpy handles this correctly.
  */
-template <traits::meta::Extractible T>
+template <typename T, typename std::enable_if<
+                          traits::meta::is_extractible<T>::value, int>::type
+                      = 0>
 LUMEX_ATTRIBUTE_NODISCARD ("return value must be used")
-std::optional<T> as (void const *data, std::size_t size) LUMEX_NOEXCEPT
+optional_t<T> as (void const *data, std::size_t size) LUMEX_NOEXCEPT
 {
   if ((data == nullptr) || (size < sizeof (T)))
-    return std::nullopt;
+    return optional_t<T> ();
 
   T res{};
   std::memcpy (std::addressof (res), data, sizeof (T));
-  return res;
+  return optional_t<T> (res);
 }
 
 /**
  * @brief Overload of as() that reads from a source object exposing
- * get_data()/GetDataSize().
- * @tparam TSource Type satisfying the DataSource concept (get_data() -> const
- * void*, get_data_size() -> int).
+ * get_data()/get_data_size().
+ * @tparam TSource Type with `get_data ()` convertible to `void const *` and
+ * `get_data_size ()` convertible to `int` (a negative size gives an empty
+ * result).
  */
-template <traits::meta::Extractible T, Detail::DataSource TSource>
+template <
+    typename T, typename TSource,
+    typename std::enable_if<traits::meta::is_extractible<T>::value
+                                && Detail::is_data_source<TSource>::value,
+                            int>::type
+    = 0>
 LUMEX_ATTRIBUTE_NODISCARD ("return value must be used")
-std::optional<T> as (TSource const &source) LUMEX_NOEXCEPT
+optional_t<T> as (TSource const &source) LUMEX_NOEXCEPT
 {
   int const rawSize{ source.get_data_size () };
   if (rawSize < 0)
-    return std::nullopt;
+    return optional_t<T> ();
   return as<T> (source.get_data (), static_cast<std::size_t> (rawSize));
 }
 
 /**
- * @brief Overload of as() that reads from a std::span of byte-like elements.
+ * @brief Overload of as() that reads from a `span` of this library (the
+ * `lumex::core::span` module) of byte-like elements (`char`,
+ * `unsigned char`, `std::byte` or the `byte` of the span module).
+ * @details A template deduces the element type from the exact type, so a
+ * `std::span` takes the overload below and a `std::vector` or a `std::array`
+ * takes neither: pass its `data ()` and `size ()`, or make a `span` first.
  */
-template <traits::meta::Extractible T, traits::meta::ByteLike ByteType>
+template <
+    typename T, typename ByteType,
+    typename std::enable_if<traits::meta::is_extractible<T>::value
+                                && Detail::is_byte_element<ByteType>::value,
+                            int>::type
+    = 0>
 LUMEX_ATTRIBUTE_NODISCARD ("return value must be used")
-std::optional<T> as (std::span<ByteType const> span) LUMEX_NOEXCEPT
+optional_t<T> as (core::span::view::span<ByteType const> span) LUMEX_NOEXCEPT
 {
   return as<T> (span.data (), span.size ());
 }
 
+#if LUMEX_HAS_STD_SPAN
 /**
- * @brief Overload of as() that reads from a `span` of this library (the
- * `lumex::core::span` module) of byte-like elements.
- * @details A template deduces the element type from the exact type, so a
- * `std::span` takes the overload above and a `std::vector` or a `std::array`
- * takes neither: pass its `data ()` and `size ()`, or make a `span` first.
+ * @brief Overload of as() that reads from a `std::span` (C++20) of byte-like
+ * elements.
  */
-template <traits::meta::Extractible T, traits::meta::ByteLike ByteType>
+template <
+    typename T, typename ByteType,
+    typename std::enable_if<traits::meta::is_extractible<T>::value
+                                && Detail::is_byte_element<ByteType>::value,
+                            int>::type
+    = 0>
 LUMEX_ATTRIBUTE_NODISCARD ("return value must be used")
-std::optional<T> as (core::span::view::span<ByteType const> span)
-    LUMEX_NOEXCEPT
+optional_t<T> as (std::span<ByteType const> span) LUMEX_NOEXCEPT
 {
   return as<T> (span.data (), span.size ());
 }
+#endif
 } // namespace mem
 } // namespace utility
 } // namespace core
 } // namespace lumex
-
-#endif // LUMEX_HAS_STD_CONCEPTS && ...
 
 #if defined(__clang__)
 #pragma clang diagnostic pop
