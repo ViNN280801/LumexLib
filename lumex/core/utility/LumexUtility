@@ -43,7 +43,8 @@
  * keyword and constant macros, compiler, feature and OS checks, type traits,
  * stack text and core dumps, demangling, safe numeric comparison (with the
  * ordering classes of its three-way result), bit and byte order helpers, the
- * iterator range, the process id and a callback slot.
+ * iterator range, the process id, a callback slot, the `identity` and `less`
+ * function objects and the `index_sequence` family.
  * @details Link <tt>%lumex::utility</tt> (compiled library; it links
  * <tt>%lumex::math</tt>, <tt>%lumex::optional</tt> and <tt>%lumex::span</tt>).
  * Works from C++11. The umbrella also includes `bit/`, `cast/`, `mem/` and
@@ -52,6 +53,15 @@
  * `std::optional` from C++17 and the optional of `lumex::optional` before it,
  * `mem::optional_t`) work from C++11; the rest needs C++20, and each header
  * checks its own features and declares nothing where the toolchain lacks them.
+ * `functional/` (`functional::identity`, `functional::less`) and `sequence/`
+ * (`sequence::integer_sequence`, `index_sequence`, `make_integer_sequence`,
+ * `make_index_sequence`, `index_sequence_for`) work from C++11: the standard
+ * type where the library has it (`std::identity` with the C++20 ranges,
+ * `std::less<void>` and the integer sequences from C++14) and a class of this
+ * library below. `traits::meta` has the C++11 forms `is_pointer_to_class`,
+ * `is_lvalue_ref_to_class`, `is_complete_type`, `preserves_cv`,
+ * `is_derived_from`, `is_extractible` and `is_byte_like` of its concepts, and
+ * `traits::string::is_string_convertible` the form of `StringLike`.
  */
 #include "assert/LumexAssert.hpp"
 #include "attr/LumexAttributes.hpp"
@@ -61,6 +71,7 @@
 #include "debug/LumexDebug.hpp"
 #include "demangle/LumexDemangle.hpp"
 #include "dump/LumexCoreDumpGenerator.hpp"
+#include "functional/LumexFunctional.hpp"
 #include "macros/LumexConstantMacros.hpp"
 #include "macros/LumexKeywords.hpp"
 #include "macros/LumexMacros.hpp"
@@ -68,6 +79,7 @@
 #include "numeric/LumexSafeNumericComparator.hpp"
 #include "os/LumexCheckOS.hpp"
 #include "process/LumexProcess.hpp"
+#include "sequence/LumexIndexSequence.hpp"
 #include "traits/LumexTypeTraits.hpp"
 #include "util/LumexUtilities.hpp"
 
