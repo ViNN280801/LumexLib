@@ -767,6 +767,14 @@
 
 #### Исправлено
 
+##### `-Wunused-result` на GCC: `LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR` не гасит результат `LUMEX_ATTRIBUTE_NODISCARD`
+
+**Файлы:** `lumex/core/utility/attr/LumexAttributes.hpp`, `lumex/tests/core/utility/attr/LumexAttributesMaybeUnusedVar.cxx11.tests.cpp` (новый), `lumex/tests/cmake/consumer/hygiene_compile_checks/CMakeLists.txt`, `lumex/tests/cmake/consumer/hygiene_compile_checks/unused_result.cpp` (новый), `lumex/tests/cmake/consumer/hygiene_compile_checks/json_umbrella.cpp` (новый)
+
+**Суть:** на C++11 и C++14 `LUMEX_ATTRIBUTE_NODISCARD` - это `__attribute__ ((warn_unused_result))`, а `LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR (expr)` был `(void)(expr)`. Clang принимает приведение к `void` как осознанное отбрасывание, GCC 8.3 и 13.2 - нет, и `LumexJsonSchemaValidator.hpp` (`_check`) и `LumexJsonSchemaNormalizer.hpp` (`validate_against_schema`) давали `-Wunused-result` в каждой единице трансляции, которая включает зонтичный `LumexJson`. Теперь на GCC (не Clang) ниже C++17 макрос раскрывается в `(void)((expr), sink)`, где `sink` - объект `lumex::core::utility::attr::detail::unused_value_sink_t`, а перегруженная запятая `operator,` принимает значение слева как аргумент функции, то есть использует его, и ничего с ним не делает. Тип не класс (скаляр, массив, функция) передается по значению, чтобы массив неизвестного границы (`int expanded[] = { ... }` в шаблоне, как в `stringify`) и функция распадались в указатель, а тип класса или объединения - по константной ссылке, без копирования и перемещения. Выражение вычисляется один раз, остается выражением типа `void` и принимает `void`-выражения. На C++17 и позже, на Clang и на MSVC раскрытие прежнее.
+
+**Проверено:** до правки GCC 8.3 и 13.2 не компилируют результат функции с `LUMEX_ATTRIBUTE_NODISCARD`, переданный макросу, и зонтичный `LumexJson` с `-Wall -Wextra -Werror` на C++11 и C++14 (на C++17, C++20 и на Clang 23.1.0 компилируют); после правки компилируют на GCC 8.3, GCC 13.2 и Clang 23.1.0 (libstdc++ и libc++) на C++11, 14, 17 и 20; `cmake.hygiene_compile_checks` проходит на GCC 13.2, GCC 8.3 и Clang 23.1.0. Новые 9 тестов `LumexAttributesMaybeUnusedVarTest` (один вызов, `void`, запятые, массивы, перечисления, объединения, класс без копирования, `volatile`, указатели на члены, `nullptr`, массив неизвестной границы) проходят: набор `utility.attr.` - 100 тестов на GCC 13.2 (C++11-23), 80 на GCC 8.3 (C++11-20), 120 на Clang 23.1.0 (C++11-26). Мутации: макрос без действия и макрос, вычисляющий выражение дважды, валят тесты (`GivenACallWithSideEffects_WhenDiscarded_ThenItRunsOnce` и другие, бесконечный цикл в тесте оператора `for`); возврат к `(void)(expr)` оставляет тесты зелеными, но валит `cmake.hygiene_compile_checks`.
+
 ##### `LumexLogger.hpp` объявляет `std::make_unique` и `std::exchange` ниже C++14
 
 **Файлы:** `lumex/applied/logger/logger/LumexLogger.hpp`, `lumex/tests/applied/logger/logger/LumexLoggerStdPolyfill.cxx11.tests.cpp` (новый)

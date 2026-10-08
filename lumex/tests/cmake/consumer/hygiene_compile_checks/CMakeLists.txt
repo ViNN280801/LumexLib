@@ -6,9 +6,21 @@
 # translation unit built at configure time (try_compile, compile only), at
 # C++11, C++14, C++17 and C++20 (MSVC: from C++14):
 #
-#   header_order.cpp  LumexTime before LumexGenerators and the other way round
-#                     (lumex::core::time must not capture the C function
-#                     time () that the number generator calls).
+#   header_order.cpp            LumexTime before LumexGenerators and the other
+#                               way round (lumex::core::time must not capture
+#                               the C function time () that the number
+#                               generator calls).
+#   unused_result.cpp           LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR on a result of
+#                               a LUMEX_ATTRIBUTE_NODISCARD function, with
+#                               -Wall -Wextra -Werror (GCC reports a result
+#                               that is only cast to void below C++17); the
+#                               same result discarded without the macro must
+#                               be rejected, so that the first check proves
+#                               something.
+#   json_umbrella.cpp           the JSON umbrella with -Wall -Wextra -Werror
+#                               (LumexJsonSchemaValidator and
+#                               LumexJsonSchemaNormalizer discard a nodiscard
+#                               result on purpose).
 #
 # A check that fails reports the compiler output.
 
@@ -29,9 +41,12 @@ set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
 if(MSVC)
     set(_flags /WX /Zc:__cplusplus /permissive- /EHsc)
     set(_standards 14 17 20)
+    # The strict warning sets are GCC and Clang options.
+    set(_strict "")
 else()
     set(_flags -Werror)
     set(_standards 11 14 17 20)
+    set(_strict -Wall -Wextra)
 endif()
 
 # One translation unit of this directory at one standard; the result and the
@@ -60,13 +75,49 @@ function(_lumex_hygiene_expect_ok description source standard)
     endif()
 endfunction()
 
-set(_checked 0)
+# A check that must not compile, and must fail for the reason named: the
+# compiler output has to contain <pattern>, so that a typo in the source does
+# not pass for the diagnostic.
+function(_lumex_hygiene_expect_rejected description pattern source standard)
+    string(MAKE_C_IDENTIFIER "${description}_${standard}" _tag)
+    _lumex_hygiene_try(_result ${_tag} ${source} ${standard} ${ARGN})
+    if(_result)
+        message(FATAL_ERROR
+            "${description} (C++${standard}) compiled; it must be rejected")
+    endif()
+    if(NOT _result_OUTPUT MATCHES "${pattern}")
+        message(FATAL_ERROR
+            "${description} (C++${standard}) failed, but not with '${pattern}'"
+            "\n${_result_OUTPUT}")
+    endif()
+endfunction()
+
+set(_compiled 0)
+set(_rejected 0)
 foreach(_std IN LISTS _standards)
     _lumex_hygiene_expect_ok("LumexTime before LumexGenerators"
         header_order.cpp ${_std} -DLUMEX_HYGIENE_TIME_FIRST)
     _lumex_hygiene_expect_ok("LumexGenerators before LumexTime"
         header_order.cpp ${_std} -DLUMEX_HYGIENE_GENERATORS_FIRST)
-    math(EXPR _checked "${_checked} + 2")
+    math(EXPR _compiled "${_compiled} + 2")
+
+    _lumex_hygiene_expect_ok("a discarded result through the macro"
+        unused_result.cpp ${_std} ${_strict} -DLUMEX_HYGIENE_GOOD_CASE)
+    math(EXPR _compiled "${_compiled} + 1")
+    if(NOT MSVC)
+        # MSVC reports a discarded result of the C++14 attribute only under
+        # /analyze, and of [[nodiscard]] with a warning level it does not have
+        # here.
+        _lumex_hygiene_expect_rejected("a discarded result without the macro"
+            "unused-result" unused_result.cpp ${_std} ${_strict}
+            -DLUMEX_HYGIENE_BAD_DISCARD)
+        math(EXPR _rejected "${_rejected} + 1")
+    endif()
+
+    _lumex_hygiene_expect_ok("the JSON umbrella"
+        json_umbrella.cpp ${_std} ${_strict})
+    math(EXPR _compiled "${_compiled} + 1")
 endforeach()
 
-message(STATUS "hygiene compile checks: ${_checked} translation units compile")
+message(STATUS "hygiene compile checks: ${_compiled} translation units "
+               "compile, ${_rejected} are rejected as expected")
