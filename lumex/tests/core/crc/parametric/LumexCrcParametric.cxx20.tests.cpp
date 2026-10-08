@@ -44,6 +44,7 @@
 #include <gtest/gtest.h>
 
 #include "lumex/core/crc/LumexCrc"
+#include "lumex/core/utility/compiler/LumexCheckFeatures.hpp"
 
 using namespace lumex::core::crc::catalog;
 using namespace lumex::core::crc::parametric;
@@ -70,6 +71,23 @@ TEST (Crc8Span, EmptySpan_ReturnsZero)
   std::vector<byte> empty;
   std::span<byte const> sp (empty.data (), static_cast<std::size_t> (0));
   EXPECT_EQ (Crc8MaximDow::calculate (sp), 0);
+#else
+  GTEST_SKIP () << "the standard library has no std::span";
+#endif
+}
+
+TEST (Crc8Span, StdSpanOfAnyExtentAndConstness_ConvertsToTheOverload)
+{
+#if LUMEX_HAS_STD_SPAN
+  std::vector<byte> data = { '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+  std::span<byte> const mutable_span (data);
+  std::span<byte const, 9> const static_span (data.data (), 9);
+  EXPECT_EQ (Crc32IsoHdlc::calculate (mutable_span), 0xCBF43926u);
+  EXPECT_EQ (Crc32IsoHdlc::calculate (static_span), 0xCBF43926u);
+  EXPECT_EQ (Crc32IsoHdlc::calculate (static_span.subspan<2, 3> ()),
+             Crc32IsoHdlc::calculate (data.data () + 2, 3));
+  EXPECT_EQ (Crc32IsoHdlc::calculate (mutable_span.first (0)),
+             Crc32IsoHdlc::calculate (nullptr, 0));
 #else
   GTEST_SKIP () << "the standard library has no std::span";
 #endif

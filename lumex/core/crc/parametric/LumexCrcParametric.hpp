@@ -35,7 +35,9 @@
  * `LumexCrcCatalog.hpp`. CRC-82/DARC is the only catalogue algorithm left out,
  * because its polynomial does not fit in 64 bits. Widths of 8 bits and more
  * use a 256-entry table, narrower ones a bitwise loop; from C++14 the table is
- * built at compile time, in C++11 on first use.
+ * built at compile time, in C++11 on first use. `calculate` takes a pointer
+ * and a size, a `std::vector` or a `lumex::core::span::view::span` of bytes (a
+ * `std::span` converts to it).
  */
 #ifndef LUMEX_CORE_CRC_PARAMETRIC_HPP
 #define LUMEX_CORE_CRC_PARAMETRIC_HPP
@@ -76,15 +78,9 @@
 #include <utility>
 #include <vector>
 
-#if __cplusplus > 201703L && defined(__has_include)
-#if __has_include(<span>)
-#include <span>
-#endif
-#endif
-
+#include "lumex/core/span/LumexSpan"
 #include "lumex/core/utility/assert/LumexAssert.hpp"
 #include "lumex/core/utility/attr/LumexAttributes.hpp"
-#include "lumex/core/utility/compiler/LumexCheckFeatures.hpp"
 #include "lumex/core/utility/macros/LumexConstantMacros.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 
@@ -2485,15 +2481,19 @@ public:
     return Detail::compute<Spec> (data.data (), data.size ());
   }
 
-#if LUMEX_HAS_STD_SPAN
+  /**
+   * @brief Computes the CRC of a `span` of bytes. Available from C++11; a
+   * `std::span` (C++20), a `std::array` and a built-in array convert to it, a
+   * `std::vector` takes the overload above.
+   */
   LUMEX_ATTRIBUTE_NODISCARD (
       "CRC result is required for integrity verification.")
   static ValueType
-  calculate (std::span<std::uint8_t const> data) LUMEX_NOEXCEPT
+  calculate (lumex::core::span::view::span<std::uint8_t const> data)
+      LUMEX_NOEXCEPT
   {
     return Detail::compute<Spec> (data.data (), data.size ());
   }
-#endif
 };
 
 /** @brief CRC-3/GSM. */
