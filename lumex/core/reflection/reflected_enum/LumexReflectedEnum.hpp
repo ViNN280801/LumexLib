@@ -139,10 +139,15 @@ last_of (T, Next next, Rest... rest) LUMEX_NOEXCEPT
 // NOLINTBEGIN(cppcoreguidelines-macro-usage)
 #define LUMEX_PP_EXPAND(x) x
 
+// The pickers below (ARG_N, ENUM_BODY_PICK, ENUM_VALUE_PICK) take a trailing
+// `...` that their callers fill with one dummy argument (0): a macro whose `...`
+// gets no argument is an extension before C++20 (-Wpedantic on GCC,
+// -Wvariadic-macro-arguments-omitted on Clang), and an entry without a value
+// or a one-entry list would otherwise leave it empty.
 #define LUMEX_PP_ARG_N(                                                    \
   _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, N, ...) N
 #define LUMEX_PP_ARG_COUNT(...) \
-  LUMEX_PP_EXPAND(LUMEX_PP_ARG_N(__VA_ARGS__, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1))
+  LUMEX_PP_EXPAND(LUMEX_PP_ARG_N(__VA_ARGS__, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0))
 
 #define LUMEX_PP_CAT_(a, b) a##b
 #define LUMEX_PP_CAT(a, b)  LUMEX_PP_CAT_(a, b)
@@ -215,7 +220,7 @@ last_of (T, Next next, Rest... rest) LUMEX_NOEXCEPT
 #define LUMEX_PP_ENUM_BODY_1(name)        name
 #define LUMEX_PP_ENUM_BODY_2(name, value) name = value
 #define LUMEX_PP_ENUM_BODY_DISPATCH(...) \
-  LUMEX_PP_EXPAND(LUMEX_PP_ENUM_BODY_PICK(__VA_ARGS__, LUMEX_PP_ENUM_BODY_2, LUMEX_PP_ENUM_BODY_1)(__VA_ARGS__))
+  LUMEX_PP_EXPAND(LUMEX_PP_ENUM_BODY_PICK(__VA_ARGS__, LUMEX_PP_ENUM_BODY_2, LUMEX_PP_ENUM_BODY_1, 0)(__VA_ARGS__))
 #define LUMEX_PP_ENUM_BODY(entry) LUMEX_PP_ENUM_BODY_DISPATCH entry
 
 #define LUMEX_PP_UNWRAP(...) __VA_ARGS__
@@ -224,19 +229,19 @@ last_of (T, Next next, Rest... rest) LUMEX_NOEXCEPT
 #define LUMEX_PP_ENUM_VALUE_1(enumName, name)        enumName::name
 #define LUMEX_PP_ENUM_VALUE_2(enumName, name, value) enumName::name
 #define LUMEX_PP_ENUM_VALUE_DISPATCH(enumName, ...) \
-  LUMEX_PP_EXPAND(LUMEX_PP_ENUM_VALUE_PICK(__VA_ARGS__, LUMEX_PP_ENUM_VALUE_2, LUMEX_PP_ENUM_VALUE_1)(enumName, __VA_ARGS__))
+  LUMEX_PP_EXPAND(LUMEX_PP_ENUM_VALUE_PICK(__VA_ARGS__, LUMEX_PP_ENUM_VALUE_2, LUMEX_PP_ENUM_VALUE_1, 0)(enumName, __VA_ARGS__))
 #define LUMEX_PP_ENUM_VALUE(enumName, entry) LUMEX_PP_ENUM_VALUE_DISPATCH(enumName, LUMEX_PP_UNWRAP entry)
 
 #define LUMEX_PP_ENUM_DEFAULT_STRING_1(name)        #name
 #define LUMEX_PP_ENUM_DEFAULT_STRING_2(name, value) #name
 #define LUMEX_PP_ENUM_DEFAULT_STRING_DISPATCH(...) \
-  LUMEX_PP_EXPAND(LUMEX_PP_ENUM_BODY_PICK(__VA_ARGS__, LUMEX_PP_ENUM_DEFAULT_STRING_2, LUMEX_PP_ENUM_DEFAULT_STRING_1)(__VA_ARGS__))
+  LUMEX_PP_EXPAND(LUMEX_PP_ENUM_BODY_PICK(__VA_ARGS__, LUMEX_PP_ENUM_DEFAULT_STRING_2, LUMEX_PP_ENUM_DEFAULT_STRING_1, 0)(__VA_ARGS__))
 #define LUMEX_PP_ENUM_DEFAULT_STRING(entry) LUMEX_PP_ENUM_DEFAULT_STRING_DISPATCH entry
 
 #define LUMEX_PP_ENUM_NAME_1(name)        name
 #define LUMEX_PP_ENUM_NAME_2(name, value) name
 #define LUMEX_PP_ENUM_NAME_DISPATCH(...) \
-  LUMEX_PP_EXPAND(LUMEX_PP_ENUM_BODY_PICK(__VA_ARGS__, LUMEX_PP_ENUM_NAME_2, LUMEX_PP_ENUM_NAME_1)(__VA_ARGS__))
+  LUMEX_PP_EXPAND(LUMEX_PP_ENUM_BODY_PICK(__VA_ARGS__, LUMEX_PP_ENUM_NAME_2, LUMEX_PP_ENUM_NAME_1, 0)(__VA_ARGS__))
 #define LUMEX_PP_ENUM_NAME(entry) LUMEX_PP_ENUM_NAME_DISPATCH entry
 
 #define LUMEX_PP_ENUM_DEFAULT_TO_STRING_ARM(enumName, entry) \
