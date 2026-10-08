@@ -283,6 +283,91 @@ struct is_byte_like
 };
 #endif
 
+/**
+ * @brief `T` is a pointer to a class type (the C++11 form of the concept
+ * `PointerToClass`). A pointer to a union, an enum or a fundamental type is
+ * not a pointer to a class, and neither is a reference.
+ * @details Derived from `std::integral_constant` like the standard traits.
+ */
+template <typename T>
+struct is_pointer_to_class
+    : std::integral_constant<
+          bool,
+          std::is_pointer<T>::value
+              && std::is_class<typename std::remove_pointer<T>::type>::value>
+{
+};
+
+/**
+ * @brief `T` is an lvalue reference to a class type (the C++11 form of the
+ * concept `LvalueRefToClass`). An rvalue reference is not one.
+ * @details Derived from `std::integral_constant` like the standard traits.
+ */
+template <typename T>
+struct is_lvalue_ref_to_class
+    : std::integral_constant<
+          bool,
+          std::is_lvalue_reference<T>::value
+              && std::is_class<typename std::remove_reference<T>::type>::value>
+{
+};
+
+/**
+ * @brief `T` is complete at the point of the first use of the trait
+ * (`sizeof (T)` is valid; the C++11 form of the concept `CompleteType`).
+ * `void`, a function type and an array of unknown bound are not complete.
+ * @warning Like every trait of this kind the result is fixed by the first
+ * instantiation in a translation unit: asking about a type before its
+ * definition and again after it gives `false` both times.
+ */
+template <typename T, typename Enable = void>
+struct is_complete_type : std::false_type
+{
+};
+
+template <typename T>
+struct is_complete_type<T, void_t<decltype (sizeof (T))>> : std::true_type
+{
+};
+
+/**
+ * @brief Going from `From` to `To` does not drop `const` or `volatile`: every
+ * qualifier of `From` is also on `To` (the C++11 form of the concept
+ * `PreserveCV`).
+ * @details Derived from `std::integral_constant` like the standard traits.
+ */
+template <typename From, typename To>
+struct preserves_cv
+    : std::integral_constant<bool, (!std::is_const<From>::value
+                                    || std::is_const<To>::value)
+                                       && (!std::is_volatile<From>::value
+                                           || std::is_volatile<To>::value)>
+{
+};
+
+/**
+ * @brief `Derived` is derived from `Base` through a public and unambiguous
+ * base, or is the same class (the C++11 form of the C++20 concept
+ * `std::derived_from`, which `meta` does not otherwise have; the cast helpers
+ * need it).
+ * @details It is `std::is_base_of` plus a conversion of
+ * `Derived const volatile *` to `Base const volatile *`, which fails for a
+ * private, protected or ambiguous base. It is false for anything but classes
+ * (a pointer, a reference, a union, a scalar), and `Derived` must be complete
+ * when it is a different class from `Base`. Derived from
+ * `std::integral_constant` like the standard traits.
+ */
+template <typename Derived, typename Base>
+struct is_derived_from
+    : std::integral_constant<
+          bool,
+          std::is_base_of<Base, Derived>::value
+              && std::is_convertible<
+                  typename std::add_pointer<Derived const volatile>::type,
+                  typename std::add_pointer<Base const volatile>::type>::value>
+{
+};
+
 #if LUMEX_HAS_STD_CONCEPTS
 /** @brief A pointer to a class type. */
 template <typename T>
@@ -871,6 +956,39 @@ struct is_any_string<T, meta::void_t<typename T::value_type>>
     : is_string_like<T, typename T::value_type>
 {
 };
+
+#if __cplusplus >= 201703L
+/**
+ * @brief `T` converts implicitly to `std::string` or to `std::string_view`
+ * (the latter from C++17; the C++11 form of the concept `StringLike`).
+ * @details True for `std::string`, `char const *`, a string literal,
+ * `std::string_view` (C++17) and `lumex_string_view`; false for a wide
+ * string, a number and a `std::vector<char>`. Derived from
+ * `std::integral_constant` like the standard traits.
+ */
+template <typename T>
+struct is_string_convertible
+    : std::integral_constant<
+          bool, std::is_convertible<T, std::string>::value
+                    || std::is_convertible<T, std::string_view>::value>
+{
+};
+#else
+/**
+ * @brief `T` converts implicitly to `std::string` (`std::string_view` is
+ * C++17; the C++11 form of the concept `StringLike`).
+ * @details True for `std::string`, `char const *`, a string literal and
+ * `lumex_string_view`; false for a wide string, a number and a
+ * `std::vector<char>`. Derived from `std::integral_constant` like the
+ * standard traits.
+ */
+template <typename T>
+struct is_string_convertible
+    : std::integral_constant<bool, std::is_convertible<T, std::string>::value>
+{
+};
+#endif
+
 #if LUMEX_HAS_STD_CONCEPTS
 /** @brief Converts to `std::string_view` or `std::string`. */
 template <typename T>
