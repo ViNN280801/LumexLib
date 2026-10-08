@@ -3,10 +3,10 @@
 # The embedded Lumex modules are compiled at LIB_STD and this consumer at
 # CONSUMER_STD. The exported functions of base64, XML and exceptions have one
 # signature in every standard; the overloads that depend on the standard
-# (std::string_view and std::span from C++17 / C++20, std::string const &
-# below C++17) are inline wrappers in the headers. The consumer calls the
-# overloads of its own standard, so it links whatever the pair is, and an
-# exported function that regains a standard-dependent signature fails here.
+# (std::string_view from C++17 and the lumex_string_view below, std::span from
+# C++20) are inline wrappers in the headers. The consumer calls the overloads
+# of its own standard, so it links whatever the pair is, and an exported
+# function that regains a standard-dependent signature fails here.
 
 cmake_minimum_required(VERSION 3.16)
 project(LumexStandardMismatchConsumer LANGUAGES CXX)
@@ -22,12 +22,12 @@ set(LUMEX_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 set(LUMEX_BUILD_APPLIED OFF CACHE BOOL "" FORCE)
 set(LUMEX_BUILD_XML ON CACHE BOOL "" FORCE)
 foreach(_opt
-        CIRCULAR_BUFFER CRC EXPECTED FMT GENERATORS REFLECTION
-        STRING_VIEW TEMPORARY)
+        CIRCULAR_BUFFER CRC EXPECTED FMT GENERATORS REFLECTION TEMPORARY)
     set(LUMEX_BUILD_${_opt} OFF CACHE BOOL "" FORCE)
 endforeach()
 foreach(_opt
-        BASE64 ENVIRONMENT EXCEPTIONS FILESYSTEM MATH OPTIONAL SPAN STRING TIME UTILITY)
+        BASE64 ENVIRONMENT EXCEPTIONS FILESYSTEM MATH OPTIONAL SPAN STRING
+        STRING_VIEW TIME UTILITY)
     set(LUMEX_BUILD_${_opt} ON CACHE BOOL "" FORCE)
 endforeach()
 

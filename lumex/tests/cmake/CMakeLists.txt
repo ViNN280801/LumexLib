@@ -126,6 +126,7 @@ lumex_add_cmake_test(asan_clang_cl_runtime_library)
 lumex_add_cmake_test(gtest_discovery_does_not_lock_exe)
 lumex_add_cmake_test(wiring_atomic)
 lumex_add_cmake_test(wiring_span)
+lumex_add_cmake_test(wiring_string_view)
 lumex_add_cmake_test(wiring_optional)
 lumex_add_cmake_test(wiring_test_names)
 lumex_add_cmake_test(wiring_standard_suites)
@@ -144,6 +145,11 @@ lumex_add_cmake_fail_test(require_fail_base64_without_utility
     "LUMEX_BUILD_BASE64 is enabled but requires LUMEX_BUILD_UTILITY")
 lumex_add_cmake_fail_test(require_fail_crc_without_utility
     "LUMEX_BUILD_CRC is enabled but requires LUMEX_BUILD_UTILITY")
+# base64, crc, exceptions and xml link the string_view module (the views their
+# string overloads take below C++17). Each case switches the modules checked
+# before it off, so that the module under test is the one that fails.
+lumex_add_cmake_fail_test(require_fail_base64_without_string_view
+    "LUMEX_BUILD_BASE64 is enabled but requires LUMEX_BUILD_STRING_VIEW")
 # base64 and crc link the span module too, but utility requires it as well and
 # is checked first, so only that edge can be tested alone
 # (cmake.wiring_span pins the other two).

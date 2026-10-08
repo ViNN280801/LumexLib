@@ -45,10 +45,10 @@
  * Base64 without decoding it: alphabet characters followed by at most two `=`,
  * with or without padding. The pointer and size overload is compiled into the
  * library and has the same signature in every C++ standard; the string
- * overload is an inline wrapper over it (`std::string_view` from C++17,
- * `std::string` before). Like the other Base64 headers, it brings the names of
- * the codec's `Types` namespace into the global namespace with a
- * using-directive.
+ * overload is an inline wrapper over it (`std::string_view` from C++17, the
+ * `lumex_string_view` of `lumex::string_view` below). Like the other Base64
+ * headers, it brings the names of the codec's `Types` namespace into the
+ * global namespace with a using-directive.
  */
 #ifndef LUMEX_CORE_BASE64_VALIDATE_HPP
 #define LUMEX_CORE_BASE64_VALIDATE_HPP
@@ -101,7 +101,8 @@ using namespace lumex::core::base64::codec::Types;
  * @details The pointer and size overload is exported and has the same
  * signature in every C++ standard; the string overload is an inline wrapper
  * over it (`string_type_t` is `std::string_view` from C++17 and
- * `std::string const &` below). The class itself is not exported: a
+ * `lumex_string_view` below; a string literal, a `char const *` and a
+ * `std::string` convert to either). The class itself is not exported: a
  * dllimport class makes clang-cl emit an import for an inline member it
  * does not inline, and the library does not provide the standard-dependent
  * overload.
@@ -137,8 +138,8 @@ public:
   static bool
   is_valid_base64 (string_type_t str)
   {
-    // An empty input is valid: a default-constructed std::string_view has no
-    // data pointer, which the core rejects.
+    // An empty input is valid: a default-constructed view has no data
+    // pointer, which the core rejects.
     return is_valid_base64 (str.empty () ? "" : str.data (), str.size ());
   }
 };

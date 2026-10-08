@@ -30,10 +30,11 @@
  * characters. The pointer and size overload and the `std::vector` overload are
  * compiled into the library and have the same signature in every C++ standard;
  * the overload for `lumex::core::span::view::span` (every standard; a
- * `std::span` converts to it) and the `std::string_view` overload (C++17) are
- * inline wrappers over the pointer one. Like the other Base64 headers, it
- * brings the names of the codec's `Types` namespace (`byte_type`,
- * `string_type_t`) into the global namespace with a using-directive.
+ * `std::span` converts to it) and the string overload (`std::string_view` from
+ * C++17, `lumex_string_view` below) are inline wrappers over the pointer one.
+ * Like the other Base64 headers, it brings the names of the codec's `Types`
+ * namespace (`byte_type`, `string_type_t`) into the global namespace with a
+ * using-directive.
  */
 #ifndef LUMEX_CORE_BASE64_ENCODE_HPP
 #define LUMEX_CORE_BASE64_ENCODE_HPP
@@ -70,9 +71,6 @@
 #include <cstddef>
 #include <string>
 #include <vector>
-#if __cplusplus >= 201703L
-#include <string_view>
-#endif
 
 #include "lumex/core/base64/codec/Base64.hpp"
 #include "lumex/core/span/LumexSpan"
@@ -98,9 +96,9 @@ using namespace lumex::core::base64::codec::Types;
  * @details `encode (void const *, std::size_t)` and
  * `encode (std::vector<byte_type> const &)` are exported and have the same
  * signature in every C++ standard, so a consumer built at another standard
- * than the library links. The `span` overload (every standard) and the
- * `std::string_view` (C++17) overload are inline wrappers over the pointer and
- * size one.
+ * than the library links. The `span` overload and the string overload
+ * (`string_type_t`: `std::string_view` from C++17, `lumex_string_view` below)
+ * are inline wrappers over the pointer and size one, in every standard.
  * The class itself is not exported: a dllimport class makes clang-cl emit
  * an import for an inline member it does not inline, and the library does
  * not provide the standard-dependent overload.
@@ -139,26 +137,25 @@ public:
    */
   LUMEX_API static std::string encode (std::vector<byte_type> const &data);
 
-#if __cplusplus >= 201703L
   /**
-   * @brief Encodes binary data from a `std::string_view` into a Base64 string.
+   * @brief Encodes the characters of a string view into a Base64 string.
    *
    * This overload provides an efficient way to encode string data without
-   * copying, leveraging `std::string_view` for read-only access to character
-   * sequences.
+   * copying. `string_type_t` is `std::string_view` from C++17 and the
+   * `lumex_string_view` of `lumex::string_view` below it; a string literal, a
+   * `char const *` and a `std::string` convert to either. The view is sized: a
+   * NUL character inside it is a byte of the input. Available in every C++
+   * standard.
    *
-   * @param[in] data A `std::string_view` containing the binary data to be
-   * encoded.
+   * @param[in] data A string view of the binary data to be encoded.
    * @return A `std::string` containing the Base64-encoded representation of
-   * the input data. Returns an empty string if the input `string_view` is
-   * empty.
+   * the input data. Returns an empty string if the input view is empty.
    */
   static std::string
-  encode (std::string_view data)
+  encode (string_type_t data)
   {
     return encode (data.data (), data.size ());
   }
-#endif
 
   /**
    * @brief Encodes binary data from a `span<byte_type const>` into a Base64
