@@ -280,9 +280,13 @@ using lumex_timer = lumex::core::time::timer::lumex_timer;
  */
 #define LUMEX_MEASURE_TIME(...) LUMEX_MEASURE_TIME_DISPATCH (__VA_ARGS__)
 
+// The picker below takes a trailing `...`, filled with one dummy argument (0):
+// a macro whose `...` gets no argument is an extension before C++20
+// (-Wpedantic on GCC, -Wvariadic-macro-arguments-omitted on Clang), and the
+// one-argument form would leave it empty.
 #define LUMEX_MEASURE_TIME_DISPATCH(...)                                      \
   LUMEX_MEASURE_TIME_GET_OVERLOAD (__VA_ARGS__, LUMEX_MEASURE_TIME_2,         \
-                                   LUMEX_MEASURE_TIME_1)                      \
+                                   LUMEX_MEASURE_TIME_1, 0)                   \
   (__VA_ARGS__)
 
 #define LUMEX_MEASURE_TIME_GET_OVERLOAD(_1, _2, NAME, ...) NAME

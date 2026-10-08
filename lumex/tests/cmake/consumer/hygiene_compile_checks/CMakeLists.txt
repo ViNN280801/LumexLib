@@ -17,10 +17,14 @@
 #                               same result discarded without the macro must
 #                               be rejected, so that the first check proves
 #                               something.
-#   json_umbrella.cpp           the JSON umbrella with -Wall -Wextra -Werror
-#                               (LumexJsonSchemaValidator and
+#   variadic_macros_pedantic.cpp LUMEX_DEFINE_REFLECTED_ENUM, LUMEX_MEASURE_TIME
+#                               with -Wall -Wextra -Wpedantic -Werror (no empty
+#                               `...` argument).
+#   json_umbrella.cpp           the JSON umbrella with -Wall -Wextra -Wpedantic
+#                               -Werror (LumexJsonSchemaValidator and
 #                               LumexJsonSchemaNormalizer discard a nodiscard
-#                               result on purpose).
+#                               result on purpose; the reflected enums of the
+#                               JSON headers pass no empty `...` argument).
 #
 # A check that fails reports the compiler output.
 
@@ -43,10 +47,12 @@ if(MSVC)
     set(_standards 14 17 20)
     # The strict warning sets are GCC and Clang options.
     set(_strict "")
+    set(_pedantic "")
 else()
     set(_flags -Werror)
     set(_standards 11 14 17 20)
     set(_strict -Wall -Wextra)
+    set(_pedantic -Wall -Wextra -Wpedantic)
 endif()
 
 # One translation unit of this directory at one standard; the result and the
@@ -114,9 +120,11 @@ foreach(_std IN LISTS _standards)
         math(EXPR _rejected "${_rejected} + 1")
     endif()
 
+    _lumex_hygiene_expect_ok("macros that count their arguments"
+        variadic_macros_pedantic.cpp ${_std} ${_pedantic})
     _lumex_hygiene_expect_ok("the JSON umbrella"
-        json_umbrella.cpp ${_std} ${_strict})
-    math(EXPR _compiled "${_compiled} + 1")
+        json_umbrella.cpp ${_std} ${_pedantic})
+    math(EXPR _compiled "${_compiled} + 2")
 endforeach()
 
 message(STATUS "hygiene compile checks: ${_compiled} translation units "
