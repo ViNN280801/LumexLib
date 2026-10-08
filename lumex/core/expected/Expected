@@ -48,6 +48,13 @@
  * `result/ExpectedDetail.hpp` is internal. The surface follows
  * `std::expected`, including `transform` with a function that returns `void`
  * or an `expected`; the differences are listed at the class `expected`.
+ *
+ * Global names: `expected`, `bad_expected_access`, `make_unexpected`,
+ * `unexpect`, `unexpect_t` and `in_place_tag` are also visible at global scope.
+ * `unexpected` and `in_place` are not (the MinGW runtime declares a global
+ * function `unexpected`, and `optional` has its own `in_place`): write
+ * `lumex::core::expected::error::unexpected` and
+ * `lumex::core::expected::result::in_place`.
  */
 #include "error/BadExpectedAccess.hpp"
 #include "error/Unexpected.hpp"
