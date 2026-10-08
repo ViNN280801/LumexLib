@@ -1,11 +1,14 @@
-// LumexCast.cxx20.tests.cpp
+// LumexCast.cxx11.tests.cpp
+// downcast, downcast_noexcept and bad_down_cast at runtime, in every
+// standard from C++11. The constraints (which calls exist) are in
+// LumexCastConstraints.cxx11.tests.cpp.
 #include <string>
 #include <typeinfo>
 
 #include <gtest/gtest.h>
 
+#include "lumex/core/utility/attr/LumexAttributes.hpp"
 #include "lumex/core/utility/cast/LumexCast.hpp"
-#include "lumex/core/utility/compiler/LumexCheckFeatures.hpp"
 
 #if defined(__clang__)
 #pragma clang diagnostic push
@@ -28,11 +31,6 @@
 #pragma clang diagnostic ignored "-Wfloat-equal"
 #pragma clang diagnostic ignored "-Wglobal-constructors"
 #endif
-
-#if defined(__clang__)
-#endif
-
-#if LUMEX_HAS_STD_CONCEPTS
 
 using namespace lumex::core::utility::cast;
 
@@ -121,7 +119,9 @@ TEST (LumexCastTest, GivenMismatchedPointer_WhenDowncast_ThenThrowsBadDownCast)
   Other other;
   Base *base = &other;
 
-  EXPECT_THROW ({ (void)downcast<Derived *> (base); }, bad_down_cast);
+  EXPECT_THROW (
+      { LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR (downcast<Derived *> (base)); },
+      bad_down_cast);
 }
 
 TEST (LumexCastTest,
@@ -140,7 +140,9 @@ TEST (LumexCastTest,
   Other other;
   Base &base = other;
 
-  EXPECT_THROW ({ (void)downcast<Derived &> (base); }, bad_down_cast);
+  EXPECT_THROW (
+      { LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR (downcast<Derived &> (base)); },
+      bad_down_cast);
 }
 
 TEST (LumexCastTest,
@@ -191,7 +193,7 @@ TEST (LumexCastTest,
 
   try
     {
-      (void)downcast<Derived *> (base);
+      LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR (downcast<Derived *> (base));
       FAIL () << "Expected BadDownCast to be thrown";
     }
   catch (bad_down_cast const &exc)
@@ -247,14 +249,18 @@ TEST (LumexCastTest, GivenMismatchedConstReference_WhenDowncast_ThenThrows)
 {
   Other other;
   Base const &base = other;
-  EXPECT_THROW ({ (void)downcast<Derived const &> (base); }, bad_down_cast);
+  EXPECT_THROW (
+      { LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR (downcast<Derived const &> (base)); },
+      bad_down_cast);
 }
 
 TEST (LumexCastTest, GivenBadDownCast_WhenCaughtAsStdBadCast_ThenIsABase)
 {
   Other other;
   Base *base = &other;
-  EXPECT_THROW ({ (void)downcast<Derived *> (base); }, std::bad_cast);
+  EXPECT_THROW (
+      { LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR (downcast<Derived *> (base)); },
+      std::bad_cast);
 }
 
 TEST (LumexCastTest,
@@ -311,7 +317,7 @@ TEST (LumexCastTest,
   Base &base = other;
   try
     {
-      (void)downcast<Derived &> (base);
+      LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR (downcast<Derived &> (base));
       FAIL () << "Expected BadDownCast";
     }
   catch (bad_down_cast const &exc)
@@ -320,12 +326,3 @@ TEST (LumexCastTest,
                  std::string::npos);
     }
 }
-
-#else // the toolchain lacks the features of the module
-
-TEST (LumexCastTest, UnavailableOnThisToolchain)
-{
-  GTEST_SKIP () << "LumexCast.hpp needs C++20 concepts and <concepts>";
-}
-
-#endif
