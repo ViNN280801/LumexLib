@@ -40,8 +40,7 @@
  * selects) and the thread id. `LOGGER_LOG_*` is the generic layer and
  * `LUMEX_LOG_*` forwards to it under the library's prefix. The header also
  * defines its own `LOGGER_OS_*`, `LOGGER_ARCH_*` and `LOGGER_FUNCTION_NAME`
- * macros, `MAX_PATH` or `PATH_MAX` when the platform headers have not, and
- * below C++14 it declares `std::make_unique` and `std::exchange` itself. The
+ * macros, and `MAX_PATH` or `PATH_MAX` when the platform headers have not. The
  * module is independent of `lumex::logging` (`LumexLogging`).
  */
 #ifndef LUMEX_APPLIED_LOGGER_LOGGER_HPP
@@ -179,41 +178,6 @@
 
 #define LOGGER_ALIGNMENT_LOGGER_CONFIG 128
 #define LOGGER_ALIGNMENT_LOG_ENTRY 64
-
-// ============= C++11 Compatibility Layer =============
-
-#if __cplusplus < 201402L // C++11 or earlier
-#include <memory>
-#include <utility>
-namespace std
-{
-template <typename T, typename... Args>
-typename std::enable_if<!std::is_array<T>::value, std::unique_ptr<T>>::type
-make_unique (Args &&...args)
-{
-  return std::unique_ptr<T> (new T (std::forward<Args> (args)...));
-}
-
-template <typename T>
-typename std::enable_if<std::is_array<T>::value, std::unique_ptr<T>>::type
-make_unique (std::size_t n)
-{
-  using U = typename std::remove_extent<T>::type;
-  return std::unique_ptr<T> (new U[n]);
-}
-
-template <class T, class U = T>
-T
-exchange (T &obj, U &&new_value)
-    LUMEX_NOEXCEPT_IF (std::is_nothrow_move_constructible<T>::value
-                           &&std::is_nothrow_assignable<T &, U>::value)
-{
-  T old_value = std::move (obj);
-  obj = std::forward<U> (new_value);
-  return old_value;
-}
-} // namespace std
-#endif
 
 namespace lumex // NOLINT(modernize-concat-nested-namespaces)
 {
