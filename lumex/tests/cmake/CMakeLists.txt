@@ -185,6 +185,11 @@ lumex_add_cmake_fail_test(require_fail_reflection_without_utility
     "LUMEX_BUILD_REFLECTION is enabled but requires LUMEX_BUILD_UTILITY")
 lumex_add_cmake_fail_test(require_fail_utility_without_math
     "LUMEX_BUILD_UTILITY is enabled but requires LUMEX_BUILD_MATH")
+# hazard_pointer links utility and span; utility requires span itself and is
+# checked first, so only the utility edge can fail alone (cmake.wiring_hazard_pointer
+# pins the other).
+lumex_add_cmake_fail_test(require_fail_hazard_pointer_without_utility
+    "LUMEX_BUILD_HAZARD_POINTER is enabled but requires LUMEX_BUILD_UTILITY")
 lumex_add_cmake_fail_test(require_fail_serial_without_core
     "LUMEX_BUILD_SERIAL is enabled but requires LUMEX_BUILD_UTILITY")
 lumex_add_cmake_fail_test(require_fail_xml_without_core
@@ -303,6 +308,15 @@ lumex_add_consumer_test(consumer_standard_mismatch_lib20_consumer11
 # function-local static; two shared libraries built with hidden visibility
 # must share it (skipped on Windows, where DLLs cannot).
 lumex_add_consumer_test(consumer_atomic_cross_module atomic_cross_module)
+# core/hazard_pointer: the deterministic tests of the Dekker race (the engine is
+# built with test hooks and threads are stalled at named points), two shared
+# libraries that share one domain, hazard pointers in static constructors and
+# destructors and in thread-local destructors.
+lumex_add_consumer_test(consumer_hazard_pointer_hooks hazard_pointer_hooks)
+lumex_add_consumer_test(consumer_hazard_pointer_two_modules
+    hazard_pointer_two_modules)
+lumex_add_consumer_test(consumer_hazard_pointer_static_destruction
+    hazard_pointer_static_destruction)
 # The header-only modules (string, math, generators, optional, atomic, span) compile
 # from an install prefix built with LUMEX_BUILD_UTILITY OFF: the core/utility
 # headers they include are installed whatever that option says.
@@ -442,6 +456,30 @@ add_test(NAME ${_ctest_name}
         -DCASE=path_compile_checks
         -DLUMEX_SOURCE_DIR=${LumexLib_SOURCE_DIR}
         -DWORK_DIR=${CMAKE_CURRENT_BINARY_DIR}/consumer/path_compile_checks
+        -DGENERATOR=${CMAKE_GENERATOR}
+        -DCXX_COMPILER=${CMAKE_CXX_COMPILER}
+        "-DCXX_FLAGS=${CMAKE_CXX_FLAGS}"
+        -DCLANG_STDLIB=${LUMEX_CLANG_STDLIB}
+        -DBUILD_TYPE=Release
+        -DCONFIGURE_ONLY=ON
+        -P ${_LUMEX_CONSUMER_RUN}
+)
+set_tests_properties(${_ctest_name} PROPERTIES
+    LABELS "cmake;consumer"
+    TIMEOUT 900
+    SKIP_REGULAR_EXPRESSION "LUMEX_CONSUMER_SKIP"
+)
+
+# hazard_pointer compile-time checks: the uses [saferecl.hp] rejects (a type
+# that is not hazard-protectable, a copy of a holder, a discarded result, the
+# protected members of the base, a wrong deleter, a batch over the wrong span)
+# must not compile with warnings as errors; valid use must.
+lumex_test_name(_ctest_name hazard_pointer_compile_checks)
+add_test(NAME ${_ctest_name}
+    COMMAND ${CMAKE_COMMAND}
+        -DCASE=hazard_pointer_compile_checks
+        -DLUMEX_SOURCE_DIR=${LumexLib_SOURCE_DIR}
+        -DWORK_DIR=${CMAKE_CURRENT_BINARY_DIR}/consumer/hazard_pointer_compile_checks
         -DGENERATOR=${CMAKE_GENERATOR}
         -DCXX_COMPILER=${CMAKE_CXX_COMPILER}
         "-DCXX_FLAGS=${CMAKE_CXX_FLAGS}"
