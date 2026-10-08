@@ -43,7 +43,7 @@
  * `make_unexpected()` that return an `expected` are deprecated. The
  * specialization for a `void` value is in `ExpectedVoid.hpp`. Header-only,
  * part of `lumex::expected`; `expected` and `make_unexpected` are also visible
- * at global scope.
+ * at global scope, `unexpected` is not.
  */
 #ifndef LUMEX_CORE_EXPECTED_RESULT_EXPECTED_HPP
 #define LUMEX_CORE_EXPECTED_RESULT_EXPECTED_HPP

@@ -45,8 +45,9 @@
  * value, `unexpect_t` and `unexpect` in-place construction of the error, as
  * `std::in_place` (C++17) and `std::unexpect` (C++23) do. `Unit` is the empty
  * object that fills the success alternative of `expected<void, E>`. The
- * `is_expected` traits are not here but in `LumexTypeTraits.hpp`. The tags are
- * also visible at global scope.
+ * `is_expected` traits are not here but in `LumexTypeTraits.hpp`.
+ * `in_place_tag`, `unexpect_t` and `unexpect` are also visible at global
+ * scope; `in_place` is not (`optional` has its own).
  */
 #ifndef LUMEX_CORE_EXPECTED_RESULT_EXPECTED_TYPES_HPP
 #define LUMEX_CORE_EXPECTED_RESULT_EXPECTED_TYPES_HPP
