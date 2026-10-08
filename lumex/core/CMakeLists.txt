@@ -4,6 +4,7 @@
 # target_link_libraries() time (CMake requires that).
 
 lumex_add_subdirectory_if(LUMEX_BUILD_MATH math)
+lumex_add_subdirectory_if(LUMEX_BUILD_SPAN span)
 lumex_add_subdirectory_if(LUMEX_BUILD_UTILITY utility)
 lumex_add_subdirectory_if(LUMEX_BUILD_UNICODE unicode)
 lumex_add_subdirectory_if(LUMEX_BUILD_ATOMIC atomic)
@@ -11,7 +12,6 @@ lumex_add_subdirectory_if(LUMEX_BUILD_CIRCULAR_BUFFER circular_buffer)
 lumex_add_subdirectory_if(LUMEX_BUILD_EXPECTED expected)
 lumex_add_subdirectory_if(LUMEX_BUILD_GENERATORS generators)
 lumex_add_subdirectory_if(LUMEX_BUILD_OPTIONAL optional)
-lumex_add_subdirectory_if(LUMEX_BUILD_SPAN span)
 lumex_add_subdirectory_if(LUMEX_BUILD_STRING string)
 lumex_add_subdirectory_if(LUMEX_BUILD_FMT fmt)
 lumex_add_subdirectory_if(LUMEX_BUILD_BASE64 base64)
