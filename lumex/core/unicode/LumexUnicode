@@ -30,8 +30,9 @@
  * umbrella includes `utf/LumexUtf.hpp` (counters, writers and decoders in
  * `lumex::core::unicode::utf`) and `convert/LumexUnicodeConvert.hpp`
  * (`lumex::core::unicode::convert`). The conversions do not depend on the C
- * locale or the operating system. The code comes from the XML module and is
- * derived from pugixml; see `THIRD-PARTY-NOTICES.md`.
+ * locale or the operating system. The code comes from the XML module: the
+ * functions are Lumex's own, the structure of the policy classes is taken from
+ * pugixml; see `THIRD-PARTY-NOTICES.md`.
  */
 #include "convert/LumexUnicodeConvert.hpp"
 #include "utf/LumexUtf.hpp"
