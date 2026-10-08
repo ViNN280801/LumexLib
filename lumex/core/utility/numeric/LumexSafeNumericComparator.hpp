@@ -50,7 +50,6 @@
 #pragma clang diagnostic ignored "-Wexpansion-to-defined"
 #pragma clang diagnostic ignored "-Wexit-time-destructors"
 #pragma clang diagnostic ignored "-Wundefined-func-template"
-#pragma clang diagnostic ignored "-Wfloat-equal"
 #endif
 
 #include <atomic>
@@ -59,6 +58,7 @@
 #include <type_traits>
 #include <utility>
 
+#include "lumex/core/math/ops/LumexMath.hpp"
 #include "lumex/core/utility/assert/LumexAssert.hpp"
 #include "lumex/core/utility/attr/LumexAttributes.hpp"
 #include "lumex/core/utility/compiler/LumexCheckFeatures.hpp"
@@ -748,7 +748,7 @@ struct safe_compare_impl_helper<T, T,
   {
     if (std::isnan (current) || std::isnan (other))
       return false;
-    return current == other;
+    return ::lumex::core::math::ops::exactly_equal (current, other);
   }
 
   /**
@@ -763,7 +763,7 @@ struct safe_compare_impl_helper<T, T,
   {
     if (std::isnan (current) || std::isnan (other))
       return true;
-    return current != other;
+    return !::lumex::core::math::ops::exactly_equal (current, other);
   }
 
   /**
@@ -1433,7 +1433,8 @@ struct safe_compare_impl_helper<
     if (std::isnan (current) || std::isnan (other))
       return false;
     if (std::isinf (current) || std::isinf (other))
-      return current == other;
+      return ::lumex::core::math::ops::exactly_equal (
+          static_cast<CommonType> (current), static_cast<CommonType> (other));
     return static_cast<CommonType> (current)
            >= static_cast<CommonType> (other);
   }
@@ -1464,7 +1465,8 @@ struct safe_compare_impl_helper<
     if (std::isnan (current) || std::isnan (other))
       return false;
     if (std::isinf (current) || std::isinf (other))
-      return current == other;
+      return ::lumex::core::math::ops::exactly_equal (
+          static_cast<CommonType> (current), static_cast<CommonType> (other));
     return static_cast<CommonType> (current)
            <= static_cast<CommonType> (other);
   }
@@ -1519,9 +1521,10 @@ struct safe_compare_impl_helper<
     if (std::isnan (current) || std::isnan (other))
       return false;
     if (std::isinf (current) || std::isinf (other))
-      return current == other;
-    return static_cast<CommonType> (current)
-           == static_cast<CommonType> (other);
+      return ::lumex::core::math::ops::exactly_equal (
+          static_cast<CommonType> (current), static_cast<CommonType> (other));
+    return ::lumex::core::math::ops::exactly_equal (
+        static_cast<CommonType> (current), static_cast<CommonType> (other));
   }
 
   /**
@@ -1538,9 +1541,10 @@ struct safe_compare_impl_helper<
     if (std::isnan (current) || std::isnan (other))
       return true;
     if (std::isinf (current) || std::isinf (other))
-      return current != other;
-    return static_cast<CommonType> (current)
-           != static_cast<CommonType> (other);
+      return !::lumex::core::math::ops::exactly_equal (
+          static_cast<CommonType> (current), static_cast<CommonType> (other));
+    return !::lumex::core::math::ops::exactly_equal (
+        static_cast<CommonType> (current), static_cast<CommonType> (other));
   }
 
   /**
@@ -1559,7 +1563,9 @@ struct safe_compare_impl_helper<
       return partial_ordering_t::unordered;
     if (std::isinf (current) || std::isinf (other))
       {
-        if (current == other)
+        if (::lumex::core::math::ops::exactly_equal (
+                static_cast<CommonType> (current),
+                static_cast<CommonType> (other)))
           return partial_ordering_t::equivalent;
         return partial_ordering_t::unordered;
       }
@@ -1747,15 +1753,16 @@ struct safe_compare_impl_helper<
           return false;
         if (std::isinf (other))
           return false;
-        return static_cast<CommonType> (current)
-               == static_cast<CommonType> (other);
+        return ::lumex::core::math::ops::exactly_equal (
+            static_cast<CommonType> (current),
+            static_cast<CommonType> (other));
       }
     if (std::isnan (current))
       return false;
     if (std::isinf (current))
       return false;
-    return static_cast<CommonType> (current)
-           == static_cast<CommonType> (other);
+    return ::lumex::core::math::ops::exactly_equal (
+        static_cast<CommonType> (current), static_cast<CommonType> (other));
   }
 
   /**
@@ -1777,15 +1784,16 @@ struct safe_compare_impl_helper<
           return true;
         if (std::isinf (other))
           return true;
-        return static_cast<CommonType> (current)
-               != static_cast<CommonType> (other);
+        return !::lumex::core::math::ops::exactly_equal (
+            static_cast<CommonType> (current),
+            static_cast<CommonType> (other));
       }
     if (std::isnan (current))
       return true;
     if (std::isinf (current))
       return true;
-    return static_cast<CommonType> (current)
-           != static_cast<CommonType> (other);
+    return !::lumex::core::math::ops::exactly_equal (
+        static_cast<CommonType> (current), static_cast<CommonType> (other));
   }
 
   /**
@@ -2331,6 +2339,35 @@ private:
   }
 
   /**
+   * @brief Exact equality of two values of a floating-point type
+   * @param[in] lhs First value
+   * @param[in] rhs Second value
+   * @return true if lhs == rhs (a NaN equals nothing)
+   * @details Goes through lumex::core::math::ops::exactly_equal, which is the
+   *          one place that spells a floating-point `==`, so that
+   *          -Wfloat-equal stays quiet in the code of a consumer.
+   */
+  template <typename V>
+  static typename std::enable_if<std::is_floating_point<V>::value, bool>::type
+  same_value (V lhs, V rhs) LUMEX_NOEXCEPT
+  {
+    return ::lumex::core::math::ops::exactly_equal (lhs, rhs);
+  }
+
+  /**
+   * @brief Equality of two values of an integer type
+   * @param[in] lhs First value
+   * @param[in] rhs Second value
+   * @return true if lhs == rhs
+   */
+  template <typename V>
+  static typename std::enable_if<!std::is_floating_point<V>::value, bool>::type
+  same_value (V lhs, V rhs) LUMEX_NOEXCEPT
+  {
+    return lhs == rhs;
+  }
+
+  /**
    * @brief SFINAE compare-and-set for non-atomic types
    * @param[in] expected_value Expected value
    * @param[in] desired_value Desired value
@@ -2346,7 +2383,7 @@ private:
       clean_T desired_value, // NOLINT(bugprone-easily-swappable-parameters)
       std::false_type /* non-atomic */) LUMEX_NOEXCEPT
   {
-    if (m_value == expected_value)
+    if (same_value (m_value, expected_value))
       {
         m_value = desired_value;
         return true;
