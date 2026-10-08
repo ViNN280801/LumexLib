@@ -86,6 +86,8 @@
 
 #include "lumex/LumexExport.hpp"
 
+#include <array>
+
 #include "lumex/core/utility/macros/LumexConstantMacros.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 #include "lumex/xml/xpath/node/XPathNodeSet.hpp"

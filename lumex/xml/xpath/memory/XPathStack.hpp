@@ -53,6 +53,8 @@
 
 #include "lumex/LumexExport.hpp"
 
+#include <array>
+
 #include "XPathAllocator.hpp"
 
 namespace lumex // NOLINT(modernize-concat-nested-namespaces)

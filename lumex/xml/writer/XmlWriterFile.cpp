@@ -41,8 +41,6 @@
 
 #include <cstdio>
 
-#include "lumex/core/utility/LumexUtility"
-
 #include "XmlWriterFile.hpp"
 
 using namespace lumex::xml::writer;

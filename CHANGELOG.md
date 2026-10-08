@@ -197,6 +197,14 @@
 
 **Проверено:** `nm -D` экспорт `libLumexXml.so` не менялся (614 символов до и после, см. запись выше); матрица `create_release.sh` с MinGW 8.3 (там `_MSC_VER` не определен, ветвь `__MINGW32__` прежняя): 0 предупреждений. Опыт с возвратом: `#define LUMEX_XML_MSVC_CRT_VERSION` обратно в `XmlMacros.hpp` ловит `cmake.wiring_xml_no_wchar_mode`.
 
+##### XML: заголовки включают то, что используют (`XmlNode.hpp`, `XmlWriterFile.cpp`, `<array>`)
+
+**Файлы:** `lumex/xml/node/XmlNode.hpp`, `lumex/xml/writer/XmlWriterFile.cpp`, `lumex/xml/xpath/memory/XPathStack.hpp`, `lumex/xml/xpath/variable/XPathVariableSet.hpp`, `lumex/tests/cmake/CMakeLists.txt`, `lumex/tests/cmake/cases/source_std_array_included.cmake` (новый)
+
+**Суть:** `XmlNode.hpp` и `XmlWriterFile.cpp` включали весь зонтик `lumex/core/utility/LumexUtility`. `XmlNode.hpp` использует из него только `LUMEX_ASSERT` (теперь `assert/LumexAssert.hpp`; макросы атрибутов уже включались), плюс `std::size_t` и `std::basic_ostream` (`<cstddef>`, `<iosfwd>`); `XmlWriterFile.cpp` не использует ничего. `XPathStack.hpp` и `XPathVariableSet.hpp` писали `std::array` без `#include <array>` и получали его через `LumexTypeTraits.hpp`, из которого неиспользуемый `<array>` будет убран. Новый тест `source_std_array_included` проверяет по всем файлам `lumex/` (кроме тестов и примеров), что каждый, кто пишет `std::array<` вне комментария, сам включает `<array>`; других нарушителей в коде нет (остальные упоминания в `LumexMemRead.hpp`, `LumexFormatRanges.hpp`, `Encoder.hpp`, `LumexCrcCatalog.hpp`, `Unexpected.hpp`, `Expected.hpp`, `ExpectedVoid.hpp` стоят в комментариях).
+
+**Проверено:** `lint.include_order`, `lint.headers_standalone` и остальные `lint.*` проходят (GCC 13.2), 155 тестов `lint.*` и `cmake.*` без падений. Опыт с возвратом: удаление `#include <array>` из `XPathStack.hpp` ловит `cmake.source_std_array_included` (перечисляет файл). Экспорт `libLumexXml.so` не менялся.
+
 ##### Несовместимо: `LUMEX_DEFINE_ENUM_TRAITS` и `lumex_enum_traits_t` удалены, перечисления описывает `LUMEX_DEFINE_REFLECTED_ENUM`
 
 **Файлы:** `lumex/core/utility/traits/LumexTypeTraits.hpp`, `lumex/core/reflection/reflected_enum/LumexReflectedEnum.hpp` (комментарий), `lumex/tests/core/utility/traits/LumexTypeTraits.cxx20.tests.cpp` (удален), `lumex/tests/core/utility/traits/LumexTypeTraits.cxx11.tests.cpp` (комментарий)

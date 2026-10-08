@@ -97,10 +97,12 @@
 
 #include "lumex/LumexExport.hpp"
 
+#include <cstddef>
+#include <iosfwd>
 #include <iterator>
 
 #include "XmlNodeBase.hpp"
-#include "lumex/core/utility/LumexUtility"
+#include "lumex/core/utility/assert/LumexAssert.hpp"
 #include "lumex/core/utility/attr/LumexAttributes.hpp"
 #include "lumex/core/utility/ranges/LumexIteratorRange.hpp"
 #include "lumex/xml/attribute/XmlAttribute.hpp"
