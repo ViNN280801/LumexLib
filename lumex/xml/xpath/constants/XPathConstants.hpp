@@ -50,6 +50,7 @@
 #ifndef LUMEX_XML_XPATH_CONSTANTS_HPP
 #define LUMEX_XML_XPATH_CONSTANTS_HPP
 
+#include <cstddef>
 #include <cstdint>
 
 #include "lumex/core/utility/macros/LumexConstantMacros.hpp"
@@ -66,7 +67,7 @@ namespace Constants
 {
 LUMEX_CONSTINIT_CONSTANT std::size_t kxpath_memory_page_size = 0x1000; // 4 kb
 LUMEX_CONSTINIT_CONSTANT std::size_t kxpath_ast_depth_limit = 0x400;   // 1 kb
-LUMEX_CONSTINIT_CONSTANT uintptr_t kxpath_memory_block_alignment
+LUMEX_CONSTINIT_CONSTANT std::uintptr_t kxpath_memory_block_alignment
     = sizeof (double) > sizeof (void *) ? sizeof (double) : sizeof (void *);
 } // namespace Constants
 } // namespace constants

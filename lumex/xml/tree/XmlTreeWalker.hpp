@@ -60,6 +60,10 @@ namespace lumex // NOLINT(modernize-concat-nested-namespaces)
 {
 namespace xml
 {
+namespace node
+{
+class XmlNode;
+}
 namespace tree
 {
 /**
@@ -75,7 +79,7 @@ namespace tree
 class LUMEX_API
     XmlTreeWalker // NOLINT(cppcoreguidelines-special-member-functions)
 {
-  friend class XmlNode;
+  friend class node::XmlNode;
 
 public:
   /**
@@ -98,7 +102,7 @@ public:
    * visiting a node's children.
    */
   virtual bool
-  begin (XmlNode &node)
+  begin (node::XmlNode &node)
   {
     static_cast<void> (node);
     return true;
@@ -111,7 +115,7 @@ public:
    * @details This method must be implemented by derived classes to define the
    * core logic of the tree walk.
    */
-  virtual bool for_each (XmlNode &node) = 0;
+  virtual bool for_each (node::XmlNode &node) = 0;
 
   /**
    * @brief Callback function invoked when the tree traversal ends for a node.
@@ -122,7 +126,7 @@ public:
    * visiting a node's children.
    */
   virtual bool
-  end (XmlNode &node)
+  end (node::XmlNode &node)
   {
     static_cast<void> (node);
     return true;
