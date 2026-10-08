@@ -72,10 +72,10 @@
  * library built at C++11 serves a C++17 consumer. `==`, `!=`, `<`, `<=`, `>`,
  * `>=` and `/` between the two classes are constrained templates (a
  * comparison uses the rules of `path`, `/` yields the type of the left
- * operand). One limit: `std_path = lumex_path;` is ambiguous (write
- * `std_path = std::filesystem::path (lumex_path);`), and with libstdc++ 8 so
- * is every direct initialization of a standard path from a lumex path;
- * copy initialization works everywhere.
+ * operand). `std_path = lumex_path;`, `std::filesystem::path p (lumex_path);`
+ * and copy initialization work on every platform and with every supported
+ * compiler, libstdc++ 8 included, because `path` converts to `std::string`
+ * only explicitly (`p.string ()`, `std::string (p)`).
  */
 #ifndef LUMEX_CORE_FILESYSTEM_FS_HPP
 #define LUMEX_CORE_FILESYSTEM_FS_HPP
@@ -841,10 +841,19 @@ public:
     return m_path.c_str ();
   }
   /**
-   * @brief Implicit conversion to `std::string`.
+   * @brief Explicit conversion to `std::string`.
+   * @details Explicit since 2.0.0.0: an implicit conversion to a string made
+   * `std_path = lumex_path;` ambiguous on POSIX and, with libstdc++ 8, every
+   * direct initialization of a `std::filesystem::path` from a `path`. Write
+   * `p.string ()`, `std::string (p)` or `static_cast<std::string> (p)`; a
+   * `std::string` still converts to a `path` implicitly.
    * @return A copy of the internal path string.
    */
-  operator string_type () const { return m_path; }
+  explicit
+  operator string_type () const
+  {
+    return m_path;
+  }
 
 #if LUMEX_HAS_STD_PATH_CONVERSION
   // =================== std::filesystem::path (C++17) ===================

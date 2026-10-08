@@ -4,7 +4,11 @@
 // std::filesystem::path. The conversions are member templates (never
 // exported), the mixed comparisons and `/` are constrained templates that win
 // over the operators of both libraries, and nothing that worked before becomes
-// ambiguous: a std::string and a C string still go to lumex::path.
+// ambiguous: a std::string and a C string still go to lumex::path. A lumex
+// path converts to std::string only explicitly, so the assignment, the direct
+// initialization and the copy initialization of a std::filesystem::path from a
+// lumex path all compile on every platform and with every compiler (GCC 8 and
+// libstdc++ 8 included).
 #include <cstdint>
 #include <filesystem>
 #include <sstream>
@@ -15,22 +19,11 @@
 #include <gtest/gtest.h>
 
 #include "lumex/core/filesystem/LumexFilesystem"
-#include "lumex/core/utility/compiler/LumexCheckCompiler.hpp"
 #include "lumex/core/utility/os/LumexCheckOS.hpp"
 
 namespace stdfs = std::filesystem;
 using lumex::core::filesystem::fs::lumex_filesystem;
 using lumex::core::filesystem::fs::path;
-
-// libstdc++ 8 has a std::filesystem::path constructor from std::string&& next
-// to the copy and move constructors, so a direct initialization or an
-// assignment from a lumex path (which also converts to std::string) is
-// ambiguous there; a copy initialization and push_back work.
-#if LUMEX_COMPILER_IS_GCC() && LUMEX_GCC_BEFORE(9, 0)
-#define LUMEX_TEST_DIRECT_INIT 0
-#else
-#define LUMEX_TEST_DIRECT_INIT 1
-#endif
 
 namespace
 {
@@ -78,8 +71,17 @@ static_assert (std::is_convertible<std::string, path>::value,
                "a std::string is still a path");
 static_assert (std::is_convertible<char const *, path>::value,
                "a C string is still a path");
-static_assert (std::is_convertible<path, std::string>::value,
-               "a lumex path still converts to std::string");
+// A lumex path converts to std::string only explicitly (2.0.0.0): the implicit
+// conversion made the assignment and the direct initialization of a standard
+// path from a lumex path ambiguous.
+static_assert (!std::is_convertible<path, std::string>::value,
+               "a lumex path does not convert to std::string implicitly");
+static_assert (std::is_constructible<std::string, path>::value,
+               "a lumex path converts to std::string explicitly");
+static_assert (std::is_assignable<stdfs::path &, path const &>::value,
+               "a standard path is assignable from a lumex path");
+static_assert (std::is_constructible<stdfs::path, path const &>::value,
+               "a standard path is constructible from a lumex path");
 static_assert (!std::is_convertible<int, path>::value,
                "a number is not a path");
 
@@ -90,11 +92,11 @@ TEST (LumexFilesystemStdPathTest, GivenLumexPath_WhenConvertToStd_ThenSamePath)
   EXPECT_EQ (converted.generic_string (), "some/dir/file.txt");
   EXPECT_EQ (converted.filename (), "file.txt");
   EXPECT_EQ (converted.extension (), ".txt");
-#if LUMEX_TEST_DIRECT_INIT
   stdfs::path const direct (source);
   EXPECT_EQ (direct, converted);
   EXPECT_EQ (static_cast<stdfs::path> (source), converted);
-#endif
+  stdfs::path const braced{ source };
+  EXPECT_EQ (braced, converted);
 }
 
 TEST (LumexFilesystemStdPathTest, GivenStdPath_WhenConvertToLumex_ThenSamePath)
@@ -270,32 +272,20 @@ TEST (LumexFilesystemStdPathTest,
   std::vector<path> lumexes;
   lumexes.push_back (standard);
   lumexes.push_back (lumex_path);
-#if LUMEX_TEST_DIRECT_INIT
   standards.emplace_back (lumex_path);
   lumexes.emplace_back (standard);
   EXPECT_EQ (standards.back ().string (), "one");
   EXPECT_EQ (lumexes.back ().string (), "two");
-#endif
   EXPECT_EQ (standards.front ().string (), "one");
   EXPECT_EQ (lumexes.front ().string (), "two");
-  // POSIX, known limit: assigning a lumex path to a standard path is
-  // ambiguous, as the standard assignment operators for path&&, const path&
-  // and string_type&& are all reachable through a different conversion of the
-  // lumex path (it has converted to std::string for long). It compiled before
-  // through the string; now the standard path is built explicitly. On Windows
-  // the standard string type is wide, so the assignment works.
-#if defined(LUMEX_OS_WINDOWS)
-  static_assert (std::is_assignable<stdfs::path &, path const &>::value,
-                 "the assignment works on Windows");
-#else
-  static_assert (!std::is_assignable<stdfs::path &, path const &>::value,
-                 "the assignment is ambiguous");
-#endif
-#if LUMEX_TEST_DIRECT_INIT
+  // The assignment of a lumex path to a standard path compiles on every
+  // platform and with every compiler (it was ambiguous on POSIX while a lumex
+  // path converted to std::string implicitly).
   stdfs::path assigned;
-  assigned = stdfs::path (lumex_path);
+  assigned = lumex_path;
   EXPECT_EQ (assigned.string (), "one");
-#endif
+  assigned = stdfs::path ("explicit");
+  EXPECT_EQ (assigned.string (), "explicit");
   path lumex_assigned;
   lumex_assigned = standard;
   EXPECT_EQ (lumex_assigned.string (), "two");

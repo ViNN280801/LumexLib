@@ -140,6 +140,7 @@ lumex_add_cmake_test(wiring_test_names)
 lumex_add_cmake_test(wiring_standard_suites)
 lumex_add_cmake_test(wiring_exception_crash_lock)
 lumex_add_cmake_test(wiring_expected_global_names)
+lumex_add_cmake_test(wiring_path_compile_checks)
 
 # configure_msvc_vcvars is a no-op on non-Windows hosts, so the guard against
 # calling it after project() can only fire on Windows.
@@ -416,6 +417,31 @@ add_test(NAME ${_ctest_name}
         -DCASE=span_compile_checks
         -DLUMEX_SOURCE_DIR=${LumexLib_SOURCE_DIR}
         -DWORK_DIR=${CMAKE_CURRENT_BINARY_DIR}/consumer/span_compile_checks
+        -DGENERATOR=${CMAKE_GENERATOR}
+        -DCXX_COMPILER=${CMAKE_CXX_COMPILER}
+        "-DCXX_FLAGS=${CMAKE_CXX_FLAGS}"
+        -DCLANG_STDLIB=${LUMEX_CLANG_STDLIB}
+        -DBUILD_TYPE=Release
+        -DCONFIGURE_ONLY=ON
+        -P ${_LUMEX_CONSUMER_RUN}
+)
+set_tests_properties(${_ctest_name} PROPERTIES
+    LABELS "cmake;consumer"
+    TIMEOUT 900
+    SKIP_REGULAR_EXPRESSION "LUMEX_CONSUMER_SKIP"
+)
+
+# lumex::path compile-time checks: a lumex path converts to std::string only
+# explicitly (the implicit conversion made `std_path = lumex_path;` ambiguous on
+# POSIX), so every implicit use must be refused at every standard, while the
+# explicit forms and the three ways to make a std::filesystem::path from a
+# lumex path (C++17) compile.
+lumex_test_name(_ctest_name path_compile_checks)
+add_test(NAME ${_ctest_name}
+    COMMAND ${CMAKE_COMMAND}
+        -DCASE=path_compile_checks
+        -DLUMEX_SOURCE_DIR=${LumexLib_SOURCE_DIR}
+        -DWORK_DIR=${CMAKE_CURRENT_BINARY_DIR}/consumer/path_compile_checks
         -DGENERATOR=${CMAKE_GENERATOR}
         -DCXX_COMPILER=${CMAKE_CXX_COMPILER}
         "-DCXX_FLAGS=${CMAKE_CXX_FLAGS}"
