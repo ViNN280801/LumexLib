@@ -1,7 +1,10 @@
 # lumex/tests/core/utility/mem/CMakeLists.txt
 
 # The tests of lumex/core/utility/mem: the memory readers of LumexMemRead.hpp,
-# which need C++20: the directory has suites from C++20 on only.
+# which work from C++11 (the result is std::optional from C++17 and the
+# optional of this library before it): pointer and size, a source object, the
+# span of this library and the constraints of the overloads (.cxx11), the
+# result type and std::byte from C++17 (.cxx17), std::span (.cxx20).
 # One suite per standard of the module (lumex/tests/LumexTestStandards.cmake),
 # LumexUtilityMemCxx11Tests, ...Cxx14Tests, ...Cxx17Tests, ...Cxx20Tests
 # (C++23 and C++26 only where the compiler has them), each built from the

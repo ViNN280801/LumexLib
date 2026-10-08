@@ -145,6 +145,74 @@ TEST (LumexTypeTraitsTopicsTest,
       (std::is_same<traits::meta::indirection_of_t<int **>, int *>::value));
 }
 
+namespace
+{
+struct extractible_pair_t
+{
+  std::int16_t low;
+  std::int16_t high;
+};
+
+struct extractible_base_t
+{
+  std::int32_t a;
+};
+
+/** Trivially copyable, but not standard layout: members in two classes. */
+struct extractible_mixed_t : extractible_base_t
+{
+  std::int32_t b;
+};
+
+struct extractible_virtual_t
+{
+  virtual ~extractible_virtual_t () {}
+  std::int32_t value;
+};
+
+enum class extractible_enum_t : std::uint8_t
+{
+  first
+};
+} // namespace
+
+TEST (LumexTypeTraitsTopicsTest,
+      GivenTypes_WhenIsExtractible_ThenPodValuesOnly)
+{
+  EXPECT_TRUE (traits::meta::is_extractible<int>::value);
+  EXPECT_TRUE (traits::meta::is_extractible<double>::value);
+  EXPECT_TRUE (traits::meta::is_extractible<bool>::value);
+  EXPECT_TRUE (traits::meta::is_extractible<extractible_pair_t>::value);
+  EXPECT_TRUE (traits::meta::is_extractible<extractible_enum_t>::value);
+  EXPECT_TRUE ((traits::meta::is_extractible<std::array<char, 4>>::value));
+
+  EXPECT_FALSE (traits::meta::is_extractible<int *>::value);
+  EXPECT_FALSE (traits::meta::is_extractible<int &>::value);
+  EXPECT_FALSE (traits::meta::is_extractible<int &&>::value);
+  EXPECT_FALSE (traits::meta::is_extractible<std::string>::value);
+  EXPECT_FALSE (traits::meta::is_extractible<std::vector<int>>::value);
+  EXPECT_FALSE (traits::meta::is_extractible<extractible_virtual_t>::value);
+  EXPECT_FALSE (traits::meta::is_extractible<extractible_mixed_t>::value);
+  EXPECT_FALSE (traits::meta::is_extractible<void (*) ()>::value);
+}
+
+TEST (LumexTypeTraitsTopicsTest, GivenTypes_WhenIsByteLike_ThenOnlyByteTypes)
+{
+  EXPECT_TRUE (traits::meta::is_byte_like<char>::value);
+  EXPECT_TRUE (traits::meta::is_byte_like<unsigned char>::value);
+  EXPECT_TRUE (traits::meta::is_byte_like<std::uint8_t>::value);
+#if __cplusplus >= 201703L
+  EXPECT_TRUE (traits::meta::is_byte_like<std::byte>::value);
+#endif
+  EXPECT_FALSE (traits::meta::is_byte_like<signed char>::value);
+  EXPECT_FALSE (traits::meta::is_byte_like<std::int8_t>::value);
+  EXPECT_FALSE (traits::meta::is_byte_like<std::uint16_t>::value);
+  EXPECT_FALSE (traits::meta::is_byte_like<bool>::value);
+  EXPECT_FALSE (traits::meta::is_byte_like<char const>::value);
+  EXPECT_FALSE (traits::meta::is_byte_like<char *>::value);
+  EXPECT_FALSE (traits::meta::is_byte_like<char &>::value);
+}
+
 // ---------------------------------------------------------------------------
 // stream: is_ostreamable (plain `os << value`)
 // ---------------------------------------------------------------------------
