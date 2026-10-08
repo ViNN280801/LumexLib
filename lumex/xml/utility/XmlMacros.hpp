@@ -60,12 +60,6 @@
 
 #include "lumex/core/utility/attr/LumexAttributes.hpp"
 
-#if defined(_MSC_VER) && !defined(__S3E__) && !defined(_WIN32_WCE)
-#define LUMEX_XML_MSVC_CRT_VERSION _MSC_VER
-#elif defined(_WIN32_WCE)
-#define LUMEX_XML_MSVC_CRT_VERSION 1310 // MSVC7.1
-#endif
-
 /* ===== For these 4 macros, we need to use the constants from:
 LumexXmlMemoryPage.hpp, LumexXmlTypes.hpp, LumexXmlConstants.hpp ===== */
 #define LUMEX_XML_GETHEADER_IMPL(object, page, flags)                         \

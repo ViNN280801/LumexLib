@@ -1,7 +1,7 @@
 # The XML wide-character mode is gone (user decision of 2026-10-08, MAJOR
 # 2.0.0.0): no CMake option, no compile definition, no install or conan switch,
 # no preprocessor branch in lumex/xml, and none of the macros that existed only
-# for it (LUMEX_XML_CHAR, LUMEX_XML_TEXT). The
+# for it (LUMEX_XML_CHAR, LUMEX_XML_TEXT, LUMEX_XML_MSVC_CRT_VERSION). The
 # character type of the module is `char` (`char_t` stays as a plain alias).
 
 # The names are built from parts so that this file does not contain them.
@@ -43,6 +43,12 @@ foreach(_file IN LISTS _files)
                 "is gone and must not come back")
         endif()
     endforeach()
+    string(FIND "${_text}" "${_prefix}_MSVC_CRT_VERSION" _crt)
+    if(NOT _crt EQUAL -1)
+        message(FATAL_ERROR
+            "${_file}: ${_prefix}_MSVC_CRT_VERSION is gone (MSVC older than "
+            "1400 is not supported); test _MSC_VER directly")
+    endif()
 endforeach()
 
 # The option list of cmake/LumexOptions.cmake: no XML character option.
