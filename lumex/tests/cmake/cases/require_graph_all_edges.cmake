@@ -5,6 +5,7 @@ file(READ "${LUMEX_SOURCE_DIR}/cmake/LumexModules.cmake" _mod)
 
 foreach(_edge
         "lumex_require_module(LUMEX_BUILD_UTILITY LUMEX_BUILD_MATH)"
+        "lumex_require_module(LUMEX_BUILD_UTILITY LUMEX_BUILD_SPAN)"
         "lumex_require_module(LUMEX_BUILD_CIRCULAR_BUFFER LUMEX_BUILD_UTILITY)"
         "lumex_require_module(LUMEX_BUILD_EXPECTED LUMEX_BUILD_UTILITY)"
         "lumex_require_module(LUMEX_BUILD_BASE64 LUMEX_BUILD_UTILITY)"
