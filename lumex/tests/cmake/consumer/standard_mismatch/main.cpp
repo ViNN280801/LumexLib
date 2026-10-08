@@ -125,6 +125,7 @@ check_xml ()
   using lumex::xml::attribute::XmlAttribute;
   using lumex::xml::document::XmlDocument;
   using lumex::xml::node::XmlNode;
+  using lumex::xml::types::Types::string_view_t;
 
   int failures = 0;
   XmlDocument doc;
@@ -138,21 +139,19 @@ check_xml ()
                      "XmlNode::child (pointer, size)");
   failures += check (!item.attribute (names + 4, 3).empty (),
                      "XmlNode::attribute (pointer, size)");
-#if __cplusplus >= 201703L
-  std::string_view const view = names;
-  failures += check (root.child (view.substr (0, 4)) == item,
-                     "XmlNode::child (string_view)");
-  failures += check (!item.attribute (view.substr (4, 3)).empty (),
-                     "XmlNode::attribute (string_view)");
-  failures += check (key.set_value (std::string_view ("value;").substr (0, 5)),
-                     "XmlAttribute::set_value (string_view)");
+  // The view overloads exist in every standard: a std::string and the view
+  // of the consumer's standard.
+  failures += check (root.child (string_view_t (names, 4)) == item,
+                     "XmlNode::child (string view)");
+  failures += check (root.child (std::string ("item")) == item,
+                     "XmlNode::child (std::string)");
+  failures += check (!item.attribute (string_view_t (names + 4, 3)).empty (),
+                     "XmlNode::attribute (string view)");
+  failures += check (key.set_value (string_view_t ("value;", 5)),
+                     "XmlAttribute::set_value (string view)");
   failures += check (std::string (key.value ()) == "value", "attribute value");
-  failures += check (root.remove_child (view.substr (0, 4)),
-                     "XmlNode::remove_child (string_view)");
-#else
-  failures += check (root.remove_child (names, 4),
-                     "XmlNode::remove_child (pointer, size)");
-#endif
+  failures += check (root.remove_child (string_view_t (names, 4)),
+                     "XmlNode::remove_child (string view)");
   failures += check (root.child ("item").empty (), "child removed");
   return failures;
 }

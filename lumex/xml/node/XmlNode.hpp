@@ -49,7 +49,9 @@
  * with `append_buffer`. It is a non-owning handle; an empty handle is safe to
  * use and yields empty results. Handles become invalid with the `XmlDocument`
  * they come from. The class is not exported. Members compiled into the
- * library carry `LUMEX_API`. The `string_view_t` overloads are inline
+ * library carry `LUMEX_API`. The `string_view_t` overloads
+ * (`std::basic_string_view<char_t>` from C++17, the `lumex_string_view` of
+ * `lumex::string_view` below, so they exist in every C++ standard) are inline
  * wrappers and are not `dllimport`.
  *
  * The bidirectional iterators `XmlNodeIterator` and `XmlNamedNodeIterator`
@@ -623,20 +625,18 @@ public:
   LUMEX_API XmlNode previous_sibling (char_t const *name,
                                       std::size_t size) const;
 
-#if __cplusplus >= 201703L
   LUMEX_ATTRIBUTE_NODISCARD (
       "The returned child node should be used; discarding it negates the "
       "purpose of the getter.")
   /**
    * @brief Finds the first child node with the specified name using
-   * `std::string_view`.
-   * @param[in] name A `std::string_view` representing the name of the child
+   * `string_view_t`.
+   * @param[in] name A `string_view_t` representing the name of the child
    * node to find.
    * @return An `XmlNode` object representing the first child found with the
    * matching name, or an empty `XmlNode` if no such child exists or the
    * current node is empty.
-   * @note The search is case-sensitive. Available only when compiled with
-   * C++17 or later.
+   * @note The search is case-sensitive.
    */
   XmlNode
   child (string_view_t name) const
@@ -649,14 +649,13 @@ public:
       "purpose of the getter.")
   /**
    * @brief Finds the first attribute with the specified name using
-   * `std::string_view`.
-   * @param[in] name A `std::string_view` representing the name of the
+   * `string_view_t`.
+   * @param[in] name A `string_view_t` representing the name of the
    * attribute to find.
    * @return An `XmlAttribute` object representing the first attribute found
    * with the matching name, or an empty `XmlAttribute` if no such attribute
    * exists or the current node is empty.
-   * @note The search is case-sensitive. Available only when compiled with
-   * C++17 or later.
+   * @note The search is case-sensitive.
    */
   XmlAttribute
   attribute (string_view_t name) const
@@ -669,14 +668,14 @@ public:
       "the purpose of the getter.")
   /**
    * @brief Finds the next sibling node with the specified name using
-   * `std::string_view`.
-   * @param[in] name A `std::string_view` representing the name of the sibling
+   * `string_view_t`.
+   * @param[in] name A `string_view_t` representing the name of the sibling
    * node to find.
    * @return An `XmlNode` object representing the next sibling found with the
    * matching name, or an empty `XmlNode` if no such sibling exists or the
    * current node is empty.
    * @note The search is case-sensitive and starts from the current node's next
-   * sibling. Available only when compiled with C++17 or later.
+   * sibling.
    */
   XmlNode
   next_sibling (string_view_t name) const
@@ -689,21 +688,20 @@ public:
       "negates the purpose of the getter.")
   /**
    * @brief Finds the previous sibling node with the specified name using
-   * `std::string_view`.
-   * @param[in] name A `std::string_view` representing the name of the sibling
+   * `string_view_t`.
+   * @param[in] name A `string_view_t` representing the name of the sibling
    * node to find.
    * @return An `XmlNode` object representing the previous sibling found with
    * the matching name, or an empty `XmlNode` if no such sibling exists or the
    * current node is empty.
    * @note The search is case-sensitive and starts from the current node's
-   * previous sibling. Available only when compiled with C++17 or later.
+   * previous sibling.
    */
   XmlNode
   previous_sibling (string_view_t name) const
   {
     return previous_sibling (name.data (), name.size ());
   }
-#endif
 
   // Get attribute, starting the search from a hint (and updating hint so that
   // searching for a sequence of attributes is fast)
@@ -734,17 +732,15 @@ public:
   LUMEX_API XmlAttribute attribute (char_t const *name, std::size_t size,
                                     XmlAttribute &hint) const;
 
-#if __cplusplus >= 201703L
   /**
-   * @brief Finds an attribute by name using `std::string_view`, optimizing
+   * @brief Finds an attribute by name using `string_view_t`, optimizing
    * search with a hint.
-   * @param[in] name A `std::string_view` representing the name of the
+   * @param[in] name A `string_view_t` representing the name of the
    * attribute to find.
    * @param[in,out] hint An `XmlAttribute` object serving as a search starting
    * point, updated to the next attribute on success.
    * @return An `XmlAttribute` object representing the found attribute, or an
    * empty `XmlAttribute` if not found.
-   * @note Available only when compiled with C++17 or later.
    * @warning If `hint` is not an attribute of `this` node, the behavior is
    * undefined in release builds (asserts in debug).
    */
@@ -753,7 +749,6 @@ public:
   {
     return attribute (name.data (), name.size (), hint);
   }
-#endif
 
   // Get child value of current node; that is, value of the first child node of
   // type PCDATA/CDATA
@@ -818,21 +813,18 @@ public:
    */
   LUMEX_API bool set_name (char_t const *rhs, std::size_t size);
 
-#if __cplusplus >= 201703L
   /**
-   * @brief Sets the name of the XML node from a `std::string_view`.
-   * @param[in] rhs The new name for the node as a `std::string_view`.
+   * @brief Sets the name of the XML node from a `string_view_t`.
+   * @param[in] rhs The new name for the node as a `string_view_t`.
    * @return `true` if the name was successfully set, `false` otherwise.
    * @details Provides a modern C++ interface for setting node names,
-   * leveraging `std::string_view` for efficiency.
-   * @note Available only when compiled with C++17 or later.
+   * leveraging `string_view_t` for efficiency.
    */
   bool
   set_name (string_view_t rhs)
   {
     return set_name (rhs.data (), rhs.size ());
   }
-#endif
 
   /**
    * @brief Sets the value of the XML node.
@@ -859,21 +851,18 @@ public:
    */
   LUMEX_API bool set_value (char_t const *rhs, std::size_t size);
 
-#if __cplusplus >= 201703L
   /**
-   * @brief Sets the value of the XML node from a `std::string_view`.
-   * @param[in] rhs The new value for the node as a `std::string_view`.
+   * @brief Sets the value of the XML node from a `string_view_t`.
+   * @param[in] rhs The new value for the node as a `string_view_t`.
    * @return `true` if the value was successfully set, `false` otherwise.
    * @details Provides a modern C++ interface for setting node values,
-   * leveraging `std::string_view`.
-   * @note Available only when compiled with C++17 or later.
+   * leveraging `string_view_t`.
    */
   bool
   set_value (string_view_t rhs)
   {
     return set_value (rhs.data (), rhs.size ());
   }
-#endif
 
   // Add attribute with specified name. Returns added attribute, or empty
   // attribute on errors.
@@ -975,14 +964,12 @@ public:
                                                   std::size_t size,
                                                   XmlAttribute const &attr);
 
-#if __cplusplus >= 201703L
   /**
    * @brief Appends a new attribute with the specified name
-   * (`std::string_view`) to the current node.
-   * @param[in] name A `std::string_view` for the new attribute's name.
+   * (`string_view_t`) to the current node.
+   * @param[in] name A `string_view_t` for the new attribute's name.
    * @return An `XmlAttribute` object representing the newly added attribute,
    * or an empty `XmlAttribute` on error.
-   * @note Available only when compiled with C++17 or later.
    */
   XmlAttribute
   append_attribute (string_view_t name)
@@ -992,11 +979,10 @@ public:
 
   /**
    * @brief Prepends a new attribute with the specified name
-   * (`std::string_view`) to the current node.
-   * @param[in] name A `std::string_view` for the new attribute's name.
+   * (`string_view_t`) to the current node.
+   * @param[in] name A `string_view_t` for the new attribute's name.
    * @return An `XmlAttribute` object representing the newly added attribute,
    * or an empty `XmlAttribute` on error.
-   * @note Available only when compiled with C++17 or later.
    */
   XmlAttribute
   prepend_attribute (string_view_t name)
@@ -1006,13 +992,12 @@ public:
 
   /**
    * @brief Inserts a new attribute with the specified name
-   * (`std::string_view`) after a given existing attribute.
-   * @param[in] name A `std::string_view` for the new attribute's name.
+   * (`string_view_t`) after a given existing attribute.
+   * @param[in] name A `string_view_t` for the new attribute's name.
    * @param[in] attr The existing `XmlAttribute` after which the new attribute
    * will be inserted.
    * @return An `XmlAttribute` object representing the newly added attribute,
    * or an empty `XmlAttribute` on error.
-   * @note Available only when compiled with C++17 or later.
    */
   XmlAttribute
   insert_attribute_after (string_view_t name, XmlAttribute const &attr)
@@ -1022,20 +1007,18 @@ public:
 
   /**
    * @brief Inserts a new attribute with the specified name
-   * (`std::string_view`) before a given existing attribute.
-   * @param[in] name A `std::string_view` for the new attribute's name.
+   * (`string_view_t`) before a given existing attribute.
+   * @param[in] name A `string_view_t` for the new attribute's name.
    * @param[in] attr The existing `XmlAttribute` before which the new attribute
    * will be inserted.
    * @return An `XmlAttribute` object representing the newly added attribute,
    * or an empty `XmlAttribute` on error.
-   * @note Available only when compiled with C++17 or later.
    */
   XmlAttribute
   insert_attribute_before (string_view_t name, XmlAttribute const &attr)
   {
     return insert_attribute_before (name.data (), name.size (), attr);
   }
-#endif
 
   // Add a copy of the specified attribute. Returns added attribute, or empty
   // attribute on errors.
@@ -1224,14 +1207,12 @@ public:
   LUMEX_API XmlNode insert_child_before (char_t const *name, std::size_t size,
                                          XmlNode const &node);
 
-#if __cplusplus >= 201703L
   /**
    * @brief Appends a new child element with the specified name
-   * (`std::string_view`) to the current node.
-   * @param[in] name A `std::string_view` for the new child element's name.
+   * (`string_view_t`) to the current node.
+   * @param[in] name A `string_view_t` for the new child element's name.
    * @return An `XmlNode` object representing the newly added element, or an
    * empty `XmlNode` on error.
-   * @note Available only when compiled with C++17 or later.
    */
   XmlNode
   append_child (string_view_t name)
@@ -1241,11 +1222,10 @@ public:
 
   /**
    * @brief Prepends a new child element with the specified name
-   * (`std::string_view`) to the current node.
-   * @param[in] name A `std::string_view` for the new child element's name.
+   * (`string_view_t`) to the current node.
+   * @param[in] name A `string_view_t` for the new child element's name.
    * @return An `XmlNode` object representing the newly added element, or an
    * empty `XmlNode` on error.
-   * @note Available only when compiled with C++17 or later.
    */
   XmlNode
   prepend_child (string_view_t name)
@@ -1255,13 +1235,12 @@ public:
 
   /**
    * @brief Inserts a new child element with the specified name
-   * (`std::string_view`) after a given existing child node.
-   * @param[in] name A `std::string_view` for the new child element's name.
+   * (`string_view_t`) after a given existing child node.
+   * @param[in] name A `string_view_t` for the new child element's name.
    * @param[in] node The existing `XmlNode` child after which the new element
    * will be inserted.
    * @return An `XmlNode` object representing the newly added element, or an
    * empty `XmlNode` on error.
-   * @note Available only when compiled with C++17 or later.
    */
   XmlNode
   insert_child_after (string_view_t name, XmlNode const &node)
@@ -1271,20 +1250,18 @@ public:
 
   /**
    * @brief Inserts a new child element with the specified name
-   * (`std::string_view`) before a given existing child node.
-   * @param[in] name A `std::string_view` for the new child element's name.
+   * (`string_view_t`) before a given existing child node.
+   * @param[in] name A `string_view_t` for the new child element's name.
    * @param[in] node The existing `XmlNode` child before which the new element
    * will be inserted.
    * @return An `XmlNode` object representing the newly added element, or an
    * empty `XmlNode` on error.
-   * @note Available only when compiled with C++17 or later.
    */
   XmlNode
   insert_child_before (string_view_t name, XmlNode const &node)
   {
     return insert_child_before (name.data (), name.size (), node);
   }
-#endif
 
   // Add a copy of the specified node as a child. Returns added node, or empty
   // node on errors.
@@ -1421,22 +1398,19 @@ public:
    */
   LUMEX_API bool remove_attribute (char_t const *name, std::size_t size);
 
-#if __cplusplus >= 201703L
   /**
-   * @brief Removes an attribute with the specified name (`std::string_view`)
+   * @brief Removes an attribute with the specified name (`string_view_t`)
    * from the current node.
-   * @param[in] name A `std::string_view` representing the name of the
+   * @param[in] name A `string_view_t` representing the name of the
    * attribute to remove.
    * @return `true` if an attribute with the matching name was found and
    * removed, `false` otherwise.
-   * @note Available only when compiled with C++17 or later.
    */
   bool
   remove_attribute (string_view_t name)
   {
     return remove_attribute (name.data (), name.size ());
   }
-#endif
 
   // Remove all attributes
   /**
@@ -1480,22 +1454,19 @@ public:
    */
   LUMEX_API bool remove_child (char_t const *name, std::size_t size);
 
-#if __cplusplus >= 201703L
   /**
    * @brief Removes the first child node with the specified name
-   * (`std::string_view`) from the current node.
-   * @param[in] name A `std::string_view` representing the name of the child to
+   * (`string_view_t`) from the current node.
+   * @param[in] name A `string_view_t` representing the name of the child to
    * remove.
    * @return `true` if a child with the matching name was found and removed,
    * `false` otherwise.
-   * @note Available only when compiled with C++17 or later.
    */
   bool
   remove_child (string_view_t name)
   {
     return remove_child (name.data (), name.size ());
   }
-#endif
 
   // Remove all children
   /**

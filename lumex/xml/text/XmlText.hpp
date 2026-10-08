@@ -47,10 +47,10 @@
  * no text. Setting a value creates a PCDATA child when there is none. The
  * handle does not own the text and is valid as long as the document.
  *
- * The `std::string_view` overloads exist only when the including code is
- * compiled as C++17 or later. They are inline wrappers and are not
- * `dllimport`, because the class itself is not exported. The file also
- * declares the logical AND and OR
+ * The `string_view_t` overloads (`std::basic_string_view<char_t>` from C++17,
+ * the `lumex_string_view` of `lumex::string_view` below) exist in every C++
+ * standard. They are inline wrappers and are not `dllimport`, because the
+ * class itself is not exported. The file also declares the logical AND and OR
  * operators with a `bool`. Consumers include it through `lumex/xml/LumexXml`.
  */
 #ifndef LUMEX_XML_TEXT_XML_TEXT_HPP
@@ -315,19 +315,17 @@ public:
    * string.
    */
   LUMEX_API bool set (char_t const *rhs, std::size_t size);
-#if __cplusplus >= 201703L
+
   /**
-   * @brief Sets the text content from a `std::string_view`.
-   * @param[in] rhs The new text content as a `std::string_view`.
+   * @brief Sets the text content from a `string_view_t`.
+   * @param[in] rhs The new text content as a `string_view_t`.
    * @return `true` if the text was successfully set, `false` otherwise.
-   * @note Available only when compiled with C++17 or later.
    */
   bool
   set (string_view_t rhs)
   {
     return set (rhs.data (), rhs.size ());
   }
-#endif
 
   /**
    * @brief Sets the text content from an integer, converting it to a string.
@@ -467,12 +465,10 @@ public:
    */
   LUMEX_API XmlText &operator= (bool rhs);
 
-#if __cplusplus >= 201703L
   /**
-   * @brief Assignment operator for a `std::string_view`.
-   * @param[in] rhs The `std::string_view` to assign.
+   * @brief Assignment operator for a `string_view_t`.
+   * @param[in] rhs The `string_view_t` to assign.
    * @return A reference to the modified `XmlText` object.
-   * @note Available only when compiled with C++17 or later.
    */
   XmlText &
   operator= (string_view_t rhs)
@@ -480,7 +476,6 @@ public:
     set (rhs.data (), rhs.size ());
     return *this;
   }
-#endif
 
   /**
    * @brief Assignment operator for a long long integer.
