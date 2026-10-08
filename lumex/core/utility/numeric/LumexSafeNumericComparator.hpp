@@ -23,8 +23,8 @@
  */
 
 // NOLINTBEGIN(readability-simplify-boolean-expr)
-#ifndef LUMEX_CORE_UTILITY_NUMERIC_HPP
-#define LUMEX_CORE_UTILITY_NUMERIC_HPP
+#ifndef LUMEX_CORE_UTILITY_NUMERIC_SAFE_NUMERIC_COMPARATOR_HPP
+#define LUMEX_CORE_UTILITY_NUMERIC_SAFE_NUMERIC_COMPARATOR_HPP
 
 #if defined(__clang__)
 #pragma clang diagnostic push
@@ -58,17 +58,13 @@
 #include <limits>
 #include <type_traits>
 #include <utility>
-#if __cplusplus > 201703L && defined(__has_include)
-#if __has_include(<compare>)
-#include <compare>
-#endif
-#endif
 
 #include "lumex/core/utility/assert/LumexAssert.hpp"
 #include "lumex/core/utility/attr/LumexAttributes.hpp"
 #include "lumex/core/utility/compiler/LumexCheckFeatures.hpp"
 #include "lumex/core/utility/macros/LumexConstantMacros.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
+#include "lumex/core/utility/numeric/LumexOrdering.hpp"
 #include "lumex/core/utility/traits/LumexTypeTraits.hpp"
 
 // Cast mixed-signedness compares on every ISA. The old x86-only gate left
@@ -91,6 +87,15 @@ namespace numeric
  * @details Prevents overflow and incorrect comparisons between types with
  * different ranges. Supports all arithmetic types (integral and
  * floating-point) with compile-time optimizations.
+ *
+ * The three-way comparison (`safe_three_way_compare`, the members of
+ * `safe_comparator` and `three_way_comparison_result_t`) and the helpers that
+ * read its result (`is_equal`, `is_not_equal`, `is_less`, `is_less_equal`,
+ * `is_greater`, `is_greater_equal`) work from C++11. The result is
+ * `strong_ordering_t` for two integer types and `partial_ordering_t`
+ * otherwise (NaN is unordered): the classes of `LumexOrdering.hpp` below C++20
+ * and `std::strong_ordering` and `std::partial_ordering` from it, so the code
+ * that names the result type with the alias compiles in every standard.
  * @since C++11
  * @note Thread-safe, exception-safe, no-throw where possible
  *
@@ -263,8 +268,9 @@ namespace numeric
  *         // Safe comparison >=
  *     }
  *
- * #if LUMEX_HAS_THREE_WAY_COMPARISON
- *     // C++20 three-way comparison
+ *     // Three-way comparison (from C++11; the result is strong_ordering_t:
+ *     // std::strong_ordering from C++20, the class of LumexOrdering.hpp
+ *     // below)
  *     auto result = safeSize.safe_three_way_compare(threshold);
  *     if (is_equal(result)) {
  *         // Values are equal
@@ -273,7 +279,6 @@ namespace numeric
  *     } else if (is_greater(result)) {
  *         // First value is greater
  *     }
- * #endif
  *
  *     // Utility functions
  *     if (safe_equal(size, threshold)) {
@@ -683,26 +688,24 @@ struct safe_compare_impl_helper<T, T,
     return current != other;
   }
 
-#if LUMEX_HAS_THREE_WAY_COMPARISON
   /**
-   * @brief Three-way comparison for identical types (C++20 spaceship)
+   * @brief Three-way comparison for identical types (the `<=>` category)
    * @param[in] current Current value
    * @param[in] other Value to compare
-   * @return std::strong_ordering comparison result
+   * @return Three-way comparison result (`strong_ordering_t`)
    * @details Returns strong_ordering for an exact comparison of identical
    * types. Guarantees a deterministic order without information loss.
-   * @since C++20
+   * @since C++11
    */
-  static std::strong_ordering
+  static strong_ordering_t
   three_way_compare (T current, T other) LUMEX_NOEXCEPT
   {
     if (current < other)
-      return std::strong_ordering::less;
+      return strong_ordering_t::less;
     if (current > other)
-      return std::strong_ordering::greater;
-    return std::strong_ordering::equal;
+      return strong_ordering_t::greater;
+    return strong_ordering_t::equal;
   }
-#endif
 };
 
 /**
@@ -823,28 +826,26 @@ struct safe_compare_impl_helper<T, T,
     return current >= other;
   }
 
-#if LUMEX_HAS_THREE_WAY_COMPARISON
   /**
    * @brief Three-way comparison for identical floating-point types
    * @param[in] current Current value
    * @param[in] other Value to compare
-   * @return std::partial_ordering comparison result
+   * @return Three-way comparison result (`partial_ordering_t`)
    * @details Returns partial_ordering for floating-point types because of NaN.
    *          NaN always yields unordered.
-   * @since C++20
+   * @since C++11
    */
-  static std::partial_ordering
+  static partial_ordering_t
   three_way_compare (T current, T other) LUMEX_NOEXCEPT
   {
     if (std::isnan (current) || std::isnan (other))
-      return std::partial_ordering::unordered;
+      return partial_ordering_t::unordered;
     if (current < other)
-      return std::partial_ordering::less;
+      return partial_ordering_t::less;
     if (current > other)
-      return std::partial_ordering::greater;
-    return std::partial_ordering::equivalent;
+      return partial_ordering_t::greater;
+    return partial_ordering_t::equivalent;
   }
-#endif
 };
 
 /**
@@ -1312,17 +1313,16 @@ struct safe_compare_impl_helper<
            != static_cast<CommonType> (other);
   }
 
-#if LUMEX_HAS_THREE_WAY_COMPARISON
   /**
-   * @brief Three-way comparison for integer types (C++20 spaceship)
+   * @brief Three-way comparison for integer types (the `<=>` category)
    * @param[in] current Current value of type T
    * @param[in] other Value to compare of type U
-   * @return std::strong_ordering comparison result
+   * @return Three-way comparison result (`strong_ordering_t`)
    * @details Checks value ranges before converting to prevent overflow.
    *          Returns strong_ordering for an exact integer comparison.
-   * @since C++20
+   * @since C++11
    */
-  static std::strong_ordering
+  static strong_ordering_t
   three_way_compare (T current, U other) LUMEX_NOEXCEPT
   {
     // Check ranges taking signedness into account
@@ -1332,16 +1332,16 @@ struct safe_compare_impl_helper<
       {
         // T signed, U unsigned: if current < 0 then current < other
         if (current < 0)
-          return std::strong_ordering::less;
+          return strong_ordering_t::less;
 #ifdef LUMEXLUMEX_SFNC_ARCH_X86
         using UnsignedT = typename std::make_unsigned<clean_T>::type;
         if (static_cast<UnsignedT> (other)
             > static_cast<UnsignedT> ((std::numeric_limits<clean_T>::max) ()))
-          return std::strong_ordering::less;
+          return strong_ordering_t::less;
 #else
         if (other > static_cast<typename std::make_unsigned<clean_T>::type> (
                 (std::numeric_limits<clean_T>::max) ()))
-          return std::strong_ordering::less;
+          return strong_ordering_t::less;
 #endif
       }
     else if ((std::is_unsigned<clean_T>::value
@@ -1350,17 +1350,17 @@ struct safe_compare_impl_helper<
                  : false)
       {
         if (other < 0)
-          return std::strong_ordering::greater;
+          return strong_ordering_t::greater;
 #ifdef LUMEXLUMEX_SFNC_ARCH_X86
         using UnsignedU = typename std::make_unsigned<clean_U>::type;
         if (static_cast<UnsignedU> (other)
             > static_cast<UnsignedU> ((std::numeric_limits<clean_T>::max) ()))
-          return std::strong_ordering::less;
+          return strong_ordering_t::less;
 #else
         using UnsignedU = typename std::make_unsigned<clean_U>::type;
         if (static_cast<UnsignedU> (other)
             > static_cast<UnsignedU> ((std::numeric_limits<clean_T>::max) ()))
-          return std::strong_ordering::less;
+          return strong_ordering_t::less;
 #endif
       }
     else
@@ -1369,15 +1369,15 @@ struct safe_compare_impl_helper<
         // On 32-bit architectures use explicit casts to silence C4018
         if (static_cast<CommonType> (other)
             > static_cast<CommonType> ((std::numeric_limits<clean_T>::max) ()))
-          return std::strong_ordering::less;
+          return strong_ordering_t::less;
         if (static_cast<CommonType> (other)
             < static_cast<CommonType> ((std::numeric_limits<clean_T>::min) ()))
-          return std::strong_ordering::greater;
+          return strong_ordering_t::greater;
 #else
         if (other > (std::numeric_limits<clean_T>::max) ())
-          return std::strong_ordering::less;
+          return strong_ordering_t::less;
         if (other < (std::numeric_limits<clean_T>::min) ())
-          return std::strong_ordering::greater;
+          return strong_ordering_t::greater;
 #endif
       }
 
@@ -1385,12 +1385,11 @@ struct safe_compare_impl_helper<
     auto const other_common = static_cast<CommonType> (other);
 
     if (current_common < other_common)
-      return std::strong_ordering::less;
+      return strong_ordering_t::less;
     if (current_common > other_common)
-      return std::strong_ordering::greater;
-    return std::strong_ordering::equal;
+      return strong_ordering_t::greater;
+    return strong_ordering_t::equal;
   }
-#endif
 };
 #ifdef _MSC_VER
 #pragma warning(pop)
@@ -1544,38 +1543,36 @@ struct safe_compare_impl_helper<
            != static_cast<CommonType> (other);
   }
 
-#if LUMEX_HAS_THREE_WAY_COMPARISON
   /**
-   * @brief Three-way comparison for floating-point types (C++20 spaceship)
+   * @brief Three-way comparison for floating-point types (the `<=>` category)
    * @param[in] current Current value of type T
    * @param[in] other Value to compare of type U
-   * @return std::partial_ordering comparison result
+   * @return Three-way comparison result (`partial_ordering_t`)
    * @details Handles NaN correctly (returns unordered) and infinities.
    *          Returns partial_ordering for floating-point types because of NaN.
-   * @since C++20
+   * @since C++11
    */
-  static std::partial_ordering
+  static partial_ordering_t
   three_way_compare (T current, U other) LUMEX_NOEXCEPT
   {
     if (std::isnan (current) || std::isnan (other))
-      return std::partial_ordering::unordered;
+      return partial_ordering_t::unordered;
     if (std::isinf (current) || std::isinf (other))
       {
         if (current == other)
-          return std::partial_ordering::equivalent;
-        return std::partial_ordering::unordered;
+          return partial_ordering_t::equivalent;
+        return partial_ordering_t::unordered;
       }
 
     auto const current_common = static_cast<CommonType> (current);
     auto const other_common = static_cast<CommonType> (other);
 
     if (current_common < other_common)
-      return std::partial_ordering::less;
+      return partial_ordering_t::less;
     if (current_common > other_common)
-      return std::partial_ordering::greater;
-    return std::partial_ordering::equivalent;
+      return partial_ordering_t::greater;
+    return partial_ordering_t::equivalent;
   }
-#endif
 };
 
 /**
@@ -1791,54 +1788,93 @@ struct safe_compare_impl_helper<
            != static_cast<CommonType> (other);
   }
 
-#if LUMEX_HAS_THREE_WAY_COMPARISON
   /**
-   * @brief Three-way comparison for mixed types (C++20 spaceship)
+   * @brief Three-way comparison for mixed types (the `<=>` category)
    * @param[in] current Current value of type T
    * @param[in] other Value to compare of type U
-   * @return std::partial_ordering comparison result
+   * @return Three-way comparison result (`partial_ordering_t`)
    * @details Handles all combinations: integral vs floating-point and
    * floating-point vs integral. NaN always returns unordered; infinities
    * compare by sign. Returns partial_ordering because NaN may be present.
-   * @since C++20
+   * @since C++11
    */
-  static std::partial_ordering
+  static partial_ordering_t
   three_way_compare (T current, U other) LUMEX_NOEXCEPT
   {
     if (std::is_integral<clean_T>::value
         && std::is_floating_point<clean_U>::value)
       {
         if (std::isnan (other))
-          return std::partial_ordering::unordered;
+          return partial_ordering_t::unordered;
         if (std::isinf (other))
-          return std::partial_ordering::unordered;
+          return partial_ordering_t::unordered;
 
         auto const current_common = static_cast<CommonType> (current);
         auto const other_common = static_cast<CommonType> (other);
 
         if (current_common < other_common)
-          return std::partial_ordering::less;
+          return partial_ordering_t::less;
         if (current_common > other_common)
-          return std::partial_ordering::greater;
-        return std::partial_ordering::equivalent;
+          return partial_ordering_t::greater;
+        return partial_ordering_t::equivalent;
       }
 
     if (std::isnan (current))
-      return std::partial_ordering::unordered;
+      return partial_ordering_t::unordered;
     if (std::isinf (current))
-      return std::partial_ordering::unordered;
+      return partial_ordering_t::unordered;
 
     auto const current_common = static_cast<CommonType> (current);
     auto const other_common = static_cast<CommonType> (other);
 
     if (current_common < other_common)
-      return std::partial_ordering::less;
+      return partial_ordering_t::less;
     if (current_common > other_common)
-      return std::partial_ordering::greater;
-    return std::partial_ordering::equivalent;
+      return partial_ordering_t::greater;
+    return partial_ordering_t::equivalent;
   }
-#endif
 };
+
+// === Three-way comparison result type ===
+
+/**
+ * @brief Metafunction for the three-way comparison result type
+ * @tparam T First type to compare
+ * @tparam U Second type to compare
+ * @details Picks the most suitable ordering type for three-way comparison.
+ *          Returns strong_ordering_t for integer types, partial_ordering_t for
+ * floating-point. `strong_ordering_t` and `partial_ordering_t` are the classes
+ * of LumexOrdering.hpp before C++20 and std::strong_ordering and
+ * std::partial_ordering from it.
+ * @since C++11
+ */
+template <typename T, typename U> struct three_way_comparison_result
+{
+  using clean_T = traits::meta::CleanType<T>;
+  using clean_U = traits::meta::CleanType<U>;
+
+  LUMEX_CONST_NUM bool both_integral
+      = std::is_integral<clean_T>::value && std::is_integral<clean_U>::value;
+  LUMEX_CONST_NUM bool both_floating
+      = std::is_floating_point<clean_T>::value
+        && std::is_floating_point<clean_U>::value;
+  LUMEX_CONST_NUM bool mixed_types = !both_integral && !both_floating;
+
+  using type = typename std::conditional<
+      both_integral, strong_ordering_t,
+      typename std::conditional<both_floating || mixed_types,
+                                partial_ordering_t, void>::type>::type;
+};
+
+/**
+ * @brief Alias for the three-way comparison result type
+ * @tparam T First type to compare
+ * @tparam U Second type to compare
+ * @since C++11
+ */
+template <typename T, typename U>
+using three_way_comparison_result_t =
+    typename three_way_comparison_result<T, U>::type;
 
 /**
  * @brief Universal thread-safe comparator for safe comparison of arithmetic
@@ -2197,21 +2233,23 @@ public:
                                                             other);
   }
 
-#if LUMEX_HAS_THREE_WAY_COMPARISON
   /**
-   * @brief Three-way comparison with another type (C++20 spaceship)
+   * @brief Three-way comparison with another type (the `<=>` category)
    * @tparam U Type of the value to compare
    * @param[in] other Value to compare
-   * @return Three-way comparison result
+   * @return Three-way comparison result: `strong_ordering_t` for two integer
+   * types, `partial_ordering_t` otherwise (see three_way_comparison_result_t)
    * @details Performs a three-way comparison between the current T value and a
    * value of type U. Returns strong_ordering for integer types,
    * partial_ordering for floating-point. Checks value ranges to prevent
-   * overflow.
+   * overflow. `strong_ordering_t` and `partial_ordering_t` are the classes of
+   * LumexOrdering.hpp before C++20 and `std::strong_ordering` and
+   * `std::partial_ordering` from it.
    * @note Thread-safe when Atomic=true; no-throw
-   * @since C++20
+   * @since C++11
    */
   template <typename U>
-  auto
+  three_way_comparison_result_t<clean_T, U>
   safe_three_way_compare (U other) const LUMEX_NOEXCEPT
   {
     LUMEX_STATIC_ASSERT_MSG (traits::numeric::is_safe_comparable<T, U>::value,
@@ -2219,7 +2257,6 @@ public:
     return safe_compare_impl_helper<clean_T, U>::three_way_compare (
         atomic_load (), other);
   }
-#endif
 
   // === State operations ===
 
@@ -2459,211 +2496,125 @@ using SafeDoubleComparator
 using SafeLongDoubleComparator
     = safe_comparator<long double>; ///< Safe comparator for long double
 
-// === Three-way comparison and utilities ===
-
-#if LUMEX_HAS_THREE_WAY_COMPARISON
-/**
- * @brief Metafunction for the three-way comparison result type
- * @tparam T First type to compare
- * @tparam U Second type to compare
- * @details Picks the most suitable ordering type for three-way comparison.
- *          Returns strong_ordering for integer types, partial_ordering for
- * floating-point.
- * @since C++20
- */
-template <typename T, typename U> struct three_way_comparison_result
-{
-  using clean_T = traits::meta::CleanType<T>;
-  using clean_U = traits::meta::CleanType<U>;
-
-  LUMEX_CONST_NUM bool both_integral
-      = std::is_integral<clean_T>::value && std::is_integral<clean_U>::value;
-  LUMEX_CONST_NUM bool both_floating
-      = std::is_floating_point<clean_T>::value
-        && std::is_floating_point<clean_U>::value;
-  LUMEX_CONST_NUM bool mixed_types = !both_integral && !both_floating;
-
-  using type
-      = std::conditional_t<both_integral, std::strong_ordering,
-                           std::conditional_t<both_floating || mixed_types,
-                                              std::partial_ordering, void>>;
-};
-
-/**
- * @brief Alias for the three-way comparison result type
- * @tparam T First type to compare
- * @tparam U Second type to compare
- * @since C++20
- */
-template <typename T, typename U>
-using three_way_comparison_result_t =
-    typename three_way_comparison_result<T, U>::type;
+// === Three-way comparison helpers ===
 
 /**
  * @brief Utility that converts a comparison result to bool
- * @tparam Ordering Comparison result type
+ * @tparam Ordering Comparison result type: `strong_ordering_t`,
+ * `weak_ordering_t` or `partial_ordering_t`, which are the classes of
+ * `LumexOrdering.hpp` before C++20 and `std::strong_ordering`,
+ * `std::weak_ordering` and `std::partial_ordering` from it. The classes of the
+ * other family are accepted too (`is_ordering`); any other type is rejected by
+ * a static assertion.
  * @param[in] ordering Three-way comparison result
  * @return true if ordering means equal
  * @details Converts a three-way comparison result to bool equality.
- *          Useful for compatibility with existing code.
- * @since C++20
+ *          Useful for compatibility with existing code. `unordered` is not
+ *          equal.
+ * @since C++11
  */
 template <typename Ordering>
 LUMEX_CONSTEXPR bool
 is_equal (Ordering const &ordering) LUMEX_NOEXCEPT
 {
-  LUMEX_CONSTEXPR_IF (std::is_same_v<Ordering, std::strong_ordering>)
-  {
-    return ordering == std::strong_ordering::equal;
-  }
-  else LUMEX_CONSTEXPR_IF (std::is_same_v<Ordering, std::partial_ordering>)
-  {
-    return ordering == std::partial_ordering::equivalent;
-  }
-  else
-  {
-    LUMEX_STATIC_ASSERT ((std::is_same_v<Ordering, std::weak_ordering>));
-    return ordering == std::weak_ordering::equivalent;
-  }
+  LUMEX_STATIC_ASSERT_MSG (is_ordering<Ordering>::value,
+                           "Ordering must be a strong, weak or partial "
+                           "ordering");
+  return ordering == Ordering::equivalent;
 }
 
 /**
  * @brief Utility that converts a comparison result to bool
- * @tparam Ordering Comparison result type
+ * @tparam Ordering Comparison result type (see is_equal)
  * @param[in] ordering Three-way comparison result
  * @return true if ordering means less
  * @details Converts a three-way comparison result to bool "less".
- * @since C++20
+ * @since C++11
  */
 template <typename Ordering>
 LUMEX_CONSTEXPR bool
 is_less (Ordering const &ordering) LUMEX_NOEXCEPT
 {
-  LUMEX_CONSTEXPR_IF (std::is_same_v<Ordering, std::strong_ordering>)
-  {
-    return ordering == std::strong_ordering::less;
-  }
-  else LUMEX_CONSTEXPR_IF (std::is_same_v<Ordering, std::partial_ordering>)
-  {
-    return ordering == std::partial_ordering::less;
-  }
-  else
-  {
-    LUMEX_STATIC_ASSERT ((std::is_same_v<Ordering, std::weak_ordering>));
-    return ordering == std::weak_ordering::less;
-  }
+  LUMEX_STATIC_ASSERT_MSG (is_ordering<Ordering>::value,
+                           "Ordering must be a strong, weak or partial "
+                           "ordering");
+  return ordering == Ordering::less;
 }
 
 /**
  * @brief Utility that converts a comparison result to bool
- * @tparam Ordering Comparison result type
+ * @tparam Ordering Comparison result type (see is_equal)
  * @param[in] ordering Three-way comparison result
  * @return true if ordering means greater
  * @details Converts a three-way comparison result to bool "greater".
- * @since C++20
+ * @since C++11
  */
 template <typename Ordering>
 LUMEX_CONSTEXPR bool
 is_greater (Ordering const &ordering) LUMEX_NOEXCEPT
 {
-  LUMEX_CONSTEXPR_IF (std::is_same_v<Ordering, std::strong_ordering>)
-  {
-    return ordering == std::strong_ordering::greater;
-  }
-  else LUMEX_CONSTEXPR_IF (std::is_same_v<Ordering, std::partial_ordering>)
-  {
-    return ordering == std::partial_ordering::greater;
-  }
-  else
-  {
-    LUMEX_STATIC_ASSERT ((std::is_same_v<Ordering, std::weak_ordering>));
-    return ordering == std::weak_ordering::greater;
-  }
+  LUMEX_STATIC_ASSERT_MSG (is_ordering<Ordering>::value,
+                           "Ordering must be a strong, weak or partial "
+                           "ordering");
+  return ordering == Ordering::greater;
 }
 
 /**
  * @brief Utility that converts a comparison result to bool
- * @tparam Ordering Comparison result type
+ * @tparam Ordering Comparison result type (see is_equal)
  * @param[in] ordering Three-way comparison result
  * @return true if ordering means less or equal
  * @details Converts a three-way comparison result to bool "less or equal".
- * @since C++20
+ *          `unordered` is neither.
+ * @since C++11
  */
 template <typename Ordering>
 LUMEX_CONSTEXPR bool
 is_less_equal (Ordering const &ordering) LUMEX_NOEXCEPT
 {
-  LUMEX_CONSTEXPR_IF (std::is_same_v<Ordering, std::strong_ordering>)
-  {
-    return ordering != std::strong_ordering::greater;
-  }
-  else LUMEX_CONSTEXPR_IF (std::is_same_v<Ordering, std::partial_ordering>)
-  {
-    return ordering == std::partial_ordering::less
-           || ordering == std::partial_ordering::equivalent;
-  }
-  else
-  {
-    LUMEX_STATIC_ASSERT ((std::is_same_v<Ordering, std::weak_ordering>));
-    return ordering != std::weak_ordering::greater;
-  }
+  LUMEX_STATIC_ASSERT_MSG (is_ordering<Ordering>::value,
+                           "Ordering must be a strong, weak or partial "
+                           "ordering");
+  return ordering == Ordering::less || ordering == Ordering::equivalent;
 }
 
 /**
  * @brief Utility that converts a comparison result to bool
- * @tparam Ordering Comparison result type
+ * @tparam Ordering Comparison result type (see is_equal)
  * @param[in] ordering Three-way comparison result
  * @return true if ordering means greater or equal
  * @details Converts a three-way comparison result to bool "greater or equal".
- * @since C++20
+ *          `unordered` is neither.
+ * @since C++11
  */
 template <typename Ordering>
 LUMEX_CONSTEXPR bool
 is_greater_equal (Ordering const &ordering) LUMEX_NOEXCEPT
 {
-  LUMEX_CONSTEXPR_IF (std::is_same_v<Ordering, std::strong_ordering>)
-  {
-    return ordering != std::strong_ordering::less;
-  }
-  else LUMEX_CONSTEXPR_IF (std::is_same_v<Ordering, std::partial_ordering>)
-  {
-    return ordering == std::partial_ordering::greater
-           || ordering == std::partial_ordering::equivalent;
-  }
-  else
-  {
-    LUMEX_STATIC_ASSERT ((std::is_same_v<Ordering, std::weak_ordering>));
-    return ordering != std::weak_ordering::less;
-  }
+  LUMEX_STATIC_ASSERT_MSG (is_ordering<Ordering>::value,
+                           "Ordering must be a strong, weak or partial "
+                           "ordering");
+  return ordering == Ordering::greater || ordering == Ordering::equivalent;
 }
 
 /**
  * @brief Utility that converts a comparison result to bool
- * @tparam Ordering Comparison result type
+ * @tparam Ordering Comparison result type (see is_equal)
  * @param[in] ordering Three-way comparison result
  * @return true if ordering means not equal
  * @details Converts a three-way comparison result to bool "not equal".
- * @since C++20
+ *          `unordered` is not equal.
+ * @since C++11
  */
 template <typename Ordering>
 LUMEX_CONSTEXPR bool
 is_not_equal (Ordering const &ordering) LUMEX_NOEXCEPT
 {
-  LUMEX_CONSTEXPR_IF (std::is_same_v<Ordering, std::strong_ordering>)
-  {
-    return ordering != std::strong_ordering::equal;
-  }
-  else LUMEX_CONSTEXPR_IF (std::is_same_v<Ordering, std::partial_ordering>)
-  {
-    return ordering != std::partial_ordering::equivalent;
-  }
-  else
-  {
-    LUMEX_STATIC_ASSERT ((std::is_same_v<Ordering, std::weak_ordering>));
-    return ordering != std::weak_ordering::equivalent;
-  }
+  LUMEX_STATIC_ASSERT_MSG (is_ordering<Ordering>::value,
+                           "Ordering must be a strong, weak or partial "
+                           "ordering");
+  return ordering != Ordering::equivalent;
 }
-#endif
 
 // === Utility functions for convenience ===
 
@@ -2865,38 +2816,39 @@ safe_not_equal (T value1, U value2) LUMEX_NOEXCEPT
   return safe_compare_impl_helper<T, U>::not_equal (value1, value2);
 }
 
-#if LUMEX_HAS_THREE_WAY_COMPARISON
 /**
- * @brief Safe three-way comparison (C++20 spaceship)
+ * @brief Safe three-way comparison (the `<=>` category)
  * @tparam T First type to compare
  * @tparam U Second type to compare
  * @param[in] value1 First value of type T
  * @param[in] value2 Second value of type U
- * @return Three-way comparison result
+ * @return Three-way comparison result: `strong_ordering_t` for two integer
+ * types, `partial_ordering_t` otherwise (see three_way_comparison_result_t)
  * @details Performs a safe three-way comparison of two values of different
  * types. Returns strong_ordering for integer types, partial_ordering for
- * floating-point. Checks value ranges to prevent overflow.
+ * floating-point. Checks value ranges to prevent overflow. `strong_ordering_t`
+ * and `partial_ordering_t` are the classes of LumexOrdering.hpp before C++20
+ * and `std::strong_ordering` and `std::partial_ordering` from it.
  * @note Thread-safe, no-throw
- * @since C++20
+ * @since C++11
  * @par Example
  * @code
  * int a = 42;
  * float b = 42.0f;
  * auto result = safe_three_way_compare(a, b);
- * if (result == std::strong_ordering::equal) {
+ * if (result == partial_ordering_t::equivalent) {
  *   // Safe three-way comparison of int <=> float
  * }
  * @endcode
  */
 template <typename T, typename U>
-auto
+three_way_comparison_result_t<T, U>
 safe_three_way_compare (T value1, U value2) LUMEX_NOEXCEPT
 {
   LUMEX_STATIC_ASSERT_MSG (traits::numeric::is_safe_comparable<T, U>::value,
                            "Types must be safely comparable");
   return safe_compare_impl_helper<T, U>::three_way_compare (value1, value2);
 }
-#endif
 
 /**
  * @brief Check whether a value fits the target type
@@ -3017,8 +2969,7 @@ if (safe_less_equal(block_size, threshold)) { // <=
 if (safe_greater_equal(block_size, threshold)) { // >=
 }
 
-// Example 3: C++20 three-way comparison
-#if LUMEX_HAS_THREE_WAY_COMPARISON
+// Example 3: Three-way comparison
 auto result = safe_size.safe_three_way_compare(threshold);
 if (is_equal(result)) { // ==
 }
@@ -3031,7 +2982,6 @@ else if (is_greater(result)) { // >
 auto direct_result = safe_three_way_compare(block_size, threshold);
 if (is_equal(direct_result)) { // ==
 }
-#endif
 
 // Example 4: Thread-safe operations
 AtomicIntComparator atomic_counter(0);
@@ -3091,13 +3041,11 @@ threshold) { SafeUCharComparator safe_packet_size(packet_size);
         processLargePacket();
     }
 
-#if LUMEX_HAS_THREE_WAY_COMPARISON
     // Use three-way comparison for sorting
     auto comparison = safe_packet_size.safe_three_way_compare(max_size);
     if (is_less(comparison)) {
         // Packet is below the maximum size
     }
-#endif
 }
 */
 
@@ -3112,5 +3060,5 @@ using lumex::core::utility::numeric::safe_comparator;
 #pragma clang diagnostic pop
 #endif
 
-#endif // !LUMEX_CORE_UTILITY_NUMERIC_HPP
+#endif // !LUMEX_CORE_UTILITY_NUMERIC_SAFE_NUMERIC_COMPARATOR_HPP
 // NOLINTEND(readability-simplify-boolean-expr)

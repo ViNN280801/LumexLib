@@ -1,4 +1,5 @@
 #include <iostream>
+#include <limits>
 
 #include "lumex/core/utility/LumexUtility"
 
@@ -19,5 +20,21 @@ main ()
   else
     std::cout << "reject length; type=" << lumDemangle (unsigned int)
               << " pid=" << get_current_pid () << '\n';
+
+  // The three-way result works from C++11. Its types are named once:
+  // strong_ordering_t for two integers, partial_ordering_t when a
+  // floating-point value may be NaN. They are the classes of
+  // LumexOrdering.hpp below C++20 and std::strong_ordering and
+  // std::partial_ordering from it.
+  strong_ordering_t const against_limit
+      = safe_three_way_compare (received.get (), max_payload);
+  partial_ordering_t const against_nan = safe_three_way_compare (
+      max_payload, std::numeric_limits<double>::quiet_NaN ());
+  std::cout << "three-way: length is "
+            << (is_greater (against_limit) ? "above" : "within")
+            << " the limit; against NaN it is "
+            << (against_nan == partial_ordering_t::unordered ? "unordered"
+                                                             : "ordered")
+            << '\n';
   return 0;
 }
