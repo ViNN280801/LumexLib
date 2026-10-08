@@ -2,10 +2,15 @@
 
 # One suite per standard of the module (lumex/tests/LumexTestStandards.cmake):
 #   LumexBase64EncodeCxx11Tests  LumexBase64Encoder.cxx11.tests.cpp: the
-#                                pointer and size core, the std::string and
-#                                std::vector overloads
+#                                pointer and size core and the std::vector
+#                                overload; LumexBase64EncoderSpan.cxx11.tests.cpp:
+#                                the span overload;
+#                                LumexBase64EncoderStringView.cxx11.tests.cpp:
+#                                the string overload (string_type_t:
+#                                lumex_string_view below C++17, std::string_view
+#                                from C++17)
 #   LumexBase64EncodeCxx17Tests  + LumexBase64Encoder.cxx17.tests.cpp:
-#                                std::string_view
+#                                std::string_view arguments
 #   LumexBase64EncodeCxx20Tests  + LumexBase64Encoder.cxx20.tests.cpp: std::span
 # Every suite links the same exported pointer and size functions, whatever
 # standard the library itself was built with.

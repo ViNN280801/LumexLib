@@ -1,8 +1,9 @@
 // Consumer of cmake.consumer_standard_mismatch_*: compiled at
 // CONSUMER_STD against Lumex libraries compiled at LIB_STD. Each call uses the
-// overload of the consumer's own standard: std::string_view / std::span from
-// C++17 / C++20, std::string const & and the pointer and size functions
-// below. Returns the number of failed checks.
+// overload of the consumer's own standard: the string view (std::string_view
+// from C++17, the lumex_string_view of lumex::string_view below), std::span
+// from C++20, and the pointer and size functions. Returns the number of
+// failed checks.
 #include <cstdio>
 #include <string>
 #include <vector>
@@ -31,6 +32,7 @@ int
 check_base64 ()
 {
   using lumex::core::base64::codec::Types::byte_type;
+  using lumex::core::base64::codec::Types::string_type_t;
   using lumex::core::base64::decode::decoder;
   using lumex::core::base64::encode::encoder;
   using lumex::core::base64::validate::validator;
@@ -52,10 +54,24 @@ check_base64 ()
                      "Encoder::encode (pointer, size)");
   failures += check (encoder::encode (bytes) == encoded,
                      "Encoder::encode (vector)");
-#if __cplusplus >= 201703L
-  failures += check (encoder::encode (std::string_view ("Hello")) == encoded,
-                     "Encoder::encode (string_view)");
-#endif
+  // The string overloads exist in every standard: a literal, a std::string
+  // and the view of the consumer's standard.
+  failures += check (encoder::encode ("Hello") == encoded,
+                     "Encoder::encode (literal)");
+  failures += check (encoder::encode (std::string ("Hello")) == encoded,
+                     "Encoder::encode (std::string)");
+  failures += check (encoder::encode (string_type_t ("Hello!", 5)) == encoded,
+                     "Encoder::encode (string view)");
+  failures += check (decoder::decode ("SGVsbG8=").size () == 5u,
+                     "Decoder::decode (literal)");
+  failures
+      += check (decoder::decode (string_type_t ("SGVsbG8=!", 8)).size () == 5u,
+                "Decoder::decode (string view)");
+  failures += check (validator::is_valid_base64 ("SGVsbG8="),
+                     "Validator::is_valid_base64 (literal)");
+  failures
+      += check (validator::is_valid_base64 (string_type_t ("SGVsbG8=!", 8)),
+                "Validator::is_valid_base64 (string view)");
 #if __cplusplus >= 202002L
   failures += check (encoder::encode (std::span<byte_type const> (bytes))
                          == encoded,

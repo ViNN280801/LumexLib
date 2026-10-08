@@ -45,10 +45,10 @@
  * vector with a success flag or as a returned vector that is empty for invalid
  * input. The overloads that take a pointer and a size are compiled into the
  * library and have the same signature in every C++ standard; the string
- * overloads are inline wrappers over them (`std::string_view` from C++17,
- * `std::string` before). Like the other Base64 headers, it brings the names of
- * the codec's `Types` namespace (`byte_type`, `string_type_t`) into the global
- * namespace with a using-directive.
+ * overloads are inline wrappers over them (`std::string_view` from C++17, the
+ * `lumex_string_view` of `lumex::string_view` below). Like the other Base64
+ * headers, it brings the names of the codec's `Types` namespace (`byte_type`,
+ * `string_type_t`) into the global namespace with a using-directive.
  */
 #ifndef LUMEX_CORE_BASE64_DECODE_HPP
 #define LUMEX_CORE_BASE64_DECODE_HPP
@@ -84,11 +84,6 @@
 
 #include <cstddef>
 #include <vector>
-#if __cplusplus >= 201703L
-#include <string_view>
-#else
-#include <string>
-#endif
 
 #include "lumex/core/base64/codec/Base64.hpp"
 
@@ -113,10 +108,12 @@ using namespace lumex::core::base64::codec::Types;
  * @details The two functions that take a pointer and a size are exported and
  * have the same signature in every C++ standard, so a consumer built at
  * another standard than the library links. The overloads that take a string
- * are inline wrappers over them: `std::string_view` from C++17,
- * `std::string const &` below. The class itself is not exported: a dllimport
- * class makes clang-cl emit an import for an inline member it does not
- * inline, and the library does not provide the standard-dependent overload.
+ * (`string_type_t`) are inline wrappers over them: `std::string_view` from
+ * C++17, `lumex_string_view` below; a string literal, a `char const *` and a
+ * `std::string` convert to either. The class itself is not exported: a
+ * dllimport class makes clang-cl emit an import for an inline member it does
+ * not inline, and the library does not provide the standard-dependent
+ * overload.
  */
 class decoder final
 {
@@ -151,58 +148,34 @@ public:
   LUMEX_API static std::vector<byte_type> decode (char const *encoded,
                                                   std::size_t size);
 
-#if __cplusplus >= 201703L
   /**
    * @brief Decodes a Base64 string into `out` (see the pointer and size
    * overload).
-   * @param[in] encoded The Base64-encoded input.
+   * @param[in] encoded The Base64-encoded input; sized, so a NUL character
+   * inside it is an invalid character.
    * @param[out] out Receives the decoded bytes; cleared first.
    * @return `true` if the input is valid Base64, `false` otherwise.
    */
   static bool
-  decode (std::string_view encoded, std::vector<byte_type> &out)
+  decode (string_type_t encoded, std::vector<byte_type> &out)
   {
-    // An empty input is valid: a default-constructed std::string_view has
-    // no data pointer, which the core rejects.
+    // An empty input is valid: a default-constructed view has no data
+    // pointer, which the core rejects.
     return decode (encoded.empty () ? "" : encoded.data (), encoded.size (),
                    out);
   }
 
   /**
    * @brief Decodes a Base64 string.
-   * @param[in] encoded The Base64-encoded input.
+   * @param[in] encoded The Base64-encoded input; sized, so a NUL character
+   * inside it is an invalid character.
    * @return The decoded bytes, or an empty vector if the input is invalid.
    */
   static std::vector<byte_type>
-  decode (std::string_view encoded)
+  decode (string_type_t encoded)
   {
     return decode (encoded.empty () ? "" : encoded.data (), encoded.size ());
   }
-#else
-  /**
-   * @brief Decodes a Base64 string into `out` (see the pointer and size
-   * overload).
-   * @param[in] encoded The Base64-encoded input.
-   * @param[out] out Receives the decoded bytes; cleared first.
-   * @return `true` if the input is valid Base64, `false` otherwise.
-   */
-  static bool
-  decode (std::string const &encoded, std::vector<byte_type> &out)
-  {
-    return decode (encoded.data (), encoded.size (), out);
-  }
-
-  /**
-   * @brief Decodes a Base64 string.
-   * @param[in] encoded The Base64-encoded input.
-   * @return The decoded bytes, or an empty vector if the input is invalid.
-   */
-  static std::vector<byte_type>
-  decode (std::string const &encoded)
-  {
-    return decode (encoded.data (), encoded.size ());
-  }
-#endif
 };
 } // namespace decode
 } // namespace base64
