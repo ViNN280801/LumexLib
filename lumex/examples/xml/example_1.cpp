@@ -1,3 +1,4 @@
+#include <cstdio>
 #include <iostream>
 
 #include "lumex/core/utility/macros/LumexConstantMacros.hpp"
@@ -9,7 +10,7 @@ using namespace lumex::xml::node;
 using namespace lumex::xml::text;
 using namespace lumex::xml::xpath::node;
 
-LUMEX_CONST_STR kXmlFilePath = "xgconsole.xml";
+LUMEX_CONST_STR kXmlFilePath = "lumex_xml_example_1.xml";
 LUMEX_CONST_STR kXmlContent = R"(
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
@@ -332,6 +333,9 @@ main ()
   std::cout << "--- Reading and Displaying All TS Content ---\n";
   document::XmlDocument docRead;
   xml_parse_result_t resultRead = docRead.load_file (kXmlFilePath);
+
+  // The document is in memory now: the file is not needed any more.
+  std::remove (kXmlFilePath);
 
   if (!resultRead)
     {

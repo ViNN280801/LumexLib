@@ -1,9 +1,10 @@
+#include <cstdio>
 #include <iostream>
 
 #include "lumex/core/utility/macros/LumexConstantMacros.hpp"
 #include "lumex/xml/LumexXml"
 
-LUMEX_CONST_STR kXmlFilePath = "xgconsole.xml";
+LUMEX_CONST_STR kXmlFilePath = "lumex_xml_example_2.xml";
 
 using namespace lumex::xml;
 using namespace lumex::xml::types::Types;
@@ -44,6 +45,9 @@ main ()
       << "--- Example 1: Reading and Iterating through nodes (LumexXml) ---\n";
   document::XmlDocument docRead;
   xml_parse_result_t resultRead = docRead.load_file (kXmlFilePath);
+
+  // The document is in memory now: the file is not needed any more.
+  std::remove (kXmlFilePath);
 
   if (!resultRead)
     {

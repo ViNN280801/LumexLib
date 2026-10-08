@@ -1,3 +1,4 @@
+#include <cstdio>
 #include <iostream>
 
 #include "lumex/core/utility/macros/LumexConstantMacros.hpp"
@@ -41,6 +42,9 @@ main ()
 
   XmlDocument loaded;
   xml_parse_result_t const parsed = loaded.load_file (kXmlFilePath);
+
+  // The document is in memory now: the file is not needed any more.
+  std::remove (kXmlFilePath);
   if (!parsed)
     {
       std::cerr << "load_file: " << parsed.description () << '\n';
