@@ -29,6 +29,20 @@
 #                               LumexJsonSchemaNormalizer discard a nodiscard
 #                               result on purpose; the reflected enums of the
 #                               JSON headers pass no empty `...` argument).
+#   float_equal_comparator.cpp  the safe comparator (safe_equal, safe_not_equal,
+#                               the other comparisons, safe_three_way_compare,
+#                               compare_and_set of a plain comparator) for
+#                               float, double and long double with -Wall
+#                               -Wextra -Wfloat-equal -Werror: the header
+#                               spells its floating-point equality through
+#                               lumex::core::math::ops::exactly_equal, so a
+#                               consumer's -Werror build is not broken (GCC has
+#                               no pragma that silences the warning for a
+#                               header outside the system directories). A raw
+#                               `==` of the unit itself must be rejected under
+#                               the same flags, so that the check proves
+#                               something (MSVC has no such warning: the unit
+#                               is only compiled there).
 #
 # A check that fails reports the compiler output.
 
@@ -52,11 +66,13 @@ if(MSVC)
     # The strict warning sets are GCC and Clang options.
     set(_strict "")
     set(_pedantic "")
+    set(_float_equal "")
 else()
     set(_flags -Werror)
     set(_standards 11 14 17 20)
     set(_strict -Wall -Wextra)
     set(_pedantic -Wall -Wextra -Wpedantic)
+    set(_float_equal -Wall -Wextra -Wfloat-equal)
 endif()
 
 # One translation unit of this directory at one standard; the result and the
@@ -131,6 +147,16 @@ foreach(_std IN LISTS _standards)
     _lumex_hygiene_expect_ok("the JSON umbrella"
         json_umbrella.cpp ${_std} ${_pedantic})
     math(EXPR _compiled "${_compiled} + 3")
+
+    _lumex_hygiene_expect_ok("the safe comparator under -Wfloat-equal"
+        float_equal_comparator.cpp ${_std} ${_float_equal})
+    math(EXPR _compiled "${_compiled} + 1")
+    if(NOT MSVC)
+        _lumex_hygiene_expect_rejected("a raw float == under -Wfloat-equal"
+            "comparing floating.point with" float_equal_comparator.cpp
+            ${_std} ${_float_equal} -DLUMEX_HYGIENE_RAW_FLOAT_EQUAL)
+        math(EXPR _rejected "${_rejected} + 1")
+    endif()
 endforeach()
 
 message(STATUS "hygiene compile checks: ${_compiled} translation units "
