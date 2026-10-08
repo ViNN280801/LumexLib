@@ -4,6 +4,10 @@
 #   LumexUnicodeConvertCxx11Tests  LumexUnicodeConvert.cxx11.tests.cpp:
 #                                  to_utf8 and to_wide, on both widths of
 #                                  wchar_t
+#                                  LumexUnicodeConvertWideWidths.cxx11.tests.cpp:
+#                                  the 2-byte (Windows) and the 4-byte
+#                                  (Linux) pipeline of both functions on
+#                                  every platform
 lumex_add_standard_suites(UnicodeConvert
     MODULE unicode
     LINK lumex::unicode
