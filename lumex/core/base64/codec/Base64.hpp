@@ -48,8 +48,9 @@
  * This header provides a set of functions for converting binary data to its
  * Base64 string representation and vice versa. The implementation adheres to
  * standard Base64 principles, suitable for various data serialization and
- * transmission needs. It supports encoding from raw pointers or
- * `std::vector<byte>` and decoding into `std::vector<byte>`.
+ * transmission needs. It supports encoding from raw pointers,
+ * `std::vector<byte>`, a `span` of bytes and text (`string_type_t`), and
+ * decoding into `std::vector<byte>`.
  *
  * IMPORTANT: If the user wants to encode/decode text in a specific encoding,
  * the task of converting this encoding (e.g., from UTF-8 to UTF-16 or vice
@@ -67,6 +68,8 @@
 #include <type_traits>
 #if __cplusplus >= 201703L
 #include <string_view>
+#else
+#include "lumex/core/string_view/view/LumexStringView.hpp"
 #endif
 
 #include "lumex/core/utility/assert/LumexAssert.hpp"
@@ -85,10 +88,14 @@ namespace Types
 {
 using byte_type = unsigned char;
 
+/// @brief Type of the Base64 text the string overloads take:
+/// `std::string_view` from C++17, the `lumex_string_view` of
+/// `lumex::string_view` below it. A literal, a `char const *` and a
+/// `std::string` convert to either.
 #if __cplusplus >= 201703L
 using string_type_t = std::string_view;
 #else
-using string_type_t = std::string const &;
+using string_type_t = lumex::core::string_view::view::lumex_string_view;
 #endif
 } // namespace Types
 

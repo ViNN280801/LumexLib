@@ -41,12 +41,14 @@
  * @file LumexBase64
  * @brief Base64 module: encoding, decoding and syntax checks of Base64 text.
  * @details Link <tt>%lumex::base64</tt> (compiled library; it links
- * <tt>%lumex::span</tt>). Works from C++11; the `span` overload of the encoder
- * (a `std::span` converts to it) is available in every standard and the
- * `std::string_view` overloads appear from C++17, as inline wrappers over the
- * exported functions. The umbrella includes
- * `codec/Base64.hpp`, `decode/Decoder.hpp`, `encode/Encoder.hpp` and
- * `validate/Validator.hpp`.
+ * <tt>%lumex::span</tt> and <tt>%lumex::string_view</tt>). Works from C++11;
+ * the `span` overload of the encoder (a `std::span` converts to it) and the
+ * string overloads are available in every standard, as inline wrappers over
+ * the exported functions. The string overloads take a `std::string_view` from
+ * C++17 and the `lumex_string_view` of `lumex::string_view` below it (a string
+ * literal, a `char const *` and a `std::string` convert to either). The
+ * umbrella includes `codec/Base64.hpp`, `decode/Decoder.hpp`,
+ * `encode/Encoder.hpp` and `validate/Validator.hpp`.
  */
 #include "codec/Base64.hpp"
 #include "decode/Decoder.hpp"
