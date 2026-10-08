@@ -126,7 +126,7 @@ namespace view
  * `lumex_string_view` instance. Dangling `lumex_string_view`s lead to
  * undefined behavior.
  */
-class LUMEX_API lumex_string_view
+class LUMEX_STRING_VIEW_API lumex_string_view
 {
 public:
   // -- Public type aliases --
@@ -1224,7 +1224,7 @@ private:
  * identical, `false` otherwise.
  * @note Complexity: O(N) where N is the minimum length of the two views.
  */
-LUMEX_API inline bool
+inline bool
 operator== (lumex_string_view lhs, lumex_string_view rhs) LUMEX_NOEXCEPT
 {
   return lhs.size () == rhs.size () && lhs.compare (rhs) == 0;
@@ -1239,7 +1239,7 @@ operator== (lumex_string_view lhs, lumex_string_view rhs) LUMEX_NOEXCEPT
  * @return `true` if the views are not equal, `false` otherwise.
  * @note Complexity: O(N) where N is the minimum length of the two views.
  */
-LUMEX_API inline bool
+inline bool
 operator!= (lumex_string_view lhs, lumex_string_view rhs) LUMEX_NOEXCEPT
 {
   return !(lhs == rhs);
@@ -1254,7 +1254,7 @@ operator!= (lumex_string_view lhs, lumex_string_view rhs) LUMEX_NOEXCEPT
  * otherwise.
  * @note Complexity: O(N) where N is the minimum length of the two views.
  */
-LUMEX_API inline bool
+inline bool
 operator< (lumex_string_view lhs, lumex_string_view rhs) LUMEX_NOEXCEPT
 {
   return lhs.compare (rhs) < 0;
@@ -1269,7 +1269,7 @@ operator< (lumex_string_view lhs, lumex_string_view rhs) LUMEX_NOEXCEPT
  * otherwise.
  * @note Complexity: O(N) where N is the minimum length of the two views.
  */
-LUMEX_API inline bool
+inline bool
 operator> (lumex_string_view lhs, lumex_string_view rhs) LUMEX_NOEXCEPT
 {
   return lhs.compare (rhs) > 0;
@@ -1285,7 +1285,7 @@ operator> (lumex_string_view lhs, lumex_string_view rhs) LUMEX_NOEXCEPT
  * `false` otherwise.
  * @note Complexity: O(N) where N is the minimum length of the two views.
  */
-LUMEX_API inline bool
+inline bool
 operator<= (lumex_string_view lhs, lumex_string_view rhs) LUMEX_NOEXCEPT
 {
   return lhs.compare (rhs) <= 0;
@@ -1301,7 +1301,7 @@ operator<= (lumex_string_view lhs, lumex_string_view rhs) LUMEX_NOEXCEPT
  * `false` otherwise.
  * @note Complexity: O(N) where N is the minimum length of the two views.
  */
-LUMEX_API inline bool
+inline bool
 operator>= (lumex_string_view lhs, lumex_string_view rhs) LUMEX_NOEXCEPT
 {
   return lhs.compare (rhs) >= 0;
@@ -1318,7 +1318,7 @@ operator>= (lumex_string_view lhs, lumex_string_view rhs) LUMEX_NOEXCEPT
  * @return A reference to the output stream.
  * @note Complexity: O(N) where N is `sview.size()`.
  */
-LUMEX_API std::ostream &operator<< (std::ostream &ostr,
+LUMEX_STRING_VIEW_API std::ostream &operator<< (std::ostream &ostr,
                                     lumex_string_view sview);
 } // namespace view
 } // namespace string_view
