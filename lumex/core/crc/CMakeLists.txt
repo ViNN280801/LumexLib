@@ -18,6 +18,7 @@ target_include_directories(${LUMEX_CRC_NAME} PUBLIC
 
 target_link_libraries(${LUMEX_CRC_NAME} PUBLIC
     lumex::utility
+    lumex::span
 )
 
 # Catalogue tables use std::make_index_sequence (C++14).
