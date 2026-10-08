@@ -43,11 +43,14 @@
  * keyword and constant macros, compiler, feature and OS checks, type traits,
  * stack text and core dumps, demangling, safe numeric comparison, bit and byte
  * order helpers, the iterator range, the process id and a callback slot.
- * @details Link <tt>%lumex::utility</tt> (compiled library). Works from C++11.
- * The umbrella also includes `bit/`, `cast/`, `mem/` and `ranges/`. In them
- * `count_leading_zeros`, `byte_swap`, `is_little_endian` and `iterator_range`
- * work from C++11; the rest needs C++20, and each header checks its own
- * features and declares nothing where the toolchain lacks them.
+ * @details Link <tt>%lumex::utility</tt> (compiled library; it links
+ * <tt>%lumex::math</tt>, <tt>%lumex::optional</tt> and <tt>%lumex::span</tt>).
+ * Works from C++11. The umbrella also includes `bit/`, `cast/`, `mem/` and
+ * `ranges/`. In them `count_leading_zeros`, `byte_swap`, `is_little_endian`,
+ * `iterator_range` and `mem::as` (reads a value out of raw bytes; the result is
+ * `std::optional` from C++17 and the optional of `lumex::optional` before it,
+ * `mem::optional_t`) work from C++11; the rest needs C++20, and each header
+ * checks its own features and declares nothing where the toolchain lacks them.
  */
 #include "assert/LumexAssert.hpp"
 #include "attr/LumexAttributes.hpp"

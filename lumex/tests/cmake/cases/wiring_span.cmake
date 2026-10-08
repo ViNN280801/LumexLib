@@ -50,7 +50,7 @@ foreach(_dependent base64 crc utility)
     _require_text("lumex/core/${_dependent}/CMakeLists.txt" "lumex::span")
 endforeach()
 _require_text("conanfile.py" "[\"core_utility\", \"core_span\"]")
-_require_text("conanfile.py" "[\"core_math\", \"core_span\"]")
+_require_text("conanfile.py" "[\"core_math\", \"core_optional\", \"core_span\"]")
 _require_text("cmake/LumexOptions.cmake" "option(LUMEX_BUILD_SPAN ")
 _require_text("cmake/LumexOptions.cmake" "core/span (header-only C++11 backport of std::span)\" ON)")
 

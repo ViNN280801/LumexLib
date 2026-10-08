@@ -1,15 +1,18 @@
-// LumexMemRead.cxx20.tests.cpp
+// LumexMemRead.cxx11.tests.cpp
+//
+// as<T> over a pointer and a size and over an object with get_data () and
+// get_data_size (), from C++11. The result is std::optional<T> from C++17 and
+// the optional of this library before it; these tests use only what both
+// have (has_value and operator*), LumexMemReadResultType tests which one it
+// is. The span overloads are in LumexMemReadSpan (library span, every
+// standard) and LumexMemReadStdSpan (std::span, C++20).
 #include <array>
 #include <cstdint>
 #include <cstring>
-#if __has_include(<span>)
-#include <span>
-#endif
 #include <vector>
 
 #include <gtest/gtest.h>
 
-#include "lumex/core/utility/compiler/LumexCheckFeatures.hpp"
 #include "lumex/core/utility/mem/LumexMemRead.hpp"
 
 #if defined(__clang__)
@@ -33,13 +36,6 @@
 #pragma clang diagnostic ignored "-Wfloat-equal"
 #pragma clang diagnostic ignored "-Wglobal-constructors"
 #endif
-
-#if defined(__clang__)
-#endif
-
-#if LUMEX_HAS_STD_CONCEPTS && LUMEX_HAS_STD_SPAN
-
-using namespace lumex::core::utility::mem;
 
 using lumex::core::utility::mem::as;
 
@@ -134,7 +130,7 @@ TEST (LumexMemReadTest, GivenNullptrBuffer_WhenAs_ThenReturnsNullopt)
 
 TEST (LumexMemReadTest, GivenUnalignedBuffer_WhenAs_ThenDecodesValueCorrectly)
 {
-  std::array<unsigned char, sizeof (std::uint32_t) + 1> buffer{};
+  std::array<unsigned char, sizeof (std::uint32_t) + 1> buffer = {};
   std::uint32_t const value = 0x01020304;
   std::memcpy (buffer.data () + 1, &value, sizeof (value));
 
@@ -166,30 +162,9 @@ TEST (LumexMemReadTest, GivenDataSourceObject_WhenAs_ThenDecodesFromSource)
 TEST (LumexMemReadTest, GivenTooSmallDataSource_WhenAs_ThenReturnsNullopt)
 {
   FakeDataSource source;
-  source.bytes = { 0x01, 0x02 };
+  source.bytes.assign (2, 0x01);
 
   auto const result = as<std::uint32_t> (source);
-  EXPECT_FALSE (result.has_value ());
-}
-
-TEST (LumexMemReadTest, GivenByteSpan_WhenAs_ThenDecodesValue)
-{
-  std::uint32_t const value = 0x11223344;
-  std::array<std::byte, sizeof (value)> buffer{};
-  std::memcpy (buffer.data (), &value, sizeof (value));
-
-  std::span<std::byte const> const span (buffer);
-  auto const result = as<std::uint32_t> (span);
-  ASSERT_TRUE (result.has_value ());
-  EXPECT_EQ (*result, value);
-}
-
-TEST (LumexMemReadTest, GivenCharSpanTooSmall_WhenAs_ThenReturnsNullopt)
-{
-  std::array<char, 2> buffer{ 'a', 'b' };
-  std::span<char const> const span (buffer);
-
-  auto const result = as<std::uint32_t> (span);
   EXPECT_FALSE (result.has_value ());
 }
 
@@ -206,15 +181,15 @@ TEST (LumexMemReadTest, GivenNullAndZeroSize_WhenAs_ThenReturnsNullopt)
 
 TEST (LumexMemReadTest, GivenSizeOneLessThanNeeded_WhenAs_ThenReturnsNullopt)
 {
-  std::array<unsigned char, sizeof (std::uint64_t)> buffer{};
+  std::array<unsigned char, sizeof (std::uint64_t)> buffer = {};
   EXPECT_FALSE (as<std::uint64_t> (buffer.data (), sizeof (std::uint64_t) - 1)
                     .has_value ());
 }
 
 TEST (LumexMemReadTest, GivenExtraTrailingBytes_WhenAs_ThenDecodesOnlyPrefix)
 {
-  std::array<unsigned char, 8> buffer{ 0x11, 0x22, 0x33, 0x44,
-                                       0x55, 0x66, 0x77, 0x88 };
+  std::array<unsigned char, 8> buffer
+      = { { 0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88 } };
   auto const result = as<std::uint32_t> (buffer.data (), buffer.size ());
   ASSERT_TRUE (result.has_value ());
   std::uint32_t expected = 0;
@@ -278,44 +253,26 @@ TEST (LumexMemReadTest, GivenNullGetData_WhenAsFromSource_ThenReturnsNullopt)
   EXPECT_FALSE (as<std::uint32_t> (source).has_value ());
 }
 
+TEST (LumexMemReadTest,
+      GivenDataSourceOneByteShort_WhenAs_ThenOnlyTheExactSizeDecodes)
+{
+  FakeDataSource source;
+  source.bytes.assign (sizeof (std::uint32_t) - 1, 0x7F);
+  EXPECT_FALSE (as<std::uint32_t> (source).has_value ());
+  source.bytes.push_back (0x7F);
+  EXPECT_TRUE (as<std::uint32_t> (source).has_value ());
+}
+
 TEST (LumexMemReadTest, GivenEmptyDataSource_WhenAs_ThenReturnsNullopt)
 {
   FakeDataSource source;
   EXPECT_FALSE (as<std::uint32_t> (source).has_value ());
 }
 
-TEST (LumexMemReadTest, GivenUnsignedCharSpan_WhenAs_ThenDecodesValue)
-{
-  std::uint16_t const value = 0xBEEF;
-  std::array<unsigned char, sizeof (value)> buffer{};
-  std::memcpy (buffer.data (), &value, sizeof (value));
-  std::span<unsigned char const> const span (buffer);
-  auto const result = as<std::uint16_t> (span);
-  ASSERT_TRUE (result.has_value ());
-  EXPECT_EQ (*result, value);
-}
-
-TEST (LumexMemReadTest, GivenCharSpanExactSize_WhenAs_ThenDecodesValue)
-{
-  std::uint16_t const value = 0x3344;
-  std::array<char, sizeof (value)> buffer{};
-  std::memcpy (buffer.data (), &value, sizeof (value));
-  std::span<char const> const span (buffer);
-  auto const result = as<std::uint16_t> (span);
-  ASSERT_TRUE (result.has_value ());
-  EXPECT_EQ (*result, value);
-}
-
-TEST (LumexMemReadTest, GivenEmptyByteSpan_WhenAs_ThenReturnsNullopt)
-{
-  std::span<std::byte const> const span;
-  EXPECT_FALSE (as<std::uint32_t> (span).has_value ());
-}
-
 TEST (LumexMemReadTest,
       GivenOffsetThreeUnaligned_WhenAs_ThenStillDecodesCorrectly)
 {
-  std::array<unsigned char, sizeof (std::uint32_t) + 3> buffer{};
+  std::array<unsigned char, sizeof (std::uint32_t) + 3> buffer = {};
   std::uint32_t const value = 0xA1B2C3D4u;
   std::memcpy (buffer.data () + 3, &value, sizeof (value));
   auto const result = as<std::uint32_t> (buffer.data () + 3, sizeof (value));
@@ -330,12 +287,3 @@ TEST (LumexMemReadTest, GivenSignedInteger_WhenAs_ThenPreservesTwoComplement)
   ASSERT_TRUE (result.has_value ());
   EXPECT_EQ (*result, value);
 }
-
-#else // the toolchain lacks the features of the module
-
-TEST (LumexMemReadTest, UnavailableOnThisToolchain)
-{
-  GTEST_SKIP () << "LumexMemRead.hpp needs C++20 <concepts> and <span>";
-}
-
-#endif
