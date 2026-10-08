@@ -10,12 +10,12 @@ lumex_example_executable(
   SOURCE example_crc.cpp
   LINK lumex::crc
   REQUIRE_TARGET lumex::crc
-  CXX_STANDARD 14
+  CXX_STANDARD 11
 )
 lumex_example_executable(
   NAME LumexCrcExampleWorkflow
   SOURCE example_crc_workflow.cpp
   LINK lumex::crc
   REQUIRE_TARGET lumex::crc
-  CXX_STANDARD 14
+  CXX_STANDARD 11
 )

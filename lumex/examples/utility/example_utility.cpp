@@ -1,14 +1,18 @@
 #include <cstdint>
+#include <cstring>
 #include <iostream>
 #include <typeinfo>
 #include <vector>
 
+#include "lumex/core/span/LumexSpan"
 #include "lumex/core/utility/LumexUtility"
 
 using namespace lumex::core::utility::demangle;
 using namespace lumex::core::utility::numeric;
 using namespace lumex::core::utility::process;
+using lumex::core::span::view::span;
 using lumex::core::utility::bit::count_leading_zeros;
+using lumex::core::utility::mem::as;
 
 int
 main ()
@@ -54,15 +58,32 @@ main ()
             << static_cast<unsigned> (count_leading_zeros (high_half)) << '\n';
 
   std::cout << "\n--- 6. byte_swap ---\n";
-#if LUMEX_HAS_CONCEPTS && LUMEX_HAS_STD_BIT_CAST && LUMEX_HAS_STD_RANGES      \
-    && LUMEX_HAS_STD_IS_CONSTANT_EVALUATED
   std::uint32_t const pattern = 0x12345678U;
   std::cout << std::hex << "byte_swap(0x12345678)=0x"
             << lumex::core::utility::bit::byte_swap (pattern) << std::dec
             << '\n';
-#else
-  std::cout << "byte_swap needs C++20\n";
-#endif
+
+  std::cout << "\n--- 7. mem::as: a value out of raw bytes ---\n";
+  // The bytes of a frame: a 16-bit and a 32-bit value, read in the byte order
+  // of this machine through memcpy, so the offset need not be aligned.
+  std::uint16_t const first = 0x1234;
+  std::uint32_t const second = 0x0A0B0C0DU;
+  unsigned char frame[sizeof (first) + sizeof (second)];
+  std::memcpy (frame, &first, sizeof (first));
+  std::memcpy (frame + sizeof (first), &second, sizeof (second));
+  span<unsigned char const> const bytes (frame);
+  // The result is std::optional from C++17 and lumex::optional before it.
+  auto const word = as<std::uint16_t> (bytes);
+  auto const tail = as<std::uint32_t> (bytes.subspan (sizeof (first)));
+  auto const too_short = as<std::uint32_t> (bytes.subspan (4));
+  std::cout << std::hex << "u16=0x" << (word.has_value () ? *word : 0)
+            << " u32 at offset 2=0x" << (tail.has_value () ? *tail : 0U)
+            << std::dec << " u32 at offset 4 present="
+            << (too_short.has_value () ? "yes" : "no")
+            << " pointer+size matches="
+            << (as<std::uint16_t> (frame, sizeof (frame)) == word ? "yes"
+                                                                  : "no")
+            << '\n';
 
   std::cout << "\n=== Utility example finished ===\n";
   return 0;
