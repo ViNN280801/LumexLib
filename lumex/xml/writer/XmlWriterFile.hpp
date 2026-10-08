@@ -52,6 +52,8 @@
 
 #include "lumex/LumexExport.hpp"
 
+#include <cstddef>
+
 #include "IXmlWriter.hpp"
 
 namespace lumex // NOLINT(modernize-concat-nested-namespaces)
