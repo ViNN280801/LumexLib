@@ -109,6 +109,9 @@ include(GoogleTest)
 # read by lumex_add_standard_suites.
 include("${CMAKE_CURRENT_LIST_DIR}/LumexTestStandards.cmake")
 
+# Header-only helpers of the concurrency tests (no library dependency).
+add_subdirectory(support)
+
 lumex_add_subdirectory_if(LUMEX_BUILD_APPLIED applied)
 lumex_add_subdirectory_if(LUMEX_BUILD_CORE core)
 lumex_add_subdirectory_if(LUMEX_BUILD_XML xml)
