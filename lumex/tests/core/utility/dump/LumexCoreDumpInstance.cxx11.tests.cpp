@@ -2,25 +2,24 @@
 //
 // The members of core_dump_generator that depend on the standard and that need
 // state: get_memory_filters_range (static; the view of the filters of the
-// current configuration) and the template overloads of generate_instance_dump.
-// They work from C++11: the range is the iterator_range of this library
-// before C++20 and std::ranges::ref_view from it (the alias type of each is
-// checked in LumexCoreDumpInstance .cxx20; everything the two forms share is
-// run here, in every suite); the overloads of generate_instance_dump were
-// constrained by the concept StringLike and existed only from C++20, which
-// argument types they take is checked in LumexCoreDumpConfigStrings, what they
-// do with them here.
+// current configuration), get_optional_dump_directory and
+// get_dump_directory_if_set (the directory of an instance), and the template
+// overloads of generate_instance_dump. They work from C++11: the range is the
+// iterator_range of this library before C++20 and std::ranges::ref_view from
+// it, the optional is the optional of this library before C++17 and
+// std::optional from it (the alias types are checked in LumexCoreDumpInstance
+// .cxx17 and .cxx20; everything the two forms share is run here, in every
+// suite).
 //
-// There is no public way to put a filter into the static configuration or to
-// get an instance except initialize (), which installs signal handlers,
-// rewrites the machine-wide core pattern through sudo and starts a monitor
-// thread: not for a unit test. So the tests reach the private state the way a
-// test can without changing the library, by naming the members in an explicit
-// instantiation (which the access rules do not check): the static
-// configuration and the private "initialized" flag (set only while instance
-// () creates the default instance, which installs nothing and is not
-// initialized, so a dump is never written). The fixture restores the
-// configuration before and after each test.
+// There is no public way to put a filter into the static configuration or a
+// directory into an instance except initialize (), which installs signal
+// handlers, rewrites the machine-wide core pattern through sudo and starts a
+// monitor thread: not for a unit test. So the tests reach the private state
+// the way a test can without changing the library, by naming the members in an
+// explicit instantiation (which the access rules do not check): the static
+// configuration, the private "initialized" flag (set only while instance ()
+// creates the default instance, which installs nothing) and the directory of
+// that instance. The fixture restores all three before and after each test.
 #include <atomic>
 #include <cstddef>
 #include <iterator>
@@ -35,6 +34,9 @@
 
 #include <gtest/gtest.h>
 
+#if __cplusplus < 201703L
+#include "lumex/core/optional/opt/LumexOptional.hpp"
+#endif
 #include "lumex/core/utility/compiler/LumexCheckFeatures.hpp"
 #include "lumex/core/utility/dump/LumexCoreDumpGenerator.hpp"
 #include "lumex/core/utility/ranges/LumexIteratorRange.hpp"
@@ -78,9 +80,15 @@ struct initialized_tag
   using type = std::atomic_bool *;
 };
 
+struct directory_tag
+{
+  using type = std::string core_dump_generator::*;
+};
+
 template struct reveal<configuration_tag,
                        &core_dump_generator::s_currentConfig>;
 template struct reveal<initialized_tag, &core_dump_generator::s_initialized>;
+template struct reveal<directory_tag, &core_dump_generator::m_dumpDirectory>;
 
 /// The default instance, created without initialize (): instance () refuses
 /// while the flag is false, so the flag is true for the call only.
@@ -108,23 +116,38 @@ current_configuration ()
   return *slot<configuration_tag>::value;
 }
 
+void
+set_instance_directory (std::string const &directory)
+{
+  default_instance ().*slot<directory_tag>::value = directory;
+}
+
 class LumexCoreDumpInstanceTest : public ::testing::Test
 {
 protected:
   void
   SetUp () override
   {
-    current_configuration () = dump_configuration ();
+    reset_state ();
   }
 
   void
   TearDown () override
   {
+    reset_state ();
+  }
+
+  static void
+  reset_state ()
+  {
     current_configuration () = dump_configuration ();
+    set_instance_directory (std::string ());
   }
 };
 
 using memory_filters_range_t = core_dump_generator::memory_filters_range_t;
+using optional_dump_directory_t
+    = core_dump_generator::optional_dump_directory_t;
 
 std::vector<std::string>
 walk (memory_filters_range_t const &range)
@@ -323,6 +346,147 @@ TEST_F (LumexCoreDumpInstanceTest,
              "heap");
   EXPECT_EQ (core_dump_generator::get_memory_filters_range ().back (),
              "stack");
+}
+
+#endif
+
+// --- get_optional_dump_directory and get_dump_directory_if_set ---
+
+TEST_F (LumexCoreDumpInstanceTest,
+        GivenNoDirectory_WhenGetOptionalDumpDirectory_ThenEmpty)
+{
+  core_dump_generator const &generator = default_instance ();
+  optional_dump_directory_t const directory
+      = generator.get_optional_dump_directory ();
+  EXPECT_FALSE (directory.has_value ());
+}
+
+TEST_F (LumexCoreDumpInstanceTest,
+        GivenDirectory_WhenGetOptionalDumpDirectory_ThenHoldsIt)
+{
+  set_instance_directory ("/var/lib/app/dumps");
+  core_dump_generator const &generator = default_instance ();
+  optional_dump_directory_t const directory
+      = generator.get_optional_dump_directory ();
+  ASSERT_TRUE (directory.has_value ());
+  EXPECT_EQ (*directory, "/var/lib/app/dumps");
+  EXPECT_EQ (directory.value (), "/var/lib/app/dumps");
+  EXPECT_EQ (directory.value_or (std::string ("fallback")),
+             "/var/lib/app/dumps");
+}
+
+TEST_F (LumexCoreDumpInstanceTest, GivenNoDirectory_WhenValueOr_ThenFallback)
+{
+  optional_dump_directory_t const directory
+      = default_instance ().get_optional_dump_directory ();
+  EXPECT_EQ (directory.value_or (std::string ("fallback")), "fallback");
+}
+
+TEST_F (LumexCoreDumpInstanceTest,
+        GivenDirectory_WhenOptionalChanged_ThenInstanceKeepsItsDirectory)
+{
+  set_instance_directory ("/var/dumps");
+  core_dump_generator const &generator = default_instance ();
+  optional_dump_directory_t directory
+      = generator.get_optional_dump_directory ();
+  ASSERT_TRUE (directory.has_value ());
+  *directory += "/changed";
+  EXPECT_EQ (generator.get_instance_dump_directory (), "/var/dumps");
+  optional_dump_directory_t const again
+      = generator.get_optional_dump_directory ();
+  ASSERT_TRUE (again.has_value ());
+  EXPECT_EQ (*again, "/var/dumps");
+}
+
+TEST_F (LumexCoreDumpInstanceTest,
+        GivenDirectoryChanged_WhenGetOptionalDumpDirectory_ThenFollows)
+{
+  core_dump_generator const &generator = default_instance ();
+  EXPECT_FALSE (generator.get_optional_dump_directory ().has_value ());
+  set_instance_directory ("/a");
+  ASSERT_TRUE (generator.get_optional_dump_directory ().has_value ());
+  EXPECT_EQ (*generator.get_optional_dump_directory (), "/a");
+  set_instance_directory (std::string ());
+  EXPECT_FALSE (generator.get_optional_dump_directory ().has_value ());
+}
+
+TEST_F (LumexCoreDumpInstanceTest,
+        GivenNoDirectory_WhenGetDumpDirectoryIfSet_ThenFalseAndOutputUntouched)
+{
+  std::string directory = "untouched";
+  EXPECT_FALSE (default_instance ().get_dump_directory_if_set (directory));
+  EXPECT_EQ (directory, "untouched");
+}
+
+TEST_F (LumexCoreDumpInstanceTest,
+        GivenDirectory_WhenGetDumpDirectoryIfSet_ThenTrueAndOutputSet)
+{
+  set_instance_directory ("/var/dumps");
+  std::string directory;
+  EXPECT_TRUE (default_instance ().get_dump_directory_if_set (directory));
+  EXPECT_EQ (directory, "/var/dumps");
+}
+
+TEST_F (LumexCoreDumpInstanceTest,
+        GivenEitherDirectoryState_WhenBothGetters_ThenTheyAgree)
+{
+  core_dump_generator const &generator = default_instance ();
+  for (std::string const &value : { std::string (), std::string ("/x") })
+    {
+      set_instance_directory (value);
+      std::string out;
+      bool const set = generator.get_dump_directory_if_set (out);
+      optional_dump_directory_t const directory
+          = generator.get_optional_dump_directory ();
+      EXPECT_EQ (set, directory.has_value ());
+      if (set)
+        {
+          EXPECT_EQ (out, *directory);
+        }
+    }
+}
+
+TEST (LumexCoreDumpInstanceTypeTest,
+      GivenOptionalDumpDirectory_WhenInspected_ThenNoexceptConstAndTheAlias)
+{
+  static_assert (noexcept (std::declval<core_dump_generator const &> ()
+                               .get_optional_dump_directory ()),
+                 "get_optional_dump_directory is noexcept");
+  static_assert (
+      std::is_same<decltype (std::declval<core_dump_generator const &> ()
+                                 .get_optional_dump_directory ()),
+                   optional_dump_directory_t>::value,
+      "the function returns the alias");
+  static_assert (
+      std::is_same<decltype (std::declval<core_dump_generator const &> ()
+                                 .get_dump_directory_if_set (
+                                     std::declval<std::string &> ())),
+                   bool>::value,
+      "get_dump_directory_if_set exists in every standard");
+  SUCCEED ();
+}
+
+#if __cplusplus < 201703L
+
+TEST (LumexCoreDumpInstanceTypeTest,
+      GivenBeforeCxx17_WhenOptionalDumpDirectory_ThenTheOptionalOfTheLibrary)
+{
+  static_assert (
+      std::is_same<optional_dump_directory_t,
+                   lumex::core::optional::opt::optional<std::string>>::value,
+      "the optional of this library before C++17");
+  SUCCEED ();
+}
+
+TEST_F (
+    LumexCoreDumpInstanceTest,
+    GivenBeforeCxx17_WhenCompareWithNullopt_ThenOptionalOfTheLibraryBehaves)
+{
+  EXPECT_TRUE (default_instance ().get_optional_dump_directory ()
+               == lumex::core::optional::opt::nullopt);
+  set_instance_directory ("/d");
+  EXPECT_FALSE (default_instance ().get_optional_dump_directory ()
+                == lumex::core::optional::opt::nullopt);
 }
 
 #endif
