@@ -99,6 +99,7 @@
 #include "lumex/core/utility/attr/LumexAttributes.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 #include "lumex/core/utility/macros/LumexMacros.hpp"
+#include "lumex/core/utility/sequence/LumexIndexSequence.hpp"
 
 // Prefer structured bindings for get whenever the compiler can do them
 // (feature test or C++17+). Otherwise the C++14 loophole path runs. The two
@@ -125,28 +126,14 @@ namespace detail
 {
 LUMEX_CONSTEXPR std::size_t k_max_aggregate_fields = 32;
 
-template <std::size_t... I> struct index_sequence
-{
-};
+// The index sequences of utility: std::index_sequence from C++14, an own
+// class below it.
+using lumex::core::utility::sequence::index_sequence;
 
-/// @cond
-// Hidden from Doxygen, which reports the recursive base of
-// make_index_sequence_impl (N derives from N - 1) as an error.
-template <std::size_t N, std::size_t... I>
-struct make_index_sequence_impl : make_index_sequence_impl<N - 1, N - 1, I...>
+template <std::size_t N> struct make_index_sequence
 {
+  typedef lumex::core::utility::sequence::make_index_sequence<N> type;
 };
-
-template <std::size_t... I> struct make_index_sequence_impl<0, I...>
-{
-  typedef index_sequence<I...> type;
-};
-
-template <std::size_t N>
-struct make_index_sequence : make_index_sequence_impl<N>
-{
-};
-/// @endcond
 
 template <std::size_t I> struct any_field
 {
