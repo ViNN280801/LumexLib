@@ -63,6 +63,10 @@
  * `std::ranges::ref_view` where the standard library has `<ranges>` and the
  * `ranges::iterator_range` of this library elsewhere
  * (`core_dump_generator::memory_filters_range_t`).
+ * `core_dump_generator::get_optional_dump_directory` returns
+ * `std::optional<std::string>` from C++17 and the optional of this library
+ * before it (`core_dump_generator::optional_dump_directory_t`);
+ * `get_dump_directory_if_set` is the same on every standard.
  *
  * Most of the implementation is inline in this header; the static data members
  * are defined in `LumexCoreDumpGenerator.cpp`. Windows and Unix-like systems
@@ -110,6 +114,12 @@
 #endif
 #endif
 
+// Before C++17 the optional of this library is the result of
+// `get_optional_dump_directory`; its types header declares nothing at global
+// scope (LumexOptional is the umbrella with the global aliases).
+#if __cplusplus < 201703L
+#include "lumex/core/optional/opt/LumexOptional.hpp"
+#endif
 #include "lumex/core/utility/compiler/LumexCheckFeatures.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 #include "lumex/core/utility/os/LumexCheckOS.hpp"
@@ -1410,20 +1420,33 @@ public:
 #endif
   }
 
-#if LUMEX_HAS_STD_OPTIONAL
+  /**
+   * @brief The type of `get_optional_dump_directory`: `std::optional` from
+   * C++17, the optional of this library
+   * (`lumex::core::optional::opt::optional`) before it.
+   */
+#if __cplusplus >= 201703L
+  using optional_dump_directory_t = std::optional<std::string>;
+#else
+  using optional_dump_directory_t
+      = lumex::core::optional::opt::optional<std::string>;
+#endif
+
   /**
    * @brief Get optional dump directory
    * @return Optional containing directory if set, empty if not
+   * (`optional_dump_directory_t`)
    * @note This method is thread-safe
    */
-  std::optional<std::string>
+  optional_dump_directory_t
   get_optional_dump_directory () const noexcept
   {
     std::lock_guard<std::mutex> lock (m_instanceMutex);
-    return m_dumpDirectory.empty () ? std::nullopt
-                                    : std::make_optional (m_dumpDirectory);
+    return m_dumpDirectory.empty ()
+               ? optional_dump_directory_t ()
+               : optional_dump_directory_t (m_dumpDirectory);
   }
-#else
+
   /**
    * @brief Get dump directory with validity check
    * @param directory Output parameter for directory
@@ -1439,7 +1462,6 @@ public:
     directory = m_dumpDirectory;
     return true;
   }
-#endif
 
 private:
   // Private constructor for singleton pattern
