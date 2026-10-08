@@ -79,6 +79,8 @@
 
 #include "lumex/LumexExport.hpp"
 
+#include <cstddef>
+
 namespace lumex // NOLINT(modernize-concat-nested-namespaces)
 {
 namespace xml
