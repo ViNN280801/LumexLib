@@ -23,8 +23,9 @@
  */
 
 /*
- * Portions of this file are derived from pugixml (https://pugixml.org), MIT
- * license, Copyright (c) 2006-2026 Arseny Kapoulkine. The full notice is in
+ * The structure of the classes in this file is taken from pugixml
+ * (https://pugixml.org, MIT license, Copyright (c) 2006-2026 Arseny
+ * Kapoulkine); the functions are Lumex's own code. The notice is in
  * THIRD-PARTY-NOTICES.md, which is installed with LumexLib.
  */
 
