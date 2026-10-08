@@ -84,7 +84,7 @@
 #endif
 
 #include <cstdint>  // For std::uint8_t, std::uintmax_t, std::size_t
-#include <ctime>    // For time(nullptr) as a fallback seed
+#include <ctime>    // For std::time(nullptr) as a fallback seed
 #include <iostream> // For std::cerr
 #include <random> // For std::random_device, std::mt19937, and various distributions
 #include <type_traits> // For std::is_arithmetic, std::is_integral, std::is_floating_point, std::enable_if, std::is_same
@@ -777,7 +777,7 @@ public:
         m_engine (
             m_rdm_dev.entropy () > 0.0
                 ? m_rdm_dev ()
-                : static_cast<std::mt19937::result_type> (time (nullptr)))
+                : static_cast<std::mt19937::result_type> (std::time (nullptr)))
   {
   }
 
@@ -814,7 +814,7 @@ public:
         m_engine (
             m_rdm_dev.entropy () > 0.0
                 ? m_rdm_dev ()
-                : static_cast<std::mt19937::result_type> (time (nullptr)))
+                : static_cast<std::mt19937::result_type> (std::time (nullptr)))
   {
     if (dist_type == DistributionType::UNIFORM && m_from > m_to)
       std::swap (m_from, m_to);
