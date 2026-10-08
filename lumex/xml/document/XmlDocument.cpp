@@ -575,7 +575,7 @@ get_file_size (FILE *file, std::size_t &out_result)
     return status_io_error;
 
   xml_parse_status status = convert_file_size (st.st_size, out_result);
-#elif defined(LUMEX_XML_MSVC_CRT_VERSION) && LUMEX_XML_MSVC_CRT_VERSION >= 1400
+#elif defined(_MSC_VER)
   // there are 64-bit versions of fseek/ftell, let's use them
   _fseeki64 (file, 0, SEEK_END);
   __int64 length = _ftelli64 (file);
@@ -709,7 +709,7 @@ open_file_wide (
 inline FILE *
 open_file (const char *path, const char *mode)
 {
-#if defined(LUMEX_XML_MSVC_CRT_VERSION) && LUMEX_XML_MSVC_CRT_VERSION >= 1400
+#if defined(_MSC_VER)
   FILE *file = nullptr;
   return fopen_s (&file, path, mode) == 0 ? file : nullptr;
 #else
