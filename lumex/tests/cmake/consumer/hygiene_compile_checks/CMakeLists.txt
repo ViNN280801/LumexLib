@@ -20,6 +20,10 @@
 #   variadic_macros_pedantic.cpp LUMEX_DEFINE_REFLECTED_ENUM, LUMEX_MEASURE_TIME
 #                               with -Wall -Wextra -Wpedantic -Werror (no empty
 #                               `...` argument).
+#   field_reflection_warnings.cpp the field reflection header with -Wall -Wextra
+#                               -Wpedantic -Werror (GCC reports the friend
+#                               declaration of the C++14 loophole path with
+#                               -Wnon-template-friend).
 #   json_umbrella.cpp           the JSON umbrella with -Wall -Wextra -Wpedantic
 #                               -Werror (LumexJsonSchemaValidator and
 #                               LumexJsonSchemaNormalizer discard a nodiscard
@@ -122,9 +126,11 @@ foreach(_std IN LISTS _standards)
 
     _lumex_hygiene_expect_ok("macros that count their arguments"
         variadic_macros_pedantic.cpp ${_std} ${_pedantic})
+    _lumex_hygiene_expect_ok("the field reflection header"
+        field_reflection_warnings.cpp ${_std} ${_pedantic})
     _lumex_hygiene_expect_ok("the JSON umbrella"
         json_umbrella.cpp ${_std} ${_pedantic})
-    math(EXPR _compiled "${_compiled} + 2")
+    math(EXPR _compiled "${_compiled} + 3")
 endforeach()
 
 message(STATUS "hygiene compile checks: ${_compiled} translation units "
