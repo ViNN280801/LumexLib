@@ -122,6 +122,10 @@ function(lumex_check_module_dependencies)
     lumex_require_module(LUMEX_BUILD_XML LUMEX_BUILD_MATH)
     lumex_require_module(LUMEX_BUILD_XML LUMEX_BUILD_STRING_VIEW)
 
+    # filesystem links unicode PRIVATE (its source converts wchar_t text with
+    # to_utf8 / to_wide).
+    lumex_require_module(LUMEX_BUILD_FILESYSTEM LUMEX_BUILD_UNICODE)
+
     lumex_require_module(LUMEX_BUILD_TEMPORARY LUMEX_BUILD_ENVIRONMENT)
     lumex_require_module(LUMEX_BUILD_TEMPORARY LUMEX_BUILD_FILESYSTEM)
 

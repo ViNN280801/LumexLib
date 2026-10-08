@@ -903,6 +903,11 @@ public:
   }
   /**
    * @brief Converts and returns the path as a `std::wstring`.
+   * @details The narrow path is read as UTF-8 and written as UTF-16 where
+   * `wchar_t` has 2 bytes (Windows) and as UTF-32 where it has 4. The
+   * conversion is `lumex::core::unicode::convert::to_wide`: it does not depend
+   * on the C locale, and a byte that does not start a complete UTF-8 sequence
+   * is skipped.
    * @return A `std::wstring` representation of the path.
    */
   std::wstring wstring () const;
@@ -1799,6 +1804,11 @@ public:
 
   /**
    * @brief Converts a `std::string` (UTF-8 encoded) to a `std::wstring`.
+   * @details The same on every platform and in every C locale
+   * (`lumex::core::unicode::convert::to_wide`; UTF-16 where `wchar_t` has 2
+   * bytes, UTF-32 where it has 4). Invalid input is not an error: a byte that
+   * does not start a complete UTF-8 sequence is skipped, whereas
+   * `MultiByteToWideChar` writes U+FFFD for it.
    * @param str The `std::string` to convert.
    * @return A `std::wstring` representation.
    */
@@ -1806,6 +1816,11 @@ public:
 
   /**
    * @brief Converts a `std::wstring` to a `std::string` (UTF-8 encoded).
+   * @details The same on every platform and in every C locale
+   * (`lumex::core::unicode::convert::to_utf8`). Invalid input is not an
+   * error: a unit that cannot be decoded (an unpaired surrogate where
+   * `wchar_t` has 2 bytes) is skipped, whereas `WideCharToMultiByte` writes
+   * U+FFFD for it.
    * @param wstr The `std::wstring` to convert.
    * @return A `std::string` representation.
    */

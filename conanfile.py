@@ -177,7 +177,7 @@ class LumexLibConan(ConanFile):
         )
         filesystem = self._component(
             "core_filesystem", "filesystem", ["LumexCore_filesystem"],
-            ["core_utility"],
+            ["core_unicode", "core_utility"],
         )
         if windows:
             filesystem.system_libs.append("shlwapi")

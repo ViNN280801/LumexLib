@@ -193,6 +193,10 @@ lumex_add_cmake_fail_test(require_fail_xml_without_unicode
     "LUMEX_BUILD_XML is enabled but requires LUMEX_BUILD_UNICODE")
 lumex_add_cmake_fail_test(require_fail_unicode_without_utility
     "LUMEX_BUILD_UNICODE is enabled but requires LUMEX_BUILD_UTILITY")
+# filesystem links unicode (its source converts wchar_t text with to_utf8 /
+# to_wide). The case switches off the modules checked before it (xml).
+lumex_add_cmake_fail_test(require_fail_filesystem_without_unicode
+    "LUMEX_BUILD_FILESYSTEM is enabled but requires LUMEX_BUILD_UNICODE")
 lumex_add_cmake_fail_test(require_fail_core_off_xml_applied_off
     "LUMEX_BUILD_XML is enabled but requires LUMEX_BUILD_UTILITY")
 lumex_add_cmake_fail_test(require_fail_time_without_environment
