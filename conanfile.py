@@ -20,8 +20,8 @@ class LumexLibConan(ConanFile):
     author = "Vladislav Semykin <vladislav.semykin@gmail.com>"
     url = "https://github.com/ViNN280801/LumexCore"
     description = (
-        "Modular C++ utility library (C++11 floor; to_json and "
-        "std::format-style compile-time checks need C++20): formatting, "
+        "Modular C++ utility library (C++11 floor; the std::format-style "
+        "compile-time check needs C++20): formatting, "
         "strings, logging, settings, JSON, XML, filesystem, time, "
         "diagnostics"
     )
