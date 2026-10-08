@@ -1,8 +1,9 @@
-// CRC tests that compile from C++14 (lumex/core/crc/catalog): calculate_crc8,
-// the runtime catalog and the transport mode, which need C++14 constexpr and
-// std::make_index_sequence; every suite of this directory (C++14, C++17,
-// C++20) runs them. LumexCrcCatalog.cxx17.tests.cpp adds the std::string_view
-// overloads of the catalog.
+// CRC tests that compile from C++11 (lumex/core/crc/catalog): calculate_crc8,
+// the runtime catalog and the transport mode; every suite of this directory
+// (C++11, C++14, C++17, C++20) runs them. The library is compiled as C++11 and
+// these tests prove that a consumer of any standard links it.
+// LumexCrcCatalog.cxx17.tests.cpp adds the std::string_view overloads of the
+// catalog.
 
 #include <chrono>
 #include <cstdint>
@@ -64,9 +65,24 @@ expect_catalog_check ()
   EXPECT_EQ (actual, Spec::kCatalogCheck);
 }
 
+// C++11 has no std::index_sequence (C++14): a list of the numbers 0 .. N - 1.
+template <std::size_t... I> struct index_list
+{
+};
+
+template <std::size_t N, std::size_t... I>
+struct make_index_list : make_index_list<N - 1, N - 1, I...>
+{
+};
+
+template <std::size_t... I> struct make_index_list<0, I...>
+{
+  typedef index_list<I...> type;
+};
+
 template <std::size_t... I>
 void
-expect_all_catalog_checks (std::index_sequence<I...>)
+expect_all_catalog_checks (index_list<I...>)
 {
   int const expand[]
       = { 0, (expect_catalog_check<
@@ -89,7 +105,7 @@ expect_named_engine_matches_spec ()
 
 template <std::size_t... I>
 void
-expect_all_named_engines (std::index_sequence<I...>)
+expect_all_named_engines (index_list<I...>)
 {
   int const expand[] = { 0, (expect_named_engine_matches_spec<I> (), 0)... };
   (void)expand;
@@ -350,7 +366,7 @@ TEST (CrcCatalog, EntryCountMatchesAllCrcSpecsTuple)
 TEST (CrcCatalog, AllSpecsMatchRevEngCheckOf123456789)
 {
   expect_all_catalog_checks (
-      std::make_index_sequence<std::tuple_size<all_crc_specs_t>::value>{});
+      make_index_list<std::tuple_size<all_crc_specs_t>::value>::type ());
 }
 
 TEST (CrcCatalog, NamedEnginesCoverEverySpec)
@@ -358,7 +374,7 @@ TEST (CrcCatalog, NamedEnginesCoverEverySpec)
   EXPECT_EQ (std::tuple_size<all_crc_algorithms_t>::value,
              std::tuple_size<all_crc_specs_t>::value);
   expect_all_named_engines (
-      std::make_index_sequence<std::tuple_size<all_crc_specs_t>::value>{});
+      make_index_list<std::tuple_size<all_crc_specs_t>::value>::type ());
 }
 
 TEST (CrcCatalog, RepresentativeSpecsMatchPublishedCheckValues)

@@ -112,23 +112,32 @@ compute_entry (std::uint8_t const *data, std::size_t size) LUMEX_NOEXCEPT
       crc_parametric<Spec>::calculate (data, size));
 }
 
+// C++11 has no std::index_sequence (C++14): a list of the numbers 0 .. N - 1.
+template <std::size_t... I> struct index_list_t
+{
+};
+
+template <std::size_t N, std::size_t... I>
+struct make_index_list_t : make_index_list_t<N - 1, N - 1, I...>
+{
+};
+
+template <std::size_t... I> struct make_index_list_t<0, I...>
+{
+  using type = index_list_t<I...>;
+};
+
+using CatalogIndexList = typename make_index_list_t<kCatalogSize>::type;
+
 template <std::size_t... I>
 std::array<ComputeFn, sizeof...(I)>
-make_compute_table (std::index_sequence<I...> /*unusedIndexSequence*/)
-    LUMEX_NOEXCEPT
+make_compute_table (index_list_t<I...> /*unusedIndexList*/) LUMEX_NOEXCEPT
 {
   return std::array<ComputeFn, sizeof...(I)>{ { &compute_entry<I>... } };
 }
 
-#if __cplusplus >= 201402L
-using CatalogIndexSequence = std::make_index_sequence<kCatalogSize>;
-#else
-using CatalogIndexSequence =
-    typename std::make_index_sequence<kCatalogSize>::type;
-#endif
-
 std::array<ComputeFn, kCatalogSize> const kComputeTable
-    = make_compute_table (CatalogIndexSequence{});
+    = make_compute_table (CatalogIndexList{});
 
 template <std::size_t I>
 LUMEX_CONSTEXPR_FUNCTION int
@@ -140,14 +149,13 @@ width_entry () LUMEX_NOEXCEPT
 
 template <std::size_t... I>
 LUMEX_CONSTEXPR_FUNCTION std::array<int, sizeof...(I)>
-make_width_table (std::index_sequence<I...> /*unusedIndexSequence*/)
-    LUMEX_NOEXCEPT
+make_width_table (index_list_t<I...> /*unusedIndexList*/) LUMEX_NOEXCEPT
 {
   return std::array<int, sizeof...(I)>{ { width_entry<I> ()... } };
 }
 
 LUMEX_CONST_NUM std::array<int, kCatalogSize> kWidthTable
-    = make_width_table (CatalogIndexSequence{});
+    = make_width_table (CatalogIndexList{});
 
 std::uint64_t
 mask_for_width (int widthBits) LUMEX_NOEXCEPT
@@ -398,7 +406,7 @@ namespace parametric
 // Namespace-scope definitions of the static members of every CRC spec.
 // Before C++17 an in-class `static const` member that is odr-used (bound to a
 // reference, as EXPECT_EQ does) needs exactly one such definition, and this
-// translation unit is always compiled as C++14 (the module's standard), so it
+// translation unit is always compiled as C++11 (the module's standard), so it
 // provides them for every consumer built before C++17. From C++17 the members
 // are inline variables. Every spec of LumexCrcParametric.hpp must be listed.
 // clang-format off
