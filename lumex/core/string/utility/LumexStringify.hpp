@@ -32,6 +32,13 @@
  * constraint, a `static_assert` below C++20. Below C++20, `std::unique_ptr`
  * and `std::shared_ptr` stream their raw address.
  *
+ * `stringify_v2` works from C++11 and gives the same text. Its constraint is
+ * one `std::enable_if` form in every standard
+ * (`traits::stream::all_streamable`), so a call with an argument that cannot
+ * be streamed finds no overload in every standard, where `stringify` stops
+ * with a `static_assert` below C++20; from C++20 the concept
+ * `AllStringifiable` accepts the same argument lists.
+ *
  * Nothing here is placed in the global namespace, so the names cannot clash
  * with a consumer's own `stringify`. Call it qualified, or bring it in with a
  * local `using lumex::core::string::utility::stringify;`.
@@ -165,28 +172,52 @@ stringify () LUMEX_NOEXCEPT
   return {};
 }
 
+namespace detail
+{
 #if LUMEX_HAS_CONCEPTS
-
 /**
- * @brief Same result as `stringify`, constrained with a `requires`
- * clause instead of a constrained template parameter.
+ * @brief `stringify` accepts every type in `Args`: the argument lists of the
+ * concept that constrains it (C++20).
  */
 template <typename... Args>
-  requires lumex::core::utility::traits::stream::detail::AllStringifiable<
-      Args...>
+struct are_stringifiable
+    : std::integral_constant<bool, lumex::core::utility::traits::stream::
+                                       detail::AllStringifiable<Args...>>
+{
+};
+#else
+/**
+ * @brief `stringify` accepts every type in `Args`: the argument lists its
+ * `static_assert` lets through (below C++20).
+ */
+template <typename... Args>
+struct are_stringifiable
+    : lumex::core::utility::traits::stream::all_streamable<Args...>
+{
+};
+#endif
+} // namespace detail
+
+/**
+ * @brief Same result as `stringify`, constrained with `std::enable_if`
+ * instead of a constrained template parameter or a `static_assert`.
+ * @details It exists for the argument lists `stringify` accepts, in every
+ * standard, and a call with an argument that is not streamable finds no
+ * overload: it can be detected with SFINAE and never fails inside the body.
+ * @return The text, or an empty string for no arguments.
+ */
+template <typename... Args,
+          typename std::enable_if<detail::are_stringifiable<Args...>::value,
+                                  int>::type
+          = 0>
 std::string
 stringify_v2 (Args &&...args)
 {
-  LUMEX_CONSTEXPR_IF (sizeof...(args) == 0) { return {}; }
-  else
-  {
-    std::ostringstream oss;
-    ((oss << std::forward<Args> (args)), ...);
-    return oss.str ();
-  }
+  // Qualified, so that no function of that name found by ADL on the argument
+  // types takes the call.
+  return lumex::core::string::utility::stringify (
+      std::forward<Args> (args)...);
 }
-
-#endif
 } // namespace utility
 } // namespace string
 } // namespace core
