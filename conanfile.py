@@ -148,7 +148,7 @@ class LumexLibConan(ConanFile):
         self._component("core_generators_number", "number_generator")
         utility = self._component(
             "core_utility", "utility", ["LumexCore_utility"],
-            ["core_math", "core_span"],
+            ["core_math", "core_optional", "core_span"],
         )
         if not windows:
             # As CMake's Threads::Threads: the dump header uses std::thread
