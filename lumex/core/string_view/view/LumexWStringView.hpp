@@ -93,6 +93,10 @@
 #include <iterator> // For std::reverse_iterator
 #include <ostream>  // For std::wostream
 #include <string>   // For std::wstring (for conversion functions)
+#if __cplusplus >= 201703L
+#include <string_view>
+#include <type_traits>
+#endif
 
 #include "lumex/core/utility/attr/LumexAttributes.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
@@ -1224,6 +1228,54 @@ public:
         m_data, m_size, alloc);
   }
 
+#if __cplusplus >= 201703L
+  // -- Conversions to and from the standard view (C++17) --
+  /**
+   * @brief Implicit conversion to `std::wstring_view` (C++17), like `span`
+   * converts to `std::span`.
+   * @details A member template that accepts exactly `std::wstring_view`. A
+   * template is instantiated by its user and is never part of the exported
+   * interface of a `dllimport` class, so the string_view library built at
+   * C++11 serves a C++17 consumer. Nothing is copied: the result views the
+   * same characters.
+   * @tparam StdView Deduced from the target; only `std::wstring_view` is
+   * accepted.
+   * @return A `std::wstring_view` over the same characters.
+   * @note Complexity: O(1).
+   */
+  template <class StdView, typename std::enable_if<
+                               std::is_same<StdView, std::wstring_view>::value,
+                               int>::type
+                           = 0>
+  LUMEX_CONSTEXPR
+  operator StdView () const
+      LUMEX_NOEXCEPT // NOLINT(google-explicit-constructor)
+  {
+    return StdView (m_data, m_size);
+  }
+
+  /**
+   * @brief Implicit construction from `std::wstring_view` (C++17).
+   * @details A constructor template that accepts exactly `std::wstring_view`,
+   * inline and never exported, like the conversion operator above.
+   * @tparam StdView Deduced from the argument; only `std::wstring_view` is
+   * accepted.
+   * @param view The standard view; it must outlive this view.
+   * @note Complexity: O(1).
+   */
+  template <class StdView, typename std::enable_if<
+                               std::is_same<StdView, std::wstring_view>::value,
+                               int>::type
+                           = 0>
+  LUMEX_CONSTEXPR_CTOR
+  lumex_wstring_view (StdView view)
+      LUMEX_NOEXCEPT // NOLINT(google-explicit-constructor)
+      : m_data (view.data ()),
+        m_size (view.size ())
+  {
+  }
+#endif
+
 private:
   /**
    * @brief Pointer to the beginning of the wide character sequence.
@@ -1333,6 +1385,218 @@ operator>= (lumex_wstring_view lhs, lumex_wstring_view rhs) LUMEX_NOEXCEPT
   return lhs.compare (rhs) >= 0;
 }
 
+#if __cplusplus >= 201703L
+// -- Comparison with the standard view (C++17) --
+// The two views convert to each other, so a comparison of a
+// `lumex_wstring_view` with a `std::wstring_view` would be ambiguous between
+// the operators above and those of the standard library. These templates
+// accept exactly `std::wstring_view` (a C string or a `std::basic_string`
+// still goes to the operators above) and win the overload resolution.
+/**
+ * @brief Compares a `lumex_wstring_view` (left) with a `std::wstring_view`
+ * (right): `lhs == rhs`.
+ * @tparam StdView Deduced; only `std::wstring_view` is accepted.
+ * @return `true` if the left view is equal to the right one.
+ * @note Complexity: O(N) where N is the minimum length of the two views.
+ */
+template <class StdView,
+          typename std::enable_if<
+              std::is_same<StdView, std::wstring_view>::value, int>::type
+          = 0>
+inline bool
+operator== (lumex_wstring_view lhs, StdView rhs) LUMEX_NOEXCEPT
+{
+  return lhs == lumex_wstring_view (rhs);
+}
+
+/**
+ * @brief Compares a `std::wstring_view` (left) with a `lumex_wstring_view`
+ * (right): `lhs == rhs`.
+ * @tparam StdView Deduced; only `std::wstring_view` is accepted.
+ * @return `true` if the left view is equal to the right one.
+ * @note Complexity: O(N) where N is the minimum length of the two views.
+ */
+template <class StdView,
+          typename std::enable_if<
+              std::is_same<StdView, std::wstring_view>::value, int>::type
+          = 0>
+inline bool
+operator== (StdView lhs, lumex_wstring_view rhs) LUMEX_NOEXCEPT
+{
+  return lumex_wstring_view (lhs) == rhs;
+}
+
+/**
+ * @brief Compares a `lumex_wstring_view` (left) with a `std::wstring_view`
+ * (right): `lhs != rhs`.
+ * @tparam StdView Deduced; only `std::wstring_view` is accepted.
+ * @return `true` if the left view is not equal to the right one.
+ * @note Complexity: O(N) where N is the minimum length of the two views.
+ */
+template <class StdView,
+          typename std::enable_if<
+              std::is_same<StdView, std::wstring_view>::value, int>::type
+          = 0>
+inline bool
+operator!= (lumex_wstring_view lhs, StdView rhs) LUMEX_NOEXCEPT
+{
+  return lhs != lumex_wstring_view (rhs);
+}
+
+/**
+ * @brief Compares a `std::wstring_view` (left) with a `lumex_wstring_view`
+ * (right): `lhs != rhs`.
+ * @tparam StdView Deduced; only `std::wstring_view` is accepted.
+ * @return `true` if the left view is not equal to the right one.
+ * @note Complexity: O(N) where N is the minimum length of the two views.
+ */
+template <class StdView,
+          typename std::enable_if<
+              std::is_same<StdView, std::wstring_view>::value, int>::type
+          = 0>
+inline bool
+operator!= (StdView lhs, lumex_wstring_view rhs) LUMEX_NOEXCEPT
+{
+  return lumex_wstring_view (lhs) != rhs;
+}
+
+/**
+ * @brief Compares a `lumex_wstring_view` (left) with a `std::wstring_view`
+ * (right): `lhs < rhs`.
+ * @tparam StdView Deduced; only `std::wstring_view` is accepted.
+ * @return `true` if the left view is less than the right one.
+ * @note Complexity: O(N) where N is the minimum length of the two views.
+ */
+template <class StdView,
+          typename std::enable_if<
+              std::is_same<StdView, std::wstring_view>::value, int>::type
+          = 0>
+inline bool
+operator< (lumex_wstring_view lhs, StdView rhs) LUMEX_NOEXCEPT
+{
+  return lhs < lumex_wstring_view (rhs);
+}
+
+/**
+ * @brief Compares a `std::wstring_view` (left) with a `lumex_wstring_view`
+ * (right): `lhs < rhs`.
+ * @tparam StdView Deduced; only `std::wstring_view` is accepted.
+ * @return `true` if the left view is less than the right one.
+ * @note Complexity: O(N) where N is the minimum length of the two views.
+ */
+template <class StdView,
+          typename std::enable_if<
+              std::is_same<StdView, std::wstring_view>::value, int>::type
+          = 0>
+inline bool
+operator< (StdView lhs, lumex_wstring_view rhs) LUMEX_NOEXCEPT
+{
+  return lumex_wstring_view (lhs) < rhs;
+}
+
+/**
+ * @brief Compares a `lumex_wstring_view` (left) with a `std::wstring_view`
+ * (right): `lhs > rhs`.
+ * @tparam StdView Deduced; only `std::wstring_view` is accepted.
+ * @return `true` if the left view is greater than the right one.
+ * @note Complexity: O(N) where N is the minimum length of the two views.
+ */
+template <class StdView,
+          typename std::enable_if<
+              std::is_same<StdView, std::wstring_view>::value, int>::type
+          = 0>
+inline bool
+operator> (lumex_wstring_view lhs, StdView rhs) LUMEX_NOEXCEPT
+{
+  return lhs > lumex_wstring_view (rhs);
+}
+
+/**
+ * @brief Compares a `std::wstring_view` (left) with a `lumex_wstring_view`
+ * (right): `lhs > rhs`.
+ * @tparam StdView Deduced; only `std::wstring_view` is accepted.
+ * @return `true` if the left view is greater than the right one.
+ * @note Complexity: O(N) where N is the minimum length of the two views.
+ */
+template <class StdView,
+          typename std::enable_if<
+              std::is_same<StdView, std::wstring_view>::value, int>::type
+          = 0>
+inline bool
+operator> (StdView lhs, lumex_wstring_view rhs) LUMEX_NOEXCEPT
+{
+  return lumex_wstring_view (lhs) > rhs;
+}
+
+/**
+ * @brief Compares a `lumex_wstring_view` (left) with a `std::wstring_view`
+ * (right): `lhs <= rhs`.
+ * @tparam StdView Deduced; only `std::wstring_view` is accepted.
+ * @return `true` if the left view is less than or equal to the right one.
+ * @note Complexity: O(N) where N is the minimum length of the two views.
+ */
+template <class StdView,
+          typename std::enable_if<
+              std::is_same<StdView, std::wstring_view>::value, int>::type
+          = 0>
+inline bool
+operator<= (lumex_wstring_view lhs, StdView rhs) LUMEX_NOEXCEPT
+{
+  return lhs <= lumex_wstring_view (rhs);
+}
+
+/**
+ * @brief Compares a `std::wstring_view` (left) with a `lumex_wstring_view`
+ * (right): `lhs <= rhs`.
+ * @tparam StdView Deduced; only `std::wstring_view` is accepted.
+ * @return `true` if the left view is less than or equal to the right one.
+ * @note Complexity: O(N) where N is the minimum length of the two views.
+ */
+template <class StdView,
+          typename std::enable_if<
+              std::is_same<StdView, std::wstring_view>::value, int>::type
+          = 0>
+inline bool
+operator<= (StdView lhs, lumex_wstring_view rhs) LUMEX_NOEXCEPT
+{
+  return lumex_wstring_view (lhs) <= rhs;
+}
+
+/**
+ * @brief Compares a `lumex_wstring_view` (left) with a `std::wstring_view`
+ * (right): `lhs >= rhs`.
+ * @tparam StdView Deduced; only `std::wstring_view` is accepted.
+ * @return `true` if the left view is greater than or equal to the right one.
+ * @note Complexity: O(N) where N is the minimum length of the two views.
+ */
+template <class StdView,
+          typename std::enable_if<
+              std::is_same<StdView, std::wstring_view>::value, int>::type
+          = 0>
+inline bool
+operator>= (lumex_wstring_view lhs, StdView rhs) LUMEX_NOEXCEPT
+{
+  return lhs >= lumex_wstring_view (rhs);
+}
+
+/**
+ * @brief Compares a `std::wstring_view` (left) with a `lumex_wstring_view`
+ * (right): `lhs >= rhs`.
+ * @tparam StdView Deduced; only `std::wstring_view` is accepted.
+ * @return `true` if the left view is greater than or equal to the right one.
+ * @note Complexity: O(N) where N is the minimum length of the two views.
+ */
+template <class StdView,
+          typename std::enable_if<
+              std::is_same<StdView, std::wstring_view>::value, int>::type
+          = 0>
+inline bool
+operator>= (StdView lhs, lumex_wstring_view rhs) LUMEX_NOEXCEPT
+{
+  return lumex_wstring_view (lhs) >= rhs;
+}
+#endif
+
 // -- Stream inserter --
 /**
  * @brief Overload for inserting a `lumex_wstring_view` into an
@@ -1346,7 +1610,7 @@ operator>= (lumex_wstring_view lhs, lumex_wstring_view rhs) LUMEX_NOEXCEPT
  * @note Complexity: O(N) where N is `wsview.size()`.
  */
 LUMEX_STRING_VIEW_API std::wostream &operator<< (std::wostream &wostr,
-                                     lumex_wstring_view wsview);
+                                                 lumex_wstring_view wsview);
 } // namespace view
 } // namespace string_view
 } // namespace core
