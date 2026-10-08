@@ -23,6 +23,7 @@ set(LUMEX_CORE_MODULE_OPTIONS
     LUMEX_BUILD_FILESYSTEM
     LUMEX_BUILD_FMT
     LUMEX_BUILD_GENERATORS
+    LUMEX_BUILD_HAZARD_POINTER
     LUMEX_BUILD_MATH
     LUMEX_BUILD_OPTIONAL
     LUMEX_BUILD_REFLECTION
@@ -164,6 +165,9 @@ function(lumex_check_module_dependencies)
     lumex_require_module(LUMEX_BUILD_JSON LUMEX_BUILD_STRING_VIEW)
     lumex_require_module(LUMEX_BUILD_JSON LUMEX_BUILD_UTILITY)
 
+    lumex_require_module(LUMEX_BUILD_HAZARD_POINTER LUMEX_BUILD_UTILITY)
+    lumex_require_module(LUMEX_BUILD_HAZARD_POINTER LUMEX_BUILD_SPAN)
+
     string(TOUPPER "${LUMEX_LOGGER_CONFIG_FORMAT}" _logger_config_format)
     set(_logger_config_formats PLAIN_TEXT INI JSON YAML XML)
     if(NOT _logger_config_format IN_LIST _logger_config_formats)
@@ -224,6 +228,7 @@ set(LUMEX_SHARED_LIBRARY_CANDIDATES
     LumexCore_expected
     LumexCore_filesystem
     LumexCore_fmt
+    LumexCore_hazard_pointer
     LumexCore_number_generator
     LumexCore_math
     LumexCore_optional
