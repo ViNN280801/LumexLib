@@ -49,6 +49,7 @@
 #include "lumex/core/crc/parametric/LumexCrcParametric.hpp"
 #include "lumex/core/utility/macros/LumexConstantMacros.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
+#include "lumex/core/utility/sequence/LumexIndexSequence.hpp"
 
 #if defined(__clang__)
 #pragma clang diagnostic push
@@ -112,26 +113,16 @@ compute_entry (std::uint8_t const *data, std::size_t size) LUMEX_NOEXCEPT
       crc_parametric<Spec>::calculate (data, size));
 }
 
-// C++11 has no std::index_sequence (C++14): a list of the numbers 0 .. N - 1.
-template <std::size_t... I> struct index_list_t
-{
-};
+// The library is compiled as C++11, which has no std::index_sequence (C++14):
+// the index sequence of utility is the own class here.
+using utility::sequence::index_sequence;
 
-template <std::size_t N, std::size_t... I>
-struct make_index_list_t : make_index_list_t<N - 1, N - 1, I...>
-{
-};
-
-template <std::size_t... I> struct make_index_list_t<0, I...>
-{
-  using type = index_list_t<I...>;
-};
-
-using CatalogIndexList = typename make_index_list_t<kCatalogSize>::type;
+using CatalogIndexList = utility::sequence::make_index_sequence<kCatalogSize>;
 
 template <std::size_t... I>
 std::array<ComputeFn, sizeof...(I)>
-make_compute_table (index_list_t<I...> /*unusedIndexList*/) LUMEX_NOEXCEPT
+make_compute_table (index_sequence<I...> /*unusedIndexSequence*/)
+    LUMEX_NOEXCEPT
 {
   return std::array<ComputeFn, sizeof...(I)>{ { &compute_entry<I>... } };
 }
@@ -149,7 +140,7 @@ width_entry () LUMEX_NOEXCEPT
 
 template <std::size_t... I>
 LUMEX_CONSTEXPR_FUNCTION std::array<int, sizeof...(I)>
-make_width_table (index_list_t<I...> /*unusedIndexList*/) LUMEX_NOEXCEPT
+make_width_table (index_sequence<I...> /*unusedIndexSequence*/) LUMEX_NOEXCEPT
 {
   return std::array<int, sizeof...(I)>{ { width_entry<I> ()... } };
 }
