@@ -29,7 +29,7 @@
 // CRC tests of the std::string_view overloads of the catalogue (C++17):
 // compute_crc_catalog, compute_crc_with_rev_eng_params and
 // append_crc_least_significant_byte_first. The C++17 and C++20 suites compile
-// this file together with LumexCrcCatalog.cxx14.tests.cpp.
+// this file together with LumexCrcCatalog.cxx11.tests.cpp.
 
 #include <cstdint>
 #include <string_view>
