@@ -73,7 +73,7 @@
  */
 namespace LumexCrcTestHelpers
 {
-LUMEX_CONSTEXPR_FUNCTION std::uint64_t
+LUMEX_CONSTEXPR_CXX14 std::uint64_t
 reflect (std::uint64_t v, int w) LUMEX_NOEXCEPT
 {
   std::uint64_t r = 0;

@@ -1,7 +1,8 @@
 // Typed tests of the parametric CRC engine (lumex/core/crc/parametric) over
 // every spec of the catalog: the catalog check value, random vectors against
-// the reference CRC and the manual cases. Parametric CRC needs C++14
-// constexpr; every suite of this directory (C++14, C++17, C++20) runs them.
+// the reference CRC and the manual cases. They run from C++11 (the table is
+// built on first use there and at compile time from C++14); every suite of
+// this directory (C++11, C++14, C++17, C++20) runs them.
 // The span checks inside RandomVectors and ManualCases run in the C++20
 // suite; LumexCrcParametric.cxx20.tests.cpp adds the std::span tests of
 // Crc8MaximDow.

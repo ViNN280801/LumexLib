@@ -27,7 +27,7 @@
  */
 
 // CRC tests of the std::span overload of crc_parametric (C++20). The C++20
-// suite compiles this file together with LumexCrcParametric.cxx14.tests.cpp.
+// suite compiles this file together with LumexCrcParametric.cxx11.tests.cpp.
 // The overload exists only when the standard
 // library has std::span (LUMEX_HAS_STD_SPAN): libstdc++ 8 has no <span> even
 // with -std=c++2a, so there the tests skip.

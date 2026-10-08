@@ -21,9 +21,14 @@ target_link_libraries(${LUMEX_CRC_NAME} PUBLIC
     lumex::span
 )
 
-# Catalogue tables use std::make_index_sequence (C++14).
+# The library is compiled as C++11 on purpose, whatever the compiler defaults
+# to: LumexCrcCatalog.cpp defines the static data members of the CRC specs for
+# every consumer built before C++17 (an odr-use needs one definition there;
+# from C++17 the members are inline and the translation unit defines none), so
+# it must not be compiled as C++17 or later. Nothing in it needs more than
+# C++11.
 set_target_properties(${LUMEX_CRC_NAME} PROPERTIES
-    CXX_STANDARD 14
+    CXX_STANDARD 11
     CXX_STANDARD_REQUIRED ON
     CXX_EXTENSIONS OFF
 )
