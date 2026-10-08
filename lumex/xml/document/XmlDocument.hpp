@@ -238,9 +238,8 @@ public:
    * @brief DEPRECATED: Loads an XML document from a zero-terminated C-style
    * string. Use `load_string` instead.
    * @details Parses XML data directly from the provided string. No encoding
-   * conversions are applied; the input `char_t` string is assumed to be in the
-   * native character mode of the library (`char` or `wchar_t`). The document
-   * is reset before loading.
+   * conversions are applied; the input `char_t` string is assumed to be
+   * UTF-8. The document is reset before loading.
    * @param[in] contents A pointer to the zero-terminated string containing the
    * XML data. Must remain valid during parsing.
    * @param[in] options A bitmask of `Constants::xml_parse_option` flags.
@@ -259,9 +258,8 @@ public:
   /**
    * @brief Loads an XML document from a zero-terminated C-style string.
    * @details Parses XML data directly from the provided string. No encoding
-   * conversions are applied; the input `char_t` string is assumed to be in the
-   * native character mode of the library (`char` or `wchar_t`). The document
-   * is reset before loading.
+   * conversions are applied; the input `char_t` string is assumed to be
+   * UTF-8. The document is reset before loading.
    * @param[in] contents A pointer to the zero-terminated string containing the
    * XML data. Must remain valid during parsing.
    * @param[in] options A bitmask of `Constants::xml_parse_option` flags
@@ -412,7 +410,7 @@ public:
    * @param[in,out] writer An `IXmlWriter` implementation to which the XML data
    * will be written.
    * @param[in] indent A null-terminated C-style string used for indentation.
-   * Defaults to a tab character `LUMEX_XML_TEXT("\t")`.
+   * Defaults to a tab character `"\t"`.
    * @param[in] flags A bitmask of `Constants::xml_format_option` flags
    * controlling output formatting (e.g., compact, no declaration, write BOM).
    * Defaults to `Constants::kformat_default`.
@@ -423,7 +421,7 @@ public:
    * @see IXmlWriter
    * @see Constants::xml_format_option
    */
-  void save (IXmlWriter &writer, char_t const *indent = LUMEX_XML_TEXT ("\t"),
+  void save (IXmlWriter &writer, char_t const *indent = "\t",
              unsigned int flags = Constants::kformat_default,
              xml_encoding encoding = encoding_auto) const;
 
@@ -437,7 +435,7 @@ public:
    * @param[in,out] stream The output stream to which the XML data will be
    * written.
    * @param[in] indent A null-terminated C-style string for indentation.
-   * Defaults to `LUMEX_XML_TEXT("\t")`.
+   * Defaults to `"\t"`.
    * @param[in] flags A bitmask of `Constants::xml_format_option` flags.
    * Defaults to `Constants::kformat_default`.
    * @param[in] encoding The character encoding for the output. Defaults to
@@ -445,8 +443,7 @@ public:
    * @throws `std::ios_base::failure` if stream operations fail and exceptions
    * are enabled on the stream.
    */
-  void save (std::basic_ostream<char> &stream,
-             char_t const *indent = LUMEX_XML_TEXT ("\t"),
+  void save (std::basic_ostream<char> &stream, char_t const *indent = "\t",
              unsigned int flags = Constants::kformat_default,
              xml_encoding encoding = encoding_auto) const;
 
@@ -459,14 +456,13 @@ public:
    * @param[in,out] stream The output stream to which the XML data will be
    * written.
    * @param[in] indent A null-terminated C-style string for indentation.
-   * Defaults to `LUMEX_XML_TEXT("\t")`.
+   * Defaults to `"\t"`.
    * @param[in] flags A bitmask of `Constants::xml_format_option` flags.
    * Defaults to `Constants::kformat_default`.
    * @throws `std::ios_base::failure` if stream operations fail and exceptions
    * are enabled on the stream.
    */
-  void save (std::basic_ostream<wchar_t> &stream,
-             char_t const *indent = LUMEX_XML_TEXT ("\t"),
+  void save (std::basic_ostream<wchar_t> &stream, char_t const *indent = "\t",
              unsigned int flags = Constants::kformat_default) const;
 
   // Save XML to file
@@ -479,7 +475,7 @@ public:
    * @param[in] path The null-terminated C-style string path to the output XML
    * file.
    * @param[in] indent A null-terminated C-style string for indentation.
-   * Defaults to `LUMEX_XML_TEXT("\t")`.
+   * Defaults to `"\t"`.
    * @param[in] flags A bitmask of `Constants::xml_format_option` flags.
    * Defaults to `Constants::kformat_default`.
    * @param[in] encoding The character encoding for the output. Defaults to
@@ -487,8 +483,7 @@ public:
    * @return `true` if the document was successfully saved to the file, `false`
    * otherwise (e.g., file cannot be opened).
    */
-  bool save_file (char const *path,
-                  char_t const *indent = LUMEX_XML_TEXT ("\t"),
+  bool save_file (char const *path, char_t const *indent = "\t",
                   unsigned int flags = Constants::kformat_default,
                   xml_encoding encoding = encoding_auto) const;
 
@@ -501,7 +496,7 @@ public:
    * @param[in] path The null-terminated wide character string path to the
    * output XML file.
    * @param[in] indent A null-terminated C-style string for indentation.
-   * Defaults to `LUMEX_XML_TEXT("\t")`.
+   * Defaults to `"\t"`.
    * @param[in] flags A bitmask of `Constants::xml_format_option` flags.
    * Defaults to `Constants::kformat_default`.
    * @param[in] encoding The character encoding for the output. Defaults to
@@ -509,8 +504,7 @@ public:
    * @return `true` if the document was successfully saved to the file, `false`
    * otherwise.
    */
-  bool save_file (wchar_t const *path,
-                  char_t const *indent = LUMEX_XML_TEXT ("\t"),
+  bool save_file (wchar_t const *path, char_t const *indent = "\t",
                   unsigned int flags = Constants::kformat_default,
                   xml_encoding encoding = encoding_auto) const;
 

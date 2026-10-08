@@ -50,7 +50,7 @@
  * use and yields empty results. Handles become invalid with the `XmlDocument`
  * they come from. The class is not exported. Members compiled into the
  * library carry `LUMEX_API`. The `string_view_t` overloads
- * (`std::basic_string_view<char_t>` from C++17, the `lumex_string_view` of
+ * (`std::string_view` from C++17, the `lumex_string_view` of
  * `lumex::string_view` below, so they exist in every C++ standard) are inline
  * wrappers and are not `dllimport`.
  *
@@ -356,7 +356,7 @@ public:
    * @brief Retrieves the name of the XML node.
    * @details If the node is valid and has a name (e.g., element, processing
    * instruction, declaration), this returns a C-style string pointer to it.
-   * Returns `LUMEX_XML_TEXT("")` for empty nodes or node types without names
+   * Returns `""` for empty nodes or node types without names
    * (e.g., PCDATA, CDATA).
    * @return A null-terminated C-style string representing the node's name.
    * @note The returned pointer points to internal memory and should not be
@@ -379,7 +379,7 @@ public:
    * node types like `PCDATA`, `CDATA`, `comment`, `doctype`, `pi` (processing
    * instruction). For element nodes, this typically returns `nullptr` unless
    * `kparse_embed_pcdata` was used during parsing. Returns
-   * `LUMEX_XML_TEXT("")` for empty nodes or node types without a direct value.
+   * `""` for empty nodes or node types without a direct value.
    * @return A null-terminated C-style string representing the node's value.
    * @note The returned pointer points to internal memory and should not be
    * deallocated or modified. Its lifetime is tied to the XML document.
@@ -761,7 +761,7 @@ public:
    * @details For an element node, this is the most common way to get its
    * contained text. If the current node is an element and
    * `kparse_embed_pcdata` was used, it might return the `value()` of the
-   * element itself. Returns `LUMEX_XML_TEXT("")` if no such child exists or
+   * element itself. Returns `""` if no such child exists or
    * the node is empty.
    * @return A null-terminated C-style string representing the child's value.
    * @note The returned pointer points to internal memory and should not be
@@ -779,7 +779,7 @@ public:
    * @param[in] name A null-terminated C-style string representing the name of
    * the child element.
    * @return The text content of the first child element matching `name`, or
-   * `LUMEX_XML_TEXT("")` if not found or no text content exists.
+   * `""` if not found or no text content exists.
    * @details This is a convenience method equivalent to
    * `child(name).child_value()`.
    */
@@ -1659,7 +1659,7 @@ public:
    * root as a string.
    * @param[in] delimiter The character used to separate path segments.
    * Defaults to `/`.
-   * @return A `string_t` (e.g., `std::string` or `std::wstring`) representing
+   * @return A `string_t` (`std::string`) representing
    * the absolute path. Returns an empty string for an empty node.
    * @details The path includes the names of all ancestor nodes up to the
    * document root, separated by the `delimiter`.
@@ -1796,7 +1796,7 @@ public:
    * @param[in,out] writer An `IXmlWriter` implementation to which the XML data
    * will be written.
    * @param[in] indent A null-terminated C-style string used for indentation.
-   * Defaults to a tab character `LUMEX_XML_TEXT("\t")`.
+   * Defaults to a tab character `"\t"`.
    * @param[in] flags A bitmask of `Constants::xml_format_option` flags
    * controlling output formatting. Defaults to `kformat_default`.
    * @param[in] encoding The character encoding for the output. Defaults to
@@ -1810,8 +1810,7 @@ public:
    * @note For printing an entire document, use `XmlDocument::save` instead, as
    * it handles XML declarations and BOM.
    */
-  LUMEX_API void print (IXmlWriter &writer,
-                        char_t const *indent = LUMEX_XML_TEXT ("\t"),
+  LUMEX_API void print (IXmlWriter &writer, char_t const *indent = "\t",
                         unsigned int flags = kformat_default,
                         xml_encoding encoding = encoding_auto,
                         unsigned int depth = 0) const;
@@ -1823,7 +1822,7 @@ public:
    * @param[in,out] ostream The output stream to which the XML data will be
    * written.
    * @param[in] indent A null-terminated C-style string for indentation.
-   * Defaults to `LUMEX_XML_TEXT("\t")`.
+   * Defaults to `"\t"`.
    * @param[in] flags A bitmask of `Constants::xml_format_option` flags.
    * Defaults to `kformat_default`.
    * @param[in] encoding The character encoding for the output. Defaults to
@@ -1835,7 +1834,7 @@ public:
    * are enabled on the stream.
    */
   LUMEX_API void print (std::basic_ostream<char> &ostream,
-                        char_t const *indent = LUMEX_XML_TEXT ("\t"),
+                        char_t const *indent = "\t",
                         unsigned int flags = kformat_default,
                         xml_encoding encoding = encoding_auto,
                         unsigned int depth = 0) const;
@@ -1845,7 +1844,7 @@ public:
    * @param[in,out] ostream The output stream to which the XML data will be
    * written.
    * @param[in] indent A null-terminated C-style string for indentation.
-   * Defaults to `LUMEX_XML_TEXT("\t")`.
+   * Defaults to `"\t"`.
    * @param[in] flags A bitmask of `Constants::xml_format_option` flags.
    * Defaults to `kformat_default`.
    * @param[in] depth The initial indentation level. Defaults to `0`.
@@ -1855,7 +1854,7 @@ public:
    * are enabled on the stream.
    */
   LUMEX_API void print (std::basic_ostream<wchar_t> &ostream,
-                        char_t const *indent = LUMEX_XML_TEXT ("\t"),
+                        char_t const *indent = "\t",
                         unsigned int flags = kformat_default,
                         unsigned int depth = 0) const;
 

@@ -97,7 +97,6 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
-#include <cwchar>
 
 #include "lumex/core/math/ops/LumexMath.hpp"
 #include "lumex/core/unicode/utf/LumexUtf.hpp"
@@ -244,32 +243,13 @@ get_value_uint (char_t const *value)
 inline double
 get_value_double (char_t const *value)
 {
-#ifdef LUMEX_XML_WCHAR_MODE
-  return wcstod (value, nullptr);
-#else
   return strtod (value, nullptr);
-#endif
 }
-
-#ifdef LUMEX_XML_WCHAR_MODE
-inline void
-convert_wchar_endian_swap (wchar_t *result, wchar_t const *data,
-                           std::size_t length)
-{
-  for (std::size_t i = 0; i < length; ++i)
-    result[i] = static_cast<wchar_t> (::lumex::core::utility::bit::byte_swap (
-        static_cast<utf::wchar_selector<sizeof (wchar_t)>::type> (data[i])));
-}
-#endif
 
 inline float
 get_value_float (char_t const *value)
 {
-#ifdef LUMEX_XML_WCHAR_MODE
-  return static_cast<float> (wcstod (value, nullptr));
-#else
   return static_cast<float> (strtod (value, nullptr));
-#endif
 }
 
 inline bool
@@ -303,11 +283,7 @@ strlength (char_t const *str)
 {
   LUMEX_ASSERT (str);
 
-#ifdef LUMEX_XML_WCHAR_MODE
-  return wcslen (str);
-#else
   return strlen (str);
-#endif
 }
 
 template <typename Header>
@@ -384,11 +360,7 @@ strequal (char_t const *src, char_t const *dst)
 {
   LUMEX_ASSERT (src && dst);
 
-#ifdef LUMEX_XML_WCHAR_MODE
-  return wcscmp (src, dst) == 0;
-#else
   return strcmp (src, dst) == 0;
-#endif
 }
 
 // Check if the null-terminated dst string is equal to the `srclen`
@@ -474,18 +446,7 @@ inline bool
 set_value_ascii (String &dest, Header &header, uintptr_t header_mask,
                  char *buf)
 {
-#ifdef LUMEX_XML_WCHAR_MODE
-  char_t wbuf[128];
-  LUMEX_ASSERT (strlen (buf) < sizeof (wbuf) / sizeof (wbuf[0]));
-
-  std::size_t offset = 0;
-  for (; buf[offset]; ++offset)
-    wbuf[offset] = buf[offset];
-
-  return strcpy_insitu (dest, header, header_mask, wbuf, offset);
-#else
   return strcpy_insitu (dest, header, header_mask, buf, strlen (buf));
-#endif
 }
 
 template <typename String, typename Header>
@@ -526,9 +487,7 @@ inline bool
 set_value_bool (String &dest, Header &header, uintptr_t header_mask,
                 bool value)
 {
-  return strcpy_insitu (dest, header, header_mask,
-                        value ? LUMEX_XML_TEXT ("true")
-                              : LUMEX_XML_TEXT ("false"),
+  return strcpy_insitu (dest, header, header_mask, value ? "true" : "false",
                         value ? kTrueStringLength : kFalseStringLength);
 }
 
@@ -826,11 +785,7 @@ get_mutable_buffer (char_t *&out_buffer, std::size_t &out_length,
 inline xml_encoding
 get_write_native_encoding ()
 {
-#ifdef LUMEX_XML_WCHAR_MODE
-  return get_wchar_encoding ();
-#else
   return encoding_utf8;
-#endif
 }
 
 inline xml_encoding
@@ -860,154 +815,6 @@ get_write_encoding (xml_encoding encoding)
   return encoding_utf8;
 }
 
-#ifdef LUMEX_XML_WCHAR_MODE
-inline bool
-need_endian_swap_utf (
-    xml_encoding le_,
-    xml_encoding re_) // NOLINT(bugprone-easily-swappable-parameters)
-{
-  return (le_ == encoding_utf16_be && re_ == encoding_utf16_le)
-         || (le_ == encoding_utf16_le && re_ == encoding_utf16_be)
-         || (le_ == encoding_utf32_be && re_ == encoding_utf32_le)
-         || (le_ == encoding_utf32_le && re_ == encoding_utf32_be);
-}
-
-inline bool
-convert_buffer_endian_swap (char_t *&out_buffer, std::size_t &out_length,
-                            void const *contents, std::size_t size,
-                            bool is_mutable)
-{
-  auto const *data = static_cast<char_t const *> (contents);
-  std::size_t length = size / sizeof (char_t);
-
-  if (is_mutable)
-    {
-      auto *buffer = const_cast<char_t *> (
-          data); // NOLINT(cppcoreguidelines-pro-type-const-cast)
-
-      convert_wchar_endian_swap (buffer, data, length);
-
-      out_buffer = buffer;
-      out_length = length;
-    }
-  else
-    {
-      auto *buffer
-          = static_cast<char_t *> ( // NOLINT(cppcoreguidelines-owning-memory)
-              malloc (
-                  (length + 1)
-                  * sizeof (char_t))); // NOLINT(cppcoreguidelines-no-malloc)
-      if (buffer == nullptr)
-        return false;
-
-      convert_wchar_endian_swap (buffer, data, length);
-      buffer[length] = 0;
-
-      out_buffer = buffer;
-      out_length = length + 1;
-    }
-
-  return true;
-}
-
-template <typename D>
-inline bool
-convert_buffer_generic (char_t *&out_buffer, std::size_t &out_length,
-                        void const *contents, std::size_t size, D)
-{
-  typename D::type const *data
-      = static_cast<typename D::type const *> (contents);
-  std::size_t data_length = size / sizeof (typename D::type);
-
-  // first pass: get length in wchar_t units
-  std::size_t length
-      = D::process (data, data_length, 0, utf::wchar_counter ());
-
-  // allocate buffer of suitable length
-  auto *buffer
-      = static_cast<char_t *> ( // NOLINT(cppcoreguidelines-owning-memory)
-          malloc ((length + 1)
-                  * sizeof (char_t))); // NOLINT(cppcoreguidelines-no-malloc)
-  if (buffer == nullptr)
-    return false;
-
-  // second pass: convert utf16 input to wchar_t
-  utf::wchar_writer::value_type obegin
-      = reinterpret_cast<utf::wchar_writer::value_type> (buffer);
-  utf::wchar_writer::value_type oend
-      = D::process (data, data_length, obegin, utf::wchar_writer ());
-
-  LUMEX_ASSERT (oend == obegin + length);
-  *oend = 0;
-
-  out_buffer = buffer;
-  out_length = length + 1;
-
-  return true;
-}
-
-inline bool
-convert_buffer (char_t *&out_buffer, std::size_t &out_length,
-                xml_encoding encoding, void const *contents, std::size_t size,
-                bool is_mutable)
-{
-  // get native encoding
-  xml_encoding wchar_encoding = get_wchar_encoding ();
-
-  // fast path: no conversion required
-  if (encoding == wchar_encoding)
-    return get_mutable_buffer (out_buffer, out_length, contents, size,
-                               is_mutable);
-
-  // only endian-swapping is required
-  if (need_endian_swap_utf (encoding, wchar_encoding))
-    return convert_buffer_endian_swap (out_buffer, out_length, contents, size,
-                                       is_mutable);
-
-  // source encoding is utf8
-  if (encoding == encoding_utf8)
-    return convert_buffer_generic (out_buffer, out_length, contents, size,
-                                   utf::utf8_decoder ());
-
-  // source encoding is utf16
-  if (encoding == encoding_utf16_be || encoding == encoding_utf16_le)
-    {
-      xml_encoding native_encoding
-          = ::lumex::core::utility::bit::is_little_endian ()
-                ? encoding_utf16_le
-                : encoding_utf16_be;
-
-      return (native_encoding == encoding)
-                 ? convert_buffer_generic (out_buffer, out_length, contents,
-                                           size, utf::utf16_decoder<false> ())
-                 : convert_buffer_generic (out_buffer, out_length, contents,
-                                           size, utf::utf16_decoder<true> ());
-    }
-
-  // source encoding is utf32
-  if (encoding == encoding_utf32_be || encoding == encoding_utf32_le)
-    {
-      xml_encoding native_encoding
-          = ::lumex::core::utility::bit::is_little_endian ()
-                ? encoding_utf32_le
-                : encoding_utf32_be;
-
-      return (native_encoding == encoding)
-                 ? convert_buffer_generic (out_buffer, out_length, contents,
-                                           size, utf::utf32_decoder<false> ())
-                 : convert_buffer_generic (out_buffer, out_length, contents,
-                                           size, utf::utf32_decoder<true> ());
-    }
-
-  // source encoding is latin1
-  if (encoding == encoding_latin1)
-    return convert_buffer_generic (out_buffer, out_length, contents, size,
-                                   utf::latin1_decoder ());
-
-  LUMEX_ASSERT (false && "Invalid encoding"); // unreachable
-  return false;
-}
-#else
 template <typename D>
 inline bool
 convert_buffer_generic (char_t *&out_buffer, std::size_t &out_length,
@@ -1148,7 +955,6 @@ convert_buffer (char_t *&out_buffer, std::size_t &out_length,
   LUMEX_ASSERT (false && "Invalid encoding"); // unreachable
   return false;
 }
-#endif
 
 template <typename D, typename T>
 inline std::size_t
@@ -1182,75 +988,6 @@ convert_buffer_output_generic (typename T::value_type dest, char_t const *data,
   return static_cast<std::size_t> (end - dest) * sizeof (*dest);
 }
 
-#ifdef LUMEX_XML_WCHAR_MODE
-inline std::size_t
-get_valid_length (char_t const *data, std::size_t length)
-{
-  if (length < 1)
-    return 0;
-
-  // discard last character if it's the lead of a surrogate pair
-  return (sizeof (wchar_t) == 2
-          && static_cast<unsigned int> (
-                 static_cast<uint16_t> (data[length - 1]) - 0xD800)
-                 < 0x400)
-             ? length - 1
-             : length;
-}
-
-inline std::size_t
-convert_buffer_output (char_t const *r_char, uint8_t *r_u8, uint16_t *r_u16,
-                       uint32_t *r_u32, char_t const *data, std::size_t length,
-                       xml_encoding encoding)
-{
-  // only endian-swapping is required
-  if (need_endian_swap_utf (encoding, get_wchar_encoding ()))
-    {
-      convert_wchar_endian_swap (r_char, data, length);
-
-      return length * sizeof (char_t);
-    }
-
-  // convert to utf8
-  if (encoding == encoding_utf8)
-    return convert_buffer_output_generic (
-        r_u8, data, length, utf::wchar_decoder (), utf::utf8_writer ());
-
-  // convert to utf16
-  if (encoding == encoding_utf16_be || encoding == encoding_utf16_le)
-    {
-      xml_encoding native_encoding
-          = ::lumex::core::utility::bit::is_little_endian ()
-                ? encoding_utf16_le
-                : encoding_utf16_be;
-
-      return convert_buffer_output_generic (
-          r_u16, data, length, utf::wchar_decoder (), utf::utf16_writer (),
-          native_encoding != encoding);
-    }
-
-  // convert to utf32
-  if (encoding == encoding_utf32_be || encoding == encoding_utf32_le)
-    {
-      xml_encoding native_encoding
-          = ::lumex::core::utility::bit::is_little_endian ()
-                ? encoding_utf32_le
-                : encoding_utf32_be;
-
-      return convert_buffer_output_generic (
-          r_u32, data, length, utf::wchar_decoder (), utf::utf32_writer (),
-          native_encoding != encoding);
-    }
-
-  // convert to latin1
-  if (encoding == encoding_latin1)
-    return convert_buffer_output_generic (
-        r_u8, data, length, utf::wchar_decoder (), utf::latin1_writer ());
-
-  LUMEX_ASSERT (false && "Invalid encoding"); // unreachable
-  return 0;
-}
-#else
 inline std::size_t
 get_valid_length (char_t const *data, std::size_t length)
 {
@@ -1307,7 +1044,6 @@ convert_buffer_output (char_t * /* r_char */, uint8_t *r_u8, uint16_t *r_u16,
   LUMEX_ASSERT (false && "Invalid encoding"); // unreachable
   return 0;
 }
-#endif
 
 inline bool
 allow_insert_attribute (xml_node_type parent)
@@ -1417,12 +1153,8 @@ convert_string_to_number (char_t const *string)
   if (!check_string_to_number_format (string))
     return std::numeric_limits<double>::quiet_NaN ();
 
-// parse string
-#ifdef LUMEX_XML_WCHAR_MODE
-  return wcstod (string, nullptr);
-#else
+  // parse string
   return strtod (string, nullptr);
-#endif
 }
 
 inline bool
@@ -1493,22 +1225,13 @@ starts_with (char_t const *str, char_t const *pattern)
 inline char_t const *
 find_char (char_t const *str, char_t chr)
 {
-#ifdef LUMEX_XML_WCHAR_MODE
-  return wcschr (str, chr);
-#else
   return strchr (str, chr);
-#endif
 }
 
 inline char_t const *
 find_substring (char_t const *str, char_t const *pattern)
 {
-#ifdef LUMEX_XML_WCHAR_MODE
-  // MSVC6 wcsstr bug workaround (if s is empty it always returns 0)
-  return (*pattern == 0) ? str : wcsstr (str, pattern);
-#else
   return strstr (str, pattern);
-#endif
 }
 
 // Converts symbol to lower case, if it is an ASCII one
@@ -1523,8 +1246,7 @@ tolower_ascii (char_t chr)
 inline bool
 is_xpath_attribute (char_t const *name)
 {
-  return !starts_with (name, LUMEX_XML_TEXT ("xmlns"))
-         || (name[5] != 0 && name[5] != ':');
+  return !starts_with (name, "xmlns") || (name[5] != 0 && name[5] != ':');
 }
 
 inline bool
@@ -1685,12 +1407,11 @@ convert_number_to_string_special (double value)
   double const volatile val = value;
 
   if (::lumex::core::math::ops::exactly_equal (val, 0.0))
-    return LUMEX_XML_TEXT ("0");
+    return "0";
   if (!::lumex::core::math::ops::exactly_equal (val, val))
-    return LUMEX_XML_TEXT ("NaN");
+    return "NaN";
   if (::lumex::core::math::ops::exactly_equal (val * 2, val))
-    return value > 0 ? LUMEX_XML_TEXT ("Infinity")
-                     : LUMEX_XML_TEXT ("-Infinity");
+    return value > 0 ? "Infinity" : "-Infinity";
   return nullptr;
 }
 
@@ -1702,14 +1423,9 @@ convert_number_to_mantissa_exponent (
     char **out_mantissa, int *out_exponent)
 {
   // get a scientific notation value with IEEE DBL_DIG decimals
-#ifdef LUMEX_XML_WCHAR_MODE
-  swprintf ( // NOLINT(cppcoreguidelines-pro-type-vararg)
-      reinterpret_cast<wchar_t *> (buffer), 32, L"%.*e", DBL_DIG, value);
-#else
   snprintf (  // NOLINT(cppcoreguidelines-pro-type-vararg)
       buffer, // NOLINT(cppcoreguidelines-pro-bounds-array-to-pointer-decay)
       32, "%.*e", DBL_DIG, value);
-#endif
 
   // get the exponent (possibly negative)
   char *exponent_string = strchr (

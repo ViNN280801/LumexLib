@@ -213,9 +213,9 @@ char_t const *
 XmlNode::name () const
 {
   if (m_root == nullptr)
-    return LUMEX_XML_TEXT ("");
+    return "";
   char_t const *name = m_root->name;
-  return (name != nullptr) ? name : LUMEX_XML_TEXT ("");
+  return (name != nullptr) ? name : "";
 }
 
 LUMEX_PUBLIC_API
@@ -230,9 +230,9 @@ char_t const *
 XmlNode::value () const
 {
   if (m_root == nullptr)
-    return LUMEX_XML_TEXT ("");
+    return "";
   char_t const *value = m_root->value;
-  return (value != nullptr) ? value : LUMEX_XML_TEXT ("");
+  return (value != nullptr) ? value : "";
 }
 
 LUMEX_PUBLIC_API
@@ -518,7 +518,7 @@ char_t const *
 XmlNode::child_value () const
 {
   if (m_root == nullptr)
-    return LUMEX_XML_TEXT ("");
+    return "";
 
   // element nodes can have value if parse_embed_pcdata was used
   if (LUMEX_XML_NODETYPE (m_root) == node_element && m_root->value != nullptr)
@@ -531,7 +531,7 @@ XmlNode::child_value () const
         return ivalue;
     }
 
-  return LUMEX_XML_TEXT ("");
+  return "";
 }
 
 LUMEX_PUBLIC_API
@@ -927,7 +927,7 @@ XmlNode::append_child (xml_node_type type_)
   lumex::xml::node::append_node (newNode.m_root, m_root);
 
   if (type_ == node_declaration)
-    newNode.set_name (LUMEX_XML_TEXT ("xml"));
+    newNode.set_name ("xml");
 
   return newNode;
 }
@@ -948,7 +948,7 @@ XmlNode::prepend_child (xml_node_type type_)
   lumex::xml::node::prepend_node (newNode.m_root, m_root);
 
   if (type_ == node_declaration)
-    newNode.set_name (LUMEX_XML_TEXT ("xml"));
+    newNode.set_name ("xml");
 
   return newNode;
 }
@@ -971,7 +971,7 @@ XmlNode::insert_child_before (xml_node_type type_, XmlNode const &node)
   lumex::xml::node::insert_node_before (newNode.m_root, node.m_root);
 
   if (type_ == node_declaration)
-    newNode.set_name (LUMEX_XML_TEXT ("xml"));
+    newNode.set_name ("xml");
 
   return newNode;
 }
@@ -994,7 +994,7 @@ XmlNode::insert_child_after (xml_node_type type_, XmlNode const &node)
   lumex::xml::node::insert_node_after (newNode.m_root, node.m_root);
 
   if (type_ == node_declaration)
-    newNode.set_name (LUMEX_XML_TEXT ("xml"));
+    newNode.set_name ("xml");
 
   return newNode;
 }
@@ -1430,9 +1430,8 @@ XmlNode::find_child_by_attribute (char_t const *name_, char_t const *attr_name,
               if ((aname != nullptr) && utility::strequal (attr_name, aname))
                 {
                   char_t const *avalue = newAttr->value;
-                  if (utility::strequal (
-                          attr_value,
-                          avalue != nullptr ? avalue : LUMEX_XML_TEXT ("")))
+                  if (utility::strequal (attr_value,
+                                         avalue != nullptr ? avalue : ""))
                     return XmlNode (i);
                 }
             }
@@ -1458,9 +1457,8 @@ XmlNode::find_child_by_attribute (char_t const *attr_name,
         if ((aname != nullptr) && utility::strequal (attr_name, aname))
           {
             char_t const *avalue = newAttr->value;
-            if (utility::strequal (attr_value, avalue != nullptr
-                                                   ? avalue
-                                                   : LUMEX_XML_TEXT ("")))
+            if (utility::strequal (attr_value,
+                                   avalue != nullptr ? avalue : ""))
               return XmlNode (i);
           }
       }
@@ -1962,7 +1960,7 @@ node_output_attributes (
     std::size_t indent_length, // NOLINT(bugprone-easily-swappable-parameters)
     unsigned int flags, unsigned int depth)
 {
-  char_t const *default_name = LUMEX_XML_TEXT (":anonymous");
+  char_t const *default_name = ":anonymous";
   char_t const enquotation_char
       = ((flags & Constants::kformat_attribute_single_quote) != 0) ? '\''
                                                                    : '"';
@@ -2000,7 +1998,7 @@ node_output_start (
     XmlNodeBase *node, char_t const *indent, std::size_t indent_length,
     unsigned int flags, unsigned int depth)
 {
-  char_t const *default_name = LUMEX_XML_TEXT (":anonymous");
+  char_t const *default_name = ":anonymous";
   char_t const *name = (node->name != nullptr) ? node->name + 0 : default_name;
 
   writer.write ('<');
@@ -2053,7 +2051,7 @@ inline void
 node_output_end (XmlBufferedWriter &writer,
                  XmlNodeBase *node) // NOLINT(misc-use-internal-linkage)
 {
-  char_t const *default_name = LUMEX_XML_TEXT (":anonymous");
+  char_t const *default_name = ":anonymous";
   char_t const *name = (node->name != nullptr) ? node->name + 0 : default_name;
 
   writer.write ('<', '/');
@@ -2066,27 +2064,23 @@ node_output_simple (
     XmlBufferedWriter &writer, // NOLINT(misc-use-internal-linkage)
     XmlNodeBase *node, unsigned int flags)
 {
-  char_t const *default_name = LUMEX_XML_TEXT (":anonymous");
+  char_t const *default_name = ":anonymous";
 
   switch (LUMEX_XML_NODETYPE (node))
     {
     case node_pcdata:
-      text_output (writer,
-                   (node->value != nullptr) ? node->value + 0
-                                            : LUMEX_XML_TEXT (""),
+      text_output (writer, (node->value != nullptr) ? node->value + 0 : "",
                    ctx_special_pcdata, flags);
       break;
 
     case node_cdata:
-      text_output_cdata (writer, (node->value != nullptr)
-                                     ? node->value + 0
-                                     : LUMEX_XML_TEXT (""));
+      text_output_cdata (writer,
+                         (node->value != nullptr) ? node->value + 0 : "");
       break;
 
     case node_comment:
-      node_output_comment (writer, (node->value != nullptr)
-                                       ? node->value + 0
-                                       : LUMEX_XML_TEXT (""));
+      node_output_comment (writer,
+                           (node->value != nullptr) ? node->value + 0 : "");
       break;
 
     case node_pi:
@@ -2107,7 +2101,7 @@ node_output_simple (
       writer.write ('<', '?');
       writer.write_string ((node->name != nullptr) ? node->name + 0
                                                    : default_name);
-      node_output_attributes (writer, node, LUMEX_XML_TEXT (""), 0,
+      node_output_attributes (writer, node, "", 0,
                               flags | Constants::kformat_raw, 0);
       writer.write ('?', '>');
       break;

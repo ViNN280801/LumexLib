@@ -70,7 +70,6 @@ set(LUMEX_LOGGER_CONFIG_FORMAT "PLAIN_TEXT" CACHE STRING
 set_property(CACHE LUMEX_LOGGER_CONFIG_FORMAT PROPERTY STRINGS
     PLAIN_TEXT INI JSON YAML XML)
 
-option(LUMEX_XML_WCHAR_MODE "Build Xml with wchar_t mode" OFF)
 option(LUMEX_WITH_FIELD_REFLECTION "Enable field reflection to_json via LumexAggregateFields + vendored nlohmann/json" ON)
 
 # ==============================================================================

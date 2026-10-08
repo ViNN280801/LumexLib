@@ -89,8 +89,7 @@ TEST_F (XmlFixture,
                || res.status == static_cast<xml_parse_status> ('\0'));
 
   std::ostringstream oss;
-  doc.save (oss, LUMEX_XML_TEXT ("\t"), kformat_default,
-            xml_encoding::encoding_utf8);
+  doc.save (oss, "\t", kformat_default, xml_encoding::encoding_utf8);
   std::string out = oss.str ();
 }
 
@@ -123,8 +122,7 @@ TEST_F (XmlFixture, GivenUtf8Specials_WhenSaveAndReload_ThenTextPreserved)
   t.text ().set ("<alpha> & \"β\" ©");
 
   std::ostringstream oss;
-  doc.save (oss, LUMEX_XML_TEXT ("\t"), kformat_default,
-            xml_encoding::encoding_utf8);
+  doc.save (oss, "\t", kformat_default, xml_encoding::encoding_utf8);
   std::string s = oss.str ();
 
   XmlDocument d2;
@@ -469,7 +467,7 @@ TEST_F (XmlFixture, GivenWOStringstream_WhenSave_ThenProducesWideXml)
 {
   doc.load_string ("<r><x>1</x></r>", kparse_default);
   std::wostringstream woss;
-  doc.save (woss, LUMEX_XML_TEXT ("\t"), kformat_default);
+  doc.save (woss, "\t", kformat_default);
   auto s = woss.str ();
   EXPECT_NE (s.find (L"<r>"), std::wstring::npos);
 }
@@ -479,7 +477,7 @@ TEST_F (XmlFixture, GivenBOMFlag_WhenSaveUtf8_ThenStartsWithBOM)
   doc.reset ();
   doc.append_child ("r");
   std::ostringstream oss;
-  doc.save (oss, LUMEX_XML_TEXT (""), kformat_write_bom | kformat_raw,
+  doc.save (oss, "", kformat_write_bom | kformat_raw,
             xml_encoding::encoding_utf8);
   std::string s = oss.str ();
   ASSERT_GE (s.size (), static_cast<std::size_t> (3));
@@ -492,7 +490,7 @@ TEST_F (XmlFixture, GivenNoDeclarationFlag_WhenSave_ThenNoXmlDeclIfRequested)
 {
   doc.load_string ("<r/>", kparse_default);
   std::ostringstream oss;
-  doc.save (oss, LUMEX_XML_TEXT ("\t"), kformat_no_declaration | kformat_raw,
+  doc.save (oss, "\t", kformat_no_declaration | kformat_raw,
             xml_encoding::encoding_utf8);
   std::string s = oss.str ();
   ASSERT_EQ (s.find ("<?xml"), std::string::npos);
@@ -504,8 +502,7 @@ TEST_F (XmlFixture,
   doc.reset ();
   doc.append_child ("r");
   std::ostringstream oss;
-  doc.save (oss, LUMEX_XML_TEXT ("\t"), kformat_default,
-            xml_encoding::encoding_utf8);
+  doc.save (oss, "\t", kformat_default, xml_encoding::encoding_utf8);
   std::string s = oss.str ();
   ASSERT_NE (s.find ("<?xml"), std::string::npos);
 }
@@ -541,8 +538,7 @@ TEST_F (XmlFixture, Windows_WidePath_SaveAndLoad)
 {
   doc.load_string ("<r><x>y</x></r>", kparse_default);
   wchar_t const *wpath = L"lumex_xml_test_tmp.xml";
-  ASSERT_TRUE (doc.save_file (wpath, LUMEX_XML_TEXT ("\t"),
-                              kformat_save_file_text,
+  ASSERT_TRUE (doc.save_file (wpath, "\t", kformat_save_file_text,
                               xml_encoding::encoding_utf8));
   XmlDocument d2;
   auto pr = d2.load_file (wpath, kparse_default, xml_encoding::encoding_utf8);
@@ -630,8 +626,7 @@ TEST_F (XmlFixture, GivenOStream_WhenPrint_ThenNonEmpty)
 {
   doc.load_string ("<r><x/></r>", kparse_default);
   std::ostringstream oss;
-  doc.print (oss, LUMEX_XML_TEXT ("  "), kformat_indent,
-             xml_encoding::encoding_utf8);
+  doc.print (oss, "  ", kformat_indent, xml_encoding::encoding_utf8);
   EXPECT_FALSE (oss.str ().empty ());
 }
 
@@ -656,7 +651,7 @@ TEST_F (XmlFixture, GivenWOStream_WhenPrintWide_ThenNonEmpty)
 {
   doc.load_string ("<r><x/></r>", kparse_default);
   std::wostringstream woss;
-  doc.print (woss, LUMEX_XML_TEXT ("  "), kformat_indent);
+  doc.print (woss, "  ", kformat_indent);
   EXPECT_FALSE (woss.str ().empty ());
 }
 
@@ -713,8 +708,7 @@ TEST_F (XmlFixture, Platform_NewlinesAndPathStable)
   c.text ().set ("line1\r\nline2\n");
 
   std::ostringstream oss;
-  doc.save (oss, LUMEX_XML_TEXT ("\t"), kformat_default,
-            xml_encoding::encoding_utf8);
+  doc.save (oss, "\t", kformat_default, xml_encoding::encoding_utf8);
   std::string out = oss.str ();
   ASSERT_NE (out.find ("line1"), std::string::npos);
   ASSERT_NE (out.find ("line2"), std::string::npos);
@@ -736,8 +730,7 @@ TEST_F (XmlFixture, Perf_SaveManySmallDocs)
   for (int i = 0; i < N; ++i)
     {
       std::ostringstream oss;
-      doc.save (oss, LUMEX_XML_TEXT ("\t"), kformat_default,
-                xml_encoding::encoding_utf8);
+      doc.save (oss, "\t", kformat_default, xml_encoding::encoding_utf8);
       ASSERT_FALSE (oss.str ().empty ());
     }
   auto dur = std::chrono::duration_cast<std::chrono::milliseconds> (
@@ -926,8 +919,7 @@ TEST_F (XmlFixture, GivenDepth_WhenPrintWithDepth_ThenNonEmpty)
 {
   doc.load_string ("<r><a><b/></a></r>", kparse_default);
   std::ostringstream oss;
-  doc.print (oss, LUMEX_XML_TEXT ("  "), kformat_indent,
-             xml_encoding::encoding_utf8, 0);
+  doc.print (oss, "  ", kformat_indent, xml_encoding::encoding_utf8, 0);
   EXPECT_FALSE (oss.str ().empty ());
 }
 
@@ -948,7 +940,7 @@ TEST_F (XmlFixture, GivenFileRoundtrip_WhenSaveTextAndLoad_ThenOk)
 {
   doc.load_string ("<r><z>1</z></r>", kparse_default);
   char const *path = "lumex_xml_test_roundtrip.xml";
-  ASSERT_TRUE (doc.save_file (path, LUMEX_XML_TEXT ("\t"),
+  ASSERT_TRUE (doc.save_file (path, "\t",
                               kformat_save_file_text | kformat_no_escapes,
                               xml_encoding::encoding_utf8));
   XmlDocument d2;
@@ -1008,8 +1000,7 @@ TEST_P (LargeBuildSaveLoadParamTest,
       n.text ().set (i % 2 == 0 ? "even" : "odd");
     }
   std::ostringstream oss;
-  doc.save (oss, LUMEX_XML_TEXT ("  "), kformat_default,
-            xml_encoding::encoding_utf8);
+  doc.save (oss, "  ", kformat_default, xml_encoding::encoding_utf8);
   std::istringstream iss (oss.str ());
   XmlDocument d2;
   auto pr = d2.load (iss, kparse_default, xml_encoding::encoding_utf8);
@@ -1168,8 +1159,7 @@ TEST_P (LargeMixedContentParamTest,
         r.append_child (xml_node_type::node_comment).set_value ("c");
     }
   std::ostringstream oss;
-  doc.save (oss, LUMEX_XML_TEXT ("\t"), kformat_default,
-            xml_encoding::encoding_utf8);
+  doc.save (oss, "\t", kformat_default, xml_encoding::encoding_utf8);
   XmlDocument d2;
   std::istringstream iss (oss.str ());
   XmlNode rd = d2.document_element ();
@@ -1224,11 +1214,10 @@ TEST_P (LargePrintStreamParamTest,
       n.append_attribute ("k").set_value (i);
     }
   std::ostringstream oss;
-  doc.print (oss, LUMEX_XML_TEXT ("  "), kformat_indent,
-             xml_encoding::encoding_utf8);
+  doc.print (oss, "  ", kformat_indent, xml_encoding::encoding_utf8);
   EXPECT_FALSE (oss.str ().empty ());
   std::wostringstream woss;
-  doc.print (woss, LUMEX_XML_TEXT ("  "), kformat_indent);
+  doc.print (woss, "  ", kformat_indent);
   EXPECT_FALSE (woss.str ().empty ());
 }
 INSTANTIATE_TEST_SUITE_P (Xml, LargePrintStreamParamTest,

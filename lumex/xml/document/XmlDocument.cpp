@@ -244,24 +244,11 @@ load_stream_data_noseek (std::basic_istream<T> &stream, void **out_buffer,
 inline std::size_t
 zero_terminate_buffer (void *buffer, std::size_t size, xml_encoding encoding)
 {
-#ifdef LUMEX_XML_WCHAR_MODE
-  xml_encoding wchar_encoding = get_wchar_encoding ();
-
-  if (encoding == wchar_encoding
-      || utility::need_endian_swap_utf (encoding, wchar_encoding))
-    {
-      std::size_t length = size / sizeof (char_t);
-
-      static_cast<char_t *> (buffer)[length] = 0;
-      return (length + 1) * sizeof (char_t);
-    }
-#else
   if (encoding == encoding_utf8)
     {
       static_cast<char *> (buffer)[size] = 0;
       return size + 1;
     }
-#endif
 
   return size;
 }
@@ -539,11 +526,7 @@ xml_parse_result_t
 XmlDocument::load_string (char_t const *contents, unsigned int options)
 {
   // Force native encoding (skip autodetection)
-#ifdef LUMEX_XML_WCHAR_MODE
-  xml_encoding encoding = encoding_wchar;
-#else
   xml_encoding encoding = encoding_utf8;
-#endif
 
   return load_buffer (contents,
                       utility::strlength (contents) * sizeof (char_t), options,
@@ -854,21 +837,15 @@ XmlDocument::save (IXmlWriter &writer, char_t const *indent,
     {
       // BOM always represents the codepoint U+FEFF, so just write it in native
       // encoding
-#ifdef LUMEX_XML_WCHAR_MODE
-      unsigned int bom = 0xfeff;
-      buffered_writer.write (static_cast<wchar_t> (bom));
-#else
       buffered_writer.write ('\xef', '\xbb', '\xbf');
-#endif
     }
 
   if (((flags & Constants::kformat_no_declaration) == 0)
       && !has_declaration (m_root))
     {
-      buffered_writer.write_string (LUMEX_XML_TEXT ("<?xml version=\"1.0\""));
+      buffered_writer.write_string ("<?xml version=\"1.0\"");
       if (buffered_writer.encoding == encoding_latin1)
-        buffered_writer.write_string (
-            LUMEX_XML_TEXT (" encoding=\"ISO-8859-1\""));
+        buffered_writer.write_string (" encoding=\"ISO-8859-1\"");
       buffered_writer.write ('?', '>');
       if ((flags & Constants::kformat_raw) == 0)
         buffered_writer.write ('\n');
