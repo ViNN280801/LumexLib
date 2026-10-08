@@ -59,7 +59,10 @@
  * take every type that converts implicitly to `std::string`, and from C++17 to
  * `std::string_view`, in every standard (the constraint is SFINAE on
  * `traits::string::is_string_convertible`, the C++11 form of the concept
- * `StringLike`).
+ * `StringLike`). `core_dump_generator::get_memory_filters_range` returns
+ * `std::ranges::ref_view` where the standard library has `<ranges>` and the
+ * `ranges::iterator_range` of this library elsewhere
+ * (`core_dump_generator::memory_filters_range_t`).
  *
  * Most of the implementation is inline in this header; the static data members
  * are defined in `LumexCoreDumpGenerator.cpp`. Windows and Unix-like systems
@@ -110,6 +113,7 @@
 #include "lumex/core/utility/compiler/LumexCheckFeatures.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 #include "lumex/core/utility/os/LumexCheckOS.hpp"
+#include "lumex/core/utility/ranges/LumexIteratorRange.hpp"
 #include "lumex/core/utility/traits/LumexTypeTraits.hpp"
 
 // Forward declarations
@@ -1369,19 +1373,42 @@ public:
     return generate_instance_dump (std::string{ reason }, errorCode);
   }
 
-// Modern C++ features
+  /**
+   * @brief The type of `get_memory_filters_range`: the view
+   * `std::ranges::ref_view<std::vector<std::string> const>` that
+   * `std::views::all` gives when the standard library has `<ranges>`
+   * (C++20), the `iterator_range` of this library over the constant
+   * iterators of the filter list before it.
+   * @details Both are lightweight views that do not own the filters and have
+   * `begin ()`, `end ()` and `empty ()`; the standard view also has `size ()`
+   * and the members of `std::ranges::view_interface`.
+   */
 #if LUMEX_HAS_STD_RANGES
+  using memory_filters_range_t
+      = std::ranges::ref_view<std::vector<std::string> const>;
+#else
+  using memory_filters_range_t
+      = ranges::iterator_range<std::vector<std::string>::const_iterator>;
+#endif
+
   /**
    * @brief Get all memory filters as a range
-   * @return Range of memory filters
+   * @return Range of memory filters, `memory_filters_range_t`
    * @note This method is thread-safe
+   * @note The range views the filter list of the current configuration and
+   * is valid until that configuration is replaced.
    */
-  static auto
+  static memory_filters_range_t
   get_memory_filters_range () noexcept
   {
+#if LUMEX_HAS_STD_RANGES
     return s_currentConfig.get_memory_filters () | std::views::all;
-  }
+#else
+    std::vector<std::string> const &filters
+        = s_currentConfig.get_memory_filters ();
+    return memory_filters_range_t (filters.begin (), filters.end ());
 #endif
+  }
 
 #if LUMEX_HAS_STD_OPTIONAL
   /**
