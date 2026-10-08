@@ -4,11 +4,13 @@
 #include <vector>
 
 #include "lumex/core/base64/LumexBase64"
+#include "lumex/core/span/LumexSpan"
 
 using namespace lumex::core::base64::codec::Types;
 using namespace lumex::core::base64::decode;
 using namespace lumex::core::base64::encode;
 using namespace lumex::core::base64::validate;
+using lumex::core::span::view::span;
 
 namespace
 {
@@ -46,18 +48,26 @@ main ()
   print_bytes ("raw", raw);
   std::cout << "encoded=" << encoded_vec << '\n';
 
-  std::cout << "\n--- 3. Decode into an output vector (clears `out`) ---\n";
+  std::cout << "\n--- 3. Encode a span: a view of bytes, no copy ---\n";
+  span<byte_type const> const whole (raw);
+  std::string const encoded_span = encoder::encode (whole.subspan (2, 3));
+  std::cout << "encoded(raw[2..5))=" << encoded_span << " same_as_pointer="
+            << (encoded_span == encoder::encode (raw.data () + 2, 3) ? "yes"
+                                                                     : "no")
+            << '\n';
+
+  std::cout << "\n--- 4. Decode into an output vector (clears `out`) ---\n";
   std::vector<byte_type> decoded;
   bool const ok_out = decoder::decode (encoded_ptr, decoded);
   std::cout << "decode(out) ok=" << (ok_out ? "yes" : "no") << '\n';
   print_bytes ("decoded", decoded);
 
-  std::cout << "\n--- 4. Decode as a returned vector ---\n";
+  std::cout << "\n--- 5. Decode as a returned vector ---\n";
   std::vector<byte_type> const roundtrip = decoder::decode (encoded_vec);
   print_bytes ("roundtrip", roundtrip);
   std::cout << "matches_raw=" << (roundtrip == raw ? "yes" : "no") << '\n';
 
-  std::cout << "\n--- 5. Validator: well-formed vs broken ---\n";
+  std::cout << "\n--- 6. Validator: well-formed vs broken ---\n";
   char const *good = "SGVsbG8=";
   // The padding may be omitted: a last group of two or three characters.
   char const *unpadded = "SGVsbG8";
@@ -77,14 +87,14 @@ main ()
             << "\")=" << (validator::is_valid_base64 (bad_char) ? "yes" : "no")
             << '\n';
 
-  std::cout << "\n--- 6. Empty / null inputs ---\n";
+  std::cout << "\n--- 7. Empty / null inputs ---\n";
   std::string const empty_enc = encoder::encode (nullptr, 0);
   std::vector<byte_type> const empty_dec = decoder::decode (empty_enc);
   std::cout << "encode(nullptr,0) empty="
             << (empty_enc.empty () ? "yes" : "no")
             << " decode(\"\") size=" << empty_dec.size () << '\n';
 
-  std::cout << "\n--- 7. Invalid decode must fail cleanly ---\n";
+  std::cout << "\n--- 8. Invalid decode must fail cleanly ---\n";
   std::vector<byte_type> junk;
   bool const bad_ok = decoder::decode (std::string ("@@@@"), junk);
   std::cout << "decode(\"@@@@\") ok=" << (bad_ok ? "yes" : "no")

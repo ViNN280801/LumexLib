@@ -79,6 +79,14 @@
 
 #### Изменено
 
+##### Примеры `base64`, `crc` и `utility` показывают `span`, примеры `crc` и `utility` собираются как C++11
+
+**Файлы:** `lumex/examples/base64/example_base64.cpp`, `lumex/examples/crc/example_crc.cpp`, `lumex/examples/crc/CMakeLists.txt`, `lumex/examples/utility/example_utility.cpp`, `lumex/examples/utility/CMakeLists.txt`
+
+**Суть:** где примеры работали с байтовыми буферами, теперь есть и `lumex::core::span::view::span` (новых интерфейсов нет): `example_base64.cpp` кодирует часть вектора как `span`, `example_crc.cpp` считает CRC-32 и каталожный CRC по подвидам `span`, `example_utility.cpp` читает значения из массива байт через `mem::as` (указатель и размер и `span`; результат - `std::optional` с C++17 и `optional` библиотеки до него). В `example_utility.cpp` убрано условие C++20 вокруг `byte_swap` (он работает с C++11), поэтому закрепление примеров `crc` (было 14) и `utility` (было 20) заменено на C++11, как у примера `span`.
+
+**Проверено:** примеры `base64`, `crc` и `utility` (шесть исполняемых файлов) собираются и проходят как тесты `examples.*` на GCC 13.2 (Release), GCC 8.3, Clang 23.1.0 с libc++ и с libstdc++ 13 и под ASan и UBSan.
+
 ##### CRC: библиотека собирается как C++11 и проверяется с C++11
 
 **Файлы:** `lumex/core/crc/CMakeLists.txt`, `lumex/core/crc/catalog/LumexCrcCatalog.cpp`, `lumex/core/crc/LumexCrc`, `lumex/core/crc/catalog/LumexCrcCatalog.hpp`, `lumex/tests/LumexTestStandards.cmake`, `lumex/tests/core/crc/catalog/` (`LumexCrcCatalog.cxx11.tests.cpp`, `LumexCrcCatalogSpan.cxx11.tests.cpp` - переименованы из `.cxx14`; `LumexCrcCatalog.cxx17.tests.cpp`, `CMakeLists.txt`), `lumex/tests/core/crc/parametric/` (`LumexCrcParametric.cxx11.tests.cpp`, `LumexCrcParametricSpan.cxx11.tests.cpp` - переименованы из `.cxx14`; `LumexCrcParametric.cxx20.tests.cpp`, `LumexCrcTestHelpers.hpp`, `CMakeLists.txt`)
