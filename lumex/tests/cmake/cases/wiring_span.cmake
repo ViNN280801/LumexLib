@@ -38,6 +38,13 @@ string(FIND "${_modules}" "lumex_require_module(LUMEX_BUILD_SPAN" _edge)
 if(NOT _edge EQUAL -1)
     message(FATAL_ERROR "LUMEX_BUILD_SPAN must not require another module")
 endif()
+# The modules that take the span in their API depend on it: base64 (encode).
+_require_text("cmake/LumexModules.cmake"
+    "lumex_require_module(LUMEX_BUILD_BASE64 LUMEX_BUILD_SPAN)")
+foreach(_dependent base64)
+    _require_text("lumex/core/${_dependent}/CMakeLists.txt" "lumex::span")
+endforeach()
+_require_text("conanfile.py" "[\"core_utility\", \"core_span\"]")
 _require_text("cmake/LumexOptions.cmake" "option(LUMEX_BUILD_SPAN ")
 _require_text("cmake/LumexOptions.cmake" "core/span (header-only C++11 backport of std::span)\" ON)")
 
