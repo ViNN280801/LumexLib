@@ -34,9 +34,10 @@
  * functions keep one process-global, mutex-protected setting that
  * `compute_transport_checksum()` uses for a one-byte frame checksum:
  * CRC-8/MAXIM-DOW by default, an 8-bit catalogue entry, or caller-supplied
- * 8-bit parameters. The overloads for `std::vector` (every standard),
- * `std::string_view` (C++17) and `std::span` (C++20) are inline wrappers over
- * the pointer and size functions.
+ * 8-bit parameters. The overloads for `std::vector` and for
+ * `lumex::core::span::view::span` (every standard; a `std::span` converts to
+ * it) and for `std::string_view` (C++17) are inline wrappers over the pointer
+ * and size functions.
  */
 #ifndef LUMEX_CORE_CRC_CATALOG_HPP
 #define LUMEX_CORE_CRC_CATALOG_HPP
@@ -77,14 +78,9 @@
 #if __cplusplus >= 201703L
 #include <string_view>
 #endif
-#if __cplusplus > 201703L && defined(__has_include)
-#if __has_include(<span>)
-#include <span>
-#endif
-#endif
 
+#include "lumex/core/span/LumexSpan"
 #include "lumex/core/utility/attr/LumexAttributes.hpp"
-#include "lumex/core/utility/compiler/LumexCheckFeatures.hpp"
 #include "lumex/core/utility/macros/LumexConstantMacros.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 
@@ -280,23 +276,31 @@ append_crc_least_significant_byte_first (crc_params_t const &params,
 }
 #endif
 
-#if LUMEX_HAS_STD_SPAN
+/**
+ * @brief Catalogue CRC of a `span` of bytes. Available from C++11; a
+ *        `std::span` (C++20), a `std::array` and a built-in array convert to
+ *        it, a `std::vector` takes the overload above.
+ */
 inline std::uint64_t
 compute_crc_catalog (std::uint32_t catalogIndex,
-                     std::span<std::uint8_t const> bytes) LUMEX_NOEXCEPT
+                     lumex::core::span::view::span<std::uint8_t const> bytes)
+    LUMEX_NOEXCEPT
 {
   return compute_crc_catalog (catalogIndex, bytes.data (), bytes.size ());
 }
 
+/**
+ * @brief RevEng-parameter CRC of a `span` of bytes. Available from C++11, see
+ *        `compute_crc_catalog` above for what converts to the `span`.
+ */
 inline std::uint64_t
-compute_crc_with_rev_eng_params (crc_params_t const &params,
-                                 std::span<std::uint8_t const> bytes)
-    LUMEX_NOEXCEPT
+compute_crc_with_rev_eng_params (
+    crc_params_t const &params,
+    lumex::core::span::view::span<std::uint8_t const> bytes) LUMEX_NOEXCEPT
 {
   return compute_crc_with_rev_eng_params (params, bytes.data (),
                                           bytes.size ());
 }
-#endif
 
 } // namespace catalog
 } // namespace crc
