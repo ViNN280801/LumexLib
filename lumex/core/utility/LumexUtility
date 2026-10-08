@@ -41,8 +41,9 @@
  * @file LumexUtility
  * @brief Utility module, the foundation of the library: assertion, attribute,
  * keyword and constant macros, compiler, feature and OS checks, type traits,
- * stack text and core dumps, demangling, safe numeric comparison, bit and byte
- * order helpers, the iterator range, the process id and a callback slot.
+ * stack text and core dumps, demangling, safe numeric comparison (with the
+ * ordering classes of its three-way result), bit and byte order helpers, the
+ * iterator range, the process id and a callback slot.
  * @details Link <tt>%lumex::utility</tt> (compiled library; it links
  * <tt>%lumex::math</tt>, <tt>%lumex::optional</tt> and <tt>%lumex::span</tt>).
  * Works from C++11. The umbrella also includes `bit/`, `cast/`, `mem/` and
@@ -63,6 +64,7 @@
 #include "macros/LumexConstantMacros.hpp"
 #include "macros/LumexKeywords.hpp"
 #include "macros/LumexMacros.hpp"
+#include "numeric/LumexOrdering.hpp"
 #include "numeric/LumexSafeNumericComparator.hpp"
 #include "os/LumexCheckOS.hpp"
 #include "process/LumexProcess.hpp"
