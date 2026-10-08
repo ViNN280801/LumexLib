@@ -197,6 +197,22 @@
 
 #### Изменено
 
+##### Несовместимо: у `make_unexpected` остался один вид - `make_unexpected<E> (args...)`, возвращающий `unexpected<E>`
+
+**Файлы:** `lumex/core/expected/result/Expected.hpp`, `lumex/tests/core/expected/result/MakeUnexpected.cxx11.tests.cpp` (новый)
+
+**Суть:** пункт 100 списка дел. В `Expected.hpp` рядом с фабрикой `make_unexpected<E> (args...)` (возвращает `unexpected<E>`, как `unexpected<E> (E (args...))`) были две устаревшие (`deprecated`) перегрузки с параметром `ErrorType &&`: `make_unexpected<T> (error)` возвращала `expected<T, std::decay_t<Error>>`, а `make_unexpected (error)` - `expected<void, Error>`. Они делали вызов `make_unexpected<int> (1)` неоднозначным с вариадической фабрикой (компилятор не мог выбрать между `make_unexpected<T, U_err>` и `make_unexpected<E, Args...>`), так что простейший вызов фабрики для скалярной ошибки не компилировался. Обе перегрузки удалены; вызовов их в `lumex/`, примерах и тестах не было (поиск `rg make_unexpected` по `lumex/`). Остальные глобальные имена зонтика (`expected`, `bad_expected_access`, `make_unexpected`, `unexpect`, `unexpect_t`, `in_place_tag`) остаются глобальными (решение пользователя). Это несовместимое изменение API: код 1.x, писавший `make_unexpected<T> (err)` или `make_unexpected (err)` ради `expected`, нужно заменить.
+
+Таблица "было -> стало":
+
+| Вид | Было | Стало |
+| --- | --- | --- |
+| функция | `make_unexpected<T> (error)` -> `expected<T, std::decay_t<Error>>` | `expected<T, E> (unexpect, error)` или `expected<T, E> (unexpected<E> (error))`; возвращаемое значение функции можно писать `return make_unexpected<E> (error);` |
+| функция | `make_unexpected (error)` -> `expected<void, Error>` | `expected<void, E> (unexpect, error)` или `return make_unexpected<E> (error);` |
+| функция | `make_unexpected<int> (1)` (ошибка компиляции: неоднозначность) | `make_unexpected<int> (1)` -> `unexpected<int>` |
+
+**Проверено:** новый набор `MakeUnexpected` (6 тестов на каждом стандарте: `make_unexpected<int> (1)` без неоднозначности и тип результата, ошибка из нескольких аргументов, без аргументов, `E` без `const` и ссылки, преобразование результата в `expected<T, E>` и `expected<void, E>`, возврат из функции); возврат одной из удаленных перегрузок ломает сборку теста (`static_assert` на тип результата), GCC 13.2 Release, C++11: 484 теста `expected.result.` (6 новых) и 105 `expected.error.`, все проходят.
+
 ##### Контракт `serial_port_info_t::path`: имя порта по умолчанию, путь открытия по флагу `need_full_path` (PEW-2313)
 
 **Файлы:** `lumex/applied/serial/enumeration/LumexSerialPortEnumeration.hpp`, `lumex/applied/serial/enumeration/LumexSerialPortEnumeration.cpp`, `lumex/tests/applied/serial/enumeration/LumexSerialPortEnumeration.cxx11.tests.cpp`
@@ -525,6 +541,7 @@
 | класс | `Expected` | `expected` |
 | класс | `Unexpected` | `unexpected` |
 | глобальное имя | `unexpected` | `lumex::core::expected::error::unexpected` (глобального имени нет) |
+| глобальное имя | `in_place` | `lumex::core::expected::result::in_place` (глобального имени нет) |
 
 **core/filesystem**
 
@@ -580,6 +597,7 @@
 | Вид | Было | Стало |
 | --- | --- | --- |
 | класс | `LumexBadOptionalAccess` | `lumex_bad_optional_access` |
+| глобальное имя | `in_place` | `lumex::core::optional::opt::in_place` (глобального имени нет) |
 
 **core/reflection**
 
