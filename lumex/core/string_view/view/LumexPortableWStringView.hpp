@@ -38,20 +38,42 @@
  */
 
 /**
- * @file LumexStringView
- * @brief String view module: C++11 implementations of the C++17
- * `std::string_view` and `std::wstring_view`.
- * @details Link <tt>%lumex::string_view</tt> (compiled library). Works from
- * C++11. From C++17 each view converts implicitly to and from the standard
- * one (`std::string_view`, `std::wstring_view`), through member templates that
- * are not part of the exported interface. `portable_string_view_t` and
- * `portable_wstring_view_t` name the standard view from C++17 and the view of
- * this module below it, for modules whose overloads take a string view in
- * every standard. The umbrella includes `view/LumexStringView.hpp`,
- * `view/LumexWStringView.hpp`, `view/LumexPortableStringView.hpp` and
- * `view/LumexPortableWStringView.hpp`.
+ * @file LumexPortableWStringView.hpp
+ * @brief The wide string view type that is `std::wstring_view` where the
+ * standard has one and the `lumex_wstring_view` of this module below it.
+ * @details `portable_wstring_view_t` is `std::wstring_view` from C++17 and
+ * `lumex_wstring_view` before it; see `LumexPortableStringView.hpp` for the
+ * narrow twin and the reasons. The header includes `<string_view>` from C++17
+ * and the wide view header before it, nothing else.
  */
-#include "view/LumexPortableStringView.hpp"
-#include "view/LumexPortableWStringView.hpp"
-#include "view/LumexStringView.hpp"
-#include "view/LumexWStringView.hpp"
+#ifndef LUMEX_CORE_STRING_VIEW_VIEW_PORTABLE_WSTRING_VIEW_HPP
+#define LUMEX_CORE_STRING_VIEW_VIEW_PORTABLE_WSTRING_VIEW_HPP
+
+#if __cplusplus >= 201703L
+#include <string_view>
+#else
+#include "lumex/core/string_view/view/LumexWStringView.hpp"
+#endif
+
+namespace lumex // NOLINT(modernize-concat-nested-namespaces)
+{
+namespace core
+{
+namespace string_view
+{
+namespace view
+{
+/**
+ * @brief `std::wstring_view` from C++17, `lumex_wstring_view` below it.
+ */
+#if __cplusplus >= 201703L
+using portable_wstring_view_t = std::wstring_view;
+#else
+using portable_wstring_view_t = lumex_wstring_view;
+#endif
+} // namespace view
+} // namespace string_view
+} // namespace core
+} // namespace lumex
+
+#endif // !LUMEX_CORE_STRING_VIEW_VIEW_PORTABLE_WSTRING_VIEW_HPP
