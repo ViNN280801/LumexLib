@@ -162,14 +162,21 @@ check_exceptions ()
 {
   using lumex::core::exceptions::exception::lumex_base_exception;
 
-  int failures = 0;
+  // The view of the consumer's standard is the type of the constructor in
+  // every standard.
 #if __cplusplus >= 201703L
-  lumex_base_exception const ex (std::string_view ("boom!").substr (0, 4));
+  using message_view_t = std::string_view;
 #else
-  lumex_base_exception const ex (std::string ("boom"));
+  using message_view_t = lumex::core::string_view::view::lumex_string_view;
 #endif
+
+  int failures = 0;
+  lumex_base_exception const ex (message_view_t ("boom!", 4));
   failures += check (std::string (ex.what ()) == "boom",
-                     "LumexBaseException (text)");
+                     "LumexBaseException (string view)");
+  lumex_base_exception const from_text (std::string ("boom"));
+  failures += check (std::string (from_text.what ()) == "boom",
+                     "LumexBaseException (std::string)");
   return failures;
 }
 } // namespace

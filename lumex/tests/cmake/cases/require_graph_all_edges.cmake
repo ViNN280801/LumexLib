@@ -31,6 +31,7 @@ foreach(_edge
         "lumex_require_module(LUMEX_BUILD_EXCEPTIONS LUMEX_BUILD_ENVIRONMENT)"
         "lumex_require_module(LUMEX_BUILD_EXCEPTIONS LUMEX_BUILD_FILESYSTEM)"
         "lumex_require_module(LUMEX_BUILD_EXCEPTIONS LUMEX_BUILD_STRING)"
+        "lumex_require_module(LUMEX_BUILD_EXCEPTIONS LUMEX_BUILD_STRING_VIEW)"
         "lumex_require_module(LUMEX_BUILD_EXCEPTIONS LUMEX_BUILD_TIME)"
         "lumex_require_module(LUMEX_BUILD_EXCEPTIONS LUMEX_BUILD_UTILITY)"
         "lumex_require_module(LUMEX_BUILD_LOGGING LUMEX_BUILD_ENVIRONMENT)"
