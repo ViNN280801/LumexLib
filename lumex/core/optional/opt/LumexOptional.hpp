@@ -54,7 +54,11 @@
  * assignment operators, observers (`has_value`, `value`, `value_or`,
  * `operator*`, `operator->`), and modifiers (`swap`, `reset`, `emplace`).
  * Non-member comparison operators and `std::hash` specialization are also
- * provided for full compatibility and usability.
+ * provided for full compatibility and usability. This header declares
+ * everything in `lumex::core::optional::opt` and puts no name at global scope;
+ * the global aliases (`optional`, `nullopt`, `make_optional`,
+ * `lumex_bad_optional_access`) are in `LumexOptionalGlobals.hpp`, which the
+ * umbrella `LumexOptional` includes.
  */
 #ifndef LUMEX_CORE_OPTIONAL_OPT_HPP
 #define LUMEX_CORE_OPTIONAL_OPT_HPP
@@ -1491,39 +1495,6 @@ make_optional (std::initializer_list<U> ilist, Args &&...args)
 } // namespace optional
 } // namespace core
 } // namespace lumex
-
-// `in_place` has no global alias: `expected` has its own `in_place`, and two
-// global names for two objects would stop a file from including both modules.
-// Write `lumex::core::optional::opt::in_place`.
-
-/**
- * @brief Global alias for
- * `lumex::core::optional::opt::lumex_bad_optional_access`.
- * @details This allows `lumex_bad_optional_access` to be used without full
- * namespace qualification.
- */
-using lumex::core::optional::opt::lumex_bad_optional_access;
-/**
- * @brief Global alias for `lumex::core::optional::opt::make_optional`.
- * @details This allows `make_optional` to be used without full namespace
- * qualification, improving readability and mimicking `std::make_optional`.
- */
-using lumex::core::optional::opt::make_optional;
-/**
- * @brief Global alias for `lumex::core::optional::opt::nullopt`.
- * @details This allows `nullopt` to be used without full namespace
- * qualification, improving readability and mimicking `std::nullopt`.
- */
-using lumex::core::optional::opt::nullopt;
-
-/**
- * @brief Global type alias for `lumex::core::optional::opt::optional<T>`.
- * @details This allows `optional` to be used without full namespace
- * qualification, improving readability and making it behave more like
- * `std::optional`.
- * @tparam T The type of the value to be held.
- */
-template <typename T> using optional = lumex::core::optional::opt::optional<T>;
 
 // Hash support. Specialize on the Lumex type with a global qualifier: inside
 // namespace std, bare `optional<T>` would bind to `std::optional` and redefine

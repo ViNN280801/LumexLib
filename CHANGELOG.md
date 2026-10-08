@@ -79,6 +79,14 @@
 
 #### Изменено
 
+##### `optional`: типы и глобальные имена в разных заголовках
+
+**Файлы:** `lumex/core/optional/LumexOptional` (зонтик), `lumex/core/optional/opt/LumexOptional.hpp`, `lumex/core/optional/opt/LumexOptionalGlobals.hpp` (новый), `lumex/tests/core/optional/opt/LumexOptionalGlobalNames.cxx11.tests.cpp` (новый), `LumexOptional.cxx11.tests.cpp`, `lumex/tests/cmake/cases/wiring_optional.cmake` (новый), `lumex/tests/cmake/CMakeLists.txt`
+
+**Суть:** `opt/LumexOptional.hpp` объявляет типы модуля в `lumex::core::optional::opt` и больше ничего не кладет в глобальное пространство имен. Глобальные `optional`, `nullopt`, `make_optional` и `lumex_bad_optional_access` перенесены в `opt/LumexOptionalGlobals.hpp`, который включает зонтик `lumex/core/optional/LumexOptional`; у всех, кто включает зонтик (в дереве - все), ничего не меняется. Заголовок, которому нужен тип, но который не должен добавлять имена в каждый файл, включает `opt/LumexOptional.hpp` и пишет пространство имен полностью: так сделан `LumexMemRead.hpp` до C++17 (запись о нем выше по списку). Зачем: зонтик `utility` включает `LumexMemRead.hpp`, а его включают почти все модули; с зонтиком `optional` в нем каждая программа на C++11 и C++14 получила бы глобальный `optional` и могла бы упереться в свой собственный.
+
+**Проверено:** новый тест `LumexOptionalGlobalNames` (программа с собственными глобальными `optional`, `nullopt`, `make_optional` и `lumex_bad_optional_access` включает заголовок типов и работает с обоими) и новый тест в `LumexOptional.cxx11.tests.cpp` (глобальные имена зонтика - это типы модуля); наборы `optional.` - 42 теста, проходят на GCC 13.2 (Release), GCC 8.3, Clang 23.1.0 с libc++ и с libstdc++ 13 и под ASan и UBSan. `cmake.wiring_optional` закрепляет раскладку по файлам. Правка (глобальный `using lumex::core::optional::opt::nullopt;` в заголовке типов) ломает тест.
+
 ##### `LumexMemRead::as`: перегрузка для `span` библиотеки; модуль `utility` требует `span`
 
 **Файлы:** `lumex/core/utility/mem/LumexMemRead.hpp`, `lumex/core/utility/CMakeLists.txt`, `lumex/core/CMakeLists.txt` (`span` подключается до `utility`), `lumex/CMakeLists.txt`, `cmake/LumexModules.cmake`, `conanfile.py`, `lumex/tests/core/utility/mem/LumexMemReadSpan.cxx20.tests.cpp` (новый), `lumex/tests/cmake/CMakeLists.txt`, `lumex/tests/cmake/cases/require_fail_utility_without_span.cmake` (новый), `require_graph_all_edges.cmake`, `require_ok_only_utility_and_math.cmake`, `wiring_span.cmake`
