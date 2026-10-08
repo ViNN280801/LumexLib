@@ -4,7 +4,9 @@ LumexLib is released under the MIT license in [LICENSE](LICENSE). It contains co
 
 ## pugixml
 
-The XML module (`lumex/xml/`, the `lumex::xml` target) is derived from pugixml (https://github.com/zeux/pugixml): the DOM classes, the parser and writers, and the XPath implementation with its allocator. The code that was moved out of the XML module into other modules is derived from pugixml as well: the byte-order helpers `byte_swap` (below C++20) and `is_little_endian` in `lumex/core/utility/bit/`, the `unicode` module (`lumex/core/unicode/`: the UTF-8, UTF-16, UTF-32, Latin-1 and `wchar_t` transcoders and `to_utf8` / `to_wide`), and `iterator_range` in `lumex/core/utility/ranges/`. The XML code is compiled into the LumexXml library, so this notice goes with every copy of LumexLib. It also goes with every program that uses the moved code, including one that does not link `lumex::xml`: those are header-only inline functions and become part of that program.
+The XML module (`lumex/xml/`, the `lumex::xml` target) is derived from pugixml (https://github.com/zeux/pugixml): the DOM classes, the parser and writers, and the XPath implementation with its allocator. The XML code is compiled into the LumexXml library, so this notice goes with every copy of LumexLib.
+
+The utility code that was moved out of the XML module into other modules is Lumex's own: all its functions (`byte_swap` and `is_little_endian` in `lumex/core/utility/bit/`, the transcoding functions and `to_utf8` / `to_wide` in the `unicode` module `lumex/core/unicode/`) are written for Lumex. Only the structure of its classes is taken from pugixml: the layout of the transcoding policy classes of the `unicode` module (counters, writers, decoders) and of `iterator_range` in `lumex/core/utility/ranges/`. The notice below is kept for that borrowed structure.
 
 ```
 MIT License
