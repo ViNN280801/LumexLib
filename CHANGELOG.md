@@ -767,6 +767,14 @@
 
 #### Исправлено
 
+##### `-Wnon-template-friend` в `LumexAggregateFields.hpp` на GCC (C++14)
+
+**Файлы:** `lumex/core/reflection/field_reflection/LumexAggregateFields.hpp`, `lumex/tests/cmake/consumer/hygiene_compile_checks/CMakeLists.txt`, `lumex/tests/cmake/consumer/hygiene_compile_checks/field_reflection_warnings.cpp` (новый)
+
+**Суть:** на C++14 GCC считает поля агрегата через лазейку CWG 2118: `loophole_tag<T, N>` объявляет дружественную функцию `loophole_fn`, не являющуюся шаблоном, а ее определяет другой класс, `loophole_set`. GCC предупреждает об этом объявлении по умолчанию (`-Wnon-template-friend`) в каждой единице трансляции, которая включает заголовок. Другого написания у лазейки нет (функция объявляется на каждую конкретизацию и определяется другим классом), поэтому предупреждение подавлено в коде вокруг одного объявления: `#pragma GCC diagnostic ignored` внутри `#if defined(__GNUC__) && !defined(__clang__)`. Определение лазейки и подсчет полей не изменились.
+
+**Проверено:** до правки `field_reflection_warnings.cpp` (`tuple_size` и `get<1>` над агрегатом из двух полей, `-Wall -Wextra -Wpedantic -Werror`) не компилируется на GCC 8.3 и GCC 13.2 на C++14 (`friend declaration ... declares a non-template function`, строка 205) и компилируется на C++11, 17, 20 и на Clang 23.1.0 (libstdc++ и libc++); после правки компилируется на всех четырех на C++11, 14, 17 и 20 (прямая матрица).
+
 ##### `-Wpedantic`: пустой аргумент `...` в `LUMEX_DEFINE_REFLECTED_ENUM` и `LUMEX_MEASURE_TIME`
 
 **Файлы:** `lumex/core/reflection/reflected_enum/LumexReflectedEnum.hpp`, `lumex/core/time/timer/LumexTimer.hpp`, `lumex/tests/cmake/consumer/hygiene_compile_checks/CMakeLists.txt`, `lumex/tests/cmake/consumer/hygiene_compile_checks/variadic_macros_pedantic.cpp` (новый), `lumex/tests/cmake/consumer/hygiene_compile_checks/json_umbrella.cpp`

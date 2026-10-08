@@ -202,7 +202,15 @@ struct count_fields_impl<Aggregate, Lo, Hi, false>
 // the wrapper type, not the contained type.
 template <typename T, std::size_t N> struct loophole_tag
 {
+  // The loophole: a non-template friend that loophole_set defines.
+#if defined(__GNUC__) && !defined(__clang__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wnon-template-friend"
+#endif
   friend auto loophole_fn (loophole_tag<T, N>);
+#if defined(__GNUC__) && !defined(__clang__)
+#pragma GCC diagnostic pop
+#endif
 };
 
 template <typename T, typename U, std::size_t N, bool AlreadyDefined>
