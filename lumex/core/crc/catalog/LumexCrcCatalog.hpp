@@ -76,13 +76,8 @@
 #include <cstdint>
 #include <vector>
 
-#if __cplusplus >= 201703L
-#include <string_view>
-#else
-#include "lumex/core/string_view/view/LumexStringView.hpp"
-#endif
-
 #include "lumex/core/span/LumexSpan"
+#include "lumex/core/string_view/view/LumexPortableStringView.hpp"
 #include "lumex/core/utility/attr/LumexAttributes.hpp"
 #include "lumex/core/utility/macros/LumexConstantMacros.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
@@ -96,15 +91,12 @@ namespace crc
 namespace catalog
 {
 /**
- * @brief The text type of the string overloads: `std::string_view` from C++17,
- * the `lumex_string_view` of `lumex::string_view` below it (a string literal,
- * a `char const *` and a `std::string` convert to either).
+ * @brief The text type of the string overloads: the `portable_string_view_t`
+ * of `lumex::string_view`, that is `std::string_view` from C++17 and
+ * `lumex_string_view` below it (a string literal, a `char const *`, a
+ * `std::string` and, from C++17, a `lumex_string_view` convert to it).
  */
-#if __cplusplus >= 201703L
-using text_view_t = std::string_view;
-#else
-using text_view_t = lumex::core::string_view::view::lumex_string_view;
-#endif
+using text_view_t = lumex::core::string_view::view::portable_string_view_t;
 
 /**
  * @brief CRC parameters in CRC RevEng notation (see LumexCrcParametric.hpp /
