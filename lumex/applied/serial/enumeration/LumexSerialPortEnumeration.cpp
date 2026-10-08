@@ -64,6 +64,9 @@
 #include "lumex/applied/serial/probe/LumexSerialProber.hpp"
 #include "lumex/applied/serial/probe/detail/LumexSerialBoundedOpen.hpp"
 #include "lumex/applied/serial/resolver/LumexPortProcessResolver.hpp"
+#if defined(_WIN32)
+#include "lumex/core/unicode/convert/LumexUnicodeConvert.hpp"
+#endif
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 #include "lumex/core/utility/os/LumexCheckOS.hpp"
 
@@ -116,24 +119,9 @@ starts_with (std::string const &value, char const *prefix)
          && value.compare (0, prefix_len, prefix) == 0;
 }
 
-std::string
-convert_wide_to_utf8 (std::wstring const &wide) LUMEX_NOEXCEPT
-{
-  if (wide.empty ())
-    return std::string ();
-  int const needed = ::WideCharToMultiByte (CP_UTF8, 0, wide.c_str (),
-                                            static_cast<int> (wide.size ()),
-                                            nullptr, 0, nullptr, nullptr);
-  if (needed <= 0)
-    return std::string ();
-  std::string utf8 (static_cast<std::size_t> (needed), '\0');
-  int const written = ::WideCharToMultiByte (
-      CP_UTF8, 0, wide.c_str (), static_cast<int> (wide.size ()), &utf8[0],
-      needed, nullptr, nullptr);
-  if (written <= 0)
-    return std::string ();
-  return utf8;
-}
+// Converts UTF-16 to UTF-8 the same way on every platform; a unit that cannot
+// be decoded (an unpaired surrogate) is skipped.
+using lumex::core::unicode::convert::to_utf8;
 
 std::string
 get_current_process_exe_name () LUMEX_NOEXCEPT
@@ -150,7 +138,7 @@ get_current_process_exe_name () LUMEX_NOEXCEPT
   std::wstring base = (pos != std::wstring::npos && pos + 1 < path.size ())
                           ? path.substr (pos + 1)
                           : path;
-  return convert_wide_to_utf8 (base);
+  return to_utf8 (base);
 }
 
 std::string
@@ -352,8 +340,7 @@ is_bluetooth_enumerated_port (std::string const &port_name) LUMEX_NOEXCEPT
                           == ERROR_SUCCESS
                       && port_name_type == REG_SZ && port_name_sz > 0)
                     {
-                      port = convert_wide_to_utf8 (
-                          std::wstring (port_name_buf.data ()));
+                      port = to_utf8 (std::wstring (port_name_buf.data ()));
                     }
                   ::RegCloseKey (dev_key);
                 }
@@ -376,7 +363,7 @@ is_bluetooth_enumerated_port (std::string const &port_name) LUMEX_NOEXCEPT
                         {
                           std::size_t const end = wstr.find (L')', pos);
                           if (end != std::wstring::npos)
-                            port = convert_wide_to_utf8 (
+                            port = to_utf8 (
                                 wstr.substr (pos + 1, end - pos - 1));
                         }
                     }
@@ -396,8 +383,8 @@ is_bluetooth_enumerated_port (std::string const &port_name) LUMEX_NOEXCEPT
                   == 0)
                 return false;
 
-              std::string const enumerator_name = convert_wide_to_utf8 (
-                  std::wstring (enumerator_buf.data ()));
+              std::string const enumerator_name
+                  = to_utf8 (std::wstring (enumerator_buf.data ()));
               return starts_with (enumerator_name, "BTH");
             }
         }
@@ -488,8 +475,7 @@ enumerate_serial_ports_detailed (std::string const &connected_port,
                       == ERROR_SUCCESS
                   && port_name_type == REG_SZ && port_name_sz > 0)
                 {
-                  port = convert_wide_to_utf8 (
-                      std::wstring (port_name_buf.data ()));
+                  port = to_utf8 (std::wstring (port_name_buf.data ()));
                 }
               if (port.empty ())
                 {
@@ -508,8 +494,8 @@ enumerate_serial_ports_detailed (std::string const &connected_port,
                               == ERROR_SUCCESS
                           && port_name_type == REG_SZ && port_name_sz > 0)
                         {
-                          port = convert_wide_to_utf8 (
-                              std::wstring (port_name_buf.data ()));
+                          port
+                              = to_utf8 (std::wstring (port_name_buf.data ()));
                         }
                       ::RegCloseKey (params_key);
                     }
@@ -534,8 +520,7 @@ enumerate_serial_ports_detailed (std::string const &connected_port,
                     {
                       std::size_t const end = wstr.find (L')', pos);
                       if (end != std::wstring::npos)
-                        port = convert_wide_to_utf8 (
-                            wstr.substr (pos + 1, end - pos - 1));
+                        port = to_utf8 (wstr.substr (pos + 1, end - pos - 1));
                     }
                 }
             }
@@ -558,8 +543,8 @@ enumerate_serial_ports_detailed (std::string const &connected_port,
                       enumerator_size, &enumerator_size)
                   != 0)
                 {
-                  std::string const enumerator_name = convert_wide_to_utf8 (
-                      std::wstring (enumerator_buf.data ()));
+                  std::string const enumerator_name
+                      = to_utf8 (std::wstring (enumerator_buf.data ()));
                   if (starts_with (enumerator_name, "BTH"))
                     port.clear ();
                 }
@@ -581,7 +566,7 @@ enumerate_serial_ports_detailed (std::string const &connected_port,
               != 0)
             {
               info.friendly_name
-                  = convert_wide_to_utf8 (std::wstring (friendly_buf.data ()));
+                  = to_utf8 (std::wstring (friendly_buf.data ()));
             }
           else
             {
@@ -592,8 +577,8 @@ enumerate_serial_ports_detailed (std::string const &connected_port,
                       &size)
                   != 0)
                 {
-                  info.friendly_name = convert_wide_to_utf8 (
-                      std::wstring (friendly_buf.data ()));
+                  info.friendly_name
+                      = to_utf8 (std::wstring (friendly_buf.data ()));
                 }
             }
 
@@ -603,16 +588,14 @@ enumerate_serial_ports_detailed (std::string const &connected_port,
                   dev_info, &dev_info_data, SPDRP_HARDWAREID, &data_type,
                   reinterpret_cast<PBYTE> (buf.data ()), buf_size, &buf_size)
               != 0)
-            info.hardware_id
-                = convert_wide_to_utf8 (std::wstring (buf.data ()));
+            info.hardware_id = to_utf8 (std::wstring (buf.data ()));
 
           buf_size = sizeof (buf);
           if (::SetupDiGetDeviceRegistryPropertyW (
                   dev_info, &dev_info_data, SPDRP_MFG, &data_type,
                   reinterpret_cast<PBYTE> (buf.data ()), buf_size, &buf_size)
               != 0)
-            info.manufacturer
-                = convert_wide_to_utf8 (std::wstring (buf.data ()));
+            info.manufacturer = to_utf8 (std::wstring (buf.data ()));
 
           buf_size = sizeof (buf);
           if (::SetupDiGetDeviceRegistryPropertyW (
@@ -620,8 +603,7 @@ enumerate_serial_ports_detailed (std::string const &connected_port,
                   reinterpret_cast<PBYTE> (buf.data ()), buf_size, &buf_size)
               != 0)
             {
-              std::string desc
-                  = convert_wide_to_utf8 (std::wstring (buf.data ()));
+              std::string desc = to_utf8 (std::wstring (buf.data ()));
               if (desc != info.friendly_name)
                 info.product = desc;
             }
@@ -631,14 +613,14 @@ enumerate_serial_ports_detailed (std::string const &connected_port,
                   dev_info, &dev_info_data, SPDRP_SERVICE, &data_type,
                   reinterpret_cast<PBYTE> (buf.data ()), buf_size, &buf_size)
               != 0)
-            info.driver = convert_wide_to_utf8 (std::wstring (buf.data ()));
+            info.driver = to_utf8 (std::wstring (buf.data ()));
 
           buf_size = sizeof (buf);
           if (::SetupDiGetDeviceRegistryPropertyW (
                   dev_info, &dev_info_data, SPDRP_ENUMERATOR_NAME, &data_type,
                   reinterpret_cast<PBYTE> (buf.data ()), buf_size, &buf_size)
               != 0)
-            info.bus_info = convert_wide_to_utf8 (std::wstring (buf.data ()));
+            info.bus_info = to_utf8 (std::wstring (buf.data ()));
 
           buf_size = sizeof (buf);
           if (::SetupDiGetDeviceRegistryPropertyW (
@@ -647,8 +629,7 @@ enumerate_serial_ports_detailed (std::string const &connected_port,
                   &buf_size)
               != 0)
             {
-              std::string loc
-                  = convert_wide_to_utf8 (std::wstring (buf.data ()));
+              std::string loc = to_utf8 (std::wstring (buf.data ()));
               if (!loc.empty ())
                 {
                   if (!info.bus_info.empty ())
@@ -662,16 +643,14 @@ enumerate_serial_ports_detailed (std::string const &connected_port,
                   dev_info, &dev_info_data, SPDRP_CLASS, &data_type,
                   reinterpret_cast<PBYTE> (buf.data ()), buf_size, &buf_size)
               != 0)
-            info.device_class
-                = convert_wide_to_utf8 (std::wstring (buf.data ()));
+            info.device_class = to_utf8 (std::wstring (buf.data ()));
 
           std::array<wchar_t, 260> inst_id_buf{};
           if (::SetupDiGetDeviceInstanceIdW (
                   dev_info, &dev_info_data, inst_id_buf.data (),
                   static_cast<DWORD> (inst_id_buf.size ()), nullptr)
               != 0)
-            info.instance_id
-                = convert_wide_to_utf8 (std::wstring (inst_id_buf.data ()));
+            info.instance_id = to_utf8 (std::wstring (inst_id_buf.data ()));
 
           std::string &details = info.device_details;
           if (!info.hardware_id.empty ())

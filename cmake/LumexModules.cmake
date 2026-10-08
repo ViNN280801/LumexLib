@@ -122,8 +122,13 @@ function(lumex_check_module_dependencies)
     lumex_require_module(LUMEX_BUILD_XML LUMEX_BUILD_MATH)
     lumex_require_module(LUMEX_BUILD_XML LUMEX_BUILD_STRING_VIEW)
 
-    # filesystem links unicode PRIVATE (its source converts wchar_t text with
-    # to_utf8 / to_wide).
+    # filesystem, serial, hardware and resource_monitor link unicode PRIVATE
+    # (their sources convert wchar_t text with to_utf8 / to_wide). Checked
+    # after xml, in this order, so that each fail case switches the modules
+    # checked before it off (cmake.require_fail_*_without_unicode).
+    lumex_require_module(LUMEX_BUILD_HARDWARE LUMEX_BUILD_UNICODE)
+    lumex_require_module(LUMEX_BUILD_RESOURCE_MONITOR LUMEX_BUILD_UNICODE)
+    lumex_require_module(LUMEX_BUILD_SERIAL LUMEX_BUILD_UNICODE)
     lumex_require_module(LUMEX_BUILD_FILESYSTEM LUMEX_BUILD_UNICODE)
 
     lumex_require_module(LUMEX_BUILD_TEMPORARY LUMEX_BUILD_ENVIRONMENT)

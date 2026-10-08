@@ -3907,6 +3907,11 @@ core_dump_generator::_generate_core_dump ()
 
 // Helper functions to reduce code duplication
 #if LUMEX_OS_IS_WINDOWS()
+// The one hand-written wide to UTF-8 conversion that stays: the module
+// core/unicode (`to_utf8`) requires this module (its assert and byte swap
+// headers), so a header of this module cannot include it without a cycle in
+// the module graph. An unpaired surrogate becomes U+FFFD here, whereas
+// `unicode::convert::to_utf8` skips it; the text is a dump file name.
 inline std::string
 core_dump_generator::_convert_wide_string_to_narrow (
     std::wstring const &wideStr) noexcept

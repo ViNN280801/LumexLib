@@ -25,6 +25,10 @@ target_link_libraries(${LUMEX_RESOURCE_MONITOR_NAME} PUBLIC
     lumex::time
 )
 
+# The Windows source converts UTF-16 process names with
+# lumex::core::unicode::convert (header-only; used by the source only).
+target_link_libraries(${LUMEX_RESOURCE_MONITOR_NAME} PRIVATE lumex::unicode)
+
 lumex_apply_library_versioning(${LUMEX_RESOURCE_MONITOR_NAME} "Lumex Resource Monitor Library")
 
 if(LUMEX_INSTALL)

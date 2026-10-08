@@ -36,8 +36,6 @@
 #ifndef PSAPI_VERSION
 #define PSAPI_VERSION 2
 #endif
-#include <cwchar>
-
 #include <windows.h>
 
 // MinGW's psapi.h and tlhelp32.h need the types of windows.h declared first.
@@ -52,7 +50,9 @@
 
 #include "LumexProcessMonitor.hpp"
 #include "detail/LumexProcessDetail.hpp"
-#if defined(__linux__)
+#if defined(_WIN32) || defined(_WIN64)
+#include "lumex/core/unicode/convert/LumexUnicodeConvert.hpp"
+#elif defined(__linux__)
 #include "lumex/applied/resource_monitor/monitor/detail/LumexProcFs.hpp"
 #include "lumex/core/filesystem/LumexFilesystem"
 #endif
@@ -96,20 +96,6 @@ file_time_value (FILETIME const &time)
   value.LowPart = time.dwLowDateTime;
   value.HighPart = time.dwHighDateTime;
   return value.QuadPart;
-}
-
-std::string
-to_utf8 (wchar_t const *text, int length)
-{
-  if (length <= 0)
-    return std::string ();
-  int const size = WideCharToMultiByte (CP_UTF8, 0, text, length, nullptr, 0,
-                                        nullptr, nullptr);
-  std::string out (static_cast<std::size_t> (size > 0 ? size : 0), '\0');
-  if (size > 0)
-    WideCharToMultiByte (CP_UTF8, 0, text, length, &out[0], size, nullptr,
-                         nullptr);
-  return out;
 }
 
 process_query_error
@@ -188,7 +174,8 @@ read_process (process_id_t pid)
   std::string name;
   if (QueryFullProcessImageNameW (process.value, 0, path, &length) != 0)
     {
-      std::string const full = to_utf8 (path, static_cast<int> (length));
+      std::string const full
+          = lumex::core::unicode::convert::to_utf8 (path, length);
       std::size_t const slash = full.find_last_of ("\\/");
       name = slash == std::string::npos ? full : full.substr (slash + 1);
     }
@@ -219,8 +206,8 @@ find_processes (std::string const &name)
   for (BOOL more = Process32FirstW (snapshot.value, &entry); more != 0;
        more = Process32NextW (snapshot.value, &entry))
     {
-      std::string const exe = to_utf8 (
-          entry.szExeFile, static_cast<int> (wcslen (entry.szExeFile)));
+      std::string const exe
+          = lumex::core::unicode::convert::to_utf8 (entry.szExeFile);
       if (detail::windows_name_matches (name, exe))
         found.push_back (entry.th32ProcessID);
     }

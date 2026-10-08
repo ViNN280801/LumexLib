@@ -20,6 +20,10 @@ target_link_libraries(${LUMEX_SERIAL_NAME} PUBLIC
     lumex::utility
 )
 
+# The Windows sources convert UTF-16 text with lumex::core::unicode::convert
+# (header-only; used by the sources only).
+target_link_libraries(${LUMEX_SERIAL_NAME} PRIVATE lumex::unicode)
+
 if(WIN32)
     target_link_libraries(${LUMEX_SERIAL_NAME} PRIVATE setupapi advapi32)
 endif()

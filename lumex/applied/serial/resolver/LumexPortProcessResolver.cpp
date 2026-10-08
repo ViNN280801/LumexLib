@@ -55,6 +55,9 @@
 #endif
 
 #include "lumex/applied/serial/resolver/LumexPortProcessResolver.hpp"
+#if defined(_WIN32)
+#include "lumex/core/unicode/convert/LumexUnicodeConvert.hpp"
+#endif
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 #include "lumex/core/utility/os/LumexCheckOS.hpp"
 
@@ -126,24 +129,9 @@ exported_function (HMODULE module, char const *name)
       reinterpret_cast<void (*) ()> (::GetProcAddress (module, name)));
 }
 
-std::string
-convert_wide_to_utf8 (std::wstring const &wide) LUMEX_NOEXCEPT
-{
-  if (wide.empty ())
-    return std::string ();
-  int const needed = ::WideCharToMultiByte (CP_UTF8, 0, wide.c_str (),
-                                            static_cast<int> (wide.size ()),
-                                            nullptr, 0, nullptr, nullptr);
-  if (needed <= 0)
-    return std::string ();
-  std::string utf8 (static_cast<std::size_t> (needed), '\0');
-  int const written = ::WideCharToMultiByte (
-      CP_UTF8, 0, wide.c_str (), static_cast<int> (wide.size ()), &utf8[0],
-      needed, nullptr, nullptr);
-  if (written <= 0)
-    return std::string ();
-  return utf8;
-}
+// Converts UTF-16 to UTF-8 the same way on every platform; a unit that cannot
+// be decoded (an unpaired surrogate) is skipped.
+using lumex::core::unicode::convert::to_utf8;
 
 class win32_system_error_formatter final : public system_error_formatter
 {
@@ -166,7 +154,7 @@ public:
         while (!wmsg.empty ()
                && (wmsg.back () == L'\r' || wmsg.back () == L'\n'))
           wmsg.pop_back ();
-        msg = convert_wide_to_utf8 (wmsg);
+        msg = to_utf8 (wmsg);
       }
     return msg.empty () ? ("error " + std::to_string (err_code))
                         : (msg + " (" + std::to_string (err_code) + ")");
@@ -211,7 +199,7 @@ object_name_matches_com_port (std::wstring const &obj_name,
 {
   if (obj_name.empty () || port_display_name.empty ())
     return false;
-  std::string obj_name_a = convert_wide_to_utf8 (obj_name);
+  std::string obj_name_a = to_utf8 (obj_name);
   if (obj_name_a.empty ())
     return false;
   std::size_t const pos = obj_name_a.find ("COM");

@@ -219,17 +219,17 @@ class LumexLibConan(ConanFile):
         )
         self._component(
             "applied_hardware", "hardware", ["LumexApplied_hardware"],
-            ["applied_logging", "core_utility"],
+            ["applied_logging", "core_unicode", "core_utility"],
         )
         self._component(
             "applied_resource_monitor", "resource_monitor",
             ["LumexApplied_resource_monitor"],
             ["core_expected", "core_filesystem", "applied_logging",
-             "core_optional", "core_string_view", "core_time"],
+             "core_optional", "core_string_view", "core_time", "core_unicode"],
         )
         serial = self._component(
             "applied_serial", "serial", ["LumexApplied_serial"],
-            ["core_utility"],
+            ["core_unicode", "core_utility"],
         )
         if windows:
             serial.system_libs.extend(["setupapi", "advapi32"])

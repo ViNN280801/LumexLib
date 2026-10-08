@@ -61,6 +61,9 @@
 
 #include "LumexHardwareCapabilities.hpp"
 #include "lumex/applied/logging/LumexLogging"
+#if defined(_WIN32)
+#include "lumex/core/unicode/convert/LumexUnicodeConvert.hpp"
+#endif
 #include "lumex/core/utility/LumexUtility"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 
@@ -149,17 +152,9 @@ HardwareCapabilities::detect_hardware ()
           DXGI_ADAPTER_DESC desc;
           if (SUCCEEDED (pAdapter->GetDesc (&desc)))
             {
-              // Convert wide string to narrow string properly
-              std::string gpu_name;
-              int len = WideCharToMultiByte (CP_UTF8, 0, desc.Description, -1,
-                                             nullptr, 0, nullptr, nullptr);
-              if (len > 0)
-                {
-                  std::vector<char> buffer (static_cast<std::size_t> (len));
-                  WideCharToMultiByte (CP_UTF8, 0, desc.Description, -1,
-                                       buffer.data (), len, nullptr, nullptr);
-                  gpu_name = std::string (buffer.data ());
-                }
+              // The adapter name is UTF-16; invalid units are skipped
+              std::string const gpu_name
+                  = lumex::core::unicode::convert::to_utf8 (desc.Description);
 
               // Check if it's not Microsoft Basic Render Driver or similar
               if (gpu_name.find (Constants::KMICROSOFT_GPU_IDENTIFIER)
