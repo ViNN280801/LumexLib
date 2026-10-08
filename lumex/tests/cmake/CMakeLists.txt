@@ -150,6 +150,8 @@ lumex_add_cmake_fail_test(require_fail_crc_without_utility
 # before it off, so that the module under test is the one that fails.
 lumex_add_cmake_fail_test(require_fail_base64_without_string_view
     "LUMEX_BUILD_BASE64 is enabled but requires LUMEX_BUILD_STRING_VIEW")
+lumex_add_cmake_fail_test(require_fail_crc_without_string_view
+    "LUMEX_BUILD_CRC is enabled but requires LUMEX_BUILD_STRING_VIEW")
 # base64 and crc link the span module too, but utility requires it as well and
 # is checked first, so only that edge can be tested alone
 # (cmake.wiring_span pins the other two).
