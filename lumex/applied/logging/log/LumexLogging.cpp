@@ -251,7 +251,7 @@ LumexLogging::to_file (char const *filename, LumexLogLevel level,
   try
     {
       std::lock_guard<std::mutex> lock (s_mutex);
-      std::string logPath = get_logs_directory ();
+      std::string logPath = get_logs_directory ().string ();
       std::string fullFilename = std::string (filename);
 
       if (appendTimestamp)

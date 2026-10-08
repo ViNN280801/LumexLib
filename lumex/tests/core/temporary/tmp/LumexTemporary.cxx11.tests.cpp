@@ -291,12 +291,12 @@ TEST_F (LumexTemporaryTest, CreateTempFile_CanWriteToFile)
 
   EXPECT_TRUE (result.success ());
 
-  std::ofstream file (result.value ().path ());
+  std::ofstream file (result.value ().path ().string ());
   EXPECT_TRUE (file.is_open ());
   file << "test content";
   file.close ();
 
-  std::ifstream read_file (result.value ().path ());
+  std::ifstream read_file (result.value ().path ().string ());
   std::string content;
   std::getline (read_file, content);
   EXPECT_EQ (content, "test content");
@@ -350,7 +350,7 @@ TEST_F (LumexTemporaryTest, RemoveTempDirectory_WithContents)
 
   // Create a file inside the directory
   lumex::path file_path = dir_result.value ().path () / "test_file.txt";
-  std::ofstream file (file_path);
+  std::ofstream file (file_path.string ());
   file << "test content";
   file.close ();
 
@@ -844,7 +844,7 @@ TEST_F (LumexTemporaryTest, Integration_TempFileInTempDirectory)
 
   // Create a file inside the temporary directory
   lumex::path file_path = dir_result.value ().path () / "test_file.txt";
-  std::ofstream file (file_path);
+  std::ofstream file (file_path.string ());
   file << "integration test content";
   file.close ();
 
@@ -852,7 +852,7 @@ TEST_F (LumexTemporaryTest, Integration_TempFileInTempDirectory)
       lumex::core::filesystem::fs::lumex_filesystem::exists (file_path));
 
   // Read the file back
-  std::ifstream read_file (file_path);
+  std::ifstream read_file (file_path.string ());
   std::string content;
   std::getline (read_file, content);
   EXPECT_EQ (content, "integration test content");
