@@ -76,6 +76,30 @@ else()
     message(STATUS "Skipping lint.license_headers: no Python 3 interpreter")
 endif()
 
+# Every public header under lumex/ compiles on its own: a translation unit with
+# the single #include of it, at C++11, with the compiler and the C++ flags of
+# this build (the C++ standard library too: -stdlib= of the vendored GoogleTest
+# target is the one the Lumex targets use). A header that fails alone relies on
+# a neighbour to have included something first. Four parallel compiles; about
+# 10 seconds on GCC 13.2. Exit code 77 (cl or clang-cl outside a developer
+# shell) is reported as skipped.
+if(Python3_Interpreter_FOUND)
+    add_test(NAME lint.headers_standalone
+        COMMAND ${Python3_EXECUTABLE}
+            ${LumexLib_SOURCE_DIR}/Scripts/CodeTools/check_headers_standalone.py
+            --check --dir ${LumexLib_SOURCE_DIR}/lumex
+            --compiler ${CMAKE_CXX_COMPILER} --std 11 --jobs 4
+            "--cxx-flags=${CMAKE_CXX_FLAGS} $<FILTER:$<TARGET_PROPERTY:lumex_gtest_1_12,COMPILE_OPTIONS>,INCLUDE,^-stdlib=>"
+    )
+    set_tests_properties(lint.headers_standalone PROPERTIES
+        LABELS "lint"
+        PROCESSORS 4
+        TIMEOUT 900
+        SKIP_RETURN_CODE 77)
+else()
+    message(STATUS "Skipping lint.headers_standalone: no Python 3 interpreter")
+endif()
+
 # Two vendored GoogleTest trees (not FetchContent):
 #   1.12.1 for C++11/14 tests, 1.18.0 for C++17+ tests.
 include("${CMAKE_CURRENT_LIST_DIR}/../../cmake/LumexGoogleTest.cmake")
