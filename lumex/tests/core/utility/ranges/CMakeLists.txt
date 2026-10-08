@@ -1,7 +1,8 @@
 # lumex/tests/core/utility/ranges/CMakeLists.txt
 
-# The tests of lumex/core/utility/ranges: iterator_range from C++11 (.cxx11),
-# the C++20 range helpers (.cxx20) and std::ranges::contains (.cxx23).
+# The tests of lumex/core/utility/ranges: iterator_range and get_nearest_to
+# from C++11 (.cxx11), what get_nearest_to does with <ranges> and the old C++20
+# implementation as a reference (.cxx20) and std::ranges::contains (.cxx23).
 # One suite per standard of the module (lumex/tests/LumexTestStandards.cmake),
 # LumexUtilityRangesCxx11Tests, ...Cxx14Tests, ...Cxx17Tests, ...Cxx20Tests
 # (C++23 and C++26 only where the compiler has them), each built from the

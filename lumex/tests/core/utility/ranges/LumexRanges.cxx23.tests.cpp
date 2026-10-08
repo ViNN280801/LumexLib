@@ -1,9 +1,9 @@
 // LumexRanges.cxx23.tests.cpp
 // get_nearest_to checked through std::ranges::contains (C++23).
-// LumexRanges.hpp needs C++20 <ranges> and the standard library must have
-// std::ranges::contains (__cpp_lib_ranges_contains); otherwise the test
-// skips. The suites from C++23 up compile this file together with
-// LumexRanges.cxx20.tests.cpp.
+// The test needs the C++20 <ranges> and a standard library that has
+// std::ranges::contains (__cpp_lib_ranges_contains); otherwise it skips. The
+// suites from C++23 up compile this file together with the C++11 and C++20
+// files of the directory.
 #include <algorithm>
 #include <ranges>
 #include <vector>
