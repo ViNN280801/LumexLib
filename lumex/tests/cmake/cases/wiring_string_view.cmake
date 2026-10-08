@@ -1,5 +1,5 @@
 # core/string_view wiring for the modules that take the lumex_string_view in
-# their string overloads below C++17 (base64, crc). The
+# their string overloads below C++17 (base64, crc, exceptions). The
 # members of lumex_string_view that a call converts through are compiled into
 # the string_view library (the constructors from char const * and
 # std::string), and the class is dllimport on Windows, so a module that has
@@ -22,7 +22,7 @@ string(FIND "${_core}" "lumex_add_subdirectory_if(LUMEX_BUILD_STRING_VIEW string
 if(_string_view_at EQUAL -1)
     message(FATAL_ERROR "lumex/core/CMakeLists.txt does not add string_view")
 endif()
-foreach(_user BASE64 CRC)
+foreach(_user BASE64 CRC EXCEPTIONS)
     string(TOLOWER "${_user}" _dir)
     string(FIND "${_core}" "lumex_add_subdirectory_if(LUMEX_BUILD_${_user} ${_dir})"
            _user_at)
@@ -35,15 +35,16 @@ foreach(_user BASE64 CRC)
     endif()
 endforeach()
 # The modules that take the view: the edge, the link and the Conan component.
-foreach(_user BASE64 CRC)
+foreach(_user BASE64 CRC EXCEPTIONS)
     _require_text("cmake/LumexModules.cmake"
         "lumex_require_module(LUMEX_BUILD_${_user} LUMEX_BUILD_STRING_VIEW)")
 endforeach()
 _require_text("lumex/core/base64/CMakeLists.txt" "lumex::string_view")
 _require_text("lumex/core/crc/CMakeLists.txt" "lumex::string_view")
+_require_text("lumex/core/exceptions/CMakeLists.txt" "lumex::string_view")
 # The Conan components list core_string_view among their requirements.
 file(READ "${LUMEX_SOURCE_DIR}/conanfile.py" _conan)
-foreach(_component "core_base64" "core_crc")
+foreach(_component "core_base64" "core_crc" "core_exceptions")
     string(REGEX MATCH "\"${_component}\"[^)]*\"core_string_view\"" _found
            "${_conan}")
     if(NOT _found)

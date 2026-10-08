@@ -46,8 +46,9 @@
  * the message; `to_crash_report()` appends the message and the stack to one
  * `crash_report_<timestamp>.txt` per run in the `crashes` directory next to
  * the executable. The constructors compiled into `lumex::exceptions` have
- * the same signatures in every C++ standard; the `std::string_view`
- * constructor (C++17) is an inline wrapper. The class itself is not
+ * the same signatures in every C++ standard; the string view constructor
+ * (`std::string_view` from C++17, the `lumex_string_view` of
+ * `lumex::string_view` below) is an inline wrapper. The class itself is not
  * exported, so that wrapper is not `dllimport`.
  *
  * `LUMEX_THROW_EXCEPTION` throws an exception type with its demangled name in
@@ -70,6 +71,8 @@
 #include <string>
 #if __cplusplus >= 201703L
 #include <string_view>
+#else
+#include "lumex/core/string_view/view/LumexStringView.hpp"
 #endif
 
 #include "lumex/core/exceptions/crash/WindowsSEHTranslator.hpp"
@@ -102,11 +105,12 @@ namespace exception
  * @details `lumex_base_exception(char const *)`, both `std::string`
  * constructors, `to_stderr` and `to_crash_report` are exported and have the
  * same signature in every C++ standard, so a consumer built at another
- * standard than the library links. The `std::string_view` constructor
- * (C++17) is an inline wrapper over `std::string &&`. The class itself is
- * not exported: a dllimport class makes clang-cl emit an import for an
- * inline member it does not inline, and the library does not provide the
- * standard-dependent constructor.
+ * standard than the library links. The string view constructor
+ * (`std::string_view` from C++17, the `lumex_string_view` of
+ * `lumex::string_view` below) is an inline wrapper over `std::string &&`. The
+ * class itself is not exported: a dllimport class makes clang-cl emit an
+ * import for an inline member it does not inline, and the library does not
+ * provide the standard-dependent constructor.
  */
 class lumex_base_exception : public std::exception
 {
@@ -134,11 +138,27 @@ public:
    * @brief Constructs a `lumex_base_exception` with a message.
    * @details Inline and delegating to the `std::string &&` constructor, so
    * the library exports the same constructors in every C++ standard and a
-   * consumer built at another standard links.
+   * consumer built at another standard links. Below C++17 the parameter is
+   * the `lumex_string_view` of `lumex::string_view` instead (a `char const *`
+   * and a `std::string` still take their own constructors above).
    * @param message The error message; may contain NUL characters.
    */
   lumex_base_exception (std::string_view message)
       : lumex_base_exception (std::string (message))
+  {
+  }
+#else
+  /**
+   * @brief Constructs a `lumex_base_exception` with a message.
+   * @details Inline and delegating to the `std::string &&` constructor, so
+   * the library exports the same constructors in every C++ standard and a
+   * consumer built at another standard links. From C++17 the parameter is a
+   * `std::string_view` instead.
+   * @param message The error message; may contain NUL characters.
+   */
+  lumex_base_exception (
+      lumex::core::string_view::view::lumex_string_view message)
+      : lumex_base_exception (std::string (message.data (), message.size ()))
   {
   }
 #endif
