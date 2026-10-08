@@ -48,14 +48,80 @@
  * deprecated (with or without a reason), fallthrough, maybe_unused, likely and
  * unlikely, no_unique_address (C++20), assume (C++23) and indeterminate
  * (C++26). `LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR(...)` silences an unused
- * expression by casting it to `void`. `LUMEX_ATTRIBUTE_PACKED` is empty for
+ * expression by casting it to `void`; on GCC below C++17 it also passes the
+ * value on, because GCC reports a `LUMEX_ATTRIBUTE_NODISCARD` result that is
+ * only cast to `void` (see the macro). `LUMEX_ATTRIBUTE_PACKED` is empty for
  * MSVC, which packs through `LUMEX_PACK_BEGIN(n)` and `LUMEX_PACK_END`
  * instead; those two work with MSVC, GCC and Clang and are empty elsewhere.
  */
 #ifndef LUMEX_CORE_UTILITY_ATTR_HPP
 #define LUMEX_CORE_UTILITY_ATTR_HPP
 
+#include <type_traits>
+
 #include "lumex/core/utility/compiler/LumexCheckFeatures.hpp"
+#include "lumex/core/utility/macros/LumexKeywords.hpp"
+
+#if __cplusplus < 201703L && defined(__GNUC__) && !defined(__clang__)
+namespace lumex
+{
+namespace core
+{
+namespace utility
+{
+namespace attr
+{
+namespace detail
+{
+/**
+ * @brief The right operand of the comma that
+ * `LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR` builds on GCC below C++17.
+ */
+struct unused_value_sink_t
+{
+};
+
+/**
+ * @brief Takes the left operand of the comma and drops it, for a type that is
+ * not a class or union (arithmetic, enumeration, pointer, array, function).
+ * @details A function argument counts as a use of the value, which a cast to
+ * `void` does not for GCC's `warn_unused_result`. The parameter is passed by
+ * value so that an array or a function decays: a reference to an array of
+ * unknown bound (`int values[] = { ... }` in a template) cannot be formed
+ * before C++20.
+ * @return The sink, so that the whole expression has a type and can be cast
+ * to `void`.
+ */
+template <typename Value>
+LUMEX_CONSTEXPR typename std::enable_if<!std::is_class<Value>::value
+                                            && !std::is_union<Value>::value,
+                                        unused_value_sink_t>::type
+operator, (Value, unused_value_sink_t) LUMEX_NOEXCEPT
+{
+  return unused_value_sink_t ();
+}
+
+/**
+ * @brief Takes the left operand of the comma and drops it, for a class or
+ * union type.
+ * @details The object is only bound to a reference, never read, copied or
+ * moved, so a class without a copy constructor works.
+ * @return The sink.
+ */
+template <typename Value>
+LUMEX_CONSTEXPR typename std::enable_if<std::is_class<Value>::value
+                                            || std::is_union<Value>::value,
+                                        unused_value_sink_t>::type
+operator, (Value const &, unused_value_sink_t) LUMEX_NOEXCEPT
+{
+  return unused_value_sink_t ();
+}
+} // namespace detail
+} // namespace attr
+} // namespace utility
+} // namespace core
+} // namespace lumex
+#endif
 
 // @link https://en.cppreference.com/w/cpp/language/attributes.html
 
@@ -190,7 +256,23 @@
 
 // [[maybe_unused]]
 // Variadic so commas inside template args / call args stay one argument.
+//
+// A `(void)` cast discards a value on purpose, and Clang and the C++17
+// [[nodiscard]] accept it for a result they would otherwise report. Below
+// C++17 LUMEX_ATTRIBUTE_NODISCARD is __attribute__ ((warn_unused_result)),
+// and GCC still reports (-Wunused-result) a result that is only cast to void.
+// There the expression becomes the left operand of a comma whose right operand
+// is a sink: the overloaded operator takes the value as an argument, which
+// counts as using it, and does nothing with it. The sink works for any
+// expression, a void one (the built-in comma) and a name, an array or a
+// function too, and evaluates it once.
+#if __cplusplus < 201703L && defined(__GNUC__) && !defined(__clang__)
+#define LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR(...)                                 \
+  (void)((__VA_ARGS__),                                                       \
+         ::lumex::core::utility::attr::detail::unused_value_sink_t ())
+#else
 #define LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR(...) (void)(__VA_ARGS__)
+#endif
 #if __cplusplus >= 201703L
 #define LUMEX_ATTRIBUTE_MAYBE_UNUSED [[maybe_unused]]
 #elif defined(__GNUC__) || defined(__clang__)
