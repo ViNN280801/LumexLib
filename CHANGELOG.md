@@ -767,6 +767,14 @@
 
 #### Исправлено
 
+##### `LumexLogger.hpp` объявляет `std::make_unique` и `std::exchange` ниже C++14
+
+**Файлы:** `lumex/applied/logger/logger/LumexLogger.hpp`, `lumex/tests/applied/logger/logger/LumexLoggerStdPolyfill.cxx11.tests.cpp` (новый)
+
+**Суть:** ниже C++14 заголовок логгера вставлял в `namespace std` шаблоны `make_unique` (для объекта и для массива) и `exchange`. Добавлять объявления в `std` - неопределенное поведение, а программа, которая сама объявляет их для C++11 (так делают старые проекты), получала `redefinition` при включении заголовка. Эти функции не вызывал ни логгер, ни другой код `lumex/` (единственный `std::exchange` - в ветке `join` для C++20), поэтому вспомогательные функции взамен не нужны: блок удален вместе с `<memory>`, который подключался только ради него; комментарий файла больше не обещает их.
+
+**Проверено:** новый тест `LumexLoggerStdPolyfill` объявляет в `std` свои `make_unique` и `exchange` после заголовка логгера и вызывает их; на прежнем заголовке `LumexLoggerLoggerCxx11Tests` не собирается на GCC 13.2 (`redefinition of ... std::make_unique`, `redefinition of ... std::exchange`), на новом проходят все 128 тестов `logger.` на GCC 13.2, GCC 8.3 и Clang 23.1.0 (libc++) на C++11, 14, 17 и 20.
+
 ##### Заголовки `xml` не компилируются поодиночке; проверка `lint.headers_standalone`
 
 **Файлы:** `lumex/xml/writer/IXmlWriter.hpp`, `lumex/xml/writer/XmlWriterFile.hpp`, `lumex/xml/xpath/constants/XPathConstants.hpp`, `lumex/xml/tree/XmlTreeWalker.hpp`, `Scripts/CodeTools/check_headers_standalone.py` (новый), `lumex/tests/CMakeLists.txt`, `lumex/tests/cmake/CMakeLists.txt`, `lumex/tests/cmake/cases/lint_headers_standalone_script.cmake` (новый), `lumex/tests/cmake/cases/wiring_headers_standalone_ctest.cmake` (новый), `lumex/tests/cmake/fixtures/headers_standalone/` (новый)
