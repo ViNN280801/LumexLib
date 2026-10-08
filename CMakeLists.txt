@@ -241,10 +241,6 @@ include(GNUInstallDirs)
 add_subdirectory(lumex)
 
 if(LUMEX_BUILD_XML)
-    if(LUMEX_XML_WCHAR_MODE)
-        add_compile_definitions(LUMEX_XML_WCHAR_MODE)
-        message(STATUS "Building with Xml wchar_t mode enabled")
-    endif()
     message(STATUS "Building with Xml enabled")
 endif()
 

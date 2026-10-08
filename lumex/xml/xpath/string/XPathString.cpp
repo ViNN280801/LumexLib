@@ -85,7 +85,7 @@ XPathString::from_heap (char_t const *begin, char_t const *end,
 
 LUMEX_PUBLIC_API
 XPathString::XPathString ()
-    : m_buffer (LUMEX_XML_TEXT ("")), m_uses_heap (false), m_length_heap (0)
+    : m_buffer (""), m_uses_heap (false), m_length_heap (0)
 {
 }
 

@@ -199,14 +199,9 @@ struct LUMEX_API XmlParser
    * @param[in] str A pointer to the beginning of the XML buffer.
    * @return A pointer to the position immediately after the BOM if present,
    * otherwise the original pointer.
-   * @note This function is overloaded for `char_t` (UTF-8) and `wchar_t`
-   * (UTF-16) modes.
+   * @note The BOM is the three UTF-8 bytes `EF BB BF`.
    */
-#ifdef LUMEX_XML_WCHAR_MODE
   static char_t *parse_skip_bom (char_t *str);
-#else
-  static char_t *parse_skip_bom (char_t *str);
-#endif
 
   /**
    * @brief Checks if any of the given node's siblings (including itself) are

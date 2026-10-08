@@ -202,7 +202,7 @@ main ()
   std::cout
       << "--- Part 6: Printing the Document to Console (Pretty Print) ---\n";
   std::cout << "Full content of '" << kXmlFilePath << "' (pretty-printed):\n";
-  docRead.print (std::cout, LUMEX_XML_TEXT ("  "), Constants::kformat_indent);
+  docRead.print (std::cout, "  ", Constants::kformat_indent);
   std::cout << "\n";
 
   return 0;

@@ -101,7 +101,7 @@ struct namespace_uri_predicate
   {
     char_t const *name = attr.name ();
 
-    if (!starts_with (name, LUMEX_XML_TEXT ("xmlns")))
+    if (!starts_with (name, "xmlns"))
       return false;
 
     return (prefix != nullptr)
@@ -127,7 +127,7 @@ namespace_uri (XmlNode node)
       p_node = p_node.parent ();
     }
 
-  return LUMEX_XML_TEXT ("");
+  return "";
 }
 
 inline char_t const *
@@ -137,7 +137,7 @@ namespace_uri (XmlAttribute attr, XmlNode parent)
 
   // Default namespace does not apply to attributes
   if (!pred.prefix)
-    return LUMEX_XML_TEXT ("");
+    return "";
 
   XmlNode pNode = parent;
 
@@ -149,7 +149,7 @@ namespace_uri (XmlAttribute attr, XmlNode parent)
       pNode = pNode.parent ();
     }
 
-  return LUMEX_XML_TEXT ("");
+  return "";
 }
 
 inline char_t const *
@@ -327,8 +327,7 @@ XPathAstNode::step_push (
 {
   LUMEX_ASSERT (attr);
 
-  char_t const *name
-      = (attr->name != nullptr) ? attr->name + 0 : LUMEX_XML_TEXT ("");
+  char_t const *name = (attr->name != nullptr) ? attr->name + 0 : "";
 
   switch (m_test)
     {
@@ -619,7 +618,7 @@ XPathAstNode::eval_boolean ( // NOLINT(misc-no-recursion,
         for (XmlNode node = ctx.node.node (); node != nullptr;
              node = node.parent ())
           {
-            XmlAttribute attr = node.attribute (LUMEX_XML_TEXT ("xml:lang"));
+            XmlAttribute attr = node.attribute ("xml:lang");
 
             if (attr != nullptr)
               {
@@ -1162,9 +1161,8 @@ XPathAstNode::eval_string ( // NOLINT(misc-no-recursion,
   switch (m_rettype)
     {
     case xpath_type_boolean:
-      return XPathString::from_const (eval_boolean (ctx, stack)
-                                          ? LUMEX_XML_TEXT ("true")
-                                          : LUMEX_XML_TEXT ("false"));
+      return XPathString::from_const (eval_boolean (ctx, stack) ? "true"
+                                                                : "false");
 
     case xpath_type_number:
       return convert_number_to_string (eval_number (ctx, stack), stack.result);

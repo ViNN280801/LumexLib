@@ -230,9 +230,9 @@ char_t const *
 XmlAttribute::name () const
 {
   if (m_attr == nullptr)
-    return LUMEX_XML_TEXT ("");
+    return "";
   char_t const *name = m_attr->name;
-  return (name != nullptr) ? name : LUMEX_XML_TEXT ("");
+  return (name != nullptr) ? name : "";
 }
 
 LUMEX_PUBLIC_API
@@ -240,9 +240,9 @@ char_t const *
 XmlAttribute::value () const
 {
   if (m_attr == nullptr)
-    return LUMEX_XML_TEXT ("");
+    return "";
   char_t const *value = m_attr->value;
-  return (value != nullptr) ? value : LUMEX_XML_TEXT ("");
+  return (value != nullptr) ? value : "";
 }
 
 LUMEX_PUBLIC_API

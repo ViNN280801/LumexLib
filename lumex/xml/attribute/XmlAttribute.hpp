@@ -267,7 +267,7 @@ public:
    * @brief Retrieves the name of the XML attribute.
    * @details If the attribute is valid, this method returns a C-style string
    * pointing to the attribute's name. If the attribute is empty (null), an
-   * empty string literal `LUMEX_XML_TEXT("")` is returned.
+   * empty string literal `""` is returned.
    * @return A null-terminated C-style string representing the attribute's
    * name.
    * @note The returned pointer points to internal memory and should not be
@@ -282,7 +282,7 @@ public:
    * @brief Retrieves the value of the XML attribute as a C-style string.
    * @details If the attribute is valid, this method returns a C-style string
    * pointing to the attribute's value. If the attribute is empty (null), an
-   * empty string literal `LUMEX_XML_TEXT("")` is returned.
+   * empty string literal `""` is returned.
    * @return A null-terminated C-style string representing the attribute's
    * value.
    * @note The returned pointer points to internal memory and should not be
@@ -294,14 +294,13 @@ public:
    * @brief Retrieves the attribute's value as a C-style string, or a default
    * value if the attribute is empty.
    * @param[in] def The default C-style string to return if the attribute is
-   * empty or its value is null. Defaults to `LUMEX_XML_TEXT("")`.
+   * empty or its value is null. Defaults to `""`.
    * @return A null-terminated C-style string representing the attribute's
    * value, or `def` if the attribute is empty or its value is null.
    * @note The returned pointer points to internal memory (if not `def`) and
    * should not be deallocated or modified.
    */
-  LUMEX_API char_t const *as_string (char_t const *def
-                                     = LUMEX_XML_TEXT ("")) const;
+  LUMEX_API char_t const *as_string (char_t const *def = "") const;
 
   // Get attribute value as a number, or the default value if the attribute
   // is empty or has no value
@@ -339,10 +338,9 @@ public:
                              "discarding it negates the purpose of the getter")
   /**
    * @brief Converts the attribute's value to a `double`.
-   * @details Converts the value as `strtod` does (`wcstod` in wide-character
-   * mode); a value that is not a number gives `0`. `def` is returned only when
-   * the attribute is empty or has no value, not for a value that is not a
-   * number.
+   * @details Converts the value as `strtod` does; a value that is not a number
+   * gives `0`. `def` is returned only when the attribute is empty or has no
+   * value, not for a value that is not a number.
    * @param[in] def The value returned when the attribute is empty or has no
    * value. Defaults to `0.0`.
    * @return The converted value, or `def`.
@@ -353,10 +351,9 @@ public:
                              "discarding it negates the purpose of the getter")
   /**
    * @brief Converts the attribute's value to a `float`.
-   * @details Converts the value as `strtod` does (`wcstod` in wide-character
-   * mode), then narrows it to `float`; a value that is not a number gives `0`.
-   * `def` is returned only when the attribute is empty or has no value, not
-   * for a value that is not a number.
+   * @details Converts the value as `strtod` does, then narrows it to `float`;
+   * a value that is not a number gives `0`. `def` is returned only when the
+   * attribute is empty or has no value, not for a value that is not a number.
    * @param[in] def The value returned when the attribute is empty or has no
    * value. Defaults to `0.0f`.
    * @return The converted value, or `def`.
@@ -608,8 +605,8 @@ public:
   /**
    * @brief Sets the attribute's value after converting a `bool` to its string
    * representation.
-   * @details The boolean value `rhs` is converted to `LUMEX_XML_TEXT("true")`
-   * or `LUMEX_XML_TEXT("false")` and then stored as the attribute's value.
+   * @details The boolean value `rhs` is converted to `"true"`
+   * or `"false"` and then stored as the attribute's value.
    * @param[in] rhs The `bool` value to set.
    * @return `true` if the value was successfully set, `false` otherwise (e.g.,
    * if the attribute is empty or memory allocation fails).

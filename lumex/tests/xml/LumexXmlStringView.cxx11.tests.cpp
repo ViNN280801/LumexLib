@@ -2,11 +2,11 @@
 //
 // XML tests of the string_view_t overloads (every standard): inline wrappers
 // over the sized (pointer and length) functions the library exports.
-// string_view_t is std::basic_string_view<char_t> from C++17 and the
-// lumex_string_view of lumex::string_view below it, so a C++11 program passes
-// a std::string, a char const * and a sized view the way a C++17 one does.
-// The C++17 and C++20 suites compile this file too (LumexXml.cxx17.tests.cpp
-// holds the tests that name std::string_view).
+// string_view_t is the portable_string_view_t of lumex::string_view:
+// std::string_view from C++17 and the lumex_string_view below it, so a C++11
+// program passes a std::string, a char const * and a sized view the way a
+// C++17 one does. The C++17 and C++20 suites compile this file too
+// (LumexXml.cxx17.tests.cpp holds the tests that name std::string_view).
 
 #include <cstddef>
 #include <string>
@@ -17,6 +17,7 @@
 
 #include <gtest/gtest.h>
 
+#include "lumex/core/string_view/view/LumexPortableWStringView.hpp"
 #include "lumex/xml/LumexXml"
 
 #include "lumex/tests/xml/LumexXmlTestFixtures.hpp"
@@ -30,9 +31,21 @@ using lumex::xml::types::Types::xml_node_type;
 using lumex::xml::types::Types::xml_parse_status;
 using lumex::xml::utility::stringview_equal;
 
+// The library has no wide-character mode (the old CMake option is gone):
+// the character type is char and the view is never the wide one.
+static_assert (std::is_same<lumex::xml::types::Types::char_t, char>::value,
+               "char_t is char");
+static_assert (std::is_same<string_view_t, lumex::core::string_view::view::
+                                               portable_string_view_t>::value,
+               "string_view_t is the portable string view");
+static_assert (
+    !std::is_same<
+        string_view_t,
+        lumex::core::string_view::view::portable_wstring_view_t>::value,
+    "string_view_t is not the wide view");
 #if __cplusplus >= 201703L
 static_assert (std::is_same<string_view_t, std::string_view>::value,
-               "from C++17 string_view_t is std::basic_string_view<char_t>");
+               "from C++17 string_view_t is std::string_view");
 #else
 static_assert (
     std::is_same<string_view_t,

@@ -39,13 +39,11 @@
 
 /**
  * @file XmlMacros.hpp
- * @brief Preprocessor macros of the XML module: the character mode, the
- * decoding of header words and the scanning macros of the parser.
- * @details `LUMEX_XML_CHAR` and `LUMEX_XML_TEXT` select `char` or `wchar_t`
- * (with the `L` prefix for literals) depending on `LUMEX_XML_WCHAR_MODE`.
- * Every node and attribute starts with a header word that holds the byte
- * distance from its memory page, shifted left by 8 bits, and flags in the low
- * 8 bits; `LUMEX_XML_GETHEADER_IMPL` builds that word, `LUMEX_XML_GETPAGE`
+ * @brief Preprocessor macros of the XML module: the decoding of header words
+ * and the scanning macros of the parser.
+ * @details Every node and attribute starts with a header word that holds the
+ * byte distance from its memory page, shifted left by 8 bits, and flags in the
+ * low 8 bits; `LUMEX_XML_GETHEADER_IMPL` builds that word, `LUMEX_XML_GETPAGE`
  * recovers the page and `LUMEX_XML_NODETYPE` the node type.
  * `LUMEX_XML_IS_CHARTYPE` and `LUMEX_XML_IS_CHARTYPEX` test a character
  * against the class tables of `XmlConstants.hpp`.
@@ -61,14 +59,6 @@
 #define LUMEX_XML_UTILITY_XML_MACROS_HPP
 
 #include "lumex/core/utility/attr/LumexAttributes.hpp"
-
-#ifdef LUMEX_XML_WCHAR_MODE
-#define LUMEX_XML_TEXT(t) L##t
-#define LUMEX_XML_CHAR wchar_t
-#else
-#define LUMEX_XML_TEXT(t) t
-#define LUMEX_XML_CHAR char
-#endif
 
 #if defined(_MSC_VER) && !defined(__S3E__) && !defined(_WIN32_WCE)
 #define LUMEX_XML_MSVC_CRT_VERSION _MSC_VER
@@ -94,16 +84,8 @@ LumexXmlMemoryPage.hpp, LumexXmlTypes.hpp, LumexXmlConstants.hpp ===== */
 /* ========================================================================================
  */
 
-#ifdef LUMEX_XML_WCHAR_MODE
-#define LUMEX_XML_IS_CHARTYPE_IMPL(c, ct, table)                              \
-  ((static_cast<unsigned int> (c) < 128                                       \
-        ? table[static_cast<unsigned int> (c)]                                \
-        : table[128])                                                         \
-   & (ct))
-#else
 #define LUMEX_XML_IS_CHARTYPE_IMPL(c, ct, table)                              \
   (table[static_cast<unsigned char> (c)] & (ct))
-#endif
 
 /* ===== For these 2 macros, we need to use the constants from
  * LumexXmlConstants.hpp ===== */

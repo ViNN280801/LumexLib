@@ -167,6 +167,28 @@
 
 #### Изменено
 
+##### Несовместимо: режим `wchar_t` модуля xml удален (`LUMEX_XML_WCHAR_MODE`, `LUMEX_XML_CHAR`, `LUMEX_XML_TEXT`)
+
+**Файлы:** `CMakeLists.txt`, `cmake/LumexOptions.cmake`, `lumex/xml/types/XmlTypes.hpp`, `lumex/xml/utility/XmlMacros.hpp`, `lumex/xml/utility/XmlUtils.hpp`, `lumex/xml/text/XmlParser.cpp`, `lumex/xml/text/XmlParser.hpp`, `lumex/xml/document/XmlDocument.cpp`, `lumex/xml/document/XmlDocument.hpp`, `lumex/xml/node/XmlNode.hpp`, `lumex/xml/attribute/XmlAttribute.hpp`, `lumex/xml/text/XmlText.hpp`, остальные файлы `lumex/xml/**`, где стоял `LUMEX_XML_TEXT`, `lumex/examples/xml/example_3.cpp`, `lumex/tests/xml/LumexXml.cxx11.tests.cpp`, `lumex/tests/xml/LumexXmlGlobalNames.cxx11.tests.cpp`, `lumex/tests/xml/LumexXmlStringView.cxx11.tests.cpp`, `lumex/tests/cmake/CMakeLists.txt`, `lumex/tests/cmake/cases/wiring_xml_no_wchar_mode.cmake` (новый)
+
+**Суть:** параметр `LUMEX_XML_WCHAR_MODE` (по умолчанию выключен) собирал xml с `char_t = wchar_t`. Режим не тестировался, а зонтичный заголовок `LumexXml` в нем не собирался (`XmlUtils.hpp`, `set_value_convert`: `wchar_t *` не приводится к `char *`). По решению пользователя (MAJOR 2.0.0.0) режим удален целиком: параметр CMake и `add_compile_definitions` в корневом `CMakeLists.txt`, 23 ветви `#ifdef LUMEX_XML_WCHAR_MODE` в `XmlUtils.hpp`, `XmlParser.cpp`, `XmlParser.hpp`, `XmlDocument.cpp`, `XmlTypes.hpp` и `XmlMacros.hpp` (остались ветви узкого режима), три вспомогательные функции, нужные только ему, и макросы `LUMEX_XML_CHAR` и `LUMEX_XML_TEXT`, которые существовали только ради него. Широкие перегрузки ввода и вывода (`load (std::basic_istream<wchar_t> &)`, `load_file (wchar_t const *)`, `save`, `print` в `std::wostream`, `encoding_wchar`) остаются: это кодировка данных, а не режим сборки. `lumex_wstring_view` и `portable_wstring_view_t` остаются в модуле `string_view`.
+
+`char_t` оставлен простым псевдонимом `using char_t = char;` (без зависимости от макроса): имя стоит в 714 вхождениях в `lumex/xml`, его замена на `char` тронула бы сотни строк, а потребители пишут `char_t const *` в своем коде. `string_view_t` теперь всегда `portable_string_view_t`.
+
+Таблица "было -> стало":
+
+| Вид | Было | Стало |
+| --- | --- | --- |
+| параметр CMake | `LUMEX_XML_WCHAR_MODE` (OFF) | удален; `-DLUMEX_XML_WCHAR_MODE=ON` ни на что не влияет |
+| определение компиляции | `LUMEX_XML_WCHAR_MODE` (добавлялось корневым `CMakeLists.txt`) | нет |
+| макрос | `LUMEX_XML_CHAR` (`char` или `wchar_t`) | `char` |
+| макрос | `LUMEX_XML_TEXT ("текст")` (литерал с `L` в широком режиме) | обычный литерал `"текст"` |
+| тип | `char_t` (`char` или `wchar_t`) | `char_t` = `char`, псевдоним сохранен |
+| тип | `string_view_t` (`portable_string_view_t` или `portable_wstring_view_t`) | `portable_string_view_t` |
+| функции `lumex::xml::utility` | `convert_wchar_endian_swap`, `need_endian_swap_utf`, `convert_buffer_endian_swap` (только широкий режим) | удалены |
+
+**Проверено:** экспортируемые символы `libLumexXml.so` (GCC 13.2, Release, `nm -D --defined-only -C`) до правки (родительский коммит `eda337735`) и после: по 614 символов, `diff` пуст (удаленное было только в заголовках и во внутренних ветвях). Матрица `create_release.sh` (GCC 8.3, GCC 13.2, Clang 23.1, MinGW 8.3 posix; C++11 и C++20; 8 сборок): 0 предупреждений, 0 ошибок, каталог `warns/` пуст. GCC 13.2 Release: `xml.*` 628 тестов и 4 примера xml, плюс `lint.*` и `cmake.*` (155) - все проходят. Наборы C++11 `xml`, `settings` и `logger` на GCC 8.3 и Clang 23.1: по 418 пройденных, 0 упавших. ASan и UBSan (GCC 13.2, Debug): `xml.*` и примеры, 599 тестов, 0 упавших. Строгие предупреждения (`-Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wshadow -Wold-style-cast`, `-fsyntax-only`) на всех `.cpp` модуля xml и на измененных примерах и тестах: GCC 8.3 и Clang 23.1 на C++11, GCC 13.2 на C++14, 17 и 20 - пусто (кроме двух старых предупреждений о неиспользуемых переменных `pr` и `cnt` в `LumexXml.cxx11.tests.cpp:1006`, строки не менялись). Опыты с возвратом: параметр обратно в `LumexOptions.cmake`, `if(LUMEX_XML_WCHAR_MODE)` обратно в корневом `CMakeLists.txt`, `#ifdef LUMEX_XML_WCHAR_MODE` в `XmlTypes.hpp`, `#define LUMEX_XML_TEXT` и `char_t = wchar_t` и `string_view_t` из широкого представления - каждый ловит `cmake.wiring_xml_no_wchar_mode`; последние два еще и не компилируют `LumexXmlStringView.cxx11.tests.cpp` (ошибки в `XmlAttribute.hpp`).
+
 ##### Несовместимо: `LUMEX_DEFINE_ENUM_TRAITS` и `lumex_enum_traits_t` удалены, перечисления описывает `LUMEX_DEFINE_REFLECTED_ENUM`
 
 **Файлы:** `lumex/core/utility/traits/LumexTypeTraits.hpp`, `lumex/core/reflection/reflected_enum/LumexReflectedEnum.hpp` (комментарий), `lumex/tests/core/utility/traits/LumexTypeTraits.cxx20.tests.cpp` (удален), `lumex/tests/core/utility/traits/LumexTypeTraits.cxx11.tests.cpp` (комментарий)

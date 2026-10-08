@@ -158,13 +158,8 @@ strconv_escape (char_t *s, gap &g)
             ++stre;
           }
 
-#ifdef LUMEX_XML_WCHAR_MODE
-        s = reinterpret_cast<char_t *> (utf::wchar_writer::any (
-            reinterpret_cast<utf::wchar_writer::value_type> (s), ucsc));
-#else
         s = reinterpret_cast<char_t *> (
             utf::utf8_writer::any (reinterpret_cast<uint8_t *> (s), ucsc));
-#endif
 
         g.push (s, static_cast<std::size_t> (stre - s));
         return stre;
@@ -1311,21 +1306,12 @@ XmlParser::parse_tree (char_t *str, XmlNodeBase *root, unsigned int optmsk,
 }
 
 LUMEX_PUBLIC_API
-#ifdef LUMEX_XML_WCHAR_MODE
-char_t *
-XmlParser::parse_skip_bom (char_t *str)
-{
-  unsigned int bom = 0xfeff;
-  return (str[0] == static_cast<wchar_t> (bom)) ? str + 1 : str;
-}
-#else
 char_t *
 XmlParser::parse_skip_bom (char_t *str)
 {
   return (str[0] == '\xef' && str[1] == '\xbb' && str[2] == '\xbf') ? str + 3
                                                                     : str;
 }
-#endif
 
 LUMEX_PUBLIC_API
 bool

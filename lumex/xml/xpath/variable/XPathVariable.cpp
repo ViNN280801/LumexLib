@@ -129,7 +129,7 @@ XPathVariable::get_string () const
                   xpath_variable_string const *> (this)
                   ->value
             : nullptr;
-  return value != nullptr ? value : LUMEX_XML_TEXT ("");
+  return value != nullptr ? value : "";
 }
 
 LUMEX_PUBLIC_API

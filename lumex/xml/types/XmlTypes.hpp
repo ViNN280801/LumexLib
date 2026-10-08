@@ -42,16 +42,14 @@
  * @brief The basic types and enumerations of the XML module: character and
  * string types, node types, encodings, parse statuses, and the internal
  * enumerations of the parser and the XPath engine.
- * @details Everything is in `lumex::xml::types::Types`. `char_t` is `char`, or
- * `wchar_t` when the library is built with `LUMEX_XML_WCHAR_MODE` (a CMake
- * option of the same name); `string_t` and `string_view_t` are built on it.
- * `string_view_t` is the `portable_string_view_t` of `lumex::string_view` (the
- * `portable_wstring_view_t` in the wide-character mode):
- * `std::basic_string_view<char_t>` from C++17 and `lumex_string_view`
- * (`lumex_wstring_view`) below it. A `char_t const *` and a
- * `std::basic_string<char_t>` convert to it, and from C++17 so does a
- * `lumex_string_view`. The enumerations consumers meet are `xml_node_type`,
- * `xml_encoding`, `xml_parse_status` and `xpath_value_type`.
+ * @details Everything is in `lumex::xml::types::Types`. `char_t` is `char`
+ * (the library has no wide-character mode); `string_t` is
+ * `std::basic_string<char_t>`. `string_view_t` is the `portable_string_view_t`
+ * of `lumex::string_view`: `std::string_view` from C++17 and
+ * `lumex_string_view` below it. A `char_t const *` and a `std::string`
+ * convert to it, and from C++17 so does a `lumex_string_view`. The
+ * enumerations consumers meet are `xml_node_type`, `xml_encoding`,
+ * `xml_parse_status` and `xpath_value_type`.
  *
  * The other types belong to the implementation: the character class bits
  * `chartype_t` and `chartypex_t`, the string header `xml_mem_str_header_t`,
@@ -65,11 +63,7 @@
 #include <cstdint>
 #include <string>
 
-#ifdef LUMEX_XML_WCHAR_MODE
-#include "lumex/core/string_view/view/LumexPortableWStringView.hpp"
-#else
 #include "lumex/core/string_view/view/LumexPortableStringView.hpp"
-#endif
 #include "lumex/xml/utility/XmlMacros.hpp"
 
 namespace lumex // NOLINT(modernize-concat-nested-namespaces)
@@ -80,13 +74,9 @@ namespace types
 {
 namespace Types
 {
-using char_t = LUMEX_XML_CHAR;
+using char_t = char;
 using string_t = std::basic_string<char_t>;
-#ifdef LUMEX_XML_WCHAR_MODE
-using string_view_t = lumex::core::string_view::view::portable_wstring_view_t;
-#else
 using string_view_t = lumex::core::string_view::view::portable_string_view_t;
-#endif
 
 enum chartype_t : std::uint8_t
 {
