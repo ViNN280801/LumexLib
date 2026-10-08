@@ -4,6 +4,7 @@
 // from C++17, the lumex_string_view of lumex::string_view below), std::span
 // from C++20, and the pointer and size functions. Returns the number of
 // failed checks.
+#include <cstdint>
 #include <cstdio>
 #include <string>
 #include <vector>
@@ -15,6 +16,7 @@
 #endif
 
 #include "lumex/core/base64/LumexBase64"
+#include "lumex/core/crc/LumexCrc"
 #include "lumex/core/exceptions/LumexException"
 #include "lumex/xml/LumexXml"
 
@@ -81,6 +83,43 @@ check_base64 ()
 }
 
 int
+check_crc ()
+{
+  using namespace lumex::core::crc::catalog;
+
+  int failures = 0;
+  // The RevEng check message "123456789" through the pointer and size form
+  // and through the text overloads of the consumer's standard.
+  std::uint8_t const bytes[9]
+      = { '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+  std::uint64_t const expected = compute_crc_catalog (0, bytes, 9);
+  failures += check (expected != 0, "compute_crc_catalog (pointer, size)");
+  failures += check (compute_crc_catalog (0, "123456789") == expected,
+                     "compute_crc_catalog (literal)");
+  failures
+      += check (compute_crc_catalog (0, std::string ("123456789")) == expected,
+                "compute_crc_catalog (std::string)");
+  failures += check (compute_crc_catalog (0, text_view_t ("123456789!", 9))
+                         == expected,
+                     "compute_crc_catalog (text view)");
+  crc_params_t params = {};
+  params.widthBits = 8;
+  params.poly = 0x31U;
+  params.init = 0U;
+  params.refIn = true;
+  params.refOut = true;
+  params.xorOut = 0U;
+  failures += check (compute_crc_with_rev_eng_params (params, "123456789")
+                         == compute_crc_with_rev_eng_params (params, bytes, 9),
+                     "compute_crc_with_rev_eng_params (literal)");
+  std::vector<std::uint8_t> frame (bytes, bytes + 9);
+  append_crc_least_significant_byte_first (params, frame);
+  failures += check (frame.size () == 10u,
+                     "append_crc_least_significant_byte_first");
+  return failures;
+}
+
+int
 check_xml ()
 {
   using lumex::xml::attribute::XmlAttribute;
@@ -138,7 +177,8 @@ check_exceptions ()
 int
 main ()
 {
-  int const failures = check_base64 () + check_xml () + check_exceptions ();
+  int const failures
+      = check_base64 () + check_crc () + check_xml () + check_exceptions ();
   std::printf ("standard_mismatch: C++%ld consumer, %d failed checks\n",
                static_cast<long> (__cplusplus), failures);
   return failures == 0 ? 0 : 1;

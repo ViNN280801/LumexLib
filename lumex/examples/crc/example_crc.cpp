@@ -82,6 +82,18 @@ main ()
             << " catalog[0](last 5 bytes)="
             << compute_crc_catalog (0, view.last (5)) << '\n';
 
+  std::cout << "\n--- 7. A text is hashed as its bytes ---\n";
+  // A literal, a char const * and a std::string convert to the text type of
+  // the string overload: std::string_view from C++17, the lumex_string_view
+  // of lumex::string_view below it.
+  std::cout << "catalog[0](\"123456789\")="
+            << compute_crc_catalog (0, "123456789") << " same_as_bytes="
+            << (compute_crc_catalog (0, "123456789")
+                        == compute_crc_catalog (0, payload)
+                    ? "yes"
+                    : "no")
+            << '\n';
+
   std::cout << "\n=== CRC example finished ===\n";
   return 0;
 }

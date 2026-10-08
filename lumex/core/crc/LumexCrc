@@ -41,15 +41,18 @@
  * @file LumexCrc
  * @brief CRC module: parametric CRC engines in the notation of the CRC RevEng
  * catalogue, and the catalogue's named parameter sets.
- * @details Link <tt>%lumex::crc</tt> (compiled library). Works from C++11. The
- * library itself is compiled as C++11 (below C++17 it also defines the static
- * members of the specs that a consumer odr-uses), and the exported functions
- * take only fundamental types, `std::vector` and the span of
+ * @details Link <tt>%lumex::crc</tt> (compiled library; it links
+ * <tt>%lumex::span</tt> and <tt>%lumex::string_view</tt>). Works from C++11.
+ * The library itself is compiled as C++11 (below C++17 it also defines the
+ * static members of the specs that a consumer odr-uses), and the exported
+ * functions take only fundamental types, `std::vector` and the span of
  * `lumex::core::span`, so a consumer of any standard links it. A parametric
  * algorithm builds its lookup table at compile time from C++14 and on first
  * use in C++11. The byte-taking functions accept a pointer and a size, a
  * `std::vector`, a `lumex::core::span::view::span` (a `std::span` converts to
- * it) and, from C++17, a `std::string_view` where the catalogue has it. The
+ * it) and, where the catalogue has it, a string: a `std::string_view` from
+ * C++17 and the `lumex_string_view` of `lumex::string_view` below it (a string
+ * literal, a `char const *` and a `std::string` convert to either). The
  * umbrella includes `parametric/LumexCrcParametric.hpp` and
  * `catalog/LumexCrcCatalog.hpp`.
  */
