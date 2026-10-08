@@ -927,6 +927,14 @@
 
 #### Исправлено
 
+##### Примеры xml пишут файлы со своими именами и удаляют их
+
+**Файлы:** `lumex/examples/xml/example_1.cpp`, `lumex/examples/xml/example_2.cpp`, `lumex/examples/xml/example_4.cpp`, `lumex/tests/cmake/CMakeLists.txt`, `lumex/tests/cmake/cases/source_xml_examples_own_files.cmake` (новый)
+
+**Суть:** `examples.xml.LumexXmlExample1` и `LumexXmlExample2` записывали и читали один файл `./xgconsole.xml` в одном рабочем каталоге: при параллельном `ctest` один перезаписывал файл, который читал другой, и первый пример время от времени падал (один раз в прогоне, поодиночке и в 30 повторах проходил). Теперь у каждого свое имя (`lumex_xml_example_1.xml`, `lumex_xml_example_2.xml`; у четвертого уже было `lumex_xml_example_4.xml`), и каждый удаляет файл сразу после загрузки (`std::remove`), как примеры `json` и `settings`. Пример 3 только читает файл, который лежит рядом с исходниками.
+
+**Проверено:** `ctest -j4 -R '^examples\.xml' --repeat until-fail:20` (GCC 13.2 Release и ASan/UBSan Debug): 4 из 4 в каждом из 20 повторов, в каталоге `bin/` остается только `file_for_example_3.xml`. Опыт с возвратом (оба примера снова на `xgconsole.xml`, удаление после загрузки оставлено): `ctest -j4 -R '^examples\.xml' --repeat until-fail:300` остановился на падении `LumexXmlExample1` (гонка воспроизведена), `cmake.source_xml_examples_own_files` падает на повторе имени; без `std::remove` в примерах 2 и 4 он падает на оставленном файле.
+
 ##### `-Wnon-template-friend` в `LumexAggregateFields.hpp` на GCC (C++14)
 
 **Файлы:** `lumex/core/reflection/field_reflection/LumexAggregateFields.hpp`, `lumex/tests/cmake/consumer/hygiene_compile_checks/CMakeLists.txt`, `lumex/tests/cmake/consumer/hygiene_compile_checks/field_reflection_warnings.cpp` (новый)
