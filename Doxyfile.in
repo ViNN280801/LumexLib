@@ -981,6 +981,7 @@ INPUT                  = lumex/ \
                          VERSIONING.md \
                          lumex/core/fmt/README.md \
                          lumex/core/atomic/README.md \
+                         lumex/core/hazard_pointer/README.md \
                          lumex/applied/logger/README.md \
                          @LUMEX_DOXYGEN_UMBRELLAS@
 

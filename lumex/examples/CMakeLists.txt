@@ -74,6 +74,12 @@ else()
     message(STATUS "Skipping optional examples (LUMEX_BUILD_CORE or LUMEX_BUILD_OPTIONAL is OFF)")
 endif()
 
+if(LUMEX_BUILD_CORE AND LUMEX_BUILD_HAZARD_POINTER)
+    add_subdirectory(hazard_pointer)
+else()
+    message(STATUS "Skipping hazard_pointer examples (LUMEX_BUILD_CORE or LUMEX_BUILD_HAZARD_POINTER is OFF)")
+endif()
+
 if(LUMEX_BUILD_CORE AND LUMEX_BUILD_REFLECTION)
     add_subdirectory(reflection)
 else()
