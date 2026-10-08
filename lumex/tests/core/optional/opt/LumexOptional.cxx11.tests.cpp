@@ -1,6 +1,7 @@
 #include <memory>
 #include <stdexcept>
 #include <string>
+#include <type_traits>
 #include <vector>
 
 #include <gtest/gtest.h>
@@ -621,4 +622,23 @@ TEST_F (LumexOptionalTest, MakeOptional)
   std::string s = "test";
   auto opt2 = make_optional (s);
   ASSERT_EQ (*opt2, "test");
+}
+
+// --- the global names of the umbrella ---
+TEST_F (LumexOptionalTest, UmbrellaGlobalNamesAreTheModuleTypes)
+{
+  static_assert (
+      std::is_same<::optional<int>,
+                   lumex::core::optional::opt::optional<int>>::value,
+      "the global optional is the optional of the module");
+  static_assert (
+      std::is_same<decltype (::nullopt),
+                   lumex::core::optional::opt::nullopt_t const>::value,
+      "the global nullopt is the nullopt of the module");
+  ::optional<int> empty_value = ::nullopt;
+  EXPECT_FALSE (empty_value.has_value ());
+  ::optional<int> const value = ::make_optional (3);
+  ASSERT_TRUE (value.has_value ());
+  EXPECT_EQ (*value, 3);
+  EXPECT_THROW ((void)empty_value.value (), ::lumex_bad_optional_access);
 }
