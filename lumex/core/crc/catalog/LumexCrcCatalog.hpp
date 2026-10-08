@@ -221,9 +221,9 @@ compute_transport_checksum (std::uint8_t const *data,
 // ---------- Convenience overloads ----------
 
 /**
- * @brief Catalogue CRC of a byte vector. Available from C++11 so C++14
- *        examples and tests can pass `std::vector` without a pointer+size
- *        pair. Empty vector is the same as a zero-length buffer.
+ * @brief Catalogue CRC of a byte vector. Available from C++11 so examples
+ *        and tests can pass `std::vector` without a pointer+size pair. Empty
+ *        vector is the same as a zero-length buffer.
  */
 inline std::uint64_t
 compute_crc_catalog (std::uint32_t catalogIndex,
