@@ -19,6 +19,7 @@ target_include_directories(${LUMEX_CRC_NAME} PUBLIC
 target_link_libraries(${LUMEX_CRC_NAME} PUBLIC
     lumex::utility
     lumex::span
+    lumex::string_view
 )
 
 # The library is compiled as C++11 on purpose, whatever the compiler defaults

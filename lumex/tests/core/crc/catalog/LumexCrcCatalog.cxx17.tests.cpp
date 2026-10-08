@@ -26,14 +26,14 @@
  * IN THE SOFTWARE.
  */
 
-// CRC tests of the std::string_view overloads of the catalogue (C++17):
-// compute_crc_catalog, compute_crc_with_rev_eng_params and
-// append_crc_least_significant_byte_first. The C++17 and C++20 suites compile
-// this file together with LumexCrcCatalog.cxx11.tests.cpp.
+// CRC tests of the std::string_view arguments of the catalogue (C++17):
+// compute_crc_catalog and compute_crc_with_rev_eng_params. The C++17 and
+// C++20 suites compile this file together with LumexCrcCatalog.cxx11.tests.cpp
+// and LumexCrcCatalogStringView.cxx11.tests.cpp (the string overloads in every
+// standard, and append_crc_least_significant_byte_first).
 
 #include <cstdint>
 #include <string_view>
-#include <vector>
 
 #include <gtest/gtest.h>
 
@@ -100,28 +100,4 @@ TEST (CrcCatalog, RevEngParamsStringView_WhenEmpty_ThenZero)
   crc_params_t const params = params_of<crc8_maxim_dow_spec_t> ();
   EXPECT_EQ (compute_crc_with_rev_eng_params (params, std::string_view ()),
              0U);
-}
-
-TEST (CrcCatalog, AppendCrcLeastSignificantByteFirst_AppendsTheCheckBytes)
-{
-  std::vector<std::uint8_t> frame8 (bytes_of (kCheckMessage),
-                                    bytes_of (kCheckMessage)
-                                        + kCheckMessage.size ());
-  append_crc_least_significant_byte_first (params_of<crc8_maxim_dow_spec_t> (),
-                                           frame8);
-  ASSERT_EQ (frame8.size (), kCheckMessage.size () + 1U);
-  EXPECT_EQ (frame8.back (), crc8_maxim_dow_spec_t::kCatalogCheck);
-
-  std::vector<std::uint8_t> frame16 (bytes_of (kCheckMessage),
-                                     bytes_of (kCheckMessage)
-                                         + kCheckMessage.size ());
-  append_crc_least_significant_byte_first (params_of<crc16_modbus_spec_t> (),
-                                           frame16);
-  ASSERT_EQ (frame16.size (), kCheckMessage.size () + 2U);
-  EXPECT_EQ (
-      frame16[kCheckMessage.size ()],
-      static_cast<std::uint8_t> (crc16_modbus_spec_t::kCatalogCheck & 0xFFU));
-  EXPECT_EQ (
-      frame16[kCheckMessage.size () + 1U],
-      static_cast<std::uint8_t> (crc16_modbus_spec_t::kCatalogCheck >> 8));
 }

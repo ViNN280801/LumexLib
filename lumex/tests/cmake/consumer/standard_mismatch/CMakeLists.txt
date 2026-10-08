@@ -22,11 +22,11 @@ set(LUMEX_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 set(LUMEX_BUILD_APPLIED OFF CACHE BOOL "" FORCE)
 set(LUMEX_BUILD_XML ON CACHE BOOL "" FORCE)
 foreach(_opt
-        CIRCULAR_BUFFER CRC EXPECTED FMT GENERATORS REFLECTION TEMPORARY)
+        CIRCULAR_BUFFER EXPECTED FMT GENERATORS REFLECTION TEMPORARY)
     set(LUMEX_BUILD_${_opt} OFF CACHE BOOL "" FORCE)
 endforeach()
 foreach(_opt
-        BASE64 ENVIRONMENT EXCEPTIONS FILESYSTEM MATH OPTIONAL SPAN STRING
+        BASE64 CRC ENVIRONMENT EXCEPTIONS FILESYSTEM MATH OPTIONAL SPAN STRING
         STRING_VIEW TIME UTILITY)
     set(LUMEX_BUILD_${_opt} ON CACHE BOOL "" FORCE)
 endforeach()
@@ -48,6 +48,7 @@ endforeach()
 add_executable(standard_mismatch_consumer main.cpp)
 target_link_libraries(standard_mismatch_consumer PRIVATE
     lumex::base64
+    lumex::crc
     lumex::exceptions
     lumex::xml
 )

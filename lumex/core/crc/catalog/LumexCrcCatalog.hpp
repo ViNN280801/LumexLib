@@ -34,10 +34,11 @@
  * functions keep one process-global, mutex-protected setting that
  * `compute_transport_checksum()` uses for a one-byte frame checksum:
  * CRC-8/MAXIM-DOW by default, an 8-bit catalogue entry, or caller-supplied
- * 8-bit parameters. The overloads for `std::vector` and for
- * `lumex::core::span::view::span` (every standard; a `std::span` converts to
- * it) and for `std::string_view` (C++17) are inline wrappers over the pointer
- * and size functions.
+ * 8-bit parameters. The overloads for `std::vector`, for
+ * `lumex::core::span::view::span` (a `std::span` converts to it) and for a
+ * string (`std::string_view` from C++17, the `lumex_string_view` of
+ * `lumex::string_view` below) are inline wrappers over the pointer and size
+ * functions, in every standard.
  */
 #ifndef LUMEX_CORE_CRC_CATALOG_HPP
 #define LUMEX_CORE_CRC_CATALOG_HPP
@@ -77,6 +78,8 @@
 
 #if __cplusplus >= 201703L
 #include <string_view>
+#else
+#include "lumex/core/string_view/view/LumexStringView.hpp"
 #endif
 
 #include "lumex/core/span/LumexSpan"
@@ -92,6 +95,17 @@ namespace crc
 {
 namespace catalog
 {
+/**
+ * @brief The text type of the string overloads: `std::string_view` from C++17,
+ * the `lumex_string_view` of `lumex::string_view` below it (a string literal,
+ * a `char const *` and a `std::string` convert to either).
+ */
+#if __cplusplus >= 201703L
+using text_view_t = std::string_view;
+#else
+using text_view_t = lumex::core::string_view::view::lumex_string_view;
+#endif
+
 /**
  * @brief CRC parameters in CRC RevEng notation (see LumexCrcParametric.hpp /
  * Greg Cook catalogue).
@@ -232,11 +246,16 @@ compute_crc_catalog (std::uint32_t catalogIndex,
   return compute_crc_catalog (catalogIndex, bytes.data (), bytes.size ());
 }
 
-#if __cplusplus >= 201703L
-/** @brief Catalogue CRC of an ASCII/UTF-8 string (no trailing '\\0'). */
+/**
+ * @brief Catalogue CRC of an ASCII/UTF-8 string (no trailing '\\0'). Available
+ *        from C++11: the text is a `std::string_view` from C++17 and a
+ *        `lumex_string_view` below it; a string literal, a `char const *` and
+ *        a `std::string` convert to either. The view is sized, so a NUL
+ *        character inside it is a byte of the input.
+ */
 inline std::uint64_t
 compute_crc_catalog (std::uint32_t catalogIndex,
-                     std::string_view text) LUMEX_NOEXCEPT
+                     text_view_t text) LUMEX_NOEXCEPT
 {
   if (text.empty ())
     return 0;
@@ -245,10 +264,14 @@ compute_crc_catalog (std::uint32_t catalogIndex,
       text.size ());
 }
 
-/** @brief RevEng-parameter CRC of a string (raw bytes, no trailing '\\0'). */
+/**
+ * @brief RevEng-parameter CRC of a string (raw bytes, no trailing '\\0').
+ *        Available from C++11, see `compute_crc_catalog` above for the text
+ *        type.
+ */
 inline std::uint64_t
 compute_crc_with_rev_eng_params (crc_params_t const &params,
-                                 std::string_view text) LUMEX_NOEXCEPT
+                                 text_view_t text) LUMEX_NOEXCEPT
 {
   if (text.empty ())
     return 0;
@@ -274,7 +297,6 @@ append_crc_least_significant_byte_first (crc_params_t const &params,
   for (int i = 0; i < numBytes; ++i)
     buffer.push_back (static_cast<std::uint8_t> ((value >> (8 * i)) & 0xFFU));
 }
-#endif
 
 /**
  * @brief Catalogue CRC of a `span` of bytes. Available from C++11; a
