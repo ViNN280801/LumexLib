@@ -64,6 +64,18 @@
  * e.path().string() << std::endl;
  *     }
  *     @endcode
+ *
+ * From C++17, where `<filesystem>` exists, `path` converts implicitly to and
+ * from `std::filesystem::path` and `LUMEX_HAS_STD_PATH_CONVERSION` is 1 (0
+ * otherwise). The conversions are inline member templates that accept exactly
+ * the standard path, so they are not part of the exported interface and the
+ * library built at C++11 serves a C++17 consumer. `==`, `!=`, `<`, `<=`, `>`,
+ * `>=` and `/` between the two classes are constrained templates (a
+ * comparison uses the rules of `path`, `/` yields the type of the left
+ * operand). One limit: `std_path = lumex_path;` is ambiguous (write
+ * `std_path = std::filesystem::path (lumex_path);`), and with libstdc++ 8 so
+ * is every direct initialization of a standard path from a lumex path;
+ * copy initialization works everywhere.
  */
 #ifndef LUMEX_CORE_FILESYSTEM_FS_HPP
 #define LUMEX_CORE_FILESYSTEM_FS_HPP
@@ -103,10 +115,23 @@
 #include <ostream> // std::ostream
 #include <string>  // std::string, std::wstring
 #include <vector>  // std::vector
+#if __cplusplus >= 201703L
+#include <type_traits> // std::enable_if, std::is_same
+#endif
 
 #include "lumex/core/utility/LumexUtility"
+#include "lumex/core/utility/compiler/LumexCheckFeatures.hpp"
 #include "lumex/core/utility/macros/LumexConstantMacros.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
+
+// The conversions to and from std::filesystem::path exist where the standard
+// library has <filesystem> (C++17); the header itself stays C++11.
+#if __cplusplus >= 201703L && LUMEX_HAS_STD_FILESYSTEM
+#define LUMEX_HAS_STD_PATH_CONVERSION 1
+#include <filesystem>
+#else
+#define LUMEX_HAS_STD_PATH_CONVERSION 0
+#endif
 
 // C++11 compatible nested namespaces
 namespace lumex // NOLINT(modernize-concat-nested-namespaces)
@@ -150,6 +175,16 @@ LUMEX_CONST_STR KTEMPORARY_FILE_SUFFIX = ".tmp";
 
 // Forward declarations
 class path;
+#if LUMEX_HAS_STD_PATH_CONVERSION
+namespace detail
+{
+// Defined after lumex_filesystem, which the Windows conversion needs. The
+// calls are qualified names with dependent arguments, so they are resolved
+// when a conversion is instantiated.
+template <class StdPath> path path_from_standard (StdPath const &source);
+template <class StdPath> StdPath path_to_standard (path const &source);
+} // namespace detail
+#endif
 class directory_entry;
 class directory_iterator;
 class file_status;
@@ -633,6 +668,26 @@ public:
    * @return A reference to the modified `*this` object.
    */
   path &operator/= (char const *path_arg);
+#if LUMEX_HAS_STD_PATH_CONVERSION
+  /**
+   * @brief Appends a `std::filesystem::path` as a sub-path (C++17).
+   * @details Exact for the standard path, so the call is not ambiguous
+   * between the overloads for `path` and for `std::string` that the standard
+   * path converts to.
+   * @tparam StdPath Only `std::filesystem::path` is accepted.
+   * @param path_arg The path to append.
+   * @return A reference to the modified `*this` object.
+   */
+  template <class StdPath,
+            typename std::enable_if<
+                std::is_same<StdPath, std::filesystem::path>::value, int>::type
+            = 0>
+  path &
+  operator/= (StdPath const &path_arg)
+  {
+    return *this /= path (path_arg);
+  }
+#endif
 
   /**
    * @brief Concatenates another `path_arg` object directly to the end of the
@@ -663,6 +718,23 @@ public:
    * @return A reference to the modified `*this` object.
    */
   path &operator+= (value_type chr);
+#if LUMEX_HAS_STD_PATH_CONVERSION
+  /**
+   * @brief Concatenates a `std::filesystem::path` directly (C++17).
+   * @tparam StdPath Only `std::filesystem::path` is accepted.
+   * @param path_arg The path to append.
+   * @return A reference to the modified `*this` object.
+   */
+  template <class StdPath,
+            typename std::enable_if<
+                std::is_same<StdPath, std::filesystem::path>::value, int>::type
+            = 0>
+  path &
+  operator+= (StdPath const &path_arg)
+  {
+    return *this += path (path_arg);
+  }
+#endif
 
   // =================== Modifiers ===================
   /**
@@ -773,6 +845,51 @@ public:
    * @return A copy of the internal path string.
    */
   operator string_type () const { return m_path; }
+
+#if LUMEX_HAS_STD_PATH_CONVERSION
+  // =================== std::filesystem::path (C++17) ===================
+  /**
+   * @brief Implicit conversion to `std::filesystem::path` (C++17).
+   * @details A member template that accepts exactly `std::filesystem::path`.
+   * A template is instantiated by its user and is never part of the exported
+   * interface of this class, so the library built at C++11 serves a C++17
+   * consumer. The characters are kept as they are: the narrow path is UTF-8
+   * and is the native narrow string of `std::filesystem::path` on POSIX; on
+   * Windows the conversion goes through `wstring()`.
+   * @tparam StdPath Deduced from the target; only `std::filesystem::path` is
+   * accepted.
+   * @return A `std::filesystem::path` with the same path.
+   */
+  template <class StdPath,
+            typename std::enable_if<
+                std::is_same<StdPath, std::filesystem::path>::value,
+                int>::type
+            = 0>
+  operator StdPath () const // NOLINT(google-explicit-constructor)
+  {
+    return detail::path_to_standard<StdPath> (*this);
+  }
+
+  /**
+   * @brief Implicit construction from a `std::filesystem::path` (C++17).
+   * @details A constructor template that accepts exactly
+   * `std::filesystem::path`, inline and never exported. It is the better
+   * match than the constructor from `std::string` that the standard path
+   * would reach through its own conversion to a string on POSIX.
+   * @tparam StdPath Deduced from the argument; only `std::filesystem::path`
+   * is accepted.
+   * @param source The standard path to copy.
+   */
+  template <class StdPath,
+            typename std::enable_if<
+                std::is_same<StdPath, std::filesystem::path>::value,
+                int>::type
+            = 0>
+  path (StdPath const &source) // NOLINT(google-explicit-constructor)
+      : path (detail::path_from_standard (source))
+  {
+  }
+#endif
 
   // Generic format observers
   /**
@@ -2026,6 +2143,276 @@ operator/ (char const *lhs, path const &rhs)
 {
   return path (lhs) / rhs;
 }
+
+#if LUMEX_HAS_STD_PATH_CONVERSION
+// =================== std::filesystem::path (C++17) ===================
+// The two path classes convert to each other, so an operator with one of each
+// would be ambiguous between the operators of this library and those of the
+// standard library (and, for `/`, between the overloads for `path` and for
+// `std::string`, which the standard path converts to on POSIX). These
+// templates accept exactly `std::filesystem::path` and are the better match.
+namespace detail
+{
+/// @brief Builds a `path` from a `std::filesystem::path` (see `path`).
+template <class StdPath>
+inline path
+path_from_standard (StdPath const &source)
+{
+#if defined(LUMEX_OS_WINDOWS)
+  return path (lumex_filesystem::from_wide_string (source.wstring ()));
+#else
+  return path (source.string ());
+#endif
+}
+
+/// @brief Builds a `std::filesystem::path` from a `path` (see `path`).
+template <class StdPath>
+inline StdPath
+path_to_standard (path const &source)
+{
+#if defined(LUMEX_OS_WINDOWS)
+  return StdPath (source.wstring ());
+#else
+  return StdPath (source.string ());
+#endif
+}
+} // namespace detail
+
+/**
+ * @brief Compares a `path` with a `std::filesystem::path`: `lhs == rhs`.
+ * @details The standard path is converted to a `path` and the comparison is
+ * the one of this library, in both orders of the operands.
+ * @tparam StdPath Only `std::filesystem::path` is accepted.
+ * @return `true` if the left path is equal to the right one.
+ */
+template <class StdPath,
+          typename std::enable_if<
+              std::is_same<StdPath, std::filesystem::path>::value, int>::type
+          = 0>
+inline bool
+operator== (path const &lhs, StdPath const &rhs)
+{
+  return lhs == path (rhs);
+}
+
+/**
+ * @brief Compares a `std::filesystem::path` with a `path`: `lhs == rhs`.
+ * @details The standard path is converted to a `path` and the comparison is
+ * the one of this library, in both orders of the operands.
+ * @tparam StdPath Only `std::filesystem::path` is accepted.
+ * @return `true` if the left path is equal to the right one.
+ */
+template <class StdPath,
+          typename std::enable_if<
+              std::is_same<StdPath, std::filesystem::path>::value, int>::type
+          = 0>
+inline bool
+operator== (StdPath const &lhs, path const &rhs)
+{
+  return path (lhs) == rhs;
+}
+
+/**
+ * @brief Compares a `path` with a `std::filesystem::path`: `lhs != rhs`.
+ * @details The standard path is converted to a `path` and the comparison is
+ * the one of this library, in both orders of the operands.
+ * @tparam StdPath Only `std::filesystem::path` is accepted.
+ * @return `true` if the left path is not equal to the right one.
+ */
+template <class StdPath,
+          typename std::enable_if<
+              std::is_same<StdPath, std::filesystem::path>::value, int>::type
+          = 0>
+inline bool
+operator!= (path const &lhs, StdPath const &rhs)
+{
+  return lhs != path (rhs);
+}
+
+/**
+ * @brief Compares a `std::filesystem::path` with a `path`: `lhs != rhs`.
+ * @details The standard path is converted to a `path` and the comparison is
+ * the one of this library, in both orders of the operands.
+ * @tparam StdPath Only `std::filesystem::path` is accepted.
+ * @return `true` if the left path is not equal to the right one.
+ */
+template <class StdPath,
+          typename std::enable_if<
+              std::is_same<StdPath, std::filesystem::path>::value, int>::type
+          = 0>
+inline bool
+operator!= (StdPath const &lhs, path const &rhs)
+{
+  return path (lhs) != rhs;
+}
+
+/**
+ * @brief Compares a `path` with a `std::filesystem::path`: `lhs < rhs`.
+ * @details The standard path is converted to a `path` and the comparison is
+ * the one of this library, in both orders of the operands.
+ * @tparam StdPath Only `std::filesystem::path` is accepted.
+ * @return `true` if the left path is less than the right one.
+ */
+template <class StdPath,
+          typename std::enable_if<
+              std::is_same<StdPath, std::filesystem::path>::value, int>::type
+          = 0>
+inline bool
+operator< (path const &lhs, StdPath const &rhs)
+{
+  return lhs < path (rhs);
+}
+
+/**
+ * @brief Compares a `std::filesystem::path` with a `path`: `lhs < rhs`.
+ * @details The standard path is converted to a `path` and the comparison is
+ * the one of this library, in both orders of the operands.
+ * @tparam StdPath Only `std::filesystem::path` is accepted.
+ * @return `true` if the left path is less than the right one.
+ */
+template <class StdPath,
+          typename std::enable_if<
+              std::is_same<StdPath, std::filesystem::path>::value, int>::type
+          = 0>
+inline bool
+operator< (StdPath const &lhs, path const &rhs)
+{
+  return path (lhs) < rhs;
+}
+
+/**
+ * @brief Compares a `path` with a `std::filesystem::path`: `lhs <= rhs`.
+ * @details The standard path is converted to a `path` and the comparison is
+ * the one of this library, in both orders of the operands.
+ * @tparam StdPath Only `std::filesystem::path` is accepted.
+ * @return `true` if the left path is less than or equal to the right one.
+ */
+template <class StdPath,
+          typename std::enable_if<
+              std::is_same<StdPath, std::filesystem::path>::value, int>::type
+          = 0>
+inline bool
+operator<= (path const &lhs, StdPath const &rhs)
+{
+  return lhs <= path (rhs);
+}
+
+/**
+ * @brief Compares a `std::filesystem::path` with a `path`: `lhs <= rhs`.
+ * @details The standard path is converted to a `path` and the comparison is
+ * the one of this library, in both orders of the operands.
+ * @tparam StdPath Only `std::filesystem::path` is accepted.
+ * @return `true` if the left path is less than or equal to the right one.
+ */
+template <class StdPath,
+          typename std::enable_if<
+              std::is_same<StdPath, std::filesystem::path>::value, int>::type
+          = 0>
+inline bool
+operator<= (StdPath const &lhs, path const &rhs)
+{
+  return path (lhs) <= rhs;
+}
+
+/**
+ * @brief Compares a `path` with a `std::filesystem::path`: `lhs > rhs`.
+ * @details The standard path is converted to a `path` and the comparison is
+ * the one of this library, in both orders of the operands.
+ * @tparam StdPath Only `std::filesystem::path` is accepted.
+ * @return `true` if the left path is greater than the right one.
+ */
+template <class StdPath,
+          typename std::enable_if<
+              std::is_same<StdPath, std::filesystem::path>::value, int>::type
+          = 0>
+inline bool
+operator> (path const &lhs, StdPath const &rhs)
+{
+  return lhs > path (rhs);
+}
+
+/**
+ * @brief Compares a `std::filesystem::path` with a `path`: `lhs > rhs`.
+ * @details The standard path is converted to a `path` and the comparison is
+ * the one of this library, in both orders of the operands.
+ * @tparam StdPath Only `std::filesystem::path` is accepted.
+ * @return `true` if the left path is greater than the right one.
+ */
+template <class StdPath,
+          typename std::enable_if<
+              std::is_same<StdPath, std::filesystem::path>::value, int>::type
+          = 0>
+inline bool
+operator> (StdPath const &lhs, path const &rhs)
+{
+  return path (lhs) > rhs;
+}
+
+/**
+ * @brief Compares a `path` with a `std::filesystem::path`: `lhs >= rhs`.
+ * @details The standard path is converted to a `path` and the comparison is
+ * the one of this library, in both orders of the operands.
+ * @tparam StdPath Only `std::filesystem::path` is accepted.
+ * @return `true` if the left path is greater than or equal to the right one.
+ */
+template <class StdPath,
+          typename std::enable_if<
+              std::is_same<StdPath, std::filesystem::path>::value, int>::type
+          = 0>
+inline bool
+operator>= (path const &lhs, StdPath const &rhs)
+{
+  return lhs >= path (rhs);
+}
+
+/**
+ * @brief Compares a `std::filesystem::path` with a `path`: `lhs >= rhs`.
+ * @details The standard path is converted to a `path` and the comparison is
+ * the one of this library, in both orders of the operands.
+ * @tparam StdPath Only `std::filesystem::path` is accepted.
+ * @return `true` if the left path is greater than or equal to the right one.
+ */
+template <class StdPath,
+          typename std::enable_if<
+              std::is_same<StdPath, std::filesystem::path>::value, int>::type
+          = 0>
+inline bool
+operator>= (StdPath const &lhs, path const &rhs)
+{
+  return path (lhs) >= rhs;
+}
+
+/**
+ * @brief Concatenation of a `path` and a `std::filesystem::path`: `lhs / rhs`.
+ * @tparam StdPath Only `std::filesystem::path` is accepted.
+ * @return A `path`: the result has the type of the left operand.
+ */
+template <class StdPath,
+          typename std::enable_if<
+              std::is_same<StdPath, std::filesystem::path>::value, int>::type
+          = 0>
+inline path
+operator/ (path const &lhs, StdPath const &rhs)
+{
+  return lhs / path (rhs);
+}
+
+/**
+ * @brief Concatenation of a `std::filesystem::path` and a `path`: `lhs / rhs`.
+ * @tparam StdPath Only `std::filesystem::path` is accepted.
+ * @return A `std::filesystem::path`: the result has the type of the left
+ * operand, and the standard `/` does the concatenation.
+ */
+template <class StdPath,
+          typename std::enable_if<
+              std::is_same<StdPath, std::filesystem::path>::value, int>::type
+          = 0>
+inline StdPath
+operator/ (StdPath const &lhs, path const &rhs)
+{
+  return lhs / detail::path_to_standard<StdPath> (rhs);
+}
+#endif
 
 /**
  * @brief Checks if a file exists at the specified path
