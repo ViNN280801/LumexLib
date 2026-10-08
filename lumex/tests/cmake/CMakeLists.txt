@@ -135,6 +135,8 @@ lumex_add_cmake_test(wiring_span)
 lumex_add_cmake_test(wiring_string_view)
 lumex_add_cmake_test(wiring_string_view_export)
 lumex_add_cmake_test(wiring_unicode_users)
+lumex_add_cmake_test(wiring_hazard_pointer)
+lumex_add_cmake_test(wiring_hazard_pointer_export)
 lumex_add_cmake_test(wiring_optional)
 lumex_add_cmake_test(wiring_test_names)
 lumex_add_cmake_test(wiring_standard_suites)
@@ -469,6 +471,57 @@ set_tests_properties(${_ctest_name} PROPERTIES
     TIMEOUT 900
     SKIP_REGULAR_EXPRESSION "LUMEX_CONSUMER_SKIP"
 )
+
+# The long runs of the hazard pointer stress tests are outside the default run:
+# CTest label soak (the ABA structures for LUMEX_HP_SOAK_SECONDS seconds) and
+# label tsan (the same under ThreadSanitizer: Clang when there is one, GCC
+# through `setarch x86_64 -R` otherwise, since GCC's runtime cannot map its
+# shadow with ASLR on). Select them with `ctest -L soak` / `ctest -L tsan`.
+if(LUMEX_BUILD_SOAK_TESTS)
+    function(lumex_add_hazard_pointer_soak_test name label seconds sanitize compiler)
+        lumex_test_name(_ctest_name ${name})
+        add_test(NAME ${_ctest_name}
+            COMMAND ${CMAKE_COMMAND}
+                -DCASE=hazard_pointer_soak
+                -DLUMEX_SOURCE_DIR=${LumexLib_SOURCE_DIR}
+                -DWORK_DIR=${CMAKE_CURRENT_BINARY_DIR}/consumer/${name}
+                -DGENERATOR=${CMAKE_GENERATOR}
+                -DCXX_COMPILER=${compiler}
+                "-DCXX_FLAGS=${CMAKE_CXX_FLAGS}"
+                -DCLANG_STDLIB=${LUMEX_CLANG_STDLIB}
+                "-DBUILD_RPATH=${_LUMEX_CONSUMER_RPATH}"
+                -DBUILD_TYPE=Release
+                "-DEXTRA_ARGS=-DSANITIZE=${sanitize}"
+                "-DRUN_PREFIX=${ARGN}"
+                -P ${_LUMEX_CONSUMER_RUN}
+        )
+        set_tests_properties(${_ctest_name} PROPERTIES
+            LABELS "cmake;consumer;${label}"
+            ENVIRONMENT "LUMEX_HP_SOAK_SECONDS=${seconds}"
+            TIMEOUT 3600
+            SKIP_REGULAR_EXPRESSION "LUMEX_CONSUMER_SKIP"
+            RUN_SERIAL TRUE
+        )
+    endfunction()
+    lumex_add_hazard_pointer_soak_test(hazard_pointer_soak soak 60 none
+        ${CMAKE_CXX_COMPILER})
+    # ThreadSanitizer: Clang if the build's compiler is one or one is on PATH.
+    if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+        set(_tsan_compiler ${CMAKE_CXX_COMPILER})
+        set(_tsan_prefix "")
+    else()
+        find_program(_tsan_clang NAMES clang++)
+        if(_tsan_clang)
+            set(_tsan_compiler ${_tsan_clang})
+            set(_tsan_prefix "")
+        else()
+            set(_tsan_compiler ${CMAKE_CXX_COMPILER})
+            set(_tsan_prefix setarch x86_64 -R)
+        endif()
+    endif()
+    lumex_add_hazard_pointer_soak_test(hazard_pointer_tsan tsan 20 thread
+        ${_tsan_compiler} ${_tsan_prefix})
+endif()
 
 # hazard_pointer compile-time checks: the uses [saferecl.hp] rejects (a type
 # that is not hazard-protectable, a copy of a holder, a discarded result, the

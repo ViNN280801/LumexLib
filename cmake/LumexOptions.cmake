@@ -80,6 +80,7 @@ option(LUMEX_BUILD_DOCUMENTATION "Build Doxygen documentation" OFF)
 option(LUMEX_BUILD_EXAMPLES "Build the examples for the LumexLib (also implied by LUMEX_BUILD_TESTS)" OFF)
 option(LUMEX_BUILD_TESTS "Build the tests for LumexCore (also compiles and runs lumex/examples)" OFF)
 option(LUMEX_BUILD_BENCHMARKS "Build the benchmarks under benchmarks/ (Release builds only make sense)" OFF)
+option(LUMEX_BUILD_SOAK_TESTS "Register the long soak and ThreadSanitizer runs of core/hazard_pointer (CTest labels soak and tsan; not in the default run; needs LUMEX_BUILD_TESTS)" OFF)
 
 # ==============================================================================
 # INSTALL
