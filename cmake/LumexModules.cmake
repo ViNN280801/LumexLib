@@ -127,6 +127,7 @@ function(lumex_check_module_dependencies)
     lumex_require_module(LUMEX_BUILD_EXCEPTIONS LUMEX_BUILD_ENVIRONMENT)
     lumex_require_module(LUMEX_BUILD_EXCEPTIONS LUMEX_BUILD_FILESYSTEM)
     lumex_require_module(LUMEX_BUILD_EXCEPTIONS LUMEX_BUILD_STRING)
+    lumex_require_module(LUMEX_BUILD_EXCEPTIONS LUMEX_BUILD_STRING_VIEW)
     lumex_require_module(LUMEX_BUILD_EXCEPTIONS LUMEX_BUILD_TIME)
     lumex_require_module(LUMEX_BUILD_EXCEPTIONS LUMEX_BUILD_UTILITY)
 

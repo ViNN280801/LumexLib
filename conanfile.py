@@ -194,8 +194,8 @@ class LumexLibConan(ConanFile):
         )
         exceptions = self._component(
             "core_exceptions", "exceptions", ["LumexCore_exceptions"],
-            ["core_environment", "core_filesystem", "core_string", "core_time",
-             "core_utility"],
+            ["core_environment", "core_filesystem", "core_string",
+             "core_string_view", "core_time", "core_utility"],
         )
         if windows:
             exceptions.system_libs.append("dbghelp")
