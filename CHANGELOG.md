@@ -767,6 +767,14 @@
 
 #### Исправлено
 
+##### `-Wpedantic`: пустой аргумент `...` в `LUMEX_DEFINE_REFLECTED_ENUM` и `LUMEX_MEASURE_TIME`
+
+**Файлы:** `lumex/core/reflection/reflected_enum/LumexReflectedEnum.hpp`, `lumex/core/time/timer/LumexTimer.hpp`, `lumex/tests/cmake/consumer/hygiene_compile_checks/CMakeLists.txt`, `lumex/tests/cmake/consumer/hygiene_compile_checks/variadic_macros_pedantic.cpp` (новый), `lumex/tests/cmake/consumer/hygiene_compile_checks/json_umbrella.cpp`
+
+**Суть:** макросы, выбирающие перегрузку по числу аргументов (`LUMEX_PP_ARG_N`, `LUMEX_PP_ENUM_BODY_PICK`, `LUMEX_PP_ENUM_VALUE_PICK`, `LUMEX_MEASURE_TIME_GET_OVERLOAD`), принимают в конце `...`, а вызывались так, что для записи без значения `(Name)`, для перечисления из одного элемента и для формы `LUMEX_MEASURE_TIME (expr)` он оставался пустым. До C++20 это расширение: GCC с `-Wpedantic` и Clang с `-Wvariadic-macro-arguments-omitted` сообщали по строке на каждое такое место (в единице трансляции с зонтичным `LumexJson` - от `LumexJsonDiagnostics.hpp`, `LumexJsonSchemaException.hpp` и `LumexJsonSchemaTraverser.hpp`). Вызовы получили лишний аргумент `0` в конце, поэтому `...` никогда не пуст; синтаксис макросов и результат раскрытия не изменились. `LUMEX_DEFINE_EXCEPTION` передает `LUMEX_DEFINE_EXCEPTION_WITH_BODY` пустой аргумент через запятую - это допустимо с C++11 и не менялось.
+
+**Проверено:** до правки `variadic_macros_pedantic.cpp` и зонтичный `LumexJson` с `-Wall -Wextra -Wpedantic -Werror` не компилируются на GCC 8.3, GCC 13.2 и Clang 23.1.0 (libstdc++ и libc++) на C++11, 14 и 17 и компилируются на C++20; после правки компилируются на всех четырех на C++11, 14, 17 и 20 (прямая матрица и `cmake.hygiene_compile_checks`).
+
 ##### `-Wunused-result` на GCC: `LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR` не гасит результат `LUMEX_ATTRIBUTE_NODISCARD`
 
 **Файлы:** `lumex/core/utility/attr/LumexAttributes.hpp`, `lumex/tests/core/utility/attr/LumexAttributesMaybeUnusedVar.cxx11.tests.cpp` (новый), `lumex/tests/cmake/consumer/hygiene_compile_checks/CMakeLists.txt`, `lumex/tests/cmake/consumer/hygiene_compile_checks/unused_result.cpp` (новый), `lumex/tests/cmake/consumer/hygiene_compile_checks/json_umbrella.cpp` (новый)
