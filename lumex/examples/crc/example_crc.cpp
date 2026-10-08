@@ -3,6 +3,7 @@
 #include <vector>
 
 #include "lumex/core/crc/LumexCrc"
+#include "lumex/core/span/LumexSpan"
 
 #if defined(__clang__)
 #pragma clang diagnostic push
@@ -28,6 +29,7 @@
 
 using namespace lumex::core::crc::catalog;
 using namespace lumex::core::crc::parametric;
+using lumex::core::span::view::span;
 
 int
 main ()
@@ -72,6 +74,13 @@ main ()
   std::uint64_t const bogus
       = compute_crc_catalog (count + 100U, check_ascii, sizeof (check_ascii));
   std::cout << "crc[count+100]=" << bogus << '\n';
+
+  std::cout << "\n--- 6. A span views the bytes without a copy ---\n";
+  span<std::uint8_t const> const view (check_ascii);
+  std::cout << "crc32(first 4 bytes)=0x" << std::hex
+            << Crc32IsoHdlc::calculate (view.first (4)) << std::dec
+            << " catalog[0](last 5 bytes)="
+            << compute_crc_catalog (0, view.last (5)) << '\n';
 
   std::cout << "\n=== CRC example finished ===\n";
   return 0;
