@@ -8,6 +8,7 @@
 #include <gtest/gtest.h>
 
 #include "lumex/core/base64/LumexBase64"
+#include "lumex/core/string_view/LumexStringView"
 
 #include "lumex/tests/core/base64/LumexBase64TestFixtures.hpp"
 
@@ -64,4 +65,20 @@ TEST_F (Base64ValidatorTest, GivenStringView_WhenValidate_ThenWorksCorrectly)
 
   bool result2 = validator::is_valid_base64 (sub_view);
   EXPECT_TRUE (result2);
+}
+
+TEST_F (Base64ValidatorTest,
+        GivenLumexStringView_WhenValidate_ThenSameAsStdStringView)
+{
+  // The view of the library converts to std::string_view.
+  std::string const longer = "xxSGk=yy";
+  lumex_string_view const view (longer);
+  EXPECT_FALSE (validator::is_valid_base64 (view));
+  EXPECT_TRUE (validator::is_valid_base64 (view.substr (2, 4)));
+  EXPECT_TRUE (validator::is_valid_base64 (view.substr (2, 3)));
+  EXPECT_TRUE (validator::is_valid_base64 (lumex_string_view ()));
+  std::string const with_nul ("Zm9v\0YmFy", 9);
+  EXPECT_FALSE (validator::is_valid_base64 (lumex_string_view (with_nul)));
+  EXPECT_TRUE (validator::is_valid_base64 ("SGk="));
+  EXPECT_TRUE (validator::is_valid_base64 (std::string ("SGk=")));
 }

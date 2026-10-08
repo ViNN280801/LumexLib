@@ -38,6 +38,7 @@
 
 #include <gtest/gtest.h>
 
+#include "lumex/core/string_view/LumexStringView"
 #include "lumex/xml/LumexXml"
 
 #include "lumex/tests/xml/LumexXmlTestFixtures.hpp"
@@ -127,3 +128,36 @@ TEST_F (XmlFixture, GivenDefaultConstructedStringView_WhenLookup_ThenUnfound)
   EXPECT_FALSE (r.child ("x").next_sibling (empty));
 }
 } // namespace
+
+TEST_F (XmlFixture,
+        GivenLumexStringView_WhenLookupAndEdit_ThenConvertsToStdView)
+{
+  // The view of the library converts to std::string_view, which is what the
+  // string_view_t overloads take from C++17.
+  ASSERT_EQ (doc.load_string ("<r a='1'><x/><xy/></r>", kparse_default).status,
+             xml_parse_status::status_ok);
+  XmlNode r = doc.document_element ();
+  lumex_string_view const names ("xyab");
+  EXPECT_STREQ (r.child (names.substr (0, 2)).name (), "xy");
+  EXPECT_STREQ (r.attribute (names.substr (2, 1)).value (), "1");
+  EXPECT_FALSE (r.child (names.substr (0, 3)));
+  XmlAttribute hint;
+  EXPECT_STREQ (r.attribute (names.substr (2, 1), hint).value (), "1");
+  XmlNode added = r.append_child (lumex_string_view ("zz").substr (0, 1));
+  EXPECT_STREQ (added.name (), "z");
+  EXPECT_TRUE (added.set_name (lumex_string_view ("renamed!").substr (0, 7)));
+  EXPECT_STREQ (added.name (), "renamed");
+  XmlAttribute attr = added.append_attribute (lumex_string_view ("key"));
+  attr = lumex_string_view ("other;").substr (0, 5);
+  EXPECT_STREQ (attr.value (), "other");
+  XmlText text = added.text ();
+  EXPECT_TRUE (text.set (lumex_string_view ("body!").substr (0, 4)));
+  EXPECT_STREQ (added.text ().get (), "body");
+  EXPECT_TRUE (r.remove_child (lumex_string_view ("renamed")));
+  EXPECT_FALSE (r.child ("renamed"));
+  EXPECT_TRUE (
+      lumex::xml::utility::stringview_equal (lumex_string_view ("ab"), "ab"));
+  // The pointer, std::string and C string forms keep their calls.
+  EXPECT_STREQ (r.child ("x").name (), "x");
+  EXPECT_STREQ (r.child (std::string ("xy")).name (), "xy");
+}
