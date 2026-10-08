@@ -1,10 +1,13 @@
 // LumexSafeNumericComparator.cxx20.tests.cpp
 // The three-way comparison of safe_comparator and the ordering helpers
-// (is_less, is_equal, ...). The header declares them only where the compiler
-// and the standard library have operator<=> and <compare>
-// (LUMEX_HAS_THREE_WAY_COMPARISON): GCC 8 accepts -std=c++2a without them,
-// so there the tests skip. The suites from C++20 up compile this file
-// together with LumexSafeNumericComparator.cxx11.tests.cpp.
+// (is_less, is_equal, ...) against the standard orderings. The result is
+// std::strong_ordering or std::partial_ordering where the compiler and the
+// standard library have operator<=> and <compare>
+// (LUMEX_HAS_THREE_WAY_COMPARISON); GCC 8 accepts -std=c++2a without them,
+// and there the result is the class of LumexOrdering.hpp, which
+// LumexSafeThreeWayCompare.cxx11.tests.cpp covers, so these tests skip. The
+// suites from C++20 up compile this file together with
+// LumexSafeNumericComparator.cxx11.tests.cpp.
 #include <limits>
 #if defined(__has_include)
 #if __has_include(<compare>)
