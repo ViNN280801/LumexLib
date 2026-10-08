@@ -53,6 +53,14 @@
  * checks the configuration for a dump type and reports which types the
  * platform supports.
  *
+ * Every public member works from C++11. The template overloads that take a
+ * string-like argument (`dump_configuration::set_filename`, `set_directory`
+ * and `add_memory_filter`, and `core_dump_generator::generate_instance_dump`)
+ * take every type that converts implicitly to `std::string`, and from C++17 to
+ * `std::string_view`, in every standard (the constraint is SFINAE on
+ * `traits::string::is_string_convertible`, the C++11 form of the concept
+ * `StringLike`).
+ *
  * Most of the implementation is inline in this header; the static data members
  * are defined in `LumexCoreDumpGenerator.cpp`. Windows and Unix-like systems
  * including Android are supported; on any other platform the header stops with
@@ -504,30 +512,43 @@ public:
   bool set_filename (std::string const &filename) noexcept;
   bool set_directory (std::string const &directory) noexcept;
 
-#if LUMEX_HAS_STD_CONCEPTS
-  // Template setters with concepts for type safety
-  template <traits::string::StringLike T>
+  // Template setters for any type that converts implicitly to `std::string`
+  // (from C++17 also to `std::string_view`; see
+  // `traits::string::is_string_convertible`, the C++11 form of the concept
+  // `StringLike`): a string literal, `char const *`, a type with its own
+  // conversion. The constraint is SFINAE in every standard, so the overload
+  // set is the same from C++11 to C++26; `std::string` itself takes the
+  // non-template overload above.
+  template <typename T,
+            typename std::enable_if<
+                traits::string::is_string_convertible<T>::value, int>::type
+            = 0>
   bool
   set_filename (T const &filename) noexcept
   {
     return set_filename (std::string{ filename });
   }
 
-  template <traits::string::StringLike T>
+  template <typename T,
+            typename std::enable_if<
+                traits::string::is_string_convertible<T>::value, int>::type
+            = 0>
   bool
   set_directory (T const &directory) noexcept
   {
     return set_directory (std::string{ directory });
   }
 
-  template <traits::string::StringLike T>
+  template <typename T,
+            typename std::enable_if<
+                traits::string::is_string_convertible<T>::value, int>::type
+            = 0>
   bool
   add_memory_filter (T const &filter) noexcept
   {
     return add_memory_filter (std::string{
         filter }); // NOLINT(cppcoreguidelines-pro-bounds-array-to-pointer-decay)
   }
-#endif
   void
   set_compress (bool compress) noexcept
   {
@@ -1325,22 +1346,28 @@ public:
   bool generate_instance_dump (std::string const &reason,
                                std::error_code &errorCode) noexcept;
 
-#if LUMEX_HAS_STD_CONCEPTS
-  // Template methods with concepts for type safety
-  template <traits::string::StringLike T>
+  // Template overloads for any type that converts implicitly to `std::string`
+  // (from C++17 also to `std::string_view`); the same SFINAE constraint as
+  // the setters of `dump_configuration`, in every standard.
+  template <typename T,
+            typename std::enable_if<
+                traits::string::is_string_convertible<T>::value, int>::type
+            = 0>
   bool
   generate_instance_dump (T const &reason)
   {
     return generate_instance_dump (std::string{ reason });
   }
 
-  template <traits::string::StringLike T>
+  template <typename T,
+            typename std::enable_if<
+                traits::string::is_string_convertible<T>::value, int>::type
+            = 0>
   bool
   generate_instance_dump (T const &reason, std::error_code &errorCode) noexcept
   {
     return generate_instance_dump (std::string{ reason }, errorCode);
   }
-#endif
 
 // Modern C++ features
 #if LUMEX_HAS_STD_RANGES
