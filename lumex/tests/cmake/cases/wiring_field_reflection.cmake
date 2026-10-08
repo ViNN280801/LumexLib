@@ -36,6 +36,7 @@ _forbid_text("${_ref_hdr}" "boost::pfr")
 _require_text("${_agg_hdr}" "tuple_size_v")
 _require_text("${_agg_hdr}" "names_as_array")
 _require_text("${_agg_hdr}" "k_max_aggregate_fields")
+_require_text("${_agg_hdr}" "LUMEX_DEFINE_FIELD_NAMES")
 _forbid_text("${_agg_hdr}" "boost/pfr")
 _forbid_text("${_agg_hdr}" "boost::pfr")
 
@@ -51,3 +52,29 @@ _require_text("lumex/tests/core/reflection/reflected_enum/CMakeLists.txt"
     "lumex_add_standard_suites(ReflectionReflectedEnum")
 _require_text("lumex/tests/core/reflection/var_info/CMakeLists.txt"
     "lumex_add_standard_suites(ReflectionVarInfo")
+
+# The registration of the field names has negative compile checks, run by the
+# consumer runner at configure time, and tests of its own.
+_require_text("lumex/tests/cmake/CMakeLists.txt"
+    "lumex_test_name(_ctest_name field_names_compile_checks)")
+_require_text("lumex/tests/cmake/CMakeLists.txt"
+    "-DCASE=field_names_compile_checks")
+foreach(_file CMakeLists.txt check.cpp)
+    if(NOT EXISTS
+       "${LUMEX_SOURCE_DIR}/lumex/tests/cmake/consumer/field_names_compile_checks/${_file}")
+        message(FATAL_ERROR "field_names_compile_checks has no ${_file}")
+    endif()
+endforeach()
+foreach(_file LumexFieldNamesRegistration.cxx11.tests.cpp
+              LumexFieldNamesRegistration.cxx14.tests.cpp
+              LumexFieldNamesGet.cxx11.tests.cpp
+              LumexFieldNamesGet.cxx14.tests.cpp
+              LumexFieldNamesJson.cxx11.tests.cpp
+              LumexFieldNamesStdOptional.cxx17.tests.cpp
+              LumexFieldNamesAgreement.cxx20.tests.cpp
+              LumexFieldReflectionRegisteredFixtures.hpp)
+    if(NOT EXISTS "${LUMEX_SOURCE_DIR}/lumex/tests/core/reflection/field_reflection/${_file}")
+        message(FATAL_ERROR
+            "lumex/tests/core/reflection/field_reflection has no ${_file}")
+    endif()
+endforeach()
