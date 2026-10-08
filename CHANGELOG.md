@@ -767,6 +767,14 @@
 
 #### Исправлено
 
+##### `LumexNumberGenerator.hpp` не компилируется после `LumexTime`
+
+**Файлы:** `lumex/core/generators/number_generator/LumexNumberGenerator.hpp`, `lumex/tests/cmake/CMakeLists.txt`, `lumex/tests/cmake/consumer/hygiene_compile_checks/CMakeLists.txt` (новый), `lumex/tests/cmake/consumer/hygiene_compile_checks/header_order.cpp` (новый)
+
+**Суть:** оба конструктора `number_generator` берут запасное зерно из `time (nullptr)` без `std::`. `LumexTime` вводит пространство имен `lumex::core::time`, поэтому в единице трансляции, где `LumexTime` стоит раньше `LumexGenerators`, неквалифицированное `time` находило пространство имен и заголовок не компилировался (`expected primary-expression before '(' token`); в обратном порядке имя находилось в глобальном пространстве и все работало. Вызов записан как `std::time (nullptr)` (`<ctime>` уже включен). Остальные заголовки и исходники `lumex/` просмотрены на неквалифицированные имена библиотеки C, которые может перехватить пространство имен библиотеки с тем же именем (26 имен пространств совпадают с идентификатором C или POSIX: `time`, `clock`, `log`, `error`, `sync`, `math`, `bit`, ...): других вызовов нет, остальные совпадения - функции-члены и конструкторы с тем же именем.
+
+**Проверено:** новый случай `cmake.hygiene_compile_checks` собирает `header_order.cpp` (оба порядка включения, оба конструктора) на C++11, 14, 17 и 20; на прежнем коде падает на GCC 13.2 (C++11, `LumexTime` перед `LumexGenerators`), на новом проходит на GCC 13.2, GCC 8.3 и Clang 23.1.0 (libstdc++ и libc++).
+
 ##### Тесты, примеры и потребительские кейсы с компилятором вне системных путей запускаются без `LD_LIBRARY_PATH`
 
 **Файлы:** `cmake/LumexBuild.cmake`, `lumex/tests/cmake/CMakeLists.txt`, `lumex/tests/cmake/consumer/run_consumer.cmake`, `lumex/tests/cmake/cases/wiring_toolchain_rpath.cmake` (новый); подмодуль `CMakeRoutines`: `deployment/ToolchainRuntimeRpath.cmake` (новый), `README.md`, `tests/CMakeLists.txt`, `tests/cases/toolchain_runtime_rpath_helpers.cmake` (новый), `tests/cases/toolchain_runtime_rpath_invalid_stdlib.cmake` (новый), `tests/target/CMakeLists.txt`, `tests/target/cases/toolchain_runtime_rpath.cmake` (новый), `tests/target/cases/toolchain_runtime_rpath_build.cmake` (новый), `tests/target/fixtures/toolchain_runtime_rpath/` (новый)

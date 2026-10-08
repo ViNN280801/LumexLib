@@ -384,3 +384,27 @@ set_tests_properties(${_ctest_name} PROPERTIES
     TIMEOUT 900
     SKIP_REGULAR_EXPRESSION "LUMEX_CONSUMER_SKIP"
 )
+
+# Header hygiene at every standard (C++11 to C++20): a header does not depend
+# on the Lumex header before it (LumexTime before LumexGenerators and back) and
+# compiles without a warning under the strict flags of a consumer. Header-only
+# translation units, built with try_compile while configuring.
+lumex_test_name(_ctest_name hygiene_compile_checks)
+add_test(NAME ${_ctest_name}
+    COMMAND ${CMAKE_COMMAND}
+        -DCASE=hygiene_compile_checks
+        -DLUMEX_SOURCE_DIR=${LumexLib_SOURCE_DIR}
+        -DWORK_DIR=${CMAKE_CURRENT_BINARY_DIR}/consumer/hygiene_compile_checks
+        -DGENERATOR=${CMAKE_GENERATOR}
+        -DCXX_COMPILER=${CMAKE_CXX_COMPILER}
+        "-DCXX_FLAGS=${CMAKE_CXX_FLAGS}"
+        -DCLANG_STDLIB=${LUMEX_CLANG_STDLIB}
+        -DBUILD_TYPE=Release
+        -DCONFIGURE_ONLY=ON
+        -P ${_LUMEX_CONSUMER_RUN}
+)
+set_tests_properties(${_ctest_name} PROPERTIES
+    LABELS "cmake;consumer"
+    TIMEOUT 900
+    SKIP_REGULAR_EXPRESSION "LUMEX_CONSUMER_SKIP"
+)
