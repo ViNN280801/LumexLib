@@ -86,7 +86,7 @@
 #pragma clang diagnostic ignored "-Wfloat-equal"
 #endif
 
-#include "lumex/LumexExport.hpp" // For LUMEX_API macro
+#include "lumex/LumexExport.hpp" // For LUMEX_STRING_VIEW_API macro
 
 #include <cstddef> // For std::size_t, std::ptrdiff_t
 #include <cstring> // For std::wcslen, std::wmemcmp, std::wmemchr (for wide chars)
@@ -127,7 +127,7 @@ namespace view
  * `lumex_wstring_view` instance. Dangling `lumex_wstring_view`s lead to
  * undefined behavior.
  */
-class LUMEX_API lumex_wstring_view
+class LUMEX_STRING_VIEW_API lumex_wstring_view
 {
 public:
   // -- Public type aliases --
@@ -1249,7 +1249,7 @@ private:
  * identical, `false` otherwise.
  * @note Complexity: O(N) where N is the minimum length of the two views.
  */
-LUMEX_API inline bool
+inline bool
 operator== (lumex_wstring_view lhs, lumex_wstring_view rhs) LUMEX_NOEXCEPT
 {
   return lhs.size () == rhs.size () && lhs.compare (rhs) == 0;
@@ -1264,7 +1264,7 @@ operator== (lumex_wstring_view lhs, lumex_wstring_view rhs) LUMEX_NOEXCEPT
  * @return `true` if the views are not equal, `false` otherwise.
  * @note Complexity: O(N) where N is the minimum length of the two views.
  */
-LUMEX_API inline bool
+inline bool
 operator!= (lumex_wstring_view lhs, lumex_wstring_view rhs) LUMEX_NOEXCEPT
 {
   return !(lhs == rhs);
@@ -1279,7 +1279,7 @@ operator!= (lumex_wstring_view lhs, lumex_wstring_view rhs) LUMEX_NOEXCEPT
  * otherwise.
  * @note Complexity: O(N) where N is the minimum length of the two views.
  */
-LUMEX_API inline bool
+inline bool
 operator< (lumex_wstring_view lhs, lumex_wstring_view rhs) LUMEX_NOEXCEPT
 {
   return lhs.compare (rhs) < 0;
@@ -1295,7 +1295,7 @@ operator< (lumex_wstring_view lhs, lumex_wstring_view rhs) LUMEX_NOEXCEPT
  * otherwise.
  * @note Complexity: O(N) where N is the minimum length of the two views.
  */
-LUMEX_API inline bool
+inline bool
 operator> (lumex_wstring_view lhs, lumex_wstring_view rhs) LUMEX_NOEXCEPT
 {
   return lhs.compare (rhs) > 0;
@@ -1311,7 +1311,7 @@ operator> (lumex_wstring_view lhs, lumex_wstring_view rhs) LUMEX_NOEXCEPT
  * `false` otherwise.
  * @note Complexity: O(N) where N is the minimum length of the two views.
  */
-LUMEX_API inline bool
+inline bool
 operator<= (lumex_wstring_view lhs, lumex_wstring_view rhs) LUMEX_NOEXCEPT
 {
   return lhs.compare (rhs) <= 0;
@@ -1327,7 +1327,7 @@ operator<= (lumex_wstring_view lhs, lumex_wstring_view rhs) LUMEX_NOEXCEPT
  * `false` otherwise.
  * @note Complexity: O(N) where N is the minimum length of the two views.
  */
-LUMEX_API inline bool
+inline bool
 operator>= (lumex_wstring_view lhs, lumex_wstring_view rhs) LUMEX_NOEXCEPT
 {
   return lhs.compare (rhs) >= 0;
@@ -1345,7 +1345,7 @@ operator>= (lumex_wstring_view lhs, lumex_wstring_view rhs) LUMEX_NOEXCEPT
  * @return A reference to the wide output stream.
  * @note Complexity: O(N) where N is `wsview.size()`.
  */
-LUMEX_API std::wostream &operator<< (std::wostream &wostr,
+LUMEX_STRING_VIEW_API std::wostream &operator<< (std::wostream &wostr,
                                      lumex_wstring_view wsview);
 } // namespace view
 } // namespace string_view
