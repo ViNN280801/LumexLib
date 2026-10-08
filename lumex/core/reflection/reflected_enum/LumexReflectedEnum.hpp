@@ -118,17 +118,19 @@ last_of (T, Next next, Rest... rest) LUMEX_NOEXCEPT
 // never null.
 //
 // Reflection data is emitted as plain EnumName##Values/First/Size/Last
-// constants next to the enum itself, NOT as an lumex_enum_traits_t<Enum> specialization.
-// Two independent reasons rule that out, both stemming from [temp.expl.spec]
-// (an explicit specialization must be declared in the SAME namespace as its
-// primary template):
+// constants next to the enum itself, NOT as an explicit specialization of a
+// class template at global scope (an earlier macro, long since removed, did
+// that). Two independent reasons rule that out, both stemming from
+// [temp.expl.spec] (an explicit specialization must be declared in the SAME
+// namespace as its primary template):
 //   1. MSVC (C2888) additionally refuses a lambda inside such a specialization
-//      when it is defined inside a namespace - an earlier design built
-//      lumex_enum_traits_t<Enum>::values via `[]{ using enum Enum; return std::array{...}; }()`.
+//      when it is defined inside a namespace - the earlier design built the
+//      values via `[]{ using enum Enum; return std::array{...}; }()`.
 //   2. Even lambda-free, LUMEX_DEFINE_REFLECTED_ENUM is meant to be invoked from
 //      inside arbitrary namespaces, or even inside a nested struct/class -
-//      neither is the global scope lumex_enum_traits_t<T> would need, so the
-//      specialization itself would be ill-formed regardless of what is inside it.
+//      neither is the global scope a specialization of a global primary
+//      template would need, so the specialization itself would be ill-formed
+//      regardless of what is inside it.
 // `static constexpr` on each generated constant is deliberate: at namespace
 // scope it just gives ordinary internal linkage (harmless per-TU duplication
 // of a few small constexpr values); at class scope it is required for the

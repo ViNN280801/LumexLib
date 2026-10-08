@@ -1,8 +1,7 @@
 // LumexTypeTraits.cxx11.tests.cpp
 // The traits of LumexTypeTraits.hpp that exist in every standard. Checks of
 // a higher standard inside a test stay under #if __cplusplus;
-// LumexTypeTraits.cxx17.tests.cpp adds std::optional,
-// LumexTypeTraits.cxx20.tests.cpp LUMEX_DEFINE_ENUM_TRAITS.
+// LumexTypeTraits.cxx17.tests.cpp adds std::optional.
 #include <cstddef>
 #include <functional>
 #include <memory>
