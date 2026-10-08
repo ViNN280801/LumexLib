@@ -2,7 +2,8 @@
 #
 # Required: CASE, LUMEX_SOURCE_DIR, WORK_DIR, GENERATOR, CXX_COMPILER.
 # Optional: BUILD_TYPE (default Release), EXTRA_ARGS (;-list of -D...),
-# CONFIGURE_ONLY (stop after a successful configure), CXX_FLAGS and
+# CONFIGURE_ONLY (stop after a successful configure), RUN_PREFIX (a ;-list put
+# in front of the command that runs the executable), CXX_FLAGS and
 # CLANG_STDLIB (the calling tree's CMAKE_CXX_FLAGS and LUMEX_CLANG_STDLIB,
 # forwarded when set), BUILD_RPATH (the directories of the compiler's own C++
 # runtime when it lies outside the system paths, forwarded as
@@ -127,7 +128,9 @@ endif()
 # On ELF hosts the executable finds the runtime of the compiler through the
 # RUNPATH it was linked with, not through the caller's LD_LIBRARY_PATH.
 if(UNIX)
-    set(_run "${CMAKE_COMMAND}" -E env --unset=LD_LIBRARY_PATH "${_exe}")
+    # RUN_PREFIX (a ;-list) goes before the executable, for example
+    # setarch;x86_64;-R: GCC's ThreadSanitizer needs ASLR off.
+    set(_run ${RUN_PREFIX} "${CMAKE_COMMAND}" -E env --unset=LD_LIBRARY_PATH "${_exe}")
 else()
     set(_run "${_exe}")
 endif()
