@@ -405,7 +405,8 @@ is_bluetooth_enumerated_port (std::string const &port_name) LUMEX_NOEXCEPT
 
 std::vector<serial_port_info_t>
 enumerate_serial_ports_detailed (std::string const &connected_port,
-                                 bool need_to_filter_bluetooth)
+                                 bool need_to_filter_bluetooth,
+                                 bool need_full_path)
 {
   std::vector<serial_port_info_t> result;
 
@@ -555,7 +556,7 @@ enumerate_serial_ports_detailed (std::string const &connected_port,
 
           unique_ports.insert (port);
           serial_port_info_t &info = port_info_map[port];
-          info.path = port;
+          info.path = need_full_path ? path_for_open (port) : port;
 
           std::array<wchar_t, 256> friendly_buf{};
           DWORD data_type = 0;
@@ -763,7 +764,7 @@ enumerate_serial_ports_detailed (std::string const &connected_port,
             {
               close_serial_handle (opened.handle);
               serial_port_info_t info;
-              info.path = port_name;
+              info.path = need_full_path ? open_path : port_name;
               info.state = state;
               result.push_back (info);
             }
@@ -771,7 +772,7 @@ enumerate_serial_ports_detailed (std::string const &connected_port,
                    || state == serial_port_state::unresponsive)
             {
               serial_port_info_t info;
-              info.path = port_name;
+              info.path = need_full_path ? open_path : port_name;
               info.state = state;
               info.system_error = opened.system_error;
               if (state == serial_port_state::busy && !connected_port.empty ()
@@ -828,7 +829,7 @@ enumerate_serial_ports_detailed (std::string const &connected_port,
             continue;
 
           serial_port_info_t info;
-          info.path = dev_path;
+          info.path = need_full_path ? dev_path : name;
           open_result_t const opened = bounded_open_serial_port (
               dev_path, 0U,
               std::chrono::milliseconds (
@@ -878,7 +879,7 @@ enumerate_serial_ports_detailed (std::string const &connected_port,
                 continue;
 
               serial_port_info_t info;
-              info.path = dev_path;
+              info.path = need_full_path ? dev_path : name;
               open_result_t const opened = bounded_open_serial_port (
                   dev_path, 0U,
                   std::chrono::milliseconds (
@@ -917,10 +918,11 @@ enumerate_serial_ports_detailed (std::string const &connected_port,
 }
 
 std::vector<std::string>
-enumerate_serial_port_names (bool need_to_filter_bluetooth)
+enumerate_serial_port_names (bool need_to_filter_bluetooth,
+                             bool need_full_path)
 {
   std::vector<serial_port_info_t> detailed = enumerate_serial_ports_detailed (
-      std::string (), need_to_filter_bluetooth);
+      std::string (), need_to_filter_bluetooth, need_full_path);
   std::vector<std::string> names;
   names.reserve (detailed.size ());
   for (std::size_t i = 0; i < detailed.size (); ++i)

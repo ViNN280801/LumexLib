@@ -167,6 +167,14 @@
 
 #### Изменено
 
+##### Контракт `serial_port_info_t::path`: имя порта по умолчанию, путь открытия по флагу `need_full_path` (PEW-2313)
+
+**Файлы:** `lumex/applied/serial/enumeration/LumexSerialPortEnumeration.hpp`, `lumex/applied/serial/enumeration/LumexSerialPortEnumeration.cpp`, `lumex/tests/applied/serial/enumeration/LumexSerialPortEnumeration.cxx11.tests.cpp`
+
+**Суть:** `enumerate_serial_ports_detailed` и `enumerate_serial_port_names` получили параметр `bool need_full_path = false`. По умолчанию `path` снова несет каноническое имя порта (`COM12` на Windows, `ttyACM0` на POSIX): форма, которую хранит конфигурация потребителя и принимает `resolve_serial_port_path`. При `need_full_path = true` `path` несет путь, готовый к открытию (`\\.\COM12` на Windows, `/dev/ttyACM0` на POSIX). Ограниченное открытие внутри перечисления в обоих режимах открывает путь; флаг выбирает только содержимое `path`. Это откат неявного изменения контракта из записи 1.0.3.0, из-за которого потребитель на POSIX получал `/dev/ttyACM0` там, где ожидал короткое имя.
+
+**Проверено:** GCC 13.2 Release: `serial.*` 27 из 27 (наборы enumeration и port, включая новый `FullPathFlagSelectsNameOrOpenablePath`), пример `examples.serial.LumexSerialExample` собирается; GCC 8.3 и Clang 23.1.0: те же наборы собираются без предупреждений, 27 из 27. Мутация (флаг не читается): `FullPathFlagSelectsNameOrOpenablePath` падает.
+
 ##### Несовместимо: `lumex::path` преобразуется в `std::string` только явно
 
 **Файлы:** `lumex/core/filesystem/fs/LumexFilesystem.hpp`, `lumex/applied/logging/log/LumexLogging.cpp`, `lumex/tests/core/filesystem/fs/LumexFilesystemStdPath.cxx17.tests.cpp`, `lumex/tests/applied/settings/guard/LumexSettingsGuard.cxx11.tests.cpp`, `lumex/tests/applied/settings/ini/LumexSettingsINI.cxx11.tests.cpp`, `lumex/tests/core/temporary/tmp/LumexTemporary.cxx11.tests.cpp`, `lumex/tests/cmake/consumer/path_compile_checks/` (новый: `CMakeLists.txt`, `check.cpp`), `lumex/tests/cmake/cases/wiring_path_compile_checks.cmake` (новый), `lumex/tests/cmake/CMakeLists.txt`
@@ -983,6 +991,14 @@
 **Проверено:** тест `LumexStringViewPortable` на C++11, 17 и 20 (псевдоним это `lumex_string_view` ниже C++17 и `std::string_view` с C++17, широкий близнец так же; сборка из строки C, `std::string` и представления библиотеки, в `std::string` не преобразуется), тесты строковых перегрузок `base64`, `crc`, `exceptions` и `xml` на C++11, 17 и 20 с теми же результатами, что до замены (GCC 13.2, GCC 8.3, Clang 23.1.0 с libc++ и libstdc++ 13, ASan и UBSan; все проходят, кроме нестабильного `ToCrashReport_ThreadSafe` на GCC 13.2 и под санитайзерами). Порча «псевдоним это широкое стандартное представление» роняет тест. `nm -D` библиотек `base64`, `crc`, `exceptions` и `xml` не изменился, таблицы экспорта MinGW-DLL тоже. `create_release.sh` (четыре компилятора, C++11 и C++20, `-Werror`): 0 предупреждений. Не проверялось: режим `LUMEX_XML_WCHAR_MODE` для `xml` целиком (зонтичный `LumexXml` в этом режиме не собирается и на вершине ветки `release/v2.0.0.0`: `set_value_convert` в `XmlUtils.hpp` присваивает `wchar_t *` в `char *`); заголовок `XmlTypes.hpp` в нем собирается, и `string_view_t` равен `portable_wstring_view_t` (C++11, 17 и 20).
 
 #### Исправлено
+
+##### `resolve_serial_port_path` возвращает абсолютный путь без изменений (PEW-2313, PEW-2308)
+
+**Файлы:** `lumex/applied/serial/port/LumexSerialPort.cpp`, `lumex/tests/applied/serial/port/LumexSerialPort.cxx11.tests.cpp`
+
+**Суть:** на POSIX значение, которое уже является абсолютным путем (`/dev/ttyACM0`, `/dev/serial/by-id/...`), возвращается как есть. До правки повторный вызов дописывал префикс, и получался несуществующий `/dev/serial/by-id//dev/ttyACM0`: у потребителя (PeakExpertWeb) падали все пробы и подключения, которые резолвили результат перечисления (PEW-2313 BLOCKER, PEW-2308 MAJOR). Ветка Windows такие значения и так возвращала без изменений; короткие имена, by-id алиасы и сетевые каналы не изменились.
+
+**Проверено:** GCC 13.2 Release, GCC 8.3, Clang 23.1.0: `serial.port.LumexSerialPort.AbsoluteDevPathIsReturnedUnchanged` проходит на всех трех (27 из 27 в наборе). Мутация (guard убран): тест падает. Существующие тесты коротких имен, by-id и пустого имени не менялись и проходят.
 
 ##### Примеры xml пишут файлы со своими именами и удаляют их
 
