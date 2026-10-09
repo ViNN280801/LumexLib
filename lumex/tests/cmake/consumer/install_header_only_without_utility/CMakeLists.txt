@@ -24,7 +24,7 @@ set(_header_only_modules ATOMIC GENERATORS MATH OPTIONAL SPAN STRING)
 # directly or through another module (cmake/LumexModules.cmake). The applied
 # and XML groups are switched off as a whole.
 set(_other_core_modules
-    BASE64 CIRCULAR_BUFFER CRC ENVIRONMENT EXCEPTIONS EXPECTED FILESYSTEM FMT
+    BASE64 CIRCULAR_BUFFER CONTRACTS CRC ENVIRONMENT EXCEPTIONS EXPECTED FILESYSTEM FMT
     HAZARD_POINTER REFLECTION STRING_VIEW TEMPORARY TIME UNICODE UTILITY)
 
 set(_lumex_build "${CMAKE_BINARY_DIR}/lumexlib-build")

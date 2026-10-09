@@ -34,6 +34,7 @@ option(LUMEX_BUILD_XML "Build Xml" ON)
 option(LUMEX_BUILD_ATOMIC "Build core/atomic (header-only atomic_shared_ptr / atomic_weak_ptr)" ON)
 option(LUMEX_BUILD_BASE64 "Build core/base64" ON)
 option(LUMEX_BUILD_CIRCULAR_BUFFER "Build core/circular_buffer" ON)
+option(LUMEX_BUILD_CONTRACTS "Build core/contracts (LUMEX_CONTRACT_ASSERT, the contract assertion of C++26, from C++11)" ON)
 option(LUMEX_BUILD_CRC "Build core/crc" ON)
 option(LUMEX_BUILD_ENVIRONMENT "Build core/environment" ON)
 option(LUMEX_BUILD_EXCEPTIONS "Build core/exceptions" ON)
@@ -70,6 +71,18 @@ set(LUMEX_LOGGER_CONFIG_FORMAT "PLAIN_TEXT" CACHE STRING
     "Logger config format: PLAIN_TEXT, INI, JSON, YAML, or XML")
 set_property(CACHE LUMEX_LOGGER_CONFIG_FORMAT PROPERTY STRINGS
     PLAIN_TEXT INI JSON YAML XML)
+
+# The evaluation semantic of LUMEX_CONTRACT_ASSERT for the whole build (target
+# lumex::contracts passes it to every translation unit that links the target;
+# a translation unit may override it with the macro LUMEX_CONTRACTS_SEMANTIC).
+# IGNORE never evaluates the predicate; OBSERVE reports a false predicate to the
+# violation handler and continues; ENFORCE (default) reports and aborts;
+# QUICK_ENFORCE stops at once without a handler; P2900 uses the compiler's own
+# contract_assert where the compiler has one (enforce otherwise).
+set(LUMEX_CONTRACTS_SEMANTIC "ENFORCE" CACHE STRING
+    "Evaluation semantic of LUMEX_CONTRACT_ASSERT: IGNORE, OBSERVE, ENFORCE, QUICK_ENFORCE, or P2900")
+set_property(CACHE LUMEX_CONTRACTS_SEMANTIC PROPERTY STRINGS
+    IGNORE OBSERVE ENFORCE QUICK_ENFORCE P2900)
 
 option(LUMEX_WITH_FIELD_REFLECTION "Enable field reflection to_json via LumexAggregateFields + vendored nlohmann/json" ON)
 

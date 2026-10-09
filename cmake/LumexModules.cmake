@@ -16,6 +16,7 @@ set(LUMEX_CORE_MODULE_OPTIONS
     LUMEX_BUILD_ATOMIC
     LUMEX_BUILD_BASE64
     LUMEX_BUILD_CIRCULAR_BUFFER
+    LUMEX_BUILD_CONTRACTS
     LUMEX_BUILD_CRC
     LUMEX_BUILD_ENVIRONMENT
     LUMEX_BUILD_EXCEPTIONS
@@ -168,6 +169,19 @@ function(lumex_check_module_dependencies)
     lumex_require_module(LUMEX_BUILD_HAZARD_POINTER LUMEX_BUILD_UTILITY)
     lumex_require_module(LUMEX_BUILD_HAZARD_POINTER LUMEX_BUILD_SPAN)
 
+    lumex_require_module(LUMEX_BUILD_CONTRACTS LUMEX_BUILD_UTILITY)
+
+    string(TOUPPER "${LUMEX_CONTRACTS_SEMANTIC}" _contracts_semantic)
+    set(_contracts_semantics IGNORE OBSERVE ENFORCE QUICK_ENFORCE P2900)
+    if(NOT _contracts_semantic IN_LIST _contracts_semantics)
+        message(FATAL_ERROR
+            "Invalid LUMEX_CONTRACTS_SEMANTIC='${LUMEX_CONTRACTS_SEMANTIC}'. "
+            "Expected one of: IGNORE, OBSERVE, ENFORCE, QUICK_ENFORCE, P2900")
+    endif()
+    string(TOLOWER "${_contracts_semantic}" _contracts_semantic_word)
+    set(LUMEX_CONTRACTS_SEMANTIC_NORMALIZED
+        "${_contracts_semantic_word}" PARENT_SCOPE)
+
     string(TOUPPER "${LUMEX_LOGGER_CONFIG_FORMAT}" _logger_config_format)
     set(_logger_config_formats PLAIN_TEXT INI JSON YAML XML)
     if(NOT _logger_config_format IN_LIST _logger_config_formats)
@@ -222,6 +236,7 @@ set(LUMEX_SHARED_LIBRARY_CANDIDATES
     LumexCore_atomic
     LumexCore_base64
     LumexCore_circular_buffer
+    LumexCore_contracts
     LumexCore_crc
     LumexCore_environment
     LumexCore_exceptions

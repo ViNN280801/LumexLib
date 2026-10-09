@@ -159,6 +159,8 @@ class LumexLibConan(ConanFile):
             utility.system_libs.append("dl")
         self._component("core_circular_buffer", "circular_buffer",
                         requires=["core_utility"])
+        self._component("core_contracts", "contracts",
+                        ["LumexCore_contracts"], ["core_utility"])
         self._component("core_expected", "expected", requires=["core_utility"])
         self._component("core_unicode", "unicode", requires=["core_utility"])
         self._component("core_fmt", "fmt", requires=["core_utility"])

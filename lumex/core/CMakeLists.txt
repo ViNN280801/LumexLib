@@ -12,6 +12,8 @@ lumex_add_subdirectory_if(LUMEX_BUILD_UNICODE unicode)
 lumex_add_subdirectory_if(LUMEX_BUILD_STRING_VIEW string_view)
 # hazard_pointer links utility and span: add it after them.
 lumex_add_subdirectory_if(LUMEX_BUILD_HAZARD_POINTER hazard_pointer)
+# contracts links utility: add it after it.
+lumex_add_subdirectory_if(LUMEX_BUILD_CONTRACTS contracts)
 lumex_add_subdirectory_if(LUMEX_BUILD_ATOMIC atomic)
 lumex_add_subdirectory_if(LUMEX_BUILD_CIRCULAR_BUFFER circular_buffer)
 lumex_add_subdirectory_if(LUMEX_BUILD_EXPECTED expected)

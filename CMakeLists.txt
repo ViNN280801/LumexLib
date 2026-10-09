@@ -253,6 +253,7 @@ if(LUMEX_INSTALL)
         LumexCore_atomic
         LumexCore_base64
         LumexCore_circular_buffer
+        LumexCore_contracts
         LumexCore_crc
         LumexCore_environment
         LumexCore_exceptions

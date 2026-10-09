@@ -41,8 +41,8 @@
  * @file LumexExport.hpp
  * @brief Export and linkage macros of LumexLib: `LUMEX_API`,
  * `LUMEX_PUBLIC_API`, `LUMEX_PUBLIC_C_API`, `LUMEX_UTILITY_API`,
- * `LUMEX_STRING_VIEW_API`, `LUMEX_HAZARD_POINTER_API`, `LUMEX_EXTERN_C_BEGIN`
- * and `LUMEX_EXTERN_C_END`.
+ * `LUMEX_STRING_VIEW_API`, `LUMEX_HAZARD_POINTER_API`, `LUMEX_CONTRACTS_API`,
+ * `LUMEX_EXTERN_C_BEGIN` and `LUMEX_EXTERN_C_END`.
  * @details `LUMEX_API` marks a class or function of a shared library: on
  * Windows it is `dllexport` while `LUMEX_EXPORTS` is defined and `dllimport`
  * otherwise, elsewhere it gives default visibility while `LUMEX_EXPORTS` is
@@ -56,9 +56,10 @@
  * library (`LumexCore_string_view_EXPORTS`): its two view classes and stream
  * inserters are exported only from there. `LUMEX_HAZARD_POINTER_API` marks the
  * free functions of the hazard pointer library
- * (`LumexCore_hazard_pointer_EXPORTS`) the same way. `LUMEX_EXTERN_C_BEGIN`
- * and `LUMEX_EXTERN_C_END` open and close an `extern "C"` block when compiled
- * as C++.
+ * (`LumexCore_hazard_pointer_EXPORTS`) the same way, and `LUMEX_CONTRACTS_API`
+ * the free functions of the contracts library (`LumexCore_contracts_EXPORTS`).
+ * `LUMEX_EXTERN_C_BEGIN` and `LUMEX_EXTERN_C_END` open and close an `extern
+ * "C"` block when compiled as C++.
  */
 #ifndef LUMEX_EXPORT_HPP
 #define LUMEX_EXPORT_HPP
@@ -150,6 +151,23 @@
 #define LUMEX_HAZARD_POINTER_API __attribute__ ((visibility ("default")))
 #else
 #define LUMEX_HAZARD_POINTER_API
+#endif
+
+// Per-module export for LumexCore_contracts, like LUMEX_HAZARD_POINTER_API:
+// the library exports the free functions of the violation handler (the handler
+// slot and the default handler), every other DLL that includes the headers
+// imports them. The handler is one per process, so its state lives in this
+// library only.
+#if defined(_WIN32) || defined(__CYGWIN__)
+#if defined(LumexCore_contracts_EXPORTS)
+#define LUMEX_CONTRACTS_API __declspec (dllexport)
+#else
+#define LUMEX_CONTRACTS_API __declspec (dllimport)
+#endif
+#elif defined(LumexCore_contracts_EXPORTS)
+#define LUMEX_CONTRACTS_API __attribute__ ((visibility ("default")))
+#else
+#define LUMEX_CONTRACTS_API
 #endif
 
 #ifdef LUMEX_IMPLEMENTATION

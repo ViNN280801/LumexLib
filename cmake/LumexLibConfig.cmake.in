@@ -19,6 +19,9 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/LumexCoreTargets.cmake")
     if(TARGET lumex::LumexCore_circular_buffer AND NOT TARGET lumex::circular_buffer)
         add_library(lumex::circular_buffer ALIAS lumex::LumexCore_circular_buffer)
     endif()
+    if(TARGET lumex::LumexCore_contracts AND NOT TARGET lumex::contracts)
+        add_library(lumex::contracts ALIAS lumex::LumexCore_contracts)
+    endif()
     if(TARGET lumex::LumexCore_crc AND NOT TARGET lumex::crc)
         add_library(lumex::crc ALIAS lumex::LumexCore_crc)
     endif()
@@ -111,7 +114,7 @@ if(NOT TARGET lumex::Lumex)
     set(_lumex_umbrella)
     foreach(_c
             hardware json logger logging resource_monitor serial settings
-            atomic base64 circular_buffer crc environment exceptions expected
+            atomic base64 circular_buffer contracts crc environment exceptions expected
             filesystem fmt hazard_pointer
             number_generator math optional reflection span string
             string_view temporary time unicode utility xml)
