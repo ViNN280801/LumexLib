@@ -1,7 +1,8 @@
 // Base64 decoder tests of the string overloads (every standard): they take
-// string_type_t, which is std::string_view from C++17 and the
-// lumex_string_view of lumex::string_view below it, so a C++11 program passes
-// a literal, a char const * and a std::string the way a C++17 one does. The
+// string_type_t, which is the lumex_string_view of lumex::string_view in
+// every standard (never std::string_view), so a program passes a literal, a
+// char const *, a std::string and a lumex_string_view the same way at C++11
+// and at C++23; a std::string_view converts to it (the C++17 file). The
 // C++17 and C++20 suites compile this file too
 // (LumexBase64Decoder.cxx17.tests.cpp holds the tests that name
 // std::string_view).
@@ -9,14 +10,13 @@
 #include <cstddef>
 #include <string>
 #include <type_traits>
+#include <utility>
 #include <vector>
-#if __cplusplus >= 201703L
-#include <string_view>
-#endif
 
 #include <gtest/gtest.h>
 
 #include "lumex/core/base64/LumexBase64"
+#include "lumex/core/string_view/view/LumexWStringView.hpp"
 
 #include "lumex/tests/core/base64/LumexBase64TestFixtures.hpp"
 
@@ -24,8 +24,41 @@ using lumex::core::base64::codec::Types::string_type_t;
 using lumex::core::base64::decode::decoder;
 using lumex::core::base64::encode::encoder;
 
+static_assert (
+    std::is_same<string_type_t,
+                 lumex::core::string_view::view::lumex_string_view>::value,
+    "the string overloads take the lumex_string_view in every standard");
+
 namespace
 {
+// Taking the address picks the one overload whose parameters are exactly
+// these: the lines do not compile when the text parameter is another type
+// (std::string_view, std::string const &) in any standard.
+std::vector<unsigned char> (*const kDecodeText) (lumex_string_view)
+    = &decoder::decode;
+bool (*const kDecodeTextInto) (lumex_string_view, std::vector<unsigned char> &)
+    = &decoder::decode;
+
+template <class T, class = void> struct accepts_text : std::false_type
+{
+};
+template <class T>
+struct accepts_text<T, decltype (void (decoder::decode (std::declval<T> ())))>
+    : std::true_type
+{
+};
+template <class T, class = void> struct accepts_text_into : std::false_type
+{
+};
+template <class T>
+struct accepts_text_into<T,
+                         decltype (void (decoder::decode (
+                             std::declval<T> (),
+                             std::declval<std::vector<unsigned char> &> ())))>
+    : std::true_type
+{
+};
+
 std::string
 as_text (std::vector<unsigned char> const &bytes)
 {
@@ -188,15 +221,45 @@ TEST_F (Base64DecoderTest,
       "a std::string is accepted as text");
 }
 
-#if __cplusplus < 201703L
+// Every argument form is accepted without ambiguity next to the pointer and
+// size overloads, in every standard.
+static_assert (accepts_text<char const (&)[4]>::value, "a literal");
+static_assert (accepts_text<char (&)[4]>::value, "a char array");
+static_assert (accepts_text<char const *>::value, "a char const *");
+static_assert (accepts_text<char *>::value, "a char *");
+static_assert (accepts_text<std::string>::value, "a std::string");
+static_assert (accepts_text<std::string const &>::value, "a std::string &");
+static_assert (accepts_text<lumex_string_view>::value, "the view");
+static_assert (accepts_text<lumex_string_view const &>::value, "the view &");
+static_assert (accepts_text<std::nullptr_t>::value, "nullptr: an empty text");
+static_assert (!accepts_text<int>::value, "a number is not text");
+static_assert (!accepts_text<wchar_t const *>::value, "a wide text");
+static_assert (!accepts_text<lumex_wstring_view>::value, "a wide view");
+static_assert (!accepts_text<std::wstring>::value, "a wide string");
+static_assert (accepts_text_into<char const (&)[4]>::value, "a literal");
+static_assert (accepts_text_into<char const *>::value, "a char const *");
+static_assert (accepts_text_into<std::string>::value, "a std::string");
+static_assert (accepts_text_into<lumex_string_view>::value, "the view");
+static_assert (accepts_text_into<std::nullptr_t>::value, "nullptr");
+static_assert (!accepts_text_into<int>::value, "a number is not text");
+static_assert (!accepts_text_into<lumex_wstring_view>::value, "a wide view");
+
+TEST_F (Base64DecoderTest, GivenTextParameter_WhenCallThroughPointer_ThenWorks)
+{
+  EXPECT_EQ (as_text (kDecodeText ("Zm9vYmFy")), "foobar");
+  EXPECT_EQ (as_text (kDecodeText (lumex_string_view ("Zm9vYmFy", 4))), "foo");
+  std::vector<unsigned char> out;
+  EXPECT_TRUE (kDecodeTextInto (std::string ("Zm8="), out));
+  EXPECT_EQ (as_text (out), "fo");
+}
+
 TEST_F (Base64DecoderTest, GivenNullCharPointer_WhenDecode_ThenEmptyInput)
 {
   // The view of the library treats a null char const * as an empty text
-  // (std::string_view does not allow it, so this is a test of the library
-  // view only).
+  // (std::string_view does not allow it); the nullptr literal does the same.
+  EXPECT_TRUE (decoder::decode (nullptr).empty ());
   std::vector<byte_type> out (3, 0x7F);
   EXPECT_TRUE (decoder::decode (static_cast<char const *> (nullptr), out));
   EXPECT_TRUE (out.empty ());
   EXPECT_TRUE (decoder::decode (static_cast<char const *> (nullptr)).empty ());
 }
-#endif

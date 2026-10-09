@@ -67,7 +67,7 @@
 #include <string>
 #include <type_traits>
 
-#include "lumex/core/string_view/view/LumexPortableStringView.hpp"
+#include "lumex/core/string_view/view/LumexStringView.hpp"
 #include "lumex/core/utility/assert/LumexAssert.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 #include "lumex/core/utility/traits/LumexTypeTraits.hpp"
@@ -85,11 +85,11 @@ namespace Types
 using byte_type = unsigned char;
 
 /// @brief Type of the Base64 text the string overloads take: the
-/// `portable_string_view_t` of `lumex::string_view`, that is
-/// `std::string_view` from C++17 and `lumex_string_view` below it. A literal,
-/// a `char const *`, a `std::string` and (from C++17) a `lumex_string_view`
+/// `lumex_string_view` of `lumex::string_view` in every C++ standard (a plain
+/// alias of the library's own view, not of a standard type). A literal, a
+/// `char const *`, a `std::string` and, from C++17, a `std::string_view`
 /// convert to it.
-using string_type_t = lumex::core::string_view::view::portable_string_view_t;
+using string_type_t = lumex::core::string_view::view::lumex_string_view;
 } // namespace Types
 
 namespace Constants
