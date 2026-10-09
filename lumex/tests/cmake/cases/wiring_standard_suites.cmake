@@ -90,7 +90,7 @@ endforeach()
 lumex_test_standards_get(_standards base64)
 _expect_equal("standards of base64" "${_standards}" "11;17;20")
 lumex_test_standards_get(_standards atomic VARIANT lock_based)
-_expect_equal("standards of atomic/lock_based" "${_standards}" "20")
+_expect_equal("standards of atomic/lock_based" "${_standards}" "11;20")
 
 # A suite takes the files of its standard and of every lower one, lower
 # standards first, by name within a standard.
