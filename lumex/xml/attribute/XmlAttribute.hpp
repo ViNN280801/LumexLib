@@ -49,13 +49,13 @@
  * `first_attribute`, `append_attribute` and the attribute iterators declared
  * in `XmlNode.hpp`).
  *
- * The `string_view_t` overloads (`std::basic_string_view<char_t>` from C++17,
- * the `lumex_string_view` of `lumex::string_view` below) exist in every C++
- * standard. They are inline wrappers over the exported pointer-and-size
- * functions, so the library binary does not depend on the standard of its
- * consumer. The class is not exported, so those wrappers are not
- * `dllimport`. The file also declares the logical AND and OR operators with a
- * `bool` and `utility::is_attribute_of`. Consumers include it through
+ * The `string_view_t` overloads (`string_view_t` is the `lumex_string_view` of
+ * `lumex::string_view` in every C++ standard; a `std::string_view` converts to
+ * it) exist in every C++ standard. They are inline wrappers over the exported
+ * pointer-and-size functions, so the library binary does not depend on the
+ * standard of its consumer. The class is not exported, so those wrappers are
+ * not `dllimport`. The file also declares the logical AND and OR operators
+ * with a `bool` and `utility::is_attribute_of`. Consumers include it through
  * `lumex/xml/LumexXml`.
  */
 #ifndef LUMEX_XML_ATTRIBUTE_XML_ATTRIBUTE_HPP

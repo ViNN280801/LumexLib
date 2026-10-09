@@ -28,13 +28,16 @@
 
 // lumex/tests/xml/LumexXml.cxx17.tests.cpp
 //
-// XML tests of the std::string_view overloads (C++17): inline wrappers over
-// the sized (pointer and length) functions the library exports. The C++17
+// XML tests of std::string_view arguments (C++17): they convert to the
+// string_view_t (lumex_string_view) the inline wrappers take, and the wrappers
+// call the sized (pointer and length) functions the library exports. The C++17
 // and C++20 suites compile this file together with LumexXml.cxx11.tests.cpp
 // and LumexXmlGlobalNames.cxx11.tests.cpp.
 
 #include <string>
 #include <string_view>
+#include <type_traits>
+#include <utility>
 
 #include <gtest/gtest.h>
 
@@ -47,8 +50,33 @@ using lumex::xml::attribute::XmlAttribute;
 using lumex::xml::constants::Constants::kparse_default;
 using lumex::xml::node::XmlNode;
 using lumex::xml::text::XmlText;
+using lumex::xml::types::Types::string_view_t;
 using lumex::xml::types::Types::xml_node_type;
 using lumex::xml::types::Types::xml_parse_status;
+
+static_assert (std::is_convertible<std::string_view, string_view_t>::value,
+               "std::string_view converts to string_view_t");
+static_assert (
+    std::is_convertible<std::string_view const &, string_view_t>::value,
+    "a const lvalue std::string_view converts to string_view_t");
+static_assert (std::is_same<decltype (std::declval<XmlNode &> ().child (
+                                std::declval<std::string_view> ())),
+                            XmlNode>::value,
+               "child (std::string_view) is unambiguous");
+static_assert (
+    std::is_same<decltype (std::declval<XmlNode &> ().append_attribute (
+                     std::declval<std::string_view const &> ())),
+                 XmlAttribute>::value,
+    "append_attribute (std::string_view const &) is unambiguous");
+static_assert (
+    std::is_same<decltype (std::declval<XmlAttribute &> ().set_value (
+                     std::declval<std::string_view> ())),
+                 bool>::value,
+    "set_value (std::string_view) is unambiguous");
+static_assert (std::is_same<decltype (std::declval<XmlText &> ().set (
+                                std::declval<std::string_view> ())),
+                            bool>::value,
+               "set (std::string_view) is unambiguous");
 
 namespace
 {
