@@ -189,6 +189,16 @@ public:
 
 namespace Detail
 {
+#if LUMEX_FORMAT_HAS_INT128
+// `__int128` is a GNU extension that GCC and Clang accept in every standard
+// mode and report under -Wpedantic ("ISO C++ does not support '__int128'").
+// `__extension__` in front of a typedef silences it, and the rest of the
+// header names the two types only through these aliases, so the pedantic
+// diagnostic cannot come back at a use. (MSVC defines no __SIZEOF_INT128__.)
+__extension__ typedef __int128 int128_type;
+__extension__ typedef unsigned __int128 uint128_type;
+#endif
+
 // ----------------------------------------------------------------------
 // String reference and buffers
 // ----------------------------------------------------------------------
@@ -663,8 +673,8 @@ builtin_kind () LUMEX_NOEXCEPT
          : is_character_type<Char, T> () ? ArgKind::character
          : is_other_character_type<T> () ? ArgKind::none
 #if LUMEX_FORMAT_HAS_INT128
-         : std::is_same<T, __int128>::value          ? ArgKind::signed_int128
-         : std::is_same<T, unsigned __int128>::value ? ArgKind::unsigned_int128
+         : std::is_same<T, int128_type>::value  ? ArgKind::signed_int128
+         : std::is_same<T, uint128_type>::value ? ArgKind::unsigned_int128
 #endif
          : (std::is_integral<T>::value && std::is_signed<T>::value)
              ? ArgKind::signed_int
@@ -1303,8 +1313,8 @@ template <typename Char> struct format_arg_t
     long long signed_value;
     unsigned long long unsigned_value;
 #if LUMEX_FORMAT_HAS_INT128
-    __int128 int128_value;
-    unsigned __int128 uint128_value;
+    int128_type int128_value;
+    uint128_type uint128_value;
 #endif
     bool bool_value;
     Char char_value;
@@ -1933,7 +1943,7 @@ struct uint128_limbs_t
  * clang-cl does not provide.
  */
 inline uint128_limbs_t
-split_uint128 (unsigned __int128 value) LUMEX_NOEXCEPT
+split_uint128 (uint128_type value) LUMEX_NOEXCEPT
 {
   uint128_limbs_t parts;
   parts.low = static_cast<std::uint64_t> (value);
@@ -2017,7 +2027,7 @@ write_u64_decimal_group (Char *it, std::uint64_t value, int min_digits,
  */
 template <typename Char>
 Char *
-write_uint128_digits (Char *end, unsigned __int128 magnitude, unsigned base,
+write_uint128_digits (Char *end, uint128_type magnitude, unsigned base,
                       char const *table)
 {
   uint128_limbs_t current = split_uint128 (magnitude);
@@ -2097,7 +2107,7 @@ write_magnitude_digits (
 #if LUMEX_FORMAT_HAS_INT128
 template <typename Char>
 Char *
-write_magnitude_digits (Char *end, unsigned __int128 value, unsigned base,
+write_magnitude_digits (Char *end, uint128_type value, unsigned base,
                         char const *table)
 {
   return write_uint128_digits (end, value, base, table);
@@ -2819,7 +2829,7 @@ resolve_dynamic (arg_ref_t<Char> const &ref, int value,
         throw format_error ("width/precision is out of range");
       return static_cast<int> (arg.int128_value);
     case ArgKind::unsigned_int128:
-      if (arg.uint128_value > static_cast<unsigned __int128> (INT_MAX))
+      if (arg.uint128_value > static_cast<uint128_type> (INT_MAX))
         throw format_error ("width/precision is out of range");
       return static_cast<int> (arg.uint128_value);
 #endif
@@ -2884,13 +2894,12 @@ public:
         break;
 #if LUMEX_FORMAT_HAS_INT128
       case ArgKind::signed_int128:
-        write_integer (
-            buffer, specs, arg.int128_value < 0,
-            arg.int128_value < 0
-                ? static_cast<unsigned __int128> (0)
-                      - static_cast<unsigned __int128> (arg.int128_value)
-                : static_cast<unsigned __int128> (arg.int128_value),
-            ctx);
+        write_integer (buffer, specs, arg.int128_value < 0,
+                       arg.int128_value < 0
+                           ? static_cast<uint128_type> (0)
+                                 - static_cast<uint128_type> (arg.int128_value)
+                           : static_cast<uint128_type> (arg.int128_value),
+                       ctx);
         break;
       case ArgKind::unsigned_int128:
         write_integer (buffer, specs, false, arg.uint128_value, ctx);
