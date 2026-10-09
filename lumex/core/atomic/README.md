@@ -36,6 +36,10 @@ LumexAtomic ports the lock-based method. The lock-free method is described below
 | `lumex/core/atomic/smart_ptr/LumexAtomicSmartPtrCell.hpp` | The two cells behind the class templates: lock-based and standard |
 | `lumex/core/atomic/sync/LumexBitLock.hpp` | The two-bit lock of the lock-based cell |
 | `lumex/core/atomic/sync/LumexAtomicWait.hpp` | Waiting for a 32-bit word to change: `std::atomic::wait` or a striped table |
+| `lumex/core/atomic/dwcas/LumexDwcasWord.hpp` | `dwcas_word`, a 16-byte atomic word with a 128-bit compare-and-swap (x86-64 only), and `dwcas_value_t`; includes the four headers below |
+| `lumex/core/atomic/dwcas/LumexDwcasConfig.hpp` | `LUMEX_ATOMIC_HAS_DWCAS`, `LUMEX_DWCAS_BACKEND`, `LUMEX_ATOMIC_DISABLE_DWCAS`; macros only |
+| `lumex/core/atomic/dwcas/LumexDwcasCpu.hpp` | `dwcas_supported ()`, `require_dwcas ()`: the run-time CMPXCHG16B check |
+| `lumex/core/atomic/dwcas/LumexDwcasBackend{Asm,Msvc,Builtin}.hpp` | The three backends; `LumexDwcasValue.hpp` and `LumexDwcasFromCas.hpp` are their common parts |
 
 Everything outside the two class templates is an implementation detail (`Detail` namespaces).
 
@@ -147,6 +151,52 @@ Releasing an extra reference when the loader sees a different control block is w
 ### Why LumexAtomic does not port it
 
 The lock-free method reads and writes libc++'s own control block (`__shared_weak_count`, `__add_shared ()`, `__release_shared ()`), adopts and detaches `shared_ptr`'s private `__ptr_` and `__cntrl_` as a friend, and packs the count into the control block pointer. Over the `std::shared_ptr` of libstdc++ or the MSVC STL none of that is possible without undefined behaviour. A portable lock-free variant would need a control block of its own (a node per stored value, that is an allocation per store) or hazard pointers: a different algorithm, not a port. Such a variant would not be bound by libc++'s ABI and could carry the epoch tag from the start.
+
+## The 128-bit compare-and-swap word
+
+`lumex/core/atomic/dwcas/LumexDwcasWord.hpp` (also pulled in by the umbrella) declares `lumex::core::atomic::dwcas::dwcas_word`: 16 bytes, `alignas (16)`, two `std::uint64_t` halves (`dwcas_value_t {lo, hi}`) read and written together by `load`, `store`, `exchange`, `compare_exchange_strong` and `compare_exchange_weak`, plus `speculative_load` (two relaxed 64-bit reads that may be torn, to be validated by a compare-and-swap). It is the hardware layer of the split-count engine of the atomic smart pointers and is usable on its own. A compare-and-swap returns the value it observed; the swap happened exactly when that equals the expected value.
+
+```cpp
+using namespace lumex::core::atomic::dwcas;
+
+require_dwcas (); // once, from a constructor: terminates with a message on a CPU without CMPXCHG16B
+dwcas_word word;
+dwcas_value_t seen = word.load ();
+for (;;)
+  {
+    dwcas_value_t next = { seen.lo + 1, seen.hi ^ seen.lo };
+    dwcas_value_t found = word.compare_exchange_strong (seen, next);
+    if (found == seen)
+      break;
+    seen = found;
+  }
+```
+
+**Where it exists.** x86-64 only, 64-bit pointers, with GCC, Clang (clang-cl included) or MSVC: `LUMEX_ATOMIC_HAS_DWCAS` is 1. AArch64, the 32-bit targets and every other architecture are not supported: the macro is 0 and the names are not declared (naming one is a compile error, so code branches on the macro). `LUMEX_ATOMIC_DISABLE_DWCAS`, defined before the first include, turns the layer off on x86-64 too.
+
+**Backends**, chosen at compile time (`LUMEX_DWCAS_BACKEND`):
+
+| Backend | How | Default for |
+| --- | --- | --- |
+| `LUMEX_DWCAS_BACKEND_ASM` (1) | `lock cmpxchg16b` in GNU inline assembly; no `-mcx16`, no libatomic | GCC, Clang, clang-cl, MinGW |
+| `LUMEX_DWCAS_BACKEND_MSVC` (2) | `_InterlockedCompareExchange128` | MSVC (`cl.exe`) |
+| `LUMEX_DWCAS_BACKEND_BUILTIN` (3) | `__atomic_*` on `unsigned __int128` (GCC and Clang send it to libatomic: link `-latomic`) | nothing; define it for ThreadSanitizer |
+
+GCC sends every 16-byte `__atomic_*` operation to libatomic, with or without `-mcx16`, and `__sync_*_16` without the flag does not link, so the assembly backend writes the instruction itself. ThreadSanitizer does not see inline assembly and would report races on data the word protects: build sanitizer runs with `LUMEX_DWCAS_BACKEND=3`. Each backend has its own inline namespace, so translation units that disagree on the backend never share a function definition; the layout is the same.
+
+**Memory orders.** The members take `std::memory_order` like `std::atomic`. The assembly and MSVC backends ignore them: a locked instruction is a full barrier on x86-64 and the `"memory"` clobber (the intrinsic) is a compiler barrier, so every call behaves as a `seq_cst` read-modify-write, which satisfies any order the caller asks for. The C++ memory model does not know the instruction, so this is the layer's contract for the supported compilers, not a derived property; the built-in backend passes the orders through and is the one ThreadSanitizer understands. A weak compare-and-swap is the strong one: the instruction does not fail spuriously.
+
+**A load writes.** The only instruction that reads 16 bytes atomically on every x86-64 CPU is the locked `cmpxchg16b`, which needs write access to its operand. So the halves are `mutable` and `load` is `const`, but the word must live in writable memory (a word on a read-only page faults on `load`; `speculative_load` does not) and a load takes the cache line exclusively like a store, so readers do not scale among themselves.
+
+**Alignment and aliasing.** `cmpxchg16b` faults (SIGSEGV, an access violation on Windows) on an address that is not 16-byte aligned. `dwcas_word` is `alignas (16)` and `static_assert`s its size and alignment; a packed layout around it is rejected by the compilers as a warning, with one exception: Clang accepts `#pragma pack (1)` around a struct that holds a word and lays the word out at offset 1. Do not put a word under `#pragma pack`, in a packed struct or in a buffer you align by hand; before C++17 a plain `new dwcas_word` is only as aligned as `operator new` is (16 on x86-64 glibc and the MSVC x64 runtime), C++17 guarantees it. The operations are correct under strict aliasing and `-fno-strict-aliasing` alike. Do not touch the halves of a live word except through the members.
+
+**The CPU.** Every x86-64 CPU since 2006 has `CMPXCHG16B` (Windows 8.1 requires it). `dwcas_supported ()` reads CPUID leaf 1, ECX bit 13, once (a constant-initialized `std::atomic<int>`, thread-safe, no static-initialization-order problem); `require_dwcas ()` writes one line to `stderr` and calls `std::abort ()` when the bit is missing. `dwcas_word` itself does not check, so a static word has a `constexpr` constructor; the objects built on the layer call `require_dwcas ()` from their constructors.
+
+**Status of the backends.** Run and tested here: the assembly backend (GCC 13.2, GCC 8.3, Clang 23 with libstdc++ and libc++) and the built-in backend (the same compilers, libatomic), with the same suites, also under AddressSanitizer and UBSan and under ThreadSanitizer (Clang, and GCC through `setarch x86_64 -R`; both on the built-in backend) without a report; compiled for MinGW-w64. The MSVC wrapper is tested against a stand-in `_InterlockedCompareExchange128` written with the assembly (so the order of the arguments and halves is exercised) but has not been run with MSVC or clang-cl; run `ctest -R "^atomic\.dwcas\."` there. The checks of the configuration for AArch64, 32-bit and unknown compilers compile the configuration header with simulated predefined macros (`cmake.dwcas_compile_checks`).
+
+**Cost.** Measured with `benchmarks/atomic` (`LumexDwcasBenchmark`): one attempt of the 128-bit compare-and-swap against one of the 64-bit one on a shared word, ratios of medians; see `benchmarks/atomic/README.md`. A reduced run (GCC 13.2, Intel Core i7-12700K) gave 1.31, 1.01, 1.34 and 1.44 times the cost of a 64-bit attempt at 1, 2, 4 and 8 threads.
+
+**Tests.** `lumex/tests/core/atomic/dwcas/` (CTest prefix `atomic.dwcas.`; suites at C++11, 14, 17, 20, and the variants `builtin` and `msvc_wrapper` on the other backends): layout and every operation with every pattern of halves, the returned value of a compare-and-swap, every memory order, a const word, a misaligned word and a read-only page (faults in a child process), the CPU check with an injected CPUID answer (the abort and its message in a child process), tearing (writers store pairs with tied halves, readers assert the tie, a torn guess must never pass a compare-and-swap), lost updates, exchange as a permutation, the failure value, linearizability of short histories, message passing and a spin lock built on the word (judged by ThreadSanitizer on the built-in backend), and two deliberately broken words that the same scenarios must catch.
 
 ## Examples
 
