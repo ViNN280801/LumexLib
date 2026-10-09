@@ -142,6 +142,7 @@ lumex_add_cmake_test(wiring_hazard_pointer)
 lumex_add_cmake_test(wiring_hazard_pointer_export)
 lumex_add_cmake_test(wiring_contracts)
 lumex_add_cmake_test(wiring_contracts_export)
+lumex_add_cmake_test(wiring_smart_ptr)
 lumex_add_cmake_test(wiring_optional)
 lumex_add_cmake_test(wiring_test_names)
 lumex_add_cmake_test(wiring_standard_suites)
@@ -201,6 +202,10 @@ lumex_add_cmake_fail_test(require_fail_contracts_without_utility
     "LUMEX_BUILD_CONTRACTS is enabled but requires LUMEX_BUILD_UTILITY")
 lumex_add_cmake_fail_test(require_fail_contracts_invalid_semantic
     "Invalid LUMEX_CONTRACTS_SEMANTIC='FAST'")
+# smart_ptr links utility only (the assert handler); hazard_pointer is checked
+# before it and is switched off in the case.
+lumex_add_cmake_fail_test(require_fail_smart_ptr_without_utility
+    "LUMEX_BUILD_SMART_PTR is enabled but requires LUMEX_BUILD_UTILITY")
 lumex_add_cmake_fail_test(require_fail_serial_without_core
     "LUMEX_BUILD_SERIAL is enabled but requires LUMEX_BUILD_UTILITY")
 lumex_add_cmake_fail_test(require_fail_xml_without_core
@@ -481,6 +486,32 @@ add_test(NAME ${_ctest_name}
         -DCASE=span_compile_checks
         -DLUMEX_SOURCE_DIR=${LumexLib_SOURCE_DIR}
         -DWORK_DIR=${CMAKE_CURRENT_BINARY_DIR}/consumer/span_compile_checks
+        -DGENERATOR=${CMAKE_GENERATOR}
+        -DCXX_COMPILER=${CMAKE_CXX_COMPILER}
+        "-DCXX_FLAGS=${CMAKE_CXX_FLAGS}"
+        -DCLANG_STDLIB=${LUMEX_CLANG_STDLIB}
+        -DBUILD_TYPE=Release
+        -DCONFIGURE_ONLY=ON
+        -P ${_LUMEX_CONSUMER_RUN}
+)
+set_tests_properties(${_ctest_name} PROPERTIES
+    LABELS "cmake;consumer"
+    TIMEOUT 900
+    SKIP_REGULAR_EXPRESSION "LUMEX_CONSUMER_SKIP"
+)
+
+# smart_ptr compile-time checks: the uses the interface rejects (a pointer of
+# the wrong type, implicit conversions to and from std::shared_ptr, a class
+# with only std::enable_shared_from_this, the array forms of make_shared,
+# operators an element type does not have, forbidden casts) must not compile
+# with warnings as errors; valid use, and the std base with its allow macro,
+# must.
+lumex_test_name(_ctest_name smart_ptr_compile_checks)
+add_test(NAME ${_ctest_name}
+    COMMAND ${CMAKE_COMMAND}
+        -DCASE=smart_ptr_compile_checks
+        -DLUMEX_SOURCE_DIR=${LumexLib_SOURCE_DIR}
+        -DWORK_DIR=${CMAKE_CURRENT_BINARY_DIR}/consumer/smart_ptr_compile_checks
         -DGENERATOR=${CMAKE_GENERATOR}
         -DCXX_COMPILER=${CMAKE_CXX_COMPILER}
         "-DCXX_FLAGS=${CMAKE_CXX_FLAGS}"
