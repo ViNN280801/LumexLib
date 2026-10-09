@@ -185,10 +185,9 @@ public:
   static LUMEX_CONSTEXPR bool is_always_lock_free = true;
 
   LUMEX_CONSTEXPR
-  lock_free_cell () LUMEX_NOEXCEPT
-      : epoch_wait_base (),
-        retired_ (false),
-        word_ (nullptr)
+  lock_free_cell () LUMEX_NOEXCEPT : epoch_wait_base (),
+                                     retired_ (false),
+                                     word_ (nullptr)
   {
   }
 
