@@ -10,9 +10,17 @@
 # <ranges> or <compare>) reports GTEST_SKIP.
 # LumexCoreDumpTestTypes.hpp holds the argument types and the detectors of the
 # string-taking members that the tests of several standards share.
+# STANDARDS narrows the module's row to 11 17 20 for this directory. Nothing in
+# its tests or in the sources they test differs at C++14, C++23 and C++26 from
+# the next lower standard (the text of the directory's own files after
+# preprocessing is the same, no __cplusplus threshold or LUMEX_HAS_* feature of
+# those standards is used there; "Narrowing the row of one directory" in
+# lumex/tests/LumexTestStandards.cmake), so the dropped suites would run the
+# same code again; the suite names above for them do not exist.
 lumex_add_standard_suites(UtilityDump
     MODULE utility
     LINK lumex::utility "$<$<PLATFORM_ID:Windows>:dbghelp>"
     SOURCES LumexCoreDumpTestTypes.hpp
     DISCOVER_ARGS DISCOVERY_TIMEOUT 60
+    STANDARDS 11 17 20
 )
