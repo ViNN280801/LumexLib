@@ -1,8 +1,9 @@
 // LumexSafeThreeWayCompare.cxx20.tests.cpp
-// The three-way part of the safe comparator at C++20, where its result is the
-// standard class: the result types are std::strong_ordering and
-// std::partial_ordering; the results equal the language <=> for two values of
-// one type and std::cmp_less for two integers of any types; the helpers
+// The three-way part of the safe comparator at C++20, where its result is
+// still the class of this library (never the standard one): the result types
+// are the own strong_ordering and partial_ordering; converted to the standard
+// classes, the results equal the language <=> for two values of one type and
+// std::cmp_less for two integers of any types; the helpers
 // is_less .. is_not_equal agree with std::is_lt .. std::is_neq; and the
 // ordering classes of LumexOrdering.hpp give the same answers as the standard
 // ones over a table of values with NaN, the infinities and both zeros. GCC 8
@@ -127,16 +128,16 @@ template <typename T, typename U> struct integer_pair_check
   {
     static_assert (std::is_same_v<decltype (own::safe_three_way_compare (
                                       std::declval<T> (), std::declval<U> ())),
-                                  std::strong_ordering>,
-                   "two integers give std::strong_ordering");
+                                  own::strong_ordering>,
+                   "two integers give the own strong_ordering");
     static_assert (std::is_same_v<own::three_way_comparison_result_t<T, U>,
-                                  std::strong_ordering>,
-                   "the trait gives std::strong_ordering");
+                                  own::strong_ordering>,
+                   "the trait gives the own strong_ordering");
     static_assert (
         std::is_same_v<decltype (own::safe_comparator<T> (T ())
                                      .safe_three_way_compare (U ())),
-                       std::strong_ordering>,
-        "the member gives std::strong_ordering");
+                       own::strong_ordering>,
+        "the member gives the own strong_ordering");
 
     std::vector<T> const lhs = integer_samples<T> ();
     std::vector<U> const rhs = integer_samples<U> ();
@@ -180,8 +181,8 @@ template <typename F, typename G> struct float_pair_check
   {
     static_assert (std::is_same_v<decltype (own::safe_three_way_compare (
                                       std::declval<F> (), std::declval<G> ())),
-                                  std::partial_ordering>,
-                   "two floating-point types give std::partial_ordering");
+                                  own::partial_ordering>,
+                   "two floating-point types give the own partial_ordering");
 
     std::vector<F> const lhs = float_samples<F> ();
     std::vector<G> const rhs = float_samples<G> ();
@@ -211,11 +212,11 @@ template <typename I, typename F> struct mixed_pair_check
   {
     static_assert (std::is_same_v<decltype (own::safe_three_way_compare (
                                       std::declval<I> (), std::declval<F> ())),
-                                  std::partial_ordering>,
+                                  own::partial_ordering>,
                    "integer against floating-point gives partial_ordering");
     static_assert (std::is_same_v<decltype (own::safe_three_way_compare (
                                       std::declval<F> (), std::declval<I> ())),
-                                  std::partial_ordering>,
+                                  own::partial_ordering>,
                    "floating-point against integer gives partial_ordering");
 
     std::vector<I> const integers = exactly_representable_integers<I, F> ();
@@ -248,29 +249,45 @@ template <typename I, typename F> struct mixed_pair_check
 #endif // LUMEX_HAS_THREE_WAY_COMPARISON
 
 TEST (LumexSafeThreeWayStd,
-      GivenCompare_WhenResultTypesAsked_ThenStandardClasses)
+      GivenCompare_WhenResultTypesAsked_ThenTheOwnClassesNotTheStandardOnes)
 {
 #if LUMEX_HAS_THREE_WAY_COMPARISON
   static_assert (std::is_same_v<decltype (own::safe_three_way_compare (1, 2)),
-                                std::strong_ordering>);
+                                own::strong_ordering>);
   static_assert (
       std::is_same_v<decltype (own::safe_three_way_compare (1u, -2)),
-                     std::strong_ordering>);
+                     own::strong_ordering>);
   static_assert (
       std::is_same_v<decltype (own::safe_three_way_compare (1.0, 2.0)),
-                     std::partial_ordering>);
+                     own::partial_ordering>);
   static_assert (
       std::is_same_v<decltype (own::safe_three_way_compare (1, 2.0f)),
-                     std::partial_ordering>);
+                     own::partial_ordering>);
   static_assert (std::is_same_v<own::three_way_comparison_result_t<int, long>,
-                                std::strong_ordering>);
+                                own::strong_ordering>);
   static_assert (
       std::is_same_v<own::three_way_comparison_result_t<float, long long>,
-                     std::partial_ordering>);
+                     own::partial_ordering>);
   static_assert (
       std::is_same_v<own::three_way_comparison_result_t<double, float>,
-                     std::partial_ordering>);
-  SUCCEED ();
+                     own::partial_ordering>);
+  static_assert (!std::is_same_v<decltype (own::safe_three_way_compare (1, 2)),
+                                 std::strong_ordering>);
+  static_assert (
+      !std::is_same_v<decltype (own::safe_three_way_compare (1.0, 2.0)),
+                      std::partial_ordering>);
+  // They convert to the standard classes (and back), so code written against
+  // the standard result keeps compiling.
+  std::strong_ordering const asStrong = own::safe_three_way_compare (1, 2);
+  std::partial_ordering const asPartial = own::safe_three_way_compare (
+      1.0, std::numeric_limits<double>::quiet_NaN ());
+  EXPECT_EQ (asStrong, std::strong_ordering::less);
+  EXPECT_EQ (asPartial, std::partial_ordering::unordered);
+  EXPECT_TRUE (own::safe_three_way_compare (1, 2)
+               == std::strong_ordering::less);
+  EXPECT_TRUE (std::strong_ordering::less
+               == own::safe_three_way_compare (1, 2));
+  EXPECT_TRUE (std::is_lt (own::safe_three_way_compare (1, 2)));
 #else
   GTEST_SKIP () << "the toolchain has no three-way comparison";
 #endif

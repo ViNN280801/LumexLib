@@ -93,9 +93,10 @@ namespace numeric
  * read its result (`is_equal`, `is_not_equal`, `is_less`, `is_less_equal`,
  * `is_greater`, `is_greater_equal`) work from C++11. The result is
  * `strong_ordering_t` for two integer types and `partial_ordering_t`
- * otherwise (NaN is unordered): the classes of `LumexOrdering.hpp` below C++20
- * and `std::strong_ordering` and `std::partial_ordering` from it, so the code
- * that names the result type with the alias compiles in every standard.
+ * otherwise (NaN is unordered): the classes of `LumexOrdering.hpp` in every
+ * standard, never `std::strong_ordering` or `std::partial_ordering`; from
+ * C++20 they convert implicitly to the `std::` orderings and compare with
+ * them.
  * @since C++11
  * @note Thread-safe, exception-safe, no-throw where possible
  *
@@ -289,9 +290,8 @@ namespace numeric
  *         // Safe comparison >=
  *     }
  *
- *     // Three-way comparison (from C++11; the result is strong_ordering_t:
- *     // std::strong_ordering from C++20, the class of LumexOrdering.hpp
- *     // below)
+ *     // Three-way comparison (from C++11; the result is strong_ordering_t,
+ *     // the class of LumexOrdering.hpp in every standard)
  *     auto result = safeSize.safe_three_way_compare(threshold);
  *     if (is_equal(result)) {
  *         // Values are equal
@@ -1857,8 +1857,8 @@ struct safe_compare_impl_helper<
  * @details Picks the most suitable ordering type for three-way comparison.
  *          Returns strong_ordering_t for integer types, partial_ordering_t for
  * floating-point. `strong_ordering_t` and `partial_ordering_t` are the classes
- * of LumexOrdering.hpp before C++20 and std::strong_ordering and
- * std::partial_ordering from it.
+ * of LumexOrdering.hpp in every standard (they convert to the `std::` ones
+ * from C++20).
  * @since C++11
  */
 template <typename T, typename U> struct three_way_comparison_result
@@ -2260,8 +2260,8 @@ public:
    * value of type U. Returns strong_ordering for integer types,
    * partial_ordering for floating-point. Checks value ranges to prevent
    * overflow. `strong_ordering_t` and `partial_ordering_t` are the classes of
-   * LumexOrdering.hpp before C++20 and `std::strong_ordering` and
-   * `std::partial_ordering` from it.
+   * LumexOrdering.hpp in every standard (they convert to the `std::` ones from
+   * C++20).
    * @note Thread-safe when Atomic=true; no-throw
    * @since C++11
    */
@@ -2548,10 +2548,8 @@ using SafeLongDoubleComparator
  * @brief Utility that converts a comparison result to bool
  * @tparam Ordering Comparison result type: `strong_ordering_t`,
  * `weak_ordering_t` or `partial_ordering_t`, which are the classes of
- * `LumexOrdering.hpp` before C++20 and `std::strong_ordering`,
- * `std::weak_ordering` and `std::partial_ordering` from it. The classes of the
- * other family are accepted too (`is_ordering`); any other type is rejected by
- * a static assertion.
+ * `LumexOrdering.hpp` in every standard. The `std::` orderings are accepted
+ * too (`is_ordering`); any other type is rejected by a static assertion.
  * @param[in] ordering Three-way comparison result
  * @return true if ordering means equal
  * @details Converts a three-way comparison result to bool equality.
@@ -2873,8 +2871,8 @@ safe_not_equal (T value1, U value2) LUMEX_NOEXCEPT
  * @details Performs a safe three-way comparison of two values of different
  * types. Returns strong_ordering for integer types, partial_ordering for
  * floating-point. Checks value ranges to prevent overflow. `strong_ordering_t`
- * and `partial_ordering_t` are the classes of LumexOrdering.hpp before C++20
- * and `std::strong_ordering` and `std::partial_ordering` from it.
+ * and `partial_ordering_t` are the classes of LumexOrdering.hpp in every
+ * standard (they convert to the `std::` ones from C++20).
  * @note Thread-safe, no-throw
  * @since C++11
  * @par Example

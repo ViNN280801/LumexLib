@@ -7,10 +7,18 @@
 // between two orderings or against a number other than the literal 0, no
 // conversion to a stronger category, a constant is not assignable); cases 7-10
 // are static assertions of the comparator that have no standard counterpart.
+// Cases 14-17 are the conversions between the own classes and the classes of
+// <compare> that do not exist (the directions the standard categories lack);
+// they need <compare> and fail with the text "needs three-way comparison"
+// where it is missing, which the fixture reads as "not applicable".
 
 #include <string>
 
 #include "lumex/core/utility/numeric/LumexSafeNumericComparator.hpp"
+
+#if LUMEX_HAS_THREE_WAY_COMPARISON
+#include <compare>
+#endif
 
 using namespace lumex::core::utility::numeric;
 
@@ -39,6 +47,18 @@ main ()
   used += safe_three_way_compare (1, 2) < 0 ? 1 : 0;
   used += safe_comparator<int> (1).safe_three_way_compare (2.5) < 0 ? 1 : 0;
   used += zero;
+#if LUMEX_HAS_THREE_WAY_COMPARISON
+  std::strong_ordering const stdStrong = strong;   // to the same category
+  std::partial_ordering const stdPartial = strong; // to a weaker one
+  strong_ordering const fromStd = std::strong_ordering::greater;
+  partial_ordering const widened = std::strong_ordering::less;
+  used += stdStrong == std::strong_ordering::less ? 1 : 0;
+  used += stdPartial == std::partial_ordering::less ? 1 : 0;
+  used += fromStd == std::strong_ordering::greater ? 1 : 0;
+  used += std::strong_ordering::greater == fromStd ? 1 : 0;
+  used += widened != std::partial_ordering::unordered ? 1 : 0;
+  used += safe_three_way_compare (1, 2) == std::strong_ordering::less ? 1 : 0;
+#endif
 #elif LUMEX_ORDERING_BAD_CASE == 1
   // No default constructor.
   strong_ordering value;
@@ -84,6 +104,24 @@ main ()
 #elif LUMEX_ORDERING_BAD_CASE == 13
   // Nor does a floating-point zero.
   used += 0.0 < strong_ordering::greater ? 1 : 0;
+#elif LUMEX_ORDERING_BAD_CASE >= 14 && LUMEX_ORDERING_BAD_CASE <= 17          \
+    && !LUMEX_HAS_THREE_WAY_COMPARISON
+#error "the ordering check needs three-way comparison"
+#elif LUMEX_ORDERING_BAD_CASE == 14
+  // No conversion to a stronger standard category.
+  std::strong_ordering value = weak_ordering::less;
+  used += value == 0 ? 1 : 0;
+#elif LUMEX_ORDERING_BAD_CASE == 15
+  // No construction from a weaker standard category.
+  strong_ordering value = std::weak_ordering::less;
+  used += value == 0 ? 1 : 0;
+#elif LUMEX_ORDERING_BAD_CASE == 16
+  // Not even from a partial one to a weak one.
+  weak_ordering value = std::partial_ordering::less;
+  used += value == 0 ? 1 : 0;
+#elif LUMEX_ORDERING_BAD_CASE == 17
+  // No relational operator between an own ordering and a standard one.
+  used += strong_ordering::less < std::strong_ordering::greater ? 1 : 0;
 #else
 #error "LUMEX_ORDERING_BAD_CASE is not one of the cases"
 #endif

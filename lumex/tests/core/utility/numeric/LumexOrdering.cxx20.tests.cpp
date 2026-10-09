@@ -3,9 +3,12 @@
 // std::weak_ordering and std::partial_ordering of <compare>: the same values,
 // the same answers to every comparison with 0 in both operand orders, the same
 // comparisons between orderings and between categories, the same conversions,
-// the same is_eq .. is_gteq, and the same type traits. The aliases of the
-// library name the standard classes where <compare> exists. The classes stay
-// distinct from the standard ones: there is no conversion either way.
+// the same is_eq .. is_gteq, and the same type traits. The classes stay
+// distinct from the standard ones and so do the aliases of the library
+// (strong_ordering_t ... are the own classes); each own class converts
+// implicitly to the standard classes of its category and the weaker ones, is
+// built implicitly from those of its category and the stronger ones, and
+// compares with every standard class by value, in both operand orders.
 // GCC 8 accepts -std=c++2a without <compare>, so there the tests skip.
 
 #include <cstddef>
@@ -144,24 +147,268 @@ expect_same_traits ()
 
 #endif // LUMEX_HAS_THREE_WAY_COMPARISON
 
-TEST (LumexOrderingStd,
-      GivenCompare_WhenAliasesNamed_ThenTheyAreTheStandardClasses)
+TEST (LumexOrderingStd, GivenCompare_WhenAliasesNamed_ThenTheyAreTheOwnClasses)
 {
 #if LUMEX_HAS_THREE_WAY_COMPARISON
-  static_assert (std::is_same_v<own::strong_ordering_t, std::strong_ordering>,
-                 "strong_ordering_t is std::strong_ordering");
-  static_assert (std::is_same_v<own::weak_ordering_t, std::weak_ordering>,
-                 "weak_ordering_t is std::weak_ordering");
+  static_assert (std::is_same_v<own::strong_ordering_t, own::strong_ordering>,
+                 "strong_ordering_t is the own class");
+  static_assert (std::is_same_v<own::weak_ordering_t, own::weak_ordering>,
+                 "weak_ordering_t is the own class");
   static_assert (
-      std::is_same_v<own::partial_ordering_t, std::partial_ordering>,
-      "partial_ordering_t is std::partial_ordering");
-  static_assert (!std::is_same_v<own::strong_ordering, std::strong_ordering>,
-                 "the class stays its own");
-  static_assert (!std::is_same_v<own::weak_ordering, std::weak_ordering>,
-                 "the class stays its own");
-  static_assert (!std::is_same_v<own::partial_ordering, std::partial_ordering>,
-                 "the class stays its own");
+      std::is_same_v<own::partial_ordering_t, own::partial_ordering>,
+      "partial_ordering_t is the own class");
+  static_assert (!std::is_same_v<own::strong_ordering_t, std::strong_ordering>,
+                 "never the standard class");
+  static_assert (!std::is_same_v<own::weak_ordering_t, std::weak_ordering>,
+                 "never the standard class");
+  static_assert (
+      !std::is_same_v<own::partial_ordering_t, std::partial_ordering>,
+      "never the standard class");
   SUCCEED ();
+#else
+  GTEST_SKIP () << "the toolchain has no three-way comparison";
+#endif
+}
+
+TEST (LumexOrderingStd,
+      GivenConversionMatrix_WhenAsked_ThenOnlyTheDirectionsOfTheStandard)
+{
+#if LUMEX_HAS_THREE_WAY_COMPARISON
+  // own -> std: the same category or a weaker one.
+  static_assert (
+      std::is_convertible_v<own::strong_ordering, std::strong_ordering>);
+  static_assert (
+      std::is_convertible_v<own::strong_ordering, std::weak_ordering>);
+  static_assert (
+      std::is_convertible_v<own::strong_ordering, std::partial_ordering>);
+  static_assert (
+      !std::is_convertible_v<own::weak_ordering, std::strong_ordering>);
+  static_assert (
+      std::is_convertible_v<own::weak_ordering, std::weak_ordering>);
+  static_assert (
+      std::is_convertible_v<own::weak_ordering, std::partial_ordering>);
+  static_assert (
+      !std::is_convertible_v<own::partial_ordering, std::strong_ordering>);
+  static_assert (
+      !std::is_convertible_v<own::partial_ordering, std::weak_ordering>);
+  static_assert (
+      std::is_convertible_v<own::partial_ordering, std::partial_ordering>);
+  // std -> own: the same category or a stronger one.
+  static_assert (
+      std::is_convertible_v<std::strong_ordering, own::strong_ordering>);
+  static_assert (
+      std::is_convertible_v<std::strong_ordering, own::weak_ordering>);
+  static_assert (
+      std::is_convertible_v<std::strong_ordering, own::partial_ordering>);
+  static_assert (
+      !std::is_convertible_v<std::weak_ordering, own::strong_ordering>);
+  static_assert (
+      std::is_convertible_v<std::weak_ordering, own::weak_ordering>);
+  static_assert (
+      std::is_convertible_v<std::weak_ordering, own::partial_ordering>);
+  static_assert (
+      !std::is_convertible_v<std::partial_ordering, own::strong_ordering>);
+  static_assert (
+      !std::is_convertible_v<std::partial_ordering, own::weak_ordering>);
+  static_assert (
+      std::is_convertible_v<std::partial_ordering, own::partial_ordering>);
+  // noexcept, as the standard classes are.
+  static_assert (
+      std::is_nothrow_convertible_v<own::strong_ordering, std::weak_ordering>);
+  static_assert (std::is_nothrow_convertible_v<std::weak_ordering,
+                                               own::partial_ordering>);
+  static_assert (std::is_nothrow_convertible_v<own::partial_ordering,
+                                               std::partial_ordering>);
+  // The conversions among the own classes are the ones they were.
+  static_assert (
+      std::is_convertible_v<own::strong_ordering, own::weak_ordering>);
+  static_assert (
+      !std::is_convertible_v<own::weak_ordering, own::strong_ordering>);
+  SUCCEED ();
+#else
+  GTEST_SKIP () << "the toolchain has no three-way comparison";
+#endif
+}
+
+TEST (LumexOrderingStd,
+      GivenConstantExpressions_WhenConverted_ThenConstexprValues)
+{
+#if LUMEX_HAS_THREE_WAY_COMPARISON
+  constexpr std::strong_ordering to_std_strong = own::strong_ordering::less;
+  constexpr std::weak_ordering to_std_weak = own::strong_ordering::equal;
+  constexpr std::partial_ordering to_std_partial
+      = own::partial_ordering::unordered;
+  constexpr own::strong_ordering from_std_strong
+      = std::strong_ordering::greater;
+  constexpr own::partial_ordering from_std_partial
+      = std::partial_ordering::unordered;
+  constexpr own::partial_ordering from_std_strong_value
+      = std::strong_ordering::less;
+  static_assert (to_std_strong == std::strong_ordering::less);
+  static_assert (to_std_weak == std::weak_ordering::equivalent);
+  static_assert (to_std_partial == std::partial_ordering::unordered);
+  static_assert (from_std_strong == own::strong_ordering::greater);
+  static_assert (from_std_partial == own::partial_ordering::unordered);
+  static_assert (from_std_strong_value == own::partial_ordering::less);
+  // `equal` of std::strong_ordering is the same value as `equivalent` of the
+  // other classes.
+  static_assert (std::strong_ordering (own::strong_ordering::equivalent)
+                 == std::strong_ordering::equal);
+  SUCCEED ();
+#else
+  GTEST_SKIP () << "the toolchain has no three-way comparison";
+#endif
+}
+
+TEST (LumexOrderingStd, GivenEveryValue_WhenConvertedBothWays_ThenSameValue)
+{
+#if LUMEX_HAS_THREE_WAY_COMPARISON
+  for (auto const &item : kStrong)
+    {
+      std::strong_ordering const out = item.own_value;
+      own::strong_ordering const back = item.std_value;
+      EXPECT_EQ (out, item.std_value);
+      EXPECT_EQ (back, item.own_value);
+    }
+  for (auto const &item : kWeak)
+    {
+      std::weak_ordering const out = item.own_value;
+      own::weak_ordering const back = item.std_value;
+      EXPECT_EQ (out, item.std_value);
+      EXPECT_EQ (back, item.own_value);
+    }
+  for (auto const &item : kPartial)
+    {
+      std::partial_ordering const out = item.own_value;
+      own::partial_ordering const back = item.std_value;
+      EXPECT_EQ (out, item.std_value);
+      EXPECT_EQ (back, item.own_value);
+    }
+  // Across categories, own -> weaker std and std -> weaker own.
+  for (auto const &item : kStrong)
+    {
+      std::weak_ordering const weak_out = item.own_value;
+      std::partial_ordering const partial_out = item.own_value;
+      own::weak_ordering const weak_back = item.std_value;
+      own::partial_ordering const partial_back = item.std_value;
+      EXPECT_EQ (zero_signature (weak_out), zero_signature (item.own_value));
+      EXPECT_EQ (zero_signature (partial_out),
+                 zero_signature (item.own_value));
+      EXPECT_EQ (zero_signature (weak_back), zero_signature (item.std_value));
+      EXPECT_EQ (zero_signature (partial_back),
+                 zero_signature (item.std_value));
+    }
+#else
+  GTEST_SKIP () << "the toolchain has no three-way comparison";
+#endif
+}
+
+TEST (LumexOrderingStd,
+      GivenOwnAndStandard_WhenEqualityTested_ThenByValueBothOrders)
+{
+#if LUMEX_HAS_THREE_WAY_COMPARISON
+  // Not ambiguous, and the same answer in both operand orders, for every pair
+  // of categories (the answer is the one of the standard classes).
+  for (auto const &own_item : kStrong)
+    for (auto const &std_item : kStrong)
+      {
+        EXPECT_EQ (own_item.own_value == std_item.std_value,
+                   own_item.std_value == std_item.std_value);
+        EXPECT_EQ (std_item.std_value == own_item.own_value,
+                   std_item.std_value == own_item.std_value);
+        EXPECT_EQ (own_item.own_value != std_item.std_value,
+                   own_item.std_value != std_item.std_value);
+        EXPECT_EQ (std_item.std_value != own_item.own_value,
+                   std_item.std_value != own_item.std_value);
+      }
+  for (auto const &own_item : kWeak)
+    for (auto const &std_item : kWeak)
+      {
+        EXPECT_EQ (own_item.own_value == std_item.std_value,
+                   own_item.std_value == std_item.std_value);
+        EXPECT_EQ (std_item.std_value != own_item.own_value,
+                   std_item.std_value != own_item.std_value);
+      }
+  for (auto const &own_item : kPartial)
+    for (auto const &std_item : kPartial)
+      {
+        EXPECT_EQ (own_item.own_value == std_item.std_value,
+                   own_item.std_value == std_item.std_value);
+        EXPECT_EQ (std_item.std_value == own_item.own_value,
+                   std_item.std_value == own_item.std_value);
+        EXPECT_EQ (own_item.own_value != std_item.std_value,
+                   own_item.std_value != std_item.std_value);
+      }
+  // Across categories: a strong value against a weak or a partial one, and a
+  // weak against a partial one, in both orders.
+  for (auto const &strong : kStrong)
+    for (auto const &partial : kPartial)
+      {
+        EXPECT_EQ (strong.own_value == partial.std_value,
+                   strong.std_value == partial.std_value);
+        EXPECT_EQ (partial.std_value == strong.own_value,
+                   partial.std_value == strong.std_value);
+        EXPECT_EQ (partial.own_value == strong.std_value,
+                   partial.std_value == strong.std_value);
+        EXPECT_EQ (strong.std_value != partial.own_value,
+                   strong.std_value != partial.std_value);
+      }
+  for (auto const &weak : kWeak)
+    for (auto const &strong : kStrong)
+      {
+        EXPECT_EQ (weak.own_value == strong.std_value,
+                   weak.std_value == strong.std_value);
+        EXPECT_EQ (strong.std_value == weak.own_value,
+                   strong.std_value == weak.std_value);
+      }
+  EXPECT_TRUE (own::partial_ordering::unordered
+               == std::partial_ordering::unordered);
+  EXPECT_TRUE (own::partial_ordering::unordered
+               != std::partial_ordering::equivalent);
+  EXPECT_TRUE (std::partial_ordering::unordered
+               != own::partial_ordering::less);
+#else
+  GTEST_SKIP () << "the toolchain has no three-way comparison";
+#endif
+}
+
+namespace
+{
+#if LUMEX_HAS_THREE_WAY_COMPARISON
+int
+overload (std::strong_ordering)
+{
+  return 1;
+}
+
+int
+overload (own::strong_ordering)
+{
+  return 2;
+}
+
+int
+overload_weak (std::partial_ordering)
+{
+  return 3;
+}
+#endif
+} // namespace
+
+TEST (LumexOrderingStd,
+      GivenOverloads_WhenCalled_ThenTheExactTypeWinsWithoutAmbiguity)
+{
+#if LUMEX_HAS_THREE_WAY_COMPARISON
+  EXPECT_EQ (overload (std::strong_ordering::less), 1);
+  EXPECT_EQ (overload (own::strong_ordering::less), 2);
+  // A function that takes a standard class takes the own one of its category.
+  EXPECT_EQ (overload_weak (own::strong_ordering::less), 3);
+  EXPECT_EQ (overload_weak (own::weak_ordering::less), 3);
+  EXPECT_EQ (overload_weak (own::partial_ordering::unordered), 3);
+  // The standard helper takes an own ordering through the conversion.
+  EXPECT_TRUE (std::is_eq (own::strong_ordering::equal));
+  EXPECT_TRUE (std::is_lt (own::partial_ordering::less));
+  EXPECT_FALSE (std::is_lteq (own::partial_ordering::unordered));
 #else
   GTEST_SKIP () << "the toolchain has no three-way comparison";
 #endif
@@ -423,21 +670,30 @@ TEST (LumexOrderingStd, GivenWhatDoesNotCompile_WhenDetected_ThenSameAsStd)
 }
 
 TEST (LumexOrderingStd,
-      GivenTheTwoFamilies_WhenMixed_ThenNoConversionAndNoComparison)
+      GivenTheTwoFamilies_WhenMixed_ThenConvertAndCompareByTheCategoryRules)
 {
 #if LUMEX_HAS_THREE_WAY_COMPARISON
-  EXPECT_FALSE (
+  EXPECT_TRUE (
       (std::is_convertible_v<own::strong_ordering, std::strong_ordering>));
-  EXPECT_FALSE (
+  EXPECT_TRUE (
       (std::is_convertible_v<std::strong_ordering, own::strong_ordering>));
-  EXPECT_FALSE (
+  EXPECT_TRUE (
       (std::is_convertible_v<own::partial_ordering, std::partial_ordering>));
-  EXPECT_FALSE (
+  EXPECT_TRUE (
       (std::is_convertible_v<std::weak_ordering, own::partial_ordering>));
   EXPECT_FALSE (
-      (can_equate<own::strong_ordering, std::strong_ordering>::value));
+      (std::is_convertible_v<std::partial_ordering, own::weak_ordering>));
   EXPECT_FALSE (
+      (std::is_convertible_v<own::partial_ordering, std::weak_ordering>));
+  EXPECT_TRUE (
+      (can_equate<own::strong_ordering, std::strong_ordering>::value));
+  EXPECT_TRUE (
       (can_equate<std::partial_ordering, own::partial_ordering>::value));
+  // The relational operators between two orderings stay absent, mixed too.
+  EXPECT_FALSE (
+      (can_relate<own::strong_ordering, std::strong_ordering>::value));
+  EXPECT_FALSE (
+      (can_relate<std::partial_ordering, own::partial_ordering>::value));
 #else
   GTEST_SKIP () << "the toolchain has no three-way comparison";
 #endif

@@ -9,8 +9,7 @@
 // and a denormal; integers against floating-point values. The result must also
 // agree with the six boolean functions (safe_less, ...) that existed before.
 // The result type is the alias of LumexOrdering.hpp: the library's own classes
-// below C++20 and std::*_ordering from it, so the same expectations run in
-// every suite.
+// in every standard, so the same expectations run in every suite.
 
 #include <cmath>
 #include <cstddef>
@@ -475,16 +474,17 @@ TEST (LumexSafeThreeWayResultType,
 }
 
 TEST (LumexSafeThreeWayResultType,
-      GivenResultAlias_WhenCompared_ThenItIsTheOwnClassBelowCxx20)
+      GivenResultAlias_WhenCompared_ThenItIsTheOwnClassInEveryStandard)
 {
-  // The result is the ordering class of LumexOrdering.hpp unless <compare>
-  // gives the standard one.
-  EXPECT_EQ ((std::is_same<three_way_comparison_result_t<int, int>,
-                           strong_ordering>::value),
-             !LUMEX_HAS_THREE_WAY_COMPARISON);
-  EXPECT_EQ ((std::is_same<three_way_comparison_result_t<double, int>,
-                           partial_ordering>::value),
-             !LUMEX_HAS_THREE_WAY_COMPARISON);
+  // The result is the ordering class of LumexOrdering.hpp in every standard,
+  // with or without <compare>.
+  static_assert (std::is_same<three_way_comparison_result_t<int, int>,
+                              strong_ordering>::value,
+                 "integers give the own strong_ordering");
+  static_assert (std::is_same<three_way_comparison_result_t<double, int>,
+                              partial_ordering>::value,
+                 "a floating-point type gives the own partial_ordering");
+  SUCCEED ();
 }
 
 // === is_equal .. is_not_equal ===
