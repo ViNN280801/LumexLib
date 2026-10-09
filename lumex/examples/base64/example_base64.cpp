@@ -39,8 +39,8 @@ main ()
   std::cout << "--- 1. Encode a C string (as text, or pointer + size) ---\n";
   char const *payload = "Hello, Lumex!";
   // A literal, a char const * and a std::string convert to the text type of
-  // the string overload: std::string_view from C++17, the lumex_string_view
-  // of lumex::string_view below it.
+  // the string overload: the lumex_string_view of lumex::string_view in every
+  // standard (a std::string_view converts to it from C++17).
   std::string const encoded_ptr = encoder::encode (payload);
   std::string const encoded_sized
       = encoder::encode (payload, std::char_traits<char>::length (payload));
