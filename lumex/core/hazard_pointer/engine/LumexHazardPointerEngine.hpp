@@ -147,7 +147,9 @@ struct node_t
  * @details All values are snapshots of relaxed counters. `records` is the
  * number of hazard slots ever created (they are never freed), `pooled_records`
  * the number that sit in the shared pool (not counting the per-thread caches),
- * `retired` and `reclaimed` the number of nodes ever retired and reclaimed,
+ * `retired` and `reclaimed` the number of nodes ever handed to the domain
+ * (`retire_node`, and `reclaim_or_retire`, also when it reclaims at
+ * once) and reclaimed,
  * and `passes` the number of reclamation passes that took at least one node.
  */
 struct statistics_t
@@ -264,6 +266,23 @@ LUMEX_HAZARD_POINTER_API void release_slot (slot_t *slot) LUMEX_NOEXCEPT;
  * Retiring a node twice aborts through `LUMEX_ASSERT`.
  */
 LUMEX_HAZARD_POINTER_API void retire_node (node_t *node) LUMEX_NOEXCEPT;
+
+/**
+ * @brief Reclaims an object now when no slot names it, otherwise retires it.
+ * @param[in] node The node of an object that was removed from the shared
+ * structure (the removing store happened before this call), whose `reclaim`
+ * is set and whose `next` still points at itself.
+ * @return True when the object was reclaimed before the call returned; false
+ * when a slot named it and it was handed to the domain like `retire_node`.
+ * @details Scans the slots for the one address of `node` (cost proportional
+ * to the number of slots ever created, no allocation) instead of waiting for
+ * a pass over all retired nodes. The reclaiming function runs on the calling
+ * thread, without any lock held, so it may use hazard pointers and retire
+ * other objects. The caller must not hold a slot that names the object
+ * itself; it would keep the object alive and send it down the retire path.
+ * Retiring or reclaiming a node twice aborts through `LUMEX_ASSERT`.
+ */
+LUMEX_HAZARD_POINTER_API bool reclaim_or_retire (node_t *node) LUMEX_NOEXCEPT;
 
 /**
  * @brief Runs a full reclamation pass now and waits for a running one.

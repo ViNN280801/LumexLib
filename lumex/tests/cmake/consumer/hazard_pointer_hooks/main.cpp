@@ -246,6 +246,80 @@ check_a_reader_after_the_scan_fails_validation ()
   CHECK (deleted.load () == 2);
 }
 
+// A reader announced and waits before it re-reads. The object is removed and
+// handed to reclaim_or_retire from another thread: the scan of that one
+// address must see the announcement, keep the object and report false. When
+// the reader goes on, its validation fails; a pass then reclaims the object.
+void
+check_reclaim_or_retire_sees_a_stalled_announcement ()
+{
+  std::atomic<int> deleted (0);
+  node *const a = new node (deleted);
+  node *const b = new node (deleted);
+  std::atomic<node *> source (a);
+  std::atomic<bool> reader_result (true);
+  arm (engine::reader_announced);
+  std::thread reader (
+      [&]
+        {
+          t_stalls = true;
+          hp::hazard_pointer holder = hp::make_hazard_pointer ();
+          node *ptr = source.load ();
+          reader_result.store (holder.try_protect (ptr, source));
+        });
+  wait_until_arrived ();
+  source.store (b);
+  bool const now = a->reclaim_or_retire ();
+  CHECK (!now); // the announcement is in a slot
+  CHECK (deleted.load () == 0);
+  CHECK (a->alive_marker == 0x600D);
+  release ();
+  reader.join ();
+  CHECK (!reader_result.load ()); // validation saw the removal
+  hp::clean_up ();
+  CHECK (deleted.load () == 1); // retired, now free
+  source.store (nullptr);
+  CHECK (b->reclaim_or_retire ());
+  CHECK (deleted.load () == 2);
+}
+
+// reclaim_or_retire is stalled after it read the slots and found nothing. A
+// reader that still holds a stale pointer to the removed object announces it
+// now: its validation must fail, so it never touches the object that the
+// stalled call reclaims.
+void
+check_a_reader_after_the_targeted_scan_fails_validation ()
+{
+  std::atomic<int> deleted (0);
+  node *const a = new node (deleted);
+  node *const b = new node (deleted);
+  std::atomic<node *> source (a);
+  node *stale = source.load ();
+  source.store (b);
+  std::atomic<bool> reclaimed_now (false);
+  arm (engine::pass_scanned);
+  std::thread writer (
+      [&]
+        {
+          t_stalls = true;
+          reclaimed_now.store (a->reclaim_or_retire ());
+        });
+  wait_until_arrived ();
+  CHECK (deleted.load () == 0); // the call waits after its scan
+  hp::hazard_pointer holder = hp::make_hazard_pointer ();
+  bool const ok = holder.try_protect (stale, source);
+  CHECK (!ok);
+  CHECK (stale == b);
+  release ();
+  writer.join ();
+  CHECK (reclaimed_now.load ()); // nobody named it at the scan
+  CHECK (deleted.load () == 1);
+  holder.reset_protection ();
+  source.store (nullptr);
+  CHECK (b->reclaim_or_retire ());
+  CHECK (deleted.load () == 2);
+}
+
 // A pass is stalled after its fence; the slot it will read was released and
 // taken again by another thread in the meantime. The new owner announces the
 // still-linked object: the pass must read that announcement.
@@ -460,6 +534,8 @@ main ()
   check_fence_comes_before_the_reload ();
   check_pass_sees_a_stalled_announcement ();
   check_a_reader_after_the_scan_fails_validation ();
+  check_reclaim_or_retire_sees_a_stalled_announcement ();
+  check_a_reader_after_the_targeted_scan_fails_validation ();
   check_a_recycled_slot_is_read_by_the_pass ();
   check_clean_up_waits_for_a_running_pass ();
   check_thread_exit_evicts_the_cache ();
