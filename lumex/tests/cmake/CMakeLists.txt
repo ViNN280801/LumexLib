@@ -131,6 +131,7 @@ lumex_add_cmake_test(asan_clang_cl_runtime_library)
 lumex_add_cmake_test(gtest_discovery_does_not_lock_exe)
 lumex_add_cmake_test(wiring_atomic)
 lumex_add_cmake_test(wiring_math_constants)
+lumex_add_cmake_test(wiring_dwcas)
 lumex_add_cmake_test(wiring_ordering)
 lumex_add_cmake_test(wiring_span)
 lumex_add_cmake_test(wiring_string_view)
@@ -548,6 +549,32 @@ if(LUMEX_BUILD_SOAK_TESTS)
     lumex_add_hazard_pointer_soak_test(hazard_pointer_tsan tsan 20 thread
         ${_tsan_compiler} ${_tsan_prefix})
 endif()
+
+# 128-bit compare-and-swap layer (core/atomic/dwcas): the misuse the types
+# stop (discarded results, copies, numbers for values, stores through a const
+# word, a packed layout), the layer not declared with
+# LUMEX_ATOMIC_DISABLE_DWCAS, and the configuration header under simulated
+# predefined macros (AArch64, MSVC, 32-bit, an unknown compiler, forced
+# backends).
+lumex_test_name(_ctest_name dwcas_compile_checks)
+add_test(NAME ${_ctest_name}
+    COMMAND ${CMAKE_COMMAND}
+        -DCASE=dwcas_compile_checks
+        -DLUMEX_SOURCE_DIR=${LumexLib_SOURCE_DIR}
+        -DWORK_DIR=${CMAKE_CURRENT_BINARY_DIR}/consumer/dwcas_compile_checks
+        -DGENERATOR=${CMAKE_GENERATOR}
+        -DCXX_COMPILER=${CMAKE_CXX_COMPILER}
+        "-DCXX_FLAGS=${CMAKE_CXX_FLAGS}"
+        -DCLANG_STDLIB=${LUMEX_CLANG_STDLIB}
+        -DBUILD_TYPE=Release
+        -DCONFIGURE_ONLY=ON
+        -P ${_LUMEX_CONSUMER_RUN}
+)
+set_tests_properties(${_ctest_name} PROPERTIES
+    LABELS "cmake;consumer"
+    TIMEOUT 900
+    SKIP_REGULAR_EXPRESSION "LUMEX_CONSUMER_SKIP"
+)
 
 # hazard_pointer compile-time checks: the uses [saferecl.hp] rejects (a type
 # that is not hazard-protectable, a copy of a holder, a discarded result, the

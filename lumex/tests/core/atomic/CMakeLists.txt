@@ -5,6 +5,7 @@
 # library has it; wait () sleeps through std::atomic::wait from C++20 and on a
 # striped mutex / condition variable table otherwise. The tests follow the
 # source tree (lumex/core/atomic):
+#   dwcas/      the 16-byte word with a 128-bit compare-and-swap (x86-64)
 #   smart_ptr/  the smart pointers (LumexAtomicSmartPtr*, SharedPtr, WeakPtr)
 #   sync/       the wait and the two-bit lock (LumexAtomicWait)
 #   this one    LumexAtomicGlobalNames.cxx11.tests.cpp, the test of the module
@@ -57,5 +58,6 @@ lumex_add_standard_suites(Atomic
     VARIANT wait_table DEFINITIONS LUMEX_ATOMIC_WAIT_FORCE_TABLE
 )
 
+add_subdirectory(dwcas)
 add_subdirectory(smart_ptr)
 add_subdirectory(sync)
