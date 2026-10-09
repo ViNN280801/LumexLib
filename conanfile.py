@@ -139,6 +139,7 @@ class LumexLibConan(ConanFile):
         self._component("core_math", "math")
         self._component("core_optional", "optional")
         self._component("core_span", "span")
+        self._component("core_smart_ptr", "smart_ptr", requires=["core_utility"])
         # The lock-free engine is built on core/hazard_pointer. The package
         # always builds it, so the soft edge of the CMake target (it links
         # lumex::hazard_pointer and defines LUMEX_ATOMIC_HAS_HAZARD_POINTER

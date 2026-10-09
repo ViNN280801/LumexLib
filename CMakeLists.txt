@@ -265,6 +265,7 @@ if(LUMEX_INSTALL)
         LumexCore_math
         LumexCore_optional
         LumexCore_reflection
+        LumexCore_smart_ptr
         LumexCore_span
         LumexCore_string
         LumexCore_string_view
