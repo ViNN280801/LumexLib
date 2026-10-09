@@ -35,11 +35,11 @@
 // and compare it with names_as_array, which reads the registration. The
 // library declares the compiler's names only when __cplusplus is at least
 // 202002L (GCC 8 reports 201709L at -std=c++2a), so the tests gate on that
-// switch and skip below it. The comparison inherits the known failure of the
-// compiler's names (todo item 55): where they are wrong, the agreement tests
-// fail with them, and every other registered test passes. Built when
-// LUMEX_WITH_FIELD_REFLECTION is ON; the macro gates the body as in the other
-// field-reflection files.
+// switch and skip below it. The comparison runs on every compiler that has
+// the compiler's names (GCC 13 qualifies the member in its pretty string, and
+// the parser takes the last identifier; see LumexFieldNamesParser.cxx11 for
+// the recorded strings). Built when LUMEX_WITH_FIELD_REFLECTION is ON; the
+// macro gates the body as in the other field-reflection files.
 #if defined(LUMEX_WITH_FIELD_REFLECTION)
 
 #include <array>
