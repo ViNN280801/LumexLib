@@ -16,7 +16,7 @@ what makes series from different processes and machines comparable.
 Writes next to the first CSV:
     atomic_benchmark_baseline.svg      the uint64 CAS baseline before each
                                        implementation (should overlap)
-    atomic_benchmark_<operation>.svg   load, store, exchange and
+    atomic_benchmark_<operation>.svg   load, store, exchange, load_one_writer and
                                        compare_exchange_strong under
                                        contention, as ratios to the baseline
     atomic_benchmark_uncontended.svg   one thread, nanoseconds
@@ -29,14 +29,20 @@ import math
 import os
 import sys
 
-OPERATIONS = ("load", "store", "exchange", "compare_exchange_strong")
+OPERATIONS = ("load", "store", "exchange", "compare_exchange_strong",
+              "load_one_writer")
 COLORS = {
     "lumex_lock_based_cxx11": "#0072B2",
     "lumex_lock_based": "#56B4E9",
+    "lumex_lock_free_cxx11": "#CC79A7",
+    "lumex_lock_free": "#D55E00",
+    "lumex_lock_free_deferred": "#F0E442",
     "lumex_default": "#009E73",
+    "lumex_std_backed": "#999999",
     "std": "#E69F00",
+    "boost": "#000000",
 }
-FALLBACK_COLORS = ["#D55E00", "#CC79A7", "#999999", "#F0E442"]
+FALLBACK_COLORS = ["#8c564b", "#7f7f7f", "#17becf", "#bcbd22"]
 DASHES = ["", "7 4", "2 4", "", "9 3 2 3", "4 4"]
 FONT = ("system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', "
         "Arial, sans-serif")
@@ -339,6 +345,13 @@ def bar_chart(title, subtitle, axis_label, groups):
     return "\n".join(out) + "\n"
 
 
+def present(series, rows_of):
+    """The operations some series has rows for (older files lack newer ones)."""
+    return tuple(op for op in OPERATIONS
+                 if any(r["operation"] == op for s in series
+                        for r in rows_of[s]))
+
+
 def contended(rows, operation):
     return sorted((r for r in rows if r["mode"] == "contended"
                    and r["operation"] == operation),
@@ -413,7 +426,7 @@ def markdown(metas, series, rows_of):
                 cells.append("n/a")
         lines.append("| %s / mean | %s |" % (item.label, " | ".join(cells)))
 
-    for operation in OPERATIONS:
+    for operation in present(series, rows_of):
         lines += ["", "## `%s()`, contended" % operation, "",
                   "Ratio to the baseline of the same block (median, with "
                   "the 25th and 75th percentiles of the repetitions; lower "
@@ -442,7 +455,7 @@ def markdown(metas, series, rows_of):
               "baseline of the same block.", "",
               "| Operation | Series | Median, ns | p25-p75, ns "
               "| x uint64 CAS |", "| --- | --- | ---: | ---: | ---: |"]
-    for operation in ("uint64_cas",) + OPERATIONS:
+    for operation in ("uint64_cas",) + present(series, rows_of):
         for item in series:
             row = uncontended(rows_of[item], operation)
             if row is None:
@@ -482,7 +495,7 @@ def main(argv):
         [(s, [(r["threads"], r["ns_median"], r["ns_p25"], r["ns_p75"])
               for r in contended(rows_of[s], "uint64_cas")])
          for s in series]))
-    for operation in OPERATIONS:
+    for operation in present(series, rows_of):
         write(operation, line_chart(
             "%s() under contention, relative to the baseline" % operation,
             [subtitle, "Each point: time per operation / uint64 CAS time of "
@@ -494,7 +507,7 @@ def main(argv):
              for s in series],
             reference=1.0, reference_label="uint64 CAS = 1"))
     groups = []
-    for operation in OPERATIONS:
+    for operation in present(series, rows_of):
         bars = []
         for item in series:
             row = uncontended(rows_of[item], operation)

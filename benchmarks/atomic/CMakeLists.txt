@@ -5,11 +5,13 @@
 # LUMEX_BUILD_BENCHMARKS=ON (OFF by default); a Release build without
 # sanitizers is the only one whose numbers mean anything.
 #
-# One executable holds every implementation: the C++11 unit is an object
-# library of its own (LumexLib's lock-based implementation sleeping on the
-# wait table), the forced lock-based unit gets
-# LUMEX_ATOMIC_SMART_PTR_FORCE_LOCK_BASED, and the rest is C++20. LumexLib's
-# inline ABI namespaces keep the three selections apart in one program.
+# One executable holds every series: the C++11 unit is an object library of
+# its own (the lock-based and the lock-free engine sleeping on the wait
+# table), the other units are C++20 and each names one engine, so the series
+# do not depend on the common alias. A series whose engine the build lacks
+# (no lumex::hazard_pointer, no std::atomic<std::shared_ptr>, no Boost) is
+# left out at run time. Boost is optional: found with find_package, it adds
+# boost::atomic_shared_ptr, a spinlock, as a lock-based competitor.
 #
 #   cmake -S . -B build-bench -DCMAKE_BUILD_TYPE=Release
 #         -DLUMEX_BUILD_BENCHMARKS=ON
@@ -32,10 +34,10 @@ add_executable(LumexAtomicBenchmark
     bench_atomic_smart_ptr.cpp
     bench_lumex_default.cpp
     bench_lumex_lock_based.cpp
+    bench_lumex_lock_free.cpp
+    bench_lumex_std_backed.cpp
+    bench_boost.cpp
     $<TARGET_OBJECTS:LumexAtomicBenchmarkCxx11>
-)
-set_source_files_properties(bench_lumex_lock_based.cpp PROPERTIES
-    COMPILE_DEFINITIONS LUMEX_ATOMIC_SMART_PTR_FORCE_LOCK_BASED
 )
 target_link_libraries(LumexAtomicBenchmark PRIVATE lumex::atomic)
 set_target_properties(LumexAtomicBenchmark PROPERTIES
@@ -44,6 +46,16 @@ set_target_properties(LumexAtomicBenchmark PROPERTIES
     CXX_EXTENSIONS OFF
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
 )
+
+# Boost's atomic_shared_ptr is header-only (a spinlock around a shared_ptr);
+# the series exists only where Boost is found.
+find_package(Boost 1.53 QUIET)
+if(Boost_FOUND)
+    message(STATUS "Benchmark: Boost ${Boost_VERSION_STRING} found, adding the boost::atomic_shared_ptr series")
+    target_compile_definitions(LumexAtomicBenchmark PRIVATE LUMEX_ATOMIC_BENCH_HAVE_BOOST)
+    set_source_files_properties(bench_boost.cpp PROPERTIES
+        INCLUDE_DIRECTORIES "${Boost_INCLUDE_DIRS}")
+endif()
 
 # `LumexAtomicBenchmarkRun` runs the full sweep and rewrites the CSV, the
 # Markdown table and the charts in the source tree.

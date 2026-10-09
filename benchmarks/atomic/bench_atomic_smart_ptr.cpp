@@ -35,12 +35,25 @@
 
 #include "bench_atomic_smart_ptr.hpp"
 
+#if defined(LUMEX_ATOMIC_HAS_HAZARD_POINTER)
+#include "lumex/core/hazard_pointer/LumexHazardPointer"
+#endif
+
 namespace bench = lumex_atomic_bench;
+
+void
+lumex_atomic_bench::settle_hazard_domain ()
+{
+#if defined(LUMEX_ATOMIC_HAS_HAZARD_POINTER)
+  lumex::core::hazard_pointer::clean_up ();
+#endif
+}
 
 namespace
 {
 char const *const k_operation_names[bench::operation_count]
-    = { "load", "store", "exchange", "compare_exchange_strong" };
+    = { "load", "store", "exchange", "compare_exchange_strong",
+        "load_one_writer" };
 
 #if defined(__cpp_lib_atomic_shared_ptr)
 #if defined(_MSC_VER) && !defined(__clang__)
@@ -177,7 +190,19 @@ struct options_t
   long warmup_ms;
   long repetition;
   bool list;
+  std::vector<std::string> series; ///< empty: every series
 };
+
+bool
+series_selected (options_t const &options, char const *key)
+{
+  if (options.series.empty ())
+    return true;
+  for (std::size_t i = 0; i < options.series.size (); ++i)
+    if (options.series[i] == key)
+      return true;
+  return false;
+}
 
 void
 print_usage ()
@@ -185,7 +210,7 @@ print_usage ()
   std::cerr
       << "usage: LumexAtomicBenchmark [--csv FILE] [--threads 1,2,4]\n"
          "                            [--duration-ms N] [--warmup-ms N]\n"
-         "                            [--repetition N] [--list]\n";
+         "                            [--repetition N] [--series KEY,KEY] [--list]\n";
 }
 
 bool
@@ -221,6 +246,13 @@ parse_options (int argc, char **argv, options_t &options)
         {
           if (!parse_positive (argv[++i], options.warmup_ms))
             return false;
+        }
+      else if (std::strcmp (argv[i], "--series") == 0 && has_value)
+        {
+          std::stringstream stream (argv[++i]);
+          std::string item;
+          while (std::getline (stream, item, ','))
+            options.series.push_back (item);
         }
       else if (std::strcmp (argv[i], "--repetition") == 0 && has_value)
         {
@@ -282,12 +314,23 @@ main (int argc, char **argv)
     }
 
   std::vector<bench::implementation_t> implementations;
-  implementations.push_back (bench::lumex_lock_based_cxx11_implementation ());
-  implementations.push_back (bench::lumex_lock_based_implementation ());
-  implementations.push_back (bench::lumex_default_implementation ());
+  bench::implementation_t const candidates[]
+      = { bench::lumex_lock_based_cxx11_implementation (),
+          bench::lumex_lock_based_implementation (),
+          bench::lumex_lock_free_cxx11_implementation (),
+          bench::lumex_lock_free_implementation (),
+          bench::lumex_lock_free_deferred_implementation (),
+          bench::lumex_default_implementation (),
+          bench::lumex_std_backed_implementation (),
 #if defined(__cpp_lib_atomic_shared_ptr)
-  implementations.push_back (std_implementation ());
+          std_implementation (),
 #endif
+          bench::boost_implementation () };
+  for (std::size_t i = 0; i < sizeof (candidates) / sizeof (candidates[0]);
+       ++i)
+    if (candidates[i].measure != nullptr
+        && series_selected (options, candidates[i].key))
+      implementations.push_back (candidates[i]);
 
   if (options.list)
     {
