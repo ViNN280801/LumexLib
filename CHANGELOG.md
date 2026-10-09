@@ -1107,6 +1107,14 @@
 
 #### Исправлено
 
+##### Тесты `optional` собираются и проходят на C++14, 17, 20 и 23
+
+**Файлы:** `lumex/tests/core/optional/opt/LumexOptional.cxx11.tests.cpp`, `lumex/tests/LumexTestStandards.cmake` (строка `optional`)
+
+**Суть:** набор `LumexOptional.cxx11.tests.cpp` не собирался на C++17 и выше: вызов `make_optional (s)` с `std::string` через глобальное имя из зонтичного заголовка находил еще и `std::make_optional` по ADL, и вызов был неоднозначным. Вызовы записаны с полным именем `lumex::core::optional::opt::make_optional`; добавлены тесты двух остальных перегрузок (`make_optional<T> (args...)` и со списком инициализации) и проверка типа результата. Строка `optional` таблицы стандартов тестов была `11`, теперь `11 14 17 20 23`: набор проходит на каждом, и исправление ADL больше не может вернуться незамеченным.
+
+**Проверено:** GCC 13.2 Release, `optional.opt.`: по 51 тесту на C++11, 14, 17, 20 и 23 (было 42 на C++11 без других стандартов), все проходят; GCC 8.3 - то же на C++11, 14, 17, 20; Clang 23 (libc++) - на C++11, 17, 23. До правки на GCC 13.2 при `-std=c++17` и выше: «call of overloaded 'make_optional(std::string&)' is ambiguous». `cmake.wiring_standard_suites` проходит.
+
 ##### `optional`: значение лежит в буфере `alignas`, а не в `std::aligned_storage` (C++23)
 
 **Файлы:** `lumex/core/optional/opt/LumexOptional.hpp`, `lumex/tests/core/optional/opt/LumexOptionalStorage.cxx11.tests.cpp` (новый), `lumex/tests/cmake/consumer/hygiene_compile_checks/` (`CMakeLists.txt`, `optional_aligned_storage.cpp` и `aligned_storage_baseline.cpp` - новые)
