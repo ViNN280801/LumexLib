@@ -46,9 +46,9 @@
  * C++17. It allows for safe encapsulation of a value that may or may not be
  * present, thereby preventing common pitfalls associated with `nullptr` or
  * sentinel values. The implementation adheres strictly to C++11 standards,
- * utilizing advanced template metaprogramming (SFINAE, `std::aligned_storage`,
- * `std::type_traits`) and move semantics for efficiency. It is designed to be
- * exception-safe, providing a custom exception type
+ * utilizing advanced template metaprogramming (SFINAE, an `alignas` byte
+ * buffer for the value, `std::type_traits`) and move semantics for efficiency.
+ * It is designed to be exception-safe, providing a custom exception type
  * `lumex_bad_optional_access` for invalid access attempts. The class supports
  * various constructors (default, copy, move, in-place, value-based),
  * assignment operators, observers (`has_value`, `value`, `value_or`,
@@ -93,7 +93,7 @@
 #include <functional>       // For std::hash
 #include <initializer_list> // For std::initializer_list
 #include <stdexcept>        // For std::logic_error
-#include <type_traits>      // For std::aligned_storage, std::is_*, std::decay
+#include <type_traits>      // For std::is_*, std::decay
 #include <utility>          // For std::forward, std::move, std::swap
 
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
@@ -237,9 +237,12 @@ public:
  * `nullptr` and clearly expresses intent in function signatures and data
  * structures.
  *
- *          It manages its internal storage using `std::aligned_storage` to
- *          construct `T` in-place, ensuring proper alignment and avoiding
- * dynamic memory allocations for the contained value itself.
+ *          It manages its internal storage as an `alignas (T)` array of
+ *          `unsigned char` (not the `std::aligned_storage` that C++23
+ *          deprecates) to construct `T` in-place, ensuring proper alignment
+ *          and avoiding dynamic memory allocations for the contained value
+ *          itself. The size and the alignment of the object are those of the
+ *          former `std::aligned_storage<sizeof (T), alignof (T)>` member.
  *
  * @tparam T The type of the value to be held. `T` must be a non-reference,
  * non-array, non-void type. Its constructor/destructor requirements are
@@ -261,11 +264,14 @@ public:
 private:
   /**
    * @brief Aligned storage for the optional value.
-   * @details Uses `std::aligned_storage` to reserve raw memory that is
-   * correctly aligned and sized for `T`, allowing for in-place construction
-   *          and destruction of the `T` object without dynamic allocations.
+   * @details An array of `unsigned char` with `sizeof (T)` elements and the
+   * alignment of `T` (C++11 `alignas`) reserves raw memory that is correctly
+   * aligned and sized for `T`, allowing for in-place construction and
+   * destruction of the `T` object without dynamic allocations. It replaces
+   * `std::aligned_storage`, which is deprecated in C++23 and warns there; the
+   * size and the alignment of the optional stay the same.
    */
-  typename std::aligned_storage<sizeof (T), alignof (T)>::type m_storage;
+  alignas (T) unsigned char m_storage[sizeof (T)];
   /**
    * @brief Flag indicating whether the optional currently holds a value.
    * @details `true` if a value is present, `false` otherwise. This flag is
@@ -275,28 +281,24 @@ private:
 
   /**
    * @brief Internal helper to get a pointer to the contained object.
-   * @details Reinterprets the `m_storage` as a pointer to `T`.
+   * @details Views the `m_storage` bytes as a pointer to `T`.
    * @return A non-const pointer to the contained object.
    */
   T *
   get_ptr () LUMEX_NOEXCEPT
   {
-    return reinterpret_cast<
-        T *> ( // NOLINT(cppcoreguidelines-pro-type-reinterpret-cast)
-        std::addressof (m_storage));
+    return static_cast<T *> (static_cast<void *> (m_storage));
   }
 
   /**
    * @brief Internal helper to get a const pointer to the contained object.
-   * @details Reinterprets the `m_storage` as a const pointer to `T`.
+   * @details Views the `m_storage` bytes as a const pointer to `T`.
    * @return A const pointer to the contained object.
    */
   T const *
   get_ptr () const LUMEX_NOEXCEPT
   {
-    return reinterpret_cast<
-        T const *> ( // NOLINT(cppcoreguidelines-pro-type-reinterpret-cast)
-        std::addressof (m_storage));
+    return static_cast<T const *> (static_cast<void const *> (m_storage));
   }
 
 // — Internal construction/destruction —
