@@ -28,16 +28,23 @@
  * one `std::string`.
  *
  * @details `stringify("channel=", 2, " flow=", 1.5)` returns
- * `"channel=2 flow=1.5"`. Every argument must be streamable: a C++20 concept
- * constraint, a `static_assert` below C++20. Below C++20, `std::unique_ptr`
- * and `std::shared_ptr` stream their raw address.
+ * `"channel=2 flow=1.5"`. Every argument must be streamable. A call with an
+ * argument that cannot be streamed finds no overload, in every standard: one
+ * `std::enable_if` form over `detail::are_stringifiable`, which is the
+ * concept `AllStringifiable` from C++20 and the trait
+ * `traits::stream::all_streamable` below it (the same argument lists), so the
+ * call can be detected with SFINAE and never fails inside the body. Below
+ * C++20, `std::unique_ptr` and `std::shared_ptr` stream their raw address.
  *
- * `stringify_v2` works from C++11 and gives the same text. Its constraint is
- * one `std::enable_if` form in every standard
- * (`traits::stream::all_streamable`), so a call with an argument that cannot
- * be streamed finds no overload in every standard, where `stringify` stops
- * with a `static_assert` below C++20; from C++20 the concept
- * `AllStringifiable` accepts the same argument lists.
+ * What counts as streamable follows the standard library of the build, not a
+ * fixed list: `wchar_t`, `char16_t`, `char32_t` and the pointers to them
+ * stream as numbers or addresses up to C++17 (`stringify (L'A')` is `"65"`),
+ * and have no overload from C++20, where the library deletes
+ * `operator<<` of a narrow stream for them (see
+ * `traits::stream::is_streamable`).
+ *
+ * `stringify_v2` is the same function under its older name, kept as a
+ * forwarder: it has no condition of its own, the one of `stringify` decides.
  *
  * Nothing here is placed in the global namespace, so the names cannot clash
  * with a consumer's own `stringify`. Call it qualified, or bring it in with a
@@ -53,7 +60,6 @@
 #include <type_traits>
 #include <utility>
 
-#include "lumex/core/utility/assert/LumexAssert.hpp"
 #include "lumex/core/utility/attr/LumexAttributes.hpp"
 #include "lumex/core/utility/compiler/LumexCheckFeatures.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
@@ -89,95 +95,12 @@ operator<< (std::ostream &ostream, std::shared_ptr<T> const &ptr)
   return ostream << ptr.get ();
 }
 
-/**
- * @brief Concatenates the streamed text of `args`.
- * @return The text, or an empty string for no arguments.
- * @note O(total length of the text).
- */
-#if LUMEX_HAS_CONCEPTS
-
-template <
-    lumex::core::utility::traits::stream::detail::AllStringifiable... Args>
-std::string
-stringify (Args &&...args)
-{
-  LUMEX_CONSTEXPR_IF (sizeof...(args) == 0) { return ""; }
-  else
-  {
-    std::ostringstream oss;
-    ((oss << std::forward<Args> (args)), ...);
-    return oss.str ();
-  }
-}
-
-#elif __cplusplus >= 201703L
-
-template <typename... Args>
-std::string
-stringify (Args &&...args)
-{
-  LUMEX_STATIC_ASSERT_MSG (
-      lumex::core::utility::traits::stream::all_streamable_v<Args...>,
-      "All arguments must be streamable");
-
-  LUMEX_CONSTEXPR_IF (sizeof...(args) == 0) { return ""; }
-  else
-  {
-    std::ostringstream oss;
-    ((oss << std::forward<Args> (args)), ...);
-    return oss.str ();
-  }
-}
-
-#elif __cplusplus >= 201402L
-
-template <typename... Args>
-std::string
-stringify (Args &&...args)
-{
-  LUMEX_STATIC_ASSERT_MSG (
-      lumex::core::utility::traits::stream::all_streamable_v<Args...>,
-      "All arguments must be streamable");
-
-  std::ostringstream oss;
-  int expanded[] = { 0, ((oss << std::forward<Args> (args)), 0)... };
-  LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR (expanded);
-  return oss.str ();
-}
-
-#else
-
-template <typename... Args>
-std::string
-stringify (Args &&...args)
-{
-  LUMEX_STATIC_ASSERT_MSG (
-      lumex::core::utility::traits::stream::all_streamable<Args...>::value,
-      "All arguments must be streamable");
-
-  std::ostringstream oss;
-  int expanded[] = { 0, ((oss << std::forward<Args> (args)), 0)... };
-  LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR (expanded);
-  return oss.str ();
-}
-
-#endif
-
-/**
- * @brief No arguments: an empty string, without creating a stream.
- */
-inline std::string
-stringify () LUMEX_NOEXCEPT
-{
-  return {};
-}
-
 namespace detail
 {
 #if LUMEX_HAS_CONCEPTS
 /**
  * @brief `stringify` accepts every type in `Args`: the argument lists of the
- * concept that constrains it (C++20).
+ * concept `AllStringifiable` (C++20).
  */
 template <typename... Args>
 struct are_stringifiable
@@ -187,8 +110,9 @@ struct are_stringifiable
 };
 #else
 /**
- * @brief `stringify` accepts every type in `Args`: the argument lists its
- * `static_assert` lets through (below C++20).
+ * @brief `stringify` accepts every type in `Args`: the argument lists of
+ * `traits::stream::all_streamable` (below C++20, or where the compiler has no
+ * concepts).
  */
 template <typename... Args>
 struct are_stringifiable
@@ -199,19 +123,50 @@ struct are_stringifiable
 } // namespace detail
 
 /**
- * @brief Same result as `stringify`, constrained with `std::enable_if`
- * instead of a constrained template parameter or a `static_assert`.
- * @details It exists for the argument lists `stringify` accepts, in every
- * standard, and a call with an argument that is not streamable finds no
- * overload: it can be detected with SFINAE and never fails inside the body.
- * @return The text, or an empty string for no arguments.
+ * @brief Concatenates the streamed text of `args`.
+ * @details Takes part in overload resolution only when every argument is
+ * streamable (`detail::are_stringifiable`), in every standard.
+ * @return The text. Calling it with no arguments picks the overload below.
+ * @note O(total length of the text).
  */
 template <typename... Args,
           typename std::enable_if<detail::are_stringifiable<Args...>::value,
                                   int>::type
           = 0>
 std::string
+stringify (Args &&...args)
+{
+  std::ostringstream oss;
+#if LUMEX_HAS_FOLD_EXPRESSIONS
+  ((oss << std::forward<Args> (args)), ...);
+#else
+  int expanded[] = { 0, ((oss << std::forward<Args> (args)), 0)... };
+  LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR (expanded);
+#endif
+  return oss.str ();
+}
+
+/**
+ * @brief No arguments: an empty string, without creating a stream.
+ */
+inline std::string
+stringify () LUMEX_NOEXCEPT
+{
+  return {};
+}
+
+/**
+ * @brief Same as `stringify`, kept under its name: it was the variant of
+ * `stringify` that could be detected with SFINAE.
+ * @details The return type is that of `stringify` for the same arguments, so
+ * the overload exists exactly when `stringify` accepts them.
+ * @return The text, or an empty string for no arguments.
+ */
+template <typename... Args>
+auto
 stringify_v2 (Args &&...args)
+    -> decltype (lumex::core::string::utility::stringify (
+        std::forward<Args> (args)...))
 {
   // Qualified, so that no function of that name found by ADL on the argument
   // types takes the call.
