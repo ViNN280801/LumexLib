@@ -1,6 +1,6 @@
 # LumexAtomic: atomic_shared_ptr and atomic_weak_ptr from C++11 {#lumex_atomic}
 
-`lumex::core::atomic` (target `lumex::atomic`, header-only) provides `atomic_shared_ptr<T>` and `atomic_weak_ptr<T>`: the interface of C++20's `std::atomic<std::shared_ptr<T>>` and `std::atomic<std::weak_ptr<T>>` (P0718R2, with LWG 3661 and LWG 3893) from C++11 on, over the ordinary `std::shared_ptr` and `std::weak_ptr` of any standard library. Where the standard library has the C++20 types, LumexAtomic wraps them; elsewhere it uses a lock-based implementation of its own.
+`lumex::core::atomic` (target `lumex::atomic`, header-only) provides `atomic_shared_ptr<T>` and `atomic_weak_ptr<T>`: the interface of C++20's `std::atomic<std::shared_ptr<T>>` and `std::atomic<std::weak_ptr<T>>` (P0718R2, with LWG 3661 and LWG 3893) from C++11 on, over the ordinary `std::shared_ptr` and `std::weak_ptr` of any standard library. Three engines implement it, each under a class template of its own: a lock-free engine built on `core/hazard_pointer` (`atomic_shared_ptr_lock_free`), a lock-based engine of the module's own (`atomic_shared_ptr_lock_based`) and a wrapper of the standard library's type where it exists (`atomic_shared_ptr_std_backed`). The common names `atomic_shared_ptr` and `atomic_weak_ptr` are alias templates of the lock-free engine where it exists and of the lock-based one otherwise; the wrapper of the standard library's type is never chosen for you.
 
 ```cpp
 #include "lumex/core/atomic/LumexAtomic"
@@ -23,17 +23,19 @@ g_config.wait (current); // until another configuration is stored
 
 This module is a port of the author's own implementation of `std::atomic<std::shared_ptr<T>>` and `std::atomic<std::weak_ptr<T>>` for LLVM libc++ (Vladislav Semykin, P0718R2, llvm-project pull request 194215). That implementation has two methods, a lock-based one and a lock-free one, and both work. It is not a third-party library dropped in, and it is not derived from libstdc++, the MSVC STL or Folly; the design notes, the review discussion and the investigations behind it are summarized below.
 
-LumexAtomic ports the lock-based method. The lock-free method is described below, in "The lock-free method of the libc++ implementation", together with the reason it is not part of this library.
+LumexAtomic ports the lock-based method. The lock-free method is described below, in "The lock-free method of the libc++ implementation", together with the reason it is not ported; the lock-free engine of this module is a different algorithm (next section, "The lock-free engine").
 
 ## Headers
 
 | Header | Contents |
 | --- | --- |
-| `lumex/core/atomic/LumexAtomic` | Umbrella: both class templates |
-| `lumex/core/atomic/smart_ptr/LumexAtomicSharedPtr.hpp` | `atomic_shared_ptr<T>` |
-| `lumex/core/atomic/smart_ptr/LumexAtomicWeakPtr.hpp` | `atomic_weak_ptr<T>` |
-| `lumex/core/atomic/smart_ptr/LumexAtomicSmartPtrConfig.hpp` | Which implementation a build gets (`LUMEX_ATOMIC_SMART_PTR_USES_STD`), memory order checks |
-| `lumex/core/atomic/smart_ptr/LumexAtomicSmartPtrCell.hpp` | The two cells behind the class templates: lock-based and standard |
+| `lumex/core/atomic/LumexAtomic` | Umbrella: everything below |
+| `lumex/core/atomic/smart_ptr/LumexAtomicSharedPtr.hpp` | `atomic_shared_ptr_lock_free`, `_lock_based`, `_std_backed` and the alias template `atomic_shared_ptr` |
+| `lumex/core/atomic/smart_ptr/LumexAtomicWeakPtr.hpp` | The same for `atomic_weak_ptr` |
+| `lumex/core/atomic/smart_ptr/LumexAtomicSmartPtrConfig.hpp` | Which engines exist and which one the common names are (`LUMEX_ATOMIC_SMART_PTR_HAS_LOCK_FREE`, `_HAS_STD_BACKED`, `_COMMON_IS_LOCK_FREE`), memory order checks |
+| `lumex/core/atomic/smart_ptr/LumexAtomicSmartPtrCell.hpp` | The lock-based and the standard-backed cell, the equivalence traits and the wait counter all cells share |
+| `lumex/core/atomic/smart_ptr/LumexAtomicSmartPtrBox.hpp` | The heap box of the lock-free engine and the `reclaim::immediate` / `reclaim::deferred` policies |
+| `lumex/core/atomic/smart_ptr/LumexAtomicSmartPtrLockFreeCell.hpp` | The lock-free cell |
 | `lumex/core/atomic/sync/LumexBitLock.hpp` | The two-bit lock of the lock-based cell |
 | `lumex/core/atomic/sync/LumexAtomicWait.hpp` | Waiting for a 32-bit word to change: `std::atomic::wait` or a striped table |
 | `lumex/core/atomic/dwcas/LumexDwcasWord.hpp` | `dwcas_word`, a 16-byte atomic word with a 128-bit compare-and-swap (x86-64 only), and `dwcas_value_t`; includes the four headers below |
@@ -41,18 +43,27 @@ LumexAtomic ports the lock-based method. The lock-free method is described below
 | `lumex/core/atomic/dwcas/LumexDwcasCpu.hpp` | `dwcas_supported ()`, `require_dwcas ()`: the run-time CMPXCHG16B check |
 | `lumex/core/atomic/dwcas/LumexDwcasBackend{Asm,Msvc,Builtin}.hpp` | The three backends; `LumexDwcasValue.hpp` and `LumexDwcasFromCas.hpp` are their common parts |
 
-Everything outside the two class templates is an implementation detail (`Detail` namespaces).
+Everything outside the class and alias templates is an implementation detail (`Detail` namespaces).
 
 ## Interface
 
-Both templates live in `lumex::core::atomic::smart_ptr`, and only there: the module declares nothing at global scope, so a program that has its own global `atomic_shared_ptr` or `atomic_weak_ptr` keeps compiling (`LumexAtomicGlobalNamesTest` checks that). For the short names write a `using` declaration (`using lumex::core::atomic::smart_ptr::atomic_shared_ptr;`) in your own scope. The members follow `std::atomic<std::shared_ptr<T>>` and `std::atomic<std::weak_ptr<T>>`:
+All names live in `lumex::core::atomic::smart_ptr`, and only there: the module declares nothing at global scope, so a program that has its own global `atomic_shared_ptr` or `atomic_weak_ptr` keeps compiling (`LumexAtomicGlobalNamesTest` checks that). For the short names write a `using` declaration (`using lumex::core::atomic::smart_ptr::atomic_shared_ptr;`) in your own scope. The names:
+
+| Name | Kind | Meaning |
+| --- | --- | --- |
+| `atomic_shared_ptr<T>`, `atomic_weak_ptr<T>` | alias templates | the common names: the lock-free engine where it exists, else the lock-based one; never the standard-backed wrapper |
+| `atomic_shared_ptr_lock_free<T, Reclaim>`, `atomic_weak_ptr_lock_free<T, Reclaim>` | class templates | the hazard-protected box engine; declared only when `LUMEX_ATOMIC_SMART_PTR_HAS_LOCK_FREE` is 1; `Reclaim` is `reclaim::immediate` (the default) or `reclaim::deferred` |
+| `atomic_shared_ptr_lock_based<T>`, `atomic_weak_ptr_lock_based<T>` | class templates | the two-bit lock engine; always declared |
+| `atomic_shared_ptr_std_backed<T>`, `atomic_weak_ptr_std_backed<T>` | class templates | a wrapper of the standard library's `std::atomic<std::shared_ptr<T>>` and `std::atomic<std::weak_ptr<T>>`; declared only when `LUMEX_ATOMIC_SMART_PTR_HAS_STD_BACKED` is 1 (C++20 with libstdc++ 12 and later or the MSVC STL); an explicit opt-in name, a class and not an alias of the standard type |
+
+The common names are alias templates, so they cannot be forward-declared, partially specialized or befriended; name an engine to do that. Naming an engine that does not exist (`_lock_free` in a build without `core/hazard_pointer`, `_std_backed` without the standard type) is a compile error: the macros let code branch. The members of every engine follow `std::atomic<std::shared_ptr<T>>` and `std::atomic<std::weak_ptr<T>>`:
 
 | Member | Notes |
 | --- | --- |
-| `value_type`, `is_always_lock_free` | `false` for the lock-based cell, the standard type's value otherwise |
+| `value_type`, `is_always_lock_free` | `true` for the lock-free engine, `false` for the lock-based one, the standard type's value for the wrapper |
 | default, `nullptr` (shared only) and value constructors | the default and `nullptr` constructors are `constexpr`, so `constinit` works (LWG 3661) |
 | copy constructor and copy assignment | deleted |
-| `is_lock_free ()` | `[[nodiscard]]`; `false` for the lock-based cell, the standard type's answer otherwise (`false` in libstdc++ and the MSVC STL) |
+| `is_lock_free ()` | `[[nodiscard]]`; `true` for the lock-free engine (in the steady-state sense, see below), `false` for the lock-based one, the standard type's answer for the wrapper (`false` in libstdc++ and the MSVC STL) |
 | `store`, `operator=` | `operator= (nullptr_t)` for the shared pointer (LWG 3893) |
 | `load`, `operator value_type` | `load` is `[[nodiscard]]` |
 | `exchange` | |
@@ -61,21 +72,59 @@ Both templates live in `lumex::core::atomic::smart_ptr`, and only there: the mod
 
 Every operation is `noexcept`. Constant memory order arguments that the standard forbids (`store` with `acquire`, `load` with `release`, a failure order of `release`, ...) are reported at compile time by Clang through the `diagnose_if` attribute, as libc++ does for `std::atomic`.
 
-## Which implementation a build gets
+## Which engine a build has
 
-| Build | Cell | Sleeping | Inline namespace |
+Detection is in one place, `LumexAtomicSmartPtrConfig.hpp`:
+
+| Macro | Value |
+| --- | --- |
+| `LUMEX_ATOMIC_SMART_PTR_HAS_LOCK_FREE` | 1 when `LUMEX_ATOMIC_HAS_HAZARD_POINTER` is defined, `ATOMIC_POINTER_LOCK_FREE == 2` and `LUMEX_ATOMIC_SMART_PTR_DISABLE_LOCK_FREE` is not defined |
+| `LUMEX_ATOMIC_SMART_PTR_HAS_STD_BACKED` | 1 when the library has `std::atomic<std::shared_ptr<T>>` (`__cpp_lib_atomic_shared_ptr`) |
+| `LUMEX_ATOMIC_SMART_PTR_COMMON_IS_LOCK_FREE` | `HAS_LOCK_FREE` and `LUMEX_ATOMIC_SMART_PTR_FORCE_LOCK_BASED` is not defined |
+
+`LUMEX_ATOMIC_HAS_HAZARD_POINTER` comes from CMake: `lumex::atomic` is still an INTERFACE target, and when the target `lumex::hazard_pointer` exists (`LUMEX_BUILD_HAZARD_POINTER=ON`, the default) it links it and defines the macro. The edge `atomic -> hazard_pointer` is soft, with no `lumex_require_module` line: `LUMEX_BUILD_ATOMIC=ON` with `LUMEX_BUILD_HAZARD_POINTER=OFF` is a valid configuration that has the lock-based engine only, and `cmake.install_header_only_without_utility` builds exactly that. A build that does not use CMake defines the macro itself and links the hazard pointer library. The macro is not derived from `__has_include`: the header can be present while the library is not linked. The Conan package always has both modules, so `core_atomic` requires `core_hazard_pointer`.
+
+| Build | `atomic_shared_ptr` | Sleeping | Inline namespace |
 | --- | --- | --- | --- |
-| C++20 with libstdc++ 12+ or the MSVC STL | wraps the standard type | `std::atomic::wait` | `std_backed_std_wait` |
-| C++20 with libc++ (no `std::atomic<std::shared_ptr<T>>` yet) | lock-based | `std::atomic::wait` | `lock_based_std_wait` |
-| C++11, C++14, C++17 | lock-based | striped table | `lock_based_table_wait` |
-| `LUMEX_ATOMIC_SMART_PTR_FORCE_LOCK_BASED` | lock-based | as above | `lock_based_*` |
-| `LUMEX_ATOMIC_WAIT_FORCE_TABLE` | as above | striped table | `*_table_wait` |
+| C++11 to C++17 with `lumex::hazard_pointer` | `atomic_shared_ptr_lock_free` | striped table | `table_wait` |
+| C++20 with `lumex::hazard_pointer` | `atomic_shared_ptr_lock_free` | `std::atomic::wait` | `std_wait` |
+| no `lumex::hazard_pointer`, or `LUMEX_ATOMIC_SMART_PTR_DISABLE_LOCK_FREE` | `atomic_shared_ptr_lock_based` | as above | as above |
+| `LUMEX_ATOMIC_SMART_PTR_FORCE_LOCK_BASED` | `atomic_shared_ptr_lock_based` | as above | as above |
+| `LUMEX_ATOMIC_WAIT_FORCE_TABLE` | as above | striped table | `table_wait` |
 
-The standard type is used when the library defines `__cpp_lib_atomic_shared_ptr`; `LUMEX_ATOMIC_SMART_PTR_USES_STD` reports the choice. The lock-based implementation sleeps through `std::atomic::wait` when the library defines `__cpp_lib_atomic_wait`; `LUMEX_ATOMIC_WAIT_USES_STD` reports that choice. The two forcing macros exist for tests and benchmarks, which use them to run every implementation at C++20 as well, like libc++'s `_LIBCPP_FORCE_LOCK_BASED_ATOMIC_SHARED_PTR`.
+The wrapper `atomic_shared_ptr_std_backed` exists in addition where the library has the standard type, and is chosen only by naming it. **Behavior change from the lock-based and std-backed defaults** (MAJOR window, 2.0.0.0): a C++20 build with libstdc++ 12+ or the MSVC STL used to get the wrapper of the standard library's type from the common name; it now gets the lock-free engine, and a build without `core/hazard_pointer` gets the lock-based one. A program that relied on the library's type (an `is_lock_free ()` of `false` that was the library's answer, for instance) names `atomic_shared_ptr_std_backed`.
 
-Each combination lives in its own inline namespace. A program may mix translation units built with different standards or switches: their types are distinct, so passing an object across such a boundary through a function signature fails to link instead of silently mixing two layouts. (A mismatch hidden inside a user type that holds the object is not detected, as with any other configuration macro.)
+`LUMEX_ATOMIC_WAIT_USES_STD` reports the way of sleeping: `std::atomic::wait` when the library defines `__cpp_lib_atomic_wait`. The forcing macros exist for tests and benchmarks, which use them to run every engine at C++20 as well, like libc++'s `_LIBCPP_FORCE_LOCK_BASED_ATOMIC_SHARED_PTR`.
 
-The libc++ implementation dispatches the same way inside the standard library: the lock-free method on x86-64 with `CMPXCHG16B` (`__GCC_HAVE_SYNC_COMPARE_AND_SWAP_16`, that is `-mcx16` or `-march=x86-64-v2`) and on AArch64 with LSE (`__ARM_FEATURE_ATOMICS`), the lock-based method everywhere else (PowerPC and AIX always), and `_LIBCPP_FORCE_LOCK_BASED_ATOMIC_SHARED_PTR` to force the lock-based method for an A/B comparison on the same machine. Without `-mcx16` the dispatch silently compiles the lock-based method; the libc++ benchmark therefore checks a label in its output to prove which method it measured.
+The engine is in the class template name and the way of sleeping is an inline namespace (`std_wait`, `table_wait`). A program may mix translation units built with different standards or switches: their types are distinct, so passing an object across such a boundary through a function signature fails to link instead of silently mixing two layouts. (A mismatch hidden inside a user type that holds the object is not detected, as with any other configuration macro.)
+
+The libc++ implementation dispatches inside the standard library: the lock-free method on x86-64 with `CMPXCHG16B` (`__GCC_HAVE_SYNC_COMPARE_AND_SWAP_16`, that is `-mcx16` or `-march=x86-64-v2`) and on AArch64 with LSE (`__ARM_FEATURE_ATOMICS`), the lock-based method everywhere else (PowerPC and AIX always). Without `-mcx16` the dispatch silently compiles the lock-based method; the libc++ benchmark therefore checks a label in its output to prove which method it measured. LumexAtomic has no such CPU-specific branch: the lock-free engine needs only pointer atomics.
+
+## The lock-free engine
+
+`atomic_shared_ptr_lock_free<T>` and `atomic_weak_ptr_lock_free<T>` keep the value in an immutable heap box, `{retire node; std::shared_ptr<T> value}` (32 bytes), published through one `std::atomic<box *>` (null stands for the empty value, so the default and `nullptr` constructors stay `constexpr`) next to the 32-bit wait counter: 16 bytes. A box is never modified after it is published, so readers copy its smart pointer concurrently (a const access), and a box a thread names with a hazard pointer (`core/hazard_pointer`, Maged Michael's technique) is not destroyed under it. The user-visible type stays the standard smart pointer: aliasing, custom deleters, `make_shared` and `enable_shared_from_this` work unchanged, no control block of this library exists, and no 128-bit atomic, `-mcx16`, `libatomic` or pointer packing is involved.
+
+- `load`: announce the box, validate, copy its smart pointer, drop the announcement. Nothing in the cell is written; no reader waits for another thread.
+- `store`, `exchange`: allocate a box (none for the empty value), swap the pointer in, hand the old box to the reclaim policy. `exchange` returns a copy of the old value made before the hand-over.
+- `compare_exchange_strong`: protect the current box, test the equivalence of its value with `expected` (same stored pointer and shared ownership, or both empty); not equivalent: `expected` receives a copy and nothing is allocated; equivalent: build the new box once and swap it in with a pointer compare-exchange from the protected box. A protected box cannot have been freed and allocated again, so the pointer compare-exchange has no ABA problem and needs no version tag. When it fails because the cell changed, the loop protects the new box and tests again, so the strong form fails only when the value is not equivalent, and a retry happens only because another thread made progress: lock-free in the usual sense, and no operation ever waits for a counter that another thread moves (the livelock of the libc++ double-width method, below, cannot occur). The weak form makes one attempt.
+- `wait`, `notify_one`, `notify_all`: the wait counter shared with the other engines.
+
+**Destruction of the replaced value.** The `Reclaim` argument decides when the box a `store`, `exchange` or successful compare-exchange removed is destroyed, and with it the replaced value:
+
+| Policy | What happens | Cost |
+| --- | --- | --- |
+| `reclaim::immediate` (default) | the writer scans the hazard slots for that one box and destroys it before the call returns when no reader names it; only a box some reader is copying at that moment is retired and destroyed by a later pass | one read of every hazard slot ever created per replacing operation |
+| `reclaim::deferred` | the box is retired at once; a reclamation pass of the hazard domain destroys it later, on whichever thread runs the pass | `store` is cheaper; up to `max (1000, 2 * R) - 1 + R` replaced values stay alive (`R`: hazard slots ever created, see `core/hazard_pointer`) |
+
+With the default policy a single thread, or any run where no reader is inside `load` at that instant, sees the destruction inside the call: `use_count ()` of the replaced value and the run of its deleter behave as with the lock-based engine (the lifetime suites check it). Under contention a value may live until a later replacing call. The deleter of a replaced value runs on the replacing thread, never on a thread that only reads, with no lock held, so it may use any atomic smart pointer. The destructor of the cell destroys the last box at once; boxes retired earlier stay with the domain until a pass (`lumex::core::hazard_pointer::clean_up ()` forces one; the domain never reclaims at process exit, so call it before a leak checker looks). `[util.smartptr.atomic]` sequences the `use_count` decrement after the atomic operation without requiring it to be part of it, which is what the deferred destruction relies on.
+
+**`is_lock_free ()`.** `true`, and `is_always_lock_free` is `true`, in the steady-state sense of the standard's intent (as in Folly and the hazard pointer module): no operation waits for another thread. The first operation of a thread takes a hazard record from the domain (a wait-free cache hit afterwards), and a `store`, `exchange` or successful compare-exchange allocates a box, which may block in the allocator. An allocation failure inside a `noexcept` operation calls `std::terminate`, as does running out of hazard records.
+
+**Memory orders.** Every operation publishes with at least release and observes with at least acquire, because the box contents travel through the pointer; `seq_cst` requests are honoured. `relaxed` and `consume` loads are acquire loads.
+
+**Windows.** The templates are header-only; the hazard domain is compiled into `LumexCore_hazard_pointer` and exported as free functions, so every DLL of a process shares one domain and a box stored in one DLL is safely loaded in another. The pre-C++20 wait table stays a per-DLL static (documented below).
+
+Algorithm credits (ideas only, no code): Maged M. Michael's hazard pointers, the announce-validate protocol of Daniel Anderson, Guy E. Blelloch and Yuanhao Wei for atomic reference-counted pointers, and Anthony Williams' split reference count, which the box deliberately does not need (see `THIRD-PARTY-NOTICES.md`).
 
 ## The lock-based implementation
 
@@ -150,7 +199,7 @@ Releasing an extra reference when the loader sees a different control block is w
 
 ### Why LumexAtomic does not port it
 
-The lock-free method reads and writes libc++'s own control block (`__shared_weak_count`, `__add_shared ()`, `__release_shared ()`), adopts and detaches `shared_ptr`'s private `__ptr_` and `__cntrl_` as a friend, and packs the count into the control block pointer. Over the `std::shared_ptr` of libstdc++ or the MSVC STL none of that is possible without undefined behaviour. A portable lock-free variant would need a control block of its own (a node per stored value, that is an allocation per store) or hazard pointers: a different algorithm, not a port. Such a variant would not be bound by libc++'s ABI and could carry the epoch tag from the start.
+The lock-free method reads and writes libc++'s own control block (`__shared_weak_count`, `__add_shared ()`, `__release_shared ()`), adopts and detaches `shared_ptr`'s private `__ptr_` and `__cntrl_` as a friend, and packs the count into the control block pointer. Over the `std::shared_ptr` of libstdc++ or the MSVC STL none of that is possible without undefined behaviour. A portable lock-free variant would need a control block of its own or hazard pointers: a different algorithm, not a port. The lock-free engine above is the hazard pointer variant, over the standard smart pointers. A variant with a control block of its own (a split count with an epoch tag, reserved name `atomic_shared_ptr_lock_free_split_count`) needs its own shared pointer family and is a separate item.
 
 ## The 128-bit compare-and-swap word
 
