@@ -43,6 +43,10 @@ foreach(_directory "" "smart_ptr/" "sync/")
         "VARIANT wait_table DEFINITIONS LUMEX_ATOMIC_WAIT_FORCE_TABLE")
     _require_text("${_tests}"
         "VARIANT no_lock_free DEFINITIONS LUMEX_ATOMIC_SMART_PTR_DISABLE_LOCK_FREE")
+    _require_text("${_tests}" "VARIANT lock_free DEFINITIONS")
+    _require_text("${_tests}" "VARIANT lock_free_deferred DEFINITIONS")
+    _require_text("${_tests}" "VARIANT std_backed DEFINITIONS")
+    _require_text("${_tests}" "LUMEX_ATOMIC_TEST_SHARED_ENGINE=atomic_shared_ptr_lock_free")
     _require_text("${_tests}" "PROPERTIES TIMEOUT")
 endforeach()
 if(NOT EXISTS
@@ -67,6 +71,12 @@ _require_text("${_table}"
     "lumex_test_standards_declare_variant(atomic wait_table 20)")
 _require_text("${_table}"
     "lumex_test_standards_declare_variant(atomic no_lock_free 11 20)")
+_require_text("${_table}"
+    "lumex_test_standards_declare_variant(atomic lock_free 11 20)")
+_require_text("${_table}"
+    "lumex_test_standards_declare_variant(atomic lock_free_deferred 11 20)")
+_require_text("${_table}"
+    "lumex_test_standards_declare_variant(atomic std_backed 20)")
 
 _require_text("lumex/tests/core/CMakeLists.txt"
     "lumex_add_subdirectory_if(LUMEX_BUILD_ATOMIC atomic)")
