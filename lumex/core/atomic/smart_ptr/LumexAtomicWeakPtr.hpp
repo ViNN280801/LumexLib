@@ -79,6 +79,9 @@
 
 #include "lumex/core/atomic/smart_ptr/LumexAtomicSmartPtrCell.hpp"
 #include "lumex/core/atomic/smart_ptr/LumexAtomicSmartPtrConfig.hpp"
+#if LUMEX_ATOMIC_SMART_PTR_HAS_LOCK_FREE
+#include "lumex/core/atomic/smart_ptr/LumexAtomicSmartPtrLockFreeCell.hpp"
+#endif
 #include "lumex/core/utility/attr/LumexAttributes.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 
@@ -388,6 +391,41 @@ public:
   using base_type::operator=;
 };
 #endif // LUMEX_ATOMIC_SMART_PTR_HAS_STD_BACKED
+
+#if LUMEX_ATOMIC_SMART_PTR_HAS_LOCK_FREE
+/**
+ * @brief Lock-free atomic `std::weak_ptr<T>` (hazard-protected box engine).
+ * @details See `atomic_shared_ptr_lock_free`. Declared only when the engine
+ * exists (`LUMEX_ATOMIC_SMART_PTR_HAS_LOCK_FREE`).
+ * @tparam T The element type of the weak pointer.
+ * @tparam Reclaim When a replaced value is destroyed: `reclaim::immediate`
+ * (the default) or `reclaim::deferred`.
+ */
+template <typename T, typename Reclaim = reclaim::immediate>
+class atomic_weak_ptr_lock_free
+    : public Detail::basic_atomic_weak_ptr<
+          T, Detail::lock_free_cell<std::weak_ptr<T>, Reclaim>>
+{
+  using base_type = Detail::basic_atomic_weak_ptr<
+      T, Detail::lock_free_cell<std::weak_ptr<T>, Reclaim>>;
+
+public:
+  /// The type of the stored value.
+  using value_type = typename base_type::value_type;
+
+  /// Creates an object that holds an empty weak pointer.
+  LUMEX_CONSTEXPR
+  atomic_weak_ptr_lock_free () LUMEX_NOEXCEPT : base_type () {}
+
+  /// Creates an object that holds @p desired.
+  atomic_weak_ptr_lock_free (value_type desired) LUMEX_NOEXCEPT
+      : base_type (std::move (desired))
+  {
+  }
+
+  using base_type::operator=;
+};
+#endif // LUMEX_ATOMIC_SMART_PTR_HAS_LOCK_FREE
 
 /**
  * @brief The common name: `std::atomic<std::weak_ptr<T>>` from C++11 on.

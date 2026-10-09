@@ -139,7 +139,14 @@ class LumexLibConan(ConanFile):
         self._component("core_math", "math")
         self._component("core_optional", "optional")
         self._component("core_span", "span")
-        atomic = self._component("core_atomic", "atomic")
+        # The lock-free engine is built on core/hazard_pointer. The package
+        # always builds it, so the soft edge of the CMake target (it links
+        # lumex::hazard_pointer and defines LUMEX_ATOMIC_HAS_HAZARD_POINTER
+        # only when that target exists) is a plain requirement here.
+        atomic = self._component(
+            "core_atomic", "atomic", requires=["core_hazard_pointer"]
+        )
+        atomic.defines.append("LUMEX_ATOMIC_HAS_HAZARD_POINTER=1")
         if not windows:
             # As CMake's Threads::Threads: the lock-based implementation uses
             # std::mutex and std::condition_variable before C++20.

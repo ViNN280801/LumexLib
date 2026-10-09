@@ -85,6 +85,9 @@
 
 #include "lumex/core/atomic/smart_ptr/LumexAtomicSmartPtrCell.hpp"
 #include "lumex/core/atomic/smart_ptr/LumexAtomicSmartPtrConfig.hpp"
+#if LUMEX_ATOMIC_SMART_PTR_HAS_LOCK_FREE
+#include "lumex/core/atomic/smart_ptr/LumexAtomicSmartPtrLockFreeCell.hpp"
+#endif
 #include "lumex/core/utility/attr/LumexAttributes.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 
@@ -429,6 +432,56 @@ public:
   using base_type::operator=;
 };
 #endif // LUMEX_ATOMIC_SMART_PTR_HAS_STD_BACKED
+
+#if LUMEX_ATOMIC_SMART_PTR_HAS_LOCK_FREE
+/**
+ * @brief Lock-free atomic `std::shared_ptr<T>` (hazard-protected box engine).
+ * @details Declared only when the engine exists
+ * (`LUMEX_ATOMIC_SMART_PTR_HAS_LOCK_FREE`). The stored value is an immutable
+ * heap box behind one `std::atomic` pointer, protected by
+ * `core/hazard_pointer`: `load` never waits for another thread, a
+ * compare-exchange retries only when another thread made progress, and
+ * `is_always_lock_free` and `is_lock_free ()` are true in the sense of the
+ * steady state: the first operation of a thread takes a hazard record and
+ * every `store`, `exchange` and successful compare-exchange allocates a box,
+ * which may block in the allocator. An allocation failure terminates the
+ * program (every operation is `noexcept`). See
+ * `LumexAtomicSmartPtrLockFreeCell.hpp` for the algorithm and the
+ * destruction of replaced values.
+ * @tparam T The element type of the shared pointer.
+ * @tparam Reclaim When a replaced value is destroyed: `reclaim::immediate`
+ * (the default) tries at once, inside the replacing call;
+ * `reclaim::deferred` leaves it to the hazard domain.
+ */
+template <typename T, typename Reclaim = reclaim::immediate>
+class atomic_shared_ptr_lock_free
+    : public Detail::basic_atomic_shared_ptr<
+          T, Detail::lock_free_cell<std::shared_ptr<T>, Reclaim>>
+{
+  using base_type = Detail::basic_atomic_shared_ptr<
+      T, Detail::lock_free_cell<std::shared_ptr<T>, Reclaim>>;
+
+public:
+  /// The type of the stored value.
+  using value_type = typename base_type::value_type;
+
+  /// Creates an object that holds an empty shared pointer.
+  LUMEX_CONSTEXPR
+  atomic_shared_ptr_lock_free () LUMEX_NOEXCEPT : base_type () {}
+
+  /// Creates an object that holds an empty shared pointer (LWG 3661).
+  LUMEX_CONSTEXPR
+  atomic_shared_ptr_lock_free (std::nullptr_t) LUMEX_NOEXCEPT : base_type () {}
+
+  /// Creates an object that holds @p desired.
+  atomic_shared_ptr_lock_free (value_type desired) LUMEX_NOEXCEPT
+      : base_type (std::move (desired))
+  {
+  }
+
+  using base_type::operator=;
+};
+#endif // LUMEX_ATOMIC_SMART_PTR_HAS_LOCK_FREE
 
 /**
  * @brief The common name: `std::atomic<std::shared_ptr<T>>` from C++11 on.
