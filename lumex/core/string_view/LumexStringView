@@ -44,14 +44,12 @@
  * @details Link <tt>%lumex::string_view</tt> (compiled library). Works from
  * C++11. From C++17 each view converts implicitly to and from the standard
  * one (`std::string_view`, `std::wstring_view`), through member templates that
- * are not part of the exported interface. `portable_string_view_t` and
- * `portable_wstring_view_t` name the standard view from C++17 and the view of
- * this module below it, for modules whose overloads take a string view in
- * every standard. The umbrella includes `view/LumexStringView.hpp`,
- * `view/LumexWStringView.hpp`, `view/LumexPortableStringView.hpp` and
- * `view/LumexPortableWStringView.hpp`.
+ * are not part of the exported interface. These views are the string view
+ * types of the whole library in every C++ standard: a module with a string
+ * overload takes `lumex_string_view` (or `lumex_wstring_view`) by value, and a
+ * `std::string_view` argument converts to it, so the overload set does not
+ * change with the standard. The umbrella includes `view/LumexStringView.hpp`
+ * and `view/LumexWStringView.hpp`.
  */
-#include "view/LumexPortableStringView.hpp"
-#include "view/LumexPortableWStringView.hpp"
 #include "view/LumexStringView.hpp"
 #include "view/LumexWStringView.hpp"
