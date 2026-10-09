@@ -67,8 +67,8 @@
  * function without arguments, called as `std::invoke` does: `std::invoke`
  * itself from C++17, a private equivalent over `std::mem_fn` below it. The
  * default projection is `functional::identity` and the default comparison is
- * `functional::less` (`std::identity` with C++20 ranges and `std::less<void>`
- * from C++14, own function objects below).
+ * `functional::less` (own function objects in every standard; they convert to
+ * `std::identity` and `std::less<void>` where the standard has them).
  *
  * A range argument must outlive the call: an lvalue, or from C++20 a range
  * that is `std::ranges::borrowed_range` (`std::span`, `std::string_view`,

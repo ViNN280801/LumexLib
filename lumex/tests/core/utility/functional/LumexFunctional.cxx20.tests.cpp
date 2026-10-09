@@ -1,10 +1,10 @@
 // lumex/tests/core/utility/functional/LumexFunctional.cxx20.tests.cpp
-// At C++20 `identity` is std::identity, and both objects are drop-in
-// replacements for the standard ones in the range algorithms: less agrees with
-// std::ranges::less on the same operands and models the concepts the
-// algorithms require. GCC 8 accepts -std=c++2a without <ranges> or
-// std::identity, so there the tests skip (identity is the class of the
-// library then).
+// At C++20 `identity` still is the class of this library, never std::identity;
+// it converts implicitly to and from std::identity, and both objects are
+// drop-in replacements for the standard ones in the range algorithms: less
+// agrees with std::ranges::less on the same operands and models the concepts
+// the algorithms require. GCC 8 accepts -std=c++2a without <ranges> or
+// std::identity, so there the tests skip.
 #include <algorithm>
 #if __has_include(<concepts>)
 #include <concepts>
@@ -26,11 +26,29 @@
 namespace functional = lumex::core::utility::functional;
 
 TEST (LumexFunctionalCxx20Test,
-      GivenRangesLibrary_WhenIdentity_ThenStdIdentity)
+      GivenRangesLibrary_WhenIdentity_ThenOwnClassConvertingToStdIdentity)
 {
 #if LUMEX_HAS_STD_RANGES
-  static_assert (std::is_same<functional::identity, std::identity>::value,
-                 "identity is std::identity");
+  static_assert (!std::is_same<functional::identity, std::identity>::value,
+                 "identity is not std::identity");
+  static_assert (
+      std::is_convertible<functional::identity, std::identity>::value,
+      "own to std");
+  static_assert (
+      std::is_convertible<std::identity, functional::identity>::value,
+      "std to own");
+  static_assert (
+      std::is_nothrow_constructible<std::identity, functional::identity>::value
+          && std::is_nothrow_constructible<functional::identity,
+                                           std::identity>::value,
+      "the conversions are noexcept");
+  constexpr std::identity toStd = functional::identity ();
+  constexpr functional::identity fromStd = std::identity ();
+  static_assert (toStd (5) == 5 && fromStd (6) == 6,
+                 "usable in constant expressions");
+  std::vector<int> numbers{ 3, 1, 2 };
+  std::ranges::sort (numbers, std::ranges::less (), functional::identity ());
+  EXPECT_TRUE (std::ranges::is_sorted (numbers));
   SUCCEED ();
 #else
   GTEST_SKIP () << "the standard library has no <ranges>";
