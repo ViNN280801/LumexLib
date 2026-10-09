@@ -162,7 +162,7 @@ endfunction()
 # lumex_add_standard_suites(<Component> MODULE <key>
 #     [LINK <item>...] [SOURCES <file>...] [DEFINITIONS <definition>...]
 #     [EXCLUDE <file>...] [DISCOVER_ARGS <argument>...] [PLAIN_EXECUTABLE]
-#     [TARGETS_VAR <out_var>]
+#     [TARGETS_VAR <out_var>] [SOAK_FILTER <gtest filter>]
 #     [VARIANT <name> [DEFINITIONS <definition>...]]...)
 #
 # The common DEFINITIONS go before the first VARIANT: after VARIANT <name>,
@@ -208,6 +208,14 @@ endfunction()
 # - PLAIN_EXECUTABLE is for a suite with its own main () and no GoogleTest
 #   test list: each executable is one CTest test named
 #   <prefix>Lumex<Component>Tests<suffix>.
+# - SOAK_FILTER <gtest filter> names the long soak tests of the directory
+#   (for example *Soak*). They are left out of the ordinary registration
+#   (TEST_FILTER, CMake 3.22 and later; on an older CMake they stay and skip
+#   themselves unless LUMEX_TEST_SOAK is set in the environment). When the
+#   tree is configured with -DLUMEX_BUILD_SOAK_TESTS=ON they are registered
+#   once more under the CTest label soak, with LUMEX_TEST_SOAK=1 in their
+#   environment and the name <directory prefix>soak.<Suite>.<Test><suffix>:
+#   `ctest -L soak`. LUMEX_TEST_SOAK_SECONDS sets their length.
 # - TARGETS_VAR receives the names of the created targets, for options the
 #   helper does not cover (compile or link flags of one module). Add sources
 #   through SOURCES, not afterwards: lumex_test_use_gtest silences warnings
@@ -240,7 +248,7 @@ function(lumex_add_standard_suites component)
   # helper ends it, so the common arguments may also follow the variants
   # (except DEFINITIONS, which inside a group belongs to the variant).
   set(_common_keywords MODULE LINK SOURCES EXCLUDE DISCOVER_ARGS
-    PLAIN_EXECUTABLE TARGETS_VAR)
+    PLAIN_EXECUTABLE TARGETS_VAR SOAK_FILTER)
   set(_group _main)
   set(_args__main "")
   set(_variants "")
@@ -276,7 +284,7 @@ function(lumex_add_standard_suites component)
       "lumex_add_standard_suites(${component}): VARIANT without a name")
   endif()
 
-  cmake_parse_arguments(ARG "PLAIN_EXECUTABLE" "MODULE;TARGETS_VAR"
+  cmake_parse_arguments(ARG "PLAIN_EXECUTABLE" "MODULE;TARGETS_VAR;SOAK_FILTER"
     "LINK;SOURCES;DEFINITIONS;EXCLUDE;DISCOVER_ARGS" ${_args__main})
   if(ARG_UNPARSED_ARGUMENTS)
     message(FATAL_ERROR
@@ -411,9 +419,27 @@ function(lumex_add_standard_suites component)
         lumex_test_name(_ctest_name "Lumex${component}Tests${_suffix}")
         add_test(NAME ${_ctest_name} COMMAND ${_target})
       else()
+        # The soak tests (SOAK_FILTER) leave the ordinary registration where
+        # gtest_discover_tests can filter (CMake 3.22) and are registered
+        # again under the label soak when LUMEX_BUILD_SOAK_TESTS is ON.
+        set(_filter_args "")
+        if(ARG_SOAK_FILTER AND NOT CMAKE_VERSION VERSION_LESS 3.22)
+          set(_filter_args TEST_FILTER "-${ARG_SOAK_FILTER}")
+        endif()
         lumex_gtest_discover_tests(${_target}
           TEST_SUFFIX "${_suffix}"
+          ${_filter_args}
           ${ARG_DISCOVER_ARGS})
+        if(ARG_SOAK_FILTER AND LUMEX_BUILD_SOAK_TESTS
+           AND NOT CMAKE_VERSION VERSION_LESS 3.22)
+          lumex_test_name(_soak_prefix "soak.")
+          lumex_gtest_discover_tests(${_target}
+            TEST_PREFIX "${_soak_prefix}"
+            TEST_SUFFIX "${_suffix}"
+            TEST_FILTER "${ARG_SOAK_FILTER}"
+            TEST_LIST ${_target}_soak_tests
+            PROPERTIES LABELS soak ENVIRONMENT LUMEX_TEST_SOAK=1 TIMEOUT 3600)
+        endif()
       endif()
       list(APPEND _targets ${_target})
     endforeach()
