@@ -28,12 +28,14 @@
 
 // LumexException.cxx17.tests.cpp
 //
-// lumex_base_exception tests of the std::string_view constructor (C++17). The
+// lumex_base_exception tests of std::string_view arguments (C++17): they
+// convert to the lumex_string_view the constructor takes. The
 // C++17 and C++20 suites compile this file together with the .cxx11 files of
 // this directory.
 
 #include <string>
 #include <string_view>
+#include <type_traits>
 
 #include <gtest/gtest.h>
 
@@ -44,8 +46,18 @@
 
 using lumex::core::exceptions::exception::lumex_base_exception;
 
-// API Contract Verifier: the std::string_view constructor (an inline wrapper
-// over the exported std::string one) copies exactly the view
+static_assert (
+    std::is_constructible<lumex_base_exception, std::string_view>::value,
+    "a std::string_view is accepted (it converts to lumex_string_view)");
+static_assert (std::is_constructible<lumex_base_exception,
+                                     std::string_view const &>::value,
+               "a const lvalue std::string_view is accepted");
+static_assert (std::is_convertible<std::string_view, lumex_string_view>::value,
+               "the conversion is implicit");
+
+// API Contract Verifier: the std::string_view argument (converted to the
+// lumex_string_view the inline constructor takes, which wraps the exported
+// std::string one) copies exactly the view
 TEST_F (LumexExceptionTest, LumexBaseException_StringViewCtor_CopiesTheView)
 {
   std::string const text = "prefix:message:suffix";
@@ -66,9 +78,8 @@ TEST_F (LumexExceptionTest,
   EXPECT_EQ (std::string (ex.what (), 3), std::string (with_nul));
 }
 
-// The view of the library converts to std::string_view, so the same
-// constructor takes it; the char const *, std::string and literal
-// constructors keep their calls.
+// The view of the library is the type the constructor takes; the char const *,
+// std::string and literal constructors keep their calls.
 TEST_F (LumexExceptionTest, LumexBaseException_LumexStringView_CopiesTheView)
 {
   std::string const text = "prefix:message:suffix";
