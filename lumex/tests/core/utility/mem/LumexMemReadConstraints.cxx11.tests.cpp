@@ -3,7 +3,8 @@
 // Which calls of as<T> exist. The constraints are SFINAE in every standard, so
 // a call that does not satisfy them finds no overload; the detectors below ask
 // the compiler instead of compiling a rejected call. T must be trivially
-// copyable, standard layout, and neither a pointer nor a reference; the
+// copyable, standard layout, neither a pointer nor a reference, and neither
+// const nor volatile (the bytes are copied into a local object of T); the
 // element of a span must be char, unsigned char or the byte of the span module
 // (std::byte from C++17); a source object needs get_data () convertible to
 // void const * and get_data_size () convertible to int, both on a const
@@ -222,6 +223,25 @@ TEST (LumexMemReadConstraintsTest,
 }
 
 TEST (LumexMemReadConstraintsTest,
+      GivenCvQualifiedValueTypes_WhenReadFromPointer_ThenRejected)
+{
+  // A const or volatile T is trivially copyable, so the constraint used to
+  // accept it and the body failed to compile (memcpy into a const object).
+  EXPECT_FALSE (reads_from_pointer<int const>::value);
+  EXPECT_FALSE (reads_from_pointer<int volatile>::value);
+  EXPECT_FALSE (reads_from_pointer<int const volatile>::value);
+  EXPECT_FALSE (reads_from_pointer<std::uint8_t const>::value);
+  EXPECT_FALSE (reads_from_pointer<double const>::value);
+  EXPECT_FALSE (reads_from_pointer<plain_point const>::value);
+  EXPECT_FALSE (reads_from_pointer<plain_point volatile>::value);
+  EXPECT_FALSE (reads_from_pointer<small_enum const>::value);
+  EXPECT_FALSE ((reads_from_pointer<std::array<char, 4> const>::value));
+  // The unqualified types stay accepted.
+  EXPECT_TRUE (reads_from_pointer<int>::value);
+  EXPECT_TRUE (reads_from_pointer<plain_point>::value);
+}
+
+TEST (LumexMemReadConstraintsTest,
       GivenSourceTypes_WhenRead_ThenOnlyDataSources)
 {
   EXPECT_TRUE ((reads_from_source<int, good_source>::value));
@@ -248,6 +268,19 @@ TEST (LumexMemReadConstraintsTest,
   EXPECT_FALSE ((reads_from_source<std::string, good_source>::value));
   EXPECT_FALSE ((reads_from_source<int *, good_source>::value));
   EXPECT_FALSE ((reads_from_source<int &, good_source>::value));
+}
+
+TEST (LumexMemReadConstraintsTest,
+      GivenCvQualifiedValueTypes_WhenReadFromSourceOrSpan_ThenRejected)
+{
+  EXPECT_FALSE ((reads_from_source<int const, good_source>::value));
+  EXPECT_FALSE ((reads_from_source<int volatile, good_source>::value));
+  EXPECT_FALSE ((reads_from_source<plain_point const, wide_source>::value));
+  EXPECT_FALSE ((reads_from_span<int const, unsigned char>::value));
+  EXPECT_FALSE ((reads_from_span<int volatile, char>::value));
+  EXPECT_FALSE ((reads_from_span<plain_point const, byte>::value));
+  EXPECT_TRUE ((reads_from_source<int, good_source>::value));
+  EXPECT_TRUE ((reads_from_span<int, unsigned char>::value));
 }
 
 TEST (LumexMemReadConstraintsTest, GivenSpanElements_WhenRead_ThenOnlyByteLike)
