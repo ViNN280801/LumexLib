@@ -413,6 +413,121 @@ public:
   {
   }
 
+#if LUMEX_HAS_STD_BYTE
+  /**
+   * @brief Converts a span of the other byte type (C++17): a `span` of
+   * `std::byte` to a `span` of `byte` and the reverse.
+   * @details `byte` of the span module is an own enumeration, so the two
+   * element types are not related by a qualification conversion and the
+   * constructor above does not take part. This one takes part when `U` is
+   * the other byte type and converts to `element_type` by a qualification
+   * conversion after the exchange (`std::byte const` to `byte const`, never
+   * to `byte`) and the extents are compatible. Implicit unless a static
+   * extent is made from a dynamic one, which is explicit. It is not
+   * `constexpr`: it reinterprets the pointer.
+   * @pre When `Extent` is not dynamic, `other.size () == Extent`.
+   * @tparam U The element type of `other`.
+   * @tparam N The extent of `other`.
+   * @param other The span to convert.
+   */
+  template <typename U, std::size_t N,
+            typename std::enable_if<
+                detail::is_extent_compatible<Extent, N>::value
+                    && detail::is_byte_twin_convertible<U, element_type>::value
+                    && (Extent == dynamic_extent || N != dynamic_extent),
+                int>::type
+            = 0>
+  span (span<U, N> const &other) LUMEX_NOEXCEPT
+      : m_storage (reinterpret_cast<element_type *> ( // NOLINT
+                       other.data ()),
+                   other.size ())
+  {
+  }
+
+  /// @copydoc span(span<U,N> const&)
+  template <typename U, std::size_t N,
+            typename std::enable_if<
+                detail::is_extent_compatible<Extent, N>::value
+                    && detail::is_byte_twin_convertible<U, element_type>::value
+                    && (Extent != dynamic_extent && N == dynamic_extent),
+                long>::type
+            = 0>
+  explicit span (span<U, N> const &other) LUMEX_NOEXCEPT
+      : m_storage (reinterpret_cast<element_type *> ( // NOLINT
+                       other.data ()),
+                   other.size ())
+  {
+  }
+#endif
+
+#if LUMEX_SPAN_HAS_STD_SPAN
+  /**
+   * @brief Converts a `std::span` of the other byte type (C++20): a
+   * `std::span<std::byte>` to a `span` of `byte` and the reverse.
+   * @details The same rules as the constructor from a `span` of the other
+   * byte type. A `std::span` of the same element type needs no such
+   * constructor: the range constructor takes it.
+   * @pre When `Extent` is not dynamic, `other.size () == Extent`.
+   * @tparam U The element type of `other`.
+   * @tparam N The extent of `other`.
+   * @param other The `std::span` to convert.
+   */
+  template <typename U, std::size_t N,
+            typename std::enable_if<
+                detail::is_extent_compatible<Extent, N>::value
+                    && detail::is_byte_twin_convertible<U, element_type>::value
+                    && (Extent == dynamic_extent || N != dynamic_extent),
+                int>::type
+            = 0>
+  span (std::span<U, N> const &other) LUMEX_NOEXCEPT
+      : m_storage (reinterpret_cast<element_type *> ( // NOLINT
+                       other.data ()),
+                   other.size ())
+  {
+  }
+
+  /// @copydoc span(std::span<U,N> const&)
+  template <typename U, std::size_t N,
+            typename std::enable_if<
+                detail::is_extent_compatible<Extent, N>::value
+                    && detail::is_byte_twin_convertible<U, element_type>::value
+                    && (Extent != dynamic_extent && N == dynamic_extent),
+                long>::type
+            = 0>
+  explicit span (std::span<U, N> const &other) LUMEX_NOEXCEPT
+      : m_storage (reinterpret_cast<element_type *> ( // NOLINT
+                       other.data ()),
+                   other.size ())
+  {
+  }
+
+  /**
+   * @brief Converts to a `std::span` of the other byte type: a `span` of
+   * `byte` to a `std::span<std::byte>` and the reverse.
+   * @details Implicit; takes part when the target element type is the other
+   * byte type with the qualifiers `element_type` can give (a qualification
+   * conversion after the exchange) and the target extent is dynamic or equal
+   * to `Extent`. A target of static extent made from a dynamic span is
+   * written as `std::span<std::byte, N> (s.data (), N)`. A `std::span` of the
+   * same byte type needs no conversion function: its range constructor takes
+   * the `span`. It is not `constexpr`: it reinterprets the pointer.
+   * @tparam StdSpan Deduced from the target; a `std::span<U, N>`.
+   * @return A `std::span` over the same elements.
+   */
+  template <typename StdSpan,
+            typename std::enable_if<detail::is_std_byte_span_target<
+                                        StdSpan, element_type, Extent>::value,
+                                    int>::type
+            = 0>
+  operator StdSpan () const LUMEX_NOEXCEPT
+  {
+    return StdSpan (
+        reinterpret_cast<typename StdSpan::element_type *> ( // NOLINT
+            m_storage.data ()),
+        m_storage.size ());
+  }
+#endif
+
   // -- Subviews --
   /**
    * @brief The first `Count` elements as a span of static extent.

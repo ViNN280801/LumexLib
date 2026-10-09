@@ -1,9 +1,11 @@
 // LumexSpanTraits.cxx11.tests.cpp
 //
 // dynamic_extent, the byte type and its operators, and the
-// is_contiguous_iterator trait. The byte tests run at every standard: from
-// C++17 `byte` is std::byte, before it is the module's own enumeration with
-// the same operators.
+// is_contiguous_iterator trait. The byte tests run at every standard: `byte`
+// is the module's own enumeration with the operators of std::byte in each of
+// them, never std::byte (the conversions to and from std::byte are checked in
+// LumexSpan.cxx17 and the span conversions in LumexSpanByteTwin.cxx17 and
+// .cxx20).
 #include <cstddef>
 #include <deque>
 #include <limits>
@@ -124,22 +126,28 @@ TEST (LumexSpanTraitsTest,
   SUCCEED ();
 }
 
-#if LUMEX_HAS_STD_BYTE
-TEST (LumexSpanTraitsTest, GivenStdByteLibrary_WhenByte_ThenStdByte)
-{
-  static_assert (std::is_same<byte, std::byte>::value,
-                 "from C++17 byte is std::byte");
-  SUCCEED ();
-}
-#else
-TEST (LumexSpanTraitsTest, GivenNoStdByte_WhenByte_ThenOwnEnumeration)
+TEST (LumexSpanTraitsTest, GivenAnyStandard_WhenByte_ThenOwnEnumeration)
 {
   static_assert (std::is_enum<byte>::value
                      && !std::is_convertible<byte, int>::value,
                  "the own byte is a scoped enumeration");
+#if LUMEX_HAS_STD_BYTE
+  static_assert (!std::is_same<byte, std::byte>::value,
+                 "never std::byte, whatever the standard");
+  static_assert (std::is_same<std::underlying_type<byte>::type,
+                              std::underlying_type<std::byte>::type>::value,
+                 "the same underlying type as std::byte");
+  static_assert (!std::is_convertible<byte, std::byte>::value
+                     && !std::is_convertible<std::byte, byte>::value,
+                 "an enumeration converts to another only explicitly");
+  static_assert (static_cast<byte> (std::byte{ 0xA5 })
+                         == static_cast<byte> (0xA5)
+                     && static_cast<std::byte> (static_cast<byte> (0x5A))
+                            == std::byte{ 0x5A },
+                 "the explicit conversions keep the value");
+#endif
   SUCCEED ();
 }
-#endif
 
 TEST (LumexSpanTraitsTest, GivenObjectPointers_WhenContiguousIterator_ThenTrue)
 {
