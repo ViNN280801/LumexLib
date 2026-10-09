@@ -297,18 +297,20 @@ function(lumex_configure_target target_name)
       endif()
     endif()
   endif()
+
+  # TOOLCHAIN_RUNTIME_RPATH ON: a toolchain outside the system paths (GCC or
+  # LLVM under /opt) keeps its C++ runtime outside the loader's directories;
+  # without a RUNPATH the tests, examples and libraries of the build tree load
+  # the older libstdc++ / libc++ of the system and stop. The parameter makes the
+  # last step of the call configure_toolchain_runtime_rpath on this target,
+  # after the -stdlib= choice. Build tree only (BUILD_RPATH); the install RPATH
+  # of a package is not touched, and a distribution compiler adds nothing.
   configure_optimization_level("${target_name}"
     LEVEL "${LUMEX_OPTIMIZATION_LEVEL}"
     ENABLE_LTO "${LUMEX_ENABLE_LTO}"
     DEBUG_SYMBOLS "${LUMEX_DEBUG_SYMBOLS}"
-    CXX_STDLIB "${LUMEX_CLANG_STDLIB}")
-
-  # A toolchain outside the system paths (GCC or LLVM under /opt) keeps its C++
-  # runtime outside the loader's directories: without a RUNPATH the tests,
-  # examples and libraries of the build tree load the older libstdc++ / libc++
-  # of the system and stop. Build tree only (BUILD_RPATH); the install RPATH
-  # of a package is not touched, and a distribution compiler adds nothing.
-  configure_toolchain_runtime_rpath("${target_name}")
+    CXX_STDLIB "${LUMEX_CLANG_STDLIB}"
+    TOOLCHAIN_RUNTIME_RPATH ON)
 
   # Remember the C++ standard library CMakeRoutines chose (-stdlib=libc++ on
   # Clang when libc++ is usable): the vendored GoogleTest libraries skip this
