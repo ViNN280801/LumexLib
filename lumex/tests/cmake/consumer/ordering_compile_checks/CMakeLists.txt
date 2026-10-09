@@ -8,7 +8,9 @@
 # a stronger category, a constant is not assignable) and the static assertions
 # of the safe comparator that have no standard counterpart (7-10: an ordering
 # helper given a number, a three-way comparison of a type that is not
-# arithmetic).
+# arithmetic) and the conversions between the own classes and the classes of
+# <compare> that the standard categories lack (14-17; they are skipped where
+# the toolchain has no <compare>).
 # The checks run at C++11, C++17 and C++20. Everything runs at configure time
 # (try_compile).
 
@@ -31,7 +33,7 @@ else()
     set(_werror -Werror)
     set(_standards 11 17 20)
 endif()
-set(_last_case 13)
+set(_last_case 17)
 
 function(_lumex_ordering_try result_var tag standard)
     try_compile(_ok "${CMAKE_BINARY_DIR}/try_${tag}"
@@ -58,6 +60,9 @@ foreach(_std IN LISTS _standards)
     foreach(_case RANGE 1 ${_last_case})
         _lumex_ordering_try(_ok bad_${_case}_${_tag} ${_std}
                             -DLUMEX_ORDERING_BAD_CASE=${_case})
+        if(NOT _ok AND _ok_OUTPUT MATCHES "needs three-way comparison")
+            continue()
+        endif()
         if(_ok)
             message(FATAL_ERROR
                 "LUMEX_ORDERING_BAD_CASE=${_case} (${_tag}) compiled; the "
