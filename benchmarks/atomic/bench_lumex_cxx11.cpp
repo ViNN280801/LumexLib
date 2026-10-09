@@ -7,15 +7,15 @@
 
 #include "bench_atomic_smart_ptr.hpp"
 
-#if LUMEX_ATOMIC_SMART_PTR_USES_STD || LUMEX_ATOMIC_WAIT_USES_STD
-#error "the C++11 unit must build the lock-based implementation with the table"
+#if LUMEX_ATOMIC_WAIT_USES_STD
+#error "the C++11 unit must sleep on the table"
 #endif
 
 lumex_atomic_bench::implementation_t
 lumex_atomic_bench::lumex_lock_based_cxx11_implementation ()
 {
   return detail::make_implementation<
-      lumex::core::atomic::smart_ptr::atomic_shared_ptr<int>> (
+      lumex::core::atomic::smart_ptr::atomic_shared_ptr_lock_based<int>> (
       "lumex_lock_based_cxx11", "LumexLib lock-based, C++11",
       LUMEX_ATOMIC_BENCH_STRINGIFY (LUMEX_ATOMIC_SMART_PTR_ABI_NAMESPACE),
       LUMEX_ATOMIC_BENCH_STANDARD);

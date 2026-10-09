@@ -39,11 +39,14 @@
 
 /**
  * @file LumexAtomicSmartPtrCell.hpp
- * @brief Storage and operations behind `atomic_shared_ptr` and
- * `atomic_weak_ptr`: a lock-based cell for every standard library, and a cell
- * over the standard atomic smart pointers.
+ * @brief Storage and operations behind `atomic_shared_ptr_lock_based`,
+ * `atomic_weak_ptr_lock_based` and the `*_std_backed` class templates: a
+ * lock-based cell for every standard library, and a cell over the standard
+ * atomic smart pointers.
  * @details The public class templates forward every operation to one of the
- * cells below; `LUMEX_ATOMIC_SMART_PTR_USES_STD` selects which.
+ * cells below (the lock-free cell is in
+ * `LumexAtomicSmartPtrLockFreeCell.hpp`); the equivalence traits are shared by
+ * all of them.
  *
  * `lock_based_cell` is the port of the lock-based method of the author's own
  * libc++ implementation (llvm-project pull request 194215; see
@@ -339,7 +342,7 @@ template <typename Pointer>
 LUMEX_CONSTEXPR bool lock_based_cell<Pointer>::is_always_lock_free;
 #endif
 
-#if LUMEX_ATOMIC_SMART_PTR_USES_STD
+#if LUMEX_ATOMIC_SMART_PTR_HAS_STD_BACKED
 
 /**
  * @brief Atomic cell over `std::atomic<std::shared_ptr<T>>` or
@@ -465,19 +468,7 @@ private:
   std::atomic<std::uint32_t> epoch_;
 };
 
-/**
- * @brief The cell selected by `LUMEX_ATOMIC_SMART_PTR_USES_STD`.
- */
-template <typename Pointer> using Cell = std_backed_cell<Pointer>;
-
-#else // !LUMEX_ATOMIC_SMART_PTR_USES_STD
-
-/**
- * @brief The cell selected by `LUMEX_ATOMIC_SMART_PTR_USES_STD`.
- */
-template <typename Pointer> using Cell = lock_based_cell<Pointer>;
-
-#endif // LUMEX_ATOMIC_SMART_PTR_USES_STD
+#endif // LUMEX_ATOMIC_SMART_PTR_HAS_STD_BACKED
 
 } // namespace Detail
 } // namespace LUMEX_ATOMIC_SMART_PTR_ABI_NAMESPACE

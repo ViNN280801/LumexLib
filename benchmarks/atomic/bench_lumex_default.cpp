@@ -15,8 +15,8 @@
 #error "this unit must be built at C++20"
 #endif
 
-#if LUMEX_ATOMIC_SMART_PTR_USES_STD
-#define LUMEX_ATOMIC_BENCH_DEFAULT_LABEL "LumexLib default, C++20 (wraps std)"
+#if LUMEX_ATOMIC_SMART_PTR_COMMON_IS_LOCK_FREE
+#define LUMEX_ATOMIC_BENCH_DEFAULT_LABEL "LumexLib default, C++20 (lock-free)"
 #else
 #define LUMEX_ATOMIC_BENCH_DEFAULT_LABEL "LumexLib default, C++20 (lock-based)"
 #endif

@@ -44,6 +44,8 @@
 
 using namespace lumex_atomic_test;
 
+namespace smart_ptr = lumex::core::atomic::smart_ptr;
+
 #if LUMEX_HAS_STD_ATOMIC_SHARED_PTR
 namespace
 {
@@ -103,12 +105,31 @@ TEST (LumexAtomicSmartPtrConfigTest,
 {
 #if LUMEX_HAS_STD_ATOMIC_SHARED_PTR
   std::shared_ptr<Pair> const owner = std::make_shared<Pair> (Pair{ 10, 20 });
-  std::vector<long> const ours = run_script<atomic_shared_ptr<int>> (owner);
   std::vector<long> const standard
       = run_script<std::atomic<std::shared_ptr<int>>> (owner);
-  ASSERT_EQ (ours.size (), standard.size ());
-  for (std::size_t i = 0; i < ours.size (); ++i)
-    EXPECT_EQ (ours[i], standard[i]) << "step " << i;
+  // Every engine of the library, the wrapper and the common name behave as
+  // the standard type on the scripted scenario.
+  std::vector<long> const wrapped
+      = run_script<smart_ptr::atomic_shared_ptr_std_backed<int>> (owner);
+  std::vector<long> const locked
+      = run_script<smart_ptr::atomic_shared_ptr_lock_based<int>> (owner);
+  std::vector<long> const common = run_script<atomic_shared_ptr<int>> (owner);
+#if LUMEX_ATOMIC_SMART_PTR_HAS_LOCK_FREE
+  std::vector<long> const free_engine
+      = run_script<smart_ptr::atomic_shared_ptr_lock_free<int>> (owner);
+#endif
+  ASSERT_EQ (wrapped.size (), standard.size ());
+  ASSERT_EQ (locked.size (), standard.size ());
+  ASSERT_EQ (common.size (), standard.size ());
+  for (std::size_t i = 0; i < standard.size (); ++i)
+    {
+      EXPECT_EQ (wrapped[i], standard[i]) << "std_backed, step " << i;
+      EXPECT_EQ (locked[i], standard[i]) << "lock_based, step " << i;
+      EXPECT_EQ (common[i], standard[i]) << "common, step " << i;
+#if LUMEX_ATOMIC_SMART_PTR_HAS_LOCK_FREE
+      EXPECT_EQ (free_engine[i], standard[i]) << "lock_free, step " << i;
+#endif
+    }
 #else
   GTEST_SKIP ()
       << "the standard library has no std::atomic<std::shared_ptr<T>>";
