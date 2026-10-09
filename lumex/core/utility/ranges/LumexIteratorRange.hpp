@@ -34,14 +34,21 @@
  * @brief `iterator_range`, a pair of iterators that lets a range-based for
  * loop walk any sequence the iterators describe.
  * @details The class template stores a begin and an end iterator and exposes
- * them through `begin()` and `end()`, plus `empty()`. It owns nothing: it is
- * valid as long as the iterators are, and the sequence they walk must outlive
- * it. Header-only, works from C++11, no dependency beyond the attribute
- * macros. The XML module returns it from `XmlNode::children` and
- * `XmlNode::attributes`.
+ * them through `begin()` and `end()`, plus `empty()`, and `size()` when the
+ * iterators are random access. It owns nothing: it is valid as long as the
+ * iterators are, and the sequence they walk must outlive it. Header-only,
+ * works from C++11, no dependency beyond the attribute macros and the
+ * standard headers. The XML module returns it from `XmlNode::children` and
+ * `XmlNode::attributes`; `core_dump_generator::get_memory_filters_range`
+ * returns it below C++20, where `size()` matches the `size()` of the
+ * `std::ranges::ref_view` that C++20 returns.
  */
 #ifndef LUMEX_CORE_UTILITY_RANGES_ITERATOR_RANGE_HPP
 #define LUMEX_CORE_UTILITY_RANGES_ITERATOR_RANGE_HPP
+
+#include <cstddef>
+#include <iterator>
+#include <type_traits>
 
 #include "lumex/core/utility/attr/LumexAttributes.hpp"
 
@@ -102,6 +109,39 @@ public:
   end () const
   {
     return m_end;
+  }
+
+  /**
+   * @brief Returns the number of elements in the range.
+   * @details Present only when
+   * `std::iterator_traits<Iterator>::iterator_category` is
+   * `std::random_access_iterator_tag` or a tag derived from it (so a pointer,
+   * a `std::vector`, `std::deque`, `std::string` or `std::array` iterator
+   * qualifies and a `std::list`, `std::set` or `std::forward_list` iterator
+   * does not): counting the elements of any other range would walk it, which
+   * `size()` must not hide. The member does not exist for those iterators, so
+   * a call is a compile-time error and `has_size` style detection reports
+   * `false`. It makes the range usable where `std::ranges::ref_view` was used
+   * from C++20, which has `size()` for a vector.
+   * @tparam RangeIterator The iterator type of the range (always `Iterator`;
+   * a member template argument of its own keeps the constraint a
+   * substitution failure of the member instead of an error of the class).
+   * @return `end() - begin()` as `std::size_t`. The range must be valid: a
+   * range whose end lies before its beginning gives a meaningless value.
+   */
+  template <typename RangeIterator = Iterator,
+            typename std::enable_if<
+                std::is_base_of<std::random_access_iterator_tag,
+                                typename std::iterator_traits<
+                                    RangeIterator>::iterator_category>::value,
+                int>::type
+            = 0>
+  LUMEX_ATTRIBUTE_NODISCARD ("The returned value is the number of elements; "
+                             "discarding it negates the purpose of the "
+                             "getter.")
+  std::size_t size () const
+  {
+    return static_cast<std::size_t> (m_end - m_begin);
   }
 
   /**
