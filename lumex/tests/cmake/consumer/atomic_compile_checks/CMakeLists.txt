@@ -7,7 +7,15 @@
 # diagnose_if attribute (Clang) reports, so they are skipped elsewhere. The
 # checks run at C++11 and C++20, and at C++20 with the forced lock-based
 # implementation (MSVC: C++20 only; its C++14 nodiscard needs /analyze).
-# Everything runs at configure time (try_compile).
+# The same checks run again with the lock-free engine present (the detection
+# macro LUMEX_ATOMIC_HAS_HAZARD_POINTER defined by hand), and a second group
+# checks the engine names: the lock-free classes compile where the engine
+# exists and are a compile error where it does not (no definition, or
+# LUMEX_ATOMIC_SMART_PTR_DISABLE_LOCK_FREE), the common names are the
+# lock-free or the lock-based engine accordingly, and the wrapper of the
+# standard library's type cannot be named below C++20.
+# Everything runs at configure time (try_compile; the sources are compiled,
+# not linked, because the lock-free engine needs the hazard pointer library).
 
 cmake_minimum_required(VERSION 3.16)
 project(LumexAtomicCompileChecks LANGUAGES CXX)
@@ -17,6 +25,8 @@ if(NOT LUMEX_SOURCE_DIR)
 endif()
 
 find_package(Threads REQUIRED)
+
+set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
 
 set(_source "${CMAKE_CURRENT_SOURCE_DIR}/check.cpp")
 if(MSVC)
@@ -42,13 +52,15 @@ function(_lumex_atomic_try result_var tag standard)
 endfunction()
 
 set(_checked 0)
-foreach(_variant IN ITEMS "plain" "forced")
+foreach(_variant IN ITEMS "plain" "forced" "free")
     foreach(_std IN LISTS _standards)
         if(_variant STREQUAL "forced")
             if(NOT _std EQUAL 20)
                 continue()
             endif()
             set(_extra -DLUMEX_ATOMIC_SMART_PTR_FORCE_LOCK_BASED)
+        elseif(_variant STREQUAL "free")
+            set(_extra -DLUMEX_ATOMIC_HAS_HAZARD_POINTER=1)
         else()
             set(_extra "")
         endif()
@@ -85,5 +97,55 @@ foreach(_variant IN ITEMS "plain" "forced")
         endforeach()
     endforeach()
 endforeach()
+
+# --- the engine names --------------------------------------------------------
+
+foreach(_std IN LISTS _standards)
+    set(_tag "names_cxx${_std}")
+    # With the engine: the lock-free names compile, the common names are the
+    # lock-free engine.
+    _lumex_atomic_try(_ok good_free_${_tag} ${_std} -DLUMEX_ATOMIC_NAME_GOOD_FREE
+                      -DLUMEX_ATOMIC_HAS_HAZARD_POINTER=1)
+    if(NOT _ok)
+        message(FATAL_ERROR
+            "LUMEX_ATOMIC_NAME_GOOD_FREE (${_tag}) must compile\n${_ok_OUTPUT}")
+    endif()
+    # Without the detection macro, and with the engine switched off: the
+    # common names are the lock-based engine and the lock-free names do not
+    # exist.
+    foreach(_off IN ITEMS "no_macro" "disabled")
+        if(_off STREQUAL "disabled")
+            set(_off_args -DLUMEX_ATOMIC_HAS_HAZARD_POINTER=1
+                          -DLUMEX_ATOMIC_SMART_PTR_DISABLE_LOCK_FREE)
+        else()
+            set(_off_args "")
+        endif()
+        _lumex_atomic_try(_ok good_lb_${_tag}_${_off} ${_std}
+                          -DLUMEX_ATOMIC_NAME_GOOD_LOCK_BASED ${_off_args})
+        if(NOT _ok)
+            message(FATAL_ERROR
+                "LUMEX_ATOMIC_NAME_GOOD_LOCK_BASED (${_tag}, ${_off}) must "
+                "compile\n${_ok_OUTPUT}")
+        endif()
+        foreach(_bad IN ITEMS LUMEX_ATOMIC_NAME_BAD_FREE
+                              LUMEX_ATOMIC_NAME_BAD_FREE_WEAK)
+            _lumex_atomic_try(_ok bad_${_bad}_${_tag}_${_off} ${_std}
+                              -D${_bad} ${_off_args})
+            if(_ok)
+                message(FATAL_ERROR
+                    "${_bad} (${_tag}, ${_off}) compiled: naming the lock-free "
+                    "engine must fail where it does not exist")
+            endif()
+            math(EXPR _checked "${_checked} + 1")
+        endforeach()
+    endforeach()
+endforeach()
+# The wrapper of the standard library's type cannot be named at C++11.
+_lumex_atomic_try(_ok bad_std_backed_cxx11 11 -DLUMEX_ATOMIC_NAME_BAD_STD_BACKED)
+if(_ok)
+    message(FATAL_ERROR
+        "LUMEX_ATOMIC_NAME_BAD_STD_BACKED compiled at C++11")
+endif()
+math(EXPR _checked "${_checked} + 1")
 
 message(STATUS "atomic compile checks: ${_checked} rejected cases as expected")

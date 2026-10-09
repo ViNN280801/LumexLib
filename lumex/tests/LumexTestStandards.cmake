@@ -45,7 +45,8 @@
 #   the standards of the module.
 # Variant: an extra suite on the same sources with compile definitions, at
 #   the standards declared for it here: Lumex<Component><Variant>Cxx<std>Tests
-#   and the CTest suffix .<variant>.cxx<std> (atomic: lock_based, wait_table).
+#   and the CTest suffix .<variant>.cxx<std> (atomic: lock_based, wait_table,
+#   no_lock_free).
 #   Every directory of the module builds its variants.
 # Standards above LUMEX_TEST_STANDARDS_OPTIONAL_ABOVE (20) are built only
 #   when the compiler supports them (cxx_std_<std> in
@@ -109,7 +110,7 @@
 #        lumex_add_standard_suites(UtilityTraits MODULE utility
 #            LINK lumex::utility "$<$<PLATFORM_ID:Windows>:dbghelp>"
 #            DISCOVER_ARGS DISCOVERY_TIMEOUT 60)
-#      Variants (atomic: lock_based and wait_table, declared below; every
+#      Variants (atomic: lock_based, wait_table and no_lock_free, declared below; every
 #        directory of atomic passes them):
 #        lumex_add_standard_suites(AtomicSmartPtr MODULE atomic
 #            LINK lumex::atomic
@@ -411,11 +412,12 @@ lumex_test_standards_declare(hazard_pointer 11 14 17 20)
 lumex_test_standards_declare(contracts 11 14 17 20)
 
 lumex_test_standards_declare(atomic 11 17 20)
-lumex_test_standards_declare_variant(atomic lock_based 20)
+lumex_test_standards_declare_variant(atomic lock_based 11 20)
 lumex_test_standards_declare_variant(atomic wait_table 20)
 lumex_test_standards_declare(atomic.dwcas 11 14 17 20)
 lumex_test_standards_declare_variant(atomic.dwcas builtin 11 14 17 20)
 lumex_test_standards_declare_variant(atomic.dwcas msvc_wrapper 11 14 17 20)
+lumex_test_standards_declare_variant(atomic no_lock_free 11 20)
 lumex_test_standards_declare(base64 11 17 20)
 lumex_test_standards_declare(expected 11 14 17 20 23)
 lumex_test_standards_declare(json 11 17 20)

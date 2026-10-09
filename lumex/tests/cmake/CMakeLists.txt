@@ -319,6 +319,11 @@ lumex_add_consumer_test(consumer_standard_mismatch_lib20_consumer11
 # function-local static; two shared libraries built with hidden visibility
 # must share it (skipped on Windows, where DLLs cannot).
 lumex_add_consumer_test(consumer_atomic_cross_module atomic_cross_module)
+# The lock-free atomic smart pointers against reclamation: the engine and the
+# cell are built into the executable with test hooks, threads are stalled at
+# named places and the allocator hands a freed block out again at once; an
+# allocation failure inside a noexcept operation must end in std::terminate.
+lumex_add_consumer_test(consumer_atomic_lock_free_hooks atomic_lock_free_hooks)
 # core/hazard_pointer: the deterministic tests of the Dekker race (the engine is
 # built with test hooks and threads are stalled at named points), two shared
 # libraries that share one domain, hazard pointers in static constructors and
