@@ -44,10 +44,10 @@
  * enumerations of the parser and the XPath engine.
  * @details Everything is in `lumex::xml::types::Types`. `char_t` is `char`
  * (the library has no wide-character mode); `string_t` is
- * `std::basic_string<char_t>`. `string_view_t` is the `portable_string_view_t`
- * of `lumex::string_view`: `std::string_view` from C++17 and
- * `lumex_string_view` below it. A `char_t const *` and a `std::string`
- * convert to it, and from C++17 so does a `lumex_string_view`. The
+ * `std::basic_string<char_t>`. `string_view_t` is the `lumex_string_view`
+ * of `lumex::string_view` in every standard (a plain alias of the library's
+ * own view). A `char_t const *` and a `std::string` convert to it, and from
+ * C++17 so does a `std::string_view`. The
  * enumerations consumers meet are `xml_node_type`, `xml_encoding`,
  * `xml_parse_status` and `xpath_value_type`.
  *
@@ -63,7 +63,7 @@
 #include <cstdint>
 #include <string>
 
-#include "lumex/core/string_view/view/LumexPortableStringView.hpp"
+#include "lumex/core/string_view/view/LumexStringView.hpp"
 #include "lumex/xml/utility/XmlMacros.hpp"
 
 namespace lumex // NOLINT(modernize-concat-nested-namespaces)
@@ -76,7 +76,7 @@ namespace Types
 {
 using char_t = char;
 using string_t = std::basic_string<char_t>;
-using string_view_t = lumex::core::string_view::view::portable_string_view_t;
+using string_view_t = lumex::core::string_view::view::lumex_string_view;
 
 enum chartype_t : std::uint8_t
 {

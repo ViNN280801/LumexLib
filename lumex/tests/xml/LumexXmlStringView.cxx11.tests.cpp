@@ -2,22 +2,21 @@
 //
 // XML tests of the string_view_t overloads (every standard): inline wrappers
 // over the sized (pointer and length) functions the library exports.
-// string_view_t is the portable_string_view_t of lumex::string_view:
-// std::string_view from C++17 and the lumex_string_view below it, so a C++11
-// program passes a std::string, a char const * and a sized view the way a
-// C++17 one does. The C++17 and C++20 suites compile this file too
-// (LumexXml.cxx17.tests.cpp holds the tests that name std::string_view).
+// string_view_t is the lumex_string_view of lumex::string_view in every
+// standard (never std::string_view), so a program passes a std::string, a
+// char const * and a sized view the same way at C++11 and at C++23; a
+// std::string_view converts to it. The C++17 and C++20 suites compile this
+// file too (LumexXml.cxx17.tests.cpp holds the tests that name
+// std::string_view).
 
 #include <cstddef>
 #include <string>
 #include <type_traits>
-#if __cplusplus >= 201703L
-#include <string_view>
-#endif
+#include <utility>
 
 #include <gtest/gtest.h>
 
-#include "lumex/core/string_view/view/LumexPortableWStringView.hpp"
+#include "lumex/core/string_view/LumexStringView"
 #include "lumex/xml/LumexXml"
 
 #include "lumex/tests/xml/LumexXmlTestFixtures.hpp"
@@ -35,23 +34,12 @@ using lumex::xml::utility::stringview_equal;
 // the character type is char and the view is never the wide one.
 static_assert (std::is_same<lumex::xml::types::Types::char_t, char>::value,
                "char_t is char");
-static_assert (std::is_same<string_view_t, lumex::core::string_view::view::
-                                               portable_string_view_t>::value,
-               "string_view_t is the portable string view");
-static_assert (
-    !std::is_same<
-        string_view_t,
-        lumex::core::string_view::view::portable_wstring_view_t>::value,
-    "string_view_t is not the wide view");
-#if __cplusplus >= 201703L
-static_assert (std::is_same<string_view_t, std::string_view>::value,
-               "from C++17 string_view_t is std::string_view");
-#else
 static_assert (
     std::is_same<string_view_t,
                  lumex::core::string_view::view::lumex_string_view>::value,
-    "below C++17 string_view_t is the lumex_string_view");
-#endif
+    "string_view_t is the lumex_string_view in every standard");
+static_assert (!std::is_same<string_view_t, lumex_wstring_view>::value,
+               "string_view_t is not the wide view");
 static_assert (std::is_convertible<char const *, string_view_t>::value,
                "a char const * is accepted as a name");
 static_assert (std::is_convertible<std::string const &, string_view_t>::value,
@@ -61,6 +49,180 @@ static_assert (std::is_convertible<char const (&)[4], string_view_t>::value,
 
 namespace
 {
+// Pointers to the members that take the name: each line selects the one
+// overload whose parameter is exactly lumex_string_view and does not compile
+// when it is another type (std::string_view, std::string const &) in any
+// standard. With the free function stringview_equal they are the 23
+// string_view_t members of the module.
+using lumex::core::string_view::view::lumex_string_view;
+XmlNode (XmlNode::*const kChild) (lumex_string_view) const = &XmlNode::child;
+XmlAttribute (XmlNode::*const kAttribute) (lumex_string_view) const
+    = &XmlNode::attribute;
+XmlAttribute (XmlNode::*const kAttributeHint) (lumex_string_view,
+                                               XmlAttribute &) const
+    = &XmlNode::attribute;
+XmlNode (XmlNode::*const kNextSibling) (lumex_string_view) const
+    = &XmlNode::next_sibling;
+XmlNode (XmlNode::*const kPreviousSibling) (lumex_string_view) const
+    = &XmlNode::previous_sibling;
+bool (XmlNode::*const kNodeSetName) (lumex_string_view) = &XmlNode::set_name;
+bool (XmlNode::*const kNodeSetValue) (lumex_string_view) = &XmlNode::set_value;
+XmlAttribute (XmlNode::*const kAppendAttribute) (lumex_string_view)
+    = &XmlNode::append_attribute;
+XmlAttribute (XmlNode::*const kPrependAttribute) (lumex_string_view)
+    = &XmlNode::prepend_attribute;
+XmlAttribute (XmlNode::*const kInsertAttributeAfter) (lumex_string_view,
+                                                      XmlAttribute const &)
+    = &XmlNode::insert_attribute_after;
+XmlAttribute (XmlNode::*const kInsertAttributeBefore) (lumex_string_view,
+                                                       XmlAttribute const &)
+    = &XmlNode::insert_attribute_before;
+XmlNode (XmlNode::*const kAppendChild) (lumex_string_view)
+    = &XmlNode::append_child;
+XmlNode (XmlNode::*const kPrependChild) (lumex_string_view)
+    = &XmlNode::prepend_child;
+XmlNode (XmlNode::*const kInsertChildAfter) (lumex_string_view,
+                                             XmlNode const &)
+    = &XmlNode::insert_child_after;
+XmlNode (XmlNode::*const kInsertChildBefore) (lumex_string_view,
+                                              XmlNode const &)
+    = &XmlNode::insert_child_before;
+bool (XmlNode::*const kRemoveAttribute) (lumex_string_view)
+    = &XmlNode::remove_attribute;
+bool (XmlNode::*const kRemoveChild) (lumex_string_view)
+    = &XmlNode::remove_child;
+bool (XmlAttribute::*const kAttrSetName) (lumex_string_view)
+    = &XmlAttribute::set_name;
+bool (XmlAttribute::*const kAttrSetValue) (lumex_string_view)
+    = &XmlAttribute::set_value;
+XmlAttribute &(XmlAttribute::*const kAttrAssign) (lumex_string_view)
+    = &XmlAttribute::operator=;
+bool (XmlText::*const kTextSet) (lumex_string_view) = &XmlText::set;
+XmlText &(XmlText::*const kTextAssign) (lumex_string_view)
+    = &XmlText::operator=;
+bool (*const kEqual) (lumex_string_view, char const *) = &stringview_equal;
+
+// Which forms the name overloads accept, in every standard.
+template <class T, class = void> struct accepts_name : std::false_type
+{
+};
+template <class T>
+struct accepts_name<T, decltype (void (std::declval<XmlNode &> ().child (
+                           std::declval<T> ())))> : std::true_type
+{
+};
+template <class T, class = void> struct accepts_new_name : std::false_type
+{
+};
+template <class T>
+struct accepts_new_name<T, decltype (void (
+                               std::declval<XmlNode &> ().append_child (
+                                   std::declval<T> ())))> : std::true_type
+{
+};
+template <class T, class = void> struct accepts_value : std::false_type
+{
+};
+template <class T>
+struct accepts_value<T, decltype (void (std::declval<XmlAttribute &> ()
+                                            .set_value (std::declval<T> ())))>
+    : std::true_type
+{
+};
+template <class T, class = void> struct accepts_text : std::false_type
+{
+};
+template <class T>
+struct accepts_text<T, decltype (void (std::declval<XmlText &> ().set (
+                           std::declval<T> ())))> : std::true_type
+{
+};
+} // namespace
+
+static_assert (accepts_name<char const (&)[4]>::value, "a literal");
+static_assert (accepts_name<char (&)[4]>::value, "a char array");
+static_assert (accepts_name<char const *>::value, "a char const *");
+static_assert (accepts_name<char *>::value, "a char *");
+static_assert (accepts_name<std::string>::value, "a std::string");
+static_assert (accepts_name<std::string const &>::value, "a std::string &");
+static_assert (accepts_name<lumex_string_view>::value, "the view");
+static_assert (accepts_name<lumex_string_view const &>::value, "the view &");
+static_assert (accepts_name<std::nullptr_t>::value, "nullptr: no name");
+static_assert (!accepts_name<lumex_wstring_view>::value, "a wide view");
+static_assert (!accepts_name<std::wstring>::value, "a wide string");
+static_assert (accepts_new_name<char const (&)[4]>::value, "a literal");
+static_assert (accepts_new_name<std::string>::value, "a std::string");
+static_assert (accepts_new_name<lumex_string_view>::value, "the view");
+static_assert (accepts_new_name<xml_node_type>::value,
+               "the node type overload stays next to the name overloads");
+static_assert (!accepts_new_name<lumex_wstring_view>::value, "a wide view");
+static_assert (accepts_value<char const (&)[4]>::value, "a literal");
+static_assert (accepts_value<std::string>::value, "a std::string");
+static_assert (accepts_value<lumex_string_view>::value, "the view");
+static_assert (!accepts_value<lumex_wstring_view>::value, "a wide view");
+static_assert (accepts_text<char const (&)[4]>::value, "a literal");
+static_assert (accepts_text<std::string>::value, "a std::string");
+static_assert (accepts_text<lumex_string_view>::value, "the view");
+static_assert (!accepts_text<lumex_wstring_view>::value, "a wide view");
+
+namespace
+{
+
+TEST_F (XmlFixture, GivenMemberPointers_WhenCall_ThenTheViewIsTheName)
+{
+  // The same members through the pointers above, with the library's view.
+  ASSERT_EQ (doc.load_string ("<r a='1'><x/><xy/></r>", kparse_default).status,
+             xml_parse_status::status_ok);
+  XmlNode r = doc.document_element ();
+  lumex_string_view const xy ("xy!", 2);
+  lumex_string_view const x ("x!", 1);
+  lumex_string_view const a ("a!", 1);
+  EXPECT_STREQ ((r.*kChild) (xy).name (), "xy");
+  EXPECT_STREQ ((r.*kAttribute) (a).value (), "1");
+  XmlAttribute hint;
+  EXPECT_STREQ ((r.*kAttributeHint) (a, hint).value (), "1");
+  XmlNode const first = (r.*kChild) (x);
+  EXPECT_STREQ ((first.*kNextSibling) (xy).name (), "xy");
+  EXPECT_STREQ ((r.last_child ().*kPreviousSibling) (x).name (), "x");
+
+  XmlNode added = (r.*kAppendChild) (lumex_string_view ("zz", 1));
+  EXPECT_TRUE ((added.*kNodeSetName) (lumex_string_view ("renamed!", 7)));
+  EXPECT_STREQ ((r.*kPrependChild) (lumex_string_view ("pq", 1)).name (), "p");
+  EXPECT_STREQ (
+      (r.*kInsertChildAfter) (lumex_string_view ("after!", 5), first).name (),
+      "after");
+  EXPECT_STREQ (
+      (r.*kInsertChildBefore) (lumex_string_view ("before!", 6), first)
+          .name (),
+      "before");
+  XmlAttribute attr
+      = (added.*kAppendAttribute) (lumex_string_view ("key=", 3));
+  EXPECT_TRUE ((attr.*kAttrSetValue) (lumex_string_view ("value;", 5)));
+  EXPECT_TRUE ((attr.*kAttrSetName) (lumex_string_view ("k2;", 2)));
+  (attr.*kAttrAssign) (lumex_string_view ("other;", 5));
+  EXPECT_STREQ (attr.value (), "other");
+  EXPECT_STREQ (
+      (added.*kPrependAttribute) (lumex_string_view ("k1", 2)).name (), "k1");
+  EXPECT_STREQ (
+      (added.*kInsertAttributeAfter) (lumex_string_view ("k3", 2), attr)
+          .name (),
+      "k3");
+  EXPECT_STREQ (
+      (added.*kInsertAttributeBefore) (lumex_string_view ("k0", 2), attr)
+          .name (),
+      "k0");
+  XmlText text = added.text ();
+  EXPECT_TRUE ((text.*kTextSet) (lumex_string_view ("body!", 4)));
+  (text.*kTextAssign) (lumex_string_view ("next!", 4));
+  EXPECT_STREQ (added.text ().get (), "next");
+  XmlNode pcdata = r.append_child (xml_node_type::node_pcdata);
+  EXPECT_TRUE ((pcdata.*kNodeSetValue) (lumex_string_view ("abc!", 3)));
+  EXPECT_STREQ (pcdata.value (), "abc");
+  EXPECT_TRUE ((added.*kRemoveAttribute) (lumex_string_view ("k2;", 2)));
+  EXPECT_TRUE ((r.*kRemoveChild) (lumex_string_view ("renamed", 7)));
+  EXPECT_TRUE (kEqual (lumex_string_view ("abcd", 3), "abc"));
+  EXPECT_FALSE (kEqual (lumex_string_view ("abcd", 4), "abc"));
+}
 
 TEST_F (XmlFixture, GivenStdStringNames_WhenLookup_ThenSameAsThePointerForms)
 {

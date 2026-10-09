@@ -47,11 +47,12 @@
  * no text. Setting a value creates a PCDATA child when there is none. The
  * handle does not own the text and is valid as long as the document.
  *
- * The `string_view_t` overloads (`std::basic_string_view<char_t>` from C++17,
- * the `lumex_string_view` of `lumex::string_view` below) exist in every C++
- * standard. They are inline wrappers and are not `dllimport`, because the
- * class itself is not exported. The file also declares the logical AND and OR
- * operators with a `bool`. Consumers include it through `lumex/xml/LumexXml`.
+ * The `string_view_t` overloads (`string_view_t` is the `lumex_string_view` of
+ * `lumex::string_view` in every C++ standard; a `std::string_view` converts to
+ * it) exist in every C++ standard. They are inline wrappers and are not
+ * `dllimport`, because the class itself is not exported. The file also
+ * declares the logical AND and OR operators with a `bool`. Consumers include
+ * it through `lumex/xml/LumexXml`.
  */
 #ifndef LUMEX_XML_TEXT_XML_TEXT_HPP
 #define LUMEX_XML_TEXT_XML_TEXT_HPP

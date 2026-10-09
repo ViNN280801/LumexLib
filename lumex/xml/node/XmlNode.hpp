@@ -50,9 +50,9 @@
  * use and yields empty results. Handles become invalid with the `XmlDocument`
  * they come from. The class is not exported. Members compiled into the
  * library carry `LUMEX_API`. The `string_view_t` overloads
- * (`std::string_view` from C++17, the `lumex_string_view` of
- * `lumex::string_view` below, so they exist in every C++ standard) are inline
- * wrappers and are not `dllimport`.
+ * (`string_view_t` is the `lumex_string_view` of `lumex::string_view` in every
+ * C++ standard; a `std::string_view` converts to it) are inline wrappers and
+ * are not `dllimport`.
  *
  * The bidirectional iterators `XmlNodeIterator` and `XmlNamedNodeIterator`
  * walk the children of a node, all of them or those with one name, and
