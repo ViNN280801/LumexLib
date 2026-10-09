@@ -62,3 +62,18 @@ if(Python3_Interpreter_FOUND)
         USES_TERMINAL
     )
 endif()
+
+# The 128-bit compare-and-swap of lumex/core/atomic/dwcas against a 64-bit one
+# on 1 to 8 threads (ratios; see README.md). A small program of its own, built
+# at C++11; on a target without the layer it prints a message and fails.
+#
+#   cmake --build build-bench --target LumexDwcasBenchmark
+#   build-bench/bin/LumexDwcasBenchmark --repetitions 3
+add_executable(LumexDwcasBenchmark bench_dwcas.cpp)
+target_link_libraries(LumexDwcasBenchmark PRIVATE lumex::atomic)
+set_target_properties(LumexDwcasBenchmark PROPERTIES
+    CXX_STANDARD 11
+    CXX_STANDARD_REQUIRED ON
+    CXX_EXTENSIONS OFF
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
+)
