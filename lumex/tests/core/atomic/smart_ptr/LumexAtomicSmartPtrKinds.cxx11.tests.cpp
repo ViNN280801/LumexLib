@@ -477,15 +477,10 @@ TEST (
   std::weak_ptr<int> expected = wb;
   bool const exchanged
       = atom.compare_exchange_strong (expected, std::weak_ptr<int> ());
-#if LUMEX_ATOMIC_SMART_PTR_USES_STD
-  // The standard types still see the stored pointer of an expired weak
-  // pointer, so the two differ.
-  EXPECT_FALSE (exchanged);
-#else
   // std::weak_ptr does not expose the stored pointer once the object is
-  // gone; the lock-based implementation then compares ownership only.
+  // gone; the engines then compare ownership only. (The standard-backed
+  // wrapper still sees it: LumexAtomicSmartPtrKinds.cxx20.tests.cpp.)
   EXPECT_TRUE (exchanged);
-#endif
 }
 
 TEST (LumexAtomicWeakPtrKindsTest,

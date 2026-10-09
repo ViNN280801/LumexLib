@@ -165,11 +165,8 @@ TYPED_TEST (LumexAtomicSharedPtrTest,
             GivenIsAlwaysLockFree_WhenBoundToAReference_ThenAConstantBool)
 {
   typedef atomic_shared_ptr<TypeParam> A;
-#if LUMEX_ATOMIC_SMART_PTR_USES_STD
-  static_assert (
-      A::is_always_lock_free
-          == std::atomic<std::shared_ptr<TypeParam>>::is_always_lock_free,
-      "same as the standard type");
+#if LUMEX_ATOMIC_SMART_PTR_COMMON_IS_LOCK_FREE
+  static_assert (A::is_always_lock_free, "the lock-free engine always is");
 #else
   static_assert (!A::is_always_lock_free, "the lock-based form is not");
 #endif
@@ -190,9 +187,8 @@ TYPED_TEST (LumexAtomicSharedPtrTest,
   bool const lock_free = a.is_lock_free ();
   if (A::is_always_lock_free)
     EXPECT_TRUE (lock_free);
-#if LUMEX_ATOMIC_SMART_PTR_USES_STD
-  std::atomic<std::shared_ptr<TypeParam>> const standard;
-  EXPECT_EQ (lock_free, standard.is_lock_free ());
+#if LUMEX_ATOMIC_SMART_PTR_COMMON_IS_LOCK_FREE
+  EXPECT_TRUE (lock_free);
 #else
   EXPECT_FALSE (lock_free);
 #endif

@@ -10,7 +10,7 @@
 #include "bench_atomic_smart_ptr.hpp"
 
 #if !defined(LUMEX_ATOMIC_SMART_PTR_FORCE_LOCK_BASED)                        \
-    || LUMEX_ATOMIC_SMART_PTR_USES_STD
+    || LUMEX_ATOMIC_SMART_PTR_COMMON_IS_LOCK_FREE
 #error "this unit must build the forced lock-based implementation"
 #endif
 #if LUMEX_ATOMIC_BENCH_STANDARD < 202002L
@@ -21,7 +21,7 @@ lumex_atomic_bench::implementation_t
 lumex_atomic_bench::lumex_lock_based_implementation ()
 {
   return detail::make_implementation<
-      lumex::core::atomic::smart_ptr::atomic_shared_ptr<int>> (
+      lumex::core::atomic::smart_ptr::atomic_shared_ptr_lock_based<int>> (
       "lumex_lock_based", "LumexLib lock-based, C++20",
       LUMEX_ATOMIC_BENCH_STRINGIFY (LUMEX_ATOMIC_SMART_PTR_ABI_NAMESPACE),
       LUMEX_ATOMIC_BENCH_STANDARD);

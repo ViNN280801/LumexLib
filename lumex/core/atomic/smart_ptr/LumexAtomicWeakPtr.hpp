@@ -39,27 +39,26 @@
 
 /**
  * @file LumexAtomicWeakPtr.hpp
- * @brief `atomic_weak_ptr<T>`: the interface of the C++20
- * `std::atomic<std::weak_ptr<T>>` for C++11 and later.
- * @details The class wraps `std::atomic<std::weak_ptr<T>>` where the
- * standard library provides it and otherwise keeps an ordinary
- * `std::weak_ptr<T>` behind a lock (see
- * `lumex/core/atomic/smart_ptr/LumexAtomicSmartPtrConfig.hpp`). The
- * lock-based implementation is a port of the lock-based method of the
- * author's own libc++ implementation of P0718R2 (llvm-project pull request
- * 194215). The member
+ * @brief `atomic_weak_ptr<T>` and its engines (`atomic_weak_ptr_lock_free`,
+ * `atomic_weak_ptr_lock_based`, `atomic_weak_ptr_std_backed`): the interface
+ * of the C++20 `std::atomic<std::weak_ptr<T>>` for C++11 and later.
+ * @details Every engine is a class template of its own over the same
+ * interface; `atomic_weak_ptr<T>` is an alias template of one of them (see
+ * `lumex/core/atomic/smart_ptr/LumexAtomicSmartPtrConfig.hpp`): the
+ * lock-free engine where it exists, the lock-based one otherwise, never the
+ * wrapper of the standard library's type. The member
  * functions follow [util.smartptr.atomic.weak]; unlike `atomic_shared_ptr`
  * there is no construction from or assignment of `nullptr`.
  *
  * Two weak pointers are equivalent when they store the same pointer and
  * either share ownership or are both empty. `std::weak_ptr` does not expose
- * its stored pointer, so the lock-based implementation, and `wait` in both
- * implementations, read it through `lock ()`. When the object is already
+ * its stored pointer, so the lock-based and lock-free engines, and `wait` in
+ * every engine, read it through `lock ()`. When the object is already
  * gone, two weak pointers with the same owner count as equivalent even if
  * they were made from aliasing shared pointers to different subobjects; the
  * standard types compare those stored pointers.
  *
- * The template is declared only in `lumex::core::atomic::smart_ptr`;
+ * The templates are declared only in `lumex::core::atomic::smart_ptr`;
  * nothing is added to the global namespace.
  *
  * @code
@@ -103,6 +102,8 @@ namespace smart_ptr
 {
 inline namespace LUMEX_ATOMIC_SMART_PTR_ABI_NAMESPACE
 {
+namespace Detail
+{
 /**
  * @brief Atomic `std::weak_ptr<T>`, as `std::atomic<std::weak_ptr<T>>`.
  * @details Every member function may be called concurrently with any other
@@ -110,10 +111,12 @@ inline namespace LUMEX_ATOMIC_SMART_PTR_ABI_NAMESPACE
  * holds a weak reference only: it keeps the control block, not the managed
  * object, alive.
  * @tparam T The element type of the weak pointer.
+ * @tparam Cell The engine: `lock_based_cell`, `lock_free_cell` or
+ * `std_backed_cell` of `std::weak_ptr<T>`.
  */
-template <typename T> class atomic_weak_ptr
+template <typename T, typename Cell> class basic_atomic_weak_ptr
 {
-  using cell_type = Detail::Cell<std::weak_ptr<T>>;
+  using cell_type = Cell;
 
 public:
   /// The type of the stored value.
@@ -127,19 +130,19 @@ public:
    * @brief Creates an object that holds an empty weak pointer.
    */
   LUMEX_CONSTEXPR
-  atomic_weak_ptr () LUMEX_NOEXCEPT : cell_ () {}
+  basic_atomic_weak_ptr () LUMEX_NOEXCEPT : cell_ () {}
 
   /**
    * @brief Creates an object that holds @p desired.
    * @param desired The initial value.
    */
-  atomic_weak_ptr (value_type desired) LUMEX_NOEXCEPT
+  basic_atomic_weak_ptr (value_type desired) LUMEX_NOEXCEPT
       : cell_ (std::move (desired))
   {
   }
 
-  atomic_weak_ptr (atomic_weak_ptr const &) = delete;
-  void operator= (atomic_weak_ptr const &) = delete;
+  basic_atomic_weak_ptr (basic_atomic_weak_ptr const &) = delete;
+  void operator= (basic_atomic_weak_ptr const &) = delete;
 
   /**
    * @brief Tells whether the operations on this object are lock-free.
@@ -313,8 +316,91 @@ private:
 };
 
 #if __cplusplus < 201703L
+template <typename T, typename Cell>
+LUMEX_CONSTEXPR bool basic_atomic_weak_ptr<T, Cell>::is_always_lock_free;
+#endif
+} // namespace Detail
+
+/**
+ * @brief Atomic `std::weak_ptr<T>` over a lock (the lock-based engine).
+ * @details Keeps an ordinary `std::weak_ptr<T>` behind a two-bit lock. Works
+ * with any standard library from C++11 on; not lock-free
+ * (`is_always_lock_free` and `is_lock_free ()` are false). The members are
+ * those of `std::atomic<std::weak_ptr<T>>` (see the file description).
+ * @tparam T The element type of the weak pointer.
+ */
 template <typename T>
-LUMEX_CONSTEXPR bool atomic_weak_ptr<T>::is_always_lock_free;
+class atomic_weak_ptr_lock_based
+    : public Detail::basic_atomic_weak_ptr<
+          T, Detail::lock_based_cell<std::weak_ptr<T>>>
+{
+  using base_type = Detail::basic_atomic_weak_ptr<
+      T, Detail::lock_based_cell<std::weak_ptr<T>>>;
+
+public:
+  /// The type of the stored value.
+  using value_type = typename base_type::value_type;
+
+  /// Creates an object that holds an empty weak pointer.
+  LUMEX_CONSTEXPR
+  atomic_weak_ptr_lock_based () LUMEX_NOEXCEPT : base_type () {}
+
+  /// Creates an object that holds @p desired.
+  atomic_weak_ptr_lock_based (value_type desired) LUMEX_NOEXCEPT
+      : base_type (std::move (desired))
+  {
+  }
+
+  using base_type::operator=;
+};
+
+#if LUMEX_ATOMIC_SMART_PTR_HAS_STD_BACKED
+/**
+ * @brief Atomic `std::weak_ptr<T>` that wraps the standard library's
+ * `std::atomic<std::weak_ptr<T>>` (explicit opt-in name).
+ * @details See `atomic_shared_ptr_std_backed`. Declared only when the library
+ * has the standard type (`LUMEX_ATOMIC_SMART_PTR_HAS_STD_BACKED`); no common
+ * name resolves to it.
+ * @tparam T The element type of the weak pointer.
+ */
+template <typename T>
+class atomic_weak_ptr_std_backed
+    : public Detail::basic_atomic_weak_ptr<
+          T, Detail::std_backed_cell<std::weak_ptr<T>>>
+{
+  using base_type = Detail::basic_atomic_weak_ptr<
+      T, Detail::std_backed_cell<std::weak_ptr<T>>>;
+
+public:
+  /// The type of the stored value.
+  using value_type = typename base_type::value_type;
+
+  /// Creates an object that holds an empty weak pointer.
+  LUMEX_CONSTEXPR
+  atomic_weak_ptr_std_backed () LUMEX_NOEXCEPT : base_type () {}
+
+  /// Creates an object that holds @p desired.
+  atomic_weak_ptr_std_backed (value_type desired) LUMEX_NOEXCEPT
+      : base_type (std::move (desired))
+  {
+  }
+
+  using base_type::operator=;
+};
+#endif // LUMEX_ATOMIC_SMART_PTR_HAS_STD_BACKED
+
+/**
+ * @brief The common name: `std::atomic<std::weak_ptr<T>>` from C++11 on.
+ * @details An alias template of `atomic_weak_ptr_lock_free<T>` where the
+ * lock-free engine exists (and `LUMEX_ATOMIC_SMART_PTR_FORCE_LOCK_BASED` is
+ * not defined), of `atomic_weak_ptr_lock_based<T>` otherwise; never of the
+ * `_std_backed` wrapper. Being an alias template it cannot be forward
+ * declared, partially specialized or befriended: name the engine to do that.
+ */
+#if LUMEX_ATOMIC_SMART_PTR_COMMON_IS_LOCK_FREE
+template <typename T> using atomic_weak_ptr = atomic_weak_ptr_lock_free<T>;
+#else
+template <typename T> using atomic_weak_ptr = atomic_weak_ptr_lock_based<T>;
 #endif
 
 } // namespace LUMEX_ATOMIC_SMART_PTR_ABI_NAMESPACE
