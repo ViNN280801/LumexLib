@@ -1,12 +1,12 @@
 // LumexCoreDumpInstance.cxx20.tests.cpp
 //
-// With <ranges> (C++20) core_dump_generator::get_memory_filters_range returns
-// the view that std::views::all makes of the filter list,
-// std::ranges::ref_view<std::vector<std::string> const>, as it did before the
-// C++11 port; before it (or on a toolchain without <ranges>: GCC 8 accepts
-// -std=c++2a without it) the result is the iterator_range of this library,
-// checked in LumexCoreDumpInstance.cxx11. The alias memory_filters_range_t is
-// the one place that chooses.
+// With <ranges> (C++20) core_dump_generator::get_memory_filters_range still
+// returns the iterator_range of this library, never std::ranges::ref_view; the
+// iterator_range opts into std::ranges::enable_view and enable_borrowed_range,
+// so it is what ref_view was: a view and a borrowed, sized, random access
+// range of constant strings (the type itself and the behavior are checked in
+// LumexCoreDumpInstance.cxx11 in every suite). GCC 8 accepts -std=c++2a
+// without <ranges>, so there the tests skip.
 #include <string>
 #include <type_traits>
 #include <utility>
@@ -22,25 +22,30 @@
 using lumex::core::utility::dump::core_dump_generator;
 
 TEST (LumexCoreDumpInstanceCxx20Test,
-      GivenStdRanges_WhenMemoryFiltersRangeAlias_ThenRefViewOfTheFilterList)
+      GivenStdRanges_WhenMemoryFiltersRangeAlias_ThenNotARefView)
 {
   static_assert (
-      std::is_same<
+      !std::is_same<
           core_dump_generator::memory_filters_range_t,
           std::ranges::ref_view<std::vector<std::string> const>>::value,
-      "ref_view of the constant filter list");
+      "never std::ranges::ref_view");
+  static_assert (
+      std::is_same<core_dump_generator::memory_filters_range_t,
+                   lumex::core::utility::ranges::iterator_range<
+                       std::vector<std::string>::const_iterator>>::value,
+      "the iterator_range of the library");
   SUCCEED ();
 }
 
 TEST (LumexCoreDumpInstanceCxx20Test,
-      GivenStdRanges_WhenGetMemoryFiltersRange_ThenSameTypeAsViewsAll)
+      GivenStdRanges_WhenGetMemoryFiltersRange_ThenNotWhatViewsAllGives)
 {
   static_assert (
-      std::is_same<
+      !std::is_same<
           decltype (core_dump_generator::get_memory_filters_range ()),
           decltype (std::views::all (
               std::declval<std::vector<std::string> const &> ()))>::value,
-      "the result is what std::views::all gives for the filter list");
+      "the result is not what std::views::all gives for the filter list");
   SUCCEED ();
 }
 
@@ -58,6 +63,16 @@ TEST (LumexCoreDumpInstanceCxx20Test,
                               std::string const &>::value,
                  "the elements are constant strings");
   SUCCEED ();
+}
+
+TEST (LumexCoreDumpInstanceCxx20Test,
+      GivenStdRanges_WhenPipedAsRvalue_ThenViewsComposeWithTheRange)
+{
+  // A borrowed view can be the rvalue operand of a view adaptor.
+  auto const lengths = core_dump_generator::get_memory_filters_range ()
+                       | std::views::transform ([] (std::string const &filter)
+                                                  { return filter.size (); });
+  EXPECT_EQ (std::ranges::distance (lengths), 0);
 }
 
 #else

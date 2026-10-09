@@ -40,8 +40,11 @@
  * works from C++11, no dependency beyond the attribute macros and the
  * standard headers. The XML module returns it from `XmlNode::children` and
  * `XmlNode::attributes`; `core_dump_generator::get_memory_filters_range`
- * returns it below C++20, where `size()` matches the `size()` of the
- * `std::ranges::ref_view` that C++20 returns.
+ * returns it in every standard (`size()` matches the `size()` of a
+ * `std::ranges::ref_view`). With C++20 and a library that has `<ranges>` the
+ * class opts into `std::ranges::enable_borrowed_range` and
+ * `std::ranges::enable_view`, as `span` does: it is a view whose iterators
+ * outlive it, so it can be piped into views as an rvalue.
  */
 #ifndef LUMEX_CORE_UTILITY_RANGES_ITERATOR_RANGE_HPP
 #define LUMEX_CORE_UTILITY_RANGES_ITERATOR_RANGE_HPP
@@ -49,8 +52,14 @@
 #include <cstddef>
 #include <iterator>
 #include <type_traits>
+#if __cplusplus >= 202002L && defined(__has_include)
+#if __has_include(<ranges>)
+#include <ranges>
+#endif
+#endif
 
 #include "lumex/core/utility/attr/LumexAttributes.hpp"
+#include "lumex/core/utility/compiler/LumexCheckFeatures.hpp"
 
 namespace lumex // NOLINT(modernize-concat-nested-namespaces)
 {
@@ -168,5 +177,30 @@ private:
 } // namespace utility
 } // namespace core
 } // namespace lumex
+
+#if LUMEX_HAS_STD_RANGES
+namespace std
+{
+namespace ranges
+{
+/**
+ * @brief An `iterator_range` is a borrowed range: its iterators outlive it.
+ */
+template <typename Iterator>
+inline constexpr bool enable_borrowed_range<
+    ::lumex::core::utility::ranges::iterator_range<Iterator>>
+    = true;
+
+/**
+ * @brief An `iterator_range` is a view: copying it copies two iterators, not
+ * the elements.
+ */
+template <typename Iterator>
+inline constexpr bool
+    enable_view<::lumex::core::utility::ranges::iterator_range<Iterator>>
+    = true;
+} // namespace ranges
+} // namespace std
+#endif
 
 #endif // !LUMEX_CORE_UTILITY_RANGES_ITERATOR_RANGE_HPP

@@ -59,13 +59,13 @@
  * take every type that converts implicitly to `std::string`, and from C++17 to
  * `std::string_view`, in every standard (the constraint is SFINAE on
  * `traits::string::is_string_convertible`, the C++11 form of the concept
- * `StringLike`). `core_dump_generator::get_memory_filters_range` returns
- * `std::ranges::ref_view` where the standard library has `<ranges>` and the
- * `ranges::iterator_range` of this library elsewhere
+ * `StringLike`). `core_dump_generator::get_memory_filters_range` returns the
+ * `ranges::iterator_range` of this library in every standard
  * (`core_dump_generator::memory_filters_range_t`).
- * `core_dump_generator::get_optional_dump_directory` returns
- * `std::optional<std::string>` from C++17 and the optional of this library
- * before it (`core_dump_generator::optional_dump_directory_t`);
+ * `core_dump_generator::get_optional_dump_directory` returns the optional of
+ * this library, `lumex::core::optional::opt::optional<std::string>`, in every
+ * standard (`core_dump_generator::optional_dump_directory_t`; it converts
+ * implicitly to and from `std::optional<std::string>` from C++17);
  * `get_dump_directory_if_set` is the same on every standard.
  *
  * `core_dump_generator::instance ()` returns the singleton after `initialize
@@ -108,9 +108,6 @@
 #include <condition_variable>
 #include <mutex>
 #include <thread>
-#if __cplusplus >= 201703L
-#include <optional>
-#endif
 #if __cplusplus > 201703L && defined(__has_include)
 #if __has_include(<concepts>)
 #include <concepts>
@@ -122,12 +119,11 @@
 #endif
 #endif
 
-// Before C++17 the optional of this library is the result of
-// `get_optional_dump_directory`; its types header declares nothing at global
-// scope (LumexOptional is the umbrella with the global aliases).
-#if __cplusplus < 201703L
+// The optional of this library is the result of
+// `get_optional_dump_directory` in every standard; its types header declares
+// nothing at global scope (LumexOptional is the umbrella with the global
+// aliases).
 #include "lumex/core/optional/opt/LumexOptional.hpp"
-#endif
 #include "lumex/core/utility/compiler/LumexCheckFeatures.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 #include "lumex/core/utility/os/LumexCheckOS.hpp"
@@ -1412,24 +1408,16 @@ public:
   }
 
   /**
-   * @brief The type of `get_memory_filters_range`: the view
-   * `std::ranges::ref_view<std::vector<std::string> const>` that
-   * `std::views::all` gives when the standard library has `<ranges>`
-   * (C++20), the `iterator_range` of this library over the constant
-   * iterators of the filter list before it.
-   * @details Both are lightweight views that do not own the filters and have
-   * `begin ()`, `end ()`, `empty ()` and `size ()` (the `iterator_range` has
-   * `size ()` for the random-access iterators of the filter list); the
-   * standard view also has the other members of
-   * `std::ranges::view_interface`.
+   * @brief The type of `get_memory_filters_range`: the `iterator_range` of
+   * this library over the constant iterators of the filter list, in every
+   * standard.
+   * @details A lightweight view that does not own the filters and has
+   * `begin ()`, `end ()`, `empty ()` and `size ()` (`size ()` for the
+   * random-access iterators of the filter list). It is never
+   * `std::ranges::ref_view`.
    */
-#if LUMEX_HAS_STD_RANGES
-  using memory_filters_range_t
-      = std::ranges::ref_view<std::vector<std::string> const>;
-#else
   using memory_filters_range_t
       = ranges::iterator_range<std::vector<std::string>::const_iterator>;
-#endif
 
   /**
    * @brief Get all memory filters as a range
@@ -1450,26 +1438,19 @@ public:
   get_memory_filters_range () noexcept
   {
     std::lock_guard<std::mutex> lock (s_mutex);
-#if LUMEX_HAS_STD_RANGES
-    return s_currentConfig.get_memory_filters () | std::views::all;
-#else
     std::vector<std::string> const &filters
         = s_currentConfig.get_memory_filters ();
     return memory_filters_range_t (filters.begin (), filters.end ());
-#endif
   }
 
   /**
-   * @brief The type of `get_optional_dump_directory`: `std::optional` from
-   * C++17, the optional of this library
-   * (`lumex::core::optional::opt::optional`) before it.
+   * @brief The type of `get_optional_dump_directory`: the optional of this
+   * library (`lumex::core::optional::opt::optional<std::string>`) in every
+   * standard; from C++17 it converts implicitly to and from
+   * `std::optional<std::string>`.
    */
-#if __cplusplus >= 201703L
-  using optional_dump_directory_t = std::optional<std::string>;
-#else
   using optional_dump_directory_t
       = lumex::core::optional::opt::optional<std::string>;
-#endif
 
   /**
    * @brief Get optional dump directory
