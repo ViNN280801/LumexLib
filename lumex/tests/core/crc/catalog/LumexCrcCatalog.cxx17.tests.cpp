@@ -34,6 +34,8 @@
 
 #include <cstdint>
 #include <string_view>
+#include <type_traits>
+#include <utility>
 
 #include <gtest/gtest.h>
 
@@ -42,6 +44,21 @@
 
 using namespace lumex::core::crc::catalog;
 using namespace lumex::core::crc::parametric;
+
+// A std::string_view argument converts to the lumex_string_view the overloads
+// take; the conversion is implicit, so the calls are unambiguous.
+static_assert (std::is_convertible<std::string_view, text_view_t>::value,
+               "std::string_view converts to the text type");
+static_assert (std::is_same<decltype (compute_crc_catalog (
+                                0u, std::declval<std::string_view> ())),
+                            std::uint64_t>::value,
+               "compute_crc_catalog (index, std::string_view)");
+static_assert (
+    std::is_same<decltype (compute_crc_with_rev_eng_params (
+                     std::declval<crc_params_t const &> (),
+                     std::declval<std::string_view const &> ())),
+                 std::uint64_t>::value,
+    "compute_crc_with_rev_eng_params (params, std::string_view const &)");
 
 namespace
 {

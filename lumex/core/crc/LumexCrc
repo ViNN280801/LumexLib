@@ -50,10 +50,10 @@
  * algorithm builds its lookup table at compile time from C++14 and on first
  * use in C++11. The byte-taking functions accept a pointer and a size, a
  * `std::vector`, a `lumex::core::span::view::span` (a `std::span` converts to
- * it) and, where the catalogue has it, a string: a `std::string_view` from
- * C++17 and the `lumex_string_view` of `lumex::string_view` below it (a string
- * literal, a `char const *` and a `std::string` convert to either, and from
- * C++17 a `lumex_string_view` converts to `std::string_view`). The
+ * it) and, where the catalogue has it, a string: the `lumex_string_view` of
+ * `lumex::string_view` in every standard (a string literal, a `char const *`
+ * and a `std::string` convert to it, and from C++17 so does a
+ * `std::string_view`). The
  * umbrella includes `parametric/LumexCrcParametric.hpp` and
  * `catalog/LumexCrcCatalog.hpp`.
  */

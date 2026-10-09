@@ -36,9 +36,9 @@
  * CRC-8/MAXIM-DOW by default, an 8-bit catalogue entry, or caller-supplied
  * 8-bit parameters. The overloads for `std::vector`, for
  * `lumex::core::span::view::span` (a `std::span` converts to it) and for a
- * string (`std::string_view` from C++17, the `lumex_string_view` of
- * `lumex::string_view` below) are inline wrappers over the pointer and size
- * functions, in every standard.
+ * string (`lumex_string_view` of `lumex::string_view`, in every standard;
+ * a `std::string_view` converts to it) are inline wrappers over the pointer
+ * and size functions, in every standard.
  */
 #ifndef LUMEX_CORE_CRC_CATALOG_HPP
 #define LUMEX_CORE_CRC_CATALOG_HPP
@@ -77,7 +77,7 @@
 #include <vector>
 
 #include "lumex/core/span/LumexSpan"
-#include "lumex/core/string_view/view/LumexPortableStringView.hpp"
+#include "lumex/core/string_view/view/LumexStringView.hpp"
 #include "lumex/core/utility/attr/LumexAttributes.hpp"
 #include "lumex/core/utility/macros/LumexConstantMacros.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
@@ -91,12 +91,12 @@ namespace crc
 namespace catalog
 {
 /**
- * @brief The text type of the string overloads: the `portable_string_view_t`
- * of `lumex::string_view`, that is `std::string_view` from C++17 and
- * `lumex_string_view` below it (a string literal, a `char const *`, a
- * `std::string` and, from C++17, a `lumex_string_view` convert to it).
+ * @brief The text type of the string overloads: the `lumex_string_view`
+ * of `lumex::string_view` in every standard (a plain alias of the library's
+ * own view). A string literal, a `char const *`, a `std::string` and, from
+ * C++17, a `std::string_view` convert to it.
  */
-using text_view_t = lumex::core::string_view::view::portable_string_view_t;
+using text_view_t = lumex::core::string_view::view::lumex_string_view;
 
 /**
  * @brief CRC parameters in CRC RevEng notation (see LumexCrcParametric.hpp /
@@ -240,10 +240,10 @@ compute_crc_catalog (std::uint32_t catalogIndex,
 
 /**
  * @brief Catalogue CRC of an ASCII/UTF-8 string (no trailing '\\0'). Available
- *        from C++11: the text is a `std::string_view` from C++17 and a
- *        `lumex_string_view` below it; a string literal, a `char const *` and
- *        a `std::string` convert to either. The view is sized, so a NUL
- *        character inside it is a byte of the input.
+ *        from C++11: the text is a `lumex_string_view` in every
+ *        standard; a string literal, a `char const *`, a `std::string` and,
+ *        from C++17, a `std::string_view` convert to it. The view is sized, so
+ * a NUL character inside it is a byte of the input.
  */
 inline std::uint64_t
 compute_crc_catalog (std::uint32_t catalogIndex,

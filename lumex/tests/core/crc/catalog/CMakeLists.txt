@@ -5,8 +5,8 @@
 #                              LumexCrcCatalogSpan.cxx11.tests.cpp (the span
 #                              overloads) and
 #                              LumexCrcCatalogStringView.cxx11.tests.cpp (the
-#                              string overloads: lumex_string_view below
-#                              C++17, std::string_view from C++17; and
+#                              string overloads: lumex_string_view in every
+#                              standard; and
 #                              append_crc_least_significant_byte_first): the
 #                              library is compiled as C++11 and every suite
 #                              links it
