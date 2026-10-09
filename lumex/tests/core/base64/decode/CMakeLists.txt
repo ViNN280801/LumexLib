@@ -6,8 +6,7 @@
 #                                overloads taking std::string arguments;
 #                                LumexBase64DecoderStringView.cxx11.tests.cpp:
 #                                the string overloads (string_type_t:
-#                                lumex_string_view below C++17, std::string_view
-#                                from C++17)
+#                                lumex_string_view in every standard)
 #   LumexBase64DecodeCxx17Tests  + LumexBase64Decoder.cxx17.tests.cpp:
 #                                std::string_view arguments
 #   LumexBase64DecodeCxx20Tests  the same files at C++20

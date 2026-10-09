@@ -5,6 +5,8 @@
 
 #include <string>
 #include <string_view>
+#include <type_traits>
+#include <utility>
 
 #include <gtest/gtest.h>
 
@@ -40,6 +42,20 @@ using namespace lumex::core::base64::decode;
 using namespace lumex::core::base64::encode;
 using namespace lumex::core::base64::validate;
 using namespace lumex::core::base64::codec::Types;
+
+// A std::string_view argument converts to the lumex_string_view the overload
+// takes; the conversion is implicit, so the call is unambiguous and returns
+// the same type as every other form.
+static_assert (std::is_convertible<std::string_view, string_type_t>::value,
+               "std::string_view converts to the text type");
+static_assert (std::is_same<decltype (encoder::encode (
+                                std::declval<std::string_view> ())),
+                            std::string>::value,
+               "encode (std::string_view)");
+static_assert (std::is_same<decltype (encoder::encode (
+                                std::declval<std::string_view const &> ())),
+                            std::string>::value,
+               "encode (std::string_view const &)");
 
 TEST_F (Base64EncoderTest,
         GivenStringView_WhenEncode_ThenProducesCorrectOutput)
