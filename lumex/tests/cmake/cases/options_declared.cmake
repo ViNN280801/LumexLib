@@ -9,6 +9,7 @@ foreach(_name
         LUMEX_BUILD_ATOMIC
         LUMEX_BUILD_BASE64
         LUMEX_BUILD_CIRCULAR_BUFFER
+        LUMEX_BUILD_CONTRACTS
         LUMEX_BUILD_CRC
         LUMEX_BUILD_ENVIRONMENT
         LUMEX_BUILD_EXCEPTIONS
@@ -56,4 +57,10 @@ string(FIND "${_opts}" "set(LUMEX_LOGGER_CONFIG_FORMAT " _logger_fmt_pos)
 if(_logger_fmt_pos EQUAL -1)
     message(FATAL_ERROR
         "cmake/LumexOptions.cmake has no set(LUMEX_LOGGER_CONFIG_FORMAT ...)")
+endif()
+
+string(FIND "${_opts}" "set(LUMEX_CONTRACTS_SEMANTIC " _contracts_semantic_pos)
+if(_contracts_semantic_pos EQUAL -1)
+    message(FATAL_ERROR
+        "cmake/LumexOptions.cmake has no set(LUMEX_CONTRACTS_SEMANTIC ...)")
 endif()
