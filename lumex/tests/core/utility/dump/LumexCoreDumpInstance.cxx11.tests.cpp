@@ -12,22 +12,32 @@
 // suite).
 //
 // There is no public way to put a filter into the static configuration or a
-// directory into an instance except initialize (), which installs signal
+// directory into the state except initialize (), which installs signal
 // handlers, rewrites the machine-wide core pattern through sudo and starts a
 // monitor thread: not for a unit test. So the tests reach the private state
 // the way a test can without changing the library, by naming the members in an
 // explicit instantiation (which the access rules do not check): the static
-// configuration, the private "initialized" flag (set only while instance ()
-// creates the default instance, which installs nothing) and the directory of
-// that instance. The fixture restores all three before and after each test.
+// configuration and directory, the private "initialized" flag, the instance
+// pointer and mutex, the members of an instance and the two private functions
+// that fill an instance from the static state (_create_instance, which
+// instance () calls once, and _refresh_instance, which initialize () and
+// set_dump_type () call). initialize () writes the static state and calls
+// _refresh_instance; the tests write the same members and call the same
+// functions, which is everything of initialize () that concerns the instance.
+// The fixture restores the static state before and after each test.
 #include <atomic>
+#include <chrono>
 #include <cstddef>
+#include <future>
 #include <iterator>
+#include <memory>
+#include <mutex>
 #include <string>
 #if __cplusplus >= 201703L
 #include <string_view>
 #endif
 #include <system_error>
+#include <thread>
 #include <type_traits>
 #include <utility>
 #include <vector>
@@ -44,6 +54,7 @@
 
 using lumex::core::utility::dump::core_dump_generator;
 using lumex::core::utility::dump::dump_configuration;
+using lumex::core::utility::dump::DumpType;
 using lumex_dump_test::derived_text;
 using lumex_dump_test::implicit_text;
 
@@ -85,13 +96,61 @@ struct directory_tag
   using type = std::string core_dump_generator::*;
 };
 
+struct static_directory_tag
+{
+  using type = std::string *;
+};
+
+struct instance_pointer_tag
+{
+  using type = std::unique_ptr<core_dump_generator> *;
+};
+
+struct static_mutex_tag
+{
+  using type = std::mutex *;
+};
+
+struct instance_configuration_tag
+{
+  using type = dump_configuration core_dump_generator::*;
+};
+
+struct instance_flag_tag
+{
+  using type = bool core_dump_generator::*;
+};
+
+struct create_instance_tag
+{
+  using type = void (*) ();
+};
+
+struct refresh_instance_tag
+{
+  using type = void (*) ();
+};
+
 template struct reveal<configuration_tag,
                        &core_dump_generator::s_currentConfig>;
 template struct reveal<initialized_tag, &core_dump_generator::s_initialized>;
 template struct reveal<directory_tag, &core_dump_generator::m_dumpDirectory>;
+template struct reveal<static_directory_tag,
+                       &core_dump_generator::s_dumpDirectory>;
+template struct reveal<instance_pointer_tag, &core_dump_generator::s_instance>;
+template struct reveal<static_mutex_tag, &core_dump_generator::s_mutex>;
+template struct reveal<instance_configuration_tag,
+                       &core_dump_generator::m_currentConfig>;
+template struct reveal<instance_flag_tag,
+                       &core_dump_generator::m_isInitialized>;
+template struct reveal<create_instance_tag,
+                       &core_dump_generator::_create_instance>;
+template struct reveal<refresh_instance_tag,
+                       &core_dump_generator::_refresh_instance>;
 
-/// The default instance, created without initialize (): instance () refuses
-/// while the flag is false, so the flag is true for the call only.
+/// The shared instance (instance () creates it on the first call from the
+/// static state): instance () refuses while the flag is false, so the flag is
+/// true for the call only.
 core_dump_generator &
 default_instance ()
 {
@@ -116,6 +175,102 @@ current_configuration ()
   return *slot<configuration_tag>::value;
 }
 
+std::string &
+static_directory ()
+{
+  return *slot<static_directory_tag>::value;
+}
+
+std::unique_ptr<core_dump_generator> &
+instance_pointer ()
+{
+  return *slot<instance_pointer_tag>::value;
+}
+
+/// A fresh instance in s_instance for the scope, built by the function that
+/// instance () calls (_create_instance), and the previous s_instance back
+/// afterwards. A test that uses it must not call instance () itself: that
+/// consumes the call_once of the real one.
+class scoped_fresh_instance
+{
+public:
+  scoped_fresh_instance ()
+  {
+    saved_.swap (instance_pointer ());
+    slot<create_instance_tag>::value ();
+  }
+
+  ~scoped_fresh_instance () { instance_pointer ().swap (saved_); }
+
+  scoped_fresh_instance (scoped_fresh_instance const &) = delete;
+  scoped_fresh_instance &operator= (scoped_fresh_instance const &) = delete;
+
+  core_dump_generator &
+  get ()
+  {
+    return *instance_pointer ();
+  }
+
+  /// The instance as initialize () leaves it before anything is filled in:
+  /// not initialized.
+  void
+  make_not_initialized ()
+  {
+    get ().*slot<instance_flag_tag>::value = false;
+  }
+
+private:
+  std::unique_ptr<core_dump_generator> saved_;
+};
+
+/// The state initialize () writes, without installing anything.
+void
+write_static_state (std::string const &directory,
+                    dump_configuration const &configuration)
+{
+  static_directory () = directory;
+  current_configuration () = configuration;
+}
+
+/// Holds s_initialized true for the scope (set_dump_type () and the static
+/// generate_dump () refuse while it is false).
+class scoped_initialized_flag
+{
+public:
+  scoped_initialized_flag ()
+      : before_ (slot<initialized_tag>::value->exchange (true))
+  {
+  }
+
+  ~scoped_initialized_flag ()
+  {
+    slot<initialized_tag>::value->store (before_);
+  }
+
+  scoped_initialized_flag (scoped_initialized_flag const &) = delete;
+  scoped_initialized_flag &operator= (scoped_initialized_flag const &)
+      = delete;
+
+private:
+  bool before_;
+};
+
+/// A dump type that this platform supports and that differs from the default.
+DumpType
+supported_type ()
+{
+  return LUMEX_OS_IS_WINDOWS () ? DumpType::MINI_DUMP_NORMAL
+                                : DumpType::CORE_DUMP_FULL;
+}
+
+/// A dump type that this platform does not support.
+DumpType
+unsupported_type ()
+{
+  return LUMEX_OS_IS_WINDOWS () ? DumpType::CORE_DUMP_FULL
+                                : DumpType::MINI_DUMP_NORMAL;
+}
+
 void
 set_instance_directory (std::string const &directory)
 {
@@ -137,12 +292,21 @@ protected:
     reset_state ();
   }
 
-  static void
+  void
   reset_state ()
   {
+    if (!saved_)
+      {
+        saved_directory_ = static_directory ();
+        saved_ = true;
+      }
     current_configuration () = dump_configuration ();
+    static_directory () = saved_directory_;
     set_instance_directory (std::string ());
   }
+
+  std::string saved_directory_;
+  bool saved_ = false;
 };
 
 using memory_filters_range_t = core_dump_generator::memory_filters_range_t;
@@ -161,15 +325,19 @@ walk (memory_filters_range_t const &range)
 
 // --- generate_instance_dump with the template overloads ---
 
-// The default instance is not initialized, so a dump is never written: the
-// call reports false (and invalid_argument with an error code). That makes the
-// forwarding of every accepted argument type safe to run.
+// An instance that is not initialized never writes a dump: the call reports
+// false (and invalid_argument with an error code). instance () no longer
+// returns such an object (it fills it from the static state), so the tests
+// take a fresh one and clear its flag. That makes the forwarding of every
+// accepted argument type safe to run.
 
 TEST (
     LumexCoreDumpInstanceGenerateTest,
     GivenUninitializedInstance_WhenGenerateInstanceDumpWithEveryType_ThenFalse)
 {
-  core_dump_generator &generator = default_instance ();
+  scoped_fresh_instance fresh;
+  fresh.make_not_initialized ();
+  core_dump_generator &generator = fresh.get ();
   ASSERT_FALSE (generator.is_instance_initialized ());
   char const *const pointer = "reason";
   EXPECT_FALSE (generator.generate_instance_dump (std::string ("reason")));
@@ -184,7 +352,9 @@ TEST (
     LumexCoreDumpInstanceGenerateTest,
     GivenUninitializedInstance_WhenGenerateInstanceDumpWithErrorCode_ThenFalseAndInvalidArgument)
 {
-  core_dump_generator &generator = default_instance ();
+  scoped_fresh_instance fresh;
+  fresh.make_not_initialized ();
+  core_dump_generator &generator = fresh.get ();
   char const *const pointer = "reason";
   std::error_code code;
 
@@ -212,7 +382,9 @@ TEST (
     LumexCoreDumpInstanceGenerateTest,
     GivenUninitializedInstance_WhenGenerateInstanceDumpWithStringView_ThenFalse)
 {
-  core_dump_generator &generator = default_instance ();
+  scoped_fresh_instance fresh;
+  fresh.make_not_initialized ();
+  core_dump_generator &generator = fresh.get ();
   std::string_view const reason = "reason";
   std::error_code code;
   EXPECT_FALSE (generator.generate_instance_dump (reason));
@@ -333,15 +505,46 @@ TEST (LumexCoreDumpInstanceTypeTest,
 
 #endif
 
+// size () is in both forms of the range: std::ranges::ref_view has it, and the
+// iterator_range of the library has it for the random-access iterators of the
+// filter list.
+TEST_F (LumexCoreDumpInstanceTest,
+        GivenFilters_WhenMemoryFiltersRange_ThenSizeIsTheCountOfFilters)
+{
+  EXPECT_EQ (core_dump_generator::get_memory_filters_range ().size (),
+             static_cast<std::size_t> (0));
+  ASSERT_TRUE (current_configuration ().add_memory_filter ("heap"));
+  ASSERT_TRUE (current_configuration ().add_memory_filter ("stack"));
+  EXPECT_EQ (core_dump_generator::get_memory_filters_range ().size (),
+             static_cast<std::size_t> (2));
+  ASSERT_TRUE (current_configuration ().add_memory_filter ("anon"));
+  memory_filters_range_t const range
+      = core_dump_generator::get_memory_filters_range ();
+  EXPECT_EQ (range.size (), static_cast<std::size_t> (3));
+  EXPECT_EQ (range.size (), walk (range).size ());
+  current_configuration ().clear_memory_filters ();
+  EXPECT_EQ (core_dump_generator::get_memory_filters_range ().size (),
+             static_cast<std::size_t> (0));
+}
+
+TEST (LumexCoreDumpInstanceTypeTest,
+      GivenMemoryFiltersRange_WhenInspected_ThenHasSizeInEveryStandard)
+{
+  static_assert (
+      std::is_convertible<
+          decltype (std::declval<memory_filters_range_t const &> ().size ()),
+          std::size_t>::value,
+      "the range has size () that converts to std::size_t");
+  SUCCEED ();
+}
+
 #if LUMEX_HAS_STD_RANGES
 
 TEST_F (LumexCoreDumpInstanceTest,
-        GivenStdRanges_WhenMemoryFiltersRange_ThenSizeIsTheCountOfFilters)
+        GivenStdRanges_WhenMemoryFiltersRange_ThenFrontAndBackAreTheEnds)
 {
-  EXPECT_EQ (core_dump_generator::get_memory_filters_range ().size (), 0u);
   ASSERT_TRUE (current_configuration ().add_memory_filter ("heap"));
   ASSERT_TRUE (current_configuration ().add_memory_filter ("stack"));
-  EXPECT_EQ (core_dump_generator::get_memory_filters_range ().size (), 2u);
   EXPECT_EQ (core_dump_generator::get_memory_filters_range ().front (),
              "heap");
   EXPECT_EQ (core_dump_generator::get_memory_filters_range ().back (),
@@ -349,6 +552,37 @@ TEST_F (LumexCoreDumpInstanceTest,
 }
 
 #endif
+
+// get_memory_filters_range forms the view while s_mutex is held, the mutex
+// that initialize () and set_dump_type () hold while they replace the
+// configuration. The test holds the mutex, calls the function on another
+// thread and sees that the call waits; it completes once the mutex is free.
+TEST_F (LumexCoreDumpInstanceTest,
+        GivenStaticMutexHeld_WhenMemoryFiltersRange_ThenWaitsForIt)
+{
+  ASSERT_TRUE (current_configuration ().add_memory_filter ("heap"));
+  std::mutex &mutex = *slot<static_mutex_tag>::value;
+  std::promise<std::size_t> promise;
+  std::future<std::size_t> future = promise.get_future ();
+  std::thread worker;
+  {
+    std::unique_lock<std::mutex> lock (mutex);
+    worker = std::thread (
+        [&promise] ()
+          {
+            promise.set_value (
+                core_dump_generator::get_memory_filters_range ().size ());
+          });
+    // A call that does not take the mutex returns at once; one that waits for
+    // it cannot be ready while the mutex is held.
+    EXPECT_EQ (future.wait_for (std::chrono::milliseconds (300)),
+               std::future_status::timeout);
+  }
+  EXPECT_EQ (future.wait_for (std::chrono::seconds (30)),
+             std::future_status::ready);
+  worker.join ();
+  EXPECT_EQ (future.get (), static_cast<std::size_t> (1));
+}
 
 // --- get_optional_dump_directory and get_dump_directory_if_set ---
 
@@ -490,3 +724,325 @@ TEST_F (
 }
 
 #endif
+
+// --- the instance API after initialize () ---
+//
+// initialize () writes s_dumpDirectory and s_currentConfig, sets the static
+// flag and calls _refresh_instance (); instance () creates the object with
+// _create_instance (), which copies that state and marks the object
+// initialized. Before this was fixed instance () built an empty, uninitialized
+// object, so the directory getters were always empty and
+// generate_instance_dump always returned false. The tests below write the same
+// state (see the comment at the top) and call the same two functions.
+
+namespace
+{
+dump_configuration
+sample_configuration ()
+{
+  dump_configuration configuration;
+  configuration.set_type (supported_type ());
+  configuration.set_directory ("/var/lib/app/dumps");
+  configuration.set_max_size_bytes (123456);
+  configuration.add_memory_filter ("heap");
+  configuration.add_memory_filter ("stack");
+  return configuration;
+}
+} // namespace
+
+TEST_F (LumexCoreDumpInstanceTest,
+        GivenStaticState_WhenInstanceCreated_ThenItHoldsDirectoryConfigAndFlag)
+{
+  dump_configuration const configuration = sample_configuration ();
+  write_static_state ("/var/lib/app/dumps", configuration);
+
+  scoped_fresh_instance fresh;
+  core_dump_generator const &generator = fresh.get ();
+
+  EXPECT_TRUE (generator.is_instance_initialized ());
+  EXPECT_EQ (generator.get_instance_dump_directory (), "/var/lib/app/dumps");
+  EXPECT_TRUE (generator.get_instance_configuration () == configuration);
+  EXPECT_EQ (generator.get_instance_configuration ().get_type (),
+             supported_type ());
+  EXPECT_EQ (generator.get_instance_configuration ().get_max_size_bytes (),
+             static_cast<std::size_t> (123456));
+  EXPECT_EQ (
+      generator.get_instance_configuration ().get_memory_filters ().size (),
+      static_cast<std::size_t> (2));
+}
+
+TEST_F (LumexCoreDumpInstanceTest,
+        GivenStaticState_WhenInstanceCreated_ThenOptionalDirectoryHoldsIt)
+{
+  write_static_state ("/var/lib/app/dumps", sample_configuration ());
+
+  scoped_fresh_instance fresh;
+  core_dump_generator const &generator = fresh.get ();
+
+  optional_dump_directory_t const directory
+      = generator.get_optional_dump_directory ();
+  ASSERT_TRUE (directory.has_value ());
+  EXPECT_EQ (*directory, "/var/lib/app/dumps");
+  std::string out;
+  EXPECT_TRUE (generator.get_dump_directory_if_set (out));
+  EXPECT_EQ (out, "/var/lib/app/dumps");
+}
+
+TEST_F (LumexCoreDumpInstanceTest,
+        GivenStaticState_WhenInstanceCreated_ThenAgreesWithTheStaticGetters)
+{
+  write_static_state ("/data/dumps", sample_configuration ());
+
+  scoped_fresh_instance fresh;
+  core_dump_generator const &generator = fresh.get ();
+
+  EXPECT_EQ (generator.get_instance_dump_directory (),
+             core_dump_generator::get_dump_directory ());
+  EXPECT_TRUE (generator.get_instance_configuration ()
+               == core_dump_generator::get_current_configuration ());
+  EXPECT_EQ (generator.get_instance_configuration ().get_type (),
+             core_dump_generator::get_current_dump_type ());
+}
+
+TEST_F (
+    LumexCoreDumpInstanceTest,
+    GivenEmptyStaticDirectory_WhenInstanceCreated_ThenInitializedWithNoDirectory)
+{
+  write_static_state (std::string (), dump_configuration ());
+
+  scoped_fresh_instance fresh;
+  core_dump_generator const &generator = fresh.get ();
+
+  EXPECT_TRUE (generator.is_instance_initialized ());
+  EXPECT_TRUE (generator.get_instance_dump_directory ().empty ());
+  EXPECT_FALSE (generator.get_optional_dump_directory ().has_value ());
+  std::string out = "untouched";
+  EXPECT_FALSE (generator.get_dump_directory_if_set (out));
+  EXPECT_EQ (out, "untouched");
+}
+
+TEST_F (LumexCoreDumpInstanceTest,
+        GivenInstanceCreated_WhenStaticStateChanges_ThenItKeepsItsCopy)
+{
+  write_static_state ("/first", sample_configuration ());
+  scoped_fresh_instance fresh;
+  core_dump_generator const &generator = fresh.get ();
+
+  write_static_state ("/second", dump_configuration ());
+
+  EXPECT_EQ (generator.get_instance_dump_directory (), "/first");
+  EXPECT_TRUE (generator.get_instance_configuration ()
+               == sample_configuration ());
+}
+
+// --- _refresh_instance, the step initialize () and set_dump_type () take ---
+
+TEST_F (LumexCoreDumpInstanceTest,
+        GivenInstanceCreated_WhenRefreshed_ThenFollowsTheStaticState)
+{
+  write_static_state ("/first", sample_configuration ());
+  scoped_fresh_instance fresh;
+  core_dump_generator const &generator = fresh.get ();
+
+  dump_configuration other;
+  other.set_type (DumpType::DEFAULT_AUTO);
+  other.set_max_size_bytes (7);
+  write_static_state ("/second", other);
+  slot<refresh_instance_tag>::value ();
+
+  EXPECT_EQ (generator.get_instance_dump_directory (), "/second");
+  EXPECT_TRUE (generator.get_instance_configuration () == other);
+  EXPECT_TRUE (generator.is_instance_initialized ());
+  EXPECT_EQ (
+      generator.get_optional_dump_directory ().value_or (std::string ("none")),
+      "/second");
+}
+
+TEST_F (LumexCoreDumpInstanceTest,
+        GivenNotInitializedInstance_WhenRefreshed_ThenBecomesInitialized)
+{
+  write_static_state ("/dir", sample_configuration ());
+  scoped_fresh_instance fresh;
+  fresh.make_not_initialized ();
+  ASSERT_FALSE (fresh.get ().is_instance_initialized ());
+
+  slot<refresh_instance_tag>::value ();
+
+  EXPECT_TRUE (fresh.get ().is_instance_initialized ());
+  EXPECT_EQ (fresh.get ().get_instance_dump_directory (), "/dir");
+}
+
+TEST_F (LumexCoreDumpInstanceTest,
+        GivenNoInstanceYet_WhenRefreshed_ThenNothingHappens)
+{
+  std::unique_ptr<core_dump_generator> saved;
+  saved.swap (instance_pointer ());
+  write_static_state ("/dir", sample_configuration ());
+
+  slot<refresh_instance_tag>::value ();
+
+  EXPECT_TRUE (instance_pointer () == nullptr);
+  instance_pointer ().swap (saved);
+}
+
+TEST_F (LumexCoreDumpInstanceTest,
+        GivenStaticMutexHeld_WhenRefreshed_ThenDoesNotLockItAgain)
+{
+  // initialize () and set_dump_type () call _refresh_instance () with s_mutex
+  // held; locking it again would deadlock, so the call must return.
+  write_static_state ("/dir", sample_configuration ());
+  scoped_fresh_instance fresh;
+  std::lock_guard<std::mutex> lock (*slot<static_mutex_tag>::value);
+  slot<refresh_instance_tag>::value ();
+  EXPECT_EQ (fresh.get ().get_instance_dump_directory (), "/dir");
+}
+
+// --- set_dump_type () refreshes the instance ---
+//
+// set_dump_type () installs nothing: it checks the flag, the platform support
+// and replaces the static configuration (it keeps the directory).
+
+TEST_F (LumexCoreDumpInstanceTest,
+        GivenInstance_WhenSetDumpType_ThenInstanceConfigurationFollows)
+{
+  write_static_state ("/keep/this", dump_configuration ());
+  scoped_fresh_instance fresh;
+  core_dump_generator const &generator = fresh.get ();
+  ASSERT_EQ (generator.get_instance_configuration ().get_type (),
+             DumpType::DEFAULT_AUTO);
+
+  scoped_initialized_flag initialized;
+  ASSERT_TRUE (core_dump_generator::set_dump_type (supported_type ()));
+
+  EXPECT_EQ (core_dump_generator::get_current_dump_type (), supported_type ());
+  EXPECT_EQ (generator.get_instance_configuration ().get_type (),
+             supported_type ());
+  EXPECT_TRUE (generator.get_instance_configuration ()
+               == core_dump_generator::get_current_configuration ());
+  EXPECT_EQ (generator.get_instance_dump_directory (), "/keep/this");
+  EXPECT_EQ (generator.get_instance_configuration ().get_directory (),
+             "/keep/this");
+  EXPECT_TRUE (generator.is_instance_initialized ());
+}
+
+TEST_F (LumexCoreDumpInstanceTest,
+        GivenInstance_WhenSetDumpTypeUnsupported_ThenInstanceUnchanged)
+{
+  write_static_state ("/keep/this", sample_configuration ());
+  scoped_fresh_instance fresh;
+  core_dump_generator const &generator = fresh.get ();
+
+  scoped_initialized_flag initialized;
+  EXPECT_FALSE (core_dump_generator::set_dump_type (unsupported_type ()));
+
+  EXPECT_TRUE (generator.get_instance_configuration ()
+               == sample_configuration ());
+  EXPECT_EQ (generator.get_instance_dump_directory (), "/keep/this");
+}
+
+TEST_F (LumexCoreDumpInstanceTest,
+        GivenNoInstanceYet_WhenSetDumpType_ThenStaticConfigurationChanges)
+{
+  std::unique_ptr<core_dump_generator> saved;
+  saved.swap (instance_pointer ());
+  write_static_state ("/dir", dump_configuration ());
+
+  {
+    scoped_initialized_flag initialized;
+    EXPECT_TRUE (core_dump_generator::set_dump_type (supported_type ()));
+  }
+
+  EXPECT_EQ (core_dump_generator::get_current_dump_type (), supported_type ());
+  EXPECT_TRUE (instance_pointer () == nullptr);
+  instance_pointer ().swap (saved);
+}
+
+TEST_F (LumexCoreDumpInstanceTest,
+        GivenNotInitialized_WhenSetDumpType_ThenThrowsAndNothingChanges)
+{
+  write_static_state ("/dir", dump_configuration ());
+  EXPECT_THROW (core_dump_generator::set_dump_type (supported_type ()),
+                std::runtime_error);
+  EXPECT_EQ (core_dump_generator::get_current_dump_type (),
+             DumpType::DEFAULT_AUTO);
+}
+
+// --- instance () ---
+
+TEST (LumexCoreDumpInstanceCreationTest,
+      GivenNotInitialized_WhenInstance_ThenThrows)
+{
+  ASSERT_FALSE (core_dump_generator::is_initialized ());
+  EXPECT_THROW (core_dump_generator::instance (), std::runtime_error);
+}
+
+TEST_F (LumexCoreDumpInstanceTest,
+        GivenInitialized_WhenInstance_ThenFilledAndTheSameEveryTime)
+{
+  write_static_state ("/var/dumps", sample_configuration ());
+  core_dump_generator &first = default_instance ();
+  core_dump_generator &second = default_instance ();
+  EXPECT_EQ (&first, &second);
+  EXPECT_EQ (&first, instance_pointer ().get ());
+  // Whenever instance () created the object (this test or an earlier one),
+  // it filled it; a refresh makes it follow this test's state.
+  EXPECT_TRUE (first.is_instance_initialized ());
+  slot<refresh_instance_tag>::value ();
+  EXPECT_EQ (first.get_instance_dump_directory (), "/var/dumps");
+  EXPECT_TRUE (first.get_instance_configuration () == sample_configuration ());
+}
+
+// --- generate_instance_dump () with a filled instance ---
+//
+// A filled instance hands the call to the static generate_dump (); an unfilled
+// one stops at its own guard. With the static state not initialized the static
+// function answers operation_not_permitted, the guard of the instance answers
+// invalid_argument, so the two paths can be told apart without writing a dump.
+
+TEST_F (
+    LumexCoreDumpInstanceTest,
+    GivenFilledInstance_WhenGenerateInstanceDumpWithErrorCode_ThenReachesTheStaticFunction)
+{
+  write_static_state ("/dir", sample_configuration ());
+  scoped_fresh_instance fresh;
+  ASSERT_TRUE (fresh.get ().is_instance_initialized ());
+  ASSERT_FALSE (core_dump_generator::is_initialized ());
+
+  std::error_code code;
+  EXPECT_FALSE (fresh.get ().generate_instance_dump ("reason", code));
+  EXPECT_TRUE (code == std::errc::operation_not_permitted);
+
+  code.clear ();
+  EXPECT_FALSE (fresh.get ().generate_instance_dump (std::string ("x"), code));
+  EXPECT_TRUE (code == std::errc::operation_not_permitted);
+}
+
+TEST_F (
+    LumexCoreDumpInstanceTest,
+    GivenUnfilledInstance_WhenGenerateInstanceDumpWithErrorCode_ThenStopsAtItsGuard)
+{
+  write_static_state ("/dir", sample_configuration ());
+  scoped_fresh_instance fresh;
+  fresh.make_not_initialized ();
+
+  std::error_code code;
+  EXPECT_FALSE (fresh.get ().generate_instance_dump ("reason", code));
+  EXPECT_TRUE (code == std::errc::invalid_argument);
+}
+
+TEST_F (
+    LumexCoreDumpInstanceTest,
+    GivenFilledInstanceOfAnUnsupportedType_WhenGenerateInstanceDump_ThenRejectedWithoutADump)
+{
+  dump_configuration configuration;
+  configuration.set_type (unsupported_type ());
+  write_static_state ("/dir", configuration);
+  scoped_fresh_instance fresh;
+  scoped_initialized_flag initialized;
+
+  std::error_code code;
+  EXPECT_FALSE (fresh.get ().generate_instance_dump ("reason", code));
+  EXPECT_TRUE (code == std::errc::invalid_argument);
+  // The overload without an error code is not called here: it does not check
+  // the platform support and would go on to write a real dump.
+}
