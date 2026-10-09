@@ -46,7 +46,14 @@
  *            undefined phantom aggregate (`fake_object`) is what puts the
  *            real member name into the pretty string. A defined `inline T`
  *            instance fails on MSVC: a local reference into it is not a
- *            constant expression for the NTTP.
+ *            constant expression for the NTTP. The name is the identifier
+ *            after the last `.`, `->` or `::` of the pretty string
+ *            (`detail::member_name_begin`), whatever the compiler prints in
+ *            front of it: GCC 13 qualifies the member by its class
+ *            (`.ns::T::id`), the older GCC and Clang do not, MSVC separates
+ *            the path with `->`. GCC 8 cannot take that pointer as a template
+ *            argument, and reports 201709L at `-std=c++2a`, so it has no
+ *            compiler names (the registration works there).
  *          - Registered, in every standard: `LUMEX_DEFINE_FIELD_NAMES (Type,
  *            a, b, c)` next to the aggregate lists its members once. The
  *            names come from the tokens and `get` from pointers to the
@@ -92,6 +99,9 @@
 #pragma clang diagnostic ignored "-Wheader-hygiene"
 #pragma clang diagnostic ignored "-Wused-but-marked-unused"
 #pragma clang diagnostic ignored "-Wundefined-var-template"
+// The phantom object of an aggregate in an unnamed namespace is declared,
+// never defined, and only its address is taken.
+#pragma clang diagnostic ignored "-Wundefined-internal"
 #pragma clang diagnostic ignored "-Wdeprecated-redundant-constexpr-static-def"
 #if __has_warning("-Wvariadic-macro-arguments-omitted")
 #pragma clang diagnostic ignored "-Wvariadic-macro-arguments-omitted"
@@ -514,46 +524,83 @@ struct names_source
 {
 };
 
+// A character of an identifier. A byte of a multibyte UTF-8 sequence counts,
+// so that an identifier written in UTF-8 is read whole.
 inline bool
 is_ident_char (char ch) LUMEX_NOEXCEPT
 {
   return (ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z')
-         || (ch >= '0' && ch <= '9') || ch == '_';
+         || (ch >= '0' && ch <= '9') || ch == '_'
+         || static_cast<unsigned char> (ch) >= 0x80;
 }
 
+// An identifier does not start with a digit.
+inline bool
+is_ident_start (char ch) LUMEX_NOEXCEPT
+{
+  return is_ident_char (ch) && !(ch >= '0' && ch <= '9');
+}
+
+// Where the name of the member begins in the pretty string (the
+// LUMEX_FUNCTION_NAME of nttp_pretty), or len if there is none.
+//
+// The pointer is the last template argument of nttp_pretty, and the member is
+// the last thing the pointer names, so the name is the identifier that follows
+// the last member access (`.`, `->`) or scope (`::`) operator of the string,
+// and nothing but closing delimiters follows it. What stands before the
+// operator does not matter, and that is the point: the compilers print the
+// path to the member differently (the data in the parser tests).
+//   GCC 8 .. 12   `...Pointer = (&
+//   fake_object_storage<T>.fake_object_wrapper_t<T>::value.id)]` GCC 13
+//   `...Pointer = (&
+//   fake_object_storage<T>.fake_object_wrapper_t<T>::value.ns::T::id)]`
+//                 (the member qualified by its class, which is also printed
+//                 after the last `.`)
+//   Clang         `...Pointer = &fake_object_storage.value.id]`
+//   MSVC          `...nttp_pretty<struct ns::T,&fake_object_storage<struct
+//   ns::T>->value->id>(void) noexcept`
+// Taking the text after the last `.` or `->` alone yields `ns` for GCC 13.
+// The operator must be followed by an identifier start: a `.` inside a
+// floating-point template argument is followed by a digit, and an ellipsis by
+// a dot. Such text can only stand before the member, and the last operator
+// wins anyway.
+inline std::size_t
+member_name_begin (char const *pretty, std::size_t len) LUMEX_NOEXCEPT
+{
+  std::size_t begin = len;
+  for (std::size_t i = 0; i < len; ++i)
+    {
+      std::size_t op_len = 0;
+      if (pretty[i] == '.')
+        op_len = 1;
+      else if (i + 1 < len
+               && ((pretty[i] == ':' && pretty[i + 1] == ':')
+                   || (pretty[i] == '-' && pretty[i + 1] == '>')))
+        op_len = 2;
+      if (op_len == 0)
+        continue;
+      if (i + op_len < len && is_ident_start (pretty[i + op_len]))
+        begin = i + op_len;
+      i += op_len - 1; // both characters of `::` and `->` are consumed
+    }
+  return begin;
+}
+
+// Copies the name of the member out of the pretty string into dest, which is
+// always NUL-terminated (dest_size characters at most, the name is cut if it
+// does not fit). A string without a member gives an empty name.
 inline void
 copy_parsed_name (char *dest, std::size_t dest_size,
                   char const *pretty) LUMEX_NOEXCEPT
 {
+  if (dest_size == 0)
+    return;
+
   std::size_t len = 0;
   while (pretty[len] != '\0')
     ++len;
 
-  // GCC/Clang pretty strings use `.member`; MSVC __FUNCSIG__ uses
-  // `->member` (`...storage<T>->value->id`). Prefer the last arrow, then
-  // the last dot. Falling back to `:` alone picks the aggregate type name
-  // on MSVC (`...::Plain,&...->value->id`) and is wrong.
-  std::size_t arrow = static_cast<std::size_t> (-1);
-  std::size_t dot = static_cast<std::size_t> (-1);
-  std::size_t colon = static_cast<std::size_t> (-1);
-  for (std::size_t i = 0; i < len; ++i)
-    {
-      if (pretty[i] == '.')
-        dot = i;
-      if (pretty[i] == ':')
-        colon = i;
-      if (i + 1 < len && pretty[i] == '-' && pretty[i + 1] == '>')
-        arrow = i;
-    }
-
-  std::size_t start = 0;
-  if (arrow != static_cast<std::size_t> (-1))
-    start = arrow + 2;
-  else if (dot != static_cast<std::size_t> (-1))
-    start = dot + 1;
-  else if (colon != static_cast<std::size_t> (-1))
-    start = colon + 1;
-
+  std::size_t start = member_name_begin (pretty, len);
   std::size_t out = 0;
   while (start < len && is_ident_char (pretty[start]) && out + 1 < dest_size)
     dest[out++] = pretty[start++];
@@ -668,22 +715,37 @@ nttp_pretty () LUMEX_NOEXCEPT
   return LUMEX_FUNCTION_NAME;
 }
 
+// The pretty string of the I-th field of Agg: the LUMEX_FUNCTION_NAME of
+// nttp_pretty with the pointer to that field as the template argument.
+template <typename Agg, std::size_t I>
+char const *
+field_pretty () LUMEX_NOEXCEPT
+{
+  return nttp_pretty<
+      Agg, std::addressof (std::get<I> (as_tied (
+               fake_object<Agg> (),
+               std::integral_constant<std::size_t,
+                                      aggregate_traits<Agg>::count>{})))> ();
+}
+
+// The parsed name, filled once by the constructor of a function-local static,
+// which the language initializes thread-safely.
+template <typename Agg, std::size_t I> struct parsed_field_name
+{
+  char buf[128];
+
+  parsed_field_name () LUMEX_NOEXCEPT
+  {
+    copy_parsed_name (buf, sizeof (buf), field_pretty<Agg, I> ());
+  }
+};
+
 template <typename Agg, std::size_t I>
 char const *
 field_name () LUMEX_NOEXCEPT
 {
-  static char buf[128] = { 0 };
-  if (buf[0] == '\0')
-    {
-      copy_parsed_name (
-          buf, sizeof (buf),
-          nttp_pretty<Agg, std::addressof (std::get<I> (as_tied (
-                               fake_object<Agg> (),
-                               std::integral_constant<
-                                   std::size_t,
-                                   aggregate_traits<Agg>::count>{})))> ());
-    }
-  return buf;
+  static parsed_field_name<Agg, I> const name;
+  return name.buf;
 }
 
 template <typename Agg, typename Seq> struct names_builder;
