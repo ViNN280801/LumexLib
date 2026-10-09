@@ -41,6 +41,27 @@ make_rows ()
   return rows;
 }
 
+/// The mantissa of "6.02e23" ("6.02"): the text before the exponent.
+std::string
+mantissa_of (std::string const &text)
+{
+  return text.substr (0, text.find_first_of ("eE"));
+}
+
+/// The exponent of "6.02e+23" ("23"), empty without one; a plus sign and
+/// leading zeros are not part of the number.
+std::string
+exponent_of (std::string const &text)
+{
+  std::size_t const e = text.find_first_of ("eE");
+  if (e == std::string::npos)
+    return std::string ();
+  std::string result = text.substr (e + 1);
+  if (!result.empty () && result[0] == '+')
+    result.erase (0, 1);
+  return result;
+}
+
 /// The number of decimals of "123.4560", or npos without a point.
 std::size_t
 decimals_of (std::string const &text)
@@ -80,18 +101,33 @@ round_to (std::string const &text, std::size_t decimals)
   return "1" + result;
 }
 
+/// "123.456" or "123.456e-7": digits with one point, then at most an exponent
+/// of an optional sign and digits.
 bool
 is_plain_decimal (std::string const &token)
 {
+  std::string const mantissa = mantissa_of (token);
+  std::string const exponent = exponent_of (token);
   std::size_t points = 0;
-  for (std::size_t i = 0; i < token.size (); ++i)
+  for (std::size_t i = 0; i < mantissa.size (); ++i)
     {
-      if (token[i] == '.')
+      if (mantissa[i] == '.')
         ++points;
-      else if (token[i] < '0' || token[i] > '9')
+      else if (mantissa[i] < '0' || mantissa[i] > '9')
         return false;
     }
-  return points == 1 && token[0] != '.' && token[token.size () - 1] != '.';
+  if (points != 1 || mantissa[0] == '.'
+      || mantissa[mantissa.size () - 1] == '.')
+    return false;
+  if (mantissa.size () == token.size ())
+    return true;
+  std::size_t first = !exponent.empty () && exponent[0] == '-' ? 1 : 0;
+  if (exponent.size () <= first)
+    return false;
+  for (std::size_t i = first; i < exponent.size (); ++i)
+    if (exponent[i] < '0' || exponent[i] > '9')
+      return false;
+  return true;
 }
 } // namespace
 
@@ -105,8 +141,9 @@ TEST (MathConstantsDigitsTest,
 TEST (MathConstantsDigitsTest,
       GivenEveryMacro_WhenExpanded_ThenItIsOnePlainDecimalLiteral)
 {
-  // No suffix, exponent, sign, parenthesis or operator: a single token that
-  // cannot change meaning next to an operator (-PI, 1 / PI, 2 * PI).
+  // No suffix, sign, parenthesis or operator (an exponent only where the
+  // value needs one): a single token that cannot change meaning next to an
+  // operator (-PI, 1 / PI, 2 * PI).
   for (digits_row const &row : make_rows ())
     {
       SCOPED_TRACE (row.name);
@@ -123,8 +160,9 @@ TEST (MathConstantsDigitsTest,
   for (digits_row const &row : make_rows ())
     {
       SCOPED_TRACE (row.name);
-      ASSERT_NE (decimals_of (row.token), std::string::npos) << row.token;
-      EXPECT_GE (decimals_of (row.token),
+      std::string const mantissa = mantissa_of (row.token);
+      ASSERT_NE (decimals_of (mantissa), std::string::npos) << row.token;
+      EXPECT_GE (decimals_of (mantissa),
                  static_cast<std::size_t> (row.decimals))
           << row.token;
     }
@@ -135,19 +173,22 @@ TEST (MathConstantsDigitsTest,
 {
   // The header may cut the true value or round it at its last digit; any
   // other digit is wrong. A value with more decimals than the 60 of the
-  // table is padded with zeros (the exact physical constants).
+  // table is padded with zeros (the exact physical constants). The exponent
+  // of a constant that has one (Planck, Avogadro) must be equal.
   for (digits_row const &row : make_rows ())
     {
       SCOPED_TRACE (row.name);
-      std::size_t const decimals = decimals_of (row.token);
+      std::string const token = mantissa_of (row.token);
+      std::string const reference = mantissa_of (row.reference);
+      std::size_t const decimals = decimals_of (token);
       ASSERT_NE (decimals, std::string::npos) << row.token;
-      std::string const padded
-          = row.reference + std::string (decimals + 1, '0');
-      EXPECT_TRUE (row.token == truncate_to (padded, decimals)
-                   || row.token == round_to (padded, decimals))
+      std::string const padded = reference + std::string (decimals + 1, '0');
+      EXPECT_TRUE (token == truncate_to (padded, decimals)
+                   || token == round_to (padded, decimals))
           << "header   " << row.token << "\ntruncated "
           << truncate_to (padded, decimals) << "\nrounded   "
           << round_to (padded, decimals);
+      EXPECT_EQ (exponent_of (row.token), exponent_of (row.reference));
     }
 }
 
@@ -176,18 +217,34 @@ TEST (MathConstantsDigitsTest, GivenAWrongDigit_WhenCompared_ThenItIsReported)
 }
 
 TEST (MathConstantsDigitsTest,
-      GivenPhysicalConstants_WhenRead_ThenTheyAreExactDecimals)
+      GivenPhysicalConstants_WhenRead_ThenTheyCarryTheirExponent)
 {
-  // SI 2019 and CGPM definitions; the macros carry the decimal part only
-  // (Planck 6.62607015 stands for 6.62607015e-34 J s, Avogadro 6.02214076 for
-  // 6.02214076e23 1/mol): the power of ten is not part of the macro. Pinned as
-  // it is: a change of the contract is a decision, not a side effect.
+  // SI 2019 definitions: the Planck constant is 6.62607015e-34 J s and the
+  // Avogadro constant 6.02214076e23 1/mol, the macros hold the whole number
+  // (before 2.0.0.0 they held only the mantissa).
   std::string const planck
       = LUMEX_TEST_STRINGIZE (LUMEX_MATH_CONSTANTS_PLANCK_CONSTANT);
   std::string const avogadro
       = LUMEX_TEST_STRINGIZE (LUMEX_MATH_CONSTANTS_AVOGADRO_CONSTANT);
-  EXPECT_EQ (planck.substr (0, 10), "6.62607015");
-  EXPECT_EQ (avogadro.substr (0, 10), "6.02214076");
-  EXPECT_DOUBLE_EQ (LUMEX_MATH_CONSTANTS_PLANCK_CONSTANT, 6.62607015);
-  EXPECT_DOUBLE_EQ (LUMEX_MATH_CONSTANTS_AVOGADRO_CONSTANT, 6.02214076);
+  EXPECT_EQ (planck, "6.62607015e-34");
+  EXPECT_EQ (avogadro, "6.02214076e23");
+  EXPECT_DOUBLE_EQ (LUMEX_MATH_CONSTANTS_PLANCK_CONSTANT, 6.62607015e-34);
+  EXPECT_DOUBLE_EQ (LUMEX_MATH_CONSTANTS_AVOGADRO_CONSTANT, 6.02214076e23);
+}
+
+TEST (MathConstantsDigitsTest, GivenAnExponent_WhenParsed_ThenItIsSplitOff)
+{
+  // The text helpers behind the checks above, and the shapes they refuse.
+  EXPECT_EQ (mantissa_of ("6.02e+23"), "6.02");
+  EXPECT_EQ (exponent_of ("6.02e+23"), "23");
+  EXPECT_EQ (exponent_of ("6.6e-34"), "-34");
+  EXPECT_EQ (exponent_of ("6.6"), "");
+  EXPECT_TRUE (is_plain_decimal ("6.62607015e-34"));
+  EXPECT_TRUE (is_plain_decimal ("6.02214076e23"));
+  EXPECT_FALSE (is_plain_decimal ("6.02e"));
+  EXPECT_FALSE (is_plain_decimal ("6.02e-"));
+  EXPECT_FALSE (is_plain_decimal ("6.02e2x"));
+  EXPECT_FALSE (is_plain_decimal ("6.02F"));
+  EXPECT_FALSE (is_plain_decimal ("(6.02)"));
+  EXPECT_FALSE (is_plain_decimal ("602"));
 }
