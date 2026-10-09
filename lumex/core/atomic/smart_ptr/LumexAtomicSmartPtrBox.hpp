@@ -128,21 +128,24 @@ struct box_t
 
 /**
  * @brief Hands a box that was removed from its cell to the policy.
+ * @return True when the box is already destroyed, false when it was
+ * retired (a reader named it, or the policy defers).
  * @details The caller holds no hazard pointer that names the box.
  */
 template <typename Pointer>
-void
+bool
 dispose_box (box_t<Pointer> *box, reclaim::immediate) LUMEX_NOEXCEPT
 {
-  static_cast<void> (box->reclaim_or_retire ());
+  return box->reclaim_or_retire ();
 }
 
 /// @copydoc dispose_box(box_t<Pointer>*,reclaim::immediate)
 template <typename Pointer>
-void
+bool
 dispose_box (box_t<Pointer> *box, reclaim::deferred) LUMEX_NOEXCEPT
 {
   box->retire ();
+  return false;
 }
 } // namespace Detail
 } // namespace LUMEX_ATOMIC_SMART_PTR_ABI_NAMESPACE
