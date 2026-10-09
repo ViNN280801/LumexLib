@@ -39,10 +39,13 @@ import tempfile
 import time
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+# What each series must have measured: the engine (the class template) and
+# the way of sleeping (the inline namespace) are in the "path" of --list.
 LOCK_BASED_PATHS = ("lock_based_std_wait", "lock_based_table_wait")
-ALL_PATHS = LOCK_BASED_PATHS + ("std_backed_std_wait", "std_backed_table_wait")
+LOCK_FREE_PATHS = ("lock_free_std_wait", "lock_free_table_wait")
+COMMON_PATHS = ("common_std_wait", "common_table_wait")
 OPERATIONS = ("uint64_cas", "load", "store", "exchange",
-              "compare_exchange_strong")
+              "compare_exchange_strong", "load_one_writer")
 
 
 def log(message):
@@ -80,11 +83,35 @@ def check_implementations(implementations):
             % by_key["lumex_lock_based_cxx11"][2])
     if by_key["lumex_lock_based"][2] not in LOCK_BASED_PATHS:
         die("lumex_lock_based measured %s" % by_key["lumex_lock_based"][2])
-    if by_key["lumex_default"][2] not in ALL_PATHS:
-        die("lumex_default measured %s" % by_key["lumex_default"][2])
+    # The lock-free series exist only in a build that has the engine; each
+    # one must be the engine it names, and the common name must be one of
+    # the two engines (never the wrapper of the standard library's type).
+    free = [key for key in by_key if key.startswith("lumex_lock_free")]
+    for key in free:
+        if not by_key[key][2].startswith("lock_free"):
+            die("%s measured %s" % (key, by_key[key][2]))
+        if by_key[key][4] != "1":
+            die("%s reports is_lock_free () false" % key)
+    if "lumex_lock_free_cxx11" in by_key and \
+            by_key["lumex_lock_free_cxx11"][2] != "lock_free_table_wait":
+        die("lumex_lock_free_cxx11 measured %s, not lock_free_table_wait"
+            % by_key["lumex_lock_free_cxx11"][2])
+    default_path = by_key["lumex_default"][2]
+    if default_path not in COMMON_PATHS:
+        die("lumex_default measured %s" % default_path)
+    if free and by_key["lumex_default"][4] != "1":
+        die("the build has the lock-free engine but the common name is not "
+            "lock-free")
+    if not free:
+        log("the build has no lock-free engine; those series are left out")
+    if "lumex_std_backed" not in by_key:
+        log("no std::atomic<std::shared_ptr<T>> here; the std_backed series "
+            "is left out")
     if "std" not in by_key:
         log("the standard library has no std::atomic<std::shared_ptr<T>>; "
             "the std series is left out")
+    if "boost" not in by_key:
+        log("Boost was not found at build time; the boost series is left out")
 
 
 def read_file(path):
@@ -227,6 +254,10 @@ def parse_args(argv):
     parser.add_argument("--threads", default=None,
                         help="thread counts, e.g. 1,2,4,8 (default: 1 and "
                              "every even count up to the logical CPUs)")
+    parser.add_argument("--series", default=None,
+                        help="only these series (comma separated keys of "
+                             "--list), e.g. lumex_lock_free,"
+                             "lumex_lock_free_deferred")
     parser.add_argument("--quick", action="store_true",
                         help="3 repetitions, no pause, 20 ms windows: a "
                              "smoke run, not results")
@@ -273,6 +304,8 @@ def main(argv):
                        "--warmup-ms", str(args.warmup_ms)]
             if args.threads:
                 command += ["--threads", args.threads]
+            if args.series:
+                command += ["--series", args.series]
             completed = subprocess.run(command, stderr=subprocess.DEVNULL)
             if completed.returncode == 3:
                 die("repetition %d: a measured object left a reference "
