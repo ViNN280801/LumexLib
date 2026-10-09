@@ -1,11 +1,11 @@
 // LumexStringifyV2.cxx11.tests.cpp
 //
 // stringify_v2 from C++11: the same text as stringify for every argument list,
-// and a constraint that is std::enable_if in every standard, so that a call
-// with an argument that cannot be streamed finds no overload (stringify
-// itself stops with a static_assert below C++20). The detector below asks the
-// compiler instead of compiling a rejected call. The C++20 file ties the
-// constraint to the concept AllStringifiable.
+// and the same constraint, because it forwards to stringify and takes its
+// return type from the call: a call with an argument that cannot be streamed
+// finds no overload (so does a call of stringify, LumexStringifySfinae.cxx11).
+// The detector below asks the compiler instead of compiling a rejected call.
+// The C++20 file ties the constraint to the concept AllStringifiable.
 #include <cstddef>
 #include <memory>
 #include <sstream>
@@ -19,6 +19,7 @@
 #include "lumex/core/string/LumexString"
 
 #include "lumex/tests/core/string/LumexStringTestFixtures.hpp"
+#include "lumex/tests/support/LumexOstreamProbe.hpp"
 
 namespace utility_traits = lumex::core::utility::traits;
 using lumex::core::string::utility::stringify;
@@ -26,6 +27,24 @@ using lumex::core::string::utility::stringify_v2;
 
 namespace
 {
+// stringify (declval<Args> ()...) is well-formed.
+template <typename Void, typename... Args>
+struct can_stringify_impl : std::false_type
+{
+};
+
+template <typename... Args>
+struct can_stringify_impl<utility_traits::meta::void_t<decltype (stringify (
+                              std::declval<Args> ()...))>,
+                          Args...> : std::true_type
+{
+};
+
+template <typename... Args>
+struct can_stringify : can_stringify_impl<void, Args...>
+{
+};
+
 // stringify_v2 (declval<Args> ()...) is well-formed.
 template <typename Void, typename... Args>
 struct can_stringify_v2_impl : std::false_type
@@ -196,15 +215,24 @@ TEST (LumexStringifyV2Test,
 TEST (LumexStringifyV2Test,
       GivenWideChar_WhenDetecting_ThenFollowsTheStandardLibrary)
 {
-  // Streamed as its number before C++20; from C++20 the library deletes
+  // Streamed as its number up to C++17; from C++20 the library deletes
   // `operator<<` of a narrow stream for wchar_t and so the call has no
   // overload.
   EXPECT_EQ ((can_stringify_v2<wchar_t>::value),
-             (utility_traits::stream::is_ostreamable<wchar_t>::value));
+             (lumex_tests_support::ostream_accepts<wchar_t>::value));
   EXPECT_EQ ((can_stringify_v2<char16_t>::value),
-             (utility_traits::stream::is_ostreamable<char16_t>::value));
+             (lumex_tests_support::ostream_accepts<char16_t>::value));
   EXPECT_EQ ((can_stringify_v2<char32_t>::value),
-             (utility_traits::stream::is_ostreamable<char32_t>::value));
+             (lumex_tests_support::ostream_accepts<char32_t>::value));
+#if __cplusplus < 202002L
+  EXPECT_EQ (stringify_v2 (L'A'), "65");
+  EXPECT_EQ (stringify_v2 (u'A', U'A'), "6565");
+#endif
+#if LUMEX_TEST_OSTREAM_DELETES_WIDE_CHARACTERS
+  EXPECT_FALSE ((can_stringify_v2<wchar_t>::value));
+  EXPECT_FALSE ((can_stringify_v2<char16_t>::value));
+  EXPECT_FALSE ((can_stringify_v2<char32_t>::value));
+#endif
 }
 
 TEST (LumexStringifyV2Test, GivenResult_WhenDecltype_ThenIsAString)
@@ -214,6 +242,31 @@ TEST (LumexStringifyV2Test, GivenResult_WhenDecltype_ThenIsAString)
   static_assert (std::is_same<decltype (stringify_v2 ()), std::string>::value,
                  "");
   SUCCEED ();
+}
+
+TEST (LumexStringifyV2Test,
+      GivenAnyArgumentList_WhenDetecting_ThenSameAsStringify)
+{
+#define LUMEX_V2_SAME_AS_STRINGIFY(...)                                       \
+  EXPECT_EQ ((can_stringify_v2<__VA_ARGS__>::value),                          \
+             (can_stringify<__VA_ARGS__>::value))                             \
+      << #__VA_ARGS__
+  LUMEX_V2_SAME_AS_STRINGIFY ();
+  LUMEX_V2_SAME_AS_STRINGIFY (int);
+  LUMEX_V2_SAME_AS_STRINGIFY (int &, std::string const &);
+  LUMEX_V2_SAME_AS_STRINGIFY (char const (&)[4], double, CustomStreamable);
+  LUMEX_V2_SAME_AS_STRINGIFY (std::unique_ptr<int>);
+  LUMEX_V2_SAME_AS_STRINGIFY (std::shared_ptr<int> const &, int);
+  LUMEX_V2_SAME_AS_STRINGIFY (adl_streamable);
+  LUMEX_V2_SAME_AS_STRINGIFY (NonStreamable);
+  LUMEX_V2_SAME_AS_STRINGIFY (int, NonStreamable);
+  LUMEX_V2_SAME_AS_STRINGIFY (NonStreamable, int);
+  LUMEX_V2_SAME_AS_STRINGIFY (std::vector<int>);
+  LUMEX_V2_SAME_AS_STRINGIFY (std::wstring);
+  LUMEX_V2_SAME_AS_STRINGIFY (wchar_t);
+  LUMEX_V2_SAME_AS_STRINGIFY (char16_t, int);
+  LUMEX_V2_SAME_AS_STRINGIFY (char32_t const *);
+#undef LUMEX_V2_SAME_AS_STRINGIFY
 }
 
 TEST (LumexStringifyV2Test,

@@ -558,20 +558,12 @@ TEST_F (LumexStringifyTest, TypeTraits_Dirty)
 
 // === Compilation Tests ===
 
-// These tests verify that certain code patterns compile or don't compile
-// They are commented out because they would cause compilation errors
-
-/*
-TEST_F(LumexStringifyTest, CompilationTests_Dirty) {
-    // This should NOT compile (NonStreamable doesn't have operator<<)
-    // NonStreamable ns(42);
-    // auto result = stringify(ns);  // Should cause static_assert failure
-
-    // This should NOT compile (mixing streamable and non-streamable)
-    // auto result2 = stringify(42, NonStreamable(1));  // Should cause
-static_assert failure
-}
-*/
+// A call with an argument that has no operator<< does not compile: stringify
+// finds no overload (SFINAE, in every standard). Those calls cannot sit in a
+// test body, so LumexStringifySfinae.cxx11.tests.cpp asks the compiler whether
+// the call is well-formed instead of compiling a rejected one:
+//   stringify (NonStreamable (42))        no matching function
+//   stringify (42, NonStreamable (1))     no matching function
 
 // === Memory Layout Tests ===
 
