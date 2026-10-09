@@ -1107,6 +1107,16 @@
 
 #### Исправлено
 
+##### `LumexFormat*`: `-Wpedantic` молчит про `__int128` на GCC
+
+**Файлы:** `lumex/core/fmt/LumexFormat.hpp`, `lumex/tests/cmake/consumer/hygiene_compile_checks/` (`CMakeLists.txt`, `fmt_pedantic.cpp` - новый)
+
+**Суть:** `LumexFormat.hpp` (а значит и `LumexFormatChrono.hpp`, `LumexFormatRanges.hpp` и зонтик `LumexFormat`) писал `__int128` и `unsigned __int128` в 11 местах, и GCC 8 и 13 при `-Wpedantic` выдавали `ISO C++ does not support '__int128'` на каждом (на C++11 и C++20; Clang молчит). Теперь тип назван один раз: `__extension__ typedef __int128 int128_type;` и `__extension__ typedef unsigned __int128 uint128_type;` в `Detail` (под `LUMEX_FORMAT_HAS_INT128`), остальной заголовок использует псевдонимы. `__extension__` понимают GCC, Clang, clang-cl и MinGW; у MSVC `__SIZEOF_INT128__` нет. Проверка в `cmake.hygiene_compile_checks`: каждый из четырех заголовков (включая зонтик) собирается под `-Wall -Wextra -Wpedantic -Werror` на C++11, 14, 17 и 20 с форматированием 128-битных чисел; на GCC голый `__int128` в той же единице должен быть отвергнут (иначе проверка ничего бы не доказывала; Clang его молча принимает).
+
+Прогон строгой проверки заголовков Clang 23 с libstdc++ 13 (`check_headers_standalone.py --cxx-flags="-Wall -Wextra -Wpedantic -Werror"`, C++11, 182 заголовка): замечаний нет; то же с `-Wconversion -Wsign-conversion -Wshadow -Wold-style-cast`, на GCC 8 и 13 (C++11) и на GCC 13 и Clang 23 (C++20) с `-Wall -Wextra -Wpedantic -Werror`: по 0 из 182. Проверка прогона: заголовок с неиспользуемой переменной скрипт отвергает.
+
+**Проверено:** заголовки `fmt_pedantic.cpp` (4 заголовка) чисты под `-Wall -Wextra -Wpedantic -Werror` на GCC 8.3, GCC 13.2 и Clang 23 (C++11, 17, 20), MinGW GCC 8.3 (C++11, `-fsyntax-only`); до правки GCC 8.3 и 13.2 выдавали 11 предупреждений. С прежним `LumexFormat.hpp` `cmake.hygiene_compile_checks` падает на «the fmt CORE header under -Wpedantic (C++11) must compile» (`ISO C++ does not support '__int128'`). `fmt` на GCC 13.2: 194 теста на C++11 и 14, 195 на C++17, 200 на C++20 (известные падения без изменений: 1 на C++17 и 9 на C++20, сравнение с `std::format` и `GivenHexTypeAtLimits`; 1 пропуск локали); GCC 8.3 и Clang 23 на C++11 - 194. `cmake.*` и `lint.*` (включая `lint.headers_standalone`): 162 из 162 проходят.
+
 ##### `mem::as<T>` и `traits::meta::is_extractible` не принимают `const` и `volatile` `T`
 
 **Файлы:** `lumex/core/utility/traits/LumexTypeTraits.hpp`, `lumex/core/utility/mem/LumexMemRead.hpp` (описание), `lumex/tests/core/utility/mem/LumexMemReadConstraints.cxx11.tests.cpp`, `lumex/tests/core/utility/traits/LumexTypeTraitsTopics.cxx11.tests.cpp`, `lumex/tests/core/utility/traits/LumexTypeTraitsTopics.cxx20.tests.cpp`

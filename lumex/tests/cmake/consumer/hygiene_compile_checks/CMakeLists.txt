@@ -60,6 +60,14 @@
 #                               at C++23, so that the check proves something;
 #                               a toolchain whose library does not deprecate
 #                               it skips the C++23 check with a message.
+#   fmt_pedantic.cpp            each fmt header (LumexFormat.hpp,
+#                               LumexFormatChrono.hpp, LumexFormatRanges.hpp
+#                               and the LumexFormat umbrella) with -Wall
+#                               -Wextra -Wpedantic -Werror, 128-bit integers
+#                               formatted (GCC reports "ISO C++ does not
+#                               support '__int128'" at every plain spelling);
+#                               on GCC the plain spelling must be rejected, so
+#                               that the check proves something.
 #
 # A check that fails reports the compiler output.
 
@@ -175,6 +183,20 @@ foreach(_std IN LISTS _standards)
     _lumex_hygiene_expect_ok("the optional header under -Wdeprecated-declarations"
         optional_aligned_storage.cpp ${_std} ${_pedantic} ${_deprecated})
     math(EXPR _compiled "${_compiled} + 2")
+
+    foreach(_header IN ITEMS CORE CHRONO RANGES UMBRELLA)
+        _lumex_hygiene_expect_ok("the fmt ${_header} header under -Wpedantic"
+            fmt_pedantic.cpp ${_std} ${_pedantic}
+            -DLUMEX_HYGIENE_FMT_${_header})
+        math(EXPR _compiled "${_compiled} + 1")
+    endforeach()
+    if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+        # Clang accepts __int128 silently, MSVC has none.
+        _lumex_hygiene_expect_rejected("a plain __int128 under -Wpedantic"
+            "__int128" fmt_pedantic.cpp ${_std} ${_pedantic}
+            -DLUMEX_HYGIENE_FMT_RAW_INT128)
+        math(EXPR _rejected "${_rejected} + 1")
+    endif()
 
     _lumex_hygiene_expect_ok("the safe comparator under -Wfloat-equal"
         float_equal_comparator.cpp ${_std} ${_float_equal})
