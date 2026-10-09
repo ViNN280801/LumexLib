@@ -20,6 +20,14 @@
 
 #### Добавлено
 
+##### Пример `examples.reflection.LumexFieldReflectionExample`: имена, `get<I>` и `to_json` агрегатов
+
+**Файлы:** `lumex/examples/reflection/example_field_reflection.cpp` (новый), `lumex/examples/reflection/CMakeLists.txt`, `lumex/tests/cmake/cases/wiring_field_reflection_no_leak.cmake`
+
+**Суть:** у field reflection не было примера. `example_field_reflection.cpp` показывает зарегистрированный агрегат (`LUMEX_DEFINE_FIELD_NAMES`), `tuple_size`, `names_as_array`, чтение и запись через `get<I>`, `to_json` вложенного агрегата с вектором агрегатов, пустым и непустым optional и типом со своим `to_json` (его перегрузка имеет приоритет), а с C++20 еще и агрегат без регистрации. Он собирается дважды: `LumexFieldReflectionExample` (C++11) и `LumexFieldReflectionExampleCxx20` (C++20), CTest-имена `examples.reflection.*`; сам проверяет документ и возвращает 1 при расхождении. Пути nlohmann в CMake примера: в дереве при `LUMEX_WITH_FIELD_REFLECTION=ON` через `lumex_setup_nlohmann_json ()` (встроенная копия `3rdparty/nlohmann`), отдельно после установки - через `find_package (nlohmann_json 3)`, без нее пример пропускается; `LUMEX_WITH_FIELD_REFLECTION` задается на самих целях. Два прежних примера по-прежнему собираются из `lumex::reflection` без nlohmann: `cmake.wiring_field_reflection_no_leak` теперь разрешает упоминание nlohmann в CMake примеров только за условием опции и после объявления прежних двух.
+
+**Проверено:** GCC 13.2 Release: оба исполняемых файла завершаются с кодом 0 (`ctest -R examples.reflection`).
+
 ##### `to_json` агрегата рекурсивно пишет вложенные агрегаты и контейнеры агрегатов
 
 **Файлы:** `lumex/core/reflection/field_reflection/LumexFieldReflection.hpp`, `lumex/tests/core/reflection/field_reflection/` (`LumexFieldReflectionNestedFixtures.hpp`, `LumexFieldNamesJsonNested.cxx11.tests.cpp`, `LumexFieldNamesJsonNested.cxx17.tests.cpp`, `LumexFieldNamesJsonNested.cxx20.tests.cpp` - новые; `CMakeLists.txt`, `LumexFieldReflectionRegisteredFixtures.hpp`), `lumex/tests/cmake/consumer/field_names_compile_checks/` (`check.cpp`, `CMakeLists.txt`, случаи 13 и 14)
