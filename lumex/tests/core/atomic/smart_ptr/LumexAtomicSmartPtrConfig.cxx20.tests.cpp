@@ -103,6 +103,7 @@ run_script (std::shared_ptr<Pair> const &owner)
 TEST (LumexAtomicSmartPtrConfigTest,
       GivenTheStandardType_WhenRunningTheSameScenario_ThenOutcomesMatch)
 {
+  LUMEX_ATOMIC_TEST_REQUIRE_PROMPT_DESTRUCTION ();
 #if LUMEX_HAS_STD_ATOMIC_SHARED_PTR
   std::shared_ptr<Pair> const owner = std::make_shared<Pair> (Pair{ 10, 20 });
   std::vector<long> const standard

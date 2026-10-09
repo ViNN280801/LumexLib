@@ -98,6 +98,7 @@ every_reentry ()
 TEST (LumexAtomicSharedPtrLifetimeTest,
       GivenTrackers_WhenStoreReplacesThem_ThenOnlyTheHeldOneIsAlive)
 {
+  LUMEX_ATOMIC_TEST_REQUIRE_PROMPT_DESTRUCTION ();
   int const before = Tracker::alive ().load ();
   {
     atomic_shared_ptr<Tracker> a;
@@ -114,6 +115,7 @@ TEST (LumexAtomicSharedPtrLifetimeTest,
 TEST (LumexAtomicSharedPtrLifetimeTest,
       GivenAnExchange_WhenOwnershipIsHandedOver_ThenCountsArePreserved)
 {
+  LUMEX_ATOMIC_TEST_REQUIRE_PROMPT_DESTRUCTION ();
   int const before = Tracker::alive ().load ();
   {
     std::shared_ptr<Tracker> const first = std::make_shared<Tracker> (1);
@@ -132,6 +134,7 @@ TEST (LumexAtomicSharedPtrLifetimeTest,
 TEST (LumexAtomicSharedPtrLifetimeTest,
       GivenCompareExchangeOutcomes_WhenRepeated_ThenOwnershipStaysBalanced)
 {
+  LUMEX_ATOMIC_TEST_REQUIRE_PROMPT_DESTRUCTION ();
   int const before = Tracker::alive ().load ();
   {
     std::shared_ptr<Tracker> const p1 = std::make_shared<Tracker> (1);
@@ -170,6 +173,7 @@ TEST (LumexAtomicSharedPtrLifetimeTest,
 TEST (LumexAtomicSharedPtrLifetimeTest,
       GivenEveryReplacingOperation_WhenDone_ThenEachObjectIsDeletedOnce)
 {
+  LUMEX_ATOMIC_TEST_REQUIRE_PROMPT_DESTRUCTION ();
   DeletionLedger ledger (32);
   {
     atomic_shared_ptr<int> a (ledger.make ()); // slot 0
@@ -206,6 +210,7 @@ TEST (LumexAtomicSharedPtrLifetimeTest,
 TEST (LumexAtomicSharedPtrLifetimeTest,
       GivenALongChainOfReplacements_WhenDone_ThenNothingLeaks)
 {
+  LUMEX_ATOMIC_TEST_REQUIRE_PROMPT_DESTRUCTION ();
   int const before = Tracker::alive ().load ();
   long const allocations_before = live_allocations ().load ();
   {
@@ -233,6 +238,7 @@ TEST (LumexAtomicSharedPtrLifetimeTest,
 TEST (LumexAtomicSharedPtrLifetimeTest,
       GivenADeleterThatUsesTheAtomic_WhenStoreReleasesIt_ThenNoDeadlock)
 {
+  LUMEX_ATOMIC_TEST_REQUIRE_PROMPT_DESTRUCTION ();
   Watchdog const dog ("GivenADeleterThatUsesTheAtomic_WhenStoreReleasesIt");
   std::vector<Reentry> const actions = every_reentry ();
   for (std::size_t i = 0; i < actions.size (); ++i)
@@ -249,6 +255,7 @@ TEST (LumexAtomicSharedPtrLifetimeTest,
 TEST (LumexAtomicSharedPtrLifetimeTest,
       GivenADeleterThatUsesTheAtomic_WhenAssignmentReleasesIt_ThenNoDeadlock)
 {
+  LUMEX_ATOMIC_TEST_REQUIRE_PROMPT_DESTRUCTION ();
   Watchdog const dog ("GivenADeleterThatUsesTheAtomic_WhenAssignment");
   std::vector<Reentry> const actions = every_reentry ();
   for (std::size_t i = 0; i < actions.size (); ++i)
@@ -264,6 +271,7 @@ TEST (LumexAtomicSharedPtrLifetimeTest,
 TEST (LumexAtomicSharedPtrLifetimeTest,
       GivenADeleterThatUsesTheAtomic_WhenTheExchangeResultDies_ThenNoDeadlock)
 {
+  LUMEX_ATOMIC_TEST_REQUIRE_PROMPT_DESTRUCTION ();
   Watchdog const dog ("GivenADeleterThatUsesTheAtomic_WhenExchange");
   std::vector<Reentry> const actions = every_reentry ();
   for (std::size_t i = 0; i < actions.size (); ++i)
@@ -314,6 +322,7 @@ TEST (
     LumexAtomicSharedPtrLifetimeTest,
     GivenADeleterThatUsesTheAtomic_WhenSuccessfulCompareReleases_ThenNoDeadlock)
 {
+  LUMEX_ATOMIC_TEST_REQUIRE_PROMPT_DESTRUCTION ();
   Watchdog const dog ("GivenADeleterThatUsesTheAtomic_WhenSuccessfulCompare");
   std::vector<Reentry> const actions = every_reentry ();
   for (std::size_t i = 0; i < actions.size (); ++i)
@@ -352,6 +361,7 @@ TEST (LumexAtomicWeakPtrLifetimeTest,
 TEST (LumexAtomicWeakPtrLifetimeTest,
       GivenAWeakPointerReplacedByStore_WhenTheObjectIsGone_ThenBlockIsFreed)
 {
+  LUMEX_ATOMIC_TEST_REQUIRE_PROMPT_DESTRUCTION ();
   long const before = live_allocations ().load ();
   std::shared_ptr<Tracker> const keep = make_counted_tracker (2);
   atomic_weak_ptr<Tracker> a;
@@ -369,6 +379,7 @@ TEST (LumexAtomicWeakPtrLifetimeTest,
 TEST (LumexAtomicWeakPtrLifetimeTest,
       GivenEveryWeakOperation_WhenDone_ThenNoWeakReferenceLeaks)
 {
+  LUMEX_ATOMIC_TEST_REQUIRE_PROMPT_DESTRUCTION ();
   long const before = live_allocations ().load ();
   int const alive_before = Tracker::alive ().load ();
   {
@@ -403,6 +414,7 @@ TEST (LumexAtomicWeakPtrLifetimeTest,
 TEST (LumexAtomicWeakPtrLifetimeTest,
       GivenAnExpiredStoredPointer_WhenCompareExchangedAway_ThenBlockIsFreed)
 {
+  LUMEX_ATOMIC_TEST_REQUIRE_PROMPT_DESTRUCTION ();
   long const before = live_allocations ().load ();
   {
     atomic_weak_ptr<Tracker> a;

@@ -59,6 +59,7 @@ using namespace lumex_atomic_test;
 TEST (LumexAtomicSmartPtrConcurrencyTest,
       GivenThreadsStartedByALatch_WhenExchangingAndLoading_ThenCountsBalance)
 {
+  LUMEX_ATOMIC_TEST_REQUIRE_PROMPT_DESTRUCTION ();
 #if defined(__cpp_lib_latch)
   // C++20: std::latch starts every thread at once for maximum contention.
   Watchdog const dog ("GivenThreadsStartedByALatch");

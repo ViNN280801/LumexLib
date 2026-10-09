@@ -227,6 +227,7 @@ TEST (
     LumexAtomicSmartPtrLifecycleTest,
     GivenDeletersThatCallEveryOperationOnTheSameAtomic_WhenManyThreadsReplaceIt_ThenNoDeadlockAndNoLeak)
 {
+  LUMEX_ATOMIC_TEST_REQUIRE_PROMPT_DESTRUCTION ();
   lumex_test::TestWatchdog const dog ("GivenDeletersThatCallEveryOperation");
   std::vector<int> const counts = lumex_test::thread_counts ();
   for (std::size_t c = 0; c < counts.size (); ++c)
@@ -383,6 +384,7 @@ TEST (
     LumexAtomicSmartPtrLifecycleTest,
     GivenAtomicsOfStaticStorage_WhenTheProcessExits_ThenTheyReleaseWhatTheyHold)
 {
+  LUMEX_ATOMIC_TEST_REQUIRE_PROMPT_DESTRUCTION ();
   // The check runs from an atexit handler registered before the static is
   // built, so it runs after the static is destroyed; a mismatch ends the
   // process with a non-zero code (see check_static_counts_at_exit).
