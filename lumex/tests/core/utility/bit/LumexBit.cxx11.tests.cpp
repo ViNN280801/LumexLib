@@ -77,6 +77,22 @@ expect_matches_reference ()
     }
 }
 
+// The leading zeros counted bit by bit from the top: the reference that
+// count_leading_zeros must agree with, written without any intrinsic.
+template <typename T>
+std::uint8_t
+reference_leading_zeros (T value)
+{
+  std::uint8_t count = 0;
+  for (std::size_t bit = sizeof (T) * 8; bit > 0; --bit)
+    {
+      if (((static_cast<std::uint64_t> (value) >> (bit - 1)) & 1U) != 0)
+        break;
+      ++count;
+    }
+  return count;
+}
+
 template <typename T>
 void
 expect_width_samples ()
@@ -126,6 +142,72 @@ TEST (LumexBitTest,
   // Low 32 bits full and the high half clear: 32 leading zeros.
   EXPECT_EQ (count_leading_zeros (static_cast<std::uint64_t> (0xFFFFFFFFULL)),
              static_cast<std::uint8_t> (32));
+}
+
+TEST (LumexBitTest,
+      GivenEveryOneByteValue_WhenCountLeadingZeros_ThenMatchesTheLoop)
+{
+  for (unsigned value = 0; value <= 0xFFU; ++value)
+    {
+      std::uint8_t const narrow = static_cast<std::uint8_t> (value);
+      ASSERT_EQ (count_leading_zeros (narrow),
+                 reference_leading_zeros (narrow))
+          << "value " << value;
+    }
+}
+
+TEST (LumexBitTest,
+      GivenEveryTwoByteValue_WhenCountLeadingZeros_ThenMatchesTheLoop)
+{
+  for (unsigned value = 0; value <= 0xFFFFU; ++value)
+    {
+      std::uint16_t const narrow = static_cast<std::uint16_t> (value);
+      ASSERT_EQ (count_leading_zeros (narrow),
+                 reference_leading_zeros (narrow))
+          << "value " << value;
+    }
+}
+
+TEST (
+    LumexBitTest,
+    GivenPowersOfTwoAndTheirNeighbours_WhenCountLeadingZeros_ThenMatchesTheLoop)
+{
+  for (unsigned bit = 0; bit < 32; ++bit)
+    {
+      std::uint32_t const power = static_cast<std::uint32_t> (1) << bit;
+      EXPECT_EQ (count_leading_zeros (power), reference_leading_zeros (power));
+      EXPECT_EQ (
+          count_leading_zeros (static_cast<std::uint32_t> (power - 1)),
+          reference_leading_zeros (static_cast<std::uint32_t> (power - 1)));
+      EXPECT_EQ (
+          count_leading_zeros (static_cast<std::uint32_t> (power + 1)),
+          reference_leading_zeros (static_cast<std::uint32_t> (power + 1)));
+    }
+  for (unsigned bit = 0; bit < 64; ++bit)
+    {
+      std::uint64_t const power = static_cast<std::uint64_t> (1) << bit;
+      EXPECT_EQ (count_leading_zeros (power), reference_leading_zeros (power));
+      EXPECT_EQ (
+          count_leading_zeros (static_cast<std::uint64_t> (power - 1)),
+          reference_leading_zeros (static_cast<std::uint64_t> (power - 1)));
+      EXPECT_EQ (
+          count_leading_zeros (static_cast<std::uint64_t> (power + 1)),
+          reference_leading_zeros (static_cast<std::uint64_t> (power + 1)));
+    }
+}
+
+TEST (LumexBitTest,
+      GivenSampledWideValues_WhenCountLeadingZeros_ThenMatchesTheLoop)
+{
+  std::uint64_t state = 0x9E3779B97F4A7C15ULL;
+  for (int round = 0; round < 2048; ++round)
+    {
+      // Shifting the sample right spreads the leading zero counts over 0..63.
+      std::uint64_t const wide = next_sample (state) >> (round % 64);
+      EXPECT_EQ (count_leading_zeros (wide), reference_leading_zeros (wide));
+      std::uint32_t const half = static_cast<std::uint32_t> (wide);
+      EXPECT_EQ (count_leading_zeros (half), reference_leading_zeros (half));
+    }
 }
 
 TEST (LumexBitTest, CountLeadingZeros_OverloadSetAndNoexcept)

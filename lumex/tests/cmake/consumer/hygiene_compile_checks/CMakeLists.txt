@@ -44,6 +44,13 @@
 #                               something (MSVC has no such warning: the unit
 #                               is only compiled there).
 #
+#   bit_warnings.cpp            the bit header (count_leading_zeros for every
+#                               width, byte_swap, is_little_endian) with -Wall
+#                               -Wextra -Wpedantic -Wconversion
+#                               -Wsign-conversion -Wshadow -Wold-style-cast
+#                               -Werror (the result of the 32-bit intrinsic
+#                               was narrowed to std::uint8_t implicitly).
+#
 # A check that fails reports the compiler output.
 
 cmake_minimum_required(VERSION 3.16)
@@ -66,12 +73,15 @@ if(MSVC)
     # The strict warning sets are GCC and Clang options.
     set(_strict "")
     set(_pedantic "")
+    set(_strictest "")
     set(_float_equal "")
 else()
     set(_flags -Werror)
     set(_standards 11 14 17 20)
     set(_strict -Wall -Wextra)
     set(_pedantic -Wall -Wextra -Wpedantic)
+    set(_strictest -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion
+        -Wshadow -Wold-style-cast)
     set(_float_equal -Wall -Wextra -Wfloat-equal)
 endif()
 
@@ -147,6 +157,10 @@ foreach(_std IN LISTS _standards)
     _lumex_hygiene_expect_ok("the JSON umbrella"
         json_umbrella.cpp ${_std} ${_pedantic})
     math(EXPR _compiled "${_compiled} + 3")
+
+    _lumex_hygiene_expect_ok("the bit header under the strictest flags"
+        bit_warnings.cpp ${_std} ${_strictest})
+    math(EXPR _compiled "${_compiled} + 1")
 
     _lumex_hygiene_expect_ok("the safe comparator under -Wfloat-equal"
         float_equal_comparator.cpp ${_std} ${_float_equal})
