@@ -1,10 +1,10 @@
 // lumex/tests/core/utility/sequence/LumexIndexSequence.cxx11.tests.cpp
 // integer_sequence, index_sequence, make_integer_sequence, make_index_sequence
-// and index_sequence_for of LumexIndexSequence.hpp. Below C++14 they are the
-// class and the alias templates of this library, from C++14 the aliases of the
-// standard ones; the tests describe what both have in common (the lists, the
-// members, the deduction), so the same file runs in every suite. The tests of
-// the own form alone (the refused counts) are compiled only where it is used.
+// and index_sequence_for of LumexIndexSequence.hpp. They are the class and the
+// alias templates of this library in every standard (never the standard
+// ones; LumexIndexSequence.cxx14 checks that and the conversions to and from
+// std::integer_sequence), so the same file runs in every suite, the refused
+// counts included.
 #include <array>
 #include <cstddef>
 #include <tuple>
@@ -281,11 +281,10 @@ TEST (LumexIndexSequenceTest,
   EXPECT_EQ (sizeof (eight_t), sizeof (sequence::index_sequence<>));
 }
 
-#if !LUMEX_HAS_STD_INTEGER_SEQUENCE
 TEST (LumexIndexSequenceTest,
       GivenBadCounts_WhenMakeIntegerSequence_ThenNoType)
 {
-  // The own form refuses what would run a compiler out of memory: a negative
+  // The library refuses what would run a compiler out of memory: a negative
   // count converts to an unsigned one near 2^64, and N - 1 with N == 0 is the
   // usual way to get there. The alias then has no type (SFINAE-friendly).
   EXPECT_TRUE ((can_make<int, 0>::value));
@@ -312,4 +311,3 @@ TEST (LumexIndexSequenceTest,
   EXPECT_TRUE ((can_make<std::size_t, 16384>::value));
   EXPECT_EQ (sequence::make_index_sequence<16384>::size (), 16384U);
 }
-#endif

@@ -154,8 +154,8 @@ namespace detail
 {
 LUMEX_CONSTEXPR std::size_t k_max_aggregate_fields = 32;
 
-// The index sequences of utility: std::index_sequence from C++14, an own
-// class below it.
+// The index sequences of utility: the class of this library in every
+// standard.
 using lumex::core::utility::sequence::index_sequence;
 
 template <std::size_t N> struct make_index_sequence
