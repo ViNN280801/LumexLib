@@ -93,9 +93,13 @@
  * (retired boxes) inside a later replacing call of any thread, never on a
  * thread that only reads; it may use any atomic smart pointer. The number of
  * boxes that wait is bounded by the hazard module (see its README). The
- * destructor of the cell destroys the last box at once; boxes retired earlier
- * stay with the domain until a pass reclaims them (`clean_up ()` of the
- * hazard module forces one).
+ * destructor of the cell destroys the last box at once. With the immediate
+ * policy a cell that had to retire a box (a reader named it) also runs a pass
+ * of the hazard domain (`clean_up ()`), so everything the cell ever held is
+ * destroyed by the time the cell is, as with the other engines (a deleter may
+ * therefore refer to objects that die with the atomic). With the deferred
+ * policy boxes retired earlier stay with the domain until a pass reclaims
+ * them, and the deleters of replaced values must outlive the atomic.
  *
  * `is_always_lock_free` and `is_lock_free ()` are true in the steady-state
  * sense: no operation waits for another thread. The first operation of a
@@ -181,10 +185,16 @@ public:
   static LUMEX_CONSTEXPR bool is_always_lock_free = true;
 
   LUMEX_CONSTEXPR
-  lock_free_cell () LUMEX_NOEXCEPT : epoch_wait_base (), word_ (nullptr) {}
+  lock_free_cell () LUMEX_NOEXCEPT
+      : epoch_wait_base (),
+        retired_ (false),
+        word_ (nullptr)
+  {
+  }
 
   explicit lock_free_cell (Pointer desired) LUMEX_NOEXCEPT
       : epoch_wait_base (),
+        retired_ (false),
         word_ (make_box (std::move (desired)))
   {
   }
@@ -192,10 +202,16 @@ public:
   lock_free_cell (lock_free_cell const &) = delete;
   lock_free_cell &operator= (lock_free_cell const &) = delete;
 
-  /// Destroys the last box at once: nobody uses the object any more.
+  /// Destroys the last box at once: nobody uses the object any more. With
+  /// the immediate policy, a box this cell had to retire (a reader named it
+  /// at that moment) is reclaimed by a pass of the hazard domain before the
+  /// destructor returns, so everything the cell ever held is destroyed when
+  /// the cell is, as with the other engines; no reader names those boxes any
+  /// more, because none may be inside an operation of a destroyed object.
   ~lock_free_cell ()
   {
     delete word_.exchange (nullptr, std::memory_order_acquire);
+    settle (Reclaim ());
   }
 
   bool
@@ -366,11 +382,37 @@ private:
 
   /// Hands a removed box to the policy. The caller holds no hazard pointer
   /// that names it.
-  static void
+  void
   dispose (box_type *box) LUMEX_NOEXCEPT
   {
-    if (box != nullptr)
-      dispose_box (box, Reclaim ());
+    if (box != nullptr && !dispose_box (box, Reclaim ()))
+      note_retired (Reclaim ());
+  }
+
+  /// A retired box of this cell may outlive it unless the destructor
+  /// reclaims it (immediate policy); the deferred policy leaves that to the
+  /// domain, by definition.
+  void
+  note_retired (reclaim::immediate) LUMEX_NOEXCEPT
+  {
+    retired_.store (true, std::memory_order_relaxed);
+  }
+
+  void
+  note_retired (reclaim::deferred) LUMEX_NOEXCEPT
+  {
+  }
+
+  void
+  settle (reclaim::immediate) LUMEX_NOEXCEPT
+  {
+    if (retired_.load (std::memory_order_relaxed))
+      ::lumex::core::hazard_pointer::clean_up ();
+  }
+
+  void
+  settle (reclaim::deferred) LUMEX_NOEXCEPT
+  {
   }
 
   bool
@@ -440,6 +482,7 @@ private:
                                     old_probe, current_probe);
   }
 
+  std::atomic<bool> retired_;
   std::atomic<box_type *> word_;
 };
 

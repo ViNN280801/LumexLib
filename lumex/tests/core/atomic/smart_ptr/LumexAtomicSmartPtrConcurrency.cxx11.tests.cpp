@@ -93,6 +93,10 @@ TEST (LumexAtomicSmartPtrConcurrencyTest,
         stop.store (true, std::memory_order_relaxed);
         join_all (reader_threads);
         EXPECT_EQ (bad.load (), 0L) << "threads=" << counts[c];
+        // A replaced value that a reader was copying when it was replaced is
+        // destroyed by a later pass of a lock-free engine: settle it before
+        // the exact count.
+        EngineUnderTest::quiesce ();
         long total = 0;
         for (int i = 0; i < candidate_count; ++i)
           total += pool[static_cast<std::size_t> (i)].use_count ();
@@ -406,6 +410,7 @@ TEST (LumexAtomicSmartPtrConcurrencyTest,
         join_all (swapper_threads);
         stop.store (true);
         join_all (loader_threads);
+        EngineUnderTest::quiesce (); // see the test above
         EXPECT_EQ (keep_a.use_count () + keep_b.use_count (), 3L)
             << "two locals plus the one stored owner";
       }
