@@ -161,6 +161,7 @@ TEST (LumexAtomicSmartPtrConcurrencyTest,
 TEST (LumexAtomicSmartPtrConcurrencyTest,
       GivenSeededMixedOperations_WhenRunConcurrently_ThenEveryCountBalances)
 {
+  LUMEX_ATOMIC_TEST_REQUIRE_PROMPT_DESTRUCTION ();
   Watchdog const dog ("GivenSeededMixedOperations_WhenRunConcurrently");
   std::uint32_t const seed = stress_seed ();
   std::vector<int> const counts = stress_thread_counts ();
@@ -270,6 +271,7 @@ TEST (LumexAtomicSmartPtrConcurrencyTest,
 TEST (LumexAtomicSmartPtrConcurrencyTest,
       GivenLedgerObjects_WhenReplacedConcurrently_ThenEachIsDeletedOnce)
 {
+  LUMEX_ATOMIC_TEST_REQUIRE_PROMPT_DESTRUCTION ();
   Watchdog const dog ("GivenLedgerObjects_WhenReplacedConcurrently");
   std::uint32_t const seed = stress_seed ();
   std::vector<int> const counts = stress_thread_counts ();
@@ -321,6 +323,7 @@ TEST (LumexAtomicSmartPtrConcurrencyTest,
 TEST (LumexAtomicSmartPtrConcurrencyTest,
       GivenEveryThreadLoadingThenComparing_WhenContended_ThenProgressIsMade)
 {
+  LUMEX_ATOMIC_TEST_REQUIRE_PROMPT_DESTRUCTION ();
   // The contended compare-exchange pattern of the libc++ benchmarks: every
   // thread loads, then swaps between two owners with a strong
   // compare-exchange. It made the lock-free libc++ variant livelock (a
@@ -501,6 +504,7 @@ TEST (LumexAtomicSmartPtrConcurrencyTest,
 TEST (LumexAtomicSmartPtrConcurrencyTest,
       GivenThreadsCyclingThreeOwners_WhenComparingWithStaleValues_ThenBalanced)
 {
+  LUMEX_ATOMIC_TEST_REQUIRE_PROMPT_DESTRUCTION ();
   Watchdog const dog ("GivenThreadsCyclingThreeOwners");
   std::uint32_t const seed = stress_seed ();
   std::vector<int> const counts = stress_thread_counts ();
@@ -548,6 +552,7 @@ TEST (LumexAtomicSmartPtrConcurrencyTest,
 TEST (LumexAtomicSmartPtrConcurrencyTest,
       GivenObjectsDyingWhileLocked_WhenLoadingWeakly_ThenLocksAreIntactOrEmpty)
 {
+  LUMEX_ATOMIC_TEST_REQUIRE_PROMPT_DESTRUCTION ();
   // The last owner dies at a seeded moment while readers keep locking the
   // weak pointer: every lock is either empty or an intact live object.
   Watchdog const dog ("GivenObjectsDyingWhileLocked");
@@ -600,6 +605,7 @@ TEST (LumexAtomicSmartPtrConcurrencyTest,
 TEST (LumexAtomicSmartPtrConcurrencyTest,
       GivenExpiringTargets_WhenWeakCompareExchangeRuns_ThenBlocksAreFreed)
 {
+  LUMEX_ATOMIC_TEST_REQUIRE_PROMPT_DESTRUCTION ();
   Watchdog const dog ("GivenExpiringTargets_WhenWeakCompareExchangeRuns");
   std::vector<int> const counts = stress_thread_counts ();
   for (std::size_t c = 0; c < counts.size (); ++c)

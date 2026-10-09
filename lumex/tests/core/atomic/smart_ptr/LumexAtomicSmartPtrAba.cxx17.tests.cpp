@@ -41,6 +41,7 @@ TEST (
     LumexAtomicSmartPtrAbaCxx17Test,
     GivenSharedPointersToArrays_WhenElementsAndOwnersAreAliased_ThenIdentityIsPointerAndOwner)
 {
+  LUMEX_ATOMIC_TEST_REQUIRE_PROMPT_DESTRUCTION ();
   // Values: empty; the array x; an element of x (same owner, other pointer);
   // a second array y; the first element of x under the owner y (same pointer
   // as x, other owner).

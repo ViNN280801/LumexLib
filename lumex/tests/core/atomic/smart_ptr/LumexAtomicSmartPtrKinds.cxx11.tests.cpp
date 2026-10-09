@@ -158,6 +158,7 @@ TEST (LumexAtomicSharedPtrKindsTest,
 TEST (LumexAtomicSharedPtrKindsTest,
       GivenAnOwnerOfNullWithADeleter_WhenReleasedByStore_ThenDeleterRunsOnce)
 {
+  LUMEX_ATOMIC_TEST_REQUIRE_PROMPT_DESTRUCTION ();
   int deletions = 0;
   struct CountingNullDeleter
   {
@@ -203,6 +204,7 @@ TEST (
 TEST (LumexAtomicSharedPtrKindsTest,
       GivenAliasesOfOneOwnerWithTheSamePointer_WhenCompare_ThenEquivalent)
 {
+  LUMEX_ATOMIC_TEST_REQUIRE_PROMPT_DESTRUCTION ();
   std::shared_ptr<Pair> const owner = std::make_shared<Pair> (Pair{ 10, 20 });
   std::shared_ptr<int> const view_a (owner, &owner->a);
   std::shared_ptr<int> const view_a_again (owner, &owner->a);
@@ -239,6 +241,7 @@ TEST (LumexAtomicSharedPtrKindsTest,
 TEST (LumexAtomicSharedPtrKindsTest,
       GivenMultipleInheritanceViews_WhenCompare_ThenTheAdjustedPointerDecides)
 {
+  LUMEX_ATOMIC_TEST_REQUIRE_PROMPT_DESTRUCTION ();
   std::shared_ptr<Both> const both = std::make_shared<Both> ();
   std::shared_ptr<Right> const right = both; // adjusted to the Right base
   ASSERT_NE (static_cast<void *> (right.get ()),
@@ -343,6 +346,7 @@ TEST (LumexAtomicSharedPtrKindsTest,
 TEST (LumexAtomicSharedPtrKindsTest,
       GivenACustomDeleter_WhenTheLastOwnerIsReleasedByStore_ThenRunsOnce)
 {
+  LUMEX_ATOMIC_TEST_REQUIRE_PROMPT_DESTRUCTION ();
   DeletionLedger ledger (8);
   {
     atomic_shared_ptr<int> atom (ledger.make ());
@@ -359,6 +363,7 @@ TEST (LumexAtomicSharedPtrKindsTest,
 TEST (LumexAtomicSharedPtrKindsTest,
       GivenAllocateShared_WhenEveryOwnerIsGone_ThenTheBlockIsFreed)
 {
+  LUMEX_ATOMIC_TEST_REQUIRE_PROMPT_DESTRUCTION ();
   long const before = live_allocations ().load ();
   {
     atomic_shared_ptr<Tracker> atom (make_counted_tracker (1));
@@ -375,6 +380,7 @@ TEST (LumexAtomicSharedPtrKindsTest,
 TEST (LumexAtomicSharedPtrKindsTest,
       GivenEnableSharedFromThis_WhenLoaded_ThenSharedFromThisIsEquivalent)
 {
+  LUMEX_ATOMIC_TEST_REQUIRE_PROMPT_DESTRUCTION ();
   std::shared_ptr<SelfAware> const object = std::make_shared<SelfAware> ();
   atomic_shared_ptr<SelfAware> atom (object);
   std::shared_ptr<SelfAware> expected = atom.load ()->shared_from_this ();
@@ -389,6 +395,7 @@ TEST (LumexAtomicSharedPtrKindsTest,
 TEST (LumexAtomicSharedPtrKindsTest,
       GivenAnArrayElementType_WhenStoredAndCompareExchanged_ThenWorks)
 {
+  LUMEX_ATOMIC_TEST_REQUIRE_PROMPT_DESTRUCTION ();
 #if defined(__cpp_lib_shared_ptr_arrays)
   std::shared_ptr<int[]> const arr (new int[3]{ 1, 2, 3 });
   atomic_shared_ptr<int[]> atom (arr);

@@ -251,6 +251,7 @@ TYPED_TEST (LumexAtomicSharedPtrTest,
 TYPED_TEST (LumexAtomicSharedPtrTest,
             GivenEveryStoreOrder_WhenStoring_ThenReplacesAndReleases)
 {
+  LUMEX_ATOMIC_TEST_REQUIRE_PROMPT_DESTRUCTION ();
   typedef TypeParam T;
   atomic_shared_ptr<T> a;
   std::shared_ptr<T> const p = state_a<T> ();
@@ -299,6 +300,7 @@ TYPED_TEST (LumexAtomicSharedPtrTest,
 TYPED_TEST (LumexAtomicSharedPtrTest,
             GivenTheHeldValue_WhenStoredAgain_ThenCountsAreUnchanged)
 {
+  LUMEX_ATOMIC_TEST_REQUIRE_PROMPT_DESTRUCTION ();
   typedef TypeParam T;
   std::shared_ptr<T> const p = state_a<T> ();
   atomic_shared_ptr<T> a (p);
@@ -314,6 +316,7 @@ TYPED_TEST (LumexAtomicSharedPtrTest,
 TYPED_TEST (LumexAtomicSharedPtrTest,
             GivenValuesAndNullptr_WhenAssigned_ThenStoredWithVoidResult)
 {
+  LUMEX_ATOMIC_TEST_REQUIRE_PROMPT_DESTRUCTION ();
   typedef TypeParam T;
   atomic_shared_ptr<T> a;
   std::shared_ptr<T> const p = state_a<T> ();
@@ -363,6 +366,7 @@ TYPED_TEST (LumexAtomicSharedPtrTest,
 TYPED_TEST (LumexAtomicSharedPtrTest,
             GivenEveryOrder_WhenExchanging_ThenReturnsThePreviousOwner)
 {
+  LUMEX_ATOMIC_TEST_REQUIRE_PROMPT_DESTRUCTION ();
   typedef TypeParam T;
   std::shared_ptr<T> const p1 = state_a<T> ();
   std::shared_ptr<T> const p2 = state_b<T> ();
@@ -400,6 +404,7 @@ TYPED_TEST (LumexAtomicSharedPtrTest,
 TYPED_TEST (LumexAtomicSharedPtrTest,
             GivenTheHeldValue_WhenExchangedWithItself_ThenCountsAreUnchanged)
 {
+  LUMEX_ATOMIC_TEST_REQUIRE_PROMPT_DESTRUCTION ();
   typedef TypeParam T;
   std::shared_ptr<T> const p = state_a<T> ();
   atomic_shared_ptr<T> a (p);
@@ -418,6 +423,7 @@ TYPED_TEST (
     LumexAtomicSharedPtrTest,
     GivenEquivalentExpected_WhenCompareExchangeStrong_ThenStoresDesired)
 {
+  LUMEX_ATOMIC_TEST_REQUIRE_PROMPT_DESTRUCTION ();
   typedef TypeParam T;
   std::shared_ptr<T> const p1 = state_a<T> ();
   std::shared_ptr<T> const p2 = state_b<T> ();
@@ -519,6 +525,7 @@ TYPED_TEST (LumexAtomicSharedPtrTest,
 TYPED_TEST (LumexAtomicSharedPtrTest,
             GivenEquivalentExpected_WhenCompareExchangeWeakLoops_ThenStores)
 {
+  LUMEX_ATOMIC_TEST_REQUIRE_PROMPT_DESTRUCTION ();
   typedef TypeParam T;
   std::shared_ptr<T> const p1 = state_a<T> ();
   std::shared_ptr<T> const p2 = state_b<T> ();
@@ -615,6 +622,7 @@ TYPED_TEST (LumexAtomicSharedPtrTest,
 TYPED_TEST (LumexAtomicSharedPtrTest,
             GivenExpectedThatIsAlsoDesired_WhenCompareExchange_ThenBalanced)
 {
+  LUMEX_ATOMIC_TEST_REQUIRE_PROMPT_DESTRUCTION ();
   typedef TypeParam T;
   std::shared_ptr<T> const p = state_a<T> ();
   atomic_shared_ptr<T> a (p);

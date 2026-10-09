@@ -183,6 +183,21 @@ struct EngineFacts
   }
 };
 
+/// For the tests whose subject is the promptness of the destruction: a value
+/// that a store, an exchange or a successful compare-exchange replaced is
+/// destroyed before the call returns (use_count and the deleter then show it
+/// at once). An engine that defers the destruction on purpose (the lock-free
+/// engine with reclaim::deferred) says so through
+/// LUMEX_ATOMIC_TEST_ENGINE_DEFERS_DESTRUCTION and these tests are skipped for
+/// it; the engine-parametrized suites check the same facts after `quiesce ()`.
+#define LUMEX_ATOMIC_TEST_REQUIRE_PROMPT_DESTRUCTION()                        \
+  do                                                                          \
+    {                                                                         \
+      if (LUMEX_ATOMIC_TEST_ENGINE_DEFERS_DESTRUCTION != 0)                   \
+        GTEST_SKIP () << "the engine destroys a replaced value later";        \
+    }                                                                         \
+  while (false)
+
 /// The engine under test as the checkers see it (see
 /// LumexAtomicTestEngines.hpp for the descriptors of the test-side engines,
 /// which have the same shape).
