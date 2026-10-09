@@ -2,6 +2,8 @@
 
 # One suite per standard of the module (lumex/tests/LumexTestStandards.cmake):
 #   LumexStringViewViewCxx11Tests  every *.cxx11.tests.cpp of this directory
+#                                  (LumexStringViewParameter: the view as the
+#                                  by-value text parameter of a function)
 #   LumexStringViewViewCxx17Tests  the same files at C++17 and
 #                                  LumexStringViewStd.cxx17.tests.cpp: the
 #                                  conversions to and from std::string_view
