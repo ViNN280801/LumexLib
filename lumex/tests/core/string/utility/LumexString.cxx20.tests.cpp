@@ -32,12 +32,12 @@
 // (LumexString.cxx11.tests.cpp), and the constraint of stringify_v2
 // (LumexStringifyV2.cxx11.tests.cpp), the condition of stringify_v2, is the
 // concept AllStringifiable, and the SFINAE trait all_streamable agrees with it
-// on the same argument lists (except for wchar_t, below). The C++20
-// suite compiles this file together with LumexString.cxx11.tests.cpp. The
-// library declares the concepts only when the compiler has them
-// (LUMEX_HAS_CONCEPTS); GCC 8 has none even with -std=c++2a. Without them
-// TypeTraits_Dirty of the C++11 file runs instead: the test name is the same,
-// so there is no skipped stand-in here.
+// on the same argument lists, wchar_t and the other character types included.
+// The C++20 suite compiles this file together with
+// LumexString.cxx11.tests.cpp. The library declares the concepts only when the
+// compiler has them (LUMEX_HAS_CONCEPTS); GCC 8 has none even with -std=c++2a.
+// Without them TypeTraits_Dirty of the C++11 file runs instead: the test name
+// is the same, so there is no skipped stand-in here.
 #include <memory>
 #include <string>
 #include <vector>
@@ -47,6 +47,7 @@
 #include "lumex/core/string/LumexString"
 
 #include "lumex/tests/core/string/LumexStringTestFixtures.hpp"
+#include "lumex/tests/support/LumexOstreamProbe.hpp"
 
 #if LUMEX_HAS_CONCEPTS
 
@@ -102,21 +103,22 @@ TEST_F (LumexStringifyTest, TypeTraits_Dirty)
   EXPECT_TRUE (lumex::core::utility::traits::stream::AllStreamable<>);
 }
 
-TEST (
-    LumexStringifyV2ConceptTest,
-    GivenWideChar_WhenConstraintCompared_ThenTheCallFollowsTheStandardLibrary)
+TEST (LumexStringifyV2ConceptTest,
+      GivenCharacterTypes_WhenConstraintCompared_ThenEveryoneFollowsTheStream)
 {
-  // all_streamable names wchar_t streamable (an explicit specialization of
-  // is_streamable), but from C++20 the standard library deletes
-  // `operator<<` of a narrow stream for it: the concept, and so the call of
-  // stringify_v2 and of stringify, follow the library.
-  EXPECT_TRUE (stream_traits::all_streamable<wchar_t>::value);
+  // The trait has no specialization for the character types other than char:
+  // all_streamable, the concept and both calls give what the stream of the
+  // standard library of the build gives (from C++20 that library deletes
+  // `operator<<` of a narrow stream for wchar_t, char8_t, char16_t and
+  // char32_t).
+  EXPECT_EQ (stream_traits::all_streamable<wchar_t>::value,
+             lumex_tests_support::ostream_accepts<wchar_t>::value);
   EXPECT_EQ (stream_traits::detail::AllStringifiable<wchar_t>,
-             stream_traits::is_ostreamable<wchar_t>::value);
+             lumex_tests_support::ostream_accepts<wchar_t>::value);
   EXPECT_EQ (accepts_stringify_v2<wchar_t>,
              stream_traits::detail::AllStringifiable<wchar_t>);
   EXPECT_EQ (accepts_stringify_v2<wchar_t const &>,
-             stream_traits::is_ostreamable<wchar_t>::value);
+             lumex_tests_support::ostream_accepts<wchar_t>::value);
 }
 
 TEST (LumexStringifyV2ConceptTest,
