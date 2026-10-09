@@ -60,7 +60,7 @@ TYPED_TEST (MathConstantsSpecialFunctionsTest,
   TypeParam const integral = std::comp_ellint_1 (k);
   EXPECT_TRUE (near_ulps (
       integral, K::GAMMA_1_4 () * K::GAMMA_1_4 () / (4 * K::SQRT_PI ()), 16));
-  EXPECT_TRUE (near_ulps (2 * K::SQRT_2 () * integral, K::LEMMISCATE (), 16));
+  EXPECT_TRUE (near_ulps (2 * K::SQRT_2 () * integral, K::LEMNISCATE (), 16));
 }
 
 TYPED_TEST (MathConstantsSpecialFunctionsTest,

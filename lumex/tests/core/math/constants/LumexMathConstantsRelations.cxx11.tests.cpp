@@ -161,10 +161,10 @@ TYPED_TEST (MathConstantsRelationsTest,
   using K = constants<TypeParam>;
   // 2 varpi = 2 pi / AGM (1, sqrt 2) = Gamma (1/4)^2 / sqrt (2 pi)
   EXPECT_TRUE (near_ulps (2 * K::PI () / agm (TypeParam (1), K::SQRT_2 ()),
-                          K::LEMMISCATE (), 4));
+                          K::LEMNISCATE (), 4));
   EXPECT_TRUE (
       near_ulps (K::GAMMA_1_4 () * K::GAMMA_1_4 () / std::sqrt (2 * K::PI ()),
-                 K::LEMMISCATE (), 4));
+                 K::LEMNISCATE (), 4));
 }
 
 TYPED_TEST (MathConstantsRelationsTest,

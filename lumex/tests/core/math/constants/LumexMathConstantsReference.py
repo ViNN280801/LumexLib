@@ -186,7 +186,7 @@ CONSTANTS = [
     ('LN_10', D(10).ln(), 50),
     ('APERY', apery(), 50),
     ('CATALAN', catalan(), 50),
-    ('LEMMISCATE', 2 * VARPI, 50),
+    ('LEMNISCATE', 2 * VARPI, 50),
     ('GAMMA_1_4', GAMMA_1_4, 50),
     ('GAMMA_1_3', GAMMA_1_3, 50),
     ('BRUNS_CONSTANT_TWIN_PRIMES', D('1.902160583104'), 12),
