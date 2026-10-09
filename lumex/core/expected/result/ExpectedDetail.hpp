@@ -24,15 +24,20 @@
 
 /**
  * @file ExpectedDetail.hpp
- * @brief Internal helpers of `expected`: the constraints of the monadic
- * operations, the traits behind the converting constructors and the
- * comparisons, and `invoke_call`, the standard INVOKE for C++11.
+ * @brief Internal helpers of `expected`: language helpers that C++11 lacks as
+ * `constexpr` (`fwd`, `mv`, `address_of`, `construct_at`, `destroy_at`), the
+ * constraints of the monadic operations, the traits behind the converting
+ * constructors and the comparisons, and `invoke_call`, the standard INVOKE for
+ * C++11.
  * @details Everything here lives in `lumex::core::expected::result::detail`
  * and is not an interface for consumers. The header exists so that the primary
- * template and the `void` specialization of `expected` share one definition of
- * each rule instead of repeating it in every overload. It builds on
- * `Unexpected.hpp` (the traits of the error side) and only forward declares
- * `expected`, so it is included by `Expected.hpp` and `ExpectedVoid.hpp`.
+ * template and the `void` specialization of `expected` (and their storage in
+ * `ExpectedStorage.hpp`) share one definition of each rule instead of
+ * repeating it in every overload. It builds on `Unexpected.hpp` (the traits of
+ * the error side) and only forward declares `expected`, so it is included by
+ * `Expected.hpp`, `ExpectedVoid.hpp` and `ExpectedStorage.hpp`. It also
+ * defines `LUMEX_EXPECTED_CONSTEXPR_CXX20`, the specifier of the members that
+ * change the active alternative of the union.
  */
 #ifndef LUMEX_CORE_EXPECTED_RESULT_EXPECTED_DETAIL_HPP
 #define LUMEX_CORE_EXPECTED_RESULT_EXPECTED_DETAIL_HPP
@@ -66,12 +71,39 @@
 
 #include <functional>
 #include <memory>
+#include <new>
 #include <type_traits>
 #include <utility>
 
+#include "ExpectedTypes.hpp"
+#include "lumex/core/expected/error/BadExpectedAccess.hpp"
 #include "lumex/core/expected/error/Unexpected.hpp"
+#include "lumex/core/utility/attr/LumexAttributes.hpp"
+#include "lumex/core/utility/compiler/LumexCheckFeatures.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 #include "lumex/core/utility/traits/LumexTypeTraits.hpp"
+
+/**
+ * @def LUMEX_EXPECTED_CONSTEXPR_CXX20
+ * @brief `constexpr` where the language lets a constant expression start the
+ * lifetime of an object in a union (`std::construct_at` on an inactive
+ * member, P0784, P1330) and contain a `try` block (P1002): C++20 with a
+ * `constexpr` of 201907L and `std::construct_at`; empty before.
+ * @details The members that change the active alternative of `expected`
+ * (construction from another `expected`, a non-trivial copy or move,
+ * assignment, `emplace`, `swap`) and the non-trivial destructor are marked
+ * with it; the observers, the converting and value constructors and the
+ * comparisons are `constexpr` from C++11 (see the class comment of
+ * `expected`).
+ */
+#if __cplusplus >= 202002L && LUMEX_FEATURE_CONSTEXPR >= 201907L              \
+    && LUMEX_HAS_STD_CONSTEXPR_DYNAMIC_ALLOC
+#define LUMEX_EXPECTED_CONSTEXPR_CXX20 constexpr
+#define LUMEX_EXPECTED_HAS_CONSTRUCT_AT 1
+#else
+#define LUMEX_EXPECTED_CONSTEXPR_CXX20
+#define LUMEX_EXPECTED_HAS_CONSTRUCT_AT 0
+#endif
 
 namespace lumex
 {
@@ -95,7 +127,57 @@ using error::detail::is_unexpected;
 /// of C++20).
 template <typename T> using remove_cvref_t = traits::meta::CleanType<T>;
 
-// ====================== Storage ====================== //
+// ====================== Language helpers ====================== //
+
+/**
+ * @brief `static_cast<T &&> (t)`, the body of `std::forward` for a `constexpr`
+ * function of C++11, where `std::forward` is not `constexpr`.
+ * @tparam T The type as deduced from the forwarding reference.
+ * @param[in] t The object to forward.
+ * @return `t` with the value category of `T`.
+ */
+template <typename T>
+LUMEX_CONSTEXPR_FUNCTION T &&
+fwd (typename std::remove_reference<T>::type &t) LUMEX_NOEXCEPT
+{
+  return static_cast<T &&> (t);
+}
+
+/**
+ * @brief `static_cast<remove_reference_t<T> &&> (t)`, the body of `std::move`
+ * for a `constexpr` function of C++11, where `std::move` is not `constexpr`.
+ * @tparam T The type of the object.
+ * @param[in] t The object to move.
+ * @return `t` as an rvalue.
+ */
+template <typename T>
+LUMEX_CONSTEXPR_FUNCTION typename std::remove_reference<T>::type &&
+mv (T &&t) LUMEX_NOEXCEPT
+{
+  return static_cast<typename std::remove_reference<T>::type &&> (t);
+}
+
+#if defined(__clang__) || (defined(__GNUC__) && __GNUC__ >= 7)                \
+    || (defined(_MSC_VER) && _MSC_VER >= 1911)
+#define LUMEX_EXPECTED_ADDRESSOF(object) __builtin_addressof (object)
+#else
+#define LUMEX_EXPECTED_ADDRESSOF(object) std::addressof (object)
+#endif
+
+/**
+ * @brief The address of `object` also when `T` overloads `operator&`, usable
+ * in a constant expression from C++11 (`std::addressof` is `constexpr` only
+ * from C++17).
+ * @tparam T Type of the object, possibly cv-qualified.
+ * @param[in] object The object whose address is taken.
+ * @return The address of `object`.
+ */
+template <typename T>
+LUMEX_CONSTEXPR_FUNCTION T *
+address_of (T &object) LUMEX_NOEXCEPT
+{
+  return LUMEX_EXPECTED_ADDRESSOF (object);
+}
 
 /**
  * @brief The address of `object` as a `void *`, also for a `const` or
@@ -111,8 +193,102 @@ inline void *
 voidify (T &object) LUMEX_NOEXCEPT
 {
   return const_cast<void *> (
-      static_cast<void const volatile *> (std::addressof (object)));
+      static_cast<void const volatile *> (detail::address_of (object)));
 }
+
+/**
+ * @brief `std::move (unex).error ()` where `error () &&` of `unexpected` is
+ * not `constexpr`.
+ * @details In C++11 a `constexpr` member function is implicitly const, so
+ * `unexpected::error () &&` is `constexpr` from C++14 only. The constructors
+ * of `expected` from an `unexpected<G> &&` are `constexpr` in C++11 and read
+ * the error through the const overload instead, which is, and make it an
+ * rvalue again; `unex` is a non-const object, so no const object is modified.
+ * @tparam G Error type of the `unexpected`.
+ * @param[in] unex The `unexpected` the error is moved from.
+ * @return The error of `unex` as an rvalue.
+ */
+template <typename G>
+LUMEX_CONSTEXPR_FUNCTION G &&
+move_error (error::unexpected<G> &unex) LUMEX_NOEXCEPT
+{
+  return static_cast<G &&> (const_cast<G &> (
+      static_cast<error::unexpected<G> const &> (unex).error ()));
+}
+
+/**
+ * @brief Starts the lifetime of a `T` at `where`, direct-non-list-initialized
+ * with `args...`: `std::construct_at`.
+ * @details `constexpr` from C++20, where it may make an inactive member of a
+ * union the active one; a placement new before.
+ * @tparam T Type of the object, without cv-qualifiers.
+ * @tparam Args Types of the arguments.
+ * @param[in] where The storage; it holds no object of type `T`.
+ * @param[in] args Arguments of the constructor.
+ * @return `where`.
+ */
+template <typename T, typename... Args>
+LUMEX_EXPECTED_CONSTEXPR_CXX20 T *
+construct_at (T *where, Args &&...args)
+{
+#if LUMEX_EXPECTED_HAS_CONSTRUCT_AT
+  return std::construct_at (where, detail::fwd<Args> (args)...);
+#else
+  return ::new (detail::voidify (*where)) T (detail::fwd<Args> (args)...);
+#endif
+}
+
+/**
+ * @brief Ends the lifetime of the `T` at `where`: `std::destroy_at` for an
+ * object that is not an array.
+ * @tparam T Type of the object.
+ * @param[in] where The object to destroy.
+ */
+template <typename T>
+LUMEX_EXPECTED_CONSTEXPR_CXX20 void
+destroy_at (T *where) LUMEX_NOEXCEPT
+{
+  where->~T ();
+}
+
+/**
+ * @brief Throws `bad_expected_access<E>` that holds `error`.
+ * @details A function, not a `throw` expression written in `value ()`, so that
+ * the `constexpr` observers of C++11 can name it in a conditional expression.
+ * @tparam ErrorType Error type of the `expected`.
+ * @tparam Arg Type of the error, possibly a reference.
+ * @param[in] error The error: an lvalue (copied) or an rvalue (moved).
+ * @throws error::bad_expected_access<ErrorType> always.
+ */
+template <typename ErrorType, typename Arg>
+LUMEX_ATTRIBUTE_NORETURN inline void
+throw_bad_expected_access (Arg &&error)
+{
+  throw error::bad_expected_access<ErrorType> (detail::fwd<Arg> (error));
+}
+
+// ====================== Tags of the storage ====================== //
+
+/// @brief Tag: construct the value alternative (`val`).
+struct value_tag
+{
+};
+
+/// @brief Tag: construct the error alternative (`unex`).
+struct error_tag
+{
+};
+
+/// @brief Tag: copy or move the alternative of an `expected` of the same type.
+struct from_storage_tag
+{
+};
+
+/// @brief Tag: convert the alternative of an `expected<U, G>` (any other
+/// type), reading it through the observers of the source.
+struct convert_tag
+{
+};
 
 // ====================== Calls ====================== //
 
@@ -297,6 +473,32 @@ struct constructs_from_expected
 {
 };
 
+// ====================== Swap ====================== //
+
+/// @brief The Constraints of `expected<T, E>::swap`
+/// ([expected.object.swap]/1). `Self` is the `expected` itself: a member
+/// template whose default argument does not depend on its own parameter is
+/// evaluated when the class is instantiated and rejects the whole class.
+template <typename Self, typename T, typename E>
+struct can_swap_values
+    : std::integral_constant<
+          bool, is_swappable<T>::value && is_swappable<E>::value
+                    && std::is_move_constructible<T>::value
+                    && std::is_move_constructible<E>::value
+                    && (std::is_nothrow_move_constructible<T>::value
+                        || std::is_nothrow_move_constructible<E>::value)>
+{
+};
+
+/// @brief The Constraints of `expected<void, E>::swap`
+/// ([expected.void.swap]/1).
+template <typename Self, typename E>
+struct can_swap_errors
+    : std::integral_constant<bool, is_swappable<E>::value
+                                       && std::is_move_constructible<E>::value>
+{
+};
+
 // ====================== Comparison ====================== //
 
 template <typename L, typename R, typename = void>
@@ -319,26 +521,15 @@ struct is_equality_comparable<
 
 // ====================== INVOKE ====================== //
 
-#if __cplusplus >= 201703L
-
-/**
- * @brief Calls `fn (args...)` or, for a pointer to a member, applies it to the
- * first argument: the standard INVOKE.
- * @details From C++17 this is `std::invoke`; before that the overloads below
- * give the same result for a function object, a pointer to a member function
- * or to a data member, and an object, a `std::reference_wrapper` or a pointer
- * as the first argument.
- */
-template <typename Fn, typename... Args>
-LUMEX_CONSTEXPR_FUNCTION auto
-invoke_call (Fn &&fn, Args &&...args)
-    -> decltype (std::invoke (std::forward<Fn> (fn),
-                              std::forward<Args> (args)...))
-{
-  return std::invoke (std::forward<Fn> (fn), std::forward<Args> (args)...);
-}
-
-#else
+// Calls `fn (args...)` or, for a pointer to a member, applies it to the
+// first argument: the standard INVOKE.
+// The overloads below give the same result as `std::invoke` for a
+// function object, a pointer to a member function or to a data member, and an
+// object, a `std::reference_wrapper` or a pointer-like object as the first
+// argument. They are the implementation in every standard (not `std::invoke`
+// from C++17) because they are `constexpr` from C++11, while `std::invoke` is
+// `constexpr` only from C++20, and the monadic operations of `expected` are
+// `constexpr` as the standard declares them.
 
 namespace invoke_detail
 {
@@ -379,13 +570,12 @@ template <typename Member, typename Class, typename Object, typename... Args,
           typename = typename std::enable_if<
               std::is_function<Member>::value
               && invoke_detail::is_class_object<Class, Object>::value>::type>
-LUMEX_CONSTEXPR_CXX14 auto
+LUMEX_CONSTEXPR_FUNCTION auto
 invoke_call (Member Class::*member, Object &&object, Args &&...args)
-    -> decltype ((std::forward<Object> (object)
-                  .*member) (std::forward<Args> (args)...))
+    -> decltype ((detail::fwd<Object> (object)
+                  .*member) (detail::fwd<Args> (args)...))
 {
-  return (std::forward<Object> (object)
-          .*member) (std::forward<Args> (args)...);
+  return (detail::fwd<Object> (object).*member) (detail::fwd<Args> (args)...);
 }
 
 // A pointer to a member function and a std::reference_wrapper.
@@ -393,11 +583,11 @@ template <typename Member, typename Class, typename Object, typename... Args,
           typename = typename std::enable_if<
               std::is_function<Member>::value
               && invoke_detail::is_wrapped_object<Object>::value>::type>
-LUMEX_CONSTEXPR_CXX14 auto
+LUMEX_CONSTEXPR_FUNCTION auto
 invoke_call (Member Class::*member, Object &&object, Args &&...args)
-    -> decltype ((object.get ().*member) (std::forward<Args> (args)...))
+    -> decltype ((object.get ().*member) (detail::fwd<Args> (args)...))
 {
-  return (object.get ().*member) (std::forward<Args> (args)...);
+  return (object.get ().*member) (detail::fwd<Args> (args)...);
 }
 
 // A pointer to a member function and a pointer to the object.
@@ -405,13 +595,13 @@ template <typename Member, typename Class, typename Object, typename... Args,
           typename = typename std::enable_if<
               std::is_function<Member>::value
               && invoke_detail::is_pointer_object<Class, Object>::value>::type>
-LUMEX_CONSTEXPR_CXX14 auto
+LUMEX_CONSTEXPR_FUNCTION auto
 invoke_call (Member Class::*member, Object &&object, Args &&...args)
-    -> decltype (((*std::forward<Object> (object))
-                  .*member) (std::forward<Args> (args)...))
+    -> decltype (((*detail::fwd<Object> (object))
+                  .*member) (detail::fwd<Args> (args)...))
 {
-  return ((*std::forward<Object> (object))
-          .*member) (std::forward<Args> (args)...);
+  return ((*detail::fwd<Object> (object))
+          .*member) (detail::fwd<Args> (args)...);
 }
 
 // A pointer to a data member and an object of the class.
@@ -419,11 +609,11 @@ template <typename Member, typename Class, typename Object,
           typename = typename std::enable_if<
               !std::is_function<Member>::value
               && invoke_detail::is_class_object<Class, Object>::value>::type>
-LUMEX_CONSTEXPR_CXX14 auto
+LUMEX_CONSTEXPR_FUNCTION auto
 invoke_call (Member Class::*member, Object &&object)
-    -> decltype (std::forward<Object> (object).*member)
+    -> decltype (detail::fwd<Object> (object).*member)
 {
-  return std::forward<Object> (object).*member;
+  return detail::fwd<Object> (object).*member;
 }
 
 // A pointer to a data member and a std::reference_wrapper.
@@ -431,7 +621,7 @@ template <typename Member, typename Class, typename Object,
           typename = typename std::enable_if<
               !std::is_function<Member>::value
               && invoke_detail::is_wrapped_object<Object>::value>::type>
-LUMEX_CONSTEXPR_CXX14 auto
+LUMEX_CONSTEXPR_FUNCTION auto
 invoke_call (Member Class::*member, Object &&object)
     -> decltype (object.get ().*member)
 {
@@ -443,25 +633,23 @@ template <typename Member, typename Class, typename Object,
           typename = typename std::enable_if<
               !std::is_function<Member>::value
               && invoke_detail::is_pointer_object<Class, Object>::value>::type>
-LUMEX_CONSTEXPR_CXX14 auto
+LUMEX_CONSTEXPR_FUNCTION auto
 invoke_call (Member Class::*member, Object &&object)
-    -> decltype ((*std::forward<Object> (object)).*member)
+    -> decltype ((*detail::fwd<Object> (object)).*member)
 {
-  return (*std::forward<Object> (object)).*member;
+  return (*detail::fwd<Object> (object)).*member;
 }
 
 // Anything else: a function, a function object, a lambda.
 template <typename Fn, typename... Args,
           typename = typename std::enable_if<!std::is_member_pointer<
               typename std::decay<Fn>::type>::value>::type>
-LUMEX_CONSTEXPR_CXX14 auto
+LUMEX_CONSTEXPR_FUNCTION auto
 invoke_call (Fn &&fn, Args &&...args)
-    -> decltype (std::forward<Fn> (fn) (std::forward<Args> (args)...))
+    -> decltype (detail::fwd<Fn> (fn) (detail::fwd<Args> (args)...))
 {
-  return std::forward<Fn> (fn) (std::forward<Args> (args)...);
+  return detail::fwd<Fn> (fn) (detail::fwd<Args> (args)...);
 }
-
-#endif // __cplusplus >= 201703L
 
 } // namespace detail
 } // namespace result

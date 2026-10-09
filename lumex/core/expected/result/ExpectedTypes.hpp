@@ -74,6 +74,9 @@ namespace result
  */
 struct in_place_tag
 {
+  /// @brief Explicit, as `std::in_place_t` ([utility.syn]): `in_place_tag t =
+  /// {};` does not compile.
+  explicit in_place_tag () = default;
 };
 
 /**
@@ -98,6 +101,9 @@ struct Unit
 /// @brief C++23-compatible tag: construct the error in place.
 struct unexpect_t
 {
+  /// @brief Explicit, as `std::unexpect_t` ([expected.syn]): `unexpect_t t =
+  /// {};` does not compile.
+  explicit unexpect_t () = default;
 };
 
 /// @brief Global tag constant (like std::unexpect).

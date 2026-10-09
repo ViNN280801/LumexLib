@@ -7,6 +7,7 @@
 // traits tell the truth. The source is compiled into every suite of the module
 // (C++11, C++17 and C++20).
 
+#include <initializer_list>
 #include <memory>
 #include <stdexcept>
 #include <string>
@@ -560,18 +561,35 @@ TEST (ExpectedConversionTest,
   EXPECT_EQ (void_uut.error (), (std::vector<int>{ 6, 7 }));
 }
 
+namespace
+{
+/// Built from a list without throwing: the only kind of value emplace () with
+/// a list accepts.
+struct list_sum_t
+{
+  int sum;
+
+  list_sum_t (std::initializer_list<int> list) noexcept : sum (0)
+  {
+    for (int item : list)
+      sum += item;
+  }
+};
+} // namespace
+
 TEST (ExpectedConversionTest, InitializerList_Emplace_ReplacesTheContents)
 {
-  expected<std::vector<int>, int> from_value (in_place, { 1 });
-  expected<std::vector<int>, int> from_error (unexpect, kError);
+  expected<list_sum_t, int> from_value (in_place,
+                                        std::initializer_list<int>{ 1 });
+  expected<list_sum_t, int> from_error (unexpect, kError);
 
-  std::vector<int> &first = from_value.emplace ({ 7, 8 });
-  std::vector<int> &second = from_error.emplace ({ 9 });
+  list_sum_t &first = from_value.emplace ({ 7, 8 });
+  list_sum_t &second = from_error.emplace ({ 9 });
 
-  EXPECT_EQ (first, (std::vector<int>{ 7, 8 }));
-  EXPECT_EQ (second, (std::vector<int>{ 9 }));
+  EXPECT_EQ (first.sum, 15);
+  EXPECT_EQ (second.sum, 9);
   ASSERT_TRUE (from_error.has_value ());
-  EXPECT_EQ (from_error.value (), (std::vector<int>{ 9 }));
+  EXPECT_EQ (from_error.value ().sum, 9);
 }
 
 TEST (ExpectedConversionTest,
