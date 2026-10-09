@@ -133,6 +133,10 @@ serial_port_state_to_string (serial_port_state state) LUMEX_NOEXCEPT;
  *
  * Unknown fields stay empty. Windows fills SetupAPI/registry properties;
  * Linux fills sysfs USB attributes when the node is a USB serial device.
+ *
+ * `path` is the canonical port name by default (`"COM12"`, `"ttyACM0"`);
+ * pass `need_full_path` to `enumerate_serial_ports_detailed` for the
+ * openable path (`"\\\\.\\COM12"`, `"/dev/ttyACM0"`).
  */
 struct serial_port_info_t
 {
@@ -178,23 +182,31 @@ struct serial_port_info_t
  * `false` keeps those ports in the result. POSIX ignores the flag: BlueZ
  * pairing does not create `/dev/rfcommN` without an explicit `rfcomm bind`,
  * and `rfcomm` is not in the scanned prefix list.
+ * @param need_full_path Selects the shape of `serial_port_info_t::path`.
+ * Default `false` gives the canonical port name (`"COM12"`, `"ttyACM0"`)
+ * that a configuration stores and `resolve_serial_port_path` accepts. When
+ * `true`, `path` is the openable path (`"\\\\.\\COM12"`, `"/dev/ttyACM0"`)
+ * a channel opens without another resolve. The bounded open behind the
+ * state classification always uses the openable path either way.
  * @return Ports sorted by COM number on Windows and by path on POSIX.
  * Empty when nothing was found or the scan failed.
  */
 LUMEX_PUBLIC_API
-std::vector<serial_port_info_t>
-enumerate_serial_ports_detailed (std::string const &connected_port
-                                 = std::string (),
-                                 bool need_to_filter_bluetooth = false);
+std::vector<serial_port_info_t> enumerate_serial_ports_detailed (
+    std::string const &connected_port = std::string (),
+    bool need_to_filter_bluetooth = false, bool need_full_path = false);
 
 /**
- * @brief Enumerate serial port paths only.
+ * @brief Enumerate serial port names only.
  * @param need_to_filter_bluetooth Forwarded to
  * `enumerate_serial_ports_detailed`.
+ * @param need_full_path Forwarded to `enumerate_serial_ports_detailed`:
+ * `false` gives the canonical port name, `true` the openable path.
  */
 LUMEX_PUBLIC_API
 std::vector<std::string>
-enumerate_serial_port_names (bool need_to_filter_bluetooth = false);
+enumerate_serial_port_names (bool need_to_filter_bluetooth = false,
+                             bool need_full_path = false);
 
 /**
  * @brief True when Windows registered `port_name` through a Bluetooth

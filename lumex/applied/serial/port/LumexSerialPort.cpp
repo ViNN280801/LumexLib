@@ -104,6 +104,15 @@ resolve_serial_port_path (
                        // provided.
     }
 
+// An absolute device path needs no mapping: the POSIX enumeration returns
+// /dev/ttyACM0, and a second mapping would prepend /dev/ or
+// /dev/serial/by-id/ and break the open. The Windows branch below already
+// leaves such values unchanged.
+#if !defined(_WIN32)
+  if (!portName.empty () && portName[0] == '/')
+    return portName;
+#endif
+
   // Bare "USB"/"USB1"/"USB34" is a slot marker, not a device name.
   // Valid names ("ttyUSB0", "usb-FTDI_...") are handled above or below.
   if (_starts_with (portName, "USB") && !_starts_with (portName, "ttyUSB")
