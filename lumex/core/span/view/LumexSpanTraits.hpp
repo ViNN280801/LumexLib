@@ -41,8 +41,8 @@
  * @file LumexSpanTraits.hpp
  * @brief Constants, the byte type and the traits behind `span`.
  * @details Holds everything that `span` and the free functions around it
- * share: `dynamic_extent`, `byte` (`std::byte` from C++17, an own scoped
- * enumeration with the same operators before), the customization trait
+ * share: `dynamic_extent`, `byte` (an own scoped enumeration with the
+ * operators of `std::byte`, in every standard), the customization trait
  * `is_contiguous_iterator` and the detection traits of the C++11 stand-ins for
  * the concepts the C++20 `std::span` constrains its constructors with
  * (`contiguous_range`, `sized_range`, `borrowed_range`, `contiguous_iterator`,
@@ -98,6 +98,24 @@
 #endif
 #ifndef LUMEX_SPAN_HAS_RANGES
 #define LUMEX_SPAN_HAS_RANGES 0
+#endif
+
+/**
+ * @def LUMEX_SPAN_HAS_STD_SPAN
+ * @brief 1 when `std::span` and `std::byte` both exist (C++20 with `<span>`),
+ * 0 otherwise.
+ * @details When it is 1, `span` converts to and from a `std::span` of the
+ * other byte type (`byte` and `std::byte`).
+ */
+#if __cplusplus >= 202002L && LUMEX_HAS_STD_SPAN && LUMEX_HAS_STD_BYTE        \
+    && defined(__has_include)
+#if __has_include(<span>)
+#include <span>
+#define LUMEX_SPAN_HAS_STD_SPAN 1
+#endif
+#endif
+#ifndef LUMEX_SPAN_HAS_STD_SPAN
+#define LUMEX_SPAN_HAS_STD_SPAN 0
 #endif
 
 /**
@@ -159,28 +177,18 @@ namespace view
 LUMEX_INLINE_VARIABLE LUMEX_CONSTEXPR std::size_t dynamic_extent
     = static_cast<std::size_t> (-1);
 
-#if LUMEX_HAS_STD_BYTE
 /**
  * @brief The element type of the byte views `as_bytes` and
- * `as_writable_bytes` return.
- * @details `std::byte` where the standard library has it (C++17), so the
- * views are interchangeable with those of `std::span`.
- */
-using byte = std::byte;
-
-/**
- * @brief `std::to_integer`, so `to_integer` names the same function in
- * every standard. The operators of `std::byte` are found by argument-dependent
- * lookup.
- */
-using std::to_integer;
-#else
-/**
- * @brief The element type of the byte views `as_bytes` and
- * `as_writable_bytes` return.
- * @details Before C++17 there is no `std::byte`; this scoped enumeration has
- * the same underlying type, operators and `to_integer`. From C++17 the name is
- * `std::byte` itself.
+ * `as_writable_bytes` return: an own scoped enumeration with the underlying
+ * type `unsigned char`, the operators and `to_integer` of `std::byte`.
+ * @details It is the same type in every standard and never an alias of
+ * `std::byte` (C++17). An enumeration cannot have conversion functions, so
+ * the two bytes convert explicitly: `static_cast<std::byte> (value)` and
+ * `static_cast<byte> (stdValue)` (both enumerations have the base
+ * `unsigned char`). The views convert implicitly: a `span` of `byte` and a
+ * `span` of `std::byte` convert to each other, and to and from a `std::span`
+ * of the other byte type (C++20), see the constructors and the conversion
+ * function of `span`.
  */
 enum class LUMEX_SPAN_MAY_ALIAS byte : unsigned char
 {
@@ -318,7 +326,6 @@ operator^= (byte &lhs, byte rhs) LUMEX_NOEXCEPT
 {
   return lhs = lhs ^ rhs;
 }
-#endif // LUMEX_HAS_STD_BYTE
 
 template <typename ElementType, std::size_t Extent = dynamic_extent>
 class span;
@@ -390,6 +397,81 @@ struct is_array_convertible<From, To,
     : std::true_type
 {
 };
+
+#if LUMEX_HAS_STD_BYTE
+/**
+ * @brief `Type` with the `const` and `volatile` qualifiers of `Like`.
+ */
+template <typename Like, typename Type> struct copy_cv
+{
+  using const_applied =
+      typename std::conditional<std::is_const<Like>::value,
+                                typename std::add_const<Type>::type,
+                                Type>::type;
+  using type = typename std::conditional<
+      std::is_volatile<Like>::value,
+      typename std::add_volatile<const_applied>::type, const_applied>::type;
+};
+
+/**
+ * @brief The other byte type, with the qualifiers of `T`: `std::byte` for
+ * `byte` and `byte` for `std::byte`. No `type` for any other `T`.
+ */
+template <typename T, typename Plain = typename std::remove_cv<T>::type>
+struct byte_twin
+{
+};
+
+template <typename T> struct byte_twin<T, byte>
+{
+  using type = typename copy_cv<T, std::byte>::type;
+};
+
+template <typename T> struct byte_twin<T, std::byte>
+{
+  using type = typename copy_cv<T, byte>::type;
+};
+
+/**
+ * @brief True when `From` and `To` are the two byte types (`byte` and
+ * `std::byte`, in either order) and a pointer to `From` becomes a pointer to
+ * `To` by the exchange of the byte type plus a qualification conversion
+ * (`std::byte const` to `byte const` or to `byte const volatile`, never to
+ * `byte`).
+ */
+template <typename From, typename To, typename = void>
+struct is_byte_twin_convertible : std::false_type
+{
+};
+
+template <typename From, typename To>
+struct is_byte_twin_convertible<
+    From, To,
+    typename std::enable_if<
+        is_array_convertible<typename byte_twin<From>::type, To>::value>::type>
+    : std::true_type
+{
+};
+#endif
+
+#if LUMEX_SPAN_HAS_STD_SPAN
+/**
+ * @brief True when `Target` is a `std::span<U, N>` that a `span<Element,
+ * Extent>` of byte elements converts to: `U` is the other byte type
+ * (`is_byte_twin_convertible`) and `N` is dynamic or equal to `Extent`.
+ */
+template <typename Target, typename Element, std::size_t Extent>
+struct is_std_byte_span_target : std::false_type
+{
+};
+
+template <typename U, std::size_t N, typename Element, std::size_t Extent>
+struct is_std_byte_span_target<std::span<U, N>, Element, Extent>
+    : std::integral_constant<bool, is_byte_twin_convertible<Element, U>::value
+                                       && (N == dynamic_extent || N == Extent)>
+{
+};
+#endif
 
 /**
  * @brief True for every `span<T, Extent>`.

@@ -1,7 +1,7 @@
 // LumexSpan.cxx17.tests.cpp
 //
-// What C++17 adds: the deduction guides, std::byte as the byte type,
-// constexpr std::array and the relaxed constexpr rules used with a span.
+// What C++17 adds: the deduction guides, the conversions between the byte of
+// the span module and std::byte, constexpr std::array and the relaxed constexpr rules used with a span.
 #include <array>
 #include <cstddef>
 #include <string>
@@ -137,17 +137,24 @@ TEST (LumexSpanDeductionTest,
 
 // -- std::byte --
 
-TEST (LumexSpanCxx17Test, GivenCxx17_WhenByte_ThenStdByte)
+TEST (LumexSpanCxx17Test, GivenCxx17_WhenByte_ThenOwnByteNotStdByte)
 {
-  static_assert (std::is_same<byte, std::byte>::value, "");
+  static_assert (!std::is_same<byte, std::byte>::value, "");
   int values[2] = { 1, 2 };
   auto bytes = as_bytes (span<int> (values));
   static_assert (std::is_same<decltype (bytes),
-                              span<std::byte const, dynamic_extent>>::value,
+                              span<byte const, dynamic_extent>>::value,
                  "");
   EXPECT_EQ (bytes.size (), 2 * sizeof (int));
-  EXPECT_EQ (std::to_integer<int> (as_bytes (span<int, 2> (values))[0]),
+  EXPECT_EQ (lumex::core::span::view::to_integer<int> (
+                 as_bytes (span<int, 2> (values))[0]),
              static_cast<int> (reinterpret_cast<unsigned char *> (values)[0]));
+  // The byte view converts to a view of std::byte (LumexSpanByteTwin has the
+  // whole matrix).
+  span<std::byte const> const standard = bytes;
+  EXPECT_EQ (standard.size (), bytes.size ());
+  EXPECT_EQ (static_cast<void const *> (standard.data ()),
+             static_cast<void const *> (bytes.data ()));
 }
 
 // -- Relaxed constexpr --
