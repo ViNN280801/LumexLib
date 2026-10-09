@@ -46,8 +46,12 @@
  * `Threads::Threads`). Works from C++11. Where the standard library has the
  * C++20 atomic smart pointers, the classes wrap them; elsewhere they use a
  * lock-based implementation. The umbrella includes
- * `smart_ptr/LumexAtomicSharedPtr.hpp` and `smart_ptr/LumexAtomicWeakPtr.hpp`.
+ * `smart_ptr/LumexAtomicSharedPtr.hpp` and `smart_ptr/LumexAtomicWeakPtr.hpp`,
+ * and `dwcas/LumexDwcasWord.hpp`, the 16-byte atomic word with a 128-bit
+ * compare-and-swap (x86-64 only; `LUMEX_ATOMIC_HAS_DWCAS` tells whether it is
+ * declared).
  * @see The `README.md` page next to this umbrella (part of the documentation).
  */
+#include "dwcas/LumexDwcasWord.hpp"
 #include "smart_ptr/LumexAtomicSharedPtr.hpp"
 #include "smart_ptr/LumexAtomicWeakPtr.hpp"
