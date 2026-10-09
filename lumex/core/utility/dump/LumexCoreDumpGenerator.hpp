@@ -68,6 +68,14 @@
  * before it (`core_dump_generator::optional_dump_directory_t`);
  * `get_dump_directory_if_set` is the same on every standard.
  *
+ * `core_dump_generator::instance ()` returns the singleton after `initialize
+ * ()`; the instance carries its own copy of the dump directory and of the
+ * configuration (`get_instance_dump_directory`, `get_instance_configuration`,
+ * `is_instance_initialized`, `generate_instance_dump`). `initialize ()` and
+ * `set_dump_type ()` write the static state and keep the instance in step with
+ * it, so the instance API and the static API report the same directory and
+ * configuration.
+ *
  * Most of the implementation is inline in this header; the static data members
  * are defined in `LumexCoreDumpGenerator.cpp`. Windows and Unix-like systems
  * including Android are supported; on any other platform the header stops with
@@ -1097,6 +1105,11 @@ public:
    * @thread_safety This function is thread-safe and may be called concurrently
    * @exception_safety Strong guarantee: if an exception is thrown, the object
    * remains in a valid state
+   * @note A successful call also fills the instance: its directory, its
+   * configuration and its initialized flag are those of the static state, so
+   * `instance ().get_instance_dump_directory ()` equals `get_dump_directory
+   * ()` and `instance ().is_instance_initialized ()` is `true` (the instance
+   * object itself is created by the first `instance ()` call).
    */
   static void initialize (std::string const &dumpDirectory = "",
                           DumpType dumpType = DumpType::DEFAULT_AUTO,
@@ -1113,6 +1126,7 @@ public:
    * (default: true)
    * @throws std::runtime_error if initialization fails
    * @throws std::system_error if filesystem operations fail
+   * @note A successful call also fills the instance, see the other overload.
    */
   static void initialize (dump_configuration const &config,
                           bool handleExceptions = true);
@@ -1178,6 +1192,12 @@ public:
   /**
    * @brief Get the singleton instance
    *
+   * @details The first call creates the instance and fills it from the static
+   * state that `initialize ()` set: the dump directory, the configuration and
+   * the initialized flag, so the instance API (`get_instance_dump_directory`,
+   * `get_instance_configuration`, `is_instance_initialized`,
+   * `get_optional_dump_directory`, `generate_instance_dump`) works at once.
+   * `set_dump_type ()` refreshes the configuration of an existing instance.
    * @return Reference to the singleton instance
    * @note This method is thread-safe
    * @throws std::runtime_error if not initialized
@@ -1201,6 +1221,10 @@ public:
   /**
    * @brief Set the dump type for future dumps
    *
+   * @details Replaces the configuration by the default one of `dumpType` (the
+   * dump directory is kept) and refreshes the configuration of the instance,
+   * if it exists. The memory filters of the previous configuration are gone,
+   * so a view from `get_memory_filters_range ()` taken before is invalid.
    * @param dumpType New dump type to use
    * @return true if successfully set, false if not supported
    * @throws std::runtime_error if not initialized
@@ -1323,21 +1347,25 @@ public:
   // Instance methods for better encapsulation
   /**
    * @brief Get the dump directory for this instance
-   * @return Current dump directory path
+   * @return The dump directory that `initialize ()` set (the instance holds a
+   * copy of it)
    * @note This method is thread-safe
    */
   std::string const &get_instance_dump_directory () const noexcept;
 
   /**
    * @brief Get the current configuration for this instance
-   * @return Current dump configuration
+   * @return The configuration of the static state, as `initialize ()` set it
+   * and `set_dump_type ()` last replaced it (the instance holds a copy of it)
    * @note This method is thread-safe
    */
   dump_configuration const &get_instance_configuration () const noexcept;
 
   /**
    * @brief Check if this instance is initialized
-   * @return true if initialized, false otherwise
+   * @return true once the instance is filled from the static state, which
+   * `instance ()` does when it creates the object (so `true` for every
+   * instance that `instance ()` returns), false otherwise
    * @note This method is thread-safe
    */
   bool is_instance_initialized () const noexcept;
@@ -1390,8 +1418,10 @@ public:
    * (C++20), the `iterator_range` of this library over the constant
    * iterators of the filter list before it.
    * @details Both are lightweight views that do not own the filters and have
-   * `begin ()`, `end ()` and `empty ()`; the standard view also has `size ()`
-   * and the members of `std::ranges::view_interface`.
+   * `begin ()`, `end ()`, `empty ()` and `size ()` (the `iterator_range` has
+   * `size ()` for the random-access iterators of the filter list); the
+   * standard view also has the other members of
+   * `std::ranges::view_interface`.
    */
 #if LUMEX_HAS_STD_RANGES
   using memory_filters_range_t
@@ -1403,14 +1433,23 @@ public:
 
   /**
    * @brief Get all memory filters as a range
-   * @return Range of memory filters, `memory_filters_range_t`
+   * @details The view is formed while `s_mutex` is held, the mutex that
+   * `initialize ()` and `set_dump_type ()` hold while they replace the
+   * configuration, so it is made from a complete configuration and never from
+   * a half-assigned one. The mutex does not extend over the walk: the view
+   * does not own the filters.
+   * @return Range of memory filters, `memory_filters_range_t`; it has
+   * `begin ()`, `end ()`, `empty ()` and `size ()` in every standard
    * @note This method is thread-safe
    * @note The range views the filter list of the current configuration and
-   * is valid until that configuration is replaced.
+   * is valid until that configuration is replaced: `set_dump_type ()` drops
+   * the filters, so do not keep the range across a call of it, and do not
+   * walk it while another thread calls it.
    */
   static memory_filters_range_t
   get_memory_filters_range () noexcept
   {
+    std::lock_guard<std::mutex> lock (s_mutex);
 #if LUMEX_HAS_STD_RANGES
     return s_currentConfig.get_memory_filters () | std::views::all;
 #else
@@ -1464,16 +1503,40 @@ public:
   }
 
 private:
-  // Private constructor for singleton pattern
+  // Private constructor for singleton pattern: an instance that is not filled
+  // yet (nothing in the library constructs one: instance () goes through
+  // _create_instance ()).
   core_dump_generator () = default;
 
-  // Private constructor with initialization
+  // Private constructor with initialization: an instance that holds a copy of
+  // the directory and the configuration and is marked initialized.
   explicit core_dump_generator (std::string const &dumpDirectory,
                                 dump_configuration const &config)
       : m_dumpDirectory (dumpDirectory), m_currentConfig (config),
         m_isInitialized (true)
   {
   }
+
+  /**
+   * @brief Creates the instance from the static state and stores it in
+   * `s_instance`.
+   * @details The directory (`s_dumpDirectory`) and the configuration
+   * (`s_currentConfig`) are copied under `s_mutex`, and the instance is marked
+   * initialized. `instance ()` calls it once; it installs no handler and
+   * touches no system file.
+   */
+  static void _create_instance ();
+
+  /**
+   * @brief Copies the static state into the existing instance, if there is
+   * one.
+   * @details Called by `initialize ()` and `set_dump_type ()` after they wrote
+   * `s_dumpDirectory` and `s_currentConfig`, with `s_mutex` held (the caller's
+   * lock; the function takes only the mutex of the instance, so the lock order
+   * is always `s_mutex`, then the instance mutex). Does nothing before
+   * `instance ()` created the object, which then copies the state itself.
+   */
+  static void _refresh_instance ();
 
   // Member variables
   LUMEX_DUMP_DATA_API static std::unique_ptr<core_dump_generator> s_instance;
@@ -2034,6 +2097,9 @@ core_dump_generator::initialize (dump_configuration const &config,
 #else
       s_initialized = true;
 #endif
+      // The instance holds a copy of the directory and the configuration: put
+      // the state that was just written into it (s_mutex is held).
+      _refresh_instance ();
       _log_message ("CoreDumpGenerator initialized successfully", false);
     }
   catch (std::exception const &exc)
@@ -2069,8 +2135,9 @@ core_dump_generator::instance ()
           if (!s_initialized.load (std::memory_order_acquire))
             throw std::runtime_error (
                 "CoreDumpGenerator not initialized. Call initialize() first.");
-          s_instance = std::unique_ptr<core_dump_generator> (
-              new core_dump_generator ());
+          // The instance is built from the state initialize () wrote, so its
+          // directory, configuration and initialized flag are set.
+          _create_instance ();
         });
 #else
   // C++98/03 fallback - not thread-safe
@@ -2292,7 +2359,30 @@ core_dump_generator::set_dump_type (DumpType dumpType)
   s_currentConfig = dump_factory::create_configuration (dumpType);
   s_currentConfig.set_directory (
       s_dumpDirectory); // Preserve current directory
+  _refresh_instance ();
   return true;
+}
+
+inline void
+core_dump_generator::_create_instance ()
+{
+  // One critical section for the copy and the assignment, so that a
+  // set_dump_type () that runs meanwhile cannot leave the new instance with
+  // the configuration it replaced.
+  std::lock_guard<std::mutex> lock (s_mutex);
+  s_instance.reset (
+      new core_dump_generator (s_dumpDirectory, s_currentConfig));
+}
+
+inline void
+core_dump_generator::_refresh_instance ()
+{
+  if (!s_instance)
+    return;
+  std::lock_guard<std::mutex> lock (s_instance->m_instanceMutex);
+  s_instance->m_dumpDirectory = s_dumpDirectory;
+  s_instance->m_currentConfig = s_currentConfig;
+  s_instance->m_isInitialized = true;
 }
 
 inline DumpType
