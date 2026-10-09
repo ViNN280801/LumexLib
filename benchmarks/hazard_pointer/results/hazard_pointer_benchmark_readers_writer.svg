@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 535" width="900" height="535" font-family="system-ui, -apple-system, &#x27;Segoe UI&#x27;, Roboto, &#x27;Helvetica Neue&#x27;, Arial, sans-serif" text-rendering="geometricPrecision" shape-rendering="geometricPrecision">
+<title>read while one thread replaces the pointer at full speed, under contention, relative to the baseline</title>
+<rect width="100%" height="100%" fill="#ffffff"/>
+<text x="20.0" y="30.0" font-size="18" text-anchor="start" font-weight="600" fill="#1a202c">read while one thread replaces the pointer at full speed, under contention, relative to the baseline</text>
+<text x="20.0" y="52.0" font-size="12" text-anchor="start" font-weight="normal" fill="#4a5568">12th Gen Intel(R) Core(TM) i7-12700K, 20 logical CPUs, governor powersave; 13.2.0, LumexLib hazard_pointer; median of 5 runs</text>
+<text x="20.0" y="69.0" font-size="12" text-anchor="start" font-weight="normal" fill="#4a5568">Each point: time per operation / uint64 CAS time of the same block; whiskers: 25th-75th percentile</text>
+<line x1="20.0" y1="91.0" x2="44.0" y2="91.0" stroke="#0072B2" stroke-width="2.5"/>
+<circle cx="32.0" cy="91.0" r="3.5" fill="#0072B2"/>
+<text x="50.0" y="95.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1a202c">LumexLib hazard_pointer</text>
+<line x1="223.8" y1="91.0" x2="247.8" y2="91.0" stroke="#999999" stroke-width="2.5" stroke-dasharray="7 4"/>
+<circle cx="235.8" cy="91.0" r="3.5" fill="#999999"/>
+<text x="253.8" y="95.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1a202c">plain acquire load (unsafe)</text>
+<line x1="454.0" y1="91.0" x2="478.0" y2="91.0" stroke="#D55E00" stroke-width="2.5" stroke-dasharray="2 4"/>
+<circle cx="466.0" cy="91.0" r="3.5" fill="#D55E00"/>
+<text x="484.0" y="95.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1a202c">std::shared_mutex read lock</text>
+<line x1="20.0" y1="113.0" x2="44.0" y2="113.0" stroke="#E69F00" stroke-width="2.5"/>
+<circle cx="32.0" cy="113.0" r="3.5" fill="#E69F00"/>
+<text x="50.0" y="117.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1a202c">std::atomic_load (shared_ptr)</text>
+<line x1="80" y1="475.0" x2="870" y2="475.0" stroke="#e2e8f0" stroke-width="1"/>
+<text x="72.0" y="479.0" font-size="11" text-anchor="end" font-weight="normal" fill="#4a5568">0</text>
+<line x1="80" y1="409.0" x2="870" y2="409.0" stroke="#e2e8f0" stroke-width="1"/>
+<text x="72.0" y="413.0" font-size="11" text-anchor="end" font-weight="normal" fill="#4a5568">10</text>
+<line x1="80" y1="343.0" x2="870" y2="343.0" stroke="#e2e8f0" stroke-width="1"/>
+<text x="72.0" y="347.0" font-size="11" text-anchor="end" font-weight="normal" fill="#4a5568">20</text>
+<line x1="80" y1="277.0" x2="870" y2="277.0" stroke="#e2e8f0" stroke-width="1"/>
+<text x="72.0" y="281.0" font-size="11" text-anchor="end" font-weight="normal" fill="#4a5568">30</text>
+<line x1="80" y1="211.0" x2="870" y2="211.0" stroke="#e2e8f0" stroke-width="1"/>
+<text x="72.0" y="215.0" font-size="11" text-anchor="end" font-weight="normal" fill="#4a5568">40</text>
+<line x1="80" y1="145.0" x2="870" y2="145.0" stroke="#e2e8f0" stroke-width="1"/>
+<text x="72.0" y="149.0" font-size="11" text-anchor="end" font-weight="normal" fill="#4a5568">50</text>
+<line x1="100.0" y1="145" x2="100.0" y2="475" stroke="#f0f3f7" stroke-width="1"/>
+<text x="100.0" y="493.0" font-size="11" text-anchor="middle" font-weight="normal" fill="#4a5568">2</text>
+<line x1="207.1" y1="145" x2="207.1" y2="475" stroke="#f0f3f7" stroke-width="1"/>
+<text x="207.1" y="493.0" font-size="11" text-anchor="middle" font-weight="normal" fill="#4a5568">4</text>
+<line x1="421.4" y1="145" x2="421.4" y2="475" stroke="#f0f3f7" stroke-width="1"/>
+<text x="421.4" y="493.0" font-size="11" text-anchor="middle" font-weight="normal" fill="#4a5568">8</text>
+<line x1="850.0" y1="145" x2="850.0" y2="475" stroke="#f0f3f7" stroke-width="1"/>
+<text x="850.0" y="493.0" font-size="11" text-anchor="middle" font-weight="normal" fill="#4a5568">16</text>
+<line x1="80" y1="475" x2="870" y2="475" stroke="#a0aec0" stroke-width="1"/>
+<text x="475.0" y="515.0" font-size="12" text-anchor="middle" font-weight="normal" fill="#2d3748">threads</text>
+<text x="24" y="310.0" font-size="12" text-anchor="middle" fill="#2d3748" transform="rotate(-90 24 310.0)">time / uint64 CAS time (lower is better)</text>
+<line x1="80" y1="468.4" x2="870" y2="468.4" stroke="#C53030" stroke-width="1.2" stroke-dasharray="6 4"/>
+<text x="866.0" y="462.4" font-size="11" text-anchor="end" font-weight="normal" fill="#C53030">uint64 CAS = 1</text>
+<path d="M95.5 471.9 L202.6 473.1 L416.9 473.9 L845.5 474.4" fill="none" stroke="#0072B2" stroke-width="2.2"/>
+<path d="M95.5 472.0V470.7M92.5 472.0H98.5M92.5 470.7H98.5" stroke="#0072B2" stroke-width="1.1" fill="none"/>
+<circle cx="95.5" cy="471.9" r="3.6" fill="#0072B2" stroke="#ffffff" stroke-width="1"><title>LumexLib hazard_pointer, 2 threads: 0.47 (0.45..0.66)</title></circle>
+<path d="M202.6 473.2V473.1M199.6 473.2H205.6M199.6 473.1H205.6" stroke="#0072B2" stroke-width="1.1" fill="none"/>
+<circle cx="202.6" cy="473.1" r="3.6" fill="#0072B2" stroke="#ffffff" stroke-width="1"><title>LumexLib hazard_pointer, 4 threads: 0.29 (0.28..0.29)</title></circle>
+<path d="M416.9 473.9V473.9M413.9 473.9H419.9M413.9 473.9H419.9" stroke="#0072B2" stroke-width="1.1" fill="none"/>
+<circle cx="416.9" cy="473.9" r="3.6" fill="#0072B2" stroke="#ffffff" stroke-width="1"><title>LumexLib hazard_pointer, 8 threads: 0.16 (0.16..0.17)</title></circle>
+<path d="M845.5 474.5V474.4M842.5 474.5H848.5M842.5 474.4H848.5" stroke="#0072B2" stroke-width="1.1" fill="none"/>
+<circle cx="845.5" cy="474.4" r="3.6" fill="#0072B2" stroke="#ffffff" stroke-width="1"><title>LumexLib hazard_pointer, 16 threads: 0.08 (0.08..0.09)</title></circle>
+<path d="M98.5 474.7 L205.6 474.8 L419.9 474.9 L848.5 475.0" fill="none" stroke="#999999" stroke-width="2.2" stroke-dasharray="7 4"/>
+<path d="M98.5 474.7V474.7M95.5 474.7H101.5M95.5 474.7H101.5" stroke="#999999" stroke-width="1.1" fill="none"/>
+<circle cx="98.5" cy="474.7" r="3.6" fill="#999999" stroke="#ffffff" stroke-width="1"><title>plain acquire load (unsafe), 2 threads: 0.05 (0.05..0.05)</title></circle>
+<path d="M205.6 474.9V474.8M202.6 474.9H208.6M202.6 474.8H208.6" stroke="#999999" stroke-width="1.1" fill="none"/>
+<circle cx="205.6" cy="474.8" r="3.6" fill="#999999" stroke="#ffffff" stroke-width="1"><title>plain acquire load (unsafe), 4 threads: 0.02 (0.02..0.02)</title></circle>
+<path d="M419.9 474.9V474.9M416.9 474.9H422.9M416.9 474.9H422.9" stroke="#999999" stroke-width="1.1" fill="none"/>
+<circle cx="419.9" cy="474.9" r="3.6" fill="#999999" stroke="#ffffff" stroke-width="1"><title>plain acquire load (unsafe), 8 threads: 0.01 (0.01..0.01)</title></circle>
+<path d="M848.5 475.0V475.0M845.5 475.0H851.5M845.5 475.0H851.5" stroke="#999999" stroke-width="1.1" fill="none"/>
+<circle cx="848.5" cy="475.0" r="3.6" fill="#999999" stroke="#ffffff" stroke-width="1"><title>plain acquire load (unsafe), 16 threads: 0.00 (0.00..0.01)</title></circle>
+<path d="M101.5 193.0 L208.6 452.1 L422.9 456.3 L851.5 450.4" fill="none" stroke="#D55E00" stroke-width="2.2" stroke-dasharray="2 4"/>
+<path d="M101.5 223.9V173.7M98.5 223.9H104.5M98.5 173.7H104.5" stroke="#D55E00" stroke-width="1.1" fill="none"/>
+<circle cx="101.5" cy="193.0" r="3.6" fill="#D55E00" stroke="#ffffff" stroke-width="1"><title>std::shared_mutex read lock, 2 threads: 42.73 (38.04..45.66)</title></circle>
+<path d="M208.6 453.2V451.1M205.6 453.2H211.6M205.6 451.1H211.6" stroke="#D55E00" stroke-width="1.1" fill="none"/>
+<circle cx="208.6" cy="452.1" r="3.6" fill="#D55E00" stroke="#ffffff" stroke-width="1"><title>std::shared_mutex read lock, 4 threads: 3.47 (3.31..3.63)</title></circle>
+<path d="M422.9 457.3V455.3M419.9 457.3H425.9M419.9 455.3H425.9" stroke="#D55E00" stroke-width="1.1" fill="none"/>
+<circle cx="422.9" cy="456.3" r="3.6" fill="#D55E00" stroke="#ffffff" stroke-width="1"><title>std::shared_mutex read lock, 8 threads: 2.84 (2.69..2.99)</title></circle>
+<path d="M851.5 455.5V449.3M848.5 455.5H854.5M848.5 449.3H854.5" stroke="#D55E00" stroke-width="1.1" fill="none"/>
+<circle cx="851.5" cy="450.4" r="3.6" fill="#D55E00" stroke="#ffffff" stroke-width="1"><title>std::shared_mutex read lock, 16 threads: 3.72 (2.95..3.90)</title></circle>
+<path d="M104.5 438.9 L211.6 448.6 L425.9 445.8 L854.5 438.0" fill="none" stroke="#E69F00" stroke-width="2.2"/>
+<path d="M104.5 452.1V434.0M101.5 452.1H107.5M101.5 434.0H107.5" stroke="#E69F00" stroke-width="1.1" fill="none"/>
+<circle cx="104.5" cy="438.9" r="3.6" fill="#E69F00" stroke="#ffffff" stroke-width="1"><title>std::atomic_load (shared_ptr), 2 threads: 5.47 (3.48..6.21)</title></circle>
+<path d="M211.6 449.3V448.4M208.6 449.3H214.6M208.6 448.4H214.6" stroke="#E69F00" stroke-width="1.1" fill="none"/>
+<circle cx="211.6" cy="448.6" r="3.6" fill="#E69F00" stroke="#ffffff" stroke-width="1"><title>std::atomic_load (shared_ptr), 4 threads: 3.99 (3.89..4.03)</title></circle>
+<path d="M425.9 446.7V445.6M422.9 446.7H428.9M422.9 445.6H428.9" stroke="#E69F00" stroke-width="1.1" fill="none"/>
+<circle cx="425.9" cy="445.8" r="3.6" fill="#E69F00" stroke="#ffffff" stroke-width="1"><title>std::atomic_load (shared_ptr), 8 threads: 4.43 (4.29..4.46)</title></circle>
+<path d="M854.5 441.2V437.8M851.5 441.2H857.5M851.5 437.8H857.5" stroke="#E69F00" stroke-width="1.1" fill="none"/>
+<circle cx="854.5" cy="438.0" r="3.6" fill="#E69F00" stroke="#ffffff" stroke-width="1"><title>std::atomic_load (shared_ptr), 16 threads: 5.60 (5.12..5.63)</title></circle>
+</svg>

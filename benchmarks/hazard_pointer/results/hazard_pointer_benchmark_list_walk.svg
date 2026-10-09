@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 513" width="900" height="513" font-family="system-ui, -apple-system, &#x27;Segoe UI&#x27;, Roboto, &#x27;Helvetica Neue&#x27;, Arial, sans-serif" text-rendering="geometricPrecision" shape-rendering="geometricPrecision">
+<title>visit one node of a 64-node list, hand-over-hand, under contention, relative to the baseline</title>
+<rect width="100%" height="100%" fill="#ffffff"/>
+<text x="20.0" y="30.0" font-size="18" text-anchor="start" font-weight="600" fill="#1a202c">visit one node of a 64-node list, hand-over-hand, under contention, relative to the baseline</text>
+<text x="20.0" y="52.0" font-size="12" text-anchor="start" font-weight="normal" fill="#4a5568">12th Gen Intel(R) Core(TM) i7-12700K, 20 logical CPUs, governor powersave; 13.2.0, LumexLib hazard_pointer; median of 5 runs</text>
+<text x="20.0" y="69.0" font-size="12" text-anchor="start" font-weight="normal" fill="#4a5568">Each point: time per operation / uint64 CAS time of the same block; whiskers: 25th-75th percentile</text>
+<line x1="20.0" y1="91.0" x2="44.0" y2="91.0" stroke="#0072B2" stroke-width="2.5"/>
+<circle cx="32.0" cy="91.0" r="3.5" fill="#0072B2"/>
+<text x="50.0" y="95.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1a202c">LumexLib hazard_pointer</text>
+<line x1="223.8" y1="91.0" x2="247.8" y2="91.0" stroke="#999999" stroke-width="2.5" stroke-dasharray="7 4"/>
+<circle cx="235.8" cy="91.0" r="3.5" fill="#999999"/>
+<text x="253.8" y="95.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1a202c">plain acquire load (unsafe)</text>
+<line x1="80" y1="453.0" x2="870" y2="453.0" stroke="#e2e8f0" stroke-width="1"/>
+<text x="72.0" y="457.0" font-size="11" text-anchor="end" font-weight="normal" fill="#4a5568">0</text>
+<line x1="80" y1="387.0" x2="870" y2="387.0" stroke="#e2e8f0" stroke-width="1"/>
+<text x="72.0" y="391.0" font-size="11" text-anchor="end" font-weight="normal" fill="#4a5568">0.2</text>
+<line x1="80" y1="321.0" x2="870" y2="321.0" stroke="#e2e8f0" stroke-width="1"/>
+<text x="72.0" y="325.0" font-size="11" text-anchor="end" font-weight="normal" fill="#4a5568">0.4</text>
+<line x1="80" y1="255.0" x2="870" y2="255.0" stroke="#e2e8f0" stroke-width="1"/>
+<text x="72.0" y="259.0" font-size="11" text-anchor="end" font-weight="normal" fill="#4a5568">0.6</text>
+<line x1="80" y1="189.0" x2="870" y2="189.0" stroke="#e2e8f0" stroke-width="1"/>
+<text x="72.0" y="193.0" font-size="11" text-anchor="end" font-weight="normal" fill="#4a5568">0.8</text>
+<line x1="80" y1="123.0" x2="870" y2="123.0" stroke="#e2e8f0" stroke-width="1"/>
+<text x="72.0" y="127.0" font-size="11" text-anchor="end" font-weight="normal" fill="#4a5568">1</text>
+<line x1="100.0" y1="123" x2="100.0" y2="453" stroke="#f0f3f7" stroke-width="1"/>
+<text x="100.0" y="471.0" font-size="11" text-anchor="middle" font-weight="normal" fill="#4a5568">2</text>
+<line x1="207.1" y1="123" x2="207.1" y2="453" stroke="#f0f3f7" stroke-width="1"/>
+<text x="207.1" y="471.0" font-size="11" text-anchor="middle" font-weight="normal" fill="#4a5568">4</text>
+<line x1="421.4" y1="123" x2="421.4" y2="453" stroke="#f0f3f7" stroke-width="1"/>
+<text x="421.4" y="471.0" font-size="11" text-anchor="middle" font-weight="normal" fill="#4a5568">8</text>
+<line x1="850.0" y1="123" x2="850.0" y2="453" stroke="#f0f3f7" stroke-width="1"/>
+<text x="850.0" y="471.0" font-size="11" text-anchor="middle" font-weight="normal" fill="#4a5568">16</text>
+<line x1="80" y1="453" x2="870" y2="453" stroke="#a0aec0" stroke-width="1"/>
+<text x="475.0" y="493.0" font-size="12" text-anchor="middle" font-weight="normal" fill="#2d3748">threads</text>
+<text x="24" y="288.0" font-size="12" text-anchor="middle" fill="#2d3748" transform="rotate(-90 24 288.0)">time / uint64 CAS time (lower is better)</text>
+<line x1="80" y1="123.0" x2="870" y2="123.0" stroke="#C53030" stroke-width="1.2" stroke-dasharray="6 4"/>
+<text x="866.0" y="117.0" font-size="11" text-anchor="end" font-weight="normal" fill="#C53030">uint64 CAS = 1</text>
+<path d="M98.5 395.0 L205.6 424.9 L419.9 439.6 L848.5 442.5" fill="none" stroke="#0072B2" stroke-width="2.2"/>
+<path d="M98.5 396.1V383.4M95.5 396.1H101.5M95.5 383.4H101.5" stroke="#0072B2" stroke-width="1.1" fill="none"/>
+<circle cx="98.5" cy="395.0" r="3.6" fill="#0072B2" stroke="#ffffff" stroke-width="1"><title>LumexLib hazard_pointer, 2 threads: 0.18 (0.17..0.21)</title></circle>
+<path d="M205.6 425.1V423.8M202.6 425.1H208.6M202.6 423.8H208.6" stroke="#0072B2" stroke-width="1.1" fill="none"/>
+<circle cx="205.6" cy="424.9" r="3.6" fill="#0072B2" stroke="#ffffff" stroke-width="1"><title>LumexLib hazard_pointer, 4 threads: 0.09 (0.08..0.09)</title></circle>
+<path d="M419.9 439.8V439.2M416.9 439.8H422.9M416.9 439.2H422.9" stroke="#0072B2" stroke-width="1.1" fill="none"/>
+<circle cx="419.9" cy="439.6" r="3.6" fill="#0072B2" stroke="#ffffff" stroke-width="1"><title>LumexLib hazard_pointer, 8 threads: 0.04 (0.04..0.04)</title></circle>
+<path d="M848.5 443.4V442.4M845.5 443.4H851.5M845.5 442.4H851.5" stroke="#0072B2" stroke-width="1.1" fill="none"/>
+<circle cx="848.5" cy="442.5" r="3.6" fill="#0072B2" stroke="#ffffff" stroke-width="1"><title>LumexLib hazard_pointer, 16 threads: 0.03 (0.03..0.03)</title></circle>
+<path d="M101.5 436.6 L208.6 445.1 L422.9 449.7 L851.5 451.0" fill="none" stroke="#999999" stroke-width="2.2" stroke-dasharray="7 4"/>
+<path d="M101.5 437.3V436.3M98.5 437.3H104.5M98.5 436.3H104.5" stroke="#999999" stroke-width="1.1" fill="none"/>
+<circle cx="101.5" cy="436.6" r="3.6" fill="#999999" stroke="#ffffff" stroke-width="1"><title>plain acquire load (unsafe), 2 threads: 0.05 (0.05..0.05)</title></circle>
+<path d="M208.6 446.0V444.6M205.6 446.0H211.6M205.6 444.6H211.6" stroke="#999999" stroke-width="1.1" fill="none"/>
+<circle cx="208.6" cy="445.1" r="3.6" fill="#999999" stroke="#ffffff" stroke-width="1"><title>plain acquire load (unsafe), 4 threads: 0.02 (0.02..0.03)</title></circle>
+<path d="M422.9 449.7V449.5M419.9 449.7H425.9M419.9 449.5H425.9" stroke="#999999" stroke-width="1.1" fill="none"/>
+<circle cx="422.9" cy="449.7" r="3.6" fill="#999999" stroke="#ffffff" stroke-width="1"><title>plain acquire load (unsafe), 8 threads: 0.01 (0.01..0.01)</title></circle>
+<path d="M851.5 451.0V450.8M848.5 451.0H854.5M848.5 450.8H854.5" stroke="#999999" stroke-width="1.1" fill="none"/>
+<circle cx="851.5" cy="451.0" r="3.6" fill="#999999" stroke="#ffffff" stroke-width="1"><title>plain acquire load (unsafe), 16 threads: 0.01 (0.01..0.01)</title></circle>
+</svg>

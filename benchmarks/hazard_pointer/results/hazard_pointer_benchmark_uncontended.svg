@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 763" width="940" height="763" font-family="system-ui, -apple-system, &#x27;Segoe UI&#x27;, Roboto, &#x27;Helvetica Neue&#x27;, Arial, sans-serif" text-rendering="geometricPrecision" shape-rendering="geometricPrecision">
+<title>Uncontended: one thread, private object</title>
+<rect width="100%" height="100%" fill="#ffffff"/>
+<text x="20.0" y="30.0" font-size="18" text-anchor="start" font-weight="600" fill="#1a202c">Uncontended: one thread, private object</text>
+<text x="20.0" y="52.0" font-size="12" text-anchor="start" font-weight="normal" fill="#4a5568">12th Gen Intel(R) Core(TM) i7-12700K, 20 logical CPUs, governor powersave; 13.2.0, LumexLib hazard_pointer; median of 5 runs</text>
+<text x="20.0" y="69.0" font-size="12" text-anchor="start" font-weight="normal" fill="#4a5568">Median ns per operation, ratio to the uncontended uint64 CAS in brackets; whiskers: 25th-75th percentile</text>
+<line x1="20.0" y1="91.0" x2="44.0" y2="91.0" stroke="#0072B2" stroke-width="2.5"/>
+<circle cx="32.0" cy="91.0" r="3.5" fill="#0072B2"/>
+<text x="50.0" y="95.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1a202c">LumexLib hazard_pointer</text>
+<line x1="223.8" y1="91.0" x2="247.8" y2="91.0" stroke="#999999" stroke-width="2.5" stroke-dasharray="7 4"/>
+<circle cx="235.8" cy="91.0" r="3.5" fill="#999999"/>
+<text x="253.8" y="95.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1a202c">plain acquire load (unsafe)</text>
+<line x1="454.0" y1="91.0" x2="478.0" y2="91.0" stroke="#D55E00" stroke-width="2.5" stroke-dasharray="2 4"/>
+<circle cx="466.0" cy="91.0" r="3.5" fill="#D55E00"/>
+<text x="484.0" y="95.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1a202c">std::shared_mutex read lock</text>
+<line x1="20.0" y1="113.0" x2="44.0" y2="113.0" stroke="#E69F00" stroke-width="2.5"/>
+<circle cx="32.0" cy="113.0" r="3.5" fill="#E69F00"/>
+<text x="50.0" y="117.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1a202c">std::atomic_load (shared_ptr)</text>
+<line x1="263.4" y1="113.0" x2="287.4" y2="113.0" stroke="#56B4E9" stroke-width="2.5" stroke-dasharray="9 3 2 3"/>
+<circle cx="275.4" cy="113.0" r="3.5" fill="#56B4E9"/>
+<text x="293.4" y="117.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1a202c">new + delete of a small object</text>
+<rect x="20" y="145.0" width="900" height="40.0" fill="#f7fafc"/>
+<text x="24.0" y="169.0" font-size="12" text-anchor="start" font-weight="600" fill="#1a202c">make_destroy</text>
+<text x="24.0" y="209.0" font-size="12" text-anchor="start" font-weight="600" fill="#1a202c">protect_reset</text>
+<rect x="20" y="225.0" width="900" height="40.0" fill="#f7fafc"/>
+<text x="24.0" y="249.0" font-size="12" text-anchor="start" font-weight="600" fill="#1a202c">protect_kept</text>
+<text x="24.0" y="289.0" font-size="12" text-anchor="start" font-weight="600" fill="#1a202c">make_protect_destroy</text>
+<rect x="20" y="305.0" width="900" height="40.0" fill="#f7fafc"/>
+<text x="24.0" y="329.0" font-size="12" text-anchor="start" font-weight="600" fill="#1a202c">retire</text>
+<text x="24.0" y="399.0" font-size="12" text-anchor="start" font-weight="600" fill="#1a202c">read</text>
+<rect x="20" y="445.0" width="900" height="60.0" fill="#f7fafc"/>
+<text x="24.0" y="479.0" font-size="12" text-anchor="start" font-weight="600" fill="#1a202c">list_walk</text>
+<text x="24.0" y="529.0" font-size="12" text-anchor="start" font-weight="600" fill="#1a202c">new_delete</text>
+<rect x="20" y="545.0" width="900" height="40.0" fill="#f7fafc"/>
+<text x="24.0" y="569.0" font-size="12" text-anchor="start" font-weight="600" fill="#1a202c">retire_p50</text>
+<text x="24.0" y="609.0" font-size="12" text-anchor="start" font-weight="600" fill="#1a202c">retire_p99</text>
+<rect x="20" y="625.0" width="900" height="40.0" fill="#f7fafc"/>
+<text x="24.0" y="649.0" font-size="12" text-anchor="start" font-weight="600" fill="#1a202c">retire_p999</text>
+<text x="24.0" y="689.0" font-size="12" text-anchor="start" font-weight="600" fill="#1a202c">retire_max</text>
+<line x1="210.0" y1="145" x2="210.0" y2="705.0" stroke="#e2e8f0" stroke-width="1"/>
+<text x="210.0" y="723.0" font-size="11" text-anchor="middle" font-weight="normal" fill="#4a5568">0</text>
+<line x1="303.3" y1="145" x2="303.3" y2="705.0" stroke="#e2e8f0" stroke-width="1"/>
+<text x="303.3" y="723.0" font-size="11" text-anchor="middle" font-weight="normal" fill="#4a5568">20000</text>
+<line x1="396.7" y1="145" x2="396.7" y2="705.0" stroke="#e2e8f0" stroke-width="1"/>
+<text x="396.7" y="723.0" font-size="11" text-anchor="middle" font-weight="normal" fill="#4a5568">40000</text>
+<line x1="490.0" y1="145" x2="490.0" y2="705.0" stroke="#e2e8f0" stroke-width="1"/>
+<text x="490.0" y="723.0" font-size="11" text-anchor="middle" font-weight="normal" fill="#4a5568">60000</text>
+<line x1="583.3" y1="145" x2="583.3" y2="705.0" stroke="#e2e8f0" stroke-width="1"/>
+<text x="583.3" y="723.0" font-size="11" text-anchor="middle" font-weight="normal" fill="#4a5568">80000</text>
+<line x1="676.7" y1="145" x2="676.7" y2="705.0" stroke="#e2e8f0" stroke-width="1"/>
+<text x="676.7" y="723.0" font-size="11" text-anchor="middle" font-weight="normal" fill="#4a5568">100000</text>
+<line x1="770.0" y1="145" x2="770.0" y2="705.0" stroke="#e2e8f0" stroke-width="1"/>
+<text x="770.0" y="723.0" font-size="11" text-anchor="middle" font-weight="normal" fill="#4a5568">120000</text>
+<line x1="210.0" y1="145" x2="210.0" y2="705.0" stroke="#a0aec0" stroke-width="1"/>
+<text x="490.0" y="745.0" font-size="12" text-anchor="middle" font-weight="normal" fill="#2d3748">nanoseconds per operation (lower is better)</text>
+<rect x="210.0" y="157.0" width="1.0" height="16" rx="2" fill="#0072B2"><title>LumexLib hazard_pointer: 3.9 ns (0.5x CAS)</title></rect>
+<path d="M210.0 165.0H210.0M210.0 161.0V169.0M210.0 161.0V169.0" stroke="#1a202c" stroke-width="1.1" fill="none"/>
+<text x="216.0" y="169.0" font-size="11" text-anchor="start" font-weight="normal" fill="#2d3748">3.9 ns (0.5x CAS)</text>
+<rect x="210.0" y="197.0" width="1.0" height="16" rx="2" fill="#0072B2"><title>LumexLib hazard_pointer: 5.9 ns (0.8x CAS)</title></rect>
+<path d="M210.0 205.0H210.0M210.0 201.0V209.0M210.0 201.0V209.0" stroke="#1a202c" stroke-width="1.1" fill="none"/>
+<text x="216.0" y="209.0" font-size="11" text-anchor="start" font-weight="normal" fill="#2d3748">5.9 ns (0.8x CAS)</text>
+<rect x="210.0" y="237.0" width="1.0" height="16" rx="2" fill="#0072B2"><title>LumexLib hazard_pointer: 6.0 ns (0.8x CAS)</title></rect>
+<path d="M210.0 245.0H210.0M210.0 241.0V249.0M210.0 241.0V249.0" stroke="#1a202c" stroke-width="1.1" fill="none"/>
+<text x="216.0" y="249.0" font-size="11" text-anchor="start" font-weight="normal" fill="#2d3748">6.0 ns (0.8x CAS)</text>
+<rect x="210.0" y="277.0" width="1.0" height="16" rx="2" fill="#0072B2"><title>LumexLib hazard_pointer: 8.1 ns (1.1x CAS)</title></rect>
+<path d="M210.0 285.0H210.0M210.0 281.0V289.0M210.0 281.0V289.0" stroke="#1a202c" stroke-width="1.1" fill="none"/>
+<text x="216.0" y="289.0" font-size="11" text-anchor="start" font-weight="normal" fill="#2d3748">8.1 ns (1.1x CAS)</text>
+<rect x="210.0" y="317.0" width="1.0" height="16" rx="2" fill="#0072B2"><title>LumexLib hazard_pointer: 45.2 ns (6.1x CAS)</title></rect>
+<path d="M210.2 325.0H210.2M210.2 321.0V329.0M210.2 321.0V329.0" stroke="#1a202c" stroke-width="1.1" fill="none"/>
+<text x="216.2" y="329.0" font-size="11" text-anchor="start" font-weight="normal" fill="#2d3748">45.2 ns (6.1x CAS)</text>
+<rect x="210.0" y="357.0" width="1.0" height="16" rx="2" fill="#0072B2"><title>LumexLib hazard_pointer: 6.1 ns (0.8x CAS)</title></rect>
+<path d="M210.0 365.0H210.0M210.0 361.0V369.0M210.0 361.0V369.0" stroke="#1a202c" stroke-width="1.1" fill="none"/>
+<text x="216.0" y="369.0" font-size="11" text-anchor="start" font-weight="normal" fill="#2d3748">6.1 ns (0.8x CAS)</text>
+<rect x="210.0" y="377.0" width="1.0" height="16" rx="2" fill="#999999"><title>plain acquire load (unsafe): 1.6 ns (0.2x CAS)</title></rect>
+<path d="M210.0 385.0H210.0M210.0 381.0V389.0M210.0 381.0V389.0" stroke="#1a202c" stroke-width="1.1" fill="none"/>
+<text x="216.0" y="389.0" font-size="11" text-anchor="start" font-weight="normal" fill="#2d3748">1.6 ns (0.2x CAS)</text>
+<rect x="210.0" y="397.0" width="1.0" height="16" rx="2" fill="#D55E00"><title>std::shared_mutex read lock: 14.8 ns (2.0x CAS)</title></rect>
+<path d="M210.1 405.0H210.1M210.1 401.0V409.0M210.1 401.0V409.0" stroke="#1a202c" stroke-width="1.1" fill="none"/>
+<text x="216.1" y="409.0" font-size="11" text-anchor="start" font-weight="normal" fill="#2d3748">14.8 ns (2.0x CAS)</text>
+<rect x="210.0" y="417.0" width="1.0" height="16" rx="2" fill="#E69F00"><title>std::atomic_load (shared_ptr): 24.7 ns (3.4x CAS)</title></rect>
+<path d="M210.1 425.0H210.1M210.1 421.0V429.0M210.1 421.0V429.0" stroke="#1a202c" stroke-width="1.1" fill="none"/>
+<text x="216.1" y="429.0" font-size="11" text-anchor="start" font-weight="normal" fill="#2d3748">24.7 ns (3.4x CAS)</text>
+<rect x="210.0" y="457.0" width="1.0" height="16" rx="2" fill="#0072B2"><title>LumexLib hazard_pointer: 6.0 ns (0.8x CAS)</title></rect>
+<path d="M210.0 465.0H210.0M210.0 461.0V469.0M210.0 461.0V469.0" stroke="#1a202c" stroke-width="1.1" fill="none"/>
+<text x="216.0" y="469.0" font-size="11" text-anchor="start" font-weight="normal" fill="#2d3748">6.0 ns (0.8x CAS)</text>
+<rect x="210.0" y="477.0" width="1.0" height="16" rx="2" fill="#999999"><title>plain acquire load (unsafe): 1.5 ns (0.2x CAS)</title></rect>
+<path d="M210.0 485.0H210.0M210.0 481.0V489.0M210.0 481.0V489.0" stroke="#1a202c" stroke-width="1.1" fill="none"/>
+<text x="216.0" y="489.0" font-size="11" text-anchor="start" font-weight="normal" fill="#2d3748">1.5 ns (0.2x CAS)</text>
+<rect x="210.0" y="517.0" width="1.0" height="16" rx="2" fill="#56B4E9"><title>new + delete of a small object: 8.9 ns (1.2x CAS)</title></rect>
+<path d="M210.0 525.0H210.0M210.0 521.0V529.0M210.0 521.0V529.0" stroke="#1a202c" stroke-width="1.1" fill="none"/>
+<text x="216.0" y="529.0" font-size="11" text-anchor="start" font-weight="normal" fill="#2d3748">8.9 ns (1.2x CAS)</text>
+<rect x="210.0" y="557.0" width="1.0" height="16" rx="2" fill="#0072B2"><title>LumexLib hazard_pointer: 30.0 ns (3.8x CAS)</title></rect>
+<path d="M210.1 565.0H210.1M210.1 561.0V569.0M210.1 561.0V569.0" stroke="#1a202c" stroke-width="1.1" fill="none"/>
+<text x="216.1" y="569.0" font-size="11" text-anchor="start" font-weight="normal" fill="#2d3748">30.0 ns (3.8x CAS)</text>
+<rect x="210.0" y="597.0" width="1.0" height="16" rx="2" fill="#0072B2"><title>LumexLib hazard_pointer: 51.0 ns (6.5x CAS)</title></rect>
+<path d="M210.2 605.0H210.2M210.2 601.0V609.0M210.2 601.0V609.0" stroke="#1a202c" stroke-width="1.1" fill="none"/>
+<text x="216.2" y="609.0" font-size="11" text-anchor="start" font-weight="normal" fill="#2d3748">51.0 ns (6.5x CAS)</text>
+<rect x="210.0" y="637.0" width="51.1" height="16" rx="2" fill="#0072B2"><title>LumexLib hazard_pointer: 10957.0 ns (1396.0x CAS)</title></rect>
+<path d="M241.8 645.0H270.0M241.8 641.0V649.0M270.0 641.0V649.0" stroke="#1a202c" stroke-width="1.1" fill="none"/>
+<text x="276.0" y="649.0" font-size="11" text-anchor="start" font-weight="normal" fill="#2d3748">10957.0 ns (1396.0x CAS)</text>
+<rect x="210.0" y="677.0" width="145.6" height="16" rx="2" fill="#0072B2"><title>LumexLib hazard_pointer: 31198.0 ns (3818.9x CAS)</title></rect>
+<path d="M334.7 685.0H768.2M334.7 681.0V689.0M768.2 681.0V689.0" stroke="#1a202c" stroke-width="1.1" fill="none"/>
+<text x="774.2" y="689.0" font-size="11" text-anchor="start" font-weight="normal" fill="#2d3748">31198.0 ns (3818.9x CAS)</text>
+</svg>
