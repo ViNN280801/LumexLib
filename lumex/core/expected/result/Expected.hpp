@@ -24,25 +24,29 @@
 
 /**
  * @file Expected.hpp
- * @brief `expected<SuccessType, ErrorType>`, an analogue of C++23
+ * @brief `expected<SuccessType, ErrorType>`, an implementation of C++23
  * `std::expected` usable from C++11, with its non-member functions and
  * factories.
- * @details The class holds either a value or an error in a union and manages
- * their lifetimes by hand. It provides the members of `std::expected`: the
+ * @details The class holds either a value or an error and follows
+ * [expected.expected] of the working draft (C++26, which includes the
+ * resolutions of LWG 3687, 3703, 3754, 3836, 3843, 3866, 3877, 3886, 3891,
+ * 3938, 3940, 3951, 3973, 4025, 4026, 4031, 4141, 4222 and 4366): the
  * constructors (from a value, from `unexpected`, in place, from an
  * initializer list, and converting from an `expected` of other types), the
  * assignment from a value or an `unexpected`, the observers (`has_value()`,
- * `value()`, which throws `bad_expected_access`, `error()`, `value_or()`,
- * `error_or()`, `operator*`), `emplace()`, `swap()` and the monadic operations
- * `and_then()`, `transform()`, `or_else()` and `transform_error()`, which take
- * the function as a forwarding reference, call it as `std::invoke` does, and
- * are constrained with concepts from C++20 and with SFINAE before. The header
- * also declares the non-member `operator==` (with another `expected`, a value
- * or an `unexpected`; `!=` and the reversed forms before C++20) and `swap()`,
- * `make_expected()` and `make_unexpected<E>()`, which returns an
- * `unexpected<E>`. The specialization for a `void` value is in
- * `ExpectedVoid.hpp`. Header-only, part of `lumex::expected`; `expected` and
- * `make_unexpected` are also visible at global scope, `unexpected` is not.
+ * `has_error()`, `value()`, which throws `bad_expected_access`, `error()`,
+ * `value_or()`, `error_or()`, `operator*`), `emplace()`, `swap()` and the
+ * monadic operations `and_then()`, `transform()`, `or_else()` and
+ * `transform_error()`, which take the function as a forwarding reference, call
+ * it as `std::invoke` does, and are constrained with concepts from C++20 and
+ * with SFINAE before. The header also declares the non-member `operator==`
+ * (with another `expected`, a value or an `unexpected`; `!=` and the reversed
+ * forms before C++20) and `swap()`, `make_expected()` and
+ * `make_unexpected<E>()`, which returns an `unexpected<E>`. The specialization
+ * for a `void` value is in `ExpectedVoid.hpp`; the storage and the layers
+ * that give the class its special member functions are in
+ * `ExpectedStorage.hpp`. Header-only, part of `lumex::expected`; `expected`
+ * and `make_unexpected` are also visible at global scope, `unexpected` is not.
  */
 #ifndef LUMEX_CORE_EXPECTED_RESULT_EXPECTED_HPP
 #define LUMEX_CORE_EXPECTED_RESULT_EXPECTED_HPP
@@ -74,14 +78,13 @@
 #pragma clang diagnostic ignored "-Wfloat-equal"
 #endif
 
-#include <cassert>
 #include <initializer_list>
 #include <memory>
-#include <new>
 #include <type_traits>
 #include <utility>
 
 #include "ExpectedDetail.hpp"
+#include "ExpectedStorage.hpp"
 #include "ExpectedTypes.hpp"
 #include "lumex/core/expected/error/BadExpectedAccess.hpp"
 #include "lumex/core/expected/error/Unexpected.hpp"
@@ -103,99 +106,83 @@ using error::bad_expected_access;
 using error::unexpected;
 
 /**
- * @brief Class that mimics std::expected from C++23.
+ * @brief Implementation of C++23 `std::expected<T, E>` for C++11 and newer.
  * @see https://en.cppreference.com/w/cpp/utility/expected
- * @details Holds either a value of type SuccessType,
- *          or an error of type ErrorType. Functions can return either a
- * success result, or error information without exceptions for expected
- * failures. The implementation uses a union to save memory and manually
- * manages the lifetime of the stored objects.
+ * @see https://eel.is/c++draft/expected.expected
+ * @details Holds either a value of type SuccessType, or an error of type
+ * ErrorType, in one union, with no allocation ([expected.object.general]/1).
+ * Functions can return either a success result, or error information without
+ * exceptions for expected failures.
  * @tparam SuccessType Success value type.
  * @tparam ErrorType Error type.
  * @note This implementation is not thread-safe by default. Accessing
  * `expected` from several threads without external synchronization is
  * undefined behavior if `SuccessType` or `ErrorType` are not thread-safe.
- * @warning Using `expected` with types that have non-trivial
- * constructors/destructors or allocate memory, may be slower than C++23
- * `std::expected`, because object lifetime is managed by hand.
- * @note Works from C++11. A member that is not const, or whose body needs
- * more than one statement, is marked `LUMEX_CONSTEXPR_CXX14`: it is
- * `constexpr` from C++14 and an ordinary function at C++11, where a
- * `constexpr` member function is implicitly const (so `error () &` would
- * collide with `error () const &`) and its body must be a single return
- * statement.
+ * @par Special member functions
+ * The copy and move constructors, the assignments and the destructor are the
+ * ones the standard describes, built from a chain of base classes (see
+ * `ExpectedStorage.hpp`): the copy constructor and the copy assignment are
+ * deleted unless `SuccessType` and `ErrorType` can be copied
+ * ([expected.object.cons]/9, [expected.object.assign]/4), the move
+ * constructor and the move assignment take part in overload resolution only if
+ * they can be moved ([expected.object.cons]/11, [expected.object.assign]/6),
+ * and each of the five is trivial when the standard says it is ([expected.
+ * object.cons]/10 and /16, [expected.object.dtor]/2,
+ * [expected.object.assign]/5 and /10). So `std::is_copy_constructible`,
+ * `std::is_trivially_copyable` and the other traits of `expected<T, E>` give
+ * what they give for `std::expected`. The assignments build the new contents
+ * the way `reinit-expected` of [expected.object.assign]/1 does: no temporary
+ * `expected`, the strong guarantee where `SuccessType` or `ErrorType` can be
+ * moved without throwing.
+ * @par constexpr
+ * Every member that the standard declares `constexpr` is `constexpr` as far
+ * as the language of the standard in use allows:
+ * - C++11: the constructors from a value, `in_place_tag`, `unexpect_t` and
+ *   `unexpected`, the default constructor, and the copy and move constructors
+ *   and the destructor when `SuccessType` and `ErrorType` are trivially
+ *   copyable and destructible; `has_value()`, `has_error()`, `operator bool`,
+ *   the observers on a const object (`operator*`, `operator->`, `value()`,
+ *   `error()`, `value_or()`, `error_or()`), the four monadic operations on a
+ *   const object, `==` and `!=`. A C++11 `constexpr` member function is
+ *   implicitly const, so no member that is not const can be `constexpr`.
+ * - C++14: also the observers and monadic operations on an object that is not
+ *   const (a `constexpr` function may have several statements and change an
+ *   object, N3652; they are marked with `LUMEX_CONSTEXPR_CXX14`).
+ * - C++17: also the monadic operations with a lambda (constexpr lambdas,
+ * P0170).
+ * - C++20 and C++23: also the operations that change the active alternative of
+ *   the union: the copy and move constructors, the converting constructors
+ *   from another `expected` and the destructor for types that are not
+ *   trivial, the assignments, `emplace()`, `emplace_error()` and `swap()`
+ *   (a union member may become active in a constant expression, P1330;
+ *   `std::construct_at`, P0784; try blocks, P1002; marked with
+ *   `LUMEX_EXPECTED_CONSTEXPR_CXX20`).
+ * In every standard the types must themselves be usable in a constant
+ * expression (literal; a non-trivial destructor of `SuccessType` or
+ * `ErrorType` needs C++20).
  * @par Differences from std::expected
  * - `error()`, `operator*` and `operator->` check their precondition with
  *   `LUMEX_ASSERT`, which aborts in every build including `NDEBUG`, where the
- *   standard leaves the call undefined.
+ *   standard leaves the call undefined (the "hardened preconditions" of the
+ *   draft, always on).
  * - The tags are `in_place_tag` / `in_place` and `unexpect_t` / `unexpect` of
  *   this module, not `std::in_place_t` and `std::unexpect_t`, so that the
  *   class works from C++11.
- * - The copy and move assignments, the assignment from a value or an
- *   `unexpected`, and `emplace()` build the new contents first and then swap
- *   them in (the strong guarantee), so they need a movable `SuccessType` and
- *   `ErrorType` and have no `noexcept` requirement.
- * - The copy constructor and the assignments are not removed when
- *   `SuccessType` or `ErrorType` cannot be copied (C++11 cannot delete a
- *   member conditionally), so `std::is_copy_constructible` is `true` and the
- *   copy fails inside the constructor; the class is never trivially copyable
- *   and cannot be used in a constant expression.
- * - `emplace_error()`, `rebind`, `Unit`, `make_expected()` and the
- *   `success()` / `failure()` markers are additions.
+ * - Constructors and `value_or`, `error_or` that the standard declares
+ *   without `noexcept` are `noexcept` when the construction they do cannot
+ *   throw ([res.on.exception.handling]/5 lets an implementation strengthen an
+ *   exception specification).
+ * - `rebind` is as in the standard; `emplace_error()`, `Unit`,
+ *   `make_expected()` and the `success()` / `failure()` markers are
+ *   additions.
  */
-template <typename SuccessType, typename ErrorType> class expected
+template <typename SuccessType, typename ErrorType>
+class expected : private detail::storage::expected_base<SuccessType, ErrorType>
 {
+  using base_type = detail::storage::expected_base<SuccessType, ErrorType>;
+  using traits_type = detail::storage::expected_traits<SuccessType, ErrorType>;
+
 public:
-  // ====================== Static assertions ====================== //
-  // References are forbidden because:
-  // 1. This class (and its specializations) is meant to
-  //    own the stored success or error value. If SuccessType or ErrorType were
-  //    references, for example `int&`, expected would not own the object, only
-  //    refer to it. That can dangle if the original object referred to by
-  //    SuccessType (or ErrorType) is destroyed before expected.
-  // 2. Union restriction: the C++ standard forbids reference members in a
-  // `union`,
-  //    because references are neither movable nor copyable.
-  // 3. C++23 compatibility: std::expected also forbids reference types for
-  //    the error parameter for the same reasons. Behavior stays consistent and
-  //    predictable.
-  LUMEX_STATIC_ASSERT_MSG (!std::is_reference<SuccessType>::value,
-                           "Expected<T,E>: T must not be a reference");
-  LUMEX_STATIC_ASSERT_MSG (!std::is_function<SuccessType>::value,
-                           "Expected<T,E>: T must not be a function type");
-  LUMEX_STATIC_ASSERT_MSG (!std::is_array<SuccessType>::value,
-                           "Expected<T,E>: T must not be an array type");
-  LUMEX_STATIC_ASSERT_MSG (!std::is_void<SuccessType>::value,
-                           "Expected<T,E>: T must not be cv void; "
-                           "use Expected<void,E>");
-  LUMEX_STATIC_ASSERT_MSG (
-      !std::is_same<typename std::remove_cv<SuccessType>::type,
-                    in_place_tag>::value,
-      "Expected<T,E>: T must not be in_place_tag");
-  LUMEX_STATIC_ASSERT_MSG (
-      !std::is_same<typename std::remove_cv<SuccessType>::type,
-                    unexpect_t>::value,
-      "Expected<T,E>: T must not be unexpect_t");
-  LUMEX_STATIC_ASSERT_MSG (
-      !detail::is_unexpected<
-          typename std::remove_cv<SuccessType>::type>::value,
-      "Expected<T,E>: T must not be a specialization of unexpected");
-
-  LUMEX_STATIC_ASSERT_MSG (!std::is_reference<ErrorType>::value,
-                           "Expected<T,E>: E must not be a reference");
-  LUMEX_STATIC_ASSERT_MSG (!std::is_function<ErrorType>::value,
-                           "Expected<T,E>: E must not be a function type");
-  LUMEX_STATIC_ASSERT_MSG (!std::is_void<ErrorType>::value,
-                           "Expected<T,E>: E must not be void");
-  LUMEX_STATIC_ASSERT_MSG (!std::is_array<ErrorType>::value,
-                           "Expected<T,E>: E must not be an array type");
-  LUMEX_STATIC_ASSERT_MSG (!std::is_const<ErrorType>::value
-                               && !std::is_volatile<ErrorType>::value,
-                           "Expected<T,E>: E must not be cv-qualified");
-  LUMEX_STATIC_ASSERT_MSG (
-      !detail::is_unexpected<ErrorType>::value,
-      "Expected<T,E>: E must not be a specialization of unexpected");
-
   // ====================== Aliases ====================== //
   using value_type = SuccessType;
   using error_type = ErrorType;
@@ -209,11 +196,13 @@ public:
   template <typename U> using rebind = expected<U, ErrorType>;
 
   // ====================== Constructors ====================== //
+  // The copy and the move constructor are the implicit ones: they come from
+  // the bases and are deleted, left out or trivial as the standard says.
 
   /**
    * @brief Default constructor.
    * @details Creates an `expected` in the success state holding the value
-   * `SuccessType()`, value-initialized.
+   * `SuccessType()`, value-initialized ([expected.object.cons]/2).
    * @note Takes part in overload resolution only when `SuccessType` is
    * default-constructible, so `std::is_default_constructible` tells the
    * truth, like `std::expected`. `noexcept` when the default constructor of
@@ -223,64 +212,19 @@ public:
   template <typename U = SuccessType,
             typename = typename std::enable_if<
                 std::is_default_constructible<U>::value>::type>
-  LUMEX_CONSTEXPR_CXX14
+  LUMEX_CONSTEXPR_CTOR
   expected () LUMEX_NOEXCEPT_IF (
       std::is_nothrow_default_constructible<SuccessType>::value)
-      : m_storage (), m_has_value (true)
+      : base_type (detail::value_tag ())
   {
-    new (detail::voidify (m_storage.m_value)) SuccessType ();
-  }
-
-  /**
-   * @brief Copy constructor.
-   * @details Creates a new `expected` by copying the state and the contained
-   * value or error from `other`.
-   * @param[in] other `expected` object to copy.
-   * @note Not declared `noexcept`.
-   * @throws May throw if the copy constructor of `SuccessType` or `ErrorType`
-   * throws.
-   */
-  LUMEX_CONSTEXPR_CXX14
-  expected (expected const &other) : m_has_value (other.m_has_value)
-  {
-    if (m_has_value)
-      new (detail::voidify (m_storage.m_value))
-          SuccessType (other.m_storage.m_value);
-    else
-      new (std::addressof (m_storage.m_error))
-          ErrorType (other.m_storage.m_error);
-  }
-
-  /**
-   * @brief Move constructor.
-   * @details Creates a new `expected` by moving the state and contained value
-   * or error from `other`. After the constructor, `other` is valid but
-   * unspecified.
-   * @param[in] other `expected` object to move.
-   * @note Conditionally `noexcept` if the constructors of move of
-   * `SuccessType` and `ErrorType` do not throw.
-   * @throws May throw if the constructor of move of `SuccessType` or
-   * `ErrorType` throws.
-   */
-  LUMEX_CONSTEXPR_CXX14
-  expected (expected &&other) LUMEX_NOEXCEPT_IF (
-      std::is_nothrow_move_constructible<SuccessType>::value
-          &&std::is_nothrow_move_constructible<ErrorType>::value)
-      : m_has_value (other.m_has_value)
-  {
-    if (m_has_value)
-      new (detail::voidify (m_storage.m_value))
-          SuccessType (std::move (other.m_storage.m_value));
-    else
-      new (std::addressof (m_storage.m_error))
-          ErrorType (std::move (other.m_storage.m_error));
   }
 
   /**
    * @brief Converting constructor from an `expected<U, G>` (copy, implicit).
    * @details Creates an `expected` with the state of `other`, copying the
    * value or the error into one of this type. Implicit when both conversions
-   * `U const &` to `SuccessType` and `G const &` to `ErrorType` are.
+   * `U const &` to `SuccessType` and `G const &` to `ErrorType` are
+   * ([expected.object.cons]/17 to /22).
    * @tparam U Success type of `other`.
    * @tparam G Error type of `other`.
    * @param[in] other `expected` to convert.
@@ -289,7 +233,7 @@ public:
    * converted as a whole (the value constructor then does it), like
    * `std::expected`. For a `bool` success type that check is skipped:
    * `expected<bool, E>` built from an `expected<int, E>` converts the value
-   * inside, it does not collapse the state to `true` or `false`.
+   * inside, it does not collapse the state to `true` or `false` (LWG 3836).
    * @throws May throw if the conversion of the value or the error throws.
    */
   template <typename U, typename G,
@@ -302,18 +246,12 @@ public:
                     && std::is_convertible<G const &, ErrorType>::value,
                 int>::type
             = 0>
-  LUMEX_CONSTEXPR_CXX14
+  LUMEX_EXPECTED_CONSTEXPR_CXX20
   expected (expected<U, G> const &other) LUMEX_NOEXCEPT_IF (
       std::is_nothrow_constructible<SuccessType, U const &>::value
           &&std::is_nothrow_constructible<ErrorType, G const &>::value)
-      : m_storage (), m_has_value (other.m_has_value)
+      : base_type (detail::convert_tag (), other)
   {
-    if (m_has_value)
-      new (detail::voidify (m_storage.m_value))
-          SuccessType (other.m_storage.m_value);
-    else
-      new (std::addressof (m_storage.m_error))
-          ErrorType (other.m_storage.m_error);
   }
 
   /**
@@ -335,18 +273,13 @@ public:
                          && std::is_convertible<G const &, ErrorType>::value),
                 int>::type
             = 0>
-  LUMEX_CONSTEXPR_CXX14 explicit expected (expected<U, G> const &other)
+  LUMEX_EXPECTED_CONSTEXPR_CXX20 explicit expected (
+      expected<U, G> const &other)
       LUMEX_NOEXCEPT_IF (
           std::is_nothrow_constructible<SuccessType, U const &>::value
               &&std::is_nothrow_constructible<ErrorType, G const &>::value)
-      : m_storage (), m_has_value (other.m_has_value)
+      : base_type (detail::convert_tag (), other)
   {
-    if (m_has_value)
-      new (detail::voidify (m_storage.m_value))
-          SuccessType (other.m_storage.m_value);
-    else
-      new (std::addressof (m_storage.m_error))
-          ErrorType (other.m_storage.m_error);
   }
 
   /**
@@ -369,18 +302,12 @@ public:
                                   && std::is_convertible<G, ErrorType>::value,
                               int>::type
       = 0>
-  LUMEX_CONSTEXPR_CXX14
+  LUMEX_EXPECTED_CONSTEXPR_CXX20
   expected (expected<U, G> &&other) LUMEX_NOEXCEPT_IF (
       std::is_nothrow_constructible<SuccessType, U>::value
           &&std::is_nothrow_constructible<ErrorType, G>::value)
-      : m_storage (), m_has_value (other.m_has_value)
+      : base_type (detail::convert_tag (), detail::mv (other))
   {
-    if (m_has_value)
-      new (detail::voidify (m_storage.m_value))
-          SuccessType (std::move (other.m_storage.m_value));
-    else
-      new (std::addressof (m_storage.m_error))
-          ErrorType (std::move (other.m_storage.m_error));
   }
 
   /**
@@ -402,24 +329,19 @@ public:
                          && std::is_convertible<G, ErrorType>::value),
                 int>::type
             = 0>
-  LUMEX_CONSTEXPR_CXX14 explicit expected (expected<U, G> &&other)
+  LUMEX_EXPECTED_CONSTEXPR_CXX20 explicit expected (expected<U, G> &&other)
       LUMEX_NOEXCEPT_IF (
           std::is_nothrow_constructible<SuccessType, U>::value
               &&std::is_nothrow_constructible<ErrorType, G>::value)
-      : m_storage (), m_has_value (other.m_has_value)
+      : base_type (detail::convert_tag (), detail::mv (other))
   {
-    if (m_has_value)
-      new (detail::voidify (m_storage.m_value))
-          SuccessType (std::move (other.m_storage.m_value));
-    else
-      new (std::addressof (m_storage.m_error))
-          ErrorType (std::move (other.m_storage.m_error));
   }
 
   /**
    * @brief Constructor from a success value (implicit conversion).
    * @details Creates an `expected` in the success state holding the value
-   * `val`. Implicit when `U` converts to `SuccessType`.
+   * `val`. Implicit when `U` converts to `SuccessType`
+   * ([expected.object.cons]/23 to /26).
    * @tparam U Input type convertible to `SuccessType`.
    * @param[in] val Value stored in the `expected`.
    * @note Takes part in overload resolution only when `SuccessType` can be
@@ -430,7 +352,7 @@ public:
    * @throws May throw if constructing `SuccessType` from `U` throws.
    */
   template <
-      typename U = SuccessType,
+      typename U = typename std::remove_cv<SuccessType>::type,
       typename std::enable_if<
           !std::is_same<detail::remove_cvref_t<U>, expected>::value
               && !std::is_same<detail::remove_cvref_t<U>, in_place_tag>::value
@@ -444,13 +366,11 @@ public:
               && std::is_convertible<U, SuccessType>::value,
           int>::type
       = 0>
-  LUMEX_CONSTEXPR_CXX14
+  LUMEX_CONSTEXPR_CTOR
   expected (U &&val)
       LUMEX_NOEXCEPT_IF (std::is_nothrow_constructible<SuccessType, U>::value)
-      : m_storage (), m_has_value (true)
+      : base_type (detail::value_tag (), detail::fwd<U> (val))
   {
-    new (detail::voidify (m_storage.m_value))
-        SuccessType (std::forward<U> (val));
   }
 
   /**
@@ -462,7 +382,7 @@ public:
    * @throws May throw if constructing `SuccessType` from `U` throws.
    */
   template <
-      typename U = SuccessType,
+      typename U = typename std::remove_cv<SuccessType>::type,
       typename std::enable_if<
           !std::is_same<detail::remove_cvref_t<U>, expected>::value
               && !std::is_same<detail::remove_cvref_t<U>, in_place_tag>::value
@@ -476,12 +396,10 @@ public:
               && !std::is_convertible<U, SuccessType>::value,
           int>::type
       = 0>
-  LUMEX_CONSTEXPR_CXX14 explicit expected (U &&val)
+  LUMEX_CONSTEXPR_CTOR explicit expected (U &&val)
       LUMEX_NOEXCEPT_IF (std::is_nothrow_constructible<SuccessType, U>::value)
-      : m_storage (), m_has_value (true)
+      : base_type (detail::value_tag (), detail::fwd<U> (val))
   {
-    new (detail::voidify (m_storage.m_value))
-        SuccessType (std::forward<U> (val));
   }
 
   /**
@@ -498,14 +416,12 @@ public:
   template <typename... Args,
             typename = typename std::enable_if<
                 std::is_constructible<SuccessType, Args...>::value>::type>
-  LUMEX_CONSTEXPR_CXX14 explicit expected (in_place_tag /* unused */,
-                                           Args &&...args)
+  LUMEX_CONSTEXPR_CTOR explicit expected (in_place_tag /* unused */,
+                                          Args &&...args)
       LUMEX_NOEXCEPT_IF (
           std::is_nothrow_constructible<SuccessType, Args...>::value)
-      : m_storage (), m_has_value (true)
+      : base_type (detail::value_tag (), detail::fwd<Args> (args)...)
   {
-    new (detail::voidify (m_storage.m_value))
-        SuccessType (std::forward<Args> (args)...);
   }
 
   /**
@@ -523,16 +439,14 @@ public:
       typename U, typename... Args,
       typename = typename std::enable_if<std::is_constructible<
           SuccessType, std::initializer_list<U> &, Args...>::value>::type>
-  LUMEX_CONSTEXPR_CXX14 explicit expected (in_place_tag /* unused */,
-                                           std::initializer_list<U> list,
-                                           Args &&...args)
+  LUMEX_CONSTEXPR_CTOR explicit expected (in_place_tag /* unused */,
+                                          std::initializer_list<U> list,
+                                          Args &&...args)
       LUMEX_NOEXCEPT_IF (
           std::is_nothrow_constructible<
               SuccessType, std::initializer_list<U> &, Args...>::value)
-      : m_storage (), m_has_value (true)
+      : base_type (detail::value_tag (), list, detail::fwd<Args> (args)...)
   {
-    new (detail::voidify (m_storage.m_value))
-        SuccessType (list, std::forward<Args> (args)...);
   }
 
   /**
@@ -547,14 +461,12 @@ public:
   template <typename... Args,
             typename = typename std::enable_if<
                 std::is_constructible<ErrorType, Args...>::value>::type>
-  LUMEX_CONSTEXPR_CXX14 explicit expected (unexpect_t /*unused*/,
-                                           Args &&...args)
+  LUMEX_CONSTEXPR_CTOR explicit expected (unexpect_t /*unused*/,
+                                          Args &&...args)
       LUMEX_NOEXCEPT_IF (
           std::is_nothrow_constructible<ErrorType, Args...>::value)
-      : m_storage (), m_has_value (false)
+      : base_type (detail::error_tag (), detail::fwd<Args> (args)...)
   {
-    new (std::addressof (m_storage.m_error))
-        ErrorType (std::forward<Args> (args)...);
   }
 
   /**
@@ -569,16 +481,14 @@ public:
   template <typename U, typename... Args,
             typename = typename std::enable_if<std::is_constructible<
                 ErrorType, std::initializer_list<U> &, Args...>::value>::type>
-  LUMEX_CONSTEXPR_CXX14 explicit expected (unexpect_t /*unused*/,
-                                           std::initializer_list<U> list,
-                                           Args &&...args)
+  LUMEX_CONSTEXPR_CTOR explicit expected (unexpect_t /*unused*/,
+                                          std::initializer_list<U> list,
+                                          Args &&...args)
       LUMEX_NOEXCEPT_IF (
           std::is_nothrow_constructible<ErrorType, std::initializer_list<U> &,
                                         Args...>::value)
-      : m_storage (), m_has_value (false)
+      : base_type (detail::error_tag (), list, detail::fwd<Args> (args)...)
   {
-    new (std::addressof (m_storage.m_error))
-        ErrorType (list, std::forward<Args> (args)...);
   }
 
   /**
@@ -586,7 +496,7 @@ public:
    * @details Creates an `expected` in the error state by copying the error
    * from `unex`, so a function that returns an `expected` can write
    * `return unexpected<E> (error);`. Implicit when `G const &` converts to
-   * `ErrorType`.
+   * `ErrorType` ([expected.object.cons]/27 to /31).
    * @tparam G Error type of `unex`; `ErrorType` is constructible from it.
    * @param[in] unex Const reference to `unexpected<G>` that holds an error.
    * @throws May throw if the copy constructor of `ErrorType` throws.
@@ -597,12 +507,11 @@ public:
                     && std::is_convertible<G const &, ErrorType>::value,
                 int>::type
             = 0>
-  LUMEX_CONSTEXPR_CXX14
+  LUMEX_CONSTEXPR_CTOR
   expected (unexpected<G> const &unex) LUMEX_NOEXCEPT_IF (
       std::is_nothrow_constructible<ErrorType, G const &>::value)
-      : m_storage (), m_has_value (false)
+      : base_type (detail::error_tag (), unex.error ())
   {
-    new (std::addressof (m_storage.m_error)) ErrorType (unex.error ());
   }
 
   /**
@@ -619,12 +528,11 @@ public:
                     && !std::is_convertible<G const &, ErrorType>::value,
                 int>::type
             = 0>
-  LUMEX_CONSTEXPR_CXX14 explicit expected (unexpected<G> const &unex)
+  LUMEX_CONSTEXPR_CTOR explicit expected (unexpected<G> const &unex)
       LUMEX_NOEXCEPT_IF (
           std::is_nothrow_constructible<ErrorType, G const &>::value)
-      : m_storage (), m_has_value (false)
+      : base_type (detail::error_tag (), unex.error ())
   {
-    new (std::addressof (m_storage.m_error)) ErrorType (unex.error ());
   }
 
   /**
@@ -641,13 +549,11 @@ public:
                                   && std::is_convertible<G, ErrorType>::value,
                               int>::type
       = 0>
-  LUMEX_CONSTEXPR_CXX14
+  LUMEX_CONSTEXPR_CTOR
   expected (unexpected<G> &&unex)
       LUMEX_NOEXCEPT_IF (std::is_nothrow_constructible<ErrorType, G>::value)
-      : m_storage (), m_has_value (false)
+      : base_type (detail::error_tag (), detail::move_error (unex))
   {
-    new (std::addressof (m_storage.m_error))
-        ErrorType (std::move (unex).error ());
   }
 
   /**
@@ -664,152 +570,116 @@ public:
                                   && !std::is_convertible<G, ErrorType>::value,
                               int>::type
       = 0>
-  LUMEX_CONSTEXPR_CXX14 explicit expected (unexpected<G> &&unex)
+  LUMEX_CONSTEXPR_CTOR explicit expected (unexpected<G> &&unex)
       LUMEX_NOEXCEPT_IF (std::is_nothrow_constructible<ErrorType, G>::value)
-      : m_storage (), m_has_value (false)
+      : base_type (detail::error_tag (), detail::move_error (unex))
   {
-    new (std::addressof (m_storage.m_error))
-        ErrorType (std::move (unex).error ());
   }
 
-  /**
-   * @brief Destructor.
-   * @details Destroys the stored `SuccessType` value or `ErrorType` error
-   * depending on the current state. Destroys the active union member so
-   * resources are released.
-   * @note Does not throw (`noexcept`) if the destructors of `SuccessType` and
-   * `ErrorType` do not throw.
-   */
-  LUMEX_CONSTEXPR_DTOR ~expected () LUMEX_NOEXCEPT { destroy_value (); }
+  // The destructor is the implicit one: trivial when SuccessType and
+  // ErrorType are trivially destructible ([expected.object.dtor]/2).
 
   // ====================== Assignment Operators ====================== //
-
-  /**
-   * @brief Copy assignment operator.
-   * @details Assigns another `expected` into this object.
-   *          Uses copy-and-swap for the strong exception
-   * guarantee).
-   * @param[in] other `expected` object to assignment.
-   * @return Reference to this `expected`.
-   * @note Conditionally `noexcept` if move/assignment constructors and
-   * operators of `SuccessType` and `ErrorType` do not throw.
-   * @throws May throw if the copy constructor of `expected` or `std::swap`
-   * throw.
-   */
-  LUMEX_CONSTEXPR_CXX14 expected &
-  operator= (expected const &other) LUMEX_NOEXCEPT_IF (
-      std::is_nothrow_move_constructible<SuccessType>::value
-          &&std::is_nothrow_move_constructible<ErrorType>::value
-              &&std::is_nothrow_move_assignable<SuccessType>::value
-                  &&std::is_nothrow_move_assignable<ErrorType>::value)
-  {
-    // 1. Make a temporary copy. If this throws,
-    // *this stays in its original valid state.
-    expected temp (other);
-
-    // 2. Swap with the temporary. This throws only if moving or swapping
-    // SuccessType or ErrorType throws.
-    swap (temp);
-    return *this;
-
-    // `temp` is destroyed on return, releasing the old *this resources
-  }
-
-  /**
-   * @brief Move assignment operator.
-   * @details Assigns another `expected` into this object by move.
-   *          Uses `swap` to exchange resources without extra allocations.
-   * @param[in] other `expected` object to move.
-   * @return Reference to this `expected`.
-   * @note `noexcept` when moving and move-assigning `SuccessType` and
-   * `ErrorType` do not throw, like `std::expected`.
-   */
-  LUMEX_CONSTEXPR_CXX14 expected &
-  operator= (expected &&other) LUMEX_NOEXCEPT_IF (
-      std::is_nothrow_move_constructible<SuccessType>::value
-          &&std::is_nothrow_move_assignable<SuccessType>::value
-              &&std::is_nothrow_move_constructible<ErrorType>::value
-                  &&std::is_nothrow_move_assignable<ErrorType>::value)
-  {
-    // Just swap resources. No new/delete.
-    swap (other);
-    return *this;
-  }
+  // The copy and the move assignment are the implicit ones, see above.
 
   /**
    * @brief Replaces the contents with a new success value.
-   * @details The value is constructed in a temporary `expected`, which is then
-   * swapped in, like the copy assignment: if the construction throws, this
-   * object keeps its previous contents.
+   * @details If the object holds a value, it is assigned. Otherwise the error
+   * is destroyed and the value constructed in its place by `reinit-expected`
+   * ([expected.object.assign]/12): no temporary `expected`, and if the
+   * construction throws, the object keeps its previous contents.
    * @tparam U Type of the new value; `SuccessType` is constructible and
    * assignable from it.
    * @param[in] val The new value.
    * @return Reference to this `expected`.
    * @note Takes part in overload resolution only for a `U` that is not an
-   * `expected` or an `unexpected`, like `std::expected`.
-   * @throws May throw if constructing `SuccessType` from `U` throws.
+   * `expected` or an `unexpected`, and only if `SuccessType` is nothrow
+   * constructible from `U` or `SuccessType` or `ErrorType` can be moved
+   * without throwing, like `std::expected`.
+   * @throws May throw if constructing or assigning `SuccessType` from `U`
+   * throws.
    */
-  template <typename U = SuccessType,
-            typename std::enable_if<
-                !std::is_same<expected, detail::remove_cvref_t<U>>::value
-                    && !detail::is_unexpected<detail::remove_cvref_t<U>>::value
-                    && std::is_constructible<SuccessType, U>::value
-                    && std::is_assignable<SuccessType &, U>::value,
-                int>::type
-            = 0>
-  LUMEX_CONSTEXPR_CXX14 expected &
+  template <
+      typename U = typename std::remove_cv<SuccessType>::type,
+      typename std::enable_if<
+          !std::is_same<expected, detail::remove_cvref_t<U>>::value
+              && !detail::is_unexpected<detail::remove_cvref_t<U>>::value
+              && std::is_constructible<SuccessType, U>::value
+              && std::is_assignable<SuccessType &, U>::value
+              && (std::is_nothrow_constructible<SuccessType, U>::value
+                  || std::is_nothrow_move_constructible<SuccessType>::value
+                  || std::is_nothrow_move_constructible<ErrorType>::value),
+          int>::type
+      = 0>
+  LUMEX_EXPECTED_CONSTEXPR_CXX20 expected &
   operator= (U &&val)
   {
-    expected temp (in_place, std::forward<U> (val));
-    swap (temp);
+    if (m_has_value)
+      m_storage.m_value = detail::fwd<U> (val);
+    else
+      {
+        detail::reinit (m_storage.m_value, m_storage.m_error,
+                        detail::fwd<U> (val));
+        m_has_value = true;
+      }
     return *this;
   }
 
   /**
    * @brief Replaces the contents with an error (copy).
-   * @details The error is copied into a temporary `expected` in the error
-   * state, which is then swapped in; if the copy throws, this object keeps its
-   * previous contents.
+   * @details If the object holds an error, it is assigned. Otherwise the
+   * value is destroyed and the error constructed in its place by
+   * `reinit-expected` ([expected.object.assign]/16); if the copy throws, this
+   * object keeps its previous contents.
    * @tparam G Error type of `unex`; `ErrorType` is constructible and
    * assignable from it.
    * @param[in] unex The new error.
    * @return Reference to this `expected`, now in the error state.
+   * @note Takes part in overload resolution only if `ErrorType` is nothrow
+   * constructible from `G const &` or `SuccessType` or `ErrorType` can be
+   * moved without throwing, like `std::expected`.
    * @throws May throw if copying the error throws.
    */
-  template <typename G,
-            typename std::enable_if<
-                std::is_constructible<ErrorType, G const &>::value
-                    && std::is_assignable<ErrorType &, G const &>::value,
-                int>::type
-            = 0>
-  LUMEX_CONSTEXPR_CXX14 expected &
+  template <
+      typename G,
+      typename std::enable_if<
+          std::is_constructible<ErrorType, G const &>::value
+              && std::is_assignable<ErrorType &, G const &>::value
+              && (std::is_nothrow_constructible<ErrorType, G const &>::value
+                  || std::is_nothrow_move_constructible<SuccessType>::value
+                  || std::is_nothrow_move_constructible<ErrorType>::value),
+          int>::type
+      = 0>
+  LUMEX_EXPECTED_CONSTEXPR_CXX20 expected &
   operator= (unexpected<G> const &unex)
   {
-    expected temp (unexpect, unex.error ());
-    swap (temp);
+    assign_error (unex.error ());
     return *this;
   }
 
   /**
    * @brief Replaces the contents with an error (move).
-   * @details The error is moved into a temporary `expected` in the error
-   * state, which is then swapped in.
+   * @details As the copy assignment from an `unexpected`, moving the error.
    * @tparam G Error type of `unex`; `ErrorType` is constructible and
    * assignable from it.
    * @param[in] unex The new error; it is moved from.
    * @return Reference to this `expected`, now in the error state.
    * @throws May throw if moving the error throws.
    */
-  template <typename G, typename std::enable_if<
-                            std::is_constructible<ErrorType, G>::value
-                                && std::is_assignable<ErrorType &, G>::value,
-                            int>::type
-                        = 0>
-  LUMEX_CONSTEXPR_CXX14 expected &
+  template <
+      typename G,
+      typename std::enable_if<
+          std::is_constructible<ErrorType, G>::value
+              && std::is_assignable<ErrorType &, G>::value
+              && (std::is_nothrow_constructible<ErrorType, G>::value
+                  || std::is_nothrow_move_constructible<SuccessType>::value
+                  || std::is_nothrow_move_constructible<ErrorType>::value),
+          int>::type
+      = 0>
+  LUMEX_EXPECTED_CONSTEXPR_CXX20 expected &
   operator= (unexpected<G> &&unex)
   {
-    expected temp (unexpect, std::move (unex).error ());
-    swap (temp);
+    assign_error (detail::move_error (unex));
     return *this;
   }
 
@@ -831,6 +701,22 @@ public:
   }
 
   /**
+   * @brief Checks whether this `expected` holds an error.
+   * @details `!has_value ()` ([expected.object.obs]/8 of the working draft,
+   * which C++23 does not have).
+   * @return `true` if the object holds an error, `false` otherwise.
+   * @note Does not throw. Marked `[[nodiscard]]` to ensure handling of
+   * the returned value.
+   */
+  LUMEX_ATTRIBUTE_NODISCARD (
+      "Return value indicates state; should always be used.")
+  LUMEX_CONSTEXPR_FUNCTION bool
+  has_error () const LUMEX_NOEXCEPT
+  {
+    return !m_has_value;
+  }
+
+  /**
    * @brief Explicit conversion to `bool`.
    * @details Lets `expected` be used where a condition is expected (for
    * example, `if (myExpected)`); elsewhere the conversion must be written out.
@@ -843,7 +729,7 @@ public:
   LUMEX_CONSTEXPR_FUNCTION explicit
   operator bool () const LUMEX_NOEXCEPT
   {
-    return has_value ();
+    return m_has_value;
   }
 
   /**
@@ -861,8 +747,11 @@ public:
   LUMEX_CONSTEXPR_CXX14 SuccessType &
   value () &
   {
+    LUMEX_STATIC_ASSERT_MSG (std::is_copy_constructible<ErrorType>::value,
+                             "value (): ErrorType must be copy constructible");
     if (!m_has_value)
-      throw bad_expected_access<ErrorType> (m_storage.m_error);
+      detail::throw_bad_expected_access<ErrorType> (
+          static_cast<ErrorType const &> (m_storage.m_error));
     return m_storage.m_value;
   }
 
@@ -881,10 +770,14 @@ public:
   LUMEX_CONSTEXPR_CXX14 SuccessType &&
   value () &&
   {
+    LUMEX_STATIC_ASSERT_MSG (
+        std::is_copy_constructible<ErrorType>::value
+            && std::is_constructible<ErrorType, ErrorType &&>::value,
+        "value (): ErrorType must be copy and move constructible");
     if (!m_has_value)
-      throw bad_expected_access<ErrorType> (
-          std::move (m_storage.m_error)); // Move the error into the exception
-    return std::move (m_storage.m_value);
+      detail::throw_bad_expected_access<ErrorType> (
+          detail::mv (m_storage.m_error)); // Move the error into the exception
+    return static_cast<SuccessType &&> (m_storage.m_value);
   }
 
   /**
@@ -898,12 +791,16 @@ public:
    */
   LUMEX_ATTRIBUTE_NODISCARD (
       "Return value is the contained value; should always be used.")
-  LUMEX_CONSTEXPR_CXX14 SuccessType const &
+  LUMEX_CONSTEXPR_FUNCTION SuccessType const &
   value () const &
   {
-    if (!m_has_value)
-      throw bad_expected_access<ErrorType> (m_storage.m_error);
-    return m_storage.m_value;
+    LUMEX_STATIC_ASSERT_MSG (std::is_copy_constructible<ErrorType>::value,
+                             "value (): ErrorType must be copy constructible");
+    return m_has_value
+               ? static_cast<SuccessType const &> (m_storage.m_value)
+               : (detail::throw_bad_expected_access<ErrorType> (
+                      static_cast<ErrorType const &> (m_storage.m_error)),
+                  static_cast<SuccessType const &> (m_storage.m_value));
   }
 
   /**
@@ -918,13 +815,19 @@ public:
    */
   LUMEX_ATTRIBUTE_NODISCARD (
       "Return value is the contained value; should always be used.")
-  LUMEX_CONSTEXPR_CXX14 SuccessType const &&
+  LUMEX_CONSTEXPR_FUNCTION SuccessType const &&
   value () const &&
   {
-    if (!m_has_value)
-      throw bad_expected_access<ErrorType> (
-          std::move (m_storage.m_error)); // A const error is copied
-    return std::move (m_storage.m_value);
+    LUMEX_STATIC_ASSERT_MSG (
+        std::is_copy_constructible<ErrorType>::value
+            && std::is_constructible<ErrorType, ErrorType const &&>::value,
+        "value (): ErrorType must be copy and move constructible");
+    return m_has_value
+               ? static_cast<SuccessType const &&> (m_storage.m_value)
+               : (detail::throw_bad_expected_access<ErrorType> (
+                      static_cast<ErrorType const &&> (
+                          m_storage.m_error)), // A const error is copied
+                  static_cast<SuccessType const &&> (m_storage.m_value));
   }
 
   /**
@@ -939,7 +842,8 @@ public:
   LUMEX_ATTRIBUTE_NODISCARD (
       "Return value is the contained error; should always be used.")
   LUMEX_CONSTEXPR_CXX14 ErrorType &
-  error () &
+      error ()
+      & LUMEX_NOEXCEPT
   {
     // Precondition: !m_has_value.
     // In std::expected, error() is an unchecked observer: calling it without
@@ -949,15 +853,17 @@ public:
     // member, which is undefined behavior in C++.
     //
     // This method checks the precondition with LUMEX_ASSERT instead of
-    // throwing. LUMEX_ASSERT is active in every build, NDEBUG included: a
-    // violation prints the condition, the file and the line, and aborts the
-    // program before the inactive member is read. The check costs one branch
-    // in every build. Because error() never throws, it stays usable where an
-    // exception must not escape (destructors, swap, emergency paths);
-    // checked, catchable access is value() or a prior has_value() check.
-    LUMEX_ASSERT (!m_has_value
-                  && "error() called on an Expected that holds a value");
-    return m_storage.m_error;
+    // throwing (the "hardened precondition" of [expected.object.obs]).
+    // LUMEX_ASSERT is active in every build, NDEBUG included: a violation
+    // prints the condition, the file and the line, and aborts the program
+    // before the inactive member is read. The check costs one branch in every
+    // build. error() never throws, so it stays usable where an exception must
+    // not escape (destructors, swap, emergency paths); checked, catchable
+    // access is value() or a prior has_value() check.
+    return LUMEX_ASSERT (
+               !m_has_value
+               && "error() called on an Expected that holds a value"),
+           m_storage.m_error;
   }
 
   /**
@@ -972,12 +878,13 @@ public:
    */
   LUMEX_ATTRIBUTE_NODISCARD (
       "Return value is the contained error; should always be used.")
-  LUMEX_CONSTEXPR_CXX14 ErrorType const &
-  error () const &
+  LUMEX_CONSTEXPR_FUNCTION ErrorType const &
+  error () const &LUMEX_NOEXCEPT
   {
-    LUMEX_ASSERT (!m_has_value
-                  && "error() called on an Expected that holds a value");
-    return m_storage.m_error;
+    return LUMEX_ASSERT (
+               !m_has_value
+               && "error() called on an Expected that holds a value"),
+           m_storage.m_error;
   }
 
   /**
@@ -993,11 +900,13 @@ public:
   LUMEX_ATTRIBUTE_NODISCARD (
       "Return value is the contained error; should always be used.")
   LUMEX_CONSTEXPR_CXX14 ErrorType &&
-  error () &&
+      error ()
+      && LUMEX_NOEXCEPT
   {
-    LUMEX_ASSERT (!m_has_value
-                  && "error() called on an Expected that holds a value");
-    return std::move (m_storage.m_error);
+    return LUMEX_ASSERT (
+               !m_has_value
+               && "error() called on an Expected that holds a value"),
+           static_cast<ErrorType &&> (m_storage.m_error);
   }
 
   /**
@@ -1013,12 +922,13 @@ public:
    */
   LUMEX_ATTRIBUTE_NODISCARD (
       "Return value is the contained error; should always be used.")
-  LUMEX_CONSTEXPR_CXX14 ErrorType const &&
-  error () const &&
+  LUMEX_CONSTEXPR_FUNCTION ErrorType const &&
+  error () const &&LUMEX_NOEXCEPT
   {
-    LUMEX_ASSERT (!m_has_value
-                  && "error() called on an Expected that holds a value");
-    return std::move (m_storage.m_error);
+    return LUMEX_ASSERT (
+               !m_has_value
+               && "error() called on an Expected that holds a value"),
+           static_cast<ErrorType const &&> (m_storage.m_error);
   }
 
   /**
@@ -1027,7 +937,7 @@ public:
    * @param[in] default_value Value returned if the object does not hold a
    * success value.
    * @details Returns the stored value, or `default_value` when the object
-   * holds an error.
+   * holds an error ([expected.object.obs]/19 and /20).
    * @note Not declared `noexcept`: copying the stored value or converting
    * `default_value` to `SuccessType` may throw.
    * @note Use `[[nodiscard]]` to ensure handling of the returned value.
@@ -1037,9 +947,14 @@ public:
                              "default; should always be used.")
   LUMEX_CONSTEXPR_FUNCTION SuccessType value_or (U &&default_value) const &
   {
+    LUMEX_STATIC_ASSERT_MSG (
+        std::is_copy_constructible<SuccessType>::value
+            && std::is_convertible<U, SuccessType>::value,
+        "value_or (): SuccessType must be copy constructible and U "
+        "convertible to it");
     return m_has_value
-               ? m_storage.m_value
-               : static_cast<SuccessType> (std::forward<U> (default_value));
+               ? static_cast<SuccessType const &> (m_storage.m_value)
+               : static_cast<SuccessType> (detail::fwd<U> (default_value));
   }
 
   /**
@@ -1061,15 +976,21 @@ public:
                              "default; should always be used.")
   LUMEX_CONSTEXPR_CXX14 SuccessType value_or (U &&default_value) &&
   {
+    LUMEX_STATIC_ASSERT_MSG (
+        std::is_move_constructible<SuccessType>::value
+            && std::is_convertible<U, SuccessType>::value,
+        "value_or (): SuccessType must be move constructible and U "
+        "convertible to it");
     return m_has_value
-               ? std::move (m_storage.m_value)
-               : static_cast<SuccessType> (std::forward<U> (default_value));
+               ? static_cast<SuccessType &&> (m_storage.m_value)
+               : static_cast<SuccessType> (detail::fwd<U> (default_value));
   }
 
   /**
    * @brief Returns the error if present, otherwise the given default error.
    * @details For an rvalue object: if an error is present it is moved out;
-   * otherwise returns a copy/move constructed from `default_error`.
+   * otherwise returns a copy/move constructed from `default_error`
+   * ([expected.object.obs]/25 and /26).
    *
    * @tparam G Default-argument type (defaults to ErrorType).
    * @param default_error Default error value.
@@ -1086,14 +1007,19 @@ public:
                              "default-constructed substitute; should be used.")
   LUMEX_CONSTEXPR_CXX14 ErrorType error_or (G &&default_error) &&
   {
-    if (!m_has_value)
-      return std::move (m_storage.m_error);
-    return static_cast<ErrorType> (std::forward<G> (default_error));
+    LUMEX_STATIC_ASSERT_MSG (
+        std::is_move_constructible<ErrorType>::value
+            && std::is_convertible<G, ErrorType>::value,
+        "error_or (): ErrorType must be move constructible and G "
+        "convertible to it");
+    return m_has_value
+               ? static_cast<ErrorType> (detail::fwd<G> (default_error))
+               : static_cast<ErrorType &&> (m_storage.m_error);
   }
 
   /**
    * @brief Returns the stored error if present, otherwise the default error.
-   * @tparam U Default-error type; must be convertible to `ErrorType`.
+   * @tparam G Default-error type; must be convertible to `ErrorType`.
    * @param[in] default_error Error returned if the object holds a success
    * value.
    * @return The stored error or `default_error`.
@@ -1101,14 +1027,19 @@ public:
    * `default_error` to `ErrorType` may throw.
    * @note Use `[[nodiscard]]` to ensure handling of the returned value.
    */
-  template <typename U = ErrorType>
+  template <typename G = ErrorType>
   LUMEX_ATTRIBUTE_NODISCARD ("Return value is the contained error or a "
                              "default; should always be used.")
-  LUMEX_CONSTEXPR_FUNCTION ErrorType error_or (U &&default_error) const &
+  LUMEX_CONSTEXPR_FUNCTION ErrorType error_or (G &&default_error) const &
   {
-    return !m_has_value
-               ? m_storage.m_error
-               : static_cast<ErrorType> (std::forward<U> (default_error));
+    LUMEX_STATIC_ASSERT_MSG (
+        std::is_copy_constructible<ErrorType>::value
+            && std::is_convertible<G, ErrorType>::value,
+        "error_or (): ErrorType must be copy constructible and G "
+        "convertible to it");
+    return m_has_value
+               ? static_cast<ErrorType> (detail::fwd<G> (default_error))
+               : static_cast<ErrorType const &> (m_storage.m_error);
   }
 
   /**
@@ -1128,9 +1059,10 @@ public:
       operator* ()
       & LUMEX_NOEXCEPT
   {
-    LUMEX_ASSERT (m_has_value
-                  && "operator* called on an Expected that holds an error");
-    return m_storage.m_value;
+    return LUMEX_ASSERT (
+               m_has_value
+               && "operator* called on an Expected that holds an error"),
+           m_storage.m_value;
   }
 
   /**
@@ -1151,9 +1083,10 @@ public:
       operator* ()
       && LUMEX_NOEXCEPT
   {
-    LUMEX_ASSERT (m_has_value
-                  && "operator* called on an Expected that holds an error");
-    return std::move (m_storage.m_value);
+    return LUMEX_ASSERT (
+               m_has_value
+               && "operator* called on an Expected that holds an error"),
+           static_cast<SuccessType &&> (m_storage.m_value);
   }
 
   /**
@@ -1169,12 +1102,13 @@ public:
    */
   LUMEX_ATTRIBUTE_NODISCARD (
       "Return value is the contained value; should always be used.")
-  LUMEX_CONSTEXPR_CXX14 SuccessType const &
+  LUMEX_CONSTEXPR_FUNCTION SuccessType const &
   operator* () const &LUMEX_NOEXCEPT
   {
-    LUMEX_ASSERT (m_has_value
-                  && "operator* called on an Expected that holds an error");
-    return m_storage.m_value;
+    return LUMEX_ASSERT (
+               m_has_value
+               && "operator* called on an Expected that holds an error"),
+           static_cast<SuccessType const &> (m_storage.m_value);
   }
 
   /**
@@ -1190,12 +1124,13 @@ public:
    */
   LUMEX_ATTRIBUTE_NODISCARD (
       "Return value is the contained value; should always be used.")
-  LUMEX_CONSTEXPR_CXX14 SuccessType const &&
+  LUMEX_CONSTEXPR_FUNCTION SuccessType const &&
   operator* () const &&LUMEX_NOEXCEPT
   {
-    LUMEX_ASSERT (m_has_value
-                  && "operator* called on an Expected that holds an error");
-    return std::move (m_storage.m_value);
+    return LUMEX_ASSERT (
+               m_has_value
+               && "operator* called on an Expected that holds an error"),
+           static_cast<SuccessType const &&> (m_storage.m_value);
   }
 
   /**
@@ -1214,9 +1149,10 @@ public:
   LUMEX_CONSTEXPR_CXX14 SuccessType *
   operator->() LUMEX_NOEXCEPT
   {
-    LUMEX_ASSERT (m_has_value
-                  && "operator-> called on an Expected that holds an error");
-    return std::addressof (m_storage.m_value);
+    return LUMEX_ASSERT (
+               m_has_value
+               && "operator-> called on an Expected that holds an error"),
+           detail::address_of (m_storage.m_value);
   }
 
   /**
@@ -1232,139 +1168,123 @@ public:
    */
   LUMEX_ATTRIBUTE_NODISCARD (
       "Return value is the contained value; should always be used.")
-  LUMEX_CONSTEXPR_CXX14 SuccessType const *
+  LUMEX_CONSTEXPR_FUNCTION SuccessType const *
   operator->() const LUMEX_NOEXCEPT
   {
-    LUMEX_ASSERT (m_has_value
-                  && "operator-> called on an Expected that holds an error");
-    return std::addressof (m_storage.m_value);
+    return LUMEX_ASSERT (
+               m_has_value
+               && "operator-> called on an Expected that holds an error"),
+           detail::address_of (m_storage.m_value);
   }
 
   // ====================== Modifiers ======================
 
   /**
    * @brief Replaces the current contents with a new `SuccessType` value.
-   * @details This function constructs the new value from the forwarded
-   * arguments in a temporary `expected`, then move-assigns that temporary to
-   * this object, which swaps the contents; the previous value (or error) is
-   * destroyed together with the temporary.
+   * @details Destroys the current value or error and constructs the new value
+   * in place from the forwarded arguments ([expected.object.assign]/19). The
+   * construction cannot throw, which is what the constraint requires, so
+   * unlike the assignments there is nothing to keep and no temporary.
    * @tparam Args Argument types for the `SuccessType` constructor.
    * @param[in] args Arguments forwarded to the `SuccessType` constructor.
    * @return Reference to the new `SuccessType` value.
-   * @note May throw if the `SuccessType` constructor throws; this object then
-   * keeps its previous contents. The move assignment is `noexcept`, so an
-   * exception thrown while swapping calls `std::terminate()`.
+   * @note Takes part in overload resolution only when `SuccessType` is nothrow
+   * constructible from `Args`, like `std::expected`; to replace the contents
+   * with a value that may throw, assign
+   * `expected (in_place, args...)`.
    */
-  template <typename... Args>
-  LUMEX_CONSTEXPR_CXX14 SuccessType &
-  emplace (Args &&...args)
+  template <typename... Args,
+            typename = typename std::enable_if<std::is_nothrow_constructible<
+                SuccessType, Args...>::value>::type>
+  LUMEX_EXPECTED_CONSTEXPR_CXX20 SuccessType &
+  emplace (Args &&...args) LUMEX_NOEXCEPT
   {
-    *this = expected (in_place, std::forward<Args> (args)...);
-    return m_storage.m_value;
+    reset_to_value_slot ();
+    return *detail::construct_at (detail::address_of (m_storage.m_value),
+                                  detail::fwd<Args> (args)...);
   }
 
   /**
    * @brief Replaces the contents with a new `SuccessType` value built from an
    * initializer list.
-   * @details As `emplace (args...)`, passing `list` before the arguments.
+   * @details As `emplace (args...)`, passing `list` before the arguments
+   * ([expected.object.assign]/21).
    * @tparam U Element type of the initializer list.
    * @tparam Args Argument types for the `SuccessType` constructor.
    * @param[in] list Initializer list passed to the `SuccessType` constructor.
    * @param[in] args Arguments forwarded after the list.
    * @return Reference to the new `SuccessType` value.
-   * @note Takes part in overload resolution only when `SuccessType` is
+   * @note Takes part in overload resolution only when `SuccessType` is nothrow
    * constructible from the list and `Args`.
    */
   template <
       typename U, typename... Args,
-      typename = typename std::enable_if<std::is_constructible<
+      typename = typename std::enable_if<std::is_nothrow_constructible<
           SuccessType, std::initializer_list<U> &, Args...>::value>::type>
-  LUMEX_CONSTEXPR_CXX14 SuccessType &
-  emplace (std::initializer_list<U> list, Args &&...args)
+  LUMEX_EXPECTED_CONSTEXPR_CXX20 SuccessType &
+  emplace (std::initializer_list<U> list, Args &&...args) LUMEX_NOEXCEPT
   {
-    *this = expected (in_place, list, std::forward<Args> (args)...);
-    return m_storage.m_value;
+    reset_to_value_slot ();
+    return *detail::construct_at (detail::address_of (m_storage.m_value), list,
+                                  detail::fwd<Args> (args)...);
   }
 
   /**
-   * @brief Constructs an `ErrorType` value in place, destroying the current
+   * @brief Constructs an `ErrorType` value in place, replacing the current
    * contents.
-   * @details This function first destroys the current stored value (or error),
-   * then constructs a new `ErrorType` error in place from the forwarded
-   * arguments.
+   * @details The error counterpart of `emplace ()`, an addition of this
+   * library: the new error is built by `reinit-expected`
+   * ([expected.object.assign]/1) in the place of the current value or error,
+   * so if the `ErrorType` constructor throws, this object keeps its previous
+   * contents.
    * @tparam Args Argument types for the `ErrorType` constructor.
    * @param[in] args Arguments forwarded to the `ErrorType` constructor.
    * @return Reference to the newly constructed `ErrorType` error.
-   * @note May throw if the `ErrorType` constructor throws. On exception
-   *       the `expected` object may be left in an invalid state.
+   * @note Takes part in overload resolution only when `ErrorType` is
+   * constructible from `Args`.
    */
-  template <typename... Args>
-  LUMEX_CONSTEXPR_CXX14 ErrorType &
+  template <typename... Args,
+            typename = typename std::enable_if<
+                std::is_constructible<ErrorType, Args...>::value>::type>
+  LUMEX_EXPECTED_CONSTEXPR_CXX20 ErrorType &
   emplace_error (Args &&...args)
   {
-    destroy_value (); // Destroy the current active member
-    new (std::addressof (m_storage.m_error)) ErrorType (
-        std::forward<Args> (args)...); // Construct the error in place
-    m_has_value = false;               // Set the error state
+    if (m_has_value)
+      detail::reinit (m_storage.m_error, m_storage.m_value,
+                      detail::fwd<Args> (args)...);
+    else
+      detail::reinit (m_storage.m_error, m_storage.m_error,
+                      detail::fwd<Args> (args)...);
+    m_has_value = false;
     return m_storage.m_error;
   }
 
   /**
    * @brief Exchanges contents with another `expected` object.
-   * @details Swaps the `m_has_value` flag and, as needed, the contents (value
-   * or error) with another `expected`. If both objects hold values (or both
-   * hold errors), `std::swap` is used. If one holds a value and the other an
-   * error, contents are moved so both objects change state.
+   * @details If both objects hold values (or both hold errors), the values
+   * (errors) are swapped with `swap` found by argument-dependent lookup. If
+   * one holds a value and the other an error, the contents are moved across
+   * with the exception safety of Table 72 of [expected.object.swap]: the
+   * object that was changed first is restored if a later move throws.
    * @param[in,out] other The other `expected` object to swap with.
-   * @note The noexcept guarantee depends on
-   * `std::is_nothrow_move_constructible` and on whether swapping two
-   * `SuccessType` and two `ErrorType` objects is `noexcept` (a `swap` found by
-   * argument-dependent lookup, or `std::swap`), in every standard.
-   * @throws May throw if move constructors or `std::swap` of
-   *         `SuccessType` or `ErrorType` throw.
+   * @note Takes part in overload resolution only when `SuccessType` and
+   * `ErrorType` are swappable and move constructible and one of them can be
+   * moved without throwing, like `std::expected`. `noexcept` when both are
+   * nothrow move constructible and nothrow swappable, in every standard.
+   * @throws May throw if a move constructor or `swap` of `SuccessType` or
+   * `ErrorType` throws.
    */
-  LUMEX_CONSTEXPR_CXX14 void
+  template <typename Self = expected,
+            typename = typename std::enable_if<detail::can_swap_values<
+                Self, SuccessType, ErrorType>::value>::type>
+  LUMEX_EXPECTED_CONSTEXPR_CXX20 void
   swap (expected &other) LUMEX_NOEXCEPT_IF (
       std::is_nothrow_move_constructible<SuccessType>::value
           &&std::is_nothrow_move_constructible<ErrorType>::value
               &&detail::is_nothrow_swappable<SuccessType>::value
                   &&detail::is_nothrow_swappable<ErrorType>::value)
   {
-    if (this == &other)
-      return;
-
-    if (m_has_value && other.m_has_value)
-      {
-        std::swap (m_storage.m_value, other.m_storage.m_value);
-      }
-    else if (!m_has_value && !other.m_has_value)
-      { // Both hold an error
-        std::swap (m_storage.m_error, other.m_storage.m_error);
-      }
-    else
-      { // One holds a value, the other an error. Move is required.
-        if (m_has_value)
-          {
-            ErrorType temp_error (std::move (other.m_storage.m_error));
-            other.m_storage.m_error.~ErrorType ();
-            new (detail::voidify (other.m_storage.m_value))
-                SuccessType (std::move (m_storage.m_value));
-            m_storage.m_value.~SuccessType ();
-            new (std::addressof (m_storage.m_error))
-                ErrorType (std::move (temp_error));
-          }
-        else
-          {
-            SuccessType temp_value (std::move (other.m_storage.m_value));
-            other.m_storage.m_value.~SuccessType ();
-            new (std::addressof (other.m_storage.m_error))
-                ErrorType (std::move (m_storage.m_error));
-            m_storage.m_error.~ErrorType ();
-            new (detail::voidify (m_storage.m_value))
-                SuccessType (std::move (temp_value));
-          }
-        std::swap (m_has_value, other.m_has_value);
-      }
+    this->swap_storage (other);
   }
 
   // ====================== Monadic Operations ======================
@@ -1412,10 +1332,9 @@ public:
         std::is_same<typename ResultType::error_type, ErrorType>::value,
         "and_then: the function must return an expected with the "
         "error type of the object it is called on");
-    if (m_has_value)
-      return detail::invoke_call (std::forward<FunctionType> (func),
-                                  m_storage.m_value);
-    return ResultType (unexpect, m_storage.m_error);
+    return m_has_value ? detail::invoke_call (detail::fwd<FunctionType> (func),
+                                              m_storage.m_value)
+                       : ResultType (unexpect, m_storage.m_error);
   }
 
   /**
@@ -1448,7 +1367,7 @@ public:
                 FunctionType, ErrorType, ErrorType const &,
                 SuccessType const &>::value>::type>
 #endif
-  LUMEX_CONSTEXPR_CXX14 auto
+  LUMEX_CONSTEXPR_FUNCTION auto
   and_then (FunctionType &&func)
       const & -> detail::result_clean_t<FunctionType, SuccessType const &>
   {
@@ -1458,10 +1377,9 @@ public:
         std::is_same<typename ResultType::error_type, ErrorType>::value,
         "and_then: the function must return an expected with the "
         "error type of the object it is called on");
-    if (m_has_value)
-      return detail::invoke_call (std::forward<FunctionType> (func),
-                                  m_storage.m_value);
-    return ResultType (unexpect, m_storage.m_error);
+    return m_has_value ? detail::invoke_call (detail::fwd<FunctionType> (func),
+                                              m_storage.m_value)
+                       : ResultType (unexpect, m_storage.m_error);
   }
 
   /**
@@ -1503,10 +1421,9 @@ public:
         std::is_same<typename ResultType::error_type, ErrorType>::value,
         "and_then: the function must return an expected with the "
         "error type of the object it is called on");
-    if (m_has_value)
-      return detail::invoke_call (std::forward<FunctionType> (func),
-                                  std::move (m_storage.m_value));
-    return ResultType (unexpect, std::move (m_storage.m_error));
+    return m_has_value ? detail::invoke_call (detail::fwd<FunctionType> (func),
+                                              detail::mv (m_storage.m_value))
+                       : ResultType (unexpect, detail::mv (m_storage.m_error));
   }
 
   /**
@@ -1539,7 +1456,7 @@ public:
                 FunctionType, ErrorType, ErrorType const &&,
                 SuccessType const &&>::value>::type>
 #endif
-  LUMEX_CONSTEXPR_CXX14 auto
+  LUMEX_CONSTEXPR_FUNCTION auto
   and_then (FunctionType &&func)
       const && -> detail::result_clean_t<FunctionType, SuccessType const &&>
   {
@@ -1549,10 +1466,9 @@ public:
         std::is_same<typename ResultType::error_type, ErrorType>::value,
         "and_then: the function must return an expected with the "
         "error type of the object it is called on");
-    if (m_has_value)
-      return detail::invoke_call (std::forward<FunctionType> (func),
-                                  std::move (m_storage.m_value));
-    return ResultType (unexpect, std::move (m_storage.m_error));
+    return m_has_value ? detail::invoke_call (detail::fwd<FunctionType> (func),
+                                              detail::mv (m_storage.m_value))
+                       : ResultType (unexpect, detail::mv (m_storage.m_error));
   }
 
   /**
@@ -1595,10 +1511,9 @@ public:
         std::is_same<typename ResultType::value_type, SuccessType>::value,
         "or_else: the function must return an expected with the "
         "value type of the object it is called on");
-    if (m_has_value)
-      return ResultType (in_place, m_storage.m_value);
-    return detail::invoke_call (std::forward<FunctionType> (func),
-                                m_storage.m_error);
+    return m_has_value ? ResultType (in_place, m_storage.m_value)
+                       : detail::invoke_call (detail::fwd<FunctionType> (func),
+                                              m_storage.m_error);
   }
 
   /**
@@ -1633,7 +1548,7 @@ public:
                 FunctionType, SuccessType, SuccessType const &,
                 ErrorType const &>::value>::type>
 #endif
-  LUMEX_CONSTEXPR_CXX14 auto
+  LUMEX_CONSTEXPR_FUNCTION auto
   or_else (FunctionType &&func)
       const & -> detail::result_clean_t<FunctionType, ErrorType const &>
   {
@@ -1642,10 +1557,9 @@ public:
         std::is_same<typename ResultType::value_type, SuccessType>::value,
         "or_else: the function must return an expected with the "
         "value type of the object it is called on");
-    if (m_has_value)
-      return ResultType (in_place, m_storage.m_value);
-    return detail::invoke_call (std::forward<FunctionType> (func),
-                                m_storage.m_error);
+    return m_has_value ? ResultType (in_place, m_storage.m_value)
+                       : detail::invoke_call (detail::fwd<FunctionType> (func),
+                                              m_storage.m_error);
   }
 
   /**
@@ -1688,10 +1602,9 @@ public:
         std::is_same<typename ResultType::value_type, SuccessType>::value,
         "or_else: the function must return an expected with the "
         "value type of the object it is called on");
-    if (m_has_value)
-      return ResultType (in_place, std::move (m_storage.m_value));
-    return detail::invoke_call (std::forward<FunctionType> (func),
-                                std::move (m_storage.m_error));
+    return m_has_value ? ResultType (in_place, detail::mv (m_storage.m_value))
+                       : detail::invoke_call (detail::fwd<FunctionType> (func),
+                                              detail::mv (m_storage.m_error));
   }
 
   /**
@@ -1726,7 +1639,7 @@ public:
                 FunctionType, SuccessType, SuccessType const &&,
                 ErrorType const &&>::value>::type>
 #endif
-  LUMEX_CONSTEXPR_CXX14 auto
+  LUMEX_CONSTEXPR_FUNCTION auto
   or_else (FunctionType &&func)
       const && -> detail::result_clean_t<FunctionType, ErrorType const &&>
   {
@@ -1736,10 +1649,9 @@ public:
         std::is_same<typename ResultType::value_type, SuccessType>::value,
         "or_else: the function must return an expected with the "
         "value type of the object it is called on");
-    if (m_has_value)
-      return ResultType (in_place, std::move (m_storage.m_value));
-    return detail::invoke_call (std::forward<FunctionType> (func),
-                                std::move (m_storage.m_error));
+    return m_has_value ? ResultType (in_place, detail::mv (m_storage.m_value))
+                       : detail::invoke_call (detail::fwd<FunctionType> (func),
+                                              detail::mv (m_storage.m_error));
   }
 
   /**
@@ -1782,10 +1694,10 @@ public:
     using ResultType
         = expected<detail::result_xform_t<FunctionType, SuccessType &>,
                    ErrorType>;
-    if (m_has_value)
-      return ResultType (detail::invoke_value_tag (),
-                         std::forward<FunctionType> (func), m_storage.m_value);
-    return ResultType (unexpect, m_storage.m_error);
+    return m_has_value ? ResultType (detail::invoke_value_tag (),
+                                     detail::fwd<FunctionType> (func),
+                                     m_storage.m_value)
+                       : ResultType (unexpect, m_storage.m_error);
   }
 
   /**
@@ -1821,17 +1733,17 @@ public:
                 FunctionType, ErrorType, ErrorType const &,
                 SuccessType const &>::value>::type>
 #endif
-  LUMEX_CONSTEXPR_CXX14 auto
+  LUMEX_CONSTEXPR_FUNCTION auto
   transform (FunctionType &&func) const & -> expected<
       detail::result_xform_t<FunctionType, SuccessType const &>, ErrorType>
   {
     using ResultType
         = expected<detail::result_xform_t<FunctionType, SuccessType const &>,
                    ErrorType>;
-    if (m_has_value)
-      return ResultType (detail::invoke_value_tag (),
-                         std::forward<FunctionType> (func), m_storage.m_value);
-    return ResultType (unexpect, m_storage.m_error);
+    return m_has_value ? ResultType (detail::invoke_value_tag (),
+                                     detail::fwd<FunctionType> (func),
+                                     m_storage.m_value)
+                       : ResultType (unexpect, m_storage.m_error);
   }
 
   /**
@@ -1874,11 +1786,10 @@ public:
     using ResultType
         = expected<detail::result_xform_t<FunctionType, SuccessType &&>,
                    ErrorType>;
-    if (m_has_value)
-      return ResultType (detail::invoke_value_tag (),
-                         std::forward<FunctionType> (func),
-                         std::move (m_storage.m_value));
-    return ResultType (unexpect, std::move (m_storage.m_error));
+    return m_has_value ? ResultType (detail::invoke_value_tag (),
+                                     detail::fwd<FunctionType> (func),
+                                     detail::mv (m_storage.m_value))
+                       : ResultType (unexpect, detail::mv (m_storage.m_error));
   }
 
   /**
@@ -1915,18 +1826,17 @@ public:
                 FunctionType, ErrorType, ErrorType const &&,
                 SuccessType const &&>::value>::type>
 #endif
-  LUMEX_CONSTEXPR_CXX14 auto
+  LUMEX_CONSTEXPR_FUNCTION auto
   transform (FunctionType &&func) const && -> expected<
       detail::result_xform_t<FunctionType, SuccessType const &&>, ErrorType>
   {
     using ResultType
         = expected<detail::result_xform_t<FunctionType, SuccessType const &&>,
                    ErrorType>;
-    if (m_has_value)
-      return ResultType (detail::invoke_value_tag (),
-                         std::forward<FunctionType> (func),
-                         std::move (m_storage.m_value));
-    return ResultType (unexpect, std::move (m_storage.m_error));
+    return m_has_value ? ResultType (detail::invoke_value_tag (),
+                                     detail::fwd<FunctionType> (func),
+                                     detail::mv (m_storage.m_value))
+                       : ResultType (unexpect, detail::mv (m_storage.m_error));
   }
 
   /**
@@ -1966,10 +1876,10 @@ public:
     using ResultType
         = expected<SuccessType,
                    detail::result_xform_t<FunctionType, ErrorType &>>;
-    if (m_has_value)
-      return ResultType (in_place, m_storage.m_value);
-    return ResultType (detail::invoke_error_tag (),
-                       std::forward<FunctionType> (func), m_storage.m_error);
+    return m_has_value ? ResultType (in_place, m_storage.m_value)
+                       : ResultType (detail::invoke_error_tag (),
+                                     detail::fwd<FunctionType> (func),
+                                     m_storage.m_error);
   }
 
   /**
@@ -2003,17 +1913,17 @@ public:
                 FunctionType, SuccessType, SuccessType const &,
                 ErrorType const &>::value>::type>
 #endif
-  LUMEX_CONSTEXPR_CXX14 auto
+  LUMEX_CONSTEXPR_FUNCTION auto
   transform_error (FunctionType &&func) const & -> expected<
       SuccessType, detail::result_xform_t<FunctionType, ErrorType const &>>
   {
     using ResultType
         = expected<SuccessType,
                    detail::result_xform_t<FunctionType, ErrorType const &>>;
-    if (m_has_value)
-      return ResultType (in_place, m_storage.m_value);
-    return ResultType (detail::invoke_error_tag (),
-                       std::forward<FunctionType> (func), m_storage.m_error);
+    return m_has_value ? ResultType (in_place, m_storage.m_value)
+                       : ResultType (detail::invoke_error_tag (),
+                                     detail::fwd<FunctionType> (func),
+                                     m_storage.m_error);
   }
 
   /**
@@ -2054,11 +1964,10 @@ public:
     using ResultType
         = expected<SuccessType,
                    detail::result_xform_t<FunctionType, ErrorType &&>>;
-    if (m_has_value)
-      return ResultType (in_place, std::move (m_storage.m_value));
-    return ResultType (detail::invoke_error_tag (),
-                       std::forward<FunctionType> (func),
-                       std::move (m_storage.m_error));
+    return m_has_value ? ResultType (in_place, detail::mv (m_storage.m_value))
+                       : ResultType (detail::invoke_error_tag (),
+                                     detail::fwd<FunctionType> (func),
+                                     detail::mv (m_storage.m_error));
   }
 
   /**
@@ -2092,22 +2001,27 @@ public:
                 FunctionType, SuccessType, SuccessType const &&,
                 ErrorType const &&>::value>::type>
 #endif
-  LUMEX_CONSTEXPR_CXX14 auto
+  LUMEX_CONSTEXPR_FUNCTION auto
   transform_error (FunctionType &&func) const && -> expected<
       SuccessType, detail::result_xform_t<FunctionType, ErrorType const &&>>
   {
     using ResultType
         = expected<SuccessType,
                    detail::result_xform_t<FunctionType, ErrorType const &&>>;
-    if (m_has_value)
-      return ResultType (in_place, std::move (m_storage.m_value));
-    return ResultType (detail::invoke_error_tag (),
-                       std::forward<FunctionType> (func),
-                       std::move (m_storage.m_error));
+    return m_has_value ? ResultType (in_place, detail::mv (m_storage.m_value))
+                       : ResultType (detail::invoke_error_tag (),
+                                     detail::fwd<FunctionType> (func),
+                                     detail::mv (m_storage.m_error));
   }
 
 private:
   template <typename, typename> friend class expected;
+
+  // The members of the storage `expected` is built on (the names are those
+  // of the exposition-only members of the standard: `has_val` and the union
+  // of `val` and `unex`).
+  using base_type::m_has_value;
+  using base_type::m_storage;
 
   /**
    * @brief Builds a success value from the result of a call.
@@ -2116,17 +2030,15 @@ private:
    * constructed in place.
    * @tparam Fn Type of the function.
    * @tparam Args Types of its arguments.
+   * @param[in] tag Selects the constructor.
    * @param[in] fn The function.
    * @param[in] args Arguments of the call.
    */
   template <typename Fn, typename... Args>
-  LUMEX_CONSTEXPR_CXX14 explicit expected (detail::invoke_value_tag /*unused*/,
-                                           Fn &&fn, Args &&...args)
-      : m_storage (), m_has_value (true)
+  LUMEX_CONSTEXPR_CTOR explicit expected (detail::invoke_value_tag tag,
+                                          Fn &&fn, Args &&...args)
+      : base_type (tag, detail::fwd<Fn> (fn), detail::fwd<Args> (args)...)
   {
-    new (detail::voidify (m_storage.m_value))
-        SuccessType (detail::invoke_call (std::forward<Fn> (fn),
-                                          std::forward<Args> (args)...));
   }
 
   /**
@@ -2134,118 +2046,52 @@ private:
    * @details Counterpart of the constructor above for `transform_error`.
    * @tparam Fn Type of the function.
    * @tparam Args Types of its arguments.
+   * @param[in] tag Selects the constructor.
    * @param[in] fn The function.
    * @param[in] args Arguments of the call.
    */
   template <typename Fn, typename... Args>
-  LUMEX_CONSTEXPR_CXX14 explicit expected (detail::invoke_error_tag /*unused*/,
-                                           Fn &&fn, Args &&...args)
-      : m_storage (), m_has_value (false)
+  LUMEX_CONSTEXPR_CTOR explicit expected (detail::invoke_error_tag tag,
+                                          Fn &&fn, Args &&...args)
+      : base_type (tag, detail::fwd<Fn> (fn), detail::fwd<Args> (args)...)
   {
-    new (std::addressof (m_storage.m_error)) ErrorType (detail::invoke_call (
-        std::forward<Fn> (fn), std::forward<Args> (args)...));
   }
 
   /**
-   * @brief Union that stores either a success value or an error value.
-   * @details Used to save memory, because an `expected` object at any time
-   *          holds only one of the two: either `SuccessType` or `ErrorType`.
-   *          Union-member lifetimes are managed manually.
-   * @note Copy/move constructors and assignment operators are deleted,
-   *       because member lifetimes are managed by `expected`.
+   * @brief Ends the life of the current alternative and leaves the object in
+   * the success state with no value constructed (the first half of
+   * `emplace`, [expected.object.assign]/19).
    */
-  union Storage
-  {
-    /**
-     * @brief Stored success value.
-     * @details Active when `expected` is in the success state (`m_has_value ==
-     * true`).
-     */
-    SuccessType m_value;
-
-    /**
-     * @brief Stored error value.
-     * @details Active when `expected` is in the error state (`m_has_value ==
-     * false`).
-     */
-    ErrorType m_error;
-
-    /**
-     * @brief Default constructor for `Storage`.
-     * @details Does not initialize members; their lifetime
-     *          is managed manually from outside.
-     * @note Guaranteed not to throw (`noexcept`).
-     */
-    Storage () LUMEX_NOEXCEPT {}
-    /**
-     * @brief Default destructor for `Storage`.
-     * @details Does not destroy members; their lifetime
-     *          is managed manually from outside.
-     * @note Guaranteed not to throw (`noexcept`).
-     */
-    ~Storage () LUMEX_NOEXCEPT {}
-
-    /**
-     * @brief Deleted copy constructor.
-     * @details Copying `Storage` is forbidden to avoid double management of
-     *          the active member lifetime.
-     */
-    Storage (Storage const &) = delete;
-
-    /**
-     * @brief Deleted copy assignment.
-     * @details Assignment is forbidden for the same reasons as the copy
-     * constructor.
-     */
-    Storage &operator= (Storage const &) = delete;
-
-    /**
-     * @brief Deleted move constructor.
-     * @details Move is forbidden because transferring the active member is
-     * done explicitly by the outer class.
-     */
-    Storage (Storage &&) = delete;
-
-    /**
-     * @brief Deleted move assignment.
-     * @details Forbidden to prevent uncontrolled switching of the active
-     * member.
-     */
-    Storage &operator= (Storage &&) = delete;
-  };
-
-  /**
-   * @brief `Storage` union that holds either a `SuccessType` value or an
-   * `ErrorType` error.
-   * @details This member is central to `expected` because it holds the actual
-   * data. Access `m_value` or `m_error` only after checking `m_has_value`.
-   */
-  Storage m_storage;
-  /**
-   * @brief Flag: `true` if `expected` holds a success value, `false` if it
-   * holds an error.
-   * @details This member selects which `m_storage` union member is active and
-   * therefore which object (`SuccessType` or `ErrorType`) must be constructed
-   * or destroyed.
-   */
-  bool m_has_value;
-
-  /**
-   * @brief Destroys the active member of the `m_storage` union.
-   * @details Depending on `m_has_value`, the destructor of either `m_value`
-   * (SuccessType) or `m_error` (ErrorType) is called. This keeps resource
-   * management correct when the `expected` destructor runs or the object
-   * changes state (for example, `emplace`).
-   * @note Does not throw (`noexcept`) if the destructors of `SuccessType` and
-   * `ErrorType` do not throw.
-   */
-  void
-  destroy_value () LUMEX_NOEXCEPT
+  LUMEX_EXPECTED_CONSTEXPR_CXX20 void
+  reset_to_value_slot () LUMEX_NOEXCEPT
   {
     if (m_has_value)
-      m_storage.m_value.~SuccessType ();
+      detail::destroy_at (detail::address_of (m_storage.m_value));
     else
-      m_storage.m_error.~ErrorType ();
+      {
+        detail::destroy_at (detail::address_of (m_storage.m_error));
+        m_has_value = true;
+      }
+  }
+
+  /**
+   * @brief Makes `err` the error: assigns it if there is one, otherwise
+   * replaces the value (`reinit-expected`, [expected.object.assign]/16).
+   * @tparam GF The error as the caller forwards it (`G const &` or `G`).
+   * @param[in] err The new error.
+   */
+  template <typename GF>
+  LUMEX_EXPECTED_CONSTEXPR_CXX20 void
+  assign_error (GF &&err)
+  {
+    if (m_has_value)
+      {
+        detail::reinit (m_storage.m_error, m_storage.m_value,
+                        detail::fwd<GF> (err));
+        m_has_value = false;
+      }
+    else
+      m_storage.m_error = detail::fwd<GF> (err);
   }
 };
 
@@ -2286,7 +2132,7 @@ template <typename ErrorType> class expected<void, ErrorType>;
  */
 template <typename SuccessType, typename ErrorType, typename OtherSuccess,
           typename OtherError>
-LUMEX_CONSTEXPR_CXX14 typename std::enable_if<
+LUMEX_CONSTEXPR_FUNCTION typename std::enable_if<
     !std::is_void<SuccessType>::value && !std::is_void<OtherSuccess>::value
         && detail::is_equality_comparable<SuccessType, OtherSuccess>::value
         && detail::is_equality_comparable<ErrorType, OtherError>::value,
@@ -2294,11 +2140,11 @@ LUMEX_CONSTEXPR_CXX14 typename std::enable_if<
 operator== (expected<SuccessType, ErrorType> const &lhs,
             expected<OtherSuccess, OtherError> const &rhs)
 {
-  if (lhs.has_value () != rhs.has_value ())
-    return false;
-  if (lhs.has_value ())
-    return static_cast<bool> (*lhs == *rhs);
-  return static_cast<bool> (lhs.error () == rhs.error ());
+  return lhs.has_value () != rhs.has_value ()
+             ? false
+             : (lhs.has_value ()
+                    ? static_cast<bool> (*lhs == *rhs)
+                    : static_cast<bool> (lhs.error () == rhs.error ()));
 }
 
 /**
@@ -2324,16 +2170,16 @@ operator== (expected<SuccessType, ErrorType> const &lhs,
  *      May throw if `operator==` of the error types throws.
  */
 template <typename ErrorType, typename OtherError>
-LUMEX_CONSTEXPR_CXX14 typename std::enable_if<
+LUMEX_CONSTEXPR_FUNCTION typename std::enable_if<
     detail::is_equality_comparable<ErrorType, OtherError>::value, bool>::type
 operator== (expected<void, ErrorType> const &lhs,
             expected<void, OtherError> const &rhs)
 {
-  if (lhs.has_value () != rhs.has_value ())
-    return false;
-  if (lhs.has_value ())
-    return true; // Both are void success
-  return static_cast<bool> (lhs.error () == rhs.error ());
+  return lhs.has_value () != rhs.has_value ()
+             ? false
+             : (lhs.has_value ()
+                    ? true // Both are void success
+                    : static_cast<bool> (lhs.error () == rhs.error ()));
 }
 
 /**
@@ -2353,7 +2199,7 @@ operator== (expected<void, ErrorType> const &lhs,
  * and can be compared with `Value` using `==`.
  */
 template <typename SuccessType, typename ErrorType, typename Value>
-LUMEX_CONSTEXPR_CXX14 typename std::enable_if<
+LUMEX_CONSTEXPR_FUNCTION typename std::enable_if<
     !std::is_void<SuccessType>::value
         && !lumex::core::utility::traits::value::is_expected<Value>::value
         && !detail::is_unexpected<Value>::value
@@ -2381,7 +2227,7 @@ operator== (expected<SuccessType, ErrorType> const &lhs, Value const &value)
  * compared with `==`.
  */
 template <typename SuccessType, typename ErrorType, typename OtherError>
-LUMEX_CONSTEXPR_CXX14 typename std::enable_if<
+LUMEX_CONSTEXPR_FUNCTION typename std::enable_if<
     detail::is_equality_comparable<ErrorType, OtherError>::value, bool>::type
 operator== (expected<SuccessType, ErrorType> const &lhs,
             unexpected<OtherError> const &unex)
@@ -2399,7 +2245,7 @@ operator== (expected<SuccessType, ErrorType> const &lhs,
 /// rhs)`.
 template <typename SuccessType, typename ErrorType, typename OtherSuccess,
           typename OtherError>
-LUMEX_CONSTEXPR_CXX14 typename std::enable_if<
+LUMEX_CONSTEXPR_FUNCTION typename std::enable_if<
     !std::is_void<SuccessType>::value && !std::is_void<OtherSuccess>::value
         && detail::is_equality_comparable<SuccessType, OtherSuccess>::value
         && detail::is_equality_comparable<ErrorType, OtherError>::value,
@@ -2412,7 +2258,7 @@ operator!= (expected<SuccessType, ErrorType> const &lhs,
 
 /// @brief `lhs != rhs` for two `expected<void, E>` objects: `!(lhs == rhs)`.
 template <typename ErrorType, typename OtherError>
-LUMEX_CONSTEXPR_CXX14 typename std::enable_if<
+LUMEX_CONSTEXPR_FUNCTION typename std::enable_if<
     detail::is_equality_comparable<ErrorType, OtherError>::value, bool>::type
 operator!= (expected<void, ErrorType> const &lhs,
             expected<void, OtherError> const &rhs)
@@ -2422,7 +2268,7 @@ operator!= (expected<void, ErrorType> const &lhs,
 
 /// @brief `value == rhs`: the reversed form of `rhs == value`.
 template <typename SuccessType, typename ErrorType, typename Value>
-LUMEX_CONSTEXPR_CXX14 typename std::enable_if<
+LUMEX_CONSTEXPR_FUNCTION typename std::enable_if<
     !std::is_void<SuccessType>::value
         && !lumex::core::utility::traits::value::is_expected<Value>::value
         && !detail::is_unexpected<Value>::value
@@ -2435,7 +2281,7 @@ operator== (Value const &value, expected<SuccessType, ErrorType> const &rhs)
 
 /// @brief `lhs != value`: `!(lhs == value)`.
 template <typename SuccessType, typename ErrorType, typename Value>
-LUMEX_CONSTEXPR_CXX14 typename std::enable_if<
+LUMEX_CONSTEXPR_FUNCTION typename std::enable_if<
     !std::is_void<SuccessType>::value
         && !lumex::core::utility::traits::value::is_expected<Value>::value
         && !detail::is_unexpected<Value>::value
@@ -2448,7 +2294,7 @@ operator!= (expected<SuccessType, ErrorType> const &lhs, Value const &value)
 
 /// @brief `value != rhs`: `!(rhs == value)`.
 template <typename SuccessType, typename ErrorType, typename Value>
-LUMEX_CONSTEXPR_CXX14 typename std::enable_if<
+LUMEX_CONSTEXPR_FUNCTION typename std::enable_if<
     !std::is_void<SuccessType>::value
         && !lumex::core::utility::traits::value::is_expected<Value>::value
         && !detail::is_unexpected<Value>::value
@@ -2461,7 +2307,7 @@ operator!= (Value const &value, expected<SuccessType, ErrorType> const &rhs)
 
 /// @brief `unex == rhs`: the reversed form of `rhs == unex`.
 template <typename SuccessType, typename ErrorType, typename OtherError>
-LUMEX_CONSTEXPR_CXX14 typename std::enable_if<
+LUMEX_CONSTEXPR_FUNCTION typename std::enable_if<
     detail::is_equality_comparable<ErrorType, OtherError>::value, bool>::type
 operator== (unexpected<OtherError> const &unex,
             expected<SuccessType, ErrorType> const &rhs)
@@ -2471,7 +2317,7 @@ operator== (unexpected<OtherError> const &unex,
 
 /// @brief `lhs != unex`: `!(lhs == unex)`.
 template <typename SuccessType, typename ErrorType, typename OtherError>
-LUMEX_CONSTEXPR_CXX14 typename std::enable_if<
+LUMEX_CONSTEXPR_FUNCTION typename std::enable_if<
     detail::is_equality_comparable<ErrorType, OtherError>::value, bool>::type
 operator!= (expected<SuccessType, ErrorType> const &lhs,
             unexpected<OtherError> const &unex)
@@ -2481,7 +2327,7 @@ operator!= (expected<SuccessType, ErrorType> const &lhs,
 
 /// @brief `unex != rhs`: `!(rhs == unex)`.
 template <typename SuccessType, typename ErrorType, typename OtherError>
-LUMEX_CONSTEXPR_CXX14 typename std::enable_if<
+LUMEX_CONSTEXPR_FUNCTION typename std::enable_if<
     detail::is_equality_comparable<ErrorType, OtherError>::value, bool>::type
 operator!= (unexpected<OtherError> const &unex,
             expected<SuccessType, ErrorType> const &rhs)
@@ -2491,16 +2337,18 @@ operator!= (unexpected<OtherError> const &unex,
 #endif // !LUMEX_HAS_IMPL_THREE_WAY_COMPARISON
 
 /**
- * @brief Exchanges the contents of two `expected<SuccessType, ErrorType>`
- * objects.
- * @details Calls `lhs.swap(rhs)`, delegating to the class implementation.
+ * @brief Exchanges the contents of two `expected` objects of the same type
+ * (also `expected<void, E>`).
+ * @details Calls `lhs.swap(rhs)`, delegating to the class implementation
+ * ([expected.object.swap]/5, [expected.void.swap]/5).
  *
- * @tparam SuccessType Success value type.
+ * @tparam SuccessType Success value type (`void` included).
  * @tparam ErrorType   Error type.
  * @param[in,out] lhs Left-hand operand of the swap.
  * @param[in,out] rhs Right-hand operand of the swap.
  *
- * @note `noexcept` exactly when the member `swap` is, like
+ * @note Takes part in overload resolution only when the member `swap` can be
+ * called, and is `noexcept` exactly when it is, like
  * `std::swap (std::expected &, std::expected &)`.
  * @par Thread safety
  *      Not thread-safe for the same objects without external synchronization.
@@ -2508,35 +2356,10 @@ operator!= (unexpected<OtherError> const &unex,
  *      Swap is typically O(1) and does not allocate.
  */
 template <typename SuccessType, typename ErrorType>
-LUMEX_CONSTEXPR_CXX14 void
+LUMEX_EXPECTED_CONSTEXPR_CXX20 auto
 swap (expected<SuccessType, ErrorType> &lhs,
       expected<SuccessType, ErrorType> &rhs)
-    LUMEX_NOEXCEPT_IF (
-        std::is_nothrow_move_constructible<SuccessType>::value
-            &&std::is_nothrow_move_constructible<ErrorType>::value
-                &&detail::is_nothrow_swappable<SuccessType>::value
-                    &&detail::is_nothrow_swappable<ErrorType>::value)
-{
-  lhs.swap (rhs);
-}
-
-/**
- * @brief Exchanges the contents of two `expected<void, ErrorType>` objects.
- * @details Delegates to the matching class specialization `swap`.
- *
- * @tparam ErrorType Error type.
- * @param[in,out] lhs Left-hand operand of the swap.
- * @param[in,out] rhs Right-hand operand of the swap.
- *
- * @note `noexcept` exactly when the member `swap` is.
- * @par Thread safety
- *      Not thread-safe without external synchronization on the same instances.
- */
-template <typename ErrorType>
-LUMEX_CONSTEXPR_CXX14 void
-swap (expected<void, ErrorType> &lhs, expected<void, ErrorType> &rhs)
-    LUMEX_NOEXCEPT_IF (std::is_nothrow_move_constructible<ErrorType>::value
-                           &&detail::is_nothrow_swappable<ErrorType>::value)
+    LUMEX_NOEXCEPT_IF (noexcept (lhs.swap (rhs))) -> decltype (lhs.swap (rhs))
 {
   lhs.swap (rhs);
 }
@@ -2567,7 +2390,7 @@ LUMEX_CONSTEXPR_FUNCTION expected<typename std::decay<U_val>::type,
                                   ErrorType> make_expected (U_val &&val)
 {
   return expected<typename std::decay<U_val>::type, ErrorType> (
-      in_place, std::forward<U_val> (val));
+      in_place, detail::fwd<U_val> (val));
 }
 
 /**
@@ -2614,7 +2437,7 @@ LUMEX_CONSTEXPR_FUNCTION
     unexpected<typename std::decay<E>::type> make_unexpected (Args &&...args)
 {
   using Err = typename std::decay<E>::type;
-  return unexpected<Err> (Err (std::forward<Args> (args)...));
+  return unexpected<Err> (Err (detail::fwd<Args> (args)...));
 }
 
 } // namespace result
