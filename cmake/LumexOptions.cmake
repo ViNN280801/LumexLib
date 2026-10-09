@@ -46,6 +46,7 @@ option(LUMEX_BUILD_HAZARD_POINTER "Build core/hazard_pointer (hazard pointers fr
 option(LUMEX_BUILD_MATH "Build core/math" ON)
 option(LUMEX_BUILD_OPTIONAL "Build core/optional" ON)
 option(LUMEX_BUILD_REFLECTION "Build core/reflection" ON)
+option(LUMEX_BUILD_SMART_PTR "Build core/smart_ptr (header-only shared_ptr / weak_ptr family with the own split-count control block, from C++11)" ON)
 option(LUMEX_BUILD_SPAN "Build core/span (header-only C++11 backport of std::span)" ON)
 option(LUMEX_BUILD_STRING "Build core/string" ON)
 option(LUMEX_BUILD_STRING_VIEW "Build core/string_view" ON)

@@ -983,6 +983,7 @@ INPUT                  = lumex/ \
                          lumex/core/atomic/README.md \
                          lumex/core/hazard_pointer/README.md \
                          lumex/core/contracts/README.md \
+                         lumex/core/smart_ptr/README.md \
                          lumex/applied/logger/README.md \
                          @LUMEX_DOXYGEN_UMBRELLAS@
 

@@ -14,6 +14,8 @@ lumex_add_subdirectory_if(LUMEX_BUILD_STRING_VIEW string_view)
 lumex_add_subdirectory_if(LUMEX_BUILD_HAZARD_POINTER hazard_pointer)
 # contracts links utility: add it after it.
 lumex_add_subdirectory_if(LUMEX_BUILD_CONTRACTS contracts)
+# smart_ptr links utility; the atomic module (phase 2) links it softly: add it before atomic.
+lumex_add_subdirectory_if(LUMEX_BUILD_SMART_PTR smart_ptr)
 lumex_add_subdirectory_if(LUMEX_BUILD_ATOMIC atomic)
 lumex_add_subdirectory_if(LUMEX_BUILD_CIRCULAR_BUFFER circular_buffer)
 lumex_add_subdirectory_if(LUMEX_BUILD_EXPECTED expected)
