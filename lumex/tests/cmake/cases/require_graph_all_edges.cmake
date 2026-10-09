@@ -55,7 +55,8 @@ foreach(_edge
         "lumex_require_module(LUMEX_BUILD_JSON LUMEX_BUILD_UTILITY)"
         "lumex_require_module(LUMEX_BUILD_HAZARD_POINTER LUMEX_BUILD_UTILITY)"
         "lumex_require_module(LUMEX_BUILD_HAZARD_POINTER LUMEX_BUILD_SPAN)"
-        "lumex_require_module(LUMEX_BUILD_CONTRACTS LUMEX_BUILD_UTILITY)")
+        "lumex_require_module(LUMEX_BUILD_CONTRACTS LUMEX_BUILD_UTILITY)"
+        "lumex_require_module(LUMEX_BUILD_SMART_PTR LUMEX_BUILD_UTILITY)")
     string(FIND "${_mod}" "${_edge}" _pos)
     if(_pos EQUAL -1)
         message(FATAL_ERROR "missing dependency edge: ${_edge}")

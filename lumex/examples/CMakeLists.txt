@@ -92,6 +92,12 @@ else()
     message(STATUS "Skipping reflection examples (LUMEX_BUILD_CORE or LUMEX_BUILD_REFLECTION is OFF)")
 endif()
 
+if(LUMEX_BUILD_CORE AND LUMEX_BUILD_SMART_PTR)
+    add_subdirectory(smart_ptr)
+else()
+    message(STATUS "Skipping smart_ptr examples (LUMEX_BUILD_CORE or LUMEX_BUILD_SMART_PTR is OFF)")
+endif()
+
 if(LUMEX_BUILD_CORE AND LUMEX_BUILD_SPAN)
     add_subdirectory(span)
 else()

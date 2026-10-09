@@ -1,13 +1,9 @@
-# math is only required by utility. Turning both OFF (and every utility
-# consumer) is legal.
-
 include("${LUMEX_SOURCE_DIR}/lumex/tests/cmake/setup_all_on.cmake")
-set(LUMEX_BUILD_MATH OFF)
+set(LUMEX_BUILD_UTILITY OFF)
+# Every module that requires utility and is checked before smart_ptr is
+# off, so that smart_ptr is the one that fails.
 set(LUMEX_BUILD_HAZARD_POINTER OFF)
 set(LUMEX_BUILD_CONTRACTS OFF)
-set(LUMEX_BUILD_SMART_PTR OFF)
-set(LUMEX_BUILD_UTILITY OFF)
-set(LUMEX_BUILD_UNICODE OFF)
 set(LUMEX_BUILD_CIRCULAR_BUFFER OFF)
 set(LUMEX_BUILD_EXPECTED OFF)
 set(LUMEX_BUILD_BASE64 OFF)
@@ -19,13 +15,15 @@ set(LUMEX_BUILD_STRING_VIEW OFF)
 set(LUMEX_BUILD_FMT OFF)
 set(LUMEX_BUILD_REFLECTION OFF)
 set(LUMEX_BUILD_SERIAL OFF)
+set(LUMEX_BUILD_UNICODE OFF)
 set(LUMEX_BUILD_XML OFF)
 set(LUMEX_BUILD_TEMPORARY OFF)
 set(LUMEX_BUILD_EXCEPTIONS OFF)
 set(LUMEX_BUILD_LOGGING OFF)
 set(LUMEX_BUILD_HARDWARE OFF)
 set(LUMEX_BUILD_RESOURCE_MONITOR OFF)
-set(LUMEX_BUILD_JSON OFF)
 set(LUMEX_BUILD_SETTINGS OFF)
+set(LUMEX_BUILD_JSON OFF)
 include("${LUMEX_SOURCE_DIR}/cmake/LumexModules.cmake")
 lumex_check_module_dependencies()
+message(FATAL_ERROR "expected lumex_check_module_dependencies to stop")
