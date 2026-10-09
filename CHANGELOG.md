@@ -97,6 +97,14 @@
 
 #### Изменено
 
+##### Контракт `serial_port_info_t::path`: имя порта по умолчанию, путь открытия по флагу `need_full_path` (PEW-2313)
+
+**Файлы:** `lumex/applied/serial/enumeration/LumexSerialPortEnumeration.hpp`, `lumex/applied/serial/enumeration/LumexSerialPortEnumeration.cpp`, `lumex/tests/applied/serial/enumeration/LumexSerialPortEnumeration.cxx11.tests.cpp`
+
+**Суть:** `enumerate_serial_ports_detailed` и `enumerate_serial_port_names` получили параметр `bool need_full_path = false`. По умолчанию `path` снова несет каноническое имя порта (`COM12` на Windows, `ttyACM0` на POSIX): форма, которую хранит конфигурация потребителя и принимает `resolve_serial_port_path`. При `need_full_path = true` `path` несет путь, готовый к открытию (`\.\COM12` на Windows, `/dev/ttyACM0` на POSIX). Ограниченное открытие внутри перечисления в обоих режимах открывает путь; флаг выбирает только содержимое `path`. Это откат неявного изменения контракта из записи 1.0.3.0, из-за которого потребитель на POSIX получал `/dev/ttyACM0` там, где ожидал короткое имя.
+
+**Проверено:** GCC 13.2 Release: `serial.*` 27 из 27 (наборы enumeration и port, включая новый `FullPathFlagSelectsNameOrOpenablePath`), пример `examples.serial.LumexSerialExample` собирается; GCC 8.3 и Clang 23.1.0: те же наборы собираются без предупреждений, 27 из 27. Мутация (флаг не читается): `FullPathFlagSelectsNameOrOpenablePath` падает.
+
 ##### Несовместимо: у `Expected` нет глобального `unexpected`
 
 **Файлы:** `lumex/core/expected/error/Unexpected.hpp`, `lumex/core/expected/Expected`, `lumex/core/expected/result/Expected.hpp`, `lumex/core/expected/result/ExpectedTypes.hpp`, `lumex/examples/expected/example_expected.cpp`, `lumex/tests/core/expected/error/ExpectedGlobalNames.cxx11.tests.cpp` (новый), `lumex/tests/cmake/consumer/expected_compile_checks/` (новый: `CMakeLists.txt`, `check.cpp`), `lumex/tests/cmake/cases/wiring_expected_global_names.cmake` (новый), `lumex/tests/cmake/CMakeLists.txt`
@@ -783,6 +791,14 @@
 **Проверено:** 7 новых тестов в `LumexXmlStringView.cxx11.tests.cpp` (поиск, правка, присваивание и удаление через `std::string`, через размерные представления внутри большего буфера и через пустые представления; вложенный ноль: `std::string` размерная, литерал кончается на нуле; набор перегрузок без неоднозначности; `stringview_equal`) и проверки на этапе компиляции типа `string_view_t`. Тесты модуля `xml.` на GCC 13.2 (Release, CTest): 622 теста проходят, 206, 208 и 208 на C++11, 17 и 20 (было 199, 201 и 201). Наборы C++11 проходят на GCC 8.3 и на Clang 23.1.0 с libc++ и с libstdc++ (177 тестов основного набора). Множество экспортируемых символов `libLumexXml.so` одно и то же до и после (614 символов, `nm -D`). Проверка правкой: 25 правок (каждая из 23 перегрузок: размер минус один; две перегрузки `child` и `append_child`: длина по `strlen`) ловятся тестами на C++11 и C++17. Предупреждений нет (флаги как у `base64`). Под ASan и UBSan: тот же прогон под ASan и UBSan (1638 тестов пяти модулей на C++11, 14 и 17, GCC 13.2, Debug): все проходят, сообщений санитайзеров нет. Режим `wchar_t`: проверено только без компоновки (см. выше). Windows: см. запись про `base64` (шесть лишних символов в `libLumexXml.dll` и `libLumexApplied_settings.dll`).
 
 #### Исправлено
+
+##### `resolve_serial_port_path` возвращает абсолютный путь без изменений (PEW-2313, PEW-2308)
+
+**Файлы:** `lumex/applied/serial/port/LumexSerialPort.cpp`, `lumex/tests/applied/serial/port/LumexSerialPort.cxx11.tests.cpp`
+
+**Суть:** на POSIX значение, которое уже является абсолютным путем (`/dev/ttyACM0`, `/dev/serial/by-id/...`), возвращается как есть. До правки повторный вызов дописывал префикс, и получался несуществующий `/dev/serial/by-id//dev/ttyACM0`: у потребителя (PeakExpertWeb) падали все пробы и подключения, которые резолвили результат перечисления (PEW-2313 BLOCKER, PEW-2308 MAJOR). Ветка Windows такие значения и так возвращала без изменений; короткие имена, by-id алиасы и сетевые каналы не изменились.
+
+**Проверено:** GCC 13.2 Release, GCC 8.3, Clang 23.1.0: `serial.port.LumexSerialPort.AbsoluteDevPathIsReturnedUnchanged` проходит на всех трех (27 из 27 в наборе). Мутация (guard убран): тест падает. Существующие тесты коротких имен, by-id и пустого имени не менялись и проходят.
 
 ##### `-Wnon-template-friend` в `LumexAggregateFields.hpp` на GCC (C++14)
 
