@@ -41,7 +41,8 @@
 //
 // One row per macro, X (NAME, DIGITS, DECIMALS, FM, FE, DM, DE, LM, LE):
 //   NAME      the macro without the prefix LUMEX_MATH_CONSTANTS_
-//   DIGITS    the true value, 60 decimals (truncated; an exact value as is)
+//   DIGITS    the true value, 60 decimals (truncated; an exact value as is,
+//             Planck and Avogadro as mantissa 'e' exponent)
 //   DECIMALS  how many decimals the header must carry (50, Brun 12; the
 //             exact values 0: they are compared as numbers)
 //   FM, FE    the correctly rounded float, FM * 2^FE (mantissa < 2^24)
@@ -123,10 +124,10 @@
      5520653160719109ULL, -49, 11306297673152735897ULL, -60)                  \
   X (LIGHT_SPEED, "299792458.0", 0, 4684257ULL, 6, 149896229ULL, 1,           \
      149896229ULL, 1)                                                         \
-  X (PLANCK_CONSTANT, "6.62607015", 0, 3473969ULL, -19, 1865072941154423ULL,  \
-     -48, 15278677533937032467ULL, -61)                                       \
-  X (AVOGADRO_CONSTANT, "6.02214076", 0, 12629345ULL, -21,                    \
-     6780327720677169ULL, -50, 13886111171946841899ULL, -61)
+  X (PLANCK_CONSTANT, "6.62607015e-34", 0, 14430303ULL, -134,                 \
+     7747209898635537ULL, -163, 1983285734050697523ULL, -171)                 \
+  X (AVOGADRO_CONSTANT, "6.02214076e23", 0, 8357399ULL, 56,                   \
+     8973689019680023ULL, 26, 4594528778076171875ULL, 17)
 
 // The text of a macro after its expansion: "3.14159...", the exact token.
 #define LUMEX_TEST_STRINGIZE_IMPL(x) #x

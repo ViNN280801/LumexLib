@@ -21,7 +21,8 @@ double as mantissa * 2^exponent. Every value is computed here with the python
   plastic   Newton on x^3 = x + 1
 
 The exact physical constants (SI 2019, standard gravity of the CGPM 1901)
-are given as decimals; Brun's constant is the published 1.902160583104
+are given as decimals; Planck and Avogadro with their decimal exponent
+(6.62607015e-34, 6.02214076e23); Brun's constant is the published 1.902160583104
 (OEIS A065421), which cannot be recomputed here.
 
 The table is pasted into LumexMathConstantsReference.hpp and reformatted by
@@ -197,8 +198,8 @@ CONSTANTS = [
     ('COPERNICUS_CONSTANT', PI / 180, 50),
     ('GRAVITY_ACCELERATION', D('9.80665'), 0),
     ('LIGHT_SPEED', D('299792458'), 0),
-    ('PLANCK_CONSTANT', D('6.62607015'), 0),
-    ('AVOGADRO_CONSTANT', D('6.02214076'), 0),
+    ('PLANCK_CONSTANT', D('6.62607015E-34'), 0),
+    ('AVOGADRO_CONSTANT', D('6.02214076E23'), 0),
 ]
 
 
@@ -228,6 +229,13 @@ def round_to_bits(value, bits):
     return mantissa, e
 
 
+# Exact values the header writes with a decimal exponent: mantissa, exponent.
+EXPONENT_FORMS = {
+    'PLANCK_CONSTANT': ('6.62607015', '-34'),
+    'AVOGADRO_CONSTANT': ('6.02214076', '23'),
+}
+
+
 def truncated(value, decimals):
     return value.quantize(D(10) ** -decimals, rounding='ROUND_DOWN')
 
@@ -236,7 +244,8 @@ def header_tokens(path):
     text = open(path).read()
     tokens = {}
     for m in re.finditer(
-            r'#define LUMEX_MATH_CONSTANTS_(\w+)\s*\\?\s*\n?\s*([0-9.]+)',
+            r'#define LUMEX_MATH_CONSTANTS_(\w+)\s*\\?\s*\n?\s*'
+            r'([0-9.]+(?:[eE][+-]?[0-9]+)?)',
             text):
         tokens[m.group(1)] = m.group(2)
     return tokens
@@ -256,14 +265,21 @@ def main(argv):
             sys.stderr.write('%s: float(double) differs from float\n' % name)
         reference = (format(truncated(value, 60), 'f') if decimals
                      else format(value, 'f'))
-        if '.' not in reference:
+        if name in EXPONENT_FORMS:
+            reference = '%se%s' % EXPONENT_FORMS[name]
+        elif '.' not in reference:
             reference += '.0'
         token = tokens.get(name)
         if token is not None:
-            shown = len(token.split('.')[1])
             token_value = D(token)
-            if token_value not in (truncated(value, shown),
-                                   value.quantize(D(10) ** -shown)):
+            if name in EXPONENT_FORMS:
+                good = token_value == value
+                shown = 0
+            else:
+                shown = len(token.split('.')[1])
+                good = token_value in (truncated(value, shown),
+                                       value.quantize(D(10) ** -shown))
+            if not good:
                 sys.stderr.write('%s: header %s is wrong (true %s)\n'
                                  % (name, token, truncated(value, shown)))
                 problems += 1

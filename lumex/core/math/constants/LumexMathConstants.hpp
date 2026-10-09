@@ -99,9 +99,8 @@
   299792458.000000000000000000000000000000000000000000 // Speed of Light in
                                                        // Vacuum (m/s)
 #define LUMEX_MATH_CONSTANTS_PLANCK_CONSTANT                                  \
-  6.62607015000000000000000000000000000000000000000000 // Planck Constant (J.s)
+  6.62607015e-34 // Planck Constant (J.s), exact (SI 2019)
 #define LUMEX_MATH_CONSTANTS_AVOGADRO_CONSTANT                                \
-  6.02214076000000000000000000000000000000000000000000 // Avogadro Constant
-                                                       // (mol^-1)
+  6.02214076e23 // Avogadro Constant (mol^-1), exact (SI 2019)
 
 #endif // !LUMEX_CORE_MATH_CONSTANTS_HPP
