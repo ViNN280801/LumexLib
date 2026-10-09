@@ -13,12 +13,13 @@
 // where it is missing, which the fixture reads as "not applicable".
 
 #include <string>
-
-#include "lumex/core/utility/numeric/LumexSafeNumericComparator.hpp"
-
-#if LUMEX_HAS_THREE_WAY_COMPARISON
+#if defined(__has_include)
+#if __has_include(<compare>)
 #include <compare>
 #endif
+#endif
+
+#include "lumex/core/utility/numeric/LumexSafeNumericComparator.hpp"
 
 using namespace lumex::core::utility::numeric;
 
