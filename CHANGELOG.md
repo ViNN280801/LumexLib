@@ -1107,6 +1107,14 @@
 
 #### Исправлено
 
+##### `optional`: значение лежит в буфере `alignas`, а не в `std::aligned_storage` (C++23)
+
+**Файлы:** `lumex/core/optional/opt/LumexOptional.hpp`, `lumex/tests/core/optional/opt/LumexOptionalStorage.cxx11.tests.cpp` (новый), `lumex/tests/cmake/consumer/hygiene_compile_checks/` (`CMakeLists.txt`, `optional_aligned_storage.cpp` и `aligned_storage_baseline.cpp` - новые)
+
+**Суть:** `std::aligned_storage` объявлен устаревшим в C++23 ([depr.meta.types]), и заголовок `optional` выдавал `-Wdeprecated-declarations` на GCC 13 и Clang 23 при `-std=c++23` на каждом использовании. Теперь член хранения - `alignas (T) unsigned char m_storage[sizeof (T)]` (`alignas` есть в C++11); указатель на значение получается через `static_cast<T *> (static_cast<void *> (m_storage))`, поэтому `reinterpret_cast` и его `NOLINT` не нужны. Размер и выравнивание `optional<T>` те же, что давал прежний член: буфер идет первым, флаг после него (проверено на 18 типах до и после правки, вывод совпал). Проверка в `cmake.hygiene_compile_checks`: заголовок собирается под `-Wall -Wextra -Wpedantic -Wdeprecated-declarations -Werror` на C++11, 14, 17, 20 и (если компилятор знает C++23) 23; `std::aligned_storage` в отдельной единице на C++23 должен быть отвергнут как устаревший, иначе проверка на C++23 пропускается с сообщением (библиотека без устаревания ничего не доказывает).
+
+**Проверено:** GCC 13.2 Release, `optional.opt.` на C++11: 7 новых тестов `LumexOptionalStorageTest` (расположение для 18 типов, включая типы с выравниванием 16 и 32, нечетные размеры 3, 5, 7, выравнивание адреса значения, копирование и перемещение, константный доступ; до C++23 еще сравнение размера и выравнивания с прежним расположением `aligned_storage` + флаг через `static_assert`), все проходят; 51 тест вместе со следующим пунктом. Программа с 18 типами печатает те же `sizeof` и `alignof` для `optional<T>` с прежним и с новым заголовком (GCC 13, C++17). `-std=c++23 -Wall -Wextra -Wpedantic -Werror` без предупреждений на GCC 13.2 и Clang 23 (libstdc++ 13 и libc++); с прежним заголовком те же компиляторы давали `-Wdeprecated-declarations` (GCC одно, Clang два). На GCC 8.3 и Clang 23 (C++11) 51 тест, ASan/UBSan Debug - 51. `cmake.hygiene_compile_checks` проходит, с прежним заголовком падает на «the optional header under -Wdeprecated-declarations (C++23) must compile»; `aligned_storage_baseline.cpp` отвергается как устаревший на GCC 13.2 и Clang 23 (C++23). 2 мутации (без `alignas`, буфер на 8 байт длиннее), обе пойманы `static_assert` при сборке тестов.
+
 ##### `bit::count_leading_zeros` для `unsigned char` и `unsigned short`: без `-Wconversion` и `-Wsign-conversion`
 
 **Файлы:** `lumex/core/utility/bit/LumexBit.hpp`, `lumex/tests/core/utility/bit/LumexBit.cxx11.tests.cpp`, `lumex/tests/cmake/consumer/hygiene_compile_checks/` (`CMakeLists.txt`, `bit_warnings.cpp` - новый)

@@ -50,6 +50,16 @@
 #                               -Wsign-conversion -Wshadow -Wold-style-cast
 #                               -Werror (the result of the 32-bit intrinsic
 #                               was narrowed to std::uint8_t implicitly).
+#   optional_aligned_storage.cpp the optional header with -Wall -Wextra
+#                               -Wpedantic -Wdeprecated-declarations -Werror,
+#                               also at C++23 when the compiler has it: the
+#                               value lives in an alignas byte buffer because
+#                               C++23 deprecates std::aligned_storage.
+#                               aligned_storage_baseline.cpp (the deprecated
+#                               class itself) must be rejected as deprecated
+#                               at C++23, so that the check proves something;
+#                               a toolchain whose library does not deprecate
+#                               it skips the C++23 check with a message.
 #
 # A check that fails reports the compiler output.
 
@@ -74,6 +84,7 @@ if(MSVC)
     set(_strict "")
     set(_pedantic "")
     set(_strictest "")
+    set(_deprecated "")
     set(_float_equal "")
 else()
     set(_flags -Werror)
@@ -82,6 +93,7 @@ else()
     set(_pedantic -Wall -Wextra -Wpedantic)
     set(_strictest -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion
         -Wshadow -Wold-style-cast)
+    set(_deprecated -Wdeprecated-declarations)
     set(_float_equal -Wall -Wextra -Wfloat-equal)
 endif()
 
@@ -160,7 +172,9 @@ foreach(_std IN LISTS _standards)
 
     _lumex_hygiene_expect_ok("the bit header under the strictest flags"
         bit_warnings.cpp ${_std} ${_strictest})
-    math(EXPR _compiled "${_compiled} + 1")
+    _lumex_hygiene_expect_ok("the optional header under -Wdeprecated-declarations"
+        optional_aligned_storage.cpp ${_std} ${_pedantic} ${_deprecated})
+    math(EXPR _compiled "${_compiled} + 2")
 
     _lumex_hygiene_expect_ok("the safe comparator under -Wfloat-equal"
         float_equal_comparator.cpp ${_std} ${_float_equal})
@@ -172,6 +186,31 @@ foreach(_std IN LISTS _standards)
         math(EXPR _rejected "${_rejected} + 1")
     endif()
 endforeach()
+
+# C++23 deprecates std::aligned_storage. The deprecated class itself is the
+# baseline: where the toolchain rejects it as deprecated the optional header
+# is compiled the same way and must pass; where it does not (C++23 without a
+# library that deprecates it, or no C++23 at all) there is nothing to prove.
+if("cxx_std_23" IN_LIST CMAKE_CXX_COMPILE_FEATURES)
+    _lumex_hygiene_try(_baseline aligned_storage_baseline
+        aligned_storage_baseline.cpp 23 ${_pedantic} ${_deprecated})
+    if(_baseline)
+        message(STATUS "hygiene compile checks: this C++23 library does not "
+                       "deprecate std::aligned_storage, the optional check at "
+                       "C++23 is skipped")
+    else()
+        if(NOT _baseline_OUTPUT MATCHES "deprecated|C4996")
+            message(FATAL_ERROR
+                "std::aligned_storage (C++23) failed, but not as deprecated\n"
+                "${_baseline_OUTPUT}")
+        endif()
+        math(EXPR _rejected "${_rejected} + 1")
+        _lumex_hygiene_expect_ok(
+            "the optional header under -Wdeprecated-declarations"
+            optional_aligned_storage.cpp 23 ${_pedantic} ${_deprecated})
+        math(EXPR _compiled "${_compiled} + 1")
+    endif()
+endif()
 
 message(STATUS "hygiene compile checks: ${_compiled} translation units "
                "compile, ${_rejected} are rejected as expected")
