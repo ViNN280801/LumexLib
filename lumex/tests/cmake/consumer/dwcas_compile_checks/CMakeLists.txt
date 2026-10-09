@@ -38,6 +38,11 @@ else()
     set(_werror -Werror -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion
         -Wshadow -Wold-style-cast)
     set(_standards 11 20)
+    if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+        # --gcc-toolchain (CMAKE_CXX_FLAGS of the libstdc++ trees) is unused
+        # by a compile-only step and would fail every case under -Werror.
+        list(APPEND _werror -Wno-unused-command-line-argument)
+    endif()
 endif()
 
 function(_lumex_dwcas_try result_var tag standard)
@@ -112,6 +117,10 @@ endif()
 # --- The configuration header with simulated predefined macros --------------
 if(NOT MSVC)
     set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
+    set(_config_extra "")
+    if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+        set(_config_extra -Wno-unused-command-line-argument)
+    endif()
     set(_gnu -D__GNUC__=8)
     # <name>|<expected HAS>|<expected BACKEND>|<flags>
     set(_config_cases
@@ -141,12 +150,12 @@ if(NOT MSVC)
     # Cases that must not compile: a backend the compiler cannot implement
     # and a value that names no backend.
     set(_config_bad_cases
-        "forced_asm_without_gnu|-D_M_X64 -D_MSC_VER=1930 -DLUMEX_DWCAS_BACKEND=1"
-        "forced_builtin_without_int128|-D__x86_64__ ${_gnu} -DLUMEX_DWCAS_BACKEND=3"
-        "forced_builtin_without_gnu|-D_M_X64 -D_MSC_VER=1930 -D__SIZEOF_INT128__=16 -DLUMEX_DWCAS_BACKEND=3"
-        "forced_zero|-D__x86_64__ ${_gnu} -DLUMEX_DWCAS_BACKEND=0"
-        "forced_four|-D__x86_64__ ${_gnu} -DLUMEX_DWCAS_BACKEND=4"
-        "forced_seven|-D__x86_64__ ${_gnu} -DLUMEX_DWCAS_BACKEND=7"
+        "forced_asm_without_gnu|1|-D_M_X64 -D_MSC_VER=1930 -DLUMEX_DWCAS_BACKEND=1"
+        "forced_builtin_without_int128|3|-D__x86_64__ ${_gnu} -DLUMEX_DWCAS_BACKEND=3"
+        "forced_builtin_without_gnu|3|-D_M_X64 -D_MSC_VER=1930 -D__SIZEOF_INT128__=16 -DLUMEX_DWCAS_BACKEND=3"
+        "forced_zero|0|-D__x86_64__ ${_gnu} -DLUMEX_DWCAS_BACKEND=0"
+        "forced_four|4|-D__x86_64__ ${_gnu} -DLUMEX_DWCAS_BACKEND=4"
+        "forced_seven|7|-D__x86_64__ ${_gnu} -DLUMEX_DWCAS_BACKEND=7"
     )
 
     foreach(_entry IN LISTS _config_cases)
@@ -159,7 +168,7 @@ if(NOT MSVC)
         try_compile(_ok "${CMAKE_BINARY_DIR}/config_${_name}"
             SOURCES "${_config_source}"
             CMAKE_FLAGS "-DINCLUDE_DIRECTORIES=${LUMEX_SOURCE_DIR}"
-            COMPILE_DEFINITIONS -undef -Werror ${_flag_list}
+            COMPILE_DEFINITIONS -undef -Werror ${_config_extra} ${_flag_list}
                 -DEXPECT_HAS=${_has} -DEXPECT_BACKEND=${_backend}
             CXX_STANDARD 11
             CXX_STANDARD_REQUIRED ON
@@ -176,7 +185,7 @@ if(NOT MSVC)
         try_compile(_ok "${CMAKE_BINARY_DIR}/config_wrong_${_name}"
             SOURCES "${_config_source}"
             CMAKE_FLAGS "-DINCLUDE_DIRECTORIES=${LUMEX_SOURCE_DIR}"
-            COMPILE_DEFINITIONS -undef -Werror ${_flag_list}
+            COMPILE_DEFINITIONS -undef -Werror ${_config_extra} ${_flag_list}
                 -DEXPECT_HAS=${_wrong_has} -DEXPECT_BACKEND=${_backend}
             CXX_STANDARD 11
             CXX_STANDARD_REQUIRED ON
@@ -193,13 +202,14 @@ if(NOT MSVC)
     foreach(_entry IN LISTS _config_bad_cases)
         string(REPLACE "|" ";" _parts "${_entry}")
         list(GET _parts 0 _name)
-        list(GET _parts 1 _flags)
+        list(GET _parts 1 _forced)
+        list(GET _parts 2 _flags)
         separate_arguments(_flag_list UNIX_COMMAND "${_flags}")
         try_compile(_ok "${CMAKE_BINARY_DIR}/config_bad_${_name}"
             SOURCES "${_config_source}"
             CMAKE_FLAGS "-DINCLUDE_DIRECTORIES=${LUMEX_SOURCE_DIR}"
-            COMPILE_DEFINITIONS -undef -Werror ${_flag_list}
-                -DEXPECT_HAS=1 -DEXPECT_BACKEND=1
+            COMPILE_DEFINITIONS -undef -Werror ${_config_extra} ${_flag_list}
+                -DEXPECT_HAS=1 -DEXPECT_BACKEND=${_forced}
             CXX_STANDARD 11
             CXX_STANDARD_REQUIRED ON
             CXX_EXTENSIONS OFF)
