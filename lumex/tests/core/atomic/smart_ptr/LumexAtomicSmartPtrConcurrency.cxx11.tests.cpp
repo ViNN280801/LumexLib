@@ -427,6 +427,7 @@ TEST (LumexAtomicSmartPtrConcurrencyTest,
 TEST (LumexAtomicSmartPtrConcurrencyTest,
       GivenOneWriterAlternatingOwnersUnderReaders_WhenDone_ThenAllAreReleased)
 {
+  LUMEX_ATOMIC_TEST_REQUIRE_PROMPT_DESTRUCTION ();
   // The readers-heavy pattern in which the lock-free libc++ variant leaked
   // one reference per control block. Nothing outside the atomic keeps the
   // objects at the end, so every object and every control block must be gone
