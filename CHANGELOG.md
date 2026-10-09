@@ -20,6 +20,14 @@
 
 #### Изменено
 
+##### Контракт `serial_port_info_t::path`: имя порта по умолчанию, путь открытия по флагу `need_full_path` (PEW-2313)
+
+**Файлы:** `lumex/applied/serial/enumeration/LumexSerialPortEnumeration.hpp`, `lumex/applied/serial/enumeration/LumexSerialPortEnumeration.cpp`, `lumex/tests/applied/serial/LumexSerialPortEnumeration.cxx11.tests.cpp`
+
+**Суть:** `enumerate_serial_ports_detailed` и `enumerate_serial_port_names` получили параметр `bool need_full_path = false`: по умолчанию `path` - каноническое имя порта (`COM12` на Windows, `ttyACM0` на POSIX), при `true` - путь, готовый к открытию (`\\.\COM12`, `/dev/ttyACM0`). Это возврат контракта, совместимого с `resolve_serial_port_path`: в 1.0.3.0 перечисление на POSIX отдавало полный путь, и потребитель, резолвивший его повторно, получал несуществующий `/dev/serial/by-id//dev/ttyACM0`. Ограниченное открытие внутри перечисления в обоих режимах открывает путь.
+
+**Проверено:** GCC 13.2 Release, GCC 8.3 и Clang 23.1.0: `serial.*` 27 из 27 на каждом (включая новый `FullPathFlagSelectsNameOrOpenablePath`), сборка без предупреждений; мутация (флаг не читается) роняет тест.
+
 ##### Релизный скрипт Windows по схеме Linux-скрипта
 
 **Файлы:** `create_release.ps1`, `create_release.sh`
@@ -61,6 +69,16 @@
 **Проверено:** кейс падал до обвязки и зелен после; прогон `create_release.ps1 -Compilers v145 -Formats zip,exe` (2 мин 47 с): в `LumexLib-1.0.3.1_win_x64_msvc2026.zip` 265 записей (было 262), `bin/` - 19 файлов (было 16): + `msvcp140.dll`, `vcruntime140.dll`, `vcruntime140_1.dll`; те же три файла в CPack-стейджинге и в `project.nsi` инсталлятора. Linux-сторона не затронута: хук под `if(WIN32)`, скрипт выходит при `NOT WIN32`.
 
 ---
+
+#### Исправлено
+
+##### `resolve_serial_port_path` возвращает абсолютный путь без изменений (PEW-2313, PEW-2308)
+
+**Файлы:** `lumex/applied/serial/port/LumexSerialPort.cpp`, `lumex/tests/applied/serial/LumexSerialPort.cxx11.tests.cpp`
+
+**Суть:** на POSIX уже абсолютный путь (`/dev/ttyACM0`, `/dev/serial/by-id/...`) возвращается как есть; раньше повторный вызов дописывал префикс и получался несуществующий `/dev/serial/by-id//dev/ttyACM0`. Ветка Windows такие значения и так возвращала без изменений; короткие имена, by-id алиасы и сетевые каналы не изменились.
+
+**Проверено:** GCC 13.2 Release, GCC 8.3 и Clang 23.1.0: `serial.port.LumexSerialPort.AbsoluteDevPathIsReturnedUnchanged` проходит на всех трех (27 из 27 в наборе); мутация (guard убран) роняет тест.
 
 ## [v1.0.3.0] - в разработке
 
