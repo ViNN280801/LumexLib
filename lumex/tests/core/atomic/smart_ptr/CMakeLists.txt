@@ -5,7 +5,9 @@
 # One suite per standard of the module and per variant
 # (lumex/tests/LumexTestStandards.cmake), every one built from the files of
 # its standard and the lower ones:
-#   LumexAtomicSmartPtrCxx11Tests          every *.cxx11.tests.cpp
+#   LumexAtomicSmartPtrCxx11Tests          every *.cxx11.tests.cpp, the common
+#                                          names (the lock-free engine where
+#                                          lumex::hazard_pointer is linked)
 #   LumexAtomicSmartPtrCxx17Tests          + LumexAtomicSmartPtrKinds.cxx17
 #                                          (weak_from_this, shared_ptr<T[]>)
 #   LumexAtomicSmartPtrCxx20Tests          + the *.cxx20.tests.cpp files
@@ -13,9 +15,12 @@
 #                                          std::jthread, the differential run
 #                                          against std::atomic<std::shared_ptr
 #                                          <T>>)
-#   LumexAtomicSmartPtrLockBasedCxx20Tests C++20 with the lock-based cell
-#                                          forced
+#   LumexAtomicSmartPtrLockBasedCxx11Tests the lock-based engine forced, at
+#   LumexAtomicSmartPtrLockBasedCxx20Tests C++11 and C++20
 #   LumexAtomicSmartPtrWaitTableCxx20Tests C++20 with the wait table forced
+#   LumexAtomicSmartPtrNoLockFreeCxx11Tests the build without the lock-free
+#   LumexAtomicSmartPtrNoLockFreeCxx20Tests engine (the branch where only the
+#                                          lock-based engine exists)
 # LumexAtomicTestSupport.hpp of the module's directory holds what they share.
 #
 # The suites are engine-parametrized. The tests reach the atomic smart pointer
@@ -62,4 +67,5 @@ lumex_add_standard_suites(AtomicSmartPtr
     SOAK_FILTER *Soak*
     VARIANT lock_based DEFINITIONS LUMEX_ATOMIC_SMART_PTR_FORCE_LOCK_BASED
     VARIANT wait_table DEFINITIONS LUMEX_ATOMIC_WAIT_FORCE_TABLE
+    VARIANT no_lock_free DEFINITIONS LUMEX_ATOMIC_SMART_PTR_DISABLE_LOCK_FREE
 )

@@ -1,6 +1,8 @@
-# core/atomic wiring: a header-only target that links Threads::Threads, five
-# test suites per test directory (C++11, C++17, C++20, and C++20 with the
-# forced lock-based implementation or the forced wait table) built by
+# core/atomic wiring: a header-only target that links Threads::Threads (and
+# the compiled lumex::hazard_pointer through a soft edge: the lock-free engine
+# exists when that target does), the test suites of each test directory (C++11,
+# C++17, C++20, the forced lock-based engine at C++11 and C++20, the forced
+# wait table and the build without the lock-free engine) built by
 # lumex_add_standard_suites from the table of
 # lumex/tests/LumexTestStandards.cmake under the CTest prefixes "atomic.",
 # "atomic.smart_ptr." and "atomic.sync." (derived from the directory, pinned by
@@ -39,6 +41,8 @@ foreach(_directory "" "smart_ptr/" "sync/")
         "VARIANT lock_based DEFINITIONS LUMEX_ATOMIC_SMART_PTR_FORCE_LOCK_BASED")
     _require_text("${_tests}"
         "VARIANT wait_table DEFINITIONS LUMEX_ATOMIC_WAIT_FORCE_TABLE")
+    _require_text("${_tests}"
+        "VARIANT no_lock_free DEFINITIONS LUMEX_ATOMIC_SMART_PTR_DISABLE_LOCK_FREE")
     _require_text("${_tests}" "PROPERTIES TIMEOUT")
 endforeach()
 if(NOT EXISTS
@@ -58,9 +62,11 @@ endforeach()
 set(_table "lumex/tests/LumexTestStandards.cmake")
 _require_text("${_table}" "lumex_test_standards_declare(atomic 11 17 20)")
 _require_text("${_table}"
-    "lumex_test_standards_declare_variant(atomic lock_based 20)")
+    "lumex_test_standards_declare_variant(atomic lock_based 11 20)")
 _require_text("${_table}"
     "lumex_test_standards_declare_variant(atomic wait_table 20)")
+_require_text("${_table}"
+    "lumex_test_standards_declare_variant(atomic no_lock_free 11 20)")
 
 _require_text("lumex/tests/core/CMakeLists.txt"
     "lumex_add_subdirectory_if(LUMEX_BUILD_ATOMIC atomic)")
@@ -73,6 +79,19 @@ _require_text("${_config_in}"
 _require_text("${_config_in}" "atomic base64 circular_buffer")
 
 _require_text("conanfile.py" "\"core_atomic\", \"atomic\"")
+# The lock-free engine is built on core/hazard_pointer: a soft edge in CMake
+# (the target is linked, and the definition set, only when it exists), a plain
+# requirement in the Conan package. There is no lumex_require_module line.
+_require_text("${_module}" "if(TARGET lumex::hazard_pointer)")
+_require_text("${_module}" "LUMEX_ATOMIC_HAS_HAZARD_POINTER=1")
+_require_text("conanfile.py" "requires=[\"core_hazard_pointer\"]")
+_require_text("lumex/core/CMakeLists.txt"
+    "lumex_add_subdirectory_if(LUMEX_BUILD_HAZARD_POINTER hazard_pointer)")
+file(READ "${LUMEX_SOURCE_DIR}/cmake/LumexModules.cmake" _modules_text)
+string(FIND "${_modules_text}" "lumex_require_module(LUMEX_BUILD_ATOMIC" _atomic_requires)
+if(NOT _atomic_requires EQUAL -1)
+    message(FATAL_ERROR "atomic -> hazard_pointer is a soft edge: LumexModules.cmake must not require a module for LUMEX_BUILD_ATOMIC")
+endif()
 _require_text("lumex/core/atomic/smart_ptr/LumexAtomicSmartPtrConfig.hpp"
     "defined(LUMEX_ATOMIC_SMART_PTR_FORCE_LOCK_BASED)")
 _require_text("lumex/core/atomic/sync/LumexAtomicWait.hpp"

@@ -14,18 +14,20 @@
 # Every directory has one suite per standard of the module and per variant
 # (lumex/tests/LumexTestStandards.cmake), each one built from the files of its
 # standard and the lower ones; the suites of this directory are
-#   LumexAtomicCxx11Tests          C++11 - lock-based, table
-#   LumexAtomicCxx17Tests          C++17 - lock-based, table
-#   LumexAtomicCxx20Tests          C++20 - std::atomic<std::shared_ptr<T>>
-#                                  where the library has it (libstdc++ 12+,
-#                                  MSVC), lock-based otherwise (libc++);
-#                                  std::atomic::wait
-#   LumexAtomicLockBasedCxx20Tests C++20 - lock-based (forced),
-#                                  std::atomic::wait
-#   LumexAtomicWaitTableCxx20Tests C++20 - as LumexAtomicCxx20Tests, with the
-#                                  table (forced)
-# and the same five, named LumexAtomicSmartPtr... and LumexAtomicSync..., in
-# each subdirectory.
+#   LumexAtomicCxx11Tests            C++11 - the common names (the lock-free
+#                                    engine where lumex::hazard_pointer is
+#                                    linked), table wait
+#   LumexAtomicCxx17Tests            C++17 - as C++11
+#   LumexAtomicCxx20Tests            C++20 - as C++11, std::atomic::wait
+#   LumexAtomicLockBasedCxx11Tests   C++11 - the common names forced to the
+#   LumexAtomicLockBasedCxx20Tests   lock-based engine (C++20: std wait)
+#   LumexAtomicWaitTableCxx20Tests   C++20 - the table forced instead of
+#                                    std::atomic::wait
+#   LumexAtomicNoLockFreeCxx11Tests  C++11 and C++20 - the build where the
+#   LumexAtomicNoLockFreeCxx20Tests  lock-free engine does not exist
+#                                    (LUMEX_ATOMIC_SMART_PTR_DISABLE_LOCK_FREE)
+# and the same, named LumexAtomicSmartPtr... and LumexAtomicSync..., in each
+# subdirectory.
 # LumexAtomicGlobalNames.cxx11.tests.cpp declares global atomic_shared_ptr
 # and atomic_weak_ptr templates of its own: every suite stops building if the
 # module declares either name at global scope.
@@ -56,6 +58,7 @@ lumex_add_standard_suites(Atomic
     SOAK_FILTER *Soak*
     VARIANT lock_based DEFINITIONS LUMEX_ATOMIC_SMART_PTR_FORCE_LOCK_BASED
     VARIANT wait_table DEFINITIONS LUMEX_ATOMIC_WAIT_FORCE_TABLE
+    VARIANT no_lock_free DEFINITIONS LUMEX_ATOMIC_SMART_PTR_DISABLE_LOCK_FREE
 )
 
 add_subdirectory(dwcas)

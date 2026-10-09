@@ -9,6 +9,7 @@
 
 #include <atomic>
 #include <memory>
+#include <type_traits>
 
 #include "lumex/core/atomic/LumexAtomic"
 
@@ -128,6 +129,58 @@ main ()
   used += weak.compare_exchange_weak (weak_expected, weak_desired,
                                       std::memory_order_seq_cst,
                                       std::memory_order_acq_rel);
+#elif defined(LUMEX_ATOMIC_NAME_GOOD_FREE)
+  // The lock-free engine exists in this configuration: both names, both
+  // policies, and the common names resolve to it.
+  static_assert (LUMEX_ATOMIC_SMART_PTR_HAS_LOCK_FREE == 1, "has the engine");
+  lumex::core::atomic::smart_ptr::atomic_shared_ptr_lock_free<int> free_shared;
+  lumex::core::atomic::smart_ptr::atomic_weak_ptr_lock_free<int> free_weak;
+  lumex::core::atomic::smart_ptr::atomic_shared_ptr_lock_free<
+      int, lumex::core::atomic::smart_ptr::reclaim::deferred>
+      deferred_shared;
+  static_assert (
+      std::is_same<atomic_shared_ptr<int>,
+                   lumex::core::atomic::smart_ptr::atomic_shared_ptr_lock_free<
+                       int>>::value,
+      "the common name is the lock-free engine");
+  static_assert (
+      std::is_same<atomic_weak_ptr<int>,
+                   lumex::core::atomic::smart_ptr::atomic_weak_ptr_lock_free<
+                       int>>::value,
+      "the common name is the lock-free engine");
+  static_assert (lumex::core::atomic::smart_ptr::atomic_shared_ptr_lock_free<
+                     int>::is_always_lock_free,
+                 "always lock-free");
+  used += free_shared.is_lock_free () ? 1 : 0;
+  used += free_weak.is_lock_free () ? 1 : 0;
+  used += deferred_shared.is_lock_free () ? 1 : 0;
+#elif defined(LUMEX_ATOMIC_NAME_GOOD_LOCK_BASED)
+  // Without the engine the common names are the lock-based one.
+  static_assert (LUMEX_ATOMIC_SMART_PTR_HAS_LOCK_FREE == 0, "no engine");
+  static_assert (std::is_same<atomic_shared_ptr<int>,
+                              lumex::core::atomic::smart_ptr::
+                                  atomic_shared_ptr_lock_based<int>>::value,
+                 "the common name is the lock-based engine");
+  static_assert (
+      std::is_same<atomic_weak_ptr<int>,
+                   lumex::core::atomic::smart_ptr::atomic_weak_ptr_lock_based<
+                       int>>::value,
+      "the common name is the lock-based engine");
+  static_assert (!atomic_shared_ptr<int>::is_always_lock_free,
+                 "not lock-free");
+  used += shared.is_lock_free () ? 1 : 0;
+#elif defined(LUMEX_ATOMIC_NAME_BAD_FREE)
+  // Naming the lock-free engine where it does not exist is an error.
+  lumex::core::atomic::smart_ptr::atomic_shared_ptr_lock_free<int> named;
+  used += named.is_lock_free () ? 1 : 0;
+#elif defined(LUMEX_ATOMIC_NAME_BAD_FREE_WEAK)
+  lumex::core::atomic::smart_ptr::atomic_weak_ptr_lock_free<int> named;
+  used += named.is_lock_free () ? 1 : 0;
+#elif defined(LUMEX_ATOMIC_NAME_BAD_STD_BACKED)
+  // Below C++20 (or with a library without the standard type) there is no
+  // wrapper to name.
+  lumex::core::atomic::smart_ptr::atomic_shared_ptr_std_backed<int> named;
+  used += named.is_lock_free () ? 1 : 0;
 #elif defined(LUMEX_ATOMIC_PROBE_DIAGNOSE_IF)
 #if !defined(LUMEX_ATOMIC_SMART_PTR_HAS_DIAGNOSE_IF)
 #error "no diagnose_if attribute"
