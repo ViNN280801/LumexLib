@@ -54,9 +54,12 @@
  * assignment operators, observers (`has_value`, `value`, `value_or`,
  * `operator*`, `operator->`), and modifiers (`swap`, `reset`, `emplace`).
  * Non-member comparison operators and `std::hash` specialization are also
- * provided for full compatibility and usability. This header declares
- * everything in `lumex::core::optional::opt` and puts no name at global scope;
- * the global aliases (`optional`, `nullopt`, `make_optional`,
+ * provided for full compatibility and usability. The class is the same in
+ * every standard and is never an alias of `std::optional`: from C++17 it
+ * converts implicitly to and from `std::optional<T>` (the same `T`) and
+ * compares with it (see the members and the operators marked C++17). This
+ * header declares everything in `lumex::core::optional::opt` and puts no name
+ * at global scope; the global aliases (`optional`, `nullopt`, `make_optional`,
  * `lumex_bad_optional_access`) are in `LumexOptionalGlobals.hpp`, which the
  * umbrella `LumexOptional` includes.
  */
@@ -95,6 +98,9 @@
 #include <stdexcept>        // For std::logic_error
 #include <type_traits>      // For std::is_*, std::decay
 #include <utility>          // For std::forward, std::move, std::swap
+#if __cplusplus >= 201703L
+#include <optional> // For std::optional, the twin the class converts to/from
+#endif
 
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 
@@ -461,6 +467,97 @@ public:
   {
     construct (ilist, std::forward<Args> (args)...);
   }
+
+#if __cplusplus >= 201703L
+  /**
+   * @brief Implicit conversion from `std::optional<T>` (C++17), copying.
+   * @details A constructor template that accepts exactly
+   * `std::optional<T>` (the deduced type is compared, so nothing else
+   * converts and the overloads above are not disturbed). An empty
+   * `std::optional` gives an empty `optional`. It is not `constexpr`: the
+   * value lives in a byte buffer, which a constant expression cannot hold.
+   * @tparam StdOptional Deduced from the argument; only `std::optional<T>`
+   * is accepted.
+   * @param other The `std::optional<T>` to copy.
+   */
+  template <typename StdOptional,
+            typename std::enable_if<
+                std::is_same<StdOptional, std::optional<T>>::value
+                    && std::is_copy_constructible<T>::value,
+                int>::type
+            = 0>
+  optional (StdOptional const &other)
+      LUMEX_NOEXCEPT_IF (std::is_nothrow_copy_constructible<T>::value)
+      : m_has_value (false)
+  {
+    if (other.has_value ())
+      construct (*other);
+  }
+
+  /**
+   * @brief Implicit conversion from `std::optional<T>` (C++17), moving.
+   * @details The value of an rvalue `std::optional<T>` is moved; the source
+   * keeps its (moved-from) value, as after `std::optional`'s own move.
+   * @tparam StdOptional Deduced from the argument; only an rvalue
+   * `std::optional<T>` is accepted.
+   * @param other The `std::optional<T>` to move from.
+   */
+  template <typename StdOptional,
+            typename std::enable_if<
+                std::is_same<StdOptional, std::optional<T>>::value
+                    && std::is_move_constructible<T>::value,
+                int>::type
+            = 0>
+  optional (StdOptional &&other)
+      LUMEX_NOEXCEPT_IF (std::is_nothrow_move_constructible<T>::value)
+      : m_has_value (false)
+  {
+    if (other.has_value ())
+      construct (std::move (*other));
+  }
+
+  /**
+   * @brief Implicit conversion to `std::optional<T>` (C++17), copying.
+   * @details A conversion function template that accepts exactly
+   * `std::optional<T>` as the target. An empty `optional` gives an empty
+   * `std::optional`. It is not `constexpr` (see the constructor above).
+   * @tparam StdOptional Deduced from the target; only `std::optional<T>` is
+   * accepted.
+   * @return A `std::optional<T>` with a copy of the value, or empty.
+   */
+  template <typename StdOptional,
+            typename std::enable_if<
+                std::is_same<StdOptional, std::optional<T>>::value
+                    && std::is_copy_constructible<T>::value,
+                int>::type
+            = 0>
+  operator StdOptional () const &LUMEX_NOEXCEPT_IF (
+      std::is_nothrow_copy_constructible<T>::value)
+  {
+    return m_has_value ? std::optional<T> (*get_ptr ()) : std::optional<T> ();
+  }
+
+  /**
+   * @brief Implicit conversion to `std::optional<T>` (C++17), moving.
+   * @details Used for an rvalue `optional`: the value is moved out and the
+   * source `optional` keeps its (moved-from) value.
+   * @tparam StdOptional Deduced from the target; only `std::optional<T>` is
+   * accepted.
+   * @return A `std::optional<T>` with the moved value, or empty.
+   */
+  template <typename StdOptional,
+            typename std::enable_if<
+                std::is_same<StdOptional, std::optional<T>>::value
+                    && std::is_move_constructible<T>::value,
+                int>::type
+            = 0>
+      operator StdOptional ()
+      && LUMEX_NOEXCEPT_IF (std::is_nothrow_move_constructible<T>::value)
+  {
+    return m_has_value ? std::optional<T> (std::move (*get_ptr ()))
+                       : std::optional<T> ();
+  }
+#endif
 
   // ============ Destructor ============
   /**
@@ -1492,6 +1589,168 @@ make_optional (std::initializer_list<U> ilist, Args &&...args)
 {
   return optional<T> (in_place, ilist, std::forward<Args> (args)...);
 }
+
+#if __cplusplus >= 201703L
+// Comparisons of an `optional` with a `std::optional` (C++17). Without them
+// `lumex_opt == std_opt` would pick the comparison with a value above and
+// compare `T` with the whole `std::optional`, which is false for two empty
+// optionals. Both operand types are named, so these are the most specialized
+// candidates in both orders and no conversion is needed. The result follows
+// the optional against optional rules of the standard.
+
+/**
+ * @brief `==` between an `optional` (left) and a `std::optional` (right),
+ * C++17.
+ * @return Equal: both empty, or both hold equal values.
+ */
+template <typename T, typename U>
+bool
+operator== (optional<T> const &lhs, std::optional<U> const &rhs)
+{
+  return lhs.has_value () != rhs.has_value ()
+             ? false
+             : (!lhs.has_value () || *lhs == *rhs);
+}
+
+/**
+ * @brief `==` between a `std::optional` (left) and an `optional` (right),
+ * C++17.
+ * @return Equal: both empty, or both hold equal values.
+ */
+template <typename T, typename U>
+bool
+operator== (std::optional<T> const &lhs, optional<U> const &rhs)
+{
+  return lhs.has_value () != rhs.has_value ()
+             ? false
+             : (!lhs.has_value () || *lhs == *rhs);
+}
+
+/**
+ * @brief `!=` between an `optional` (left) and a `std::optional` (right),
+ * C++17.
+ * @return Not equal.
+ */
+template <typename T, typename U>
+bool
+operator!= (optional<T> const &lhs, std::optional<U> const &rhs)
+{
+  return lhs.has_value () != rhs.has_value ()
+             ? true
+             : (lhs.has_value () && *lhs != *rhs);
+}
+
+/**
+ * @brief `!=` between a `std::optional` (left) and an `optional` (right),
+ * C++17.
+ * @return Not equal.
+ */
+template <typename T, typename U>
+bool
+operator!= (std::optional<T> const &lhs, optional<U> const &rhs)
+{
+  return lhs.has_value () != rhs.has_value ()
+             ? true
+             : (lhs.has_value () && *lhs != *rhs);
+}
+
+/**
+ * @brief `<` between an `optional` (left) and a `std::optional` (right),
+ * C++17.
+ * @return Less: empty is less than any value.
+ */
+template <typename T, typename U>
+bool
+operator< (optional<T> const &lhs, std::optional<U> const &rhs)
+{
+  return rhs.has_value () && (!lhs.has_value () || *lhs < *rhs);
+}
+
+/**
+ * @brief `<` between a `std::optional` (left) and an `optional` (right),
+ * C++17.
+ * @return Less: empty is less than any value.
+ */
+template <typename T, typename U>
+bool
+operator< (std::optional<T> const &lhs, optional<U> const &rhs)
+{
+  return rhs.has_value () && (!lhs.has_value () || *lhs < *rhs);
+}
+
+/**
+ * @brief `<=` between an `optional` (left) and a `std::optional` (right),
+ * C++17.
+ * @return Less or equal.
+ */
+template <typename T, typename U>
+bool
+operator<= (optional<T> const &lhs, std::optional<U> const &rhs)
+{
+  return !lhs.has_value () || (rhs.has_value () && *lhs <= *rhs);
+}
+
+/**
+ * @brief `<=` between a `std::optional` (left) and an `optional` (right),
+ * C++17.
+ * @return Less or equal.
+ */
+template <typename T, typename U>
+bool
+operator<= (std::optional<T> const &lhs, optional<U> const &rhs)
+{
+  return !lhs.has_value () || (rhs.has_value () && *lhs <= *rhs);
+}
+
+/**
+ * @brief `>` between an `optional` (left) and a `std::optional` (right),
+ * C++17.
+ * @return Greater.
+ */
+template <typename T, typename U>
+bool
+operator> (optional<T> const &lhs, std::optional<U> const &rhs)
+{
+  return lhs.has_value () && (!rhs.has_value () || *lhs > *rhs);
+}
+
+/**
+ * @brief `>` between a `std::optional` (left) and an `optional` (right),
+ * C++17.
+ * @return Greater.
+ */
+template <typename T, typename U>
+bool
+operator> (std::optional<T> const &lhs, optional<U> const &rhs)
+{
+  return lhs.has_value () && (!rhs.has_value () || *lhs > *rhs);
+}
+
+/**
+ * @brief `>=` between an `optional` (left) and a `std::optional` (right),
+ * C++17.
+ * @return Greater or equal.
+ */
+template <typename T, typename U>
+bool
+operator>= (optional<T> const &lhs, std::optional<U> const &rhs)
+{
+  return !rhs.has_value () || (lhs.has_value () && *lhs >= *rhs);
+}
+
+/**
+ * @brief `>=` between a `std::optional` (left) and an `optional` (right),
+ * C++17.
+ * @return Greater or equal.
+ */
+template <typename T, typename U>
+bool
+operator>= (std::optional<T> const &lhs, optional<U> const &rhs)
+{
+  return !rhs.has_value () || (lhs.has_value () && *lhs >= *rhs);
+}
+
+#endif
 
 } // namespace opt
 } // namespace optional

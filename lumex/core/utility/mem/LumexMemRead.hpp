@@ -28,14 +28,16 @@
  * buffer through `std::memcpy`, so unaligned data is read without undefined
  * behavior.
  * @details It works from C++11. It returns an empty optional for a null
- * pointer or a buffer shorter than `sizeof(T)`. `optional_t<T>` is
- * `std::optional<T>` from C++17 and `lumex::core::optional::opt::optional<T>`
- * (the optional module) before it; the header does not put `optional` or
- * `nullopt` at global scope, test the result with `has_value ()`. The
+ * pointer or a buffer shorter than `sizeof(T)`. The result is always
+ * `lumex::core::optional::opt::optional<T>` of the optional module
+ * (`optional_t<T>` names it), whatever the standard; from C++17 it converts
+ * implicitly to and from `std::optional<T>`, so `std::optional<int> value
+ * = mem::as<int> (data, size);` compiles. The header does not put `optional`
+ * or `nullopt` at global scope, test the result with `has_value ()`. The
  * overloads take a pointer and a size, a `lumex::core::span::view::span` of
  * `char`, `unsigned char`, `std::byte` (C++17) or the `byte` of the span
- * module (before C++17), a `std::span` of the same element types (C++20), or
- * an object with `get_data()` and `get_data_size()`. The value type must
+ * module, a `std::span` of the same element types (C++20), or an object with
+ * `get_data()` and `get_data_size()`. The value type must
  * satisfy `traits::meta::is_extractible` of `LumexTypeTraits.hpp`: trivially
  * copyable, standard layout, neither a pointer nor a reference, and neither
  * `const` nor `volatile` (the bytes are copied into a local object of `T`, so
@@ -79,9 +81,6 @@
 #include <cstdint> // for std::uintptr_t
 #include <cstring>
 #include <memory> // std::addressof
-#if __cplusplus >= 201703L
-#include <optional>
-#endif
 #if __cplusplus > 201703L && defined(__has_include)
 #if __has_include(<span>)
 #include <span>
@@ -90,12 +89,10 @@
 #include <type_traits>
 #include <utility> // std::declval
 
-// Before C++17 the result is the optional of this library; its types header
-// declares nothing at global scope (LumexOptional.hpp is the umbrella with the
-// global aliases).
-#if __cplusplus < 201703L
+// The result is the optional of this library in every standard; its types
+// header declares nothing at global scope (LumexOptional is the umbrella with
+// the global aliases).
 #include "lumex/core/optional/opt/LumexOptional.hpp"
-#endif
 #include "lumex/core/span/LumexSpan"
 #include "lumex/core/utility/attr/LumexAttributes.hpp"
 #include "lumex/core/utility/compiler/LumexCheckFeatures.hpp"
@@ -110,20 +107,13 @@ namespace utility
 {
 namespace mem
 {
-#if __cplusplus >= 201703L
 /**
- * @brief The result of `as`: `std::optional<T>` from C++17, the optional of
- * this library (`lumex::core::optional::opt::optional<T>`) before it.
- */
-template <typename T> using optional_t = std::optional<T>;
-#else
-/**
- * @brief The result of `as`: `std::optional<T>` from C++17, the optional of
- * this library (`lumex::core::optional::opt::optional<T>`) before it.
+ * @brief The result of `as`: `lumex::core::optional::opt::optional<T>` in
+ * every standard (not an alias of `std::optional`; it converts to and from
+ * `std::optional<T>` from C++17).
  */
 template <typename T>
 using optional_t = lumex::core::optional::opt::optional<T>;
-#endif
 
 namespace Detail
 {
@@ -154,8 +144,8 @@ struct is_data_source<
 
 /**
  * @brief An element type of a byte span that `as` accepts: `char`,
- * `unsigned char`, `std::byte` (C++17) or the `byte` of the span module (which
- * is `std::byte` from C++17 and an own enumeration before it).
+ * `unsigned char`, `std::byte` (C++17) or the `byte` of the span module (an
+ * own enumeration in every standard).
  */
 template <typename ByteType>
 struct is_byte_element
