@@ -87,6 +87,9 @@ TEST (LumexTypeTraitsTopicsTest, GivenTypes_WhenExtractible_ThenPodValuesOnly)
   EXPECT_FALSE (traits::meta::Extractible<int &>);
   EXPECT_FALSE (traits::meta::Extractible<std::string>);
   EXPECT_FALSE (traits::meta::Extractible<base_t>);
+  EXPECT_FALSE (traits::meta::Extractible<int const>);
+  EXPECT_FALSE (traits::meta::Extractible<int volatile>);
+  EXPECT_FALSE (traits::meta::Extractible<int const volatile>);
 #else
   GTEST_SKIP () << "the standard library has no <concepts>";
 #endif
@@ -118,6 +121,11 @@ TEST (LumexTypeTraitsTopicsTest, GivenTypes_WhenTraitAndConcept_ThenTheyAgree)
   LUMEX_TRAITS_AGREE (is_extractible, Extractible, std::string);
   LUMEX_TRAITS_AGREE (is_extractible, Extractible, base_t);
   LUMEX_TRAITS_AGREE (is_extractible, Extractible, concept_array_t);
+  LUMEX_TRAITS_AGREE (is_extractible, Extractible, int const);
+  LUMEX_TRAITS_AGREE (is_extractible, Extractible, int volatile);
+  LUMEX_TRAITS_AGREE (is_extractible, Extractible, int const volatile);
+  LUMEX_TRAITS_AGREE (is_extractible, Extractible, concept_pair_t const);
+  LUMEX_TRAITS_AGREE (is_extractible, Extractible, concept_array_t const);
   LUMEX_TRAITS_AGREE (is_byte_like, ByteLike, std::byte);
   LUMEX_TRAITS_AGREE (is_byte_like, ByteLike, char);
   LUMEX_TRAITS_AGREE (is_byte_like, ByteLike, unsigned char);

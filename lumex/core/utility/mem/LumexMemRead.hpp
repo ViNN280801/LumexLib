@@ -37,10 +37,12 @@
  * module (before C++17), a `std::span` of the same element types (C++20), or
  * an object with `get_data()` and `get_data_size()`. The value type must
  * satisfy `traits::meta::is_extractible` of `LumexTypeTraits.hpp`: trivially
- * copyable, standard layout, and neither a pointer nor a reference; any other
- * type finds no overload. The constraints are the same SFINAE form in every
- * standard (the concepts `Extractible` and `ByteLike` of C++20 stay in
- * `LumexTypeTraits.hpp` for their other users).
+ * copyable, standard layout, neither a pointer nor a reference, and neither
+ * `const` nor `volatile` (the bytes are copied into a local object of `T`, so
+ * `as<int const>` finds no overload instead of failing inside the function);
+ * any other type finds no overload. The constraints are the same SFINAE form
+ * in every standard (the concepts `Extractible` and `ByteLike` of C++20 stay
+ * in `LumexTypeTraits.hpp` for their other users).
  */
 #ifndef LUMEX_CORE_UTILITY_MEM_HPP
 #define LUMEX_CORE_UTILITY_MEM_HPP
@@ -166,8 +168,8 @@ struct is_byte_element
 
 /**
  * @brief Safely reinterprets a raw memory block as a value of type T.
- * @tparam T Trivially-copyable, standard-layout, non-pointer, non-reference
- * type.
+ * @tparam T Trivially-copyable, standard-layout, non-pointer, non-reference,
+ * non-cv-qualified type.
  * @param data Pointer to the source bytes (may be unaligned; memcpy handles
  * that correctly).
  * @param size Number of bytes available at `data`.

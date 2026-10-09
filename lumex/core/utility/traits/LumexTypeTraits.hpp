@@ -243,16 +243,21 @@ using indirection_of_t = typename indirection_of<T>::type;
 
 /**
  * @brief `T` is a value that can be copied out of raw bytes: trivially
- * copyable, standard layout, neither a pointer nor a reference (the C++11
- * form of the concept `Extractible`).
- * @details Derived from `std::integral_constant` like the standard traits.
+ * copyable, standard layout, neither a pointer nor a reference, and neither
+ * `const` nor `volatile` (the C++11 form of the concept `Extractible`).
+ * @details Derived from `std::integral_constant` like the standard traits. A
+ * `const` or `volatile` type is trivially copyable, but the bytes cannot be
+ * copied into an object of it (`std::memcpy` takes a `void *`), so a reader
+ * such as `mem::as<T>` that needs a writable object of `T` must not accept it.
  */
 template <typename T>
 struct is_extractible
     : std::integral_constant<bool, std::is_trivially_copyable<T>::value
                                        && std::is_standard_layout<T>::value
                                        && !std::is_pointer<T>::value
-                                       && !std::is_reference<T>::value>
+                                       && !std::is_reference<T>::value
+                                       && !std::is_const<T>::value
+                                       && !std::is_volatile<T>::value>
 {
 };
 
@@ -391,12 +396,14 @@ concept PreserveCV
 
 /**
  * @brief A value that can be copied out of raw bytes: trivially copyable,
- * standard layout, neither a pointer nor a reference.
+ * standard layout, neither a pointer nor a reference, neither `const` nor
+ * `volatile`.
  */
 template <typename T>
 concept Extractible
     = std::is_trivially_copyable_v<T> && std::is_standard_layout_v<T>
-      && !std::is_pointer_v<T> && !std::is_reference_v<T>;
+      && !std::is_pointer_v<T> && !std::is_reference_v<T>
+      && !std::is_const_v<T> && !std::is_volatile_v<T>;
 
 /** @brief `std::byte`, `char` or `unsigned char`. */
 template <typename T>

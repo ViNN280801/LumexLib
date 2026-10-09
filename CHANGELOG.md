@@ -1107,6 +1107,14 @@
 
 #### Исправлено
 
+##### `mem::as<T>` и `traits::meta::is_extractible` не принимают `const` и `volatile` `T`
+
+**Файлы:** `lumex/core/utility/traits/LumexTypeTraits.hpp`, `lumex/core/utility/mem/LumexMemRead.hpp` (описание), `lumex/tests/core/utility/mem/LumexMemReadConstraints.cxx11.tests.cpp`, `lumex/tests/core/utility/traits/LumexTypeTraitsTopics.cxx11.tests.cpp`, `lumex/tests/core/utility/traits/LumexTypeTraitsTopics.cxx20.tests.cpp`
+
+**Суть:** `is_extractible<int const>` было истинным (константный тип тривиально копируем), поэтому ограничение `mem::as<int const>` пропускало вызов, а тело (`std::memcpy` в `T res{}`, то есть в константный объект) не компилировалось: ошибка из глубины функции вместо отсутствия перегрузки. Теперь признак и концепт `Extractible` требуют еще `!std::is_const` и `!std::is_volatile`; `as<int const>` и `as<int volatile>` не находят перегрузку через указатель с размером, объект-источник и `span` (проверка детектором). Концепт и признак по-прежнему совпадают (тест согласия C++20 получил пять типов с cv). Версия без квалификаторов не изменилась.
+
+**Проверено:** GCC 13.2 Release: `utility.mem.` 40 тестов на C++11 (было 38), 42 на C++17, 48 на C++20; `utility.traits.` 103 на C++11 (было 102), 123 на C++20 (согласие признака и концепта: 5 типов с cv в существующем тесте); GCC 8.3 и Clang 23 на C++11 - те же 40 и 103; ASan/UBSan Debug - 40 и 103. 2 мутации (убрана проверка `const`, убрана проверка `volatile`): пойманы тестами признака и `mem`. `as<int const>` теперь дает «no matching function» вместо ошибки в теле. Находка, не менялась: `is_extractible` по-прежнему истинно для `int[4]` (`as<int[4]>` падает внутри `std::optional`) и для типа без конструктора по умолчанию (`T res{}`).
+
 ##### Тесты `optional` собираются и проходят на C++14, 17, 20 и 23
 
 **Файлы:** `lumex/tests/core/optional/opt/LumexOptional.cxx11.tests.cpp`, `lumex/tests/LumexTestStandards.cmake` (строка `optional`)
