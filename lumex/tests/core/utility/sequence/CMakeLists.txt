@@ -2,9 +2,10 @@
 
 # The tests of lumex/core/utility/sequence: integer_sequence, index_sequence,
 # make_integer_sequence, make_index_sequence and index_sequence_for of
-# LumexIndexSequence.hpp from C++11 (.cxx11: the class of this library below
-# C++14, the aliases of the standard ones from it), and the identity of every
-# name with the standard one from C++14 (.cxx14).
+# LumexIndexSequence.hpp from C++11 (.cxx11: the class and the alias templates
+# of this library in every standard), and, from C++14 (.cxx14), that none of
+# them is the standard one and that the sequences convert to and from
+# std::integer_sequence.
 # One suite per standard of the module (lumex/tests/LumexTestStandards.cmake),
 # LumexUtilitySequenceCxx11Tests, ...Cxx14Tests, ...Cxx17Tests, ...Cxx20Tests
 # (C++23 and C++26 only where the compiler has them), each built from the
