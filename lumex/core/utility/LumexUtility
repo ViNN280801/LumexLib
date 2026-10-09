@@ -50,18 +50,19 @@
  * Works from C++11. The umbrella also includes `bit/`, `cast/`, `mem/` and
  * `ranges/`. In them `count_leading_zeros`, `byte_swap`, `is_little_endian`,
  * `downcast`, `downcast_noexcept` and `bad_down_cast`, `get_nearest_to`,
- * `iterator_range` and `mem::as` (reads a value out of raw bytes; the result is
- * `std::optional` from C++17 and the optional of `lumex::optional` before it,
- * `mem::optional_t`) work from C++11.
+ * `iterator_range` and `mem::as` (reads a value out of raw bytes; the result
+ * is the optional of `lumex::optional` in every standard, `mem::optional_t`,
+ * which converts to and from `std::optional` from C++17) work from C++11.
  * `functional/` (`functional::identity`, `functional::less`) and `sequence/`
  * (`sequence::integer_sequence`, `index_sequence`, `make_integer_sequence`,
- * `make_index_sequence`, `index_sequence_for`) work from C++11: the standard
- * type where the library has it (`std::identity` with the C++20 ranges,
- * `std::less<void>` and the integer sequences from C++14) and a class of this
- * library below. `traits::meta` has the C++11 forms `is_pointer_to_class`,
- * `is_lvalue_ref_to_class`, `is_complete_type`, `preserves_cv`,
- * `is_derived_from`, `is_extractible` and `is_byte_like` of its concepts, and
- * `traits::string::is_string_convertible` the form of `StringLike`.
+ * `make_index_sequence`, `index_sequence_for`) work from C++11: they are the
+ * classes of this library in every standard, never aliases of `std::identity`,
+ * `std::less<void>` or the standard integer sequences (they convert to and
+ * from those where the standard has them). `traits::meta` has the C++11 forms
+ * `is_pointer_to_class`, `is_lvalue_ref_to_class`, `is_complete_type`,
+ * `preserves_cv`, `is_derived_from`, `is_extractible` and `is_byte_like` of
+ * its concepts, and `traits::string::is_string_convertible` the form of
+ * `StringLike`.
  */
 #include "assert/LumexAssert.hpp"
 #include "attr/LumexAttributes.hpp"

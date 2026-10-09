@@ -5,10 +5,10 @@
 // current configuration), get_optional_dump_directory and
 // get_dump_directory_if_set (the directory of an instance), and the template
 // overloads of generate_instance_dump. They work from C++11: the range is the
-// iterator_range of this library before C++20 and std::ranges::ref_view from
-// it, the optional is the optional of this library before C++17 and
-// std::optional from it (the alias types are checked in LumexCoreDumpInstance
-// .cxx17 and .cxx20; everything the two forms share is run here, in every
+// iterator_range of this library and the optional is the optional of this
+// library in every standard (never std::ranges::ref_view or std::optional;
+// the conversions and the std::ranges concepts are checked in
+// LumexCoreDumpInstance.cxx17 and .cxx20; the behavior is run here, in every
 // suite).
 //
 // There is no public way to put a filter into the static configuration or a
@@ -487,10 +487,8 @@ TEST (LumexCoreDumpInstanceTypeTest,
   SUCCEED ();
 }
 
-#if !LUMEX_HAS_STD_RANGES
-
 TEST (LumexCoreDumpInstanceTypeTest,
-      GivenNoStdRanges_WhenMemoryFiltersRange_ThenTheIteratorRangeOfTheLibrary)
+      GivenAnyStandard_WhenMemoryFiltersRange_ThenTheIteratorRangeOfTheLibrary)
 {
   static_assert (
       std::is_same<memory_filters_range_t,
@@ -503,11 +501,9 @@ TEST (LumexCoreDumpInstanceTypeTest,
   SUCCEED ();
 }
 
-#endif
-
-// size () is in both forms of the range: std::ranges::ref_view has it, and the
-// iterator_range of the library has it for the random-access iterators of the
-// filter list.
+// size () is in the iterator_range of the library for the random-access
+// iterators of the filter list (std::ranges::ref_view, which the range used to
+// be from C++20, has it too).
 TEST_F (LumexCoreDumpInstanceTest,
         GivenFilters_WhenMemoryFiltersRange_ThenSizeIsTheCountOfFilters)
 {
@@ -537,21 +533,6 @@ TEST (LumexCoreDumpInstanceTypeTest,
       "the range has size () that converts to std::size_t");
   SUCCEED ();
 }
-
-#if LUMEX_HAS_STD_RANGES
-
-TEST_F (LumexCoreDumpInstanceTest,
-        GivenStdRanges_WhenMemoryFiltersRange_ThenFrontAndBackAreTheEnds)
-{
-  ASSERT_TRUE (current_configuration ().add_memory_filter ("heap"));
-  ASSERT_TRUE (current_configuration ().add_memory_filter ("stack"));
-  EXPECT_EQ (core_dump_generator::get_memory_filters_range ().front (),
-             "heap");
-  EXPECT_EQ (core_dump_generator::get_memory_filters_range ().back (),
-             "stack");
-}
-
-#endif
 
 // get_memory_filters_range forms the view while s_mutex is held, the mutex
 // that initialize () and set_dump_type () hold while they replace the
@@ -700,21 +681,19 @@ TEST (LumexCoreDumpInstanceTypeTest,
   SUCCEED ();
 }
 
-#if __cplusplus < 201703L
-
 TEST (LumexCoreDumpInstanceTypeTest,
-      GivenBeforeCxx17_WhenOptionalDumpDirectory_ThenTheOptionalOfTheLibrary)
+      GivenAnyStandard_WhenOptionalDumpDirectory_ThenTheOptionalOfTheLibrary)
 {
   static_assert (
       std::is_same<optional_dump_directory_t,
                    lumex::core::optional::opt::optional<std::string>>::value,
-      "the optional of this library before C++17");
+      "the optional of this library in every standard");
   SUCCEED ();
 }
 
 TEST_F (
     LumexCoreDumpInstanceTest,
-    GivenBeforeCxx17_WhenCompareWithNullopt_ThenOptionalOfTheLibraryBehaves)
+    GivenAnyStandard_WhenCompareWithNullopt_ThenOptionalOfTheLibraryBehaves)
 {
   EXPECT_TRUE (default_instance ().get_optional_dump_directory ()
                == lumex::core::optional::opt::nullopt);
@@ -722,8 +701,6 @@ TEST_F (
   EXPECT_FALSE (default_instance ().get_optional_dump_directory ()
                 == lumex::core::optional::opt::nullopt);
 }
-
-#endif
 
 // --- the instance API after initialize () ---
 //
