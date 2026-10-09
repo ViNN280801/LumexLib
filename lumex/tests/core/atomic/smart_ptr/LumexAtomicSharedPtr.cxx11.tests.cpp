@@ -165,11 +165,19 @@ TYPED_TEST (LumexAtomicSharedPtrTest,
             GivenIsAlwaysLockFree_WhenBoundToAReference_ThenAConstantBool)
 {
   typedef atomic_shared_ptr<TypeParam> A;
-#if LUMEX_ATOMIC_SMART_PTR_COMMON_IS_LOCK_FREE
-  static_assert (A::is_always_lock_free, "the lock-free engine always is");
-#else
-  static_assert (!A::is_always_lock_free, "the lock-based form is not");
+  // The lock-free engine always is; the lock-based one never; the wrapper
+  // has the standard type's value.
+  if (EngineFacts::std_backed ())
+    {
+#if LUMEX_ATOMIC_SMART_PTR_HAS_STD_BACKED
+      EXPECT_EQ (A::is_always_lock_free,
+                 std::atomic<std::shared_ptr<TypeParam>>::is_always_lock_free);
 #endif
+    }
+  else
+    {
+      EXPECT_EQ (A::is_always_lock_free, EngineFacts::lock_free ());
+    }
   // Binding to a reference odr-uses the member, which needs its out-of-line
   // definition before C++17.
   bool const &bound = A::is_always_lock_free;
@@ -187,11 +195,15 @@ TYPED_TEST (LumexAtomicSharedPtrTest,
   bool const lock_free = a.is_lock_free ();
   if (A::is_always_lock_free)
     EXPECT_TRUE (lock_free);
-#if LUMEX_ATOMIC_SMART_PTR_COMMON_IS_LOCK_FREE
-  EXPECT_TRUE (lock_free);
-#else
-  EXPECT_FALSE (lock_free);
+#if LUMEX_ATOMIC_SMART_PTR_HAS_STD_BACKED
+  if (EngineFacts::std_backed ())
+    {
+      std::atomic<std::shared_ptr<TypeParam>> const standard;
+      EXPECT_EQ (lock_free, standard.is_lock_free ());
+    }
+  else
 #endif
+    EXPECT_EQ (lock_free, EngineFacts::lock_free ());
   EXPECT_EQ (a.is_lock_free (), lock_free) << "stable across calls";
 }
 

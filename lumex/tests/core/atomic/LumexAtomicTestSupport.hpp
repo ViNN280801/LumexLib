@@ -100,6 +100,23 @@
 // LUMEX_ATOMIC_TEST_ENGINE_DEFERS_DESTRUCTION=1 and provides the call that
 // makes it release what it holds in LUMEX_ATOMIC_TEST_ENGINE_QUIESCE (for
 // example `lumex::core::hazard_pointer::clean_up ()`).
+// A variant that names an engine a build may not have says so with
+// LUMEX_ATOMIC_TEST_ENGINE_REQUIRES_LOCK_FREE or _REQUIRES_STD_BACKED; where
+// the engine does not exist the suite runs on the lock-based engine instead
+// (the engine still gets tested by every build that has it, and the suite
+// stays valid on the others, for example C++20 with libc++).
+#if (defined(LUMEX_ATOMIC_TEST_ENGINE_REQUIRES_LOCK_FREE)                     \
+     && !LUMEX_ATOMIC_SMART_PTR_HAS_LOCK_FREE)                                \
+    || (defined(LUMEX_ATOMIC_TEST_ENGINE_REQUIRES_STD_BACKED)                 \
+        && !LUMEX_ATOMIC_SMART_PTR_HAS_STD_BACKED)
+#undef LUMEX_ATOMIC_TEST_SHARED_ENGINE
+#undef LUMEX_ATOMIC_TEST_WEAK_ENGINE
+#undef LUMEX_ATOMIC_TEST_ENGINE_ARGS
+#undef LUMEX_ATOMIC_TEST_ENGINE_DEFERS_DESTRUCTION
+#define LUMEX_ATOMIC_TEST_SHARED_ENGINE atomic_shared_ptr_lock_based
+#define LUMEX_ATOMIC_TEST_WEAK_ENGINE atomic_weak_ptr_lock_based
+#define LUMEX_ATOMIC_TEST_ENGINE_FELL_BACK 1
+#endif
 #if !defined(LUMEX_ATOMIC_TEST_SHARED_ENGINE)
 #define LUMEX_ATOMIC_TEST_SHARED_ENGINE atomic_shared_ptr
 #endif
@@ -110,7 +127,21 @@
 #define LUMEX_ATOMIC_TEST_ENGINE_DEFERS_DESTRUCTION 0
 #endif
 #if !defined(LUMEX_ATOMIC_TEST_ENGINE_QUIESCE)
+// The lock-free engine retires a replaced box that a reader holds at that
+// moment (also with the immediate policy); a pass of the hazard domain
+// destroys it. Every engine ignores the call otherwise.
+#if LUMEX_ATOMIC_SMART_PTR_HAS_LOCK_FREE
+#define LUMEX_ATOMIC_TEST_ENGINE_QUIESCE()                                    \
+  ::lumex::core::hazard_pointer::clean_up ()
+#else
 #define LUMEX_ATOMIC_TEST_ENGINE_QUIESCE() ((void)0)
+#endif
+#endif
+// Further template arguments of the engine (a leading comma), for example
+// `,lumex::core::atomic::smart_ptr::reclaim::deferred` for the policy of the
+// lock-free engine.
+#if !defined(LUMEX_ATOMIC_TEST_ENGINE_ARGS)
+#define LUMEX_ATOMIC_TEST_ENGINE_ARGS
 #endif
 
 namespace lumex_atomic_test
@@ -120,10 +151,37 @@ namespace lumex_atomic_test
 // every test file brings in with `using namespace lumex_atomic_test`.
 template <typename T>
 using atomic_shared_ptr
-    = lumex::core::atomic::smart_ptr::LUMEX_ATOMIC_TEST_SHARED_ENGINE<T>;
+    = lumex::core::atomic::smart_ptr::LUMEX_ATOMIC_TEST_SHARED_ENGINE<
+        T LUMEX_ATOMIC_TEST_ENGINE_ARGS>;
 template <typename T>
 using atomic_weak_ptr
-    = lumex::core::atomic::smart_ptr::LUMEX_ATOMIC_TEST_WEAK_ENGINE<T>;
+    = lumex::core::atomic::smart_ptr::LUMEX_ATOMIC_TEST_WEAK_ENGINE<
+        T LUMEX_ATOMIC_TEST_ENGINE_ARGS>;
+
+/// Which engine the aliases above are, for the few expectations that differ
+/// between engines (a trait of the type, so a variant needs no extra macro).
+struct EngineFacts
+{
+  /// The lock-free engine: always lock-free.
+  static LUMEX_CONSTEXPR bool
+  lock_free ()
+  {
+    return atomic_shared_ptr<int>::is_always_lock_free;
+  }
+
+  /// The wrapper of the standard library's type.
+  static LUMEX_CONSTEXPR bool
+  std_backed ()
+  {
+#if LUMEX_ATOMIC_SMART_PTR_HAS_STD_BACKED
+    return std::is_same<atomic_shared_ptr<int>,
+                        lumex::core::atomic::smart_ptr::
+                            atomic_shared_ptr_std_backed<int>>::value;
+#else
+    return false;
+#endif
+  }
+};
 
 /// The engine under test as the checkers see it (see
 /// LumexAtomicTestEngines.hpp for the descriptors of the test-side engines,
