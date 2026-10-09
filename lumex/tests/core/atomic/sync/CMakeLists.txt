@@ -20,4 +20,18 @@ lumex_add_standard_suites(AtomicSync
     VARIANT lock_based DEFINITIONS LUMEX_ATOMIC_SMART_PTR_FORCE_LOCK_BASED
     VARIANT wait_table DEFINITIONS LUMEX_ATOMIC_WAIT_FORCE_TABLE
     VARIANT no_lock_free DEFINITIONS LUMEX_ATOMIC_SMART_PTR_DISABLE_LOCK_FREE
+    VARIANT lock_free DEFINITIONS
+        LUMEX_ATOMIC_TEST_SHARED_ENGINE=atomic_shared_ptr_lock_free
+        LUMEX_ATOMIC_TEST_WEAK_ENGINE=atomic_weak_ptr_lock_free
+        LUMEX_ATOMIC_TEST_ENGINE_REQUIRES_LOCK_FREE
+    VARIANT lock_free_deferred DEFINITIONS
+        LUMEX_ATOMIC_TEST_SHARED_ENGINE=atomic_shared_ptr_lock_free
+        LUMEX_ATOMIC_TEST_WEAK_ENGINE=atomic_weak_ptr_lock_free
+        "LUMEX_ATOMIC_TEST_ENGINE_ARGS=,lumex::core::atomic::smart_ptr::reclaim::deferred"
+        LUMEX_ATOMIC_TEST_ENGINE_DEFERS_DESTRUCTION=1
+        LUMEX_ATOMIC_TEST_ENGINE_REQUIRES_LOCK_FREE
+    VARIANT std_backed DEFINITIONS
+        LUMEX_ATOMIC_TEST_SHARED_ENGINE=atomic_shared_ptr_std_backed
+        LUMEX_ATOMIC_TEST_WEAK_ENGINE=atomic_weak_ptr_std_backed
+        LUMEX_ATOMIC_TEST_ENGINE_REQUIRES_STD_BACKED
 )

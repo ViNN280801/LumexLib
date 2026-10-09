@@ -478,9 +478,9 @@ TEST (
   bool const exchanged
       = atom.compare_exchange_strong (expected, std::weak_ptr<int> ());
   // std::weak_ptr does not expose the stored pointer once the object is
-  // gone; the engines then compare ownership only. (The standard-backed
-  // wrapper still sees it: LumexAtomicSmartPtrKinds.cxx20.tests.cpp.)
-  EXPECT_TRUE (exchanged);
+  // gone; the library's engines then compare ownership only, while the
+  // standard-backed wrapper still sees the hidden stored pointers.
+  EXPECT_EQ (exchanged, !EngineFacts::std_backed ());
 }
 
 TEST (LumexAtomicWeakPtrKindsTest,
