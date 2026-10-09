@@ -1,19 +1,23 @@
 // LumexMemReadResultType.cxx11.tests.cpp
 //
-// The result type of as<T>: the optional of this library before C++17
-// (std::optional from C++17 is checked in LumexMemRead.cxx17.tests.cpp). The
-// optional_t alias is the one place that chooses; every overload returns it.
+// The result type of as<T>: the optional of this library in every standard,
+// never std::optional (the conversions to and from std::optional<T> from
+// C++17 are checked in LumexMemRead.cxx17.tests.cpp). optional_t is a plain
+// alias of the own class; every overload returns it. The static_asserts below
+// are compiled by the suites of C++11, 17 and 20 and pin the same type in
+// each.
 #include <array>
 #include <cstddef>
 #include <cstdint>
 #include <type_traits>
+#if __cplusplus >= 201703L
+#include <optional>
+#endif
 
 #include <gtest/gtest.h>
 
 #include "lumex/core/span/LumexSpan"
 #include "lumex/core/utility/mem/LumexMemRead.hpp"
-
-#if __cplusplus < 201703L
 
 namespace
 {
@@ -39,20 +43,25 @@ struct source_with_data
 } // namespace
 
 TEST (LumexMemReadResultTypeTest,
-      GivenBeforeCxx17_WhenAlias_ThenTheOptionalOfTheLibrary)
+      GivenAnyStandard_WhenAlias_ThenTheOptionalOfTheLibrary)
 {
   static_assert (
       std::is_same<optional_t<std::uint32_t>, lumex_optional>::value,
-      "optional_t is the optional of the library before C++17");
+      "optional_t is the optional of the library in every standard");
   static_assert (
       std::is_same<optional_t<double>,
                    lumex::core::optional::opt::optional<double>>::value,
       "for every value type");
+#if __cplusplus >= 201703L
+  static_assert (!std::is_same<optional_t<std::uint32_t>,
+                               std::optional<std::uint32_t>>::value,
+                 "never std::optional, whatever the standard");
+#endif
   SUCCEED ();
 }
 
 TEST (LumexMemReadResultTypeTest,
-      GivenBeforeCxx17_WhenEveryOverload_ThenReturnsTheOptionalOfTheLibrary)
+      GivenAnyStandard_WhenEveryOverload_ThenReturnsTheOptionalOfTheLibrary)
 {
   void const *pointer = nullptr;
   std::size_t size = 0;
@@ -71,7 +80,7 @@ TEST (LumexMemReadResultTypeTest,
 }
 
 TEST (LumexMemReadResultTypeTest,
-      GivenBeforeCxx17_WhenValueAndEmpty_ThenOptionalOfTheLibraryBehaves)
+      GivenAnyStandard_WhenValueAndEmpty_ThenOptionalOfTheLibraryBehaves)
 {
   std::uint32_t const value = 77;
   lumex_optional const full = as<std::uint32_t> (&value, sizeof (value));
@@ -83,5 +92,3 @@ TEST (LumexMemReadResultTypeTest,
   EXPECT_TRUE (none == lumex::core::optional::opt::nullopt);
   EXPECT_EQ (none.value_or (5u), 5u);
 }
-
-#endif

@@ -31,7 +31,7 @@
  * `lumex/core/optional/LumexOptional` includes this header on top of it, so a
  * file that includes the umbrella can write `optional<int>` and `nullopt`. A
  * header of LumexLib that needs the type but must not inject names into every
- * file that includes it (`LumexMemRead.hpp` before C++17) includes
+ * file that includes it (`LumexMemRead.hpp`) includes
  * `opt/LumexOptional.hpp` and spells the namespace out.
  */
 #ifndef LUMEX_CORE_OPTIONAL_OPT_GLOBALS_HPP
