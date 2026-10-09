@@ -1,7 +1,9 @@
 # lumex/tests/applied/json/helper/CMakeLists.txt
 
 # One suite per standard of the module (lumex/tests/LumexTestStandards.cmake):
-#   LumexJsonHelperCxx11Tests  LumexJsonHelper.cxx11.tests.cpp
+#   LumexJsonHelperCxx11Tests  LumexJsonHelper.cxx11.tests.cpp and
+#                              LumexJsonHelperStringView.cxx11.tests.cpp
+#                              (is_empty_value on lumex_string_view)
 #   LumexJsonHelperCxx17Tests  + LumexJsonHelper.cxx17.tests.cpp
 #                              (std::string_view)
 #   LumexJsonHelperCxx20Tests  the same files: consumers such as PeakExpertWeb

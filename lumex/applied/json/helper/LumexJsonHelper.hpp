@@ -45,6 +45,7 @@
 
 #include "lumex/applied/json/diagnostics/LumexJsonDiagnostics.hpp"
 
+#include "lumex/core/string_view/view/LumexStringView.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 #include "lumex/core/utility/macros/LumexMacros.hpp"
 
@@ -80,7 +81,17 @@ is_empty_value (char *value) LUMEX_NOEXCEPT
   return value == nullptr || value[0] == '\0';
 }
 
+/// The library's own view is a string too, in every standard.
+inline bool
+is_empty_value (lumex::core::string_view::view::lumex_string_view value)
+    LUMEX_NOEXCEPT
+{
+  return value.empty ();
+}
+
 #if __cplusplus >= 201703L
+/// A value of the standard type `std::string_view` is a string as well (an
+/// exact match; the overload above would need a conversion).
 inline bool
 is_empty_value (std::string_view value) LUMEX_NOEXCEPT
 {
