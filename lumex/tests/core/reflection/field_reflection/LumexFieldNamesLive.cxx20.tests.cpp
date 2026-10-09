@@ -114,6 +114,7 @@ using namespace live_outer;
 
 namespace
 {
+#if __cplusplus >= 202002L
 template <typename Agg>
 std::array<char const *, tuple_size<Agg>::value>
 compiler_names_of ()
@@ -123,7 +124,6 @@ compiler_names_of ()
                                    tuple_size<Agg>::value>::type>::build ();
 }
 
-#if __cplusplus >= 202002L
 // The raw pretty string of one field.
 template <typename Agg, std::size_t I>
 std::string
