@@ -74,6 +74,12 @@ else()
     message(STATUS "Skipping optional examples (LUMEX_BUILD_CORE or LUMEX_BUILD_OPTIONAL is OFF)")
 endif()
 
+if(LUMEX_BUILD_CORE AND LUMEX_BUILD_CONTRACTS)
+    add_subdirectory(contracts)
+else()
+    message(STATUS "Skipping contracts examples (LUMEX_BUILD_CORE or LUMEX_BUILD_CONTRACTS is OFF)")
+endif()
+
 if(LUMEX_BUILD_CORE AND LUMEX_BUILD_HAZARD_POINTER)
     add_subdirectory(hazard_pointer)
 else()
