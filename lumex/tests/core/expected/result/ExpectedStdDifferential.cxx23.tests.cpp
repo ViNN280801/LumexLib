@@ -1291,7 +1291,6 @@ observer_type_answers ()
   using EI = typename W::template ex<int, long>;
   using CI = typename W::template ex<int const, long>;
   using VI = typename W::template ex<void, long>;
-  using ES = typename W::template ex<std::string, long>;
   answers_t result;
   note (result, "value &",
         std::is_same_v<decltype (std::declval<EI &> ().value ()), int &>);
@@ -1400,8 +1399,8 @@ observer_type_answers ()
           typename W::template ex<typename W::template ex<char, char>, long>>);
   note (result, "transform const result",
         std::is_same_v<decltype (std::declval<EI &> ().transform (
-                           [] (int) -> int const { return 1; })),
-                       typename W::template ex<int, long>>);
+                           [] (int) -> std::string const { return {}; })),
+                       typename W::template ex<std::string, long>>);
   note (result, "or_else",
         std::is_same_v<
             decltype (std::declval<EI &> ().or_else (

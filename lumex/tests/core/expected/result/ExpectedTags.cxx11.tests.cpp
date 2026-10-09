@@ -10,6 +10,7 @@
 #include <gtest/gtest.h>
 
 #include "lumex/core/expected/Expected"
+#include "lumex/core/utility/traits/LumexTypeTraits.hpp"
 
 namespace
 {
@@ -22,15 +23,15 @@ using lumex::core::expected::result::unexpect_t;
 /// A function that takes a `T` by value can be called with `{}`: the copy-list
 /// initialization of the parameter, which an explicit default constructor
 /// refuses.
-template <typename T>
-auto accepts_empty_braces (int)
-    -> decltype (static_cast<void> (std::declval<void (&) (T)> () ({})),
-                 std::true_type ());
-
-template <typename T> std::false_type accepts_empty_braces (long);
+template <typename T, typename = void>
+struct copy_list_initializable : std::false_type
+{
+};
 
 template <typename T>
-struct copy_list_initializable : decltype (accepts_empty_braces<T> (0))
+struct copy_list_initializable<
+    T, lumex::core::utility::traits::meta::void_t<
+           decltype (std::declval<void (&) (T)> () ({}))>> : std::true_type
 {
 };
 
