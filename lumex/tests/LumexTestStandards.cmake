@@ -408,6 +408,7 @@ lumex_test_standards_declare(logger 11 14 17 20)
 
 lumex_test_standards_declare(crc 11 14 17 20)
 lumex_test_standards_declare(hazard_pointer 11 14 17 20)
+lumex_test_standards_declare(contracts 11 14 17 20)
 
 lumex_test_standards_declare(atomic 11 17 20)
 lumex_test_standards_declare_variant(atomic lock_based 20)

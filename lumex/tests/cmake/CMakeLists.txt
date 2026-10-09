@@ -63,6 +63,7 @@ lumex_add_cmake_test(require_ok_logger_without_core)
 lumex_add_cmake_test(require_ok_logger_and_circular_buffer_without_core)
 lumex_add_cmake_test(require_ok_logger_ini)
 lumex_add_cmake_test(require_ok_logger_xml)
+lumex_add_cmake_test(require_ok_contracts_semantics)
 lumex_add_cmake_test(wiring_subdirs)
 lumex_add_cmake_test(wiring_distr)
 lumex_add_cmake_test(wiring_install_umbrellas)
@@ -139,6 +140,8 @@ lumex_add_cmake_test(wiring_string_view_export)
 lumex_add_cmake_test(wiring_unicode_users)
 lumex_add_cmake_test(wiring_hazard_pointer)
 lumex_add_cmake_test(wiring_hazard_pointer_export)
+lumex_add_cmake_test(wiring_contracts)
+lumex_add_cmake_test(wiring_contracts_export)
 lumex_add_cmake_test(wiring_optional)
 lumex_add_cmake_test(wiring_test_names)
 lumex_add_cmake_test(wiring_standard_suites)
@@ -194,6 +197,10 @@ lumex_add_cmake_fail_test(require_fail_utility_without_math
 # pins the other).
 lumex_add_cmake_fail_test(require_fail_hazard_pointer_without_utility
     "LUMEX_BUILD_HAZARD_POINTER is enabled but requires LUMEX_BUILD_UTILITY")
+lumex_add_cmake_fail_test(require_fail_contracts_without_utility
+    "LUMEX_BUILD_CONTRACTS is enabled but requires LUMEX_BUILD_UTILITY")
+lumex_add_cmake_fail_test(require_fail_contracts_invalid_semantic
+    "Invalid LUMEX_CONTRACTS_SEMANTIC='FAST'")
 lumex_add_cmake_fail_test(require_fail_serial_without_core
     "LUMEX_BUILD_SERIAL is enabled but requires LUMEX_BUILD_UTILITY")
 lumex_add_cmake_fail_test(require_fail_xml_without_core
@@ -321,6 +328,15 @@ lumex_add_consumer_test(consumer_hazard_pointer_two_modules
     hazard_pointer_two_modules)
 lumex_add_consumer_test(consumer_hazard_pointer_static_destruction
     hazard_pointer_static_destruction)
+# core/contracts: the semantic of the build (the CMake option
+# LUMEX_CONTRACTS_SEMANTIC) reaches a consumer of lumex::contracts and behaves as
+# that semantic, a translation unit may override it; one violation handler per
+# process across an executable and a shared library.
+foreach(_semantic IN ITEMS ignore observe enforce quick_enforce p2900)
+    lumex_add_consumer_test(consumer_contracts_build_semantic_${_semantic}
+        contracts_build_semantic -DSEMANTIC=${_semantic})
+endforeach()
+lumex_add_consumer_test(consumer_contracts_two_modules contracts_two_modules)
 # The header-only modules (string, math, generators, optional, atomic, span) compile
 # from an install prefix built with LUMEX_BUILD_UTILITY OFF: the core/utility
 # headers they include are installed whatever that option says.
@@ -586,6 +602,31 @@ add_test(NAME ${_ctest_name}
         -DCASE=hazard_pointer_compile_checks
         -DLUMEX_SOURCE_DIR=${LumexLib_SOURCE_DIR}
         -DWORK_DIR=${CMAKE_CURRENT_BINARY_DIR}/consumer/hazard_pointer_compile_checks
+        -DGENERATOR=${CMAKE_GENERATOR}
+        -DCXX_COMPILER=${CMAKE_CXX_COMPILER}
+        "-DCXX_FLAGS=${CMAKE_CXX_FLAGS}"
+        -DCLANG_STDLIB=${LUMEX_CLANG_STDLIB}
+        -DBUILD_TYPE=Release
+        -DCONFIGURE_ONLY=ON
+        -P ${_LUMEX_CONSUMER_RUN}
+)
+set_tests_properties(${_ctest_name} PROPERTIES
+    LABELS "cmake;consumer"
+    TIMEOUT 900
+    SKIP_REGULAR_EXPRESSION "LUMEX_CONSUMER_SKIP"
+)
+
+# contracts compile-time checks: the uses the module rejects (a predicate that
+# does not convert to bool, also under ignore; no predicate; a wrong or
+# capturing handler; a failing assertion in constant evaluation; a word that is
+# not a semantic) must not compile with warnings as errors; valid use must, with
+# every semantic, under strict warnings.
+lumex_test_name(_ctest_name contracts_compile_checks)
+add_test(NAME ${_ctest_name}
+    COMMAND ${CMAKE_COMMAND}
+        -DCASE=contracts_compile_checks
+        -DLUMEX_SOURCE_DIR=${LumexLib_SOURCE_DIR}
+        -DWORK_DIR=${CMAKE_CURRENT_BINARY_DIR}/consumer/contracts_compile_checks
         -DGENERATOR=${CMAKE_GENERATOR}
         -DCXX_COMPILER=${CMAKE_CXX_COMPILER}
         "-DCXX_FLAGS=${CMAKE_CXX_FLAGS}"
