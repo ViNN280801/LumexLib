@@ -124,6 +124,42 @@ TEST (LumexSerialPortEnumeration, EnumerateBothBluetoothFlagValues)
     EXPECT_FALSE (unfiltered_names.front ().empty ());
 }
 
+TEST (LumexSerialPortEnumeration, FullPathFlagSelectsNameOrOpenablePath)
+{
+  std::vector<serial_port_info_t> named;
+  std::vector<serial_port_info_t> pathed;
+  EXPECT_NO_THROW (
+      named = enumerate_serial_ports_detailed (std::string (), false, false));
+  EXPECT_NO_THROW (
+      pathed = enumerate_serial_ports_detailed (std::string (), false, true));
+
+  ASSERT_EQ (named.size (), pathed.size ());
+  for (std::size_t i = 0; i < named.size (); ++i)
+    {
+      // The two entries describe one and the same port: the resolver turns
+      // the canonical name into the openable path.
+      EXPECT_EQ (resolve_serial_port_path (
+                     named[i].path, Constants::KSERIAL_PORT_CHANNEL_TYPE),
+                 pathed[i].path)
+          << named[i].path;
+#if defined(_WIN32)
+      if (named[i].path.compare (0, 3, "COM") == 0)
+        EXPECT_EQ (pathed[i].path.compare (0, 4, R"(\\.\)"), 0)
+            << pathed[i].path;
+#else
+      EXPECT_EQ (named[i].path.find ('/'), std::string::npos) << named[i].path;
+      EXPECT_EQ (pathed[i].path.compare (0, 5, "/dev/"), 0) << pathed[i].path;
+#endif
+    }
+
+  // The names-only entry point follows the same flag.
+  std::vector<std::string> names;
+  EXPECT_NO_THROW (names = enumerate_serial_port_names (false, false));
+  ASSERT_EQ (names.size (), named.size ());
+  for (std::size_t i = 0; i < names.size (); ++i)
+    EXPECT_EQ (names[i], named[i].path);
+}
+
 // get_process_holding_port walks every process handle via
 // NtQuerySystemInformation. That can block for a long time on a busy
 // Windows host, so it is not called from this suite. Enumeration reports

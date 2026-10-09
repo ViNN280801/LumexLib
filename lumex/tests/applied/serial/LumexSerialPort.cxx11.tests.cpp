@@ -124,6 +124,15 @@ TEST (LumexSerialPort, WindowsFallbackReturnsNameUnchanged)
              "SomeOtherName");
 }
 
+TEST (LumexSerialPort, AbsoluteWindowsDevicePathIsReturnedUnchanged)
+{
+  // The Windows branch already returns \\.\COM1 unchanged; pinned so a new
+  // branch cannot start rewriting it.
+  EXPECT_EQ (resolve_serial_port_path (R"(\\.\COM1)",
+                                       Constants::KSERIAL_PORT_CHANNEL_TYPE),
+             R"(\\.\COM1)");
+}
+
 TEST (LumexSerialPort, BareUsbMarkerWarnsAndKeepsTheName)
 {
   std::vector<std::string> warnings;
@@ -142,6 +151,13 @@ TEST (LumexSerialPort, BareUsbMarkerWarnsAndKeepsTheName)
 TEST (LumexSerialPort, MacFallbackPrependsDev)
 {
   EXPECT_EQ (resolve_serial_port_path ("cu.usbserial-1420",
+                                       Constants::KSERIAL_PORT_CHANNEL_TYPE),
+             "/dev/cu.usbserial-1420");
+}
+
+TEST (LumexSerialPort, AbsoluteMacDevPathIsReturnedUnchanged)
+{
+  EXPECT_EQ (resolve_serial_port_path ("/dev/cu.usbserial-1420",
                                        Constants::KSERIAL_PORT_CHANNEL_TYPE),
              "/dev/cu.usbserial-1420");
 }
@@ -229,6 +245,19 @@ TEST (LumexSerialPort, AlreadyValidUsbByIdNameIsNotTreatedAsBareMarker)
                                        nullptr, warn),
              "/dev/serial/by-id/usb-FTDI_FT232R-if00-port0");
   EXPECT_TRUE (warnings.empty ());
+}
+
+TEST (LumexSerialPort, AbsoluteDevPathIsReturnedUnchanged)
+{
+  // The POSIX enumeration reports /dev/ttyACM0; resolving it a second time
+  // must not prepend /dev/ or /dev/serial/by-id/.
+  EXPECT_EQ (resolve_serial_port_path ("/dev/ttyACM0",
+                                       Constants::KSERIAL_PORT_CHANNEL_TYPE),
+             "/dev/ttyACM0");
+  EXPECT_EQ (
+      resolve_serial_port_path ("/dev/serial/by-id/usb-FTDI_FT232R-if00-port0",
+                                Constants::KSERIAL_PORT_CHANNEL_TYPE),
+      "/dev/serial/by-id/usb-FTDI_FT232R-if00-port0");
 }
 
 #endif
