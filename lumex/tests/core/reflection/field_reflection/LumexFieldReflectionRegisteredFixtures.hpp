@@ -129,8 +129,11 @@ struct RegMixedOptionals
 };
 LUMEX_DEFINE_FIELD_NAMES (RegMixedOptionals, missing, always, present);
 
-// A nested aggregate: one field of its parent, written by nlohmann through
-// the to_json overload below, which ADL finds.
+// A nested aggregate with a to_json of its own: one field of its parent,
+// written by nlohmann through the overload below, which ADL finds. The
+// overload has priority over the recursion of field_reflection::to_json into
+// nested aggregates (those without an overload are in
+// LumexFieldReflectionNestedFixtures.hpp).
 struct RegPoint
 {
   int x;

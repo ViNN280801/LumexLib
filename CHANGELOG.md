@@ -20,6 +20,14 @@
 
 #### Добавлено
 
+##### `to_json` агрегата рекурсивно пишет вложенные агрегаты и контейнеры агрегатов
+
+**Файлы:** `lumex/core/reflection/field_reflection/LumexFieldReflection.hpp`, `lumex/tests/core/reflection/field_reflection/` (`LumexFieldReflectionNestedFixtures.hpp`, `LumexFieldNamesJsonNested.cxx11.tests.cpp`, `LumexFieldNamesJsonNested.cxx17.tests.cpp`, `LumexFieldNamesJsonNested.cxx20.tests.cpp` - новые; `CMakeLists.txt`, `LumexFieldReflectionRegisteredFixtures.hpp`), `lumex/tests/cmake/consumer/field_names_compile_checks/` (`check.cpp`, `CMakeLists.txt`, случаи 13 и 14)
+
+**Суть:** поле, тип которого агрегат, nlohmann записывал только через `to_json (nlohmann::json &, Type const &)`, найденный ADL, иначе - ошибка в nlohmann. Теперь значение поля пишется по первому подходящему правилу: пустое optional-подобное поле (`has_value` и унарная `*`) пропускается, непустое пишется значением по тому же правилу; тип, который nlohmann умеет преобразовать (`std::is_constructible<nlohmann::json, T const &>`: числа, строки, перечисления, стандартные контейнеры таких типов и любой тип со своим `to_json`, найденным ADL), преобразует nlohmann - поэтому собственный `to_json` агрегата имеет приоритет над рекурсией; map с ключами, из которых строится `std::string`, это объект, любой другой контейнер и `std::array` - массив, каждый элемент по тому же правилу (пустой optional-подобный элемент это `null`; контейнеры контейнеров агрегатов работают); любой другой класс - вложенный агрегат, его пишет сам `to_json` с его именами (регистрация или, с C++20, компилятор) на любой глубине. Ниже C++20 вложенный агрегат без регистрации дает прежний `static_assert` `to_json` с именем макроса; агрегат со своим `to_json` имен не требует. map с ключами не из строк и значениями-агрегатами дает `static_assert` (случай 14 проверки компиляции). Прежние тесты, где вложенный агрегат записывался через ADL-перегрузку (`RegPoint`, `RegShape`), не менялись: приоритет перегрузки сохранен. Объем: `std::optional` и контейнеры, которые nlohmann и так преобразует, ведут себя как раньше.
+
+**Проверено:** GCC 13.2 Release: все тесты `reflection.field_reflection` проходят (см. запись выше); сборка тестовых единиц с `-S` на C++20: 5-13 МБ ассемблера, 3 с на единицу.
+
 ##### `ranges::iterator_range::size ()` для итераторов с произвольным доступом
 
 **Файлы:** `lumex/core/utility/ranges/LumexIteratorRange.hpp`, `lumex/tests/core/utility/ranges/LumexIteratorRangeSize.cxx11.tests.cpp` (новый)

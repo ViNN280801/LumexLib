@@ -18,6 +18,9 @@
 #  10 the same aggregate registered twice
 #  11 a private member
 #  12 a reference member
+#  13 to_json of an aggregate with a nested aggregate that has no names
+#     (C++11, 14, 17; from C++20 the compiler supplies them)
+#  14 to_json of a map of aggregates whose keys are not strings
 # The compiler's messages are matched in English. At C++20 an unregistered
 # aggregate has names (GCC 8 reports 201709L at -std=c++2a and is the
 # exception, hence the cases 1 and 3 are not run at C++20). Everything runs at
@@ -68,6 +71,8 @@ _lumex_case(9 "${_all_standards}" "LUMEX_DEFINE_FIELD_NAMES_TAKES_AT_MOST_32_NAM
 _lumex_case(10 "${_all_standards}" "redefinition|already has a body|C2084")
 _lumex_case(11 "${_all_standards}" "private within this context|is a private member|C2248")
 _lumex_case(12 "${_all_standards}" "reference member|reference type|pointer to reference")
+_lumex_case(13 "11;14;17" "to_json needs the field names of the aggregate")
+_lumex_case(14 "${_all_standards}" "only with keys that std::string can be made from")
 
 function(_lumex_names_try result_var tag standard)
     try_compile(_ok "${CMAKE_BINARY_DIR}/try_${tag}"
