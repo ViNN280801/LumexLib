@@ -62,8 +62,9 @@ TYPED_TEST (LumexAtomicSharedPtrTest,
                  "implicit conversion to shared_ptr");
   static_assert (
       std::is_same<
-          A, lumex::core::atomic::smart_ptr::atomic_shared_ptr<T>>::value,
-      "the short name is the namespace class");
+          A, lumex::core::atomic::smart_ptr::LUMEX_ATOMIC_TEST_SHARED_ENGINE<
+                 T LUMEX_ATOMIC_TEST_ENGINE_ARGS>>::value,
+      "the short name is the class of the engine under test");
   SUCCEED ();
 }
 

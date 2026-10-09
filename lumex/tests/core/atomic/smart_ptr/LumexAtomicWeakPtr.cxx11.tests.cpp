@@ -58,9 +58,10 @@ TYPED_TEST (LumexAtomicWeakPtrTest,
   static_assert (std::is_convertible<A const &, std::weak_ptr<T>>::value,
                  "implicit conversion to weak_ptr");
   static_assert (
-      std::is_same<A,
-                   lumex::core::atomic::smart_ptr::atomic_weak_ptr<T>>::value,
-      "the short name is the namespace class");
+      std::is_same<
+          A, lumex::core::atomic::smart_ptr::LUMEX_ATOMIC_TEST_WEAK_ENGINE<
+                 T LUMEX_ATOMIC_TEST_ENGINE_ARGS>>::value,
+      "the short name is the class of the engine under test");
   SUCCEED ();
 }
 
