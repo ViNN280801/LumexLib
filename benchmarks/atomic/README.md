@@ -187,3 +187,23 @@ python benchmarks\atomic\plot_results.py benchmarks\atomic\results\atomic_benchm
 ```
 
 On MSVC the C++11 unit of the benchmark builds at C++14 (MSVC's lowest mode), the default series wraps MSVC's `std::atomic<std::shared_ptr<T>>`, and the `std` series measures it directly.
+
+## 128-bit compare-and-swap (dwcas)
+
+`LumexDwcasBenchmark` (`bench_dwcas.cpp`, built with `LUMEX_BUILD_BENCHMARKS=ON` next to `LumexAtomicBenchmark`) measures the cost of the 128-bit compare-and-swap of `lumex/core/atomic/dwcas` against a 64-bit one on one shared word. Every thread repeats "read a guess, try to swap in the guess plus one" for the length of the window and counts every attempt, successful or not (each is one locked instruction); the figure is the wall time per attempt and thread, as above. The 64-bit and the 128-bit measurement of one repetition run one after the other in the same process, in alternating order, and the table gives the medians and the median of the per-repetition ratios.
+
+```sh
+cmake --build build-bench --target LumexDwcasBenchmark
+build-bench/bin/LumexDwcasBenchmark --threads 1,2,4,8 --duration-ms 100 --repetitions 5
+```
+
+Reduced run of 2026-10-09 (GCC 13.2 Release, Intel Core i7-12700K, 20 logical CPUs, assembly backend, 5 repetitions of 100 ms; the machine was shared with other builds, so read the ratios, not the nanoseconds):
+
+| Threads | 64-bit, ns | 128-bit, ns | Ratio |
+| ---: | ---: | ---: | ---: |
+| 1 | 7.6 | 10.0 | 1.31 |
+| 2 | 33.3 | 33.7 | 1.01 |
+| 4 | 69.8 | 88.9 | 1.34 |
+| 8 | 144.2 | 207.4 | 1.44 |
+
+The 128-bit attempt costs 1.0 to 1.4 times the 64-bit one up to 8 threads: both are one locked instruction on one cache line, and the second half is the difference. This is a reduced run, not a sweep: it is one machine, one compiler and five short windows per point.
