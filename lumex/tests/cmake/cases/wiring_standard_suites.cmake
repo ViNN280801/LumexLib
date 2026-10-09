@@ -15,7 +15,12 @@
 #   test source <Stem>.cxx<std>.tests.cpp with <std> a standard of its entry,
 #   and passes VARIANT <name> for exactly the variants of its entry. Some
 #   directory of the module has a file of the module's lowest standard; a
-#   directory itself has suites from its lowest file on only.
+#   directory itself has suites from its lowest file on only. A directory
+#   may narrow its module's row with STANDARDS (lumex_test_standards_resolve:
+#   an ascending subset of the row that keeps every file's standard and is not
+#   the row itself); a standard it drops must not be named by a __cplusplus
+#   threshold, a feature macro or a file name in the directory's files or in
+#   the sources they test.
 # - The helper and the table functions behave as documented.
 
 include("${LUMEX_SOURCE_DIR}/cmake/LumexTestNames.cmake")
@@ -42,6 +47,19 @@ if(DEFINED LUMEX_STANDARD_SUITES_EXPECT_FAIL)
         lumex_test_standards_declare(base64 11)
     elseif(LUMEX_STANDARD_SUITES_EXPECT_FAIL STREQUAL "variant_outside_module")
         lumex_test_standards_declare_variant(base64 forced 14)
+    elseif(LUMEX_STANDARD_SUITES_EXPECT_FAIL STREQUAL "narrow_outside_row")
+        lumex_test_standards_resolve(_out math "11;14;20" A.cxx11.tests.cpp)
+    elseif(LUMEX_STANDARD_SUITES_EXPECT_FAIL STREQUAL "narrow_drops_file")
+        lumex_test_standards_resolve(_out utility "11;17;20"
+            A.cxx11.tests.cpp B.cxx14.tests.cpp)
+    elseif(LUMEX_STANDARD_SUITES_EXPECT_FAIL STREQUAL "narrow_descending")
+        lumex_test_standards_resolve(_out utility "20;11" A.cxx11.tests.cpp)
+    elseif(LUMEX_STANDARD_SUITES_EXPECT_FAIL STREQUAL "narrow_unknown_standard")
+        lumex_test_standards_resolve(_out utility "11;15" A.cxx11.tests.cpp)
+    elseif(LUMEX_STANDARD_SUITES_EXPECT_FAIL STREQUAL "narrow_is_the_row")
+        lumex_test_standards_resolve(_out math "11;17;20" A.cxx11.tests.cpp)
+    elseif(LUMEX_STANDARD_SUITES_EXPECT_FAIL STREQUAL "narrow_unknown_module")
+        lumex_test_standards_resolve(_out no_such_module "11" A.cxx11.tests.cpp)
     endif()
     return()
 endif()
@@ -105,7 +123,13 @@ foreach(_case
         "descending|not strictly ascending"
         "unknown_standard|names C\\+\\+15"
         "duplicate_module|is declared twice"
-        "variant_outside_module|is not a standard of 'base64'")
+        "variant_outside_module|is not a standard of 'base64'"
+        "narrow_outside_row|C\\+\\+14 of STANDARDS is not a standard of 'math'"
+        "narrow_drops_file|B.cxx14.tests.cpp is a C\\+\\+14 test source, but STANDARDS \\(11 17 20\\) does not build C\\+\\+14"
+        "narrow_descending|not strictly ascending"
+        "narrow_unknown_standard|names C\\+\\+15"
+        "narrow_is_the_row|is the module's row"
+        "narrow_unknown_module|has no module 'no_such_module'")
     string(REPLACE "|" ";" _case "${_case}")
     list(GET _case 0 _mode)
     list(GET _case 1 _pattern)
@@ -125,6 +149,25 @@ foreach(_case
             "(exit ${_rv}):\n${_out}${_err}\n")
     endif()
 endforeach()
+
+# --- STANDARDS: the directory's own list of standards -----------------------
+
+# No list: the module's row, whatever the files are.
+lumex_test_standards_resolve(_resolved utility "" A.cxx11.tests.cpp)
+_expect_equal("no STANDARDS" "${_resolved}" "11;14;17;20;23;26")
+lumex_test_standards_resolve(_resolved base64 "")
+_expect_equal("no STANDARDS, no files" "${_resolved}" "11;17;20")
+# A list narrows the row; the files of the kept standards are fine.
+lumex_test_standards_resolve(_resolved utility "11;17;20"
+    A.cxx11.tests.cpp B.cxx17.tests.cpp C.cxx20.tests.cpp)
+_expect_equal("STANDARDS 11 17 20 of utility" "${_resolved}" "11;17;20")
+lumex_test_standards_resolve(_resolved utility "11;20;26" A.cxx11.tests.cpp)
+_expect_equal("STANDARDS 11 20 26 of utility" "${_resolved}" "11;20;26")
+lumex_test_standards_resolve(_resolved expected "11;17" A.cxx11.tests.cpp)
+_expect_equal("STANDARDS 11 17 of expected" "${_resolved}" "11;17")
+# A file outside the scheme is not a standard to keep (select reports it).
+lumex_test_standards_resolve(_resolved utility "11;17;20" A.tests.cpp)
+_expect_equal("STANDARDS with a file outside the scheme" "${_resolved}" "11;17;20")
 
 # --- The wiring of the helper -----------------------------------------------
 
@@ -148,6 +191,10 @@ _require_text("${_gtest}" "NOT \"cxx_std_\${_std}\" IN_LIST CMAKE_CXX_COMPILE_FE
 _require_text("${_gtest}" "lumex_test_standards_select(_sources \"\${ARG_MODULE}\" \${_std} \${_found})")
 _require_text("${_gtest}" "lumex_test_use_gtest(\${_target} CXX_STANDARD \${_std})")
 _require_text("${_gtest}" "CONFIGURE_DEPENDS")
+# STANDARDS narrows the row of one directory through the table's resolver.
+_require_text("${_gtest}" "PLAIN_EXECUTABLE TARGETS_VAR SOAK_FILTER STANDARDS)")
+_require_text("${_gtest}" "lumex_test_standards_resolve(_module_standards \"\${ARG_MODULE}\"\n    \"\${ARG_STANDARDS}\" \${_scheme_files})")
+_require_text("${_gtest}" "STANDARDS narrows the main")
 # The module of a directory begins the directory's own CTest prefix, a suite
 # without a test source is skipped, and a directory that builds none fails.
 _require_text("${_gtest}" "lumex_test_name(_directory_prefix \"\")")
@@ -315,6 +362,60 @@ foreach(_dir IN LISTS _dirs)
         string(APPEND _errors
             "  lumex/tests/${_rel}/CMakeLists.txt: variants '${_variants}', "
             "the table declares '${_declared}'\n")
+    endif()
+
+    # STANDARDS: the list the directory names, a proper ascending subset of
+    # the row that keeps the lowest standard (lumex_test_standards_resolve
+    # checks the rest when the helper runs). A standard it drops must not be
+    # one the directory's own files or the sources it tests mention by a
+    # __cplusplus threshold, a feature macro of that standard or a file name:
+    # a branch at that standard is a reason to build it.
+    set(_narrowed "")
+    set(_in_standards FALSE)
+    foreach(_arg IN LISTS _args)
+        if(_arg STREQUAL "STANDARDS")
+            set(_in_standards TRUE)
+        elseif(_in_standards AND _arg MATCHES "^[0-9]+$")
+            list(APPEND _narrowed "${_arg}")
+        else()
+            set(_in_standards FALSE)
+        endif()
+    endforeach()
+    if(_narrowed)
+        lumex_test_standards_get(_row "${_key}")
+        list(GET _row 0 _row_lowest)
+        list(GET _narrowed 0 _narrowed_lowest)
+        if(NOT _narrowed_lowest STREQUAL _row_lowest)
+            string(APPEND _errors
+                "  lumex/tests/${_rel}/CMakeLists.txt: STANDARDS (${_narrowed}) "
+                "does not start at the lowest standard ${_row_lowest}\n")
+        endif()
+        # The files whose text decides: the directory's tests and the sources
+        # it tests (the same path under lumex/, without subdirectories).
+        file(GLOB _own_files "${_dir}/*.cpp" "${_dir}/*.hpp" "${_dir}/*.h"
+            "${LUMEX_SOURCE_DIR}/lumex/${_rel}/*.cpp"
+            "${LUMEX_SOURCE_DIR}/lumex/${_rel}/*.hpp"
+            "${LUMEX_SOURCE_DIR}/lumex/${_rel}/*.h")
+        set(_own_text "")
+        foreach(_own_file IN LISTS _own_files)
+            file(READ "${_own_file}" _file_text)
+            string(APPEND _own_text "${_file_text}\n")
+        endforeach()
+        set(_pattern_14 "201402|LUMEX_CONSTEXPR_CXX14|cxx14|LUMEX_HAS_STD_INTEGER_SEQUENCE|LUMEX_HAS_STD_TRANSPARENT_OPERATORS|LUMEX_HAS_VARIABLE_TEMPLATES")
+        set(_pattern_17 "201703|cxx17")
+        set(_pattern_20 "202002|cxx20")
+        set(_pattern_23 "20230[0-9]|2021[0-9][0-9]|202300|cxx23")
+        set(_pattern_26 "202400|202600|cxx26")
+        foreach(_row_std IN LISTS _row)
+            if(NOT _row_std IN_LIST _narrowed AND DEFINED _pattern_${_row_std}
+               AND _own_text MATCHES "${_pattern_${_row_std}}")
+                string(APPEND _errors
+                    "  lumex/tests/${_rel}/CMakeLists.txt: STANDARDS "
+                    "(${_narrowed}) drops C++${_row_std}, but the files of "
+                    "the directory or of lumex/${_rel} mention it "
+                    "(${CMAKE_MATCH_0})\n")
+            endif()
+        endforeach()
     endif()
 
     lumex_test_standards_get(_standards "${_key}")
