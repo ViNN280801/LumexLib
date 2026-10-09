@@ -40,7 +40,6 @@
 #ifndef LUMEX_CORE_UTILITY_TRAITS_HPP
 #define LUMEX_CORE_UTILITY_TRAITS_HPP
 
-#include <array>
 #include <cstddef>
 #include <functional>
 #include <iterator>
