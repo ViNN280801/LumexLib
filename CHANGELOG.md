@@ -236,6 +236,14 @@
 
 #### Изменено
 
+##### `LumexTypeTraits.hpp` больше не включает `<array>`
+
+**Файлы:** `lumex/core/utility/traits/LumexTypeTraits.hpp`, `lumex/tests/core/reflection/reflected_enum/LumexReflectedEnum.cxx11.tests.cpp`
+
+**Суть:** решение пользователя 2026-10-08. Заголовок включал `<array>`, но сам `std::array` не использует; через него `<array>` получали заголовки, которые его не включали (заголовки `xml` уже исправлены веткой `refactor/xml-cleanup`, правило закреплено случаем `cmake.source_std_array_included`). Включение удалено. Остальные файлы дерева (`lumex/`, тесты, примеры, `benchmarks/`, `test_package/`) проверены поиском `std::array` без `#include <array>`: единственный случай - макрос `LUMEX_DEFINE_REFLECTED_ENUM` разворачивается в `std::array` в тестовом файле `LumexReflectedEnum.cxx11.tests.cpp`; в него добавлено `#include <array>` (заголовок `LumexReflectedEnum.hpp` свое включение имеет). Остальные четыре совпадения - упоминания в комментариях. Другие файлы править не пришлось. Вне библиотеки код, который получал `std::array` транзитивно через `LumexTypeTraits.hpp`, должен включить `<array>` сам (libc++ и STL MSVC этого не дают).
+
+**Проверено:** полная сборка всех целей GCC 13.2 Release (329 целей: библиотеки, тесты, примеры, бенчмарки; без целей `*BenchmarkRun` и целей, пишущих в рабочее дерево), 0 ошибок; ctest `utility.traits.`, `string.`, `fmt.`, `reflection.`, `lint.`, `cmake.` (2740 тестов): все проходят, кроме 9 известных (`fmt`: сравнения с `std::format` на C++20, `GivenHexTypeAtLimits`) и 83 известных `reflection.field_reflection` на GCC 13 (имена полей, отдельная задача). Синтаксическая проверка (`-fsyntax-only`) каждой единицы трансляции базы компиляции (библиотека, тесты, примеры, бенчмарки, GoogleTest): Clang 23.1 с libc++ 23 - 954 из 954, Clang 23.1 с libstdc++ 13 - 954 из 954, GCC 8.3 - 818 из 821, MinGW GCC 8.3 (кросс-компиляция, без запуска) - 818 из 821 (20 единиц `tests/core/exceptions` сначала не прошли на флаге `/Zi`, который CMake дает им для MinGW, и прошли после его удаления; к `<array>` это не относится); не проходят только три файла `benchmarks/atomic` на GCC 8 и MinGW (`#error "this unit must be built at C++20"`, `std::atomic::value_type`), к `<array>` отношения не имеют.
+
 ##### `stringify` отбрасывается через SFINAE во всех стандартах, `stringify_v2` стала переадресацией
 
 **Файлы:** `lumex/core/string/utility/LumexStringify.hpp`, `lumex/core/reflection/var_info/LumexVarInfo.hpp` (комментарий), `lumex/tests/core/string/utility/` (`LumexStringifySfinae.cxx11.tests.cpp` - новый, `LumexStringifyV2.cxx11.tests.cpp`, `LumexString.cxx11.tests.cpp`, `LumexString.cxx20.tests.cpp`)
