@@ -84,6 +84,8 @@
 #          SOURCES <files...>           # extra files of every suite (headers)
 #          DEFINITIONS <defs...>        # compile definitions of every suite
 #          EXCLUDE <files...>           # scheme files left out of the build
+#          STANDARDS <stds...>          # narrows the module's row for this
+#                                       # directory (see below)
 #          DISCOVER_ARGS <args...>      # to lumex_gtest_discover_tests
 #          PLAIN_EXECUTABLE             # own main (), registered by add_test
 #          TARGETS_VAR <var>            # receives the created target names
@@ -139,6 +141,30 @@
 #    its suite (an old unsuffixed name gets .cxx<lowest>) and the directory
 #    segment of its source directory after the module key, and new suites
 #    may only add names.
+#
+# Narrowing the row of one directory (STANDARDS)
+# ----------------------------------------------
+# A directory builds the module's whole row by default. A directory whose
+# tests and code under test do not change with the standard (no __cplusplus,
+# LUMEX_HAS_* or __cpp_* branch in the files of the directory or in the
+# sources it tests, no test file of a standard between two others) names the
+# standards that matter with STANDARDS, normally 11 17 20: C++11 is the floor,
+# 17 is where the vendored GoogleTest changes (1.12.1 below, 1.18.0 from 17)
+# and 20 is the last standard every toolchain has. The sources of a suite do
+# not change: it still compiles the files of its standard and of the lower
+# ones that exist. The list must be a strictly ascending subset of the
+# module's row, start at its lowest standard and keep the standard of every
+# test file of the directory (a file of a standard left out would not be
+# built); it may not equal the row (then it only repeats the table) and it is
+# not allowed with a VARIANT. Measure before narrowing: preprocess the
+# directory's test files at the standard to drop and at the one below it
+# (the same compile command, only -std= changes) and compare the text that
+# comes from the directory's own files and from the sources it tests; when it
+# is identical the standard changes nothing there. cmake.wiring_standard_suites
+# also refuses a dropped standard that a __cplusplus threshold, a feature
+# macro or a file name of those files names. Put the reason in the
+# directory's CMakeLists.txt. Narrowing never removes a test: every test still
+# runs at the standards kept.
 #
 # Several components in one directory
 # -----------------------------------
@@ -328,6 +354,47 @@ function(lumex_test_standards_select out_var key std)
     list(APPEND _selected ${_files_${_level}})
   endforeach()
   set(${out_var} ${_selected} PARENT_SCOPE)
+endfunction()
+
+# lumex_test_standards_resolve(<out_var> <key> <override> [<file>...])
+#
+# Stores in <out_var> the standards a test directory of module <key> is built
+# at: the module's row, or - when <override> (the directory's STANDARDS list,
+# a ;-list; empty for none) is not empty - that list. A directory narrows the
+# row when its tests and the code under test do not change with the
+# standard, so the suites between the standards that matter would only run
+# the same sources again. The list must be strictly ascending, every entry a
+# standard of the module, and it must keep the standard of every given test
+# source <file>: a file whose standard was left out would not be built.
+function(lumex_test_standards_resolve out_var key override)
+  lumex_test_standards_get(_row "${key}")
+  if("${override}" STREQUAL "")
+    set(${out_var} ${_row} PARENT_SCOPE)
+    return()
+  endif()
+  string(REPLACE ";" " " _shown "${override}")
+  _lumex_test_standards_check_list("${key} STANDARDS" ${override})
+  foreach(_std IN LISTS override)
+    if(NOT _std IN_LIST _row)
+      message(FATAL_ERROR
+        "lumex/tests/LumexTestStandards.cmake: C++${_std} of STANDARDS is "
+        "not a standard of '${key}' (${_row})")
+    endif()
+  endforeach()
+  foreach(_file IN LISTS ARGN)
+    lumex_test_standards_of_file(_file_std "${_file}")
+    if(NOT _file_std STREQUAL "" AND NOT _file_std IN_LIST override)
+      message(FATAL_ERROR
+        "lumex/tests/LumexTestStandards.cmake: ${_file} is a C++${_file_std} "
+        "test source, but STANDARDS (${_shown}) does not build C++${_file_std}")
+    endif()
+  endforeach()
+  if("${override}" STREQUAL "${_row}")
+    message(FATAL_ERROR
+      "lumex/tests/LumexTestStandards.cmake: STANDARDS (${_shown}) of a "
+      "'${key}' directory is the module's row; leave STANDARDS out")
+  endif()
+  set(${out_var} ${override} PARENT_SCOPE)
 endfunction()
 
 # --- The table (user decision 2026-10-03) ---------------------------------

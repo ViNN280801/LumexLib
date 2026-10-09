@@ -163,6 +163,7 @@ endfunction()
 #     [LINK <item>...] [SOURCES <file>...] [DEFINITIONS <definition>...]
 #     [EXCLUDE <file>...] [DISCOVER_ARGS <argument>...] [PLAIN_EXECUTABLE]
 #     [TARGETS_VAR <out_var>] [SOAK_FILTER <gtest filter>]
+#     [STANDARDS <std>...]
 #     [VARIANT <name> [DEFINITIONS <definition>...]]...)
 #
 # The common DEFINITIONS go before the first VARIANT: after VARIANT <name>,
@@ -198,6 +199,15 @@ endfunction()
 # - A standard above LUMEX_TEST_STANDARDS_OPTIONAL_ABOVE is built only when
 #   CMAKE_CXX_COMPILE_FEATURES has cxx_std_<std>; otherwise it is skipped
 #   with a STATUS message.
+# - STANDARDS <std>... narrows the module's row for this directory: the suites
+#   are built at those standards only (normally 11 17 20 for a directory whose
+#   tests and code under test do not change between 11 and 17 or between 17
+#   and 20 apart from the GoogleTest version). The list is a strictly
+#   ascending subset of the module's row, it keeps the standard of every
+#   test file of the directory, and it is not the row itself
+#   (lumex_test_standards_resolve in LumexTestStandards.cmake; the
+#   explanation is there). It is not allowed with VARIANT. Without STANDARDS
+#   the directory builds the module's row.
 # - VARIANT <name> adds suites on the same sources at the standards the table
 #   declares for that variant, with DEFINITIONS on top of the common ones:
 #   Lumex<Component><Name in CamelCase>Cxx<std>Tests, CTest suffix
@@ -248,7 +258,7 @@ function(lumex_add_standard_suites component)
   # helper ends it, so the common arguments may also follow the variants
   # (except DEFINITIONS, which inside a group belongs to the variant).
   set(_common_keywords MODULE LINK SOURCES EXCLUDE DISCOVER_ARGS
-    PLAIN_EXECUTABLE TARGETS_VAR SOAK_FILTER)
+    PLAIN_EXECUTABLE TARGETS_VAR SOAK_FILTER STANDARDS)
   set(_group _main)
   set(_args__main "")
   set(_variants "")
@@ -285,7 +295,7 @@ function(lumex_add_standard_suites component)
   endif()
 
   cmake_parse_arguments(ARG "PLAIN_EXECUTABLE" "MODULE;TARGETS_VAR;SOAK_FILTER"
-    "LINK;SOURCES;DEFINITIONS;EXCLUDE;DISCOVER_ARGS" ${_args__main})
+    "LINK;SOURCES;DEFINITIONS;EXCLUDE;DISCOVER_ARGS;STANDARDS" ${_args__main})
   if(ARG_UNPARSED_ARGUMENTS)
     message(FATAL_ERROR
       "lumex_add_standard_suites(${component}): unexpected arguments: "
@@ -327,9 +337,14 @@ function(lumex_add_standard_suites component)
     set(_definitions_${_variant} ${_VAR_DEFINITIONS})
   endforeach()
 
-  # The table decides the standards; check that the call and the table name
-  # the same variants.
-  lumex_test_standards_get(_module_standards "${ARG_MODULE}")
+  if(ARG_STANDARDS AND _variants)
+    message(FATAL_ERROR
+      "lumex_add_standard_suites(${component}): STANDARDS narrows the main "
+      "suites and is not allowed with VARIANT (${_variants})")
+  endif()
+
+  # The table decides the standards (STANDARDS narrows them, see below); check
+  # that the call and the table name the same variants.
   set(_declared ${LUMEX_TEST_STANDARD_VARIANTS_${ARG_MODULE}})
   foreach(_variant IN LISTS _declared)
     if(NOT _variant IN_LIST _variants)
@@ -357,6 +372,14 @@ function(lumex_add_standard_suites component)
         "'${_excluded}', which is not a *.tests.cpp of this directory")
     endif()
   endforeach()
+
+  # The standards of this directory: the module's row, or the STANDARDS list.
+  set(_scheme_files ${_found})
+  if(ARG_EXCLUDE)
+    list(REMOVE_ITEM _scheme_files ${ARG_EXCLUDE})
+  endif()
+  lumex_test_standards_resolve(_module_standards "${ARG_MODULE}"
+    "${ARG_STANDARDS}" ${_scheme_files})
 
   set(_targets "")
   set(_unsupported 0)
