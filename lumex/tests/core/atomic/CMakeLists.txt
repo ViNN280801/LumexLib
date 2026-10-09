@@ -32,11 +32,27 @@
 # "atomic.smart_ptr.", "atomic.sync.") and the suffix of the suite (.cxx11,
 # ..., .lock_based.cxx20). A lost wake-up hangs a test; the in-test watchdog
 # aborts it after 120 s and the CTest timeout is the second line of defence.
+#
+# The concurrency tests of this module (ABA through address reuse, Treiber
+# stack and Michael-Scott queue over atomic_shared_ptr, linearizability, the
+# livelock regression, the self-tests on deliberately broken engines) are
+# described in smart_ptr/CMakeLists.txt. Every test of the module carries the
+# CTest label `tsan`: the ThreadSanitizer run is a separate build tree
+#   cmake -S . -B build-tsan -G Ninja -DCMAKE_BUILD_TYPE=Debug \
+#         -DCMAKE_CXX_COMPILER=/opt/llvm-23.1.0/bin/clang++ \
+#         -DLUMEX_BUILD_TESTS=ON -DLUMEX_USE_TSAN=ON
+#   ctest --test-dir build-tsan -L tsan -j4
+# (Clang by default; GCC's ThreadSanitizer needs `setarch x86_64 -R ctest ...`
+# with a kernel that randomizes mappings above its shadow range). The soak
+# runs are `*Soak*` tests: left out of the default registration, registered
+# under the label `soak` by -DLUMEX_BUILD_SOAK_TESTS=ON (`ctest -L soak`), or
+# run directly with LUMEX_TEST_SOAK=1 and LUMEX_TEST_SOAK_SECONDS.
 lumex_add_standard_suites(Atomic
     MODULE atomic
     LINK lumex::atomic
     SOURCES LumexAtomicTestSupport.hpp
-    DISCOVER_ARGS PROPERTIES TIMEOUT 300
+    DISCOVER_ARGS PROPERTIES TIMEOUT 300 LABELS tsan
+    SOAK_FILTER *Soak*
     VARIANT lock_based DEFINITIONS LUMEX_ATOMIC_SMART_PTR_FORCE_LOCK_BASED
     VARIANT wait_table DEFINITIONS LUMEX_ATOMIC_WAIT_FORCE_TABLE
 )
