@@ -5,13 +5,18 @@
 // must be refused with the message of its own check: a missing registration
 // where the standard gives no automatic names or members (cases 1-3), a
 // registration that does not match the aggregate (4-7, 9-12) and an index past
-// the last field (8).
+// the last field (8). Cases 13 and 14 are the refusals of the recursion of
+// to_json into nested aggregates: a nested aggregate whose names are missing
+// (below C++20) and a map of aggregates whose keys are not strings.
 
 #include <cstddef>
+#include <map>
 #include <string>
+#include <vector>
 
 #include "lumex/core/reflection/field_reflection/LumexAggregateFields.hpp"
-#if defined(LUMEX_FIELD_NAMES_GOOD_CASE) || LUMEX_FIELD_NAMES_BAD_CASE == 3
+#if defined(LUMEX_FIELD_NAMES_GOOD_CASE) || LUMEX_FIELD_NAMES_BAD_CASE == 3   \
+    || LUMEX_FIELD_NAMES_BAD_CASE == 13 || LUMEX_FIELD_NAMES_BAD_CASE == 14
 #include "lumex/core/reflection/field_reflection/LumexFieldReflection.hpp"
 #endif
 
@@ -35,6 +40,32 @@ LUMEX_DEFINE_FIELD_NAMES (registered_t, id, name);
 struct empty_t
 {
 };
+
+// A registered aggregate with registered aggregates in it, written as nested
+// objects (all standards).
+struct holder_t
+{
+  registered_t item;
+  std::vector<registered_t> list;
+  std::map<std::string, registered_t> named;
+};
+LUMEX_DEFINE_FIELD_NAMES (holder_t, item, list, named);
+
+// Registered, with a nested aggregate that is not (case 13: to_json below
+// C++20).
+struct outer_t
+{
+  int id;
+  plain_t inner;
+};
+LUMEX_DEFINE_FIELD_NAMES (outer_t, id, inner);
+
+// Registered, with a map of aggregates keyed by int (case 14).
+struct keyed_t
+{
+  std::map<int, registered_t> by_id;
+};
+LUMEX_DEFINE_FIELD_NAMES (keyed_t, by_id);
 
 struct array_t
 {
@@ -151,6 +182,11 @@ main ()
   used += static_cast<int> (names_as_array<empty_t> ().size ());
   used += static_cast<int> (to_json (empty_t ()).size ());
   used += static_cast<int> (to_json (registered).size ());
+  // Nested aggregates: objects, arrays of objects, an object of objects.
+  holder_t holder;
+  holder.list.push_back (registered);
+  holder.named["k"] = registered;
+  used += static_cast<int> (to_json (holder).size ());
 #if __cplusplus >= 201402L
   // The automatic get of an unregistered aggregate.
   used += get<0> (plain);
@@ -159,6 +195,9 @@ main ()
   // The compiler's names of an unregistered aggregate.
   used += static_cast<int> (names_as_array<plain_t> ().size ());
   used += static_cast<int> (to_json (plain).size ());
+  // A nested aggregate nobody registered.
+  outer_t outer = { 1, plain };
+  used += static_cast<int> (to_json (outer).size ());
 #endif
 #elif LUMEX_FIELD_NAMES_BAD_CASE == 1
   // names_as_array of an unregistered aggregate below C++20.
@@ -169,6 +208,16 @@ main ()
 #elif LUMEX_FIELD_NAMES_BAD_CASE == 3
   // to_json of an unregistered aggregate below C++20.
   used += static_cast<int> (to_json (plain).size ());
+#elif LUMEX_FIELD_NAMES_BAD_CASE == 13
+  // to_json of a registered aggregate with a nested one that has no names,
+  // below C++20.
+  outer_t outer = { 1, plain };
+  used += static_cast<int> (to_json (outer).size ());
+#elif LUMEX_FIELD_NAMES_BAD_CASE == 14
+  // to_json of a map of aggregates whose keys are not strings.
+  keyed_t keyed;
+  keyed.by_id[1] = registered;
+  used += static_cast<int> (to_json (keyed).size ());
 #elif LUMEX_FIELD_NAMES_BAD_CASE == 8
   // An index past the last field of a registered aggregate.
   used += get<2> (registered);
