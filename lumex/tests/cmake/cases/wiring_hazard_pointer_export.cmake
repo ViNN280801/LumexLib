@@ -38,6 +38,7 @@ foreach(_function
         "LUMEX_HAZARD_POINTER_API void acquire_slots (slot_t **out, std::size_t count);"
         "LUMEX_HAZARD_POINTER_API void release_slot (slot_t *slot) LUMEX_NOEXCEPT;"
         "LUMEX_HAZARD_POINTER_API void retire_node (node_t *node) LUMEX_NOEXCEPT;"
+        "LUMEX_HAZARD_POINTER_API bool reclaim_or_retire (node_t *node) LUMEX_NOEXCEPT;"
         "LUMEX_HAZARD_POINTER_API void clean_up () LUMEX_NOEXCEPT;"
         "LUMEX_HAZARD_POINTER_API statistics_t statistics () LUMEX_NOEXCEPT;")
     _require_text("${_engine}" "${_function}")
@@ -93,10 +94,10 @@ function(_exports out_var source)
     set(${out_var} "${_all}" PARENT_SCOPE)
 endfunction()
 
-# The library: exactly the six engine functions.
+# The library: exactly the seven engine functions.
 _exports(_library lumex/core/hazard_pointer/engine/LumexHazardPointerDomain.cpp
          -DLumexCore_hazard_pointer_EXPORTS)
-set(_expected acquire_slot acquire_slots release_slot retire_node clean_up statistics)
+set(_expected acquire_slot acquire_slots release_slot retire_node reclaim_or_retire clean_up statistics)
 foreach(_function IN LISTS _expected)
     set(_found FALSE)
     foreach(_directive IN LISTS _library)

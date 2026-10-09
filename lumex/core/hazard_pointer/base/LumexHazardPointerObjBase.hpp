@@ -274,6 +274,33 @@ public:
     engine::retire_node (this->node ());
   }
 
+  /**
+   * @brief Extension: reclaims the object now when no hazard pointer
+   * protects it, otherwise retires it.
+   * @param[in] d The deleter, move-assigned to the stored one.
+   * @return True when the deleter ran before the call returned; false when
+   * a hazard pointer named the object and it was retired (reclaimed once
+   * nobody protects it).
+   * @pre As `retire`. The calling thread holds no hazard pointer that
+   * protects this object (it would keep it alive and send it down the retire
+   * path).
+   * @note The scan reads every hazard slot ever created, one address
+   * against all of them: cost proportional to their number, no allocation,
+   * no pass over the retired objects of other threads. The deleter runs on
+   * this thread with nothing locked, so it may use hazard pointers and
+   * retire other objects. Not in the standard's interface.
+   */
+  bool
+  reclaim_or_retire (D d = D ()) LUMEX_NOEXCEPT
+  {
+    static_assert (is_hazard_protectable<T>::value,
+                   "T must have exactly one public, non-virtual base "
+                   "hazard_pointer_obj_base<T, D>");
+    this->get_deleter () = std::move (d);
+    this->node ()->reclaim = &hazard_pointer_obj_base::reclaim_node;
+    return engine::reclaim_or_retire (this->node ());
+  }
+
 protected:
   hazard_pointer_obj_base () = default;
   hazard_pointer_obj_base (hazard_pointer_obj_base const &) = default;

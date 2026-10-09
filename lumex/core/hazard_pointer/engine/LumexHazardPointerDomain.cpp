@@ -863,6 +863,39 @@ retire_node (node_t *node) LUMEX_NOEXCEPT
     }
 }
 
+bool
+reclaim_or_retire (node_t *node) LUMEX_NOEXCEPT
+{
+  LUMEX_ASSERT (node != nullptr);
+  LUMEX_ASSERT (node->reclaim != nullptr);
+  // An object is retired at most once: a fresh node points at itself.
+  LUMEX_ASSERT (node->next == node);
+  // The removal that preceded this call, then the scan: the pass's side of
+  // the protocol (see sweep) applied to this one address. Either a reader's
+  // announcement is visible below, or the reader's validation sees the
+  // removal and does not use the object.
+  std::atomic_thread_fence (std::memory_order_seq_cst);
+  LUMEX_HAZARD_POINTER_TEST_POINT (pass_fenced);
+  block_t const *blocks = g_domain.blocks.load (std::memory_order_acquire);
+  bool const held
+      = slots_hold (blocks, reinterpret_cast<std::uintptr_t> (node));
+  LUMEX_HAZARD_POINTER_TEST_POINT (pass_scanned);
+  if (held)
+    {
+      // Somebody names it (or a reader announced it and has not validated
+      // yet): the ordinary path, which keeps it until nobody does.
+      retire_node (node);
+      return false;
+    }
+  // The slots' release stores (a reader that finished) become visible here,
+  // before the object is reclaimed.
+  std::atomic_thread_fence (std::memory_order_acquire);
+  g_domain.retired.fetch_add (1, std::memory_order_relaxed);
+  g_domain.reclaimed.fetch_add (1, std::memory_order_relaxed);
+  node->reclaim (node);
+  return true;
+}
+
 void
 clean_up () LUMEX_NOEXCEPT
 {

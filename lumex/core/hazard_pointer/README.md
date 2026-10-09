@@ -60,6 +60,7 @@ The names are in `lumex::core::hazard_pointer` and nowhere else (`LumexHazardPoi
 | `hazard_pointer_obj_base<T, D = std::default_delete<T>>` | `retire (D d = D ())`, `noexcept`; copy and move make a fresh, not retired node; assignment leaves the node alone |
 | `is_hazard_protectable<T>` (own classes) | exactly one public, non-virtual base `hazard_pointer_obj_base<T, D>`; cv is ignored |
 | `clean_up ()` (extension) | A pass now: every unprotected retired object is reclaimed before the call returns |
+| `reclaim_or_retire (D d = D ())` (extension, member of `hazard_pointer_obj_base`) | Scans the hazard slots for this one object: reclaims it now when no slot names it (returns `true`, the deleter has run), else retires it like `retire` (returns `false`); `noexcept` |
 
 Extension overloads of the module's own `hazard_pointer` (not in the standard):
 
@@ -90,6 +91,10 @@ There is no background thread. A `retire` that finds the number of waiting nodes
 
 The number of retired objects that are not yet reclaimed is bounded by `max (1000, 2 * R) - 1 + R + n`, where `R` is the number of hazard slots ever created, `R` bounds the objects a pass must keep (each slot protects at most one object), and `n` is the number of objects that other threads retire while a pass runs. `R` is the high-water mark of hazard pointers alive at the same time plus the slots parked in thread caches, so it is bounded by the number of threads times the cache size (8) plus the largest number of simultaneously live `hazard_pointer` objects. Nothing is reclaimed by a program that stops retiring: the last objects wait for the next `retire`, for the two-second period of a later `retire`, or for `clean_up ()`. Nodes still pending when the process exits are not reclaimed (the domain is never destroyed); call `clean_up ()` first when a leak checker must see them gone.
 
+## Reclaiming one object at once
+
+`retire` waits for a pass over all retired objects. `reclaim_or_retire` (an extension, also `engine::reclaim_or_retire`) is for a caller that wants one object gone inside the call, as `std::atomic<std::shared_ptr<T>>` destroys the replaced value inside `store`: after the removing store it issues the same `seq_cst` fence as a pass, reads every hazard slot for the one address of the object's node (the cost is proportional to the number of slots ever created, no allocation, no list of retired objects touched), and runs the deleter on the spot when no slot holds it. When a slot holds it, the object goes the ordinary `retire` way and is reclaimed by a later pass. The protocol argument is the pass's: either the scan sees a reader's announcement or the reader's validation sees the removal. The deleter runs on the calling thread with nothing locked, so it may use hazard pointers, retire other objects, call `clean_up ()` or call `reclaim_or_retire` again. The caller must not hold a hazard pointer that protects the object (its own slot would keep the object alive and send it down the retire path); `retired` and `reclaimed` of `statistics ()` count an object reclaimed this way once each.
+
 ## Slots, caches and threads
 
 Slots are 64-byte records (`kLine`, 128 on Apple arm64 and ppc64) in blocks of 32 to 512 that are never freed. A free slot is in the cache of a thread (8 slots, used without any atomic operation: `make_hazard_pointer` and the destruction of a holder are wait-free on a cache hit) or in the shared pool, a lock-free stack in which one bit of the head word locks pops out so that the removal of the head cannot suffer from ABA. A cache miss takes that bit: only the slow path can wait for a preempted thread.
@@ -100,7 +105,7 @@ After `fork` in a multithreaded process the child must not use the module before
 
 ## Exported symbols and DLLs
 
-One domain per process is a safety property, so the engine is compiled into the library and every DLL shares it. The library exports six free functions (`acquire_slot`, `acquire_slots`, `release_slot`, `retire_node`, `clean_up`, `statistics` in `lumex::core::hazard_pointer::engine`) through `LUMEX_HAZARD_POINTER_API`, keyed on `LumexCore_hazard_pointer_EXPORTS`; no class carries an export macro. Their signatures do not depend on the C++ standard (the library is compiled as C++11 and consumers at any standard link, `cmake.consumer_standard_mismatch_*` pattern). A static library linked into several shared libraries on Windows would give each its own domain: build the library shared (the default) or link it into one binary.
+One domain per process is a safety property, so the engine is compiled into the library and every DLL shares it. The library exports seven free functions (`acquire_slot`, `acquire_slots`, `release_slot`, `retire_node`, `reclaim_or_retire`, `clean_up`, `statistics` in `lumex::core::hazard_pointer::engine`) through `LUMEX_HAZARD_POINTER_API`, keyed on `LumexCore_hazard_pointer_EXPORTS`; no class carries an export macro. Their signatures do not depend on the C++ standard (the library is compiled as C++11 and consumers at any standard link, `cmake.consumer_standard_mismatch_*` pattern). A static library linked into several shared libraries on Windows would give each its own domain: build the library shared (the default) or link it into one binary.
 
 ## Contract checks
 
@@ -112,6 +117,7 @@ One domain per process is a safety property, so the engine is compiled into the 
 
 - unit tests of every member, the trait, the deleter kinds, copies, offsets, reentrancy;
 - ABA tests over a recycling allocator that hands a freed address out again at once: a Treiber stack, a Michael-Scott queue and a Michael list set, scripted (deterministic) and stressed, protected (must pass) and unprotected (the script must damage them, which proves the tests can see ABA);
+- `reclaim_or_retire`: unit tests (unprotected, protected, the caller's own protection, a node at a nonzero offset, a reentrant deleter, the counters), the scripted ABA interleaving over the immediate-reuse allocator (protected must keep the register right, unprotected must be damaged) and stress runs with readers and writers that replace the shared object and reclaim the old one, plus two hook cases (a stalled announcement is found by the scan; a reader that announces after the scan fails its validation);
 - stress tests with a poisoned payload, producers and consumers, many readers and one writer and the reverse, thread churn, at 1, 2, 4, 8 and twice the cores' worth of threads, with a replayable seed (`LUMEX_HP_SEED`) printed at the start;
 - long runs outside the default test run: `-DLUMEX_BUILD_SOAK_TESTS=ON` registers `ctest -L soak` (the ABA structures for `LUMEX_HP_SOAK_SECONDS` seconds, a new seed every round) and `ctest -L tsan` (the same under ThreadSanitizer, with Clang, or with GCC through `setarch x86_64 -R`, because GCC's runtime cannot map its shadow memory with ASLR on; GCC's ThreadSanitizer does not model fences, so the pass uses acquire loads there and a missing reader fence is not found by it, the hook fixture finds that);
 - `cmake.consumer_hazard_pointer_hooks`: the engine built with test hooks, threads stalled at named points make the Dekker race deterministic;
@@ -122,4 +128,4 @@ One domain per process is a safety property, so the engine is compiled into the 
 
 ## Not done on purpose
 
-No custom domains, cohorts, linked objects or executors (the standard has none either), no reserved space in the node. The asymmetric barrier (a compiler barrier for the reader and `membarrier` or `FlushProcessWriteBuffers` in the pass) is a later phase; the fence is chosen in `engine::reader_fence ()` and in the pass, and the entry points do not change when it comes. A targeted "scan one address and reclaim it now, else retire" function is planned for the lock-free atomic smart pointer built on this module.
+No custom domains, cohorts, linked objects or executors (the standard has none either), no reserved space in the node. The asymmetric barrier (a compiler barrier for the reader and `membarrier` or `FlushProcessWriteBuffers` in the pass) is a later phase; the fence is chosen in `engine::reader_fence ()` and in the pass, and the entry points do not change when it comes.
