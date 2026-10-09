@@ -360,7 +360,7 @@ lumex_test_standards_declare(resource_monitor 11)
 
 lumex_test_standards_declare(environment 11)
 lumex_test_standards_declare(generators.number_generator 11)
-lumex_test_standards_declare(optional 11)
+lumex_test_standards_declare(optional 11 14 17 20 23)
 lumex_test_standards_declare(string_view 11 17 20)
 lumex_test_standards_declare(temporary 11)
 lumex_test_standards_declare(time 11)

@@ -613,15 +613,38 @@ TEST_F (LumexOptionalTest, CompareWithValue)
 }
 
 // --- make_optional ---
+// The calls are qualified: from C++17 an unqualified make_optional (s) with
+// a std::string argument also finds std::make_optional through ADL, and the
+// call is ambiguous with the global alias of the umbrella.
 TEST_F (LumexOptionalTest, MakeOptional)
 {
-  auto opt1 = make_optional (5);
+  auto opt1 = lumex::core::optional::opt::make_optional (5);
   ASSERT_TRUE (opt1.has_value ());
   ASSERT_EQ (*opt1, 5);
 
   std::string s = "test";
-  auto opt2 = make_optional (s);
+  auto opt2 = lumex::core::optional::opt::make_optional (s);
   ASSERT_EQ (*opt2, "test");
+  static_assert (
+      std::is_same<decltype (opt2),
+                   lumex::core::optional::opt::optional<std::string>>::value,
+      "make_optional returns the optional of the module");
+}
+
+TEST_F (LumexOptionalTest, MakeOptionalConstructsInPlaceFromArguments)
+{
+  auto opt = lumex::core::optional::opt::make_optional<std::string> (3, 'x');
+  ASSERT_TRUE (opt.has_value ());
+  ASSERT_EQ (*opt, "xxx");
+}
+
+TEST_F (LumexOptionalTest, MakeOptionalConstructsInPlaceFromInitializerList)
+{
+  auto opt = lumex::core::optional::opt::make_optional<std::vector<int>, int> (
+      { 1, 2, 3 });
+  ASSERT_TRUE (opt.has_value ());
+  ASSERT_EQ (opt->size (), static_cast<std::size_t> (3));
+  ASSERT_EQ ((*opt)[2], 3);
 }
 
 // --- the global names of the umbrella ---
