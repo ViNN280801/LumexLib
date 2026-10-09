@@ -3,6 +3,7 @@
 lumex_add_subdirectory_if(LUMEX_BUILD_ATOMIC atomic)
 lumex_add_subdirectory_if(LUMEX_BUILD_BASE64 base64)
 lumex_add_subdirectory_if(LUMEX_BUILD_CIRCULAR_BUFFER circular_buffer)
+lumex_add_subdirectory_if(LUMEX_BUILD_CONTRACTS contracts)
 lumex_add_subdirectory_if(LUMEX_BUILD_CRC crc)
 lumex_add_subdirectory_if(LUMEX_BUILD_ENVIRONMENT environment)
 lumex_add_subdirectory_if(LUMEX_BUILD_EXCEPTIONS exceptions)
