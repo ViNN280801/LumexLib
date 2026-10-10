@@ -27,7 +27,11 @@
 # (LUMEX_USE_TSAN) runs every suite on the built-in backend, because the
 # sanitizer does not see inline assembly (only the tests select the backend).
 # LumexSplitCountTestSupport.hpp holds what the files share: the counting
-# object, the ledger policy, the gate policy and the torn-read policy.
+# object, the ledger policy, the gate policy and the torn-read policy, the
+# allocation counters; LumexSplitCountScenarios.hpp the scenario templates
+# (semantics table, stress shapes) and LumexSplitCountHold.hpp the threads held
+# at a point of the protocol. LumexSplitCountAllocHooks.cxx11.tests.cpp
+# replaces the global allocation functions (not under ThreadSanitizer).
 set(_split_sanitize_thread FALSE)
 if(LUMEX_USE_TSAN)
     set(_split_sanitize_thread TRUE)
@@ -42,7 +46,8 @@ endif()
 lumex_add_standard_suites(AtomicSplitCount
     MODULE atomic.smart_ptr.split_count
     LINK lumex::atomic
-    SOURCES LumexSplitCountTestSupport.hpp
+    SOURCES LumexSplitCountTestSupport.hpp LumexSplitCountScenarios.hpp
+            LumexSplitCountHold.hpp
     DEFINITIONS ${_split_default_definitions}
     DISCOVER_ARGS PROPERTIES TIMEOUT 300 LABELS tsan
     SOAK_FILTER *Soak*
