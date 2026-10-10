@@ -28,8 +28,10 @@
 
 // Holders (aliases whose offset from the anchor does not fit in 40 bits):
 // the holder never escapes, it is created once per install, it owns one
-// reference on the owner and keeps it alive, the exchange hand-over never
-// steals that reference, the compare-exchange on a holder word compares the
+// reference on the owner and keeps it alive while the word holds it (the
+// reference leaves with the word's unit, so a replaced holder word costs the
+// owner nothing, and the exchange hand-over gives it to its result), the
+// compare-exchange on a holder word compares the
 // owner and the pointer, and running out of memory for a holder ends the
 // program.
 
@@ -150,9 +152,8 @@ TEST (
   EXPECT_EQ (alive_objects ().load (), alive);
 }
 
-TEST (
-    LumexSplitCountHolderTest,
-    GivenAHolderWord_WhenExchanged_ThenTheHandOverTakesAReferenceAndNeverStealsTheHolders)
+TEST (LumexSplitCountHolderTest,
+      GivenAHolderWord_WhenExchanged_ThenTheResultTakesOverTheHoldersReference)
 {
   warm_up_framework ();
   sp::shared_ptr<Obj> owner = sp::make_shared<Obj> (1);
@@ -210,6 +211,26 @@ TEST (LumexSplitCountHolderTest,
   r.reset ();
   a.store (nullptr);
   expect_exact (owner, 2, "owner and alias");
+}
+
+TEST (LumexSplitCountHolderTest,
+      GivenASoleOwnerHolderWord_WhenExchanged_ThenTheResultKeepsTheObject)
+{
+  long const alive = alive_objects ().load ();
+  {
+    int_atomic a;
+    {
+      sp::shared_ptr<Obj> owner = sp::make_shared<Obj> (1);
+      a.store (far_alias (owner));
+    }
+    EXPECT_EQ (alive_objects ().load (), alive + 1);
+    sp::shared_ptr<int> old = a.exchange (nullptr);
+    EXPECT_EQ (alive_objects ().load (), alive + 1) << "the result owns it";
+    EXPECT_EQ (old.use_count (), 1)
+        << "the hand-over takes the holder's reference over, it adds none";
+    old.reset ();
+    EXPECT_EQ (alive_objects ().load (), alive);
+  }
 }
 
 #if defined(__unix__) || defined(__APPLE__)

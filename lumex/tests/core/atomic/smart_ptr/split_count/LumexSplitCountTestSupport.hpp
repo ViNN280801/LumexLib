@@ -42,7 +42,9 @@
 //   after its deposit and before its swap. The hold is one-shot.
 // - `torn_policy_t<Tag>`: a ledger policy whose `guess` returns, every k-th
 //   call, the low half of the current word with the high half of the value
-//   the thread guessed before; every use of a guess must survive that.
+//   the thread guessed before, or (alternately, as the hardware does when
+//   `speculative_load` reads `lo` first) the old low half with the current
+//   high half; every use of a guess must survive that.
 //
 // Every test file wraps its tests in `#if
 // LUMEX_ATOMIC_SMART_PTR_HAS_SPLIT_COUNT` and has a placeholder test
@@ -358,8 +360,19 @@ struct torn_policy_t : ledger_policy_t<Tag, Limit, Reserve>
     split_value_t result = current;
     if (k != 0u && calls % k == 0u)
       {
-        result.lo = current.lo;
-        result.hi = previous.hi;
+        // Two directions, alternating: the old high half under the current
+        // low half, and the hardware tear (`speculative_load` reads `lo`
+        // first): the old low half under the new high half.
+        if (((calls / k) & 1u) != 0u)
+          {
+            result.lo = current.lo;
+            result.hi = previous.hi;
+          }
+        else
+          {
+            result.lo = previous.lo;
+            result.hi = current.hi;
+          }
       }
     previous = current;
     return result;
