@@ -22,6 +22,8 @@
 #   LumexAtomicSmartPtrNoLockFreeCxx20Tests engine (the branch where only the
 #                                          lock-based engine exists)
 # LumexAtomicTestSupport.hpp of the module's directory holds what they share.
+# The split-count engine has its own module key and its own directory,
+# split_count/ (added at the end of this file).
 #
 # The suites are engine-parametrized. The tests reach the atomic smart pointer
 # through two alias templates of LumexAtomicTestSupport.hpp, whose targets are
@@ -83,3 +85,5 @@ lumex_add_standard_suites(AtomicSmartPtr
         LUMEX_ATOMIC_TEST_WEAK_ENGINE=atomic_weak_ptr_std_backed
         LUMEX_ATOMIC_TEST_ENGINE_REQUIRES_STD_BACKED
 )
+
+add_subdirectory(split_count)
