@@ -66,6 +66,14 @@
  * one operation (the lagging drop, the surplus of the pending transfer, and a
  * reader's transferred unit until it is counted or paid).
  *
+ * `use_count_settled` is the waiting twin: it returns `count` only when `ext`
+ * is zero, and spins (a bounded busy-wait, then `std::this_thread::yield`)
+ * while it is not. Apart from the lagging drop of a slot's decrement it is
+ * exact. It can block as long as a thread that holds a pin or a pending
+ * deposit is suspended, so it must not be called from a signal handler that
+ * interrupts such a thread, and it does not make the owner count stable: it
+ * only reports a moment at which nothing was in transit.
+ *
  * Memory orders. Taking a reference needs none (`add` is relaxed: the caller
  * already owns a count, or the block is pinned). Dropping is `release`; the
  * thread that sees the word become zero then runs an acquire fence, so every
@@ -82,6 +90,7 @@
 
 #include <atomic>
 #include <cstdint>
+#include <thread>
 
 #include "lumex/core/smart_ptr/detail/LumexSmartPtrConfig.hpp"
 #include "lumex/core/utility/attr/LumexAttributes.hpp"
@@ -259,7 +268,40 @@ public:
     return count_of (word) + ext_of (word);
   }
 
+  /**
+   * @brief The number of owners once no owner is in transit.
+   * @details Returns `count` at an instant at which `ext` is zero, waiting
+   * (a bounded busy-wait, then yields) while it is not. A word that is zero
+   * returns 0 at once. Exact apart from the lag of the decrement of a slot
+   * (the owner that a `store` or a compare-exchange of an atomic smart
+   * pointer has not dropped yet). It may block while a pinning thread is
+   * suspended; it must not be called from a signal handler on a pinned
+   * thread.
+   */
+  long
+  use_count_settled () const LUMEX_NOEXCEPT
+  {
+    unsigned spins = 0;
+    word_type word = load ();
+    while (ext_of (word) != 0)
+      {
+        if (spins < settled_spin_limit ())
+          ++spins;
+        else
+          std::this_thread::yield ();
+        word = load ();
+      }
+    return count_of (word);
+  }
+
 private:
+  /// Busy-wait iterations of `use_count_settled` before it yields.
+  static LUMEX_CONSTEXPR unsigned
+  settled_spin_limit () LUMEX_NOEXCEPT
+  {
+    return 64u;
+  }
+
   bool
   drop (word_type unit) LUMEX_NOEXCEPT
   {

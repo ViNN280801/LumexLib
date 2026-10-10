@@ -436,6 +436,17 @@ public:
     return cb_ != nullptr ? cb_->use_count () : 0;
   }
 
+  /// The number of owners once no owner is in transit: `use_count ()` that
+  /// waits (spins, then yields) while an atomic smart pointer has owners in
+  /// transit on the block. Exact apart from the lag of a slot's decrement; it
+  /// may block while a pinning thread is suspended, so it must not be called
+  /// from a signal handler on a pinned thread. 0 for an empty pointer.
+  long
+  use_count_settled () const LUMEX_NOEXCEPT
+  {
+    return cb_ != nullptr ? cb_->use_count_settled () : 0;
+  }
+
   /// True when the stored pointer is not null.
   explicit
   operator bool () const LUMEX_NOEXCEPT
