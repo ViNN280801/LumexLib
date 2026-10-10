@@ -1,6 +1,6 @@
 # LumexAtomic: atomic_shared_ptr and atomic_weak_ptr from C++11 {#lumex_atomic}
 
-`lumex::core::atomic` (target `lumex::atomic`, header-only) provides `atomic_shared_ptr<T>` and `atomic_weak_ptr<T>`: the interface of C++20's `std::atomic<std::shared_ptr<T>>` and `std::atomic<std::weak_ptr<T>>` (P0718R2, with LWG 3661 and LWG 3893) from C++11 on, over the ordinary `std::shared_ptr` and `std::weak_ptr` of any standard library. Three engines implement it, each under a class template of its own: a lock-free engine built on `core/hazard_pointer` (`atomic_shared_ptr_lock_free`), a lock-based engine of the module's own (`atomic_shared_ptr_lock_based`) and a wrapper of the standard library's type where it exists (`atomic_shared_ptr_std_backed`). The common names `atomic_shared_ptr` and `atomic_weak_ptr` are alias templates of the lock-free engine where it exists and of the lock-based one otherwise; the wrapper of the standard library's type is never chosen for you.
+`lumex::core::atomic` (target `lumex::atomic`, header-only) provides `atomic_shared_ptr<T>` and `atomic_weak_ptr<T>`: the interface of C++20's `std::atomic<std::shared_ptr<T>>` and `std::atomic<std::weak_ptr<T>>` (P0718R2, with LWG 3661 and LWG 3893) from C++11 on, over the ordinary `std::shared_ptr` and `std::weak_ptr` of any standard library. Three engines implement it, each under a class template of its own: a lock-free engine built on `core/hazard_pointer` (`atomic_shared_ptr_lock_free`), a lock-based engine of the module's own (`atomic_shared_ptr_lock_based`) and a wrapper of the standard library's type where it exists (`atomic_shared_ptr_std_backed`). The common names `atomic_shared_ptr` and `atomic_weak_ptr` are alias templates of the lock-free engine where it exists and of the lock-based one otherwise; the wrapper of the standard library's type is never chosen for you. A fourth engine, the split-count engine, is built on the module's own pointers of `core/smart_ptr` instead; it has its own section, "The split-count engine", and on x86-64 it is the engine of the family alias pair `lumex::core::smart_ptr::atomic_shared_ptr` and `atomic_weak_ptr`.
 
 ```cpp
 #include "lumex/core/atomic/LumexAtomic"
@@ -30,9 +30,14 @@ LumexAtomic ports the lock-based method. The lock-free method is described below
 | Header | Contents |
 | --- | --- |
 | `lumex/core/atomic/LumexAtomic` | Umbrella: everything below |
-| `lumex/core/atomic/smart_ptr/LumexAtomicSharedPtr.hpp` | `atomic_shared_ptr_lock_free`, `_lock_based`, `_std_backed` and the alias template `atomic_shared_ptr` |
+| `lumex/core/atomic/smart_ptr/LumexAtomicSharedPtr.hpp` | `atomic_shared_ptr_lock_free`, `_lock_based`, `_std_backed`, `_lock_based_lumex` and `_lock_free_split_count`, and the alias templates `atomic_shared_ptr` and `lumex::core::smart_ptr::atomic_shared_ptr` |
 | `lumex/core/atomic/smart_ptr/LumexAtomicWeakPtr.hpp` | The same for `atomic_weak_ptr` |
-| `lumex/core/atomic/smart_ptr/LumexAtomicSmartPtrConfig.hpp` | Which engines exist and which one the common names are (`LUMEX_ATOMIC_SMART_PTR_HAS_LOCK_FREE`, `_HAS_STD_BACKED`, `_COMMON_IS_LOCK_FREE`), memory order checks |
+| `lumex/core/atomic/smart_ptr/LumexAtomicSmartPtrConfig.hpp` | Which engines exist and which one the common names are (`LUMEX_ATOMIC_SMART_PTR_HAS_LOCK_FREE`, `_HAS_STD_BACKED`, `_COMMON_IS_LOCK_FREE`), the split-count and family macros (`_HAS_LUMEX_FAMILY`, `_HAS_SPLIT_COUNT`, `_FAMILY_IS_SPLIT_COUNT`), memory order checks |
+| `lumex/core/atomic/smart_ptr/LumexAtomicSmartPtrLumexFamily.hpp` | The equivalence traits of the module's own pointer family, used by the lock-based engine over it |
+| `lumex/core/atomic/smart_ptr/split_count/LumexSplitCountWord.hpp` | The slot word of the split-count engine: a pure codec of its two halves |
+| `lumex/core/atomic/smart_ptr/split_count/LumexSplitCountPolicy.hpp` | The policy the engine is a template on (the protocol steps, the events of a test ledger, the reserve, the tick limit) |
+| `lumex/core/atomic/smart_ptr/split_count/LumexSplitCountTraits.hpp` | The strong and weak ledgers of the counters, the holder factories and the pointer traits of the family |
+| `lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp` | The split-count cell: the protocol of the engine, in full |
 | `lumex/core/atomic/smart_ptr/LumexAtomicSmartPtrCell.hpp` | The lock-based and the standard-backed cell, the equivalence traits and the wait counter all cells share |
 | `lumex/core/atomic/smart_ptr/LumexAtomicSmartPtrBox.hpp` | The heap box of the lock-free engine and the `reclaim::immediate` / `reclaim::deferred` policies |
 | `lumex/core/atomic/smart_ptr/LumexAtomicSmartPtrLockFreeCell.hpp` | The lock-free cell |
@@ -81,6 +86,11 @@ Detection is in one place, `LumexAtomicSmartPtrConfig.hpp`:
 | `LUMEX_ATOMIC_SMART_PTR_HAS_LOCK_FREE` | 1 when `LUMEX_ATOMIC_HAS_HAZARD_POINTER` is defined, `ATOMIC_POINTER_LOCK_FREE == 2` and `LUMEX_ATOMIC_SMART_PTR_DISABLE_LOCK_FREE` is not defined |
 | `LUMEX_ATOMIC_SMART_PTR_HAS_STD_BACKED` | 1 when the library has `std::atomic<std::shared_ptr<T>>` (`__cpp_lib_atomic_shared_ptr`) |
 | `LUMEX_ATOMIC_SMART_PTR_COMMON_IS_LOCK_FREE` | `HAS_LOCK_FREE` and `LUMEX_ATOMIC_SMART_PTR_FORCE_LOCK_BASED` is not defined |
+| `LUMEX_ATOMIC_SMART_PTR_HAS_LUMEX_FAMILY` | 1 when `LUMEX_ATOMIC_HAS_SMART_PTR` is defined (CMake: the target `lumex::smart_ptr` exists) |
+| `LUMEX_ATOMIC_SMART_PTR_HAS_SPLIT_COUNT` | 1 when the family is present, `LUMEX_ATOMIC_HAS_DWCAS` is 1 (x86-64) and `LUMEX_ATOMIC_SMART_PTR_DISABLE_SPLIT_COUNT` is not defined |
+| `LUMEX_ATOMIC_SMART_PTR_FAMILY_IS_SPLIT_COUNT` | 1 when the family alias pair is the split-count engine: `HAS_SPLIT_COUNT` and `LUMEX_ATOMIC_SMART_PTR_FORCE_LOCK_BASED` is not defined |
+
+The family pair `lumex::core::smart_ptr::atomic_shared_ptr` and `atomic_weak_ptr` has its own choice, shown by the last macro and described in "The split-count engine"; the table above is about the common names of this module only.
 
 `LUMEX_ATOMIC_HAS_HAZARD_POINTER` comes from CMake: `lumex::atomic` is still an INTERFACE target, and when the target `lumex::hazard_pointer` exists (`LUMEX_BUILD_HAZARD_POINTER=ON`, the default) it links it and defines the macro. The edge `atomic -> hazard_pointer` is soft, with no `lumex_require_module` line: `LUMEX_BUILD_ATOMIC=ON` with `LUMEX_BUILD_HAZARD_POINTER=OFF` is a valid configuration that has the lock-based engine only, and `cmake.install_header_only_without_utility` builds exactly that. A build that does not use CMake defines the macro itself and links the hazard pointer library. The macro is not derived from `__has_include`: the header can be present while the library is not linked. The Conan package always has both modules, so `core_atomic` requires `core_hazard_pointer`.
 
@@ -247,14 +257,81 @@ GCC sends every 16-byte `__atomic_*` operation to libatomic, with or without `-m
 
 **Tests.** `lumex/tests/core/atomic/dwcas/` (CTest prefix `atomic.dwcas.`; suites at C++11, 14, 17, 20, and the variants `builtin` and `msvc_wrapper` on the other backends): layout and every operation with every pattern of halves, the returned value of a compare-and-swap, every memory order, a const word, a misaligned word and a read-only page (faults in a child process), the CPU check with an injected CPUID answer (the abort and its message in a child process), tearing (writers store pairs with tied halves, readers assert the tie, a torn guess must never pass a compare-and-swap), lost updates, exchange as a permutation, the failure value, linearizability of short histories, message passing and a spin lock built on the word (judged by ThreadSanitizer on the built-in backend), and two deliberately broken words that the same scenarios must catch.
 
+## The split-count engine
+
+`atomic_shared_ptr_lock_free_split_count<T>` and `atomic_weak_ptr_lock_free_split_count<T>` are the fourth engine. The first three keep the value in a standard smart pointer and need the hazard pointer library. This one is built on the module's own pointers, `lumex::core::smart_ptr::shared_ptr` and `weak_ptr` (`core/smart_ptr`), whose control block has a split strong counter. The value is one 16-byte word, updated by a 128-bit compare-and-swap (`dwcas_word`), next to the 32-bit wait counter: the object is 32 bytes.
+
+| Name | Meaning |
+| --- | --- |
+| `lumex::core::smart_ptr::atomic_shared_ptr<T>`, `atomic_weak_ptr<T>` | The family alias pair, declared by `lumex/core/atomic/LumexAtomic`: the split-count engine where `LUMEX_ATOMIC_SMART_PTR_FAMILY_IS_SPLIT_COUNT` is 1, the lock-based engine over the same pointers otherwise |
+| `atomic_shared_ptr_lock_free_split_count<T>`, `atomic_weak_ptr_lock_free_split_count<T>` | The engine named explicitly, in `lumex::core::atomic::smart_ptr`; declared only where `LUMEX_ATOMIC_SMART_PTR_HAS_SPLIT_COUNT` is 1 |
+| `atomic_shared_ptr_lock_based_lumex<T>`, `atomic_weak_ptr_lock_based_lumex<T>` | The lock-based engine over the family pointers; declared where `LUMEX_ATOMIC_SMART_PTR_HAS_LUMEX_FAMILY` is 1 |
+
+The family pair has the members of the table in "Interface". `LUMEX_ATOMIC_SMART_PTR_FORCE_LOCK_BASED` makes the family pair the lock-based engine and leaves the common names as they are. The family pair exists only when the pointer module is linked (the soft CMake edge of `lumex::atomic`, `LUMEX_ATOMIC_HAS_SMART_PTR`). The alias pair lives in the atomic module, because the pointer module does not depend on the atomic one.
+
+### The word
+
+Each slot is one `dwcas_word` (16 bytes) with a 32-bit epoch next to it. Its two halves:
+
+| Half | Bits | Field | Meaning |
+| --- | --- | --- | --- |
+| `lo` | 0 | `H` | 1: the block is a holder (`ctl_holder` in the shared engine, `ctl_weak_holder` in the weak engine) |
+| `lo` | 1..63 | `cb` | The control block address; `lo == 0` is the empty value |
+| `hi`, `lo != 0` | 0..23 | `L` | Ticks: pins on this installation that are not yet taken back or paid |
+| `hi`, `lo != 0` | 24..63 | `delta` | The stored pointer minus the block's anchor, in bytes, two's complement over 40 bits; 0 for a holder word |
+| `hi`, `lo == 0` | 0..63 | `raw` | The stored pointer of an owner-less alias |
+
+A control block has two counter words: `Z = {count:32, ext:32}` for the strong group (it also carries the implicit weak unit), and one for the weak ledger. A non-empty word owns one `count` unit of the group it names; a loaded pointer owns one unit of its owner's group. `use_count () = count + ext`, where `ext` counts the owners in transit described below. `ext` is never negative.
+
+### The protocol in words
+
+- **Pin.** A load does not own the block it knows only by its address, so it first raises `L` by one with a compare-exchange of the whole word (a tick). While a tick exists the block cannot be freed: either the word still names the block, or the writer that swapped it out has deposited the tick as a unit of `ext` before its swap.
+- **Load.** The loader reads the block (its anchor, or the owner and the pointer of the holder) and then decides, with an acquire read, whether its own tick is still in the word. If it is, the loader counts one reference on the owner (this is the linearization point), then takes a tick back with a release compare-exchange; ticks are interchangeable. If the tick is already gone, the loader pays the unit the writer deposited for it. If the tick was swapped out, one read-modify-write counts the reference and pays the unit together.
+- **Store and exchange.** A word without ticks is swapped by one compare-exchange. Otherwise the writer pins the block like a loader and deposits the ticks it sees, plus a reserve of 8 units, into `ext` before its swap; its own tick is not deposited, because the swap consumes it. After a successful swap the surplus leaves with the drop of the word's unit (`store`) or is returned before the hand-over (`exchange`). If the swap fails with the same block still in the word, the deposit is topped up and the swap retried; if the block was removed, the writer pays the deposit in one read-modify-write and starts again.
+- **Compare-exchange.** `expected` owns its block, so no pin is needed: the writer deposits the ticks it sees, swaps, and withdraws the deposit if the swap fails.
+- **Holders.** A stored pointer whose offset from the anchor does not fit in 40 bits is kept through a holder block that owns one reference on its owner (a strong one, or a weak one in the weak engine). A load of a holder word returns the owner, never the holder. In the shared engine every pin on a holder is mirrored on the owner's `ext`, so `use_count ()` of the owner sees it. The reference of the holder on the owner belongs to the word: whoever drops the word's unit drops it too.
+- **Waiting.** Modifying operations (`store`, `exchange`, `compare_exchange_*`) do not notify waiters. `wait` returns only after `notify_one ()` or `notify_all ()`, as with the other engines.
+
+### The guarantee
+
+`use_count ()` of a family pointer never reports fewer owners than exist. So `use_count () == 1` means sole ownership. It never waits. It is exact when no operation on the atomic that holds the value is in flight. While a `store`, `exchange`, compare-exchange or `load` of that atomic is in flight, it can be higher than the owner count by the units of that operation (the windows below). A higher value can make a test for sole ownership fail, never pass wrongly.
+
+The windows, where the count is above the owners, are:
+
+- **(i)** a `store` or a successful compare-exchange between its swap and the drop of the old value: +1, the lagging decrement. `exchange` has no such window.
+- **(ii)** a writer between its pre-transfer and the end of its call: the ticks it found plus the reserve (8 units in production). If the swap succeeds, the surplus leaves with the drop; if it fails, the deposit is topped up or undone.
+- **(iii)** a load whose pin has already counted itself, until its payment: +1.
+
+A holder word adds no window: the owner reference of the holder goes to whoever drops the word's unit.
+
+`use_count_settled ()` on the family pointers (`shared_ptr` and `weak_ptr`) is the waiting twin. It spins for a bounded time and then yields while owners are in transit, so it is exact apart from the lag of window (i). It can block for as long as a thread pinned on the value is suspended, it may not return while loads and stores of the same atomic keep running, and it must not be called from a signal handler on a pinned thread. It is `noexcept`.
+
+### Bounds
+
+| Field | Width | Bound | At the bound |
+| --- | --- | --- | --- |
+| `L` | 24 bits | 2^24 - 1 pins on one installation | A pin yields until a tick is taken back; unreachable in practice, and the tests lower the limit |
+| `delta` | 40 bits, signed | [-2^39, 2^39) bytes from the anchor | A holder word (one allocation); an allocation failure ends the program (`std::terminate`) |
+| `count` | 32 bits, 31 used | 2^31 - 1 owners | A debug assertion, as in `std` |
+| `ext` | 32 bits | The threads holding a pin, plus the reserve of each pending writer | Not reached |
+
+### x86-64 only
+
+The engine needs the 128-bit compare-and-swap of `core/atomic/dwcas`, which exists on x86-64 with 64-bit pointers only (GCC, Clang, clang-cl and MSVC). On AArch64 and on every other target `LUMEX_ATOMIC_SMART_PTR_HAS_SPLIT_COUNT` is 0 and the two engine classes are not declared, so naming one is a compile error. Test for the engine with `LUMEX_ATOMIC_SMART_PTR_HAS_SPLIT_COUNT`; `LUMEX_ATOMIC_SMART_PTR_DISABLE_SPLIT_COUNT` turns it off on x86-64 too. Every operation terminates the program on a CPU without CMPXCHG16B; the check runs once, at the first use.
+
+### Cost
+
+Performance is not yet measured: the benchmarks of this engine, against `std::atomic<std::shared_ptr<T>>` and against the other engines, are still to be done, so this section makes no claim of speed. The cost facts known so far: the control block is 32 bytes; a load does three locked operations (the pin, the count and the un-tick), two when the value was already swapped out (the count and the payment in one read-modify-write), and one more for a holder in the shared engine; a store while other threads load the same value costs more than a plain compare-exchange, because it pins, deposits its units, swaps and drops.
+
 ## Examples
 
-Two programs in `lumex/examples/atomic/` show every public member:
+The programs in `lumex/examples/atomic/` show the public members:
 
 | Example | Shows |
 | --- | --- |
 | `example_atomic_smart_ptr.cpp` | The selected implementation, `load` / `store`, `exchange`, both compare-exchanges, a copy-on-write update loop, `atomic_weak_ptr`, `wait` / `notify_*` (built at C++11) |
 | `example_atomic_config_reload.cpp` | A reloader publishes immutable configuration snapshots with a compare-exchange loop; workers read the current snapshot and sleep in `wait ()` until `notify_all ()` announces the next one; an `atomic_weak_ptr` remembers the last snapshot without keeping it alive |
+| `example_atomic_split_count.cpp` | The family pair `lumex::core::smart_ptr::atomic_shared_ptr`, `load` / `store`, a compare-exchange loop, `use_count ()` and `use_count_settled ()`, the weak engine, and the detection macros with a fallback branch (built at C++11 when `lumex::smart_ptr` is built) |
 
 ## How it is verified
 

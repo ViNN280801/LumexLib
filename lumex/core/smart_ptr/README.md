@@ -85,6 +85,8 @@ Block kinds: `ctl_ptr<P, D, A>` (a separate object; deleter and allocator are st
 
 ## The contract with the split-count engine
 
+The engine and its protocol are described in `lumex/core/atomic/README.md`, section "The split-count engine". The atomic pair of this family, `lumex::core::smart_ptr::atomic_shared_ptr` and `atomic_weak_ptr` (declared by `lumex/core/atomic/LumexAtomic`), is that engine where the build has it (x86-64, `LUMEX_ATOMIC_SMART_PTR_FAMILY_IS_SPLIT_COUNT`), and the lock-based engine over these pointers otherwise.
+
 The engine (`core/atomic`, phase 2) keeps a block pointer, a packed offset of the stored pointer and a count of "ticks" (loads in flight) in one 16-byte atomic word. The module exposes what it needs in `detail`, documented in the headers and pinned by tests:
 
 - `ctl_base::add_strong ()`, `release_strong ()`, `transfer_strong_ext (n)`, `settle_strong ()`, `try_add_strong ()` and the same four for the weak ledger; the combined forms `release_strong_with_ext (n)`, `take_and_settle_strong ()`, `untransfer_strong_ext (n)` and `settle_strong_n (n)` (and their weak twins) change several units of the word in one read-modify-write. `release_strong` and `settle_strong` dispose the object only when `count` and `ext` are both zero, so a block that a pinned reader or a pending transfer still refers to is never disposed (this is "release without destroying a still-referenced block"). `strong_counter ()` and `weak_counter ()` give the words.
