@@ -249,6 +249,29 @@ def markdown(comments, grouped, order, compile_rows, compile_comments):
                     ", ".join("%s %.2fx" % (scenario_label(*k), v)
                               for v, k in slower)))
         lines.append("")
+        # Scenarios the baseline (lumex C++11) does not have: the conversions
+        # to and from std::span exist for the span of this library at C++20
+        # only. Absolute time and the ratio to `copy` of the same variant.
+        extra = [k for k in order if k not in per_variant[BASELINE]
+                 and any(k in per_variant[v] for v in variants)]
+        if extra:
+            lines.append("### Conversions to and from std::span (lumex C++20 "
+                         "only; the ratio is to `copy` of the same variant)")
+            lines.append("")
+            lines.append("| scenario | size | lumex C++20 |")
+            lines.append("| --- | --- | ---: |")
+            copy_row = per_variant.get("lumex_cxx20", {}).get(("copy", 1024))
+            for key in extra:
+                row = per_variant["lumex_cxx20"].get(key)
+                if row is None:
+                    continue
+                ratio = (" (%.2f)" % (row["median_ns"]
+                                       / max(copy_row["median_ns"], 1e-9))
+                         if copy_row else "")
+                lines.append("| %s | %s | %s%s |" % (
+                    key[0], format(key[1], ",") if key[1] else "",
+                    format_ns(row["median_ns"]), ratio))
+            lines.append("")
     if compile_rows:
         lines.append("## Compile time")
         lines.append("")

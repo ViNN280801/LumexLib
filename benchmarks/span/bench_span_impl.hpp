@@ -20,6 +20,17 @@
 #if BENCH_SPAN_IMPL == BENCH_SPAN_LUMEX
 
 #include "lumex/core/span/LumexSpan"
+#if __cplusplus >= 202002L && defined(__has_include)
+#if __has_include(<span>)
+#include <span>
+#if defined(__cpp_lib_span) && defined(__cpp_lib_byte)
+// The own span converts to and from std::span (the byte span to the
+// std::byte one) only from C++20; the other implementations have no such
+// pair, so the conversion scenarios exist for this one alone.
+#define BENCH_SPAN_HAS_STD_CONVERSION 1
+#endif
+#endif
+#endif
 
 namespace bench
 {
@@ -28,6 +39,7 @@ using lumex::core::span::view::byte;
 using lumex::core::span::view::span;
 constexpr std::size_t dynamic_extent = lumex::core::span::view::dynamic_extent;
 #define BENCH_SPAN_IMPL_NAME "lumex"
+using byte_span = span<byte const>;
 #define BENCH_SPAN_HAS_AS_BYTES 1
 } // namespace bench
 
@@ -66,6 +78,10 @@ using byte = std::byte;
 
 #else
 #error "BENCH_SPAN_IMPL must be 1, 2 or 3"
+#endif
+
+#ifndef BENCH_SPAN_HAS_STD_CONVERSION
+#define BENCH_SPAN_HAS_STD_CONVERSION 0
 #endif
 
 #endif // !LUMEX_BENCHMARKS_SPAN_IMPL_HPP

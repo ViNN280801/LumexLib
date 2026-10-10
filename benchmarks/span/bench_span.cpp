@@ -188,6 +188,7 @@ struct scenario_t
   run_t run;
   run_t reference;
   bool needs_as_bytes;
+  bool needs_std_conversion;
 };
 
 // construction
@@ -565,6 +566,86 @@ run_mutable_to_const (std::size_t iterations, std::size_t size)
   return acc;
 }
 
+// conversions to and from std::span (the span of this library at C++20 only)
+
+#if BENCH_SPAN_HAS_STD_CONVERSION
+std::uint64_t
+run_from_std_span (std::size_t iterations, std::size_t size)
+{
+  std::uint64_t acc = 0;
+  std::span<int> const standard (data_base (), hide (size));
+  for (std::size_t i = 0; i < iterations; ++i)
+    {
+      keep_object (standard);
+      span<int> const view = standard;
+      keep_object (view);
+      acc += view.size ();
+    }
+  return acc;
+}
+
+std::uint64_t
+run_to_std_span (std::size_t iterations, std::size_t size)
+{
+  std::uint64_t acc = 0;
+  span<int> const view (data_base (), hide (size));
+  for (std::size_t i = 0; i < iterations; ++i)
+    {
+      keep_object (view);
+      std::span<int> const standard = view;
+      keep_object (standard);
+      acc += standard.size ();
+    }
+  return acc;
+}
+
+std::uint64_t
+run_bytes_to_std_span (std::size_t iterations, std::size_t size)
+{
+  std::uint64_t acc = 0;
+  span<int const> const view (data_base (), hide (size));
+  bench::byte_span const bytes = bench::as_bytes (view);
+  for (std::size_t i = 0; i < iterations; ++i)
+    {
+      keep_object (bytes);
+      std::span<std::byte const> const standard = bytes;
+      keep_object (standard);
+      acc += standard.size ();
+    }
+  return acc;
+}
+
+std::uint64_t
+ref_bytes_to_std_span (std::size_t iterations, std::size_t size)
+{
+  return iterations * size * sizeof (int);
+}
+#else
+std::uint64_t
+run_from_std_span (std::size_t, std::size_t)
+{
+  return 0;
+}
+
+std::uint64_t
+run_to_std_span (std::size_t, std::size_t)
+{
+  return 0;
+}
+
+std::uint64_t
+run_bytes_to_std_span (std::size_t, std::size_t)
+{
+  return 0;
+}
+
+std::uint64_t
+ref_bytes_to_std_span (std::size_t, std::size_t)
+{
+  return 0;
+}
+#endif
+
 // passing
 
 std::uint64_t
@@ -725,81 +806,92 @@ make_scenarios ()
 {
   std::vector<scenario_t> scenarios;
   scenarios.push_back ({ "ctor_ptr_size", "span (pointer, count)", 1024,
-                         run_ctor_ptr_size, ref_ctor_ptr_size, false });
+                         run_ctor_ptr_size, ref_ctor_ptr_size, false, false });
   scenarios.push_back ({ "ctor_c_array", "span from a built-in array", 0,
-                         run_ctor_c_array, ref_ctor_small, false });
+                         run_ctor_c_array, ref_ctor_small, false, false });
   scenarios.push_back ({ "ctor_std_array", "span from a std::array", 0,
-                         run_ctor_std_array, ref_ctor_small, false });
+                         run_ctor_std_array, ref_ctor_small, false, false });
   scenarios.push_back ({ "ctor_vector",
                          "span from a std::vector (data (), size ())", 0,
-                         run_ctor_vector, ref_ctor_small, false });
-  scenarios.push_back ({ "ctor_static_array",
-                         "span<int, 16> from a built-in array", 0,
-                         run_ctor_static_array, ref_ctor_small, false });
+                         run_ctor_vector, ref_ctor_small, false, false });
   scenarios.push_back (
-      { "copy", "copy of a span", 1024, run_copy, ref_ctor_ptr_size, false });
+      { "ctor_static_array", "span<int, 16> from a built-in array", 0,
+        run_ctor_static_array, ref_ctor_small, false, false });
+  scenarios.push_back ({ "copy", "copy of a span", 1024, run_copy,
+                         ref_ctor_ptr_size, false, false });
   for (std::size_t const size :
        { std::size_t (8), std::size_t (1024), std::size_t (1000000) })
     {
       scenarios.push_back ({ "sum_range_for", "range-for sum of `size` ints",
-                             size, run_sum_range_for, reference_sum, false });
+                             size, run_sum_range_for, reference_sum, false,
+                             false });
       scenarios.push_back ({ "sum_index",
                              "sum with operator[] over `size` ints", size,
-                             run_sum_index, reference_sum, false });
-      scenarios.push_back ({ "sum_iterators",
-                             "sum with begin () / end () over `size` ints",
-                             size, run_sum_iterators, reference_sum, false });
+                             run_sum_index, reference_sum, false, false });
+      scenarios.push_back (
+          { "sum_iterators", "sum with begin () / end () over `size` ints",
+            size, run_sum_iterators, reference_sum, false, false });
     }
-  scenarios.push_back ({ "sum_static_range_for",
-                         "range-for sum of a span<int const, 16>", 0,
-                         run_sum_static_range_for, ref_sum_small, false });
   scenarios.push_back (
-      { "first", "first (size / 2)", 1024, run_first, ref_first, false });
+      { "sum_static_range_for", "range-for sum of a span<int const, 16>", 0,
+        run_sum_static_range_for, ref_sum_small, false, false });
+  scenarios.push_back ({ "first", "first (size / 2)", 1024, run_first,
+                         ref_first, false, false });
   scenarios.push_back (
-      { "last", "last (size / 2)", 1024, run_last, ref_last, false });
+      { "last", "last (size / 2)", 1024, run_last, ref_last, false, false });
   scenarios.push_back ({ "subspan", "subspan (size / 4, size / 2)", 1024,
-                         run_subspan, ref_subspan, false });
+                         run_subspan, ref_subspan, false, false });
   scenarios.push_back ({ "subspan_rest", "subspan (size / 4)", 1024,
-                         run_subspan_rest, ref_subspan_rest, false });
+                         run_subspan_rest, ref_subspan_rest, false, false });
   scenarios.push_back ({ "static_first", "first<4> () of span<int, 16>", 0,
-                         run_static_first, ref_static_first, false });
+                         run_static_first, ref_static_first, false, false });
   scenarios.push_back ({ "static_subspan", "subspan<2, 4> () of span<int, 16>",
-                         0, run_static_subspan, ref_static_subspan, false });
-  scenarios.push_back (
-      { "static_first_of_dynamic", "first<4> () of a dynamic span", 1024,
-        run_static_first_of_dynamic, ref_static_first_of_dynamic, false });
-  scenarios.push_back ({ "static_to_dynamic", "span<int, 16> to span<int>", 0,
-                         run_static_to_dynamic, ref_ctor_small, false });
-  scenarios.push_back ({ "dynamic_to_static",
-                         "span<int> to span<int, 16> (explicit)", 0,
-                         run_dynamic_to_static, ref_ctor_small, false });
-  scenarios.push_back ({ "mutable_to_const", "span<int> to span<int const>",
-                         1024, run_mutable_to_const, ref_ctor_ptr_size,
+                         0, run_static_subspan, ref_static_subspan, false,
                          false });
+  scenarios.push_back ({ "static_first_of_dynamic",
+                         "first<4> () of a dynamic span", 1024,
+                         run_static_first_of_dynamic,
+                         ref_static_first_of_dynamic, false, false });
+  scenarios.push_back ({ "static_to_dynamic", "span<int, 16> to span<int>", 0,
+                         run_static_to_dynamic, ref_ctor_small, false,
+                         false });
+  scenarios.push_back (
+      { "dynamic_to_static", "span<int> to span<int, 16> (explicit)", 0,
+        run_dynamic_to_static, ref_ctor_small, false, false });
+  scenarios.push_back ({ "mutable_to_const", "span<int> to span<int const>",
+                         1024, run_mutable_to_const, ref_ctor_ptr_size, false,
+                         false });
+  scenarios.push_back ({ "from_std_span", "std::span<int> to span<int>", 1024,
+                         run_from_std_span, ref_ctor_ptr_size, false, true });
+  scenarios.push_back ({ "to_std_span", "span<int> to std::span<int>", 1024,
+                         run_to_std_span, ref_ctor_ptr_size, false, true });
+  scenarios.push_back (
+      { "bytes_to_std_span", "span<byte const> to std::span<std::byte const>",
+        1024, run_bytes_to_std_span, ref_bytes_to_std_span, false, true });
   scenarios.push_back ({ "pass_noinline",
                          "pass a span by value to a noinline function", 1024,
-                         run_pass_noinline, ref_pass, false });
+                         run_pass_noinline, ref_pass, false, false });
   scenarios.push_back ({ "pass_inline",
                          "pass a span by value to an inlined function", 1024,
-                         run_pass_inline, ref_pass, false });
+                         run_pass_inline, ref_pass, false, false });
   scenarios.push_back (
       { "pass_static_noinline",
         "pass a span<int, 16> by value to a noinline function", 0,
-        run_pass_static_noinline, ref_pass_static, false });
+        run_pass_static_noinline, ref_pass_static, false, false });
   for (std::size_t const size :
        { std::size_t (8), std::size_t (1024), std::size_t (1000000) })
     scenarios.push_back ({ "divide_and_conquer",
                            "recursive sum, first / subspan halves down to "
                            "one element",
                            size, run_divide_and_conquer,
-                           ref_divide_and_conquer, false });
+                           ref_divide_and_conquer, false, false });
   for (std::size_t const size : { std::size_t (1024), std::size_t (1000000) })
     scenarios.push_back ({ "bytes_sum", "sum of as_bytes of `size` ints", size,
-                           run_bytes_sum, ref_bytes_sum, true });
+                           run_bytes_sum, ref_bytes_sum, true, false });
   scenarios.push_back ({ "size_bytes", "size_bytes ()", 1024, run_size_bytes,
-                         ref_size_bytes, false });
+                         ref_size_bytes, false, false });
   scenarios.push_back ({ "front_back", "front () + back ()", 1024,
-                         run_front_back, ref_front_back, false });
+                         run_front_back, ref_front_back, false, false });
   return scenarios;
 }
 
@@ -938,6 +1030,8 @@ main (int argc, char **argv)
   for (scenario_t const &scenario : make_scenarios ())
     {
       if (scenario.needs_as_bytes && !BENCH_SPAN_HAS_AS_BYTES)
+        continue;
+      if (scenario.needs_std_conversion && !BENCH_SPAN_HAS_STD_CONVERSION)
         continue;
       if (!filter.empty ()
           && std::string (scenario.name).find (filter) == std::string::npos)
