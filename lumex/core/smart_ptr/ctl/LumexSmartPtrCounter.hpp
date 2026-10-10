@@ -56,15 +56,23 @@
  * `settle_n` and `release_with_ext` return true in the one read-modify-write
  * that makes the word zero. A program that never calls the `ext` operations
  * (every ordinary use of the pointers) sees `ext == 0` always and a plain
- * 32-bit counter.
+ * 32-bit counter. `ext` is bounded by `W * (P + k)`, where `W` is the number
+ * of writers that have deposited units and not yet returned or paid them, `P`
+ * the number of pins on the block (loads, writer pins, compare-exchange pins)
+ * and `k` the reserve of the engine: the units a writer holds outstanding are
+ * the pins its swap covers, at most `P`, plus its reserve.
  *
  * `use_count` is `count + ext`: the owners plus the owners in transit. It
  * never waits and it is never below the number of owners that hold a count
- * (the atomic smart pointers keep this bound; see `core/atomic`). It is exact
- * at quiescence. While a store or a compare-exchange of an atomic smart
- * pointer is in flight, the value may exceed the owners by the units of that
- * one operation (the lagging drop, the surplus of the pending transfer, and a
- * reader's transferred unit until it is counted or paid).
+ * (the atomic smart pointers keep this bound; see `core/atomic`). It equals
+ * the number of owners except inside three windows, each tied to an
+ * operation of an atomic smart pointer that is in flight: (i) a store or a
+ * successful compare-exchange between its swap and its drop of the slot's
+ * unit (+1; an exchange has no such window), (ii) a writer between its
+ * deposit and the end of its call (the other pins plus the reserve), (iii) a
+ * reader's transferred unit until it is counted or paid (+1). Outside them
+ * it is exact, also for the owner of an alias that the engine stores through
+ * a holder.
  *
  * `use_count_settled` is the waiting twin: it returns `count` only when `ext`
  * is zero, and spins (a bounded busy-wait, then `std::this_thread::yield`)
@@ -72,7 +80,9 @@
  * exact. It can block as long as a thread that holds a pin or a pending
  * deposit is suspended, so it must not be called from a signal handler that
  * interrupts such a thread, and it does not make the owner count stable: it
- * only reports a moment at which nothing was in transit.
+ * only reports a moment at which nothing was in transit. It may not return
+ * while loads and stores of an atomic smart pointer that holds the value keep
+ * running, because their pins keep `ext` above zero.
  *
  * Memory orders. Taking a reference needs none (`add` is relaxed: the caller
  * already owns a count, or the block is pinned). Dropping is `release`; the
@@ -255,10 +265,10 @@ public:
 
   /**
    * @brief The number of owners.
-   * @details `count` when it is positive; 1 when `count` is 0 and `ext` is
-   * not (the object is alive, pinned by a reader), so `expired ()` and
-   * `lock ()` agree; 0 otherwise. Exact when no atomic smart pointer that
-   * shares the block has an operation in flight.
+   * @details `count + ext`: the owners plus the owners in transit, never
+   * below the owners and never waiting. A word `{0, ext > 0}` is alive, so
+   * `expired ()` and `lock ()` agree. Exact except inside the windows (i) to
+   * (iii) of the file text.
    */
   long
   use_count () const LUMEX_NOEXCEPT
@@ -275,8 +285,9 @@ public:
    * returns 0 at once. Exact apart from the lag of the decrement of a slot
    * (the owner that a `store` or a compare-exchange of an atomic smart
    * pointer has not dropped yet). It may block while a pinning thread is
-   * suspended; it must not be called from a signal handler on a pinned
-   * thread.
+   * suspended, and it may not return while loads and stores of an atomic that
+   * holds the value keep running; it must not be called from a signal handler
+   * on a pinned thread.
    */
   long
   use_count_settled () const LUMEX_NOEXCEPT
