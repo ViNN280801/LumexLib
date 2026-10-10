@@ -1,0 +1,3 @@
+toolchain,kind,file,bytes,stripped_bytes,text_bytes,defined_text_symbols,narrow_symbols,wide_symbols
+shared,shared,libLumexCore_string_view.so.2.0.0.0,35288,35288,23076,94,47,47
+static,static,libLumexCore_string_view.a,344396,57524,8738,94,47,47
