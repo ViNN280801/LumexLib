@@ -28,7 +28,8 @@ import sys
 from xml.sax.saxutils import escape
 
 VARIANT_ORDER = ["boost_cxx17", "boost_cxx11", "lumex_cxx11", "lumex_cxx17",
-                 "deque_cxx17", "vector_cxx17", "vector_mod_cxx17"]
+                 "deque_cxx17", "vector_cxx17", "vector_mod_cxx17",
+                 "lumex_wrap_cxx17"]
 VARIANT_LABEL = {
     "boost_cxx17": "boost C++17",
     "boost_cxx11": "boost C++11",
@@ -37,6 +38,7 @@ VARIANT_LABEL = {
     "deque_cxx17": "deque C++17",
     "vector_cxx17": "vector C++17",
     "vector_mod_cxx17": "vector % C++17",
+    "lumex_wrap_cxx17": "lumex compare-wrap C++17",
 }
 VARIANT_COLOR = {
     "boost_cxx17": "#3c9d4a",
@@ -46,6 +48,7 @@ VARIANT_COLOR = {
     "deque_cxx17": "#d9822b",
     "vector_cxx17": "#8c564b",
     "vector_mod_cxx17": "#c49c94",
+    "lumex_wrap_cxx17": "#9467bd",
 }
 # The baseline of the ratios: the first of these that was measured.
 baselineS = ["boost_cxx17", "vector_cxx17"]
@@ -56,7 +59,8 @@ PAR = 0.10
 UNSTABLE = 1.25
 # Pairs of variants compared with each other in the second summary.
 PAIRS = [("lumex_cxx17", "boost_cxx17"), ("lumex_cxx17", "vector_cxx17"),
-         ("lumex_cxx17", "deque_cxx17"), ("lumex_cxx17", "vector_mod_cxx17"),
+         ("lumex_cxx17", "deque_cxx17"), ("lumex_wrap_cxx17", "boost_cxx17"),
+         ("lumex_wrap_cxx17", "lumex_cxx17"), ("lumex_cxx17", "vector_mod_cxx17"),
          ("vector_mod_cxx17", "vector_cxx17"), ("lumex_cxx11", "lumex_cxx17"),
          ("lumex_cxx11", "boost_cxx11")]
 
