@@ -35,6 +35,12 @@ if(TARGET lumex::hazard_pointer)
         LUMEX_ATOMIC_HAS_HAZARD_POINTER=1)
 endif()
 
+if(TARGET lumex::smart_ptr)
+    target_link_libraries(${LUMEX_ATOMIC_NAME} INTERFACE lumex::smart_ptr)
+    target_compile_definitions(${LUMEX_ATOMIC_NAME} INTERFACE
+        LUMEX_ATOMIC_HAS_SMART_PTR=1)
+endif()
+
 if(LUMEX_INSTALL)
     install(TARGETS ${LUMEX_ATOMIC_NAME} EXPORT ${EXPORT_TO})
 
