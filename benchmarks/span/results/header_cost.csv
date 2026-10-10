@@ -1,0 +1,15 @@
+# Wall time in ms of -fsyntax-only -O0 -std=c++20 of a unit that includes <array> and <vector> plus the named header; median of 9 runs; GCC 13.2.0 and Clang 23.1.0 with libc++; i7-12700K. `lumex` is lumex/core/span/LumexSpan; `memory`, `ranges`, `both`, `span` are <memory>, <ranges>, both, and <span>; `none` is the two includes alone.
+# Command per cell: <compiler> -std=c++20 -fsyntax-only -O0 -I<repo> unit.cpp (clang with -stdlib=libc++), run under the build lock.
+toolchain,header,median_ms
+gcc,none,109
+gcc,memory,279
+gcc,ranges,241
+gcc,both,317
+gcc,span,113
+gcc,lumex,320
+clang,none,163
+clang,memory,194
+clang,ranges,258
+clang,both,284
+clang,span,167
+clang,lumex,293
