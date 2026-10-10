@@ -56,6 +56,7 @@
 
 #include "lumex/LumexExport.hpp"
 
+#include "lumex/core/utility/attr/LumexAttributes.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 LUMEX_EXTERN_C_BEGIN
 /**
@@ -79,18 +80,21 @@ LUMEX_EXTERN_C_BEGIN
  * file where the assertion failed. This pointer is caller-owned.
  * @param[in] line The line number within the `file` where the assertion
  * failed.
- * @note This function does not return to the caller under normal assertion
- * failure scenarios, as it is expected to either terminate the program or
- * enter a debugger.
+ * @note This function does not return to the caller: it is declared
+ * `noreturn` (the implementation in `lumex::utility` calls `std::abort()`).
+ * The declaration lets the compiler treat the failing branch of
+ * `LUMEX_ASSERT` as cold, so a precondition check does not change how it
+ * lays out the code around it (`expected` is returned from a chain of calls
+ * as fast as `std::expected`, whose observers have no such check).
  * @note This function is declared `noexcept`, indicating that it does not
  * throw C++ exceptions. Any internal failures should be handled without
  * propagating exceptions.
  * @warning Calling this function directly is typically not recommended; it is
  * intended to be used by internal assertion macros or mechanisms.
  */
-LUMEX_PUBLIC_API
-void lumex_assert_handler (char const *assertion, char const *file,
-                           int line) LUMEX_NOEXCEPT;
+LUMEX_ATTRIBUTE_NORETURN LUMEX_PUBLIC_API void
+lumex_assert_handler (char const *assertion, char const *file,
+                      int line) LUMEX_NOEXCEPT;
 LUMEX_EXTERN_C_END
 
 #define LUMEX_ASSERT(cond)                                                    \
