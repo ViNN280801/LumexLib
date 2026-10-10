@@ -23,3 +23,9 @@ lumex_example_executable(
   LINK lumex::expected
   REQUIRE_TARGET lumex::expected
 )
+lumex_example_executable(
+  NAME LumexExpectedExampleStd
+  SOURCE example_expected_std.cpp
+  LINK lumex::expected
+  REQUIRE_TARGET lumex::expected
+)

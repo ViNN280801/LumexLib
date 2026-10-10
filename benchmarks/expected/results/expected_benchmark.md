@@ -16,110 +16,110 @@ Time per operation in nanoseconds: the median of the medians of the passes (each
 
 | scenario | description | std::expected C++23 | lumex C++23 | lumex C++20 | lumex C++17 | lumex C++14 | lumex C++11 | Outcome C++17 |
 | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| construct_value_int | expected<int, unsigned> built from a value, then destroyed | 0.55 | 0.99 (1.79)† | 0.99 (1.79) | 0.96 (1.75) | 0.97 (1.75) | 0.56 (1.01) | 0.70 (1.27) |
-| construct_error_int | expected<int, unsigned> built from an error, then destroyed | 0.56 | 0.99 (1.77) | 0.98 (1.75) | 0.98 (1.76) | 0.97 (1.75) | 0.56 (1.00) | 0.63 (1.13) |
-| construct_value_big | expected<array<int, 16>, unsigned> built from a value | 3.48 | 3.48 (1.00) | 3.53 (1.02) | 3.53 (1.02) | 3.50 (1.01) | 3.49 (1.00) | 3.51 (1.01) |
-| construct_value_str12 | expected<string, unsigned>, 12 characters (no allocation) | 3.87 | 4.14 (1.07) | 4.14 (1.07) | 5.25 (1.36) | 5.31 (1.37) | 5.25 (1.36) | 5.23 (1.35) |
-| construct_value_str64 | expected<string, unsigned>, 64 characters (allocation) | 17.69 | 16.52 (0.93) | 16.45 (0.93) | 20.13 (1.14) | 20.05 (1.13) | 18.67 (1.06) | 22.30 (1.26) |
-| construct_error_str12 | expected<int, string> from an error, 12 characters | 3.87 | 3.90 (1.01) | 3.88 (1.00) | 5.23 (1.35) | 5.29 (1.37) | 5.22 (1.35) | 9.41 (2.43) |
-| copy_value_int | copy of an expected<int, unsigned> that holds a value | 0.67 | 0.67 (0.99) | 0.68 (1.01) | 0.68 (1.01) | 0.68 (1.01) | 0.67 (1.00) | 0.68 (1.01) |
-| copy_error_int | copy of an expected<int, unsigned> that holds an error | 0.46 | 0.47 (1.02) | 0.47 (1.02) | 0.47 (1.01) | 0.46 (1.01) | 0.47 (1.01) | 0.56 (1.21) |
-| copy_value_big | copy of an expected<array<int, 16>, unsigned> with a value | 1.05 | 1.04 (1.00) | 1.05 (1.00) | 1.05 (1.00) | 1.05 (1.00) | 1.05 (1.00) | 1.04 (1.00) |
-| copy_value_str12 | copy of an expected<string, unsigned>, 12 characters | 2.43 | 2.44 (1.00) | 2.44 (1.00) | 3.47 (1.43) | 3.47 (1.43) | 3.49 (1.43) | 3.48 (1.43) |
-| copy_value_str64 | copy of an expected<string, unsigned>, 64 characters | 20.70 | 18.53 (0.90) | 18.20 (0.88) | 21.17 (1.02) | 22.06 (1.07) | 19.85 (0.96) | 23.19 (1.12) |
-| copy_error_str12 | copy of an expected<int, string> with an error, 12 chars | 2.44 | 2.44 (1.00) | 2.44 (1.00) | 3.48 (1.42) | 3.49 (1.43) | 3.48 (1.42) | 3.85 (1.58) |
-| move_value_int | construct an expected<int, unsigned> and move it | 0.56 | 0.56 (1.00) | 0.56 (1.00) | 0.56 (1.00) | 0.56 (1.00) | 0.68 (1.22) | 0.62 (1.11) |
-| move_value_str12 | construct an expected<string, unsigned> (12) and move it | 5.93 | 5.93 (1.00) | 5.92 (1.00) | 6.00 (1.01) | 5.94 (1.00) | 6.06 (1.02) | 7.36 (1.24) |
-| move_value_str64 | construct an expected<string, unsigned> (64) and move it | 18.26 | 17.63 (0.97) | 17.72 (0.97) | 19.54 (1.07) | 19.10 (1.05) | 18.90 (1.03) | 22.32 (1.22) |
-| move_error_str12 | construct an expected<int, string> (12) and move it | 5.92 | 5.95 (1.00) | 5.91 (1.00) | 6.11 (1.03) | 6.12 (1.03) | 6.15 (1.04) | 15.76 (2.66) |
-| assign_same_int | copy assignment, value over value, expected<int, unsigned> | 0.93 | 0.76 (0.82) | 0.77 (0.83) | 0.77 (0.83) | 0.77 (0.83) | 0.76 (0.82) | 0.77 (0.83) |
-| assign_same_str12 | copy assignment, value over value, expected<string, unsigned> | 2.78 | 3.10 (1.11) | 3.15 (1.14) | 3.83 (1.38) | 3.83 (1.38) | 3.81 (1.37) | 4.54 (1.63) |
-| assign_switch_int | copy assignment that changes the alternative, <int, unsigned> | 0.70 | 0.52 (0.75) | 0.52 (0.75) | 0.52 (0.75) | 0.52 (0.75) | 0.58 (0.83) | 0.49 (0.70) |
-| assign_switch_str12 | copy assignment that changes the alternative, <string, text_error_t> | 8.47 | 9.16 (1.08) | 9.01 (1.06) | 10.29 (1.22) | 10.91 (1.29) | 9.70 (1.15) | 10.74 (1.27) |
-| value_int | value () of an expected<int, unsigned> that holds a value | 0.36 | 0.65 (1.78) | 0.66 (1.81) | 0.67 (1.85) | 0.36 (1.00) | 0.66 (1.82) | 0.66 (1.81) |
-| deref_int | operator* of an expected<int, unsigned> that holds a value | 0.35 | 0.37 (1.04) | 0.36 (1.04) | 0.66 (1.89) | 0.37 (1.04) | 0.37 (1.04) | 0.35 (1.01) |
-| error_int | error () of an expected<int, unsigned> that holds an error | 0.35 | 0.37 (1.04) | 0.36 (1.03) | 0.36 (1.04) | 0.60 (1.73) | 0.36 (1.04) | 0.36 (1.04) |
-| value_str12 | value ().size () of an expected<string, unsigned> | 0.70 | 0.40 (0.58) | 0.41 (0.58) | 0.41 (0.58) | 0.42 (0.60) | 0.40 (0.58) | 0.42 (0.60) |
-| has_value_ok | has_value () over values only (predictable branch) | 0.59 | 0.35 (0.60) | 0.35 (0.59) | 0.36 (0.62) | 0.36 (0.61) | 0.54 (0.91)† | 0.35 (0.60) |
-| has_value_mixed | has_value () over 1/8 errors in a fixed random order | 0.36 | 0.35 (0.95) | 0.35 (0.96) | 0.35 (0.97) | 0.35 (0.95) | 0.37 (1.01) | 0.35 (0.96) |
-| branch_mixed | if (has_value ()) *x else x.error (), 1/8 errors | 0.63 | 0.88 (1.40) | 0.88 (1.41) | 0.89 (1.42) | 0.89 (1.42) | 0.63 (1.00) | 0.60 (0.95) |
-| value_or_mixed | value_or (-1), 1/8 errors | 0.86 | 0.56 (0.65) | 0.55 (0.65) | 0.55 (0.64) | 0.56 (0.65) | 0.62 (0.72) |  |
-| transform_int | transform (v + 1) on <int, unsigned>, 1/8 errors | 0.91 | 0.97 (1.08) | 0.98 (1.08) | 1.10 (1.21) | 1.13 (1.25) | 1.02 (1.12) |  |
-| and_then_int | and_then (returns an expected) on <int, unsigned>, 1/8 errors | 1.18 | 1.35 (1.15) | 1.37 (1.17) | 1.18 (1.00) | 1.11 (0.94) | 1.22 (1.04) |  |
-| or_else_int | or_else (recovers the error) on <int, unsigned>, 1/8 errors | 0.64 | 0.77 (1.20) | 0.77 (1.20) | 0.78 (1.21) | 0.77 (1.19) | 0.77 (1.20) |  |
-| chain_int | transform, and_then, or_else in a row, <int, unsigned> | 1.12 | 1.11 (0.99) | 1.11 (0.99) | 1.01 (0.91) | 1.04 (0.93) | 1.11 (0.99) |  |
-| transform_str12 | transform (s.size ()) on <string, unsigned>, const lvalue | 0.98 | 1.49 (1.51) | 1.46 (1.49) | 1.53 (1.56) | 1.37 (1.39) | 1.89 (1.93) |  |
-| return_chain_int | 4 nested calls return expected<int, unsigned> by value | 6.43 | 28.74 (4.47) | 28.89 (4.49) | 28.57 (4.44) | 29.00 (4.51) | 28.83 (4.48) | 6.30 (0.98) |
-| return_chain_str12 | 4 nested calls return expected<string, unsigned> (12) | 44.56 | 44.43 (1.00) | 44.79 (1.01) | 44.78 (1.00) | 44.40 (1.00) | 44.55 (1.00) | 44.60 (1.00) |
-| return_chain_str64 | 4 nested calls return expected<string, unsigned> (64) | 23.36 | 21.32 (0.91) | 21.59 (0.92) | 23.93 (1.02) | 24.46 (1.05) | 23.19 (0.99) | 23.37 (1.00) |
-| return_chain_big | 4 nested calls return expected<array<int, 16>, unsigned> | 16.86 | 16.75 (0.99) | 16.77 (0.99) | 16.79 (1.00) | 16.76 (0.99) | 16.84 (1.00) | 16.75 (0.99) |
+| construct_value_int | expected<int, unsigned> built from a value, then destroyed | 0.57 | 0.57 (1.00) | 0.57 (1.00) | 0.58 (1.01) | 0.58 (1.00) | 0.65 (1.13) | 0.66 (1.15) |
+| construct_error_int | expected<int, unsigned> built from an error, then destroyed | 0.57 | 0.58 (1.00) | 0.57 (1.00) | 0.58 (1.00) | 0.57 (1.00) | 0.65 (1.13) | 0.64 (1.12) |
+| construct_value_big | expected<array<int, 16>, unsigned> built from a value | 3.61 | 3.63 (1.01) | 3.61 (1.00) | 3.64 (1.01) | 3.62 (1.00) | 3.63 (1.00) | 3.59 (1.00) |
+| construct_value_str12 | expected<string, unsigned>, 12 characters (no allocation) | 4.08 | 4.15 (1.02) | 4.13 (1.01) | 5.53 (1.36) | 5.47 (1.34) | 5.50 (1.35) | 5.49 (1.34) |
+| construct_value_str64 | expected<string, unsigned>, 64 characters (allocation) | 17.83 | 16.93 (0.95) | 16.88 (0.95) | 20.07 (1.13) | 19.86 (1.11) | 18.95 (1.06) | 20.95 (1.17) |
+| construct_error_str12 | expected<int, string> from an error, 12 characters | 4.07 | 4.15 (1.02) | 4.11 (1.01) | 5.53 (1.36) | 5.43 (1.33) | 5.54 (1.36) | 9.55 (2.34) |
+| copy_value_int | copy of an expected<int, unsigned> that holds a value | 0.60 | 0.48 (0.80) | 0.49 (0.81) | 0.48 (0.80) | 0.48 (0.81) | 0.48 (0.80) | 0.62 (1.04) |
+| copy_error_int | copy of an expected<int, unsigned> that holds an error | 0.49 | 0.61 (1.25) | 0.61 (1.25) | 0.51 (1.04) | 0.53 (1.09) | 0.60 (1.23) | 0.57 (1.18) |
+| copy_value_big | copy of an expected<array<int, 16>, unsigned> with a value | 1.08 | 1.09 (1.00) | 1.09 (1.01) | 1.08 (1.00) | 1.08 (1.00) | 1.09 (1.01) | 1.09 (1.01) |
+| copy_value_str12 | copy of an expected<string, unsigned>, 12 characters | 2.55 | 2.55 (1.00) | 2.56 (1.00) | 3.67 (1.44) | 3.69 (1.45) | 3.69 (1.45) | 3.73 (1.46) |
+| copy_value_str64 | copy of an expected<string, unsigned>, 64 characters | 19.13 | 18.85 (0.99) | 18.61 (0.97) | 22.14 (1.16) | 21.67 (1.13) | 19.76 (1.03) | 21.80 (1.14) |
+| copy_error_str12 | copy of an expected<int, string> with an error, 12 chars | 2.53 | 2.51 (0.99) | 2.54 (1.00) | 3.66 (1.45) | 3.75 (1.48) | 3.68 (1.45) | 4.05 (1.60) |
+| move_value_int | construct an expected<int, unsigned> and move it | 0.57 | 0.58 (1.01) | 0.58 (1.01) | 0.64 (1.11) | 0.63 (1.09) | 0.57 (1.00) | 0.65 (1.13) |
+| move_value_str12 | construct an expected<string, unsigned> (12) and move it | 6.23 | 6.26 (1.00) | 6.30 (1.01) | 6.45 (1.03) | 6.37 (1.02) | 6.32 (1.01) | 7.68 (1.23) |
+| move_value_str64 | construct an expected<string, unsigned> (64) and move it | 18.75 | 18.83 (1.00) | 18.99 (1.01) | 20.54 (1.10) | 19.43 (1.04) | 20.26 (1.08) | 22.32 (1.19) |
+| move_error_str12 | construct an expected<int, string> (12) and move it | 6.20 | 6.38 (1.03) | 6.22 (1.00) | 6.35 (1.02) | 6.33 (1.02) | 6.35 (1.02) | 15.73 (2.54) |
+| assign_same_int | copy assignment, value over value, expected<int, unsigned> | 0.96 | 0.73 (0.76) | 0.73 (0.76) | 0.72 (0.75) | 0.72 (0.75) | 0.83 (0.87) | 0.80 (0.83) |
+| assign_same_str12 | copy assignment, value over value, expected<string, unsigned> | 2.88 | 3.26 (1.13) | 3.26 (1.13) | 4.07 (1.41) | 4.04 (1.40) | 4.08 (1.41) | 4.73 (1.64) |
+| assign_switch_int | copy assignment that changes the alternative, <int, unsigned> | 0.72 | 0.44 (0.61) | 0.44 (0.60) | 0.44 (0.60) | 0.44 (0.61) | 0.44 (0.62) | 0.51 (0.70) |
+| assign_switch_str12 | copy assignment that changes the alternative, <string, text_error_t> | 8.50 | 8.84 (1.04) | 8.79 (1.03) | 10.52 (1.24) | 10.75 (1.27) | 10.37 (1.22) | 10.08 (1.19) |
+| value_int | value () of an expected<int, unsigned> that holds a value | 0.37 | 0.52 (1.41) | 0.52 (1.40) | 0.50 (1.35) | 0.37 (1.00) | 0.52 (1.40) | 0.51 (1.37) |
+| deref_int | operator* of an expected<int, unsigned> that holds a value | 0.35 | 0.38 (1.06) | 0.38 (1.06) | 0.38 (1.06) | 0.39 (1.09) | 0.51 (1.44) | 0.35 (1.00) |
+| error_int | error () of an expected<int, unsigned> that holds an error | 0.35 | 0.49 (1.40) | 0.47 (1.35) | 0.50 (1.41) | 0.50 (1.42) | 0.38 (1.07) | 0.37 (1.06) |
+| value_str12 | value ().size () of an expected<string, unsigned> | 0.59 | 0.42 (0.71) | 0.42 (0.70) | 0.42 (0.71) | 0.43 (0.73) | 0.42 (0.70) | 0.43 (0.72) |
+| has_value_ok | has_value () over values only (predictable branch) | 0.41 | 0.35 (0.87) | 0.35 (0.86) | 0.36 (0.89) | 0.36 (0.88) | 0.45 (1.11) | 0.36 (0.89) |
+| has_value_mixed | has_value () over 1/8 errors in a fixed random order | 0.36 | 0.36 (0.99) | 0.35 (0.97) | 0.35 (0.99) | 0.36 (0.99) | 0.36 (1.01) | 0.36 (1.01) |
+| branch_mixed | if (has_value ()) *x else x.error (), 1/8 errors | 0.66 | 0.92 (1.40) | 0.91 (1.39) | 0.92 (1.40) | 0.91 (1.38) | 0.65 (0.99) | 0.62 (0.94) |
+| value_or_mixed | value_or (-1), 1/8 errors | 0.87 | 0.56 (0.65) | 0.57 (0.66) | 0.57 (0.65) | 0.57 (0.65) | 0.88 (1.01) |  |
+| transform_int | transform (v + 1) on <int, unsigned>, 1/8 errors | 0.93 | 1.11 (1.18) | 1.11 (1.18) | 1.10 (1.18) | 1.08 (1.16) | 0.93 (0.99) |  |
+| and_then_int | and_then (returns an expected) on <int, unsigned>, 1/8 errors | 1.26 | 1.35 (1.07) | 1.36 (1.08) | 1.24 (0.99) | 1.22 (0.96) | 1.33 (1.06) |  |
+| or_else_int | or_else (recovers the error) on <int, unsigned>, 1/8 errors | 0.67 | 0.79 (1.18) | 0.80 (1.20) | 0.82 (1.23) | 0.82 (1.22) | 0.79 (1.18) |  |
+| chain_int | transform, and_then, or_else in a row, <int, unsigned> | 1.15 | 1.07 (0.93) | 1.08 (0.93) | 1.18 (1.02) | 1.07 (0.93) | 1.14 (0.99) |  |
+| transform_str12 | transform (s.size ()) on <string, unsigned>, const lvalue | 1.03 | 1.05 (1.02) | 1.05 (1.02) | 1.05 (1.02) | 1.01 (0.98) | 0.85 (0.82) |  |
+| return_chain_int | 4 nested calls return expected<int, unsigned> by value | 5.08 | 5.28 (1.04) | 5.28 (1.04) | 5.33 (1.05) | 5.21 (1.02) | 6.84 (1.35) | 5.35 (1.05) |
+| return_chain_str12 | 4 nested calls return expected<string, unsigned> (12) | 45.39 | 45.30 (1.00) | 45.34 (1.00) | 45.13 (0.99) | 44.84 (0.99) | 45.26 (1.00) | 45.55 (1.00) |
+| return_chain_str64 | 4 nested calls return expected<string, unsigned> (64) | 23.80 | 23.28 (0.98) | 23.10 (0.97) | 24.54 (1.03) | 23.79 (1.00) | 24.01 (1.01) | 24.31 (1.02) |
+| return_chain_big | 4 nested calls return expected<array<int, 16>, unsigned> | 17.31 | 17.12 (0.99) | 17.04 (0.98) | 17.12 (0.99) | 17.07 (0.99) | 17.14 (0.99) | 17.06 (0.99) |
 
 Summary against std::expected C++23 (geometric mean of the ratio over the scenarios both have; scenarios slower or faster by more than 10 %):
 
 | variant | scenarios | geometric mean | slower | faster |
 | --- | ---: | ---: | ---: | ---: |
-| lumex C++23 | 37 | 1.066 | 9 | 6 |
-| lumex C++20 | 37 | 1.067 | 9 | 6 |
-| lumex C++17 | 37 | 1.150 | 16 | 5 |
-| lumex C++14 | 37 | 1.128 | 15 | 5 |
-| lumex C++11 | 37 | 1.112 | 12 | 4 |
-| Outcome C++17 | 31 | 1.142 | 16 | 4 |
+| lumex C++23 | 37 | 0.997 | 7 | 6 |
+| lumex C++20 | 37 | 0.995 | 7 | 6 |
+| lumex C++17 | 37 | 1.058 | 14 | 6 |
+| lumex C++14 | 37 | 1.041 | 12 | 6 |
+| lumex C++11 | 37 | 1.071 | 14 | 5 |
+| Outcome C++17 | 31 | 1.147 | 16 | 4 |
 
-- lumex C++23 is slower by more than 10 % in: return_chain_int 4.47x, construct_value_int 1.79x, value_int 1.78x, construct_error_int 1.77x, transform_str12 1.51x, branch_mixed 1.40x, or_else_int 1.20x, and_then_int 1.15x, assign_same_str12 1.11x
-- lumex C++20 is slower by more than 10 % in: return_chain_int 4.49x, value_int 1.81x, construct_value_int 1.79x, construct_error_int 1.75x, transform_str12 1.49x, branch_mixed 1.41x, or_else_int 1.20x, and_then_int 1.17x, assign_same_str12 1.14x
-- lumex C++17 is slower by more than 10 % in: return_chain_int 4.44x, deref_int 1.89x, value_int 1.85x, construct_error_int 1.76x, construct_value_int 1.75x, transform_str12 1.56x, copy_value_str12 1.43x, branch_mixed 1.42x, copy_error_str12 1.42x, assign_same_str12 1.38x, construct_value_str12 1.36x, construct_error_str12 1.35x, assign_switch_str12 1.22x, transform_int 1.21x, or_else_int 1.21x, construct_value_str64 1.14x
-- lumex C++14 is slower by more than 10 % in: return_chain_int 4.51x, construct_value_int 1.75x, construct_error_int 1.75x, error_int 1.73x, copy_value_str12 1.43x, copy_error_str12 1.43x, branch_mixed 1.42x, transform_str12 1.39x, assign_same_str12 1.38x, construct_value_str12 1.37x, construct_error_str12 1.37x, assign_switch_str12 1.29x, transform_int 1.25x, or_else_int 1.19x, construct_value_str64 1.13x
-- lumex C++11 is slower by more than 10 % in: return_chain_int 4.48x, transform_str12 1.93x, value_int 1.82x, copy_value_str12 1.43x, copy_error_str12 1.42x, assign_same_str12 1.37x, construct_value_str12 1.36x, construct_error_str12 1.35x, move_value_int 1.22x, or_else_int 1.20x, assign_switch_str12 1.15x, transform_int 1.12x
-- Outcome C++17 is slower by more than 10 % in: move_error_str12 2.66x, construct_error_str12 2.43x, value_int 1.81x, assign_same_str12 1.63x, copy_error_str12 1.58x, copy_value_str12 1.43x, construct_value_str12 1.35x, assign_switch_str12 1.27x, construct_value_int 1.27x, construct_value_str64 1.26x, move_value_str12 1.24x, move_value_str64 1.22x, copy_error_int 1.21x, construct_error_int 1.13x, copy_value_str64 1.12x, move_value_int 1.11x
+- lumex C++23 is slower by more than 10 % in: value_int 1.41x, branch_mixed 1.40x, error_int 1.40x, copy_error_int 1.25x, transform_int 1.18x, or_else_int 1.18x, assign_same_str12 1.13x
+- lumex C++20 is slower by more than 10 % in: value_int 1.40x, branch_mixed 1.39x, error_int 1.35x, copy_error_int 1.25x, or_else_int 1.20x, transform_int 1.18x, assign_same_str12 1.13x
+- lumex C++17 is slower by more than 10 % in: copy_error_str12 1.45x, copy_value_str12 1.44x, error_int 1.41x, assign_same_str12 1.41x, branch_mixed 1.40x, construct_error_str12 1.36x, construct_value_str12 1.36x, value_int 1.35x, assign_switch_str12 1.24x, or_else_int 1.23x, transform_int 1.18x, copy_value_str64 1.16x, construct_value_str64 1.13x, move_value_int 1.11x
+- lumex C++14 is slower by more than 10 % in: copy_error_str12 1.48x, copy_value_str12 1.45x, error_int 1.42x, assign_same_str12 1.40x, branch_mixed 1.38x, construct_value_str12 1.34x, construct_error_str12 1.33x, assign_switch_str12 1.27x, or_else_int 1.22x, transform_int 1.16x, copy_value_str64 1.13x, construct_value_str64 1.11x
+- lumex C++11 is slower by more than 10 % in: copy_error_str12 1.45x, copy_value_str12 1.45x, deref_int 1.44x, assign_same_str12 1.41x, value_int 1.40x, construct_error_str12 1.36x, construct_value_str12 1.35x, return_chain_int 1.35x, copy_error_int 1.23x, assign_switch_str12 1.22x, or_else_int 1.18x, construct_error_int 1.13x, construct_value_int 1.13x, has_value_ok 1.11x
+- Outcome C++17 is slower by more than 10 % in: move_error_str12 2.54x, construct_error_str12 2.34x, assign_same_str12 1.64x, copy_error_str12 1.60x, copy_value_str12 1.46x, value_int 1.37x, construct_value_str12 1.34x, move_value_str12 1.23x, move_value_str64 1.19x, assign_switch_str12 1.19x, copy_error_int 1.18x, construct_value_str64 1.17x, construct_value_int 1.15x, copy_value_str64 1.14x, move_value_int 1.13x, construct_error_int 1.12x
 
 ### gcc: the layers of this library against lumex C++11
 
 | scenario | lumex C++11 | lumex C++14 | lumex C++17 | lumex C++20 | lumex C++23 |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| construct_value_int | 0.56 | 0.97 (1.74) | 0.96 (1.73) | 0.99 (1.78) | 0.99 (1.78)† |
-| construct_error_int | 0.56 | 0.97 (1.74) | 0.98 (1.75) | 0.98 (1.75) | 0.99 (1.76) |
-| construct_value_big | 3.49 | 3.50 (1.00) | 3.53 (1.01) | 3.53 (1.01) | 3.48 (1.00) |
-| construct_value_str12 | 5.25 | 5.31 (1.01) | 5.25 (1.00) | 4.14 (0.79) | 4.14 (0.79) |
-| construct_value_str64 | 18.67 | 20.05 (1.07) | 20.13 (1.08) | 16.45 (0.88) | 16.52 (0.88) |
-| construct_error_str12 | 5.22 | 5.29 (1.01) | 5.23 (1.00) | 3.88 (0.74) | 3.90 (0.75) |
-| copy_value_int | 0.67 | 0.68 (1.01) | 0.68 (1.01) | 0.68 (1.01) | 0.67 (0.99) |
-| copy_error_int | 0.47 | 0.46 (0.99) | 0.47 (1.00) | 0.47 (1.00) | 0.47 (1.00) |
-| copy_value_big | 1.05 | 1.05 (1.00) | 1.05 (1.00) | 1.05 (1.00) | 1.04 (1.00) |
-| copy_value_str12 | 3.49 | 3.47 (1.00) | 3.47 (1.00) | 2.44 (0.70) | 2.44 (0.70) |
-| copy_value_str64 | 19.85 | 22.06 (1.11) | 21.17 (1.07) | 18.20 (0.92) | 18.53 (0.93) |
-| copy_error_str12 | 3.48 | 3.49 (1.00) | 3.48 (1.00) | 2.44 (0.70) | 2.44 (0.70) |
-| move_value_int | 0.68 | 0.56 (0.82) | 0.56 (0.82) | 0.56 (0.82) | 0.56 (0.82) |
-| move_value_str12 | 6.06 | 5.94 (0.98) | 6.00 (0.99) | 5.92 (0.98) | 5.93 (0.98) |
-| move_value_str64 | 18.90 | 19.10 (1.01) | 19.54 (1.03) | 17.72 (0.94) | 17.63 (0.93) |
-| move_error_str12 | 6.15 | 6.12 (1.00) | 6.11 (0.99) | 5.91 (0.96) | 5.95 (0.97) |
-| assign_same_int | 0.76 | 0.77 (1.01) | 0.77 (1.01) | 0.77 (1.01) | 0.76 (1.00) |
-| assign_same_str12 | 3.81 | 3.83 (1.01) | 3.83 (1.01) | 3.15 (0.83) | 3.10 (0.81) |
-| assign_switch_int | 0.58 | 0.52 (0.90) | 0.52 (0.90) | 0.52 (0.90) | 0.52 (0.90) |
-| assign_switch_str12 | 9.70 | 10.91 (1.12) | 10.29 (1.06) | 9.01 (0.93) | 9.16 (0.94) |
-| value_int | 0.66 | 0.36 (0.55) | 0.67 (1.02) | 0.66 (1.00) | 0.65 (0.98) |
-| deref_int | 0.37 | 0.37 (1.00) | 0.66 (1.81) | 0.36 (0.99) | 0.37 (1.00) |
-| error_int | 0.36 | 0.60 (1.66) | 0.36 (1.00) | 0.36 (0.98) | 0.37 (1.00) |
-| value_str12 | 0.40 | 0.42 (1.04) | 0.41 (1.02) | 0.41 (1.01) | 0.40 (1.00) |
-| has_value_ok | 0.54† | 0.36 (0.67) | 0.36 (0.68) | 0.35 (0.65) | 0.35 (0.65) |
-| has_value_mixed | 0.37 | 0.35 (0.95) | 0.35 (0.96) | 0.35 (0.95) | 0.35 (0.95) |
-| branch_mixed | 0.63 | 0.89 (1.41) | 0.89 (1.42) | 0.88 (1.40) | 0.88 (1.40) |
-| value_or_mixed | 0.62 | 0.56 (0.90) | 0.55 (0.89) | 0.55 (0.90) | 0.56 (0.90) |
-| transform_int | 1.02 | 1.13 (1.11) | 1.10 (1.08) | 0.98 (0.97) | 0.97 (0.96) |
-| and_then_int | 1.22 | 1.11 (0.91) | 1.18 (0.97) | 1.37 (1.13) | 1.35 (1.11) |
-| or_else_int | 0.77 | 0.77 (1.00) | 0.78 (1.01) | 0.77 (1.00) | 0.77 (1.00) |
-| chain_int | 1.11 | 1.04 (0.94) | 1.01 (0.92) | 1.11 (1.00) | 1.11 (1.01) |
-| transform_str12 | 1.89 | 1.37 (0.72) | 1.53 (0.81) | 1.46 (0.77) | 1.49 (0.79) |
-| return_chain_int | 28.83 | 29.00 (1.01) | 28.57 (0.99) | 28.89 (1.00) | 28.74 (1.00) |
-| return_chain_str12 | 44.55 | 44.40 (1.00) | 44.78 (1.01) | 44.79 (1.01) | 44.43 (1.00) |
-| return_chain_str64 | 23.19 | 24.46 (1.06) | 23.93 (1.03) | 21.59 (0.93) | 21.32 (0.92) |
-| return_chain_big | 16.84 | 16.76 (1.00) | 16.79 (1.00) | 16.77 (1.00) | 16.75 (1.00) |
+| construct_value_int | 0.65 | 0.58 (0.88) | 0.58 (0.89) | 0.57 (0.88) | 0.57 (0.88) |
+| construct_error_int | 0.65 | 0.57 (0.88) | 0.58 (0.88) | 0.57 (0.88) | 0.58 (0.89) |
+| construct_value_big | 3.63 | 3.62 (1.00) | 3.64 (1.00) | 3.61 (1.00) | 3.63 (1.00) |
+| construct_value_str12 | 5.50 | 5.47 (0.99) | 5.53 (1.01) | 4.13 (0.75) | 4.15 (0.75) |
+| construct_value_str64 | 18.95 | 19.86 (1.05) | 20.07 (1.06) | 16.88 (0.89) | 16.93 (0.89) |
+| construct_error_str12 | 5.54 | 5.43 (0.98) | 5.53 (1.00) | 4.11 (0.74) | 4.15 (0.75) |
+| copy_value_int | 0.48 | 0.48 (1.00) | 0.48 (1.00) | 0.49 (1.01) | 0.48 (1.00) |
+| copy_error_int | 0.60 | 0.53 (0.88) | 0.51 (0.84) | 0.61 (1.01) | 0.61 (1.01) |
+| copy_value_big | 1.09 | 1.08 (0.99) | 1.08 (1.00) | 1.09 (1.00) | 1.09 (1.00) |
+| copy_value_str12 | 3.69 | 3.69 (1.00) | 3.67 (0.99) | 2.56 (0.69) | 2.55 (0.69) |
+| copy_value_str64 | 19.76 | 21.67 (1.10) | 22.14 (1.12) | 18.61 (0.94) | 18.85 (0.95) |
+| copy_error_str12 | 3.68 | 3.75 (1.02) | 3.66 (1.00) | 2.54 (0.69) | 2.51 (0.68) |
+| move_value_int | 0.57 | 0.63 (1.10) | 0.64 (1.12) | 0.58 (1.01) | 0.58 (1.01) |
+| move_value_str12 | 6.32 | 6.37 (1.01) | 6.45 (1.02) | 6.30 (1.00) | 6.26 (0.99) |
+| move_value_str64 | 20.26 | 19.43 (0.96) | 20.54 (1.01) | 18.99 (0.94) | 18.83 (0.93) |
+| move_error_str12 | 6.35 | 6.33 (1.00) | 6.35 (1.00) | 6.22 (0.98) | 6.38 (1.00) |
+| assign_same_int | 0.83 | 0.72 (0.87) | 0.72 (0.87) | 0.73 (0.87) | 0.73 (0.87) |
+| assign_same_str12 | 4.08 | 4.04 (0.99) | 4.07 (1.00) | 3.26 (0.80) | 3.26 (0.80) |
+| assign_switch_int | 0.44 | 0.44 (0.99) | 0.44 (0.98) | 0.44 (0.98) | 0.44 (0.98) |
+| assign_switch_str12 | 10.37 | 10.75 (1.04) | 10.52 (1.01) | 8.79 (0.85) | 8.84 (0.85) |
+| value_int | 0.52 | 0.37 (0.71) | 0.50 (0.96) | 0.52 (1.00) | 0.52 (1.01) |
+| deref_int | 0.51 | 0.39 (0.76) | 0.38 (0.74) | 0.38 (0.74) | 0.38 (0.74) |
+| error_int | 0.38 | 0.50 (1.33) | 0.50 (1.32) | 0.47 (1.26) | 0.49 (1.30) |
+| value_str12 | 0.42 | 0.43 (1.04) | 0.42 (1.01) | 0.42 (1.00) | 0.42 (1.01) |
+| has_value_ok | 0.45 | 0.36 (0.79) | 0.36 (0.80) | 0.35 (0.78) | 0.35 (0.78) |
+| has_value_mixed | 0.36 | 0.36 (0.98) | 0.35 (0.98) | 0.35 (0.97) | 0.36 (0.99) |
+| branch_mixed | 0.65 | 0.91 (1.40) | 0.92 (1.42) | 0.91 (1.41) | 0.92 (1.42) |
+| value_or_mixed | 0.88 | 0.57 (0.65) | 0.57 (0.65) | 0.57 (0.65) | 0.56 (0.64) |
+| transform_int | 0.93 | 1.08 (1.17) | 1.10 (1.19) | 1.11 (1.19) | 1.11 (1.19) |
+| and_then_int | 1.33 | 1.22 (0.91) | 1.24 (0.93) | 1.36 (1.02) | 1.35 (1.02) |
+| or_else_int | 0.79 | 0.82 (1.04) | 0.82 (1.04) | 0.80 (1.02) | 0.79 (1.00) |
+| chain_int | 1.14 | 1.07 (0.94) | 1.18 (1.03) | 1.08 (0.95) | 1.07 (0.94) |
+| transform_str12 | 0.85 | 1.01 (1.19) | 1.05 (1.24) | 1.05 (1.24) | 1.05 (1.24) |
+| return_chain_int | 6.84 | 5.21 (0.76) | 5.33 (0.78) | 5.28 (0.77) | 5.28 (0.77) |
+| return_chain_str12 | 45.26 | 44.84 (0.99) | 45.13 (1.00) | 45.34 (1.00) | 45.30 (1.00) |
+| return_chain_str64 | 24.01 | 23.79 (0.99) | 24.54 (1.02) | 23.10 (0.96) | 23.28 (0.97) |
+| return_chain_big | 17.14 | 17.07 (1.00) | 17.12 (1.00) | 17.04 (0.99) | 17.12 (1.00) |
 
 | layer | geometric mean | slower | faster |
 | --- | ---: | ---: | ---: |
-| lumex C++14 | 1.015 | 7 | 5 |
-| lumex C++17 | 1.035 | 4 | 5 |
-| lumex C++20 | 0.960 | 4 | 11 |
-| lumex C++23 | 0.959 | 4 | 11 |
+| lumex C++14 | 0.972 | 4 | 9 |
+| lumex C++17 | 0.988 | 6 | 8 |
+| lumex C++20 | 0.929 | 4 | 14 |
+| lumex C++23 | 0.931 | 4 | 14 |
 
 ## Sizes and properties
 
@@ -152,9 +152,9 @@ Wall time of `compile_time.cpp` (includes the header and uses construction, copy
 
 | toolchain, syntax_O0 | no header C++11 | no header C++23 | std::expected C++23 | lumex C++23 | lumex C++20 | lumex C++17 | lumex C++14 | lumex C++11 | Outcome C++17 |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| gcc | 135 | 280 | 330 | 631 | 605 | 468 | 356 | 338 | 781 |
+| gcc | 149 | 312 | 369 | 730 | 682 | 534 | 404 | 376 | 878 |
 
 | toolchain, compile_O2 | no header C++11 | no header C++23 | std::expected C++23 | lumex C++23 | lumex C++20 | lumex C++17 | lumex C++14 | lumex C++11 | Outcome C++17 |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| gcc | 148 | 303 | 520 | 830 | 808 | 602 | 490 | 468 | 1629 |
+| gcc | 164 | 334 | 574 | 947 | 911 | 684 | 554 | 523 | 1779 |
 

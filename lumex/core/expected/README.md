@@ -119,13 +119,82 @@ bool const same = (refused == unexpected<std::string> (std::string ("refused")))
 
 ## How it works
 
-The object is a `bool` and a union of the value and the error, as [expected.object.general] describes: no allocation, no dynamic type, `sizeof (expected<int, unsigned>)` is 8 bytes (the same as `std::expected` in libstdc++; the sizes of 16 types are in the benchmark). The special member functions follow the properties of `T` and `E`: the copy constructor and copy assignment are deleted unless both can be copied; the move constructor and move assignment take part in overload resolution only if both can be moved; each of the five is trivial exactly when the current working draft says so ([expected.object.cons], [expected.object.assign]/5; the trivial assignments are not C++23 itself), and the destructor is trivial when both types are trivially destructible. A trivially copyable `T` and `E` therefore give a trivially copyable `expected` (libstdc++ 13.2's `std::expected` is not trivially copyable for the same types, see the benchmark). The assignments follow `reinit-expected` ([expected.object.assign]/1): no temporary `expected`, and the strong guarantee where `T` or `E` can be moved without throwing.
+The object is a flag and a union of the value and the error, as [expected.object.general] describes: no allocation, no dynamic type, `sizeof (expected<int, unsigned>)` is 8 bytes (the same as `std::expected` in libstdc++; the sizes of 16 types are in the benchmark). The flag is a `bool` held in a class as large as the alignment of the union (`has_val_flag` in `ExpectedStorage.hpp`), which changes no size: it makes the padding after the flag part of the flag instead of tail padding of the storage. The storage is a base class of `expected` (the layers that give each special member function its triviality), and the Itanium ABI lets a derived class use the tail padding of a base that is not a POD, so with a plain `bool` GCC 13.2 built a trivially copyable `expected<int, unsigned>` through a stack slot (a 4-byte and a 1-byte store, then one 8-byte load that waited for both) every time a function returned it; the class has no such padding now and the compiler builds the 64-bit value in a register, as it does for `std::expected`, which has no base classes. The special member functions follow the properties of `T` and `E`: the copy constructor and copy assignment are deleted unless both can be copied; the move constructor and move assignment take part in overload resolution only if both can be moved; each of the five is trivial exactly when the current working draft says so ([expected.object.cons], [expected.object.assign]/5; the trivial assignments are not C++23 itself), and the destructor is trivial when both types are trivially destructible. A trivially copyable `T` and `E` therefore give a trivially copyable `expected` (libstdc++ 13.2's `std::expected` is not trivially copyable for the same types, see the benchmark). The assignments follow `reinit-expected` ([expected.object.assign]/1): no temporary `expected`, and the strong guarantee where `T` or `E` can be moved without throwing.
 
 **`constexpr`.** Every member that the standard declares `constexpr` is `constexpr` as far as the language of the standard in use allows. C++11: the constructors from a value, `in_place`, `unexpect` and `unexpected`, the default constructor, the trivial copy and move constructors, the observers on a `const` object, the monadic operations on a `const` object, `==`; C++14 also the observers and monadic operations on an object that is not `const`; C++17 also monadic operations with a lambda; C++20 also the operations that change the active alternative of the union (assignments, `emplace`, `swap`, the non-trivial copy and destructor), through `std::construct_at`-style placement in constant expressions. The types themselves must be usable in a constant expression.
 
-**Exceptions.** `value ()` on an error throws `bad_expected_access<E>` (derived from `bad_expected_access<void>`, a `std::exception`; `what ()` is the same text for all, `error ()` gives the stored error). The constructors and assignments are `noexcept` when the operation they do cannot throw. A build with `-fno-exceptions` is not supported (see Limits).
+**Exceptions.** `value ()` on an error throws `bad_expected_access<E>` (derived from `bad_expected_access<void>`, a `std::exception`; `what ()` is the same text for all, `error ()` gives the stored error). The constructors and assignments are `noexcept` when the operation they do cannot throw.
 
-**Preconditions.** `error ()`, `operator*` and `operator->` check their precondition with `LUMEX_ASSERT`, which prints the condition and aborts in every build, `NDEBUG` included, where `std::expected` leaves the call undefined. The check is a compare and a branch; the compiler removes it after a `has_value ()` test (in the benchmark's `branch_mixed` loop the assert is gone in every build). `lumex_assert_handler` is in the compiled library `lumex::utility`, so a program that uses `expected` links it, although the header itself is self-contained.
+**Without exceptions.** The macro `LUMEX_EXPECTED_HAS_EXCEPTIONS` is 1 or 0. By default it follows the compiler (`__cpp_exceptions`, `__EXCEPTIONS` or `_CPPUNWIND`), so `-fno-exceptions` selects 0; a program may also define it as 0 before the first include of the library to get that behavior with exceptions on (all translation units of one program must agree, the functions are `inline`). With 0, `value ()` on an error calls `std::terminate ()` instead of throwing `bad_expected_access`, in the same overloads (lvalue, rvalue, `const`, `void`); `emplace`, assignment and `swap` do not keep a copy of the old contents to put back, because nothing can throw; everything else is unchanged and `bad_expected_access` stays declared. Tests build and run this mode at C++11 and C++20 with `-fno-exceptions` and at C++17 with the macro (`cmake.consumer_expected_no_exceptions_*`).
+
+**Preconditions.** `error ()`, `operator*` and `operator->` check their precondition with `LUMEX_ASSERT`, which prints the condition and aborts in every build, `NDEBUG` included, where `std::expected` leaves the call undefined. The check is a compare and a branch; the compiler removes it after a `has_value ()` test (in the benchmark's `branch_mixed` loop the assert is gone in every build). `lumex_assert_handler` is in the compiled library `lumex::utility`, so a program that uses `expected` links it, although the header itself is self-contained. It is declared `noreturn`, so the failing branch is cold and the check does not change how the compiler lays out the code around it.
+
+**`std::expected`.** Where the standard library has `std::expected` (C++23, `LUMEX_HAS_STD_EXPECTED`; the macro `LUMEX_EXPECTED_HAS_STD_CONVERSION` is 1), `expected<T, E>` and `std::expected<T, E>` of exactly the same `T` and `E` (also `void`) convert to each other implicitly, copying from an lvalue or a `const` object and moving from an rvalue; a move-only `T` or `E` converts from an rvalue only. The constructors and conversion functions are templates constrained to that one type, so `std::expected<long, int>` does not convert to `expected<int, int>` (convert in two steps), and a call with both overloads `f (expected<int, int> const &)` and `f (std::expected<int, int> const &)` picks the exact one. They are `noexcept` when the copy (the move) of `T` and `E` is, and `constexpr` as far as the language allows (C++20 and later, the constructors that change the active alternative). Below C++23 there is no conversion and `std::expected` is not included.
+
+```cpp
+// lumex/examples/expected/example_expected_std.cpp
+// expected next to std::expected (C++23): the same T and E convert both ways
+// without a cast. Below C++23 the standard library has no std::expected and
+// the program says so.
+#include <iostream>
+#include <string>
+#include <version>
+
+#if __has_include(<expected>)
+#include <expected>
+#endif
+
+#include "lumex/core/expected/Expected"
+
+#if LUMEX_EXPECTED_HAS_STD_CONVERSION
+
+namespace ex = lumex::core::expected::result;
+
+using lumex_result_t = ex::expected<int, std::string>;
+using std_result_t = std::expected<int, std::string>;
+
+// A function of a library that uses std::expected.
+std_result_t
+parse_with_std (char const digit)
+{
+  if (digit < '0' || digit > '9')
+    return std::unexpected<std::string> ("not a digit");
+  return digit - '0';
+}
+
+// A function that takes this library's expected.
+int
+twice (lumex_result_t const &parsed)
+{
+  return parsed.has_value () ? parsed.value () * 2 : -1;
+}
+
+int
+main ()
+{
+  // std::expected to expected: implicit, the value or the error is copied
+  // (moved from an rvalue).
+  std::cout << twice (parse_with_std ('4')) << '\n'; // 8
+  std::cout << twice (parse_with_std ('x')) << '\n'; // -1
+
+  // expected to std::expected: implicit as well.
+  lumex_result_t const mine = ex::failure (std::string ("kept"));
+  std_result_t const theirs = mine;
+  std::cout << theirs.error () << '\n'; // kept
+  return 0;
+}
+
+#else
+
+int
+main ()
+{
+  std::cout << "std::expected is not available (C++23 is needed)\n";
+  return 0;
+}
+
+#endif
+```
 
 **Thread safety.** None beyond the standard's: concurrent reads of one object are safe if `T` and `E` allow it, any write needs synchronization.
 
@@ -143,17 +212,17 @@ Measured with [benchmarks/expected](../../../benchmarks/expected/README.md) on a
 | Monadic operations | `and_then`, `or_else`, `transform`, `transform_error` | the same | none |
 | `value_or`, `error_or` | yes | yes | no |
 | Checked `operator*` and `error ()` | always (abort) | undefined | `value ()` and `error ()` by policy (`terminate` here) |
-| Geometric mean of the time, 37 scenarios | 1.07 (C++20 and C++23), 1.11 to 1.15 (C++11 to C++17) | 1.00 | 1.14 (31 scenarios; measured at C++17, so compare with lumex C++17: 1.15) |
-| Compile time of the benchmark unit (`-fsyntax-only -O0`) | 338 ms (C++11), 631 ms (C++23) | 330 ms (C++23) | 781 ms (C++17) |
+| Geometric mean of the time, 37 scenarios | 1.00 (C++20 and C++23), 1.04 to 1.07 (C++11 to C++17) | 1.00 | 1.15 (31 scenarios; measured at C++17, so compare with lumex C++17: 1.06) |
+| Compile time of the benchmark unit (`-fsyntax-only -O0`) | 376 ms (C++11), 730 ms (C++23) | 369 ms (C++23) | 878 ms (C++17) |
 
 Where this library is slower or larger than the alternatives, as measured:
 
-- **Returning a trivially copyable `expected` through calls: 4.5 times slower than `std::expected`.** Four nested `noinline` calls returning `expected<int, unsigned>` take 28.7 ns against 6.4 ns (`std::expected`) and 6.3 ns (Outcome), at every standard. The generated code builds the 8-byte object with two partial stores and reloads it with one 8-byte load at every level, which is a store-forwarding stall: the hardware counter `LD_BLOCKS.STORE_FORWARD` (read with `perf` on the benchmark executables of this machine, GCC 13.2, i7-12700K; the benchmark harness itself does not collect it) shows 19.0 million blocked loads for this library's chain against 607 for `std::expected` and 3 575 for Outcome, about one per call. Both types are trivially copyable and returned in a register; the stall comes from how this library builds the object. It does not happen for objects returned through memory (strings, 64-byte values: 0.91 to 1.05). It is a defect of the storage that is open, not a design property.
+- **Returning a trivially copyable `expected` through calls: on par (was 5.5 times slower, fixed).** Four nested `noinline` calls returning `expected<int, unsigned>` take 5.3 ns against 5.1 ns for `std::expected` at C++23 (1.02 to 1.05 at C++14 to C++20; 1.35 at C++11 for the same machine code, which is placement). Before the flag of the storage was moved into a class as wide as the alignment of the union and `lumex_assert_handler` was declared `noreturn`, the same chain took 28.3 ns, and the counter `LD_BLOCKS.STORE_FORWARD` showed one blocked load per chain (20.15 million for 20 million) and none now; the cause and the evidence are in the benchmark README. Objects returned through memory (strings, 64-byte values) were always on par.
 - **Short strings below C++20: 35 to 43 % slower** for construction, copy and assignment of `expected<std::string, unsigned>` at C++11, 14 and 17 (3.5 against 2.4 ns for a copy), 0 to 14 % at C++20 and C++23 (at C++23 the construction, copy and move loops compile to the same machine code as `std::expected`'s); Outcome shows the same, so it is the cost of `std::string` below C++20 and not of the module.
-- **Monadic operations: slower by 8 to 51 % at C++23** (`transform` 1.08, `and_then` 1.15, `or_else` 1.20, `transform` over a string 1.51; the three in a row 0.99). The 1.93 of `transform` over a string at C++11 is code placement (the same code as at C++23).
-- `branch_mixed` (test, then `*x` or `error ()`) reads 0.88 against 0.63 ns at C++14 to C++23, but the machine code equals `std::expected`'s and the C++11 build's (the assert is removed after the `has_value ()` test in every build): placement, not a property of the library.
-- **Compile time: +50 ms for `std::expected` against +351 ms for this library at C++23** over a unit without the header (`-fsyntax-only -O0`), +203 ms at C++11; with `-c -O2` 830 ms against 520 ms. Outcome is the slowest (781 ms and 1 629 ms).
-- Faster than `std::expected` as measured: copy assignment 0.82 (value over value) and 0.75 (switching the alternative) times for `<int, unsigned>`; the code differs from libstdc++'s (its copy assignment is non-trivial), so these are real. The `value_or` 0.65 and `value ()` of a string 0.58 rows are identical code or placement and are not claimed.
+- **Monadic operations: slower by 0 to 24 % at C++23** (`transform` 1.18, `and_then` 1.07, `or_else` 1.18, `transform` over a string 1.02; the three in a row 0.93).
+- **`value ()` and `error ()` in a loop: about 1.4 times `std::expected`** (0.50 against 0.37 ns per element in most executables, 0.37 in some): every call tests the state, `std::expected`'s loop has none. `branch_mixed` (test, then `*x` or `error ()`) reads 0.92 against 0.66 ns at C++14 to C++23 and 0.65 ns at C++11; its machine code did not change with the storage fix and the cause was not established.
+- **Compile time: +57 ms for `std::expected` against +417 ms for this library at C++23** over a unit without the header (`-fsyntax-only -O0`), +226 ms at C++11; with `-c -O2` 947 ms against 574 ms. Outcome is the slowest (878 ms and 1 779 ms).
+- Faster than `std::expected` as measured: copy assignment 0.76 (value over value) and 0.61 (switching the alternative) times for `<int, unsigned>`; the code differs from libstdc++'s (its copy assignment is non-trivial), so these are real. The `value_or` 0.65 and `value ()` of a string 0.71 rows are identical code or placement and are not claimed.
 
 Not measured: `tl::expected` (not installed on this machine; nothing is vendored), Clang, MSVC, libc++, any CPU but one.
 
@@ -163,37 +232,41 @@ Strengths:
 
 - Works from C++11 with the interface of C++23 `std::expected`, including `expected<void, E>`, the four monadic operations, `unexpected` and `bad_expected_access`; the same source builds and passes its tests at C++11, 14, 17, 20 and 23 (GCC 13.2 here; the release matrix of the repository covers four compilers and was not rerun for this document).
 - `sizeof` equals libstdc++'s `std::expected` for all 16 type pairs measured (Outcome is larger for 3).
-- Trivially copyable (assignments trivial too) where `T` and `E` are: 10 of 10 pairs measured; libstdc++ 13.2's copy assignment is non-trivial, so its `std::expected` is trivially copyable in none. Both are returned in registers.
+- Trivially copyable (assignments trivial too) where `T` and `E` are: 10 of 10 pairs measured; libstdc++ 13.2's copy assignment is non-trivial, so its `std::expected` is trivially copyable in none. Both are returned in registers, and a chain of calls returning one costs the same (the machine code of the chain equals `std::expected`'s).
 - `constexpr` from C++11 for the constructors and the observers on a `const` object, and from C++20 for the assignments and `emplace`.
 - A precondition violation of `error ()`, `operator*` and `operator->` aborts with a message in every build instead of being undefined.
+- Builds with `-fno-exceptions`: `value ()` on an error terminates, the rest works (`LUMEX_EXPECTED_HAS_EXCEPTIONS`).
+- Implicit conversions to and from `std::expected<T, E>` of the same types at C++23.
 - Differential tests against the `std::expected` of the toolchain, and tests of the special member functions against [expected.object] for a type zoo.
 
 Weaknesses:
 
-- Returning a trivially copyable `expected<int, unsigned>` through four calls takes 28.7 ns against 6.4 ns for `std::expected` (GCC 13.2, every standard).
-- Compile time of a unit that uses the header is 203 ms (C++11) to 351 ms (C++23) above a unit without it; `std::expected` costs 50 ms.
+- `value ()`, `error ()` and `operator*` in a loop cost about 1.4 times `std::expected` in most executables (the state is tested in every call).
+- Compile time of a unit that uses the header is 226 ms (C++11) to 417 ms (C++23) above a unit without it; `std::expected` costs 57 ms.
 - `lumex_assert_handler` needs the compiled library `lumex::utility`; the checks are always on.
-- No conversion to or from `std::expected` (the classes are separate types); `std::in_place_t` and `std::unexpect_t` are not accepted, the module's own tags are.
+- `std::in_place_t` and `std::unexpect_t` are not accepted, the module's own tags are; `std::expected` converts to and from `expected` only for the same `T` and `E` and only at C++23.
 - `expected` is also a global name (`::expected`): `using namespace std;` with `<expected>` at C++23 makes `expected<int, int>` ambiguous (checked with GCC 13.2). `unexpected` is not global, which differs from the habit of `using namespace std;` code.
-- Monadic operations and short-string traffic are 8 to 51 % slower than `std::expected` in the benchmark (C++23), and short-string construction, copy and assignment are 35 to 43 % slower at C++11 to C++17 only (0 to 14 % at C++20 and C++23).
-- `-fno-exceptions` does not compile `value ()` (see Limits). No `expected<T&, E>` (the standard has none either).
+- Monadic operations are up to 24 % slower than `std::expected` in the benchmark (C++23), and short-string construction, copy and assignment are 35 to 43 % slower at C++11 to C++17 only (0 to 14 % at C++20 and C++23).
+- No `expected<T&, E>` (the standard has none either).
 - Measured with GCC 13.2 on one CPU only.
 
 ## Testing
 
-`ctest -R '^expected'` runs the unit tests (one suite per standard of the module, `lumex/tests/LumexTestStandards.cmake`): the build used for this document (GCC 13.2, Release, 2026-10-10) has 3 276 tests whose names contain `expected`, all passed: `error/` (`unexpected`, `bad_expected_access`) 105 at C++11, 105 at C++14, 106 at C++17, 106 at C++20; `result/` (`expected<T, E>`, `expected<void, E>`, markers) 560 at C++11, 561 at C++14, 568 at C++17, 569 at C++20, 591 at C++23; 3 CMake cases (global names, compile checks, the resource monitor build without the module); 2 examples. What they cover:
+`ctest -R expected` runs the unit tests (one suite per standard of the module, `lumex/tests/LumexTestStandards.cmake`): the build used for this document (GCC 13.2, Release, 2026-10-11) has 3 351 tests whose names contain `expected`, all passed (the suites at C++11, 14, 17, 20 and 23, the CMake cases and the examples). The same suites pass with GCC 8.3 at C++11 (684 tests), with Clang 23 at C++11 and C++20 on libc++ and on libstdc++ (1 368 each), and under AddressSanitizer and UndefinedBehaviorSanitizer with GCC 13.2 (1 306 of 1 309; the three others are example executables that the run did not build). The release matrix (`create_release.sh` at C++11 and C++20 with GCC 8.3, GCC 13.2, Clang 23 and MinGW) builds with an empty `warns/` directory. What they cover:
 
 - every member of `expected<T, E>` and `expected<void, E>`, the monadic operations (`ExpectedMonadic`, `ExpectedMonadicParity`), comparisons, conversions, `swap`, the tags, the markers, with a matrix of value and error types per standard (`SuccessFailureTestSupport.hpp`);
 - the special member functions against the standard for a zoo of types (`ExpectedMembers`: deleted, left out, trivial, `noexcept`), and the order of construction and destruction of the assignments (`ExpectedReinit`, `ExpectedProbe.hpp`);
 - constant expressions per standard (`ExpectedConstexpr` at C++11, 14, 17, 20);
 - parity with `std::expected` (`ExpectedStdParity` at C++17, with the `std::expected` of the toolchain as the oracle) and the differential tests `ExpectedStdDifferential` at C++23 (construction, assignment, `swap`, `emplace`, observers, monadic operations, comparisons, `value ()` throwing, move-only contents; one skipped test where the toolchain has no `std::expected`);
-- `ExpectedWithOptional` (both value-holding modules in one file) and `cmake.expected_compile_checks` (rejected uses).
+- `ExpectedLayout` (the sizes of 22 pairs equal to a flag and a union, the triviality of the pairs, and that the storage has no tail padding), `ExpectedExceptionsSwitch`, and `ExpectedStdConversion` at C++23 (both directions, value and error, `void`, move-only, copies against moves with a counting type, the exact constraints, `noexcept`, constant expressions, overload selection, and the converted object against `std::expected` for a range of values);
+- `cmake.consumer_expected_no_exceptions_*` (a program built with `-fno-exceptions` at C++11 and C++20 and with `LUMEX_EXPECTED_HAS_EXCEPTIONS` defined as 0 at C++17: assignment, `emplace`, `swap` with types whose copy and move may throw, and a child process for each overload of `value ()` that must reach `std::terminate`);
+- `ExpectedWithOptional` (both value-holding modules in one file) and `cmake.expected_compile_checks` (rejected uses, and `lumex_assert_handler` being `noreturn`).
 
-Sanitizers and mutation checks were not run for this document.
+Each new test was run against the library with the code it tests broken on purpose (21 changes of the storage flag, the no-exceptions path, the conversions and the handler); every one of them made a named test fail or the test program not compile.
 
 ## Limits and known issues
 
 - `expected<T&, E>`, `expected<T[], E>`, `expected<void, void>` are rejected by `static_assert` (the standard forbids them).
-- `-fno-exceptions`: a build with `-fno-exceptions` does not compile as soon as `value ()` is instantiated (GCC 13.2: `exception handling disabled, use -fexceptions to enable` at the `throw` in `ExpectedDetail.hpp`); there is no `value ()` without a `throw`. `std::expected` in libstdc++ builds in that mode.
-- The return-through-calls slowdown above is open (`ExpectedStorage.hpp`, GCC 13.2 at every standard); other compilers were not measured.
-- `expected` does not convert to `std::expected`; code that mixes them converts by hand.
+- `-fno-exceptions` (or `LUMEX_EXPECTED_HAS_EXCEPTIONS` defined as 0): `value ()` on an error terminates instead of throwing, and `emplace`, assignment and `swap` do not put the old contents back when a constructor fails, because exceptions cannot occur; code that relies on catching `bad_expected_access` needs exceptions on. All translation units of one program must see the same value of the macro. MSVC without exceptions was not tried (the macro mode was not built with MSVC).
+- The conversions to and from `std::expected` exist only for the same `T` and `E` and only where the standard library has `std::expected` (C++23); `std::expected<long, int>` does not convert to `expected<int, int>`, and `expected` does not compare with `std::expected` directly (convert one of them).
+- Compile time of the header is the highest of the three alternatives measured except Outcome (see the table).
