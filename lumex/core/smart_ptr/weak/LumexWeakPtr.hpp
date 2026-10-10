@@ -206,11 +206,12 @@ public:
     return cb_ != nullptr ? cb_->use_count () : 0;
   }
 
-  /// True when `use_count () == 0`.
+  /// True when the object is gone: the strong word is zero, that is no count
+  /// and no owner in transit (the same test as `lock ()`).
   bool
   expired () const LUMEX_NOEXCEPT
   {
-    return cb_ == nullptr || cb_->use_count () == 0;
+    return cb_ == nullptr || !cb_->strong_counter ().alive ();
   }
 
   /**

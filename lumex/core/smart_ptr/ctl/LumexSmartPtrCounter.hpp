@@ -44,21 +44,27 @@
  * @details The word is used for both groups of a control block (the strong
  * owners and the weak ledger). `count` (the low half) is the number of
  * references that were taken by an ordinary addition. `ext` (the high half,
- * two's complement) is a debt ledger that only the split-count engine
- * (`core/atomic`, phase 2) uses: a reader of an atomic smart pointer pins a
- * block with a "tick" in the atomic's word, and the writer that swaps the
- * word out moves the ticks it took into `ext` (`transfer_ext`) before it
- * drops its own count; each reader pays one unit back when it settles
- * (`settle`). A block is finished when `count` and `ext` are both zero, which
- * is one comparison of the whole word: `release` and `settle` return true in
- * the one read-modify-write that makes the word zero. A program that never
- * calls `transfer_ext` and `settle` (every ordinary use of the pointers) sees
- * `ext == 0` always and a plain 32-bit counter.
+ * two's complement) counts the owners in transit: the units that the
+ * split-count engine (`core/atomic`) pre-transfers for the readers of an
+ * atomic smart pointer that pinned the block with a "tick" in the atomic's
+ * word, before the writer that swapped the word out drops its own count
+ * (`transfer_ext`). Each such unit is later counted by its reader
+ * (`take_and_settle`) or paid back (`settle`, `settle_n`). The engine takes a
+ * unit back only after it has seen the deposit, so `ext` is never negative
+ * when the engine uses it. A block is finished when `count` and `ext` are
+ * both zero, which is one comparison of the whole word: `release`, `settle`,
+ * `settle_n` and `release_with_ext` return true in the one read-modify-write
+ * that makes the word zero. A program that never calls the `ext` operations
+ * (every ordinary use of the pointers) sees `ext == 0` always and a plain
+ * 32-bit counter.
  *
- * `count` never goes negative, so the representation is unique (`ext` stays
- * within +-2^31). `ext` is transiently negative when a reader settles before
- * the writer's transfer; the writer still holds its count then, so the word
- * is not zero.
+ * `use_count` is `count + ext`: the owners plus the owners in transit. It
+ * never waits and it is never below the number of owners that hold a count
+ * (the atomic smart pointers keep this bound; see `core/atomic`). It is exact
+ * at quiescence. While a store or a compare-exchange of an atomic smart
+ * pointer is in flight, the value may exceed the owners by the units of that
+ * one operation (the lagging drop, the surplus of the pending transfer, and a
+ * reader's transferred unit until it is counted or paid).
  *
  * Memory orders. Taking a reference needs none (`add` is relaxed: the caller
  * already owns a count, or the block is pinned). Dropping is `release`; the
@@ -145,11 +151,53 @@ public:
     word_.fetch_add (word_type (n) << 32, std::memory_order_relaxed);
   }
 
+  /// Takes back @p n units of `ext` that this thread added with
+  /// `transfer_ext` (a writer whose swap failed). Never makes the word zero:
+  /// the caller still pins the block.
+  void
+  untransfer_ext (std::uint32_t n) LUMEX_NOEXCEPT
+  {
+    word_type const before
+        = word_.fetch_sub (word_type (n) << 32, std::memory_order_relaxed);
+    LUMEX_SMART_PTR_DEBUG_ASSERT (before != (word_type (n) << 32));
+    LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR (before);
+  }
+
+  /// Drops one count and @p n units of `ext` in one RMW; true when the word
+  /// became zero.
+  bool
+  release_with_ext (std::uint32_t n) LUMEX_NOEXCEPT
+  {
+    return drop (word_type (1) + (word_type (n) << 32));
+  }
+
+  /// Counts one owner and pays one unit of `ext` in one RMW (the reader of a
+  /// swapped-out pointer). Never makes the word zero: the count is at least 1.
+  void
+  take_and_settle () LUMEX_NOEXCEPT
+  {
+    word_.fetch_add (word_type (1) - ext_unit (), std::memory_order_relaxed);
+  }
+
+  /// True while the group is alive (`count` or `ext` not zero).
+  bool
+  alive () const LUMEX_NOEXCEPT
+  {
+    return load () != 0;
+  }
+
   /// Pays one unit of `ext` back; true when the word became zero.
   bool
   settle () LUMEX_NOEXCEPT
   {
     return drop (ext_unit ());
+  }
+
+  /// Pays @p n units of `ext` back in one RMW; true when the word became zero.
+  bool
+  settle_n (std::uint32_t n) LUMEX_NOEXCEPT
+  {
+    return drop (word_type (n) << 32);
   }
 
   /**
@@ -207,10 +255,8 @@ public:
   use_count () const LUMEX_NOEXCEPT
   {
     word_type const word = load ();
-    long const count = count_of (word);
-    if (count > 0)
-      return count;
-    return ext_of (word) != 0 ? 1 : 0;
+    LUMEX_SMART_PTR_DEBUG_ASSERT (ext_of (word) >= 0);
+    return count_of (word) + ext_of (word);
   }
 
 private:

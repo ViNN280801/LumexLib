@@ -179,7 +179,8 @@ TEST (
   block.transfer_strong_ext (2);
   block.release_strong (); // the writer drops the slot count
   EXPECT_EQ (block.order, "") << "two readers still owe a settle";
-  EXPECT_EQ (block.use_count (), 1) << "pinned: reported as one owner";
+  EXPECT_EQ (block.use_count (), 2)
+      << "two owners in transit: count 0 plus ext 2";
   block.settle_strong ();
   EXPECT_EQ (block.order, "");
   block.settle_strong ();
