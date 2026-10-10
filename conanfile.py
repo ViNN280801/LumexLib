@@ -144,10 +144,14 @@ class LumexLibConan(ConanFile):
         # always builds it, so the soft edge of the CMake target (it links
         # lumex::hazard_pointer and defines LUMEX_ATOMIC_HAS_HAZARD_POINTER
         # only when that target exists) is a plain requirement here.
+        # The split-count engine is built on core/smart_ptr (soft edge in
+        # CMake, plain requirement here).
         atomic = self._component(
-            "core_atomic", "atomic", requires=["core_hazard_pointer"]
+            "core_atomic", "atomic",
+            requires=["core_hazard_pointer", "core_smart_ptr"],
         )
         atomic.defines.append("LUMEX_ATOMIC_HAS_HAZARD_POINTER=1")
+        atomic.defines.append("LUMEX_ATOMIC_HAS_SMART_PTR=1")
         if not windows:
             # As CMake's Threads::Threads: the lock-based implementation uses
             # std::mutex and std::condition_variable before C++20.

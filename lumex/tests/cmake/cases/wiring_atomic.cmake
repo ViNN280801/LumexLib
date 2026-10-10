@@ -94,7 +94,7 @@ _require_text("conanfile.py" "\"core_atomic\", \"atomic\"")
 # requirement in the Conan package. There is no lumex_require_module line.
 _require_text("${_module}" "if(TARGET lumex::hazard_pointer)")
 _require_text("${_module}" "LUMEX_ATOMIC_HAS_HAZARD_POINTER=1")
-_require_text("conanfile.py" "requires=[\"core_hazard_pointer\"]")
+_require_text("conanfile.py" "requires=[\"core_hazard_pointer\", \"core_smart_ptr\"]")
 _require_text("lumex/core/CMakeLists.txt"
     "lumex_add_subdirectory_if(LUMEX_BUILD_HAZARD_POINTER hazard_pointer)")
 file(READ "${LUMEX_SOURCE_DIR}/cmake/LumexModules.cmake" _modules_text)
