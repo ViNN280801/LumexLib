@@ -1,0 +1,238 @@
+# machine="12th Gen Intel(R) Core(TM) i7-12700K" os="Linux 6.1.170-1-generic" logical_cpus=20 python=3.7.3
+# passes=5 cpu=3
+# variant gcc lumex_cxx11: compiler="GCC 13.2.0" library="libstdc++" cplusplus=201103
+# variant gcc lumex_cxx17: compiler="GCC 13.2.0" library="libstdc++" cplusplus=201703
+# variant gcc std_cxx17: compiler="GCC 13.2.0" library="libstdc++" cplusplus=201703
+# variant gcc boost_cxx11: compiler="GCC 13.2.0" library="libstdc++" cplusplus=201103
+# variant gcc boost_cxx17: compiler="GCC 13.2.0" library="libstdc++" cplusplus=201703
+toolchain,variant,scenario,description,size,median_ns,worst_median_ns,min_ns,max_ns,iterations,repetitions,checksum
+gcc,lumex_cxx11,ctor_empty_int,construct an empty optional,0,0.2861,0.2882,0.2816,0.3179,134217728,15,8
+gcc,lumex_cxx11,ctor_empty_str_short,construct an empty optional,0,0.2365,0.2374,0.2356,0.2505,134217728,15,8
+gcc,lumex_cxx11,ctor_value_int,"construct from a copy of a value, destroy",0,0.2879,0.3023,0.2867,0.3075,134217728,15,9872
+gcc,lumex_cxx11,ctor_value_pod32,"construct from a copy of a value, destroy",0,0.7079,0.7121,0.7044,0.8376,33554432,15,800
+gcc,lumex_cxx11,ctor_value_str_short,"construct from a copy of a value, destroy",0,2.5831,2.6080,2.5509,3.5387,8388608,15,7720
+gcc,lumex_cxx11,ctor_value_str_long,"construct from a copy of a value, destroy",0,12.5938,12.7908,11.9573,14.9238,2097152,15,84616
+gcc,lumex_cxx11,copy_ctor_int,"copy-construct from an engaged optional, destroy",0,0.4688,0.4718,0.4618,0.5191,67108864,15,9872
+gcc,lumex_cxx11,copy_ctor_pod32,"copy-construct from an engaged optional, destroy",0,0.8623,0.8804,0.8143,0.8942,33554432,15,800
+gcc,lumex_cxx11,copy_ctor_str_short,"copy-construct from an engaged optional, destroy",0,2.8151,3.0237,2.8110,3.1476,8388608,15,7720
+gcc,lumex_cxx11,copy_ctor_str_long,"copy-construct from an engaged optional, destroy",0,12.6957,13.0951,12.2580,13.9097,2097152,15,84616
+gcc,lumex_cxx11,make_move_destroy_int,"construct, move-construct from it, destroy both",0,0.7719,0.9382,0.7555,1.0503,33554432,15,9872
+gcc,lumex_cxx11,make_move_destroy_pod32,"construct, move-construct from it, destroy both",0,1.4062,1.4185,1.4029,1.5694,16777216,15,800
+gcc,lumex_cxx11,make_move_destroy_str_short,"construct, move-construct from it, destroy both",0,7.0295,7.2630,7.0134,7.2740,4194304,15,7720
+gcc,lumex_cxx11,make_move_destroy_str_long,"construct, move-construct from it, destroy both",0,13.0111,13.1817,12.7530,13.3094,2097152,15,84616
+gcc,lumex_cxx11,assign_copy_int,copy-assign an engaged optional to an engaged one,0,0.4700,0.4769,0.4684,0.5448,67108864,15,9872
+gcc,lumex_cxx11,assign_copy_pod32,copy-assign an engaged optional to an engaged one,0,1.0140,1.0236,1.0130,1.0959,33554432,15,800
+gcc,lumex_cxx11,assign_copy_str_short,copy-assign an engaged optional to an engaged one,0,2.8283,2.9012,2.8091,3.7603,8388608,15,7720
+gcc,lumex_cxx11,assign_copy_str_long,copy-assign an engaged optional to an engaged one,0,12.7707,13.0923,12.4397,13.5054,2097152,15,84616
+gcc,lumex_cxx11,assign_value_int,assign a value to an engaged optional,0,0.3530,0.3553,0.3508,0.4473,67108864,15,9872
+gcc,lumex_cxx11,assign_value_pod32,assign a value to an engaged optional,0,0.8582,0.8604,0.8566,0.8901,33554432,15,800
+gcc,lumex_cxx11,assign_value_str_short,assign a value to an engaged optional,0,2.8190,2.8455,2.8134,3.4432,8388608,15,7720
+gcc,lumex_cxx11,assign_value_str_long,assign a value to an engaged optional,0,3.1165,3.1677,3.0773,3.2370,8388608,15,84616
+gcc,lumex_cxx11,emplace_reset_int,"emplace from a value, reset",0,0.4232,0.4407,0.4210,0.5013,67108864,15,9872
+gcc,lumex_cxx11,emplace_reset_pod32,"emplace from a value, reset",0,0.8617,0.8797,0.8574,0.8985,33554432,15,800
+gcc,lumex_cxx11,emplace_reset_str_short,"emplace from a value, reset",0,2.6033,2.6146,2.5779,4.2427,8388608,15,7720
+gcc,lumex_cxx11,emplace_reset_str_long,"emplace from a value, reset",0,12.5085,12.9238,12.3378,13.7565,2097152,15,84616
+gcc,lumex_cxx11,swap_int,swap two engaged optionals,0,0.5181,0.5208,0.5155,0.7353,67108864,15,22220
+gcc,lumex_cxx11,swap_str_short,swap two engaged optionals,0,3.9980,4.0236,3.9858,7.6798,8388608,15,7724
+gcc,lumex_cxx11,deref_sum,sum of *o over `size` engaged optional<int>,8,1.6393,1.6493,1.6162,1.7932,16777216,15,39568
+gcc,lumex_cxx11,deref_sum,sum of *o over `size` engaged optional<int>,1024,233.9710,236.7570,233.8650,272.8710,131072,15,4069504
+gcc,lumex_cxx11,value_sum,sum of o.value () over `size` engaged optional<int>,1024,329.2790,330.8570,328.5190,338.5260,65536,15,4069504
+gcc,lumex_cxx11,value_or_sum,"sum of o.value_or (7) over `size` optional<int>, 2/3 engaged",1024,2715.3600,2865.0100,2706.4700,2882.4400,8192,15,2770456
+gcc,lumex_cxx11,count_engaged,"count of engaged over `size` optional<int>, 2/3 engaged",1024,242.9870,247.3270,241.1880,302.0150,131072,15,5520
+gcc,lumex_cxx11,eq_opt_opt,a[j] == b[j] over `size` optional<int> pairs,1024,745.0500,759.6360,740.1440,766.8930,32768,15,3344
+gcc,lumex_cxx11,lt_opt_opt,a[j] < b[j] over `size` optional<int> pairs,1024,555.2560,560.7660,552.9860,668.0160,65536,15,2432
+gcc,lumex_cxx11,eq_value,a[j] == 500 over `size` optional<int>,1024,535.1170,539.3100,526.9310,599.5030,65536,15,0
+gcc,lumex_cxx11,eq_nullopt,a[j] == nullopt over `size` optional<int>,1024,251.4710,252.5200,251.2520,254.7220,131072,15,2672
+gcc,lumex_cxx11,eq_opt_opt_str,a[j] == b[j] over `size` optional<std::string> pairs,256,508.5220,511.2550,504.2060,540.7850,65536,15,896
+gcc,lumex_cxx11,return_int,"a noinline function returns optional<int>, the caller reads it",0,0.6457,0.6482,0.6397,0.6932,33554432,15,70
+gcc,lumex_cxx11,pass_int,optional<int> passed by value to a noinline function,0,0.5873,0.5888,0.5850,0.6581,67108864,15,70
+gcc,lumex_cxx11,return_str,a noinline function returns optional<std::string>,0,3.9439,4.0712,3.7246,4.1152,8388608,15,5790
+gcc,lumex_cxx11,pass_str,optional<std::string> passed by value to a noinline function,0,3.6573,3.7335,3.5452,3.9154,8388608,15,5790
+gcc,lumex_cxx11,vector_copy_int,copy a std::vector of `size` optional<int>,1024,539.0630,548.4570,535.1500,598.4050,65536,15,13896
+gcc,lumex_cxx11,vector_copy_str,copy a std::vector of `size` optional<std::string>,256,841.7000,870.9930,820.9860,1153.7700,32768,15,2048
+gcc,lumex_cxx11,vector_push_int,"push_back `size` optional<int> after reserve, destroy",1024,502.6650,519.7840,501.1300,543.0670,65536,15,16376
+gcc,lumex_cxx11,vector_grow_str,"push_back `size` optional<std::string> without reserve (reallocations), destroy",256,2082.0100,2192.3800,2071.0400,2244.2000,16384,15,9768
+gcc,lumex_cxx17,ctor_empty_int,construct an empty optional,0,0.2861,0.2904,0.2816,0.3845,134217728,15,8
+gcc,lumex_cxx17,ctor_empty_str_short,construct an empty optional,0,0.2361,0.2382,0.2351,0.2438,134217728,15,8
+gcc,lumex_cxx17,ctor_value_int,"construct from a copy of a value, destroy",0,0.2831,0.3008,0.2823,0.3071,134217728,15,9872
+gcc,lumex_cxx17,ctor_value_pod32,"construct from a copy of a value, destroy",0,0.7057,0.7265,0.7015,0.7506,33554432,15,800
+gcc,lumex_cxx17,ctor_value_str_short,"construct from a copy of a value, destroy",0,2.7165,2.7391,2.6321,4.4080,8388608,15,7720
+gcc,lumex_cxx17,ctor_value_str_long,"construct from a copy of a value, destroy",0,12.9386,13.1900,12.2261,13.3817,2097152,15,84616
+gcc,lumex_cxx17,copy_ctor_int,"copy-construct from an engaged optional, destroy",0,0.4689,0.4709,0.4679,0.4996,67108864,15,9872
+gcc,lumex_cxx17,copy_ctor_pod32,"copy-construct from an engaged optional, destroy",0,0.8614,0.8674,0.8556,1.1983,33554432,15,800
+gcc,lumex_cxx17,copy_ctor_str_short,"copy-construct from an engaged optional, destroy",0,2.8226,2.9156,2.8103,2.9776,8388608,15,7720
+gcc,lumex_cxx17,copy_ctor_str_long,"copy-construct from an engaged optional, destroy",0,13.2867,13.3546,12.8692,14.9402,2097152,15,84616
+gcc,lumex_cxx17,make_move_destroy_int,"construct, move-construct from it, destroy both",0,0.7332,0.9382,0.7279,1.0388,33554432,15,9872
+gcc,lumex_cxx17,make_move_destroy_pod32,"construct, move-construct from it, destroy both",0,1.4045,1.4108,1.3484,1.4227,16777216,15,800
+gcc,lumex_cxx17,make_move_destroy_str_short,"construct, move-construct from it, destroy both",0,7.0104,7.2585,7.0053,7.3517,4194304,15,7720
+gcc,lumex_cxx17,make_move_destroy_str_long,"construct, move-construct from it, destroy both",0,13.5367,13.5728,13.2243,16.1907,2097152,15,84616
+gcc,lumex_cxx17,assign_copy_int,copy-assign an engaged optional to an engaged one,0,0.4692,0.4717,0.4682,0.4802,67108864,15,9872
+gcc,lumex_cxx17,assign_copy_pod32,copy-assign an engaged optional to an engaged one,0,1.0176,1.0206,1.0151,1.2559,33554432,15,800
+gcc,lumex_cxx17,assign_copy_str_short,copy-assign an engaged optional to an engaged one,0,2.8249,2.8338,2.8087,2.9748,8388608,15,7720
+gcc,lumex_cxx17,assign_copy_str_long,copy-assign an engaged optional to an engaged one,0,13.2268,13.4130,13.0623,13.8567,2097152,15,84616
+gcc,lumex_cxx17,assign_value_int,assign a value to an engaged optional,0,0.3523,0.3551,0.3507,0.3910,67108864,15,9872
+gcc,lumex_cxx17,assign_value_pod32,assign a value to an engaged optional,0,0.8587,0.8640,0.8569,1.0393,33554432,15,800
+gcc,lumex_cxx17,assign_value_str_short,assign a value to an engaged optional,0,2.8266,2.8475,2.8210,3.8675,8388608,15,7720
+gcc,lumex_cxx17,assign_value_str_long,assign a value to an engaged optional,0,3.2668,3.2973,3.2236,3.6146,8388608,15,84616
+gcc,lumex_cxx17,emplace_reset_int,"emplace from a value, reset",0,0.4218,0.4253,0.4209,0.7225,67108864,15,9872
+gcc,lumex_cxx17,emplace_reset_pod32,"emplace from a value, reset",0,0.8582,0.8672,0.8567,0.8990,33554432,15,800
+gcc,lumex_cxx17,emplace_reset_str_short,"emplace from a value, reset",0,2.6340,2.6793,2.5891,3.7725,8388608,15,7720
+gcc,lumex_cxx17,emplace_reset_str_long,"emplace from a value, reset",0,13.1591,13.3305,12.7534,15.0233,2097152,15,84616
+gcc,lumex_cxx17,swap_int,swap two engaged optionals,0,0.5161,0.5192,0.5130,0.5840,67108864,15,22220
+gcc,lumex_cxx17,swap_str_short,swap two engaged optionals,0,3.9927,4.0309,3.9855,6.3398,8388608,15,7724
+gcc,lumex_cxx17,deref_sum,sum of *o over `size` engaged optional<int>,8,2.3114,2.4949,1.9912,2.5672,8388608,15,39568
+gcc,lumex_cxx17,deref_sum,sum of *o over `size` engaged optional<int>,1024,235.5230,236.2010,235.1520,244.0130,131072,15,4069504
+gcc,lumex_cxx17,value_sum,sum of o.value () over `size` engaged optional<int>,1024,329.7670,330.9730,329.0330,382.6930,65536,15,4069504
+gcc,lumex_cxx17,value_or_sum,"sum of o.value_or (7) over `size` optional<int>, 2/3 engaged",1024,2699.0800,2733.7300,2687.8100,3005.8800,8192,15,2770456
+gcc,lumex_cxx17,count_engaged,"count of engaged over `size` optional<int>, 2/3 engaged",1024,234.9900,246.1550,234.9200,247.0560,131072,15,5520
+gcc,lumex_cxx17,eq_opt_opt,a[j] == b[j] over `size` optional<int> pairs,1024,560.1010,561.3180,554.4660,691.5650,65536,15,3344
+gcc,lumex_cxx17,lt_opt_opt,a[j] < b[j] over `size` optional<int> pairs,1024,625.3160,663.1290,619.7060,765.5990,32768,15,2432
+gcc,lumex_cxx17,eq_value,a[j] == 500 over `size` optional<int>,1024,624.1490,662.9070,618.3500,697.2140,32768,15,0
+gcc,lumex_cxx17,eq_nullopt,a[j] == nullopt over `size` optional<int>,1024,250.4460,268.2770,246.4340,271.2730,131072,15,2672
+gcc,lumex_cxx17,eq_opt_opt_str,a[j] == b[j] over `size` optional<std::string> pairs,256,503.4540,510.7250,492.1480,593.8930,65536,15,896
+gcc,lumex_cxx17,return_int,"a noinline function returns optional<int>, the caller reads it",0,0.6484,0.6619,0.6440,0.7663,33554432,15,70
+gcc,lumex_cxx17,pass_int,optional<int> passed by value to a noinline function,0,0.5920,0.6030,0.5874,0.8499,67108864,15,70
+gcc,lumex_cxx17,return_str,a noinline function returns optional<std::string>,0,4.2448,4.3459,4.1215,4.5341,8388608,15,5790
+gcc,lumex_cxx17,pass_str,optional<std::string> passed by value to a noinline function,0,3.6108,3.6500,3.5448,3.7048,8388608,15,5790
+gcc,lumex_cxx17,vector_copy_int,copy a std::vector of `size` optional<int>,1024,522.0430,525.9970,520.7950,536.6240,65536,15,13896
+gcc,lumex_cxx17,vector_copy_str,copy a std::vector of `size` optional<std::string>,256,796.0340,816.5980,784.0770,844.2670,32768,15,2048
+gcc,lumex_cxx17,vector_push_int,"push_back `size` optional<int> after reserve, destroy",1024,492.1740,495.0030,491.2730,674.0930,65536,15,16376
+gcc,lumex_cxx17,vector_grow_str,"push_back `size` optional<std::string> without reserve (reallocations), destroy",256,2190.4300,2300.0500,2184.6900,2425.6100,16384,15,9768
+gcc,std_cxx17,ctor_empty_int,construct an empty optional,0,0.2866,0.2872,0.2860,0.4763,134217728,15,8
+gcc,std_cxx17,ctor_empty_str_short,construct an empty optional,0,0.3531,0.4784,0.3511,0.4803,67108864,15,8
+gcc,std_cxx17,ctor_value_int,"construct from a copy of a value, destroy",0,0.2876,0.3037,0.2867,0.3085,67108864,15,9872
+gcc,std_cxx17,ctor_value_pod32,"construct from a copy of a value, destroy",0,0.7042,0.7087,0.7005,0.7168,33554432,15,800
+gcc,std_cxx17,ctor_value_str_short,"construct from a copy of a value, destroy",0,2.6917,2.7063,2.6204,2.8561,8388608,15,7720
+gcc,std_cxx17,ctor_value_str_long,"construct from a copy of a value, destroy",0,13.8247,14.6584,13.3409,14.7921,2097152,15,84616
+gcc,std_cxx17,copy_ctor_int,"copy-construct from an engaged optional, destroy",0,0.2346,0.2358,0.2340,0.3473,134217728,15,9872
+gcc,std_cxx17,copy_ctor_pod32,"copy-construct from an engaged optional, destroy",0,0.8658,0.8683,0.8580,0.8829,33554432,15,800
+gcc,std_cxx17,copy_ctor_str_short,"copy-construct from an engaged optional, destroy",0,2.8216,2.8407,2.8168,3.3426,8388608,15,7720
+gcc,std_cxx17,copy_ctor_str_long,"copy-construct from an engaged optional, destroy",0,14.0972,14.2770,13.5397,14.4298,2097152,15,84616
+gcc,std_cxx17,make_move_destroy_int,"construct, move-construct from it, destroy both",0,5.3714,5.3820,5.3042,5.7646,4194304,15,9872
+gcc,std_cxx17,make_move_destroy_pod32,"construct, move-construct from it, destroy both",0,1.1763,1.1869,1.1554,1.1999,16777216,15,800
+gcc,std_cxx17,make_move_destroy_str_short,"construct, move-construct from it, destroy both",0,7.2571,7.5004,7.2524,7.5298,4194304,15,7720
+gcc,std_cxx17,make_move_destroy_str_long,"construct, move-construct from it, destroy both",0,14.7376,15.1308,14.5407,15.5890,2097152,15,84616
+gcc,std_cxx17,assign_copy_int,copy-assign an engaged optional to an engaged one,0,0.2347,0.2351,0.2341,0.2833,134217728,15,9872
+gcc,std_cxx17,assign_copy_pod32,copy-assign an engaged optional to an engaged one,0,0.8581,0.8942,0.8569,1.0131,33554432,15,800
+gcc,std_cxx17,assign_copy_str_short,copy-assign an engaged optional to an engaged one,0,3.0440,3.0748,2.9485,3.1981,8388608,15,7720
+gcc,std_cxx17,assign_copy_str_long,copy-assign an engaged optional to an engaged one,0,3.2887,4.7318,3.2765,4.8536,8388608,15,84616
+gcc,std_cxx17,assign_value_int,assign a value to an engaged optional,0,0.3223,0.3279,0.3150,0.4179,67108864,15,9872
+gcc,std_cxx17,assign_value_pod32,assign a value to an engaged optional,0,0.8583,0.8602,0.8568,1.1084,33554432,15,800
+gcc,std_cxx17,assign_value_str_short,assign a value to an engaged optional,0,2.8238,2.8448,2.8119,3.3661,8388608,15,7720
+gcc,std_cxx17,assign_value_str_long,assign a value to an engaged optional,0,3.1692,3.8678,3.1427,5.5875,8388608,15,84616
+gcc,std_cxx17,emplace_reset_int,"emplace from a value, reset",0,0.4224,0.4504,0.4201,0.6165,67108864,15,9872
+gcc,std_cxx17,emplace_reset_pod32,"emplace from a value, reset",0,0.8661,0.8683,0.8583,1.0029,33554432,15,800
+gcc,std_cxx17,emplace_reset_str_short,"emplace from a value, reset",0,2.6433,2.7233,2.6074,3.4977,8388608,15,7720
+gcc,std_cxx17,emplace_reset_str_long,"emplace from a value, reset",0,13.6311,13.8465,13.2538,13.9529,2097152,15,84616
+gcc,std_cxx17,swap_int,swap two engaged optionals,0,0.5169,0.5199,0.5152,0.5625,67108864,15,22220
+gcc,std_cxx17,swap_str_short,swap two engaged optionals,0,3.9942,4.0204,3.9824,4.5022,8388608,15,7724
+gcc,std_cxx17,deref_sum,sum of *o over `size` engaged optional<int>,8,2.1959,2.5611,1.9328,2.7799,16777216,15,39568
+gcc,std_cxx17,deref_sum,sum of *o over `size` engaged optional<int>,1024,235.4290,238.3810,235.3430,248.0090,131072,15,4069504
+gcc,std_cxx17,value_sum,sum of o.value () over `size` engaged optional<int>,1024,346.6720,353.5240,339.6470,400.0070,65536,15,4069504
+gcc,std_cxx17,value_or_sum,"sum of o.value_or (7) over `size` optional<int>, 2/3 engaged",1024,534.6660,538.7200,533.6430,586.8960,65536,15,2770456
+gcc,std_cxx17,count_engaged,"count of engaged over `size` optional<int>, 2/3 engaged",1024,242.6700,245.8700,240.9700,257.9350,131072,15,5520
+gcc,std_cxx17,eq_opt_opt,a[j] == b[j] over `size` optional<int> pairs,1024,708.1380,710.2470,703.5580,714.0250,32768,15,3344
+gcc,std_cxx17,lt_opt_opt,a[j] < b[j] over `size` optional<int> pairs,1024,509.8030,513.3340,506.7690,515.7230,65536,15,2432
+gcc,std_cxx17,eq_value,a[j] == 500 over `size` optional<int>,1024,679.7100,680.5420,608.3800,725.9050,32768,15,0
+gcc,std_cxx17,eq_nullopt,a[j] == nullopt over `size` optional<int>,1024,251.3150,251.7200,250.6150,289.5150,131072,15,2672
+gcc,std_cxx17,eq_opt_opt_str,a[j] == b[j] over `size` optional<std::string> pairs,256,450.4400,456.3190,446.8750,459.4970,65536,15,896
+gcc,std_cxx17,return_int,"a noinline function returns optional<int>, the caller reads it",0,5.3106,5.3206,5.2832,5.3674,4194304,15,70
+gcc,std_cxx17,pass_int,optional<int> passed by value to a noinline function,0,4.3787,4.3929,4.3763,4.4940,8388608,15,70
+gcc,std_cxx17,return_str,a noinline function returns optional<std::string>,0,4.3715,4.3921,4.2901,4.8399,8388608,15,5790
+gcc,std_cxx17,pass_str,optional<std::string> passed by value to a noinline function,0,3.8942,3.9237,3.8714,4.5265,8388608,15,5790
+gcc,std_cxx17,vector_copy_int,copy a std::vector of `size` optional<int>,1024,194.4260,194.9920,192.4860,196.2360,131072,15,13896
+gcc,std_cxx17,vector_copy_str,copy a std::vector of `size` optional<std::string>,256,894.6820,916.5930,865.8670,1045.8500,32768,15,2048
+gcc,std_cxx17,vector_push_int,"push_back `size` optional<int> after reserve, destroy",1024,4557.4000,4567.3000,4553.5600,4642.9300,8192,15,16376
+gcc,std_cxx17,vector_grow_str,"push_back `size` optional<std::string> without reserve (reallocations), destroy",256,2203.2000,2316.7300,2196.1900,2504.6100,16384,15,9768
+gcc,boost_cxx11,ctor_empty_int,construct an empty optional,0,0.2821,0.2880,0.2810,0.2956,134217728,15,8
+gcc,boost_cxx11,ctor_empty_str_short,construct an empty optional,0,0.3531,0.4701,0.3513,0.4747,67108864,15,8
+gcc,boost_cxx11,ctor_value_int,"construct from a copy of a value, destroy",0,0.2875,0.2900,0.2865,0.3040,134217728,15,9872
+gcc,boost_cxx11,ctor_value_pod32,"construct from a copy of a value, destroy",0,0.7040,0.7176,0.7026,0.7289,33554432,15,800
+gcc,boost_cxx11,ctor_value_str_short,"construct from a copy of a value, destroy",0,2.5753,2.6844,2.5731,2.7599,8388608,15,7720
+gcc,boost_cxx11,ctor_value_str_long,"construct from a copy of a value, destroy",0,12.7081,12.8393,12.4004,13.0424,2097152,15,84616
+gcc,boost_cxx11,copy_ctor_int,"copy-construct from an engaged optional, destroy",0,0.4231,0.4297,0.4214,0.4500,67108864,15,9872
+gcc,boost_cxx11,copy_ctor_pod32,"copy-construct from an engaged optional, destroy",0,0.9251,0.9485,0.9211,0.9573,33554432,15,800
+gcc,boost_cxx11,copy_ctor_str_short,"copy-construct from an engaged optional, destroy",0,2.8256,2.8388,2.8115,2.8695,8388608,15,7720
+gcc,boost_cxx11,copy_ctor_str_long,"copy-construct from an engaged optional, destroy",0,12.9192,13.1240,12.4803,13.9275,2097152,15,84616
+gcc,boost_cxx11,make_move_destroy_int,"construct, move-construct from it, destroy both",0,0.6827,0.7037,0.6623,0.9760,33554432,15,9872
+gcc,boost_cxx11,make_move_destroy_pod32,"construct, move-construct from it, destroy both",0,1.4045,1.8742,1.4008,1.8780,16777216,15,800
+gcc,boost_cxx11,make_move_destroy_str_short,"construct, move-construct from it, destroy both",0,7.2463,7.4257,7.2421,8.3567,4194304,15,7720
+gcc,boost_cxx11,make_move_destroy_str_long,"construct, move-construct from it, destroy both",0,13.5407,14.0122,13.0862,14.8079,2097152,15,84616
+gcc,boost_cxx11,assign_copy_int,copy-assign an engaged optional to an engaged one,0,0.4694,0.4706,0.4592,0.5243,67108864,15,9872
+gcc,boost_cxx11,assign_copy_pod32,copy-assign an engaged optional to an engaged one,0,0.9363,0.9398,0.9347,0.9885,33554432,15,800
+gcc,boost_cxx11,assign_copy_str_short,copy-assign an engaged optional to an engaged one,0,2.8239,2.8489,2.8179,2.8593,8388608,15,7720
+gcc,boost_cxx11,assign_copy_str_long,copy-assign an engaged optional to an engaged one,0,3.2979,3.3920,3.2817,3.4848,8388608,15,84616
+gcc,boost_cxx11,assign_value_int,assign a value to an engaged optional,0,0.3520,0.3619,0.3511,0.3732,67108864,15,9872
+gcc,boost_cxx11,assign_value_pod32,assign a value to an engaged optional,0,0.8583,0.8610,0.8572,0.8928,33554432,15,800
+gcc,boost_cxx11,assign_value_str_short,assign a value to an engaged optional,0,2.8135,2.8274,2.8077,4.2614,8388608,15,7720
+gcc,boost_cxx11,assign_value_str_long,assign a value to an engaged optional,0,3.0574,3.0798,3.0419,3.2289,8388608,15,84616
+gcc,boost_cxx11,emplace_reset_int,"emplace from a value, reset",0,0.3535,0.3559,0.3526,0.4864,67108864,15,9872
+gcc,boost_cxx11,emplace_reset_pod32,"emplace from a value, reset",0,0.7093,0.9412,0.7072,0.9433,33554432,15,800
+gcc,boost_cxx11,emplace_reset_str_short,"emplace from a value, reset",0,2.6348,2.9513,2.5769,2.9849,8388608,15,7720
+gcc,boost_cxx11,emplace_reset_str_long,"emplace from a value, reset",0,12.9117,13.0595,12.2617,13.1684,2097152,15,84616
+gcc,boost_cxx11,swap_int,swap two engaged optionals,0,0.4687,0.4707,0.4675,0.4820,67108864,15,22220
+gcc,boost_cxx11,swap_str_short,swap two engaged optionals,0,3.9984,4.1696,3.9889,4.4635,8388608,15,7724
+gcc,boost_cxx11,deref_sum,sum of *o over `size` engaged optional<int>,8,2.6270,2.9138,2.1799,3.1427,8388608,15,39568
+gcc,boost_cxx11,deref_sum,sum of *o over `size` engaged optional<int>,1024,235.7330,237.3760,235.5760,280.2540,131072,15,4069504
+gcc,boost_cxx11,value_sum,sum of o.value () over `size` engaged optional<int>,1024,328.9730,329.5890,328.7780,330.9180,65536,15,4069504
+gcc,boost_cxx11,value_or_sum,"sum of o.value_or (7) over `size` optional<int>, 2/3 engaged",1024,513.8960,522.1220,512.8610,527.7690,65536,15,2770456
+gcc,boost_cxx11,count_engaged,"count of engaged over `size` optional<int>, 2/3 engaged",1024,235.2380,236.7470,235.1220,237.4400,131072,15,5520
+gcc,boost_cxx11,eq_opt_opt,a[j] == b[j] over `size` optional<int> pairs,1024,710.4980,714.2740,696.6620,743.5660,32768,15,3344
+gcc,boost_cxx11,lt_opt_opt,a[j] < b[j] over `size` optional<int> pairs,1024,649.7880,668.4330,646.5510,707.4430,32768,15,2432
+gcc,boost_cxx11,eq_value,a[j] == 500 over `size` optional<int>,1024,514.0920,532.5590,512.3070,593.8940,65536,15,0
+gcc,boost_cxx11,eq_nullopt,a[j] == nullopt over `size` optional<int>,1024,251.0680,251.8930,250.4610,330.7390,131072,15,2672
+gcc,boost_cxx11,eq_opt_opt_str,a[j] == b[j] over `size` optional<std::string> pairs,256,525.6240,536.5470,515.3590,671.7840,65536,15,896
+gcc,boost_cxx11,return_int,"a noinline function returns optional<int>, the caller reads it",0,0.6451,0.6520,0.6441,1.0645,33554432,15,70
+gcc,boost_cxx11,pass_int,optional<int> passed by value to a noinline function,0,0.5895,0.6174,0.5858,0.8543,67108864,15,70
+gcc,boost_cxx11,return_str,a noinline function returns optional<std::string>,0,4.1870,4.2039,3.9119,4.3075,8388608,15,5790
+gcc,boost_cxx11,pass_str,optional<std::string> passed by value to a noinline function,0,3.9927,4.0240,3.7901,4.5733,8388608,15,5790
+gcc,boost_cxx11,vector_copy_int,copy a std::vector of `size` optional<int>,1024,751.2740,753.8910,732.9200,796.3920,32768,15,13896
+gcc,boost_cxx11,vector_copy_str,copy a std::vector of `size` optional<std::string>,256,870.0340,900.1550,864.9830,1180.0400,32768,15,2048
+gcc,boost_cxx11,vector_push_int,"push_back `size` optional<int> after reserve, destroy",1024,732.3560,735.4350,730.6180,765.2550,32768,15,16376
+gcc,boost_cxx11,vector_grow_str,"push_back `size` optional<std::string> without reserve (reallocations), destroy",256,2224.6200,2250.7000,2217.0600,2463.4000,16384,15,9768
+gcc,boost_cxx17,ctor_empty_int,construct an empty optional,0,0.2870,0.2879,0.2858,0.3017,134217728,15,8
+gcc,boost_cxx17,ctor_empty_str_short,construct an empty optional,0,0.3537,0.4689,0.3517,0.4717,67108864,15,8
+gcc,boost_cxx17,ctor_value_int,"construct from a copy of a value, destroy",0,0.2877,0.2895,0.2858,0.3049,134217728,15,9872
+gcc,boost_cxx17,ctor_value_pod32,"construct from a copy of a value, destroy",0,0.7020,0.9356,0.7007,0.9446,33554432,15,800
+gcc,boost_cxx17,ctor_value_str_short,"construct from a copy of a value, destroy",0,2.5743,2.5846,2.5719,3.3843,8388608,15,7720
+gcc,boost_cxx17,ctor_value_str_long,"construct from a copy of a value, destroy",0,13.5600,13.6297,13.1638,15.0906,2097152,15,84616
+gcc,boost_cxx17,copy_ctor_int,"copy-construct from an engaged optional, destroy",0,0.5631,0.5674,0.5613,0.5963,67108864,15,9872
+gcc,boost_cxx17,copy_ctor_pod32,"copy-construct from an engaged optional, destroy",0,0.8600,0.9413,0.8573,0.9516,33554432,15,800
+gcc,boost_cxx17,copy_ctor_str_short,"copy-construct from an engaged optional, destroy",0,2.5873,2.7791,2.5798,2.9843,8388608,15,7720
+gcc,boost_cxx17,copy_ctor_str_long,"copy-construct from an engaged optional, destroy",0,13.4666,13.7614,13.0904,14.0816,2097152,15,84616
+gcc,boost_cxx17,make_move_destroy_int,"construct, move-construct from it, destroy both",0,0.7118,0.7194,0.7058,0.7544,33554432,15,9872
+gcc,boost_cxx17,make_move_destroy_pod32,"construct, move-construct from it, destroy both",0,1.4042,1.6835,1.4025,1.7266,16777216,15,800
+gcc,boost_cxx17,make_move_destroy_str_short,"construct, move-construct from it, destroy both",0,7.2531,7.2669,7.1626,7.8567,4194304,15,7720
+gcc,boost_cxx17,make_move_destroy_str_long,"construct, move-construct from it, destroy both",0,13.5670,14.2317,13.4539,15.1495,2097152,15,84616
+gcc,boost_cxx17,assign_copy_int,copy-assign an engaged optional to an engaged one,0,0.4677,0.4695,0.4675,0.4739,67108864,15,9872
+gcc,boost_cxx17,assign_copy_pod32,copy-assign an engaged optional to an engaged one,0,0.9363,0.9389,0.9348,0.9574,33554432,15,800
+gcc,boost_cxx17,assign_copy_str_short,copy-assign an engaged optional to an engaged one,0,2.8185,2.8436,2.8105,2.9409,8388608,15,7720
+gcc,boost_cxx17,assign_copy_str_long,copy-assign an engaged optional to an engaged one,0,3.2786,3.2982,3.2746,3.3948,8388608,15,84616
+gcc,boost_cxx17,assign_value_int,assign a value to an engaged optional,0,0.3510,0.3528,0.3507,0.4253,67108864,15,9872
+gcc,boost_cxx17,assign_value_pod32,assign a value to an engaged optional,0,0.8584,0.8602,0.8572,0.8730,33554432,15,800
+gcc,boost_cxx17,assign_value_str_short,assign a value to an engaged optional,0,2.8217,2.8436,2.7646,3.5492,8388608,15,7720
+gcc,boost_cxx17,assign_value_str_long,assign a value to an engaged optional,0,3.0555,3.0705,3.0364,3.2708,8388608,15,84616
+gcc,boost_cxx17,emplace_reset_int,"emplace from a value, reset",0,0.3527,0.3554,0.3522,0.3735,67108864,15,9872
+gcc,boost_cxx17,emplace_reset_pod32,"emplace from a value, reset",0,0.7084,0.9404,0.7063,0.9439,33554432,15,800
+gcc,boost_cxx17,emplace_reset_str_short,"emplace from a value, reset",0,2.6263,2.6938,2.5603,2.8823,8388608,15,7720
+gcc,boost_cxx17,emplace_reset_str_long,"emplace from a value, reset",0,13.7250,13.8382,13.3011,13.9742,2097152,15,84616
+gcc,boost_cxx17,swap_int,swap two engaged optionals,0,0.4694,0.4717,0.4687,0.4738,67108864,15,22220
+gcc,boost_cxx17,swap_str_short,swap two engaged optionals,0,4.0016,4.0197,3.9918,4.5358,8388608,15,7724
+gcc,boost_cxx17,deref_sum,sum of *o over `size` engaged optional<int>,8,1.6449,1.8092,1.6409,2.0993,16777216,15,39568
+gcc,boost_cxx17,deref_sum,sum of *o over `size` engaged optional<int>,1024,236.4050,241.8810,235.7000,247.1830,131072,15,4069504
+gcc,boost_cxx17,value_sum,sum of o.value () over `size` engaged optional<int>,1024,346.7050,348.7550,345.9090,369.0460,65536,15,4069504
+gcc,boost_cxx17,value_or_sum,"sum of o.value_or (7) over `size` optional<int>, 2/3 engaged",1024,498.8240,532.9090,496.9640,540.7990,65536,15,2770456
+gcc,boost_cxx17,count_engaged,"count of engaged over `size` optional<int>, 2/3 engaged",1024,233.5050,236.2590,230.0680,245.5220,131072,15,5520
+gcc,boost_cxx17,eq_opt_opt,a[j] == b[j] over `size` optional<int> pairs,1024,688.1910,701.4280,674.4960,755.5900,32768,15,3344
+gcc,boost_cxx17,lt_opt_opt,a[j] < b[j] over `size` optional<int> pairs,1024,607.0130,613.0660,601.8350,652.1480,65536,15,2432
+gcc,boost_cxx17,eq_value,a[j] == 500 over `size` optional<int>,1024,497.8250,538.6860,496.9540,539.9720,65536,15,0
+gcc,boost_cxx17,eq_nullopt,a[j] == nullopt over `size` optional<int>,1024,251.0630,251.9770,250.1310,337.1510,131072,15,2672
+gcc,boost_cxx17,eq_opt_opt_str,a[j] == b[j] over `size` optional<std::string> pairs,256,571.2160,575.5730,567.5990,579.5730,65536,15,896
+gcc,boost_cxx17,return_int,"a noinline function returns optional<int>, the caller reads it",0,0.6433,0.6475,0.6428,0.6908,33554432,15,70
+gcc,boost_cxx17,pass_int,optional<int> passed by value to a noinline function,0,0.5865,0.5894,0.5850,0.5964,67108864,15,70
+gcc,boost_cxx17,return_str,a noinline function returns optional<std::string>,0,4.0637,4.1921,3.9480,4.8373,8388608,15,5790
+gcc,boost_cxx17,pass_str,optional<std::string> passed by value to a noinline function,0,3.9768,4.0951,3.9172,4.1942,8388608,15,5790
+gcc,boost_cxx17,vector_copy_int,copy a std::vector of `size` optional<int>,1024,534.0290,556.8210,531.2220,594.4710,65536,15,13896
+gcc,boost_cxx17,vector_copy_str,copy a std::vector of `size` optional<std::string>,256,824.5540,831.9890,806.7560,928.8720,32768,15,2048
+gcc,boost_cxx17,vector_push_int,"push_back `size` optional<int> after reserve, destroy",1024,733.1650,737.3250,732.4420,1006.4800,32768,15,16376
+gcc,boost_cxx17,vector_grow_str,"push_back `size` optional<std::string> without reserve (reallocations), destroy",256,2179.0700,2234.9300,2172.1100,2346.5500,16384,15,9768
