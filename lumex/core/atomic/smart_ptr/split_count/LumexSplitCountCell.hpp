@@ -112,7 +112,7 @@
  * owner stays alive for every pin that remains on the holder, because the
  * mirror unit of each such pin was deposited on the owner before the swap
  * that removed it, and the holder keeps itself alive by its own counter. So
- * the owner shows no extra reference after the swap. The weak engine does not
+ * the owner shows no extra reference once the replacing call has dropped the word's unit. The weak engine does not
  * mirror (weak loads do not change `use_count ()`) and keeps the weak
  * reference of its holder until the holder is disposed.
  *
@@ -254,7 +254,10 @@ public:
   /// moments), and the destructor must drop exactly the block that is there.
   ~split_count_cell ()
   {
-    split_value_t const old = word_.load (std::memory_order_relaxed);
+    // Nobody else uses the object while it is destroyed, so the halves
+    // cannot tear; the plain reads avoid a locked instruction (and the need
+    // for the CPU feature) for an object that was never used.
+    split_value_t const old = word_.speculative_load ();
     LUMEX_SMART_PTR_DEBUG_ASSERT (word::is_empty (old)
                                   || word::ticks_of (old) == 0u);
     drop_word (old);
