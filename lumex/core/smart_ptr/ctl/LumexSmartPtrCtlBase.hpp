@@ -202,6 +202,14 @@ public:
     return strong_.use_count ();
   }
 
+  /// The number of strong owners once none is in transit (see
+  /// `split_counter::use_count_settled`); may wait.
+  long
+  use_count_settled () const LUMEX_NOEXCEPT
+  {
+    return strong_.use_count_settled ();
+  }
+
   // -- Weak ledger --
 
   /// Adds one weak pointer.

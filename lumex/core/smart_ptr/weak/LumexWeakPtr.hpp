@@ -206,6 +206,15 @@ public:
     return cb_ != nullptr ? cb_->use_count () : 0;
   }
 
+  /// The number of owners once no owner is in transit (see
+  /// `shared_ptr::use_count_settled`; it may wait). 0 when the object is
+  /// gone or the weak pointer is empty.
+  long
+  use_count_settled () const LUMEX_NOEXCEPT
+  {
+    return cb_ != nullptr ? cb_->use_count_settled () : 0;
+  }
+
   /// True when the object is gone: the strong word is zero, that is no count
   /// and no owner in transit (the same test as `lock ()`).
   bool

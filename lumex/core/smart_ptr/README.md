@@ -48,8 +48,8 @@ The names are in `lumex::core::smart_ptr` and nowhere else (`LumexSmartPtrGlobal
 
 | Name | Notes |
 | --- | --- |
-| `shared_ptr<T>` | Two pointers in size; all constructors, assignments, `reset` forms, `swap`, `get`, `*`, `->`, `[]` (arrays), `use_count`, `operator bool`, `owner_before`; `element_type` is `remove_extent_t<T>`; `weak_type` |
-| `weak_ptr<T>` | `lock`, `expired`, `use_count`, `reset`, `swap`, `owner_before`; the promotion is an increment-if-nonzero |
+| `shared_ptr<T>` | Two pointers in size; all constructors, assignments, `reset` forms, `swap`, `get`, `*`, `->`, `[]` (arrays), `use_count`, `use_count_settled`, `operator bool`, `owner_before`; `element_type` is `remove_extent_t<T>`; `weak_type` |
+| `weak_ptr<T>` | `lock`, `expired`, `use_count`, `use_count_settled`, `reset`, `swap`, `owner_before`; the promotion is an increment-if-nonzero |
 | `enable_shared_from_this<T>` | `shared_from_this ()` (throws `bad_weak_ptr`), `weak_from_this ()`; set by every constructor that takes over a raw pointer and by `make_shared` / `allocate_shared` |
 | `make_shared<T> (args...)` | One allocation for block and object; over-aligned types are aligned on every standard |
 | `allocate_shared<T> (alloc, args...)` | One allocation made with `alloc` rebound to the block; `allocator_traits::construct` / `destroy` of an allocator rebound to the value type |
@@ -97,7 +97,7 @@ The engine (`core/atomic`, phase 2) keeps a block pointer, a packed offset of th
 
 ## Thread safety
 
-As [util.smartptr.shared.general]: distinct `shared_ptr` / `weak_ptr` objects that share a block may be copied, assigned and destroyed concurrently (the counters are atomic); one object needs external synchronization or the atomic smart pointers of `core/atomic`. `weak_ptr::lock` and `expired` are atomic against the last release. `use_count ()` is `count + ext`: the owners plus the owners in transit of the atomic smart pointers (see `core/atomic`). It never waits and is never below the number of owners that hold a count. It is exact at quiescence; while a store or a compare-exchange of an atomic smart pointer is in flight it can exceed the owners by that operation's units.
+As [util.smartptr.shared.general]: distinct `shared_ptr` / `weak_ptr` objects that share a block may be copied, assigned and destroyed concurrently (the counters are atomic); one object needs external synchronization or the atomic smart pointers of `core/atomic`. `weak_ptr::lock` and `expired` are atomic against the last release. `use_count ()` is `count + ext`: the owners plus the owners in transit of the atomic smart pointers (see `core/atomic`). It never waits and is never below the number of owners that hold a count. It is exact at quiescence; while a store or a compare-exchange of an atomic smart pointer is in flight it can exceed the owners by that operation's units. `use_count_settled ()` (on `shared_ptr` and `weak_ptr`; `split_counter::use_count_settled` below them) is the waiting twin: it returns `count` only when `ext` is zero and spins (a bounded busy-wait, then `yield`) while it is not, so it is exact apart from the lag of a slot's decrement. It can block as long as a pinning thread of an atomic smart pointer is suspended, and must not be called from a signal handler on a pinned thread; it is `noexcept`.
 
 ## Tests
 
