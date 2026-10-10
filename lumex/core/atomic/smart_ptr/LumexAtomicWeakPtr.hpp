@@ -84,9 +84,12 @@
 #if LUMEX_ATOMIC_SMART_PTR_HAS_LOCK_FREE
 #include "lumex/core/atomic/smart_ptr/LumexAtomicSmartPtrLockFreeCell.hpp"
 #endif
+#if LUMEX_ATOMIC_SMART_PTR_HAS_LUMEX_FAMILY
+#include "lumex/core/atomic/smart_ptr/LumexAtomicSmartPtrLumexFamily.hpp"
+#include "lumex/core/smart_ptr/weak/LumexWeakPtr.hpp"
+#endif
 #if LUMEX_ATOMIC_SMART_PTR_HAS_SPLIT_COUNT
 #include "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp"
-#include "lumex/core/smart_ptr/weak/LumexWeakPtr.hpp"
 #endif
 #include "lumex/core/utility/attr/LumexAttributes.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
@@ -433,6 +436,41 @@ public:
 };
 #endif // LUMEX_ATOMIC_SMART_PTR_HAS_LOCK_FREE
 
+#if LUMEX_ATOMIC_SMART_PTR_HAS_LUMEX_FAMILY
+/**
+ * @brief Atomic `lumex::core::smart_ptr::weak_ptr<T>` over a lock (the
+ * lock-based engine over the module's own pointer family).
+ * @details See `atomic_shared_ptr_lock_based_lumex`. The equivalence of two
+ * weak pointers compares their stored pointers directly (the family exposes
+ * them), so it is exact also for expired aliases.
+ * @tparam T The element type of the weak pointer.
+ */
+template <typename T>
+class atomic_weak_ptr_lock_based_lumex
+    : public Detail::basic_atomic_weak_ptr<
+          T, Detail::lock_based_cell<::lumex::core::smart_ptr::weak_ptr<T>>>
+{
+  using base_type = Detail::basic_atomic_weak_ptr<
+      T, Detail::lock_based_cell<::lumex::core::smart_ptr::weak_ptr<T>>>;
+
+public:
+  /// The type of the stored value.
+  using value_type = typename base_type::value_type;
+
+  /// Creates an object that holds an empty weak pointer.
+  LUMEX_CONSTEXPR
+  atomic_weak_ptr_lock_based_lumex () LUMEX_NOEXCEPT : base_type () {}
+
+  /// Creates an object that holds @p desired.
+  atomic_weak_ptr_lock_based_lumex (value_type desired) LUMEX_NOEXCEPT
+      : base_type (std::move (desired))
+  {
+  }
+
+  using base_type::operator=;
+};
+#endif // LUMEX_ATOMIC_SMART_PTR_HAS_LUMEX_FAMILY
+
 #if LUMEX_ATOMIC_SMART_PTR_HAS_SPLIT_COUNT
 /**
  * @brief Lock-free atomic `lumex::core::smart_ptr::weak_ptr<T>` (the
@@ -489,6 +527,35 @@ template <typename T> using atomic_weak_ptr = atomic_weak_ptr_lock_based<T>;
 } // namespace atomic
 } // namespace core
 } // namespace lumex
+
+#if LUMEX_ATOMIC_SMART_PTR_HAS_LUMEX_FAMILY
+namespace lumex
+{
+namespace core
+{
+namespace smart_ptr
+{
+/**
+ * @brief The atomic `weak_ptr` of the module's own pointer family.
+ * @details `atomic_weak_ptr_lock_free_split_count<T>` where
+ * `LUMEX_ATOMIC_SMART_PTR_FAMILY_IS_SPLIT_COUNT` is 1,
+ * `atomic_weak_ptr_lock_based_lumex<T>` otherwise (see
+ * `lumex::core::smart_ptr::atomic_shared_ptr`).
+ */
+#if LUMEX_ATOMIC_SMART_PTR_FAMILY_IS_SPLIT_COUNT
+template <typename T>
+using atomic_weak_ptr
+    = ::lumex::core::atomic::smart_ptr::atomic_weak_ptr_lock_free_split_count<
+        T>;
+#else
+template <typename T>
+using atomic_weak_ptr
+    = ::lumex::core::atomic::smart_ptr::atomic_weak_ptr_lock_based_lumex<T>;
+#endif
+} // namespace smart_ptr
+} // namespace core
+} // namespace lumex
+#endif // LUMEX_ATOMIC_SMART_PTR_HAS_LUMEX_FAMILY
 
 #if defined(__clang__)
 #pragma clang diagnostic pop

@@ -90,9 +90,12 @@
 #if LUMEX_ATOMIC_SMART_PTR_HAS_LOCK_FREE
 #include "lumex/core/atomic/smart_ptr/LumexAtomicSmartPtrLockFreeCell.hpp"
 #endif
+#if LUMEX_ATOMIC_SMART_PTR_HAS_LUMEX_FAMILY
+#include "lumex/core/atomic/smart_ptr/LumexAtomicSmartPtrLumexFamily.hpp"
+#include "lumex/core/smart_ptr/shared/LumexSharedPtr.hpp"
+#endif
 #if LUMEX_ATOMIC_SMART_PTR_HAS_SPLIT_COUNT
 #include "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp"
-#include "lumex/core/smart_ptr/shared/LumexSharedPtr.hpp"
 #endif
 #include "lumex/core/utility/attr/LumexAttributes.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
@@ -489,6 +492,51 @@ public:
 };
 #endif // LUMEX_ATOMIC_SMART_PTR_HAS_LOCK_FREE
 
+#if LUMEX_ATOMIC_SMART_PTR_HAS_LUMEX_FAMILY
+/**
+ * @brief Atomic `lumex::core::smart_ptr::shared_ptr<T>` over a lock (the
+ * lock-based engine over the module's own pointer family).
+ * @details The lock-based engine of `atomic_shared_ptr_lock_based` with
+ * `lumex::core::smart_ptr::shared_ptr<T>` as the value type: not lock-free,
+ * every operation behaves as `seq_cst`. Declared where the pointer family is
+ * linked (`LUMEX_ATOMIC_SMART_PTR_HAS_LUMEX_FAMILY`); it is what
+ * `lumex::core::smart_ptr::atomic_shared_ptr` stands for where the
+ * split-count engine does not exist.
+ * @tparam T The element type of the shared pointer.
+ */
+template <typename T>
+class atomic_shared_ptr_lock_based_lumex
+    : public Detail::basic_atomic_shared_ptr<
+          T, Detail::lock_based_cell<::lumex::core::smart_ptr::shared_ptr<T>>>
+{
+  using base_type = Detail::basic_atomic_shared_ptr<
+      T, Detail::lock_based_cell<::lumex::core::smart_ptr::shared_ptr<T>>>;
+
+public:
+  /// The type of the stored value.
+  using value_type = typename base_type::value_type;
+
+  /// Creates an object that holds an empty shared pointer.
+  LUMEX_CONSTEXPR
+  atomic_shared_ptr_lock_based_lumex () LUMEX_NOEXCEPT : base_type () {}
+
+  /// Creates an object that holds an empty shared pointer (LWG 3661).
+  LUMEX_CONSTEXPR
+  atomic_shared_ptr_lock_based_lumex (std::nullptr_t) LUMEX_NOEXCEPT
+      : base_type ()
+  {
+  }
+
+  /// Creates an object that holds @p desired.
+  atomic_shared_ptr_lock_based_lumex (value_type desired) LUMEX_NOEXCEPT
+      : base_type (std::move (desired))
+  {
+  }
+
+  using base_type::operator=;
+};
+#endif // LUMEX_ATOMIC_SMART_PTR_HAS_LUMEX_FAMILY
+
 #if LUMEX_ATOMIC_SMART_PTR_HAS_SPLIT_COUNT
 /**
  * @brief Lock-free atomic `lumex::core::smart_ptr::shared_ptr<T>` (the
@@ -566,6 +614,39 @@ using atomic_shared_ptr = atomic_shared_ptr_lock_based<T>;
 } // namespace atomic
 } // namespace core
 } // namespace lumex
+
+#if LUMEX_ATOMIC_SMART_PTR_HAS_LUMEX_FAMILY
+namespace lumex
+{
+namespace core
+{
+namespace smart_ptr
+{
+/**
+ * @brief The atomic `shared_ptr` of the module's own pointer family:
+ * `std::atomic<std::shared_ptr<T>>` for `lumex::core::smart_ptr::shared_ptr`.
+ * @details An alias template of
+ * `lumex::core::atomic::smart_ptr::atomic_shared_ptr_lock_free_split_count<T>`
+ * where the split-count engine exists (and
+ * `LUMEX_ATOMIC_SMART_PTR_FORCE_LOCK_BASED` is not defined), of
+ * `atomic_shared_ptr_lock_based_lumex<T>` otherwise
+ * (`LUMEX_ATOMIC_SMART_PTR_FAMILY_IS_SPLIT_COUNT` tells which). It is
+ * declared by the atomic module (`lumex/core/atomic/LumexAtomic`), not by the
+ * pointer module, which does not depend on it.
+ */
+#if LUMEX_ATOMIC_SMART_PTR_FAMILY_IS_SPLIT_COUNT
+template <typename T>
+using atomic_shared_ptr = ::lumex::core::atomic::smart_ptr::
+    atomic_shared_ptr_lock_free_split_count<T>;
+#else
+template <typename T>
+using atomic_shared_ptr
+    = ::lumex::core::atomic::smart_ptr::atomic_shared_ptr_lock_based_lumex<T>;
+#endif
+} // namespace smart_ptr
+} // namespace core
+} // namespace lumex
+#endif // LUMEX_ATOMIC_SMART_PTR_HAS_LUMEX_FAMILY
 
 #if defined(__clang__)
 #pragma clang diagnostic pop
