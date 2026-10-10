@@ -67,10 +67,13 @@
  * The interface below is the one the split-count engine of `core/atomic`
  * builds on (the documented `detail` surface of the module):
  * `add_strong`, `release_strong`, `transfer_strong_ext`, `settle_strong`,
- * `try_add_strong` and the same four for the weak ledger. `release_strong`
- * and `settle_strong` dispose the object only when `count` and `ext` are both
- * zero, so a block that a pinned reader or a pending transfer still refers to
- * is never disposed.
+ * `try_add_strong` and the same four for the weak ledger, plus the combined
+ * operations `release_strong_with_ext`, `take_and_settle_strong`,
+ * `untransfer_strong_ext` and `settle_strong_n` (and their weak twins). The
+ * combined forms do in one read-modify-write what the engine would otherwise
+ * do in two. `release_strong`, `settle_strong` and `settle_strong_n` dispose
+ * the object only when `count` and `ext` are both zero, so a block that a
+ * pinned reader or a pending transfer still refers to is never disposed.
  */
 #ifndef LUMEX_CORE_SMART_PTR_CTL_SMART_PTR_CTL_BASE_HPP
 #define LUMEX_CORE_SMART_PTR_CTL_SMART_PTR_CTL_BASE_HPP
@@ -131,12 +134,64 @@ public:
     strong_.transfer_ext (n);
   }
 
+  /// Drops one strong owner and @p n strong `ext` units in one step;
+  /// disposes the object when this makes the word zero.
+  void
+  release_strong_with_ext (std::uint32_t n) LUMEX_NOEXCEPT
+  {
+    if (strong_.release_with_ext (n))
+      finish_strong ();
+  }
+
+  /// Drops one weak pointer and @p n weak `ext` units in one step;
+  /// deallocates the block when this makes the ledger zero.
+  void
+  release_weak_with_ext (std::uint32_t n) LUMEX_NOEXCEPT
+  {
+    if (weak_.release_with_ext (n))
+      destroy ();
+  }
+
+  /// Counts one strong owner and pays one strong `ext` unit in one step. Never
+  /// finishes the block.
+  void
+  take_and_settle_strong () LUMEX_NOEXCEPT
+  {
+    strong_.take_and_settle ();
+  }
+
+  /// Counts one weak pointer and pays one weak `ext` unit in one step. Never
+  /// finishes the block.
+  void
+  take_and_settle_weak () LUMEX_NOEXCEPT
+  {
+    weak_.take_and_settle ();
+  }
+
+  /// Takes back @p n units of the strong `ext` that this thread transferred
+  /// (a writer whose swap failed). Never finishes the block: the caller still
+  /// pins it.
+  void
+  untransfer_strong_ext (std::uint32_t n) LUMEX_NOEXCEPT
+  {
+    strong_.untransfer_ext (n);
+  }
+
   /// Pays one unit of the strong `ext` back (the engine's settle); disposes
   /// the object when this makes the word zero.
   void
   settle_strong () LUMEX_NOEXCEPT
   {
     if (strong_.settle ())
+      finish_strong ();
+  }
+
+  /// Pays @p n units of the strong `ext` back in one step; disposes the
+  /// object when this makes the word zero.
+  void
+  settle_strong_n (std::uint32_t n) LUMEX_NOEXCEPT
+  {
+    if (strong_.settle_n (n))
       finish_strong ();
   }
 
@@ -172,12 +227,29 @@ public:
     weak_.transfer_ext (n);
   }
 
+  /// Takes back @p n units of the weak `ext` that this thread transferred
+  /// (a writer whose swap failed).
+  void
+  untransfer_weak_ext (std::uint32_t n) LUMEX_NOEXCEPT
+  {
+    weak_.untransfer_ext (n);
+  }
+
   /// Pays one unit of the weak `ext` back; deallocates the block when this
   /// makes the ledger zero.
   void
   settle_weak () LUMEX_NOEXCEPT
   {
     if (weak_.settle ())
+      destroy ();
+  }
+
+  /// Pays @p n units of the weak `ext` back in one step; deallocates the block
+  /// when this makes the ledger zero.
+  void
+  settle_weak_n (std::uint32_t n) LUMEX_NOEXCEPT
+  {
+    if (weak_.settle_n (n))
       destroy ();
   }
 

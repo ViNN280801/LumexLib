@@ -1,8 +1,9 @@
 // Tests of split_counter, the packed {count:32, ext:32} word of the control
 // block: the layout of the word, add / release / transfer_ext / settle, the
 // "zero only when both halves are zero" rule, increment-if-nonzero, the
-// use_count rule, a randomized comparison against an integer model, and
-// threaded checks that exactly one thread sees the word become zero.
+// use_count rule (count + ext), a randomized comparison against an integer
+// model, and threaded checks that exactly one thread sees the word become
+// zero.
 
 #include <atomic>
 #include <cstdint>
@@ -125,22 +126,93 @@ TEST (LumexSplitCounterTest,
 }
 
 TEST (LumexSplitCounterTest,
-      GivenTheUseCountRule_WhenCountAndExtVary_ThenItFollowsTheSpec)
+      GivenTheUseCountRule_WhenCountAndExtVary_ThenItIsCountPlusExt)
 {
   split_counter counter (5);
   EXPECT_EQ (counter.use_count (), 5);
   counter.transfer_ext (2);
-  EXPECT_EQ (counter.use_count (), 5) << "a positive count wins";
+  EXPECT_EQ (counter.use_count (), 7)
+      << "the units in transit are owners: count + ext";
   split_counter pinned (1);
   pinned.transfer_ext (4);
   EXPECT_FALSE (pinned.release ());
-  EXPECT_EQ (pinned.use_count (), 1) << "count 0, ext != 0 reports one owner";
-  split_counter transient (1);
-  EXPECT_FALSE (transient.settle ());
-  EXPECT_EQ (transient.use_count (), 1) << "negative ext, positive count";
+  EXPECT_EQ (pinned.use_count (), 4)
+      << "count 0, ext 4: four owners in transit, never one";
   split_counter gone (1);
   EXPECT_TRUE (gone.release ());
   EXPECT_EQ (gone.use_count (), 0);
+}
+
+TEST (LumexSplitCounterTest,
+      GivenTheCombinedOperations_WhenUseCountIsRead_ThenItStaysCountPlusExt)
+{
+  split_counter counter (2);
+  EXPECT_EQ (counter.use_count (), 2);
+  counter.transfer_ext (3);
+  EXPECT_EQ (counter.use_count (), 5);
+  counter.take_and_settle ();
+  EXPECT_EQ (split_counter::count_of (counter.load ()), 3);
+  EXPECT_EQ (split_counter::ext_of (counter.load ()), 2);
+  EXPECT_EQ (counter.use_count (), 5) << "one unit moved from ext to count";
+  EXPECT_FALSE (counter.settle_n (2));
+  EXPECT_EQ (counter.use_count (), 3);
+  EXPECT_EQ (split_counter::count_of (counter.load ()), 3);
+  EXPECT_EQ (split_counter::ext_of (counter.load ()), 0);
+}
+
+TEST (LumexSplitCounterTest,
+      GivenATransfer_WhenUntransferred_ThenTheWordIsRestored)
+{
+  split_counter counter (1);
+  counter.transfer_ext (3);
+  counter.untransfer_ext (2);
+  EXPECT_EQ (split_counter::count_of (counter.load ()), 1);
+  EXPECT_EQ (split_counter::ext_of (counter.load ()), 1);
+  EXPECT_EQ (counter.use_count (), 2);
+  counter.untransfer_ext (1);
+  EXPECT_EQ (counter.load (), 1u);
+  EXPECT_EQ (counter.use_count (), 1);
+  EXPECT_TRUE (counter.release ());
+}
+
+TEST (LumexSplitCounterTest,
+      GivenReleaseWithExt_WhenTheWordBecomesZero_ThenItReturnsTrue)
+{
+  split_counter counter (1);
+  counter.transfer_ext (2);
+  EXPECT_TRUE (counter.release_with_ext (2)) << "one count and two ext units";
+  EXPECT_EQ (counter.load (), 0u);
+  split_counter owed (2);
+  owed.transfer_ext (1);
+  EXPECT_FALSE (owed.release_with_ext (1));
+  EXPECT_EQ (split_counter::count_of (owed.load ()), 1);
+  EXPECT_EQ (split_counter::ext_of (owed.load ()), 0);
+  EXPECT_TRUE (owed.release ());
+}
+
+TEST (LumexSplitCounterTest,
+      GivenSettleN_WhenTheWordBecomesZero_ThenOnlyTheLastReturnsTrue)
+{
+  split_counter counter (1);
+  counter.transfer_ext (3);
+  EXPECT_FALSE (counter.settle_n (2));
+  EXPECT_EQ (split_counter::count_of (counter.load ()), 1)
+      << "settle_n pays ext only";
+  EXPECT_EQ (split_counter::ext_of (counter.load ()), 1);
+  EXPECT_FALSE (counter.release ()) << "ext is still owed";
+  EXPECT_TRUE (counter.settle_n (1));
+  EXPECT_EQ (counter.load (), 0u);
+}
+
+TEST (LumexSplitCounterTest,
+      GivenExpiredWords_WhenAskedAlive_ThenZeroWordIsNotAlive)
+{
+  split_counter counter (1);
+  counter.transfer_ext (1);
+  EXPECT_FALSE (counter.release ());
+  EXPECT_TRUE (counter.alive ()) << "{count 0, ext 1} is alive";
+  EXPECT_TRUE (counter.settle ());
+  EXPECT_FALSE (counter.alive ()) << "{0, 0} is expired";
 }
 
 TEST (LumexSplitCounterTest,

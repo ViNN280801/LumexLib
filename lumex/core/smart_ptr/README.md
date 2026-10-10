@@ -37,7 +37,7 @@ The interface follows [util.smartptr] of the C++17 draft; the observable behavio
 | `interop/LumexSmartPtrStd.hpp` | `from_std`, `to_std` |
 | `ctl/LumexSmartPtrCounter.hpp` | `split_counter`: the packed `{count:32, ext:32}` word |
 | `ctl/LumexSmartPtrCtlBase.hpp` | `ctl_base`: the 32-byte control block |
-| `ctl/LumexSmartPtrCtlKinds.hpp` | `ctl_ptr` (pointer and deleter), `ctl_inplace` (object in the block), `ctl_holder` (out-of-window alias) |
+| `ctl/LumexSmartPtrCtlKinds.hpp` | `ctl_ptr` (pointer and deleter), `ctl_inplace` (object in the block), `ctl_holder` (out-of-window alias of a strong owner), `ctl_weak_holder` (out-of-window alias of a weak pointer) |
 | `detail/LumexSmartPtrAccess.hpp` | `detail::access`: the friend for the engine; the `enable_shared_from_this` probes |
 | `detail/LumexSmartPtrTraits.hpp` | Type identity without RTTI, empty-base storage, `block_allocator`, "compatible with" traits |
 | `detail/LumexSmartPtrConfig.hpp` | Macros: exceptions, ThreadSanitizer, debug asserts, the `std::enable_shared_from_this` policy |
@@ -81,21 +81,23 @@ Differences from `std::shared_ptr`, on purpose:
 
 Memory orders, as in the standard libraries: taking a reference is relaxed; dropping is `release`, and the thread that sees the word become zero runs an `acquire` fence before it destroys the object, so every access of every other owner happens before the destruction. ThreadSanitizer does not model fences, so the drop is an `acq_rel` read-modify-write under it. The promotion of a weak pointer is an `acq_rel` compare-exchange that never moves a zero word.
 
-Block kinds: `ctl_ptr<P, D, A>` (a separate object; deleter and allocator are stored with the empty-base optimization; `get_deleter` is `query`), `ctl_inplace<T, A>` (block and object in one allocation), `ctl_std` (owner of a `std::shared_ptr<void>`, the interop block) and `ctl_holder` (below). Blocks are finished through two private virtual functions, `dispose ()` and `destroy ()`.
+Block kinds: `ctl_ptr<P, D, A>` (a separate object; deleter and allocator are stored with the empty-base optimization; `get_deleter` is `query`), `ctl_inplace<T, A>` (block and object in one allocation), `ctl_std` (owner of a `std::shared_ptr<void>`, the interop block), `ctl_holder` and `ctl_weak_holder` (below). Blocks are finished through two private virtual functions, `dispose ()` and `destroy ()`.
 
 ## The contract with the split-count engine
 
 The engine (`core/atomic`, phase 2) keeps a block pointer, a packed offset of the stored pointer and a count of "ticks" (loads in flight) in one 16-byte atomic word. The module exposes what it needs in `detail`, documented in the headers and pinned by tests:
 
-- `ctl_base::add_strong ()`, `release_strong ()`, `transfer_strong_ext (n)`, `settle_strong ()`, `try_add_strong ()` and the same four for the weak ledger. `release_strong` and `settle_strong` dispose the object only when `count` and `ext` are both zero, so a block that a pinned reader or a pending transfer still refers to is never disposed (this is "release without destroying a still-referenced block"). `strong_counter ()` and `weak_counter ()` give the words.
+- `ctl_base::add_strong ()`, `release_strong ()`, `transfer_strong_ext (n)`, `settle_strong ()`, `try_add_strong ()` and the same four for the weak ledger; the combined forms `release_strong_with_ext (n)`, `take_and_settle_strong ()`, `untransfer_strong_ext (n)` and `settle_strong_n (n)` (and their weak twins) change several units of the word in one read-modify-write. `release_strong` and `settle_strong` dispose the object only when `count` and `ext` are both zero, so a block that a pinned reader or a pending transfer still refers to is never disposed (this is "release without destroying a still-referenced block"). `strong_counter ()` and `weak_counter ()` give the words.
 - The protocol the engine runs on them: a reader pins the block with a tick in the atomic's word; it takes its own count with `add_strong` while pinned, then settles its tick (it takes a tick back from the word if one is there, otherwise it pays `settle_strong`); a writer that swapped the word out first `transfer_strong_ext (L)` for the ticks it took, then drops its own count with `release_strong`, never the other way round. Ticks are never turned into strong references, which removes the tick leak and the double release of the libc++ attempt: nothing is counted twice, and an address of a freed block cannot confuse any comparison, because every comparison is either a whole-word compare-exchange or made while the comparer holds a count.
 - `detail::access` (friend of `shared_ptr`, `weak_ptr`, `enable_shared_from_this`): `control (p)` returns the block, `adopt<T> (cb, ptr)` / `adopt_weak<T> (cb, ptr)` build a pointer from a block and a stored pointer taking over one count the caller owns without touching the counters, `detach (p, ptr)` / `detach_weak` empty a pointer without dropping its count (the hand-over of `exchange`), `weak_count (p)`.
 - `ctl_holder::create (owner, ptr)`: the block for an alias whose stored pointer is further from the anchor than the engine's offset field holds (beyond 40 bits). It owns one strong reference of `owner` and the pointer; a reader ticks the holder, reads `owner ()` and `pointer ()` and takes its count on the owner; disposing the holder drops the owner reference.
+- `ctl_weak_holder::create (owner, ptr)`: the twin for weak pointers. It owns one WEAK reference of `owner` (`add_weak`), dropped by `release_weak` when the holder is disposed, so the holder keeps the owner's block and not its object.
+- `detail::access::stored (w)` returns the stored pointer of a `weak_ptr` (it has no `get ()`); the split-count engine needs it for the aliases of weak pointers.
 - `ctl_base::anchor ()`: the engine packs `stored - anchor`; the pointers set it once when they create the block.
 
 ## Thread safety
 
-As [util.smartptr.shared.general]: distinct `shared_ptr` / `weak_ptr` objects that share a block may be copied, assigned and destroyed concurrently (the counters are atomic); one object needs external synchronization or the atomic smart pointers of `core/atomic`. `weak_ptr::lock` and `expired` are atomic against the last release. `use_count ()` is exact when no other thread changes the owners at that moment.
+As [util.smartptr.shared.general]: distinct `shared_ptr` / `weak_ptr` objects that share a block may be copied, assigned and destroyed concurrently (the counters are atomic); one object needs external synchronization or the atomic smart pointers of `core/atomic`. `weak_ptr::lock` and `expired` are atomic against the last release. `use_count ()` is `count + ext`: the owners plus the owners in transit of the atomic smart pointers (see `core/atomic`). It never waits and is never below the number of owners that hold a count. It is exact at quiescence; while a store or a compare-exchange of an atomic smart pointer is in flight it can exceed the owners by that operation's units.
 
 ## Tests
 
