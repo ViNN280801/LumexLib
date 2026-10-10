@@ -17,3 +17,9 @@ lumex_example_executable(
   LINK lumex::expected
   REQUIRE_TARGET lumex::expected
 )
+lumex_example_executable(
+  NAME LumexExpectedExampleQuickstart
+  SOURCE example_expected_quickstart.cpp
+  LINK lumex::expected
+  REQUIRE_TARGET lumex::expected
+)
