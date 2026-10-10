@@ -102,39 +102,46 @@ XmlText &(XmlText::*const kTextAssign) (lumex_string_view)
     = &XmlText::operator=;
 bool (*const kEqual) (lumex_string_view, char const *) = &stringview_equal;
 
-// Which forms the name overloads accept, in every standard.
+// Which forms the name overloads accept, in every standard. (void_of avoids a
+// warn_unused_result warning of GCC 8 for a `void (call)` in decltype.)
+template <class T> struct void_of
+{
+  typedef void type;
+};
 template <class T, class = void> struct accepts_name : std::false_type
 {
 };
 template <class T>
-struct accepts_name<T, decltype (void (std::declval<XmlNode &> ().child (
-                           std::declval<T> ())))> : std::true_type
+struct accepts_name<
+    T, typename void_of<decltype (std::declval<XmlNode &> ().child (
+           std::declval<T> ()))>::type> : std::true_type
 {
 };
 template <class T, class = void> struct accepts_new_name : std::false_type
 {
 };
 template <class T>
-struct accepts_new_name<T, decltype (void (
-                               std::declval<XmlNode &> ().append_child (
-                                   std::declval<T> ())))> : std::true_type
+struct accepts_new_name<
+    T, typename void_of<decltype (std::declval<XmlNode &> ().append_child (
+           std::declval<T> ()))>::type> : std::true_type
 {
 };
 template <class T, class = void> struct accepts_value : std::false_type
 {
 };
 template <class T>
-struct accepts_value<T, decltype (void (std::declval<XmlAttribute &> ()
-                                            .set_value (std::declval<T> ())))>
-    : std::true_type
+struct accepts_value<
+    T, typename void_of<decltype (std::declval<XmlAttribute &> ().set_value (
+           std::declval<T> ()))>::type> : std::true_type
 {
 };
 template <class T, class = void> struct accepts_text : std::false_type
 {
 };
 template <class T>
-struct accepts_text<T, decltype (void (std::declval<XmlText &> ().set (
-                           std::declval<T> ())))> : std::true_type
+struct accepts_text<T,
+                    typename void_of<decltype (std::declval<XmlText &> ().set (
+                        std::declval<T> ()))>::type> : std::true_type
 {
 };
 } // namespace
