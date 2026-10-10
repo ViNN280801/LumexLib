@@ -34,3 +34,8 @@ gcc,vector_mod_cxx17,int,4,48,4096,1,4096,1,4096,1,1,1,1
 gcc,vector_mod_cxx17,double,8,48,8192,1,8192,1,8192,1,1,1,1
 gcc,vector_mod_cxx17,pod32,32,48,32768,1,32768,1,32768,1,1,1,1
 gcc,vector_mod_cxx17,std::string,32,48,32768,1,32768,1,32768,1,1,1,1
+gcc,lumex_wrap_cxx17,char,1,40,1024,1,1024,1,1024,1,1,1,1
+gcc,lumex_wrap_cxx17,int,4,40,4096,1,4096,1,4096,1,1,1,1
+gcc,lumex_wrap_cxx17,double,8,40,8192,1,8192,1,8192,1,1,1,1
+gcc,lumex_wrap_cxx17,pod32,32,40,32768,1,32768,1,32768,1,1,1,1
+gcc,lumex_wrap_cxx17,std::string,32,40,32768,1,32768,1,32768,1,1,1,1
