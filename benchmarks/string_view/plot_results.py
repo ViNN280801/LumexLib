@@ -284,7 +284,8 @@ def markdown(comments, grouped, order, compile_rows, compile_comments,
                      "`std::string` possible (`std::string (v)`), IMP: "
                      "implicit conversion to `std::string`, TO/FROM: "
                      "implicit conversion to/from `std::string_view` (the "
-                     "C++17 builds). The values do not depend on the build "
+                     "C++17 builds; 'n' in the C++11 builds only says there is no "
+                     "standard view there). The values do not depend on the build "
                      "tree.")
         lines.append("")
         toolchain = traits[0]["toolchain"]

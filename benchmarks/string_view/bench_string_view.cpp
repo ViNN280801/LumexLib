@@ -940,11 +940,11 @@ make_scenarios ()
     BENCH_SCENARIO ("copy", "copy construct a view", k_count, run_copy),
     BENCH_SCENARIO (
         "index_sum",
-        "sum of the characters of one string of 33 to 36, by operator[]",
+        "sum of the characters of one string of 30 to 33, by operator[]",
         k_count, run_index_sum),
     BENCH_SCENARIO (
         "range_sum",
-        "sum of the characters of one string of 33 to 36, by range-for",
+        "sum of the characters of one string of 30 to 33, by range-for",
         k_count, run_range_sum),
     BENCH_SCENARIO ("find_char", "find('/') in one string, hit at position 7",
                     k_count, run_find_char),
@@ -1071,7 +1071,15 @@ make_scenarios ()
 
 // -- Layout --
 
-template <typename V>
+// The conversions are tested against the string types of the same character
+// type: Str (std::string or std::wstring), Chr (char or wchar_t) and SV (the
+// standard view of that character type; a type nothing converts to where the
+// standard has none).
+struct no_standard_view
+{
+};
+
+template <typename V, typename Str, typename Chr, typename SV>
 void
 traits_row (std::ostream &out, char const *name)
 {
@@ -1082,17 +1090,12 @@ traits_row (std::ostream &out, char const *name)
       << (std::is_standard_layout<V>::value ? 1 : 0) << ','
       << (std::is_nothrow_default_constructible<V>::value ? 1 : 0) << ','
       << (std::is_nothrow_copy_constructible<V>::value ? 1 : 0) << ','
-      << (std::is_convertible<std::string const &, V>::value ? 1 : 0) << ','
-      << (std::is_convertible<char const *, V>::value ? 1 : 0) << ','
-      << (std::is_constructible<std::string, V>::value ? 1 : 0) << ','
-      << (std::is_convertible<V, std::string>::value ? 1 : 0)
-#if BENCH_HAS_STD_VIEW
-      << ',' << (std::is_convertible<V, std::string_view>::value ? 1 : 0)
-      << ',' << (std::is_convertible<std::string_view, V>::value ? 1 : 0)
-#else
-      << ",0,0"
-#endif
-      << '\n';
+      << (std::is_convertible<Str const &, V>::value ? 1 : 0) << ','
+      << (std::is_convertible<Chr const *, V>::value ? 1 : 0) << ','
+      << (std::is_constructible<Str, V>::value ? 1 : 0) << ','
+      << (std::is_convertible<V, Str>::value ? 1 : 0) << ','
+      << (std::is_convertible<V, SV>::value ? 1 : 0) << ','
+      << (std::is_convertible<SV, V>::value ? 1 : 0) << '\n';
 }
 
 void
@@ -1105,8 +1108,17 @@ write_traits (std::string const &path)
          "from_std_string_implicit,from_cstr_implicit,"
          "to_std_string_constructible,to_std_string_implicit,"
          "to_std_string_view_implicit,from_std_string_view_implicit\n";
-  traits_row<bench::view> (out, "string_view");
-  traits_row<bench::wview> (out, "wstring_view");
+#if BENCH_HAS_STD_VIEW
+  traits_row<bench::view, std::string, char, std::string_view> (out,
+                                                                "string_view");
+  traits_row<bench::wview, std::wstring, wchar_t, std::wstring_view> (
+      out, "wstring_view");
+#else
+  traits_row<bench::view, std::string, char, no_standard_view> (out,
+                                                                "string_view");
+  traits_row<bench::wview, std::wstring, wchar_t, no_standard_view> (
+      out, "wstring_view");
+#endif
 }
 
 // -- Harness --

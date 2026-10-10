@@ -20,8 +20,8 @@ shared,lumex_cxx11,ctor_cstr,construct from a char const * (length by strlen),25
 shared,lumex_cxx11,ctor_string,construct from a std::string,256,1.1240,1.1984,1.1185,1.3277,131072,15,9035008
 shared,lumex_cxx11,ctor_ptr_size,construct from pointer and size,256,0.7332,0.7716,0.7311,0.8754,131072,15,9035008
 shared,lumex_cxx11,copy,copy construct a view,256,0.6133,0.6499,0.5922,0.7547,262144,15,9035008
-shared,lumex_cxx11,index_sum,"sum of the characters of one string of 33 to 36, by operator[]",256,8.4761,9.5295,8.4555,14.9470,16384,15,6278840
-shared,lumex_cxx11,range_sum,"sum of the characters of one string of 33 to 36, by range-for",256,8.6075,9.5472,8.4432,11.9314,16384,15,6278840
+shared,lumex_cxx11,index_sum,"sum of the characters of one string of 30 to 33, by operator[]",256,8.4761,9.5295,8.4555,14.9470,16384,15,6278840
+shared,lumex_cxx11,range_sum,"sum of the characters of one string of 30 to 33, by range-for",256,8.6075,9.5472,8.4432,11.9314,16384,15,6278840
 shared,lumex_cxx11,find_char,"find('/') in one string, hit at position 7",256,3.3602,3.4925,3.3579,4.1752,32768,15,14336
 shared,lumex_cxx11,find_char_late,"find('.') in one string, hit near the end",256,3.7000,4.0145,3.6391,4.6381,32768,15,59136
 shared,lumex_cxx11,find_char_miss,"find('#') in one string, no hit",256,4.1258,4.3945,4.1053,5.2268,32768,15,18446744073709549568
@@ -59,8 +59,8 @@ shared,lumex_cxx17,ctor_cstr,construct from a char const * (length by strlen),25
 shared,lumex_cxx17,ctor_string,construct from a std::string,256,1.1237,1.2216,1.1152,1.3355,131072,15,9035008
 shared,lumex_cxx17,ctor_ptr_size,construct from pointer and size,256,0.7274,0.7827,0.7267,0.9429,131072,15,9035008
 shared,lumex_cxx17,copy,copy construct a view,256,0.5964,0.6414,0.5889,0.6937,262144,15,9035008
-shared,lumex_cxx17,index_sum,"sum of the characters of one string of 33 to 36, by operator[]",256,9.1330,10.4734,9.0245,14.3953,8192,15,6278840
-shared,lumex_cxx17,range_sum,"sum of the characters of one string of 33 to 36, by range-for",256,9.1349,10.2330,8.9768,11.7868,16384,15,6278840
+shared,lumex_cxx17,index_sum,"sum of the characters of one string of 30 to 33, by operator[]",256,9.1330,10.4734,9.0245,14.3953,8192,15,6278840
+shared,lumex_cxx17,range_sum,"sum of the characters of one string of 30 to 33, by range-for",256,9.1349,10.2330,8.9768,11.7868,16384,15,6278840
 shared,lumex_cxx17,find_char,"find('/') in one string, hit at position 7",256,3.3628,3.5179,3.3564,4.3888,32768,15,14336
 shared,lumex_cxx17,find_char_late,"find('.') in one string, hit near the end",256,3.8456,4.0353,3.8199,4.7720,32768,15,59136
 shared,lumex_cxx17,find_char_miss,"find('#') in one string, no hit",256,4.1597,4.4319,4.1371,4.9841,32768,15,18446744073709549568
@@ -103,8 +103,8 @@ shared,lumex_unity_cxx17,ctor_cstr,construct from a char const * (length by strl
 shared,lumex_unity_cxx17,ctor_string,construct from a std::string,256,0.8509,0.8762,0.8268,1.1029,131072,15,9035008
 shared,lumex_unity_cxx17,ctor_ptr_size,construct from pointer and size,256,0.7621,0.7852,0.7462,0.9924,131072,15,9035008
 shared,lumex_unity_cxx17,copy,copy construct a view,256,0.6414,0.6612,0.6207,0.7527,131072,15,9035008
-shared,lumex_unity_cxx17,index_sum,"sum of the characters of one string of 33 to 36, by operator[]",256,9.1051,9.7784,8.8553,11.2778,16384,15,6278840
-shared,lumex_unity_cxx17,range_sum,"sum of the characters of one string of 33 to 36, by range-for",256,9.3429,10.1472,8.9406,13.8494,8192,15,6278840
+shared,lumex_unity_cxx17,index_sum,"sum of the characters of one string of 30 to 33, by operator[]",256,9.1051,9.7784,8.8553,11.2778,16384,15,6278840
+shared,lumex_unity_cxx17,range_sum,"sum of the characters of one string of 30 to 33, by range-for",256,9.3429,10.1472,8.9406,13.8494,8192,15,6278840
 shared,lumex_unity_cxx17,find_char,"find('/') in one string, hit at position 7",256,1.7429,1.8614,1.6912,2.3359,32768,15,14336
 shared,lumex_unity_cxx17,find_char_late,"find('.') in one string, hit near the end",256,2.7781,2.8195,2.7384,3.1278,32768,15,59136
 shared,lumex_unity_cxx17,find_char_miss,"find('#') in one string, no hit",256,3.0392,3.1837,2.9458,3.5784,32768,15,18446744073709549568
@@ -147,8 +147,8 @@ shared,std_cxx17,ctor_cstr,construct from a char const * (length by strlen),256,
 shared,std_cxx17,ctor_string,construct from a std::string,256,0.8529,0.8848,0.8274,0.9830,131072,15,9035008
 shared,std_cxx17,ctor_ptr_size,construct from pointer and size,256,0.7636,0.7830,0.7462,0.9727,131072,15,9035008
 shared,std_cxx17,copy,copy construct a view,256,0.6284,0.6359,0.6125,0.7441,131072,15,9035008
-shared,std_cxx17,index_sum,"sum of the characters of one string of 33 to 36, by operator[]",256,9.7494,9.9150,9.5160,11.2614,8192,15,6278840
-shared,std_cxx17,range_sum,"sum of the characters of one string of 33 to 36, by range-for",256,9.8907,10.0741,9.4540,12.6911,8192,15,6278840
+shared,std_cxx17,index_sum,"sum of the characters of one string of 30 to 33, by operator[]",256,9.7494,9.9150,9.5160,11.2614,8192,15,6278840
+shared,std_cxx17,range_sum,"sum of the characters of one string of 30 to 33, by range-for",256,9.8907,10.0741,9.4540,12.6911,8192,15,6278840
 shared,std_cxx17,find_char,"find('/') in one string, hit at position 7",256,1.7414,1.8124,1.6631,2.2648,65536,15,14336
 shared,std_cxx17,find_char_late,"find('.') in one string, hit near the end",256,2.7054,2.7938,2.6716,3.1963,32768,15,59136
 shared,std_cxx17,find_char_miss,"find('#') in one string, no hit",256,2.9160,2.9699,2.7864,3.3300,32768,15,18446744073709549568
@@ -186,8 +186,8 @@ shared,std_cxx20,ctor_cstr,construct from a char const * (length by strlen),256,
 shared,std_cxx20,ctor_string,construct from a std::string,256,0.8614,0.8778,0.8274,1.5376,131072,15,9035008
 shared,std_cxx20,ctor_ptr_size,construct from pointer and size,256,0.7640,0.8020,0.7448,1.1668,131072,15,9035008
 shared,std_cxx20,copy,copy construct a view,256,0.6261,0.6447,0.5968,0.7379,131072,15,9035008
-shared,std_cxx20,index_sum,"sum of the characters of one string of 33 to 36, by operator[]",256,10.2002,10.6106,9.9453,12.4131,8192,15,6278840
-shared,std_cxx20,range_sum,"sum of the characters of one string of 33 to 36, by range-for",256,10.2409,10.5703,9.9217,13.3983,8192,15,6278840
+shared,std_cxx20,index_sum,"sum of the characters of one string of 30 to 33, by operator[]",256,10.2002,10.6106,9.9453,12.4131,8192,15,6278840
+shared,std_cxx20,range_sum,"sum of the characters of one string of 30 to 33, by range-for",256,10.2409,10.5703,9.9217,13.3983,8192,15,6278840
 shared,std_cxx20,find_char,"find('/') in one string, hit at position 7",256,1.7291,1.8008,1.6896,2.2066,65536,15,14336
 shared,std_cxx20,find_char_late,"find('.') in one string, hit near the end",256,2.7846,2.9149,2.7410,3.0654,32768,15,59136
 shared,std_cxx20,find_char_miss,"find('#') in one string, no hit",256,2.9171,3.2016,2.8689,3.8001,32768,15,18446744073709549568
@@ -230,8 +230,8 @@ shared,boost_cxx11,ctor_cstr,construct from a char const * (length by strlen),25
 shared,boost_cxx11,ctor_string,construct from a std::string,256,0.8422,0.8621,0.8309,0.9848,131072,15,9035008
 shared,boost_cxx11,ctor_ptr_size,construct from pointer and size,256,0.7631,0.7773,0.7459,0.9723,131072,15,9035008
 shared,boost_cxx11,copy,copy construct a view,256,0.6244,0.6485,0.6120,0.7905,131072,15,9035008
-shared,boost_cxx11,index_sum,"sum of the characters of one string of 33 to 36, by operator[]",256,10.1671,10.5565,9.8810,12.4203,8192,15,6278840
-shared,boost_cxx11,range_sum,"sum of the characters of one string of 33 to 36, by range-for",256,10.2377,10.6491,9.9701,12.8219,8192,15,6278840
+shared,boost_cxx11,index_sum,"sum of the characters of one string of 30 to 33, by operator[]",256,10.1671,10.5565,9.8810,12.4203,8192,15,6278840
+shared,boost_cxx11,range_sum,"sum of the characters of one string of 30 to 33, by range-for",256,10.2377,10.6491,9.9701,12.8219,8192,15,6278840
 shared,boost_cxx11,find_char,"find('/') in one string, hit at position 7",256,1.6667,1.7301,1.6291,1.9045,65536,15,14336
 shared,boost_cxx11,find_char_late,"find('.') in one string, hit near the end",256,2.6640,2.7483,2.6062,2.9066,32768,15,59136
 shared,boost_cxx11,find_char_miss,"find('#') in one string, no hit",256,3.1228,3.1725,3.0724,3.4962,32768,15,18446744073709549568
@@ -270,8 +270,8 @@ shared,boost_cxx17,ctor_cstr,construct from a char const * (length by strlen),25
 shared,boost_cxx17,ctor_string,construct from a std::string,256,0.8658,0.8785,0.8317,1.0583,131072,15,9035008
 shared,boost_cxx17,ctor_ptr_size,construct from pointer and size,256,0.7730,0.7913,0.7502,0.9763,131072,15,9035008
 shared,boost_cxx17,copy,copy construct a view,256,0.6466,0.6500,0.6170,0.8264,131072,15,9035008
-shared,boost_cxx17,index_sum,"sum of the characters of one string of 33 to 36, by operator[]",256,9.1663,9.4125,8.8512,12.0544,8192,15,6278840
-shared,boost_cxx17,range_sum,"sum of the characters of one string of 33 to 36, by range-for",256,9.2797,9.5671,8.8425,12.9762,16384,15,6278840
+shared,boost_cxx17,index_sum,"sum of the characters of one string of 30 to 33, by operator[]",256,9.1663,9.4125,8.8512,12.0544,8192,15,6278840
+shared,boost_cxx17,range_sum,"sum of the characters of one string of 30 to 33, by range-for",256,9.2797,9.5671,8.8425,12.9762,16384,15,6278840
 shared,boost_cxx17,find_char,"find('/') in one string, hit at position 7",256,1.6967,1.7851,1.6286,2.2245,65536,15,14336
 shared,boost_cxx17,find_char_late,"find('.') in one string, hit near the end",256,2.5340,2.5489,2.4808,2.7794,32768,15,59136
 shared,boost_cxx17,find_char_miss,"find('#') in one string, no hit",256,3.1589,3.2144,3.0935,3.5642,32768,15,18446744073709549568
@@ -310,8 +310,8 @@ static,lumex_cxx11,ctor_cstr,construct from a char const * (length by strlen),25
 static,lumex_cxx11,ctor_string,construct from a std::string,256,1.0240,1.0372,0.9982,1.2083,131072,15,9035008
 static,lumex_cxx11,ctor_ptr_size,construct from pointer and size,256,0.7605,0.7882,0.7453,0.8940,131072,15,9035008
 static,lumex_cxx11,copy,copy construct a view,256,0.6674,0.6829,0.6511,0.7807,131072,15,9035008
-static,lumex_cxx11,index_sum,"sum of the characters of one string of 33 to 36, by operator[]",256,10.2991,10.4620,10.0442,12.2790,8192,15,6278840
-static,lumex_cxx11,range_sum,"sum of the characters of one string of 33 to 36, by range-for",256,10.4072,10.7065,9.9585,13.6953,8192,15,6278840
+static,lumex_cxx11,index_sum,"sum of the characters of one string of 30 to 33, by operator[]",256,10.2991,10.4620,10.0442,12.2790,8192,15,6278840
+static,lumex_cxx11,range_sum,"sum of the characters of one string of 30 to 33, by range-for",256,10.4072,10.7065,9.9585,13.6953,8192,15,6278840
 static,lumex_cxx11,find_char,"find('/') in one string, hit at position 7",256,2.8038,2.8932,2.7367,3.2337,32768,15,14336
 static,lumex_cxx11,find_char_late,"find('.') in one string, hit near the end",256,3.1834,3.2407,3.1000,3.4279,32768,15,59136
 static,lumex_cxx11,find_char_miss,"find('#') in one string, no hit",256,3.7313,3.7719,3.6382,4.1729,32768,15,18446744073709549568
@@ -349,8 +349,8 @@ static,lumex_cxx17,ctor_cstr,construct from a char const * (length by strlen),25
 static,lumex_cxx17,ctor_string,construct from a std::string,256,1.0110,1.0287,0.9891,1.1046,65536,15,9035008
 static,lumex_cxx17,ctor_ptr_size,construct from pointer and size,256,0.7641,0.7775,0.7500,0.9581,131072,15,9035008
 static,lumex_cxx17,copy,copy construct a view,256,0.6753,0.6923,0.6584,0.7973,131072,15,9035008
-static,lumex_cxx17,index_sum,"sum of the characters of one string of 33 to 36, by operator[]",256,10.3177,10.5679,9.9575,15.1706,8192,15,6278840
-static,lumex_cxx17,range_sum,"sum of the characters of one string of 33 to 36, by range-for",256,10.4713,10.6141,10.1079,12.2971,8192,15,6278840
+static,lumex_cxx17,index_sum,"sum of the characters of one string of 30 to 33, by operator[]",256,10.3177,10.5679,9.9575,15.1706,8192,15,6278840
+static,lumex_cxx17,range_sum,"sum of the characters of one string of 30 to 33, by range-for",256,10.4713,10.6141,10.1079,12.2971,8192,15,6278840
 static,lumex_cxx17,find_char,"find('/') in one string, hit at position 7",256,2.7978,2.8564,2.7372,3.2532,32768,15,14336
 static,lumex_cxx17,find_char_late,"find('.') in one string, hit near the end",256,3.2932,3.3382,3.2093,3.6919,32768,15,59136
 static,lumex_cxx17,find_char_miss,"find('#') in one string, no hit",256,3.8338,3.9212,3.7557,4.3696,32768,15,18446744073709549568
@@ -393,8 +393,8 @@ static,lumex_unity_cxx17,ctor_cstr,construct from a char const * (length by strl
 static,lumex_unity_cxx17,ctor_string,construct from a std::string,256,0.8701,0.9031,0.8352,1.1545,131072,15,9035008
 static,lumex_unity_cxx17,ctor_ptr_size,construct from pointer and size,256,0.7759,0.8054,0.7507,1.2187,131072,15,9035008
 static,lumex_unity_cxx17,copy,copy construct a view,256,0.6553,0.6641,0.6351,0.8085,131072,15,9035008
-static,lumex_unity_cxx17,index_sum,"sum of the characters of one string of 33 to 36, by operator[]",256,10.2939,10.5829,9.9147,12.7757,8192,15,6278840
-static,lumex_unity_cxx17,range_sum,"sum of the characters of one string of 33 to 36, by range-for",256,10.3034,10.5211,9.9303,13.6291,8192,15,6278840
+static,lumex_unity_cxx17,index_sum,"sum of the characters of one string of 30 to 33, by operator[]",256,10.2939,10.5829,9.9147,12.7757,8192,15,6278840
+static,lumex_unity_cxx17,range_sum,"sum of the characters of one string of 30 to 33, by range-for",256,10.3034,10.5211,9.9303,13.6291,8192,15,6278840
 static,lumex_unity_cxx17,find_char,"find('/') in one string, hit at position 7",256,1.7379,1.7670,1.6708,2.1086,65536,15,14336
 static,lumex_unity_cxx17,find_char_late,"find('.') in one string, hit near the end",256,2.5163,2.5412,2.4781,2.8409,32768,15,59136
 static,lumex_unity_cxx17,find_char_miss,"find('#') in one string, no hit",256,3.1925,3.2421,3.1279,3.7305,32768,15,18446744073709549568
@@ -437,8 +437,8 @@ static,std_cxx17,ctor_cstr,construct from a char const * (length by strlen),256,
 static,std_cxx17,ctor_string,construct from a std::string,256,0.9002,0.9477,0.8708,1.0905,131072,15,9035008
 static,std_cxx17,ctor_ptr_size,construct from pointer and size,256,0.7668,0.7859,0.7500,0.9445,131072,15,9035008
 static,std_cxx17,copy,copy construct a view,256,0.6587,0.6845,0.6418,0.8454,131072,15,9035008
-static,std_cxx17,index_sum,"sum of the characters of one string of 33 to 36, by operator[]",256,9.9924,10.1128,9.5947,15.0250,8192,15,6278840
-static,std_cxx17,range_sum,"sum of the characters of one string of 33 to 36, by range-for",256,9.8780,10.0563,9.5546,11.5246,8192,15,6278840
+static,std_cxx17,index_sum,"sum of the characters of one string of 30 to 33, by operator[]",256,9.9924,10.1128,9.5947,15.0250,8192,15,6278840
+static,std_cxx17,range_sum,"sum of the characters of one string of 30 to 33, by range-for",256,9.8780,10.0563,9.5546,11.5246,8192,15,6278840
 static,std_cxx17,find_char,"find('/') in one string, hit at position 7",256,1.7293,1.7802,1.6461,2.2824,65536,15,14336
 static,std_cxx17,find_char_late,"find('.') in one string, hit near the end",256,2.7179,2.7615,2.6487,2.9705,32768,15,59136
 static,std_cxx17,find_char_miss,"find('#') in one string, no hit",256,2.7918,2.8769,2.7100,3.3334,32768,15,18446744073709549568
@@ -476,8 +476,8 @@ static,std_cxx20,ctor_cstr,construct from a char const * (length by strlen),256,
 static,std_cxx20,ctor_string,construct from a std::string,256,0.8264,0.8695,0.8134,0.9936,131072,15,9035008
 static,std_cxx20,ctor_ptr_size,construct from pointer and size,256,0.7694,0.7867,0.7490,0.8809,131072,15,9035008
 static,std_cxx20,copy,copy construct a view,256,0.6541,0.6755,0.6366,0.8341,131072,15,9035008
-static,std_cxx20,index_sum,"sum of the characters of one string of 33 to 36, by operator[]",256,10.2771,10.5112,9.9401,12.3912,8192,15,6278840
-static,std_cxx20,range_sum,"sum of the characters of one string of 33 to 36, by range-for",256,10.2437,10.4101,9.8672,11.9457,8192,15,6278840
+static,std_cxx20,index_sum,"sum of the characters of one string of 30 to 33, by operator[]",256,10.2771,10.5112,9.9401,12.3912,8192,15,6278840
+static,std_cxx20,range_sum,"sum of the characters of one string of 30 to 33, by range-for",256,10.2437,10.4101,9.8672,11.9457,8192,15,6278840
 static,std_cxx20,find_char,"find('/') in one string, hit at position 7",256,1.6888,1.7527,1.6359,2.0333,65536,15,14336
 static,std_cxx20,find_char_late,"find('.') in one string, hit near the end",256,2.5465,2.5984,2.5135,2.8491,32768,15,59136
 static,std_cxx20,find_char_miss,"find('#') in one string, no hit",256,2.9831,3.1587,2.8719,3.6642,32768,15,18446744073709549568
@@ -520,8 +520,8 @@ static,boost_cxx11,ctor_cstr,construct from a char const * (length by strlen),25
 static,boost_cxx11,ctor_string,construct from a std::string,256,0.8520,0.8792,0.8304,0.9519,131072,15,9035008
 static,boost_cxx11,ctor_ptr_size,construct from pointer and size,256,0.7693,0.7779,0.7510,0.9229,131072,15,9035008
 static,boost_cxx11,copy,copy construct a view,256,0.6716,0.6813,0.6561,0.8088,131072,15,9035008
-static,boost_cxx11,index_sum,"sum of the characters of one string of 33 to 36, by operator[]",256,10.2746,10.5361,10.0159,12.4384,8192,15,6278840
-static,boost_cxx11,range_sum,"sum of the characters of one string of 33 to 36, by range-for",256,10.3377,10.5803,10.1319,13.3621,8192,15,6278840
+static,boost_cxx11,index_sum,"sum of the characters of one string of 30 to 33, by operator[]",256,10.2746,10.5361,10.0159,12.4384,8192,15,6278840
+static,boost_cxx11,range_sum,"sum of the characters of one string of 30 to 33, by range-for",256,10.3377,10.5803,10.1319,13.3621,8192,15,6278840
 static,boost_cxx11,find_char,"find('/') in one string, hit at position 7",256,1.7337,1.8013,1.6261,2.5592,65536,15,14336
 static,boost_cxx11,find_char_late,"find('.') in one string, hit near the end",256,2.5605,2.6094,2.5133,3.1723,32768,15,59136
 static,boost_cxx11,find_char_miss,"find('#') in one string, no hit",256,2.9763,3.0093,2.8976,3.5627,32768,15,18446744073709549568
@@ -560,8 +560,8 @@ static,boost_cxx17,ctor_cstr,construct from a char const * (length by strlen),25
 static,boost_cxx17,ctor_string,construct from a std::string,256,0.8509,0.8920,0.8318,1.1263,131072,15,9035008
 static,boost_cxx17,ctor_ptr_size,construct from pointer and size,256,0.7682,0.7892,0.7474,0.9593,131072,15,9035008
 static,boost_cxx17,copy,copy construct a view,256,0.6716,0.6925,0.6582,0.7558,131072,15,9035008
-static,boost_cxx17,index_sum,"sum of the characters of one string of 33 to 36, by operator[]",256,9.8705,10.1609,9.5087,11.7345,8192,15,6278840
-static,boost_cxx17,range_sum,"sum of the characters of one string of 33 to 36, by range-for",256,9.9502,10.4691,9.6257,15.5086,8192,15,6278840
+static,boost_cxx17,index_sum,"sum of the characters of one string of 30 to 33, by operator[]",256,9.8705,10.1609,9.5087,11.7345,8192,15,6278840
+static,boost_cxx17,range_sum,"sum of the characters of one string of 30 to 33, by range-for",256,9.9502,10.4691,9.6257,15.5086,8192,15,6278840
 static,boost_cxx17,find_char,"find('/') in one string, hit at position 7",256,1.6646,1.6874,1.6040,1.8344,65536,15,14336
 static,boost_cxx17,find_char_late,"find('.') in one string, hit near the end",256,2.7119,2.7442,2.6550,2.9861,32768,15,59136
 static,boost_cxx17,find_char_miss,"find('#') in one string, no hit",256,2.9045,2.9311,2.8370,3.1765,32768,15,18446744073709549568
