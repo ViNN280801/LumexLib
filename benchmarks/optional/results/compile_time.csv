@@ -1,0 +1,16 @@
+# compiler gcc: g++ (GCC) 13.2.0
+toolchain,variant,mode,median_ms,min_ms,repeats
+gcc,none_cxx11,include,110.3,108.2,7
+gcc,none_cxx11,use,110.5,109.5,7
+gcc,none_cxx17,include,146.6,145.5,7
+gcc,none_cxx17,use,145.6,144.3,7
+gcc,lumex_cxx11,include,117.0,115.7,7
+gcc,lumex_cxx11,use,142.1,141.3,7
+gcc,lumex_cxx17,include,187.5,184.6,7
+gcc,lumex_cxx17,use,211.7,209.6,7
+gcc,std_cxx17,include,151.5,150.5,7
+gcc,std_cxx17,use,188.6,181.3,7
+gcc,boost_cxx11,include,131.2,130.3,7
+gcc,boost_cxx11,use,149.4,148.8,7
+gcc,boost_cxx17,include,192.3,191.8,7
+gcc,boost_cxx17,use,211.5,209.7,7

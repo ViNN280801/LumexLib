@@ -471,6 +471,11 @@ if(LUMEX_BUILD_BENCHMARKS AND LUMEX_BUILD_CORE AND LUMEX_BUILD_EXPECTED)
     add_subdirectory(benchmarks/expected)
 endif()
 
+if(LUMEX_BUILD_BENCHMARKS AND LUMEX_BUILD_CORE AND LUMEX_BUILD_OPTIONAL)
+    message(STATUS "Building benchmarks (benchmarks/optional)")
+    add_subdirectory(benchmarks/optional)
+endif()
+
 # Shared libs (not test/example binaries) -> <platform>/Distr<Config>.
 # Tests are registered with CTest; the programmer runs ctest explicitly.
 # Embedded: Distr lives in this library's source tree, and the parent
