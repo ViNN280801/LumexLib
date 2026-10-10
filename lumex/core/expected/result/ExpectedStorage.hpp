@@ -90,6 +90,7 @@
 #pragma clang diagnostic ignored "-Wfloat-equal"
 #endif
 
+#include <cstddef>
 #include <type_traits>
 #include <utility>
 
@@ -151,6 +152,7 @@ LUMEX_EXPECTED_CONSTEXPR_CXX20 void
 reinit_nothrow (std::false_type, std::false_type, N &newval, O &oldval,
                 Args &&...args)
 {
+#if LUMEX_EXPECTED_HAS_EXCEPTIONS
   O tmp (detail::mv (oldval));
   detail::destroy_at (detail::address_of (oldval));
   try
@@ -163,6 +165,12 @@ reinit_nothrow (std::false_type, std::false_type, N &newval, O &oldval,
       detail::construct_at (detail::address_of (oldval), detail::mv (tmp));
       throw;
     }
+#else
+  // Nothing can throw: there is no old object to put back.
+  detail::destroy_at (detail::address_of (oldval));
+  detail::construct_at (detail::address_of (newval),
+                        detail::fwd<Args> (args)...);
+#endif
 }
 
 /// @brief `reinit-expected` when the old object is the `Unit` that stands for
@@ -544,12 +552,57 @@ using source_of =
     typename std::conditional<std::is_lvalue_reference<Rhs>::value, T const &,
                               T &&>::type;
 
+// ====================== The flag ====================== //
+
+/**
+ * @brief `has_val` of [expected.object.general]: a `bool` in a class as large
+ * as the alignment of the union before it.
+ * @details A plain `bool` after a union of 4 bytes leaves 3 bytes of tail
+ * padding in the storage. The storage is a base class of `expected` (a chain
+ * of them), and the Itanium C++ ABI lets a derived class use the tail padding
+ * of a base that is not a POD, so the compiler may copy only the 5 bytes in
+ * front of the padding. GCC 13 then builds a trivially copyable
+ * `expected<int, unsigned>` that a function returns in one 8-byte register
+ * through a stack slot (a 4-byte store for the value, a 1-byte store for the
+ * flag, an 8-byte load that must wait for both: a store-forwarding stall,
+ * counter `LD_BLOCKS.STORE_FORWARD`, one per call chain). A data member
+ * always occupies its whole `sizeof`, so the padding that this class holds
+ * is not a base's tail padding, the storage has none, and the compiler keeps
+ * the object in the register as it does for the members of `std::expected`
+ * (which has no base classes). `sizeof` and the alignment of `expected` do
+ * not change: the size of a union is a multiple of its alignment, so
+ * `sizeof (union) + alignment` is also what the `bool` and its padding made.
+ * @tparam Alignment Alignment of the union before the flag.
+ */
+template <std::size_t Alignment> struct alignas (Alignment) has_val_flag
+{
+  bool m_flag; ///< The flag.
+
+  /// @brief Stores `present`.
+  LUMEX_CONSTEXPR_CTOR
+  has_val_flag (bool present) LUMEX_NOEXCEPT : m_flag (present) {}
+
+  /// @brief The flag.
+  LUMEX_CONSTEXPR_FUNCTION
+  operator bool () const LUMEX_NOEXCEPT { return m_flag; }
+
+  /// @brief Stores `present`.
+  LUMEX_EXPECTED_CONSTEXPR_CXX20 has_val_flag &
+  operator= (bool present) LUMEX_NOEXCEPT
+  {
+    m_flag = present;
+    return *this;
+  }
+};
+
 // ====================== The storage ====================== //
 
 /**
  * @brief `has_val` and the union of [expected.object.general], the
  * constructors that start one alternative, and the algorithms that move
  * contents between two storages.
+ * @details `has_val` is a `has_val_flag` as wide as the alignment of the
+ * union, so the storage has no tail padding (see there).
  * @tparam T Value type as written (possibly `const`, `Unit` for `void`).
  * @tparam E Error type.
  */
@@ -564,7 +617,8 @@ template <typename T, typename E> struct expected_storage : checks_of<T, E>
                        expected_traits<T, E>::trivial_destructor::value>;
 
   union_type m_storage; ///< `val` or `unex`.
-  bool m_has_value;     ///< `has_val`.
+  has_val_flag<std::alignment_of<union_type>::value>
+      m_has_value; ///< `has_val`.
 
   /// @brief Starts `val` with `args...`; `has_value ()` is `true`.
   template <typename... Args>
@@ -603,6 +657,9 @@ template <typename T, typename E> struct expected_storage : checks_of<T, E>
   /**
    * @brief Copies or moves the alternative of another storage of the same
    * type: [expected.object.cons]/6 and /12.
+   * @details The flag is copied as a `bool` (one byte), not as the
+   * `has_val_flag` (its whole size, padding included): the source was just
+   * built with a one-byte store, and a wider load would wait for it.
    * @tparam Rhs `Layer const &` (copy) or `Layer` (move) where `Layer` is a
    * class derived from `expected_storage`.
    * @param rhs The source.
@@ -610,7 +667,7 @@ template <typename T, typename E> struct expected_storage : checks_of<T, E>
   template <typename Rhs>
   LUMEX_EXPECTED_CONSTEXPR_CXX20
   expected_storage (from_storage_tag, Rhs &&rhs)
-      : m_storage (), m_has_value (rhs.m_has_value)
+      : m_storage (), m_has_value (static_cast<bool> (rhs.m_has_value))
   {
     if (m_has_value)
       detail::construct_at (
@@ -751,6 +808,7 @@ template <typename T, typename E> struct expected_storage : checks_of<T, E>
   {
     E tmp (detail::mv (rhs.m_storage.m_error));
     detail::destroy_at (detail::address_of (rhs.m_storage.m_error));
+#if LUMEX_EXPECTED_HAS_EXCEPTIONS
     try
       {
         detail::construct_at (detail::address_of (rhs.m_storage.m_value),
@@ -765,6 +823,13 @@ template <typename T, typename E> struct expected_storage : checks_of<T, E>
                               detail::mv (tmp));
         throw;
       }
+#else
+    detail::construct_at (detail::address_of (rhs.m_storage.m_value),
+                          detail::mv (m_storage.m_value));
+    detail::destroy_at (detail::address_of (m_storage.m_value));
+    detail::construct_at (detail::address_of (m_storage.m_error),
+                          detail::mv (tmp));
+#endif
     m_has_value = false;
     rhs.m_has_value = true;
   }
@@ -775,6 +840,7 @@ template <typename T, typename E> struct expected_storage : checks_of<T, E>
   {
     val_type tmp (detail::mv (m_storage.m_value));
     detail::destroy_at (detail::address_of (m_storage.m_value));
+#if LUMEX_EXPECTED_HAS_EXCEPTIONS
     try
       {
         detail::construct_at (detail::address_of (m_storage.m_error),
@@ -789,6 +855,13 @@ template <typename T, typename E> struct expected_storage : checks_of<T, E>
                               detail::mv (tmp));
         throw;
       }
+#else
+    detail::construct_at (detail::address_of (m_storage.m_error),
+                          detail::mv (rhs.m_storage.m_error));
+    detail::destroy_at (detail::address_of (rhs.m_storage.m_error));
+    detail::construct_at (detail::address_of (rhs.m_storage.m_value),
+                          detail::mv (tmp));
+#endif
     m_has_value = false;
     rhs.m_has_value = true;
   }

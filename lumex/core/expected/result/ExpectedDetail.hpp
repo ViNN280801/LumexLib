@@ -69,6 +69,7 @@
 #pragma clang diagnostic ignored "-Wfloat-equal"
 #endif
 
+#include <exception>
 #include <functional>
 #include <memory>
 #include <new>
@@ -103,6 +104,42 @@
 #else
 #define LUMEX_EXPECTED_CONSTEXPR_CXX20
 #define LUMEX_EXPECTED_HAS_CONSTRUCT_AT 0
+#endif
+
+/**
+ * @def LUMEX_EXPECTED_HAS_EXCEPTIONS
+ * @brief 1 when `expected` may throw, 0 when exceptions are off.
+ * @details The default follows the compiler: 0 when `-fno-exceptions` (GCC and
+ * Clang: `__cpp_exceptions` and `__EXCEPTIONS` are not defined) or MSVC
+ * without `/EHsc` (`_CPPUNWIND` is not defined) is in effect, 1 otherwise. A
+ * program may define the macro to 0 before the first include of the library
+ * to get the 0 behavior with exceptions on; every translation unit of one
+ * program has to see the same value (the functions are inline).
+ * With 0, `value ()` of an object that holds an error calls `std::terminate`
+ * instead of throwing `bad_expected_access`, and the operations that restore
+ * the old contents when a constructor throws (`emplace`, assignment, `swap`)
+ * do not wrap the construction in a `try` block: nothing can throw there. The
+ * rest of `expected` behaves as with exceptions.
+ */
+#ifndef LUMEX_EXPECTED_HAS_EXCEPTIONS
+#if defined(__cpp_exceptions) || defined(__EXCEPTIONS) || defined(_CPPUNWIND)
+#define LUMEX_EXPECTED_HAS_EXCEPTIONS 1
+#else
+#define LUMEX_EXPECTED_HAS_EXCEPTIONS 0
+#endif
+#endif
+
+/**
+ * @def LUMEX_EXPECTED_HAS_STD_CONVERSION
+ * @brief 1 when `expected<T, E>` converts to and from `std::expected<T, E>`
+ * (the standard library has `std::expected`: `__cpp_lib_expected`, C++23),
+ * otherwise 0.
+ */
+#if LUMEX_HAS_STD_EXPECTED
+#include <expected>
+#define LUMEX_EXPECTED_HAS_STD_CONVERSION 1
+#else
+#define LUMEX_EXPECTED_HAS_STD_CONVERSION 0
 #endif
 
 namespace lumex
@@ -252,20 +289,47 @@ destroy_at (T *where) LUMEX_NOEXCEPT
 }
 
 /**
- * @brief Throws `bad_expected_access<E>` that holds `error`.
+ * @brief Throws `bad_expected_access<E>` that holds `error`; with exceptions
+ * off (`LUMEX_EXPECTED_HAS_EXCEPTIONS` is 0) calls `std::terminate`.
  * @details A function, not a `throw` expression written in `value ()`, so that
  * the `constexpr` observers of C++11 can name it in a conditional expression.
  * @tparam ErrorType Error type of the `expected`.
  * @tparam Arg Type of the error, possibly a reference.
- * @param[in] error The error: an lvalue (copied) or an rvalue (moved).
- * @throws error::bad_expected_access<ErrorType> always.
+ * @param[in] error The error: an lvalue (copied) or an rvalue (moved); not
+ * used with exceptions off.
+ * @throws error::bad_expected_access<ErrorType> always (exceptions on).
  */
 template <typename ErrorType, typename Arg>
 LUMEX_ATTRIBUTE_NORETURN inline void
 throw_bad_expected_access (Arg &&error)
 {
+#if LUMEX_EXPECTED_HAS_EXCEPTIONS
   throw error::bad_expected_access<ErrorType> (detail::fwd<Arg> (error));
+#else
+  static_cast<void> (error);
+  std::terminate ();
+#endif
 }
+
+/**
+ * @brief Whether `X` is exactly `std::expected<T, E>` (false where the
+ * standard library has no `std::expected`).
+ * @tparam X The type to test.
+ * @tparam T Value type of the `expected` of this library.
+ * @tparam E Error type of the `expected` of this library.
+ */
+template <typename X, typename T, typename E>
+struct is_std_expected_of : std::false_type
+{
+};
+
+#if LUMEX_EXPECTED_HAS_STD_CONVERSION
+/// @brief `std::expected<T, E>` with the same `T` and `E`.
+template <typename T, typename E>
+struct is_std_expected_of<std::expected<T, E>, T, E> : std::true_type
+{
+};
+#endif
 
 // ====================== Tags of the storage ====================== //
 
