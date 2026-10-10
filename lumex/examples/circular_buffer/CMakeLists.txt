@@ -17,3 +17,21 @@ lumex_example_executable(
   LINK lumex::circular_buffer
   REQUIRE_TARGET lumex::circular_buffer
 )
+lumex_example_executable(
+  NAME LumexCircularBufferExampleQueue
+  SOURCE example_circular_buffer_queue.cpp
+  LINK lumex::circular_buffer
+  REQUIRE_TARGET lumex::circular_buffer
+)
+lumex_example_executable(
+  NAME LumexCircularBufferExampleChecked
+  SOURCE example_circular_buffer_checked.cpp
+  LINK lumex::circular_buffer
+  REQUIRE_TARGET lumex::circular_buffer
+)
+lumex_example_executable(
+  NAME LumexCircularBufferExampleAllocator
+  SOURCE example_circular_buffer_allocator.cpp
+  LINK lumex::circular_buffer
+  REQUIRE_TARGET lumex::circular_buffer
+)
