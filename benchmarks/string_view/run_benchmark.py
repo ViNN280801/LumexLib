@@ -220,10 +220,13 @@ def compiler_version(command):
 
 
 def text_bytes(path):
-    """The .text size of an object file or of all members of an archive."""
-    out = subprocess.run(["size", path], stdout=subprocess.PIPE,
+    """The .text section size (not the text column of `size`, which also
+    counts .eh_frame and .rodata) of an object file or of all members of an
+    archive, from `size -A`."""
+    out = subprocess.run(["size", "-A", path], stdout=subprocess.PIPE,
                          universal_newlines=True).stdout.splitlines()
-    return sum(int(line.split()[0]) for line in out[1:] if line.strip())
+    return sum(int(line.split()[1]) for line in out
+               if line.split() and line.split()[0].startswith(".text"))
 
 
 def compile_times(compilers, boost_include, repeats, cpu):

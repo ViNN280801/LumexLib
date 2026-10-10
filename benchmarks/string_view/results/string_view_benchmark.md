@@ -28,8 +28,8 @@ Time per operation in nanoseconds: the lowest median of 15 repetitions over all 
 | ctor_string | construct from a std::string | 0.85 | 0.86 (1.01) | 1.12 (1.32) | 1.12 (1.32) | 0.85 (1.00) | 0.84 (0.99) | 0.87 (1.02) |
 | ctor_ptr_size | construct from pointer and size | 0.76 | 0.76 (1.00) | 0.73 (0.96) | 0.73 (0.95) | 0.76 (1.00) | 0.76 (1.00) | 0.77 (1.01) |
 | copy | copy construct a view | 0.63 | 0.63 (1.00) | 0.61 (0.98) | 0.60 (0.95) | 0.64 (1.02) | 0.62 (0.99) | 0.65 (1.03) |
-| index_sum | sum of the characters of one string of 33 to 36, by operator[] | 9.75 | 10.20 (1.05) | 8.48 (0.87) | 9.13 (0.94) | 9.11 (0.93) | 10.17 (1.04) | 9.17 (0.94) |
-| range_sum | sum of the characters of one string of 33 to 36, by range-for | 9.89 | 10.24 (1.04) | 8.61 (0.87) | 9.13 (0.92) | 9.34 (0.94) | 10.24 (1.04) | 9.28 (0.94) |
+| index_sum | sum of the characters of one string of 30 to 33, by operator[] | 9.75 | 10.20 (1.05) | 8.48 (0.87) | 9.13 (0.94) | 9.11 (0.93) | 10.17 (1.04) | 9.17 (0.94) |
+| range_sum | sum of the characters of one string of 30 to 33, by range-for | 9.89 | 10.24 (1.04) | 8.61 (0.87) | 9.13 (0.92) | 9.34 (0.94) | 10.24 (1.04) | 9.28 (0.94) |
 | find_char | find('/') in one string, hit at position 7 | 1.74 | 1.73 (0.99) | 3.36 (1.93) | 3.36 (1.93) | 1.74 (1.00) | 1.67 (0.96) | 1.70 (0.97) |
 | find_char_late | find('.') in one string, hit near the end | 2.71 | 2.78 (1.03) | 3.70 (1.37) | 3.85 (1.42) | 2.78 (1.03) | 2.66 (0.98) | 2.53 (0.94) |
 | find_char_miss | find('#') in one string, no hit | 2.92 | 2.92 (1.00) | 4.13 (1.41) | 4.16 (1.43) | 3.04 (1.04) | 3.12 (1.07) | 3.16 (1.08) |
@@ -97,8 +97,8 @@ Variants compared with each other (time of the first divided by the time of the 
 | ctor_string | construct from a std::string | 0.90 | 0.83 (0.92) | 1.02 (1.14) | 1.01 (1.12) | 0.87 (0.97) | 0.85 (0.95) | 0.85 (0.95) |
 | ctor_ptr_size | construct from pointer and size | 0.77 | 0.77 (1.00) | 0.76 (0.99) | 0.76 (1.00) | 0.78 (1.01) | 0.77 (1.00) | 0.77 (1.00) |
 | copy | copy construct a view | 0.66 | 0.65 (0.99) | 0.67 (1.01) | 0.68 (1.03) | 0.66 (0.99) | 0.67 (1.02) | 0.67 (1.02) |
-| index_sum | sum of the characters of one string of 33 to 36, by operator[] | 9.99 | 10.28 (1.03) | 10.30 (1.03) | 10.32 (1.03) | 10.29 (1.03) | 10.27 (1.03) | 9.87 (0.99) |
-| range_sum | sum of the characters of one string of 33 to 36, by range-for | 9.88 | 10.24 (1.04) | 10.41 (1.05) | 10.47 (1.06) | 10.30 (1.04) | 10.34 (1.05) | 9.95 (1.01) |
+| index_sum | sum of the characters of one string of 30 to 33, by operator[] | 9.99 | 10.28 (1.03) | 10.30 (1.03) | 10.32 (1.03) | 10.29 (1.03) | 10.27 (1.03) | 9.87 (0.99) |
+| range_sum | sum of the characters of one string of 30 to 33, by range-for | 9.88 | 10.24 (1.04) | 10.41 (1.05) | 10.47 (1.06) | 10.30 (1.04) | 10.34 (1.05) | 9.95 (1.01) |
 | find_char | find('/') in one string, hit at position 7 | 1.73 | 1.69 (0.98) | 2.80 (1.62) | 2.80 (1.62) | 1.74 (1.00) | 1.73 (1.00) | 1.66 (0.96) |
 | find_char_late | find('.') in one string, hit near the end | 2.72 | 2.55 (0.94) | 3.18 (1.17) | 3.29 (1.21) | 2.52 (0.93) | 2.56 (0.94) | 2.71 (1.00) |
 | find_char_miss | find('#') in one string, no hit | 2.79 | 2.98 (1.07) | 3.73 (1.34) | 3.83 (1.37) | 3.19 (1.14) | 2.98 (1.07) | 2.90 (1.04) |
@@ -159,24 +159,22 @@ Variants compared with each other (time of the first divided by the time of the 
 
 ## Layout and traits
 
-`sizeof` in bytes and the properties of the view type. TC: trivially copyable, TD: trivially destructible, SL: standard layout, NC: nothrow copy constructible, S: implicit from `std::string const &`, C: implicit from `char const *`, STR: explicit conversion to `std::string` possible (`std::string (v)`), IMP: implicit conversion to `std::string`, TO/FROM: implicit conversion to/from `std::string_view` (the C++17 builds). The values do not depend on the build tree.
+`sizeof` in bytes and the properties of the view type. TC: trivially copyable, TD: trivially destructible, SL: standard layout, NC: nothrow copy constructible, S: implicit from `std::string const &`, C: implicit from `char const *`, STR: explicit conversion to `std::string` possible (`std::string (v)`), IMP: implicit conversion to `std::string`, TO/FROM: implicit conversion to/from `std::string_view` (the C++17 builds; 'n' in the C++11 builds only says there is no standard view there). The values do not depend on the build tree.
 
 | view | variant | sizeof | TC | TD | SL | NC | S | C | STR | IMP | TO | FROM |
 | --- | --- | ---: | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | `string_view` | lumex C++11 | 16 | Y | Y | Y | Y | Y | Y | Y | n | n | n |
-| `wstring_view` | lumex C++11 | 16 | Y | Y | Y | Y | n | n | n | n | n | n |
+| `wstring_view` | lumex C++11 | 16 | Y | Y | Y | Y | Y | Y | Y | n | n | n |
 | `string_view` | lumex C++17 | 16 | Y | Y | Y | Y | Y | Y | Y | n | Y | Y |
-| `wstring_view` | lumex C++17 | 16 | Y | Y | Y | Y | n | n | n | n | n | n |
-| `string_view` | lumex inlined C++17 | 16 | Y | Y | Y | Y | Y | Y | Y | n | Y | Y |
-| `wstring_view` | lumex inlined C++17 | 16 | Y | Y | Y | Y | n | n | n | n | n | n |
+| `wstring_view` | lumex C++17 | 16 | Y | Y | Y | Y | Y | Y | Y | n | Y | Y |
 | `string_view` | std C++17 | 16 | Y | Y | Y | Y | Y | Y | Y | n | Y | Y |
-| `wstring_view` | std C++17 | 16 | Y | Y | Y | Y | n | n | n | n | n | n |
+| `wstring_view` | std C++17 | 16 | Y | Y | Y | Y | Y | Y | Y | n | Y | Y |
 | `string_view` | std C++20 | 16 | Y | Y | Y | Y | Y | Y | Y | n | Y | Y |
-| `wstring_view` | std C++20 | 16 | Y | Y | Y | Y | n | n | n | n | n | n |
+| `wstring_view` | std C++20 | 16 | Y | Y | Y | Y | Y | Y | Y | n | Y | Y |
 | `string_view` | boost C++11 | 16 | Y | Y | Y | Y | Y | Y | Y | n | n | n |
-| `wstring_view` | boost C++11 | 16 | Y | Y | Y | Y | n | n | n | n | n | n |
+| `wstring_view` | boost C++11 | 16 | Y | Y | Y | Y | Y | Y | Y | n | n | n |
 | `string_view` | boost C++17 | 16 | Y | Y | Y | Y | Y | Y | Y | n | n | n |
-| `wstring_view` | boost C++17 | 16 | Y | Y | Y | Y | n | n | n | n | n | n |
+| `wstring_view` | boost C++17 | 16 | Y | Y | Y | Y | Y | Y | Y | n | n | n |
 
 ## The compiled library
 
@@ -184,8 +182,8 @@ Variants compared with each other (time of the first divided by the time of the 
 
 | build tree | kind | file | bytes | stripped | .text | function symbols | narrow | wide |
 | --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| shared | shared | libLumexCore_string_view.so.2.0.0.0 | 35288 | 35288 | 23076 | 94 | 47 | 47 |
-| static | static | libLumexCore_string_view.a | 344396 | 57524 | 8738 | 94 | 47 | 47 |
+| shared | shared | libLumexCore_string_view.so.2.0.0.0 | 35288 | 35288 | 4885 | 94 | 47 | 47 |
+| static | static | libLumexCore_string_view.a | 344396 | 57524 | 5169 | 94 | 47 | 47 |
 
 ## Compile time
 
@@ -197,17 +195,17 @@ Unit `include`: the header is included and one object is declared (`-fsyntax-onl
 
 | toolchain | no view C++11 | no view C++17 | no view C++20 | std C++17 | std C++20 | lumex C++11 | lumex C++17 | boost C++11 | boost C++17 |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| gcc | 124 | 162 | 241 | 208 | 290 | 183 | 266 | 285 | 432 |
+| gcc | 123 | 162 | 238 | 208 | 288 | 184 | 262 | 285 | 427 |
 
 Unit `use`: the whole API is used: construction, observers, searches, comparisons, slicing, `std::sort`, `std::map`, hashing (`-fsyntax-only -O0`).
 
 | toolchain | no view C++11 | no view C++17 | no view C++20 | std C++17 | std C++20 | lumex C++11 | lumex C++17 | boost C++11 | boost C++17 |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| gcc | 124 | 162 | 236 | 235 | 310 | 203 | 292 | 318 | 459 |
+| gcc | 123 | 162 | 239 | 235 | 314 | 201 | 289 | 312 | 458 |
 
 Unit `use_o2`: the same use, compiled (`-c -O2`); the last column group is the `.text` of the object in bytes.
 
 | toolchain | no view C++11 | no view C++17 | no view C++20 | std C++17 | std C++20 | lumex C++11 | lumex C++17 | boost C++11 | boost C++17 | no view C++11 .text | no view C++17 .text | no view C++20 .text | std C++17 .text | std C++20 .text | lumex C++11 .text | lumex C++17 .text | boost C++11 .text | boost C++17 .text |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| gcc |  |  |  | 428 | 543 | 344 | 432 | 583 | 736 |  |  |  | 6723 | 7828 | 5398 | 5499 | 10703 | 10781 |
+| gcc |  |  |  | 430 | 545 | 341 | 430 | 584 | 731 |  |  |  | 5779 | 7019 | 4540 | 4641 | 8845 | 8939 |
 
