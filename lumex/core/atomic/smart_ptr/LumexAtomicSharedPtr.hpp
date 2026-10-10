@@ -131,7 +131,7 @@ template <typename T, typename Cell> class basic_atomic_shared_ptr
 
 public:
   /// The type of the stored value.
-  using value_type = std::shared_ptr<T>;
+  using value_type = typename cell_type::value_type;
 
   /// Whether every object of this type is lock-free.
   static LUMEX_CONSTEXPR bool is_always_lock_free

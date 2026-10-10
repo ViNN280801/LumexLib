@@ -146,6 +146,41 @@ TEST (LumexAtomicSmartPtrConfigTest,
 }
 
 TEST (LumexAtomicSmartPtrConfigTest,
+      GivenEachEngine_WhenNamingValueType_ThenItIsThePointerOfTheEngine)
+{
+  namespace smart_ptr = lumex::core::atomic::smart_ptr;
+  static_assert (
+      std::is_same<smart_ptr::atomic_shared_ptr_lock_based<int>::value_type,
+                   std::shared_ptr<int>>::value,
+      "lock-based shared engine");
+  static_assert (
+      std::is_same<smart_ptr::atomic_weak_ptr_lock_based<int>::value_type,
+                   std::weak_ptr<int>>::value,
+      "lock-based weak engine");
+#if LUMEX_ATOMIC_SMART_PTR_HAS_LOCK_FREE
+  static_assert (
+      std::is_same<smart_ptr::atomic_shared_ptr_lock_free<int>::value_type,
+                   std::shared_ptr<int>>::value,
+      "lock-free shared engine");
+  static_assert (
+      std::is_same<smart_ptr::atomic_weak_ptr_lock_free<int>::value_type,
+                   std::weak_ptr<int>>::value,
+      "lock-free weak engine");
+#endif
+#if LUMEX_ATOMIC_SMART_PTR_HAS_STD_BACKED
+  static_assert (
+      std::is_same<smart_ptr::atomic_shared_ptr_std_backed<int>::value_type,
+                   std::shared_ptr<int>>::value,
+      "standard-backed shared engine");
+  static_assert (
+      std::is_same<smart_ptr::atomic_weak_ptr_std_backed<int>::value_type,
+                   std::weak_ptr<int>>::value,
+      "standard-backed weak engine");
+#endif
+  SUCCEED ();
+}
+
+TEST (LumexAtomicSmartPtrConfigTest,
       GivenTheWaitSelection_WhenNamingTheLock_ThenTheMatchingNamespaceHoldsIt)
 {
   namespace sync = lumex::core::atomic::sync;

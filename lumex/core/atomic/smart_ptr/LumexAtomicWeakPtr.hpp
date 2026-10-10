@@ -123,7 +123,7 @@ template <typename T, typename Cell> class basic_atomic_weak_ptr
 
 public:
   /// The type of the stored value.
-  using value_type = std::weak_ptr<T>;
+  using value_type = typename cell_type::value_type;
 
   /// Whether every object of this type is lock-free.
   static LUMEX_CONSTEXPR bool is_always_lock_free

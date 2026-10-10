@@ -182,6 +182,8 @@ class lock_free_cell : private epoch_wait_base
   using holder_type = ::lumex::core::hazard_pointer::hazard_pointer;
 
 public:
+  typedef Pointer value_type;
+
   static LUMEX_CONSTEXPR bool is_always_lock_free = true;
 
   LUMEX_CONSTEXPR
