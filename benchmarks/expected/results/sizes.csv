@@ -1,0 +1,113 @@
+toolchain,variant,type,sizeof,alignof,trivially_copyable,trivially_destructible,standard_layout,nothrow_move_constructible
+gcc,std_cxx23,"<char, unsigned char>",2,1,0,1,1,1
+gcc,std_cxx23,"<int, unsigned>",8,4,0,1,1,1
+gcc,std_cxx23,"<long long, unsigned long long>",16,8,0,1,1,1
+gcc,std_cxx23,"<double, int>",16,8,0,1,1,1
+gcc,std_cxx23,"<int *, int>",16,8,0,1,1,1
+gcc,std_cxx23,"<empty_t, int>",8,4,0,1,1,1
+gcc,std_cxx23,"<int, std::error_code>",24,8,0,1,1,1
+gcc,std_cxx23,"<std::string, int>",40,8,0,0,1,1
+gcc,std_cxx23,"<int, std::string>",40,8,0,0,1,1
+gcc,std_cxx23,"<std::string, text_error_t>",40,8,0,0,1,1
+gcc,std_cxx23,"<std::string, std::error_code>",40,8,0,0,1,1
+gcc,std_cxx23,"<array16_t, int>",68,4,0,1,1,1
+gcc,std_cxx23,"<std::unique_ptr<int>, int>",16,8,0,0,1,1
+gcc,std_cxx23,"<void, int>",8,4,0,1,1,1
+gcc,std_cxx23,"<void, std::error_code>",24,8,0,1,1,1
+gcc,std_cxx23,"<void, std::string>",40,8,0,0,1,1
+gcc,lumex_cxx23,"<char, unsigned char>",2,1,1,1,1,1
+gcc,lumex_cxx23,"<int, unsigned>",8,4,1,1,1,1
+gcc,lumex_cxx23,"<long long, unsigned long long>",16,8,1,1,1,1
+gcc,lumex_cxx23,"<double, int>",16,8,1,1,1,1
+gcc,lumex_cxx23,"<int *, int>",16,8,1,1,1,1
+gcc,lumex_cxx23,"<empty_t, int>",8,4,1,1,1,1
+gcc,lumex_cxx23,"<int, std::error_code>",24,8,1,1,1,1
+gcc,lumex_cxx23,"<std::string, int>",40,8,0,0,1,1
+gcc,lumex_cxx23,"<int, std::string>",40,8,0,0,1,1
+gcc,lumex_cxx23,"<std::string, text_error_t>",40,8,0,0,1,1
+gcc,lumex_cxx23,"<std::string, std::error_code>",40,8,0,0,1,1
+gcc,lumex_cxx23,"<array16_t, int>",68,4,1,1,1,1
+gcc,lumex_cxx23,"<std::unique_ptr<int>, int>",16,8,0,0,1,1
+gcc,lumex_cxx23,"<void, int>",8,4,1,1,1,1
+gcc,lumex_cxx23,"<void, std::error_code>",24,8,1,1,1,1
+gcc,lumex_cxx23,"<void, std::string>",40,8,0,0,1,1
+gcc,lumex_cxx20,"<char, unsigned char>",2,1,1,1,1,1
+gcc,lumex_cxx20,"<int, unsigned>",8,4,1,1,1,1
+gcc,lumex_cxx20,"<long long, unsigned long long>",16,8,1,1,1,1
+gcc,lumex_cxx20,"<double, int>",16,8,1,1,1,1
+gcc,lumex_cxx20,"<int *, int>",16,8,1,1,1,1
+gcc,lumex_cxx20,"<empty_t, int>",8,4,1,1,1,1
+gcc,lumex_cxx20,"<int, std::error_code>",24,8,1,1,1,1
+gcc,lumex_cxx20,"<std::string, int>",40,8,0,0,1,1
+gcc,lumex_cxx20,"<int, std::string>",40,8,0,0,1,1
+gcc,lumex_cxx20,"<std::string, text_error_t>",40,8,0,0,1,1
+gcc,lumex_cxx20,"<std::string, std::error_code>",40,8,0,0,1,1
+gcc,lumex_cxx20,"<array16_t, int>",68,4,1,1,1,1
+gcc,lumex_cxx20,"<std::unique_ptr<int>, int>",16,8,0,0,1,1
+gcc,lumex_cxx20,"<void, int>",8,4,1,1,1,1
+gcc,lumex_cxx20,"<void, std::error_code>",24,8,1,1,1,1
+gcc,lumex_cxx20,"<void, std::string>",40,8,0,0,1,1
+gcc,lumex_cxx17,"<char, unsigned char>",2,1,1,1,1,1
+gcc,lumex_cxx17,"<int, unsigned>",8,4,1,1,1,1
+gcc,lumex_cxx17,"<long long, unsigned long long>",16,8,1,1,1,1
+gcc,lumex_cxx17,"<double, int>",16,8,1,1,1,1
+gcc,lumex_cxx17,"<int *, int>",16,8,1,1,1,1
+gcc,lumex_cxx17,"<empty_t, int>",8,4,1,1,1,1
+gcc,lumex_cxx17,"<int, std::error_code>",24,8,1,1,1,1
+gcc,lumex_cxx17,"<std::string, int>",40,8,0,0,1,1
+gcc,lumex_cxx17,"<int, std::string>",40,8,0,0,1,1
+gcc,lumex_cxx17,"<std::string, text_error_t>",40,8,0,0,1,1
+gcc,lumex_cxx17,"<std::string, std::error_code>",40,8,0,0,1,1
+gcc,lumex_cxx17,"<array16_t, int>",68,4,1,1,1,1
+gcc,lumex_cxx17,"<std::unique_ptr<int>, int>",16,8,0,0,1,1
+gcc,lumex_cxx17,"<void, int>",8,4,1,1,1,1
+gcc,lumex_cxx17,"<void, std::error_code>",24,8,1,1,1,1
+gcc,lumex_cxx17,"<void, std::string>",40,8,0,0,1,1
+gcc,lumex_cxx14,"<char, unsigned char>",2,1,1,1,1,1
+gcc,lumex_cxx14,"<int, unsigned>",8,4,1,1,1,1
+gcc,lumex_cxx14,"<long long, unsigned long long>",16,8,1,1,1,1
+gcc,lumex_cxx14,"<double, int>",16,8,1,1,1,1
+gcc,lumex_cxx14,"<int *, int>",16,8,1,1,1,1
+gcc,lumex_cxx14,"<empty_t, int>",8,4,1,1,1,1
+gcc,lumex_cxx14,"<int, std::error_code>",24,8,1,1,1,1
+gcc,lumex_cxx14,"<std::string, int>",40,8,0,0,1,1
+gcc,lumex_cxx14,"<int, std::string>",40,8,0,0,1,1
+gcc,lumex_cxx14,"<std::string, text_error_t>",40,8,0,0,1,1
+gcc,lumex_cxx14,"<std::string, std::error_code>",40,8,0,0,1,1
+gcc,lumex_cxx14,"<array16_t, int>",68,4,1,1,1,1
+gcc,lumex_cxx14,"<std::unique_ptr<int>, int>",16,8,0,0,1,1
+gcc,lumex_cxx14,"<void, int>",8,4,1,1,1,1
+gcc,lumex_cxx14,"<void, std::error_code>",24,8,1,1,1,1
+gcc,lumex_cxx14,"<void, std::string>",40,8,0,0,1,1
+gcc,lumex_cxx11,"<char, unsigned char>",2,1,1,1,1,1
+gcc,lumex_cxx11,"<int, unsigned>",8,4,1,1,1,1
+gcc,lumex_cxx11,"<long long, unsigned long long>",16,8,1,1,1,1
+gcc,lumex_cxx11,"<double, int>",16,8,1,1,1,1
+gcc,lumex_cxx11,"<int *, int>",16,8,1,1,1,1
+gcc,lumex_cxx11,"<empty_t, int>",8,4,1,1,1,1
+gcc,lumex_cxx11,"<int, std::error_code>",24,8,1,1,1,1
+gcc,lumex_cxx11,"<std::string, int>",40,8,0,0,1,1
+gcc,lumex_cxx11,"<int, std::string>",40,8,0,0,1,1
+gcc,lumex_cxx11,"<std::string, text_error_t>",40,8,0,0,1,1
+gcc,lumex_cxx11,"<std::string, std::error_code>",40,8,0,0,1,1
+gcc,lumex_cxx11,"<array16_t, int>",68,4,1,1,1,1
+gcc,lumex_cxx11,"<std::unique_ptr<int>, int>",16,8,0,0,1,1
+gcc,lumex_cxx11,"<void, int>",8,4,1,1,1,1
+gcc,lumex_cxx11,"<void, std::error_code>",24,8,1,1,1,1
+gcc,lumex_cxx11,"<void, std::string>",40,8,0,0,1,1
+gcc,outcome_cxx17,"<char, unsigned char>",6,2,1,1,1,1
+gcc,outcome_cxx17,"<int, unsigned>",8,4,1,1,1,1
+gcc,outcome_cxx17,"<long long, unsigned long long>",16,8,1,1,1,1
+gcc,outcome_cxx17,"<double, int>",16,8,1,1,1,1
+gcc,outcome_cxx17,"<int *, int>",16,8,1,1,1,1
+gcc,outcome_cxx17,"<empty_t, int>",8,4,1,1,1,1
+gcc,outcome_cxx17,"<int, std::error_code>",24,8,1,1,1,1
+gcc,outcome_cxx17,"<std::string, int>",40,8,0,0,1,1
+gcc,outcome_cxx17,"<int, std::string>",40,8,0,0,1,1
+gcc,outcome_cxx17,"<std::string, text_error_t>",72,8,0,0,1,1
+gcc,outcome_cxx17,"<std::string, std::error_code>",56,8,0,0,1,1
+gcc,outcome_cxx17,"<array16_t, int>",68,4,1,1,1,1
+gcc,outcome_cxx17,"<std::unique_ptr<int>, int>",16,8,0,0,1,1
+gcc,outcome_cxx17,"<void, int>",8,4,1,1,1,1
+gcc,outcome_cxx17,"<void, std::error_code>",24,8,1,1,1,1
+gcc,outcome_cxx17,"<void, std::string>",40,8,0,0,1,1
