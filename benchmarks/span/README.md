@@ -34,7 +34,11 @@ times: [results/compile_time.csv](results/compile_time.csv)).
   dynamic to static and mutable to const conversions; passing a span by value
   to a `noinline` and to an inlined function; a recursive sum with `first` /
   `subspan` halves down to one element (many tiny spans); `as_bytes` sums;
-  `size_bytes`; `front` and `back`.
+  `size_bytes`; `front` and `back`; and, for the span of this library at C++20
+  only, conversions from a `std::span<int>`, to a `std::span<int>` and from a
+  `span<byte const>` to a `std::span<std::byte const>` (`from_std_span`,
+  `to_std_span`, `bytes_to_std_span`; the other implementations do not
+  have the pair of types, so these rows have no ratio and are listed apart).
 - Equal work: before timing, every scenario is run for a few iterations and its
   checksum is compared with a reference that uses raw pointers only. The
   checksums are written to the CSV and `run_benchmark.py` compares them across
@@ -93,50 +97,81 @@ as above.
 
 Measured on an Intel Core i7-12700K (Linux 6.1, pinned to one performance
 core), GCC 13.2.0 with libstdc++ and Clang 23.1.0 with libc++, Boost 1.92.0
-(headers only), 5 passes, in October 2026. The full tables are in
+(headers only), `-O2 -DNDEBUG` (the flags of the Release profile of the
+library), 5 passes, in October 2026. The full tables are in
 [results/span_benchmark.md](results/span_benchmark.md); the main findings:
 
-- **Same standard, same toolchain: on par.** Comparing the columns of one C++
-  standard, the span of this library is within 13 % of `std::span` and of
-  `boost::span` in every scenario (36; 34 against `boost::span` at C++11,
-  which has no `as_bytes`), and within 10 % in all of them but two entries of
-  one pair: lumex C++11 against `boost::span` C++11 with Clang, `ctor_vector`
-  1.13x and `sum_iterators (1,024)` 0.82x. The geometric mean of the
-  time ratio, lumex C++20 against `std::span` C++20, is 0.999 with GCC and
-  0.992 with Clang (the extremes 0.90x and 1.05x); against `boost::span` at
-  C++20 it is 1.002 and 1.000; lumex C++11 against `boost::span` C++11 it is
-  1.002 and 0.999.
-- **Differences between the C++11 and C++20 columns belong to the harness, not
-  to the span.** A few scenarios are 10 to 25 % slower or faster at C++20 (for
-  example `ctor_ptr_size`, `front_back` and `mutable_to_const` with GCC), and
-  all three implementations move together, because the same loop is placed
-  differently by the compiler in the C++20 build. The loops of the smallest
-  scenarios are a few instructions long (a fraction of a nanosecond) and are
-  affected by where the code and the stack land: two processes of the same
-  executable can differ by a factor of two, which is why the table keeps the
-  best pass and marks (dagger) a value whose slowest pass was more than 25 %
-  slower.
-- **No loss was found, so the code of the span was not changed for speed.**
-  The things that could make a span slower were checked in the generated code
-  and by the scenarios: it is trivially copyable (passed in registers; the
-  `pass_noinline` and `pass_static_noinline` rows are equal to the others),
-  every observer is `noexcept`, the iterators are pointers (the three sums are
-  equal), a static extent stores no size (`ctor_static_array`,
-  `static_first`, `pass_static_noinline`).
-- **The compile time is the price.** One translation unit that includes the
-  header and uses the whole API costs, over the same unit with a stub instead
-  of a span (`-fsyntax-only -O0`): GCC 13.2 at C++11 +121 ms for this library
-  and +135 ms for `boost::span`; at C++20 +373 ms for this library, +97 ms for
-  `std::span` and +249 ms for `boost::span`; Clang 23.1.0 at C++11 +24 ms
-  against +3 ms for Boost, at C++20 +219 ms against +77 ms for `std::span`
-  and +73 ms for Boost. `std::span` is almost free where `<vector>` or
-  `<array>` is included anyway, because `<span>` shares their headers. This
-  header includes what it uses: `<iterator>` and `<stdexcept>` (`at`), and
-  from C++20 `<memory>` (`std::to_address`, which the constructors from
-  iterators need to behave as the standard says for any contiguous iterator)
-  and `<ranges>` (the opt-ins `enable_borrowed_range` and `enable_view`). Up
-  to C++17 `<memory>` is not included: `address_of` replaces
-  `std::addressof`.
+- **The code of the scenarios is the same in every implementation.** The
+  object files of the five GCC and the five Clang executables were
+  disassembled and the loops of every `run_*` function compared instruction
+  by instruction (addresses normalized). With GCC all 36 scenarios common to
+  the five executables have the same instructions in the five variants of the
+  span, apart from differences of no consequence in `std::span`: the operands of one `cmp` swapped in `sum_range_for`, `sum_iterators` and `bytes_sum`, and two `punpck` instructions exchanged in `sum_static_range_for`. With Clang
+  the same holds except for register choice in `ctor_vector`, `last` and
+  `sum_iterators` of `std::span`; `boost::span` at C++11 has no `as_bytes`
+  scenario. The non-inlined callees (`consume_noinline`,
+  `consume_static_noinline`) are identical as well. So a span of this library
+  costs what `std::span` and `boost::span` cost in these scenarios, and
+  there is nothing for a ratio to measure except where the compiler placed
+  the loop.
+- **Ratios between the columns are placement, not the span.** The columns of
+  one row nevertheless differ by up to a factor of two, in both directions:
+  at the same standard the span of this library against `std::span` has a
+  geometric mean of 0.971 with GCC and 0.975 with Clang, with the extremes
+  0.55x (`ctor_std_array`) and 1.47x (`ctor_ptr_size`) with GCC and 0.61x and
+  1.83x with Clang; against `boost::span` at C++20 0.979 and 0.985; lumex
+  C++11 against `boost::span` C++11 1.030 and 1.038 (0.55x to 1.87x). In the
+  cases looked at, the loop is the same bytes and the slow executables
+  are the ones whose loop straddles a 64-byte boundary: the `ctor_ptr_size`
+  loop of GCC is 30 bytes long and starts at offset 40 (lumex C++11, 0.58 ns)
+  and 56 (lumex C++20, 0.62 ns) of a 64-byte line in the two slow executables
+  and at offset 8, 24 and 8 (`std::span`, `boost::span` C++11 and C++20,
+  0.42 ns) in the three fast ones; the `static_to_dynamic` loop of Clang is 29 bytes long, starts at offset 48 in the two executables of this library
+  (0.64 and 0.66 ns) and at offsets 32 and 0 in the three others (0.35 ns).
+  That is a correlation read from the addresses of the linked executables,
+  not a hardware-counter measurement. The sub-nanosecond loops (a few instructions) swing most. The long sums are steadier: with GCC the rows of 1 024 elements move 0.97x to 1.04x, with Clang 0.87x to 1.22x (`sum_index` of `boost::span` C++11 0.87x, `sum_iterators` of `boost::span` C++11 1.22x, `sum_range_for` of `std::span` and `boost::span` C++20 1.20x and 1.22x, again with the same instructions); the rows of 1 000 000 elements and `bytes_sum` stay within 3 % with both. `divide_and_conquer` (a recursion of tiny calls, the same instructions in every variant) moves 0.72x to 1.10x, and its C++20 columns of this library are 0.77x to 0.93x of C++11. A dagger
+  in the tables marks the cells whose slowest pass was more than 25 % slower
+  than the best. Do not read a single row of a sub-nanosecond scenario as a
+  property of a span.
+- **Nothing to repair in the span for speed.** The things that could make a
+  span slower are absent or checked: it is trivially copyable (passed in two
+  registers; `pass_noinline` and `pass_static_noinline` run the same in all
+  variants), every observer is `noexcept`, the iterators are pointers (the
+  three sums are equal on 1 024 and 1 000 000 elements), a static extent
+  stores no size (`sizeof` 8 against 16). The span of this library has no
+  precondition checks at all (`operator[]`, `front`, `back`, `first`, `last`,
+  `subspan` are unchecked), as `boost::span` in a build with `NDEBUG` (its `BOOST_ASSERT` is off; read from the header) and
+  `std::span` of libstdc++ without `_GLIBCXX_ASSERTIONS`; a build of
+  `std::span` with that macro aborts on `s[6]` of a span of 4, the span of
+  this library returns the neighbouring element.
+- **Conversions to and from `std::span` cost a copy of two words.** In the C++20
+  executable of this library `from_std_span`, `to_std_span` and
+  `bytes_to_std_span` (a `span<byte const>` to a `std::span<std::byte const>`) take
+  0.43, 0.65 and 0.43 ns with GCC and 0.35, 0.35 and 0.34 ns with Clang, against
+  0.35 ns for `copy`. The GCC loops of `from_std_span` and `to_std_span`
+  are the same instructions (two 8-byte moves through the stack), so the
+  0.43 against 0.65 is placement again. There is no counterpart in the
+  other two implementations (there is no pair of types to convert between),
+  so these rows have no ratios.
+- **The compile time is the price, and the cost is two standard headers at
+  C++20.** One translation unit that includes the header and uses the whole
+  API costs, over the same unit with a stub instead of a span
+  (`-fsyntax-only -O0`, median of 7): GCC 13.2 at C++11 +128 ms for this
+  library and +125 ms for `boost::span`; at C++20 +385 ms for this library,
+  +44 ms for `std::span` and +190 ms for `boost::span`; Clang 23.1.0 at C++11
+  +49 ms against +42 ms for Boost, at C++20 +249 ms against +100 ms for
+  `std::span` and +88 ms for Boost. The header alone, included after
+  `<array>` and `<vector>` at C++20, costs +211 ms with GCC and +130 ms with
+  Clang; including `<memory>` and `<ranges>` alone (what the header adds from
+  C++20: `std::to_address` for the iterator constructors, and the opt-ins
+  `enable_borrowed_range` and `enable_view`) costs +208 ms and +121 ms,
+  `<span>` +4 ms and +4 ms. So the C++20 cost is `<memory>` and
+  `<ranges>`; `std::span` is almost free because `<span>` does not include
+  them. Up to C++17 `<memory>` is not included: `address_of` replaces
+  `std::addressof`. The same unit compiled with `-O2 -c` produces no code for
+  any variant (the whole unit folds to a constant: 72 or 77 bytes of `.text` with
+  GCC and 3 with Clang, the same for every span and for the stub), so the
+  header-only span has no code-size row: its cost is compile time.
 
 ## Caveats
 
@@ -153,4 +188,10 @@ core), GCC 13.2.0 with libstdc++ and Clang 23.1.0 with libc++, Boost 1.92.0
 - `std::span` is measured at C++20 only (where it exists); `boost::span` and
   this library at C++11 and C++20.
 - The compile times are the median of 7 runs of one unit on a machine that was
-  idle, and differ by 5 to 10 % from run to run.
+  idle, and differ by 5 to 10 % from run to run; the stub baseline of Clang
+  moved from 236 to 210 ms between two runs.
+- The scenarios are compiled at `-O2` (the flags of the library add `-O3` and
+  then `-O2`; the last one wins), generic `-march=x86-64`.
+- Behavior of the span with the `-ffunction-sections` layout of the
+  library flags: the alignment findings above are for these executables and
+  will move with any change of the code in the translation unit.

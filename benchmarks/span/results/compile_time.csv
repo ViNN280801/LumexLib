@@ -1,17 +1,17 @@
 # compiler gcc: g++ (GCC) 13.2.0
 # compiler clang: clang version 23.1.0
 toolchain,variant,median_ms,min_ms,repeats
-gcc,none_cxx11,87.1,85.1,7
-gcc,none_cxx20,185.5,176.7,7
-gcc,lumex_cxx11,207.8,206.0,7
-gcc,lumex_cxx20,559.1,541.1,7
-gcc,std_cxx20,282.7,251.9,7
-gcc,boost_cxx11,222.1,214.5,7
-gcc,boost_cxx20,435.0,384.2,7
-clang,none_cxx11,236.2,226.2,7
-clang,none_cxx20,305.9,298.1,7
-clang,lumex_cxx11,259.5,249.6,7
-clang,lumex_cxx20,525.3,516.3,7
-clang,std_cxx20,382.5,372.3,7
-clang,boost_cxx11,239.5,235.6,7
-clang,boost_cxx20,378.7,373.9,7
+gcc,none_cxx11,90.4,87.8,7
+gcc,none_cxx20,192.2,187.8,7
+gcc,lumex_cxx11,217.5,216.0,7
+gcc,lumex_cxx20,576.6,572.8,7
+gcc,std_cxx20,236.1,233.3,7
+gcc,boost_cxx11,214.9,209.5,7
+gcc,boost_cxx20,382.4,378.6,7
+clang,none_cxx11,210.1,207.9,7
+clang,none_cxx20,303.7,298.4,7
+clang,lumex_cxx11,259.3,257.4,7
+clang,lumex_cxx20,552.6,544.9,7
+clang,std_cxx20,403.9,393.4,7
+clang,boost_cxx11,251.7,247.8,7
+clang,boost_cxx20,392.0,384.9,7
