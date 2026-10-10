@@ -57,6 +57,8 @@
  *   caller (the hand-over of the engine's `exchange`). `detach_weak` is the
  *   weak twin.
  * - `weak_count (p)` is the number of weak pointers of the block.
+ * - `stored (w)` returns the stored pointer of a `weak_ptr` (it has no
+ *   `get ()`).
  *
  * The enable_shared_from_this support lives here too: `esft_dispatch<Y>`
  * finds out whether `Y` has an accessible, unambiguous base
@@ -212,6 +214,15 @@ public:
   control (weak_ptr<T> const &p) LUMEX_NOEXCEPT
   {
     return p.cb_;
+  }
+
+  /// The stored pointer of a weak pointer (`weak_ptr` has no `get ()`); null
+  /// for a default-constructed one.
+  template <class T>
+  static typename weak_ptr<T>::element_type *
+  stored (weak_ptr<T> const &p) LUMEX_NOEXCEPT
+  {
+    return p.ptr_;
   }
 
   /// Builds a shared pointer from a block and a stored pointer, taking over

@@ -59,6 +59,9 @@
  *   to be packed; a reader ticks the holder, reads `owner ()` and
  *   `pointer ()`, and takes its count on the owner. Disposing the holder
  *   drops the owner reference.
+ * - `ctl_weak_holder` is the twin for weak pointers: it owns one weak
+ * reference to another block (`add_weak` in `create`, `release_weak` in
+ * `dispose`).
  *
  * Allocators must have raw pointers as `allocator_traits<A>::pointer`; fancy
  * pointers are not supported (a `static_assert` says so). The allocator is
@@ -351,6 +354,83 @@ private:
   {
     this->~ctl_holder ();
     deallocate_aligned (this, alignof (ctl_holder));
+  }
+
+  ctl_base *owner_;
+  void *pointer_;
+};
+
+/**
+ * @brief The holder of an alias that the engine of `atomic_weak_ptr` cannot
+ * pack: it owns one WEAK reference to another block and the stored pointer.
+ * @details The twin of `ctl_holder` for weak pointers: `create` takes a weak
+ * reference on @p owner (`add_weak`), disposing the holder drops it
+ * (`release_weak`), so the holder keeps the owner's block, not its object. The
+ * holder's own counters are used like those of `ctl_holder`: the atomic
+ * object owns one strong reference to the holder, readers tick it and settle
+ * on its strong group.
+ */
+class ctl_weak_holder final : public ctl_base
+{
+public:
+  /**
+   * @brief Creates a holder for @p owner and @p pointer.
+   * @details Takes one weak reference on @p owner (`add_weak`), which the
+   * holder drops when it is disposed. Throws `std::bad_alloc`.
+   */
+  static ctl_weak_holder *
+  create (ctl_base *owner, void *pointer)
+  {
+    void *memory = allocate_aligned (sizeof (ctl_weak_holder),
+                                     alignof (ctl_weak_holder));
+    LUMEX_SMART_PTR_TRY
+    {
+      ctl_weak_holder *holder
+          = ::new (memory) ctl_weak_holder (owner, pointer);
+      owner->add_weak ();
+      return holder;
+    }
+    LUMEX_SMART_PTR_CATCH_ALL
+    {
+      deallocate_aligned (memory, alignof (ctl_weak_holder));
+      LUMEX_SMART_PTR_RETHROW;
+    }
+    return nullptr;
+  }
+
+  /// The block whose weak reference the holder owns.
+  ctl_base *
+  owner () const LUMEX_NOEXCEPT
+  {
+    return owner_;
+  }
+
+  /// The stored pointer of the alias.
+  void *
+  pointer () const LUMEX_NOEXCEPT
+  {
+    return pointer_;
+  }
+
+private:
+  ctl_weak_holder (ctl_base *owner, void *pointer) LUMEX_NOEXCEPT
+      : ctl_base (),
+        owner_ (owner),
+        pointer_ (pointer)
+  {
+  }
+
+  void
+  dispose () LUMEX_NOEXCEPT override
+  {
+    owner_->release_weak ();
+  }
+
+  void
+  destroy () LUMEX_NOEXCEPT override
+  {
+    this->~ctl_weak_holder ();
+    deallocate_aligned (this, alignof (ctl_weak_holder));
   }
 
   ctl_base *owner_;
