@@ -481,6 +481,11 @@ if(LUMEX_BUILD_BENCHMARKS AND LUMEX_BUILD_CORE AND LUMEX_BUILD_STRING_VIEW)
     add_subdirectory(benchmarks/string_view)
 endif()
 
+if(LUMEX_BUILD_BENCHMARKS AND LUMEX_BUILD_CORE AND LUMEX_BUILD_CIRCULAR_BUFFER)
+    message(STATUS "Building benchmarks (benchmarks/circular_buffer)")
+    add_subdirectory(benchmarks/circular_buffer)
+endif()
+
 # Shared libs (not test/example binaries) -> <platform>/Distr<Config>.
 # Tests are registered with CTest; the programmer runs ctest explicitly.
 # Embedded: Distr lives in this library's source tree, and the parent
