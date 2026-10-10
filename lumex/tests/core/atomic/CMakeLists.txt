@@ -7,6 +7,8 @@
 # source tree (lumex/core/atomic):
 #   dwcas/      the 16-byte word with a 128-bit compare-and-swap (x86-64)
 #   smart_ptr/  the smart pointers (LumexAtomicSmartPtr*, SharedPtr, WeakPtr)
+#   smart_ptr/split_count/  the split-count engine over lumex::smart_ptr
+#               (x86-64; module key atomic.smart_ptr.split_count)
 #   sync/       the wait and the two-bit lock (LumexAtomicWait)
 #   this one    LumexAtomicGlobalNames.cxx11.tests.cpp, the test of the module
 #               umbrella, and LumexAtomicTestSupport.hpp, which both

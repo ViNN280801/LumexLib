@@ -40,7 +40,9 @@
 /**
  * @file LumexAtomicWeakPtr.hpp
  * @brief `atomic_weak_ptr<T>` and its engines (`atomic_weak_ptr_lock_free`,
- * `atomic_weak_ptr_lock_based`, `atomic_weak_ptr_std_backed`): the interface
+ * `atomic_weak_ptr_lock_based`, `atomic_weak_ptr_std_backed`, and
+ * `atomic_weak_ptr_lock_free_split_count` over
+ * `lumex::core::smart_ptr::weak_ptr`): the interface
  * of the C++20 `std::atomic<std::weak_ptr<T>>` for C++11 and later.
  * @details Every engine is a class template of its own over the same
  * interface; `atomic_weak_ptr<T>` is an alias template of one of them (see
@@ -81,6 +83,10 @@
 #include "lumex/core/atomic/smart_ptr/LumexAtomicSmartPtrConfig.hpp"
 #if LUMEX_ATOMIC_SMART_PTR_HAS_LOCK_FREE
 #include "lumex/core/atomic/smart_ptr/LumexAtomicSmartPtrLockFreeCell.hpp"
+#endif
+#if LUMEX_ATOMIC_SMART_PTR_HAS_SPLIT_COUNT
+#include "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp"
+#include "lumex/core/smart_ptr/weak/LumexWeakPtr.hpp"
 #endif
 #include "lumex/core/utility/attr/LumexAttributes.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
@@ -426,6 +432,43 @@ public:
   using base_type::operator=;
 };
 #endif // LUMEX_ATOMIC_SMART_PTR_HAS_LOCK_FREE
+
+#if LUMEX_ATOMIC_SMART_PTR_HAS_SPLIT_COUNT
+/**
+ * @brief Lock-free atomic `lumex::core::smart_ptr::weak_ptr<T>` (the
+ * split-count engine).
+ * @details See `atomic_shared_ptr_lock_free_split_count`: the same engine on
+ * the weak ledger of the control block. The object holds one weak reference;
+ * a load ticks the word, takes a weak reference and settles. Weak loads do
+ * not change `use_count ()` of the owners. Declared only where the engine
+ * exists (`LUMEX_ATOMIC_SMART_PTR_HAS_SPLIT_COUNT`).
+ * @tparam T The element type of the weak pointer.
+ */
+template <typename T>
+class atomic_weak_ptr_lock_free_split_count
+    : public Detail::basic_atomic_weak_ptr<
+          T, Detail::split_count_cell<::lumex::core::smart_ptr::weak_ptr<T>>>
+{
+  using base_type = Detail::basic_atomic_weak_ptr<
+      T, Detail::split_count_cell<::lumex::core::smart_ptr::weak_ptr<T>>>;
+
+public:
+  /// The type of the stored value.
+  using value_type = typename base_type::value_type;
+
+  /// Creates an object that holds an empty weak pointer.
+  LUMEX_CONSTEXPR
+  atomic_weak_ptr_lock_free_split_count () LUMEX_NOEXCEPT : base_type () {}
+
+  /// Creates an object that holds @p desired.
+  atomic_weak_ptr_lock_free_split_count (value_type desired) LUMEX_NOEXCEPT
+      : base_type (std::move (desired))
+  {
+  }
+
+  using base_type::operator=;
+};
+#endif // LUMEX_ATOMIC_SMART_PTR_HAS_SPLIT_COUNT
 
 /**
  * @brief The common name: `std::atomic<std::weak_ptr<T>>` from C++11 on.

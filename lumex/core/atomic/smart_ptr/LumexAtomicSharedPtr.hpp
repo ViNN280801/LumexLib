@@ -41,7 +41,9 @@
  * @file LumexAtomicSharedPtr.hpp
  * @brief `atomic_shared_ptr<T>` and its engines
  * (`atomic_shared_ptr_lock_free`, `atomic_shared_ptr_lock_based`,
- * `atomic_shared_ptr_std_backed`): the interface of the C++20
+ * `atomic_shared_ptr_std_backed`, and
+ * `atomic_shared_ptr_lock_free_split_count` over
+ * `lumex::core::smart_ptr::shared_ptr`): the interface of the C++20
  * `std::atomic<std::shared_ptr<T>>` for C++11 and later.
  * @details Every engine is a class template of its own over the same
  * interface; `atomic_shared_ptr<T>` is an alias template of one of them
@@ -87,6 +89,10 @@
 #include "lumex/core/atomic/smart_ptr/LumexAtomicSmartPtrConfig.hpp"
 #if LUMEX_ATOMIC_SMART_PTR_HAS_LOCK_FREE
 #include "lumex/core/atomic/smart_ptr/LumexAtomicSmartPtrLockFreeCell.hpp"
+#endif
+#if LUMEX_ATOMIC_SMART_PTR_HAS_SPLIT_COUNT
+#include "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp"
+#include "lumex/core/smart_ptr/shared/LumexSharedPtr.hpp"
 #endif
 #include "lumex/core/utility/attr/LumexAttributes.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
@@ -482,6 +488,63 @@ public:
   using base_type::operator=;
 };
 #endif // LUMEX_ATOMIC_SMART_PTR_HAS_LOCK_FREE
+
+#if LUMEX_ATOMIC_SMART_PTR_HAS_SPLIT_COUNT
+/**
+ * @brief Lock-free atomic `lumex::core::smart_ptr::shared_ptr<T>` (the
+ * split-count engine).
+ * @details Declared only where the engine exists
+ * (`LUMEX_ATOMIC_SMART_PTR_HAS_SPLIT_COUNT`: x86-64 with the pointer family
+ * linked). The value is one 16-byte word, a control block address, the
+ * number of loads in flight and the offset of the stored pointer, updated by
+ * a 128-bit compare-and-swap; see
+ * `split_count/LumexSplitCountCell.hpp` for the protocol. The value type is
+ * the module's own `shared_ptr`, never `std::shared_ptr`. `load` never waits
+ * for another thread except past 2^24 - 1 loads of one object in flight; a
+ * compare-exchange retries only when another thread made progress;
+ * `is_always_lock_free` and `is_lock_free ()` are true in that sense. A value
+ * replaced by `store`, `exchange` or a compare-exchange is destroyed in the
+ * call unless a load of it is in flight (then the last thread to pay for it
+ * destroys it, possibly inside `load`). `use_count ()` of a stored value
+ * never reports fewer owners than exist and never waits; it is exact when no
+ * operation on an atomic that holds the value is in flight, and can be
+ * briefly higher while one is. Modifying operations do not wake `wait ()`.
+ * Every operation terminates the program on a CPU without CMPXCHG16B (the
+ * first use checks it once).
+ * @tparam T The element type of the shared pointer.
+ */
+template <typename T>
+class atomic_shared_ptr_lock_free_split_count
+    : public Detail::basic_atomic_shared_ptr<
+          T, Detail::split_count_cell<::lumex::core::smart_ptr::shared_ptr<T>>>
+{
+  using base_type = Detail::basic_atomic_shared_ptr<
+      T, Detail::split_count_cell<::lumex::core::smart_ptr::shared_ptr<T>>>;
+
+public:
+  /// The type of the stored value.
+  using value_type = typename base_type::value_type;
+
+  /// Creates an object that holds an empty shared pointer.
+  LUMEX_CONSTEXPR
+  atomic_shared_ptr_lock_free_split_count () LUMEX_NOEXCEPT : base_type () {}
+
+  /// Creates an object that holds an empty shared pointer (LWG 3661).
+  LUMEX_CONSTEXPR
+  atomic_shared_ptr_lock_free_split_count (std::nullptr_t) LUMEX_NOEXCEPT
+      : base_type ()
+  {
+  }
+
+  /// Creates an object that holds @p desired.
+  atomic_shared_ptr_lock_free_split_count (value_type desired) LUMEX_NOEXCEPT
+      : base_type (std::move (desired))
+  {
+  }
+
+  using base_type::operator=;
+};
+#endif // LUMEX_ATOMIC_SMART_PTR_HAS_SPLIT_COUNT
 
 /**
  * @brief The common name: `std::atomic<std::shared_ptr<T>>` from C++11 on.
