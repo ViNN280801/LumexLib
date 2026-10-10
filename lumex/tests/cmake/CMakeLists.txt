@@ -314,6 +314,20 @@ lumex_add_consumer_test(consumer_reflection_umbrella_field_reflection_on
 # MSVC consumers that set no /Zc:__cplusplus must still see the real
 # __cplusplus in Lumex headers (the INTERFACE flag of every module target).
 lumex_add_consumer_test(consumer_cplusplus_macro cplusplus_macro)
+
+# expected without exceptions: value () terminates, no try block remains. The
+# real -fno-exceptions build at C++11 and C++20 (GCC, Clang; skipped on MSVC),
+# and the macro LUMEX_EXPECTED_HAS_EXCEPTIONS=0 with exceptions on at C++17
+# (every compiler).
+lumex_add_consumer_test(consumer_expected_no_exceptions_cxx11
+    expected_no_exceptions
+    -DEXPECTED_NO_EXCEPTIONS_MODE=compiler -DEXPECTED_NO_EXCEPTIONS_STD=11)
+lumex_add_consumer_test(consumer_expected_no_exceptions_cxx20
+    expected_no_exceptions
+    -DEXPECTED_NO_EXCEPTIONS_MODE=compiler -DEXPECTED_NO_EXCEPTIONS_STD=20)
+lumex_add_consumer_test(consumer_expected_no_exceptions_macro_cxx17
+    expected_no_exceptions
+    -DEXPECTED_NO_EXCEPTIONS_MODE=macro -DEXPECTED_NO_EXCEPTIONS_STD=17)
 # Exported functions do not depend on the C++ standard: the library at one
 # standard and the consumer at another link, both ways (base64, XML and
 # exceptions, through their inline wrappers).

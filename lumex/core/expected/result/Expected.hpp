@@ -337,6 +337,122 @@ public:
   {
   }
 
+#if LUMEX_EXPECTED_HAS_STD_CONVERSION
+  /**
+   * @brief Converting constructor from a `std::expected<SuccessType,
+   * ErrorType>` (copy, implicit).
+   * @details Creates an `expected` with the state of `other`: the value or
+   * the error is copied. Only the `std::expected` of exactly the same
+   * `SuccessType` and `ErrorType` converts (a `std::expected` of other types
+   * converts in two steps, through `expected<U, G>`). Present when the
+   * standard library has `std::expected` (C++23, `LUMEX_HAS_STD_EXPECTED`).
+   * @tparam S `std::expected<SuccessType, ErrorType>`; any other type does
+   * not take part in overload resolution.
+   * @param[in] other The `std::expected` to convert.
+   * @note Not `constexpr` before C++20 (the storage of the alternative is
+   * started in the body); `noexcept` when both copies are.
+   * @throws May throw if copying the value or the error throws.
+   */
+  template <typename S,
+            typename std::enable_if<
+                detail::is_std_expected_of<S, SuccessType, ErrorType>::value
+                    && std::is_copy_constructible<SuccessType>::value
+                    && std::is_copy_constructible<ErrorType>::value,
+                int>::type
+            = 0>
+  LUMEX_EXPECTED_CONSTEXPR_CXX20
+  expected (S const &other) LUMEX_NOEXCEPT_IF (
+      std::is_nothrow_copy_constructible<SuccessType>::value
+          &&std::is_nothrow_copy_constructible<ErrorType>::value)
+      : base_type (detail::convert_tag (), other)
+  {
+  }
+
+  /**
+   * @brief Converting constructor from a `std::expected<SuccessType,
+   * ErrorType>` (move, implicit).
+   * @details As the copy one, moving the value or the error out of `other`.
+   * @tparam S `std::expected<SuccessType, ErrorType>`; any other type does
+   * not take part in overload resolution.
+   * @param[in] other The `std::expected` to convert; its contents are moved
+   * from.
+   * @note `noexcept` when both moves are.
+   * @throws May throw if moving the value or the error throws.
+   */
+  template <typename S,
+            typename std::enable_if<
+                detail::is_std_expected_of<S, SuccessType, ErrorType>::value
+                    && std::is_move_constructible<SuccessType>::value
+                    && std::is_move_constructible<ErrorType>::value,
+                int>::type
+            = 0>
+  LUMEX_EXPECTED_CONSTEXPR_CXX20
+  expected (S &&other) LUMEX_NOEXCEPT_IF (
+      std::is_nothrow_move_constructible<SuccessType>::value
+          &&std::is_nothrow_move_constructible<ErrorType>::value)
+      : base_type (detail::convert_tag (), detail::mv (other))
+  {
+  }
+
+  /**
+   * @brief Conversion to the `std::expected<SuccessType, ErrorType>` of the
+   * same types (an lvalue or a const object: copies).
+   * @tparam S `std::expected<SuccessType, ErrorType>`; any other type does
+   * not take part in overload resolution.
+   * @return A `std::expected` with the state of this object.
+   * @note `noexcept` when both copies are. `constexpr` where the language
+   * lets the constructors of `std::expected` be (C++23).
+   * @throws May throw if copying the value or the error throws.
+   */
+  template <typename S,
+            typename std::enable_if<
+                detail::is_std_expected_of<S, SuccessType, ErrorType>::value
+                    && std::is_copy_constructible<SuccessType>::value
+                    && std::is_copy_constructible<ErrorType>::value,
+                int>::type
+            = 0>
+  LUMEX_EXPECTED_CONSTEXPR_CXX20
+  operator S () const &LUMEX_NOEXCEPT_IF (
+      std::is_nothrow_copy_constructible<SuccessType>::value
+          &&std::is_nothrow_copy_constructible<ErrorType>::value)
+  {
+    return m_has_value
+               ? S (std::in_place,
+                    static_cast<SuccessType const &> (m_storage.m_value))
+               : S (std::unexpect,
+                    static_cast<ErrorType const &> (m_storage.m_error));
+  }
+
+  /**
+   * @brief Conversion to the `std::expected<SuccessType, ErrorType>` of the
+   * same types (an rvalue: moves).
+   * @tparam S `std::expected<SuccessType, ErrorType>`; any other type does
+   * not take part in overload resolution.
+   * @return A `std::expected` with the state of this object; its value or
+   * error is moved from.
+   * @note `noexcept` when both moves are.
+   * @throws May throw if moving the value or the error throws.
+   */
+  template <typename S,
+            typename std::enable_if<
+                detail::is_std_expected_of<S, SuccessType, ErrorType>::value
+                    && std::is_move_constructible<SuccessType>::value
+                    && std::is_move_constructible<ErrorType>::value,
+                int>::type
+            = 0>
+      LUMEX_EXPECTED_CONSTEXPR_CXX20
+      operator S ()
+      && LUMEX_NOEXCEPT_IF (
+          std::is_nothrow_move_constructible<SuccessType>::value
+              &&std::is_nothrow_move_constructible<ErrorType>::value)
+  {
+    return m_has_value ? S (std::in_place,
+                            static_cast<SuccessType &&> (m_storage.m_value))
+                       : S (std::unexpect,
+                            static_cast<ErrorType &&> (m_storage.m_error));
+  }
+#endif // LUMEX_EXPECTED_HAS_STD_CONVERSION
+
   /**
    * @brief Constructor from a success value (implicit conversion).
    * @details Creates an `expected` in the success state holding the value
@@ -358,6 +474,8 @@ public:
               && !std::is_same<detail::remove_cvref_t<U>, in_place_tag>::value
               && !std::is_same<detail::remove_cvref_t<U>, unexpect_t>::value
               && !detail::is_unexpected<detail::remove_cvref_t<U>>::value
+              && !detail::is_std_expected_of<detail::remove_cvref_t<U>,
+                                             SuccessType, ErrorType>::value
               && !(std::is_same<typename std::remove_cv<SuccessType>::type,
                                 bool>::value
                    && lumex::core::utility::traits::value::is_expected<
@@ -388,6 +506,8 @@ public:
               && !std::is_same<detail::remove_cvref_t<U>, in_place_tag>::value
               && !std::is_same<detail::remove_cvref_t<U>, unexpect_t>::value
               && !detail::is_unexpected<detail::remove_cvref_t<U>>::value
+              && !detail::is_std_expected_of<detail::remove_cvref_t<U>,
+                                             SuccessType, ErrorType>::value
               && !(std::is_same<typename std::remove_cv<SuccessType>::type,
                                 bool>::value
                    && lumex::core::utility::traits::value::is_expected<

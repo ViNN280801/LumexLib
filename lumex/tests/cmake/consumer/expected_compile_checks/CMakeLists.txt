@@ -8,7 +8,10 @@
 #                                   (expected, bad_expected_access,
 #                                   make_unexpected, unexpect, unexpect_t,
 #                                   in_place_tag) are the names of the module,
-#                                   and unexpected is reached by its full name
+#                                   and unexpected is reached by its full name;
+#                                   also lumex_assert_handler is noreturn (a
+#                                   function that ends with a call of it
+#                                   compiles under -Werror)
 #   LUMEX_EXPECTED_OWN_NAME_CASE    1-4 compile: the program's own global
 #                                   `unexpected` (a function as in <eh.h>, a
 #                                   class template as in other libraries)

@@ -295,6 +295,106 @@ public:
   {
   }
 
+#if LUMEX_EXPECTED_HAS_STD_CONVERSION
+  /**
+   * @brief Converting constructor from a `std::expected<void, ErrorType>`
+   * (copy, implicit).
+   * @details Creates an `expected` with the state of `other`, copying the
+   * error. Only the `std::expected` of exactly `void` and `ErrorType`
+   * converts. Present when the standard library has `std::expected` (C++23,
+   * `LUMEX_HAS_STD_EXPECTED`).
+   * @tparam S `std::expected<void, ErrorType>`; any other type does not take
+   * part in overload resolution.
+   * @param[in] other The `std::expected` to convert.
+   * @note `noexcept` when the copy of the error is.
+   * @throws May throw if copying the error throws.
+   */
+  template <typename S,
+            typename std::enable_if<
+                detail::is_std_expected_of<S, void, ErrorType>::value
+                    && std::is_copy_constructible<ErrorType>::value,
+                int>::type
+            = 0>
+  LUMEX_EXPECTED_CONSTEXPR_CXX20
+  expected (S const &other)
+      LUMEX_NOEXCEPT_IF (std::is_nothrow_copy_constructible<ErrorType>::value)
+      : base_type (detail::convert_tag (), other)
+  {
+  }
+
+  /**
+   * @brief Converting constructor from a `std::expected<void, ErrorType>`
+   * (move, implicit).
+   * @tparam S `std::expected<void, ErrorType>`; any other type does not take
+   * part in overload resolution.
+   * @param[in] other The `std::expected` to convert; its error is moved from.
+   * @note `noexcept` when the move of the error is.
+   * @throws May throw if moving the error throws.
+   */
+  template <typename S,
+            typename std::enable_if<
+                detail::is_std_expected_of<S, void, ErrorType>::value
+                    && std::is_move_constructible<ErrorType>::value,
+                int>::type
+            = 0>
+  LUMEX_EXPECTED_CONSTEXPR_CXX20
+  expected (S &&other)
+      LUMEX_NOEXCEPT_IF (std::is_nothrow_move_constructible<ErrorType>::value)
+      : base_type (detail::convert_tag (), detail::mv (other))
+  {
+  }
+
+  /**
+   * @brief Conversion to the `std::expected<void, ErrorType>` (an lvalue or a
+   * const object: copies the error).
+   * @tparam S `std::expected<void, ErrorType>`; any other type does not take
+   * part in overload resolution.
+   * @return A `std::expected` with the state of this object.
+   * @note `noexcept` when the copy of the error is.
+   * @throws May throw if copying the error throws.
+   */
+  template <typename S,
+            typename std::enable_if<
+                detail::is_std_expected_of<S, void, ErrorType>::value
+                    && std::is_copy_constructible<ErrorType>::value,
+                int>::type
+            = 0>
+  LUMEX_EXPECTED_CONSTEXPR_CXX20
+  operator S () const &LUMEX_NOEXCEPT_IF (
+      std::is_nothrow_copy_constructible<ErrorType>::value)
+  {
+    return m_has_value
+               ? S ()
+               : S (std::unexpect,
+                    static_cast<ErrorType const &> (m_storage.m_error));
+  }
+
+  /**
+   * @brief Conversion to the `std::expected<void, ErrorType>` (an rvalue:
+   * moves the error).
+   * @tparam S `std::expected<void, ErrorType>`; any other type does not take
+   * part in overload resolution.
+   * @return A `std::expected` with the state of this object.
+   * @note `noexcept` when the move of the error is.
+   * @throws May throw if moving the error throws.
+   */
+  template <typename S,
+            typename std::enable_if<
+                detail::is_std_expected_of<S, void, ErrorType>::value
+                    && std::is_move_constructible<ErrorType>::value,
+                int>::type
+            = 0>
+      LUMEX_EXPECTED_CONSTEXPR_CXX20
+      operator S ()
+      && LUMEX_NOEXCEPT_IF (
+          std::is_nothrow_move_constructible<ErrorType>::value)
+  {
+    return m_has_value ? S ()
+                       : S (std::unexpect,
+                            static_cast<ErrorType &&> (m_storage.m_error));
+  }
+#endif // LUMEX_EXPECTED_HAS_STD_CONVERSION
+
   /**
    * @brief Constructor from `unexpected<G>` (copy, implicit).
    * @details Creates an `expected` in the error state by copying the error

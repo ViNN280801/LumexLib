@@ -11,6 +11,7 @@
 // `in_place_tag`) are used by the good case, so a typo in a bad case cannot
 // pass for the check it stands for.
 
+#include <cstdlib>
 #include <string>
 #include <type_traits>
 
@@ -54,7 +55,28 @@ namespace
 {
 using library_expected_t
     = lumex::core::expected::result::expected<int, std::string>;
+
+#if defined(LUMEX_EXPECTED_GOOD_CASE) && !defined(_WIN32)
+// lumex_assert_handler is declared noreturn, so the failing branch of the
+// precondition checks of expected is cold and does not change the code around
+// them. A handler that may return makes this function fall off its end, which
+// the compiler reports as an error under -Werror (-Wreturn-type is on by
+// default in C++). The fixture links no library, so it defines the handler.
+int
+assert_handler_does_not_return ()
+{
+  lumex_assert_handler ("condition", "file", 1);
+}
+#endif
 } // namespace
+
+#if defined(LUMEX_EXPECTED_GOOD_CASE) && !defined(_WIN32)
+extern "C" void
+lumex_assert_handler (char const *, char const *, int) LUMEX_NOEXCEPT
+{
+  std::abort ();
+}
+#endif
 
 int
 main ()
@@ -93,6 +115,9 @@ main ()
   library_expected_t const refused = unexpected<std::string> ("no");
   used += failed.has_value () ? 1 : 0;
   used += refused.has_value () ? 1 : 0;
+#if !defined(_WIN32)
+  used += used == 12345 ? assert_handler_does_not_return () : 0;
+#endif
 #elif defined(LUMEX_EXPECTED_OWN_NAME_CASE)
   // Next to the program's own `unexpected` the class is reached by its full
   // name.
