@@ -112,9 +112,10 @@
  * owner stays alive for every pin that remains on the holder, because the
  * mirror unit of each such pin was deposited on the owner before the swap
  * that removed it, and the holder keeps itself alive by its own counter. So
- * the owner shows no extra reference once the replacing call has dropped the word's unit. The weak engine does not
- * mirror (weak loads do not change `use_count ()`) and keeps the weak
- * reference of its holder until the holder is disposed.
+ * the owner shows no extra reference once the replacing call has dropped the
+ * word's unit. The weak engine does not mirror (weak loads do not change
+ * `use_count ()`) and keeps the weak reference of its holder until the holder
+ * is disposed.
  *
  * **Why no address comparison can be fooled by a reused block address.** A
  * tick and a swap compare the whole word in one instruction (success means
