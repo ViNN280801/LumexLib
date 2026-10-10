@@ -93,7 +93,9 @@ TEST (LumexCtlBaseTest,
       (sizeof (
           sp::detail::ctl_inplace<int, sp::detail::block_allocator<int>>)),
       40u);
-  EXPECT_EQ ((sizeof (sp::detail::ctl_holder)), 48u);
+  // Holder: header + owner + pointer + the flag that tells whether it still
+  // owns its reference on the owner, padded.
+  EXPECT_EQ ((sizeof (sp::detail::ctl_holder)), 56u);
 }
 
 TEST (LumexCtlBaseTest,
@@ -283,6 +285,24 @@ TEST (LumexCtlBaseTest,
   EXPECT_EQ (owner.use_count (), 1)
       << "disposing the holder drops the owner reference";
   EXPECT_EQ (owner.order, "");
+  owner.release_strong ();
+  EXPECT_EQ (owner.order, "DZ");
+}
+
+TEST (LumexCtlBaseTest,
+      GivenADisownedHolder_WhenDisposed_ThenTheOwnerIsNotReleasedAgain)
+{
+  RecordingBlock owner;
+  int pointee = 0;
+  ctl_holder *holder = ctl_holder::create (&owner, &pointee);
+  ASSERT_EQ (owner.use_count (), 2);
+  holder->disown ();
+  EXPECT_EQ (owner.use_count (), 2) << "disown only moves the responsibility";
+  holder->release_strong ();
+  EXPECT_EQ (owner.use_count (), 2)
+      << "a disowned holder does not drop the owner reference";
+  EXPECT_EQ (owner.order, "");
+  owner.release_strong (); // the reference that the holder gave up
   owner.release_strong ();
   EXPECT_EQ (owner.order, "DZ");
 }

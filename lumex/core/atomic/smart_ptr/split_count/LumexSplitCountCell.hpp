@@ -102,11 +102,19 @@
  * group, and a load of a holder word returns the OWNER (the holder never
  * escapes). In the shared engine every deposit, withdrawal and payment on a
  * holder is mirrored on the owner's strong `ext`, so that `use_count ()` of
- * the owner sees the pins; the owner is always touched first when units leave
- * (the holder's disposal releases the owner) and the holder first when units
- * enter. The weak engine does not mirror: weak loads do not change
- * `use_count ()`. The hand-over of `exchange` takes a new reference on the
- * owner and drops the holder; it never steals the holder's reference.
+ * the owner sees the pins; the owner is touched first when units leave and
+ * the holder first when units enter. The reference of the holder on the owner
+ * belongs to the word: whoever drops the word's unit (`store`, a successful
+ * compare-exchange, the destructor, an image that was never installed) also
+ * drops that reference, together with the surplus of the mirror in one
+ * read-modify-write, after the holder was told to give it up (`disown`); the
+ * `exchange` hand-over gives the reference to its result and adds none. The
+ * owner stays alive for every pin that remains on the holder, because the
+ * mirror unit of each such pin was deposited on the owner before the swap
+ * that removed it, and the holder keeps itself alive by its own counter. So
+ * the owner shows no extra reference after the swap. The weak engine does not
+ * mirror (weak loads do not change `use_count ()`) and keeps the weak
+ * reference of its holder until the holder is disposed.
  *
  * **Why no address comparison can be fooled by a reused block address.** A
  * tick and a swap compare the whole word in one instruction (success means
@@ -145,8 +153,12 @@
  *   lagging decrement; `exchange` has no such window), (ii) a writer between
  *   its deposit and the end of its call (+ other ticks + `k`), (iii) a unit
  *   deposited for a loader that has already counted itself, until it pays
- *   (+1);
- * - exact when nothing is in flight. It never waits.
+ *   (+1). This holds for the owner of an alias stored through a holder as
+ *   well;
+ * - exact when nothing is in flight. It never waits;
+ * - `ext` is bounded by `W * (P + k)` for `W` writers that have deposited and
+ *   not yet returned or paid and `P` pins: the outstanding deposit of one
+ *   writer is the pins its swap covers (at most `P`) plus its reserve.
  *
  * **Progress.** A compare-and-swap of the word fails only when another
  * operation succeeded on it; no operation waits for a counter that another
@@ -175,6 +187,7 @@
 
 #include <atomic>
 #include <cstdint>
+#include <type_traits>
 #include <utility>
 
 #include "lumex/core/atomic/dwcas/LumexDwcasWord.hpp"
@@ -236,16 +249,14 @@ public:
   split_count_cell &operator= (split_count_cell const &) = delete;
 
   /// Drops the unit the word owns. No operation may be in flight (the
-  /// object is being destroyed), so the word has no ticks and a guess of it
-  /// names the block exactly; only `lo` of the guess is used. The assertion
-  /// that no pin is left reads the word atomically, because a guess may be
-  /// torn.
+  /// object is being destroyed), so the word has no ticks. The word is read
+  /// atomically, not guessed: a guess may be torn (its halves from two
+  /// moments), and the destructor must drop exactly the block that is there.
   ~split_count_cell ()
   {
-    split_value_t const old = Policy::guess (word_);
-    LUMEX_SMART_PTR_DEBUG_ASSERT (
-        word::is_empty (old)
-        || word::ticks_of (word_.load (std::memory_order_relaxed)) == 0u);
+    split_value_t const old = word_.load (std::memory_order_relaxed);
+    LUMEX_SMART_PTR_DEBUG_ASSERT (word::is_empty (old)
+                                  || word::ticks_of (old) == 0u);
     drop_word (old);
   }
 
@@ -518,7 +529,9 @@ private:
   }
 
   /// Drops the unit that the word @p w owned (an image that was never
-  /// installed, or a swapped-out word without surplus).
+  /// installed, or a swapped-out word without surplus). For a holder word of
+  /// the shared engine the reference of the holder on its owner leaves with
+  /// the word's unit (F1).
   static void
   drop_word (split_value_t w) LUMEX_NOEXCEPT
   {
@@ -526,9 +539,59 @@ private:
       return;
     Policy::at (split_point_t::release);
     if (word::is_holder (w))
-      holder_ledger_type::release (word::block_of (w));
+      {
+        release_owner<traits_type::mirror_holder> (word::block_of (w), 0u);
+        holder_ledger_type::release (word::block_of (w));
+      }
     else
       ledger_type::release (word::block_of (w));
+  }
+
+  /// F1, the shared engine: the holder gives up its reference on the owner
+  /// (`disown`, so that the holder's disposal does not drop it again) and the
+  /// dropper of the word's unit drops it, together with the @p surplus of the
+  /// mirror in one read-modify-write. Every pin that is still on the holder
+  /// has its mirror unit in the owner's `ext` (deposited before the swap), so
+  /// the owner stays alive for it. The caller still owns the word's unit on
+  /// the holder, which keeps @p holder alive here, and releases it after this
+  /// call: the `disown` write is ordered before the disposal of the holder by
+  /// that release (and the acquire on zero).
+  template <bool Mirror>
+  static typename std::enable_if<Mirror>::type
+  release_owner (block_type *holder, std::uint32_t surplus) LUMEX_NOEXCEPT
+  {
+    holder_type *const h = static_cast<holder_type *> (holder);
+    block_type *const owner = h->owner ();
+    h->disown ();
+    if (surplus == 0u)
+      owner->release_strong ();
+    else
+      owner->release_strong_with_ext (surplus);
+  }
+
+  /// The weak engine: the holder keeps its weak reference until it is
+  /// disposed (there is no mirror, so nothing else keeps the owner's block).
+  template <bool Mirror>
+  static typename std::enable_if<!Mirror>::type
+  release_owner (block_type *, std::uint32_t) LUMEX_NOEXCEPT
+  {
+  }
+
+  /// Hand-over of a holder word to the result of an exchange: the shared
+  /// engine hands over the holder's reference on the owner (`disown`), the
+  /// weak engine takes a new one.
+  template <bool Mirror>
+  static typename std::enable_if<Mirror>::type
+  take_owner_reference (block_type *holder, block_type *) LUMEX_NOEXCEPT
+  {
+    static_cast<holder_type *> (holder)->disown ();
+  }
+
+  template <bool Mirror>
+  static typename std::enable_if<!Mirror>::type
+  take_owner_reference (block_type *, block_type *owner) LUMEX_NOEXCEPT
+  {
+    ledger_type::add (owner);
   }
 
   /// S6: drops the unit of the swapped-out word @p w and takes back the
@@ -547,8 +610,7 @@ private:
     Policy::at (split_point_t::release);
     if (word::is_holder (w))
       {
-        if (traits_type::mirror_holder)
-          owner_of (block)->untransfer_strong_ext (surplus);
+        release_owner<traits_type::mirror_holder> (block, surplus);
         holder_ledger_type::release_with_ext (block, surplus);
       }
     else
@@ -568,8 +630,9 @@ private:
   }
 
   /// The previous value of an exchange, which takes over the unit of the
-  /// swapped-out word (a holder's owner gets a new reference instead and the
-  /// holder is dropped).
+  /// swapped-out word. A holder word hands over the holder's reference on the
+  /// owner (shared engine; the weak engine takes a new one) and the holder's
+  /// unit is dropped.
   static Pointer
   hand_over (split_value_t old) LUMEX_NOEXCEPT
   {
@@ -583,9 +646,10 @@ private:
     element_type *const stored
         = static_cast<element_type *> (holder->pointer ());
     Policy::at (split_point_t::load_count);
-    ledger_type::add (owner);
+    take_owner_reference<traits_type::mirror_holder> (block, owner);
     Pointer result = traits_type::adopt (owner, stored);
-    drop_word (old);
+    Policy::at (split_point_t::release);
+    holder_ledger_type::release (block);
     return result;
   }
 

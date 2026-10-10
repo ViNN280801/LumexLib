@@ -58,7 +58,8 @@
  *   smart pointer when the pointer is too far from the anchor of its block
  *   to be packed; a reader ticks the holder, reads `owner ()` and
  *   `pointer ()`, and takes its count on the owner. Disposing the holder
- *   drops the owner reference.
+ *   drops the owner reference, unless the engine took it over with `disown ()`
+ *   (the atomic word's dropper or the result of an exchange then owns it).
  * - `ctl_weak_holder` is the twin for weak pointers: it owns one weak
  * reference to another block (`add_weak` in `create`, `release_weak` in
  * `dispose`).
@@ -300,7 +301,8 @@ public:
   /**
    * @brief Creates a holder for @p owner and @p pointer.
    * @details Takes one strong reference on @p owner (`add_strong`), which
-   * the holder drops when it is disposed. Throws `std::bad_alloc`.
+   * the holder drops when it is disposed (or the engine takes over with
+   * `disown ()`). Throws `std::bad_alloc`.
    */
   static ctl_holder *
   create (ctl_base *owner, void *pointer)
@@ -335,18 +337,33 @@ public:
     return pointer_;
   }
 
+  /// Gives up the reference on the owner: whoever drops (or hands over) the
+  /// unit of the atomic word that installed the holder also drops (or hands
+  /// over) that reference, so that the owner's `use_count ()` does not carry
+  /// a reference of a holder that only the pins of replaced words keep alive.
+  /// Call it at most once, from the thread that owns the word's unit and
+  /// before it releases that unit: the release orders the write before the
+  /// disposal of the holder.
+  void
+  disown () LUMEX_NOEXCEPT
+  {
+    owns_ = false;
+  }
+
 private:
   ctl_holder (ctl_base *owner, void *pointer) LUMEX_NOEXCEPT
       : ctl_base (),
         owner_ (owner),
-        pointer_ (pointer)
+        pointer_ (pointer),
+        owns_ (true)
   {
   }
 
   void
   dispose () LUMEX_NOEXCEPT override
   {
-    owner_->release_strong ();
+    if (owns_)
+      owner_->release_strong ();
   }
 
   void
@@ -358,6 +375,7 @@ private:
 
   ctl_base *owner_;
   void *pointer_;
+  bool owns_;
 };
 
 /**

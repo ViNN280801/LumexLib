@@ -170,10 +170,9 @@ held_then_replaced (int k, replace_t how, bool holder)
         }
       else
         {
-          // A holder word keeps its reference on the owner until the last
-          // pin has paid, so the owner shows one more than the owners (the
-          // report lists this as a finding on G2).
-          EXPECT_LE (seen, owners + 1);
+          // F1: the holder gave its reference on the owner up when the word
+          // was replaced, so a holder word is as exact as a block word.
+          EXPECT_EQ (seen, owners) << "exact for a holder word too";
         }
       if (how == by_store && !::testing::Test::HasFailure ())
         {
@@ -185,15 +184,7 @@ held_then_replaced (int k, replace_t how, bool holder)
               << "use_count_settled waits while owners are in transit";
           held.release ();
           waiter.join ();
-          if (holder)
-            {
-              EXPECT_GE (settled.load (), owners);
-              EXPECT_LE (settled.load (), owners + 1)
-                  << "the holder may still hold its reference when ext "
-                     "reaches zero";
-            }
-          else
-            EXPECT_EQ (settled.load (), owners);
+          EXPECT_EQ (settled.load (), owners);
         }
       else
         held.release ();
